@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="ChaosLauncherInjector"
+	Name="BWAPI_Injector"
 	ProjectGUID="{E872FA31-C3AC-4331-AD60-315768E44ACA}"
 	RootNamespace="ChaosLauncherInjector"
 	Keyword="Win32Proj"

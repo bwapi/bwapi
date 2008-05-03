@@ -68,8 +68,8 @@ extern "C" __declspec(dllexport) void GetData(char *name, char *description, cha
 {
    //if necessary you can add Initialize function here
    //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
-   strcpy(name, "BWAPI Injector");
-   strcpy(description, "Injects the BWAPI DLL");
+   strcpy(name, "BWAPI_Injector (1.15.2)");
+   strcpy(description, "Injects BWAPI.dll into the Broodwar process.");
    strcpy(updateurl, "");
 }
 
@@ -128,7 +128,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
    assert(result != 0);
 
    std::string dllFileName(envBuffer);
-   dllFileName.append("BW.dll");
+   dllFileName.append("BWAPI.dll");
 
    LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
    assert(NULL != loadLibAddress);
