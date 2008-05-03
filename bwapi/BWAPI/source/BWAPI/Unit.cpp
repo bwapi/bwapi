@@ -6,6 +6,7 @@
 
 #include "../BW/UnitData.h"
 #include "../BW/Offsets.h"
+#include "../BW/UnitTypes.h"
 
 namespace BWAPI
 {
@@ -41,14 +42,14 @@ namespace BWAPI
   //--------------------------  GET UNIT PROTOTYPE -----------------------------
   const UnitPrototype* const Unit::getPrototype() const
   {
-    //   switch (this->bwUnitData->unitID)
-    //   {
-    //     case BW_UnitType::Protoss_Probe  : return Prototypes::Probe;
-    //     case BW_UnitType::Protoss_Zealot : return Prototypes::Zealot;
-    //     case BW_UnitType::Terran_SCV     : return Prototypes::SCV;
-    //     case BW_UnitType::Zerg_Queen     : return Prototypes::Queen;
-    //     default : return NULL;
-    //   }
+     switch (this->bwUnitData->unitID)
+     {
+       case BW::UnitType::Protoss_Probe  : return BWAPI::Prototypes::Probe;
+       case BW::UnitType::Protoss_Zealot : return BWAPI::Prototypes::Zealot;
+       case BW::UnitType::Terran_SCV     : return BWAPI::Prototypes::SCV;
+       case BW::UnitType::Zerg_Queen     : return BWAPI::Prototypes::Queen;
+       default : return NULL;
+     }
 
     return NULL;
   }
@@ -87,7 +88,7 @@ namespace BWAPI
 
 #pragma warning(push)
 #pragma warning(disable:4312)
-  void (_stdcall*sendCommand)(int, int, int, int) = (void(_stdcall*)(int, int, int, int))BW::BWFXN_CommandUnit;
+  void (_stdcall*sendCommand)(u16, u16, u16, u16) = (void(_stdcall*)(u16, u16, u16, u16))BW::BWFXN_CommandUnit;
 #pragma warning(pop)
 
   //--------------------------------- ORDER ------------------------------------
@@ -95,14 +96,12 @@ namespace BWAPI
   {
     sendCommand(6, 0xe4, target.y, 0);
     //sendcommand(command, 0xe4, y, x);
-
   }
   //--------------------------------- ORDER ------------------------------------
   void Unit::order(int commandCode, const BW::Position& target)
   {
     sendCommand(commandCode, 0xe4, target.x, target.y);
     //sendcommand(command, 0xe4, y, x);
-
   }
   //------------------------------- GET OWNER ----------------------------------
   Player* Unit::getOwner() const
@@ -113,7 +112,7 @@ namespace BWAPI
   bool Unit::isValid() const
   {
     return this->getHealthPoints() > 0 || 
-      this->getHealthPointsFraction() > 0;
+           this->getHealthPointsFraction() > 0;
   }
   //----------------------------------------------------------------------------
   const BW::Position& Unit::getPosition() const

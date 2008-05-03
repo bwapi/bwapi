@@ -37,7 +37,7 @@ namespace BWAPI
       delete units[i];
   }
   //---------------------------------- UPDATE -----------------------------------
-  int test = 0;
+  unsigned int test = 0;
   void Game::update()
   {
     memcpy(this->unitArrayCopy, BW::UnitNodeTable, sizeof(BW::UnitArray));
@@ -51,13 +51,17 @@ namespace BWAPI
     }
     */
     FILE *f;
-    f = fopen("bwapi.log","wt"); 
+    if (test > 0)
+      f = fopen("bwapi.log","at"); 
+      else
+      f = fopen("bwapi.log","wt"); 
     fprintf(f, "Found units :\n");
     fprintf(f, "Command Id = %d\n", test);
     bool found = false;
     for (int i = 0; i < 1700; i++)
     {
-      if (units[i]->isValid() && NULL != units[i]->getPrototype())
+      if (//units[i]->isValid() && 
+          units[i]->getPrototype() != NULL)
       {
         fprintf(f, "(%s) (%d,%d) \n", 
           units[i]->getPrototype()->getName().c_str(),
@@ -66,14 +70,13 @@ namespace BWAPI
         BW::Position target;
         target.x = 100;
         target.y = 100;
-        units[i]->order(test, target);
+        units[i]->order(1, target);
         found = true;
       }
-      if (found)
-        test ++;
-      fclose(f);
     }
-
+   if (found)
+     test ++;
+   fclose(f);
   }
   //-----------------------------------------------------------------------------
 };
