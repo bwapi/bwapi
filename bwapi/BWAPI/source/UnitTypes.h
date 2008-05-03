@@ -2,14 +2,16 @@
 
 #include "Types.h"
 
-/// Enumeration of the unit types. 
-/// Most values from http://www.bwhacks.com/forums/starcraft-hacking-related/27282-unit-id-list.html
-/// Not all values (IE: hero values) are listed, since these are not needed in 
-/// normal games and I am lazy.
-namespace BW_UnitType
+namespace BW
 {
-   enum Enum : u16 
-   {
+  /// Enumeration of the unit types. 
+  /// Most values from http://www.bwhacks.com/forums/starcraft-hacking-related/27282-unit-id-list.html
+  /// Not all values (IE: hero values) are listed, since these are not needed in 
+  /// normal games and I am lazy.
+  namespace UnitType
+  {
+    enum Enum : u16 
+    {
       // Terran Ground
       Terran_Marine                 = 0x00,
       Terran_Ghost                  = 0x01,
@@ -157,5 +159,6 @@ namespace BW_UnitType
       Spell_ScannerSweep            = 0x21,
       Spell_DisruptionWeb           = 0x69,
       Spell_DarkSwarm               = 0xCA
-   };
+    };
+  };
 };

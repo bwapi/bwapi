@@ -12,9 +12,3 @@ typedef unsigned char   BYTE;
 typedef unsigned short  WORD;
 typedef unsigned long   DWORD;
 typedef void*           PVOID;
-
-struct BW_Position
-{
-   u16 x;
-   u16 y;
-};
