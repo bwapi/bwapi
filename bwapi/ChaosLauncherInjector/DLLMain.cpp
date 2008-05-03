@@ -1,5 +1,6 @@
 // DllTemplate.cpp : Defines the entry point for the DLL application.
 //
+
 #include <windows.h>
 #include <string>
 #include <assert.h>
@@ -39,23 +40,19 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                        LPVOID lpReserved
                 )
 {
-   //Is this DLL also StarCraft module?
-   /*
    switch (ul_reason_for_call)
    {
       case DLL_PROCESS_ATTACH:
-         MessageBox(NULL, "StarCraft messagebox", "Hue", MB_OK);
-         return TRUE;
       case DLL_THREAD_ATTACH:
       case DLL_THREAD_DETACH:
       case DLL_PROCESS_DETACH:
          break;
    }
-   */
    return TRUE;
 }
+
 //
-//GET Functions for BWLauncher
+// GET Functions for BWLauncher
 //
 //
 extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData &Data)
@@ -71,14 +68,14 @@ extern "C" __declspec(dllexport) void GetData(char *name, char *description, cha
 {
    //if necessary you can add Initialize function here
    //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
-   strcpy(name,      "BwApi");
-   strcpy(description, "Bwapi plugin.");
-   strcpy(updateurl,   "");
+   strcpy(name, "BWAPI Injector");
+   strcpy(description, "Injects the BWAPI DLL");
+   strcpy(updateurl, "");
 }
 
 
 //
-//Functions called by BWLauncher
+// Functions called by BWLauncher
 //
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
@@ -86,7 +83,7 @@ extern "C" __declspec(dllexport) bool OpenConfig()
    //If you set "Data.bConfigDialog = true;" at function GetPluginAPI then
    //BWLauncher will call this function if user clicks Config button
 
-   //Youll need to make your own Window here
+   //You'll need to make your own Window here
    return true; //everything OK
 
    //return false; //something went wrong
@@ -112,19 +109,26 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
    //return false; //something went wrong
 }
 
+//This fuction is called after
+//ResumeThread(pi.hThread);
+//WaitForInputIdle(pi.hProcess, INFINITE);
+//EnableDebugPriv() -
+//   OpenProcessToken...
+//   LookupPrivilegeValue...
+//   AdjustTokenPrivileges...
+//
+//the dwProcessID is checked by GetWindowThreadProcessId
+//so it is definitely the StarCraft
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
-   //This fuction is called after
-   //ResumeThread(pi.hThread);
-   //WaitForInputIdle(pi.hProcess, INFINITE);
-   //EnableDebugPriv() -
-   //   OpenProcessToken...
-   //   LookupPrivilegeValue...
-   //   AdjustTokenPrivileges...
-   //
-   //the dwProcessID is checked by GetWindowThreadProcessId
-   //so it is definitly the StarCraft
-   std::string dllFileName("C:\\Hry\\Starcraft\\ChaosLauncher\\BW.dll");
+   const u32 ENV_BUFFER_SIZE = 512;
+   char envBuffer[512];
+
+   u32 result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+   assert(result != 0);
+
+   std::string dllFileName(envBuffer);
+   dllFileName.append("BW.dll");
 
    LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
    assert(NULL != loadLibAddress);
