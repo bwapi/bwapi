@@ -14,13 +14,10 @@
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   // IT never gets here
-  FILE *f = fopen("testx.log","wt"); 
-  fprintf(f, "asdf");
-  fclose(f);
   while(true)
   {
     BWAPI::Broodwar.update();
-    Sleep(500);
+    Sleep(5000);
   }
   return 0;
 }
