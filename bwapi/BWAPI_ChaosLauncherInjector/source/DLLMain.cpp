@@ -121,10 +121,10 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
 //so it is definitely the StarCraft
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
-   const u32 ENV_BUFFER_SIZE = 512;
+   const DWORD ENV_BUFFER_SIZE = 512;
    char envBuffer[512];
 
-   u32 result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+   DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
    assert(result != 0);
 
    std::string dllFileName(envBuffer);

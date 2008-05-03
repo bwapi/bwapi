@@ -12,3 +12,8 @@ typedef unsigned char   BYTE;
 typedef unsigned short  WORD;
 typedef unsigned long   DWORD;
 typedef void*           PVOID;
+
+#ifdef NULL
+# undef NULL
+# define NULL 0
+#endif

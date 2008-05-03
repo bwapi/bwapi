@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../Types.h"
+
 namespace TargetType
 {
-  enum Enum:u16
+  enum Enum : u16
     {
       TARGET_MY_UNITS        = 1 << 0,
       TARGET_OPPONENTS_UNITS = 1 << 1,
