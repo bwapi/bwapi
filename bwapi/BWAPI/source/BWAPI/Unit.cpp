@@ -102,46 +102,14 @@ namespace BWAPI
   //-------------------------------- ORDER -------------------------------------
   void Unit::order(const AbilityPrototype* const ability, Unit* target)
   {
-
   }
-
-#pragma warning(push)
-#pragma warning(disable:4312)
-  void (_stdcall*sendCommand)(int, int, int, int) = (void(_stdcall*)(int, int, int, int))0x4858F0;
-  void (_stdcall*cancel)() = (void(_stdcall*)())0x423480;
-  void (_stdcall*printXY)(int x, int y, char * text) = (void(_stdcall*)(int x, int y, char * text))0x4202A0;
-
-
-  void (_stdcall*drawBox)(int x, int y, int width, int height, u8 color) = (void(_stdcall*)(int x, int y, int width, int height, u8 color))0x004E18C0;
-  void (_stdcall*printText)(int a, char * text, int b) = (void(_stdcall*)(int a, char * text, int b))0x0048C9D0;
-  
-#pragma warning(pop)
-
-  //--------------------------------- ORDER ------------------------------------
+ //--------------------------------- ORDER ------------------------------------
   void Unit::order(const AbilityPrototype* const ability, const BW::Position& target)
   {
-    sendCommand(6, 0xe4, target.y, 0);
-    //sendcommand(command, 0xe4, y, x);
   }
   //--------------------------------- ORDER ------------------------------------
   void Unit::order(int commandCode, const BW::Position& target)
   {
-   //printText(3, "Hello", 0);
-    //sendCommand(commandCode, 0xe4, target.x, target.y);
-   /*DWORD x = 100, y = 100 ,w = 100 ,h = 100;
-   BYTE clr = 50;
-   __asm {
-        mov al, clr
-	       mov ds:[6CF494h], al
-        push h 
-        push w 
-        push y
-        push x
-        call dword ptr ds:[4E18E0h]
-   }*/
-
-   //printXY(100, 100, "Hello");
-    //sendcommand(command, 0xe4, y, x);
   }
   //------------------------------- GET OWNER ----------------------------------
   Player* Unit::getOwner() const
