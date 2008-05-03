@@ -12,10 +12,12 @@ namespace BWAPI
   //----------------------------- CONSTRUCTOR -----------------------------------
   UnitPrototype::UnitPrototype( const std::string& name, 
                                 const u16          maxHealthPoints,
+                                const u16          maxShieldPoints,
                                 const u16          maxMana,
                                 const u32          abilityFlags)
     :name(name)
     ,maxHealthPoints(maxHealthPoints)
+    ,maxShieldPoints(maxShieldPoints)
     ,maxMana(maxMana)
     ,abilityFlags(abilityFlags)
   {
@@ -29,17 +31,22 @@ namespace BWAPI
   {
     return this->name;
   }
-  //--------------------------- GET HEALT POINTS --------------------------------
+  //------------------------- GET MAX HEALTH POINTS -----------------------------
   u16 UnitPrototype::getMaxHealthPoints() const
   {
     return this->maxHealthPoints;
   }
-  //----------------------- GET HEALT POINTS FACTION ----------------------------
+  //------------------------- GET MAX HEALTH POINTS -----------------------------
+  u16 UnitPrototype::getMaxShieldPoints() const
+  {
+    return this->maxShieldPoints;
+  }
+  //----------------------------- GET MAX MANA ----------------------------------
   u16 UnitPrototype::getMaxMana() const
   {
     return this->maxMana;
   }
-  //------------------------------- CAN ORDER ----------------------------------
+  //------------------------------- CAN ORDER -----------------------------------
   bool UnitPrototype::canOrder(const AbilityPrototype* const ability, Unit* target) const
   {
     // Firstly, we check if the unit even has the ability

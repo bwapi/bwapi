@@ -41,10 +41,28 @@ namespace BWAPI
     AbilityPrototype* Stims           = new AbilityPrototype(11, "Use stimpacks",      0,        0,   0, TargetType::TARGET_SELF);
     
     s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove | AbilityFlags::Attack;
-    /*                                        Unit name         maxHp  maxSP*/
-    UnitPrototype* SCV    = new UnitPrototype("Terran SCV"    ,    60,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
-    UnitPrototype* Probe  = new UnitPrototype("Protoss Probe" ,    20,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
-    UnitPrototype* Zealot = new UnitPrototype("Protoss Zealot",    20,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Queen  = new UnitPrototype("Zerg Queen"    ,   100,  200, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
-  }
+    /*                                        Unit name                         maxHp Shield, maxSP*/
+    /** Terran */
+    UnitPrototype* SCV            = new UnitPrototype("Terran SCV"            ,    60,    0,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Marine         = new UnitPrototype("Terran Marine"         ,    40,    0,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
+    UnitPrototype* CommandCenter  = new UnitPrototype("Terran Command Center" ,  1500,    0,   0, 0);
+    UnitPrototype* SupplyDepot    = new UnitPrototype("Terran Supply depot"   ,   500,    0,   0, 0);
+    UnitPrototype* Barracks       = new UnitPrototype("Terran Barracks"       ,  1000,    0,   0, 0);
+    /** Protoss*/
+    UnitPrototype* Probe          = new UnitPrototype("Protoss Probe"         ,    20,   20,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Zealot         = new UnitPrototype("Protoss Zealot"        ,   100,   80,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Nexus          = new UnitPrototype("Protoss Nexus"         ,   750,  750,   0, 0);
+    UnitPrototype* Pylon          = new UnitPrototype("Protoss Pylon"         ,   300,  300,   0, 0);
+    UnitPrototype* Gateway        = new UnitPrototype("Protoss Gateway"       ,   500,  500,   0, 0);
+    /** Zerg */
+    UnitPrototype* Drone          = new UnitPrototype("Drone"                 ,    40,    0,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Larva          = new UnitPrototype("Larva"                 ,    10,    0,   0, 0);
+    UnitPrototype* Overlord       = new UnitPrototype("Overlord"              ,   100,    0,   0, AbilityFlags::Move);
+    UnitPrototype* Zergling       = new UnitPrototype("Zergling"              ,    35,    0,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Queen          = new UnitPrototype("Zerg Queen"            ,   100,    0, 200, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
+    UnitPrototype* Hatchery       = new UnitPrototype("Zerg Hatchery"         ,  1250,    0,   0, 0);
+    UnitPrototype* SpawningPool   = new UnitPrototype("Zerg Spawning pool"    ,   750,    0,   0, 0);
+    /** Neutral */
+    UnitPrototype* Minerals       = new UnitPrototype("Minerals"              ,     0,    0,   0, 0);    
+   }
 }

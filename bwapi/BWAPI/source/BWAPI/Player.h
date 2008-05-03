@@ -15,6 +15,7 @@ namespace BWAPI
     Player(u8 id);
     ~Player();
     char* getName() const;
+    void  setName(const char* const name);
     s32   getMinerals() const;
     s32   getGas() const;
     u8    getID() const;

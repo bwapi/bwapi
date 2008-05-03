@@ -19,7 +19,9 @@ namespace BWAPI
 
     for (int i = 0; i < 12; i++)
       players[i] = new Player(i);    
-
+    
+    players[11]->setName("Player 12 (Neutral)");
+    
     for (int i = 0; i < 1700; i++)
       units[i] = new Unit(&unitArrayCopy->unit[i]);
 
@@ -36,11 +38,12 @@ namespace BWAPI
     for (int i = 0; i < 1700; i++)
       delete units[i];
   }
+  int test = 0;
   //---------------------------------- UPDATE -----------------------------------
-  unsigned int test = 0;
   void Game::update()
   {
     memcpy(this->unitArrayCopy, BW::UnitNodeTable, sizeof(BW::UnitArray));
+    players[11]->setName("Player 12 (Neutral)");
     /*
     I will implement this later on using some correct pointers method on unit
     _w64 int memoryPositionDifference = this->unitArrayCopy - UNIT_NODE_TABLE; 
@@ -51,32 +54,34 @@ namespace BWAPI
     }
     */
     FILE *f;
-    if (test > 0)
-      f = fopen("bwapi.log","at"); 
-      else
-      f = fopen("bwapi.log","wt"); 
+    f = fopen("bwapi.log","at"); 
     fprintf(f, "Found units :\n");
-    fprintf(f, "Command Id = %d\n", test);
     bool found = false;
     for (int i = 0; i < 1700; i++)
     {
-      if (//units[i]->isValid() && 
-          units[i]->getPrototype() != NULL)
+      if (units[i]->isValid() && 
+          units[i]->getPrototype() != NULL &&
+          strcmp(units[i]->getOwner()->getName(),"Marwin") == 0)
       {
-        fprintf(f, "(%s) (%d,%d) \n", 
+        fprintf(f, "(%s) (%d,%d) (%s)\n", 
           units[i]->getPrototype()->getName().c_str(),
           units[i]->getPosition().x,
-          units[i]->getPosition().y);
-        BW::Position target;
-        target.x = 100;
-        target.y = 100;
-        units[i]->order(1, target);
+          units[i]->getPosition().y,
+          units[i]->getOwner()->getName());
         found = true;
       }
     }
-   if (found)
-     test ++;
    fclose(f);
+   
+   if (found)
+   { 
+     test ++;
+     BW::Position target;
+     target.x = 0;
+     target.y = 0;
+     units[0]->order(test,target);            
+   }
+   
   }
   //-----------------------------------------------------------------------------
 };
