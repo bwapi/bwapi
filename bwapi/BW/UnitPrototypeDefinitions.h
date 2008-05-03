@@ -38,8 +38,8 @@ namespace Prototypes
   extern AbilityPrototype* MorphToGuardian;
   extern AbilityPrototype* Stims;
   /*                                        Unit name         maxHp  maxSP*/
-  extern UnitPrototype* SCV;
-  extern UnitPrototype* Probe;
-  extern UnitPrototype* Zealot;
-  extern UnitPrototype* Queen;
+//   extern UnitPrototype* SCV;
+//   extern UnitPrototype* Probe;
+//   extern UnitPrototype* Zealot;
+//   extern UnitPrototype* Queen;
 }

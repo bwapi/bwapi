@@ -36,14 +36,16 @@ u8 Unit::getShieldPointsFraction() const
 //--------------------------  GET UNIT PROTOTYPE -----------------------------
 const UnitPrototype* const Unit::getPrototype() const
 {
-  switch (this->rawData->unitID)
-  {
-    case BW_UnitType::Protoss_Probe  : return Prototypes::Probe;
-    case BW_UnitType::Protoss_Zealot : return Prototypes::Zealot;
-    case BW_UnitType::Terran_SCV     : return Prototypes::SCV;
-    case BW_UnitType::Zerg_Queen     : return Prototypes::Queen;
-    default : return NULL;
-  }
+//   switch (this->rawData->unitID)
+//   {
+//     case BW_UnitType::Protoss_Probe  : return Prototypes::Probe;
+//     case BW_UnitType::Protoss_Zealot : return Prototypes::Zealot;
+//     case BW_UnitType::Terran_SCV     : return Prototypes::SCV;
+//     case BW_UnitType::Zerg_Queen     : return Prototypes::Queen;
+//     default : return NULL;
+//   }
+
+   return NULL;
 }
 //------------------------------ CAN ORDER -----------------------------------
 bool Unit::canOrder(const AbilityPrototype* const ability, Unit* target) const
@@ -77,7 +79,11 @@ void Unit::order(const AbilityPrototype* const ability, Unit* target)
 {
 
 }
+
+#pragma warning(push)
+#pragma warning(disable:4312)
 void (_stdcall*sendCommand)(int, int, int, int) = (void(_stdcall*)(int, int, int, int))BWFXN_CommandUnit;
+#pragma warning(pop)
 //--------------------------------- ORDER ------------------------------------
 void Unit::order(const AbilityPrototype* const ability, BW_Position target)
 {

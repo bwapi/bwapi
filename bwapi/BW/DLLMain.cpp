@@ -1,12 +1,4 @@
 
-#define _CRT_SECURE_NO_DEPRECATE
-
-//#include "BW_UnitTypes.h"
-//#include "BW_Unit.h"
-//#include "Offsets.h"
-//#include "Globals.h"
-//#include "Game.h"
-
 #include "windows.h"
 #include "assert.h"
 
