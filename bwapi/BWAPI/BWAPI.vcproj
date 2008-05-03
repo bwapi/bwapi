@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="bwapi"
+	Name="BWAPI"
 	ProjectGUID="{001204EC-33B7-427D-AF9B-68F222C97349}"
 	RootNamespace="BW"
 	Keyword="Win32Proj"
@@ -172,44 +172,12 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="source"
 			>
 			<File
 				RelativePath=".\AbilityPrototype.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\DLLMain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Game.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Globals.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Player.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Unit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UnitPrototype.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
 			<File
 				RelativePath=".\AbilityPrototype.h"
 				>
@@ -227,7 +195,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DLLMain.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Game.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Game.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Globals.cpp"
 				>
 			</File>
 			<File
@@ -236,6 +216,10 @@
 			</File>
 			<File
 				RelativePath=".\Offsets.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Player.cpp"
 				>
 			</File>
 			<File
@@ -251,7 +235,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Unit.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Unit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UnitPrototype.cpp"
 				>
 			</File>
 			<File
@@ -262,12 +254,6 @@
 				RelativePath=".\UnitPrototypeDefinitions.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
 		</Filter>
 	</Files>
 	<Globals>
