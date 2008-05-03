@@ -33,10 +33,11 @@ namespace BW
   static PlayerNames_type* PlayerNames = (PlayerNames_type*)0x0057EEEB;
 
 
-  static Unit* UnitNodeTable_LastElement = (Unit*)0x00628280;
-  static Unit* UnitNodeTable_FirstElement = (Unit*)0x0059CB40;
-  static UnitArray* UnitNodeTable = (UnitArray*)UnitNodeTable_FirstElement;
+  static const Unit* UnitNodeTable_LastElement = (Unit*)0x00628280;
+  static const Unit* UnitNodeTable_FirstElement = (Unit*)0x0059CB40;
+  static const UnitArray* UnitNodeTable = (UnitArray*)UnitNodeTable_FirstElement;
 
-  const int BWFXN_CommandUnit = 0x4BFF80;
-  const int IssueCommand = 0x4858F0;
+  static const u32 BWFXN_CommandUnit = 0x4BFF80;
+  static const u32 IssueCommand = 0x4858F0;
+  static const int BWFXN_HUD = 0x4202A0; 
 };

@@ -16,6 +16,7 @@ namespace BWAPI
     ~Game();
     void update();
     Player* players[12];
+    void printXY(int x, int y, char* text) const;
   private :
     BW::UnitArray* unitArrayCopy;
     Unit* units[1700];
