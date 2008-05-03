@@ -42,9 +42,27 @@ namespace BWAPI
     extern AbilityPrototype* MorphToGuardian;
     extern AbilityPrototype* Stims;
     /*                                        Unit name         maxHp  maxSP*/
+    /** Terran */
     extern UnitPrototype* SCV;
+    extern UnitPrototype* Marine;
+    extern UnitPrototype* CommandCenter;
+    extern UnitPrototype* SupplyDepot;
+    extern UnitPrototype* Barracks;
+    /** Protoss */
     extern UnitPrototype* Probe;
     extern UnitPrototype* Zealot;
+    extern UnitPrototype* Nexus;
+    extern UnitPrototype* Pylon;
+    extern UnitPrototype* Gateway;
+   /** Zerg */
+    extern UnitPrototype* Drone;
+    extern UnitPrototype* Larva;
+    extern UnitPrototype* Hatchery;
+    extern UnitPrototype* Overlord;
+    extern UnitPrototype* SpawningPool;
+    extern UnitPrototype* Zergling;
     extern UnitPrototype* Queen;
+    /** */
+    extern UnitPrototype* Minerals;
   }
 };
