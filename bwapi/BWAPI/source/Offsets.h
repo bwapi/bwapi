@@ -3,32 +3,40 @@
 #include "Types.h"
 #include "BW_Unit.h"
 
+namespace BW
+{
+
+};
+
 //--------------------------------- MINERALS TYPE -----------------------------
-struct BW_PlayerMinerals_type
+struct PlayerMinerals_type
 {
    s32 player[12];
 };
-static BW_PlayerMinerals_type* BW_PlayerMinerals = (BW_PlayerMinerals_type*)0x0057F0D8;
+static PlayerMinerals_type* PlayerMinerals = (PlayerMinerals_type*)0x0057F0D8;
 
 //------------------------------------ GAS TYPE -------------------------------
-struct BW_PlayerGas_type
+struct PlayerGas_type
 {
    s32 player[12];
 };
-static BW_PlayerGas_type* BW_PlayerGas = (BW_PlayerGas_type*)0x0057F108;
+static PlayerGas_type* PlayerGas = (PlayerGas_type*)0x0057F108;
 
 //----------------------------------- NAMES TYPE ------------------------------
-struct BW_PlayerNames_type
+struct PlayerNames_type
 {
-   struct BW_PlayerName
+   struct PlayerName
    {
       char name[36];
    };
    BW_PlayerName player[8];
 };
-static BW_PlayerNames_type* BW_PlayerNames = (BW_PlayerNames_type*)0x0057EEEB;
+static PlayerNames_type* PlayerNames = (PlayerNames_type*)0x0057EEEB;
 
-static BW_UnitArray* UNIT_NODE_TABLE = (BW_UnitArray*)0x0059CB40;
+
+static Unit* UnitNodeTable_LastElement = (Unit*)0x00628280;
+static Unit* UnitNodeTable_FirstElement = (Unit*)0x0059CB40;
+static UnitArray* UnitNodeTable = (UnitArray*)UnitNodeTable_FirstElement;
 
 const int BWFXN_CommandUnit = 0x4BFF80;
 const int IssueCommand = 0x4858F0;
