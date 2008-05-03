@@ -1,23 +1,16 @@
 
-#include "windows.h"
-#include "assert.h"
-
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <assert.h>
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "Globals.h"
-#include "Game.h"
-
-
-// OFFSETS
-
-
-//////////////////////////////////////////////////////////////////////////
-
-void* UnitArray_LastElement = (void*)0x00628280;    // Last Element
-void* UnitArray_FirstElement = (void*)0x0059CB40;   // First Element
-
 #include <stdio.h>
+
+#include "./BWAPI/Globals.h"
+#include "./BWAPI/Game.h"
+
+
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   // IT never gets here
@@ -26,7 +19,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   fclose(f);
   while(true)
   {
-    Broodwar.update();
+    BWAPI::Broodwar.update();
     Sleep(500);
   }
   return 0;

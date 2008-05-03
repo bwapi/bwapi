@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Types.h"
+
 namespace BW
 {
   namespace OrderID

@@ -1,30 +1,31 @@
 #pragma once
 
-#include "Types.h"
-#include "StaticAssert.h"
+#include "../Types.h"
+#include "../StaticAssert.h"
 
-#include "Sprite.h"
-#include "Order.h"
-#include "OrderID.h"
-#include "UnitTypes.h"
-#include "MovementFlags.h"
-
-const u32 BW_UNIT_SIZE_IN_BYTES = 336;
-const u32 BW_UNIT_ARRAY_MAX_LENGTH = 1700;
+#include "../BW/Sprite.h"
+#include "../BW/Order.h"
+#include "../BW/OrderID.h"
+#include "../BW/UnitTypes.h"
+#include "../BW/MovementFlags.h"
+#include "../BW/Position.h"
 
 namespace BW
 {
+  const u32 UNIT_SIZE_IN_BYTES = 336;
+  const u32 UNIT_ARRAY_MAX_LENGTH = 1700;
+
   #pragma pack(1)
-  struct Unit
+  struct UnitData
   {
-    /*0x000*/ Unit*                 previousUnit;
-    /*0x004*/ Unit*                 nextUnit;
+    /*0x000*/ UnitData*                 previousUnit;
+    /*0x004*/ UnitData*                 nextUnit;
     /*0x008*/ u8                    healthPointsFraction;  
     /*0x009*/ u16                   healthPoints;
     /*0x00B*/ _UNKNOWN _1[1];
     /*0x00C*/ Sprite*               sprite;
     /*0x010*/ Position              moveTo;
-    /*0x014*/ Unit*                 targetUnit;
+    /*0x014*/ UnitData*                 targetUnit;
     /*0x018*/ _UNKNOWN _2[8];
     /*0x020*/ MovementFlags::Enum   movementFlags;
     /*0x021*/ _UNKNOWN _3[7];
@@ -38,16 +39,16 @@ namespace BW
     /*0x063*/ _UNKNOWN _6[1];
     /*0x064*/ UnitType::Enum        unitID;
     /*0x066*/ _UNKNOWN _7[2];
-    /*0x068*/ BW_Unit*              previousUnitOfPlayer;
-    /*0x06C*/ BW_Unit*              nextUnitOfPlayer;
-    /*0x070*/ BW_Unit*              subUnit;
+    /*0x068*/ UnitData*                 previousUnitOfPlayer;
+    /*0x06C*/ UnitData*                 nextUnitOfPlayer;
+    /*0x070*/ UnitData*                 subUnit;
     /*0x074*/ Order*                orderQueueHead;
     /*0x078*/ Order*                orderQueueTail;
     /*0x07C*/ _UNKNOWN _8[4];
-    /*0x080*/ BW_Unit*              connectedUnit;
+    /*0x080*/ UnitData*                 connectedUnit;
     /*0x080*/ _UNKNOWN _9[204];
 
-    //    BW_Unit* ConnectedUnit;
+    //    BW_UnitData* ConnectedUnit;
     //    u8 NumOfQueuedOrders;
     //    u8 Unkown_85_Order_Timer_Seprate;
     //    u8 _UNKNOWN7[2];
@@ -76,7 +77,7 @@ namespace BW
     //          u8 SpiderMineCount;
     //          u8 Unused[3];
     //       } UnitIsVultureBike;
-    //       BW_Unit* Unit_Unknown;
+    //       BW_UnitData* Unit_Unknown;
     //       // IF Carrier/Reaver - First Hangar Unit
     //       // IF Scarab/Interceptor - Parent
     //       // IF Building - Addon
@@ -89,7 +90,7 @@ namespace BW
     //          u16 AddonBuildID;
     //          u16 UpgradeResearchTime;
     //       } UnitIsBuilding;
-    //       BW_Unit* NextUnitInParentHangar;
+    //       BW_UnitData* NextUnitInParentHangar;
     //       // IF Scarab/Interceptor - Next Unit in Parent Hangar
     //    } ChildUnion2;
     //    union ChildUnion3_type
@@ -101,7 +102,7 @@ namespace BW
     //          u8 LarvaSpawnTimer;
     //          u8 IsLanding;
     //       };
-    //       BW_Unit* PrevUnitInParentHangar;
+    //       BW_UnitData* PrevUnitInParentHangar;
     //       // IF Scarab/Interceptor - Previous in Parent's Hangar
     //    } ChildUnion3;
     //    u8 MultiUse1;
@@ -143,7 +144,7 @@ namespace BW
     //    u8 SecondaryOrderState;
     //    u8 Unknown_E3_Counter_Down;
     //    u8 _UNKNOWN11[8];
-    //    BW_Unit* CurrentBuildUnit;
+    //    BW_UnitData* CurrentBuildUnit;
     //    u8 _UNKNOWN12[8];
     //    union RallyPsiProviderUnion_type
     //    {
@@ -151,12 +152,12 @@ namespace BW
     //       {
     //          u16 RallyX;
     //          u16 RallyY;
-    //          BW_Unit* RallyUnit;
+    //          BW_UnitData* RallyUnit;
     //       } Rally;
     //       struct PsiProvider_type
     //       {
-    //          BW_Unit* PrevPsiProvider;
-    //          BW_Unit* NextPsiProvider;
+    //          BW_UnitData* PrevPsiProvider;
+    //          BW_UnitData* NextPsiProvider;
     //       };
     //    } RallyPsiProviderUnion;
     //    u32 Path_Unknown;
@@ -178,7 +179,7 @@ namespace BW
     //    u8 PlaugeTimer;
     //    u8 IsUnderStrom;
     //    // Tell if a unit is under a psi storm
-    //    BW_Unit* IrradiatedBy;
+    //    BW_UnitData* IrradiatedBy;
     //    u8 IrradiatePlayerID;
     //    u8 ParasiteFlags;
     //    // Each bit corresponds to a player who parasites this unit
@@ -213,10 +214,9 @@ namespace BW
 
   struct UnitArray
   {
-    BW_Unit Unit[BW_UNIT_ARRAY_MAX_LENGTH];
+    UnitData unit[UNIT_ARRAY_MAX_LENGTH];
   };
 
+  BOOST_STATIC_ASSERT(sizeof(UnitData) == UNIT_SIZE_IN_BYTES);
+  BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES * UNIT_ARRAY_MAX_LENGTH);
 };
-
-BOOST_STATIC_ASSERT(sizeof(BW::Unit) == BW_UNIT_SIZE_IN_BYTES);
-BOOST_STATIC_ASSERT(sizeof(BW::UnitArray) == BW_UNIT_SIZE_IN_BYTES*BW_UNIT_ARRAY_MAX_LENGTH);

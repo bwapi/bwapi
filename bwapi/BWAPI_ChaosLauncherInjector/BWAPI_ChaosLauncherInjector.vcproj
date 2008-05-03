@@ -175,7 +175,7 @@
 			Name="source"
 			>
 			<File
-				RelativePath=".\DLLMain.cpp"
+				RelativePath=".\source\DLLMain.cpp"
 				>
 			</File>
 		</Filter>
