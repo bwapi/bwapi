@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <string>
+#include <vector>
 
 
 namespace BWAPI 
@@ -26,7 +27,7 @@ namespace BWAPI
     players[11]->setName("Player 12 (Neutral)");
     
     for (int i = 0; i < 1700; i++)
-      units[i] = new Unit(&unitArrayCopy->unit[i]);
+      units[i] = new Unit(&unitArrayCopy->unit[i], &BW::UnitNodeTable->unit[i]);
 
     this->update();
   }
@@ -41,7 +42,6 @@ namespace BWAPI
     for (int i = 0; i < 1700; i++)
       delete units[i];
   }
-  int test = 0;
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
@@ -60,36 +60,46 @@ namespace BWAPI
     f = fopen("bwapi.log","at"); 
     fprintf(f, "Found units :\n");
     bool found = false;
+    std::vector<Unit*> unitList;
     for (int i = 0; i < 1700; i++)
     {
       if (units[i]->isValid() && 
           units[i]->getPrototype() != NULL &&
-          strcmp(units[i]->getOwner()->getName(),"Marwin") == 0)
+          // Proceed only when the owner of units is called "Marwin"
+          strcmp(units[i]->getOwner()->getName(),"Marwin") == 0 
+           && units[i]->getPrototype() == Prototypes::SCV)
       {
-        fprintf(f, "(%s) (%d,%d) (%s)\n", 
+        fprintf(f, "(%s) (%d,%d) (%s) (%d)\n", 
           units[i]->getPrototype()->getName().c_str(),
           units[i]->getPosition().x,
           units[i]->getPosition().y,
-          units[i]->getOwner()->getName());
+          units[i]->getOwner()->getName(),
+          units[i]->getOrderID());
         found = true;
+        unitList.push_back(units[i]);
+        units[i]->getOriginalRawData()->orderSignal = BW::OrderID::Moving;
       }
     }
    fclose(f);
    
-   if (found)
-   { 
-     test ++;
-     BW::Position target;
-     target.x = 0;
-     target.y = 0;
-     units[0]->order(test,target);            
-     char *message = new char[20];
-     sprintf(message,"Update %d", test%20);
-     f = fopen("bwapi.log","at"); 
-     fprintf(f, message);
-     fclose(f);
-     this->printXY(0, ((test%20)*10)%200, message);
-     delete [] message;
+   // Selection command seeding.
+   int n = unitList.size();
+   if (n > 0)
+   {
+     // array of pointers of units to be selected
+     BW::UnitData * * list = new BW::UnitData * [n + 1];
+	    for (int i = 0; i < n; i++)
+       // I will insert every unit in the unitList(Every scv of player "Marwin")
+       list[i] = unitList[i]->getOriginalRawData();
+         // I must put the pointer to the original data structure of bw not our's copy, as bw function will process it
+     // The last item must be nulled (But I'm not sure if this is mandatory, to be tested)
+	    list[n] = NULL;
+     // Definition of the selection function (note that this funciton is 0x0049AB90 not 0x0049ABA0 as multicommand says)
+     void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+     // call the selection
+	 	  selectUnitsHelperSTD(n, list, true, true);
+     // delete the array of pointers
+     delete[] list;
    }
   }
 
@@ -149,7 +159,7 @@ namespace BWAPI
   int xToPrint, yToPrint;
   void ProcessTest()
   {
-      DrawStaticText(buffer, xToPrint , yToPrint);
+    DrawStaticText(buffer, xToPrint , yToPrint);
   }
 
   void __declspec(naked) Test()
@@ -173,5 +183,4 @@ namespace BWAPI
    JmpPatch(&Test,(PBYTE)0x48CC25,6);
   }
   //-----------------------------------------------------------------------------
-    
 };

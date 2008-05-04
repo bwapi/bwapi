@@ -206,6 +206,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\ParasiteFlags.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Position.h"
 					>
 				</File>
@@ -219,6 +223,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BW\UnitData.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitStatusFlags.h"
 					>
 				</File>
 				<File

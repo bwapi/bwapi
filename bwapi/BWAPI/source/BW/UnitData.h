@@ -58,7 +58,7 @@ namespace BW
     /*0x04F*/ u8                      orderSignal;          // TODO: Unknown
     /*0x050*/ _UNKNOWN _7[4];
     /*0x054*/ u8                      mainOrderTimer;       // TODO: Unknown
-    /*0x055*/ u8                      groundWeaponCooldown; // TODO: Verify
+    /*0x055*/ u8                      groundWeaponCooldown;
     /*0x056*/ u8                      airWeaponCooldown;    // TODO: Verify
     /*0x057*/ u8                      spellCooldown;        // TODO: Verify
     /*0x058*/ BW::Position            orderTargetPos;       // TODO: Verify

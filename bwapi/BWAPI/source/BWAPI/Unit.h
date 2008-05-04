@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Types.h"
+#include "../BW/OrderID.h"
+#include "../BW/UnitData.h"
 
 namespace BW { struct Position; };
 namespace BW { struct UnitData; };
@@ -20,7 +22,8 @@ namespace BWAPI
     * @param bwUnitData pointer to broodwar unit data structure, the class will 
     *                use that object to load information over time.
     */
-    Unit(BW::UnitData* bwUnitData);
+    Unit(BW::UnitData* bwUnitData,
+         BW::UnitData* bwOriginalUnitData );
     ~Unit();
     /**
     * Gets health points of the current unit, note that this value can be lower 
@@ -57,8 +60,12 @@ namespace BWAPI
     void order(const AbilityPrototype* const ability, const BW::Position& target);
     void order(int commandCode, const BW::Position& target);
     bool isValid() const; /**< Gets if the unit is alive, it uses hp > 0 heuristic for now. */
+    BW::UnitData *getRawData();
+    BW::UnitData *getOriginalRawData();
+    BW::OrderID::Enum getOrderID() const;
   private:
     BW::UnitData* bwUnitData; /**< Pointer to broodwar unit data */
+    BW::UnitData* bwOriginalUnitData; /**< Pointer to broodwar unit data */
 
   };
 };
