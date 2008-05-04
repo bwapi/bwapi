@@ -13,6 +13,7 @@
 #include <windows.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 
 namespace BWAPI 
@@ -59,11 +60,15 @@ namespace BWAPI
     memcpy(this->unitArrayCopy, BW::UnitNodeTable, sizeof(BW::UnitArray));
     players[11]->setName("Player 12 (Neutral)");
   }
+  Unit *cc;
+  int closerToCC(Unit*& unit1, Unit*& unit2)
+  {
+   return cc->getDistance(unit1) < cc->getDistance(unit2);
+  }
   //----------------------------- JMP PATCH -----------------------------------
   void Game::test(void)
   {
-   if (count > 500)
-       return;
+
     /*
     I will implement this later on using some correct pointers method on unit
     _w64 int memoryPositionDifference = this->unitArrayCopy - UNIT_NODE_TABLE; 
@@ -73,107 +78,136 @@ namespace BWAPI
     units[i]->rawData->nextUnit += memoryPositionDifference;
     }
     */
+
     FILE *f;
     f = fopen("bwapi.log","at"); 
-    if (this->inGame())
+    /*if (this->inGame())
       fprintf(f, "Game running.\n");
     else
-      fprintf(f, "Game not running.\n");
-    fprintf(f, "Found units :\n");
+      fprintf(f, "Game not running.\n");*/
+    fprintf(f,"\nUnit List:\n");
+    if (this->inGame())
+      fprintf(f,"In game:\n");
+    else
+      fprintf(f,"Not in game:\n");
     bool found = false;
     std::vector<Unit*> unitList;
-    u16 x = 0,y = 0;
+    cc = NULL;
+    Player *marwin = NULL;
     for (int i = 0; i < 1700; i++)
     {
-      if (units[i]->isValid() && 
-          units[i]->getPrototype() != NULL &&
-          // Proceed only when the owner of units is called "Marwin"
-          strcmp(units[i]->getOwner()->getName(),"NEM)Marwin") == 0 
-          && units[i]->getPrototype() == Prototypes::SCV)
+      if (units[i]->isValid() &&
+          strcmp(units[i]->getOwner()->getName(),"NEM)Marwin") == 0)
       {
-        fprintf(f, "(%s) (%d,%d) (%s) (%d)\n", 
-          units[i]->getPrototype()->getName().c_str(),
-          units[i]->getPosition().x,
-          units[i]->getPosition().y,
-          units[i]->getOwner()->getName(),
-          units[i]->getOrderID());
+        marwin = units[i]->getOwner();
         found = true;
-        unitList.push_back(units[i]);
-        units[i]->getOriginalRawData()->orderSignal = BW::OrderID::Moving;
-        if (count % 2 ==0)
-          x = units[i]->getPosition().x + 100;
+        if (units[i]->getPrototype() == Prototypes::SCV &&
+            units[i]->getOrderID() == BW::OrderID::Idle)
+          unitList.push_back(this->units[i]);
         else
-          x = units[i]->getPosition().x - 100;
-        y = units[i]->getPosition().y;     
+         if (units[i]->getPrototype() == Prototypes::CommandCenter)
+         {
+           cc = this->units[i];
+           fprintf(f, "%s (%d,%d) \n", 
+                    units[i]->getPrototype()->getName().c_str(),
+                    units[i]->getPosition().x,
+                    units[i]->getPosition().y);
+           for (int j = 0; j < 5; j++)
+             fprintf(f,"Queue %d = (%d)\n", j, units[i]->getRawData()->queue[j]);
+           fprintf(f,"Current queue slot = %d\n", units[i]->getRawData()->queueSlot);
+         }
       }
     }
-   fclose(f);
+    bool reselected = false;
+    BW::UnitData** selected = NULL;
+    if (marwin != NULL)
+    {
+      fprintf(f, "Before commands:\n");
+      for (int i = 0; i < 12; i++)
+      {
+        int unitID = 0;
+        if (marwin->selectedUnit()[i] != NULL) 
+           unitID = marwin->selectedUnit()[i]->unitID;
+        fprintf(f, "Selected unit %d (%d) \n", i, unitID);
+      }
+      /*selected = new BW::UnitData * [13];
+      memcpy(selected, marwin->selectedUnit(), 4*12);
+      selected[12] = NULL;*/
+    }
+    if (cc != NULL)
+    {
+      BW::UnitData * * list = new BW::UnitData * [2];
+      list[0] = cc->getOriginalRawData();
+      list[1] = NULL;
+      int one = 1;
+      void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+      selectUnitsHelperSTD(one, list, true, true);
+      reselected = true;
+      delete[] list;
+      if (cc->hasEmptyQueue())
+        IssueCommand((PBYTE)&BW::Orders::TrainUnit(BW::UnitType::Terran_SCV), 0x3);  
+    }
+    if (unitList.size() != 0)
+    {
+      std::vector<Unit *> mineralList;
+      for (int i = 0; i < 1700; i++)
+      {
+        if (units[i]->isValid() && 
+            units[i]->getPrototype() == Prototypes::Minerals)
+         mineralList.push_back(units[i]);
+      }
+      std::sort(mineralList.begin(),mineralList.end(), closerToCC);
+      for (unsigned int i = 0; i < unitList.size(); i++)
+      {
+        BW::UnitData * * list = new BW::UnitData * [2];
+        list[0] = unitList[i]->getOriginalRawData();
+	       list[1] = NULL;
+        int one = 1;
+        void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+	 	     selectUnitsHelperSTD(one, list, true, true);
+        reselected = true;
+        delete[] list;
+        BW::Orders::MoveTarget order(mineralList[i]);
+        fprintf(f, "Target unit id = %d .\n", order.unitOrder);
+        IssueCommand((PBYTE)&order, 0xA);  
+      }
+    }
    
-   // Selection command seeding.
-   int n = (int)unitList.size();
-   if (n > 0)
-   {
-     /*BYTE MoveCommand[] = {x & 255, x >> 8, y&255 , 0x14,
-                           0xe4   , 0x0   , 0x0   , y >> 8,
-                           0x0,0x0};*/
-     /*BYTE MoveCommand[] = {0x5  , 0x0 , 0x5 , 0x14,
-                           0xe4 , 0x0 , 0x0 , 0x0,
-                           0x0,0x0};*/
-     /*BYTE MoveCommand[] = {0x14  , 0x5 , 0x0 , 0x5,
-                           0x0 , 0x0 , 0x0 , 0xe4,
-                           0x0,0x0,0x0,0x0,};*/
-
-    IssueCommand((PBYTE)&BW::Orders::Move(x,y), 0xA);
-
-     char * text = new char[100];
-     sprintf(text,"Order given (%d)", count);
-     this->print(text);
-     delete[] text;
-
-     //BYTE BuildDrone[] = {0x23, 0x23, 0x00};
-     //void (_stdcall* sendCommand)(int x, int y, int value, int code) = (void (_stdcall*) (int x, int y, int value, int code))0x004BFF80;
-     // call the selection
-	 	  //sendCommand(0, 0, 0xe4, 0);
-     //IssueCommand((PBYTE)BuildDrone, 3);
-     
-     //IssueCommand((PBYTE)BuildDrone, 3);
-     
- 
-// heres how u use
-// Zerg Mineral hack
-// NOTE: must select an egg and must be able to build a drone for this to work
-     
-     //IssueCommand((PBYTE)CancelLastQueue, 3); 
-     
-     count ++;
-     /*
-	 	  char * text = new char[100];
-     sprintf(text,"%d units selected", n);
-     this->print(text);
-     delete[] text;
-     // array of pointers of units to be selected
-     BW::UnitData * * list = new BW::UnitData * [n + 1];
-	    for (int i = 0; i < n; i++)
-       // I will insert every unit in the unitList(Every scv of player "Marwin")
-       list[i] = unitList[i]->getOriginalRawData();
-         // I must put the pointer to the original data structure of bw not our's copy, as bw function will process it
-     // The last item must be nulled (But I'm not sure if this is mandatory, to be tested)
-	    list[n] = NULL;
-     // Definition of the selection function (note that this funciton is 0x0049AB90 not 0x0049ABA0 as multicommand says)
-     void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-     // call the selection
-	 	  selectUnitsHelperSTD(n, list, true, true);
-     // delete the array of pointers
-     delete[] list;*/
-   }
-   else
-   {
-     this->changeSlot(BW::Orders::ChangeSlot::Computer, 1);
-     this->changeRace(BW::Orders::ChangeRace::Zerg, 1);
-     this->changeRace(BW::Orders::ChangeRace::Terran, 0);
-   }
+    if (found)
+       count++;
+    else
+    {
+      this->changeSlot(BW::Orders::ChangeSlot::Computer, 1);
+      this->changeRace(BW::Orders::ChangeRace::Zerg, 1);
+      this->changeRace(BW::Orders::ChangeRace::Terran, 0);
+    }
+  /* if (reselected)
+    {
+     fprintf(f, "After commands:\n");
+     for (int i = 0; i < 12; i++)
+      {
+        int unitID = 0;
+        if (marwin->selectedUnit()[i] != NULL) 
+           unitID = marwin->selectedUnit()[i]->unitID;
+        fprintf(f, "Selected unit %d (%d) \n", i, unitID);
+      }
+      BW::UnitData * * list = selected;
+      int unitCount = 0;
+      while (selected[count] != NULL)
+        unitCount ++;
+      void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+	     selectUnitsHelperSTD(unitCount, list, true, true);
+    }
+    if (selected)
+      delete [] selected;*/
+    if (count > 0)
+    {
+      char message[30];
+      sprintf(message, "Update %d", count);
+      this->print(message);
+    }
+    fclose(f);
   }
-
   //----------------------------- JMP PATCH -----------------------------------
   
   #pragma warning(push)
@@ -254,9 +288,11 @@ namespace BWAPI
    JmpPatch(&Test,(PBYTE)0x48CC25,6);
   }
   //-----------------------------------------------------------------------------
+  #pragma warning(push)
+  #pragma warning(disable:4312)
   bool Game::inGame()
   {
-    return (*(char *)BW::BWFXN_InGame != 0);
+    return (*((unsigned char *)BW::BWFXN_InGame) != 0);
   }
   //----------------------------------- PRINT -----------------------------------
   void Game::print(char *text) const
@@ -264,6 +300,7 @@ namespace BWAPI
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintText;
 	 	sendText(text);
   }
+  #pragma warning(pop)
   //-----------------------------------------------------------------------------
   void Game::printPublic(char *text) const
   {

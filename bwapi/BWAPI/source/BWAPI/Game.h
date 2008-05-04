@@ -1,6 +1,6 @@
 #pragma once
 
-namespace BW { struct UnitArray; };
+namespace BW { struct UnitArray; struct UnitData;};
 namespace BWAPI { class Player; };
 namespace BWAPI { class Unit; };
 #include "..\\BW\\OrderTypes.h"
@@ -43,6 +43,7 @@ namespace BWAPI
      * used for debug and other reasons
      */
     void test(void);
+    BW::UnitData* selectedUnit(Player* player);
   private :
     BW::UnitArray* unitArrayCopy;
     Unit* units[1700];

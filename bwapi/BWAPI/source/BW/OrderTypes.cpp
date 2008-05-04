@@ -1,4 +1,6 @@
 #include "OrderTypes.h"
+#include "..\\BWAPI\\Unit.h"
+#include "Offsets.h"
 namespace BW
 {
   namespace Orders
@@ -11,6 +13,23 @@ namespace BW
     ,alwaysZero(0x0)
     ,always0xe4(0xe4)
     ,alwaysZero2(0x0)
+    {
+    }
+    //---------------------------------- MOVE CONSTRUCTOR -----------------------------
+    MoveTarget::MoveTarget(BWAPI::Unit *target)
+    :x(target->getPosition().x)
+    ,y(target->getPosition().y)
+    ,always0x14(0x14)
+    ,alwaysZero(0x0)
+    ,always0xe4(0xe4)
+    ,unitOrder((int)((int)target->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11)
+    {
+    }
+    //------------------------------------- TRAIN UNIT --------------------------------
+    TrainUnit::TrainUnit(BW::UnitType::Enum unitID)
+    :always0x1f(0x1f)
+    ,unitID(unitID)
+    ,alwaysZero(0x0)
     {
     }
     //---------------------------------- MOVE CONSTRUCTOR -----------------------------
