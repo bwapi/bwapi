@@ -11,8 +11,9 @@
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  Unit::Unit(BW::UnitData* unitData)
+  Unit::Unit(BW::UnitData* unitData, BW::UnitData* originalUnitData)
     :bwUnitData(unitData)
+    ,bwOriginalUnitData(originalUnitData)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -126,6 +127,21 @@ namespace BWAPI
   const BW::Position& Unit::getPosition() const
   {
     return bwUnitData->currentPos;
+  }
+  //----------------------------------------------------------------------------
+  BW::UnitData *Unit::getRawData()
+  {
+    return bwUnitData;
+  }
+  //----------------------------------------------------------------------------
+  BW::UnitData *Unit::getOriginalRawData()
+  {
+    return bwOriginalUnitData;
+  }
+  //----------------------------------------------------------------------------
+  BW::OrderID::Enum Unit::getOrderID() const
+  {
+    return this->bwUnitData->orderID;
   }
   //----------------------------------------------------------------------------
 };
