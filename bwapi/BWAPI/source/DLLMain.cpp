@@ -18,7 +18,8 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   for(;;)
   {
     BWAPI::Broodwar.update();
-    Sleep(2000);
+    BWAPI::Broodwar.test();
+    Sleep(100);
   }
 }
 

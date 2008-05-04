@@ -40,5 +40,9 @@ namespace BW
   static u32 BWFXN_CommandUnit = 0x4BFF80;
   static u32 BWFXN_IssueCommand = 0x4858F0;
   static int BWFXN_HUD = 0x4202A0; 
-  
+  static int BWFXN_InGame = 0x654D64; // Wrong offset
+  static int BWXFN_PrintText = 0x48CE60;
+  static int BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
+  static int BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
+ 
 };

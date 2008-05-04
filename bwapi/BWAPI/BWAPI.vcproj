@@ -208,6 +208,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\OrderTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\OrderTypes.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\ParasiteFlags.h"
 					>
 				</File>
