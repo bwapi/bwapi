@@ -70,8 +70,6 @@ namespace BWAPI
        case BW::UnitType::Resource_MineralPatch3 : return BWAPI::Prototypes::Minerals;
        default : return NULL;
      }
-
-    return NULL;
   }
   //------------------------------ CAN ORDER -----------------------------------
   bool Unit::canOrder(const AbilityPrototype* const ability, Unit* target) const

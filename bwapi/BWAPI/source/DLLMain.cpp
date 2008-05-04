@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stdio.h>
 
+#include "./Types.h"
 #include "./BWAPI/Globals.h"
 #include "./BWAPI/Game.h"
 
@@ -14,12 +15,11 @@
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   // IT never gets here
-  while(true)
+  for(;;)
   {
     BWAPI::Broodwar.update();
     Sleep(2000);
   }
-  return 0;
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
