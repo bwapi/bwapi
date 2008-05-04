@@ -22,7 +22,7 @@ namespace BWAPI
     unitArrayCopy = new BW::UnitArray;
 
     for (int i = 0; i < 12; i++)
-      players[i] = new Player(i);    
+      players[i] = new Player((u8)i);    
     
     players[11]->setName("Player 12 (Neutral)");
     
@@ -83,7 +83,7 @@ namespace BWAPI
    fclose(f);
    
    // Selection command seeding.
-   int n = unitList.size();
+   int n = (int)unitList.size();
    if (n > 0)
    {
      // array of pointers of units to be selected
@@ -115,7 +115,7 @@ namespace BWAPI
       
       VirtualProtect(pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
       
-      *(char*)pSrc = (char)0xE9;
+      *(u8*)pSrc = (u8)0xE9;
       *(DWORD*)((DWORD)pSrc + 1) = (DWORD)pDest - (DWORD)pSrc - 5;
       
       for (int i = 0; i < nNops; ++i)
