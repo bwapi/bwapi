@@ -52,6 +52,7 @@ namespace BWAPI
     * @returns BW_Position structure describing the position (defined in Types.h)
     */
     const BW::Position& getPosition() const;
+    u16 getDistance(Unit *unit) const; /**< Gets distance between this and the specified unit */
     Player* getOwner() const;
     const UnitPrototype* const getPrototype() const;
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
@@ -63,6 +64,7 @@ namespace BWAPI
     BW::UnitData *getRawData();
     BW::UnitData *getOriginalRawData();
     BW::OrderID::Enum getOrderID() const;
+    bool hasEmptyQueue(void);
   private:
     BW::UnitData* bwUnitData; /**< Pointer to broodwar unit data */
     BW::UnitData* bwOriginalUnitData; /**< Pointer to broodwar unit data */

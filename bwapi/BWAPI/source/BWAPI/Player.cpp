@@ -37,5 +37,13 @@ namespace BWAPI
   {
     return this->id;
   }
+  //------------------------------- SELECTED UNIT -------------------------------
+  #pragma warning(push)
+  #pragma warning(disable:4312)
+  BW::UnitData** Player::selectedUnit()
+  {
+    return (BW::UnitData**)(0x006284D0 + this->getID()*48);
+  }
+  #pragma warning(pop)
   //-----------------------------------------------------------------------------
 };

@@ -8,6 +8,8 @@
 #include "../BW/Offsets.h"
 #include "../BW/UnitTypes.h"
 
+#include <math.h>
+
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
@@ -121,25 +123,42 @@ namespace BWAPI
     return this->getHealthPoints() > 0 || 
            this->getHealthPointsFraction() > 0;
   }
-  //----------------------------------------------------------------------------
+  //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
   {
     return bwUnitData->currentPos;
   }
-  //----------------------------------------------------------------------------
+  //-------------------------------- GET RAW DATA ------------------------------
   BW::UnitData *Unit::getRawData()
   {
     return bwUnitData;
   }
-  //----------------------------------------------------------------------------
+  //------------------------------ GET ORIGINAL RAW DATA -----------------------
   BW::UnitData *Unit::getOriginalRawData()
   {
     return bwOriginalUnitData;
   }
-  //----------------------------------------------------------------------------
+  //-------------------------------- GET ORDER ID ------------------------------
   BW::OrderID::Enum Unit::getOrderID() const
   {
     return this->bwUnitData->orderID;
   }
+  //------------------------------- GET DISTANCE -------------------------------
+
+  #pragma warning(push)
+  #pragma warning(disable:4244)
+  u16 Unit::getDistance(Unit *unit) const
+  {
+   
+    return sqrt((long double)((s32)this->getPosition().x - unit->getPosition().x)*((s32)this->getPosition().x - unit->getPosition().x) +
+                             ((s32)this->getPosition().y - unit->getPosition().y)*((s32)this->getPosition().y - unit->getPosition().y));
+  }
+  #pragma warning(pop)
+  //------------------------------ HAS EMPTY QUEUE -----------------------------
+  bool Unit::hasEmptyQueue(void)
+  {
+     return this->getRawData()->queue[this->getRawData()->queueSlot] == 0xe4;
+  }
   //----------------------------------------------------------------------------
+
 };

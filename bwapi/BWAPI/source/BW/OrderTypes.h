@@ -1,5 +1,8 @@
 #pragma once
 #include "..\\Types.h"
+#include "..\\BW\\UnitTypes.h"
+namespace BWAPI { class Unit; }
+//namespace BW { namespace UnitType { enum Enum; }  }
 #pragma pack(1)
 namespace BW
 {
@@ -17,6 +20,25 @@ namespace BW
         u8 always0xe4;
         u16 alwaysZero2;
     };
+    class MoveTarget
+    {
+      public :
+        MoveTarget(BWAPI::Unit *target);
+        u8 always0x14;
+        u16 x;
+        u16 y;
+        u16 unitOrder; // I hope
+        u8 always0xe4;
+        u16 alwaysZero;
+    };
+   class TrainUnit
+   {
+     public :
+      TrainUnit(BW::UnitType::Enum type); 
+      u8 always0x1f;
+      u8 unitID;
+      u8 alwaysZero;
+   };
    class ChangeSlot
     {
       public :
