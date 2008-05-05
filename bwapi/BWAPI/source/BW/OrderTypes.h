@@ -31,6 +31,14 @@ namespace BW
         u8 always0xe4;
         u16 alwaysZero;
     };
+   class SelectSingle
+   {
+     public :
+      SelectSingle(BWAPI::Unit *select);
+       u8 always0x09;
+       u8 always0x01;
+       u16 unitID;
+   };
    class TrainUnit
    {
      public :

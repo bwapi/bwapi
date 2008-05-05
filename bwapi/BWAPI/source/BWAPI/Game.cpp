@@ -44,8 +44,9 @@ namespace BWAPI
     for (int i = 0; i < 1700; i++)
       delete units[i];
   }
-  int count = 0;
-     void __fastcall IssueCommand(PBYTE pbBuffer, int iSize) {
+  //------------------------------- ISSUE COMMAND -------------------------------
+  void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 
+  {
      static const int BWFXNIssuseCommand = 0x4858F0;
       __asm 
         {
@@ -54,6 +55,7 @@ namespace BWAPI
         CALL [BWFXNIssuseCommand]
         }
      }
+  int count = 0;
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
@@ -65,6 +67,7 @@ namespace BWAPI
   {
    return cc->getDistance(unit1) < cc->getDistance(unit2);
   }
+
   //----------------------------- JMP PATCH -----------------------------------
   void Game::test(void)
   {
@@ -77,23 +80,15 @@ namespace BWAPI
     units[i]->rawData->previousUnit += memoryPositionDifference;
     units[i]->rawData->nextUnit += memoryPositionDifference;
     }
+    
     */
-
-    FILE *f;
-    f = fopen("bwapi.log","at"); 
-    /*if (this->inGame())
-      fprintf(f, "Game running.\n");
-    else
-      fprintf(f, "Game not running.\n");*/
-    fprintf(f,"\nUnit List:\n");
-    if (this->inGame())
-      fprintf(f,"In game:\n");
-    else
-      fprintf(f,"Not in game:\n");
+   // FILE *f;
+   // f = fopen("bwapi.log","at"); 
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
     Player *marwin = NULL;
+    bool reselected = false;
     for (int i = 0; i < 1700; i++)
     {
       if (units[i]->isValid() &&
@@ -106,46 +101,34 @@ namespace BWAPI
           unitList.push_back(this->units[i]);
         else
          if (units[i]->getPrototype() == Prototypes::CommandCenter)
-         {
            cc = this->units[i];
-           fprintf(f, "%s (%d,%d) \n", 
-                    units[i]->getPrototype()->getName().c_str(),
-                    units[i]->getPosition().x,
-                    units[i]->getPosition().y);
-           for (int j = 0; j < 5; j++)
-             fprintf(f,"Queue %d = (%d)\n", j, units[i]->getRawData()->queue[j]);
-           fprintf(f,"Current queue slot = %d\n", units[i]->getRawData()->queueSlot);
-         }
       }
     }
-    bool reselected = false;
     BW::UnitData** selected = NULL;
     if (marwin != NULL)
     {
-      fprintf(f, "Before commands:\n");
+      /*fprintf(f, "Before commands:\n");
       for (int i = 0; i < 12; i++)
       {
         int unitID = 0;
         if (marwin->selectedUnit()[i] != NULL) 
            unitID = marwin->selectedUnit()[i]->unitID;
         fprintf(f, "Selected unit %d (%d) \n", i, unitID);
-      }
-      /*selected = new BW::UnitData * [13];
+      }*/
+      selected = new BW::UnitData * [13];
       memcpy(selected, marwin->selectedUnit(), 4*12);
-      selected[12] = NULL;*/
+      selected[12] = NULL;
     }
     if (cc != NULL)
     {
-      BW::UnitData * * list = new BW::UnitData * [2];
-      list[0] = cc->getOriginalRawData();
-      list[1] = NULL;
-      int one = 1;
-      void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-      selectUnitsHelperSTD(one, list, true, true);
-      reselected = true;
-      delete[] list;
-      if (cc->hasEmptyQueue())
+     
+     if (cc->hasEmptyQueue() && marwin->getMinerals() >= 50)
+      {
+        reselected = true;
+        cc->orderSelect();
         IssueCommand((PBYTE)&BW::Orders::TrainUnit(BW::UnitType::Terran_SCV), 0x3);  
+        //memcpy(marwin->selectedUnit(), selected, 4*12);
+      }
     }
     if (unitList.size() != 0)
     {
@@ -159,54 +142,45 @@ namespace BWAPI
       std::sort(mineralList.begin(),mineralList.end(), closerToCC);
       for (unsigned int i = 0; i < unitList.size(); i++)
       {
-        BW::UnitData * * list = new BW::UnitData * [2];
-        list[0] = unitList[i]->getOriginalRawData();
-	       list[1] = NULL;
-        int one = 1;
-        void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-	 	     selectUnitsHelperSTD(one, list, true, true);
+         
         reselected = true;
-        delete[] list;
-        BW::Orders::MoveTarget order(mineralList[i]);
-        fprintf(f, "Target unit id = %d .\n", order.unitOrder);
-        IssueCommand((PBYTE)&order, 0xA);  
+        unitList[i]->orderMove(0,0,mineralList[i]);
       }
     }
    
     if (found)
-       count++;
+      count++;
     else
     {
       this->changeSlot(BW::Orders::ChangeSlot::Computer, 1);
       this->changeRace(BW::Orders::ChangeRace::Zerg, 1);
       this->changeRace(BW::Orders::ChangeRace::Terran, 0);
     }
-  /* if (reselected)
+   if (reselected)
     {
-     fprintf(f, "After commands:\n");
+     /*fprintf(f, "After commands:\n");
      for (int i = 0; i < 12; i++)
       {
         int unitID = 0;
         if (marwin->selectedUnit()[i] != NULL) 
            unitID = marwin->selectedUnit()[i]->unitID;
-        fprintf(f, "Selected unit %d (%d) \n", i, unitID);
-      }
-      BW::UnitData * * list = selected;
+    //    fprintf(f, "Selected unit %d (%d) \n", i, unitID);
+      }*/
       int unitCount = 0;
-      while (selected[count] != NULL)
+      while (selected[unitCount] != NULL)
         unitCount ++;
       void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-	     selectUnitsHelperSTD(unitCount, list, true, true);
+	     selectUnitsHelperSTD(unitCount, selected, true, true);
     }
     if (selected)
-      delete [] selected;*/
-    if (count > 0)
+      delete [] selected;
+    /*if (count > 0)
     {
       char message[30];
       sprintf(message, "Update %d", count);
       this->print(message);
-    }
-    fclose(f);
+    }*/
+    //fclose(f);
   }
   //----------------------------- JMP PATCH -----------------------------------
   
