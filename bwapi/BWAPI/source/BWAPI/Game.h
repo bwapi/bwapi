@@ -4,6 +4,7 @@ namespace BW { struct UnitArray; struct UnitData;};
 namespace BWAPI { class Player; };
 namespace BWAPI { class Unit; };
 #include "..\\BW\\OrderTypes.h"
+#include <windows.h>
 
 
 namespace BWAPI
@@ -43,7 +44,7 @@ namespace BWAPI
      * used for debug and other reasons
      */
     void test(void);
-    BW::UnitData* selectedUnit(Player* player);
+    void __fastcall IssueCommand(PBYTE pbBuffer, int iSize);
   private :
     BW::UnitArray* unitArrayCopy;
     Unit* units[1700];

@@ -26,6 +26,13 @@ namespace BW
     {
     }
     //------------------------------------- TRAIN UNIT --------------------------------
+    SelectSingle::SelectSingle(BWAPI::Unit *select)
+    :always0x09(0x09)
+    ,always0x01(0x01)
+    ,unitID((int)((int)select->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11)
+    {
+    }
+    //------------------------------------- TRAIN UNIT --------------------------------
     TrainUnit::TrainUnit(BW::UnitType::Enum unitID)
     :always0x1f(0x1f)
     ,unitID(unitID)

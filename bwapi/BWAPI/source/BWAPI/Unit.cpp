@@ -159,6 +159,26 @@ namespace BWAPI
   {
      return this->getRawData()->queue[this->getRawData()->queueSlot] == 0xe4;
   }
+  //-------------------------------- ORDER MOVE --------------------------------
+  void Unit::orderMove(int x,int y, Unit *target)
+  {
+    this->orderSelect();
+    if (target == NULL)
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::Move(x, y),sizeof(BW::Orders::Move)); 
+    else
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::MoveTarget(target),sizeof(BW::Orders::MoveTarget)); 
+  }
+  //-------------------------------- ORDER SELECT --------------------------------
+  void Unit::orderSelect()
+  {
+    BW::UnitData * * list = new BW::UnitData * [2];
+    list[0] = this->getOriginalRawData();
+	   list[1] = NULL;
+    int one = 1;
+    void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+    selectUnitsHelperSTD(one, list, true, true);
+    //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
+  }
   //----------------------------------------------------------------------------
 
 };

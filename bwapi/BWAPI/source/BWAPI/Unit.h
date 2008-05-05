@@ -65,6 +65,8 @@ namespace BWAPI
     BW::UnitData *getOriginalRawData();
     BW::OrderID::Enum getOrderID() const;
     bool hasEmptyQueue(void);
+    void orderMove(int x,int y, Unit *target);
+    void orderSelect();
   private:
     BW::UnitData* bwUnitData; /**< Pointer to broodwar unit data */
     BW::UnitData* bwOriginalUnitData; /**< Pointer to broodwar unit data */
