@@ -12,6 +12,7 @@ namespace BWAPI
   /** 
   * The main class wrapping the whole game data/methods.
   */
+  extern int count;
   class Game
   {
   public :

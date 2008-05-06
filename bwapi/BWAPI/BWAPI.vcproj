@@ -256,14 +256,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\CodeHook.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CodeHook.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Game.cpp"
 					>
 				</File>
