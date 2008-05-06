@@ -10,29 +10,48 @@
 #include "./Types.h"
 #include "./BWAPI/Globals.h"
 #include "./BWAPI/Game.h"
-#include "./BWAPI/CodeHook.h"
- const int back = 0x004D94ED + 5;
-void hookTest()
+#include "./BWAPI/Globals.h"
+
+const int back = 0x004D94ED + 5;
+const int target = 0x4D1110;
+
+int frameCount = 0;
+int lastEax = 0;
+int lastEbx = 0;
+int lastEcx = 0;
+int lastEdx = 0;
+float ticksStart = 0;
+float secs = 0;
+float perSec = 0;
+FILE *f;
+
+
+//DWORD eaxSave,ebxSave,ecxSave,edxSave
+void __declspec(naked)  hookTest()
 {
   {
-     FILE *f = fopen("hooked.log","at"); 
-     fprintf(f, "Before the call of target\n");
-     fclose(f);
-   }
-   int target = 0x4D1110;
-   __asm
+/*   if (BWAPI::count == 0)
+      ticksStart = (float)GetTickCount();
+   secs = ((float)GetTickCount() - ticksStart)/1000.0;
+   perSec = (float)BWAPI::count/secs;
+   f = fopen("hooked.log","at"); 
+   fprintf(f, "count: %d eax: %d ebx:%d ecx: %d edx %d, secs = %f, perSec = %f\n", BWAPI::count, lastEax, lastEbx, lastEcx, lastEdx, secs, perSec);
+   fclose(f);*/
+   if (lastEcx >= 0)
    {
-     call [target]
+     BWAPI::Broodwar.update();
+     BWAPI::Broodwar.test();
    }
-   {
-     FILE *f = fopen("hooked.log","at"); 
-     fprintf(f, "After\n");
-     fclose(f);
-   }
-   __asm
-   {
-     jmp [back]
-   }
+  }
+  __asm
+  {
+    call [target]
+    mov lastEax, eax;
+    mov lastEbx, ebx;
+    mov lastEcx, ecx;
+    mov lastEdx, edx;
+    jmp [back]
+  }
   {
     FILE *f = fopen("hooked.log","at"); 
     fprintf(f, "Should never get here !!!\n");
