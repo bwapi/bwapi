@@ -67,8 +67,9 @@ namespace BWAPI
   {
    return cc->getDistance(unit1) < cc->getDistance(unit2);
   }
-
+  char *message = new char[30];
   //----------------------------- JMP PATCH -----------------------------------
+
   void Game::test(void)
   {
 
@@ -84,7 +85,7 @@ namespace BWAPI
     */
    // FILE *f;
    // f = fopen("bwapi.log","at"); 
-    bool found = false;
+    /*bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
     Player *marwin = NULL;
@@ -115,6 +116,7 @@ namespace BWAPI
            unitID = marwin->selectedUnit()[i]->unitID;
         fprintf(f, "Selected unit %d (%d) \n", i, unitID);
       }*/
+   /*
       selected = new BW::UnitData * [13];
       memcpy(selected, marwin->selectedUnit(), 4*12);
       selected[12] = NULL;
@@ -166,20 +168,18 @@ namespace BWAPI
            unitID = marwin->selectedUnit()[i]->unitID;
     //    fprintf(f, "Selected unit %d (%d) \n", i, unitID);
       }*/
-      int unitCount = 0;
+      /*int unitCount = 0;
       while (selected[unitCount] != NULL)
         unitCount ++;
       void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
 	     selectUnitsHelperSTD(unitCount, selected, true, true);
     }
     if (selected)
-      delete [] selected;
-    /*if (count > 0)
-    {
-      char message[30];
-      sprintf(message, "Update %d", count);
-      this->print(message);
-    }*/
+      delete [] selected;*/
+    count ++;
+    
+    sprintf(message, "Update %d", count);
+   // this->print(message);
     //fclose(f);
   }
   //----------------------------- JMP PATCH -----------------------------------
