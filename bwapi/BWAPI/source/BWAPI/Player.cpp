@@ -45,5 +45,27 @@ namespace BWAPI
     return (BW::UnitData**)(0x006284D0 + this->getID()*48);
   }
   #pragma warning(pop)
+  //----------------------------- GET MINERALS LOCAL ----------------------------
+  s32 Player::getMineralsLocal() const
+  {
+    return this->mineralsLocal;
+  }
+  //------------------------------- GET GAS LOCAL -------------------------------
+  s32 Player::getGasLocal() const
+  {
+    return this->gasLocal;
+  }
+  //---------------------------------- UPDATE -----------------------------------
+  void Player::update()
+  {
+    this->mineralsLocal = this->getMinerals();
+    this->gasLocal = this->getGas();
+  }
+  //-----------------------------------------------------------------------------
+  void  Player::spendLocal(s32 minerals, s32 gas)
+  {
+    this->mineralsLocal -= minerals;
+    this->gasLocal -= gas;
+  }
   //-----------------------------------------------------------------------------
 };

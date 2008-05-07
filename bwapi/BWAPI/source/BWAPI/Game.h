@@ -3,9 +3,10 @@
 namespace BW { struct UnitArray; struct UnitData;};
 namespace BWAPI { class Player; };
 namespace BWAPI { class Unit; };
+namespace BWAPI { class Command; };
 #include "..\\BW\\OrderTypes.h"
+#include <vector>
 #include <windows.h>
-
 
 namespace BWAPI
 {
@@ -46,9 +47,13 @@ namespace BWAPI
      */
     void test(void);
     void __fastcall IssueCommand(PBYTE pbBuffer, int iSize);
+    void addToCommandBuffer(Command *command);
   private :
     BW::UnitArray* unitArrayCopy;
+    BW::UnitArray* unitArrayCopyLocal;
     Unit* units[1700];
+    unsigned int latency;
+    std::vector<std::vector<Command *>> commandBuffer;
   };
 };
 

@@ -120,7 +120,7 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
-				WarningLevel="4"
+				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100;4480"
@@ -253,6 +253,26 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\AbilityPrototype.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\Command.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\Command.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandTrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandTypes.h"
 					>
 				</File>
 				<File

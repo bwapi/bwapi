@@ -1,5 +1,5 @@
 #pragma once
-
+#include <windows.h>
 #include "../Types.h"
 
 namespace BW
@@ -44,5 +44,5 @@ namespace BW
   static int BWXFN_PrintText = 0x48CE60;
   static int BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
   static int BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
- 
+  static LPVOID BWXFN_CurrentPlayerSelectionGroup = (LPVOID)0x005971F0;
 };

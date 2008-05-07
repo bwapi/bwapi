@@ -4,6 +4,7 @@
 #include "../BWAPI/Unit.h"
 #include "../BWAPI/UnitPrototype.h"
 #include "../BWAPI/UnitPrototypeDefinitions.h"
+#include "../BWAPI/Command.h"
 
 #include "../BW/Offsets.h"
 #include "../BW/UnitData.h"
@@ -22,6 +23,7 @@ namespace BWAPI
   Game::Game()
   {
     unitArrayCopy = new BW::UnitArray;
+    unitArrayCopyLocal = new BW::UnitArray;
 
     for (int i = 0; i < 12; i++)
       players[i] = new Player((u8)i);    
@@ -29,14 +31,18 @@ namespace BWAPI
     players[11]->setName("Player 12 (Neutral)");
     
     for (int i = 0; i < 1700; i++)
-      units[i] = new Unit(&unitArrayCopy->unit[i], &BW::UnitNodeTable->unit[i]);
+      units[i] = new Unit(&unitArrayCopy->unit[i], 
+                          &BW::UnitNodeTable->unit[i],
+                          &unitArrayCopyLocal->unit[i]);
 
     this->update();
+    this->latency = 2; // TODO: read from the address in update
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
   {
     delete unitArrayCopy;
+    delete unitArrayCopyLocal;
 
     for (int i = 0; i < 12; i++)
       delete players[i];
@@ -60,9 +66,22 @@ namespace BWAPI
   void Game::update()
   {
     memcpy(this->unitArrayCopy, BW::UnitNodeTable, sizeof(BW::UnitArray));
-    players[11]->setName("Player 12 (Neutral)");
+    memcpy(this->unitArrayCopyLocal, BW::UnitNodeTable, sizeof(BW::UnitArray));
+    for (int i = 0; i < 12; i++)
+      this->players[i]->update();
+    this->players[11]->setName("Player 12 (Neutral)");
+    std::vector<Command *> a;
+    while (this->commandBuffer.size() > latency)
+      this->commandBuffer.erase(this->commandBuffer.begin());
+    this->commandBuffer.push_back(a);
+    for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
+       for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
+       {
+         this->commandBuffer[i][j]->execute();
+       }        
   }
   Unit *cc;
+  //-------------------------------- Closer to CC -----------------------------
   int closerToCC(Unit*& unit1, Unit*& unit2)
   {
    return cc->getDistance(unit1) < cc->getDistance(unit2);
@@ -85,6 +104,7 @@ namespace BWAPI
     */
     FILE *f;
     f = fopen("bwapi.log","at"); 
+    fprintf(f, "Update %d\n", count);
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
@@ -108,27 +128,19 @@ namespace BWAPI
     BW::UnitData** selected = NULL;
     if (marwin != NULL)
     {
-      /*fprintf(f, "Before commands:\n");
-      for (int i = 0; i < 12; i++)
-      {
-        int unitID = 0;
-        if (marwin->selectedUnit()[i] != NULL) 
-           unitID = marwin->selectedUnit()[i]->unitID;
-        fprintf(f, "Selected unit %d (%d) \n", i, unitID);
-      }*/
-   
       selected = new BW::UnitData * [13];
-      memcpy(selected, marwin->selectedUnit(), 4*12);
+      memcpy(selected, (LPVOID)BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
       selected[12] = NULL;
     }
     if (cc != NULL)
     {
      
-     if (cc->hasEmptyQueue() && marwin->getMinerals() >= 50)
+     if (cc->hasEmptyQueueLocal() && marwin->getMineralsLocal() >= 50)
       {
         reselected = true;
         cc->orderSelect();
-        IssueCommand((PBYTE)&BW::Orders::TrainUnit(BW::UnitType::Terran_SCV), 0x3);  
+        cc->trainUnit(BWAPI::Prototypes::SCV);
+        
         //memcpy(marwin->selectedUnit(), selected, 4*12);
       }
     }
@@ -144,7 +156,6 @@ namespace BWAPI
       std::sort(mineralList.begin(),mineralList.end(), closerToCC);
       for (unsigned int i = 0; i < unitList.size(); i++)
       {
-         
         reselected = true;
         unitList[i]->orderMove(0,0,mineralList[i]);
       }
@@ -160,14 +171,6 @@ namespace BWAPI
     }
    if (reselected)
     {
-     /*fprintf(f, "After commands:\n");
-     for (int i = 0; i < 12; i++)
-      {
-        int unitID = 0;
-        if (marwin->selectedUnit()[i] != NULL) 
-           unitID = marwin->selectedUnit()[i]->unitID;
-    //    fprintf(f, "Selected unit %d (%d) \n", i, unitID);
-      }*/
       int unitCount = 0;
       while (selected[unitCount] != NULL)
         unitCount ++;
@@ -281,15 +284,20 @@ namespace BWAPI
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintPublicText;
 	 	sendText(text);
   }
-  //--------------------------------- CHANGE SLOT -----------------------------
+  //------------------------------- CHANGE SLOT -------------------------------
   void Game::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
     IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID),3); 
   }
-  //--------------------------------- CHANGE RACE -------------------------------
+  //------------------------------ CHANGE RACE ---------------------------------
   void Game::changeRace(BW::Orders::ChangeRace::Race race, u8 slotID)
   {
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(race, slotID),3); 
+  }
+  //---------------------------- ADD TO COMMAND BUFFER -------------------------
+  void Game::addToCommandBuffer(Command *command)
+  {
+    this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
   }
   //-----------------------------------------------------------------------------
 };
