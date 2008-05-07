@@ -73,7 +73,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
     *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
-#pragma (pop)
+#pragma warning(pop)
 
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {

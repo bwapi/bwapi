@@ -277,13 +277,13 @@ namespace BWAPI
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintText;
 	 	sendText(text);
   }
-  #pragma warning(pop)
   //-----------------------------------------------------------------------------
   void Game::printPublic(char *text) const
   {
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintPublicText;
 	 	sendText(text);
   }
+  #pragma warning(pop)
   //------------------------------- CHANGE SLOT -------------------------------
   void Game::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
