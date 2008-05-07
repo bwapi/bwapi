@@ -15,6 +15,8 @@ namespace BW
     ,alwaysZero2(0x0)
     {
     }
+    #pragma warning(push)
+    #pragma warning(disable:4311)    
     //---------------------------------- MOVE CONSTRUCTOR -----------------------------
     MoveTarget::MoveTarget(BWAPI::Unit *target)
     :x(target->getPosition().x)
@@ -25,14 +27,15 @@ namespace BW
     ,unitOrder((int)((int)target->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11)
     {
     }
-    //------------------------------------- TRAIN UNIT --------------------------------
+    //------------------------------- SELECT SINGLE CONSTRUCTOR -----------------------
     SelectSingle::SelectSingle(BWAPI::Unit *select)
     :always0x09(0x09)
     ,always0x01(0x01)
     ,unitID((int)((int)select->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11)
     {
     }
-    //------------------------------------- TRAIN UNIT --------------------------------
+    #pragma warning(pop)
+    //--------------------------------- TRAIN UNIT CONSTRUCTOR ------------------------
     TrainUnit::TrainUnit(BW::UnitType::Enum unitID)
     :always0x1f(0x1f)
     ,unitID(unitID)
