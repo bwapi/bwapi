@@ -86,7 +86,7 @@ namespace BW
     /*0x093*/ u8                      unknownState_0x93;  // TODO: Unknown
     /*0x094*/ u8                      currentButtonSet;   // TODO: Verify
     /*0x095*/ _UNKNOWN _14[3];
-    /*0x098*/ u16                     queue[5];           // TODO: Verify
+    /*0x098*/ BW::UnitType::Enum      queue[5];
     /*0x0A2*/ u16                     energy;             // TODO: Verify
     /*0x0A4*/ u8                      queueSlot;          // TODO: Unknown
     /*0x0A5*/ _UNKNOWN _15[1];

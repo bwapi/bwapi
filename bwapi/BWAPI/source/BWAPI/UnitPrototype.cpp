@@ -10,12 +10,16 @@
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  UnitPrototype::UnitPrototype( const std::string& name, 
-                                const u16          maxHealthPoints,
-                                const u16          maxShieldPoints,
-                                const u16          maxMana,
-                                const u32          abilityFlags)
+  UnitPrototype::UnitPrototype( const std::string&       name, 
+                                const BW::UnitType::Enum unitID,
+                                const u16                maxHealthPoints,
+                                const u16                maxShieldPoints,
+                                const u16                maxMana,
+                                const s32                mineralPrice,
+                                const s32                gasPrice,
+                                const u32                abilityFlags)
     :name(name)
+    ,unitID(unitID)
     ,maxHealthPoints(maxHealthPoints)
     ,maxShieldPoints(maxShieldPoints)
     ,maxMana(maxMana)
@@ -30,6 +34,11 @@ namespace BWAPI
   const std::string& UnitPrototype::getName() const
   {
     return this->name;
+  }
+  //------------------------------ GET UNIT ID ----------------------------------
+  BW::UnitType::Enum UnitPrototype::getUnitID() const
+  {
+    return this->unitID;
   }
   //------------------------- GET MAX HEALTH POINTS -----------------------------
   u16 UnitPrototype::getMaxHealthPoints() const
@@ -61,10 +70,20 @@ namespace BWAPI
       return false;
     return true;
   }
-  //-------------------------------- GET ABILITY FLAGS -------------------------
+  //------------------------------ GET ABILITY FLAGS ---------------------------
   s32 UnitPrototype::getAbilityFlags() const
   {
     return this->abilityFlags;
+  }
+  //------------------------------ GET MINERAL PRICE ---------------------------
+  s32 UnitPrototype::getMineralPrice() const
+  {
+    return this->mineralPrice;
+  }
+  //------------------------------ GET GAS PRICE -------------------------------
+  s32 UnitPrototype::getGasPrice() const
+  {
+    return this->gasPrice;
   }
   //----------------------------------------------------------------------------
 };

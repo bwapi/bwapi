@@ -58,7 +58,9 @@ void __declspec(naked)  hookTest()
     fclose(f);
   }
 }
-
+#pragma warning(push)
+#pragma warning(disable:4311)
+#pragma warning(disable:4312)
 void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 {
   DWORD OldProt = 0;
@@ -71,6 +73,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
     *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
+#pragma (pop)
 
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {

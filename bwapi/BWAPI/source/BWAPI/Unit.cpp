@@ -3,6 +3,8 @@
 #include "../BWAPI/UnitPrototypeDefinitions.h"
 #include "../BWAPI/Player.h"
 #include "../BWAPI/Globals.h"
+#include "../BWAPI/CommandTrain.h"
+//#include "../BWAPI/Game.h"
 
 #include "../BW/UnitData.h"
 #include "../BW/Offsets.h"
@@ -13,9 +15,12 @@
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  Unit::Unit(BW::UnitData* unitData, BW::UnitData* originalUnitData)
+  Unit::Unit(BW::UnitData* unitData, 
+             BW::UnitData* originalUnitData,
+             BW::UnitData* unitDataLocal)
     :bwUnitData(unitData)
     ,bwOriginalUnitData(originalUnitData)
+    ,bwUnitDataLocal(unitDataLocal)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -126,17 +131,22 @@ namespace BWAPI
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
   {
-    return bwUnitData->currentPos;
+    return this->bwUnitData->currentPos;
   }
   //-------------------------------- GET RAW DATA ------------------------------
   BW::UnitData *Unit::getRawData()
   {
-    return bwUnitData;
+    return this->bwUnitData;
+  }
+  //------------------------------ GET RAW DATA LOCAL --------------------------
+  BW::UnitData *Unit::getRawDataLocal()
+  {
+    return this->bwUnitDataLocal;
   }
   //------------------------------ GET ORIGINAL RAW DATA -----------------------
   BW::UnitData *Unit::getOriginalRawData()
   {
-    return bwOriginalUnitData;
+    return this->bwOriginalUnitData;
   }
   //-------------------------------- GET ORDER ID ------------------------------
   BW::OrderID::Enum Unit::getOrderID() const
@@ -157,16 +167,21 @@ namespace BWAPI
   //------------------------------ HAS EMPTY QUEUE -----------------------------
   bool Unit::hasEmptyQueue(void)
   {
-     return this->getRawData()->queue[this->getRawData()->queueSlot] == 0xe4;
+     return this->getQueue()[this->getQueueSlot()] == 0xe4;
+  }
+  //------------------------------ HAS EMPTY QUEUE -----------------------------
+  bool Unit::hasEmptyQueueLocal(void)
+  {
+     return this->getQueueLocal()[this->getQueueSlotLocal()] == 0xe4;
   }
   //-------------------------------- ORDER MOVE --------------------------------
-  void Unit::orderMove(int x,int y, Unit *target)
+  void Unit::orderMove(u16 x,u16 y, Unit *target)
   {
     this->orderSelect();
     if (target == NULL)
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::Move(x, y),sizeof(BW::Orders::Move)); 
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::Move(x, y), sizeof(BW::Orders::Move)); 
     else
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::MoveTarget(target),sizeof(BW::Orders::MoveTarget)); 
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::MoveTarget(target), sizeof(BW::Orders::MoveTarget)); 
   }
   //-------------------------------- ORDER SELECT --------------------------------
   void Unit::orderSelect()
@@ -179,6 +194,36 @@ namespace BWAPI
     selectUnitsHelperSTD(one, list, true, true);
     //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
   }
+  //---------------------------------- GET TYPE --------------------------------
+  BW::UnitType::Enum Unit::getType()
+  {
+    return this->getRawData()->unitID;
+  }
+  //---------------------------------- GET QUEUE -------------------------------
+  BW::UnitType::Enum* Unit::getQueue()
+  {
+    return this->getRawData()->queue;
+  }
+  //-------------------------------- GET QUEUE LOCAL  --------------------------
+  BW::UnitType::Enum* Unit::getQueueLocal()
+  {
+    return this->getRawDataLocal()->queue;
+  }
+  //----------------------------------- TRAIN UNIT -----------------------------
+  void Unit::trainUnit(UnitPrototype *type)
+  {
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type->getUnitID()), 0x3);
+    Broodwar.addToCommandBuffer(new CommandTrain(this, type));
+  }
+  //-------------------------------- GET QUEUE SLOT ----------------------------
+  u8 Unit::getQueueSlot()
+  {
+    return this->getRawData()->queueSlot;
+  }
+  //------------------------------- GET QUEUE SLOT LOCAL -----------------------
+  u8 Unit::getQueueSlotLocal()
+  {
+    return this->getOriginalRawData()->queueSlot;
+  }
   //----------------------------------------------------------------------------
-
 };

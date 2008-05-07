@@ -159,7 +159,9 @@ namespace BW
       //Spells
       Spell_ScannerSweep            = 0x21,
       Spell_DisruptionWeb           = 0x69,
-      Spell_DarkSwarm               = 0xCA
+      Spell_DarkSwarm               = 0xCA,
+      //Others
+      None                          = 0XE4
     };
   };
 };
