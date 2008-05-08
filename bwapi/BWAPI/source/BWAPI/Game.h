@@ -1,9 +1,10 @@
 #pragma once
 
-namespace BW { struct UnitArray; struct UnitData;};
-namespace BWAPI { class Player; };
-namespace BWAPI { class Unit; };
-namespace BWAPI { class Command; };
+namespace BW { struct UnitArray; }
+namespace BW { struct UnitData; }
+namespace BWAPI { class Player; }
+namespace BWAPI { class Unit; }
+namespace BWAPI { class Command; }
 #include "..\\BW\\OrderTypes.h"
 #include <vector>
 #include <windows.h>
@@ -13,7 +14,6 @@ namespace BWAPI
   /** 
   * The main class wrapping the whole game data/methods.
   */
-  extern int count;
   class Game
   {
   public :
@@ -31,13 +31,13 @@ namespace BWAPI
     bool inGame(); // doesn't work now
     /** 
      * Changes slot state in the pre-game lobby.
-     * @param Slot Desired state of the slot (Open/Closed/Computer)
+     * @param slot Desired state of the slot (Open/Closed/Computer)
      * @param slotID Order of the slot (0 based)
      */
     void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
     /** 
      * Changes race in the pre-game lobby.
-     * @param Race Desired race of the slot (Zerg/Protoss/Terran/Random)
+     * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
      * @param slotID Order of the slot (0 based)
      */
     void changeRace(BW::Orders::ChangeRace::Race race, u8 slotID);
@@ -54,6 +54,8 @@ namespace BWAPI
     Unit* units[1700];
     unsigned int latency;
     std::vector<std::vector<Command *>> commandBuffer;
+    /** Count of game-frames passed from game start. */
+    int frameCount;
   };
 };
 

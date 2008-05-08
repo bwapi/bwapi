@@ -3,14 +3,20 @@
 #include "..//BWAPI//Unit.h"
 namespace BW
 {
+  
+  //--------------------------------- CONSTRUCTOR -----------------------------
+  UnitTarget::UnitTarget()
+  :targetID(0)
+  {
+  }
+  //--------------------------------- CONSTRUCTOR -----------------------------
   #pragma warning(push)
   #pragma warning(disable:4311)
   UnitTarget::UnitTarget(BWAPI::Unit *target)
   {
-    if (target == NULL)
-      this->targetID = 0;
-    else
-      this->targetID = (int)((int)target->getOriginalRawData() - (int)UnitNodeTable)/336 | 1 << 11; 
-  };
+    this->targetID = (int)((int)target->getOriginalRawData() - (int)UnitNodeTable)/336 | 1 << 11; 
+  }
   #pragma warning(pop)
+  //---------------------------------------------------------------------------
+  
 }

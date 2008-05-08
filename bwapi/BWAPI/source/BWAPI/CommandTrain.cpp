@@ -19,20 +19,20 @@ namespace BWAPI
   //-------------------------------- EXECUTE ------------------------------------
   void CommandTrain::execute()
   {
-   int slotToAffect = this->executors[0]->getQueueSlotLocal();
-   if (this->executors[0]->getQueueLocal()[slotToAffect] != BW::UnitType::None)
+   int slotToAffect = this->executors[0]->getBuildQueueSlotLocal();
+   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitType::None)
       slotToAffect  = (slotToAffect + 1) % 5;
    
-   if (this->executors[0]->getQueueLocal()[slotToAffect] != BW::UnitType::None)
+   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitType::None)
    {
      this->failed = true;
      return;
    }
  
-   executors[0]->getQueueLocal()[slotToAffect] = this->toTrain->getUnitID();
+   executors[0]->getBuildQueueLocal()[slotToAffect] = this->toTrain->getUnitID();
    this->executors[0]->getOwner()->spendLocal(toTrain->getMineralPrice(),
                                               toTrain->getGasPrice());
-   this->executors[0]->getRawDataLocal()->queueSlot = slotToAffect;
+   this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    switch (toTrain->getRace())
    {
      case BWAPI::RaceType::Protoss : executors[0]->getOwner()->useSuppliesProtossLocal(toTrain->getSupplies()); break;

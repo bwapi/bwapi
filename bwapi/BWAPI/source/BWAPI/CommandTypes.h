@@ -4,7 +4,8 @@ namespace BWAPI
   {
     enum Enum
     {
-     Train = 0
+     Train = 0,
+     RightClick = 1
     };
   }
 }

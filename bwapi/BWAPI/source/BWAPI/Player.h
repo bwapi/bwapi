@@ -2,7 +2,7 @@
 
 #include <list>
 #include "../Types.h"
-namespace BW { struct UnitData; }
+namespace BW { struct UnitData; };
 
 namespace BWAPI
 {

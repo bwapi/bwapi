@@ -4,9 +4,13 @@
 
 namespace BW
 {
-  struct Position
+  /** Direct mapping of bw representation of map position. */
+  class Position
   {
-    u16 x;
-    u16 y;
+    public :
+      Position();
+      Position(u16 x, u16 y);
+      u16 x;
+      u16 y;
   };
 };

@@ -2,9 +2,11 @@
 
 #include "../Types.h"
 
-namespace TargetType
+namespace BWAPI
 {
-  enum Enum : u16
+  namespace TargetType
+  {
+    enum Enum : u16
     {
       TARGET_MY_UNITS        = 1 << 0,
       TARGET_OPPONENTS_UNITS = 1 << 1,
@@ -17,4 +19,5 @@ namespace TargetType
       TARGET_DARK_TEMPLAR    = 1 << 8,
       TARGET_RESOURCE        = 1 << 9
     };
+  }
 }

@@ -6,7 +6,7 @@
 #include "..//BWAPI//RaceTypes.h"
 
 // Pre-declarations
-namespace BW { struct Position; };
+namespace BW { class Position; };
 namespace BWAPI { class AbilityPrototype; };
 namespace BWAPI { class Unit; };
 
@@ -44,7 +44,7 @@ namespace BWAPI
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
     bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
 
-    bool biological; // TODO: implement sometimes
+    bool biological; // @todo implement sometimes
     bool mechanical;
     bool robotic;
     s32 mineralPrice, gasPrice;

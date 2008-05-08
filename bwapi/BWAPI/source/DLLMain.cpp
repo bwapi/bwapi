@@ -79,17 +79,13 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   Sleep(2000);
   JmpCallPatch(hookTest, 0x004D94ED, 0);
-//  VirtualProtect((LPVOID)0x004D94ED, 6, PAGE_EXECUTE_READWRITE, &notUsed);
-//  void** ptr = (void**)(0x004D94ED + 2);
- // memcpy(ptr, &hookFunction, 4);
-  //for ever
- // {
-    /*
-    BWAPI::Broodwar.update();
-    BWAPI::Broodwar.test();
-    */
-   // Sleep(1000);
-  //}
+  for ever
+  {
+    BWAPI::Broodwar.changeSlot(BW::Orders::ChangeSlot::Computer, 1);
+    BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Zerg, 1);
+    BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Terran, 0);
+    Sleep(1000);
+  }
   return 0;
 }
 
