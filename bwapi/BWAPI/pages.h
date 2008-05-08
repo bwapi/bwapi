@@ -78,7 +78,9 @@ We are just going to integrate soon
 -# Build building command execution
 -# Morph larva command execution
 
-We are searchnig a way how to do 
+We are searchnig a way how to do
+-# Compute the distance of units
+-# Get unit sizes (rectangle sizes) and rectangle/position connection (accuratly)
 
 
 */
