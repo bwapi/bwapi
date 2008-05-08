@@ -240,6 +240,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\UnitTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitTarget.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\UnitTypes.h"
 					>
 				</File>

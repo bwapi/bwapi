@@ -1,18 +1,12 @@
 #pragma once
 #include "..\\Types.h"
-#include "..\\BW\\UnitTypes.h"
+#include "UnitTypes.h"
+#include "UnitTarget.h"
 namespace BWAPI { class Unit; }
 //namespace BW { namespace UnitType { enum Enum; }  }
 #pragma pack(1)
 namespace BW
 {
-  class UnitTarget
-  {
-    public :
-      UnitTarget(BWAPI::Unit* target);
-    private :
-      u16 targetID;
-  };
   namespace Orders
   {
     class RightClick
