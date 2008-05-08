@@ -8,12 +8,10 @@ namespace BWAPI { class Command; }
 #include "..\\BW\\OrderTypes.h"
 #include <vector>
 #include <windows.h>
-
+/** Everything in the BWAPI library that doesn't map or work directly with the bw data. */
 namespace BWAPI
 {
-  /** 
-  * The main class wrapping the whole game data/methods.
-  */
+  /** The main class wrapping the whole game data/methods. */
   class Game
   {
   public :

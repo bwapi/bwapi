@@ -223,7 +223,7 @@ namespace BW
     /*0x11B*/ u8                      isUnderStorm;       /**< @todo Verify */
     /*0x11C*/ BW::UnitData*           irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                      irradiatePlayerID;  /**< @todo Verify */
-    /*0x121*/ BW::ParasiteFlags::Enum parasiteFlags;      /**< @todo Verify */
+    /*0x121*/ u8                      parasiteFlags;      /**< @todo Verify BW#ParasiteFlags */
     /*0x122*/ u8                      cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
     /*0x123*/ u8                      isBlind;            /**< @todo Verify */
     /*0x124*/ u8                      maelstromTimer;     /**< @todo Verify */

@@ -1,6 +1,7 @@
 #pragma once
 namespace BWAPI
 {
+  /** Specification of races in broodwar */
   namespace RaceType
   {
     enum Enum
@@ -8,7 +9,7 @@ namespace BWAPI
       Zerg,
       Terran,
       Protoss,
-      Other
+      Other /** Used for neutral units as minerals */
     };
   }
 }
