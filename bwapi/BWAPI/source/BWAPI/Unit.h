@@ -2,7 +2,6 @@
 
 #include "../Types.h"
 #include "../BW/OrderID.h"
-#include "../BW/UnitData.h"
 #include "../BW/UnitTypes.h"
 
 namespace BW { class Position; };

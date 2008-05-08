@@ -2,6 +2,7 @@
 
 namespace BW
 {
+  /** */
   namespace StatusFlags
   {
     enum Enum : u32
