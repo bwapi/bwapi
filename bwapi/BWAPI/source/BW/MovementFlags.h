@@ -2,6 +2,7 @@
 
 namespace BW
 {
+  /** Definition of Flags specifying movement type - used in BW#UnitData#movementFlags */
   namespace MovementFlags
   {
     enum Enum : u8

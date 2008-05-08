@@ -39,7 +39,8 @@ namespace BW
     /*0x010*/ BW::Position            moveToPos;
     /*0x014*/ BW::UnitData*           targetUnit;
     /*0x018*/ _UNKNOWN _2[8];
-    /*0x020*/ BW::MovementFlags::Enum movementFlags;        /**< @todo Verify */
+    /*0x020*/ u8                      movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. 
+                                                                 @todo Verify */
     /*0x021*/ _UNKNOWN _3[1];
     /*0x022*/ u8                      flingyTurnRadius;     /**< @todo Unknown */
     /*0x023*/ u8                      currentDirection;     /**< @todo Unknown */

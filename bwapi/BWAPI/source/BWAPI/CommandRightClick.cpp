@@ -2,6 +2,7 @@
 #include "UnitPrototype.h"
 #include "UnitPrototypeDefinitions.h"
 #include "Unit.h"
+#include "../BW/UnitData.h"
 namespace BWAPI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------
