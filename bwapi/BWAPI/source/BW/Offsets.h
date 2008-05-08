@@ -147,5 +147,12 @@ namespace BW
     u16 mineralPrice[unitTypeCount];
   };
   static MineralPrices_type* MineralPrices = (MineralPrices_type*) 0x00663870;
+  // -------------------------------- UNIT SUPPLY DEMANDS --------------------
+  /** Direct mapping of unit supply demands. */
+  struct SupplyDemands_type
+  {
+    u8 supplyDemand[unitTypeCount];
+  };
+  static SupplyDemands_type* SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
   //---------------------------------------------------------------------------
 };
