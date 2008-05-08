@@ -65,6 +65,7 @@ namespace BWAPI
        case BW::UnitType::Protoss_Gateway        : return BWAPI::Prototypes::Gateway;
        /** Zerg */
        case BW::UnitType::Zerg_Queen             : return BWAPI::Prototypes::Queen;
+       case BW::UnitType::Zerg_Mutalisk          : return BWAPI::Prototypes::Mutalisk;
        case BW::UnitType::Zerg_Larva             : return BWAPI::Prototypes::Larva;
        case BW::UnitType::Zerg_Drone             : return BWAPI::Prototypes::Drone;
        case BW::UnitType::Zerg_Zergling          : return BWAPI::Prototypes::Zergling;

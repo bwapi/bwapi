@@ -63,6 +63,8 @@ namespace BW
   static int           BWXFN_GameEndBack = BWXFN_GameEnd + 5;
   static int           BWXFN_GameEndTarget = 0x00416D80;
   static int           BWXFN_NextFrameHelperFunction = 0x004D94ED;
+  static int           BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
+  static int           BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
   /** Direct mapping of players Protoss avialable supplies in the bw memory. */
@@ -136,5 +138,14 @@ namespace BW
     PlayerSuppliesUsedZerg player[8];
   };
   static PlayerSupliesUsedZerg_type* SuppliesUsedZerg = (PlayerSupliesUsedZerg_type*) 0x0058215C;
+ 
+  const int unitTypeCount = 228;
+  // -------------------------------- UNIT MINERAL PRICES --------------------
+  /** Direct mapping of unit types mineral prices. */
+  struct MineralPrices_type
+  {
+    u16 mineralPrice[unitTypeCount];
+  };
+  static MineralPrices_type* MineralPrices = (MineralPrices_type*) 0x00663870;
   //---------------------------------------------------------------------------
 };

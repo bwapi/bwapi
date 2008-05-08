@@ -101,9 +101,25 @@ namespace BWAPI
     }
     
     */
-    FILE *f;
-    f = fopen("bwapi.log","at"); 
+    //if (frameCount % 2 == 0)
+    /*for (int i = 0; i < 1700; i++)
+    {
+      if (units[i]->isValid() &&
+          strcmp(units[i]->getOwner()->getName(),"NEM)Marwin") == 0 &&
+          units[i]->getPrototype() == Prototypes::Mutalisk)
+      {
+        units[i]->orderRightClick(this->getScreenX() + this->getMouseX(), this->getScreenY() + this->getMouseY());
+      }
+    } */
+
+    /*
+    char message[50];
+    sprintf(message, "Mouse (%d,%d)", this->getScreenX() + this->getMouseX(), this->getScreenY() + this->getMouseY());
+    this->print(message); */
+
+    FILE *f = fopen("bwapi.log","at"); 
     fprintf(f, "Update %d\n", this->frameCount);
+    fprintf(f, "SCV price =  %d\n", BWAPI::Prototypes::SCV->getMineralPrice());
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
@@ -306,10 +322,30 @@ namespace BWAPI
   {
     this->setInGame(false);
   }
-  //-----------------------------------------------------------------------------
+  //------------------------------- START GAME ----------------------------------
   void Game::startGame()
+  { 
+    this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
+  }
+  //------------------------------- GET MOUSE X ---------------------------------
+  int Game::getMouseX()
   {
-   this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
+	 	return *((int*)0x006CDDAC);
+  }
+  //------------------------------- GET MOUSE Y ---------------------------------
+  int Game::getMouseY()
+  {
+	 	return *((int*)0x006CDDB0);
+  }
+  //------------------------------- GET SCREEN X --------------------------------
+  int Game::getScreenX()
+  {
+	 	return *((int*)0x00628430);
+  }
+  //------------------------------- GET SCREEN Y --------------------------------
+  int Game::getScreenY()
+  {
+	 	return *((int*)0x00628458);
   }
   //-----------------------------------------------------------------------------
 };

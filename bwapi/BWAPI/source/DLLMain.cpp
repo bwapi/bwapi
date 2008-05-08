@@ -13,9 +13,6 @@
 #include "./BWAPI/Globals.h"
 #include "./BW/Offsets.h"
 
-const int back = 0x004D94ED + 5;
-const int target = 0x4D1110;
-
 //----------------------------- ON GAME START ---------------------------------
 void __declspec(naked) onGameStart()
 {
@@ -41,7 +38,7 @@ void __declspec(naked) onGameEnd()
   }
 }
 //------------------------------- UPDATE ---------------------------------------
-DWORD lastEcx;
+int lastEcx;
 void __declspec(naked)  hookTest()
 {
   if (lastEcx >= 0)
@@ -51,9 +48,9 @@ void __declspec(naked)  hookTest()
   }
   __asm
   {
-    call [target]
+    call [BW::BWXFN_NextFrameHelperFunctionTarget]
     mov lastEcx, ecx
-    jmp [back]
+    jmp [BW::BWXFN_NextFrameHelperFunctionBack]
   }
 }
 //----------------------------- JMP PATCH --------------------------------------

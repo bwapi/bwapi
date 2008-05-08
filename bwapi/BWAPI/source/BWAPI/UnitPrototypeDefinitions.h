@@ -43,6 +43,7 @@ namespace BWAPI
     extern UnitPrototype* SpawningPool;
     extern UnitPrototype* Zergling;
     extern UnitPrototype* Queen;
+    extern UnitPrototype* Mutalisk;
     /** */
     extern UnitPrototype* Minerals;
   }
