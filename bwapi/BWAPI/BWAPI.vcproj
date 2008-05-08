@@ -300,6 +300,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BWAPI\RaceTypes.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\Unit.cpp"
 					>
 				</File>

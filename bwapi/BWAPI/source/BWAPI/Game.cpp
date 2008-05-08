@@ -87,7 +87,7 @@ namespace BWAPI
    return cc->getDistance(unit1) < cc->getDistance(unit2);
   }
   char *message = new char[30];
-  //----------------------------- JMP PATCH -----------------------------------
+  //---------------------------------- TEST -----------------------------------
 
   void Game::test(void)
   {
@@ -129,13 +129,18 @@ namespace BWAPI
     if (marwin != NULL)
     {
       selected = new BW::UnitData * [13];
-      memcpy(selected, (LPVOID)BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
+      memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
       selected[12] = NULL;
     }
     if (cc != NULL)
     {
-     
-     if (cc->hasEmptyQueueLocal() && marwin->getMineralsLocal() >= 50)
+     fprintf(f, "Terran Suppplies %d/%d\n", marwin->getSuppliesUsedTerran(), marwin->getSuppliesAvailableTerran());
+     fprintf(f, "Free Terran Suppplies %d\n", marwin->freeSuppliesTerranLocal());
+     fprintf(f, "SCV supplie use %d\n", BWAPI::Prototypes::SCV->getSupplies());
+     fprintf(f, "SCV mineral price %d\n", BWAPI::Prototypes::SCV->getMineralPrice());
+     if (cc->hasEmptyQueueLocal() && 
+         marwin->getMineralsLocal() >= BWAPI::Prototypes::SCV->getMineralPrice() &&
+         marwin->freeSuppliesTerranLocal() >= BWAPI::Prototypes::SCV->getSupplies())
       {
         reselected = true;
         cc->orderSelect();
@@ -151,7 +156,7 @@ namespace BWAPI
       {
         if (units[i]->isValid() && 
             units[i]->getPrototype() == Prototypes::Minerals)
-         mineralList.push_back(units[i]);
+          mineralList.push_back(units[i]);
       }
       std::sort(mineralList.begin(),mineralList.end(), closerToCC);
       for (unsigned int i = 0; i < unitList.size(); i++)
@@ -264,20 +269,20 @@ namespace BWAPI
    yToPrint = y;
    JmpPatch(&Test,(PBYTE)0x48CC25,6);
   }
-  //-----------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4312)
   bool Game::inGame()
   {
     return (*((unsigned char *)BW::BWFXN_InGame) != 0);
   }
-  //----------------------------------- PRINT -----------------------------------
+  //----------------------------------- PRINT ---------------------------------
   void Game::print(char *text) const
   {
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintText;
 	 	sendText(text);
   }
-  //-----------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
   void Game::printPublic(char *text) const
   {
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintPublicText;
