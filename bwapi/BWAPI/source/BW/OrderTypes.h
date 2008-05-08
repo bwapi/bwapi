@@ -88,6 +88,15 @@ namespace BW
         /** Target slot race. */
         Race race;
     };
+   /** Starts game in the pre-game lobby. */
+   class StartGame
+    {
+      public :
+        StartGame();
+      private :
+        /** 0x3c = Command code for start game. */
+        u8 always0x3c;
+    };
   }
 }
 #pragma pack()

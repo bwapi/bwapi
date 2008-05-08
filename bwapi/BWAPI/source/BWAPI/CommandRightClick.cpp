@@ -3,6 +3,7 @@
 #include "UnitPrototypeDefinitions.h"
 #include "Unit.h"
 #include "../BW/UnitData.h"
+#include "AbilityFlags.h"
 namespace BWAPI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------

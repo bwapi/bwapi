@@ -272,6 +272,10 @@
 				Name="BWAPI"
 				>
 				<File
+					RelativePath=".\source\BWAPI\AbilityFlags.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\AbilityPrototype.cpp"
 					>
 				</File>

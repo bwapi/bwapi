@@ -1,6 +1,8 @@
 #include "UnitPrototypeDefinitions.h"
+#include "RaceTypes.h"
+#include "AbilityFlags.h"
+
 #include "..//BW//UnitTypes.h"
-#include "..//BWAPI//RaceTypes.h"
 
 namespace BWAPI
 {
