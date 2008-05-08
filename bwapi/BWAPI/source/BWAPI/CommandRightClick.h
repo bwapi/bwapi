@@ -11,13 +11,13 @@ namespace BWAPI
       /** 
        * @param executor Executor of the right click (will be passed as executor 
                 to Command ancestor)
-       * @param target Position target of the right click.
+       * @param targetPosition Target of the right click.
        */
       CommandRightClick(Unit* executor, const BW::Position& targetPosition);
       /** 
        * @param executor Executor of the right click (will be passed as executor 
                 to Command ancestor)
-       * @param target Unit target of the right click.
+       * @param targetUnit target of the right click.
        */
       CommandRightClick(Unit* executor, BWAPI::Unit* targetUnit);
       virtual void execute();
