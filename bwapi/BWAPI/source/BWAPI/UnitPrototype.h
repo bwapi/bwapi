@@ -21,7 +21,6 @@ namespace BWAPI
     UnitPrototype(const std::string&          name,
                   const BW::UnitType::Enum    unitID,
                   const BWAPI::RaceType::Enum race,
-                  const u8                    supplies,
                   const u16                   maxHealthPoints,
                   const u16                   maxShieldPoints,
                   const u16                   maxMana,
@@ -55,7 +54,6 @@ namespace BWAPI
     u16                   maxMana;
     u32                   abilityFlags;
     BW::UnitType::Enum    unitID;
-    s8                    supplies;
     BWAPI::RaceType::Enum race;
   };
 };

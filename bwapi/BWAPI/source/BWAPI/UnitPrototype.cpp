@@ -14,7 +14,6 @@ namespace BWAPI
   UnitPrototype::UnitPrototype( const std::string&          name, 
                                 const BW::UnitType::Enum    unitID,
                                 const BWAPI::RaceType::Enum race,
-                                const u8                    supplies,
                                 const u16                   maxHealthPoints,
                                 const u16                   maxShieldPoints,
                                 const u16                   maxMana,
@@ -23,7 +22,6 @@ namespace BWAPI
     :name(name)
     ,unitID(unitID)
     ,race(race)
-    ,supplies(supplies)
     ,maxHealthPoints(maxHealthPoints)
     ,maxShieldPoints(maxShieldPoints)
     ,gasPrice(gasPrice)
@@ -90,14 +88,14 @@ namespace BWAPI
   {
     return this->gasPrice;
   }
-  //----------------------------------------------------------------------------
+  //-------------------------------- GET RACE ----------------------------------
   BWAPI::RaceType::Enum UnitPrototype::getRace() const
   {
     return this->race;
   }
-  //----------------------------------------------------------------------------
+  //------------------------------- GET SUPPLIES -------------------------------
   s8 UnitPrototype::getSupplies() const
   {
-    return this->supplies;
+    return BW::SupplyDemands->supplyDemand[this->getUnitID()];
   }
 };
