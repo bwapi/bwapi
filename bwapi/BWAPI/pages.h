@@ -1,4 +1,4 @@
-/*! @page localData Latency and local data issues
+/** @page localData Latency and local data issues
 
   Bw must distribute every command to all players before it can run it and
   it can't wait every game frame until all commands are distributed (would be laggy),
@@ -60,4 +60,25 @@
   The user of the library must be aware, that we can't guarantee that the preComputed 
   state will really occur, for example if you order to build scv, and just before 
   the command gets executed you lose minerals, the command will fail.
+*/
+
+/** @page functionality List of library functionality
+The library provides easy
+-# Access to in-game units
+-# Access players minerals/gas/supplies/names
+-# Select/RightClick/Train command execution
+-# Slot State/Race change command execution
+-# Game start command execution (form chat lobby)
+-# Catch start/end events
+-# Catch nextFrame event (virtually)
+-# Precompute game state according to commands immediatly (@ref localData)
+
+We are just going to integrate soon
+-# Easy access to selected units (shared/current player)
+-# Build building command execution
+-# Morph larva command execution
+
+We are searchnig a way how to do 
+
+
 */

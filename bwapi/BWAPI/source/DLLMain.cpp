@@ -11,53 +11,52 @@
 #include "./BWAPI/Globals.h"
 #include "./BWAPI/Game.h"
 #include "./BWAPI/Globals.h"
+#include "./BW/Offsets.h"
 
 const int back = 0x004D94ED + 5;
 const int target = 0x4D1110;
 
-int frameCount = 0;
-int lastEax = 0;
-int lastEbx = 0;
-int lastEcx = 0;
-int lastEdx = 0;
-float ticksStart = 0;
-float secs = 0;
-float perSec = 0;
-FILE *f;
-
-
-//DWORD eaxSave,ebxSave,ecxSave,edxSave
-void __declspec(naked)  hookTest()
+//----------------------------- ON GAME START ---------------------------------
+void __declspec(naked) onGameStart()
 {
   {
-/*   if (BWAPI::count == 0)
-      ticksStart = (float)GetTickCount();
-   secs = ((float)GetTickCount() - ticksStart)/1000.0;
-   perSec = (float)BWAPI::count/secs;
-   f = fopen("hooked.log","at"); 
-   fprintf(f, "count: %d eax: %d ebx:%d ecx: %d edx %d, secs = %f, perSec = %f\n", BWAPI::count, lastEax, lastEbx, lastEcx, lastEdx, secs, perSec);
-   fclose(f);*/
-   if (lastEcx >= 0)
-   {
-     BWAPI::Broodwar.update();
-     BWAPI::Broodwar.test();
-   }
+    BWAPI::Broodwar.onGameStart();
+  }
+  __asm
+  {
+    call [BW::BWXFN_GameStartTarget]
+    jmp [BW::BWXFN_GameStartBack]
+  }
+}
+//------------------------------ ON GAME END ----------------------------------
+void __declspec(naked) onGameEnd()
+{
+  {
+    BWAPI::Broodwar.onGameEnd();
+  }
+  __asm
+  {
+    call [BW::BWXFN_GameEndTarget]
+    jmp [BW::BWXFN_GameEndBack]
+  }
+}
+//------------------------------- UPDATE ---------------------------------------
+DWORD lastEcx;
+void __declspec(naked)  hookTest()
+{
+  if (lastEcx >= 0)
+  {
+    BWAPI::Broodwar.update();
+    BWAPI::Broodwar.test();
   }
   __asm
   {
     call [target]
-    mov lastEax, eax;
-    mov lastEbx, ebx;
-    mov lastEcx, ecx;
-    mov lastEdx, edx;
+    mov lastEcx, ecx
     jmp [back]
   }
-  {
-    FILE *f = fopen("hooked.log","at"); 
-    fprintf(f, "Should never get here !!!\n");
-    fclose(f);
-  }
 }
+//----------------------------- JMP PATCH --------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)
 #pragma warning(disable:4312)
@@ -74,17 +73,23 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
 #pragma warning(pop)
-
+//------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   Sleep(2000);
-  JmpCallPatch(hookTest, 0x004D94ED, 0);
+  JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
+  JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
+  JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
   for ever
   {
-    BWAPI::Broodwar.changeSlot(BW::Orders::ChangeSlot::Computer, 1);
-    BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Zerg, 1);
-    BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Terran, 0);
-    Sleep(1000);
+    if (!BWAPI::Broodwar.isInGame())
+    {
+      BWAPI::Broodwar.changeSlot(BW::Orders::ChangeSlot::Computer, 1);
+      BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Zerg, 1);
+      BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Terran, 0); 
+      BWAPI::Broodwar.IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
+    }
+    Sleep(10000);
   }
   return 0;
 }

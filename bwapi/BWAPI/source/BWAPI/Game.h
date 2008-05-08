@@ -26,7 +26,8 @@ namespace BWAPI
      */
     void print(char *text) const;
     void printPublic(char *text) const; // doesn't work now
-    bool inGame(); // doesn't work now
+    bool isInGame();
+    void setInGame(bool inGame);
     /** 
      * Changes slot state in the pre-game lobby.
      * @param slot Desired state of the slot (Open/Closed/Computer)
@@ -46,7 +47,15 @@ namespace BWAPI
     void test(void);
     void __fastcall IssueCommand(PBYTE pbBuffer, int iSize);
     void addToCommandBuffer(Command *command);
+    void onGameStart();
+    void onGameEnd();
+    /** 
+     * Starts the game in the pre-game lobby.
+     * Should be used only in the pre-game lobby, and not during counting
+     */
+    void startGame();
   private :
+    bool inGame;
     BW::UnitArray* unitArrayCopy;
     BW::UnitArray* unitArrayCopyLocal;
     Unit* units[1700];
@@ -56,4 +65,6 @@ namespace BWAPI
     int frameCount;
   };
 };
+ 
+  
 

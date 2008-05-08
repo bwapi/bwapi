@@ -21,6 +21,7 @@ namespace BWAPI
 {
   //------------------------------ CONSTRUCTOR ----------------------------------
   Game::Game()
+  :inGame(false)
   {
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
@@ -256,12 +257,17 @@ namespace BWAPI
    JmpPatch(&Test,(PBYTE)0x48CC25,6);
   }
   //---------------------------------------------------------------------------
+  bool Game::isInGame()
+  {
+    return this->inGame;
+  }
+  //---------------------------------------------------------------------------
+  void Game::setInGame(bool inGame)
+  {
+    this->inGame = inGame;
+  }
   #pragma warning(push)
   #pragma warning(disable:4312)
-  bool Game::inGame()
-  {
-    return (*((unsigned char *)BW::BWFXN_InGame) != 0);
-  }
   //----------------------------------- PRINT ---------------------------------
   void Game::print(char *text) const
   {
@@ -289,6 +295,21 @@ namespace BWAPI
   void Game::addToCommandBuffer(Command *command)
   {
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
+  }
+  //----------------------------- ON GAME START ---------------------------------
+  void Game::onGameStart()
+  {
+    this->setInGame(true);
+  }
+  //------------------------------ ON GAME END ----------------------------------
+  void Game::onGameEnd()
+  {
+    this->setInGame(false);
+  }
+  //-----------------------------------------------------------------------------
+  void Game::startGame()
+  {
+   this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
   }
   //-----------------------------------------------------------------------------
 };

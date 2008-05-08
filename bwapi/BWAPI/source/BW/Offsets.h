@@ -56,6 +56,13 @@ namespace BW
   static int           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
   static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
   static UnitData*     BWXFN_CurrentPlayerSelectionGroup = (UnitData*) 0x005971F0;
+  static int           BWXFN_GameStart = 0x004C96A1;
+  static int           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
+  static int           BWXFN_GameStartTarget = 0x00417C10;
+  static int           BWXFN_GameEnd = 0x004EE5C3;
+  static int           BWXFN_GameEndBack = BWXFN_GameEnd + 5;
+  static int           BWXFN_GameEndTarget = 0x00416D80;
+  static int           BWXFN_NextFrameHelperFunction = 0x004D94ED;
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
   /** Direct mapping of players Protoss avialable supplies in the bw memory. */
