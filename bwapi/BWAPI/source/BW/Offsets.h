@@ -1,7 +1,14 @@
 #pragma once
 #include <windows.h>
 #include "../Types.h"
-
+/** 
+ * Broodwar content access tools.
+ * The namespace contains:
+ * <ul>
+ *   <li>1) Data structers corresponding to bw data structures</li>
+ *   <li>2) Offests to bw data/functions</li>
+ *   <li>3) Functions that communicate directly with broodwar.</li>
+ */
 namespace BW
 {
   struct Unit;
