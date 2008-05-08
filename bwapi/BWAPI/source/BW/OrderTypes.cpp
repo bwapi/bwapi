@@ -3,16 +3,6 @@
 #include "Offsets.h"
 namespace BW
 {
-  #pragma warning(push)
-  #pragma warning(disable:4311)
-  UnitTarget::UnitTarget(BWAPI::Unit *target)
-  {
-    if (target == NULL)
-      this->targetID = 0;
-    else
-      this->targetID = (int)((int)target->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11; 
-  };
-  #pragma warning(pop)
   namespace Orders
   {
 
