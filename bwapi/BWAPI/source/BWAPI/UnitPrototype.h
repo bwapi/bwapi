@@ -25,7 +25,6 @@ namespace BWAPI
                   const u16                   maxHealthPoints,
                   const u16                   maxShieldPoints,
                   const u16                   maxMana,
-                  const s32                   mineralPrice,
                   const s32                   gasPrice,
                   const u32                   abilityFlags);
     ~UnitPrototype();
@@ -38,7 +37,7 @@ namespace BWAPI
     u16                   getMaxShieldPoints() const;
     u16                   getMaxMana() const;
     s32                   getAbilityFlags() const;
-    s32                   getMineralPrice() const;
+    u16                   getMineralPrice() const;
     s32                   getGasPrice() const;
     
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
@@ -47,7 +46,7 @@ namespace BWAPI
     bool biological; // @todo implement sometimes
     bool mechanical;
     bool robotic;
-    s32 mineralPrice, gasPrice;
+    s32 gasPrice;
   private :
     /** Name of the unit, it is the same as what you see in the game when you click on it. */
     std::string           name;

@@ -54,6 +54,10 @@ namespace BWAPI
      * Should be used only in the pre-game lobby, and not during counting
      */
     void startGame();
+    int getMouseX();
+    int getMouseY();
+    int getScreenX();
+    int getScreenY();
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;

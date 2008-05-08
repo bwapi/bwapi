@@ -6,6 +6,7 @@
 
 #include "../BW/UnitData.h"
 #include "../BW/Position.h"
+#include "../BW/Offsets.h"
 
 namespace BWAPI
 {
@@ -17,7 +18,6 @@ namespace BWAPI
                                 const u16                   maxHealthPoints,
                                 const u16                   maxShieldPoints,
                                 const u16                   maxMana,
-                                const s32                   mineralPrice,
                                 const s32                   gasPrice,
                                 const u32                   abilityFlags)
     :name(name)
@@ -26,7 +26,6 @@ namespace BWAPI
     ,supplies(supplies)
     ,maxHealthPoints(maxHealthPoints)
     ,maxShieldPoints(maxShieldPoints)
-    ,mineralPrice(mineralPrice)
     ,gasPrice(gasPrice)
     ,maxMana(maxMana)
     ,abilityFlags(abilityFlags)
@@ -82,9 +81,9 @@ namespace BWAPI
     return this->abilityFlags;
   }
   //------------------------------ GET MINERAL PRICE ---------------------------
-  s32 UnitPrototype::getMineralPrice() const
+  u16 UnitPrototype::getMineralPrice() const
   {
-    return this->mineralPrice;
+    return BW::MineralPrices->mineralPrice[this->getUnitID()];
   }
   //------------------------------ GET GAS PRICE -------------------------------
   s32 UnitPrototype::getGasPrice() const
