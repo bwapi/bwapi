@@ -85,9 +85,10 @@ WARN_LOGFILE           = doxygen.log
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = BWAPI/Source/BW \
+INPUT                  = BWAPI/index.h \
+                         BWAPI/Source/BW \
                          BWAPI/Source/BWAPI \
-                         BWAPI/Source/Types.h \
+                         BWAPI/Source/Types.h
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \
                          *.h \
