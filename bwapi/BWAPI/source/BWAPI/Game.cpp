@@ -162,7 +162,7 @@ namespace BWAPI
       for (unsigned int i = 0; i < unitList.size(); i++)
       {
         reselected = true;
-        unitList[i]->orderMove(0,0,mineralList[i]);
+        unitList[i]->orderRightClick(mineralList[i]);
       }
     }
    

@@ -175,13 +175,16 @@ namespace BWAPI
      return this->getQueueLocal()[this->getQueueSlotLocal()] == 0xe4;
   }
   //-------------------------------- ORDER MOVE --------------------------------
-  void Unit::orderMove(u16 x,u16 y, Unit *target)
+  void Unit::orderRightClick(u16 x,u16 y)
   {
     this->orderSelect();
-    if (target == NULL)
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::Move(x, y), sizeof(BW::Orders::Move)); 
-    else
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::MoveTarget(target), sizeof(BW::Orders::MoveTarget)); 
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(x, y), sizeof(BW::Orders::RightClick)); 
+  }
+  //-------------------------------- ORDER MOVE --------------------------------
+  void Unit::orderRightClick(Unit *target)
+  {
+    this->orderSelect();
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(target), sizeof(BW::Orders::RightClick)); 
   }
   //-------------------------------- ORDER SELECT --------------------------------
   void Unit::orderSelect()

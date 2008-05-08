@@ -72,7 +72,8 @@ namespace BWAPI
       BW::UnitType::Enum *getQueue();
       BW::UnitType::Enum *getQueueLocal();
 
-      void orderMove(u16 x,u16 y, Unit *target);
+      void orderRightClick(u16 x,u16 y);
+      void orderRightClick(Unit *target);
       void trainUnit(UnitPrototype *type);
       void orderSelect();
       BW::UnitType::Enum getType();

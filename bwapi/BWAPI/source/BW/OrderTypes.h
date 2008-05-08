@@ -6,28 +6,25 @@ namespace BWAPI { class Unit; }
 #pragma pack(1)
 namespace BW
 {
+  class UnitTarget
+  {
+    public :
+      UnitTarget(BWAPI::Unit* target);
+    private :
+      u16 targetID;
+  };
   namespace Orders
   {
-    class Move
+    class RightClick
     {
       public :
-        Move(u16 x, u16 y);
+        RightClick(u16 x, u16 y);
+        RightClick(BWAPI::Unit *target);
       private :
         u8 always0x14;
         u16 x;
         u16 y;
-        u16 alwaysZero;
-        u8 always0xe4;
-        u16 alwaysZero2;
-    };
-    class MoveTarget
-    {
-      public :
-        MoveTarget(BWAPI::Unit *target);
-        u8 always0x14;
-        u16 x;
-        u16 y;
-        u16 unitOrder; // I hope
+        UnitTarget target;
         u8 always0xe4;
         u16 alwaysZero;
     };
@@ -37,7 +34,7 @@ namespace BW
       SelectSingle(BWAPI::Unit *select);
        u8 always0x09;
        u8 always0x01;
-       u16 unitID;
+       UnitTarget target;
    };
    class TrainUnit
    {

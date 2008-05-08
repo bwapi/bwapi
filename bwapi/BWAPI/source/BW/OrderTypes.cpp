@@ -3,38 +3,47 @@
 #include "Offsets.h"
 namespace BW
 {
+  #pragma warning(push)
+  #pragma warning(disable:4311)
+  UnitTarget::UnitTarget(BWAPI::Unit *target)
+  {
+    if (target == NULL)
+      this->targetID = 0;
+    else
+      this->targetID = (int)((int)target->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11; 
+  };
+  #pragma warning(pop)
   namespace Orders
   {
-    //---------------------------------- MOVE CONSTRUCTOR -----------------------------
-    Move::Move(u16 x, u16 y)
-    :x(x)
-    ,y(y)
-    ,always0x14(0x14)
-    ,alwaysZero(0x0)
+
+    //-------------------------------- RIGHT CLICK COONSTRUCTOR -----------------------
+    RightClick::RightClick(BWAPI::Unit *target)
+    :always0x14(0x14)
+    ,x(target->getPosition().x)
+    ,y(target->getPosition().y)
+    ,target(target)
     ,always0xe4(0xe4)
-    ,alwaysZero2(0x0)
+    ,alwaysZero(0x0)
     {
     }
-    #pragma warning(push)
-    #pragma warning(disable:4311)    
-    //---------------------------------- MOVE CONSTRUCTOR -----------------------------
-    MoveTarget::MoveTarget(BWAPI::Unit *target)
-    :x(target->getPosition().x)
-    ,y(target->getPosition().y)
-    ,always0x14(0x14)
-    ,alwaysZero(0x0)
+    //-------------------------------- RIGHT CLICK COONSTRUCTOR -----------------------
+    RightClick::RightClick(u16 x, u16 y)
+    :always0x14(0x14)
+    ,x(x)
+    ,y(y)
+    ,target(NULL)
     ,always0xe4(0xe4)
-    ,unitOrder((int)((int)target->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11)
+    ,alwaysZero(0x0)
     {
     }
     //------------------------------- SELECT SINGLE CONSTRUCTOR -----------------------
     SelectSingle::SelectSingle(BWAPI::Unit *select)
     :always0x09(0x09)
     ,always0x01(0x01)
-    ,unitID((int)((int)select->getOriginalRawData() - (int)BW::UnitNodeTable)/336 | 1 << 11)
+    ,target(select)
     {
     }
-    #pragma warning(pop)
+
     //--------------------------------- TRAIN UNIT CONSTRUCTOR ------------------------
     TrainUnit::TrainUnit(BW::UnitType::Enum unitID)
     :always0x1f(0x1f)
