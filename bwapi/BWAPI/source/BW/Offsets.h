@@ -4,10 +4,9 @@
 /** 
  * Broodwar content access tools.
  * The namespace contains:
- * <ul>
- *   <li>1) Data structers corresponding to bw data structures</li>
- *   <li>2) Offests to bw data/functions</li>
- *   <li>3) Functions that communicate directly with broodwar.</li>
+ * -# Data structers corresponding to bw data structures
+ * -# Offests to bw data/functions
+ * -# Functions that communicate directly with broodwar.
  */
 namespace BW
 {
@@ -16,6 +15,7 @@ namespace BW
   struct UnitData;
 
   //--------------------------------- MINERALS TYPE -----------------------------
+  /** Direct mapping of players mineral amount in the bw memory */
   struct PlayerMinerals_type
   {
     s32 player[12];
@@ -23,6 +23,7 @@ namespace BW
   static PlayerMinerals_type* PlayerMinerals = (PlayerMinerals_type*)0x0057F0D8;
 
   //------------------------------------ GAS TYPE -------------------------------
+  /** Direct mapping of players gas amount in the bw memory */
   struct PlayerGas_type
   {
     s32 player[12];
@@ -30,8 +31,10 @@ namespace BW
   static PlayerGas_type* PlayerGas = (PlayerGas_type*)0x0057F108;
 
   //----------------------------------- NAMES TYPE ------------------------------
+  /** Direct mapping of players names in the bw memory */
   struct PlayerNames_type
   {
+    /** Direct mapping of player name in bw memory. */
     struct PlayerName
     {
       char name[36];
@@ -54,9 +57,11 @@ namespace BW
   static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
   static UnitData*     BWXFN_CurrentPlayerSelectionGroup = (UnitData*) 0x005971F0;
   //------------------------------------ SUPPLIES -----------------------------
-   // -------- AVAILABLE PROTOSS
+  // -------- AVAILABLE PROTOSS
+  /** Direct mapping of players Protoss avialable supplies in the bw memory. */
   struct PlayerSupliesAvailableProtoss_type
   {
+    /** Direct mapping of player Protoss avialable supplies in the bw memory. */
     struct PlayerSuppliesAvaialableProtoss
     {
       s32 suppliesAvailableProtoss;
@@ -65,8 +70,10 @@ namespace BW
   };
   static PlayerSupliesAvailableProtoss_type* SuppliesAvaialbeProtoss = (PlayerSupliesAvailableProtoss_type*)  	0x0058224C;
   // ----- USED PROTOSS
+  /** Direct mapping of players Protoss used supplies in the bw memory. */
   struct PlayerSupliesUsedProtoss_type
   {
+    /** Direct mapping of player Protoss used supplies in the bw memory. */
     struct PlayerSuppliesUsedProtoss
     {
       s32 suppliesUsedProtoss;
@@ -75,8 +82,10 @@ namespace BW
   };
   static PlayerSupliesUsedProtoss_type* SuppliesUsedProtoss = (PlayerSupliesUsedProtoss_type*) 0x0058227C;
   // -------- AVAILABLE TERRAN
+  /** Direct mapping of players Terran avialable supplies in the bw memory. */
   struct PlayerSupliesAvailableTerran_type
   {
+   /** Direct mapping of player Terran avialable supplies in the bw memory. */
     struct PlayerSuppliesAvaialableTerran
     {
       s32 suppliesAvailableTerran;
@@ -85,8 +94,10 @@ namespace BW
   };
   static PlayerSupliesAvailableTerran_type* SuppliesAvaialbeTerran = (PlayerSupliesAvailableTerran_type*) 0x005821BC;
   // ----- USED TERRAN
+  /** Direct mapping of players Terran used supplies in the bw memory. */
   struct PlayerSupliesUsedTerran_type
   {
+   /** Direct mapping of player Terran used supplies in the bw memory. */
     struct PlayerSuppliesUsedTerran
     {
       s32 suppliesUsedTerran;
@@ -95,8 +106,10 @@ namespace BW
   };
   static PlayerSupliesUsedTerran_type* SuppliesUsedTerran = (PlayerSupliesUsedTerran_type*) 0x005821EC;
   // -------- AVAILABLE ZERG
+  /** Direct mapping of players Zerg avialable supplies in the bw memory. */
   struct PlayerSupliesAvailableZerg_type
   {
+    /** Direct mapping of players Zerg avialable supplies in the bw memory. */
     struct PlayerSuppliesAvaialableZerg
     {
       s32 suppliesAvailableZerg;
@@ -105,8 +118,10 @@ namespace BW
   };
   static PlayerSupliesAvailableZerg_type* SuppliesAvaialbeZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
   // ----- USED ZERG
+  /** Direct mapping of players Zerg used supplies in the bw memory. */
   struct PlayerSupliesUsedZerg_type
   {
+    /** Direct mapping of players Zerg used supplies in the bw memory. */
     struct PlayerSuppliesUsedZerg
     {
       s32 suppliesUsedZerg;

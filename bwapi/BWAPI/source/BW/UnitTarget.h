@@ -1,3 +1,4 @@
+#pragma once
 #include "../Types.h"
 namespace BWAPI { class Unit; }
 namespace BW
@@ -17,9 +18,9 @@ namespace BW
  class UnitTarget
   {
     public :
-      /** 
-       * Constructor, takes BWAPI unit pointer, and decodes it to bw index type.
-       */
+      /** Default contructor, sets x and y to 0. */
+      UnitTarget();
+      /** Constructor, takes BWAPI unit pointer, and decodes it to bw index type.*/
       UnitTarget(BWAPI::Unit* target);
     private :
       u16 targetID; /**< Unit index pointer stored in the way bw understands it */

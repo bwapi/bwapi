@@ -4,7 +4,7 @@
 #include "../BWAPI/Player.h"
 #include "../BWAPI/Globals.h"
 #include "../BWAPI/CommandTrain.h"
-//#include "../BWAPI/Game.h"
+#include "../BWAPI/CommandRightClick.h"
 
 #include "../BW/UnitData.h"
 #include "../BW/Offsets.h"
@@ -131,10 +131,15 @@ namespace BWAPI
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
   {
-    return this->bwUnitData->currentPos;
+    return this->bwUnitData->position;
   }
   //-------------------------------- GET RAW DATA ------------------------------
   BW::UnitData *Unit::getRawData()
+  {
+    return this->bwUnitData;
+  }
+  //-------------------------------- GET RAW DATA ------------------------------
+  const BW::UnitData *Unit::getRawData() const
   {
     return this->bwUnitData;
   }
@@ -143,15 +148,30 @@ namespace BWAPI
   {
     return this->bwUnitDataLocal;
   }
+  //------------------------------ GET RAW DATA LOCAL --------------------------
+  const BW::UnitData *Unit::getRawDataLocal() const
+  {
+    return this->bwUnitDataLocal;
+  }
   //------------------------------ GET ORIGINAL RAW DATA -----------------------
   BW::UnitData *Unit::getOriginalRawData()
+  {
+    return this->bwOriginalUnitData;
+  }
+  //------------------------------ GET ORIGINAL RAW DATA -----------------------
+  const BW::UnitData *Unit::getOriginalRawData() const
   {
     return this->bwOriginalUnitData;
   }
   //-------------------------------- GET ORDER ID ------------------------------
   BW::OrderID::Enum Unit::getOrderID() const
   {
-    return this->bwUnitData->orderID;
+    return this->getRawData()->orderID;
+  }
+  //-------------------------------- GET ORDER ID ------------------------------
+  BW::OrderID::Enum Unit::getOrderIDLocal() const
+  {
+    return this->getRawDataLocal()->orderID;
   }
   //------------------------------- GET DISTANCE -------------------------------
 
@@ -165,26 +185,27 @@ namespace BWAPI
   }
   #pragma warning(pop)
   //------------------------------ HAS EMPTY QUEUE -----------------------------
-  bool Unit::hasEmptyQueue(void)
+  bool Unit::hasEmptyBuildQueue(void)
   {
-     return this->getQueue()[this->getQueueSlot()] == 0xe4;
+     return this->getBuildQueue()[this->getBuildQueueSlot()] == 0xe4;
   }
   //------------------------------ HAS EMPTY QUEUE -----------------------------
-  bool Unit::hasEmptyQueueLocal(void)
+  bool Unit::hasEmptyBuildQueueLocal(void)
   {
-     return this->getQueueLocal()[this->getQueueSlotLocal()] == 0xe4;
+     return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == 0xe4;
   }
   //-------------------------------- ORDER MOVE --------------------------------
   void Unit::orderRightClick(u16 x,u16 y)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(x, y), sizeof(BW::Orders::RightClick)); 
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(x, y)), sizeof(BW::Orders::RightClick)); 
   }
   //-------------------------------- ORDER MOVE --------------------------------
   void Unit::orderRightClick(Unit *target)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(target), sizeof(BW::Orders::RightClick)); 
+    Broodwar.addToCommandBuffer(new CommandRightClick(this, target));
   }
   //-------------------------------- ORDER SELECT --------------------------------
   void Unit::orderSelect()
@@ -203,14 +224,14 @@ namespace BWAPI
     return this->getRawData()->unitID;
   }
   //---------------------------------- GET QUEUE -------------------------------
-  BW::UnitType::Enum* Unit::getQueue()
+  BW::UnitType::Enum* Unit::getBuildQueue()
   {
-    return this->getRawData()->queue;
+    return this->getRawData()->buildQueue;
   }
   //-------------------------------- GET QUEUE LOCAL  --------------------------
-  BW::UnitType::Enum* Unit::getQueueLocal()
+  BW::UnitType::Enum* Unit::getBuildQueueLocal()
   {
-    return this->getRawDataLocal()->queue;
+    return this->getRawDataLocal()->buildQueue;
   }
   //----------------------------------- TRAIN UNIT -----------------------------
   void Unit::trainUnit(UnitPrototype *type)
@@ -219,14 +240,14 @@ namespace BWAPI
     Broodwar.addToCommandBuffer(new CommandTrain(this, type));
   }
   //-------------------------------- GET QUEUE SLOT ----------------------------
-  u8 Unit::getQueueSlot()
+  u8 Unit::getBuildQueueSlot()
   {
-    return this->getRawData()->queueSlot;
+    return this->getRawData()->buildQueueSlot;
   }
   //------------------------------- GET QUEUE SLOT LOCAL -----------------------
-  u8 Unit::getQueueSlotLocal()
+  u8 Unit::getBuildQueueSlotLocal()
   {
-    return this->getOriginalRawData()->queueSlot;
+    return this->getOriginalRawData()->buildQueueSlot;
   }
   //----------------------------------------------------------------------------
 };

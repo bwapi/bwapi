@@ -5,7 +5,7 @@
 #include "../BW/UnitData.h"
 #include "../BW/UnitTypes.h"
 
-namespace BW { struct Position; };
+namespace BW { class Position; };
 namespace BW { struct UnitData; };
 namespace BWAPI { class UnitPrototype;  };
 namespace BWAPI { class AbilityPrototype;  };
@@ -14,75 +14,96 @@ namespace BWAPI { class Player;  };
 namespace BWAPI
 {
   /** 
-  * Interface of broodwar unit, can be used to obtain any information and issue commands.
+  * Interface for broodwar unit, can be used to obtain any information and issue commands.
   */
   class Unit
   {
     public:
-      /** Constructor
-      * @param bwUnitData pointer to broodwar unit data structure, the class will 
-      *                use that object to load information over time.
-      */
+      /** 
+
+       * @param bwUnitData         #bwUnitData                          
+       * @param bwOriginalUnitData #bwOriginalUnitData
+       * @param bwUnitDataLocal    #bwUnitDataLocal
+       *
+       */
       Unit(BW::UnitData* bwUnitData,
            BW::UnitData* bwOriginalUnitData,
            BW::UnitData* bwUnitDataLocal);
+      /** Nothing is deleted as no data are owned.*/
       ~Unit();
-      /**
-      * Gets health points of the current unit, note that this value can be lower 
-      * (by one) than the displayed value in in broodwar as broodwar doesn't want 
-      * to confuse users with 0 hitpoint unit (with non-zero hp fraction).
-      * @returns Integral part of hitpoints.
-      */
+      /** Gets #bwUnitData->BW#UnitData#unitID */
+      BW::UnitType::Enum getType();
+      /** Gets #bwUnitData->BW#UnitData#healthPoints. */
       u16 getHealthPoints() const; 
-      /**
-      * Gets the fraction of hitpoints 
-      * @returns values in interval 0-255 where 256 is equal to one hitpoint.
-      */
+      /** Gets #bwUnitData->BW#UnitData#healthPointsFraction. */
       u8 getHealthPointsFraction() const;
-      /**
-      * Gets shield points of the current unit
-      * @returns Integral part of shield points.
-      */
+      /** Gets #bwUnitData->BW#UnitData#shieldPoints. */
       u16 getShieldPoints() const; 
-      /**
-      * Gets the fraction of shield points
-      * @returns values in interval 0-255 where 256 is equal to one shield point,
-      */
+      /** Gets #bwUnitData->BW#UnitData#shieldPointsFraction. */
       u8 getShieldPointsFraction() const;
-      /**
-      * GetsPosition of the unit
-      * @returns BW_Position structure describing the position (defined in Types.h)
-      */
+      /** Gets #bwUnitData->BW#UnitData#position. */
       const BW::Position& getPosition() const;
-      u16 getDistance(Unit *unit) const; /**< Gets distance between this and the specified unit */
+      /** Gets owner of the unit defined by #bwUnitData->BW#UnitData#playerID. */
       Player* getOwner() const;
+      /** Gets prototype of the unit defined by #bwUnitData->BW#UnitData#unitID. */
       const UnitPrototype* const getPrototype() const;
+      /** Gets #bwUnitData->BW#UnitData#queueSlot. */
+      u8 getBuildQueueSlot();
+      /** Gets #bwUnitDataLocal->BW#UnitData#buildQueueSlot - @ref localData */
+      u8 getBuildQueueSlotLocal();
+      /** Gets distance between this and the specified unit. */
+      u16 getDistance(Unit *unit) const; 
+      /**< Gets bwUnitData->BW#UnitData#orderID. */
+      BW::OrderID::Enum getOrderID() const;
+      /**< Gets bwUnitDataLocal->BW#UnitData#orderID - @ref localData */
+      BW::OrderID::Enum getOrderIDLocal() const;
+      /** Gets #bwUnitData->BW#UnitData#buildQueue */
+      BW::UnitType::Enum *getBuildQueue();
+      /** Gets #bwUnitDataLocal->BW#UnitData#buildQueue - @ref localData*/
+      BW::UnitType::Enum *getBuildQueueLocal();
+
       bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
       bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
       void order(const AbilityPrototype* const ability, Unit* target);
       void order(const AbilityPrototype* const ability, const BW::Position& target);
       void order(int commandCode, const BW::Position& target);
-      bool isValid() const; /**< Gets if the unit is alive, it uses hp > 0 heuristic for now. */
+      /** Gets if the unit is alive, it uses hp > 0 heuristic for now. */
+      bool isValid() const;
+      /** Gets #bwUnitData */
       BW::UnitData *getRawData();
+      /** Gets #bwUnitData (const version that returns const pointer) */
+      const BW::UnitData *getRawData() const;
+      /** Gets #bwOriginalUnitData */
       BW::UnitData *getOriginalRawData();
+      /** Gets #bwOriginalUnit (const version that returns const pointer) */
+      const BW::UnitData *getOriginalRawData() const;
+      /** Gets #bwUnitDataLocal */
       BW::UnitData *getRawDataLocal();
-      BW::OrderID::Enum getOrderID() const;
-      bool hasEmptyQueue();
-      bool hasEmptyQueueLocal();
-      BW::UnitType::Enum *getQueue();
-      BW::UnitType::Enum *getQueueLocal();
-
+      /** Gets #bwUnitDataLocal (const version that returns const pointer)*/
+      const BW::UnitData *getRawDataLocal() const;
+      /** Returns if the unit has empty building queue */
+      bool hasEmptyBuildQueue();
+      /** Returns if the unit has empty building queue in the local version  - @ref localData*/
+      bool hasEmptyBuildQueueLocal();
+      /**
+       * Order this unit to right click on the specified location. 
+       * Note that right click on location will always result in move.
+       */
       void orderRightClick(u16 x,u16 y);
+      /**
+       * Orders this unit to right click on the specified unit.
+       * Note that right click on unit can result in lot of commands (attack, gather, follow, set relly point)
+       */
       void orderRightClick(Unit *target);
+      /** Orders this unit to train (construct) the specified unit. */
       void trainUnit(UnitPrototype *type);
+      /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
-      BW::UnitType::Enum getType();
-      u8 getQueueSlot();
-      u8 getQueueSlotLocal();
     private:
-      BW::UnitData* bwUnitData; /**< Pointer to broodwar unit data */
-      BW::UnitData* bwOriginalUnitData; /**< Pointer to broodwar unit data */
-      BW::UnitData* bwUnitDataLocal; /**< Pointer to precomputed broodwar data*/
+      BW::UnitData* bwUnitData; /**< Pointer to our copy of of unit data table. */
+      BW::UnitData* bwUnitDataLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
+      BW::UnitData* bwOriginalUnitData; /**< Pointer to broodwar unit data table. */
+      
   };
 };
 

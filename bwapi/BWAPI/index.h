@@ -13,22 +13,21 @@ use some hack tools.
 @section install Installation
 
 The library target is Windows Xp + Visual studio 2005 only for now. 
-<ul>
-  <li>1) Download latest sources. </li>
-  <li>2) Get Chaos launcher </li>
-  <li>3) Set Environment "ChaosDir" variable in windows (ControllPanels->System->Advanced->Envirenment variables) to your chaos launcher directory. </li> 
-  <li>4) Compile </li>
-  <li>5) Run Chaos launcher and click to use the BWAPI addon </li>
-</ul>
+To use the library:
+
+-# Download latest sources.
+-# Get Chaos launcher
+-# Set Environment "ChaosDir" variable in windows (ControllPanels->System->Advanced->Envirenment variables) to your chaos launcher directory.
+-# Compile
+-# Run Chaos launcher and click to use the BWAPI addon
 
 @section parametrization Parametrization of BW API
 
 @section design Overall Design
 
-@todo Ingame offset
-@todo lot of more
 */
 
 /** @page webpages Related webpages
-http://code.google.com/p/bwapi
+  http://code.google.com/p/bwapi - home of the bwapi library.
+  http://www.broodwarai.com/forums/index.php?showtopic=295 - Thread where the project started.
 */

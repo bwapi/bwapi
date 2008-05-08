@@ -9,19 +9,23 @@ namespace BW
     //-------------------------------- RIGHT CLICK COONSTRUCTOR -----------------------
     RightClick::RightClick(BWAPI::Unit *target)
     :always0x14(0x14)
-    ,x(target->getPosition().x)
-    ,y(target->getPosition().y)
     ,target(target)
     ,always0xe4(0xe4)
     ,alwaysZero(0x0)
     {
     }
     //-------------------------------- RIGHT CLICK COONSTRUCTOR -----------------------
-    RightClick::RightClick(u16 x, u16 y)
+    RightClick::RightClick(const BW::Position& target)
     :always0x14(0x14)
-    ,x(x)
-    ,y(y)
-    ,target(NULL)
+    ,target(target)
+    ,always0xe4(0xe4)
+    ,alwaysZero(0x0)
+    {
+    }
+    //-------------------------------- RIGHT CLICK COONSTRUCTOR -----------------------
+    RightClick::RightClick(const PositionUnitTarget& target)
+    :always0x14(0x14)
+    ,target(target)
     ,always0xe4(0xe4)
     ,alwaysZero(0x0)
     {

@@ -2,8 +2,8 @@
 
 #include "../BWAPI/Unit.h"
 #include "../BWAPI/AbilityPrototype.h"
+#include "../BWAPI/TargetType.h"
 
-#include "../BW/TargetType.h"
 #include "../BW/UnitData.h"
 #include "../BW/Position.h"
 

@@ -2,8 +2,7 @@
 
 #include "../BWAPI/AbilityPrototype.h"
 #include "../BWAPI/UnitPrototype.h"
-
-#include "../BW/TargetType.h"
+#include "../BWAPI/TargetType.h"
 
 namespace BWAPI
 {

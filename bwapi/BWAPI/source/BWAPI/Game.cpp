@@ -36,7 +36,7 @@ namespace BWAPI
                           &unitArrayCopyLocal->unit[i]);
 
     this->update();
-    this->latency = 2; // TODO: read from the address in update
+    this->latency = 2; // @todo read from the address in update
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -61,7 +61,6 @@ namespace BWAPI
         CALL [BWFXNIssuseCommand]
         }
      }
-  int count = 0;
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
@@ -86,7 +85,6 @@ namespace BWAPI
   {
    return cc->getDistance(unit1) < cc->getDistance(unit2);
   }
-  char *message = new char[30];
   //---------------------------------- TEST -----------------------------------
 
   void Game::test(void)
@@ -104,7 +102,7 @@ namespace BWAPI
     */
     FILE *f;
     f = fopen("bwapi.log","at"); 
-    fprintf(f, "Update %d\n", count);
+    fprintf(f, "Update %d\n", this->frameCount);
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
@@ -118,7 +116,7 @@ namespace BWAPI
         marwin = units[i]->getOwner();
         found = true;
         if (units[i]->getPrototype() == Prototypes::SCV &&
-            units[i]->getOrderID() == BW::OrderID::Idle)
+            units[i]->getOrderIDLocal() == BW::OrderID::Idle)
           unitList.push_back(this->units[i]);
         else
          if (units[i]->getPrototype() == Prototypes::CommandCenter)
@@ -138,15 +136,13 @@ namespace BWAPI
      fprintf(f, "Free Terran Suppplies %d\n", marwin->freeSuppliesTerranLocal());
      fprintf(f, "SCV supplie use %d\n", BWAPI::Prototypes::SCV->getSupplies());
      fprintf(f, "SCV mineral price %d\n", BWAPI::Prototypes::SCV->getMineralPrice());
-     if (cc->hasEmptyQueueLocal() && 
+     if (cc->hasEmptyBuildQueueLocal() && 
          marwin->getMineralsLocal() >= BWAPI::Prototypes::SCV->getMineralPrice() &&
          marwin->freeSuppliesTerranLocal() >= BWAPI::Prototypes::SCV->getSupplies())
       {
         reselected = true;
         cc->orderSelect();
         cc->trainUnit(BWAPI::Prototypes::SCV);
-        
-        //memcpy(marwin->selectedUnit(), selected, 4*12);
       }
     }
     if (unitList.size() != 0)
@@ -166,14 +162,6 @@ namespace BWAPI
       }
     }
    
-    if (found)
-      count++;
-    else
-    {
-      this->changeSlot(BW::Orders::ChangeSlot::Computer, 1);
-      this->changeRace(BW::Orders::ChangeRace::Zerg, 1);
-      this->changeRace(BW::Orders::ChangeRace::Terran, 0);
-    }
    if (reselected)
     {
       int unitCount = 0;
@@ -184,11 +172,9 @@ namespace BWAPI
     }
     if (selected)
       delete [] selected;
-    count ++;
     
-    sprintf(message, "Update %d", count);
-    //this->print(message);
     fclose(f);
+    frameCount ++;
   }
   //----------------------------- JMP PATCH -----------------------------------
   

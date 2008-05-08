@@ -85,7 +85,8 @@ WARN_LOGFILE           = doxygen.log
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = BWAPI/index.h \
+INPUT                  = BWAPI/index.h \ 
+                         BWAPI/pages.h \
                          BWAPI/Source/BW \
                          BWAPI/Source/BWAPI \
                          BWAPI/Source/Types.h
@@ -224,8 +225,8 @@ COLLABORATION_GRAPH    = NO
 GROUP_GRAPHS           = YES
 UML_LOOK               = NO
 TEMPLATE_RELATIONS     = YES
-INCLUDE_GRAPH          = NO
-INCLUDED_BY_GRAPH      = NO
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
 CALL_GRAPH             = NO
 CALLER_GRAPH           = NO
 GRAPHICAL_HIERARCHY    = YES

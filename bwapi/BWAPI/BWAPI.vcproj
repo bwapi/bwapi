@@ -181,6 +181,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\index.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pages.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\StaticAssert.h"
 				>
 			</File>
@@ -220,15 +228,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\Position.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Position.h"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\Sprite.h"
+					RelativePath=".\source\BW\PositionUnitTarget.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\TargetType.h"
+					RelativePath=".\source\BW\PositionUnitTarget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\Sprite.h"
 					>
 				</File>
 				<File
@@ -272,6 +288,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BWAPI\CommandRightClick.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandRightClick.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandTrain.cpp"
 					>
 				</File>
@@ -309,6 +333,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\RaceTypes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\TargetType.h"
 					>
 				</File>
 				<File
