@@ -1,5 +1,6 @@
 #include "UnitPrototypeDefinitions.h"
 #include "..//BW//UnitTypes.h"
+#include "..//BWAPI//RaceTypes.h"
 
 namespace BWAPI
 {
@@ -43,28 +44,28 @@ namespace BWAPI
     AbilityPrototype* Stims           = new AbilityPrototype(11, "Use stimpacks",      0,        0,   0, TargetType::TARGET_SELF);
     
     s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove | AbilityFlags::Attack;
-    /*                                                Unit name                 ID                    hp shield  sp  min  gas  target flags*/
+    /*                                                Unit name                 ID                                    Race            supply  hp shield sp   min  gas  target flags*/
     /** Terran */
-    UnitPrototype* SCV            = new UnitPrototype("Terran SCV"            , BW::UnitType::Terran_SCV,              60,    0,   0,  50,   0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Marine         = new UnitPrototype("Terran Marine"         , BW::UnitType::Terran_Marine,           40,    0,   0,  50,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
-    UnitPrototype* CommandCenter  = new UnitPrototype("Terran Command Center" , BW::UnitType::Terran_CommandCenter , 1500,    0,   0, 400,   0, 0);
-    UnitPrototype* SupplyDepot    = new UnitPrototype("Terran Supply depot"   , BW::UnitType::Terran_SupplyDepot,     500,    0,   0, 100,   0, 0);
-    UnitPrototype* Barracks       = new UnitPrototype("Terran Barracks"       , BW::UnitType::Terran_Barracks,       1000,    0,   0, 150,   0, 0);
+    UnitPrototype* SCV            = new UnitPrototype("Terran SCV"            , BW::UnitType::Terran_SCV,             RaceType::Terran,  2,   60,    0,   0,  50,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Marine         = new UnitPrototype("Terran Marine"         , BW::UnitType::Terran_Marine,          RaceType::Terran,  2,   40,    0,   0,  50,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
+    UnitPrototype* CommandCenter  = new UnitPrototype("Terran Command Center" , BW::UnitType::Terran_CommandCenter,   RaceType::Terran,  0, 1500,    0,   0, 400,   0, 0);
+    UnitPrototype* SupplyDepot    = new UnitPrototype("Terran Supply depot"   , BW::UnitType::Terran_SupplyDepot,     RaceType::Terran,  0,  500,    0,   0, 100,   0, 0);
+    UnitPrototype* Barracks       = new UnitPrototype("Terran Barracks"       , BW::UnitType::Terran_Barracks,        RaceType::Terran,  0, 1000,    0,   0, 150,   0, 0);
     /** Protoss*/
-    UnitPrototype* Probe          = new UnitPrototype("Protoss Probe"         , BW::UnitType::Protoss_Probe,           20,   20,   0,  50,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
-    UnitPrototype* Zealot         = new UnitPrototype("Protoss Zealot"        , BW::UnitType::Protoss_Zealot,         100,   80,   0, 100,   0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Nexus          = new UnitPrototype("Protoss Nexus"         , BW::UnitType::Protoss_Nexus,          750,  750,   0, 400,   0, 0);
-    UnitPrototype* Pylon          = new UnitPrototype("Protoss Pylon"         , BW::UnitType::Protoss_Pylon,          300,  300,   0, 100,   0, 0);
-    UnitPrototype* Gateway        = new UnitPrototype("Protoss Gateway"       , BW::UnitType::Protoss_Gateway,        500,  500,   0, 150,   0, 0);
+    UnitPrototype* Probe          = new UnitPrototype("Protoss Probe"         , BW::UnitType::Protoss_Probe,          RaceType::Protoss, 2,   20,   20,   0,  50,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Zealot         = new UnitPrototype("Protoss Zealot"        , BW::UnitType::Protoss_Zealot,         RaceType::Protoss, 4,  100,   80,   0, 100,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Nexus          = new UnitPrototype("Protoss Nexus"         , BW::UnitType::Protoss_Nexus,          RaceType::Protoss, 0,  750,  750,   0, 400,   0, 0);
+    UnitPrototype* Pylon          = new UnitPrototype("Protoss Pylon"         , BW::UnitType::Protoss_Pylon,          RaceType::Protoss, 0,  300,  300,   0, 100,   0, 0);
+    UnitPrototype* Gateway        = new UnitPrototype("Protoss Gateway"       , BW::UnitType::Protoss_Gateway,        RaceType::Protoss, 0,  500,  500,   0, 150,   0, 0);
     /** Zerg */
-    UnitPrototype* Drone          = new UnitPrototype("Drone"                 , BW::UnitType::Zerg_Drone,              40,    0,   0,  50,   0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Larva          = new UnitPrototype("Larva"                 , BW::UnitType::Zerg_Larva,              10,    0,   0,   0,   0, 0);
-    UnitPrototype* Overlord       = new UnitPrototype("Overlord"              , BW::UnitType::Zerg_Overlord,          100,    0,   0, 100,   0, AbilityFlags::Move);
-    UnitPrototype* Zergling       = new UnitPrototype("Zergling"              , BW::UnitType::Zerg_Zergling,           35,    0,   0,  50,   0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Queen          = new UnitPrototype("Zerg Queen"            , BW::UnitType::Zerg_Queen,             100,    0, 200, 100, 100, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
-    UnitPrototype* Hatchery       = new UnitPrototype("Zerg Hatchery"         , BW::UnitType::Zerg_Hatchery,         1250,    0,   0, 300,   0, 0);
-    UnitPrototype* SpawningPool   = new UnitPrototype("Zerg Spawning pool"    , BW::UnitType::Zerg_SpawningPool,      750,    0,   0, 200,   0, 0);
+    UnitPrototype* Drone          = new UnitPrototype("Drone"                 , BW::UnitType::Zerg_Drone,             RaceType::Zerg,    2,   40,    0,   0,  50,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Larva          = new UnitPrototype("Larva"                 , BW::UnitType::Zerg_Larva,             RaceType::Zerg,    0,   10,    0,   0,   0,   0, 0);
+    UnitPrototype* Overlord       = new UnitPrototype("Overlord"              , BW::UnitType::Zerg_Overlord,          RaceType::Zerg,    0,  100,    0,   0, 100,   0, AbilityFlags::Move);
+    UnitPrototype* Zergling       = new UnitPrototype("Zergling"              , BW::UnitType::Zerg_Zergling,          RaceType::Zerg,    1,   35,    0,   0,  50,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Queen          = new UnitPrototype("Zerg Queen"            , BW::UnitType::Zerg_Queen,             RaceType::Zerg,    4,  100,    0, 200, 100, 100, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
+    UnitPrototype* Hatchery       = new UnitPrototype("Zerg Hatchery"         , BW::UnitType::Zerg_Hatchery,          RaceType::Zerg,    0, 1250,    0,   0, 300,   0, 0);
+    UnitPrototype* SpawningPool   = new UnitPrototype("Zerg Spawning pool"    , BW::UnitType::Zerg_SpawningPool,      RaceType::Zerg,    0,  750,    0,   0, 200,   0, 0);
     /** Neutral */
-    UnitPrototype* Minerals       = new UnitPrototype("Minerals"              , BW::UnitType::Resource_MineralPatch1,   0,    0,   0,   0,   0, 0);    
+    UnitPrototype* Minerals       = new UnitPrototype("Minerals"              , BW::UnitType::Resource_MineralPatch1, RaceType::Other,   0,    0,    0,   0,   0,   0, 0);    
    }
 }

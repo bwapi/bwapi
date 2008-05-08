@@ -10,18 +10,24 @@
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  UnitPrototype::UnitPrototype( const std::string&       name, 
-                                const BW::UnitType::Enum unitID,
-                                const u16                maxHealthPoints,
-                                const u16                maxShieldPoints,
-                                const u16                maxMana,
-                                const s32                mineralPrice,
-                                const s32                gasPrice,
-                                const u32                abilityFlags)
+  UnitPrototype::UnitPrototype( const std::string&          name, 
+                                const BW::UnitType::Enum    unitID,
+                                const BWAPI::RaceType::Enum race,
+                                const u8                    supplies,
+                                const u16                   maxHealthPoints,
+                                const u16                   maxShieldPoints,
+                                const u16                   maxMana,
+                                const s32                   mineralPrice,
+                                const s32                   gasPrice,
+                                const u32                   abilityFlags)
     :name(name)
     ,unitID(unitID)
+    ,race(race)
+    ,supplies(supplies)
     ,maxHealthPoints(maxHealthPoints)
     ,maxShieldPoints(maxShieldPoints)
+    ,mineralPrice(mineralPrice)
+    ,gasPrice(gasPrice)
     ,maxMana(maxMana)
     ,abilityFlags(abilityFlags)
   {
@@ -86,4 +92,13 @@ namespace BWAPI
     return this->gasPrice;
   }
   //----------------------------------------------------------------------------
+  BWAPI::RaceType::Enum UnitPrototype::getRace() const
+  {
+    return this->race;
+  }
+  //----------------------------------------------------------------------------
+  s8 UnitPrototype::getSupplies() const
+  {
+    return this->supplies;
+  }
 };
