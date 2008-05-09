@@ -57,6 +57,10 @@ namespace BWAPI
        case BW::UnitType::Terran_SupplyDepot     : return BWAPI::Prototypes::SupplyDepot;
        case BW::UnitType::Terran_Barracks        : return BWAPI::Prototypes::Barracks;
        case BW::UnitType::Terran_Marine          : return BWAPI::Prototypes::Marine;
+       case BW::UnitType::Terran_Ghost           : return BWAPI::Prototypes::Ghost;
+       case BW::UnitType::Terran_Goliath         : return BWAPI::Prototypes::Goliath;
+       case BW::UnitType::Terran_Wraith          : return BWAPI::Prototypes::Wraith;
+       case BW::UnitType::Terran_BattleCruiser   : return BWAPI::Prototypes::BattleCruiser;
        /** Protoss*/
        case BW::UnitType::Protoss_Probe          : return BWAPI::Prototypes::Probe;
        case BW::UnitType::Protoss_Zealot         : return BWAPI::Prototypes::Zealot;

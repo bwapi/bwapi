@@ -70,6 +70,8 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
 #pragma warning(pop)
+#include "BWAPI/UnitPrototype.h"
+#include "BWAPI/UnitPrototypeDefinitions.h"
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
@@ -86,7 +88,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
       BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Terran, 0); 
       BWAPI::Broodwar.IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
     }
-    Sleep(10000);
+    Sleep(6000);
   }
   return 0;
 }
