@@ -35,6 +35,7 @@ namespace BWAPI
     s32                   getAbilityFlags() const;
     u16                   getMineralPrice() const;
     u16                   getGasPrice() const;
+    u8                    getArmor() const;
     
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
     bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
