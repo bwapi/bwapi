@@ -126,6 +126,9 @@ namespace BWAPI
     fprintf(f, "Goliath hp =  %d\n", BWAPI::Prototypes::Goliath->getMaxHealthPoints());
     fprintf(f, "Wraith hp =  %d\n", BWAPI::Prototypes::Wraith->getMaxHealthPoints());
     fprintf(f, "BattleCruiser hp =  %d\n", BWAPI::Prototypes::BattleCruiser->getMaxHealthPoints());
+    fprintf(f, "Probe shields =  %d\n", BWAPI::Prototypes::Probe->getMaxShieldPoints());
+    fprintf(f, "Zealot shields =  %d\n", BWAPI::Prototypes::Zealot->getMaxShieldPoints());
+    fprintf(f, "Nexus shields =  %d\n", BWAPI::Prototypes::Nexus->getMaxShieldPoints());
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;

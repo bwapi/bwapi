@@ -14,14 +14,11 @@ namespace BWAPI
   UnitPrototype::UnitPrototype( const std::string&          name, 
                                 const BW::UnitType::Enum    unitID,
                                 const BWAPI::RaceType::Enum race,
-                                const u16                   maxShieldPoints,
                                 const u16                   maxMana,
                                 const u32                   abilityFlags)
     :name(name)
     ,unitID(unitID)
     ,race(race)
-    ,maxHealthPoints(maxHealthPoints)
-    ,maxShieldPoints(maxShieldPoints)
     ,maxMana(maxMana)
     ,abilityFlags(abilityFlags)
   {
@@ -48,7 +45,7 @@ namespace BWAPI
   //------------------------- GET MAX HEALTH POINTS -----------------------------
   u16 UnitPrototype::getMaxShieldPoints() const
   {
-    return this->maxShieldPoints;
+    return BW::BWXFN_MaxShieldPoints->maxShieldPoints[this->getUnitID()];
   }
   //----------------------------- GET MAX MANA ----------------------------------
   u16 UnitPrototype::getMaxMana() const
