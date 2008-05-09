@@ -29,6 +29,11 @@ namespace BWAPI
     extern UnitPrototype* CommandCenter;
     extern UnitPrototype* SupplyDepot;
     extern UnitPrototype* Barracks;
+    extern UnitPrototype* Goliath;
+    extern UnitPrototype* Ghost;
+    extern UnitPrototype* Wraith;
+    extern UnitPrototype* BattleCruiser;
+    extern UnitPrototype* Vulture;
     /** Protoss */
     extern UnitPrototype* Probe;
     extern UnitPrototype* Zealot;

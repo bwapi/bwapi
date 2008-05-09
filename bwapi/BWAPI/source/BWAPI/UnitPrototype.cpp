@@ -14,17 +14,14 @@ namespace BWAPI
   UnitPrototype::UnitPrototype( const std::string&          name, 
                                 const BW::UnitType::Enum    unitID,
                                 const BWAPI::RaceType::Enum race,
-                                const u16                   maxHealthPoints,
                                 const u16                   maxShieldPoints,
                                 const u16                   maxMana,
-                                const s32                   gasPrice,
                                 const u32                   abilityFlags)
     :name(name)
     ,unitID(unitID)
     ,race(race)
     ,maxHealthPoints(maxHealthPoints)
     ,maxShieldPoints(maxShieldPoints)
-    ,gasPrice(gasPrice)
     ,maxMana(maxMana)
     ,abilityFlags(abilityFlags)
   {
@@ -46,7 +43,7 @@ namespace BWAPI
   //------------------------- GET MAX HEALTH POINTS -----------------------------
   u16 UnitPrototype::getMaxHealthPoints() const
   {
-    return this->maxHealthPoints;
+    return BW::BWXFN_MaxHealthPoints_NotAttackable_Repairable->raw[this->getUnitID()].maxHealthPoints;
   }
   //------------------------- GET MAX HEALTH POINTS -----------------------------
   u16 UnitPrototype::getMaxShieldPoints() const
@@ -81,12 +78,12 @@ namespace BWAPI
   //------------------------------ GET MINERAL PRICE ---------------------------
   u16 UnitPrototype::getMineralPrice() const
   {
-    return BW::MineralPrices->mineralPrice[this->getUnitID()];
+    return BW::BWXFN_MineralPrices->mineralPrice[this->getUnitID()];
   }
   //------------------------------ GET GAS PRICE -------------------------------
-  s32 UnitPrototype::getGasPrice() const
+  u16 UnitPrototype::getGasPrice() const
   {
-    return this->gasPrice;
+    return BW::BWXFN_GasPrices->gasPrice[this->getUnitID()];
   }
   //-------------------------------- GET RACE ----------------------------------
   BWAPI::RaceType::Enum UnitPrototype::getRace() const
@@ -96,6 +93,7 @@ namespace BWAPI
   //------------------------------- GET SUPPLIES -------------------------------
   s8 UnitPrototype::getSupplies() const
   {
-    return BW::SupplyDemands->supplyDemand[this->getUnitID()];
+    return BW::BWXFN_SupplyDemands->supplyDemand[this->getUnitID()];
   }
+  //----------------------------------------------------------------------------
 };

@@ -15,22 +15,22 @@ namespace BWAPI
   //-------------------------------- GET NAME ---------------------------------
   char* Player::getName() const
   {
-    return BW::PlayerNames->player[this->getID()].name;
+    return BW::BWXFN_PlayerNames->player[this->getID()].name;
   }
   //-------------------------------- SET NAME ---------------------------------
   void Player::setName(const char* const name)
   {
-    strcpy(BW::PlayerNames->player[this->getID()].name, name);
+    strcpy(BW::BWXFN_PlayerNames->player[this->getID()].name, name);
   }
   //------------------------------- GET MINERALS ------------------------------
   s32 Player::getMinerals() const
   {
-    return BW::PlayerMinerals->player[this->getID()];
+    return BW::BWXFN_PlayerMinerals->player[this->getID()];
   }
   //--------------------------------- GET GAS ---------------------------------
   s32 Player::getGas() const
   {
-    return BW::PlayerGas->player[this->getID()];
+    return BW::BWXFN_PlayerGas->player[this->getID()];
   }
   //---------------------------------- GET ID ---------------------------------
   u8 Player::getID() const
@@ -72,7 +72,7 @@ namespace BWAPI
    //---------------------------- GET SUPPLY AVAILABLE PROTOSS ----------------
   s32 Player::getSuppliesAvailableProtoss()
   {
-     return BW::SuppliesAvaialbeProtoss->player[this->getID()].suppliesAvailableProtoss;
+     return BW::BWXFN_SuppliesAvaialbeProtoss->player[this->getID()].suppliesAvailableProtoss;
   }
   //------------------------- GET SUPPLY AVAILABLE PROTOSS LOCAL --------------
   s32 Player::getSuppliesAvailableProtossLocal()
@@ -82,7 +82,7 @@ namespace BWAPI
   //------------------------------ GET SUPPLY USED PROTOSS --------------------
   s32 Player::getSuppliesUsedProtoss()
   {
-   return BW::SuppliesUsedProtoss->player[this->getID()].suppliesUsedProtoss;
+   return BW::BWXFN_SuppliesUsedProtoss->player[this->getID()].suppliesUsedProtoss;
   }
   //------------------------- GET SUPPLY AVAILABLE PROTOSS LOCAL --------------
   s32 Player::getSuppliesUsedProtossLocal()
@@ -102,7 +102,7 @@ namespace BWAPI
   //---------------------------- GET SUPPLY AVAILABLE TERRAN ------------------
   s32 Player::getSuppliesAvailableTerran()
   {
-     return BW::SuppliesAvaialbeTerran->player[this->getID()].suppliesAvailableTerran;
+     return BW::BWXFN_SuppliesAvaialbeTerran->player[this->getID()].suppliesAvailableTerran;
   }
   //------------------------- GET SUPPLY AVAILABLE TERRAN LOCAL ---------------
   s32 Player::getSuppliesAvailableTerranLocal()
@@ -112,7 +112,7 @@ namespace BWAPI
   //------------------------------ GET SUPPLY USED TERRAN ---------------------
   s32 Player::getSuppliesUsedTerran()
   {
-   return BW::SuppliesUsedTerran->player[this->getID()].suppliesUsedTerran;
+   return BW::BWXFN_SuppliesUsedTerran->player[this->getID()].suppliesUsedTerran;
   }
   //------------------------- GET SUPPLY AVAILABLE TERRAN LOCAL ---------------
   s32 Player::getSuppliesUsedTerranLocal()
@@ -132,7 +132,7 @@ namespace BWAPI
   //---------------------------- GET SUPPLY AVAILABLE ZERG --------------------
   s32 Player::getSuppliesAvailableZerg()
   {
-     return BW::SuppliesAvaialbeZerg->player[this->getID()].suppliesAvailableZerg;
+     return BW::BWXFN_SuppliesAvaialbeZerg->player[this->getID()].suppliesAvailableZerg;
   }
   //------------------------- GET SUPPLY AVAILABLE ZERG LOCAL -----------------
   s32 Player::getSuppliesAvailableZergLocal()
@@ -142,7 +142,7 @@ namespace BWAPI
   //------------------------------ GET SUPPLY USED ZERG -----------------------
   s32 Player::getSuppliesUsedZerg()
   {
-   return BW::SuppliesUsedZerg->player[this->getID()].suppliesUsedZerg;
+   return BW::BWXFN_SuppliesUsedZerg->player[this->getID()].suppliesUsedZerg;
   }
   //------------------------- GET SUPPLY AVAILABLE ZERG LOCAL -----------------
   s32 Player::getSuppliesUsedZergLocal()

@@ -33,7 +33,7 @@ namespace BWAPI
     
     for (int i = 0; i < 1700; i++)
       units[i] = new Unit(&unitArrayCopy->unit[i], 
-                          &BW::UnitNodeTable->unit[i],
+                          &BW::BWXFN_UnitNodeTable->unit[i],
                           &unitArrayCopyLocal->unit[i]);
 
     this->update();
@@ -65,8 +65,8 @@ namespace BWAPI
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
-    memcpy(this->unitArrayCopy, BW::UnitNodeTable, sizeof(BW::UnitArray));
-    memcpy(this->unitArrayCopyLocal, BW::UnitNodeTable, sizeof(BW::UnitArray));
+    memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
+    memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
     for (int i = 0; i < 12; i++)
       this->players[i]->update();
     this->players[11]->setName("Player 12 (Neutral)");
@@ -119,7 +119,13 @@ namespace BWAPI
 
     FILE *f = fopen("bwapi.log","at"); 
     fprintf(f, "Update %d\n", this->frameCount);
-    fprintf(f, "SCV price =  %d\n", BWAPI::Prototypes::SCV->getMineralPrice());
+    //fprintf(f, "Mutalisk hp =  %d\n", BWAPI::Prototypes::Mutalisk->getMaxHealthPoints());
+    fprintf(f, "Marine hp =  %d\n", BWAPI::Prototypes::Marine->getMaxHealthPoints());
+    fprintf(f, "Ghost hp =  %d\n", BWAPI::Prototypes::Ghost->getMaxHealthPoints());
+    fprintf(f, "Vulture hp =  %d\n", BWAPI::Prototypes::Vulture->getMaxHealthPoints());
+    fprintf(f, "Goliath hp =  %d\n", BWAPI::Prototypes::Goliath->getMaxHealthPoints());
+    fprintf(f, "Wraith hp =  %d\n", BWAPI::Prototypes::Wraith->getMaxHealthPoints());
+    fprintf(f, "BattleCruiser hp =  %d\n", BWAPI::Prototypes::BattleCruiser->getMaxHealthPoints());
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;

@@ -1,4 +1,5 @@
 #pragma once
+#pragma pack(1)
 #include <windows.h>
 #include "../Types.h"
 /** 
@@ -20,7 +21,7 @@ namespace BW
   {
     s32 player[12];
   };
-  static PlayerMinerals_type* PlayerMinerals = (PlayerMinerals_type*)0x0057F0D8;
+  static PlayerMinerals_type* BWXFN_PlayerMinerals = (PlayerMinerals_type*)0x0057F0D8;
 
   //------------------------------------ GAS TYPE -------------------------------
   /** Direct mapping of players gas amount in the bw memory */
@@ -28,7 +29,7 @@ namespace BW
   {
     s32 player[12];
   };
-  static PlayerGas_type* PlayerGas = (PlayerGas_type*)0x0057F108;
+  static PlayerGas_type* BWXFN_PlayerGas = (PlayerGas_type*)0x0057F108;
 
   //----------------------------------- NAMES TYPE ------------------------------
   /** Direct mapping of players names in the bw memory */
@@ -41,12 +42,12 @@ namespace BW
     };
     PlayerName player[8];
   };
-  static PlayerNames_type* PlayerNames = (PlayerNames_type*)0x0057EEEB;
+  static PlayerNames_type* BWXFN_PlayerNames = (PlayerNames_type*)0x0057EEEB;
 
 
-  static Unit*         UnitNodeTable_LastElement = (Unit*)0x00628280;
-  static Unit*         UnitNodeTable_FirstElement = (Unit*)0x0059CB40;
-  static UnitArray*    UnitNodeTable = (UnitArray*)UnitNodeTable_FirstElement;
+  static Unit*         BWXFN_UnitNodeTable_LastElement = (Unit*)0x00628280;
+  static Unit*         BWXFN_UnitNodeTable_FirstElement = (Unit*)0x0059CB40;
+  static UnitArray*    BWXFN_UnitNodeTable = (UnitArray*) BWXFN_UnitNodeTable_FirstElement;
 
   static u32           BWFXN_CommandUnit = 0x4BFF80;
   static u32           BWFXN_IssueCommand = 0x4858F0;
@@ -77,7 +78,7 @@ namespace BW
     };
     PlayerSuppliesAvaialableProtoss player[8];
   };
-  static PlayerSupliesAvailableProtoss_type* SuppliesAvaialbeProtoss = (PlayerSupliesAvailableProtoss_type*)  	0x0058224C;
+  static PlayerSupliesAvailableProtoss_type* BWXFN_SuppliesAvaialbeProtoss = (PlayerSupliesAvailableProtoss_type*)  	0x0058224C;
   // ----- USED PROTOSS
   /** Direct mapping of players Protoss used supplies in the bw memory. */
   struct PlayerSupliesUsedProtoss_type
@@ -89,7 +90,7 @@ namespace BW
     };
     PlayerSuppliesUsedProtoss player[8];
   };
-  static PlayerSupliesUsedProtoss_type* SuppliesUsedProtoss = (PlayerSupliesUsedProtoss_type*) 0x0058227C;
+  static PlayerSupliesUsedProtoss_type* BWXFN_SuppliesUsedProtoss = (PlayerSupliesUsedProtoss_type*) 0x0058227C;
   // -------- AVAILABLE TERRAN
   /** Direct mapping of players Terran avialable supplies in the bw memory. */
   struct PlayerSupliesAvailableTerran_type
@@ -101,7 +102,7 @@ namespace BW
     };
     PlayerSuppliesAvaialableTerran player[8];
   };
-  static PlayerSupliesAvailableTerran_type* SuppliesAvaialbeTerran = (PlayerSupliesAvailableTerran_type*) 0x005821BC;
+  static PlayerSupliesAvailableTerran_type* BWXFN_SuppliesAvaialbeTerran = (PlayerSupliesAvailableTerran_type*) 0x005821BC;
   // ----- USED TERRAN
   /** Direct mapping of players Terran used supplies in the bw memory. */
   struct PlayerSupliesUsedTerran_type
@@ -113,7 +114,7 @@ namespace BW
     };
     PlayerSuppliesUsedTerran player[8];
   };
-  static PlayerSupliesUsedTerran_type* SuppliesUsedTerran = (PlayerSupliesUsedTerran_type*) 0x005821EC;
+  static PlayerSupliesUsedTerran_type* BWXFN_SuppliesUsedTerran = (PlayerSupliesUsedTerran_type*) 0x005821EC;
   // -------- AVAILABLE ZERG
   /** Direct mapping of players Zerg avialable supplies in the bw memory. */
   struct PlayerSupliesAvailableZerg_type
@@ -125,7 +126,7 @@ namespace BW
     };
     PlayerSuppliesAvaialableZerg player[8];
   };
-  static PlayerSupliesAvailableZerg_type* SuppliesAvaialbeZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
+  static PlayerSupliesAvailableZerg_type* BWXFN_SuppliesAvaialbeZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
   // ----- USED ZERG
   /** Direct mapping of players Zerg used supplies in the bw memory. */
   struct PlayerSupliesUsedZerg_type
@@ -137,7 +138,7 @@ namespace BW
     };
     PlayerSuppliesUsedZerg player[8];
   };
-  static PlayerSupliesUsedZerg_type* SuppliesUsedZerg = (PlayerSupliesUsedZerg_type*) 0x0058215C;
+  static PlayerSupliesUsedZerg_type* BWXFN_SuppliesUsedZerg = (PlayerSupliesUsedZerg_type*) 0x0058215C;
  
   const int unitTypeCount = 228;
   // -------------------------------- UNIT MINERAL PRICES --------------------
@@ -146,13 +147,34 @@ namespace BW
   {
     u16 mineralPrice[unitTypeCount];
   };
-  static MineralPrices_type* MineralPrices = (MineralPrices_type*) 0x00663870;
-  // -------------------------------- UNIT SUPPLY DEMANDS --------------------
+  static MineralPrices_type* BWXFN_MineralPrices = (MineralPrices_type*) 0x00663870;
+  // -------------------------------- UNIT MINERAL PRICES --------------------
+  /** Direct mapping of unit types gas prices. */
+  struct GasPrices_type
+  {
+    u16 gasPrice[unitTypeCount];
+  };
+  static GasPrices_type* BWXFN_GasPrices = (GasPrices_type*) 0x0065FCE8;
+  //--------------------------------- UNIT SUPPLY DEMANDS ---------------------
   /** Direct mapping of unit supply demands. */
   struct SupplyDemands_type
   {
     u8 supplyDemand[unitTypeCount];
   };
-  static SupplyDemands_type* SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
+  static SupplyDemands_type* BWXFN_SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
+  //---------------------------------- UNIT MAX HP ----------------------------
+  /** Direct mapping of unit supply demands. */
+  struct MaxHealthPoints_NotAttackable_Repairable_type
+  {
+    struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
+    {
+      u16 maxHealthPoints;
+      u8 notAttackable;
+      u8 repairable;
+    };
+    MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[unitTypeCount];
+  };
+  static MaxHealthPoints_NotAttackable_Repairable_type* BWXFN_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) 0x00662339;
   //---------------------------------------------------------------------------
 };
+#pragma pack()

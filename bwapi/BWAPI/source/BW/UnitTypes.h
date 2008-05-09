@@ -30,7 +30,7 @@ namespace BW
       Terran_Wraith                 = 0x08,
       Terran_ScienceVessel          = 0x09,
       Terran_DropShip               = 0x0B,
-      Terran_Battlecruiser          = 0x0C,
+      Terran_BattleCruiser          = 0x0C,
       Terran_Valkyrie               = 0x3A,
 
       // Terran Buildings
