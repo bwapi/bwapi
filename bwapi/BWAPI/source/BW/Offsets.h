@@ -182,6 +182,13 @@ namespace BW
     u16 maxShieldPoints[unitTypeCount];
   };
   static MaxShieldPoints_type* BWXFN_MaxShieldPoints = (MaxShieldPoints_type*) 0x00660DE8;
+   //--------------------------------- UNIT MAX SHIELDS ------------------------
+  /** Direct mapping of unit unit type armor */
+  struct Armor_type
+  {
+    u8 armor[unitTypeCount];
+  };
+  static Armor_type* BWXFN_Armor = (Armor_type*) 0x0065FEB0;
   //---------------------------------------------------------------------------
 };
 #pragma pack()

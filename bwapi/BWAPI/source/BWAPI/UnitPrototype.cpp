@@ -92,5 +92,10 @@ namespace BWAPI
   {
     return BW::BWXFN_SupplyDemands->supplyDemand[this->getUnitID()];
   }
+  //------------------------------- GET ARMOR ----------------------------------
+  u8 UnitPrototype::getArmor() const
+  {
+    return BW::BWXFN_Armor->armor[this->getUnitID()];
+  }
   //----------------------------------------------------------------------------
 };
