@@ -21,7 +21,6 @@ namespace BWAPI
     UnitPrototype(const std::string&          name,
                   const BW::UnitType::Enum    unitID,
                   const BWAPI::RaceType::Enum race,
-                  const u16                   maxShieldPoints,
                   const u16                   maxMana,
                   const u32                   abilityFlags);
     ~UnitPrototype();
@@ -46,8 +45,6 @@ namespace BWAPI
   private :
     /** Name of the unit, it is the same as what you see in the game when you click on it. */
     std::string           name;
-    u16                   maxHealthPoints;
-    u16                   maxShieldPoints;
     u16                   maxMana;
     u32                   abilityFlags;
     BW::UnitType::Enum    unitID;

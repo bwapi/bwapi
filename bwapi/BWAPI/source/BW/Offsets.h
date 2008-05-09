@@ -163,7 +163,7 @@ namespace BW
   };
   static SupplyDemands_type* BWXFN_SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
   //---------------------------------- UNIT MAX HP ----------------------------
-  /** Direct mapping of unit supply demands. */
+  /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
   struct MaxHealthPoints_NotAttackable_Repairable_type
   {
     struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
@@ -175,6 +175,13 @@ namespace BW
     MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[unitTypeCount];
   };
   static MaxHealthPoints_NotAttackable_Repairable_type* BWXFN_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) 0x00662339;
+  //--------------------------------- UNIT MAX SHIELDS ------------------------
+  /** Direct mapping of unit unit type Shield points */
+  struct MaxShieldPoints_type
+  {
+    u16 maxShieldPoints[unitTypeCount];
+  };
+  static MaxShieldPoints_type* BWXFN_MaxShieldPoints = (MaxShieldPoints_type*) 0x00660DE8;
   //---------------------------------------------------------------------------
 };
 #pragma pack()
