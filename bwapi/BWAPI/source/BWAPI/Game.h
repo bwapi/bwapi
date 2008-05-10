@@ -5,7 +5,8 @@ namespace BW { struct UnitData; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
-#include "..\\BW\\OrderTypes.h"
+#include "..//BW//OrderTypes.h"
+#include "..//BW//UnitData.h"
 #include <vector>
 #include <windows.h>
 /** Everything in the BWAPI library that doesn't map or work directly with the bw data. */
@@ -66,11 +67,14 @@ namespace BWAPI
     void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr); 
     void refresh();
     Unit* getUnit(int index);
+    BW::UnitData** saveSelected();
+    void loadSelected(BW::UnitData** selected);
+    BWAPI::Player* marwin;
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
     BW::UnitArray* unitArrayCopyLocal;
-    Unit* units[1700];
+    Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
     unsigned int latency;
     std::vector<std::vector<Command *>> commandBuffer;
     /** Count of game-frames passed from game start. */

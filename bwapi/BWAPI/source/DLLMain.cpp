@@ -11,13 +11,31 @@
 #include "./BWAPI/Globals.h"
 #include "./BWAPI/Game.h"
 #include "./BWAPI/Globals.h"
+#include "./BWAPI/Player.h"
 #include "./BW/Offsets.h"
+#include "../../BWAI/Source/AI.h"
+#include "../../BWAI/Source/Globals.h"
 
+bool aiStartCalled = false;
+//----------------------------- ON COMMAND ORDER ------------------------------
+void __declspec(naked) onCancelOrder()
+{
+  {
+    //BWAPI::Broodwar.onGameStart();
+    
+  }
+  __asm
+  {
+    call [BW::BWXFN_GameStartTarget]
+    jmp [BW::BWXFN_GameStartBack]
+  }
+}
 //----------------------------- ON GAME START ---------------------------------
 void __declspec(naked) onGameStart()
 {
   {
     BWAPI::Broodwar.onGameStart();
+    
   }
   __asm
   {
@@ -44,7 +62,12 @@ void __declspec(naked)  hookTest()
   if (lastEcx >= 0)
   {
     BWAPI::Broodwar.update();
-    BWAPI::Broodwar.test();
+    if (!aiStartCalled)
+    {
+      BWAI::ai.onStart(BWAPI::Broodwar, BWAPI::Broodwar.marwin);
+      aiStartCalled = true;
+    }
+    BWAI::ai.onFrame(BWAPI::Broodwar);
   }
   __asm
   {

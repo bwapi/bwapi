@@ -45,6 +45,16 @@ namespace BW
     ,alwaysZero(0x0)
     {
     }
+    //--------------------------------- MAKE BULDING ----------------------------------
+    MakeBuilding::MakeBuilding(u16 x, u16 y, BW::UnitType::Enum unitID)
+    :always0x0c(0x0c)
+    ,always0x1e(0x1e)
+    ,tileX(x)
+    ,tileY(y)
+    ,unitID(unitID)
+    ,alwaysZero(0x0)
+    {
+    }
     //---------------------------------- MOVE CONSTRUCTOR -----------------------------
     ChangeSlot::ChangeSlot(Slot slot, u8 slotID)
     :slot(slot)

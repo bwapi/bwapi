@@ -31,7 +31,7 @@ namespace BWAPI
     
     players[11]->setName("Player 12 (Neutral)");
     
-    for (int i = 0; i < 1700; i++)
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       units[i] = new Unit(&unitArrayCopy->unit[i], 
                           &BW::BWXFN_UnitNodeTable->unit[i],
                           &unitArrayCopyLocal->unit[i]);
@@ -48,7 +48,7 @@ namespace BWAPI
     for (int i = 0; i < 12; i++)
       delete players[i];
 
-    for (int i = 0; i < 1700; i++)
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete units[i];
   }
   //------------------------------- ISSUE COMMAND -------------------------------
@@ -80,23 +80,6 @@ namespace BWAPI
          this->commandBuffer[i][j]->execute();
        }        
   }
-  Unit *cc;
-  //-------------------------------- Closer to CC -----------------------------
-  int closerToCC(Unit*& unit1, Unit*& unit2)
-  {
-   return cc->getDistance(unit1) < cc->getDistance(unit2);
-  }
-   #include <stdio.h>
-  std::string getBinary(UNKNOWN_TYPE value)
-  {
-   std::string result;
-    for (int i = 0; i < UNKNOWN_BIT_SIZE; i++)
-      if (value  & (1 << (UNKNOWN_BIT_SIZE-1-i)))
-         result += "1";
-      else
-         result += "0";
-    return result;
-  }
   //---------------------------------- TEST -----------------------------------
 
   void Game::test(void)
@@ -107,7 +90,7 @@ namespace BWAPI
     /*
     I will implement this later on using some correct pointers method on unit
     _w64 int memoryPositionDifference = this->unitArrayCopy - UNIT_NODE_TABLE; 
-    for (int i = 0; i < 1700; i++)
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
     units[i]->rawData->previousUnit += memoryPositionDifference;
     units[i]->rawData->nextUnit += memoryPositionDifference;
@@ -115,7 +98,7 @@ namespace BWAPI
     
     */
     //if (frameCount % 2 == 0)
-    /*for (int i = 0; i < 1700; i++)
+    /*for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       if (units[i]->isValid() &&
           strcmp(units[i]->getOwner()->getName(),"NEM)Marwin") == 0 &&
@@ -180,120 +163,6 @@ namespace BWAPI
                                                      BWAPI::Prototypes::SCV->dimensionDown(),
                                                      BWAPI::Prototypes::SCV->dimensionLeft(),
                                                      BWAPI::Prototypes::SCV->dimensionRight());*/
-
-    bool found = false;
-    std::vector<Unit*> unitList;
-    cc = NULL;
-    Player *marwin = NULL;
-    bool reselected = false;
-    
-    for (int i = 0; i < 8; i++)
-     if (strcmp(this->players[i]->getName(),"NEM)Marwin") == 0)
-        marwin = this->players[i];
-
-    BW::UnitData** selected = NULL;
-    Unit* selectedUnit = NULL;
-    if (marwin != NULL)
-    {
-      selected = new BW::UnitData * [13];
-      memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
-      selected[12] = NULL;
-      selectedUnit  = Unit::BWUnitToBWAPIUnit(selected[0]);
-
-      if (selectedUnit != NULL)
-      {
-        char message[50];
-        Unit* target = selectedUnit->getTarget();
-        if (target != NULL)
-        {
-          sprintf(message, "Edge distance = %d", selectedUnit->getDistance(target));
-          this->print(message);
-          sprintf(message, "Real distance = %d", selectedUnit->getCenterDistance(target));
-          this->print(message);
-         }
-        if (selectedUnit->getPrototype())
-        {
-          sprintf(message, "Damage = %d", selectedUnit->getPrototype()->getGroundDamage());
-          this->print(message);
-        }
-        else
-        {
-          sprintf(message, "Unit Id = %d (no prototype)", selectedUnit->getRawData()->unitID);
-          this->print(message);
-        }
-      }
-    }
-    
-    
-    for (int i = 0; i < 1700; i++)
-    {
-      if (units[i]->isValid() &&
-          units[i]->getOwner() == marwin)
-      {
-        found = true;
-        if (units[i]->getPrototype() == Prototypes::SCV &&
-            units[i]->getOrderIDLocal() == BW::OrderID::Idle &&
-            units[i] != selectedUnit)
-          unitList.push_back(this->units[i]);
-        else
-         if (units[i]->getPrototype() == Prototypes::CommandCenter)
-           cc = this->units[i];
-      }
-    /* if (units[i]->isValid() &&
-         units[i]->getPosition().x > this->getScreenX() &&
-         units[i]->getPosition().x < this->getScreenX() + 640 &&
-         units[i]->getPosition().y > this->getScreenY() &&
-         units[i]->getPosition().y < this->getScreenY() + 480)
-       this->printXY(units[i]->getPosition().x, units[i]->getPosition().y, units[i]->getPrototype()->getName().c_str());*/
-    }
-
-    
-    if (cc != NULL)
-    {
-     fprintf(f, "Terran Suppplies %d/%d\n", marwin->getSuppliesUsedTerran(), marwin->getSuppliesAvailableTerran());
-     fprintf(f, "Free Terran Suppplies %d\n", marwin->freeSuppliesTerranLocal());
-     fprintf(f, "SCV supplie use %d\n", BWAPI::Prototypes::SCV->getSupplies());
-     fprintf(f, "SCV mineral price %d\n", BWAPI::Prototypes::SCV->getMineralPrice());
-     if (cc->hasEmptyBuildQueueLocal() && 
-         marwin->getMineralsLocal() >= BWAPI::Prototypes::SCV->getMineralPrice() &&
-         marwin->freeSuppliesTerranLocal() >= BWAPI::Prototypes::SCV->getSupplies())
-      {
-        reselected = true;
-        cc->orderSelect();
-        cc->trainUnit(BWAPI::Prototypes::SCV);
-      }
-    }
-    if (unitList.size() != 0)
-    {
-      std::vector<Unit *> mineralList;
-      for (int i = 0; i < 1700; i++)
-      {
-        if (units[i]->isValid() && 
-            units[i]->getPrototype() == Prototypes::Minerals1 ||
-            units[i]->getPrototype() == Prototypes::Minerals2 ||
-            units[i]->getPrototype() == Prototypes::Minerals3)
-          mineralList.push_back(units[i]);
-      }
-      std::sort(mineralList.begin(),mineralList.end(), closerToCC);
-      for (unsigned int i = 0; i < unitList.size(); i++)
-      {
-        reselected = true;
-        unitList[i]->orderRightClick(mineralList[i]);
-      }
-    }
-   
-   if (reselected)
-    {
-      int unitCount = 0;
-      while (selected[unitCount] != NULL)
-        unitCount ++;
-      void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-	     selectUnitsHelperSTD(unitCount, selected, true, true);
-    }
-    if (selected)
-      delete [] selected;
-    
-    fclose(f);
     frameCount ++;
   }
   //----------------------------- JMP PATCH -----------------------------------
@@ -382,6 +251,10 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   void Game::onGameStart()
   {
     this->setInGame(true);
+    this->marwin = NULL;
+    for (int i = 0; i < 8; i++)
+      if (strcmp(this->players[i]->getName(), "NEM)Marwin") == 0)
+          this->marwin = this->players[i];
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()
@@ -431,15 +304,36 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
     }  
   }
   //-----------------------------------------------------------------------------
+  #pragma warning(push)
+  #pragma warning(disable:4312)
   void Game::refresh()
   {
-   void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWXFN_Refresh;
-	 	refresh();
+    void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWXFN_Refresh;
+ 	 	refresh();
   }
+  #pragma warning(pop)
   //-----------------------------------------------------------------------------
   Unit* Game::getUnit(int index)
   {
     return this->units[index];
+  }
+  //--------------------------------- SAVE SELECTED -----------------------------
+  BW::UnitData** Game::saveSelected()
+  {
+    BW::UnitData** selected = new BW::UnitData * [13];
+    memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
+    selected[12] = NULL;
+    return selected;
+  }
+  //--------------------------------- LOAD SELECTED -----------------------------
+  void Game::loadSelected(BW::UnitData** selected)
+  {
+    int unitCount = 0;
+    while (selected[unitCount] != NULL)
+      unitCount ++;
+    void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+	   selectUnitsHelperSTD(unitCount, selected, true, true);
+    delete [] selected;
   }
   //-----------------------------------------------------------------------------
 };

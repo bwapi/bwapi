@@ -18,9 +18,9 @@ namespace BWAPI
   Unit::Unit(BW::UnitData* unitData, 
              BW::UnitData* originalUnitData,
              BW::UnitData* unitDataLocal)
-    :bwUnitData(unitData)
-    ,bwOriginalUnitData(originalUnitData)
-    ,bwUnitDataLocal(unitDataLocal)
+  :bwUnitData(unitData)
+  ,bwOriginalUnitData(originalUnitData)
+  ,bwUnitDataLocal(unitDataLocal)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -141,8 +141,18 @@ namespace BWAPI
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isValid() const
   {
-    return this->getHealthPoints() > 0 || 
-           this->getHealthPointsFraction() > 0;
+    return (
+             this->getHealthPoints() > 0 || 
+             this->getHealthPointsFraction() > 0
+           ) &&
+           this->getPrototype() != NULL;
+  }
+  //-------------------------------- IS VALID ----------------------------------
+  bool Unit::isReady() const
+  {
+    return this->isValid() &&
+           this->getRawData()->remainingBuildTime == 0 &&
+           this->getOrderID() != BW::OrderID::ExitingBuilding;
   }
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
@@ -202,42 +212,49 @@ namespace BWAPI
   #pragma warning(disable:4244)
   u16 Unit::getDistance(Unit *unit) const
   {
+   u32 result;
+   if (unit == this)
+     return 0;
    if (this->getPosition().y - this->getPrototype()->dimensionUp() <= unit->getPosition().y + unit->getPrototype()->dimensionDown())
      if (this->getPosition().y + this->getPrototype()->dimensionDown() >= unit->getPosition().y - unit->getPrototype()->dimensionUp())
        if (this->getPosition().x > unit->getPosition().x)
-         return this->getPosition().x - this->getPrototype()->dimensionLeft() - unit->getPosition().x - unit->getPrototype()->dimensionRight();
+         result = this->getPosition().x - this->getPrototype()->dimensionLeft() - unit->getPosition().x - unit->getPrototype()->dimensionRight();
        else
-         return unit->getPosition().x - unit->getPrototype()->dimensionRight() - this->getPosition().x - this->getPrototype()->dimensionLeft();
+         result = unit->getPosition().x - unit->getPrototype()->dimensionRight() - this->getPosition().x - this->getPrototype()->dimensionLeft();
 
    if (this->getPosition().x - this->getPrototype()->dimensionLeft() <= unit->getPosition().x + unit->getPrototype()->dimensionRight())
      if (this->getPosition().x + this->getPrototype()->dimensionRight() >= unit->getPosition().x - unit->getPrototype()->dimensionLeft())
        if (this->getPosition().y > unit->getPosition().y)
-         return this->getPosition().y - this->getPrototype()->dimensionUp() - unit->getPosition().y - unit->getPrototype()->dimensionDown();
+         result = this->getPosition().y - this->getPrototype()->dimensionUp() - unit->getPosition().y - unit->getPrototype()->dimensionDown();
        else
-         return unit->getPosition().y - unit->getPrototype()->dimensionDown() - this->getPosition().y - this->getPrototype()->dimensionUp();
+         result = unit->getPosition().y - unit->getPrototype()->dimensionDown() - this->getPosition().y - this->getPrototype()->dimensionUp();
 
    if (this->getPosition().x > unit->getPosition().x)
      if (this->getPosition().y > unit->getPosition().y)
-       return this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
-                                this->getPosition().y - this->getPrototype()->dimensionUp(),
-                                unit->getPosition().x + unit->getPrototype()->dimensionRight(),
-                                unit->getPosition().y + unit->getPrototype()->dimensionDown());
+       result = this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
+                                  this->getPosition().y - this->getPrototype()->dimensionUp(),
+                                  unit->getPosition().x + unit->getPrototype()->dimensionRight(),
+                                  unit->getPosition().y + unit->getPrototype()->dimensionDown());
      else
-       return this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
-                                this->getPosition().y + this->getPrototype()->dimensionDown(),
-                                unit->getPosition().x + unit->getPrototype()->dimensionRight(),
-                                unit->getPosition().y - unit->getPrototype()->dimensionUp());
+       result = this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
+                                 this->getPosition().y + this->getPrototype()->dimensionDown(),
+                                 unit->getPosition().x + unit->getPrototype()->dimensionRight(),
+                                 unit->getPosition().y - unit->getPrototype()->dimensionUp());
    else
      if (this->getPosition().y > unit->getPosition().y)
-       return this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
+       result = this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
                                 this->getPosition().y - this->getPrototype()->dimensionUp(),
                                 unit->getPosition().x - unit->getPrototype()->dimensionLeft(),
                                 unit->getPosition().y + unit->getPrototype()->dimensionDown());
      else
-       return this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
+       result = this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
                                 this->getPosition().y + this->getPrototype()->dimensionDown(),
                                 unit->getPosition().x - unit->getPrototype()->dimensionLeft(),
                                 unit->getPosition().y - unit->getPrototype()->dimensionUp());
+   if (result > 0)
+     return result;
+   else
+     return 0;
   }
   //-------------------------------- GET CENTER DISTANCE -----------------------
   u16 Unit::getCenterDistance(Unit *unit) const
@@ -264,20 +281,27 @@ namespace BWAPI
   {
      return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == 0xe4;
   }
-  //-------------------------------- ORDER MOVE --------------------------------
+  //------------------------------- ORDER RIGHT CLICK -------------------------
   void Unit::orderRightClick(u16 x,u16 y)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(x, y)), sizeof(BW::Orders::RightClick)); 
   }
-  //-------------------------------- ORDER MOVE --------------------------------
+  //------------------------------- ORDER RIGHT CLICK -------------------------
   void Unit::orderRightClick(Unit *target)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(target), sizeof(BW::Orders::RightClick)); 
     Broodwar.addToCommandBuffer(new CommandRightClick(this, target));
   }
-  //-------------------------------- ORDER SELECT --------------------------------
+  //------------------------------------ BUILD --------------------------------
+  void Unit::build(u16 tileX, u16 tileY, UnitPrototype *type)
+  {
+    this->orderSelect();
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(tileX, tileY, type->getUnitID()), sizeof(BW::Orders::MakeBuilding)); 
+    Broodwar.addToCommandBuffer(new CommandRightClick(this, BW::Position(tileX*BW::TileSize, tileY*BW::TileSize)));
+  }
+  //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {
     BW::UnitData * * list = new BW::UnitData * [2];
@@ -320,11 +344,21 @@ namespace BWAPI
     return this->getOriginalRawData()->buildQueueSlot;
   }
   //----------------------------------------------------------------------------
+  #pragma warning(push)
+  #pragma warning(disable:4311)
   Unit* Unit::BWUnitToBWAPIUnit(BW::UnitData* unit)
   {
     if (unit == NULL)
       return NULL;
     return Broodwar.getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
+  }
+  #pragma warning (pop)
+  //----------------------------------------------------------------------------
+  bool Unit::isMineral()
+  {
+     return this->getType() == BW::UnitType::Resource_MineralPatch1 ||
+            this->getType() == BW::UnitType::Resource_MineralPatch2 ||
+            this->getType() == BW::UnitType::Resource_MineralPatch3;
   }
   //----------------------------------------------------------------------------
 };
