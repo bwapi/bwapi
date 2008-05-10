@@ -183,12 +183,30 @@ namespace BW
   };
   static MaxShieldPoints_type* BWXFN_MaxShieldPoints = (MaxShieldPoints_type*) 0x00660DE8;
    //--------------------------------- UNIT MAX SHIELDS ------------------------
-  /** Direct mapping of unit unit type armor */
+  /** Direct mapping of unit type armor */
   struct Armor_type
   {
     u8 armor[unitTypeCount];
   };
   static Armor_type* BWXFN_Armor = (Armor_type*) 0x0065FEB0;
+
+    //--------------------------------- UNIT MAX BUILD TIME ----------------------
+  /** Direct mapping of unit build time*/
+  struct BuildTime_type
+  {
+   u16 buildTime[unitTypeCount];
+  };
+  static BuildTime_type* BWXFN_BuildTime = (BuildTime_type*) 0x00660410;
+
+  #define UNKNOWN_BIT_SIZE 16
+  #define UNKNOWN_TYPE u16
+  //--------------------------------- UNIT MAX SHIELDS ------------------------
+  /** Direct mapping of unit unit type armor */
+  struct Unknown_type
+  {
+   UNKNOWN_TYPE unknown[unitTypeCount];
+  };
+  static Unknown_type* BWXFN_Unknown = (Unknown_type*) 0x00660410;
   //---------------------------------------------------------------------------
 };
 #pragma pack()

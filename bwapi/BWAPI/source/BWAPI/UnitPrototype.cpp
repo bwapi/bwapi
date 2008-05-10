@@ -97,5 +97,15 @@ namespace BWAPI
   {
     return BW::BWXFN_Armor->armor[this->getUnitID()];
   }
+  //------------------------------ GET BUILD TIME ------------------------------
+  u16 UnitPrototype::getBuildTime() const
+  {
+    return BW::BWXFN_BuildTime->buildTime[this->getUnitID()];
+  }
+  //----------------------------------------------------------------------------
+  UNKNOWN_TYPE UnitPrototype::getUnknown() const
+  {
+    return BW::BWXFN_Unknown->unknown[this->getUnitID()];
+  }
   //----------------------------------------------------------------------------
 };
