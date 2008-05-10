@@ -17,12 +17,13 @@ namespace BW
       Terran_Ghost                  = 0x01,
       Terran_Vulture                = 0x02,
       Terran_Goliath                = 0x03,
-      Terran_SeigeTankTankMode      = 0x05,
+      Terran_GoliathTurret          = 0x04,
+      Terran_SiegeTankTankMode      = 0x05,
+      Terran_TankTurretTankMode     = 0x06,
       Terran_SCV                    = 0x07,
-      Terran_FireBat                = 0x20,
+      Terran_Firebat                = 0x20,
       Terran_Medic                  = 0x22,
-      Terran_SeigeTankSiegeMode     = 0x1E,
-
+      Terran_SiegeTankSiegeMode     = 0x1E,
       Terran_VultureSpiderMine      = 0x0D,
       Terran_NuclearMissile         = 0x0E,
 

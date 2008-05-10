@@ -26,17 +26,25 @@ namespace BWAPI
     /** Terran */
     extern UnitPrototype* SCV;
     extern UnitPrototype* Marine;
+    extern UnitPrototype* Firebat;
+    extern UnitPrototype* Medic;
+    extern UnitPrototype* SiegeTank_TankMode;
+    extern UnitPrototype* TankTurret_TankMode;
+    extern UnitPrototype* SiegeTank_SiegeMode;
     extern UnitPrototype* CommandCenter;
     extern UnitPrototype* SupplyDepot;
     extern UnitPrototype* Barracks;
     extern UnitPrototype* Goliath;
+    extern UnitPrototype* GoliathTurret;
     extern UnitPrototype* Ghost;
     extern UnitPrototype* Wraith;
     extern UnitPrototype* BattleCruiser;
     extern UnitPrototype* Vulture;
+    extern UnitPrototype* NuclearMissile;
     /** Protoss */
     extern UnitPrototype* Probe;
     extern UnitPrototype* Zealot;
+    extern UnitPrototype* HighTemplar;
     extern UnitPrototype* Nexus;
     extern UnitPrototype* Pylon;
     extern UnitPrototype* Gateway;
@@ -49,7 +57,8 @@ namespace BWAPI
     extern UnitPrototype* Zergling;
     extern UnitPrototype* Queen;
     extern UnitPrototype* Mutalisk;
-    /** */
+    /** other */
     extern UnitPrototype* Minerals;
+    extern UnitPrototype* VaspineGayser;
   }
 };

@@ -4,7 +4,7 @@
 #include "../Types.h"
 #include "..//BW//UnitTypes.h"
 #include "..//BWAPI//RaceTypes.h"
-
+#include "..//BW//Offsets.h" /**< @todo remove (just for UNKNOWN_TYPE */
 // Pre-declarations
 namespace BW { class Position; };
 namespace BWAPI { class AbilityPrototype; };
@@ -36,6 +36,8 @@ namespace BWAPI
     u16                   getMineralPrice() const;
     u16                   getGasPrice() const;
     u8                    getArmor() const;
+    u16                   getBuildTime() const;
+    UNKNOWN_TYPE          getUnknown() const;
     
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
     bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
