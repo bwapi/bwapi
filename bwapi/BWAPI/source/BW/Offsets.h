@@ -55,7 +55,7 @@ namespace BW
   static int           BWFXN_InGame = 0x654D64; // Wrong offset
   static int           BWXFN_PrintText = 0x48CE60;
   static int           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
-  static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
+  //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
   static UnitData*     BWXFN_CurrentPlayerSelectionGroup = (UnitData*) 0x005971F0;
   static int           BWXFN_GameStart = 0x004C96A1;
   static int           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
@@ -66,6 +66,7 @@ namespace BW
   static int           BWXFN_NextFrameHelperFunction = 0x004D94ED;
   static int           BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
   static int           BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
+  static int           BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
   /** Direct mapping of players Protoss avialable supplies in the bw memory. */
@@ -198,8 +199,6 @@ namespace BW
   };
   static BuildTime_type* BWXFN_BuildTime = (BuildTime_type*) 0x00660410;
 
-  #define UNKNOWN_BIT_SIZE 16
-  #define UNKNOWN_TYPE u16
   //--------------------------------- UNIT DIRECTIONS ------------------------
   /** Direct mapping of unit unit type armor */
   struct UnitsDimensions_type
@@ -213,7 +212,35 @@ namespace BW
     };
     UnitDimensions units[unitTypeCount];
   };
-  static UnitsDimensions_type* BWXFN_UnitDimensions = (UnitsDimensions_type*) 0x006617B4;
+  static UnitsDimensions_type* BWXFN_UnitDimensions = (UnitsDimensions_type*) 0x006617B0;
+  const u8 NoWeapon = 130;
+  //--------------------------------- GROUND WEAPONS  ------------------------
+  /** Direct mapping of unit unit type armor */
+  struct UnitsGroundWeapon_type
+  {
+    u8 unit[unitTypeCount];
+  };
+  static UnitsGroundWeapon_type* BWXFN_UnitGroundWeapon = (UnitsGroundWeapon_type*) 0x006636A0;
+
+  const int weaponTypeCount = 130;
+  //--------------------------------- GROUND WEAPONS  ------------------------
+  /** Direct mapping of unit unit type armor */
+  struct WeaponsDamageFactor_type
+  {
+    u8 weapon[weaponTypeCount];
+  };
+  static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;
+
+  //--------------------------------- GROUND WEAPONS  ------------------------
+  /** Direct mapping of unit unit type armor */
+  struct WeaponsDamage_type
+  {
+    u16 weapon[weaponTypeCount];
+  };
+  static WeaponsDamage_type* BWXFN_WeaponDamage = (WeaponsDamage_type*) 0x00656E98;
+  
+  #define UNKNOWN_BIT_SIZE 16
+  #define UNKNOWN_TYPE u16
   //--------------------------------- UNIT MAX SHIELDS ------------------------
   /** Direct mapping of unit unit type armor */
   struct Unknown_type

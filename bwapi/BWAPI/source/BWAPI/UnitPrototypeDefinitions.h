@@ -45,9 +45,11 @@ namespace BWAPI
     extern UnitPrototype* Probe;
     extern UnitPrototype* Zealot;
     extern UnitPrototype* HighTemplar;
+    extern UnitPrototype* Dragoon;
     extern UnitPrototype* Nexus;
     extern UnitPrototype* Pylon;
     extern UnitPrototype* Gateway;
+    extern UnitPrototype* CyberneticsCore;
    /** Zerg */
     extern UnitPrototype* Drone;
     extern UnitPrototype* Larva;
@@ -58,7 +60,9 @@ namespace BWAPI
     extern UnitPrototype* Queen;
     extern UnitPrototype* Mutalisk;
     /** other */
-    extern UnitPrototype* Minerals;
+    extern UnitPrototype* Minerals1;
+    extern UnitPrototype* Minerals2;
+    extern UnitPrototype* Minerals3;
     extern UnitPrototype* VaspineGayser;
   }
 };

@@ -138,7 +138,7 @@ namespace BW
       //Resources
       Resource_MineralPatch1        = 0xB0,
       Resource_MineralPatch2        = 0xB1,
-      Resource_MineralPatch3        = 0xB3,
+      Resource_MineralPatch3        = 0xB2,
       Resource_VespeneGeyser        = 0xBC,
 
       //Beacons

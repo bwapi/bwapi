@@ -42,6 +42,8 @@ namespace BWAPI
       u8 getShieldPointsFraction() const;
       /** Gets #bwUnitData->BW#UnitData#position. */
       const BW::Position& getPosition() const;
+      /** Gets #bwUnitData->BW#UnitData#targetUnit. */
+      Unit* getTarget();
       /** Gets owner of the unit defined by #bwUnitData->BW#UnitData#playerID. */
       Player* getOwner() const;
       /** Gets prototype of the unit defined by #bwUnitData->BW#UnitData#unitID. */
@@ -52,6 +54,8 @@ namespace BWAPI
       u8 getBuildQueueSlotLocal();
       /** Gets distance between this and the specified unit. */
       u16 getDistance(Unit *unit) const; 
+      u16 getCenterDistance(Unit *unit) const; 
+      u16 getDistance(int x1, int y1, int x2, int y2) const; 
       /**< Gets bwUnitData->BW#UnitData#orderID. */
       BW::OrderID::Enum getOrderID() const;
       /**< Gets bwUnitDataLocal->BW#UnitData#orderID - @ref localData */
@@ -98,6 +102,7 @@ namespace BWAPI
       void trainUnit(UnitPrototype *type);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
+      static Unit* BWUnitToBWAPIUnit(BW::UnitData* unit);
     private:
       BW::UnitData* bwUnitData; /**< Pointer to our copy of of unit data table. */
       BW::UnitData* bwUnitDataLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 

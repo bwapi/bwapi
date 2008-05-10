@@ -19,7 +19,7 @@ namespace BWAPI
     ~Game();
     void update(); /**< Updates unitArrayCopy according to bw memory */
     Player* players[12];
-    void printXY(int x, int y, char* text) const;
+    void printXY(int x, int y, const char* text);
     /** 
      * Prints text in game (only local)
      * @param text Text to be written
@@ -54,11 +54,18 @@ namespace BWAPI
      * Should be used only in the pre-game lobby, and not during counting
      */
     void startGame();
+    /** Gets mouse cursor horizontal position in pixels. */
     int getMouseX();
+    /** Gets mouse cursor vertical position in pixels. */
     int getMouseY();
+    /** Gets horizontal position of game screen in pixels. */
     int getScreenX();
+    /** Gets vertical position of game screen in pixels. */
     int getScreenY();
-    void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr);
+    /** @todo Doesn't work */
+    void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr); 
+    void refresh();
+    Unit* getUnit(int index);
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
@@ -68,6 +75,7 @@ namespace BWAPI
     std::vector<std::vector<Command *>> commandBuffer;
     /** Count of game-frames passed from game start. */
     int frameCount;
+    std::vector<char *> buffers;
   };
 };
  

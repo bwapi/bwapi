@@ -72,9 +72,11 @@ namespace BWAPI
        case BW::UnitType::Protoss_Probe             : return BWAPI::Prototypes::Probe;
        case BW::UnitType::Protoss_Zealot            : return BWAPI::Prototypes::Zealot;
        case BW::UnitType::Protoss_HighTemplar       : return BWAPI::Prototypes::HighTemplar;
+       case BW::UnitType::Protoss_Dragoon           : return BWAPI::Prototypes::Dragoon;
        case BW::UnitType::Protoss_Nexus             : return BWAPI::Prototypes::Nexus;
        case BW::UnitType::Protoss_Pylon             : return BWAPI::Prototypes::Pylon;
        case BW::UnitType::Protoss_Gateway           : return BWAPI::Prototypes::Gateway;
+       case BW::UnitType::Protoss_CyberneticsCore   : return BWAPI::Prototypes::CyberneticsCore;
        /** Zerg */
        case BW::UnitType::Zerg_Queen                : return BWAPI::Prototypes::Queen;
        case BW::UnitType::Zerg_Mutalisk             : return BWAPI::Prototypes::Mutalisk;
@@ -85,9 +87,10 @@ namespace BWAPI
        case BW::UnitType::Zerg_Hatchery             : return BWAPI::Prototypes::Hatchery;
        case BW::UnitType::Zerg_SpawningPool         : return BWAPI::Prototypes::SpawningPool;
        /** Neutral */
-       case BW::UnitType::Resource_MineralPatch1 :
-       case BW::UnitType::Resource_MineralPatch2 :
-       case BW::UnitType::Resource_MineralPatch3 : return BWAPI::Prototypes::Minerals;
+       case BW::UnitType::Resource_MineralPatch1    : return BWAPI::Prototypes::Minerals1;
+       case BW::UnitType::Resource_MineralPatch2    : return BWAPI::Prototypes::Minerals2;
+       case BW::UnitType::Resource_MineralPatch3    : return BWAPI::Prototypes::Minerals3;
+       case BW::UnitType::Resource_VespeneGeyser    : return BWAPI::Prototypes::VaspineGayser;
        default : return NULL;
      }
   }
@@ -146,6 +149,13 @@ namespace BWAPI
   {
     return this->bwUnitData->position;
   }
+  //-------------------------------- GET TATGET --------------------------------
+  Unit* Unit::getTarget()
+  {
+    if (this->getRawData()->orderTargetUnit == NULL)
+      return NULL;
+    return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+  }
   //-------------------------------- GET RAW DATA ------------------------------
   BW::UnitData *Unit::getRawData()
   {
@@ -192,9 +202,56 @@ namespace BWAPI
   #pragma warning(disable:4244)
   u16 Unit::getDistance(Unit *unit) const
   {
-   
-    return sqrt((long double)((s32)this->getPosition().x - unit->getPosition().x)*((s32)this->getPosition().x - unit->getPosition().x) +
-                             ((s32)this->getPosition().y - unit->getPosition().y)*((s32)this->getPosition().y - unit->getPosition().y));
+   if (this->getPosition().y - this->getPrototype()->dimensionUp() <= unit->getPosition().y + unit->getPrototype()->dimensionDown())
+     if (this->getPosition().y + this->getPrototype()->dimensionDown() >= unit->getPosition().y - unit->getPrototype()->dimensionUp())
+       if (this->getPosition().x > unit->getPosition().x)
+         return this->getPosition().x - this->getPrototype()->dimensionLeft() - unit->getPosition().x - unit->getPrototype()->dimensionRight();
+       else
+         return unit->getPosition().x - unit->getPrototype()->dimensionRight() - this->getPosition().x - this->getPrototype()->dimensionLeft();
+
+   if (this->getPosition().x - this->getPrototype()->dimensionLeft() <= unit->getPosition().x + unit->getPrototype()->dimensionRight())
+     if (this->getPosition().x + this->getPrototype()->dimensionRight() >= unit->getPosition().x - unit->getPrototype()->dimensionLeft())
+       if (this->getPosition().y > unit->getPosition().y)
+         return this->getPosition().y - this->getPrototype()->dimensionUp() - unit->getPosition().y - unit->getPrototype()->dimensionDown();
+       else
+         return unit->getPosition().y - unit->getPrototype()->dimensionDown() - this->getPosition().y - this->getPrototype()->dimensionUp();
+
+   if (this->getPosition().x > unit->getPosition().x)
+     if (this->getPosition().y > unit->getPosition().y)
+       return this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
+                                this->getPosition().y - this->getPrototype()->dimensionUp(),
+                                unit->getPosition().x + unit->getPrototype()->dimensionRight(),
+                                unit->getPosition().y + unit->getPrototype()->dimensionDown());
+     else
+       return this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
+                                this->getPosition().y + this->getPrototype()->dimensionDown(),
+                                unit->getPosition().x + unit->getPrototype()->dimensionRight(),
+                                unit->getPosition().y - unit->getPrototype()->dimensionUp());
+   else
+     if (this->getPosition().y > unit->getPosition().y)
+       return this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
+                                this->getPosition().y - this->getPrototype()->dimensionUp(),
+                                unit->getPosition().x - unit->getPrototype()->dimensionLeft(),
+                                unit->getPosition().y + unit->getPrototype()->dimensionDown());
+     else
+       return this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
+                                this->getPosition().y + this->getPrototype()->dimensionDown(),
+                                unit->getPosition().x - unit->getPrototype()->dimensionLeft(),
+                                unit->getPosition().y - unit->getPrototype()->dimensionUp());
+  }
+  //-------------------------------- GET CENTER DISTANCE -----------------------
+  u16 Unit::getCenterDistance(Unit *unit) const
+  {
+    return this->getDistance(this->getPosition().x, 
+                             this->getPosition().y,
+                             unit->getPosition().x, 
+                             unit->getPosition().y);
+  }
+  //-------------------------------- GET DISTANCE ------------------------------
+  u16 Unit::getDistance(int x1, int y1, int x2, int y2) const
+  {
+    return sqrt((long double)(x1 - x2)*(x1 - x2) +
+                (long double)(y1 - y2)*(y1 - y2));
   }
   #pragma warning(pop)
   //------------------------------ HAS EMPTY QUEUE -----------------------------
@@ -261,6 +318,13 @@ namespace BWAPI
   u8 Unit::getBuildQueueSlotLocal()
   {
     return this->getOriginalRawData()->buildQueueSlot;
+  }
+  //----------------------------------------------------------------------------
+  Unit* Unit::BWUnitToBWAPIUnit(BW::UnitData* unit)
+  {
+    if (unit == NULL)
+      return NULL;
+    return Broodwar.getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
   }
   //----------------------------------------------------------------------------
 };
