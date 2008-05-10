@@ -52,9 +52,11 @@ namespace BWAPI
       u8 getBuildQueueSlot();
       /** Gets #bwUnitDataLocal->BW#UnitData#buildQueueSlot - @ref localData */
       u8 getBuildQueueSlotLocal();
-      /** Gets distance between this and the specified unit. */
+      /** Gets distance of unit edges. */
       u16 getDistance(Unit *unit) const; 
+      /** Gets distance of unit centers. */
       u16 getCenterDistance(Unit *unit) const; 
+      /** Gets distance between two positions. */
       u16 getDistance(int x1, int y1, int x2, int y2) const; 
       /**< Gets bwUnitData->BW#UnitData#orderID. */
       BW::OrderID::Enum getOrderID() const;
