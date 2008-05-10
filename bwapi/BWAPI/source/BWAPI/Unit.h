@@ -72,8 +72,10 @@ namespace BWAPI
       void order(const AbilityPrototype* const ability, Unit* target);
       void order(const AbilityPrototype* const ability, const BW::Position& target);
       void order(int commandCode, const BW::Position& target);
-      /** Gets if the unit is alive, it uses hp > 0 heuristic for now. */
+      /** Gets if the unit is alive (it exists), it uses hp > 0 heuristic for now. */
       bool isValid() const;
+      /** Gets if the unit is alive - exists and it's construction is done. */
+      bool isReady() const;
       /** Gets #bwUnitData */
       BW::UnitData *getRawData();
       /** Gets #bwUnitData (const version that returns const pointer) */
@@ -102,9 +104,12 @@ namespace BWAPI
       void orderRightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
       void trainUnit(UnitPrototype *type);
+      /** Orders to build the specified building. */
+      void build(u16 tileX, u16 tileY, UnitPrototype *type);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::UnitData* unit);
+      bool isMineral();
     private:
       BW::UnitData* bwUnitData; /**< Pointer to our copy of of unit data table. */
       BW::UnitData* bwUnitDataLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 

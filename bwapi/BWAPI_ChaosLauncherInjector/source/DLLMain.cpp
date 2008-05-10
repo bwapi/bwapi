@@ -121,40 +121,46 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
 //so it is definitely the StarCraft
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
-   const DWORD ENV_BUFFER_SIZE = 512;
-   char envBuffer[512];
+  const DWORD ENV_BUFFER_SIZE = 512;
+  char envBuffer[512];
+  
+  #pragma warning(push)
+  #pragma warning(disable:4189)
+  DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+  assert(result != 0);
+  #pragma warning(pop)
 
-   DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
-   assert(result != 0);
+  std::string dllFileName(envBuffer);
+  dllFileName.append("\\BWAPI.dll");
 
-   std::string dllFileName(envBuffer);
-   dllFileName.append("\\BWAPI.dll");
+  LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
+  assert(NULL != loadLibAddress);
 
-   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
-   assert(NULL != loadLibAddress);
+  void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size()+1, MEM_COMMIT, PAGE_READWRITE);
+  assert(NULL != pathAddress);
 
-   void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size()+1, MEM_COMMIT, PAGE_READWRITE);
-   assert(NULL != pathAddress);
+  SIZE_T bytesWritten;
 
-   SIZE_T bytesWritten;
-   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size()+1, &bytesWritten);
-   assert(success && bytesWritten == dllFileName.size()+1);
+  #pragma warning(push)
+  #pragma warning(disable:4189)
 
-   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
-   assert(NULL != hThread);
+  BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size()+1, &bytesWritten);
+  assert(success && bytesWritten == dllFileName.size()+1);
+  #pragma warning(pop)
 
-   WaitForSingleObject(hThread, INFINITE);
+  HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
+  assert(NULL != hThread);
 
-   DWORD hLibModule; // Base address of the loaded module
-   GetExitCodeThread(hThread, &hLibModule);
-   assert(0 != hLibModule);
+  WaitForSingleObject(hThread, INFINITE);
 
-   VirtualFreeEx(hProcess, pathAddress, dllFileName.size()+1, MEM_RELEASE);
-   CloseHandle(hThread);
+  DWORD hLibModule; // Base address of the loaded module
+  GetExitCodeThread(hThread, &hLibModule);
+  assert(0 != hLibModule);
 
-   return true; //everything OK
+  VirtualFreeEx(hProcess, pathAddress, dllFileName.size()+1, MEM_RELEASE);
+  CloseHandle(hThread);
 
-   //return false; //something went wrong
+  return true; //everything OK
 }
 
 #ifdef _MANAGED

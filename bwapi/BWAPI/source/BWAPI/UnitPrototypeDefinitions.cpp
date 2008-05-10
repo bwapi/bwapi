@@ -48,7 +48,7 @@ namespace BWAPI
     s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove | AbilityFlags::Attack;
     /*                                                Unit name                 ID                                    Race                sp  target flags*/
     /** Terran */
-    UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"               , BW::UnitType::Terran_SCV,                RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"               , BW::UnitType::Terran_SCV,                RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
     UnitPrototype* Marine              = new UnitPrototype("Terran Marine"            , BW::UnitType::Terran_Marine,             RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
     UnitPrototype* Firebat             = new UnitPrototype("Terran Firebat"           , BW::UnitType::Terran_Firebat,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
     UnitPrototype* SiegeTank_TankMode  = new UnitPrototype("Siege Tank (TankMode)"    , BW::UnitType::Terran_SiegeTankTankMode,  RaceType::Terran,    0, MOVABLE_CAN_ATTACK);

@@ -49,6 +49,22 @@ namespace BW
       u8 unitID;
       u8 alwaysZero;
    };
+   /** Make building. */
+   class MakeBuilding
+   {
+     public :
+      MakeBuilding(u16 x, u16 y, BW::UnitType::Enum type); 
+      /** 0x0c = make building Command-code in bw */
+      u8 always0x0c;
+      /** 1e for terran 1f for protoss*/
+      u8 always0x1e;
+      u16 tileX;
+      u16 tileY;
+      /** Type of building to make */
+      u8 unitID;
+      u8 alwaysZero;
+      
+   };
    /** Change slot command in bw. */
    class ChangeSlot
     {
