@@ -58,6 +58,7 @@ namespace BWAPI
     int getMouseY();
     int getScreenX();
     int getScreenY();
+    void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr);
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
