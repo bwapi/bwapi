@@ -128,4 +128,22 @@ namespace BWAPI
     return BW::BWXFN_UnitDimensions->units[this->getUnitID()].down;
   }
   //----------------------------------------------------------------------------
+  u8 UnitPrototype::getDamageFactor() const
+  {
+    int weaponID = BW::BWXFN_UnitGroundWeapon->unit[this->getUnitID()];
+    if (weaponID == BW::NoWeapon)
+       return 0;
+    else
+       return BW::BWXFN_WeaponDamageFactor->weapon[weaponID];
+  }
+  //----------------------------------------------------------------------------
+  u16 UnitPrototype::getGroundDamage() const
+  {
+    int weaponID = BW::BWXFN_UnitGroundWeapon->unit[this->getUnitID()];
+    if (weaponID == BW::NoWeapon)
+       return 0;
+    else
+       return BW::BWXFN_WeaponDamage->weapon[weaponID];
+  }
+  //----------------------------------------------------------------------------
 };

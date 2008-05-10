@@ -42,6 +42,10 @@ namespace BWAPI
     u16                   dimensionUp() const;
     u16                   dimensionRight() const;
     u16                   dimensionDown() const;
+    /** Gets Damage factor of the ground weapon of the unit @todo find out what does it mean. */
+    u8                    getDamageFactor() const;
+    /** Gets base Damage of the ground weapon of the unit. */
+    u16                   getGroundDamage() const;
 
     
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;

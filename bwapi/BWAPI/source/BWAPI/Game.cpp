@@ -101,7 +101,9 @@ namespace BWAPI
 
   void Game::test(void)
   {
-
+    /*for (unsigned int i = 0; i < this->buffers.size(); i++)
+       delete [] buffers[i];
+    buffers.clear();*/
     /*
     I will implement this later on using some correct pointers method on unit
     _w64 int memoryPositionDifference = this->unitArrayCopy - UNIT_NODE_TABLE; 
@@ -127,8 +129,8 @@ namespace BWAPI
     char message[50];
     sprintf(message, "Mouse (%d,%d)", this->getScreenX() + this->getMouseX(), this->getScreenY() + this->getMouseY());
     this->print(message); */
-    if (frameCount > 100)
-      this->drawBox(100,100,100,100,100);
+    /*if (frameCount > 100)
+      this->drawBox(100,100,100,100,100);*/
 
     FILE *f = fopen("bwapi.log","at"); 
     fprintf(f, "Update   %d\n", this->frameCount);
@@ -170,42 +172,82 @@ namespace BWAPI
     fprintf(f, "Minerals        = %s - %d\n", getBinary(BWAPI::Prototypes::Minerals->getUnknown()).c_str(), BWAPI::Prototypes::Minerals->getUnknown());
     fprintf(f, "Vaspine gayser  = %s - %d\n", getBinary(BWAPI::Prototypes::VaspineGayser->getUnknown()).c_str(), BWAPI::Prototypes::VaspineGayser->getUnknown()); */
 
-    //fprintf(f, "Command cent = %s - %d\n", getBinary(BWAPI::Prototypes::Marine->getUnknown()).c_str()              , BWAPI::Prototypes::Marine->getUnknown());
+    /*fprintf(f, "Command center = (%d,%d) (%d,%d)\n", BWAPI::Prototypes::CommandCenter->dimensionUp(),
+                                                     BWAPI::Prototypes::CommandCenter->dimensionDown(),
+                                                     BWAPI::Prototypes::CommandCenter->dimensionLeft(),
+                                                     BWAPI::Prototypes::CommandCenter->dimensionRight());
+    fprintf(f, "SCV            = (%d,%d) (%d,%d)\n", BWAPI::Prototypes::SCV->dimensionUp(),
+                                                     BWAPI::Prototypes::SCV->dimensionDown(),
+                                                     BWAPI::Prototypes::SCV->dimensionLeft(),
+                                                     BWAPI::Prototypes::SCV->dimensionRight());*/
 
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
     Player *marwin = NULL;
     bool reselected = false;
-    for (int i = 0; i < 1700; i++)
-    {
-      if (units[i]->isValid() &&
-          strcmp(units[i]->getOwner()->getName(),"NEM)Marwin") == 0)
-      {
-        marwin = units[i]->getOwner();
-        found = true;
-        if (units[i]->getPrototype() == Prototypes::SCV &&
-            units[i]->getOrderIDLocal() == BW::OrderID::Idle)
-          unitList.push_back(this->units[i]);
-        else
-         if (units[i]->getPrototype() == Prototypes::CommandCenter)
-           cc = this->units[i];
-      }
-    }
+    
+    for (int i = 0; i < 8; i++)
+     if (strcmp(this->players[i]->getName(),"NEM)Marwin") == 0)
+        marwin = this->players[i];
+
     BW::UnitData** selected = NULL;
+    Unit* selectedUnit = NULL;
     if (marwin != NULL)
     {
       selected = new BW::UnitData * [13];
       memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
       selected[12] = NULL;
-      /*
-      if (selected[0] != NULL)
+      selectedUnit  = Unit::BWUnitToBWAPIUnit(selected[0]);
+
+      if (selectedUnit != NULL)
       {
         char message[50];
-        sprintf(message, "Selected unit id = %d", selected[0]->unitID);
-        this->print(message);
-      }*/
+        Unit* target = selectedUnit->getTarget();
+        if (target != NULL)
+        {
+          sprintf(message, "Edge distance = %d", selectedUnit->getDistance(target));
+          this->print(message);
+          sprintf(message, "Real distance = %d", selectedUnit->getCenterDistance(target));
+          this->print(message);
+         }
+        if (selectedUnit->getPrototype())
+        {
+          sprintf(message, "Damage = %d", selectedUnit->getPrototype()->getGroundDamage());
+          this->print(message);
+        }
+        else
+        {
+          sprintf(message, "Unit Id = %d (no prototype)", selectedUnit->getRawData()->unitID);
+          this->print(message);
+        }
+      }
     }
+    
+    
+    for (int i = 0; i < 1700; i++)
+    {
+      if (units[i]->isValid() &&
+          units[i]->getOwner() == marwin)
+      {
+        found = true;
+        if (units[i]->getPrototype() == Prototypes::SCV &&
+            units[i]->getOrderIDLocal() == BW::OrderID::Idle &&
+            units[i] != selectedUnit)
+          unitList.push_back(this->units[i]);
+        else
+         if (units[i]->getPrototype() == Prototypes::CommandCenter)
+           cc = this->units[i];
+      }
+    /* if (units[i]->isValid() &&
+         units[i]->getPosition().x > this->getScreenX() &&
+         units[i]->getPosition().x < this->getScreenX() + 640 &&
+         units[i]->getPosition().y > this->getScreenY() &&
+         units[i]->getPosition().y < this->getScreenY() + 480)
+       this->printXY(units[i]->getPosition().x, units[i]->getPosition().y, units[i]->getPrototype()->getName().c_str());*/
+    }
+
+    
     if (cc != NULL)
     {
      fprintf(f, "Terran Suppplies %d/%d\n", marwin->getSuppliesUsedTerran(), marwin->getSuppliesAvailableTerran());
@@ -227,7 +269,9 @@ namespace BWAPI
       for (int i = 0; i < 1700; i++)
       {
         if (units[i]->isValid() && 
-            units[i]->getPrototype() == Prototypes::Minerals)
+            units[i]->getPrototype() == Prototypes::Minerals1 ||
+            units[i]->getPrototype() == Prototypes::Minerals2 ||
+            units[i]->getPrototype() == Prototypes::Minerals3)
           mineralList.push_back(units[i]);
       }
       std::sort(mineralList.begin(),mineralList.end(), closerToCC);
@@ -258,78 +302,41 @@ namespace BWAPI
   #pragma warning(disable:4311)
   #pragma warning(disable:4312)
 
-  VOID JmpPatch(void *pDest, void *pSrc, int nNops = 0)
-  {
-      DWORD OldProt;
-      
-      VirtualProtect(pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-      
-      *(u8*)pSrc = (u8)0xE9;
-      *(DWORD*)((DWORD)pSrc + 1) = (DWORD)pDest - (DWORD)pSrc - 5;
-      
-      for (int i = 0; i < nNops; ++i)
-      {
-          *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
-      }
-      
-      VirtualProtect(pSrc, 5 + nNops, OldProt, &OldProt);
-  }
-  VOID JmpPatch(void *pDest, void *pSrc, unsigned char jmp = 0xE9, int nNops = 0)
-  {
-	  DWORD OldProt;
-      
-      VirtualProtect(pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-      
-      *(char*)pSrc = (char)jmp;
-      *(DWORD*)((DWORD)pSrc + 1) = (DWORD)pDest - (DWORD)pSrc - 5;
-      
-	  for (int i = 0; i < nNops; ++i)
-	  {
-	      *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
-	  }
-  	    
-	  VirtualProtect(pSrc, 5 + nNops, OldProt, &OldProt);
-  }
+void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
+{
+  DWORD OldProt = 0;
+  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
+  unsigned char jmp = 0xE9;
+  memcpy((LPVOID)pSrc, &jmp, 1);
+  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
+  memcpy((LPVOID)(pSrc + 1), &address, 4); 
+  for (int i = 0; i < nNops; ++i)
+    *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
+  VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
+}
 
   #pragma warning(pop)
 
-  void DrawStaticText(char* Text, int X, int Y)
+
+ void __declspec(naked) DrawStaticText(const char* text, int x, int y)
   {
       __asm
       {
-          mov eax, Text
-          mov edx, Y
+          mov eax, text
+          mov edx, y
           push edx
-          mov esi, X
+          mov esi, x
           call [BW::BWFXN_HUD]
       }
   }
-  char buffer[200];
-  int xToPrint, yToPrint;
-  void ProcessTest()
-  {
-    DrawStaticText(buffer, xToPrint , yToPrint);
-  }
 
-  void __declspec(naked) Test()
-  {
-    static int ReturnAddr = (0x48CC25+6);
-    __asm 
-	   {
-      pushad
-      call ProcessTest
-      popad
-      mov esi, 0x0A
-      jmp [ReturnAddr]
-    }
-  }
 //------------------------------ PRINT X Y ------------------------------------
-  void Game::printXY(int x, int y, char* text) const
+  void Game::printXY(int x, int y, const char* text)
   {
+   char *buffer = new char[strlen(text) + 1];
    strcpy(buffer, text);
-   xToPrint = x;
-   yToPrint = y;
-   JmpPatch(&Test,(PBYTE)0x48CC25,6);
+   this->buffers.push_back(buffer);
+   DrawStaticText(text, x, y);
   }
   //---------------------------------------------------------------------------
   bool Game::isInGame()
@@ -422,6 +429,17 @@ namespace BWAPI
       push x
       call [BWFXN_DrawBox]
     }  
+  }
+  //-----------------------------------------------------------------------------
+  void Game::refresh()
+  {
+   void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWXFN_Refresh;
+	 	refresh();
+  }
+  //-----------------------------------------------------------------------------
+  Unit* Game::getUnit(int index)
+  {
+    return this->units[index];
   }
   //-----------------------------------------------------------------------------
 };
