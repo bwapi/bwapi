@@ -108,4 +108,24 @@ namespace BWAPI
     return BW::BWXFN_Unknown->unknown[this->getUnitID()];
   }
   //----------------------------------------------------------------------------
+  u16 UnitPrototype::dimensionLeft() const
+  {
+    return BW::BWXFN_UnitDimensions->units[this->getUnitID()].left;
+  }
+  //----------------------------------------------------------------------------
+  u16 UnitPrototype::dimensionUp() const
+  {
+    return BW::BWXFN_UnitDimensions->units[this->getUnitID()].up;
+  }
+  //----------------------------------------------------------------------------
+  u16 UnitPrototype::dimensionRight() const
+  {
+    return BW::BWXFN_UnitDimensions->units[this->getUnitID()].right;
+  }
+  //----------------------------------------------------------------------------
+  u16 UnitPrototype::dimensionDown() const
+  {
+    return BW::BWXFN_UnitDimensions->units[this->getUnitID()].down;
+  }
+  //----------------------------------------------------------------------------
 };

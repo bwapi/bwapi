@@ -127,9 +127,12 @@ namespace BWAPI
     char message[50];
     sprintf(message, "Mouse (%d,%d)", this->getScreenX() + this->getMouseX(), this->getScreenY() + this->getMouseY());
     this->print(message); */
+    if (frameCount > 100)
+      this->drawBox(100,100,100,100,100);
 
     FILE *f = fopen("bwapi.log","at"); 
     fprintf(f, "Update   %d\n", this->frameCount);
+    /*
     fprintf(f, "Marine          = %s - %d\n", getBinary(BWAPI::Prototypes::Marine->getUnknown()).c_str()              , BWAPI::Prototypes::Marine->getUnknown());
     fprintf(f, "Ghost           = %s - %d\n", getBinary(BWAPI::Prototypes::Ghost->getUnknown()).c_str()               , BWAPI::Prototypes::Ghost->getUnknown());
     fprintf(f, "Vulture         = %s - %d\n", getBinary(BWAPI::Prototypes::Vulture->getUnknown()).c_str()             , BWAPI::Prototypes::Vulture->getUnknown());
@@ -165,7 +168,10 @@ namespace BWAPI
     fprintf(f, "Mutalisk        = %s - %d\n", getBinary(BWAPI::Prototypes::Mutalisk->getUnknown()).c_str(), BWAPI::Prototypes::Mutalisk->getUnknown());
     
     fprintf(f, "Minerals        = %s - %d\n", getBinary(BWAPI::Prototypes::Minerals->getUnknown()).c_str(), BWAPI::Prototypes::Minerals->getUnknown());
-    fprintf(f, "Vaspine gayser  = %s - %d\n", getBinary(BWAPI::Prototypes::VaspineGayser->getUnknown()).c_str(), BWAPI::Prototypes::VaspineGayser->getUnknown());
+    fprintf(f, "Vaspine gayser  = %s - %d\n", getBinary(BWAPI::Prototypes::VaspineGayser->getUnknown()).c_str(), BWAPI::Prototypes::VaspineGayser->getUnknown()); */
+
+    //fprintf(f, "Command cent = %s - %d\n", getBinary(BWAPI::Prototypes::Marine->getUnknown()).c_str()              , BWAPI::Prototypes::Marine->getUnknown());
+
     bool found = false;
     std::vector<Unit*> unitList;
     cc = NULL;
@@ -399,6 +405,23 @@ namespace BWAPI
   int Game::getScreenY()
   {
 	 	return *((int*)0x00628458);
+  }
+  //-----------------------------------------------------------------------------
+//  int BWFXN_DrawBox = 0x4E18E0;
+//  char* BWFXN_pointer = (char*) 0x6CF494;
+  void Game::drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr)
+  {
+    static const int BWFXN_DrawBox = 0x4E18E0; 
+    __asm 
+    {
+     /// mov al, clr
+     // mov ds:[0x6CF494], al
+      push h
+      push w
+      push y
+      push x
+      call [BWFXN_DrawBox]
+    }  
   }
   //-----------------------------------------------------------------------------
 };

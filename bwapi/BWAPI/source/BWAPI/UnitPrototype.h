@@ -38,6 +38,11 @@ namespace BWAPI
     u8                    getArmor() const;
     u16                   getBuildTime() const;
     UNKNOWN_TYPE          getUnknown() const;
+    u16                   dimensionLeft() const;
+    u16                   dimensionUp() const;
+    u16                   dimensionRight() const;
+    u16                   dimensionDown() const;
+
     
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
     bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;

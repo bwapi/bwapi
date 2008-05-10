@@ -200,13 +200,27 @@ namespace BW
 
   #define UNKNOWN_BIT_SIZE 16
   #define UNKNOWN_TYPE u16
+  //--------------------------------- UNIT DIRECTIONS ------------------------
+  /** Direct mapping of unit unit type armor */
+  struct UnitsDimensions_type
+  {
+    struct UnitDimensions
+    {
+      u16 left;
+      u16 up;
+      u16 right;
+      u16 down;
+    };
+    UnitDimensions units[unitTypeCount];
+  };
+  static UnitsDimensions_type* BWXFN_UnitDimensions = (UnitsDimensions_type*) 0x006617B4;
   //--------------------------------- UNIT MAX SHIELDS ------------------------
   /** Direct mapping of unit unit type armor */
   struct Unknown_type
   {
    UNKNOWN_TYPE unknown[unitTypeCount];
   };
-  static Unknown_type* BWXFN_Unknown = (Unknown_type*) 0x00660410;
+  static Unknown_type* BWXFN_Unknown = (Unknown_type*) 0x065FF8D;
   //---------------------------------------------------------------------------
 };
 #pragma pack()
