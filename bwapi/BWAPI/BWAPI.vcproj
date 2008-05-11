@@ -200,6 +200,10 @@
 				Name="BW"
 				>
 				<File
+					RelativePath=".\source\BW\Bitmask.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\MovementFlags.h"
 					>
 				</File>
