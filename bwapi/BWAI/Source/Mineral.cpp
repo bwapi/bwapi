@@ -19,6 +19,7 @@ namespace BWAI
     this->gatherersAssigned.push_back(gatherer);
     gatherer->expansionAssingment = this->expansion;
     this->expansion->asignedWorkers ++;
+    gatherer->orderRightClick(this->mineral);
   }
   //-------------------------------- REMOVE WORKER ----------------------------
   bool Mineral::removeGatherer(Unit* gatherer)
@@ -40,25 +41,36 @@ namespace BWAI
     for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
     {
       Unit* gatherer = this->gatherersAssigned[i];
-      if (
-           (
-             gatherer->getOrderID() == BW::OrderID::ApproachingMinerals || 
-             gatherer->getOrderID() == BW::OrderID::StartingMining || 
-             gatherer->getOrderID() == BW::OrderID::Idle
-            ) &&
-             gatherer->getOrderID() != BW::OrderID::Mining &&
-            (
-              gatherer->getTargetLocal() != this->mineral  ||
+      if (gatherer->getOrderIDLocal() != BW::OrderID::ApproachingMinerals &&
+          gatherer->getOrderIDLocal() != BW::OrderID::StartingMining &&
+          gatherer->getOrderIDLocal() != BW::OrderID::Mining &&
+          gatherer->getOrderIDLocal() != BW::OrderID::ReturningMinerals &&
+          gatherer->getOrderIDLocal() != BW::OrderID::GettingMinedMinerals)
+      {
+        this->removeGatherer(gatherer);
+        ai->expansionsSaturated = false;
+        i--;
+      }
+      else
+        if (
+             (
+               gatherer->getOrderIDLocal() == BW::OrderID::ApproachingMinerals || 
+               gatherer->getOrderIDLocal() == BW::OrderID::StartingMining || 
+               gatherer->getOrderIDLocal() == BW::OrderID::Idle
+              ) &&
+               gatherer->getOrderID() != BW::OrderID::Mining &&
               (
-                gatherer->getDistance(this->mineral) <= 3 &&
-                this->SomeoneIsMining()
+                gatherer->getTargetLocal() != this->mineral ||
+                (
+                  gatherer->getDistance(this->mineral) <= 3 &&
+                  this->SomeoneIsMining()
+                )
               )
             )
-          )
-      {
-        gatherer->orderRightClick(mineral);
-        reselected = true;
-      }
+        {
+          gatherer->orderRightClick(mineral);
+          reselected = true;
+        }
     }
     return reselected;
   }
