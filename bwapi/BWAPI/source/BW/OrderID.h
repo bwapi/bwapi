@@ -23,6 +23,7 @@ namespace BW
       InRafinery           = 83, /**< The unit is inside of Rafinery/Extractor/Asimilator */
       ReturningGas         = 84, /**< Unit gathering gas resource is returning with it to Hatchery/CommandCenter/Nexus */
       ApproachingMinerals  = 85, /**< Unit is approaching minerals and will gather them (so only unit that can gather can do this)*/
+      StartingMining       = 86, /**< Unit is starting it's mining process (not that even when the mineral is occupied and the worker will go elswhere this state will be present) */
       Mining               = 87, /**< Unit is mining minerals */
       ReturningMinerals    = 90, /**< Unit is with minerals is returning it back to Command Center/Hatchery/nexus */
       GettingMinedMinerals = 151 /**< @todo Investigate That action is there for a moment between Mining and Returning Minerals states */

@@ -98,10 +98,14 @@ namespace BWAPI
     UnitPrototype* Larva               = new UnitPrototype("Larva"                    , BW::UnitType::Zerg_Larva,                RaceType::Zerg,      0, 0);
     UnitPrototype* Overlord            = new UnitPrototype("Overlord"                 , BW::UnitType::Zerg_Overlord,             RaceType::Zerg,      0, AbilityFlags::Move);
     UnitPrototype* Zergling            = new UnitPrototype("Zergling"                 , BW::UnitType::Zerg_Zergling,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Egg                 = new UnitPrototype("Zerg Egg"                 , BW::UnitType::Zerg_Egg,                  RaceType::Zerg,      0, 0);
+    UnitPrototype* Hydralisk           = new UnitPrototype("Zerg Hydralisk"           , BW::UnitType::Zerg_Hydralisk,            RaceType::Zerg,      0, 0);
     UnitPrototype* Queen               = new UnitPrototype("Zerg Queen"               , BW::UnitType::Zerg_Queen,                RaceType::Zerg,    200, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
     UnitPrototype* Mutalisk            = new UnitPrototype("Zerg Mutalisk"            , BW::UnitType::Zerg_Mutalisk,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
     UnitPrototype* Hatchery            = new UnitPrototype("Zerg Hatchery"            , BW::UnitType::Zerg_Hatchery,             RaceType::Zerg,      0, 0);
     UnitPrototype* SpawningPool        = new UnitPrototype("Zerg Spawning pool"       , BW::UnitType::Zerg_SpawningPool,         RaceType::Zerg,      0, 0);
+    
+    
     /** Neutral */
     UnitPrototype* MineralPatch1       = new UnitPrototype("Minerals1"               , BW::UnitType::Resource_MineralPatch1,     RaceType::Other,     0, 0);    
     UnitPrototype* MineralPatch2       = new UnitPrototype("Minerals2"               , BW::UnitType::Resource_MineralPatch2,     RaceType::Other,     0, 0);    
@@ -146,17 +150,17 @@ namespace BWAPI
      /** 0x20 */ Firebat,
      /** 0x21 */ NULL,
      /** 0x22 */ Medic,
-     /** 0x23 */ NULL,
-     /** 0x24 */ NULL,
-     /** 0x25 */ NULL,
-     /** 0x26 */ NULL,
+     /** 0x23 */ Larva,
+     /** 0x24 */ Egg,
+     /** 0x25 */ Zergling,
+     /** 0x26 */ Hydralisk,
      /** 0x27 */ NULL,
      /** 0x28 */ NULL,
-     /** 0x29 */ NULL,
-     /** 0x2A */ NULL,
-     /** 0x2B */ NULL,
+     /** 0x29 */ Drone,
+     /** 0x2A */ Overlord,
+     /** 0x2B */ Mutalisk,
      /** 0x2C */ NULL,
-     /** 0x2D */ NULL,
+     /** 0x2D */ Queen,
      /** 0x2E */ NULL,
      /** 0x2F */ NULL,
      /** 0x30 */ NULL,
@@ -175,8 +179,8 @@ namespace BWAPI
      /** 0x3D */ NULL,
      /** 0x3E */ NULL,
      /** 0x3F */ NULL,
-     /** 0x40 */ NULL,
-     /** 0x41 */ NULL,
+     /** 0x40 */ Probe,
+     /** 0x41 */ Zealot,
      /** 0x42 */ NULL,
      /** 0x43 */ NULL,
      /** 0x44 */ NULL,
@@ -265,17 +269,17 @@ namespace BWAPI
      /** 0x97 */ NULL,
      /** 0x98 */ NULL,
      /** 0x99 */ NULL,
-     /** 0x9A */ NULL,
+     /** 0x9A */ Nexus,
      /** 0x9B */ NULL,
-     /** 0x9C */ NULL,
+     /** 0x9C */ Pylon,
      /** 0x9D */ NULL,
      /** 0x9E */ NULL,
      /** 0x9F */ NULL,
-     /** 0xA0 */ NULL,
+     /** 0xA0 */ Gateway,
      /** 0xA1 */ NULL,
      /** 0xA2 */ NULL,
      /** 0xA3 */ NULL,
-     /** 0xA4 */ NULL,
+     /** 0xA4 */ CyberneticsCore,
      /** 0xA5 */ NULL,
      /** 0xA6 */ NULL,
      /** 0xA7 */ NULL,

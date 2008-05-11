@@ -9,6 +9,7 @@
 
 #include "../BW/Offsets.h"
 #include "../BW/UnitData.h"
+#include "../BW/UnitTarget.h"
 #include "../BW/OrderTypes.h"
 
 #include <stdio.h>
@@ -333,8 +334,19 @@ namespace BWAPI
     int unitCount = 0;
     while (selected[unitCount] != NULL)
       unitCount ++;
-    void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-	   selectUnitsHelperSTD(unitCount, selected, true, true);
+    byte* inputData = new byte[2 + unitCount*2];
+    inputData[0] = 0x09;
+    inputData[1] = unitCount;
+    for (int i = 0; i < unitCount; i++)
+    {
+      BW::UnitTarget target = BW::UnitTarget(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i]));
+      memcpy(inputData + 2 + 2*i, &target, sizeof(BW::UnitTarget));
+    }
+       
+    //void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool)) 0x0049AB90;
+	   //selectUnitsHelperSTD(unitCount, selected, true, true);
+    this->IssueCommand(inputData, 2 + unitCount*2);
+    delete [] inputData;
     delete [] selected;
   }
   //-----------------------------------------------------------------------------

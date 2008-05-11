@@ -16,5 +16,6 @@ namespace BWAI
       bool removeGatherer(Unit* unit);
       bool checkAssignedWorkers();
       bool SomeoneIsMining(void);
+      void checkDeadWorkers(void);
   };
 }

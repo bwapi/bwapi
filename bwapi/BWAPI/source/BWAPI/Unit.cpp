@@ -250,6 +250,7 @@ namespace BWAPI
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(x, y)), sizeof(BW::Orders::RightClick)); 
+    Broodwar.addToCommandBuffer(new CommandRightClick(this, BW::Position(x, y)));
   }
   //------------------------------- ORDER RIGHT CLICK -------------------------
   void Unit::orderRightClick(Unit *target)
@@ -268,13 +269,13 @@ namespace BWAPI
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {
-    BW::UnitData * * list = new BW::UnitData * [2];
+    /*BW::UnitData * * list = new BW::UnitData * [2];
     list[0] = this->getOriginalRawData();
 	   list[1] = NULL;
     int one = 1;
     void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
-    selectUnitsHelperSTD(one, list, true, true);
-    //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
+    selectUnitsHelperSTD(one, list, true, true);*/
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
   }
   //---------------------------------- GET TYPE --------------------------------
   BW::UnitType::Enum Unit::getType() const

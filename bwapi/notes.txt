@@ -1,0 +1,17 @@
+Mining test 8 mineral patches - 5 game minutes
+Distributed mining (Distance = 3 - On approaching - (ignored starting mining state)):
+  Test 1 (No select save)
+    Mined 3192 Minerals
+    Additional apm 130-110
+  Test 2 (select save)
+    Mined 3176 Minerals
+    Adidtional apm 222
+Distributed mining (Distance = 3 - complete)
+  Test 1
+    Mined 3192 Minerals
+     Aditional apm 338
+Distributed mining (Distance = 3 - complete + additional latency workaround)     
+    
+Normal mining
+  Test 1
+    2624

@@ -19,7 +19,7 @@ namespace BWAI
   {
     if (unit == NULL)
       return NULL;
-    return ai.getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
+    return ai->getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
   }
   #pragma warning (pop)
   //------------------------------- GET TARGET --------------------------------

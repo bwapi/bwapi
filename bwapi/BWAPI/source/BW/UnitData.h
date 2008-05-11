@@ -17,7 +17,7 @@ namespace BW { struct Order; };
 namespace BW
 {
   const u32 UNIT_SIZE_IN_BYTES = 336;
-  const u32 UNIT_ARRAY_MAX_LENGTH = 1700;
+  const u32 UNIT_ARRAY_MAX_LENGTH = 1701;
 
   /** 
   * Direct data mapping of the broodwar unit structure. Most of the information here is derived

@@ -29,7 +29,7 @@ void __declspec(naked) onCancelTrainByEscape()
   }
   {
     BWAPI::Broodwar.onCancelTrain();
-    BWAI::ai.onCancelTrain();
+    BWAI::ai->onCancelTrain();
   }
   __asm
   {
@@ -49,7 +49,7 @@ void __declspec(naked) onCancelTrainByClickInTheQueue()
   }
   {
     BWAPI::Broodwar.onCancelTrain();
-    BWAI::ai.onCancelTrain();
+    BWAI::ai->onCancelTrain();
   }
   __asm
   {
@@ -64,7 +64,6 @@ void __declspec(naked) onGameStart()
 {
   {
     BWAPI::Broodwar.onGameStart();
-    
   }
   __asm
   {
@@ -77,6 +76,8 @@ void __declspec(naked) onGameEnd()
 {
   {
     BWAPI::Broodwar.onGameEnd();
+    BWAI::ai->onEnd();
+    aiStartCalled = false;
   }
   __asm
   {
@@ -93,10 +94,10 @@ void __declspec(naked)  hookTest()
     BWAPI::Broodwar.update();
     if (!aiStartCalled)
     {
-      BWAI::ai.onStart(BWAPI::Broodwar, BWAPI::Broodwar.marwin);
+      BWAI::ai->onStart(BWAPI::Broodwar.marwin);
       aiStartCalled = true;
     }
-    BWAI::ai.onFrame(BWAPI::Broodwar);
+    BWAI::ai->onFrame();
   }
   __asm
   {
@@ -111,6 +112,7 @@ void __declspec(naked)  hookTest()
 #pragma warning(disable:4312)
 void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 {
+  BWAI::ai = new BWAI::AI();
   DWORD OldProt = 0;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
   unsigned char jmp = 0xE9;
@@ -127,7 +129,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
-  Sleep(2000);
+  Sleep(20000);
   JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
