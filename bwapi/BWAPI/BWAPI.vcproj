@@ -292,6 +292,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandRightClick.cpp"
 					>
 				</File>

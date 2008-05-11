@@ -50,23 +50,26 @@ namespace BW
 
   static u32           BWFXN_CommandUnit = 0x4BFF80;
   static u32           BWFXN_IssueCommand = 0x4858F0;
-  static int           BWFXN_HUD = 0x4202A0; 
-  //static int           BWFXN_InGame = 0x654D64; // Wrong offset
-  static int           BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
-  static int           BWXFN_PrintText = 0x48CE60;
-  static int           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
+  static u32           BWFXN_HUD = 0x4202A0; 
+  //static u32           BWFXN_InGame = 0x654D64; // Wrong offset
+  static u32           BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
+  static u32           BWXFN_PrintText = 0x48CE60;
+  static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
   //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
   static UnitData*     BWXFN_CurrentPlayerSelectionGroup = (UnitData*) 0x005971F0;
-  static int           BWXFN_GameStart = 0x004C96A1;
-  static int           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
-  static int           BWXFN_GameStartTarget = 0x00417C10;
-  static int           BWXFN_GameEnd = 0x004EE5C3;
-  static int           BWXFN_GameEndBack = BWXFN_GameEnd + 5;
-  static int           BWXFN_GameEndTarget = 0x00416D80;
-  static int           BWXFN_NextFrameHelperFunction = 0x004D94ED;
-  static int           BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
-  static int           BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
-  static int           BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
+  static u32           BWXFN_GameStart = 0x004C96A1;
+  static u32           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
+  static u32           BWXFN_GameStartTarget = 0x00417C10;
+  static u32           BWXFN_GameEnd = 0x004EE5C3;
+  static u32           BWXFN_GameEndBack = BWXFN_GameEnd + 5;
+  static u32           BWXFN_GameEndTarget = 0x00416D80;
+  static u32           BWXFN_NextFrameHelperFunction = 0x004D94ED;
+  static u32           BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
+  static u32           BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
+  static u32           BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
+  static u32           BWXFN_CancelTrain = 0x004573D9;
+  static u32           BWXFN_CancelTrainBack = 0x004573D9 + 5;
+  static u32           BWXFN_CancelTrainTarget = BWFXN_IssueCommand;
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
   /** Direct mapping of players Protoss avialable supplies in the bw memory. */

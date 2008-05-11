@@ -17,17 +17,26 @@
 #include "../../BWAI/Source/Globals.h"
 
 bool aiStartCalled = false;
+DWORD onCancelTrain_edx;
+DWORD onCancelTrain_ecx;
 //----------------------------- ON COMMAND ORDER ------------------------------
-void __declspec(naked) onCancelOrder()
+void __declspec(naked) onCancelTrain()
 {
+  __asm
   {
-    //BWAPI::Broodwar.onGameStart();
-    
+    mov onCancelTrain_edx, edx
+    mov onCancelTrain_ecx, ecx
+  }
+  {
+    BWAPI::Broodwar.onCancelTrain();
+    BWAI::ai.onCancelTrain();
   }
   __asm
   {
-    call [BW::BWXFN_GameStartTarget]
-    jmp [BW::BWXFN_GameStartBack]
+    mov edx, onCancelTrain_edx
+    mov ecx, onCancelTrain_ecx
+    call [BW::BWXFN_CancelTrainTarget]
+    jmp [BW::BWXFN_CancelTrainBack]
   }
 }
 //----------------------------- ON GAME START ---------------------------------
@@ -102,6 +111,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
+  JmpCallPatch(onCancelTrain, BW::BWXFN_CancelTrain, 0);
   for ever
   {
     if (!BWAPI::Broodwar.isInGame())

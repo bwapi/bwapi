@@ -9,7 +9,6 @@ namespace BWAPI
   /** Ability and unit prototype definitions */
   namespace Prototypes
   {
-    /*                c++ ability name                       ID Name               mana   minerals gas */
     extern AbilityPrototype* Move;
     extern AbilityPrototype* Attack;
     extern AbilityPrototype* AttackMove;
@@ -22,7 +21,6 @@ namespace BWAPI
     extern AbilityPrototype* MorphToLurker;
     extern AbilityPrototype* MorphToGuardian;
     extern AbilityPrototype* Stims;
-    /*                                        Unit name         maxHp  maxSP*/
     /** Terran */
     extern UnitPrototype* SCV;
     extern UnitPrototype* Marine;
@@ -41,6 +39,23 @@ namespace BWAPI
     extern UnitPrototype* BattleCruiser;
     extern UnitPrototype* Vulture;
     extern UnitPrototype* NuclearMissile;
+    extern UnitPrototype* ScienceVessel;
+    extern UnitPrototype* Valkyrie;
+    extern UnitPrototype* ComsatStation;
+    extern UnitPrototype* NuclearSilo;
+    extern UnitPrototype* Refinery;
+    extern UnitPrototype* Academy;
+    extern UnitPrototype* Factory;
+    extern UnitPrototype* ControlTower;
+    extern UnitPrototype* ScienceFacility;
+    extern UnitPrototype* CovertOps;
+    extern UnitPrototype* PhysicsLab;
+    extern UnitPrototype* MachineShop;
+    extern UnitPrototype* EngineeringBay;
+    extern UnitPrototype* Armory;
+    extern UnitPrototype* MissileTurret;
+    extern UnitPrototype* Bunker;
+
     /** Protoss */
     extern UnitPrototype* Probe;
     extern UnitPrototype* Zealot;
@@ -60,9 +75,12 @@ namespace BWAPI
     extern UnitPrototype* Queen;
     extern UnitPrototype* Mutalisk;
     /** other */
-    extern UnitPrototype* Minerals1;
-    extern UnitPrototype* Minerals2;
-    extern UnitPrototype* Minerals3;
+    extern UnitPrototype* MineralPatch1;
+    extern UnitPrototype* MineralPatch2;
+    extern UnitPrototype* MineralPatch3;
     extern UnitPrototype* VaspineGayser;
+    extern UnitPrototype* None;
+
+    extern UnitPrototype* unitIDToPrototypeTable[228];
   }
 };

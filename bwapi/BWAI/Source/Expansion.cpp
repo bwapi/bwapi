@@ -15,8 +15,16 @@ namespace BWAI
       if (ai.getUnit(i)->isValid() &&
           ai.getUnit(i)->isMineral() &&
           ai.getUnit(i)->getDistance(this->gatherCenter) < 300)
-       this->minerals.push_back(new Mineral(ai.getUnit(i), this));
+        this->minerals.push_back(new Mineral(ai.getUnit(i), this));
     }
+    if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
+      if (this->gatherCenter->getType() == BW::UnitType::Terran_CommandCenter)
+       {
+         gatherCenter->lastTrainedUnitID = BW::UnitType::Terran_SCV;
+         FILE *f = fopen("bwai.log","at");
+         fprintf(f,"Starting scv set\n");
+         fclose(f);
+      } 
   }
   //---------------------------------------------------------------------------
 }

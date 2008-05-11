@@ -5,6 +5,7 @@
 #include "../BWAPI/UnitPrototype.h"
 #include "../BWAPI/UnitPrototypeDefinitions.h"
 #include "../BWAPI/Command.h"
+#include "../BWAPI/CommandCancelTrain.h"
 
 #include "../BW/Offsets.h"
 #include "../BW/UnitData.h"
@@ -171,18 +172,18 @@ namespace BWAPI
   #pragma warning(disable:4311)
   #pragma warning(disable:4312)
 
-void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
-{
-  DWORD OldProt = 0;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-  unsigned char jmp = 0xE9;
-  memcpy((LPVOID)pSrc, &jmp, 1);
-  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
-  memcpy((LPVOID)(pSrc + 1), &address, 4); 
-  for (int i = 0; i < nNops; ++i)
-    *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
-}
+  void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
+  {
+    DWORD OldProt = 0;
+    VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
+    unsigned char jmp = 0xE9;
+    memcpy((LPVOID)pSrc, &jmp, 1);
+    DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
+    memcpy((LPVOID)(pSrc + 1), &address, 4); 
+    for (int i = 0; i < nNops; ++i)
+      *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
+    VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
+  }
 
   #pragma warning(pop)
 
@@ -245,6 +246,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   //---------------------------- ADD TO COMMAND BUFFER -------------------------
   void Game::addToCommandBuffer(Command *command)
   {
+    command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
   }
   //----------------------------- ON GAME START ---------------------------------
@@ -333,6 +335,14 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
       unitCount ++;
     void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
 	   selectUnitsHelperSTD(unitCount, selected, true, true);
+    delete [] selected;
+  }
+  //-----------------------------------------------------------------------------
+  void Game::onCancelTrain()
+  {
+    BW::UnitData** selected = this->saveSelected();
+    if (selected[0] != NULL)
+      this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(selected[0])));
     delete [] selected;
   }
   //-----------------------------------------------------------------------------

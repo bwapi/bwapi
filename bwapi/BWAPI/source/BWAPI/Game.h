@@ -50,6 +50,7 @@ namespace BWAPI
     void addToCommandBuffer(Command *command);
     void onGameStart();
     void onGameEnd();
+    void onCancelTrain();
     /** 
      * Starts the game in the pre-game lobby.
      * Should be used only in the pre-game lobby, and not during counting
