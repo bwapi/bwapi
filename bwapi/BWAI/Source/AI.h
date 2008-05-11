@@ -30,6 +30,7 @@ namespace BWAI
       std::vector<Mineral*> activeMinerals;
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
+      int expansionsSaturated;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -38,6 +39,5 @@ namespace BWAI
       void rebalanceMiners();
       bool checkAssignedWorkers(void);
       void checkDeadWorkers(void);
-      //static BWAI* ;
   };
 }

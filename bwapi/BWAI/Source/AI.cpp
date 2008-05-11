@@ -158,6 +158,7 @@ namespace BWAI
           FILE *f = fopen("bwai.log","at");
           fprintf(f,"Starting new expansion\n");
           fclose(f);
+          this->expansionsSaturated = false;
           this->startNewExpansion(unit);
         }
       }
@@ -169,18 +170,17 @@ namespace BWAI
        BWAPI::Broodwar.print(message);
      }
 
-
+    if (!this->expansionsSaturated)
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       Unit* unit = this->units[i];
       if (unit->isReady() &&
-          unit->getOwner() == player)
-      {
-       if (!unit->selected &&
-           (unit->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
-           unit->expansionAssingment == NULL)
+          unit->getOwner() == player &&
+          unit->getOrderIDLocal() == BW::OrderID::Idle &&
+          !unit->selected &&
+          (unit->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
+          unit->expansionAssingment == NULL)
          unitList.push_back(unit); 
-      }
     }
     /*if (selectedUnit != NULL && 
         selectedUnit->getPrototype() == BWAPI::Prototypes::SCV &&
@@ -211,7 +211,7 @@ namespace BWAI
     unsigned int workersTogether = 0;
     for (unsigned int i = 0; i < this->expansions.size(); i++)
       workersTogether += this->expansions[i]->asignedWorkers;
-    if (workersTogether >= this->activeMinerals.size()*2.6)
+    if (workersTogether >= this->activeMinerals.size()*3)
       for (unsigned int i = 0; i < this->expansions.size(); i++)
         this->expansions[i]->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
@@ -235,7 +235,11 @@ namespace BWAI
     {
       AI::optimizeMineralFor = unitList[i];
       std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
-
+      if (activeMinerals[0]->gatherersAssigned.size() >= 2)
+      {
+        this->expansionsSaturated = true;
+        break;
+      }
       reselected = true;
       activeMinerals[0]->assignGatherer(unitList[i]);
       unitList[i]->orderRightClick(activeMinerals[0]->mineral);
