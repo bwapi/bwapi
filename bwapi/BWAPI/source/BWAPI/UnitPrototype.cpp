@@ -146,4 +146,14 @@ namespace BWAPI
        return BW::BWXFN_WeaponDamage->weapon[weaponID];
   }
   //----------------------------------------------------------------------------
+  BW::BitMask<BW::UnitPrototypeFlags::Enum> UnitPrototype::getFlags() const
+  {
+    return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()];
+  }
+  //----------------------------------------------------------------------------
+  bool UnitPrototype::canProduce() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::ProducesUnits);
+  }
+  //----------------------------------------------------------------------------
 };

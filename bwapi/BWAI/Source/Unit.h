@@ -14,5 +14,11 @@ namespace BWAI
       bool selected;
       BW::UnitType::Enum lastTrainedUnitID;
       static Unit* BWUnitToBWAIUnit(BW::UnitData* unit);
+      /** 
+       * Gets #bwUnitData->BW#UnitData#targetUnit. 
+       * This is similar to BWAPI#Unit#getTarget, it just get's the unit from ai scope
+       */
+      Unit* getTarget();
+      Unit* getTargetLocal();
   };
 }

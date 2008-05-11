@@ -1,16 +1,18 @@
+#pragma once
 namespace BW
 {
   template <class Type>
   class BitMask
   {
+    public :
+      bool getBit(Type bit);
     Type value;
-    bool getBit(Type bit);
   };
   //----------------------------------- GET BIT ----------------------------------
   template <class Type>
   bool BitMask<Type>::getBit(Type bit)
   {
-    return (value & bit);
+    return (value & bit) != 0;
   }
 }
  

@@ -13,5 +13,8 @@ namespace BWAI
       BWAI::Unit* mineral;
       std::vector<BWAI::Unit*> gatherersAssigned;
       Expansion* expansion;
+      bool removeGatherer(Unit* unit);
+      bool checkAssignedWorkers();
+      bool SomeoneIsMining(void);
   };
 }

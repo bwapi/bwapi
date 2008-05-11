@@ -123,9 +123,12 @@ namespace BWAPI
   //-------------------------------- GET TATGET --------------------------------
   Unit* Unit::getTarget()
   {
-    if (this->getRawData()->orderTargetUnit == NULL)
-      return NULL;
     return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+  }
+  //----------------------------- GET TATGET LCCAL -----------------------------
+  Unit* Unit::getTargetLocal()
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
   //-------------------------------- GET RAW DATA ------------------------------
   BW::UnitData *Unit::getRawData()

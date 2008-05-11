@@ -5,6 +5,8 @@
 #include "..//BW//UnitTypes.h"
 #include "..//BWAPI//RaceTypes.h"
 #include "..//BW//Offsets.h" /**< @todo remove (just for UNKNOWN_TYPE */
+#include "..//BW//Bitmask.h" /**< @todo remove (just for UNKNOWN_TYPE */
+#include "..//BW//UnitPrototypeFlags.h" /**< @todo remove (just for UNKNOWN_TYPE */
 // Pre-declarations
 namespace BW { class Position; };
 namespace BWAPI { class AbilityPrototype; };
@@ -46,7 +48,11 @@ namespace BWAPI
     u8                    getDamageFactor() const;
     /** Gets base Damage of the ground weapon of the unit. */
     u16                   getGroundDamage() const;
-
+    bool                  canProduce() const;
+    
+    
+    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
+    
     
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
     bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
