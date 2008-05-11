@@ -32,7 +32,9 @@ namespace BWAI
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
-
+      void startNewExpansion(Unit *gatherCenter);
+      void rebalanceMiners();
+      bool checkAssignedWorkers(void);
       //static BWAI* ;
   };
 }

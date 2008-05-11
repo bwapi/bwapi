@@ -2,6 +2,8 @@
 #pragma pack(1)
 #include <windows.h>
 #include "../Types.h"
+#include "Bitmask.h"
+#include "UnitPrototypeFlags.h"
 /** 
  * Broodwar content access tools.
  * The namespace contains:
@@ -73,6 +75,7 @@ namespace BW
   static u32           BWXFN_CancelTrainByEscape = 0x00423494;
   static u32           BWXFN_CancelTrainByEscapeBack = 0x00423494 + 5;
   static u32           BWXFN_CancelTrainByEscapeTarget = BWFXN_IssueCommand;
+
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
   /** Direct mapping of players Protoss avialable supplies in the bw memory. */
@@ -244,10 +247,18 @@ namespace BW
     u16 weapon[weaponTypeCount];
   };
   static WeaponsDamage_type* BWXFN_WeaponDamage = (WeaponsDamage_type*) 0x00656E98;
-  
+
+  //--------------------------------- GROUND WEAPONS  ------------------------
+  /** Direct mapping of unit flags data */
+  struct PrototypeFlags_type
+  {
+    BitMask<UnitPrototypeFlags::Enum> unit[weaponTypeCount];
+  };
+  static PrototypeFlags_type* BWXFN_UnitPrototypeFlags = (PrototypeFlags_type*) 0x00664068;
+
   #define UNKNOWN_BIT_SIZE 16
   #define UNKNOWN_TYPE u16
-  //--------------------------------- UNIT MAX SHIELDS ------------------------
+  //----------------------------------- UNKNOWN TYPE  ------------------------
   /** Direct mapping of unit unit type armor */
   struct Unknown_type
   {

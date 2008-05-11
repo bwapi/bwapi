@@ -10,6 +10,8 @@
 #include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
+//#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
+//#include "..//..//BWAPI//Source//BW//BitMask.h"
 
 namespace BWAI
 {
@@ -47,6 +49,9 @@ namespace BWAI
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Game& game, BWAPI::Player *player)
   {
+    FILE *f = fopen("bwai.log","at");
+    fprintf(f,"Ai::On start call\n");
+    fclose(f);
     this->player = player;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(game.getUnit(i));
@@ -62,10 +67,11 @@ namespace BWAI
           )
         )
       {
-        Expansion* expansion = new Expansion(this->units[i]);
-        this->expansions.push_back(expansion);
-        for (unsigned int j = 0; j < expansion->minerals.size(); j++)
-          this->activeMinerals.push_back(expansion->minerals[j]);
+        this->startNewExpansion(this->units[i]);
+        f = fopen("bwai.log","at");
+        fprintf(f,"AI::rebalance miners call mineralCount = %d\n", this->activeMinerals.size());
+        fclose(f);
+        this->rebalanceMiners();
       }
     }
    if (this->expansions.size() > 0)
@@ -75,6 +81,9 @@ namespace BWAI
        case BW::UnitType::Protoss_Nexus        : this->worker = BWAPI::Prototypes::Probe; break;
        case BW::UnitType::Zerg_Hatchery        : this->worker = BWAPI::Prototypes::Drone; break;
      }
+    f = fopen("bwai.log","at");
+    fprintf(f,"Ai::On start end\n");
+    fclose(f);
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI()
@@ -100,6 +109,15 @@ namespace BWAI
             unit->selected = true;
         if (!unit->hasEmptyBuildQueueLocal())
           unit->lastTrainedUnitID = unit->getBuildQueueLocal()[unit->getBuildQueueSlotLocal()];
+        if (unit->isReady() &&
+            unit->getType() == BW::UnitType::Terran_CommandCenter &&
+            unit->expansionAssingment == NULL)
+        {
+          FILE *f = fopen("bwai.log","at");
+          fprintf(f,"Starting new expansion\n");
+          fclose(f);
+          this->startNewExpansion(unit);
+        }
       }
 
 
@@ -145,13 +163,14 @@ namespace BWAI
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->isValid() &&
           units[i]->hasEmptyBuildQueueLocal() &&
-          units[i]->lastTrainedUnitID != BW::UnitType::None)
+          units[i]->lastTrainedUnitID != BW::UnitType::None &&
+          units[i]->getPrototype()->canProduce())
       {
-        FILE* f = fopen("bwai.log","at");
-        fprintf(f,"(%s) has no order\n", units[i]->getPrototype()->getName().c_str());
-        fclose(f);
         BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[units[i]->lastTrainedUnitID];
-        if (type != NULL)
+        if (type != NULL &&
+            player->freeSuppliesTerranLocal() >= type->getSupplies() &&
+            player->getMineralsLocal() >= type->getMineralPrice() &&
+            player->getGasLocal() >= type->getGasPrice())
         {
           FILE *f = fopen("bwai.log","at");
           fprintf(f,"We will build (%s)\n", type->getName().c_str());
@@ -174,7 +193,7 @@ namespace BWAI
         fclose(f);
       }
     }
-   
+   reselected |= this->checkAssignedWorkers();
    if (reselected)
      game.loadSelected(selected);
    else
@@ -199,6 +218,35 @@ namespace BWAI
       fprintf(f,"%s will now not produce\n", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str());
       fclose(f);
     }
+  }
+  //---------------------------- START NEW EXPANSION -------------------------
+   void AI::startNewExpansion(Unit *gatherCenter)
+   {
+     this->expansions.push_back(new Expansion(gatherCenter));
+   }
+  //---------------------------- REBALANCE MINERS -----------------------------
+   void AI::rebalanceMiners(void)
+   {
+     Unit* gatherer;
+     anotherStep:
+     std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
+     Mineral* first = activeMinerals[0];
+     Mineral* last = activeMinerals[activeMinerals.size() - 1];
+     if (first->gatherersAssigned.size() + 1 < last->gatherersAssigned.size())
+     {
+       gatherer = first->gatherersAssigned[0];
+       last->removeGatherer(gatherer);
+       first->assignGatherer(gatherer);
+       goto anotherStep;
+     }
+   }
+  //---------------------------------------------------------------------------
+  bool AI::checkAssignedWorkers(void)
+  {
+    bool reselected = false;
+    for (unsigned int i = 0; i < this->expansions.size(); i++)
+      reselected |= this->expansions[i]->checkAssignedWorkers();
+    return reselected;
   }
   //---------------------------------------------------------------------------
 }

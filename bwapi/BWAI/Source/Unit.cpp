@@ -22,5 +22,15 @@ namespace BWAI
     return ai.getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
   }
   #pragma warning (pop)
+  //------------------------------- GET TARGET --------------------------------
+  Unit* Unit::getTarget()
+  {
+    return BWAI::Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->targetUnit);
+  }
+  //----------------------------- GET TARGET LOCAL --------------------------
+  Unit* Unit::getTargetLocal()
+  {
+    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->targetUnit);
+  }
   //---------------------------------------------------------------------------
 }

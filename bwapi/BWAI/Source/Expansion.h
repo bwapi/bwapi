@@ -12,5 +12,7 @@ namespace BWAI
       BWAI::Unit* gatherCenter;
       std::vector<Mineral*> minerals;
       int asignedWorkers;
+      void removeWorker(Unit* worker);
+      bool checkAssignedWorkers();
   };
 }

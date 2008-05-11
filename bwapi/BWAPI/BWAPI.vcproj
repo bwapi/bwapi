@@ -256,6 +256,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\UnitPrototypeFlags.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\UnitStatusFlags.h"
 					>
 				</File>
