@@ -31,7 +31,7 @@ namespace BWAPI
       /** Nothing is deleted as no data are owned.*/
       ~Unit();
       /** Gets #bwUnitData->BW#UnitData#unitID */
-      BW::UnitType::Enum getType();
+      BW::UnitType::Enum getType() const;
       /** Gets #bwUnitData->BW#UnitData#healthPoints. */
       u16 getHealthPoints() const; 
       /** Gets #bwUnitData->BW#UnitData#healthPointsFraction. */
@@ -47,7 +47,7 @@ namespace BWAPI
       /** Gets owner of the unit defined by #bwUnitData->BW#UnitData#playerID. */
       Player* getOwner() const;
       /** Gets prototype of the unit defined by #bwUnitData->BW#UnitData#unitID. */
-      const UnitPrototype* const getPrototype() const;
+      const UnitPrototype* getPrototype() const;
       /** Gets #bwUnitData->BW#UnitData#queueSlot. */
       u8 getBuildQueueSlot();
       /** Gets #bwUnitDataLocal->BW#UnitData#buildQueueSlot - @ref localData */

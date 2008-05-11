@@ -48,51 +48,12 @@ namespace BWAPI
     return bwUnitData->shieldPointsFraction;
   }
   //--------------------------  GET UNIT PROTOTYPE -----------------------------
-  const UnitPrototype* const Unit::getPrototype() const
+  const UnitPrototype* Unit::getPrototype() const
   {
-     switch (this->bwUnitData->unitID)
-     {
-       case BW::UnitType::Terran_SCV                : return BWAPI::Prototypes::SCV;
-       case BW::UnitType::Terran_CommandCenter      : return BWAPI::Prototypes::CommandCenter;
-       case BW::UnitType::Terran_SupplyDepot        : return BWAPI::Prototypes::SupplyDepot;
-       case BW::UnitType::Terran_Barracks           : return BWAPI::Prototypes::Barracks;
-       case BW::UnitType::Terran_Marine             : return BWAPI::Prototypes::Marine;
-       case BW::UnitType::Terran_Firebat            : return BWAPI::Prototypes::Firebat;
-       case BW::UnitType::Terran_Ghost              : return BWAPI::Prototypes::Ghost;
-       case BW::UnitType::Terran_SiegeTankSiegeMode : return BWAPI::Prototypes::SiegeTank_SiegeMode;
-       case BW::UnitType::Terran_SiegeTankTankMode  : return BWAPI::Prototypes::SiegeTank_TankMode;
-
-       case BW::UnitType::Terran_Medic              : return BWAPI::Prototypes::Medic;
-       case BW::UnitType::Terran_Goliath            : return BWAPI::Prototypes::Goliath;
-       case BW::UnitType::Terran_GoliathTurret      : return BWAPI::Prototypes::GoliathTurret;
-       case BW::UnitType::Terran_Wraith             : return BWAPI::Prototypes::Wraith;
-       case BW::UnitType::Terran_BattleCruiser      : return BWAPI::Prototypes::BattleCruiser;
-       case BW::UnitType::Terran_NuclearMissile     : return BWAPI::Prototypes::NuclearMissile;
-       /** Protoss*/
-       case BW::UnitType::Protoss_Probe             : return BWAPI::Prototypes::Probe;
-       case BW::UnitType::Protoss_Zealot            : return BWAPI::Prototypes::Zealot;
-       case BW::UnitType::Protoss_HighTemplar       : return BWAPI::Prototypes::HighTemplar;
-       case BW::UnitType::Protoss_Dragoon           : return BWAPI::Prototypes::Dragoon;
-       case BW::UnitType::Protoss_Nexus             : return BWAPI::Prototypes::Nexus;
-       case BW::UnitType::Protoss_Pylon             : return BWAPI::Prototypes::Pylon;
-       case BW::UnitType::Protoss_Gateway           : return BWAPI::Prototypes::Gateway;
-       case BW::UnitType::Protoss_CyberneticsCore   : return BWAPI::Prototypes::CyberneticsCore;
-       /** Zerg */
-       case BW::UnitType::Zerg_Queen                : return BWAPI::Prototypes::Queen;
-       case BW::UnitType::Zerg_Mutalisk             : return BWAPI::Prototypes::Mutalisk;
-       case BW::UnitType::Zerg_Larva                : return BWAPI::Prototypes::Larva;
-       case BW::UnitType::Zerg_Drone                : return BWAPI::Prototypes::Drone;
-       case BW::UnitType::Zerg_Zergling             : return BWAPI::Prototypes::Zergling;
-       case BW::UnitType::Zerg_Overlord             : return BWAPI::Prototypes::Overlord;
-       case BW::UnitType::Zerg_Hatchery             : return BWAPI::Prototypes::Hatchery;
-       case BW::UnitType::Zerg_SpawningPool         : return BWAPI::Prototypes::SpawningPool;
-       /** Neutral */
-       case BW::UnitType::Resource_MineralPatch1    : return BWAPI::Prototypes::Minerals1;
-       case BW::UnitType::Resource_MineralPatch2    : return BWAPI::Prototypes::Minerals2;
-       case BW::UnitType::Resource_MineralPatch3    : return BWAPI::Prototypes::Minerals3;
-       case BW::UnitType::Resource_VespeneGeyser    : return BWAPI::Prototypes::VaspineGayser;
-       default : return NULL;
-     }
+    if (this->getType() < 228)
+      return BWAPI::Prototypes::unitIDToPrototypeTable[this->getType()];
+    else 
+      return NULL;
   }
   //------------------------------ CAN ORDER -----------------------------------
   bool Unit::canOrder(const AbilityPrototype* const ability, Unit* target) const
@@ -313,7 +274,7 @@ namespace BWAPI
     //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
   }
   //---------------------------------- GET TYPE --------------------------------
-  BW::UnitType::Enum Unit::getType()
+  BW::UnitType::Enum Unit::getType() const
   {
     return this->getRawData()->unitID;
   }
@@ -330,6 +291,7 @@ namespace BWAPI
   //----------------------------------- TRAIN UNIT -----------------------------
   void Unit::trainUnit(UnitPrototype *type)
   {
+    this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type->getUnitID()), 0x3);
     Broodwar.addToCommandBuffer(new CommandTrain(this, type));
   }

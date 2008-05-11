@@ -10,7 +10,6 @@ namespace BWAPI
   :Command(building)
   ,toTrain(toTrain)
   {
-    this->execute();
   }
   //------------------------------ DESTRUCTOR -----------------------------------
   CommandTrain::~CommandTrain()

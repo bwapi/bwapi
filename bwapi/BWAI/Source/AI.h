@@ -20,8 +20,10 @@ namespace BWAI
     public :
       AI();
       /** Call in the start of the game */
-      void AI::onStart(BWAPI::Game& game, BWAPI::Player *player);
+      void onStart(BWAPI::Game& game, BWAPI::Player *player);
       void onFrame(BWAPI::Game& game);
+      void onCancelTrain();
+
       int suppliesOrdered;
       std::vector<Expansion*> expansions;
       std::vector<Mineral*> activeMinerals;

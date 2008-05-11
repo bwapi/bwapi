@@ -5,6 +5,7 @@
 #include "..//..//BWAPI//Source//BWAPI//UnitPrototypeDefinitions.h"
 #include "..//..//BWAPI//Source//BWAPI//UnitPrototype.h"
 #include "..//..//BWAPI//Source//BWAPI//AbilityFlags.h"
+#include "..//..//BWAPI//Source//BWAPI//Globals.h"
 #include "..//..//BWAPI//Source//BW//Offsets.h"
 #include "Mineral.h"
 #include "Unit.h"
@@ -90,32 +91,21 @@ namespace BWAI
     
     BW::UnitData** selected = game.saveSelected();
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-    {
-      this->units[i]->selected = false;
-      for (int j = 0; selected[j] != NULL; j++)
-        if (selected[j] == this->units[i]->getOriginalRawData())
-           this->units[i]->selected = true;
-    }
+      if (units[i]->isValid())
+      {
+        Unit* unit = this->units[i];
+        unit->selected = false;
+        for (int j = 0; selected[j] != NULL; j++)
+          if (selected[j] == unit->getOriginalRawData())
+            unit->selected = true;
+        if (!unit->hasEmptyBuildQueueLocal())
+          unit->lastTrainedUnitID = unit->getBuildQueueLocal()[unit->getBuildQueueSlotLocal()];
+      }
 
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       Unit* unit = this->units[i];
-      if (unit->isValid() &&
-          unit->getOwner() == player &&
-          unit->getType() == BW::UnitType::Terran_SCV &&
-          unit->expansionAssingment == 0)
-      {
-        FILE *f = fopen("bwai.log","at");
-        fprintf(f,"(%s) - to build (%d) (%d - %d - %d - %d) (%s)\n", unit->getPrototype()->getName().c_str(), 
-                                                      unit->getRawData()->remainingBuildTime,
-                                                      unit->getRawData()->_17[1],
-                                                      unit->getRawData()->_17[0],
-                                                      unit->getRawData()->_18[0],
-                                                      unit->getRawData()->_18[1],
-                                                      BW::OrderID::orderName(unit->getOrderID()).c_str());
-        fclose(f);
-      }
       if (unit->isReady() &&
           unit->getOwner() == player)
       {
@@ -139,7 +129,7 @@ namespace BWAI
       game.print(message);
     }*/
    
-    for (unsigned int i = 0; i < expansions.size(); i++)
+    /*for (unsigned int i = 0; i < expansions.size(); i++)
       if (expansions[i]->gatherCenter != NULL)
       {
         if (expansions[i]->gatherCenter->hasEmptyBuildQueueLocal() && 
@@ -150,20 +140,36 @@ namespace BWAI
           expansions[i]->gatherCenter->orderSelect();
           expansions[i]->gatherCenter->trainUnit(this->worker);
         }
-    }
+    }*/
     
+    for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      if (units[i]->isValid() &&
+          units[i]->hasEmptyBuildQueueLocal() &&
+          units[i]->lastTrainedUnitID != BW::UnitType::None)
+      {
+        FILE* f = fopen("bwai.log","at");
+        fprintf(f,"(%s) has no order\n", units[i]->getPrototype()->getName().c_str());
+        fclose(f);
+        BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[units[i]->lastTrainedUnitID];
+        if (type != NULL)
+        {
+          FILE *f = fopen("bwai.log","at");
+          fprintf(f,"We will build (%s)\n", type->getName().c_str());
+          fclose(f);
+          reselected = true;
+          units[i]->trainUnit(type);
+        }
+    }
+
     if (unitList.size() != 0)
     {
       std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
       for (unsigned int i = 0; i < unitList.size(); i++)
       {
-        FILE *f = fopen("bwai.log","at");
-        fprintf(f,"Unit sent to gather\n");
-        fclose(f);
         reselected = true;
         activeMinerals[i]->assignGatherer(unitList[i]);
         unitList[i]->orderRightClick(activeMinerals[i]->mineral);
-        f = fopen("bwai.log","at");
+        FILE *f = fopen("bwai.log","at");
         fprintf(f,"(%s) -> (%s)\n", unitList[i]->getPrototype()->getName().c_str(), activeMinerals[i]->mineral->getPrototype()->getName().c_str());
         fclose(f);
       }
@@ -178,6 +184,21 @@ namespace BWAI
   Unit* AI::getUnit(int index)
   {
     return units[index];
+  }
+  //---------------------------------------------------------------------------
+  void AI::onCancelTrain()
+  {
+    FILE* f = fopen("bwai.log","at");
+    fprintf(f,"Cancelled\n");
+    fclose(f);
+    BW::UnitData** selected = BWAPI::Broodwar.saveSelected();
+    if (selected[0] != NULL)
+    {
+      Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnitID = BW::UnitType::None;
+      FILE* f = fopen("bwai.log","at");
+      fprintf(f,"%s will now not produce\n", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str());
+      fclose(f);
+    }
   }
   //---------------------------------------------------------------------------
 }

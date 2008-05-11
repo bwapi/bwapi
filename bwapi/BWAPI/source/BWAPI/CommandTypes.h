@@ -5,8 +5,9 @@ namespace BWAPI
   {
     enum Enum
     {
-     Train = 0,     /** BWAPI#CommandTrain */
-     RightClick = 1 /** BWAPI#CommandRightClick */
+     Train = 0,      /** BWAPI#CommandTrain */
+     RightClick = 1, /** BWAPI#CommandRightClick */
+     CancelTrain = 2 /** BWAPI#CommandCancelTrain */
     };
   }
 }

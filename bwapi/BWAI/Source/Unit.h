@@ -12,5 +12,7 @@ namespace BWAI
       Unit(BWAPI::Unit *unit);
       Expansion* expansionAssingment;
       bool selected;
+      BW::UnitType::Enum lastTrainedUnitID;
+      static Unit* BWUnitToBWAIUnit(BW::UnitData* unit);
   };
 }
