@@ -19,23 +19,29 @@ namespace BWAI
   //----------------------------- MINERAL VALUE -------------------------------
  bool mineralValue(BWAI::Mineral*& mineral1, BWAI::Mineral*& mineral2)
   {
-   if (mineral1->expansion->asignedWorkers < mineral2->expansion->asignedWorkers)
-      return true;
-   if (mineral1->expansion->asignedWorkers > mineral2->expansion->asignedWorkers)
-      return false;
    if (mineral1->gatherersAssigned.size() < mineral2->gatherersAssigned.size())
      return true;
    if (mineral1->gatherersAssigned.size() > mineral2->gatherersAssigned.size())
      return false;
-   if (mineral1->mineral->getDistance(mineral1->expansion->gatherCenter) < mineral2->mineral->getDistance(mineral2->expansion->gatherCenter))
+   if (AI::optimizeMineralFor != NULL &&
+       mineral1->expansion->gatherCenter != mineral2->expansion->gatherCenter)
+   {
+     u16 distance1 = AI::optimizeMineralFor->getDistance(mineral1->expansion->gatherCenter);
+     u16 distance2 = AI::optimizeMineralFor->getDistance(mineral2->expansion->gatherCenter);
+     if (distance1 < distance2)
+       return true;
+     if (distance1 > distance2)
+      return false;
+   }
+   u16 distance1 = mineral1->mineral->getDistance(mineral1->expansion->gatherCenter);
+   u16 distance2 = mineral2->mineral->getDistance(mineral1->expansion->gatherCenter);
+   if (distance1 < distance2)
      return true;
-   if (mineral1->mineral->getDistance(mineral1->expansion->gatherCenter) > mineral2->mineral->getDistance(mineral2->expansion->gatherCenter))
+   if (distance1 > distance2)
      return false;
    return false;
  }
-
-  
-   #include <stdio.h>
+  #include <stdio.h>
   std::string getBinary(UNKNOWN_TYPE value)
   {
    std::string result;
@@ -47,14 +53,13 @@ namespace BWAI
     return result;
   }
   //------------------------------ ON START -----------------------------------
-  void AI::onStart(BWAPI::Game& game, BWAPI::Player *player)
+  void AI::onStart(BWAPI::Player *player)
   {
     FILE *f = fopen("bwai.log","at");
     fprintf(f,"Ai::On start call\n");
     fclose(f);
     this->player = player;
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      this->units[i] = new Unit(game.getUnit(i));
+
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       if (
@@ -85,33 +90,70 @@ namespace BWAI
     fprintf(f,"Ai::On start end\n");
     fclose(f);
   }
+  //--------------------------------- ON END ---------------------------------
+  void AI::onEnd()
+  {
+    for (unsigned int i = 0; i < this->expansions.size(); i++)
+       delete this->expansions[i];
+    this->expansions.clear();
+  }
   //------------------------------- CONSTRUCTOR -------------------------------
-  AI::AI()
+  AI::AI(void)
   {
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      this->units[i] = NULL;
+      this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
   }
   //-------------------------------  ON FRAME ---------------------------------
-  void AI::onFrame(BWAPI::Game& game)
+  void AI::onFrame(void)
   {
+    
     std::vector<BWAI::Unit*> unitList;
     bool reselected = false;
-    
-    BW::UnitData** selected = game.saveSelected();
+    BW::UnitData** selected = BWAPI::Broodwar.saveSelected();
+    bool firstSelectedFound = false;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->isValid())
       {
         Unit* unit = this->units[i];
+        /*
+        if (unit->getOrderID() != BW::OrderID::ExitingBuilding &&
+            unit->getOrderID() != BW::OrderID::Idle &&
+            unit->getOrderID() != BW::OrderID::Moving &&
+            unit->getOrderID() != BW::OrderID::Attacking &&
+            unit->getOrderID() != BW::OrderID::AttackMoving &&
+            unit->getOrderID() != BW::OrderID::UnderConstruction &&
+            unit->getOrderID() != BW::OrderID::GoingToBuild &&
+            unit->getOrderID() != BW::OrderID::Following &&
+            unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
+            unit->getOrderID() != BW::OrderID::EnteringRafinery &&
+            unit->getOrderID() != BW::OrderID::InRafinery &&
+            unit->getOrderID() != BW::OrderID::ReturningGas &&
+            unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
+            unit->getOrderID() != BW::OrderID::StartingMining  &&
+            unit->getOrderID() != BW::OrderID::Mining &&
+            unit->getOrderID() != BW::OrderID::ReturningMinerals &&
+            unit->getOrderID() != BW::OrderID::GettingMinedMinerals)
+        {
+         FILE *f = fopen("new_order_id.txt","at");
+         fprintf(f, "Unknown (by unitID = %d) orderID = %d\n", unit->getType(), unit->getOrderID());
+         fclose(f);
+        }*/
+
         unit->selected = false;
         for (int j = 0; selected[j] != NULL; j++)
           if (selected[j] == unit->getOriginalRawData())
+          {
             unit->selected = true;
-        if (!unit->hasEmptyBuildQueueLocal())
+            firstSelectedFound = true;
+          }
+        if (!unit->hasEmptyBuildQueueLocal() && 
+            unit->getType() != BW::UnitType::Terran_CommandCenter)
           unit->lastTrainedUnitID = unit->getBuildQueueLocal()[unit->getBuildQueueSlotLocal()];
         if (unit->isReady() &&
             unit->getType() == BW::UnitType::Terran_CommandCenter &&
-            unit->expansionAssingment == NULL)
+            unit->expansionAssingment == NULL &&
+            unit->getOwner() == player)
         {
           FILE *f = fopen("bwai.log","at");
           fprintf(f,"Starting new expansion\n");
@@ -119,6 +161,13 @@ namespace BWAI
           this->startNewExpansion(unit);
         }
       }
+     if (!firstSelectedFound && selected[0] != NULL)
+     {
+       char message[50];
+       sprintf(message, "Unknown selected addr = 0x%X\n", (int)selected[0]);
+       sprintf(message, "Index = %d\n", ((int)selected[0] - (int)BW::BWXFN_UnitNodeTable)/336);
+       BWAPI::Broodwar.print(message);
+     }
 
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
@@ -130,7 +179,7 @@ namespace BWAI
        if (!unit->selected &&
            (unit->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
            unit->expansionAssingment == NULL)
-         unitList.push_back(unit);
+         unitList.push_back(unit); 
       }
     }
     /*if (selectedUnit != NULL && 
@@ -159,7 +208,12 @@ namespace BWAI
           expansions[i]->gatherCenter->trainUnit(this->worker);
         }
     }*/
-    
+    unsigned int workersTogether = 0;
+    for (unsigned int i = 0; i < this->expansions.size(); i++)
+      workersTogether += this->expansions[i]->asignedWorkers;
+    if (workersTogether >= this->activeMinerals.size()*2.6)
+      for (unsigned int i = 0; i < this->expansions.size(); i++)
+        this->expansions[i]->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->isValid() &&
           units[i]->hasEmptyBuildQueueLocal() &&
@@ -172,30 +226,24 @@ namespace BWAI
             player->getMineralsLocal() >= type->getMineralPrice() &&
             player->getGasLocal() >= type->getGasPrice())
         {
-          FILE *f = fopen("bwai.log","at");
-          fprintf(f,"We will build (%s)\n", type->getName().c_str());
-          fclose(f);
           reselected = true;
           units[i]->trainUnit(type);
         }
     }
 
-    if (unitList.size() != 0)
+    for (unsigned int i = 0; i < unitList.size() && i < activeMinerals.size(); i++)
     {
+      AI::optimizeMineralFor = unitList[i];
       std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
-      for (unsigned int i = 0; i < unitList.size(); i++)
-      {
-        reselected = true;
-        activeMinerals[i]->assignGatherer(unitList[i]);
-        unitList[i]->orderRightClick(activeMinerals[i]->mineral);
-        FILE *f = fopen("bwai.log","at");
-        fprintf(f,"(%s) -> (%s)\n", unitList[i]->getPrototype()->getName().c_str(), activeMinerals[i]->mineral->getPrototype()->getName().c_str());
-        fclose(f);
+
+      reselected = true;
+      activeMinerals[0]->assignGatherer(unitList[i]);
+      unitList[i]->orderRightClick(activeMinerals[0]->mineral);
       }
-    }
+   this->rebalanceMiners();
    reselected |= this->checkAssignedWorkers();
    if (reselected)
-     game.loadSelected(selected);
+     BWAPI::Broodwar.loadSelected(selected);
    else
      delete [] selected;
   }
@@ -227,6 +275,8 @@ namespace BWAI
   //---------------------------- REBALANCE MINERS -----------------------------
    void AI::rebalanceMiners(void)
    {
+     if (activeMinerals.size() < 2)
+       return;
      Unit* gatherer;
      anotherStep:
      std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
@@ -234,8 +284,10 @@ namespace BWAI
      Mineral* last = activeMinerals[activeMinerals.size() - 1];
      if (first->gatherersAssigned.size() + 1 < last->gatherersAssigned.size())
      {
-       gatherer = first->gatherersAssigned[0];
+       gatherer = last->gatherersAssigned[0];
        last->removeGatherer(gatherer);
+       AI::optimizeMineralFor = gatherer;
+       std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
        first->assignGatherer(gatherer);
        goto anotherStep;
      }
@@ -248,5 +300,12 @@ namespace BWAI
       reselected |= this->expansions[i]->checkAssignedWorkers();
     return reselected;
   }
+  //-------------------------------- CHECK DEAD WORKERS -----------------------
+  void AI::checkDeadWorkers(void)
+  {
+    for (unsigned int i = 0; i < this->expansions.size(); i++)
+      this->expansions[i]->checkDeadWorkers();
+  }
   //---------------------------------------------------------------------------
+  Unit* AI::optimizeMineralFor = NULL;
 }

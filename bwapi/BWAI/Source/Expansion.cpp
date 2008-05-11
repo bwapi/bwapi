@@ -15,15 +15,15 @@ namespace BWAI
     fclose(f);
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
-      if (ai.getUnit(i)->isValid() &&
-          ai.getUnit(i)->isMineral() &&
-          ai.getUnit(i)->expansionAssingment == NULL &&
-          ai.getUnit(i)->getDistance(this->gatherCenter) < 300)
+      if (ai->getUnit(i)->isValid() &&
+          ai->getUnit(i)->isMineral() &&
+          ai->getUnit(i)->expansionAssingment == NULL &&
+          ai->getUnit(i)->getDistance(this->gatherCenter) < 350)
       {
         FILE *f = fopen("bwai.log","at");
         fprintf(f, "mineral to add to expansion\n");
         fclose(f);
-        this->minerals.push_back(new Mineral(ai.getUnit(i), this));
+        this->minerals.push_back(new Mineral(ai->getUnit(i), this));
       }
     }
     if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
@@ -34,6 +34,13 @@ namespace BWAI
     f = fopen("bwai.log","at");
     fprintf(f, "New expansion construction end\n");
     fclose(f);
+  }
+  //------------------------------ REMOVE WORKER ------------------------------
+  Expansion::~Expansion(void)
+  {
+    for (unsigned int i = 0; i < this->minerals.size(); i++)
+      delete this->minerals[i];
+    this->minerals.clear();
   }
   //---------------------------------------------------------------------------
   void Expansion::removeWorker(Unit* worker)
@@ -49,6 +56,12 @@ namespace BWAI
     for (unsigned int i = 0; i < this->minerals.size(); i++)
       reselected |= this->minerals[i]->checkAssignedWorkers();
     return reselected;
+  }
+  //---------------------------------------------------------------------------
+  void Expansion::checkDeadWorkers()
+  {
+    for (unsigned int i = 0; i < this->minerals.size(); i++)
+      this->minerals[i]->checkDeadWorkers();
   }
   //---------------------------------------------------------------------------
 }

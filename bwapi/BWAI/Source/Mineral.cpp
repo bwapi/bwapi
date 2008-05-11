@@ -10,7 +10,7 @@ namespace BWAI
   :mineral(mineral)
   ,expansion(expansion)
   {
-    ai.activeMinerals.push_back(this);
+    ai->activeMinerals.push_back(this);
     mineral->expansionAssingment = expansion;
   }
   //-------------------------------- ASSIGNE GATHERER -------------------------
@@ -40,31 +40,24 @@ namespace BWAI
     for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
     {
       Unit* gatherer = this->gatherersAssigned[i];
-      if (gatherer->getOrderIDLocal() != BW::OrderID::GettingMinedMinerals &&
-          gatherer->getOrderIDLocal() != BW::OrderID::ReturningMinerals &&
-          gatherer->getOrderIDLocal() != BW::OrderID::Mining &&
-          gatherer->getOrderIDLocal() != BW::OrderID::ReturningMinerals)
-      {
-        if (
-             (
-               gatherer->getOrderIDLocal() == BW::OrderID::ApproachingMinerals || 
-               gatherer->getOrderIDLocal() == BW::OrderID::Idle
-              ) &&
+      if (
+           (
+             gatherer->getOrderID() == BW::OrderID::ApproachingMinerals || 
+             gatherer->getOrderID() == BW::OrderID::StartingMining || 
+             gatherer->getOrderID() == BW::OrderID::Idle
+            ) &&
+             gatherer->getOrderID() != BW::OrderID::Mining &&
+            (
+              gatherer->getTargetLocal() != this->mineral  ||
               (
-                (
-                  gatherer->getTargetLocal() != this->mineral &&
-                  gatherer->getTargetLocal() != this->expansion->gatherCenter
-                ) ||
-                (
-                  gatherer->getDistance(this->expansion->gatherCenter) <= 3 &&
-                  this->SomeoneIsMining()
-                )
+                gatherer->getDistance(this->mineral) <= 3 &&
+                this->SomeoneIsMining()
               )
             )
-        {
-          gatherer->orderRightClick(mineral);
-          reselected = true;
-        }
+          )
+      {
+        gatherer->orderRightClick(mineral);
+        reselected = true;
       }
     }
     return reselected;
@@ -73,9 +66,19 @@ namespace BWAI
   bool Mineral::SomeoneIsMining(void)
   {
    for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
-    if (this->gatherersAssigned[i]->getOrderIDLocal() == BW::OrderID::Mining)
+    if (this->gatherersAssigned[i]->getOrderID() == BW::OrderID::Mining)
        return true;
    return false;      
+  }
+  //---------------------------------------------------------------------------
+  void Mineral::checkDeadWorkers(void)
+  {
+    for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
+      if (!this->gatherersAssigned[i]->isReady())
+      {
+        this->gatherersAssigned.erase(this->gatherersAssigned.begin() + i);
+        this->expansion->asignedWorkers --;
+      }
   }
   //---------------------------------------------------------------------------
 }
