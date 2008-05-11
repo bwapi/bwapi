@@ -20,7 +20,7 @@ bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 //----------------------------- ON COMMAND ORDER ------------------------------
-void __declspec(naked) onCancelTrain()
+void __declspec(naked) onCancelTrainByEscape()
 {
   __asm
   {
@@ -35,8 +35,28 @@ void __declspec(naked) onCancelTrain()
   {
     mov edx, onCancelTrain_edx
     mov ecx, onCancelTrain_ecx
-    call [BW::BWXFN_CancelTrainTarget]
-    jmp [BW::BWXFN_CancelTrainBack]
+    call [BW::BWXFN_CancelTrainByEscapeTarget]
+    jmp [BW::BWXFN_CancelTrainByEscapeBack]
+  }
+}
+//----------------------------- ON COMMAND ORDER ------------------------------
+void __declspec(naked) onCancelTrainByClickInTheQueue()
+{
+  __asm
+  {
+    mov onCancelTrain_edx, edx
+    mov onCancelTrain_ecx, ecx
+  }
+  {
+    BWAPI::Broodwar.onCancelTrain();
+    BWAI::ai.onCancelTrain();
+  }
+  __asm
+  {
+    mov edx, onCancelTrain_edx
+    mov ecx, onCancelTrain_ecx
+    call [BW::BWXFN_CancelTrainByClickInTheQueueTarget]
+    jmp [BW::BWXFN_CancelTrainByClickInTheQueueBack]
   }
 }
 //----------------------------- ON GAME START ---------------------------------
@@ -111,7 +131,8 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
-  JmpCallPatch(onCancelTrain, BW::BWXFN_CancelTrain, 0);
+  JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);
+  JmpCallPatch(onCancelTrainByEscape, BW::BWXFN_CancelTrainByEscape, 0);
   for ever
   {
     if (!BWAPI::Broodwar.isInGame())

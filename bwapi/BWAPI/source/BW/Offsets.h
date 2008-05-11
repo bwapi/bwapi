@@ -67,9 +67,12 @@ namespace BW
   static u32           BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
   static u32           BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
   static u32           BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
-  static u32           BWXFN_CancelTrain = 0x004573D9;
-  static u32           BWXFN_CancelTrainBack = 0x004573D9 + 5;
-  static u32           BWXFN_CancelTrainTarget = BWFXN_IssueCommand;
+  static u32           BWXFN_CancelTrainByClickInTheQueue = 0x004573D9;
+  static u32           BWXFN_CancelTrainByClickInTheQueueBack = 0x004573D9 + 5;
+  static u32           BWXFN_CancelTrainByClickInTheQueueTarget = BWFXN_IssueCommand;
+  static u32           BWXFN_CancelTrainByEscape = 0x00423494;
+  static u32           BWXFN_CancelTrainByEscapeBack = 0x00423494 + 5;
+  static u32           BWXFN_CancelTrainByEscapeTarget = BWFXN_IssueCommand;
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
   /** Direct mapping of players Protoss avialable supplies in the bw memory. */
