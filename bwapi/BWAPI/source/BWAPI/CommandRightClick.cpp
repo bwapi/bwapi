@@ -2,7 +2,7 @@
 #include "UnitPrototype.h"
 #include "UnitPrototypeDefinitions.h"
 #include "Unit.h"
-#include "../BW/UnitData.h"
+#include "../BW/Unit.h"
 #include "AbilityFlags.h"
 namespace BWAPI
 {

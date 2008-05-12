@@ -2,7 +2,7 @@
 
 namespace BW
 {
-  /** Bit mask specifying players who parasited the unit in BW#UnitData#parasiteFlags */
+  /** Bit mask specifying players who parasited the unit in BW#Unit#parasiteFlags */
   namespace ParasiteFlags
   {
     enum Enum : u8

@@ -26,19 +26,22 @@ namespace BW
   * is not understood. Values marked @todo Verify have known meanings, but are not confirmed.
   */
   #pragma pack(1)
-  struct UnitData
+  struct Unit
   {
-    /*0x000*/ UnitData*                    previousUnit;
-    /*0x004*/ BW::UnitData*                nextUnit;
+    /*0x000*/ BW::Unit*                    previousUnit;
+    /*0x004*/ BW::Unit*                    nextUnit;
     /*0x008*/ u8                           healthPointsFraction;  /**< Count of 1/255 fractions of one hitpoint. */
     /*0x009*/ u16                          healthPoints;          /**< Health points of the current unit, this value 
                                                                   can be lower (by one) than the displayed value 
                                                                   in in broodwar as broodwar doesn't want  to confuse 
                                                                   users with 0 hitpoint unit (with non-zero hp fraction). */
-    /*0x00B*/ _UNKNOWN _1[1];
+    /*0x00B*/ bool                         resource;              /**< Estimation of the meaning. 
+                                                                   * (SCV+CommandCenter+Dark swarm + Mineral chunk - life or dead value = 0
+                                                                   * minerals and vaspine gayser 1
+                                                                   */
     /*0x00C*/ BW::Sprite*                  sprite;
     /*0x010*/ BW::Position                 moveToPos;
-    /*0x014*/ BW::UnitData*                targetUnit;
+    /*0x014*/ BW::Unit*                    targetUnit;
     /*0x018*/ _UNKNOWN _2[8];
     /*0x020*/ BitMask<MovementFlags::Enum> movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. 
                                                                  @todo Verify */
@@ -67,19 +70,19 @@ namespace BW
     /*0x056*/ u8                           airWeaponCooldown;    /**< @todo Verify */
     /*0x057*/ u8                           spellCooldown;        /**< @todo Verify */
     /*0x058*/ BW::Position                 orderTargetPos;       /**< @todo Verify */
-    /*0x05C*/ BW::UnitData*                orderTargetUnit;      /**< @todo Verify */
+    /*0x05C*/ BW::Unit*                orderTargetUnit;      /**< @todo Verify */
     /*0x060*/ u8                           shieldPointsFraction; /**< Count of 1/255 fractions of one shield point. */
     /*0x061*/ u16                          shieldPoints;         /**< Shield points of the current unit */
     /*0x063*/ _UNKNOWN _8[1];
     /*0x064*/ BW::UnitType::Enum           unitID;               /**< Specifies the type of unit. */
     /*0x066*/ _UNKNOWN _9[2];
-    /*0x068*/ BW::UnitData*                previousPlayerUnit;   /**< @todo Verify */
-    /*0x06C*/ BW::UnitData*                nextPlayerUnit;       /**< @todo Verify */
-    /*0x070*/ BW::UnitData*                subUnit;              /**< @todo Verify */
+    /*0x068*/ BW::Unit*                previousPlayerUnit;   /**< @todo Verify */
+    /*0x06C*/ BW::Unit*                nextPlayerUnit;       /**< @todo Verify */
+    /*0x070*/ BW::Unit*                subUnit;              /**< @todo Verify */
     /*0x074*/ BW::Order*                   orderQueueHead;       /**< @todo Verify */
     /*0x078*/ BW::Order*                   orderQueueTail;       /**< @todo Verify */
     /*0x07C*/ _UNKNOWN _10[4];
-    /*0x080*/ BW::UnitData*                connectedUnit;        /**< @todo Verify */
+    /*0x080*/ BW::Unit*                connectedUnit;        /**< @todo Verify */
     /*0x084*/ u8                           orderQueueCount;      /**< @todo Verify */
     /*0x085*/ u8                           unknownOrderTimer_0x085; /**< @todo Unknown */
     /*0x086*/ _UNKNOWN _11[2];
@@ -117,7 +120,7 @@ namespace BW
                  * -# Building - addon
                  * -# Worker - Powerup carried
                  */
-                BW::UnitData* childUnit1;
+                BW::Unit* childUnit1;
               }                       childInfoUnion;     /**< @todo Verify */
               /** Additional unit info depending on unit type */
     /*0x0C4*/ union ChildUnitUnion1_type
@@ -130,7 +133,7 @@ namespace BW
                 } unitIsBuilding;
 
                 /** If the unit is Scarab/Interceptor - Next Unit in Parent Hangar */ 
-                BW::UnitData* nextUnitInParentHangar;
+                BW::Unit* nextUnitInParentHangar;
               }                       childUnitUnion1;    /**< @todo Verify */
               /** Additional unit info depending on unit type */
     /*0x0C8*/ union ChildUnitUnion2_type
@@ -157,7 +160,7 @@ namespace BW
                 } unitIsNotScarabInterceptor;
 
                 /* If this unit is Scarab/Interceptor, it is pointer to Previous in Parent's Hangar */
-                BW::UnitData* prevUnitInParentHangar;                
+                BW::Unit* prevUnitInParentHangar;                
               }                       childUnitUnion2;    /**< @todo Verify */
     /*0x0CC*/ union ChildUnitUnion3_type
               {                
@@ -181,7 +184,7 @@ namespace BW
                     u8 resourceCount;
                   } resourceUnitUnionSub;
                 } unitUnion1Sub;
-                BW::UnitData* resourceTarget_connectedNydus;
+                BW::Unit* resourceTarget_connectedNydus;
                 BW::Sprite* nukeDot;
               }                       unitUnion1;         /**< @todo Verify */
     /*0x0D4*/ _UNKNOWN _19[8];
@@ -191,7 +194,7 @@ namespace BW
     /*0x0E2*/ u8                           secondaryOrderState;/**< @todo Unknown */
     /*0x0E3*/ u8                           unknownCounterDown_0x0E3; /**< @todo Unknown */
     /*0x0E4*/ _UNKNOWN _20[8];
-    /*0x0EC*/ BW::UnitData*                currentBuildUnit;   /**< @todo Unknown */
+    /*0x0EC*/ BW::Unit*                currentBuildUnit;   /**< @todo Unknown */
     /*0x0F0*/ _UNKNOWN _21[8];
     /*0x0F8*/ union RallyPsiProviderUnion_type
               {
@@ -199,12 +202,12 @@ namespace BW
                 {
                   /* BW::Position rallyPos; */
                   u16 rallyX, rallyY;
-                  BW::UnitData* rallyUnit;
+                  BW::Unit* rallyUnit;
                 } rally;
                 struct PsiProvider_type
                 {
-                  BW::UnitData* prevPsiProvider;
-                  BW::UnitData* nextPsiProvider;
+                  BW::Unit* prevPsiProvider;
+                  BW::Unit* nextPsiProvider;
                 };
               }                            rallyPsiProviderUnion; /**< @todo Verify */
     /*0x100*/ u32                          pathUnknown_0x100;  /**< @todo Unknown */
@@ -222,7 +225,7 @@ namespace BW
     /*0x119*/ u8                           stasisTimer;        /**< @todo Verify */
     /*0x11A*/ u8                           plaugeTimer;        /**< @todo Verify */
     /*0x11B*/ u8                           isUnderStorm;       /**< @todo Verify */
-    /*0x11C*/ BW::UnitData*                irradiatedBy;       /**< @todo Verify */
+    /*0x11C*/ BW::Unit*                irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                           irradiatePlayerID;  /**< @todo Verify */
     /*0x121*/ BitMask<ParasiteFlags::Enum> parasiteFlags;      /**< @todo Verify BW#ParasiteFlags */
     /*0x122*/ u8                           cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
@@ -245,10 +248,10 @@ namespace BW
   /** Direct maping of the UnitNodeTable in bw memory. */
   struct UnitArray
   {
-    UnitData unit[UNIT_ARRAY_MAX_LENGTH];
+    Unit unit[UNIT_ARRAY_MAX_LENGTH];
   };
 
-  BOOST_STATIC_ASSERT(sizeof(UnitData) == UNIT_SIZE_IN_BYTES);
+  BOOST_STATIC_ASSERT(sizeof(Unit) == UNIT_SIZE_IN_BYTES);
   BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES * UNIT_ARRAY_MAX_LENGTH);
 };
 

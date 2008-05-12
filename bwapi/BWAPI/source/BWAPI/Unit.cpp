@@ -6,7 +6,7 @@
 #include "../BWAPI/CommandTrain.h"
 #include "../BWAPI/CommandRightClick.h"
 
-#include "../BW/UnitData.h"
+#include "../BW/Unit.h"
 #include "../BW/Offsets.h"
 #include "../BW/UnitTypes.h"
 
@@ -15,12 +15,12 @@
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  Unit::Unit(BW::UnitData* unitData, 
-             BW::UnitData* originalUnitData,
-             BW::UnitData* unitDataLocal)
-  :bwUnitData(unitData)
-  ,bwOriginalUnitData(originalUnitData)
-  ,bwUnitDataLocal(unitDataLocal)
+  Unit::Unit(BW::Unit* unitData, 
+             BW::Unit* originalUnit,
+             BW::Unit* unitDataLocal)
+  :bwUnit(unitData)
+  ,bwOriginalUnit(originalUnit)
+  ,bwUnitLocal(unitDataLocal)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -30,22 +30,22 @@ namespace BWAPI
   //-------------------------- GET HEALTH POINTS --------------------------------
   u16 Unit::getHealthPoints() const
   {
-    return bwUnitData->healthPoints;
+    return bwUnit->healthPoints;
   }
   //----------------------- GET HEALT POINTS FACTION ----------------------------
   u8 Unit::getHealthPointsFraction() const
   {
-    return bwUnitData->healthPointsFraction;
+    return bwUnit->healthPointsFraction;
   }
   //-------------------------- GET HEALTH POINTS --------------------------------
   u16 Unit::getShieldPoints() const
   {
-    return bwUnitData->shieldPoints;
+    return bwUnit->shieldPoints;
   }
   //----------------------- GET HEALT POINTS FACTION ----------------------------
   u8 Unit::getShieldPointsFraction() const
   {
-    return bwUnitData->shieldPointsFraction;
+    return bwUnit->shieldPointsFraction;
   }
   //--------------------------  GET UNIT PROTOTYPE -----------------------------
   const UnitPrototype* Unit::getPrototype() const
@@ -97,16 +97,20 @@ namespace BWAPI
   //------------------------------- GET OWNER ----------------------------------
   Player* Unit::getOwner() const
   {
-    return Broodwar.players[this->bwUnitData->playerID];
+    return Broodwar.players[this->bwUnit->playerID];
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isValid() const
   {
-    return (
-             this->getHealthPoints() > 0 || 
-             this->getHealthPointsFraction() > 0
-           ) &&
-           this->getPrototype() != NULL;
+    /*if (this->getOriginalRawData()->resource)
+      return this->getOriginalRawData()->resourceAmount > 0 ||
+             this->getType() == BW::UnitType::Resource_VespeneGeyser;
+    else*/
+      return (
+               this->getHealthPoints() > 0 || 
+               this->getHealthPointsFraction() > 0
+             ) &&
+             this->getPrototype() != NULL;
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isReady() const
@@ -118,7 +122,7 @@ namespace BWAPI
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
   {
-    return this->bwUnitData->position;
+    return this->bwUnit->position;
   }
   //-------------------------------- GET TATGET --------------------------------
   Unit* Unit::getTarget()
@@ -131,34 +135,34 @@ namespace BWAPI
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
   //-------------------------------- GET RAW DATA ------------------------------
-  BW::UnitData *Unit::getRawData()
+  BW::Unit *Unit::getRawData()
   {
-    return this->bwUnitData;
+    return this->bwUnit;
   }
   //-------------------------------- GET RAW DATA ------------------------------
-  const BW::UnitData *Unit::getRawData() const
+  const BW::Unit *Unit::getRawData() const
   {
-    return this->bwUnitData;
+    return this->bwUnit;
   }
   //------------------------------ GET RAW DATA LOCAL --------------------------
-  BW::UnitData *Unit::getRawDataLocal()
+  BW::Unit *Unit::getRawDataLocal()
   {
-    return this->bwUnitDataLocal;
+    return this->bwUnitLocal;
   }
   //------------------------------ GET RAW DATA LOCAL --------------------------
-  const BW::UnitData *Unit::getRawDataLocal() const
+  const BW::Unit *Unit::getRawDataLocal() const
   {
-    return this->bwUnitDataLocal;
+    return this->bwUnitLocal;
   }
   //------------------------------ GET ORIGINAL RAW DATA -----------------------
-  BW::UnitData *Unit::getOriginalRawData()
+  BW::Unit *Unit::getOriginalRawData()
   {
-    return this->bwOriginalUnitData;
+    return this->bwOriginalUnit;
   }
   //------------------------------ GET ORIGINAL RAW DATA -----------------------
-  const BW::UnitData *Unit::getOriginalRawData() const
+  const BW::Unit *Unit::getOriginalRawData() const
   {
-    return this->bwOriginalUnitData;
+    return this->bwOriginalUnit;
   }
   //-------------------------------- GET ORDER ID ------------------------------
   BW::OrderID::Enum Unit::getOrderID() const
@@ -269,11 +273,11 @@ namespace BWAPI
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {
-    /*BW::UnitData * * list = new BW::UnitData * [2];
+    /*BW::Unit * * list = new BW::Unit * [2];
     list[0] = this->getOriginalRawData();
 	   list[1] = NULL;
     int one = 1;
-    void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool))0x0049AB90;
+    void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool))0x0049AB90;
     selectUnitsHelperSTD(one, list, true, true);*/
     Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
   }
@@ -312,7 +316,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4311)
-  Unit* Unit::BWUnitToBWAPIUnit(BW::UnitData* unit)
+  Unit* Unit::BWUnitToBWAPIUnit(BW::Unit* unit)
   {
     if (unit == NULL)
       return NULL;

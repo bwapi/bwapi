@@ -5,7 +5,7 @@
 #include "../BW/UnitTypes.h"
 
 namespace BW { class Position; };
-namespace BW { struct UnitData; };
+namespace BW { struct Unit; };
 namespace BWAPI { class UnitPrototype;  };
 namespace BWAPI { class AbilityPrototype;  };
 namespace BWAPI { class Player;  };
@@ -20,39 +20,39 @@ namespace BWAPI
     public:
       /** 
 
-       * @param bwUnitData         #bwUnitData                          
-       * @param bwOriginalUnitData #bwOriginalUnitData
-       * @param bwUnitDataLocal    #bwUnitDataLocal
+       * @param bwUnit         #bwUnit                          
+       * @param bwOriginalUnit #bwOriginalUnit
+       * @param bwUnitLocal    #bwUnitLocal
        *
        */
-      Unit(BW::UnitData* bwUnitData,
-           BW::UnitData* bwOriginalUnitData,
-           BW::UnitData* bwUnitDataLocal);
+      Unit(BW::Unit* bwUnit,
+           BW::Unit* bwOriginalUnit,
+           BW::Unit* bwUnitLocal);
       /** Nothing is deleted as no data are owned.*/
       ~Unit();
-      /** Gets #bwUnitData->BW#UnitData#unitID */
+      /** Gets #bwUnit->BW#Unit#unitID */
       BW::UnitType::Enum getType() const;
-      /** Gets #bwUnitData->BW#UnitData#healthPoints. */
+      /** Gets #bwUnit->BW#Unit#healthPoints. */
       u16 getHealthPoints() const; 
-      /** Gets #bwUnitData->BW#UnitData#healthPointsFraction. */
+      /** Gets #bwUnit->BW#Unit#healthPointsFraction. */
       u8 getHealthPointsFraction() const;
-      /** Gets #bwUnitData->BW#UnitData#shieldPoints. */
+      /** Gets #bwUnit->BW#Unit#shieldPoints. */
       u16 getShieldPoints() const; 
-      /** Gets #bwUnitData->BW#UnitData#shieldPointsFraction. */
+      /** Gets #bwUnit->BW#Unit#shieldPointsFraction. */
       u8 getShieldPointsFraction() const;
-      /** Gets #bwUnitData->BW#UnitData#position. */
+      /** Gets #bwUnit->BW#Unit#position. */
       const BW::Position& getPosition() const;
-      /** Gets #bwUnitData->BW#UnitData#targetUnit. */
+      /** Gets #bwUnit->BW#Unit#targetUnit. */
       Unit* getTarget();
-      /** Gets #bwUnitDataLocal->BW#UnitData#targetUnit. */
+      /** Gets #bwUnitLocal->BW#Unit#targetUnit. */
       Unit* getTargetLocal();
-      /** Gets owner of the unit defined by #bwUnitData->BW#UnitData#playerID. */
+      /** Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
       Player* getOwner() const;
-      /** Gets prototype of the unit defined by #bwUnitData->BW#UnitData#unitID. */
+      /** Gets prototype of the unit defined by #bwUnit->BW#Unit#unitID. */
       const UnitPrototype* getPrototype() const;
-      /** Gets #bwUnitData->BW#UnitData#queueSlot. */
+      /** Gets #bwUnit->BW#Unit#queueSlot. */
       u8 getBuildQueueSlot();
-      /** Gets #bwUnitDataLocal->BW#UnitData#buildQueueSlot - @ref localData */
+      /** Gets #bwUnitLocal->BW#Unit#buildQueueSlot - @ref localData */
       u8 getBuildQueueSlotLocal();
       /** Gets distance of unit edges. */
       u16 getDistance(Unit *unit) const; 
@@ -60,13 +60,13 @@ namespace BWAPI
       u16 getCenterDistance(Unit *unit) const; 
       /** Gets distance between two positions. */
       u16 getDistance(int x1, int y1, int x2, int y2) const; 
-      /**< Gets bwUnitData->BW#UnitData#orderID. */
+      /**< Gets bwUnit->BW#Unit#orderID. */
       BW::OrderID::Enum getOrderID() const;
-      /**< Gets bwUnitDataLocal->BW#UnitData#orderID - @ref localData */
+      /**< Gets bwUnitLocal->BW#Unit#orderID - @ref localData */
       BW::OrderID::Enum getOrderIDLocal() const;
-      /** Gets #bwUnitData->BW#UnitData#buildQueue */
+      /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType::Enum *getBuildQueue();
-      /** Gets #bwUnitDataLocal->BW#UnitData#buildQueue - @ref localData*/
+      /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
       BW::UnitType::Enum *getBuildQueueLocal();
 
       bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
@@ -78,18 +78,18 @@ namespace BWAPI
       bool isValid() const;
       /** Gets if the unit is alive - exists and it's construction is done. */
       bool isReady() const;
-      /** Gets #bwUnitData */
-      BW::UnitData *getRawData();
-      /** Gets #bwUnitData (const version that returns const pointer) */
-      const BW::UnitData *getRawData() const;
-      /** Gets #bwOriginalUnitData */
-      BW::UnitData *getOriginalRawData();
+      /** Gets #bwUnit */
+      BW::Unit *getRawData();
+      /** Gets #bwUnit (const version that returns const pointer) */
+      const BW::Unit *getRawData() const;
+      /** Gets #bwOriginalUnit */
+      BW::Unit *getOriginalRawData();
       /** Gets #bwOriginalUnit (const version that returns const pointer) */
-      const BW::UnitData *getOriginalRawData() const;
-      /** Gets #bwUnitDataLocal */
-      BW::UnitData *getRawDataLocal();
-      /** Gets #bwUnitDataLocal (const version that returns const pointer)*/
-      const BW::UnitData *getRawDataLocal() const;
+      const BW::Unit *getOriginalRawData() const;
+      /** Gets #bwUnitLocal */
+      BW::Unit *getRawDataLocal();
+      /** Gets #bwUnitLocal (const version that returns const pointer)*/
+      const BW::Unit *getRawDataLocal() const;
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue();
       /** Returns if the unit has empty building queue in the local version  - @ref localData*/
@@ -110,12 +110,12 @@ namespace BWAPI
       void build(u16 tileX, u16 tileY, UnitPrototype *type);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
-      static Unit* BWUnitToBWAPIUnit(BW::UnitData* unit);
+      static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
       bool isMineral();
     private:
-      BW::UnitData* bwUnitData; /**< Pointer to our copy of of unit data table. */
-      BW::UnitData* bwUnitDataLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
-      BW::UnitData* bwOriginalUnitData; /**< Pointer to broodwar unit data table. */
+      BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
+      BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
+      BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       
   };
 };

@@ -12,6 +12,8 @@
 #include "Expansion.h"
 //#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
 //#include "..//..//BWAPI//Source//BW//BitMask.h"
+#include "..//..//BWAPI//Source//BW//Bitmask.h" /**< remove */
+#include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< remove */
 
 namespace BWAI
 {
@@ -42,11 +44,12 @@ namespace BWAI
    return false;
  }
   #include <stdio.h>
-  std::string getBinary(UNKNOWN_TYPE value)
+ template <class Type>
+  std::string getBinary(Type value)
   {
    std::string result;
-    for (int i = 0; i < UNKNOWN_BIT_SIZE; i++)
-      if (value  & (1 << (UNKNOWN_BIT_SIZE-1-i)))
+    for (int i = 0; i < sizeof(Type)*8; i++)
+      if (value  & (1 << (sizeof(Type)*8-1-i)))
          result += "1";
       else
          result += "0";
@@ -107,15 +110,40 @@ namespace BWAI
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
+    logUnknownOrStrange();
+
+    FILE *f = fopen("sums.log","at");
+    int unitCount = 0;
+    fprintf(f, "-------------------\n");
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      if (units[i]->isValid())
+       fprintf(f, "raw - type = %d on address 0x%X (secret = %s)\n", units[i]->getType(), (int)units[i]->getOriginalRawData(), getBinary((u8) units[i]->getOriginalRawData()->movementFlags.value).c_str());
     
-    std::vector<BWAI::Unit*> unitList;
+    unitCount = -1;
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      if (units[i]->isValid())
+      {
+        BW::Unit* j;
+        for (j = units[i]->getOriginalRawData(); j != NULL; j = j->nextUnit)
+          fprintf(f, "pointer  - forward type = %d on address 0x%X (secret = %s)\n", j->unitID, (int)j, getBinary((u8)j->movementFlags.value).c_str());
+        for (j = units[i]->getOriginalRawData(); j != NULL; j = j->previousUnit)
+          fprintf(f, "pointer - backward type = %d on address 0x%X (secret = %s)\n", j->unitID, (int)j, getBinary((u8)j->movementFlags.value).c_str());
+        fclose(f);
+        break;
+      }
+
+
+    
+
+        
+    /*std::vector<BWAI::Unit*> unitList;
     bool reselected = false;
-    BW::UnitData** selected = BWAPI::Broodwar.saveSelected();
+    BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     bool firstSelectedFound = false;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->isValid())
       {
-        Unit* unit = this->units[i];
+        Unit* unit = this->units[i];*/
         /*
         if (unit->getOrderID() != BW::OrderID::ExitingBuilding &&
             unit->getOrderID() != BW::OrderID::Idle &&
@@ -140,7 +168,7 @@ namespace BWAI
          fclose(f);
         }*/
 
-        unit->selected = false;
+        /*unit->selected = false;
         for (int j = 0; selected[j] != NULL; j++)
           if (selected[j] == unit->getOriginalRawData())
           {
@@ -208,7 +236,7 @@ namespace BWAI
           expansions[i]->gatherCenter->trainUnit(this->worker);
         }
     }*/
-    unsigned int workersTogether = 0;
+    /*unsigned int workersTogether = 0;
     for (unsigned int i = 0; i < this->expansions.size(); i++)
       workersTogether += this->expansions[i]->asignedWorkers;
     if (workersTogether >= this->activeMinerals.size()*3)
@@ -249,7 +277,7 @@ namespace BWAI
    if (reselected)
      BWAPI::Broodwar.loadSelected(selected);
    else
-     delete [] selected;
+     delete [] selected;*/
   }
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)
@@ -262,7 +290,7 @@ namespace BWAI
     FILE* f = fopen("bwai.log","at");
     fprintf(f,"Cancelled\n");
     fclose(f);
-    BW::UnitData** selected = BWAPI::Broodwar.saveSelected();
+    BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     if (selected[0] != NULL)
     {
       Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnitID = BW::UnitType::None;
@@ -312,4 +340,76 @@ namespace BWAI
   }
   //---------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
+  //---------------------------------------------------------------------------
+  void AI::logUnknownOrStrange()
+  {
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      if (units[i]->isValid())
+      {
+        Unit* unit = this->units[i];
+        if (unit->getOrderID() != BW::OrderID::GameNotInitialized &&
+            unit->getOrderID() != BW::OrderID::ExitingBuilding &&
+            unit->getOrderID() != BW::OrderID::Idle &&
+            unit->getOrderID() != BW::OrderID::Moving &&
+            unit->getOrderID() != BW::OrderID::Attacking &&
+            unit->getOrderID() != BW::OrderID::AttackMoving &&
+            unit->getOrderID() != BW::OrderID::NotMovable &&
+            unit->getOrderID() != BW::OrderID::Constructing &&
+            unit->getOrderID() != BW::OrderID::GoingToBuild &&
+            unit->getOrderID() != BW::OrderID::UnderConstruction &&
+            unit->getOrderID() != BW::OrderID::Following &&
+            unit->getOrderID() != BW::OrderID::Building_Lifting &&
+            unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
+            unit->getOrderID() != BW::OrderID::EnteringRafinery &&
+            unit->getOrderID() != BW::OrderID::InRafinery &&
+            unit->getOrderID() != BW::OrderID::ReturningGas &&
+            unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
+            unit->getOrderID() != BW::OrderID::StartingMining  &&
+            unit->getOrderID() != BW::OrderID::Mining &&
+            unit->getOrderID() != BW::OrderID::ReturningMinerals &&
+            unit->getOrderID() != BW::OrderID::GettingMinedMinerals)
+        {
+         FILE *f = fopen("new_order_id.txt","at");
+         fprintf(f, "Unknown (by unitID = %d) orderID = %d\n", unit->getType(), unit->getOrderID());
+         fclose(f);
+        }
+        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate _alwaysZero1 is not zero\n", unit->getType(), unit->getOrderID());
+          fclose(f);
+        }
+        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero2))
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate _alwaysZero2 is not zero\n", unit->getType(), unit->getOrderID());
+          fclose(f);
+        }
+        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero3))
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate _alwaysZero3 is not zero\n", unit->getType(), unit->getOrderID());
+          fclose(f);
+        }
+        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::Moving) != 
+            unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::AlsoMoving))
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate Moving != AlsoMoving  (%s)\n", unit->getType(), unit->getOrderID(), getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
+          fclose(f);
+        }
+       if (unit->getOriginalRawData()->resource &&
+           unit->getType() != BW::UnitType::Resource_MineralPatch1 &&
+           unit->getType() != BW::UnitType::Resource_MineralPatch2 &&
+           unit->getType() != BW::UnitType::Resource_MineralPatch3 &&
+           unit->getType() != BW::UnitType::Resource_VespeneGeyser)
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "Unit (by unitID = %d) orderID = %d - is resource and is not resource ^^\n", unit->getType(), unit->getOrderID());
+          fclose(f);
+        }         
+
+     }
+  }
+  //---------------------------------------------------------------------------
 }

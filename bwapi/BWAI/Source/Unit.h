@@ -13,9 +13,9 @@ namespace BWAI
       Expansion* expansionAssingment;
       bool selected;
       BW::UnitType::Enum lastTrainedUnitID;
-      static Unit* BWUnitToBWAIUnit(BW::UnitData* unit);
+      static Unit* BWUnitToBWAIUnit(BW::Unit* unit);
       /** 
-       * Gets #bwUnitData->BW#UnitData#targetUnit. 
+       * Gets #bwUnit->BW#Unit#targetUnit. 
        * This is similar to BWAPI#Unit#getTarget, it just get's the unit from ai scope
        */
       Unit* getTarget();

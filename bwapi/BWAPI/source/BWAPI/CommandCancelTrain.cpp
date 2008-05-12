@@ -2,7 +2,7 @@
 #include "Unit.h"
 #include "Player.h"
 #include "UnitPrototype.h"
-#include "../BW//UnitData.h"
+#include "../BW//Unit.h"
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------

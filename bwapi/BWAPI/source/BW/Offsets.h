@@ -15,7 +15,7 @@ namespace BW
 {
   struct Unit;
   struct UnitArray;
-  struct UnitData;
+  struct Unit;
   //--------------------------------- MINERALS TYPE -----------------------------
   /** Direct mapping of players mineral amount in the bw memory */
   struct PlayerMinerals_type
@@ -58,7 +58,7 @@ namespace BW
   static u32           BWXFN_PrintText = 0x48CE60;
   static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
   //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
-  static UnitData*     BWXFN_CurrentPlayerSelectionGroup = (UnitData*) 0x005971F0;
+  static Unit*     BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;
   static u32           BWXFN_GameStart = 0x004C96A1;
   static u32           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
   static u32           BWXFN_GameStartTarget = 0x00417C10;
