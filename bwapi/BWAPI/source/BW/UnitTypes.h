@@ -21,6 +21,7 @@ namespace BW
       Terran_SiegeTankTankMode      = 0x05,
       Terran_TankTurretTankMode     = 0x06,
       Terran_SCV                    = 0x07,
+      Terran_JimRaynor_Hero         = 0x14,
       Terran_Firebat                = 0x20,
       Terran_Medic                  = 0x22,
       Terran_SiegeTankSiegeMode     = 0x1E,
@@ -162,6 +163,11 @@ namespace BW
       Spell_DisruptionWeb           = 0x69,
       Spell_DarkSwarm               = 0xCA,
       //Others
+      Mineral_Chunk1                = 0xDC,
+      Mineral_Chunk2                = 0xDD,
+      Vespene_Orb1                  = 0xDE,
+      Vespene_Orb2                  = 0xDF,
+      Vaspene_Sac1                  = 0xE0,
       None                          = 0XE4
     };
   };

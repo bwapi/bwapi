@@ -8,7 +8,7 @@
 #include "../BWAPI/CommandCancelTrain.h"
 
 #include "../BW/Offsets.h"
-#include "../BW/UnitData.h"
+#include "../BW/Unit.h"
 #include "../BW/UnitTarget.h"
 #include "../BW/OrderTypes.h"
 
@@ -321,15 +321,15 @@ namespace BWAPI
     return this->units[index];
   }
   //--------------------------------- SAVE SELECTED -----------------------------
-  BW::UnitData** Game::saveSelected()
+  BW::Unit** Game::saveSelected()
   {
-    BW::UnitData** selected = new BW::UnitData * [13];
+    BW::Unit** selected = new BW::Unit * [13];
     memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
     selected[12] = NULL;
     return selected;
   }
   //--------------------------------- LOAD SELECTED -----------------------------
-  void Game::loadSelected(BW::UnitData** selected)
+  void Game::loadSelected(BW::Unit** selected)
   {
     int unitCount = 0;
     while (selected[unitCount] != NULL)
@@ -343,7 +343,7 @@ namespace BWAPI
       memcpy(inputData + 2 + 2*i, &target, sizeof(BW::UnitTarget));
     }
        
-    //void (_stdcall* selectUnitsHelperSTD)(int, BW::UnitData * *, bool, bool) = (void (_stdcall*) (int, BW::UnitData * *, bool, bool)) 0x0049AB90;
+    //void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AB90;
 	   //selectUnitsHelperSTD(unitCount, selected, true, true);
     this->IssueCommand(inputData, 2 + unitCount*2);
     delete [] inputData;
@@ -352,7 +352,7 @@ namespace BWAPI
   //-----------------------------------------------------------------------------
   void Game::onCancelTrain()
   {
-    BW::UnitData** selected = this->saveSelected();
+    BW::Unit** selected = this->saveSelected();
     if (selected[0] != NULL)
       this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(selected[0])));
     delete [] selected;

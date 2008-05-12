@@ -1,6 +1,6 @@
 #pragma once
 #include "..//..//BWAPI//Source//BWAPI//Game.h"
-//#include "..//..//BWAPI//Source//BW//UnitData.h"
+//#include "..//..//BWAPI//Source//BW//Unit.h"
 #include <vector>
 
 namespace BWAI { class Unit; }
@@ -39,5 +39,6 @@ namespace BWAI
       void rebalanceMiners();
       bool checkAssignedWorkers(void);
       void checkDeadWorkers(void);
+      void logUnknownOrStrange();
   };
 }

@@ -1,12 +1,12 @@
 #pragma once
 
 namespace BW { struct UnitArray; }
-namespace BW { struct UnitData; }
+namespace BW { struct Unit; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
 #include "..//BW//OrderTypes.h"
-#include "..//BW//UnitData.h"
+#include "..//BW//Unit.h"
 #include <vector>
 #include <windows.h>
 /** Everything in the BWAPI library that doesn't map or work directly with the bw data. */
@@ -68,8 +68,8 @@ namespace BWAPI
     void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr); 
     void refresh();
     Unit* getUnit(int index);
-    BW::UnitData** saveSelected();
-    void loadSelected(BW::UnitData** selected);
+    BW::Unit** saveSelected();
+    void loadSelected(BW::Unit** selected);
     BWAPI::Player* marwin;
   private :
     bool inGame;

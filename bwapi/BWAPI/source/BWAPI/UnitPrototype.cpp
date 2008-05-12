@@ -4,7 +4,7 @@
 #include "../BWAPI/AbilityPrototype.h"
 #include "../BWAPI/TargetType.h"
 
-#include "../BW/UnitData.h"
+#include "../BW/Unit.h"
 #include "../BW/Position.h"
 #include "../BW/Offsets.h"
 

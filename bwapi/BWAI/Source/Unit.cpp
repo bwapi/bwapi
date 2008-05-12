@@ -15,7 +15,7 @@ namespace BWAI
   //----------------------------- BW Unit TO BWAI Unit -----------------------
   #pragma warning(push)
   #pragma warning(disable:4311)
-  Unit* Unit::BWUnitToBWAIUnit(BW::UnitData* unit)
+  Unit* Unit::BWUnitToBWAIUnit(BW::Unit* unit)
   {
     if (unit == NULL)
       return NULL;

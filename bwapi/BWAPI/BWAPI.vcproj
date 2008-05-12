@@ -252,7 +252,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\UnitData.h"
+					RelativePath=".\source\BW\Unit.h"
 					>
 				</File>
 				<File

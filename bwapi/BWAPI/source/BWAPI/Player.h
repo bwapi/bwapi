@@ -2,7 +2,7 @@
 
 #include <list>
 #include "../Types.h"
-namespace BW { struct UnitData; };
+namespace BW { struct Unit; };
 
 namespace BWAPI
 {
@@ -50,7 +50,7 @@ namespace BWAPI
     * to be deleted upon removal.
     */
     std::list<Unit*> units; 
-    BW::UnitData** selectedUnit();
+    BW::Unit** selectedUnit();
     void update();
 
   private :
