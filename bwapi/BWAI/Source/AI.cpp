@@ -335,6 +335,9 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::Mining &&
             unit->getOrderID() != BW::OrderID::ReturningMinerals &&
             unit->getOrderID() != BW::OrderID::OverlordIdle &&
+            unit->getOrderID() != BW::OrderID::Burrowing &&
+            unit->getOrderID() != BW::OrderID::Burrowed &&
+            unit->getOrderID() != BW::OrderID::Unburrowing &&
             unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
             unit->getOrderID() != BW::OrderID::CritterWandering &&
             unit->getOrderID() != BW::OrderID::Stop &&
@@ -368,23 +371,28 @@ namespace BWAI
           units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
           units[i]->getType() != BW::UnitType::Zerg_Drone &&
           units[i]->getType() != BW::UnitType::Zerg_Egg &&
+          units[i]->getOrderID() != BW::OrderID::BuildingMutating &&
           units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain))
         {
           FILE *f = fopen("new_main_order_state.txt","at");
           fprintf(f, "Unit %s has orderstate.willWander again true\n", units[i]->getName().c_str());
           fclose(f);
         }
-      if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
+      /*if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
           units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
           units[i]->getType() != BW::UnitType::Zerg_Drone &&
           units[i]->getType() != BW::UnitType::Zerg_Overlord &&
+          units[i]->getType() != BW::UnitType::Zerg_Egg &&
+          units[i]->getOrderID() != BW::OrderID::BuildingMutating &&
           units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::autoWander))
         {
           FILE *f = fopen("new_main_order_state.txt","at");
-          fprintf(f, "Unit %s has auto wander state\n", units[i]->getName().c_str());
+          fprintf(f, "%s has auto wander state = true\n", units[i]->getName().c_str());
           fclose(f);
-        }
+        }*/
      if (units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+         units[i]->getType() != BW::UnitType::Critter_Ragnasaur &&
+         units[i]->getType() != BW::UnitType::Critter_Kakaru &&
          units[i]->getOrderID() == BW::OrderID::CritterWandering)
         {
           FILE *f = fopen("new_main_order_state.txt","at");

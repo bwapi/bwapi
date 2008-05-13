@@ -108,6 +108,8 @@ namespace BWAPI
     UnitPrototype* SpawningPool        = new UnitPrototype("Zerg Spawning pool"       , BW::UnitType::Zerg_SpawningPool,         RaceType::Zerg,      0, 0);
     UnitPrototype* Spire               = new UnitPrototype("Zerg Spire"               , BW::UnitType::Zerg_Spire,                RaceType::Zerg,      0, 0);
     UnitPrototype* Lair                = new UnitPrototype("Zerg Lair"                , BW::UnitType::Zerg_Lair,                 RaceType::Zerg,      0, 0);
+    UnitPrototype* CreepColony         = new UnitPrototype("Zerg Creep colony"        , BW::UnitType::Zerg_CreepColony,          RaceType::Zerg,      0, 0);
+    UnitPrototype* SunkenColony        = new UnitPrototype("Zerg Sunken colony"       , BW::UnitType::Zerg_SunkenColony,         RaceType::Zerg,      0, 0);
     
     
     /** Neutral */
@@ -115,10 +117,16 @@ namespace BWAPI
     UnitPrototype* MineralPatch2       = new UnitPrototype("Minerals2"               , BW::UnitType::Resource_MineralPatch2,     RaceType::Other,     0, 0);    
     UnitPrototype* MineralPatch3       = new UnitPrototype("Minerals3"               , BW::UnitType::Resource_MineralPatch3,     RaceType::Other,     0, 0);    
     UnitPrototype* VaspineGayser       = new UnitPrototype("Vaspine gas"             , BW::UnitType::Resource_VespeneGeyser,     RaceType::Other,     0, 0);    
+    
+    /** Critters */
+    UnitPrototype* Critter_Bengalaas   = new UnitPrototype("Critter Bengalaas"       , BW::UnitType::Critter_Bengalaas,          RaceType::Other,     0, 0);    
+    UnitPrototype* Critter_Kakaru      = new UnitPrototype("Critter Kakaru"          , BW::UnitType::Critter_Kakaru,             RaceType::Other,     0, 0);    
+    UnitPrototype* Critter_Rangasau    = new UnitPrototype("Critter Rangasaur"       , BW::UnitType::Critter_Rangasaur,          RaceType::Other,     0, 0);    
+    
+    /** Spells */
+    UnitPrototype* DarkSwarm           = new UnitPrototype("Dark swarm"              , BW::UnitType::Spell_DarkSwarm,            RaceType::Other,     0, 0);    
 
-    UnitPrototype* Critter_Bengalaas   = new UnitPrototype("Critter_Bengalaas"       , BW::UnitType::Critter_Bengalaas,          RaceType::Other,     0, 0);    
-
-    UnitPrototype* None                = new UnitPrototype("None"                    , BW::UnitType::None                  ,     RaceType::Other,     0, 0);    
+    UnitPrototype* None                = new UnitPrototype("None"                    , BW::UnitType::None,                       RaceType::Other,     0, 0);    
     
 
     UnitPrototype* unitIDToPrototypeTable[228] =
@@ -217,7 +225,7 @@ namespace BWAPI
      /** 0x5B */ NULL,
      /** 0x5C */ NULL,
      /** 0x5D */ NULL,
-     /** 0x5E */ NULL,
+     /** 0x5E */ Critter_Kakaru,
      /** 0x5F */ NULL,
      /** 0x60 */ NULL,
      /** 0x61 */ NULL,
@@ -266,8 +274,8 @@ namespace BWAPI
      /** 0x8C */ NULL,
      /** 0x8D */ NULL,
      /** 0x8E */ SpawningPool,
-     /** 0x8F */ NULL,
-     /** 0x90 */ NULL,
+     /** 0x8F */ CreepColony,
+     /** 0x90 */ SunkenColony,
      /** 0x91 */ NULL,
      /** 0x92 */ NULL,
      /** 0x93 */ NULL,
@@ -325,7 +333,7 @@ namespace BWAPI
      /** 0xC7 */ NULL,
      /** 0xC8 */ NULL,
      /** 0xC9 */ NULL,
-     /** 0xCA */ NULL,
+     /** 0xCA */ DarkSwarm,
      /** 0xCB */ NULL,
      /** 0xCC */ NULL,
      /** 0xCD */ NULL,

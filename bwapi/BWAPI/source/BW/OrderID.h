@@ -38,6 +38,9 @@ namespace BW
       Mining                 =  87, /**< Unit is mining minerals */
       ReturningMinerals      =  90, /**< Unit is with minerals is returning it back to Command Center/Hatchery/nexus */
       OverlordIdle           =  93, /**< Overlord is idle - and is doing it's strange rotation stuff */
+      Burrowing              = 116, /**< Zerg unit performing the burrow command */
+      Burrowed               = 117, /**< Zerg burrowed unit */
+      Unburrowing            = 118, /**< Zerg burrowed performing the unburrow command */
       Stop                   = 150, /**< The unit has give order to stop*/
       GettingMinedMinerals   = 151, /**< @todo Investigate That action is there for a moment between Mining and Returning Minerals states */
       CritterWandering       = 166  /**< @todo Investigate That action is there for a moment between Mining and Returning Minerals states */
@@ -58,6 +61,7 @@ namespace BW
         case GoingToBuild : return "Going To Build";
         case Repair : return "Repair";
         case EggMutating  : return "Egg Mutating";
+        case BuildingMutating : return "Building mutating";
         case UnderConstruction : return "Under Construction";
         case Following : return "Following";
         case Building_Landing : return "Building landing";
@@ -72,6 +76,9 @@ namespace BW
         case Mining : return "Mining";
         case ReturningMinerals : return "Returning Minerals";
         case OverlordIdle : return "Overlord Idle";
+        case Burrowing : return "Burrowing";
+        case Burrowed : return "Burrowed";
+        case Unburrowing  : return "Unburrowing";
         case GettingMinedMinerals : return "Getting Mined Minerals";
         case CritterWandering : return "Critter wandering";
                                        
