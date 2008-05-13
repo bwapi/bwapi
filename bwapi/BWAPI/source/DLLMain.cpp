@@ -116,7 +116,7 @@ void __declspec(naked) onGameEnd()
 int lastEcx;
 void __declspec(naked)  hookTest()
 {
-  if (lastEcx >= 0)
+  if (lastEcx >=  0)
   {
     BWAPI::Broodwar.update();
     BWAI::ai->update();    
@@ -125,7 +125,6 @@ void __declspec(naked)  hookTest()
       BWAI::ai->onStart(BWAPI::Broodwar.marwin);
       aiStartCalled = true;
     }
-    BWAI::ai->onFrame();
   }
   __asm
   {

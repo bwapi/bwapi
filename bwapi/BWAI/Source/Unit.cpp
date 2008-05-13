@@ -41,6 +41,22 @@ namespace BWAI
   //-------------------------------- UPDATE NEXT -------------------------------
   void Unit::updateNext()
   {
+    if (this->getOriginalRawData()->nextUnit != NULL)
+    {
+      if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
+      {
+        FILE* f = fopen("FATAL-ERROR.log","at");
+        fprintf(f, "Unit array too small, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
+        fclose(f);
+      }
+      if ((int)this->getOriginalRawData()->nextUnit < (int)BW::BWXFN_UnitNodeTable)
+      {
+        FILE* f = fopen("FATAL-ERROR.log","at");
+        fprintf(f, "Unit array begins at bad location, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
+        fclose(f);
+      }
+    }
+
     this->next = Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
     if (this->next != NULL)
       this->next->updateNext();

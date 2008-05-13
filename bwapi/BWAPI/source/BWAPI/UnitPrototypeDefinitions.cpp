@@ -95,6 +95,7 @@ namespace BWAPI
     UnitPrototype* Pylon               = new UnitPrototype("Protoss Pylon"            , BW::UnitType::Protoss_Pylon,             RaceType::Protoss,   0, 0);
     UnitPrototype* Gateway             = new UnitPrototype("Protoss Gateway"          , BW::UnitType::Protoss_Gateway,           RaceType::Protoss,   0, 0);
     UnitPrototype* CyberneticsCore     = new UnitPrototype("Protoss Cybernetics core" , BW::UnitType::Protoss_CyberneticsCore,   RaceType::Protoss,   0, 0);
+
     /** Zerg */
     UnitPrototype* Drone               = new UnitPrototype("Drone"                    , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
     UnitPrototype* Larva               = new UnitPrototype("Larva"                    , BW::UnitType::Zerg_Larva,                RaceType::Zerg,      0, 0);
@@ -110,6 +111,9 @@ namespace BWAPI
     UnitPrototype* Lair                = new UnitPrototype("Zerg Lair"                , BW::UnitType::Zerg_Lair,                 RaceType::Zerg,      0, 0);
     UnitPrototype* CreepColony         = new UnitPrototype("Zerg Creep colony"        , BW::UnitType::Zerg_CreepColony,          RaceType::Zerg,      0, 0);
     UnitPrototype* SunkenColony        = new UnitPrototype("Zerg Sunken colony"       , BW::UnitType::Zerg_SunkenColony,         RaceType::Zerg,      0, 0);
+    UnitPrototype* SporeColony         = new UnitPrototype("Zerg Spore colony"        , BW::UnitType::Zerg_SporeColony,          RaceType::Zerg,      0, 0);
+    UnitPrototype* Extractor           = new UnitPrototype("Zerg extractor"           , BW::UnitType::Zerg_Extractor,            RaceType::Zerg,      0, 0);
+    UnitPrototype* HydraliskDen        = new UnitPrototype("Zerg hydralisk den"       , BW::UnitType::Zerg_HydraliskDen,         RaceType::Zerg,      0, 0);
     
     
     /** Neutral */
@@ -268,7 +272,7 @@ namespace BWAPI
      /** 0x84 */ Lair,
      /** 0x85 */ NULL,
      /** 0x86 */ NULL,
-     /** 0x87 */ NULL,
+     /** 0x87 */ HydraliskDen,
      /** 0x88 */ NULL,
      /** 0x89 */ NULL,
      /** 0x8A */ NULL,
@@ -277,12 +281,12 @@ namespace BWAPI
      /** 0x8D */ NULL,
      /** 0x8E */ SpawningPool,
      /** 0x8F */ CreepColony,
-     /** 0x90 */ SunkenColony,
+     /** 0x90 */ SporeColony,
      /** 0x91 */ NULL,
-     /** 0x92 */ NULL,
+     /** 0x92 */ SunkenColony,
      /** 0x93 */ NULL,
      /** 0x94 */ NULL,
-     /** 0x95 */ NULL,
+     /** 0x95 */ Extractor,
      /** 0x96 */ NULL,
      /** 0x97 */ NULL,
      /** 0x98 */ NULL,
