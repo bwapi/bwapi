@@ -284,11 +284,12 @@ namespace BWAI
   {
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->isValid() &&
+      if (i->getPrototype() != NULL &&
           i->hasEmptyBuildQueueLocal() &&
           i->lastTrainedUnitID != BW::UnitType::None &&
           i->getPrototype()->canProduce() &&
-          i->getOwner() == player)
+          i->getOwner() == player &&
+          i->lastTrainedUnitID < 228)
       {
         BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[i->lastTrainedUnitID];
         if (type != NULL &&

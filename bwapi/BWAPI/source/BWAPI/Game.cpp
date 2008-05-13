@@ -298,12 +298,13 @@ namespace BWAPI
   void Game::loadSelected(BW::Unit** selected)
   {
     /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
-    if (selected[0] == NULL)
+    /*if (selected[0] == NULL)
       return;
+
+    
     BW::Unit** selectedNow = this->saveSelected();
     int i;
     for (i = 0; selected[i] ==  selectedNow[i]; i++)
-     /** The current selection is same as the specified one*/
     if (selected[i] == NULL && selectedNow[i] == NULL)
     {
        delete [] selected;
@@ -311,24 +312,15 @@ namespace BWAPI
        return;
     }
 
-    delete selectedNow;
+    delete selectedNow; */
 
     int unitCount = 0;
     while (selected[unitCount] != NULL)
       unitCount ++;
-    byte* inputData = new byte[2 + unitCount*2];
-    inputData[0] = 0x09;
-    inputData[1] = unitCount;
-    for (int i = 0; i < unitCount; i++)
-    {
-      BW::UnitTarget target = BW::UnitTarget(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i]));
-      memcpy(inputData + 2 + 2*i, &target, sizeof(BW::UnitTarget));
-    }
-       
-    //void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AB90;
-	   //selectUnitsHelperSTD(unitCount, selected, true, true);
-    this->IssueCommand(inputData, 2 + unitCount*2);
-    delete [] inputData;
+    void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AB90;
+	   selectUnitsHelperSTD(unitCount, selected, true, true);
+    //this->IssueCommand(inputData, 2 + unitCount*2);
+    //delete [] inputData;
     delete [] selected;
   }
   //-----------------------------------------------------------------------------
@@ -346,68 +338,67 @@ namespace BWAPI
   //--------------------------- LOG UNKNOWN OR STRANGE --------------------------
   void Game::logUnknownOrStrange()
   {
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
     {
-      Unit* unit = this->units[i];
-      if (unit->getOrderID() != BW::OrderID::GameNotInitialized &&
-          unit->getOrderID() != BW::OrderID::Finishing&&
-          unit->getOrderID() != BW::OrderID::Idle &&
-          unit->getOrderID() != BW::OrderID::Moving &&
-          unit->getOrderID() != BW::OrderID::Attacking &&
-          unit->getOrderID() != BW::OrderID::AttackMoving &&
-          unit->getOrderID() != BW::OrderID::NotMovable &&
-          unit->getOrderID() != BW::OrderID::JustToMutate &&
-          unit->getOrderID() != BW::OrderID::Constructing &&
-          unit->getOrderID() != BW::OrderID::Repair &&
-          unit->getOrderID() != BW::OrderID::EggMutating &&
-          unit->getOrderID() != BW::OrderID::GoingToBuild &&
-          unit->getOrderID() != BW::OrderID::UnderConstruction &&
-          unit->getOrderID() != BW::OrderID::NotControllable &&
-          unit->getOrderID() != BW::OrderID::Following &&
-          unit->getOrderID() != BW::OrderID::GoingToMutate &&
-          unit->getOrderID() != BW::OrderID::Building_Landing &&
-          unit->getOrderID() != BW::OrderID::Lifting &&
-          unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
-          unit->getOrderID() != BW::OrderID::EnteringRafinery &&
-          unit->getOrderID() != BW::OrderID::InRafinery &&
-          unit->getOrderID() != BW::OrderID::ReturningGas &&
-          unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
-          unit->getOrderID() != BW::OrderID::StartingMining  &&
-          unit->getOrderID() != BW::OrderID::Mining &&
-          unit->getOrderID() != BW::OrderID::ReturningMinerals &&
-          unit->getOrderID() != BW::OrderID::OverlordIdle &&
-          unit->getOrderID() != BW::OrderID::Burrowing &&
-          unit->getOrderID() != BW::OrderID::Burrowed &&
-          unit->getOrderID() != BW::OrderID::Unburrowing &&
-          unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
-          unit->getOrderID() != BW::OrderID::CritterWandering &&
-          unit->getOrderID() != BW::OrderID::Stop &&
-          unit->getOrderID() != BW::OrderID::BuildingMutating)
+      if (i->getOrderID() != BW::OrderID::GameNotInitialized &&
+          i->getOrderID() != BW::OrderID::Finishing&&
+          i->getOrderID() != BW::OrderID::Idle &&
+          i->getOrderID() != BW::OrderID::Moving &&
+          i->getOrderID() != BW::OrderID::Attacking &&
+          i->getOrderID() != BW::OrderID::AttackMoving &&
+          i->getOrderID() != BW::OrderID::NotMovable &&
+          i->getOrderID() != BW::OrderID::JustToMutate &&
+          i->getOrderID() != BW::OrderID::Constructing &&
+          i->getOrderID() != BW::OrderID::Repair &&
+          i->getOrderID() != BW::OrderID::EggMutating &&
+          i->getOrderID() != BW::OrderID::GoingToBuild &&
+          i->getOrderID() != BW::OrderID::UnderConstruction &&
+          i->getOrderID() != BW::OrderID::NotControllable &&
+          i->getOrderID() != BW::OrderID::Following &&
+          i->getOrderID() != BW::OrderID::GoingToMutate &&
+          i->getOrderID() != BW::OrderID::Building_Landing &&
+          i->getOrderID() != BW::OrderID::Lifting &&
+          i->getOrderID() != BW::OrderID::ApproachingRafinery &&
+          i->getOrderID() != BW::OrderID::EnteringRafinery &&
+          i->getOrderID() != BW::OrderID::InRafinery &&
+          i->getOrderID() != BW::OrderID::ReturningGas &&
+          i->getOrderID() != BW::OrderID::ApproachingMinerals &&
+          i->getOrderID() != BW::OrderID::StartingMining  &&
+          i->getOrderID() != BW::OrderID::Mining &&
+          i->getOrderID() != BW::OrderID::ReturningMinerals &&
+          i->getOrderID() != BW::OrderID::OverlordIdle &&
+          i->getOrderID() != BW::OrderID::Burrowing &&
+          i->getOrderID() != BW::OrderID::Burrowed &&
+          i->getOrderID() != BW::OrderID::Unburrowing &&
+          i->getOrderID() != BW::OrderID::GettingMinedMinerals &&
+          i->getOrderID() != BW::OrderID::CritterWandering &&
+          i->getOrderID() != BW::OrderID::Stop &&
+          i->getOrderID() != BW::OrderID::BuildingMutating)
       {
        FILE *f = fopen("new_order_id.txt","at");
-       fprintf(f, "%s\n", unit->getName().c_str());
+       fprintf(f, "%s\n", i->getName().c_str());
        fclose(f);
       }
-      if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
+      if (i->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
       {
         FILE *f = fopen("new_movementState.txt","at");
-        fprintf(f, "%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), 
-                                                                                     getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
+        fprintf(f, "%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)\n", i->getName().c_str(), 
+                                                                                     getBinary((u8)i->getOriginalRawData()->movementFlags.value).c_str());
         fclose(f);
       }
       
-     if (unit->getOriginalRawData()->resource &&
-         !unit->isMineral() &&
-         unit->getType() != BW::UnitType::Resource_VespeneGeyser)
+     if (i->getOriginalRawData()->resource &&
+         !i->isMineral() &&
+         i->getType() != BW::UnitType::Resource_VespeneGeyser)
       {
         FILE *f = fopen("new_movementState.txt","at");
-        fprintf(f, "%s is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
+        fprintf(f, "%s is resource and is not resource ^^\n", i->getName().c_str(), i->getOrderID());
         fclose(f);
       }         
-     if ( units[i]->getPrototype() == NULL)
+     if (i->getPrototype() == NULL)
       {
         FILE *f = fopen("unit_unit_ID.txt","at");
-        fprintf(f, "%s\n", unit->getName().c_str());
+        fprintf(f, "%s\n", i->getName().c_str());
         fclose(f);
       }         
     }
@@ -468,6 +459,7 @@ namespace BWAPI
          fprintf(f, "%s is doing overlord idle (and is not overlord ^^)\n", units[i]->getName().c_str());
          fclose(f);
        }
+
      }
   }
   //--------------------------------------- GET BINARY ------------------------
