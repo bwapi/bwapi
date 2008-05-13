@@ -45,6 +45,10 @@ namespace BWAI
       Unit* first;
       void checkNewExpansions();
       void refreshSelectionStates(BW::Unit** selected);
-      void performAutoBuild();
+      /** 
+       * If some building finished production, it will start the same unit again
+       * @returns something happened (so reselect is needed)
+       */
+      bool performAutoBuild();
   };
 }

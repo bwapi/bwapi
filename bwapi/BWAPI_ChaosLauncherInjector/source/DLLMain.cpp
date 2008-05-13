@@ -119,16 +119,15 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
 //
 //the dwProcessID is checked by GetWindowThreadProcessId
 //so it is definitely the StarCraft
+#pragma warning(push)
+#pragma warning(disable:4189)
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
   const DWORD ENV_BUFFER_SIZE = 512;
   char envBuffer[512];
   
-  #pragma warning(push)
-  #pragma warning(disable:4189)
   DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
   assert(result != 0);
-  #pragma warning(pop)
 
   std::string dllFileName(envBuffer);
   dllFileName.append("\\BWAPI.dll");
@@ -141,12 +140,8 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
 
   SIZE_T bytesWritten;
 
-  #pragma warning(push)
-  #pragma warning(disable:4189)
-
   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size()+1, &bytesWritten);
   assert(success && bytesWritten == dllFileName.size()+1);
-  #pragma warning(pop)
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
   assert(NULL != hThread);
@@ -162,6 +157,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
 
   return true; //everything OK
 }
+#pragma warning(pop)
 
 #ifdef _MANAGED
 #pragma managed(pop)

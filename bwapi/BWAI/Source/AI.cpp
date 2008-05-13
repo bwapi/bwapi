@@ -166,12 +166,12 @@ namespace BWAI
         !this->expansionsSaturated)
       for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
         (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
-    this->performAutoBuild();
+    reselected |= this->performAutoBuild();
     for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
     {
       AI::optimizeMineralFor = *i;
       /** @todo Just find smallest, no need to sort */
-      std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue); 
+      activeMinerals.sort(mineralValue);
       if ((*activeMinerals.begin())->gatherersAssigned.size() >= 2)
       {
         this->expansionsSaturated = true;
@@ -221,7 +221,7 @@ namespace BWAI
        return;
      Unit* gatherer;
      anotherStep:
-     std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
+     activeMinerals.sort(mineralValue);
      Mineral* first = *activeMinerals.begin();
      Mineral* last = *(--activeMinerals.end());
      if (first->gatherersAssigned.size() + 1 < last->gatherersAssigned.size())
@@ -229,7 +229,7 @@ namespace BWAI
        gatherer = last->gatherersAssigned[0];
        last->removeGatherer(gatherer);
        AI::optimizeMineralFor = gatherer;
-       std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
+       activeMinerals.sort(mineralValue);
        first->assignGatherer(gatherer);
        goto anotherStep;
      }
@@ -293,8 +293,9 @@ namespace BWAI
       BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
   }
   //---------------------------- PERFRORM AUTOBUILD ---------------------------
-  void AI::performAutoBuild()
+  bool AI::performAutoBuild()
   {
+    bool reselected = false;
     for (Unit* i = 0; i != NULL; i = i->getNext())
       if (i->isValid() &&
           i->hasEmptyBuildQueueLocal() &&
@@ -310,7 +311,8 @@ namespace BWAI
           reselected = true;
           i->trainUnit(type);
         }
-    }
+      }
+    return reselected;
   }
   //---------------------------------------------------------------------------
 }
