@@ -73,6 +73,9 @@ namespace BWAPI
     extern UnitPrototype* Zergling;
     extern UnitPrototype* Queen;
     extern UnitPrototype* Mutalisk;
+    extern UnitPrototype* Spire;
+    extern UnitPrototype* Lair;
+
     /** other */
     extern UnitPrototype* MineralPatch1;
     extern UnitPrototype* MineralPatch2;

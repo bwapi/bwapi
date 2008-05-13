@@ -106,6 +106,8 @@ namespace BWAPI
     UnitPrototype* Mutalisk            = new UnitPrototype("Zerg Mutalisk"            , BW::UnitType::Zerg_Mutalisk,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
     UnitPrototype* Hatchery            = new UnitPrototype("Zerg Hatchery"            , BW::UnitType::Zerg_Hatchery,             RaceType::Zerg,      0, 0);
     UnitPrototype* SpawningPool        = new UnitPrototype("Zerg Spawning pool"       , BW::UnitType::Zerg_SpawningPool,         RaceType::Zerg,      0, 0);
+    UnitPrototype* Spire               = new UnitPrototype("Zerg Spire"               , BW::UnitType::Zerg_Spire,                RaceType::Zerg,      0, 0);
+    UnitPrototype* Lair                = new UnitPrototype("Zerg Lair"                , BW::UnitType::Zerg_Lair,                 RaceType::Zerg,      0, 0);
     
     
     /** Neutral */
@@ -253,7 +255,7 @@ namespace BWAPI
      /** 0x81 */ NULL,
      /** 0x82 */ NULL,
      /** 0x83 */ Hatchery,
-     /** 0x84 */ NULL,
+     /** 0x84 */ Lair,
      /** 0x85 */ NULL,
      /** 0x86 */ NULL,
      /** 0x87 */ NULL,
