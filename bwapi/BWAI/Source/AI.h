@@ -1,7 +1,7 @@
 #pragma once
 #include "..//..//BWAPI//Source//BWAPI//Game.h"
 //#include "..//..//BWAPI//Source//BW//Unit.h"
-#include <vector>
+#include <list>
 
 namespace BWAI { class Unit; }
 namespace BWAI { class Mineral; }
@@ -29,13 +29,13 @@ namespace BWAI
       void onRemoveUnit(BW::Unit* unit);
 
       int suppliesOrdered;
-      std::vector<Expansion*> expansions;
-      std::vector<Mineral*> activeMinerals;
+      std::list<Expansion*> expansions;
+      std::list<Mineral*> activeMinerals;
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
       int expansionsSaturated;
       Unit* getFirst();
-private :
+   private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
@@ -43,5 +43,8 @@ private :
       void rebalanceMiners();
       bool checkAssignedWorkers(void);
       Unit* first;
+      void checkNewExpansions();
+      void refreshSelectionStates(BW::Unit** selected);
+      void performAutoBuild();
   };
 }
