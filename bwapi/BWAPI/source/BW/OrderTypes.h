@@ -2,6 +2,7 @@
 #include "..\\Types.h"
 #include "UnitTypes.h"
 #include "PositionUnitTarget.h"
+
 namespace BWAPI { class Unit; }
 #pragma pack(1)
 namespace BW

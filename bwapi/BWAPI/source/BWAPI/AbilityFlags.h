@@ -1,3 +1,4 @@
+#include "..//Types.h"
 namespace BWAPI
 {
   /** 

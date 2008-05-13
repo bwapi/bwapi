@@ -1,7 +1,6 @@
 #pragma once
 
-namespace BW
+namespace BW /** @todo Investigate*/
 {
   struct Order;
 };
-

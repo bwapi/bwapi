@@ -5,8 +5,10 @@ namespace BW { struct Unit; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
+
 #include "..//BW//OrderTypes.h"
-#include "..//BW//Unit.h"
+#include "..//BW//Offsets.h"
+
 #include <vector>
 #include <windows.h>
 /** Everything in the BWAPI library that doesn't map or work directly with the bw data. */

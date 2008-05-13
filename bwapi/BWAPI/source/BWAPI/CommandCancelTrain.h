@@ -13,7 +13,6 @@ namespace BWAPI
       /** 
        * @param building Building that constructs the specified unit 
        *         (will be passed as executor to Command ancestor
-       * @param toTrain Unit that should be constructed
        */
       CommandCancelTrain(Unit* building);
       ~CommandCancelTrain();

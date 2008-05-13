@@ -1,8 +1,7 @@
 #pragma once
+namespace BWAPI { class AbilityPrototype; }
+namespace BWAPI { class UnitPrototype; }
 
-#include "../BWAPI/AbilityPrototype.h"
-#include "../BWAPI/UnitPrototype.h"
-#include "../BWAPI/TargetType.h"
 
 namespace BWAPI
 {
