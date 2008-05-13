@@ -15,7 +15,6 @@ namespace BWAI
       int asignedWorkers;
       void removeWorker(Unit* worker);
       bool checkAssignedWorkers();
-      void checkDeadWorkers();
       void removeMineral(BWAI::Unit* mineral);
   };
 }

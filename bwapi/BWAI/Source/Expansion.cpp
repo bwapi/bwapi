@@ -58,12 +58,6 @@ namespace BWAI
     return reselected;
   }
   //---------------------------------------------------------------------------
-  void Expansion::checkDeadWorkers()
-  {
-    for (unsigned int i = 0; i < this->minerals.size(); i++)
-      this->minerals[i]->checkDeadWorkers();
-  }
-  //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)
   {
     for (unsigned int i = 0; i < this->minerals.size(); i++)
