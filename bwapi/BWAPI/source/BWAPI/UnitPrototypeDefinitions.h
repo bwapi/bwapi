@@ -80,8 +80,9 @@ namespace BWAPI
     extern UnitPrototype* VaspineGayser;
     extern UnitPrototype* None;
 
-    extern UnitPrototype* StartLocation;
+    //extern UnitPrototype* StartLocation;
+    extern UnitPrototype* Critter_Bengalaas;
     
     extern UnitPrototype* unitIDToPrototypeTable[228];
-  }
+    }
 };

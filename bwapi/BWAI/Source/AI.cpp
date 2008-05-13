@@ -55,6 +55,13 @@ namespace BWAI
          result += "0";
     return result;
   }
+  //------------------------------- UPDATE ------------------------------------
+  void AI::update(void)
+  {
+    this->first = Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
+    if (this->first != NULL)
+      this->first->updateNext();
+  }
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
   {
@@ -106,19 +113,21 @@ namespace BWAI
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
+    this->first = NULL;
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
     logUnknownOrStrange();
 
-   /* FILE *f = fopen("sums.log","at");
+    FILE *f = fopen("sums.log","at");
     int unitCount = 0;
     fprintf(f, "-------------------\n");
-    for (BW::Unit* i = BW::BWXFN_UnitNodeTable_FirstElement; i != NULL; i = i->nextUnit)
-       fprintf(f, "imot  = %d on address 0x%X (secret = %s) \n", units[i]->getType(), 
-                                                                                     (int)units[i]->getOriginalRawData(), 
-                                                                                     getBinary((u8) units[i]->getOriginalRawData()->mainOrderState).c_str());*/
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+       fprintf(f, "%s on address 0x%X (secret = %s) \n", i->getName().c_str(), 
+                                                         (int)i->getOriginalRawData(), 
+                                                         getBinary((u8) i->getOriginalRawData()->mainOrderState).c_str());
+    fclose(f);
     /*std::vector<BWAI::Unit*> unitList;
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
@@ -310,6 +319,7 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::Repair &&
             unit->getOrderID() != BW::OrderID::GoingToBuild &&
             unit->getOrderID() != BW::OrderID::UnderConstruction &&
+            unit->getOrderID() != BW::OrderID::NotControllable &&
             unit->getOrderID() != BW::OrderID::Following &&
             unit->getOrderID() != BW::OrderID::Building_Landing &&
             unit->getOrderID() != BW::OrderID::Building_Lifting &&
@@ -342,10 +352,30 @@ namespace BWAI
           fprintf(f, "Unit %s orderID = %d - is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
           fclose(f);
         }         
-
      }
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      
+      if (!units[i]->isMineral() &&
+          units[i]->getType() != BW::UnitType::Resource_VespeneGeyser &&
+          units[i]->getType() != BW::UnitType::Zerg_Larva)
+      {
+        if (units[i]->getOriginalRawData()->mainOrderState != 0)
+        {
+          FILE *f = fopen("new_main_order_state.txt","at");
+          fprintf(f, "Unit %s has main order state %d\n", units[i]->getName().c_str(), units[i]->getOriginalRawData()->mainOrderState);
+          fclose(f);
+        }
+      } else if (units[i]->getType() == BW::UnitType::Zerg_Larva)
+      {
+        if (units[i]->getOriginalRawData()->mainOrderState != 3)
+        {
+          FILE *f = fopen("new_main_order_state.txt","at");
+          fprintf(f, "Unit %s has main order state %d\n", units[i]->getName().c_str(), units[i]->getOriginalRawData()->mainOrderState);
+          fclose(f);
+        }
+      }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------- ON REMOVE UNIT ------------------------------
   void AI::onRemoveUnit(BW::Unit* unit)
   {
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
@@ -361,4 +391,10 @@ namespace BWAI
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeWorker(dead);
    }
+  //------------------------------- GET FIRST ---------------------------------
+  Unit* AI::getFirst()
+  {
+    return this->first;
+  }
+  //---------------------------------------------------------------------------
 }

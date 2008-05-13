@@ -19,6 +19,8 @@ namespace BWAI
   {
     public :
       AI();
+      /** Updates next/first pointers */
+      void update(void);
       /** Call in the start of the game */
       void onStart(BWAPI::Player *player);
       void onEnd();
@@ -32,6 +34,7 @@ namespace BWAI
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
       int expansionsSaturated;
+      Unit* getFirst();
 private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -40,5 +43,6 @@ private :
       void rebalanceMiners();
       bool checkAssignedWorkers(void);
       void logUnknownOrStrange();
+      Unit* first;
   };
 }

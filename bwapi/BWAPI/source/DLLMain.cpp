@@ -114,6 +114,7 @@ void __declspec(naked)  hookTest()
   if (lastEcx >= 0)
   {
     BWAPI::Broodwar.update();
+    BWAI::ai->update();    
     if (!aiStartCalled)
     {
       BWAI::ai->onStart(BWAPI::Broodwar.marwin);

@@ -74,6 +74,7 @@ namespace BWAPI
     void loadSelected(BW::Unit** selected);
     BWAPI::Player* marwin;
     void onRemoveUnit(BW::Unit *unit);
+    Unit* getFirst();
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
@@ -84,6 +85,7 @@ namespace BWAPI
     /** Count of game-frames passed from game start. */
     int frameCount;
     std::vector<char *> buffers;
+    Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
   };
 };
  

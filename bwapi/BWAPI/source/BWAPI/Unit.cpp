@@ -237,8 +237,8 @@ namespace BWAPI
   //-------------------------------- GET DISTANCE ------------------------------
   u16 Unit::getDistance(int x1, int y1, int x2, int y2) const
   {
-    return sqrt((long double)(x1 - x2)*(x1 - x2) +
-                (long double)(y1 - y2)*(y1 - y2));
+    return sqrt((long double)((long double)x1 - x2)*((long double)x1 - x2) +
+                (long double)((long double)y1 - y2)*((long double)y1 - y2));
   }
   #pragma warning(pop)
   //------------------------------ HAS EMPTY QUEUE -----------------------------
@@ -335,12 +335,29 @@ namespace BWAPI
   //----------------------------------------------------------------------------
   std::string Unit::getName() const
   {
+    char position[100];
+    sprintf(position, "Position = (%u,%u)", this->getPosition().x, 
+                                            this->getPosition().y);
     if (this->getPrototype() != NULL)
-     return (std::string)"(" + this->getPrototype()->getName() + ")";
-    char message[30];
-    sprintf(message,"(Unknown name - unit id = %d)", this->getType());
-    std::string ret = message;
-    return ret;
+      return (std::string)"(" + this->getPrototype()->getName() + ")  (" + BW::OrderID::orderName(this->getOrderID()) + ")" + position ;
+    char message[300];
+    sprintf(message,"(Unknown name - unit id = %u) (%s) %s PlayerID = (%u)", this->getType(),
+                                                                             BW::OrderID::orderName(this->getOrderID()).c_str(),
+                                                                             position,
+                                                                             this->getOriginalRawData()->playerID);
+    return std::string(message);
+  }
+  //--------------------------------- GET NEXT ---------------------------------
+  BWAPI::Unit *Unit::getNext()
+  {
+    return this->next;
+  }
+  //-------------------------------- UPDATE NEXT -------------------------------
+  void Unit::updateNext()
+  {
+    this->next = Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
+    if (this->next != NULL)
+      this->next->updateNext();
   }
   //----------------------------------------------------------------------------
 };

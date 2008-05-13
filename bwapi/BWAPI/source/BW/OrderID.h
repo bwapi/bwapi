@@ -24,6 +24,7 @@ namespace BW
       Following            = 49, /**< Unit is following other unit (can be unit of the same player, or enemy - if the performing unit can't attack). */
       Building_Landing     = 71, /**< Terran building is landing (or ordered to land somewhere */
       Building_Lifting     = 74, /**< Terran building on the ground is lifting */
+      NotControllable      = 77, /**< Larva has it, the only movable not controllable unit I know so far */
       ApproachingRafinery  = 81, /**< The gathering unit is on it's way to rafinery */
       EnteringRafinery     = 82, /**< @todo Investigate The unit is just entering Rafinery/Extractor/Assimilator (while have it special state?)*/
       InRafinery           = 83, /**< The unit is inside of Rafinery/Extractor/Asimilator */
@@ -39,25 +40,33 @@ namespace BW
     {
       switch (order)
       {
+        case GameNotInitialized : return "Game not initialized";
         case Finishing : return "Finishing";
         case Idle : return "Idle";
         case Moving : return "Moving";
         case Attacking : return "Attacking";
         case AttackMoving : return "Attack Moving";
-        case UnderConstruction : return "Under construction";
+        case NotMovable : return "Not Movable";
+        case Constructing : return "Constructing";
         case GoingToBuild : return "Going To Build";
+        case Repair : return "Repair";
+        case UnderConstruction : return "Under Construction";
         case Following : return "Following";
+        case Building_Landing : return "Building landing";
+        case Building_Lifting : return "Building lifting";
+        case NotControllable : return "Not Controllable";
         case ApproachingRafinery : return "Approaching Rafinery";
         case EnteringRafinery : return "Entering Rafinery";
         case InRafinery : return "In Rafinery";
         case ReturningGas : return "Returning Gas";
         case ApproachingMinerals : return "Approaching Minerals";
+        case StartingMining : return "Starting Mining";
         case Mining : return "Mining";
         case ReturningMinerals : return "Returning Minerals";
         case GettingMinedMinerals : return "Getting Mined Minerals";
         default :
         {
-          char message[30];
+          char message[50];
           sprintf(message, "Unknown command %d", order);
           return message;
         }

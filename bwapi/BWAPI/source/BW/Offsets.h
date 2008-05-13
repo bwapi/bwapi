@@ -45,7 +45,7 @@ namespace BW
   static PlayerNames_type* BWXFN_PlayerNames = (PlayerNames_type*)0x0057EEEB;
 
 
-  static Unit*         BWXFN_UnitNodeTable_FirstElement = (Unit*)0x00628418;
+  static Unit**        BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
   static UnitArray*    BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
   const  u32           UNIT_ARRAY_MAX_LENGTH = 1701;
 
