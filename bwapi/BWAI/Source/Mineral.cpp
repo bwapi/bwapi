@@ -92,14 +92,4 @@ namespace BWAI
    return false;      
   }
   //---------------------------------------------------------------------------
-  void Mineral::checkDeadWorkers(void)
-  {
-    for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
-      if (!this->gatherersAssigned[i]->isReady())
-      {
-        this->gatherersAssigned.erase(this->gatherersAssigned.begin() + i);
-        this->expansion->asignedWorkers --;
-      }
-  }
-  //---------------------------------------------------------------------------
 }

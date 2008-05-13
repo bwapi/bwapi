@@ -290,12 +290,6 @@ namespace BWAI
       reselected |= this->expansions[i]->checkAssignedWorkers();
     return reselected;
   }
-  //-------------------------------- CHECK DEAD WORKERS -----------------------
-  void AI::checkDeadWorkers(void)
-  {
-    for (unsigned int i = 0; i < this->expansions.size(); i++)
-      this->expansions[i]->checkDeadWorkers();
-  }
   //---------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
   //---------------------------------------------------------------------------
