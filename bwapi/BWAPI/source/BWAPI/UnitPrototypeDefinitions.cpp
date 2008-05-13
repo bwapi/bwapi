@@ -121,7 +121,7 @@ namespace BWAPI
     /** Critters */
     UnitPrototype* Critter_Bengalaas   = new UnitPrototype("Critter Bengalaas"       , BW::UnitType::Critter_Bengalaas,          RaceType::Other,     0, 0);    
     UnitPrototype* Critter_Kakaru      = new UnitPrototype("Critter Kakaru"          , BW::UnitType::Critter_Kakaru,             RaceType::Other,     0, 0);    
-    UnitPrototype* Critter_Rangasau    = new UnitPrototype("Critter Rangasaur"       , BW::UnitType::Critter_Rangasaur,          RaceType::Other,     0, 0);    
+    UnitPrototype* Critter_Rangasau    = new UnitPrototype("Critter Rangasaur"       , BW::UnitType::Critter_Ragnasaur ,          RaceType::Other,     0, 0);    
     
     /** Spells */
     UnitPrototype* DarkSwarm           = new UnitPrototype("Dark swarm"              , BW::UnitType::Spell_DarkSwarm,            RaceType::Other,     0, 0);    
@@ -226,7 +226,7 @@ namespace BWAPI
      /** 0x5C */ NULL,
      /** 0x5D */ NULL,
      /** 0x5E */ Critter_Kakaru,
-     /** 0x5F */ NULL,
+     /** 0x5F */ Critter_Ragnasaur ,
      /** 0x60 */ NULL,
      /** 0x61 */ NULL,
      /** 0x62 */ NULL,

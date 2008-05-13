@@ -32,8 +32,11 @@ void __declspec(naked) onRemoveUnit()
     call [BW::BWXFN_RemoveUnitTarget]
   }
   {
+    #pragma warning(push)
+    #pragma warning(disable:4312)
     BWAPI::Broodwar.onRemoveUnit((BW::Unit*) removedUnit);
     BWAI::ai->onRemoveUnit((BW::Unit*) removedUnit);
+    #pragma warning(pop)
   }
    __asm
   {

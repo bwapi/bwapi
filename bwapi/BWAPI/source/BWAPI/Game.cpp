@@ -40,6 +40,7 @@ namespace BWAPI
 
     this->update();
     this->latency = 2; // @todo read from the address in update
+    this->logUnknownOrStrange();
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -80,8 +81,8 @@ namespace BWAPI
        for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
          this->commandBuffer[i][j]->execute();
     this->first = Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
-    if (this->first != NULL)
-      this->first->updateNext();
+    if (this->getFirst() != NULL)
+      this->getFirst()->updateNext();
   }
   //---------------------------------- TEST -----------------------------------
 
@@ -362,6 +363,157 @@ namespace BWAPI
   void Game::onRemoveUnit(BW::Unit *unit)
   {
   }
-  //-----------------------------------------------------------------------------
+  //--------------------------- LOG UNKNOWN OR STRANGE --------------------------
+  void Game::logUnknownOrStrange()
+  {
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      if (units[i]->isValid())
+      {
+        Unit* unit = this->units[i];
+        if (unit->getOrderID() != BW::OrderID::GameNotInitialized &&
+            unit->getOrderID() != BW::OrderID::Finishing&&
+            unit->getOrderID() != BW::OrderID::Idle &&
+            unit->getOrderID() != BW::OrderID::Moving &&
+            unit->getOrderID() != BW::OrderID::Attacking &&
+            unit->getOrderID() != BW::OrderID::AttackMoving &&
+            unit->getOrderID() != BW::OrderID::NotMovable &&
+            unit->getOrderID() != BW::OrderID::JustToMutate &&
+            unit->getOrderID() != BW::OrderID::Constructing &&
+            unit->getOrderID() != BW::OrderID::Repair &&
+            unit->getOrderID() != BW::OrderID::EggMutating &&
+            unit->getOrderID() != BW::OrderID::GoingToBuild &&
+            unit->getOrderID() != BW::OrderID::UnderConstruction &&
+            unit->getOrderID() != BW::OrderID::NotControllable &&
+            unit->getOrderID() != BW::OrderID::Following &&
+            unit->getOrderID() != BW::OrderID::GoingToMutate &&
+            unit->getOrderID() != BW::OrderID::Building_Landing &&
+            unit->getOrderID() != BW::OrderID::Lifting &&
+            unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
+            unit->getOrderID() != BW::OrderID::EnteringRafinery &&
+            unit->getOrderID() != BW::OrderID::InRafinery &&
+            unit->getOrderID() != BW::OrderID::ReturningGas &&
+            unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
+            unit->getOrderID() != BW::OrderID::StartingMining  &&
+            unit->getOrderID() != BW::OrderID::Mining &&
+            unit->getOrderID() != BW::OrderID::ReturningMinerals &&
+            unit->getOrderID() != BW::OrderID::OverlordIdle &&
+            unit->getOrderID() != BW::OrderID::Burrowing &&
+            unit->getOrderID() != BW::OrderID::Burrowed &&
+            unit->getOrderID() != BW::OrderID::Unburrowing &&
+            unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
+            unit->getOrderID() != BW::OrderID::CritterWandering &&
+            unit->getOrderID() != BW::OrderID::Stop &&
+            unit->getOrderID() != BW::OrderID::BuildingMutating)
+        {
+         FILE *f = fopen("new_order_id.txt","at");
+         fprintf(f, "%s\n", unit->getName().c_str());
+         fclose(f);
+        }
+        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "%s  - Unknown  orderID = %d - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), 
+                                                                                                    unit->getOrderID(), 
+                                                                                                    getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
+          fclose(f);
+        }
+        
+       if (unit->getOriginalRawData()->resource &&
+           !unit->isMineral() &&
+           unit->getType() != BW::UnitType::Resource_VespeneGeyser)
+        {
+          FILE *f = fopen("new_movementState.txt","at");
+          fprintf(f, "Unit %s orderID = %d - is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
+          fclose(f);
+        }         
+      }
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      if (units[i]->getOriginalRawData()->playerID <= 11)
+      {
+        if (!units[i]->isMineral() &&
+            units[i]->getType() != BW::UnitType::Zerg_Larva &&
+            units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+            units[i]->getType() != BW::UnitType::Zerg_Drone &&
+            units[i]->getType() != BW::UnitType::Zerg_Egg &&
+            units[i]->getOrderID() != BW::OrderID::BuildingMutating &&
+            units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain))
+          {
+            FILE *f = fopen("new_main_order_state.txt","at");
+            fprintf(f, "Unit %s has orderstate.willWander again true\n", units[i]->getName().c_str());
+            fclose(f);
+          }
+        /*if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
+            units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+            units[i]->getType() != BW::UnitType::Zerg_Drone &&
+            units[i]->getType() != BW::UnitType::Zerg_Overlord &&
+            units[i]->getType() != BW::UnitType::Zerg_Egg &&
+            units[i]->getOrderID() != BW::OrderID::BuildingMutating &&
+            units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::autoWander))
+          {
+            FILE *f = fopen("new_main_order_state.txt","at");
+            fprintf(f, "%s has auto wander state = true\n", units[i]->getName().c_str());
+            fclose(f);
+          }*/
+       if (units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+           units[i]->getType() != BW::UnitType::Critter_Ragnasaur &&
+           units[i]->getType() != BW::UnitType::Critter_Kakaru &&
+           units[i]->getOrderID() == BW::OrderID::CritterWandering)
+          {
+            FILE *f = fopen("new_main_order_state.txt","at");
+            fprintf(f, "Unit %s is wandering around and is unknown critter\n", units[i]->getName().c_str());
+            fclose(f);
+          }
+       if (
+            units[i]->getType() != BW::UnitType::Zerg_Drone &&
+            (
+              units[i]->getOrderID() == BW::OrderID::JustToMutate ||
+              units[i]->getOrderID() == BW::OrderID::GoingToMutate
+            )
+          )
+       {
+         FILE *f = fopen("new_order_id.txt","at");
+         fprintf(f, "%s is going to mutate to building, but it is not drone\n", units[i]->getName().c_str());
+         fclose(f);
+       }
+       if (
+            units[i]->getType() != BW::UnitType::Zerg_Overlord &&
+            units[i]->getOrderID() == BW::OrderID::OverlordIdle
+          )
+       {
+         FILE *f = fopen("new_order_id.txt","at");
+         fprintf(f, "%s is doing overlord idle (and is not overlord ^^)\n", units[i]->getName().c_str());
+         fclose(f);
+       }
+     }
+  }
+  //--------------------------------------- GET BINARY ------------------------
+  template <class Type>
+  std::string Game::getBinary(Type value)
+  {
+   std::string result;
+    for (int i = 0; i < sizeof(Type)*8; i++)
+      if (value  & (1 << (sizeof(Type)*8-1-i)))
+         result += "1";
+      else
+         result += "0";
+    return result;
+  }
+  //--------------------------------- LOG UNIT LIST ---------------------------
+  void Game::logUnitList()
+  {
+    FILE *f = fopen("sums.log","at");
+    int unitCount = 0;
+    fprintf(f, "-------------------\n");
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+       fprintf(f, "%s (%s) \n", i->getName().c_str(), 
+                                this->getBinary((u8) i->getOriginalRawData()->orderFlags.value).c_str());
+    fclose(f);
+  }
+  //-------------------------------- GET FIRST -------------------------------
+  Unit* Game::getFirst()
+  {
+    return this->first;
+  }
+  //--------------------------------------------------------------------------
 };
 
