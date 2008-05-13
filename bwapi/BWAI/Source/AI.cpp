@@ -315,6 +315,7 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::Attacking &&
             unit->getOrderID() != BW::OrderID::AttackMoving &&
             unit->getOrderID() != BW::OrderID::NotMovable &&
+            unit->getOrderID() != BW::OrderID::JustToMutate &&
             unit->getOrderID() != BW::OrderID::Constructing &&
             unit->getOrderID() != BW::OrderID::Repair &&
             unit->getOrderID() != BW::OrderID::GoingToBuild &&
@@ -332,8 +333,10 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::StartingMining  &&
             unit->getOrderID() != BW::OrderID::Mining &&
             unit->getOrderID() != BW::OrderID::ReturningMinerals &&
+            unit->getOrderID() != BW::OrderID::OverlordIdle &&
             unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
             unit->getOrderID() != BW::OrderID::CritterWandering &&
+            unit->getOrderID() != BW::OrderID::Stop &&
             unit->getOrderID() != BW::OrderID::BuildingMutating)
         {
          FILE *f = fopen("new_order_id.txt","at");
@@ -363,6 +366,7 @@ namespace BWAI
           units[i]->getType() != BW::UnitType::Zerg_Larva &&
           units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
           units[i]->getType() != BW::UnitType::Zerg_Drone &&
+          units[i]->getType() != BW::UnitType::Zerg_Egg &&
           units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain))
         {
           FILE *f = fopen("new_main_order_state.txt","at");
@@ -372,6 +376,7 @@ namespace BWAI
       if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
           units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
           units[i]->getType() != BW::UnitType::Zerg_Drone &&
+          units[i]->getType() != BW::UnitType::Zerg_Overlord &&
           units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::autoWander))
         {
           FILE *f = fopen("new_main_order_state.txt","at");
@@ -385,6 +390,29 @@ namespace BWAI
           fprintf(f, "Unit %s is wandering around and is unknown critter\n", units[i]->getName().c_str());
           fclose(f);
         }
+     if (
+          units[i]->getType() != BW::UnitType::Zerg_Drone &&
+          (
+            units[i]->getOrderID() == BW::OrderID::JustToMutate ||
+            units[i]->getOrderID() == BW::OrderID::GoingToMutate
+          )
+        )
+     {
+       FILE *f = fopen("new_order_id.txt","at");
+       fprintf(f, "%s is going to mutate to building, but it is not drone\n", units[i]->getName().c_str());
+       fclose(f);
+     }
+
+     if (
+          units[i]->getType() != BW::UnitType::Zerg_Overlord &&
+          units[i]->getOrderID() == BW::OrderID::OverlordIdle
+        )
+     {
+       FILE *f = fopen("new_order_id.txt","at");
+       fprintf(f, "%s is doing overlord idle (and is not overlord ^^)\n", units[i]->getName().c_str());
+       fclose(f);
+     }
+
 
     }
   }
