@@ -3,6 +3,7 @@
 #include "Expansion.h"
 #include "Globals.h"
 #include "..//..//BWAPI//Source//BWAPI//UnitPrototype.h" /** @todo remove, just for debug*/
+#include "..//..//BWAPI//Source//BWAPI//Globals.h" /** @todo remove, just for debug*/
 namespace BWAI
 {
   //--------------------------------- CONSTRUCTOR -----------------------------
@@ -28,7 +29,6 @@ namespace BWAI
     this->gatherersAssigned.push_back(gatherer);
     gatherer->expansionAssingment = this->expansion;
     this->expansion->asignedWorkers ++;
-    gatherer->orderRightClick(this->mineral);
   }
   //-------------------------------- REMOVE WORKER ----------------------------
   bool Mineral::removeGatherer(Unit* gatherer)
@@ -54,7 +54,8 @@ namespace BWAI
           gatherer->getOrderIDLocal() != BW::OrderID::StartingMining &&
           gatherer->getOrderIDLocal() != BW::OrderID::Mining &&
           gatherer->getOrderIDLocal() != BW::OrderID::ReturningMinerals &&
-          gatherer->getOrderIDLocal() != BW::OrderID::GettingMinedMinerals)
+          gatherer->getOrderIDLocal() != BW::OrderID::GettingMinedMinerals &&
+          gatherer->getOrderIDLocal() != BW::OrderID::Idle)
       {
         this->removeGatherer(gatherer);
         ai->expansionsSaturated = false;
@@ -69,7 +70,9 @@ namespace BWAI
               ) &&
                gatherer->getOrderID() != BW::OrderID::Mining &&
               (
-                gatherer->getTargetLocal() != this->mineral ||
+                gatherer->getTargetLocal() != this->mineral &&
+                gatherer->getTargetLocal() != gatherer->expansionAssingment->gatherCenter
+                ||
                 (
                   gatherer->getDistance(this->mineral) <= 3 &&
                   this->SomeoneIsMining()
@@ -77,6 +80,25 @@ namespace BWAI
               )
             )
         {
+          if (gatherer->getTargetLocal() != this->mineral)
+          {
+            FILE* f = fopen("reasignation-reasons.log","at");
+            fprintf(f, "(%4d) ---------- bad mineral target ------------------------------\n", BWAPI::Broodwar.frameCount);
+            fprintf(f, "%s\n", gatherer->getName().c_str());
+            if (gatherer->getTargetLocal() != NULL)
+              fprintf(f, "%s\n%s\n", gatherer->getTargetLocal()->getName().c_str(), 
+                                     this->mineral->getName().c_str());
+            else
+              fprintf(f, "NULL target\n%s\n", this->mineral->getName().c_str());
+            fclose(f);
+          }
+         else
+          {
+            FILE* f = fopen("reasignation-reasons.log","at");
+            fprintf(f, "(%4d) ---------- Too close to mineral mined by other worker ----------------\n", BWAPI::Broodwar.frameCount);
+            fprintf(f, "%s\n", gatherer->getName().c_str());
+            fprintf(f, "%s\n", gatherer->getTargetLocal()->getName().c_str());
+          }
           gatherer->orderRightClick(mineral);
           reselected = true;
         }

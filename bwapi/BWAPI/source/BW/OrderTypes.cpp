@@ -42,7 +42,6 @@ namespace BW
     TrainUnit::TrainUnit(BW::UnitType::Enum unitID)
     :always0x1f(0x1f)
     ,unitID(unitID)
-    ,alwaysZero(0x0)
     {
     }
     //--------------------------------- MAKE BULDING ----------------------------------
@@ -52,7 +51,6 @@ namespace BW
     ,tileX(x)
     ,tileY(y)
     ,unitID(unitID)
-    ,alwaysZero(0x0)
     {
     }
     //---------------------------------- MOVE CONSTRUCTOR -----------------------------

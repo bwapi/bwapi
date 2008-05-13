@@ -110,11 +110,8 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
-      return (
-               this->getHealthPoints() > 0 || 
-               this->getHealthPointsFraction() > 0
-             ) &&
-             this->getPrototype() != NULL;
+      return this->getHealthPoints() > 0 || 
+             this->getHealthPointsFraction() > 0;
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isReady() const
@@ -133,8 +130,13 @@ namespace BWAPI
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
   }
+  //-------------------------------- GET TATGET --------------------------------
+  const Unit* Unit::getTarget() const
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+  }
   //----------------------------- GET TATGET LCCAL -----------------------------
-  Unit* Unit::getTargetLocal()
+  const Unit* Unit::getTargetLocal() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
@@ -342,22 +344,34 @@ namespace BWAPI
     char position[100];
     sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
                                             this->getPosition().y);
+    /*
     char address[100];
-    sprintf(address, " Address = 0x%X [%4d]", (int)this->getOriginalRawData(), 
-                                             ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
+    sprintf(address, " Address = 0x%X [%4d]", (int)this->getOriginalRawData());*/
+    char index[50];
+
+    sprintf(index, "[%4d]", ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
     char message[300];
-    if (this->getPrototype() != NULL)
-      sprintf(message,"(%20s) (%20s) %s PlayerID = (%2u) (%s)", this->getPrototype()->getName().c_str(),
-                                                               BW::OrderID::orderName(this->getOrderID()).c_str(),
-                                                               position,
-                                                               this->getOriginalRawData()->playerID,
-                                                               address);
+
+    char targetIndex[50];
+    if (this->getTargetLocal() == NULL)
+      strcpy(targetIndex, "[NULL]");
     else
-      sprintf(message,"(unitID = %11u) (%20s) %s PlayerID = (%2u) (%s)", this->getType(),
+      sprintf(targetIndex, "[%4d]", ((int)this->getTargetLocal()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
+    
+    if (this->getPrototype() != NULL)
+      sprintf(message,"(%21s) (%22s) %s %s ->%s Player = (%10s)", this->getPrototype()->getName().c_str(),
+                                                                  BW::OrderID::orderName(this->getOrderID()).c_str(),
+                                                                  index,
+                                                                  position,
+                                                                  targetIndex,
+                                                                  this->getOwner()->getName());
+    else
+      sprintf(message,"(unitID = %12u) (%22s) %s %s ->%s Player = (%10s)", this->getType(),
                                                                    BW::OrderID::orderName(this->getOrderID()).c_str(),
+                                                                   index,
                                                                    position,
-                                                                   this->getOriginalRawData()->playerID,
-                                                                   address);
+                                                                   targetIndex,
+                                                                   this->getOwner()->getName());
    #pragma warning(pop)
     return std::string(message);
   }

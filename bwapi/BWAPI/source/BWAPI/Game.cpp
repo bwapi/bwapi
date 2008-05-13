@@ -83,44 +83,12 @@ namespace BWAPI
     this->first = Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
     if (this->getFirst() != NULL)
       this->getFirst()->updateNext();
+    this->frameCount ++;
   }
   //---------------------------------- TEST -----------------------------------
 
   void Game::test(void)
   {
-    /*for (unsigned int i = 0; i < this->buffers.size(); i++)
-       delete [] buffers[i];
-    buffers.clear();*/
-    /*
-    I will implement this later on using some correct pointers method on unit
-    _w64 int memoryPositionDifference = this->unitArrayCopy - UNIT_NODE_TABLE; 
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-    {
-    units[i]->rawData->previousUnit += memoryPositionDifference;
-    units[i]->rawData->nextUnit += memoryPositionDifference;
-    }
-    
-    */
-    //if (frameCount % 2 == 0)
-    /*for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-    {
-      if (units[i]->isValid() &&
-          strcmp(units[i]->getOwner()->getName(),"NEM)Marwin") == 0 &&
-          units[i]->getPrototype() == Prototypes::Mutalisk)
-      {
-        units[i]->orderRightClick(this->getScreenX() + this->getMouseX(), this->getScreenY() + this->getMouseY());
-      }
-    } */
-
-    /*
-    char message[50];
-    sprintf(message, "Mouse (%d,%d)", this->getScreenX() + this->getMouseX(), this->getScreenY() + this->getMouseY());
-    this->print(message); */
-    /*if (frameCount > 100)
-      this->drawBox(100,100,100,100,100);*/
-
-    FILE *f = fopen("bwapi.log","at"); 
-    fprintf(f, "Update   %d\n", this->frameCount);
     /*
     fprintf(f, "Marine          = %s - %d\n", getBinary(BWAPI::Prototypes::Marine->getUnknown()).c_str()              , BWAPI::Prototypes::Marine->getUnknown());
     fprintf(f, "Ghost           = %s - %d\n", getBinary(BWAPI::Prototypes::Ghost->getUnknown()).c_str()               , BWAPI::Prototypes::Ghost->getUnknown());
@@ -159,15 +127,7 @@ namespace BWAPI
     fprintf(f, "Minerals        = %s - %d\n", getBinary(BWAPI::Prototypes::Minerals->getUnknown()).c_str(), BWAPI::Prototypes::Minerals->getUnknown());
     fprintf(f, "Vaspine gayser  = %s - %d\n", getBinary(BWAPI::Prototypes::VaspineGayser->getUnknown()).c_str(), BWAPI::Prototypes::VaspineGayser->getUnknown()); */
 
-    /*fprintf(f, "Command center = (%d,%d) (%d,%d)\n", BWAPI::Prototypes::CommandCenter->dimensionUp(),
-                                                     BWAPI::Prototypes::CommandCenter->dimensionDown(),
-                                                     BWAPI::Prototypes::CommandCenter->dimensionLeft(),
-                                                     BWAPI::Prototypes::CommandCenter->dimensionRight());
-    fprintf(f, "SCV            = (%d,%d) (%d,%d)\n", BWAPI::Prototypes::SCV->dimensionUp(),
-                                                     BWAPI::Prototypes::SCV->dimensionDown(),
-                                                     BWAPI::Prototypes::SCV->dimensionLeft(),
-                                                     BWAPI::Prototypes::SCV->dimensionRight());*/
-    frameCount ++;
+   // frameCount ++;
   }
   //----------------------------- JMP PATCH -----------------------------------
   
@@ -251,10 +211,14 @@ namespace BWAPI
   {
     command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
+    FILE *f = fopen("commands.log","at");
+    fprintf(f, "(%4d) %s\n", this->frameCount, command->describe().c_str());
+    fclose(f);
   }
   //----------------------------- ON GAME START ---------------------------------
   void Game::onGameStart()
   {
+    this->frameCount = 0;
     this->setInGame(true);
     this->marwin = NULL;
     for (int i = 0; i < 8; i++)
@@ -333,6 +297,22 @@ namespace BWAPI
   //--------------------------------- LOAD SELECTED -----------------------------
   void Game::loadSelected(BW::Unit** selected)
   {
+    /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
+    if (selected[0] == NULL)
+      return;
+    BW::Unit** selectedNow = this->saveSelected();
+    int i;
+    for (i = 0; selected[i] ==  selectedNow[i]; i++)
+     /** The current selection is same as the specified one*/
+    if (selected[i] == NULL && selectedNow[i] == NULL)
+    {
+       delete [] selected;
+       delete [] selectedNow;
+       return;
+    }
+
+    delete selectedNow;
+
     int unitCount = 0;
     while (selected[unitCount] != NULL)
       unitCount ++;
@@ -367,71 +347,70 @@ namespace BWAPI
   void Game::logUnknownOrStrange()
   {
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      if (units[i]->isValid())
+    {
+      Unit* unit = this->units[i];
+      if (unit->getOrderID() != BW::OrderID::GameNotInitialized &&
+          unit->getOrderID() != BW::OrderID::Finishing&&
+          unit->getOrderID() != BW::OrderID::Idle &&
+          unit->getOrderID() != BW::OrderID::Moving &&
+          unit->getOrderID() != BW::OrderID::Attacking &&
+          unit->getOrderID() != BW::OrderID::AttackMoving &&
+          unit->getOrderID() != BW::OrderID::NotMovable &&
+          unit->getOrderID() != BW::OrderID::JustToMutate &&
+          unit->getOrderID() != BW::OrderID::Constructing &&
+          unit->getOrderID() != BW::OrderID::Repair &&
+          unit->getOrderID() != BW::OrderID::EggMutating &&
+          unit->getOrderID() != BW::OrderID::GoingToBuild &&
+          unit->getOrderID() != BW::OrderID::UnderConstruction &&
+          unit->getOrderID() != BW::OrderID::NotControllable &&
+          unit->getOrderID() != BW::OrderID::Following &&
+          unit->getOrderID() != BW::OrderID::GoingToMutate &&
+          unit->getOrderID() != BW::OrderID::Building_Landing &&
+          unit->getOrderID() != BW::OrderID::Lifting &&
+          unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
+          unit->getOrderID() != BW::OrderID::EnteringRafinery &&
+          unit->getOrderID() != BW::OrderID::InRafinery &&
+          unit->getOrderID() != BW::OrderID::ReturningGas &&
+          unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
+          unit->getOrderID() != BW::OrderID::StartingMining  &&
+          unit->getOrderID() != BW::OrderID::Mining &&
+          unit->getOrderID() != BW::OrderID::ReturningMinerals &&
+          unit->getOrderID() != BW::OrderID::OverlordIdle &&
+          unit->getOrderID() != BW::OrderID::Burrowing &&
+          unit->getOrderID() != BW::OrderID::Burrowed &&
+          unit->getOrderID() != BW::OrderID::Unburrowing &&
+          unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
+          unit->getOrderID() != BW::OrderID::CritterWandering &&
+          unit->getOrderID() != BW::OrderID::Stop &&
+          unit->getOrderID() != BW::OrderID::BuildingMutating)
       {
-        Unit* unit = this->units[i];
-        if (unit->getOrderID() != BW::OrderID::GameNotInitialized &&
-            unit->getOrderID() != BW::OrderID::Finishing&&
-            unit->getOrderID() != BW::OrderID::Idle &&
-            unit->getOrderID() != BW::OrderID::Moving &&
-            unit->getOrderID() != BW::OrderID::Attacking &&
-            unit->getOrderID() != BW::OrderID::AttackMoving &&
-            unit->getOrderID() != BW::OrderID::NotMovable &&
-            unit->getOrderID() != BW::OrderID::JustToMutate &&
-            unit->getOrderID() != BW::OrderID::Constructing &&
-            unit->getOrderID() != BW::OrderID::Repair &&
-            unit->getOrderID() != BW::OrderID::EggMutating &&
-            unit->getOrderID() != BW::OrderID::GoingToBuild &&
-            unit->getOrderID() != BW::OrderID::UnderConstruction &&
-            unit->getOrderID() != BW::OrderID::NotControllable &&
-            unit->getOrderID() != BW::OrderID::Following &&
-            unit->getOrderID() != BW::OrderID::GoingToMutate &&
-            unit->getOrderID() != BW::OrderID::Building_Landing &&
-            unit->getOrderID() != BW::OrderID::Lifting &&
-            unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
-            unit->getOrderID() != BW::OrderID::EnteringRafinery &&
-            unit->getOrderID() != BW::OrderID::InRafinery &&
-            unit->getOrderID() != BW::OrderID::ReturningGas &&
-            unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
-            unit->getOrderID() != BW::OrderID::StartingMining  &&
-            unit->getOrderID() != BW::OrderID::Mining &&
-            unit->getOrderID() != BW::OrderID::ReturningMinerals &&
-            unit->getOrderID() != BW::OrderID::OverlordIdle &&
-            unit->getOrderID() != BW::OrderID::Burrowing &&
-            unit->getOrderID() != BW::OrderID::Burrowed &&
-            unit->getOrderID() != BW::OrderID::Unburrowing &&
-            unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
-            unit->getOrderID() != BW::OrderID::CritterWandering &&
-            unit->getOrderID() != BW::OrderID::Stop &&
-            unit->getOrderID() != BW::OrderID::BuildingMutating)
-        {
-         FILE *f = fopen("new_order_id.txt","at");
-         fprintf(f, "%s\n", unit->getName().c_str());
-         fclose(f);
-        }
-        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
-        {
-          FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), 
-                                                                                       getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
-          fclose(f);
-        }
-        
-       if (unit->getOriginalRawData()->resource &&
-           !unit->isMineral() &&
-           unit->getType() != BW::UnitType::Resource_VespeneGeyser)
-        {
-          FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "%s is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
-          fclose(f);
-        }         
-       if ( units[i]->getPrototype() == NULL)
-        {
-          FILE *f = fopen("unit_unit_ID.txt","at");
-          fprintf(f, "%s\n", unit->getName().c_str());
-          fclose(f);
-        }         
+       FILE *f = fopen("new_order_id.txt","at");
+       fprintf(f, "%s\n", unit->getName().c_str());
+       fclose(f);
       }
+      if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
+      {
+        FILE *f = fopen("new_movementState.txt","at");
+        fprintf(f, "%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), 
+                                                                                     getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
+        fclose(f);
+      }
+      
+     if (unit->getOriginalRawData()->resource &&
+         !unit->isMineral() &&
+         unit->getType() != BW::UnitType::Resource_VespeneGeyser)
+      {
+        FILE *f = fopen("new_movementState.txt","at");
+        fprintf(f, "%s is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
+        fclose(f);
+      }         
+     if ( units[i]->getPrototype() == NULL)
+      {
+        FILE *f = fopen("unit_unit_ID.txt","at");
+        fprintf(f, "%s\n", unit->getName().c_str());
+        fclose(f);
+      }         
+    }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)
       {

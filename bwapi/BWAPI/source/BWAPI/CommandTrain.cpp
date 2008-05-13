@@ -45,4 +45,9 @@ namespace BWAPI
     return CommandTypes::Train;
   }
   //-----------------------------------------------------------------------------
+  std::string CommandTrain::describe()
+  {
+    return this->executors[0]->getName() + " started to build (" + toTrain->getName() + ")";
+  }
+  //-----------------------------------------------------------------------------
 }

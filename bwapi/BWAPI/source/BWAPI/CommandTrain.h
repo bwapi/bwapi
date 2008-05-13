@@ -19,6 +19,7 @@ namespace BWAPI
       ~CommandTrain();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
+      std::string describe();
     private :
       UnitPrototype* toTrain;
   };

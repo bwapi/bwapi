@@ -59,33 +59,6 @@ namespace BWAI
     fprintf(f,"Ai::On start call\n");
     fclose(f);
     this->player = player;
-
-    for (Unit*i = this->getFirst(); i != NULL; i = i->getNext())
-    {
-      if (
-          i->isValid() &&
-          i->getOwner() == player &&
-          (
-           i->getType() == BW::UnitType::Terran_CommandCenter ||
-           i->getType() == BW::UnitType::Protoss_Nexus ||
-           i->getType() == BW::UnitType::Zerg_Hatchery
-          )
-        )
-      {
-        this->startNewExpansion(i);
-        f = fopen("bwai.log","at");
-        fprintf(f,"AI::rebalance miners call mineralCount = %d\n", this->activeMinerals.size());
-        fclose(f);
-        this->rebalanceMiners();
-      }
-    }
-   if (this->expansions.size() > 0)
-     switch ((*this->expansions.begin())->gatherCenter->getType())
-     {
-       case BW::UnitType::Terran_CommandCenter : this->worker = BWAPI::Prototypes::SCV; break;
-       case BW::UnitType::Protoss_Nexus        : this->worker = BWAPI::Prototypes::Probe; break;
-       case BW::UnitType::Zerg_Hatchery        : this->worker = BWAPI::Prototypes::Drone; break;
-     }
     f = fopen("bwai.log","at");
     fprintf(f,"Ai::On start end\n");
     fclose(f);
@@ -93,9 +66,15 @@ namespace BWAI
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
+    FILE *f = fopen("bwai.log","at");
+    fprintf(f,"Ai::On end start\n");
+    fclose(f);
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();
+      f = fopen("bwai.log","at");
+    fprintf(f,"Ai::On end end\n");
+    fclose(f);
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
@@ -163,7 +142,7 @@ namespace BWAI
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       workersTogether += (*i)->asignedWorkers;
     if (workersTogether >= this->activeMinerals.size()*3 &&
-        !this->expansionsSaturated)
+        this->expansionsSaturated)
       for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
         (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
     reselected |= this->performAutoBuild();
@@ -177,9 +156,7 @@ namespace BWAI
         this->expansionsSaturated = true;
         break;
       }
-      reselected = true;
       (*activeMinerals.begin())->assignGatherer(*i);
-      (*i)->orderRightClick((*activeMinerals.begin())->mineral);
     }
 
    this->rebalanceMiners();
@@ -213,6 +190,7 @@ namespace BWAI
    void AI::startNewExpansion(Unit *gatherCenter)
    {
      this->expansions.push_back(new Expansion(gatherCenter));
+     this->rebalanceMiners();
    }
   //---------------------------- REBALANCE MINERS -----------------------------
    void AI::rebalanceMiners(void)
@@ -221,16 +199,20 @@ namespace BWAI
        return;
      Unit* gatherer;
      anotherStep:
-     activeMinerals.sort(mineralValue);
-     Mineral* first = *activeMinerals.begin();
-     Mineral* last = *(--activeMinerals.end());
-     if (first->gatherersAssigned.size() + 1 < last->gatherersAssigned.size())
+     Mineral* best = *activeMinerals.begin();
+     Mineral* worst = *activeMinerals.begin();
+     for (std::list<Mineral*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+      if (best->gatherersAssigned.size() > (*i)->gatherersAssigned.size())
+         best = (*i);
+      else if (worst->gatherersAssigned.size() < (*i)->gatherersAssigned.size())
+         worst = (*i);
+     if (best->gatherersAssigned.size() + 1 < worst->gatherersAssigned.size())
      {
-       gatherer = last->gatherersAssigned[0];
-       last->removeGatherer(gatherer);
+       gatherer = worst->gatherersAssigned[0];
+       worst->removeGatherer(gatherer);
        AI::optimizeMineralFor = gatherer;
        activeMinerals.sort(mineralValue);
-       first->assignGatherer(gatherer);
+       (*activeMinerals.begin())->assignGatherer(gatherer);
        goto anotherStep;
      }
    }
@@ -271,10 +253,15 @@ namespace BWAI
   {
     for (BWAI::Unit* i = this->getFirst(); i != NULL; i = i->getNext())
     {
-      if (i->isReady() &&
-          i->getType() == BW::UnitType::Terran_CommandCenter &&
-          i->expansionAssingment == NULL &&
-          i->getOwner() == player)
+      if (
+           i->isReady() &&
+           (
+             i->getType() == BW::UnitType::Terran_CommandCenter ||
+             i->getType() == BW::UnitType::Protoss_Nexus ||
+             i->getType() == BW::UnitType::Zerg_Hatchery
+           ) &&
+           i->expansionAssingment == NULL &&
+           i->getOwner() == player)
       {
         FILE *f = fopen("bwai.log","at");
         fprintf(f,"%s Starting new expansion\n", i->getName().c_str());
@@ -296,11 +283,12 @@ namespace BWAI
   bool AI::performAutoBuild()
   {
     bool reselected = false;
-    for (Unit* i = 0; i != NULL; i = i->getNext())
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isValid() &&
           i->hasEmptyBuildQueueLocal() &&
           i->lastTrainedUnitID != BW::UnitType::None &&
-          i->getPrototype()->canProduce())
+          i->getPrototype()->canProduce() &&
+          i->getOwner() == player)
       {
         BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[i->lastTrainedUnitID];
         if (type != NULL &&

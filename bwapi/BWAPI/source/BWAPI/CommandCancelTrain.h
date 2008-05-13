@@ -23,5 +23,6 @@ namespace BWAPI
         * @todo Take supply if another unit in slot
         */
       virtual void execute();
+      std::string describe();
   };
 }

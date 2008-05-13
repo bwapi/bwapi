@@ -47,8 +47,7 @@ namespace BW
       /** 0x1f = Train Command-code in bw */
       u8 always0x1f;
       /** Type of unit to train */
-      u8 unitID;
-      u8 alwaysZero;
+      BW::UnitType::Enum unitID;
    };
    /** Make building. */
    class MakeBuilding
@@ -62,8 +61,7 @@ namespace BW
       u16 tileX;
       u16 tileY;
       /** Type of building to make */
-      u8 unitID;
-      u8 alwaysZero;
+      BW::UnitType::Enum unitID;
       
    };
    /** Change slot command in bw. */

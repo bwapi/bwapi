@@ -22,6 +22,7 @@ namespace BWAPI
       CommandRightClick(Unit* executor, BWAPI::Unit* targetUnit);
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
+      std::string describe();
     private :
       BWAPI::Unit *targetUnit;
       BW::Position targetPosition;
