@@ -5,12 +5,12 @@ namespace BW
   class BitMask
   {
     public :
-      bool getBit(Type bit);
+      bool getBit(Type bit) const;
     Type value;
   };
   //----------------------------------- GET BIT ----------------------------------
   template <class Type>
-  bool BitMask<Type>::getBit(Type bit)
+  bool BitMask<Type>::getBit(Type bit) const
   {
     return (value & bit) != 0;
   }

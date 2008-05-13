@@ -105,8 +105,10 @@ namespace BWAPI
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isValid() const
   {
+    if (this->getOriginalRawData()->playerID > 11)
+       return false;
     if (this->isMineral())
-      return  this->getOriginalRawData()->mainOrderState == 0;
+      return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
       return (
                this->getHealthPoints() > 0 || 
@@ -336,15 +338,24 @@ namespace BWAPI
   std::string Unit::getName() const
   {
     char position[100];
-    sprintf(position, "Position = (%u,%u)", this->getPosition().x, 
+    sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
                                             this->getPosition().y);
-    if (this->getPrototype() != NULL)
-      return (std::string)"(" + this->getPrototype()->getName() + ")  (" + BW::OrderID::orderName(this->getOrderID()) + ")" + position ;
+    char address[100];
+    sprintf(address, " Address = 0x%X [%4d]", (int)this->getOriginalRawData(), 
+                                             ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
     char message[300];
-    sprintf(message,"(Unknown name - unit id = %u) (%s) %s PlayerID = (%u)", this->getType(),
-                                                                             BW::OrderID::orderName(this->getOrderID()).c_str(),
-                                                                             position,
-                                                                             this->getOriginalRawData()->playerID);
+    if (this->getPrototype() != NULL)
+      sprintf(message,"(%20s) (%20s) %s PlayerID = (%2u) (%s)", this->getPrototype()->getName().c_str(),
+                                                               BW::OrderID::orderName(this->getOrderID()).c_str(),
+                                                               position,
+                                                               this->getOriginalRawData()->playerID,
+                                                               address);
+    else
+      sprintf(message,"(unitID = %11u) (%20s) %s PlayerID = (%2u) (%s)", this->getType(),
+                                                                   BW::OrderID::orderName(this->getOrderID()).c_str(),
+                                                                   position,
+                                                                   this->getOriginalRawData()->playerID,
+                                                                   address);
     return std::string(message);
   }
   //--------------------------------- GET NEXT ---------------------------------
