@@ -79,6 +79,8 @@ namespace BWAPI
     std::string getBinary(Type value);
     void logUnitList();
     void logUnknownOrStrange();
+    /** Count of game-frames passed from game start. */
+    int frameCount;
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
@@ -86,8 +88,6 @@ namespace BWAPI
     Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
     unsigned int latency;
     std::vector<std::vector<Command *>> commandBuffer;
-    /** Count of game-frames passed from game start. */
-    int frameCount;
     std::vector<char *> buffers;
     Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
   };

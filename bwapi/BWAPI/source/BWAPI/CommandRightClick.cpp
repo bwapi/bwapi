@@ -59,4 +59,12 @@ namespace BWAPI
     return BWAPI::CommandTypes::RightClick;
   }
   //---------------------------------------------------------------------------
+  std::string CommandRightClick::describe()
+  {
+    if (this->targetUnit != NULL)
+      return this->executors[0]->getName() + " right-clicked on (" + this->targetUnit->getPrototype()->getName() + ")";
+    else
+      return this->executors[0]->getName() + " right-clicked to position";
+  }
+  //---------------------------------------------------------------------------
 }

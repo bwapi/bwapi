@@ -89,6 +89,7 @@ namespace BWAPI
     extern UnitPrototype* Critter_Bengalaas;
     extern UnitPrototype* Critter_Kakaru;
     extern UnitPrototype* Critter_Ragnasaur;
+    extern UnitPrototype* Critter_Scantid;
     /** Spells */
     extern UnitPrototype* DarkSwarm;
     

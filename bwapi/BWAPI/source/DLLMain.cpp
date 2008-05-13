@@ -20,6 +20,7 @@ bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 DWORD removedUnit;
+bool launchedStart = false;
 //----------------------------- ON COMMAND ORDER ------------------------------
 void __declspec(naked) onRemoveUnit()
 {
@@ -103,6 +104,7 @@ void __declspec(naked) onGameEnd()
     BWAPI::Broodwar.onGameEnd();
     BWAI::ai->onEnd();
     aiStartCalled = false;
+    launchedStart = false;
   }
   __asm
   {
@@ -155,7 +157,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
-  Sleep(20000);
+  Sleep(5000);
   JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
@@ -170,6 +172,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
       BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Zerg, 1);
       BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Terran, 0); 
       BWAPI::Broodwar.IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
+      //launchedStart = true;
     }
     Sleep(6000);
   }

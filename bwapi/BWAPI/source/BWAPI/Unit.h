@@ -44,9 +44,13 @@ namespace BWAPI
       const BW::Position& getPosition() const;
       /** Gets #bwUnit->BW#Unit#targetUnit. */
       Unit* getTarget();
-      /** Gets #bwUnitLocal->BW#Unit#targetUnit. */
+      /** Gets #bwUnit->BW#Unit#targetUnit. */
+      const Unit* getTarget() const;
+      /** (const version) Gets #bwUnitLocal->BW#Unit#targetUnit. */
       Unit* getTargetLocal();
       /** Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
+      const Unit* getTargetLocal() const;
+      /** (const version) Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
       Player* getOwner() const;
       /** Gets prototype of the unit defined by #bwUnit->BW#Unit#unitID. */
       const UnitPrototype* getPrototype() const;

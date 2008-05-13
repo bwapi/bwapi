@@ -27,8 +27,12 @@ namespace BWAI
       }
     }
     if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
-      if (this->gatherCenter->getType() == BW::UnitType::Terran_CommandCenter)
-         gatherCenter->lastTrainedUnitID = BW::UnitType::Terran_SCV;
+      switch (this->gatherCenter->getType())
+      {
+        case BW::UnitType::Terran_CommandCenter : gatherCenter->lastTrainedUnitID = BW::UnitType::Terran_SCV; break;
+        case BW::UnitType::Protoss_Nexus        : gatherCenter->lastTrainedUnitID = BW::UnitType::Protoss_Probe; break;
+        case BW::UnitType::Zerg_Hatchery        : gatherCenter->lastTrainedUnitID = BW::UnitType::Zerg_Drone; break;
+      }
     gatherCenter->expansionAssingment = this;
 
     f = fopen("bwai.log","at");

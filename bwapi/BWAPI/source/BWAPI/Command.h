@@ -32,6 +32,7 @@ namespace BWAPI
       virtual void execute() = 0;
       /** This value specifies if the last execution of the command failed */
       bool failed;
+      virtual std::string describe() = 0;
     protected : 
       /** List of executors of the command. */
       std::vector<Unit*> executors;
