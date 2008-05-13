@@ -412,9 +412,8 @@ namespace BWAPI
         if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
         {
           FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "%s  - Unknown  orderID = %d - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), 
-                                                                                                    unit->getOrderID(), 
-                                                                                                    getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
+          fprintf(f, "%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), 
+                                                                                       getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
           fclose(f);
         }
         
@@ -423,7 +422,13 @@ namespace BWAPI
            unit->getType() != BW::UnitType::Resource_VespeneGeyser)
         {
           FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "Unit %s orderID = %d - is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
+          fprintf(f, "%s is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
+          fclose(f);
+        }         
+       if ( units[i]->getPrototype() == NULL)
+        {
+          FILE *f = fopen("unit_unit_ID.txt","at");
+          fprintf(f, "%s\n", unit->getName().c_str());
           fclose(f);
         }         
       }

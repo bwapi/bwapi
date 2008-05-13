@@ -60,19 +60,19 @@ namespace BWAI
     fclose(f);
     this->player = player;
 
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (Unit*i = this->getFirst(); i != NULL; i = i->getNext())
     {
       if (
-          this->units[i]->isValid() &&
-          this->units[i]->getOwner() == player &&
+          i->isValid() &&
+          i->getOwner() == player &&
           (
-           this->units[i]->getType() == BW::UnitType::Terran_CommandCenter ||
-           this->units[i]->getType() == BW::UnitType::Protoss_Nexus ||
-           this->units[i]->getType() == BW::UnitType::Zerg_Hatchery
+           i->getType() == BW::UnitType::Terran_CommandCenter ||
+           i->getType() == BW::UnitType::Protoss_Nexus ||
+           i->getType() == BW::UnitType::Zerg_Hatchery
           )
         )
       {
-        this->startNewExpansion(this->units[i]);
+        this->startNewExpansion(i);
         f = fopen("bwai.log","at");
         fprintf(f,"AI::rebalance miners call mineralCount = %d\n", this->activeMinerals.size());
         fclose(f);
@@ -80,7 +80,7 @@ namespace BWAI
       }
     }
    if (this->expansions.size() > 0)
-     switch (this->expansions[0]->gatherCenter->getType())
+     switch ((*this->expansions.begin())->gatherCenter->getType())
      {
        case BW::UnitType::Terran_CommandCenter : this->worker = BWAPI::Prototypes::SCV; break;
        case BW::UnitType::Protoss_Nexus        : this->worker = BWAPI::Prototypes::Probe; break;
@@ -93,8 +93,8 @@ namespace BWAI
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
-    for (unsigned int i = 0; i < this->expansions.size(); i++)
-       delete this->expansions[i];
+    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      delete *i;
     this->expansions.clear();
   }
   //------------------------------- CONSTRUCTOR -------------------------------
@@ -108,57 +108,32 @@ namespace BWAI
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
-    BWAPI::Broodwar.logUnitList();
-    /*std::vector<BWAI::Unit*> unitList;
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
-    bool firstSelectedFound = false;
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      if (units[i]->isValid())
-      {
-        /*unit->selected = false;
-        for (int j = 0; selected[j] != NULL; j++)
-          if (selected[j] == unit->getOriginalRawData())
-          {
-            unit->selected = true;
-            firstSelectedFound = true;
-          }
-        if (!unit->hasEmptyBuildQueueLocal() && 
-            unit->getType() != BW::UnitType::Terran_CommandCenter)
-          unit->lastTrainedUnitID = unit->getBuildQueueLocal()[unit->getBuildQueueSlotLocal()];
-        if (unit->isReady() &&
-            unit->getType() == BW::UnitType::Terran_CommandCenter &&
-            unit->expansionAssingment == NULL &&
-            unit->getOwner() == player)
-        {
-          FILE *f = fopen("bwai.log","at");
-          fprintf(f,"Starting new expansion\n");
-          fclose(f);
-          this->expansionsSaturated = false;
-          this->startNewExpansion(unit);
-        }
-      }
-     if (!firstSelectedFound && selected[0] != NULL)
-     {
-       char message[50];
-       sprintf(message, "Unknown selected addr = 0x%X\n", (int)selected[0]);
-       sprintf(message, "Index = %d\n", ((int)selected[0] - (int)BW::BWXFN_UnitNodeTable)/336);
-       BWAPI::Broodwar.print(message);
-     }
+    this->refreshSelectionStates(selected);
 
+    this->checkNewExpansions();
+
+
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (!i->hasEmptyBuildQueueLocal() && 
+           i->getType() != BW::UnitType::Terran_CommandCenter)
+           i->lastTrainedUnitID = i->getBuildQueueLocal()[i->getBuildQueueSlotLocal()];
+
+    std::list<Unit*> idleWorkers;
     if (!this->expansionsSaturated)
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-    {
-      Unit* unit = this->units[i];
-      if (unit->isReady() &&
-          unit->getOwner() == player &&
-          unit->getOrderIDLocal() == BW::OrderID::Idle &&
-          !unit->selected &&
-          (unit->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
-          unit->expansionAssingment == NULL)
-         unitList.push_back(unit); 
-    }
-    /*if (selectedUnit != NULL && 
+      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+        {
+         if (i->isReady() &&
+             i->getOwner() == player &&
+             i->getOrderIDLocal() == BW::OrderID::Idle &&
+             !i->selected &&
+             (i->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
+              i->expansionAssingment == NULL)
+         idleWorkers.push_back(i); 
+       }
+    
+  /*   if (selectedUnit != NULL && 
         selectedUnit->getPrototype() == BWAPI::Prototypes::SCV &&
         marwin->getMineralsLocal() >= 150 &&
         this->suppliesOrdered < 20)
@@ -184,48 +159,35 @@ namespace BWAI
           expansions[i]->gatherCenter->trainUnit(this->worker);
         }
     }*/
-    /*unsigned int workersTogether = 0;
-    for (unsigned int i = 0; i < this->expansions.size(); i++)
-      workersTogether += this->expansions[i]->asignedWorkers;
-    if (workersTogether >= this->activeMinerals.size()*3)
-      for (unsigned int i = 0; i < this->expansions.size(); i++)
-        this->expansions[i]->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
-    for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      if (units[i]->isValid() &&
-          units[i]->hasEmptyBuildQueueLocal() &&
-          units[i]->lastTrainedUnitID != BW::UnitType::None &&
-          units[i]->getPrototype()->canProduce())
-      {
-        BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[units[i]->lastTrainedUnitID];
-        if (type != NULL &&
-            player->freeSuppliesTerranLocal() >= type->getSupplies() &&
-            player->getMineralsLocal() >= type->getMineralPrice() &&
-            player->getGasLocal() >= type->getGasPrice())
-        {
-          reselected = true;
-          units[i]->trainUnit(type);
-        }
-    }
-
-    for (unsigned int i = 0; i < unitList.size() && i < activeMinerals.size(); i++)
+    unsigned int workersTogether = 0;
+    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      workersTogether += (*i)->asignedWorkers;
+    if (workersTogether >= this->activeMinerals.size()*3 &&
+        !this->expansionsSaturated)
+      for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+        (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
+    this->performAutoBuild();
+    for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
     {
-      AI::optimizeMineralFor = unitList[i];
-      std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
-      if (activeMinerals[0]->gatherersAssigned.size() >= 2)
+      AI::optimizeMineralFor = *i;
+      /** @todo Just find smallest, no need to sort */
+      std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue); 
+      if ((*activeMinerals.begin())->gatherersAssigned.size() >= 2)
       {
         this->expansionsSaturated = true;
         break;
       }
       reselected = true;
-      activeMinerals[0]->assignGatherer(unitList[i]);
-      unitList[i]->orderRightClick(activeMinerals[0]->mineral);
-      }
+      (*activeMinerals.begin())->assignGatherer(*i);
+      (*i)->orderRightClick((*activeMinerals.begin())->mineral);
+    }
+
    this->rebalanceMiners();
    reselected |= this->checkAssignedWorkers();
    if (reselected)
      BWAPI::Broodwar.loadSelected(selected);
    else
-     delete [] selected;*/
+     delete [] selected;
   }
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)
@@ -260,8 +222,8 @@ namespace BWAI
      Unit* gatherer;
      anotherStep:
      std::sort(activeMinerals.begin(),activeMinerals.end(), mineralValue);
-     Mineral* first = activeMinerals[0];
-     Mineral* last = activeMinerals[activeMinerals.size() - 1];
+     Mineral* first = *activeMinerals.begin();
+     Mineral* last = *(--activeMinerals.end());
      if (first->gatherersAssigned.size() + 1 < last->gatherersAssigned.size())
      {
        gatherer = last->gatherersAssigned[0];
@@ -276,8 +238,8 @@ namespace BWAI
   bool AI::checkAssignedWorkers(void)
   {
     bool reselected = false;
-    for (unsigned int i = 0; i < this->expansions.size(); i++)
-      reselected |= this->expansions[i]->checkAssignedWorkers();
+    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      reselected |= (*i)->checkAssignedWorkers();
     return reselected;
   }
   //---------------------------------------------------------------------------
@@ -304,5 +266,51 @@ namespace BWAI
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeWorker(dead);
    }
+  //------------------------------ CHECK NEW EXPANSION ------------------------
+  void AI::checkNewExpansions()
+  {
+    for (BWAI::Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    {
+      if (i->isReady() &&
+          i->getType() == BW::UnitType::Terran_CommandCenter &&
+          i->expansionAssingment == NULL &&
+          i->getOwner() == player)
+      {
+        FILE *f = fopen("bwai.log","at");
+        fprintf(f,"%s Starting new expansion\n", i->getName().c_str());
+        fclose(f);
+        this->expansionsSaturated = false;
+        this->startNewExpansion(i);
+      }
+    }
+  }
+  //----------------------------- REFRESH SELECTION STATES --------------------
+  void AI::refreshSelectionStates(BW::Unit** selected)
+  {
+    for (BWAI::Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      i->selected = false;
+    for (int i = 0; selected[i] != NULL; i++)
+      BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
+  }
+  //---------------------------- PERFRORM AUTOBUILD ---------------------------
+  void AI::performAutoBuild()
+  {
+    for (Unit* i = 0; i != NULL; i = i->getNext())
+      if (i->isValid() &&
+          i->hasEmptyBuildQueueLocal() &&
+          i->lastTrainedUnitID != BW::UnitType::None &&
+          i->getPrototype()->canProduce())
+      {
+        BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[i->lastTrainedUnitID];
+        if (type != NULL &&
+            player->freeSuppliesTerranLocal() >= type->getSupplies() &&
+            player->getMineralsLocal() >= type->getMineralPrice() &&
+            player->getGasLocal() >= type->getGasPrice())
+        {
+          reselected = true;
+          i->trainUnit(type);
+        }
+    }
+  }
   //---------------------------------------------------------------------------
 }
