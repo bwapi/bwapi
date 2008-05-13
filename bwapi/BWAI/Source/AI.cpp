@@ -112,30 +112,13 @@ namespace BWAI
   {
     logUnknownOrStrange();
 
-    FILE *f = fopen("sums.log","at");
+   /* FILE *f = fopen("sums.log","at");
     int unitCount = 0;
     fprintf(f, "-------------------\n");
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      if (units[i]->isValid())
-       fprintf(f, "raw - type = %d on address 0x%X (secret = %s)\n", units[i]->getType(), (int)units[i]->getOriginalRawData(), getBinary((u8) units[i]->getOriginalRawData()->movementFlags.value).c_str());
-    
-    unitCount = -1;
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      if (units[i]->isValid())
-      {
-        BW::Unit* j;
-        for (j = units[i]->getOriginalRawData(); j != NULL; j = j->nextUnit)
-          fprintf(f, "pointer  - forward type = %d on address 0x%X (secret = %s)\n", j->unitID, (int)j, getBinary((u8)j->movementFlags.value).c_str());
-        for (j = units[i]->getOriginalRawData(); j != NULL; j = j->previousUnit)
-          fprintf(f, "pointer - backward type = %d on address 0x%X (secret = %s)\n", j->unitID, (int)j, getBinary((u8)j->movementFlags.value).c_str());
-        fclose(f);
-        break;
-      }
-
-
-    
-
-        
+    for (BW::Unit* i = BW::BWXFN_UnitNodeTable_FirstElement; i != NULL; i = i->nextUnit)
+       fprintf(f, "imot  = %d on address 0x%X (secret = %s) \n", units[i]->getType(), 
+                                                                                     (int)units[i]->getOriginalRawData(), 
+                                                                                     getBinary((u8) units[i]->getOriginalRawData()->mainOrderState).c_str());*/
     /*std::vector<BWAI::Unit*> unitList;
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
@@ -143,31 +126,6 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->isValid())
       {
-        Unit* unit = this->units[i];*/
-        /*
-        if (unit->getOrderID() != BW::OrderID::ExitingBuilding &&
-            unit->getOrderID() != BW::OrderID::Idle &&
-            unit->getOrderID() != BW::OrderID::Moving &&
-            unit->getOrderID() != BW::OrderID::Attacking &&
-            unit->getOrderID() != BW::OrderID::AttackMoving &&
-            unit->getOrderID() != BW::OrderID::UnderConstruction &&
-            unit->getOrderID() != BW::OrderID::GoingToBuild &&
-            unit->getOrderID() != BW::OrderID::Following &&
-            unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
-            unit->getOrderID() != BW::OrderID::EnteringRafinery &&
-            unit->getOrderID() != BW::OrderID::InRafinery &&
-            unit->getOrderID() != BW::OrderID::ReturningGas &&
-            unit->getOrderID() != BW::OrderID::ApproachingMinerals &&
-            unit->getOrderID() != BW::OrderID::StartingMining  &&
-            unit->getOrderID() != BW::OrderID::Mining &&
-            unit->getOrderID() != BW::OrderID::ReturningMinerals &&
-            unit->getOrderID() != BW::OrderID::GettingMinedMinerals)
-        {
-         FILE *f = fopen("new_order_id.txt","at");
-         fprintf(f, "Unknown (by unitID = %d) orderID = %d\n", unit->getType(), unit->getOrderID());
-         fclose(f);
-        }*/
-
         /*unit->selected = false;
         for (int j = 0; selected[j] != NULL; j++)
           if (selected[j] == unit->getOriginalRawData())
@@ -348,16 +306,18 @@ namespace BWAI
       {
         Unit* unit = this->units[i];
         if (unit->getOrderID() != BW::OrderID::GameNotInitialized &&
-            unit->getOrderID() != BW::OrderID::ExitingBuilding &&
+            unit->getOrderID() != BW::OrderID::Finishing&&
             unit->getOrderID() != BW::OrderID::Idle &&
             unit->getOrderID() != BW::OrderID::Moving &&
             unit->getOrderID() != BW::OrderID::Attacking &&
             unit->getOrderID() != BW::OrderID::AttackMoving &&
             unit->getOrderID() != BW::OrderID::NotMovable &&
             unit->getOrderID() != BW::OrderID::Constructing &&
+            unit->getOrderID() != BW::OrderID::Repair &&
             unit->getOrderID() != BW::OrderID::GoingToBuild &&
             unit->getOrderID() != BW::OrderID::UnderConstruction &&
             unit->getOrderID() != BW::OrderID::Following &&
+            unit->getOrderID() != BW::OrderID::Building_Landing &&
             unit->getOrderID() != BW::OrderID::Building_Lifting &&
             unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
             unit->getOrderID() != BW::OrderID::EnteringRafinery &&
@@ -370,46 +330,41 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::GettingMinedMinerals)
         {
          FILE *f = fopen("new_order_id.txt","at");
-         fprintf(f, "Unknown (by unitID = %d) orderID = %d\n", unit->getType(), unit->getOrderID());
+         fprintf(f, "%s - unknown order orderID = %d\n", unit->getName().c_str(), unit->getOrderID());
          fclose(f);
         }
         if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
         {
           FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate _alwaysZero1 is not zero\n", unit->getType(), unit->getOrderID());
+          fprintf(f, "%s  - Unknown  orderID = %d - movementstate _alwaysZero1 is not zero (%s)\n", unit->getName().c_str(), unit->getOrderID(), getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
           fclose(f);
         }
-        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero2))
-        {
-          FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate _alwaysZero2 is not zero\n", unit->getType(), unit->getOrderID());
-          fclose(f);
-        }
-        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero3))
-        {
-          FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate _alwaysZero3 is not zero\n", unit->getType(), unit->getOrderID());
-          fclose(f);
-        }
-        if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::Moving) != 
-            unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::AlsoMoving))
-        {
-          FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "Unknown (by unitID = %d) orderID = %d - movementstate Moving != AlsoMoving  (%s)\n", unit->getType(), unit->getOrderID(), getBinary((u8)units[i]->getOriginalRawData()->movementFlags.value).c_str());
-          fclose(f);
-        }
+        
        if (unit->getOriginalRawData()->resource &&
-           unit->getType() != BW::UnitType::Resource_MineralPatch1 &&
-           unit->getType() != BW::UnitType::Resource_MineralPatch2 &&
-           unit->getType() != BW::UnitType::Resource_MineralPatch3 &&
+           !unit->isMineral() &&
            unit->getType() != BW::UnitType::Resource_VespeneGeyser)
         {
           FILE *f = fopen("new_movementState.txt","at");
-          fprintf(f, "Unit (by unitID = %d) orderID = %d - is resource and is not resource ^^\n", unit->getType(), unit->getOrderID());
+          fprintf(f, "Unit %s orderID = %d - is resource and is not resource ^^\n", unit->getName().c_str(), unit->getOrderID());
           fclose(f);
         }         
 
      }
   }
   //---------------------------------------------------------------------------
+  void AI::onRemoveUnit(BW::Unit* unit)
+  {
+    Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
+
+    FILE *f = fopen("death.log","at");
+    fprintf(f, "Unit %s just died\n", dead->getName().c_str());
+    fclose(f);
+
+    if (dead->isMineral())
+      if (dead->expansionAssingment != NULL)
+        dead->expansionAssingment->removeMineral(dead);
+    else if (dead->getPrototype()->getAbilityFlags() | BWAPI::AbilityFlags::Gather)
+      if (dead->expansionAssingment != NULL)
+        dead->expansionAssingment->removeWorker(dead);
+   }
 }

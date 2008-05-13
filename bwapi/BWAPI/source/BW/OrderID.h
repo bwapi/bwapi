@@ -11,17 +11,18 @@ namespace BW
     enum Enum : u8
     {
       GameNotInitialized   =  0, /** Everything has order 0 when the*/
-      ExitingBuilding      =  2, /**< Unit is exiting production building (probably). */
+      Finishing            =  2, /**< Unit is exiting production building and finishing command (move), maybe more. */
       Idle                 =  3, /**< Unit has nothing to do. */
       Moving               =  6, /**< Unit is moving. */
       Attacking            = 10, /**< Unit is attacking target. */
       AttackMoving         = 14, /**< Unit is attack moving. */
       NotMovable           = 23, /**< Unit can't move (building/mineral/under construction). */
       Constructing         = 33, /**< Scv is constructing building */
-      GoingToBuild         = 31, /**< Unit is approaching place where it will make building. */
+      GoingToBuild         = 30, /**< Unit is approaching place where it will make building. */
+      Repair               = 34, /**< Approaching unit to repair + repairing. */
       UnderConstruction    = 44, /**< Unit is under construction (only Terran tested). */
       Following            = 49, /**< Unit is following other unit (can be unit of the same player, or enemy - if the performing unit can't attack). */
-      Building_Landing     = 71, /**< Terran building is landing */
+      Building_Landing     = 71, /**< Terran building is landing (or ordered to land somewhere */
       Building_Lifting     = 74, /**< Terran building on the ground is lifting */
       ApproachingRafinery  = 81, /**< The gathering unit is on it's way to rafinery */
       EnteringRafinery     = 82, /**< @todo Investigate The unit is just entering Rafinery/Extractor/Assimilator (while have it special state?)*/
@@ -38,7 +39,7 @@ namespace BW
     {
       switch (order)
       {
-        case ExitingBuilding : return "Exiting Building";
+        case Finishing : return "Finishing";
         case Idle : return "Idle";
         case Moving : return "Moving";
         case Attacking : return "Attacking";

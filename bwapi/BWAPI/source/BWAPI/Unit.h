@@ -111,7 +111,8 @@ namespace BWAPI
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
-      bool isMineral();
+      bool isMineral() const;
+      std::string getName() const;
     private:
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 

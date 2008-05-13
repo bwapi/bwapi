@@ -24,6 +24,7 @@ namespace BWAI
       void onEnd();
       void onFrame();
       void onCancelTrain();
+      void onRemoveUnit(BW::Unit* unit);
 
       int suppliesOrdered;
       std::vector<Expansion*> expansions;
@@ -31,7 +32,7 @@ namespace BWAI
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
       int expansionsSaturated;
-   private :
+private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;

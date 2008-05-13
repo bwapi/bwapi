@@ -64,4 +64,15 @@ namespace BWAI
       this->minerals[i]->checkDeadWorkers();
   }
   //---------------------------------------------------------------------------
+  void Expansion::removeMineral(BWAI::Unit* mineral)
+  {
+    for (unsigned int i = 0; i < this->minerals.size(); i++)
+      if (this->minerals[i]->mineral == mineral)
+      {
+         delete this->minerals[i]; // also frees workers
+         this->minerals.erase(this->minerals.begin() + i);
+         return;
+      }
+  }
+  //---------------------------------------------------------------------------
 }

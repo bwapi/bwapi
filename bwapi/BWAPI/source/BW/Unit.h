@@ -62,7 +62,7 @@ namespace BW
     /*0x04A*/ _UNKNOWN _6[2];
     /*0x04C*/ u8                           playerID;             /**< Specification of owner of this unit. (Note that player 11 is neutral). */
     /*0x04D*/ BW::OrderID::Enum            orderID;              /**< Specification of type of order currently given. */
-    /*0x04E*/ u8                           mainOrderState;       /**< @todo Unknown */
+    /*0x04E*/ u8                           mainOrderState;       /**< Is always 0, gets to 1 on mineral patch that is gathered out (as it becomes invalid unit)*/
     /*0x04F*/ u8                           orderSignal;          /**< @todo Unknown */
     /*0x050*/ _UNKNOWN _7[4];
     /*0x054*/ u8                           mainOrderTimer;       /**< @todo Unknown */
@@ -170,7 +170,7 @@ namespace BW
               }                       childUnitUnion3;    /**< @todo Verify */
     /*0x0CD*/ u8                      upgradeLevel;       /**< @todo Unknown */
     /*0x0CE*/ u8                      isCarryingSomething; /**< @todo Verify (may be set if going to carry something or targetting resources.. If 'isgathering' ? */
-    /*0x0CF*/ u8                      resourceAmount;     /**< @todo Unknown (probably the amount of resources it is carrying?) */
+    /*0x0CF*/ u8                      resourceCarying;     /**< The amount of resources it is carrying */
     /*0x0D0*/ union UnitUnion1_type
               {
                 union UnitUnion1Sub_type

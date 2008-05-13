@@ -13,6 +13,15 @@ namespace BWAI
     ai->activeMinerals.push_back(this);
     mineral->expansionAssingment = expansion;
   }
+  //--------------------------------- DESTRUCTOR ------------------------------
+  Mineral::~Mineral()
+  {
+    for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
+    {
+      this->gatherersAssigned[i]->expansionAssingment = NULL;
+      this->expansion->asignedWorkers --;
+    }
+  }
   //-------------------------------- ASSIGNE GATHERER -------------------------
   void Mineral::assignGatherer(BWAI::Unit* gatherer)
   {

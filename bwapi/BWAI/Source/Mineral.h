@@ -9,6 +9,7 @@ namespace BWAI
   {
     public :
       Mineral(BWAI::Unit* mineral, Expansion* expansion);
+      ~Mineral();
       void assignGatherer(BWAI::Unit* gatherer);
       BWAI::Unit* mineral;
       std::vector<BWAI::Unit*> gatherersAssigned;
