@@ -1,6 +1,8 @@
-#include "UnitPrototypeDefinitions.h"
+#include "AbilityPrototype.h"
+#include "UnitPrototype.h"
 #include "RaceTypes.h"
 #include "AbilityFlags.h"
+#include "TargetType.h"
 
 #include "..//BW//UnitTypes.h"
 

@@ -1,6 +1,7 @@
 #include "Unit.h"
 #include "..//..//BWAPI//Source//Types.h"
 #include "..//..//BWAPI//Source//BW//Offsets.h"
+#include "..//..//BWAPI//Source//BW//Unit.h"
 #include "Globals.h"
 namespace BWAI
 {

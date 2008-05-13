@@ -6,14 +6,14 @@
 #include "..//..//BWAPI//Source//BWAPI//UnitPrototype.h"
 #include "..//..//BWAPI//Source//BWAPI//AbilityFlags.h"
 #include "..//..//BWAPI//Source//BWAPI//Globals.h"
-#include "..//..//BWAPI//Source//BW//Offsets.h"
 #include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
 //#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
 //#include "..//..//BWAPI//Source//BW//BitMask.h"
-#include "..//..//BWAPI//Source//BW//Bitmask.h" /**< remove */
-#include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< remove */
+#include "..//..//BWAPI//Source//BW//Unit.h" /**@todo remove */
+#include "..//..//BWAPI//Source//BW//Bitmask.h" /**< @todo remove */
+#include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
 
 namespace BWAI
 {

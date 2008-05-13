@@ -89,6 +89,7 @@ INPUT                  = BWAPI/index.h \
                          BWAPI/pages.h \
                          BWAPI/Source/BW \
                          BWAPI/Source/BWAPI \
+                         BWAI/Source \
                          BWAPI/Source/Types.h
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \

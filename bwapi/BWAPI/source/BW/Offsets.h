@@ -1,6 +1,6 @@
 #pragma once
 #pragma pack(1)
-#include <windows.h>
+//#include <windows.h>
 #include "../Types.h"
 #include "Bitmask.h"
 #include "UnitPrototypeFlags.h"
@@ -15,7 +15,6 @@ namespace BW
 {
   struct Unit;
   struct UnitArray;
-  struct Unit;
   //--------------------------------- MINERALS TYPE -----------------------------
   /** Direct mapping of players mineral amount in the bw memory */
   struct PlayerMinerals_type
@@ -48,6 +47,7 @@ namespace BW
 
   static Unit*         BWXFN_UnitNodeTable_FirstElement = (Unit*)0x00628418;
   static UnitArray*    BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
+  const  u32           UNIT_ARRAY_MAX_LENGTH = 1701;
 
   static u32           BWFXN_CommandUnit = 0x4BFF80;
   static u32           BWFXN_IssueCommand = 0x4858F0;
@@ -139,7 +139,7 @@ namespace BW
     PlayerSuppliesAvaialableZerg player[8];
   };
   static PlayerSupliesAvailableZerg_type* BWXFN_SuppliesAvaialbeZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
-  // ----- USED ZERG
+  //----------------------------------- USED ZERG -----------------------------
   /** Direct mapping of players Zerg used supplies in the bw memory. */
   struct PlayerSupliesUsedZerg_type
   {
@@ -153,14 +153,14 @@ namespace BW
   static PlayerSupliesUsedZerg_type* BWXFN_SuppliesUsedZerg = (PlayerSupliesUsedZerg_type*) 0x0058215C;
  
   const int unitTypeCount = 228;
-  // -------------------------------- UNIT MINERAL PRICES --------------------
+  // -------------------------------- UNIT MINERAL PRICES ---------------------
   /** Direct mapping of unit types mineral prices. */
   struct MineralPrices_type
   {
     u16 mineralPrice[unitTypeCount];
   };
   static MineralPrices_type* BWXFN_MineralPrices = (MineralPrices_type*) 0x00663870;
-  // -------------------------------- UNIT MINERAL PRICES --------------------
+  // -------------------------------- UNIT MINERAL PRICES ---------------------
   /** Direct mapping of unit types gas prices. */
   struct GasPrices_type
   {
@@ -234,7 +234,7 @@ namespace BW
   static UnitsGroundWeapon_type* BWXFN_UnitGroundWeapon = (UnitsGroundWeapon_type*) 0x006636A0;
 
   const int weaponTypeCount = 130;
-  //--------------------------------- GROUND WEAPONS  ------------------------
+  //-------------------------------- WEAPON DAMAGE FACTOR --------------------
   /** Direct mapping of unit unit type armor */
   struct WeaponsDamageFactor_type
   {
@@ -242,7 +242,7 @@ namespace BW
   };
   static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;
 
-  //--------------------------------- GROUND WEAPONS  ------------------------
+  //-------------------------------- WEAPON DAMAGE TYPE ----------------------
   /** Direct mapping of unit unit type armor */
   struct WeaponsDamage_type
   {
@@ -250,7 +250,7 @@ namespace BW
   };
   static WeaponsDamage_type* BWXFN_WeaponDamage = (WeaponsDamage_type*) 0x00656E98;
 
-  //--------------------------------- GROUND WEAPONS  ------------------------
+  //--------------------------------PROTOTYPE FLAGS --------------------------
   /** Direct mapping of unit flags data */
   struct PrototypeFlags_type
   {
