@@ -71,6 +71,7 @@ namespace BWAPI
     BW::Unit** saveSelected();
     void loadSelected(BW::Unit** selected);
     BWAPI::Player* marwin;
+    void onRemoveUnit(BW::Unit *unit);
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;

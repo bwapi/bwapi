@@ -19,6 +19,28 @@
 bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
+DWORD removedUnit;
+//----------------------------- ON COMMAND ORDER ------------------------------
+void __declspec(naked) onRemoveUnit()
+{
+  __asm
+  {
+    mov removedUnit, esi
+  }
+  __asm
+  {
+    call [BW::BWXFN_RemoveUnitTarget]
+  }
+  {
+    BWAPI::Broodwar.onRemoveUnit((BW::Unit*) removedUnit);
+    BWAI::ai->onRemoveUnit((BW::Unit*) removedUnit);
+  }
+   __asm
+  {
+    jmp [BW::BWXFN_RemoveUnitBack]
+  }
+}
+
 //----------------------------- ON COMMAND ORDER ------------------------------
 void __declspec(naked) onCancelTrainByEscape()
 {
@@ -135,6 +157,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
   JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);
   JmpCallPatch(onCancelTrainByEscape, BW::BWXFN_CancelTrainByEscape, 0);
+  JmpCallPatch(onRemoveUnit, BW::BWXFN_RemoveUnit, 0);
   for ever
   {
     if (!BWAPI::Broodwar.isInGame())

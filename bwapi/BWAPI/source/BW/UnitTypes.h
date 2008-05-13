@@ -168,6 +168,7 @@ namespace BW
       Vespene_Orb1                  = 0xDE,
       Vespene_Orb2                  = 0xDF,
       Vaspene_Sac1                  = 0xE0,
+      Vaspene_Sac2                  = 0xE1,
       None                          = 0XE4
     };
   };

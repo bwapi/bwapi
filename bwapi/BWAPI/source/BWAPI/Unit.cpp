@@ -102,10 +102,9 @@ namespace BWAPI
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isValid() const
   {
-    /*if (this->getOriginalRawData()->resource)
-      return this->getOriginalRawData()->resourceAmount > 0 ||
-             this->getType() == BW::UnitType::Resource_VespeneGeyser;
-    else*/
+    if (this->isMineral())
+      return  this->getOriginalRawData()->mainOrderState == 0;
+    else         
       return (
                this->getHealthPoints() > 0 || 
                this->getHealthPointsFraction() > 0
@@ -117,7 +116,7 @@ namespace BWAPI
   {
     return this->isValid() &&
            this->getRawData()->remainingBuildTime == 0 &&
-           this->getOrderID() != BW::OrderID::ExitingBuilding;
+           this->getOrderID() != BW::OrderID::Finishing;
   }
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
@@ -324,11 +323,21 @@ namespace BWAPI
   }
   #pragma warning (pop)
   //----------------------------------------------------------------------------
-  bool Unit::isMineral()
+  bool Unit::isMineral() const
   {
      return this->getType() == BW::UnitType::Resource_MineralPatch1 ||
             this->getType() == BW::UnitType::Resource_MineralPatch2 ||
             this->getType() == BW::UnitType::Resource_MineralPatch3;
+  }
+  //----------------------------------------------------------------------------
+  std::string Unit::getName() const
+  {
+    if (this->getPrototype() != NULL)
+     return (std::string)"(" + this->getPrototype()->getName() + ")";
+    char message[30];
+    sprintf(message,"(Unknown name - unit id = %d)", this->getType());
+    std::string ret = message;
+    return ret;
   }
   //----------------------------------------------------------------------------
 };
