@@ -33,5 +33,17 @@ namespace BWAI
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->targetUnit);
   }
+  //--------------------------------- GET NEXT ---------------------------------
+  Unit *Unit::getNext()
+  {
+    return this->next;
+  }
+  //-------------------------------- UPDATE NEXT -------------------------------
+  void Unit::updateNext()
+  {
+    this->next = Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
+    if (this->next != NULL)
+      this->next->updateNext();
+  }
   //---------------------------------------------------------------------------
 }

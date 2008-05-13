@@ -63,7 +63,11 @@ namespace BW
     /*0x04A*/ _UNKNOWN _6[2];
     /*0x04C*/ u8                           playerID;             /**< Specification of owner of this unit. (Note that player 11 is neutral). */
     /*0x04D*/ BW::OrderID::Enum            orderID;              /**< Specification of type of order currently given. */
-    /*0x04E*/ u8                           mainOrderState;       /**< Is always 0, gets to 1 on mineral patch that is gathered out (as it becomes invalid unit)*/
+    /*0x04E*/ BitMas<BW::OrderFlags::Enum> orderFlags;          /**< Is mostly 0
+                                                                  *   gets to 1 on mineral patch that is gathered out (as it becomes invalid unit)
+                                                                  *   critter with automove has it's value 2 - 1 when ordered
+                                                                  *   Larava has 3 - 0 when the stop-trick used to move it to the left
+                                                                  */
     /*0x04F*/ u8                           orderSignal;          /**< @todo Unknown */
     /*0x050*/ _UNKNOWN _7[4];
     /*0x054*/ u8                           mainOrderTimer;       /**< @todo Unknown */

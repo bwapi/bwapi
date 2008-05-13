@@ -78,9 +78,10 @@ namespace BWAPI
     this->commandBuffer.push_back(a);
     for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
        for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
-       {
          this->commandBuffer[i][j]->execute();
-       }        
+    this->first = Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
+    if (this->first != NULL)
+      this->first->updateNext();
   }
   //---------------------------------- TEST -----------------------------------
 

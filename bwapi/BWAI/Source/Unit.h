@@ -20,5 +20,10 @@ namespace BWAI
        */
       Unit* getTarget();
       Unit* getTargetLocal();
+      Unit* getNext();
+      /** Updates pointer to next unit (and recursively updates that unit. */
+      void updateNext();
+    private :
+      Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
   };
 }

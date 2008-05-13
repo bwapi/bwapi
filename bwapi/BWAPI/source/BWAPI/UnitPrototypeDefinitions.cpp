@@ -113,7 +113,11 @@ namespace BWAPI
     UnitPrototype* MineralPatch2       = new UnitPrototype("Minerals2"               , BW::UnitType::Resource_MineralPatch2,     RaceType::Other,     0, 0);    
     UnitPrototype* MineralPatch3       = new UnitPrototype("Minerals3"               , BW::UnitType::Resource_MineralPatch3,     RaceType::Other,     0, 0);    
     UnitPrototype* VaspineGayser       = new UnitPrototype("Vaspine gas"             , BW::UnitType::Resource_VespeneGeyser,     RaceType::Other,     0, 0);    
+
+    UnitPrototype* Critter_Bengalaas   = new UnitPrototype("Critter_Bengalaas"       , BW::UnitType::Critter_Bengalaas,          RaceType::Other,     0, 0);    
+
     UnitPrototype* None                = new UnitPrototype("None"                    , BW::UnitType::None                  ,     RaceType::Other,     0, 0);    
+    
 
     UnitPrototype* unitIDToPrototypeTable[228] =
     {
@@ -207,7 +211,7 @@ namespace BWAPI
      /** 0x57 */ NULL,
      /** 0x58 */ NULL,
      /** 0x59 */ NULL,
-     /** 0x5A */ NULL,
+     /** 0x5A */ Critter_Bengalaas,
      /** 0x5B */ NULL,
      /** 0x5C */ NULL,
      /** 0x5D */ NULL,
@@ -243,12 +247,12 @@ namespace BWAPI
      /** 0x7B */ Armory,
      /** 0x7C */ MissileTurret,
      /** 0x7D */ Bunker,
-     /** 0x7E */ NULL,
+     /** 0x7E */ SpawningPool,
      /** 0x7F */ NULL,
      /** 0x80 */ NULL,
      /** 0x81 */ NULL,
      /** 0x82 */ NULL,
-     /** 0x83 */ NULL,
+     /** 0x83 */ Hatchery,
      /** 0x84 */ NULL,
      /** 0x85 */ NULL,
      /** 0x86 */ NULL,
