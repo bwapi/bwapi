@@ -72,9 +72,13 @@ namespace BWAPI
     Unit* getUnit(int index);
     BW::Unit** saveSelected();
     void loadSelected(BW::Unit** selected);
-    BWAPI::Player* marwin;
     void onRemoveUnit(BW::Unit *unit);
+    Player* marwin;
     Unit* getFirst();
+    template <class Type>
+    std::string getBinary(Type value);
+    void logUnitList();
+    void logUnknownOrStrange();
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;

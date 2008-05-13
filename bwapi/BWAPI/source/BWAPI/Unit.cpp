@@ -337,6 +337,8 @@ namespace BWAPI
   //----------------------------------------------------------------------------
   std::string Unit::getName() const
   {
+    #pragma warning(push)
+    #pragma warning(disable:4311)
     char position[100];
     sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
                                             this->getPosition().y);
@@ -356,6 +358,7 @@ namespace BWAPI
                                                                    position,
                                                                    this->getOriginalRawData()->playerID,
                                                                    address);
+   #pragma warning(pop)
     return std::string(message);
   }
   //--------------------------------- GET NEXT ---------------------------------

@@ -42,7 +42,6 @@ private :
       void startNewExpansion(Unit *gatherCenter);
       void rebalanceMiners();
       bool checkAssignedWorkers(void);
-      void logUnknownOrStrange();
       Unit* first;
   };
 }
