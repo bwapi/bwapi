@@ -100,7 +100,10 @@ namespace BWAPI
   //------------------------------- GET OWNER ----------------------------------
   Player* Unit::getOwner() const
   {
-    return Broodwar.players[this->bwUnit->playerID];
+    if (this->bwUnit->playerID < 12)
+      return Broodwar.players[this->bwUnit->playerID];
+    else 
+      return NULL;
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isValid() const
@@ -111,7 +114,8 @@ namespace BWAPI
       return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
       return this->getHealthPoints() > 0 || 
-             this->getHealthPointsFraction() > 0;
+             this->getHealthPointsFraction() > 0 &&
+             this->getPrototype() != NULL;
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isReady() const
@@ -253,7 +257,10 @@ namespace BWAPI
   //------------------------------ HAS EMPTY QUEUE -----------------------------
   bool Unit::hasEmptyBuildQueueLocal(void)
   {
-     return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == 0xe4;
+    if (this->getBuildQueueSlotLocal() < 5)
+      return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == BW::UnitType::None;
+    else
+      return false;
   }
   //------------------------------- ORDER RIGHT CLICK -------------------------
   void Unit::orderRightClick(u16 x,u16 y)
@@ -279,13 +286,13 @@ namespace BWAPI
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {
-    /*BW::Unit * * list = new BW::Unit * [2];
+    BW::Unit * * list = new BW::Unit * [2];
     list[0] = this->getOriginalRawData();
 	   list[1] = NULL;
     int one = 1;
     void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool))0x0049AB90;
-    selectUnitsHelperSTD(one, list, true, true);*/
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
+    selectUnitsHelperSTD(one, list, true, true);
+    //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
   }
   //---------------------------------- GET TYPE --------------------------------
   BW::UnitType::Enum Unit::getType() const
