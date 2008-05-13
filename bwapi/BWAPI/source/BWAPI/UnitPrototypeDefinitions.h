@@ -75,6 +75,8 @@ namespace BWAPI
     extern UnitPrototype* Mutalisk;
     extern UnitPrototype* Spire;
     extern UnitPrototype* Lair;
+    extern UnitPrototype* CreepColony;
+    extern UnitPrototype* SunkenColony;
 
     /** other */
     extern UnitPrototype* MineralPatch1;
@@ -85,6 +87,11 @@ namespace BWAPI
 
     //extern UnitPrototype* StartLocation;
     extern UnitPrototype* Critter_Bengalaas;
+    extern UnitPrototype* Critter_Kakaru;
+    extern UnitPrototype* Critter_Ragnasaur;
+    /** Spells */
+    extern UnitPrototype* DarkSwarm;
+    
     
     extern UnitPrototype* unitIDToPrototypeTable[228];
     }
