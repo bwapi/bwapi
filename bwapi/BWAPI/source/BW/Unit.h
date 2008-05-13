@@ -9,6 +9,7 @@
 #include "../BW/Position.h"
 #include "../BW/UnitStatusFlags.h"
 #include "../BW/ParasiteFlags.h"
+#include "../BW/OrderFlags.h"
 #include "../BW/Bitmask.h"
 #include "../BW/Offsets.h"
 
@@ -40,46 +41,42 @@ namespace BW
                                                                    * (SCV+CommandCenter+Dark swarm + Mineral chunk - life or dead value = 0
                                                                    * minerals and vaspine gayser 1
                                                                    */
-    /*0x00C*/ BW::Sprite*                  sprite;
-    /*0x010*/ BW::Position                 moveToPos;
-    /*0x014*/ BW::Unit*                    targetUnit;
+    /*0x00C*/ BW::Sprite*                   sprite;
+    /*0x010*/ BW::Position                  moveToPos;
+    /*0x014*/ BW::Unit*                     targetUnit;
     /*0x018*/ _UNKNOWN _2[8];
-    /*0x020*/ BitMask<MovementFlags::Enum> movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. 
+    /*0x020*/ BitMask<MovementFlags::Enum>  movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. 
                                                                  @todo Verify */
     /*0x021*/ _UNKNOWN _3[1];
-    /*0x022*/ u8                           flingyTurnRadius;     /**< @todo Unknown */
-    /*0x023*/ u8                           currentDirection;     /**< @todo Unknown */
-    /*0x024*/ u16                          flingyID;             /**< @todo Unknown */
+    /*0x022*/ u8                            flingyTurnRadius;     /**< @todo Unknown */
+    /*0x023*/ u8                            currentDirection;     /**< @todo Unknown */
+    /*0x024*/ u16                           flingyID;             /**< @todo Unknown */
     /*0x026*/ _UNKNOWN _4[1];
-    /*0x027*/ u8                           flingyMovementType;   /**< @todo Unknown */
-    /*0x028*/ BW::Position                 position;             /**< Current position of the unit */
-    /*0x02C*/ u32                          xHalt;                /**< @todo Unknown */
-    /*0x030*/ u32                          yHalt;                /**< @todo Unknown */
-    /*0x034*/ u32                          flingySpeed;          /**< @todo Unknown */
-    /*0x038*/ u32                          unknownSpeed_0x038;   /**< @todo Unknown */
-    /*0x03C*/ u32                          unknownSpeed_0x03C;   /**< @todo Unknown */
+    /*0x027*/ u8                            flingyMovementType;   /**< @todo Unknown */
+    /*0x028*/ BW::Position                  position;             /**< Current position of the unit */
+    /*0x02C*/ u32                           xHalt;                /**< @todo Unknown */
+    /*0x030*/ u32                           yHalt;                /**< @todo Unknown */
+    /*0x034*/ u32                           flingySpeed;          /**< @todo Unknown */
+    /*0x038*/ u32                           unknownSpeed_0x038;   /**< @todo Unknown */
+    /*0x03C*/ u32                           unknownSpeed_0x03C;   /**< @todo Unknown */
     /*0x040*/ _UNKNOWN _5[8];
-    /*0x048*/ u16                          flingyAcceleration;   /**< @todo Unknown */
+    /*0x048*/ u16                           flingyAcceleration;   /**< @todo Unknown */
     /*0x04A*/ _UNKNOWN _6[2];
-    /*0x04C*/ u8                           playerID;             /**< Specification of owner of this unit. (Note that player 11 is neutral). */
-    /*0x04D*/ BW::OrderID::Enum            orderID;              /**< Specification of type of order currently given. */
-    /*0x04E*/ BitMas<BW::OrderFlags::Enum> orderFlags;          /**< Is mostly 0
-                                                                  *   gets to 1 on mineral patch that is gathered out (as it becomes invalid unit)
-                                                                  *   critter with automove has it's value 2 - 1 when ordered
-                                                                  *   Larava has 3 - 0 when the stop-trick used to move it to the left
-                                                                  */
-    /*0x04F*/ u8                           orderSignal;          /**< @todo Unknown */
+    /*0x04C*/ u8                            playerID;             /**< Specification of owner of this unit. (Note that player 11 is neutral). */
+    /*0x04D*/ BW::OrderID::Enum             orderID;              /**< Specification of type of order currently given. */
+    /*0x04E*/ BitMask<BW::OrderFlags::Enum> orderFlags;           /**< Additional order info (mostly unknown, wander property investigated so far) */
+    /*0x04F*/ u8                            orderSignal;          /**< @todo Unknown */
     /*0x050*/ _UNKNOWN _7[4];
-    /*0x054*/ u8                           mainOrderTimer;       /**< @todo Unknown */
-    /*0x055*/ u8                           groundWeaponCooldown;
-    /*0x056*/ u8                           airWeaponCooldown;    /**< @todo Verify */
-    /*0x057*/ u8                           spellCooldown;        /**< @todo Verify */
-    /*0x058*/ BW::Position                 orderTargetPos;       /**< @todo Verify */
-    /*0x05C*/ BW::Unit*                orderTargetUnit;      /**< @todo Verify */
-    /*0x060*/ u8                           shieldPointsFraction; /**< Count of 1/255 fractions of one shield point. */
-    /*0x061*/ u16                          shieldPoints;         /**< Shield points of the current unit */
+    /*0x054*/ u8                            mainOrderTimer;       /**< @todo Unknown */
+    /*0x055*/ u8                            groundWeaponCooldown;
+    /*0x056*/ u8                            airWeaponCooldown;    /**< @todo Verify */
+    /*0x057*/ u8                            spellCooldown;        /**< @todo Verify */
+    /*0x058*/ BW::Position                  orderTargetPos;       /**< @todo Verify */
+    /*0x05C*/ BW::Unit*                     orderTargetUnit;      /**< @todo Verify */
+    /*0x060*/ u8                            shieldPointsFraction; /**< Count of 1/255 fractions of one shield point. */
+    /*0x061*/ u16                           shieldPoints;         /**< Shield points of the current unit */
     /*0x063*/ _UNKNOWN _8[1];
-    /*0x064*/ BW::UnitType::Enum           unitID;               /**< Specifies the type of unit. */
+    /*0x064*/ BW::UnitType::Enum            unitID;               /**< Specifies the type of unit. */
     /*0x066*/ _UNKNOWN _9[2];
     /*0x068*/ BW::Unit*                previousPlayerUnit;   /**< @todo Verify */
     /*0x06C*/ BW::Unit*                nextPlayerUnit;       /**< @todo Verify */

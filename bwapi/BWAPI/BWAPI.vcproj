@@ -216,6 +216,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\OrderFlags.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\OrderID.h"
 					>
 				</File>

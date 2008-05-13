@@ -14,6 +14,7 @@
 #include "..//..//BWAPI//Source//BW//Unit.h" /**@todo remove */
 #include "..//..//BWAPI//Source//BW//Bitmask.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
+#include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
 
 namespace BWAI
 {
@@ -124,9 +125,8 @@ namespace BWAI
     int unitCount = 0;
     fprintf(f, "-------------------\n");
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-       fprintf(f, "%s on address 0x%X (secret = %s) \n", i->getName().c_str(), 
-                                                         (int)i->getOriginalRawData(), 
-                                                         getBinary((u8) i->getOriginalRawData()->mainOrderState).c_str());
+       fprintf(f, "%s (%s) \n", i->getName().c_str(), 
+                                getBinary((u8) i->getOriginalRawData()->orderFlags.value).c_str());
     fclose(f);
     /*std::vector<BWAI::Unit*> unitList;
     bool reselected = false;
@@ -321,8 +321,9 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::UnderConstruction &&
             unit->getOrderID() != BW::OrderID::NotControllable &&
             unit->getOrderID() != BW::OrderID::Following &&
+            unit->getOrderID() != BW::OrderID::GoingToMutate &&
             unit->getOrderID() != BW::OrderID::Building_Landing &&
-            unit->getOrderID() != BW::OrderID::Building_Lifting &&
+            unit->getOrderID() != BW::OrderID::Lifting &&
             unit->getOrderID() != BW::OrderID::ApproachingRafinery &&
             unit->getOrderID() != BW::OrderID::EnteringRafinery &&
             unit->getOrderID() != BW::OrderID::InRafinery &&
@@ -331,10 +332,12 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::StartingMining  &&
             unit->getOrderID() != BW::OrderID::Mining &&
             unit->getOrderID() != BW::OrderID::ReturningMinerals &&
-            unit->getOrderID() != BW::OrderID::GettingMinedMinerals)
+            unit->getOrderID() != BW::OrderID::GettingMinedMinerals &&
+            unit->getOrderID() != BW::OrderID::CritterWandering &&
+            unit->getOrderID() != BW::OrderID::BuildingMutating)
         {
          FILE *f = fopen("new_order_id.txt","at");
-         fprintf(f, "%s - unknown order orderID = %d\n", unit->getName().c_str(), unit->getOrderID());
+         fprintf(f, "%s\n", unit->getName().c_str());
          fclose(f);
         }
         if (unit->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
@@ -354,26 +357,36 @@ namespace BWAI
         }         
      }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      
+    if (units[i]->getOriginalRawData()->playerID <= 11)
+    {
       if (!units[i]->isMineral() &&
-          units[i]->getType() != BW::UnitType::Resource_VespeneGeyser &&
-          units[i]->getType() != BW::UnitType::Zerg_Larva)
-      {
-        if (units[i]->getOriginalRawData()->mainOrderState != 0)
+          units[i]->getType() != BW::UnitType::Zerg_Larva &&
+          units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+          units[i]->getType() != BW::UnitType::Zerg_Drone &&
+          units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain))
         {
           FILE *f = fopen("new_main_order_state.txt","at");
-          fprintf(f, "Unit %s has main order state %d\n", units[i]->getName().c_str(), units[i]->getOriginalRawData()->mainOrderState);
+          fprintf(f, "Unit %s has orderstate.willWander again true\n", units[i]->getName().c_str());
           fclose(f);
         }
-      } else if (units[i]->getType() == BW::UnitType::Zerg_Larva)
-      {
-        if (units[i]->getOriginalRawData()->mainOrderState != 3)
+      if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
+          units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+          units[i]->getType() != BW::UnitType::Zerg_Drone &&
+          units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::autoWander))
         {
           FILE *f = fopen("new_main_order_state.txt","at");
-          fprintf(f, "Unit %s has main order state %d\n", units[i]->getName().c_str(), units[i]->getOriginalRawData()->mainOrderState);
+          fprintf(f, "Unit %s has auto wander state\n", units[i]->getName().c_str());
           fclose(f);
         }
-      }
+     if (units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
+         units[i]->getOrderID() == BW::OrderID::CritterWandering)
+        {
+          FILE *f = fopen("new_main_order_state.txt","at");
+          fprintf(f, "Unit %s is wandering around and is unknown critter\n", units[i]->getName().c_str());
+          fclose(f);
+        }
+
+    }
   }
   //----------------------------- ON REMOVE UNIT ------------------------------
   void AI::onRemoveUnit(BW::Unit* unit)
