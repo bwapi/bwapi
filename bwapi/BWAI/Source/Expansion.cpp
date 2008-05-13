@@ -13,17 +13,16 @@ namespace BWAI
     FILE *f = fopen("bwai.log","at");
     fprintf(f, "New expansion construction start\n");
     fclose(f);
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (Unit* i = ai->getFirst(); i != NULL; i = i->getNext())
     {
-      if (ai->getUnit(i)->isValid() &&
-          ai->getUnit(i)->isMineral() &&
-          ai->getUnit(i)->expansionAssingment == NULL &&
-          ai->getUnit(i)->getDistance(this->gatherCenter) < 350)
+      if (i->isMineral() &&
+          i->expansionAssingment == NULL &&
+          i->getDistance(this->gatherCenter) < 350)
       {
         FILE *f = fopen("bwai.log","at");
         fprintf(f, "mineral to add to expansion\n");
         fclose(f);
-        this->minerals.push_back(new Mineral(ai->getUnit(i), this));
+        this->minerals.push_back(new Mineral(i, this));
       }
     }
     if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)

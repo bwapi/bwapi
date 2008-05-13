@@ -349,37 +349,81 @@ namespace BWAPI
     #pragma warning(push)
     #pragma warning(disable:4311)
     char position[100];
+    FILE *f = fopen("getName.log","at");
+    fprintf(f,"------------- call\n");
+    fclose(f);
     sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
                                             this->getPosition().y);
+
+    f = fopen("getName.log","at");
+    fprintf(f,"Position resolved\n");
+    fclose(f);
     /*
     char address[100];
     sprintf(address, " Address = 0x%X [%4d]", (int)this->getOriginalRawData());*/
     char index[50];
 
     sprintf(index, "[%4d]", ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
-    char message[300];
+
+    f = fopen("getName.log","at");
+    fprintf(f,"Index resolved\n");
+    fclose(f);
+
+    char message[400];
 
     char targetIndex[50];
     if (this->getTargetLocal() == NULL)
       strcpy(targetIndex, "[NULL]");
     else
       sprintf(targetIndex, "[%4d]", ((int)this->getTargetLocal()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
+
+    f = fopen("getName.log","at");
+    fprintf(f,"Target resolved\n");
+    fclose(f);
     
+    char owner[100];
+    if (this->getOwner() != NULL)
+      sprintf(owner,"Player = (%10s)",this->getOwner()->getName());
+    else
+      sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
+
+    f = fopen("getName.log","at");
+    fprintf(f,"owner resolved\n");
+    fclose(f);
+    f = fopen("getName.log","at");
+    fprintf(f,"owner length = %d\n", strlen(owner));
+    fclose(f);
+
+    f = fopen("getName.log","at");
+    fprintf(f, "unit id = %d\n", this->getType());
+    fclose(f);
     if (this->getPrototype() != NULL)
       sprintf(message,"(%21s) (%22s) %s %s ->%s Player = (%10s)", this->getPrototype()->getName().c_str(),
                                                                   BW::OrderID::orderName(this->getOrderID()).c_str(),
                                                                   index,
                                                                   position,
                                                                   targetIndex,
-                                                                  this->getOwner()->getName());
+                                                                  owner);
     else
       sprintf(message,"(unitID = %12u) (%22s) %s %s ->%s Player = (%10s)", this->getType(),
                                                                    BW::OrderID::orderName(this->getOrderID()).c_str(),
                                                                    index,
                                                                    position,
                                                                    targetIndex,
-                                                                   this->getOwner()->getName());
+                                                                   owner);
    #pragma warning(pop)
+    f = fopen("getName.log","at");
+    fprintf(f,"Message resolved\n");
+    fclose(f);
+    
+    f = fopen("getName.log","at");
+    fprintf(f,"Length = %d\n", strlen(message));
+    fclose(f);
+
+    f = fopen("getName.log","at");
+    fprintf(f,"message is: %s\n", message);
+    fclose(f);
+
     return std::string(message);
   }
   //--------------------------------- GET NEXT ---------------------------------
@@ -390,6 +434,21 @@ namespace BWAPI
   //-------------------------------- UPDATE NEXT -------------------------------
   void Unit::updateNext()
   {
+    if (this->getOriginalRawData()->nextUnit != NULL)
+    {
+      if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
+      {
+        FILE* f = fopen("FATAL-ERROR.log","at");
+        fprintf(f, "Unit array too small, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
+        fclose(f);
+      }
+      if ((int)this->getOriginalRawData()->nextUnit < (int)BW::BWXFN_UnitNodeTable)
+      {
+        FILE* f = fopen("FATAL-ERROR.log","at");
+        fprintf(f, "Unit array begins at bad location, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
+        fclose(f);
+      }
+    }
     this->next = Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
     if (this->next != NULL)
       this->next->updateNext();

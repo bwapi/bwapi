@@ -84,6 +84,7 @@ namespace BWAPI
     if (this->getFirst() != NULL)
       this->getFirst()->updateNext();
     this->frameCount ++;
+    this->logUnknownOrStrange();
   }
   //---------------------------------- TEST -----------------------------------
 
@@ -405,7 +406,7 @@ namespace BWAPI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)
       {
-        if (!units[i]->isMineral() &&
+        /*if (!units[i]->isMineral() &&
             units[i]->getType() != BW::UnitType::Zerg_Larva &&
             units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
             units[i]->getType() != BW::UnitType::Zerg_Drone &&
@@ -416,7 +417,7 @@ namespace BWAPI
             FILE *f = fopen("new_main_order_state.txt","at");
             fprintf(f, "Unit %s has orderstate.willWander again true\n", units[i]->getName().c_str());
             fclose(f);
-          }
+          } */
         /*if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
             units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
             units[i]->getType() != BW::UnitType::Zerg_Drone &&
@@ -432,6 +433,7 @@ namespace BWAPI
        if (units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
            units[i]->getType() != BW::UnitType::Critter_Ragnasaur &&
            units[i]->getType() != BW::UnitType::Critter_Kakaru &&
+           units[i]->getType() != BW::UnitType::Critter_Scantid &&
            units[i]->getOrderID() == BW::OrderID::CritterWandering)
           {
             FILE *f = fopen("new_main_order_state.txt","at");

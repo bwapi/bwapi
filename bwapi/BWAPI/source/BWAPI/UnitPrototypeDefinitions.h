@@ -77,7 +77,11 @@ namespace BWAPI
     extern UnitPrototype* Lair;
     extern UnitPrototype* CreepColony;
     extern UnitPrototype* SunkenColony;
-
+    extern UnitPrototype* Extractor;
+    extern UnitPrototype* SporeColony;
+    extern UnitPrototype* HydraliskDen;
+    
+    
     /** other */
     extern UnitPrototype* MineralPatch1;
     extern UnitPrototype* MineralPatch2;
