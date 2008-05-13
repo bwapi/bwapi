@@ -318,6 +318,7 @@ namespace BWAI
             unit->getOrderID() != BW::OrderID::JustToMutate &&
             unit->getOrderID() != BW::OrderID::Constructing &&
             unit->getOrderID() != BW::OrderID::Repair &&
+            unit->getOrderID() != BW::OrderID::EggMutating &&
             unit->getOrderID() != BW::OrderID::GoingToBuild &&
             unit->getOrderID() != BW::OrderID::UnderConstruction &&
             unit->getOrderID() != BW::OrderID::NotControllable &&
