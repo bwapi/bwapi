@@ -57,6 +57,7 @@ namespace BW
         case Constructing : return "Constructing";
         case GoingToBuild : return "Going To Build";
         case Repair : return "Repair";
+        case EggMutating  : return "Egg Mutating";
         case UnderConstruction : return "Under Construction";
         case Following : return "Following";
         case Building_Landing : return "Building landing";
@@ -70,6 +71,7 @@ namespace BW
         case StartingMining : return "Starting Mining";
         case Mining : return "Mining";
         case ReturningMinerals : return "Returning Minerals";
+        case OverlordIdle : return "Overlord Idle";
         case GettingMinedMinerals : return "Getting Mined Minerals";
         case CritterWandering : return "Critter wandering";
                                        
