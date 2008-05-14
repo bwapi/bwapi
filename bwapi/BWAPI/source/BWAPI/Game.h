@@ -99,6 +99,8 @@ namespace BWAPI
     Logger *newUnitLog;
     /** Failed check of assumption */
     Logger *badAssumptionLog;
+    /** Sum of all units*/
+    Logger *unitSum;
   };
 };
  

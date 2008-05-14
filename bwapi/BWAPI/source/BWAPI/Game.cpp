@@ -30,6 +30,7 @@ namespace BWAPI
     this->newOrderLog       = new Logger("new_orders", Logger::MicroDetailed);
     this->badAssumptionLog  = new Logger("bad_assumptions", Logger::MicroDetailed);
     this->newUnitLog        = new Logger("new_unit_id", Logger::MicroDetailed);
+    this->unitSum           = new Logger("unit_sum", Logger::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
@@ -47,6 +48,7 @@ namespace BWAPI
     this->update();
     this->latency = 2; // @todo read from the address in update
     this->logUnknownOrStrange();
+    this->logUnitList();
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -64,6 +66,7 @@ namespace BWAPI
     delete this->newOrderLog;
     delete this->badAssumptionLog;
     delete this->newUnitLog;
+    delete this->unitSum;
   }
   //------------------------------- ISSUE COMMAND -------------------------------
   void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 
@@ -460,13 +463,10 @@ namespace BWAPI
   //--------------------------------- LOG UNIT LIST ---------------------------
   void Game::logUnitList()
   {
-    FILE *f = fopen("sums.log","at");
-    int unitCount = 0;
-    fprintf(f, "-------------------\n");
+    this->unitSum->log("----------------------------------------");
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-       fprintf(f, "%s (%s) \n", i->getName().c_str(), 
-                                this->getBinary((u8) i->getOriginalRawData()->orderFlags.value).c_str());
-    fclose(f);
+       this->unitSum->log("%s", i->getName().c_str());
+    this->unitSum->log("----------------------------------------");
   }
   //-------------------------------- GET FIRST -------------------------------
   Unit* Game::getFirst()
