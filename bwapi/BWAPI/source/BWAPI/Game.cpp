@@ -26,11 +26,11 @@ namespace BWAPI
   Game::Game()
   :inGame(false)
   {
-    this->commandLog        = new Logger("commands", Logger::MicroDetailed);
-    this->newOrderLog       = new Logger("new_orders", Logger::MicroDetailed);
-    this->badAssumptionLog  = new Logger("bad_assumptions", Logger::MicroDetailed);
-    this->newUnitLog        = new Logger("new_unit_id", Logger::MicroDetailed);
-    this->unitSum           = new Logger("unit_sum", Logger::MicroDetailed);
+    this->commandLog        = new Logger("commands", LogLevel::MicroDetailed);
+    this->newOrderLog       = new Logger("new_orders", LogLevel::MicroDetailed);
+    this->badAssumptionLog  = new Logger("bad_assumptions", LogLevel::MicroDetailed);
+    this->newUnitLog        = new Logger("new_unit_id", LogLevel::MicroDetailed);
+    this->unitSum           = new Logger("unit_sum", LogLevel::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;

@@ -10,7 +10,7 @@ namespace BWAI
    :gatherCenter(gatherCenter)
    ,asignedWorkers(0)
   {
-    ai->log->log("New expansion registration started", Logger::Detailed);
+    ai->log->log("New expansion registration started", LogLevel::Detailed);
     
     for (Unit* i = ai->getFirst(); i != NULL; i = i->getNext())
     {
@@ -19,7 +19,7 @@ namespace BWAI
           i->getDistance(this->gatherCenter) < 350)
         this->minerals.push_back(new Mineral(i, this));
     }
-    ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), Logger::Normal);
+    ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), LogLevel::Normal);
     if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
       switch (this->gatherCenter->getType())
       {
