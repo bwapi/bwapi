@@ -4,8 +4,8 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = Brood war api
-PROJECT_NUMBER         = 0.1
+PROJECT_NAME           = Broodwar api
+PROJECT_NUMBER         = Revision 121 
 OUTPUT_DIRECTORY       = doxygen
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
@@ -61,13 +61,13 @@ HIDE_SCOPE_NAMES       = NO
 SHOW_INCLUDE_FILES     = NO
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
-SORT_BRIEF_DOCS        = NO
-SORT_BY_SCOPE_NAME     = NO
+SORT_BRIEF_DOCS        = YES
+SORT_BY_SCOPE_NAME     = YES
 GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = NO
 GENERATE_BUGLIST       = YES
 GENERATE_DEPRECATEDLIST= YES
-ENABLED_SECTIONS       = NO
+ENABLED_SECTIONS       = YES
 MAX_INITIALIZER_LINES  = 300
 SHOW_USED_FILES        = YES
 SHOW_DIRECTORIES       = YES
@@ -89,8 +89,8 @@ INPUT                  = BWAPI/index.h \
                          BWAPI/pages.h \
                          BWAPI/Source/BW \
                          BWAPI/Source/BWAPI \
-                         BWAI/Source \
-                         BWAPI/Source/Types.h
+                         BWAPI/Source/ \
+                         BWAI/Source
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \
                          *.h \
