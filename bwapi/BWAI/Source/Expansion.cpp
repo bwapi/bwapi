@@ -19,7 +19,7 @@ namespace BWAI
           i->getDistance(this->gatherCenter) < 350)
         this->minerals.push_back(new Mineral(i, this));
     }
-    ai->log->log("%s minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), Logger::Normal);
+    ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), Logger::Normal);
     if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
       switch (this->gatherCenter->getType())
       {

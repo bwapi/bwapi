@@ -18,7 +18,7 @@ To use the library:
 -# Download latest sources.
 -# Get Chaos launcher
 -# Set Environment "ChaosDir" variable in windows (ControllPanels->System->Advanced->Envirenment variables) to your chaos launcher directory.
--# Compile
+-# Compile (U must compile on "Release", you can also use debug later, but the ".bwl" has to be the release version)
 -# Run Chaos launcher and click to use the BWAPI addon
 
 @section parametrization Parametrization of BW API
