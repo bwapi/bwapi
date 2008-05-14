@@ -43,6 +43,7 @@
     <li>BWAPI::Unit#getBuildQueueSlotLocal</li>
     <li>BWAPI::Unit#hasEmptyBuildQueueLocal</li>
     <li>BWAPI::Unit#getOrderIDLocal</li>
+    <li>BWAPI::Unit#getTargetLocal</li>
     <li>BWAPI::Player#getMineralsLocal</li>
     <li>BWAPI::Player#getGasLocal</li>
     <li>BWAPI::Player#getSuppliesAvailableProtossLocal</li>
@@ -64,23 +65,32 @@
 
 /** @page functionality List of library functionality
 The library provides easy
+
 -# Access to in-game units
 -# Access players minerals/gas/supplies/names
 -# Select/RightClick/Train command execution
 -# Slot State/Race change command execution
 -# Game start command execution (form chat lobby)
--# Catch start/end events
--# Catch nextFrame event (virtually)
+-# catch start/end events, nextFrame (virtually), removeUnit events.
 -# Precompute game state according to commands immediatly (@ref localData)
-
-We are just going to integrate soon
--# Easy access to selected units (shared/current player)
--# Build building command execution
--# Morph larva command execution
-
-We are searchnig a way how to do
 -# Compute the distance of units
 -# Get unit sizes (rectangle sizes) and rectangle/position connection (accuratly)
 
+We are just going to integrate soon (if you want help you can contact us)
+-# Other commands (morph, burrow, hold etc)
+-# Complete all unit prototype support
+-# Map tile-type info
+-# Map tiles 
+
+We need to investigate (any help with this is most appricieted)
+-# In Game address (address that specifies if the game is running)
+-# Public send text command
+-# Refresh screen command (rectangle)
+-# Print xy functoin/ print rectangle function
+-# Recognize in-lobby
+-# recognize game started (the ok butten pushed and the 5-4-3-2-1 counting is in progress)
+-# Battle net comands (Send message, join game, create game)
+-# Hook incoming message (battle net or other)
+-# How to load unit prototype names from bw memory 
 
 */
