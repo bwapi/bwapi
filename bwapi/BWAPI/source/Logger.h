@@ -53,6 +53,7 @@ class Logger
   private :
     std::string name;
     LogLevel levelToLog;
+  public : 
     /** Every log message will be also posted to this global log. */
     static Logger globalLog;
 };
@@ -71,7 +72,7 @@ bool Logger::log(const std::string& message,
     return false;
   fprintf(f, "%s ", time);
   fprintf(f, message.c_str(), parameter1);
-  fprintf(f, "\n", parameter1);
+  fprintf(f, "\n");
   fclose(f);
   if (this != &globalLog)
     globalLog.log(message, parameter1, level);
@@ -91,9 +92,9 @@ bool Logger::log(const std::string& message,
     return false;
   fprintf(f, "%s ", time);
   fprintf(f, message.c_str(), parameter1, parameter2);
-  fprintf(f, "\n", parameter1);
+  fprintf(f, "\n");
   fclose(f);
   if (this != &globalLog)
-    globalLog.log(message, parameter1, parameter1, level);
+    globalLog.log(message, parameter1, parameter2, level);
   return true;
 }

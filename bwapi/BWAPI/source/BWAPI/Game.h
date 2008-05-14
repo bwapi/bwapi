@@ -91,7 +91,14 @@ namespace BWAPI
     std::vector<std::vector<Command *>> commandBuffer;
     std::vector<char *> buffers;
     Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
+    /** All commands ordered from BWAPI */
     Logger *commandLog;
+    /** Unknown orderID's */
+    Logger *newOrderLog;
+    /** Unknown unitID's */
+    Logger *newUnitLog;
+    /** Failed check of assumption */
+    Logger *badAssumptionLog;
   };
 };
  

@@ -26,7 +26,11 @@ namespace BWAPI
   Game::Game()
   :inGame(false)
   {
-    commandLog = new Logger("commands", Logger::MicroDetailed);
+    this->commandLog        = new Logger("commands", Logger::MicroDetailed);
+    this->newOrderLog       = new Logger("new_orders", Logger::MicroDetailed);
+    this->badAssumptionLog  = new Logger("bad_assumptions", Logger::MicroDetailed);
+    this->newUnitLog        = new Logger("new_unit_id", Logger::MicroDetailed);
+
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
 
@@ -55,7 +59,11 @@ namespace BWAPI
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete units[i];
+    
     delete this->commandLog;
+    delete this->newOrderLog;
+    delete this->badAssumptionLog;
+    delete this->newUnitLog;
   }
   //------------------------------- ISSUE COMMAND -------------------------------
   void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 
@@ -215,7 +223,7 @@ namespace BWAPI
   {
     command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
-    this->commandLog->log("(%4d) %s\n", this->frameCount, command->describe().c_str());
+    this->commandLog->log("(%4d) %s", this->frameCount, command->describe().c_str());
   }
   //----------------------------- ON GAME START ---------------------------------
   void Game::onGameStart()
@@ -376,33 +384,18 @@ namespace BWAPI
           i->getOrderID() != BW::OrderID::CritterWandering &&
           i->getOrderID() != BW::OrderID::Stop &&
           i->getOrderID() != BW::OrderID::BuildingMutating)
-      {
-       FILE *f = fopen("new_order_id.txt","at");
-       fprintf(f, "%s\n", i->getName().c_str());
-       fclose(f);
-      }
+       this->newOrderLog->log(i->getName());
       if (i->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
-      {
-        FILE *f = fopen("new_movementState.txt","at");
-        fprintf(f, "%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)\n", i->getName().c_str(), 
-                                                                                     getBinary((u8)i->getOriginalRawData()->movementFlags.value).c_str());
-        fclose(f);
-      }
+        this->badAssumptionLog->log("%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)", 
+                                    i->getName().c_str(), 
+                                    getBinary((u8)i->getOriginalRawData()->movementFlags.value).c_str());
       
      if (i->getOriginalRawData()->resource &&
          !i->isMineral() &&
          i->getType() != BW::UnitType::Resource_VespeneGeyser)
-      {
-        FILE *f = fopen("new_movementState.txt","at");
-        fprintf(f, "%s is resource and is not resource ^^\n", i->getName().c_str(), i->getOrderID());
-        fclose(f);
-      }         
+       this->badAssumptionLog->log("%s is resource and is not resource ^^", i->getName().c_str(), i->getOrderID());
      if (i->getPrototype() == NULL)
-      {
-        FILE *f = fopen("unit_unit_ID.txt","at");
-        fprintf(f, "%s\n", i->getName().c_str());
-        fclose(f);
-      }         
+       this->newUnitLog->log(i->getName());
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)
@@ -457,12 +450,7 @@ namespace BWAPI
             units[i]->getType() != BW::UnitType::Zerg_Overlord &&
             units[i]->getOrderID() == BW::OrderID::OverlordIdle
           )
-       {
-         FILE *f = fopen("new_order_id.txt","at");
-         fprintf(f, "%s is doing overlord idle (and is not overlord ^^)\n", units[i]->getName().c_str());
-         fclose(f);
-       }
-
+         this->badAssumptionLog->log("%s is doing overlord idle (and is not overlord ^^)", units[i]->getName().c_str());
      }
   }
   //--------------------------------------- GET BINARY ------------------------
