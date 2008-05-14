@@ -13,10 +13,13 @@
 #include "../BW/Offsets.h"
 #include "../BW/UnitTypes.h"
 
+#include "../Logger.h"
+
 #include <math.h>
 
 namespace BWAPI
 {
+  Logger Unit::getNameLog = Logger("getName", Logger::MicroDetailed);
   //----------------------------- CONSTRUCTOR -----------------------------------
   Unit::Unit(BW::Unit* unitData, 
              BW::Unit* originalUnit,
@@ -343,86 +346,58 @@ namespace BWAPI
             this->getType() == BW::UnitType::Resource_MineralPatch2 ||
             this->getType() == BW::UnitType::Resource_MineralPatch3;
   }
+  char position[100];
+  char index[50];
+  char targetIndex[50];
+  char owner[100];
+  char unitName[100];
+  char orderName[100];
+  char message[400];
   //----------------------------------------------------------------------------
   std::string Unit::getName() const
   {
+    this->getNameLog.log("------------- call");
+    
+      sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
+                                            this->getPosition().y);
+    this->getNameLog.log("Position resolved = %s", position);
+    
     #pragma warning(push)
     #pragma warning(disable:4311)
-    char position[100];
-    FILE *f = fopen("getName.log","at");
-    fprintf(f,"------------- call\n");
-    fclose(f);
-    sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
-                                            this->getPosition().y);
-
-    f = fopen("getName.log","at");
-    fprintf(f,"Position resolved\n");
-    fclose(f);
-    /*
-    char address[100];
-    sprintf(address, " Address = 0x%X [%4d]", (int)this->getOriginalRawData());*/
-    char index[50];
-
+  
     sprintf(index, "[%4d]", ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
-
-    f = fopen("getName.log","at");
-    fprintf(f,"Index resolved\n");
-    fclose(f);
-
-    char message[400];
-
-    char targetIndex[50];
+    this->getNameLog.log("Index resolved = %s", index);
+   
     if (this->getTargetLocal() == NULL)
       strcpy(targetIndex, "[NULL]");
     else
       sprintf(targetIndex, "[%4d]", ((int)this->getTargetLocal()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
+    this->getNameLog.log("Target index resolved = %s", targetIndex);
+    #pragma warning(pop)
 
-    f = fopen("getName.log","at");
-    fprintf(f,"Target resolved\n");
-    fclose(f);
-    
-    char owner[100];
     if (this->getOwner() != NULL)
       sprintf(owner,"Player = (%10s)",this->getOwner()->getName());
     else
       sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
-
-    f = fopen("getName.log","at");
-    fprintf(f,"owner resolved\n");
-    fclose(f);
-    f = fopen("getName.log","at");
-    fprintf(f,"owner length = %d\n", strlen(owner));
-    fclose(f);
-
-    f = fopen("getName.log","at");
-    fprintf(f, "unit id = %d\n", this->getType());
-    fclose(f);
-    if (this->getPrototype() != NULL)
-      sprintf(message,"(%21s) (%22s) %s %s ->%s Player = (%10s)", this->getPrototype()->getName().c_str(),
-                                                                  BW::OrderID::orderName(this->getOrderID()).c_str(),
-                                                                  index,
-                                                                  position,
-                                                                  targetIndex,
-                                                                  owner);
-    else
-      sprintf(message,"(unitID = %12u) (%22s) %s %s ->%s Player = (%10s)", this->getType(),
-                                                                   BW::OrderID::orderName(this->getOrderID()).c_str(),
-                                                                   index,
-                                                                   position,
-                                                                   targetIndex,
-                                                                   owner);
-   #pragma warning(pop)
-    f = fopen("getName.log","at");
-    fprintf(f,"Message resolved\n");
-    fclose(f);
+    this->getNameLog.log("Owner resolved = %s", owner);
+    this->getNameLog.log("unit id = %d", this->getType());
     
-    f = fopen("getName.log","at");
-    fprintf(f,"Length = %d\n", strlen(message));
-    fclose(f);
+    if (this->getPrototype() != NULL)
+      sprintf(unitName,"(%21s)", this->getPrototype()->getName().c_str());
+    else
+      sprintf(unitName,"(unitID = %12u)", this->getType());
+    this->getNameLog.log("Unit name resolved = %s", unitName);
 
-    f = fopen("getName.log","at");
-    fprintf(f,"message is: %s\n", message);
-    fclose(f);
+    sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    this->getNameLog.log("Order name resolved = %s", orderName);
+    
+    sprintf(message,"%s %s %s %s ->%s Player = (%10s)", unitName,
+                                                        orderName,
+                                                        index,
+                                                        position,
+                                                        targetIndex,
+                                                        owner);
+    this->getNameLog.log("message resolved = %s", message);
 
     return std::string(message);
   }
@@ -434,6 +409,8 @@ namespace BWAPI
   //-------------------------------- UPDATE NEXT -------------------------------
   void Unit::updateNext()
   {
+    #pragma warning(push)
+    #pragma warning(disable:4311)
     if (this->getOriginalRawData()->nextUnit != NULL)
     {
       if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
@@ -449,6 +426,7 @@ namespace BWAPI
         fclose(f);
       }
     }
+    #pragma warning(pop)
     this->next = Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
     if (this->next != NULL)
       this->next->updateNext();

@@ -5,6 +5,7 @@ namespace BW { struct Unit; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
+class Logger;
 
 #include "..//BW//OrderTypes.h"
 #include "..//BW//Offsets.h"
@@ -90,6 +91,7 @@ namespace BWAPI
     std::vector<std::vector<Command *>> commandBuffer;
     std::vector<char *> buffers;
     Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
+    Logger *commandLog;
   };
 };
  

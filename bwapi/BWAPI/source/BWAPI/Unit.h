@@ -4,6 +4,7 @@
 #include "../BW/OrderID.h"
 #include "../BW/UnitTypes.h"
 
+class Logger;
 namespace BW { class Position; };
 namespace BW { struct Unit; };
 namespace BWAPI { class UnitPrototype;  };
@@ -125,7 +126,7 @@ namespace BWAPI
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
-      
+      static Logger getNameLog;
   };
 };
 

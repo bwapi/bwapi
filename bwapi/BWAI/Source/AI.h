@@ -3,6 +3,7 @@
 //#include "..//..//BWAPI//Source//BW//Unit.h"
 #include <list>
 
+class Logger;
 namespace BWAI { class Unit; }
 namespace BWAI { class Mineral; }
 namespace BWAI { class Expansion; }
@@ -19,6 +20,7 @@ namespace BWAI
   {
     public :
       AI();
+      ~AI();
       /** Updates next/first pointers */
       void update(void);
       /** Call in the start of the game */
@@ -50,5 +52,6 @@ namespace BWAI
        * @returns something happened (so reselect is needed)
        */
       bool performAutoBuild();
+      Logger* log;
   };
 }

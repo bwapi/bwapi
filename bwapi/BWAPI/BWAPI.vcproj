@@ -185,6 +185,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\Logger.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Logger.h"
+				>
+			</File>
+			<File
 				RelativePath=".\pages.h"
 				>
 			</File>
