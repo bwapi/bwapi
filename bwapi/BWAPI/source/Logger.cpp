@@ -4,8 +4,6 @@ Logger::Logger(const std::string& name, LogLevel levelToLog)
 :name(name + ".log")
 ,levelToLog(levelToLog)
 {
-  FILE *f = fopen((name + ".log").c_str(),"wt");
-  fclose(f);
 }
 //------------------------------- LOG -----------------------------------------
 bool Logger::log(const    std::string& message, 

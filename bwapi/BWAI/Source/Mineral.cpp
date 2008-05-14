@@ -82,22 +82,20 @@ namespace BWAI
         {
           if (gatherer->getTargetLocal() != this->mineral)
           {
-            FILE* f = fopen("reasignation-reasons.log","at");
-            fprintf(f, "(%4d) ---------- bad mineral target ------------------------------\n", BWAPI::Broodwar.frameCount);
-            fprintf(f, "%s\n", gatherer->getName().c_str());
-            if (gatherer->getTargetLocal() != NULL)
-              fprintf(f, "%s\n%s\n", gatherer->getTargetLocal()->getName().c_str(), 
-                                     this->mineral->getName().c_str());
-            else
-              fprintf(f, "NULL target\n%s\n", this->mineral->getName().c_str());
-            fclose(f);
+            
+           this->reassignationReasons.log("(%4d) ---------- bad mineral target ------------------------------\n", BWAPI::Broodwar.frameCount);
+           this->reassignationReasons.log("%s", gatherer->getName().c_str());
+           if (gatherer->getTargetLocal() != NULL)
+             this->reassignationReasons.log("%s", gatherer->getTargetLocal()->getName().c_str());
+           else
+             this->reassignationReasons.log("NULL target");
+           this->reassignationReasons.log("%s", this->mineral->getName().c_str());
           }
          else
           {
-            FILE* f = fopen("reasignation-reasons.log","at");
-            fprintf(f, "(%4d) ---------- Too close to mineral mined by other worker ----------------\n", BWAPI::Broodwar.frameCount);
-            fprintf(f, "%s\n", gatherer->getName().c_str());
-            fprintf(f, "%s\n", gatherer->getTargetLocal()->getName().c_str());
+            this->reassignationReasons.log("(%4d) ---------- Too close to mineral mined by other worker ----------------", BWAPI::Broodwar.frameCount);
+            this->reassignationReasons.log("%s", gatherer->getName().c_str());
+            this->reassignationReasons.log("%s\n", gatherer->getTargetLocal()->getName().c_str());
           }
           gatherer->orderRightClick(mineral);
           reselected = true;
@@ -114,4 +112,5 @@ namespace BWAI
    return false;      
   }
   //---------------------------------------------------------------------------
+  Logger Mineral::reassignationReasons = Logger("reasignation-reasons", Logger::MicroDetailed);
 }

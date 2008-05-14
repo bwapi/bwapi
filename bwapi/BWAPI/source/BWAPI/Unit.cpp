@@ -316,8 +316,8 @@ namespace BWAPI
   void Unit::trainUnit(UnitPrototype *type)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type->getUnitID()), 0x3);
     Broodwar.addToCommandBuffer(new CommandTrain(this, type));
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type->getUnitID()), 0x3);
   }
   //-------------------------------- GET QUEUE SLOT ----------------------------
   u8 Unit::getBuildQueueSlot()
