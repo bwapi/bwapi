@@ -125,6 +125,7 @@ void __declspec(naked)  hookTest()
       BWAI::ai->onStart(BWAPI::Broodwar.marwin);
       aiStartCalled = true;
     }
+    BWAI::ai->onFrame();
   }
   __asm
   {

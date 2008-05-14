@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "UnitPrototype.h"
 #include "../BW//Unit.h"
+#include "../Logger.h"
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
@@ -47,7 +48,10 @@ namespace BWAPI
   //-----------------------------------------------------------------------------
   std::string CommandTrain::describe()
   {
-    return this->executors[0]->getName() + " started to build (" + toTrain->getName() + ")";
+    Logger::globalLog.log("CommandTrain::describe called");
+    std::string toReturn = this->executors[0]->getName() + " started to build (" + toTrain->getName() + ")";
+    Logger::globalLog.log("CommandTrain::describe value = %s", toReturn.c_str());
+    return toReturn;
   }
   //-----------------------------------------------------------------------------
 }
