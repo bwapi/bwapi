@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\LogLevel.h"
+				>
+			</File>
+			<File
 				RelativePath=".\pages.h"
 				>
 			</File>

@@ -56,23 +56,23 @@ namespace BWAI
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
   {
-    this->log->log("Ai::Game start", Logger::Important);
+    this->log->log("Ai::Game start", LogLevel::Important);
     this->player = player;
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
-    this->log->log("Ai::On end start",Logger::Important);
+    this->log->log("Ai::On end start", LogLevel::Important);
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();
-    this->log->log("Ai::On end end",Logger::Detailed);
+    this->log->log("Ai::On end end", LogLevel::Detailed);
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
   {
-    this->log = new Logger("ai", Logger::MicroDetailed);
-    this->deadLog= new Logger("dead", Logger::MicroDetailed);
+    this->log = new Logger("ai", LogLevel::MicroDetailed);
+    this->deadLog= new Logger("dead", LogLevel::MicroDetailed);
 
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
@@ -184,7 +184,7 @@ namespace BWAI
     if (selected[0] != NULL)
     {
       Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnitID = BW::UnitType::None;
-      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str(), Logger::Detailed);
+      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str(), LogLevel::Detailed);
     }
   }
   //---------------------------- START NEW EXPANSION -------------------------
@@ -261,7 +261,7 @@ namespace BWAI
            i->expansionAssingment == NULL &&
            i->getOwner() == player)
       {
-        this->log->log("Starting new expansion - %s", i->getName().c_str(), Logger::Important);
+        this->log->log("Starting new expansion - %s", i->getName().c_str(), LogLevel::Important);
         this->expansionsSaturated = false;
         this->startNewExpansion(i);
       }

@@ -19,7 +19,7 @@
 
 namespace BWAPI
 {
-  Logger Unit::getNameLog = Logger("getName", Logger::MicroDetailed);
+  Logger Unit::getNameLog = Logger("getName", LogLevel::MicroDetailed);
   //----------------------------- CONSTRUCTOR -----------------------------------
   Unit::Unit(BW::Unit* unitData, 
              BW::Unit* originalUnit,

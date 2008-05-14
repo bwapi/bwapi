@@ -112,5 +112,5 @@ namespace BWAI
    return false;      
   }
   //---------------------------------------------------------------------------
-  Logger Mineral::reassignationReasons = Logger("reasignation-reasons", Logger::MicroDetailed);
+  Logger Mineral::reassignationReasons = Logger("reasignation-reasons", LogLevel::MicroDetailed);
 }
