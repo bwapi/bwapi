@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "../Logger.h"
 
 
 namespace BWAPI 
@@ -25,6 +26,7 @@ namespace BWAPI
   Game::Game()
   :inGame(false)
   {
+    commandLog = new Logger("commands", Logger::MicroDetailed);
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
 
@@ -53,6 +55,7 @@ namespace BWAPI
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete units[i];
+    delete this->commandLog;
   }
   //------------------------------- ISSUE COMMAND -------------------------------
   void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 
@@ -212,9 +215,7 @@ namespace BWAPI
   {
     command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
-    FILE *f = fopen("commands.log","at");
-    fprintf(f, "(%4d) %s\n", this->frameCount, command->describe().c_str());
-    fclose(f);
+    this->commandLog->log("(%4d) %s\n", this->frameCount, command->describe().c_str());
   }
   //----------------------------- ON GAME START ---------------------------------
   void Game::onGameStart()

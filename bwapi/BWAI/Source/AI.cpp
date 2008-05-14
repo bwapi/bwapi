@@ -15,6 +15,7 @@
 #include "..//..//BWAPI//Source//BW//Bitmask.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
+#include "..//..//BWAPI//Source//Logger.h"
 
 namespace BWAI
 {
@@ -55,34 +56,31 @@ namespace BWAI
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
   {
-    FILE *f = fopen("bwai.log","at");
-    fprintf(f,"Ai::On start call\n");
-    fclose(f);
+    this->log->log("Ai::Game start", Logger::Important);
     this->player = player;
-    f = fopen("bwai.log","at");
-    fprintf(f,"Ai::On start end\n");
-    fclose(f);
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
-    FILE *f = fopen("bwai.log","at");
-    fprintf(f,"Ai::On end start\n");
-    fclose(f);
+    this->log->log("Ai::On end start",Logger::Important);
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();
-      f = fopen("bwai.log","at");
-    fprintf(f,"Ai::On end end\n");
-    fclose(f);
+    this->log->log("Ai::On end end",Logger::Detailed);
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
   {
+    this->log = new Logger("ai", Logger::MicroDetailed);
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     this->first = NULL;
+  }
+  //-------------------------------- DESTRUCTOR -------------------------------
+  AI::~AI(void)
+  {
+    delete this->log;
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
@@ -174,16 +172,13 @@ namespace BWAI
   //---------------------------------------------------------------------------
   void AI::onCancelTrain()
   {
-    FILE* f = fopen("bwai.log","at");
-    fprintf(f,"Cancelled\n");
-    fclose(f);
+    this->log->log("Cancelled unit caught");
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
+    
     if (selected[0] != NULL)
     {
       Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnitID = BW::UnitType::None;
-      FILE* f = fopen("bwai.log","at");
-      fprintf(f,"%s will now not produce\n", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str());
-      fclose(f);
+      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str(), Logger::Detailed);
     }
   }
   //---------------------------- START NEW EXPANSION -------------------------
@@ -263,9 +258,7 @@ namespace BWAI
            i->expansionAssingment == NULL &&
            i->getOwner() == player)
       {
-        FILE *f = fopen("bwai.log","at");
-        fprintf(f,"%s Starting new expansion\n", i->getName().c_str());
-        fclose(f);
+        this->log->log("Starting new expansion - %s", i->getName().c_str(), Logger::Important);
         this->expansionsSaturated = false;
         this->startNewExpansion(i);
       }

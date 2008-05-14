@@ -41,6 +41,8 @@ namespace BWAI
   //-------------------------------- UPDATE NEXT -------------------------------
   void Unit::updateNext()
   {
+    #pragma warning(push)
+    #pragma warning(disable:4311)
     if (this->getOriginalRawData()->nextUnit != NULL)
     {
       if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
@@ -56,7 +58,7 @@ namespace BWAI
         fclose(f);
       }
     }
-
+    #pragma warning(push)
     this->next = Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
     if (this->next != NULL)
       this->next->updateNext();
