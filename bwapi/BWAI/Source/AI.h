@@ -37,6 +37,7 @@ namespace BWAI
       static Unit* optimizeMineralFor;
       int expansionsSaturated;
       Unit* getFirst();
+      Logger* log;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -52,6 +53,7 @@ namespace BWAI
        * @returns something happened (so reselect is needed)
        */
       bool performAutoBuild();
-      Logger* log;
+      /** Don't mix-up with deadlock. */
+      Logger* deadLog;
   };
 }

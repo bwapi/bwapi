@@ -10,21 +10,16 @@ namespace BWAI
    :gatherCenter(gatherCenter)
    ,asignedWorkers(0)
   {
-    FILE *f = fopen("bwai.log","at");
-    fprintf(f, "New expansion construction start\n");
-    fclose(f);
+    ai->log->log("New expansion registration started", Logger::Detailed);
+    
     for (Unit* i = ai->getFirst(); i != NULL; i = i->getNext())
     {
       if (i->isMineral() &&
           i->expansionAssingment == NULL &&
           i->getDistance(this->gatherCenter) < 350)
-      {
-        FILE *f = fopen("bwai.log","at");
-        fprintf(f, "mineral to add to expansion\n");
-        fclose(f);
         this->minerals.push_back(new Mineral(i, this));
-      }
     }
+    ai->log->log("%s minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), Logger::Normal);
     if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
       switch (this->gatherCenter->getType())
       {
@@ -34,9 +29,7 @@ namespace BWAI
       }
     gatherCenter->expansionAssingment = this;
 
-    f = fopen("bwai.log","at");
-    fprintf(f, "New expansion construction end\n");
-    fclose(f);
+
   }
   //------------------------------ REMOVE WORKER ------------------------------
   Expansion::~Expansion(void)

@@ -72,6 +72,8 @@ namespace BWAI
   AI::AI(void)
   {
     this->log = new Logger("ai", Logger::MicroDetailed);
+    this->deadLog= new Logger("dead", Logger::MicroDetailed);
+
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
@@ -81,6 +83,10 @@ namespace BWAI
   AI::~AI(void)
   {
     delete this->log;
+    delete deadLog;
+
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      delete new Unit(BWAPI::Broodwar.getUnit(i));
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
@@ -231,12 +237,9 @@ namespace BWAI
   void AI::onRemoveUnit(BW::Unit* unit)
   {
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
+    this->deadLog->log("%s just died", dead->getName().c_str());
 
-    FILE *f = fopen("death.log","at");
-    fprintf(f, "Unit %s just died\n", dead->getName().c_str());
-    fclose(f);
-
-    if (dead->isMineral())
+     if (dead->isMineral())
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeMineral(dead);
     else if (dead->getPrototype()->getAbilityFlags() | BWAPI::AbilityFlags::Gather)
