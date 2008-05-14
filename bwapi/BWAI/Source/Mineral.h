@@ -2,6 +2,7 @@
 #include <vector>
 namespace BWAI { class Expansion; }
 namespace BWAI { class Unit; }
+#include "..//..//BWAPI//Source//Logger.h"
 
 namespace BWAI
 {
@@ -17,5 +18,6 @@ namespace BWAI
       bool removeGatherer(Unit* unit);
       bool checkAssignedWorkers();
       bool SomeoneIsMining(void);
+      static Logger reassignationReasons;
   };
 }

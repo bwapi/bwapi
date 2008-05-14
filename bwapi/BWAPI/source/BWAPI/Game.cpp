@@ -429,11 +429,7 @@ namespace BWAPI
            units[i]->getType() != BW::UnitType::Critter_Kakaru &&
            units[i]->getType() != BW::UnitType::Critter_Scantid &&
            units[i]->getOrderID() == BW::OrderID::CritterWandering)
-          {
-            FILE *f = fopen("new_main_order_state.txt","at");
-            fprintf(f, "Unit %s is wandering around and is unknown critter\n", units[i]->getName().c_str());
-            fclose(f);
-          }
+         this->badAssumptionLog->log("Unit %s is wandering around and is unknown critter", units[i]->getName().c_str());
        if (
             units[i]->getType() != BW::UnitType::Zerg_Drone &&
             (
@@ -441,11 +437,7 @@ namespace BWAPI
               units[i]->getOrderID() == BW::OrderID::GoingToMutate
             )
           )
-       {
-         FILE *f = fopen("new_order_id.txt","at");
-         fprintf(f, "%s is going to mutate to building, but it is not drone\n", units[i]->getName().c_str());
-         fclose(f);
-       }
+          this->badAssumptionLog->log("%s is going to mutate to building, but it is not drone", units[i]->getName().c_str());
        if (
             units[i]->getType() != BW::UnitType::Zerg_Overlord &&
             units[i]->getOrderID() == BW::OrderID::OverlordIdle
