@@ -22,7 +22,7 @@ class Logger
      * @param message Message to be written to the log file, note that the result will be "(hh:MM:ss) <message>\n"
      * @param level of detail of this message.
      */
-    bool log(const std::string& message, LogLevel::Enum level = LogLevel::Normal);
+    bool log(const std::string& message, LogLevel::Enum levelToLog = LogLevel::Normal);
     /** 
      * Logs the specified message using the printf notation to display the parameter.
      * Example: log("5+5=%d",5+5) will act as log("5+5=10")
@@ -31,7 +31,7 @@ class Logger
      * @param level of detail of this message.
      */    
     template <class T1>
-    bool log(const std::string& message, const T1& parameter1, LogLevel::Enum level = LogLevel::Normal);
+    bool log(const std::string& message, const T1& parameter1, LogLevel::Enum levelToLog = LogLevel::Normal);
     /** 
      * Logs the specified message using the printf notation to display parameters.
      * Example: log("5+%d=%d",5,5+5) will act as log("5+5=10")
@@ -41,7 +41,7 @@ class Logger
      * @param level of detail of this message.
      */    
     template <class T1, class T2>
-    bool log(const std::string& message, const T1& param1, const T2& param2, LogLevel::Enum level = LogLevel::Normal);
+    bool log(const std::string& message, const T1& param1, const T2& param2, LogLevel::Enum leveToLog = LogLevel::Normal);
   private :
     std::string name;
     LogLevel::Enum levelToLog;
@@ -55,9 +55,9 @@ class Logger
 template <class T1>
 bool Logger::log(const std::string&   message, 
                  const T1&            parameter1, 
-                       LogLevel::Enum level)
+                       LogLevel::Enum levelToLog)
 {
-  if (level <= this->levelToLog)
+  if (levelToLog > this->levelToLog)
     return true;
   char time[9];
   _strtime(time);
@@ -69,7 +69,7 @@ bool Logger::log(const std::string&   message,
   fprintf(f, "\n");
   fclose(f);
   if (this != &globalLog)
-    globalLog.log(message, parameter1, level);
+    globalLog.log(message, parameter1, levelToLog);
   return true;
 }
 //------------------------------- LOG -----------------------------------------
@@ -77,9 +77,9 @@ template <class T1, class T2>
 bool Logger::log(const std::string&   message, 
                  const T1&            parameter1, 
                  const T2&            parameter2, 
-                       LogLevel::Enum level)
+                       LogLevel::Enum levelToLog)
 {
-  if (level <= this->levelToLog)
+  if (levelToLog > this->levelToLog)
     return true;
   char time[9];
   _strtime(time);
@@ -91,6 +91,6 @@ bool Logger::log(const std::string&   message,
   fprintf(f, "\n");
   fclose(f);
   if (this != &globalLog)
-    globalLog.log(message, parameter1, parameter2, level);
+    globalLog.log(message, parameter1, parameter2, levelToLog);
   return true;
 }
