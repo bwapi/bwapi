@@ -62,6 +62,10 @@ namespace BWAPI
     this->gasLocal = this->getGas();
     this->suppliesAvailableTerranLocal = this->getSuppliesAvailableTerran();
     this->suppliesUsedTerranLocal = this->getSuppliesUsedTerran();
+    this->suppliesAvailableProtossLocal = this->getSuppliesAvailableProtoss();
+    this->suppliesUsedProtossLocal = this->getSuppliesUsedProtoss();
+    this->suppliesAvailableZergLocal = this->getSuppliesAvailableZerg();
+    this->suppliesUsedZergLocal = this->getSuppliesUsedZerg();
   }
   //-------------------------------- SPEND LOCAL ------------------------------
   void  Player::spendLocal(s32 minerals, s32 gas)

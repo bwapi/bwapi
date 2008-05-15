@@ -435,7 +435,7 @@ namespace BWAPI
          i->getType() != BW::UnitType::Protoss_Assimilator &&
          i->getType() != BW::UnitType::Protoss_Pylon &&
          i->getType() != BW::UnitType::Protoss_PhotonCannon)
-       this->badAssumptionLog->log("%s has assimilator warning order but is not assimilator", i->getName().c_str());
+       this->badAssumptionLog->log("%s has assimilator/pylon/cannon warping type but is not that", i->getName().c_str());
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)

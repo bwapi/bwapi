@@ -66,6 +66,8 @@ namespace BWAI
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();
+    this->activeMinerals.clear();
+    this->expansionsSaturated = false;
     this->log->log("Ai::On end end", LogLevel::Detailed);
   }
   //------------------------------- CONSTRUCTOR -------------------------------
@@ -281,6 +283,7 @@ namespace BWAI
   {
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+     if (i->getType() == BW::UnitType::Protoss_Nexus)
       if (i->isReady() &&
           i->getPrototype() != NULL &&
           i->hasEmptyBuildQueueLocal() &&
