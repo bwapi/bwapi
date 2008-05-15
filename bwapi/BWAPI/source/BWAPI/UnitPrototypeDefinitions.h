@@ -91,6 +91,7 @@ namespace BWAPI
     extern UnitPrototype* HydraliskDen;
     extern UnitPrototype* Lurker;
     extern UnitPrototype* QueensNest;
+    extern UnitPrototype* EvolutionChamber;
     
     /** other */
     extern UnitPrototype* MineralPatch1;

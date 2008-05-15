@@ -50,7 +50,7 @@ namespace BW
       ComputerCommand         = 156, /**< True meaning of this is unknown, but computer ordering units uses this command all the time. */
       ComputerOverlordCommand = 159, /**< True meaning of this is unknown, but computer ordering units uses this command all the time. */
       CritterWandering        = 166, /**< @todo Investigate That action is there for a moment between Mining and Returning Minerals states */
-      MedicHeal               = 175  /**< Healing medic. */
+      MedicHeal               = 176  /**< Healing medic. */
     };
 
     static const std::string orderName(OrderID::Enum order)

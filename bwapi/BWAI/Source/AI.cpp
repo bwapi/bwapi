@@ -16,6 +16,7 @@
 #include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//Logger.h"
+#include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
 
 namespace BWAI
 {
@@ -293,18 +294,18 @@ namespace BWAI
         if (type != NULL &&
              (
                (
-                  type->getRace()  == RaceType::Terran &&
+                  type->getRace()  == BWAPI::RaceType::Terran &&
                   player->freeSuppliesTerranLocal() >= type->getSupplies()
                 ) ||
                 (
-                  type->getRace()  == RaceType::Protoss &&
+                  type->getRace()  == BWAPI::RaceType::Protoss &&
                   player->freeSuppliesProtossLocal() >= type->getSupplies()
                 ) ||
                 (
-                  type->getRace()  == RaceType::Zerg &&
+                  type->getRace()  == BWAPI::RaceType::Zerg &&
                   player->freeSuppliesZergLocal() >= type->getSupplies()
                 )
-              )
+              ) &&
             player->getMineralsLocal() >= type->getMineralPrice() &&
             player->getGasLocal() >= type->getGasPrice())
         {
