@@ -19,33 +19,32 @@
 
 namespace BWAI
 {
- BWAPI::Unit *cc;
+  BWAPI::Unit *cc;
   //----------------------------- MINERAL VALUE -------------------------------
- bool mineralValue(BWAI::Mineral*& mineral1, BWAI::Mineral*& mineral2)
+  bool mineralValue(BWAI::Mineral*& mineral1, BWAI::Mineral*& mineral2)
   {
-   if (mineral1->gatherersAssigned.size() < mineral2->gatherersAssigned.size())
-     return true;
-   if (mineral1->gatherersAssigned.size() > mineral2->gatherersAssigned.size())
-     return false;
-   if (AI::optimizeMineralFor != NULL &&
-       mineral1->expansion->gatherCenter != mineral2->expansion->gatherCenter)
-   {
-     u16 distance1 = AI::optimizeMineralFor->getDistance(mineral1->expansion->gatherCenter);
-     u16 distance2 = AI::optimizeMineralFor->getDistance(mineral2->expansion->gatherCenter);
-     if (distance1 < distance2)
-       return true;
-     if (distance1 > distance2)
+    if (mineral1->gatherersAssigned.size() < mineral2->gatherersAssigned.size())
+      return true;
+    if (mineral1->gatherersAssigned.size() > mineral2->gatherersAssigned.size())
       return false;
-   }
-   u16 distance1 = mineral1->mineral->getDistance(mineral1->expansion->gatherCenter);
-   u16 distance2 = mineral2->mineral->getDistance(mineral1->expansion->gatherCenter);
-   if (distance1 < distance2)
-     return true;
-   if (distance1 > distance2)
-     return false;
-   return false;
- }
-  #include <stdio.h>
+    if (AI::optimizeMineralFor != NULL &&
+        mineral1->expansion->gatherCenter != mineral2->expansion->gatherCenter)
+    {
+      u16 distance1 = AI::optimizeMineralFor->getDistance(mineral1->expansion->gatherCenter);
+      u16 distance2 = AI::optimizeMineralFor->getDistance(mineral2->expansion->gatherCenter);
+      if (distance1 < distance2)
+        return true;
+      if (distance1 > distance2)
+       return false;
+    }
+    u16 distance1 = mineral1->mineral->getDistance(mineral1->expansion->gatherCenter);
+    u16 distance2 = mineral2->mineral->getDistance(mineral1->expansion->gatherCenter);
+    if (distance1 < distance2)
+      return true;
+    if (distance1 > distance2)
+      return false;
+    return false;
+  }
   //------------------------------- UPDATE ------------------------------------
   void AI::update(void)
   {
