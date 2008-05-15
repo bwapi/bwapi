@@ -31,6 +31,7 @@ namespace BWAPI
     this->badAssumptionLog  = new Logger("bad_assumptions", LogLevel::MicroDetailed);
     this->newUnitLog        = new Logger("new_unit_id", LogLevel::MicroDetailed);
     this->unitSum           = new Logger("unit_sum", LogLevel::MicroDetailed);
+    this->fatalError        = new Logger("FATAL-ERROR", LogLevel::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
@@ -47,8 +48,6 @@ namespace BWAPI
 
     this->update();
     this->latency = 2; // @todo read from the address in update
-    this->logUnknownOrStrange();
-    this->logUnitList();
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -67,6 +66,7 @@ namespace BWAPI
     delete this->badAssumptionLog;
     delete this->newUnitLog;
     delete this->unitSum;
+    delete this->fatalError;
   }
   //------------------------------- ISSUE COMMAND -------------------------------
   void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 
@@ -99,6 +99,7 @@ namespace BWAPI
       this->getFirst()->updateNext();
     this->frameCount ++;
     this->logUnknownOrStrange();
+    this->logUnitList();
   }
   //---------------------------------- TEST -----------------------------------
 
@@ -386,6 +387,7 @@ namespace BWAPI
           i->getOrderID() != BW::OrderID::GettingMinedMinerals &&
           i->getOrderID() != BW::OrderID::CritterWandering &&
           i->getOrderID() != BW::OrderID::Stop &&
+          i->getOrderID() != BW::OrderID::ComputerCommand &&
           i->getOrderID() != BW::OrderID::BuildingMutating)
        this->newOrderLog->log(i->getName());
       if (i->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
@@ -403,30 +405,6 @@ namespace BWAPI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)
       {
-        /*if (!units[i]->isMineral() &&
-            units[i]->getType() != BW::UnitType::Zerg_Larva &&
-            units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
-            units[i]->getType() != BW::UnitType::Zerg_Drone &&
-            units[i]->getType() != BW::UnitType::Zerg_Egg &&
-            units[i]->getOrderID() != BW::OrderID::BuildingMutating &&
-            units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain))
-          {
-            FILE *f = fopen("new_main_order_state.txt","at");
-            fprintf(f, "Unit %s has orderstate.willWander again true\n", units[i]->getName().c_str());
-            fclose(f);
-          } */
-        /*if (units[i]->getType() != BW::UnitType::Zerg_Larva &&
-            units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
-            units[i]->getType() != BW::UnitType::Zerg_Drone &&
-            units[i]->getType() != BW::UnitType::Zerg_Overlord &&
-            units[i]->getType() != BW::UnitType::Zerg_Egg &&
-            units[i]->getOrderID() != BW::OrderID::BuildingMutating &&
-            units[i]->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::autoWander))
-          {
-            FILE *f = fopen("new_main_order_state.txt","at");
-            fprintf(f, "%s has auto wander state = true\n", units[i]->getName().c_str());
-            fclose(f);
-          }*/
        if (units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
            units[i]->getType() != BW::UnitType::Critter_Ragnasaur &&
            units[i]->getType() != BW::UnitType::Critter_Kakaru &&

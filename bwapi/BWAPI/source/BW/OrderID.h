@@ -43,6 +43,7 @@ namespace BW
       Unburrowing            = 118, /**< Zerg burrowed performing the unburrow command */
       Stop                   = 150, /**< The unit has give order to stop*/
       GettingMinedMinerals   = 151, /**< @todo Investigate That action is there for a moment between Mining and Returning Minerals states */
+      ComputerCommand        = 156, /**< True meaning of this is unknown, but computer ordering units uses this command all the time. */
       CritterWandering       = 166  /**< @todo Investigate That action is there for a moment between Mining and Returning Minerals states */
     };
 
@@ -80,6 +81,7 @@ namespace BW
         case Burrowed : return "Burrowed";
         case Unburrowing  : return "Unburrowing";
         case GettingMinedMinerals : return "Getting Mined Minerals";
+        case ComputerCommand : return "Computer command";
         case CritterWandering : return "Critter wandering";
                                        
         default :

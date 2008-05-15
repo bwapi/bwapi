@@ -82,6 +82,7 @@ namespace BWAPI
     void logUnknownOrStrange();
     /** Count of game-frames passed from game start. */
     int frameCount;
+    Logger *fatalError;
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
