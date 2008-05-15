@@ -42,7 +42,7 @@ namespace BW
       StartingMining          =  86, /**< Unit is starting it's mining process (not that even when the mineral is occupied and the worker will go elswhere this state will be present) */
       Mining                  =  87, /**< Unit is mining minerals */
       ReturningMinerals       =  90, /**< Unit is with minerals is returning it back to Command Center/Hatchery/nexus */
-      OverlordIdle            =  93, /**< Overlord is idle - and is doing it's strange rotation stuff */
+      TransportIdle           =  93, /**< Overlord/Dropship is idle  */
       Burrowing               = 116, /**< Zerg unit performing the burrow command */
       Burrowed                = 117, /**< Zerg burrowed unit */
       Unburrowing             = 118, /**< Zerg burrowed performing the unburrow command */
@@ -85,7 +85,7 @@ namespace BW
         case StartingMining : return "Starting Mining";
         case Mining : return "Mining";
         case ReturningMinerals : return "Returning Minerals";
-        case OverlordIdle : return "Overlord Idle";
+        case TransportIdle : return "Overlord Idle";
         case Burrowing : return "Burrowing";
         case Burrowed : return "Burrowed";
         case Unburrowing  : return "Unburrowing";
