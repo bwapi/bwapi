@@ -84,6 +84,7 @@ namespace BWAPI
     UnitPrototype* Bunker              = new UnitPrototype("Bunker"                   , BW::UnitType::Terran_Bunker,             RaceType::Terran,    0, 0);
     UnitPrototype* EngineeringBay      = new UnitPrototype("Engineering Bay"          , BW::UnitType::Terran_EngineeringBay,     RaceType::Terran,    0, 0);
     UnitPrototype* MachineShop         = new UnitPrototype("Machine Shop"             , BW::UnitType::Terran_MachineShop,        RaceType::Terran,    0, 0);
+    UnitPrototype* Starport            = new UnitPrototype("Starport"                 , BW::UnitType::Terran_Starport,        RaceType::Terran,    0, 0);
 
 
     /** Protoss*/
@@ -95,6 +96,12 @@ namespace BWAPI
     UnitPrototype* Pylon               = new UnitPrototype("Protoss Pylon"            , BW::UnitType::Protoss_Pylon,             RaceType::Protoss,   0, 0);
     UnitPrototype* Gateway             = new UnitPrototype("Protoss Gateway"          , BW::UnitType::Protoss_Gateway,           RaceType::Protoss,   0, 0);
     UnitPrototype* CyberneticsCore     = new UnitPrototype("Protoss Cybernetics core" , BW::UnitType::Protoss_CyberneticsCore,   RaceType::Protoss,   0, 0);
+    UnitPrototype* PhotonCannon        = new UnitPrototype("Protoss Photon cannon"    , BW::UnitType::Protoss_PhotonCannon,      RaceType::Protoss,   0, 0);
+    UnitPrototype* Forge               = new UnitPrototype("Protoss Forge"            , BW::UnitType::Protoss_Forge,             RaceType::Protoss,   0, 0);
+    UnitPrototype* Archon              = new UnitPrototype("Protoss Archon"           , BW::UnitType::Protoss_Archon,            RaceType::Protoss,   0, 0);
+    UnitPrototype* ShieldBattery       = new UnitPrototype("Protoss Shield battery"   , BW::UnitType::Protoss_ShieldBattery,     RaceType::Protoss,   0, 0);
+    UnitPrototype* TemplarAchieves     = new UnitPrototype("Protoss Templar Achieves" , BW::UnitType::Protoss_TemplarAchieves,   RaceType::Protoss,   0, 0);
+    UnitPrototype* DarkTemplar         = new UnitPrototype("Protoss Dark Templar"     , BW::UnitType::Protoss_DarkTemplar,       RaceType::Protoss,   0, MOVABLE_CAN_ATTACK);
 
     /** Zerg */
     UnitPrototype* Drone               = new UnitPrototype("Drone"                    , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
@@ -198,13 +205,13 @@ namespace BWAPI
      /** 0x3A */ Valkyrie,
      /** 0x3B */ NULL,
      /** 0x3C */ NULL,
-     /** 0x3D */ NULL,
+     /** 0x3D */ DarkTemplar,
      /** 0x3E */ NULL,
      /** 0x3F */ NULL,
      /** 0x40 */ Probe,
      /** 0x41 */ Zealot,
-     /** 0x42 */ NULL,
-     /** 0x43 */ NULL,
+     /** 0x42 */ Dragoon,
+     /** 0x43 */ HighTemplar,
      /** 0x44 */ NULL,
      /** 0x45 */ NULL,
      /** 0x46 */ NULL,
@@ -251,8 +258,8 @@ namespace BWAPI
      /** 0x6F */ Barracks,
      /** 0x70 */ Academy,
      /** 0x71 */ Factory,
-     /** 0x72 */ ControlTower,
-     /** 0x73 */ NULL,
+     /** 0x72 */ Starport,
+     /** 0x73 */ ControlTower,
      /** 0x74 */ ScienceFacility,
      /** 0x75 */ CovertOps,
      /** 0x76 */ PhysicsLab,
@@ -299,11 +306,11 @@ namespace BWAPI
      /** 0x9F */ NULL,
      /** 0xA0 */ Gateway,
      /** 0xA1 */ NULL,
-     /** 0xA2 */ NULL,
+     /** 0xA2 */ PhotonCannon,
      /** 0xA3 */ NULL,
      /** 0xA4 */ CyberneticsCore,
-     /** 0xA5 */ NULL,
-     /** 0xA6 */ NULL,
+     /** 0xA5 */ TemplarAchieves,
+     /** 0xA6 */ Forge,
      /** 0xA7 */ NULL,
      /** 0xA8 */ NULL,
      /** 0xA9 */ NULL,
