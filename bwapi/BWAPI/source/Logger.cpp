@@ -7,7 +7,7 @@ Logger::Logger(const std::string& name, LogLevel::Enum levelToLog)
 }
 //------------------------------- LOG -----------------------------------------
 bool Logger::log(const    std::string&   message, 
-                          LogLevel::Enum levelToLog)
+                          LogLevel::Enum logLevel)
 {
   if (levelToLog > this->levelToLog)
     return true;
