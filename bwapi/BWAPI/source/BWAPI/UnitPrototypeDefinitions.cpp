@@ -122,6 +122,9 @@ namespace BWAPI
     UnitPrototype* SporeColony         = new UnitPrototype("Zerg Spore colony"        , BW::UnitType::Zerg_SporeColony,          RaceType::Zerg,      0, 0);
     UnitPrototype* Extractor           = new UnitPrototype("Zerg extractor"           , BW::UnitType::Zerg_Extractor,            RaceType::Zerg,      0, 0);
     UnitPrototype* HydraliskDen        = new UnitPrototype("Zerg hydralisk den"       , BW::UnitType::Zerg_HydraliskDen,         RaceType::Zerg,      0, 0);
+    UnitPrototype* Lurker              = new UnitPrototype("Zerg Lurker"              , BW::UnitType::Zerg_Lurker,               RaceType::Zerg,      0, 0);
+    UnitPrototype* QueensNest          = new UnitPrototype("Zerg Queens nest"         , BW::UnitType::Zerg_QueensNest,           RaceType::Zerg,      0, 0);
+    UnitPrototype* EvolutionChamber    = new UnitPrototype("Zerg Evolution chamber"   , BW::UnitType::Zerg_EvolutionChamber,     RaceType::Zerg,      0, 0);
     
     
     /** Neutral */
@@ -248,7 +251,7 @@ namespace BWAPI
      /** 0x64 */ NULL,
      /** 0x65 */ NULL,
      /** 0x66 */ NULL,
-     /** 0x67 */ NULL,
+     /** 0x67 */ Lurker,
      /** 0x68 */ NULL,
      /** 0x69 */ NULL,
      /** 0x6A */ CommandCenter,
@@ -283,10 +286,10 @@ namespace BWAPI
      /** 0x87 */ HydraliskDen,
      /** 0x88 */ NULL,
      /** 0x89 */ NULL,
-     /** 0x8A */ NULL,
-     /** 0x8B */ NULL,
+     /** 0x8A */ QueensNest,
+     /** 0x8B */ EvolutionChamber,
      /** 0x8C */ NULL,
-     /** 0x8D */ NULL,
+     /** 0x8D */ Spire,
      /** 0x8E */ SpawningPool,
      /** 0x8F */ CreepColony,
      /** 0x90 */ SporeColony,

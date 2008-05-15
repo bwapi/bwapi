@@ -48,7 +48,7 @@ namespace BWAPI
 
     this->update();
     this->latency = 2; // @todo read from the address in update
-    this->quietSelect = false;
+    this->quietSelect = true;
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -312,6 +312,7 @@ namespace BWAPI
   //--------------------------------- LOAD SELECTED -----------------------------
   void Game::loadSelected(BW::Unit** selected)
   {
+
     /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
     /*if (selected[0] == NULL)
       return;
@@ -332,11 +333,30 @@ namespace BWAPI
     int unitCount = 0;
     while (selected[unitCount] != NULL)
       unitCount ++;
-    void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AB90;
-	   selectUnitsHelperSTD(unitCount, selected, true, true);
-    //this->IssueCommand(inputData, 2 + unitCount*2);
-    //delete [] inputData;
-    delete [] selected;
+    if (unitCount == 0)
+      return;
+    if (quietSelect)
+    {
+      /*byte* inputData = new byte[2 + unitCount*2];
+      inputData[0] = 0x09;
+      inputData[1] = unitCount;
+      for (int i = 0; i < unitCount; i++)
+      {
+        BW::UnitTarget target = BW::UnitTarget(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i]));
+        memcpy(inputData + 2 + 2*i, &target, sizeof(BW::UnitTarget));
+      }
+      this->IssueCommand(inputData, 2 + unitCount*2);
+      delete [] inputData;*/
+      void (_stdcall* selectUnits)(int, BW::Unit * *) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C04E0;
+	     selectUnits(unitCount, selected);
+    }
+    else
+    {
+      void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AB90;
+	     selectUnitsHelperSTD(unitCount, selected, true, true);
+      
+    }
+    delete [] selected;   
   }
   //-----------------------------------------------------------------------------
   void Game::onCancelTrain()
@@ -355,43 +375,51 @@ namespace BWAPI
   {
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
     {
-      if (i->getOrderID() != BW::OrderID::GameNotInitialized &&
-          i->getOrderID() != BW::OrderID::Finishing&&
-          i->getOrderID() != BW::OrderID::Idle &&
-          i->getOrderID() != BW::OrderID::Moving &&
-          i->getOrderID() != BW::OrderID::Attacking &&
-          i->getOrderID() != BW::OrderID::AttackMoving &&
-          i->getOrderID() != BW::OrderID::NotMovable &&
-          i->getOrderID() != BW::OrderID::JustToMutate &&
-          i->getOrderID() != BW::OrderID::Constructing &&
-          i->getOrderID() != BW::OrderID::Repair &&
-          i->getOrderID() != BW::OrderID::EggMutating &&
-          i->getOrderID() != BW::OrderID::GoingToBuild &&
-          i->getOrderID() != BW::OrderID::UnderConstruction &&
-          i->getOrderID() != BW::OrderID::NotControllable &&
-          i->getOrderID() != BW::OrderID::Following &&
-          i->getOrderID() != BW::OrderID::GoingToMutate &&
-          i->getOrderID() != BW::OrderID::Building_Landing &&
-          i->getOrderID() != BW::OrderID::Lifting &&
-          i->getOrderID() != BW::OrderID::ApproachingRafinery &&
-          i->getOrderID() != BW::OrderID::EnteringRafinery &&
-          i->getOrderID() != BW::OrderID::InRafinery &&
-          i->getOrderID() != BW::OrderID::ReturningGas &&
-          i->getOrderID() != BW::OrderID::ApproachingMinerals &&
-          i->getOrderID() != BW::OrderID::StartingMining  &&
-          i->getOrderID() != BW::OrderID::Mining &&
-          i->getOrderID() != BW::OrderID::ReturningMinerals &&
-          i->getOrderID() != BW::OrderID::OverlordIdle &&
-          i->getOrderID() != BW::OrderID::Burrowing &&
-          i->getOrderID() != BW::OrderID::Burrowed &&
-          i->getOrderID() != BW::OrderID::Unburrowing &&
-          i->getOrderID() != BW::OrderID::GettingMinedMinerals &&
-          i->getOrderID() != BW::OrderID::CritterWandering &&
-          i->getOrderID() != BW::OrderID::Stop &&
-          i->getOrderID() != BW::OrderID::ComputerCommand &&
-          i->getOrderID() != BW::OrderID::BuildingMutating &&
-          i->getOrderID() != BW::OrderID::MedicHeal)
-       this->newOrderLog->log(i->getName());
+      switch (i->getOrderID())
+      {
+        case BW::OrderID::GameNotInitialized : break;
+        case BW::OrderID::Finishing: break;
+        case BW::OrderID::Idle : break;
+        case BW::OrderID::Moving : break;
+        case BW::OrderID::Attacking : break;
+        case BW::OrderID::AttackMoving : break;
+        case BW::OrderID::NotMovable : break;
+        case BW::OrderID::JustToMutate : break;
+        case BW::OrderID::GoingToWarp : break;
+        case BW::OrderID::Constructing : break;
+        case BW::OrderID::Repair : break;
+        case BW::OrderID::EggMutating : break;
+        case BW::OrderID::BuildingWarping : break;
+        case BW::OrderID::GoingToBuild : break;
+        case BW::OrderID::UnderConstruction : break;
+        case BW::OrderID::NotControllable : break;
+        case BW::OrderID::AssimilatorWarping : break;
+        case BW::OrderID::Following : break;
+        case BW::OrderID::GoingToMutate : break;
+        case BW::OrderID::Building_Landing : break;
+        case BW::OrderID::Lifting : break;
+        case BW::OrderID::ArmoryUpgrading : break;
+        case BW::OrderID::ApproachingRafinery : break;
+        case BW::OrderID::EnteringRafinery : break;
+        case BW::OrderID::InRafinery : break;
+        case BW::OrderID::ReturningGas : break;
+        case BW::OrderID::ApproachingMinerals : break;
+        case BW::OrderID::StartingMining  : break;
+        case BW::OrderID::Mining : break;
+        case BW::OrderID::ReturningMinerals : break;
+        case BW::OrderID::OverlordIdle : break;
+        case BW::OrderID::Burrowing : break;
+        case BW::OrderID::Burrowed : break;
+        case BW::OrderID::Unburrowing : break;
+        case BW::OrderID::GettingMinedMinerals : break;
+        case BW::OrderID::CritterWandering : break;
+        case BW::OrderID::Stop : break;
+        case BW::OrderID::ComputerCommand : break;
+        case BW::OrderID::ComputerOverlordCommand : break;
+        case BW::OrderID::BuildingMutating : break;
+        case BW::OrderID::MedicHeal : break;
+        default : this->newOrderLog->log(i->getName());
+      }
       if (i->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
         this->badAssumptionLog->log("%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)", 
                                     i->getName().c_str(), 
@@ -403,6 +431,9 @@ namespace BWAPI
        this->badAssumptionLog->log("%s is resource and is not resource ^^", i->getName().c_str(), i->getOrderID());
      if (i->getPrototype() == NULL)
        this->newUnitLog->log(i->getName());
+     if (i->getOrderID() == BW::OrderID::AssimilatorWarping &&
+         i->getType() != BW::UnitType::Protoss_Assimilator)
+       this->badAssumptionLog->log("%s has assimilator warning order but is not assimilator", i->getName().c_str());
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)

@@ -244,6 +244,8 @@ namespace BWAI
     else if (dead->getPrototype()->getAbilityFlags() | BWAPI::AbilityFlags::Gather)
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeWorker(dead);
+    dead->lastTrainedUnitID = BW::UnitType::None;
+    dead->expansionAssingment = NULL;
    }
   //------------------------------ CHECK NEW EXPANSION ------------------------
   void AI::checkNewExpansions()
@@ -279,7 +281,8 @@ namespace BWAI
   {
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->getPrototype() != NULL &&
+      if (i->isReady() &&
+          i->getPrototype() != NULL &&
           i->hasEmptyBuildQueueLocal() &&
           i->lastTrainedUnitID != BW::UnitType::None &&
           i->getPrototype()->canProduce() &&
@@ -288,7 +291,20 @@ namespace BWAI
       {
         BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[i->lastTrainedUnitID];
         if (type != NULL &&
-            player->freeSuppliesTerranLocal() >= type->getSupplies() &&
+             (
+               (
+                  type->getRace()  == RaceType::Terran &&
+                  player->freeSuppliesTerranLocal() >= type->getSupplies()
+                ) ||
+                (
+                  type->getRace()  == RaceType::Protoss &&
+                  player->freeSuppliesProtossLocal() >= type->getSupplies()
+                ) ||
+                (
+                  type->getRace()  == RaceType::Zerg &&
+                  player->freeSuppliesZergLocal() >= type->getSupplies()
+                )
+              )
             player->getMineralsLocal() >= type->getMineralPrice() &&
             player->getGasLocal() >= type->getGasPrice())
         {

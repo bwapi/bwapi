@@ -290,7 +290,12 @@ namespace BWAPI
   {
     if (Broodwar.quietSelect)
     {
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
+      BW::Unit * * select = new BW::Unit * [1];
+      select[0] = this->getOriginalRawData();
+      void (_stdcall* selectUnits)(int, BW::Unit * *) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C04E0;
+	     selectUnits(1, select);
+      delete [] select;
+      //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
     }
     else
     {

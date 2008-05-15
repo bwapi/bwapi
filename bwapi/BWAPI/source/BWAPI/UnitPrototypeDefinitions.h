@@ -89,7 +89,8 @@ namespace BWAPI
     extern UnitPrototype* Extractor;
     extern UnitPrototype* SporeColony;
     extern UnitPrototype* HydraliskDen;
-    
+    extern UnitPrototype* Lurker;
+    extern UnitPrototype* QueensNest;
     
     /** other */
     extern UnitPrototype* MineralPatch1;
