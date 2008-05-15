@@ -47,7 +47,7 @@ namespace BWAPI
                           &unitArrayCopyLocal->unit[i]);
 
     this->update();
-    this->latency = 2; // @todo read from the address in update
+    this->latency = 12; // @todo read from the address in update
     this->quietSelect = true;
   }
   //------------------------------- DESTRUCTOR ----------------------------------
@@ -237,7 +237,7 @@ namespace BWAPI
     this->setInGame(true);
     this->marwin = NULL;
     for (int i = 0; i < 8; i++)
-      if (strcmp(this->players[i]->getName(), "NEM)Marwin") == 0)
+      if (strcmp(this->players[i]->getName(), "BWAPI") == 0)
           this->marwin = this->players[i];
   }
   //------------------------------ ON GAME END ----------------------------------
