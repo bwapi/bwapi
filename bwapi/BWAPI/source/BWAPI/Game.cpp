@@ -393,7 +393,7 @@ namespace BWAPI
         case BW::OrderID::GoingToBuild : break;
         case BW::OrderID::UnderConstruction : break;
         case BW::OrderID::NotControllable : break;
-        case BW::OrderID::AssimilatorWarping : break;
+        case BW::OrderID::WarpingSpecial : break;
         case BW::OrderID::Following : break;
         case BW::OrderID::GoingToMutate : break;
         case BW::OrderID::Building_Landing : break;
@@ -431,8 +431,10 @@ namespace BWAPI
        this->badAssumptionLog->log("%s is resource and is not resource ^^", i->getName().c_str(), i->getOrderID());
      if (i->getPrototype() == NULL)
        this->newUnitLog->log(i->getName());
-     if (i->getOrderID() == BW::OrderID::AssimilatorWarping &&
-         i->getType() != BW::UnitType::Protoss_Assimilator)
+     if (i->getOrderID() == BW::OrderID::WarpingSpecial &&
+         i->getType() != BW::UnitType::Protoss_Assimilator &&
+         i->getType() != BW::UnitType::Protoss_Pylon &&
+         i->getType() != BW::UnitType::Protoss_PhotonCannon)
        this->badAssumptionLog->log("%s has assimilator warning order but is not assimilator", i->getName().c_str());
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
