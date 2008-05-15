@@ -80,8 +80,8 @@ namespace BW
       //Protoss Buildings
       Protoss_Nexus                 = 0x9A,
       Protoss_RoboticsFacility      = 0x9B,
+      Protoss_Assimilator           = 0x9D,
       Protoss_Pylon                 = 0x9C,
-      Protoss_Assimilator           = 0x9E,
       Protoss_Observatory           = 0x9F,
       Protoss_Gateway               = 0xA0,
       Protoss_PhotonCannon          = 0xA2,
