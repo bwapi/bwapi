@@ -393,11 +393,12 @@ namespace BWAPI
         case BW::OrderID::GoingToBuild : break;
         case BW::OrderID::UnderConstruction : break;
         case BW::OrderID::NotControllable : break;
-        case BW::OrderID::WarpingSpecial : break;
+//        case BW::OrderID::WarpingSpecial : break;
         case BW::OrderID::Following : break;
         case BW::OrderID::GoingToMutate : break;
         case BW::OrderID::Building_Landing : break;
         case BW::OrderID::Lifting : break;
+        case BW::OrderID::InventingTechnology : break;
         case BW::OrderID::ArmoryUpgrading : break;
         case BW::OrderID::ApproachingRafinery : break;
         case BW::OrderID::EnteringRafinery : break;
@@ -431,11 +432,11 @@ namespace BWAPI
        this->badAssumptionLog->log("%s is resource and is not resource ^^", i->getName().c_str(), i->getOrderID());
      if (i->getPrototype() == NULL)
        this->newUnitLog->log(i->getName());
-     if (i->getOrderID() == BW::OrderID::WarpingSpecial &&
+     /*if (i->getOrderID() == BW::OrderID::WarpingSpecial &&
          i->getType() != BW::UnitType::Protoss_Assimilator &&
          i->getType() != BW::UnitType::Protoss_Pylon &&
          i->getType() != BW::UnitType::Protoss_PhotonCannon)
-       this->badAssumptionLog->log("%s has assimilator/pylon/cannon warping type but is not that", i->getName().c_str());
+       this->badAssumptionLog->log("%s has assimilator/pylon/cannon warping type but is not that", i->getName().c_str());*/
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       if (units[i]->getOriginalRawData()->playerID <= 11)

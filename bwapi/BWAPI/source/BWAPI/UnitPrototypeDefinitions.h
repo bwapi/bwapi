@@ -72,6 +72,10 @@ namespace BWAPI
     extern UnitPrototype* TemplarArchives;
     extern UnitPrototype* DarkTemplar;
     extern UnitPrototype* RoboticsFacility;
+    extern UnitPrototype* Assimilator;
+    extern UnitPrototype* RoboticsSupportBay;
+    extern UnitPrototype* Shuttle;
+    extern UnitPrototype* Observer;
     
    /** Zerg */
     extern UnitPrototype* Drone;

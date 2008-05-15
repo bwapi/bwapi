@@ -22,15 +22,16 @@ namespace BW
       Constructing            =  33, /**< Scv is constructing building */
       GoingToBuild            =  30, /**< Unit is approaching place where it will make building. */
       Repair                  =  34, /**< Approaching unit to repair + repairing. */
-      BuildingWarping         =  41, /**< Protoss buliding is warping (constructing). */
+      //BuildingWarping         =  41, /**< Protoss buliding is warping (constructing). */
       EggMutating             =  42, /**< Zerg egg is mutating. */
       BuildingMutating        =  45, /**< Zerg building is mutating (only Terran tested). */
       UnderConstruction       =  44, /**< Unit is under construction (only Terran tested). */
-      WarpingSpecial          =  48, /**< Protoss assimilator/Pylon/Cannon is warping. */
+      BuildingWarping         =  48, /**< Protoss building is warping. */
       Following               =  49, /**< Unit is following other unit (can be unit of the same player, or enemy - if the performing unit can't attack). */
       GoingToMutate           =  70, /**< Going to mutate to building */
       Building_Landing        =  71, /**< Terran building is landing (or ordered to land somewhere */
       Lifting                 =  74, /**< Terran building on the ground is lifting, Drone is lifting from cancelled building */
+      InventingTechnology     =  75, /**< Inventing technology (academy/templar archives known to do it so far, probably all tech buildings) */
       ArmoryUpgrading         =  76, /**< Terran armory (maybe other bulding also) is upgrading*/
       NotControllable         =  77, /**< Larva has it, the only movable not controllable unit I know so far */
       ApproachingRafinery     =  81, /**< The gathering unit is on it's way to rafinery */
@@ -70,9 +71,11 @@ namespace BW
         case EggMutating  : return "Egg Mutating";
         case BuildingMutating : return "Building mutating";
         case UnderConstruction : return "Under Construction";
+        case BuildingWarping : return "Building warping";
         case Following : return "Following";
         case Building_Landing : return "Building landing";
         case Lifting : return "Lifting";
+        case InventingTechnology : return "Inventing Technology";
         case NotControllable : return "Not Controllable";
         case ApproachingRafinery : return "Approaching Rafinery";
         case EnteringRafinery : return "Entering Rafinery";
@@ -88,6 +91,7 @@ namespace BW
         case Unburrowing  : return "Unburrowing";
         case GettingMinedMinerals : return "Getting Mined Minerals";
         case ComputerCommand : return "Computer command";
+        case ComputerOverlordCommand : return "Computer Overlord Command";
         case CritterWandering : return "Critter wandering";
                                        
         default :

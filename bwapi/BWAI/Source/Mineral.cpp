@@ -57,6 +57,7 @@ namespace BWAI
           gatherer->getOrderIDLocal() != BW::OrderID::GettingMinedMinerals &&
           gatherer->getOrderIDLocal() != BW::OrderID::Idle)
       {
+        this->reassignationReasons.log("%s removed from gather - other task", gatherer->getName().c_str());
         this->removeGatherer(gatherer);
         ai->expansionsSaturated = false;
         i--;
