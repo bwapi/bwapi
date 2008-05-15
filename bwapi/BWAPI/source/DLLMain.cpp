@@ -134,6 +134,31 @@ void __declspec(naked)  hookTest()
     jmp [BW::BWXFN_NextFrameHelperFunctionBack]
   }
 }
+DWORD frameHookEax;
+//------------------------------ NEXT FRAME HOOK -------------------------------
+void __declspec(naked)  nextFrameHook()
+{
+ __asm
+  {
+    call [BW::BWXFN_NextLogicFrameTarget]
+    mov frameHookEax, eax
+  }
+  {
+    BWAPI::Broodwar.update();
+    BWAI::ai->update();    
+    if (!aiStartCalled)
+    {
+      BWAI::ai->onStart(BWAPI::Broodwar.marwin);
+      aiStartCalled = true;
+    }
+    BWAI::ai->onFrame();
+  }
+  __asm
+  {
+    mov eax, frameHookEax
+    jmp [BW::BWXFN_NextLogicFrameBack]
+  }
+}
 //----------------------------- JMP PATCH --------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)
@@ -157,8 +182,9 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
-  Sleep(20000);
-  JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
+  Sleep(17000);
+  //JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
+  JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
   JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);

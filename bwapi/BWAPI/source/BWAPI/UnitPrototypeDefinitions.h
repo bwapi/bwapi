@@ -92,6 +92,10 @@ namespace BWAPI
     extern UnitPrototype* Lurker;
     extern UnitPrototype* QueensNest;
     extern UnitPrototype* EvolutionChamber;
+    extern UnitPrototype* Guardian;
+    extern UnitPrototype* DefilerMound;
+    extern UnitPrototype* Hive;
+    extern UnitPrototype* Defiler;
     
     /** other */
     extern UnitPrototype* MineralPatch1;

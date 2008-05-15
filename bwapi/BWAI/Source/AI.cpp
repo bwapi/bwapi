@@ -99,9 +99,8 @@ namespace BWAI
 
 
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (!i->hasEmptyBuildQueueLocal() && 
-           i->getType() != BW::UnitType::Terran_CommandCenter)
-           i->lastTrainedUnitID = i->getBuildQueueLocal()[i->getBuildQueueSlotLocal()];
+      if (!i->hasEmptyBuildQueueLocal())
+        i->lastTrainedUnitID = i->getBuildQueueLocal()[i->getBuildQueueSlotLocal()];
 
     std::list<Unit*> idleWorkers;
     if (!this->expansionsSaturated)

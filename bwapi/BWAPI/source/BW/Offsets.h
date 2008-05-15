@@ -77,6 +77,12 @@ namespace BW
   static u32           BWXFN_RemoveUnit = 0x004EC134;
   static u32           BWXFN_RemoveUnitBack = BWXFN_RemoveUnit + 5;
   static u32           BWXFN_RemoveUnitTarget = 0x00479880;
+  static u32           BWXFN_Redraw = 0x004D9563;
+  static u32           BWXFN_RedrawBack = 0x004D9563 + 5;
+  static u32           BWXFN_RedrawTarget = 0x0041C9F0;
+  static u32           BWXFN_NextLogicFrame = 0x004D937E;
+  static u32           BWXFN_NextLogicFrameBack = BWXFN_NextLogicFrame + 5;
+  static u32           BWXFN_NextLogicFrameTarget = 0x00488420;
 
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS

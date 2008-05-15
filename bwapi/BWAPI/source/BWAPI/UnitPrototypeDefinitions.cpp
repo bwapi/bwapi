@@ -117,6 +117,7 @@ namespace BWAPI
     UnitPrototype* SpawningPool        = new UnitPrototype("Zerg Spawning pool"       , BW::UnitType::Zerg_SpawningPool,         RaceType::Zerg,      0, 0);
     UnitPrototype* Spire               = new UnitPrototype("Zerg Spire"               , BW::UnitType::Zerg_Spire,                RaceType::Zerg,      0, 0);
     UnitPrototype* Lair                = new UnitPrototype("Zerg Lair"                , BW::UnitType::Zerg_Lair,                 RaceType::Zerg,      0, 0);
+    UnitPrototype* Hive                = new UnitPrototype("Zerg Hive"                , BW::UnitType::Zerg_Hive,                 RaceType::Zerg,      0, 0);
     UnitPrototype* CreepColony         = new UnitPrototype("Zerg Creep colony"        , BW::UnitType::Zerg_CreepColony,          RaceType::Zerg,      0, 0);
     UnitPrototype* SunkenColony        = new UnitPrototype("Zerg Sunken colony"       , BW::UnitType::Zerg_SunkenColony,         RaceType::Zerg,      0, 0);
     UnitPrototype* SporeColony         = new UnitPrototype("Zerg Spore colony"        , BW::UnitType::Zerg_SporeColony,          RaceType::Zerg,      0, 0);
@@ -125,6 +126,9 @@ namespace BWAPI
     UnitPrototype* Lurker              = new UnitPrototype("Zerg Lurker"              , BW::UnitType::Zerg_Lurker,               RaceType::Zerg,      0, 0);
     UnitPrototype* QueensNest          = new UnitPrototype("Zerg Queens nest"         , BW::UnitType::Zerg_QueensNest,           RaceType::Zerg,      0, 0);
     UnitPrototype* EvolutionChamber    = new UnitPrototype("Zerg Evolution chamber"   , BW::UnitType::Zerg_EvolutionChamber,     RaceType::Zerg,      0, 0);
+    UnitPrototype* Guardian            = new UnitPrototype("Zerg Guardian"            , BW::UnitType::Zerg_Guardian,             RaceType::Zerg,      0, 0);
+    UnitPrototype* DefilerMound        = new UnitPrototype("Zerg Defiler mound"       , BW::UnitType::Zerg_DefilerMound,         RaceType::Zerg,      0, 0);
+    UnitPrototype* Defiler             = new UnitPrototype("Zerg Defiler"             , BW::UnitType::Zerg_Defiler,              RaceType::Zerg,      0, 0);
     
     
     /** Neutral */
@@ -192,9 +196,9 @@ namespace BWAPI
      /** 0x29 */ Drone,
      /** 0x2A */ Overlord,
      /** 0x2B */ Mutalisk,
-     /** 0x2C */ NULL,
+     /** 0x2C */ Guardian,
      /** 0x2D */ Queen,
-     /** 0x2E */ NULL,
+     /** 0x2E */ Defiler,
      /** 0x2F */ NULL,
      /** 0x30 */ NULL,
      /** 0x31 */ NULL,
@@ -281,10 +285,10 @@ namespace BWAPI
      /** 0x82 */ NULL,
      /** 0x83 */ Hatchery,
      /** 0x84 */ Lair,
-     /** 0x85 */ NULL,
+     /** 0x85 */ Hive,
      /** 0x86 */ NULL,
      /** 0x87 */ HydraliskDen,
-     /** 0x88 */ NULL,
+     /** 0x88 */ DefilerMound,
      /** 0x89 */ NULL,
      /** 0x8A */ QueensNest,
      /** 0x8B */ EvolutionChamber,
