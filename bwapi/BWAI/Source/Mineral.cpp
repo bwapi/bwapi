@@ -83,7 +83,7 @@ namespace BWAI
           if (gatherer->getTargetLocal() != this->mineral)
           {
             
-           this->reassignationReasons.log("(%4d) ---------- bad mineral target ------------------------------\n", BWAPI::Broodwar.frameCount);
+           this->reassignationReasons.log("(%4d) ---------- bad mineral target ------------------------------", BWAPI::Broodwar.frameCount);
            this->reassignationReasons.log("%s", gatherer->getName().c_str());
            if (gatherer->getTargetLocal() != NULL)
              this->reassignationReasons.log("%s", gatherer->getTargetLocal()->getName().c_str());

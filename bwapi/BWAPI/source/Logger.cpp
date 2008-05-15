@@ -7,9 +7,9 @@ Logger::Logger(const std::string& name, LogLevel::Enum levelToLog)
 }
 //------------------------------- LOG -----------------------------------------
 bool Logger::log(const    std::string&   message, 
-                          LogLevel::Enum level)
+                          LogLevel::Enum levelToLog)
 {
-  if (level <= this->levelToLog)
+  if (levelToLog > this->levelToLog)
     return true;
   char time[9];
   _strtime(time);
@@ -19,7 +19,7 @@ bool Logger::log(const    std::string&   message,
   fprintf(f, "%s %s\n", time, message.c_str());
   fclose(f);
   if (this != &globalLog)
-    globalLog.log(message, level);
+    globalLog.log(message, levelToLog);
   return true;
 }
 //-----------------------------------------------------------------------------
