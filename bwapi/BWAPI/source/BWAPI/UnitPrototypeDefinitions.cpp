@@ -107,6 +107,7 @@ namespace BWAPI
     UnitPrototype* RoboticsSupportBay  = new UnitPrototype("Protoss Robotics Support bay" , BW::UnitType::Protoss_RoboticsSupportBay,RaceType::Protoss,   0, 0);
     UnitPrototype* Shuttle             = new UnitPrototype("Protoss Shuttle"              , BW::UnitType::Protoss_Shuttle,           RaceType::Protoss,   0, 0);
     UnitPrototype* Observer            = new UnitPrototype("Protoss Observer"             , BW::UnitType::Protoss_Observer,          RaceType::Protoss,   0, 0);
+    UnitPrototype* Reaver              = new UnitPrototype("Protoss Reaver"               , BW::UnitType::Protoss_Reaver,            RaceType::Protoss,   0, 0);
 
     /** Zerg */
     UnitPrototype* Drone               = new UnitPrototype("Drone"                        , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
@@ -239,7 +240,7 @@ namespace BWAPI
      /** 0x50 */ NULL,
      /** 0x51 */ NULL,
      /** 0x52 */ NULL,
-     /** 0x53 */ NULL,
+     /** 0x53 */ Reaver,
      /** 0x54 */ Observer,
      /** 0x55 */ NULL,
      /** 0x56 */ NULL,
@@ -313,7 +314,7 @@ namespace BWAPI
      /** 0x9A */ Nexus,
      /** 0x9B */ RoboticsFacility,
      /** 0x9C */ Pylon,
-     /** 0x9D */ NULL,
+     /** 0x9D */ Assimilator,
      /** 0x9E */ NULL,
      /** 0x9F */ NULL,
      /** 0xA0 */ Gateway,
@@ -327,7 +328,7 @@ namespace BWAPI
      /** 0xA8 */ NULL,
      /** 0xA9 */ NULL,
      /** 0xAA */ NULL,
-     /** 0xAB */ NULL,
+     /** 0xAB */ RoboticsSupportBay,
      /** 0xAC */ NULL,
      /** 0xAD */ NULL,
      /** 0xAE */ NULL,

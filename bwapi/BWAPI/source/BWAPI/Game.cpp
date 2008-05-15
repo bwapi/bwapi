@@ -408,7 +408,7 @@ namespace BWAPI
         case BW::OrderID::StartingMining  : break;
         case BW::OrderID::Mining : break;
         case BW::OrderID::ReturningMinerals : break;
-        case BW::OrderID::OverlordIdle : break;
+        case BW::OrderID::TransportIdle : break;
         case BW::OrderID::Burrowing : break;
         case BW::OrderID::Burrowed : break;
         case BW::OrderID::Unburrowing : break;
@@ -457,7 +457,8 @@ namespace BWAPI
           this->badAssumptionLog->log("%s is going to mutate to building, but it is not drone", units[i]->getName().c_str());
        if (
             units[i]->getType() != BW::UnitType::Zerg_Overlord &&
-            units[i]->getOrderID() == BW::OrderID::OverlordIdle
+            units[i]->getType() != BW::UnitType::Terran_DropShip &&
+            units[i]->getOrderID() == BW::OrderID::TransportIdle
           )
          this->badAssumptionLog->log("%s is doing overlord idle (and is not overlord ^^)", units[i]->getName().c_str());
      }

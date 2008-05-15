@@ -76,6 +76,7 @@ namespace BWAPI
     extern UnitPrototype* RoboticsSupportBay;
     extern UnitPrototype* Shuttle;
     extern UnitPrototype* Observer;
+    extern UnitPrototype* Reaver;
     
    /** Zerg */
     extern UnitPrototype* Drone;
