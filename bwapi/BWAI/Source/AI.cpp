@@ -93,6 +93,8 @@ namespace BWAI
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
+    if (BWAPI::Broodwar.frameCount < 3)
+      return;
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
@@ -110,7 +112,13 @@ namespace BWAI
         {
          if (i->isReady() &&
              i->getOwner() == player &&
-             i->getOrderIDLocal() == BW::OrderID::Idle &&
+             (
+               i->getOrderIDLocal() == BW::OrderID::Idle ||
+               i->getOrderIDLocal() == BW::OrderID::ApproachingMinerals ||
+               i->getOrderIDLocal() == BW::OrderID::Mining ||
+               i->getOrderIDLocal() == BW::OrderID::ReturningMinerals ||
+               i->getOrderIDLocal() == BW::OrderID::GettingMinedMinerals
+             ) &&
              !i->selected &&
              (i->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
               i->expansionAssingment == NULL)
@@ -146,8 +154,8 @@ namespace BWAI
     unsigned int workersTogether = 0;
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       workersTogether += (*i)->asignedWorkers;
-    if (workersTogether >= this->activeMinerals.size()*3 &&
-        this->expansionsSaturated)
+    if (workersTogether >= this->activeMinerals.size()*2.5 ||
+        workersTogether >= 100)
       for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
         (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
     reselected |= this->performAutoBuild();
@@ -204,10 +212,12 @@ namespace BWAI
      Mineral* best = *activeMinerals.begin();
      Mineral* worst = *activeMinerals.begin();
      for (std::list<Mineral*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      if (best->gatherersAssigned.size() > (*i)->gatherersAssigned.size())
+       if (best->gatherersAssigned.size() > (*i)->gatherersAssigned.size())
          best = (*i);
-      else if (worst->gatherersAssigned.size() < (*i)->gatherersAssigned.size())
-         worst = (*i);
+       else 
+         if (worst->gatherersAssigned.size() < (*i)->gatherersAssigned.size())
+           worst = (*i);
+
      if (best->gatherersAssigned.size() + 1 < worst->gatherersAssigned.size())
      {
        gatherer = worst->gatherersAssigned[0];
@@ -283,7 +293,6 @@ namespace BWAI
   {
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-     if (i->getType() == BW::UnitType::Protoss_Nexus)
       if (i->isReady() &&
           i->getPrototype() != NULL &&
           i->hasEmptyBuildQueueLocal() &&

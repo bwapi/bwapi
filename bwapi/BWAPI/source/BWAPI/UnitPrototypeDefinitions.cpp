@@ -50,110 +50,114 @@ namespace BWAPI
     s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove | AbilityFlags::Attack;
     /*                                                Unit name                 ID                                    Race                sp  target flags*/
     /** Terran */
-    UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"               , BW::UnitType::Terran_SCV,                RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
-    UnitPrototype* Marine              = new UnitPrototype("Terran Marine"            , BW::UnitType::Terran_Marine,             RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
-    UnitPrototype* Firebat             = new UnitPrototype("Terran Firebat"           , BW::UnitType::Terran_Firebat,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
-    UnitPrototype* SiegeTank_TankMode  = new UnitPrototype("Siege Tank (TankMode)"    , BW::UnitType::Terran_SiegeTankTankMode,  RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* TankTurret_TankMode = new UnitPrototype("Tank Turret (TankMode)"   , BW::UnitType::Terran_TankTurretTankMode, RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* SiegeTank_SiegeMode = new UnitPrototype("Siege Tank (Siege Mode)"  , BW::UnitType::Terran_SiegeTankSiegeMode, RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-
-    UnitPrototype* CommandCenter       = new UnitPrototype("Terran Command Center"    , BW::UnitType::Terran_CommandCenter,      RaceType::Terran,    0, 0);
-    UnitPrototype* SupplyDepot         = new UnitPrototype("Terran Supply depot"      , BW::UnitType::Terran_SupplyDepot,        RaceType::Terran,    0, 0);
-    UnitPrototype* Barracks            = new UnitPrototype("Terran Barracks"          , BW::UnitType::Terran_Barracks,           RaceType::Terran,    0, 0);
-    UnitPrototype* Goliath             = new UnitPrototype("Goliath"                  , BW::UnitType::Terran_Goliath,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* GoliathTurret       = new UnitPrototype("Goliath Turret"           , BW::UnitType::Terran_GoliathTurret,      RaceType::Terran,    0, 0);
-    UnitPrototype* Ghost               = new UnitPrototype("Ghost"                    , BW::UnitType::Terran_Ghost,              RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Medic               = new UnitPrototype("Medic"                    , BW::UnitType::Terran_Medic,              RaceType::Terran,    0, AbilityFlags::Move);
-    UnitPrototype* Wraith              = new UnitPrototype("Wraith"                   , BW::UnitType::Terran_Wraith,             RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* BattleCruiser       = new UnitPrototype("Terran Battle Cruiser"    , BW::UnitType::Terran_BattleCruiser,      RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Vulture             = new UnitPrototype("Terran Vulture"           , BW::UnitType::Terran_Vulture,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* NuclearMissile      = new UnitPrototype("Terran NuclearMissile"    , BW::UnitType::Terran_NuclearMissile,     RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* ScienceVessel       = new UnitPrototype("Science Vessel"           , BW::UnitType::Terran_ScienceVessel,      RaceType::Terran,    0, AbilityFlags::Move);
-    UnitPrototype* Valkyrie            = new UnitPrototype("Valkyrie"                 , BW::UnitType::Terran_Valkyrie,           RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* ComsatStation       = new UnitPrototype("Comsat Station"           , BW::UnitType::Terran_ComsatStation,      RaceType::Terran,    0, 0);
-    UnitPrototype* NuclearSilo         = new UnitPrototype("Nuclear silo"             , BW::UnitType::Terran_NuclearSilo,        RaceType::Terran,    0, 0);
-    UnitPrototype* Refinery            = new UnitPrototype("Refinery"                 , BW::UnitType::Terran_Refinery,           RaceType::Terran,    0, 0);
-    UnitPrototype* Academy             = new UnitPrototype("Academy"                  , BW::UnitType::Terran_Academy,            RaceType::Terran,    0, 0);
-    UnitPrototype* Factory             = new UnitPrototype("Factory"                  , BW::UnitType::Terran_Factory,            RaceType::Terran,    0, 0);
-    UnitPrototype* ControlTower        = new UnitPrototype("Control tower"            , BW::UnitType::Terran_ControlTower,       RaceType::Terran,    0, 0);
-    UnitPrototype* ScienceFacility     = new UnitPrototype("Science Facility"         , BW::UnitType::Terran_ScienceFacility,    RaceType::Terran,    0, 0);
-    UnitPrototype* CovertOps           = new UnitPrototype("Covert Ops"               , BW::UnitType::Terran_CovertOps,          RaceType::Terran,    0, 0);
-    UnitPrototype* PhysicsLab          = new UnitPrototype("Physics Lab"              , BW::UnitType::Terran_PhysicsLab,         RaceType::Terran,    0, 0);
-    UnitPrototype* Armory              = new UnitPrototype("Armory"                   , BW::UnitType::Terran_Armory,             RaceType::Terran,    0, 0);
-    UnitPrototype* MissileTurret       = new UnitPrototype("Missile Turret"           , BW::UnitType::Terran_MissileTurret,      RaceType::Terran,    0, 0);
-    UnitPrototype* Bunker              = new UnitPrototype("Bunker"                   , BW::UnitType::Terran_Bunker,             RaceType::Terran,    0, 0);
-    UnitPrototype* EngineeringBay      = new UnitPrototype("Engineering Bay"          , BW::UnitType::Terran_EngineeringBay,     RaceType::Terran,    0, 0);
-    UnitPrototype* MachineShop         = new UnitPrototype("Machine Shop"             , BW::UnitType::Terran_MachineShop,        RaceType::Terran,    0, 0);
-    UnitPrototype* Starport            = new UnitPrototype("Starport"                 , BW::UnitType::Terran_Starport,        RaceType::Terran,    0, 0);
+    UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"                   , BW::UnitType::Terran_SCV,                RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Marine              = new UnitPrototype("Terran Marine"                , BW::UnitType::Terran_Marine,             RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
+    UnitPrototype* Firebat             = new UnitPrototype("Terran Firebat"               , BW::UnitType::Terran_Firebat,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
+    UnitPrototype* SiegeTank_TankMode  = new UnitPrototype("Siege Tank (TankMode)"        , BW::UnitType::Terran_SiegeTankTankMode,  RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* TankTurret_TankMode = new UnitPrototype("Tank Turret (TankMode)"       , BW::UnitType::Terran_TankTurretTankMode, RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* SiegeTank_SiegeMode = new UnitPrototype("Siege Tank (Siege Mode)"      , BW::UnitType::Terran_SiegeTankSiegeMode, RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+                                                                                      
+    UnitPrototype* CommandCenter       = new UnitPrototype("Terran Command Center"        , BW::UnitType::Terran_CommandCenter,      RaceType::Terran,    0, 0);
+    UnitPrototype* SupplyDepot         = new UnitPrototype("Terran Supply depot"          , BW::UnitType::Terran_SupplyDepot,        RaceType::Terran,    0, 0);
+    UnitPrototype* Barracks            = new UnitPrototype("Terran Barracks"              , BW::UnitType::Terran_Barracks,           RaceType::Terran,    0, 0);
+    UnitPrototype* Goliath             = new UnitPrototype("Goliath"                      , BW::UnitType::Terran_Goliath,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* GoliathTurret       = new UnitPrototype("Goliath Turret"               , BW::UnitType::Terran_GoliathTurret,      RaceType::Terran,    0, 0);
+    UnitPrototype* Ghost               = new UnitPrototype("Ghost"                        , BW::UnitType::Terran_Ghost,              RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Medic               = new UnitPrototype("Medic"                        , BW::UnitType::Terran_Medic,              RaceType::Terran,    0, AbilityFlags::Move);
+    UnitPrototype* Wraith              = new UnitPrototype("Wraith"                       , BW::UnitType::Terran_Wraith,             RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* BattleCruiser       = new UnitPrototype("Terran Battle Cruiser"        , BW::UnitType::Terran_BattleCruiser,      RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Vulture             = new UnitPrototype("Terran Vulture"               , BW::UnitType::Terran_Vulture,            RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* NuclearMissile      = new UnitPrototype("Terran NuclearMissile"        , BW::UnitType::Terran_NuclearMissile,     RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* ScienceVessel       = new UnitPrototype("Science Vessel"               , BW::UnitType::Terran_ScienceVessel,      RaceType::Terran,    0, AbilityFlags::Move);
+    UnitPrototype* Valkyrie            = new UnitPrototype("Valkyrie"                     , BW::UnitType::Terran_Valkyrie,           RaceType::Terran,    0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* ComsatStation       = new UnitPrototype("Comsat Station"               , BW::UnitType::Terran_ComsatStation,      RaceType::Terran,    0, 0);
+    UnitPrototype* NuclearSilo         = new UnitPrototype("Nuclear silo"                 , BW::UnitType::Terran_NuclearSilo,        RaceType::Terran,    0, 0);
+    UnitPrototype* Refinery            = new UnitPrototype("Refinery"                     , BW::UnitType::Terran_Refinery,           RaceType::Terran,    0, 0);
+    UnitPrototype* Academy             = new UnitPrototype("Academy"                      , BW::UnitType::Terran_Academy,            RaceType::Terran,    0, 0);
+    UnitPrototype* Factory             = new UnitPrototype("Factory"                      , BW::UnitType::Terran_Factory,            RaceType::Terran,    0, 0);
+    UnitPrototype* ControlTower        = new UnitPrototype("Control tower"                , BW::UnitType::Terran_ControlTower,       RaceType::Terran,    0, 0);
+    UnitPrototype* ScienceFacility     = new UnitPrototype("Science Facility"             , BW::UnitType::Terran_ScienceFacility,    RaceType::Terran,    0, 0);
+    UnitPrototype* CovertOps           = new UnitPrototype("Covert Ops"                   , BW::UnitType::Terran_CovertOps,          RaceType::Terran,    0, 0);
+    UnitPrototype* PhysicsLab          = new UnitPrototype("Physics Lab"                  , BW::UnitType::Terran_PhysicsLab,         RaceType::Terran,    0, 0);
+    UnitPrototype* Armory              = new UnitPrototype("Armory"                       , BW::UnitType::Terran_Armory,             RaceType::Terran,    0, 0);
+    UnitPrototype* MissileTurret       = new UnitPrototype("Missile Turret"               , BW::UnitType::Terran_MissileTurret,      RaceType::Terran,    0, 0);
+    UnitPrototype* Bunker              = new UnitPrototype("Bunker"                       , BW::UnitType::Terran_Bunker,             RaceType::Terran,    0, 0);
+    UnitPrototype* EngineeringBay      = new UnitPrototype("Engineering Bay"              , BW::UnitType::Terran_EngineeringBay,     RaceType::Terran,    0, 0);
+    UnitPrototype* MachineShop         = new UnitPrototype("Machine Shop"                 , BW::UnitType::Terran_MachineShop,        RaceType::Terran,    0, 0);
+    UnitPrototype* Starport            = new UnitPrototype("Starport"                     , BW::UnitType::Terran_Starport,        RaceType::Terran,    0, 0);
 
 
     /** Protoss*/
-    UnitPrototype* Probe               = new UnitPrototype("Protoss Probe"            , BW::UnitType::Protoss_Probe,             RaceType::Protoss,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
-    UnitPrototype* Zealot              = new UnitPrototype("Protoss Zealot"           , BW::UnitType::Protoss_Zealot,            RaceType::Protoss,   0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* HighTemplar         = new UnitPrototype("Protoss High Templar"     , BW::UnitType::Protoss_HighTemplar,       RaceType::Protoss, 150, 0);
-    UnitPrototype* Dragoon             = new UnitPrototype("Protoss Dragoon"          , BW::UnitType::Protoss_Dragoon,           RaceType::Protoss,   0, 0);
-    UnitPrototype* Nexus               = new UnitPrototype("Protoss Nexus"            , BW::UnitType::Protoss_Nexus,             RaceType::Protoss,   0, 0);
-    UnitPrototype* Pylon               = new UnitPrototype("Protoss Pylon"            , BW::UnitType::Protoss_Pylon,             RaceType::Protoss,   0, 0);
-    UnitPrototype* Gateway             = new UnitPrototype("Protoss Gateway"          , BW::UnitType::Protoss_Gateway,           RaceType::Protoss,   0, 0);
-    UnitPrototype* CyberneticsCore     = new UnitPrototype("Protoss Cybernetics core" , BW::UnitType::Protoss_CyberneticsCore,   RaceType::Protoss,   0, 0);
-    UnitPrototype* PhotonCannon        = new UnitPrototype("Protoss Photon cannon"    , BW::UnitType::Protoss_PhotonCannon,      RaceType::Protoss,   0, 0);
-    UnitPrototype* Forge               = new UnitPrototype("Protoss Forge"            , BW::UnitType::Protoss_Forge,             RaceType::Protoss,   0, 0);
-    UnitPrototype* Archon              = new UnitPrototype("Protoss Archon"           , BW::UnitType::Protoss_Archon,            RaceType::Protoss,   0, 0);
-    UnitPrototype* ShieldBattery       = new UnitPrototype("Protoss Shield battery"   , BW::UnitType::Protoss_ShieldBattery,     RaceType::Protoss,   0, 0);
-    UnitPrototype* TemplarArchives     = new UnitPrototype("Protoss Templar Archives" , BW::UnitType::Protoss_TemplarArchives,   RaceType::Protoss,   0, 0);
-    UnitPrototype* DarkTemplar         = new UnitPrototype("Protoss Dark Templar"     , BW::UnitType::Protoss_DarkTemplar,       RaceType::Protoss,   0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* RoboticsFacility    = new UnitPrototype("Protoss Robotics facility", BW::UnitType::Protoss_RoboticsFacility,  RaceType::Protoss,   0, 0);
+    UnitPrototype* Probe               = new UnitPrototype("Protoss Probe"                , BW::UnitType::Protoss_Probe,             RaceType::Protoss,   0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Zealot              = new UnitPrototype("Protoss Zealot"               , BW::UnitType::Protoss_Zealot,            RaceType::Protoss,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* HighTemplar         = new UnitPrototype("Protoss High Templar"         , BW::UnitType::Protoss_HighTemplar,       RaceType::Protoss, 150, 0);
+    UnitPrototype* Dragoon             = new UnitPrototype("Protoss Dragoon"              , BW::UnitType::Protoss_Dragoon,           RaceType::Protoss,   0, 0);
+    UnitPrototype* Nexus               = new UnitPrototype("Protoss Nexus"                , BW::UnitType::Protoss_Nexus,             RaceType::Protoss,   0, 0);
+    UnitPrototype* Pylon               = new UnitPrototype("Protoss Pylon"                , BW::UnitType::Protoss_Pylon,             RaceType::Protoss,   0, 0);
+    UnitPrototype* Gateway             = new UnitPrototype("Protoss Gateway"              , BW::UnitType::Protoss_Gateway,           RaceType::Protoss,   0, 0);
+    UnitPrototype* CyberneticsCore     = new UnitPrototype("Protoss Cybernetics core"     , BW::UnitType::Protoss_CyberneticsCore,   RaceType::Protoss,   0, 0);
+    UnitPrototype* PhotonCannon        = new UnitPrototype("Protoss Photon cannon"        , BW::UnitType::Protoss_PhotonCannon,      RaceType::Protoss,   0, 0);
+    UnitPrototype* Forge               = new UnitPrototype("Protoss Forge"                , BW::UnitType::Protoss_Forge,             RaceType::Protoss,   0, 0);
+    UnitPrototype* Archon              = new UnitPrototype("Protoss Archon"               , BW::UnitType::Protoss_Archon,            RaceType::Protoss,   0, 0);
+    UnitPrototype* ShieldBattery       = new UnitPrototype("Protoss Shield battery"       , BW::UnitType::Protoss_ShieldBattery,     RaceType::Protoss,   0, 0);
+    UnitPrototype* TemplarArchives     = new UnitPrototype("Protoss Templar Archives"     , BW::UnitType::Protoss_TemplarArchives,   RaceType::Protoss,   0, 0);
+    UnitPrototype* DarkTemplar         = new UnitPrototype("Protoss Dark Templar"         , BW::UnitType::Protoss_DarkTemplar,       RaceType::Protoss,   0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* RoboticsFacility    = new UnitPrototype("Protoss Robotics facility"    , BW::UnitType::Protoss_RoboticsFacility,  RaceType::Protoss,   0, 0);
+    UnitPrototype* Assimilator         = new UnitPrototype("Protoss Assimilator"          , BW::UnitType::Protoss_Assimilator,       RaceType::Protoss,   0, 0);
+    UnitPrototype* RoboticsSupportBay  = new UnitPrototype("Protoss Robotics Support bay" , BW::UnitType::Protoss_RoboticsSupportBay,RaceType::Protoss,   0, 0);
+    UnitPrototype* Shuttle             = new UnitPrototype("Protoss Shuttle"              , BW::UnitType::Protoss_Shuttle,           RaceType::Protoss,   0, 0);
+    UnitPrototype* Observer            = new UnitPrototype("Protoss Observer"             , BW::UnitType::Protoss_Observer,          RaceType::Protoss,   0, 0);
 
     /** Zerg */
-    UnitPrototype* Drone               = new UnitPrototype("Drone"                    , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
-    UnitPrototype* Larva               = new UnitPrototype("Larva"                    , BW::UnitType::Zerg_Larva,                RaceType::Zerg,      0, 0);
-    UnitPrototype* Overlord            = new UnitPrototype("Overlord"                 , BW::UnitType::Zerg_Overlord,             RaceType::Zerg,      0, AbilityFlags::Move);
-    UnitPrototype* Zergling            = new UnitPrototype("Zergling"                 , BW::UnitType::Zerg_Zergling,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Egg                 = new UnitPrototype("Zerg Egg"                 , BW::UnitType::Zerg_Egg,                  RaceType::Zerg,      0, 0);
-    UnitPrototype* Hydralisk           = new UnitPrototype("Zerg Hydralisk"           , BW::UnitType::Zerg_Hydralisk,            RaceType::Zerg,      0, 0);
-    UnitPrototype* Queen               = new UnitPrototype("Zerg Queen"               , BW::UnitType::Zerg_Queen,                RaceType::Zerg,    200, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
-    UnitPrototype* Mutalisk            = new UnitPrototype("Zerg Mutalisk"            , BW::UnitType::Zerg_Mutalisk,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
-    UnitPrototype* Hatchery            = new UnitPrototype("Zerg Hatchery"            , BW::UnitType::Zerg_Hatchery,             RaceType::Zerg,      0, 0);
-    UnitPrototype* SpawningPool        = new UnitPrototype("Zerg Spawning pool"       , BW::UnitType::Zerg_SpawningPool,         RaceType::Zerg,      0, 0);
-    UnitPrototype* Spire               = new UnitPrototype("Zerg Spire"               , BW::UnitType::Zerg_Spire,                RaceType::Zerg,      0, 0);
-    UnitPrototype* Lair                = new UnitPrototype("Zerg Lair"                , BW::UnitType::Zerg_Lair,                 RaceType::Zerg,      0, 0);
-    UnitPrototype* Hive                = new UnitPrototype("Zerg Hive"                , BW::UnitType::Zerg_Hive,                 RaceType::Zerg,      0, 0);
-    UnitPrototype* CreepColony         = new UnitPrototype("Zerg Creep colony"        , BW::UnitType::Zerg_CreepColony,          RaceType::Zerg,      0, 0);
-    UnitPrototype* SunkenColony        = new UnitPrototype("Zerg Sunken colony"       , BW::UnitType::Zerg_SunkenColony,         RaceType::Zerg,      0, 0);
-    UnitPrototype* SporeColony         = new UnitPrototype("Zerg Spore colony"        , BW::UnitType::Zerg_SporeColony,          RaceType::Zerg,      0, 0);
-    UnitPrototype* Extractor           = new UnitPrototype("Zerg extractor"           , BW::UnitType::Zerg_Extractor,            RaceType::Zerg,      0, 0);
-    UnitPrototype* HydraliskDen        = new UnitPrototype("Zerg hydralisk den"       , BW::UnitType::Zerg_HydraliskDen,         RaceType::Zerg,      0, 0);
-    UnitPrototype* Lurker              = new UnitPrototype("Zerg Lurker"              , BW::UnitType::Zerg_Lurker,               RaceType::Zerg,      0, 0);
-    UnitPrototype* QueensNest          = new UnitPrototype("Zerg Queens nest"         , BW::UnitType::Zerg_QueensNest,           RaceType::Zerg,      0, 0);
-    UnitPrototype* EvolutionChamber    = new UnitPrototype("Zerg Evolution chamber"   , BW::UnitType::Zerg_EvolutionChamber,     RaceType::Zerg,      0, 0);
-    UnitPrototype* Guardian            = new UnitPrototype("Zerg Guardian"            , BW::UnitType::Zerg_Guardian,             RaceType::Zerg,      0, 0);
-    UnitPrototype* DefilerMound        = new UnitPrototype("Zerg Defiler mound"       , BW::UnitType::Zerg_DefilerMound,         RaceType::Zerg,      0, 0);
-    UnitPrototype* Defiler             = new UnitPrototype("Zerg Defiler"             , BW::UnitType::Zerg_Defiler,              RaceType::Zerg,      0, 0);
-    
-    
-    /** Neutral */
-    UnitPrototype* MineralPatch1       = new UnitPrototype("Minerals1"               , BW::UnitType::Resource_MineralPatch1,     RaceType::Other,     0, 0);    
-    UnitPrototype* MineralPatch2       = new UnitPrototype("Minerals2"               , BW::UnitType::Resource_MineralPatch2,     RaceType::Other,     0, 0);    
-    UnitPrototype* MineralPatch3       = new UnitPrototype("Minerals3"               , BW::UnitType::Resource_MineralPatch3,     RaceType::Other,     0, 0);    
-    UnitPrototype* VaspineGayser       = new UnitPrototype("Vaspine gas"             , BW::UnitType::Resource_VespeneGeyser,     RaceType::Other,     0, 0);    
-    
-    /** Critters */
-    UnitPrototype* Critter_Bengalaas   = new UnitPrototype("Critter Bengalaas"       , BW::UnitType::Critter_Bengalaas,          RaceType::Other,     0, 0);    
-    UnitPrototype* Critter_Kakaru      = new UnitPrototype("Critter Kakaru"          , BW::UnitType::Critter_Kakaru,             RaceType::Other,     0, 0);    
-    UnitPrototype* Critter_Ragnasaur   = new UnitPrototype("Critter Rangasaur"       , BW::UnitType::Critter_Ragnasaur,          RaceType::Other,     0, 0);    
-    UnitPrototype* Critter_Scantid     = new UnitPrototype("Critter_Scantid"         , BW::UnitType::Critter_Scantid,            RaceType::Other,     0, 0);    
-    
-    
-    /** Spells */
-    UnitPrototype* DarkSwarm           = new UnitPrototype("Dark swarm"              , BW::UnitType::Spell_DarkSwarm,            RaceType::Other,     0, 0);    
-
-    UnitPrototype* None                = new UnitPrototype("None"                    , BW::UnitType::None,                       RaceType::Other,     0, 0);    
-    
-
-    UnitPrototype* unitIDToPrototypeTable[228] =
-    {
-     /** 0x00 */ Marine,           
-     /** 0x01 */ Ghost,            
+    UnitPrototype* Drone               = new UnitPrototype("Drone"                        , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Larva               = new UnitPrototype("Larva"                        , BW::UnitType::Zerg_Larva,                RaceType::Zerg,      0, 0);
+    UnitPrototype* Overlord            = new UnitPrototype("Overlord"                     , BW::UnitType::Zerg_Overlord,             RaceType::Zerg,      0, AbilityFlags::Move);
+    UnitPrototype* Zergling            = new UnitPrototype("Zergling"                     , BW::UnitType::Zerg_Zergling,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Egg                 = new UnitPrototype("Zerg Egg"                     , BW::UnitType::Zerg_Egg,                  RaceType::Zerg,      0, 0);
+    UnitPrototype* Hydralisk           = new UnitPrototype("Zerg Hydralisk"               , BW::UnitType::Zerg_Hydralisk,            RaceType::Zerg,      0, 0);
+    UnitPrototype* Queen               = new UnitPrototype("Zerg Queen"                   , BW::UnitType::Zerg_Queen,                RaceType::Zerg,    200, AbilityFlags::Move | AbilityFlags::Ensare | AbilityFlags::Broodling);
+    UnitPrototype* Mutalisk            = new UnitPrototype("Zerg Mutalisk"                , BW::UnitType::Zerg_Mutalisk,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Hatchery            = new UnitPrototype("Zerg Hatchery"                , BW::UnitType::Zerg_Hatchery,             RaceType::Zerg,      0, 0);
+    UnitPrototype* SpawningPool        = new UnitPrototype("Zerg Spawning pool"           , BW::UnitType::Zerg_SpawningPool,         RaceType::Zerg,      0, 0);
+    UnitPrototype* Spire               = new UnitPrototype("Zerg Spire"                   , BW::UnitType::Zerg_Spire,                RaceType::Zerg,      0, 0);
+    UnitPrototype* Lair                = new UnitPrototype("Zerg Lair"                    , BW::UnitType::Zerg_Lair,                 RaceType::Zerg,      0, 0);
+    UnitPrototype* Hive                = new UnitPrototype("Zerg Hive"                    , BW::UnitType::Zerg_Hive,                 RaceType::Zerg,      0, 0);
+    UnitPrototype* CreepColony         = new UnitPrototype("Zerg Creep colony"            , BW::UnitType::Zerg_CreepColony,          RaceType::Zerg,      0, 0);
+    UnitPrototype* SunkenColony        = new UnitPrototype("Zerg Sunken colony"           , BW::UnitType::Zerg_SunkenColony,         RaceType::Zerg,      0, 0);
+    UnitPrototype* SporeColony         = new UnitPrototype("Zerg Spore colony"            , BW::UnitType::Zerg_SporeColony,          RaceType::Zerg,      0, 0);
+    UnitPrototype* Extractor           = new UnitPrototype("Zerg extractor"               , BW::UnitType::Zerg_Extractor,            RaceType::Zerg,      0, 0);
+    UnitPrototype* HydraliskDen        = new UnitPrototype("Zerg hydralisk den"           , BW::UnitType::Zerg_HydraliskDen,         RaceType::Zerg,      0, 0);
+    UnitPrototype* Lurker              = new UnitPrototype("Zerg Lurker"                  , BW::UnitType::Zerg_Lurker,               RaceType::Zerg,      0, 0);
+    UnitPrototype* QueensNest          = new UnitPrototype("Zerg Queens nest"             , BW::UnitType::Zerg_QueensNest,           RaceType::Zerg,      0, 0);
+    UnitPrototype* EvolutionChamber    = new UnitPrototype("Zerg Evolution chamber"       , BW::UnitType::Zerg_EvolutionChamber,     RaceType::Zerg,      0, 0);
+    UnitPrototype* Guardian            = new UnitPrototype("Zerg Guardian"                , BW::UnitType::Zerg_Guardian,             RaceType::Zerg,      0, 0);
+    UnitPrototype* DefilerMound        = new UnitPrototype("Zerg Defiler mound"           , BW::UnitType::Zerg_DefilerMound,         RaceType::Zerg,      0, 0);
+    UnitPrototype* Defiler             = new UnitPrototype("Zerg Defiler"                 , BW::UnitType::Zerg_Defiler,              RaceType::Zerg,      0, 0);
+                                                                                         
+                                                                                         
+    /** Neutral */                                                                       
+    UnitPrototype* MineralPatch1       = new UnitPrototype("Minerals1"                    , BW::UnitType::Resource_MineralPatch1,     RaceType::Other,     0, 0);    
+    UnitPrototype* MineralPatch2       = new UnitPrototype("Minerals2"                    , BW::UnitType::Resource_MineralPatch2,     RaceType::Other,     0, 0);    
+    UnitPrototype* MineralPatch3       = new UnitPrototype("Minerals3"                    , BW::UnitType::Resource_MineralPatch3,     RaceType::Other,     0, 0);    
+    UnitPrototype* VaspineGayser       = new UnitPrototype("Vaspine gas"                  , BW::UnitType::Resource_VespeneGeyser,     RaceType::Other,     0, 0);    
+                                                                                          
+    /** Critters */                                                                     
+    UnitPrototype* Critter_Bengalaas   = new UnitPrototype("Critter Bengalaas"            , BW::UnitType::Critter_Bengalaas,          RaceType::Other,     0, 0);    
+    UnitPrototype* Critter_Kakaru      = new UnitPrototype("Critter Kakaru"               , BW::UnitType::Critter_Kakaru,             RaceType::Other,     0, 0);    
+    UnitPrototype* Critter_Ragnasaur   = new UnitPrototype("Critter Rangasaur"            , BW::UnitType::Critter_Ragnasaur,          RaceType::Other,     0, 0);    
+    UnitPrototype* Critter_Scantid     = new UnitPrototype("Critter_Scantid"              , BW::UnitType::Critter_Scantid,            RaceType::Other,     0, 0);    
+                                                                                         
+                                                                                         
+    /** Spells */                                                                        
+    UnitPrototype* DarkSwarm           = new UnitPrototype("Dark swarm"                   , BW::UnitType::Spell_DarkSwarm,            RaceType::Other,     0, 0);    
+                                                                                         
+    UnitPrototype* None                = new UnitPrototype("None"                         , BW::UnitType::None,                       RaceType::Other,     0, 0);    
+                                                                                        
+                                                                                        
+    UnitPrototype* unitIDToPrototypeTable[228] =                                        
+    {                                                                                   
+     /** 0x00 */ Marine,                                                                
+     /** 0x01 */ Ghost,                                                                 
      /** 0x02 */ Vulture,
      /** 0x03 */ Goliath,
      /** 0x04 */ GoliathTurret,
@@ -221,7 +225,7 @@ namespace BWAPI
      /** 0x42 */ Dragoon,
      /** 0x43 */ HighTemplar,
      /** 0x44 */ NULL,
-     /** 0x45 */ NULL,
+     /** 0x45 */ Shuttle,
      /** 0x46 */ NULL,
      /** 0x47 */ NULL,
      /** 0x48 */ NULL,
@@ -236,7 +240,7 @@ namespace BWAPI
      /** 0x51 */ NULL,
      /** 0x52 */ NULL,
      /** 0x53 */ NULL,
-     /** 0x54 */ NULL,
+     /** 0x54 */ Observer,
      /** 0x55 */ NULL,
      /** 0x56 */ NULL,
      /** 0x57 */ NULL,
