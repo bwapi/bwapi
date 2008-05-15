@@ -238,7 +238,7 @@ namespace BWAI
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
     this->deadLog->log("%s just died", dead->getName().c_str());
 
-     if (dead->isMineral())
+    if (dead->isMineral())
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeMineral(dead);
     else if (dead->getPrototype()->getAbilityFlags() | BWAPI::AbilityFlags::Gather)

@@ -99,7 +99,7 @@ namespace BWAPI
       this->getFirst()->updateNext();
     this->frameCount ++;
     this->logUnknownOrStrange();
-    this->logUnitList();
+    //this->logUnitList();
   }
   //---------------------------------- TEST -----------------------------------
 

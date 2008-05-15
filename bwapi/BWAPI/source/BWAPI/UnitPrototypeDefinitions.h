@@ -54,6 +54,7 @@ namespace BWAPI
     extern UnitPrototype* Armory;
     extern UnitPrototype* MissileTurret;
     extern UnitPrototype* Bunker;
+    extern UnitPrototype* Starport;
 
     /** Protoss */
     extern UnitPrototype* Probe;
@@ -64,6 +65,13 @@ namespace BWAPI
     extern UnitPrototype* Pylon;
     extern UnitPrototype* Gateway;
     extern UnitPrototype* CyberneticsCore;
+    extern UnitPrototype* PhotonCannon;
+    extern UnitPrototype* Forge;
+    extern UnitPrototype* Archon;
+    extern UnitPrototype* ShieldBattery;
+    extern UnitPrototype* TemplarArchives;
+    extern UnitPrototype* DarkTemplar;
+    
    /** Zerg */
     extern UnitPrototype* Drone;
     extern UnitPrototype* Larva;
