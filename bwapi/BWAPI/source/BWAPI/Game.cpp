@@ -48,6 +48,7 @@ namespace BWAPI
 
     this->update();
     this->latency = 2; // @todo read from the address in update
+    this->quietSelect = false;
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -388,7 +389,8 @@ namespace BWAPI
           i->getOrderID() != BW::OrderID::CritterWandering &&
           i->getOrderID() != BW::OrderID::Stop &&
           i->getOrderID() != BW::OrderID::ComputerCommand &&
-          i->getOrderID() != BW::OrderID::BuildingMutating)
+          i->getOrderID() != BW::OrderID::BuildingMutating &&
+          i->getOrderID() != BW::OrderID::MedicHeal)
        this->newOrderLog->log(i->getName());
       if (i->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
         this->badAssumptionLog->log("%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)", 

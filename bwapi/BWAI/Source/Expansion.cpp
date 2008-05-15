@@ -56,20 +56,21 @@ namespace BWAI
   //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)
   {
-    ai->log->log("Mineral will be removed (was gathered out) %s", mineral->getName().c_str(), LogLevel::Important)
+    ai->log->log("Mineral will be removed (was gathered out) %s", mineral->getName().c_str(), LogLevel::Important);
     for (unsigned int i = 0; i < this->minerals.size(); i++)
       if (this->minerals[i]->mineral == mineral)
       {
-         delete this->minerals[i]; // also frees workers
-         this->minerals.erase(this->minerals.begin() + i);
+         this->minerals[i];this->minerals.erase(this->minerals.begin() + i);
          break;
       }
-    for (unsigned int i = 0; i < ai->activeMinerals; i++)
-      if (ai->activeMinerals[i] == mineral)
-      {
-         ai->activeMinerals.erase[ai->activeMinerals.begin() + i];
-         break;
-      }
+      for (std::list<Mineral*>::iterator i = ai->activeMinerals.begin(); i != ai->activeMinerals.end(); ++i)
+        if ((*i)->mineral == mineral)
+        {
+           Mineral* toRemove = *i;
+           ai->activeMinerals.erase(i);
+           delete toRemove;  // also frees workers
+           break;
+        }
   }
   //---------------------------------------------------------------------------
 }

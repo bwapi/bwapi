@@ -72,12 +72,18 @@ namespace BWAPI
    //---------------------------- GET SUPPLY AVAILABLE PROTOSS ----------------
   s32 Player::getSuppliesAvailableProtoss()
   {
-     return BW::BWXFN_SuppliesAvaialbeProtoss->player[this->getID()].suppliesAvailableProtoss;
+     s32 ret = BW::BWXFN_SuppliesAvaialbeProtoss->player[this->getID()].suppliesAvailableProtoss;
+     if (ret < 400)
+       return ret;
+     else return 400;
   }
   //------------------------- GET SUPPLY AVAILABLE PROTOSS LOCAL --------------
   s32 Player::getSuppliesAvailableProtossLocal()
   {
-    return this->suppliesAvailableProtossLocal;
+    s32 ret = this->suppliesAvailableProtossLocal;
+    if (ret < 400)
+       return ret;
+     else return 400;
   }
   //------------------------------ GET SUPPLY USED PROTOSS --------------------
   s32 Player::getSuppliesUsedProtoss()
@@ -102,12 +108,19 @@ namespace BWAPI
   //---------------------------- GET SUPPLY AVAILABLE TERRAN ------------------
   s32 Player::getSuppliesAvailableTerran()
   {
-     return BW::BWXFN_SuppliesAvaialbeTerran->player[this->getID()].suppliesAvailableTerran;
+    s32 ret =  BW::BWXFN_SuppliesAvaialbeTerran->player[this->getID()].suppliesAvailableTerran;
+    if (ret < 400)
+       return ret;
+     else return 400;
   }
   //------------------------- GET SUPPLY AVAILABLE TERRAN LOCAL ---------------
   s32 Player::getSuppliesAvailableTerranLocal()
   {
-    return this->suppliesAvailableTerranLocal;
+    s32 ret = this->suppliesAvailableTerranLocal;
+    if (ret < 400)
+       return ret;
+     else 
+       return 400;
   }
   //------------------------------ GET SUPPLY USED TERRAN ---------------------
   s32 Player::getSuppliesUsedTerran()
@@ -132,12 +145,20 @@ namespace BWAPI
   //---------------------------- GET SUPPLY AVAILABLE ZERG --------------------
   s32 Player::getSuppliesAvailableZerg()
   {
-     return BW::BWXFN_SuppliesAvaialbeZerg->player[this->getID()].suppliesAvailableZerg;
+    s32 ret = BW::BWXFN_SuppliesAvaialbeZerg->player[this->getID()].suppliesAvailableZerg;
+    if (ret < 400)
+       return ret;
+     else 
+       return 400;
   }
   //------------------------- GET SUPPLY AVAILABLE ZERG LOCAL -----------------
   s32 Player::getSuppliesAvailableZergLocal()
   {
-    return this->suppliesAvailableZergLocal;
+    s32 ret = this->suppliesAvailableZergLocal;
+    if (ret < 400)
+       return ret;
+     else 
+       return 400;
   }
   //------------------------------ GET SUPPLY USED ZERG -----------------------
   s32 Player::getSuppliesUsedZerg()
