@@ -26,7 +26,7 @@ namespace BW
       EggMutating             =  42, /**< Zerg egg is mutating. */
       BuildingMutating        =  45, /**< Zerg building is mutating (only Terran tested). */
       UnderConstruction       =  44, /**< Unit is under construction (only Terran tested). */
-      AssimilatorWarping      =  48, /**< Protoss assimilator is warping. */
+      WarpingSpecial          =  48, /**< Protoss assimilator/Pylon/Cannon is warping. */
       Following               =  49, /**< Unit is following other unit (can be unit of the same player, or enemy - if the performing unit can't attack). */
       GoingToMutate           =  70, /**< Going to mutate to building */
       Building_Landing        =  71, /**< Terran building is landing (or ordered to land somewhere */
