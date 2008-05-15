@@ -19,7 +19,6 @@
 
 namespace BWAPI
 {
-  Logger Unit::getNameLog = Logger("getName", LogLevel::MicroDetailed);
   //----------------------------- CONSTRUCTOR -----------------------------------
   Unit::Unit(BW::Unit* unitData, 
              BW::Unit* originalUnit,
@@ -356,49 +355,40 @@ namespace BWAPI
   //----------------------------------------------------------------------------
   std::string Unit::getName() const
   {
-    this->getNameLog.log("------------- call");
     
-      sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
-                                            this->getPosition().y);
-    this->getNameLog.log("Position resolved = %s", position);
-    
+    sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
+                                             this->getPosition().y);
+      
     #pragma warning(push)
     #pragma warning(disable:4311)
   
     sprintf(index, "[%4d]", ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
-    this->getNameLog.log("Index resolved = %s", index);
    
     if (this->getTargetLocal() == NULL)
       strcpy(targetIndex, "[NULL]");
     else
       sprintf(targetIndex, "[%4d]", ((int)this->getTargetLocal()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
-    this->getNameLog.log("Target index resolved = %s", targetIndex);
+  
     #pragma warning(pop)
 
     if (this->getOwner() != NULL)
       sprintf(owner,"Player = (%10s)",this->getOwner()->getName());
     else
       sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
-    this->getNameLog.log("Owner resolved = %s", owner);
-    this->getNameLog.log("unit id = %d", this->getType());
-    
+     
     if (this->getPrototype() != NULL)
       sprintf(unitName,"(%21s)", this->getPrototype()->getName().c_str());
     else
       sprintf(unitName,"(unitID = %12u)", this->getType());
-    this->getNameLog.log("Unit name resolved = %s", unitName);
-
+  
     sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderID()).c_str());
-    this->getNameLog.log("Order name resolved = %s", orderName);
-    
     sprintf(message,"%s %s %s %s ->%s Player = (%10s)", unitName,
                                                         orderName,
                                                         index,
                                                         position,
                                                         targetIndex,
                                                         owner);
-    this->getNameLog.log("message resolved = %s", message);
-
+  
     return std::string(message);
   }
   //--------------------------------- GET NEXT ---------------------------------
@@ -414,17 +404,9 @@ namespace BWAPI
     if (this->getOriginalRawData()->nextUnit != NULL)
     {
       if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
-      {
-        FILE* f = fopen("FATAL-ERROR.log","at");
-        fprintf(f, "Unit array too small, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
-        fclose(f);
-      }
+       BWAPI::Broodwar.fatalError->log("Unit array too small, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
       if ((int)this->getOriginalRawData()->nextUnit < (int)BW::BWXFN_UnitNodeTable)
-      {
-        FILE* f = fopen("FATAL-ERROR.log","at");
-        fprintf(f, "Unit array begins at bad location, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
-        fclose(f);
-      }
+       BWAPI::Broodwar.fatalError->log("Unit array begins at bad location, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
     }
     #pragma warning(pop)
     this->next = Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);

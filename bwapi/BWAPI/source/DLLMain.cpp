@@ -164,7 +164,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);
   JmpCallPatch(onCancelTrainByEscape, BW::BWXFN_CancelTrainByEscape, 0);
   JmpCallPatch(onRemoveUnit, BW::BWXFN_RemoveUnit, 0);
-  for ever
+ /* for ever
   {
     if (!BWAPI::Broodwar.isInGame())
     {
@@ -175,7 +175,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
       //launchedStart = true;
     }
     Sleep(6000);
-  }
+  }*/
   return 0;
 }
 

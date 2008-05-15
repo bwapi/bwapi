@@ -97,7 +97,7 @@ namespace BWAPI
     UnitPrototype* CyberneticsCore     = new UnitPrototype("Protoss Cybernetics core" , BW::UnitType::Protoss_CyberneticsCore,   RaceType::Protoss,   0, 0);
 
     /** Zerg */
-    UnitPrototype* Drone               = new UnitPrototype("Drone"                    , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);
+    UnitPrototype* Drone               = new UnitPrototype("Drone"                    , BW::UnitType::Zerg_Drone,                RaceType::Zerg,      0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
     UnitPrototype* Larva               = new UnitPrototype("Larva"                    , BW::UnitType::Zerg_Larva,                RaceType::Zerg,      0, 0);
     UnitPrototype* Overlord            = new UnitPrototype("Overlord"                 , BW::UnitType::Zerg_Overlord,             RaceType::Zerg,      0, AbilityFlags::Move);
     UnitPrototype* Zergling            = new UnitPrototype("Zergling"                 , BW::UnitType::Zerg_Zergling,             RaceType::Zerg,      0, MOVABLE_CAN_ATTACK);

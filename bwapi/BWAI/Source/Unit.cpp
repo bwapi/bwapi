@@ -2,7 +2,9 @@
 #include "..//..//BWAPI//Source//Types.h"
 #include "..//..//BWAPI//Source//BW//Offsets.h"
 #include "..//..//BWAPI//Source//BW//Unit.h"
+#include "..//..//BWAPI//Source//BWAPI//Globals.h"
 #include "Globals.h"
+#include "..//..//BWAPI//Source//Logger.h"
 namespace BWAI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------
@@ -46,17 +48,9 @@ namespace BWAI
     if (this->getOriginalRawData()->nextUnit != NULL)
     {
       if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
-      {
-        FILE* f = fopen("FATAL-ERROR.log","at");
-        fprintf(f, "Unit array too small, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
-        fclose(f);
-      }
+        BWAPI::Broodwar.fatalError->log("Unit array too small, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
       if ((int)this->getOriginalRawData()->nextUnit < (int)BW::BWXFN_UnitNodeTable)
-      {
-        FILE* f = fopen("FATAL-ERROR.log","at");
-        fprintf(f, "Unit array begins at bad location, found unit with addr %X\n", (int)this->getOriginalRawData()->nextUnit);
-        fclose(f);
-      }
+        BWAPI::Broodwar.fatalError->log("Unit array begins at bad location, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
     }
     #pragma warning(push)
     this->next = Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
