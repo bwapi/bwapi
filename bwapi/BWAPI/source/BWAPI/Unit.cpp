@@ -288,13 +288,19 @@ namespace BWAPI
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {
-    BW::Unit * * list = new BW::Unit * [2];
-    list[0] = this->getOriginalRawData();
-	   list[1] = NULL;
-    int one = 1;
-    void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool))0x0049AB90;
-    selectUnitsHelperSTD(one, list, true, true);
-    //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
+    if (Broodwar.quietSelect)
+    {
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
+    }
+    else
+    {
+      BW::Unit * * list = new BW::Unit * [2];
+      list[0] = this->getOriginalRawData();
+	     list[1] = NULL;
+      int one = 1;
+      void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool))0x0049AB90;
+      selectUnitsHelperSTD(one, list, true, true);
+    }
   }
   //---------------------------------- GET TYPE --------------------------------
   BW::UnitType::Enum Unit::getType() const

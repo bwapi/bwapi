@@ -83,6 +83,7 @@ namespace BWAPI
     /** Count of game-frames passed from game start. */
     int frameCount;
     Logger *fatalError;
+    bool quietSelect;
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
