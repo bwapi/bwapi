@@ -16,6 +16,7 @@ namespace BW
       Moving                  =   6, /**< Unit is moving. */
       Attacking               =  10, /**< Unit is attacking target. */
       AttackMoving            =  14, /**< Unit is attack moving. */
+      VultureMineWaiting      =  20, /**< Vulture mine is waiting to pop. */
       NotMovable              =  23, /**< Unit can't move (building/mineral/under construction). */
       JustToMutate            =  26, /**< The zerg drone is just about to mutate to building */
       GoingToWarp             =  31, /**< Probe is going to warp building */
@@ -64,6 +65,7 @@ namespace BW
         case Moving : return "Moving";
         case Attacking : return "Attacking";
         case AttackMoving : return "Attack Moving";
+        case VultureMineWaiting : return "Vulture Mine Waiting";
         case NotMovable : return "Not Movable";
         case Constructing : return "Constructing";
         case GoingToBuild : return "Going To Build";

@@ -55,6 +55,7 @@ namespace BWAPI
     extern UnitPrototype* MissileTurret;
     extern UnitPrototype* Bunker;
     extern UnitPrototype* Starport;
+    extern UnitPrototype* VultureSpiderMine;
 
     /** Protoss */
     extern UnitPrototype* Probe;
