@@ -381,6 +381,7 @@ namespace BWAPI
         case BW::OrderID::Finishing: break;
         case BW::OrderID::Idle : break;
         case BW::OrderID::Moving : break;
+        case BW::OrderID::VultureMineWaiting : break;
         case BW::OrderID::Attacking : break;
         case BW::OrderID::AttackMoving : break;
         case BW::OrderID::NotMovable : break;
@@ -421,47 +422,29 @@ namespace BWAPI
         case BW::OrderID::MedicHeal : break;
         default : this->newOrderLog->log(i->getName());
       }
-      if (i->getOriginalRawData()->movementFlags.getBit(BW::MovementFlags::_alwaysZero1))
-        this->badAssumptionLog->log("%s  - Unknown  - movementstate _alwaysZero1 is not zero (%s)", 
-                                    i->getName().c_str(), 
-                                    getBinary((u8)i->getOriginalRawData()->movementFlags.value).c_str());
-      
-     if (i->getOriginalRawData()->resource &&
-         !i->isMineral() &&
-         i->getType() != BW::UnitType::Resource_VespeneGeyser)
-       this->badAssumptionLog->log("%s is resource and is not resource ^^", i->getName().c_str(), i->getOrderID());
-     if (i->getPrototype() == NULL)
-       this->newUnitLog->log(i->getName());
-     /*if (i->getOrderID() == BW::OrderID::WarpingSpecial &&
-         i->getType() != BW::UnitType::Protoss_Assimilator &&
-         i->getType() != BW::UnitType::Protoss_Pylon &&
-         i->getType() != BW::UnitType::Protoss_PhotonCannon)
-       this->badAssumptionLog->log("%s has assimilator/pylon/cannon warping type but is not that", i->getName().c_str());*/
+      if (i->getPrototype() == NULL)
+        this->newUnitLog->log(i->getName());
+      if (i->getType() != BW::UnitType::Critter_Bengalaas &&
+          i->getType() != BW::UnitType::Critter_Ragnasaur &&
+          i->getType() != BW::UnitType::Critter_Kakaru &&
+          i->getType() != BW::UnitType::Critter_Scantid &&
+          i->getOrderID() == BW::OrderID::CritterWandering)
+        this->badAssumptionLog->log("Unit %s is wandering around and is unknown critter", i->getName().c_str());
+      if (
+           i->getType() != BW::UnitType::Zerg_Drone &&
+           (
+             i->getOrderID() == BW::OrderID::JustToMutate ||
+             i->getOrderID() == BW::OrderID::GoingToMutate
+           )
+         )
+         this->badAssumptionLog->log("%s is going to mutate to building, but it is not drone", i->getName().c_str());
+      if (
+           i->getType() != BW::UnitType::Zerg_Overlord &&
+           i->getType() != BW::UnitType::Terran_DropShip &&
+           i->getOrderID() == BW::OrderID::TransportIdle
+         )
+        this->badAssumptionLog->log("%s is doing transport idle (and is not transport)", i->getName().c_str());
     }
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      if (units[i]->getOriginalRawData()->playerID <= 11)
-      {
-       if (units[i]->getType() != BW::UnitType::Critter_Bengalaas &&
-           units[i]->getType() != BW::UnitType::Critter_Ragnasaur &&
-           units[i]->getType() != BW::UnitType::Critter_Kakaru &&
-           units[i]->getType() != BW::UnitType::Critter_Scantid &&
-           units[i]->getOrderID() == BW::OrderID::CritterWandering)
-         this->badAssumptionLog->log("Unit %s is wandering around and is unknown critter", units[i]->getName().c_str());
-       if (
-            units[i]->getType() != BW::UnitType::Zerg_Drone &&
-            (
-              units[i]->getOrderID() == BW::OrderID::JustToMutate ||
-              units[i]->getOrderID() == BW::OrderID::GoingToMutate
-            )
-          )
-          this->badAssumptionLog->log("%s is going to mutate to building, but it is not drone", units[i]->getName().c_str());
-       if (
-            units[i]->getType() != BW::UnitType::Zerg_Overlord &&
-            units[i]->getType() != BW::UnitType::Terran_DropShip &&
-            units[i]->getOrderID() == BW::OrderID::TransportIdle
-          )
-         this->badAssumptionLog->log("%s is doing overlord idle (and is not overlord ^^)", units[i]->getName().c_str());
-     }
   }
   //--------------------------------------- GET BINARY ------------------------
   template <class Type>

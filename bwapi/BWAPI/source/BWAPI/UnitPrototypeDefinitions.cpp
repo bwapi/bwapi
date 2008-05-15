@@ -84,7 +84,9 @@ namespace BWAPI
     UnitPrototype* Bunker              = new UnitPrototype("Bunker"                       , BW::UnitType::Terran_Bunker,             RaceType::Terran,    0, 0);
     UnitPrototype* EngineeringBay      = new UnitPrototype("Engineering Bay"              , BW::UnitType::Terran_EngineeringBay,     RaceType::Terran,    0, 0);
     UnitPrototype* MachineShop         = new UnitPrototype("Machine Shop"                 , BW::UnitType::Terran_MachineShop,        RaceType::Terran,    0, 0);
-    UnitPrototype* Starport            = new UnitPrototype("Starport"                     , BW::UnitType::Terran_Starport,        RaceType::Terran,    0, 0);
+    UnitPrototype* Starport            = new UnitPrototype("Starport"                     , BW::UnitType::Terran_Starport,           RaceType::Terran,    0, 0);
+    UnitPrototype* VultureSpiderMine   = new UnitPrototype("Vulture spider mine"          , BW::UnitType::Terran_VultureSpiderMine,  RaceType::Terran,    0, 0);
+    
 
 
     /** Protoss*/
@@ -170,7 +172,7 @@ namespace BWAPI
      /** 0x0A */ NULL, // Gui Montang (Firebat)
      /** 0x0B */ NULL, //DropShip,
      /** 0x0C */ BattleCruiser,
-     /** 0x0D */ NULL, //VultureSpiderMine,
+     /** 0x0D */ VultureSpiderMine,
      /** 0x0E */ NuclearMissile,
      /** 0x0F */ NULL, //Terran Civilian
      /** 0x10 */ NULL, //Sarah Kerrigan (Ghost)
