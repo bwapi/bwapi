@@ -63,27 +63,43 @@ namespace BWAI
         i--;
       }
       else
+      {
+        Unit* miningBuddy = this->currentlyMining();
+        /*if (gatherer->selected)
+        {
+          char message[100];
+          sprintf(message, "Distance = %d", gatherer->getDistance(this->mineral));
+          BWAPI::Game::print(message);
+        }*/
         if (
              (
                gatherer->getOrderIDLocal() == BW::OrderID::ApproachingMinerals || 
                gatherer->getOrderIDLocal() == BW::OrderID::StartingMining || 
                gatherer->getOrderIDLocal() == BW::OrderID::Idle
-              ) &&
-               gatherer->getOrderID() != BW::OrderID::Mining &&
-              (
-                gatherer->getTargetLocal() != this->mineral &&
-                gatherer->getTargetLocal() != gatherer->expansionAssingment->gatherCenter
-                ||
-                (
-                  gatherer->getDistance(this->mineral) <= 3 &&
-                  this->SomeoneIsMining()
-                )
-              )
-            )
+             ) &&
+             gatherer->getOrderID() != BW::OrderID::Mining &&
+             gatherer->getTargetLocal() != this->expansion->gatherCenter &&
+             (
+               gatherer->getTargetLocal() != this->mineral
+               ||
+               (
+                 gatherer->getDistance(this->mineral) <= BWAPI::Broodwar.getLatency()*3 &&
+                 miningBuddy != NULL &&
+                 miningBuddy->getOrderTimer() >= BWAPI::Broodwar.getLatency() &&
+                 (
+                   miningBuddy->getOrderTimer() == BWAPI::Broodwar.getLatency()-1 ||
+                   BWAPI::Broodwar.frameCount - gatherer->lastFrameSpam > 4
+                 )
+               )
+             )
+           )
         {
+         gatherer->lastFrameSpam = BWAPI::Broodwar.frameCount;
+         if (gatherer->selected)
+           BWAPI::Game::print("spam");
           if (gatherer->getTargetLocal() != this->mineral)
           {
-            
+
            this->reassignationReasons.log("(%4d) ---------- bad mineral target ------------------------------", BWAPI::Broodwar.frameCount);
            this->reassignationReasons.log("%s", gatherer->getName().c_str());
            if (gatherer->getTargetLocal() != NULL)
@@ -101,16 +117,17 @@ namespace BWAI
           gatherer->orderRightClick(mineral);
           reselected = true;
         }
+      }
     }
     return reselected;
   }
   //---------------------------------------------------------------------------
-  bool Mineral::SomeoneIsMining(void)
+  Unit* Mineral::currentlyMining(void)
   {
    for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
     if (this->gatherersAssigned[i]->getOrderID() == BW::OrderID::Mining)
-       return true;
-   return false;      
+       return this->gatherersAssigned[i];
+   return NULL;      
   }
   //---------------------------------------------------------------------------
   Logger Mineral::reassignationReasons = Logger("reasignation-reasons", LogLevel::MicroDetailed);

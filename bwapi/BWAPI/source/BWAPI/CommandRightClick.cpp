@@ -30,9 +30,9 @@ namespace BWAPI
              (this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) 
              && 
              (
-               targetUnit->getPrototype()->getUnitID() == BW::UnitType::Resource_MineralPatch1 ||
-               targetUnit->getPrototype()->getUnitID() == BW::UnitType::Resource_MineralPatch2 ||
-               targetUnit->getPrototype()->getUnitID() == BW::UnitType::Resource_MineralPatch3
+               targetUnit->getType() == BW::UnitType::Resource_MineralPatch1 ||
+               targetUnit->getType() == BW::UnitType::Resource_MineralPatch2 ||
+               targetUnit->getType() == BW::UnitType::Resource_MineralPatch3
              )
            )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::ApproachingMinerals;

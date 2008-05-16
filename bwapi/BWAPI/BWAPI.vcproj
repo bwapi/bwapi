@@ -216,6 +216,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\Latency.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\MovementFlags.h"
 					>
 				</File>

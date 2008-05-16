@@ -9,6 +9,7 @@ class Logger;
 
 #include "..//BW//OrderTypes.h"
 #include "..//BW//Offsets.h"
+#include "..//BW//Latency.h"
 
 #include <vector>
 #include <windows.h>
@@ -28,7 +29,7 @@ namespace BWAPI
      * Prints text in game (only local)
      * @param text Text to be written
      */
-    void print(char *text) const;
+    static void print(char *text);
     void printPublic(char *text) const; // doesn't work now
     bool isInGame();
     void setInGame(bool inGame);
@@ -84,12 +85,13 @@ namespace BWAPI
     int frameCount;
     Logger *fatalError;
     bool quietSelect;
+    BW::Latency::Enum getLatency();
   private :
     bool inGame;
     BW::UnitArray* unitArrayCopy;
     BW::UnitArray* unitArrayCopyLocal;
     Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
-    unsigned int latency;
+    BW::Latency::Enum latency;
     std::vector<std::vector<Command *>> commandBuffer;
     std::vector<char *> buffers;
     Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */

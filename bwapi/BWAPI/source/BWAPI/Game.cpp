@@ -11,6 +11,7 @@
 #include "../BW/Unit.h"
 #include "../BW/UnitTarget.h"
 #include "../BW/OrderTypes.h"
+#include "../BW/Latency.h"
 
 #include <stdio.h>
 #include <windows.h>
@@ -47,7 +48,7 @@ namespace BWAPI
                           &unitArrayCopyLocal->unit[i]);
 
     this->update();
-    this->latency = 12; // @todo read from the address in update
+    this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
     this->quietSelect = true;
   }
   //------------------------------- DESTRUCTOR ----------------------------------
@@ -89,7 +90,7 @@ namespace BWAPI
       this->players[i]->update();
     this->players[11]->setName("Player 12 (Neutral)");
     std::vector<Command *> a;
-    while (this->commandBuffer.size() > latency)
+    while (this->commandBuffer.size() > this->getLatency())
       this->commandBuffer.erase(this->commandBuffer.begin());
     this->commandBuffer.push_back(a);
     for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
@@ -201,7 +202,7 @@ namespace BWAPI
   #pragma warning(push)
   #pragma warning(disable:4312)
   //----------------------------------- PRINT ---------------------------------
-  void Game::print(char *text) const
+  void Game::print(char *text)
   {
    void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintText;
 	 	sendText(text);
@@ -470,6 +471,11 @@ namespace BWAPI
   Unit* Game::getFirst()
   {
     return this->first;
+  }
+  //------------------------------ GET LATENCY -------------------------------
+  BW::Latency::Enum Game::getLatency()
+  {
+    return this->latency;
   }
   //--------------------------------------------------------------------------
 };

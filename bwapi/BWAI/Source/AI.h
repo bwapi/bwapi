@@ -55,5 +55,8 @@ namespace BWAI
       bool performAutoBuild();
       /** Don't mix-up with deadlock. */
       Logger* deadLog;
+      void getIdleWorkers(std::list<Unit*> &workers);
+      void checkWorkersNeed(void);
+      void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
   };
 }
