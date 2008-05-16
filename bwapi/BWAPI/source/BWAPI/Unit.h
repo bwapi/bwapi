@@ -69,6 +69,8 @@ namespace BWAPI
       BW::OrderID::Enum getOrderID() const;
       /**< Gets bwUnitLocal->BW#Unit#orderID - @ref localData */
       BW::OrderID::Enum getOrderIDLocal() const;
+      /* Timer specifiing how long it will take to finish the current order (verified for mining). */
+      u8 getOrderTimer() const;
       /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType::Enum *getBuildQueue();
       /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
@@ -121,6 +123,8 @@ namespace BWAPI
       Unit* getNext();
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();
+      int lastFrameSpam;
+
     private:
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 

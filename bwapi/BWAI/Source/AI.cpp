@@ -93,7 +93,7 @@ namespace BWAI
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
-    if (BWAPI::Broodwar.frameCount < 3)
+    if (BWAPI::Broodwar.frameCount < 2)
       return;
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
@@ -107,77 +107,17 @@ namespace BWAI
         i->lastTrainedUnitID = i->getBuildQueueLocal()[i->getBuildQueueSlotLocal()];
 
     std::list<Unit*> idleWorkers;
-    if (!this->expansionsSaturated)
-      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-        {
-         if (i->isReady() &&
-             i->getOwner() == player &&
-             (
-               i->getOrderIDLocal() == BW::OrderID::Idle ||
-               i->getOrderIDLocal() == BW::OrderID::ApproachingMinerals ||
-               i->getOrderIDLocal() == BW::OrderID::Mining ||
-               i->getOrderIDLocal() == BW::OrderID::ReturningMinerals ||
-               i->getOrderIDLocal() == BW::OrderID::GettingMinedMinerals
-             ) &&
-             !i->selected &&
-             (i->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
-              i->expansionAssingment == NULL)
-         idleWorkers.push_back(i); 
-       }
-    
-  /*   if (selectedUnit != NULL && 
-        selectedUnit->getPrototype() == BWAPI::Prototypes::SCV &&
-        marwin->getMineralsLocal() >= 150 &&
-        this->suppliesOrdered < 20)
-    {
-      int x = (cc->getPosition().x - BWAPI::Prototypes::CommandCenter->dimensionLeft())/BW::TileSize;
-      int y = (cc->getPosition().y - BWAPI::Prototypes::CommandCenter->dimensionUp())/BW::TileSize;
-      selectedUnit->build(x + 5, y, BWAPI::Prototypes::SupplyDepot);
-      suppliesOrdered ++;
-      char message[50];
-      sprintf(message, "Supply depot order given (%d, %d)", x, y);
-      game.print(message);
-    }*/
-   
-    /*for (unsigned int i = 0; i < expansions.size(); i++)
-      if (expansions[i]->gatherCenter != NULL)
-      {
-        if (expansions[i]->gatherCenter->hasEmptyBuildQueueLocal() && 
-            player->getMineralsLocal() >= this->worker->getMineralPrice()&&
-            player->freeSuppliesTerranLocal() >= this->worker->getSupplies())
-        {
-          reselected = true;
-          expansions[i]->gatherCenter->orderSelect();
-          expansions[i]->gatherCenter->trainUnit(this->worker);
-        }
-    }*/
-    unsigned int workersTogether = 0;
-    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      workersTogether += (*i)->asignedWorkers;
-    if (workersTogether >= this->activeMinerals.size()*2.5 ||
-        workersTogether >= 100)
-      for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-        (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
-    reselected |= this->performAutoBuild();
-    for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
-    {
-      AI::optimizeMineralFor = *i;
-      /** @todo Just find smallest, no need to sort */
-      activeMinerals.sort(mineralValue);
-      if ((*activeMinerals.begin())->gatherersAssigned.size() >= 2)
-      {
-        this->expansionsSaturated = true;
-        break;
-      }
-      (*activeMinerals.begin())->assignGatherer(*i);
-    }
+    this->getIdleWorkers(idleWorkers);
+    this->assignIdleWorkersToMinerals(idleWorkers);
 
-   this->rebalanceMiners();
-   reselected |= this->checkAssignedWorkers();
-   if (reselected)
-     BWAPI::Broodwar.loadSelected(selected);
-   else
-     delete [] selected;
+    this->checkWorkersNeed();
+    reselected |= this->performAutoBuild();
+    this->rebalanceMiners();
+    reselected |= this->checkAssignedWorkers();
+    if (reselected)
+      BWAPI::Broodwar.loadSelected(selected);
+    else
+      delete [] selected;
   }
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)
@@ -325,6 +265,58 @@ namespace BWAI
         }
       }
     return reselected;
+  }
+  //---------------------------------------------------------------------------
+  void AI::getIdleWorkers(std::list<Unit*> &workers)
+  {
+    if (!this->expansionsSaturated)
+      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      {
+        if (i->isReady() &&
+            i->getOwner() == player &&
+              (
+               i->getOrderIDLocal() == BW::OrderID::Idle ||
+               i->getOrderIDLocal() == BW::OrderID::ApproachingMinerals ||
+               i->getOrderIDLocal() == BW::OrderID::Mining ||
+               i->getOrderIDLocal() == BW::OrderID::ReturningMinerals ||
+               i->getOrderIDLocal() == BW::OrderID::GettingMinedMinerals
+             ) &&
+             !i->selected &&
+             (i->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
+              i->expansionAssingment == NULL)
+          workers.push_back(i); 
+      }
+  }
+  //---------------------------------------------------------------------------
+  void AI::checkWorkersNeed(void)
+  {
+    unsigned int workersTogether = 0;
+    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      workersTogether += (*i)->asignedWorkers;
+    if (workersTogether >= this->activeMinerals.size()*2.5 ||
+        workersTogether >= 100)
+    {
+      this->expansionsSaturated = true;
+      for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+        (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
+    }
+  }
+  //---------------------------------------------------------------------------
+  void AI::assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers)
+  {
+    if (!this->expansionsSaturated)
+      for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
+      {
+        AI::optimizeMineralFor = *i;
+        /** @todo Just find smallest, no need to sort */
+        activeMinerals.sort(mineralValue);
+        if ((*activeMinerals.begin())->gatherersAssigned.size() >= 2)
+        {
+          this->expansionsSaturated = true;
+          break;
+        }
+        (*activeMinerals.begin())->assignGatherer(*i);
+      }
   }
   //---------------------------------------------------------------------------
 }

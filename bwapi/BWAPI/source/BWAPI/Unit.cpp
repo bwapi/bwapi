@@ -26,6 +26,7 @@ namespace BWAPI
   :bwUnit(unitData)
   ,bwOriginalUnit(originalUnit)
   ,bwUnitLocal(unitDataLocal)
+  ,lastFrameSpam(0)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -423,6 +424,11 @@ namespace BWAPI
     this->next = Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
     if (this->next != NULL)
       this->next->updateNext();
+  }
+  //------------------------------- GET ORDER TIMER ----------------------------
+  u8 Unit::getOrderTimer() const
+  {
+     return this->getOriginalRawData()->mainOrderTimer;
   }
   //----------------------------------------------------------------------------
 };
