@@ -31,7 +31,7 @@ namespace BWAPI
      */
     static void print(char *text);
     void printPublic(char *text) const; // doesn't work now
-    bool isInGame();
+    bool isInGame() const;
     void setInGame(bool inGame);
     /** 
      * Changes slot state in the pre-game lobby.
@@ -61,13 +61,13 @@ namespace BWAPI
      */
     void startGame();
     /** Gets mouse cursor horizontal position in pixels. */
-    int getMouseX();
+    int getMouseX() const;
     /** Gets mouse cursor vertical position in pixels. */
-    int getMouseY();
+    int getMouseY() const;
     /** Gets horizontal position of game screen in pixels. */
-    int getScreenX();
+    int getScreenX() const;
     /** Gets vertical position of game screen in pixels. */
-    int getScreenY();
+    int getScreenY() const;
     /** @todo Doesn't work */
     void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr); 
     void refresh();
@@ -75,7 +75,7 @@ namespace BWAPI
     BW::Unit** saveSelected();
     void loadSelected(BW::Unit** selected);
     void onRemoveUnit(BW::Unit *unit);
-    Player* marwin;
+    Player* BWAPIPlayer;
     Unit* getFirst();
     template <class Type>
     std::string getBinary(Type value);

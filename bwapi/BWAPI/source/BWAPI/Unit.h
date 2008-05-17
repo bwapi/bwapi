@@ -56,9 +56,9 @@ namespace BWAPI
       /** Gets prototype of the unit defined by #bwUnit->BW#Unit#unitID. */
       const UnitPrototype* getPrototype() const;
       /** Gets #bwUnit->BW#Unit#queueSlot. */
-      u8 getBuildQueueSlot();
+      u8 getBuildQueueSlot() const;
       /** Gets #bwUnitLocal->BW#Unit#buildQueueSlot - @ref localData */
-      u8 getBuildQueueSlotLocal();
+      u8 getBuildQueueSlotLocal() const;
       /** Gets distance of unit edges. */
       u16 getDistance(Unit *unit) const; 
       /** Gets distance of unit centers. */
@@ -123,8 +123,6 @@ namespace BWAPI
       Unit* getNext();
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();
-      int lastFrameSpam;
-
     private:
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 

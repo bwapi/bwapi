@@ -26,7 +26,6 @@ namespace BWAPI
   :bwUnit(unitData)
   ,bwOriginalUnit(originalUnit)
   ,bwUnitLocal(unitDataLocal)
-  ,lastFrameSpam(0)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -331,12 +330,12 @@ namespace BWAPI
     Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type->getUnitID()), 0x3);
   }
   //-------------------------------- GET QUEUE SLOT ----------------------------
-  u8 Unit::getBuildQueueSlot()
+  u8 Unit::getBuildQueueSlot() const
   {
     return this->getRawData()->buildQueueSlot;
   }
   //------------------------------- GET QUEUE SLOT LOCAL -----------------------
-  u8 Unit::getBuildQueueSlotLocal()
+  u8 Unit::getBuildQueueSlotLocal() const
   {
     return this->getOriginalRawData()->buildQueueSlot;
   }

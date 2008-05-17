@@ -83,6 +83,10 @@ namespace BW
   static u32           BWXFN_NextLogicFrame = 0x004D937E;
   static u32           BWXFN_NextLogicFrameBack = BWXFN_NextLogicFrame + 5;
   static u32           BWXFN_NextLogicFrameTarget = 0x00488420;
+  static int*          BWXFN_MouseX = (int*) 0x006CDDAC;
+  static int*          BWXFN_MouseY = (int*) 0x006CDDB0;
+  static int*          BWXFN_ScreenX = (int*) 0x00628430;
+  static int*          BWXFN_ScreenY = (int*) 0x00628458;
 
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
