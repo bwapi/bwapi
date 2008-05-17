@@ -13,6 +13,7 @@ namespace BWAI
   ,expansionAssingment(0)
   ,selected(false)
   ,lastTrainedUnitID(BW::UnitType::None)
+  ,lastFrameSpam(0)
   {
   }
   //----------------------------- BW Unit TO BWAI Unit -----------------------

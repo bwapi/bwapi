@@ -190,7 +190,7 @@ namespace BWAPI
    DrawStaticText(text, x, y);
   }
   //---------------------------------------------------------------------------
-  bool Game::isInGame()
+  bool Game::isInGame() const
   {
     return this->inGame;
   }
@@ -236,10 +236,10 @@ namespace BWAPI
   {
     this->frameCount = 0;
     this->setInGame(true);
-    this->marwin = NULL;
+    this->BWAPIPlayer = NULL;
     for (int i = 0; i < 8; i++)
       if (strcmp(this->players[i]->getName(), "BWAPI") == 0)
-          this->marwin = this->players[i];
+          this->BWAPIPlayer = this->players[i];
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()
@@ -252,24 +252,24 @@ namespace BWAPI
     this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
   }
   //------------------------------- GET MOUSE X ---------------------------------
-  int Game::getMouseX()
+  int Game::getMouseX() const
   {
-	 	return *((int*)0x006CDDAC);
+    return *(BW::BWXFN_MouseX);
   }
   //------------------------------- GET MOUSE Y ---------------------------------
-  int Game::getMouseY()
+  int Game::getMouseY() const
   {
-	 	return *((int*)0x006CDDB0);
+   return *(BW::BWXFN_MouseY);
   }
   //------------------------------- GET SCREEN X --------------------------------
-  int Game::getScreenX()
+  int Game::getScreenX() const
   {
-	 	return *((int*)0x00628430);
+   return *(BW::BWXFN_ScreenX);
   }
   //------------------------------- GET SCREEN Y --------------------------------
-  int Game::getScreenY()
+  int Game::getScreenY() const
   {
-	 	return *((int*)0x00628458);
+   return *(BW::BWXFN_ScreenY);
   }
   //-----------------------------------------------------------------------------
 //  int BWFXN_DrawBox = 0x4E18E0;

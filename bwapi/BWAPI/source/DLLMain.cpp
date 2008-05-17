@@ -122,7 +122,7 @@ void __declspec(naked)  hookTest()
     BWAI::ai->update();    
     if (!aiStartCalled)
     {
-      BWAI::ai->onStart(BWAPI::Broodwar.marwin);
+      BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer);
       aiStartCalled = true;
     }
     BWAI::ai->onFrame();
@@ -148,7 +148,7 @@ void __declspec(naked)  nextFrameHook()
     BWAI::ai->update();    
     if (!aiStartCalled)
     {
-      BWAI::ai->onStart(BWAPI::Broodwar.marwin);
+      BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer);
       aiStartCalled = true;
     }
     BWAI::ai->onFrame();

@@ -272,6 +272,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\TileType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Unit.h"
 					>
 				</File>
