@@ -368,6 +368,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BWAPI\Map.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\Map.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\Player.cpp"
 					>
 				</File>

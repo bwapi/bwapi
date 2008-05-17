@@ -42,6 +42,8 @@ class Logger
      */    
     template <class T1, class T2>
     bool log(const std::string& message, const T1& parameter1, const T2& parameter2, LogLevel::Enum logLevel = LogLevel::Normal);
+    template <class T1, class T2, class T3>
+    bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, LogLevel::Enum logLevel = LogLevel::Normal);
   private :
     std::string name;
     LogLevel::Enum levelToLog;
@@ -69,7 +71,7 @@ bool Logger::log(const std::string&   message,
   fprintf(f, "\n");
   fclose(f);
   if (this != &globalLog)
-    globalLog.log(message, parameter1, levelToLog);
+    globalLog.log(message, parameter1, logLevel);
   return true;
 }
 //------------------------------- LOG -----------------------------------------
@@ -91,6 +93,29 @@ bool Logger::log(const std::string&   message,
   fprintf(f, "\n");
   fclose(f);
   if (this != &globalLog)
-    globalLog.log(message, parameter1, parameter2, levelToLog);
+    globalLog.log(message, parameter1, parameter2, logLevel);
+  return true;
+}
+//------------------------------- LOG -----------------------------------------
+template <class T1, class T2, class T3>
+bool Logger::log(const std::string&   message, 
+                 const T1&            parameter1, 
+                 const T2&            parameter2, 
+                 const T3&            parameter3, 
+                       LogLevel::Enum logLevel)
+{
+  if (levelToLog > this->levelToLog)
+    return true;
+  char time[9];
+  _strtime(time);
+  FILE *f = fopen(name.c_str(),"at");
+  if (!f)
+    return false;
+  fprintf(f, "%s ", time);
+  fprintf(f, message.c_str(), parameter1, parameter2, parameter3);
+  fprintf(f, "\n");
+  fclose(f);
+  if (this != &globalLog)
+    globalLog.log(message, parameter1, parameter2, parameter3, logLevel);
   return true;
 }
