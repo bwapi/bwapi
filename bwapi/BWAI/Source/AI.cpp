@@ -17,6 +17,7 @@
 #include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//Logger.h"
 #include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
+#include "..//..//BWAPI//Source//BWAPI//Map.h"
 
 namespace BWAI
 {
@@ -90,11 +91,13 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete new Unit(BWAPI::Broodwar.getUnit(i));
   }
-  //-------------------------------  ON FRAME ---------------------------------
+
+   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
+    int value1 = *((int*)0xA5C630);
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
@@ -142,6 +145,7 @@ namespace BWAI
      this->expansions.push_back(new Expansion(gatherCenter));
      this->rebalanceMiners();
    }
+  u16 pos = 0;
   //---------------------------- REBALANCE MINERS -----------------------------
    void AI::rebalanceMiners(void)
    {

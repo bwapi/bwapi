@@ -92,7 +92,7 @@ namespace BWAPI
     BW::UnitArray* unitArrayCopyLocal;
     Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
     BW::Latency::Enum latency;
-    std::vector<std::vector<Command *>> commandBuffer;
+    std::vector<std::vector<Command *> > commandBuffer;
     std::vector<char *> buffers;
     Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
     /** All commands ordered from BWAPI */
