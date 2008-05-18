@@ -18,6 +18,8 @@
 #include "..//..//BWAPI//Source//Logger.h"
 #include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
 #include "..//..//BWAPI//Source//BWAPI//Map.h"
+#include "..//..//BWAPI//Source//BW//TileSet.h"
+#include "..//..//BWAPI//Source//BW//TileType.h"
 
 namespace BWAI
 {
@@ -91,13 +93,31 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete new Unit(BWAPI::Broodwar.getUnit(i));
   }
-
-   //-------------------------------  ON FRAME ---------------------------------
+  bool mapDrawn = false;
+  //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
-    int value1 = *((int*)0xA5C630);
+    if (!mapDrawn)
+    {
+       FILE* f = fopen("buildability.txt","wt");
+       for (int y = 0; y < BWAPI::Map::getHeight(); y++)
+       {
+         for (int x = 0; x < BWAPI::Map::getWidth(); x++)
+         {
+           if (BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability & 128 )
+             fprintf(f, " ");
+           else
+             fprintf(f, "X");
+         }
+         fprintf(f, "\n");
+       }
+       fclose(f);             
+       mapDrawn = true;
+    }
+    
+    
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
