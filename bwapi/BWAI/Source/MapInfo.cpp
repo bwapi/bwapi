@@ -1,5 +1,6 @@
 #include "MapInfo.h"
 #include "MapExpansion.h"
+#include "MapStartingPosition.h"
 #include "..//..//TinyXml//tinyxml.h"
 #include "..//..//BWAPI//Source//Exceptions.h"
 namespace BWAI
@@ -25,6 +26,17 @@ namespace BWAI
 
     for (TiXmlElement* expansion = expansions->FirstChildElement("expansion"); expansion != NULL; expansion = expansion->NextSiblingElement("expansion"))
       this->expansions.push_back(new MapExpansion(expansion));
+
+
+    TiXmlNode* startingPositions = root->FirstChild("starting-positions");
+    if (startingPositions == NULL)
+      throw XmlException("Expected element <starting-positions> in <map-description> in file:" + xmlFileName);
+
+    for (TiXmlElement* startingPosition = startingPositions->FirstChildElement("starting-position"); 
+         startingPosition != NULL; 
+         startingPosition = startingPosition->NextSiblingElement("starting-position"))
+      this->startingPositions.push_back(new MapStartingPosition(startingPosition, this));
+
     fclose(f);
   }
   //--------------------------------- DESTRUCTOR -----------------------------
@@ -32,6 +44,14 @@ namespace BWAI
   {
    for (std::list<MapExpansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
+  }
+  //--------------------------------------------------------------------------
+  MapExpansion *MapInfo::getExpansion(const std::string& id)
+  {
+    for (std::list<MapExpansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      if ((*i)->getID() == id)
+        return *i;
+     return NULL;
   }
   //--------------------------------------------------------------------------
 }

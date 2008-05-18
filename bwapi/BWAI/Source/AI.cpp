@@ -11,6 +11,7 @@
 #include "Expansion.h"
 #include "MapInfo.h"
 #include "MapExpansion.h"
+#include "MapStartingPosition.h"
 //#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
 //#include "..//..//BWAPI//Source//BW//BitMask.h"
 #include "..//..//BWAPI//Source//BW//Unit.h" /**@todo remove */
@@ -74,10 +75,19 @@ namespace BWAI
       this->log->log("Help pre-prepared information found for the curent map");
       for (std::list<MapExpansion*>::iterator i = mapInfo->expansions.begin(); i != mapInfo->expansions.end(); ++i)
         this->log->log("Expansion (%s) at (%d, %d)", (*i)->getID().c_str(), (*i)->getPosition().x, (*i)->getPosition().y);
+      
+      for (std::list<MapStartingPosition*>::iterator i = mapInfo->startingPositions.begin(); i != mapInfo->startingPositions.end(); ++i)
+      {
+        this->log->log("StartingPosition (%s) at (%d, %d)", (*i)->expansion->getID().c_str(), (*i)->expansion->getPosition().x, (*i)->expansion->getPosition().y);
+        for (std::list<BW::Position>::iterator j = (*i)->nonProducing3X2BuildingPositions.begin(); j != (*i)->nonProducing3X2BuildingPositions.end(); ++j)
+          this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
+      }
+  
     }
     catch (GeneralException& exception)
     {
       this->log->log("Exception caught when trying to initialize map info :" + exception.getMessage());
+      this->mapInfo = NULL;
     }
   }
   //--------------------------------- ON END ---------------------------------
@@ -95,6 +105,7 @@ namespace BWAI
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
   :mapInfo(NULL)
+  ,startingPosition(NULL)
   ,log(new Logger("ai", LogLevel::MicroDetailed))
   ,deadLog(new Logger("dead", LogLevel::MicroDetailed))
   {
@@ -147,7 +158,7 @@ namespace BWAI
   {
     return units[index];
   }
-  //---------------------------------------------------------------------------
+  //------------------------------- ON CANCEL TRAIN ---------------------------
   void AI::onCancelTrain()
   {
     this->log->log("Cancelled unit caught");
@@ -192,7 +203,7 @@ namespace BWAI
        goto anotherStep;
      }
    }
-  //---------------------------------------------------------------------------
+  //---------------------------- CHECK ASSIGNED WORKERS -----------------------
   bool AI::checkAssignedWorkers(void)
   {
     bool reselected = false;
@@ -290,7 +301,7 @@ namespace BWAI
       }
     return reselected;
   }
-  //---------------------------------------------------------------------------
+  //------------------------------ GET IDLE WORKERS ---------------------------
   void AI::getIdleWorkers(std::list<Unit*> &workers)
   {
     if (!this->expansionsSaturated)
@@ -311,7 +322,7 @@ namespace BWAI
           workers.push_back(i); 
       }
   }
-  //---------------------------------------------------------------------------
+  //--------------------------------- CHECK WORKERS NEED ----------------------
   void AI::checkWorkersNeed(void)
   {
     unsigned int workersTogether = 0;
@@ -325,7 +336,7 @@ namespace BWAI
         (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
     }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------- ASSIGN IDLE WORKERS TO MINERALS -------------
   void AI::assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers)
   {
     if (!this->expansionsSaturated)
