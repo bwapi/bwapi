@@ -47,11 +47,11 @@
       <standard-building-placement>
         <non-producting-3x2>
           <position x="125" y="25">
-          <position x="94" y="0">
-          <position x="97" y="2">
-          <position x="94" y="2">
-          <position x="99" y="4">
-          <position x="96" y="4">
+          <position x="125" y="27">
+          <position x="125" y="29">
+          <position x="122" y="25">
+          <position x="122" y="27">
+          <position x="122" y="29">
         </nonproducting-3X2>
       </standard-building-placement>
     </starting-position>
@@ -66,7 +66,17 @@
           <position x="3" y="97">
         </nonproducting-3X2>
     </standard-building-placement>
-    <starting-position expansion-id="12 o'clock" \>
-    
+    <starting-position expansion-id="12 o'clock">
+     <standard-building-placement>
+        <non-producting-3x2>
+          <position x="26" y="122">
+          <position x="26" y="120">
+          <position x="26" y="118">
+          <position x="29" y="122">
+          <position x="29" y="120">
+          <position x="29" y="118">
+        </nonproducting-3X2>
+      </standard-building-placement>
+    </starting-position>
   </starting-positions>
 </map-description>
