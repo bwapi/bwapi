@@ -67,7 +67,8 @@ namespace BWAI
     BWAPI::Map::saveBuildabilityMap("buildability.txt");
     try
     {
-      mapInfo = new MapInfo("bwapi-data\\maps\\python.xml");
+      mapInfo = new MapInfo((std::string)"bwapi-data\\maps\\" + BWAPI::Map::getFileName() + ".xml");
+      this->log->log("Help pre-prepared information found for the curent map");
       for (std::list<MapExpansion*>::iterator i = mapInfo->expansions.begin(); i != mapInfo->expansions.end(); ++i)
         this->log->log("Expansion (%s) at (%d, %d)", (*i)->getID().c_str(), (*i)->getPosition().x, (*i)->getPosition().y);
     }

@@ -18,6 +18,5 @@ namespace BWAI
       bool removeGatherer(Unit* unit);
       bool checkAssignedWorkers();
       Unit* currentlyMining(void);
-      static Logger reassignationReasons;
   };
 }
