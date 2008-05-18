@@ -6,11 +6,12 @@ namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
 class Logger;
+class Dictionary;
 
-#include "..//BW//OrderTypes.h"
-#include "..//BW//Offsets.h"
-#include "..//BW//Latency.h"
-#include "..//RectangleArray.h"
+#include "..//BW/OrderTypes.h"
+#include "..//BW/Offsets.h"
+#include "..//BW/Latency.h"
+#include "../../../Util/RectangleArray.h"
 
 #include <vector>
 #include <list>
@@ -88,6 +89,8 @@ namespace BWAPI
       Logger *fatalError;
       bool quietSelect;
       BW::Latency::Enum getLatency();
+      /** Representation of the configuration file bw-api.ini in the starcraft directory. */
+      Dictionary* configuration;
     private :
       bool inGame;
       BW::UnitArray* unitArrayCopy;
@@ -113,8 +116,6 @@ namespace BWAPI
       void updateUnitsOnTile();
       /** Made for debug reasons, may come later someday, so I leave it*/
       void printUnitCountPerTile();
-
-
   };
 };
  

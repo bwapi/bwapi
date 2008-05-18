@@ -2,10 +2,14 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 	ProjectSection(ProjectDependencies) = postProject
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
 		{91B94D08-8470-44B5-BDCD-C556E6DAD7B5} = {91B94D08-8470-44B5-BDCD-C556E6DAD7B5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_ChaosLauncherInjector", "BWAPI_ChaosLauncherInjector\BWAPI_ChaosLauncherInjector.vcproj", "{E872FA31-C3AC-4331-AD60-315768E44ACA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAI", "BWAI\BWAI.vcproj", "{91B94D08-8470-44B5-BDCD-C556E6DAD7B5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAI", "BWAI\BWAI.vcproj", 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyXml", "TinyXml\TinyXml.vcproj", "{332970D0-68A1-4A12-9E19-37F27B5A7836}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Util", "Util\Util.vcproj", "{C252CA4E-FFA0-404C-B5B4-614CF330C084}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +42,10 @@ Global
 		{332970D0-68A1-4A12-9E19-37F27B5A7836}.Debug|Win32.Build.0 = Debug|Win32
 		{332970D0-68A1-4A12-9E19-37F27B5A7836}.Release|Win32.ActiveCfg = Release|Win32
 		{332970D0-68A1-4A12-9E19-37F27B5A7836}.Release|Win32.Build.0 = Release|Win32
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Debug|Win32.Build.0 = Debug|Win32
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|Win32.ActiveCfg = Release|Win32
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

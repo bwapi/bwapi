@@ -16,7 +16,9 @@
 #include "../BW/TileType.h"
 #include "../BW/TileSet.h"
 
-#include "../Logger.h"
+#include "../../../Util/Logger.h"
+#include "../../../Util/Dictionary.h"
+#include "../../../Util/Exceptions.h"
 
 #include <stdio.h>
 #include <windows.h>
@@ -32,12 +34,23 @@ namespace BWAPI
   :inGame(false)
   ,unitsOnTile(0,0)
   {
-    this->commandLog        = new Logger("commands", LogLevel::MicroDetailed);
-    this->newOrderLog       = new Logger("new_orders", LogLevel::MicroDetailed);
-    this->badAssumptionLog  = new Logger("bad_assumptions", LogLevel::MicroDetailed);
-    this->newUnitLog        = new Logger("new_unit_id", LogLevel::MicroDetailed);
-    this->unitSum           = new Logger("unit_sum", LogLevel::MicroDetailed);
-    this->fatalError        = new Logger("FATAL-ERROR", LogLevel::MicroDetailed);
+    try
+    {
+     this->configuration = new Dictionary("bwapi.ini");
+    }
+    catch (GeneralException& exception)
+    {
+      FILE*f = fopen("bwapi-error","wt");
+      fprintf(f, "Couldn't load configuration file bwapi.ini because:", exception.getMessage());
+      fclose(f);
+    }
+    Logger::globalLog.setFileName(this->configuration->getValue("log_path") + "\\global");
+    this->commandLog        = new Logger(this->configuration->getValue("log_path") + "\\commands", LogLevel::MicroDetailed);
+    this->newOrderLog       = new Logger(this->configuration->getValue("log_path") + "\\new_orders", LogLevel::MicroDetailed);
+    this->badAssumptionLog  = new Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", LogLevel::MicroDetailed);
+    this->newUnitLog        = new Logger(this->configuration->getValue("log_path") + "\\new_unit_id", LogLevel::MicroDetailed);
+    this->unitSum           = new Logger(this->configuration->getValue("log_path") + "\\unit_sum", LogLevel::MicroDetailed);
+    this->fatalError        = new Logger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", LogLevel::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
@@ -74,6 +87,7 @@ namespace BWAPI
     delete this->newUnitLog;
     delete this->unitSum;
     delete this->fatalError;
+    delete this->configuration;
   }
   //------------------------------- ISSUE COMMAND -------------------------------
   void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 

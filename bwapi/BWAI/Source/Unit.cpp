@@ -4,7 +4,7 @@
 #include "..//..//BWAPI//Source//BW//Unit.h"
 #include "..//..//BWAPI//Source//BWAPI//Globals.h"
 #include "Globals.h"
-#include "..//..//BWAPI//Source//Logger.h"
+#include "../../Util/Logger.h"
 namespace BWAI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------

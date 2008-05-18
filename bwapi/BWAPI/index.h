@@ -19,6 +19,8 @@ To use the library:
 -# Get Chaos launcher
 -# Set Environment "ChaosDir" variable in windows (ControllPanels->System->Advanced->Envirenment variables) to your chaos launcher directory.
 -# Compile (U must compile on "Release", you can also use debug later, but the ".bwl" has to be the release version)
+-# move the bwapi.ini file from the project to the starcraft directory
+-# move the "data" directory in the project to the starcraft directory as directory "bwapi"- it is annoying - if you can read the bw address from registry in batch file, we could automate it
 -# Run Chaos launcher and click to use the BWAPI addon
 
 @section parametrization Parametrization of BW API

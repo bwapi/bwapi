@@ -181,35 +181,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\Exceptions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Exceptions.h"
-				>
-			</File>
-			<File
 				RelativePath=".\index.h"
 				>
 			</File>
 			<File
-				RelativePath=".\source\Logger.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Logger.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\LogLevel.h"
-				>
-			</File>
-			<File
 				RelativePath=".\pages.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\RectangleArray.h"
 				>
 			</File>
 			<File

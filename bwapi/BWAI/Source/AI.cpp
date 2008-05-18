@@ -18,10 +18,12 @@
 #include "..//..//BWAPI//Source//BW//Bitmask.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
-#include "..//..//BWAPI//Source//Logger.h"
 #include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
 #include "..//..//BWAPI//Source//BWAPI//Map.h"
-#include "..//..//BWAPI//Source//Exceptions.h"
+
+#include "../../Util/Exceptions.h"
+#include "../../Util/Logger.h"
+#include "../../Util/Dictionary.h"
 
 
 
@@ -65,13 +67,13 @@ namespace BWAI
   {
     this->log->log("Ai::Game start", LogLevel::Important);
     this->player = player;
-    BWAPI::Map::saveBuildabilityMap("buildability.txt");
+    BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("bwapi_data") + "\\buildability.txt");
     try
     {
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
-      mapInfo = new MapInfo((std::string)"bwapi-data\\maps\\" + mapName + ".xml");
+      mapInfo = new MapInfo(BWAPI::Broodwar.configuration->getValue("maps_path") + "\\" + mapName + ".xml");
       this->log->log("Help pre-prepared information found for the curent map");
       for (std::list<MapExpansion*>::iterator i = mapInfo->expansions.begin(); i != mapInfo->expansions.end(); ++i)
         this->log->log("Expansion (%s) at (%d, %d)", (*i)->getID().c_str(), (*i)->getPosition().x, (*i)->getPosition().y);
@@ -106,8 +108,8 @@ namespace BWAI
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log(new Logger("ai", LogLevel::MicroDetailed))
-  ,deadLog(new Logger("dead", LogLevel::MicroDetailed))
+  ,log(new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai", LogLevel::MicroDetailed))
+  ,deadLog(new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
   {
    
     this->suppliesOrdered = 0;

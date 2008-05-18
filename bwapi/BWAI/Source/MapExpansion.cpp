@@ -1,6 +1,6 @@
 #include "MapExpansion.h"
-#include "..//..//TinyXml//tinyXml.h"
-#include "..//..//BWAPI//Source//Exceptions.h"
+#include "../../TinyXml/tinyXml.h"
+#include "../../Util/Exceptions.h"
 namespace BWAI
 {
   //---------------------------------- CONSTRUCTOR ----------------------------

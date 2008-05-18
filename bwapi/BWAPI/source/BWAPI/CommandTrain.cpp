@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "UnitPrototype.h"
 #include "../BW//Unit.h"
-#include "../Logger.h"
+#include "../../../Util/Logger.h"
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
