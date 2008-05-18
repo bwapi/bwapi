@@ -1,0 +1,72 @@
+<map-description>
+  <expansions>
+    <expansion id="12 o'clock">
+      <position x="2720" y="240">
+    </expansions>
+    <expansion id="12 oclock' natural">
+      <position x="1600" y="272">
+    </expansions>
+    <expansion id="9 o'clock">
+      <position x="320" y="2768">
+    </expansions>
+    <expansion id="9 o'clock natural">
+      <position x="288" y="1872">
+    </expansions>
+    <expansion id="6 o'clock">
+      <position x="1408" y="3856">
+    </expansions>
+    <expansion id="6 o'clock natural">
+      <position x="2464" y="3824">
+    </expansions>
+    <expansion id="3 o'clock">
+      <position x="3776" y="1328">
+    </expansions>
+    <expansion id="3 o'clock natural">
+      <position x="3808" y="2160">
+    </expansions>
+    <expansion id="top-left">
+      <position x="288" y="240">
+    </expansions>
+    <expansion id="bottom-right">
+      <position x="3808" y="3824">
+    </expansions>
+  </expansions>
+  <starting-positions>
+    <starting-position expansion-id="3 o'clock">
+      <standard-building-placement>
+        <non-producting-3x2>
+          <position x="97" y="0">
+          <position x="94" y="0">
+          <position x="97" y="2">
+          <position x="94" y="2">
+          <position x="99" y="4">
+          <position x="96" y="4">
+        </nonproducting-3X2>
+      </standard-building-placement>
+    <starting-position expansion-id="6 o'clock" >
+      <standard-building-placement>
+        <non-producting-3x2>
+          <position x="125" y="25">
+          <position x="94" y="0">
+          <position x="97" y="2">
+          <position x="94" y="2">
+          <position x="99" y="4">
+          <position x="96" y="4">
+        </nonproducting-3X2>
+      </standard-building-placement>
+    </starting-position>
+    <starting-position expansion-id="9 o'clock" >
+      <standard-building-placement>
+        <non-producting-3x2>
+          <position x="0" y="101">
+          <position x="0" y="99>
+          <position x="0" y="97">
+          <position x="3" y="101">
+          <position x="3" y="99">
+          <position x="3" y="97">
+        </nonproducting-3X2>
+    </standard-building-placement>
+    <starting-position expansion-id="12 o'clock" \>
+    
+  </starting-positions>
+</map-description>
