@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_ChaosLauncherInjector", "BWAPI_ChaosLauncherInjector\BWAPI_ChaosLauncherInjector.vcproj", "{E872FA31-C3AC-4331-AD60-315768E44ACA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAI", "BWAI\BWAI.vcproj", "{91B94D08-8470-44B5-BDCD-C556E6DAD7B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{332970D0-68A1-4A12-9E19-37F27B5A7836} = {332970D0-68A1-4A12-9E19-37F27B5A7836}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyXml", "TinyXml\TinyXml.vcproj", "{332970D0-68A1-4A12-9E19-37F27B5A7836}"
 EndProject
