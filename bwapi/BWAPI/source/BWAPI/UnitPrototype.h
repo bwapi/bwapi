@@ -44,6 +44,8 @@ namespace BWAPI
     u16                   dimensionUp() const;
     u16                   dimensionRight() const;
     u16                   dimensionDown() const;
+    u16                   getTileWidth() const;
+    u16                   getTileHeight() const;
     /** Gets Damage factor of the ground weapon of the unit @todo find out what does it mean. */
     u8                    getDamageFactor() const;
     /** Gets base Damage of the ground weapon of the unit. */

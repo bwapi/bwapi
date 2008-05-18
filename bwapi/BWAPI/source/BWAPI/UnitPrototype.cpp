@@ -7,6 +7,7 @@
 #include "../BW/Unit.h"
 #include "../BW/Position.h"
 #include "../BW/Offsets.h"
+#include <math.h>
 
 namespace BWAPI
 {
@@ -107,27 +108,27 @@ namespace BWAPI
   {
     return BW::BWXFN_Unknown->unknown[this->getUnitID()];
   }
-  //----------------------------------------------------------------------------
+  //------------------------------ DIMENSION LEFT ------------------------------
   u16 UnitPrototype::dimensionLeft() const
   {
     return BW::BWXFN_UnitDimensions->units[this->getUnitID()].left;
   }
-  //----------------------------------------------------------------------------
+  //------------------------------- DIMENSION UP -------------------------------
   u16 UnitPrototype::dimensionUp() const
   {
     return BW::BWXFN_UnitDimensions->units[this->getUnitID()].up;
   }
-  //----------------------------------------------------------------------------
+  //----------------------------- DIMENSION RIGHT ------------------------------
   u16 UnitPrototype::dimensionRight() const
   {
     return BW::BWXFN_UnitDimensions->units[this->getUnitID()].right;
   }
-  //----------------------------------------------------------------------------
+  //------------------------------ DIMENSION DOWN ------------------------------
   u16 UnitPrototype::dimensionDown() const
   {
     return BW::BWXFN_UnitDimensions->units[this->getUnitID()].down;
   }
-  //----------------------------------------------------------------------------
+  //----------------------------- GET DAMAGE FACTOR ----------------------------
   u8 UnitPrototype::getDamageFactor() const
   {
     int weaponID = BW::BWXFN_UnitGroundWeapon->unit[this->getUnitID()];
@@ -136,7 +137,7 @@ namespace BWAPI
     else
        return BW::BWXFN_WeaponDamageFactor->weapon[weaponID];
   }
-  //----------------------------------------------------------------------------
+  //------------------------------ GET GROUND DAMAGE --------------------------
   u16 UnitPrototype::getGroundDamage() const
   {
     int weaponID = BW::BWXFN_UnitGroundWeapon->unit[this->getUnitID()];
@@ -145,15 +146,25 @@ namespace BWAPI
     else
        return BW::BWXFN_WeaponDamage->weapon[weaponID];
   }
-  //----------------------------------------------------------------------------
+  //--------------------------------- GET FLAGS --------------------------------
   BW::BitMask<BW::UnitPrototypeFlags::Enum> UnitPrototype::getFlags() const
   {
     return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()];
   }
-  //----------------------------------------------------------------------------
+  //-------------------------------- CAN PRODUCE -------------------------------
   bool UnitPrototype::canProduce() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::ProducesUnits);
+  }
+  //------------------------------- GET TILE WIDTH -----------------------------
+  u16 UnitPrototype::getTileWidth() const
+  {
+    return (u16) ceil(((float)this->dimensionLeft() + this->dimensionRight() )/(float)BW::TileSize);
+  }
+  //------------------------------ GET TILE HEIGHT -----------------------------
+  u16 UnitPrototype::getTileHeight() const
+  {
+    return (u16) ceil(((float)this->dimensionUp() + this->dimensionDown() )/(float)BW::TileSize);
   }
   //----------------------------------------------------------------------------
 };

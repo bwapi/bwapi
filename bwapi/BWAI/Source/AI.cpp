@@ -130,6 +130,13 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
+    
+    int countOfFactories = this->countOfProductionBuildings();
+    if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal())
+    {
+      
+    }
+    
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
@@ -352,6 +359,15 @@ namespace BWAI
         }
         (*activeMinerals.begin())->assignGatherer(*i);
       }
+  }
+  //---------------------------------------------------------------------------
+  int AI::countOfProductionBuildings()
+  {
+    int countOfFactories = 0;
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (i->isReady() && i->getPrototype()->canProduce())
+         countOfFactories++;
+    return countOfFactories;
   }
   //---------------------------------------------------------------------------
 }

@@ -24,7 +24,7 @@ namespace BWAI
       AI();
       ~AI();
       /** Updates next/first pointers */
-      void update(void);
+      void update();
       /** Call in the start of the game */
       void onStart(BWAPI::Player *player);
       void onEnd();
@@ -46,7 +46,7 @@ namespace BWAI
       BWAPI::UnitPrototype* worker;
       void startNewExpansion(Unit *gatherCenter);
       void rebalanceMiners();
-      bool checkAssignedWorkers(void);
+      bool checkAssignedWorkers();
       Unit* first;
       void checkNewExpansions();
       void refreshSelectionStates(BW::Unit** selected);
@@ -58,9 +58,11 @@ namespace BWAI
       /** Don't mix-up with deadlock. */
       Logger* deadLog;
       void getIdleWorkers(std::list<Unit*> &workers);
-      void checkWorkersNeed(void);
+      void checkWorkersNeed();
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
       MapInfo *mapInfo;
       MapStartingPosition* startingPosition;
+      int countOfProductionBuildings();
+      
   };
 }

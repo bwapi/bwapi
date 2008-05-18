@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\RectangleArray.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\StaticAssert.h"
 				>
 			</File>

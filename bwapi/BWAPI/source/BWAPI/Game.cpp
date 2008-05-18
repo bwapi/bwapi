@@ -6,26 +6,31 @@
 #include "../BWAPI/UnitPrototypeDefinitions.h"
 #include "../BWAPI/Command.h"
 #include "../BWAPI/CommandCancelTrain.h"
+#include "../BWAPI/Map.h"
 
 #include "../BW/Offsets.h"
 #include "../BW/Unit.h"
 #include "../BW/UnitTarget.h"
 #include "../BW/OrderTypes.h"
 #include "../BW/Latency.h"
+#include "../BW/TileType.h"
+#include "../BW/TileSet.h"
+
+#include "../Logger.h"
 
 #include <stdio.h>
 #include <windows.h>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "../Logger.h"
-
+#include <math.h>
 
 namespace BWAPI 
 {
   //------------------------------ CONSTRUCTOR ----------------------------------
   Game::Game()
   :inGame(false)
+  ,unitsOnTile(0,0)
   {
     this->commandLog        = new Logger("commands", LogLevel::MicroDetailed);
     this->newOrderLog       = new Logger("new_orders", LogLevel::MicroDetailed);
@@ -101,6 +106,8 @@ namespace BWAPI
       this->getFirst()->updateNext();
     this->frameCount ++;
     this->logUnknownOrStrange();
+    this->updateUnitsOnTile();    
+
     //this->logUnitList();
   }
   //---------------------------------- TEST -----------------------------------
@@ -437,6 +444,41 @@ namespace BWAPI
   BW::Latency::Enum Game::getLatency()
   {
     return this->latency;
+  }
+  //--------------------------------------------------------------------------
+  void Game::printUnitCountPerTile()
+  {
+    FILE *f = fopen("unit-counts.txt", "wt");
+    for (int y = 0; y < Map::getHeight();y++)
+    {
+      for (int x = 0; x < Map::getWidth(); x++)
+      {
+         if ((((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8)) == 0)
+          fprintf(f, "%d", this->unitsOnTile[x][y].size());
+        else
+          fprintf(f, "X");
+      }
+      fprintf(f,"\n");
+    }
+    fclose(f);
+  }
+  //--------------------------------------------------------------------------
+  void Game::updateUnitsOnTile()
+  {
+    this->unitsOnTile.resize(Map::getWidth(), Map::getHeight());
+    for (int y = 0; y < Map::getHeight(); y++)
+      for (int x = 0; x < Map::getWidth(); x++)
+        this->unitsOnTile[x][y].clear();
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    {
+      int startX =   (i->getPosition().x - i->getPrototype()->dimensionLeft())/BW::TileSize;
+      int endX = (int) ceil((i->getPosition().x + i->getPrototype()->dimensionRight())/((float)BW::TileSize));
+      int startY =   (i->getPosition().y - i->getPrototype()->dimensionUp())/BW::TileSize;
+      int endY = (int) ceil((i->getPosition().y + i->getPrototype()->dimensionDown())/((float)BW::TileSize));
+      for (int x = startX; x < endX; x++)
+        for (int y = startY; y < endY; y++)
+          this->unitsOnTile[x][y].push_back(i);
+    }
   }
   //--------------------------------------------------------------------------
 };
