@@ -50,7 +50,7 @@ class Logger
     LogLevel::Enum levelToLog;
   public : 
     /** Every log message will be also posted to this global log. */
-    static Logger globalLog;
+    static Logger* globalLog;
 };
 
 // Template member functions must be defined in header
@@ -71,8 +71,9 @@ bool Logger::log(const std::string&   message,
   fprintf(f, message.c_str(), parameter1);
   fprintf(f, "\n");
   fclose(f);
-  if (this != &globalLog)
-    globalLog.log(message, parameter1, logLevel);
+  if (globalLog != NULL &&
+      this != globalLog)
+    globalLog->log(message, parameter1, logLevel);
   return true;
 }
 //------------------------------- LOG -----------------------------------------
@@ -93,8 +94,9 @@ bool Logger::log(const std::string&   message,
   fprintf(f, message.c_str(), parameter1, parameter2);
   fprintf(f, "\n");
   fclose(f);
-  if (this != &globalLog)
-    globalLog.log(message, parameter1, parameter2, logLevel);
+  if (globalLog != NULL &&
+      this != globalLog)
+    globalLog->log(message, parameter1, parameter2, logLevel);
   return true;
 }
 //------------------------------- LOG -----------------------------------------
@@ -116,7 +118,8 @@ bool Logger::log(const std::string&   message,
   fprintf(f, message.c_str(), parameter1, parameter2, parameter3);
   fprintf(f, "\n");
   fclose(f);
-  if (this != &globalLog)
-    globalLog.log(message, parameter1, parameter2, parameter3, logLevel);
+  if (globalLog != NULL &&
+      this != globalLog)
+    globalLog->log(message, parameter1, parameter2, parameter3, logLevel);
   return true;
 }
