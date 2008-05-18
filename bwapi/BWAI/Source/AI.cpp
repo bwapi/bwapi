@@ -18,8 +18,6 @@
 #include "..//..//BWAPI//Source//Logger.h"
 #include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
 #include "..//..//BWAPI//Source//BWAPI//Map.h"
-#include "..//..//BWAPI//Source//BW//TileSet.h"
-#include "..//..//BWAPI//Source//BW//TileType.h"
 
 namespace BWAI
 {
@@ -61,6 +59,7 @@ namespace BWAI
   {
     this->log->log("Ai::Game start", LogLevel::Important);
     this->player = player;
+    BWAPI::Map::saveBuildabilityMap("buildability.txt");
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
@@ -99,7 +98,6 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
-    BWAPI::Map::saveBuildabilityMap("buildability.txt");
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
