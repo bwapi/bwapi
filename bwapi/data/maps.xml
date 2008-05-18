@@ -1,0 +1,5 @@
+<maps-supported>
+  <map name="ICCup Python 1.3.scx" data="maps\python\">
+    <file>maps\python.xml</file>
+  </map>
+</maps-supported>
