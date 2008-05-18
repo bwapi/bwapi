@@ -2,7 +2,7 @@
 #include <vector>
 namespace BWAI { class Expansion; }
 namespace BWAI { class Unit; }
-#include "..//..//BWAPI//Source//Logger.h"
+#include "../../Util/Logger.h"
 
 namespace BWAI
 {

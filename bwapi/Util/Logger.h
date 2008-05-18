@@ -44,6 +44,7 @@ class Logger
     bool log(const std::string& message, const T1& parameter1, const T2& parameter2, LogLevel::Enum logLevel = LogLevel::Normal);
     template <class T1, class T2, class T3>
     bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, LogLevel::Enum logLevel = LogLevel::Normal);
+    void setFileName(const std::string& name);
   private :
     std::string name;
     LogLevel::Enum levelToLog;

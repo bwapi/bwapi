@@ -7,12 +7,14 @@
 #include <algorithm>
 #include <stdio.h>
 
-#include "./Types.h"
-#include "./BWAPI/Globals.h"
-#include "./BWAPI/Game.h"
-#include "./BWAPI/Globals.h"
-#include "./BWAPI/Player.h"
-#include "./BW/Offsets.h"
+#include "Types.h"
+#include "BWAPI/Globals.h"
+#include "BWAPI/Game.h"
+#include "BWAPI/Globals.h"
+#include "BWAPI/Player.h"
+#include "../../Util/Dictionary.h"
+#include "../../Util/Logger.h"
+#include "BW/Offsets.h"
 #include "../../BWAI/Source/AI.h"
 #include "../../BWAI/Source/Globals.h"
 
@@ -182,14 +184,19 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
-  Sleep(5000);
-  //JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
+  if (BWAPI::Broodwar.configuration == NULL)
+    return 1;
+  int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
+  Logger::globalLog.log(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks"));
+  Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
   JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);
   JmpCallPatch(onCancelTrainByEscape, BW::BWXFN_CancelTrainByEscape, 0);
   JmpCallPatch(onRemoveUnit, BW::BWXFN_RemoveUnit, 0);
+
+  
  /* for ever
   {
     if (!BWAPI::Broodwar.isInGame())

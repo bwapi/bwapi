@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = Broodwar api
-PROJECT_NUMBER         = Revision-132 
+PROJECT_NUMBER         = Revision-163 
 OUTPUT_DIRECTORY       = doxygen
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
@@ -90,7 +90,8 @@ INPUT                  = BWAPI/index.h \
                          BWAPI/Source/BW \
                          BWAPI/Source/BWAPI \
                          BWAPI/Source/ \
-                         BWAI/Source
+                         BWAI/Source \
+                         Util
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \
                          *.h \
@@ -109,12 +110,12 @@ FILTER_SOURCE_FILES    = NO
 #---------------------------------------------------------------------------
 # configuration options related to source browsing
 #---------------------------------------------------------------------------
-SOURCE_BROWSER         = NO
+SOURCE_BROWSER         = YES
 INLINE_SOURCES         = NO
 STRIP_CODE_COMMENTS    = NO
 REFERENCED_BY_RELATION = NO
-REFERENCES_RELATION    = NO
-REFERENCES_LINK_SOURCE = NO
+REFERENCES_RELATION    = YES
+REFERENCES_LINK_SOURCE = YES
 USE_HTAGS              = NO
 VERBATIM_HEADERS       = NO
 #---------------------------------------------------------------------------

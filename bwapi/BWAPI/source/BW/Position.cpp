@@ -1,6 +1,6 @@
 #include "Position.h"
 #include "..//..//..//TinyXml//tinyXml.h"
-#include "..//Exceptions.h"
+#include "../../../Util/Exceptions.h"
 
 namespace BW
 {
