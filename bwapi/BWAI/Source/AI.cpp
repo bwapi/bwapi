@@ -9,6 +9,8 @@
 #include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
+#include "MapInfo.h"
+#include "MapExpansion.h"
 //#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
 //#include "..//..//BWAPI//Source//BW//BitMask.h"
 #include "..//..//BWAPI//Source//BW//Unit.h" /**@todo remove */
@@ -18,6 +20,9 @@
 #include "..//..//BWAPI//Source//Logger.h"
 #include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
 #include "..//..//BWAPI//Source//BWAPI//Map.h"
+#include "..//..//BWAPI//Source//Exceptions.h"
+
+
 
 namespace BWAI
 {
@@ -60,6 +65,16 @@ namespace BWAI
     this->log->log("Ai::Game start", LogLevel::Important);
     this->player = player;
     BWAPI::Map::saveBuildabilityMap("buildability.txt");
+    try
+    {
+      mapInfo = new MapInfo("bwapi-data\\maps\\python.xml");
+      for (std::list<MapExpansion*>::iterator i = mapInfo->expansions.begin(); i != mapInfo->expansions.end(); ++i)
+        this->log->log("Expansion (%s) at (%d, %d)", (*i)->getID().c_str(), (*i)->getPosition().x, (*i)->getPosition().y);
+    }
+    catch (GeneralException& exception)
+    {
+      this->log->log("Exception caught when trying to initialize map info :" + exception.getMessage());
+    }
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
@@ -71,13 +86,15 @@ namespace BWAI
     this->activeMinerals.clear();
     this->expansionsSaturated = false;
     this->log->log("Ai::On end end", LogLevel::Detailed);
+    delete mapInfo;
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
+  :mapInfo(NULL)
+  ,log(new Logger("ai", LogLevel::MicroDetailed))
+  ,deadLog(new Logger("dead", LogLevel::MicroDetailed))
   {
-    this->log = new Logger("ai", LogLevel::MicroDetailed);
-    this->deadLog= new Logger("dead", LogLevel::MicroDetailed);
-
+   
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));

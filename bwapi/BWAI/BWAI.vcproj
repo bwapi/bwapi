@@ -148,11 +148,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BuildingPositionDefinition.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Expansion.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Source\Gobals.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapExpansion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapStartingPosition.cpp"
 				>
 			</File>
 			<File
@@ -174,11 +190,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BuildingPositionDefinition.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Expansion.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Source\Globals.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapExpansion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapStartingPosition.h"
 				>
 			</File>
 			<File

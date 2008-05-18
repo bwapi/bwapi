@@ -7,6 +7,7 @@ class Logger;
 namespace BWAI { class Unit; }
 namespace BWAI { class Mineral; }
 namespace BWAI { class Expansion; }
+namespace BWAI { class MapInfo; }
 
 namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
@@ -58,5 +59,6 @@ namespace BWAI
       void getIdleWorkers(std::list<Unit*> &workers);
       void checkWorkersNeed(void);
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
+      MapInfo *mapInfo;
   };
 }

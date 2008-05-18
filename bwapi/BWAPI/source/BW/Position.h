@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Types.h"
+class TiXmlElement;
 
 namespace BW
 {
@@ -9,8 +10,11 @@ namespace BW
   {
     public :
       Position();
+      Position(TiXmlElement* xmlElement);
       Position(u16 x, u16 y);
       u16 x;
       u16 y;
+
   };
 };
+
