@@ -17,8 +17,10 @@ namespace BWAI
       MapInfo(const std::string& xmlFileName);
       ~MapInfo();
       std::list<MapExpansion*> expansions;
-    private :
       std::list<MapStartingPosition*> startingPositions;
+      MapExpansion *getExpansion(const std::string& id);
+    private :
+      
       
   };
 }
