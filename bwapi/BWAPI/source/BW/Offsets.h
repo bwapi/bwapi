@@ -45,6 +45,7 @@ namespace BW
   };
   static PlayerNames_type* BWXFN_PlayerNames = (PlayerNames_type*) 0x0057EEEB;
 
+  /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   static TileID**      BWXFN_MapTileArray = (TileID**) 0x005993AC;
   static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8;
@@ -92,6 +93,7 @@ namespace BW
   static int*          BWXFN_MouseY = (int*) 0x006CDDB0;
   static int*          BWXFN_ScreenX = (int*) 0x00628430;
   static int*          BWXFN_ScreenY = (int*) 0x00628458;
+  static char*         BWXFN_CurrentMapFileName = (char*) 0x001905C4;
 
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS

@@ -22,11 +22,11 @@ namespace BW
  
 
   /** 
-  * Direct data mapping of the broodwar unit structure. Most of the information here is derived
-  * from http://farty1billion.dyndns.org/EUDDB/?pg=ref&a=unitnode
-  * Values marked @todo Unknown are labeled as the EUDDB has them labeled, but the true meaning 
-  * is not understood. Values marked @todo Verify have known meanings, but are not confirmed.
-  */
+   * Direct data mapping of the broodwar unit structure. Most of the information here is derived
+   * from http://farty1billion.dyndns.org/EUDDB/?pg=ref&a=unitnode
+   * Values marked @todo Unknown are labeled as the EUDDB has them labeled, but the true meaning 
+   * is not understood. Values marked @todo Verify have known meanings, but are not confirmed.
+   */
   #pragma pack(1)
   struct Unit
   {

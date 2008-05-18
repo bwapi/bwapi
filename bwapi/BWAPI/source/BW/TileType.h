@@ -4,7 +4,7 @@
 namespace BW
 {
   const u32 TILE_TYPE_SIZE_IN_BYTES = 52;
-  /** Isn't mapped yet, but I will leave it here*/
+  /** Represents information shared for all tiles in one tile group. */
   class TileType
   {
     public :

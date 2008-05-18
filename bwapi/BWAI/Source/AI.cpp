@@ -99,31 +99,12 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
-    if (!mapDrawn)
-    {
-       FILE* f = fopen("buildability.txt","wt");
-       for (int y = 0; y < BWAPI::Map::getHeight(); y++)
-       {
-         for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-         {
-           if (BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability & 128 )
-             fprintf(f, " ");
-           else
-             fprintf(f, "X");
-         }
-         fprintf(f, "\n");
-       }
-       fclose(f);             
-       mapDrawn = true;
-    }
-    
-    
+    BWAPI::Map::saveBuildabilityMap("buildability.txt");
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
 
     this->checkNewExpansions();
-
 
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (!i->hasEmptyBuildQueueLocal())

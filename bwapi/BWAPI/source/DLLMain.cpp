@@ -182,7 +182,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
-  Sleep(17000);
+  Sleep(5000);
   //JmpCallPatch(hookTest, BW::BWXFN_NextFrameHelperFunction, 0);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
