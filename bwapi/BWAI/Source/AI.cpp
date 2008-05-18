@@ -67,7 +67,7 @@ namespace BWAI
   {
     this->log->log("Ai::Game start", LogLevel::Important);
     this->player = player;
-    BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("bwapi_data") + "\\buildability.txt");
+    BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
     try
     {
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
@@ -111,7 +111,6 @@ namespace BWAI
   ,log(new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai", LogLevel::MicroDetailed))
   ,deadLog(new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
   {
-   
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
@@ -132,7 +131,7 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
-    
+      
     int countOfFactories = this->countOfProductionBuildings();
     if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal())
     {

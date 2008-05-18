@@ -187,7 +187,6 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   if (BWAPI::Broodwar.configuration == NULL)
     return 1;
   int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
-  Logger::globalLog.log(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks"));
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
