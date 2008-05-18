@@ -4,7 +4,7 @@ namespace BWAPI
   //------------------------------- GET TILE --------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    return *(*BW::BWXFN_MapTileArray + (x + y*Map::getWidth()));
+    return *(*BW::BWXFN_MapTileArray + (x + y*Map::getWidth())) & 0x2FF;
   }
   //------------------------------ GET WIDTH --------------------------------
   u16 Map::getWidth()
