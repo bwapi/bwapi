@@ -31,22 +31,21 @@ namespace BW
   struct Unit
   {
     /*0x000*/ BW::Unit*                    previousUnit;
-    /*0x004*/ BW::Unit*                    nextUnit;
+    /*0x004*/ BW::Unit*                    nextUnit;              /**< Pointer to next unit in the unit linked list, we use 
+                                                                   *   it to iterate units.
+                                                                   *   @see BW#BWXFN_UnitNodeTable_FirstElement
+                                                                   **/
     /*0x008*/ u8                           healthPointsFraction;  /**< Count of 1/255 fractions of one hitpoint. */
     /*0x009*/ u16                          healthPoints;          /**< Health points of the current unit, this value 
                                                                   can be lower (by one) than the displayed value 
                                                                   in in broodwar as broodwar doesn't want  to confuse 
                                                                   users with 0 hitpoint unit (with non-zero hp fraction). */
-    /*0x00B*/ bool                         resource;              /**< Estimation of the meaning. 
-                                                                   * (SCV+CommandCenter+Dark swarm + Mineral chunk - life or dead value = 0
-                                                                   * minerals and vaspine gayser 1
-                                                                   */
+    /*0x00B*/ bool                         resource;              /**< minerals and vaspine has this set to true, everything else to false */
     /*0x00C*/ BW::Sprite*                   sprite;
     /*0x010*/ BW::Position                  moveToPos;
     /*0x014*/ BW::Unit*                     targetUnit;
     /*0x018*/ _UNKNOWN _2[8];
-    /*0x020*/ BitMask<MovementFlags::Enum>  movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. 
-                                                                 @todo Verify */
+    /*0x020*/ BitMask<MovementFlags::Enum>  movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. */
     /*0x021*/ _UNKNOWN _3[1];
     /*0x022*/ u8                            flingyTurnRadius;     /**< @todo Unknown */
     /*0x023*/ u8                            currentDirection;     /**< @todo Unknown */
@@ -78,15 +77,15 @@ namespace BW
     /*0x063*/ _UNKNOWN _8[1];
     /*0x064*/ BW::UnitType::Enum            unitID;               /**< Specifies the type of unit. */
     /*0x066*/ _UNKNOWN _9[2];
-    /*0x068*/ BW::Unit*                previousPlayerUnit;   /**< @todo Verify */
-    /*0x06C*/ BW::Unit*                nextPlayerUnit;       /**< @todo Verify */
-    /*0x070*/ BW::Unit*                subUnit;              /**< @todo Verify */
-    /*0x074*/ BW::Order*                   orderQueueHead;       /**< @todo Verify */
-    /*0x078*/ BW::Order*                   orderQueueTail;       /**< @todo Verify */
+    /*0x068*/ BW::Unit*                     previousPlayerUnit;   /**< @todo Verify */
+    /*0x06C*/ BW::Unit*                     nextPlayerUnit;       /**< @todo Verify */
+    /*0x070*/ BW::Unit*                     subUnit;              /**< @todo Verify */
+    /*0x074*/ BW::Order*                    orderQueueHead;       /**< @todo Verify */
+    /*0x078*/ BW::Order*                    orderQueueTail;       /**< @todo Verify */
     /*0x07C*/ _UNKNOWN _10[4];
-    /*0x080*/ BW::Unit*                connectedUnit;        /**< @todo Verify */
-    /*0x084*/ u8                           orderQueueCount;      /**< @todo Verify */
-    /*0x085*/ u8                           unknownOrderTimer_0x085; /**< @todo Unknown */
+    /*0x080*/ BW::Unit*                     connectedUnit;        /**< @todo Verify */
+    /*0x084*/ u8                            orderQueueCount;         /**< @todo Verify */
+    /*0x085*/ u8                            unknownOrderTimer_0x085; /**< @todo Unknown */
     /*0x086*/ _UNKNOWN _11[2];
     /*0x088*/ u16                          displayedUnitID;    /**< @todo Verify */
     /*0x08A*/ _UNKNOWN _12[4];
