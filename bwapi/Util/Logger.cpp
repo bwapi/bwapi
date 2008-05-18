@@ -18,8 +18,9 @@ bool Logger::log(const    std::string&   message,
     return false;
   fprintf(f, "%s %s\n", time, message.c_str());
   fclose(f);
-  if (this != &globalLog)
-    globalLog.log(message, levelToLog);
+  if (globalLog != NULL &&
+      this != globalLog)
+    globalLog->log(message, levelToLog);
   return true;
 }
 //------------------------------- SET FILE NAME -------------------------------
@@ -28,4 +29,4 @@ void Logger::setFileName(const std::string& name)
   this->name = name;
 }
 //-----------------------------------------------------------------------------
-Logger Logger::globalLog = Logger("global.log", LogLevel::MicroDetailed);
+Logger* Logger::globalLog = NULL;
