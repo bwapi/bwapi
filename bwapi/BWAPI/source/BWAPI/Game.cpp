@@ -89,16 +89,15 @@ namespace BWAPI
     delete this->configuration;
   }
   //------------------------------- ISSUE COMMAND -------------------------------
-  void __fastcall Game::IssueCommand(PBYTE pbBuffer, int iSize) 
+  void Game::IssueCommand(PBYTE pbBuffer, u32 iSize) 
   {
-     static const int BWFXNIssuseCommand = 0x4858F0;
-      __asm 
-        {
-        MOV ECX, pbBuffer
-        MOV EDX, iSize
-        CALL [BWFXNIssuseCommand]
-        }
-     }
+    __asm 
+    {
+      MOV ECX, pbBuffer
+      MOV EDX, iSize
+      CALL [BW::BWFXN_IssueCommand]
+    }
+  }
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
@@ -120,55 +119,6 @@ namespace BWAPI
     this->frameCount ++;
     this->logUnknownOrStrange();
     this->updateUnitsOnTile();    
-
-    //this->logUnitList();
-  }
-  //---------------------------------- TEST -----------------------------------
-
-  void Game::test(void)
-  {
-  }
-  //----------------------------- JMP PATCH -----------------------------------
-  
-  #pragma warning(push)
-  #pragma warning(disable:4311)
-  #pragma warning(disable:4312)
-
-  void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
-  {
-    DWORD OldProt = 0;
-    VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-    unsigned char jmp = 0xE9;
-    memcpy((LPVOID)pSrc, &jmp, 1);
-    DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
-    memcpy((LPVOID)(pSrc + 1), &address, 4); 
-    for (int i = 0; i < nNops; ++i)
-      *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
-    VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
-  }
-
-  #pragma warning(pop)
-
-
- void __declspec(naked) DrawStaticText(const char* text, int x, int y)
-  {
-      __asm
-      {
-          mov eax, text
-          mov edx, y
-          push edx
-          mov esi, x
-          call [BW::BWFXN_HUD]
-      }
-  }
-
-//------------------------------ PRINT X Y ------------------------------------
-  void Game::printXY(int x, int y, const char* text)
-  {
-   char *buffer = new char[strlen(text) + 1];
-   strcpy(buffer, text);
-   this->buffers.push_back(buffer);
-   DrawStaticText(text, x, y);
   }
   //---------------------------------------------------------------------------
   bool Game::isInGame() const
@@ -253,8 +203,6 @@ namespace BWAPI
    return *(BW::BWXFN_ScreenY);
   }
   //-----------------------------------------------------------------------------
-//  int BWFXN_DrawBox = 0x4E18E0;
-//  char* BWFXN_pointer = (char*) 0x6CF494;
   void Game::drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr)
   {
     static const int BWFXN_DrawBox = 0x4E18E0; 
@@ -296,11 +244,13 @@ namespace BWAPI
   {
 
     /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
-    /*if (selected[0] == NULL)
+    if (selected[0] == NULL)
+    {
+      delete [] selected;
       return;
-
+    }
     
-    BW::Unit** selectedNow = this->saveSelected();
+   /* BW::Unit** selectedNow = this->saveSelected();
     int i;
     for (i = 0; selected[i] ==  selectedNow[i]; i++)
     if (selected[i] == NULL && selectedNow[i] == NULL)
@@ -309,14 +259,11 @@ namespace BWAPI
        delete [] selectedNow;
        return;
     }
-
-    delete selectedNow; */
+    delete selectedNow;*/
 
     int unitCount = 0;
     while (selected[unitCount] != NULL)
       unitCount ++;
-    if (unitCount == 0)
-      return;
     if (quietSelect)
     {
       /*byte* inputData = new byte[2 + unitCount*2];
@@ -340,13 +287,20 @@ namespace BWAPI
     }
     delete [] selected;   
   }
-  //-----------------------------------------------------------------------------
+  //---------------------------------- ON CANCEL TRAIN --------------------------
   void Game::onCancelTrain()
   {
-    BW::Unit** selected = this->saveSelected();
-    if (selected[0] != NULL)
-      this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(selected[0])));
-    delete [] selected;
+    try
+    {
+      BW::Unit** selected = this->saveSelected();
+      if (selected[0] != NULL)
+        this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(selected[0])));
+      delete [] selected;
+    }
+    catch (GeneralException& exception)
+    {
+      Logger::globalLog->log("Exception in onCancelTrain: " + exception.getMessage());
+    }
   }
   //-----------------------------------------------------------------------------
   void Game::onRemoveUnit(BW::Unit *unit)
