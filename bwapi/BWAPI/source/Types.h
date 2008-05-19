@@ -14,8 +14,8 @@ typedef unsigned long   DWORD;
 typedef void*           PVOID;
 
 #ifdef NULL
-# undef NULL
-# define NULL 0
+#undef NULL
+#define NULL 0
 #endif
 
 #define ever (;;)

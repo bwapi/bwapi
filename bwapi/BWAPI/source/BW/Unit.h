@@ -195,7 +195,7 @@ namespace BW
     /*0x0E2*/ u8                           secondaryOrderState;/**< @todo Unknown */
     /*0x0E3*/ u8                           unknownCounterDown_0x0E3; /**< @todo Unknown */
     /*0x0E4*/ _UNKNOWN _20[8];
-    /*0x0EC*/ BW::Unit*                currentBuildUnit;   /**< @todo Unknown */
+    /*0x0EC*/ BW::Unit*                    currentBuildUnit;   /**< @todo Unknown */
     /*0x0F0*/ _UNKNOWN _21[8];
     /*0x0F8*/ union RallyPsiProviderUnion_type
               {

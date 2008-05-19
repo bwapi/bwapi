@@ -302,7 +302,7 @@ namespace BWAPI
       Logger::globalLog->log("Exception in onCancelTrain: " + exception.getMessage());
     }
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------- ON REMOVE UNIT --------------------------------
   void Game::onRemoveUnit(BW::Unit *unit)
   {
   }
@@ -382,7 +382,7 @@ namespace BWAPI
         this->badAssumptionLog->log("%s is doing transport idle (and is not transport)", i->getName().c_str());
     }
   }
-  //--------------------------------------- GET BINARY ------------------------
+  //----------------------------------- GET BINARY ---------------------------
   template <class Type>
   std::string Game::getBinary(Type value)
   {
@@ -412,7 +412,7 @@ namespace BWAPI
   {
     return this->latency;
   }
-  //--------------------------------------------------------------------------
+  //------------------------------ PRINT UNIT COUNT PER TILE -----------------
   void Game::printUnitCountPerTile()
   {
     FILE *f = fopen("unit-counts.txt", "wt");
@@ -429,7 +429,7 @@ namespace BWAPI
     }
     fclose(f);
   }
-  //--------------------------------------------------------------------------
+  //------------------------------ UPDATE UNITS ON TILE ----------------------
   void Game::updateUnitsOnTile()
   {
     this->unitsOnTile.resize(Map::getWidth(), Map::getHeight());

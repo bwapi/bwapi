@@ -152,6 +152,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BuildingToMake.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Expansion.cpp"
 				>
 			</File>
@@ -191,6 +195,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\BuildingPositionDefinition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\BuildingToMake.h"
 				>
 			</File>
 			<File
