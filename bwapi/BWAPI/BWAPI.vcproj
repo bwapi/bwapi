@@ -328,6 +328,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BWAPI\CommandBuild.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandBuild.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
 					>
 				</File>

@@ -63,6 +63,6 @@ namespace BWAI
       MapInfo *mapInfo;
       MapStartingPosition* startingPosition;
       int countOfProductionBuildings();
-      
+      void checkSupplyNeed();
   };
 }

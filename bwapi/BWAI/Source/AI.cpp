@@ -67,7 +67,7 @@ namespace BWAI
   {
     try
     {
-      this->log->log("Ai::Game start", LogLevel::Important);
+      this->log->log("Ai::onStart start", LogLevel::Important);
       this->player = player;
       BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
@@ -84,6 +84,7 @@ namespace BWAI
         for (std::list<BW::Position>::iterator j = (*i)->nonProducing3X2BuildingPositions.begin(); j != (*i)->nonProducing3X2BuildingPositions.end(); ++j)
           this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
       }
+     this->log->log("Ai::onStart end", LogLevel::Important);
     }
     catch (GeneralException& exception)
     {
@@ -95,13 +96,15 @@ namespace BWAI
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
-    this->log->log("Ai::On end start", LogLevel::Important);
+    this->log->log("Ai::onEnd start", LogLevel::Important);
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
-    this->expansions.clear();
     this->activeMinerals.clear();
+    this->expansions.clear();
     this->expansionsSaturated = false;
-    this->log->log("Ai::On end end", LogLevel::Detailed);
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      i->expansionAssingment = NULL;
+    this->log->log("Ai::onEnd end", LogLevel::Detailed);
     delete mapInfo;
   }
   //------------------------------- CONSTRUCTOR -------------------------------
@@ -131,13 +134,9 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
-      
-    int countOfFactories = this->countOfProductionBuildings();
-    if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal())
-    {
-      
-    }
-    
+     
+    this->checkSupplyNeed();
+        
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
@@ -310,7 +309,7 @@ namespace BWAI
     return reselected;
   }
   //------------------------------ GET IDLE WORKERS ---------------------------
-  void AI::getIdleWorkers(std::list<Unit*> &workers)
+  void AI::getIdleWorkers(std::list<Unit*>& workers)
   {
     if (!this->expansionsSaturated)
       for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
@@ -369,6 +368,15 @@ namespace BWAI
       if (i->isReady() && i->getPrototype()->canProduce())
          countOfFactories++;
     return countOfFactories;
+  }
+  //---------------------------------------------------------------------------
+  void AI::checkSupplyNeed()
+  {
+    int countOfFactories = this->countOfProductionBuildings();
+    if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal())
+    {
+        
+    }
   }
   //---------------------------------------------------------------------------
 }
