@@ -27,13 +27,15 @@ namespace BWAPI
       ~Game();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       Player* players[12];
-      void printXY(int x, int y, const char* text);
       /** 
        * Prints text in game (only local)
        * @param text Text to be written
        */
       static void print(char *text);
-      void printPublic(char *text) const; // doesn't work now
+      /** 
+       * Doesn't work now
+       */
+      void printPublic(char *text) const;
       bool isInGame() const;
       void setInGame(bool inGame);
       /** 
@@ -53,7 +55,7 @@ namespace BWAPI
        * used for debug and other reasons
        */
       void test(void);
-      void __fastcall IssueCommand(PBYTE pbBuffer, int iSize);
+      void IssueCommand(PBYTE pbBuffer, u32 iSize);
       void addToCommandBuffer(Command *command);
       void onGameStart();
       void onGameEnd();
