@@ -114,28 +114,6 @@ void __declspec(naked) onGameEnd()
     jmp [BW::BWXFN_GameEndBack]
   }
 }
-//------------------------------- UPDATE ---------------------------------------
-int lastEcx;
-void __declspec(naked)  hookTest()
-{
-  if (lastEcx >=  0)
-  {
-    BWAPI::Broodwar.update();
-    BWAI::ai->update();    
-    if (!aiStartCalled)
-    {
-      BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer);
-      aiStartCalled = true;
-    }
-    BWAI::ai->onFrame();
-  }
-  __asm
-  {
-    call [BW::BWXFN_NextFrameHelperFunctionTarget]
-    mov lastEcx, ecx
-    jmp [BW::BWXFN_NextFrameHelperFunctionBack]
-  }
-}
 DWORD frameHookEax;
 //------------------------------ NEXT FRAME HOOK -------------------------------
 void __declspec(naked)  nextFrameHook()
@@ -187,6 +165,8 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   if (BWAPI::Broodwar.configuration == NULL)
     return 1;
   int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
+  delete Logger::globalLog;
+  Logger::globalLog = new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
@@ -210,7 +190,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   }*/
   return 0;
 }
-
+//------------------------------------ DLL MAIN -------------------------------
 BOOL APIENTRY DllMain( HMODULE hModule,
                       DWORD  ul_reason_for_call,
                       LPVOID lpReserved

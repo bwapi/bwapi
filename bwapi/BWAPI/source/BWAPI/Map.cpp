@@ -1,6 +1,7 @@
 #include "Map.h"
-#include "..//BW//TileSet.h"
-#include "..//BW//TileType.h"
+#include "../BW/TileSet.h"
+#include "../BW/TileType.h"
+#include "../../../Util/Exceptions.h"
 namespace BWAPI
 {
   //------------------------------- GET TILE --------------------------------
@@ -22,6 +23,8 @@ namespace BWAPI
   void Map::saveBuildabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
+    if (!f)
+      throw FileException("Couldn't save the buildability map to '" + fileName + "'");
     fprintf(f, "Buildability map for currently opened map\n");
     fprintf(f, "Map file: %s\n", Map::getFileName());
     fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
