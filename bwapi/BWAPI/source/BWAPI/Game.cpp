@@ -437,15 +437,16 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTile[x][y].clear();
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-    {
-      int startX =   (i->getPosition().x - i->getPrototype()->dimensionLeft())/BW::TileSize;
-      int endX = (int) ceil((i->getPosition().x + i->getPrototype()->dimensionRight())/((float)BW::TileSize));
-      int startY =   (i->getPosition().y - i->getPrototype()->dimensionUp())/BW::TileSize;
-      int endY = (int) ceil((i->getPosition().y + i->getPrototype()->dimensionDown())/((float)BW::TileSize));
-      for (int x = startX; x < endX; x++)
-        for (int y = startY; y < endY; y++)
-          this->unitsOnTile[x][y].push_back(i);
-    }
+      if (i->isValid())
+      {
+        int startX =   (i->getPosition().x - i->getPrototype()->dimensionLeft())/BW::TileSize;
+        int endX = (int) ceil((i->getPosition().x + i->getPrototype()->dimensionRight())/((float)BW::TileSize));
+        int startY =   (i->getPosition().y - i->getPrototype()->dimensionUp())/BW::TileSize;
+        int endY = (int) ceil((i->getPosition().y + i->getPrototype()->dimensionDown())/((float)BW::TileSize));
+        for (int x = startX; x < endX; x++)
+          for (int y = startY; y < endY; y++)
+            this->unitsOnTile[x][y].push_back(i);
+      }
   }
   //--------------------------------------------------------------------------
 };
