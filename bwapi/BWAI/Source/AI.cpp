@@ -65,11 +65,11 @@ namespace BWAI
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
   {
-    this->log->log("Ai::Game start", LogLevel::Important);
-    this->player = player;
-    BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
     try
     {
+      this->log->log("Ai::Game start", LogLevel::Important);
+      this->player = player;
+      BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
@@ -84,11 +84,11 @@ namespace BWAI
         for (std::list<BW::Position>::iterator j = (*i)->nonProducing3X2BuildingPositions.begin(); j != (*i)->nonProducing3X2BuildingPositions.end(); ++j)
           this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
       }
-  
     }
     catch (GeneralException& exception)
     {
-      this->log->log("Exception caught when trying to initialize map info :" + exception.getMessage());
+      this->log->log("Exception in AI::onStart: " + exception.getMessage());
+      delete this->mapInfo;
       this->mapInfo = NULL;
     }
   }

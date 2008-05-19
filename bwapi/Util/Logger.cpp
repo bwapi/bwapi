@@ -29,4 +29,4 @@ void Logger::setFileName(const std::string& name)
   this->name = name;
 }
 //-----------------------------------------------------------------------------
-Logger* Logger::globalLog = NULL;
+Logger* Logger::globalLog = new Logger("global", LogLevel::MicroDetailed);

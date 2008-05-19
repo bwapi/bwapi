@@ -44,7 +44,6 @@ namespace BWAPI
       fprintf(f, "Couldn't load configuration file bwapi.ini because:", exception.getMessage());
       fclose(f);
     }
-    Logger::globalLog       = new Logger(this->configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
     this->commandLog        = new Logger(this->configuration->getValue("log_path") + "\\commands", LogLevel::MicroDetailed);
     this->newOrderLog       = new Logger(this->configuration->getValue("log_path") + "\\new_orders", LogLevel::MicroDetailed);
     this->badAssumptionLog  = new Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", LogLevel::MicroDetailed);
