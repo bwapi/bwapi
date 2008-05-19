@@ -115,8 +115,10 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
-      return this->getHealthPoints() > 0 || 
-             this->getHealthPointsFraction() > 0 &&
+      return (
+               this->getHealthPoints() > 0 ||
+               this->getHealthPointsFraction() > 0
+             )&&
              this->getPrototype() != NULL;
   }
   //-------------------------------- IS VALID ----------------------------------
