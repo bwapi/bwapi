@@ -142,19 +142,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\tinystr.cpp"
+				RelativePath=".\Source\tinystr.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\tinyxml.cpp"
+				RelativePath=".\Source\tinyxml.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\tinyxmlerror.cpp"
+				RelativePath=".\Source\tinyxmlerror.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\tinyxmlparser.cpp"
+				RelativePath=".\Source\tinyxmlparser.cpp"
 				>
 			</File>
 		</Filter>
@@ -164,11 +164,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\tinystr.h"
+				RelativePath=".\Source\tinystr.h"
 				>
 			</File>
 			<File
-				RelativePath=".\tinyxml.h"
+				RelativePath=".\Source\tinyxml.h"
 				>
 			</File>
 		</Filter>

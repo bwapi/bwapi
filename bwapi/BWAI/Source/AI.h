@@ -1,9 +1,8 @@
 #pragma once
-#include "..//..//BWAPI//Source//BWAPI//Game.h"
-//#include "..//..//BWAPI//Source//BW//Unit.h"
+#include "../../BWAPI/Source/BWAPI/Game.h"
 #include <list>
 
-class Logger;
+namespace Util { class Logger; }
 namespace BWAI { class Unit; }
 namespace BWAI { class Mineral; }
 namespace BWAI { class Expansion; }
@@ -39,7 +38,7 @@ namespace BWAI
       static Unit* optimizeMineralFor;
       int expansionsSaturated;
       Unit* getFirst();
-      Logger* log;
+      Util::Logger* log;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -56,7 +55,7 @@ namespace BWAI
        */
       bool performAutoBuild();
       /** Don't mix-up with deadlock. */
-      Logger* deadLog;
+      Util::Logger* deadLog;
       void getIdleWorkers(std::list<Unit*> &workers);
       void checkWorkersNeed();
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);

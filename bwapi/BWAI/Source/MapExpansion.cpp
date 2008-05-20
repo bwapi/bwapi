@@ -1,6 +1,6 @@
 #include "MapExpansion.h"
-#include "../../TinyXml/tinyXml.h"
-#include "../../Util/Exceptions.h"
+#include <tinyXml.h>
+#include <Exceptions.h>
 namespace BWAI
 {
   //---------------------------------- CONSTRUCTOR ----------------------------
@@ -31,7 +31,7 @@ namespace BWAI
   {
     this->id = id;
   }
-  //---------------------------------------------------------------------------
+  //--------------------------------- GET ID ----------------------------------
   const std::string& MapExpansion::getID(void) const
   {
     return this->id;

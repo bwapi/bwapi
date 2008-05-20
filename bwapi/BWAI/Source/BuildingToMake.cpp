@@ -2,7 +2,7 @@
 #include "Unit.h"
 #include "AI.h"
 #include "Globals.h"
-#include "../../Util/Logger.h"
+#include "../../Util/Source/Util/Logger.h"
 #include "../../BWAPI/Source/BW/UnitType.h"
 #include "../../BWAPI/Source/Types.h"
 #include "../../BWAPI/Source/BW/OrderID.h"

@@ -1,7 +1,7 @@
 #include "MapStartingPosition.h"
+#include <Exceptions.h>
+#include <tinyXml.h>
 #include "MapInfo.h"
-#include "../../TinyXml//tinyXml.h"
-#include "../../Util/Exceptions.h"
 namespace BWAI
 {
   //------------------------------- CONSTRUCTOR -------------------------------

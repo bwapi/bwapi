@@ -7,14 +7,15 @@
 #include <algorithm>
 #include <stdio.h>
 
+#include <Dictionary.h>
+#include <Logger.h>
+
 #include "Types.h"
+#include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Game.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Player.h"
-#include "../../Util/Dictionary.h"
-#include "../../Util/Logger.h"
-#include "BW/Offsets.h"
 #include "../../BWAI/Source/AI.h"
 #include "../../BWAI/Source/Globals.h"
 
@@ -163,8 +164,8 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   if (BWAPI::Broodwar.configuration == NULL)
     return 1;
   int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
-  delete Logger::globalLog;
-  Logger::globalLog = new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
+  delete Util::Logger::globalLog;
+  Util::Logger::globalLog = new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
