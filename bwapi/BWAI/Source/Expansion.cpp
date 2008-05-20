@@ -2,7 +2,7 @@
 #include "AI.h"
 #include "Unit.h"
 #include "Globals.h"
-#include "..//..//BWAPI//Source//BWAPI//UnitPrototype.h" /**< @todo remove */
+#include "..//..//BWAPI//Source//BW//Unit.h" /**< @todo remove */
 namespace BWAI
 {
   //------------------------------------ CONSTRUCTOR --------------------------
@@ -20,12 +20,12 @@ namespace BWAI
         this->minerals.push_back(new Mineral(i, this));
     }
     ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), LogLevel::Normal);
-    if (this->gatherCenter->lastTrainedUnitID == BW::UnitType::None)
-      switch (this->gatherCenter->getType())
+    if (this->gatherCenter->lastTrainedUnit == BW::UnitID::None)
+      switch (this->gatherCenter->getType().getID())
       {
-        case BW::UnitType::Terran_CommandCenter : gatherCenter->lastTrainedUnitID = BW::UnitType::Terran_SCV; break;
-        case BW::UnitType::Protoss_Nexus        : gatherCenter->lastTrainedUnitID = BW::UnitType::Protoss_Probe; break;
-        case BW::UnitType::Zerg_Hatchery        : gatherCenter->lastTrainedUnitID = BW::UnitType::Zerg_Drone; break;
+        case BW::UnitID::Terran_CommandCenter : gatherCenter->lastTrainedUnit = BW::UnitID::Terran_SCV; break;
+        case BW::UnitID::Protoss_Nexus        : gatherCenter->lastTrainedUnit = BW::UnitID::Protoss_Probe; break;
+        case BW::UnitID::Zerg_Hatchery        : gatherCenter->lastTrainedUnit = BW::UnitID::Zerg_Drone; break;
       }
     gatherCenter->expansionAssingment = this;
 

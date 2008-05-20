@@ -1,6 +1,6 @@
 #pragma once
 #include "..\\Types.h"
-#include "UnitTypes.h"
+#include "UnitType.h"
 #include "PositionUnitTarget.h"
 
 namespace BWAPI { class Unit; }
@@ -43,17 +43,17 @@ namespace BW
    class TrainUnit
    {
      public :
-      TrainUnit(BW::UnitType::Enum type); 
+      TrainUnit(BW::UnitType type); 
       /** 0x1f = Train Command-code in bw */
       u8 always0x1f;
       /** Type of unit to train */
-      BW::UnitType::Enum unitID;
+      BW::UnitType type;
    };
    /** Make building. */
    class MakeBuilding
    {
      public :
-      MakeBuilding(u16 x, u16 y, BW::UnitType::Enum type); 
+      MakeBuilding(u16 x, u16 y, BW::UnitType type); 
       /** 0x0c = make building Command-code in bw */
       u8 always0x0c;
       /** 1e for terran 1f for protoss*/
@@ -61,7 +61,7 @@ namespace BW
       u16 tileX;
       u16 tileY;
       /** Type of building to make */
-      BW::UnitType::Enum unitID;
+      BW::UnitType type;
       
    };
    /** Change slot command in bw. */

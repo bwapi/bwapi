@@ -4,7 +4,7 @@
 #include "../StaticAssert.h"
 
 #include "../BW/OrderID.h"
-#include "../BW/UnitTypes.h"
+#include "../BW/UnitType.h"
 #include "../BW/MovementFlags.h"
 #include "../BW/Position.h"
 #include "../BW/UnitStatusFlags.h"
@@ -70,7 +70,7 @@ namespace BW
     /*0x058*/ BW::Position                  orderTargetPos;       /**< @todo Verify */
     /*0x05C*/ BW::Unit*                     orderTargetUnit;      /**< @todo Verify */
     /*0x060*/ u32                           shieldPoints;         /**< Bw shows this value/256 */
-    /*0x064*/ BW::UnitType::Enum            unitID;               /**< Specifies the type of unit. */
+    /*0x064*/ BW::UnitType                  unitID;               /**< Specifies the type of unit. */
     /*0x066*/ _UNKNOWN _9[2];
     /*0x068*/ BW::Unit*                     previousPlayerUnit;   /**< @todo Verify */
     /*0x06C*/ BW::Unit*                     nextPlayerUnit;       /**< @todo Verify */
@@ -90,7 +90,7 @@ namespace BW
     /*0x093*/ u8                           unknownState_0x93;  /**< @todo Unknown */
     /*0x094*/ u8                           currentButtonSet;   /**< @todo Verify */
     /*0x095*/ _UNKNOWN _14[3];
-    /*0x098*/ BW::UnitType::Enum           buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
+    /*0x098*/ BW::UnitType                 buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                          energy;             /**< @todo Verify */
     /*0x0A4*/ u8                           buildQueueSlot;     /**< Index of active unit in #buildQueue. */
     /*0x0A5*/ _UNKNOWN _15[1];

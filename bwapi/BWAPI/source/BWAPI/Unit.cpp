@@ -1,16 +1,17 @@
 #include "Unit.h"
 
 #include "../BWAPI/TargetType.h"
-#include "../BWAPI/UnitPrototype.h"
-#include "../BWAPI/UnitPrototypeDefinitions.h"
+
 #include "../BWAPI/Player.h"
 #include "../BWAPI/Globals.h"
 #include "../BWAPI/CommandTrain.h"
+#include "../BWAPI/CommandBuild.h"
 #include "../BWAPI/CommandRightClick.h"
 
+#include "../BW/UnitType.h"
 #include "../BW/Unit.h"
 #include "../BW/Offsets.h"
-#include "../BW/UnitTypes.h"
+#include "../BW/UnitType.h"
 
 #include "../../../Util/Logger.h"
 
@@ -41,14 +42,6 @@ namespace BWAPI
   {
     return bwUnit->shieldPoints;
   }
-  //--------------------------  GET UNIT PROTOTYPE -----------------------------
-  const UnitPrototype* Unit::getPrototype() const
-  {
-    if (this->getType() < 228)
-      return BWAPI::Prototypes::unitIDToPrototypeTable[this->getType()];
-    else 
-      return NULL;
-  }
   //--------------------------------- ORDER ------------------------------------
   void Unit::order(int commandCode, const BW::Position& target)
   {
@@ -69,8 +62,8 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
-      return (this->getHealthPoints() > 0)&&
-             this->getPrototype() != NULL;
+      return this->getHealthPoints() > 0 &&
+             this->getType().isValid();
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isReady() const
@@ -147,42 +140,42 @@ namespace BWAPI
    u32 result;
    if (unit == this)
      return 0;
-   if (this->getPosition().y - this->getPrototype()->dimensionUp() <= unit->getPosition().y + unit->getPrototype()->dimensionDown())
-     if (this->getPosition().y + this->getPrototype()->dimensionDown() >= unit->getPosition().y - unit->getPrototype()->dimensionUp())
+   if (this->getPosition().y - this->getType().dimensionUp() <= unit->getPosition().y + unit->getType().dimensionDown())
+     if (this->getPosition().y + this->getType().dimensionDown() >= unit->getPosition().y - unit->getType().dimensionUp())
        if (this->getPosition().x > unit->getPosition().x)
-         result = this->getPosition().x - this->getPrototype()->dimensionLeft() - unit->getPosition().x - unit->getPrototype()->dimensionRight();
+         result = this->getPosition().x - this->getType().dimensionLeft() - unit->getPosition().x - unit->getType().dimensionRight();
        else
-         result = unit->getPosition().x - unit->getPrototype()->dimensionRight() - this->getPosition().x - this->getPrototype()->dimensionLeft();
+         result = unit->getPosition().x - unit->getType().dimensionRight() - this->getPosition().x - this->getType().dimensionLeft();
 
-   if (this->getPosition().x - this->getPrototype()->dimensionLeft() <= unit->getPosition().x + unit->getPrototype()->dimensionRight())
-     if (this->getPosition().x + this->getPrototype()->dimensionRight() >= unit->getPosition().x - unit->getPrototype()->dimensionLeft())
+   if (this->getPosition().x - this->getType().dimensionLeft() <= unit->getPosition().x + unit->getType().dimensionRight())
+     if (this->getPosition().x + this->getType().dimensionRight() >= unit->getPosition().x - unit->getType().dimensionLeft())
        if (this->getPosition().y > unit->getPosition().y)
-         result = this->getPosition().y - this->getPrototype()->dimensionUp() - unit->getPosition().y - unit->getPrototype()->dimensionDown();
+         result = this->getPosition().y - this->getType().dimensionUp() - unit->getPosition().y - unit->getType().dimensionDown();
        else
-         result = unit->getPosition().y - unit->getPrototype()->dimensionDown() - this->getPosition().y - this->getPrototype()->dimensionUp();
+         result = unit->getPosition().y - unit->getType().dimensionDown() - this->getPosition().y - this->getType().dimensionUp();
 
    if (this->getPosition().x > unit->getPosition().x)
      if (this->getPosition().y > unit->getPosition().y)
-       result = this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
-                                  this->getPosition().y - this->getPrototype()->dimensionUp(),
-                                  unit->getPosition().x + unit->getPrototype()->dimensionRight(),
-                                  unit->getPosition().y + unit->getPrototype()->dimensionDown());
+       result = this->getDistance(this->getPosition().x - this->getType().dimensionLeft(),
+                                  this->getPosition().y - this->getType().dimensionUp(),
+                                  unit->getPosition().x + unit->getType().dimensionRight(),
+                                  unit->getPosition().y + unit->getType().dimensionDown());
      else
-       result = this->getDistance(this->getPosition().x - this->getPrototype()->dimensionLeft(),
-                                 this->getPosition().y + this->getPrototype()->dimensionDown(),
-                                 unit->getPosition().x + unit->getPrototype()->dimensionRight(),
-                                 unit->getPosition().y - unit->getPrototype()->dimensionUp());
+       result = this->getDistance(this->getPosition().x - this->getType().dimensionLeft(),
+                                 this->getPosition().y + this->getType().dimensionDown(),
+                                 unit->getPosition().x + unit->getType().dimensionRight(),
+                                 unit->getPosition().y - unit->getType().dimensionUp());
    else
      if (this->getPosition().y > unit->getPosition().y)
-       result = this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
-                                this->getPosition().y - this->getPrototype()->dimensionUp(),
-                                unit->getPosition().x - unit->getPrototype()->dimensionLeft(),
-                                unit->getPosition().y + unit->getPrototype()->dimensionDown());
+       result = this->getDistance(this->getPosition().x + this->getType().dimensionRight(),
+                                this->getPosition().y - this->getType().dimensionUp(),
+                                unit->getPosition().x - unit->getType().dimensionLeft(),
+                                unit->getPosition().y + unit->getType().dimensionDown());
      else
-       result = this->getDistance(this->getPosition().x + this->getPrototype()->dimensionRight(),
-                                this->getPosition().y + this->getPrototype()->dimensionDown(),
-                                unit->getPosition().x - unit->getPrototype()->dimensionLeft(),
-                                unit->getPosition().y - unit->getPrototype()->dimensionUp());
+       result = this->getDistance(this->getPosition().x + this->getType().dimensionRight(),
+                                this->getPosition().y + this->getType().dimensionDown(),
+                                unit->getPosition().x - unit->getType().dimensionLeft(),
+                                unit->getPosition().y - unit->getType().dimensionUp());
    if (result > 0)
      return result;
    else
@@ -206,13 +199,13 @@ namespace BWAPI
   //------------------------------ HAS EMPTY QUEUE -----------------------------
   bool Unit::hasEmptyBuildQueue(void)
   {
-     return this->getBuildQueue()[this->getBuildQueueSlot()] == 0xe4;
+    return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
   }
   //------------------------------ HAS EMPTY QUEUE -----------------------------
   bool Unit::hasEmptyBuildQueueLocal(void)
   {
     if (this->getBuildQueueSlotLocal() < 5)
-      return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == BW::UnitType::None;
+      return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == BW::UnitID::None;
     else
       return false;
   }
@@ -231,11 +224,11 @@ namespace BWAPI
     Broodwar.addToCommandBuffer(new CommandRightClick(this, target));
   }
   //------------------------------------ BUILD --------------------------------
-  void Unit::build(u16 tileX, u16 tileY, UnitPrototype *type)
+  void Unit::build(u16 tileX, u16 tileY, BW::UnitType type)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(tileX, tileY, type->getUnitID()), sizeof(BW::Orders::MakeBuilding)); 
-    Broodwar.addToCommandBuffer(new CommandRightClick(this, BW::Position(tileX*BW::TileSize, tileY*BW::TileSize)));
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(tileX, tileY, type), sizeof(BW::Orders::MakeBuilding)); 
+    Broodwar.addToCommandBuffer(new CommandBuild(this, type, BW::Position(tileX*BW::TileSize, tileY*BW::TileSize)));
   }
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
@@ -260,26 +253,26 @@ namespace BWAPI
     }
   }
   //---------------------------------- GET TYPE --------------------------------
-  BW::UnitType::Enum Unit::getType() const
+  BW::UnitType Unit::getType() const
   {
-    return this->getRawData()->unitID;
+   return this->getRawData()->unitID;
   }
   //---------------------------------- GET QUEUE -------------------------------
-  BW::UnitType::Enum* Unit::getBuildQueue()
+  BW::UnitType* Unit::getBuildQueue()
   {
     return this->getRawData()->buildQueue;
   }
   //-------------------------------- GET QUEUE LOCAL  --------------------------
-  BW::UnitType::Enum* Unit::getBuildQueueLocal()
+  BW::UnitType* Unit::getBuildQueueLocal()
   {
     return this->getRawDataLocal()->buildQueue;
   }
   //----------------------------------- TRAIN UNIT -----------------------------
-  void Unit::trainUnit(UnitPrototype *type)
+  void Unit::trainUnit(BW::UnitType type)
   {
     this->orderSelect();
     Broodwar.addToCommandBuffer(new CommandTrain(this, type));
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type->getUnitID()), 0x3);
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
   }
   //-------------------------------- GET QUEUE SLOT ----------------------------
   u8 Unit::getBuildQueueSlot() const
@@ -304,9 +297,9 @@ namespace BWAPI
   //----------------------------------------------------------------------------
   bool Unit::isMineral() const
   {
-     return this->getType() == BW::UnitType::Resource_MineralPatch1 ||
-            this->getType() == BW::UnitType::Resource_MineralPatch2 ||
-            this->getType() == BW::UnitType::Resource_MineralPatch3;
+     return this->getType() == BW::UnitID::Resource_MineralPatch1 ||
+            this->getType() == BW::UnitID::Resource_MineralPatch2 ||
+            this->getType() == BW::UnitID::Resource_MineralPatch3;
   }
   char position[100];
   char index[50];
@@ -339,10 +332,10 @@ namespace BWAPI
     else
       sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
      
-    if (this->getPrototype() != NULL)
-      sprintf(unitName,"(%21s)", this->getPrototype()->getName().c_str());
+    if (this->getType().isValid())
+      sprintf(unitName, "(%21s)", this->getType().getName());
     else
-      sprintf(unitName,"(unitID = %12u)", this->getType());
+      sprintf(unitName, "(unitID = %12u)", this->getType().getID());
   
     sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderIDLocal()).c_str());
     sprintf(message,"%s %s %s %s ->%s Player = (%10s)", unitName,

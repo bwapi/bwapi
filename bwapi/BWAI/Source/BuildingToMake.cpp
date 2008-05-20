@@ -3,7 +3,7 @@
 #include "AI.h"
 #include "Globals.h"
 #include "../../Util/Logger.h"
-#include "../../BWAPI/Source/BWAPI/UnitPrototype.h"
+#include "../../BWAPI/Source/BW/UnitType.h"
 #include "../../BWAPI/Source/Types.h"
 #include "../../BWAPI/Source/BW/OrderID.h"
 #include "../../BWAPI/Source/BW/Unit.h"
@@ -12,7 +12,7 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  BuildingToMake::BuildingToMake(Unit* builder, BWAPI::UnitPrototype* buildingType, BW::Position position)
+  BuildingToMake::BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::Position position)
   :builder(builder)
   ,buildingType(buildingType)
   ,position(position)

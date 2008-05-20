@@ -8,9 +8,9 @@ namespace BW
   /// Most values from http://www.bwhacks.com/forums/starcraft-hacking-related/27282-unit-id-list.html
   /// Not all values (IE: hero values) are listed, since these are not needed in 
   /// normal games and I am lazy.
-  namespace UnitType
+  namespace UnitID
   {
-    enum Enum : u16 
+    enum Enum : u16
     {
       // Terran Ground
       Terran_Marine                 = 0x00,

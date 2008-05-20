@@ -2,7 +2,7 @@
 
 #include "../Types.h"
 #include "../BW/OrderID.h"
-#include "../BW/UnitTypes.h"
+#include "../BW/UnitType.h"
 
 class Logger;
 namespace BW { class Position; };
@@ -32,7 +32,7 @@ namespace BWAPI
       /** Nothing is deleted as no data are owned.*/
       ~Unit();
       /** Gets #bwUnit->BW#Unit#unitID */
-      BW::UnitType::Enum getType() const;
+      BW::UnitType getType() const;
       /** Gets #bwUnit->BW#Unit#healthPoints. */
       u16 getHealthPoints() const; 
       /** Gets #bwUnit->BW#Unit#shieldPoints. */
@@ -49,8 +49,6 @@ namespace BWAPI
       const Unit* getTargetLocal() const;
       /** (const version) Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
       Player* getOwner() const;
-      /** Gets prototype of the unit defined by #bwUnit->BW#Unit#unitID. */
-      const UnitPrototype* getPrototype() const;
       /** Gets #bwUnit->BW#Unit#queueSlot. */
       u8 getBuildQueueSlot() const;
       /** Gets #bwUnitLocal->BW#Unit#buildQueueSlot - @ref localData */
@@ -68,9 +66,9 @@ namespace BWAPI
       /* Timer specifiing how long it will take to finish the current order (verified for mining). */
       u8 getOrderTimer() const;
       /** Gets #bwUnit->BW#Unit#buildQueue */
-      BW::UnitType::Enum *getBuildQueue();
+      BW::UnitType* getBuildQueue();
       /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
-      BW::UnitType::Enum *getBuildQueueLocal();
+      BW::UnitType* getBuildQueueLocal();
       void order(int commandCode, const BW::Position& target);
       /** Gets if the unit is alive (it exists), it uses hp > 0 heuristic for now. */
       bool isValid() const;
@@ -103,9 +101,9 @@ namespace BWAPI
        */
       void orderRightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
-      void trainUnit(UnitPrototype *type);
+      void trainUnit(BW::UnitType type);
       /** Orders to build the specified building. */
-      void build(u16 tileX, u16 tileY, UnitPrototype *type);
+      void build(u16 tileX, u16 tileY, BW::UnitType type);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);

@@ -1,6 +1,7 @@
 #pragma once
 #include "Command.h"
-#include "../BW/UnitTypes.h"
+#include "../BW/UnitType.h"
+#include "../BW/Position.h"
 namespace BWAPI { class UnitPrototype; }
 namespace BWAPI
 {
@@ -15,12 +16,13 @@ namespace BWAPI
        *         (will be passed as executor to Command ancestor)
        * @param toBuild Building that should be constructed
        */
-      CommandBuild(Unit* builder, UnitPrototype* toBuild);
+      CommandBuild(Unit* builder, BW::UnitType toBuild, BW::Position position);
       ~CommandBuild();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
       std::string describe();
     private :
-      UnitPrototype* toBuild;
+      BW::UnitType toBuild;
+      BW::Position position;
   };
 }

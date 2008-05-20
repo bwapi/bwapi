@@ -1,13 +1,13 @@
 #include "CommandTrain.h"
 #include "Unit.h"
 #include "Player.h"
-#include "UnitPrototype.h"
-#include "../BW//Unit.h"
+#include "../BW/UnitType.h"
+#include "../BW/Unit.h"
 #include "../../../Util/Logger.h"
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  CommandTrain::CommandTrain(Unit* building, UnitPrototype* toTrain)
+  CommandTrain::CommandTrain(Unit* building, BW::UnitType toTrain)
   :Command(building)
   ,toTrain(toTrain)
   {
@@ -20,25 +20,25 @@ namespace BWAPI
   void CommandTrain::execute()
   {
    int slotToAffect = this->executors[0]->getBuildQueueSlotLocal();
-   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitType::None)
+   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitID::None)
       slotToAffect  = (slotToAffect + 1) % 5;
    
-   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitType::None)
+   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitID::None)
    {
      this->failed = true;
      return;
    }
  
-   executors[0]->getBuildQueueLocal()[slotToAffect] = this->toTrain->getUnitID();
-   this->executors[0]->getOwner()->spendLocal(toTrain->getMineralPrice(),
-                                              toTrain->getGasPrice());
+   executors[0]->getBuildQueueLocal()[slotToAffect] = this->toTrain.getID();
+   this->executors[0]->getOwner()->spendLocal(this->toTrain.getMineralPrice(),
+                                              this->toTrain.getGasPrice());
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
-   if (toTrain->isProtoss())
-     executors[0]->getOwner()->useSuppliesProtossLocal(toTrain->getSupplies());
-   if (toTrain->isTerran())
-     executors[0]->getOwner()->useSuppliesTerranLocal (toTrain->getSupplies());
-   if (toTrain->isZerg())
-     executors[0]->getOwner()->useSuppliesZergLocal   (toTrain->getSupplies());
+   if (toTrain.isProtoss())
+     executors[0]->getOwner()->useSuppliesProtossLocal(toTrain.getSupplies());
+   if (toTrain.isTerran())
+     executors[0]->getOwner()->useSuppliesTerranLocal (toTrain.getSupplies());
+   if (toTrain.isZerg())
+     executors[0]->getOwner()->useSuppliesZergLocal   (toTrain.getSupplies());
   }
   //--------------------------------- GET TYPE ----------------------------------
   BWAPI::CommandTypes::Enum CommandTrain::getType()
@@ -48,7 +48,7 @@ namespace BWAPI
   //-----------------------------------------------------------------------------
   std::string CommandTrain::describe()
   {
-    std::string toReturn = this->executors[0]->getName() + " started to build (" + toTrain->getName() + ")";
+    std::string toReturn = this->executors[0]->getName() + " started to build (" + toTrain.getName() + ")";
     return toReturn;
   }
   //-----------------------------------------------------------------------------

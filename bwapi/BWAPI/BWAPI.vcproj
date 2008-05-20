@@ -265,6 +265,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\BW\UnitID.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\BW\UnitPrototypeFlags.h"
 						>
 					</File>
@@ -277,7 +281,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\source\BW\UnitTypes.h"
+						RelativePath=".\source\BW\UnitType.h"
 						>
 					</File>
 				</Filter>
@@ -302,6 +306,10 @@
 					</File>
 					<File
 						RelativePath=".\source\BW\UnitTarget.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\BW\UnitType.cpp"
 						>
 					</File>
 				</Filter>
@@ -395,40 +403,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\Unit.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\UnitPrototype.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\UnitPrototype.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\UnitPrototypeDefinitions.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\UnitPrototypeDefinitions.h"
 					>
 				</File>
 			</Filter>

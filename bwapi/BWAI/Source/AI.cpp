@@ -2,8 +2,6 @@
 #include <algorithm>
 #include "..//..//BWAPI//Source//BWAPI//Unit.h"
 #include "..//..//BWAPI//Source//BWAPI//Player.h"
-#include "..//..//BWAPI//Source//BWAPI//UnitPrototypeDefinitions.h"
-#include "..//..//BWAPI//Source//BWAPI//UnitPrototype.h"
 #include "..//..//BWAPI//Source//BWAPI//Globals.h"
 #include "Mineral.h"
 #include "Unit.h"
@@ -143,7 +141,7 @@ namespace BWAI
 
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (!i->hasEmptyBuildQueueLocal())
-        i->lastTrainedUnitID = i->getBuildQueueLocal()[i->getBuildQueueSlotLocal()];
+        i->lastTrainedUnit = i->getBuildQueueLocal()[i->getBuildQueueSlotLocal()];
 
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
@@ -171,8 +169,8 @@ namespace BWAI
     
     if (selected[0] != NULL)
     {
-      Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnitID = BW::UnitType::None;
-      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getPrototype()->getName().c_str(), LogLevel::Detailed);
+      Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnit = BW::UnitID::None;
+      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getType().getName(), LogLevel::Detailed);
     }
   }
   //---------------------------- START NEW EXPANSION -------------------------
@@ -233,10 +231,10 @@ namespace BWAI
     if (dead->isMineral())
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeMineral(dead);
-    else if (dead->getPrototype()->isWorker())
+    else if (dead->getType().isWorker())
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeWorker(dead);
-    dead->lastTrainedUnitID = BW::UnitType::None;
+    dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansionAssingment = NULL;
    }
   //------------------------------ CHECK NEW EXPANSION ------------------------
@@ -247,9 +245,9 @@ namespace BWAI
       if (
            i->isReady() &&
            (
-             i->getType() == BW::UnitType::Terran_CommandCenter ||
-             i->getType() == BW::UnitType::Protoss_Nexus ||
-             i->getType() == BW::UnitType::Zerg_Hatchery
+             i->getType() == BW::UnitID::Terran_CommandCenter ||
+             i->getType() == BW::UnitID::Protoss_Nexus ||
+             i->getType() == BW::UnitID::Zerg_Hatchery
            ) &&
            i->expansionAssingment == NULL &&
            i->getOwner() == player)
@@ -274,34 +272,36 @@ namespace BWAI
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() &&
-          i->getPrototype() != NULL &&
+          i->getType() != BW::UnitID::None &&
           i->hasEmptyBuildQueueLocal() &&
-          i->lastTrainedUnitID != BW::UnitType::None &&
-          i->getPrototype()->canProduce() &&
+          i->lastTrainedUnit != BW::UnitID::None &&
+          i->getType().canProduce() &&
           i->getOwner() == player &&
-          i->lastTrainedUnitID < 228)
+          i->lastTrainedUnit.isValid())
       {
-        BWAPI::UnitPrototype* type = BWAPI::Prototypes::unitIDToPrototypeTable[i->lastTrainedUnitID];
-        if (type != NULL &&
-             (
+       BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
+       if (
+           typeToBuild.isValid() &&
+            (
+              (
+                 typeToBuild.isTerran() &&
+                 player->freeSuppliesTerranLocal() >= typeToBuild.getSupplies()
+               ) ||
                (
-                  type->isTerran() &&
-                  player->freeSuppliesTerranLocal() >= type->getSupplies()
-                ) ||
-                (
-                  type->isProtoss() &&
-                  player->freeSuppliesProtossLocal() >= type->getSupplies()
-                ) ||
-                (
-                  type->isZerg() &&
-                  player->freeSuppliesZergLocal() >= type->getSupplies()
-                )
-              ) &&
-            player->getMineralsLocal() >= type->getMineralPrice() &&
-            player->getGasLocal() >= type->getGasPrice())
+                 typeToBuild.isProtoss() &&
+                 player->freeSuppliesProtossLocal() >= typeToBuild.getSupplies()
+               ) ||
+               (
+                 typeToBuild.isZerg() &&
+                 player->freeSuppliesZergLocal() >= typeToBuild.getSupplies()
+               )
+             ) &&
+             player->getMineralsLocal() >= typeToBuild.getMineralPrice() &&
+             player->getGasLocal() >= typeToBuild.getGasPrice()
+           )
         {
           reselected = true;
-          i->trainUnit(type);
+          i->trainUnit(typeToBuild);
         }
       }
     return reselected;
@@ -323,7 +323,7 @@ namespace BWAI
                i->getOrderIDLocal() == BW::OrderID::ReturnMinerals
              ) &&
              !i->selected &&
-             (i->getPrototype()->isWorker()) &&
+             (i->getType().isWorker()) &&
               i->expansionAssingment == NULL)
           workers.push_back(i); 
       }
@@ -339,7 +339,7 @@ namespace BWAI
     {
       this->expansionsSaturated = true;
       for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-        (*i)->gatherCenter->lastTrainedUnitID = BW::UnitType::None;
+        (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::None;
     }
   }
   //----------------------------- ASSIGN IDLE WORKERS TO MINERALS -------------
@@ -364,7 +364,7 @@ namespace BWAI
   {
     int countOfFactories = 0;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->isReady() && i->getPrototype()->canProduce())
+      if (i->isReady() && i->getType().canProduce())
          countOfFactories++;
     return countOfFactories;
   }
