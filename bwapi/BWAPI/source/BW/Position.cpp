@@ -1,5 +1,6 @@
 #include "Position.h"
-#include "..//..//..//TinyXml//tinyXml.h"
+
+#include <tinyXml.h>
 #include <Exceptions.h>
 
 namespace BW
@@ -23,7 +24,7 @@ namespace BW
     const char * yAttribute = xmlElement->Attribute("y");
     if (yAttribute == NULL)
       throw XmlException("Expected attribute y in <position> element");
-    if(sscanf(xAttribute, "%d", &this->y) == EOF)
+    if(sscanf(yAttribute, "%d", &this->y) == EOF)
       throw XmlException((std::string)"attribute y in <position> is not numeric but '" + yAttribute + "'");
   }
   //------------------------------------- DESTRUCTOR -------------------------------

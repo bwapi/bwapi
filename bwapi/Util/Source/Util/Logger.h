@@ -54,6 +54,7 @@ namespace Util
     public : 
       /** Every log message will be also posted to this global log. */
       static Logger* globalLog;
+      static bool deleteLogsAtStart;
   };
 
   // Template member functions must be defined in header

@@ -1,6 +1,8 @@
 #include "MapStartingPosition.h"
+
 #include <Exceptions.h>
 #include <tinyXml.h>
+
 #include "MapInfo.h"
 namespace BWAI
 {

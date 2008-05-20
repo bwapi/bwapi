@@ -8,6 +8,7 @@ namespace BWAI { class Mineral; }
 namespace BWAI { class Expansion; }
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
+namespace BWAI { class BuildingToMake; }
 
 namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
@@ -63,5 +64,8 @@ namespace BWAI
       MapStartingPosition* startingPosition;
       int countOfProductionBuildings();
       void checkSupplyNeed();
+      std::list<BuildingToMake*> plannedBuildings;
+      /** @todo investigate and use the nextSupply provider here. */ 
+      s32 plannedTerranSupplyGain();
   };
 }

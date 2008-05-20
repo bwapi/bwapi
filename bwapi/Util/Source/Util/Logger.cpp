@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include <stdlib.h> // needed to use system() function
 namespace Util
 {
   //---------------------------- CONSTRUCTOR ------------------------------------
