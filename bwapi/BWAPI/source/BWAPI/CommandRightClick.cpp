@@ -3,7 +3,6 @@
 #include "UnitPrototypeDefinitions.h"
 #include "Unit.h"
 #include "../BW/Unit.h"
-#include "AbilityFlags.h"
 namespace BWAPI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------
@@ -36,14 +35,14 @@ namespace BWAPI
                  targetUnit->getOwner() != executors[i]->getOwner())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 
-        else if ((this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Move))
+        else if ((this->executors[i]->getPrototype()->canMove()))
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
 
         executors[i]->getRawDataLocal()->targetUnit = targetUnit->getOriginalRawData();
       }
       else // targetUnit == NULL -> targetPosition is relevant
       {
-       if ((this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Move))
+       if ((this->executors[i]->getPrototype()->canMove()))
          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
       }
     }

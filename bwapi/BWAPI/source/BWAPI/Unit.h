@@ -71,11 +71,6 @@ namespace BWAPI
       BW::UnitType::Enum *getBuildQueue();
       /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
       BW::UnitType::Enum *getBuildQueueLocal();
-
-      bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
-      bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
-      void order(const AbilityPrototype* const ability, Unit* target);
-      void order(const AbilityPrototype* const ability, const BW::Position& target);
       void order(int commandCode, const BW::Position& target);
       /** Gets if the unit is alive (it exists), it uses hp > 0 heuristic for now. */
       bool isValid() const;

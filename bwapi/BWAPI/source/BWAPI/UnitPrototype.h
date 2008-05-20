@@ -21,8 +21,7 @@ namespace BWAPI
   public :
     UnitPrototype(const std::string&          name,
                   const BW::UnitType::Enum    unitID,
-                  const u16                   maxMana,
-                  const u32                   abilityFlags);
+                  const u16                   maxMana);
     ~UnitPrototype();
 
     const std::string&    getName() const;
@@ -31,7 +30,6 @@ namespace BWAPI
     u16                   getMaxHealthPoints() const;
     u16                   getMaxShieldPoints() const;
     u16                   getMaxMana() const;
-    s32                   getAbilityFlags() const;
     u16                   getMineralPrice() const;
     u16                   getGasPrice() const;
     u8                    getArmor() const;
@@ -53,19 +51,18 @@ namespace BWAPI
     bool                  isProtoss() const;
     bool                  isWorker() const;
     bool                  canAttack() const;
+    bool                  canMove() const; /**< I use some internal heuristic that every unit from [men]  group
+                                            * can move, @todo verify (or load some value specially for that) 
+                                            * Note that there will have to be special canMove function for
+                                            * BWAPI::Unit that will take unit instance specific things
+                                            * like Not borrowed, not statised, not mealstormed, not under construction.
+                                            */
     
-    
-    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
-    
-    
-    bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
-    bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
-
   private :
     /** Name of the unit, it is the same as what you see in the game when you click on it. */
     std::string           name;
     u16                   maxMana;
-    u32                   abilityFlags;
     BW::UnitType::Enum    unitID;
+    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
   };
 };

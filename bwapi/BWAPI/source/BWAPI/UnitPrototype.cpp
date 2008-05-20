@@ -14,12 +14,10 @@ namespace BWAPI
   //----------------------------- CONSTRUCTOR -----------------------------------
   UnitPrototype::UnitPrototype( const std::string&          name, 
                                 const BW::UnitType::Enum    unitID,
-                                const u16                   maxMana,
-                                const u32                   abilityFlags)
+                                const u16                   maxMana)
     :name(name)
     ,unitID(unitID)
     ,maxMana(maxMana)
-    ,abilityFlags(abilityFlags)
   {
   }
   //----------------------------- DESTRUCTOR ------------------------------------
@@ -50,26 +48,6 @@ namespace BWAPI
   u16 UnitPrototype::getMaxMana() const
   {
     return this->maxMana;
-  }
-  //------------------------------- CAN ORDER -----------------------------------
-  bool UnitPrototype::canOrder(const AbilityPrototype* const ability, Unit* target) const
-  {
-    // Firstly, we check if the unit even has the ability
-    if (!(this->getAbilityFlags() & ability->getAbilityFlag()))
-      return false;
-    return true;
-  }
-  //-------------------------------- CAN ORDER ---------------------------------
-  bool UnitPrototype::canOrder(const AbilityPrototype* const ability, const BW::Position& target) const
-  {
-    if (!(ability->getTargetFlags() & TargetType::TARGET_LOCATION))
-      return false;
-    return true;
-  }
-  //------------------------------ GET ABILITY FLAGS ---------------------------
-  s32 UnitPrototype::getAbilityFlags() const
-  {
-    return this->abilityFlags;
   }
   //------------------------------ GET MINERAL PRICE ---------------------------
   u16 UnitPrototype::getMineralPrice() const
@@ -183,6 +161,11 @@ namespace BWAPI
   bool UnitPrototype::canAttack() const
   {
     return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()].getBit(BW::UnitPrototypeFlags::Attack);
+  }
+  //--------------------------------- CAN MOVE ---------------------------------
+  bool UnitPrototype::canMove() const
+  {
+    return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Men);
   }
   //----------------------------------------------------------------------------
 };
