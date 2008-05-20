@@ -1,6 +1,6 @@
-namespace BWAPI { class UnitPrototype; }
 namespace BWAI { class Unit; }
 #include "../../BWAPI/Source/BW/Position.h"
+#include "../../BWAPI/Source/BW/UnitType.h"
 namespace BWAI
 {
   /** 
@@ -18,12 +18,12 @@ namespace BWAI
   class BuildingToMake
   {
     public :
-      BuildingToMake(Unit* builder, BWAPI::UnitPrototype* buildingType, BW::Position position);
+      BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::Position position);
       /** Checks if the unit is trying to to execute the order. */
       void execute();
     private :
       Unit* builder;
-      BWAPI::UnitPrototype* buildingType;
+      BW::UnitType buildingType;
       BW::Position position;
       /** Will point to the building that is being constructed, and when it is done, this
        * class can be removed.

@@ -12,7 +12,7 @@ namespace BWAI
   :BWAPI::Unit(*unit) /**< default autoconstructor usage */
   ,expansionAssingment(0)
   ,selected(false)
-  ,lastTrainedUnitID(BW::UnitType::None)
+  ,lastTrainedUnit(BW::UnitID::None)
   ,lastFrameSpam(0)
   {
   }

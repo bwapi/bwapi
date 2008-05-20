@@ -1,6 +1,6 @@
 #pragma once
 #include "Command.h"
-#include "../BW/UnitTypes.h"
+#include "../BW/UnitType.h"
 namespace BWAPI { class UnitPrototype; }
 namespace BWAPI
 {
@@ -15,12 +15,12 @@ namespace BWAPI
        *         (will be passed as executor to Command ancestor
        * @param toTrain Unit that should be constructed
        */
-      CommandTrain(Unit* building, UnitPrototype* toTrain);
+     CommandTrain(Unit* building, BW::UnitType toTrain);
       ~CommandTrain();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
       std::string describe();
     private :
-      UnitPrototype* toTrain;
+      BW::UnitType toTrain;
   };
 }

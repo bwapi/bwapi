@@ -1,6 +1,4 @@
 #include "CommandRightClick.h"
-#include "UnitPrototype.h"
-#include "UnitPrototypeDefinitions.h"
 #include "Unit.h"
 #include "../BW/Unit.h"
 namespace BWAPI
@@ -26,23 +24,23 @@ namespace BWAPI
       if (targetUnit != NULL)
       {
         if (
-             (this->executors[i]->getPrototype()->isWorker()) && 
+             (this->executors[i]->getType().isWorker()) && 
               targetUnit->isMineral()
            )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
  
-        else if ((this->executors[i]->getPrototype()->canAttack()) && 
+        else if ((this->executors[i]->getType().canAttack()) && 
                  targetUnit->getOwner() != executors[i]->getOwner())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 
-        else if ((this->executors[i]->getPrototype()->canMove()))
+        else if ((this->executors[i]->getType().canMove()))
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
 
         executors[i]->getRawDataLocal()->targetUnit = targetUnit->getOriginalRawData();
       }
       else // targetUnit == NULL -> targetPosition is relevant
       {
-       if ((this->executors[i]->getPrototype()->canMove()))
+       if ((this->executors[i]->getType().canMove()))
          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
       }
     }
@@ -56,7 +54,7 @@ namespace BWAPI
   std::string CommandRightClick::describe()
   {
     if (this->targetUnit != NULL)
-      return this->executors[0]->getName() + " right-clicked on (" + this->targetUnit->getPrototype()->getName() + ")";
+      return this->executors[0]->getName() + " right-clicked on (" + this->targetUnit->getType().getName() + ")";
     else
       return this->executors[0]->getName() + " right-clicked to position";
   }

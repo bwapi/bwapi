@@ -2,29 +2,24 @@
 
 #include <string>
 #include "../Types.h"
-#include "..//BW//UnitTypes.h"
-#include "..//BW//Offsets.h" /**< @todo remove (just for UNKNOWN_TYPE */
-#include "..//BW//Bitmask.h" /**< @todo remove (just for UNKNOWN_TYPE */
-#include "..//BW//UnitPrototypeFlags.h" /**< @todo remove (just for UNKNOWN_TYPE */
-// Pre-declarations
-namespace BW { class Position; };
-namespace BWAPI { class AbilityPrototype; };
-namespace BWAPI { class Unit; };
+#include "UnitPrototypeFlags.h"
+#include "Bitmask.h"
+#include "UnitID.h"
 
-namespace BWAPI
+namespace BW
 {
   /** 
   * Definition of unit prototype
   */
-  class UnitPrototype
+  class UnitType
   {
   public :
-    UnitPrototype(const std::string&          name,
-                  const BW::UnitType::Enum    unitID);
-    ~UnitPrototype();
-
-    const std::string&    getName() const;
-    BW::UnitType::Enum    getUnitID() const;      
+    UnitType(); /**< Default constructor orderId will be BW::OrderID::None. */
+    UnitType(const BW::UnitID::Enum& id); /**< Conversion constructor */
+    bool operator == (const BW::UnitID::Enum& id);
+    bool operator != (const BW::UnitID::Enum& id);
+    const char*           getName() const;
+    BW::UnitID::Enum      getID() const;      
     s8                    getSupplies() const;      
     u16                   getMaxHealthPoints() const;
     u16                   getMaxShieldPoints() const;
@@ -33,7 +28,6 @@ namespace BWAPI
     u16                   getGasPrice() const;
     u8                    getArmor() const;
     u16                   getBuildTime() const;
-    UNKNOWN_TYPE          getUnknown() const;
     u16                   dimensionLeft() const;
     u16                   dimensionUp() const;
     u16                   dimensionRight() const;
@@ -56,12 +50,9 @@ namespace BWAPI
                                             * BWAPI::Unit that will take unit instance specific things
                                             * like Not borrowed, not statised, not mealstormed, not under construction.
                                             */
-    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
-    
+    bool isValid();
   private :
-    /** Name of the unit, it is the same as what you see in the game when you click on it. */
-    std::string           name;
-    BW::UnitType::Enum    unitID;
-
+    BW::UnitID::Enum id;
+    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
   };
 };

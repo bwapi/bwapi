@@ -1,7 +1,6 @@
 #include "CommandCancelTrain.h"
 #include "Unit.h"
 #include "Player.h"
-#include "UnitPrototype.h"
 #include "../BW//Unit.h"
 namespace BWAPI
 {
@@ -17,7 +16,7 @@ namespace BWAPI
   //-------------------------------- EXECUTE ------------------------------------
   void CommandCancelTrain::execute()
   {
-   this->executors[0]->getBuildQueueLocal()[this->executors[0]->getBuildQueueSlotLocal()] = BW::UnitType::None;
+   this->executors[0]->getBuildQueueLocal()[this->executors[0]->getBuildQueueSlotLocal()] = BW::UnitID::None;
    this->executors[0]->getRawDataLocal()->buildQueueSlot =
     (this->executors[0]->getRawDataLocal()->buildQueueSlot + 1) % 5;
   }

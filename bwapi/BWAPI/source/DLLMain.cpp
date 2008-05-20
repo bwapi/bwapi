@@ -157,8 +157,6 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
 #pragma warning(pop)
-#include "BWAPI/UnitPrototype.h"
-#include "BWAPI/UnitPrototypeDefinitions.h"
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {

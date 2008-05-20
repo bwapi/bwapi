@@ -2,8 +2,6 @@
 
 #include "../BWAPI/Player.h"
 #include "../BWAPI/Unit.h"
-#include "../BWAPI/UnitPrototype.h"
-#include "../BWAPI/UnitPrototypeDefinitions.h"
 #include "../BWAPI/Command.h"
 #include "../BWAPI/CommandCancelTrain.h"
 #include "../BWAPI/Map.h"
@@ -15,6 +13,7 @@
 #include "../BW/Latency.h"
 #include "../BW/TileType.h"
 #include "../BW/TileSet.h"
+#include "../BW/UnitType.h"
 
 #include "../../../Util/Logger.h"
 #include "../../../Util/Dictionary.h"
@@ -310,7 +309,7 @@ namespace BWAPI
   void Game::logUnknownOrStrange()
   {
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->getPrototype() == NULL)
+      if (!i->getType().isValid())
         this->newUnitLog->log("%s", i->getName().c_str());
   }
   //----------------------------------- GET BINARY ---------------------------
@@ -370,10 +369,10 @@ namespace BWAPI
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isValid())
       {
-        int startX =   (i->getPosition().x - i->getPrototype()->dimensionLeft())/BW::TileSize;
-        int endX = (int) ceil((i->getPosition().x + i->getPrototype()->dimensionRight())/((float)BW::TileSize));
-        int startY =   (i->getPosition().y - i->getPrototype()->dimensionUp())/BW::TileSize;
-        int endY = (int) ceil((i->getPosition().y + i->getPrototype()->dimensionDown())/((float)BW::TileSize));
+        int startX =   (i->getPosition().x - i->getType().dimensionLeft())/BW::TileSize;
+        int endX = (int) ceil((i->getPosition().x + i->getType().dimensionRight())/((float)BW::TileSize));
+        int startY =   (i->getPosition().y - i->getType().dimensionUp())/BW::TileSize;
+        int endY = (int) ceil((i->getPosition().y + i->getType().dimensionDown())/((float)BW::TileSize));
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
             this->unitsOnTile[x][y].push_back(i);

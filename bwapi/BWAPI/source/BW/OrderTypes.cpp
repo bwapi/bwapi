@@ -39,18 +39,18 @@ namespace BW
     }
 
     //--------------------------------- TRAIN UNIT CONSTRUCTOR ------------------------
-    TrainUnit::TrainUnit(BW::UnitType::Enum unitID)
+    TrainUnit::TrainUnit(BW::UnitType type)
     :always0x1f(0x1f)
-    ,unitID(unitID)
+    ,type(type)
     {
     }
     //--------------------------------- MAKE BULDING ----------------------------------
-    MakeBuilding::MakeBuilding(u16 x, u16 y, BW::UnitType::Enum unitID)
+    MakeBuilding::MakeBuilding(u16 x, u16 y, BW::UnitType type)
     :always0x0c(0x0c)
     ,always0x1e(0x1e)
     ,tileX(x)
     ,tileY(y)
-    ,unitID(unitID)
+    ,type(type)
     {
     }
     //---------------------------------- MOVE CONSTRUCTOR -----------------------------
