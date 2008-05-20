@@ -1,8 +1,11 @@
 #include "BuildingToMake.h"
+
+#include <Logger.h>
+
 #include "Unit.h"
 #include "AI.h"
 #include "Globals.h"
-#include "../../Util/Source/Util/Logger.h"
+
 #include "../../BWAPI/Source/BW/UnitType.h"
 #include "../../BWAPI/Source/Types.h"
 #include "../../BWAPI/Source/BW/OrderID.h"
@@ -34,6 +37,11 @@ namespace BWAI
         BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
       }
     }
+  }
+  //---------------------------------- GET TYPE -------------------------------
+  BW::UnitType BuildingToMake::getType()
+  {
+     return this->buildingType;
   }
   //---------------------------------------------------------------------------
 }

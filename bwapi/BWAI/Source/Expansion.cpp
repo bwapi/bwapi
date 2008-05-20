@@ -2,7 +2,7 @@
 #include "AI.h"
 #include "Unit.h"
 #include "Globals.h"
-#include "..//..//BWAPI//Source//BW//Unit.h" /**< @todo remove */
+
 namespace BWAI
 {
   //------------------------------------ CONSTRUCTOR --------------------------

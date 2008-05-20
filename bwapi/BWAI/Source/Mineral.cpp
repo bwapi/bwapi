@@ -1,9 +1,12 @@
 #include "Mineral.h"
+
 #include "Unit.h"
 #include "Expansion.h"
 #include "Globals.h"
+
 #include "../../BWAPI/Source/BW/UnitType.h"
 #include "../../BWAPI/Source/BWAPI/Globals.h"
+
 namespace BWAI
 {
   //--------------------------------- CONSTRUCTOR -----------------------------

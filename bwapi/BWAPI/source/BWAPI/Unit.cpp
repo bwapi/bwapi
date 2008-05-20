@@ -181,6 +181,14 @@ namespace BWAPI
    else
      return 0;
   }
+  //------------------------------------ GET DISTANCE --------------------------
+  u16 Unit::getDistance(BW::Position position) const
+  {
+    return this->getDistance(this->getPosition().x, 
+                             this->getPosition().y,
+                             position.x, 
+                             position.y);
+  }
   //-------------------------------- GET CENTER DISTANCE -----------------------
   u16 Unit::getCenterDistance(Unit *unit) const
   {

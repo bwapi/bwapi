@@ -55,6 +55,8 @@ namespace BWAPI
       u8 getBuildQueueSlotLocal() const;
       /** Gets distance of unit edges. */
       u16 getDistance(Unit *unit) const; 
+      /** Gets distance of unit center and position. */
+      u16 getDistance(BW::Position position) const; 
       /** Gets distance of unit centers. */
       u16 getCenterDistance(Unit *unit) const; 
       /** Gets distance between two positions. */

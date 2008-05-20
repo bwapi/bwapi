@@ -5,6 +5,7 @@
 
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
+
 namespace BWAI
 {
   //--------------------------------- CONSTRUCTOR ----------------------------

@@ -7,6 +7,7 @@
 #include "MapInfo.h"
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
+#include "BuildingToMake.h"
 //#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
 //#include "..//..//BWAPI//Source//BW//BitMask.h"
 #include "../../BWAPI/Source/BWAPI/Unit.h"
@@ -70,15 +71,31 @@ namespace BWAI
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
       mapInfo = new MapInfo(BWAPI::Broodwar.configuration->getValue("maps_path") + "\\" + mapName + ".xml");
-      this->log->log("Help pre-prepared information found for the curent map");
-      for (std::list<MapExpansion*>::iterator i = mapInfo->expansions.begin(); i != mapInfo->expansions.end(); ++i)
-        this->log->log("Expansion (%s) at (%d, %d)", (*i)->getID().c_str(), (*i)->getPosition().x, (*i)->getPosition().y);
+      this->checkNewExpansions();
       
-      for (std::list<MapStartingPosition*>::iterator i = mapInfo->startingPositions.begin(); i != mapInfo->startingPositions.end(); ++i)
+      this->log->log("Help pre-prepared information found for the curent map");
+      
+      if (this->expansions.size())
       {
-        this->log->log("StartingPosition (%s) at (%d, %d)", (*i)->expansion->getID().c_str(), (*i)->expansion->getPosition().x, (*i)->expansion->getPosition().y);
-        for (std::list<BW::Position>::iterator j = (*i)->nonProducing3X2BuildingPositions.begin(); j != (*i)->nonProducing3X2BuildingPositions.end(); ++j)
-          this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
+        for (std::list<MapStartingPosition*>::iterator i = mapInfo->startingPositions.begin(); i != mapInfo->startingPositions.end(); ++i)
+        {
+         this->log->log("Distance from %s = %d", (*i)->expansion->getID().c_str(), this->expansions.front()->gatherCenter->getDistance((*i)->expansion->getPosition()));
+         if (this->expansions.front()->gatherCenter->getDistance((*i)->expansion->getPosition()) < 100)
+          {
+            this->startingPosition = *i;
+            break;
+          }
+        }
+        if (this->startingPosition)
+        {
+         this->log->log("Starting position is (%s) at (%d, %d)", this->startingPosition->expansion->getID().c_str(), 
+                                                                 this->startingPosition->expansion->getPosition().x, 
+                                                                 this->startingPosition->expansion->getPosition().y);
+         for (std::list<BW::Position>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
+              j != this->startingPosition->nonProducing3X2BuildingPositions.end(); 
+              ++j)
+           this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
+        }
       }
      this->log->log("Ai::onStart end", LogLevel::Important);
     }
@@ -102,6 +119,9 @@ namespace BWAI
       i->expansionAssingment = NULL;
     this->log->log("Ai::onEnd end", LogLevel::Detailed);
     delete mapInfo;
+    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
+      delete *i;
+    this->plannedBuildings.clear();
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
@@ -123,8 +143,10 @@ namespace BWAI
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete new Unit(BWAPI::Broodwar.getUnit(i));
+
+    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
+      delete *i;
   }
-  bool mapDrawn = false;
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
@@ -372,10 +394,21 @@ namespace BWAI
   void AI::checkSupplyNeed()
   {
     int countOfFactories = this->countOfProductionBuildings();
-    if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal())
+    if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
     {
-        
+      //this->plannedBuildings.push_back(new BuildingToMake(NULL, BW::UnitID::Terran_SupplyDepot, this->startingPosition
     }
+  }
+  //---------------------------------------------------------------------------
+  s32 AI::plannedTerranSupplyGain()
+  {
+    s32 returnValue = 0;
+    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); i++)
+      if ((*i)->getType() == BW::UnitID::Terran_SupplyDepot)
+        returnValue += 8;
+      else if ((*i)->getType() == BW::UnitID::Terran_CommandCenter)
+        returnValue += 10;
+    return returnValue;
   }
   //---------------------------------------------------------------------------
 }
