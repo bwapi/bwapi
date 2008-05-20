@@ -1,5 +1,4 @@
 #pragma once
-namespace BWAPI { class AbilityPrototype; }
 namespace BWAPI { class UnitPrototype; }
 
 
