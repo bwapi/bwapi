@@ -9,7 +9,15 @@
 namespace BW
 {
   /** 
-  * Definition of unit prototype
+  * Definition of unit prototype, it's possible types are listed in #BW#UnitID.
+  * The only data this class holds is the enumeration of type u16, so it can be used directly
+  * in the mapping of #BW#Unit
+  * 
+  * Use This class instance instead of the #BW#UnitID enumeration value as most as possible 
+  * alghough they are the same thing practicly, but the enumeration doesn't have all these 
+  * help functions, note that as there is == nad != operator and conversion constructor, so
+  * the enumeration and this class can be compared/assigned freely.
+  * 
   */
   class UnitType
   {
