@@ -177,6 +177,12 @@ namespace BWAPI
   //--------------------------------- IS WORKER --------------------------------
   bool UnitPrototype::isWorker() const
   {
-   return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()].getBit(BW::UnitPrototypeFlags::Worker);
+    return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()].getBit(BW::UnitPrototypeFlags::Worker);
   }
+  //--------------------------------- CAN ATTACK -------------------------------
+  bool UnitPrototype::canAttack() const
+  {
+    return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()].getBit(BW::UnitPrototypeFlags::Attack);
+  }
+  //----------------------------------------------------------------------------
 };

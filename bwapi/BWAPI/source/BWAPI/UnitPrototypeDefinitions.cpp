@@ -46,7 +46,7 @@ namespace BWAPI
     AbilityPrototype* MorphToGuardian = new AbilityPrototype(11, "Morph to guardian",   0,       50, 100, TargetType::TARGET_SELF);
     AbilityPrototype* Stims           = new AbilityPrototype(11, "Use stimpacks",       0,        0,   0, TargetType::TARGET_SELF);
     
-    s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove | AbilityFlags::Attack;
+    s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove;
     /*                                                Unit name                 ID                                    Race                sp  target flags*/
     /** Terran */
     UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"                   , BW::UnitType::Terran_SCV,                    0, MOVABLE_CAN_ATTACK);

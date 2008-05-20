@@ -32,7 +32,7 @@ namespace BWAPI
            )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
  
-        else if ((this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Attack) && 
+        else if ((this->executors[i]->getPrototype()->canAttack()) && 
                  targetUnit->getOwner() != executors[i]->getOwner())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 
