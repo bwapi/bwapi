@@ -1,7 +1,10 @@
 #include "Map.h"
+
+#include <Exceptions.h>
+
 #include "../BW/TileSet.h"
 #include "../BW/TileType.h"
-#include "../../../Util/Source/Util/Exceptions.h"
+
 namespace BWAPI
 {
   //------------------------------- GET TILE --------------------------------

@@ -96,6 +96,8 @@ namespace BWAPI
       BW::Latency::Enum getLatency();
       /** Representation of the configuration file bw-api.ini in the starcraft directory. */
       Dictionary* configuration;
+      /** Every tile will have pointers to units touching it. */
+      RectangleArray<std::list<Unit*> > unitsOnTile;
     private :
       bool inGame;
       BW::UnitArray* unitArrayCopy;
@@ -115,8 +117,6 @@ namespace BWAPI
       Util::Logger *badAssumptionLog;
       /** Sum of all units*/
       Util::Logger *unitSum;
-      /** Every tile will have pointers to units touching it. */
-      RectangleArray<std::list<Unit*> > unitsOnTile;
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnitsOnTile();
       /** Made for debug reasons, may come later someday, so I leave it*/

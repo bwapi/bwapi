@@ -40,8 +40,11 @@ namespace BWAPI
       }
       else // targetUnit == NULL -> targetPosition is relevant
       {
-       if ((this->executors[i]->getType().canMove()))
-         executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
+        if ((this->executors[i]->getType().canMove()))
+        {
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
+          executors[i]->getRawDataLocal()->position = this->targetPosition;
+        }
       }
     }
   }

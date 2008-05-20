@@ -1,7 +1,10 @@
 #include "Unit.h"
 
-#include "../BWAPI/TargetType.h"
+#include <math.h>
 
+#include <Logger.h>
+
+#include "../BWAPI/TargetType.h"
 #include "../BWAPI/Player.h"
 #include "../BWAPI/Globals.h"
 #include "../BWAPI/CommandTrain.h"
@@ -12,10 +15,6 @@
 #include "../BW/Unit.h"
 #include "../BW/Offsets.h"
 #include "../BW/UnitType.h"
-
-#include "../../../Util/Source/Util/Logger.h"
-
-#include <math.h>
 
 namespace BWAPI
 {
@@ -69,55 +68,90 @@ namespace BWAPI
   bool Unit::isReady() const
   {
     return this->isValid() &&
-           this->getRawData()->remainingBuildTime == 0;
+           this->isCompleted();
+  }
+  //------------------------------ IS COMPLETED --------------------------------
+  bool Unit::isCompleted() const
+  {
+    return this->getRawData()->status.getBit(BW::StatusFlags::Completed);
   }
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
   {
-    return this->bwUnit->position;
+    return this->getRawData()->position;
   }
   //-------------------------------- GET TATGET --------------------------------
   Unit* Unit::getTarget()
   {
-    return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+    return Unit::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
   }
   //-------------------------------- GET TATGET --------------------------------
   const Unit* Unit::getTarget() const
   {
+    return Unit::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
+  }
+  //------------------------------ GET TATGET LOCAL ----------------------------
+  Unit* Unit::getTargetLocal()
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->targetUnit);
+  }
+  //------------------------------ GET TATGET LOCAL ----------------------------
+  const Unit* Unit::getTargetLocal() const
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->targetUnit);
+  }
+  //-------------------------------- GET TATGET --------------------------------
+  Unit* Unit::getOrderTarget()
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+  }
+  //-------------------------------- GET TATGET --------------------------------
+  const Unit* Unit::getOrderTarget() const
+  {
     return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
   }
   //----------------------------- GET TATGET LCCAL -----------------------------
-  const Unit* Unit::getTargetLocal() const
+  const Unit* Unit::getOrderTargetLocal() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
+  //---------------------------- GET TATGET POSITION ---------------------------
+  BW::Position Unit::getTargetPosition() const
+  {
+   return this->getRawData()->moveToPos;
+  }
+  //---------------------------- GET TARGET POSITION LOCAL ---------------------
+  BW::Position Unit::getTargetPositionLocal() const
+  {
+    return this->getRawDataLocal()->moveToPos;
+  }
   //-------------------------------- GET RAW DATA ------------------------------
-  BW::Unit *Unit::getRawData()
+  BW::Unit* Unit::getRawData()
   {
     return this->bwUnit;
   }
   //-------------------------------- GET RAW DATA ------------------------------
-  const BW::Unit *Unit::getRawData() const
+  const BW::Unit* Unit::getRawData() const
   {
     return this->bwUnit;
   }
   //------------------------------ GET RAW DATA LOCAL --------------------------
-  BW::Unit *Unit::getRawDataLocal()
+  BW::Unit* Unit::getRawDataLocal()
   {
     return this->bwUnitLocal;
   }
   //------------------------------ GET RAW DATA LOCAL --------------------------
-  const BW::Unit *Unit::getRawDataLocal() const
+  const BW::Unit* Unit::getRawDataLocal() const
   {
     return this->bwUnitLocal;
   }
   //------------------------------ GET ORIGINAL RAW DATA -----------------------
-  BW::Unit *Unit::getOriginalRawData()
+  BW::Unit* Unit::getOriginalRawData()
   {
     return this->bwOriginalUnit;
   }
   //------------------------------ GET ORIGINAL RAW DATA -----------------------
-  const BW::Unit *Unit::getOriginalRawData() const
+  const BW::Unit* Unit::getOriginalRawData() const
   {
     return this->bwOriginalUnit;
   }
@@ -218,11 +252,11 @@ namespace BWAPI
       return false;
   }
   //------------------------------- ORDER RIGHT CLICK -------------------------
-  void Unit::orderRightClick(u16 x,u16 y)
+  void Unit::orderRightClick(BW::Position position)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(x, y)), sizeof(BW::Orders::RightClick)); 
-    Broodwar.addToCommandBuffer(new CommandRightClick(this, BW::Position(x, y)));
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(position), sizeof(BW::Orders::RightClick)); 
+    Broodwar.addToCommandBuffer(new CommandRightClick(this, position));
   }
   //------------------------------- ORDER RIGHT CLICK -------------------------
   void Unit::orderRightClick(Unit *target)
@@ -312,6 +346,7 @@ namespace BWAPI
   char position[100];
   char index[50];
   char targetIndex[50];
+  char orderTargetIndex[50];
   char owner[100];
   char unitName[100];
   char orderName[100];
@@ -321,17 +356,22 @@ namespace BWAPI
   {
     
     sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
-                                             this->getPosition().y);
+                                              this->getPosition().y);
       
     #pragma warning(push)
     #pragma warning(disable:4311)
   
     sprintf(index, "[%4d]", ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
    
-    if (this->getTargetLocal() == NULL)
-      strcpy(targetIndex, "[NULL]");
+    if (this->getTarget() == NULL)
+      strcpy(targetIndex, "Target:[NULL]");
     else
-      sprintf(targetIndex, "[%4d]", ((int)this->getTargetLocal()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
+      sprintf(targetIndex, "Target:[%4d](%s)", ((int)this->getTarget()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336, this->getTarget()->getType().getName());
+
+    if (this->getOrderTarget() == NULL)
+      strcpy(orderTargetIndex, "OrderTarget:[NULL]");
+    else
+      sprintf(orderTargetIndex, "OrderTarget:[%4d](%s)", ((int)this->getOrderTarget()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336, this->getOrderTarget()->getType().getName());
   
     #pragma warning(pop)
 
@@ -345,13 +385,14 @@ namespace BWAPI
     else
       sprintf(unitName, "(unitID = %12u)", this->getType().getID());
   
-    sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderIDLocal()).c_str());
-    sprintf(message,"%s %s %s %s ->%s Player = (%10s)", unitName,
-                                                        orderName,
-                                                        index,
-                                                        position,
-                                                        targetIndex,
-                                                        owner);
+    sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf(message,"%s %s %s %s %s %s %10s", unitName,
+                                              orderName,
+                                              index,
+                                              position,
+                                              targetIndex,
+                                              orderTargetIndex,
+                                              owner);
   
     return std::string(message);
   }

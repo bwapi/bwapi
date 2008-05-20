@@ -19,8 +19,12 @@ namespace BWAI
   {
     public :
       BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::Position position);
-      /** Checks if the unit is trying to to execute the order. */
-      void execute();
+      ~BuildingToMake();
+      /** 
+       * Checks if the unit is trying to to execute the order. 
+       * Returns true if the command was succesfuly finished
+       */
+      bool execute();
       BW::UnitType getType();
     private :
       Unit* builder;

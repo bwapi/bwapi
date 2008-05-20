@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
+
 namespace BWAI { class Expansion; }
 namespace BWAI { class Unit; }
-#include "../../Util/Source/Util/Logger.h"
 
 namespace BWAI
 {

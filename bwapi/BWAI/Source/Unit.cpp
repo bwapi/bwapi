@@ -29,12 +29,22 @@ namespace BWAI
   //------------------------------- GET TARGET --------------------------------
   Unit* Unit::getTarget()
   {
-    return BWAI::Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->targetUnit);
+    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawData()->targetUnit);
   }
   //----------------------------- GET TARGET LOCAL --------------------------
   Unit* Unit::getTargetLocal()
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->targetUnit);
+  }
+  //------------------------------- GET TARGET --------------------------------
+  Unit* Unit::getOrderTarget()
+  {
+    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawData()->orderTargetUnit);
+  }
+  //----------------------------- GET TARGET LOCAL --------------------------
+  Unit* Unit::getOrderTargetLocal()
+  {
+    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
   //--------------------------------- GET NEXT ---------------------------------
   Unit *Unit::getNext()
