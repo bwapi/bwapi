@@ -26,6 +26,7 @@ namespace BWAI
   //-------------------------------- ASSIGNE GATHERER -------------------------
   void Mineral::assignGatherer(BWAI::Unit* gatherer)
   {
+    //BWAI::ai->log->log("Gatherer assigned %s", gatherer->getName().c_str());
     this->gatherersAssigned.push_back(gatherer);
     gatherer->expansionAssingment = this->expansion;
     this->expansion->asignedWorkers ++;
@@ -50,12 +51,12 @@ namespace BWAI
     for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
     {
       Unit* gatherer = this->gatherersAssigned[i];
-      if (gatherer->getOrderIDLocal() != BW::OrderID::ApproachingMinerals &&
-          gatherer->getOrderIDLocal() != BW::OrderID::StartingMining &&
-          gatherer->getOrderIDLocal() != BW::OrderID::Mining &&
-          gatherer->getOrderIDLocal() != BW::OrderID::ReturningMinerals &&
-          gatherer->getOrderIDLocal() != BW::OrderID::GettingMinedMinerals &&
-          gatherer->getOrderIDLocal() != BW::OrderID::Idle)
+      if (gatherer->getOrderIDLocal() != BW::OrderID::PlayerGuard &&
+          gatherer->getOrderIDLocal() != BW::OrderID::MoveToMinerals &&
+          gatherer->getOrderIDLocal() != BW::OrderID::HarvestMinerals2 &&
+          gatherer->getOrderIDLocal() != BW::OrderID::MiningMinerals &&
+          gatherer->getOrderIDLocal() != BW::OrderID::ResetCollision2 &&
+          gatherer->getOrderIDLocal() != BW::OrderID::ReturnMinerals)
       {
         this->removeGatherer(gatherer);
         ai->expansionsSaturated = false;
@@ -72,11 +73,11 @@ namespace BWAI
         }*/
         if (
              (
-               gatherer->getOrderIDLocal() == BW::OrderID::ApproachingMinerals || 
-               gatherer->getOrderIDLocal() == BW::OrderID::StartingMining || 
-               gatherer->getOrderIDLocal() == BW::OrderID::Idle
+               gatherer->getOrderIDLocal() == BW::OrderID::MoveToMinerals || 
+               gatherer->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 || 
+               gatherer->getOrderIDLocal() == BW::OrderID::PlayerGuard
              ) &&
-             gatherer->getOrderID() != BW::OrderID::Mining &&
+             gatherer->getOrderID() != BW::OrderID::MiningMinerals &&
              gatherer->getTargetLocal() != this->expansion->gatherCenter &&
              (
                gatherer->getTargetLocal() != this->mineral
@@ -105,7 +106,7 @@ namespace BWAI
   Unit* Mineral::currentlyMining(void)
   {
    for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
-    if (this->gatherersAssigned[i]->getOrderID() == BW::OrderID::Mining)
+    if (this->gatherersAssigned[i]->getOrderID() == BW::OrderID::MiningMinerals)
        return this->gatherersAssigned[i];
    return NULL;      
   }

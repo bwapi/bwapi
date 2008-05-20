@@ -35,12 +35,9 @@ namespace BW
                                                                    *   it to iterate units.
                                                                    *   @see BW#BWXFN_UnitNodeTable_FirstElement
                                                                    **/
-    /*0x008*/ u8                           healthPointsFraction;  /**< Count of 1/255 fractions of one hitpoint. */
-    /*0x009*/ u16                          healthPoints;          /**< Health points of the current unit, this value 
-                                                                  can be lower (by one) than the displayed value 
-                                                                  in in broodwar as broodwar doesn't want  to confuse 
-                                                                  users with 0 hitpoint unit (with non-zero hp fraction). */
-    /*0x00B*/ bool                         resource;              /**< minerals and vaspine has this set to true, everything else to false */
+    /*0x008*/ u32                          healthPoints;          /**< Health points of unit, note that the displayed value
+                                                                   *   in broodwar is ceil(healthPoints/256)
+                                                                   */
     /*0x00C*/ BW::Sprite*                   sprite;
     /*0x010*/ BW::Position                  moveToPos;
     /*0x014*/ BW::Unit*                     targetUnit;
@@ -72,9 +69,7 @@ namespace BW
     /*0x057*/ u8                            spellCooldown;        /**< @todo Verify */
     /*0x058*/ BW::Position                  orderTargetPos;       /**< @todo Verify */
     /*0x05C*/ BW::Unit*                     orderTargetUnit;      /**< @todo Verify */
-    /*0x060*/ u8                            shieldPointsFraction; /**< Count of 1/255 fractions of one shield point. */
-    /*0x061*/ u16                           shieldPoints;         /**< Shield points of the current unit */
-    /*0x063*/ _UNKNOWN _8[1];
+    /*0x060*/ u32                           shieldPoints;         /**< Bw shows this value/256 */
     /*0x064*/ BW::UnitType::Enum            unitID;               /**< Specifies the type of unit. */
     /*0x066*/ _UNKNOWN _9[2];
     /*0x068*/ BW::Unit*                     previousPlayerUnit;   /**< @todo Verify */

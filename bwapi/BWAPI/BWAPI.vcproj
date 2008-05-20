@@ -205,6 +205,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\BW\GroupFlags.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\BW\Latency.h"
 						>
 					</File>
@@ -391,10 +395,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\Player.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\RaceTypes.h"
 					>
 				</File>
 				<File

@@ -20,7 +20,12 @@ namespace BWAPI
   void CommandBuild::execute()
   {
     if (this->executors[0]->isReady())
-      this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::GoingToBuild;
+      if (this->executors[0]->getPrototype()->isZerg())
+        this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneBuild;
+      else if (this->executors[0]->getPrototype()->isProtoss())
+        this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildProtoss1;
+      else if (this->executors[0]->getPrototype()->isTerran())
+        this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildTerran;
   }
   //--------------------------------- GET TYPE ----------------------------------
   BWAPI::CommandTypes::Enum CommandBuild::getType()

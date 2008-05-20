@@ -310,77 +310,8 @@ namespace BWAPI
   void Game::logUnknownOrStrange()
   {
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-    {
-      switch (i->getOrderID())
-      {
-        case BW::OrderID::GameNotInitialized : break;
-        case BW::OrderID::Finishing: break;
-        case BW::OrderID::Idle : break;
-        case BW::OrderID::Moving : break;
-        case BW::OrderID::VultureMineWaiting : break;
-        case BW::OrderID::Attacking : break;
-        case BW::OrderID::AttackMoving : break;
-        case BW::OrderID::NotMovable : break;
-        case BW::OrderID::JustToMutate : break;
-        case BW::OrderID::GoingToWarp : break;
-        case BW::OrderID::Constructing : break;
-        case BW::OrderID::Repair : break;
-        case BW::OrderID::EggMutating : break;
-        case BW::OrderID::BuildingWarping : break;
-        case BW::OrderID::GoingToBuild : break;
-        case BW::OrderID::UnderConstruction : break;
-        case BW::OrderID::NotControllable : break;
-//        case BW::OrderID::WarpingSpecial : break;
-        case BW::OrderID::Following : break;
-        case BW::OrderID::GoingToMutate : break;
-        case BW::OrderID::Building_Landing : break;
-        case BW::OrderID::Lifting : break;
-        case BW::OrderID::InventingTechnology : break;
-        case BW::OrderID::ArmoryUpgrading : break;
-        case BW::OrderID::ApproachingRafinery : break;
-        case BW::OrderID::EnteringRafinery : break;
-        case BW::OrderID::InRafinery : break;
-        case BW::OrderID::ReturningGas : break;
-        case BW::OrderID::ApproachingMinerals : break;
-        case BW::OrderID::StartingMining  : break;
-        case BW::OrderID::Mining : break;
-        case BW::OrderID::ReturningMinerals : break;
-        case BW::OrderID::TransportIdle : break;
-        case BW::OrderID::Burrowing : break;
-        case BW::OrderID::Burrowed : break;
-        case BW::OrderID::Unburrowing : break;
-        case BW::OrderID::GettingMinedMinerals : break;
-        case BW::OrderID::CritterWandering : break;
-        case BW::OrderID::Stop : break;
-        case BW::OrderID::ComputerCommand : break;
-        case BW::OrderID::ComputerOverlordCommand : break;
-        case BW::OrderID::BuildingMutating : break;
-        case BW::OrderID::MedicHeal : break;
-        default : this->newOrderLog->log(i->getName());
-      }
       if (i->getPrototype() == NULL)
-        this->newUnitLog->log(i->getName());
-      if (i->getType() != BW::UnitType::Critter_Bengalaas &&
-          i->getType() != BW::UnitType::Critter_Ragnasaur &&
-          i->getType() != BW::UnitType::Critter_Kakaru &&
-          i->getType() != BW::UnitType::Critter_Scantid &&
-          i->getOrderID() == BW::OrderID::CritterWandering)
-        this->badAssumptionLog->log("Unit %s is wandering around and is unknown critter", i->getName().c_str());
-      if (
-           i->getType() != BW::UnitType::Zerg_Drone &&
-           (
-             i->getOrderID() == BW::OrderID::JustToMutate ||
-             i->getOrderID() == BW::OrderID::GoingToMutate
-           )
-         )
-         this->badAssumptionLog->log("%s is going to mutate to building, but it is not drone", i->getName().c_str());
-      if (
-           i->getType() != BW::UnitType::Zerg_Overlord &&
-           i->getType() != BW::UnitType::Terran_DropShip &&
-           i->getOrderID() == BW::OrderID::TransportIdle
-         )
-        this->badAssumptionLog->log("%s is doing transport idle (and is not transport)", i->getName().c_str());
-    }
+        this->newUnitLog->log("%s", i->getName().c_str());
   }
   //----------------------------------- GET BINARY ---------------------------
   template <class Type>

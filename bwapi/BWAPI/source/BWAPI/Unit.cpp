@@ -37,20 +37,10 @@ namespace BWAPI
   {
     return bwUnit->healthPoints;
   }
-  //----------------------- GET HEALT POINTS FACTION ----------------------------
-  u8 Unit::getHealthPointsFraction() const
-  {
-    return bwUnit->healthPointsFraction;
-  }
   //-------------------------- GET HEALTH POINTS --------------------------------
-  u16 Unit::getShieldPoints() const
+  u32 Unit::getShieldPoints() const
   {
     return bwUnit->shieldPoints;
-  }
-  //----------------------- GET HEALT POINTS FACTION ----------------------------
-  u8 Unit::getShieldPointsFraction() const
-  {
-    return bwUnit->shieldPointsFraction;
   }
   //--------------------------  GET UNIT PROTOTYPE -----------------------------
   const UnitPrototype* Unit::getPrototype() const
@@ -115,18 +105,14 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
-      return (
-               this->getHealthPoints() > 0 ||
-               this->getHealthPointsFraction() > 0
-             )&&
+      return (this->getHealthPoints() > 0)&&
              this->getPrototype() != NULL;
   }
   //-------------------------------- IS VALID ----------------------------------
   bool Unit::isReady() const
   {
     return this->isValid() &&
-           this->getRawData()->remainingBuildTime == 0 &&
-           this->getOrderID() != BW::OrderID::Finishing;
+           this->getRawData()->remainingBuildTime == 0;
   }
   //-------------------------------- GET POSITION ------------------------------
   const BW::Position& Unit::getPosition() const
@@ -394,7 +380,7 @@ namespace BWAPI
     else
       sprintf(unitName,"(unitID = %12u)", this->getType());
   
-    sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderIDLocal()).c_str());
     sprintf(message,"%s %s %s %s ->%s Player = (%10s)", unitName,
                                                         orderName,
                                                         index,
