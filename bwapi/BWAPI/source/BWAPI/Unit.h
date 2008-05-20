@@ -35,12 +35,8 @@ namespace BWAPI
       BW::UnitType::Enum getType() const;
       /** Gets #bwUnit->BW#Unit#healthPoints. */
       u16 getHealthPoints() const; 
-      /** Gets #bwUnit->BW#Unit#healthPointsFraction. */
-      u8 getHealthPointsFraction() const;
       /** Gets #bwUnit->BW#Unit#shieldPoints. */
-      u16 getShieldPoints() const; 
-      /** Gets #bwUnit->BW#Unit#shieldPointsFraction. */
-      u8 getShieldPointsFraction() const;
+      u32 getShieldPoints() const; 
       /** Gets #bwUnit->BW#Unit#position. */
       const BW::Position& getPosition() const;
       /** Gets #bwUnit->BW#Unit#targetUnit. */
@@ -118,11 +114,11 @@ namespace BWAPI
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
-      bool isMineral() const;
       std::string getName() const;
       Unit* getNext();
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();
+      bool isMineral() const;
     private:
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 

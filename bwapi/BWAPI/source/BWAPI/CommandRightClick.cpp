@@ -27,29 +27,24 @@ namespace BWAPI
       if (targetUnit != NULL)
       {
         if (
-             (this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) 
-             && 
-             (
-               targetUnit->getType() == BW::UnitType::Resource_MineralPatch1 ||
-               targetUnit->getType() == BW::UnitType::Resource_MineralPatch2 ||
-               targetUnit->getType() == BW::UnitType::Resource_MineralPatch3
-             )
+             (this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) && 
+              targetUnit->isMineral()
            )
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::ApproachingMinerals;
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
  
         else if ((this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Attack) && 
                  targetUnit->getOwner() != executors[i]->getOwner())
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Attacking;
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 
         else if ((this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Move))
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Moving;
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
 
         executors[i]->getRawDataLocal()->targetUnit = targetUnit->getOriginalRawData();
       }
       else // targetUnit == NULL -> targetPosition is relevant
       {
        if ((this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Move))
-         executors[i]->getRawDataLocal()->orderID = BW::OrderID::Moving;
+         executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
       }
     }
   }

@@ -14,12 +14,10 @@ namespace BWAPI
   //----------------------------- CONSTRUCTOR -----------------------------------
   UnitPrototype::UnitPrototype( const std::string&          name, 
                                 const BW::UnitType::Enum    unitID,
-                                const BWAPI::RaceType::Enum race,
                                 const u16                   maxMana,
                                 const u32                   abilityFlags)
     :name(name)
     ,unitID(unitID)
-    ,race(race)
     ,maxMana(maxMana)
     ,abilityFlags(abilityFlags)
   {
@@ -82,11 +80,6 @@ namespace BWAPI
   u16 UnitPrototype::getGasPrice() const
   {
     return BW::BWXFN_GasPrices->gasPrice[this->getUnitID()];
-  }
-  //-------------------------------- GET RACE ----------------------------------
-  BWAPI::RaceType::Enum UnitPrototype::getRace() const
-  {
-    return this->race;
   }
   //------------------------------- GET SUPPLIES -------------------------------
   s8 UnitPrototype::getSupplies() const
@@ -167,4 +160,18 @@ namespace BWAPI
     return (u16) ceil(((float)this->dimensionUp() + this->dimensionDown() )/(float)BW::TileSize);
   }
   //----------------------------------------------------------------------------
+  bool UnitPrototype::isZerg() const
+  {
+    return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Zerg);
+  }
+  //----------------------------------------------------------------------------
+  bool UnitPrototype::isTerran() const
+  {
+    return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Terran);
+  }
+  //----------------------------------------------------------------------------
+  bool UnitPrototype::isProtoss() const
+  {
+    return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Protoss);
+  }
 };

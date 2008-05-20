@@ -24,7 +24,9 @@ namespace BWAI
   {
     if (this->builder)
     {
-      if (this->builder->getOrderIDLocal() != BW::OrderID::GoingToBuild)
+      if (this->builder->getOrderIDLocal() != BW::OrderID::BuildTerran &&
+          this->builder->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
+          this->builder->getOrderIDLocal() != BW::OrderID::DroneStartBuild)
         this->builder->build(this->position.x, this->position.y, buildingType);
       if (!this->building && builder->getRawData()->currentBuildUnit)
       {

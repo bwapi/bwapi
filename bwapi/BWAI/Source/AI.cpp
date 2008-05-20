@@ -18,7 +18,6 @@
 #include "..//..//BWAPI//Source//BW//Bitmask.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
 #include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
-#include "..//..//BWAPI//Source//BWAPI//RaceTypes.h"
 #include "..//..//BWAPI//Source//BWAPI//Map.h"
 
 #include "../../Util/Exceptions.h"
@@ -287,15 +286,15 @@ namespace BWAI
         if (type != NULL &&
              (
                (
-                  type->getRace()  == BWAPI::RaceType::Terran &&
+                  type->isTerran() &&
                   player->freeSuppliesTerranLocal() >= type->getSupplies()
                 ) ||
                 (
-                  type->getRace()  == BWAPI::RaceType::Protoss &&
+                  type->isProtoss() &&
                   player->freeSuppliesProtossLocal() >= type->getSupplies()
                 ) ||
                 (
-                  type->getRace()  == BWAPI::RaceType::Zerg &&
+                  type->isZerg() &&
                   player->freeSuppliesZergLocal() >= type->getSupplies()
                 )
               ) &&
@@ -317,11 +316,12 @@ namespace BWAI
         if (i->isReady() &&
             i->getOwner() == player &&
               (
-               i->getOrderIDLocal() == BW::OrderID::Idle ||
-               i->getOrderIDLocal() == BW::OrderID::ApproachingMinerals ||
-               i->getOrderIDLocal() == BW::OrderID::Mining ||
-               i->getOrderIDLocal() == BW::OrderID::ReturningMinerals ||
-               i->getOrderIDLocal() == BW::OrderID::GettingMinedMinerals
+               i->getOrderIDLocal() == BW::OrderID::PlayerGuard ||
+               i->getOrderIDLocal() == BW::OrderID::MoveToMinerals ||
+               i->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 ||
+               i->getOrderIDLocal() == BW::OrderID::MiningMinerals ||
+               i->getOrderIDLocal() == BW::OrderID::ResetCollision2 ||
+               i->getOrderIDLocal() == BW::OrderID::ReturnMinerals
              ) &&
              !i->selected &&
              (i->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&

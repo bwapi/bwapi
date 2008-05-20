@@ -3,7 +3,6 @@
 #include <string>
 #include "../Types.h"
 #include "..//BW//UnitTypes.h"
-#include "..//BWAPI//RaceTypes.h"
 #include "..//BW//Offsets.h" /**< @todo remove (just for UNKNOWN_TYPE */
 #include "..//BW//Bitmask.h" /**< @todo remove (just for UNKNOWN_TYPE */
 #include "..//BW//UnitPrototypeFlags.h" /**< @todo remove (just for UNKNOWN_TYPE */
@@ -22,14 +21,12 @@ namespace BWAPI
   public :
     UnitPrototype(const std::string&          name,
                   const BW::UnitType::Enum    unitID,
-                  const BWAPI::RaceType::Enum race,
                   const u16                   maxMana,
                   const u32                   abilityFlags);
     ~UnitPrototype();
 
     const std::string&    getName() const;
     BW::UnitType::Enum    getUnitID() const;      
-    BWAPI::RaceType::Enum getRace() const;      
     s8                    getSupplies() const;      
     u16                   getMaxHealthPoints() const;
     u16                   getMaxShieldPoints() const;
@@ -51,6 +48,9 @@ namespace BWAPI
     /** Gets base Damage of the ground weapon of the unit. */
     u16                   getGroundDamage() const;
     bool                  canProduce() const;
+    bool                  isZerg() const;
+    bool                  isTerran() const;
+    bool                  isProtoss() const;
     
     
     BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
@@ -68,6 +68,5 @@ namespace BWAPI
     u16                   maxMana;
     u32                   abilityFlags;
     BW::UnitType::Enum    unitID;
-    BWAPI::RaceType::Enum race;
   };
 };

@@ -4,6 +4,7 @@
 #include "../Types.h"
 #include "Bitmask.h"
 #include "UnitPrototypeFlags.h"
+#include "GroupFlags.h"
 /** 
  * Broodwar content access tools.
  * The namespace contains:
@@ -54,6 +55,7 @@ namespace BW
   static Unit**        BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
   static UnitArray*    BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
   const  u32           UNIT_ARRAY_MAX_LENGTH = 1701;
+  
 
   static u32           BWFXN_CommandUnit = 0x4BFF80;
   static u32           BWFXN_IssueCommand = 0x4858F0;
@@ -94,6 +96,7 @@ namespace BW
   static int*          BWXFN_ScreenX = (int*) 0x00628430;
   static int*          BWXFN_ScreenY = (int*) 0x00628458;
   static char*         BWXFN_CurrentMapFileName = (char*) 0x001905C4;
+
 
   //------------------------------------ SUPPLIES -----------------------------
   // -------- AVAILABLE PROTOSS
@@ -271,9 +274,18 @@ namespace BW
   /** Direct mapping of unit flags data */
   struct PrototypeFlags_type
   {
-    BitMask<UnitPrototypeFlags::Enum> unit[weaponTypeCount];
+    BitMask<UnitPrototypeFlags::Enum> unit[unitTypeCount];
   };
   static PrototypeFlags_type* BWXFN_UnitPrototypeFlags = (PrototypeFlags_type*) 0x00664068;
+
+  //------------------------------PROTOTYPE GROUP FLAGS ----------------------
+  /** Direct mapping of unit flags data */
+  struct PrototypeGroupFlags_type
+  {
+    BitMask<GroupFlags::Enum> unit[unitTypeCount];
+  };
+
+  static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
 
   #define UNKNOWN_BIT_SIZE 16
   #define UNKNOWN_TYPE u16
