@@ -56,11 +56,12 @@ namespace BWAPI
                                             * BWAPI::Unit that will take unit instance specific things
                                             * like Not borrowed, not statised, not mealstormed, not under construction.
                                             */
+    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
     
   private :
     /** Name of the unit, it is the same as what you see in the game when you click on it. */
     std::string           name;
     BW::UnitType::Enum    unitID;
-    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
+
   };
 };
