@@ -234,7 +234,7 @@ namespace BWAI
     if (dead->isMineral())
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeMineral(dead);
-    else if (dead->getPrototype()->getAbilityFlags() | BWAPI::AbilityFlags::Gather)
+    else if (dead->getPrototype()->isWorker())
       if (dead->expansionAssingment != NULL)
         dead->expansionAssingment->removeWorker(dead);
     dead->lastTrainedUnitID = BW::UnitType::None;
@@ -324,7 +324,7 @@ namespace BWAI
                i->getOrderIDLocal() == BW::OrderID::ReturnMinerals
              ) &&
              !i->selected &&
-             (i->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) &&
+             (i->getPrototype()->isWorker()) &&
               i->expansionAssingment == NULL)
           workers.push_back(i); 
       }

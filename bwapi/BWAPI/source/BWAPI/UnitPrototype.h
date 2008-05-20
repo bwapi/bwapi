@@ -51,6 +51,7 @@ namespace BWAPI
     bool                  isZerg() const;
     bool                  isTerran() const;
     bool                  isProtoss() const;
+    bool                  isWorker() const;
     
     
     BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
@@ -59,9 +60,6 @@ namespace BWAPI
     bool canOrder(const AbilityPrototype* const ability, Unit* target) const;
     bool canOrder(const AbilityPrototype* const ability, const BW::Position& target) const;
 
-    bool biological; // @todo implement sometimes
-    bool mechanical;
-    bool robotic;
   private :
     /** Name of the unit, it is the same as what you see in the game when you click on it. */
     std::string           name;

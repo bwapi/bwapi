@@ -27,7 +27,7 @@ namespace BWAPI
       if (targetUnit != NULL)
       {
         if (
-             (this->executors[i]->getPrototype()->getAbilityFlags() & BWAPI::AbilityFlags::Gather) && 
+             (this->executors[i]->getPrototype()->isWorker()) && 
               targetUnit->isMineral()
            )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;

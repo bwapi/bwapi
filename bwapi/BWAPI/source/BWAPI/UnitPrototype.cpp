@@ -159,19 +159,24 @@ namespace BWAPI
   {
     return (u16) ceil(((float)this->dimensionUp() + this->dimensionDown() )/(float)BW::TileSize);
   }
-  //----------------------------------------------------------------------------
+  //---------------------------------- IS ZERG ---------------------------------
   bool UnitPrototype::isZerg() const
   {
     return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Zerg);
   }
-  //----------------------------------------------------------------------------
+  //--------------------------------- IS TERRAN --------------------------------
   bool UnitPrototype::isTerran() const
   {
     return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Terran);
   }
-  //----------------------------------------------------------------------------
+  //-------------------------------- IS PROTOSS --------------------------------
   bool UnitPrototype::isProtoss() const
   {
     return BW::BWXFN_PrototypeGroupFlags->unit[this->getUnitID()].getBit(BW::GroupFlags::Protoss);
+  }
+  //--------------------------------- IS WORKER --------------------------------
+  bool UnitPrototype::isWorker() const
+  {
+   return BW::BWXFN_UnitPrototypeFlags->unit[this->getUnitID()].getBit(BW::UnitPrototypeFlags::Worker);
   }
 };

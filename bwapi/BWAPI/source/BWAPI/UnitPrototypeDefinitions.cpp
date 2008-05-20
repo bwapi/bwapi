@@ -49,7 +49,7 @@ namespace BWAPI
     s32 MOVABLE_CAN_ATTACK = AbilityFlags::Move | AbilityFlags::AttackMove | AbilityFlags::Attack;
     /*                                                Unit name                 ID                                    Race                sp  target flags*/
     /** Terran */
-    UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"                   , BW::UnitType::Terran_SCV,                    0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* SCV                 = new UnitPrototype("Terran SCV"                   , BW::UnitType::Terran_SCV,                    0, MOVABLE_CAN_ATTACK);
     UnitPrototype* Marine              = new UnitPrototype("Terran Marine"                , BW::UnitType::Terran_Marine,                 0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
     UnitPrototype* Firebat             = new UnitPrototype("Terran Firebat"               , BW::UnitType::Terran_Firebat,                0, MOVABLE_CAN_ATTACK | AbilityFlags::Stims);
     UnitPrototype* SiegeTank_TankMode  = new UnitPrototype("Siege Tank (TankMode)"        , BW::UnitType::Terran_SiegeTankTankMode,      0, MOVABLE_CAN_ATTACK);
@@ -89,7 +89,7 @@ namespace BWAPI
 
 
     /** Protoss*/
-    UnitPrototype* Probe               = new UnitPrototype("Protoss Probe"                , BW::UnitType::Protoss_Probe,                0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Probe               = new UnitPrototype("Protoss Probe"                , BW::UnitType::Protoss_Probe,                0, MOVABLE_CAN_ATTACK);
     UnitPrototype* Zealot              = new UnitPrototype("Protoss Zealot"               , BW::UnitType::Protoss_Zealot,               0, MOVABLE_CAN_ATTACK);
     UnitPrototype* HighTemplar         = new UnitPrototype("Protoss High Templar"         , BW::UnitType::Protoss_HighTemplar,        150, 0);
     UnitPrototype* Dragoon             = new UnitPrototype("Protoss Dragoon"              , BW::UnitType::Protoss_Dragoon,              0, 0);
@@ -111,7 +111,7 @@ namespace BWAPI
     UnitPrototype* Reaver              = new UnitPrototype("Protoss Reaver"               , BW::UnitType::Protoss_Reaver,               0, 0);
 
     /** Zerg */
-    UnitPrototype* Drone               = new UnitPrototype("Drone"                        , BW::UnitType::Zerg_Drone,                    0, MOVABLE_CAN_ATTACK | AbilityFlags::Gather);
+    UnitPrototype* Drone               = new UnitPrototype("Drone"                        , BW::UnitType::Zerg_Drone,                    0, MOVABLE_CAN_ATTACK);
     UnitPrototype* Larva               = new UnitPrototype("Larva"                        , BW::UnitType::Zerg_Larva,                    0, 0);
     UnitPrototype* Overlord            = new UnitPrototype("Overlord"                     , BW::UnitType::Zerg_Overlord,                 0, AbilityFlags::Move);
     UnitPrototype* Zergling            = new UnitPrototype("Zergling"                     , BW::UnitType::Zerg_Zergling,                 0, MOVABLE_CAN_ATTACK);
