@@ -4,7 +4,6 @@
 #include "..//..//BWAPI//Source//BWAPI//Player.h"
 #include "..//..//BWAPI//Source//BWAPI//UnitPrototypeDefinitions.h"
 #include "..//..//BWAPI//Source//BWAPI//UnitPrototype.h"
-#include "..//..//BWAPI//Source//BWAPI//AbilityFlags.h"
 #include "..//..//BWAPI//Source//BWAPI//Globals.h"
 #include "Mineral.h"
 #include "Unit.h"
