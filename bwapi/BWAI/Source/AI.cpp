@@ -8,12 +8,11 @@
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
 #include "BuildingToMake.h"
-//#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
-//#include "..//..//BWAPI//Source//BW//BitMask.h"
+
 #include "../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../BWAPI/Source/BWAPI/Player.h"
 #include "../../BWAPI/Source/BWAPI/Globals.h"
-#include "../../BWAPI/Source/BW/Bitmask.h" /**< @todo remove */
+//#include "../../BWAPI/Source/BW/Bitmask.h" /**< @todo remove */
 #include "../../BWAPI/Source/BW/MovementFlags.h" /**< @todo remove */
 #include "../../BWAPI/Source/BW/OrderFlags.h" /**< @todo remove */
 #include "../../BWAPI/Source/BWAPI/Map.h"
@@ -78,14 +77,11 @@ namespace BWAI
       if (this->expansions.size())
       {
         for (std::list<MapStartingPosition*>::iterator i = mapInfo->startingPositions.begin(); i != mapInfo->startingPositions.end(); ++i)
-        {
-         this->log->log("Distance from %s = %d", (*i)->expansion->getID().c_str(), this->expansions.front()->gatherCenter->getDistance((*i)->expansion->getPosition()));
          if (this->expansions.front()->gatherCenter->getDistance((*i)->expansion->getPosition()) < 100)
           {
             this->startingPosition = *i;
             break;
           }
-        }
         if (this->startingPosition)
         {
          this->log->log("Starting position is (%s) at (%d, %d)", this->startingPosition->expansion->getID().c_str(), 
@@ -154,6 +150,7 @@ namespace BWAI
       return;
      
     this->checkSupplyNeed();
+    this->checkPlannedBuildings();
         
     bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
@@ -386,7 +383,9 @@ namespace BWAI
   {
     int countOfFactories = 0;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->isReady() && i->getType().canProduce())
+      if (i->isReady() && 
+          i->getType().canProduce() &&
+          i->getOwner() == this->player)
          countOfFactories++;
     return countOfFactories;
   }
@@ -396,8 +395,27 @@ namespace BWAI
     int countOfFactories = this->countOfProductionBuildings();
     if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
     {
-      //this->plannedBuildings.push_back(new BuildingToMake(NULL, BW::UnitID::Terran_SupplyDepot, this->startingPosition
-    }
+      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfFactories , player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
+      for (std::list<BW::Position>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
+          i != this->startingPosition->nonProducing3X2BuildingPositions.end();
+          ++i)
+      {
+        bool occupied = false;
+        for (int j = (*i).x; 
+              j < (*i).x + BW::UnitType(BW::UnitID::Terran_SupplyDepot).getTileWidth(); 
+              j++)
+          for (int k = (*i).y; 
+               k < (*i).y + BW::UnitType(BW::UnitID::Terran_SupplyDepot).getTileHeight(); 
+               k++)
+           occupied |= BWAPI::Broodwar.unitsOnTile[j][k].size() > 0;
+        if (!occupied)
+        {
+          this->log->log("Found free spot for supply depot at (%d,%d)", (*i).x, (*i).y);
+          this->plannedBuildings.push_back(new BuildingToMake(NULL, BW::UnitID::Terran_SupplyDepot, (*i)));
+          break;
+        }
+      } 
+    }        
   }
   //---------------------------------------------------------------------------
   s32 AI::plannedTerranSupplyGain()
@@ -409,6 +427,33 @@ namespace BWAI
       else if ((*i)->getType() == BW::UnitID::Terran_CommandCenter)
         returnValue += 10;
     return returnValue;
+  }
+  //---------------------------------------------------------------------------
+  void AI::checkPlannedBuildings()
+  {
+    std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
+    while (i != this->plannedBuildings.end())
+      if ((*i)->execute())
+      {
+        delete *i;
+        i = this->plannedBuildings.erase(i);
+      }
+      else
+        ++i;
+  }
+  //---------------------------------------------------------------------------
+  Unit* AI::freeBuilder()
+  {
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (i->getOwner() == player &&
+          i->getType().isWorker())
+      {
+       this->log->log("%s is going to be freed to do something else", i->getName().c_str());
+       if (i->expansionAssingment != NULL)
+           i->expansionAssingment->removeWorker(i);
+       return i;
+      }
+    return NULL;
   }
   //---------------------------------------------------------------------------
 }

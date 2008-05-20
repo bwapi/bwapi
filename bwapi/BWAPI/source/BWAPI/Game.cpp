@@ -244,11 +244,11 @@ namespace BWAPI
   {
 
     /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
-    if (selected[0] == NULL)
+  /*  if (selected[0] == NULL)
     {
       delete [] selected;
       return;
-    }
+    }*/
     
    /* BW::Unit** selectedNow = this->saveSelected();
     int i;

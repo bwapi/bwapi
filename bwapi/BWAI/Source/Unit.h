@@ -20,6 +20,8 @@ namespace BWAI
        */
       Unit* getTarget();
       Unit* getTargetLocal();
+      Unit* getOrderTarget();
+      Unit* getOrderTargetLocal();
       Unit* getNext();
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();

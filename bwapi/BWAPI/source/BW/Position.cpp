@@ -33,4 +33,17 @@ namespace BW
   ,y(y)
   {
   }
+  //------------------------------------- OPERATOR == ------------------------------
+  bool Position::operator == (BW::Position& position)
+  {
+    return this->x == position.x &&
+           this->y == position.y;
+  }
+  //------------------------------------- OPERATOR != ------------------------------
+  bool Position::operator != (BW::Position& position)
+  {
+    return this->x != position.x ||
+           this->y != position.y;
+  }
+  //--------------------------------------------------------------------------------
 };

@@ -12,9 +12,10 @@ namespace BW
       Position();
       Position(TiXmlElement* xmlElement);
       Position(u16 x, u16 y);
+      bool operator == (BW::Position& position);
+      bool operator != (BW::Position& position);
       u16 x;
       u16 y;
-
   };
 };
 

@@ -40,6 +40,7 @@ namespace BWAI
       int expansionsSaturated;
       Unit* getFirst();
       Util::Logger* log;
+      Unit* freeBuilder();
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -67,5 +68,6 @@ namespace BWAI
       std::list<BuildingToMake*> plannedBuildings;
       /** @todo investigate and use the nextSupply provider here. */ 
       s32 plannedTerranSupplyGain();
+      void checkPlannedBuildings();
   };
 }

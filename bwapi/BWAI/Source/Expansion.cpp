@@ -1,4 +1,7 @@
 #include "Expansion.h"
+
+#include <Logger.h>
+
 #include "AI.h"
 #include "Unit.h"
 #include "Globals.h"

@@ -39,14 +39,26 @@ namespace BWAPI
       u32 getShieldPoints() const; 
       /** Gets #bwUnit->BW#Unit#position. */
       const BW::Position& getPosition() const;
-      /** Gets #bwUnit->BW#Unit#targetUnit. */
+      /** Gets #bwUnit->BW#Unit#orderTargetUnit. */
       Unit* getTarget();
       /** Gets #bwUnit->BW#Unit#targetUnit. */
       const Unit* getTarget() const;
-      /** (const version) Gets #bwUnitLocal->BW#Unit#targetUnit. */
+      /** Gets #bwUnitLocal->BW#Unit#orderTargetUnit. */
       Unit* getTargetLocal();
-      /** Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
+      /** Gets #bwUnitLocal->BW#Unit#targetUnit. */
       const Unit* getTargetLocal() const;
+      /** (const version) Gets #bwUnitLocal->BW#Unit#targetUnit. */
+      Unit* getOrderTarget();
+      /** Gets #bwUnit->BW#Unit#orderTargetUnit. */
+      const Unit* getOrderTarget() const;
+      /** (const version) Gets #bwUnitLocal->BW#Unit#orderTargetUnit. */
+      Unit* getOrderTargetLocal();
+      /** Gets owner of the unit defined by #bwUnitLocal->BW#Unit#orderTargetUnit. */
+      const Unit* getOrderTargetLocal() const;
+      /** Gets #bwUnit->BW#Unit#moveToPos */
+      BW::Position getTargetPosition() const;
+      /** (const version) Gets #bwUnitLocal->BW#Unit#moveToPos. */
+      BW::Position getTargetPositionLocal() const;
       /** (const version) Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
       Player* getOwner() const;
       /** Gets #bwUnit->BW#Unit#queueSlot. */
@@ -76,6 +88,8 @@ namespace BWAPI
       bool isValid() const;
       /** Gets if the unit is alive - exists and it's construction is done. */
       bool isReady() const;
+      /** Gets if the unit construction is done */
+      bool isCompleted() const;
       /** Gets #bwUnit */
       BW::Unit *getRawData();
       /** Gets #bwUnit (const version that returns const pointer) */
@@ -96,7 +110,7 @@ namespace BWAPI
        * Order this unit to right click on the specified location. 
        * Note that right click on location will always result in move.
        */
-      void orderRightClick(u16 x,u16 y);
+      void orderRightClick(BW::Position position);
       /**
        * Orders this unit to right click on the specified unit.
        * Note that right click on unit can result in lot of commands (attack, gather, follow, set relly point)
