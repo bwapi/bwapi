@@ -17,10 +17,9 @@ namespace BWAPI
       WarpDarkArchon  = 1 << 6,
       SiegeTank       = 1 << 7,
       UnsiegeTank     = 1 << 8,
-      Gather          = 1 << 9,
-      MorphToLurker   = 1 << 10,
-      MorphToGuardian = 1 << 11,
-      Stims           = 1 << 12
+      MorphToLurker   = 1 << 9,
+      MorphToGuardian = 1 << 10,
+      Stims           = 1 << 11
     };
   }
 }
