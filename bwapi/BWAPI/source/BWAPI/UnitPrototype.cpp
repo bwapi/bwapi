@@ -13,11 +13,9 @@ namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
   UnitPrototype::UnitPrototype( const std::string&          name, 
-                                const BW::UnitType::Enum    unitID,
-                                const u16                   maxMana)
+                                const BW::UnitType::Enum    unitID)
     :name(name)
     ,unitID(unitID)
-    ,maxMana(maxMana)
   {
   }
   //----------------------------- DESTRUCTOR ------------------------------------
@@ -43,11 +41,6 @@ namespace BWAPI
   u16 UnitPrototype::getMaxShieldPoints() const
   {
     return BW::BWXFN_MaxShieldPoints->maxShieldPoints[this->getUnitID()];
-  }
-  //----------------------------- GET MAX MANA ----------------------------------
-  u16 UnitPrototype::getMaxMana() const
-  {
-    return this->maxMana;
   }
   //------------------------------ GET MINERAL PRICE ---------------------------
   u16 UnitPrototype::getMineralPrice() const

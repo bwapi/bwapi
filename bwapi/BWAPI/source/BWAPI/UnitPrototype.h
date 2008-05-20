@@ -20,8 +20,7 @@ namespace BWAPI
   {
   public :
     UnitPrototype(const std::string&          name,
-                  const BW::UnitType::Enum    unitID,
-                  const u16                   maxMana);
+                  const BW::UnitType::Enum    unitID);
     ~UnitPrototype();
 
     const std::string&    getName() const;
@@ -61,7 +60,6 @@ namespace BWAPI
   private :
     /** Name of the unit, it is the same as what you see in the game when you click on it. */
     std::string           name;
-    u16                   maxMana;
     BW::UnitType::Enum    unitID;
     BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
   };

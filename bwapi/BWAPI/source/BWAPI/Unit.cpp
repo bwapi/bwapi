@@ -1,7 +1,6 @@
 #include "Unit.h"
 
 #include "../BWAPI/TargetType.h"
-#include "../BWAPI/AbilityPrototype.h"
 #include "../BWAPI/UnitPrototype.h"
 #include "../BWAPI/UnitPrototypeDefinitions.h"
 #include "../BWAPI/Player.h"

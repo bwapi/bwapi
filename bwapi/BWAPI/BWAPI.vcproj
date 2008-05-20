@@ -310,14 +310,6 @@
 				Name="BWAPI"
 				>
 				<File
-					RelativePath=".\source\BWAPI\AbilityPrototype.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\AbilityPrototype.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Command.cpp"
 					>
 				</File>
