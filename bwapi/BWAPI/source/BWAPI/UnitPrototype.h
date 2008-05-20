@@ -52,6 +52,7 @@ namespace BWAPI
     bool                  isTerran() const;
     bool                  isProtoss() const;
     bool                  isWorker() const;
+    bool                  canAttack() const;
     
     
     BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
