@@ -101,6 +101,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				WarningLevel="3"
@@ -144,35 +145,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Dictionary.cpp"
+				RelativePath=".\Source\Util\Dictionary.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DictionaryFile.cpp"
+				RelativePath=".\Source\Util\DictionaryFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DictionaryLine.cpp"
+				RelativePath=".\Source\Util\DictionaryLine.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Exceptions.cpp"
+				RelativePath=".\Source\Util\Exceptions.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Logger.cpp"
+				RelativePath=".\Source\Util\Logger.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Sentence.cpp"
+				RelativePath=".\Source\Util\Sentence.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\StringUtil.cpp"
+				RelativePath=".\Source\Util\StringUtil.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\UnusedLine.cpp"
+				RelativePath=".\Source\Util\UnusedLine.cpp"
 				>
 			</File>
 		</Filter>
@@ -182,43 +183,43 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Dictionary.h"
+				RelativePath=".\Source\Util\Dictionary.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DictionaryFile.h"
+				RelativePath=".\Source\Util\DictionaryFile.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DictionaryLine.h"
+				RelativePath=".\Source\Util\DictionaryLine.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Exceptions.h"
+				RelativePath=".\Source\Util\Exceptions.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Logger.h"
+				RelativePath=".\Source\Util\Logger.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LogLevel.h"
+				RelativePath=".\Source\Util\LogLevel.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RectangleArray.h"
+				RelativePath=".\Source\Util\RectangleArray.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Sentence.h"
+				RelativePath=".\Source\Util\Sentence.h"
 				>
 			</File>
 			<File
-				RelativePath=".\StringUtil.h"
+				RelativePath=".\Source\Util\StringUtil.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Unusedline.h"
+				RelativePath=".\Source\Util\Unusedline.h"
 				>
 			</File>
 		</Filter>

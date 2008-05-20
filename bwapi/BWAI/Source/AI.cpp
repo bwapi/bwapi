@@ -1,8 +1,6 @@
 #include "AI.h"
 #include <algorithm>
-#include "..//..//BWAPI//Source//BWAPI//Unit.h"
-#include "..//..//BWAPI//Source//BWAPI//Player.h"
-#include "..//..//BWAPI//Source//BWAPI//Globals.h"
+
 #include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
@@ -11,15 +9,17 @@
 #include "MapStartingPosition.h"
 //#include "..//..//BWAPI//Source//BW//UnitPrototypeFlags.h"
 //#include "..//..//BWAPI//Source//BW//BitMask.h"
-#include "..//..//BWAPI//Source//BW//Unit.h" /**@todo remove */
-#include "..//..//BWAPI//Source//BW//Bitmask.h" /**< @todo remove */
-#include "..//..//BWAPI//Source//BW//MovementFlags.h" /**< @todo remove */
-#include "..//..//BWAPI//Source//BW//OrderFlags.h" /**< @todo remove */
-#include "..//..//BWAPI//Source//BWAPI//Map.h"
+#include "../../BWAPI/Source/BWAPI/Unit.h"
+#include "../../BWAPI/Source/BWAPI/Player.h"
+#include "../../BWAPI/Source/BWAPI/Globals.h"
+#include "../../BWAPI/Source/BW/Bitmask.h" /**< @todo remove */
+#include "../../BWAPI/Source/BW/MovementFlags.h" /**< @todo remove */
+#include "../../BWAPI/Source/BW/OrderFlags.h" /**< @todo remove */
+#include "../../BWAPI/Source/BWAPI/Map.h"
 
-#include "../../Util/Exceptions.h"
-#include "../../Util/Logger.h"
-#include "../../Util/Dictionary.h"
+#include <Exceptions.h>
+#include <Logger.h>
+#include <Dictionary.h>
 
 
 
@@ -107,8 +107,8 @@ namespace BWAI
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log(new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai", LogLevel::MicroDetailed))
-  ,deadLog(new Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
+  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::MicroDetailed))
+  ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
   {
     this->suppliesOrdered = 0;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)

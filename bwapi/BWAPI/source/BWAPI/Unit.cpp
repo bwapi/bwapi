@@ -13,7 +13,7 @@
 #include "../BW/Offsets.h"
 #include "../BW/UnitType.h"
 
-#include "../../../Util/Logger.h"
+#include "../../../Util/Source/Util/Logger.h"
 
 #include <math.h>
 

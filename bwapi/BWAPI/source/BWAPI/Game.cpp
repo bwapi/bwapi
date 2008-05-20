@@ -1,5 +1,16 @@
 #include "Game.h"
 
+#include <stdio.h>
+#include <windows.h>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+
+#include <Logger.h>
+#include <Dictionary.h>
+#include <Exceptions.h>
+
 #include "../BWAPI/Player.h"
 #include "../BWAPI/Unit.h"
 #include "../BWAPI/Command.h"
@@ -15,16 +26,6 @@
 #include "../BW/TileSet.h"
 #include "../BW/UnitType.h"
 
-#include "../../../Util/Logger.h"
-#include "../../../Util/Dictionary.h"
-#include "../../../Util/Exceptions.h"
-
-#include <stdio.h>
-#include <windows.h>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <math.h>
 
 namespace BWAPI 
 {
@@ -43,12 +44,12 @@ namespace BWAPI
       fprintf(f, "Couldn't load configuration file bwapi.ini because:", exception.getMessage());
       fclose(f);
     }
-    this->commandLog        = new Logger(this->configuration->getValue("log_path") + "\\commands", LogLevel::MicroDetailed);
-    this->newOrderLog       = new Logger(this->configuration->getValue("log_path") + "\\new_orders", LogLevel::MicroDetailed);
-    this->badAssumptionLog  = new Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", LogLevel::MicroDetailed);
-    this->newUnitLog        = new Logger(this->configuration->getValue("log_path") + "\\new_unit_id", LogLevel::MicroDetailed);
-    this->unitSum           = new Logger(this->configuration->getValue("log_path") + "\\unit_sum", LogLevel::MicroDetailed);
-    this->fatalError        = new Logger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", LogLevel::MicroDetailed);
+    this->commandLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\commands", LogLevel::MicroDetailed);
+    this->newOrderLog       = new Util::Logger(this->configuration->getValue("log_path") + "\\new_orders", LogLevel::MicroDetailed);
+    this->badAssumptionLog  = new Util::Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", LogLevel::MicroDetailed);
+    this->newUnitLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\new_unit_id", LogLevel::MicroDetailed);
+    this->unitSum           = new Util::Logger(this->configuration->getValue("log_path") + "\\unit_sum", LogLevel::MicroDetailed);
+    this->fatalError        = new Util::Logger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", LogLevel::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
@@ -298,7 +299,7 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      Logger::globalLog->log("Exception in onCancelTrain: " + exception.getMessage());
+      Util::Logger::globalLog->log("Exception in onCancelTrain: " + exception.getMessage());
     }
   }
   //----------------------------- ON REMOVE UNIT --------------------------------

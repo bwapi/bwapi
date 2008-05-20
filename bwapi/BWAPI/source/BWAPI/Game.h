@@ -1,21 +1,24 @@
 #pragma once
 
-namespace BW { struct UnitArray; }
-namespace BW { struct Unit; }
+namespace Util  { class Logger; }
+namespace BW    { struct UnitArray; }
+namespace BW    { struct Unit; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
-class Logger;
-class Dictionary;
 
-#include "..//BW/OrderTypes.h"
-#include "..//BW/Offsets.h"
-#include "..//BW/Latency.h"
-#include "../../../Util/RectangleArray.h"
+class Dictionary;
 
 #include <vector>
 #include <list>
 #include <windows.h>
+
+#include <RectangleArray.h>
+
+#include "..//BW/OrderTypes.h"
+#include "..//BW/Offsets.h"
+#include "..//BW/Latency.h"
+
 /** Everything in the BWAPI library that doesn't map or work directly with the bw data. */
 namespace BWAPI
 {
@@ -88,7 +91,7 @@ namespace BWAPI
       void logUnknownOrStrange();
       /** Count of game-frames passed from game start. */
       int frameCount;
-      Logger *fatalError;
+      Util::Logger *fatalError;
       bool quietSelect;
       BW::Latency::Enum getLatency();
       /** Representation of the configuration file bw-api.ini in the starcraft directory. */
@@ -103,15 +106,15 @@ namespace BWAPI
       std::vector<char *> buffers;
       Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
       /** All commands ordered from BWAPI */
-      Logger *commandLog;
+      Util::Logger *commandLog;
       /** Unknown orderID's */
-      Logger *newOrderLog;
+      Util::Logger *newOrderLog;
       /** Unknown unitID's */
-      Logger *newUnitLog;
+      Util::Logger *newUnitLog;
       /** Failed check of assumption */
-      Logger *badAssumptionLog;
+      Util::Logger *badAssumptionLog;
       /** Sum of all units*/
-      Logger *unitSum;
+      Util::Logger *unitSum;
       /** Every tile will have pointers to units touching it. */
       RectangleArray<std::list<Unit*> > unitsOnTile;
       /** Will update the unitsOnTile content, should be called every frame. */

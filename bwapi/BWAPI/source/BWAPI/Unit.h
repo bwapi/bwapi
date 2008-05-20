@@ -4,9 +4,9 @@
 #include "../BW/OrderID.h"
 #include "../BW/UnitType.h"
 
-class Logger;
-namespace BW { class Position; };
-namespace BW { struct Unit; };
+namespace Util  { class Logger; }
+namespace BW    { class Position; };
+namespace BW    { struct Unit; };
 namespace BWAPI { class UnitPrototype;  };
 namespace BWAPI { class AbilityPrototype;  };
 namespace BWAPI { class Player;  };
