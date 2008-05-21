@@ -146,7 +146,6 @@ void __declspec(naked)  nextFrameHook()
 #pragma warning(disable:4312)
 void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 {
-  BWAI::ai = new BWAI::AI();
   DWORD OldProt = 0;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
   unsigned char jmp = 0xE9;
@@ -163,9 +162,13 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   if (BWAPI::Broodwar.configuration == NULL)
     return 1;
-  int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
+
   delete Util::Logger::globalLog;
   Util::Logger::globalLog = new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
+
+  BWAI::ai = new BWAI::AI();
+  int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
+
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
   JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);

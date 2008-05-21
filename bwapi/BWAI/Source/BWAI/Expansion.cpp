@@ -8,6 +8,7 @@
 
 namespace BWAI
 {
+  int Expansion::maximumMineralDistance = 350;
   //------------------------------------ CONSTRUCTOR --------------------------
   Expansion::Expansion(BWAI::Unit* gatherCenter)
    :gatherCenter(gatherCenter)
@@ -19,7 +20,7 @@ namespace BWAI
     {
       if (i->isMineral() &&
           i->expansionAssingment == NULL &&
-          i->getDistance(this->gatherCenter) < 350)
+          i->getDistance(this->gatherCenter) < maximumMineralDistance)
         this->minerals.push_back(new Mineral(i, this));
     }
     ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), LogLevel::Normal);

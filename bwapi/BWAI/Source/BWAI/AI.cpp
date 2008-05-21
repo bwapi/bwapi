@@ -129,7 +129,7 @@ namespace BWAI
   {
     try
     {
-      Mineral::maximumMineralDistance = StringUtil::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
+      Expansion::maximumMineralDistance = StringUtil::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
     }
     catch (GeneralException& exception)
     {
@@ -374,7 +374,8 @@ namespace BWAI
   //----------------------------- ASSIGN IDLE WORKERS TO MINERALS -------------
   void AI::assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers)
   {
-    if (!this->expansionsSaturated)
+    if (!this->expansionsSaturated &&
+        this->activeMinerals.size() > 0)
       for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
       {
         AI::optimizeMineralFor = *i;
