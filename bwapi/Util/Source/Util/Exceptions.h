@@ -44,3 +44,10 @@ class XmlException : public GeneralException
   public :
     XmlException(const std::string& message, const std::string& fileName = "", const long lineNumber = 0);
 };
+
+/** Can be thrown during parsin (non integer paremters that should be numbers for example) */
+class ParseException : public GeneralException
+{
+  public :
+    ParseException(const std::string& message);
+};

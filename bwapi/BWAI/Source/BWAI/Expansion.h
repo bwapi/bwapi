@@ -16,5 +16,6 @@ namespace BWAI
       void removeWorker(Unit* worker);
       bool checkAssignedWorkers();
       void removeMineral(BWAI::Unit* mineral);
+      static int maximumMineralDistance;
   };
 }

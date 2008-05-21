@@ -24,4 +24,9 @@ XmlException::XmlException(const std::string& message, const std::string& fileNa
 ,lineNumber(lineNumber)
 {
 }
+//-------------------------------- CONSTRUCTOR ---------------------------------
+ParseException::ParseException(const std::string& message)
+:GeneralException(message)
+{
+}
 //------------------------------------------------------------------------------

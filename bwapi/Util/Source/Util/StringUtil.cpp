@@ -17,14 +17,15 @@ std::string StringUtil::intToString(long value)
     return "-" + returnValue;
  }
 //------------------------------- STRING TO INT --------------------------------
-
 unsigned long StringUtil::stringToInt(const std::string &input, const unsigned long begin, const int distance)
  {
   unsigned long returnValue = 0;
   for (unsigned long i = begin; i < distance + begin && i < input.size();i++)
    {
+    if (!isdigit(input[i]))
+      throw ParseException::ParseException("StringUtil::stringToInt - String " + input + " is not a number.");
     returnValue*=10;
-    returnValue += (input[i] - 48);
+    returnValue += (input[i] - '0');
    }
   return returnValue;
  }
