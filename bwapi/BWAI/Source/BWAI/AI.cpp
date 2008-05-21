@@ -20,6 +20,7 @@
 #include <Exceptions.h>
 #include <Logger.h>
 #include <Dictionary.h>
+#include <StringUtil.h>
 
 
 
@@ -126,7 +127,14 @@ namespace BWAI
   ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::MicroDetailed))
   ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
   {
-    this->suppliesOrdered = 0;
+    try
+    {
+      Mineral::maximumMineralDistance = StringUtil::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
+    }
+    catch (GeneralException& exception)
+    {
+      Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: " + exception.getMessage());
+    }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     this->first = NULL;
