@@ -9,6 +9,7 @@
 
 namespace BWAI
 {
+  int Mineral::maximumMineralDistance = 350;
   //--------------------------------- CONSTRUCTOR -----------------------------
   Mineral::Mineral(BWAI::Unit* mineral, Expansion* expansion)
   :mineral(mineral)

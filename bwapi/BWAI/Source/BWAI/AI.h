@@ -32,7 +32,6 @@ namespace BWAI
       void onCancelTrain();
       void onRemoveUnit(BW::Unit* unit);
 
-      int suppliesOrdered;
       std::list<Expansion*> expansions;
       std::list<Mineral*> activeMinerals;
       Unit* getUnit(int index);
