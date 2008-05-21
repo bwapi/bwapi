@@ -1,5 +1,4 @@
-#ifndef RECTANGLEARRAYH
-#define RECTANGLEARRAYH
+#pragma once
 /**
  * Template used for work with dynamically initialized array with dimension 2.
  */
@@ -14,7 +13,7 @@ class RectangleArray
      /** Array data, stored as linear array of size width*height */
      Type *data;
      /** Pointers to begins of lines*/
-     Type **lines;
+     Type **columns;
      /**
       * Gets data item on the specified index
       * @param index index of the data to be returned.
@@ -24,7 +23,7 @@ class RectangleArray
       * Gets the pointer in data to the beginning of line with the specified index.
       * @param index index of the line.
       */
-     Type *getLine(Iterator index);
+     Type *getColumn(Iterator index);
      /**
       * Sets the width of the array.
       * @param width New width of the array.
@@ -69,9 +68,9 @@ class RectangleArray
       * @param y vertical index of the array position.
       * @param item new value of the field.
       */
-     inline Type* operator[](int i) { return this->getLine(i); }
+     inline Type* operator[](int i) { return this->getColumn(i); }
 
-     inline Type const * const operator[](int i) const {return this->getLine(i); }
+     inline Type const * const operator[](int i) const {return this->getColumn(i); }
      void setItem(Iterator x, Iterator y, Type *item);
      void resize(Iterator width, Iterator height);
  };
@@ -83,16 +82,16 @@ RectangleArray<Type, Iterator>::RectangleArray(Iterator width = 0, Iterator heig
   this->setHeight(height);
   data = new Type[width*height];
 
-  lines = new Type*[height];
+  columns = new Type*[this->width];
   Iterator i = 0;
-  for (Iterator position = 0;i < height; i ++,position += width)
-    lines[i] = &data[position];
+  for (Iterator position = 0;i < width; i ++,position += height)
+    columns[i] = &data[position];
  }
 //-------------------------------- DESTRUCTOR ----------------------------------
 template <class Type,class Iterator>
 RectangleArray<Type, Iterator>::~RectangleArray(void)
 {
-   delete [] lines;
+   delete [] columns;
    delete [] data;
 }
 //-------------------------------- GET WIDTH -----------------------------------
@@ -123,19 +122,19 @@ void RectangleArray<Type, Iterator>::setHeight(Iterator height)
 template <class Type,class Iterator>
 Type* RectangleArray<Type,Iterator>::getItem(Iterator x, Iterator y)
 {
-  return this->getLine(y)[x];
+  return this->getColumn(x)[y];
 }
 //-------------------------------- SET ITEM ------------------------------------
 template <class Type,class Iterator>
 void RectangleArray<Type, Iterator>::setItem(Iterator x, Iterator y, Type* item)
 {
-  this->getLine(y)[x] = item;
+  this->getColumn(x)[y] = item;
 }
 //-------------------------------- GET LINE ------------------------------------
 template <class Type, class Iterator>
-Type* RectangleArray<Type, Iterator>::getLine(Iterator index)
+Type* RectangleArray<Type, Iterator>::getColumn(Iterator index)
 {
-  return lines[index];
+  return columns[index];
 }
 //------------------------------- RESIZE ---------------------------------------
 template <class Type, class Iterator>
@@ -145,7 +144,7 @@ void RectangleArray<Type, Iterator>::resize(Iterator width, Iterator height)
       this->getHeight() == height)
     return;
 
-  delete [] this->lines;
+  delete [] this->columns;
   delete [] this->data;  
 
   this->setWidth(width);
@@ -153,10 +152,9 @@ void RectangleArray<Type, Iterator>::resize(Iterator width, Iterator height)
 
   this->data = new Type[this->width * this->height];
 
-  lines = new Type*[this->height];
+  this->columns = new Type*[this->width];
   Iterator i = 0;
-  for (Iterator position = 0;i < this->height; i ++,position += this->width)
-    lines[i] = &data[position];
+  for (Iterator position = 0;i < this->width; i ++,position += this->height)
+    columns[i] = &data[position];
 }
 //------------------------------------------------------------------------------
-#endif

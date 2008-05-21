@@ -1,6 +1,8 @@
 #include <list>
+
 namespace BWAI { class MapStartingPosition; }
 namespace BWAI { class MapExpansion; }
+
 namespace BWAI
 {
   /** Additional (pre-prepared) data that the ai uses to operated over the map. */
@@ -20,7 +22,5 @@ namespace BWAI
       std::list<MapStartingPosition*> startingPositions;
       MapExpansion *getExpansion(const std::string& id);
     private :
-      
-      
   };
 }
