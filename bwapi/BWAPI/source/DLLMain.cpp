@@ -16,8 +16,8 @@
 #include "BWAPI/Game.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Player.h"
-#include "../../BWAI/Source/AI.h"
-#include "../../BWAI/Source/Globals.h"
+#include "../../BWAI/Source/BWAI/AI.h"
+#include "../../BWAI/Source/BWAI/Globals.h"
 
 bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
