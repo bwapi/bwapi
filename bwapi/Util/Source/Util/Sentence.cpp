@@ -37,7 +37,7 @@ Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dic
          }
         default :
          {
-       //     sentence = sentence.substr(0,leftBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
+          sentence = sentence.substr(0,leftBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
           position = leftBracketPosition + 1;
           goto begin1;
          }
@@ -74,7 +74,7 @@ Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dic
                }
               default :
                {
-     //           sentence = sentence.substr(0,rightBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
+                sentence = sentence.substr(0,rightBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
                 position = leftBracketPosition + 1;
                 goto begin2;
                }
