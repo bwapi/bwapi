@@ -4,12 +4,11 @@
 
 #include <Logger.h>
 
-#include "../BWAPI/TargetType.h"
-#include "../BWAPI/Player.h"
-#include "../BWAPI/Globals.h"
-#include "../BWAPI/CommandTrain.h"
-#include "../BWAPI/CommandBuild.h"
-#include "../BWAPI/CommandRightClick.h"
+#include "Player.h"
+#include "Globals.h"
+#include "CommandTrain.h"
+#include "CommandBuild.h"
+#include "CommandRightClick.h"
 
 #include "../BW/UnitType.h"
 #include "../BW/Unit.h"

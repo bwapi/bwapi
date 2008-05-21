@@ -4,7 +4,6 @@
 #include <Logger.h>
 
 #include "../BWAPI/Unit.h"
-#include "../BWAPI/TargetType.h"
 
 #include "../BW/Unit.h"
 #include "../BW/Position.h"

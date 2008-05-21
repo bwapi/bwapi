@@ -1,0 +1,7 @@
+namespace BWAI
+{
+  class Task
+  {
+    
+  }
+}

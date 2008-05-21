@@ -351,10 +351,12 @@ namespace BWAI
   void AI::checkWorkersNeed(void)
   {
     unsigned int workersTogether = 0;
-    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      workersTogether += (*i)->asignedWorkers;
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (i->getOwner() == player &&
+          i->getType().isWorker())
+        workersTogether++;
     if (workersTogether >= this->activeMinerals.size()*2.5 ||
-        workersTogether >= 100)
+        workersTogether >= 90)
     {
       this->expansionsSaturated = true;
       for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)

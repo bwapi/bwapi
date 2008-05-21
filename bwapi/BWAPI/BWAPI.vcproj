@@ -173,149 +173,133 @@
 	</References>
 	<Files>
 		<Filter
-			Name="source"
+			Name="BW"
 			>
-			<File
-				RelativePath=".\source\DLLMain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\index.h"
-				>
-			</File>
-			<File
-				RelativePath=".\pages.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\StaticAssert.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Types.h"
-				>
-			</File>
 			<Filter
-				Name="BW"
-				>
-				<Filter
-					Name="Header Files"
-					>
-					<File
-						RelativePath=".\source\BW\Bitmask.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\GroupFlags.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\Latency.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\MovementFlags.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\Offsets.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\Order.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\OrderFlags.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\OrderID.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\OrderTypes.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\ParasiteFlags.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\Position.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\PositionUnitTarget.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\Sprite.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\TileSet.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\TileType.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\Unit.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\UnitID.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\UnitPrototypeFlags.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\UnitStatusFlags.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\UnitTarget.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\UnitType.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Source files"
-					>
-					<File
-						RelativePath=".\source\BW\Position.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\PositionUnitTarget.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\TileSet.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\BW\UnitTarget.cpp"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="BWAPI"
+				Name="Header Files"
 				>
 				<File
-					RelativePath=".\source\BWAPI\Command.cpp"
+					RelativePath=".\source\BW\Bitmask.h"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Command.h"
+					RelativePath=".\source\BW\Offsets.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\Order.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\OrderTypes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\Position.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\PositionUnitTarget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\Sprite.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\TileSet.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\TileType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\Unit.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitTarget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitType.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source files"
+				>
+				<File
+					RelativePath=".\source\BW\Position.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\PositionUnitTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\TileSet.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitType.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Enumerations"
+				>
+				<File
+					RelativePath=".\source\BW\GroupFlags.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\Latency.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\MovementFlags.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\OrderFlags.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\OrderID.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\ParasiteFlags.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitID.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitPrototypeFlags.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\UnitStatusFlags.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="BWAPI"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\source\BWAPI\Command.cpp"
 					>
 				</File>
 				<File
@@ -323,15 +307,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\CommandBuild.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
 					>
 				</File>
 				<File
@@ -339,19 +315,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\CommandRightClick.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\CommandTrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandTrain.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandTypes.h"
 					>
 				</File>
 				<File
@@ -359,23 +323,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Game.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Globals.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Globals.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Map.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\Map.h"
 					>
 				</File>
 				<File
@@ -387,6 +339,46 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BWAPI\Unit.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header files"
+				>
+				<File
+					RelativePath=".\source\BWAPI\Command.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandBuild.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandRightClick.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\CommandTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\Game.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\Globals.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BWAPI\Map.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\Player.h"
 					>
 				</File>
@@ -395,19 +387,43 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Unit.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Unit.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="Enumerations"
+				>
 				<File
-					RelativePath=".\source\BW\UnitType.cpp"
+					RelativePath=".\source\BWAPI\CommandTypes.h"
 					>
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="doxygen"
+			>
+			<File
+				RelativePath=".\index.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pages.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\source\DLLMain.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\StaticAssert.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Types.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
