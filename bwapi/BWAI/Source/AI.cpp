@@ -347,7 +347,7 @@ namespace BWAI
           workers.push_back(i); 
       }
   }
-  //--------------------------------- CHECK WORKERS NEED ----------------------
+  //------------------------------- CHECK WORKERS NEED ------------------------
   void AI::checkWorkersNeed(void)
   {
     unsigned int workersTogether = 0;
@@ -378,7 +378,7 @@ namespace BWAI
         (*activeMinerals.begin())->assignGatherer(*i);
       }
   }
-  //---------------------------------------------------------------------------
+  //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
   int AI::countOfProductionBuildings()
   {
     int countOfFactories = 0;
@@ -391,7 +391,9 @@ namespace BWAI
   }
   //---------------------------------------------------------------------------
   void AI::checkSupplyNeed()
-  {
+  { 
+    if (!this->startingPosition)
+      return;
     int countOfFactories = this->countOfProductionBuildings();
     if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
     {
