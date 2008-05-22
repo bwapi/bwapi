@@ -131,6 +131,8 @@ namespace BWAI
       delete *i;
     this->plannedBuildings.clear();
       
+    this->startingPosition = NULL;  
+    
     this->log->log("Ai::onEnd end", LogLevel::Detailed);      
   }
   //------------------------------- CONSTRUCTOR -------------------------------
