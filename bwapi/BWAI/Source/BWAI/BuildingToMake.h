@@ -1,6 +1,6 @@
 namespace BWAI { class Unit; }
-#include "../../BWAPI/Source/BW/Position.h"
-#include "../../BWAPI/Source/BW/UnitType.h"
+#include "../../../BWAPI/Source/BW/Position.h"
+#include "../../../BWAPI/Source/BW/UnitType.h"
 namespace BWAI
 {
   /** 

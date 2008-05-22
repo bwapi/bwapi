@@ -15,8 +15,6 @@
 #include "../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../BWAPI/Source/BWAPI/Player.h"
 #include "../../BWAPI/Source/BWAPI/Globals.h"
-//#include "../../BWAPI/Source/BW/MovementFlags.h" /**< @todo remove */
-#include "../../BWAPI/Source/BW/OrderFlags.h" /**< @todo remove */
 #include "../../BWAPI/Source/BWAPI/Map.h"
 
 #include <Exceptions.h>
