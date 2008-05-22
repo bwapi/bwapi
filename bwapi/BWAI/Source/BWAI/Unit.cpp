@@ -1,16 +1,20 @@
 #include "Unit.h"
+
 #include <Logger.h>
-#include "..//..//BWAPI//Source//Types.h"
-#include "..//..//BWAPI//Source//BW//Offsets.h"
-#include "..//..//BWAPI//Source//BW//Unit.h"
-#include "..//..//BWAPI//Source//BWAPI//Globals.h"
+
+#include "Task.h"
+
+#include "../../BWAPI/Source/Types.h"
+#include "../../BWAPI/Source/BW/Offsets.h"
+#include "../../BWAPI/Source/BW/Unit.h"
+#include "../../BWAPI/Source/BWAPI/Globals.h"
 #include "Globals.h"
 namespace BWAI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------
   Unit::Unit(BWAPI::Unit *unit)
   :BWAPI::Unit(*unit) /**< default autoconstructor usage */
-  ,expansionAssingment(0)
+  ,task(0)
   ,selected(false)
   ,lastTrainedUnit(BW::UnitID::None)
   ,lastFrameSpam(0)
@@ -24,6 +28,13 @@ namespace BWAI
     if (unit == NULL)
       return NULL;
     return ai->getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
+  }
+  //----------------------------- BW Unit TO BWAI Unit -----------------------
+  Unit* Unit::BWAPIUnitToBWAIUnit(BWAPI::Unit* unit)
+  {
+    if (unit == NULL)
+      return NULL;
+    return BWAI::ai->getUnit(unit->getIndex());
   }
   #pragma warning (pop)
   //------------------------------- GET TARGET --------------------------------
@@ -67,6 +78,23 @@ namespace BWAI
     this->next = Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
     if (this->next != NULL)
       this->next->updateNext();
+  }
+  //------------------------------- GET TASK ----------------------------------
+  Task* Unit::getTask()
+  {
+    return this->task;
+  }
+  //------------------------------- REMOVE TASK -------------------------------
+  void Unit::removeTask()
+  {
+    delete this->task;
+    this->task = NULL;
+  }
+  //-------------------------------- SET TASK ---------------------------------
+  void Unit::setTask(Task* task)
+  {
+    delete this->task;
+    this->task = task;
   }
   //---------------------------------------------------------------------------
 }

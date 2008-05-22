@@ -1,6 +1,9 @@
 #include "AI.h"
+
 #include <algorithm>
 
+#include "Task.h"
+#include "TaskGather.h"
 #include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
@@ -12,8 +15,7 @@
 #include "../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../BWAPI/Source/BWAPI/Player.h"
 #include "../../BWAPI/Source/BWAPI/Globals.h"
-//#include "../../BWAPI/Source/BW/Bitmask.h" /**< @todo remove */
-#include "../../BWAPI/Source/BW/MovementFlags.h" /**< @todo remove */
+//#include "../../BWAPI/Source/BW/MovementFlags.h" /**< @todo remove */
 #include "../../BWAPI/Source/BW/OrderFlags.h" /**< @todo remove */
 #include "../../BWAPI/Source/BWAPI/Map.h"
 
@@ -88,7 +90,7 @@ namespace BWAI
          this->log->log("Starting position is (%s) at (%d, %d)", this->startingPosition->expansion->getID().c_str(), 
                                                                  this->startingPosition->expansion->getPosition().x, 
                                                                  this->startingPosition->expansion->getPosition().y);
-         for (std::list<BW::Position>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
+         for (std::list<BW::TilePosition>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
               j != this->startingPosition->nonProducing3X2BuildingPositions.end(); 
               ++j)
            this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
@@ -113,7 +115,7 @@ namespace BWAI
     this->expansions.clear();
     this->expansionsSaturated = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      i->expansionAssingment = NULL;
+      i->removeTask();
     this->log->log("Ai::onEnd end", LogLevel::Detailed);
     delete mapInfo;
     for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
@@ -160,7 +162,6 @@ namespace BWAI
     this->checkSupplyNeed();
     this->checkPlannedBuildings();
         
-    bool reselected = false;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     this->refreshSelectionStates(selected);
 
@@ -175,13 +176,10 @@ namespace BWAI
     this->assignIdleWorkersToMinerals(idleWorkers);
 
     this->checkWorkersNeed();
-    reselected |= this->performAutoBuild();
+    this->performAutoBuild();
     this->rebalanceMiners();
-    reselected |= this->checkAssignedWorkers();
-    if (reselected)
-      BWAPI::Broodwar.loadSelected(selected);
-    else
-      delete [] selected;
+    this->checkAssignedWorkers();
+    BWAPI::Broodwar.loadSelected(selected);
   }
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)
@@ -256,13 +254,18 @@ namespace BWAI
     this->deadLog->log("%s just died", dead->getName().c_str());
 
     if (dead->isMineral())
-      if (dead->expansionAssingment != NULL)
-        dead->expansionAssingment->removeMineral(dead);
+    {
+      if (dead->expansion != NULL)
+        dead->expansion->removeMineral(dead);
+    }
     else if (dead->getType().isWorker())
-      if (dead->expansionAssingment != NULL)
-        dead->expansionAssingment->removeWorker(dead);
+      if (dead->getTask() &&
+          dead->getTask()->getType() == TaskType::Gather)
+        dead->expansion->removeWorker(dead);
+
+    dead->removeTask();
     dead->lastTrainedUnit = BW::UnitID::None;
-    dead->expansionAssingment = NULL;
+    dead->expansion = NULL;
    }
   //------------------------------ CHECK NEW EXPANSION ------------------------
   void AI::checkNewExpansions()
@@ -276,7 +279,7 @@ namespace BWAI
              i->getType() == BW::UnitID::Protoss_Nexus ||
              i->getType() == BW::UnitID::Zerg_Hatchery
            ) &&
-           i->expansionAssingment == NULL &&
+           i->expansion == NULL &&
            i->getOwner() == player)
       {
         this->log->log("Starting new expansion - %s", i->getName().c_str(), LogLevel::Important);
@@ -351,7 +354,7 @@ namespace BWAI
              ) &&
              !i->selected &&
              (i->getType().isWorker()) &&
-              i->expansionAssingment == NULL)
+              i->expansion == NULL)
           workers.push_back(i); 
       }
   }
@@ -386,7 +389,7 @@ namespace BWAI
           this->expansionsSaturated = true;
           break;
         }
-        (*activeMinerals.begin())->assignGatherer(*i);
+        (*i)->setTask(new TaskGather(*i, *activeMinerals.begin()));
       }
   }
   //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
@@ -409,22 +412,35 @@ namespace BWAI
     if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfFactories , player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
-      for (std::list<BW::Position>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
+      for (std::list<BW::TilePosition>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
           i != this->startingPosition->nonProducing3X2BuildingPositions.end();
           ++i)
       {
-        bool occupied = false;
+        int occupiedCount = 0;
+        Unit* lastOccupied = NULL;
         for (int j = (*i).x; 
               j < (*i).x + BW::UnitType(BW::UnitID::Terran_SupplyDepot).getTileWidth(); 
               j++)
           for (int k = (*i).y; 
                k < (*i).y + BW::UnitType(BW::UnitID::Terran_SupplyDepot).getTileHeight(); 
                k++)
-           occupied |= BWAPI::Broodwar.unitsOnTile[j][k].size() > 0;
-        if (!occupied)
+            if (BWAPI::Broodwar.unitsOnTile[j][k].size() > 0)
+            {
+              occupiedCount ++;
+              lastOccupied = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[j][k].front());
+            }
+        if (
+             occupiedCount == 0 || 
+             (
+               occupiedCount == 1 &&
+               lastOccupied->getType().isWorker() &&
+               lastOccupied->getTask() == NULL &&
+               lastOccupied->getOrderID() == BW::OrderID::Guard
+             )
+           )
         {
           this->log->log("Found free spot for supply depot at (%d,%d)", (*i).x, (*i).y);
-          this->plannedBuildings.push_back(new BuildingToMake(NULL, BW::UnitID::Terran_SupplyDepot, (*i)));
+          this->plannedBuildings.push_back(new BuildingToMake(lastOccupied, BW::UnitID::Terran_SupplyDepot, (*i)));
           break;
         }
       } 
@@ -455,18 +471,31 @@ namespace BWAI
         ++i;
   }
   //---------------------------------------------------------------------------
-  Unit* AI::freeBuilder()
+  Unit* AI::freeBuilder(BW::Position position)
   {
+    Unit* best = NULL;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->getOwner() == player &&
-          i->getType().isWorker())
+      if (
+           i->getOwner() == player &&
+           i->getType().isWorker() &&
+           (
+             i->getTask() == NULL ||
+             i->getTask()->getType() == TaskType::Gather
+           )
+         )
       {
-       this->log->log("%s is going to be freed to do something else", i->getName().c_str());
-       if (i->expansionAssingment != NULL)
-           i->expansionAssingment->removeWorker(i);
-       return i;
+        if (best == NULL)
+          best = i;
+        else
+          if (best->getDistance(position) > i->getDistance(position))
+            best = i;
       }
-    return NULL;
+    if (best == NULL)
+      return NULL;
+
+    this->log->log("%s was freed from it's task to do something else", best->getName().c_str());
+    best->removeTask();
+    return best;
   }
   //---------------------------------------------------------------------------
 }

@@ -62,7 +62,8 @@ namespace BWAPI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       units[i] = new Unit(&unitArrayCopy->unit[i], 
                           &BW::BWXFN_UnitNodeTable->unit[i],
-                          &unitArrayCopyLocal->unit[i]);
+                          &unitArrayCopyLocal->unit[i],
+                          i);
 
     this->update();
     this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
@@ -158,6 +159,7 @@ namespace BWAPI
   //---------------------------- ADD TO COMMAND BUFFER -------------------------
   void Game::addToCommandBuffer(Command *command)
   {
+    this->reselected = true;
     command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
     this->commandLog->log("(%4d) %s", this->frameCount, command->describe().c_str());
@@ -234,6 +236,8 @@ namespace BWAPI
   //--------------------------------- SAVE SELECTED -----------------------------
   BW::Unit** Game::saveSelected()
   {
+    this->reselected = false;
+    
     BW::Unit** selected = new BW::Unit * [13];
     memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
     selected[12] = NULL;
@@ -242,6 +246,11 @@ namespace BWAPI
   //--------------------------------- LOAD SELECTED -----------------------------
   void Game::loadSelected(BW::Unit** selected)
   {
+     if (!reselected)
+     {
+       delete [] selected;
+       return;
+     }
 
     /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
   /*  if (selected[0] == NULL)

@@ -12,7 +12,7 @@ namespace BWAI
   {
     public :
      MapStartingPosition(TiXmlElement* xmlElement, MapInfo* mapInfo);
-     std::list<BW::Position> nonProducing3X2BuildingPositions;
+     std::list<BW::TilePosition> nonProducing3X2BuildingPositions;
      MapExpansion* expansion;
   };
 }

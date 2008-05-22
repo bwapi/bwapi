@@ -24,7 +24,7 @@ namespace BWAI
       throw XmlException("Expected element <non-producting-3x2> in <standard-building-placement>");
     
     for (TiXmlElement* position = nonProducing3X2->FirstChildElement("position"); position != NULL; position = position->NextSiblingElement("position"))
-      this->nonProducing3X2BuildingPositions.push_back(BW::Position(position));
+      this->nonProducing3X2BuildingPositions.push_back(BW::TilePosition(position));
 
   }
   //---------------------------------------------------------------------------

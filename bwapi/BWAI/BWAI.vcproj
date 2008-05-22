@@ -184,7 +184,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAI\TaskType.h"
+					RelativePath=".\Source\BWAI\TaskGather.h"
 					>
 				</File>
 				<File
@@ -234,7 +234,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskGather.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Unit.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Enumerations"
+				>
+				<File
+					RelativePath=".\Source\BWAI\TaskType.h"
 					>
 				</File>
 			</Filter>

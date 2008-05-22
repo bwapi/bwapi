@@ -28,7 +28,8 @@ namespace BWAPI
        */
       Unit(BW::Unit* bwUnit,
            BW::Unit* bwOriginalUnit,
-           BW::Unit* bwUnitLocal);
+           BW::Unit* bwUnitLocal,
+           u16 index);
       /** Nothing is deleted as no data are owned.*/
       ~Unit();
       /** Gets #bwUnit->BW#Unit#unitID */
@@ -128,11 +129,13 @@ namespace BWAPI
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();
       bool isMineral() const;
+      u16 getIndex() const;
     private:
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
+      u16 index;
   };
 };
 

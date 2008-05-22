@@ -207,6 +207,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\TilePosition.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\TileSet.h"
 					>
 				</File>
@@ -236,6 +240,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BW\PositionUnitTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\BW\TilePosition.cpp"
 					>
 				</File>
 				<File

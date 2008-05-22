@@ -20,10 +20,12 @@ namespace BWAPI
   //----------------------------- CONSTRUCTOR -----------------------------------
   Unit::Unit(BW::Unit* unitData, 
              BW::Unit* originalUnit,
-             BW::Unit* unitDataLocal)
+             BW::Unit* unitDataLocal,
+             u16 index)
   :bwUnit(unitData)
   ,bwOriginalUnit(originalUnit)
   ,bwUnitLocal(unitDataLocal)
+  ,index(index)
   {
   }
   //----------------------------- DESTRUCTOR -----------------------------------
@@ -343,7 +345,7 @@ namespace BWAPI
             this->getType() == BW::UnitID::Resource_MineralPatch3;
   }
   char position[100];
-  char index[50];
+  char indexName[50];
   char targetIndex[50];
   char orderTargetIndex[50];
   char owner[100];
@@ -357,22 +359,19 @@ namespace BWAPI
     sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
                                               this->getPosition().y);
       
-    #pragma warning(push)
-    #pragma warning(disable:4311)
   
-    sprintf(index, "[%4d]", ((int)this->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336);
+    sprintf(indexName, "[%4d]", this->getIndex());
    
     if (this->getTarget() == NULL)
       strcpy(targetIndex, "Target:[NULL]");
     else
-      sprintf(targetIndex, "Target:[%4d](%s)", ((int)this->getTarget()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336, this->getTarget()->getType().getName());
+      sprintf(targetIndex, "Target:[%4d](%s)", this->getTarget()->getIndex(), this->getTarget()->getType().getName());
 
     if (this->getOrderTarget() == NULL)
       strcpy(orderTargetIndex, "OrderTarget:[NULL]");
     else
-      sprintf(orderTargetIndex, "OrderTarget:[%4d](%s)", ((int)this->getOrderTarget()->getOriginalRawData() - (int)BW::BWXFN_UnitNodeTable)/336, this->getOrderTarget()->getType().getName());
+      sprintf(orderTargetIndex, "OrderTarget:[%4d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
   
-    #pragma warning(pop)
 
     if (this->getOwner() != NULL)
       sprintf(owner,"Player = (%10s)",this->getOwner()->getName());
@@ -387,7 +386,7 @@ namespace BWAPI
     sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderID()).c_str());
     sprintf(message,"%s %s %s %s %s %s %10s", unitName,
                                               orderName,
-                                              index,
+                                              indexName,
                                               position,
                                               targetIndex,
                                               orderTargetIndex,
@@ -421,6 +420,11 @@ namespace BWAPI
   u8 Unit::getOrderTimer() const
   {
      return this->getOriginalRawData()->mainOrderTimer;
+  }
+  //----------------------------------------------------------------------------
+  u16 Unit::getIndex() const
+  {
+    return this->index;
   }
   //----------------------------------------------------------------------------
 };

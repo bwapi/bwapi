@@ -15,7 +15,7 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  BuildingToMake::BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::Position position)
+  BuildingToMake::BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::TilePosition position)
   :builder(builder)
   ,buildingType(buildingType)
   ,position(position)
@@ -29,8 +29,6 @@ namespace BWAI
   //--------------------------------- EXECUTE ---------------------------------
   bool BuildingToMake::execute()
   {
-/*    if (builder)
-      BWAI::ai->log->log("BuildingToMake::execute (%s)", this->builder->getName().c_str());*/
     if (this->builder!= NULL &&
         this->building != NULL &&
         this->building->isCompleted())
@@ -39,16 +37,16 @@ namespace BWAI
       return true;
     }
     if (this->builder == NULL)
-      this->builder = ai->freeBuilder();
+      this->builder = ai->freeBuilder(position);
     if (this->builder)
     {
-      //BWAI::ai->log->log("Distance to building = (%d)", this->builder->getDistance(BW::Position(position.x*BW::TileSize, position.y*BW::TileSize)));
-      if (this->builder->getDistance(BW::Position(position.x*BW::TileSize, position.y*BW::TileSize)) > 100)
+      // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
+      if (this->builder->getDistance(position) > 100)
       {
         if (this->builder->getOrderIDLocal() != BW::OrderID::Move ||
-            this->builder->getTargetPositionLocal() != BW::Position(position.x*BW::TileSize, position.y*BW::TileSize))
+            this->builder->getTargetPositionLocal() != BW::Position(position))
         {
-          this->builder->orderRightClick(BW::Position(position.x*BW::TileSize, position.y*BW::TileSize));
+          this->builder->orderRightClick(position);
           BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), position.x*BW::TileSize, position.y*BW::TileSize);
         }
       }
@@ -57,10 +55,6 @@ namespace BWAI
             this->builder->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
             this->builder->getOrderIDLocal() != BW::OrderID::DroneStartBuild)
           this->builder->build(this->position.x, this->position.y, buildingType);
-      /*BWAI::ai->log->log("one more before condition (%s)", this->builder->getName().c_str());
-      BWAI::ai->log->log("Before condition this->building == NULL %d", this->building == NULL);
-      BWAI::ai->log->log("Before condition this->builder->getOrderTarget() != NULL %d", this->builder->getOrderTarget() != NULL);
-      BWAI::ai->log->log("Before condition this->builder->getOrderID() == BW::OrderID::BuildTerran %d", this->builder->getOrderID() == BW::OrderID::BuildTerran);*/
       if (this->building == NULL && 
           this->builder->getOrderTarget() != NULL &&
           this->builder->getOrderID() == BW::OrderID::ConstructingBuilding)
