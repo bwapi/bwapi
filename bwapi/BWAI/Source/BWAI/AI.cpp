@@ -126,6 +126,7 @@ namespace BWAI
     {
       this->units[i]->removeTask();
       this->units[i]->expansion = NULL;
+      this->units[i]->lastTrainedUnit = BW::UnitID::None;
     }
       
     for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
