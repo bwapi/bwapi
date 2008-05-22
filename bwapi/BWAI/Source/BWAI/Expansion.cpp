@@ -48,12 +48,10 @@ namespace BWAI
         return;
   }
   //------------------------------ CHECK ASSIGNED WORKERS ---------------------
-  bool Expansion::checkAssignedWorkers()
+  void Expansion::checkAssignedWorkers()
   {   
-    bool reselected = false;
     for (unsigned int i = 0; i < this->minerals.size(); i++)
-      reselected |= this->minerals[i]->checkAssignedWorkers();
-    return reselected;
+      this->minerals[i]->checkAssignedWorkers();
   }
   //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)

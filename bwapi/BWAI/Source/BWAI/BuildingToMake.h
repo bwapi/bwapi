@@ -26,6 +26,7 @@ namespace BWAI
        */
       bool execute();
       BW::UnitType getType();
+      void setBuilder(Unit* builder);
     private :
       Unit* builder;
       BW::UnitType buildingType;

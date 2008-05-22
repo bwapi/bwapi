@@ -1,5 +1,7 @@
 #include "Mineral.h"
 
+#include <Logger.h>
+
 #include "Unit.h"
 #include "Expansion.h"
 #include "Globals.h"
@@ -34,6 +36,9 @@ namespace BWAI
     this->gatherersAssigned.push_back(gatherer);
     gatherer->expansion = this->expansion;
     this->expansion->asignedWorkers ++;
+    BWAI::ai->log->log("Unit Assigned to gather (mineral [%d] : %s", this->mineral->getIndex(), 
+                                                                     gatherer->getName().c_str(),
+                                                                     LogLevel::Detailed);
   }
   //-------------------------------- REMOVE WORKER ----------------------------
   bool Mineral::removeGatherer(Unit* gatherer)
@@ -41,6 +46,7 @@ namespace BWAI
     for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
       if (this->gatherersAssigned[i] == gatherer)
       {
+       BWAI::ai->log->log("Unit Assigned to stop gather mineral : %s", gatherer->getName().c_str(), LogLevel::Detailed);
         this->gatherersAssigned.erase(this->gatherersAssigned.begin() + i);
         gatherer->expansion = NULL;
         if (gatherer->getTask()->getType() == TaskType::Gather)
@@ -64,7 +70,10 @@ namespace BWAI
           gatherer->getOrderIDLocal() != BW::OrderID::ResetCollision2 &&
           gatherer->getOrderIDLocal() != BW::OrderID::ReturnMinerals)
       {
-        this->removeGatherer(gatherer);
+        BWAI::ai->log->log("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName(gatherer->getOrderIDLocal()).c_str(), 
+                                                                                                gatherer->getName().c_str(),
+                                                                                                LogLevel::Detailed);
+        gatherer->removeTask();
         ai->expansionsSaturated = false;
         i--;
       }

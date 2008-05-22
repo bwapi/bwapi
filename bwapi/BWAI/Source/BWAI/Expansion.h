@@ -14,7 +14,7 @@ namespace BWAI
       std::vector<Mineral*> minerals;
       int asignedWorkers;
       void removeWorker(Unit* worker);
-      bool checkAssignedWorkers();
+      void checkAssignedWorkers();
       void removeMineral(BWAI::Unit* mineral);
       static int maximumMineralDistance;
   };

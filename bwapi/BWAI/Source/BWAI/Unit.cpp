@@ -96,5 +96,21 @@ namespace BWAI
     delete this->task;
     this->task = task;
   }
+  //------------------------------ PERFORM TASK -------------------------------
+  void Unit::performTask()
+  {
+    /*if (
+         this->getTask() == NULL &&
+         (
+           this->getOrderIDLocal() == BW::OrderID::MoveToMinerals &&
+           this->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 &&
+           this->getOrderIDLocal() == BW::OrderID::MiningMinerals
+         )
+       )
+    this->orderStop(); */
+    if (this->getTask() &&
+        this->getTask()->execute())
+      this->removeTask();
+  }
   //---------------------------------------------------------------------------
 }

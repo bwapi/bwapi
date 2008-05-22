@@ -33,6 +33,7 @@ namespace BWAI
       Task* getTask();
       void removeTask();
       void setTask(Task* task);
+      void performTask();
     private :
       Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
       Task* task;

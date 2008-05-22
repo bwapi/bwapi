@@ -40,13 +40,14 @@ namespace BWAI
       Unit* getFirst();
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
+       std::list<BuildingToMake*> plannedBuildings;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
       void startNewExpansion(Unit *gatherCenter);
       void rebalanceMiners();
-      bool checkAssignedWorkers();
+      void checkAssignedWorkers();
       Unit* first;
       void checkNewExpansions();
       void refreshSelectionStates(BW::Unit** selected);
@@ -64,9 +65,8 @@ namespace BWAI
       MapStartingPosition* startingPosition;
       int countOfProductionBuildings();
       void checkSupplyNeed();
-      std::list<BuildingToMake*> plannedBuildings;
       /** @todo investigate and use the nextSupply provider here. */ 
       s32 plannedTerranSupplyGain();
-      void checkPlannedBuildings();
+      void executeTasks();
   };
 }
