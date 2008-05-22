@@ -78,7 +78,8 @@ namespace BWAI
   void BuildingToMake::setBuilder(Unit* builder)
   {
     this->builder = builder;
-    this->builder->setTask(new TaskBuild(this->builder, this));
+    if (this->builder != NULL)
+      this->builder->setTask(new TaskBuild(this->builder, this));
   }
   //---------------------------------------------------------------------------
 }

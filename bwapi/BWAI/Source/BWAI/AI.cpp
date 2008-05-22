@@ -6,6 +6,7 @@
 #include <Logger.h>
 #include <Dictionary.h>
 #include <StringUtil.h>
+#include <RectangleArray.h>
 
 #include "Task.h"
 #include "TaskGather.h"
@@ -93,6 +94,7 @@ namespace BWAI
            this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
         }
       }
+      mapInfo->saveDefinedBuildingsMap();
      this->log->log("Ai::onStart end", LogLevel::Important);
     }
     catch (GeneralException& exception)

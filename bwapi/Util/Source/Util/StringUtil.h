@@ -1,6 +1,9 @@
 #pragma once
 #define STRING_UTIL_BUFFER_SIZE 100
+
 #include <string>
+
+#include "RectangleArray.h"
 
 class MultiString;
 /** Collection of std::string utilities */
@@ -37,6 +40,15 @@ class StringUtil
   static std::string trimAll(std::string input);
   static std::string trim(std::string input);
   static std::string replace(const std::string &input, MultiString* values, const std::string &replacement);
+  static RectangleArray<char> makeBorder(const RectangleArray<char>& input, bool coordinates = true);
+  static char FrameCharacters[2][6];
+  static void StringUtil::makeWindow(RectangleArray<char>& input, 
+                                      unsigned int x, 
+                                      unsigned int y, 
+                                      unsigned int width, 
+                                      unsigned int height, 
+                                      int frameType = 0);
+  static void printTo(RectangleArray<char>& input, const std::string& text, unsigned int x, unsigned int y);
 
   /** 
    * Reads one line from the input stream.
