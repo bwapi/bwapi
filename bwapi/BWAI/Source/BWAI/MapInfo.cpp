@@ -54,8 +54,8 @@ namespace BWAI
   //--------------------------------- DESTRUCTOR -----------------------------
   MapInfo::~MapInfo()
   {
-   for (std::list<MapExpansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      delete *i;
+    for (std::list<MapExpansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+       delete *i;
   }
   //--------------------------------------------------------------------------
   MapExpansion *MapInfo::getExpansion(const std::string& id)
