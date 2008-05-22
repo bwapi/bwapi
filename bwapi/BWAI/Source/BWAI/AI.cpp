@@ -91,7 +91,7 @@ namespace BWAI
          for (std::list<BW::TilePosition>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
               j != this->startingPosition->nonProducing3X2BuildingPositions.end(); 
               ++j)
-           this->log->log("3X2 building at at (%d, %d)", (*j).x, (*j).y);
+           this->log->log("3X2 building at (%d, %d)", (*j).x, (*j).y);
         }
       }
       mapInfo->saveDefinedBuildingsMap();
@@ -116,7 +116,8 @@ namespace BWAI
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       i->removeTask();
     this->log->log("Ai::onEnd end", LogLevel::Detailed);
-    delete mapInfo;
+    delete this->mapInfo;
+    this->mapInfo = NULL;
     for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
       delete *i;
     this->plannedBuildings.clear();
