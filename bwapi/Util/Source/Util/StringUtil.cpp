@@ -228,7 +228,7 @@ void StringUtil::makeWindow(RectangleArray<char>& input, unsigned int x,
   for (unsigned int i = y + 1; i < y + height - 1 && y < input.getHeight(); i++)
   {
     input[x][i] = StringUtil::FrameCharacters[frameType][1];
-    input[x + height - 1][i] = StringUtil::FrameCharacters[frameType][1];
+    input[x + width - 1][i] = StringUtil::FrameCharacters[frameType][1];
   }
   input[x][y] = StringUtil::FrameCharacters[frameType][2];
   input[x + width - 1][y] = StringUtil::FrameCharacters[frameType][3];

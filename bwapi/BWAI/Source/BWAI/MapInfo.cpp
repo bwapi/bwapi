@@ -7,6 +7,9 @@
 
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
+#include "AI.h"
+#include "Globals.h"
+#include "Unit.h"
 
 #include "../../../BWAPI/Source/BWAPI/Map.h"
 #include "../../../BWAPI/Source/BWAPI/Game.h"
@@ -78,6 +81,7 @@ namespace BWAI
     for (std::list<MapStartingPosition*>::iterator i = this->startingPositions.begin();
          i != this->startingPositions.end();
          ++i)
+    {
       for (std::list<BW::TilePosition>::iterator j = (*i)->nonProducing3X2BuildingPositions.begin();
            j != (*i)->nonProducing3X2BuildingPositions.end();
            ++j)
@@ -87,7 +91,36 @@ namespace BWAI
           for (int y = 0; y < 2; y++)
             counts[x + (*j).x][y + (*j).y]++;
       }
-    
+      unsigned int startX = (*i)->expansion->getPosition().x/BW::TileSize - 2;
+      unsigned int startY = ((*i)->expansion->getPosition().y - 45)/BW::TileSize;
+      StringUtil::makeWindow(buildability, startX, startY, 4, 3, 0);
+        for (int x = 0; x < 4; x++)
+          for (int y = 0; y < 3; y++)
+            counts[x + startX][y + startY]++;
+    }
+    for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
+    {
+      if (i->isMineral())
+        {
+          unsigned int startX = i->getPosition().x/BW::TileSize - 1;
+          unsigned int startY = i->getPosition().y/BW::TileSize;
+          counts[startX][startY]++;
+          counts[startX + 1][startY]++;
+          buildability[startX][startY] = 'M';
+          buildability[startX + 1][startY] = 'M';
+        }
+      if (i->getType() == BW::UnitID::Resource_VespeneGeyser)
+      {
+        unsigned int startX = i->getPosition().x/BW::TileSize - 2;
+        unsigned int startY = i->getPosition().y/BW::TileSize - 1;
+        for (int x = 0; x < 4; x++)
+          for (int y = 0; y < 2; y++)
+          {
+            counts[x + startX][y + startY]++;
+            buildability[startX + x][startY + y] = 'V';
+          }
+      }
+    }  
     for (unsigned int x = 0; x < buildability.getWidth(); x++)
       for (unsigned int y = 0; y < buildability.getHeight(); y++)    
         if (counts[x][y] == 2)

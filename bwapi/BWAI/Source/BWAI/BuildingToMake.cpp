@@ -44,14 +44,17 @@ namespace BWAI
       this->setBuilder(ai->freeBuilder(position));
     if (this->builder)
     {
+      BW::Position center = this->position;
+      center.x += (u16)(BW::TileSize*1.5);
+      center.y += BW::TileSize;
       // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
-      if (this->builder->getDistance(position) > 100)
+      if (this->builder->getDistance(center) > 100)
       {
         if (this->builder->getOrderIDLocal() != BW::OrderID::Move ||
-            this->builder->getDistance(position) > 300)
+            this->builder->getDistance(center) > 300)
         {
-          this->builder->orderRightClick(position);
-          BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), position.x*BW::TileSize, position.y*BW::TileSize);
+          this->builder->orderRightClick(center);
+          BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), center.x, center.y);
         }
       }
       else
