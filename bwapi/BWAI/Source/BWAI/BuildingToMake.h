@@ -18,7 +18,7 @@ namespace BWAI
   class BuildingToMake
   {
     public :
-      BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::Position position);
+      BuildingToMake(Unit* builder, BW::UnitType buildingType, BW::TilePosition position);
       ~BuildingToMake();
       /** 
        * Checks if the unit is trying to to execute the order. 
@@ -29,7 +29,7 @@ namespace BWAI
     private :
       Unit* builder;
       BW::UnitType buildingType;
-      BW::Position position;
+      BW::TilePosition position;
       /** Will point to the building that is being constructed, and when it is done, this
        * class can be removed.
        */

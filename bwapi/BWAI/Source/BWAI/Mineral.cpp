@@ -3,6 +3,8 @@
 #include "Unit.h"
 #include "Expansion.h"
 #include "Globals.h"
+#include "TaskType.h"
+#include "TaskGather.h"
 
 #include "../../BWAPI/Source/BW/UnitType.h"
 #include "../../BWAPI/Source/BWAPI/Globals.h"
@@ -15,23 +17,22 @@ namespace BWAI
   ,expansion(expansion)
   {
     ai->activeMinerals.push_back(this);
-    mineral->expansionAssingment = expansion;
+    mineral->expansion = expansion;
   }
   //--------------------------------- DESTRUCTOR ------------------------------
   Mineral::~Mineral()
   {
     for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
     {
-      this->gatherersAssigned[i]->expansionAssingment = NULL;
+      this->gatherersAssigned[i]->removeTask();
       this->expansion->asignedWorkers --;
     }
   }
   //-------------------------------- ASSIGNE GATHERER -------------------------
   void Mineral::assignGatherer(BWAI::Unit* gatherer)
   {
-    //BWAI::ai->log->log("Gatherer assigned %s", gatherer->getName().c_str());
     this->gatherersAssigned.push_back(gatherer);
-    gatherer->expansionAssingment = this->expansion;
+    gatherer->expansion = this->expansion;
     this->expansion->asignedWorkers ++;
   }
   //-------------------------------- REMOVE WORKER ----------------------------
@@ -41,7 +42,9 @@ namespace BWAI
       if (this->gatherersAssigned[i] == gatherer)
       {
         this->gatherersAssigned.erase(this->gatherersAssigned.begin() + i);
-        gatherer->expansionAssingment = NULL;
+        gatherer->expansion = NULL;
+        if (gatherer->getTask()->getType() == TaskType::Gather)
+          ((TaskGather*)gatherer->getTask())->clearMineralPointer();
         this->expansion->asignedWorkers --;
         return true;
       }

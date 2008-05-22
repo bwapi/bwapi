@@ -19,7 +19,7 @@ namespace BWAI
     for (Unit* i = ai->getFirst(); i != NULL; i = i->getNext())
     {
       if (i->isMineral() &&
-          i->expansionAssingment == NULL &&
+          i->expansion == NULL &&
           i->getDistance(this->gatherCenter) < maximumMineralDistance)
         this->minerals.push_back(new Mineral(i, this));
     }
@@ -31,9 +31,7 @@ namespace BWAI
         case BW::UnitID::Protoss_Nexus        : gatherCenter->lastTrainedUnit = BW::UnitID::Protoss_Probe; break;
         case BW::UnitID::Zerg_Hatchery        : gatherCenter->lastTrainedUnit = BW::UnitID::Zerg_Drone; break;
       }
-    gatherCenter->expansionAssingment = this;
-
-
+    gatherCenter->expansion = this;
   }
   //------------------------------ REMOVE WORKER ------------------------------
   Expansion::~Expansion(void)

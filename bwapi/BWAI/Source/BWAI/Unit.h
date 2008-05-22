@@ -1,5 +1,7 @@
-#include "..//..//BWAPI//Source//BWAPI//Unit.h"
-namespace BWAI { class Expansion; }
+#include "../../BWAPI/Source/BWAPI/Unit.h"
+
+namespace BWAI  { class Task; }
+namespace BWAI  { class Expansion; }
 
 namespace BWAI
 {
@@ -10,10 +12,11 @@ namespace BWAI
   {
     public :
       Unit(BWAPI::Unit *unit);
-      Expansion* expansionAssingment;
+      Expansion* expansion;
       bool selected;
       BW::UnitType lastTrainedUnit;
       static Unit* BWUnitToBWAIUnit(BW::Unit* unit);
+      static Unit* BWAPIUnitToBWAIUnit(BWAPI::Unit* unit);
       /** 
        * Gets #bwUnit->BW#Unit#targetUnit. 
        * This is similar to BWAPI#Unit#getTarget, it just get's the unit from ai scope
@@ -26,7 +29,12 @@ namespace BWAI
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();
       int lastFrameSpam;
+      
+      Task* getTask();
+      void removeTask();
+      void setTask(Task* task);
     private :
       Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
+      Task* task;
   };
 }

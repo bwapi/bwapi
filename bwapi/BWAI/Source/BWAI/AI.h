@@ -39,7 +39,7 @@ namespace BWAI
       int expansionsSaturated;
       Unit* getFirst();
       Util::Logger* log;
-      Unit* freeBuilder();
+      Unit* freeBuilder(BW::Position position);
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];

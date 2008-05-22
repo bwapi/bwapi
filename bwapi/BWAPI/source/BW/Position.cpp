@@ -3,12 +3,20 @@
 #include <tinyXml.h>
 #include <Exceptions.h>
 
+#include "Offsets.h"
+
 namespace BW
 {
   //------------------------------------- CONSTRUCTOR ------------------------------
   Position::Position()
   :x(0)
   ,y(0)
+  {
+  }
+  //------------------------------------- CONSTRUCTOR ------------------------------
+  Position::Position(const BW::TilePosition& position)
+  :x(position.x*BW::TileSize)
+  ,y(position.y*BW::TileSize)
   {
   }
   //------------------------------------- CONSTRUCTOR ------------------------------

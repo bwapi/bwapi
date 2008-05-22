@@ -121,6 +121,8 @@ namespace BWAPI
       void updateUnitsOnTile();
       /** Made for debug reasons, may come later someday, so I leave it*/
       void printUnitCountPerTile();
+      /** Specifies if some order was given, so the loadSelect function will have to be called. */
+      bool reselected;
   };
 };
  
