@@ -44,11 +44,19 @@
           <position x="125" y="29"/>
           <position x="125" y="31"/>
           <position x="125" y="33"/>
+          <position x="125" y="35"/>          
           <position x="122" y="25"/>
           <position x="122" y="27"/>
           <position x="122" y="29"/>
           <position x="122" y="31"/>
           <position x="122" y="33"/>
+          <position x="122" y="35"/>
+          <position x="119" y="25"/>
+          <position x="119" y="27"/>
+          <position x="119" y="29"/>
+          <position x="119" y="31"/>
+          <position x="119" y="33"/>
+          <position x="116" y="33"/>
         </non-producting-3x2>
       </standard-building-placement>
     </starting-position>
@@ -63,24 +71,39 @@
           <position x="29" y="120"/>
           <position x="29" y="118"/>
           <position x="29" y="116"/>
-          <position x="28" y="124"/>
-          <position x="31" y="124"/>
+          <position x="28" y="125"/>
+          <position x="28" y="114"/>
+          <position x="31" y="114"/>
+          <position x="28" y="112"/>
+          <position x="31" y="112"/>
+          <position x="26" y="110"/>
+          <position x="29" y="110"/>
+          <position x="32" y="110"/>
         </non-producting-3x2>
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="9 o'clock" >
       <standard-building-placement>
         <non-producting-3x2>
-          <position x="0" y="100"/>
-          <position x="0" y="98"/>
-          <position x="0" y="96"/>
-          <position x="0" y="94"/>
+          <position x="0" y="90"/>
           <position x="0" y="92"/>
-          <position x="3" y="100"/>
-          <position x="3" y="98"/>
-          <position x="3" y="96"/>
-          <position x="3" y="94"/>
+          <position x="0" y="94"/>
+          <position x="0" y="96"/>
+          <position x="0" y="98"/>
+          <position x="0" y="100"/>
+          <position x="3" y="90"/>
           <position x="3" y="92"/>
+          <position x="3" y="94"/>
+          <position x="3" y="96"/>
+          <position x="3" y="98"/>
+          <position x="3" y="100"/>
+          <position x="6" y="90"/>
+          <position x="6" y="92"/>
+          <position x="6" y="94"/>
+          <position x="6" y="96"/>
+          <position x="6" y="98"/>
+          <position x="6" y="100"/>
+          <position x="9" y="90"/>
         </non-producting-3x2>
       </standard-building-placement>
     </starting-position>
@@ -97,6 +120,16 @@
           <position x="96" y="6"/>
           <position x="99" y="8"/>
           <position x="96" y="8"/>
+          <position x="99" y="10"/>
+          <position x="96" y="10"/>
+          <position x="97" y="12"/>
+          <position x="94" y="12"/>
+          <position x="97" y="14"/>
+          <position x="94" y="14"/>
+          <position x="99" y="16"/>
+          <position x="96" y="16"/>
+          <position x="93" y="16"/>
+          <position x="90" y="16"/>
         </non-producting-3x2>
       </standard-building-placement>
     </starting-position>

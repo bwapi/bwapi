@@ -40,7 +40,7 @@ namespace BWAI
       Unit* getFirst();
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
-       std::list<BuildingToMake*> plannedBuildings;
+      std::list<BuildingToMake*> plannedBuildings;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
