@@ -108,22 +108,30 @@ namespace BWAI
   void AI::onEnd()
   {
     this->log->log("Ai::onEnd start", LogLevel::Important);
+    
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();
     this->activeMinerals.clear();
     this->expansionsSaturated = false;
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      i->removeTask();
-    this->log->log("Ai::onEnd end", LogLevel::Detailed);
+    
     delete this->mapInfo;
     this->mapInfo = NULL;
+    
     for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
       delete *i;
     this->plannedBuildings.clear();
     
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i]->removeTask();
+      
+    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
+         i != this->plannedBuildings.end();
+         i++)
+      delete *i;
+    this->plannedBuildings.clear();
+      
+    this->log->log("Ai::onEnd end", LogLevel::Detailed);      
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
