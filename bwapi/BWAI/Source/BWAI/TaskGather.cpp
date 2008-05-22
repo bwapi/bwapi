@@ -20,7 +20,7 @@ namespace BWAI
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskGather::execute()
   {
-    return this->mineral != NULL;
+    return this->mineral == NULL;
   }
   //-------------------------------- GET TYPE ---------------------------------
   TaskType::Enum TaskGather::getType()

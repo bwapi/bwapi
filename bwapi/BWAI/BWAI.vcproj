@@ -184,6 +184,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskBuild.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\TaskGather.h"
 					>
 				</File>
@@ -231,6 +235,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\Task.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\TaskBuild.cpp"
 					>
 				</File>
 				<File

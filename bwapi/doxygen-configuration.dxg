@@ -87,11 +87,11 @@ WARN_LOGFILE           = doxygen.log
 #---------------------------------------------------------------------------
 INPUT                  = BWAPI/index.h \ 
                          BWAPI/pages.h \
+                         BWAPI/Source/ \
                          BWAPI/Source/BW \
                          BWAPI/Source/BWAPI \
-                         BWAPI/Source/ \
-                         BWAI/Source \
-                         Util
+                         BWAI/Source/BWAI \
+                         Util/Source/Util
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \
                          *.h \
@@ -230,7 +230,7 @@ TEMPLATE_RELATIONS     = YES
 INCLUDE_GRAPH          = YES
 INCLUDED_BY_GRAPH      = YES
 CALL_GRAPH             = NO
-CALLER_GRAPH           = NO
+CALLER_GRAPH           = YES
 GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = NO
 DOT_IMAGE_FORMAT       = png

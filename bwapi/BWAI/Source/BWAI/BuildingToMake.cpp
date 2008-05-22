@@ -5,6 +5,7 @@
 #include "Unit.h"
 #include "AI.h"
 #include "Globals.h"
+#include "TaskBuild.h"
 
 #include "../../BWAPI/Source/BW/UnitType.h"
 #include "../../BWAPI/Source/Types.h"
@@ -33,18 +34,21 @@ namespace BWAI
         this->building != NULL &&
         this->building->isCompleted())
     {
-       BWAI::ai->log->log("(%s) finished production of (%s)", this->builder->getType().getName(), this->buildingType.getName());
+      BWAI::ai->log->log("(%s) finished production of (%s)", this->builder->getType().getName(), this->buildingType.getName());
+      if (builder->getTask() &&
+          builder->getTask()->getType() == TaskType::Build)
+        ((TaskBuild*)builder->getTask())->clearBuildingToMakePointer();
       return true;
     }
     if (this->builder == NULL)
-      this->builder = ai->freeBuilder(position);
+      this->setBuilder(ai->freeBuilder(position));
     if (this->builder)
     {
       // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
       if (this->builder->getDistance(position) > 100)
       {
         if (this->builder->getOrderIDLocal() != BW::OrderID::Move ||
-            this->builder->getTargetPositionLocal() != BW::Position(position))
+            this->builder->getDistance(position) > 300)
         {
           this->builder->orderRightClick(position);
           BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), position.x*BW::TileSize, position.y*BW::TileSize);
@@ -69,6 +73,12 @@ namespace BWAI
   BW::UnitType BuildingToMake::getType()
   {
      return this->buildingType;
+  }
+  //--------------------------------- SET BUILDER -----------------------------
+  void BuildingToMake::setBuilder(Unit* builder)
+  {
+    this->builder = builder;
+    this->builder->setTask(new TaskBuild(this->builder, this));
   }
   //---------------------------------------------------------------------------
 }

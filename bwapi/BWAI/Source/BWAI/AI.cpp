@@ -2,6 +2,11 @@
 
 #include <algorithm>
 
+#include <Exceptions.h>
+#include <Logger.h>
+#include <Dictionary.h>
+#include <StringUtil.h>
+
 #include "Task.h"
 #include "TaskGather.h"
 #include "Mineral.h"
@@ -12,16 +17,10 @@
 #include "MapStartingPosition.h"
 #include "BuildingToMake.h"
 
-#include "../../BWAPI/Source/BWAPI/Unit.h"
-#include "../../BWAPI/Source/BWAPI/Player.h"
-#include "../../BWAPI/Source/BWAPI/Globals.h"
-#include "../../BWAPI/Source/BWAPI/Map.h"
-
-#include <Exceptions.h>
-#include <Logger.h>
-#include <Dictionary.h>
-#include <StringUtil.h>
-
+#include "../../../BWAPI/Source/BWAPI/Unit.h"
+#include "../../../BWAPI/Source/BWAPI/Player.h"
+#include "../../../BWAPI/Source/BWAPI/Globals.h"
+#include "../../../BWAPI/Source/BWAPI/Map.h"
 
 
 namespace BWAI
@@ -124,7 +123,7 @@ namespace BWAI
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::MicroDetailed))
+  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::Normal))
   ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
   {
     try
@@ -156,13 +155,11 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
+    
+    BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
+    this->refreshSelectionStates(selected);
      
     this->checkSupplyNeed();
-    this->checkPlannedBuildings();
-        
-    BW::Unit** selected = BWAPI::Broodwar.saveSelected();
-    this->refreshSelectionStates(selected);
-
     this->checkNewExpansions();
 
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
@@ -177,6 +174,7 @@ namespace BWAI
     this->performAutoBuild();
     this->rebalanceMiners();
     this->checkAssignedWorkers();
+    this->executeTasks();
     BWAPI::Broodwar.loadSelected(selected);
   }
   //-------------------------------- GET UNIT ---------------------------------
@@ -222,20 +220,21 @@ namespace BWAI
      if (best->gatherersAssigned.size() + 1 < worst->gatherersAssigned.size())
      {
        gatherer = worst->gatherersAssigned[0];
-       worst->removeGatherer(gatherer);
+       gatherer->removeTask();
        AI::optimizeMineralFor = gatherer;
        activeMinerals.sort(mineralValue);
-       (*activeMinerals.begin())->assignGatherer(gatherer);
+       this->log->log("Gatherer [%d] reabalanced from [%d] to [%d]", gatherer->getIndex(), 
+                                                                     worst->mineral->getIndex(), 
+                                                                     (*activeMinerals.begin())->mineral->getIndex());
+       gatherer->setTask( new TaskGather(gatherer, *activeMinerals.begin()));
        goto anotherStep;
      }
    }
   //---------------------------- CHECK ASSIGNED WORKERS -----------------------
-  bool AI::checkAssignedWorkers(void)
+ void AI::checkAssignedWorkers(void)
   {
-    bool reselected = false;
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      reselected |= (*i)->checkAssignedWorkers();
-    return reselected;
+      (*i)->checkAssignedWorkers();
   }
   //---------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
@@ -249,7 +248,7 @@ namespace BWAI
   void AI::onRemoveUnit(BW::Unit* unit)
   {
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
-    this->deadLog->log("%s just died", dead->getName().c_str());
+    this->deadLog->log("AI::onRemove Unit %s just died", dead->getName().c_str());
 
     if (dead->isMineral())
     {
@@ -258,12 +257,14 @@ namespace BWAI
     }
     else if (dead->getType().isWorker())
       if (dead->getTask() &&
-          dead->getTask()->getType() == TaskType::Gather)
+          dead->getTask()->getType() == TaskType::Gather &&
+          dead->expansion != NULL)
         dead->expansion->removeWorker(dead);
 
     dead->removeTask();
     dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansion = NULL;
+    this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
    }
   //------------------------------ CHECK NEW EXPANSION ------------------------
   void AI::checkNewExpansions()
@@ -401,13 +402,13 @@ namespace BWAI
          countOfFactories++;
     return countOfFactories;
   }
-  //---------------------------------------------------------------------------
+  //------------------------------ CHECK SUPPLY NEED --------------------------
   void AI::checkSupplyNeed()
   { 
     if (!this->startingPosition)
       return;
     int countOfFactories = this->countOfProductionBuildings();
-    if (countOfFactories * 1.5 > player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
+    if (countOfFactories * 2 >= player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfFactories , player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
       for (std::list<BW::TilePosition>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
@@ -456,19 +457,6 @@ namespace BWAI
     return returnValue;
   }
   //---------------------------------------------------------------------------
-  void AI::checkPlannedBuildings()
-  {
-    std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
-    while (i != this->plannedBuildings.end())
-      if ((*i)->execute())
-      {
-        delete *i;
-        i = this->plannedBuildings.erase(i);
-      }
-      else
-        ++i;
-  }
-  //---------------------------------------------------------------------------
   Unit* AI::freeBuilder(BW::Position position)
   {
     Unit* best = NULL;
@@ -494,6 +482,22 @@ namespace BWAI
     this->log->log("%s was freed from it's task to do something else", best->getName().c_str());
     best->removeTask();
     return best;
+  }
+  //--------------------------------- EXECUTE TASK ----------------------------
+  void AI::executeTasks()
+  {
+    std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
+    while (i != this->plannedBuildings.end())
+      if ((*i)->execute())
+      {
+        delete *i;
+        i = this->plannedBuildings.erase(i);
+      }
+      else
+        ++i;
+
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      i->performTask();
   }
   //---------------------------------------------------------------------------
 }
