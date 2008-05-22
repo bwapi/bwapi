@@ -3,6 +3,7 @@
 #include "../Types.h"
 #include "../BW/OrderID.h"
 #include "../BW/UnitType.h"
+#include "../BW/TilePosition.h"
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };
@@ -120,7 +121,7 @@ namespace BWAPI
       /** Orders this unit to train (construct) the specified unit. */
       void trainUnit(BW::UnitType type);
       /** Orders to build the specified building. */
-      void build(u16 tileX, u16 tileY, BW::UnitType type);
+      void build(BW::TilePosition position, BW::UnitType type);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);

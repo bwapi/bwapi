@@ -53,13 +53,12 @@ namespace BW
    class MakeBuilding
    {
      public :
-      MakeBuilding(u16 x, u16 y, BW::UnitType type); 
+      MakeBuilding(BW::TilePosition position, BW::UnitType type); 
       /** 0x0c = make building Command-code in bw */
       u8 always0x0c;
       /** 1e for terran 1f for protoss*/
       u8 always0x1e;
-      u16 tileX;
-      u16 tileY;
+      BW::TilePosition position;
       /** Type of building to make */
       BW::UnitType type;
       
