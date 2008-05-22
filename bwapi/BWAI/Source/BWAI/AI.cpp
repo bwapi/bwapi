@@ -123,7 +123,10 @@ namespace BWAI
     this->plannedBuildings.clear();
     
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    {
       this->units[i]->removeTask();
+      this->units[i]->expansion = NULL;
+    }
       
     for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
          i != this->plannedBuildings.end();
