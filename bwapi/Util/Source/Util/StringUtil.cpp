@@ -1,4 +1,7 @@
 #include "StringUtil.h"
+
+#include <math.h>
+
 #include "Exceptions.h"
 //------------------------------- INT TO STRING --------------------------------
 std::string StringUtil::intToString(long value)
@@ -150,7 +153,95 @@ std::string StringUtil::readLine(FILE* f)
  }
 //------------------------------------------------------------------------------
 const std::string& StringUtil::dereferenceString(const std::string* const input)
- {
+{
   return *input;
- }
+}
+//------------------------------------------------------------------------------
+RectangleArray<char> StringUtil::makeBorder(const RectangleArray<char>& input, bool coordinates)
+{
+  int leftBorder = (int)log10((float)input.getHeight()) + 2;
+  int topBorder = 3;
+  RectangleArray<char> returnValue = RectangleArray<char>(input.getWidth() + leftBorder*2, input.getHeight() + topBorder*2);
+  for (unsigned int x = 0; x < returnValue.getWidth(); x++)
+    for (unsigned int y = 0; y < returnValue.getHeight(); y++)  
+      returnValue[x][y] = ' ';
+  StringUtil::makeWindow(returnValue,
+                         leftBorder - 1, 
+                         topBorder - 1,
+                         input.getWidth() + 2, 
+                         input.getHeight() + 2);      
+  for (unsigned int x = 0; x < input.getWidth(); x++)
+    for (unsigned int y = 0; y < input.getHeight(); y++)  
+      returnValue[x + leftBorder ][y + topBorder] = input[x][y];
+  for (unsigned int i = 0; i < input.getWidth(); i+=10)
+  {
+    StringUtil::printTo(returnValue, StringUtil::intToString(i), i + leftBorder, 0);
+    StringUtil::printTo(returnValue, StringUtil::intToString(i), i + leftBorder, returnValue.getHeight() - 1);
+  }
+  for (unsigned int i = 0; i < input.getWidth(); i++)
+  {
+    StringUtil::printTo(returnValue, StringUtil::intToString(i%10), i + leftBorder, 1);
+    StringUtil::printTo(returnValue, StringUtil::intToString(i%10), i + leftBorder, returnValue.getHeight() - 2);
+  }
+  
+  for (unsigned int i = 0; i < input.getHeight(); i++)
+  {
+    StringUtil::printTo(returnValue, StringUtil::intToString(i), 0 , i + topBorder);
+    StringUtil::printTo(returnValue, StringUtil::intToString(i), leftBorder + input.getWidth() + 1, i + topBorder);
+  }
+
+  return returnValue;
+}
+char StringUtil::FrameCharacters[2][6] = 
+{
+  {
+    char(205),
+    char(186),
+    char(201),
+    char(187),
+    char(200),
+    char(188)
+  },
+  {
+    char(196),
+    char(179),
+    char(218),
+    char(191),
+    char(192),
+    char(217)
+  }
+};
+ 
+//------------------------------------------------------------------------------
+void StringUtil::makeWindow(RectangleArray<char>& input, unsigned int x, 
+                            unsigned int y, 
+                            unsigned int width, 
+                            unsigned int height, 
+                            int frameType)
+{
+  for (unsigned int i = x + 1; i < x + width - 1 && x < input.getWidth(); i++)
+  {
+    input[i][y] = StringUtil::FrameCharacters[frameType][0];
+    input[i][y + height - 1] = StringUtil::FrameCharacters[frameType][0];
+  }
+  
+  for (unsigned int i = y + 1; i < y + height - 1 && y < input.getHeight(); i++)
+  {
+    input[x][i] = StringUtil::FrameCharacters[frameType][1];
+    input[x + height - 1][i] = StringUtil::FrameCharacters[frameType][1];
+  }
+  input[x][y] = StringUtil::FrameCharacters[frameType][2];
+  input[x + width - 1][y] = StringUtil::FrameCharacters[frameType][3];
+  input[x][y + height - 1] = StringUtil::FrameCharacters[frameType][4];
+  input[x + width - 1][y + height- 1] = StringUtil::FrameCharacters[frameType][5];
+}
+//------------------------------------------------------------------------------
+void StringUtil::printTo(RectangleArray<char>& input, 
+                         const std::string& text, 
+                         unsigned int x, 
+                         unsigned int y)
+{
+  for (unsigned int i = 0; text[i] != 0; i++)
+    input[x + i][y] = text[i];
+}
 //------------------------------------------------------------------------------

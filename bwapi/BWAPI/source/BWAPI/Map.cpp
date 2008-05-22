@@ -1,6 +1,8 @@
 #include "Map.h"
 
 #include <Exceptions.h>
+#include <StringUtil.h>
+#include <Logger.h>
 
 #include "../BW/TileSet.h"
 #include "../BW/TileType.h"
@@ -35,58 +37,28 @@ namespace BWAPI
     fprintf(f, "X = not buildable\n");
     fprintf(f, ". = buildable\n");
     fprintf(f, "    ");
-    for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      if (x % 10 == 0)
-      {
-        fprintf(f, "%d       ", x);
-        if (x < 10)
-          fprintf(f, " ");
-        if (x < 100)
-          fprintf(f, " ");
-      }
-    fprintf(f, "\n    ");
-    for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      fprintf(f, "%d", x % 10);
-    fprintf(f, "\n   +");
-    for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      fprintf(f, "-");
-    fprintf(f, "+\n");
-    for (int y = 0; y < BWAPI::Map::getHeight(); y++)
-    {
-      fprintf(f, "%3d|", y);
-      for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      {
-        if ((((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8)) == 0)
-          fprintf(f, ".");
-        else
-          fprintf(f, "X");
-      }
-      fprintf(f, "|%3d\n", y);
-    }
-    fprintf(f, "   +");
-    for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      fprintf(f, "-");
-    fprintf(f, "+\n");
-    
-    fprintf(f, "    ");
-    for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      fprintf(f, "%d", x % 10);
-    fprintf(f, "\n    ");
-    for (int x = 0; x < BWAPI::Map::getWidth(); x++)
-      if (x % 10 == 0)
-      {
-        fprintf(f, "%d       ", x);
-        if (x < 10)
-          fprintf(f, " ");
-        if (x < 100)
-          fprintf(f, " ");
-      }
+    RectangleArray<char> buildability = Map::getBuildabilityArray();
+    RectangleArray<char> withBorder = StringUtil::makeBorder(buildability);
+    withBorder.printToFile(f); 
     fclose(f);             
   }
   //----------------------------------- GET FILE NAME -------------------------
   char* Map::getFileName(void)
   {
     return BW::BWXFN_CurrentMapFileName;
+  }
+  //------------------------------- GET BUILDABILITY ARRAY --------------------
+  RectangleArray<char> Map::getBuildabilityArray()
+  {
+    RectangleArray<char> returnValue(Map::getWidth(), Map::getHeight());
+    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
+      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
+        if ((((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8)) == 0)
+          returnValue[x][y] = '.';
+        else
+          returnValue[x][y] = 'X';
+    Util::Logger::globalLog->log("Just to return");
+    return returnValue;
   }
   //---------------------------------------------------------------------------
 }

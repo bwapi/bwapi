@@ -1,5 +1,9 @@
 #include "..//BW//Offsets.h"
+
 #include <string>
+
+#include <RectangleArray.h>
+
 namespace BWAPI
 {
   /**
@@ -19,5 +23,6 @@ namespace BWAPI
      static char* getFileName();
      /** Saves the buildability map for the currently opened map to the specified file. */
      static void saveBuildabilityMap(const std::string& fileName);
+     static RectangleArray<char> getBuildabilityArray();
   };
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "..//..//BWAPI//Source//BW//Position.h"
+#include "../../BWAPI/Source/BW/TilePosition.h"
 
 class TiXmlElement;
 namespace BWAI { class MapInfo; }
