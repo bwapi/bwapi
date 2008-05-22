@@ -44,6 +44,7 @@
     <li>BWAPI::Unit#hasEmptyBuildQueueLocal</li>
     <li>BWAPI::Unit#getOrderIDLocal</li>
     <li>BWAPI::Unit#getTargetLocal</li>
+    <li>BWAPI::Unit#getOrderTargetLocal</li>
     <li>BWAPI::Player#getMineralsLocal</li>
     <li>BWAPI::Player#getGasLocal</li>
     <li>BWAPI::Player#getSuppliesAvailableProtossLocal</li>
@@ -75,22 +76,15 @@ The library provides easy
 -# Precompute game state according to commands immediatly (@ref localData)
 -# Compute the distance of units
 -# Get unit sizes (rectangle sizes) and rectangle/position connection (accuratly)
+-# Acces the tile map (partialy)
+-# Recognize buildability map (it also generates nice txt file describing the buildability map for the current map)
 
 We are just going to integrate soon (if you want help you can contact us)
 -# Other commands (morph, burrow, hold etc)
 -# Complete all unit prototype support
--# Map tile-type info
--# Map tiles 
 
 We need to investigate (any help with this is most appricieted)
--# In Game address (address that specifies if the game is running)
--# Public send text command
--# Refresh screen command (rectangle)
--# Print xy functoin/ print rectangle function
--# Recognize in-lobby
 -# recognize game started (the ok butten pushed and the 5-4-3-2-1 counting is in progress)
--# Battle net comands (Send message, join game, create game)
 -# Hook incoming message (battle net or other)
--# How to load unit prototype names from bw memory 
 
 */

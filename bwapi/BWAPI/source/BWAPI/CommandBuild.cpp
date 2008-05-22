@@ -8,7 +8,7 @@
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------
-  CommandBuild::CommandBuild(Unit* builder, BW::UnitType toBuild, BW::Position position)
+  CommandBuild::CommandBuild(Unit* builder, BW::UnitType toBuild, BW::TilePosition position)
   :Command(builder)
   ,toBuild(toBuild)
   ,position(position)

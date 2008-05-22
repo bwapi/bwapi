@@ -4,7 +4,7 @@ namespace BWAPI
 {
   /**
    * Interface to acces broodwar map data.
-   * @Todo make constructor/destructor for the class
+   * @TODO make constructor/destructor for the class
    * and load the map into some reasonable format or at least
    * make pointes to the beginning of lines, so the getTile
    * function doesn't have to use the slow multiplication.

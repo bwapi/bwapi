@@ -267,11 +267,11 @@ namespace BWAPI
     Broodwar.addToCommandBuffer(new CommandRightClick(this, target));
   }
   //------------------------------------ BUILD --------------------------------
-  void Unit::build(u16 tileX, u16 tileY, BW::UnitType type)
+  void Unit::build(BW::TilePosition position, BW::UnitType type)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(tileX, tileY, type), sizeof(BW::Orders::MakeBuilding)); 
-    Broodwar.addToCommandBuffer(new CommandBuild(this, type, BW::Position(tileX*BW::TileSize, tileY*BW::TileSize)));
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
+    Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
   }
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
