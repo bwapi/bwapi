@@ -1,5 +1,8 @@
 #include "Task.h"
 
+#include <Logger.h>
+
+#include "Globals.h"
 #include "Unit.h"
 
 namespace BWAI
@@ -17,8 +20,10 @@ namespace BWAI
   //-------------------------------- DESTRUCTOR -------------------------------
   Task::~Task()
   {
+    BWAI::ai->log->log("Task::~Task");
     for (std::list<Unit*>::iterator i = this->executors.begin(); i != this->executors.end(); ++i)
     {
+      BWAI::ai->log->log("Calling clear task on [%d]", (*i)->getIndex());
       (*i)->clearTask();
       (*i)->expansion = NULL;
     }

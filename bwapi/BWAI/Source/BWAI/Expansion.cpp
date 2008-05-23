@@ -22,6 +22,7 @@ namespace BWAI
           i->expansion == NULL &&
           i->getDistance(this->gatherCenter) < maximumMineralDistance)
       {
+        i->expansion = this;
         TaskGather* newMineral = new TaskGather(i, this);
         this->minerals.push_back( newMineral);
         BWAI::ai->activeMinerals.push_back(newMineral);
@@ -52,12 +53,14 @@ namespace BWAI
     for (std::list<TaskGather*>::iterator i = this->minerals.begin(); i != this->minerals.end(); ++i)
       if ((*i)->getMineral() == mineral)
       {
+        ai->log->log("Mineral removed from Expansion");
         this->minerals.erase(i);
         break;
       }
     for (std::list<TaskGather*>::iterator i = ai->activeMinerals.begin(); i != ai->activeMinerals.end(); ++i)
       if ((*i)->getMineral() == mineral)
         {
+          ai->log->log("Mineral removed from activeMinerals");
           delete *i;
           ai->activeMinerals.erase(i);
           return;
