@@ -10,6 +10,7 @@
 
 #include "Task.h"
 #include "TaskGather.h"
+#include "TaskBuild.h"
 #include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
@@ -276,10 +277,15 @@ namespace BWAI
         dead->expansion->removeMineral(dead);
     }
     else if (dead->getType().isWorker())
-      if (dead->getTask() &&
-          dead->getTask()->getType() == TaskType::Gather &&
-          dead->expansion != NULL)
-        dead->expansion->removeWorker(dead);
+      if (dead->getTask())
+        switch (dead->getTask()->getType())
+        {
+          case TaskType::Gather : 
+            if (dead->expansion != NULL)
+              dead->expansion->removeWorker(dead); break;
+          case TaskType::Build  : 
+            if (((TaskBuild*)dead->getTask())->buildingToMake != NULL) 
+              ((TaskBuild*)dead->getTask())->buildingToMake->setBuilder(NULL); break;
 
     dead->removeTask();
     dead->lastTrainedUnit = BW::UnitID::None;
@@ -373,7 +379,8 @@ namespace BWAI
              ) &&
              !i->selected &&
              (i->getType().isWorker()) &&
-              i->expansion == NULL)
+              i->expansion == NULL &&
+              i->getTask() == NULL)
           workers.push_back(i); 
       }
   }
