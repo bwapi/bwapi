@@ -3,6 +3,7 @@
 #include <string>
 #include "../Types.h"
 #include "UnitPrototypeFlags.h"
+#include "GroupFlags.h"
 #include "Bitmask.h"
 #include "UnitID.h"
 
@@ -62,5 +63,6 @@ namespace BW
   private :
     BW::UnitID::Enum id;
     BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
+    BW::BitMask<BW::GroupFlags::Enum> getGroupFlags() const;
   };
 };

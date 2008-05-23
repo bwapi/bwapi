@@ -65,11 +65,12 @@ namespace BWAI
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
       MapInfo *mapInfo;
       MapStartingPosition* startingPosition;
-      int countOfProductionBuildings();
+      int countOfTerranProductionBuildings();
       void checkSupplyNeed();
       /** @todo investigate and use the nextSupply provider here. */ 
       s32 plannedTerranSupplyGain();
       void executeTasks();
       TaskGather* bestFor(Unit* gatherer);
+      void removeExpansion(Expansion* expansion);
   };
 }
