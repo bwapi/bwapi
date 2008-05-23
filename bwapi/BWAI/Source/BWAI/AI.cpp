@@ -529,9 +529,10 @@ namespace BWAI
   //---------------------------------------------------------------------------
   Mineral* AI::bestFor(Unit* gatherer)
   {
+    this->optimizeMineralFor = gatherer;
     Mineral* best = *activeMinerals.begin();
     for (std::list<Mineral*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      if (mineralValue(best, *i))
+      if (mineralValue(*i, best))
         best = *i;
     return best;
   }
