@@ -172,7 +172,7 @@ namespace BWAI
     if (BWAPI::Broodwar.frameCount < 2)
       return;
     
-    BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
+    /*BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
     this->refreshSelectionStates(selected);
      
     this->checkSupplyNeed();
@@ -191,7 +191,8 @@ namespace BWAI
     this->rebalanceMiners();
     this->checkAssignedWorkers();
     this->executeTasks();
-    BWAPI::Broodwar.loadSelected(selected);
+    BWAPI::Broodwar.loadSelected(selected);*/
+    
   }
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)

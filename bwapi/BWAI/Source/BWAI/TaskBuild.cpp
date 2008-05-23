@@ -11,6 +11,8 @@
 #include "../../BWAPI/Source/BW/OrderID.h"
 #include "../../BWAPI/Source/BW/Unit.h"
 
+#include "../../BWAPI/Source/BWAPI/Player.h"
+
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
