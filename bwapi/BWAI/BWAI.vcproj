@@ -101,8 +101,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../Util/Source/Util;../TinyXml/Source"
+				AdditionalIncludeDirectories="../Util/Source/Util;../TinyXml/Source;../SgiStl/Source"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
+				IgnoreStandardIncludePath="false"
 				RuntimeLibrary="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -152,10 +153,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAI\BuildingToMake.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAI\Expansion.h"
 					>
 				</File>
@@ -173,10 +170,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\MapStartingPosition.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAI\Mineral.h"
 					>
 				</File>
 				<File
@@ -206,10 +199,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAI\BuildingToMake.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAI\Expansion.cpp"
 					>
 				</File>
@@ -227,10 +216,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\MapStartingPosition.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAI\Mineral.cpp"
 					>
 				</File>
 				<File

@@ -5,6 +5,7 @@
 #include "AI.h"
 #include "Unit.h"
 #include "Globals.h"
+#include "TaskGather.h"
 
 namespace BWAI
 {
@@ -12,7 +13,6 @@ namespace BWAI
   //------------------------------------ CONSTRUCTOR --------------------------
   Expansion::Expansion(BWAI::Unit* gatherCenter)
    :gatherCenter(gatherCenter)
-   ,asignedWorkers(0)
   {
     ai->log->log("New expansion registration started", LogLevel::Detailed);
     
@@ -21,7 +21,11 @@ namespace BWAI
       if (i->isMineral() &&
           i->expansion == NULL &&
           i->getDistance(this->gatherCenter) < maximumMineralDistance)
-        this->minerals.push_back(new Mineral(i, this));
+      {
+        TaskGather* newMineral = new TaskGather(i, this);
+        this->minerals.push_back( newMineral);
+        BWAI::ai->activeMinerals.push_back(newMineral);
+      }
     }
     ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), LogLevel::Normal);
     if (this->gatherCenter->lastTrainedUnit == BW::UnitID::None)
@@ -33,43 +37,30 @@ namespace BWAI
       }
     gatherCenter->expansion = this;
   }
-  //------------------------------ REMOVE WORKER ------------------------------
+  //--------------------------------- DESTRUCTOR ------------------------------
   Expansion::~Expansion(void)
   {
-    for (unsigned int i = 0; i < this->minerals.size(); i++)
-      delete this->minerals[i];
+    for (std::list<TaskGather*>::iterator i = this->minerals.begin(); i != this->minerals.end(); ++i)
+      delete *i;
     this->minerals.clear();
-  }
-  //---------------------------------------------------------------------------
-  void Expansion::removeWorker(Unit* worker)
-  {
-    for (unsigned int i = 0; i < this->minerals.size(); i++)
-      if (this->minerals[i]->removeGatherer(worker))
-        return;
-  }
-  //------------------------------ CHECK ASSIGNED WORKERS ---------------------
-  void Expansion::checkAssignedWorkers()
-  {   
-    for (unsigned int i = 0; i < this->minerals.size(); i++)
-      this->minerals[i]->checkAssignedWorkers();
   }
   //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)
   {
     ai->log->log("Mineral will be removed (was gathered out) %s", mineral->getName().c_str(), LogLevel::Important);
-    for (unsigned int i = 0; i < this->minerals.size(); i++)
-      if (this->minerals[i]->mineral == mineral)
+    
+    for (std::list<TaskGather*>::iterator i = this->minerals.begin(); i != this->minerals.end(); ++i)
+      if ((*i)->getMineral() == mineral)
       {
-         this->minerals.erase(this->minerals.begin() + i);
-         break;
+        this->minerals.erase(i);
+        break;
       }
-      for (std::list<Mineral*>::iterator i = ai->activeMinerals.begin(); i != ai->activeMinerals.end(); ++i)
-        if ((*i)->mineral == mineral)
+    for (std::list<TaskGather*>::iterator i = ai->activeMinerals.begin(); i != ai->activeMinerals.end(); ++i)
+      if ((*i)->getMineral() == mineral)
         {
-           Mineral* toRemove = *i;
-           ai->activeMinerals.erase(i);
-           delete toRemove;  // also frees workers
-           break;
+          delete *i;
+          ai->activeMinerals.erase(i);
+          return;
         }
   }
   //---------------------------------------------------------------------------

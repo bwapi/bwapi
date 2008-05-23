@@ -1,7 +1,9 @@
 #pragma once
-namespace BWAPI { class Unit; };
-#include <vector>
-#include "Mineral.h"
+
+#include <list>
+
+namespace BWAI { class TaskGather; };
+namespace BWAI { class Unit; };
 
 namespace BWAI
 {
@@ -10,12 +12,11 @@ namespace BWAI
     public :
       Expansion(BWAI::Unit* gatherCenter);
       ~Expansion();
+      
       BWAI::Unit* gatherCenter;
-      std::vector<Mineral*> minerals;
-      int asignedWorkers;
-      void removeWorker(Unit* worker);
-      void checkAssignedWorkers();
-      void removeMineral(BWAI::Unit* mineral);
+      std::list<TaskGather*> minerals;
+      
+      void removeMineral(Unit* mineral);
       static int maximumMineralDistance;
   };
 }

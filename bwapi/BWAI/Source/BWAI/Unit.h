@@ -1,3 +1,7 @@
+#pragma once
+
+#include <list>
+
 #include "../../BWAPI/Source/BWAPI/Unit.h"
 
 namespace BWAI  { class Task; }
@@ -31,9 +35,10 @@ namespace BWAI
       int lastFrameSpam;
       
       Task* getTask();
-      void removeTask();
+      void freeFromTask();
+      void clearTask();
       void setTask(Task* task);
-      void performTask();
+      std::list<Unit*>::iterator taskListIterator;
     private :
       Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
       Task* task;

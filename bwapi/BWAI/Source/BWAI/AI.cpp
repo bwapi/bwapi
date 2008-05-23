@@ -11,13 +11,11 @@
 #include "Task.h"
 #include "TaskGather.h"
 #include "TaskBuild.h"
-#include "Mineral.h"
 #include "Unit.h"
 #include "Expansion.h"
 #include "MapInfo.h"
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
-#include "BuildingToMake.h"
 
 #include "../../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../../BWAPI/Source/BWAPI/Player.h"
@@ -29,24 +27,24 @@ namespace BWAI
 {
   BWAPI::Unit *cc;
   //----------------------------- MINERAL VALUE -------------------------------
-  bool mineralValue(BWAI::Mineral*& mineral1, BWAI::Mineral*& mineral2)
+  bool mineralValue(BWAI::TaskGather*& task1, BWAI::TaskGather*& task2)
   {
-    if (mineral1->gatherersAssigned.size() < mineral2->gatherersAssigned.size())
+    if (task1->executors.size() < task2->executors.size())
       return true;
-    if (mineral1->gatherersAssigned.size() > mineral2->gatherersAssigned.size())
+    if (task1->executors.size() > task2->executors.size())
       return false;
     if (AI::optimizeMineralFor != NULL &&
-        mineral1->expansion->gatherCenter != mineral2->expansion->gatherCenter)
+        task1->getExpansion()->gatherCenter != task2->getExpansion()->gatherCenter)
     {
-      u16 distance1 = AI::optimizeMineralFor->getDistance(mineral1->expansion->gatherCenter);
-      u16 distance2 = AI::optimizeMineralFor->getDistance(mineral2->expansion->gatherCenter);
+      u16 distance1 = AI::optimizeMineralFor->getCenterDistance(task1->getExpansion()->gatherCenter);
+      u16 distance2 = AI::optimizeMineralFor->getCenterDistance(task2->getExpansion()->gatherCenter);
       if (distance1 < distance2)
         return true;
       if (distance1 > distance2)
        return false;
     }
-    u16 distance1 = mineral1->mineral->getDistance(mineral1->expansion->gatherCenter);
-    u16 distance2 = mineral2->mineral->getDistance(mineral1->expansion->gatherCenter);
+    u16 distance1 = task1->getMineral()->getDistance(task1->getExpansion()->gatherCenter);
+    u16 distance2 = task2->getMineral()->getDistance(task1->getExpansion()->gatherCenter);
     if (distance1 < distance2)
       return true;
     if (distance1 > distance2)
@@ -119,22 +117,16 @@ namespace BWAI
     delete this->mapInfo;
     this->mapInfo = NULL;
     
-    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
+    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
       delete *i;
     this->plannedBuildings.clear();
     
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
-      this->units[i]->removeTask();
+      this->units[i]->clearTask();
       this->units[i]->expansion = NULL;
       this->units[i]->lastTrainedUnit = BW::UnitID::None;
     }
-      
-    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
-         i != this->plannedBuildings.end();
-         i++)
-      delete *i;
-    this->plannedBuildings.clear();
       
     this->startingPosition = NULL;  
     
@@ -162,14 +154,17 @@ namespace BWAI
   //-------------------------------- DESTRUCTOR -------------------------------
   AI::~AI(void)
   {
+    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
+      delete *i;
+      
+    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      delete *i;
+      
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      delete units[i];
+
     delete this->log;
     delete deadLog;
-
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      delete new Unit(BWAPI::Broodwar.getUnit(i));
-
-    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
-      delete *i;
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
@@ -229,35 +224,35 @@ namespace BWAI
        return;
      Unit* gatherer;
      anotherStep:
-     Mineral* best = *activeMinerals.begin();
-     Mineral* worst = *activeMinerals.begin();
-     for (std::list<Mineral*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-       if (best->gatherersAssigned.size() > (*i)->gatherersAssigned.size())
+     TaskGather* best = activeMinerals.front();
+     TaskGather* worst = activeMinerals.front();
+     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+       if (best->executors.size() > (*i)->executors.size())
          best = (*i);
        else 
-         if (worst->gatherersAssigned.size() < (*i)->gatherersAssigned.size())
+         if (worst->executors.size() < (*i)->executors.size())
            worst = (*i);
 
-     if (best->gatherersAssigned.size() + 1 < worst->gatherersAssigned.size())
+     if (best->executors.size() + 1 < worst->executors.size())
      {
-       gatherer = worst->gatherersAssigned[0];
-       gatherer->removeTask();
+       gatherer = worst->executors.front();
+       gatherer->freeFromTask();
        AI::optimizeMineralFor = gatherer;
        
        best = bestFor(gatherer);
        
        this->log->log("Gatherer [%d] reabalanced from [%d] to [%d]", gatherer->getIndex(), 
-                                                                     worst->mineral->getIndex(), 
-                                                                     best->mineral->getIndex());
-       gatherer->setTask( new TaskGather(gatherer, best));
+                                                                     worst->getMineral()->getIndex(), 
+                                                                     best->getMineral()->getIndex());
+       best->addExecutor(gatherer);
        goto anotherStep;
      }
    }
   //---------------------------- CHECK ASSIGNED WORKERS -----------------------
  void AI::checkAssignedWorkers(void)
   {
-    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      (*i)->checkAssignedWorkers();
+    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+      (*i)->execute();
   }
   //---------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
@@ -280,16 +275,8 @@ namespace BWAI
     }
     else if (dead->getType().isWorker())
       if (dead->getTask())
-        switch (dead->getTask()->getType())
-        {
-          case TaskType::Gather : 
-            if (dead->expansion != NULL)
-              dead->expansion->removeWorker(dead); break;
-          case TaskType::Build  : 
-            if (((TaskBuild*)dead->getTask())->getBuildingToMake() != NULL) 
-              ((TaskBuild*)dead->getTask())->getBuildingToMake()->setBuilder(NULL); break;
-        }
-    dead->removeTask();
+        dead->getTask()->freeExecutor(dead);
+
     dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansion = NULL;
     this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
@@ -409,14 +396,14 @@ namespace BWAI
         this->activeMinerals.size() > 0)
       for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
       {
-        Mineral* best = bestFor(*i);
-        if (best->gatherersAssigned.size() >= 2)
+        TaskGather* best = bestFor(*i);
+        if (best->executors.size() >= 2)
         {
           this->expansionsSaturated = true;
           break;
         }
-        (*i)->setTask(new TaskGather(*i, best));
-      }
+        best->addExecutor(*i);
+     }
   }
   //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
   int AI::countOfProductionBuildings()
@@ -435,7 +422,9 @@ namespace BWAI
     if (!this->startingPosition)
       return;
     int countOfFactories = this->countOfProductionBuildings();
-    if (countOfFactories * 2 >= player->freeSuppliesTerranLocal() + plannedTerranSupplyGain())
+    if (countOfFactories != 0 &&
+        countOfFactories * 2 >= player->freeSuppliesTerranLocal() + plannedTerranSupplyGain() &&
+        player->freeSuppliesTerranLocal() + plannedTerranSupplyGain() < 400)
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfFactories , player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
       for (std::list<BW::TilePosition>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
@@ -466,7 +455,7 @@ namespace BWAI
            )
         {
           this->log->log("Found free spot for supply depot at (%d,%d)", (*i).x, (*i).y);
-          this->plannedBuildings.push_back(new BuildingToMake(lastOccupied, BW::UnitID::Terran_SupplyDepot, (*i)));
+          this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, (*i), lastOccupied));
           break;
         }
       } 
@@ -476,8 +465,8 @@ namespace BWAI
   s32 AI::plannedTerranSupplyGain()
   {
     s32 returnValue = 0;
-    for (std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); i++)
-      if ((*i)->getType() == BW::UnitID::Terran_SupplyDepot)
+    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); i++)
+      if ((*i)->getBuildingType() == BW::UnitID::Terran_SupplyDepot)
         returnValue += 8;
       else if ((*i)->getType() == BW::UnitID::Terran_CommandCenter)
         returnValue += 10;
@@ -507,13 +496,13 @@ namespace BWAI
       return NULL;
 
     this->log->log("%s was freed from it's task to do something else", best->getName().c_str());
-    best->removeTask();
+    best->freeFromTask();
     return best;
   }
   //--------------------------------- EXECUTE TASK ----------------------------
   void AI::executeTasks()
   {
-    std::list<BuildingToMake*>::iterator i = this->plannedBuildings.begin();
+    std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
     while (i != this->plannedBuildings.end())
       if ((*i)->execute())
       {
@@ -522,16 +511,15 @@ namespace BWAI
       }
       else
         ++i;
-
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      i->performTask();
+    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+      (*i)->execute();
   }
   //---------------------------------------------------------------------------
-  Mineral* AI::bestFor(Unit* gatherer)
+  TaskGather* AI::bestFor(Unit* gatherer)
   {
     this->optimizeMineralFor = gatherer;
-    Mineral* best = *activeMinerals.begin();
-    for (std::list<Mineral*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+    TaskGather* best = activeMinerals.front();
+    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
       if (mineralValue(*i, best))
         best = *i;
     return best;

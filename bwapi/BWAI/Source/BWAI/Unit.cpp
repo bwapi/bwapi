@@ -85,33 +85,21 @@ namespace BWAI
   {
     return this->task;
   }
-  //------------------------------- REMOVE TASK -------------------------------
-  void Unit::removeTask()
+  //------------------------------ FREE FROM TASK -----------------------------
+  void Unit::freeFromTask()
   {
-    delete this->task;
+    if (this->getTask())
+      this->getTask()->freeExecutor(this);
+  }
+  //------------------------------- REMOVE TASK -------------------------------
+  void Unit::clearTask()
+  {
     this->task = NULL;
   }
   //-------------------------------- SET TASK ---------------------------------
   void Unit::setTask(Task* task)
   {
-    delete this->task;
     this->task = task;
-  }
-  //------------------------------ PERFORM TASK -------------------------------
-  void Unit::performTask()
-  {
-    /*if (
-         this->getTask() == NULL &&
-         (
-           this->getOrderIDLocal() == BW::OrderID::MoveToMinerals &&
-           this->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 &&
-           this->getOrderIDLocal() == BW::OrderID::MiningMinerals
-         )
-       )
-    this->orderStop(); */
-    if (this->getTask() &&
-        this->getTask()->execute())
-      this->removeTask();
   }
   //---------------------------------------------------------------------------
 }
