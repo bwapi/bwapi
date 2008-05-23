@@ -60,7 +60,7 @@ namespace BWAI
     for (unsigned int i = 0; i < this->minerals.size(); i++)
       if (this->minerals[i]->mineral == mineral)
       {
-         this->minerals[i];this->minerals.erase(this->minerals.begin() + i);
+         this->minerals.erase(this->minerals.begin() + i);
          break;
       }
       for (std::list<Mineral*>::iterator i = ai->activeMinerals.begin(); i != ai->activeMinerals.end(); ++i)

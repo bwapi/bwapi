@@ -26,6 +26,10 @@ namespace BWAI
   {
     for (unsigned int i = 0; i < this->gatherersAssigned.size(); i++)
     {
+      if (gatherersAssigned[i]->getTask() &&
+          gatherersAssigned[i]->getTask()->getType() == TaskType::Gather &&
+          ((TaskGather*)gatherersAssigned[i]->getTask())->getMineral() == this)
+        ((TaskGather*)gatherersAssigned[i]->getTask())->clearMineralPointer();
       this->gatherersAssigned[i]->removeTask();
       this->expansion->asignedWorkers --;
     }
@@ -49,7 +53,8 @@ namespace BWAI
        BWAI::ai->log->log("Unit Assigned to stop gather mineral : %s", gatherer->getName().c_str(), LogLevel::Detailed);
         this->gatherersAssigned.erase(this->gatherersAssigned.begin() + i);
         gatherer->expansion = NULL;
-        if (gatherer->getTask()->getType() == TaskType::Gather)
+        if (gatherer->getTask() &&
+            gatherer->getTask()->getType() == TaskType::Gather)
           ((TaskGather*)gatherer->getTask())->clearMineralPointer();
         this->expansion->asignedWorkers --;
         return true;
