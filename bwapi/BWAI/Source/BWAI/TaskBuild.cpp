@@ -59,7 +59,9 @@ namespace BWAI
       else
         if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
             this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-            this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild)
+            this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
+            this->executors.front()->getOwner()->getMinerals() >= buildingType.getMineralPrice() &&
+            this->executors.front()->getOwner()->getGas() >= buildingType.getGasPrice())
           this->executors.front()->build(this->position, buildingType);
       if (this->building == NULL && 
           this->executors.front()->getOrderTarget() != NULL &&
