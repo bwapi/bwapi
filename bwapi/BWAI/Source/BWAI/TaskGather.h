@@ -1,20 +1,22 @@
 #include "Task.h"
 
 namespace BWAI { class Mineral; }
+namespace BWAI { class Expansion; }
 
 namespace BWAI
 {
   class TaskGather : public Task
   {
     public :
-      TaskGather(Unit* executor, Mineral* mineral);
+      TaskGather(Unit* mineral, Expansion* expansion);
       virtual ~TaskGather();
       bool execute();
-      Mineral* getMineral();
       TaskType::Enum getType();
       
-      void clearMineralPointer();
+      Unit* getMineral();
+      Expansion* getExpansion();
     private :  
-      Mineral* mineral;
+      BWAI::Unit* mineral;
+      Expansion* expansion;
   };
 }

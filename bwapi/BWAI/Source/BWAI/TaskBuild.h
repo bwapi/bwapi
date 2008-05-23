@@ -1,20 +1,37 @@
+#pragma once
 #include "Task.h"
 
 namespace BWAI { class BuildingToMake; }
 
 namespace BWAI
 {
+  /** 
+   * Represents task to make building given by the ai.
+   * It will be used to handle all non-standard situations.
+   * -# My building unit is in way (scv that build next building)
+   * -# Opponent's probe/scv bugging around
+   * -# My idle scv/military unit - will be ordered to move
+   * The executor of this command will get the information if the command 
+   * execution faced any problems so it can solve it.
+   *
+   * For example, he will do - if this unit couldn't build supply because of near probe
+   * it will order other scv to build supply elswere.
+   */
   class TaskBuild : public Task
   {
     public :
-      TaskBuild(Unit* executor, BuildingToMake* buildingToMake);
+      TaskBuild(BW::UnitType buildingType, BW::TilePosition position, Unit* builder);
       virtual ~TaskBuild();
       bool execute();
-      BuildingToMake* getBuildingToMake();
+      BW::UnitType getBuildingType();
       TaskType::Enum getType();
       
-      void clearBuildingToMakePointer();
     private :  
-      BuildingToMake* buildingToMake;
+      BW::UnitType buildingType;
+      BW::TilePosition position;
+      /** Will point to the building that is being constructed, and when it is done, this
+       * class can be removed.
+       */
+      Unit *building;
   };
 }

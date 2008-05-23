@@ -4,7 +4,8 @@
 
 namespace Util { class Logger; }
 namespace BWAI { class Unit; }
-namespace BWAI { class Mineral; }
+namespace BWAI { class TaskGather; }
+namespace BWAI { class TaskBuild; }
 namespace BWAI { class Expansion; }
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
@@ -33,14 +34,15 @@ namespace BWAI
       void onRemoveUnit(BW::Unit* unit);
 
       std::list<Expansion*> expansions;
-      std::list<Mineral*> activeMinerals;
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
       int expansionsSaturated;
       Unit* getFirst();
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
-      std::list<BuildingToMake*> plannedBuildings;
+      
+      std::list<TaskGather*> activeMinerals;
+      std::list<TaskBuild*> plannedBuildings;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -68,6 +70,6 @@ namespace BWAI
       /** @todo investigate and use the nextSupply provider here. */ 
       s32 plannedTerranSupplyGain();
       void executeTasks();
-      Mineral* bestFor(Unit* gatherer);
+      TaskGather* bestFor(Unit* gatherer);
   };
 }

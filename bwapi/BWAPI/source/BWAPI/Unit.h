@@ -137,6 +137,9 @@ namespace BWAPI
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
       u16 index;
+      /** Let's continue in */
+      Unit *nextInTask;
+      Unit *previousInTask;
   };
 };
 

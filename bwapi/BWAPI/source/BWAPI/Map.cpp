@@ -57,7 +57,6 @@ namespace BWAPI
           returnValue[x][y] = '.';
         else
           returnValue[x][y] = 'X';
-    Util::Logger::globalLog->log("Just to return");
     return returnValue;
   }
   //---------------------------------------------------------------------------
