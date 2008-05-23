@@ -123,7 +123,12 @@ namespace BW
   //-------------------------------- CAN PRODUCE -------------------------------
   bool UnitType::canProduce() const
   {
-    return this->getFlags().getBit(BW::UnitPrototypeFlags::ProducesUnits);
+    return this->getGroupFlags().getBit(BW::GroupFlags::Factory);
+  }
+  //------------------------------- GET GROUP FLAGS ----------------------------
+  BW::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
+  {
+    return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()];
   }
   //------------------------------- GET TILE WIDTH -----------------------------
   u16 UnitType::getTileWidth() const

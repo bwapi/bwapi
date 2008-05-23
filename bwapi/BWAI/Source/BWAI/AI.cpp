@@ -172,7 +172,7 @@ namespace BWAI
     if (BWAPI::Broodwar.frameCount < 2)
       return;
     
-    /*BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
+    BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
     this->refreshSelectionStates(selected);
      
     this->checkSupplyNeed();
@@ -191,7 +191,7 @@ namespace BWAI
     this->rebalanceMiners();
     this->checkAssignedWorkers();
     this->executeTasks();
-    BWAPI::Broodwar.loadSelected(selected);*/
+    BWAPI::Broodwar.loadSelected(selected);
     
   }
   //-------------------------------- GET UNIT ---------------------------------
@@ -277,7 +277,11 @@ namespace BWAI
     else if (dead->getType().isWorker())
       if (dead->getTask())
         dead->getTask()->freeExecutor(dead);
-
+    
+    if (dead->getType() == BW::UnitID::Terran_CommandCenter ||
+        dead->getType() == BW::UnitID::Protoss_Nexus ||
+        dead->getType() == BW::UnitID::Zerg_Hatchery)
+      this->removeExpansion(dead->expansion);
     dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansion = NULL;
     this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
@@ -294,13 +298,17 @@ namespace BWAI
              i->getType() == BW::UnitID::Protoss_Nexus ||
              i->getType() == BW::UnitID::Zerg_Hatchery
            ) &&
-           i->expansion == NULL &&
            i->getOwner() == player)
-      {
-        this->log->log("Starting new expansion - %s", i->getName().c_str(), LogLevel::Important);
-        this->expansionsSaturated = false;
-        this->startNewExpansion(i);
-      }
+        if (i->getOrderID() != BW::OrderID::BuildingLiftoff &&
+            i->expansion == NULL)
+        {
+          this->log->log("Starting new expansion - %s", i->getName().c_str(), LogLevel::Important);
+          this->expansionsSaturated = false;
+          this->startNewExpansion(i);
+        }
+        else if (i->getOrderID() == BW::OrderID::BuildingLiftoff &&
+                 i->expansion != NULL)
+          this->removeExpansion(i->expansion);
     }
   }
   //----------------------------- REFRESH SELECTION STATES --------------------
@@ -407,27 +415,28 @@ namespace BWAI
      }
   }
   //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
-  int AI::countOfProductionBuildings()
+  int AI::countOfTerranProductionBuildings()
   {
-    int countOfFactories = 0;
+    int countOfTerranFactories = 0;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() && 
           i->getType().canProduce() &&
-          i->getOwner() == this->player)
-         countOfFactories++;
-    return countOfFactories;
+          i->getOwner() == this->player &&
+          i->getType().isTerran())
+         countOfTerranFactories++;
+    return countOfTerranFactories;
   }
   //------------------------------ CHECK SUPPLY NEED --------------------------
   void AI::checkSupplyNeed()
   { 
     if (!this->startingPosition)
       return;
-    int countOfFactories = this->countOfProductionBuildings();
-    if (countOfFactories != 0 &&
-        countOfFactories * 2 >= player->freeSuppliesTerranLocal() + plannedTerranSupplyGain() &&
+    int countOfTerranFactories = this->countOfTerranProductionBuildings();
+    if (countOfTerranFactories != 0 &&
+        countOfTerranFactories * 2 >= player->freeSuppliesTerranLocal() + plannedTerranSupplyGain() &&
         player->freeSuppliesTerranLocal() + plannedTerranSupplyGain() < 400)
     {
-      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfFactories , player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
+      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
       for (std::list<BW::TilePosition>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
           i != this->startingPosition->nonProducing3X2BuildingPositions.end();
           ++i)
@@ -514,6 +523,8 @@ namespace BWAI
         ++i;
     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
       (*i)->execute();
+    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+      (*i)->execute();
   }
   //---------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)
@@ -524,6 +535,19 @@ namespace BWAI
       if (mineralValue(*i, best))
         best = *i;
     return best;
+  }
+  //---------------------------------------------------------------------------
+  void AI::removeExpansion(Expansion* expansion)
+  {
+    for (std::list<Expansion*>::iterator i = this->expansions.begin();
+           i != this->expansions.end();
+           ++i)
+        if (*i == expansion)
+        {
+          delete expansion;
+          this->expansions.erase(i);
+          return;
+        }
   }
   //---------------------------------------------------------------------------
 }
