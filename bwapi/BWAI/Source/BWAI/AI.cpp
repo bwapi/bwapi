@@ -243,11 +243,13 @@ namespace BWAI
        gatherer = worst->gatherersAssigned[0];
        gatherer->removeTask();
        AI::optimizeMineralFor = gatherer;
-       activeMinerals.sort(mineralValue);
+       
+       best = bestFor(gatherer);
+       
        this->log->log("Gatherer [%d] reabalanced from [%d] to [%d]", gatherer->getIndex(), 
                                                                      worst->mineral->getIndex(), 
-                                                                     (*activeMinerals.begin())->mineral->getIndex());
-       gatherer->setTask( new TaskGather(gatherer, *activeMinerals.begin()));
+                                                                     best->mineral->getIndex());
+       gatherer->setTask( new TaskGather(gatherer, best));
        goto anotherStep;
      }
    }
@@ -284,9 +286,9 @@ namespace BWAI
             if (dead->expansion != NULL)
               dead->expansion->removeWorker(dead); break;
           case TaskType::Build  : 
-            if (((TaskBuild*)dead->getTask())->buildingToMake != NULL) 
-              ((TaskBuild*)dead->getTask())->buildingToMake->setBuilder(NULL); break;
-
+            if (((TaskBuild*)dead->getTask())->getBuildingToMake() != NULL) 
+              ((TaskBuild*)dead->getTask())->getBuildingToMake()->setBuilder(NULL); break;
+        }
     dead->removeTask();
     dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansion = NULL;
@@ -407,15 +409,13 @@ namespace BWAI
         this->activeMinerals.size() > 0)
       for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
       {
-        AI::optimizeMineralFor = *i;
-        /** @todo Just find smallest, no need to sort */
-        activeMinerals.sort(mineralValue);
-        if ((*activeMinerals.begin())->gatherersAssigned.size() >= 2)
+        Mineral* best = bestFor(*i);
+        if (best->gatherersAssigned.size() >= 2)
         {
           this->expansionsSaturated = true;
           break;
         }
-        (*i)->setTask(new TaskGather(*i, *activeMinerals.begin()));
+        (*i)->setTask(new TaskGather(*i, best));
       }
   }
   //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
@@ -525,6 +525,15 @@ namespace BWAI
 
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       i->performTask();
+  }
+  //---------------------------------------------------------------------------
+  Mineral* AI::bestFor(Unit* gatherer)
+  {
+    Mineral* best = *activeMinerals.begin();
+    for (std::list<Mineral*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+      if (mineralValue(best, *i))
+        best = *i;
+    return best;
   }
   //---------------------------------------------------------------------------
 }

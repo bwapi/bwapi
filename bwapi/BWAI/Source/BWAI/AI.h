@@ -68,5 +68,6 @@ namespace BWAI
       /** @todo investigate and use the nextSupply provider here. */ 
       s32 plannedTerranSupplyGain();
       void executeTasks();
+      Mineral* bestFor(Unit* gatherer);
   };
 }
