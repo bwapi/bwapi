@@ -41,9 +41,8 @@ namespace BWAI
   //--------------------------------- DESTRUCTOR ------------------------------
   Expansion::~Expansion(void)
   {
-    for (std::list<TaskGather*>::iterator i = this->minerals.begin(); i != this->minerals.end(); ++i)
-      delete *i;
-    this->minerals.clear();
+   while (!this->minerals.empty())
+     this->removeMineral(this->minerals.front()->getMineral());
   }
   //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)
