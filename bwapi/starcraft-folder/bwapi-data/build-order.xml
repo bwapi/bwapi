@@ -1,0 +1,108 @@
+<build-orders>
+  <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
+    <call name="Standard-marine-building-settings" />
+    <build name="Terran barracks" minPopulation="11" place="barracks" />
+    <decide>
+      <case probability-weight ="5">
+        <conditions>
+          <enemy-have general-description="expansion" probability="90%" />
+        </conditions>
+        <do>
+          <decide>
+            <case probability-weight= "5">
+              <do>
+                <jump-to name="fast-expansion" />
+              </do>
+            </case>
+            <case probability-weight="2">
+              <do>
+                <jump-to name="bunker-push" />
+                <!-- is not here just a sample --></do>
+            </case>
+            <case probability-weight ="1">
+              <do>
+                <jump-to name="scv-marine-rush" />
+                <!-- is not here just a sample --></do>
+            </case>
+            <case probability-weight ="4">
+              <do>
+                <jump-to name="contain" />
+                <!-- is not here just a sample --></do>
+            </case>
+            <case probability-weight="5">
+              <do />
+              <!-- this will mean to continue normally --></case>
+          </decide>
+        </do>
+      </case>
+    </decide>
+    <!-- When none of these conditions are fullfiled it just will continue -->
+    <build name="Terran barracks" minPopulation="12" place="barracks" />
+    <build name="Terran Command Center" minPopulation="25" place="natural-exp" />
+    <jump-to name="after-expansion" />
+  </build-order>
+  <build-order type="branch" race="Terran" name="faster-expansion">
+    <build name="Terran Command Center" minPopulation="25" place="natural-exp" />
+    <jump-to name="after-expansion" />
+  </build-order>
+  <build-order type="branch" race="Terran" name="after-expansion">
+    <build name="Terran engeneering bay" place="engeneering-bay" />
+    <build name="Terran turret" place="turret-entrance" type="parallel" />
+    <build name="Terran turret" place="turret-main" type="parallel"/>
+    <build name="Terran academy" place="academy" />
+    <invent name="Stimpacks">
+      <condition>
+        <at-least name="Terran medic" count="2" />
+      </condition>
+    </invent>
+    <invent name="Marine range"/>
+    <invent name="Marine attack" />
+    <invent name="Stim-packs">
+      <conditios>
+        <trained-at-least name="Terran medic" count="2" />
+      </conditios>
+    </invent>
+    <build name="Terran refinery" />
+    <build name="Terran barracks" place="barracks" />
+    <build name="Terran barracks" place="barracks" />
+    <build name="Terran refinery" place="natural-exp-refinery" />
+    <build name="Terran barracks" place="barracks" />
+    <build name="Terran Factory" place="factory" />
+    <build name="Terran Starport" place="starport" />
+    <build name="Terran Science Facility" place="science-facility" />
+    <invent name="EMP" />
+    <build name="Terran Command center">
+      <place type="one of">
+        <case selection="substring" name="corner"            choose="nearest" probability="40%" />
+        <case selection="substring" name="random-empty-main"                  probability="20%" />
+        <case selection="substring" name="corner"            choose="nearest" probability="20%" />
+        <case selection="substring" name="random-empty-exp"  choose="nearest" probability="20%" />
+      </place>
+    </build>
+  </build-order>
+  <build-order type="branch" race="Terran" name="Standard-marine-building-settings">
+    <set-barracks-building-rate building="Terran-Barracks" change="over-time">
+      <build name="Terran Marine" weight="14" />
+      <decide>
+        <case>
+          <conditions>
+            <i-have type="at-least" name="Terran Marine" count="4" />
+          </conditions>
+          <do>
+            <build name="Terran Medic" weight="3" />
+          </do>
+        </case>
+      </decide>
+      <decide>
+        <case>
+          <condition>
+            <enemy-have type="at-least" name="Protoss Zealot" count="3" />
+          </condition>
+          <do>
+            <build name="Terran Firebat" weight="1" />
+          </do>
+        </case>
+      </decide>
+    </set-barracks-building-rate>
+  </build-order>
+</build-orders>
