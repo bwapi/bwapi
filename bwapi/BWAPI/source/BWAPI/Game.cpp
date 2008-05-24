@@ -171,7 +171,7 @@ namespace BWAPI
     this->setInGame(true);
     this->BWAPIPlayer = NULL;
     for (int i = 0; i < 8; i++)
-      if (strcmp(this->players[i]->getName(), "BWAPI") == 0)
+      if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
   }
   //------------------------------ ON GAME END ----------------------------------
