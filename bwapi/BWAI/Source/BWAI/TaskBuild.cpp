@@ -47,7 +47,16 @@ namespace BWAI
       if (builder)
         this->addExecutor(builder);
     }
-    if (!this->executors.empty())
+    
+     if (this->building == NULL && 
+         !this->executors.empty() &&
+         this->executors.front()->getOrderTarget() != NULL &&
+         this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding)
+      {
+        this->building = executors.front()->getOrderTarget();
+        BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
+      }
+    if (!this->executors.empty() && this->building == NULL)
     {
       if (!this->canIBuild(position))
       {
@@ -70,7 +79,7 @@ namespace BWAI
       if (this->executors.front()->getDistance(center) > 100)
       {
         if (this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
-            this->executors.front()->getTargetPositionLocal().getDistance(center) > 200)
+            this->executors.front()->getTargetPositionLocal().getDistance(center) > 300)
         {
           this->executors.front()->orderRightClick(center);
           BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), center.x, center.y);
@@ -83,13 +92,7 @@ namespace BWAI
             this->executors.front()->getOwner()->getMinerals() >= buildingType.getMineralPrice() &&
             this->executors.front()->getOwner()->getGas() >= buildingType.getGasPrice())
           this->executors.front()->build(this->position, buildingType);
-      if (this->building == NULL && 
-          this->executors.front()->getOrderTarget() != NULL &&
-          this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding)
-      {
-        this->building = executors.front()->getOrderTarget();
-        BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
-      }
+     
     }
     return false;
   }
@@ -121,6 +124,11 @@ namespace BWAI
            )
           return false;
     return true;
+  }
+  //---------------------------------------------------------------------------
+  Unit* TaskBuild::getBuilding()
+  {
+    return this->building;
   }
   //---------------------------------------------------------------------------
 }
