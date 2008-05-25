@@ -66,7 +66,7 @@
           <position x="107" y="51"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
-          <position x="121" y="66"/>
+          <position x="117" y="66"/>
         </build-position>
       </standard-building-placement>
     </starting-position>
@@ -135,7 +135,7 @@
           <position x="10" y="77"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
-          <position x="6" y="57"/>
+          <position x="7" y="57"/>
         </build-position>        
       </standard-building-placement>
     </starting-position>

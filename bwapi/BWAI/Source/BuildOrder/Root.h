@@ -6,6 +6,7 @@
 #include "../../../BWAPI/Source/BW/UnitType.h"
 
 namespace BuildOrder { class Branch; }
+namespace BuildOrder { class BuildWeights; }
 
 namespace BuildOrder
 {
@@ -15,6 +16,6 @@ namespace BuildOrder
       Root(const std::string& xmlFileName);
       ~Root();
       std::list<Branch*> buildOrders;
-      std::map<std::string, std::pair<BW::UnitType,int>* > weights;
+      std::map<std::string, BuildWeights*> weights;
   };
 }
