@@ -15,8 +15,9 @@ namespace BW
       Position(const BW::TilePosition& position);
       Position(TiXmlElement* xmlElement);
       Position(u16 x, u16 y);
-      bool operator == (BW::Position& position);
-      bool operator != (BW::Position& position);
+      bool operator == (BW::Position& position) const;
+      bool operator != (BW::Position& position) const;
+      u16 getDistance(const Position &position) const;
       u16 x;
       u16 y;
   };

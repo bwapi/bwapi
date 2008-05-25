@@ -408,6 +408,10 @@
 					RelativePath=".\source\BWAPI\CommandTypes.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BWAPI\Race.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

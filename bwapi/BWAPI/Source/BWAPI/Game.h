@@ -98,7 +98,7 @@ namespace BWAPI
       Dictionary* configuration;
       /** Every tile will have pointers to units touching it. */
       RectangleArray<std::list<Unit*> > unitsOnTile;
-    private :
+   private :
       bool inGame;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;

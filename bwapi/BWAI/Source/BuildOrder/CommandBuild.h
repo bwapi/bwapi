@@ -10,6 +10,7 @@ namespace BuildOrder
   {
     public :
       CommandBuild(TiXmlElement* xmlElement);
+      virtual bool execute();
     private :
       /** Wont be direct pointer so the game doesn't need to be running when loading the build-order */
       std::string name;

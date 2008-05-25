@@ -185,4 +185,26 @@ namespace BWAPI
     return this->getSuppliesAvailableZergLocal() - this->getSuppliesUsedZergLocal();
   }
   //---------------------------------------------------------------------------
+  s32 Player::freeSuppliesLocal(BWAPI::Race::Enum race)
+  {
+    switch (race)
+    {
+      case BWAPI::Race::Zerg : return this->freeSuppliesZergLocal();
+      case BWAPI::Race::Protoss : return this->freeSuppliesProtossLocal();
+      case BWAPI::Race::Terran : return this->freeSuppliesTerranLocal();
+      default : return 0;
+    }
+  }
+  //---------------------------------------------------------------------------
+  s32 Player::usedSuppliesLocal(BWAPI::Race::Enum race)
+  {
+    switch (race)
+    {
+      case BWAPI::Race::Zerg : return this->getSuppliesUsedZergLocal();
+      case BWAPI::Race::Protoss : return this->getSuppliesUsedProtossLocal();
+      case BWAPI::Race::Terran : return this->getSuppliesUsedTerranLocal();
+      default : return 0;
+    }
+  }
+  //---------------------------------------------------------------------------
 };

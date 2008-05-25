@@ -1,5 +1,7 @@
 #include "Position.h"
 
+#include <math.h>
+
 #include <tinyXml.h>
 #include <Exceptions.h>
 
@@ -42,16 +44,22 @@ namespace BW
   {
   }
   //------------------------------------- OPERATOR == ------------------------------
-  bool Position::operator == (BW::Position& position)
+  bool Position::operator == (BW::Position& position) const
   {
     return this->x == position.x &&
            this->y == position.y;
   }
   //------------------------------------- OPERATOR != ------------------------------
-  bool Position::operator != (BW::Position& position)
+  bool Position::operator != (BW::Position& position) const
   {
     return this->x != position.x ||
            this->y != position.y;
+  }
+  //--------------------------------------------------------------------------------
+  u16 Position::getDistance(const Position &position) const
+  {
+    return (u16)sqrt((long double)((long double)this->x - position.x)*((long double)this->x - position.x) +
+                     (long double)((long double)this->y - position.y)*((long double)this->y - position.y));
   }
   //--------------------------------------------------------------------------------
 };
