@@ -5,6 +5,7 @@
 #include "Unit.h"
 #include "AI.h"
 #include "Globals.h"
+#include "BuildingPosition.h"
 
 #include "../../BWAPI/Source/Types.h"
 #include "../../BWAPI/Source/BW/UnitType.h"
@@ -12,15 +13,18 @@
 #include "../../BWAPI/Source/BW/Unit.h"
 
 #include "../../BWAPI/Source/BWAPI/Player.h"
+#include "../../BWAPI/Source/BWAPI/Globals.h"
+#include "../../BWAPI/Source/BWAPI/Game.h"
 
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskBuild::TaskBuild(BW::UnitType buildingType, BW::TilePosition position, Unit* builder)
+  TaskBuild::TaskBuild(BW::UnitType buildingType, BW::TilePosition position, Unit* builder, BuildingPosition* alternatives)
   :Task(builder)
   ,buildingType(buildingType)
   ,position(position)
   ,building(NULL)
+  ,alternatives(alternatives)
   {
   }
   //------------------------------- DESTRUCTOR --------------------------------
@@ -45,6 +49,20 @@ namespace BWAI
     }
     if (!this->executors.empty())
     {
+      if (!this->canIBuild(position))
+      {
+        std::list<BW::TilePosition>::iterator i;
+        for (i = alternatives->positions.begin();
+             i != alternatives->positions.end();
+             ++i)
+          if (this->canIBuild(*i))
+          {
+            this->position = *i;
+            break;
+          }
+        if (i == this->alternatives->positions.end())
+          return false;
+      }
       BW::Position center = this->position;
       center.x += (u16)(BW::TileSize*1.5);
       center.y += BW::TileSize;
@@ -84,6 +102,24 @@ namespace BWAI
   BW::UnitType TaskBuild::getBuildingType()
   {
     return this->buildingType;
+  }
+  //---------------------------------------------------------------------------
+  bool TaskBuild::canIBuild(BW::TilePosition here)
+  {
+    for (int k = here.x; 
+         k < here.x + this->alternatives->tileWidth; 
+              k++)
+      for (int l = here.y; 
+           l < here.y + this->alternatives->tileHeight; 
+           l++)
+        if (BWAPI::Broodwar.unitsOnTile[k][l].empty() == false &&
+             (
+               BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex() != this->executors.front()->getIndex() ||
+               BWAPI::Broodwar.unitsOnTile[k][l].size() != 1
+             )
+           )
+          return false;
+    return true;
   }
   //---------------------------------------------------------------------------
 }

@@ -499,7 +499,7 @@ namespace BWAI
            )
         {
           this->log->log("Found free spot for supply depot at (%d,%d)", (*i).x, (*i).y);
-          this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, (*i), lastOccupied));
+          this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, (*i), lastOccupied, buildingPosition));
           break;
         }
       } 
@@ -622,6 +622,11 @@ namespace BWAI
         }
       } 
    return BW::TilePosition::Invalid;
+  }
+  //---------------------------------------------------------------------------
+  BuildingPosition* AI::getPositionsCalled(const std::string& place)
+  {
+    return this->startingPosition->positions[place];
   }
   //---------------------------------------------------------------------------
 }
