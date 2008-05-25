@@ -44,9 +44,11 @@ namespace BuildOrder
     {
       BWAI::ai->log->log("Conditions to build " + this->name + "fullfiled starting to build");
       BWAI::Unit* scvToUse;
+      BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
       BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
+      
       if (position.isValid())
-        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse));
+        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
       return true;
     }
     return false;

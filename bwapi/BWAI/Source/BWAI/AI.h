@@ -13,7 +13,7 @@ namespace BWAI { class TaskBuild; }
 namespace BWAI { class Expansion; }
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
-namespace BWAI { class BuildingToMake; }
+namespace BWAI { class BuildingPosition; }
 
 namespace BuildOrder { class Root; }
 namespace BuildOrder { class Command; }
@@ -58,6 +58,7 @@ namespace BWAI
       std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
       BW::TilePosition getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
+      BuildingPosition* AI::getPositionsCalled(const std::string& place);
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;

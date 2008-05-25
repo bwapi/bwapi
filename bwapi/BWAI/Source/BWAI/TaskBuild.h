@@ -1,7 +1,7 @@
 #pragma once
 #include "Task.h"
 
-namespace BWAI { class BuildingToMake; }
+namespace BWAI { class BuildingPosition; }
 
 namespace BWAI
 {
@@ -20,7 +20,7 @@ namespace BWAI
   class TaskBuild : public Task
   {
     public :
-      TaskBuild(BW::UnitType buildingType, BW::TilePosition position, Unit* builder);
+      TaskBuild(BW::UnitType buildingType, BW::TilePosition position, Unit* builder, BuildingPosition* alternatives);
       virtual ~TaskBuild();
       bool execute();
       BW::UnitType getBuildingType();
@@ -29,9 +29,11 @@ namespace BWAI
     private :  
       BW::UnitType buildingType;
       BW::TilePosition position;
+      BuildingPosition* alternatives;
       /** Will point to the building that is being constructed, and when it is done, this
        * class can be removed.
        */
       Unit *building;
+      bool canIBuild(BW::TilePosition here);
   };
 }
