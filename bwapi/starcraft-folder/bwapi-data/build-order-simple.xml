@@ -3,7 +3,7 @@
 <build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="build-order.xsd">
   <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
-    <build name="Terran barracks" place="barracks" minimal-population="11"/>
-    <build name="Terran barracks" place="barracks" minimal-population="13"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="11"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="13"/>
   </build-order>
 </build-orders>

@@ -19,6 +19,8 @@
 #include "BuildingPosition.h"
 
 #include "../BuildOrder/Root.h"
+#include "../BuildOrder/Branch.h"
+#include "../BuildOrder/Command.h"
 
 #include "../../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../../BWAPI/Source/BWAPI/Player.h"
@@ -66,6 +68,14 @@ namespace BWAI
   {
     try
     {
+      if (this->unitNameToType.empty())
+        for (int i = 0; i < BW::unitTypeCount; i++)
+          this->unitNameToType.insert(std::pair<std::string, BW::UnitType>
+                                       (
+                                         BW::UnitType( (BW::UnitID::Enum) i ).getName(), 
+                                         BW::UnitType( (BW::UnitID::Enum) i)
+                                       )
+                                     ); 
       this->log->log("Ai::onStart start", LogLevel::Important);
       this->player = player;
       BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
@@ -97,7 +107,12 @@ namespace BWAI
         }
       }
       mapInfo->saveDefinedBuildingsMap();
-     this->log->log("Ai::onStart end", LogLevel::Important);
+
+      /** For testing reasons, there is just one build order now*/
+      this->actualBranch = root->buildOrders.front();
+      this->actualPosition = this->actualBranch->commands.begin();
+      //this->log->log("actualBranchcount = %d", this->actualBranch->commands.size());      
+      this->log->log("Ai::onStart end", LogLevel::Important);      
     }
     catch (GeneralException& exception)
     {
@@ -187,6 +202,9 @@ namespace BWAI
     if (BWAPI::Broodwar.frameCount < 2)
       return;
     
+    if (this->actualPosition != this->actualBranch->commands.end())
+      if ((*this->actualPosition)->execute())
+        ++this->actualPosition;
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
     this->refreshSelectionStates(selected);
      
@@ -564,6 +582,46 @@ namespace BWAI
           this->expansions.erase(i);
           return;
         }
+  }
+  //---------------------------------------------------------------------------
+  BW::TilePosition AI::getFreeBuildingSpot(std::string spotName, Unit*& builderToUse)
+  {
+    BuildingPosition* position = this->startingPosition->positions[spotName];
+    if (position == NULL)
+      throw GeneralException("Position '" + spotName + "' not found in the current starting position");
+    for (std::list<BW::TilePosition>::iterator i = position->positions.begin();
+           i != position->positions.end();
+           ++i)
+      {
+        int occupiedCount = 0;
+        Unit* lastOccupied = NULL;
+        for (int k = (*i).x; 
+              k < (*i).x + position->tileWidth; 
+              k++)
+          for (int l = (*i).y; 
+               l < (*i).y + position->tileWidth; 
+               l++)
+            if (BWAPI::Broodwar.unitsOnTile[k][l].size() > 0)
+            {
+              occupiedCount ++;
+              lastOccupied = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
+            }
+        if (
+             occupiedCount == 0 || 
+             (
+               occupiedCount == 1 &&
+               lastOccupied->getType().isWorker() &&
+               lastOccupied->getTask() == NULL &&
+               lastOccupied->getOrderID() == BW::OrderID::Guard
+             )
+           )
+        {
+          this->log->log("Found free spot for " + spotName + " at (%d,%d)", (*i).x, (*i).y);
+          builderToUse = lastOccupied;
+          return *i;
+        }
+      } 
+   return BW::TilePosition::Invalid;
   }
   //---------------------------------------------------------------------------
 }

@@ -5,6 +5,7 @@
 
 namespace BW
 {
+  TilePosition TilePosition::Invalid = TilePosition(256,256);
   //------------------------------------- CONSTRUCTOR ------------------------------
   TilePosition::TilePosition()
   :x(0)
@@ -44,6 +45,11 @@ namespace BW
   {
     return this->x != TilePosition.x ||
            this->y != TilePosition.y;
+  }
+  //--------------------------------------------------------------------------------
+  bool TilePosition::isValid()
+  {
+    return *this != Invalid;
   }
   //--------------------------------------------------------------------------------
 };

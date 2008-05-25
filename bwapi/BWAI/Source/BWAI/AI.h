@@ -1,6 +1,10 @@
 #pragma once
-#include "../../../BWAPI/Source/BWAPI/Game.h"
+
 #include <list>
+#include <map>
+
+#include "../../../BWAPI/Source/BWAPI/Game.h"
+#include "../../../BWAPI/Source/BW/UnitType.h"
 
 namespace Util { class Logger; }
 namespace BWAI { class Unit; }
@@ -12,6 +16,8 @@ namespace BWAI { class MapStartingPosition; }
 namespace BWAI { class BuildingToMake; }
 
 namespace BuildOrder { class Root; }
+namespace BuildOrder { class Command; }
+namespace BuildOrder { class Branch; }
 
 namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
@@ -46,8 +52,13 @@ namespace BWAI
       std::list<TaskGather*> activeMinerals;
       std::list<TaskBuild*> plannedBuildings;
       BuildOrder::Root *root;
-   private :
+      std::list<BuildOrder::Command*>::iterator actualPosition;
+      BuildOrder::Branch* actualBranch;
+      
+      std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
+      BW::TilePosition getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
+   private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
       Unit* first;

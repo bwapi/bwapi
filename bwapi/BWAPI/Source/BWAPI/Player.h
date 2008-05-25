@@ -2,6 +2,7 @@
 
 #include <list>
 #include "../Types.h"
+#include "Race.h"
 namespace BW { struct Unit; };
 
 namespace BWAPI
@@ -44,6 +45,9 @@ namespace BWAPI
     s32   getSuppliesUsedZergLocal();
     void  useSuppliesZergLocal(u8 supplies);
     s32   freeSuppliesZergLocal();
+    
+    s32 freeSuppliesLocal(BWAPI::Race::Enum race);
+    s32 usedSuppliesLocal(BWAPI::Race::Enum race);
 
     /** 
     * List of units owned by the current player, this structure owns (so the player needs 

@@ -16,6 +16,8 @@ namespace BW
       bool operator != (BW::TilePosition& TilePosition);
       u16 x;
       u16 y;
+      bool isValid();
+      static TilePosition Invalid;
   };
 };
 

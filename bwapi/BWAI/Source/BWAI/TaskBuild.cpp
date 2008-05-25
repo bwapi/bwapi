@@ -52,7 +52,7 @@ namespace BWAI
       if (this->executors.front()->getDistance(center) > 100)
       {
         if (this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
-            this->executors.front()->getDistance(center) > 300)
+            this->executors.front()->getTargetPositionLocal().getDistance(center) > 200)
         {
           this->executors.front()->orderRightClick(center);
           BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), center.x, center.y);

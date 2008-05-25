@@ -176,4 +176,16 @@ namespace BW
     return this->id < 228;
   }
   //----------------------------------------------------------------------------
+  BWAPI::Race::Enum UnitType::getRace()
+  {
+    if (this->isZerg())
+      return BWAPI::Race::Zerg;
+    else if (this->isProtoss())
+      return BWAPI::Race::Protoss;
+    else if (this->isTerran())
+      return BWAPI::Race::Terran;
+    else
+      return BWAPI::Race::Other;
+  }
+  //----------------------------------------------------------------------------
 };

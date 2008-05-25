@@ -7,6 +7,8 @@
 #include "Bitmask.h"
 #include "UnitID.h"
 
+#include "../BWAPI/Race.h"
+
 namespace BW
 {
   /** 
@@ -59,6 +61,7 @@ namespace BW
                                             * BWAPI::Unit that will take unit instance specific things
                                             * like Not borrowed, not statised, not mealstormed, not under construction.
                                             */
+    BWAPI::Race::Enum     getRace();                                            
     bool isValid();
   private :
     BW::UnitID::Enum id;
