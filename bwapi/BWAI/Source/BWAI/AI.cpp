@@ -16,6 +16,9 @@
 #include "MapInfo.h"
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
+#include "BuildingPosition.h"
+
+#include "../BuildOrder/Root.h"
 
 #include "../../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../../BWAPI/Source/BWAPI/Player.h"
@@ -87,10 +90,10 @@ namespace BWAI
          this->log->log("Starting position is (%s) at (%d, %d)", this->startingPosition->expansion->getID().c_str(), 
                                                                  this->startingPosition->expansion->getPosition().x, 
                                                                  this->startingPosition->expansion->getPosition().y);
-         for (std::list<BW::TilePosition>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
+         /*for (std::list<BW::TilePosition>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
               j != this->startingPosition->nonProducing3X2BuildingPositions.end(); 
               ++j)
-           this->log->log("3X2 building at (%d, %d)", (*j).x, (*j).y);
+           this->log->log("3X2 building at (%d, %d)", (*j).x, (*j).y);*/
         }
       }
       mapInfo->saveDefinedBuildingsMap();
@@ -150,10 +153,14 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     this->first = NULL;
+    
+    this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));
   }
   //-------------------------------- DESTRUCTOR -------------------------------
   AI::~AI(void)
   {
+    delete root;
+  
     for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
       delete *i;
       
@@ -437,22 +444,23 @@ namespace BWAI
         player->freeSuppliesTerranLocal() + plannedTerranSupplyGain() < 400)
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->freeSuppliesTerranLocal(), plannedTerranSupplyGain());
-      for (std::list<BW::TilePosition>::iterator i = this->startingPosition->nonProducing3X2BuildingPositions.begin();
-          i != this->startingPosition->nonProducing3X2BuildingPositions.end();
-          ++i)
+      BuildingPosition* buildingPosition= this->startingPosition->positions["non-producting-3X2"];
+      for (std::list<BW::TilePosition>::iterator i = buildingPosition->positions.begin();
+           i != buildingPosition->positions.end();
+           ++i)
       {
         int occupiedCount = 0;
         Unit* lastOccupied = NULL;
-        for (int j = (*i).x; 
-              j < (*i).x + BW::UnitType(BW::UnitID::Terran_SupplyDepot).getTileWidth(); 
-              j++)
-          for (int k = (*i).y; 
-               k < (*i).y + BW::UnitType(BW::UnitID::Terran_SupplyDepot).getTileHeight(); 
-               k++)
-            if (BWAPI::Broodwar.unitsOnTile[j][k].size() > 0)
+        for (int k = (*i).x; 
+              k < (*i).x + buildingPosition->tileWidth; 
+              k++)
+          for (int l = (*i).y; 
+               l < (*i).y + buildingPosition->tileWidth; 
+               l++)
+            if (BWAPI::Broodwar.unitsOnTile[k][l].size() > 0)
             {
               occupiedCount ++;
-              lastOccupied = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[j][k].front());
+              lastOccupied = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
             }
         if (
              occupiedCount == 0 || 

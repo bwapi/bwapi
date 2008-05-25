@@ -17,21 +17,25 @@
             <case probability-weight="2">
               <do>
                 <jump-to name="bunker-push" />
-                <!-- is not here just a sample --></do>
+                <!-- is not here just a sample -->
+              </do>
             </case>
             <case probability-weight ="1">
               <do>
                 <jump-to name="scv-marine-rush" />
-                <!-- is not here just a sample --></do>
+                <!-- is not here just a sample -->
+              </do>
             </case>
             <case probability-weight ="4">
               <do>
                 <jump-to name="contain" />
-                <!-- is not here just a sample --></do>
+                <!-- is not here just a sample -->
+              </do>
             </case>
             <case probability-weight="5">
               <do />
-              <!-- this will mean to continue normally --></case>
+              <!-- this will mean to continue normally -->
+            </case>
           </decide>
         </do>
       </case>

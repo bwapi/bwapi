@@ -11,6 +11,8 @@ namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
 namespace BWAI { class BuildingToMake; }
 
+namespace BuildOrder { class Root; }
+
 namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
 
@@ -43,14 +45,19 @@ namespace BWAI
       
       std::list<TaskGather*> activeMinerals;
       std::list<TaskBuild*> plannedBuildings;
+      BuildOrder::Root *root;
    private :
       BWAPI::Player* player;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
+      Unit* first;
+      Util::Logger* deadLog;      
+      MapInfo *mapInfo;
+      MapStartingPosition* startingPosition;
+      
       void startNewExpansion(Unit *gatherCenter);
       void rebalanceMiners();
       void checkAssignedWorkers();
-      Unit* first;
       void checkNewExpansions();
       void refreshSelectionStates(BW::Unit** selected);
       /** 
@@ -58,13 +65,9 @@ namespace BWAI
        * @returns something happened (so reselect is needed)
        */
       bool performAutoBuild();
-      /** Don't mix-up with deadlock. */
-      Util::Logger* deadLog;
       void getIdleWorkers(std::list<Unit*> &workers);
       void checkWorkersNeed();
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
-      MapInfo *mapInfo;
-      MapStartingPosition* startingPosition;
       int countOfTerranProductionBuildings();
       void checkSupplyNeed();
       /** @todo investigate and use the nextSupply provider here. */ 

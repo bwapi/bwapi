@@ -10,6 +10,7 @@
 #include "AI.h"
 #include "Globals.h"
 #include "Unit.h"
+#include "BuildingPosition.h"
 
 #include "../../../BWAPI/Source/BWAPI/Map.h"
 #include "../../../BWAPI/Source/BWAPI/Game.h"
@@ -82,21 +83,28 @@ namespace BWAI
          i != this->startingPositions.end();
          ++i)
     {
-      for (std::list<BW::TilePosition>::iterator j = (*i)->nonProducing3X2BuildingPositions.begin();
-           j != (*i)->nonProducing3X2BuildingPositions.end();
-           ++j)
-      {
-        StringUtil::makeWindow(buildability, (*j).x, (*j).y, 3, 2, 1);
-        for (int x = 0; x < 3; x++)
-          for (int y = 0; y < 2; y++)
-            counts[x + (*j).x][y + (*j).y]++;
+      for (std::map<std::string, BuildingPosition*>::iterator l = (*i)->positions.begin();
+           l != (*i)->positions.end();
+           ++l)
+      {           
+        BuildingPosition* positions = (*l).second;
+        for (std::list<BW::TilePosition>::iterator j = positions->positions.begin();
+             j != positions->positions.end();
+             ++j)
+        {
+          StringUtil::makeWindow(buildability, (*j).x, (*j).y, positions->tileWidth, positions->tileHeight, 1);
+          StringUtil::printTo(buildability, positions->shortcut, (*j).x + 1, (*j).y + 1);
+          for (int x = 0; x < positions->tileWidth; x++)
+            for (int y = 0; y < positions->tileHeight; y++)
+              counts[x + (*j).x][y + (*j).y]++;
+        }
       }
-      unsigned int startX = (*i)->expansion->getPosition().x/BW::TileSize - 2;
+     unsigned int startX = (*i)->expansion->getPosition().x/BW::TileSize - 2;
       unsigned int startY = ((*i)->expansion->getPosition().y - 45)/BW::TileSize;
       StringUtil::makeWindow(buildability, startX, startY, 4, 3, 0);
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 3; y++)
-            counts[x + startX][y + startY]++;
+            counts[x + startX][y + startY]++;      
     }
     for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
     {
