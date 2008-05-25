@@ -1,5 +1,5 @@
 #pragma once
-#include "../../BWAPI/Source/BWAPI/Game.h"
+#include "../../../BWAPI/Source/BWAPI/Game.h"
 #include <list>
 
 namespace Util { class Logger; }

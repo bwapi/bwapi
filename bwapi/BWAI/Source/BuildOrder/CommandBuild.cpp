@@ -1,6 +1,7 @@
 #include "CommandBuild.h"
 
 #include <Exceptions.h>
+#include <StringUtil.h>
 
 namespace BuildOrder
 {
@@ -16,6 +17,11 @@ namespace BuildOrder
     if (buildPlace == NULL)
       throw XmlException("Expected attribute place in <build> element");
     this->place = buildPlace;
+    
+    const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
+    if (minimalPopulationAttribute == NULL)
+      throw XmlException("Expected attribute minimal-population in <build> element");
+    this->minimalPopulation = StringUtil::stringToInt(minimalPopulationAttribute);
   }
   //---------------------------------------------------------------------------
 }
