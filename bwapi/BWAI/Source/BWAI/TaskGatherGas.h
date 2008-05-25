@@ -4,18 +4,18 @@ namespace BWAI { class Expansion; }
 
 namespace BWAI
 {
-  class TaskGather : public Task
+  class TaskGatherGas : public Task
   {
     public :
-      TaskGather(Unit* mineral, Expansion* expansion);
-      virtual ~TaskGather();
+      TaskGatherGas(Unit* refinery, Expansion* expansion);
+      virtual ~TaskGatherGas();
       bool execute();
       TaskType::Enum getType();
       
-      Unit* getMineral();
+      Unit* getRefinery();
       Expansion* getExpansion();
     private :  
-      BWAI::Unit* mineral;
+      BWAI::Unit* refinery;
       Expansion* expansion;
   };
 }

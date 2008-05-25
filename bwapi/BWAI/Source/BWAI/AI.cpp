@@ -538,7 +538,7 @@ namespace BWAI
       }
     if (best == NULL)
       return NULL;
-
+ 
     this->log->log("%s was freed from it's task to do something else", best->getName().c_str());
     best->freeFromTask();
     return best;
@@ -594,30 +594,46 @@ namespace BWAI
            ++i)
       {
         int occupiedCount = 0;
-        Unit* lastOccupied = NULL;
+        Unit* occupied = NULL;
         for (int k = (*i).x; 
               k < (*i).x + position->tileWidth; 
               k++)
           for (int l = (*i).y; 
                l < (*i).y + position->tileWidth; 
                l++)
-            if (BWAPI::Broodwar.unitsOnTile[k][l].size() > 0)
+            if (!BWAPI::Broodwar.unitsOnTile[k][l].empty())
             {
               occupiedCount ++;
-              lastOccupied = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
+              if (BWAPI::Broodwar.unitsOnTile[k][l].size() == 1)
+                {
+                  if (occupied != NULL &&
+                      occupied->getIndex() == BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex())
+                    occupiedCount--;
+                  occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
+                }
+              else
+                occupiedCount = 2;
             }
         if (
              occupiedCount == 0 || 
              (
                occupiedCount == 1 &&
-               lastOccupied->getType().isWorker() &&
-               lastOccupied->getTask() == NULL &&
-               lastOccupied->getOrderID() == BW::OrderID::Guard
+               occupied->getType().isWorker() &&
+               occupied->getTask() == NULL &&
+               occupied->getOrderID() == BW::OrderID::Guard
+             ) ||
+             (
+               occupiedCount == 1 &&
+               occupied->getType() == BW::UnitID::Resource_VespeneGeyser
              )
            )
         {
           this->log->log("Found free spot for " + spotName + " at (%d,%d)", (*i).x, (*i).y);
-          builderToUse = lastOccupied;
+          if (occupied != NULL &&
+              occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
+            builderToUse = occupied;
+          else
+            builderToUse = NULL;
           return *i;
         }
       } 

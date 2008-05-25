@@ -114,7 +114,8 @@ namespace BWAI
            l++)
         if (BWAPI::Broodwar.unitsOnTile[k][l].empty() == false &&
              (
-               BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex() != this->executors.front()->getIndex() ||
+               BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex() != this->executors.front()->getIndex() &&
+               BWAPI::Broodwar.unitsOnTile[k][l].front()->getType() != BW::UnitID::Resource_VespeneGeyser ||
                BWAPI::Broodwar.unitsOnTile[k][l].size() != 1
              )
            )

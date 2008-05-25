@@ -7,6 +7,7 @@ namespace BWAI
     enum Enum
     {
       Gather,
+      GatherGas,
       Build
     };
   }

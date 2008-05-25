@@ -189,6 +189,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskGatherGas.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Unit.h"
 					>
 				</File>
@@ -236,6 +240,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\TaskGather.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\TaskGatherGas.cpp"
 					>
 				</File>
 				<File

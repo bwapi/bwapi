@@ -3,6 +3,7 @@
 #include <list>
 
 namespace BWAI { class TaskGather; };
+namespace BWAI { class TaskGatherGas; };
 namespace BWAI { class Unit; };
 
 namespace BWAI
@@ -15,6 +16,7 @@ namespace BWAI
       
       BWAI::Unit* gatherCenter;
       std::list<TaskGather*> minerals;
+      std::list<TaskGatherGas*> gasMine;
       
       void removeMineral(Unit* mineral);
       static int maximumMineralDistance;
