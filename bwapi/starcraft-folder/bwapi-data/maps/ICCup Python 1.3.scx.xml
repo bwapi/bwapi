@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <map-description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	               xsi:noNamespaceSchemaLocation='map-info.xsd'>
+	               xsi:noNamespaceSchemaLocation="map-info.xsd">
   <expansions>
-    <expansion id="12 o'clock">
+    <expansion id="12 oclock">
       <position x="2720" y="240"/>
     </expansion>
-    <expansion id="12 oclock' natural">
+    <expansion id="12 oclock natural">
       <position x="1600" y="272"/>
     </expansion>
-    <expansion id="9 o'clock">
+    <expansion id="9 oclock">
       <position x="320" y="2768"/>
     </expansion>
-    <expansion id="9 o'clock natural">
+    <expansion id="9 oclock natural">
       <position x="288" y="1872"/>
     </expansion>
-    <expansion id="6 o'clock">
+    <expansion id="6 oclock">
       <position x="1408" y="3856"/>
     </expansion>
-    <expansion id="6 o'clock natural">
+    <expansion id="6 oclock natural">
       <position x="2464" y="3824"/>
     </expansion>
-    <expansion id="3 o'clock">
+    <expansion id="3 oclock">
       <position x="3776" y="1328"/>
     </expansion>
-    <expansion id="3 o'clock natural">
+    <expansion id="3 oclock natural">
       <position x="3808" y="2160"/>
     </expansion>
     <expansion id="top-left">
@@ -35,10 +35,9 @@
     </expansion>
   </expansions>
   <starting-positions>
-    
-    <starting-position expansion-id="3 o'clock" >
+    <starting-position expansion-id="3 oclock" >
       <standard-building-placement>
-        <non-producting-3x2>
+        <build-position name="non-producting-3X2" width="3" height="2">
           <position x="125" y="25"/>
           <position x="125" y="27"/>
           <position x="125" y="29"/>
@@ -57,12 +56,20 @@
           <position x="119" y="31"/>
           <position x="119" y="33"/>
           <position x="116" y="33"/>
-        </non-producting-3x2>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="115" y="48"/>
+          <position x="111" y="48"/>
+          <position x="107" y="48"/>
+          <position x="115" y="51"/>
+          <position x="111" y="51"/>
+          <position x="107" y="51"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
-    <starting-position expansion-id="6 o'clock">
+    <starting-position expansion-id="6 oclock">
      <standard-building-placement>
-        <non-producting-3x2>
+        <build-position name="non-producting-3X2" width="3" height="2">
           <position x="26" y="122"/>
           <position x="26" y="120"/>
           <position x="26" y="118"/>
@@ -79,12 +86,20 @@
           <position x="26" y="110"/>
           <position x="29" y="110"/>
           <position x="32" y="110"/>
-        </non-producting-3x2>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="50" y="119"/>
+          <position x="50" y="116"/>
+          <position x="50" y="113"/>
+          <position x="54" y="119"/>
+          <position x="54" y="116"/>
+          <position x="54" y="113"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
-    <starting-position expansion-id="9 o'clock" >
+    <starting-position expansion-id="9 oclock" >
       <standard-building-placement>
-        <non-producting-3x2>
+        <build-position name="non-producting-3X2" width="3" height="2">
           <position x="0" y="90"/>
           <position x="0" y="92"/>
           <position x="0" y="94"/>
@@ -104,12 +119,20 @@
           <position x="6" y="98"/>
           <position x="6" y="100"/>
           <position x="9" y="90"/>
-        </non-producting-3x2>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="6"  y="74"/>
+          <position x="10" y="74"/>
+          <position x="14" y="74"/>
+          <position x="18" y="74"/>
+          <position x="6"  y="77"/>
+          <position x="10" y="77"/>
+        </build-position>        
       </standard-building-placement>
     </starting-position>
-    <starting-position expansion-id="12 o'clock">
+    <starting-position expansion-id="12 oclock">
       <standard-building-placement>
-        <non-producting-3x2>
+        <build-position name="non-producting-3X2" width="3" height="2">
           <position x="97" y="0"/>
           <position x="97" y="2"/>
           <position x="94" y="0"/>
@@ -130,7 +153,15 @@
           <position x="96" y="16"/>
           <position x="93" y="16"/>
           <position x="90" y="16"/>
-        </non-producting-3x2>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="73"  y="2"/>
+          <position x="73"  y="5"/>
+          <position x="73"  y="8"/>
+          <position x="77"  y="2"/>
+          <position x="77"  y="5"/>
+          <position x="77"  y="8"/>
+        </build-position>        
       </standard-building-placement>
     </starting-position>
   </starting-positions>

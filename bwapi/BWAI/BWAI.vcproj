@@ -153,6 +153,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\BuildingPosition.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Expansion.h"
 					>
 				</File>
@@ -199,6 +203,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\BuildingPosition.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Expansion.cpp"
 					>
 				</File>
@@ -242,6 +250,54 @@
 					RelativePath=".\Source\BWAI\TaskType.h"
 					>
 				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="BuildOrder"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\Source\BuildOrder\Branch.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\Command.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandBuild.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\Root.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\Source\BuildOrder\Branch.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\Command.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandBuild.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\Root.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Enumerations"
+				>
 			</Filter>
 		</Filter>
 	</Files>

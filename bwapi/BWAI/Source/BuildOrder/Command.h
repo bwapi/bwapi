@@ -1,0 +1,6 @@
+namespace BuildOrder
+{
+  class Command
+  {
+  };
+}

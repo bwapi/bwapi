@@ -1,10 +1,14 @@
 #pragma once
+
 #include <list>
+#include <map>
+
 #include "../../BWAPI/Source/BW/TilePosition.h"
 
 class TiXmlElement;
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapExpansion; }
+namespace BWAI { class BuildingPosition; }
 
 namespace BWAI
 {
@@ -12,7 +16,8 @@ namespace BWAI
   {
     public :
      MapStartingPosition(TiXmlElement* xmlElement, MapInfo* mapInfo);
-     std::list<BW::TilePosition> nonProducing3X2BuildingPositions;
+     ~MapStartingPosition();
+     std::map<std::string, BuildingPosition*> positions;
      MapExpansion* expansion;
   };
 }

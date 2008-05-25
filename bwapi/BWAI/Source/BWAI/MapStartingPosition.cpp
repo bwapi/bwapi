@@ -4,6 +4,7 @@
 #include <tinyXml.h>
 
 #include "MapInfo.h"
+#include "BuildingPosition.h"
 namespace BWAI
 {
   //------------------------------- CONSTRUCTOR -------------------------------
@@ -19,13 +20,23 @@ namespace BWAI
       throw XmlException("Expected element <standard-building-placement> in <starting-position>");
     TiXmlElement* root = node->ToElement();
     
-    TiXmlNode* nonProducing3X2= root->FirstChild("non-producting-3x2");
-    if (nonProducing3X2 == NULL)
-      throw XmlException("Expected element <non-producting-3x2> in <standard-building-placement>");
-    
-    for (TiXmlElement* position = nonProducing3X2->FirstChildElement("position"); position != NULL; position = position->NextSiblingElement("position"))
-      this->nonProducing3X2BuildingPositions.push_back(BW::TilePosition(position));
-
+    for (TiXmlElement* buildPositionElement = root->FirstChildElement("build-position"); buildPositionElement != NULL; buildPositionElement = buildPositionElement->NextSiblingElement("build-position"))
+    {
+      const char * nameAttribute = buildPositionElement->Attribute("name");
+      
+      if (nameAttribute == NULL)
+        throw XmlException("Expected attribute name in <build-position> element");
+      
+      this->positions.insert(std::pair<std::string, BuildingPosition* >(nameAttribute, new BuildingPosition(buildPositionElement)));
+    }
+  }
+  //---------------------------------------------------------------------------
+  MapStartingPosition::~MapStartingPosition()
+  {
+    for (std::map<std::string, BuildingPosition*>::iterator i = this->positions.begin();
+         i != this->positions.end();
+         i++)
+     delete (*i).second;
   }
   //---------------------------------------------------------------------------
 }
