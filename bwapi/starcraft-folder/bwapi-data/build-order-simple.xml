@@ -9,6 +9,8 @@
     <build name="Terran Barracks" place="barracks" minimal-population="11"/>
     <build name="Terran Barracks" place="barracks" minimal-population="13"/>
     <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="21"/>
+    <build name="Terran Engineering Bay" place="engineering-bay" minimal-population="21"/>
+    <build name="Terran Refinery" place="refinery" minimal-population="21"/>
+    <build name="Terran Academy" place="academy" minimal-population="21"/>
   </build-order>
 </build-orders>

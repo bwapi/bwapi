@@ -49,7 +49,10 @@ namespace BuildOrder
       
       if (position.isValid())
         BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
+      else
+        BWAI::ai->log->log("Didn't find spot to build " + this->name);
       return true;
+
     }
     return false;
   }

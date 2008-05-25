@@ -65,8 +65,17 @@
           <position x="111" y="51"/>
           <position x="107" y="51"/>
         </build-position>
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="105" y="40"/>
+        </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="66"/>
+        </build-position>
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="116" y="35"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="111" y="40"/>
         </build-position>
       </standard-building-placement>
     </starting-position>
@@ -101,6 +110,15 @@
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="75" y="118"/>
         </build-position>
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="40" y="108"/>
+        </build-position>
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="42" y="114"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="37" y="108"/>
+        </build-position>        
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="9 oclock" >
@@ -137,6 +155,15 @@
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="7" y="57"/>
         </build-position>        
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="21" y="81"/>
+        </build-position>      
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="8" y="80"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="18" y="84"/>
+        </build-position>  
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="12 oclock">
@@ -173,7 +200,16 @@
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="48" y="7"/>
-        </build-position>                
+        </build-position>
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="85" y="15"/>
+        </build-position>
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="83" y="1"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="81" y="12"/>
+        </build-position>                      
       </standard-building-placement>
     </starting-position>
   </starting-positions>
