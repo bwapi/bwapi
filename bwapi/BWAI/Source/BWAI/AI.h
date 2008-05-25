@@ -59,6 +59,7 @@ namespace BWAI
       BWAPI::Player* player;
       BW::TilePosition getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       BuildingPosition* AI::getPositionsCalled(const std::string& place);
+      u16 moneyToBeSpentOnBuildings;
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;

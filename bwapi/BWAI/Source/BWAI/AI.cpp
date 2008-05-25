@@ -62,6 +62,12 @@ namespace BWAI
     this->first = Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
     if (this->first != NULL)
       this->first->updateNext();
+    this->moneyToBeSpentOnBuildings = 0;
+    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
+         i != this->plannedBuildings.end();
+         ++i)
+      if ((*i)->getBuilding() == NULL)
+        this->moneyToBeSpentOnBuildings += (*i)->getBuildingType().getMineralPrice();
   }
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
@@ -157,6 +163,7 @@ namespace BWAI
   ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::Normal))
   ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
   ,root(NULL)
+  ,moneyToBeSpentOnBuildings(0)
   {
     try
     {
@@ -382,7 +389,7 @@ namespace BWAI
                  player->freeSuppliesZergLocal() >= typeToBuild.getSupplies()
                )
              ) &&
-             player->getMineralsLocal() >= typeToBuild.getMineralPrice() &&
+             player->getMineralsLocal() - this->moneyToBeSpentOnBuildings >= typeToBuild.getMineralPrice() &&
              player->getGasLocal() >= typeToBuild.getGasPrice()
            )
         {
@@ -410,7 +417,6 @@ namespace BWAI
              ) &&
              !i->selected &&
              (i->getType().isWorker()) &&
-              i->expansion == NULL &&
               i->getTask() == NULL)
           workers.push_back(i); 
       }
@@ -557,8 +563,8 @@ namespace BWAI
         ++i;
     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
       (*i)->execute();
-    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      (*i)->execute();
+  /*  for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
+      (*i)->execute();*/
   }
   //---------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)

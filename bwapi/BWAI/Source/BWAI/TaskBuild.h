@@ -25,7 +25,7 @@ namespace BWAI
       bool execute();
       BW::UnitType getBuildingType();
       TaskType::Enum getType();
-      
+      Unit* getBuilding();
     private :  
       BW::UnitType buildingType;
       BW::TilePosition position;
