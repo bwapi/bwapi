@@ -5,5 +5,7 @@
   <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
     <build name="Terran Barracks" place="barracks" minimal-population="11"/>
     <build name="Terran Barracks" place="barracks" minimal-population="13"/>
+    <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="21"/>
   </build-order>
 </build-orders>

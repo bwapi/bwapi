@@ -263,6 +263,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\BuildWeights.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Command.h"
 					>
 				</File>
@@ -280,6 +284,10 @@
 				>
 				<File
 					RelativePath=".\Source\BuildOrder\Branch.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\BuildWeights.cpp"
 					>
 				</File>
 				<File
