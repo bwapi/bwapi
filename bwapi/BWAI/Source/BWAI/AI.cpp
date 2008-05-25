@@ -141,6 +141,7 @@ namespace BWAI
   ,startingPosition(NULL)
   ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::Normal))
   ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
+  ,root(NULL)
   {
     try
     {
@@ -154,7 +155,14 @@ namespace BWAI
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     this->first = NULL;
     
-    this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));
+    try
+    {
+      this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));    
+    }
+    catch (GeneralException& exception)
+    {
+      Util::Logger::globalLog->log("Error when loading build order: " + exception.getMessage());
+    }
   }
   //-------------------------------- DESTRUCTOR -------------------------------
   AI::~AI(void)
