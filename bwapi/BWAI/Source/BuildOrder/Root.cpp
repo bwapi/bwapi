@@ -33,6 +33,8 @@ namespace BuildOrder
     for (std::list<Branch*>::iterator i = this->buildOrders.begin(); i != this->buildOrders.end(); ++i)
       delete *i;
     this->buildOrders.clear();
+    for (std::map<std::string, std::pair<BW::UnitType,int>* >::iterator i = this->weights.begin(); i != this->weights.end(); ++i)
+      delete (*i).second;
   }
   //---------------------------------------------------------------------------
 }

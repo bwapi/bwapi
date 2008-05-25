@@ -65,6 +65,9 @@
           <position x="111" y="51"/>
           <position x="107" y="51"/>
         </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="121" y="66"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="6 oclock">
@@ -94,6 +97,9 @@
           <position x="54" y="119"/>
           <position x="54" y="116"/>
           <position x="54" y="113"/>
+        </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="75" y="118"/>
         </build-position>
       </standard-building-placement>
     </starting-position>
@@ -127,6 +133,9 @@
           <position x="18" y="74"/>
           <position x="6"  y="77"/>
           <position x="10" y="77"/>
+        </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="6" y="57"/>
         </build-position>        
       </standard-building-placement>
     </starting-position>
@@ -161,7 +170,10 @@
           <position x="77"  y="2"/>
           <position x="77"  y="5"/>
           <position x="77"  y="8"/>
-        </build-position>        
+        </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="48" y="7"/>
+        </build-position>                
       </standard-building-placement>
     </starting-position>
   </starting-positions>

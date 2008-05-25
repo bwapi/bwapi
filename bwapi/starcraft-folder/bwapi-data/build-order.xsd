@@ -30,6 +30,19 @@
            <xs:attribute name="minimal-population" type="xs:int" use="required"/>
          </xs:complexType>
        </xs:element>
+       <xs:element name="set-building-rate">
+         <xs:complexType>
+           <xs:sequence>
+             <xs:element name="build">
+               <xs:complexType>
+                 <xs:attribute name="name" type="xs:string" use="required" />
+                 <xs:attribute name="weight" type="xs:int" use="required" />
+               </xs:complexType>
+             </xs:element>
+           </xs:sequence>
+           <xs:attribute name="name" type="xs:string" use="required"/>
+         </xs:complexType>
+       </xs:element>
      </xs:choice>
      <xs:attribute name="type" />
      <xs:attribute name="name" />
