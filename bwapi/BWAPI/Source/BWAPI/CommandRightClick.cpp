@@ -28,6 +28,15 @@ namespace BWAPI
               targetUnit->isMineral()
            )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
+
+        else if (this->executors[i]->getType().isWorker() && 
+                  (
+                    targetUnit->getType() == BW::UnitID::Terran_Refinery ||
+                    targetUnit->getType() == BW::UnitID::Protoss_Assimilator ||
+                    targetUnit->getType() == BW::UnitID::Zerg_Extractor
+                  )
+                )
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::HarvestGas1;
  
         else if ((this->executors[i]->getType().canAttack()) && 
                  targetUnit->getOwner() != executors[i]->getOwner())
