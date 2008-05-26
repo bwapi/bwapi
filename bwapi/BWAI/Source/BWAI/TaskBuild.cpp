@@ -56,6 +56,13 @@ namespace BWAI
         this->building = executors.front()->getOrderTarget();
         BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
       }
+    if (this->building != NULL &&
+        !this->executors.empty() &&
+        this->executors.front()->getOrderTargetLocal() != this->building)
+    {
+       this->executors.front()->orderRightClick(this->building);
+       BWAI::ai->log->log("(%s) Builder died - taken new builder", building->getName().c_str());
+    }
     if (!this->executors.empty() && this->building == NULL)
     {
       if (!this->canIBuild(position))
