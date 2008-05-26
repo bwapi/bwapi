@@ -453,7 +453,10 @@ namespace BWAI
           i->getTask() == NULL &&
           i->getOrderID() == BW::OrderID::ConstructingBuilding &&
           i->getOrderTarget() != NULL)
-        this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), BW::TilePosition::Invalid, i, NULL));
+       {
+         this->log->log("Custom building added buildTask");         
+         this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), BW::TilePosition::Invalid, i, NULL));
+       }
           
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())

@@ -49,7 +49,8 @@ namespace BWAI
       if ((*i)->getOrderIDLocal() != BW::OrderID::HarvestGas1 &&
           (*i)->getOrderIDLocal() != BW::OrderID::HarvestGas2 &&
           (*i)->getOrderIDLocal() != BW::OrderID::HarvestGas3 &&
-          (*i)->getOrderIDLocal() != BW::OrderID::ReturnGas)
+          (*i)->getOrderIDLocal() != BW::OrderID::ReturnGas &&
+          (*i)->getOrderIDLocal() != BW::OrderID::ResetCollision2)
         (*i)->orderRightClick(refinery);
     return false;
   }
