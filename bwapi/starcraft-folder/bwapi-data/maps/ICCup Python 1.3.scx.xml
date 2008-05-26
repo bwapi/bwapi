@@ -38,12 +38,12 @@
     <starting-position expansion-id="3 oclock" >
       <standard-building-placement>
         <build-position name="non-producting-3X2" width="3" height="2">
-          <position x="125" y="25"/>
-          <position x="125" y="27"/>
-          <position x="125" y="29"/>
-          <position x="125" y="31"/>
+          <position x="125" y="35"/>
           <position x="125" y="33"/>
-          <position x="125" y="35"/>          
+          <position x="125" y="31"/>
+          <position x="125" y="29"/>
+          <position x="125" y="27"/>
+          <position x="125" y="25"/>
           <position x="122" y="25"/>
           <position x="122" y="27"/>
           <position x="122" y="29"/>
@@ -55,7 +55,13 @@
           <position x="119" y="29"/>
           <position x="119" y="31"/>
           <position x="119" y="33"/>
+          <position x="116" y="27"/>
+          <position x="116" y="29"/>
+          <position x="116" y="31"/>
           <position x="116" y="33"/>
+          <position x="113" y="29"/>
+          <position x="113" y="31"/>
+          <position x="113" y="33"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="115" y="48"/>
@@ -76,6 +82,9 @@
         </build-position>
         <build-position name="academy" width="3" height="2">
           <position x="111" y="40"/>
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="110" y="60"/>
         </build-position>
       </standard-building-placement>
     </starting-position>
@@ -98,6 +107,10 @@
           <position x="26" y="110"/>
           <position x="29" y="110"/>
           <position x="32" y="110"/>
+          <position x="32" y="116"/>
+          <position x="32" y="118"/>
+          <position x="32" y="120"/>
+          <position x="32" y="122"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="50" y="119"/>
@@ -118,7 +131,10 @@
         </build-position>
         <build-position name="academy" width="3" height="2">
           <position x="37" y="108"/>
-        </build-position>        
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="66" y="114"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="9 oclock" >
@@ -143,6 +159,10 @@
           <position x="6" y="98"/>
           <position x="6" y="100"/>
           <position x="9" y="90"/>
+          <position x="9" y="92"/>
+          <position x="9" y="94"/>
+          <position x="9" y="96"/>
+          <position x="9" y="98"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="6"  y="74"/>
@@ -163,6 +183,9 @@
         </build-position>
         <build-position name="academy" width="3" height="2">
           <position x="18" y="84"/>
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="10" y="62"/>
         </build-position>  
       </standard-building-placement>
     </starting-position>
@@ -189,6 +212,9 @@
           <position x="96" y="16"/>
           <position x="93" y="16"/>
           <position x="90" y="16"/>
+          <position x="91" y="0"/>
+          <position x="93" y="10"/>
+          <position x="91" y="14"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="73"  y="2"/>
@@ -209,6 +235,9 @@
         </build-position>
         <build-position name="academy" width="3" height="2">
           <position x="81" y="12"/>
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="58" y="11"/>
         </build-position>                      
       </standard-building-placement>
     </starting-position>

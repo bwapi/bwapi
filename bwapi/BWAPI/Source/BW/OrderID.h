@@ -183,7 +183,7 @@ namespace BW
                                       * Default Requirements: Unused. */
       ReturnGas              = 0x54, /**< Return order, has gas.
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
-      MoveToMinerals       = 0x55, /**< Move to harvest minerals.
+      MoveToMinerals         = 0x55, /**< Move to harvest minerals.
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
       HarvestMinerals2       = 0x56, /**< Can harvest minerals(one unit per field).
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
