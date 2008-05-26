@@ -43,9 +43,11 @@ namespace BWAI
     }
     if (this->executors.empty())
     {
+      BWAI::ai->log->log("Task to build (%s) has no builder - calling to free it", this->buildingType.getName());
       Unit* builder = ai->freeBuilder(this->position);
       if (builder)
         this->addExecutor(builder);
+      BWAI::ai->log->log("Executors.empty = %d", this->executors.empty());
     }
     
      if (this->building == NULL && 
@@ -58,20 +60,24 @@ namespace BWAI
       }
     if (this->building != NULL &&
         !this->executors.empty() &&
-        this->executors.front()->getOrderTargetLocal() != this->building)
+        this->executors.front()->getOrderTargetLocal() != this->building &&
+        !this->building->isCompleted())
     {
        this->executors.front()->orderRightClick(this->building);
-       BWAI::ai->log->log("(%s) Builder died - taken new builder", building->getName().c_str());
+       BWAI::ai->log->log("(%s) Builder died - new builder sent to finish", building->getName().c_str());
     }
     if (!this->executors.empty() && this->building == NULL)
     {
-      if (!this->canIBuild(position))
+      if (!this->position.isValid() ||
+          !this->canIBuild(position))
       {
         std::list<BW::TilePosition>::iterator i;
         for (i = alternatives->positions.begin();
              i != alternatives->positions.end();
              ++i)
-          if (this->canIBuild(*i))
+          if (!this->position.isValid())
+           this->position = *i;
+          else if (this->canIBuild(*i))
           {
             this->position = *i;
             break;
@@ -79,26 +85,39 @@ namespace BWAI
         if (i == this->alternatives->positions.end())
           return false;
       }
-      BW::Position center = this->position;
+      BW::Position center(this->position);
       center.x += (u16)(BW::TileSize*1.5);
       center.y += BW::TileSize;
-      // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
-      if (this->executors.front()->getDistance(center) > 100)
-      {
-        if (this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
-            this->executors.front()->getTargetPositionLocal().getDistance(center) > 300)
+      if (this->position.isValid())
+        // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
+        if (this->executors.front()->getDistance(center) > 100)
         {
-          this->executors.front()->orderRightClick(center);
-          BWAI::ai->log->log("(%s) sent to building position (%d,%d)", buildingType.getName(), center.x, center.y);
+          if (
+               (
+                 this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
+                 this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
+                 this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild
+               ) &&
+               (
+                  this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
+                  this->executors.front()->getTargetPositionLocal().getDistance(center) > 300
+               )
+             )
+          {
+            this->executors.front()->orderRightClick(center);
+            BWAI::ai->log->log("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName(), center.x, center.y);
+          }
         }
-      }
-      else
-        if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
-            this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-            this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
-            this->executors.front()->getOwner()->getMinerals() >= buildingType.getMineralPrice() &&
-            this->executors.front()->getOwner()->getGas() >= buildingType.getGasPrice())
-          this->executors.front()->build(this->position, buildingType);
+        else
+          if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
+              this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
+              this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
+              this->executors.front()->getOwner()->getMinerals() >= buildingType.getMineralPrice() &&
+              this->executors.front()->getOwner()->getGas() >= buildingType.getGasPrice())
+          {
+            BWAI::ai->log->log("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+            this->executors.front()->build(this->position, buildingType);
+          }
      
     }
     return false;

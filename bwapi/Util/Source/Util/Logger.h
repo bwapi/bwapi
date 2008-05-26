@@ -47,6 +47,8 @@ namespace Util
       bool log(const std::string& message, const T1& parameter1, const T2& parameter2, LogLevel::Enum logLevel = LogLevel::Normal);
       template <class T1, class T2, class T3>
       bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, LogLevel::Enum logLevel = LogLevel::Normal);
+      template <class T1, class T2, class T3, class T4>
+      bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, const T4& parameter4, LogLevel::Enum logLevel = LogLevel::Normal);
       void setFileName(const std::string& name);
     private :
       std::string name;
@@ -127,4 +129,29 @@ namespace Util
       globalLog->log(message, parameter1, parameter2, parameter3, logLevel);
     return true;
   }
+  //------------------------------- LOG -----------------------------------------
+  template <class T1, class T2, class T3, class T4>
+  bool Logger::log(const std::string&   message, 
+                   const T1&            parameter1, 
+                   const T2&            parameter2, 
+                   const T3&            parameter3, 
+                   const T4&            parameter4, 
+                         LogLevel::Enum logLevel)
+  {
+    if (levelToLog > this->levelToLog)
+      return true;
+    char time[9];
+    _strtime(time);
+    FILE *f = fopen(name.c_str(),"at");
+    if (!f)
+      return false;
+    fprintf(f, "%s ", time);
+    fprintf(f, message.c_str(), parameter1, parameter2, parameter3, parameter4);
+    fprintf(f, "\n");
+    fclose(f);
+    if (globalLog != NULL &&
+        this != globalLog)
+      globalLog->log(message, parameter1, parameter2, parameter3, parameter4, logLevel);
+    return true;
+  }  
 };

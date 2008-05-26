@@ -56,6 +56,67 @@ namespace BWAI
       return false;
     return false;
   }
+  //----------------------------- MINERAL VALUE -------------------------------
+  bool betterWorkerToFree(Unit*& worker1, Unit*& worker2, BW::Position buildingPosition)
+  {
+    if (worker2 == NULL)
+      return true;
+   
+    if (worker1->getTask() == NULL && worker2->getTask() != NULL)
+      return true;
+    if (worker1->getTask() != NULL && worker2->getTask() == NULL)
+      return false;
+    
+    if (worker1->getTask() != NULL)
+    {
+      if (worker1->getTask()->getType() == BWAI::TaskType::Gather &&
+          worker2->getTask()->getType() != BWAI::TaskType::Gather)
+        return true;
+
+      if (worker1->getTask()->getType() != BWAI::TaskType::Gather &&
+          worker2->getTask()->getType() == BWAI::TaskType::Gather)
+        return false;
+      if (worker1->getTask()->getType() == BWAI::TaskType::Gather)
+      {
+        if (((TaskGather*)worker1->getTask())->getExpansion() == 
+            ((TaskGather*)worker1->getTask())->getExpansion())
+        { /* This part prioritise scv's near the command center when they gather, so scv's in mineral line
+             Wont be taken, it causes them to be stucked there sometimes. */
+          if (worker2->getOrderID() == BW::OrderID::ReturnMinerals &&
+              worker1->getOrderID() == BW::OrderID::MoveToMinerals)
+            return true;
+          if (worker1->getOrderID() == BW::OrderID::ReturnMinerals &&
+              worker2->getOrderID() == BW::OrderID::MoveToMinerals)
+            return false;
+          u16 distance1 = ((TaskGather*)worker1->getTask())->getExpansion()->gatherCenter->getDistance(worker1);
+          u16 distance2 = ((TaskGather*)worker2->getTask())->getExpansion()->gatherCenter->getDistance(worker2);
+          if (distance1 < distance2)
+            return true;
+          if (distance1 > distance2)
+            return false;
+        }
+        else
+        {
+          u16 distance1 = ((TaskGather*)worker1->getTask())->getExpansion()->gatherCenter->getDistance(buildingPosition);
+          u16 distance2 = ((TaskGather*)worker2->getTask())->getExpansion()->gatherCenter->getDistance(buildingPosition);
+          if (distance1 < distance2)
+            return true;
+          if (distance1 > distance2)
+            return false;
+        }
+      }
+    }
+    
+ 
+    u16 distance1 = buildingPosition.getDistance(worker1->getPosition());
+    u16 distance2 = buildingPosition.getDistance(worker2->getPosition());
+ 
+    if (distance1 < distance2)
+      return true;
+    if (distance1 > distance2)
+      return false;
+    return false;
+  }
   //------------------------------- UPDATE ------------------------------------
   void AI::update(void)
   {
@@ -523,29 +584,18 @@ namespace BWAI
         returnValue += 10;
     return returnValue;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------- FREE BUILDER --------------------------------
   Unit* AI::freeBuilder(BW::Position position)
   {
     Unit* best = NULL;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (
-           i->getOwner() == player &&
-           i->getType().isWorker() &&
-           (
-             i->getTask() == NULL ||
-             i->getTask()->getType() == TaskType::Gather
-           )
-         )
-      {
-        if (best == NULL)
+      if (i->getOwner() == player && i->getType().isWorker())
+        if (betterWorkerToFree(i, best, position))
           best = i;
-        else
-          if (best->getDistance(position) > i->getDistance(position))
-            best = i;
-      }
+
     if (best == NULL)
       return NULL;
- 
+
     this->log->log("%s was freed from it's task to do something else", best->getName().c_str());
     best->freeFromTask();
     return best;

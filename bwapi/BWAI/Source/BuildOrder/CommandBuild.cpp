@@ -43,14 +43,14 @@ namespace BuildOrder
         BWAI::ai->player->usedSuppliesLocal(toBuild.getRace()) >= 2*this->minimalPopulation)
     {
       BWAI::ai->log->log("Conditions to build " + this->name + "fullfiled starting to build");
-      BWAI::Unit* scvToUse;
+      BWAI::Unit* scvToUse = NULL;
       BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
       BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
       
-      if (position.isValid())
+      //if (position.isValid())
         BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
-      else
-        BWAI::ai->log->log("Didn't find spot to build " + this->name);
+      /*else
+        BWAI::ai->log->log("Didn't find spot to build " + this->name);*/
       return true;
 
     }
