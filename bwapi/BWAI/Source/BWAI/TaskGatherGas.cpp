@@ -14,6 +14,7 @@ namespace BWAI
   ,refinery(refinery)
   ,expansion(expansion)
   {
+    BWAI::ai->log->log("TaskGatherGas::TaskGatherGas called");
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskGatherGas::~TaskGatherGas()
@@ -23,8 +24,6 @@ namespace BWAI
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskGatherGas::execute()
   {
-    if (!this->refinery)
-      return true;
     std::list<Unit*>::iterator i = this->executors.begin();
     while (i != this->executors.end())
       if ((*i)->getOrderIDLocal() != BW::OrderID::PlayerGuard &&
@@ -37,13 +36,15 @@ namespace BWAI
                                                                                                    (*i)->getName().c_str(),
                                                                                                     LogLevel::Detailed);
         this->freeExecutor(*i++);
-        ai->expansionsSaturated = false;
       }
       else
         i++;
 
     for (std::list<Unit*>::iterator i = this->executors.begin(); i != this->executors.end(); ++i)
-      if ((*i)->getOrderIDLocal() == BW::OrderID::PlayerGuard)
+      if ((*i)->getOrderIDLocal() != BW::OrderID::HarvestGas1 &&
+          (*i)->getOrderIDLocal() != BW::OrderID::HarvestGas2 &&
+          (*i)->getOrderIDLocal() != BW::OrderID::HarvestGas3 &&
+          (*i)->getOrderIDLocal() != BW::OrderID::ReturnGas)
         (*i)->orderRightClick(refinery);
     return false;
   }

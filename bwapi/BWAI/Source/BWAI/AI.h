@@ -8,6 +8,7 @@
 
 namespace Util { class Logger; }
 namespace BWAI { class Unit; }
+namespace BWAI { class TaskGatherGas; }
 namespace BWAI { class TaskGather; }
 namespace BWAI { class TaskBuild; }
 namespace BWAI { class Expansion; }
@@ -48,7 +49,8 @@ namespace BWAI
       Unit* getFirst();
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
-      
+
+      std::list<TaskGatherGas*> activeRefineries;      
       std::list<TaskGather*> activeMinerals;
       std::list<TaskBuild*> plannedBuildings;
       BuildOrder::Root *root;
@@ -89,5 +91,6 @@ namespace BWAI
       TaskGather* bestFor(Unit* gatherer);
       void removeExpansion(Expansion* expansion);
       void unsaturateGather();
+      void removeGatherGasTask(Unit* refinery);
   };
 }
