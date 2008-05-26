@@ -405,7 +405,6 @@ namespace BWAI
             i->expansion == NULL)
         {
           this->log->log("Starting new expansion - %s", i->getName().c_str(), LogLevel::Important);
-          this->expansionsSaturated = false;
           this->startNewExpansion(i);
         }
         else if (i->getOrderID() == BW::OrderID::BuildingLiftoff &&
@@ -464,7 +463,7 @@ namespace BWAI
   //------------------------------ GET IDLE WORKERS ---------------------------
   void AI::getIdleWorkers(std::list<Unit*>& workers)
   {
-    if (!this->expansionsSaturated)
+    //if (!this->expansionsSaturated)
       for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       {
         if (i->isReady() &&
@@ -491,19 +490,22 @@ namespace BWAI
       if (i->getOwner() == player &&
           i->getType().isWorker())
         workersTogether++;
-    if (workersTogether >= this->activeMinerals.size()*2.5 ||
+    if (workersTogether >= this->activeMinerals.size()*2.4 ||
         workersTogether >= 90)
     {
       this->expansionsSaturated = true;
       for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
         (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::None;
     }
+    else
+      if (workersTogether < this->activeMinerals.size()*2.4 &&
+          this->expansionsSaturated == true)
+        this->unsaturateGather();
   }
   //----------------------------- ASSIGN IDLE WORKERS TO MINERALS -------------
   void AI::assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers)
   {
-    if (!this->expansionsSaturated &&
-        this->activeMinerals.size() > 0)
+    if (this->activeMinerals.size() > 0)
       for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
       {
         TaskGather* best = bestFor(*i);
@@ -520,8 +522,7 @@ namespace BWAI
   {
     int countOfTerranFactories = 0;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->isReady() && 
-          i->getType().canProduce() &&
+      if (i->getType().canProduce() &&
           i->getOwner() == this->player &&
           i->getType().isTerran())
          countOfTerranFactories++;
@@ -700,6 +701,20 @@ namespace BWAI
   BuildingPosition* AI::getPositionsCalled(const std::string& place)
   {
     return this->startingPosition->positions[place];
+  }
+  //---------------------------------------------------------------------------
+  void AI::unsaturateGather()
+  {
+    this->expansionsSaturated = false;
+    for (std::list<Expansion*>::iterator i = this->expansions.begin();
+         i != this->expansions.end();
+         ++i)
+      switch ((*i)->gatherCenter->getType().getID())
+      {
+        case BW::UnitID::Terran_CommandCenter : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Terran_SCV; break;
+        case BW::UnitID::Protoss_Nexus        : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Protoss_Probe; break;
+        case BW::UnitID::Zerg_Hatchery        : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Zerg_Drone; break;
+      }
   }
   //---------------------------------------------------------------------------
 }
