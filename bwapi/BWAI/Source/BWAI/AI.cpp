@@ -9,6 +9,7 @@
 #include <RectangleArray.h>
 
 #include "Task.h"
+#include "TaskGatherGas.h"
 #include "TaskGather.h"
 #include "TaskBuild.h"
 #include "Unit.h"
@@ -206,6 +207,10 @@ namespace BWAI
       delete *i;
     this->plannedBuildings.clear();
     
+    for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
+      delete *i;
+    this->activeRefineries.clear();
+    
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       this->units[i]->clearTask();
@@ -327,6 +332,13 @@ namespace BWAI
        return;
      Unit* gatherer;
      anotherStep:
+     for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
+       if ((*i)->executors.size() < 3)
+       {
+         Unit* newUnitToGatherGas = this->freeBuilder((*i)->getRefinery()->getPosition());
+         if (newUnitToGatherGas != NULL)
+           (*i)->addExecutor(newUnitToGatherGas);
+       }
      TaskGather* best = activeMinerals.front();
      TaskGather* worst = activeMinerals.front();
      for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
@@ -375,6 +387,11 @@ namespace BWAI
     {
       if (dead->expansion != NULL)
         dead->expansion->removeMineral(dead);
+    }
+    else if (dead->getType() == BW::UnitID::Terran_Refinery)
+    {
+      if (dead->expansion != NULL)
+        this->removeGatherGasTask(dead);
     }
     else if (dead->getType().isWorker())
       if (dead->getTask())
@@ -608,6 +625,16 @@ namespace BWAI
     while (i != this->plannedBuildings.end())
       if ((*i)->execute())
       {
+        if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
+        {
+          this->log->log("Finished refinery");
+          Expansion *expansion = NULL;
+          for (std::list<Expansion*>::iterator j = this->expansions.begin(); j != this->expansions.end(); ++j)
+            if ((*j)->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
+              expansion = *j;
+          if (expansion != NULL)
+             this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
+        }
         delete *i;
         i = this->plannedBuildings.erase(i);
       }
@@ -615,8 +642,8 @@ namespace BWAI
         ++i;
     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
       (*i)->execute();
-  /*  for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      (*i)->execute();*/
+    for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
+      (*i)->execute();
   }
   //---------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)
@@ -714,6 +741,19 @@ namespace BWAI
         case BW::UnitID::Terran_CommandCenter : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Terran_SCV; break;
         case BW::UnitID::Protoss_Nexus        : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Protoss_Probe; break;
         case BW::UnitID::Zerg_Hatchery        : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Zerg_Drone; break;
+      }
+  }
+  //---------------------------------------------------------------------------
+  void AI::removeGatherGasTask(Unit* refinery)
+  {
+    for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin();
+         i != this->activeRefineries.end();
+         ++i)
+      if ((*i)->getRefinery() == refinery)
+      {
+        delete *i;
+        this->activeRefineries.erase(i);
+        return;
       }
   }
   //---------------------------------------------------------------------------
