@@ -440,6 +440,21 @@ namespace BWAI
   //---------------------------- PERFRORM AUTOBUILD ---------------------------
   bool AI::performAutoBuild()
   {
+    /** 
+     * Just workaround, all buildings started by user will registrate as Task Build
+     * Reasons:
+     * 1) Finished refinery will then register TaskGatherGas
+     * 2) If the scv gets killed it will automaticaly send new one
+     * 3) Will be counted in the check supply function into planned supplies
+     */
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (i->isReady() &&
+          i->getType().isWorker() &&
+          i->getTask() == NULL &&
+          i->getOrderID() == BW::OrderID::ConstructingBuilding &&
+          i->getOrderTarget() != NULL)
+        this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), BW::TilePosition::Invalid, i, NULL));
+          
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() &&
