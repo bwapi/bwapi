@@ -44,7 +44,7 @@ namespace BWAI
       std::list<Expansion*> expansions;
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
-      int expansionsSaturated;
+      bool expansionsSaturated;
       Unit* getFirst();
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
@@ -88,5 +88,6 @@ namespace BWAI
       void executeTasks();
       TaskGather* bestFor(Unit* gatherer);
       void removeExpansion(Expansion* expansion);
+      void unsaturateGather();
   };
 }
