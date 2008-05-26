@@ -208,7 +208,8 @@ namespace BWAI
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
-    
+    if (!this->player)
+      return;
     if (this->actualPosition != this->actualBranch->commands.end())
       if ((*this->actualPosition)->execute())
         ++this->actualPosition;
