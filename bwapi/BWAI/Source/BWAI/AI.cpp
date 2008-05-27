@@ -22,6 +22,7 @@
 #include "../BuildOrder/Root.h"
 #include "../BuildOrder/Branch.h"
 #include "../BuildOrder/Command.h"
+#include "../BuildOrder/BuildWeights.h"
 
 #include "../../../BWAPI/Source/BWAPI/Unit.h"
 #include "../../../BWAPI/Source/BWAPI/Player.h"
@@ -125,11 +126,16 @@ namespace BWAI
     if (this->first != NULL)
       this->first->updateNext();
     this->moneyToBeSpentOnBuildings = 0;
+    for (u16 i = 0; i < BW::unitTypeCount; i++)
+      this->unitTypeCounts[i] = 0;
     for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
          i != this->plannedBuildings.end();
          ++i)
+    {
+      this->unitTypeCounts[(*i)->getType()]++;
       if ((*i)->getBuilding() == NULL)
         this->moneyToBeSpentOnBuildings += (*i)->getBuildingType().getMineralPrice();
+    }
   }
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
@@ -168,19 +174,11 @@ namespace BWAI
          this->log->log("Starting position is (%s) at (%d, %d)", this->startingPosition->expansion->getID().c_str(), 
                                                                  this->startingPosition->expansion->getPosition().x, 
                                                                  this->startingPosition->expansion->getPosition().y);
-         /*for (std::list<BW::TilePosition>::iterator j = this->startingPosition->nonProducing3X2BuildingPositions.begin(); 
-              j != this->startingPosition->nonProducing3X2BuildingPositions.end(); 
-              ++j)
-           this->log->log("3X2 building at (%d, %d)", (*j).x, (*j).y);*/
         }
       }
       mapInfo->saveDefinedBuildingsMap();
 
       /** For testing reasons, there is just one build order now*/
-      this->actualBranch = root->buildOrders.front();
-      this->actualPosition = this->actualBranch->commands.begin();
-      //this->log->log("actualBranchcount = %d", this->actualBranch->commands.size());      
-      this->log->log("Ai::onStart end", LogLevel::Important);      
     }
     catch (GeneralException& exception)
     {
@@ -188,6 +186,10 @@ namespace BWAI
       delete this->mapInfo;
       this->mapInfo = NULL;
     }
+
+    this->actualBranch = root->buildOrders.front();
+    this->actualPosition = this->actualBranch->commands.begin();
+    this->log->log("Ai::onStart end", LogLevel::Important);      
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
@@ -465,38 +467,55 @@ namespace BWAI
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() &&
-          i->getType() != BW::UnitID::None &&
           i->hasEmptyBuildQueueLocal() &&
           i->lastTrainedUnit != BW::UnitID::None &&
           i->getType().canProduce() &&
           i->getOwner() == player &&
           i->lastTrainedUnit.isValid())
-      {
-       BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
-       if (
-           typeToBuild.isValid() &&
-            (
-              (
-                 typeToBuild.isTerran() &&
-                 player->freeSuppliesTerranLocal() >= typeToBuild.getSupplies()
-               ) ||
-               (
-                 typeToBuild.isProtoss() &&
-                 player->freeSuppliesProtossLocal() >= typeToBuild.getSupplies()
-               ) ||
-               (
-                 typeToBuild.isZerg() &&
-                 player->freeSuppliesZergLocal() >= typeToBuild.getSupplies()
-               )
-             ) &&
-             player->getMineralsLocal() - this->moneyToBeSpentOnBuildings >= typeToBuild.getMineralPrice() &&
-             player->getGasLocal() >= typeToBuild.getGasPrice()
-           )
+      { 
+        BuildOrder::BuildWeights* weights = this->root->weights[i->getType().getName()];
+        if (weights) 
         {
-          reselected = true;
-          i->trainUnit(typeToBuild);
+          std::pair<BW::UnitType, int> best = weights->weights.front();
+          
+          for (std::list<std::pair<BW::UnitType, int> >::iterator j = ++weights->weights.begin();
+               j != weights->weights.end();
+               ++j)
+            
+            if (this->player->canBuild((*j).first) &&
+                (float)this->unitTypeCounts[best.first.getID()]/(float)best.second >
+                (float)this->unitTypeCounts[(*j).first.getID()]/(float)(*j).second)
+              best = *j;
+          i->trainUnit(best.first);
         }
-      }
+        else if (i->lastTrainedUnit != BW::UnitID::None)
+        {
+         BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
+         if (
+             typeToBuild.isValid() &&
+              (
+                (
+                   typeToBuild.isTerran() &&
+                   player->freeSuppliesTerranLocal() >= typeToBuild.getSupplies()
+                 ) ||
+                 (
+                   typeToBuild.isProtoss() &&
+                   player->freeSuppliesProtossLocal() >= typeToBuild.getSupplies()
+                 ) ||
+                 (
+                   typeToBuild.isZerg() &&
+                   player->freeSuppliesZergLocal() >= typeToBuild.getSupplies()
+                 )
+               ) &&
+               player->getMineralsLocal() - this->moneyToBeSpentOnBuildings >= typeToBuild.getMineralPrice() &&
+               player->getGasLocal() >= typeToBuild.getGasPrice()
+             )
+          {
+            reselected = true;
+            i->trainUnit(typeToBuild);
+          }
+        }
+      }  
     return reselected;
   }
   //------------------------------ GET IDLE WORKERS ---------------------------

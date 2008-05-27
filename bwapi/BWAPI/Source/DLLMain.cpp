@@ -16,6 +16,7 @@
 #include "BWAPI/Game.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Player.h"
+
 #include "../../BWAI/Source/BWAI/AI.h"
 #include "../../BWAI/Source/BWAI/Globals.h"
 

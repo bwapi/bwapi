@@ -120,6 +120,15 @@ namespace BWAPI
     this->frameCount ++;
     this->logUnknownOrStrange();
     this->updateUnitsOnTile();    
+    
+    for (int i = 0; i < 12; i++)
+      for (u16 j = 0; j < BW::unitTypeCount; j++)
+        this->players[i]->unitTypeCount[j] = 0;
+    
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (i->getOwner()->getID() < 12)
+        this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
+    
   }
   //---------------------------------------------------------------------------
   bool Game::isInGame() const
