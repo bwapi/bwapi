@@ -4,6 +4,7 @@
 #include <Logger.h>
 
 #include "CommandBuild.h"
+#include "CommandChangeWeights.h"
 
 namespace BuildOrder
 {
@@ -14,8 +15,9 @@ namespace BuildOrder
     for (TiXmlElement* i = xmlElement->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
       if (i->ValueTStr() == "build")
         this->commands.push_back(new CommandBuild(i));
+      else if (i->ValueTStr() == "set-building-rate")
+        this->commands.push_back(new CommandChangeWeights(i));
     delete log;
-//    <build name="Terran barracks" minPopulation="11" place="barracks" />
   }
   //---------------------------------------------------------------------------
 }

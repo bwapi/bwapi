@@ -1,3 +1,5 @@
+#pragma once
+
 namespace BuildOrder
 {
   /** Represens one task in the build order definition*/

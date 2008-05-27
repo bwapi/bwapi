@@ -4,6 +4,8 @@
 #include <StringUtil.h>
 #include <Logger.h>
 
+#include "Root.h"
+
 #include "../BWAI/AI.h"
 #include "../BWAI/TaskBuild.h"
 #include "../BWAI/Globals.h"
@@ -42,15 +44,12 @@ namespace BuildOrder
         BWAI::ai->player->getGasLocal() >= toBuild.getGasPrice() &&
         BWAI::ai->player->usedSuppliesLocal(toBuild.getRace()) >= 2*this->minimalPopulation)
     {
-      BWAI::ai->log->log("Conditions to build " + this->name + "fullfiled starting to build");
       BWAI::Unit* scvToUse = NULL;
       BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
       BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
       
-      //if (position.isValid())
-        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
-      /*else
-        BWAI::ai->log->log("Didn't find spot to build " + this->name);*/
+      BWAI::ai->root->log.log("Command build '%s' called", this->name.c_str());
+      BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
       return true;
 
     }

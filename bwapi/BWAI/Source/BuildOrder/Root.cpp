@@ -2,14 +2,19 @@
 
 #include <tinyxml.h>
 #include <Exceptions.h>
+#include <Dictionary.h>
 
 #include "Branch.h"
 #include "BuildWeights.h"
+
+#include "../../../BWAPI/Source/BWAPI/Globals.h"
+#include "../../../BWAPI/Source/BWAPI/Game.h"
 
 namespace BuildOrder
 {
   //------------------------------ CONSTRUCTOR --------------------------------
   Root::Root(const std::string& xmlFileName)
+  :log(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", LogLevel::MicroDetailed)
   {
     FILE* f = fopen(xmlFileName.c_str(),"rb");
     if (!f)

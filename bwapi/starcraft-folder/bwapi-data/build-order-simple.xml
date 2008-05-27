@@ -3,7 +3,7 @@
 <build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="build-order.xsd">
   <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
-   <set-building-rate building="Terran-Barracks">
+   <set-building-rate building="Terran Barracks">
       <build name="Terran Marine" weight="3" />
       <build name="Terran Medic" weight="1" />
     </set-building-rate>

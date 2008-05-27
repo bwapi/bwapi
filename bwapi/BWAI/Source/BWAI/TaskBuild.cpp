@@ -43,21 +43,19 @@ namespace BWAI
     }
     if (this->executors.empty())
     {
-      BWAI::ai->log->log("Task to build (%s) has no builder - calling to free it", this->buildingType.getName());
       Unit* builder = ai->freeBuilder(this->position);
       if (builder)
         this->addExecutor(builder);
-      BWAI::ai->log->log("Executors.empty = %d", this->executors.empty());
     }
     
-     if (this->building == NULL && 
-         !this->executors.empty() &&
-         this->executors.front()->getOrderTarget() != NULL &&
-         this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding)
-      {
-        this->building = executors.front()->getOrderTarget();
-        BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
-      }
+    if (this->building == NULL && 
+        !this->executors.empty() &&
+        this->executors.front()->getOrderTarget() != NULL &&
+        this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding)
+    {
+      this->building = executors.front()->getOrderTarget();
+      BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
+    }
     if (this->building != NULL &&
         !this->executors.empty() &&
         this->executors.front()->getOrderTargetLocal() != this->building &&

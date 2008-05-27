@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 
+#include <Logger.h>
 
 #include "../../../BWAPI/Source/BW/UnitType.h"
 
@@ -17,5 +18,6 @@ namespace BuildOrder
       ~Root();
       std::list<Branch*> buildOrders;
       std::map<std::string, BuildWeights*> weights;
+      Util::Logger log;
   };
 }
