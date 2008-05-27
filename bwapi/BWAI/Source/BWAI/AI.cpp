@@ -396,10 +396,14 @@ namespace BWAI
     else if (dead->getType().isWorker())
       if (dead->getTask())
         dead->getTask()->freeExecutor(dead);
-    
-    if (dead->getType() == BW::UnitID::Terran_CommandCenter ||
-        dead->getType() == BW::UnitID::Protoss_Nexus ||
-        dead->getType() == BW::UnitID::Zerg_Hatchery)
+    else if (
+              (
+               dead->getType() == BW::UnitID::Terran_CommandCenter ||
+               dead->getType() == BW::UnitID::Protoss_Nexus ||
+               dead->getType() == BW::UnitID::Zerg_Hatchery
+              ) &&
+              dead->expansion != NULL
+            )
       this->removeExpansion(dead->expansion);
     dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansion = NULL;
