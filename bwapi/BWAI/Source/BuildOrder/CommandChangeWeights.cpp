@@ -34,9 +34,14 @@ namespace BuildOrder
      this->weights.push_back(std::pair<std::string, int>(toBuildAttribute,StringUtil::stringToInt(weight)));
     }
   }
-  //---------------------------------------------------------------------------
+  //--------------------------------  DESTRUCTOR ----------------------------
+  CommandChangeWeights::~CommandChangeWeights()
+  {
+  }
+  //---------------------------------- EXECUTE ------------------------------
   bool CommandChangeWeights::execute()
   {
+    BWAI::ai->root->log.log("Command change weights for '%s' called", this->factory.c_str());
     BWAI::ai->root->weights.insert(std::pair<std::string, BuildWeights* >(this->factory, new BuildWeights(this->factory, this->weights)));
     return true;
   }

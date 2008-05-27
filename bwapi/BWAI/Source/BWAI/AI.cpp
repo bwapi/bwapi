@@ -126,13 +126,11 @@ namespace BWAI
     if (this->first != NULL)
       this->first->updateNext();
     this->moneyToBeSpentOnBuildings = 0;
-    for (u16 i = 0; i < BW::unitTypeCount; i++)
-      this->unitTypeCounts[i] = 0;
+
     for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
          i != this->plannedBuildings.end();
          ++i)
     {
-      this->unitTypeCounts[(*i)->getType()]++;
       if ((*i)->getBuilding() == NULL)
         this->moneyToBeSpentOnBuildings += (*i)->getBuildingType().getMineralPrice();
     }
@@ -468,27 +466,29 @@ namespace BWAI
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() &&
           i->hasEmptyBuildQueueLocal() &&
-          i->lastTrainedUnit != BW::UnitID::None &&
           i->getType().canProduce() &&
-          i->getOwner() == player &&
-          i->lastTrainedUnit.isValid())
+          i->getOwner() == player)
       { 
         BuildOrder::BuildWeights* weights = this->root->weights[i->getType().getName()];
         if (weights) 
         {
+          this->log->log("Found weights for factory '%s'", i->getType().getName());
           std::pair<BW::UnitType, int> best = weights->weights.front();
           
-          for (std::list<std::pair<BW::UnitType, int> >::iterator j = ++weights->weights.begin();
+          for (std::list<std::pair<BW::UnitType, int> >::iterator j = weights->weights.begin()++;
                j != weights->weights.end();
                ++j)
-            
+          {
+            this->log->log("testing'%s' can build = %d", (*j).first.getName(), this->player->canBuild((*j).first));
             if (this->player->canBuild((*j).first) &&
-                (float)this->unitTypeCounts[best.first.getID()]/(float)best.second >
-                (float)this->unitTypeCounts[(*j).first.getID()]/(float)(*j).second)
+                (float)this->player->unitTypeCount[best.first.getID()]/(float)best.second >
+                (float)this->player->unitTypeCount[(*j).first.getID()]/(float)(*j).second)
               best = *j;
+          }                
           i->trainUnit(best.first);
         }
-        else if (i->lastTrainedUnit != BW::UnitID::None)
+        else if (i->lastTrainedUnit != BW::UnitID::None &&
+                 i->lastTrainedUnit.isValid())
         {
          BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
          if (
