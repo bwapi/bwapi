@@ -1,8 +1,14 @@
 #pragma once
 
 #include <list>
+
 #include "../Types.h"
+
+#include "../BW/UnitType.h"
+#include "../BW/Offsets.h"
+
 #include "Race.h"
+
 namespace BW { struct Unit; };
 
 namespace BWAPI
@@ -56,7 +62,8 @@ namespace BWAPI
     std::list<Unit*> units; 
     BW::Unit** selectedUnit();
     void update();
-
+    bool canBuild(BW::UnitType unit);
+    u16 unitTypeCount[BW::unitTypeCount];
   private :
     u8 id;  /**< Order of the player, is used to load player's information from the memory */
     s32 mineralsLocal, gasLocal;

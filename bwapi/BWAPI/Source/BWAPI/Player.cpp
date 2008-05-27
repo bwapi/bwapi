@@ -1,5 +1,7 @@
 #include "Player.h"
+
 #include "../BW/Offsets.h"
+#include "../BW/UnitID.h"
 
 namespace BWAPI
 {
@@ -204,6 +206,15 @@ namespace BWAPI
       case BWAPI::Race::Protoss : return this->getSuppliesUsedProtossLocal();
       case BWAPI::Race::Terran : return this->getSuppliesUsedTerranLocal();
       default : return 0;
+    }
+  }
+  //--------------------------------- CAN BUILD -------------------------------
+  bool Player::canBuild(BW::UnitType unit)
+  {
+    switch (unit.getID())
+    {
+     case BW::UnitID::Terran_Medic : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     default : return true;
     }
   }
   //---------------------------------------------------------------------------

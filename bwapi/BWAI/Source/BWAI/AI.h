@@ -69,6 +69,7 @@ namespace BWAI
       Util::Logger* deadLog;      
       MapInfo *mapInfo;
       MapStartingPosition* startingPosition;
+      u16 unitTypeCounts[BW::unitTypeCount];
       
       void startNewExpansion(Unit *gatherCenter);
       void rebalanceMiners();
