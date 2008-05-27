@@ -472,19 +472,15 @@ namespace BWAI
         BuildOrder::BuildWeights* weights = this->root->weights[i->getType().getName()];
         if (weights) 
         {
-          this->log->log("Found weights for factory '%s'", i->getType().getName());
           std::pair<BW::UnitType, int> best = weights->weights.front();
           
           for (std::list<std::pair<BW::UnitType, int> >::iterator j = weights->weights.begin()++;
                j != weights->weights.end();
                ++j)
-          {
-            this->log->log("testing'%s' can build = %d", (*j).first.getName(), this->player->canBuild((*j).first));
             if (this->player->canBuild((*j).first) &&
                 (float)this->player->unitTypeCount[best.first.getID()]/(float)best.second >
                 (float)this->player->unitTypeCount[(*j).first.getID()]/(float)(*j).second)
               best = *j;
-          }                
           i->trainUnit(best.first);
         }
         else if (i->lastTrainedUnit != BW::UnitID::None &&
