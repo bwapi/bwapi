@@ -126,7 +126,8 @@ namespace BWAPI
         this->players[i]->unitTypeCount[j] = 0;
     
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->getOwner()->getID() < 12)
+      if (i->getOwner()->getID() < 12 &&
+          i->isReady())
         this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
     
   }

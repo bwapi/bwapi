@@ -481,31 +481,14 @@ namespace BWAI
                 (float)this->player->unitTypeCount[best.first.getID()]/(float)best.second >
                 (float)this->player->unitTypeCount[(*j).first.getID()]/(float)(*j).second)
               best = *j;
-          i->trainUnit(best.first);
+          if (this->player->canAfford(best.first))
+            i->trainUnit(best.first);
         }
         else if (i->lastTrainedUnit != BW::UnitID::None &&
                  i->lastTrainedUnit.isValid())
         {
-         BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
-         if (
-             typeToBuild.isValid() &&
-              (
-                (
-                   typeToBuild.isTerran() &&
-                   player->freeSuppliesTerranLocal() >= typeToBuild.getSupplies()
-                 ) ||
-                 (
-                   typeToBuild.isProtoss() &&
-                   player->freeSuppliesProtossLocal() >= typeToBuild.getSupplies()
-                 ) ||
-                 (
-                   typeToBuild.isZerg() &&
-                   player->freeSuppliesZergLocal() >= typeToBuild.getSupplies()
-                 )
-               ) &&
-               player->getMineralsLocal() - this->moneyToBeSpentOnBuildings >= typeToBuild.getMineralPrice() &&
-               player->getGasLocal() >= typeToBuild.getGasPrice()
-             )
+          BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
+          if (this->player->canAfford(typeToBuild, this->moneyToBeSpentOnBuildings))
           {
             reselected = true;
             i->trainUnit(typeToBuild);
