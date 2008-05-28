@@ -11,6 +11,9 @@ class TiXmlElement;
 
 namespace BuildOrder
 { 
+ /** 
+  * Represents command in buld-order to change factory(producing building) priorities.
+  */
   class CommandChangeWeights : public Command
   {
      public :

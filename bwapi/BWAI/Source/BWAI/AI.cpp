@@ -744,7 +744,7 @@ namespace BWAI
       } 
    return BW::TilePosition::Invalid;
   }
-  //---------------------------------------------------------------------------
+  //------------------------- GET POSITIONS CALLED ----------------------------
   BuildingPosition* AI::getPositionsCalled(const std::string& place)
   {
     return this->startingPosition->positions[place];

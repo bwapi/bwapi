@@ -11,6 +11,9 @@ namespace BuildOrder { class BuildWeights; }
 
 namespace BuildOrder
 {
+  /** 
+   * Holder of all build order branches and build-order specific settings.
+   */
   class Root
   {
     public :

@@ -1,6 +1,7 @@
 #pragma once
 namespace BW
 {
+  /** Flags specifying certain characteristics of unit prototype */
   namespace UnitPrototypeFlags
   {
     enum Enum : u32

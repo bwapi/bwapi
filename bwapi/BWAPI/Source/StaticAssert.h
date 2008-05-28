@@ -1,12 +1,11 @@
 #pragma once
 
-// Static assert ripped out of boost, will work for now since I don't feel like setting up boost fully just yet :P
-
+/** Ripped small tool from boost (static assert)- we may include the whole boost later on */
 namespace boost{
 
    // HP aCC cannot deal with missing names for template value parameters
    template <bool x> struct STATIC_ASSERTION_FAILURE;
-
+   /** Template speciation used by the BOOST_STATIC_ASSERT */
    template <> struct STATIC_ASSERTION_FAILURE<true> { enum { value = 1 }; };
 
    /** Template tool to test in compile time */

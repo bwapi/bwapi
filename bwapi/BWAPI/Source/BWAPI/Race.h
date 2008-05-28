@@ -2,6 +2,10 @@
 
 namespace BWAPI
 {
+  /** 
+   * Our internal type to represent race.
+   * BW#ChangeRace#Race probably maps the bw implemantation, but it must be investigated more
+   */
   namespace Race
   {
     enum Enum : u8

@@ -159,6 +159,7 @@ namespace BW
                 /* If this unit is Scarab/Interceptor, it is pointer to Previous in Parent's Hangar */
                 BW::Unit* prevUnitInParentHangar;                
               }                       childUnitUnion2;    /**< @todo Verify */
+              /** Additional unit info it's value meaning is different for interceptor/scarab - creep unit or repairing scv @todo verify*/
     /*0x0CC*/ union ChildUnitUnion3_type
               {                
                 u8 inHanger; // If interceptor/scarab
@@ -168,12 +169,14 @@ namespace BW
     /*0x0CD*/ u8                      upgradeLevel;       /**< @todo Unknown */
     /*0x0CE*/ u8                      isCarryingSomething; /**< @todo Verify (may be set if going to carry something or targetting resources.. If 'isgathering' ? */
     /*0x0CF*/ u8                      resourceCarying;     /**< The amount of resources it is carrying */
+              /** Some internal unit data that are not investigated good enough*/
     /*0x0D0*/ union UnitUnion1_type
               {
+                /** When the unit is worker? @todo investigate */
                 union UnitUnion1Sub_type
                 {
                   u16 x, y;
-                  /* BW::Position powerupDropTarget; */
+                  /** When the unit is mineral? @todo investigate */
                   struct ResourceUnitUnionSub_type
                   {
                     u16 resourceContained;
@@ -181,7 +184,9 @@ namespace BW
                     u8 resourceCount;
                   } resourceUnitUnionSub;
                 } unitUnion1Sub;
+                /** Probably the connected nydius canal @todo investigate*/
                 BW::Unit* resourceTarget_connectedNydus;
+                /** Nuke dot, but of what, the ghost? @todo investigate*/
                 BW::Sprite* nukeDot;
               }                       unitUnion1;         /**< @todo Verify */
     /*0x0D4*/ _UNKNOWN _19[8];
@@ -193,14 +198,20 @@ namespace BW
     /*0x0E4*/ _UNKNOWN _20[8];
     /*0x0EC*/ BW::Unit*                    currentBuildUnit;   /**< @todo Unknown */
     /*0x0F0*/ _UNKNOWN _21[8];
+              /** 
+               * Additional unit data it's meaning depends if it is Unit that can have rally point or is psi provider (what about main?)
+               * @todo investigate
+               */
     /*0x0F8*/ union RallyPsiProviderUnion_type
               {
+               /** If the unit is rally type @todo investigate*/
                 struct Rally_type
                 {
                   /* BW::Position rallyPos; */
                   u16 rallyX, rallyY;
                   BW::Unit* rallyUnit;
                 } rally;
+                /** If the unit is psi provider @todo investigate */
                 struct PsiProvider_type
                 {
                   BW::Unit* prevPsiProvider;
