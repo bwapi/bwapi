@@ -15,11 +15,11 @@ namespace Util
   {
     public :
       /** 
-       * Creates new logger
+       * Creates new logger.
        * @param name "<name>.log" is the name of the log file
        * @param levelToLog All log inputs with less importancy will be not logged in this log
        */
-      Logger::Logger(const std::string& name, LogLevel::Enum levelToLog);
+      Logger(const std::string& name, LogLevel::Enum levelToLog);
       /** 
        * Logs the specified message to the current log.
        * @param message Message to be written to the log file, note that the result will be "(hh:MM:ss) <message>\n"

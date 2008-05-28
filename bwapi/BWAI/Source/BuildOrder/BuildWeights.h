@@ -7,6 +7,10 @@
 
 namespace BuildOrder
 {
+  /** 
+   * Specifies ratio of units that should be built in building.
+   * It can provide more complex settings later (like at least 2 dropships then vessel etc)
+   */
   class BuildWeights
   {
     public :

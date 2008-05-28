@@ -67,7 +67,13 @@ namespace BWAI
       std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
       BW::TilePosition getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
-      BuildingPosition* AI::getPositionsCalled(const std::string& place);
+      /** 
+       * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id.
+       * The operation speed should be log(count of places) as the stl doesn't support hash, but whatever.
+       * @param name of the building-place-set identification - it is the same as the name attribute in <building> tak in map xml file.
+       * @returns BuildingPosition set with he specified name if present, @c NULL otherwise.
+       */
+      BuildingPosition* getPositionsCalled(const std::string& place);
       u16 moneyToBeSpentOnBuildings;
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];

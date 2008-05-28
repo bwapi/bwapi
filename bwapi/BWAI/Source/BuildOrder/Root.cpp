@@ -10,6 +10,8 @@
 #include "../../../BWAPI/Source/BWAPI/Globals.h"
 #include "../../../BWAPI/Source/BWAPI/Game.h"
 
+
+/** Things that involve ordering the ai things depending on the build-order xml definition. */
 namespace BuildOrder
 {
   //------------------------------ CONSTRUCTOR --------------------------------

@@ -3,7 +3,7 @@
 #include "Dictionary.h"
 //-------------------------------- CONSTRUCTOR ---------------------------------
 Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile *parentFile)
- : parentFile(parentFile)
+:parentFile(parentFile)
  {
   this->inputValue = sentence;
   this->key = key;

@@ -200,6 +200,7 @@ namespace BW
   /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
   struct MaxHealthPoints_NotAttackable_Repairable_type
   {
+    /** mapping of the Max Health Points)/(Not Attackable)/(Requirable) for single unit type. */
     struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
     {
       u16 maxHealthPoints;
