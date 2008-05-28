@@ -236,6 +236,7 @@ namespace BW
   /** Direct mapping of unit unit type armor */
   struct UnitsDimensions_type
   {
+    /** Dimensions of unit, it's the distance from the 'center' of unit to each border */
     struct UnitDimensions
     {
       u16 left;

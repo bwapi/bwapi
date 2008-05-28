@@ -12,6 +12,7 @@ namespace BWAI { class BuildingPosition; }
 
 namespace BWAI
 {
+ /** Represents (unoccupied/occupied) map expansions, used to determine where to build buildings. */
   class MapStartingPosition
   {
     public :

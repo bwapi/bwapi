@@ -8,6 +8,7 @@ namespace BWAI { class Unit; };
 
 namespace BWAI
 {
+  /** Represents active expansion of the ai. */
   class Expansion
   {
     public :
@@ -16,7 +17,7 @@ namespace BWAI
       
       BWAI::Unit* gatherCenter;
       std::list<TaskGather*> minerals;
-      std::list<TaskGatherGas*> gasMine;
+     // std::list<TaskGatherGas*> gasMine;
       
       void removeMineral(Unit* mineral);
       static int maximumMineralDistance;
