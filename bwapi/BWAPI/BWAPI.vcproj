@@ -181,10 +181,6 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\source\BW\Bitmask.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\Offsets.h"
 					>
 				</File>

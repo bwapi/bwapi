@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Bitmask.h>
+
 #include "../Types.h"
 #include "../StaticAssert.h"
 
@@ -10,7 +12,6 @@
 #include "../BW/UnitStatusFlags.h"
 #include "../BW/ParasiteFlags.h"
 #include "../BW/OrderFlags.h"
-#include "../BW/Bitmask.h"
 #include "../BW/Offsets.h"
 
 namespace BW { struct Sprite; };
@@ -42,7 +43,7 @@ namespace BW
     /*0x010*/ BW::Position                  moveToPos;
     /*0x014*/ BW::Unit*                     targetUnit;
     /*0x018*/ _UNKNOWN _2[8];
-    /*0x020*/ BitMask<MovementFlags::Enum>  movementFlags;        /**< Flags specifying movement type - defined in BW#MovementFlags. */
+    /*0x020*/ Util::BitMask<MovementFlags::Enum>  movementFlags;  /**< Flags specifying movement type - defined in BW#MovementFlags. */
     /*0x021*/ _UNKNOWN _3[1];
     /*0x022*/ u8                            flingyTurnRadius;     /**< @todo Unknown */
     /*0x023*/ u8                            currentDirection;     /**< @todo Unknown */
@@ -60,7 +61,7 @@ namespace BW
     /*0x04A*/ _UNKNOWN _6[2];
     /*0x04C*/ u8                            playerID;             /**< Specification of owner of this unit. (Note that player 11 is neutral). */
     /*0x04D*/ BW::OrderID::Enum             orderID;              /**< Specification of type of order currently given. */
-    /*0x04E*/ BitMask<BW::OrderFlags::Enum> orderFlags;           /**< Additional order info (mostly unknown, wander property investigated so far) */
+    /*0x04E*/ Util::BitMask<BW::OrderFlags::Enum> orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
     /*0x04F*/ u8                            orderSignal;          /**< @todo Unknown */
     /*0x050*/ _UNKNOWN _7[4];
     /*0x054*/ u8                            mainOrderTimer;       /**< @todo Unknown */
@@ -184,7 +185,7 @@ namespace BW
                 BW::Sprite* nukeDot;
               }                       unitUnion1;         /**< @todo Verify */
     /*0x0D4*/ _UNKNOWN _19[8];
-    /*0x0DC*/ BitMask<StatusFlags::Enum>   status;             /**< @todo Verify */
+    /*0x0DC*/ Util::BitMask<StatusFlags::Enum>   status;       /**< @todo Verify */
     /*0x0E0*/ u8                           resourceType;       /**< @todo Unknown (type of resource this unit is?) */
     /*0x0E1*/ u8                           wireframeRandomizer;/**< @todo Unknown */
     /*0x0E2*/ u8                           secondaryOrderState;/**< @todo Unknown */
@@ -221,9 +222,9 @@ namespace BW
     /*0x119*/ u8                           stasisTimer;        /**< @todo Verify */
     /*0x11A*/ u8                           plaugeTimer;        /**< @todo Verify */
     /*0x11B*/ u8                           isUnderStorm;       /**< @todo Verify */
-    /*0x11C*/ BW::Unit*                irradiatedBy;       /**< @todo Verify */
+    /*0x11C*/ BW::Unit*                    irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                           irradiatePlayerID;  /**< @todo Verify */
-    /*0x121*/ BitMask<ParasiteFlags::Enum> parasiteFlags;      /**< @todo Verify BW#ParasiteFlags */
+    /*0x121*/ Util::BitMask<ParasiteFlags::Enum> parasiteFlags;/**< @todo Verify BW#ParasiteFlags */
     /*0x122*/ u8                           cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
     /*0x123*/ u8                           isBlind;            /**< @todo Verify */
     /*0x124*/ u8                           maelstromTimer;     /**< @todo Verify */

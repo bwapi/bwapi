@@ -1,10 +1,11 @@
 #pragma once
 #pragma pack(1)
-//#include <windows.h>
+
 #include "../Types.h"
-#include "Bitmask.h"
+#include <Bitmask.h>
 #include "UnitPrototypeFlags.h"
 #include "GroupFlags.h"
+
 /** 
  * Broodwar content access tools.
  * The namespace contains:
@@ -275,7 +276,7 @@ namespace BW
   /** Direct mapping of unit flags data */
   struct PrototypeFlags_type
   {
-    BitMask<UnitPrototypeFlags::Enum> unit[unitTypeCount];
+    Util::BitMask<UnitPrototypeFlags::Enum> unit[unitTypeCount];
   };
   static PrototypeFlags_type* BWXFN_UnitPrototypeFlags = (PrototypeFlags_type*) 0x00664068;
 
@@ -283,7 +284,7 @@ namespace BW
   /** Direct mapping of unit flags data */
   struct PrototypeGroupFlags_type
   {
-    BitMask<GroupFlags::Enum> unit[unitTypeCount];
+    Util::BitMask<GroupFlags::Enum> unit[unitTypeCount];
   };
 
   static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
