@@ -217,5 +217,24 @@ namespace BWAPI
      default : return true;
     }
   }
-  //---------------------------------------------------------------------------
+  //--------------------------------- CAN AFFORD ------------------------------
+  bool Player::canAfford(BW::UnitType unit, u16 mineralsToKeep)
+  {
+    return ( 
+             ( 
+               unit.isTerran() &&
+               this->freeSuppliesTerranLocal() >= unit.getSupplies()
+             ) ||
+             (
+               unit.isProtoss() &&
+               this->freeSuppliesProtossLocal() >= unit.getSupplies()
+             ) ||
+             (
+               unit.isZerg() &&
+               this->freeSuppliesZergLocal() >= unit.getSupplies()
+             ) 
+           ) &&
+           this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
+           this->getGasLocal() >= unit.getGasPrice();
+  }
 };
