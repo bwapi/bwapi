@@ -147,7 +147,7 @@
         </build-position>
       </standard-building-placement>
     </starting-position>
-    <starting-position expansion-id="9 oclock" >
+    <starting-position expansion-id="2 oclock" >
       <standard-building-placement>
         <build-position name="non-producting-3X2" width="3" height="2">
           <position x="125" y="42"/>
