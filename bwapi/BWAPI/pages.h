@@ -78,13 +78,8 @@ The library provides easy
 -# Get unit sizes (rectangle sizes) and rectangle/position connection (accuratly)
 -# Acces the tile map (partialy)
 -# Recognize buildability map (it also generates nice txt file describing the buildability map for the current map)
-
-We are just going to integrate soon (if you want help you can contact us)
--# Other commands (morph, burrow, hold etc)
 -# Complete all unit prototype support
 
-We need to investigate (any help with this is most appricieted)
--# recognize game started (the ok butten pushed and the 5-4-3-2-1 counting is in progress)
--# Hook incoming message (battle net or other)
+All things we would currently like to investigate/develop should be in the issue list http://code.google.com/p/bwapi/issues/list
 
 */
