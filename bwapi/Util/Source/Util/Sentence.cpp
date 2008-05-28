@@ -1,6 +1,8 @@
 #include "Sentence.h"
+
 #include "StringUtil.h"
 #include "Dictionary.h"
+
 //-------------------------------- CONSTRUCTOR ---------------------------------
 Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile *parentFile)
 :parentFile(parentFile)
