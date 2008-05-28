@@ -11,6 +11,7 @@ namespace BWAI
 {
   /** 
    * Wrapper of BWAPI unit type with included information that uses BWAI
+   * Note that there is some small waste 
    */
   class Unit : public BWAPI::Unit
   {

@@ -4,6 +4,10 @@ namespace BWAI { class Expansion; }
 
 namespace BWAI
 {
+  /** 
+   * Task to gather gas, note that one instance of this class 
+   * per refinery/assimilator/extractor is expected.
+   */
   class TaskGatherGas : public Task
   {
     public :

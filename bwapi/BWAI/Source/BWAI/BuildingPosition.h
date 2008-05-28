@@ -7,6 +7,9 @@ class TiXmlElement;
 
 namespace BWAI
 {
+  /** 
+   * Represents set of building positions that are meant to be commutable,
+   */
   class BuildingPosition
   {
     public :
