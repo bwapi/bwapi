@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<map-description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	               xsi:noNamespaceSchemaLocation="map-info.xsd">
+  <expansions>
+    <expansion id="12 oclock double">
+      <position x="2528" y="192"/>
+    </expansion>
+    <expansion id="11 oclock natural">
+      <position x="1184" y="192"/>
+    </expansion>
+    <expansion id="11 oclock">
+      <position x="256" y="352"/>
+    </expansion>
+    <expansion id="9 oclock double">
+      <position x="256" y="2016"/>
+    </expansion>
+    <expansion id="8 oclock natural">
+      <position x="224" y="3136"/>
+    </expansion>
+    <expansion id="7 oclock">
+      <position x="960" y="3744"/>
+    </expansion>
+    <expansion id="5 oclock double">
+      <position x="2912" y="3360"/>
+    </expansion>
+    <expansion id="3 oclock natural">
+      <position x="3712" y="2400"/>
+    </expansion>
+    <expansion id="2 oclock">
+      <position x="3712" y="1504"/>
+    </expansion>
+    <expansion id="10 oclock onlymin">
+      <position x="992" y="1120"/>
+    </expansion>
+    <expansion id="7 oclock onlymin">
+      <position x="1376" y="3136"/>
+    </expansion>
+    <expansion id="2 oclock onlymin">
+      <position x="2848" y="1824"/>
+    </expansion>
+  </expansions>
+  <starting-positions>
+    <starting-position expansion-id="11 oclock" >
+      <standard-building-placement>
+        <build-position name="non-producting-3X2" width="3" height="2">
+          <position x="0" y="2"/>
+          <position x="6" y="1"/>
+          <position x="3" y="2"/>
+          <position x="10" y="2"/>
+          <position x="6" y="3"/>
+          <position x="2" y="4"/>
+          <position x="2" y="6"/>
+          <position x="10" y="4"/>
+          <position x="0" y="28"/>
+          <position x="0" y="25"/>
+          <position x="0" y="22"/>
+          <position x="0" y="19"/>
+          <position x="3" y="28"/>
+          <position x="3" y="25"/>
+          <position x="3" y="22"/>
+          <position x="3" y="19"/>
+          <position x="6" y="28"/>
+          <position x="6" y="25"/>
+          <position x="6" y="22"/>
+          <position x="6" y="19"/>
+          <position x="23" y="0"/>
+          <position x="20" y="0"/>
+          <position x="17" y="0"/>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="23" y="9"/>
+          <position x="23" y="12"/>
+          <position x="23" y="15"/>
+          <position x="19" y="9"/>
+          <position x="19" y="12"/>
+          <position x="19" y="15"/>
+        </build-position>
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="24" y="4"/>
+        </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="37" y="6"/>
+        </build-position>
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="8" y="6"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="21" y="4"/>
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="44" y="11"/>
+        </build-position>
+      </standard-building-placement>
+    </starting-position>
+    <starting-position expansion-id="7 oclock">
+     <standard-building-placement>
+        <build-position name="non-producting-3X2" width="3" height="2">
+          <position x="32" y="125"/>
+          <position x="35" y="125"/>
+          <position x="38" y="125"/>
+          <position x="41" y="125"/>
+          <position x="44" y="125"/>
+          <position x="47" y="125"/>
+          <position x="40" y="122"/>
+          <position x="43" y="122"/>
+          <position x="46" y="122"/>
+          <position x="49" y="122"/>
+          <position x="41" y="119"/>
+          <position x="44" y="119"/>
+          <position x="47" y="119"/>
+          <position x="41" y="117"/>
+          <position x="44" y="117"/>
+          <position x="47" y="117"/>
+          <position x="40" y="114"/>
+          <position x="43" y="114"/>
+          <position x="46" y="114"/>
+          <position x="49" y="114"/>
+          <position x="40" y="112"/>
+          <position x="43" y="112"/>
+          <position x="46" y="112"/>
+          <position x="49" y="112"/>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="12" y="111"/>
+          <position x="16" y="111"/>
+          <position x="12" y="114"/>
+          <position x="16" y="114"/>
+          <position x="12" y="117"/>
+          <position x="16" y="117"/>
+        </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="7" y="98"/>
+        </build-position>
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="0" y="117"/>
+        </build-position>
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="23" y="118"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="0" y="122"/>
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="14" y="97"/>
+        </build-position>
+      </standard-building-placement>
+    </starting-position>
+<!--    <starting-position expansion-id="9 oclock" >
+      <standard-building-placement>
+        <build-position name="non-producting-3X2" width="3" height="2">
+          <position x="0" y="90"/>
+        </build-position>
+        <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="6"  y="74"/>
+          <position x="10" y="74"/>
+          <position x="14" y="74"/>
+          <position x="18" y="74"/>
+          <position x="6"  y="77"/>
+          <position x="10" y="77"/>
+        </build-position>
+        <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
+          <position x="7" y="57"/>
+        </build-position>        
+        <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
+          <position x="21" y="81"/>
+        </build-position>      
+        <build-position name="refinery" width="4" height="2" shortcut="BR">
+          <position x="8" y="80"/>
+        </build-position>
+        <build-position name="academy" width="3" height="2">
+          <position x="18" y="84"/>
+        </build-position>
+        <build-position name="turret-entrance-expansion" width="2" height="2">
+          <position x="10" y="62"/>
+        </build-position>  
+      </standard-building-placement>
+    </starting-position> -->
+  </starting-positions>
+</map-description>
