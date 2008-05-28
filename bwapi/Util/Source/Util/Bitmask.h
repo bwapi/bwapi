@@ -1,5 +1,5 @@
 #pragma once
-namespace BW
+namespace Util
 {
   template <class Type>
   class BitMask

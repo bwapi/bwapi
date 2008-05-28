@@ -116,7 +116,7 @@ namespace BW
        return BW::BWXFN_WeaponDamage->weapon[weaponID];
   }
   //--------------------------------- GET FLAGS --------------------------------
-  BW::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
+  Util::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
   {
     return BW::BWXFN_UnitPrototypeFlags->unit[this->getID()];
   }
@@ -126,7 +126,7 @@ namespace BW
     return this->getGroupFlags().getBit(BW::GroupFlags::Factory);
   }
   //------------------------------- GET GROUP FLAGS ----------------------------
-  BW::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
+  Util::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
   {
     return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()];
   }

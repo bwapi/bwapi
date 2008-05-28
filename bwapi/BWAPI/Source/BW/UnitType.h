@@ -65,7 +65,7 @@ namespace BW
     bool isValid();
   private :
     BW::UnitID::Enum id;
-    BW::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
-    BW::BitMask<BW::GroupFlags::Enum> getGroupFlags() const;
+    Util::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
+    Util::BitMask<BW::GroupFlags::Enum> getGroupFlags() const;
   };
 };
