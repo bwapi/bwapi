@@ -472,17 +472,20 @@ namespace BWAI
         BuildOrder::BuildWeights* weights = this->root->weights[i->getType().getName()];
         if (weights) 
         {
-          std::pair<BW::UnitType, int> best = weights->weights.front();
-          
-          for (std::list<std::pair<BW::UnitType, int> >::iterator j = weights->weights.begin()++;
-               j != weights->weights.end();
-               ++j)
-            if (this->player->canBuild((*j).first) &&
-                (float)this->player->unitTypeCount[best.first.getID()]/(float)best.second >
-                (float)this->player->unitTypeCount[(*j).first.getID()]/(float)(*j).second)
-              best = *j;
-          if (this->player->canAfford(best.first))
-            i->trainUnit(best.first);
+          if (!weights->weights.empty())
+          {
+            std::pair<BW::UnitType, int> best = weights->weights.front();
+            
+            for (std::list<std::pair<BW::UnitType, int> >::iterator j = weights->weights.begin()++;
+                 j != weights->weights.end();
+                 ++j)
+              if (this->player->canBuild((*j).first) &&
+                  (float)this->player->unitTypeCount[best.first.getID()]/(float)best.second >
+                  (float)this->player->unitTypeCount[(*j).first.getID()]/(float)(*j).second)
+                best = *j;
+            if (this->player->canAfford(best.first))
+              i->trainUnit(best.first);
+          }
         }
         else if (i->lastTrainedUnit != BW::UnitID::None &&
                  i->lastTrainedUnit.isValid())
