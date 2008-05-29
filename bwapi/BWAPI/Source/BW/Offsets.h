@@ -52,7 +52,7 @@ namespace BW
   static TileID**      BWXFN_MapTileArray = (TileID**) 0x005993AC;
   static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8;
   static u16*          BWXFN_MapSizeX = (u16*) 0x0057F1BC;
-  static u16*          BWXFN_MapSizeY = ((u16*) 0x0057F1BC) + 1;
+  static u16*          BWXFN_MapSizeY = ((u16*) BWXFN_MapSizeX) + 1;
   static Unit**        BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
   static UnitArray*    BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
   const  u32           UNIT_ARRAY_MAX_LENGTH = 1701;

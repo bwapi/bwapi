@@ -102,6 +102,8 @@ namespace BWAPI
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
+    if (!this->isOnStartCalled())
+      this->onGameStart();
     memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
     memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
     for (int i = 0; i < 12; i++)
@@ -188,7 +190,7 @@ namespace BWAPI
     for (int i = 0; i < 8; i++)
       if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
-    if (!this->isInGame() && this->isOnStartCalled())
+    if (!this->isInGame())
       this->badAssumptionLog->log("OnStartCalled is true but isInGame isnt -> qd your offset is wrong");
   }
   //------------------------------ ON GAME END ----------------------------------
