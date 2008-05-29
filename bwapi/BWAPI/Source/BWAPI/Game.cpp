@@ -238,27 +238,6 @@ namespace BWAPI
     }  
   }
   //-----------------------------------------------------------------------------
-  void Game::printToScreen(char* text, bool mid)
-  {
-    __asm
-    {
-      MOV ESI, text
-      PUSH ESI
-    }
-    if (mid)
-    {
-      _asm MOV EAX, -1
-    }
-    else
-    {
-      _asm MOV EAX, 8
-    }
-    __asm
-    {
-		  CALL [BW::BWXFN_PrintText]
-    }
-  }
-  //-----------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4312)
   void Game::refresh()
