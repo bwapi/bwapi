@@ -228,14 +228,35 @@ namespace BWAPI
     static const int BWFXN_DrawBox = 0x4E18E0; 
     __asm 
     {
-     /// mov al, clr
-     // mov ds:[0x6CF494], al
+      /*mov al, clr
+      mov ds:[0x6CF494], al*/
       push h
       push w
       push y
       push x
       call [BWFXN_DrawBox]
     }  
+  }
+  //-----------------------------------------------------------------------------
+  void Game::printToScreen(char* text, bool mid)
+  {
+    __asm
+    {
+      MOV ESI, text
+      PUSH ESI
+    }
+    if (mid)
+    {
+      _asm MOV EAX, -1
+    }
+    else
+    {
+      _asm MOV EAX, 8
+    }
+    __asm
+    {
+		  CALL [BW::BWXFN_PrintText]
+    }
   }
   //-----------------------------------------------------------------------------
   #pragma warning(push)
