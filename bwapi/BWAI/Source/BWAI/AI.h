@@ -32,8 +32,8 @@ namespace BWAI
    * Singleton - root ai class maintaining all the stuff, it's only instance should be the one defined in globals. 
    *
    * There are good reasons that the class is constructed dynamically, the main is that non-dynamical classes
-   * have not defined order of constructer (c++ definition), so this class is constructated manually justa fter the 
-   * #BWAPI#Game is constructed and this class uses it's content (configuration, logs)
+   * have not defined order of constructor (c++ definition), so this class is constructated manually justa after the 
+   * #BWAPI#Game is constructed and it uses it's content (configuration, logs)
    */
   class AI
   {
