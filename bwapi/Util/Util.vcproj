@@ -180,6 +180,10 @@
 					RelativePath=".\Source\Util\UnusedLine.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\Util\Unusedline.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -222,10 +226,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\Util\StringUtil.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\Util\Unusedline.h"
 					>
 				</File>
 			</Filter>

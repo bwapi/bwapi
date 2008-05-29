@@ -6,6 +6,7 @@
 
 #include "../BW/TileSet.h"
 #include "../BW/TileType.h"
+#include "../BW/DoodatType.h"
 
 namespace BWAPI
 {
@@ -17,7 +18,7 @@ namespace BWAPI
   //---------------------------- GET TILE VARIATION ------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
   {
-    return tileType & 0x8;
+    return tileType & 0xF;
   }
   //------------------------------ GET WIDTH --------------------------------
   u16 Map::getWidth()
@@ -87,10 +88,8 @@ namespace BWAPI
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
       {
-        BW::TileID tileID= BWAPI::Map::getTile(x, y);
+        BW::TileID tileID = BWAPI::Map::getTile(x, y);
         BW::TileType* tile = BW::TileSet::getTileType(tileID);
-        int index = 0;
-        //Util::Logger::globalLog->log("miniTile ID = %4d", tile->miniTile[Map::getTileVariation(tileID)]);
         for (unsigned int my = 0; my < 4; my++)
           for (unsigned int mx = 0; mx < 4; mx++)
             if ((*BW::BWXFN_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable))

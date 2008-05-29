@@ -19,6 +19,7 @@ namespace BW
   struct Unit;
   struct UnitArray;
   class TileType;
+  class DoodatType;
   //--------------------------------- MINERALS TYPE -----------------------------
   /** Direct mapping of players mineral amount in the bw memory */
   struct PlayerMinerals_type
@@ -51,7 +52,8 @@ namespace BW
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   static TileID**      BWXFN_MapTileArray = (TileID**) 0x005993AC;
-  static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8;
+  static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8; /**< Index  0-1023 */
+  static DoodatType**  BWXFN_DoodatSet = (DoodatType**) 0x006D5EA8; /**< Index 1024 + */
   static u16*          BWXFN_MapSizeX = (u16*) 0x0057F1BC;
   static u16*          BWXFN_MapSizeY = ((u16*) BWXFN_MapSizeX) + 1;
   static Unit**        BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
