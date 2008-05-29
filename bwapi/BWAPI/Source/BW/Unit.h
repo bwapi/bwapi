@@ -231,7 +231,7 @@ namespace BW
     /*0x117*/ u8                           lockdownTimer;      /**< @todo Verify */
     /*0x118*/ u8                           irradiateTimer;     /**< @todo Verify */
     /*0x119*/ u8                           stasisTimer;        /**< @todo Verify */
-    /*0x11A*/ u8                           plaugeTimer;        /**< @todo Verify */
+    /*0x11A*/ u8                           plagueTimer;        /**< @todo Verify */
     /*0x11B*/ u8                           isUnderStorm;       /**< @todo Verify */
     /*0x11C*/ BW::Unit*                    irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                           irradiatePlayerID;  /**< @todo Verify */
