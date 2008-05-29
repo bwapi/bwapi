@@ -151,7 +151,7 @@ namespace BWAI
                                      ); 
       this->player = player;
       BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
-      //BWAPI::Map::saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
+      BWAPI::Map::saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
@@ -186,8 +186,11 @@ namespace BWAI
       this->mapInfo = NULL;
     }
 
-    this->actualBranch = root->buildOrders.front();
-    this->actualPosition = this->actualBranch->commands.begin();
+    if (root != NULL)
+    {
+      this->actualBranch = root->buildOrders.front();
+      this->actualPosition = this->actualBranch->commands.begin();
+    }
     this->log->log("Ai::onStart end", LogLevel::Important);      
   }
   //--------------------------------- ON END ---------------------------------
