@@ -39,8 +39,9 @@ namespace BWAPI
        * Doesn't work now
        */
       void printPublic(char *text) const;
+      bool isOnStartCalled() const;
+      void setOnStartCalled(bool onStartCalled);
       bool isInGame() const;
-      void setInGame(bool inGame);
       /** 
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
@@ -99,7 +100,7 @@ namespace BWAPI
       /** Every tile will have pointers to units touching it. */
       RectangleArray<std::list<Unit*> > unitsOnTile;
    private :
-      bool inGame;
+	    bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];

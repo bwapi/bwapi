@@ -31,7 +31,7 @@ namespace BWAPI
 {
   //------------------------------ CONSTRUCTOR ----------------------------------
   Game::Game()
-  :inGame(false)
+  :onStartCalled(false)
   ,unitsOnTile(0,0)
   {
     try
@@ -132,17 +132,22 @@ namespace BWAPI
     
   }
   //---------------------------------------------------------------------------
-  bool Game::isInGame() const
+  bool Game::isOnStartCalled() const
   {
-    return this->inGame;
+    return this->onStartCalled;
   }
   //---------------------------------------------------------------------------
-  void Game::setInGame(bool inGame)
+  void Game::setOnStartCalled(bool onStartCalled)
   {
-    this->inGame = inGame;
+    this->onStartCalled = onStartCalled;
   }
   #pragma warning(push)
   #pragma warning(disable:4312)
+  //---------------------------------------------------------------------------
+  bool Game::isInGame() const
+  {
+    return *(BW::BWFXN_InGame) == 0;
+  }
   //----------------------------------- PRINT ---------------------------------
   void Game::print(char *text)
   {
@@ -178,16 +183,18 @@ namespace BWAPI
   void Game::onGameStart()
   {
     this->frameCount = 0;
-    this->setInGame(true);
+    this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     for (int i = 0; i < 8; i++)
       if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
+    if (!this->isInGame() && this->isOnStartCalled())
+      this->badAssumptionLog->log("OnStartCalled is true but isInGame isnt -> qd your offset is wrong");
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()
   {
-    this->setInGame(false);
+    this->setOnStartCalled(false);
   }
   //------------------------------- START GAME ----------------------------------
   void Game::startGame()
