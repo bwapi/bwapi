@@ -181,6 +181,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\Source\BW\DoodatType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Offsets.h"
 					>
 				</File>
