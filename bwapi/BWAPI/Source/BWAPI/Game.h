@@ -100,7 +100,7 @@ namespace BWAPI
       /** Every tile will have pointers to units touching it. */
       RectangleArray<std::list<Unit*> > unitsOnTile;
    private :
-	    bool onStartCalled;
+	     bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];

@@ -4,6 +4,7 @@
 #include "../Types.h"
 #include <Bitmask.h>
 #include "UnitPrototypeFlags.h"
+#include "MiniTileFlags.h"
 #include "GroupFlags.h"
 
 /** 
@@ -291,6 +292,19 @@ namespace BW
 
   static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
 
+  //---------------------------------MINITILE MAPPING ------------------------
+  const u16 MiniTileTypeCount = 1023;
+  /** Direct mapping of minitile flags array */
+  struct MiniTileFlags_type
+  {
+    Util::BitMask<MiniTileFlags::Enum> miniTile[MiniTileTypeCount];
+  };
+
+  static MiniTileFlags_type* BWXFN_MiniTileFlags = (MiniTileFlags_type*) 0x005993B8;
+
+  #define UNKNOWN_BIT_SIZE 16
+  #define UNKNOWN_TYPE u16
+  
   #define UNKNOWN_BIT_SIZE 16
   #define UNKNOWN_TYPE u16
   //----------------------------------- UNKNOWN TYPE  ------------------------
