@@ -33,6 +33,7 @@ namespace BWAPI
   Game::Game()
   :onStartCalled(false)
   ,unitsOnTile(0,0)
+  ,quietSelect(true)
   {
     try
     {
@@ -65,9 +66,7 @@ namespace BWAPI
                           &unitArrayCopyLocal->unit[i],
                           i);
 
-    this->update();
     this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
-    this->quietSelect = true;
   }
   //------------------------------- DESTRUCTOR ----------------------------------
   Game::~Game()
@@ -190,8 +189,8 @@ namespace BWAPI
     for (int i = 0; i < 8; i++)
       if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
-    if (!this->isInGame())
-      this->badAssumptionLog->log("OnStartCalled is true but isInGame isnt -> qd your offset is wrong");
+    /*if (!this->isInGame())
+      this->badAssumptionLog->log("OnStartCalled is true but isInGame isnt -> qd your offset is wrong");*/
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()

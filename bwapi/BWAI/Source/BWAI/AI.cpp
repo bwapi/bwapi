@@ -140,6 +140,7 @@ namespace BWAI
   {
     try
     {
+      this->log->log("Ai::onStart start", LogLevel::Important);    
       if (this->unitNameToType.empty())
         for (int i = 0; i < BW::unitTypeCount; i++)
           this->unitNameToType.insert(std::pair<std::string, BW::UnitType>
@@ -148,9 +149,9 @@ namespace BWAI
                                          BW::UnitType( (BW::UnitID::Enum) i)
                                        )
                                      ); 
-      this->log->log("Ai::onStart start", LogLevel::Important);
       this->player = player;
       BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
+      //BWAPI::Map::saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);

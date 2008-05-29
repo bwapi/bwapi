@@ -166,6 +166,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 
   delete Util::Logger::globalLog;
   Util::Logger::globalLog = new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
+  Util::Logger::globalLog->log("BWAPI initialisation started");
 
   BWAI::ai = new BWAI::AI();
   int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
@@ -199,7 +200,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                       LPVOID lpReserved
                       )
 {
-
    switch (ul_reason_for_call)
    {
      case DLL_PROCESS_ATTACH: 
@@ -212,6 +212,5 @@ BOOL APIENTRY DllMain( HMODULE hModule,
      case DLL_PROCESS_DETACH:
       break;
    }
-
    return true;
 }
