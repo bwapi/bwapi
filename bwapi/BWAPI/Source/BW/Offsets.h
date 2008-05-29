@@ -293,14 +293,18 @@ namespace BW
   static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
 
   //---------------------------------MINITILE MAPPING ------------------------
-  const u16 MiniTileTypeCount = 1023;
+  const u16 tileTypeCount = 65535;
   /** Direct mapping of minitile flags array */
-  struct MiniTileFlags_type
+  struct MiniTileMaps_type
   {
-    Util::BitMask<MiniTileFlags::Enum> miniTile[MiniTileTypeCount];
+    struct MiniTileFlagArray
+    {
+      Util::BitMask<MiniTileFlags::Enum> miniTile[16];
+    };
+    MiniTileFlagArray tile[tileTypeCount];
   };
 
-  static MiniTileFlags_type* BWXFN_MiniTileFlags = (MiniTileFlags_type*) 0x005993B8;
+  static MiniTileMaps_type** BWXFN_MiniTileFlags = (MiniTileMaps_type**) 0x005993B8;
 
   #define UNKNOWN_BIT_SIZE 16
   #define UNKNOWN_TYPE u16

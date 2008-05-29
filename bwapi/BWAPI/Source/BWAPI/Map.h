@@ -17,6 +17,7 @@ namespace BWAPI
   {
     public :
      static BW::TileID getTile(int x, int y);
+     static u8 getTileVariation(BW::TileID);
      static u16 getWidth();
      static u16 getHeight();
      /** Gets file name of the currently opened map by broodwar */
