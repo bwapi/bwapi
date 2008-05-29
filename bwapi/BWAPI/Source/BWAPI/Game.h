@@ -79,6 +79,7 @@ namespace BWAPI
       int getScreenY() const;
       /** @todo Doesn't work */
       void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr); 
+      void printToScreen(char* text, bool mid);
       void refresh();
       Unit* getUnit(int index);
       BW::Unit** saveSelected();
