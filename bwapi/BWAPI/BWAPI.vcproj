@@ -397,10 +397,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\TargetType.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Unit.h"
 					>
 				</File>
