@@ -16,7 +16,7 @@ namespace BuildOrder
 {
   //------------------------------ CONSTRUCTOR --------------------------------
   Root::Root(const std::string& xmlFileName)
-  :log(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", LogLevel::MicroDetailed)
+  :log(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", Util::LogLevel::MicroDetailed)
   {
     FILE* f = fopen(xmlFileName.c_str(),"rb");
     if (!f)

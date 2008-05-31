@@ -5,7 +5,7 @@
 #include <Exceptions.h>
 #include <Logger.h>
 #include <Dictionary.h>
-#include <StringUtil.h>
+#include <Strings.h>
 #include <RectangleArray.h>
 
 #include "Task.h"
@@ -140,7 +140,7 @@ namespace BWAI
   {
     try
     {
-      this->log->log("Ai::onStart start", LogLevel::Important);    
+      this->log->log("Ai::onStart start", Util::LogLevel::Important);    
       if (this->unitNameToType.empty())
         for (int i = 0; i < BW::unitTypeCount; i++)
           this->unitNameToType.insert(std::pair<std::string, BW::UnitType>
@@ -191,12 +191,12 @@ namespace BWAI
       this->actualBranch = root->buildOrders.front();
       this->actualPosition = this->actualBranch->commands.begin();
     }
-    this->log->log("Ai::onStart end", LogLevel::Important);      
+    this->log->log("Ai::onStart end", Util::LogLevel::Important);      
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
-    this->log->log("Ai::onEnd start", LogLevel::Important);
+    this->log->log("Ai::onEnd start", Util::LogLevel::Important);
     
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
@@ -224,20 +224,20 @@ namespace BWAI
       
     this->startingPosition = NULL;  
     
-    this->log->log("Ai::onEnd end", LogLevel::Detailed);      
+    this->log->log("Ai::onEnd end", Util::LogLevel::Detailed);      
   }
   //------------------------------- CONSTRUCTOR -------------------------------
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   LogLevel::Normal))
-  ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", LogLevel::MicroDetailed))
+  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
+  ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
   ,moneyToBeSpentOnBuildings(0)
   {
     try
     {
-      Expansion::maximumMineralDistance = StringUtil::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
+      Expansion::maximumMineralDistance = Util::Strings::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
     }
     catch (GeneralException& exception)
     {
@@ -319,7 +319,7 @@ namespace BWAI
     if (selected[0] != NULL)
     {
       Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnit = BW::UnitID::None;
-      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getType().getName(), LogLevel::Detailed);
+      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getType().getName(), Util::LogLevel::Detailed);
     }
   }
   //---------------------------- START NEW EXPANSION -------------------------
@@ -429,7 +429,7 @@ namespace BWAI
         if (i->getOrderID() != BW::OrderID::BuildingLiftoff &&
             i->expansion == NULL)
         {
-          this->log->log("Starting new expansion - %s", i->getName().c_str(), LogLevel::Important);
+          this->log->log("Starting new expansion - %s", i->getName().c_str(), Util::LogLevel::Important);
           this->startNewExpansion(i);
         }
         else if (i->getOrderID() == BW::OrderID::BuildingLiftoff &&
