@@ -22,6 +22,7 @@ namespace BuildOrder { class Branch; }
 
 namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
+namespace BWAPI { class Map; }
 
 /** 
  * Set of classes providing ai tools.
@@ -80,6 +81,8 @@ namespace BWAI
        */
       BuildingPosition* getPositionsCalled(const std::string& place);
       u16 moneyToBeSpentOnBuildings;
+      /** Currently opened map, NULL if no map is opened. */
+      BWAPI::Map* map;
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;

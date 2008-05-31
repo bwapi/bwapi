@@ -9,7 +9,6 @@
 #include "../BW/Position.h"
 #include "../BW/Offsets.h"
 
-
 namespace BW
 {
   //------------------------------ CONSTRUCTOR ----------------------------------
@@ -35,7 +34,7 @@ namespace BW
   //------------------------------- GET NAME ------------------------------------
   const char* UnitType::getName() const
   {
-    return (*(*BWXFN_Sting_table + this->getID()*2 + 2) + *BWXFN_Sting_table);
+    return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
   }
   //------------------------------ GET UNIT ID ----------------------------------
   BW::UnitID::Enum UnitType::getID() const

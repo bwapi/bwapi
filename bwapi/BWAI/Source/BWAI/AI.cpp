@@ -32,7 +32,6 @@
 
 namespace BWAI
 {
-  BWAPI::Unit *cc;
   //----------------------------- MINERAL VALUE -------------------------------
   bool mineralValue(BWAI::TaskGather*& task1, BWAI::TaskGather*& task2)
   {
@@ -141,6 +140,7 @@ namespace BWAI
     try
     {
       this->log->log("Ai::onStart start", Util::LogLevel::Important);    
+      this->map = new BWAPI::Map();
       if (this->unitNameToType.empty())
         for (int i = 0; i < BW::unitTypeCount; i++)
           this->unitNameToType.insert(std::pair<std::string, BW::UnitType>
@@ -150,8 +150,8 @@ namespace BWAI
                                        )
                                      ); 
       this->player = player;
-      BWAPI::Map::saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
-      BWAPI::Map::saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
+      this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
+      this->map->saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
@@ -181,6 +181,8 @@ namespace BWAI
     }
     catch (GeneralException& exception)
     {
+      delete map;
+      map = NULL;
       this->log->log("Exception in AI::onStart: " + exception.getMessage());
       delete this->mapInfo;
       this->mapInfo = NULL;
@@ -224,6 +226,9 @@ namespace BWAI
       
     this->startingPosition = NULL;  
     
+    delete map;
+    map = NULL;
+    
     this->log->log("Ai::onEnd end", Util::LogLevel::Detailed);      
   }
   //------------------------------- CONSTRUCTOR -------------------------------
@@ -234,6 +239,7 @@ namespace BWAI
   ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
   ,moneyToBeSpentOnBuildings(0)
+  ,map(NULL)
   {
     try
     {
@@ -269,6 +275,8 @@ namespace BWAI
       
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete units[i];
+
+    delete map;
 
     delete this->log;
     delete deadLog;
