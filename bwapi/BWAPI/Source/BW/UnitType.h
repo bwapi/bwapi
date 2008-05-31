@@ -4,7 +4,7 @@
 #include "../Types.h"
 #include "UnitPrototypeFlags.h"
 #include "GroupFlags.h"
-#include "Bitmask.h"
+#include <Bitmask.h>
 #include "UnitID.h"
 
 #include "../BWAPI/Race.h"

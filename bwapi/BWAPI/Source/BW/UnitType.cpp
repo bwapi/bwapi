@@ -35,7 +35,7 @@ namespace BW
   //------------------------------- GET NAME ------------------------------------
   const char* UnitType::getName() const
   {
-    return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
+    return (*(*BWXFN_Sting_table + this->getID()*2 + 2) + *BWXFN_Sting_table);
   }
   //------------------------------ GET UNIT ID ----------------------------------
   BW::UnitID::Enum UnitType::getID() const
