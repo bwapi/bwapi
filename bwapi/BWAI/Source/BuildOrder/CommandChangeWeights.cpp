@@ -1,7 +1,7 @@
 #include "CommandChangeWeights.h"
 
 #include <tinyxml.h>
-#include <StringUtil.h>
+#include <Strings.h>
 
 #include "Root.h"
 #include "BuildWeights.h"
@@ -31,7 +31,7 @@ namespace BuildOrder
       if (buildElement == NULL)
         throw XmlException("Expected attribute 'weight' in <build> element");
     
-     this->weights.push_back(std::pair<std::string, int>(toBuildAttribute,StringUtil::stringToInt(weight)));
+     this->weights.push_back(std::pair<std::string, int>(toBuildAttribute, Util::Strings::stringToInt(weight)));
     }
   }
   //--------------------------------  DESTRUCTOR ----------------------------

@@ -8,11 +8,11 @@
 namespace Util
 {
   /** Collection of std::string utilities */
-  class StringUtil
+  class Strings
    {
     private :
      /** The class is abstract, so it has private constructor */
-     StringUtil(void);
+     Strings(void);
      static char buffer[STRING_UTIL_BUFFER_SIZE];
     public :
     /**

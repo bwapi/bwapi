@@ -36,7 +36,7 @@ namespace BWAI
       {
         BWAI::ai->log->log("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName((*i)->getOrderIDLocal()).c_str(), 
                                                                                                 (*i)->getName().c_str(),
-                                                                                                LogLevel::Detailed);
+                                                                                                Util::LogLevel::Detailed);
         this->freeExecutor(*i++);
         ai->expansionsSaturated = false;
       }

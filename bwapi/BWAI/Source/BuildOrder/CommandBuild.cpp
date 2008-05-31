@@ -1,7 +1,7 @@
 #include "CommandBuild.h"
 
 #include <Exceptions.h>
-#include <StringUtil.h>
+#include <Strings.h>
 #include <Logger.h>
 
 #include "Root.h"
@@ -31,7 +31,7 @@ namespace BuildOrder
     const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
     if (minimalPopulationAttribute == NULL)
       throw XmlException("Expected attribute minimal-population in <build> element");
-    this->minimalPopulation = StringUtil::stringToInt(minimalPopulationAttribute);
+    this->minimalPopulation = Util::Strings::stringToInt(minimalPopulationAttribute);
   }
   //---------------------------------------------------------------------------
   bool CommandBuild::execute()

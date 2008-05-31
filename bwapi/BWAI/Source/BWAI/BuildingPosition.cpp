@@ -1,6 +1,6 @@
 #include "BuildingPosition.h"
 
-#include <StringUtil.h>
+#include <Strings.h>
 #include <tinyxml.h>
 
 namespace BWAI
@@ -11,12 +11,12 @@ namespace BWAI
     const char * widthAttribute = xmlElement->Attribute("width");
     if (widthAttribute == NULL)
       throw XmlException("Expected attribute width in <build-position> element");
-    this->tileWidth = StringUtil::stringToInt(widthAttribute);
+    this->tileWidth = Util::Strings::stringToInt(widthAttribute);
     
     const char * heightAttribute = xmlElement->Attribute("height");
     if (heightAttribute == NULL)
       throw XmlException("Expected attribute height in <build-position> element");
-    this->tileHeight = StringUtil::stringToInt(heightAttribute);
+    this->tileHeight = Util::Strings::stringToInt(heightAttribute);
     
     const char * shortcutAttribute = xmlElement->Attribute("shortcut");
     if (shortcutAttribute != NULL)

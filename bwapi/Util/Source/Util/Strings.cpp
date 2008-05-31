@@ -1,4 +1,4 @@
-#include "StringUtil.h"
+#include "Strings.h"
 
 #include <math.h>
 
@@ -6,7 +6,7 @@
 namespace Util
 {
   //------------------------------- INT TO STRING --------------------------------
-  std::string StringUtil::intToString(long value)
+  std::string Strings::intToString(long value)
    {
     if (value == 0)
       return "0";
@@ -22,34 +22,34 @@ namespace Util
       return "-" + returnValue;
    }
   //------------------------------- STRING TO INT --------------------------------
-  unsigned long StringUtil::stringToInt(const std::string &input, const unsigned long begin, const int distance)
+  unsigned long Strings::stringToInt(const std::string &input, const unsigned long begin, const int distance)
    {
     unsigned long returnValue = 0;
     for (unsigned long i = begin; i < distance + begin && i < input.size();i++)
      {
       if (!isdigit(input[i]))
-        throw ParseException::ParseException("StringUtil::stringToInt - String " + input + " is not a number.");
+        throw ParseException::ParseException("Strings::stringToInt - String " + input + " is not a number.");
       returnValue*=10;
       returnValue += (input[i] - '0');
      }
     return returnValue;
    }
   //------------------------------- STRING TO FILE -------------------------------
-  void StringUtil::stringToFile(const std::string &input,FILE* f)
+  void Strings::stringToFile(const std::string &input,FILE* f)
    {
     size_t length = input.size();
     fwrite(&length,sizeof(unsigned long),1,f);
     fwrite(input.c_str(),length*sizeof(char),1,f);
    }
   //-------------------------------- SAVE TO FILE --------------------------------
-  void StringUtil::saveToFile(const std::string &input,const std::string &fileName)
+  void Strings::saveToFile(const std::string &input,const std::string &fileName)
    {
      FILE *f = fopen(fileName.c_str(), "wt");
      fwrite(input.c_str(),input.length()*sizeof(char),1,f);
      fclose(f);
    }
   //------------------------------- LOAD FROM FILE -------------------------------
-  std::string StringUtil::loadFromFile(FILE* f)
+  std::string Strings::loadFromFile(FILE* f)
    {
     unsigned long Length;
     fread(&Length,sizeof(unsigned long),1,f);
@@ -62,14 +62,14 @@ namespace Util
     return ReturnValue;
    }
   //----------------------------- BEGINS WIHT NUMBER -----------------------------
-  bool StringUtil::beginsWithNumber(const std::string &input)
+  bool Strings::beginsWithNumber(const std::string &input)
    {
     if (input.length() >= 1)
       return input[0]>='0' && input[0]<= '9';
     return false;
    }
   //------------------------------ ENDS WITH NUMBER ------------------------------
-  bool StringUtil::endsWithNumber(const std::string &input)
+  bool Strings::endsWithNumber(const std::string &input)
    {
     if (input.length() >= 1)
       return input[input.length() - 1]>='0' && input[input.length() - 1] <= '9';
@@ -77,7 +77,7 @@ namespace Util
    }
   //------------------------------- LOAD FROM FILE -------------------------------
 
-  void StringUtil::loadFromFile(const std::string &fileName, std::string &target,const long bufferSize)
+  void Strings::loadFromFile(const std::string &fileName, std::string &target,const long bufferSize)
    {
     char* buffer = new char[bufferSize];
     FILE* f = fopen(fileName.c_str(),"rt");
@@ -94,7 +94,7 @@ namespace Util
     delete [] buffer;
    }
   //---------------------------------- TRIM ALL ----------------------------------
-  std::string StringUtil::trimAll(std::string input)
+  std::string Strings::trimAll(std::string input)
    {
     size_t length = input.size();
     char* buffer = new char[length + 1];
@@ -113,7 +113,7 @@ namespace Util
     return returnValue;
    }
   //---------------------------------- TRIM ALL ----------------------------------
-  std::string StringUtil::trim(std::string input)
+  std::string Strings::trim(std::string input)
    {
     size_t i, j;
     for (i = 0; i < input.length() && isspace(input[i]);i++);
@@ -126,9 +126,9 @@ namespace Util
       return input.substr(i,j - i + 1);
    }
 
-  char StringUtil::buffer[STRING_UTIL_BUFFER_SIZE];
+  char Strings::buffer[STRING_UTIL_BUFFER_SIZE];
   //------------------------------ READ LINE -------------------------------------
-  std::string StringUtil::readLine(FILE* f)
+  std::string Strings::readLine(FILE* f)
    {
     std::string result;
     readNextBlock:
@@ -154,12 +154,12 @@ namespace Util
      }
    }
   //------------------------------------------------------------------------------
-  const std::string& StringUtil::dereferenceString(const std::string* const input)
+  const std::string& Strings::dereferenceString(const std::string* const input)
   {
     return *input;
   }
   //------------------------------------------------------------------------------
-  RectangleArray<char> StringUtil::makeBorder(const RectangleArray<char>& input, bool coordinates)
+  RectangleArray<char> Strings::makeBorder(const RectangleArray<char>& input, bool coordinates)
   {
     int leftBorder = (int)log10((float)input.getHeight()) + 2;
     int topBorder = 3;
@@ -167,7 +167,7 @@ namespace Util
     for (unsigned int x = 0; x < returnValue.getWidth(); x++)
       for (unsigned int y = 0; y < returnValue.getHeight(); y++)  
         returnValue[x][y] = ' ';
-    StringUtil::makeWindow(returnValue,
+    Strings::makeWindow(returnValue,
                            leftBorder - 1, 
                            topBorder - 1,
                            input.getWidth() + 2, 
@@ -177,24 +177,24 @@ namespace Util
         returnValue[x + leftBorder ][y + topBorder] = input[x][y];
     for (unsigned int i = 0; i < input.getWidth(); i+=10)
     {
-      StringUtil::printTo(returnValue, StringUtil::intToString(i), i + leftBorder, 0);
-      StringUtil::printTo(returnValue, StringUtil::intToString(i), i + leftBorder, returnValue.getHeight() - 1);
+      Strings::printTo(returnValue, Strings::intToString(i), i + leftBorder, 0);
+      Strings::printTo(returnValue, Strings::intToString(i), i + leftBorder, returnValue.getHeight() - 1);
     }
     for (unsigned int i = 0; i < input.getWidth(); i++)
     {
-      StringUtil::printTo(returnValue, StringUtil::intToString(i%10), i + leftBorder, 1);
-      StringUtil::printTo(returnValue, StringUtil::intToString(i%10), i + leftBorder, returnValue.getHeight() - 2);
+      Strings::printTo(returnValue, Strings::intToString(i%10), i + leftBorder, 1);
+      Strings::printTo(returnValue, Strings::intToString(i%10), i + leftBorder, returnValue.getHeight() - 2);
     }
     
     for (unsigned int i = 0; i < input.getHeight(); i++)
     {
-      StringUtil::printTo(returnValue, StringUtil::intToString(i), 0 , i + topBorder);
-      StringUtil::printTo(returnValue, StringUtil::intToString(i), leftBorder + input.getWidth() + 1, i + topBorder);
+      Strings::printTo(returnValue, Strings::intToString(i), 0 , i + topBorder);
+      Strings::printTo(returnValue, Strings::intToString(i), leftBorder + input.getWidth() + 1, i + topBorder);
     }
 
     return returnValue;
   }
-  char StringUtil::FrameCharacters[2][6] = 
+  char Strings::FrameCharacters[2][6] = 
   {
     {
       char(205),
@@ -215,7 +215,7 @@ namespace Util
   };
    
   //------------------------------------------------------------------------------
-  void StringUtil::makeWindow(RectangleArray<char>& input, unsigned int x, 
+  void Strings::makeWindow(RectangleArray<char>& input, unsigned int x, 
                               unsigned int y, 
                               unsigned int width, 
                               unsigned int height, 
@@ -223,22 +223,22 @@ namespace Util
   {
     for (unsigned int i = x + 1; i < x + width - 1 && x < input.getWidth(); i++)
     {
-      input[i][y] = StringUtil::FrameCharacters[frameType][0];
-      input[i][y + height - 1] = StringUtil::FrameCharacters[frameType][0];
+      input[i][y] = Strings::FrameCharacters[frameType][0];
+      input[i][y + height - 1] = Strings::FrameCharacters[frameType][0];
     }
     
     for (unsigned int i = y + 1; i < y + height - 1 && y < input.getHeight(); i++)
     {
-      input[x][i] = StringUtil::FrameCharacters[frameType][1];
-      input[x + width - 1][i] = StringUtil::FrameCharacters[frameType][1];
+      input[x][i] = Strings::FrameCharacters[frameType][1];
+      input[x + width - 1][i] = Strings::FrameCharacters[frameType][1];
     }
-    input[x][y] = StringUtil::FrameCharacters[frameType][2];
-    input[x + width - 1][y] = StringUtil::FrameCharacters[frameType][3];
-    input[x][y + height - 1] = StringUtil::FrameCharacters[frameType][4];
-    input[x + width - 1][y + height- 1] = StringUtil::FrameCharacters[frameType][5];
+    input[x][y] = Strings::FrameCharacters[frameType][2];
+    input[x + width - 1][y] = Strings::FrameCharacters[frameType][3];
+    input[x][y + height - 1] = Strings::FrameCharacters[frameType][4];
+    input[x + width - 1][y + height- 1] = Strings::FrameCharacters[frameType][5];
   }
   //------------------------------------------------------------------------------
-  void StringUtil::printTo(RectangleArray<char>& input, 
+  void Strings::printTo(RectangleArray<char>& input, 
                            const std::string& text, 
                            unsigned int x, 
                            unsigned int y)

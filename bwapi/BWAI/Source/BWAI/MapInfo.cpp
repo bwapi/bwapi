@@ -2,7 +2,7 @@
 
 #include <tinyxml.h>
 #include <Exceptions.h>
-#include <StringUtil.h>
+#include <Strings.h>
 #include <Dictionary.h>
 
 #include "MapExpansion.h"
@@ -69,8 +69,8 @@ namespace BWAI
   //--------------------------------------------------------------------------
   void MapInfo::saveDefinedBuildingsMap()
   {
-    RectangleArray<char> buildability = BWAPI::Map::getBuildabilityArray();
-    RectangleArray<int> counts = RectangleArray<int>(buildability.getWidth(), buildability.getHeight()) ;
+    Util::RectangleArray<char> buildability = BWAPI::Map::getBuildabilityArray();
+    Util::RectangleArray<int> counts = Util::RectangleArray<int>(buildability.getWidth(), buildability.getHeight()) ;
     for (unsigned int x = 0; x < buildability.getWidth(); x++)
       for (unsigned int y = 0; y < buildability.getHeight(); y++)    
         if (buildability[x][y] == 'X')
@@ -92,16 +92,16 @@ namespace BWAI
              j != positions->positions.end();
              ++j)
         {
-          StringUtil::makeWindow(buildability, (*j).x, (*j).y, positions->tileWidth, positions->tileHeight, 1);
-          StringUtil::printTo(buildability, positions->shortcut, (*j).x + 1, (*j).y + 1);
+          Util::Strings::makeWindow(buildability, (*j).x, (*j).y, positions->tileWidth, positions->tileHeight, 1);
+          Util::Strings::printTo(buildability, positions->shortcut, (*j).x + 1, (*j).y + 1);
           for (int x = 0; x < positions->tileWidth; x++)
             for (int y = 0; y < positions->tileHeight; y++)
               counts[x + (*j).x][y + (*j).y]++;
         }
       }
-     unsigned int startX = (*i)->expansion->getPosition().x/BW::TileSize - 2;
+      unsigned int startX = (*i)->expansion->getPosition().x/BW::TileSize - 2;
       unsigned int startY = ((*i)->expansion->getPosition().y - 45)/BW::TileSize;
-      StringUtil::makeWindow(buildability, startX, startY, 4, 3, 0);
+      Util::Strings::makeWindow(buildability, startX, startY, 4, 3, 0);
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 3; y++)
             counts[x + startX][y + startY]++;      
@@ -137,7 +137,7 @@ namespace BWAI
          buildability[x][y] = char(177);
        else if (counts[x][y] > 3)
          buildability[x][y] = char(178);
-    StringUtil::makeBorder(buildability).saveToFile(BWAPI::Broodwar.configuration->getValue("data_path") + "\\pre-defined-buildings.txt");
+    Util::Strings::makeBorder(buildability).saveToFile(BWAPI::Broodwar.configuration->getValue("data_path") + "\\pre-defined-buildings.txt");
   }
   //---------------------------------------------------------------------------
 }

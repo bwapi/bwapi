@@ -14,7 +14,7 @@ namespace BWAI
   Expansion::Expansion(BWAI::Unit* gatherCenter)
    :gatherCenter(gatherCenter)
   {
-    ai->log->log("New expansion registration started", LogLevel::Detailed);
+    ai->log->log("New expansion registration started", Util::LogLevel::Detailed);
     
     for (Unit* i = ai->getFirst(); i != NULL; i = i->getNext())
     {
@@ -28,7 +28,7 @@ namespace BWAI
         BWAI::ai->activeMinerals.push_back(newMineral);
       }
     }
-    ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), LogLevel::Normal);
+    ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str(), Util::LogLevel::Normal);
     if (this->gatherCenter->lastTrainedUnit == BW::UnitID::None)
       switch (this->gatherCenter->getType().getID())
       {
@@ -47,7 +47,7 @@ namespace BWAI
   //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)
   {
-    ai->log->log("Mineral will be removed (was gathered out) %s", mineral->getName().c_str(), LogLevel::Important);
+    ai->log->log("Mineral will be removed (was gathered out) %s", mineral->getName().c_str(), Util::LogLevel::Important);
     
     for (std::list<TaskGather*>::iterator i = this->minerals.begin(); i != this->minerals.end(); ++i)
       if ((*i)->getMineral() == mineral)
