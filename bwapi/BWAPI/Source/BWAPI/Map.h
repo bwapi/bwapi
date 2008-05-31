@@ -7,11 +7,9 @@
 namespace BWAPI
 {
   /**
-   * Interface to acces broodwar map data.
-   * @TODO make constructor/destructor for the class
-   * and load the map into some reasonable format or at least
-   * make pointes to the beginning of lines, so the getTile
-   * function doesn't have to use the slow multiplication.
+   * Interface to acces broodwar map data. Loads buildability/walkability when
+   * constructed from the current map. It means it that instance of this class
+   * should exist only as long as the single map is opened.
    */
   class Map
   {
@@ -24,7 +22,10 @@ namespace BWAPI
       static u16 getHeight();
       /** Gets file name of the currently opened map by broodwar */
       static char* getFileName();
-      /** Saves the buildability map for the currently opened map to the specified file. */
+      /**
+       * Saves the buildability map for the currently opened map to the
+       * specified file.
+       */
       void saveBuildabilityMap(const std::string& fileName);
       void saveWalkabilityMap(const std::string& fileName);
       const Util::RectangleArray<bool>& getBuildabilityArray();
