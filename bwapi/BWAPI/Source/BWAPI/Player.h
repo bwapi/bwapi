@@ -32,27 +32,15 @@ namespace BWAPI
     void  spendLocal(s32 minerals, s32 gas);
 
 	  s32   getSuppliesAvailable(BW::Race::Enum race);
+    s32   getSuppliesUsed(BW::Race::Enum race);
+    s32   getSuppliesAvailableLocal(BW::Race::Enum race);
+    s32   getSuppliesUsedLocal(BW::Race::Enum race);
+    s32   freeSuppliesLocal(BW::Race::Enum race);
+    s32   usedSuppliesLocal(BW::Race::Enum race);
 
-    s32   getSuppliesAvailableProtossLocal();
-    s32   getSuppliesUsedProtoss();
-    s32   getSuppliesUsedProtossLocal();
     void  useSuppliesProtossLocal(u8 supplies);
-    s32   freeSuppliesProtossLocal();
-    
-    s32   getSuppliesAvailableTerranLocal();
-    s32   getSuppliesUsedTerran();
-    s32   getSuppliesUsedTerranLocal();
     void  useSuppliesTerranLocal(u8 supplies);
-    s32   freeSuppliesTerranLocal();
-
-    s32   getSuppliesAvailableZergLocal();
-    s32   getSuppliesUsedZerg();
-    s32   getSuppliesUsedZergLocal();
     void  useSuppliesZergLocal(u8 supplies);
-    s32   freeSuppliesZergLocal();
-    
-    s32 freeSuppliesLocal(BW::Race::Enum race);
-    s32 usedSuppliesLocal(BW::Race::Enum race);
 
     /** 
     * List of units owned by the current player, this structure owns (so the player needs 
