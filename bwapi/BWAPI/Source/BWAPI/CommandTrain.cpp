@@ -33,12 +33,7 @@ namespace BWAPI
    this->executors[0]->getOwner()->spendLocal(this->toTrain.getMineralPrice(),
                                               this->toTrain.getGasPrice());
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
-   if (toTrain.isProtoss())
-     executors[0]->getOwner()->useSuppliesProtossLocal(toTrain.getSupplies());
-   if (toTrain.isTerran())
-     executors[0]->getOwner()->useSuppliesTerranLocal (toTrain.getSupplies());
-   if (toTrain.isZerg())
-     executors[0]->getOwner()->useSuppliesZergLocal   (toTrain.getSupplies());
+   executors[0]->getOwner()->useSuppliesLocal(toTrain.getSupplies(), toTrain.getRace());
   }
   //--------------------------------- GET TYPE ----------------------------------
   BWAPI::CommandTypes::Enum CommandTrain::getType()
