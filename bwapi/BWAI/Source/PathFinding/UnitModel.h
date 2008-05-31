@@ -13,7 +13,7 @@ namespace PathFinding
   {
     public :
       UnitModel(const BWAI::Unit*& original);
-      /** The unit that made this shadow - is there to avoid collition with itself. */
+      /** The unit that made this shadow - is there to avoid collision with itself. */
       const BWAI::Unit* original;  
       /** Position of the shadow, will be modified during the pathfinding algorithm. */
       BW::Position position;

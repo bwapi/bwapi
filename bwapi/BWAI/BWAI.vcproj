@@ -324,6 +324,34 @@
 				>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Path Finding"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\Source\PathFinding\UnitModel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\PathFinding\Utilities.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\Source\PathFinding\UnitModel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\PathFinding\Utilities.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

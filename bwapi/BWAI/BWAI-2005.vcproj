@@ -331,7 +331,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\PathFinding\Util.cpp"
+					RelativePath=".\Source\PathFinding\Utilities.cpp"
 					>
 				</File>
 			</Filter>
@@ -343,7 +343,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\PathFinding\Util.h"
+					RelativePath=".\Source\PathFinding\Utilities.h"
 					>
 				</File>
 			</Filter>
