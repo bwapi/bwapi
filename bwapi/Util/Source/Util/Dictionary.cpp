@@ -2,7 +2,7 @@
 #include "Sentence.h"
 #include "UnusedLine.h"
 #include "DictionaryFile.h"
-#include "StringUtil.h"
+#include "Strings.h"
 #include <algorithm>
 
 namespace Util

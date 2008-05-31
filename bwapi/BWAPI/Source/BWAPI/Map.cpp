@@ -1,7 +1,7 @@
 #include "Map.h"
 
 #include <Exceptions.h>
-#include <StringUtil.h>
+#include <Strings.h>
 #include <Logger.h>
 
 #include "../BW/TileSet.h"
@@ -43,7 +43,7 @@ namespace BWAPI
     fprintf(f, "X = not buildable\n");
     fprintf(f, ". = buildable\n");
     Util::RectangleArray<char> buildability = Map::getBuildabilityArray();
-    Util::RectangleArray<char> withBorder = Util::StringUtil::makeBorder(buildability);
+    Util::RectangleArray<char> withBorder = Util::Strings::makeBorder(buildability);
     withBorder.printToFile(f); 
     fclose(f);             
   }
@@ -60,7 +60,7 @@ namespace BWAPI
     fprintf(f, "X = not walkable\n");
     fprintf(f, ". = walkable\n");
     Util::RectangleArray<char> walkability = Map::getWalkabilityArray();
-    Util::RectangleArray<char> withBorder = Util::StringUtil::makeBorder(walkability);
+    Util::RectangleArray<char> withBorder = Util::Strings::makeBorder(walkability);
     withBorder.printToFile(f); 
     fclose(f);             
   }
