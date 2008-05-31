@@ -42,7 +42,7 @@ namespace BuildOrder
     //BWAI::ai->log->log("Have mineral price = %d, gasPrice =%d, suppliesCondition=%d", BWAI::ai->player->getMineralsLocal(), BWAI::ai->player->getGasLocal(), BWAI::ai->player->usedSuppliesLocal(toBuild.getRace()));
     if (BWAI::ai->player->getMineralsLocal() - BWAI::ai->moneyToBeSpentOnBuildings >= toBuild.getMineralPrice() &&
         BWAI::ai->player->getGasLocal() >= toBuild.getGasPrice() &&
-        BWAI::ai->player->usedSuppliesLocal(toBuild.getRace()) >= 2*this->minimalPopulation)
+        BWAI::ai->player->getSuppliesFreeLocal(toBuild.getRace()) >= 2*this->minimalPopulation)
     {
       BWAI::Unit* scvToUse = NULL;
       BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 

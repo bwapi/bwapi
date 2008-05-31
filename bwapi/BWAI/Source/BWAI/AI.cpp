@@ -587,10 +587,10 @@ namespace BWAI
       return;
     int countOfTerranFactories = this->countOfTerranProductionBuildings();
     if (countOfTerranFactories != 0 &&
-        countOfTerranFactories * 2 >= player->freeSuppliesLocal(BW::Race::Terran) + plannedTerranSupplyGain() &&
-        player->freeSuppliesLocal(BW::Race::Terran) + plannedTerranSupplyGain() < 400)
+        countOfTerranFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() &&
+        player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < 400)
     {
-      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->freeSuppliesLocal(BW::Race::Terran), plannedTerranSupplyGain());
+      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->getSuppliesFreeLocal(BW::Race::Terran), plannedTerranSupplyGain());
       BuildingPosition* buildingPosition= this->startingPosition->positions["non-producting-3X2"];
       for (std::list<BW::TilePosition>::iterator i = buildingPosition->positions.begin();
            i != buildingPosition->positions.end();

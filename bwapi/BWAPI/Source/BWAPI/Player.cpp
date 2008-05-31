@@ -97,14 +97,9 @@ namespace BWAPI
     return this->suppliesUsedLocal[race];
   }
   //---------------------------------------------------------------------------
-  s32 Player::freeSuppliesLocal(BW::Race::Enum race)
+  s32 Player::getSuppliesFreeLocal(BW::Race::Enum race)
   {
     return this->getSuppliesAvailableLocal(race) - this->getSuppliesUsedLocal(race);
-  }
-  //---------------------------------------------------------------------------
-  s32 Player::usedSuppliesLocal(BW::Race::Enum race)
-  {
-    return this->getSuppliesUsedLocal(race);
   }
   //------------------------------ USE SUPPLIES PROTOSS LOCAL -----------------
   void Player::useSuppliesLocal(u8 supplies, BW::Race::Enum race)
@@ -123,7 +118,7 @@ namespace BWAPI
   //--------------------------------- CAN AFFORD ------------------------------
   bool Player::canAfford(BW::UnitType unit, u16 mineralsToKeep)
   {
-    return this->freeSuppliesLocal(unit.getRace()) >= unit.getSupplies() &&
+    return this->getSuppliesFreeLocal(unit.getRace()) >= unit.getSupplies() &&
            this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
            this->getGasLocal() >= unit.getGasPrice();
   }
