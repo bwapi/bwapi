@@ -63,11 +63,11 @@ namespace BWAPI
     this->mineralsLocal = this->getMinerals();
     this->gasLocal = this->getGas();
     this->suppliesAvailableTerranLocal = this->getSuppliesAvailable(BW::Race::Terran);
-    this->suppliesUsedTerranLocal = this->getSuppliesUsedTerran();
+    this->suppliesUsedTerranLocal = this->getSuppliesUsed(BW::Race::Terran);
     this->suppliesAvailableProtossLocal = this->getSuppliesAvailable(BW::Race::Protoss);
-    this->suppliesUsedProtossLocal = this->getSuppliesUsedProtoss();
+    this->suppliesUsedProtossLocal = this->getSuppliesUsed(BW::Race::Protoss);
     this->suppliesAvailableZergLocal = this->getSuppliesAvailable(BW::Race::Zerg);
-    this->suppliesUsedZergLocal = this->getSuppliesUsedZerg();
+    this->suppliesUsedZergLocal = this->getSuppliesUsed(BW::Race::Zerg);
   }
   //-------------------------------- SPEND LOCAL ------------------------------
   void  Player::spendLocal(s32 minerals, s32 gas)
@@ -81,119 +81,78 @@ namespace BWAPI
     s32 ret;
     switch (race)
     {
-    case BW::Race::Terran:
-      ret = BW::BWXFN_SuppliesAvailableTerran->player[this->getID()].suppliesAvailableTerran;
+    case BW::Race::Terran: ret = BW::BWXFN_SuppliesAvailableTerran->player[this->getID()].suppliesAvailableTerran; 
       break;
-    case BW::Race::Zerg:
-      ret = BW::BWXFN_SuppliesAvailableZerg->player[this->getID()].suppliesAvailableZerg;
+    case BW::Race::Zerg: ret = BW::BWXFN_SuppliesAvailableZerg->player[this->getID()].suppliesAvailableZerg;
       break;
-    case BW::Race::Protoss:
-      ret = BW::BWXFN_SuppliesAvailableProtoss->player[this->getID()].suppliesAvailableProtoss;
+    case BW::Race::Protoss: ret = BW::BWXFN_SuppliesAvailableProtoss->player[this->getID()].suppliesAvailableProtoss;
       break;
-    case BW::Race::Other:
-      return 0; //Just return 0 for now
+    default: return 0;
     }
     return ret < 400 ? ret : 400;
   }
-  //------------------------- GET SUPPLY AVAILABLE PROTOSS LOCAL --------------
-  s32 Player::getSuppliesAvailableProtossLocal()
+  //------------------------- GET SUPPLY USED ---------------------------------
+  s32 Player::getSuppliesUsed(BW::Race::Enum race)
   {
-    s32 ret = this->suppliesAvailableProtossLocal;
-	return ret < 400 ? ret : 400;
+    switch (race)
+    {
+      case BW::Race::Terran: return BW::BWXFN_SuppliesAvailableTerran->player[this->getID()].suppliesAvailableTerran;
+      case BW::Race::Zerg: return BW::BWXFN_SuppliesUsedZerg->player[this->getID()].suppliesUsedZerg;
+      case BW::Race::Protoss: return BW::BWXFN_SuppliesUsedProtoss->player[this->getID()].suppliesUsedProtoss;
+    }
+    return 0;
   }
-  //------------------------------ GET SUPPLY USED PROTOSS --------------------
-  s32 Player::getSuppliesUsedProtoss()
+  //------------------------- GET SUPPLY AVAILABLE LOCAL ----------------------
+  s32 Player::getSuppliesAvailableLocal(BW::Race::Enum race)
   {
-   return BW::BWXFN_SuppliesUsedProtoss->player[this->getID()].suppliesUsedProtoss;
+    s32 ret;
+    switch (race)
+    {
+    case BW::Race::Terran: ret = this->suppliesAvailableTerranLocal;
+      break;
+    case BW::Race::Zerg: ret = this->suppliesAvailableZergLocal;
+      break;
+    case BW::Race::Protoss: ret = this->suppliesAvailableProtossLocal;
+      break;
+    default: return 0;
+    }
+    return ret < 400 ? ret : 400;
   }
-  //------------------------- GET SUPPLY AVAILABLE PROTOSS LOCAL --------------
-  s32 Player::getSuppliesUsedProtossLocal()
+  //------------------------- GET SUPPLY USED LOCAL ---------------------------
+  s32 Player::getSuppliesUsedLocal(BW::Race::Enum race)
   {
-    return this->suppliesUsedProtossLocal;
+    switch (race)
+    {
+      case BW::Race::Terran: return this->suppliesUsedTerranLocal;
+      case BW::Race::Zerg: return this->suppliesUsedZergLocal;
+      case BW::Race::Protoss: return this->suppliesUsedProtossLocal;
+    }
+    return 0;
+  }
+  //---------------------------------------------------------------------------
+  s32 Player::freeSuppliesLocal(BW::Race::Enum race)
+  {
+    return this->getSuppliesAvailableLocal(race) - this->getSuppliesUsedLocal(race);
+  }
+  //---------------------------------------------------------------------------
+  s32 Player::usedSuppliesLocal(BW::Race::Enum race)
+  {
+    return this->getSuppliesUsedLocal(race);
   }
   //------------------------------ USE SUPPLIES PROTOSS LOCAL -----------------
   void Player::useSuppliesProtossLocal(u8 supplies)
   {
     this->suppliesUsedProtossLocal += supplies;
   }
-  //------------------------------- FREE SUPPLIES PROTOSS LOCAL ---------------
-  s32 Player::freeSuppliesProtossLocal()
-  {
-    return this->getSuppliesAvailableProtossLocal() - this->getSuppliesUsedProtossLocal();
-  }
-  //------------------------- GET SUPPLY AVAILABLE TERRAN LOCAL ---------------
-  s32 Player::getSuppliesAvailableTerranLocal()
-  {
-    s32 ret = this->suppliesAvailableTerranLocal;
-	return ret < 400 ? ret : 400;
-  }
-  //------------------------------ GET SUPPLY USED TERRAN ---------------------
-  s32 Player::getSuppliesUsedTerran()
-  {
-   return BW::BWXFN_SuppliesUsedTerran->player[this->getID()].suppliesUsedTerran;
-  }
-  //------------------------- GET SUPPLY USED TERRAN LOCAL ---------------
-  s32 Player::getSuppliesUsedTerranLocal()
-  {
-    return this->suppliesUsedTerranLocal;
-  }
   //------------------------------ USE SUPPLIES TERRAN LOCAL ------------------
   void Player::useSuppliesTerranLocal(u8 supplies)
   {
     this->suppliesUsedTerranLocal += supplies;
   }
-  //------------------------------- FREE SUPPLIES TERRAN LOCAL ----------------
-  s32 Player::freeSuppliesTerranLocal()
-  {
-    return this->getSuppliesAvailableTerranLocal() - this->getSuppliesUsedTerranLocal();
-  }
-  //------------------------- GET SUPPLY AVAILABLE ZERG LOCAL -----------------
-  s32 Player::getSuppliesAvailableZergLocal()
-  {
-    s32 ret = this->suppliesAvailableZergLocal;
-	return ret < 400 ? ret : 400;
-  }
-  //------------------------------ GET SUPPLY USED ZERG -----------------------
-  s32 Player::getSuppliesUsedZerg()
-  {
-   return BW::BWXFN_SuppliesUsedZerg->player[this->getID()].suppliesUsedZerg;
-  }
-  //------------------------- GET SUPPLY AVAILABLE ZERG LOCAL -----------------
-  s32 Player::getSuppliesUsedZergLocal()
-  {
-    return this->suppliesUsedZergLocal;
-  }
   //------------------------------ USE SUPPLIES ZERG LOCAL --------------------
   void Player::useSuppliesZergLocal(u8 supplies)
   {
     this->suppliesUsedZergLocal += supplies;
-  }
-  //------------------------------- FREE SUPPLIES ZERG LOCAL ------------------
-  s32 Player::freeSuppliesZergLocal()
-  {
-    return this->getSuppliesAvailableZergLocal() - this->getSuppliesUsedZergLocal();
-  }
-  //---------------------------------------------------------------------------
-  s32 Player::freeSuppliesLocal(BW::Race::Enum race)
-  {
-    switch (race)
-    {
-      case BW::Race::Zerg : return this->freeSuppliesZergLocal();
-      case BW::Race::Protoss : return this->freeSuppliesProtossLocal();
-      case BW::Race::Terran : return this->freeSuppliesTerranLocal();
-      default : return 0;
-    }
-  }
-  //---------------------------------------------------------------------------
-  s32 Player::usedSuppliesLocal(BW::Race::Enum race)
-  {
-    switch (race)
-    {
-      case BW::Race::Zerg : return this->getSuppliesUsedZergLocal();
-      case BW::Race::Protoss : return this->getSuppliesUsedProtossLocal();
-      case BW::Race::Terran : return this->getSuppliesUsedTerranLocal();
-      default : return 0;
-    }
   }
   //--------------------------------- CAN BUILD -------------------------------
   bool Player::canBuild(BW::UnitType unit)
@@ -210,15 +169,15 @@ namespace BWAPI
     return ( 
              ( 
                unit.isTerran() &&
-               this->freeSuppliesTerranLocal() >= unit.getSupplies()
+               this->freeSuppliesLocal(BW::Race::Terran) >= unit.getSupplies()
              ) ||
              (
                unit.isProtoss() &&
-               this->freeSuppliesProtossLocal() >= unit.getSupplies()
+               this->freeSuppliesLocal(BW::Race::Protoss) >= unit.getSupplies()
              ) ||
              (
                unit.isZerg() &&
-               this->freeSuppliesZergLocal() >= unit.getSupplies()
+               this->freeSuppliesLocal(BW::Race::Zerg) >= unit.getSupplies()
              ) 
            ) &&
            this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
