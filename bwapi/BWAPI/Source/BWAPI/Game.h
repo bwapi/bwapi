@@ -53,7 +53,7 @@ namespace BWAPI
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
        * @param slotID Order of the slot (0 based)
        */
-      void changeRace(BW::Orders::ChangeRace::Race race, u8 slotID);
+      void changeRace(BW::Race::Enum race, u8 slotID);
       /**
        * This function is called after every update (in DLLMain), and is used
        * for debug and other reasons

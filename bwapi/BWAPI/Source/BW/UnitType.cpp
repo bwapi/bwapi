@@ -175,16 +175,16 @@ namespace BW
     return this->id < 228;
   }
   //----------------------------------------------------------------------------
-  BWAPI::Race::Enum UnitType::getRace()
+  BW::Race::Enum UnitType::getRace()
   {
     if (this->isZerg())
-      return BWAPI::Race::Zerg;
+      return BW::Race::Zerg;
     else if (this->isProtoss())
-      return BWAPI::Race::Protoss;
+      return BW::Race::Protoss;
     else if (this->isTerran())
-      return BWAPI::Race::Terran;
+      return BW::Race::Terran;
     else
-      return BWAPI::Race::Other;
+      return BW::Race::Other;
   }
   //----------------------------------------------------------------------------
 };

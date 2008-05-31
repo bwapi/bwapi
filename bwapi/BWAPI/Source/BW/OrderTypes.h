@@ -1,7 +1,10 @@
 #pragma once
+
 #include "..\\Types.h"
+
 #include "UnitType.h"
 #include "PositionUnitTarget.h"
+#include "Race.h"
 
 namespace BWAPI { class Unit; }
 #pragma pack(1)
@@ -86,21 +89,14 @@ namespace BW
    class ChangeRace
     {
       public :
-       typedef enum Race : u8
-        {
-          Zerg    = 0,
-          Terran  = 1,
-          Protoss = 2,
-          Random  = 6
-        };
-        ChangeRace(Race slot, u8 slotID);
+        ChangeRace(BW::Race::Enum slot, u8 slotID);
       private :
         /** 0x41 = Command code for change race in bw. */
         u8 always0x41;
         /** Order of the slot to change (0 for the 1st slot). */
         u8 slotID;
         /** Target slot race. */
-        Race race;
+        BW::Race::Enum race;
     };
    /** Starts game in the pre-game lobby. */
    class StartGame

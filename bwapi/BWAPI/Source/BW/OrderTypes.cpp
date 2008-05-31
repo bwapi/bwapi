@@ -59,8 +59,8 @@ namespace BW
     ,always0x44(0x44)
     {
     }
-    //---------------------------------- MOVE CONSTRUCTOR -----------------------------
-    ChangeRace::ChangeRace(Race race, u8 slotID)
+    //-------------------------------- CHANGE RACE CONSTRUCTOR ------------------------
+    ChangeRace::ChangeRace(BW::Race::Enum race, u8 slotID)
     :race(race)
     ,slotID(slotID)
     ,always0x41(0x41)

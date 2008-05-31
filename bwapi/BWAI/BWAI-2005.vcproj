@@ -323,14 +323,30 @@
 		<Filter
 			Name="Path Finding"
 			>
-			<File
-				RelativePath=".\Source\PathFinding\Util.cpp"
+			<Filter
+				Name="Source Files"
 				>
-			</File>
-			<File
-				RelativePath=".\Source\PathFinding\Util.h"
+				<File
+					RelativePath=".\Source\PathFinding\UnitModel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\PathFinding\Util.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
 				>
-			</File>
+				<File
+					RelativePath=".\Source\PathFinding\UnitModel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\PathFinding\Util.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
