@@ -119,7 +119,7 @@ namespace BW
     };
     PlayerSuppliesAvaialableProtoss player[8];
   };
-  static PlayerSupliesAvailableProtoss_type* BWXFN_SuppliesAvaialbeProtoss = (PlayerSupliesAvailableProtoss_type*)  	0x0058224C;
+  static PlayerSupliesAvailableProtoss_type* BWXFN_SuppliesAvailableProtoss = (PlayerSupliesAvailableProtoss_type*)  	0x0058224C;
   // ----- USED PROTOSS
   /** Direct mapping of players Protoss used supplies in the bw memory. */
   struct PlayerSupliesUsedProtoss_type
@@ -143,7 +143,7 @@ namespace BW
     };
     PlayerSuppliesAvaialableTerran player[8];
   };
-  static PlayerSupliesAvailableTerran_type* BWXFN_SuppliesAvaialbeTerran = (PlayerSupliesAvailableTerran_type*) 0x005821BC;
+  static PlayerSupliesAvailableTerran_type* BWXFN_SuppliesAvailableTerran = (PlayerSupliesAvailableTerran_type*) 0x005821BC;
   // ----- USED TERRAN
   /** Direct mapping of players Terran used supplies in the bw memory. */
   struct PlayerSupliesUsedTerran_type
@@ -167,7 +167,7 @@ namespace BW
     };
     PlayerSuppliesAvaialableZerg player[8];
   };
-  static PlayerSupliesAvailableZerg_type* BWXFN_SuppliesAvaialbeZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
+  static PlayerSupliesAvailableZerg_type* BWXFN_SuppliesAvailableZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
   //----------------------------------- USED ZERG -----------------------------
   /** Direct mapping of players Zerg used supplies in the bw memory. */
   struct PlayerSupliesUsedZerg_type
