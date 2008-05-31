@@ -10,6 +10,14 @@
 
 namespace BWAPI
 {
+  //----------------------------- CONSTRUCTOR -------------------------------
+  Map::Map()
+  :buildability(Map::getWidth()  , Map::getHeight()  )
+  ,walkability (Map::getWidth()*4, Map::getHeight()*4)
+  {
+   this->setBuildability();
+   this->setWalkability();
+  }
   //------------------------------- GET TILE --------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
@@ -42,9 +50,13 @@ namespace BWAPI
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not buildable\n");
     fprintf(f, ". = buildable\n");
-    Util::RectangleArray<char> buildability = Map::getBuildabilityArray();
-    Util::RectangleArray<char> withBorder = Util::Strings::makeBorder(buildability);
-    withBorder.printToFile(f); 
+
+    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getBuildabilityArray().getWidth(), this->getBuildabilityArray().getHeight());
+    for (unsigned int x = 0; x < this->getBuildabilityArray().getWidth(); x++)
+      for (unsigned int y = 0; y < this->getBuildabilityArray().getHeight(); y++)
+        result[x][y] = this->getBuildabilityArray()[x][y] ? '.' : 'X';
+    
+    Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);             
   }
    //------------------------------- SAVE BUILDABILITY MAP -------------------
@@ -59,9 +71,13 @@ namespace BWAPI
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not walkable\n");
     fprintf(f, ". = walkable\n");
-    Util::RectangleArray<char> walkability = Map::getWalkabilityArray();
-    Util::RectangleArray<char> withBorder = Util::Strings::makeBorder(walkability);
-    withBorder.printToFile(f); 
+    
+    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getWalkabilityArray().getWidth(), this->getWalkabilityArray().getHeight());
+    for (unsigned int x = 0; x < this->getWalkabilityArray().getWidth(); x++)
+      for (unsigned int y = 0; y < this->getWalkabilityArray().getHeight(); y++)
+        result[x][y] = this->getWalkabilityArray()[x][y] ? '.' : 'X';
+    
+    Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);             
   }
   //----------------------------------- GET FILE NAME -------------------------
@@ -70,21 +86,25 @@ namespace BWAPI
     return BW::BWXFN_CurrentMapFileName;
   }
   //------------------------------- GET BUILDABILITY ARRAY --------------------
-  Util::RectangleArray<char> Map::getBuildabilityArray()
+  const Util::RectangleArray<bool>& Map::getBuildabilityArray()
   {
-    Util::RectangleArray<char> returnValue(Map::getWidth(), Map::getHeight());
-    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
-      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
-        if ((((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8)) == 0)
-          returnValue[x][y] = '.';
-        else
-          returnValue[x][y] = 'X';
-    return returnValue;
+    return this->buildability;
   }
   //---------------------------------------------------------------------------
-  Util::RectangleArray<char> Map::getWalkabilityArray()
+  const Util::RectangleArray<bool>& Map::getWalkabilityArray()
   {
-    Util::RectangleArray<char> returnValue(Map::getWidth()*4, Map::getHeight()*4);
+    return this->walkability;
+  }
+  //----------------------------- SET BUILDABILITY ----------------------------
+  void Map::setBuildability()
+  {
+    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
+      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
+        this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8);
+  }
+  //----------------------------- SET WALKABILITY -----------------------------
+  void Map::setWalkability()
+  {
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
       {
@@ -92,12 +112,9 @@ namespace BWAPI
         BW::TileType* tile = BW::TileSet::getTileType(tileID);
         for (unsigned int my = 0; my < 4; my++)
           for (unsigned int mx = 0; mx < 4; mx++)
-            if ((*BW::BWXFN_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable))
-              returnValue[x*4 + mx][y*4 + my] = '.';
-            else
-              returnValue[x*4 + mx][y*4 + my] = 'X';
-      }
-    return returnValue;
+            this->walkability[x*4 + mx][y*4 + my] = 
+              (*BW::BWXFN_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable);
+     }
   }
   //---------------------------------------------------------------------------
 }

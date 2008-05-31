@@ -10,42 +10,6 @@ namespace Util
   template <class Type,class Iterator = unsigned int>
   class RectangleArray
    {
-     private :
-       /** width of array */
-       Iterator width;
-       /** height of array */
-       Iterator height;
-       /** Array data, stored as linear array of size width*height */
-       Type *data;
-       /** Pointers to begins of lines*/
-       Type **columns;
-       /**
-        * Gets data item on the specified index
-        * @param index index of the data to be returned.
-        */
-       Type getData(Iterator index);
-       /**
-        * Gets the pointer in data to the beginning of line with the specified
-        * index.
-        * @param index index of the line.
-        */
-       Type *getColumn(Iterator index);
-       /**
-        * Gets the pointer in data to the beginning of line with the specified
-        * index.
-        * @param index index of the line.
-        */
-       const Type *getColumn(Iterator index) const;
-       /**
-        * Sets the width of the array.
-        * @param width New width of the array.
-        */
-       void setWidth(Iterator width);
-       /**
-        * Sets the height of the array.
-        * @param height New height of the array.
-        */
-       void setHeight(Iterator height);
      public :
        /**
         * Creates the array with the specified proportions.
@@ -87,6 +51,42 @@ namespace Util
        void resize(Iterator width, Iterator height);
        void printToFile(FILE* f);
        void saveToFile(const std::string& fileName);
+     private :
+       /** width of array */
+       Iterator width;
+       /** height of array */
+       Iterator height;
+       /** Array data, stored as linear array of size width*height */
+       Type *data;
+       /** Pointers to begins of lines*/
+       Type **columns;
+       /**
+        * Gets data item on the specified index
+        * @param index index of the data to be returned.
+        */
+       Type getData(Iterator index);
+       /**
+        * Gets the pointer in data to the beginning of line with the specified
+        * index.
+        * @param index index of the line.
+        */
+       Type *getColumn(Iterator index);
+       /**
+        * Gets the pointer in data to the beginning of line with the specified
+        * index.
+        * @param index index of the line.
+        */
+       const Type *getColumn(Iterator index) const;
+       /**
+        * Sets the width of the array.
+        * @param width New width of the array.
+        */
+       void setWidth(Iterator width);
+       /**
+        * Sets the height of the array.
+        * @param height New height of the array.
+        */
+       void setHeight(Iterator height);       
    };
   //-------------------------------- CONSTRUCTOR ---------------------------------
   template <class Type, class Iterator>

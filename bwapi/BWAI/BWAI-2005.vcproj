@@ -320,6 +320,18 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Path Finding"
+			>
+			<File
+				RelativePath=".\Source\PathFinding\Util.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\PathFinding\Util.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
