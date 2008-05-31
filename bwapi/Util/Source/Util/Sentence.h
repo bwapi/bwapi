@@ -9,12 +9,11 @@ namespace Util
 {
   class Dictionary;
   class DictionaryFile;
-  /** 
-   * Represents one property value.
-   * the representation of the property value can be for example: <br>
-   * cant_open_file_message=File {1} couldn't be opened, error message is '{2}' <br>
-   * This property has two parameters, so it will be represnted by this class with the following data.
-   * sentence="File "
+  /**
+   * Represents one property value. the representation of the property value can
+   * be for example: <br> cant_open_file_message=File {1} couldn't be opened,
+   * error message is '{2}' <br> This property has two parameters, so it will be
+   * represnted by this class with the following data. sentence="File "
    * sentenceParts={"couldn't be opened,error message is '"1},{"'",2}
    */
   class Sentence : public DictionaryLine
@@ -25,11 +24,14 @@ namespace Util
      std::list<std::pair<std::string,unsigned int>> sentenceParts;
      DictionaryFile *parentFile;
     public :
-     /** 
-      * Parses the right part of the property value and makes sentence structure out of it
-      * @param key part left part of the property value (the one in front of '=')
+     /**
+      * Parses the right part of the property value and makes sentence structure
+      * out of it
+      * @param key part left part of the property value (the one in front of
+      *        '=')
       * @param sentence the right part of property value to be parsed
-      * @param dictionary The dictionary this sentence belogs to (to resolve references to other property values in '{}' brackets
+      * @param dictionary The dictionary this sentence belogs to (to resolve
+      *        references to other property values in '{}' brackets
       * @param parentFile @todo describe
       */
      Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile* parentFile);

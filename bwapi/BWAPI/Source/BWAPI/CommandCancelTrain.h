@@ -3,9 +3,7 @@
 namespace BWAPI { class Unit; }
 namespace BWAPI
 {
-  /**
-   * BWAPI internal representation of cancel command.
-   */
+  /** BWAPI internal representation of cancel command. */
   class CommandCancelTrain : public Command
   {
     public :

@@ -9,10 +9,11 @@ namespace BWAI
   class MapInfo
   {
     public :
-      /** 
+      /**
        * Loads it's content from the specified xml file, it's structure has no 
        *  formal xsd yet, but it can be guessed from the xml file
-       * @param location of the xml file, don't forget that the "." directory is the 
+       * @param location of the xml file, don't forget that the "." directory is
+       *        the 
        *         directory is the starcraft.exe directorry
        * @throws FileException if the specified file was not found.
        */

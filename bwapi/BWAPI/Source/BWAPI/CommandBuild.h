@@ -5,9 +5,7 @@
 namespace BWAPI { class UnitPrototype; }
 namespace BWAPI
 {
-  /**
-   * BWAPI internal representation of make building command.
-   */
+  /** BWAPI internal representation of make building command. */
   class CommandBuild : public Command
   {
     public :

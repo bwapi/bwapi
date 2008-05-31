@@ -15,35 +15,39 @@ namespace Util
   class Logger
   {
     public :
-      /** 
+      /**
        * Creates new logger.
        * @param name "<name>.log" is the name of the log file
-       * @param levelToLog All log inputs with less importancy will be not logged in this log
+       * @param levelToLog All log inputs with less importancy will be not
+       *        logged in this log
        */
       Logger(const std::string& name, LogLevel::Enum levelToLog);
-      /** 
+      /**
        * Logs the specified message to the current log.
-       * @param message Message to be written to the log file, note that the result will be "(hh:MM:ss) <message>\n"
+       * @param message Message to be written to the log file, note that the
+       *        result will be "(hh:MM:ss) <message>\n"
        * @param logLevel of detail of this message.
        */
       bool log(const std::string& message, LogLevel::Enum logLevel = LogLevel::Normal);
-      /** 
-       * Logs the specified message using the printf notation to display the parameter.
-       * Example: log("5+5=%d",5+5) will act as log("5+5=10")
-       * @param message Message of the log, can include printf parameter specifiers.
+      /**
+       * Logs the specified message using the printf notation to display the
+       * parameter. Example: log("5+5=%d",5+5) will act as log("5+5=10")
+       * @param message Message of the log, can include printf parameter
+       *        specifiers.
        * @param parameter1 parametr for the printf parameter notation.
        * @param logLevel of detail of this message.
-       */    
+       */
       template <class T1>
       bool log(const std::string& message, const T1& parameter1, LogLevel::Enum logLevel = LogLevel::Normal);
-      /** 
-       * Logs the specified message using the printf notation to display parameters.
-       * Example: log("5+%d=%d",5,5+5) will act as log("5+5=10")
-       * @param message Message of the log, can include printf parameter specifiers.
+      /**
+       * Logs the specified message using the printf notation to display
+       * parameters. Example: log("5+%d=%d",5,5+5) will act as log("5+5=10")
+       * @param message Message of the log, can include printf parameter
+       *        specifiers.
        * @param parameter1 first parametr for the printf parameter notation.
        * @param parameter2 second parameter for the printf parameter notation.
        * @param logLevel of detail of this message.
-       */    
+       */
       template <class T1, class T2>
       bool log(const std::string& message, const T1& parameter1, const T2& parameter2, LogLevel::Enum logLevel = LogLevel::Normal);
       template <class T1, class T2, class T3>

@@ -8,7 +8,7 @@ namespace BWAI
   class MapExpansion
   {
     public :
-      /** 
+      /**
        * Loads the data from the specified xml element. 
        * @throws XmlException if the xml format is not correct.
        */

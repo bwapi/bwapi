@@ -28,11 +28,13 @@ namespace BWAPI { class UnitPrototype; }
  */
 namespace BWAI
 {
- /**
-   * Singleton - root ai class maintaining all the stuff, it's only instance should be the one defined in globals. 
+  /**
+   * Singleton - root ai class maintaining all the stuff, it's only instance
+   * should be the one defined in globals. 
    *
-   * There are good reasons that the class is constructed dynamically, the main is that non-dynamical classes
-   * have not defined order of constructor (c++ definition), so this class is constructated manually justa after the 
+   * There are good reasons that the class is constructed dynamically, the main
+   * is that non-dynamical classes have not defined order of constructor (c++
+   * definition), so this class is constructated manually justa after the 
    * #BWAPI#Game is constructed and it uses it's content (configuration, logs)
    */
   class AI
@@ -67,11 +69,14 @@ namespace BWAI
       std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
       BW::TilePosition getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
-      /** 
-       * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id.
-       * The operation speed should be log(count of places) as the stl doesn't support hash, but whatever.
-       * @param name of the building-place-set identification - it is the same as the name attribute in <building> tak in map xml file.
-       * @returns BuildingPosition set with he specified name if present, @c NULL otherwise.
+      /**
+       * Gets set of building positions (wrapped by the BuildingPosition class)
+       * with the specified id. The operation speed should be log(count of
+       * places) as the stl doesn't support hash, but whatever.
+       * @param name of the building-place-set identification - it is the same
+       *        as the name attribute in <building> tak in map xml file.
+       * @returns BuildingPosition set with he specified name if present, @c
+       *          NULL otherwise.
        */
       BuildingPosition* getPositionsCalled(const std::string& place);
       u16 moneyToBeSpentOnBuildings;
@@ -88,7 +93,7 @@ namespace BWAI
       void checkAssignedWorkers();
       void checkNewExpansions();
       void refreshSelectionStates(BW::Unit** selected);
-      /** 
+      /**
        * If some building finished production, it will start the same unit again
        * @returns something happened (so reselect is needed)
        */
@@ -98,7 +103,7 @@ namespace BWAI
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
       int countOfTerranProductionBuildings();
       void checkSupplyNeed();
-      /** @todo investigate and use the nextSupply provider here. */ 
+      /** @todo investigate and use the nextSupply provider here. */
       s32 plannedTerranSupplyGain();
       void executeTasks();
       TaskGather* bestFor(Unit* gatherer);

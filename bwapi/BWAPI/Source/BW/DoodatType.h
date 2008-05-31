@@ -4,7 +4,10 @@
 namespace BW
 {
   const u32 DOODAT_TYPE_SIZE_IN_BYTES = 52;
-  /** Represents information about doodat part (It is not used by bwapi yet, as for walkability reasons it is the same as TileType) */
+  /**
+   * Represents information about doodat part (It is not used by bwapi yet, as
+   * for walkability reasons it is the same as TileType)
+   */
   class DoodatType
   {
     public :
