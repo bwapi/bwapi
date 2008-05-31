@@ -8,7 +8,7 @@ namespace PathFinding
    /**
     * Utilities related to pathfinding.
     */
-   class Util
+   class Utilities
    {
      public :
        /**
