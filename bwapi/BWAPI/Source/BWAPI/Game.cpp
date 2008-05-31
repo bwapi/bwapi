@@ -37,7 +37,7 @@ namespace BWAPI
   {
     try
     {
-     this->configuration = new Dictionary("bwapi.ini");
+     this->configuration = new Util::Dictionary("bwapi.ini");
     }
     catch (GeneralException& exception)
     {
@@ -45,12 +45,12 @@ namespace BWAPI
       fprintf(f, "Couldn't load configuration file bwapi.ini because:", exception.getMessage());
       fclose(f);
     }
-    this->commandLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\commands", LogLevel::MicroDetailed);
-    this->newOrderLog       = new Util::Logger(this->configuration->getValue("log_path") + "\\new_orders", LogLevel::MicroDetailed);
-    this->badAssumptionLog  = new Util::Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", LogLevel::MicroDetailed);
-    this->newUnitLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\new_unit_id", LogLevel::MicroDetailed);
-    this->unitSum           = new Util::Logger(this->configuration->getValue("log_path") + "\\unit_sum", LogLevel::MicroDetailed);
-    this->fatalError        = new Util::Logger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", LogLevel::MicroDetailed);
+    this->commandLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
+    this->newOrderLog       = new Util::Logger(this->configuration->getValue("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
+    this->badAssumptionLog  = new Util::Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
+    this->newUnitLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
+    this->unitSum           = new Util::Logger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
+    this->fatalError        = new Util::Logger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;

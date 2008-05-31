@@ -1,13 +1,12 @@
 #pragma once
 
 namespace Util  { class Logger; }
+namespace Util  { class Dictionary; }
 namespace BW    { struct UnitArray; }
 namespace BW    { struct Unit; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
-
-class Dictionary;
 
 #include <vector>
 #include <list>
@@ -96,9 +95,9 @@ namespace BWAPI
       bool quietSelect;
       BW::Latency::Enum getLatency();
       /** Representation of the configuration file bw-api.ini in the starcraft directory. */
-      Dictionary* configuration;
+      Util::Dictionary* configuration;
       /** Every tile will have pointers to units touching it. */
-      RectangleArray<std::list<Unit*> > unitsOnTile;
+      Util::RectangleArray<std::list<Unit*> > unitsOnTile;
    private :
 	     bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
