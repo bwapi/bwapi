@@ -18,7 +18,10 @@ namespace BWAPI { class Command; }
 #include "../BW/Offsets.h"
 #include "../BW/Latency.h"
 
-/** Everything in the BWAPI library that doesn't map or work directly with the bw data. */
+/**
+ * Everything in the BWAPI library that doesn't map or work directly with the bw
+ * data.
+ */
 namespace BWAPI
 {
   /** The main class wrapping the whole game data/methods. */
@@ -29,33 +32,31 @@ namespace BWAPI
       ~Game();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       Player* players[12];
-      /** 
+      /**
        * Prints text in game (only local)
        * @param text Text to be written
        */
       static void print(char *text);
-      /** 
-       * Doesn't work now
-       */
+      /** Doesn't work now */
       void printPublic(char *text) const;
       bool isOnStartCalled() const;
       void setOnStartCalled(bool onStartCalled);
       bool isInGame() const;
-      /** 
+      /**
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
        * @param slotID Order of the slot (0 based)
        */
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
-      /** 
+      /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
        * @param slotID Order of the slot (0 based)
        */
       void changeRace(BW::Orders::ChangeRace::Race race, u8 slotID);
-      /** 
-       * This function is called after every update (in DLLMain), and is 
-       * used for debug and other reasons
+      /**
+       * This function is called after every update (in DLLMain), and is used
+       * for debug and other reasons
        */
       void test(void);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
@@ -63,9 +64,9 @@ namespace BWAPI
       void onGameStart();
       void onGameEnd();
       void onCancelTrain();
-      /** 
-       * Starts the game in the pre-game lobby.
-       * Should be used only in the pre-game lobby, and not during counting
+      /**
+       * Starts the game in the pre-game lobby. Should be used only in the
+       * pre-game lobby, and not during counting
        */
       void startGame();
       /** Gets mouse cursor horizontal position in pixels. */
@@ -94,7 +95,10 @@ namespace BWAPI
       Util::Logger *fatalError;
       bool quietSelect;
       BW::Latency::Enum getLatency();
-      /** Representation of the configuration file bw-api.ini in the starcraft directory. */
+      /**
+       * Representation of the configuration file bw-api.ini in the starcraft
+       * directory.
+       */
       Util::Dictionary* configuration;
       /** Every tile will have pointers to units touching it. */
       Util::RectangleArray<std::list<Unit*> > unitsOnTile;
@@ -121,7 +125,10 @@ namespace BWAPI
       void updateUnitsOnTile();
       /** Made for debug reasons, may come later someday, so I leave it*/
       void printUnitCountPerTile();
-      /** Specifies if some order was given, so the loadSelect function will have to be called. */
+      /**
+       * Specifies if some order was given, so the loadSelect function will have
+       * to be called.
+       */
       bool reselected;
   };
 };

@@ -17,7 +17,6 @@ namespace BWAI
       
       BWAI::Unit* gatherCenter;
       std::list<TaskGather*> minerals;
-     // std::list<TaskGatherGas*> gasMine;
       
       void removeMineral(Unit* mineral);
       static int maximumMineralDistance;

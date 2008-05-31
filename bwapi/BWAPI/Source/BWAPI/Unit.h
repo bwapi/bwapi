@@ -14,14 +14,14 @@ namespace BWAPI { class Player;  };
 
 namespace BWAPI
 {
-  /** 
-   * Interface for broodwar unit, can be used to obtain any information and issue commands.
+  /**
+   * Interface for broodwar unit, can be used to obtain any information and
+   * issue commands.
    */
   class Unit
   {
     public:
       /** 
-
        * @param bwUnit         #bwUnit                          
        * @param bwOriginalUnit #bwOriginalUnit
        * @param bwUnitLocal    #bwUnitLocal
@@ -55,13 +55,19 @@ namespace BWAPI
       const Unit* getOrderTarget() const;
       /** (const version) Gets #bwUnitLocal->BW#Unit#orderTargetUnit. */
       Unit* getOrderTargetLocal();
-      /** Gets owner of the unit defined by #bwUnitLocal->BW#Unit#orderTargetUnit. */
+      /**
+       * Gets owner of the unit defined by
+       * #bwUnitLocal->BW#Unit#orderTargetUnit.
+       */
       const Unit* getOrderTargetLocal() const;
       /** Gets #bwUnit->BW#Unit#moveToPos */
       BW::Position getTargetPosition() const;
       /** (const version) Gets #bwUnitLocal->BW#Unit#moveToPos. */
       BW::Position getTargetPositionLocal() const;
-      /** (const version) Gets owner of the unit defined by #bwUnit->BW#Unit#playerID. */
+      /**
+       * (const version) Gets owner of the unit defined by
+       * #bwUnit->BW#Unit#playerID.
+       */
       Player* getOwner() const;
       /** Gets #bwUnit->BW#Unit#queueSlot. */
       u8 getBuildQueueSlot() const;
@@ -79,14 +85,19 @@ namespace BWAPI
       BW::OrderID::Enum getOrderID() const;
       /**< Gets bwUnitLocal->BW#Unit#orderID - @ref localData */
       BW::OrderID::Enum getOrderIDLocal() const;
-      /* Timer specifiing how long it will take to finish the current order (verified for mining). */
+      /* Timer specifiing how long it will take to finish the current order
+       * (verified for mining).
+       */
       u8 getOrderTimer() const;
       /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType* getBuildQueue();
       /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
       BW::UnitType* getBuildQueueLocal();
       void order(int commandCode, const BW::Position& target);
-      /** Gets if the unit is alive (it exists), it uses hp > 0 heuristic for now. */
+      /**
+       * Gets if the unit is alive (it exists), it uses hp > 0 heuristic for
+       * now.
+       */
       bool isValid() const;
       /** Gets if the unit is alive - exists and it's construction is done. */
       bool isReady() const;
@@ -109,13 +120,14 @@ namespace BWAPI
       /** Returns if the unit has empty building queue in the local version  - @ref localData*/
       bool hasEmptyBuildQueueLocal();
       /**
-       * Order this unit to right click on the specified location. 
-       * Note that right click on location will always result in move.
+       * Order this unit to right click on the specified location. Note that
+       * right click on location will always result in move.
        */
       void orderRightClick(BW::Position position);
       /**
-       * Orders this unit to right click on the specified unit.
-       * Note that right click on unit can result in lot of commands (attack, gather, follow, set relly point)
+       * Orders this unit to right click on the specified unit. Note that right
+       * click on unit can result in lot of commands (attack, gather, follow,
+       * set relly point)
        */
       void orderRightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
@@ -132,9 +144,9 @@ namespace BWAPI
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
       bool isMineral() const;
       /**
-       * Gets index of the un it in the unit array.
-       * Note that the index is same for the original unit array, BWAPI::Unit array and BWAI::Unit array, so it
-       * is good way to compare units of different types and for conversion.
+       * Gets index of the un it in the unit array. Note that the index is same
+       * for the original unit array, BWAPI::Unit array and BWAI::Unit array, so
+       * it is good way to compare units of different types and for conversion.
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;

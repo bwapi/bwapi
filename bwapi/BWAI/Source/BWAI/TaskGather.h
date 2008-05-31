@@ -4,9 +4,10 @@ namespace BWAI { class Expansion; }
 
 namespace BWAI
 {
-  /** 
+  /**
    * Task to gather minerals, note that one instance per mineral is excepted.
-   * This task doesn't obtain it's executors itself, as it is maintained externally.
+   * This task doesn't obtain it's executors itself, as it is maintained
+   * externally.
    */
   class TaskGather : public Task
   {

@@ -7,9 +7,8 @@
 #include "MiniTileFlags.h"
 #include "GroupFlags.h"
 
-/** 
- * Broodwar content access tools.
- * The namespace contains:
+/**
+ * Broodwar content access tools. The namespace contains:
  * -# Data structers corresponding to bw data structures
  * -# Offests to bw data/functions
  * -# Functions that communicate directly with broodwar.
@@ -49,7 +48,10 @@ namespace BW
   };
   static PlayerNames_type* BWXFN_PlayerNames = (PlayerNames_type*) 0x0057EEEB;
 
-  /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
+  /**
+   * Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile
+   * group.
+   */
   typedef u16 TileID;
   static TileID**      BWXFN_MapTileArray = (TileID**) 0x005993AC;
   static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8; /**< Index  0-1023 */
@@ -68,7 +70,8 @@ namespace BW
   static u32           BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
   static u32           BWXFN_PrintText = 0x48CE60;
   static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
-  //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
+  //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested
+                                                   // yet (4 int arguments)
   static Unit*         BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;
   static u32           BWXFN_GameStart = 0x004C96A1;
   static u32           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
@@ -201,10 +204,16 @@ namespace BW
   };
   static SupplyDemands_type* BWXFN_SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
   //---------------------------------- UNIT MAX HP ----------------------------
-  /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
+  /**
+   * Direct mapping of unit unit type (Max Health Points)/(Not
+   * Attackable)/(Requirable) specification.
+   */
   struct MaxHealthPoints_NotAttackable_Repairable_type
   {
-    /** mapping of the Max Health Points)/(Not Attackable)/(Requirable) for single unit type. */
+    /**
+     * mapping of the Max Health Points)/(Not Attackable)/(Requirable) for
+     * single unit type.
+     */
     struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
     {
       u16 maxHealthPoints;
@@ -241,7 +250,10 @@ namespace BW
   /** Direct mapping of unit unit type armor */
   struct UnitsDimensions_type
   {
-    /** Dimensions of unit, it's the distance from the 'center' of unit to each border */
+    /**
+     * Dimensions of unit, it's the distance from the 'center' of unit to each
+     * border
+     */
     struct UnitDimensions
     {
       u16 left;

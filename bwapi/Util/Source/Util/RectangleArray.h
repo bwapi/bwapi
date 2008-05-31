@@ -25,12 +25,14 @@ namespace Util
         */
        Type getData(Iterator index);
        /**
-        * Gets the pointer in data to the beginning of line with the specified index.
+        * Gets the pointer in data to the beginning of line with the specified
+        * index.
         * @param index index of the line.
         */
        Type *getColumn(Iterator index);
        /**
-        * Gets the pointer in data to the beginning of line with the specified index.
+        * Gets the pointer in data to the beginning of line with the specified
+        * index.
         * @param index index of the line.
         */
        const Type *getColumn(Iterator index) const;
@@ -51,13 +53,9 @@ namespace Util
         * @param height Height of the new array.
         */
        RectangleArray(Iterator width,Iterator height);
-       /** 
-        * Copy constructor
-        */
+       /** Copy constructor */
        RectangleArray(const RectangleArray<Type,Iterator>& rectangleArray);
-       /**
-        * Destorys the array and deletes all content of array.
-        */
+       /** Destorys the array and deletes all content of array. */
        ~RectangleArray(void);
        /**
         * Gets the width of the array.

@@ -24,10 +24,12 @@ namespace Util
     /**
      * Converts textual representation of number to number.
      * @param input String containing number representation.
-     * @param begin Position of the first caracter of the number in the input std::string.
+     * @param begin Position of the first caracter of the number in the input
+     *        std::string.
      * @param distance Maximum count of characters to read.
      * @return Returns textual representation of the specified std::string.
-     * @throws ParseException if the text can't be converted to integer (non-numerical characters)
+     * @throws ParseException if the text can't be converted to integer
+     *         (non-numerical characters)
      */
     static unsigned long stringToInt(const std::string &input, const unsigned long begin = 0, const int distance = 9);
     static void stringToFile(const std::string &input, FILE* f);
@@ -50,7 +52,7 @@ namespace Util
                            unsigned int height, 
                            int frameType = 0);
     static void printTo(RectangleArray<char>& input, const std::string& text, unsigned int x, unsigned int y);
-    /** 
+    /**
      * Reads one line from the input stream.
      * @param f Input stream.
      * @return Content of the line.
