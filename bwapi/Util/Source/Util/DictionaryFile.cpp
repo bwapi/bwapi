@@ -2,7 +2,7 @@
 #include "Exceptions.h"
 #include "DictionaryLine.h"
 #include "Sentence.h"
-#include "StringUtil.h"
+#include "Strings.h"
 #include "Dictionary.h"
 #include "UnusedLine.h"
 
@@ -21,7 +21,7 @@ namespace Util
       Sentence* sentence;
       while (!feof(f))
        {
-        std::string line = StringUtil::readLine(f);
+        std::string line = Strings::readLine(f);
         endOfKey = line.find("=");
         if (endOfKey != -1)
          {

@@ -173,7 +173,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\Util\StringUtil.cpp"
+					RelativePath=".\Source\Util\Strings.cpp"
 					>
 				</File>
 				<File
@@ -218,10 +218,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\Util\Sentence.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\Util\StringUtil.h"
 					>
 				</File>
 				<File

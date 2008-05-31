@@ -1,6 +1,6 @@
 #include "Sentence.h"
 
-#include "StringUtil.h"
+#include "Strings.h"
 #include "Dictionary.h"
 namespace Util
 {
@@ -165,7 +165,7 @@ namespace Util
          i != this->sentenceParts.end();
          ++i)
      {
-      returnValue += "{" + StringUtil::intToString((*i).second) + "}";
+      returnValue += "{" + Strings::intToString((*i).second) + "}";
       returnValue += (*i).first;
      }
     return returnValue;
