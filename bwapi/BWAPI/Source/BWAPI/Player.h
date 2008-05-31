@@ -36,47 +36,47 @@ namespace BWAPI
      * but it didn't cause drop so far.
      * @param name New name of the player
      */
-    void  setName(const char* const name);
+    void setName(const char* const name);
     /** Gets synchronised version of minerals for the current player. */
-    s32   getMinerals() const;
+    s32 getMinerals() const;
     /** Gets local version of minerals for the current player - @ref localData */
-    s32   getMineralsLocal() const;
+    s32 getMineralsLocal() const;
     /** Gets synchronised version of gas for the current player. */
-    s32   getGas() const;
+    s32 getGas() const;
     /** Gets local version of gas for the current player - @ref localData */
-    s32   getGasLocal() const;
+    s32 getGasLocal() const;
     /** Gets 0-based index of the player. (11 for neutral) */
-    u8    getID() const;
+    u8 getID() const;
     /** Modifies the local version of resources according to the specification - @ref localData */
-    void  spendLocal(s32 minerals, s32 gas);
+    void spendLocal(s32 minerals, s32 gas);
 	   /**
 	    * Gets synchronised version of available supplies for the given race.
 	    * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
 	    *             in that case there would be undefined behaviour.
 	    * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
 	    */	    	    	    	       
-	   s32   getSuppliesAvailable(BW::Race::Enum race);
+	   s32 getSuppliesAvailable(BW::Race::Enum race);
 	   /**
 	    * Gets synchronised version of used supplies for the given race
 	    * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
 	    *             in that case there would be undefined behaviour.
 	    * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
 	    */	    	    	    	       
-    s32   getSuppliesUsed(BW::Race::Enum race);
+    s32 getSuppliesUsed(BW::Race::Enum race);
      /**
 	    * Gets local version of available supplies for the given race - @ref localData
 	    * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
 	    *             in that case there would be undefined behaviour.
 	    * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
 	    */	    	    	    	       
-    s32   getSuppliesAvailableLocal(BW::Race::Enum race);
+    s32 getSuppliesAvailableLocal(BW::Race::Enum race);
     /**
 	    * Gets local version of used supplies for the given race
 	    * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
 	    *             in that case there would be undefined behaviour.
 	    * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
 	    */	    	    	    	       
-    s32   getSuppliesUsedLocal(BW::Race::Enum race);
+    s32 getSuppliesUsedLocal(BW::Race::Enum race);
     /**
 	    * Gets local version of free supplies for the given race - @ref localData
 	    * Note that free supplies are Avialable - Used.
@@ -84,13 +84,13 @@ namespace BWAPI
 	    *             in that case there would be undefined behaviour.
 	    * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
 	    */	    	    	    	       
-    s32   getSuppliesFreeLocal(BW::Race::Enum race);
+    s32 getSuppliesFreeLocal(BW::Race::Enum race);
     /**
      * Order to use (reserve) certain amount of supplies in the local version - @ref localData
      * @param supplies Amount of supplies to reserve.
      * @param race Race we want to affect.
      */
-    void  useSuppliesLocal(u8 supplies, BW::Race::Enum race);
+    void useSuppliesLocal(u8 supplies, BW::Race::Enum race);
     /** Gets the bw mapping of synchronised version of selected unit for current player */
     BW::Unit** selectedUnit();
     /**
