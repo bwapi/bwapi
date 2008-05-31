@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <stdio.h>
 
-#include <Dictionary.h>
+#include <Dictionary.h> 
 #include <Logger.h>
 
 #include "Types.h"

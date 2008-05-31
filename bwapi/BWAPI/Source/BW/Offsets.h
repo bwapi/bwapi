@@ -100,6 +100,7 @@ namespace BW
   static int*          BWXFN_ScreenX = (int*) 0x00628430;
   static int*          BWXFN_ScreenY = (int*) 0x00628458;
   static char*         BWXFN_CurrentMapFileName = (char*) 0x0057FD24;
+  static char**        BWXFN_Sting_table = (char**)0x6d1220;
                                                             
 
 
