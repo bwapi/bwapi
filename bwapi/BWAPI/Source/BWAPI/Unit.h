@@ -15,8 +15,8 @@ namespace BWAPI { class Player;  };
 namespace BWAPI
 {
   /** 
-  * Interface for broodwar unit, can be used to obtain any information and issue commands.
-  */
+   * Interface for broodwar unit, can be used to obtain any information and issue commands.
+   */
   class Unit
   {
     public:
@@ -129,7 +129,14 @@ namespace BWAPI
       Unit* getNext();
       /** Updates pointer to next unit (and recursively updates that unit. */
       void updateNext();
+      /** Gets if the current unit mineral (there are 3 Types of minerals) */
       bool isMineral() const;
+      /**
+       * Gets index of the un it in the unit array.
+       * Note that the index is same for the original unit array, BWAPI::Unit array and BWAI::Unit array, so it
+       * is good way to compare units of different types and for conversion.
+       * @return 0-based index of the unit in the unit array.
+       */
       u16 getIndex() const;
     private:
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
