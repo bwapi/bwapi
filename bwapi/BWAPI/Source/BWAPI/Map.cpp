@@ -42,8 +42,8 @@ namespace BWAPI
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not buildable\n");
     fprintf(f, ". = buildable\n");
-    RectangleArray<char> buildability = Map::getBuildabilityArray();
-    RectangleArray<char> withBorder = StringUtil::makeBorder(buildability);
+    Util::RectangleArray<char> buildability = Map::getBuildabilityArray();
+    Util::RectangleArray<char> withBorder = Util::StringUtil::makeBorder(buildability);
     withBorder.printToFile(f); 
     fclose(f);             
   }
@@ -59,8 +59,8 @@ namespace BWAPI
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not walkable\n");
     fprintf(f, ". = walkable\n");
-    RectangleArray<char> walkability = Map::getWalkabilityArray();
-    RectangleArray<char> withBorder = StringUtil::makeBorder(walkability);
+    Util::RectangleArray<char> walkability = Map::getWalkabilityArray();
+    Util::RectangleArray<char> withBorder = Util::StringUtil::makeBorder(walkability);
     withBorder.printToFile(f); 
     fclose(f);             
   }
@@ -70,9 +70,9 @@ namespace BWAPI
     return BW::BWXFN_CurrentMapFileName;
   }
   //------------------------------- GET BUILDABILITY ARRAY --------------------
-  RectangleArray<char> Map::getBuildabilityArray()
+  Util::RectangleArray<char> Map::getBuildabilityArray()
   {
-    RectangleArray<char> returnValue(Map::getWidth(), Map::getHeight());
+    Util::RectangleArray<char> returnValue(Map::getWidth(), Map::getHeight());
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
         if ((((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8)) == 0)
@@ -82,9 +82,9 @@ namespace BWAPI
     return returnValue;
   }
   //---------------------------------------------------------------------------
-  RectangleArray<char> Map::getWalkabilityArray()
+  Util::RectangleArray<char> Map::getWalkabilityArray()
   {
-    RectangleArray<char> returnValue(Map::getWidth()*4, Map::getHeight()*4);
+    Util::RectangleArray<char> returnValue(Map::getWidth()*4, Map::getHeight()*4);
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
       {

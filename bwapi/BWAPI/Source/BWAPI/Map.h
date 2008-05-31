@@ -25,7 +25,7 @@ namespace BWAPI
      /** Saves the buildability map for the currently opened map to the specified file. */
      static void saveBuildabilityMap(const std::string& fileName);
      static void saveWalkabilityMap(const std::string& fileName);
-     static RectangleArray<char> getBuildabilityArray();
-     static RectangleArray<char> getWalkabilityArray();
+     static Util::RectangleArray<char> getBuildabilityArray();
+     static Util::RectangleArray<char> getWalkabilityArray();
   };
 }

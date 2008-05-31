@@ -165,7 +165,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
     return 1;
 
   delete Util::Logger::globalLog;
-  Util::Logger::globalLog = new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", LogLevel::MicroDetailed);
+  Util::Logger::globalLog = new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
   BWAI::ai = new BWAI::AI();
