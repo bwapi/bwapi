@@ -31,29 +31,28 @@ namespace BWAPI
     u8    getID() const;
     void  spendLocal(s32 minerals, s32 gas);
 
-    s32   getSuppliesAvailableProtoss();
+	  s32   getSuppliesAvailable(BW::Race::Enum race);
+
     s32   getSuppliesAvailableProtossLocal();
     s32   getSuppliesUsedProtoss();
     s32   getSuppliesUsedProtossLocal();
     void  useSuppliesProtossLocal(u8 supplies);
     s32   freeSuppliesProtossLocal();
     
-    s32   getSuppliesAvailableTerran();
     s32   getSuppliesAvailableTerranLocal();
     s32   getSuppliesUsedTerran();
     s32   getSuppliesUsedTerranLocal();
     void  useSuppliesTerranLocal(u8 supplies);
     s32   freeSuppliesTerranLocal();
 
-    s32   getSuppliesAvailableZerg();
     s32   getSuppliesAvailableZergLocal();
     s32   getSuppliesUsedZerg();
     s32   getSuppliesUsedZergLocal();
     void  useSuppliesZergLocal(u8 supplies);
     s32   freeSuppliesZergLocal();
     
-    s32 freeSuppliesLocal(BWAPI::Race::Enum race);
-    s32 usedSuppliesLocal(BWAPI::Race::Enum race);
+    s32 freeSuppliesLocal(BW::Race::Enum race);
+    s32 usedSuppliesLocal(BW::Race::Enum race);
 
     /** 
     * List of units owned by the current player, this structure owns (so the player needs 
