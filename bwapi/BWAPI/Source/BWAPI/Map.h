@@ -14,7 +14,7 @@ namespace BWAPI
   class Map
   {
     public :
-     /** Loads buildability/walkability arrays from the currently opened map. */
+      /** Loads buildability/walkability arrays from the currently opened map. */
       Map();
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);

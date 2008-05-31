@@ -168,7 +168,7 @@ namespace BWAPI
     IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID),3); 
   }
   //------------------------------ CHANGE RACE ---------------------------------
-  void Game::changeRace(BW::Orders::ChangeRace::Race race, u8 slotID)
+  void Game::changeRace(BW::Race::Enum race, u8 slotID)
   {
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(race, slotID),3); 
   }

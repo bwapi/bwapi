@@ -7,7 +7,7 @@
 #include "../BW/UnitType.h"
 #include "../BW/Offsets.h"
 
-#include "Race.h"
+#include "../BW/Race.h"
 
 namespace BW { struct Unit; };
 
