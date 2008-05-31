@@ -62,12 +62,11 @@ namespace BWAPI
   {
     this->mineralsLocal = this->getMinerals();
     this->gasLocal = this->getGas();
-    this->suppliesAvailableTerranLocal = this->getSuppliesAvailable(BW::Race::Terran);
-    this->suppliesUsedTerranLocal = this->getSuppliesUsed(BW::Race::Terran);
-    this->suppliesAvailableProtossLocal = this->getSuppliesAvailable(BW::Race::Protoss);
-    this->suppliesUsedProtossLocal = this->getSuppliesUsed(BW::Race::Protoss);
-    this->suppliesAvailableZergLocal = this->getSuppliesAvailable(BW::Race::Zerg);
-    this->suppliesUsedZergLocal = this->getSuppliesUsed(BW::Race::Zerg);
+    for (int i = 0; i < BW::RaceCount; i++)
+    {
+      this->suppliesAvailableLocal[i] = this->getSuppliesAvailable((BW::Race::Enum)i);
+      this->suppliesUsedLocal[i] = this->getSuppliesUsed((BW::Race::Enum)i);
+    }
   }
   //-------------------------------- SPEND LOCAL ------------------------------
   void  Player::spendLocal(s32 minerals, s32 gas)
@@ -78,56 +77,24 @@ namespace BWAPI
   //---------------------------- GET SUPPLY AVAILABLE ------------------------
   s32 Player::getSuppliesAvailable(BW::Race::Enum race)
   {
-    s32 ret;
-    switch (race)
-    {
-    case BW::Race::Terran: ret = BW::BWXFN_SuppliesAvailableTerran->player[this->getID()].suppliesAvailableTerran; 
-      break;
-    case BW::Race::Zerg: ret = BW::BWXFN_SuppliesAvailableZerg->player[this->getID()].suppliesAvailableZerg;
-      break;
-    case BW::Race::Protoss: ret = BW::BWXFN_SuppliesAvailableProtoss->player[this->getID()].suppliesAvailableProtoss;
-      break;
-    default: return 0;
-    }
+    s32 ret = BW::BWXFN_SuppliesAvailable[race]->player[this->getID()];
     return ret < 400 ? ret : 400;
   }
   //------------------------- GET SUPPLY USED ---------------------------------
   s32 Player::getSuppliesUsed(BW::Race::Enum race)
   {
-    switch (race)
-    {
-      case BW::Race::Terran: return BW::BWXFN_SuppliesAvailableTerran->player[this->getID()].suppliesAvailableTerran;
-      case BW::Race::Zerg: return BW::BWXFN_SuppliesUsedZerg->player[this->getID()].suppliesUsedZerg;
-      case BW::Race::Protoss: return BW::BWXFN_SuppliesUsedProtoss->player[this->getID()].suppliesUsedProtoss;
-    }
-    return 0;
+    return BW::BWXFN_SuppliesUsed[race]->player[this->getID()];
   }
   //------------------------- GET SUPPLY AVAILABLE LOCAL ----------------------
   s32 Player::getSuppliesAvailableLocal(BW::Race::Enum race)
   {
-    s32 ret;
-    switch (race)
-    {
-    case BW::Race::Terran: ret = this->suppliesAvailableTerranLocal;
-      break;
-    case BW::Race::Zerg: ret = this->suppliesAvailableZergLocal;
-      break;
-    case BW::Race::Protoss: ret = this->suppliesAvailableProtossLocal;
-      break;
-    default: return 0;
-    }
+    s32 ret = this->suppliesAvailableLocal[race];
     return ret < 400 ? ret : 400;
   }
   //------------------------- GET SUPPLY USED LOCAL ---------------------------
   s32 Player::getSuppliesUsedLocal(BW::Race::Enum race)
   {
-    switch (race)
-    {
-      case BW::Race::Terran: return this->suppliesUsedTerranLocal;
-      case BW::Race::Zerg: return this->suppliesUsedZergLocal;
-      case BW::Race::Protoss: return this->suppliesUsedProtossLocal;
-    }
-    return 0;
+    return this->suppliesUsedLocal[race];
   }
   //---------------------------------------------------------------------------
   s32 Player::freeSuppliesLocal(BW::Race::Enum race)
@@ -140,19 +107,9 @@ namespace BWAPI
     return this->getSuppliesUsedLocal(race);
   }
   //------------------------------ USE SUPPLIES PROTOSS LOCAL -----------------
-  void Player::useSuppliesProtossLocal(u8 supplies)
+  void Player::useSuppliesLocal(u8 supplies, BW::Race::Enum race)
   {
-    this->suppliesUsedProtossLocal += supplies;
-  }
-  //------------------------------ USE SUPPLIES TERRAN LOCAL ------------------
-  void Player::useSuppliesTerranLocal(u8 supplies)
-  {
-    this->suppliesUsedTerranLocal += supplies;
-  }
-  //------------------------------ USE SUPPLIES ZERG LOCAL --------------------
-  void Player::useSuppliesZergLocal(u8 supplies)
-  {
-    this->suppliesUsedZergLocal += supplies;
+    this->suppliesUsedLocal[race] += supplies;
   }
   //--------------------------------- CAN BUILD -------------------------------
   bool Player::canBuild(BW::UnitType unit)
@@ -166,20 +123,7 @@ namespace BWAPI
   //--------------------------------- CAN AFFORD ------------------------------
   bool Player::canAfford(BW::UnitType unit, u16 mineralsToKeep)
   {
-    return ( 
-             ( 
-               unit.isTerran() &&
-               this->freeSuppliesLocal(BW::Race::Terran) >= unit.getSupplies()
-             ) ||
-             (
-               unit.isProtoss() &&
-               this->freeSuppliesLocal(BW::Race::Protoss) >= unit.getSupplies()
-             ) ||
-             (
-               unit.isZerg() &&
-               this->freeSuppliesLocal(BW::Race::Zerg) >= unit.getSupplies()
-             ) 
-           ) &&
+    return this->freeSuppliesLocal(unit.getRace()) >= unit.getSupplies() &&
            this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
            this->getGasLocal() >= unit.getGasPrice();
   }

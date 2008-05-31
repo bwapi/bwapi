@@ -108,79 +108,37 @@ namespace BW
 
 
   //------------------------------------ SUPPLIES -----------------------------
-  // -------- AVAILABLE PROTOSS
-  /** Direct mapping of players Protoss available supplies in the bw memory. */
-  struct PlayerSupliesAvailableProtoss_type
+  static const u8 RaceCount = 3;
+  /** Direct mapping of available/Used supplies structure in bw memory (is same for every race). */
+  struct PlayerSuplies
   {
-    /** Direct mapping of player Protoss available supplies in the bw memory. */
-    struct PlayerSuppliesAvaialableProtoss
-    {
-      s32 suppliesAvailableProtoss;
-    };
-    PlayerSuppliesAvaialableProtoss player[8];
+    s32 player[8];
   };
-  static PlayerSupliesAvailableProtoss_type* BWXFN_SuppliesAvailableProtoss = (PlayerSupliesAvailableProtoss_type*)  	0x0058224C;
-  // ----- USED PROTOSS
-  /** Direct mapping of players Protoss used supplies in the bw memory. */
-  struct PlayerSupliesUsedProtoss_type
-  {
-    /** Direct mapping of player Protoss used supplies in the bw memory. */
-    struct PlayerSuppliesUsedProtoss
-    {
-      s32 suppliesUsedProtoss;
-    };
-    PlayerSuppliesUsedProtoss player[8];
-  };
-  static PlayerSupliesUsedProtoss_type* BWXFN_SuppliesUsedProtoss = (PlayerSupliesUsedProtoss_type*) 0x0058227C;
-  // -------- AVAILABLE TERRAN
-  /** Direct mapping of players Terran available supplies in the bw memory. */
-  struct PlayerSupliesAvailableTerran_type
-  {
-   /** Direct mapping of player Terran available supplies in the bw memory. */
-    struct PlayerSuppliesAvaialableTerran
-    {
-      s32 suppliesAvailableTerran;
-    };
-    PlayerSuppliesAvaialableTerran player[8];
-  };
-  static PlayerSupliesAvailableTerran_type* BWXFN_SuppliesAvailableTerran = (PlayerSupliesAvailableTerran_type*) 0x005821BC;
-  // ----- USED TERRAN
-  /** Direct mapping of players Terran used supplies in the bw memory. */
-  struct PlayerSupliesUsedTerran_type
-  {
-   /** Direct mapping of player Terran used supplies in the bw memory. */
-    struct PlayerSuppliesUsedTerran
-    {
-      s32 suppliesUsedTerran;
-    };
-    PlayerSuppliesUsedTerran player[8];
-  };
-  static PlayerSupliesUsedTerran_type* BWXFN_SuppliesUsedTerran = (PlayerSupliesUsedTerran_type*) 0x005821EC;
-  // -------- AVAILABLE ZERG
-  /** Direct mapping of players Zerg available supplies in the bw memory. */
-  struct PlayerSupliesAvailableZerg_type
-  {
-    /** Direct mapping of players Zerg available supplies in the bw memory. */
-    struct PlayerSuppliesAvaialableZerg
-    {
-      s32 suppliesAvailableZerg;
-    };
-    PlayerSuppliesAvaialableZerg player[8];
-  };
-  static PlayerSupliesAvailableZerg_type* BWXFN_SuppliesAvailableZerg = (PlayerSupliesAvailableZerg_type*) 0x0058212C;
-  //----------------------------------- USED ZERG -----------------------------
-  /** Direct mapping of players Zerg used supplies in the bw memory. */
-  struct PlayerSupliesUsedZerg_type
-  {
-    /** Direct mapping of players Zerg used supplies in the bw memory. */
-    struct PlayerSuppliesUsedZerg
-    {
-      s32 suppliesUsedZerg;
-    };
-    PlayerSuppliesUsedZerg player[8];
-  };
-  static PlayerSupliesUsedZerg_type* BWXFN_SuppliesUsedZerg = (PlayerSupliesUsedZerg_type*) 0x0058215C;
- 
+  static PlayerSuplies* BWXFN_SuppliesAvailableZerg    = (PlayerSuplies*) 0x0058212C;
+  static PlayerSuplies* BWXFN_SuppliesAvailableTerran  = (PlayerSuplies*) 0x005821BC;
+  static PlayerSuplies* BWXFN_SuppliesAvailableProtoss = (PlayerSuplies*) 0x0058224C;  
+  /**
+   * Array of available supplies moved into array where index of the array corresponds to the index
+   * of the BW::Race::Enum value
+   */
+  static PlayerSuplies* BWXFN_SuppliesAvailable[RaceCount] = {
+                                                               BWXFN_SuppliesAvailableZerg,
+                                                               BWXFN_SuppliesAvailableTerran,
+                                                               BWXFN_SuppliesAvailableProtoss
+                                                             };
+                                                     
+  static PlayerSuplies* BWXFN_SuppliesUsedZerg    = (PlayerSuplies*) 0x0058215C;
+  static PlayerSuplies* BWXFN_SuppliesUsedTerran  = (PlayerSuplies*) 0x005821EC;
+  static PlayerSuplies* BWXFN_SuppliesUsedProtoss = (PlayerSuplies*) 0x0058227C;
+  /**
+   * Array of used supplies moved into array where index of the array corresponds to the index
+   * of the BW::Race::Enum value
+   */  
+  static PlayerSuplies* BWXFN_SuppliesUsed[RaceCount] = {
+                                                          BWXFN_SuppliesUsedZerg,
+                                                          BWXFN_SuppliesUsedTerran,
+                                                          BWXFN_SuppliesUsedProtoss
+                                                        };
   const int unitTypeCount = 228;
   // -------------------------------- UNIT MINERAL PRICES ---------------------
   /** Direct mapping of unit types mineral prices. */
@@ -280,9 +238,9 @@ namespace BW
   {
     u8 weapon[weaponTypeCount];
   };
-  static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;
+  static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;         
 
-  //-------------------------------- WEAPON DAMAGE TYPE ----------------------
+  //-------------------------------- WEAPON DAMAGE TYPE ----------------------                                       
   /** Direct mapping of unit unit type armor */
   struct WeaponsDamage_type
   {
