@@ -51,6 +51,8 @@ namespace Util
        void resize(Iterator width, Iterator height);
        void printToFile(FILE* f);
        void saveToFile(const std::string& fileName);
+       /** Sets all fields of the array to the specified value */
+       void setTo(const Type& value);
      private :
        /** width of array */
        Iterator width;
@@ -214,6 +216,12 @@ namespace Util
       throw FileException("RectangleArray::saveToFile Couldn't open file " + fileName + "for writing");
     this->printToFile(f);
     fclose(f);
+  }
+  //---------------------------------- SAVE TO FILE ------------------------------
+  template <class Type, class Iterator>
+  void RectangleArray<Type, Iterator>::setTo(const Type& value)
+  {
+    memset(this->data, value, this->getWidth()*this->getHeight());    
   }
   //------------------------------------------------------------------------------
 }

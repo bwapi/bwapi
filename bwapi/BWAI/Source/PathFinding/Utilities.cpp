@@ -10,6 +10,9 @@
 
 namespace PathFinding
 {
+  Util::RectangleArray<int> Utilities::temp(1,1);
+  std::vector<BW::Position> Utilities::returnValue;
+  std::multimap<int, WalkabilityPosition> Utilities::vawe;
   //--------------------------------- CONFLICTS WITH MAP -------------------------------------------
   bool Utilities::conflictsWithMap(const UnitModel& unit)
   {
@@ -23,6 +26,14 @@ namespace PathFinding
         if (!walkability[x][y])
            return false;
     return true;
+  }
+  //------------------------------------------------------------------------------------------------
+  bool Utilities::generatePath(const UnitModel& unit, BW::Position target)
+  {
+    Utilities::vawe.clear();
+    temp.resize(BWAPI::Map::getWidth()*4, BWAPI::Map::getHeight()*4);
+    temp.setTo(-1);
+    /** First sample pathfinding to go here*/
   }
   //------------------------------------------------------------------------------------------------
 }
