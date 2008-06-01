@@ -31,12 +31,6 @@ namespace BWAPI
      */
     char* getName() const;
     
-    /**
-     * Sets the name of the current player. Note that it will modify the name in bw memory, so caution needed,
-     * but it didn't cause drop so far.
-     * @param name New name of the player
-     */
-    void setName(const char* const name);
     /** Gets synchronised version of minerals for the current player. */
     s32 getMinerals() const;
     /** Gets local version of minerals for the current player - @ref localData */

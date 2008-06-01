@@ -17,12 +17,7 @@ namespace BWAPI
   //-------------------------------- GET NAME ---------------------------------
   char* Player::getName() const
   {
-    return BW::BWXFN_PlayerNames->player[this->getID()].name;
-  }
-  //-------------------------------- SET NAME ---------------------------------
-  void Player::setName(const char* const name)
-  {
-    strcpy(BW::BWXFN_PlayerNames->player[this->getID()].name, name);
+    return BW::BWXFN_Players->player[this->getID()].name;
   }
   //------------------------------- GET MINERALS ------------------------------
   s32 Player::getMinerals() const

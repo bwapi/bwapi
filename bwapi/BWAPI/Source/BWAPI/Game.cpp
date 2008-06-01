@@ -58,9 +58,7 @@ namespace BWAPI
     for (int i = 0; i < 12; i++)
       players[i] = new Player((u8)i);    
     
-    players[11]->setName("Player 12 (Neutral)");
-    
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+   for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       units[i] = new Unit(&unitArrayCopy->unit[i], 
                           &BW::BWXFN_UnitNodeTable->unit[i],
                           &unitArrayCopyLocal->unit[i],
@@ -107,7 +105,6 @@ namespace BWAPI
     memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
     for (int i = 0; i < 12; i++)
       this->players[i]->update();
-    this->players[11]->setName("Player 12 (Neutral)");
     std::vector<Command *> a;
     while (this->commandBuffer.size() > this->getLatency())
       this->commandBuffer.erase(this->commandBuffer.begin());
@@ -223,21 +220,6 @@ namespace BWAPI
    return *(BW::BWXFN_ScreenY);
   }
   //-----------------------------------------------------------------------------
-  void Game::drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr)
-  {
-    static const int BWFXN_DrawBox = 0x4E18E0; 
-    __asm 
-    {
-      /*mov al, clr
-      mov ds:[0x6CF494], al*/
-      push h
-      push w
-      push y
-      push x
-      call [BWFXN_DrawBox]
-    }  
-  }
-  //-----------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4312)
   void Game::refresh()
@@ -264,45 +246,17 @@ namespace BWAPI
   //--------------------------------- LOAD SELECTED -----------------------------
   void Game::loadSelected(BW::Unit** selected)
   {
-     if (!reselected)
+     if (!this->reselected)
      {
        delete [] selected;
        return;
      }
-
-    /** Deselecting unit is not ilegal, but at least strange, so I will diable it*/
-  /*  if (selected[0] == NULL)
-    {
-      delete [] selected;
-      return;
-    }*/
-    
-   /* BW::Unit** selectedNow = this->saveSelected();
-    int i;
-    for (i = 0; selected[i] ==  selectedNow[i]; i++)
-    if (selected[i] == NULL && selectedNow[i] == NULL)
-    {
-       delete [] selected;
-       delete [] selectedNow;
-       return;
-    }
-    delete selectedNow;*/
 
     int unitCount = 0;
     while (selected[unitCount] != NULL)
       unitCount ++;
     if (quietSelect)
     {
-      /*byte* inputData = new byte[2 + unitCount*2];
-      inputData[0] = 0x09;
-      inputData[1] = unitCount;
-      for (int i = 0; i < unitCount; i++)
-      {
-        BW::UnitTarget target = BW::UnitTarget(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i]));
-        memcpy(inputData + 2 + 2*i, &target, sizeof(BW::UnitTarget));
-      }
-      this->IssueCommand(inputData, 2 + unitCount*2);
-      delete [] inputData;*/
       void (_stdcall* selectUnits)(int, BW::Unit * *) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C04E0;
 	     selectUnits(unitCount, selected);
     }
