@@ -132,12 +132,12 @@ namespace BW
   //------------------------------- GET TILE WIDTH -----------------------------
   u16 UnitType::getTileWidth() const
   {
-    return (u16) ceil(((float)this->dimensionLeft() + this->dimensionRight() )/(float)BW::TileSize);
+    return (this->dimensionLeft() + this->dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
   }
   //------------------------------ GET TILE HEIGHT -----------------------------
   u16 UnitType::getTileHeight() const
   {
-    return (u16) ceil(((float)this->dimensionUp() + this->dimensionDown() )/(float)BW::TileSize);
+    return (this->dimensionUp() + this->dimensionDown() +BW::TILE_SIZE - 1)/BW::TILE_SIZE;
   }
   //---------------------------------- IS ZERG ---------------------------------
   bool UnitType::isZerg() const

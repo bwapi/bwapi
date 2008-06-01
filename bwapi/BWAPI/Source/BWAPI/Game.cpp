@@ -351,10 +351,10 @@ namespace BWAPI
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isValid())
       {
-        int startX =   (i->getPosition().x - i->getType().dimensionLeft())/BW::TileSize;
-        int endX = (int) ceil((i->getPosition().x + i->getType().dimensionRight())/((float)BW::TileSize));
-        int startY =   (i->getPosition().y - i->getType().dimensionUp())/BW::TileSize;
-        int endY = (int) ceil((i->getPosition().y + i->getType().dimensionDown())/((float)BW::TileSize));
+        int startX =   (i->getPosition().x - i->getType().dimensionLeft())/BW::TILE_SIZE;
+        int endX   =   (i->getPosition().x + i->getType().dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE; // Division - round up
+        int startY =   (i->getPosition().y - i->getType().dimensionUp())/BW::TILE_SIZE;
+        int endY =     (i->getPosition().y + i->getType().dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
             this->unitsOnTile[x][y].push_back(i);

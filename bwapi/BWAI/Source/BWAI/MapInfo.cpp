@@ -101,8 +101,8 @@ namespace BWAI
               counts[x + (*j).x][y + (*j).y]++;
         }
       }
-      unsigned int startX = (*i)->expansion->getPosition().x/BW::TileSize - 2;
-      unsigned int startY = ((*i)->expansion->getPosition().y - 45)/BW::TileSize;
+      unsigned int startX = (*i)->expansion->getPosition().x/BW::TILE_SIZE - 2;
+      unsigned int startY = ((*i)->expansion->getPosition().y - 45)/BW::TILE_SIZE;
       Util::Strings::makeWindow(result, startX, startY, 4, 3, 0);
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 3; y++)
@@ -112,8 +112,8 @@ namespace BWAI
     {
       if (i->isMineral())
         {
-          unsigned int startX = i->getPosition().x/BW::TileSize - 1;
-          unsigned int startY = i->getPosition().y/BW::TileSize;
+          unsigned int startX = i->getPosition().x/BW::TILE_SIZE - 1;
+          unsigned int startY = i->getPosition().y/BW::TILE_SIZE;
           counts[startX][startY]++;
           counts[startX + 1][startY]++;
           result[startX][startY] = 'M';
@@ -121,8 +121,8 @@ namespace BWAI
         }
       if (i->getType() == BW::UnitID::Resource_VespeneGeyser)
       {
-        unsigned int startX = i->getPosition().x/BW::TileSize - 2;
-        unsigned int startY = i->getPosition().y/BW::TileSize - 1;
+        unsigned int startX = i->getPosition().x/BW::TILE_SIZE - 2;
+        unsigned int startY = i->getPosition().y/BW::TILE_SIZE - 1;
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 2; y++)
           {

@@ -26,6 +26,8 @@ namespace BW
   static const u16 SUPPLY_LIMIT    = 400; /**< We could read this value from memory as it is stored in 
                                            * #Supplies#Max, but as it is always constant for every race for 
                                            * every player, I prefer using this constant. */
+  static const int TILE_SIZE       =  32;
+ 
   struct Unit;
   struct UnitArray;
   class TileType;
@@ -267,20 +269,5 @@ namespace BW
   };
 
   static MiniTileMaps_type** BWXFN_MiniTileFlags = (MiniTileMaps_type**) 0x005993B8;
-
-  #define UNKNOWN_BIT_SIZE 16
-  #define UNKNOWN_TYPE u16
-  
-  #define UNKNOWN_BIT_SIZE 16
-  #define UNKNOWN_TYPE u16
-  //----------------------------------- UNKNOWN TYPE  ------------------------
-  /** Direct mapping of unit unit type armor */
-  struct Unknown_type
-  {
-   UNKNOWN_TYPE unknown[UNIT_TYPE_COUNT];
-  };
-  static Unknown_type* BWXFN_Unknown = (Unknown_type*) 0x065FF8D;
-  //---------------------------------------------------------------------------
-  static const int TileSize = 32;
 };
 #pragma pack()
