@@ -123,7 +123,7 @@ namespace BWAPI
     this->updateUnitsOnTile();    
     
     for (int i = 0; i < 12; i++)
-      for (u16 j = 0; j < BW::unitTypeCount; j++)
+      for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
         this->players[i]->unitTypeCount[j] = 0;
     
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())

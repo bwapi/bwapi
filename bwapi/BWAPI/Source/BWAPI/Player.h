@@ -104,7 +104,7 @@ namespace BWAPI
      */
     bool canBuild(BW::UnitType unit);
     /** Count of units of the same type */
-    u16 unitTypeCount[BW::unitTypeCount];
+    u16 unitTypeCount[BW::UNIT_TYPE_COUNT];
     /**
      * Finds out if the current player can afford to build the specified unit atm Checks minerals, gas and
      * supply need
@@ -117,7 +117,7 @@ namespace BWAPI
     u8 id;  /**< Order of the player, is used to load player's information from the memory */
     s32 mineralsLocal, gasLocal;  /**< Storage of local versions resources. */
 
-    s32 suppliesAvailableLocal[BW::RaceCount]; /**< Storage of local versions of Available supplies. */
-    s32 suppliesUsedLocal[BW::RaceCount]; /**< Storage of local versions of used supplies. */
+    s32 suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
+    s32 suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
   };
 };

@@ -15,25 +15,28 @@
  */
 namespace BW
 {
+  static const u8  PLAYER_COUNT    =  12;
+  static const u8  RACE_COUNT      =   3;
+  static const u8  UNIT_TYPE_COUNT = 228;
+  static const u16 SUPPLY_LIMIT    = 400; /**< We could read this value from memory as it is stored in 
+                                           * #Supplies#Max, but as it is always constant for every race for 
+                                           * every player, I prefer using this constant. */
   struct Unit;
   struct UnitArray;
   class TileType;
   class DoodatType;
-  //--------------------------------- MINERALS TYPE -----------------------------
-  /** Direct mapping of players mineral amount in the bw memory */
-  struct PlayerMinerals_type
+  //--------------------------------- PLAYER RESOURCES -----------------------------
+  /** Direct mapping of players resource amount in the bw memory */
+  struct PlayerResources
   {
-    s32 player[12];
+    struct PlayerResource
+    {
+      s32 player[PLAYER_COUNT];
+    };
+    PlayerResource minerals;
+    PlayerResource gas;
   };
-  static PlayerMinerals_type* BWXFN_PlayerMinerals = (PlayerMinerals_type*)0x0057F0D8;
-
-  //------------------------------------ GAS TYPE -------------------------------
-  /** Direct mapping of players gas amount in the bw memory */
-  struct PlayerGas_type
-  {
-    s32 player[12];
-  };
-  static PlayerGas_type* BWXFN_PlayerGas = (PlayerGas_type*)0x0057F108;
+  static PlayerResources* BWXFN_PlayerResources = (PlayerResources*) 0x0057F0D8;
 
   //----------------------------------- NAMES TYPE ------------------------------
   /** Direct mapping of players names in the bw memory */
@@ -44,14 +47,11 @@ namespace BW
     {
       char name[36];
     };
-    PlayerName player[8];
+    PlayerName player[PLAYER_COUNT];
   };
   static PlayerNames_type* BWXFN_PlayerNames = (PlayerNames_type*) 0x0057EEEB;
 
-  /**
-   * Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile
-   * group.
-   */
+  /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   static TileID**      BWXFN_MapTileArray = (TileID**) 0x005993AC;
   static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8; /**< Index  0-1023 */
@@ -70,8 +70,7 @@ namespace BW
   static u32           BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
   static u32           BWXFN_PrintText = 0x48CE60;
   static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
-  //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested
-                                                   // yet (4 int arguments)
+  //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
   static Unit*         BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;
   static u32           BWXFN_GameStart = 0x004C96A1;
   static u32           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
@@ -108,91 +107,71 @@ namespace BW
 
 
   //------------------------------------ SUPPLIES -----------------------------
-  static const u8 RaceCount = 3;
-  /** Direct mapping of available/Used supplies structure in bw memory (is same for every race). */
-  struct PlayerSuplies
+  struct Supplies
   {
-    s32 player[8];
+    /** Direct mapping of available/Used/Max supplies for one race and all players */
+    struct SuppliesPerRace
+    {
+      /** Direct mapping of some supply vale for all players*/
+      struct SupplyValues
+      {
+        s32 player[PLAYER_COUNT];
+      };
+      SupplyValues available;
+      SupplyValues used;
+      SupplyValues max;
+    };
+    SuppliesPerRace race[RACE_COUNT];
   };
-  static PlayerSuplies* BWXFN_SuppliesAvailableZerg    = (PlayerSuplies*) 0x0058212C;
-  static PlayerSuplies* BWXFN_SuppliesAvailableTerran  = (PlayerSuplies*) 0x005821BC;
-  static PlayerSuplies* BWXFN_SuppliesAvailableProtoss = (PlayerSuplies*) 0x0058224C;  
-  /**
-   * Array of available supplies moved into array where index of the array corresponds to the index
-   * of the BW::Race::Enum value
-   */
-  static PlayerSuplies* BWXFN_SuppliesAvailable[RaceCount] = {
-                                                               BWXFN_SuppliesAvailableZerg,
-                                                               BWXFN_SuppliesAvailableTerran,
-                                                               BWXFN_SuppliesAvailableProtoss
-                                                             };
-                                                     
-  static PlayerSuplies* BWXFN_SuppliesUsedZerg    = (PlayerSuplies*) 0x0058215C;
-  static PlayerSuplies* BWXFN_SuppliesUsedTerran  = (PlayerSuplies*) 0x005821EC;
-  static PlayerSuplies* BWXFN_SuppliesUsedProtoss = (PlayerSuplies*) 0x0058227C;
-  /**
-   * Array of used supplies moved into array where index of the array corresponds to the index
-   * of the BW::Race::Enum value
-   */  
-  static PlayerSuplies* BWXFN_SuppliesUsed[RaceCount] = {
-                                                          BWXFN_SuppliesUsedZerg,
-                                                          BWXFN_SuppliesUsedTerran,
-                                                          BWXFN_SuppliesUsedProtoss
-                                                        };
-  const int unitTypeCount = 228;
+  static Supplies* BWXFN_Supplies    = (Supplies*) 0x0058212C;
+  
   // -------------------------------- UNIT MINERAL PRICES ---------------------
   /** Direct mapping of unit types mineral prices. */
   struct MineralPrices_type
   {
-    u16 mineralPrice[unitTypeCount];
+    u16 mineralPrice[UNIT_TYPE_COUNT];
   };
   static MineralPrices_type* BWXFN_MineralPrices = (MineralPrices_type*) 0x00663870;
   // -------------------------------- UNIT MINERAL PRICES ---------------------
   /** Direct mapping of unit types gas prices. */
   struct GasPrices_type
   {
-    u16 gasPrice[unitTypeCount];
+    u16 gasPrice[UNIT_TYPE_COUNT];
   };
   static GasPrices_type* BWXFN_GasPrices = (GasPrices_type*) 0x0065FCE8;
   //--------------------------------- UNIT SUPPLY DEMANDS ---------------------
   /** Direct mapping of unit supply demands. */
   struct SupplyDemands_type
   {
-    u8 supplyDemand[unitTypeCount];
+    u8 supplyDemand[UNIT_TYPE_COUNT];
   };
   static SupplyDemands_type* BWXFN_SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
   //---------------------------------- UNIT MAX HP ----------------------------
-  /**
-   * Direct mapping of unit unit type (Max Health Points)/(Not
-   * Attackable)/(Requirable) specification.
-   */
+  /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
   struct MaxHealthPoints_NotAttackable_Repairable_type
   {
-    /**
-     * mapping of the Max Health Points)/(Not Attackable)/(Requirable) for
-     * single unit type.
-     */
+    /** mapping of the Max Health Points)/(Not Attackable)/(Requirable) for single unit type. */
     struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
     {
       u16 maxHealthPoints;
       u8 notAttackable;
       u8 repairable;
     };
-    MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[unitTypeCount];
+    MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[UNIT_TYPE_COUNT];
   };
   static MaxHealthPoints_NotAttackable_Repairable_type* BWXFN_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) 0x00662339;
   //--------------------------------- UNIT MAX SHIELDS ------------------------
   /** Direct mapping of unit unit type Shield points */
   struct MaxShieldPoints_type
   {
-    u16 maxShieldPoints[unitTypeCount];
+    u16 maxShieldPoints[UNIT_TYPE_COUNT];
   };
   static MaxShieldPoints_type* BWXFN_MaxShieldPoints = (MaxShieldPoints_type*) 0x00660DE8;
    //--------------------------------- UNIT MAX SHIELDS ------------------------
   /** Direct mapping of unit type armor */
   struct Armor_type
   {
-    u8 armor[unitTypeCount];
+    u8 armor[UNIT_TYPE_COUNT];
   };
   static Armor_type* BWXFN_Armor = (Armor_type*) 0x0065FEB0;
 
@@ -200,7 +179,7 @@ namespace BW
   /** Direct mapping of unit build time*/
   struct BuildTime_type
   {
-   u16 buildTime[unitTypeCount];
+   u16 buildTime[UNIT_TYPE_COUNT];
   };
   static BuildTime_type* BWXFN_BuildTime = (BuildTime_type*) 0x00660410;
 
@@ -208,10 +187,7 @@ namespace BW
   /** Direct mapping of unit unit type armor */
   struct UnitsDimensions_type
   {
-    /**
-     * Dimensions of unit, it's the distance from the 'center' of unit to each
-     * border
-     */
+    /** Dimensions of unit, it's the distance from the 'center' of unit to each border */
     struct UnitDimensions
     {
       u16 left;
@@ -219,7 +195,7 @@ namespace BW
       u16 right;
       u16 down;
     };
-    UnitDimensions units[unitTypeCount];
+    UnitDimensions units[UNIT_TYPE_COUNT];
   };
   static UnitsDimensions_type* BWXFN_UnitDimensions = (UnitsDimensions_type*) 0x006617B0;
   const u8 NoWeapon = 130;
@@ -227,7 +203,7 @@ namespace BW
   /** Direct mapping of unit unit type armor */
   struct UnitsGroundWeapon_type
   {
-    u8 unit[unitTypeCount];
+    u8 unit[UNIT_TYPE_COUNT];
   };
   static UnitsGroundWeapon_type* BWXFN_UnitGroundWeapon = (UnitsGroundWeapon_type*) 0x006636A0;
 
@@ -252,7 +228,7 @@ namespace BW
   /** Direct mapping of unit flags data */
   struct PrototypeFlags_type
   {
-    Util::BitMask<UnitPrototypeFlags::Enum> unit[unitTypeCount];
+    Util::BitMask<UnitPrototypeFlags::Enum> unit[UNIT_TYPE_COUNT];
   };
   static PrototypeFlags_type* BWXFN_UnitPrototypeFlags = (PrototypeFlags_type*) 0x00664068;
 
@@ -260,7 +236,7 @@ namespace BW
   /** Direct mapping of unit flags data */
   struct PrototypeGroupFlags_type
   {
-    Util::BitMask<GroupFlags::Enum> unit[unitTypeCount];
+    Util::BitMask<GroupFlags::Enum> unit[UNIT_TYPE_COUNT];
   };
 
   static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
@@ -288,7 +264,7 @@ namespace BW
   /** Direct mapping of unit unit type armor */
   struct Unknown_type
   {
-   UNKNOWN_TYPE unknown[unitTypeCount];
+   UNKNOWN_TYPE unknown[UNIT_TYPE_COUNT];
   };
   static Unknown_type* BWXFN_Unknown = (Unknown_type*) 0x065FF8D;
   //---------------------------------------------------------------------------
