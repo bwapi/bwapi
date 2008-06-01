@@ -36,6 +36,7 @@ namespace BW
   /** Direct mapping of players resource amount in the bw memory */
   struct PlayerResources
   {
+    /** Direct mapping of resource value of some player (gas or minerals) */
     struct PlayerResource
     {
       s32 player[PLAYER_COUNT];
