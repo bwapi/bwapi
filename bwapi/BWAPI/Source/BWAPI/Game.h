@@ -78,7 +78,6 @@ namespace BWAPI
       /** Gets vertical position of game screen in pixels. */
       int getScreenY() const;
       /** @todo Doesn't work */
-      void drawBox(DWORD x, DWORD y, DWORD w, DWORD h, BYTE clr); 
       void refresh();
       Unit* getUnit(int index);
       BW::Unit** saveSelected();

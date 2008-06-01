@@ -281,12 +281,28 @@ namespace BWAI
     delete deadLog;
   }
   //-------------------------------  ON FRAME ---------------------------------
+  #include "../../../BWAPI/Source/BW/Offsets.h"
   void AI::onFrame(void)
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
     if (!this->player)
       return;
+     
+    this->log->log("=============="); 
+    for (unsigned int i = 0; i < BW::PLAYER_COUNT; i++)
+    {
+      this->log->log("======"); 
+      this->log->log("Player %d", i);
+      this->log->log("type = %d", BW::BWXFN_Players->player[i].type);
+      this->log->log("playerNumber = %d", (int)BW::BWXFN_Players->player[i].playerNumber);
+      this->log->log("force = %d", BW::BWXFN_Players->player[i].force);
+      this->log->log("race = %d", BW::BWXFN_Players->player[i].race);
+      this->log->log("name = %s", BW::BWXFN_Players->player[i].name);
+      this->log->log("unknown = %d", BW::BWXFN_Players->player[i].unknown);
+      this->log->log("unknown2 = %d", BW::BWXFN_Players->player[i].unknown2);
+    }
+
     if (this->actualPosition != this->actualBranch->commands.end())
       if ((*this->actualPosition)->execute())
         ++this->actualPosition;

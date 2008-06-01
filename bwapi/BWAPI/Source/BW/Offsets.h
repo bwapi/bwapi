@@ -1,11 +1,16 @@
 #pragma once
 #pragma pack(1)
 
-#include "../Types.h"
 #include <Bitmask.h>
+
+#include "../Types.h"
+#include "../StaticAssert.h"
+
 #include "UnitPrototypeFlags.h"
 #include "MiniTileFlags.h"
 #include "GroupFlags.h"
+#include "PlayerType.h"
+#include "Race.h"
 
 /**
  * Broodwar content access tools. The namespace contains:
@@ -39,17 +44,25 @@ namespace BW
   static PlayerResources* BWXFN_PlayerResources = (PlayerResources*) 0x0057F0D8;
 
   //----------------------------------- NAMES TYPE ------------------------------
-  /** Direct mapping of players names in the bw memory */
-  struct PlayerNames_type
+  /** Direct mapping of players info in bw memory */
+  struct Players
   {
-    /** Direct mapping of player name in bw memory. */
-    struct PlayerName
+    /** Direct mapping of player info in bw memory */
+    struct PlayerInfo
     {
-      char name[36];
+      PlayerType::Enum type;
+      Race::Enum       race;
+      u8               force;
+      char             name[23];
+      u32              playerNumber; /**< @todo unknown */
+      u32              unknown; /** @todo unkown */
+      u16              unknown2; /** @todo unkown */
     };
-    PlayerName player[PLAYER_COUNT];
+    PlayerInfo player[PLAYER_COUNT - 1]; /**< Player 12 doesn't have the info */
   };
-  static PlayerNames_type* BWXFN_PlayerNames = (PlayerNames_type*) 0x0057EEEB;
+
+
+  static Players* BWXFN_Players = (Players*) 0x0057EEE8;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
