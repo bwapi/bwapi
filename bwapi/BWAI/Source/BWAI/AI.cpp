@@ -142,7 +142,7 @@ namespace BWAI
       this->log->log("Ai::onStart start", Util::LogLevel::Important);    
       this->map = new BWAPI::Map();
       if (this->unitNameToType.empty())
-        for (int i = 0; i < BW::unitTypeCount; i++)
+        for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
           this->unitNameToType.insert(std::pair<std::string, BW::UnitType>
                                        (
                                          BW::UnitType( (BW::UnitID::Enum) i ).getName(), 
@@ -199,7 +199,6 @@ namespace BWAI
   void AI::onEnd()
   {
     this->log->log("Ai::onEnd start", Util::LogLevel::Important);
-    
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();

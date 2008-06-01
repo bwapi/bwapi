@@ -27,12 +27,12 @@ namespace BWAPI
   //------------------------------- GET MINERALS ------------------------------
   s32 Player::getMinerals() const
   {
-    return BW::BWXFN_PlayerMinerals->player[this->getID()];
+    return BW::BWXFN_PlayerResources->minerals.player[this->getID()];
   }
   //--------------------------------- GET GAS ---------------------------------
   s32 Player::getGas() const
   {
-    return BW::BWXFN_PlayerGas->player[this->getID()];
+    return BW::BWXFN_PlayerResources->gas.player[this->getID()];
   }
   //---------------------------------- GET ID ---------------------------------
   u8 Player::getID() const
@@ -62,7 +62,7 @@ namespace BWAPI
   {
     this->mineralsLocal = this->getMinerals();
     this->gasLocal = this->getGas();
-    for (int i = 0; i < BW::RaceCount; i++)
+    for (int i = 0; i < BW::RACE_COUNT; i++)
     {
       this->suppliesAvailableLocal[i] = this->getSuppliesAvailable((BW::Race::Enum)i);
       this->suppliesUsedLocal[i] = this->getSuppliesUsed((BW::Race::Enum)i);
@@ -77,13 +77,13 @@ namespace BWAPI
   //---------------------------- GET SUPPLY AVAILABLE ------------------------
   s32 Player::getSuppliesAvailable(BW::Race::Enum race)
   {
-    s32 ret = BW::BWXFN_SuppliesAvailable[race]->player[this->getID()];
+    s32 ret = BW::BWXFN_Supplies->race[race].available.player[this->getID()];
     return ret < 400 ? ret : 400;
   }
   //------------------------- GET SUPPLY USED ---------------------------------
   s32 Player::getSuppliesUsed(BW::Race::Enum race)
   {
-    return BW::BWXFN_SuppliesUsed[race]->player[this->getID()];
+    return BW::BWXFN_Supplies->race[race].used.player[this->getID()];
   }
   //------------------------- GET SUPPLY AVAILABLE LOCAL ----------------------
   s32 Player::getSuppliesAvailableLocal(BW::Race::Enum race)
