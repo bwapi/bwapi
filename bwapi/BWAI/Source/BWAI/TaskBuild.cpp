@@ -84,8 +84,8 @@ namespace BWAI
           return false;
       }
       BW::Position center(this->position);
-      center.x += (u16)(BW::TileSize*1.5);
-      center.y += BW::TileSize;
+      center.x += (BW::TILE_SIZE*this->getBuildingType().getTileWidth())/2;
+      center.y += (BW::TILE_SIZE*this->getBuildingType().getTileHeight())/2;
       if (this->position.isValid())
         // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
         if (this->executors.front()->getDistance(center) > 100)

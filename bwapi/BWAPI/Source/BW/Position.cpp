@@ -17,8 +17,8 @@ namespace BW
   }
   //------------------------------------- CONSTRUCTOR ------------------------------
   Position::Position(const BW::TilePosition& position)
-  :x(position.x*BW::TileSize)
-  ,y(position.y*BW::TileSize)
+  :x(position.x*BW::TILE_SIZE)
+  ,y(position.y*BW::TILE_SIZE)
   {
   }
   //------------------------------------- CONSTRUCTOR ------------------------------
