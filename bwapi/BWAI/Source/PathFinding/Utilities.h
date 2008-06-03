@@ -11,6 +11,7 @@
 
 /* All the stuff here will be sorted somehow soon . */
 static const int BASIC_DIRECTION_COUNT = 4;
+static const int ADVANCED_DIRECTION_COUNT = 8;
 namespace BasicDirection
 {
   enum Enum : u8
@@ -26,12 +27,16 @@ namespace AdvancedDirectionID
 {
   enum Enum : u8
   {
-    Up    = 0,
-    Right = 1,
-    Down  = 2,
-    Left  = 3,
-    Near  = 4,
-    Unset = 5
+    Up        = 0,
+    Right     = 1,
+    Down      = 2,
+    Left      = 3,
+    UpRight   = 4,
+    RightDown = 5,
+    DownLeft  = 6,
+    LeftUp    = 7,
+    Near      = 8,
+    Unset     = 9
   };
 }
 
@@ -47,23 +52,42 @@ class AdvancedDirection
     bool operator!=(const AdvancedDirectionID::Enum& direction) { return this->direction != direction;}
 };
 
-static const int forwardDirection[BASIC_DIRECTION_COUNT][2] = 
+static const int forwardDirection[ADVANCED_DIRECTION_COUNT][2] = 
 {
  { 0, -1},
  { 1,  0},
  { 0,  1},
  {-1,  0},
+ { 1, -1},
+ { 1,  1},
+ {-1,  1},
+ {-1, -1},
 };
 
 
-static const int reverseDirection[BASIC_DIRECTION_COUNT][2] = 
+static const int reverseDirection[ADVANCED_DIRECTION_COUNT][2] = 
 {
  { 0,  1},
  {-1,  0},
  { 0, -1},
  { 1,  0},
+ {-1,  1},
+ {-1, -1},
+ { 1, -1},
+ { 1,  1}, 
 };
 
+static AdvancedDirectionID::Enum advancedDirectionConditions[ADVANCED_DIRECTION_COUNT][2] =
+{
+ {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
+ {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
+ {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
+ {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
+ {AdvancedDirectionID::Up    ,AdvancedDirectionID::Right},
+ {AdvancedDirectionID::Right ,AdvancedDirectionID::Down},
+ {AdvancedDirectionID::Down  ,AdvancedDirectionID::Left},
+ {AdvancedDirectionID::Left  ,AdvancedDirectionID::Up},
+};
 /**
  * All stuff related directly to path finding.
  */

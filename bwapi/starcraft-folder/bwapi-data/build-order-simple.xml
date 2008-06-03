@@ -12,11 +12,11 @@
     </build>
     <build name="Terran Barracks" place="barracks" minimal-population="13"/>
     <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
-    <build name="Terran Engineering Bay" place="engineering-bay" minimal-population="21"/>
-    <build name="Terran Refinery" place="refinery" minimal-population="22"/>
-    <build name="Terran Academy" place="academy" minimal-population="22"/>
-    <build name="Terran Missile Turret" place="turret-entrance-expansion" minimal-population="23"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="30"/>
+    <build name="Terran Engineering Bay" place="engineering-bay" minimal-population="26"/>
+    <build name="Terran Refinery" place="refinery" minimal-population="39"/>
+    <build name="Terran Academy" place="academy" minimal-population="30"/>
+    <build name="Terran Missile Turret" place="turret-entrance-expansion" minimal-population="31"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="32"/>
     <build name="Terran Barracks" place="barracks" minimal-population="35"/>
     <build name="Terran Barracks" place="barracks" minimal-population="40"/>
     <build name="Terran Barracks" place="barracks" minimal-population="45"/>

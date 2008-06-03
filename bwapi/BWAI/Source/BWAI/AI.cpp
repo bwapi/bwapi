@@ -240,6 +240,7 @@ namespace BWAI
   ,root(NULL)
   ,moneyToBeSpentOnBuildings(0)
   ,map(NULL)
+  ,temp(NULL)
   {
     try
     {
@@ -295,7 +296,6 @@ namespace BWAI
       if ((*this->actualPosition)->execute())
         ++this->actualPosition;
 
-    
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
     this->refreshSelectionStates(selected);
      
@@ -309,9 +309,12 @@ namespace BWAI
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
     /** Part of the testing of path finding */
-    /*if (!idleWorkers.empty())
+    /*
+    if (!idleWorkers.empty())
+      temp = idleWorkers.front();
+    if (temp)
     {
-      PathFinding::UnitModel source(idleWorkers.front());
+      PathFinding::UnitModel source(temp);
       PathFinding::Utilities::generatePath(source, PathFinding::WalkabilityPosition(20, 20));
     }*/
     this->assignIdleWorkersToMinerals(idleWorkers);

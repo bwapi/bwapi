@@ -113,5 +113,6 @@ namespace BWAI
       void removeExpansion(Expansion* expansion);
       void unsaturateGather();
       void removeGatherGasTask(Unit* refinery);
+      Unit* temp;
   };
 }
