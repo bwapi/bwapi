@@ -101,7 +101,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\Util\Source\Util;..\TinyXml\Source"
+				AdditionalIncludeDirectories="..\Util\Source;..\TinyXml\Source;..\BWAPI\Source;Source"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				WarningLevel="3"
@@ -167,6 +167,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\Condition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionMinimalPopulation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Root.h"
 					>
 				</File>
@@ -195,6 +203,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\Condition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionMinimalPopulation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Root.cpp"
 					>
 				</File>
@@ -202,6 +218,14 @@
 			<Filter
 				Name="Enumerations"
 				>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionRunType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionType.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -334,6 +358,10 @@
 					RelativePath=".\Source\PathFinding\Utilities.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\PathFinding\WalkabilityPosition.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -344,6 +372,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\PathFinding\Utilities.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\PathFinding\WalkabilityPosition.h"
 					>
 				</File>
 			</Filter>

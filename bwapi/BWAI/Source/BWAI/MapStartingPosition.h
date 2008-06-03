@@ -3,7 +3,7 @@
 #include <list>
 #include <map>
 
-#include "../../BWAPI/Source/BW/TilePosition.h"
+#include <BW/TilePosition.h>
 
 class TiXmlElement;
 namespace BWAI { class MapInfo; }

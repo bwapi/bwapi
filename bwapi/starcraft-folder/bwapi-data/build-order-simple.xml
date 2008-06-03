@@ -7,7 +7,9 @@
       <build name="Terran Marine" weight="3" />
       <build name="Terran Medic" weight="1" />
     </set-building-rate>
-    <build name="Terran Barracks" place="barracks" minimal-population="11"/>
+    <build name="Terran Barracks" place="barracks">
+      <condition type="minimal-population" population="11">
+    </build>
     <build name="Terran Barracks" place="barracks" minimal-population="13"/>
     <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
     <build name="Terran Engineering Bay" place="engineering-bay" minimal-population="21"/>

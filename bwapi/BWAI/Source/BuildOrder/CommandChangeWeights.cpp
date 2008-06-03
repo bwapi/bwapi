@@ -1,37 +1,30 @@
 #include "CommandChangeWeights.h"
 
 #include <tinyxml.h>
-#include <Strings.h>
+#include <Util/Strings.h>
+#include <Util/Xml.h>
 
 #include "Root.h"
 #include "BuildWeights.h"
  
-#include "../BWAI/Globals.h"
-#include "../BWAI/AI.h"
+#include <BWAI/Globals.h>
+#include <BWAI/AI.h>
 
 namespace BuildOrder
 {
   //---------------------------------- CONSTRUCTOR ----------------------------
   CommandChangeWeights::CommandChangeWeights(TiXmlElement* xmlElement)
+  :Command(xmlElement)
   {
-    const char * buildingAttribute = xmlElement->Attribute("building");
-    if (buildingAttribute == NULL)
-      throw XmlException("Expected attribute 'building' in <set-building-rate> element");
-    this->factory = buildingAttribute;
+    this->factory = Util::Xml::getRequiredAttribute(xmlElement, "building");
 
     for (TiXmlElement* buildElement = xmlElement->FirstChildElement("build"); 
          buildElement != NULL; 
          buildElement = buildElement->NextSiblingElement("build"))
     {
-      const char* toBuildAttribute = buildElement->Attribute("name");
-      if (toBuildAttribute == NULL)
-        throw XmlException("Expected attribute 'name' in <build> element");
-
-     const char* weight = buildElement->Attribute("weight");
-      if (buildElement == NULL)
-        throw XmlException("Expected attribute 'weight' in <build> element");
-    
-     this->weights.push_back(std::pair<std::string, int>(toBuildAttribute, Util::Strings::stringToInt(weight)));
+      std::string toBuildAttribute = Util::Xml::getRequiredAttribute(buildElement, "name");
+      u16 weight = Util::Xml::getRequiredU16Attribute(buildElement, "weight");
+      this->weights.push_back(std::pair<std::string, int>(toBuildAttribute, weight));
     }
   }
   //--------------------------------  DESTRUCTOR ----------------------------

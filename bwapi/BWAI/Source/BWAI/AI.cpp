@@ -2,11 +2,23 @@
 
 #include <algorithm>
 
-#include <Exceptions.h>
-#include <Logger.h>
-#include <Dictionary.h>
-#include <Strings.h>
-#include <RectangleArray.h>
+#include <Util/Exceptions.h>
+#include <Util/Logger.h>
+#include <Util/Dictionary.h>
+#include <Util/Strings.h>
+#include <Util/RectangleArray.h>
+
+#include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
+#include <BWAPI/Globals.h>
+#include <BWAPI/Map.h>
+
+#include <BuildOrder/Root.h>
+#include <BuildOrder/Branch.h>
+#include <BuildOrder/Command.h>
+#include <BuildOrder/BuildWeights.h>
+
+#include <Pathfinding/Utilities.h>
 
 #include "Task.h"
 #include "TaskGatherGas.h"
@@ -18,16 +30,6 @@
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
 #include "BuildingPosition.h"
-
-#include "../BuildOrder/Root.h"
-#include "../BuildOrder/Branch.h"
-#include "../BuildOrder/Command.h"
-#include "../BuildOrder/BuildWeights.h"
-
-#include "../../../BWAPI/Source/BWAPI/Unit.h"
-#include "../../../BWAPI/Source/BWAPI/Player.h"
-#include "../../../BWAPI/Source/BWAPI/Globals.h"
-#include "../../../BWAPI/Source/BWAPI/Map.h"
 
 namespace BWAI
 {
@@ -281,15 +283,15 @@ namespace BWAI
     delete deadLog;
   }
   //-------------------------------  ON FRAME ---------------------------------
-  #include "../../../BWAPI/Source/BW/Offsets.h"
   void AI::onFrame(void)
   {
     if (BWAPI::Broodwar.frameCount < 2)
       return;
     if (!this->player)
       return;
-   
-    if (this->actualPosition != this->actualBranch->commands.end())
+       
+    if (root != NULL &&
+        this->actualPosition != this->actualBranch->commands.end())
       if ((*this->actualPosition)->execute())
         ++this->actualPosition;
 
@@ -306,6 +308,12 @@ namespace BWAI
 
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
+    /** Part of the testing of path finding */
+    /*if (!idleWorkers.empty())
+    {
+      PathFinding::UnitModel source(idleWorkers.front());
+      PathFinding::Utilities::generatePath(source, PathFinding::WalkabilityPosition(20, 20));
+    }*/
     this->assignIdleWorkersToMinerals(idleWorkers);
 
     this->checkWorkersNeed();
@@ -485,7 +493,9 @@ namespace BWAI
           i->getType().canProduce() &&
           i->getOwner() == player)
       { 
-        BuildOrder::BuildWeights* weights = this->root->weights[i->getType().getName()];
+        BuildOrder::BuildWeights* weights = NULL;
+        if (this->root)
+          weights = this->root->weights[i->getType().getName()];
         if (weights) 
         {
           if (!weights->weights.empty())

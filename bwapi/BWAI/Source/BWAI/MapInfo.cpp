@@ -1,9 +1,12 @@
 #include "MapInfo.h"
 
 #include <tinyxml.h>
-#include <Exceptions.h>
-#include <Strings.h>
-#include <Dictionary.h>
+#include <Util/Exceptions.h>
+#include <Util/Strings.h>
+#include <Util/Dictionary.h>
+#include <BWAPI/Map.h>
+#include <BWAPI/Game.h>
+#include <BWAPI/Globals.h>
 
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
@@ -11,10 +14,6 @@
 #include "Globals.h"
 #include "Unit.h"
 #include "BuildingPosition.h"
-
-#include "../../../BWAPI/Source/BWAPI/Map.h"
-#include "../../../BWAPI/Source/BWAPI/Game.h"
-#include "../../../BWAPI/Source/BWAPI/Globals.h"
 
 namespace BWAI
 {

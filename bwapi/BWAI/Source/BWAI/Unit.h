@@ -2,7 +2,7 @@
 
 #include <list>
 
-#include "../../../BWAPI/Source/BWAPI/Unit.h"
+#include <BWAPI/Unit.h>
 
 namespace BWAI  { class Task; }
 namespace BWAI  { class Expansion; }

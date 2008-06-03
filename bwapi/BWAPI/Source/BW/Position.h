@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Types.h"
+#include <Util/Types.h>
 #include "TilePosition.h"
 
 class TiXmlElement;

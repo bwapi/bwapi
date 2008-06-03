@@ -1,15 +1,15 @@
 #include "MapExpansion.h"
+
 #include <tinyXml.h>
-#include <Exceptions.h>
+#include <Util/Exceptions.h>
+#include <Util/Xml.h>
+
 namespace BWAI
 {
   //---------------------------------- CONSTRUCTOR ----------------------------
   MapExpansion::MapExpansion(TiXmlElement* xmlElement)
   {
-    const char * idAttribute = xmlElement->Attribute("id");
-    if (idAttribute == NULL)
-      throw XmlException("Expected attribute id in <expansion> element");
-    this->setID(idAttribute);   
+    this->id = Util::Xml::getRequiredAttribute(xmlElement, "id");
 
     TiXmlElement* positionElement = xmlElement->FirstChildElement("position");
     if (positionElement == NULL)

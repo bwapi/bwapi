@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\\Types.h"
+#include <Util/Types.h>
 
 #include "UnitType.h"
 #include "PositionUnitTarget.h"

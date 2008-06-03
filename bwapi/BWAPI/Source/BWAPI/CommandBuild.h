@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
-#include "../BW/UnitType.h"
-#include "../BW/Position.h"
+#include <BW/UnitType.h>
+#include <BW/Position.h>
 namespace BWAPI { class UnitPrototype; }
 namespace BWAPI
 {

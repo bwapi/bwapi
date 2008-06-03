@@ -3,8 +3,8 @@
 #include <list>
 #include <map>
 
-#include "../../../BWAPI/Source/BWAPI/Game.h"
-#include "../../../BWAPI/Source/BW/UnitType.h"
+#include <BWAPI/Game.h>
+#include <BW/UnitType.h>
 
 namespace Util { class Logger; }
 namespace BWAI { class Unit; }

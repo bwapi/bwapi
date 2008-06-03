@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Types.h"
+#include <Util/Types.h>
 class TiXmlElement;
 
 namespace BW

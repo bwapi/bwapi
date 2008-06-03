@@ -1,20 +1,18 @@
 #include "TaskBuild.h"
 
-#include <Logger.h>
+#include <Util/Logger.h>
+#include <Util/Types.h>
+#include <BW/UnitType.h>
+#include <BW/OrderID.h>
+#include <BW/Unit.h>
+#include <BWAPI/Player.h>
+#include <BWAPI/Globals.h>
+#include <BWAPI/Game.h>
 
 #include "Unit.h"
 #include "AI.h"
 #include "Globals.h"
 #include "BuildingPosition.h"
-
-#include "../../BWAPI/Source/Types.h"
-#include "../../BWAPI/Source/BW/UnitType.h"
-#include "../../BWAPI/Source/BW/OrderID.h"
-#include "../../BWAPI/Source/BW/Unit.h"
-
-#include "../../BWAPI/Source/BWAPI/Player.h"
-#include "../../BWAPI/Source/BWAPI/Globals.h"
-#include "../../BWAPI/Source/BWAPI/Game.h"
 
 namespace BWAI
 {

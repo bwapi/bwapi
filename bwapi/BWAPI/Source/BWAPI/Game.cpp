@@ -7,24 +7,24 @@
 #include <algorithm>
 #include <math.h>
 
-#include <Logger.h>
-#include <Dictionary.h>
-#include <Exceptions.h>
+#include <Util/Logger.h>
+#include <Util/Dictionary.h>
+#include <Util/Exceptions.h>
 
-#include "../BWAPI/Player.h"
-#include "../BWAPI/Unit.h"
-#include "../BWAPI/Command.h"
-#include "../BWAPI/CommandCancelTrain.h"
-#include "../BWAPI/Map.h"
+#include <BWAPI/Player.h>
+#include <BWAPI/Unit.h>
+#include <BWAPI/Command.h>
+#include <BWAPI/CommandCancelTrain.h>
+#include <BWAPI/Map.h>
 
-#include "../BW/Offsets.h"
-#include "../BW/Unit.h"
-#include "../BW/UnitTarget.h"
-#include "../BW/OrderTypes.h"
-#include "../BW/Latency.h"
-#include "../BW/TileType.h"
-#include "../BW/TileSet.h"
-#include "../BW/UnitType.h"
+#include <BW/Offsets.h>
+#include <BW/Unit.h>
+#include <BW/UnitTarget.h>
+#include <BW/OrderTypes.h>
+#include <BW/Latency.h>
+#include <BW/TileType.h>
+#include <BW/TileSet.h>
+#include <BW/UnitType.h>
 
 
 namespace BWAPI 

@@ -101,7 +101,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../Util/Source/Util;../TinyXml/Source;../SgiStl/Source"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAPI/Source;Source"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				IgnoreStandardIncludePath="false"
 				RuntimeLibrary="2"
@@ -287,6 +287,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\Condition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionMinimalPopulation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Root.h"
 					>
 				</File>
@@ -315,6 +323,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\Condition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionMinimalPopulation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Root.cpp"
 					>
 				</File>
@@ -322,6 +338,14 @@
 			<Filter
 				Name="Enumerations"
 				>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionRunType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionType.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

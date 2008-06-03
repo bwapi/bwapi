@@ -168,10 +168,10 @@ namespace Util
       for (unsigned int y = 0; y < returnValue.getHeight(); y++)  
         returnValue[x][y] = ' ';
     Strings::makeWindow(returnValue,
-                           leftBorder - 1, 
-                           topBorder - 1,
-                           input.getWidth() + 2, 
-                           input.getHeight() + 2);      
+                        leftBorder - 1, 
+                        topBorder - 1,
+                        input.getWidth() + 2, 
+                        input.getHeight() + 2);      
     for (unsigned int x = 0; x < input.getWidth(); x++)
       for (unsigned int y = 0; y < input.getHeight(); y++)  
         returnValue[x + leftBorder ][y + topBorder] = input[x][y];
@@ -215,11 +215,12 @@ namespace Util
   };
    
   //------------------------------------------------------------------------------
-  void Strings::makeWindow(RectangleArray<char>& input, unsigned int x, 
-                              unsigned int y, 
-                              unsigned int width, 
-                              unsigned int height, 
-                              int frameType)
+  void Strings::makeWindow(RectangleArray<char>& input, 
+                           unsigned int x, 
+                           unsigned int y, 
+                           unsigned int width, 
+                           unsigned int height, 
+                           unsigned int frameType)
   {
     for (unsigned int i = x + 1; i < x + width - 1 && x < input.getWidth(); i++)
     {

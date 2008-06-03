@@ -3,7 +3,8 @@
 #include <math.h>
 
 #include <tinyXml.h>
-#include <Exceptions.h>
+#include <Util/Exceptions.h>
+#include <Util/Xml.h>
 
 #include "Offsets.h"
 
@@ -24,18 +25,8 @@ namespace BW
   //------------------------------------- CONSTRUCTOR ------------------------------
   Position::Position(TiXmlElement* xmlElement)
   {
-    const char * xAttribute = xmlElement->Attribute("x");
-    if (xAttribute == NULL)
-      throw XmlException("Expected attribute x in <position> element");
-    
-    if(sscanf(xAttribute, "%d", &this->x) == EOF)
-      throw XmlException((std::string)"attribute x in <position> is not numeric but '" + xAttribute + "'");
-
-    const char * yAttribute = xmlElement->Attribute("y");
-    if (yAttribute == NULL)
-      throw XmlException("Expected attribute y in <position> element");
-    if(sscanf(yAttribute, "%d", &this->y) == EOF)
-      throw XmlException((std::string)"attribute y in <position> is not numeric but '" + yAttribute + "'");
+    this->x = Util::Xml::getRequiredU16Attribute(xmlElement, "x");
+    this->y = Util::Xml::getRequiredU16Attribute(xmlElement, "y");
   }
   //------------------------------------- DESTRUCTOR -------------------------------
   Position::Position(u16 x, u16 y)

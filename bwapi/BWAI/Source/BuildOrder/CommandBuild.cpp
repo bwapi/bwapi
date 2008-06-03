@@ -1,38 +1,37 @@
 #include "CommandBuild.h"
 
-#include <Exceptions.h>
-#include <Strings.h>
-#include <Logger.h>
+#include <Util/Exceptions.h>
+#include <Util/Strings.h>
+#include <Util/Logger.h>
+#include <Util/Xml.h>
 
+#include <BW/UnitType.h>
+
+#include <BWAI/AI.h>
+#include <BWAI/TaskBuild.h>
+#include <BWAI/Globals.h>
+
+#include <BWAPI/Player.h>
+#include <BWAPI/Globals.h>
+
+#include "ConditionMinimalPopulation.h"
 #include "Root.h"
-
-#include "../BWAI/AI.h"
-#include "../BWAI/TaskBuild.h"
-#include "../BWAI/Globals.h"
-
-#include "../../../BWAPI/Source/BWAPI/Player.h"
-#include "../../../BWAPI/Source/BW/UnitType.h"
-#include "../../../BWAPI/Source/BWAPI/Globals.h"
 
 namespace BuildOrder
 {
   //---------------------------------- CONSTRUCTOR ----------------------------
   CommandBuild::CommandBuild(TiXmlElement* xmlElement)
+  :Command(xmlElement)
   {
-    const char * buildName = xmlElement->Attribute("name");
-    if (buildName == NULL)
-      throw XmlException("Expected attribute name in <build> element");
-    this->name = buildName;
-    
-    const char * buildPlace = xmlElement->Attribute("place");
-    if (buildPlace == NULL)
-      throw XmlException("Expected attribute place in <build> element");
-    this->place = buildPlace;
+    this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
+    this->place = Util::Xml::getRequiredAttribute(xmlElement, "place");
     
     const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
-    if (minimalPopulationAttribute == NULL)
-      throw XmlException("Expected attribute minimal-population in <build> element");
-    this->minimalPopulation = Util::Strings::stringToInt(minimalPopulationAttribute);
+    if (minimalPopulationAttribute != NULL && this->condition == NULL)
+    {
+      this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute))); 
+      this->conditionRunType = ConditionRunType::WaitToApply;
+    }
   }
   //---------------------------------------------------------------------------
   bool CommandBuild::execute()
@@ -40,7 +39,7 @@ namespace BuildOrder
     BW::UnitType toBuild = BWAI::ai->unitNameToType[this->name];
     if (BWAI::ai->player->getMineralsLocal() - BWAI::ai->moneyToBeSpentOnBuildings >= toBuild.getMineralPrice() &&
         BWAI::ai->player->getGasLocal() >= toBuild.getGasPrice() &&
-        BWAI::ai->player->getSuppliesUsedLocal(toBuild.getRace()) >= 2*this->minimalPopulation)
+        this->conditionApplies()) 
     {
       BWAI::Unit* scvToUse = NULL;
       BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
@@ -49,7 +48,7 @@ namespace BuildOrder
       BWAI::ai->root->log.log("Command build '%s' called", this->name.c_str());
       BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
       return true;
-   }
+    }
     return false;
   }
   //---------------------------------------------------------------------------

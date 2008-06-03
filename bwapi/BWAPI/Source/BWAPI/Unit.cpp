@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#include <Logger.h>
+#include <Util/Logger.h>
 
 #include "Player.h"
 #include "Globals.h"
@@ -10,10 +10,10 @@
 #include "CommandBuild.h"
 #include "CommandRightClick.h"
 
-#include "../BW/UnitType.h"
-#include "../BW/Unit.h"
-#include "../BW/Offsets.h"
-#include "../BW/UnitType.h"
+#include <BW/UnitType.h>
+#include <BW/Unit.h>
+#include <BW/Offsets.h>
+#include <BW/UnitType.h>
 
 namespace BWAPI
 {

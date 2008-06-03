@@ -1,7 +1,7 @@
 #include "Player.h"
 
-#include "../BW/Offsets.h"
-#include "../BW/UnitID.h"
+#include <BW/Offsets.h>
+#include <BW/UnitID.h>
 
 namespace BWAPI
 {
@@ -117,4 +117,10 @@ namespace BWAPI
            this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
            this->getGasLocal() >= unit.getGasPrice();
   }
+  //--------------------------------- GET RACE --------------------------------
+  BW::Race::Enum Player::getRace()
+  {
+    return BW::BWXFN_Players->player[this->getID()].race;
+  }
+  //---------------------------------------------------------------------------
 };

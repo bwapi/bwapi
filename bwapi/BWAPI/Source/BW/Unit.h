@@ -1,18 +1,17 @@
 #pragma once
 
-#include <Bitmask.h>
-
-#include "../Types.h"
+#include <Util/Bitmask.h>
+#include <Util/Types.h>
 #include "../StaticAssert.h"
 
-#include "../BW/OrderID.h"
-#include "../BW/UnitType.h"
-#include "../BW/MovementFlags.h"
-#include "../BW/Position.h"
-#include "../BW/UnitStatusFlags.h"
-#include "../BW/ParasiteFlags.h"
-#include "../BW/OrderFlags.h"
-#include "../BW/Offsets.h"
+#include <BW/OrderID.h>
+#include <BW/UnitType.h>
+#include <BW/MovementFlags.h>
+#include <BW/Position.h>
+#include <BW/UnitStatusFlags.h>
+#include <BW/ParasiteFlags.h>
+#include <BW/OrderFlags.h>
+#include <BW/Offsets.h>
 
 namespace BW { struct Sprite; };
 namespace BW { struct Order; };

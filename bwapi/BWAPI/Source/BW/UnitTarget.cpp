@@ -1,9 +1,11 @@
-#include "Offsets.h"
 #include "UnitTarget.h"
-#include "..//BWAPI//Unit.h"
+
+#include "Offsets.h"
+
+#include <BWAPI/Unit.h>
+
 namespace BW
 {
-  
   //--------------------------------- CONSTRUCTOR -----------------------------
   UnitTarget::UnitTarget()
   :targetID(0)

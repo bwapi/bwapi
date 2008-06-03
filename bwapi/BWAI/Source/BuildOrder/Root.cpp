@@ -1,14 +1,14 @@
 #include "Root.h"
 
 #include <tinyxml.h>
-#include <Exceptions.h>
-#include <Dictionary.h>
+#include <Util/Exceptions.h>
+#include <Util/Dictionary.h>
 
 #include "Branch.h"
 #include "BuildWeights.h"
 
-#include "../../../BWAPI/Source/BWAPI/Globals.h"
-#include "../../../BWAPI/Source/BWAPI/Game.h"
+#include <BWAPI/Globals.h>
+#include <BWAPI/Game.h>
 
 
 /** Things that involve ordering the ai things depending on the build-order xml definition. */

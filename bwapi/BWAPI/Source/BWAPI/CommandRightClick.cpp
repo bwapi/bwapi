@@ -1,6 +1,6 @@
 #include "CommandRightClick.h"
 #include "Unit.h"
-#include "../BW/Unit.h"
+#include <BW/Unit.h>
 namespace BWAPI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------
