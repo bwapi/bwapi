@@ -32,6 +32,7 @@ namespace BW
     UnitType(const BW::UnitID::Enum& id); /**< Conversion constructor */
     bool operator == (const BW::UnitID::Enum& id);
     bool operator != (const BW::UnitID::Enum& id);
+    bool operator == (const UnitType& type);
     const char*           getName() const;
     BW::UnitID::Enum      getID() const;      
     s8                    getSupplies() const;      

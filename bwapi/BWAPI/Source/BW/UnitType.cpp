@@ -31,6 +31,11 @@ namespace BW
   {
     return id != this->id;
   }
+  //------------------------------ OPERATOR == ----------------------------------
+  bool UnitType::operator ==(const UnitType& type)
+  {
+    return this->id == type.id;
+  }  
   //------------------------------- GET NAME ------------------------------------
   const char* UnitType::getName() const
   {
