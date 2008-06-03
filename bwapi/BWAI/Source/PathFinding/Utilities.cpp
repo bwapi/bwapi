@@ -34,9 +34,8 @@ namespace PathFinding
   bool Utilities::generatePath(const UnitModel& unit, WalkabilityPosition target)
   {
     Utilities::vawe.clear();
-    temp.resize(BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getHeight()*4 + 2);
+    temp.resize(BWAPI::Map::getWidth()*4, BWAPI::Map::getHeight()*4);
     temp.setTo(std::pair<int, AdvancedDirection>(-1, AdvancedDirection(AdvancedDirectionID::Up)));
-    temp.setBorderTo(std::pair<int, AdvancedDirection>(-2, AdvancedDirection(AdvancedDirectionID::Up)));
     Utilities::setDirectionBuffer(unit);
     /** First sample pathfinding to go here*/
     if (Utilities::conflictsWithMap(unit))
@@ -46,6 +45,7 @@ namespace PathFinding
       fclose(f); 
       return false;
     }
+    
     for (int x = unit.walkabilityPosition.x; x <= (unit.position.x + 7)/8; x++)
       for (int y = unit.walkabilityPosition.y; y <= (unit.position.y + 7)/8; y++)
       {
@@ -81,11 +81,25 @@ namespace PathFinding
         }
         else 
           couldGo[i] = false;
+      for (int i = BASIC_DIRECTION_COUNT; i < ADVANCED_DIRECTION_COUNT; i++)       
+        if (couldGo[advancedDirectionConditions[i][0]] &&
+            couldGo[advancedDirectionConditions[i][1]])
+        {
+          WalkabilityPosition next = WalkabilityPosition(spot.second.x + forwardDirection[i][0],
+                                                         spot.second.y + forwardDirection[i][1]);
+          if (temp[next.x][next.y].first == -1 ||
+              temp[next.x][next.y].first > spot.first + 11)
+            {
+              vawe.insert(std::pair<int, WalkabilityPosition>(spot.first + 11, next));
+              temp[next.x][next.y].first = spot.first + 11;
+              temp[next.x][next.y].second = AdvancedDirection((AdvancedDirectionID::Enum)i);
+            }
+        }
       vawe.erase(spotIterator);
     }
     if (!vawe.empty())
     {
-      FILE* f = fopen("Path.txt","at");
+     /* FILE* f = fopen("Path.txt","at");
  
       Util::RectangleArray<char> resultArray = 
           Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
@@ -98,16 +112,27 @@ namespace PathFinding
            temp[i.x][i.y].second != AdvancedDirectionID::Near;
            i.x += reverseDirection[temp[i.x][i.y].second.direction][0],
            i.y += reverseDirection[temp[i.x][i.y].second.direction][1])
-        resultArray[i.x][i.y] = char(178);
+        resultArray[i.x][i.y] = '0';
       Util::Strings::makeBorder(resultArray).printToFile(f); 
-      fclose(f);          
+      fclose(f);          */
       return true;
     }
     else
     {
-      FILE* f = fopen("Path.txt","at");
-      fprintf(f, "Path not found");
-      fclose(f);          
+   /* FILE* f = fopen("Path.txt","at");
+      fprintf(f, "Path not found\n");
+      
+      Util::RectangleArray<char> resultArray = 
+          Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
+                                     BWAI::ai->map->getWalkabilityArray().getHeight());
+      for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
+        for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
+          if (temp[x][y].first == -1)
+            resultArray[x][y] = BWAI::ai->map->getWalkabilityArray()[x][y] ? '.' : 'X';
+          else
+            resultArray[x][y] = 'O';
+      Util::Strings::makeBorder(resultArray).printToFile(f); 
+      fclose(f); */
       return false;
     }
   }
@@ -115,12 +140,12 @@ namespace PathFinding
   bool Utilities::canMove(const WalkabilityPosition& position, BasicDirection::Enum direction)
   {
     bool result = true;
-    for (size_t i = 0; i < directionBuffer[direction].size(); i++)
+    for (unsigned int i = 0; i < directionBuffer[direction].size(); i++)
     {
-      if (position.x + directionBuffer[direction][i].first < 0 ||
-          position.x + directionBuffer[direction][i].first >= BWAI::ai->map->getWidth() ||
-          position.y + directionBuffer[direction][i].second < 0 ||
-          position.y + directionBuffer[direction][i].second >= BWAI::ai->map->getHeight())
+      if ((int)position.x + directionBuffer[direction][i].first < 0 ||
+          (int)position.x + directionBuffer[direction][i].first >= BWAI::ai->map->getWidth()*4 ||
+          (int)position.y + directionBuffer[direction][i].second < 0 ||
+          (int)position.y + directionBuffer[direction][i].second >= BWAI::ai->map->getHeight()*4)
         return false;
       result &= BWAI::ai->map->getWalkabilityArray()[position.x + directionBuffer[direction][i].first]
                                                     [position.y + directionBuffer[direction][i].second];
@@ -133,10 +158,11 @@ namespace PathFinding
     for (int i = 0; i < BASIC_DIRECTION_COUNT; i++)
       directionBuffer[i].clear();
     
-    int x1 = (-unit.original->getType().dimensionLeft())/8;
+    int x1 = (-unit.original->getType().dimensionLeft() - 7)/8;
     int x2 = ((unit.original->getType().dimensionRight()) + 7)/8;
-    int y1 = (-unit.original->getType().dimensionUp())/8;
+    int y1 = (-unit.original->getType().dimensionUp() - 7)/8;
     int y2 = ((unit.original->getType().dimensionDown()) + 7)/8;
+    
     for (int i = y1; i <= y2; i++)
     {
       directionBuffer[BasicDirection::Left].push_back(std::pair<int, int>(x1 - 1,i));
