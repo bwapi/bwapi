@@ -29,7 +29,6 @@
 #include "../../../BWAPI/Source/BWAPI/Globals.h"
 #include "../../../BWAPI/Source/BWAPI/Map.h"
 
-
 namespace BWAI
 {
   //----------------------------- MINERAL VALUE -------------------------------
@@ -188,9 +187,9 @@ namespace BWAI
       this->mapInfo = NULL;
     }
 
-    if (root != NULL)
+    if (this->root != NULL)
     {
-      this->actualBranch = root->buildOrders.front();
+      this->actualBranch = this->root->buildOrders.front();
       this->actualPosition = this->actualBranch->commands.begin();
     }
     this->log->log("Ai::onStart end", Util::LogLevel::Important);      
@@ -255,6 +254,7 @@ namespace BWAI
     try
     {
       this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));    
+      Util::Logger::globalLog->log("Build order loaded");
     }
     catch (GeneralException& exception)
     {
@@ -288,10 +288,12 @@ namespace BWAI
       return;
     if (!this->player)
       return;
-     
-   if (this->actualPosition != this->actualBranch->commands.end())
+   
+    if (this->actualPosition != this->actualBranch->commands.end())
       if ((*this->actualPosition)->execute())
         ++this->actualPosition;
+
+    
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
     this->refreshSelectionStates(selected);
      
@@ -466,6 +468,7 @@ namespace BWAI
      */
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() &&
+          i->getOwner() == player &&
           i->getType().isWorker() &&
           i->getTask() == NULL &&
           i->getOrderID() == BW::OrderID::ConstructingBuilding &&
