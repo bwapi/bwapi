@@ -1,10 +1,10 @@
 #include "CommandBuild.h"
 
-#include <Logger.h>
+#include <Util/Logger.h>
 
 #include "Unit.h"
 #include "Player.h"
-#include "../BW/Unit.h"
+#include <BW/Unit.h>
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------

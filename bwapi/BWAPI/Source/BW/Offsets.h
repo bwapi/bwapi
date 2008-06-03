@@ -1,9 +1,8 @@
 #pragma once
 #pragma pack(1)
 
-#include <Bitmask.h>
-
-#include "../Types.h"
+#include <Util/Bitmask.h>
+#include <Util/Types.h>
 #include "../StaticAssert.h"
 
 #include "UnitPrototypeFlags.h"

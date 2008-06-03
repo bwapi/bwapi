@@ -1,7 +1,7 @@
 #include "Branch.h"
 
 #include <tinyxml.h>
-#include <Logger.h>
+#include <Util/Logger.h>
 
 #include "CommandBuild.h"
 #include "CommandChangeWeights.h"

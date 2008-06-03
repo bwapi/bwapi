@@ -1,6 +1,6 @@
 #include "Expansion.h"
 
-#include <Logger.h>
+#include <Util/Logger.h>
 
 #include "AI.h"
 #include "Unit.h"
@@ -41,8 +41,11 @@ namespace BWAI
   //--------------------------------- DESTRUCTOR ------------------------------
   Expansion::~Expansion(void)
   {
-   while (!this->minerals.empty())
-     this->removeMineral(this->minerals.front()->getMineral());
+    while (!this->minerals.empty())
+      this->removeMineral(this->minerals.front()->getMineral());
+    if (this->gatherCenter != NULL &&
+        this->gatherCenter->expansion == this)
+      this->gatherCenter->expansion = NULL;
   }
   //---------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)

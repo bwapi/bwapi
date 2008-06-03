@@ -1,15 +1,13 @@
 #pragma once
 
+namespace BW { struct Unit; };
+
 #include <list>
 
-#include "../Types.h"
-
-#include "../BW/UnitType.h"
-#include "../BW/Offsets.h"
-
-#include "../BW/Race.h"
-
-namespace BW { struct Unit; };
+#include <Util/Types.h>
+#include <BW/UnitType.h>
+#include <BW/Offsets.h>
+#include <BW/Race.h>
 
 namespace BWAPI
 {
@@ -107,6 +105,8 @@ namespace BWAPI
      * @returns @c true if the unit can be trained, @c false otherwise.
      */
     bool canAfford(BW::UnitType unit, u16 mineralsToKeep = 0);
+    /** Gets the starting race of the player. */
+    BW::Race::Enum getRace();
   private :
     u8 id;  /**< Order of the player, is used to load player's information from the memory */
     s32 mineralsLocal, gasLocal;  /**< Storage of local versions resources. */

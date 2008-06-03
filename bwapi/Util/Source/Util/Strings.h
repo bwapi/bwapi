@@ -50,7 +50,7 @@ namespace Util
                            unsigned int y, 
                            unsigned int width, 
                            unsigned int height, 
-                           int frameType = 0);
+                           unsigned int frameType = 0);
     static void printTo(RectangleArray<char>& input, const std::string& text, unsigned int x, unsigned int y);
     /**
      * Reads one line from the input stream.

@@ -1,14 +1,14 @@
 #include "Unit.h"
 
-#include <Logger.h>
+#include <Util/Logger.h>
+#include <Util/Types.h>
+#include <BW/Offsets.h>
+#include <BW/Unit.h>
+#include <BWAPI/Globals.h>
 
 #include "Task.h"
-
-#include "../../BWAPI/Source/Types.h"
-#include "../../BWAPI/Source/BW/Offsets.h"
-#include "../../BWAPI/Source/BW/Unit.h"
-#include "../../BWAPI/Source/BWAPI/Globals.h"
 #include "Globals.h"
+
 namespace BWAI
 {
   //-------------------------------- CONSTRUCTOR ------------------------------

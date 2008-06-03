@@ -15,7 +15,7 @@ typedef void*           PVOID;
 
 #ifdef NULL
 #undef NULL
-#define NULL 0
 #endif
+#define NULL 0
 
 #define ever (;;)

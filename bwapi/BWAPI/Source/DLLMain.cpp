@@ -7,10 +7,10 @@
 #include <algorithm>
 #include <stdio.h>
 
-#include <Dictionary.h> 
-#include <Logger.h>
+#include <Util/Dictionary.h> 
+#include <Util/Logger.h>
+#include <Util/Types.h>
 
-#include "Types.h"
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Game.h"

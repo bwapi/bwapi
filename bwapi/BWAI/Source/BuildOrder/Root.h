@@ -2,9 +2,8 @@
 #include <map>
 #include <string>
 
-#include <Logger.h>
-
-#include "../../../BWAPI/Source/BW/UnitType.h"
+#include <Util/Logger.h>
+#include <BW/UnitType.h>
 
 namespace BuildOrder { class Branch; }
 namespace BuildOrder { class BuildWeights; }

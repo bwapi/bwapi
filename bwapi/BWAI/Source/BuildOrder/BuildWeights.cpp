@@ -1,7 +1,7 @@
 #include "BuildWeights.h"
 
-#include "../BWAI/AI.h"
-#include "../BWAI/Globals.h"
+#include <BWAI/AI.h>
+#include <BWAI/Globals.h>
 
 namespace BuildOrder
 {

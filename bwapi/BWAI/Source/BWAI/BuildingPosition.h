@@ -1,7 +1,7 @@
 #include <list>
 #include <string>
 
-#include "../../../BWAPI/Source/BW/TilePosition.h"
+#include <BW/TilePosition.h>
 
 class TiXmlElement;
 

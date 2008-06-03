@@ -1,8 +1,8 @@
 #include "TaskGather.h"
 
-#include <Logger.h>
+#include <Util/Logger.h>
+#include <BWAPI/Globals.h>
 
-#include "../../../BWAPI/Source/BWAPI/Globals.h"
 #include "Globals.h"
 #include "Expansion.h"
 

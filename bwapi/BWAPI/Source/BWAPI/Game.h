@@ -12,11 +12,10 @@ namespace BWAPI { class Command; }
 #include <list>
 #include <windows.h>
 
-#include <RectangleArray.h>
-
-#include "../BW/OrderTypes.h"
-#include "../BW/Offsets.h"
-#include "../BW/Latency.h"
+#include <Util/RectangleArray.h>
+#include <BW/OrderTypes.h>
+#include <BW/Offsets.h>
+#include <BW/Latency.h>
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw

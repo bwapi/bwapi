@@ -2,15 +2,14 @@
 
 #include <string>
 
-#include <Bitmask.h>
+#include <Util/Bitmask.h>
+#include <Util/Types.h>
 
-#include "../Types.h"
-
+#include "Race.h"
 #include "UnitPrototypeFlags.h"
 #include "GroupFlags.h"
 #include "UnitID.h"
 
-#include "../BW/Race.h"
 
 namespace BW
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Types.h"
-#include "../BW/OrderID.h"
-#include "../BW/UnitType.h"
-#include "../BW/TilePosition.h"
+#include <Util/Types.h>
+#include <BW/OrderID.h>
+#include <BW/UnitType.h>
+#include <BW/TilePosition.h>
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };

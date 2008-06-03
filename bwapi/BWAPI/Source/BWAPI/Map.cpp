@@ -1,12 +1,12 @@
 #include "Map.h"
 
-#include <Exceptions.h>
-#include <Strings.h>
-#include <Logger.h>
+#include <Util/Exceptions.h>
+#include <Util/Strings.h>
+#include <Util/Logger.h>
 
-#include "../BW/TileSet.h"
-#include "../BW/TileType.h"
-#include "../BW/DoodatType.h"
+#include <BW/TileSet.h>
+#include <BW/TileType.h>
+#include <BW/DoodatType.h>
 
 namespace BWAPI
 {
@@ -59,7 +59,7 @@ namespace BWAPI
     Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);             
   }
-   //------------------------------- SAVE BUILDABILITY MAP -------------------
+   //------------------------------- SAVE WALKABILITY MAP --------------------
   void Map::saveWalkabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");

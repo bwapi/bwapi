@@ -1,6 +1,8 @@
 #pragma once
-#include "../BW/Position.h"
-#include "../BW/UnitTarget.h"
+
+#include "Position.h"
+#include "UnitTarget.h"
+
 namespace BW
 {
   /** 

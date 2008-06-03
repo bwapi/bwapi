@@ -1,9 +1,9 @@
 #include "CommandTrain.h"
 #include "Unit.h"
 #include "Player.h"
-#include "../BW/UnitType.h"
-#include "../BW/Unit.h"
-#include <Logger.h>
+#include <BW/UnitType.h>
+#include <BW/Unit.h>
+#include <Util/Logger.h>
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -----------------------------------

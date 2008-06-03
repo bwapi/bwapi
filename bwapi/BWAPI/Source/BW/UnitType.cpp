@@ -1,13 +1,12 @@
 #include "UnitType.h"
 
 #include <math.h>
-#include <Logger.h>
+#include <Util/Logger.h>
+#include <BWAPI/Unit.h>
 
-#include "../BWAPI/Unit.h"
-
-#include "../BW/Unit.h"
-#include "../BW/Position.h"
-#include "../BW/Offsets.h"
+#include "Unit.h"
+#include "Offsets.h"
+#include "Position.h"
 
 namespace BW
 {

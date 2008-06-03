@@ -3,7 +3,7 @@
 #include <list>
 //#include <pair>
 
-#include "../../../BWAPI/Source/BW/UnitType.h"
+#include <BW/UnitType.h>
 
 namespace BuildOrder
 {
@@ -14,8 +14,13 @@ namespace BuildOrder
   class BuildWeights
   {
     public :
-      BW::UnitType factory;
+      BW::UnitType factory; /**< Factory whose building rate is affected. */
       std::list<std::pair<BW::UnitType, int> > weights;
+      /**
+       * Creates new BuildRatio specification.
+       * @param factoryName The name of the fatory that should produce
+       * @param weights List of pairs "name of unit" + "weight" for the specified factory
+       */                                               
       BuildWeights(const std::string& factoryName, const std::list<std::pair<std::string,int> >& weights);
   };
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Types.h"
+#include <Util/Types.h>
 namespace BWAPI { class Unit; }
 namespace BW
 {

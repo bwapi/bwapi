@@ -4,7 +4,7 @@
 
 #include "Command.h"
 
-#include "../../../BWAPI/Source/BW/UnitType.h"
+#include <BW/UnitType.h>
 
 namespace BuildOrder { class BuildWeights; }
 class TiXmlElement;

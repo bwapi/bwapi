@@ -1,24 +1,23 @@
 #include "MapStartingPosition.h"
 
-#include <Exceptions.h>
 #include <tinyXml.h>
+#include <Util/Xml.h>
+#include <Util/Exceptions.h>
 
 #include "MapInfo.h"
 #include "BuildingPosition.h"
+
 namespace BWAI
 {
   //------------------------------- CONSTRUCTOR -------------------------------
   MapStartingPosition::MapStartingPosition(TiXmlElement* xmlElement, MapInfo* mapInfo)
   {
-    const char * expansionIDAttribute = xmlElement->Attribute("expansion-id");
-    if (expansionIDAttribute == NULL)
-      throw XmlException("Expected attribute expansion-id in <starting-position> element");
+    std::string expansionIDAttribute = Util::Xml::getRequiredAttribute(xmlElement, "expansion-id");
     this->expansion = mapInfo->getExpansion(expansionIDAttribute);
 
-    TiXmlNode* node = xmlElement->FirstChild("standard-building-placement");
-    if (node == NULL)
+    TiXmlElement* root = xmlElement->FirstChildElement("standard-building-placement");
+    if (root == NULL)
       throw XmlException("Expected element <standard-building-placement> in <starting-position>");
-    TiXmlElement* root = node->ToElement();
     
     for (TiXmlElement* buildPositionElement = root->FirstChildElement("build-position"); buildPositionElement != NULL; buildPositionElement = buildPositionElement->NextSiblingElement("build-position"))
     {

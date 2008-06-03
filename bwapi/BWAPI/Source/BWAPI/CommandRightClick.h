@@ -1,6 +1,6 @@
 #pragma once
 #include "Command.h"
-#include "../BW/PositionUnitTarget.h"
+#include <BW/PositionUnitTarget.h>
 namespace BWAPI { class Unit; }
 namespace BWAPI
 {

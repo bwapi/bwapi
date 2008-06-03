@@ -1,8 +1,7 @@
-#include "..//BW//Offsets.h"
-
 #include <string>
 
-#include <RectangleArray.h>
+#include <Util/RectangleArray.h>
+#include <BW/Offsets.h>
 
 namespace BWAPI
 {
