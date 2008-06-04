@@ -736,7 +736,7 @@ namespace BWAI
               k < (*i).x + position->tileWidth; 
               k++)
           for (int l = (*i).y; 
-               l < (*i).y + position->tileWidth; 
+               l < (*i).y + position->tileHeight; 
                l++)
             if (!BWAPI::Broodwar.unitsOnTile[k][l].empty())
             {
