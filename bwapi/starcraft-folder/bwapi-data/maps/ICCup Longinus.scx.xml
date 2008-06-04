@@ -4,40 +4,40 @@
 	               xsi:noNamespaceSchemaLocation="map-info.xsd">
   <expansions>
     <expansion id="12 oclock double">
-      <position x="2528" y="192"/>
+      <position x="2592" y="240"/>
     </expansion>
     <expansion id="11 oclock natural">
-      <position x="1184" y="192"/>
+      <position x="1248" y="240"/>
     </expansion>
     <expansion id="11 oclock">
-      <position x="256" y="352"/>
+      <position x="320" y="400"/>
     </expansion>
     <expansion id="9 oclock double">
-      <position x="256" y="2016"/>
+      <position x="320" y="2064"/>
     </expansion>
     <expansion id="8 oclock natural">
-      <position x="224" y="3136"/>
+      <position x="288" y="3184"/>
     </expansion>
     <expansion id="7 oclock">
-      <position x="960" y="3744"/>
+      <position x="1024" y="3792"/>
     </expansion>
     <expansion id="5 oclock double">
-      <position x="2912" y="3360"/>
+      <position x="2976" y="3408"/>
     </expansion>
     <expansion id="3 oclock natural">
-      <position x="3712" y="2400"/>
+      <position x="3776" y="2448"/>
     </expansion>
     <expansion id="2 oclock">
-      <position x="3712" y="1504"/>
+      <position x="3776" y="1552"/>
     </expansion>
     <expansion id="10 oclock onlymin">
-      <position x="992" y="1120"/>
+      <position x="1056" y="1168"/>
     </expansion>
     <expansion id="7 oclock onlymin">
-      <position x="1376" y="3136"/>
+      <position x="1440" y="3184"/>
     </expansion>
     <expansion id="2 oclock onlymin">
-      <position x="2848" y="1824"/>
+      <position x="2912" y="1872"/>
     </expansion>
   </expansions>
   <starting-positions>
@@ -56,7 +56,6 @@
           <position x="10" y="2"/>
           <position x="5" y="4"/>
           <position x="6" y="1"/>
-          <position x="13" y="2"/>
           <position x="0" y="22"/>
           <position x="17" y="0"/>
           <position x="3" y="22"/>
@@ -66,7 +65,12 @@
           <position x="0" y="28"/>
           <position x="23" y="0"/>
           <position x="3" y="26"/>
-          <position x="3" y="28"/>          
+          <position x="3" y="28"/>
+          <position x="24" y="4"/>
+          <position x="15" y="2"/>  
+          <position x="18" y="2"/> 
+          <position x="21" y="2"/>     
+          <position x="24" y="2"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="23" y="9"/>
@@ -75,18 +79,36 @@
           <position x="19" y="9"/>
           <position x="19" y="12"/>
           <position x="19" y="15"/>
+          <position x="23" y="18"/>
+          <position x="19" y="6"/>
+        </build-position>
+        <build-position name="factories" width="4" height="3" shortcut="VF">
+          <position x="7" y="18"/>
+          <position x="7" y="21"/>
+          <position x="7" y="24"/>
+          <position x="7" y="27"/>
+          <position x="14" y="18"/>
+          <position x="14" y="21"/>
+          <position x="14" y="24"/>
+          <position x="14" y="27"/>
+        </build-position>
+        <build-position name="starports" width="4" height="3" shortcut="VS">
+          <position x="10" y="30"/>
+          <position x="12" y="9"/>
+          <position x="12" y="14"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="12" y="5"/>
         </build-position>
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
-          <position x="24" y="4"/>
+          <position x="22" y="23"/>
+          <position x="22" y="26"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="37" y="6"/>
         </build-position>
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="8" y="6"/>
-        </build-position>
-        <build-position name="academy" width="3" height="2">
-          <position x="21" y="4"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="44" y="11"/>
@@ -119,26 +141,48 @@
           <position x="40" y="123"/>
           <position x="46" y="119"/>
           <position x="46" y="123"/>
+          <position x="43" y="112"/>
+          <position x="40" y="114"/>
+          <position x="40" y="112"/>
+          <position x="45" y="109"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
+          <position x="12" y="108"/>
+          <position x="16" y="108"/>
+          <position x="20" y="108"/>
           <position x="12" y="111"/>
           <position x="16" y="111"/>
+          <position x="20" y="111"/>
           <position x="12" y="114"/>
           <position x="16" y="114"/>
-          <position x="12" y="117"/>
-          <position x="16" y="117"/>
+        </build-position>
+        <build-position name="factories" width="4" height="3" shortcut="VF">
+          <position x="9" y="118"/>
+          <position x="16" y="118"/>
+          <position x="4" y="121"/>
+          <position x="11" y="121"/>
+          <position x="18" y="121"/>
+          <position x="6" y="124"/>
+          <position x="13" y="124"/>
+          <position x="20" y="124"/>
+        </build-position>
+        <build-position name="starports" width="4" height="3" shortcut="VS">
+          <position x="0" y="114"/>
+          <position x="0" y="117"/>
+          <position x="5" y="111"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="26" y="108"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="7" y="98"/>
         </build-position>
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
-          <position x="0" y="117"/>
+          <position x="40" y="108"/>
+          <position x="36" y="108"/>
         </build-position>
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="23" y="118"/>
-        </build-position>
-        <build-position name="academy" width="3" height="2">
-          <position x="0" y="122"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="14" y="97"/>
@@ -172,26 +216,48 @@
           <position x="116" y="33"/>
           <position x="116" y="31"/>
           <position x="116" y="29"/>
+          <position x="116" y="35"/>
+          <position x="116" y="37"/>
+          <position x="116" y="39"/>
+          <position x="113" y="35"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="112"  y="61"/>
-          <position x="116" y="61"/>
-          <position x="120" y="61"/>
-          <position x="112" y="58"/>
-          <position x="116"  y="58"/>
-          <position x="120" y="58"/>
+          <position x="120"  y="55"/>
+          <position x="120"  y="58"/>
+          <position x="120"  y="61"/>
+          <position x="120"  y="64"/>
+          <position x="124"  y="55"/>
+          <position x="124"  y="58"/>
+          <position x="124"  y="61"/>
+          <position x="124"  y="64"/>
+        </build-position>
+        <build-position name="factories" width="4" height="3" shortcut="VF">
+          <position x="104" y="49"/>
+          <position x="104" y="52"/>
+          <position x="104" y="56"/>
+          <position x="104" y="59"/>
+          <position x="111" y="49"/>
+          <position x="111" y="52"/>
+          <position x="111" y="56"/>
+          <position x="111" y="59"/>
+        </build-position>
+        <build-position name="starports" width="4" height="3" shortcut="VS">
+          <position x="106" y="63"/>
+          <position x="102" y="45"/>
+          <position x="104" y="42"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="109" y="45"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="116" y="75"/>
         </build-position>        
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
-          <position x="113" y="38"/>
+          <position x="106" y="37"/>
+          <position x="108" y="34"/>
         </build-position>      
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="116" y="42"/>
-        </build-position>
-        <build-position name="academy" width="3" height="2">
-          <position x="111" y="34"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="108" y="77"/>
