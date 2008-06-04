@@ -15,12 +15,10 @@ namespace BWAI
   ,expansion(expansion)
   {
     this->refinery->expansion = expansion;
-    BWAI::ai->log->log("TaskGatherGas::TaskGatherGas called");
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskGatherGas::~TaskGatherGas()
   {
-    BWAI::ai->log->log("TaskGatherGas::~TaskGatherGas called");
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskGatherGas::execute()

@@ -18,7 +18,6 @@ namespace BWAI
   //------------------------------- DESTRUCTOR --------------------------------
   TaskGather::~TaskGather()
   {
-    BWAI::ai->log->log("TaskGather::~TaskGather called");
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskGather::execute()

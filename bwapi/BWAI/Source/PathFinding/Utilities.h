@@ -12,18 +12,8 @@
 /* All the stuff here will be sorted somehow soon . */
 static const int BASIC_DIRECTION_COUNT = 4;
 static const int ADVANCED_DIRECTION_COUNT = 8;
-namespace BasicDirection
-{
-  enum Enum : u8
-  {
-    Up    = 0,
-    Right = 1,
-    Down  = 2,
-    Left  = 3
-  };
-}
 
-namespace AdvancedDirectionID
+namespace Direction
 {
   enum Enum : u8
   {
@@ -39,18 +29,6 @@ namespace AdvancedDirectionID
     Unset     = 9
   };
 }
-
-
-class AdvancedDirection
-{
-  public:
-    AdvancedDirection() : direction(AdvancedDirectionID::Unset) {}
-    AdvancedDirection(const BasicDirection::Enum& direction) : direction((AdvancedDirectionID::Enum)direction) {}
-    AdvancedDirection(const AdvancedDirectionID::Enum& direction) : direction(direction) {}
-    AdvancedDirectionID::Enum direction;
-    bool operator==(const AdvancedDirectionID::Enum& direction) { return this->direction == direction;}
-    bool operator!=(const AdvancedDirectionID::Enum& direction) { return this->direction != direction;}
-};
 
 static const int forwardDirection[ADVANCED_DIRECTION_COUNT][2] = 
 {
@@ -77,16 +55,16 @@ static const int reverseDirection[ADVANCED_DIRECTION_COUNT][2] =
  { 1,  1}, 
 };
 
-static AdvancedDirectionID::Enum advancedDirectionConditions[ADVANCED_DIRECTION_COUNT][2] =
+static Direction::Enum directionConditions[ADVANCED_DIRECTION_COUNT][2] =
 {
- {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
- {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
- {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
- {AdvancedDirectionID::Unset ,AdvancedDirectionID::Unset},
- {AdvancedDirectionID::Up    ,AdvancedDirectionID::Right},
- {AdvancedDirectionID::Right ,AdvancedDirectionID::Down},
- {AdvancedDirectionID::Down  ,AdvancedDirectionID::Left},
- {AdvancedDirectionID::Left  ,AdvancedDirectionID::Up},
+ {Direction::Unset ,Direction::Unset},
+ {Direction::Unset ,Direction::Unset},
+ {Direction::Unset ,Direction::Unset},
+ {Direction::Unset ,Direction::Unset},
+ {Direction::Up    ,Direction::Right},
+ {Direction::Right ,Direction::Down},
+ {Direction::Down  ,Direction::Left},
+ {Direction::Left  ,Direction::Up},
 };
 /**
  * All stuff related directly to path finding.
@@ -99,6 +77,7 @@ namespace PathFinding
    class Utilities
    {
      public:
+       Utilities();
        /**
         * Gets if the specified unit conflicts with map.
         * @param unit Model of the unit to test.
@@ -106,13 +85,32 @@ namespace PathFinding
         */                                    
        static bool conflictsWithMap(const UnitModel& unit);
        
-       static bool generatePath(const UnitModel& unit, WalkabilityPosition target);
+       bool generatePath(const UnitModel& unit, WalkabilityPosition target);
        /** static help variables. */
-       static Util::RectangleArray<std::pair<int, AdvancedDirection> > temp;
+       
        static std::vector<BW::Position> returnValue;
-       static std::multimap<int, WalkabilityPosition> vawe;
-       static std::vector<std::pair<int, int> > directionBuffer[BASIC_DIRECTION_COUNT];
-       static void setDirectionBuffer(const UnitModel& unit);
-       static bool canMove(const WalkabilityPosition& position, BasicDirection::Enum direction);
+     private :
+       static const u8 STRAIGHT_SPOT_DIRECTION = 8;
+       static const u8 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
+       static const u8 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by 
+                                                        *   this and division by 2^n is a LOT faster as it is 
+                                                        *   just bit shift. */
+       static const u8 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15; 
+       static const u16 MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE = 20000;
+       struct Spot
+       {
+         u32 vaweID;
+         u16 distance;
+         Direction::Enum from;
+       };
+      Util::RectangleArray<Spot> world;
+      Util::RectangleArray<bool> walkability;
+      u32 vaweID;
+      WalkabilityPosition vawe[SPOT_DISTANCE_WINDOW_SIZE][MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE];
+      u16 count[SPOT_DISTANCE_WINDOW_SIZE];
+      
+      bool canMove(const WalkabilityPosition& position, Direction::Enum direction);
+      void setDirectionBuffer(const UnitModel& unit);      
+      std::vector<std::pair<int, int> > directionBuffer[BASIC_DIRECTION_COUNT];      
    };
 }

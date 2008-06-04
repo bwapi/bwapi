@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Util\Source\Util;..\TinyXml\Source"
+				AdditionalIncludeDirectories="..\Util\Source;..\TinyXml\Source;..\BWAPI\Source;Source"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -101,6 +101,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				EnableFiberSafeOptimizations="true"
 				AdditionalIncludeDirectories="..\Util\Source;..\TinyXml\Source;..\BWAPI\Source;Source"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"

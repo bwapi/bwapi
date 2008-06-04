@@ -33,6 +33,59 @@
 
 namespace BWAI
 {
+  //------------------------------- CONSTRUCTOR -------------------------------
+  AI::AI(void)
+  :mapInfo(NULL)
+  ,startingPosition(NULL)
+  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
+  ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
+  ,root(NULL)
+  ,moneyToBeSpentOnBuildings(0)
+  ,map(NULL)
+  ,temp(NULL)
+  ,pathFinding(NULL)
+  {
+    try
+    {
+      Expansion::maximumMineralDistance = Util::Strings::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
+    }
+    catch (GeneralException& exception)
+    {
+      Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: " + exception.getMessage());
+    }
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
+    this->first = NULL;
+    
+    try
+    {
+      this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));    
+      Util::Logger::globalLog->log("Build order loaded");
+    }
+    catch (GeneralException& exception)
+    {
+      Util::Logger::globalLog->log("Error when loading build order: " + exception.getMessage());
+    }
+  }
+  //-------------------------------- DESTRUCTOR -------------------------------
+  AI::~AI(void)
+  {
+    delete root;
+  
+    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
+      delete *i;
+      
+    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
+      delete *i;
+      
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      delete units[i];
+
+    delete map;
+
+    delete this->log;
+    delete deadLog;
+  }
   //----------------------------- MINERAL VALUE -------------------------------
   bool mineralValue(BWAI::TaskGather*& task1, BWAI::TaskGather*& task2)
   {
@@ -58,7 +111,7 @@ namespace BWAI
       return false;
     return false;
   }
-  //----------------------------- MINERAL VALUE -------------------------------
+  //--------------------------- BETTER WORKER TO FREE -------------------------
   bool betterWorkerToFree(Unit*& worker1, Unit*& worker2, BW::Position buildingPosition)
   {
     if (worker2 == NULL)
@@ -177,6 +230,7 @@ namespace BWAI
         }
       }
       mapInfo->saveDefinedBuildingsMap();
+      this->pathFinding = new PathFinding::Utilities();
 
       /** For testing reasons, there is just one build order now*/
     }
@@ -226,62 +280,13 @@ namespace BWAI
       
     this->startingPosition = NULL;  
     
-    delete map;
-    map = NULL;
+    delete this->pathFinding;
+    this->pathFinding = NULL;
+    
+    delete this->map;
+    this->map = NULL;
     
     this->log->log("Ai::onEnd end", Util::LogLevel::Detailed);      
-  }
-  //------------------------------- CONSTRUCTOR -------------------------------
-  AI::AI(void)
-  :mapInfo(NULL)
-  ,startingPosition(NULL)
-  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
-  ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
-  ,root(NULL)
-  ,moneyToBeSpentOnBuildings(0)
-  ,map(NULL)
-  ,temp(NULL)
-  {
-    try
-    {
-      Expansion::maximumMineralDistance = Util::Strings::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
-    }
-    catch (GeneralException& exception)
-    {
-      Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: " + exception.getMessage());
-    }
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
-    this->first = NULL;
-    
-    try
-    {
-      this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));    
-      Util::Logger::globalLog->log("Build order loaded");
-    }
-    catch (GeneralException& exception)
-    {
-      Util::Logger::globalLog->log("Error when loading build order: " + exception.getMessage());
-    }
-  }
-  //-------------------------------- DESTRUCTOR -------------------------------
-  AI::~AI(void)
-  {
-    delete root;
-  
-    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
-      delete *i;
-      
-    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      delete *i;
-      
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      delete units[i];
-
-    delete map;
-
-    delete this->log;
-    delete deadLog;
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
@@ -308,15 +313,17 @@ namespace BWAI
 
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
-    /** Part of the testing of path finding */
-    /*
+    #pragma region DisabledPathFindingPerformanceTest
+    /**
     if (!idleWorkers.empty())
       temp = idleWorkers.front();
     if (temp)
     {
       PathFinding::UnitModel source(temp);
-      PathFinding::Utilities::generatePath(source, PathFinding::WalkabilityPosition(20, 20));
-    }*/
+      this->pathFinding->generatePath(source, PathFinding::WalkabilityPosition(20, 20));
+    }
+    */
+    #pragma endregion DisabledPathFindingPerformanceTest
     this->assignIdleWorkersToMinerals(idleWorkers);
 
     this->checkWorkersNeed();
