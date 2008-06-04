@@ -7,6 +7,9 @@
 #include <BW/UnitType.h>
 
 namespace Util { class Logger; }
+
+namespace PathFinding { class Utilities; }
+
 namespace BWAI { class Unit; }
 namespace BWAI { class TaskGatherGas; }
 namespace BWAI { class TaskGather; }
@@ -83,6 +86,7 @@ namespace BWAI
       u16 moneyToBeSpentOnBuildings;
       /** Currently opened map, NULL if no map is opened. */
       BWAPI::Map* map;
+      PathFinding::Utilities *pathFinding;
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;

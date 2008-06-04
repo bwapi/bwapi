@@ -2,6 +2,7 @@
 
 #include <Util/RectangleArray.h>
 #include <Util/Strings.h>
+#include <Util/Logger.h>
 #include <BWAI/Unit.h>
 #include <BWAI/Globals.h>
 #include <BWAI/ai.h>
@@ -10,10 +11,36 @@
 
 namespace PathFinding
 {
-  Util::RectangleArray<std::pair<int, AdvancedDirection> > Utilities::temp(1,1);
   std::vector<BW::Position> Utilities::returnValue;
-  std::multimap<int, WalkabilityPosition> Utilities::vawe;
-  std::vector<std::pair<int, int> > Utilities::directionBuffer[BASIC_DIRECTION_COUNT];
+//  std::vector<std::pair<int, int> > Utilities::directionBuffer[BASIC_DIRECTION_COUNT];
+  //------------------------------------- CONSTRUCTOR ----------------------------------------------
+  Utilities::Utilities()
+  :world      (BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
+  ,walkability(BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
+  ,vaweID(0)
+  {
+    Spot pattern;
+    pattern.distance = 0; // This really doesn't matter
+    pattern.vaweID = 0;
+    pattern.from = Direction::Unset;
+    world.setTo(pattern);
+    for (int x = 0; x < BWAPI::Map::getWidth()*4; x++)
+      for (int y = 0; y < BWAPI::Map::getHeight()*4; y++)
+        walkability[x + 1][y + 1] = BWAI::ai->map->getWalkabilityArray()[x][y];
+    for (unsigned int x = 0; x < walkability.getWidth(); x++)
+    {
+      walkability[x][0] = false;
+      walkability[x][walkability.getHeight() - 1] = false;
+    }
+    
+    for (unsigned int y = 0; y < walkability.getHeight(); y++)
+    {
+      walkability[0][y] = false;
+      walkability[walkability.getWidth() - 1][y] = false;
+    }
+    for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
+      count[i] = 0;
+  }
   //--------------------------------- CONFLICTS WITH MAP -------------------------------------------
   bool Utilities::conflictsWithMap(const UnitModel& unit)
   {
@@ -33,124 +60,148 @@ namespace PathFinding
   //------------------------------------------------------------------------------------------------
   bool Utilities::generatePath(const UnitModel& unit, WalkabilityPosition target)
   {
-    Utilities::vawe.clear();
-    temp.resize(BWAPI::Map::getWidth()*4, BWAPI::Map::getHeight()*4);
-    temp.setTo(std::pair<int, AdvancedDirection>(-1, AdvancedDirection(AdvancedDirectionID::Up)));
+    this->vaweID++;
     Utilities::setDirectionBuffer(unit);
-    /** First sample pathfinding to go here*/
-    if (Utilities::conflictsWithMap(unit))
+    #pragma region DisabledDebugOutput
+   /* if (Utilities::conflictsWithMap(unit))
     {
       FILE* f = fopen("Path.txt","at");
-      fprintf(f, "Conflicts");
+      fprintf(f, "Conflicts\n");
       fclose(f); 
       return false;
-    }
-    
+    }*/
+    #pragma endregion DisabledDebugOutput    
+    // sets starting spots of the search
+    for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
+      count[i] = 0;
     for (int x = unit.walkabilityPosition.x; x <= (unit.position.x + 7)/8; x++)
       for (int y = unit.walkabilityPosition.y; y <= (unit.position.y + 7)/8; y++)
       {
-        WalkabilityPosition position(x, y);
-        int distance = position.toBWPosition().getDistance(unit.position);
-        Utilities::vawe.insert(std::pair<int, WalkabilityPosition>(distance, position));
-        temp[position.x][position.y] = std::pair<int, AdvancedDirection>(distance, AdvancedDirectionID::Near);
+        WalkabilityPosition here(x, y);
+        int distance = here.toBWPosition().getDistance(unit.position);
+        here.x ++;
+        here.y ++;
+        world[here.x][here.y].distance = distance;
+        world[here.x][here.y].vaweID = vaweID;
+        world[here.x][here.y].from = Direction::Near;
+        vawe[distance][count[distance]] = here;
+        count[distance]++;
       }
     bool couldGo[BASIC_DIRECTION_COUNT];
-    std::pair<int, WalkabilityPosition> result;
-    while (!vawe.empty())
+    u16 countOfStepsWithoutChanges;
+    Spot spot;
+    WalkabilityPosition here;
+    WalkabilityPosition next;
+    u16 newDistancePared, newDistanceAngledPared;
+    u16 newDistance, newDistanceAngled;
+    
+    for (u8 position = 0, distance = 0; true; position = (position + 1) & SPOT_DISTANCE_WINDOW_SIZE_BITS, distance++)
     {
-      std::multimap<int, WalkabilityPosition>::iterator spotIterator = vawe.begin();
-      std::pair<int, WalkabilityPosition> spot = *spotIterator;
-      if (spot.second == target)
+      if (vawe[position])
+        countOfStepsWithoutChanges = 0;
+      else
+        countOfStepsWithoutChanges++;
+
+      newDistance = distance + STRAIGHT_SPOT_DIRECTION;
+      newDistancePared = newDistance & SPOT_DISTANCE_WINDOW_SIZE_BITS;
+      newDistanceAngled = distance + ANGLED_SPOT_DIRECTION;
+      newDistanceAngledPared = newDistanceAngled & SPOT_DISTANCE_WINDOW_SIZE_BITS;
+
+      for (int i = 0; i < count[position]; i++)
       {
-        result = spot;
-        break;
-      }
-      for (int i = 0; i < BASIC_DIRECTION_COUNT; i++)
-        if (Utilities::canMove(spot.second, (BasicDirection::Enum)i))
+        if (vawe[position][i] == target)
+          goto foundTarget;
+        here = vawe[position][i];
+        spot = world[here.x][here.y];
+        
+        for (u8 j = 0; j < BASIC_DIRECTION_COUNT; j++)
         {
-          couldGo[i] = true;
-          WalkabilityPosition next = WalkabilityPosition(spot.second.x + forwardDirection[i][0],
-                                                         spot.second.y + forwardDirection[i][1]);
-          if (temp[next.x][next.y].first == -1 ||
-              temp[next.x][next.y].first > spot.first + 8)
+          if (this->canMove(here, (Direction::Enum)j))
           {
-            vawe.insert(std::pair<int, WalkabilityPosition>(spot.first + 8, next));
-            temp[next.x][next.y].first = spot.first + 8;
-            temp[next.x][next.y].second = AdvancedDirection((AdvancedDirectionID::Enum)i);
-          }
-        }
-        else 
-          couldGo[i] = false;
-      for (int i = BASIC_DIRECTION_COUNT; i < ADVANCED_DIRECTION_COUNT; i++)       
-        if (couldGo[advancedDirectionConditions[i][0]] &&
-            couldGo[advancedDirectionConditions[i][1]])
-        {
-          WalkabilityPosition next = WalkabilityPosition(spot.second.x + forwardDirection[i][0],
-                                                         spot.second.y + forwardDirection[i][1]);
-          if (temp[next.x][next.y].first == -1 ||
-              temp[next.x][next.y].first > spot.first + 11)
+            couldGo[j] = true;
+            next.x = here.x + forwardDirection[j][0];
+            next.y = here.y + forwardDirection[j][1];
+            if (world[next.x][next.y].vaweID != this->vaweID ||
+                world[next.x][next.y].distance > newDistance)
             {
-              vawe.insert(std::pair<int, WalkabilityPosition>(spot.first + 11, next));
-              temp[next.x][next.y].first = spot.first + 11;
-              temp[next.x][next.y].second = AdvancedDirection((AdvancedDirectionID::Enum)i);
+              vawe[newDistancePared][count[newDistancePared]] = next;
+              count[newDistancePared]++;
+              world[next.x][next.y].vaweID = this->vaweID;
+              world[next.x][next.y].from = (Direction::Enum) j;
+              world[next.x][next.y].distance = newDistance;
             }
+          }
+          else 
+            couldGo[j] = false;
         }
-      vawe.erase(spotIterator);
+        for (u8 j = BASIC_DIRECTION_COUNT; j < ADVANCED_DIRECTION_COUNT; j++)       
+          if (couldGo[directionConditions[j][0]] &&
+              couldGo[directionConditions[j][1]])
+          {
+            next.x = here.x + forwardDirection[j][0];
+            next.y = here.y + forwardDirection[j][1];
+            if (world[next.x][next.y].vaweID != this->vaweID ||
+                world[next.x][next.y].distance > newDistanceAngled)
+            {
+              vawe[newDistanceAngledPared][count[newDistanceAngledPared]] = next;
+              count[newDistanceAngledPared]++;
+              world[next.x][next.y].vaweID = this->vaweID;
+              world[next.x][next.y].from = (Direction::Enum) j;
+              world[next.x][next.y].distance = newDistanceAngled;
+            }
+          }
+      }  
+     count[position] = 0;
+     if (countOfStepsWithoutChanges >= SPOT_DISTANCE_WINDOW_SIZE)
+       break;
     }
-    if (!vawe.empty())
-    {
-     /* FILE* f = fopen("Path.txt","at");
- 
-      Util::RectangleArray<char> resultArray = 
-          Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
-                                     BWAI::ai->map->getWalkabilityArray().getHeight());
-      for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
-        for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
+    #pragma region DisabledDebugOutput
+    /* FILE* f = fopen("Path.txt","at");
+    fprintf(f, "Path not found\n");
+    
+    Util::RectangleArray<char> resultArray = 
+        Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
+                                   BWAI::ai->map->getWalkabilityArray().getHeight());
+    for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
+      for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
+        if (temp[x][y].first == -1)
           resultArray[x][y] = BWAI::ai->map->getWalkabilityArray()[x][y] ? '.' : 'X';
-      
-      for (WalkabilityPosition i(target);
-           temp[i.x][i.y].second != AdvancedDirectionID::Near;
-           i.x += reverseDirection[temp[i.x][i.y].second.direction][0],
-           i.y += reverseDirection[temp[i.x][i.y].second.direction][1])
-        resultArray[i.x][i.y] = '0';
-      Util::Strings::makeBorder(resultArray).printToFile(f); 
-      fclose(f);          */
-      return true;
-    }
-    else
-    {
-   /* FILE* f = fopen("Path.txt","at");
-      fprintf(f, "Path not found\n");
-      
-      Util::RectangleArray<char> resultArray = 
-          Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
-                                     BWAI::ai->map->getWalkabilityArray().getHeight());
-      for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
-        for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
-          if (temp[x][y].first == -1)
-            resultArray[x][y] = BWAI::ai->map->getWalkabilityArray()[x][y] ? '.' : 'X';
-          else
-            resultArray[x][y] = 'O';
-      Util::Strings::makeBorder(resultArray).printToFile(f); 
-      fclose(f); */
-      return false;
-    }
+        else
+          resultArray[x][y] = 'O';
+    Util::Strings::makeBorder(resultArray).printToFile(f); 
+    fclose(f); */
+    #pragma endregion DisabledDebugOutput
+    return false;
+    foundTarget:
+    #pragma region DisabledDebugOutput
+    /*
+    FILE* f = fopen("Path.txt","at");
+ 
+    Util::RectangleArray<char> resultArray = 
+        Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
+                                   BWAI::ai->map->getWalkabilityArray().getHeight());
+    for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
+      for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
+        resultArray[x][y] = BWAI::ai->map->getWalkabilityArray()[x][y] ? '.' : 'X';
+    
+    for (WalkabilityPosition i(target);
+         world[i.x][i.y].from != Direction::Near;
+         i.x += reverseDirection[world[i.x][i.y].from][0],
+         i.y += reverseDirection[world[i.x][i.y].from][1])
+      resultArray[i.x - 1][i.y - 1] = '0';
+    Util::Strings::makeBorder(resultArray).printToFile(f); 
+    fclose(f);*/
+    #pragma endregion DisabledDebugOutput
+    return true;
   }
   //------------------------------------------------------------------------------------------------
-  bool Utilities::canMove(const WalkabilityPosition& position, BasicDirection::Enum direction)
+  bool Utilities::canMove(const WalkabilityPosition& position, Direction::Enum direction)
   {
     bool result = true;
-    for (unsigned int i = 0; i < directionBuffer[direction].size(); i++)
-    {
-      if ((int)position.x + directionBuffer[direction][i].first < 0 ||
-          (int)position.x + directionBuffer[direction][i].first >= BWAI::ai->map->getWidth()*4 ||
-          (int)position.y + directionBuffer[direction][i].second < 0 ||
-          (int)position.y + directionBuffer[direction][i].second >= BWAI::ai->map->getHeight()*4)
-        return false;
-      result &= BWAI::ai->map->getWalkabilityArray()[position.x + directionBuffer[direction][i].first]
-                                                    [position.y + directionBuffer[direction][i].second];
-    }                                                    
-    return result;                                                    
+    for (size_t i = 0; i < directionBuffer[direction].size(); i++)
+      result &= this->walkability[position.x + directionBuffer[direction][i].first]
+                                 [position.y + directionBuffer[direction][i].second];
+    return result;                                                     
   }
   //------------------------------------------------------------------------------------------------
   void Utilities::setDirectionBuffer(const UnitModel& unit)
@@ -165,14 +216,14 @@ namespace PathFinding
     
     for (int i = y1; i <= y2; i++)
     {
-      directionBuffer[BasicDirection::Left].push_back(std::pair<int, int>(x1 - 1,i));
-      directionBuffer[BasicDirection::Right].push_back(std::pair<int, int>(x2 + 1,i));
+      directionBuffer[Direction::Left].push_back(std::pair<int, int>(x1 - 1,i));
+      directionBuffer[Direction::Right].push_back(std::pair<int, int>(x2 + 1,i));
     }
 
     for (int i = x1; i <= x2; i++)
     {
-      directionBuffer[BasicDirection::Up].push_back(std::pair<int, int>(i, y1 - 1));
-      directionBuffer[BasicDirection::Down].push_back(std::pair<int, int>(i, y2 + 1));
+      directionBuffer[Direction::Up].push_back(std::pair<int, int>(i, y1 - 1));
+      directionBuffer[Direction::Down].push_back(std::pair<int, int>(i, y2 + 1));
     }
   }
   //------------------------------------------------------------------------------------------------
