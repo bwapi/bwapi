@@ -608,39 +608,13 @@ namespace BWAI
         player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < 400)
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->getSuppliesFreeLocal(BW::Race::Terran), plannedTerranSupplyGain());
-      BuildingPosition* buildingPosition= this->startingPosition->positions["non-producting-3X2"];
-      for (std::list<BW::TilePosition>::iterator i = buildingPosition->positions.begin();
-           i != buildingPosition->positions.end();
-           ++i)
+      Unit* builderToUse;
+      BW::TilePosition spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
+      if (spot != BW::TilePosition::Invalid)
       {
-        int occupiedCount = 0;
-        Unit* lastOccupied = NULL;
-        for (int k = (*i).x; 
-              k < (*i).x + buildingPosition->tileWidth; 
-              k++)
-          for (int l = (*i).y; 
-               l < (*i).y + buildingPosition->tileHeight; 
-               l++)
-            if (BWAPI::Broodwar.unitsOnTile[k][l].size() > 0)
-            {
-              occupiedCount ++;
-              lastOccupied = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
-            }
-        if (
-             occupiedCount == 0 || 
-             (
-               occupiedCount == 1 &&
-               lastOccupied->getType().isWorker() &&
-               lastOccupied->getTask() == NULL &&
-               lastOccupied->getOrderID() == BW::OrderID::Guard
-             )
-           )
-        {
-          this->log->log("Found free spot for supply depot at (%d,%d)", (*i).x, (*i).y);
-          this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, (*i), lastOccupied, buildingPosition));
-          break;
-        }
-      } 
+        this->log->log("Found free spot for supply depot at (%d,%d)", spot.x, spot.y);
+        this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, spot, builderToUse, this->startingPosition->positions["non-producting-3X2"]));
+      }
     }        
   }
   //---------------------------------------------------------------------------
