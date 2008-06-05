@@ -16,7 +16,7 @@ namespace Util
         * @param width Width of the new array.
         * @param height Height of the new array.
         */
-       RectangleArray(unsigned int width, unsigned int height);
+       RectangleArray(unsigned int width = 1, unsigned int height = 1);
        /** Copy constructor */
        RectangleArray(const RectangleArray<Type>& rectangleArray);
        /** Destorys the array and deletes all content of array. */
@@ -93,7 +93,7 @@ namespace Util
    };
   //-------------------------------- CONSTRUCTOR ---------------------------------
   template <class Type>
-  RectangleArray<Type>::RectangleArray(unsigned int width = 0, unsigned int height = 0)
+  RectangleArray<Type>::RectangleArray(unsigned int width, unsigned int height)
   {
     this->setWidth(width);
     this->setHeight(height);

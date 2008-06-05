@@ -314,7 +314,7 @@ namespace BWAI
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
     #pragma region DisabledPathFindingPerformanceTest
-    /**
+    /*
     if (!idleWorkers.empty())
       temp = idleWorkers.front();
     if (temp)

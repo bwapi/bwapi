@@ -11,8 +11,6 @@
 
 namespace PathFinding
 {
-  std::vector<BW::Position> Utilities::returnValue;
-//  std::vector<std::pair<int, int> > Utilities::directionBuffer[BASIC_DIRECTION_COUNT];
   //------------------------------------- CONSTRUCTOR ----------------------------------------------
   Utilities::Utilities()
   :world      (BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
@@ -24,8 +22,8 @@ namespace PathFinding
     pattern.vaweID = 0;
     pattern.from = Direction::Unset;
     world.setTo(pattern);
-    for (int x = 0; x < BWAPI::Map::getWidth()*4; x++)
-      for (int y = 0; y < BWAPI::Map::getHeight()*4; y++)
+    for (u16 x = 0; x < BWAPI::Map::getWidth()*4; x++)
+      for (u16 y = 0; y < BWAPI::Map::getHeight()*4; y++)
         walkability[x + 1][y + 1] = BWAI::ai->map->getWalkabilityArray()[x][y];
     for (unsigned int x = 0; x < walkability.getWidth(); x++)
     {
@@ -40,21 +38,42 @@ namespace PathFinding
     }
     for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
       count[i] = 0;
+    for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    {
+      BW::UnitType type((BW::UnitID::Enum)i);
+      //if (type == BW::UnitID::Terran_SCV)
+      {
+        precomputedPlacebility[i].resize(BWAPI::Map::getWidth()*4  + 2, 
+                                         BWAPI::Map::getHeight()*4 + 2);
+        precomputedPlacebility[i].setTo(false);  
+        int borderLeft   = (type.dimensionLeft()  + 7)/8;
+        int borderRight  = (type.dimensionRight() + 7)/8;
+        int borderTop    = (type.dimensionUp()    + 7)/8;
+        int borderBottom = (type.dimensionDown()  + 7)/8;
+        WalkabilityPosition here;
+        for (unsigned int x = borderLeft; x < precomputedPlacebility[i].getWidth() - borderRight; x++)
+        {
+          here.x = x;
+          for (unsigned int y = borderTop; y < precomputedPlacebility[i].getHeight() - borderBottom; y++)
+          {
+            here.y = y;
+            precomputedPlacebility[i][x][y] = !Utilities::conflictsWithMap(here, type);
+          }
+        }
+      }
+    }
   }
   //--------------------------------- CONFLICTS WITH MAP -------------------------------------------
-  bool Utilities::conflictsWithMap(const UnitModel& unit)
+  bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type)
   {
-    const Util::RectangleArray<bool>* walkability = &BWAI::ai->map->getWalkabilityArray();
-    int x1 = (unit.position.x - unit.original->getType().dimensionLeft())/8;
-    int x2 = ((unit.position.x + unit.original->getType().dimensionRight()) + 7)/8;
-    int y1 = (unit.position.y - unit.original->getType().dimensionUp())/8;
-    int y2 = ((unit.position.y + unit.original->getType().dimensionDown()) + 4)/8;
+    int x1 = position.x - (type.dimensionLeft() + 7)/8;
+    int x2 = position.x + (type.dimensionRight() + 7)/8;
+    int y1 = position.y - (type.dimensionUp() + 7)/8;
+    int y2 = position.y + (type.dimensionDown() + 7)/8;
     for (int x = x1; x <= x2; x++)
       for (int y = y1; y <= y2; y++)
-      {
-        if (!(*walkability)[x][y])
-           return true;
-      }           
+        if (!this->walkability[x][y])
+          return true;
     return false;
   }
   //------------------------------------------------------------------------------------------------
@@ -78,15 +97,16 @@ namespace PathFinding
       for (int y = unit.walkabilityPosition.y; y <= (unit.position.y + 7)/8; y++)
       {
         WalkabilityPosition here(x, y);
-        int distance = here.toBWPosition().getDistance(unit.position);
+        u16 distance = here.toBWPosition().getDistance(unit.position);
         here.x ++;
         here.y ++;
         world[here.x][here.y].distance = distance;
-        world[here.x][here.y].vaweID = vaweID;
+        world[here.x][here.y].vaweID = this->vaweID;
         world[here.x][here.y].from = Direction::Near;
         vawe[distance][count[distance]] = here;
         count[distance]++;
       }
+    
     bool couldGo[BASIC_DIRECTION_COUNT];
     u16 countOfStepsWithoutChanges;
     Spot spot;
@@ -94,8 +114,11 @@ namespace PathFinding
     WalkabilityPosition next;
     u16 newDistancePared, newDistanceAngledPared;
     u16 newDistance, newDistanceAngled;
+    Util::RectangleArray<bool>* canStay = &this->precomputedPlacebility[unit.original->getType().getID()];
+    u16 position = 0;
+    u16 distance = 0;
     
-    for (u8 position = 0, distance = 0; true; position = (position + 1) & SPOT_DISTANCE_WINDOW_SIZE_BITS, distance++)
+    for (; true; position = (position + 1) & SPOT_DISTANCE_WINDOW_SIZE_BITS, distance++)
     {
       if (vawe[position])
         countOfStepsWithoutChanges = 0;
@@ -116,11 +139,12 @@ namespace PathFinding
         
         for (u8 j = 0; j < BASIC_DIRECTION_COUNT; j++)
         {
-          if (this->canMove(here, (Direction::Enum)j))
+          next.x = here.x + forwardDirection[j][0];
+          next.y = here.y + forwardDirection[j][1];
+          if ((*canStay)[next.x][next.y])
+          //if (this->canMove(here, (Direction::Enum)j))
           {
             couldGo[j] = true;
-            next.x = here.x + forwardDirection[j][0];
-            next.y = here.y + forwardDirection[j][1];
             if (world[next.x][next.y].vaweID != this->vaweID ||
                 world[next.x][next.y].distance > newDistance)
             {
@@ -150,7 +174,7 @@ namespace PathFinding
               world[next.x][next.y].distance = newDistanceAngled;
             }
           }
-      }  
+      }
      count[position] = 0;
      if (countOfStepsWithoutChanges >= SPOT_DISTANCE_WINDOW_SIZE)
        break;
@@ -175,8 +199,6 @@ namespace PathFinding
     foundTarget:
     #pragma region DisabledDebugOutput
     /*
-    FILE* f = fopen("Path.txt","at");
- 
     Util::RectangleArray<char> resultArray = 
         Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
                                    BWAI::ai->map->getWalkabilityArray().getHeight());
@@ -184,11 +206,14 @@ namespace PathFinding
       for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
         resultArray[x][y] = BWAI::ai->map->getWalkabilityArray()[x][y] ? '.' : 'X';
     
+    Direction::Enum direction = world[target.x][target.y].from;
     for (WalkabilityPosition i(target);
-         world[i.x][i.y].from != Direction::Near;
-         i.x += reverseDirection[world[i.x][i.y].from][0],
-         i.y += reverseDirection[world[i.x][i.y].from][1])
+         direction != Direction::Near;
+         direction = world[i.x][i.y].from,
+         i.x += reverseDirection[direction][0],
+         i.y += reverseDirection[direction][1])
       resultArray[i.x - 1][i.y - 1] = '0';
+    FILE* f = fopen("Path.txt","at");
     Util::Strings::makeBorder(resultArray).printToFile(f); 
     fclose(f);*/
     #pragma endregion DisabledDebugOutput

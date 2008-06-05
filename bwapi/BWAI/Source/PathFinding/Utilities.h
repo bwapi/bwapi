@@ -2,6 +2,8 @@
 #include <vector>
 #include <map>
 
+#include <BW/UnitType.h>
+#include <BW/Offsets.h>
 #include <BW/Position.h>
 #include <Util/RectangleArray.h>
 
@@ -78,25 +80,16 @@ namespace PathFinding
    {
      public:
        Utilities();
-       /**
-        * Gets if the specified unit conflicts with map.
-        * @param unit Model of the unit to test.
-        * @return @c true if the unit has conflict with the map walkability, @c false otherwise
-        */                                    
-       static bool conflictsWithMap(const UnitModel& unit);
-       
        bool generatePath(const UnitModel& unit, WalkabilityPosition target);
        /** static help variables. */
-       
-       static std::vector<BW::Position> returnValue;
      private :
-       static const u8 STRAIGHT_SPOT_DIRECTION = 8;
-       static const u8 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
-       static const u8 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by 
+       static const u16 STRAIGHT_SPOT_DIRECTION = 8;
+       static const u16 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
+       static const u16 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by 
                                                         *   this and division by 2^n is a LOT faster as it is 
                                                         *   just bit shift. */
-       static const u8 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15; 
-       static const u16 MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE = 20000;
+       static const u16 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15; 
+       static const u16 MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE = 5000;
        struct Spot
        {
          u32 vaweID;
@@ -112,5 +105,10 @@ namespace PathFinding
       bool canMove(const WalkabilityPosition& position, Direction::Enum direction);
       void setDirectionBuffer(const UnitModel& unit);      
       std::vector<std::pair<int, int> > directionBuffer[BASIC_DIRECTION_COUNT];      
+      /** Quite huge structure that could optimise the path finding, it contains info about placability of
+       * unit on every spot.
+       */
+      Util::RectangleArray<bool> precomputedPlacebility[BW::UNIT_TYPE_COUNT]; 
+      bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type);
    };
 }
