@@ -362,6 +362,10 @@
 					RelativePath=".\Source\PathFinding\Utilities.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\PathFinding\WalkabilityPosition.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -372,6 +376,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\PathFinding\Utilities.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\PathFinding\WalkabilityPosition.h"
 					>
 				</File>
 			</Filter>
