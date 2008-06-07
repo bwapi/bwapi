@@ -219,7 +219,7 @@
           <position x="9" y="92"/>
           <position x="9" y="94"/>
           <position x="9" y="96"/>
-          <position x="9" y="98"/>
+          <position x="6" y="100"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="6"  y="74"/>
