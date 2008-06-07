@@ -74,7 +74,13 @@ namespace BuildOrder
           BWAI::ai->root->log.log("Building for the addon not found");
           return false;
         }
-        executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[position.x - 1][position.y].front());
+        
+        executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[position.x - 2][position.y].front());
+        if (!executor->getType().isBuilding())
+        {
+          BWAI::ai->root->log.log("Executor chosen is not building ???? but %s", executor->getName().c_str());
+          return false;
+        }
         BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, executor, alternatives));        
       }
       return true;
