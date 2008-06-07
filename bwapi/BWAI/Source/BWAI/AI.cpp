@@ -8,6 +8,8 @@
 #include <Util/Strings.h>
 #include <Util/RectangleArray.h>
 
+#include <BW/Unit.h>
+
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
@@ -315,6 +317,9 @@ namespace BWAI
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
     #pragma region DisabledPathFindingPerformanceTest
+    if (!this->expansions.empty())
+      if (this->expansions.front()->gatherCenter->getRawData()->currentBuildUnit != NULL)
+        this->log->log("Currently built progress = %u unit = %s", this->expansions.front()->gatherCenter->getRawData()->currentBuildUnit->remainingBuildTime, BWAI::Unit::BWUnitToBWAIUnit(this->expansions.front()->gatherCenter->getRawData()->currentBuildUnit)->getName().c_str());
     /*
     if (!idleWorkers.empty())
       temp = idleWorkers.front();
@@ -500,7 +505,14 @@ namespace BWAI
     bool reselected = false;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->isReady() &&
-          i->hasEmptyBuildQueueLocal() &&
+          (
+            i->hasEmptyBuildQueueLocal() ||
+            (
+              i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
+              i->getRawDataLocal()->currentBuildUnit != NULL &&
+              i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
+            )
+          ) &&
           i->getType().canProduce() &&
           i->getOwner() == player)
       { 
