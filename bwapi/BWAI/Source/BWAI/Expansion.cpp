@@ -51,6 +51,7 @@ namespace BWAI
   void Expansion::removeMineral(BWAI::Unit* mineral)
   {
     ai->log->log("Mineral will be removed (was gathered out or end game) %s", mineral->getName().c_str(), Util::LogLevel::Important);
+    mineral->expansion = NULL;
     
     for (std::list<TaskGather*>::iterator i = this->minerals.begin(); i != this->minerals.end(); ++i)
       if ((*i)->getMineral() == mineral)
