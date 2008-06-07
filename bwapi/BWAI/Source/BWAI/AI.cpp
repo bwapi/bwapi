@@ -317,9 +317,6 @@ namespace BWAI
     std::list<Unit*> idleWorkers;
     this->getIdleWorkers(idleWorkers);
     #pragma region DisabledPathFindingPerformanceTest
-    if (!this->expansions.empty())
-      if (this->expansions.front()->gatherCenter->getRawData()->currentBuildUnit != NULL)
-        this->log->log("Currently built progress = %u unit = %s", this->expansions.front()->gatherCenter->getRawData()->currentBuildUnit->remainingBuildTime, BWAI::Unit::BWUnitToBWAIUnit(this->expansions.front()->gatherCenter->getRawData()->currentBuildUnit)->getName().c_str());
     /*
     if (!idleWorkers.empty())
       temp = idleWorkers.front();
