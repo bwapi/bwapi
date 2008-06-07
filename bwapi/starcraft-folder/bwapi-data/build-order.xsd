@@ -25,15 +25,23 @@
      <xs:choice minOccurs="0" maxOccurs="unbounded">
        <xs:element name="build">
          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="condition" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:attribute name="type" type="xs:string" use="required"/>
+                  <xs:attribute name="population" type="xs:string" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+           </xs:sequence>
            <xs:attribute name="name" type="xs:string" use="required"/>
            <xs:attribute name="place" type="xs:string" use="required"/>
-           <xs:attribute name="minimal-population" type="xs:int" use="required"/>
+           <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
          </xs:complexType>
        </xs:element>
        <xs:element name="set-building-rate">
          <xs:complexType>
            <xs:sequence>
-             <xs:element name="build">
+             <xs:element name="build" maxOccurs="unbounded">
                <xs:complexType>
                  <xs:attribute name="name" type="xs:string" use="required" />
                  <xs:attribute name="weight" type="xs:int" use="required" />

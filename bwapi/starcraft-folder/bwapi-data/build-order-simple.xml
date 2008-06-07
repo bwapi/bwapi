@@ -4,9 +4,9 @@
               xsi:noNamespaceSchemaLocation="build-order.xsd">
   <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
    <set-building-rate building="Terran Barracks">
-      <build name="Terran Marine" weight="22" />
-      <build name="Terran Medic" weight="6" />
-      <build name="Terran Firebat" weight="2" />
+      <build name="Terran Marine" weight="11" />
+      <build name="Terran Medic" weight="3" />
+      <build name="Terran Firebat" weight="1" />
       <build name="Terran Ghost" weight="1" />
     </set-building-rate>
     <build name="Terran Barracks" place="barracks">
@@ -20,12 +20,20 @@
     <build name="Terran Missile Turret" place="turret-entrance-expansion" minimal-population="32"/>
     <build name="Terran Barracks" place="barracks" minimal-population="33"/>
     <build name="Terran Comsat Station" place="comsat-station" minimal-population="35"/>
+    <build name="Terran Comsat Station" place="comsat-station-expansion" minimal-population="35"/>
     <build name="Terran Barracks" place="barracks" minimal-population="37"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="40"/>
     <build name="Terran Factory" place="factory" minimal-population="45"/>
     <build name="Terran Barracks" place="barracks" minimal-population="50"/>
     <build name="Terran Starport" place="starport" minimal-population="60"/>
+    <set-building-rate building="Terran Starport">
+      <build name="Terran Science Vessel" weight="1" />
+    </set-building-rate>    
     <build name="Terran Command Center" place="second-expansion" minimal-population="70"/>
     <build name="Terran Science Facility" place="science-facility" minimal-population="80"/>
+    <build name="Terran Control Tower" place="control-tower" minimal-population="80"/>
+    <build name="Terran Covert Ops" place="covert-ops" minimal-population="80"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="90"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="90"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="90"/>
   </build-order>
 </build-orders>

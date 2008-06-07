@@ -64,14 +64,16 @@
           <position x="113" y="33"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="107" y="51"/>
-          <position x="107" y="48"/>
           <position x="111" y="51"/>
           <position x="111" y="48"/>
+          <position x="107" y="51"/>
+          <position x="107" y="48"/>
           <position x="115" y="51"/>
           <position x="115" y="48"/>
           <position x="119" y="51"/>
           <position x="119" y="48"/>
+          <position x="103" y="51"/>
+          <position x="103" y="48"/>          
         </build-position>
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
           <position x="105" y="40"/>
@@ -79,6 +81,9 @@
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="66"/>
         </build-position>
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="121" y="67"/>
+        </build-position>        
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="116" y="35"/>
         </build-position>
@@ -94,15 +99,21 @@
         <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="106" y="44"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="110" y="45"/>
+        </build-position> 
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="112" y="44"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="116" y="45"/>
+        </build-position>        
         <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="118"/>
         </build-position>
         <build-position name="comsat-station" width="2" height="2">
           <position x="120" y="41"/>
-        </build-position>        
+        </build-position>
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="6 oclock">
@@ -130,12 +141,18 @@
           <position x="32" y="122"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="50" y="119"/>
-          <position x="50" y="116"/>
-          <position x="50" y="113"/>
-          <position x="54" y="119"/>
-          <position x="54" y="116"/>
-          <position x="54" y="113"/>
+          <position x="49" y="119"/>
+          <position x="49" y="116"/>
+          <position x="49" y="113"/>
+          <position x="53" y="119"/>
+          <position x="53" y="116"/>
+          <position x="53" y="113"/>
+          <position x="49" y="122"/>
+          <position x="53" y="122"/>
+          <position x="49" y="125"/>
+          <position x="53" y="125"/>
+          <position x="49" y="128"/>
+          <position x="53" y="128"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="75" y="118"/>
@@ -158,15 +175,24 @@
        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="36" y="110"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="40" y="111"/>
+        </build-position>        
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="50" y="108"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="54" y="109"/>
+        </build-position>        
        <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="118"/>
         </build-position>
         <build-position name="comsat-station" width="2" height="2">
           <position x="46" y="120"/>
-        </build-position>  
+        </build-position>
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="79" y="119"/>
+        </build-position>        
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="9 oclock" >
@@ -202,6 +228,10 @@
           <position x="18" y="74"/>
           <position x="6"  y="77"/>
           <position x="10" y="77"/>
+          <position x="14" y="77"/>
+          <position x="18" y="77"/>
+          <position x="2" y="74"/>
+          <position x="2" y="77"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="7" y="57"/>
@@ -224,15 +254,24 @@
         <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="14" y="90"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="18" y="91"/>
+        </build-position>
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="14" y="93"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="18" y="94"/>
+        </build-position>        
         <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
-          <position x="8" y="5"/>
+          <position x="7" y="6"/>
         </build-position>
-       <build-position name="comsat-station" width="2" height="2">
+        <build-position name="comsat-station" width="2" height="2">
           <position x="12" y="86"/>
         </build-position>  
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="11" y="58"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="12 oclock">
@@ -263,12 +302,16 @@
           <position x="91" y="14"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="73"  y="2"/>
-          <position x="73"  y="5"/>
-          <position x="73"  y="8"/>
-          <position x="77"  y="2"/>
-          <position x="77"  y="5"/>
-          <position x="77"  y="8"/>
+          <position x="74"  y="1"/>
+          <position x="74"  y="4"/>
+          <position x="74"  y="7"/>
+          <position x="78"  y="1"/>
+          <position x="78"  y="4"/>
+          <position x="78"  y="7"/>
+          <position x="74"  y="11"/>
+          <position x="78"  y="11"/>
+          <position x="70"  y="1"/>
+          <position x="70"  y="4"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="48" y="7"/>
@@ -291,15 +334,24 @@
         <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="73" y="18"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="77" y="19"/>
+        </build-position>        
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="73" y="15"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="77" y="16"/>
+        </build-position>        
         <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
-          <position x="8" y="5"/>
+          <position x="7" y="6"/>
         </build-position>
-       <build-position name="comsat-station" width="2" height="2">
+        <build-position name="comsat-station" width="2" height="2">
           <position x="87" y="7"/>
-        </build-position>          
+        </build-position>
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="52" y="8"/>
+        </build-position>                  
       </standard-building-placement>
     </starting-position>
   </starting-positions>
