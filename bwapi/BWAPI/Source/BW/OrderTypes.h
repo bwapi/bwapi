@@ -66,6 +66,18 @@ namespace BW
       BW::UnitType type;
       
    };
+   class MakeAddon
+   {
+     public :
+      MakeAddon(BW::TilePosition position, BW::UnitType type); 
+      /** 0x0c = make building Command-code in bw */
+      u8 always0x0c;
+      /** 1e for terran 1f for protoss*/
+      u8 always0x24;
+      BW::TilePosition position;
+      /** Type of building to make */
+      BW::UnitType type;
+   };   
    /** Change slot command in bw. */
    class ChangeSlot
     {

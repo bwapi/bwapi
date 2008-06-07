@@ -37,7 +37,6 @@ namespace BW
     ,target(select)
     {
     }
-
     //--------------------------------- TRAIN UNIT CONSTRUCTOR ------------------------
     TrainUnit::TrainUnit(BW::UnitType type)
     :always0x1f(0x1f)
@@ -52,6 +51,14 @@ namespace BW
     ,type(type)
     {
     }
+    //--------------------------------- MAKE ADDON ------------------------------------
+    MakeAddon::MakeAddon(BW::TilePosition position, BW::UnitType type)
+    :always0x0c(0x0c)
+    ,always0x24(0x24)
+    ,position(position)
+    ,type(type)
+    {
+    }    
     //---------------------------------- MOVE CONSTRUCTOR -----------------------------
     ChangeSlot::ChangeSlot(Slot slot, u8 slotID)
     :slot(slot)

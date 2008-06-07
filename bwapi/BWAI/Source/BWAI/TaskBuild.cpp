@@ -39,7 +39,8 @@ namespace BWAI
       BWAI::ai->log->log("(%s) finished production of (%s)", this->executors.front()->getType().getName(), this->buildingType.getName());
       return true;
     }
-    if (this->executors.empty())
+    if (this->executors.empty() &&
+        !this->buildingType.isAddon())
     {
       Unit* builder = ai->freeBuilder(this->position);
       if (builder)
@@ -55,18 +56,22 @@ namespace BWAI
       this->building = executors.front()->getOrderTarget();
       BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
     }
+    
     if (this->building != NULL &&
         !this->executors.empty() &&
         this->executors.front()->getOrderTargetLocal() != this->building &&
-        !this->building->isCompleted())
+        !this->building->isCompleted() &&
+        !this->buildingType.isAddon())
     {
        this->executors.front()->orderRightClick(this->building);
        BWAI::ai->log->log("(%s) Builder died - new builder sent to finish", building->getName().c_str());
     }
+    
     if (!this->executors.empty() && this->building == NULL)
     {
-      if (!this->position.isValid() ||
-          !this->canIBuild(position))
+      if ((!this->position.isValid() ||
+          !this->canIBuild(position)) &&
+          !this->buildingType.isAddon())
       {
         std::list<BW::TilePosition>::iterator i;
         for (i = alternatives->positions.begin();
@@ -87,7 +92,8 @@ namespace BWAI
       center.y += (BW::TILE_SIZE*this->getBuildingType().getTileHeight())/2;
       if (this->position.isValid())
         // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
-        if (this->executors.front()->getDistance(center) > 100)
+        if (this->executors.front()->getDistance(center) > 100 &&
+            !this->buildingType.isAddon())
         {
           if (
                (

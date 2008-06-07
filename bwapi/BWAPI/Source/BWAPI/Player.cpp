@@ -106,7 +106,11 @@ namespace BWAPI
   {
     switch (unit.getID())
     {
-     case BW::UnitID::Terran_Medic : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     case BW::UnitID::Terran_Medic   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     case BW::UnitID::Terran_Firebat : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     case BW::UnitID::Terran_Ghost   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0 &&
+                                              this->unitTypeCount[BW::UnitID::Terran_CovertOps] != 0;
+     case BW::UnitID::Terran_ComsatStation   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
      default : return true;
     }
   }
