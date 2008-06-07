@@ -230,7 +230,8 @@ namespace BWAI
         }
       }
       mapInfo->saveDefinedBuildingsMap();
-      this->pathFinding = new PathFinding::Utilities();
+      //this->pathFinding = new PathFinding::Utilities();
+      this->pathFinding = NULL;
 
       /** For testing reasons, there is just one build order now*/
     }
