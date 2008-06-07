@@ -191,4 +191,15 @@ namespace BW
       return BW::Race::Other;
   }
   //----------------------------------------------------------------------------
+  bool UnitType::isBuilding() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Building);
+  }
+  //----------------------------------------------------------------------------      
+  bool UnitType::isAddon() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Addon);
+  }
+  //----------------------------------------------------------------------------    
+
 };

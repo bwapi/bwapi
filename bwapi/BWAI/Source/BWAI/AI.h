@@ -87,14 +87,14 @@ namespace BWAI
       /** Currently opened map, NULL if no map is opened. */
       BWAPI::Map* map;
       PathFinding::Utilities *pathFinding;
+      MapStartingPosition* startingPosition;      
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
       Unit* first;
       Util::Logger* deadLog;      
       MapInfo *mapInfo;
-      MapStartingPosition* startingPosition;
-      
+            
       void startNewExpansion(Unit *gatherCenter);
       void rebalanceMiners();
       void checkAssignedWorkers();

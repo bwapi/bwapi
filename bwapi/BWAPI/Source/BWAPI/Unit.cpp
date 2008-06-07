@@ -270,7 +270,10 @@ namespace BWAPI
   void Unit::build(BW::TilePosition position, BW::UnitType type)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
+    if (!type.isAddon())
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
+    else if (type.isAddon())
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeAddon(position, type), sizeof(BW::Orders::MakeAddon)); 
     Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
   }
   //------------------------------- ORDER SELECT ------------------------------

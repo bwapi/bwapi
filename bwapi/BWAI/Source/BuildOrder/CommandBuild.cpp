@@ -8,8 +8,11 @@
 #include <BW/UnitType.h>
 
 #include <BWAI/AI.h>
+#include <BWAI/BuildingPosition.h>
+
 #include <BWAI/TaskBuild.h>
 #include <BWAI/Globals.h>
+#include <BWAI/MapStartingPosition.h>
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
@@ -41,12 +44,31 @@ namespace BuildOrder
         BWAI::ai->player->getGasLocal() >= toBuild.getGasPrice() &&
         this->conditionApplies()) 
     {
-      BWAI::Unit* scvToUse = NULL;
       BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
-      BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
+      if (!toBuild.isAddon())
+      {
+        BWAI::Unit* scvToUse = NULL;
+        BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
+        BWAI::ai->root->log.log("Command build '%s' called", this->name.c_str());
+        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));        
+      }
+      else if (toBuild.isAddon())
+      {
+        BWAI::Unit* executor;
+        BWAI::ai->root->log.log("Command addon '%s' called", this->name.c_str());
+        if (alternatives)
+        {
+          BW::TilePosition position = alternatives->positions.front();
+          executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[position.x - 1][position.y].front());
+          if (executor == NULL)
+          {
+            BWAI::ai->root->log.log("Building for the addon not found");
+            return true;
+          }
+          BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, executor, alternatives));        
+        }
+      }
       
-      BWAI::ai->root->log.log("Command build '%s' called", this->name.c_str());
-      BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));
       return true;
     }
     return false;

@@ -67,6 +67,8 @@ namespace BW
                                             * BWAPI::Unit that will take unit instance specific things
                                             * like Not borrowed, not statised, not mealstormed, not under construction.
                                             */
+    bool isBuilding() const;
+    bool isAddon() const;                                            
     BW::Race::Enum       getRace();                                            
     bool isValid();
   private :

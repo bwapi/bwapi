@@ -64,12 +64,14 @@
           <position x="113" y="33"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="115" y="48"/>
-          <position x="111" y="48"/>
-          <position x="107" y="48"/>
-          <position x="115" y="51"/>
-          <position x="111" y="51"/>
           <position x="107" y="51"/>
+          <position x="107" y="48"/>
+          <position x="111" y="51"/>
+          <position x="111" y="48"/>
+          <position x="115" y="51"/>
+          <position x="115" y="48"/>
+          <position x="119" y="51"/>
+          <position x="119" y="48"/>
         </build-position>
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
           <position x="105" y="40"/>
@@ -84,8 +86,23 @@
           <position x="111" y="40"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
-          <position x="110" y="60"/>
+          <position x="110" y="62"/>
         </build-position>
+        <build-position name="factory" width="4" height="3" shortcut="VF">
+          <position x="107" y="36"/>
+        </build-position>
+        <build-position name="starport" width="4" height="3" shortcut="VS">
+          <position x="106" y="44"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="112" y="44"/>
+        </build-position>
+        <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="117" y="118"/>
+        </build-position>
+        <build-position name="comsat-station" width="2" height="2">
+          <position x="120" y="41"/>
+        </build-position>        
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="6 oclock">
@@ -133,8 +150,23 @@
           <position x="37" y="108"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
-          <position x="66" y="114"/>
+          <position x="68" y="115"/>
         </build-position>
+        <build-position name="factory" width="4" height="3" shortcut="VF">
+          <position x="44" y="108"/>
+        </build-position>
+       <build-position name="starport" width="4" height="3" shortcut="VS">
+          <position x="36" y="110"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="50" y="108"/>
+        </build-position>
+       <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="117" y="118"/>
+        </build-position>
+        <build-position name="comsat-station" width="2" height="2">
+          <position x="46" y="120"/>
+        </build-position>  
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="9 oclock" >
@@ -185,6 +217,21 @@
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="10" y="62"/>
+        </build-position>
+        <build-position name="factory" width="4" height="3" shortcut="VF">
+          <position x="14" y="87"/>
+        </build-position>
+        <build-position name="starport" width="4" height="3" shortcut="VS">
+          <position x="14" y="90"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="14" y="93"/>
+        </build-position>
+        <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="8" y="5"/>
+        </build-position>
+       <build-position name="comsat-station" width="2" height="2">
+          <position x="12" y="86"/>
         </build-position>  
       </standard-building-placement>
     </starting-position>
@@ -236,8 +283,23 @@
           <position x="81" y="12"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
-          <position x="58" y="11"/>
+          <position x="55" y="10"/>
         </build-position>                      
+        <build-position name="factory" width="4" height="3" shortcut="VF">
+          <position x="79" y="18"/>
+        </build-position>
+        <build-position name="starport" width="4" height="3" shortcut="VS">
+          <position x="73" y="18"/>
+        </build-position>
+        <build-position name="science-facility" width="4" height="3" shortcut="VI">
+          <position x="73" y="15"/>
+        </build-position>
+        <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="8" y="5"/>
+        </build-position>
+       <build-position name="comsat-station" width="2" height="2">
+          <position x="87" y="7"/>
+        </build-position>          
       </standard-building-placement>
     </starting-position>
   </starting-positions>

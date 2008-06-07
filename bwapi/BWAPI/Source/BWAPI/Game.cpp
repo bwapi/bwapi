@@ -121,12 +121,18 @@ namespace BWAPI
     
     for (int i = 0; i < 12; i++)
       for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
+      {
         this->players[i]->unitTypeCount[j] = 0;
+        this->players[i]->allUnitTypeCount[j] = 0;
+      }
     
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->getOwner()->getID() < 12 &&
-          i->isReady())
-        this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
+      if (i->getOwner()->getID() < 12)
+      {
+        this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
+        if (i->isReady())
+          this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
+      }
     
   }
   //---------------------------------------------------------------------------

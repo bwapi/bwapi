@@ -517,8 +517,8 @@ namespace BWAI
                  j != weights->weights.end();
                  ++j)
               if (this->player->canBuild((*j).first) &&
-                  (float)this->player->unitTypeCount[best.first.getID()]/(float)best.second >
-                  (float)this->player->unitTypeCount[(*j).first.getID()]/(float)(*j).second)
+                  (float)this->player->allUnitTypeCount[best.first.getID()]/(float)best.second >
+                  (float)this->player->allUnitTypeCount[(*j).first.getID()]/(float)(*j).second)
                 best = *j;
             if (this->player->canAfford(best.first))
               i->trainUnit(best.first);
