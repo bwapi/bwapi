@@ -129,9 +129,20 @@ namespace BWAPI
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->getOwner()->getID() < 12)
       {
-        this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
         if (i->isReady())
           this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
+        if (!i->isReady() && 
+             !i->getType().isBuilding() && 
+             i->getType().isTerran() &&
+             i->getOrderID() != BW::OrderID::Die)
+        {
+          this->badAssumptionLog->log("%s is in the list but not finished", i->getName().c_str());
+        }
+//        this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
+
+        if (i->getRawDataLocal()->currentBuildUnit != NULL &&
+            i->getType().canProduce())
+          this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getRawDataLocal()->currentBuildUnit->unitID.getID()]++;
       }
     
   }

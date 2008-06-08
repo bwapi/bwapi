@@ -114,6 +114,9 @@
         <build-position name="comsat-station" width="2" height="2">
           <position x="120" y="41"/>
         </build-position>
+        <build-position name="refinery-expansion" width="4" height="2">
+          <position x="118" y="72"/>
+        </build-position>          
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="6 oclock">
@@ -141,18 +144,16 @@
           <position x="32" y="122"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="49" y="119"/>
-          <position x="49" y="116"/>
           <position x="49" y="113"/>
-          <position x="53" y="119"/>
-          <position x="53" y="116"/>
           <position x="53" y="113"/>
+          <position x="49" y="116"/>
+          <position x="53" y="116"/>
+          <position x="49" y="119"/>
+          <position x="53" y="119"/>
           <position x="49" y="122"/>
           <position x="53" y="122"/>
           <position x="49" y="125"/>
           <position x="53" y="125"/>
-          <position x="49" y="128"/>
-          <position x="53" y="128"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="75" y="118"/>
@@ -192,7 +193,10 @@
         </build-position>
         <build-position name="comsat-station-expansion" width="2" height="2">
           <position x="79" y="119"/>
-        </build-position>        
+        </build-position>
+        <build-position name="refinery-expansion" width="4" height="2">
+          <position x="82" y="119"/>
+        </build-position>                
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="9 oclock" >
@@ -272,6 +276,9 @@
         <build-position name="comsat-station-expansion" width="2" height="2">
           <position x="11" y="58"/>
         </build-position>
+        <build-position name="refinery-expansion" width="4" height="2">
+          <position x="5" y="52"/>
+        </build-position>        
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="12 oclock">
@@ -308,8 +315,8 @@
           <position x="78"  y="1"/>
           <position x="78"  y="4"/>
           <position x="78"  y="7"/>
-          <position x="74"  y="11"/>
-          <position x="78"  y="11"/>
+          <position x="74"  y="10"/>
+          <position x="78"  y="10"/>
           <position x="70"  y="1"/>
           <position x="70"  y="4"/>
         </build-position>
@@ -323,7 +330,7 @@
           <position x="83" y="1"/>
         </build-position>
         <build-position name="academy" width="3" height="2">
-          <position x="81" y="12"/>
+          <position x="83" y="12"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="55" y="10"/>
@@ -352,6 +359,9 @@
         <build-position name="comsat-station-expansion" width="2" height="2">
           <position x="52" y="8"/>
         </build-position>                  
+        <build-position name="refinery-expansion" width="4" height="2">
+          <position x="41" y="6"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
   </starting-positions>
