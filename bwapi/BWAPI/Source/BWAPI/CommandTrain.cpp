@@ -34,6 +34,7 @@ namespace BWAPI
                                               this->toTrain.getGasPrice());
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    executors[0]->getOwner()->useSuppliesLocal(toTrain.getSupplies(), toTrain.getRace());
+   executors[0]->getOwner()->allUnitTypeCount[toTrain.getID()]++;
   }
   //--------------------------------- GET TYPE ----------------------------------
   BWAPI::CommandTypes::Enum CommandTrain::getType()
