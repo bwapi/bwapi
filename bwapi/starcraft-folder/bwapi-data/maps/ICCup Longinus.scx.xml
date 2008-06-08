@@ -110,6 +110,9 @@
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="8" y="6"/>
         </build-position>
+	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
+          <position x="35" y="1"/>
+        </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="44" y="11"/>
         </build-position>
@@ -183,6 +186,9 @@
         </build-position>
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="23" y="118"/>
+        </build-position>
+	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
+          <position x="0" y="100"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="14" y="97"/>
@@ -258,6 +264,9 @@
         </build-position>      
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="116" y="42"/>
+        </build-position>
+	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
+          <position x="123" y="76"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="108" y="77"/>
