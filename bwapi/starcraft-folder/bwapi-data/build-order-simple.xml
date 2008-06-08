@@ -4,7 +4,7 @@
               xsi:noNamespaceSchemaLocation="build-order.xsd">
   <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
    <set-building-rate building="Terran Barracks">
-      <build name="Terran Marine" weight="13" />
+      <build name="Terran Marine" weight="12" />
       <build name="Terran Medic" weight="4" />
       <build name="Terran Firebat" weight="1" />
       <build name="Terran Ghost" weight="1" />
