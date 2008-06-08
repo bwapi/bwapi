@@ -97,15 +97,30 @@
           <position x="12" y="9"/>
           <position x="12" y="14"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="14" y="31"/>
+        </build-position> 
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="12" y="5"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="16" y="6"/>
+        </build-position>        
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
           <position x="22" y="23"/>
           <position x="22" y="26"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="37" y="6"/>
+        </build-position>
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="41" y="7"/>
+        </build-position> 
+	<build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="8" y="63"/>
+        </build-position>
+        <build-position name="comsat-station" width="2" height="2">
+          <position x="12" y="12"/>
         </build-position>
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="8" y="6"/>
@@ -174,11 +189,26 @@
           <position x="0" y="117"/>
           <position x="5" y="111"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="4" y="115"/>
+        </build-position> 
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="26" y="108"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="30" y="109"/>
+        </build-position>        
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="7" y="98"/>
+        </build-position>
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="11" y="99"/>
+        </build-position> 
+	<build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="91" y="105"/>
+        </build-position>
+        <build-position name="comsat-station" width="2" height="2">
+          <position x="34" y="118"/>
         </build-position>
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
           <position x="40" y="108"/>
@@ -252,12 +282,27 @@
           <position x="102" y="45"/>
           <position x="104" y="42"/>
         </build-position>
+        <build-position name="control-tower" width="2" height="2">
+          <position x="110" y="64"/>
+        </build-position> 
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="109" y="45"/>
         </build-position>
+        <build-position name="covert-ops" width="2" height="2">
+          <position x="113" y="46"/>
+        </build-position>        
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="116" y="75"/>
-        </build-position>        
+        </build-position>      
+        <build-position name="comsat-station-expansion" width="2" height="2">
+          <position x="120" y="76"/>
+        </build-position>   
+	<build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+          <position x="79" y="6"/>
+        </build-position>
+        <build-position name="comsat-station" width="2" height="2">
+          <position x="120" y="48"/>
+        </build-position>
         <build-position name="engineering-bay" width="4" height="3" shortcut="BE">
           <position x="106" y="37"/>
           <position x="108" y="34"/>
