@@ -82,7 +82,7 @@
           <position x="23" y="18"/>
           <position x="19" y="6"/>
         </build-position>
-        <build-position name="factories" width="4" height="3" shortcut="VF">
+        <build-position name="factory" width="4" height="3" shortcut="VF">
           <position x="7" y="18"/>
           <position x="7" y="21"/>
           <position x="7" y="24"/>
@@ -92,7 +92,7 @@
           <position x="14" y="24"/>
           <position x="14" y="27"/>
         </build-position>
-        <build-position name="starports" width="4" height="3" shortcut="VS">
+        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="10" y="30"/>
           <position x="12" y="9"/>
           <position x="12" y="14"/>
@@ -116,7 +116,7 @@
         <build-position name="comsat-station-expansion" width="2" height="2">
           <position x="41" y="7"/>
         </build-position> 
-	<build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+        <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="8" y="63"/>
         </build-position>
         <build-position name="comsat-station" width="2" height="2">
@@ -125,7 +125,7 @@
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="8" y="6"/>
         </build-position>
-	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
+      	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
           <position x="35" y="1"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
@@ -174,7 +174,7 @@
           <position x="12" y="114"/>
           <position x="16" y="114"/>
         </build-position>
-        <build-position name="factories" width="4" height="3" shortcut="VF">
+        <build-position name="factory" width="4" height="3" shortcut="VF">
           <position x="9" y="118"/>
           <position x="16" y="118"/>
           <position x="4" y="121"/>
@@ -184,7 +184,7 @@
           <position x="13" y="124"/>
           <position x="20" y="124"/>
         </build-position>
-        <build-position name="starports" width="4" height="3" shortcut="VS">
+        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="0" y="114"/>
           <position x="0" y="117"/>
           <position x="5" y="111"/>
@@ -204,7 +204,7 @@
         <build-position name="comsat-station-expansion" width="2" height="2">
           <position x="11" y="99"/>
         </build-position> 
-	<build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+	      <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="91" y="105"/>
         </build-position>
         <build-position name="comsat-station" width="2" height="2">
@@ -217,7 +217,7 @@
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="23" y="118"/>
         </build-position>
-	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
+      	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
           <position x="0" y="100"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
@@ -258,16 +258,16 @@
           <position x="113" y="35"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="120"  y="55"/>
-          <position x="120"  y="58"/>
-          <position x="120"  y="61"/>
-          <position x="120"  y="64"/>
           <position x="124"  y="55"/>
           <position x="124"  y="58"/>
           <position x="124"  y="61"/>
           <position x="124"  y="64"/>
+          <position x="120"  y="55"/>
+          <position x="120"  y="58"/>
+          <position x="120"  y="61"/>
+          <position x="120"  y="64"/>
         </build-position>
-        <build-position name="factories" width="4" height="3" shortcut="VF">
+        <build-position name="factory" width="4" height="3" shortcut="VF">
           <position x="104" y="49"/>
           <position x="104" y="52"/>
           <position x="104" y="56"/>
@@ -277,7 +277,7 @@
           <position x="111" y="56"/>
           <position x="111" y="59"/>
         </build-position>
-        <build-position name="starports" width="4" height="3" shortcut="VS">
+        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="106" y="63"/>
           <position x="102" y="45"/>
           <position x="104" y="42"/>
@@ -297,7 +297,7 @@
         <build-position name="comsat-station-expansion" width="2" height="2">
           <position x="120" y="76"/>
         </build-position>   
-	<build-position name="second-expansion" width="4" height="3" shortcut="Ex">
+	      <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="79" y="6"/>
         </build-position>
         <build-position name="comsat-station" width="2" height="2">
@@ -310,7 +310,7 @@
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="116" y="42"/>
         </build-position>
-	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
+      	<build-position name="refinery-expansion" width="4" height="2" shortcut="BR">
           <position x="123" y="76"/>
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
