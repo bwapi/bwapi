@@ -183,6 +183,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\RegionQuadTree.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Sentence.h"
 					>
 				</File>

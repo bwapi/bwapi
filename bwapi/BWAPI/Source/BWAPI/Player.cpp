@@ -111,6 +111,11 @@ namespace BWAPI
      case BW::UnitID::Terran_Ghost   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0 &&
                                               this->unitTypeCount[BW::UnitID::Terran_CovertOps] != 0;
      case BW::UnitID::Terran_ComsatStation   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     case BW::UnitID::Terran_Factory : return this->unitTypeCount[BW::UnitID::Terran_Barracks] != 0;
+     case BW::UnitID::Terran_Starport : return this->unitTypeCount[BW::UnitID::Terran_Factory] != 0;
+     case BW::UnitID::Terran_ControlTower : return this->unitTypeCount[BW::UnitID::Terran_Starport] != 0;
+     case BW::UnitID::Terran_ScienceFacility : return this->unitTypeCount[BW::UnitID::Terran_Starport] != 0;
+     case BW::UnitID::Terran_CovertOps : return this->unitTypeCount[BW::UnitID::Terran_ScienceFacility] != 0;
      default : return true;
     }
   }

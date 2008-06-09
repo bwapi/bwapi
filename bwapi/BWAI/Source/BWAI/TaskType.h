@@ -8,7 +8,8 @@ namespace BWAI
     {
       Gather,
       GatherGas,
-      Build
+      Build,
+      Fight
     };
   }
 }
