@@ -94,7 +94,7 @@ namespace BW
     /*0x0A2*/ u16                          energy;             /**< @todo Verify */
     /*0x0A4*/ u8                           buildQueueSlot;     /**< Index of active unit in #buildQueue. */
     /*0x0A5*/ _UNKNOWN _15[1];
-    /*0x0A6*/ u8                           secondaryOrderID;   /**< @todo Unknown  (Cloak, Build, ExpandCreep suggested by EUDDB) */
+    /*0x0A6*/ BW::OrderID::Enum            secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
     /*0x0A7*/ _UNKNOWN _16[1];
     /*0x0A8*/ u16                          hpGainDuringRepair; /**< @todo Verify */
     /*0x0AA*/ _UNKNOWN _17[2];

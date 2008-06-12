@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <ctime>
 #include <string>
+#include <list>
+
 #include "LogLevel.h"
 
 namespace Util
@@ -21,7 +23,8 @@ namespace Util
        * @param levelToLog All log inputs with less importancy will be not
        *        logged in this log
        */
-      Logger(const std::string& name, LogLevel::Enum levelToLog);
+      Logger(LogLevel::Enum levelToLog);
+      virtual ~Logger();
       /**
        * Logs the specified message to the current log.
        * @param message Message to be written to the log file, note that the
@@ -55,13 +58,20 @@ namespace Util
       template <class T1, class T2, class T3, class T4>
       bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, const T4& parameter4, LogLevel::Enum logLevel = LogLevel::Normal);
       void setFileName(const std::string& name);
+      void registerLogger(Logger* logger);
     private :
       std::string name;
       LogLevel::Enum levelToLog;
+      static const unsigned int BUFFER_SIZE = 2048;
+      static char buffer[BUFFER_SIZE];
+      std::list<Logger*> connectedLoggers;
     public : 
       /** Every log message will be also posted to this global log. */
       static Logger* globalLog;
       static bool deleteLogsAtStart;
+    protected :
+      virtual bool flush(const char* data) = 0;
+      bool flushInternal(const char* data);
   };
 
   // Template member functions must be defined in header
@@ -73,15 +83,10 @@ namespace Util
   {
     if (levelToLog > this->levelToLog)
       return true;
-    char time[9];
-    _strtime(time);
-    FILE *f = fopen(name.c_str(),"at");
-    if (!f)
-      return false;
-    fprintf(f, "%s ", time);
-    fprintf(f, message.c_str(), parameter1);
-    fprintf(f, "\n");
-    fclose(f);
+
+    _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1);
+    this->flushInternal(buffer);
+
     if (globalLog != NULL &&
         this != globalLog)
       globalLog->log(message, parameter1, logLevel);
@@ -96,15 +101,10 @@ namespace Util
   {
     if (levelToLog > this->levelToLog)
       return true;
-    char time[9];
-    _strtime(time);
-    FILE *f = fopen(name.c_str(),"at");
-    if (!f)
-      return false;
-    fprintf(f, "%s ", time);
-    fprintf(f, message.c_str(), parameter1, parameter2);
-    fprintf(f, "\n");
-    fclose(f);
+    
+    _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2);
+    this->flushInternal(buffer);
+    
     if (globalLog != NULL &&
         this != globalLog)
       globalLog->log(message, parameter1, parameter2, logLevel);
@@ -120,15 +120,10 @@ namespace Util
   {
     if (levelToLog > this->levelToLog)
       return true;
-    char time[9];
-    _strtime(time);
-    FILE *f = fopen(name.c_str(),"at");
-    if (!f)
-      return false;
-    fprintf(f, "%s ", time);
-    fprintf(f, message.c_str(), parameter1, parameter2, parameter3);
-    fprintf(f, "\n");
-    fclose(f);
+    
+    _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2, parameter3);
+    this->flushInternal(buffer);
+    
     if (globalLog != NULL &&
         this != globalLog)
       globalLog->log(message, parameter1, parameter2, parameter3, logLevel);
@@ -145,15 +140,10 @@ namespace Util
   {
     if (levelToLog > this->levelToLog)
       return true;
-    char time[9];
-    _strtime(time);
-    FILE *f = fopen(name.c_str(),"at");
-    if (!f)
-      return false;
-    fprintf(f, "%s ", time);
-    fprintf(f, message.c_str(), parameter1, parameter2, parameter3, parameter4);
-    fprintf(f, "\n");
-    fclose(f);
+
+    _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2, parameter3, parameter4);
+    this->flushInternal(buffer);
+
     if (globalLog != NULL &&
         this != globalLog)
       globalLog->log(message, parameter1, parameter2, parameter3, parameter4, logLevel);

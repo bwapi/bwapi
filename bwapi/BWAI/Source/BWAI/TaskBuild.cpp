@@ -48,14 +48,25 @@ namespace BWAI
     }
     
     if (this->building == NULL && 
-        !this->executors.empty() &&
-        this->executors.front()->getOrderTarget() != NULL &&
-        this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding &&
-        this->executors.front()->getOrderTarget()->getType() == buildingType)
-    {
-      this->building = executors.front()->getOrderTarget();
-      BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
-    }
+        !this->executors.empty())
+      if (!this->buildingType.isAddon())
+      {
+        if (
+          this->executors.front()->getOrderTarget() != NULL &&
+          this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding &&
+          this->executors.front()->getOrderTarget()->getType() == buildingType)
+        {
+          this->building = executors.front()->getOrderTarget();
+          BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
+        }
+      }
+      else
+        if (this->executors.front()->getBuildUnit() != NULL &&
+            this->executors.front()->getBuildUnit()->getType() == buildingType)
+        {
+          this->building = BWAI::Unit::BWAPIUnitToBWAIUnit(executors.front()->getBuildUnit());
+          BWAI::ai->log->log("(%s) construction of addon started", building->getName().c_str());
+        }
     
     if (this->building != NULL &&
         !this->executors.empty() &&
@@ -112,16 +123,26 @@ namespace BWAI
           }
         }
         else
-          if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
-              this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-              this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
-              this->executors.front()->getOwner()->getMinerals() >= buildingType.getMineralPrice() &&
-              this->executors.front()->getOwner()->getGas() >= buildingType.getGasPrice())
+          if (!this->buildingType.isAddon())
           {
-            BWAI::ai->log->log("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
-            this->executors.front()->build(this->position, buildingType);
+            if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
+                this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
+                this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
+                this->executors.front()->getOwner()->canAfford(buildingType))
+            {
+              BWAI::ai->log->log("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+              this->executors.front()->build(this->position, buildingType);
+            }
           }
-     
+          else
+            if (this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::PlaceAddon &&
+                this->executors.front()->hasEmptyBuildQueueLocal() &&
+                this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::BuildAddon)
+            {
+              BWAI::ai->log->log("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+              BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderIDLocal());
+              this->executors.front()->build(this->position, buildingType);
+            }
     }
     return false;
   }

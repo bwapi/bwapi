@@ -3,12 +3,14 @@
 #include <tinyxml.h>
 #include <Util/Exceptions.h>
 #include <Util/Dictionary.h>
+#include <Util/FileLogger.h>
 
 #include "Branch.h"
 #include "BuildWeights.h"
 
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
+#include <BWAPI/ScreenLogger.h>
 
 
 /** Things that involve ordering the ai things depending on the build-order xml definition. */
@@ -16,8 +18,9 @@ namespace BuildOrder
 {
   //------------------------------ CONSTRUCTOR --------------------------------
   Root::Root(const std::string& xmlFileName)
-  :log(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", Util::LogLevel::MicroDetailed)
+  :log(new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
   {
+    this->log->registerLogger(new BWAPI::ScreenLogger(Util::LogLevel::Normal));
     FILE* f = fopen(xmlFileName.c_str(),"rb");
     if (!f)
       throw FileException("Unable to load data file " + xmlFileName);
@@ -43,6 +46,7 @@ namespace BuildOrder
     this->buildOrders.clear();
     for (std::map<std::string, BuildWeights* >::iterator i = this->weights.begin(); i != this->weights.end(); ++i)
       delete (*i).second;
+    delete log;
   }
   //---------------------------------------------------------------------------
 }

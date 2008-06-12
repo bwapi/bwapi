@@ -60,6 +60,8 @@ namespace BWAPI
        * #bwUnitLocal->BW#Unit#orderTargetUnit.
        */
       const Unit* getOrderTargetLocal() const;
+       /** Gets #bwUnitLocal->BW#Unit#currentBuildUnit. */
+      Unit* getBuildUnit();
       /** Gets #bwUnit->BW#Unit#moveToPos */
       BW::Position getTargetPosition() const;
       /** (const version) Gets #bwUnitLocal->BW#Unit#moveToPos. */
@@ -83,6 +85,10 @@ namespace BWAPI
       u16 getDistance(int x1, int y1, int x2, int y2) const; 
       /**< Gets bwUnit->BW#Unit#orderID. */
       BW::OrderID::Enum getOrderID() const;
+      /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
+      BW::OrderID::Enum getSecondaryOrderID() const;      
+      /**< Gets bwUnitLocal->BW#Unit#secondaryOrderID. */
+      BW::OrderID::Enum getSecondaryOrderIDLocal() const;      
       /**< Gets bwUnitLocal->BW#Unit#orderID - @ref localData */
       BW::OrderID::Enum getOrderIDLocal() const;
       /* Timer specifiing how long it will take to finish the current order

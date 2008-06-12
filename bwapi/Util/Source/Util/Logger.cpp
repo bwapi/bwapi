@@ -1,12 +1,25 @@
 #include "Logger.h"
-#include <stdlib.h> // needed to use system() function
+
+#include <stdio.h>
+
+#include "FileLogger.h"
+
 namespace Util
 {
+  Logger* Logger::globalLog = new FileLogger("global", LogLevel::MicroDetailed);
+  char Logger::buffer[BUFFER_SIZE];
   //---------------------------- CONSTRUCTOR ------------------------------------
-  Logger::Logger(const std::string& name, LogLevel::Enum levelToLog)
-  :name(name + ".log")
-  ,levelToLog(levelToLog)
+  Logger::Logger(LogLevel::Enum levelToLog)
+  :levelToLog(levelToLog)
   {
+  }
+  //---------------------------- CONSTRUCTOR ------------------------------------
+  Logger::~Logger()
+  {
+    for (std::list<Logger*>::iterator i = this->connectedLoggers.begin();
+         i != this->connectedLoggers.end();
+         ++i)
+      delete *i;
   }
   //------------------------------- LOG -----------------------------------------
   bool Logger::log(const    std::string&   message, 
@@ -16,11 +29,10 @@ namespace Util
       return true;
     char time[9];
     _strtime(time);
-    FILE *f = fopen(name.c_str(),"at");
-    if (!f)
-      return false;
-    fprintf(f, "%s %s\n", time, message.c_str());
-    fclose(f);
+
+    _snprintf(buffer, BUFFER_SIZE, "%s %s\n", time, message.c_str());
+    this->flushInternal(buffer);
+
     if (globalLog != NULL &&
         this != globalLog)
       globalLog->log(message, levelToLog);
@@ -31,6 +43,20 @@ namespace Util
   {
     this->name = name;
   }
+  //-------------------------------- REGISTER LOGGER ----------------------------
+  void Logger::registerLogger(Logger* logger)
+  {
+    this->connectedLoggers.push_back(logger);
+  }
   //-----------------------------------------------------------------------------
-  Logger* Logger::globalLog = new Logger("global", LogLevel::MicroDetailed);
+  bool Logger::flushInternal(const char* buffer)
+  {
+    for (std::list<Logger*>::iterator i = this->connectedLoggers.begin();
+         i != this->connectedLoggers.end();
+         ++i)
+     (*i)->flush(buffer);   
+    return this->flush(buffer);     
+  }
+  //-----------------------------------------------------------------------------
+  
 }

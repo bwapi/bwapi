@@ -144,16 +144,16 @@
           <position x="32" y="122"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="49" y="113"/>
-          <position x="53" y="113"/>
-          <position x="49" y="116"/>
-          <position x="53" y="116"/>
-          <position x="49" y="119"/>
-          <position x="53" y="119"/>
-          <position x="49" y="122"/>
-          <position x="53" y="122"/>
-          <position x="49" y="125"/>
-          <position x="53" y="125"/>
+          <position x="49" y="112"/>
+          <position x="53" y="112"/>
+          <position x="49" y="115"/>
+          <position x="53" y="115"/>
+          <position x="49" y="118"/>
+          <position x="53" y="118"/>
+          <position x="49" y="121"/>
+          <position x="53" y="121"/>
+          <position x="49" y="124"/>
+          <position x="53" y="124"/>
         </build-position>
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="75" y="118"/>

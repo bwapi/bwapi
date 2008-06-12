@@ -116,6 +116,11 @@ namespace BWAPI
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
+  //----------------------------- GET BUILD UNIT -------------------------------
+  Unit* Unit::getBuildUnit()
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
+  }
   //---------------------------- GET TATGET POSITION ---------------------------
   BW::Position Unit::getTargetPosition() const
   {
@@ -160,6 +165,16 @@ namespace BWAPI
   BW::OrderID::Enum Unit::getOrderID() const
   {
     return this->getRawData()->orderID;
+  }
+  //----------------------------- GET SECONDARY ORDER ID -----------------------
+  BW::OrderID::Enum Unit::getSecondaryOrderID() const
+  {
+    return this->getRawData()->secondaryOrderID;
+  }
+  //--------------------------- GET SECONDARY ORDER ID LOCAL -------------------
+  BW::OrderID::Enum Unit::getSecondaryOrderIDLocal() const
+  {
+    return this->getRawDataLocal()->secondaryOrderID;
   }
   //-------------------------------- GET ORDER ID ------------------------------
   BW::OrderID::Enum Unit::getOrderIDLocal() const

@@ -2,11 +2,11 @@
 #include <map>
 #include <string>
 
-#include <Util/Logger.h>
 #include <BW/UnitType.h>
 
 namespace BuildOrder { class Branch; }
 namespace BuildOrder { class BuildWeights; }
+namespace Util { class Logger; }
 
 namespace BuildOrder
 {
@@ -20,6 +20,6 @@ namespace BuildOrder
       ~Root();
       std::list<Branch*> buildOrders;
       std::map<std::string, BuildWeights*> weights;
-      Util::Logger log;
+      Util::Logger *log;
   };
 }

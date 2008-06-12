@@ -366,6 +366,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\ScreenLogger.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\Unit.cpp"
 					>
 				</File>
@@ -407,6 +411,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\Player.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ScreenLogger.h"
 					>
 				</File>
 				<File

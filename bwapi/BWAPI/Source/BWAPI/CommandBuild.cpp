@@ -22,12 +22,16 @@ namespace BWAPI
   void CommandBuild::execute()
   {
     if (this->executors[0]->isReady())
-      if (this->executors[0]->getType().isZerg())
-        this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneBuild;
-      else if (this->executors[0]->getType().isProtoss())
-        this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildProtoss1;
-      else if (this->executors[0]->getType().isTerran())
-        this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildTerran;
+      switch (this->executors[0]->getType().getID())
+      {
+        case BW::UnitID::Zerg_Drone    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneBuild; break;
+        case BW::UnitID::Protoss_Probe : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildProtoss1; break;
+        case BW::UnitID::Terran_SCV    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildTerran; break;
+        case BW::UnitID::Terran_CommandCenter :
+        case BW::UnitID::Terran_Factory :
+        case BW::UnitID::Terran_Starport :
+        case BW::UnitID::Terran_ScienceFacility : this->executors[0]->getRawDataLocal()->secondaryOrderID = BW::OrderID::BuildAddon; break;
+      }
   }
   //--------------------------------- GET TYPE ----------------------------------
   BWAPI::CommandTypes::Enum CommandBuild::getType()

@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include <Util/Exceptions.h>
-#include <Util/Logger.h>
+#include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
 #include <Util/Strings.h>
 #include <Util/RectangleArray.h>
@@ -39,8 +39,8 @@ namespace BWAI
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log    (new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
-  ,deadLog(new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
+  ,log    (new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
+  ,deadLog(new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
   ,moneyToBeSpentOnBuildings(0)
   ,map(NULL)

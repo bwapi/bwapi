@@ -165,6 +165,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\FileLogger.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Logger.cpp"
 					>
 				</File>
@@ -206,6 +210,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\Util\Exceptions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\FileLogger.h"
 					>
 				</File>
 				<File
