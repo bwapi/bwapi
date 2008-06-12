@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <math.h>
 
-#include <Util/Logger.h>
+#include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
 #include <Util/Exceptions.h>
 
@@ -17,8 +17,8 @@
 #include <BWAPI/CommandCancelTrain.h>
 #include <BWAPI/Map.h>
 
-#include <BW/Offsets.h>
 #include <BW/Unit.h>
+#include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
 #include <BW/Latency.h>
@@ -45,12 +45,12 @@ namespace BWAPI
       fprintf(f, "Couldn't load configuration file bwapi.ini because:", exception.getMessage());
       fclose(f);
     }
-    this->commandLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
-    this->newOrderLog       = new Util::Logger(this->configuration->getValue("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
-    this->badAssumptionLog  = new Util::Logger(this->configuration->getValue("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
-    this->newUnitLog        = new Util::Logger(this->configuration->getValue("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
-    this->unitSum           = new Util::Logger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
-    this->fatalError        = new Util::Logger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
+    this->commandLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
+    this->newOrderLog       = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
+    this->badAssumptionLog  = new Util::FileLogger(this->configuration->getValue("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
+    this->newUnitLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
+    this->unitSum           = new Util::FileLogger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
+    this->fatalError        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
 
     unitArrayCopy = new BW::UnitArray;
     unitArrayCopyLocal = new BW::UnitArray;
@@ -138,9 +138,9 @@ namespace BWAPI
              i->getOrderID() != BW::OrderID::Die)
           this->badAssumptionLog->log("%s is in the list but not finished", i->getName().c_str());
 
-        if (i->getRawDataLocal()->currentBuildUnit != NULL &&
+        if (i->getBuildUnit() != NULL &&
             i->getType().canProduce())
-          this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getRawDataLocal()->currentBuildUnit->unitID.getID()]++;
+          this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
       }
     
   }
@@ -162,9 +162,9 @@ namespace BWAPI
     return *(BW::BWFXN_InGame) == 0;
   }
   //----------------------------------- PRINT ---------------------------------
-  void Game::print(char *text)
+  void Game::print(const char *text)
   {
-   void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintText;
+   void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	 	sendText(text);
   }
   //---------------------------------------------------------------------------

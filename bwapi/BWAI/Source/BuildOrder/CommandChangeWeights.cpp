@@ -3,6 +3,7 @@
 #include <tinyxml.h>
 #include <Util/Strings.h>
 #include <Util/Xml.h>
+#include <Util/Logger.h>
 
 #include "Root.h"
 #include "BuildWeights.h"
@@ -34,7 +35,7 @@ namespace BuildOrder
   //---------------------------------- EXECUTE ------------------------------
   bool CommandChangeWeights::execute()
   {
-    BWAI::ai->root->log.log("Command change weights for '%s' called", this->factory.c_str());
+    BWAI::ai->root->log->log("Command change weights for '%s' called", this->factory.c_str());
     BWAI::ai->root->weights.insert(std::pair<std::string, BuildWeights* >(this->factory, new BuildWeights(this->factory, this->weights)));
     return true;
   }

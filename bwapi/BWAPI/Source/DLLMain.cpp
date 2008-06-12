@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #include <Util/Dictionary.h> 
-#include <Util/Logger.h>
+#include <Util/FileLogger.h>
 #include <Util/Types.h>
 
 #include "BW/Offsets.h"
@@ -165,7 +165,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
     return 1;
 
   delete Util::Logger::globalLog;
-  Util::Logger::globalLog = new Util::Logger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", Util::LogLevel::MicroDetailed);
+  Util::Logger::globalLog = new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
   BWAI::ai = new BWAI::AI();

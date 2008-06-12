@@ -40,19 +40,19 @@ namespace BuildOrder
   bool CommandBuild::execute()
   {
     BW::UnitType toBuild = BWAI::ai->unitNameToType[this->name];
-    if (BWAI::ai->player->getMineralsLocal() - BWAI::ai->moneyToBeSpentOnBuildings >= toBuild.getMineralPrice() &&
-        BWAI::ai->player->getGasLocal() >= toBuild.getGasPrice() &&
+    if (BWAI::ai->player->canAfford(toBuild, BWAI::ai->moneyToBeSpentOnBuildings) &&
+        BWAI::ai->player->canBuild(toBuild) &&
         this->conditionApplies()) 
     {
       BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
       if (alternatives == NULL)
       {
-        BWAI::ai->root->log.log("Position '%s' not found", this->place.c_str());
+        BWAI::ai->root->log->log("Position '%s' not found", this->place.c_str());
         return true;
       }
       if (alternatives->positions.empty())
       {
-        BWAI::ai->root->log.log("Position '%s' is empty", this->place.c_str());
+        BWAI::ai->root->log->log("Position '%s' is empty", this->place.c_str());
         return true;
       }
      
@@ -60,25 +60,31 @@ namespace BuildOrder
       {
         BWAI::Unit* scvToUse = NULL;
         BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
-        BWAI::ai->root->log.log("Command build '%s' called", this->name.c_str());
+        BWAI::ai->root->log->log("Command build '%s' called", this->name.c_str());
         BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));        
       }
       else if (toBuild.isAddon())
       {
         BWAI::Unit* executor;
-        BWAI::ai->root->log.log("Command addon '%s' called at '%s'", this->name.c_str(), this->place.c_str());
+        BWAI::ai->root->log->log("Command to build addon '%s' called at '%s'", this->name.c_str(), this->place.c_str());
         BW::TilePosition position = alternatives->positions.front();
         
         if (BWAPI::Broodwar.unitsOnTile[position.x - 1][position.y].empty())
         {
-          BWAI::ai->root->log.log("Building for the addon not found");
+          BWAI::ai->root->log->log("Building for the addon not found");
+          return false;
+        }
+        
+       if (!BWAPI::Broodwar.unitsOnTile[position.x - 1][position.y].front()->isReady())
+        {
+          BWAI::ai->root->log->log("Building for the addon not ready");
           return false;
         }
         
         executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[position.x - 2][position.y].front());
         if (!executor->getType().isBuilding())
         {
-          BWAI::ai->root->log.log("Executor chosen is not building ???? but %s", executor->getName().c_str());
+          BWAI::ai->root->log->log("Executor chosen is not building ???? but %s", executor->getName().c_str());
           return false;
         }
         BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, executor, alternatives));        
