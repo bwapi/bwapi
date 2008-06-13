@@ -30,10 +30,10 @@
     <set-building-rate building="Terran Starport">
       <build name="Terran Science Vessel" weight="1" />
     </set-building-rate>    
-    <build name="Terran Command Center" place="second-expansion" minimal-population="70"/>
-    <build name="Terran Science Facility" place="science-facility" minimal-population="80"/>
-    <build name="Terran Control Tower" place="control-tower" minimal-population="80"/>
-    <build name="Terran Covert Ops" place="covert-ops" minimal-population="80"/>
+    <build name="Terran Command Center" place="second-expansion"/>
+    <build name="Terran Science Facility" place="science-facility"/>
+    <build name="Terran Control Tower" place="control-tower"/>
+    <build name="Terran Covert Ops" place="covert-ops"/>
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
@@ -41,5 +41,9 @@
     <invent name="Personnel Cloaking"/>
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Nuclear Silo" place="second-expansion-addon"/>
+    <set-building-rate building="Terran Nuclear Silo">
+      <build name="Nuclear Missile" weight="1" />
+    </set-building-rate>
   </build-order>
 </build-orders>
