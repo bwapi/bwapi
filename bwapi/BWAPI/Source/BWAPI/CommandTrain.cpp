@@ -19,6 +19,11 @@ namespace BWAPI
   //-------------------------------- EXECUTE ------------------------------------
   void CommandTrain::execute()
   {
+   if (toTrain == BW::UnitID::Terran_NuclearMissile)
+   {
+     this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::NukeTrain;
+     return;
+   }
    int slotToAffect = this->executors[0]->getBuildQueueSlotLocal();
    if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitID::None)
       slotToAffect  = (slotToAffect + 1) % 5;

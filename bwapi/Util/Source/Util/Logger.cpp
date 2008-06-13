@@ -27,11 +27,8 @@ namespace Util
   {
     if (levelToLog > this->levelToLog)
       return true;
-    char time[9];
-    _strtime(time);
 
-    _snprintf(buffer, BUFFER_SIZE, "%s %s\n", time, message.c_str());
-    this->flushInternal(buffer);
+    this->flushInternal(message.c_str());
 
     if (globalLog != NULL &&
         this != globalLog)

@@ -515,7 +515,8 @@ namespace BWAI
               i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
             )
           ) &&
-          i->getType().canProduce() &&
+          (i->getType().canProduce() ||
+           i->getType() == BW::UnitID::Terran_NuclearSilo) &&
           i->getOwner() == player)
       { 
         BuildOrder::BuildWeights* weights = NULL;
