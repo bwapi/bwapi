@@ -38,7 +38,7 @@
             <xs:sequence>
               <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
            </xs:sequence>
-           <xs:attribute name="name" type="xs:string" use="required"/>
+           <xs:attribute name="name" type="tech-type" use="required"/>
            <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
          </xs:complexType>
        </xs:element>       
@@ -70,4 +70,43 @@
      <xs:attribute name="population" type="xs:string" use="optional"/>
   </xs:complexType>
 </xs:element>
+
+<xs:simpleType name="tech-type">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Stim Packs"/>
+    <xs:enumeration value="Lockdown"/>
+    <xs:enumeration value="EMP Shockwave"/>
+    <xs:enumeration value="Spider Mines"/>
+    <xs:enumeration value="Scanner Sweep"/>
+    <xs:enumeration value="Tank Siege Mode"/>
+    <xs:enumeration value="Defensive Matrix"/>
+    <xs:enumeration value="Irradiate"/>
+    <xs:enumeration value="Yamato Gun"/>
+    <xs:enumeration value="Cloaking Field"/>
+    <xs:enumeration value="Personnel Cloaking"/>
+    <xs:enumeration value="Burrowing"/>
+    <xs:enumeration value="Infestation"/>
+    <xs:enumeration value="Spawn Broodling"/>
+    <xs:enumeration value="Dark Swarm"/>
+    <xs:enumeration value="Plague"/>
+    <xs:enumeration value="Consume"/>
+    <xs:enumeration value="Ensnare"/>
+    <xs:enumeration value="Parasite"/>
+    <xs:enumeration value="Psionic Storm"/>
+    <xs:enumeration value="Hallucination"/>
+    <xs:enumeration value="Recall"/>
+    <xs:enumeration value="Stasis Field"/>
+    <xs:enumeration value="Archon Warp"/>
+    <xs:enumeration value="Restoration"/>
+    <xs:enumeration value="Disruption Web"/>
+    <xs:enumeration value="Mind Control"/>
+    <xs:enumeration value="Dark Archon Meld"/>
+    <xs:enumeration value="Feedback"/>
+    <xs:enumeration value="Optical Flare"/>
+    <xs:enumeration value="Maelstrom "/>
+    <xs:enumeration value="Lurker Aspect"/>
+    <xs:enumeration value="Healing"/>
+  </xs:restriction>
+</xs:simpleType>
+ 
 </xs:schema>

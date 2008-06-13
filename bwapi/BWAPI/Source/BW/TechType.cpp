@@ -69,8 +69,10 @@ namespace BW
   {
     switch (this->getID())
     {
-      case BW::TechID::Stimpacks : return BW::UnitID::Terran_Academy;
-      case BW::TechID::Lockdown  : return BW::UnitID::Terran_CovertOps;
+      case BW::TechID::Stimpacks          : return BW::UnitID::Terran_Academy;
+      case BW::TechID::Lockdown           : return BW::UnitID::Terran_CovertOps;
+      case BW::TechID::PersonnelCloaking  : return BW::UnitID::Terran_CovertOps;
+      case BW::TechID::EMPShockwave       : return BW::UnitID::Terran_ScienceFacility;
       default : return BW::UnitID::None;
     }
   }
