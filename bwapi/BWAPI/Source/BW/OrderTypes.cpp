@@ -51,6 +51,12 @@ namespace BW
     ,type(type)
     {
     }
+    //--------------------------------- INVENT TECH -----------------------------------
+    Invent::Invent(BW::TechType tech)
+    :always0x30(0x30)
+    ,tech(tech)
+    {
+    }
     //--------------------------------- MAKE ADDON ------------------------------------
     MakeAddon::MakeAddon(BW::TilePosition position, BW::UnitType type)
     :always0x0c(0x0c)

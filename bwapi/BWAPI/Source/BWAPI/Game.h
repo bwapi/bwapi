@@ -10,12 +10,15 @@ namespace BWAPI { class Command; }
 
 #include <vector>
 #include <list>
+#include <map>
 #include <windows.h>
 
 #include <Util/RectangleArray.h>
+
 #include <BW/OrderTypes.h>
 #include <BW/Offsets.h>
 #include <BW/Latency.h>
+#include <BW/TechType.h>
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
@@ -100,6 +103,7 @@ namespace BWAPI
       Util::Dictionary* configuration;
       /** Every tile will have pointers to units touching it. */
       Util::RectangleArray<std::list<Unit*> > unitsOnTile;
+      std::map<std::string, BW::TechType> techNameToType;
    private :
 	     bool onStartCalled;
       BW::UnitArray* unitArrayCopy;

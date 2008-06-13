@@ -8,7 +8,8 @@ namespace BWAPI
      Train       = 0, /** BWAPI#CommandTrain */
      RightClick  = 1, /** BWAPI#CommandRightClick */
      CancelTrain = 2, /** BWAPI#CommandCancelTrain */
-     Build       = 3  /** BWAPI#CommandBuild */
+     Build       = 3, /** BWAPI#CommandBuild */
+     Invent      = 4, /** BWAPI#CommandInvent */
     };
   }
 }

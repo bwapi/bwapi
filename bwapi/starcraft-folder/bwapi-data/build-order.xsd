@@ -26,21 +26,26 @@
        <xs:element name="build">
          <xs:complexType>
             <xs:sequence>
-              <xs:element name="condition" minOccurs="0" maxOccurs="1">
-                <xs:complexType>
-                  <xs:attribute name="type" type="xs:string" use="required"/>
-                  <xs:attribute name="population" type="xs:string" use="optional"/>
-                </xs:complexType>
-              </xs:element>
+              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
            </xs:sequence>
            <xs:attribute name="name" type="xs:string" use="required"/>
            <xs:attribute name="place" type="xs:string" use="required"/>
            <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
          </xs:complexType>
        </xs:element>
+       <xs:element name="invent">
+         <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
+           </xs:sequence>
+           <xs:attribute name="name" type="xs:string" use="required"/>
+           <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
+         </xs:complexType>
+       </xs:element>       
        <xs:element name="set-building-rate">
          <xs:complexType>
            <xs:sequence>
+             <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
              <xs:element name="build" maxOccurs="unbounded">
                <xs:complexType>
                  <xs:attribute name="name" type="xs:string" use="required" />
@@ -58,5 +63,11 @@
      <xs:attribute name="against" />
      <xs:attribute name="probability" />
    </xs:complexType>
- </xs:element>
+  </xs:element>
+  <xs:element name="condition">
+   <xs:complexType>
+     <xs:attribute name="type" type="xs:string" use="required"/>
+     <xs:attribute name="population" type="xs:string" use="optional"/>
+  </xs:complexType>
+</xs:element>
 </xs:schema>

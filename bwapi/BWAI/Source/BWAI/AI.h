@@ -14,6 +14,7 @@ namespace BWAI { class Unit; }
 namespace BWAI { class TaskGatherGas; }
 namespace BWAI { class TaskGather; }
 namespace BWAI { class TaskBuild; }
+namespace BWAI { class TaskInvent; }
 namespace BWAI { class Expansion; }
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
@@ -66,6 +67,7 @@ namespace BWAI
       std::list<TaskGatherGas*> activeRefineries;      
       std::list<TaskGather*> activeMinerals;
       std::list<TaskBuild*> plannedBuildings;
+      std::list<TaskInvent*> plannedInvents;
       BuildOrder::Root *root;
       std::list<BuildOrder::Command*>::iterator actualPosition;
       BuildOrder::Branch* actualBranch;

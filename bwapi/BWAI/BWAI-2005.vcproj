@@ -171,6 +171,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandInvent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Condition.h"
 					>
 				</File>
@@ -204,6 +208,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\CommandChangeWeights.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandInvent.cpp"
 					>
 				</File>
 				<File
@@ -287,6 +295,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskInvent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Unit.cpp"
 					>
 				</File>
@@ -340,6 +352,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\TaskGatherGas.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\TaskInvent.h"
 					>
 				</File>
 				<File

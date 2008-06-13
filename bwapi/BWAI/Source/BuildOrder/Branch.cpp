@@ -5,6 +5,7 @@
 
 #include "CommandBuild.h"
 #include "CommandChangeWeights.h"
+#include "CommandInvent.h"
 
 namespace BuildOrder
 {
@@ -17,6 +18,8 @@ namespace BuildOrder
         this->commands.push_back(new CommandBuild(i));
       else if (i->ValueTStr() == "set-building-rate")
         this->commands.push_back(new CommandChangeWeights(i));
+      else if (i->ValueTStr() == "invent")
+        this->commands.push_back(new CommandInvent(i));        
       else log->log("Unknown element %s found in <bulid-order>", i->ValueTStr().c_str());
     delete log;
   }

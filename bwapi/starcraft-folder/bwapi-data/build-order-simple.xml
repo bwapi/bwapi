@@ -19,6 +19,7 @@
     <build name="Terran Academy" place="non-producting-3X2" minimal-population="31"/>
     <build name="Terran Missile Turret" place="turret-entrance-expansion" minimal-population="32"/>
     <build name="Terran Barracks" place="barracks" minimal-population="33"/>
+    <invent name="Stim Packs" minimal-population="35"/>
     <build name="Terran Comsat Station" place="comsat-station" minimal-population="35"/>
     <build name="Terran Comsat Station" place="comsat-station-expansion" minimal-population="35"/>
     <build name="Terran Barracks" place="barracks" minimal-population="37"/>

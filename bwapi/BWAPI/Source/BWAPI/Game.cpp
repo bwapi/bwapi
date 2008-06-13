@@ -25,6 +25,7 @@
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
+#include <BW/TechType.h>
 
 
 namespace BWAPI 
@@ -201,8 +202,22 @@ namespace BWAPI
     for (int i = 0; i < 8; i++)
       if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
-    /*if (!this->isInGame())
-      this->badAssumptionLog->log("OnStartCalled is true but isInGame isnt -> qd your offset is wrong");*/
+          
+    if (this->techNameToType.empty())
+      for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
+        if (BW::TechType((BW::TechID::Enum)i).isValid())
+          this->techNameToType.insert(std::pair<std::string, BW::TechType>
+                                       (
+                                         BW::TechType( (BW::TechID::Enum) i ).getName(), 
+                                         BW::TechType( (BW::TechID::Enum) i)
+                                       )
+                                     );           
+    for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
+    {
+      BW::TechType tech((BW::TechID::Enum)i);
+      if (tech.isValid())
+        this->commandLog->log("%s %d minerals %d gas", tech.getName(), tech.getMineralPrice(), tech.getGasPrice());
+   }
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()
@@ -377,4 +392,3 @@ namespace BWAPI
   }
   //--------------------------------------------------------------------------
 };
-
