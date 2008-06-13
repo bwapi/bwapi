@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Util/Types.h>
+
 #include <BW/OrderID.h>
 #include <BW/UnitType.h>
+#include <BW/TechType.h>
 #include <BW/TilePosition.h>
 
 namespace Util  { class Logger; }
@@ -140,6 +142,8 @@ namespace BWAPI
       void trainUnit(BW::UnitType type);
       /** Orders to build the specified building. */
       void build(BW::TilePosition position, BW::UnitType type);
+      /** Orders to build the invent the specified tech. */
+      void invent(BW::TechType type);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);

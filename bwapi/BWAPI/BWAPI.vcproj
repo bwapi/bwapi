@@ -209,6 +209,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\TechType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\TilePosition.h"
 					>
 				</File>
@@ -242,6 +246,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BW\PositionUnitTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\TechType.cpp"
 					>
 				</File>
 				<File
@@ -301,6 +309,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\TechID.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\UnitID.h"
 					>
 				</File>
@@ -330,6 +342,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandInvent.cpp"
 					>
 				</File>
 				<File
@@ -382,6 +398,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandInvent.h"
 					>
 				</File>
 				<File

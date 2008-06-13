@@ -3,6 +3,7 @@
 #include <Util/Types.h>
 
 #include "UnitType.h"
+#include "TechType.h"
 #include "PositionUnitTarget.h"
 #include "Race.h"
 
@@ -64,8 +65,17 @@ namespace BW
       BW::TilePosition position;
       /** Type of building to make */
       BW::UnitType type;
-      
    };
+   /** Invent tech. */
+   class Invent
+   {
+     public :
+      Invent(BW::TechType type); 
+      /** 0x30 = invent tech Command-code in bw */
+      u8 always0x30;
+      /** Type of tech to invent */
+      BW::TechType tech;
+   };   
    class MakeAddon
    {
      public :

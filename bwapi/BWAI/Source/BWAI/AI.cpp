@@ -26,6 +26,7 @@
 #include "TaskGatherGas.h"
 #include "TaskGather.h"
 #include "TaskBuild.h"
+#include "TaskInvent.h"
 #include "Unit.h"
 #include "Expansion.h"
 #include "MapInfo.h"
@@ -270,6 +271,10 @@ namespace BWAI
       delete *i;
     this->plannedBuildings.clear();
     
+    for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
+      delete *i;
+    this->plannedInvents.clear();
+    
     for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
       delete *i;
     this->activeRefineries.clear();
@@ -326,7 +331,7 @@ namespace BWAI
       this->pathFinding->generatePath(source, PathFinding::WalkabilityPosition(20, 20));
     }
     */
-    #pragma endregion DisabledPathFindingPerformanceTest
+    #pragma endregion
     this->assignIdleWorkersToMinerals(idleWorkers);
 
     this->checkWorkersNeed();
@@ -664,25 +669,39 @@ namespace BWAI
   //--------------------------------- EXECUTE TASK ----------------------------
   void AI::executeTasks()
   {
-    std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
-    while (i != this->plannedBuildings.end())
-      if ((*i)->execute())
-      {
-        if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
+    { // ---------- Planned buildings
+      std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
+      while (i != this->plannedBuildings.end())
+        if ((*i)->execute())
         {
-          this->log->log("Finished refinery");
-          Expansion *expansion = NULL;
-          for (std::list<Expansion*>::iterator j = this->expansions.begin(); j != this->expansions.end(); ++j)
-            if ((*j)->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
-              expansion = *j;
-          if (expansion != NULL)
-             this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
+          if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
+          {
+            this->log->log("Finished refinery");
+            Expansion *expansion = NULL;
+            for (std::list<Expansion*>::iterator j = this->expansions.begin(); j != this->expansions.end(); ++j)
+              if ((*j)->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
+                expansion = *j;
+            if (expansion != NULL)
+               this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
+          }
+          delete *i;
+          i = this->plannedBuildings.erase(i);
         }
-        delete *i;
-        i = this->plannedBuildings.erase(i);
-      }
-      else
-        ++i;
+        else
+          ++i;
+    }
+    { // ---------- Planned invents
+      std::list<TaskInvent*>::iterator i = this->plannedInvents.begin();
+      while (i != this->plannedInvents.end())
+        if ((*i)->execute())
+        {
+          delete *i;
+          i = this->plannedInvents.erase(i);
+        }
+        else
+          ++i;
+    }
+        
     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
       (*i)->execute();
     for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)

@@ -5,6 +5,8 @@ namespace BW { struct Unit; };
 #include <list>
 
 #include <Util/Types.h>
+
+#include <BW/TechType.h>
 #include <BW/UnitType.h>
 #include <BW/Offsets.h>
 #include <BW/Race.h>
@@ -107,6 +109,13 @@ namespace BWAPI
      * @returns @c true if the unit can be trained, @c false otherwise.
      */
     bool canAfford(BW::UnitType unit, u16 mineralsToKeep = 0);
+    /**
+     * Finds out if the current player can afford to invent the specified tech atm Checks minerals and gas.
+     * @param tech Tech type to be checked
+     * @param Money that must the player keep (reserved to make building or other reason)
+     * @returns @c true if the tech can be invented, @c false otherwise.
+     */
+    bool canAfford(BW::TechType tech, u16 mineralsToKeep = 0);    
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
   private :

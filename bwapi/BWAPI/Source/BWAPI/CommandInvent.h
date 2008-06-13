@@ -2,13 +2,12 @@
 
 #include "Command.h"
 
-#include <BW/UnitType.h>
-#include <BW/Position.h>
+#include <BW/TechType.h>
 
 namespace BWAPI
 {
   /** BWAPI internal representation of make building command. */
-  class CommandBuild : public Command
+  class CommandInvent : public Command
   {
     public :
       /** 
@@ -17,13 +16,12 @@ namespace BWAPI
        * @param toBuild Building that should be constructed
        * @param Position of the building (in tiles)
        */
-      CommandBuild(Unit* builder, BW::UnitType toBuild, BW::TilePosition position);
-      ~CommandBuild();
+      CommandInvent(Unit* building, BW::TechType tech);
+      ~CommandInvent();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
       std::string describe();
     private :
-      BW::UnitType toBuild;
-      BW::Position position;
+      BW::TechType tech;
   };
 }

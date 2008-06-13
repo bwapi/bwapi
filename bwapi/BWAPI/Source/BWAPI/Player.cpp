@@ -126,6 +126,12 @@ namespace BWAPI
            this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
            this->getGasLocal() >= unit.getGasPrice();
   }
+  //--------------------------------- CAN AFFORD ------------------------------
+  bool Player::canAfford(BW::TechType tech, u16 mineralsToKeep)
+  {
+    return this->getMineralsLocal() - mineralsToKeep >= tech.getMineralPrice() &&
+           this->getGasLocal() >= tech.getGasPrice();
+  }  
   //--------------------------------- GET RACE --------------------------------
   BW::Race::Enum Player::getRace()
   {

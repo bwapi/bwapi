@@ -22,6 +22,7 @@ namespace BW
   static const u8  PLAYER_COUNT    =  12;
   static const u8  RACE_COUNT      =   3;
   static const u8  UNIT_TYPE_COUNT = 228;
+  static const u8  TECH_TYPE_COUNT =  44;
   static const u16 SUPPLY_LIMIT    = 400; /**< We could read this value from memory as it is stored in 
                                            * #Supplies#Max, but as it is always constant for every race for 
                                            * every player, I prefer using this constant. */
@@ -117,8 +118,9 @@ namespace BW
   static int*          BWXFN_ScreenX = (int*) 0x00628430;
   static int*          BWXFN_ScreenY = (int*) 0x00628458;
   static char*         BWXFN_CurrentMapFileName = (char*) 0x0057FD24;
-  static char**        BWXFN_Sting_table = (char**)0x6d1220;
-                                                            
+  static char**        BWXFN_StingTable = (char**) 0x006D1220;
+  static u16*          BWXFN_TechLabelIndex = (u16*) 0x00656288;
+  static u16**         BWXFN_StringTableIndex = (u16**) 0x6D1220;
 
 
   //------------------------------------ SUPPLIES -----------------------------
@@ -253,9 +255,15 @@ namespace BW
   {
     Util::BitMask<GroupFlags::Enum> unit[UNIT_TYPE_COUNT];
   };
-
   static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
-
+  //------------------------------- TECH MINERAL COST ------------------------
+  struct TechCost
+  {
+    u16 tech[TECH_TYPE_COUNT];
+  };
+  static TechCost* BWXFN_TechMineralCost = (TechCost*) 0x00656230;
+  static TechCost* BWXFN_TechGasCost = (TechCost*)	0x006561D8;
+  static TechCost* BWXFN_TechEnergyCost = (TechCost*)	0x00656368;
   //---------------------------------MINITILE MAPPING ------------------------
   const u16 tileTypeCount = 65535;
   /** Direct mapping of minitile flags array */

@@ -291,6 +291,13 @@ namespace BWAPI
       Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeAddon(position, type), sizeof(BW::Orders::MakeAddon)); 
     Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
   }
+  //----------------------------------- INVENT --------------------------------
+  void Unit::invent(BW::TechType tech)
+  {
+    this->orderSelect();
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::Invent(tech), sizeof(BW::Orders::Invent)); 
+    //Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
+  }
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {
