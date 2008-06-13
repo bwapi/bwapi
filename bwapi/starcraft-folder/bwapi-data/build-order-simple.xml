@@ -34,10 +34,12 @@
     <build name="Terran Science Facility" place="science-facility" minimal-population="80"/>
     <build name="Terran Control Tower" place="control-tower" minimal-population="80"/>
     <build name="Terran Covert Ops" place="covert-ops" minimal-population="80"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="90"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="90"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="90"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="100"/>
-    <build name="Terran Barracks" place="barracks" minimal-population="110"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <invent name="EMP Shockwave"/>
+    <invent name="Personnel Cloaking"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Barracks" place="barracks"/>
   </build-order>
 </build-orders>
