@@ -299,6 +299,8 @@ namespace BWAI
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
+    if (!BWAPI::Broodwar.enabled)
+      return;
     if (BWAPI::Broodwar.frameCount < 2)
       return;
     if (!this->player)
