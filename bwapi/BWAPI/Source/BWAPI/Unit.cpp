@@ -409,13 +409,13 @@ namespace BWAPI
       sprintf(unitName, "(unitID = %u)", this->getType().getID());
   
     sprintf(orderName,"(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
-    sprintf(message,"%s %s %s %s %s %s %10s", unitName,
-                                              orderName,
-                                              indexName,
-                                              position,
-                                              targetIndex,
-                                              orderTargetIndex,
-                                              owner);
+    sprintf(message,"%s %s %s %s %s %s %s", unitName,
+                                            orderName,
+                                            indexName,
+                                            position,
+                                            targetIndex,
+                                            orderTargetIndex,
+                                            owner);
   
     return std::string(message);
   }

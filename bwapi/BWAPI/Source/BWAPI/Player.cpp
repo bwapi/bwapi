@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <Util/Bitmask.h>
+
 #include <BW/Offsets.h>
 #include <BW/UnitID.h>
 
@@ -136,6 +138,12 @@ namespace BWAPI
   BW::Race::Enum Player::getRace()
   {
     return BW::BWXFN_Players->player[this->getID()].race;
+  }
+  //---------------------------------------------------------------------------
+  bool Player::researchInProgress(BW::TechType tech) const
+  {
+    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (0x0058F218 + this->getID()*6);
+    return techs->getBit(1 << tech.getID());
   }
   //---------------------------------------------------------------------------
 };

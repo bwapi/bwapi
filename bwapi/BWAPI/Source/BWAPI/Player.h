@@ -118,6 +118,7 @@ namespace BWAPI
     bool canAfford(BW::TechType tech, u16 mineralsToKeep = 0);    
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
+    bool researchInProgress(BW::TechType tech) const;    
   private :
     u8 id;  /**< Order of the player, is used to load player's information from the memory */
     s32 mineralsLocal, gasLocal;  /**< Storage of local versions resources. */
