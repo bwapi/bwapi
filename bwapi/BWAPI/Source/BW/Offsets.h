@@ -125,6 +125,7 @@ namespace BW
   static char**        BWXFN_StingTable = (char**) 0x006D1220;
   static u16*          BWXFN_TechLabelIndex = (u16*) 0x00656288;
   static u16**         BWXFN_StringTableIndex = (u16**) 0x6D1220;
+  static u32**         BWXFN_MapFogOfWar = (u32**) 0x006D1248;
 
 
   //------------------------------------ SUPPLIES -----------------------------
