@@ -255,8 +255,28 @@ namespace BWAPI
         else this->print(std::string("Unknown command '" + rest + "' - possible commands are: on, off").c_str());
         return true;
       }
-    else
-      return false;
+    prefix = "/unit ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "info")
+        {
+//          ScreenLogger().log()
+          BW::Unit** selected = this->saveSelected();
+          for (u16 i = 0; selected[i] != NULL; i++)
+            this->print(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i])->getName().c_str());
+        }
+        else if (rest == "off")
+        {
+          this->enabled = false;
+          this->print("bwapi disabled");
+        }
+        else this->print(std::string("Unknown command '" + rest + "' - possible commands are: on, off").c_str());
+        return true;
+      }      
+      
+    return false;
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()
