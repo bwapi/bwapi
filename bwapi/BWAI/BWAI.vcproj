@@ -157,6 +157,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\BuildingPositionSet.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Expansion.h"
 					>
 				</File>
@@ -216,6 +220,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\BuildingPosition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\BuildingPositionSet.cpp"
 					>
 				</File>
 				<File

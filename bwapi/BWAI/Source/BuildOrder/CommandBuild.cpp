@@ -1,5 +1,7 @@
 #include "CommandBuild.h"
 
+namespace BWAI { class BuildingPosition; }
+
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Logger.h>
@@ -8,7 +10,7 @@
 #include <BW/UnitType.h>
 
 #include <BWAI/AI.h>
-#include <BWAI/BuildingPosition.h>
+#include <BWAI/BuildingPositionSet.h>
 
 #include <BWAI/TaskBuild.h>
 #include <BWAI/Globals.h>
@@ -44,7 +46,7 @@ namespace BuildOrder
         BWAI::ai->player->canBuild(toBuild) &&
         this->conditionApplies()) 
     {
-      BWAI::BuildingPosition* alternatives = BWAI::ai->getPositionsCalled(this->place); 
+      BWAI::BuildingPositionSet* alternatives = BWAI::ai->getPositionsCalled(this->place); 
       if (alternatives == NULL)
       {
         BWAI::ai->root->log->log("Position '%s' not found", this->place.c_str());
@@ -59,7 +61,7 @@ namespace BuildOrder
       if (!toBuild.isAddon())
       {
         BWAI::Unit* scvToUse = NULL;
-        BW::TilePosition position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
+        BWAI::BuildingPosition* position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
         BWAI::ai->root->log->log("Command build '%s' called", this->name.c_str());
         BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));        
       }
@@ -67,21 +69,21 @@ namespace BuildOrder
       {
         BWAI::Unit* executor;
         BWAI::ai->root->log->log("Command to build addon '%s' called at '%s'", this->name.c_str(), this->place.c_str());
-        BW::TilePosition position = alternatives->positions.front();
+        BWAI::BuildingPosition* position = alternatives->positions.front();
         
-        if (BWAPI::Broodwar.unitsOnTile[position.x - 1][position.y].empty())
+        if (BWAPI::Broodwar.unitsOnTile[position->position.x - 1][position->position.y].empty())
         {
           BWAI::ai->root->log->log("Building for the addon not found");
           return false;
         }
         
-       if (!BWAPI::Broodwar.unitsOnTile[position.x - 1][position.y].front()->isReady())
+       if (!BWAPI::Broodwar.unitsOnTile[position->position.x - 1][position->position.y].front()->isReady())
         {
           BWAI::ai->root->log->log("Building for the addon not ready");
           return false;
         }
         
-        executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[position.x - 2][position.y].front());
+        executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[position->position.x - 2][position->position.y].front());
         if (!executor->getType().isBuilding())
         {
           BWAI::ai->root->log->log("Executor chosen is not building ???? but %s", executor->getName().c_str());

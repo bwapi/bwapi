@@ -32,7 +32,7 @@
 #include "MapInfo.h"
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
-#include "BuildingPosition.h"
+#include "BuildingPositionSet.h"
 
 namespace BWAI
 {
@@ -503,7 +503,7 @@ namespace BWAI
           i->getOrderTarget() != NULL)
        {
          this->log->log("Custom building added buildTask");         
-         this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), BW::TilePosition::Invalid, i, NULL));
+         this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL));
        }
           
     bool reselected = false;
@@ -634,10 +634,10 @@ namespace BWAI
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->getSuppliesFreeLocal(BW::Race::Terran), plannedTerranSupplyGain());
       Unit* builderToUse;
-      BW::TilePosition spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
-      if (spot != BW::TilePosition::Invalid)
+      BuildingPosition* spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
+      if (spot != NULL)
       {
-        this->log->log("Found free spot for supply depot at (%d,%d)", spot.x, spot.y);
+        this->log->log("Found free spot for supply depot at (%d,%d)", spot->position.x, spot->position.y);
         this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, spot, builderToUse, this->startingPosition->positions["non-producting-3X2"]));
       }
     }        
@@ -734,63 +734,64 @@ namespace BWAI
         }
   }
   //---------------------------------------------------------------------------
-  BW::TilePosition AI::getFreeBuildingSpot(std::string spotName, Unit*& builderToUse)
+  BuildingPosition* AI::getFreeBuildingSpot(std::string spotName, Unit*& builderToUse)
   {
-    BuildingPosition* position = this->startingPosition->positions[spotName];
+    BuildingPositionSet* position = this->startingPosition->positions[spotName];
     if (position == NULL)
       throw GeneralException("Position '" + spotName + "' not found in the current starting position");
-    for (std::list<BW::TilePosition>::iterator i = position->positions.begin();
+    for (std::list<BuildingPosition*>::iterator i = position->positions.begin();
            i != position->positions.end();
            ++i)
-      {
-        int occupiedCount = 0;
-        Unit* occupied = NULL;
-        for (int k = (*i).x; 
-              k < (*i).x + position->tileWidth; 
-              k++)
-          for (int l = (*i).y; 
-               l < (*i).y + position->tileHeight; 
-               l++)
-            if (!BWAPI::Broodwar.unitsOnTile[k][l].empty())
-            {
-              occupiedCount ++;
-              if (BWAPI::Broodwar.unitsOnTile[k][l].size() == 1)
-                {
-                  if (occupied != NULL &&
-                      occupied->getIndex() == BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex())
-                    occupiedCount--;
-                  occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
-                }
-              else
-                occupiedCount = 2;
-            }
-        if (
-             occupiedCount == 0 || 
-             (
-               occupiedCount == 1 &&
-               occupied->getType().isWorker() &&
-               occupied->getTask() == NULL &&
-               occupied->getOrderID() == BW::OrderID::Guard
-             ) ||
-             (
-               occupiedCount == 1 &&
-               occupied->getType() == BW::UnitID::Resource_VespeneGeyser
-             )
-           )
+      if (!(*i)->reserved)
         {
-          this->log->log("Found free spot for " + spotName + " at (%d,%d)", (*i).x, (*i).y);
-          if (occupied != NULL &&
-              occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
-            builderToUse = occupied;
-          else
-            builderToUse = NULL;
-          return *i;
-        }
-      } 
-   return BW::TilePosition::Invalid;
+          int occupiedCount = 0;
+          Unit* occupied = NULL;
+          for (int k = (*i)->position.x; 
+                k < (*i)->position.x + position->tileWidth; 
+                k++)
+            for (int l = (*i)->position.y; 
+                 l < (*i)->position.y + position->tileHeight; 
+                 l++)
+              if (!BWAPI::Broodwar.unitsOnTile[k][l].empty())
+              {
+                occupiedCount ++;
+                if (BWAPI::Broodwar.unitsOnTile[k][l].size() == 1)
+                  {
+                    if (occupied != NULL &&
+                        occupied->getIndex() == BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex())
+                      occupiedCount--;
+                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
+                  }
+                else
+                  occupiedCount = 2;
+              }
+          if (
+               occupiedCount == 0 || 
+               (
+                 occupiedCount == 1 &&
+                 occupied->getType().isWorker() &&
+                 occupied->getTask() == NULL &&
+                 occupied->getOrderID() == BW::OrderID::Guard
+               ) ||
+               (
+                 occupiedCount == 1 &&
+                 occupied->getType() == BW::UnitID::Resource_VespeneGeyser
+               )
+             )
+          {
+            this->log->log("Found free spot for " + spotName + " at (%d,%d)", (*i)->position.x, (*i)->position.y);
+            if (occupied != NULL &&
+                occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
+              builderToUse = occupied;
+            else
+              builderToUse = NULL;
+            return *i;
+          }
+        } 
+   return NULL;
   }
   //------------------------- GET POSITIONS CALLED ----------------------------
-  BuildingPosition* AI::getPositionsCalled(const std::string& place)
+  BuildingPositionSet* AI::getPositionsCalled(const std::string& place)
   {
     return this->startingPosition->positions[place];
   }

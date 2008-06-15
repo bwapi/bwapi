@@ -18,6 +18,7 @@ namespace BWAI { class TaskInvent; }
 namespace BWAI { class Expansion; }
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
+namespace BWAI { class BuildingPositionSet; }
 namespace BWAI { class BuildingPosition; }
 
 namespace BuildOrder { class Root; }
@@ -74,7 +75,7 @@ namespace BWAI
       
       std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
-      BW::TilePosition getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
+      BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class)
        * with the specified id. The operation speed should be log(count of
@@ -84,7 +85,7 @@ namespace BWAI
        * @returns BuildingPosition set with he specified name if present, @c
        *          NULL otherwise.
        */
-      BuildingPosition* getPositionsCalled(const std::string& place);
+      BuildingPositionSet* getPositionsCalled(const std::string& place);
       u16 moneyToBeSpentOnBuildings;
       /** Currently opened map, NULL if no map is opened. */
       BWAPI::Map* map;
