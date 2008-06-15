@@ -1,7 +1,8 @@
 #include "TaskInvent.h"
 
 #include "Globals.h"
-#include <Util/Logger.h> //@todo remove
+#include <Util/Logger.h>
+#include <BWAPI/Player.h>
 
 namespace BWAI
 {
@@ -18,6 +19,10 @@ namespace BWAI
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskInvent::execute()
   {
+    if (BWAI::ai->player->techResearched(this->techType))
+      return true;
+    if (BWAI::ai->player->researchInProgress(this->techType))
+      return false;
     if (this->executors.empty())
       {
         BW::UnitType buildingType = this->techType.whereToInvent();
@@ -29,18 +34,21 @@ namespace BWAI
         for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
           if (i->getType() == buildingType &&
               i->getTask() == NULL)
-           {
             this->addExecutor(i);
-            break;
-           }
       }
     if (this->executors.empty())
       return false;
-    if (!this->executors.front()->isReady() ||
-        this->executors.front()->getOrderID() != BW::OrderID::Nothing2)
-      return false;
-    this->executors.front()->invent(this->techType);
-    return true;
+    for (std::list<Unit*>::iterator i = this->executors.begin();
+         i != this->executors.end();
+         ++i)
+      if ((*i)->isReady() &&
+          (*i)->getOrderID() == BW::OrderID::Nothing2 &&
+          (*i)->getOwner()->canAfford(this->techType))
+      {
+        this->executors.front()->invent(this->techType);
+        break;
+      }
+    return false;
   }
   //-------------------------------- GET TYPE ---------------------------------
   TaskType::Enum TaskInvent::getType()
