@@ -16,6 +16,7 @@
 #include <BWAPI/Command.h>
 #include <BWAPI/CommandCancelTrain.h>
 #include <BWAPI/Map.h>
+#include <BWAPI/ScreenLogger.h>
 
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
@@ -305,8 +306,28 @@ namespace BWAPI
         }
         else this->print(std::string("Unknown value '" + rest + "' - possible values are: playerID, researchState").c_str());
         return true;
-      }      
-      
+      }
+    
+    prefix = "/log ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "shut")
+        {
+          ScreenLogger::shut = true;
+          this->print("Screen log shutted");
+        }
+        else if (rest == "unshut")
+        {
+          ScreenLogger::shut = false;
+          this->print("Screen log unshutted");
+        }
+        else 
+          this->print(std::string("Unknown log command '" + rest + "' - possible values are: shut, unshut").c_str());
+        return true;
+      }
+    
     return false;
   }
   //------------------------------ ON GAME END ----------------------------------
