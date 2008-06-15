@@ -296,12 +296,14 @@ namespace BWAPI
           else
           {
             if (this->BWAPIPlayer->researchInProgress(tech))
-              this->print(std::string("Tech '" + rest + "' research is in progress").c_str());
+              this->print(std::string("Tech '" + rest + "''s research is in progress.").c_str());
+            else if (this->BWAPIPlayer->techResearched(tech))
+              this->print(std::string("Tech '" + rest + "' is researched.").c_str());
             else
-              this->print(std::string("Tech '" + rest + "' research is no in progress").c_str());
+              this->print(std::string("Tech '" + rest + "' is not researched.").c_str());
           }
         }
-        else this->print(std::string("Unknown value '" + rest + "' - possible values are: playerID").c_str());
+        else this->print(std::string("Unknown value '" + rest + "' - possible values are: playerID, researchState").c_str());
         return true;
       }      
       

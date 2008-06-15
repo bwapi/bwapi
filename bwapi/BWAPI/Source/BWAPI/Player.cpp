@@ -146,4 +146,12 @@ namespace BWAPI
     return techs->getBit(1 << tech.getID());
   }
   //---------------------------------------------------------------------------
+  bool Player::techResearched(BW::TechType tech) const
+  {
+   if (tech.getID() < 0x18)
+     return *((u8*)(0x0058CF2C + this->getID()*0x18 + tech.getID())) == 1;
+   else
+     return *((u8*)(0x0058F128 + this->getID()*0x14 + tech.getID() - 0x18)) == 1;
+  }
+  //---------------------------------------------------------------------------
 };
