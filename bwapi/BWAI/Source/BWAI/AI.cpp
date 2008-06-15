@@ -452,6 +452,25 @@ namespace BWAI
     dead->expansion = NULL;
     this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
    }
+  //--------------------------------- ON SEND TEXT ----------------------------
+  bool AI::onSendText(const char* text)
+  {
+    std::string message = text;
+    std::string prefix = "/save ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "fog")
+        {
+          this->map->saveFogOfWarMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\fog-of-war.txt", this->player->getID());
+          BWAPI::Broodwar.print("fog of war saved to fo 'fog-of-war.txt'");
+        }
+        else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: fog-of-war").c_str());
+        return true;
+      }
+    return false;
+  }
   //------------------------------ CHECK NEW EXPANSION ------------------------
   void AI::checkNewExpansions()
   {

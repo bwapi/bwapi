@@ -327,7 +327,6 @@ namespace BWAPI
           this->print(std::string("Unknown log command '" + rest + "' - possible values are: shut, unshut").c_str());
         return true;
       }
-    
     return false;
   }
   //------------------------------ ON GAME END ----------------------------------

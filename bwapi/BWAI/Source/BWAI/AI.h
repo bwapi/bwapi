@@ -56,6 +56,7 @@ namespace BWAI
       void onFrame();
       void onCancelTrain();
       void onRemoveUnit(BW::Unit* unit);
+      bool onSendText(const char* text);
 
       std::list<Expansion*> expansions;
       Unit* getUnit(int index);

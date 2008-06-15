@@ -8,15 +8,23 @@
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
 
+#include "../../../BWAI/Source/BWAI/Globals.h"
+
 namespace BWAPI
 {
   //----------------------------- CONSTRUCTOR -------------------------------
   Map::Map()
   :buildability(Map::getWidth()  , Map::getHeight()  )
   ,walkability (Map::getWidth()*4, Map::getHeight()*4)
+  ,fogOfWar(new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWXFN_MapFogOfWar))
   {
    this->setBuildability();
    this->setWalkability();
+  }
+  //------------------------------ DESTRUCTOR -------------------------------
+  Map::~Map()
+  {
+    delete fogOfWar;
   }
   //------------------------------- GET TILE --------------------------------
   BW::TileID Map::getTile(int x, int y)
@@ -59,7 +67,7 @@ namespace BWAPI
     Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);             
   }
-   //------------------------------- SAVE WALKABILITY MAP --------------------
+  //------------------------------- SAVE WALKABILITY MAP --------------------
   void Map::saveWalkabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
@@ -79,6 +87,30 @@ namespace BWAPI
     
     Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);             
+  }
+  //------------------------------- SAVE WALKABILITY MAP --------------------
+  void Map::saveFogOfWarMap(const std::string& fileName, u8 playerID)
+  {
+    FILE* f = fopen(fileName.c_str(),"wt");
+    if (!f)
+      throw FileException("Couldn't save the fog of war map to '" + fileName + "'");
+    fprintf(f, "Fog of war map for currently opened map\n");
+    fprintf(f, "Map file: %s\n", Map::getFileName());
+    fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
+    fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
+    fprintf(f, "X = not visible\n");
+    fprintf(f, ". = visible\n");
+    
+    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->fogOfWar->getWidth(), this->fogOfWar->getHeight());
+    for (unsigned int x = 0; x < this->fogOfWar->getWidth(); x++)
+      for (unsigned int y = 0; y < this->fogOfWar->getHeight(); y++)
+        {
+          u32 value =  (*this->fogOfWar)[y][x];
+          result[x][y] = (value & (1<<playerID)) ? '.' : 'X';
+        }
+    
+    Util::Strings::makeBorder(result).printToFile(f); 
+    fclose(f);
   }
   //----------------------------------- GET FILE NAME -------------------------
   char* Map::getFileName(void)

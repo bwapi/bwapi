@@ -16,7 +16,7 @@ namespace Util
         * @param width Width of the new array.
         * @param height Height of the new array.
         */
-       RectangleArray(unsigned int width = 1, unsigned int height = 1);
+       RectangleArray(unsigned int width = 1, unsigned int height = 1, Type* data = NULL);
        /** Copy constructor */
        RectangleArray(const RectangleArray<Type>& rectangleArray);
        /** Destorys the array and deletes all content of array. */
@@ -55,6 +55,7 @@ namespace Util
        void setTo(const Type& value);
        void setBorderTo(const Type& value);
      private :
+       bool owner;
        /** width of array */
        unsigned int width;
        /** height of array */
@@ -93,20 +94,25 @@ namespace Util
    };
   //-------------------------------- CONSTRUCTOR ---------------------------------
   template <class Type>
-  RectangleArray<Type>::RectangleArray(unsigned int width, unsigned int height)
+  RectangleArray<Type>::RectangleArray(unsigned int width, unsigned int height, Type* data)
   {
     this->setWidth(width);
     this->setHeight(height);
-    this->data = new Type[this->getWidth()*this->getHeight()];
+    this->owner = (data == NULL);
+    if (this->owner)
+      this->data = new Type[this->getWidth()*this->getHeight()];
+    else
+      this->data = data;
 
     columns = new Type*[this->getWidth()];
     unsigned int i = 0;
     for (unsigned int position = 0;i < width; i ++,position += height)
-      columns[i] = &data[position];
+      columns[i] = &this->data[position];
   }
   //-------------------------------- CONSTRUCTOR ---------------------------------
   template <class Type>
   RectangleArray<Type>::RectangleArray(const RectangleArray<Type>& rectangleArray)
+  :owner(true)
   {
     this->setWidth(rectangleArray.getWidth());
     this->setHeight(rectangleArray.getHeight());
@@ -123,7 +129,8 @@ namespace Util
   RectangleArray<Type>::~RectangleArray(void)
   {
      delete [] columns;
-     delete [] data;
+     if (this->owner)
+       delete [] data;
   }
   //-------------------------------- GET WIDTH -----------------------------------
   template <class Type>
@@ -177,6 +184,8 @@ namespace Util
   template <class Type>
   void RectangleArray<Type>::resize(unsigned int width, unsigned int height)
   {
+    if (!this->owner)
+      throw GeneralException("Can't resize array that doesn't own the data");
     if (this->getWidth() == width &&
         this->getHeight() == height)
       return;

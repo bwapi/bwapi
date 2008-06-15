@@ -163,6 +163,8 @@ void __declspec(naked) onSendText()
   sendToBW = true;
   sendToBW &= !BWAPI::Broodwar.onSendText(text);
   if (sendToBW)
+    sendToBW &= !BWAI::ai->onSendText(text);
+  if (sendToBW)
     __asm
     {
       mov eax, eaxSave
