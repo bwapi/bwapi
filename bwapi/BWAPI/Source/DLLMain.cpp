@@ -25,6 +25,7 @@ DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 DWORD removedUnit;
 bool launchedStart = false;
+DWORD eaxSave,ebxSave,ecxSave,edxSave,esiSave,ediSave, espSave, ebpSave;
 //----------------------------- ON COMMAND ORDER ------------------------------
 void __declspec(naked) onRemoveUnit()
 {
@@ -141,6 +142,45 @@ void __declspec(naked)  nextFrameHook()
     jmp [BW::BWXFN_NextLogicFrameBack]
   }
 }
+
+//------------------------------ SEND TEXT HOOK -------------------------------
+char* text;
+bool sendToBW;
+void __declspec(naked) onSendText()
+{
+ __asm
+  {
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+    mov ebpSave, ebp
+    mov text, edx;
+  }
+  sendToBW = true;
+  sendToBW &= !BWAPI::Broodwar.onSendText(text);
+  if (sendToBW)
+    __asm
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+      call [BW::BWXFN_SendPublicCallTarget]
+      jmp [BW::BWXFN_SendPublicCallBack]
+      }
+  __asm
+  {
+    jmp [BW::BWXFN_SendPublicCallBack]
+  }
+}
 //----------------------------- JMP PATCH --------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)
@@ -178,6 +218,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);
   JmpCallPatch(onCancelTrainByEscape, BW::BWXFN_CancelTrainByEscape, 0);
   JmpCallPatch(onRemoveUnit, BW::BWXFN_RemoveUnit, 0);
+  JmpCallPatch(onSendText, BW::BWXFN_SendPublicCall, 0);
 
   
  /* for ever

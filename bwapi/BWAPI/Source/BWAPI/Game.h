@@ -40,7 +40,7 @@ namespace BWAPI
        */
       static void print(const char *text);
       /** Doesn't work now */
-      void printPublic(char *text) const;
+      void printPublic(const char *text) const;
       bool isOnStartCalled() const;
       void setOnStartCalled(bool onStartCalled);
       bool isInGame() const;
@@ -66,6 +66,7 @@ namespace BWAPI
       void onGameStart();
       void onGameEnd();
       void onCancelTrain();
+      bool onSendText(const char* text);
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
@@ -104,6 +105,7 @@ namespace BWAPI
       /** Every tile will have pointers to units touching it. */
       Util::RectangleArray<std::list<Unit*> > unitsOnTile;
       std::map<std::string, BW::TechType> techNameToType;
+      bool enabled;      
    private :
 	     bool onStartCalled;
       BW::UnitArray* unitArrayCopy;

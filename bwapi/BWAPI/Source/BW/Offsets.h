@@ -85,7 +85,11 @@ namespace BW
   static u32*          BWFXN_InGame = (u32*) 0x6556C8;
   static u32           BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
   static u32           BWXFN_PrintText = 0x48CE60;
-  static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
+  //static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
+  static u32           BWXFN_PrintPublicText = 0x004C2090;
+  static u32           BWXFN_SendPublicCall = 0x004F2EF7;
+  static u32           BWXFN_SendPublicCallBack = BWXFN_SendPublicCall + 5;
+  static u32           BWXFN_SendPublicCallTarget = 0x004C2090;
   //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
   static Unit*         BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;
   static u32           BWXFN_GameStart = 0x004C96A1;

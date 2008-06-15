@@ -35,6 +35,7 @@ namespace BWAPI
   :onStartCalled(false)
   ,unitsOnTile(0,0)
   ,quietSelect(true)
+  ,enabled(true)
   {
     try
     {
@@ -100,6 +101,8 @@ namespace BWAPI
   //---------------------------------- UPDATE -----------------------------------
   void Game::update()
   {
+    if (!this->enabled)
+      return;
     if (!this->isOnStartCalled())
       this->onGameStart();
     memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
@@ -143,7 +146,7 @@ namespace BWAPI
             i->getType().canProduce())
           this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
       }
-    
+    //this->printPublic("Print public test");
   }
   //---------------------------------------------------------------------------
   bool Game::isOnStartCalled() const
@@ -165,14 +168,25 @@ namespace BWAPI
   //----------------------------------- PRINT ---------------------------------
   void Game::print(const char *text)
   {
+   
    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	 	sendText(text);
   }
   //---------------------------------------------------------------------------
-  void Game::printPublic(char *text) const
+  void Game::printPublic(const char *text) const
   {
-   void (_stdcall* sendText)(char *) = (void (_stdcall*) (char *))BW::BWXFN_PrintPublicText;
-	 	sendText(text);
+   /*void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintPublicText;
+	 	sendText(text);*/
+	 	__asm
+	 	{
+	 	  mov eax, 0
+	 	  mov ecx, 0
+	 	  mov edx, text
+	 	  mov esi, text
+	 	 // mov ebx, 0x0012FAD8
+	 	 // mov esp, 0x0012F9B8
+	 	  call [BW::BWXFN_PrintPublicText]
+	 	}
   }
   #pragma warning(pop)
   //------------------------------- CHANGE SLOT -------------------------------
@@ -218,6 +232,31 @@ namespace BWAPI
       if (tech.isValid())
         this->commandLog->log("%s %d minerals %d gas", tech.getName(), tech.getMineralPrice(), tech.getGasPrice());
    }
+  }
+  //------------------------------ ON SEND TEXT ---------------------------------
+  bool Game::onSendText(const char* text)
+  {
+    std::string message = text;
+    std::string prefix = "/bwapi ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "on")
+        {
+          this->enabled = true;
+          this->print("bwapi enabled");
+        }
+        else if (rest == "off")
+        {
+          this->enabled = false;
+          this->print("bwapi disabled");
+        }
+        else this->print(std::string("Unknown command '" + rest + "' - possible commands are: on, off").c_str());
+        return true;
+      }
+    else
+      return false;
   }
   //------------------------------ ON GAME END ----------------------------------
   void Game::onGameEnd()
