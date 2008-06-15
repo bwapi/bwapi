@@ -131,6 +131,9 @@
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="44" y="11"/>
         </build-position>
+        <build-position name="second-expansion-addon" width="2" height="2">
+          <position x="12" y="64"/>
+        </build-position>    
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="7 oclock">
@@ -222,6 +225,9 @@
         </build-position>
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="14" y="97"/>
+        </build-position>
+        <build-position name="second-expansion-addon" width="2" height="2">
+          <position x="95" y="106"/>
         </build-position>
       </standard-building-placement>
     </starting-position>
@@ -316,6 +322,9 @@
         <build-position name="turret-entrance-expansion" width="2" height="2">
           <position x="108" y="77"/>
         </build-position>  
+        <build-position name="second-expansion-addon" width="2" height="2">
+          <position x="83" y="7"/>
+        </build-position>
       </standard-building-placement>
     </starting-position>
   </starting-positions>
