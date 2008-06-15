@@ -381,34 +381,34 @@ namespace BWAPI
   std::string Unit::getName() const
   {
     
-    sprintf(position, "Position = (%4u,%4u)", this->getPosition().x, 
+    sprintf(position, "Position = (%u,%u)", this->getPosition().x, 
                                               this->getPosition().y);
       
   
-    sprintf(indexName, "[%4d]", this->getIndex());
+    sprintf(indexName, "[%d]", this->getIndex());
    
     if (this->getTarget() == NULL)
       strcpy(targetIndex, "Target:[NULL]");
     else
-      sprintf(targetIndex, "Target:[%4d](%s)", this->getTarget()->getIndex(), this->getTarget()->getType().getName());
+      sprintf(targetIndex, "Target:[%d](%s)", this->getTarget()->getIndex(), this->getTarget()->getType().getName());
 
     if (this->getOrderTarget() == NULL)
       strcpy(orderTargetIndex, "OrderTarget:[NULL]");
     else
-      sprintf(orderTargetIndex, "OrderTarget:[%4d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
+      sprintf(orderTargetIndex, "OrderTarget:[%d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
   
 
     if (this->getOwner() != NULL)
-      sprintf(owner,"Player = (%10s)",this->getOwner()->getName());
+      sprintf(owner,"Player = (%s)",this->getOwner()->getName());
     else
       sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
      
     if (this->getType().isValid())
-      sprintf(unitName, "(%21s)", this->getType().getName());
+      sprintf(unitName, "(%s)", this->getType().getName());
     else
-      sprintf(unitName, "(unitID = %12u)", this->getType().getID());
+      sprintf(unitName, "(unitID = %u)", this->getType().getID());
   
-    sprintf(orderName,"(%22s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf(orderName,"(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
     sprintf(message,"%s %s %s %s %s %s %10s", unitName,
                                               orderName,
                                               indexName,
