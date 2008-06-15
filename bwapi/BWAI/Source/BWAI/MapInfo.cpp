@@ -13,7 +13,7 @@
 #include "AI.h"
 #include "Globals.h"
 #include "Unit.h"
-#include "BuildingPosition.h"
+#include "BuildingPositionSet.h"
 
 namespace BWAI
 {
@@ -84,20 +84,20 @@ namespace BWAI
          i != this->startingPositions.end();
          ++i)
     {
-      for (std::map<std::string, BuildingPosition*>::iterator l = (*i)->positions.begin();
+      for (std::map<std::string, BuildingPositionSet*>::iterator l = (*i)->positions.begin();
            l != (*i)->positions.end();
            ++l)
       {           
-        BuildingPosition* positions = (*l).second;
-        for (std::list<BW::TilePosition>::iterator j = positions->positions.begin();
+        BuildingPositionSet* positions = (*l).second;
+        for (std::list<BuildingPosition*>::iterator j = positions->positions.begin();
              j != positions->positions.end();
              ++j)
         {
-          Util::Strings::makeWindow(result, (*j).x, (*j).y, positions->tileWidth, positions->tileHeight, 1);
-          Util::Strings::printTo(result, positions->shortcut, (*j).x + 1, (*j).y + 1);
+          Util::Strings::makeWindow(result, (*j)->position.x, (*j)->position.y, positions->tileWidth, positions->tileHeight, 1);
+          Util::Strings::printTo(result, positions->shortcut, (*j)->position.x + 1, (*j)->position.y + 1);
           for (int x = 0; x < positions->tileWidth; x++)
             for (int y = 0; y < positions->tileHeight; y++)
-              counts[x + (*j).x][y + (*j).y]++;
+              counts[x + (*j)->position.x][y + (*j)->position.y]++;
         }
       }
       unsigned int startX = (*i)->expansion->getPosition().x/BW::TILE_SIZE - 2;

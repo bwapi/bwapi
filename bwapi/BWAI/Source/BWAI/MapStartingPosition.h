@@ -8,7 +8,7 @@
 class TiXmlElement;
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapExpansion; }
-namespace BWAI { class BuildingPosition; }
+namespace BWAI { class BuildingPositionSet; }
 
 namespace BWAI
 {
@@ -18,7 +18,7 @@ namespace BWAI
     public :
      MapStartingPosition(TiXmlElement* xmlElement, MapInfo* mapInfo);
      ~MapStartingPosition();
-     std::map<std::string, BuildingPosition*> positions;
+     std::map<std::string, BuildingPositionSet*> positions;
      MapExpansion* expansion;
   };
 }

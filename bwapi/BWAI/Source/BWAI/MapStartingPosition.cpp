@@ -5,7 +5,7 @@
 #include <Util/Exceptions.h>
 
 #include "MapInfo.h"
-#include "BuildingPosition.h"
+#include "BuildingPositionSet.h"
 
 namespace BWAI
 {
@@ -26,13 +26,13 @@ namespace BWAI
       if (nameAttribute == NULL)
         throw XmlException("Expected attribute name in <build-position> element");
       
-      this->positions.insert(std::pair<std::string, BuildingPosition* >(nameAttribute, new BuildingPosition(buildPositionElement)));
+      this->positions.insert(std::pair<std::string, BuildingPositionSet* >(nameAttribute, new BuildingPositionSet(buildPositionElement)));
     }
   }
   //---------------------------------------------------------------------------
   MapStartingPosition::~MapStartingPosition()
   {
-    for (std::map<std::string, BuildingPosition*>::iterator i = this->positions.begin();
+    for (std::map<std::string, BuildingPositionSet*>::iterator i = this->positions.begin();
          i != this->positions.end();
          i++)
      delete (*i).second;

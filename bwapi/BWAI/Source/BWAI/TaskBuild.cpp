@@ -12,22 +12,26 @@
 #include "Unit.h"
 #include "AI.h"
 #include "Globals.h"
-#include "BuildingPosition.h"
+#include "BuildingPositionSet.h"
 
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskBuild::TaskBuild(BW::UnitType buildingType, BW::TilePosition position, Unit* builder, BuildingPosition* alternatives)
+  TaskBuild::TaskBuild(BW::UnitType buildingType, BuildingPosition* position, Unit* builder, BuildingPositionSet* alternatives)
   :Task(builder)
   ,buildingType(buildingType)
   ,position(position)
   ,building(NULL)
   ,alternatives(alternatives)
   {
+    if (position != NULL)
+      position->reserved = true;
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskBuild::~TaskBuild()
   {
+    if (position != NULL)
+      position->reserved = false;
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskBuild::execute()
@@ -40,9 +44,10 @@ namespace BWAI
       return true;
     }
     if (this->executors.empty() &&
-        !this->buildingType.isAddon())
+        !this->buildingType.isAddon() &&
+        this->position != NULL)
     {
-      Unit* builder = ai->freeBuilder(this->position);
+      Unit* builder = ai->freeBuilder(this->position->position);
       if (builder)
         this->addExecutor(builder);
     }
@@ -80,28 +85,33 @@ namespace BWAI
     
     if (!this->executors.empty() && this->building == NULL)
     {
-      if ((!this->position.isValid() ||
-          !this->canIBuild(position)) &&
+      if ((this->position == NULL ||
+          !this->canIBuild(this->position->position)) &&
           !this->buildingType.isAddon())
       {
-        std::list<BW::TilePosition>::iterator i;
+        if (this->position != NULL)
+        {
+          this->position->reserved = false;
+          this->position = NULL;
+        }
+        std::list<BuildingPosition*>::iterator i;
         for (i = alternatives->positions.begin();
              i != alternatives->positions.end();
              ++i)
-          if (!this->position.isValid())
-           this->position = *i;
-          else if (this->canIBuild(*i))
+          if ((*i)->reserved == false &&
+              this->canIBuild((*i)->position))
           {
             this->position = *i;
+            this->position->reserved = true;
             break;
           }
-        if (i == this->alternatives->positions.end())
+        if (this->position == NULL)
           return false;
       }
-      BW::Position center(this->position);
+      BW::Position center(this->position->position);
       center.x += (BW::TILE_SIZE*this->getBuildingType().getTileWidth())/2;
       center.y += (BW::TILE_SIZE*this->getBuildingType().getTileHeight())/2;
-      if (this->position.isValid())
+      if (this->position != NULL)
         // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
         if (this->executors.front()->getDistance(center) > 100 &&
             !this->buildingType.isAddon())
@@ -131,7 +141,7 @@ namespace BWAI
                 this->executors.front()->getOwner()->canAfford(buildingType))
             {
               BWAI::ai->log->log("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
-              this->executors.front()->build(this->position, buildingType);
+              this->executors.front()->build(this->position->position, buildingType);
             }
           }
           else
@@ -141,7 +151,7 @@ namespace BWAI
             {
               BWAI::ai->log->log("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
               BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderIDLocal());
-              this->executors.front()->build(this->position, buildingType);
+              this->executors.front()->build(this->position->position, buildingType);
             }
     }
     return false;
