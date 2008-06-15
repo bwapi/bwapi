@@ -274,6 +274,35 @@ namespace BWAPI
         }
         else this->print(std::string("Unknown command '" + rest + "' - possible commands are: on, off").c_str());
         return true;
+      }
+      
+    prefix = "/get ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "playerID")
+        {
+          char text[100];
+          sprintf(text, "Current player id = %d", this->BWAPIPlayer->getID());
+          this->print(text);
+        }
+        else if (rest.substr(0, strlen("researchState "))  == "researchState ")
+        {
+          rest = rest.substr(strlen("researchState "), rest.size() - strlen("researchState "));
+          BW::TechType tech = this->techNameToType[rest];
+          if (tech == BW::TechID::None)
+            this->print(std::string("Unknown tech name '" + rest + "'").c_str());
+          else
+          {
+            if (this->BWAPIPlayer->researchInProgress(tech))
+              this->print(std::string("Tech '" + rest + "' research is in progress").c_str());
+            else
+              this->print(std::string("Tech '" + rest + "' research is no in progress").c_str());
+          }
+        }
+        else this->print(std::string("Unknown value '" + rest + "' - possible values are: playerID").c_str());
+        return true;
       }      
       
     return false;
