@@ -1,6 +1,7 @@
-/** The level of detail of the log. */
+
 namespace Util
 {
+  /** The level of detail of the log. */
   namespace LogLevel
   {
     enum Enum

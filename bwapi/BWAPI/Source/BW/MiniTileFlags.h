@@ -2,6 +2,7 @@
 
 namespace BW
 {
+  /** Mapping of bit meaning for the MiniTile Flag property.*/
   namespace MiniTileFlags
   {
     enum Enum : u16
