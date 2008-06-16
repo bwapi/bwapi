@@ -4,6 +4,7 @@
 
 namespace Util
 {
+  /** Mutation of logger that prints messages to file. */
   class FileLogger : public Logger
   {
     public :

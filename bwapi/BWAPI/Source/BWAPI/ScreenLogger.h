@@ -4,6 +4,7 @@
 
 namespace BWAPI
 {
+  /** Logger mutation that writes all messges directly to bw screen - works only ingame. */
   class ScreenLogger : public Util::Logger
   {
     public :
