@@ -36,7 +36,7 @@
 
 namespace BWAI
 {
-  //------------------------------- CONSTRUCTOR -------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
@@ -70,7 +70,7 @@ namespace BWAI
       Util::Logger::globalLog->log("Error when loading build order: " + exception.getMessage());
     }
   }
-  //-------------------------------- DESTRUCTOR -------------------------------
+  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   AI::~AI(void)
   {
     delete root;
@@ -89,18 +89,18 @@ namespace BWAI
     delete this->log;
     delete deadLog;
   }
-  //----------------------------- MINERAL VALUE -------------------------------
-  bool mineralValue(BWAI::TaskGather*& task1, BWAI::TaskGather*& task2)
+  //----------------------------------- BETTER MINERAL PATCH FOR ---------------------------------------------
+  bool AI::betterMinralPatch(BWAI::TaskGather* task1, BWAI::TaskGather* task2, Unit* optimiseFor)
   {
     if (task1->executors.size() < task2->executors.size())
       return true;
     if (task1->executors.size() > task2->executors.size())
       return false;
-    if (AI::optimizeMineralFor != NULL &&
+    if (optimiseFor != NULL &&
         task1->getExpansion()->gatherCenter != task2->getExpansion()->gatherCenter)
     {
-      u16 distance1 = AI::optimizeMineralFor->getCenterDistance(task1->getExpansion()->gatherCenter);
-      u16 distance2 = AI::optimizeMineralFor->getCenterDistance(task2->getExpansion()->gatherCenter);
+      u16 distance1 = optimiseFor->getCenterDistance(task1->getExpansion()->gatherCenter);
+      u16 distance2 = optimiseFor->getCenterDistance(task2->getExpansion()->gatherCenter);
       if (distance1 < distance2)
         return true;
       if (distance1 > distance2)
@@ -114,8 +114,8 @@ namespace BWAI
       return false;
     return false;
   }
-  //--------------------------- BETTER WORKER TO FREE -------------------------
-  bool betterWorkerToFree(Unit*& worker1, Unit*& worker2, BW::Position buildingPosition)
+  //--------------------------------------- BETTER WORKER TO FREE --------------------------------------------
+  bool AI::betterWorkerToFree(Unit* worker1, Unit* worker2, const BW::Position& buildingPosition)
   {
     if (worker2 == NULL)
       return true;
@@ -235,8 +235,6 @@ namespace BWAI
       mapInfo->saveDefinedBuildingsMap();
       //this->pathFinding = new PathFinding::Utilities();
       this->pathFinding = NULL;
-
-      /** For testing reasons, there is just one build order now*/
     }
     catch (GeneralException& exception)
     {
@@ -507,7 +505,7 @@ namespace BWAI
   bool AI::performAutoBuild()
   {
     /** 
-     * Just workaround, all buildings started by user will registrate as Task Build
+     * Just workaround, all buildings started by user will register as Task Build
      * Reasons:
      * 1) Finished refinery will then register TaskGatherGas
      * 2) If the scv gets killed it will automaticaly send new one
@@ -651,13 +649,19 @@ namespace BWAI
         countOfTerranFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() &&
         player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < 400)
     {
-      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", countOfTerranFactories, player->getSuppliesFreeLocal(BW::Race::Terran), plannedTerranSupplyGain());
+      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", 
+                     countOfTerranFactories, 
+                     player->getSuppliesFreeLocal(BW::Race::Terran), 
+                     plannedTerranSupplyGain());
       Unit* builderToUse;
       BuildingPosition* spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
       if (spot != NULL)
       {
         this->log->log("Found free spot for supply depot at (%d,%d)", spot->position.x, spot->position.y);
-        this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, spot, builderToUse, this->startingPosition->positions["non-producting-3X2"]));
+        this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, 
+                                                       spot, 
+                                                       builderToUse, 
+                                                       this->startingPosition->positions["non-producting-3X2"]));
       }
     }        
   }
@@ -678,7 +682,7 @@ namespace BWAI
     Unit* best = NULL;
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
       if (i->getOwner() == player && i->getType().isWorker())
-        if (betterWorkerToFree(i, best, position))
+        if (this->betterWorkerToFree(i, best, position))
           best = i;
 
     if (best == NULL)
@@ -732,10 +736,11 @@ namespace BWAI
   //---------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)
   {
-    this->optimizeMineralFor = gatherer;
+    if (this->activeMinerals.empty())
+      return NULL;
     TaskGather* best = activeMinerals.front();
     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      if (mineralValue(*i, best))
+      if (this->betterMinralPatch(*i, best, gatherer))
         best = *i;
     return best;
   }

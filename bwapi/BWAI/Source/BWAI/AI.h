@@ -121,6 +121,21 @@ namespace BWAI
       void removeExpansion(Expansion* expansion);
       void unsaturateGather();
       void removeGatherGasTask(Unit* refinery);
+      /**
+       * Compares two mineral patches suitability for the given worker.
+       * These things are taking into considaration:
+       * -# Number of workers already assigned to the mineral patch.
+       * -# Distance from the gatherer to the gatherCenter
+       * -# Distance from the gatherCenter to mineral patch.
+       * @param task1 TaskGather assigned to the first mineral patch
+       * @param task2 TaskGather assigned to the second mineral patch
+       * @param optimiseFor Define what worker is it regarded to (so the distance can can be taken in to
+       *        account), if NULL conditions that needs to know the gatherer position won't be used.
+       * @returns @c true if the fist mineral patch is better, @c false otherwise. 
+       */
+      bool betterMinralPatch(BWAI::TaskGather* task1, BWAI::TaskGather* task2, Unit* optimiseFor = NULL);
+      /** Compares two workers suitability to be freed from it's task to do something else. */
+      bool betterWorkerToFree(Unit* worker1, Unit* worker2, const BW::Position& buildingPosition);
       Unit* temp;
   };
 }
