@@ -36,8 +36,10 @@ namespace BWAI
   {
     std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
     index = this->data.find(BW::UnitID::Terran_Marine);
-    int lineLength = 10;
+    int lineLength = 9;
     int space = 40;
+    center.x -= (int) sin(angle)*(lineLength/2)*space;
+    center.y -= (int) cos(angle)*(lineLength/2)*space;
     if (index != this->data.end())
     {
       std::list<Target>* list = &(*index).second;
