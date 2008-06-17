@@ -439,9 +439,6 @@ namespace BWAI
       if (dead->expansion != NULL)
         this->removeGatherGasTask(dead);
     }
-    else if (dead->getType().isWorker())
-      if (dead->getTask())
-        dead->getTask()->freeExecutor(dead);
     else if (
               (
                dead->getType() == BW::UnitID::Terran_CommandCenter ||
@@ -451,6 +448,8 @@ namespace BWAI
               dead->expansion != NULL
             )
       this->removeExpansion(dead->expansion);
+    if (dead->getTask() != NULL)
+      dead->freeFromTask();
     dead->lastTrainedUnit = BW::UnitID::None;
     dead->expansion = NULL;
     this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
@@ -542,7 +541,7 @@ namespace BWAI
         Formation* formation = new Formation(task->executors);
         formation->generatePositions(BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
                                                   BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY()),
-                                     angle*3.141/180);
+                                     (float)(angle*(3.141)/180));
         formation->execute();
         delete formation;
       }
