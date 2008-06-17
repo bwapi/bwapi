@@ -32,7 +32,7 @@ namespace BW
   //------------------------------- GET NAME ------------------------------------
   const char* TechType::getName() const
   {
-     return (*BW::BWXFN_StingTable + (*BW::BWXFN_StringTableIndex)[BW::BWXFN_TechLabelIndex[this->getID()]]);
+     return (*BW::BWXFN_StringTable + (*BW::BWXFN_StringTableIndex)[BW::BWXFN_TechLabelIndex[this->getID()]]);
   }
   //------------------------------- GET ID --------------------------------------
   TechID::Enum TechType::getID() const
