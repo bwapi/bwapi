@@ -122,7 +122,7 @@ namespace BW
   static int*          BWXFN_ScreenX = (int*) 0x00628430;
   static int*          BWXFN_ScreenY = (int*) 0x00628458;
   static char*         BWXFN_CurrentMapFileName = (char*) 0x0057FD24;
-  static char**        BWXFN_StingTable = (char**) 0x006D1220;
+  static char**        BWXFN_StringTable = (char**) 0x006D1220;
   static u16*          BWXFN_TechLabelIndex = (u16*) 0x00656288;
   static u16**         BWXFN_StringTableIndex = (u16**) 0x6D1220;
   static u32**         BWXFN_MapFogOfWar = (u32**) 0x006D1248;
