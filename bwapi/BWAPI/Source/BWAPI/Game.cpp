@@ -147,7 +147,6 @@ namespace BWAPI
             i->getType().canProduce())
           this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
       }
-    //this->printPublic("Print public test");
   }
   //---------------------------------------------------------------------------
   bool Game::isOnStartCalled() const
@@ -176,16 +175,12 @@ namespace BWAPI
   //---------------------------------------------------------------------------
   void Game::printPublic(const char *text) const
   {
-   /*void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintPublicText;
-	 	sendText(text);*/
 	 	__asm
 	 	{
 	 	  mov eax, 0
 	 	  mov ecx, 0
 	 	  mov edx, text
 	 	  mov esi, text
-	 	 // mov ebx, 0x0012FAD8
-	 	 // mov esp, 0x0012F9B8
 	 	  call [BW::BWXFN_PrintPublicText]
 	 	}
   }
@@ -327,6 +322,24 @@ namespace BWAPI
           this->print(std::string("Unknown log command '" + rest + "' - possible values are: shut, unshut").c_str());
         return true;
       }
+    prefix = "/save ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "techs")
+        {
+          std::string fileName = this->configuration->getValue("data_path") + "\\techs";
+          Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed);
+          for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
+            if (BW::TechType((BW::TechID::Enum)i).isValid())
+              techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
+          ScreenLogger().log("Techs saved to %s.ini", fileName.c_str());
+        }
+        else 
+          this->print(std::string("Unknown log command '" + rest + "' - possible values are: shut, unshut").c_str());
+        return true;
+      }      
     return false;
   }
   //------------------------------ ON GAME END ----------------------------------
