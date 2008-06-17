@@ -165,6 +165,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\Formation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Globals.h"
 					>
 				</File>
@@ -231,6 +235,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\Formation.h"
+					>
+				</File>
+                <File
 					RelativePath=".\Source\BWAI\Globals.cpp"
 					>
 				</File>
