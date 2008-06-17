@@ -233,8 +233,7 @@ namespace BWAI
         }
       }
       mapInfo->saveDefinedBuildingsMap();
-      //this->pathFinding = new PathFinding::Utilities();
-      this->pathFinding = NULL;
+      this->pathFinding = new PathFinding::Utilities();
     }
     catch (GeneralException& exception)
     {

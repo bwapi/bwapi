@@ -8,7 +8,7 @@ namespace BWAPI
   class ScreenLogger : public Util::Logger
   {
     public :
-      ScreenLogger(Util::LogLevel::Enum logLevel);
+      ScreenLogger(Util::LogLevel::Enum logLevel = Util::LogLevel::Normal);
       static bool shut;
     protected :
       virtual bool flush(const char* data);

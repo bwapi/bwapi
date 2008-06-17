@@ -80,6 +80,7 @@ namespace PathFinding
    {
      public:
        Utilities();
+       ~Utilities();
        bool generatePath(const UnitModel& unit, WalkabilityPosition target);
        /** static help variables. */
      private :
@@ -108,7 +109,8 @@ namespace PathFinding
       /** Quite huge structure that could optimise the path finding, it contains info about placability of
        * unit on every spot.
        */
-      Util::RectangleArray<bool> precomputedPlacebility[BW::UNIT_TYPE_COUNT]; 
+      Util::RectangleArray<bool>* precomputedPlacebility[BW::UNIT_TYPE_COUNT]; 
+      std::map<u32, Util::RectangleArray<bool>*> precomputedPlacebilityContent; 
       bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type);
    };
 }

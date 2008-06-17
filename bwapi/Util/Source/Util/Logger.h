@@ -57,6 +57,8 @@ namespace Util
       bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, LogLevel::Enum logLevel = LogLevel::Normal);
       template <class T1, class T2, class T3, class T4>
       bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, const T4& parameter4, LogLevel::Enum logLevel = LogLevel::Normal);
+      template <class T1, class T2, class T3, class T4, class T5>
+      bool log(const std::string& message, const T1& parameter1, const T2& parameter2, const T3& parameter3, const T4& parameter4, const T5& parameter5, LogLevel::Enum logLevel = LogLevel::Normal);
       void setFileName(const std::string& name);
       void registerLogger(Logger* logger);
     private :
@@ -147,6 +149,27 @@ namespace Util
     if (globalLog != NULL &&
         this != globalLog)
       globalLog->log(message, parameter1, parameter2, parameter3, parameter4, logLevel);
+    return true;
+  }  
+  //------------------------------- LOG -----------------------------------------
+  template <class T1, class T2, class T3, class T4, class T5>
+  bool Logger::log(const std::string&   message, 
+                   const T1&            parameter1, 
+                   const T2&            parameter2, 
+                   const T3&            parameter3, 
+                   const T4&            parameter4,
+                   const T5&            parameter5,
+                         LogLevel::Enum logLevel)
+  {
+    if (levelToLog > this->levelToLog)
+      return true;
+
+    _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2, parameter3, parameter4, parameter5);
+    this->flushInternal(buffer);
+
+    if (globalLog != NULL &&
+        this != globalLog)
+      globalLog->log(message, parameter1, parameter2, parameter3, parameter4, parameter5, logLevel);
     return true;
   }  
 };

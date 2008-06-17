@@ -200,6 +200,20 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Addon);
   }
+  //----------------------------------------------------------------------------      
+  bool UnitType::isFlayer() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Flyer);
+  }  
+  //----------------------------------------------------------------------------      
+  bool UnitType::isNeutral() const
+  {
+    return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
+  }  
+  //----------------------------------------------------------------------------      
+  bool UnitType::isNeutralAccesories() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
+  }
   //----------------------------------------------------------------------------    
-
-};
+}
