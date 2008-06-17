@@ -21,7 +21,7 @@ namespace Util
         throw XmlException(std::string("Expected attribute '") + name + "' in <" + std::string(element->ValueTStr().c_str()) + "> element");
   
     u16 result;
-    if(sscanf(attribute, "%d", &result) == EOF)
+    if(sscanf(attribute, "%u", &result) == EOF)
       throw XmlException((std::string)"attribute '" + name + "' in <" + std::string(element->ValueTStr().c_str()) + "> element is not numeric but '" + attribute + "'");
     return result;      
   }
