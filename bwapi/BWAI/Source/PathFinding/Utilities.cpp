@@ -3,15 +3,17 @@
 #include <Util/RectangleArray.h>
 #include <Util/Strings.h>
 #include <Util/Logger.h>
+
 #include <BWAI/Unit.h>
 #include <BWAI/Globals.h>
-#include <BWAI/ai.h>
+#include <BWAI/AI.h>
 #include <BWAPI/Map.h>
+#include <BWAPI/ScreenLogger.h>
 
 
 namespace PathFinding
 {
-  //------------------------------------- CONSTRUCTOR ----------------------------------------------
+  //------------------------------------------ CONSTRUCTOR ---------------------------------------------------
   Utilities::Utilities()
   :world      (BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
   ,walkability(BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
@@ -41,29 +43,56 @@ namespace PathFinding
     for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
     {
       BW::UnitType type((BW::UnitID::Enum)i);
-      //if (type == BW::UnitID::Terran_SCV)
+      if (type.isBuilding() ||
+          type.isFlayer() ||
+          type.isNeutral())
+        {
+          this->precomputedPlacebility[i] = NULL;
+          continue;
+        }
+      int borderLeft   = (type.dimensionLeft()  + 7)/8;
+      int borderRight  = (type.dimensionRight() + 7)/8;
+      int borderTop    = (type.dimensionUp()    + 7)/8;
+      int borderBottom = (type.dimensionDown()  + 7)/8;
+      u32 dimensions = borderLeft          + 
+                       (borderRight  << 8 ) +
+                       (borderTop    << 16) +
+                       (borderBottom << 24);
+      std::map<u32, Util::RectangleArray<bool>*>::iterator value = this->precomputedPlacebilityContent.find(dimensions);
+      if (value != this->precomputedPlacebilityContent.end())
+        this->precomputedPlacebility[i] = (*value).second;
+      else
       {
-        precomputedPlacebility[i].resize(BWAPI::Map::getWidth()*4  + 2, 
-                                         BWAPI::Map::getHeight()*4 + 2);
-        precomputedPlacebility[i].setTo(false);  
-        int borderLeft   = (type.dimensionLeft()  + 7)/8;
-        int borderRight  = (type.dimensionRight() + 7)/8;
-        int borderTop    = (type.dimensionUp()    + 7)/8;
-        int borderBottom = (type.dimensionDown()  + 7)/8;
+        this->precomputedPlacebility[i] = new Util::RectangleArray<bool>(BWAPI::Map::getWidth()*4  + 2, 
+                                                                         BWAPI::Map::getHeight()*4 + 2);
+        this->precomputedPlacebilityContent.insert(std::pair<u32, Util::RectangleArray<bool>*>
+                                                            (dimensions, this->precomputedPlacebility[i]));
+        BWAI::ai->log->log("Initilising for unit %22s with dimensions %2d %2d %2d %2d", type.getName(), borderLeft, borderRight, borderTop, borderBottom);
+        BWAI::ai->log->log("is neutral = %d", type.isNeutral());
+        precomputedPlacebility[i]->setTo(false);  
         WalkabilityPosition here;
-        for (unsigned int x = borderLeft; x < precomputedPlacebility[i].getWidth() - borderRight; x++)
+        for (unsigned int x = borderLeft; x < precomputedPlacebility[i]->getWidth() - borderRight; x++)
         {
           here.x = x;
-          for (unsigned int y = borderTop; y < precomputedPlacebility[i].getHeight() - borderBottom; y++)
+          for (unsigned int y = borderTop; y < precomputedPlacebility[i]->getHeight() - borderBottom; y++)
           {
             here.y = y;
-            precomputedPlacebility[i][x][y] = !Utilities::conflictsWithMap(here, type);
+            (*precomputedPlacebility[i])[x][y] = !Utilities::conflictsWithMap(here, type);
           }
         }
       }
     }
+    BWAPI::ScreenLogger().log("Initialised %u walkability arrays", this->precomputedPlacebilityContent.size());
   }
-  //--------------------------------- CONFLICTS WITH MAP -------------------------------------------
+  //--------------------------------------- UTILITIES --------------------------------------------------------
+  Utilities::~Utilities()
+  {
+   for (std::map<u32, Util::RectangleArray<bool>*>::iterator i  = this->precomputedPlacebilityContent.begin();
+        i != this->precomputedPlacebilityContent.end();
+        ++i)
+     delete (*i).second;
+  }
+  //-------------------------------------- CONFLICTS WITH MAP ------------------------------------------------
   bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type)
   {
     int x1 = position.x - (type.dimensionLeft() + 7)/8;
@@ -114,7 +143,7 @@ namespace PathFinding
     WalkabilityPosition next;
     u16 newDistancePared, newDistanceAngledPared;
     u16 newDistance, newDistanceAngled;
-    Util::RectangleArray<bool>* canStay = &this->precomputedPlacebility[unit.original->getType().getID()];
+    Util::RectangleArray<bool>* canStay = this->precomputedPlacebility[unit.original->getType().getID()];
     u16 position = 0;
     u16 distance = 0;
     

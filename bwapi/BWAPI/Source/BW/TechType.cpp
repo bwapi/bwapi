@@ -1,6 +1,6 @@
 #include "TechType.h"
 
-#include <BW/Offsets.h>
+#include "Offsets.h"
 
 namespace BW
 {
