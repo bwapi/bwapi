@@ -83,6 +83,7 @@ namespace PathFinding
        ~Utilities();
        bool generatePath(const UnitModel& unit, WalkabilityPosition target);
        /** static help variables. */
+       bool canStay(const BW::UnitType& type, const WalkabilityPosition& position) const;
      private :
        static const u16 STRAIGHT_SPOT_DIRECTION = 8;
        static const u16 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)

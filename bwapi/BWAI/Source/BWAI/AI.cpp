@@ -27,12 +27,14 @@
 #include "TaskGather.h"
 #include "TaskBuild.h"
 #include "TaskInvent.h"
+#include "TaskFight.h"
 #include "Unit.h"
 #include "Expansion.h"
 #include "MapInfo.h"
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
 #include "BuildingPositionSet.h"
+#include "Formation.h"
 
 namespace BWAI
 {
@@ -276,6 +278,10 @@ namespace BWAI
       delete *i;
     this->activeRefineries.clear();
     
+    for (std::list<TaskFight*>::iterator i = this->fightGroups.begin(); i != this->fightGroups.end(); ++i)
+      delete *i;
+    this->fightGroups.clear();
+    
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       this->units[i]->clearTask();
@@ -463,8 +469,82 @@ namespace BWAI
           this->map->saveFogOfWarMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\fog-of-war.txt", this->player->getID());
           BWAPI::Broodwar.print("fog of war saved to fo 'fog-of-war.txt'");
         }
-        else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: fog-of-war").c_str());
+        else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: fog").c_str());
         return true;
+      }
+    prefix = "/fight ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest == "add")
+        {
+          if (this->fightGroups.empty())
+            this->fightGroups.push_back(new TaskFight());
+          TaskFight* task = this->fightGroups.front();
+          BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
+          for (int i = 0; selected[i] != NULL; i++)
+            {
+              Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
+              unit->freeFromTask();
+              task->addExecutor(unit);
+            }
+        }
+        else if (rest == "add all")
+        {
+          if (this->fightGroups.empty())
+            this->fightGroups.push_back(new TaskFight());
+          TaskFight* task = this->fightGroups.front();
+          for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+            if (i->getType() == BW::UnitID::Terran_Marine &&
+                i->getTask() == NULL)
+              task->addExecutor(i);
+        }
+        else if (rest == "remove")
+        {
+          if (this->fightGroups.empty())
+            return true;
+
+          BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
+          for (int i = 0; selected[i] != NULL; i++)
+            {
+              Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
+              unit->freeFromTask();
+            }
+        }
+        else if (rest == "remove all")
+        {
+          if (this->fightGroups.empty())
+            return true;
+         
+          TaskFight* task = this->fightGroups.front();
+          delete task;
+          this->fightGroups.erase(this->fightGroups.begin());
+        }
+        else 
+          BWAPI::Broodwar.print(std::string("Unknown add command '" + rest + "' - possible values are: add, add all, remove, remove all").c_str());
+        return true;
+      } 
+    prefix = "/formation ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0, prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        u16 angle;
+        if (sscanf(rest.c_str(), "%u", &angle) == EOF)
+        {
+          BWAPI::Broodwar.print(std::string("Invalid angle '" + rest + "'").c_str());
+          true;
+        }
+        if (this->fightGroups.empty())
+          return true;        
+        TaskFight* task = this->fightGroups.front();
+        Formation* formation = new Formation(task->executors);
+        formation->generatePositions(BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
+                                                  BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY()),
+                                     angle*3.141/180);
+        formation->execute();
+        delete formation;
       }
     return false;
   }

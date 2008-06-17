@@ -263,6 +263,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\Formation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Globals.cpp"
 					>
 				</File>
@@ -324,6 +328,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\Expansion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\Formation.cpp"
 					>
 				</File>
 				<File
