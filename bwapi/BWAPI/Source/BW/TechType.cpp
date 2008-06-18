@@ -71,6 +71,7 @@ namespace BW
     {
       case BW::TechID::Stimpacks          : return BW::UnitID::Terran_Academy;
       case BW::TechID::OpticalFlare       : return BW::UnitID::Terran_Academy;
+      case BW::TechID::Restoration        : return BW::UnitID::Terran_Academy;
       case BW::TechID::Lockdown           : return BW::UnitID::Terran_CovertOps;
       case BW::TechID::PersonnelCloaking  : return BW::UnitID::Terran_CovertOps;
       case BW::TechID::EMPShockwave       : return BW::UnitID::Terran_ScienceFacility;
