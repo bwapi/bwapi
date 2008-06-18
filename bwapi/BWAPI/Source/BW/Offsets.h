@@ -19,14 +19,15 @@
  */
 namespace BW
 {
-  static const u8  PLAYER_COUNT    =  12;
-  static const u8  RACE_COUNT      =   3;
-  static const u8  UNIT_TYPE_COUNT = 228;
-  static const u8  TECH_TYPE_COUNT =  44;
-  static const u16 SUPPLY_LIMIT    = 400; /**< We could read this value from memory as it is stored in 
-                                           * #Supplies#Max, but as it is always constant for every race for 
-                                           * every player, I prefer using this constant. */
-  static const int TILE_SIZE       =  32;
+  static const u8  PLAYER_COUNT       =  12;
+  static const u8  RACE_COUNT         =   3;
+  static const u8  UNIT_TYPE_COUNT    = 228;
+  static const u8  TECH_TYPE_COUNT    =  44;
+  static const u8  UPGRADE_TYPE_COUNT =  66;
+  static const u16 SUPPLY_LIMIT       = 400; /**< We could read this value from memory as it is stored in 
+                                              * #Supplies#Max, but as it is always constant for every race for 
+                                              * every player, I prefer using this constant. */
+  static const int TILE_SIZE          =  32;
  
   struct Unit;
   struct UnitArray;
@@ -124,6 +125,7 @@ namespace BW
   static char*         BWXFN_CurrentMapFileName = (char*) 0x0057FD24;
   static char**        BWXFN_StringTable = (char**) 0x006D1220;
   static u16*          BWXFN_TechLabelIndex = (u16*) 0x00656288;
+  static u16*          BWXFN_UpgradeLabelIndex = (u16*) 0x00655A28;
   static u16**         BWXFN_StringTableIndex = (u16**) 0x6D1220;
   static u32**         BWXFN_MapFogOfWar = (u32**) 0x006D1248;
 

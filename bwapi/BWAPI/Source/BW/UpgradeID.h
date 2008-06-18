@@ -1,3 +1,5 @@
+#include <Util/Types.h>
+
 namespace BW
 {
   /**
@@ -25,7 +27,7 @@ namespace BW
       ProtossGroundWeapons  = 0x0D,
       ProtossAirWeapons     = 0x0E,
       ProtossPlasmaShields  = 0x0F,
-      U-238Shells           = 0x10,
+      U_238Shells           = 0x10,
       IonThrusters          = 0x11,
       BurstLasers           = 0x12, // (Unused)
       TitanReactor          = 0x13, // (SV +50)
