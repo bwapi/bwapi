@@ -139,5 +139,9 @@ namespace BWAI
       /** Compares two workers suitability to be freed from it's task to do something else. */
       bool betterWorkerToFree(Unit* worker1, Unit* worker2, const BW::Position& buildingPosition);
       Unit* temp;
+      
+      bool cycle;
+      BW::Position cyclePosition;
+      float cycleAngle;
   };
 }

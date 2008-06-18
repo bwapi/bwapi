@@ -344,6 +344,16 @@ namespace BWAI
     this->rebalanceMiners();
     this->checkAssignedWorkers();
     this->executeTasks();
+    
+    if (this->cycle && !this->fightGroups.empty())
+    {
+      TaskFight* task = this->fightGroups.front();
+      Formation* formation = new Formation(task->executors);
+      formation->generatePositions(cyclePosition, cycleAngle);
+      formation->execute();
+      delete formation;
+      cycleAngle += (float)0.01;
+    } 
     BWAPI::Broodwar.loadSelected(selected);
     
   }
@@ -529,21 +539,32 @@ namespace BWAI
        message.substr(0, prefix.size()) == prefix)
       {
         std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        u16 angle;
-        if (sscanf(rest.c_str(), "%u", &angle) == EOF)
+        BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
+                                             BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
+        if (rest == "cycle")
         {
-          BWAPI::Broodwar.print(std::string("Invalid angle '" + rest + "'").c_str());
-          true;
+          this->cyclePosition = position;
+          this->cycleAngle = 0;
+          cycle = true;
         }
-        if (this->fightGroups.empty())
-          return true;        
-        TaskFight* task = this->fightGroups.front();
-        Formation* formation = new Formation(task->executors);
-        formation->generatePositions(BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
-                                                  BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY()),
-                                     (float)(angle*(3.141)/180));
-        formation->execute();
-        delete formation;
+        else if (rest == "uncycle")
+          cycle = false;
+        else
+        {
+          u16 angle;
+          if (sscanf(rest.c_str(), "%u", &angle) == EOF)
+          {
+            BWAPI::Broodwar.print(std::string("Invalid angle '" + rest + "'").c_str());
+            true;
+          }
+          if (this->fightGroups.empty())
+            return true;        
+          TaskFight* task = this->fightGroups.front();
+          Formation* formation = new Formation(task->executors);
+          formation->generatePositions(position, (float)(angle*(3.141)/180));
+          formation->execute();
+          delete formation;
+        }
       }
     return false;
   }
