@@ -38,16 +38,16 @@ namespace BWAI
     index = this->data.find(BW::UnitID::Terran_Marine);
     int lineLength = 9;
     int space = 40;
-    center.x -= (int) sin(angle)*(lineLength/2)*space;
-    center.y -= (int) cos(angle)*(lineLength/2)*space;
+    center.x -= (int) (sin(angle)*(lineLength/2)*space);
+    center.y -= (int) (cos(angle)*(lineLength/2)*space);
     if (index != this->data.end())
     {
       std::list<Target>* list = &(*index).second;
       int index = 0, verticalIndex = 0;
       for (std::list<Target>::iterator i = list->begin(); i != list->end(); index++)
       {
-        BW::Position target = BW::Position(center.x + (int)(sin(angle)*index*space + cos(angle)*verticalIndex*space),
-                                           center.y + (int)(cos(angle)*index*space + sin(angle)*verticalIndex*space));
+        BW::Position target = BW::Position(center.x + (int)((sin(angle)*index*space + sin(angle - 3.14159/2)*verticalIndex*space)),
+                                           center.y + (int)((cos(angle)*index*space + cos(angle - 3.14159/2)*verticalIndex*space)));
         if (BWAI::ai->pathFinding->canStay((*i).unit->getType(), target))
         {
           (*i).target = target;
