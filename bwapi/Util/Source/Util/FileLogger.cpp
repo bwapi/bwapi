@@ -3,9 +3,10 @@
 namespace Util
 {
   //------------------------------------------- CONSTRUCTOR --------------------------------------------------
-  FileLogger::FileLogger(const std::string& fileName, Util::LogLevel::Enum logLevel)
+  FileLogger::FileLogger(const std::string& fileName, Util::LogLevel::Enum logLevel, bool showTime)
   :Logger(logLevel)
   ,fileName(fileName + ".log")
+  ,showTime(showTime)
   {
   }
   //---------------------------------------------- FLUSH -----------------------------------------------------
@@ -14,10 +15,12 @@ namespace Util
     FILE *f = fopen(fileName.c_str(),"at");
     if (!f)
       return false;
-    char time[9];
-    _strtime(time);
-     
-    fprintf(f, "%s ", time);
+    if (showTime)
+    {
+      char time[9];
+      _strtime(time);
+      fprintf(f, "%s ", time);
+    }
     fprintf(f, "%s \n", data);
     fclose(f);
     return true;
