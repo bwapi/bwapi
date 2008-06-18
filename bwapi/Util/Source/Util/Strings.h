@@ -2,6 +2,7 @@
 #define STRING_UTIL_BUFFER_SIZE 100
 
 #include <string>
+#include <vector>
 
 #include "RectangleArray.h"
 
@@ -59,5 +60,17 @@ namespace Util
      */
     static std::string readLine(FILE* f);
     static const std::string& dereferenceString(const std::string* const input);
+    /**
+     * convert input string into vector of string tokens.
+     *
+     * @note consecutive delimiters will be treated as single delimiter
+     * @note delimiters are _not_ included in return data
+     *
+     * @param input string to be parsed
+     * @param delims list of delimiters.
+     * I was too laze and took it from http://www.rosettacode.org/wiki/Tokenizing_A_String
+     */
+    static std::vector<std::string> splitString(const std::string& str,
+                                                const std::string& delims=" \t");
    };
  }

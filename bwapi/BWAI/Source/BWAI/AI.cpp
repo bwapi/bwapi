@@ -9,6 +9,8 @@
 #include <Util/RectangleArray.h>
 
 #include <BW/Unit.h>
+#include <BW/UpgradeType.h>
+#include <BW/TechType.h>
 
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
@@ -468,72 +470,69 @@ namespace BWAI
   bool AI::onSendText(const char* text)
   {
     std::string message = text;
-    std::string prefix = "/save ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
+    std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
+    if (parsed[0] == "/save")
+    {
+      if (parsed[1] == "fog")
       {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "fog")
-        {
-          this->map->saveFogOfWarMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\fog-of-war.txt", this->player->getID());
-          BWAPI::Broodwar.print("fog of war saved to fo 'fog-of-war.txt'");
-        }
-        else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: fog").c_str());
-        return true;
+        this->map->saveFogOfWarMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\fog-of-war.txt", this->player->getID());
+        BWAPI::Broodwar.print("fog of war saved to fo 'fog-of-war.txt'");
       }
-    prefix = "/tech ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0,prefix.size()) == prefix)
+      else if (parsed[1] == "techs")
       {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest.substr(0, strlen("add "))  == "add ")
+        std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\techs";
+        Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
+        for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
+          if (BW::TechType((BW::TechID::Enum)i).isValid())
+            techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
+        BWAPI::Broodwar.print(std::string("Techs saved to " + fileName + ".ini").c_str());
+      }
+      else if (parsed[1] == "upgrades")
+      {
+        std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\upgrades";
+        Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
+        for (u8 i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
+          if (BW::UpgradeType((BW::UpgradeID::Enum)i).isValid())
+            upgradesLog.log("%s=%d",BW::UpgradeType((BW::UpgradeID::Enum)i).getName(), i);
+      }        
+      else 
+        BWAPI::Broodwar.print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: fog").c_str());
+      return true;
+    }
+    else if (parsed[0] == "/tech")
+    {
+      if (parsed[1] == "add")
+      {
+        std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
+        BW::TechType tech = BWAPI::Broodwar.techNameToType[techName];
+        if (tech == BW::TechID::None)
+          BWAPI::Broodwar.print(std::string("Unknown tech name '" + techName + "'").c_str());
+        else
         {
-          rest = rest.substr(strlen("add "), rest.size() - strlen("add "));
-          BW::TechType tech = BWAPI::Broodwar.techNameToType[rest];
-          if (tech == BW::TechID::None)
-            BWAPI::Broodwar.print(std::string("Unknown tech name '" + rest + "'").c_str());
+          if (this->player->canAfford(tech, this->moneyToBeSpentOnBuildings))
+          {
+            this->plannedInvents.push_back(new BWAI::TaskInvent(tech));
+            BWAPI::Broodwar.print(std::string("Added tech '" + techName + "' to plannedInvents").c_str());
+          }
           else
-          {
-            if (this->player->canAfford(tech, this->moneyToBeSpentOnBuildings))
-              {
-                this->plannedInvents.push_back(new BWAI::TaskInvent(tech));
-                BWAPI::Broodwar.print(std::string("Added tech '" + rest + "' to plannedInvents").c_str());
-              }
-            else
-              BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
-          }
-          return true;
+            BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
         }
-        else if (rest == "list")
-        {
-          for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
-          {
-            BWAPI::Broodwar.print(std::string((*i)->getTechType().getName()).c_str());
-          }
-        }
-        else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: add, list").c_str());
         return true;
       }
-      
-    prefix = "/fight ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
+      else if (parsed[1] == "list")
       {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "add")
-        {
-          if (this->fightGroups.empty())
-            this->fightGroups.push_back(new TaskFight());
-          TaskFight* task = this->fightGroups.front();
-          BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
-          for (int i = 0; selected[i] != NULL; i++)
-            {
-              Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
-              unit->freeFromTask();
-              task->addExecutor(unit);
-            }
-        }
-        else if (rest == "add all")
+        for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
+          BWAPI::Broodwar.print(std::string((*i)->getTechType().getName()).c_str());
+      }
+      else 
+        BWAPI::Broodwar.print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: add, list").c_str());
+      return true;
+    }
+    else if (parsed[0] == "/fight")
+    {
+      if (parsed[1] == "add")
+      {
+        if (parsed[2] == "all")
         {
           if (this->fightGroups.empty())
             this->fightGroups.push_back(new TaskFight());
@@ -543,63 +542,73 @@ namespace BWAI
                 i->getTask() == NULL)
               task->addExecutor(i);
         }
-        else if (rest == "remove")
+        else
         {
           if (this->fightGroups.empty())
-            return true;
-
+            this->fightGroups.push_back(new TaskFight());
+          TaskFight* task = this->fightGroups.front();
           BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
           for (int i = 0; selected[i] != NULL; i++)
-            {
-              Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
-              unit->freeFromTask();
-            }
+          {
+            Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
+            unit->freeFromTask();
+            task->addExecutor(unit);
+          }
         }
-        else if (rest == "remove all")
+      }
+      else if (parsed[1] == "remove")
+      {
+        if (this->fightGroups.empty())
+          return true;
+        if (parsed[2] == "all")
         {
-          if (this->fightGroups.empty())
-            return true;
-         
           TaskFight* task = this->fightGroups.front();
           delete task;
           this->fightGroups.erase(this->fightGroups.begin());
         }
-        else 
-          BWAPI::Broodwar.print(std::string("Unknown add command '" + rest + "' - possible values are: add, add all, remove, remove all").c_str());
-        return true;
-      } 
-    prefix = "/formation ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
-      {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
-                                             BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
-        if (rest == "cycle")
-        {
-          this->cyclePosition = position;
-          this->cycleAngle = 0;
-          cycle = true;
-        }
-        else if (rest == "uncycle")
-          cycle = false;
         else
         {
-          u16 angle;
-          if (sscanf(rest.c_str(), "%u", &angle) == EOF)
+          BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
+          for (int i = 0; selected[i] != NULL; i++)
           {
-            BWAPI::Broodwar.print(std::string("Invalid angle '" + rest + "'").c_str());
-            true;
+            Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
+            unit->freeFromTask();
           }
-          if (this->fightGroups.empty())
-            return true;        
-          TaskFight* task = this->fightGroups.front();
-          Formation* formation = new Formation(task->executors);
-          formation->generatePositions(position, (float)(angle*(3.141)/180));
-          formation->execute();
-          delete formation;
         }
       }
+      else 
+        BWAPI::Broodwar.print(std::string("Unknown add command '" + parsed[1] + "' - possible values are: add, add all, remove, remove all").c_str());
+      return true;
+    } 
+    else if (parsed[0] == "/formation")
+    {
+      BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
+                                           BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
+      if (parsed[1] == "cycle")
+      {
+        this->cyclePosition = position;
+        this->cycleAngle = 0;
+        cycle = true;
+      }
+      else if (parsed[1] == "uncycle")
+        cycle = false;
+      else
+      {
+        u16 angle;
+        if (sscanf(parsed[2].c_str(), "%u", &angle) == EOF)
+        {
+          BWAPI::Broodwar.print(std::string("Invalid angle '" + parsed[2] + "'").c_str());
+          true;
+        }
+        if (this->fightGroups.empty())
+          return true;        
+        TaskFight* task = this->fightGroups.front();
+        Formation* formation = new Formation(task->executors);
+        formation->generatePositions(position, (float)(angle*(3.141)/180));
+        formation->execute();
+        delete formation;
+      }
+    }
     return false;
   }
   //------------------------------ CHECK NEW EXPANSION ------------------------
