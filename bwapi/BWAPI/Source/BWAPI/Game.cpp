@@ -10,6 +10,7 @@
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
 #include <Util/Exceptions.h>
+#include <Util/Strings.h>
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Unit.h>
@@ -228,119 +229,76 @@ namespace BWAPI
   bool Game::onSendText(const char* text)
   {
     std::string message = text;
-    std::string prefix = "/bwapi ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
-      {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "on")
-        {
-          this->enabled = true;
-          this->print("bwapi enabled");
-        }
-        else if (rest == "off")
-        {
-          this->enabled = false;
-          this->print("bwapi disabled");
-        }
-        else this->print(std::string("Unknown command '" + rest + "' - possible commands are: on, off").c_str());
-        return true;
-      }
-    prefix = "/unit ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
-      {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "info")
-        {
-//          ScreenLogger().log()
-          BW::Unit** selected = this->saveSelected();
-          for (u16 i = 0; selected[i] != NULL; i++)
-            this->print(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i])->getName().c_str());
-        }
-        else if (rest == "off")
-        {
-          this->enabled = false;
-          this->print("bwapi disabled");
-        }
-        else this->print(std::string("Unknown command '" + rest + "' - possible commands are: on, off").c_str());
-        return true;
-      }
-      
-    prefix = "/get ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
-      {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "playerID")
-        {
-          char text[100];
-          sprintf(text, "Current player id = %d", this->BWAPIPlayer->getID());
-          this->print(text);
-        }
-        else if (rest.substr(0, strlen("researchState "))  == "researchState ")
-        {
-          rest = rest.substr(strlen("researchState "), rest.size() - strlen("researchState "));
-          BW::TechType tech = this->techNameToType[rest];
-          if (tech == BW::TechID::None)
-            this->print(std::string("Unknown tech name '" + rest + "'").c_str());
-          else
-          {
-            if (this->BWAPIPlayer->researchInProgress(tech))
-              this->print(std::string("Tech '" + rest + "''s research is in progress.").c_str());
-            else if (this->BWAPIPlayer->techResearched(tech))
-              this->print(std::string("Tech '" + rest + "' is researched.").c_str());
-            else
-              this->print(std::string("Tech '" + rest + "' is not researched.").c_str());
-          }
-        }
-        else this->print(std::string("Unknown value '" + rest + "' - possible values are: playerID, researchState").c_str());
-        return true;
-      }
-    
-    prefix = "/log ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
-      {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "shut")
-        {
-          ScreenLogger::shut = true;
-          this->print("Screen log shutted");
-        }
-        else if (rest == "unshut")
-        {
-          ScreenLogger::shut = false;
-          this->print("Screen log unshutted");
-        }
-        else 
-          this->print(std::string("Unknown log command '" + rest + "' - possible values are: shut, unshut").c_str());
-        return true;
-      }
-    prefix = "/save ";
-    if (prefix.size() <= message.size() &&
-       message.substr(0, prefix.size()) == prefix)
+    std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
+    if (parsed[0] == "/bwapi")
     {
-      std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-      if (rest == "techs")
+      if (parsed[1] == "on")
       {
-        std::string fileName = this->configuration->getValue("data_path") + "\\techs";
-        Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
-        for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
-          if (BW::TechType((BW::TechID::Enum)i).isValid())
-            techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
-        ScreenLogger().log("Techs saved to %s.ini", fileName.c_str());
+        this->enabled = true;
+        this->print("bwapi enabled");
       }
-      else if (rest == "upgrades")
+      else if (parsed[1] == "off")
       {
-        std::string fileName = this->configuration->getValue("data_path") + "\\upgrades";
-        Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
-        for (u8 i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
-          if (BW::UpgradeType((BW::UpgradeID::Enum)i).isValid())
-            upgradesLog.log("%s=%d",BW::UpgradeType((BW::UpgradeID::Enum)i).getName(), i);
+        this->enabled = false;
+        this->print("bwapi disabled");
       }
       else 
-        this->print(std::string("Unknown command '" + rest + "' - possible commands are: techs, upgrades").c_str());
+        this->print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: on, off").c_str());
+      return true;
+    }
+    else if (parsed[0] == "/unit")
+    {
+      if (parsed[1] == "info")
+      {
+        BW::Unit** selected = this->saveSelected();
+        for (u16 i = 0; selected[i] != NULL; i++)
+          this->print(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i])->getName().c_str());
+      }
+      else
+        this->print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: info").c_str());
+      return true;
+    }
+    else if (parsed[0] == "/get")
+    {
+      if (parsed[1] == "playerID")
+      {
+        char text[100];
+        sprintf(text, "Current player id = %d", this->BWAPIPlayer->getID());
+        this->print(text);
+      }
+      else if (parsed[1] == "researchState ")
+      {
+        std::string techName = message.substr(strlen("/ get researchState "), message.size() - strlen("/ get researchState "));
+        BW::TechType tech = this->techNameToType[techName];
+        if (tech == BW::TechID::None)
+          this->print(std::string("Unknown tech name '" + techName + "'").c_str());
+        else
+        {
+          if (this->BWAPIPlayer->researchInProgress(tech))
+            this->print(std::string("Tech '" + techName + "''s research is in progress.").c_str());
+          else if (this->BWAPIPlayer->techResearched(tech))
+            this->print(std::string("Tech '" + techName + "' is researched.").c_str());
+          else
+            this->print(std::string("Tech '" + techName + "' is not researched.").c_str());
+        }
+      }
+      else this->print(std::string("Unknown value '" + parsed[1] + "' - possible values are: playerID, researchState").c_str());
+      return true;
+    }
+    else if (parsed[0] == "/log")
+    {
+      if (parsed[1] == "shut")
+      {
+        ScreenLogger::shut = true;
+        this->print("Screen log shutted");
+      }
+      else if (parsed[1] == "unshut")
+      {
+        ScreenLogger::shut = false;
+        this->print("Screen log unshutted");
+      }
+      else 
+        this->print(std::string("Unknown log command '" + parsed[1] + "' - possible values are: shut, unshut").c_str());
       return true;
     }
     return false;
