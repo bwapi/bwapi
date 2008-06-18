@@ -27,6 +27,7 @@
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
 #include <BW/TechType.h>
+#include <BW/UpgradeType.h>
 
 
 namespace BWAPI 
@@ -319,21 +320,29 @@ namespace BWAPI
     prefix = "/save ";
     if (prefix.size() <= message.size() &&
        message.substr(0, prefix.size()) == prefix)
+    {
+      std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+      if (rest == "techs")
       {
-        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
-        if (rest == "techs")
-        {
-          std::string fileName = this->configuration->getValue("data_path") + "\\techs";
-          Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
-          for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
-            if (BW::TechType((BW::TechID::Enum)i).isValid())
-              techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
-          ScreenLogger().log("Techs saved to %s.ini", fileName.c_str());
-        }
-        else 
-          this->print(std::string("Unknown log command '" + rest + "' - possible values are: shut, unshut").c_str());
-        return true;
-      }      
+        std::string fileName = this->configuration->getValue("data_path") + "\\techs";
+        Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
+        for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
+          if (BW::TechType((BW::TechID::Enum)i).isValid())
+            techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
+        ScreenLogger().log("Techs saved to %s.ini", fileName.c_str());
+      }
+      else if (rest == "upgrades")
+      {
+        std::string fileName = this->configuration->getValue("data_path") + "\\upgrades";
+        Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
+        for (u8 i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
+          if (BW::UpgradeType((BW::UpgradeID::Enum)i).isValid())
+            upgradesLog.log("%s=%d",BW::UpgradeType((BW::UpgradeID::Enum)i).getName(), i);
+      }
+      else 
+        this->print(std::string("Unknown command '" + rest + "' - possible commands are: techs, upgrades").c_str());
+      return true;
+    }
     return false;
   }
   //------------------------------ ON GAME END ----------------------------------

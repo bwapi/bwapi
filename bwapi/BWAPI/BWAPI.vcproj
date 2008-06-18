@@ -236,6 +236,10 @@
 					RelativePath=".\source\BW\UnitType.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BW\UpgradeType.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Source files"
@@ -266,6 +270,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BW\UnitType.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\UpgradeType.cpp"
 					>
 				</File>
 			</Filter>

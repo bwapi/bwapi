@@ -514,6 +514,7 @@ namespace BWAI
         else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: add, list").c_str());
         return true;
       }
+      
     prefix = "/fight ";
     if (prefix.size() <= message.size() &&
        message.substr(0, prefix.size()) == prefix)
