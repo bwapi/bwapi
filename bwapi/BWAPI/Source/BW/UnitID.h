@@ -4,10 +4,11 @@
 
 namespace BW
 {
-  /// Enumeration of the unit types. 
-  /// Most values from http://www.bwhacks.com/forums/starcraft-hacking-related/27282-unit-id-list.html
-  /// Not all values (IE: hero values) are listed, since these are not needed in 
-  /// normal games and I am lazy.
+  /**
+   * Enumeration of the unit types. Most values from
+   * http://www.bwhacks.com/forums/starcraft-hacking-related/27282-unit-id-list.html Not all values (IE: hero
+   * values) are listed, since these are not needed in normal games and I am lazy.
+   */
   namespace UnitID
   {
     enum Enum : u16
