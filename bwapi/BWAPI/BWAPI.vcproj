@@ -324,6 +324,10 @@
 					RelativePath=".\source\BW\UnitStatusFlags.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BW\UpgradeID.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
