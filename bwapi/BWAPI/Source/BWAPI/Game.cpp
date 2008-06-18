@@ -222,12 +222,6 @@ namespace BWAPI
                                          BW::TechType( (BW::TechID::Enum) i)
                                        )
                                      );           
-    for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
-    {
-      BW::TechType tech((BW::TechID::Enum)i);
-      if (tech.isValid())
-        this->commandLog->log("%s %d minerals %d gas", tech.getName(), tech.getMineralPrice(), tech.getGasPrice());
-   }
   }
   //------------------------------ ON SEND TEXT ---------------------------------
   bool Game::onSendText(const char* text)
@@ -330,7 +324,7 @@ namespace BWAPI
         if (rest == "techs")
         {
           std::string fileName = this->configuration->getValue("data_path") + "\\techs";
-          Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed);
+          Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
           for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
             if (BW::TechType((BW::TechID::Enum)i).isValid())
               techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);

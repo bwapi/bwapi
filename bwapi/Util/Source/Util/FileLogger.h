@@ -8,10 +8,11 @@ namespace Util
   class FileLogger : public Logger
   {
     public :
-      FileLogger(const std::string& fileName, Util::LogLevel::Enum logLevel);
+      FileLogger(const std::string& fileName, Util::LogLevel::Enum logLevel, bool showTime = true);
     protected :
       virtual bool flush(const char* data);
     private :
       std::string fileName;
+      bool showTime;
   };
 }  
