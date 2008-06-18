@@ -481,6 +481,39 @@ namespace BWAI
         else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: fog").c_str());
         return true;
       }
+    prefix = "/tech ";
+    if (prefix.size() <= message.size() &&
+       message.substr(0,prefix.size()) == prefix)
+      {
+        std::string rest = message.substr(prefix.size(), message.size() - prefix.size());
+        if (rest.substr(0, strlen("add "))  == "add ")
+        {
+          rest = rest.substr(strlen("add "), rest.size() - strlen("add "));
+          BW::TechType tech = BWAPI::Broodwar.techNameToType[rest];
+          if (tech == BW::TechID::None)
+            BWAPI::Broodwar.print(std::string("Unknown tech name '" + rest + "'").c_str());
+          else
+          {
+            if (this->player->canAfford(tech, this->moneyToBeSpentOnBuildings))
+              {
+                this->plannedInvents.push_back(new BWAI::TaskInvent(tech));
+                BWAPI::Broodwar.print(std::string("Added tech '" + rest + "' to plannedInvents").c_str());
+              }
+            else
+              BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
+          }
+          return true;
+        }
+        else if (rest == "list")
+        {
+          for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
+          {
+            BWAPI::Broodwar.print(std::string((*i)->getTechType().getName()).c_str());
+          }
+        }
+        else BWAPI::Broodwar.print(std::string("Unknown command '" + rest + "' - possible commands are: add, list").c_str());
+        return true;
+      }
     prefix = "/fight ";
     if (prefix.size() <= message.size() &&
        message.substr(0, prefix.size()) == prefix)
