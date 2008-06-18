@@ -35,6 +35,11 @@ namespace BuildOrder
   bool CommandInvent::execute()
   {
     BW::TechType toInvent = BWAPI::Broodwar.techNameToType[this->name];
+    if (!toInvent.isValid())
+    {
+      BWAI::ai->root->log->log("Unknown invention name '%s'", this->name.c_str());
+      return true;
+    }
     if (BWAI::ai->player->canAfford(toInvent, BWAI::ai->moneyToBeSpentOnBuildings) &&
         this->conditionApplies()) 
     {
@@ -42,6 +47,7 @@ namespace BuildOrder
       BWAI::ai->plannedInvents.push_back(new BWAI::TaskInvent(toInvent));        
       return true;
     }
+    
     return false;
   }
   //---------------------------------------------------------------------------
