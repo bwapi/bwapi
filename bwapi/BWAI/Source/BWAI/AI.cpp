@@ -496,7 +496,11 @@ namespace BWAI
         {
           BW::UpgradeType upgrade = BW::UpgradeType((BW::UpgradeID::Enum)i);
           if (upgrade.isValid())
-            upgradesLog.log("%s=%d  upgrades max to %u ", upgrade.getName(), i, upgrade.upgradesMax());
+            upgradesLog.log("%s mineral=(%u/%u) gas=(%u/%u)", upgrade.getName(), 
+                                                              upgrade.mineralCostBase(), 
+                                                              upgrade.mineralCostFactor(), 
+                                                              upgrade.gasCostBase(),
+                                                              upgrade.gasCostFactor());
         }
       }        
       else 
