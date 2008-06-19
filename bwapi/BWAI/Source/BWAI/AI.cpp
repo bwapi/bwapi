@@ -29,6 +29,7 @@
 #include "TaskGather.h"
 #include "TaskBuild.h"
 #include "TaskInvent.h"
+#include "TaskUpgrade.h"
 #include "TaskFight.h"
 #include "Unit.h"
 #include "Expansion.h"
@@ -276,6 +277,10 @@ namespace BWAI
       delete *i;
     this->plannedInvents.clear();
     
+    for (std::list<TaskUpgrade*>::iterator i = this->plannedUpgrades.begin(); i != this->plannedUpgrades.end(); ++i)
+      delete *i;
+    this->plannedUpgrades.clear();
+    
     for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
       delete *i;
     this->activeRefineries.clear();
@@ -514,7 +519,7 @@ namespace BWAI
         std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
         BW::TechType tech = BWAPI::Broodwar.techNameToType[techName];
         if (tech == BW::TechID::None)
-          BWAPI::Broodwar.print("Unknown tech name '%s'", techName);
+          BWAPI::Broodwar.print("Unknown upgrade name '%s'", techName);
         else
         {
           if (this->player->canAfford(tech, this->moneyToBeSpentOnBuildings))
@@ -524,6 +529,35 @@ namespace BWAI
           }
           else
             BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
+        }
+        return true;
+      }
+      else if (parsed[1] == "list")
+      {
+        for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
+          BWAPI::Broodwar.print((*i)->getTechType().getName());
+      }
+      else 
+        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);
+      return true;
+    }
+    else if (parsed[0] == "/upgrade")
+    {
+      if (parsed[1] == "add")
+      {
+        std::string upgradeName = message.substr(strlen("/upgrade add "), message.size() - strlen("/upgrade add "));
+        BW::UpgradeType upgrade = BWAPI::Broodwar.upgradeNameToType[upgradeName];
+        if (upgrade == BW::UpgradeID::None)
+          BWAPI::Broodwar.print("Unknown upgrade name '%s'", upgradeName);
+        else
+        {
+          if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1, this->moneyToBeSpentOnBuildings))
+          {
+            this->plannedUpgrades.push_back(new BWAI::TaskUpgrade(upgrade, this->player->upgradeLevel(upgrade) + 1));
+            BWAPI::Broodwar.print("Added upgrade '%s' level %d", upgradeName, this->player->upgradeLevel(upgrade) + 1);
+          }
+          else
+            BWAPI::Broodwar.print("Cant afford the upgrade right now -> Try again later");
         }
         return true;
       }
@@ -878,6 +912,18 @@ namespace BWAI
         {
           delete *i;
           i = this->plannedInvents.erase(i);
+        }
+        else
+          ++i;
+    }
+    
+    { // ---------- Planned upgrades
+      std::list<TaskUpgrade*>::iterator i = this->plannedUpgrades.begin();
+      while (i != this->plannedUpgrades.end())
+        if ((*i)->execute())
+        {
+          delete *i;
+          i = this->plannedUpgrades.erase(i);
         }
         else
           ++i;
