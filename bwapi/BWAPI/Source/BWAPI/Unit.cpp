@@ -9,6 +9,8 @@
 #include "CommandTrain.h"
 #include "CommandBuild.h"
 #include "CommandRightClick.h"
+#include "CommandInvent.h"
+#include "CommandUpgrade.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -296,8 +298,15 @@ namespace BWAPI
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::Invent(tech), sizeof(BW::Orders::Invent)); 
-    //Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
+    Broodwar.addToCommandBuffer(new CommandInvent(this, tech));
   }
+  //----------------------------------- INVENT --------------------------------
+  void Unit::upgrade(BW::UpgradeType upgrade)
+  {
+    this->orderSelect();
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::Upgrade(upgrade), sizeof(BW::Orders::Upgrade)); 
+    Broodwar.addToCommandBuffer(new CommandUpgrade(this, upgrade));
+  }  
   //------------------------------- ORDER SELECT ------------------------------
   void Unit::orderSelect()
   {

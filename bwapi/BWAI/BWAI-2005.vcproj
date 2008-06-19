@@ -307,6 +307,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskUpgrade.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Unit.cpp"
 					>
 				</File>
@@ -372,6 +376,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\TaskInvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\TaskUpgrade.h"
 					>
 				</File>
 				<File

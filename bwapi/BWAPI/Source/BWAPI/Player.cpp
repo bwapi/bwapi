@@ -108,17 +108,17 @@ namespace BWAPI
   {
     switch (unit.getID())
     {
-     case BW::UnitID::Terran_Medic   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
-     case BW::UnitID::Terran_Firebat : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
-     case BW::UnitID::Terran_Ghost   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0 &&
-                                              this->unitTypeCount[BW::UnitID::Terran_CovertOps] != 0;
+     case BW::UnitID::Terran_Medic           : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     case BW::UnitID::Terran_Firebat         : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
+     case BW::UnitID::Terran_Ghost           : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0 &&
+                                                      this->unitTypeCount[BW::UnitID::Terran_CovertOps] != 0;
      case BW::UnitID::Terran_ComsatStation   : return this->unitTypeCount[BW::UnitID::Terran_Academy] != 0;
-     case BW::UnitID::Terran_Factory : return this->unitTypeCount[BW::UnitID::Terran_Barracks] != 0;
-     case BW::UnitID::Terran_Starport : return this->unitTypeCount[BW::UnitID::Terran_Factory] != 0;
-     case BW::UnitID::Terran_ControlTower : return this->unitTypeCount[BW::UnitID::Terran_Starport] != 0;
+     case BW::UnitID::Terran_Factory         : return this->unitTypeCount[BW::UnitID::Terran_Barracks] != 0;
+     case BW::UnitID::Terran_Starport        : return this->unitTypeCount[BW::UnitID::Terran_Factory] != 0;
+     case BW::UnitID::Terran_ControlTower    : return this->unitTypeCount[BW::UnitID::Terran_Starport] != 0;
      case BW::UnitID::Terran_ScienceFacility : return this->unitTypeCount[BW::UnitID::Terran_Starport] != 0;
-     case BW::UnitID::Terran_CovertOps : return this->unitTypeCount[BW::UnitID::Terran_ScienceFacility] != 0;
-     default : return true;
+     case BW::UnitID::Terran_CovertOps       : return this->unitTypeCount[BW::UnitID::Terran_ScienceFacility] != 0;
+     default                                 : return true;
     }
   }
   //--------------------------------------------- CAN AFFORD -------------------------------------------------
@@ -133,7 +133,13 @@ namespace BWAPI
   {
     return this->getMineralsLocal() - mineralsToKeep >= tech.getMineralPrice() &&
            this->getGasLocal() >= tech.getGasPrice();
-  }  
+  }
+  //--------------------------------------------- CAN AFFORD -------------------------------------------------
+  bool Player::canAfford(BW::UpgradeType upgrade, u8 level, u16 mineralsToKeep)
+  {
+    return this->getMineralsLocal() - mineralsToKeep >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*level &&
+           this->getGasLocal()                       >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *level;
+  }
   //-------------------------------------------- GET RACE ----------------------------------------------------
   BW::Race::Enum Player::getRace()
   {
