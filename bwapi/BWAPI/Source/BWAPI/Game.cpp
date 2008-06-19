@@ -170,10 +170,24 @@ namespace BWAPI
   //----------------------------------- PRINT ---------------------------------
   void Game::print(const char *text)
   {
-   
-   void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-	 	sendText(text);
+    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
+	  	sendText(text);
   }
+  char buffer[2048];
+  //----------------------------------- PRINT ---------------------------------
+  void Game::print(const char *text, const std::string& parameter1)
+  {
+    sprintf(buffer, text, parameter1.c_str());
+    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
+	  	sendText(buffer);
+  }
+  //----------------------------------- PRINT ---------------------------------
+  void Game::print(const char *text, const u32& parameter1)
+  {
+    sprintf(buffer, text, parameter1);
+    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
+	  	sendText(buffer);
+  }  
   //---------------------------------------------------------------------------
   void Game::printPublic(const char *text) const
   {
@@ -230,6 +244,10 @@ namespace BWAPI
   {
     std::string message = text;
     std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
+    if (parsed.size() < 3)
+      parsed.push_back("");
+    if (parsed.size() < 3)
+      parsed.push_back("");
     if (parsed[0] == "/bwapi")
     {
       if (parsed[1] == "on")
@@ -243,7 +261,7 @@ namespace BWAPI
         this->print("bwapi disabled");
       }
       else 
-        this->print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: on, off").c_str());
+        this->print("Unknown command '%s''s - possible commands are: on, off", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/unit")
@@ -255,7 +273,7 @@ namespace BWAPI
           this->print(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i])->getName().c_str());
       }
       else
-        this->print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: info").c_str());
+        this->print("Unknown command '%s''s - possible commands are: info", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/get")
@@ -271,18 +289,18 @@ namespace BWAPI
         std::string techName = message.substr(strlen("/ get researchState "), message.size() - strlen("/ get researchState "));
         BW::TechType tech = this->techNameToType[techName];
         if (tech == BW::TechID::None)
-          this->print(std::string("Unknown tech name '" + techName + "'").c_str());
+          this->print("Unknown tech name '%s'", techName);
         else
         {
           if (this->BWAPIPlayer->researchInProgress(tech))
-            this->print(std::string("Tech '" + techName + "''s research is in progress.").c_str());
+            this->print("Tech '%s's research is in progress.", techName.c_str());
           else if (this->BWAPIPlayer->techResearched(tech))
-            this->print(std::string("Tech '" + techName + "' is researched.").c_str());
+            this->print("Tech '%s''s is researched.", techName.c_str());
           else
-            this->print(std::string("Tech '" + techName + "' is not researched.").c_str());
+            this->print("Tech '%s''s is not researched.", techName.c_str());
         }
       }
-      else this->print(std::string("Unknown value '" + parsed[1] + "' - possible values are: playerID, researchState").c_str());
+      else this->print("Unknown value '%s' - possible values are: playerID, researchState", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/log")
@@ -298,7 +316,7 @@ namespace BWAPI
         this->print("Screen log unshutted");
       }
       else 
-        this->print(std::string("Unknown log command '" + parsed[1] + "' - possible values are: shut, unshut").c_str());
+        this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1]);
       return true;
     }
     return false;

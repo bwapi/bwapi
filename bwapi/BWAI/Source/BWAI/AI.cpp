@@ -485,7 +485,7 @@ namespace BWAI
         for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
           if (BW::TechType((BW::TechID::Enum)i).isValid())
             techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
-        BWAPI::Broodwar.print(std::string("Techs saved to " + fileName + ".ini").c_str());
+        BWAPI::Broodwar.print("Techs saved to %s .ini", fileName);
       }
       else if (parsed[1] == "upgrades")
       {
@@ -496,7 +496,7 @@ namespace BWAI
             upgradesLog.log("%s=%d",BW::UpgradeType((BW::UpgradeID::Enum)i).getName(), i);
       }        
       else 
-        BWAPI::Broodwar.print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: fog").c_str());
+        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -506,13 +506,13 @@ namespace BWAI
         std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
         BW::TechType tech = BWAPI::Broodwar.techNameToType[techName];
         if (tech == BW::TechID::None)
-          BWAPI::Broodwar.print(std::string("Unknown tech name '" + techName + "'").c_str());
+          BWAPI::Broodwar.print("Unknown tech name '%s'", techName);
         else
         {
           if (this->player->canAfford(tech, this->moneyToBeSpentOnBuildings))
           {
             this->plannedInvents.push_back(new BWAI::TaskInvent(tech));
-            BWAPI::Broodwar.print(std::string("Added tech '" + techName + "' to plannedInvents").c_str());
+            BWAPI::Broodwar.print("Added tech '%s'", techName);
           }
           else
             BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
@@ -522,10 +522,10 @@ namespace BWAI
       else if (parsed[1] == "list")
       {
         for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
-          BWAPI::Broodwar.print(std::string((*i)->getTechType().getName()).c_str());
+          BWAPI::Broodwar.print((*i)->getTechType().getName());
       }
       else 
-        BWAPI::Broodwar.print(std::string("Unknown command '" + parsed[1] + "' - possible commands are: add, list").c_str());
+        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/fight")
@@ -537,10 +537,15 @@ namespace BWAI
           if (this->fightGroups.empty())
             this->fightGroups.push_back(new TaskFight());
           TaskFight* task = this->fightGroups.front();
+          u16 addedCount = 0;
           for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
             if (i->getType() == BW::UnitID::Terran_Marine &&
                 i->getTask() == NULL)
+            {
+              addedCount++;
               task->addExecutor(i);
+            }
+          BWAPI::Broodwar.print("%u units added to the fight group", addedCount);
         }
         else
         {
@@ -577,7 +582,7 @@ namespace BWAI
         }
       }
       else 
-        BWAPI::Broodwar.print(std::string("Unknown add command '" + parsed[1] + "' - possible values are: add, add all, remove, remove all").c_str());
+        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1]);
       return true;
     } 
     else if (parsed[0] == "/formation")
@@ -594,10 +599,10 @@ namespace BWAI
         cycle = false;
       else
       {
-        u16 angle;
-        if (sscanf(parsed[2].c_str(), "%u", &angle) == EOF)
+        u16 angle = atoi(parsed[2].c_str());
+        if (angle == 0 && parsed[2] != "0")
         {
-          BWAPI::Broodwar.print(std::string("Invalid angle '" + parsed[2] + "'").c_str());
+          BWAPI::Broodwar.print("Invalid angle '%s'", parsed[2]);
           true;
         }
         if (this->fightGroups.empty())
