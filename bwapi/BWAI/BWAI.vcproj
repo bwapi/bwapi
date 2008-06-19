@@ -331,6 +331,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandUpgrade.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Condition.h"
 					>
 				</File>
@@ -368,6 +372,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\CommandInvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandUpgrade.cpp"
 					>
 				</File>
 				<File

@@ -20,22 +20,27 @@
     <build name="Terran Missile Turret" place="turret-entrance-expansion" minimal-population="32"/>
     <build name="Terran Barracks" place="barracks" minimal-population="33"/>
     <invent name="Stim Packs" minimal-population="35"/>
+    <upgrade name="U-238 Shells" minimal-population="35"/>
     <build name="Terran Comsat Station" place="comsat-station" minimal-population="35"/>
     <build name="Terran Comsat Station" place="comsat-station-expansion" minimal-population="35"/>
     <build name="Terran Barracks" place="barracks" minimal-population="37"/>
+    <upgrade name="Terran Infantry Armor" level="1" minimal-population="35"/>
     <build name="Terran Factory" place="factory" minimal-population="45"/>
     <build name="Terran Barracks" place="barracks" minimal-population="50"/>
     <build name="Terran Refinery" place="refinery-expansion" minimal-population="51"/>
     <build name="Terran Starport" place="starport" minimal-population="60"/>
     <set-building-rate building="Terran Starport">
       <build name="Terran Science Vessel" weight="1" />
-    </set-building-rate>    
+    </set-building-rate>
+    <upgrade name="Terran Infantry Armor" level="3" minimal-population="35"/>
+    <upgrade name="Terran Infantry Weapons" level="3" minimal-population="35"/>
     <build name="Terran Command Center" place="second-expansion"/>
     <build name="Terran Science Facility" place="science-facility"/>
     <build name="Terran Control Tower" place="control-tower"/>
     <build name="Terran Covert Ops" place="covert-ops"/>
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
+    <invent name="Lockdown"/>
     <build name="Terran Barracks" place="barracks"/>
     <invent name="EMP Shockwave"/>
     <invent name="Personnel Cloaking"/>

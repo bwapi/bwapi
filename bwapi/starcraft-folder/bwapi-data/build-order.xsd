@@ -41,6 +41,15 @@
            <xs:attribute name="name" type="tech-type" use="required"/>
            <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
          </xs:complexType>
+       </xs:element>
+       <xs:element name="upgrade">
+         <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
+           </xs:sequence>
+           <xs:attribute name="name" type="upgrade-type" use="required"/>
+           <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
+         </xs:complexType>
        </xs:element>       
        <xs:element name="set-building-rate">
          <xs:complexType>
@@ -108,5 +117,60 @@
     <xs:enumeration value="Healing"/>
   </xs:restriction>
 </xs:simpleType>
- 
+
+<xs:simpleType name="upgrade-type">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Terran Infantry Armor"/>
+    <xs:enumeration value="Terran Vehicle Plating"/>
+    <xs:enumeration value="Terran Ship Plating"/>
+    <xs:enumeration value="Zerg Carapace"/>
+    <xs:enumeration value="Zerg Flyer Carapace"/>
+    <xs:enumeration value="Protoss Armor"/>
+    <xs:enumeration value="Protoss Plating"/>
+    <xs:enumeration value="Terran Infantry Weapons"/>
+    <xs:enumeration value="Terran Vehicle Weapons"/>
+    <xs:enumeration value="Terran Ship Weapons"/>
+    <xs:enumeration value="Zerg Melee Attacks"/>
+    <xs:enumeration value="Zerg Missile Attacks"/>
+    <xs:enumeration value="Zerg Flyer Attacks"/>
+    <xs:enumeration value="Protoss Ground Weapons"/>
+    <xs:enumeration value="Protoss Air Weapons"/>
+    <xs:enumeration value="Protoss Plasma Shields"/>
+    <xs:enumeration value="U-238 Shells"/>
+    <xs:enumeration value="Ion Thrusters"/>
+    <xs:enumeration value="Titan Reactor"/>
+    <xs:enumeration value="Ocular Implants"/>
+    <xs:enumeration value="Moebius Reactor"/>
+    <xs:enumeration value="Apollo Reactor"/>
+    <xs:enumeration value="Colossus Reactor"/>
+    <xs:enumeration value="Ventral Sacs"/>
+    <xs:enumeration value="Antennae"/>
+    <xs:enumeration value="Pneumatized Carapace"/>
+    <xs:enumeration value="Metabolic Boost"/>
+    <xs:enumeration value="Adrenal Glands"/>
+    <xs:enumeration value="Muscular Augments"/>
+    <xs:enumeration value="Grooved Spines"/>
+    <xs:enumeration value="Gamete Meiosis"/>
+    <xs:enumeration value="Metasynaptic Node"/>
+    <xs:enumeration value="Singularity Charge"/>
+    <xs:enumeration value="Leg Enhancements"/>
+    <xs:enumeration value="Scarab Damage"/>
+    <xs:enumeration value="Reaver Capacity"/>
+    <xs:enumeration value="Gravitic Drive"/>
+    <xs:enumeration value="Sensor Array"/>
+    <xs:enumeration value="Gravitic Boosters"/>
+    <xs:enumeration value="Khaydarin Amulet"/>
+    <xs:enumeration value="Apial Sensors"/>
+    <xs:enumeration value="Gravitic Thrusters"/>
+    <xs:enumeration value="Carrier Capacity"/>
+    <xs:enumeration value="Khaydarin Core"/>
+    <xs:enumeration value="Argus Jewel"/>
+    <xs:enumeration value="Argus Talisman"/>
+    <xs:enumeration value="Caduceus Reactor"/>
+    <xs:enumeration value="Chitinous Plating"/>
+    <xs:enumeration value="Anabolic Synthesis"/>
+    <xs:enumeration value="Charon Booster"/>
+  </xs:restriction>
+</xs:simpleType>
+
 </xs:schema>

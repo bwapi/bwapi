@@ -358,7 +358,7 @@ namespace BWAPI
         {
           BW::UnitType type((BW::UnitID::Enum)i);
           if (type.isValid())
-            BW::BWXFN_BuildTime->buildTime[i] = 4;
+            BW::BWXFN_BuildTime->buildTime[i] = 5;
         }
         this->print("BWAPI gas/mineral cheat activated (only local ofcourse)");
       }

@@ -369,6 +369,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandUpgrade.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\Game.cpp"
 					>
 				</File>
@@ -422,6 +426,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUpgrade.h"
 					>
 				</File>
 				<File

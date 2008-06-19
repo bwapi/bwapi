@@ -501,11 +501,7 @@ namespace BWAI
         {
           BW::UpgradeType upgrade = BW::UpgradeType((BW::UpgradeID::Enum)i);
           if (upgrade.isValid())
-            upgradesLog.log("%s mineral=(%u/%u) gas=(%u/%u)", upgrade.getName(), 
-                                                              upgrade.mineralCostBase(), 
-                                                              upgrade.mineralCostFactor(), 
-                                                              upgrade.gasCostBase(),
-                                                              upgrade.gasCostFactor());
+            upgradesLog.log("%s = 0x%02X ",upgrade.getName(), i);
         }
       }        
       else 
