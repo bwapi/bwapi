@@ -27,7 +27,6 @@ namespace BWAI
     if (this->executors.empty())
       {
         BW::UnitType buildingType = this->upgradeType.whereToUpgrade();
-        if (buildingType == BW::UnitID::None)
         {
           BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName());
           return false;

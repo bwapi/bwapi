@@ -16,5 +16,6 @@ namespace Util
        */
       static std::string getRequiredAttribute(TiXmlElement* element, const char* name);
       static u16 getRequiredU16Attribute(TiXmlElement* element, const char* name);
+      static u16 getOptionalU16Attribute(TiXmlElement* element, const char* name, u16 defaultValue);
   };
 }
