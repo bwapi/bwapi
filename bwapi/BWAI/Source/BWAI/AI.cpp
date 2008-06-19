@@ -142,7 +142,8 @@ namespace BWAI
       if (worker1->getTask()->getType() == BWAI::TaskType::Gather)
       {
         if (((TaskGather*)worker1->getTask())->getExpansion() == 
-            ((TaskGather*)worker1->getTask())->getExpansion())
+            ((TaskGather*)worker1->getTask())->getExpansion() &&
+            ((TaskGather*)worker1->getTask())->getExpansion() != NULL)
         { /* This part prioritise scv's near the command center when they gather, so scv's in mineral line
              Wont be taken, it causes them to be stucked there sometimes. */
           if (worker2->getOrderID() == BW::OrderID::ReturnMinerals &&
@@ -501,9 +502,19 @@ namespace BWAI
         {
           BW::UpgradeType upgrade = BW::UpgradeType((BW::UpgradeID::Enum)i);
           if (upgrade.isValid())
-            upgradesLog.log("%s = 0x%02X ",upgrade.getName(), i);
+            upgradesLog.log("%s = 0x%02X",upgrade.getName(), i);
         }
-      }        
+      }
+      else if (parsed[1] == "units")
+      {
+        std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\units";
+        Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
+        for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        {
+          BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
+            upgradesLog.log("%s = 0x%02X ",unit.getName(), i);
+        }
+      }      
       else 
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog", parsed[1]);
       return true;
@@ -559,8 +570,8 @@ namespace BWAI
       }
       else if (parsed[1] == "list")
       {
-        for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
-          BWAPI::Broodwar.print((*i)->getTechType().getName());
+        for (std::list<TaskUpgrade*>::iterator i = this->plannedUpgrades.begin(); i != this->plannedUpgrades.end(); ++i)
+          BWAPI::Broodwar.print((*i)->getUpgradeType().getName());
       }
       else 
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);

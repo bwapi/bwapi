@@ -137,8 +137,8 @@ namespace BWAPI
   //--------------------------------------------- CAN AFFORD -------------------------------------------------
   bool Player::canAfford(BW::UpgradeType upgrade, u8 level, u16 mineralsToKeep)
   {
-    return this->getMineralsLocal() - mineralsToKeep >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*level &&
-           this->getGasLocal()                       >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *level;
+    return this->getMineralsLocal() - mineralsToKeep >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
+           this->getGasLocal()                       >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
   }
   //-------------------------------------------- GET RACE ----------------------------------------------------
   BW::Race::Enum Player::getRace()
