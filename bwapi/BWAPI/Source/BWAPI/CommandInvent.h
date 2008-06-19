@@ -6,15 +6,13 @@
 
 namespace BWAPI
 {
-  /** BWAPI internal representation of make building command. */
+  /** BWAPI internal representation of invent tech command. */
   class CommandInvent : public Command
   {
     public :
       /** 
-       * @param builder Worker that builds the building
-       *         (will be passed as executor to Command ancestor)
-       * @param toBuild Building that should be constructed
-       * @param Position of the building (in tiles)
+       * @param building Building that invents the tech
+       * @param tech Tech to be invented
        */
       CommandInvent(Unit* building, BW::TechType tech);
       ~CommandInvent();
