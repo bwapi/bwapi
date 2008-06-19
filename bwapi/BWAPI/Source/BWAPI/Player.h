@@ -7,6 +7,7 @@ namespace BW { struct Unit; };
 #include <Util/Types.h>
 
 #include <BW/TechType.h>
+#include <BW/UpgradeType.h>
 #include <BW/UnitType.h>
 #include <BW/Offsets.h>
 #include <BW/Race.h>
@@ -119,7 +120,9 @@ namespace BWAPI
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
     bool researchInProgress(BW::TechType tech) const;    
-    bool techResearched(BW::TechType tech) const;    
+    bool techResearched(BW::TechType tech) const;
+    u8 upgradeLevel(BW::UpgradeType upgrade) const;
+    bool upgradeInProgress(BW::UpgradeType upgrade) const; 
   private :
     u8 id;  /**< Order of the player, is used to load player's information from the memory */
     s32 mineralsLocal, gasLocal;  /**< Storage of local versions resources. */

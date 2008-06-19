@@ -607,10 +607,10 @@ namespace BWAI
         cycle = false;
       else
       {
-        u16 angle = atoi(parsed[2].c_str());
-        if (angle == 0 && parsed[2] != "0")
+        u16 angle = atoi(parsed[1].c_str());
+        if (angle == 0 && parsed[1] != "0")
         {
-          BWAPI::Broodwar.print("Invalid angle '%s'", parsed[2]);
+          BWAPI::Broodwar.print("Invalid angle '%s'", parsed[1]);
           true;
         }
         if (this->fightGroups.empty())

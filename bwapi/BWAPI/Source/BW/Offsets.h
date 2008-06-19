@@ -137,6 +137,12 @@ namespace BW
   static u16**          BWXFN_StringTableIndex = (u16**) 0x6D1220;
   static u32**          BWXFN_MapFogOfWar = (u32**) 0x006D1248;
   
+  struct UpgradeProgress
+  {
+    Util::BitMask<u64> player[PLAYER_COUNT];
+  };
+  static UpgradeProgress* BWXFN_UpgradeProgress = (UpgradeProgress*) 0x0058F3C8;
+
   //------------------------------------ SUPPLIES -----------------------------
   struct Supplies
   {

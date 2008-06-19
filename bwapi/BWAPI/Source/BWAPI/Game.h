@@ -19,6 +19,7 @@ namespace BWAPI { class Command; }
 #include <BW/Offsets.h>
 #include <BW/Latency.h>
 #include <BW/TechType.h>
+#include <BW/UpgradeType.h>
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
@@ -107,6 +108,7 @@ namespace BWAPI
       /** Every tile will have pointers to units touching it. */
       Util::RectangleArray<std::list<Unit*> > unitsOnTile;
       std::map<std::string, BW::TechType> techNameToType;
+      std::map<std::string, BW::UpgradeType> upgradeNameToType;
       bool enabled;      
    private :
 	     bool onStartCalled;

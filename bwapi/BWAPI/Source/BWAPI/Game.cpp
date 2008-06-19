@@ -27,8 +27,6 @@
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
-#include <BW/TechType.h>
-#include <BW/UpgradeType.h>
 
 
 namespace BWAPI 
@@ -237,7 +235,16 @@ namespace BWAPI
                                          BW::TechType( (BW::TechID::Enum) i ).getName(), 
                                          BW::TechType( (BW::TechID::Enum) i)
                                        )
-                                     );           
+                                     );
+    if (this->upgradeNameToType.empty())
+      for (int i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
+        if (BW::UpgradeType((BW::UpgradeID::Enum)i).isValid())
+          this->upgradeNameToType.insert(std::pair<std::string, BW::UpgradeType>
+                                       (
+                                         BW::UpgradeType( (BW::UpgradeID::Enum) i ).getName(), 
+                                         BW::UpgradeType( (BW::UpgradeID::Enum) i)
+                                       )
+                                     );
   }
   //------------------------------ ON SEND TEXT ---------------------------------
   bool Game::onSendText(const char* text)
@@ -284,9 +291,9 @@ namespace BWAPI
         sprintf(text, "Current player id = %d", this->BWAPIPlayer->getID());
         this->print(text);
       }
-      else if (parsed[1] == "researchState ")
+      else if (parsed[1] == "researchState")
       {
-        std::string techName = message.substr(strlen("/ get researchState "), message.size() - strlen("/ get researchState "));
+        std::string techName = message.substr(strlen("/get researchState "), message.size() - strlen("/ get researchState "));
         BW::TechType tech = this->techNameToType[techName];
         if (tech == BW::TechID::None)
           this->print("Unknown tech name '%s'", techName);
@@ -300,7 +307,22 @@ namespace BWAPI
             this->print("Tech '%s''s is not researched.", techName.c_str());
         }
       }
-      else this->print("Unknown value '%s' - possible values are: playerID, researchState", parsed[1]);
+      else if (parsed[1] == "upgradeState")
+      {
+        std::string upgradeName = message.substr(strlen("/get upgradeState "), message.size() - strlen("/get upgradeState "));
+        BW::UpgradeType upgrade = this->upgradeNameToType[upgradeName];
+        if (upgrade == BW::UpgradeID::None)
+          this->print("Unknown upgrade name '%s'", upgradeName);
+        else
+        {
+          this->print("Level is %u.", this->BWAPIPlayer->upgradeLevel(upgrade));
+          if (this->BWAPIPlayer->upgradeInProgress(upgrade))
+            this->print("Another level in progress");
+          else
+            this->print("Another level is not in progress");
+        }
+      }      
+      else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/log")
@@ -319,6 +341,24 @@ namespace BWAPI
         this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1]);
       return true;
     }
+    else if (parsed[0] == "/cheat")
+    {
+      if (parsed[1] == "all")
+      {
+        BW::BWXFN_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] = 10000;
+        BW::BWXFN_PlayerResources->gas.player[this->BWAPIPlayer->getID()] = 10000;
+        for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        {
+          BW::UnitType type((BW::UnitID::Enum)i);
+          if (type.isValid())
+            BW::BWXFN_BuildTime->buildTime[i] = 4;
+        }
+        this->print("BWAPI gas/mineral cheat activated (only local ofcourse)");
+      }
+      else 
+        this->print("Unknown log command '%s''s - possible values are: all", parsed[1]);
+      return true;
+    }    
     return false;
   }
   //------------------------------ ON GAME END ----------------------------------
