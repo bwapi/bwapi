@@ -14,6 +14,7 @@ namespace BW
       UpgradeID::Enum getID() const;
       const char* getName() const;
       bool isValid() const;
+      u8 upgradesMax() const;
     private :
       UpgradeID::Enum id;
   };
