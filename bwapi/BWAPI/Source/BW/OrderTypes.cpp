@@ -57,6 +57,12 @@ namespace BW
     ,tech(tech)
     {
     }
+    //----------------------------------- UPGRADE -------------------------------------
+    Upgrade::Upgrade(BW::UpgradeType upgrade)
+    :always0x32(0x32)
+    ,upgrade(upgrade)
+    {
+    }    
     //--------------------------------- MAKE ADDON ------------------------------------
     MakeAddon::MakeAddon(BW::TilePosition position, BW::UnitType type)
     :always0x0c(0x0c)

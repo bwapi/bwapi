@@ -5,6 +5,7 @@
 #include <BW/OrderID.h>
 #include <BW/UnitType.h>
 #include <BW/TechType.h>
+#include <BW/UpgradeType.h>
 #include <BW/TilePosition.h>
 
 namespace Util  { class Logger; }
@@ -143,7 +144,9 @@ namespace BWAPI
       /** Orders to build the specified building. */
       void build(BW::TilePosition position, BW::UnitType type);
       /** Orders to build the invent the specified tech. */
-      void invent(BW::TechType type);
+      void invent(BW::TechType tech);
+      /** Orders to build the invent the specified upgrade. */
+      void upgrade(BW::UpgradeType upgrade);      
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);

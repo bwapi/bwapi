@@ -4,6 +4,7 @@
 
 #include "UnitType.h"
 #include "TechType.h"
+#include "UpgradeType.h"
 #include "PositionUnitTarget.h"
 #include "Race.h"
 
@@ -75,7 +76,16 @@ namespace BW
       u8 always0x30;
       /** Type of tech to invent */
       BW::TechType tech;
-   };   
+   };
+   class Upgrade
+   {
+     public :
+      Upgrade(BW::UpgradeType upgrade); 
+      /** 0x32 = upgrade Command-code in bw */
+      u8 always0x32;
+      /** Type of upgrade */
+      BW::UpgradeType upgrade;
+   };  
    class MakeAddon
    {
      public :

@@ -117,6 +117,7 @@ namespace BWAPI
      * @returns @c true if the tech can be invented, @c false otherwise.
      */
     bool canAfford(BW::TechType tech, u16 mineralsToKeep = 0);    
+    bool canAfford(BW::UpgradeType upgrade, u8 level, u16 mineralsToKeep = 0);    
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
     bool researchInProgress(BW::TechType tech) const;    

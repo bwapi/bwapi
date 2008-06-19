@@ -165,7 +165,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAI\Formation.cpp"
+					RelativePath=".\Source\BWAI\Formation.h"
 					>
 				</File>
 				<File
@@ -209,6 +209,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskUpgrade.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Unit.h"
 					>
 				</File>
@@ -235,10 +239,10 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAI\Formation.h"
+					RelativePath=".\Source\BWAI\Formation.cpp"
 					>
 				</File>
-                <File
+				<File
 					RelativePath=".\Source\BWAI\Globals.cpp"
 					>
 				</File>
@@ -276,6 +280,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\TaskInvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\TaskUpgrade.cpp"
 					>
 				</File>
 				<File

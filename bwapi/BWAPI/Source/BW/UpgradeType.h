@@ -1,11 +1,13 @@
 #pragma once
 
+#include <BW/UnitType.h>
+
 #include "UpgradeID.h"
 #include "Race.h"
 
 namespace BW
 {
-  /** Mapping of bw's upgrade representation. */
+  /** Mapping (and interface) of bw's upgrade representation. */
   class UpgradeType
   {
     public :
@@ -24,6 +26,8 @@ namespace BW
       u16             timeCostBase() const;
       u16             timeCostFactor() const;
       Race::Enum      race() const;
+      /** Our internal way to determine what building should be used to do certain upgrade . */
+      BW::UnitType whereToUpgrade();
     private :
       UpgradeID::Enum id;
   };
