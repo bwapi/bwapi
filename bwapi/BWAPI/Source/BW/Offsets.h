@@ -70,67 +70,73 @@ namespace BW
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
-  static TileID**      BWXFN_MapTileArray = (TileID**) 0x005993AC;
-  static TileType**    BWXFN_TileSet = (TileType**) 0x006D5EA8; /**< Index  0-1023 */
-  static DoodatType**  BWXFN_DoodatSet = (DoodatType**) 0x006D5EA8; /**< Index 1024 + */
-  static u16*          BWXFN_MapSizeX = (u16*) 0x0057F1BC;
-  static u16*          BWXFN_MapSizeY = ((u16*) BWXFN_MapSizeX) + 1;
-  static Unit**        BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
-  static UnitArray*    BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
-  const  u32           UNIT_ARRAY_MAX_LENGTH = 1701;
+  static TileID**       BWXFN_MapTileArray = (TileID**) 0x005993AC;
+  static TileType**     BWXFN_TileSet = (TileType**) 0x006D5EA8; /**< Index  0-1023 */
+  static DoodatType**   BWXFN_DoodatSet = (DoodatType**) 0x006D5EA8; /**< Index 1024 + */
+  static u16*           BWXFN_MapSizeX = (u16*) 0x0057F1BC;
+  static u16*           BWXFN_MapSizeY = ((u16*) BWXFN_MapSizeX) + 1;
+  static Unit**         BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
+  static UnitArray*     BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
+  const  u32            UNIT_ARRAY_MAX_LENGTH = 1701;
+                     
+                     
+  static u32            BWFXN_CommandUnit = 0x4BFF80;
+  static u32            BWFXN_IssueCommand = 0x4858F0;
+  static u32            BWFXN_HUD = 0x4202A0; 
+  static u32*           BWFXN_InGame = (u32*) 0x6556C8;
+  static u32            BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
+  static u32            BWXFN_PrintText = 0x48CE60;
+  //static u32            BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
+  static u32            BWXFN_PrintPublicText = 0x004C2090;
+  static u32            BWXFN_SendPublicCall = 0x004F2EF7;
+  static u32            BWXFN_SendPublicCallBack = BWXFN_SendPublicCall + 5;
+  static u32            BWXFN_SendPublicCallTarget = 0x004C2090;
+  //static int            BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
+  static Unit*          BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;
+  static u32            BWXFN_GameStart = 0x004C96A1;
+  static u32            BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
+  static u32            BWXFN_GameStartTarget = 0x00417C10;
+  static u32            BWXFN_GameEnd = 0x004EE5C3;
+  static u32            BWXFN_GameEndBack = BWXFN_GameEnd + 5;
+  static u32            BWXFN_GameEndTarget = 0x00416D80;
+  static u32            BWXFN_NextFrameHelperFunction = 0x004D94ED;
+  static u32            BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
+  static u32            BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
+  static u32            BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
+  static u32            BWXFN_CancelTrainByClickInTheQueue = 0x004573D9;
+  static u32            BWXFN_CancelTrainByClickInTheQueueBack = 0x004573D9 + 5;
+  static u32            BWXFN_CancelTrainByClickInTheQueueTarget = BWFXN_IssueCommand;
+  static u32            BWXFN_CancelTrainByEscape = 0x00423494;
+  static u32            BWXFN_CancelTrainByEscapeBack = 0x00423494 + 5;
+  static u32            BWXFN_CancelTrainByEscapeTarget = BWFXN_IssueCommand;
+  static u32            BWXFN_RemoveUnit = 0x004EC134;
+  static u32            BWXFN_RemoveUnitBack = BWXFN_RemoveUnit + 5;
+  static u32            BWXFN_RemoveUnitTarget = 0x00479880;
+  static u32            BWXFN_Redraw = 0x004D9563;
+  static u32            BWXFN_RedrawBack = 0x004D9563 + 5;
+  static u32            BWXFN_RedrawTarget = 0x0041C9F0;
+  static u32            BWXFN_NextLogicFrame = 0x004D937E;
+  static u32            BWXFN_NextLogicFrameBack = BWXFN_NextLogicFrame + 5;
+  static u32            BWXFN_NextLogicFrameTarget = 0x00488420;
+  static int*           BWXFN_MouseX = (int*) 0x006CDDAC;
+  static int*           BWXFN_MouseY = (int*) 0x006CDDB0;
+  static int*           BWXFN_ScreenX = (int*) 0x00628430;
+  static int*           BWXFN_ScreenY = (int*) 0x00628458;
+  static char*          BWXFN_CurrentMapFileName = (char*) 0x0057FD24;
+  static char**         BWXFN_StringTable = (char**) 0x006D1220;
+  static u16*           BWXFN_TechLabelIndex = (u16*) 0x00656288;
+  static u16*           BWXFN_UpgradeLabelIndex = (u16*) 0x00655A28;
+  static u8*            BWXFN_UpgradeMax = (u8*) 0x006556E8;
+  static u16*           BWXFN_UpgradeMineralCostBase = (u16*) 0x00655728;
+  static u16*           BWXFN_UpgradeMineralCostFactor = (u16*) 0x006559A8;
+  static u16*           BWXFN_UpgradeGasCostBase = (u16*) 0x00655828;
+  static u16*           BWXFN_UpgradeGasCostFactor = (u16*) 0x006557A8;
+  static u16*           BWXFN_UpgradeTimeCostBase = (u16*) 0x00655B68;
+  static u16*           BWXFN_UpgradeTimeCostFactor = (u16*) 0x00655928;
+  static Race::Enum*    BWXFN_UpgradeRace = (Race::Enum*) 0x00655BE4;
+  static u16**          BWXFN_StringTableIndex = (u16**) 0x6D1220;
+  static u32**          BWXFN_MapFogOfWar = (u32**) 0x006D1248;
   
-
-  static u32           BWFXN_CommandUnit = 0x4BFF80;
-  static u32           BWFXN_IssueCommand = 0x4858F0;
-  static u32           BWFXN_HUD = 0x4202A0; 
-  static u32*          BWFXN_InGame = (u32*) 0x6556C8;
-  static u32           BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
-  static u32           BWXFN_PrintText = 0x48CE60;
-  //static u32           BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
-  static u32           BWXFN_PrintPublicText = 0x004C2090;
-  static u32           BWXFN_SendPublicCall = 0x004F2EF7;
-  static u32           BWXFN_SendPublicCallBack = BWXFN_SendPublicCall + 5;
-  static u32           BWXFN_SendPublicCallTarget = 0x004C2090;
-  //static int           BWXFN_Refresh = 0x41DE10; // Is some function, not tested yet (4 int arguments)
-  static Unit*         BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;
-  static u32           BWXFN_GameStart = 0x004C96A1;
-  static u32           BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
-  static u32           BWXFN_GameStartTarget = 0x00417C10;
-  static u32           BWXFN_GameEnd = 0x004EE5C3;
-  static u32           BWXFN_GameEndBack = BWXFN_GameEnd + 5;
-  static u32           BWXFN_GameEndTarget = 0x00416D80;
-  static u32           BWXFN_NextFrameHelperFunction = 0x004D94ED;
-  static u32           BWXFN_NextFrameHelperFunctionBack = 0x004D94ED + 5;
-  static u32           BWXFN_NextFrameHelperFunctionTarget = 0x4D1110;
-  static u32           BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
-  static u32           BWXFN_CancelTrainByClickInTheQueue = 0x004573D9;
-  static u32           BWXFN_CancelTrainByClickInTheQueueBack = 0x004573D9 + 5;
-  static u32           BWXFN_CancelTrainByClickInTheQueueTarget = BWFXN_IssueCommand;
-  static u32           BWXFN_CancelTrainByEscape = 0x00423494;
-  static u32           BWXFN_CancelTrainByEscapeBack = 0x00423494 + 5;
-  static u32           BWXFN_CancelTrainByEscapeTarget = BWFXN_IssueCommand;
-  static u32           BWXFN_RemoveUnit = 0x004EC134;
-  static u32           BWXFN_RemoveUnitBack = BWXFN_RemoveUnit + 5;
-  static u32           BWXFN_RemoveUnitTarget = 0x00479880;
-  static u32           BWXFN_Redraw = 0x004D9563;
-  static u32           BWXFN_RedrawBack = 0x004D9563 + 5;
-  static u32           BWXFN_RedrawTarget = 0x0041C9F0;
-  static u32           BWXFN_NextLogicFrame = 0x004D937E;
-  static u32           BWXFN_NextLogicFrameBack = BWXFN_NextLogicFrame + 5;
-  static u32           BWXFN_NextLogicFrameTarget = 0x00488420;
-  static int*          BWXFN_MouseX = (int*) 0x006CDDAC;
-  static int*          BWXFN_MouseY = (int*) 0x006CDDB0;
-  static int*          BWXFN_ScreenX = (int*) 0x00628430;
-  static int*          BWXFN_ScreenY = (int*) 0x00628458;
-  static char*         BWXFN_CurrentMapFileName = (char*) 0x0057FD24;
-  static char**        BWXFN_StringTable = (char**) 0x006D1220;
-  static u16*          BWXFN_TechLabelIndex = (u16*) 0x00656288;
-  static u16*          BWXFN_UpgradeLabelIndex = (u16*) 0x00655A28;
-  static u8*           BWXFN_UpgradeMax = (u8*) 0x006556E8;
-  static u16**         BWXFN_StringTableIndex = (u16**) 0x6D1220;
-  static u32**         BWXFN_MapFogOfWar = (u32**) 0x006D1248;
-
-
   //------------------------------------ SUPPLIES -----------------------------
   struct Supplies
   {
