@@ -41,6 +41,7 @@ namespace BWAPI
        */
       static void print(const char *text);
       static void print(const char *text, const std::string& parameter1);
+      static void print(const char *text, const std::string& parameter1, const u32& parameter2);
       static void print(const char *text, const u32&         parameter1);
       /** Doesn't work now */
       void printPublic(const char *text) const;

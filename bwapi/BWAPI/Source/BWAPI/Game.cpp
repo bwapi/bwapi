@@ -180,6 +180,13 @@ namespace BWAPI
 	  	sendText(buffer);
   }
   //----------------------------------- PRINT ---------------------------------
+  void Game::print(const char *text, const std::string& parameter1, const u32& parameter2)
+  {
+    sprintf(buffer, text, parameter1.c_str(), parameter2);
+    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
+	  	sendText(buffer);
+  }
+  //----------------------------------- PRINT ---------------------------------
   void Game::print(const char *text, const u32& parameter1)
   {
     sprintf(buffer, text, parameter1);
