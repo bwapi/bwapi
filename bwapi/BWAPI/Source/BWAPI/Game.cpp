@@ -293,7 +293,7 @@ namespace BWAPI
       }
       else if (parsed[1] == "researchState")
       {
-        std::string techName = message.substr(strlen("/get researchState "), message.size() - strlen("/ get researchState "));
+        std::string techName = message.substr(strlen("/get researchState "), message.size() - strlen("/get researchState "));
         BW::TechType tech = this->techNameToType[techName];
         if (tech == BW::TechID::None)
           this->print("Unknown tech name '%s'", techName);
@@ -321,7 +321,7 @@ namespace BWAPI
           else
             this->print("Another level is not in progress");
         }
-      }      
+      }
       else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState", parsed[1]);
       return true;
     }
@@ -358,7 +358,7 @@ namespace BWAPI
       else 
         this->print("Unknown log command '%s''s - possible values are: all", parsed[1]);
       return true;
-    }    
+    }
     return false;
   }
   //------------------------------ ON GAME END ----------------------------------
