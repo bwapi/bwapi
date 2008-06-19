@@ -283,6 +283,8 @@ namespace PathFinding
   //------------------------------------------------------------------------------------------------
   bool Utilities::canStay(const BW::UnitType& type, const WalkabilityPosition& position) const
   {
+    if (!this->precomputedPlacebility[type.getID()])
+      return true;
     return (*this->precomputedPlacebility[type.getID()])[position.x][position.y];
   }
   //------------------------------------------------------------------------------------------------
