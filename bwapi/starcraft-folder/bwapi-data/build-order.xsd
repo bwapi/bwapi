@@ -26,9 +26,9 @@
        <xs:element name="build">
          <xs:complexType>
             <xs:sequence>
-              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
+              <xs:element ref="condition" minOccurs="0" maxOccurs="1"/>
            </xs:sequence>
-           <xs:attribute name="name" type="xs:string" use="required"/>
+           <xs:attribute name="name" type="unit-type" use="required"/>
            <xs:attribute name="place" type="xs:string" use="required"/>
            <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
          </xs:complexType>
@@ -36,7 +36,7 @@
        <xs:element name="invent">
          <xs:complexType>
             <xs:sequence>
-              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
+              <xs:element ref="condition" minOccurs="0" maxOccurs="1"/>
            </xs:sequence>
            <xs:attribute name="name" type="tech-type" use="required"/>
            <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
@@ -57,12 +57,12 @@
              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
              <xs:element name="build" maxOccurs="unbounded">
                <xs:complexType>
-                 <xs:attribute name="name" type="xs:string" use="required" />
+                 <xs:attribute name="name" type="unit-type" use="required" />
                  <xs:attribute name="weight" type="xs:int" use="required" />
                </xs:complexType>
              </xs:element>
            </xs:sequence>
-           <xs:attribute name="building" type="xs:string" use="required"/>
+           <xs:attribute name="building" type="unit-type" use="required"/>
          </xs:complexType>
        </xs:element>
      </xs:choice>
@@ -170,6 +170,239 @@
     <xs:enumeration value="Chitinous Plating"/>
     <xs:enumeration value="Anabolic Synthesis"/>
     <xs:enumeration value="Charon Booster"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="unit-type">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Terran Marine"/>
+    <xs:enumeration value="Terran Ghost"/>
+    <xs:enumeration value="Terran Vulture"/>
+    <xs:enumeration value="Terran Goliath"/>
+    <xs:enumeration value="Goliath Turret"/>
+    <xs:enumeration value="Terran Siege Tank"/>
+    <xs:enumeration value="Tank Turret"/>
+    <xs:enumeration value="Terran SCV"/>
+    <xs:enumeration value="Terran Wraith"/>
+    <xs:enumeration value="Terran Science Vessel"/>
+    <xs:enumeration value="Gui Montag"/>
+    <xs:enumeration value="Terran Dropship"/>
+    <xs:enumeration value="Terran Battlecruiser"/>
+    <xs:enumeration value="Vulture Spider Mine"/>
+    <xs:enumeration value="Nuclear Missile"/>
+    <xs:enumeration value="Terran Civilian"/>
+    <xs:enumeration value="Sarah Kerrigan"/>
+    <xs:enumeration value="Alan Schezar"/>
+    <xs:enumeration value="Alan Turret"/>
+    <xs:enumeration value="Jim Raynor"/>
+    <xs:enumeration value="Jim Raynor"/>
+    <xs:enumeration value="Tom Kazansky"/>
+    <xs:enumeration value="Magellan"/>
+    <xs:enumeration value="Edmund Duke"/>
+    <xs:enumeration value="Duke Turret"/>
+    <xs:enumeration value="Edmund Duke"/>
+    <xs:enumeration value="Duke Turret"/>
+    <xs:enumeration value="Arcturus Mengsk"/>
+    <xs:enumeration value="Hyperion"/>
+    <xs:enumeration value="Norad II"/>
+    <xs:enumeration value="Terran Siege Tank"/>
+    <xs:enumeration value="Tank Turret"/>
+    <xs:enumeration value="Terran Firebat"/>
+    <xs:enumeration value="Scanner Sweep"/>
+    <xs:enumeration value="Terran Medic"/>
+    <xs:enumeration value="Zerg Larva"/>
+    <xs:enumeration value="Zerg Egg"/>
+    <xs:enumeration value="Zerg Zergling"/>
+    <xs:enumeration value="Zerg Hydralisk"/>
+    <xs:enumeration value="Zerg Ultralisk"/>
+    <xs:enumeration value="Zerg Broodling"/>
+    <xs:enumeration value="Zerg Drone"/>
+    <xs:enumeration value="Zerg Overlord"/>
+    <xs:enumeration value="Zerg Mutalisk"/>
+    <xs:enumeration value="Zerg Guardian"/>
+    <xs:enumeration value="Zerg Queen"/>
+    <xs:enumeration value="Zerg Defiler"/>
+    <xs:enumeration value="Zerg Scourge"/>
+    <xs:enumeration value="Torrasque"/>
+    <xs:enumeration value="Matriarch"/>
+    <xs:enumeration value="Infested Terran"/>
+    <xs:enumeration value="Infested Kerrigan"/>
+    <xs:enumeration value="Unclean One"/>
+    <xs:enumeration value="Hunter Killer"/>
+    <xs:enumeration value="Devouring One"/>
+    <xs:enumeration value="Kukulza"/>
+    <xs:enumeration value="Kukulza"/>
+    <xs:enumeration value="Yggdrasill"/>
+    <xs:enumeration value="Terran Valkyrie"/>
+    <xs:enumeration value="Cocoon"/>
+    <xs:enumeration value="Protoss Corsair"/>
+    <xs:enumeration value="Protoss Dark Templar"/>
+    <xs:enumeration value="Zerg Devourer"/>
+    <xs:enumeration value="Protoss Dark Archon"/>
+    <xs:enumeration value="Protoss Probe"/>
+    <xs:enumeration value="Protoss Zealot"/>
+    <xs:enumeration value="Protoss Dragoon"/>
+    <xs:enumeration value="Protoss High Templar"/>
+    <xs:enumeration value="Protoss Archon"/>
+    <xs:enumeration value="Protoss Shuttle"/>
+    <xs:enumeration value="Protoss Scout"/>
+    <xs:enumeration value="Protoss Arbiter"/>
+    <xs:enumeration value="Protoss Carrier"/>
+    <xs:enumeration value="Protoss Interceptor"/>
+    <xs:enumeration value="Dark Templar"/>
+    <xs:enumeration value="Zeratul"/>
+    <xs:enumeration value="Tassadar/Zeratul"/>
+    <xs:enumeration value="Fenix"/>
+    <xs:enumeration value="Fenix"/>
+    <xs:enumeration value="Tassadar"/>
+    <xs:enumeration value="Mojo"/>
+    <xs:enumeration value="Warbringer"/>
+    <xs:enumeration value="Gantrithor"/>
+    <xs:enumeration value="Protoss Reaver"/>
+    <xs:enumeration value="Protoss Observer"/>
+    <xs:enumeration value="Protoss Scarab"/>
+    <xs:enumeration value="Danimoth"/>
+    <xs:enumeration value="Aldaris"/>
+    <xs:enumeration value="Artanis"/>
+    <xs:enumeration value="Rhynadon"/>
+    <xs:enumeration value="Bengalaas"/>
+    <xs:enumeration value="Unused"/>
+    <xs:enumeration value="Unused"/>
+    <xs:enumeration value="Scantid"/>
+    <xs:enumeration value="Kakaru"/>
+    <xs:enumeration value="Ragnasaur"/>
+    <xs:enumeration value="Ursadon"/>
+    <xs:enumeration value="Zerg Lurker Egg"/>
+    <xs:enumeration value="Raszagal"/>
+    <xs:enumeration value="Samir Duran"/>
+    <xs:enumeration value="Alexei Stukov"/>
+    <xs:enumeration value="Map Revealer"/>
+    <xs:enumeration value="Gerard DuGalle"/>
+    <xs:enumeration value="Zerg Lurker"/>
+    <xs:enumeration value="Infested Duran"/>
+    <xs:enumeration value="Disruption Field"/>
+    <xs:enumeration value="Terran Command Center"/>
+    <xs:enumeration value="Terran Comsat Station"/>
+    <xs:enumeration value="Terran Nuclear Silo"/>
+    <xs:enumeration value="Terran Supply Depot"/>
+    <xs:enumeration value="Terran Refinery"/>
+    <xs:enumeration value="Terran Barracks"/>
+    <xs:enumeration value="Terran Academy"/>
+    <xs:enumeration value="Terran Factory"/>
+    <xs:enumeration value="Terran Starport"/>
+    <xs:enumeration value="Terran Control Tower"/>
+    <xs:enumeration value="Terran Science Facility"/>
+    <xs:enumeration value="Terran Covert Ops"/>
+    <xs:enumeration value="Terran Physics Lab"/>
+    <xs:enumeration value="Unused Terran Bldg"/>
+    <xs:enumeration value="Terran Machine Shop"/>
+    <xs:enumeration value="Unused Terran Bldg"/>
+    <xs:enumeration value="Terran Engineering Bay"/>
+    <xs:enumeration value="Terran Armory"/>
+    <xs:enumeration value="Terran Missile Turret"/>
+    <xs:enumeration value="Terran Bunker"/>
+    <xs:enumeration value="Norad II"/>
+    <xs:enumeration value="Ion Cannon"/>
+    <xs:enumeration value="Uraj Crystal"/>
+    <xs:enumeration value="Khalis Crystal"/>
+    <xs:enumeration value="Infested Command Center"/>
+    <xs:enumeration value="Zerg Hatchery"/>
+    <xs:enumeration value="Zerg Lair"/>
+    <xs:enumeration value="Zerg Hive"/>
+    <xs:enumeration value="Zerg Nydus Canal"/>
+    <xs:enumeration value="Zerg Hydralisk Den"/>
+    <xs:enumeration value="Zerg Defiler Mound"/>
+    <xs:enumeration value="Zerg Greater Spire"/>
+    <xs:enumeration value="Zerg Queen's Nest"/>
+    <xs:enumeration value="Zerg Evolution Chamber"/>
+    <xs:enumeration value="Zerg Ultralisk Cavern"/>
+    <xs:enumeration value="Zerg Spire"/>
+    <xs:enumeration value="Zerg Spawning Pool"/>
+    <xs:enumeration value="Zerg Creep Colony"/>
+    <xs:enumeration value="Zerg Spore Colony"/>
+    <xs:enumeration value="Unused Zerg Bldg"/>
+    <xs:enumeration value="Zerg Sunken Colony"/>
+    <xs:enumeration value="Zerg Overmind"/>
+    <xs:enumeration value="Zerg Overmind"/>
+    <xs:enumeration value="Zerg Extractor"/>
+    <xs:enumeration value="Mature Crysalis"/>
+    <xs:enumeration value="Zerg Cerebrate"/>
+    <xs:enumeration value="Zerg Cerebrate Daggoth"/>
+    <xs:enumeration value="Unused Zerg Bldg 5"/>
+    <xs:enumeration value="Protoss Nexus"/>
+    <xs:enumeration value="Protoss Robotics Facility"/>
+    <xs:enumeration value="Protoss Pylon"/>
+    <xs:enumeration value="Protoss Assimilator"/>
+    <xs:enumeration value="Protoss Unused"/>
+    <xs:enumeration value="Protoss Observatory"/>
+    <xs:enumeration value="Protoss Gateway"/>
+    <xs:enumeration value="Protoss Unused"/>
+    <xs:enumeration value="Protoss Photon Cannon"/>
+    <xs:enumeration value="Protoss Citadel of Adun"/>
+    <xs:enumeration value="Protoss Cybernetics Core"/>
+    <xs:enumeration value="Protoss Templar Archives"/>
+    <xs:enumeration value="Protoss Forge"/>
+    <xs:enumeration value="Protoss Stargate"/>
+    <xs:enumeration value="Stasis Cell/Prison"/>
+    <xs:enumeration value="Protoss Fleet Beacon"/>
+    <xs:enumeration value="Protoss Arbiter Tribunal"/>
+    <xs:enumeration value="Protoss Robotics Support Bay"/>
+    <xs:enumeration value="Protoss Shield Battery"/>
+    <xs:enumeration value="Khaydarin Crystal Formation"/>
+    <xs:enumeration value="Protoss Temple"/>
+    <xs:enumeration value="Xel'Naga Temple"/>
+    <xs:enumeration value="Mineral Field"/>
+    <xs:enumeration value="Mineral Field"/>
+    <xs:enumeration value="Mineral Field"/>
+    <xs:enumeration value="Cave"/>
+    <xs:enumeration value="Cave-in"/>
+    <xs:enumeration value="Cantina"/>
+    <xs:enumeration value="Mining Platform"/>
+    <xs:enumeration value="Independent Command Center"/>
+    <xs:enumeration value="Independent Starport"/>
+    <xs:enumeration value="Jump Gate"/>
+    <xs:enumeration value="Ruins"/>
+    <xs:enumeration value="Kyadarin Crystal Formation"/>
+    <xs:enumeration value="Vespene Geyser"/>
+    <xs:enumeration value="Warp Gate"/>
+    <xs:enumeration value="Psi Disrupter"/>
+    <xs:enumeration value="Zerg Marker"/>
+    <xs:enumeration value="Terran Marker"/>
+    <xs:enumeration value="Protoss Marker"/>
+    <xs:enumeration value="Zerg Beacon"/>
+    <xs:enumeration value="Terran Beacon"/>
+    <xs:enumeration value="Protoss Beacon"/>
+    <xs:enumeration value="Zerg Flag Beacon"/>
+    <xs:enumeration value="Terran Flag Beacon"/>
+    <xs:enumeration value="Protoss Flag Beacon"/>
+    <xs:enumeration value="Power Generator"/>
+    <xs:enumeration value="Overmind Cocoon"/>
+    <xs:enumeration value="Dark Swarm"/>
+    <xs:enumeration value="Floor Missile Trap"/>
+    <xs:enumeration value="Floor Hatch (UNUSED)"/>
+    <xs:enumeration value="Left Upper Level Door"/>
+    <xs:enumeration value="Right Upper Level Door"/>
+    <xs:enumeration value="Left Pit Door"/>
+    <xs:enumeration value="Right Pit Door"/>
+    <xs:enumeration value="Floor Gun Trap"/>
+    <xs:enumeration value="Left Wall Missile Trap"/>
+    <xs:enumeration value="Left Wall Flame Trap"/>
+    <xs:enumeration value="Right Wall Missile Trap"/>
+    <xs:enumeration value="Right Wall Flame Trap"/>
+    <xs:enumeration value="Start Location"/>
+    <xs:enumeration value="Flag"/>
+    <xs:enumeration value="Young Chrysalis"/>
+    <xs:enumeration value="Psi Emitter"/>
+    <xs:enumeration value="Data Disc"/>
+    <xs:enumeration value="Khaydarin Crystal"/>
+    <xs:enumeration value="Mineral Chunk"/>
+    <xs:enumeration value="Mineral Chunk"/>
+    <xs:enumeration value="Vespene Orb"/>
+    <xs:enumeration value="Vespene Orb"/>
+    <xs:enumeration value="Vespene Sac"/>
+    <xs:enumeration value="Vespene Sac"/>
+    <xs:enumeration value="Vespene Tank"/>
+    <xs:enumeration value="Vespene Tank"/>
   </xs:restriction>
 </xs:simpleType>
 
