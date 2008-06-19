@@ -39,6 +39,8 @@ namespace BWAPI
        * @param text Text to be written
        */
       static void print(const char *text);
+      static void print(const char *text, const std::string& parameter1);
+      static void print(const char *text, const u32&         parameter1);
       /** Doesn't work now */
       void printPublic(const char *text) const;
       bool isOnStartCalled() const;
