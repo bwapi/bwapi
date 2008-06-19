@@ -36,8 +36,11 @@ namespace BW
            this->getID() != UpgradeID::UnusedUpgrade48 &&
            this->getID() != UpgradeID::UnusedUpgrade50 &&
            this->getID() != UpgradeID::BurstLasers;
-           
-           
+  }
+  //----------------------------------------------------------------------------------------------------------
+  u8 UpgradeType::upgradesMax() const
+  {
+    return BW::BWXFN_UpgradeMax[this->getID()];
   }
   //----------------------------------------------------------------------------------------------------------
 }

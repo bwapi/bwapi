@@ -471,6 +471,7 @@ namespace BWAI
   {
     std::string message = text;
     std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
+    parsed.push_back("");parsed.push_back("");parsed.push_back(""); // to avoid range checks everywhere
     if (parsed[0] == "/save")
     {
       if (parsed[1] == "fog")
@@ -492,8 +493,11 @@ namespace BWAI
         std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\upgrades";
         Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
         for (u8 i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
-          if (BW::UpgradeType((BW::UpgradeID::Enum)i).isValid())
-            upgradesLog.log("%s=%d",BW::UpgradeType((BW::UpgradeID::Enum)i).getName(), i);
+        {
+          BW::UpgradeType upgrade = BW::UpgradeType((BW::UpgradeID::Enum)i);
+          if (upgrade.isValid())
+            upgradesLog.log("%s=%d  upgrades max to %u ", upgrade.getName(), i, upgrade.upgradesMax());
+        }
       }        
       else 
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog", parsed[1]);
