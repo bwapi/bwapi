@@ -71,15 +71,15 @@ namespace BuildOrder
         BWAI::ai->root->log->log("Command to build addon '%s' called at '%s'", this->name.c_str(), this->place.c_str());
         BWAI::BuildingPosition* position = alternatives->positions.front();
         
-        if (BWAPI::Broodwar.unitsOnTile[position->position.x - 1][position->position.y].empty())
+        if (BWAPI::Broodwar.unitsOnTile[position->position.x - 2][position->position.y].empty())
         {
-          BWAI::ai->root->log->log("Building for the addon not found");
+          BWAI::ai->root->log->log("Building for the addon not found", Util::LogLevel::Commmon);
           return false;
         }
         
-       if (!BWAPI::Broodwar.unitsOnTile[position->position.x - 1][position->position.y].front()->isReady())
+       if (!BWAPI::Broodwar.unitsOnTile[position->position.x - 2][position->position.y].front()->isReady())
         {
-          BWAI::ai->root->log->log("Building for the addon not ready");
+          BWAI::ai->root->log->log("Building for the addon not ready", Util::LogLevel::Commmon);
           return false;
         }
         
