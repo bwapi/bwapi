@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Task.h"
+#include <BWAPI/ReservedResources.h>
 
+#include "Task.h"
 #include "BuildingPosition.h"
 
 namespace BWAI { class BuildingPositionSet; }
@@ -28,6 +29,7 @@ namespace BWAI
       BW::UnitType getBuildingType();
       TaskType::Enum getType();
       Unit* getBuilding();
+      BWAPI::ReservedResources getReserved();
     private :  
       BW::UnitType buildingType;
       BuildingPosition* position;

@@ -27,9 +27,9 @@ namespace BWAI
   {
     public :
       /** Creates the without executors (the task itself can always obtain it)  */
-      Task();
+      Task(u8 priority = 0);
       /** Creates the task giving it one executor to work with from the start. */
-      Task(Unit* executor);
+      Task(Unit* executor, u8 priority = 0);
       /** Removes the task and frees all executors from it. */
       virtual ~Task();
       virtual TaskType::Enum getType() = 0;
@@ -61,5 +61,7 @@ namespace BWAI
        * contact me and I would like it to be used.
        */
       std::list<Unit*> executors;
+      /** Priority of task - the higher the more important the task is. */
+      u8 priority;
   };
 }

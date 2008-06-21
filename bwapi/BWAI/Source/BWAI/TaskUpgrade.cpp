@@ -47,7 +47,7 @@ namespace BWAI
          ++i)
       if ((*i)->isReady() &&
           (*i)->getOrderID() == BW::OrderID::Nothing2 &&
-          (*i)->getOwner()->canAfford(this->upgradeType, this->level))
+          (*i)->getOwner()->canAfford(this->upgradeType, this->level, BWAPI::ReservedResources()))
       {
         this->executors.front()->upgrade(this->upgradeType);
         break;

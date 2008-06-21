@@ -43,7 +43,7 @@ namespace BWAI
          ++i)
       if ((*i)->isReady() &&
           (*i)->getOrderID() == BW::OrderID::Nothing2 &&
-          (*i)->getOwner()->canAfford(this->techType))
+          (*i)->getOwner()->canAfford(this->techType, BWAPI::ReservedResources()))
       {
         this->executors.front()->invent(this->techType);
         break;
