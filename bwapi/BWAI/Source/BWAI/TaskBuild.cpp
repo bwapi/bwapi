@@ -138,7 +138,7 @@ namespace BWAI
             if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
                 this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
                 this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
-                this->executors.front()->getOwner()->canAfford(buildingType))
+                this->executors.front()->getOwner()->canAfford(buildingType, BWAPI::ReservedResources()))
             {
               BWAI::ai->log->log("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
               this->executors.front()->build(this->position->position, buildingType);
@@ -189,6 +189,13 @@ namespace BWAI
   Unit* TaskBuild::getBuilding()
   {
     return this->building;
+  }
+  //---------------------------------------------------------------------------
+  BWAPI::ReservedResources TaskBuild::getReserved()
+  {
+    if (this->building == NULL)
+      return BWAPI::ReservedResources(this->buildingType.getMineralPrice(), this->buildingType.getGasPrice(), 0);
+    return BWAPI::ReservedResources();
   }
   //---------------------------------------------------------------------------
 }

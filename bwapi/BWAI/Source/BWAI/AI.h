@@ -4,6 +4,7 @@
 #include <map>
 
 #include <BWAPI/Game.h>
+#include <BWAPI/ReservedResources.h>
 #include <BW/UnitType.h>
 
 namespace Util { class Logger; }
@@ -91,7 +92,7 @@ namespace BWAI
        *          NULL otherwise.
        */
       BuildingPositionSet* getPositionsCalled(const std::string& place);
-      u16 moneyToBeSpentOnBuildings;
+      BWAPI::ReservedResources reserved;
       /** Currently opened map, NULL if no map is opened. */
       BWAPI::Map* map;
       PathFinding::Utilities *pathFinding;

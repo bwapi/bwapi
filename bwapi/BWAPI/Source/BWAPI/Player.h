@@ -12,6 +12,8 @@ namespace BW { struct Unit; };
 #include <BW/Offsets.h>
 #include <BW/Race.h>
 
+#include <BWAPI/ReservedResources.h>
+
 namespace BWAPI
 {
   class Unit;
@@ -109,15 +111,15 @@ namespace BWAPI
      * @param Money that must the player keep (reserved to make building or other reason)
      * @returns @c true if the unit can be trained, @c false otherwise.
      */
-    bool canAfford(BW::UnitType unit, u16 mineralsToKeep = 0);
+    bool canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved);
     /**
      * Finds out if the current player can afford to invent the specified tech atm Checks minerals and gas.
      * @param tech Tech type to be checked
      * @param Money that must the player keep (reserved to make building or other reason)
      * @returns @c true if the tech can be invented, @c false otherwise.
      */
-    bool canAfford(BW::TechType tech, u16 mineralsToKeep = 0);    
-    bool canAfford(BW::UpgradeType upgrade, u8 level, u16 mineralsToKeep = 0);    
+    bool canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved);
+    bool canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved);
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
     bool researchInProgress(BW::TechType tech) const;    

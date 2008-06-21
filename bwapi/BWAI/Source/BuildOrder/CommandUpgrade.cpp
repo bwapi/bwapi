@@ -34,7 +34,7 @@ namespace BuildOrder
       BWAI::ai->root->log->log("Unknown upgrade name '%s'", this->name.c_str());
       return true;
     }
-    if (BWAI::ai->player->canAfford(toUpgrade, level, BWAI::ai->moneyToBeSpentOnBuildings) &&
+    if (BWAI::ai->player->canAfford(toUpgrade, level, BWAI::ai->reserved) &&
         this->conditionApplies()) 
     {
       BWAI::ai->root->log->log("Command to upgrade '%s' called", this->name.c_str());

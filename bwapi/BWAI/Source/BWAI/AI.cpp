@@ -48,7 +48,6 @@ namespace BWAI
   ,log    (new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
   ,deadLog(new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
-  ,moneyToBeSpentOnBuildings(0)
   ,map(NULL)
   ,temp(NULL)
   ,pathFinding(NULL)
@@ -187,15 +186,12 @@ namespace BWAI
     this->first = Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
     if (this->first != NULL)
       this->first->updateNext();
-    this->moneyToBeSpentOnBuildings = 0;
+    this->reserved.clear();
 
     for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
          i != this->plannedBuildings.end();
          ++i)
-    {
-      if ((*i)->getBuilding() == NULL)
-        this->moneyToBeSpentOnBuildings += (*i)->getBuildingType().getMineralPrice();
-    }
+      this->reserved += (*i)->getReserved();
   }
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player)
@@ -529,7 +525,7 @@ namespace BWAI
           BWAPI::Broodwar.print("Unknown upgrade name '%s'", techName);
         else
         {
-          if (this->player->canAfford(tech, this->moneyToBeSpentOnBuildings))
+          if (this->player->canAfford(tech, this->reserved))
           {
             this->plannedInvents.push_back(new BWAI::TaskInvent(tech));
             BWAPI::Broodwar.print("Added tech '%s'", techName);
@@ -558,7 +554,7 @@ namespace BWAI
           BWAPI::Broodwar.print("Unknown upgrade name '%s'", upgradeName);
         else
         {
-          if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1, this->moneyToBeSpentOnBuildings))
+          if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1, this->reserved))
           {
             this->plannedUpgrades.push_back(new BWAI::TaskUpgrade(upgrade, this->player->upgradeLevel(upgrade) + 1));
             BWAPI::Broodwar.print("Added upgrade '%s' level %d", upgradeName, this->player->upgradeLevel(upgrade) + 1);
@@ -750,7 +746,7 @@ namespace BWAI
                   ((float)this->player->allUnitTypeCount[best.first.getID()])/((float)best.second) >
                   ((float)this->player->allUnitTypeCount[(*j).first.getID()])/((float)(*j).second))
                 best = *j;
-            if (this->player->canAfford(best.first))
+            if (this->player->canAfford(best.first, BWAPI::ReservedResources()))
               i->trainUnit(best.first);
           }
         }
@@ -758,7 +754,7 @@ namespace BWAI
                  i->lastTrainedUnit.isValid())
         {
           BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
-          if (this->player->canAfford(typeToBuild, this->moneyToBeSpentOnBuildings))
+          if (this->player->canAfford(typeToBuild, this->reserved))
           {
             reselected = true;
             i->trainUnit(typeToBuild);

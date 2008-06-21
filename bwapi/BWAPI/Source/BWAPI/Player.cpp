@@ -122,23 +122,23 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- CAN AFFORD -------------------------------------------------
-  bool Player::canAfford(BW::UnitType unit, u16 mineralsToKeep)
+  bool Player::canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved)
   {
-    return this->getSuppliesFreeLocal(unit.getRace()) >= unit.getSupplies() &&
-           this->getMineralsLocal() - mineralsToKeep >= unit.getMineralPrice() &&
-           this->getGasLocal() >= unit.getGasPrice();
+    return ((int)this->getSuppliesFreeLocal(unit.getRace())) - reserved.supply   >= unit.getSupplies() &&
+           ((int)this->getMineralsLocal())                   - reserved.minerals >= unit.getMineralPrice() &&
+           ((int)this->getGasLocal())                        - reserved.gas      >= unit.getGasPrice();
   }
   //--------------------------------------------- CAN AFFORD -------------------------------------------------
-  bool Player::canAfford(BW::TechType tech, u16 mineralsToKeep)
+  bool Player::canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved)
   {
-    return this->getMineralsLocal() - mineralsToKeep >= tech.getMineralPrice() &&
-           this->getGasLocal() >= tech.getGasPrice();
+    return ((int)this->getMineralsLocal()) - reserved.minerals >= tech.getMineralPrice() &&
+           ((int)this->getGasLocal())      - reserved.gas      >= tech.getGasPrice();
   }
   //--------------------------------------------- CAN AFFORD -------------------------------------------------
-  bool Player::canAfford(BW::UpgradeType upgrade, u8 level, u16 mineralsToKeep)
+  bool Player::canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved)
   {
-    return this->getMineralsLocal() - mineralsToKeep >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-           this->getGasLocal()                       >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
+    return ((int)this->getMineralsLocal()) - reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
+           ((int)this->getGasLocal())      - reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
   }
   //-------------------------------------------- GET RACE ----------------------------------------------------
   BW::Race::Enum Player::getRace()

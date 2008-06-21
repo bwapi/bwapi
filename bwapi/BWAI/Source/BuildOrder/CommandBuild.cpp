@@ -42,7 +42,7 @@ namespace BuildOrder
   bool CommandBuild::execute()
   {
     BW::UnitType toBuild = BWAI::ai->unitNameToType[this->name];
-    if (BWAI::ai->player->canAfford(toBuild, BWAI::ai->moneyToBeSpentOnBuildings) &&
+    if (BWAI::ai->player->canAfford(toBuild, BWAI::ai->reserved) &&
         BWAI::ai->player->canBuild(toBuild) &&
         this->conditionApplies()) 
     {

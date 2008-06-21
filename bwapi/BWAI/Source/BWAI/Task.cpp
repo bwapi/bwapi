@@ -8,11 +8,13 @@
 namespace BWAI
 {
   //------------------------------- CONSTRUCTOR -------------------------------
-  Task::Task()
+  Task::Task(u8 priority)
+  :priority(priority)
   {
   }
   //------------------------------- CONSTRUCTOR -------------------------------
-  Task::Task(Unit* executor)
+  Task::Task(Unit* executor, u8 priority)
+  :priority(priority)
   {
     if (executor != NULL)
       this->addExecutor(executor);
