@@ -1,6 +1,9 @@
 class TiXmlElement;
 
 #include <list>
+
+#include <BW/Race.h>
+
 namespace BuildOrder { class Command; }
 
 namespace BuildOrder
@@ -16,9 +19,12 @@ namespace BuildOrder
       Branch(TiXmlElement* xmlElement);
       /** Commands in the branch, the order specifies the order of execution. */
       std::list<Command*> commands;
+      BW::Race::Enum against;
+      std::string getName();
     private :
       /** Default constructor is forbidden, the customisation of bulidorder in runtime is not supported now */
       Branch();
+      std::string name;
 
   };
 }

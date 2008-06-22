@@ -91,6 +91,7 @@ namespace BWAPI
       void loadSelected(BW::Unit** selected);
       void onRemoveUnit(BW::Unit *unit);
       Player* BWAPIPlayer;
+      Player* opponent;
       Unit* getFirst();
       template <class Type>
       std::string getBinary(Type value);

@@ -21,5 +21,6 @@ namespace BuildOrder
       std::list<Branch*> buildOrders;
       std::map<std::string, BuildWeights*> weights;
       Util::Logger *log;
+      Branch* getStartingBranch();
   };
 }

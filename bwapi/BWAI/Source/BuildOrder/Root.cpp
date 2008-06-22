@@ -11,7 +11,9 @@
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
 #include <BWAPI/ScreenLogger.h>
+#include <BWAPI/Player.h>
 
+#include <BWAI/Globals.h>
 
 /** Things that involve ordering the ai things depending on the build-order xml definition. */
 namespace BuildOrder
@@ -38,7 +40,7 @@ namespace BuildOrder
 
     fclose(f);
   }
-  //------------------------------- DESTRUCTOR --------------------------------
+  //--------------------------------------------------- DESTRUCTOR -------------------------------------------
   Root::~Root()
   {
     for (std::list<Branch*>::iterator i = this->buildOrders.begin(); i != this->buildOrders.end(); ++i)
@@ -48,5 +50,18 @@ namespace BuildOrder
       delete (*i).second;
     delete log;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------- GET STARTING BRANCH --------------------------------------
+  Branch* Root::getStartingBranch()
+  {
+    if (BWAI::ai->opponent == NULL)
+    {
+      this->log->log("Unknown opponent player");
+      return NULL;
+    }
+    for (std::list<Branch*>::iterator i = this->buildOrders.begin(); i != this->buildOrders.end(); ++i)
+      if ((*i)->against == BWAI::ai->opponent->getRace())
+        return *i;
+    return NULL;
+  }
+  //----------------------------------------------------------------------------------------------------------
 }

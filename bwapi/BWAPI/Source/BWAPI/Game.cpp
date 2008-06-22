@@ -31,7 +31,7 @@
 
 namespace BWAPI 
 {
-  //------------------------------ CONSTRUCTOR ----------------------------------
+  //------------------------------------------------- CONSTRUCTOR --------------------------------------------
   Game::Game()
   :onStartCalled(false)
   ,unitsOnTile(0,0)
@@ -69,7 +69,7 @@ namespace BWAPI
 
     this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
   }
-  //------------------------------- DESTRUCTOR ----------------------------------
+  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   Game::~Game()
   {
     delete unitArrayCopy;
@@ -89,7 +89,7 @@ namespace BWAPI
     delete this->fatalError;
     delete this->configuration;
   }
-  //------------------------------- ISSUE COMMAND -------------------------------
+  //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void Game::IssueCommand(PBYTE pbBuffer, u32 iSize) 
   {
     __asm 
@@ -99,7 +99,7 @@ namespace BWAPI
       CALL [BW::BWFXN_IssueCommand]
     }
   }
-  //---------------------------------- UPDATE -----------------------------------
+  //----------------------------------------------- UPDATE ---------------------------------------------------
   void Game::update()
   {
     if (!this->enabled)
@@ -148,52 +148,52 @@ namespace BWAPI
           this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
       }
   }
-  //---------------------------------------------------------------------------
+  //--------------------------------------- IS ON START CALLED -----------------------------------------------
   bool Game::isOnStartCalled() const
   {
     return this->onStartCalled;
   }
-  //---------------------------------------------------------------------------
+  //--------------------------------------- SET ON START CALLED ----------------------------------------------
   void Game::setOnStartCalled(bool onStartCalled)
   {
     this->onStartCalled = onStartCalled;
   }
   #pragma warning(push)
   #pragma warning(disable:4312)
-  //---------------------------------------------------------------------------
+  //------------------------------------------ IS IN GAME ----------------------------------------------------
   bool Game::isInGame() const
   {
     return *(BW::BWFXN_InGame) == 0;
   }
-  //----------------------------------- PRINT ---------------------------------
+  //------------------------------------------- PRINT --------------------------------------------------------
   void Game::print(const char *text)
   {
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(text);
   }
   char buffer[2048];
-  //----------------------------------- PRINT ---------------------------------
+  //------------------------------------------- PRINT --------------------------------------------------------
   void Game::print(const char *text, const std::string& parameter1)
   {
     sprintf(buffer, text, parameter1.c_str());
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(buffer);
   }
-  //----------------------------------- PRINT ---------------------------------
+  //------------------------------------------- PRINT --------------------------------------------------------
   void Game::print(const char *text, const std::string& parameter1, const u32& parameter2)
   {
     sprintf(buffer, text, parameter1.c_str(), parameter2);
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(buffer);
   }
-  //----------------------------------- PRINT ---------------------------------
+  //------------------------------------------- PRINT --------------------------------------------------------
   void Game::print(const char *text, const u32& parameter1)
   {
     sprintf(buffer, text, parameter1);
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(buffer);
   }  
-  //---------------------------------------------------------------------------
+  //----------------------------------------- PRINT PUBLIC ---------------------------------------------------
   void Game::printPublic(const char *text) const
   {
 	 	__asm
@@ -206,7 +206,7 @@ namespace BWAPI
 	 	}
   }
   #pragma warning(pop)
-  //------------------------------- CHANGE SLOT -------------------------------
+  //----------------------------------------- CHANGE SLOT ----------------------------------------------------
   void Game::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
     IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID),3); 
@@ -230,9 +230,13 @@ namespace BWAPI
     this->frameCount = 0;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
+    this->opponent = NULL;
     for (int i = 0; i < 8; i++)
       if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
+      else
+        if (this->players[i]->getName() != "")
+          opponent = this->players[i];
           
     if (this->techNameToType.empty())
       for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
@@ -358,9 +362,9 @@ namespace BWAPI
         {
           BW::UnitType type((BW::UnitID::Enum)i);
           if (type.isValid())
-            BW::BWXFN_BuildTime->buildTime[i] = 5;
+            BW::BWXFN_BuildTime->buildTime[i] = 6;
         }
-        this->print("BWAPI gas/mineral cheat activated (only local ofcourse)");
+        this->print("BWAPI gas/mineral/build time cheat activated (only local ofcourse)");
       }
       else 
         this->print("Unknown log command '%s''s - possible values are: all", parsed[1]);
