@@ -15,7 +15,7 @@
  <xs:element name="build-orders">
    <xs:complexType>
      <xs:sequence>
-       <xs:element ref="build-order"/>
+       <xs:element ref="build-order" minOccurs="1" maxOccurs="unbounded"/>
      </xs:sequence>
    </xs:complexType>
  </xs:element> 
@@ -30,7 +30,7 @@
            </xs:sequence>
            <xs:attribute name="name" type="unit-type" use="required"/>
            <xs:attribute name="place" type="xs:string" use="required"/>
-           <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
+           <xs:attributeGroup ref="command-attributes"/>
          </xs:complexType>
        </xs:element>
        <xs:element name="invent">
@@ -39,7 +39,7 @@
               <xs:element ref="condition" minOccurs="0" maxOccurs="1"/>
            </xs:sequence>
            <xs:attribute name="name" type="tech-type" use="required"/>
-           <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
+           <xs:attributeGroup ref="command-attributes"/>
          </xs:complexType>
        </xs:element>
        <xs:element name="upgrade">
@@ -48,10 +48,11 @@
               <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
            </xs:sequence>
            <xs:attribute name="name" type="upgrade-type" use="required"/>
-           <xs:attribute name="minimal-population" type="xs:int" use="optional"/>
+           <xs:attribute name="level" type="xs:int" use="optional"/>
+           <xs:attributeGroup ref="command-attributes"/>
          </xs:complexType>
        </xs:element>       
-       <xs:element name="set-building-rate">
+       <xs:element name="train">
          <xs:complexType>
            <xs:sequence>
              <xs:element ref="condition" minOccurs="0" maxOccurs="1" />
@@ -63,6 +64,7 @@
              </xs:element>
            </xs:sequence>
            <xs:attribute name="building" type="unit-type" use="required"/>
+           <xs:attributeGroup ref="command-attributes"/>
          </xs:complexType>
        </xs:element>
      </xs:choice>
@@ -79,6 +81,11 @@
      <xs:attribute name="population" type="xs:string" use="optional"/>
   </xs:complexType>
 </xs:element>
+
+<xs:attributeGroup name="command-attributes">
+  <xs:attribute name="minimal-population" type="xs:string" use="optional"/>
+  <xs:attribute name="priority" type="xs:string" use="optional"/>
+</xs:attributeGroup>
 
 <xs:simpleType name="tech-type">
   <xs:restriction base="xs:string">
