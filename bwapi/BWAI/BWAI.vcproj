@@ -209,6 +209,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\TaskTrain.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\TaskUpgrade.h"
 					>
 				</File>
@@ -280,6 +284,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\TaskInvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\TaskTrain.cpp"
 					>
 				</File>
 				<File
