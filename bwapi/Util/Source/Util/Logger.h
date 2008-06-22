@@ -83,7 +83,7 @@ namespace Util
                    const T1&            parameter1, 
                          LogLevel::Enum logLevel)
   {
-    if (levelToLog > this->levelToLog)
+    if (logLevel > this->levelToLog)
       return true;
 
     _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1);
@@ -101,7 +101,7 @@ namespace Util
                    const T2&            parameter2, 
                          LogLevel::Enum logLevel)
   {
-    if (levelToLog > this->levelToLog)
+    if (logLevel > this->levelToLog)
       return true;
     
     _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2);
@@ -120,7 +120,7 @@ namespace Util
                    const T3&            parameter3, 
                          LogLevel::Enum logLevel)
   {
-    if (levelToLog > this->levelToLog)
+    if (logLevel > this->levelToLog)
       return true;
     
     _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2, parameter3);
@@ -140,7 +140,7 @@ namespace Util
                    const T4&            parameter4, 
                          LogLevel::Enum logLevel)
   {
-    if (levelToLog > this->levelToLog)
+    if (logLevel > this->levelToLog)
       return true;
 
     _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2, parameter3, parameter4);
@@ -161,7 +161,7 @@ namespace Util
                    const T5&            parameter5,
                          LogLevel::Enum logLevel)
   {
-    if (levelToLog > this->levelToLog)
+    if (logLevel > this->levelToLog)
       return true;
 
     _snprintf(buffer, BUFFER_SIZE, message.c_str(), parameter1, parameter2, parameter3, parameter4, parameter5);

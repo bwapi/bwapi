@@ -194,7 +194,7 @@ namespace BWAI
       this->reserved += (*i)->getReserved();
   }
   //------------------------------ ON START -----------------------------------
-  void AI::onStart(BWAPI::Player *player)
+  void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
   {
     try
     {
@@ -209,6 +209,7 @@ namespace BWAI
                                        )
                                      ); 
       this->player = player;
+      this->opponent = opponent;
       this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
       this->map->saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
@@ -248,7 +249,13 @@ namespace BWAI
 
     if (this->root != NULL)
     {
-      this->actualBranch = this->root->buildOrders.front();
+      this->actualBranch = this->root->getStartingBranch();
+      if (this->actualBranch == NULL)
+        this->root->log->log("Didn't find build order to play with %s against %s", 
+                             BW::Race::raceName(this->player->getRace()).c_str(), 
+                             BW::Race::raceName(this->opponent->getRace()).c_str());
+      else
+        this->root->log->log("Chose root branch : %s", this->actualBranch->getName().c_str());
       this->actualPosition = this->actualBranch->commands.begin();
     }
     this->log->log("Ai::onStart end", Util::LogLevel::Important);      

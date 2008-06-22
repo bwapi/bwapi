@@ -18,6 +18,7 @@ namespace BWAI { class TaskBuild; }
 namespace BWAI { class TaskInvent; }
 namespace BWAI { class TaskUpgrade; }
 namespace BWAI { class TaskFight; }
+namespace BWAI { class TaskTrain; }
 namespace BWAI { class Expansion; }
 namespace BWAI { class MapInfo; }
 namespace BWAI { class MapStartingPosition; }
@@ -54,7 +55,7 @@ namespace BWAI
       /** Updates next/first pointers */
       void update();
       /** Call in the start of the game */
-      void onStart(BWAPI::Player *player);
+      void onStart(BWAPI::Player* player, BWAPI::Player* opponent);
       void onEnd();
       void onFrame();
       void onCancelTrain();
@@ -74,6 +75,7 @@ namespace BWAI
       std::list<TaskBuild*> plannedBuildings;
       std::list<TaskInvent*> plannedInvents;
       std::list<TaskUpgrade*> plannedUpgrades;
+      std::list<TaskTrain*> plannedUnits;
       std::list<TaskFight*> fightGroups;
       BuildOrder::Root *root;
       std::list<BuildOrder::Command*>::iterator actualPosition;
@@ -81,6 +83,7 @@ namespace BWAI
       
       std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
+      BWAPI::Player* opponent;
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class)

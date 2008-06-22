@@ -9,6 +9,7 @@ namespace BWAI
       Gather,
       GatherGas,
       Build,
+      Train,
       Invent,
       Upgrade,
       Fight

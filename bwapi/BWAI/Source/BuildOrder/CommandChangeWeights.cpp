@@ -10,6 +10,7 @@
  
 #include <BWAI/Globals.h>
 #include <BWAI/AI.h>
+#include <BWAI/TaskTrain.h>
 
 namespace BuildOrder
 {
@@ -36,7 +37,9 @@ namespace BuildOrder
   bool CommandChangeWeights::execute()
   {
     BWAI::ai->root->log->log("Command change weights for '%s' called", this->factory.c_str());
-    BWAI::ai->root->weights.insert(std::pair<std::string, BuildWeights* >(this->factory, new BuildWeights(this->factory, this->weights)));
+    BuildWeights* weight = new BuildWeights(this->factory, this->weights);
+    BWAI::ai->root->weights.insert(std::pair<std::string, BuildWeights* >(this->factory, weight));
+    BWAI::ai->plannedUnits.push_back(new BWAI::TaskTrain(weight->factory, weight));
     return true;
   }
   //---------------------------------------------------------------------------
