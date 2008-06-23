@@ -192,7 +192,7 @@
           <position x="117" y="118"/>
         </build-position>
         <build-position name="second-expansion-addon" width="2" height="2">
-          <position x="121" y="119"/>
+          <position x="121" y="120"/>
         </build-position>
         <build-position name="comsat-station" width="2" height="2">
           <position x="46" y="120"/>

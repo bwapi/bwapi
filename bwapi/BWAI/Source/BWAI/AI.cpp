@@ -255,7 +255,7 @@ namespace BWAI
                              BW::Race::raceName(this->player->getRace()).c_str(), 
                              BW::Race::raceName(this->opponent->getRace()).c_str());
       else
-        this->root->log->log("Chose root branch : %s", this->actualBranch->getName().c_str());
+        this->root->log->log("Chose root branch : %s (strat against %s)", this->actualBranch->getName().c_str(), BW::Race::raceName(this->actualBranch->against).c_str());
       this->actualPosition = this->actualBranch->commands.begin();
     }
     this->log->log("Ai::onStart end", Util::LogLevel::Important);      
