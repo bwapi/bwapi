@@ -29,6 +29,7 @@ namespace BWAI
       BW::UnitType getBuildingType();
       TaskType::Enum getType();
       Unit* getBuilding();
+      void buildingDied();
       BWAPI::ReservedResources getReserved();
     private :  
       BW::UnitType buildingType;
