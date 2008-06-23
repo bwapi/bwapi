@@ -235,8 +235,9 @@ namespace BWAPI
       if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
       else
-        if (this->players[i]->getName() != "")
-          opponent = this->players[i];
+        if (strcmp(this->players[i]->getName(),"") == 0 &&
+           (opponent == NULL || this->players[i]->getRace() != BW::Race::Terran))
+          this->opponent = this->players[i];
           
     if (this->techNameToType.empty())
       for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
