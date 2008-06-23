@@ -449,7 +449,12 @@ namespace BWAI
   {
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
     this->deadLog->log("AI::onRemove Unit %s just died", dead->getName().c_str());
-
+    if (dead->getType().isBuilding())
+      for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
+           i != this->plannedBuildings.end();
+           ++i)
+        if (dead == (*i)->getBuilding())
+          (*i)->buildingDied();
     if (dead->isMineral())
     {
       if (dead->expansion != NULL)
