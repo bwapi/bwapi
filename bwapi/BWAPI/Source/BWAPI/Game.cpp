@@ -165,34 +165,19 @@ namespace BWAPI
   {
     return *(BW::BWFXN_InGame) == 0;
   }
+  const int BUFFER_SIZE = 2048;
+  char buffer[BUFFER_SIZE];
   //------------------------------------------- PRINT --------------------------------------------------------
-  void Game::print(const char *text)
+  void Game::print(const char *text, ...)
   {
-    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-	  	sendText(text);
-  }
-  char buffer[2048];
-  //------------------------------------------- PRINT --------------------------------------------------------
-  void Game::print(const char *text, const std::string& parameter1)
-  {
-    sprintf(buffer, text, parameter1.c_str());
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf(buffer, BUFFER_SIZE, text, ap); 
+    va_end(ap);
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(buffer);
+	  	free(buffer);
   }
-  //------------------------------------------- PRINT --------------------------------------------------------
-  void Game::print(const char *text, const std::string& parameter1, const u32& parameter2)
-  {
-    sprintf(buffer, text, parameter1.c_str(), parameter2);
-    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-	  	sendText(buffer);
-  }
-  //------------------------------------------- PRINT --------------------------------------------------------
-  void Game::print(const char *text, const u32& parameter1)
-  {
-    sprintf(buffer, text, parameter1);
-    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-	  	sendText(buffer);
-  }  
   //----------------------------------------- PRINT PUBLIC ---------------------------------------------------
   void Game::printPublic(const char *text) const
   {
@@ -280,7 +265,7 @@ namespace BWAPI
         this->print("bwapi disabled");
       }
       else 
-        this->print("Unknown command '%s''s - possible commands are: on, off", parsed[1]);
+        this->print("Unknown command '%s''s - possible commands are: on, off", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/unit")
@@ -292,7 +277,7 @@ namespace BWAPI
           this->print(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i])->getName().c_str());
       }
       else
-        this->print("Unknown command '%s''s - possible commands are: info", parsed[1]);
+        this->print("Unknown command '%s''s - possible commands are: info", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/get")
@@ -308,7 +293,7 @@ namespace BWAPI
         std::string techName = message.substr(strlen("/get researchState "), message.size() - strlen("/get researchState "));
         BW::TechType tech = this->techNameToType[techName];
         if (tech == BW::TechID::None)
-          this->print("Unknown tech name '%s'", techName);
+          this->print("Unknown tech name '%s'", techName.c_str());
         else
         {
           if (this->BWAPIPlayer->researchInProgress(tech))
@@ -324,7 +309,7 @@ namespace BWAPI
         std::string upgradeName = message.substr(strlen("/get upgradeState "), message.size() - strlen("/get upgradeState "));
         BW::UpgradeType upgrade = this->upgradeNameToType[upgradeName];
         if (upgrade == BW::UpgradeID::None)
-          this->print("Unknown upgrade name '%s'", upgradeName);
+          this->print("Unknown upgrade name '%s'", upgradeName.c_str());
         else
         {
           this->print("Level is %u.", this->BWAPIPlayer->upgradeLevel(upgrade));
@@ -334,7 +319,7 @@ namespace BWAPI
             this->print("Another level is not in progress");
         }
       }
-      else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState", parsed[1]);
+      else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/log")
@@ -350,7 +335,7 @@ namespace BWAPI
         this->print("Screen log unshutted");
       }
       else 
-        this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1]);
+        this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/cheat")
@@ -368,7 +353,7 @@ namespace BWAPI
         this->print("BWAPI gas/mineral/build time cheat activated (only local ofcourse)");
       }
       else 
-        this->print("Unknown log command '%s''s - possible values are: all", parsed[1]);
+        this->print("Unknown log command '%s''s - possible values are: all", parsed[1].c_str());
       return true;
     }
     return false;
