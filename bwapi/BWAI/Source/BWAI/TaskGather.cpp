@@ -33,9 +33,8 @@ namespace BWAI
           (*i)->getOrderIDLocal() != BW::OrderID::ResetCollision2 &&
           (*i)->getOrderIDLocal() != BW::OrderID::ReturnMinerals)
       {
-        BWAI::ai->log->log("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName((*i)->getOrderIDLocal()).c_str(), 
-                                                                                                (*i)->getName().c_str(),
-                                                                                                Util::LogLevel::Detailed);
+        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName((*i)->getOrderIDLocal()).c_str(), 
+                                                                                                (*i)->getName().c_str());
         this->freeExecutor(*i++);
         ai->expansionsSaturated = false;
       }

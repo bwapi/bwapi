@@ -176,7 +176,6 @@ namespace BWAPI
     va_end(ap);
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(buffer);
-	  	free(buffer);
   }
   //----------------------------------------- PRINT PUBLIC ---------------------------------------------------
   void Game::printPublic(const char *text) const
@@ -449,7 +448,7 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      Util::Logger::globalLog->log("Exception in onCancelTrain: " + exception.getMessage());
+      Util::Logger::globalLog->log("Exception in onCancelTrain: %s", exception.getMessage().c_str());
     }
   }
   //----------------------------- ON REMOVE UNIT --------------------------------

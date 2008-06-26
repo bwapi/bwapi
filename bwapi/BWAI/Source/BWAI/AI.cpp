@@ -58,7 +58,7 @@ namespace BWAI
     }
     catch (GeneralException& exception)
     {
-      Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: " + exception.getMessage());
+      Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: %s", exception.getMessage().c_str());
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
@@ -71,7 +71,7 @@ namespace BWAI
     }
     catch (GeneralException& exception)
     {
-      Util::Logger::globalLog->log("Error when loading build order: " + exception.getMessage());
+      Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
     }
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
@@ -198,7 +198,7 @@ namespace BWAI
   {
     try
     {
-      this->log->log("Ai::onStart start", Util::LogLevel::Important);    
+      this->log->logImportant("Ai::onStart start");
       this->map = new BWAPI::Map();
       if (this->unitNameToType.empty())
         for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
@@ -242,7 +242,7 @@ namespace BWAI
     {
       delete map;
       map = NULL;
-      this->log->log("Exception in AI::onStart: " + exception.getMessage());
+      this->log->log("Exception in AI::onStart: %s", exception.getMessage().c_str());
       delete this->mapInfo;
       this->mapInfo = NULL;
     }
@@ -255,15 +255,17 @@ namespace BWAI
                              BW::Race::raceName(this->player->getRace()).c_str(), 
                              BW::Race::raceName(this->opponent->getRace()).c_str());
       else
-        this->root->log->log("Chose root branch : %s (strat against %s)", this->actualBranch->getName().c_str(), BW::Race::raceName(this->actualBranch->against).c_str());
+        this->root->log->log("Chose root branch : %s (strat against %s)", 
+                             this->actualBranch->getName().c_str(), 
+                             BW::Race::raceName(this->actualBranch->against).c_str());
       this->actualPosition = this->actualBranch->commands.begin();
     }
-    this->log->log("Ai::onStart end", Util::LogLevel::Important);      
+    this->log->logImportant("Ai::onStart end");
   }
   //--------------------------------- ON END ---------------------------------
   void AI::onEnd()
   {
-    this->log->log("Ai::onEnd start", Util::LogLevel::Important);
+    this->log->logImportant("Ai::onEnd start");
     for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
       delete *i;
     this->expansions.clear();
@@ -308,7 +310,7 @@ namespace BWAI
     delete this->map;
     this->map = NULL;
     
-    this->log->log("Ai::onEnd end", Util::LogLevel::Detailed);      
+    this->log->logImportant("Ai::onEnd end");
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
@@ -382,7 +384,7 @@ namespace BWAI
     if (selected[0] != NULL)
     {
       Unit::BWUnitToBWAIUnit(selected[0])->lastTrainedUnit = BW::UnitID::None;
-      this->log->log("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getType().getName(), Util::LogLevel::Detailed);
+      this->log->logDetailed("Cancelled production caught - %s", Unit::BWUnitToBWAIUnit(selected[0])->getType().getName());
     }
   }
   //---------------------------- START NEW EXPANSION -------------------------
@@ -689,7 +691,7 @@ namespace BWAI
         if (i->getOrderID() != BW::OrderID::BuildingLiftoff &&
             i->expansion == NULL)
         {
-          this->log->log("Starting new expansion - %s", i->getName().c_str(), Util::LogLevel::Important);
+          this->log->logImportant("Starting new expansion - %s", i->getName().c_str());
           this->startNewExpansion(i);
         }
         else if (i->getOrderID() == BW::OrderID::BuildingLiftoff &&
@@ -1019,7 +1021,7 @@ namespace BWAI
                )
              )
           {
-            this->log->log("Found free spot for " + spotName + " at (%d,%d)", (*i)->position.x, (*i)->position.y);
+            this->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), (*i)->position.x, (*i)->position.y);
             if (occupied != NULL &&
                 occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
               builderToUse = occupied;

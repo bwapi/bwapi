@@ -79,7 +79,7 @@ namespace BuildOrder
         
        if (!BWAPI::Broodwar.unitsOnTile[position->position.x - 2][position->position.y].front()->isReady())
         {
-          BWAI::ai->root->log->log("Building for the addon not ready", Util::LogLevel::Commmon);
+          BWAI::ai->root->log->logCommon("Building for the addon not ready");
           return false;
         }
         
