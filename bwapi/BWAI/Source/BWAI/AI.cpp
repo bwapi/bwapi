@@ -30,6 +30,7 @@
 #include "TaskBuild.h"
 #include "TaskInvent.h"
 #include "TaskUpgrade.h"
+#include "TaskTrain.h"
 #include "TaskFight.h"
 #include "Unit.h"
 #include "Expansion.h"
@@ -124,12 +125,14 @@ namespace BWAI
     if (worker2 == NULL)
       return true;
    
-    if (worker1->getTask() == NULL && worker2->getTask() != NULL)
+    if ((worker1->getTask() == NULL || worker1->getTask()->getType() == BWAI::TaskType::Gather) && 
+        (worker2->getTask() != NULL && worker2->getTask()->getType() != BWAI::TaskType::Gather))
       return true;
-    if (worker1->getTask() != NULL && worker2->getTask() == NULL)
+        if ((worker2->getTask() == NULL || worker2->getTask()->getType() == BWAI::TaskType::Gather) && 
+            (worker1->getTask() != NULL && worker1->getTask()->getType() != BWAI::TaskType::Gather))
       return false;
     
-    if (worker1->getTask() != NULL)
+    if (worker1->getTask() != NULL && worker2->getTask() != NULL)
     {
       if (worker1->getTask()->getType() == BWAI::TaskType::Gather &&
           worker2->getTask()->getType() != BWAI::TaskType::Gather)
@@ -169,7 +172,6 @@ namespace BWAI
         }
       }
     }
-    
  
     u16 distance1 = buildingPosition.getDistance(worker1->getPosition());
     u16 distance2 = buildingPosition.getDistance(worker2->getPosition());
@@ -294,6 +296,10 @@ namespace BWAI
     for (std::list<TaskFight*>::iterator i = this->fightGroups.begin(); i != this->fightGroups.end(); ++i)
       delete *i;
     this->fightGroups.clear();
+    
+    for (std::list<TaskTrain*>::iterator i = this->plannedUnits.begin(); i != this->plannedUnits.end(); ++i)
+      delete *i;
+    this->plannedUnits.clear();
     
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
@@ -708,7 +714,7 @@ namespace BWAI
       BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
   }
   //---------------------------- PERFRORM AUTOBUILD ---------------------------
-  bool AI::performAutoBuild()
+  void AI::performAutoBuild()
   {
     /** 
      * Just workaround, all buildings started by user will register as Task Build
@@ -729,9 +735,10 @@ namespace BWAI
          this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL));
        }
           
-    bool reselected = false;
+    /** Autobuild for units not in TaskTrain, just temporary until everything will be in TaskTrain */
     for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      if (i->isReady() &&
+      if (i->getTask() == NULL &&
+          i->isReady() &&
           (
             i->hasEmptyBuildQueueLocal() ||
             (
@@ -742,40 +749,14 @@ namespace BWAI
           ) &&
           (i->getType().canProduce() ||
            i->getType() == BW::UnitID::Terran_NuclearSilo) &&
-          i->getOwner() == player)
-      { 
-        BuildOrder::BuildWeights* weights = NULL;
-        if (this->root)
-          weights = this->root->weights[i->getType().getName()];
-        if (weights) 
-        {
-          if (!weights->weights.empty())
-          {
-            std::pair<BW::UnitType, int> best = weights->weights.front();
-            
-            for (std::list<std::pair<BW::UnitType, int> >::iterator j = weights->weights.begin()++;
-                 j != weights->weights.end();
-                 ++j)
-              if (this->player->canBuild((*j).first) &&
-                  ((float)this->player->allUnitTypeCount[best.first.getID()])/((float)best.second) >
-                  ((float)this->player->allUnitTypeCount[(*j).first.getID()])/((float)(*j).second))
-                best = *j;
-            if (this->player->canAfford(best.first, BWAPI::ReservedResources()))
-              i->trainUnit(best.first);
-          }
-        }
-        else if (i->lastTrainedUnit != BW::UnitID::None &&
-                 i->lastTrainedUnit.isValid())
-        {
-          BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
-          if (this->player->canAfford(typeToBuild, this->reserved))
-          {
-            reselected = true;
-            i->trainUnit(typeToBuild);
-          }
-        }
-      }  
-    return reselected;
+           i->getOwner() == player &&
+           i->lastTrainedUnit != BW::UnitID::None &&
+           i->lastTrainedUnit.isValid())
+      {
+        BW::UnitType typeToBuild = BW::UnitType(i->lastTrainedUnit);
+        if (this->player->canAfford(typeToBuild, this->reserved))
+          i->trainUnit(typeToBuild);
+      }
   }
   //------------------------------ GET IDLE WORKERS ---------------------------
   void AI::getIdleWorkers(std::list<Unit*>& workers)
@@ -916,6 +897,12 @@ namespace BWAI
             if (expansion != NULL)
                this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
           }
+          {
+            for (std::list<TaskTrain*>::iterator j = this->plannedUnits.begin();
+                 j != this->plannedUnits.end(); ++j)
+              if ((*j)->getBuildingType() == (*i)->getBuildingType())
+                (*j)->addExecutor((*i)->getBuilding());
+          }
           delete *i;
           i = this->plannedBuildings.erase(i);
         }
@@ -941,6 +928,18 @@ namespace BWAI
         {
           delete *i;
           i = this->plannedUpgrades.erase(i);
+        }
+        else
+          ++i;
+    }
+    
+    { // ---------- Planned units
+      std::list<TaskTrain*>::iterator i = this->plannedUnits.begin();
+      while (i != this->plannedUnits.end())
+        if ((*i)->execute())
+        {
+          delete *i;
+          i = this->plannedUnits.erase(i);
         }
         else
           ++i;

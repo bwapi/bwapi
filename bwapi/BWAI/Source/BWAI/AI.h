@@ -116,7 +116,7 @@ namespace BWAI
        * If some building finished production, it will start the same unit again
        * @returns something happened (so reselect is needed)
        */
-      bool performAutoBuild();
+      void performAutoBuild();
       void getIdleWorkers(std::list<Unit*> &workers);
       void checkWorkersNeed();
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
