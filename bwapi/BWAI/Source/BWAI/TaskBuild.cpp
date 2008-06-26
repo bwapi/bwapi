@@ -36,6 +36,8 @@ namespace BWAI
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskBuild::execute()
   {
+    if (this->alternatives == NULL && this->building == NULL)
+      return true; // Special case of the custom building
     if (!this->executors.empty() &&
         this->building != NULL &&
         this->building->isCompleted())
