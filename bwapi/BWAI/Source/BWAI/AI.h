@@ -100,6 +100,7 @@ namespace BWAI
       BWAPI::Map* map;
       PathFinding::Utilities *pathFinding;
       MapStartingPosition* startingPosition;      
+      u16 mineralGatherers;
    private :
       Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;

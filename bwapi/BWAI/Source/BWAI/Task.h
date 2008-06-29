@@ -40,13 +40,13 @@ namespace BWAI
        */
       virtual bool execute() = 0;
       /** Frees the executor from the task (constant time) */
-      void freeExecutor(Unit* unit);
+      virtual void freeExecutor(Unit* unit);
       /**
        * Adds executor to the task, note that in the moment you add executor to
        * the task, the task will maintain the unit itself and it shouldn't be
        * manipulated externally. 
        */
-      void addExecutor(Unit* unit);
+      virtual void addExecutor(Unit* unit);
 
       /** 
        * List of executors of this task.

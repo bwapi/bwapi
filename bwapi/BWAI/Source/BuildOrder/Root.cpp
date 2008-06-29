@@ -21,6 +21,7 @@ namespace BuildOrder
   //------------------------------ CONSTRUCTOR --------------------------------
   Root::Root(const std::string& xmlFileName)
   :log(new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
+  ,loadedTypes(false)
   {
     this->log->registerLogger(new BWAPI::ScreenLogger(Util::LogLevel::Normal));
     FILE* f = fopen(xmlFileName.c_str(),"rb");
@@ -58,10 +59,16 @@ namespace BuildOrder
       this->log->log("Unknown opponent player");
       return NULL;
     }
-    for (std::list<Branch*>::iterator i = this->buildOrders.begin(); i != this->buildOrders.end(); ++i)
-      if ((*i)->against == BWAI::ai->opponent->getRace())
-        return *i;
+    for each (Branch* i in this->buildOrders)
+      if (i->against == BWAI::ai->opponent->getRace())
+        return i;
     return NULL;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  void Root::loadTypes()
+  {
+    for each (Branch* i in this->buildOrders)
+      i->loadTypes();
   }
   //----------------------------------------------------------------------------------------------------------
 }

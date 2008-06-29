@@ -38,7 +38,10 @@ namespace BW
   //------------------------------- GET NAME ------------------------------------
   const char* UnitType::getName() const
   {
-    return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
+    if (this->getID() == BW::UnitID::None)
+      return "None";
+    else
+      return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
   }
   //------------------------------ GET UNIT ID ----------------------------------
   BW::UnitID::Enum UnitType::getID() const

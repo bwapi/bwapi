@@ -8,9 +8,8 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskTrain::TaskTrain(BW::UnitType buildingType, BuildOrder::BuildWeights* weights)
+  TaskTrain::TaskTrain(BuildOrder::BuildWeights* weights)
   :Task()
-  ,buildingType(buildingType)
   ,weights(weights)
   {
   }
@@ -21,29 +20,27 @@ namespace BWAI
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskTrain::execute()
   {
-    for (std::list<Unit*>::iterator i = this->executors.begin(); i != this->executors.end(); ++i)
+    for each (Unit* i in this->executors)
       if (
-           (*i)->hasEmptyBuildQueueLocal() ||
+           i->hasEmptyBuildQueueLocal() ||
            (
-             (*i)->getBuildQueueLocal()[((*i)->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
-             (*i)->getRawDataLocal()->currentBuildUnit != NULL &&
-             (*i)->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
+             i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
+             i->getRawDataLocal()->currentBuildUnit != NULL &&
+             i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
            )
          )
       { 
         if (!this->weights->weights.empty())
         {
-          std::pair<BW::UnitType, int> best = weights->weights.front();
+          BuildOrder::BuildWeight* best = weights->weights.front();
           
-          for (std::list<std::pair<BW::UnitType, int> >::iterator j = this->weights->weights.begin()++;
-               j != this->weights->weights.end();
-               ++j)
-            if (BWAI::ai->player->canBuild((*j).first) &&
-                ((float)BWAI::ai->player->allUnitTypeCount[best.first.getID()])/((float)best.second) >
-                ((float)BWAI::ai->player->allUnitTypeCount[(*j).first.getID()])/((float)(*j).second))
-              best = *j;
-          if (BWAI::ai->player->canAfford(best.first, BWAPI::ReservedResources()))
-            (*i)->trainUnit(best.first);
+          for each (BuildOrder::BuildWeight* j in this->weights->weights)
+            if (BWAI::ai->player->canBuild(j->unitType) &&
+                ((float)BWAI::ai->player->allUnitTypeCount[best->unitType.getID()])/((float)best->weight) >
+                ((float)BWAI::ai->player->allUnitTypeCount[j->unitType.getID()])/((float)j->weight))
+              best = j;
+          if (BWAI::ai->player->canAfford(best->unitType, BWAPI::ReservedResources()))
+            i->trainUnit(best->unitType);
         }
       }  
     return false;
@@ -56,7 +53,7 @@ namespace BWAI
   //------------------------------- GET MINERAL -------------------------------
   BW::UnitType TaskTrain::getBuildingType()
   {
-    return this->buildingType;
+    return this->weights->factory;
   }
   //---------------------------------------------------------------------------
   BWAPI::ReservedResources TaskTrain::getReserved()

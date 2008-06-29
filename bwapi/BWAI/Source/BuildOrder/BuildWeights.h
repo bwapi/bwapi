@@ -1,9 +1,10 @@
 #pragma once
 
 #include <list>
-//#include <pair>
-
 #include <BW/UnitType.h>
+#include "BuildWeight.h"
+
+class TiXmlElement;
 
 namespace BuildOrder
 {
@@ -14,13 +15,16 @@ namespace BuildOrder
   class BuildWeights
   {
     public :
+      std::string factoryName;
       BW::UnitType factory; /**< Factory whose building rate is affected. */
-      std::list<std::pair<BW::UnitType, int> > weights;
+      std::list<BuildWeight*> weights;
       /**
        * Creates new BuildRatio specification.
        * @param factoryName The name of the fatory that should produce
        * @param weights List of pairs "name of unit" + "weight" for the specified factory
        */                                               
-      BuildWeights(const std::string& factoryName, const std::list<std::pair<std::string,int> >& weights);
+      BuildWeights(TiXmlElement* element);
+      ~BuildWeights();
+      void loadTypes();
   };
 }
