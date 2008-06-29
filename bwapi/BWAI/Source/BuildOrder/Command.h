@@ -23,5 +23,6 @@ namespace BuildOrder
       /** Specifies the way the condition affect the run of the build order. */
       BuildOrder::ConditionRunType::Enum conditionRunType;
       bool conditionApplies();
+      virtual void loadTypes();
   };
 }

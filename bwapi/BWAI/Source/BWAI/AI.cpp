@@ -52,6 +52,7 @@ namespace BWAI
   ,map(NULL)
   ,temp(NULL)
   ,pathFinding(NULL)
+  ,mineralGatherers(0)
   {
     try
     {
@@ -209,7 +210,8 @@ namespace BWAI
                                          BW::UnitType( (BW::UnitID::Enum) i ).getName(), 
                                          BW::UnitType( (BW::UnitID::Enum) i)
                                        )
-                                     ); 
+                                     );
+      this->root->loadTypes();
       this->player = player;
       this->opponent = opponent;
       this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
@@ -257,11 +259,14 @@ namespace BWAI
                              BW::Race::raceName(this->player->getRace()).c_str(), 
                              BW::Race::raceName(this->opponent->getRace()).c_str());
       else
+      {
         this->root->log->log("Chose root branch : %s (strat against %s)", 
                              this->actualBranch->getName().c_str(), 
                              BW::Race::raceName(this->actualBranch->against).c_str());
-      this->actualPosition = this->actualBranch->commands.begin();
+        this->actualPosition = this->actualBranch->commands.begin();
+      }
     }
+    this->mineralGatherers = 0;
     this->log->logImportant("Ai::onStart end");
   }
   //--------------------------------- ON END ---------------------------------
@@ -329,6 +334,7 @@ namespace BWAI
       return;
        
     if (root != NULL &&
+        this->actualBranch != NULL &&
         this->actualPosition != this->actualBranch->commands.end())
       if ((*this->actualPosition)->execute())
         ++this->actualPosition;
@@ -875,7 +881,7 @@ namespace BWAI
     if (best == NULL)
       return NULL;
 
-    this->log->log("%s was freed from it's task to do something else", best->getName().c_str());
+    this->log->logCommon("%s was freed from it's task to do something else", best->getName().c_str());
     best->freeFromTask();
     return best;
   }
@@ -887,21 +893,24 @@ namespace BWAI
       while (i != this->plannedBuildings.end())
         if ((*i)->execute())
         {
-          if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
+          if ((*i)->getBuilding())
           {
-            this->log->log("Finished refinery");
-            Expansion *expansion = NULL;
-            for (std::list<Expansion*>::iterator j = this->expansions.begin(); j != this->expansions.end(); ++j)
-              if ((*j)->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
-                expansion = *j;
-            if (expansion != NULL)
-               this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
-          }
-          {
-            for (std::list<TaskTrain*>::iterator j = this->plannedUnits.begin();
-                 j != this->plannedUnits.end(); ++j)
-              if ((*j)->getBuildingType() == (*i)->getBuildingType())
-                (*j)->addExecutor((*i)->getBuilding());
+            if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
+            {
+              this->log->log("Finished refinery");
+              Expansion *expansion = NULL;
+              for (std::list<Expansion*>::iterator j = this->expansions.begin(); j != this->expansions.end(); ++j)
+                if ((*j)->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
+                  expansion = *j;
+              if (expansion != NULL)
+                 this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
+            }
+            {
+              for (std::list<TaskTrain*>::iterator j = this->plannedUnits.begin();
+                   j != this->plannedUnits.end(); ++j)
+                if ((*j)->getBuildingType() == (*i)->getBuildingType())
+                  (*j)->addExecutor((*i)->getBuilding());
+            }
           }
           delete *i;
           i = this->plannedBuildings.erase(i);

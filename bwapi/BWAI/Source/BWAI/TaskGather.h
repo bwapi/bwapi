@@ -19,6 +19,8 @@ namespace BWAI
       
       Unit* getMineral();
       Expansion* getExpansion();
+      virtual void freeExecutor(Unit* unit);
+      virtual void addExecutor(Unit* unit);
     private :  
       BWAI::Unit* mineral;
       Expansion* expansion;

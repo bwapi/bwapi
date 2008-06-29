@@ -155,6 +155,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\BuildWeight.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\BuildWeights.h"
 					>
 				</File>
@@ -196,6 +200,10 @@
 				>
 				<File
 					RelativePath=".\Source\BuildOrder\Branch.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\BuildWeight.cpp"
 					>
 				</File>
 				<File

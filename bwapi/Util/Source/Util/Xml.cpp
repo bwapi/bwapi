@@ -13,6 +13,14 @@ namespace Util
       throw XmlException(std::string("Expected attribute '") + name + "' in " + std::string(element->ValueTStr().c_str()) + " element");
     return attribute;
   }
+  //------------------------------------ GET OPTIONAL ATTRIBUTE ----------------------------------------------
+  std::string Xml::getOptionalAttribute(TiXmlElement* element, const char* name, const char* defaultValue)
+  {
+    const char* attribute = element->Attribute(name);
+    if (attribute == NULL)
+      return defaultValue;
+    return attribute;
+  }
   //------------------------------------- GET REQUIRED ATTRIBUTE ---------------------------------------------
   u16 Xml::getRequiredU16Attribute(TiXmlElement* element, const char* name)
   {

@@ -96,4 +96,19 @@ namespace BWAI
     return expansion;
   }
   //---------------------------------------------------------------------------
+  void TaskGather::freeExecutor(Unit* unit)
+  {
+    unit->clearTask();
+    this->executors.erase(unit->taskListIterator);
+    BWAI::ai->mineralGatherers--;
+  }
+  //---------------------------------------------------------------------------
+  void TaskGather::addExecutor(Unit* unit)
+  {
+    this->executors.push_back(unit);
+    unit->taskListIterator = --this->executors.end();
+    unit->setTask(this);
+    BWAI::ai->mineralGatherers++;
+  }
+  //---------------------------------------------------------------------------
 }

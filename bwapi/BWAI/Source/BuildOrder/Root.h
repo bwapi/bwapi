@@ -15,6 +15,8 @@ namespace BuildOrder
    */
   class Root
   {
+    private :
+      bool loadedTypes;
     public :
       Root(const std::string& xmlFileName);
       ~Root();
@@ -22,5 +24,6 @@ namespace BuildOrder
       std::map<std::string, BuildWeights*> weights;
       Util::Logger *log;
       Branch* getStartingBranch();
+      void loadTypes();
   };
 }

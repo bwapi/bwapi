@@ -3,6 +3,9 @@
 <build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="build-order.xsd">
   <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
+   <train building="Terran Command Center">
+     <build name="Terran SCV" weight="1" max-type="auto-effective-gather"/>
+   </train>
    <train building="Terran Barracks">
       <build name="Terran Marine" weight="12" />
       <build name="Terran Medic" weight="4" />
