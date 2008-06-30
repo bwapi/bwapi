@@ -42,12 +42,10 @@ namespace BWAI
       }
     if (this->executors.empty())
       return false;
-    for (std::list<Unit*>::iterator i = this->executors.begin();
-         i != this->executors.end();
-         ++i)
-      if ((*i)->isReady() &&
-          (*i)->getOrderID() == BW::OrderID::Nothing2 &&
-          (*i)->getOwner()->canAfford(this->upgradeType, this->level, BWAPI::ReservedResources()))
+    for each (Unit* i in this->executors)
+      if (i->isReady() &&
+          i->getOrderID() == BW::OrderID::Nothing2 &&
+          i->getOwner()->canAfford(this->upgradeType, this->level, BWAPI::ReservedResources()))
       {
         this->executors.front()->upgrade(this->upgradeType);
         break;

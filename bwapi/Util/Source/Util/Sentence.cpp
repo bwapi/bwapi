@@ -161,12 +161,10 @@ namespace Util
   std::string Sentence::getSentenceMap()
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-         ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      returnValue += "{" + Strings::intToString((*i).second) + "}";
-      returnValue += (*i).first;
+      returnValue += "{" + Strings::intToString(i.second) + "}";
+      returnValue += i.first;
      }
     return returnValue;
    }
@@ -175,12 +173,10 @@ namespace Util
   {
     std::string returnValue = this->sentence;
     
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-         ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
       returnValue += " {Missing Argument} ";
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }
@@ -188,15 +184,13 @@ namespace Util
   std::string Sentence::getSentence(std::vector<std::string>* argumentList)
   {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-         ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      if ((*i).second <= argumentList->size())
-        returnValue += (*argumentList)[((*i).second)];
+      if (i.second <= argumentList->size())
+        returnValue += (*argumentList)[(i.second)];
       else
         returnValue += "{MissingArgument}";
-      returnValue +=  (*i).first;
+      returnValue +=  i.first;
      }
     return returnValue;
    }
@@ -204,16 +198,14 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1)
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-        ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      switch ((*i).second)
+      switch (i.second)
        {
         case 0  : returnValue += parameter1; break;
         default : returnValue += "{MissingArgument}";
        }
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }
@@ -221,17 +213,15 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2)
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-        ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      switch ((*i).second)
+      switch (i.second)
        {
         case 0  : returnValue += parameter1; break;
         case 1  : returnValue += parameter2; break;
         default : returnValue += "{MissingArgument}";
        }
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }
@@ -239,18 +229,16 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3)
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-        ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      switch ((*i).second)
+      switch (i.second)
        {
         case 0  : returnValue += parameter1; break;
         case 1  : returnValue += parameter2; break;
         case 2  : returnValue += parameter3; break;
         default : returnValue += "{MissingArgument}";
        }
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }
@@ -258,11 +246,9 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4)
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-        ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      switch ((*i).second)
+      switch (i.second)
        {
         case 0  : returnValue += parameter1; break;
         case 1  : returnValue += parameter2; break;
@@ -270,7 +256,7 @@ namespace Util
         case 3  : returnValue += parameter3; break;
         default : returnValue += "{MissingArgument}";
        }
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }
@@ -278,11 +264,9 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5)
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-        ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      switch ((*i).second)
+      switch (i.second)
        {
         case 0  : returnValue += parameter1; break;
         case 1  : returnValue += parameter2; break;
@@ -291,7 +275,7 @@ namespace Util
         case 4  : returnValue += parameter5; break;
         default : returnValue += "{MissingArgument}";
        }
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }
@@ -299,11 +283,9 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5, const std::string& parameter6)
    {
     std::string returnValue = this->sentence;
-    for (std::list<std::pair<std::string,unsigned int> >::iterator i = this->sentenceParts.begin();
-         i != this->sentenceParts.end();
-        ++i)
+    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
      {
-      switch ((*i).second)
+      switch (i.second)
        {
         case 0  : returnValue += parameter1; break;
         case 1  : returnValue += parameter2; break;
@@ -313,7 +295,7 @@ namespace Util
         case 5  : returnValue += parameter6; break;
         default : returnValue += "{MissingArgument}";
        }
-      returnValue += (*i).first;
+      returnValue += i.first;
      }
     return returnValue;
   }

@@ -47,8 +47,8 @@ namespace Util
   //----------------------------------- DESTRUCTOR -------------------------------
   DictionaryFile::~DictionaryFile(void)
   {
-    for (std::list<DictionaryLine*>::iterator i = this->lines.begin(); i != this->lines.end(); ++i)
-      delete *i;
+    for each (DictionaryLine* i in this->lines)
+      delete i;
   }
   //---------------------------------- SAVE TO FILE ------------------------------
   void DictionaryFile::saveToFile(void)
@@ -60,11 +60,11 @@ namespace Util
       throw new FileException("Couldn't open file for reading " + fileName);
 
     std::string line;
-    for (std::list<DictionaryLine*>::iterator i = this->lines.begin(); i != this->lines.end(); ++i)
+    for each (DictionaryLine* i in this->lines)
     {
-      if (i != lines.begin())
+      if (i != this->lines.front())
         fwrite("\n",sizeof(char),1,f);
-      line = (*i)->getLine();
+      line = i->getLine();
       fwrite(line.c_str(),sizeof(char)*line.length(),1,f);
     }
     fclose(f);

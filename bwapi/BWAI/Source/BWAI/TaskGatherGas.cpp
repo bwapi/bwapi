@@ -8,7 +8,7 @@
 
 namespace BWAI
 {
-  //----------------- ------------- CONSTRUCTOR --------------------------------
+  //------------------------------- CONSTRUCTOR --------------------------------
   TaskGatherGas::TaskGatherGas(Unit* refinery, Expansion* expansion)
   :Task()
   ,refinery(refinery)
@@ -44,13 +44,13 @@ namespace BWAI
       else
         i++;
 
-    for (std::list<Unit*>::iterator i = this->executors.begin(); i != this->executors.end(); ++i)
-      if ((*i)->getOrderIDLocal() != BW::OrderID::HarvestGas1 &&
-          (*i)->getOrderIDLocal() != BW::OrderID::HarvestGas2 &&
-          (*i)->getOrderIDLocal() != BW::OrderID::HarvestGas3 &&
-          (*i)->getOrderIDLocal() != BW::OrderID::ReturnGas &&
-          (*i)->getOrderIDLocal() != BW::OrderID::ResetCollision2)
-        (*i)->orderRightClick(refinery);
+    for each (Unit* i in this->executors)
+      if (i->getOrderIDLocal() != BW::OrderID::HarvestGas1 &&
+          i->getOrderIDLocal() != BW::OrderID::HarvestGas2 &&
+          i->getOrderIDLocal() != BW::OrderID::HarvestGas3 &&
+          i->getOrderIDLocal() != BW::OrderID::ReturnGas &&
+          i->getOrderIDLocal() != BW::OrderID::ResetCollision2)
+        i->orderRightClick(refinery);
     return false;
   }
   //-------------------------------- GET TYPE ---------------------------------

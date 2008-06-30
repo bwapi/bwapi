@@ -87,10 +87,8 @@ namespace PathFinding
   //--------------------------------------- UTILITIES --------------------------------------------------------
   Utilities::~Utilities()
   {
-   for (std::map<u32, Util::RectangleArray<bool>*>::iterator i  = this->precomputedPlacebilityContent.begin();
-        i != this->precomputedPlacebilityContent.end();
-        ++i)
-     delete (*i).second;
+   for each (std::pair<u32, Util::RectangleArray<bool>*> i in this->precomputedPlacebilityContent)
+     delete i.second;
   }
   //-------------------------------------- CONFLICTS WITH MAP ------------------------------------------------
   bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type)

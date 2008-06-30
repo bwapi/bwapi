@@ -80,11 +80,9 @@ namespace Util
   //-----------------------------------------------------------------------------
   bool Logger::flushInternal(const char* buffer)
   {
-    for (std::list<Logger*>::iterator i = this->connectedLoggers.begin();
-         i != this->connectedLoggers.end();
-         ++i)
-     (*i)->flush(buffer);   
-    return this->flush(buffer);     
+    for each (Logger* i in this->connectedLoggers)
+     i->flush(buffer);
+    return this->flush(buffer);
   }
   //-----------------------------------------------------------------------------
   
