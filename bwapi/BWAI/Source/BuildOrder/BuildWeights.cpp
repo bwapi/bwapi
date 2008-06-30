@@ -5,7 +5,7 @@
 #include <Util/Logger.h>
 #include <Util/Xml.h>
 
-#include <BWAI/Globals.h>
+#include <BWAPI/Globals.h>
 
 #include "Root.h"
 
@@ -14,7 +14,7 @@ namespace BuildOrder
   //-------------------------------------------- CONSTRUCTOR -------------------------------------------------
   BuildWeights::BuildWeights(TiXmlElement* xmlElement)
   {
-    this->factoryName = Util::Xml::getRequiredAttribute(xmlElement, "building");
+    this->factory = BWAPI::Broodwar.unitNameToType[Util::Xml::getRequiredAttribute(xmlElement, "building")];
     for (TiXmlElement* buildElement = xmlElement->FirstChildElement("build"); 
          buildElement != NULL; 
          buildElement = buildElement->NextSiblingElement("build"))
@@ -25,13 +25,6 @@ namespace BuildOrder
   {
     for each (BuildWeight* i in this->weights)
       delete i;
-  }
-  //--------------------------------------------- LOAD TYPES -------------------------------------------------
-  void BuildWeights::loadTypes()
-  {
-    this->factory = BWAI::ai->unitNameToType[this->factoryName];
-    for each (BuildWeight* i in this->weights)
-      i->loadTypes();
   }
   //----------------------------------------------------------------------------------------------------------
 }

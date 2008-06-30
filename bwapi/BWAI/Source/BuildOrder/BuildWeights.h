@@ -15,7 +15,6 @@ namespace BuildOrder
   class BuildWeights
   {
     public :
-      std::string factoryName;
       BW::UnitType factory; /**< Factory whose building rate is affected. */
       std::list<BuildWeight*> weights;
       /**

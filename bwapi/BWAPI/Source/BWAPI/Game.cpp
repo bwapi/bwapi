@@ -9,6 +9,7 @@
 
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
+#include <Util/Sentence.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 
@@ -45,29 +46,63 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error","wt");
-      fprintf(f, "Couldn't load configuration file bwapi.ini because:", exception.getMessage());
+      fprintf(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
       fclose(f);
     }
-    this->commandLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
-    this->newOrderLog       = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
-    this->badAssumptionLog  = new Util::FileLogger(this->configuration->getValue("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
-    this->newUnitLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
-    this->unitSum           = new Util::FileLogger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
-    this->fatalError        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
-
-    unitArrayCopy = new BW::UnitArray;
-    unitArrayCopyLocal = new BW::UnitArray;
-
-    for (int i = 0; i < 12; i++)
-      players[i] = new Player((u8)i);    
     
-   for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      units[i] = new Unit(&unitArrayCopy->unit[i], 
-                          &BW::BWXFN_UnitNodeTable->unit[i],
-                          &unitArrayCopyLocal->unit[i],
-                          i);
+    try
+    {
+      this->commandLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
+      this->newOrderLog       = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
+      this->badAssumptionLog  = new Util::FileLogger(this->configuration->getValue("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
+      this->newUnitLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
+      this->unitSum           = new Util::FileLogger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
+      this->fatalError        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
+      
+      Util::DictionaryFile unitNames(this->configuration->getValue("unit_names_path"));
+      for each (Util::Sentence* i in unitNames.usedLines)
+      {
+        BW::UnitID::Enum unit;
+        sscanf(i->getSentence().c_str(), "0x%02X", &unit);
+        this->unitNameToType.insert(std::pair<std::string, BW::UnitType>(i->getKey(), unit));
+      }
 
-    this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
+      Util::DictionaryFile techNames(this->configuration->getValue("tech_names_path"));
+      for each (Util::Sentence* i in techNames.usedLines)
+      {
+        BW::TechID::Enum tech;
+        sscanf(i->getSentence().c_str(), "0x%02X", &tech);
+        this->techNameToType.insert(std::pair<std::string, BW::TechType>(i->getKey(), tech));
+      }
+       
+      Util::DictionaryFile upgradeNames(this->configuration->getValue("upgrade_names_path"));
+      for each (Util::Sentence* i in upgradeNames.usedLines)
+      {
+        BW::UpgradeID::Enum upgrade;
+        sscanf(i->getSentence().c_str(), "0x%02X", &upgrade);
+        this->upgradeNameToType.insert(std::pair<std::string, BW::UpgradeType>(i->getKey(), upgrade));
+      }
+
+      unitArrayCopy = new BW::UnitArray;
+      unitArrayCopyLocal = new BW::UnitArray;
+
+      for (int i = 0; i < 12; i++)
+        players[i] = new Player((u8)i);    
+      
+      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+        units[i] = new Unit(&unitArrayCopy->unit[i], 
+                            &BW::BWXFN_UnitNodeTable->unit[i],
+                            &unitArrayCopyLocal->unit[i],
+                            i);
+
+      this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
+    }
+    catch (GeneralException& exception)
+    {
+      FILE*f = fopen("bwapi-error","wt");
+      fprintf(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
+      fclose(f);
+    }
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   Game::~Game()
@@ -222,25 +257,6 @@ namespace BWAPI
         if (strcmp(this->players[i]->getName(),"") != 0 &&
            (opponent == NULL || this->players[i]->getRace() != BW::Race::Terran))
           this->opponent = this->players[i];
-          
-    if (this->techNameToType.empty())
-      for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
-        if (BW::TechType((BW::TechID::Enum)i).isValid())
-          this->techNameToType.insert(std::pair<std::string, BW::TechType>
-                                       (
-                                         BW::TechType( (BW::TechID::Enum) i ).getName(), 
-                                         BW::TechType( (BW::TechID::Enum) i)
-                                       )
-                                     );
-    if (this->upgradeNameToType.empty())
-      for (int i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
-        if (BW::UpgradeType((BW::UpgradeID::Enum)i).isValid())
-          this->upgradeNameToType.insert(std::pair<std::string, BW::UpgradeType>
-                                       (
-                                         BW::UpgradeType( (BW::UpgradeID::Enum) i ).getName(), 
-                                         BW::UpgradeType( (BW::UpgradeID::Enum) i)
-                                       )
-                                     );
   }
   //------------------------------ ON SEND TEXT ---------------------------------
   bool Game::onSendText(const char* text)

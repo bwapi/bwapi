@@ -21,10 +21,8 @@ namespace BuildOrder
   {
     public : 
       BuildWeight(TiXmlElement *element);
-      std::string unitTypeName;
       BW::UnitType unitType;
       u16 weight;
       UnitMaxType::Enum maxType;
-      void loadTypes();
   };
 }
