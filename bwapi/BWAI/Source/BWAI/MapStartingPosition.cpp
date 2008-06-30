@@ -32,10 +32,8 @@ namespace BWAI
   //---------------------------------------------------------------------------
   MapStartingPosition::~MapStartingPosition()
   {
-    for (std::map<std::string, BuildingPositionSet*>::iterator i = this->positions.begin();
-         i != this->positions.end();
-         i++)
-     delete (*i).second;
+    for each (std::pair<std::string, BuildingPositionSet*> i in this->positions)
+     delete i.second;
   }
   //---------------------------------------------------------------------------
 }

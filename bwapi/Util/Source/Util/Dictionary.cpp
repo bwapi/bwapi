@@ -20,14 +20,14 @@ namespace Util
   //---------------------------------- SAVE TO FILE ------------------------------
   void Dictionary::saveToFile(void)
   {
-    for (std::list<DictionaryFile*>::iterator i = this->files.begin(); i!= this->files.end(); ++i)
-    (*i)->saveToFile();
+    for each (DictionaryFile* i in this->files)
+    i->saveToFile();
   }
   //--------------------------------- DESTRUCTOR ---------------------------------
   Dictionary::~Dictionary()
    {
-    for (std::list<DictionaryFile*>::iterator i = this->files.begin(); i!= this->files.end(); ++i)
-     delete *i;
+    for each (DictionaryFile* i in this->files)
+     delete i;
    }
   //--------------------------------- GET VALUE ----------------------------------
   std::string Dictionary::getValue(const std::string &key)
@@ -123,8 +123,8 @@ namespace Util
   //--------------------------------- CLEAR ALL ----------------------------------
   void Dictionary::clearAll(void)
   {
-    for (std::list<DictionaryFile*>::iterator i = this->files.begin(); i!= this->files.end(); ++i)
-     delete *i;
+    for each (DictionaryFile* i in this->files)
+     delete i;
     files.clear();
   }
   //------------------------------------------------------------------------------

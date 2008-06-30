@@ -81,11 +81,11 @@ namespace BWAI
   {
     delete root;
   
-    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
-      delete *i;
+    for each (TaskBuild* i in this->plannedBuildings)
+      delete i;
       
-    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      delete *i;
+    for each (Expansion* i in this->expansions)
+      delete i;
       
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete units[i];
@@ -191,10 +191,8 @@ namespace BWAI
       this->first->updateNext();
     this->reserved.clear();
 
-    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
-         i != this->plannedBuildings.end();
-         ++i)
-      this->reserved += (*i)->getReserved();
+    for each (TaskBuild* i in this->plannedBuildings)
+      this->reserved += i->getReserved();
   }
   //------------------------------ ON START -----------------------------------
   void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
@@ -226,10 +224,10 @@ namespace BWAI
       
       if (this->expansions.size())
       {
-        for (std::list<MapStartingPosition*>::iterator i = mapInfo->startingPositions.begin(); i != mapInfo->startingPositions.end(); ++i)
-         if (this->expansions.front()->gatherCenter->getDistance((*i)->expansion->getPosition()) < 100)
+        for each (MapStartingPosition* i in mapInfo->startingPositions)
+         if (this->expansions.front()->gatherCenter->getDistance(i->expansion->getPosition()) < 100)
           {
-            this->startingPosition = *i;
+            this->startingPosition = i;
             break;
           }
         if (this->startingPosition)
@@ -273,8 +271,8 @@ namespace BWAI
   void AI::onEnd()
   {
     this->log->logImportant("Ai::onEnd start");
-    for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      delete *i;
+    for each (Expansion* i in this->expansions)
+      delete i;
     this->expansions.clear();
     this->activeMinerals.clear();
     this->expansionsSaturated = false;
@@ -282,28 +280,28 @@ namespace BWAI
     delete this->mapInfo;
     this->mapInfo = NULL;
     
-    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); ++i)
-      delete *i;
+    for each (TaskBuild* i in this->plannedBuildings)
+      delete i;
     this->plannedBuildings.clear();
     
-    for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
-      delete *i;
+    for each (TaskInvent* i in this->plannedInvents)
+      delete i;
     this->plannedInvents.clear();
     
-    for (std::list<TaskUpgrade*>::iterator i = this->plannedUpgrades.begin(); i != this->plannedUpgrades.end(); ++i)
-      delete *i;
+    for each (TaskUpgrade* i in this->plannedUpgrades)
+      delete i;
     this->plannedUpgrades.clear();
     
-    for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
-      delete *i;
+    for each (TaskGatherGas* i in this->activeRefineries)
+      delete i;
     this->activeRefineries.clear();
     
-    for (std::list<TaskFight*>::iterator i = this->fightGroups.begin(); i != this->fightGroups.end(); ++i)
-      delete *i;
+    for each (TaskFight* i in this->fightGroups)
+      delete i;
     this->fightGroups.clear();
     
-    for (std::list<TaskTrain*>::iterator i = this->plannedUnits.begin(); i != this->plannedUnits.end(); ++i)
-      delete *i;
+    for each (TaskTrain* i in this->plannedUnits)
+      delete i;
     this->plannedUnits.clear();
     
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
@@ -413,21 +411,23 @@ namespace BWAI
        return;
      Unit* gatherer;
      anotherStep:
-     for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
-       if ((*i)->executors.size() < 3)
+     for each (TaskGatherGas* i in this->activeRefineries)
+       if (i->executors.size() < 3)
        {
-         Unit* newUnitToGatherGas = this->freeBuilder((*i)->getRefinery()->getPosition());
+         Unit* newUnitToGatherGas = this->freeBuilder(i->getRefinery()->getPosition());
          if (newUnitToGatherGas != NULL)
-           (*i)->addExecutor(newUnitToGatherGas);
+           i->addExecutor(newUnitToGatherGas);
        }
      TaskGather* best = activeMinerals.front();
      TaskGather* worst = activeMinerals.front();
-     for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-       if (best->executors.size() > (*i)->executors.size())
-         best = (*i);
+     for each (TaskGather* i in this->activeMinerals)
+     {
+       if (best->executors.size() > i->executors.size())
+         best = i;
        else 
-         if (worst->executors.size() < (*i)->executors.size())
-           worst = (*i);
+         if (worst->executors.size() < i->executors.size())
+           worst = i;
+     }
 
      if (best->executors.size() + 1 < worst->executors.size())
      {
@@ -447,8 +447,8 @@ namespace BWAI
   //---------------------------- CHECK ASSIGNED WORKERS -----------------------
  void AI::checkAssignedWorkers(void)
   {
-    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      (*i)->execute();
+    for each (TaskGather* i in this->activeMinerals)
+      i->execute();
   }
   //---------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
@@ -464,11 +464,9 @@ namespace BWAI
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
     this->deadLog->log("AI::onRemove Unit %s just died", dead->getName().c_str());
     if (dead->getType().isBuilding())
-      for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
-           i != this->plannedBuildings.end();
-           ++i)
-        if (dead == (*i)->getBuilding())
-          (*i)->buildingDied();
+      for each (TaskBuild* i in this->plannedBuildings)
+        if (dead == i->getBuilding())
+          i->buildingDied();
     if (dead->isMineral())
     {
       if (dead->expansion != NULL)
@@ -563,8 +561,8 @@ namespace BWAI
       }
       else if (parsed[1] == "list")
       {
-        for (std::list<TaskInvent*>::iterator i = this->plannedInvents.begin(); i != this->plannedInvents.end(); ++i)
-          BWAPI::Broodwar.print((*i)->getTechType().getName());
+        for each (TaskInvent* i in this->plannedInvents)
+          BWAPI::Broodwar.print(i->getTechType().getName());
       }
       else 
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);
@@ -592,8 +590,8 @@ namespace BWAI
       }
       else if (parsed[1] == "list")
       {
-        for (std::list<TaskUpgrade*>::iterator i = this->plannedUpgrades.begin(); i != this->plannedUpgrades.end(); ++i)
-          BWAPI::Broodwar.print((*i)->getUpgradeType().getName());
+        for each (TaskUpgrade* i in this->plannedUpgrades)
+          BWAPI::Broodwar.print(i->getUpgradeType().getName());
       }
       else 
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);
@@ -798,8 +796,8 @@ namespace BWAI
         workersTogether >= 90)
     {
       this->expansionsSaturated = true;
-      for (std::list<Expansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-        (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::None;
+      for each (Expansion* i in this->expansions)
+        i->gatherCenter->lastTrainedUnit = BW::UnitID::None;
     }
     else
       if (workersTogether < this->activeMinerals.size()*2.4 &&
@@ -810,15 +808,15 @@ namespace BWAI
   void AI::assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers)
   {
     if (this->activeMinerals.size() > 0)
-      for (std::list<Unit*>::iterator i = idleWorkers.begin(); i != idleWorkers.end(); ++i)
+      for each (Unit* i in idleWorkers)
       {
-        TaskGather* best = bestFor(*i);
+        TaskGather* best = bestFor(i);
         if (best->executors.size() >= 2)
         {
           this->expansionsSaturated = true;
           break;
         }
-        best->addExecutor(*i);
+        best->addExecutor(i);
      }
   }
   //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
@@ -862,11 +860,13 @@ namespace BWAI
   s32 AI::plannedTerranSupplyGain()
   {
     s32 returnValue = 0;
-    for (std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin(); i != this->plannedBuildings.end(); i++)
-      if ((*i)->getBuildingType() == BW::UnitID::Terran_SupplyDepot)
+    for each (TaskBuild* i in this->plannedBuildings)
+    {
+      if (i->getBuildingType() == BW::UnitID::Terran_SupplyDepot)
         returnValue += 8;
-      else if ((*i)->getType() == BW::UnitID::Terran_CommandCenter)
+      else if (i->getType() == BW::UnitID::Terran_CommandCenter)
         returnValue += 10;
+    }
     return returnValue;
   }
   //----------------------------- FREE BUILDER --------------------------------
@@ -899,17 +899,16 @@ namespace BWAI
             {
               this->log->log("Finished refinery");
               Expansion *expansion = NULL;
-              for (std::list<Expansion*>::iterator j = this->expansions.begin(); j != this->expansions.end(); ++j)
-                if ((*j)->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
-                  expansion = *j;
+              for each (Expansion* j in this->expansions)
+                if (j->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
+                  expansion = j;
               if (expansion != NULL)
                  this->activeRefineries.push_back(new TaskGatherGas((*i)->getBuilding(), expansion));
             }
             {
-              for (std::list<TaskTrain*>::iterator j = this->plannedUnits.begin();
-                   j != this->plannedUnits.end(); ++j)
-                if ((*j)->getBuildingType() == (*i)->getBuildingType())
-                  (*j)->addExecutor((*i)->getBuilding());
+              for each (TaskTrain* j in this->plannedUnits)
+                if (j->getBuildingType() == (*i)->getBuildingType())
+                  j->addExecutor((*i)->getBuilding());
             }
           }
           delete *i;
@@ -954,10 +953,10 @@ namespace BWAI
           ++i;
     }
         
-    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      (*i)->execute();
-    for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin(); i != this->activeRefineries.end(); ++i)
-      (*i)->execute();
+    for each (TaskGather* i in this->activeMinerals)
+      i->execute();
+    for each (TaskGatherGas* i in this->activeRefineries)
+      i->execute();
   }
   //---------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)
@@ -965,9 +964,9 @@ namespace BWAI
     if (this->activeMinerals.empty())
       return NULL;
     TaskGather* best = activeMinerals.front();
-    for (std::list<TaskGather*>::iterator i = this->activeMinerals.begin(); i != this->activeMinerals.end(); ++i)
-      if (this->betterMinralPatch(*i, best, gatherer))
-        best = *i;
+    for each (TaskGather* i in this->activeMinerals)
+      if (this->betterMinralPatch(i, best, gatherer))
+        best = i;
     return best;
   }
   //---------------------------------------------------------------------------
@@ -989,18 +988,16 @@ namespace BWAI
     BuildingPositionSet* position = this->startingPosition->positions[spotName];
     if (position == NULL)
       throw GeneralException("Position '" + spotName + "' not found in the current starting position");
-    for (std::list<BuildingPosition*>::iterator i = position->positions.begin();
-           i != position->positions.end();
-           ++i)
-      if (!(*i)->reserved)
+    for each (BuildingPosition* i in position->positions)
+      if (!i->reserved)
         {
           int occupiedCount = 0;
           Unit* occupied = NULL;
-          for (int k = (*i)->position.x; 
-                k < (*i)->position.x + position->tileWidth; 
+          for (int k = i->position.x; 
+                k < i->position.x + position->tileWidth; 
                 k++)
-            for (int l = (*i)->position.y; 
-                 l < (*i)->position.y + position->tileHeight; 
+            for (int l = i->position.y; 
+                 l < i->position.y + position->tileHeight; 
                  l++)
               if (!BWAPI::Broodwar.unitsOnTile[k][l].empty())
               {
@@ -1029,13 +1026,13 @@ namespace BWAI
                )
              )
           {
-            this->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), (*i)->position.x, (*i)->position.y);
+            this->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), i->position.x, i->position.y);
             if (occupied != NULL &&
                 occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
               builderToUse = occupied;
             else
               builderToUse = NULL;
-            return *i;
+            return i;
           }
         } 
    return NULL;
@@ -1049,14 +1046,12 @@ namespace BWAI
   void AI::unsaturateGather()
   {
     this->expansionsSaturated = false;
-    for (std::list<Expansion*>::iterator i = this->expansions.begin();
-         i != this->expansions.end();
-         ++i)
-      switch ((*i)->gatherCenter->getType().getID())
+    for each (Expansion* i in this->expansions)
+      switch (i->gatherCenter->getType().getID())
       {
-        case BW::UnitID::Terran_CommandCenter : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Terran_SCV; break;
-        case BW::UnitID::Protoss_Nexus        : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Protoss_Probe; break;
-        case BW::UnitID::Zerg_Hatchery        : (*i)->gatherCenter->lastTrainedUnit = BW::UnitID::Zerg_Drone; break;
+        case BW::UnitID::Terran_CommandCenter : i->gatherCenter->lastTrainedUnit = BW::UnitID::Terran_SCV; break;
+        case BW::UnitID::Protoss_Nexus        : i->gatherCenter->lastTrainedUnit = BW::UnitID::Protoss_Probe; break;
+        case BW::UnitID::Zerg_Hatchery        : i->gatherCenter->lastTrainedUnit = BW::UnitID::Zerg_Drone; break;
       }
   }
   //---------------------------------------------------------------------------

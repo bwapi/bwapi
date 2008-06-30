@@ -96,14 +96,11 @@ namespace BWAI
           this->position->reserved = false;
           this->position = NULL;
         }
-        std::list<BuildingPosition*>::iterator i;
-        for (i = alternatives->positions.begin();
-             i != alternatives->positions.end();
-             ++i)
-          if ((*i)->reserved == false &&
-              this->canIBuild((*i)->position))
+        for each (BuildingPosition* i in alternatives->positions)
+          if (i->reserved == false &&
+              this->canIBuild(i->position))
           {
-            this->position = *i;
+            this->position = i;
             this->position->reserved = true;
             break;
           }

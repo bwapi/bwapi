@@ -12,24 +12,20 @@ namespace BWAI
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   Formation::Formation(std::list<Unit*>& units)
   {
-    for (std::list<Unit*>::iterator i = units.begin(); i != units.end(); ++i)
+    for each (Unit* i in units)
     {
       std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
-      index = this->data.find((*i)->getType().getID());
+      index = this->data.find(i->getType().getID());
       if (index == this->data.end())
       {
         this->data.insert(std::pair<BW::UnitID::Enum, std::list<Target> >
-                         ((*i)->getType().getID(), std::list<Target>()));
-        index = this->data.find((*i)->getType().getID());
+                         (i->getType().getID(), std::list<Target>()));
+        index = this->data.find(i->getType().getID());
       }
-      (*index).second.push_back(Target(*i, BW::Position(0,0)));
+      (*index).second.push_back(Target(i, BW::Position(0,0)));
     }
-    for (std::map<BW::UnitID::Enum, std::list<Target> >::iterator i = this->data.begin();
-         i != this->data.end();
-         ++i)
-    {
-      BWAPI::ScreenLogger().log("%d %ss", (*i).second.size(), BW::UnitType((*i).first).getName());
-    }
+    for each (std::pair<BW::UnitID::Enum, std::list<Target> > i in this->data)
+      BWAPI::ScreenLogger().log("%d %ss", i.second.size(), BW::UnitType(i.first).getName());
   }
   //---------------------------------------- GENERATE POSITIONS ----------------------------------------------
   void Formation::generatePositions(BW::Position center, float angle)
@@ -69,8 +65,8 @@ namespace BWAI
     if (index != this->data.end())
     {
       std::list<Target>* list = &(*index).second;
-      for (std::list<Target>::iterator i = list->begin(); i != list->end(); ++i)
-        (*i).unit->orderRightClick((*i).target);
+      for each (Target i in *list)
+        i.unit->orderRightClick(i.target);
     }
   }
 }

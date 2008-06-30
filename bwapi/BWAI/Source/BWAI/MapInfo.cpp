@@ -54,15 +54,15 @@ namespace BWAI
   //--------------------------------- DESTRUCTOR -----------------------------
   MapInfo::~MapInfo()
   {
-    for (std::list<MapExpansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-       delete *i;
+    for each (MapExpansion* i in this->expansions)
+       delete i;
   }
   //--------------------------------------------------------------------------
   MapExpansion *MapInfo::getExpansion(const std::string& id)
   {
-    for (std::list<MapExpansion*>::iterator i = this->expansions.begin(); i != this->expansions.end(); ++i)
-      if ((*i)->getID() == id)
-        return *i;
+    for each (MapExpansion* i in this->expansions)
+      if (i->getID() == id)
+        return i;
      return NULL;
   }
   //--------------------------------------------------------------------------
@@ -80,28 +80,22 @@ namespace BWAI
         counts[x][y] = buildability[x][y] ? 0 : 1;
         
     
-    for (std::list<MapStartingPosition*>::iterator i = this->startingPositions.begin();
-         i != this->startingPositions.end();
-         ++i)
+    for each (MapStartingPosition* i in this->startingPositions)
     {
-      for (std::map<std::string, BuildingPositionSet*>::iterator l = (*i)->positions.begin();
-           l != (*i)->positions.end();
-           ++l)
+      for each (std::pair<std::string, BuildingPositionSet*> l in i->positions)
       {           
-        BuildingPositionSet* positions = (*l).second;
-        for (std::list<BuildingPosition*>::iterator j = positions->positions.begin();
-             j != positions->positions.end();
-             ++j)
+        BuildingPositionSet* positions = l.second;
+        for each (BuildingPosition* j in positions->positions)
         {
-          Util::Strings::makeWindow(result, (*j)->position.x, (*j)->position.y, positions->tileWidth, positions->tileHeight, 1);
-          Util::Strings::printTo(result, positions->shortcut, (*j)->position.x + 1, (*j)->position.y + 1);
+          Util::Strings::makeWindow(result, j->position.x, j->position.y, positions->tileWidth, positions->tileHeight, 1);
+          Util::Strings::printTo(result, positions->shortcut, j->position.x + 1, j->position.y + 1);
           for (int x = 0; x < positions->tileWidth; x++)
             for (int y = 0; y < positions->tileHeight; y++)
-              counts[x + (*j)->position.x][y + (*j)->position.y]++;
+              counts[x + j->position.x][y + j->position.y]++;
         }
       }
-      unsigned int startX = (*i)->expansion->getPosition().x/BW::TILE_SIZE - 2;
-      unsigned int startY = ((*i)->expansion->getPosition().y - 45)/BW::TILE_SIZE;
+      unsigned int startX = i->expansion->getPosition().x/BW::TILE_SIZE - 2;
+      unsigned int startY = (i->expansion->getPosition().y - 45)/BW::TILE_SIZE;
       Util::Strings::makeWindow(result, startX, startY, 4, 3, 0);
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 3; y++)

@@ -22,9 +22,7 @@ namespace BWAI
   //------------------------------------- DESTRUCTOR ---------------------------
   BuildingPositionSet::~BuildingPositionSet()
   {
-    for (std::list<BuildingPosition*>::iterator i = this->positions.begin();
-         i != this->positions.end();
-         ++i)
-      delete (*i);
+    for each (BuildingPosition* i in this->positions)
+      delete i;
   }
 }

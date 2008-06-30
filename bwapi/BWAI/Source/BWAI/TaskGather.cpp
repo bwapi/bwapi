@@ -41,41 +41,41 @@ namespace BWAI
       else
         i++;
 
-    for (std::list<Unit*>::iterator i = this->executors.begin(); i != this->executors.end(); ++i)
+    for each (Unit* i in this->executors)
     {
       //BWAI::ai->log->log("TaskGather::execute::onWorker");
       Unit* miningBuddy = NULL;
-      if (i == this->executors.begin() && 
-          i != --this->executors.end())
+      if (i == this->executors.front() && 
+          i != this->executors.back())
         miningBuddy = *(--this->executors.end());
       else
-        if (i != this->executors.begin() && 
-            i == --this->executors.end())
+        if (i != this->executors.front() && 
+            i == this->executors.back())
         miningBuddy = *this->executors.begin();
       if (
            (
-             (*i)->getOrderIDLocal() == BW::OrderID::MoveToMinerals || 
-             (*i)->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 || 
-             (*i)->getOrderIDLocal() == BW::OrderID::PlayerGuard
+             i->getOrderIDLocal() == BW::OrderID::MoveToMinerals || 
+             i->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 || 
+             i->getOrderIDLocal() == BW::OrderID::PlayerGuard
            ) &&
-           (*i)->getTargetLocal() != this->expansion->gatherCenter &&
+           i->getTargetLocal() != this->expansion->gatherCenter &&
              (
-               (*i)->getTargetLocal() != this->mineral
+               i->getTargetLocal() != this->mineral
                ||
                (
-                 (*i)->getDistance(this->mineral) <= BWAPI::Broodwar.getLatency()*3 &&
+                 i->getDistance(this->mineral) <= BWAPI::Broodwar.getLatency()*3 &&
                  miningBuddy != NULL &&
                  miningBuddy->getOrderTimer() >= BWAPI::Broodwar.getLatency() &&
                  (
                    miningBuddy->getOrderTimer() == BWAPI::Broodwar.getLatency()-1 ||
-                   BWAPI::Broodwar.frameCount - (*i)->lastFrameSpam > 4
+                   BWAPI::Broodwar.frameCount - i->lastFrameSpam > 4
                  )
                )
              )
            )
         {
-          (*i)->lastFrameSpam = BWAPI::Broodwar.frameCount;
-          (*i)->orderRightClick(mineral);
+          i->lastFrameSpam = BWAPI::Broodwar.frameCount;
+          i->orderRightClick(mineral);
         }
     }
     return false;

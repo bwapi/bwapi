@@ -22,11 +22,11 @@ namespace BWAI
   //-------------------------------- DESTRUCTOR -------------------------------
   Task::~Task()
   {
-    for (std::list<Unit*>::iterator i = this->executors.begin(); i != this->executors.end(); ++i)
+    for each (Unit* i in this->executors)
     {
-      BWAI::ai->log->log("Freeing [%d] from the task", (*i)->getIndex());
-      (*i)->clearTask();
-      (*i)->expansion = NULL;
+      BWAI::ai->log->log("Freeing [%d] from the task", i->getIndex());
+      i->clearTask();
+      i->expansion = NULL;
     }
   }
   //------------------------------- FREE EXECUTOR -----------------------------

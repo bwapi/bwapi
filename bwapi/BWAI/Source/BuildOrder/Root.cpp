@@ -44,11 +44,11 @@ namespace BuildOrder
   //--------------------------------------------------- DESTRUCTOR -------------------------------------------
   Root::~Root()
   {
-    for (std::list<Branch*>::iterator i = this->buildOrders.begin(); i != this->buildOrders.end(); ++i)
-      delete *i;
+    for each (Branch* i in this->buildOrders)
+      delete i;
     this->buildOrders.clear();
-    for (std::map<std::string, BuildWeights* >::iterator i = this->weights.begin(); i != this->weights.end(); ++i)
-      delete (*i).second;
+    for each (std::pair<std::string, BuildWeights* > i in this->weights)
+      delete i.second;
     delete log;
   }
   //----------------------------------------------- GET STARTING BRANCH --------------------------------------
