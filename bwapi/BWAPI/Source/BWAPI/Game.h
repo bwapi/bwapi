@@ -106,6 +106,7 @@ namespace BWAPI
       Util::Dictionary* configuration;
       /** Every tile will have pointers to units touching it. */
       Util::RectangleArray<std::list<Unit*> > unitsOnTile;
+      std::map<std::string, BW::UnitType> unitNameToType;
       std::map<std::string, BW::TechType> techNameToType;
       std::map<std::string, BW::UpgradeType> upgradeNameToType;
       bool enabled;      

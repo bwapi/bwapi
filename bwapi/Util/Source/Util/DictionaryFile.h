@@ -1,7 +1,8 @@
 #pragma once
 #include <list>
 
-#include "DictionaryLine.h"
+namespace Util { class DictionaryLine; }
+namespace Util { class Sentence; }
 
 namespace Util
 {
@@ -22,12 +23,10 @@ namespace Util
       /**
        * Loads and parses the given dictionary file.
        * @param fileName Name of file to be loaded as property file.
-       * @param dictionary Dictionary containing this file, used to store
-       *        property values
-       *                   into the dictionary and resolve '{key}' statements in
-       *                   property value
+       * @param dictionary Dictionary containing this file, used to store property values
+       *                   into the dictionary and resolve '{key}' statements in property value
        */
-      DictionaryFile(const std::string &fileName, Dictionary *dictionary);
+      DictionaryFile(const std::string &fileName, Dictionary *dictionary = NULL);
       /** Removes all contained lines */
      ~DictionaryFile(void);
       /**
@@ -39,5 +38,6 @@ namespace Util
       /** Sets if the dictionary file was changed */
       void setChanged(const bool changed);
       std::list<DictionaryLine*> lines; /**< Lines of the file*/
+      std::list<Sentence*> usedLines; /**< Subset of lines that are used. */
   };
 }

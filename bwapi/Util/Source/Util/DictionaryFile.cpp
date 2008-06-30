@@ -32,8 +32,10 @@ namespace Util
 	      	  while (isspace(value[0]))
             value = value.substr(1,value.length() - 1);
           sentence = new Sentence(key, value, dictionary, this);
-          dictionary->values.insert(std::pair<std::string, Sentence*>(key, sentence));
+          if (dictionary != NULL)
+            dictionary->values.insert(std::pair<std::string, Sentence*>(key, sentence));
           this->lines.push_back(sentence);
+          this->usedLines.push_back(sentence);
          }
         else
           this->lines.push_back(new UnusedLine(line));

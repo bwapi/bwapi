@@ -81,7 +81,6 @@ namespace BWAI
       std::list<BuildOrder::Command*>::iterator actualPosition;
       BuildOrder::Branch* actualBranch;
       
-      std::map<std::string, BW::UnitType> unitNameToType;
       BWAPI::Player* player;
       BWAPI::Player* opponent;
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);

@@ -7,7 +7,7 @@ namespace Util
   //-------------------------------- CONSTRUCTOR ---------------------------------
   Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile *parentFile)
   :parentFile(parentFile)
-   {
+  {
     this->inputValue = sentence;
     this->key = key;
     size_t leftBracketPosition, rightBracketPosition;
@@ -21,31 +21,31 @@ namespace Util
     if (leftBracketPosition == -1)
       this->sentence = sentence;
     else
-     {
+    {
       if (sentence[leftBracketPosition] == '\\')
-       {
+      {
         switch (sentence[leftBracketPosition + 1])
-         {
+        {
           case  '{' :
-           {
+          {
             sentence = sentence.substr(0, leftBracketPosition - 1) + sentence.substr(leftBracketPosition, sentence.length() - leftBracketPosition);
             position = leftBracketPosition + 2;
             goto begin1;
-           }
+          }
           case 'n' :
-           {
+          {
             sentence = sentence.substr(0,leftBracketPosition-1) + "\n" +sentence.substr(leftBracketPosition+1,sentence.length() - leftBracketPosition - 1);
             position = leftBracketPosition + 2;
             goto begin1;
-           }
+          }
           default :
-           {
+          {
             sentence = sentence.substr(0,leftBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
             position = leftBracketPosition + 1;
             goto begin1;
-           }
-         }
-       }
+          }
+        }
+      }
       this->sentence = sentence.substr(0,leftBracketPosition);
       rightBracketPosition = sentence.find("}",leftBracketPosition);
       size_t newrightBracketPosition;
@@ -58,52 +58,52 @@ namespace Util
           begin2:
           leftBracketPosition = sentence.find_first_of("{\\",position);
           if (leftBracketPosition != -1)
-           {
+          {
             if (sentence[leftBracketPosition] == '\\')
-             {
+            {
               switch (sentence[leftBracketPosition + 1])
-               {
+              {
                 case  '{' :
-                 {
+                {
                   sentence = sentence.substr(0,leftBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
                   position = leftBracketPosition + 2;
                   goto begin2;
-                 }
+                }
                 case 'n' :
-                 {
+                {
                   sentence = sentence.substr(0,rightBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
                   position = leftBracketPosition + 2;
                   goto begin2;
-                 }
+                }
                 default :
-                 {
+                {
                   sentence = sentence.substr(0,rightBracketPosition) + sentence.substr(leftBracketPosition + 1,sentence.length() - leftBracketPosition - 1);
                   position = leftBracketPosition + 1;
                   goto begin2;
-                 }
-               }
-             }
+                }
+              }
+            }
             newrightBracketPosition = sentence.find("}",leftBracketPosition);
             newNumberString = sentence.substr(leftBracketPosition + 1,newrightBracketPosition - leftBracketPosition - 1);
             if (newNumberString.find_first_not_of("0123456789",0) == -1)
-             {
+            {
               this->sentenceParts.push_back(std::pair<std::string, unsigned int>(std::string(sentence.substr(rightBracketPosition + 1,leftBracketPosition - rightBracketPosition - 1)),unsigned int(atoi(NumberString.c_str()) - 1)));
               rightBracketPosition = newrightBracketPosition;
               NumberString = newNumberString;
-             }
+            }
             else
-              if (dictionary->values[NumberString] == NULL)
-               {
+              if (dictionary == NULL || dictionary->values[NumberString] == NULL)
+              {
                 this->sentenceParts.push_back(std::pair<std::string,unsigned int>(std::string("Parametr must be NUMBER (error in Dictionary file)"), unsigned int(0)));
                 return;
-               }
+              }
               else
-               {
+              {
                 value = dictionary->getValue(NumberString);
                 position = leftBracketPosition + value.length();
                 sentence = sentence.substr(0,leftBracketPosition) + value + sentence.substr(position,sentence.length() - position);
                 goto begin2;
-               }
+              }
            }
            else
            {
@@ -113,7 +113,7 @@ namespace Util
          }
        else
          {
-          if (dictionary->values[NumberString] == NULL)
+          if (dictionary == NULL || dictionary->values[NumberString] == NULL)
            {
             this->sentenceParts.push_back(std::pair<std::string,unsigned int>(std::string("Parametr must be NUMBER or DICTIONARY KEY (error in Dictionary file)"), unsigned int(0)));
             return;

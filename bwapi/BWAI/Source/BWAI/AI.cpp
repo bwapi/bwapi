@@ -201,15 +201,6 @@ namespace BWAI
     {
       this->log->logImportant("Ai::onStart start");
       this->map = new BWAPI::Map();
-      if (this->unitNameToType.empty())
-        for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-          this->unitNameToType.insert(std::pair<std::string, BW::UnitType>
-                                       (
-                                         BW::UnitType( (BW::UnitID::Enum) i ).getName(), 
-                                         BW::UnitType( (BW::UnitID::Enum) i)
-                                       )
-                                     );
-      this->root->loadTypes();
       this->player = player;
       this->opponent = opponent;
       this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
@@ -511,8 +502,8 @@ namespace BWAI
         Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
         for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
           if (BW::TechType((BW::TechID::Enum)i).isValid())
-            techsLog.log("%s=%d",BW::TechType((BW::TechID::Enum)i).getName(), i);
-        BWAPI::Broodwar.print("Techs saved to %s .ini", fileName);
+            techsLog.log("%s = 0x%02X",BW::TechType((BW::TechID::Enum)i).getName(), i);
+        BWAPI::Broodwar.print("Techs saved to %s .ini", fileName.c_str());
       }
       else if (parsed[1] == "upgrades")
       {
@@ -524,6 +515,7 @@ namespace BWAI
           if (upgrade.isValid())
             upgradesLog.log("%s = 0x%02X",upgrade.getName(), i);
         }
+        BWAPI::Broodwar.print("Upgrades saved to %s .ini", fileName.c_str());
       }
       else if (parsed[1] == "units")
       {
@@ -532,8 +524,9 @@ namespace BWAI
         for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         {
           BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-            upgradesLog.log("%s = 0x%02X ",unit.getName(), i);
+            upgradesLog.log("%s = 0x%02X",unit.getName(), i);
         }
+        BWAPI::Broodwar.print("Units saved to %s .ini", fileName.c_str());        
       }      
       else 
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog", parsed[1]);

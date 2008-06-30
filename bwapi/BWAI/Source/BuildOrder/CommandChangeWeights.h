@@ -18,7 +18,6 @@ namespace BuildOrder
       CommandChangeWeights(TiXmlElement* xmlElement);
       virtual ~CommandChangeWeights();
       virtual bool execute();
-      virtual void loadTypes();
     private :
       BuildWeights* weights;
   };
