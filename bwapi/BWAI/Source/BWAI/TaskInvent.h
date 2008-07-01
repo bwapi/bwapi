@@ -9,7 +9,7 @@ namespace BWAI
   class TaskInvent : public Task
   {
     public :
-      TaskInvent(BW::TechType techType);
+      TaskInvent(BW::TechType techType, u16 priority);
       virtual ~TaskInvent();
       bool execute();
       TaskType::Enum getType();

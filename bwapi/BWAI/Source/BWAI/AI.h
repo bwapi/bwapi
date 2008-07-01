@@ -2,10 +2,13 @@
 
 #include <list>
 #include <map>
+#include <set>
 
 #include <BWAPI/Game.h>
 #include <BWAPI/ReservedResources.h>
 #include <BW/UnitType.h>
+
+#include "Task.h"
 
 namespace Util { class Logger; }
 
@@ -77,6 +80,7 @@ namespace BWAI
       std::list<TaskUpgrade*> plannedUpgrades;
       std::list<TaskTrain*> plannedUnits;
       std::list<TaskFight*> fightGroups;
+      std::set<Task*, Task::TaskPriorityLess> prioritisedTasks; /**< Contains all tasks connected with resource handling sorted by priority */
       BuildOrder::Root *root;
       std::list<BuildOrder::Command*>::iterator actualPosition;
       BuildOrder::Branch* actualBranch;

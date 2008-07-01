@@ -12,7 +12,7 @@ namespace BWAI
   class TaskTrain : public Task
   {
     public :
-      TaskTrain(BuildOrder::BuildWeights* weights);
+      TaskTrain(BuildOrder::BuildWeights* weights, u16 priority);
       virtual ~TaskTrain();
       bool execute();
       BW::UnitType getBuildingType();

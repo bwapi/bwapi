@@ -38,7 +38,7 @@ namespace BuildOrder
         this->conditionApplies()) 
     {
       BWAI::ai->root->log->log("Command to upgrade '%s' called", this->name.c_str());
-      BWAI::ai->plannedUpgrades.push_back(new BWAI::TaskUpgrade(toUpgrade, level));        
+      BWAI::ai->plannedUpgrades.push_back(new BWAI::TaskUpgrade(toUpgrade, level, priority));        
       return true;
     }
     return false;

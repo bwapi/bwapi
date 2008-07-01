@@ -2,7 +2,7 @@
 
 class TiXmlElement;
 namespace BuildOrder { class Condition; }
-
+#include <Util/Types.h>
 #include "ConditionRunType.h"
 
 namespace BuildOrder
@@ -23,5 +23,6 @@ namespace BuildOrder
       /** Specifies the way the condition affect the run of the build order. */
       BuildOrder::ConditionRunType::Enum conditionRunType;
       bool conditionApplies();
+      u16 priority;
   };
 }

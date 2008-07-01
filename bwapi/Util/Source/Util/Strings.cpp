@@ -272,7 +272,7 @@ namespace Util
  }
  //---------------------------------------------- GET BINARY -------------------------------------------------
   template <class Type>
-  std::string Game::getBinary(Type value)
+  std::string Strings::getBinary(Type value)
   {
    std::string result;
     for (int i = 0; i < sizeof(Type)*8; i++)

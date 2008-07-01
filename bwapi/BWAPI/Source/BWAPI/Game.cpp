@@ -95,7 +95,8 @@ namespace BWAPI
                             &unitArrayCopyLocal->unit[i],
                             i);
 
-      this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
+      //this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
+      this->latency = BW::Latency::LanLow; // @todo read from the address in update
     }
     catch (GeneralException& exception)
     {

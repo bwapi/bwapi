@@ -8,14 +8,16 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskTrain::TaskTrain(BuildOrder::BuildWeights* weights)
-  :Task()
+  TaskTrain::TaskTrain(BuildOrder::BuildWeights* weights, u16 priority)
+  :Task(priority)
   ,weights(weights)
   {
+    BWAI::ai->prioritisedTasks.insert(this);
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskTrain::~TaskTrain()
   {
+    BWAI::ai->prioritisedTasks.erase(this);
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskTrain::execute()
