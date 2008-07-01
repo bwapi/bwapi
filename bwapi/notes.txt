@@ -1,0 +1,24 @@
+I will describe the gather optimisation/latency issue later in the documentation
+with pictures etc.
+
+Mining test 8 mineral patches - 5 game minutes
+Distance   = The distence of the mineral mined by co-miner to start spamming mineral
+             to avoid the scv to pick another free mineral target, this could
+             be optimised if I knew the the exact time the scv needs to come.
+period     = The frame interval between spamming (affects the mining effectivity just 
+             very little and saves tons of apm)
+stopBefore = This one is solved: In how big advance should the scv stop spam 
+             before the mineral will be free to mine from (it is equal to latency)
+
+Test 1
+Distance = Latency*3
+period   = 4
+Latency = BattlnetLow
+------- -> ->
+minerals = 3150
+apm      = 280
+
+    
+Normal mining
+minerals = 2624
+apm      =    0
