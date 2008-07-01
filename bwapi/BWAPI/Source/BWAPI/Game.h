@@ -90,8 +90,6 @@ namespace BWAPI
       Player* BWAPIPlayer;
       Player* opponent;
       Unit* getFirst();
-      template <class Type>
-      std::string getBinary(Type value);
       void logUnitList();
       void logUnknownOrStrange();
       /** Count of game-frames passed from game start. */
