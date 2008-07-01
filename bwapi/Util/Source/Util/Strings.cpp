@@ -238,7 +238,7 @@ namespace Util
     input[x][y + height - 1] = Strings::FrameCharacters[frameType][4];
     input[x + width - 1][y + height- 1] = Strings::FrameCharacters[frameType][5];
   }
-  //------------------------------------------------------------------------------
+  //--------------------------------------------- PRINT TO ---------------------------------------------------
   void Strings::printTo(RectangleArray<char>& input, 
                            const std::string& text, 
                            unsigned int x, 
@@ -247,7 +247,7 @@ namespace Util
     for (unsigned int i = 0; text[i] != 0; i++)
       input[x + i][y] = text[i];
   }
-  //------------------------------------------------------------------------------
+  //------------------------------------------- SPLIT STRING -------------------------------------------------
   std::vector<std::string> Strings::splitString(const std::string& str,
                                                    const std::string& delims)
  {
@@ -270,5 +270,17 @@ namespace Util
     }
   return tokens;
  }
- //------------------------------------------------------------------------------
+ //---------------------------------------------- GET BINARY -------------------------------------------------
+  template <class Type>
+  std::string Game::getBinary(Type value)
+  {
+   std::string result;
+    for (int i = 0; i < sizeof(Type)*8; i++)
+      if (value  & (1 << (sizeof(Type)*8-1-i)))
+         result += "1";
+      else
+         result += "0";
+    return result;
+  }
+ //-----------------------------------------------------------------------------------------------------------
 }
