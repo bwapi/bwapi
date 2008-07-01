@@ -9,7 +9,7 @@ namespace BWAI
   class TaskUpgrade : public Task
   {
     public :
-      TaskUpgrade(BW::UpgradeType upgrade, u8 level);
+      TaskUpgrade(BW::UpgradeType upgrade, u8 level, u16 priority);
       virtual ~TaskUpgrade();
       bool execute();
       TaskType::Enum getType();

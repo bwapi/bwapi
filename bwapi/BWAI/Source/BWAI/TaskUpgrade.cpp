@@ -8,15 +8,17 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskUpgrade::TaskUpgrade(BW::UpgradeType upgradeType, u8 level)
-  :Task()
+  TaskUpgrade::TaskUpgrade(BW::UpgradeType upgradeType, u8 level, u16 priority)
+  :Task(priority)
   ,upgradeType(upgradeType)
   ,level(level)
   {
+    BWAI::ai->prioritisedTasks.insert(this);
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskUpgrade::~TaskUpgrade()
   {
+    BWAI::ai->prioritisedTasks.erase(this);
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskUpgrade::execute()

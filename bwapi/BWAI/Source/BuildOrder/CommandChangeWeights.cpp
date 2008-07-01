@@ -29,7 +29,7 @@ namespace BuildOrder
   bool CommandChangeWeights::execute()
   {
     BWAI::ai->root->log->log("Command change weights for '%s' called", this->weights->factory.getName());
-    BWAI::ai->plannedUnits.push_back(new BWAI::TaskTrain(this->weights));
+    BWAI::ai->plannedUnits.push_back(new BWAI::TaskTrain(this->weights, priority));
     return true;
   }
   //----------------------------------------------------------------------------------------------------------

@@ -7,14 +7,16 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskInvent::TaskInvent(BW::TechType techType)
-  :Task()
+  TaskInvent::TaskInvent(BW::TechType techType, u16 priority)
+  :Task(priority)
   ,techType(techType)
   {
+    BWAI::ai->prioritisedTasks.insert(this);
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskInvent::~TaskInvent()
   {
+    BWAI::ai->prioritisedTasks.erase(this);
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskInvent::execute()

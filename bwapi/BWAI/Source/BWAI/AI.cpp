@@ -544,7 +544,7 @@ namespace BWAI
         {
           if (this->player->canAfford(tech, this->reserved))
           {
-            this->plannedInvents.push_back(new BWAI::TaskInvent(tech));
+            this->plannedInvents.push_back(new BWAI::TaskInvent(tech, 0));
             BWAPI::Broodwar.print("Added tech '%s'", techName);
           }
           else
@@ -573,7 +573,7 @@ namespace BWAI
         {
           if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1, this->reserved))
           {
-            this->plannedUpgrades.push_back(new BWAI::TaskUpgrade(upgrade, this->player->upgradeLevel(upgrade) + 1));
+            this->plannedUpgrades.push_back(new BWAI::TaskUpgrade(upgrade, this->player->upgradeLevel(upgrade) + 1, 0));
             BWAPI::Broodwar.print("Added upgrade '%s' level %d", upgradeName, this->player->upgradeLevel(upgrade) + 1);
           }
           else
@@ -729,7 +729,7 @@ namespace BWAI
           i->getOrderTarget() != NULL)
        {
          this->log->log("Custom building added buildTask");         
-         this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL));
+         this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL, 0));
        }
           
     /** Autobuild for units not in TaskTrain, just temporary until everything will be in TaskTrain */
@@ -845,7 +845,8 @@ namespace BWAI
         this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, 
                                                        spot, 
                                                        builderToUse, 
-                                                       this->startingPosition->positions["non-producting-3X2"]));
+                                                       this->startingPosition->positions["non-producting-3X2"],
+                                                       0));
       }
     }        
   }

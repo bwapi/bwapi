@@ -37,7 +37,7 @@ namespace BuildOrder
         this->conditionApplies()) 
     {
       BWAI::ai->root->log->log("Command to invent '%s' called", this->name.c_str());
-      BWAI::ai->plannedInvents.push_back(new BWAI::TaskInvent(toInvent));        
+      BWAI::ai->plannedInvents.push_back(new BWAI::TaskInvent(toInvent, priority));        
       return true;
     }
     return false;

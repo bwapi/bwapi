@@ -23,7 +23,11 @@ namespace BWAI
   class TaskBuild : public Task
   {
     public :
-      TaskBuild(BW::UnitType buildingType, BuildingPosition* position, Unit* builder, BuildingPositionSet* alternatives);
+      TaskBuild(BW::UnitType buildingType, 
+                BuildingPosition* position, 
+                Unit* builder, 
+                BuildingPositionSet* alternatives,
+                u16 priority);
       virtual ~TaskBuild();
       bool execute();
       BW::UnitType getBuildingType();

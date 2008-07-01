@@ -17,8 +17,12 @@
 namespace BWAI
 {
   //------------------------------ CONSTRUCTOR --------------------------------
-  TaskBuild::TaskBuild(BW::UnitType buildingType, BuildingPosition* position, Unit* builder, BuildingPositionSet* alternatives)
-  :Task(builder)
+  TaskBuild::TaskBuild(BW::UnitType buildingType, 
+                       BuildingPosition* position, 
+                       Unit* builder, 
+                       BuildingPositionSet* alternatives, 
+                       u16 priority)
+  :Task(builder, priority)
   ,buildingType(buildingType)
   ,position(position)
   ,building(NULL)
@@ -26,12 +30,14 @@ namespace BWAI
   {
     if (position != NULL)
       position->reserved = true;
+    BWAI::ai->prioritisedTasks.insert(this);
   }
   //------------------------------- DESTRUCTOR --------------------------------
   TaskBuild::~TaskBuild()
   {
     if (position != NULL)
       position->reserved = false;
+    BWAI::ai->prioritisedTasks.erase(this);
   }
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskBuild::execute()

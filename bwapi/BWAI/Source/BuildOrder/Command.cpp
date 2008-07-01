@@ -19,6 +19,7 @@ namespace BuildOrder
        if (conditionType == "minimal-population")
          this->condition = new ConditionMinimalPopulation(conditionElement);
      }
+     this->priority = Util::Xml::getOptionalU16Attribute(element, "priority", 0);
    }
    //------------------------------------------- CONDITION APPLIES -------------------------------------------
    bool Command::conditionApplies()

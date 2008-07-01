@@ -27,9 +27,9 @@ namespace BWAI
   {
     public :
       /** Creates the without executors (the task itself can always obtain it)  */
-      Task(u8 priority = 0);
+      Task(u16 priority = 0);
       /** Creates the task giving it one executor to work with from the start. */
-      Task(Unit* executor, u8 priority = 0);
+      Task(Unit* executor, u16 priority = 0);
       /** Removes the task and frees all executors from it. */
       virtual ~Task();
       virtual TaskType::Enum getType() = 0;
@@ -62,6 +62,15 @@ namespace BWAI
        */
       std::list<Unit*> executors;
       /** Priority of task - the higher the more important the task is. */
-      u8 priority;
+      u16 priority;
+     
+      struct TaskPriorityLess:
+      public std::binary_function<const Task*, const Task*, bool>
+      {
+        bool operator()(const Task *task1, const Task *task2) const
+        {
+          return task1->priority > task2->priority;
+        }
+      };
   };
 }

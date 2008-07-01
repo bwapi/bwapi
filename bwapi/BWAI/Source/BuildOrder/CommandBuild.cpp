@@ -63,7 +63,7 @@ namespace BuildOrder
         BWAI::Unit* scvToUse = NULL;
         BWAI::BuildingPosition* position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
         BWAI::ai->root->log->log("Command build '%s' called", this->name.c_str());
-        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives));        
+        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives, priority));        
       }
       else if (toBuild.isAddon())
       {
@@ -89,7 +89,7 @@ namespace BuildOrder
           BWAI::ai->root->log->log("Executor chosen is not building ???? but %s", executor->getName().c_str());
           return false;
         }
-        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, executor, alternatives));        
+        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, executor, alternatives, priority));        
       }
       return true;
     }
