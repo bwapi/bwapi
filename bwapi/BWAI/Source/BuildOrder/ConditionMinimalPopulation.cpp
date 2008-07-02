@@ -4,9 +4,7 @@
 #include <Util/Strings.h>
 #include <Util/Exceptions.h>
 #include <Util/Xml.h>
-
 #include <BWAI/Globals.h>
-
 #include <BWAPI/Player.h>
 
 namespace BuildOrder

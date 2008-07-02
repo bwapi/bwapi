@@ -21,6 +21,7 @@
 #include <BuildOrder/Branch.h>
 #include <BuildOrder/Command.h>
 #include <BuildOrder/BuildWeights.h>
+#include <BuildOrder/Executor.h>
 
 #include <Pathfinding/Utilities.h>
 
@@ -54,6 +55,7 @@ namespace BWAI
   ,temp(NULL)
   ,pathFinding(NULL)
   ,mineralGatherers(0)
+  ,buildOrderExecutor(NULL)
   {
     BWAI::ai = this;
     try
@@ -205,8 +207,6 @@ namespace BWAI
       this->map = new BWAPI::Map();
       this->player = player;
       this->opponent = opponent;
-      this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
-      this->map->saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
       std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
@@ -230,7 +230,6 @@ namespace BWAI
                                                                  this->startingPosition->expansion->getPosition().y);
         }
       }
-      mapInfo->saveDefinedBuildingsMap();
       this->pathFinding = new PathFinding::Utilities();
     }
     catch (GeneralException& exception)
@@ -244,18 +243,14 @@ namespace BWAI
 
     if (this->root != NULL)
     {
-      this->actualBranch = this->root->getStartingBranch();
-      if (this->actualBranch == NULL)
+      this->buildOrderExecutor = this->root->getStart();
+      if (this->buildOrderExecutor == NULL)
         this->root->log->log("Didn't find build order to play with %s against %s", 
                              BW::Race::raceName(this->player->getRace()).c_str(), 
                              BW::Race::raceName(this->opponent->getRace()).c_str());
       else
-      {
-        this->root->log->log("Chose root branch : %s (strat against %s)", 
-                             this->actualBranch->getName().c_str(), 
-                             BW::Race::raceName(this->actualBranch->against).c_str());
-        this->actualPosition = this->actualBranch->commands.begin();
-      }
+        this->root->log->log("Chose root branch : %s", 
+                             this->buildOrderExecutor->actualBranch()->getName().c_str());
     }
     this->mineralGatherers = 0;
     this->log->logImportant("Ai::onStart end");
@@ -311,61 +306,67 @@ namespace BWAI
     delete this->map;
     this->map = NULL;
     
+    delete this->buildOrderExecutor;
+    this->buildOrderExecutor = NULL;
+    
     this->log->logImportant("Ai::onEnd end");
   }
   //-------------------------------  ON FRAME ---------------------------------
   void AI::onFrame(void)
   {
-    if (!BWAPI::Broodwar.enabled)
-      return;
-    if (BWAPI::Broodwar.frameCount < 2)
-      return;
-    if (!this->player)
-      return;
+    try
+    {
+      if (!BWAPI::Broodwar.enabled)
+        return;
+      if (BWAPI::Broodwar.frameCount < 2)
+        return;
+      if (!this->player)
+        return;
+         
+      if (this->buildOrderExecutor)
+        this->buildOrderExecutor->execute();
+
+      BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
+      this->refreshSelectionStates(selected);
        
-    if (root != NULL &&
-        this->actualBranch != NULL &&
-        this->actualPosition != this->actualBranch->commands.end())
-      if ((*this->actualPosition)->execute())
-        ++this->actualPosition;
+      this->checkSupplyNeed();
+      this->checkNewExpansions();
 
-    BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
-    this->refreshSelectionStates(selected);
-     
-    this->checkSupplyNeed();
-    this->checkNewExpansions();
+      std::list<Unit*> idleWorkers;
+      this->getIdleWorkers(idleWorkers);
+      #pragma region DisabledPathFindingPerformanceTest
+      /*
+      if (!idleWorkers.empty())
+        temp = idleWorkers.front();
+      if (temp)
+      {
+        PathFinding::UnitModel source(temp);
+        this->pathFinding->generatePath(source, PathFinding::WalkabilityPosition(20, 20));
+      }
+      */
+      #pragma endregion
+      this->assignIdleWorkersToMinerals(idleWorkers);
 
-    std::list<Unit*> idleWorkers;
-    this->getIdleWorkers(idleWorkers);
-    #pragma region DisabledPathFindingPerformanceTest
-    /*
-    if (!idleWorkers.empty())
-      temp = idleWorkers.front();
-    if (temp)
-    {
-      PathFinding::UnitModel source(temp);
-      this->pathFinding->generatePath(source, PathFinding::WalkabilityPosition(20, 20));
+      this->performAutoBuild();
+      this->rebalanceMiners();
+      this->checkAssignedWorkers();
+      this->executeTasks();
+      
+      if (this->cycle && !this->fightGroups.empty())
+      {
+        TaskFight* task = this->fightGroups.front();
+        Formation* formation = new Formation(task->executors);
+        formation->generatePositions(cyclePosition, cycleAngle);
+        formation->execute();
+        delete formation;
+        cycleAngle += (float)0.01;
+      } 
+      BWAPI::Broodwar.loadSelected(selected);
     }
-    */
-    #pragma endregion
-    this->assignIdleWorkersToMinerals(idleWorkers);
-
-    this->performAutoBuild();
-    this->rebalanceMiners();
-    this->checkAssignedWorkers();
-    this->executeTasks();
-    
-    if (this->cycle && !this->fightGroups.empty())
+    catch (GeneralException& e)
     {
-      TaskFight* task = this->fightGroups.front();
-      Formation* formation = new Formation(task->executors);
-      formation->generatePositions(cyclePosition, cycleAngle);
-      formation->execute();
-      delete formation;
-      cycleAngle += (float)0.01;
-    } 
-    BWAPI::Broodwar.loadSelected(selected);
-    
+      this->log->logCritical("Exception caught in AI::onFrame: %s", e.getMessage().c_str());
+    }
   }
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)
@@ -519,8 +520,20 @@ namespace BWAI
         }
         BWAPI::Broodwar.print("Units saved to %s .ini", fileName.c_str());        
       }      
-      else 
-        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog", parsed[1]);
+      else if (parsed[1] == "buildability")
+        this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
+      else if (parsed[1] == "walkability")
+        this->map->saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
+      else if (parsed[1] == "defined" && parsed[2] == "buildings")
+      {
+        if (this->mapInfo != NULL)
+          mapInfo->saveDefinedBuildingsMap();
+        else
+          BWAPI::Broodwar.print("Map info for the current map is not available.");
+      }
+      else
+        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
+                              "buildability, walkability, defined buildings", parsed[1]);
       return true;
     }
     else if (parsed[0] == "/tech")

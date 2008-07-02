@@ -5,11 +5,8 @@
 #include <Util/Exceptions.h>
 #include <Util/Xml.h>
 #include <Util/Logger.h>
-
 #include <BWAI/Globals.h>
-
 #include <BWAPI/Player.h>
-
 #include <Formula/Base.h>
 
 namespace BuildOrder

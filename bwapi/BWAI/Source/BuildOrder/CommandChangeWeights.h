@@ -17,7 +17,7 @@ namespace BuildOrder
      public :
       CommandChangeWeights(TiXmlElement* xmlElement);
       virtual ~CommandChangeWeights();
-      virtual bool execute();
+      virtual bool executeInternal(Executor* executor);
     private :
       BuildWeights* weights;
   };

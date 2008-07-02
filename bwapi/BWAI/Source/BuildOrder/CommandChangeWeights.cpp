@@ -4,10 +4,8 @@
 #include <Util/Strings.h>
 #include <Util/Xml.h>
 #include <Util/Logger.h>
-
 #include "Root.h"
 #include "BuildWeights.h"
- 
 #include <BWAI/Globals.h>
 #include <BWAI/AI.h>
 #include <BWAI/TaskTrain.h>
@@ -26,7 +24,7 @@ namespace BuildOrder
     delete this->weights;
   }
   //------------------------------------------------- EXECUTE ------------------------------------------------
-  bool CommandChangeWeights::execute()
+  bool CommandChangeWeights::executeInternal(Executor* executor)
   {
     BWAI::ai->root->log->log("Command change weights for '%s' called", this->weights->factory.getName());
     BWAI::ai->plannedUnits.push_back(new BWAI::TaskTrain(this->weights, priority));

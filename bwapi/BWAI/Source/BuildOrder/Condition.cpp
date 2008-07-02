@@ -2,7 +2,6 @@
 
 #include <Util/Xml.h>
 #include <Util/Exceptions.h>
-
 #include "ConditionMinimalPopulation.h"
 #include "ConditionFormula.h"
 #include "ConditionAnd.h"

@@ -3,12 +3,11 @@
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Logger.h>
-
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
-
-#include "../../../BWAI/Source/BWAI/Globals.h"
+#include <BWAPI/Globals.h>
+#include "Globals.h"
 
 namespace BWAPI
 {
@@ -59,13 +58,15 @@ namespace BWAPI
     fprintf(f, "X = not buildable\n");
     fprintf(f, ". = buildable\n");
 
-    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getBuildabilityArray().getWidth(), this->getBuildabilityArray().getHeight());
+    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getBuildabilityArray().getWidth(), 
+                                                                   this->getBuildabilityArray().getHeight());
     for (unsigned int x = 0; x < this->getBuildabilityArray().getWidth(); x++)
       for (unsigned int y = 0; y < this->getBuildabilityArray().getHeight(); y++)
         result[x][y] = this->getBuildabilityArray()[x][y] ? '.' : 'X';
     
     Util::Strings::makeBorder(result).printToFile(f); 
-    fclose(f);             
+    fclose(f);
+    BWAPI::Broodwar.print("Buildability saved to %s .ini", fileName.c_str());
   }
   //------------------------------- SAVE WALKABILITY MAP --------------------
   void Map::saveWalkabilityMap(const std::string& fileName)
@@ -80,13 +81,15 @@ namespace BWAPI
     fprintf(f, "X = not walkable\n");
     fprintf(f, ". = walkable\n");
     
-    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getWalkabilityArray().getWidth(), this->getWalkabilityArray().getHeight());
+    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getWalkabilityArray().getWidth(), 
+                                                                   this->getWalkabilityArray().getHeight());
     for (unsigned int x = 0; x < this->getWalkabilityArray().getWidth(); x++)
       for (unsigned int y = 0; y < this->getWalkabilityArray().getHeight(); y++)
         result[x][y] = this->getWalkabilityArray()[x][y] ? '.' : 'X';
     
-    Util::Strings::makeBorder(result).printToFile(f); 
-    fclose(f);             
+    Util::Strings::makeBorder(result).printToFile(f);
+    fclose(f);
+    BWAPI::Broodwar.print("Walkability saved to %s .ini", fileName.c_str());
   }
   //------------------------------- SAVE WALKABILITY MAP --------------------
   void Map::saveFogOfWarMap(const std::string& fileName, u8 playerID)

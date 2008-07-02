@@ -48,13 +48,22 @@ namespace Util
     logInternal(message, LogLevel::Commmon, ap);
     va_end(ap);
     return true;
-  }  
+  }
   //------------------------------- LOG -----------------------------------------
   bool Logger::logImportant(const char* message, ...)
   {
     va_list ap;
     va_start(ap, message);
     logInternal(message, LogLevel::Important, ap);
+    va_end(ap);
+    return true;
+  }
+  //------------------------------- LOG -----------------------------------------
+  bool Logger::logCritical(const char* message, ...)
+  {
+    va_list ap;
+    va_start(ap, message);
+    logInternal(message, LogLevel::Critical, ap);
     va_end(ap);
     return true;
   }  

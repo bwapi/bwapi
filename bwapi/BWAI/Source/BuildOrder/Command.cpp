@@ -23,4 +23,12 @@ namespace BuildOrder
             this->condition->applies();
    }
    //---------------------------------------------------------------------------------------------------------
+   bool Command::execute(Executor* executor)
+   {
+     if (!this->conditionApplies())
+       return false;
+     else
+       return this->executeInternal(executor);
+   }
+   //---------------------------------------------------------------------------------------------------------
 }
