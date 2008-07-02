@@ -1,26 +1,22 @@
 #include "CommandBuild.h"
 
-namespace BWAI { class BuildingPosition; }
-
+#include <tinyxml.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-
 #include <BW/UnitType.h>
-
 #include <BWAI/AI.h>
 #include <BWAI/BuildingPositionSet.h>
-
 #include <BWAI/TaskBuild.h>
 #include <BWAI/Globals.h>
 #include <BWAI/MapStartingPosition.h>
-
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
-
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
+
+namespace BWAI { class BuildingPosition; }
 
 namespace BuildOrder
 {
@@ -39,12 +35,11 @@ namespace BuildOrder
     }
   }
   //---------------------------------------------------------------------------
-  bool CommandBuild::execute()
+  bool CommandBuild::executeInternal(Executor* executor)
   {
     BW::UnitType toBuild = BWAPI::Broodwar.unitNameToType[this->name];
     if (BWAI::ai->player->canAfford(toBuild, BWAI::ai->reserved) &&
-        BWAI::ai->player->canBuild(toBuild) &&
-        this->conditionApplies()) 
+        BWAI::ai->player->canBuild(toBuild)) 
     {
       BWAI::BuildingPositionSet* alternatives = BWAI::ai->getPositionsCalled(this->place); 
       if (alternatives == NULL)

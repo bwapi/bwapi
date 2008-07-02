@@ -31,6 +31,7 @@ namespace BWAI { class BuildingPosition; }
 namespace BuildOrder { class Root; }
 namespace BuildOrder { class Command; }
 namespace BuildOrder { class Branch; }
+namespace BuildOrder { class Executor; }
 
 namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
@@ -82,8 +83,7 @@ namespace BWAI
       std::list<TaskFight*> fightGroups;
       std::set<Task*, Task::TaskPriorityLess> prioritisedTasks; /**< Contains all tasks connected with resource handling sorted by priority */
       BuildOrder::Root *root;
-      std::list<BuildOrder::Command*>::iterator actualPosition;
-      BuildOrder::Branch* actualBranch;
+      BuildOrder::Executor *buildOrderExecutor;
       
       BWAPI::Player* player;
       BWAPI::Player* opponent;

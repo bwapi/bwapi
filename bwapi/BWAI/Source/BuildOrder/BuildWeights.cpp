@@ -1,12 +1,9 @@
 #include "BuildWeights.h"
 
 #include <tinyxml.h>
-
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-
 #include <BWAPI/Globals.h>
-
 #include "Root.h"
 
 namespace BuildOrder

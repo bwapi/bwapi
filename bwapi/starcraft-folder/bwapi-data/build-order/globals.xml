@@ -1,0 +1,12 @@
+<build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="build-order.xsd">
+  <build-order type="function" name="Standard terran scv building">
+    <train building="Terran Command Center" priority="10">
+      <build name="Terran SCV" weight="1">
+        <condition type="and">
+          <condition type="formula" formula="ActiveMinerals*2 + All(Terran Refinery)*3 + InProgress(Terran Command Center)*10 + All(Terran Command Center)*3 - All(Terran SCV)" />
+          <condition type="formula" formula="ConfigValue(max_count_of_workers) - All(Terran SCV)" />
+        </condition>
+      </build>
+    </train>
+  <build-order/>
+</build-orders>

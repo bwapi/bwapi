@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="build-order.xsd">
+  <include name="globals.xml" />
+  <build-order type="root" name="Crazy mass marine against terran" race="Terran" against="Protoss" probability="100%">
+    <call name="Standard terran scv building" />
+    <train building="Terran Barracks" priority="5">
+      <build name="Terran Marine" weight="12" />
+      <build name="Terran Medic" weight="4" />
+      <build name="Terran Firebat" weight="1" />
+      <build name="Terran Ghost" weight="1" />
+    </train>
+    <build name="Terran Barracks" place="barracks" minimal-population="11"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="13"/>
+    <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
+    <build name="Terran Engineering Bay" place="engineering-bay" minimal-population="26"/>
+    <build name="Terran Refinery" place="refinery" minimal-population="30"/>
+    <build name="Terran Academy" place="non-producting-3X2" minimal-population="31"/>
+    <build name="Terran Missile Turret" place="turret-entrance-expansion" minimal-population="32"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="33"/>
+    <invent name="Stim Packs" minimal-population="35" priority="9"/>
+    <build name="Terran Refinery" place="refinery-expansion" minimal-population="51"/>
+    <upgrade name="U-238 Shells" minimal-population="35" priority="8"/>
+    <build name="Terran Comsat Station" place="comsat-station" minimal-population="35" priority="7"/>
+    <build name="Terran Comsat Station" place="comsat-station-expansion" minimal-population="35" priority="7"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="37"/>
+    <upgrade name="Terran Infantry Armor" level="1" minimal-population="35" priority="6"/>
+    <build name="Terran Factory" place="factory" minimal-population="45"/>
+    <build name="Terran Barracks" place="barracks" minimal-population="50"/>
+    <build name="Terran Starport" place="starport" minimal-population="60"/>
+    <train building="Terran Starport" priority="6">
+      <build name="Terran Science Vessel" weight="1">
+        <condition type="formula" formula="All(Terran Science Vessel) - 4" />
+      </build>
+      <build name="Terran Dropship" weight="1">
+        <condition type="formula" formula="All(Terran Dropship) - 2" />
+      </build>
+    </train>
+    <upgrade name="Terran Infantry Armor" level="3" minimal-population="35" priority="6"/>
+    <upgrade name="Terran Infantry Weapons" level="3" minimal-population="35" priority="6"/>
+    <build name="Terran Command Center" place="second-expansion"/>
+    <build name="Terran Science Facility" place="science-facility"/>
+    <build name="Terran Control Tower" place="control-tower"/>
+    <build name="Terran Covert Ops" place="covert-ops"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <invent name="Lockdown" priority="6"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <invent name="EMP Shockwave" priority="9"/>
+    <invent name="Personnel Cloaking" priority="5"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Barracks" place="barracks"/>
+    <build name="Terran Nuclear Silo" place="second-expansion-addon" priority="6"/>
+    <train building="Terran Nuclear Silo" priority="6">
+      <build name="Nuclear Missile" weight="1" />
+    </train>
+  </build-order>
+</build-orders>

@@ -171,11 +171,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandCall.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\CommandChangeWeights.h"
 					>
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\CommandInvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandPointer.h"
 					>
 				</File>
 				<File
@@ -199,7 +207,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\Executor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Root.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\RootBranch.h"
 					>
 				</File>
 			</Filter>
@@ -227,11 +243,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandCall.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\CommandChangeWeights.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\CommandInvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandPointer.cpp"
 					>
 				</File>
 				<File
@@ -255,7 +279,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\Executor.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\Root.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\RootBranch.cpp"
 					>
 				</File>
 			</Filter>

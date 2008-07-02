@@ -11,7 +11,7 @@ namespace BuildOrder
   {
     public :
       CommandInvent(TiXmlElement* xmlElement);
-      virtual bool execute();
+      virtual bool executeInternal(Executor* executor);
     private :
       /**
        * Wont be direct pointer so the game doesn't need to be running when loading the build-order

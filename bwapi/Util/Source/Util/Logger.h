@@ -35,6 +35,7 @@ namespace Util
       bool logDetailed (const char* message, ...);
       bool logCommon   (const char* message, ...);
       bool logImportant(const char* message, ...);
+      bool logCritical (const char* message, ...);      
       void registerLogger(Logger* logger);
     private :
       bool logInternal(const char* message, LogLevel::Enum, va_list ap);

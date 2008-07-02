@@ -4,15 +4,11 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-
 #include <BW/UpgradeType.h>
-
 #include <BWAI/Globals.h>
 #include <BWAI/TaskUpgrade.h>
-
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
-
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
 
@@ -26,7 +22,7 @@ namespace BuildOrder
     this->level = (u8) Util::Xml::getOptionalU16Attribute(xmlElement, "level", 1);
   }
   //---------------------------------------------------------------------------
-  bool CommandUpgrade::execute()
+  bool CommandUpgrade::executeInternal(Executor* executor)
   {
     BW::UpgradeType toUpgrade = BWAPI::Broodwar.upgradeNameToType[this->name];
     if (!toUpgrade.isValid())
