@@ -27,9 +27,6 @@ namespace BuildOrder
   //------------------------------------------ APPLIES -------------------------------------------------------
   bool ConditionFormula::applies()
   {
-    std::string view;
-    this->formula->debugEvaluate(view);
-    BWAI::ai->log->log("Formula '%s' = %f", view.c_str(), this->formula->evaluate());
     return this->formula->evaluate() > 0;
   }
 }
