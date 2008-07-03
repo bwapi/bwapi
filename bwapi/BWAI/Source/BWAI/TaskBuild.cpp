@@ -27,11 +27,26 @@ namespace BWAI
   ,position(position)
   ,building(NULL)
   ,alternatives(alternatives)
+  ,spot(BW::TilePosition::Invalid)
   {
     if (position != NULL)
       position->reserved = true;
     BWAI::ai->prioritisedTasks.insert(this);
   }
+  //------------------------------ CONSTRUCTOR --------------------------------
+  TaskBuild::TaskBuild(BW::UnitType buildingType,
+                       Unit* builder,
+                       BW::TilePosition spot,
+                       u16 priority)
+  :Task(builder, priority)
+  ,buildingType(buildingType)
+  ,position(NULL)
+  ,building(NULL)
+  ,alternatives(NULL)
+  ,spot(spot)
+  {
+    BWAI::ai->prioritisedTasks.insert(this);
+  }  
   //------------------------------- DESTRUCTOR --------------------------------
   TaskBuild::~TaskBuild()
   {
@@ -42,8 +57,6 @@ namespace BWAI
   //-------------------------------- EXECUTE ----------------------------------
   bool TaskBuild::execute()
   {
-    if (this->alternatives == NULL && this->building == NULL)
-      return true; // Special case of the custom building
     if (!this->executors.empty() &&
         this->building != NULL &&
         this->building->isCompleted())
@@ -59,7 +72,6 @@ namespace BWAI
       if (builder)
         this->addExecutor(builder);
     }
-    
     if (this->building == NULL && 
         !this->executors.empty())
       if (!this->buildingType.isAddon())
@@ -80,7 +92,22 @@ namespace BWAI
           this->building = BWAI::Unit::BWAPIUnitToBWAIUnit(executors.front()->getBuildUnit());
           BWAI::ai->log->log("(%s) construction of addon started", building->getName().c_str());
         }
-    
+
+    if (!this->executors.empty() &&
+        this->spot.isValid())
+    {
+      if (this->building == NULL &&
+          this->executors.front()->getOrderIDLocal() == BW::OrderID::Nothing2 &&
+          BWAI::ai->player->canAfford(this->buildingType, BWAPI::ReservedResources()))
+        this->executors.front()->build(this->spot, this->getBuildingType());
+      return false;
+    }
+        
+        
+    if (this->alternatives == NULL && 
+        this->building == NULL &&
+        this->spot == BW::TilePosition::Invalid)
+      return true; // Special case of the custom building    
     if (this->building != NULL &&
         !this->executors.empty() &&
         this->executors.front()->getOrderTargetLocal() != this->building &&

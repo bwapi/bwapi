@@ -2,6 +2,7 @@
 
 #include <tinyxml.h>
 #include <Util/FileLogger.h>
+#include <Util/Exceptions.h>
 #include <Util/Xml.h>
 #include "CommandBuild.h"
 #include "CommandChangeWeights.h"
@@ -28,7 +29,8 @@ namespace BuildOrder
         this->commands.push_back(new CommandUpgrade(i));        
       else if (i->ValueTStr() == "call")
         this->commands.push_back(new CommandCall(i));                
-      else log->log("Unknown element %s found in <bulid-order>", i->ValueTStr().c_str());
+      else 
+        throw ParseException((std::string)"Unknown element '" + i->ValueTStr().c_str() + "' found in <bulid-order>");
     delete log;
   }
   //---------------------------------------------- GET NAME --------------------------------------------------

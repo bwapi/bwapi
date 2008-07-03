@@ -38,6 +38,8 @@ namespace BWAI
   //-------------------------------- ADD EXECUTOR -----------------------------
   void Task::addExecutor(Unit* unit)
   {
+    if (unit->getTask() != NULL)
+      unit->freeFromTask();
     this->executors.push_back(unit);
     unit->taskListIterator = --this->executors.end();
     unit->setTask(this);

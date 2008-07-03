@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Util/Types.h>
+namespace BW { class Position; }
 class TiXmlElement;
 
 namespace BW
@@ -10,6 +11,7 @@ namespace BW
   {
     public :
       TilePosition();
+      TilePosition(const Position& position);
       TilePosition(TiXmlElement* xmlElement);
       TilePosition(u16 x, u16 y);
       bool operator == (BW::TilePosition& TilePosition);

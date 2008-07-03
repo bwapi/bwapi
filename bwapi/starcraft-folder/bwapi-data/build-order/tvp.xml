@@ -20,8 +20,8 @@
     <invent name="Stim Packs" minimal-population="35" priority="9"/>
     <build name="Terran Refinery" place="refinery-expansion" minimal-population="51"/>
     <upgrade name="U-238 Shells" minimal-population="35" priority="8"/>
-    <build name="Terran Comsat Station" place="comsat-station" minimal-population="35" priority="7"/>
-    <build name="Terran Comsat Station" place="comsat-station-expansion" minimal-population="35" priority="7"/>
+    <build name="Terran Comsat Station" minimal-population="35" priority="7"/>
+    <build name="Terran Comsat Station" minimal-population="35" priority="7"/>
     <build name="Terran Barracks" place="barracks" minimal-population="37"/>
     <upgrade name="Terran Infantry Armor" level="1" minimal-population="35" priority="6"/>
     <build name="Terran Factory" place="factory" minimal-population="45"/>
@@ -29,18 +29,18 @@
     <build name="Terran Starport" place="starport" minimal-population="60"/>
     <train building="Terran Starport" priority="6">
       <build name="Terran Science Vessel" weight="1">
-        <condition type="formula" formula="All(Terran Science Vessel) - 4" />
+        <condition type="formula" formula="4 - All(Terran Science Vessel)" />
       </build>
       <build name="Terran Dropship" weight="1">
-        <condition type="formula" formula="All(Terran Dropship) - 2" />
+        <condition type="formula" formula="2 - All(Terran Dropship)" />
       </build>
     </train>
     <upgrade name="Terran Infantry Armor" level="3" minimal-population="35" priority="6"/>
     <upgrade name="Terran Infantry Weapons" level="3" minimal-population="35" priority="6"/>
     <build name="Terran Command Center" place="second-expansion"/>
     <build name="Terran Science Facility" place="science-facility"/>
-    <build name="Terran Control Tower" place="control-tower"/>
-    <build name="Terran Covert Ops" place="covert-ops"/>
+    <build name="Terran Control Tower"/>
+    <build name="Terran Covert Ops" />
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
     <invent name="Lockdown" priority="6"/>
@@ -49,7 +49,7 @@
     <invent name="Personnel Cloaking" priority="5"/>
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
-    <build name="Terran Nuclear Silo" place="second-expansion-addon" priority="6"/>
+    <build name="Terran Nuclear Silo" priority="6"/>
     <train building="Terran Nuclear Silo" priority="6">
       <build name="Nuclear Missile" weight="1" />
     </train>

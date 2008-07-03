@@ -81,9 +81,6 @@
         <build-position name="natural-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="66"/>
         </build-position>
-        <build-position name="comsat-station-expansion" width="2" height="2">
-          <position x="121" y="67"/>
-        </build-position>        
         <build-position name="refinery" width="4" height="2" shortcut="BR">
           <position x="116" y="35"/>
         </build-position>
@@ -99,27 +96,15 @@
         <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="106" y="44"/>
         </build-position>
-        <build-position name="control-tower" width="2" height="2">
-          <position x="110" y="45"/>
-        </build-position> 
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="112" y="44"/>
         </build-position>
-        <build-position name="covert-ops" width="2" height="2">
-          <position x="116" y="45"/>
-        </build-position>        
         <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="118"/>
-        </build-position>
-        <build-position name="comsat-station" width="2" height="2">
-          <position x="120" y="41"/>
         </build-position>
         <build-position name="refinery-expansion" width="4" height="2">
           <position x="118" y="72"/>
         </build-position>          
-        <build-position name="second-expansion-addon" width="2" height="2">
-          <position x="121" y="118"/>
-        </build-position>        
       </standard-building-placement>
     </starting-position>
     <starting-position expansion-id="6 oclock">
@@ -185,20 +170,8 @@
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="50" y="108"/>
         </build-position>
-        <build-position name="covert-ops" width="2" height="2">
-          <position x="54" y="109"/>
-        </build-position>        
        <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="117" y="118"/>
-        </build-position>
-        <build-position name="second-expansion-addon" width="2" height="2">
-          <position x="121" y="120"/>
-        </build-position>
-        <build-position name="comsat-station" width="2" height="2">
-          <position x="46" y="120"/>
-        </build-position>
-        <build-position name="comsat-station-expansion" width="2" height="2">
-          <position x="79" y="119"/>
         </build-position>
         <build-position name="refinery-expansion" width="4" height="2">
           <position x="82" y="119"/>
@@ -270,20 +243,8 @@
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="14" y="93"/>
         </build-position>
-        <build-position name="covert-ops" width="2" height="2">
-          <position x="18" y="94"/>
-        </build-position>        
         <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="7" y="6"/>
-        </build-position>
-        <build-position name="second-expansion-addon" width="2" height="2">
-          <position x="11" y="7"/>
-        </build-position>
-        <build-position name="comsat-station" width="2" height="2">
-          <position x="12" y="86"/>
-        </build-position>  
-        <build-position name="comsat-station-expansion" width="2" height="2">
-          <position x="11" y="58"/>
         </build-position>
         <build-position name="refinery-expansion" width="4" height="2">
           <position x="5" y="52"/>
@@ -356,21 +317,9 @@
         <build-position name="science-facility" width="4" height="3" shortcut="VI">
           <position x="73" y="15"/>
         </build-position>
-        <build-position name="covert-ops" width="2" height="2">
-          <position x="77" y="16"/>
-        </build-position>        
         <build-position name="second-expansion" width="4" height="3" shortcut="Ex">
           <position x="7" y="6"/>
         </build-position>
-        <build-position name="second-expansion-addon" width="2" height="2">
-          <position x="11" y="7"/>
-        </build-position>
-        <build-position name="comsat-station" width="2" height="2">
-          <position x="87" y="7"/>
-        </build-position>
-        <build-position name="comsat-station-expansion" width="2" height="2">
-          <position x="52" y="8"/>
-        </build-position>                  
         <build-position name="refinery-expansion" width="4" height="2">
           <position x="41" y="6"/>
         </build-position>

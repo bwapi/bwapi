@@ -47,18 +47,24 @@ namespace BuildOrder
     for (TiXmlElement* includeElement = root->FirstChildElement("include"); includeElement != NULL; includeElement = includeElement->NextSiblingElement("include"))
       this->include(BWAPI::Broodwar.configuration->getValue("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement,"name"));
     
-    for (TiXmlElement* buildOrder = root->FirstChildElement("build-order"); buildOrder != NULL; buildOrder = buildOrder->NextSiblingElement("build-order"))
+    try
     {
-      std::string type = Util::Xml::getRequiredAttribute(buildOrder, "type");
-      std::string name = Util::Xml::getRequiredAttribute(buildOrder, "name");
-      if (type == "root")
-        this->buildOrders.push_back(new RootBranch(buildOrder));
-      else if (type == "function")
-        this->functions.insert(std::pair<std::string, Branch*>(name, new Branch(buildOrder)));
-      else
-        throw XmlException("Unknown build-order type '" + type + "'");
+      for (TiXmlElement* buildOrder = root->FirstChildElement("build-order"); buildOrder != NULL; buildOrder = buildOrder->NextSiblingElement("build-order"))
+      {
+        std::string type = Util::Xml::getRequiredAttribute(buildOrder, "type");
+        std::string name = Util::Xml::getRequiredAttribute(buildOrder, "name");
+        if (type == "root")
+          this->buildOrders.push_back(new RootBranch(buildOrder));
+        else if (type == "function")
+          this->functions.insert(std::pair<std::string, Branch*>(name, new Branch(buildOrder)));
+        else
+          throw XmlException("Unknown build-order type '" + type + "'");
+      }
     }
-
+    catch (GeneralException& e)
+    {
+      throw GeneralException((std::string)"Error in build order file '" + xmlFileName + "' :" + e.getMessage());
+    }
     fclose(f);
   }
   //--------------------------------------------------- DESTRUCTOR -------------------------------------------

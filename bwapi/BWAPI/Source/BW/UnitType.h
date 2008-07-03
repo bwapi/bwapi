@@ -74,6 +74,8 @@ namespace BW
     bool                 isNeutralAccesories() const;
     BW::Race::Enum       getRace();                                            
     bool                 isValid();
+    /** Used to determine what building builds this addon. Can be extended later if needed.*/
+    BW::UnitType         whereToBuild();
   private :
     BW::UnitID::Enum id;
     Util::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
