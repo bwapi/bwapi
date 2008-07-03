@@ -44,6 +44,7 @@ namespace BWAPI
       u32 getShieldPoints() const; 
       /** Gets #bwUnit->BW#Unit#position. */
       const BW::Position& getPosition() const;
+      BW::TilePosition getTilePosition() const;
       /** Gets #bwUnit->BW#Unit#orderTargetUnit. */
       Unit* getTarget();
       /** Gets #bwUnit->BW#Unit#targetUnit. */

@@ -218,5 +218,19 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
   }
-  //----------------------------------------------------------------------------    
+  //-------------------------------------------- WHERE TO BUILD ----------------------------------------------
+  BW::UnitType UnitType::whereToBuild()
+  {
+    switch (this->getID())
+    {
+      case BW::UnitID::Terran_ComsatStation :
+      case BW::UnitID::Terran_NuclearSilo   : return BW::UnitID::Terran_CommandCenter;
+      case BW::UnitID::Terran_MachineShop   : return BW::UnitID::Terran_Factory;
+      case BW::UnitID::Terran_ControlTower  : return BW::UnitID::Terran_Starport;
+      case BW::UnitID::Terran_CovertOps     :
+      case BW::UnitID::Terran_PhysicsLab    : return BW::UnitID::Terran_ScienceFacility;
+      default : return BW::UnitID::None;
+    }
+  }
+  //----------------------------------------------------------------------------------------------------------
 }

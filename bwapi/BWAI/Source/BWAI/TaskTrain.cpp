@@ -15,7 +15,8 @@ namespace BWAI
   {
     BWAI::ai->prioritisedTasks.insert(this);
     for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
-      if (this->weights->factory == i->getType())
+      if (this->weights->factory == i->getType() &&
+          i->getTask() == NULL)
         this->addExecutor(i);
   }
   //------------------------------- DESTRUCTOR --------------------------------

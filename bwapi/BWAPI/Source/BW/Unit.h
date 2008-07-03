@@ -78,7 +78,7 @@ namespace BW
     /*0x074*/ BW::Order*                    orderQueueHead;       /**< @todo Verify */
     /*0x078*/ BW::Order*                    orderQueueTail;       /**< @todo Verify */
     /*0x07C*/ _UNKNOWN _10[4];
-    /*0x080*/ BW::Unit*                     connectedUnit;        /**< @todo Verify */
+    /*0x080*/ BW::Unit*                     connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
     /*0x084*/ u8                            orderQueueCount;         /**< @todo Verify */
     /*0x085*/ u8                            unknownOrderTimer_0x085; /**< @todo Unknown */
     /*0x086*/ _UNKNOWN _11[2];

@@ -848,7 +848,7 @@ namespace BWAI
       while (i != this->plannedBuildings.end())
         if ((*i)->execute())
         {
-          if ((*i)->getBuilding())
+          if ((*i)->getBuilding() != NULL)
           {
             if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
             {
@@ -862,8 +862,14 @@ namespace BWAI
             }
             {
               for each (TaskTrain* j in this->plannedUnits)
-                if (j->getBuildingType() == (*i)->getBuildingType())
+              {
+                if (j->getBuildingType() == (*i)->getBuildingType() && //normal building finished
+                    (*i)->getBuilding()->getTask() == NULL)
                   j->addExecutor((*i)->getBuilding());
+                if (!(*i)->executors.empty() && // bulding is building addon finished
+                    (*i)->executors.front()->getType() == j->getBuildingType())
+                  j->addExecutor((*i)->executors.front());
+              }
             }
           }
           delete *i;

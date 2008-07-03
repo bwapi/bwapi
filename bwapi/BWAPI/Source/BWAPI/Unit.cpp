@@ -83,6 +83,12 @@ namespace BWAPI
   {
     return this->getRawData()->position;
   }
+  //-------------------------------------- GET TILE POSITION -------------------------------------------------
+  BW::TilePosition Unit::getTilePosition() const
+  {
+    return BW::Position(this->getPosition().x - this->getType().getTileWidth()*BW::TILE_SIZE/2,
+                        this->getPosition().y - this->getType().getTileHeight()*BW::TILE_SIZE/2);
+  }
   //-------------------------------- GET TATGET --------------------------------
   Unit* Unit::getTarget()
   {
@@ -289,7 +295,7 @@ namespace BWAPI
     this->orderSelect();
     if (!type.isAddon())
       Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
-    else if (type.isAddon())
+    else
       Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeAddon(position, type), sizeof(BW::Orders::MakeAddon)); 
     Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
   }
@@ -385,6 +391,7 @@ namespace BWAPI
   char owner[100];
   char unitName[100];
   char orderName[100];
+  char connectedUnit[100];
   char message[400];
   //----------------------------------------------------------------------------
   std::string Unit::getName() const
@@ -416,15 +423,21 @@ namespace BWAPI
       sprintf(unitName, "(%s)", this->getType().getName());
     else
       sprintf(unitName, "(unitID = %u)", this->getType().getID());
+      
+    if (BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
+      sprintf(connectedUnit, "(childUnit1 = NULL)");
+    else
+      sprintf(connectedUnit, "(childUnit1 = %s)", BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1)->getType().getName());
   
     sprintf(orderName,"(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
-    sprintf(message,"%s %s %s %s %s %s %s", unitName,
-                                            orderName,
-                                            indexName,
-                                            position,
-                                            targetIndex,
-                                            orderTargetIndex,
-                                            owner);
+    sprintf(message,"%s %s %s %s %s %s %s %s", unitName,
+                                              orderName,
+                                              indexName,
+                                              position,
+                                              targetIndex,
+                                              orderTargetIndex,
+                                              owner,
+                                              connectedUnit);
   
     return std::string(message);
   }
