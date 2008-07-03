@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="build-order.xsd">
+  <include name="globals.xml" />
   <build-order type="root" name="Standard terran" race="Terran" against="Zerg" probability="100%">
-    <include name="globals.xml">
-    <call name="Standard terran scv building">
+    <call name="Standard terran scv building" />
     <train building="Terran Barracks" priority="5">
       <build name="Terran Marine" weight="12" />
       <build name="Terran Medic" weight="4" />
@@ -40,4 +40,4 @@
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Barracks" place="barracks"/>
   </build-order>
-<//build-orders>
+</build-orders>
