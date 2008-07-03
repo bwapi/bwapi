@@ -82,7 +82,7 @@
           <position x="23" y="18"/>
           <position x="19" y="6"/>
         </build-position>
-        <build-position name="factories" width="4" height="3" shortcut="VF">
+        <build-position name="factory" width="4" height="3" shortcut="VF">
           <position x="7" y="18"/>
           <position x="7" y="21"/>
           <position x="7" y="24"/>
@@ -92,7 +92,7 @@
           <position x="14" y="24"/>
           <position x="14" y="27"/>
         </build-position>
-        <build-position name="starports" width="4" height="3" shortcut="VS">
+        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="10" y="30"/>
           <position x="12" y="9"/>
           <position x="12" y="14"/>
@@ -156,7 +156,7 @@
           <position x="12" y="114"/>
           <position x="16" y="114"/>
         </build-position>
-        <build-position name="factories" width="4" height="3" shortcut="VF">
+        <build-position name="factory" width="4" height="3" shortcut="VF">
           <position x="9" y="118"/>
           <position x="16" y="118"/>
           <position x="4" y="121"/>
@@ -166,7 +166,7 @@
           <position x="13" y="124"/>
           <position x="20" y="124"/>
         </build-position>
-        <build-position name="starports" width="4" height="3" shortcut="VS">
+        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="0" y="114"/>
           <position x="0" y="117"/>
           <position x="5" y="111"/>
@@ -222,16 +222,16 @@
           <position x="113" y="35"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
-          <position x="120"  y="55"/>
-          <position x="120"  y="58"/>
-          <position x="120"  y="61"/>
-          <position x="120"  y="64"/>
           <position x="124"  y="55"/>
           <position x="124"  y="58"/>
           <position x="124"  y="61"/>
           <position x="124"  y="64"/>
+          <position x="120"  y="55"/>
+          <position x="120"  y="58"/>
+          <position x="120"  y="61"/>
+          <position x="120"  y="64"/>
         </build-position>
-        <build-position name="factories" width="4" height="3" shortcut="VF">
+        <build-position name="factory" width="4" height="3" shortcut="VF">
           <position x="104" y="49"/>
           <position x="104" y="52"/>
           <position x="104" y="56"/>
@@ -241,7 +241,7 @@
           <position x="111" y="56"/>
           <position x="111" y="59"/>
         </build-position>
-        <build-position name="starports" width="4" height="3" shortcut="VS">
+        <build-position name="starport" width="4" height="3" shortcut="VS">
           <position x="106" y="63"/>
           <position x="102" y="45"/>
           <position x="104" y="42"/>
