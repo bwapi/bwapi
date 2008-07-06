@@ -207,8 +207,8 @@ namespace PathFinding
     /* FILE* f = fopen("Path.txt","at");
     fprintf(f, "Path not found\n");
     
-    Util::RectangleArray<char> resultArray = 
-        Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
+    Util::RectangleArray<char> resultArray =
+        Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(),
                                    BWAI::ai->map->getWalkabilityArray().getHeight());
     for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
       for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
@@ -216,15 +216,15 @@ namespace PathFinding
           resultArray[x][y] = BWAI::ai->map->getWalkabilityArray()[x][y] ? '.' : 'X';
         else
           resultArray[x][y] = 'O';
-    Util::Strings::makeBorder(resultArray).printToFile(f); 
+    Util::Strings::makeBorder(resultArray).printToFile(f);
     fclose(f); */
     #pragma endregion DisabledDebugOutput
     return false;
     foundTarget:
     #pragma region DisabledDebugOutput
     /*
-    Util::RectangleArray<char> resultArray = 
-        Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(), 
+    Util::RectangleArray<char> resultArray =
+        Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(),
                                    BWAI::ai->map->getWalkabilityArray().getHeight());
     for (unsigned int x = 0; x < BWAI::ai->map->getWalkabilityArray().getWidth(); x++)
       for (unsigned int y = 0; y < BWAI::ai->map->getWalkabilityArray().getHeight(); y++)
