@@ -25,7 +25,10 @@ namespace BW
   //----------------------------------------- GET NAME -------------------------------------------------------
   const char* UpgradeType::getName() const
   {
-    return (*BW::BWXFN_StringTable + (*BW::BWXFN_StringTableIndex)[BW::BWXFN_UpgradeLabelIndex[this->getID()]]);
+    if (this->getID() == BW::UpgradeID::None)
+      return "None";
+    else
+      return (*BW::BWXFN_StringTable + (*BW::BWXFN_StringTableIndex)[BW::BWXFN_UpgradeLabelIndex[this->getID()]]);
   }
   //----------------------------------------------------------------------------------------------------------
   bool UpgradeType::isValid() const

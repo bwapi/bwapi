@@ -17,4 +17,4 @@ namespace Formula
     private :
       static Base* parseInternal(const std::string& input, size_t& position);
   };
-} 
+}
