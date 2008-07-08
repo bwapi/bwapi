@@ -16,24 +16,29 @@ namespace Util
      FILE* f = fopen(fileName.c_str(),"rt");
      if (f)
      {
-      size_t endOfKey;
-      std::string line, key, value;
+      std::string::size_type endOfKey, endOfTrimmedKey;
+      std::string line;
       Sentence* sentence;
       while (!feof(f))
        {
         std::string line = Strings::readLine(f);
-        endOfKey = line.find("=");
-        if (endOfKey != -1)
+        endOfKey = line.find('=');
+        if (endOfKey == 0)
+          throw ParseException("Wrong config line '" + line + "'");
+        if (endOfKey != std::string::npos)
          {
-          key = line.substr(0, endOfKey);
-          while (isspace(key[key.length() -1]))
-            key = key.substr(0, key.length() - 1);
-          value = line.substr(endOfKey + 1,line.length() - endOfKey - 1);
-	      	  while (isspace(value[0]))
-            value = value.substr(1,value.length() - 1);
-          sentence = new Sentence(key, value, dictionary, this);
+          endOfTrimmedKey = endOfKey - 1;
+          while (endOfTrimmedKey != 0 && isspace(line[endOfTrimmedKey]))
+            endOfTrimmedKey--;
+          endOfKey++;
+       	  while (isspace(line[endOfKey]))
+            endOfKey++;
+          sentence = new Sentence(line.substr(0, endOfTrimmedKey + 1), 
+                                  line.substr(endOfKey, line.length() - endOfKey), 
+                                  dictionary, 
+                                  this);
           if (dictionary != NULL)
-            dictionary->values.insert(std::pair<std::string, Sentence*>(key, sentence));
+            dictionary->values.insert(std::pair<std::string, Sentence*>(sentence->getKey(), sentence));
           this->lines.push_back(sentence);
           this->usedLines.push_back(sentence);
          }

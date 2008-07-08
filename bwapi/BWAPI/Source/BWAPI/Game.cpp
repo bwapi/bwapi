@@ -73,6 +73,7 @@ namespace BWAPI
         BW::TechID::Enum tech;
         sscanf(i->getSentence().c_str(), "0x%02X", &tech);
         this->techNameToType.insert(std::pair<std::string, BW::TechType>(i->getKey(), tech));
+        this->commandLog->logDetailed("loaded tech %s with id %d", i->getKey().c_str(), tech);
       }
        
       Util::DictionaryFile upgradeNames(this->configuration->getValue("upgrade_names_path"));
