@@ -152,7 +152,7 @@ namespace Util
    {
    }
   //---------------------------------- GET KEY -----------------------------------
-  std::string Sentence::getKey(void) const
+  const std::string& Sentence::getKey(void) const
    {
     return this->key;
    }
@@ -300,7 +300,7 @@ namespace Util
     return returnValue;
   }
   //------------------------------------------------------------------------------
-  std::string Sentence::getSentenceKey(const Sentence* const _this)
+  const std::string& Sentence::getSentenceKey(const Sentence* const _this)
    {
     return _this->getKey();
    }
