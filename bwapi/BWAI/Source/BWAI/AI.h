@@ -70,7 +70,7 @@ namespace BWAI
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
       bool expansionsSaturated;
-      Unit* getFirst();
+      std::vector<Unit*> units;
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
 
@@ -105,9 +105,9 @@ namespace BWAI
       MapStartingPosition* startingPosition;      
       u16 mineralGatherers;
    private :
-      Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
+      Unit* getFirst();   
+      Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       BWAPI::UnitPrototype* worker;
-      Unit* first;
       Util::Logger* deadLog;      
       MapInfo *mapInfo;
             

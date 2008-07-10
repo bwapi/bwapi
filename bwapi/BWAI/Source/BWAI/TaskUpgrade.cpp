@@ -38,7 +38,7 @@ namespace BWAI
           BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName());
           return false;
         }
-        for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
+        for each (Unit* i in BWAI::ai->units)
           if (i->getType() == buildingType)
             this->addExecutor(i);
       }

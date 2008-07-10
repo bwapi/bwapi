@@ -153,8 +153,6 @@ namespace BWAPI
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
       std::string getName() const;
       Unit* getNext();
-      /** Updates pointer to next unit (and recursively updates that unit. */
-      void updateNext();
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
       bool isMineral() const;
       /**
@@ -168,7 +166,6 @@ namespace BWAPI
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
-      Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
       u16 index;
   };
 };

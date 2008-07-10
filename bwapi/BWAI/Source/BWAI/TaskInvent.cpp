@@ -33,7 +33,7 @@ namespace BWAI
           BWAI::ai->log->log("ERROR: Couldn't resolve where to invent %s", this->techType.getName());
           return false;
         }
-        for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
+        for each (Unit* i in BWAI::ai->units)
           if (i->getType() == buildingType &&
               i->getTask() == NULL)
             this->addExecutor(i);

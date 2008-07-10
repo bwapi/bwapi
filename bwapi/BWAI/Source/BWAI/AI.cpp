@@ -57,6 +57,7 @@ namespace BWAI
   ,mineralGatherers(0)
   ,buildOrderExecutor(NULL)
   {
+    this->units.reserve(BW::UNIT_ARRAY_MAX_LENGTH);
     BWAI::ai = this;
     try
     {
@@ -67,8 +68,7 @@ namespace BWAI
       Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: %s", exception.getMessage().c_str());
     }
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      this->units[i] = new Unit(BWAPI::Broodwar.getUnit(i));
-    this->first = NULL;
+      this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     
     try
     {
@@ -92,7 +92,7 @@ namespace BWAI
       delete i;
       
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      delete units[i];
+      delete unitArray[i];
 
     delete map;
 
@@ -190,9 +190,10 @@ namespace BWAI
   //------------------------------- UPDATE ------------------------------------
   void AI::update(void)
   {
-    this->first = Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
-    if (this->first != NULL)
-      this->first->updateNext();
+    this->units.clear();
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      this->units.push_back(i);
+    
     this->reserved.clear();
 
     for each (TaskBuild* i in this->plannedBuildings)
@@ -294,8 +295,8 @@ namespace BWAI
     
     for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
-      this->units[i]->clearTask();
-      this->units[i]->expansion = NULL;
+      this->unitArray[i]->clearTask();
+      this->unitArray[i]->expansion = NULL;
     }
       
     this->startingPosition = NULL;  
@@ -371,7 +372,7 @@ namespace BWAI
   //-------------------------------- GET UNIT ---------------------------------
   Unit* AI::getUnit(int index)
   {
-    return units[index];
+    return unitArray[index];
   }
   //------------------------------- ON CANCEL TRAIN ---------------------------
   void AI::onCancelTrain()
@@ -440,7 +441,7 @@ namespace BWAI
   //------------------------------- GET FIRST ---------------------------------
   Unit* AI::getFirst()
   {
-    return this->first;
+    return Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
   }
   //----------------------------- ON REMOVE UNIT ------------------------------
   void AI::onRemoveUnit(BW::Unit* unit)
@@ -604,7 +605,7 @@ namespace BWAI
             this->fightGroups.push_back(new TaskFight());
           TaskFight* task = this->fightGroups.front();
           u16 addedCount = 0;
-          for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+          for each (Unit* i in this->units)
             if (i->getType() == BW::UnitID::Terran_Marine &&
                 i->getTask() == NULL)
             {
@@ -685,7 +686,7 @@ namespace BWAI
   //------------------------------ CHECK NEW EXPANSION ------------------------
   void AI::checkNewExpansions()
   {
-    for (BWAI::Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
     {
       if (
            i->isReady() &&
@@ -709,7 +710,7 @@ namespace BWAI
   //----------------------------- REFRESH SELECTION STATES --------------------
   void AI::refreshSelectionStates(BW::Unit** selected)
   {
-    for (BWAI::Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
       i->selected = false;
     for (int i = 0; selected[i] != NULL; i++)
       BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
@@ -724,7 +725,7 @@ namespace BWAI
      * 2) If the scv gets killed it will automaticaly send new one
      * 3) Will be counted in the check supply function into planned supplies
      */
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
       if (i->isReady() &&
           i->getOwner() == player &&
           i->getType().isWorker() &&
@@ -740,7 +741,7 @@ namespace BWAI
   void AI::getIdleWorkers(std::list<Unit*>& workers)
   {
     //if (!this->expansionsSaturated)
-      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      for each (Unit* i in this->units)
       {
         if (i->isReady() &&
             i->getOwner() == player &&
@@ -777,7 +778,7 @@ namespace BWAI
   int AI::countOfTerranProductionBuildings()
   {
     int countOfTerranFactories = 0;
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
       if (i->getType().canProduce() &&
           i->getOwner() == this->player &&
           i->getType().isTerran())
@@ -828,7 +829,7 @@ namespace BWAI
   Unit* AI::freeBuilder(BW::Position position)
   {
     Unit* best = NULL;
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
       if (i->getOwner() == player && i->getType().isWorker())
         if (this->betterWorkerToFree(i, best, position))
           best = i;

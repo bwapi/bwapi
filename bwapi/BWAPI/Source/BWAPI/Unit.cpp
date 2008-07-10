@@ -441,14 +441,10 @@ namespace BWAPI
   
     return std::string(message);
   }
-  //--------------------------------- GET NEXT ---------------------------------
-  BWAPI::Unit *Unit::getNext()
-  {
-    return this->next;
-  }
   //-------------------------------- UPDATE NEXT -------------------------------
-  void Unit::updateNext()
+  Unit* Unit::getNext()
   {
+    #ifdef PARANOID_DEBUG
     #pragma warning(push)
     #pragma warning(disable:4311)
     if (this->getOriginalRawData()->nextUnit != NULL)
@@ -459,9 +455,8 @@ namespace BWAPI
        BWAPI::Broodwar.fatalError->log("Unit array begins at bad location, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
     }
     #pragma warning(pop)
-    this->next = Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
-    if (this->next != NULL)
-      this->next->updateNext();
+    #endif PARANOID_DEBUG
+    return Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
   }
   //------------------------------- GET ORDER TIMER ----------------------------
   u8 Unit::getOrderTimer() const

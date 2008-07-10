@@ -16,7 +16,7 @@ namespace BWAI
   {
     ai->log->logDetailed("New expansion registration started");
     
-    for (Unit* i = ai->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in ai->units)
     {
       if (i->isMineral() &&
           i->expansion == NULL &&
