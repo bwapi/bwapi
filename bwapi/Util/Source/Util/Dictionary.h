@@ -58,7 +58,7 @@ namespace Util
        *         otherwise string 
 	      * '{Key '[key]' not found }' will be returned.
        */
-       std::string getValue(const std::string &key);
+       std::string get(const std::string &key);
 	     /** 
 	      * Gets value of the specified key.
 	      * If the dictionary contains more values with the same key, one of these values will be (pseudorandomly) choosen.
@@ -67,20 +67,20 @@ namespace Util
 	      * @return Value of property with the specified key if such value exists, otherwise string 
 	      * '{Key '[key]' not found }' will be returned.
 	      */
-       std::string getValue(const std::string &key, std::vector<std::string>* arguments);
-       std::string getValue(const std::string &key, const std::string &parameter1);
-       std::string getValue(const std::string &key, const std::string &parameter1, const std::string &parameter2);
-       std::string getValue(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3);
-       std::string getValue(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4);
-       std::string getValue(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4, const std::string &parameter5);
-       std::string getValue(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4, const std::string &parameter5, const std::string &parameter6);
+       std::string get(const std::string &key, std::vector<std::string>* arguments);
+       std::string get(const std::string &key, const std::string &parameter1);
+       std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2);
+       std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3);
+       std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4);
+       std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4, const std::string &parameter5);
+       std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4, const std::string &parameter5, const std::string &parameter6);
        /**
         * Gets value of the specified key.
 	       * @param key Key of the property value to be returned.
 	       * @return Value of property with the specified key and given arguments,
         *         otherwise param key will be returned.
         */
-       std::string getValueSafe(const std::string &key);
+       std::string getSafe(const std::string &key);
        std::string getName(void);
        void setName(const std::string &name);
        void saveToFile(void);

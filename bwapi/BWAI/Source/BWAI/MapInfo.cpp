@@ -132,7 +132,7 @@ namespace BWAI
          result[x][y] = char(177);
        else if (counts[x][y] > 3)
          result[x][y] = char(178);
-    Util::Strings::makeBorder(result).saveToFile(BWAPI::Broodwar.configuration->getValue("data_path") + "\\pre-defined-buildings.txt");
+    Util::Strings::makeBorder(result).saveToFile(config->get("data_path") + "\\pre-defined-buildings.txt");
   }
   //---------------------------------------------------------------------------
 }

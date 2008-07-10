@@ -48,8 +48,8 @@ namespace BWAI
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log    (new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\ai",   Util::LogLevel::Normal))
-  ,deadLog(new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
+  ,log    (new Util::FileLogger(config->get("log_path") + "\\ai",   Util::LogLevel::Normal))
+  ,deadLog(new Util::FileLogger(config->get("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
   ,map(NULL)
   ,temp(NULL)
@@ -61,7 +61,7 @@ namespace BWAI
     BWAI::ai = this;
     try
     {
-      Expansion::maximumMineralDistance = Util::Strings::stringToInt(BWAPI::Broodwar.configuration->getValue("max_mineral_distance"));
+      Expansion::maximumMineralDistance = Util::Strings::stringToInt(config->get("max_mineral_distance"));
     }
     catch (GeneralException& exception)
     {
@@ -72,7 +72,7 @@ namespace BWAI
     
     try
     {
-      this->root = new BuildOrder::Root(BWAPI::Broodwar.configuration->getValue("build_order_path"));    
+      this->root = new BuildOrder::Root(config->get("build_order_path"));    
       Util::Logger::globalLog->log("Build order loaded");
     }
     catch (GeneralException& exception)
@@ -210,8 +210,9 @@ namespace BWAI
       this->opponent = opponent;
       std::string mapNameAbsolute = BWAPI::Map::getFileName();
       size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
-      std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
-      mapInfo = new MapInfo(BWAPI::Broodwar.configuration->getValue("maps_path") + "\\" + mapName + ".xml");
+      std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, 
+                                                   mapNameAbsolute.size() - lastDelimiterPos - 1);
+      mapInfo = new MapInfo(config->get("maps_path") + "\\" + mapName + ".xml");
       this->checkNewExpansions();
      
       this->log->log("Help pre-prepared information found for the curent map");
@@ -226,9 +227,10 @@ namespace BWAI
           }
         if (this->startingPosition)
         {
-         this->log->log("Starting position is (%s) at (%d, %d)", this->startingPosition->expansion->getID().c_str(), 
-                                                                 this->startingPosition->expansion->getPosition().x, 
-                                                                 this->startingPosition->expansion->getPosition().y);
+         this->log->log("Starting position is (%s) at (%d, %d)", 
+                        this->startingPosition->expansion->getID().c_str(), 
+                        this->startingPosition->expansion->getPosition().x, 
+                        this->startingPosition->expansion->getPosition().y);
         }
       }
       this->pathFinding = new PathFinding::Utilities();
@@ -422,9 +424,10 @@ namespace BWAI
        
        best = bestFor(gatherer);
        
-       this->log->log("Gatherer [%d] reabalanced from [%d] to [%d]", gatherer->getIndex(), 
-                                                                     worst->getMineral()->getIndex(), 
-                                                                     best->getMineral()->getIndex());
+       this->log->log("Gatherer [%d] reabalanced from [%d] to [%d]", 
+                       gatherer->getIndex(), 
+                       worst->getMineral()->getIndex(), 
+                       best->getMineral()->getIndex());
        best->addExecutor(gatherer);
        goto anotherStep;
      }
@@ -486,12 +489,13 @@ namespace BWAI
     {
       if (parsed[1] == "fog")
       {
-        this->map->saveFogOfWarMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\fog-of-war.txt", this->player->getID());
+        this->map->saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt", 
+                                   this->player->getID());
         BWAPI::Broodwar.print("fog of war saved to fo 'fog-of-war.txt'");
       }
       else if (parsed[1] == "techs")
       {
-        std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\techs";
+        std::string fileName = config->get("data_path") + "\\techs";
         Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
         for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
           if (BW::TechType((BW::TechID::Enum)i).isValid())
@@ -500,7 +504,7 @@ namespace BWAI
       }
       else if (parsed[1] == "upgrades")
       {
-        std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\upgrades";
+        std::string fileName = config->get("data_path") + "\\upgrades";
         Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
         for (u8 i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
         {
@@ -512,7 +516,7 @@ namespace BWAI
       }
       else if (parsed[1] == "units")
       {
-        std::string fileName = BWAPI::Broodwar.configuration->getValue("data_path") + "\\units";
+        std::string fileName = config->get("data_path") + "\\units";
         Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
         for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         {
@@ -522,9 +526,9 @@ namespace BWAI
         BWAPI::Broodwar.print("Units saved to %s .ini", fileName.c_str());        
       }      
       else if (parsed[1] == "buildability")
-        this->map->saveBuildabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\buildability.txt");
+        this->map->saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
       else if (parsed[1] == "walkability")
-        this->map->saveWalkabilityMap(BWAPI::Broodwar.configuration->getValue("data_path") + "\\walkability.txt");
+        this->map->saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
       else if (parsed[1] == "defined" && parsed[2] == "buildings")
       {
         if (this->mapInfo != NULL)
@@ -534,7 +538,7 @@ namespace BWAI
       }
       else
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
-                              "buildability, walkability, defined buildings", parsed[1]);
+                              "buildability, walkability, defined buildings", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -563,7 +567,7 @@ namespace BWAI
           BWAPI::Broodwar.print(i->getTechType().getName());
       }
       else 
-        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);
+        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/upgrade")
@@ -592,7 +596,7 @@ namespace BWAI
           BWAPI::Broodwar.print(i->getUpgradeType().getName());
       }
       else 
-        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1]);
+        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/fight")
@@ -649,7 +653,7 @@ namespace BWAI
         }
       }
       else 
-        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1]);
+        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1].c_str());
       return true;
     } 
     else if (parsed[0] == "/formation")

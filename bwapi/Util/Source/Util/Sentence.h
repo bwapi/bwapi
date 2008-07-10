@@ -25,13 +25,11 @@ namespace Util
      DictionaryFile *parentFile;
     public :
      /**
-      * Parses the right part of the property value and makes sentence structure
-      * out of it
-      * @param key part left part of the property value (the one in front of
-      *        '=')
+      * Parses the right part of the property value and makes sentence structure out of it
+      * @param key part left part of the property value (the one in front of '=')
       * @param sentence the right part of property value to be parsed
-      * @param dictionary The dictionary this sentence belogs to (to resolve
-      *        references to other property values in '{}' brackets
+      * @param dictionary The dictionary this sentence belogs to (to resolve references to other property
+      *        values in '{}' brackets
       * @param parentFile @todo describe
       */
      Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile* parentFile);

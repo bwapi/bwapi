@@ -203,15 +203,15 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
 //------------------------- CTRT THREAD MAIN -----------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
-  if (BWAPI::Broodwar.configuration == NULL)
+  if (config == NULL)
     return 1;
 
   delete Util::Logger::globalLog;
-  Util::Logger::globalLog = new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\global", Util::LogLevel::MicroDetailed);
+  Util::Logger::globalLog = new Util::FileLogger(config->get("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
   BWAI::ai = new BWAI::AI();
-  int sleepTime = atoi(BWAPI::Broodwar.configuration->getValue("sleep_before_initialize_hooks").c_str());
+  int sleepTime = atoi(config->get("sleep_before_initialize_hooks").c_str());
 
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);

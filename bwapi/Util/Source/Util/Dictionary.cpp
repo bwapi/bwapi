@@ -30,7 +30,7 @@ namespace Util
      delete i;
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key)
+  std::string Dictionary::get(const std::string &key)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -39,7 +39,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key, std::vector<std::string>* argumentList)
+  std::string Dictionary::get(const std::string &key, std::vector<std::string>* argumentList)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -48,7 +48,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key, const std::string &parameter1)
+  std::string Dictionary::get(const std::string &key, const std::string &parameter1)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -57,7 +57,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key,const std::string &parameter1,const std::string &parameter2)
+  std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -66,7 +66,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3)
+  std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -75,7 +75,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4)
+  std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -84,7 +84,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4,const std::string &parameter5)
+  std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4,const std::string &parameter5)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -93,7 +93,7 @@ namespace Util
       return "{Key '"+ key + "'not found}";
    }
   //--------------------------------- GET VALUE ----------------------------------
-  std::string Dictionary::getValue(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4,const std::string &parameter5,const std::string &parameter6)
+  std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4,const std::string &parameter5,const std::string &parameter6)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
@@ -112,7 +112,7 @@ namespace Util
     this->name = name;
    }
   //------------------------------- GET VALUE SAFE -------------------------------
-  std::string Dictionary::getValueSafe(const std::string &key)
+  std::string Dictionary::getSafe(const std::string &key)
    {
     Sentence* sentence = this->values[key];
     if (sentence != NULL)
