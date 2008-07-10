@@ -123,10 +123,8 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
 #pragma warning(disable:4189)
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
-
   const DWORD ENV_BUFFER_SIZE = 512;
   char envBuffer[512];
-  
 
   DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
   assert(result != 0);
