@@ -1,5 +1,7 @@
 #include "FileLogger.h"
 
+#include <ctime>
+
 namespace Util
 {
   //------------------------------------------- CONSTRUCTOR --------------------------------------------------

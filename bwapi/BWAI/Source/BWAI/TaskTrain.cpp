@@ -14,7 +14,7 @@ namespace BWAI
   ,weights(weights)
   {
     BWAI::ai->prioritisedTasks.insert(this);
-    for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in BWAI::ai->units)
       if (this->weights->factory == i->getType() &&
           i->getTask() == NULL)
         this->addExecutor(i);

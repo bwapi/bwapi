@@ -39,6 +39,7 @@ namespace BWAPI
   ,quietSelect(true)
   ,enabled(true)
   {
+    units.reserve(BW::UNIT_ARRAY_MAX_LENGTH);
     try
     {
      this->configuration = new Util::Dictionary("bwapi.ini");
@@ -91,10 +92,10 @@ namespace BWAPI
         players[i] = new Player((u8)i);    
       
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        units[i] = new Unit(&unitArrayCopy->unit[i], 
-                            &BW::BWXFN_UnitNodeTable->unit[i],
-                            &unitArrayCopyLocal->unit[i],
-                            i);
+        unitArray[i] = new Unit(&unitArrayCopy->unit[i], 
+                                &BW::BWXFN_UnitNodeTable->unit[i],
+                                &unitArrayCopyLocal->unit[i],
+                                i);
 
       this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
       //this->latency = BW::Latency::LanLow;
@@ -116,7 +117,7 @@ namespace BWAPI
       delete players[i];
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      delete units[i];
+      delete unitArray[i];
     
     delete this->commandLog;
     delete this->newOrderLog;
@@ -147,16 +148,17 @@ namespace BWAPI
     memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
     for (int i = 0; i < 12; i++)
       this->players[i]->update();
-    std::vector<Command *> a;
+   
+    this->units.clear();
+    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+      this->units.push_back(i);
+
     while (this->commandBuffer.size() > this->getLatency())
       this->commandBuffer.erase(this->commandBuffer.begin());
-    this->commandBuffer.push_back(a);
+    this->commandBuffer.push_back(std::vector<Command *>());
     for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
        for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
          this->commandBuffer[i][j]->execute();
-    this->first = Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
-    if (this->getFirst() != NULL)
-      this->getFirst()->updateNext();
     this->frameCount ++;
     this->logUnknownOrStrange();
     this->updateUnitsOnTile();    
@@ -168,7 +170,8 @@ namespace BWAPI
         this->players[i]->allUnitTypeCount[j] = 0;
       }
     
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
+    //for (Game::Units::iterator i = this->units.begin(); i != this->units.end(); ++i)
       if (i->getOwner()->getID() < 12)
       {
         this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
@@ -417,7 +420,7 @@ namespace BWAPI
   //-----------------------------------------------------------------------------
   Unit* Game::getUnit(int index)
   {
-    return this->units[index];
+    return this->unitArray[index];
   }
   //--------------------------------- SAVE SELECTED -----------------------------
   BW::Unit** Game::saveSelected()
@@ -476,7 +479,7 @@ namespace BWAPI
   //--------------------------- LOG UNKNOWN OR STRANGE --------------------------
   void Game::logUnknownOrStrange()
   {
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
       if (!i->getType().isValid())
         this->newUnitLog->log("%s", i->getName().c_str());
   }
@@ -484,14 +487,14 @@ namespace BWAPI
   void Game::logUnitList()
   {
     this->unitSum->log("----------------------------------------");
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
        this->unitSum->log("%s", i->getName().c_str());
     this->unitSum->log("----------------------------------------");
   }
   //-------------------------------- GET FIRST -------------------------------
   Unit* Game::getFirst()
   {
-    return this->first;
+    return Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
   }
   //------------------------------ GET LATENCY -------------------------------
   BW::Latency::Enum Game::getLatency()
@@ -522,7 +525,7 @@ namespace BWAPI
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTile[x][y].clear();
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in this->units)
       if (i->isValid())
       {
         int startX =   (i->getPosition().x - i->getType().dimensionLeft())/BW::TILE_SIZE;
@@ -534,5 +537,5 @@ namespace BWAPI
             this->unitsOnTile[x][y].push_back(i);
       }
   }
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 };

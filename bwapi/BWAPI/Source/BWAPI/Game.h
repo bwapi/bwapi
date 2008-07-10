@@ -89,7 +89,7 @@ namespace BWAPI
       void onRemoveUnit(BW::Unit *unit);
       Player* BWAPIPlayer;
       Player* opponent;
-      Unit* getFirst();
+      std::vector<Unit*> units;
       void logUnitList();
       void logUnknownOrStrange();
       /** Count of game-frames passed from game start. */
@@ -109,14 +109,14 @@ namespace BWAPI
       std::map<std::string, BW::UpgradeType> upgradeNameToType;
       bool enabled;      
    private :
+      Unit* getFirst();
 	     bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
-      Unit* units[BW::UNIT_ARRAY_MAX_LENGTH];
+      Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       BW::Latency::Enum latency;
       std::vector<std::vector<Command *> > commandBuffer;
       std::vector<char *> buffers;
-      Unit *first; /** Precomputed address corresponding to BWXFN_FirstUnit */
       /** All commands ordered from BWAPI */
       Util::Logger *commandLog;
       /** Unknown orderID's */

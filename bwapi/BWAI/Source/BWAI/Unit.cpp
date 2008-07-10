@@ -57,14 +57,10 @@ namespace BWAI
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
-  //--------------------------------- GET NEXT ---------------------------------
-  Unit *Unit::getNext()
+  //-------------------------------------------- GET NEXT ----------------------------------------------------
+  Unit* Unit::getNext()
   {
-    return this->next;
-  }
-  //-------------------------------- UPDATE NEXT -------------------------------
-  void Unit::updateNext()
-  {
+    #ifdef PARANOID_DEBUG
     #pragma warning(push)
     #pragma warning(disable:4311)
     if (this->getOriginalRawData()->nextUnit != NULL)
@@ -75,9 +71,8 @@ namespace BWAI
         BWAPI::Broodwar.fatalError->log("Unit array begins at bad location, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
     }
     #pragma warning(push)
-    this->next = Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
-    if (this->next != NULL)
-      this->next->updateNext();
+    #endif PARANOID_DEBUG
+    return Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
   }
   //------------------------------- GET TASK ----------------------------------
   Task* Unit::getTask()

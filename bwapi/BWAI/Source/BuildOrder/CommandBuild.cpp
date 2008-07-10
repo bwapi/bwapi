@@ -99,7 +99,7 @@ namespace BuildOrder
         else
         {
           BW::UnitType builderType = toBuild.whereToBuild();
-          for (BWAI::Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
+          for each (BWAI::Unit* i in BWAI::ai->units)
             if (i->isReady() &&
                 i->getType() == builderType &&
                 i->getRawDataLocal()->childInfoUnion.childUnit1 == NULL &&

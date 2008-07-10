@@ -101,7 +101,7 @@ namespace BWAI
           for (int y = 0; y < 3; y++)
             counts[x + startX][y + startY]++;      
     }
-    for (Unit* i = BWAI::ai->getFirst(); i != NULL; i = i->getNext())
+    for each (Unit* i in BWAI::ai->units)
     {
       if (i->isMineral())
         {

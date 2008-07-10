@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdio.h>
-#include <ctime>
 #include <string>
 #include <list>
 
@@ -37,18 +36,17 @@ namespace Util
       bool logImportant(const char* message, ...);
       bool logCritical (const char* message, ...);      
       void registerLogger(Logger* logger);
+      /** Every log message will be also posted to this global log. */
+      static Logger* globalLog;
+      static bool deleteLogsAtStart;
+    protected :
+      virtual bool flush(const char* data) = 0;
+      bool flushInternal(const char* data);      
     private :
       bool logInternal(const char* message, LogLevel::Enum, va_list ap);
       LogLevel::Enum levelToLog;
       static const unsigned int BUFFER_SIZE = 2048;
       static char buffer[BUFFER_SIZE];
       std::list<Logger*> connectedLoggers;
-    public : 
-      /** Every log message will be also posted to this global log. */
-      static Logger* globalLog;
-      static bool deleteLogsAtStart;
-    protected :
-      virtual bool flush(const char* data) = 0;
-      bool flushInternal(const char* data);
   };
 };

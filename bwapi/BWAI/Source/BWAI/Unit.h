@@ -30,8 +30,6 @@ namespace BWAI
       Unit* getOrderTarget();
       Unit* getOrderTargetLocal();
       Unit* getNext();
-      /** Updates pointer to next unit (and recursively updates that unit. */
-      void updateNext();
       int lastFrameSpam;
       
       Task* getTask();
@@ -40,7 +38,6 @@ namespace BWAI
       void setTask(Task* task);
       std::list<Unit*>::iterator taskListIterator;
     private :
-      Unit *next; /**< Corresponds to bwOriginalUnit->nextUnit, precomputed pointer - to optimize unit listing. */
       Task* task;
   };
 }
