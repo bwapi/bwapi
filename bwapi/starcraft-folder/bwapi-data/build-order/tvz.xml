@@ -22,15 +22,15 @@
     <build name="Terran Comsat Station" minimal-population="35"/>
     <build name="Terran Comsat Station" minimal-population="35"/>
     <upgrade name="Terran Infantry Armor" level="1" minimal-population="35"/>
-    <build name="Terran Factory" place="factory" minimal-population="45"/>
+    <build name="Terran Factory" place="building-with-addon" minimal-population="45"/>
     <build name="Terran Barracks" place="barracks" minimal-population="50"/>
-    <build name="Terran Starport" place="starport"/>
+    <build name="Terran Starport" place="building-with-addon"/>
     <train building="Terran Starport">
       <build name="Terran Science Vessel" weight="1" />
     </train>
     <upgrade name="Terran Infantry Armor" level="3"/>
     <upgrade name="Terran Infantry Weapons" level="3"/>
-    <build name="Terran Science Facility" place="science-facility"/>
+    <build name="Terran Science Facility" place="building-with-addon"/>
     <build name="Terran Command Center" place="second-expansion"/>
     <build name="Terran Control Tower"/>
     <build name="Terran Barracks" place="barracks"/>

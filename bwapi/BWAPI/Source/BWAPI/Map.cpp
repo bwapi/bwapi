@@ -115,10 +115,17 @@ namespace BWAPI
     Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);
   }
-  //----------------------------------- GET FILE NAME -------------------------
+  //-------------------------------------------- GET FILE NAME -----------------------------------------------
   char* Map::getFileName(void)
   {
     return BW::BWXFN_CurrentMapFileName;
+  }
+  //--------------------------------------------- GET NAME ---------------------------------------------------
+  std::string Map::getName()
+  {
+    std::string mapNameAbsolute = BWAPI::Map::getFileName();
+    std::string::size_type lastDelimiterPos = mapNameAbsolute.rfind('\\');
+    return mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
   }
   //------------------------------- GET BUILDABILITY ARRAY --------------------
   const Util::RectangleArray<bool>& Map::getBuildabilityArray()

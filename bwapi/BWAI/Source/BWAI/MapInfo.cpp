@@ -66,7 +66,7 @@ namespace BWAI
      return NULL;
   }
   //--------------------------------------------------------------------------
-  void MapInfo::saveDefinedBuildingsMap()
+  void MapInfo::saveDefinedBuildingsMap(const std::string& fileName)
   {
     const Util::RectangleArray<bool> buildability = BWAI::ai->map->getBuildabilityArray();
     Util::RectangleArray<char> result = Util::RectangleArray<char>(buildability.getWidth(), buildability.getHeight());
@@ -132,7 +132,7 @@ namespace BWAI
          result[x][y] = char(177);
        else if (counts[x][y] > 3)
          result[x][y] = char(178);
-    Util::Strings::makeBorder(result).saveToFile(config->get("data_path") + "\\pre-defined-buildings.txt");
+    Util::Strings::makeBorder(result).saveToFile(fileName);
   }
   //---------------------------------------------------------------------------
 }
