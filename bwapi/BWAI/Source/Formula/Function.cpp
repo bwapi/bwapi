@@ -52,7 +52,7 @@ namespace Formula
           throw ParseException("Unknown unit name " + this->functionParameter);
         break;
       case FunctionType::ConfigValue :
-        sscanf(BWAPI::Broodwar.configuration->getValue(this->functionParameter).c_str(),"%f", &this->configValue);
+        sscanf(config->get(this->functionParameter).c_str(),"%f", &this->configValue);
     }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

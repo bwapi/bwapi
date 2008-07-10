@@ -20,7 +20,7 @@ namespace BuildOrder
 {
   //------------------------------ CONSTRUCTOR --------------------------------
   Root::Root(const std::string& xmlFileName)
-  :log(new Util::FileLogger(BWAPI::Broodwar.configuration->getValue("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
+  :log(new Util::FileLogger(config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
   {
     this->log->registerLogger(new BWAPI::ScreenLogger(Util::LogLevel::Normal));
     include(xmlFileName);
@@ -45,7 +45,7 @@ namespace BuildOrder
     TiXmlElement* root = node->ToElement();
 
     for (TiXmlElement* includeElement = root->FirstChildElement("include"); includeElement != NULL; includeElement = includeElement->NextSiblingElement("include"))
-      this->include(BWAPI::Broodwar.configuration->getValue("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement,"name"));
+      this->include(config->get("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement,"name"));
     
     try
     {

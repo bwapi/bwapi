@@ -100,7 +100,7 @@ namespace Util
               }
               else
               {
-                value = dictionary->getValue(NumberString);
+                value = dictionary->get(NumberString);
                 position = leftBracketPosition + value.length();
                 sentence = sentence.substr(0,leftBracketPosition) + value + sentence.substr(position,sentence.length() - position);
                 goto begin2;
@@ -121,7 +121,7 @@ namespace Util
            }
           else
            {
-            value = dictionary->getValue(NumberString);
+            value = dictionary->get(NumberString);
             position = leftBracketPosition + value.length();
             sentence = sentence.substr(0,leftBracketPosition) + value + sentence.substr(rightBracketPosition + 1 ,sentence.length() - rightBracketPosition - 1);
             goto begin1;

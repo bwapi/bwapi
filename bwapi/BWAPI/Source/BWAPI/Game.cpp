@@ -29,6 +29,7 @@
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
 
+#include "Globals.h"
 
 namespace BWAPI 
 {
@@ -43,6 +44,7 @@ namespace BWAPI
     try
     {
      this->configuration = new Util::Dictionary("bwapi.ini");
+     config = this->configuration;
     }
     catch (GeneralException& exception)
     {
@@ -53,16 +55,16 @@ namespace BWAPI
     
     try
     {
-      this->commandLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
-      this->newOrderLog       = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
-      this->badAssumptionLog  = new Util::FileLogger(this->configuration->getValue("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
-      this->newUnitLog        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
-      this->unitSum           = new Util::FileLogger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
-      this->fatalError        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
+      this->commandLog        = new Util::FileLogger(config->get("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
+      this->newOrderLog       = new Util::FileLogger(config->get("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
+      this->badAssumptionLog  = new Util::FileLogger(config->get("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
+      this->newUnitLog        = new Util::FileLogger(config->get("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
+      this->unitSum           = new Util::FileLogger(config->get("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
+      this->fatalError        = new Util::FileLogger(config->get("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
       
       int intForSScanf;
       
-      Util::DictionaryFile unitNames(this->configuration->getValue("unit_names_path"));
+      Util::DictionaryFile unitNames(config->get("unit_names_path"));
       for each (Util::Sentence* i in unitNames.usedLines)
       {
         sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
@@ -70,7 +72,7 @@ namespace BWAPI
         this->unitNameToType.insert(std::pair<std::string, BW::UnitType>(i->getKey(), unit));
       }
 
-      Util::DictionaryFile techNames(this->configuration->getValue("tech_names_path"));
+      Util::DictionaryFile techNames(config->get("tech_names_path"));
       for each (Util::Sentence* i in techNames.usedLines)
       {
         sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
@@ -78,7 +80,7 @@ namespace BWAPI
         this->techNameToType.insert(std::pair<std::string, BW::TechType>(i->getKey(), tech));
       }
        
-      Util::DictionaryFile upgradeNames(this->configuration->getValue("upgrade_names_path"));
+      Util::DictionaryFile upgradeNames(config->get("upgrade_names_path"));
       for each (Util::Sentence* i in upgradeNames.usedLines)
       {
         sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
@@ -257,7 +259,7 @@ namespace BWAPI
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
     for (int i = 0; i < 8; i++)
-      if (this->configuration->getValue("bwapi_name") == this->players[i]->getName())
+      if (config->get("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
       else
         if (strcmp(this->players[i]->getName(),"") != 0 &&
