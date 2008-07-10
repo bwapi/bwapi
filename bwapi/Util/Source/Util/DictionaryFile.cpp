@@ -12,7 +12,6 @@ namespace Util
   DictionaryFile::DictionaryFile(const std::string &fileName, Dictionary *dictionary)
    {
      this->fileName = fileName;
-
      FILE* f = fopen(fileName.c_str(),"rt");
      if (f)
      {

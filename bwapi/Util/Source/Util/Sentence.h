@@ -38,7 +38,7 @@ namespace Util
      virtual ~Sentence(void);
      void setValue(const std::string& value);
      std::string getLine(void);
-     const std::string& getKey() const;
+     std::string getKey() const;
      std::string getSentence();
      std::string getSentenceMap();
      std::string getSentence(std::vector<std::string>* argumentList);
@@ -48,6 +48,6 @@ namespace Util
      std::string getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4);
      std::string getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5);
      std::string getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5, const std::string& parameter6);
-     static const std::string &getSentenceKey(const Sentence* const _this);
+     static std::string getSentenceKey(const Sentence* const _this);
   };
 }

@@ -60,28 +60,29 @@ namespace BWAPI
       this->unitSum           = new Util::FileLogger(this->configuration->getValue("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
       this->fatalError        = new Util::FileLogger(this->configuration->getValue("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
       
+      int intForSScanf;
+      
       Util::DictionaryFile unitNames(this->configuration->getValue("unit_names_path"));
       for each (Util::Sentence* i in unitNames.usedLines)
       {
-        BW::UnitID::Enum unit;
-        sscanf(i->getSentence().c_str(), "0x%02X", &unit);
+        sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
+        BW::UnitID::Enum unit((BW::UnitID::Enum) intForSScanf);
         this->unitNameToType.insert(std::pair<std::string, BW::UnitType>(i->getKey(), unit));
       }
 
       Util::DictionaryFile techNames(this->configuration->getValue("tech_names_path"));
       for each (Util::Sentence* i in techNames.usedLines)
       {
-        BW::TechID::Enum tech;
-        sscanf(i->getSentence().c_str(), "0x%02X", &tech);
+        sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
+        BW::TechID::Enum tech((BW::TechID::Enum) intForSScanf);
         this->techNameToType.insert(std::pair<std::string, BW::TechType>(i->getKey(), tech));
-        this->commandLog->logDetailed("loaded tech %s with id %d", i->getKey().c_str(), tech);
       }
        
       Util::DictionaryFile upgradeNames(this->configuration->getValue("upgrade_names_path"));
       for each (Util::Sentence* i in upgradeNames.usedLines)
       {
-        BW::UpgradeID::Enum upgrade;
-        sscanf(i->getSentence().c_str(), "0x%02X", &upgrade);
+        sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
+        BW::UpgradeID::Enum upgrade((BW::UpgradeID::Enum) intForSScanf);
         this->upgradeNameToType.insert(std::pair<std::string, BW::UpgradeType>(i->getKey(), upgrade));
       }
 
