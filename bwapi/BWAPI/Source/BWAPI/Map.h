@@ -22,6 +22,7 @@ namespace BWAPI
       static u16 getHeight();
       /** Gets file name of the currently opened map by broodwar */
       static char* getFileName();
+      static std::string getName();
       /**
        * Saves the buildability map for the currently opened map to the
        * specified file.

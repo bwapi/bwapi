@@ -208,11 +208,7 @@ namespace BWAI
       this->map = new BWAPI::Map();
       this->player = player;
       this->opponent = opponent;
-      std::string mapNameAbsolute = BWAPI::Map::getFileName();
-      size_t lastDelimiterPos = mapNameAbsolute.rfind('\\');
-      std::string mapName = mapNameAbsolute.substr(lastDelimiterPos + 1, 
-                                                   mapNameAbsolute.size() - lastDelimiterPos - 1);
-      mapInfo = new MapInfo(config->get("maps_path") + "\\" + mapName + ".xml");
+      mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
       this->checkNewExpansions();
      
       this->log->log("Help pre-prepared information found for the curent map");
@@ -532,7 +528,11 @@ namespace BWAI
       else if (parsed[1] == "defined" && parsed[2] == "buildings")
       {
         if (this->mapInfo != NULL)
-          mapInfo->saveDefinedBuildingsMap();
+        {
+          std::string fileName = config->get("data_path") + "\\pre-defined-buildings.txt";
+          mapInfo->saveDefinedBuildingsMap(fileName);
+          BWAPI::Broodwar.print("Defined buildings saved to %s", fileName.c_str());
+        }
         else
           BWAPI::Broodwar.print("Map info for the current map is not available.");
       }
@@ -554,7 +554,7 @@ namespace BWAI
           if (this->player->canAfford(tech, this->reserved))
           {
             this->plannedInvents.push_back(new BWAI::TaskInvent(tech, 0));
-            BWAPI::Broodwar.print("Added tech '%s'", techName);
+            BWAPI::Broodwar.print("Added tech '%s'", techName.c_str());
           }
           else
             BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
@@ -684,6 +684,16 @@ namespace BWAI
         formation->execute();
         delete formation;
       }
+    }
+    else if (parsed[0] == "/reload")
+    {
+      if (parsed[1] == "map")
+      {
+        //delete this->mapInfo; memeory leak, but this is just for debug reasons, and this way it wan't crash
+        this->mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
+      }
+      else
+        BWAPI::Broodwar.print("Unknown reload command '%s' - possible values are: map", parsed[1].c_str());
     }
     return false;
   }

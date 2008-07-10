@@ -22,7 +22,7 @@ namespace BWAI
       std::list<MapExpansion*> expansions;
       std::list<MapStartingPosition*> startingPositions;
       MapExpansion *getExpansion(const std::string& id);
-      void saveDefinedBuildingsMap();
+      void saveDefinedBuildingsMap(const std::string& fileName);
       //static void standardBuildingLocations(const std::string& fileName);
     private :
   };
