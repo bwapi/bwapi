@@ -2,14 +2,15 @@
 
 #include "Strings.h"
 #include "Dictionary.h"
+
 namespace Util
 {
   //-------------------------------- CONSTRUCTOR ---------------------------------
   Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile *parentFile)
   :parentFile(parentFile)
+  ,key(key)
   {
     this->inputValue = sentence;
-    this->key = key;
     size_t leftBracketPosition, rightBracketPosition;
     std::string newNumberString;
     std::string value;
@@ -151,8 +152,7 @@ namespace Util
    {
    }
   //---------------------------------- GET KEY -----------------------------------
-
-  const std::string& Sentence::getKey(void) const
+  std::string Sentence::getKey(void) const
    {
     return this->key;
    }
@@ -300,7 +300,7 @@ namespace Util
     return returnValue;
   }
   //------------------------------------------------------------------------------
-  const std::string& Sentence::getSentenceKey(const Sentence* const _this)
+  std::string Sentence::getSentenceKey(const Sentence* const _this)
    {
     return _this->getKey();
    }
