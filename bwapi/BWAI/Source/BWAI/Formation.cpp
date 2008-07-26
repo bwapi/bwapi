@@ -9,7 +9,7 @@
 
 namespace BWAI
 {
-  //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Formation::Formation(std::list<Unit*>& units)
   {
     for each (Unit* i in units)
@@ -27,7 +27,7 @@ namespace BWAI
     for each (std::pair<BW::UnitID::Enum, std::list<Target> > i in this->data)
       BWAPI::ScreenLogger().log("%d %ss", i.second.size(), BW::UnitType(i.first).getName());
   }
-  //---------------------------------------- GENERATE POSITIONS ----------------------------------------------
+  //------------------------------------------- GENERATE POSITIONS -------------------------------------------
   void Formation::generatePositions(BW::Position center, float angle)
   {
     std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
@@ -57,7 +57,7 @@ namespace BWAI
       }
     }
   }
-  //--------------------------------------------- EXECUTE ----------------------------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   void Formation::execute()
   {
     std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;

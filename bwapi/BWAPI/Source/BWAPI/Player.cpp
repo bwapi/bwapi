@@ -7,31 +7,31 @@
 
 namespace BWAPI
 {
-  //------------------------------------------- CONSTRUCTOR --------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Player::Player(u8 id)
     :id(id)
   {
   }
-  //-------------------------------------------- DESTRUCTOR --------------------------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Player::~Player()
   {
   }
-  //---------------------------------------------- GET NAME --------------------------------------------------
+  //------------------------------------------------ GET NAME ------------------------------------------------
   char* Player::getName() const
   {
     return BW::BWXFN_Players->player[this->getID()].name;
   }
-  //--------------------------------------------- GET MINERALS -----------------------------------------------
+  //---------------------------------------------- GET MINERALS ----------------------------------------------
   s32 Player::getMinerals() const
   {
     return BW::BWXFN_PlayerResources->minerals.player[this->getID()];
   }
-  //----------------------------------------------- GET GAS --------------------------------------------------
+  //------------------------------------------------ GET GAS -------------------------------------------------
   s32 Player::getGas() const
   {
     return BW::BWXFN_PlayerResources->gas.player[this->getID()];
   }
-  //----------------------------------------------- GET ID ---------------------------------------------------
+  //------------------------------------------------- GET ID -------------------------------------------------
   u8 Player::getID() const
   {
     return this->id;
@@ -44,17 +44,17 @@ namespace BWAPI
     return (BW::Unit**)(0x006284D0 + this->getID()*48);
   }
   #pragma warning(pop)
-  //------------------------------------------ GET MINERALS LOCAL ---------------------------------------------
+  //------------------------------------------- GET MINERALS LOCAL -------------------------------------------
   s32 Player::getMineralsLocal() const
   {
     return this->mineralsLocal;
   }
-  //------------------------------------------- GET GAS LOCAL ------------------------------------------------
+  //--------------------------------------------- GET GAS LOCAL ----------------------------------------------
   s32 Player::getGasLocal() const
   {
     return this->gasLocal;
   }
-  //---------------------------------------------- UPDATE ----------------------------------------------------
+  //------------------------------------------------- UPDATE -------------------------------------------------
   void Player::update()
   {
     this->mineralsLocal = this->getMinerals();
@@ -65,19 +65,19 @@ namespace BWAPI
       this->suppliesUsedLocal[i] = this->getSuppliesUsed((BW::Race::Enum)i);
     }
   }
-  //-------------------------------------------- SPEND LOCAL -------------------------------------------------
+  //---------------------------------------------- SPEND LOCAL -----------------------------------------------
   void  Player::spendLocal(s32 minerals, s32 gas)
   {
     this->mineralsLocal -= minerals;
     this->gasLocal -= gas;
   }
-  //---------------------------------------- GET SUPPLY AVAILABLE --------------------------------------------
+  //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
   s32 Player::getSuppliesAvailable(BW::Race::Enum race)
   {
     s32 ret = BW::BWXFN_Supplies->race[race].available.player[this->getID()];
     return ret < 400 ? ret : 400;
   }
-  //------------------------------------------ GET SUPPLY USED -----------------------------------------------
+  //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
   s32 Player::getSuppliesUsed(BW::Race::Enum race)
   {
     return BW::BWXFN_Supplies->race[race].used.player[this->getID()];
@@ -93,17 +93,17 @@ namespace BWAPI
   {
     return this->suppliesUsedLocal[race];
   }
-  //----------------------------------------- SUPPLIES FREE LOCAL --------------------------------------------
+  //------------------------------------------ SUPPLIES FREE LOCAL -------------------------------------------
   s32 Player::getSuppliesFreeLocal(BW::Race::Enum race)
   {
     return this->getSuppliesAvailableLocal(race) - this->getSuppliesUsedLocal(race);
   }
-  //-------------------------------------- USE SUPPLIES PROTOSS LOCAL ----------------------------------------
+  //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
   void Player::useSuppliesLocal(u8 supplies, BW::Race::Enum race)
   {
     this->suppliesUsedLocal[race] += supplies;
   }
-  //---------------------------------------------- CAN BUILD -------------------------------------------------
+  //----------------------------------------------- CAN BUILD ------------------------------------------------
   bool Player::canBuild(BW::UnitType unit)
   {
     switch (unit.getID())
@@ -121,37 +121,37 @@ namespace BWAPI
      default                                 : return true;
     }
   }
-  //--------------------------------------------- CAN AFFORD -------------------------------------------------
+  //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved)
   {
     return ((int)this->getSuppliesFreeLocal(unit.getRace())) - reserved.supply   >= unit.getSupplies() &&
            ((int)this->getMineralsLocal())                   - reserved.minerals >= unit.getMineralPrice() &&
            ((int)this->getGasLocal())                        - reserved.gas      >= unit.getGasPrice();
   }
-  //--------------------------------------------- CAN AFFORD -------------------------------------------------
+  //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved)
   {
     return ((int)this->getMineralsLocal()) - reserved.minerals >= tech.getMineralPrice() &&
            ((int)this->getGasLocal())      - reserved.gas      >= tech.getGasPrice();
   }
-  //--------------------------------------------- CAN AFFORD -------------------------------------------------
+  //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved)
   {
     return ((int)this->getMineralsLocal()) - reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
            ((int)this->getGasLocal())      - reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
   }
-  //-------------------------------------------- GET RACE ----------------------------------------------------
+  //------------------------------------------------ GET RACE ------------------------------------------------
   BW::Race::Enum Player::getRace()
   {
     return BW::BWXFN_Players->player[this->getID()].race;
   }
-  //----------------------------------------- RESEARCH IN PROGRESS -------------------------------------------
+  //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
   bool Player::researchInProgress(BW::TechType tech) const
   {
     Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (0x0058F218 + this->getID()*6);
     return techs->getBit(1 << tech.getID());
   }
-  //------------------------------------------ TECH RESEARCHED -----------------------------------------------
+  //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
   bool Player::techResearched(BW::TechType tech) const
   {
    if (tech.getID() < 0x18)
@@ -159,7 +159,7 @@ namespace BWAPI
    else
      return *((u8*)(0x0058F128 + this->getID()*0x14 + tech.getID() - 0x18)) == 1;
   }
-  //------------------------------------------ UPGRADE LEVEL -------------------------------------------------
+  //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
   u8 Player::upgradeLevel(BW::UpgradeType upgrade) const
   {
     if (upgrade.getID() < 46)

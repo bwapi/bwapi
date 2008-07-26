@@ -8,7 +8,7 @@
 
 namespace Util
 {
-  //---------------------------------- CONSTRUCTOR -------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   DictionaryFile::DictionaryFile(const std::string &fileName, Dictionary *dictionary)
    {
      this->fileName = fileName;
@@ -50,13 +50,13 @@ namespace Util
     else
       throw new FileException("Unable to open dicionary file " + fileName);
    }
-  //----------------------------------- DESTRUCTOR -------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   DictionaryFile::~DictionaryFile(void)
   {
     for each (DictionaryLine* i in this->lines)
       delete i;
   }
-  //---------------------------------- SAVE TO FILE ------------------------------
+  //---------------------------------------------- SAVE TO FILE ----------------------------------------------
   void DictionaryFile::saveToFile(void)
   {
     if (!this->changed)
@@ -75,10 +75,10 @@ namespace Util
     }
     fclose(f);
   }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void DictionaryFile::setChanged(const bool changed)
   {
     this->changed = changed;
   }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

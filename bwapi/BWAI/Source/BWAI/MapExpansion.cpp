@@ -6,7 +6,7 @@
 
 namespace BWAI
 {
-  //---------------------------------- CONSTRUCTOR ----------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   MapExpansion::MapExpansion(TiXmlElement* xmlElement)
   {
     this->id = Util::Xml::getRequiredAttribute(xmlElement, "id");
@@ -16,25 +16,25 @@ namespace BWAI
       throw XmlException("Excepted sub-element <position> in element <expansion>");
     this->setPosition(BW::Position(positionElement));
   }
-  //------------------------------- SET POSITION ------------------------------
+  //---------------------------------------------- SET POSITION ----------------------------------------------
   void MapExpansion::setPosition(BW::Position position)
   {
     this->position = position;
   }
-  //------------------------------- GET POSITION ------------------------------
+  //---------------------------------------------- GET POSITION ----------------------------------------------
   const BW::Position& MapExpansion::getPosition(void) const
   {
     return this->position; 
   }
-  //--------------------------------- SET ID ----------------------------------
+  //------------------------------------------------- SET ID -------------------------------------------------
   void MapExpansion::setID(const std::string& id)
   {
     this->id = id;
   }
-  //--------------------------------- GET ID ----------------------------------
+  //------------------------------------------------- GET ID -------------------------------------------------
   const std::string& MapExpansion::getID(void) const
   {
     return this->id;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

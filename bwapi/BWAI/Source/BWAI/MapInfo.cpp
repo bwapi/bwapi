@@ -17,7 +17,7 @@
 
 namespace BWAI
 {
-  //--------------------------------- CONSTRUCTOR ----------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   MapInfo::MapInfo(const std::string& xmlFileName)
   {
     FILE* f = fopen(xmlFileName.c_str(),"rb");
@@ -51,13 +51,13 @@ namespace BWAI
 
     fclose(f);
   }
-  //--------------------------------- DESTRUCTOR -----------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   MapInfo::~MapInfo()
   {
     for each (MapExpansion* i in this->expansions)
        delete i;
   }
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   MapExpansion *MapInfo::getExpansion(const std::string& id)
   {
     for each (MapExpansion* i in this->expansions)
@@ -65,7 +65,7 @@ namespace BWAI
         return i;
      return NULL;
   }
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void MapInfo::saveDefinedBuildingsMap(const std::string& fileName)
   {
     const Util::RectangleArray<bool> buildability = BWAI::ai->map->getBuildabilityArray();
@@ -134,5 +134,5 @@ namespace BWAI
          result[x][y] = char(178);
     Util::Strings::makeBorder(result).saveToFile(fileName);
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

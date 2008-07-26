@@ -9,13 +9,13 @@
 
 namespace BuildOrder
 {
-  //---------------------------------- CONSTRUCTOR ----------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCall::CommandCall(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool CommandCall::executeInternal(Executor* executor)
   {
     if (!BWAI::ai->root->functions.count(name))
@@ -24,5 +24,5 @@ namespace BuildOrder
     executor->callStack.push_back(CommandPointer(target));
     return true;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

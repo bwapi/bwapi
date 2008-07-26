@@ -4,31 +4,31 @@
 #include <BW//Unit.h>
 namespace BWAPI
 {
-  //----------------------------- CONSTRUCTOR -----------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelTrain::CommandCancelTrain(Unit* building)
   :Command(building)
   {
   }
-  //------------------------------ DESTRUCTOR -----------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandCancelTrain::~CommandCancelTrain()
   {
   }
-  //-------------------------------- EXECUTE ------------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelTrain::execute()
   {
    this->executors[0]->getBuildQueueLocal()[this->executors[0]->getBuildQueueSlotLocal()] = BW::UnitID::None;
    this->executors[0]->getRawDataLocal()->buildQueueSlot =
     (this->executors[0]->getRawDataLocal()->buildQueueSlot + 1) % 5;
   }
-  //--------------------------------- GET TYPE ----------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandCancelTrain::getType()
   {
     return CommandTypes::Train;
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelTrain::describe()
   {
     return this->executors[0]->getName() + " canceled unit production";
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

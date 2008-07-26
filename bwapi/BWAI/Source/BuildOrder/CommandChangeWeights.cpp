@@ -12,18 +12,18 @@
 
 namespace BuildOrder
 {
-  //----------------------------------------------- CONSTRUCTOR ----------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandChangeWeights::CommandChangeWeights(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
     this->weights = new BuildWeights(xmlElement);
   }
-  //-----------------------------------------------  DESTRUCTOR ----------------------------------------------
+  //----------------------------------------------  DESTRUCTOR -----------------------------------------------
   CommandChangeWeights::~CommandChangeWeights()
   {
     delete this->weights;
   }
-  //------------------------------------------------- EXECUTE ------------------------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   bool CommandChangeWeights::executeInternal(Executor* executor)
   {
     BWAI::ai->root->log->log("Command change weights for '%s' called", this->weights->factory.getName());

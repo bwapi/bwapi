@@ -5,7 +5,7 @@
 
 namespace Util
 {
-  //------------------------------------ GET REQUIRED ATTRIBUTE ----------------------------------------------
+  //----------------------------------------- GET REQUIRED ATTRIBUTE -----------------------------------------
   std::string Xml::getRequiredAttribute(TiXmlElement* element, const char* name)
   {
     const char* attribute = element->Attribute(name);
@@ -13,7 +13,7 @@ namespace Util
       throw XmlException(std::string("Expected attribute '") + name + "' in " + std::string(element->ValueTStr().c_str()) + " element");
     return attribute;
   }
-  //------------------------------------ GET OPTIONAL ATTRIBUTE ----------------------------------------------
+  //----------------------------------------- GET OPTIONAL ATTRIBUTE -----------------------------------------
   std::string Xml::getOptionalAttribute(TiXmlElement* element, const char* name, const char* defaultValue)
   {
     const char* attribute = element->Attribute(name);
@@ -21,7 +21,7 @@ namespace Util
       return defaultValue;
     return attribute;
   }
-  //------------------------------------- GET REQUIRED ATTRIBUTE ---------------------------------------------
+  //----------------------------------------- GET REQUIRED ATTRIBUTE -----------------------------------------
   u16 Xml::getRequiredU16Attribute(TiXmlElement* element, const char* name)
   {
     const char* attribute = element->Attribute(name);
@@ -33,7 +33,7 @@ namespace Util
       throw XmlException((std::string)"attribute '" + name + "' in <" + std::string(element->ValueTStr().c_str()) + "> element is not numeric but '" + attribute + "'");
     return result;      
   }
-  //------------------------------------- GET REQUIRED ATTRIBUTE ---------------------------------------------
+  //----------------------------------------- GET REQUIRED ATTRIBUTE -----------------------------------------
   u16 Xml::getOptionalU16Attribute(TiXmlElement* element, const char* name, u16 defaultValue)
   {
     const char* attribute = element->Attribute(name);
@@ -45,5 +45,5 @@ namespace Util
       throw XmlException((std::string)"attribute '" + name + "' in <" + std::string(element->ValueTStr().c_str()) + "> element is not numeric but '" + attribute + "'");
     return result;      
   }
-  //----------------------------------------------------------------------------------------------------------  
+  //----------------------------------------------------------------------------------------------------------
 }

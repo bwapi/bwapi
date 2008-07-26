@@ -5,7 +5,7 @@
 
 namespace Util
 {
-  //-------------------------------- CONSTRUCTOR ---------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile *parentFile)
   :parentFile(parentFile)
   ,key(key)
@@ -129,7 +129,7 @@ namespace Util
          }
      }
    }
-  //------------------------------------ SET VALUE -------------------------------
+  //----------------------------------------------- SET VALUE ------------------------------------------------
   void Sentence::setValue(const std::string& value)
    {
     /* If the basic value is same as the new one, and the macro doesn't have any
@@ -142,21 +142,21 @@ namespace Util
     this->inputValue = value;
     this->parentFile->setChanged(true);
    }
-  //-------------------------------- GET LINE TEXT -------------------------------
+  //--------------------------------------------- GET LINE TEXT ----------------------------------------------
   std::string Sentence::getLine(void)
    {
     return this->getKey() + " = " + this->inputValue;
    }
-  //--------------------------------- DESTRUCTOR ---------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Sentence::~Sentence(void)
    {
    }
-  //---------------------------------- GET KEY -----------------------------------
+  //------------------------------------------------ GET KEY -------------------------------------------------
   const std::string& Sentence::getKey(void) const
    {
     return this->key;
    }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
 
   std::string Sentence::getSentenceMap()
    {
@@ -168,7 +168,7 @@ namespace Util
      }
     return returnValue;
    }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence()
   {
     std::string returnValue = this->sentence;
@@ -180,7 +180,7 @@ namespace Util
      }
     return returnValue;
   }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(std::vector<std::string>* argumentList)
   {
     std::string returnValue = this->sentence;
@@ -194,7 +194,7 @@ namespace Util
      }
     return returnValue;
    }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(const std::string& parameter1)
    {
     std::string returnValue = this->sentence;
@@ -209,7 +209,7 @@ namespace Util
      }
     return returnValue;
   }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2)
    {
     std::string returnValue = this->sentence;
@@ -225,7 +225,7 @@ namespace Util
      }
     return returnValue;
   }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3)
    {
     std::string returnValue = this->sentence;
@@ -242,7 +242,7 @@ namespace Util
      }
     return returnValue;
   }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4)
    {
     std::string returnValue = this->sentence;
@@ -260,7 +260,7 @@ namespace Util
      }
     return returnValue;
   }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5)
    {
     std::string returnValue = this->sentence;
@@ -279,7 +279,7 @@ namespace Util
      }
     return returnValue;
   }
-  //-------------------------------- GET SENTENCE --------------------------------
+  //---------------------------------------------- GET SENTENCE ----------------------------------------------
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5, const std::string& parameter6)
    {
     std::string returnValue = this->sentence;
@@ -299,11 +299,11 @@ namespace Util
      }
     return returnValue;
   }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   const std::string& Sentence::getSentenceKey(const Sentence* const _this)
    {
     return _this->getKey();
    }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }
 

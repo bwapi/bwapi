@@ -14,7 +14,7 @@ namespace Util
       bool getBit(Type bit) const;
     Type value;
   };
-  //----------------------------------- GET BIT ----------------------------------
+  //------------------------------------------------ GET BIT -------------------------------------------------
   template <class Type>
   bool BitMask<Type>::getBit(Type bit) const
   {

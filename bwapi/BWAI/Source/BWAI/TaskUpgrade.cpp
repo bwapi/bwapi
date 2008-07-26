@@ -7,7 +7,7 @@
 
 namespace BWAI
 {
-  //------------------------------ CONSTRUCTOR --------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskUpgrade::TaskUpgrade(BW::UpgradeType upgradeType, u8 level, u16 priority)
   :Task(priority)
   ,upgradeType(upgradeType)
@@ -15,12 +15,12 @@ namespace BWAI
   {
     BWAI::ai->prioritisedTasks.insert(this);
   }
-  //------------------------------- DESTRUCTOR --------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   TaskUpgrade::~TaskUpgrade()
   {
     BWAI::ai->prioritisedTasks.erase(this);
   }
-  //-------------------------------- EXECUTE ----------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   bool TaskUpgrade::execute()
   {
     if (BWAI::ai->player->upgradeLevel(this->upgradeType) >= this->level)
@@ -54,15 +54,15 @@ namespace BWAI
       }
     return false;
   }
-  //-------------------------------- GET TYPE ---------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   TaskType::Enum TaskUpgrade::getType()
   {
     return TaskType::Invent;
   }
-  //------------------------------- GET MINERAL -------------------------------
+  //---------------------------------------------- GET MINERAL -----------------------------------------------
   BW::UpgradeType TaskUpgrade::getUpgradeType()
   {
     return this->upgradeType;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

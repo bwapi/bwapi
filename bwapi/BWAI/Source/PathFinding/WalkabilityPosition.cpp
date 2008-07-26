@@ -2,13 +2,13 @@
 
 namespace PathFinding
 {
-  //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   WalkabilityPosition::WalkabilityPosition(u16 x, u16 y)
   :x(x)
   ,y(y)
   {
   }
-  //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   WalkabilityPosition::WalkabilityPosition(BW::Position position)
   :x(position.x/8)
   ,y(position.y/8)
@@ -19,13 +19,13 @@ namespace PathFinding
   {
     return BW::Position(this->x*8, this->y*8);
   }
-  //--------------------------------------------- OPERATOR == ------------------------------------------------
+  //---------------------------------------------- OPERATOR == -----------------------------------------------
   bool WalkabilityPosition::operator==(const WalkabilityPosition& position)
   {
     return this->x == position.x &&
            this->y == position.y;
   }
-  //--------------------------------------------- OPERATOR == ------------------------------------------------
+  //---------------------------------------------- OPERATOR == -----------------------------------------------
   bool WalkabilityPosition::operator!=(const WalkabilityPosition& position)
   {
     return this->x != position.x ||

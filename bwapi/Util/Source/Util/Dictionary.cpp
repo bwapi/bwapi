@@ -7,29 +7,29 @@
 
 namespace Util
 {
-  //-------------------------------- CONSTRUCTOR ---------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Dictionary::Dictionary(const std::string &fileName)
   {
     this->load(fileName);
   }
-  //---------------------------------- LOAD ------------------------------------
+  //-------------------------------------------------- LOAD --------------------------------------------------
   void Dictionary::load(const std::string &fileName)
   {
     this->files.push_back(new DictionaryFile(fileName, this));
   }
-  //---------------------------------- SAVE TO FILE ------------------------------
+  //---------------------------------------------- SAVE TO FILE ----------------------------------------------
   void Dictionary::saveToFile(void)
   {
     for each (DictionaryFile* i in this->files)
     i->saveToFile();
   }
-  //--------------------------------- DESTRUCTOR ---------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Dictionary::~Dictionary()
    {
     for each (DictionaryFile* i in this->files)
      delete i;
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key)
    {
     Sentence* sentence = this->values[key];
@@ -38,7 +38,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key, std::vector<std::string>* argumentList)
    {
     Sentence* sentence = this->values[key];
@@ -47,7 +47,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key, const std::string &parameter1)
    {
     Sentence* sentence = this->values[key];
@@ -56,7 +56,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2)
    {
     Sentence* sentence = this->values[key];
@@ -65,7 +65,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3)
    {
     Sentence* sentence = this->values[key];
@@ -74,7 +74,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4)
    {
     Sentence* sentence = this->values[key];
@@ -83,7 +83,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4,const std::string &parameter5)
    {
     Sentence* sentence = this->values[key];
@@ -92,7 +92,7 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //--------------------------------- GET VALUE ----------------------------------
+  //----------------------------------------------- GET VALUE ------------------------------------------------
   std::string Dictionary::get(const std::string &key,const std::string &parameter1,const std::string &parameter2,const std::string &parameter3,const std::string &parameter4,const std::string &parameter5,const std::string &parameter6)
    {
     Sentence* sentence = this->values[key];
@@ -101,17 +101,17 @@ namespace Util
     else
       return "{Key '"+ key + "'not found}";
    }
-  //---------------------------------- GET NAME ----------------------------------
+  //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Dictionary::getName(void)
    {
     return this->name;
    }
-  //---------------------------------- SET NAME ----------------------------------
+  //------------------------------------------------ SET NAME ------------------------------------------------
   void Dictionary::setName(const std::string &name)
    {
     this->name = name;
    }
-  //------------------------------- GET VALUE SAFE -------------------------------
+  //--------------------------------------------- GET VALUE SAFE ---------------------------------------------
   std::string Dictionary::getSafe(const std::string &key)
    {
     Sentence* sentence = this->values[key];
@@ -120,12 +120,12 @@ namespace Util
      else
       return key;
    }
-  //--------------------------------- CLEAR ALL ----------------------------------
+  //----------------------------------------------- CLEAR ALL ------------------------------------------------
   void Dictionary::clearAll(void)
   {
     for each (DictionaryFile* i in this->files)
      delete i;
     files.clear();
   }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

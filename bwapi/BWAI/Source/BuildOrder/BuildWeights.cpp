@@ -8,7 +8,7 @@
 
 namespace BuildOrder
 {
-  //-------------------------------------------- CONSTRUCTOR -------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   BuildWeights::BuildWeights(TiXmlElement* xmlElement)
   {
     this->factory = BWAPI::Broodwar.unitNameToType[Util::Xml::getRequiredAttribute(xmlElement, "building")];
@@ -17,7 +17,7 @@ namespace BuildOrder
          buildElement = buildElement->NextSiblingElement("build"))
       this->weights.push_back(new BuildWeight(buildElement));
   }
-  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   BuildWeights::~BuildWeights()
   {
     for each (BuildWeight* i in this->weights)

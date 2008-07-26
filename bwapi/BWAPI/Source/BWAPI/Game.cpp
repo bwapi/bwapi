@@ -33,7 +33,7 @@
 
 namespace BWAPI 
 {
-  //------------------------------------------------- CONSTRUCTOR --------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Game::Game()
   :onStartCalled(false)
   ,unitsOnTile(0,0)
@@ -110,7 +110,7 @@ namespace BWAPI
       fclose(f);
     }
   }
-  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Game::~Game()
   {
     delete unitArrayCopy;
@@ -140,7 +140,7 @@ namespace BWAPI
       CALL [BW::BWFXN_IssueCommand]
     }
   }
-  //----------------------------------------------- UPDATE ---------------------------------------------------
+  //------------------------------------------------- UPDATE -------------------------------------------------
   void Game::update()
   {
     if (!this->enabled)
@@ -191,26 +191,26 @@ namespace BWAPI
           this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
       }
   }
-  //--------------------------------------- IS ON START CALLED -----------------------------------------------
+  //------------------------------------------- IS ON START CALLED -------------------------------------------
   bool Game::isOnStartCalled() const
   {
     return this->onStartCalled;
   }
-  //--------------------------------------- SET ON START CALLED ----------------------------------------------
+  //------------------------------------------ SET ON START CALLED -------------------------------------------
   void Game::setOnStartCalled(bool onStartCalled)
   {
     this->onStartCalled = onStartCalled;
   }
   #pragma warning(push)
   #pragma warning(disable:4312)
-  //------------------------------------------ IS IN GAME ----------------------------------------------------
+  //----------------------------------------------- IS IN GAME -----------------------------------------------
   bool Game::isInGame() const
   {
     return *(BW::BWFXN_InGame) == 0;
   }
   const int BUFFER_SIZE = 2048;
   char buffer[BUFFER_SIZE];
-  //------------------------------------------- PRINT --------------------------------------------------------
+  //------------------------------------------------- PRINT --------------------------------------------------
   void Game::print(const char *text, ...)
   {
     va_list ap;
@@ -220,7 +220,7 @@ namespace BWAPI
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
 	  	sendText(buffer);
   }
-  //----------------------------------------- PRINT PUBLIC ---------------------------------------------------
+  //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
   void Game::printPublic(const char *text) const
   {
 	 	__asm
@@ -233,17 +233,17 @@ namespace BWAPI
 	 	}
   }
   #pragma warning(pop)
-  //----------------------------------------- CHANGE SLOT ----------------------------------------------------
+  //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void Game::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
     IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID),3); 
   }
-  //------------------------------ CHANGE RACE ---------------------------------
+  //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void Game::changeRace(BW::Race::Enum race, u8 slotID)
   {
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(race, slotID),3); 
   }
-  //---------------------------- ADD TO COMMAND BUFFER -------------------------
+  //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void Game::addToCommandBuffer(Command *command)
   {
     this->reselected = true;
@@ -251,7 +251,7 @@ namespace BWAPI
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
     this->commandLog->log("(%4d) %s", this->frameCount, command->describe().c_str());
   }
-  //----------------------------- ON GAME START ---------------------------------
+  //--------------------------------------------- ON GAME START ----------------------------------------------
   void Game::onGameStart()
   {
     this->frameCount = 0;
@@ -266,7 +266,7 @@ namespace BWAPI
            (opponent == NULL || this->players[i]->getRace() != BW::Race::Terran))
           this->opponent = this->players[i];
   }
-  //------------------------------ ON SEND TEXT ---------------------------------
+  //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool Game::onSendText(const char* text)
   {
     std::string message = text;
@@ -381,37 +381,37 @@ namespace BWAPI
     }
     return false;
   }
-  //------------------------------ ON GAME END ----------------------------------
+  //---------------------------------------------- ON GAME END -----------------------------------------------
   void Game::onGameEnd()
   {
     this->setOnStartCalled(false);
   }
-  //------------------------------- START GAME ----------------------------------
+  //----------------------------------------------- START GAME -----------------------------------------------
   void Game::startGame()
   { 
     this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
   }
-  //------------------------------- GET MOUSE X ---------------------------------
+  //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int Game::getMouseX() const
   {
     return *(BW::BWXFN_MouseX);
   }
-  //------------------------------- GET MOUSE Y ---------------------------------
+  //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int Game::getMouseY() const
   {
    return *(BW::BWXFN_MouseY);
   }
-  //------------------------------- GET SCREEN X --------------------------------
+  //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int Game::getScreenX() const
   {
    return *(BW::BWXFN_ScreenX);
   }
-  //------------------------------- GET SCREEN Y --------------------------------
+  //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int Game::getScreenY() const
   {
    return *(BW::BWXFN_ScreenY);
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4312)
   void Game::refresh()
@@ -420,12 +420,12 @@ namespace BWAPI
  	 	refresh();
   }
   #pragma warning(pop)
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   Unit* Game::getUnit(int index)
   {
     return this->unitArray[index];
   }
-  //--------------------------------- SAVE SELECTED -----------------------------
+  //--------------------------------------------- SAVE SELECTED ----------------------------------------------
   BW::Unit** Game::saveSelected()
   {
     this->reselected = false;
@@ -435,7 +435,7 @@ namespace BWAPI
     selected[12] = NULL;
     return selected;
   }
-  //--------------------------------- LOAD SELECTED -----------------------------
+  //--------------------------------------------- LOAD SELECTED ----------------------------------------------
   void Game::loadSelected(BW::Unit** selected)
   {
      if (!this->reselected)
@@ -460,7 +460,7 @@ namespace BWAPI
     }
     delete [] selected;   
   }
-  //---------------------------------- ON CANCEL TRAIN --------------------------
+  //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
   void Game::onCancelTrain()
   {
     try
@@ -475,18 +475,18 @@ namespace BWAPI
       Util::Logger::globalLog->log("Exception in onCancelTrain: %s", exception.getMessage().c_str());
     }
   }
-  //----------------------------- ON REMOVE UNIT --------------------------------
+  //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void Game::onRemoveUnit(BW::Unit *unit)
   {
   }
-  //--------------------------- LOG UNKNOWN OR STRANGE --------------------------
+  //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
   void Game::logUnknownOrStrange()
   {
     for each (Unit* i in this->units)
       if (!i->getType().isValid())
         this->newUnitLog->log("%s", i->getName().c_str());
   }
-  //--------------------------------- LOG UNIT LIST ---------------------------
+  //--------------------------------------------- LOG UNIT LIST ----------------------------------------------
   void Game::logUnitList()
   {
     this->unitSum->log("----------------------------------------");
@@ -494,17 +494,17 @@ namespace BWAPI
        this->unitSum->log("%s", i->getName().c_str());
     this->unitSum->log("----------------------------------------");
   }
-  //-------------------------------- GET FIRST -------------------------------
+  //----------------------------------------------- GET FIRST ------------------------------------------------
   Unit* Game::getFirst()
   {
     return Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
   }
-  //------------------------------ GET LATENCY -------------------------------
+  //---------------------------------------------- GET LATENCY -----------------------------------------------
   BW::Latency::Enum Game::getLatency()
   {
     return this->latency;
   }
-  //------------------------------ PRINT UNIT COUNT PER TILE -----------------
+  //--------------------------------------- PRINT UNIT COUNT PER TILE ----------------------------------------
   void Game::printUnitCountPerTile()
   {
     FILE *f = fopen("unit-counts.txt", "wt");
@@ -521,7 +521,7 @@ namespace BWAPI
     }
     fclose(f);
   }
-  //------------------------------ UPDATE UNITS ON TILE ----------------------
+  //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
   void Game::updateUnitsOnTile()
   {
     this->unitsOnTile.resize(Map::getWidth(), Map::getHeight());

@@ -11,7 +11,7 @@
 
 namespace BWAPI
 {
-  //----------------------------- CONSTRUCTOR -------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Map::Map()
   :buildability(Map::getWidth()  , Map::getHeight()  )
   ,walkability (Map::getWidth()*4, Map::getHeight()*4)
@@ -20,32 +20,32 @@ namespace BWAPI
    this->setBuildability();
    this->setWalkability();
   }
-  //------------------------------ DESTRUCTOR -------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Map::~Map()
   {
     delete fogOfWar;
   }
-  //------------------------------- GET TILE --------------------------------
+  //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
     return *(*BW::BWXFN_MapTileArray + x + y*Map::getWidth());
   }
-  //---------------------------- GET TILE VARIATION ------------------------
+  //------------------------------------------- GET TILE VARIATION -------------------------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
   {
     return tileType & 0xF;
   }
-  //------------------------------ GET WIDTH --------------------------------
+  //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
   {
     return *BW::BWXFN_MapSizeX;
   }
-  //------------------------------ GET HEIGHT -------------------------------
+  //----------------------------------------------- GET HEIGHT -----------------------------------------------
   u16 Map::getHeight()
   {
     return *BW::BWXFN_MapSizeY;
   }
-  //------------------------------- SAVE BUILDABILITY MAP -------------------
+  //----------------------------------------- SAVE BUILDABILITY MAP ------------------------------------------
   void Map::saveBuildabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
@@ -68,7 +68,7 @@ namespace BWAPI
     fclose(f);
     BWAPI::Broodwar.print("Buildability saved to %s .ini", fileName.c_str());
   }
-  //------------------------------- SAVE WALKABILITY MAP --------------------
+  //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
   void Map::saveWalkabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
@@ -91,7 +91,7 @@ namespace BWAPI
     fclose(f);
     BWAPI::Broodwar.print("Walkability saved to %s .ini", fileName.c_str());
   }
-  //------------------------------- SAVE WALKABILITY MAP --------------------
+  //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
   void Map::saveFogOfWarMap(const std::string& fileName, u8 playerID)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
@@ -115,36 +115,36 @@ namespace BWAPI
     Util::Strings::makeBorder(result).printToFile(f); 
     fclose(f);
   }
-  //-------------------------------------------- GET FILE NAME -----------------------------------------------
+  //--------------------------------------------- GET FILE NAME ----------------------------------------------
   char* Map::getFileName(void)
   {
     return BW::BWXFN_CurrentMapFileName;
   }
-  //--------------------------------------------- GET NAME ---------------------------------------------------
+  //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
   {
     std::string mapNameAbsolute = BWAPI::Map::getFileName();
     std::string::size_type lastDelimiterPos = mapNameAbsolute.rfind('\\');
     return mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
   }
-  //------------------------------- GET BUILDABILITY ARRAY --------------------
+  //----------------------------------------- GET BUILDABILITY ARRAY -----------------------------------------
   const Util::RectangleArray<bool>& Map::getBuildabilityArray()
   {
     return this->buildability;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   const Util::RectangleArray<bool>& Map::getWalkabilityArray()
   {
     return this->walkability;
   }
-  //----------------------------- SET BUILDABILITY ----------------------------
+  //-------------------------------------------- SET BUILDABILITY --------------------------------------------
   void Map::setBuildability()
   {
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
         this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8);
   }
-  //----------------------------- SET WALKABILITY -----------------------------
+  //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()
   {
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
@@ -158,5 +158,5 @@ namespace BWAPI
               (*BW::BWXFN_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable);
      }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

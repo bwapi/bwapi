@@ -2,7 +2,7 @@
 
 namespace BWAPI
 {
-  //-------------------------------------------- CONSTRUCTOR -------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ReservedResources::ReservedResources()
   :minerals(0)
   ,gas(0)
@@ -10,7 +10,7 @@ namespace BWAPI
   ,reservedIncome(0)
   {
   }
-  //-------------------------------------------- CONSTRUCTOR -------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ReservedResources::ReservedResources(u16 minerals, u16 gas, u16 supply)
   :minerals(minerals)
   ,gas(gas)
@@ -18,7 +18,7 @@ namespace BWAPI
   ,reservedIncome(0)
   {
   }
-  //-------------------------------------------- OPERATOR += -------------------------------------------------
+  //---------------------------------------------- OPERATOR += -----------------------------------------------
   void ReservedResources::operator += (const ReservedResources& reserved)
   {
     this->minerals += reserved.minerals;
@@ -26,7 +26,7 @@ namespace BWAPI
     this->supply += reserved.supply;
     this->reservedIncome += reserved.reservedIncome;
   }
-  //----------------------------------------------- CLEAR ----------------------------------------------------
+  //------------------------------------------------- CLEAR --------------------------------------------------
   void ReservedResources::clear()
   {
     this->minerals = 0;

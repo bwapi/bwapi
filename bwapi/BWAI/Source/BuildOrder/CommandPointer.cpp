@@ -4,7 +4,7 @@
 
 namespace BuildOrder
 {
-  //---------------------------------------------------- FINISHED --------------------------------------------
+  //------------------------------------------------ FINISHED ------------------------------------------------
   bool CommandPointer::finished()
   {
     return this->position == this->branch->commands.end();

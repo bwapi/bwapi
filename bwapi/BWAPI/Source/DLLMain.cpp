@@ -26,7 +26,7 @@ DWORD onCancelTrain_ecx;
 DWORD removedUnit;
 bool launchedStart = false;
 DWORD eaxSave,ebxSave,ecxSave,edxSave,esiSave,ediSave, espSave, ebpSave;
-//----------------------------- ON COMMAND ORDER ------------------------------
+//--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onRemoveUnit()
 {
   __asm
@@ -50,7 +50,7 @@ void __declspec(naked) onRemoveUnit()
   }
 }
 
-//----------------------------- ON COMMAND ORDER ------------------------------
+//--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onCancelTrainByEscape()
 {
   __asm
@@ -70,7 +70,7 @@ void __declspec(naked) onCancelTrainByEscape()
     jmp [BW::BWXFN_CancelTrainByEscapeBack]
   }
 }
-//----------------------------- ON COMMAND ORDER ------------------------------
+//--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onCancelTrainByClickInTheQueue()
 {
   __asm
@@ -90,7 +90,7 @@ void __declspec(naked) onCancelTrainByClickInTheQueue()
     jmp [BW::BWXFN_CancelTrainByClickInTheQueueBack]
   }
 }
-//----------------------------- ON GAME START ---------------------------------
+//---------------------------------------------- ON GAME START -----------------------------------------------
 void __declspec(naked) onGameStart()
 {
   {
@@ -102,7 +102,7 @@ void __declspec(naked) onGameStart()
     jmp [BW::BWXFN_GameStartBack]
   }
 }
-//------------------------------ ON GAME END ----------------------------------
+//----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
   {
@@ -118,7 +118,7 @@ void __declspec(naked) onGameEnd()
   }
 }
 DWORD frameHookEax;
-//------------------------------ NEXT FRAME HOOK -------------------------------
+//--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
 void __declspec(naked)  nextFrameHook()
 {
  __asm
@@ -143,7 +143,7 @@ void __declspec(naked)  nextFrameHook()
   }
 }
 
-//------------------------------ SEND TEXT HOOK -------------------------------
+//---------------------------------------------- SEND TEXT HOOK ----------------------------------------------
 char* text;
 bool sendToBW;
 void __declspec(naked) onSendText()
@@ -183,7 +183,7 @@ void __declspec(naked) onSendText()
     jmp [BW::BWXFN_SendPublicCallBack]
   }
 }
-//----------------------------- JMP PATCH --------------------------------------
+//------------------------------------------------ JMP PATCH -------------------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)
 #pragma warning(disable:4312)
@@ -200,7 +200,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
 #pragma warning(pop)
-//------------------------- CTRT THREAD MAIN -----------------------------------
+//--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
   if (config == NULL)
@@ -237,7 +237,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   }*/
   return 0;
 }
-//------------------------------------ DLL MAIN -------------------------------
+//------------------------------------------------- DLL MAIN -------------------------------------------------
 BOOL APIENTRY DllMain( HMODULE hModule,
                       DWORD  ul_reason_for_call,
                       LPVOID lpReserved

@@ -11,24 +11,24 @@
 
 namespace BuildOrder
 {
-  //---------------------------------------- CONSTRUCTOR -----------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ConditionAnd::ConditionAnd(TiXmlElement* xmlElement)
   {
     for (TiXmlElement* i = xmlElement->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
       this->nested.push_back(Condition::load(i));
   }
-  //---------------------------------------- CONSTRUCTOR -----------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ConditionAnd::~ConditionAnd()
   {
     for each (Condition* i in this->nested)
       delete i;
   }
-  //------------------------------------------ GET TYPE ------------------------------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   ConditionType::Enum ConditionAnd::getType()
   {
     return ConditionType::And;
   }
-  //------------------------------------------ APPLIES -------------------------------------------------------
+  //------------------------------------------------ APPLIES -------------------------------------------------
   bool ConditionAnd::applies()
   {
     for each (Condition* i in this->nested)

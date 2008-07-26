@@ -21,7 +21,7 @@ namespace BWAI { class BuildingPosition; }
 
 namespace BuildOrder
 {
-  //---------------------------------- CONSTRUCTOR ----------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandBuild::CommandBuild(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
@@ -35,7 +35,7 @@ namespace BuildOrder
       this->conditionRunType = ConditionRunType::WaitToApply;
     }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool CommandBuild::executeInternal(Executor* executor)
   {
     BW::UnitType toBuild = BWAPI::Broodwar.unitNameToType[this->name];
@@ -121,5 +121,5 @@ namespace BuildOrder
     }
     return false;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }
