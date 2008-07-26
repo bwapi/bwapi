@@ -4,14 +4,14 @@
 
 namespace Util
 {
-  //------------------------------------------- CONSTRUCTOR --------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   FileLogger::FileLogger(const std::string& fileName, Util::LogLevel::Enum logLevel, bool showTime)
   :Logger(logLevel)
   ,fileName(fileName + ".log")
   ,showTime(showTime)
   {
   }
-  //---------------------------------------------- FLUSH -----------------------------------------------------
+  //------------------------------------------------- FLUSH --------------------------------------------------
   bool FileLogger::flush(const char* data)
   {
     FILE *f = fopen(fileName.c_str(),"at");

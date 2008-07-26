@@ -14,14 +14,14 @@
 
 namespace BuildOrder
 {
-  //---------------------------------- CONSTRUCTOR ----------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUpgrade::CommandUpgrade(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
     this->level = (u8) Util::Xml::getOptionalU16Attribute(xmlElement, "level", 1);
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool CommandUpgrade::executeInternal(Executor* executor)
   {
     BW::UpgradeType toUpgrade = BWAPI::Broodwar.upgradeNameToType[this->name];
@@ -39,5 +39,5 @@ namespace BuildOrder
     }
     return false;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

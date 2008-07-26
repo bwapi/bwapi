@@ -7,19 +7,19 @@
 
 namespace BWAI
 {
-  //------------------------------- CONSTRUCTOR -------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Task::Task(u16 priority)
   :priority(priority)
   {
   }
-  //------------------------------- CONSTRUCTOR -------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Task::Task(Unit* executor, u16 priority)
   :priority(priority)
   {
     if (executor != NULL)
       this->addExecutor(executor);
   }
-  //-------------------------------- DESTRUCTOR -------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Task::~Task()
   {
     for each (Unit* i in this->executors)
@@ -29,13 +29,13 @@ namespace BWAI
       i->expansion = NULL;
     }
   }
-  //------------------------------- FREE EXECUTOR -----------------------------
+  //--------------------------------------------- FREE EXECUTOR ----------------------------------------------
   void Task::freeExecutor(Unit* unit)
   {
     unit->clearTask();
     this->executors.erase(unit->taskListIterator);
   }
-  //-------------------------------- ADD EXECUTOR -----------------------------
+  //---------------------------------------------- ADD EXECUTOR ----------------------------------------------
   void Task::addExecutor(Unit* unit)
   {
     if (unit->getTask() != NULL)
@@ -44,5 +44,5 @@ namespace BWAI
     unit->taskListIterator = --this->executors.end();
     unit->setTask(this);
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

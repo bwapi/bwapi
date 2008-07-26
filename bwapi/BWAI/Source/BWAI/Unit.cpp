@@ -11,7 +11,7 @@
 
 namespace BWAI
 {
-  //-------------------------------- CONSTRUCTOR ------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Unit::Unit(BWAPI::Unit *unit)
   :BWAPI::Unit(*unit) /**< default autoconstructor usage */
   ,task(0)
@@ -20,7 +20,7 @@ namespace BWAI
   ,expansion(0)
   {
   }
-  //----------------------------- BW Unit TO BWAI Unit -----------------------
+  //------------------------------------------ BW Unit TO BWAI Unit ------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4311)
   Unit* Unit::BWUnitToBWAIUnit(BW::Unit* unit)
@@ -29,7 +29,7 @@ namespace BWAI
       return NULL;
     return ai->getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
   }
-  //----------------------------- BW Unit TO BWAI Unit -----------------------
+  //------------------------------------------ BW Unit TO BWAI Unit ------------------------------------------
   Unit* Unit::BWAPIUnitToBWAIUnit(BWAPI::Unit* unit)
   {
     if (unit == NULL)
@@ -37,27 +37,27 @@ namespace BWAI
     return BWAI::ai->getUnit(unit->getIndex());
   }
   #pragma warning (pop)
-  //------------------------------- GET TARGET --------------------------------
+  //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* Unit::getTarget()
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawData()->targetUnit);
   }
-  //----------------------------- GET TARGET LOCAL --------------------------
+  //-------------------------------------------- GET TARGET LOCAL --------------------------------------------
   Unit* Unit::getTargetLocal()
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->targetUnit);
   }
-  //------------------------------- GET TARGET --------------------------------
+  //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* Unit::getOrderTarget()
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawData()->orderTargetUnit);
   }
-  //----------------------------- GET TARGET LOCAL --------------------------
+  //-------------------------------------------- GET TARGET LOCAL --------------------------------------------
   Unit* Unit::getOrderTargetLocal()
   {
     return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
-  //-------------------------------------------- GET NEXT ----------------------------------------------------
+  //------------------------------------------------ GET NEXT ------------------------------------------------
   Unit* Unit::getNext()
   {
     #ifdef PARANOID_DEBUG
@@ -74,26 +74,26 @@ namespace BWAI
     #endif PARANOID_DEBUG
     return Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
   }
-  //------------------------------- GET TASK ----------------------------------
+  //------------------------------------------------ GET TASK ------------------------------------------------
   Task* Unit::getTask()
   {
     return this->task;
   }
-  //------------------------------ FREE FROM TASK -----------------------------
+  //--------------------------------------------- FREE FROM TASK ---------------------------------------------
   void Unit::freeFromTask()
   {
     if (this->getTask())
       this->getTask()->freeExecutor(this);
   }
-  //------------------------------- REMOVE TASK -------------------------------
+  //---------------------------------------------- REMOVE TASK -----------------------------------------------
   void Unit::clearTask()
   {
     this->task = NULL;
   }
-  //-------------------------------- SET TASK ---------------------------------
+  //------------------------------------------------ SET TASK ------------------------------------------------
   void Unit::setTask(Task* task)
   {
     this->task = task;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

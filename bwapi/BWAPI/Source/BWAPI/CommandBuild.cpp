@@ -7,18 +7,18 @@
 #include <BW/Unit.h>
 namespace BWAPI
 {
-  //----------------------------- CONSTRUCTOR -----------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandBuild::CommandBuild(Unit* builder, BW::UnitType toBuild, BW::TilePosition position)
   :Command(builder)
   ,toBuild(toBuild)
   ,position(position)
   {
   }
-  //------------------------------ DESTRUCTOR -----------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandBuild::~CommandBuild()
   {
   }
-  //-------------------------------- EXECUTE ------------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandBuild::execute()
   {
     if (this->executors[0]->isReady())
@@ -33,15 +33,15 @@ namespace BWAPI
         case BW::UnitID::Terran_ScienceFacility : this->executors[0]->getRawDataLocal()->secondaryOrderID = BW::OrderID::BuildAddon; break;
       }
   }
-  //--------------------------------- GET TYPE ----------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandBuild::getType()
   {
     return CommandTypes::Build;
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   std::string CommandBuild::describe()
   {
     return this->executors[0]->getName() + " will construct (" + toBuild.getName() + ")";
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

@@ -14,13 +14,13 @@
 
 namespace BuildOrder
 {
-  //---------------------------------- CONSTRUCTOR ----------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandInvent::CommandInvent(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool CommandInvent::executeInternal(Executor* executor)
   {
     BW::TechType toInvent = BWAPI::Broodwar.techNameToType[this->name];
@@ -38,5 +38,5 @@ namespace BuildOrder
     }
     return false;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

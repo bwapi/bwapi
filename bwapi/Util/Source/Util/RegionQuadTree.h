@@ -62,7 +62,7 @@ namespace Util
        /** depth = log2(max(width,height)), but is here for optimalisation reasons. */
        unsigned int depth;
    };
-  //-------------------------------- CONSTRUCTOR ---------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   template <class Type>
   RegionQuadTree<Type>::RegionQuadTree(unsigned int width, unsigned int height)
   :width(width)
@@ -79,49 +79,49 @@ namespace Util
       localHeight = (localHeight >=2) (localHeight+1)/2 : 1;
     }
   }
-  //-------------------------------- DESTRUCTOR ----------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   template <class Type>
   RectangleArray<Type>::~RectangleArray(void)
   {
     delete [] data;
   }
-  //-------------------------------- GET WIDTH -----------------------------------
+  //----------------------------------------------- GET WIDTH ------------------------------------------------
   template <class Type>
   unsigned int RectangleArray<Type>::getWidth(void) const
   {
     return this->width;
   }
-  //-------------------------------- SET WIDTH -----------------------------------
+  //----------------------------------------------- SET WIDTH ------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setWidth(unsigned int width)
   {
     this->width = width;
   }
-  //-------------------------------- GET HEIGHT ----------------------------------
+  //----------------------------------------------- GET HEIGHT -----------------------------------------------
   template <class Type>
   unsigned int RectangleArray<Type>::getHeight(void) const
   {
     return this->height;
   }
-  //-------------------------------- GET ITEM ------------------------------------
+  //------------------------------------------------ GET ITEM ------------------------------------------------
   template <class Type>
   std::list<Type*>* getItems(unsigned int x, unsigned int y, unsigned int level = 0);
   {
     return this->data[level][x][y];
   }
-  //-------------------------------- ADD ITEM ------------------------------------
+  //------------------------------------------------ ADD ITEM ------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::addItem(unsigned int x, unsigned int y, Type* item)
   {
     for (unsigned int i = 0; i < this->depth; i++)
       this->data[i][x<<i][y<<i].push_bach(item);
   }
-  //---------------------------------- CLEAR -------------------------------------
+  //------------------------------------------------- CLEAR --------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::clear(unsigned int x, unsigned int y)
   {
     for (unsigned int i = 0; i < this->depth; i++)
       this->data[i][x<<i][y<<i].clear();
   }  
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

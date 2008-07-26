@@ -13,7 +13,7 @@
 
 namespace PathFinding
 {
-  //------------------------------------------ CONSTRUCTOR ---------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Utilities::Utilities()
   :world      (BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
   ,walkability(BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
@@ -81,13 +81,13 @@ namespace PathFinding
       }
     }
   }
-  //--------------------------------------- UTILITIES --------------------------------------------------------
+  //----------------------------------------------- UTILITIES ------------------------------------------------
   Utilities::~Utilities()
   {
    for each (std::pair<u32, Util::RectangleArray<bool>*> i in this->precomputedPlacebilityContent)
      delete i.second;
   }
-  //-------------------------------------- CONFLICTS WITH MAP ------------------------------------------------
+  //------------------------------------------- CONFLICTS WITH MAP -------------------------------------------
   bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type)
   {
     int x1 = position.x - (type.dimensionLeft() + 7)/8;
@@ -100,7 +100,7 @@ namespace PathFinding
           return true;
     return false;
   }
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool Utilities::generatePath(const UnitModel& unit, WalkabilityPosition target)
   {
     this->vaweID++;
@@ -243,7 +243,7 @@ namespace PathFinding
     #pragma endregion DisabledDebugOutput
     return true;
   }
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool Utilities::canMove(const WalkabilityPosition& position, Direction::Enum direction)
   {
     bool result = true;
@@ -252,7 +252,7 @@ namespace PathFinding
                                  [position.y + directionBuffer[direction][i].second];
     return result;                                                     
   }
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void Utilities::setDirectionBuffer(const UnitModel& unit)
   {
     for (int i = 0; i < BASIC_DIRECTION_COUNT; i++)
@@ -275,12 +275,12 @@ namespace PathFinding
       directionBuffer[Direction::Down].push_back(std::pair<int, int>(i, y2 + 1));
     }
   }
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool Utilities::canStay(const BW::UnitType& type, const WalkabilityPosition& position) const
   {
     if (!this->precomputedPlacebility[type.getID()])
       return true;
     return (*this->precomputedPlacebility[type.getID()])[position.x][position.y];
   }
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

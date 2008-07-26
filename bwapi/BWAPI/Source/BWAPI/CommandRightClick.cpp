@@ -3,20 +3,20 @@
 #include <BW/Unit.h>
 namespace BWAPI
 {
-  //-------------------------------- CONSTRUCTOR ------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandRightClick::CommandRightClick(Unit* executor, const BW::Position& targetPosition)
   :Command(executor)
   ,targetPosition(targetPosition)
   ,targetUnit(NULL)
   {
   }
-  //-------------------------------- CONSTRUCTOR ------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandRightClick::CommandRightClick(Unit* executor, BWAPI::Unit* targetUnit)
   :Command(executor)
   ,targetUnit(targetUnit)
   {
   }
-  //---------------------------------- EXECUTE --------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandRightClick::execute()
   {
     for (unsigned int i = 0; i < this->executors.size(); i++)
@@ -57,12 +57,12 @@ namespace BWAPI
       }
     }
   }
-  //--------------------------------- GET TYPE --------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandRightClick::getType()
   {
     return BWAPI::CommandTypes::RightClick;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   std::string CommandRightClick::describe()
   {
     if (this->targetUnit != NULL)
@@ -70,5 +70,5 @@ namespace BWAPI
     else
       return this->executors[0]->getName() + " right-clicked to position";
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

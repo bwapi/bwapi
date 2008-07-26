@@ -9,22 +9,22 @@
 
 namespace BuildOrder
 {
-  //---------------------------------------- CONSTRUCTOR -----------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ConditionMinimalPopulation::ConditionMinimalPopulation(u16 minimalPopulation)
   :minimalPopulation(minimalPopulation)
   {
   }
-  //---------------------------------------- CONSTRUCTOR -----------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ConditionMinimalPopulation::ConditionMinimalPopulation(TiXmlElement* element)
   {
     this->minimalPopulation = Util::Xml::getRequiredU16Attribute(element, "population");
   }
-  //------------------------------------------ GET TYPE ------------------------------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   ConditionType::Enum ConditionMinimalPopulation::getType()
   {
     return ConditionType::MinimalPopulation;
   }
-  //------------------------------------------ APPLIES -------------------------------------------------------
+  //------------------------------------------------ APPLIES -------------------------------------------------
   bool ConditionMinimalPopulation::applies()
   {
     return BWAI::ai->player->getSuppliesUsedLocal(BWAI::ai->player->getRace()) >= 2*this->minimalPopulation;

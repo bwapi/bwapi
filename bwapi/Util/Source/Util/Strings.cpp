@@ -7,7 +7,7 @@
 
 namespace Util
 {
-  //------------------------------- INT TO STRING --------------------------------
+  //--------------------------------------------- INT TO STRING ----------------------------------------------
   std::string Strings::intToString(long value)
    {
     if (value == 0)
@@ -23,7 +23,7 @@ namespace Util
     else
       return "-" + returnValue;
    }
-  //------------------------------- STRING TO INT --------------------------------
+  //--------------------------------------------- STRING TO INT ----------------------------------------------
   unsigned long Strings::stringToInt(const std::string &input, const unsigned long begin, const int distance)
    {
     unsigned long returnValue = 0;
@@ -36,21 +36,21 @@ namespace Util
      }
     return returnValue;
    }
-  //------------------------------- STRING TO FILE -------------------------------
+  //--------------------------------------------- STRING TO FILE ---------------------------------------------
   void Strings::stringToFile(const std::string &input,FILE* f)
    {
     size_t length = input.size();
     fwrite(&length,sizeof(unsigned long),1,f);
     fwrite(input.c_str(),length*sizeof(char),1,f);
    }
-  //-------------------------------- SAVE TO FILE --------------------------------
+  //---------------------------------------------- SAVE TO FILE ----------------------------------------------
   void Strings::saveToFile(const std::string &input,const std::string &fileName)
    {
      FILE *f = fopen(fileName.c_str(), "wt");
      fwrite(input.c_str(),input.length()*sizeof(char),1,f);
      fclose(f);
    }
-  //------------------------------- LOAD FROM FILE -------------------------------
+  //--------------------------------------------- LOAD FROM FILE ---------------------------------------------
   std::string Strings::loadFromFile(FILE* f)
    {
     unsigned long Length;
@@ -63,21 +63,21 @@ namespace Util
     delete [] Buffer;
     return ReturnValue;
    }
-  //----------------------------- BEGINS WIHT NUMBER -----------------------------
+  //------------------------------------------- BEGINS WIHT NUMBER -------------------------------------------
   bool Strings::beginsWithNumber(const std::string &input)
    {
     if (input.length() >= 1)
       return input[0]>='0' && input[0]<= '9';
     return false;
    }
-  //------------------------------ ENDS WITH NUMBER ------------------------------
+  //-------------------------------------------- ENDS WITH NUMBER --------------------------------------------
   bool Strings::endsWithNumber(const std::string &input)
    {
     if (input.length() >= 1)
       return input[input.length() - 1]>='0' && input[input.length() - 1] <= '9';
     return false;
    }
-  //------------------------------- LOAD FROM FILE -------------------------------
+  //--------------------------------------------- LOAD FROM FILE ---------------------------------------------
 
   void Strings::loadFromFile(const std::string &fileName, std::string &target,const long bufferSize)
    {
@@ -95,7 +95,7 @@ namespace Util
      throw new FileException("Couldn't open file " + fileName);
     delete [] buffer;
    }
-  //---------------------------------- TRIM ALL ----------------------------------
+  //------------------------------------------------ TRIM ALL ------------------------------------------------
   std::string Strings::trimAll(std::string input)
    {
     size_t length = input.size();
@@ -114,7 +114,7 @@ namespace Util
     delete [] buffer;
     return returnValue;
    }
-  //---------------------------------- TRIM ALL ----------------------------------
+  //------------------------------------------------ TRIM ALL ------------------------------------------------
   std::string Strings::trim(std::string input)
    {
     size_t i, j;
@@ -129,7 +129,7 @@ namespace Util
    }
 
   char Strings::buffer[STRING_UTIL_BUFFER_SIZE];
-  //------------------------------ READ LINE -------------------------------------
+  //----------------------------------------------- READ LINE ------------------------------------------------
   std::string Strings::readLine(FILE* f)
    {
     std::string result;
@@ -155,12 +155,12 @@ namespace Util
       goto readNextBlock;
      }
    }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   const std::string& Strings::dereferenceString(const std::string* const input)
   {
     return *input;
   }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   RectangleArray<char> Strings::makeBorder(const RectangleArray<char>& input, bool coordinates)
   {
     int leftBorder = (int)log10((float)input.getHeight()) + 2;
@@ -216,7 +216,7 @@ namespace Util
     }
   };
    
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void Strings::makeWindow(RectangleArray<char>& input, 
                            unsigned int x, 
                            unsigned int y, 
@@ -240,7 +240,7 @@ namespace Util
     input[x][y + height - 1] = Strings::FrameCharacters[frameType][4];
     input[x + width - 1][y + height- 1] = Strings::FrameCharacters[frameType][5];
   }
-  //--------------------------------------------- PRINT TO ---------------------------------------------------
+  //------------------------------------------------ PRINT TO ------------------------------------------------
   void Strings::printTo(RectangleArray<char>& input, 
                            const std::string& text, 
                            unsigned int x, 
@@ -249,7 +249,7 @@ namespace Util
     for (unsigned int i = 0; text[i] != 0; i++)
       input[x + i][y] = text[i];
   }
-  //------------------------------------------- SPLIT STRING -------------------------------------------------
+  //---------------------------------------------- SPLIT STRING ----------------------------------------------
   std::vector<std::string> Strings::splitString(const std::string& str,
                                                    const std::string& delims)
  {
@@ -272,7 +272,7 @@ namespace Util
     }
   return tokens;
  }
- //---------------------------------------------- GET BINARY -------------------------------------------------
+ //----------------------------------------------- GET BINARY ------------------------------------------------
   template <class Type>
   std::string Strings::getBinary(Type value)
   {
@@ -284,13 +284,13 @@ namespace Util
          result += "0";
     return result;
   }
- //---------------------------------------------- SKIP SPACE -------------------------------------------------
+ //----------------------------------------------- SKIP SPACE ------------------------------------------------
  void Strings::skipSpace(const std::string& text, size_t& position)
  {
    while (isspace(text[position]))
      position ++;
  }
- //---------------------------------------------- READ WORD --------------------------------------------------
+ //------------------------------------------------ READ WORD ------------------------------------------------
  std::string Strings::readWord(const std::string& text, size_t& position)
  {
    std::string result;
@@ -301,7 +301,7 @@ namespace Util
    }
   return result;  
  }
- //---------------------------------------------- READ WORD --------------------------------------------------
+ //------------------------------------------------ READ WORD ------------------------------------------------
  std::string Strings::readNumber(const std::string& text, size_t& position)
  {
    std::string result;

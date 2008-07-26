@@ -18,7 +18,7 @@ namespace BuildOrder
     else 
       this->condition = NULL;
   }
-  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   BuildWeight::~BuildWeight()
   {
     delete condition;

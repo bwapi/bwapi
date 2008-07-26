@@ -6,7 +6,7 @@
 
 namespace BWAI
 {      
-  //------------------------------------- CONSTRUCTOR -------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   BuildingPositionSet::BuildingPositionSet(TiXmlElement *xmlElement)
   {
     this->tileWidth  = Util::Xml::getRequiredU16Attribute(xmlElement, "width");
@@ -19,7 +19,7 @@ namespace BWAI
     for (TiXmlElement* position = xmlElement->FirstChildElement("position"); position != NULL; position = position->NextSiblingElement("position"))
       this->positions.push_back(new BuildingPosition(BW::TilePosition(position)));
   }
-  //------------------------------------- DESTRUCTOR ---------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   BuildingPositionSet::~BuildingPositionSet()
   {
     for each (BuildingPosition* i in this->positions)

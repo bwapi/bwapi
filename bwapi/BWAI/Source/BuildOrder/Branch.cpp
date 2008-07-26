@@ -12,7 +12,7 @@
 
 namespace BuildOrder
 {
-  //-------------------------------------------- CONSTRUCTOR -------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Branch::Branch(TiXmlElement* xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
@@ -33,7 +33,7 @@ namespace BuildOrder
         throw ParseException((std::string)"Unknown element '" + i->ValueTStr().c_str() + "' found in <bulid-order>");
     delete log;
   }
-  //---------------------------------------------- GET NAME --------------------------------------------------
+  //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Branch::getName()
   {
     return this->name;

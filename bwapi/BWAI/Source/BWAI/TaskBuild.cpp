@@ -16,7 +16,7 @@
 
 namespace BWAI
 {
-  //------------------------------ CONSTRUCTOR --------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskBuild::TaskBuild(BW::UnitType buildingType, 
                        BuildingPosition* position, 
                        Unit* builder, 
@@ -33,7 +33,7 @@ namespace BWAI
       position->reserved = true;
     BWAI::ai->prioritisedTasks.insert(this);
   }
-  //------------------------------ CONSTRUCTOR --------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskBuild::TaskBuild(BW::UnitType buildingType,
                        Unit* builder,
                        BW::TilePosition spot,
@@ -47,14 +47,14 @@ namespace BWAI
   {
     BWAI::ai->prioritisedTasks.insert(this);
   }  
-  //------------------------------- DESTRUCTOR --------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   TaskBuild::~TaskBuild()
   {
     if (position != NULL)
       position->reserved = false;
     BWAI::ai->prioritisedTasks.erase(this);
   }
-  //-------------------------------- EXECUTE ----------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   bool TaskBuild::execute()
   {
     if (!this->executors.empty() &&
@@ -188,17 +188,17 @@ namespace BWAI
     }
     return false;
   }
-  //-------------------------------- GET TYPE ---------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   TaskType::Enum TaskBuild::getType()
   {
     return TaskType::Build;
   }
-  //------------------------------- GET MINERAL -------------------------------
+  //---------------------------------------------- GET MINERAL -----------------------------------------------
   BW::UnitType TaskBuild::getBuildingType()
   {
     return this->buildingType;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool TaskBuild::canIBuild(BW::TilePosition here)
   {
     for (int k = here.x; 
@@ -217,22 +217,22 @@ namespace BWAI
           return false;
     return true;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   Unit* TaskBuild::getBuilding()
   {
     return this->building;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   BWAPI::ReservedResources TaskBuild::getReserved()
   {
     if (this->building == NULL)
       return BWAPI::ReservedResources(this->buildingType.getMineralPrice(), this->buildingType.getGasPrice(), 0);
     return BWAPI::ReservedResources();
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void TaskBuild::buildingDied()
   {
     this->building = NULL;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

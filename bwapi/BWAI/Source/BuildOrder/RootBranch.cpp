@@ -10,7 +10,7 @@
 
 namespace BuildOrder
 {
-  //-------------------------------------------- CONSTRUCTOR -------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   RootBranch::RootBranch(TiXmlElement* xmlElement) : Branch(xmlElement)
   {
     this->against = BW::Race::stringToRace(Util::Xml::getRequiredAttribute(xmlElement, "against"));

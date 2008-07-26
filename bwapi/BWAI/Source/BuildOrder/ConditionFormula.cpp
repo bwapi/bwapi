@@ -10,17 +10,17 @@
 
 namespace BuildOrder
 {
-  //---------------------------------------- CONSTRUCTOR -----------------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ConditionFormula::ConditionFormula(TiXmlElement* element)
   {
     this->formula = Formula::Base::parse(Util::Xml::getRequiredAttribute(element, "formula"));
   }
-  //------------------------------------------ GET TYPE ------------------------------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   ConditionType::Enum ConditionFormula::getType()
   {
     return ConditionType::Formula;
   }
-  //------------------------------------------ APPLIES -------------------------------------------------------
+  //------------------------------------------------ APPLIES -------------------------------------------------
   bool ConditionFormula::applies()
   {
     return this->formula->evaluate() > 0;

@@ -8,7 +8,7 @@
 
 namespace BuildOrder
 {
-  //----------------------------------------------- LOAD -----------------------------------------------------
+  //-------------------------------------------------- LOAD --------------------------------------------------
   Condition* Condition::load(TiXmlElement* xmlElement)
   {
     std::string conditionType = Util::Xml::getRequiredAttribute(xmlElement, "type");

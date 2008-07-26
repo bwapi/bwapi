@@ -18,14 +18,14 @@
 /** Things that involve ordering the ai things depending on the build-order xml definition. */
 namespace BuildOrder
 {
-  //------------------------------ CONSTRUCTOR --------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Root::Root(const std::string& xmlFileName)
   :log(new Util::FileLogger(config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
   {
     this->log->registerLogger(new BWAPI::ScreenLogger(Util::LogLevel::Normal));
     include(xmlFileName);
   }
-  //---------------------------------------------------- INCLUDE ---------------------------------------------
+  //------------------------------------------------ INCLUDE -------------------------------------------------
   void Root::include(const std::string& xmlFileName)
   {
     if (this->includedFiles.count(xmlFileName))
@@ -67,7 +67,7 @@ namespace BuildOrder
     }
     fclose(f);
   }
-  //--------------------------------------------------- DESTRUCTOR -------------------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Root::~Root()
   {
     for each (std::pair<std::string, Branch*> i in this->functions)
@@ -78,7 +78,7 @@ namespace BuildOrder
       delete i.second;
     delete log;
   }
-  //----------------------------------------------- GET STARTING BRANCH --------------------------------------
+  //------------------------------------------ GET STARTING BRANCH -------------------------------------------
   Executor* Root::getStart()
   {
     if (BWAI::ai->opponent == NULL)

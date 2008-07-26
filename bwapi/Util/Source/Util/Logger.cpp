@@ -9,12 +9,12 @@ namespace Util
 {
   Logger* Logger::globalLog = new FileLogger("global", LogLevel::MicroDetailed);
   char Logger::buffer[BUFFER_SIZE];
-  //---------------------------- CONSTRUCTOR ------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Logger::Logger(LogLevel::Enum levelToLog)
   :levelToLog(levelToLog)
   {
   }
-  //---------------------------- CONSTRUCTOR ------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Logger::~Logger()
   {
     for (std::list<Logger*>::iterator i = this->connectedLoggers.begin();
@@ -22,7 +22,7 @@ namespace Util
          ++i)
       delete *i;
   }
-  //------------------------------- LOG -----------------------------------------
+  //-------------------------------------------------- LOG ---------------------------------------------------
   bool Logger::log(const char* message, ...)
   {
     va_list ap;
@@ -31,7 +31,7 @@ namespace Util
     va_end(ap);
     return true;
   }
-  //------------------------------- LOG -----------------------------------------
+  //-------------------------------------------------- LOG ---------------------------------------------------
   bool Logger::logDetailed(const char* message, ...)
   {
     va_list ap;
@@ -40,7 +40,7 @@ namespace Util
     va_end(ap);
     return true;
   }
-  //------------------------------- LOG -----------------------------------------
+  //-------------------------------------------------- LOG ---------------------------------------------------
   bool Logger::logCommon(const char* message, ...)
   {
     va_list ap;
@@ -49,7 +49,7 @@ namespace Util
     va_end(ap);
     return true;
   }
-  //------------------------------- LOG -----------------------------------------
+  //-------------------------------------------------- LOG ---------------------------------------------------
   bool Logger::logImportant(const char* message, ...)
   {
     va_list ap;
@@ -58,7 +58,7 @@ namespace Util
     va_end(ap);
     return true;
   }
-  //------------------------------- LOG -----------------------------------------
+  //-------------------------------------------------- LOG ---------------------------------------------------
   bool Logger::logCritical(const char* message, ...)
   {
     va_list ap;
@@ -67,7 +67,7 @@ namespace Util
     va_end(ap);
     return true;
   }  
-  //------------------------------- LOG -----------------------------------------
+  //-------------------------------------------------- LOG ---------------------------------------------------
   bool Logger::logInternal(const char* message, LogLevel::Enum logLevel, va_list ap)
   {
     if (logLevel > this->levelToLog)
@@ -81,18 +81,18 @@ namespace Util
       globalLog->logInternal(message, logLevel, ap);
     return true;
   }
-  //-------------------------------- REGISTER LOGGER ----------------------------
+  //-------------------------------------------- REGISTER LOGGER ---------------------------------------------
   void Logger::registerLogger(Logger* logger)
   {
     this->connectedLoggers.push_back(logger);
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   bool Logger::flushInternal(const char* buffer)
   {
     for each (Logger* i in this->connectedLoggers)
      i->flush(buffer);
     return this->flush(buffer);
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   
 }

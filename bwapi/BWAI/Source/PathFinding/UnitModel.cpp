@@ -4,19 +4,19 @@
 
 namespace PathFinding
 {
-  //---------------------------------------- CONSTRUCTOR -------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UnitModel::UnitModel(const BWAI::Unit* original)
   :original(original)
   ,position(original->getPosition())
   ,walkabilityPosition(original->getPosition())
   {
   }
-  //---------------------------------------- CONSTRUCTOR -------------------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UnitModel::UnitModel(const UnitModel& model)
   :original(model.original)
   ,position(model.position)
   ,walkabilityPosition(model.walkabilityPosition)
   {
   }
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

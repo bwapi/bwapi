@@ -80,7 +80,7 @@ namespace BWAI
       Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
     }
   }
-  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   AI::~AI(void)
   {
     delete root;
@@ -99,7 +99,7 @@ namespace BWAI
     delete this->log;
     delete deadLog;
   }
-  //----------------------------------- BETTER MINERAL PATCH FOR ---------------------------------------------
+  //---------------------------------------- BETTER MINERAL PATCH FOR ----------------------------------------
   bool AI::betterMinralPatch(BWAI::TaskGather* task1, BWAI::TaskGather* task2, Unit* optimiseFor)
   {
     if (task1->executors.size() < task2->executors.size())
@@ -124,7 +124,7 @@ namespace BWAI
       return false;
     return false;
   }
-  //--------------------------------------- BETTER WORKER TO FREE --------------------------------------------
+  //----------------------------------------- BETTER WORKER TO FREE ------------------------------------------
   bool AI::betterWorkerToFree(Unit* worker1, Unit* worker2, const BW::Position& buildingPosition)
   {
     if (worker2 == NULL)
@@ -187,7 +187,7 @@ namespace BWAI
       return false;
     return false;
   }
-  //------------------------------- UPDATE ------------------------------------
+  //------------------------------------------------- UPDATE -------------------------------------------------
   void AI::update(void)
   {
     this->units.clear();
@@ -199,7 +199,7 @@ namespace BWAI
     for each (TaskBuild* i in this->plannedBuildings)
       this->reserved += i->getReserved();
   }
-  //------------------------------ ON START -----------------------------------
+  //------------------------------------------------ ON START ------------------------------------------------
   void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
   {
     try
@@ -254,7 +254,7 @@ namespace BWAI
     this->mineralGatherers = 0;
     this->log->logImportant("Ai::onStart end");
   }
-  //--------------------------------- ON END ---------------------------------
+  //------------------------------------------------- ON END -------------------------------------------------
   void AI::onEnd()
   {
     this->log->logImportant("Ai::onEnd start");
@@ -310,7 +310,7 @@ namespace BWAI
     
     this->log->logImportant("Ai::onEnd end");
   }
-  //-------------------------------  ON FRAME ---------------------------------
+  //-----------------------------------------------  ON FRAME ------------------------------------------------
   void AI::onFrame(void)
   {
     try
@@ -367,12 +367,12 @@ namespace BWAI
       this->log->logCritical("Exception caught in AI::onFrame: %s", e.getMessage().c_str());
     }
   }
-  //-------------------------------- GET UNIT ---------------------------------
+  //------------------------------------------------ GET UNIT ------------------------------------------------
   Unit* AI::getUnit(int index)
   {
     return unitArray[index];
   }
-  //------------------------------- ON CANCEL TRAIN ---------------------------
+  //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
   void AI::onCancelTrain()
   {
     /*
@@ -380,14 +380,14 @@ namespace BWAI
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
     */
   }
-  //---------------------------- START NEW EXPANSION -------------------------
+  //------------------------------------------ START NEW EXPANSION -------------------------------------------
    void AI::startNewExpansion(Unit *gatherCenter)
    {
      this->expansions.push_back(new Expansion(gatherCenter));
      this->rebalanceMiners();
    }
   u16 pos = 0;
-  //---------------------------- REBALANCE MINERS -----------------------------
+  //-------------------------------------------- REBALANCE MINERS --------------------------------------------
    void AI::rebalanceMiners(void)
    {
      if (activeMinerals.size() < 2)
@@ -428,21 +428,21 @@ namespace BWAI
        goto anotherStep;
      }
    }
-  //---------------------------- CHECK ASSIGNED WORKERS -----------------------
+  //----------------------------------------- CHECK ASSIGNED WORKERS -----------------------------------------
  void AI::checkAssignedWorkers(void)
   {
     for each (TaskGather* i in this->activeMinerals)
       i->execute();
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
   
-  //------------------------------- GET FIRST ---------------------------------
+  //----------------------------------------------- GET FIRST ------------------------------------------------
   Unit* AI::getFirst()
   {
     return Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
   }
-  //----------------------------- ON REMOVE UNIT ------------------------------
+  //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void AI::onRemoveUnit(BW::Unit* unit)
   {
     Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
@@ -475,7 +475,7 @@ namespace BWAI
     dead->expansion = NULL;
     this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
    }
-  //--------------------------------- ON SEND TEXT ----------------------------
+  //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool AI::onSendText(const char* text)
   {
     std::string message = text;
@@ -697,7 +697,7 @@ namespace BWAI
     }
     return false;
   }
-  //------------------------------ CHECK NEW EXPANSION ------------------------
+  //------------------------------------------ CHECK NEW EXPANSION -------------------------------------------
   void AI::checkNewExpansions()
   {
     for each (Unit* i in this->units)
@@ -721,7 +721,7 @@ namespace BWAI
           this->removeExpansion(i->expansion);
     }
   }
-  //----------------------------- REFRESH SELECTION STATES --------------------
+  //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void AI::refreshSelectionStates(BW::Unit** selected)
   {
     for each (Unit* i in this->units)
@@ -729,7 +729,7 @@ namespace BWAI
     for (int i = 0; selected[i] != NULL; i++)
       BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
   }
-  //---------------------------- PERFRORM AUTOBUILD ---------------------------
+  //------------------------------------------- PERFRORM AUTOBUILD -------------------------------------------
   void AI::performAutoBuild()
   {
     /** 
@@ -751,7 +751,7 @@ namespace BWAI
          this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL, 0));
        }
   }
-  //------------------------------ GET IDLE WORKERS ---------------------------
+  //-------------------------------------------- GET IDLE WORKERS --------------------------------------------
   void AI::getIdleWorkers(std::list<Unit*>& workers)
   {
     //if (!this->expansionsSaturated)
@@ -773,7 +773,7 @@ namespace BWAI
           workers.push_back(i); 
       }
   }
-  //----------------------------- ASSIGN IDLE WORKERS TO MINERALS -------------
+  //------------------------------------ ASSIGN IDLE WORKERS TO MINERALS -------------------------------------
   void AI::assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers)
   {
     if (this->activeMinerals.size() > 0)
@@ -788,7 +788,7 @@ namespace BWAI
         best->addExecutor(i);
      }
   }
-  //------------------------COUNT OF PRODUCTION BUILDINGS ---------------------
+  //---------------------------------------- OF PRODUCTION BUILDINGS -----------------------------------------
   int AI::countOfTerranProductionBuildings()
   {
     int countOfTerranFactories = 0;
@@ -799,7 +799,7 @@ namespace BWAI
          countOfTerranFactories++;
     return countOfTerranFactories;
   }
-  //------------------------------ CHECK SUPPLY NEED --------------------------
+  //------------------------------------------- CHECK SUPPLY NEED --------------------------------------------
   void AI::checkSupplyNeed()
   { 
     if (!this->startingPosition)
@@ -826,7 +826,7 @@ namespace BWAI
       }
     }        
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   s32 AI::plannedTerranSupplyGain()
   {
     s32 returnValue = 0;
@@ -839,7 +839,7 @@ namespace BWAI
     }
     return returnValue;
   }
-  //----------------------------- FREE BUILDER --------------------------------
+  //---------------------------------------------- FREE BUILDER ----------------------------------------------
   Unit* AI::freeBuilder(BW::Position position)
   {
     Unit* best = NULL;
@@ -855,7 +855,7 @@ namespace BWAI
     best->freeFromTask();
     return best;
   }
-  //--------------------------------- EXECUTE TASK ----------------------------
+  //---------------------------------------------- EXECUTE TASK ----------------------------------------------
   void AI::executeTasks()
   {
     { // ---------- Planned buildings
@@ -934,7 +934,7 @@ namespace BWAI
     for each (TaskGatherGas* i in this->activeRefineries)
       i->execute();
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)
   {
     if (this->activeMinerals.empty())
@@ -945,7 +945,7 @@ namespace BWAI
         best = i;
     return best;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void AI::removeExpansion(Expansion* expansion)
   {
     for (std::list<Expansion*>::iterator i = this->expansions.begin();
@@ -958,7 +958,7 @@ namespace BWAI
           return;
         }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   BuildingPosition* AI::getFreeBuildingSpot(std::string spotName, Unit*& builderToUse)
   {
     BuildingPositionSet* position = this->startingPosition->positions[spotName];
@@ -1013,12 +1013,12 @@ namespace BWAI
         } 
    return NULL;
   }
-  //------------------------- GET POSITIONS CALLED ----------------------------
+  //------------------------------------------ GET POSITIONS CALLED ------------------------------------------
   BuildingPositionSet* AI::getPositionsCalled(const std::string& place)
   {
     return this->startingPosition->positions[place];
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void AI::removeGatherGasTask(Unit* refinery)
   {
     for (std::list<TaskGatherGas*>::iterator i = this->activeRefineries.begin();
@@ -1031,5 +1031,5 @@ namespace BWAI
         return;
       }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

@@ -33,7 +33,7 @@ namespace BW
   struct UnitArray;
   class TileType;
   class DoodatType;
-  //--------------------------------- PLAYER RESOURCES -----------------------------
+  //-------------------------------------------- PLAYER RESOURCES --------------------------------------------
   /** Direct mapping of players resource amount in the bw memory */
   struct PlayerResources
   {
@@ -47,7 +47,7 @@ namespace BW
   };
   static PlayerResources* BWXFN_PlayerResources = (PlayerResources*) 0x0057F0D8;
 
-  //----------------------------------- NAMES TYPE ------------------------------
+  //----------------------------------------------- NAMES TYPE -----------------------------------------------
   /** Direct mapping of players info in bw memory */
   struct Players
   {
@@ -143,7 +143,7 @@ namespace BW
   };
   static UpgradeProgress* BWXFN_UpgradeProgress = (UpgradeProgress*) 0x0058F3C8;
 
-  //------------------------------------ SUPPLIES -----------------------------
+  //------------------------------------------------ SUPPLIES ------------------------------------------------
   struct Supplies
   {
     /** Direct mapping of available/Used/Max supplies for one race and all players */
@@ -162,28 +162,28 @@ namespace BW
   };
   static Supplies* BWXFN_Supplies    = (Supplies*) 0x0058212C;
   
-  // -------------------------------- UNIT MINERAL PRICES ---------------------
+  //------------------------------------------- UNIT MINERAL PRICES ------------------------------------------
   /** Direct mapping of unit types mineral prices. */
   struct MineralPrices_type
   {
     u16 mineralPrice[UNIT_TYPE_COUNT];
   };
   static MineralPrices_type* BWXFN_MineralPrices = (MineralPrices_type*) 0x00663870;
-  // -------------------------------- UNIT MINERAL PRICES ---------------------
+  //------------------------------------------- UNIT MINERAL PRICES ------------------------------------------
   /** Direct mapping of unit types gas prices. */
   struct GasPrices_type
   {
     u16 gasPrice[UNIT_TYPE_COUNT];
   };
   static GasPrices_type* BWXFN_GasPrices = (GasPrices_type*) 0x0065FCE8;
-  //--------------------------------- UNIT SUPPLY DEMANDS ---------------------
+  //------------------------------------------ UNIT SUPPLY DEMANDS -------------------------------------------
   /** Direct mapping of unit supply demands. */
   struct SupplyDemands_type
   {
     u8 supplyDemand[UNIT_TYPE_COUNT];
   };
   static SupplyDemands_type* BWXFN_SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
-  //---------------------------------- UNIT MAX HP ----------------------------
+  //---------------------------------------------- UNIT MAX HP -----------------------------------------------
   /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
   struct MaxHealthPoints_NotAttackable_Repairable_type
   {
@@ -197,14 +197,14 @@ namespace BW
     MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[UNIT_TYPE_COUNT];
   };
   static MaxHealthPoints_NotAttackable_Repairable_type* BWXFN_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) 0x00662339;
-  //--------------------------------- UNIT MAX SHIELDS ------------------------
+  //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
   /** Direct mapping of unit unit type Shield points */
   struct MaxShieldPoints_type
   {
     u16 maxShieldPoints[UNIT_TYPE_COUNT];
   };
   static MaxShieldPoints_type* BWXFN_MaxShieldPoints = (MaxShieldPoints_type*) 0x00660DE8;
-   //--------------------------------- UNIT MAX SHIELDS ------------------------
+   //------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
   /** Direct mapping of unit type armor */
   struct Armor_type
   {
@@ -212,7 +212,7 @@ namespace BW
   };
   static Armor_type* BWXFN_Armor = (Armor_type*) 0x0065FEB0;
 
-    //--------------------------------- UNIT MAX BUILD TIME ----------------------
+    //----------------------------------------- UNIT MAX BUILD TIME ------------------------------------------
   /** Direct mapping of unit build time*/
   struct BuildTime_type
   {
@@ -220,7 +220,7 @@ namespace BW
   };
   static BuildTime_type* BWXFN_BuildTime = (BuildTime_type*) 0x00660410;
 
-  //--------------------------------- UNIT DIRECTIONS ------------------------
+  //-------------------------------------------- UNIT DIRECTIONS ---------------------------------------------
   /** Direct mapping of unit unit type armor */
   struct UnitsDimensions_type
   {
@@ -236,7 +236,7 @@ namespace BW
   };
   static UnitsDimensions_type* BWXFN_UnitDimensions = (UnitsDimensions_type*) 0x006617B0;
   const u8 NoWeapon = 130;
-  //--------------------------------- GROUND WEAPONS  ------------------------
+  //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
   /** Direct mapping of unit unit type armor */
   struct UnitsGroundWeapon_type
   {
@@ -245,7 +245,7 @@ namespace BW
   static UnitsGroundWeapon_type* BWXFN_UnitGroundWeapon = (UnitsGroundWeapon_type*) 0x006636A0;
 
   const int weaponTypeCount = 130;
-  //-------------------------------- WEAPON DAMAGE FACTOR --------------------
+  //------------------------------------------ WEAPON DAMAGE FACTOR ------------------------------------------
   /** Direct mapping of unit unit type armor */
   struct WeaponsDamageFactor_type
   {
@@ -253,7 +253,7 @@ namespace BW
   };
   static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;         
 
-  //-------------------------------- WEAPON DAMAGE TYPE ----------------------                                       
+  //------------- WEAPON DAMAGE TYPE ----------------------                                      -------------
   /** Direct mapping of unit unit type armor */
   struct WeaponsDamage_type
   {
@@ -261,7 +261,7 @@ namespace BW
   };
   static WeaponsDamage_type* BWXFN_WeaponDamage = (WeaponsDamage_type*) 0x00656E98;
 
-  //--------------------------------PROTOTYPE FLAGS --------------------------
+  //------------------------------------------------- FLAGS --------------------------------------------------
   /** Direct mapping of unit flags data */
   struct PrototypeFlags_type
   {
@@ -269,14 +269,14 @@ namespace BW
   };
   static PrototypeFlags_type* BWXFN_UnitPrototypeFlags = (PrototypeFlags_type*) 0x00664068;
 
-  //------------------------------PROTOTYPE GROUP FLAGS ----------------------
+  //---------------------------------------------- GROUP FLAGS -----------------------------------------------
   /** Direct mapping of unit flags data */
   struct PrototypeGroupFlags_type
   {
     Util::BitMask<GroupFlags::Enum> unit[UNIT_TYPE_COUNT];
   };
   static PrototypeGroupFlags_type* BWXFN_PrototypeGroupFlags = (PrototypeGroupFlags_type*) 0x663788;
-  //------------------------------- TECH MINERAL COST ------------------------
+  //------------------------------------------- TECH MINERAL COST --------------------------------------------
   struct TechCost
   {
     u16 tech[TECH_TYPE_COUNT];
@@ -284,7 +284,7 @@ namespace BW
   static TechCost* BWXFN_TechMineralCost = (TechCost*) 0x00656230;
   static TechCost* BWXFN_TechGasCost = (TechCost*)	0x006561D8;
   static TechCost* BWXFN_TechEnergyCost = (TechCost*)	0x00656368;
-  //---------------------------------MINITILE MAPPING ------------------------
+  //------------------------------------------------ MAPPING -------------------------------------------------
   const u16 tileTypeCount = 65535;
   /** Direct mapping of minitile flags array */
   struct MiniTileMaps_type

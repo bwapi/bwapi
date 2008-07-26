@@ -6,17 +6,17 @@
 #include <Util/Logger.h>
 namespace BWAPI
 {
-  //----------------------------- CONSTRUCTOR -----------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandTrain::CommandTrain(Unit* building, BW::UnitType toTrain)
   :Command(building)
   ,toTrain(toTrain)
   {
   }
-  //------------------------------ DESTRUCTOR -----------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandTrain::~CommandTrain()
   {
   }
-  //-------------------------------- EXECUTE ------------------------------------
+  //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandTrain::execute()
   {
    if (toTrain == BW::UnitID::Terran_NuclearMissile)
@@ -41,16 +41,16 @@ namespace BWAPI
    executors[0]->getOwner()->useSuppliesLocal(toTrain.getSupplies(), toTrain.getRace());
    executors[0]->getOwner()->allUnitTypeCount[toTrain.getID()]++;
   }
-  //--------------------------------- GET TYPE ----------------------------------
+  //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandTrain::getType()
   {
     return CommandTypes::Train;
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   std::string CommandTrain::describe()
   {
     std::string toReturn = this->executors[0]->getName() + " started to build (" + toTrain.getName() + ")";
     return toReturn;
   }
-  //-----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

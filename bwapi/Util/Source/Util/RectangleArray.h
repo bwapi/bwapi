@@ -92,7 +92,7 @@ namespace Util
         */
        void setHeight(unsigned int height);       
    };
-  //-------------------------------- CONSTRUCTOR ---------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   template <class Type>
   RectangleArray<Type>::RectangleArray(unsigned int width, unsigned int height, Type* data)
   {
@@ -109,7 +109,7 @@ namespace Util
     for (unsigned int position = 0;i < width; i ++,position += height)
       columns[i] = &this->data[position];
   }
-  //-------------------------------- CONSTRUCTOR ---------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   template <class Type>
   RectangleArray<Type>::RectangleArray(const RectangleArray<Type>& rectangleArray)
   :owner(true)
@@ -124,7 +124,7 @@ namespace Util
       columns[i] = &data[position];
     memcpy(this->data, rectangleArray.data, sizeof(Type)*this->getWidth()*this->getHeight());
   }
-  //-------------------------------- DESTRUCTOR ----------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   template <class Type>
   RectangleArray<Type>::~RectangleArray(void)
   {
@@ -132,55 +132,55 @@ namespace Util
      if (this->owner)
        delete [] data;
   }
-  //-------------------------------- GET WIDTH -----------------------------------
+  //----------------------------------------------- GET WIDTH ------------------------------------------------
   template <class Type>
   unsigned int RectangleArray<Type>::getWidth(void) const
   {
     return this->width;
   }
-  //-------------------------------- SET WIDTH -----------------------------------
+  //----------------------------------------------- SET WIDTH ------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setWidth(unsigned int width)
   {
     this->width = width;
   }
-  //-------------------------------- GET HEIGHT ----------------------------------
+  //----------------------------------------------- GET HEIGHT -----------------------------------------------
   template <class Type>
   unsigned int RectangleArray<Type>::getHeight(void) const
   {
     return this->height;
   }
-  //-------------------------------- SET HEIGHT ----------------------------------
+  //----------------------------------------------- SET HEIGHT -----------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setHeight(unsigned int height)
   {
     this->height = height;
   }
-  //-------------------------------- GET ITEM ------------------------------------
+  //------------------------------------------------ GET ITEM ------------------------------------------------
   template <class Type>
   Type* RectangleArray<Type>::getItem(unsigned int x, unsigned int y)
   {
     return this->getColumn(x)[y];
   }
-  //-------------------------------- SET ITEM ------------------------------------
+  //------------------------------------------------ SET ITEM ------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setItem(unsigned int x, unsigned int y, Type* item)
   {
     this->getColumn(x)[y] = item;
   }
-  //-------------------------------- GET LINE ------------------------------------
+  //------------------------------------------------ GET LINE ------------------------------------------------
   template <class Type>
   Type* RectangleArray<Type>::getColumn(unsigned int index)
   {
     return columns[index];
   }
-  //-------------------------------- GET LINE ------------------------------------
+  //------------------------------------------------ GET LINE ------------------------------------------------
   template <class Type>
   const Type* RectangleArray<Type>::getColumn(unsigned int index) const
   {
     return columns[index];
   }
-  //------------------------------- RESIZE ---------------------------------------
+  //------------------------------------------------- RESIZE -------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::resize(unsigned int width, unsigned int height)
   {
@@ -203,7 +203,7 @@ namespace Util
     for (unsigned int position = 0;i < this->width; i ++,position += this->height)
       columns[i] = &data[position];
   }
-  //----------------------------------- PRINT TO FILE ----------------------------
+  //--------------------------------------------- PRINT TO FILE ----------------------------------------------
   template <class Type>
   void RectangleArray<Type>::printToFile(FILE* f)
   {
@@ -217,7 +217,7 @@ namespace Util
       fprintf(f, "\n");
     }
   }
-  //---------------------------------- SAVE TO FILE ------------------------------
+  //---------------------------------------------- SAVE TO FILE ----------------------------------------------
   template <class Type>
   void RectangleArray<Type>::saveToFile(const std::string& fileName)
   {
@@ -227,14 +227,14 @@ namespace Util
     this->printToFile(f);
     fclose(f);
   }
-  //------------------------------------ SET TO ----------------------------------
+  //------------------------------------------------- SET TO -------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setTo(const Type& value)
   {
     for (unsigned int i = 0; i < this->getWidth()*this->getHeight(); i++)
       this->data[i] = value;
   }
-  //---------------------------------- SET BORDER TO -----------------------------
+  //--------------------------------------------- SET BORDER TO ----------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setBorderTo(const Type& value)
   {
@@ -249,5 +249,5 @@ namespace Util
       this->getColumn(this->width - 1)[i] = value;
     }    
   }
-  //------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

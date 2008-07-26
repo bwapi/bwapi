@@ -10,7 +10,7 @@
 namespace BWAI
 {
   int Expansion::maximumMineralDistance = 350;
-  //------------------------------------ CONSTRUCTOR --------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Expansion::Expansion(BWAI::Unit* gatherCenter)
    :gatherCenter(gatherCenter)
   {
@@ -31,7 +31,7 @@ namespace BWAI
     ai->log->log("%d minerals assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str());
     gatherCenter->expansion = this;
   }
-  //--------------------------------- DESTRUCTOR ------------------------------
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Expansion::~Expansion(void)
   {
     while (!this->minerals.empty())
@@ -40,7 +40,7 @@ namespace BWAI
         this->gatherCenter->expansion == this)
       this->gatherCenter->expansion = NULL;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   void Expansion::removeMineral(BWAI::Unit* mineral)
   {
     ai->log->logCommon("Mineral will be removed (was gathered out or end game) %s", mineral->getName().c_str());
@@ -60,5 +60,5 @@ namespace BWAI
           return;
         }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }

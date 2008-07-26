@@ -9,7 +9,7 @@
 
 namespace BWAI
 {
-  //------------------------------- CONSTRUCTOR -------------------------------
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   MapStartingPosition::MapStartingPosition(TiXmlElement* xmlElement, MapInfo* mapInfo)
   {
     std::string expansionIDAttribute = Util::Xml::getRequiredAttribute(xmlElement, "expansion-id");
@@ -29,11 +29,11 @@ namespace BWAI
       this->positions.insert(std::pair<std::string, BuildingPositionSet* >(nameAttribute, new BuildingPositionSet(buildPositionElement)));
     }
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
   MapStartingPosition::~MapStartingPosition()
   {
     for each (std::pair<std::string, BuildingPositionSet*> i in this->positions)
      delete i.second;
   }
-  //---------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------
 }
