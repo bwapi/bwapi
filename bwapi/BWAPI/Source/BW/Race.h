@@ -14,6 +14,7 @@ namespace BW
       Terran  = 1,
       Protoss = 2,
       Other   = 3,
+      Select  = 5,
       Random  = 6,
       None    = 7,
     };
