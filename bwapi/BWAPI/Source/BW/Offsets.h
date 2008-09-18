@@ -105,7 +105,7 @@ namespace BW
   static u32            BWXFN_NextFrameHelperFunctionTarget = 0x004D1160; /** 1.15.3 */
   static u32            BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
   static u32            BWXFN_CancelTrainByClickInTheQueue = 0x00457429; /** 1.15.3 */
-  static u32            BWXFN_CancelTrainByClickInTheQueueBack = BWXFN_CancelTrainByClickInTheQueueBack + 5;
+  static u32            BWXFN_CancelTrainByClickInTheQueueBack = BWXFN_CancelTrainByClickInTheQueue + 5;
   static u32            BWXFN_CancelTrainByClickInTheQueueTarget = BWFXN_IssueCommand;
   static u32            BWXFN_CancelTrainByEscape = 0x004234C4; /** 1.15.3 */
   static u32            BWXFN_CancelTrainByEscapeBack = BWXFN_CancelTrainByEscape + 5;
