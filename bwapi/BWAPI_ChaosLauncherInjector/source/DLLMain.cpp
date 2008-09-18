@@ -6,7 +6,7 @@
 #include <assert.h>
 
 #define BWLAPI 4
-#define STARCRAFTBUILD 10
+#define STARCRAFTBUILD 11
 
 /*  STARCRAFTBUILD
    -1   All
@@ -20,7 +20,8 @@
    7   1.14
    8   1.15
    9   1.15.1
-   10   1.15.1
+   10  1.15.2
+   11  1.15.3
 */
 
 #ifdef _MANAGED
@@ -68,7 +69,7 @@ extern "C" __declspec(dllexport) void GetData(char *name, char *description, cha
 {
    //if necessary you can add Initialize function here
    //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
-   strcpy(name, "BWAPI_Injector (1.15.2)");
+   strcpy(name, "BWAPI_Injector (1.15.3)");
    strcpy(description, "Injects BWAPI.dll into the Broodwar process.");
    strcpy(updateurl, "");
 }
