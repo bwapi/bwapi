@@ -448,16 +448,9 @@ namespace BWAPI
     while (selected[unitCount] != NULL)
       unitCount ++;
     if (quietSelect)
-    {
-      void (_stdcall* selectUnits)(int, BW::Unit * *) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C04E0;
-	     selectUnits(unitCount, selected);
-    }
+	     BW::selectUnits(unitCount, selected);
     else
-    {
-      void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AB90;
-	     selectUnitsHelperSTD(unitCount, selected, true, true);
-      
-    }
+	     BW::selectUnitsHelperSTD(unitCount, selected, true, true);
     delete [] selected;   
   }
   //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------

@@ -320,8 +320,7 @@ namespace BWAPI
     {
       BW::Unit * * select = new BW::Unit * [1];
       select[0] = this->getOriginalRawData();
-      void (_stdcall* selectUnits)(int, BW::Unit * *) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C04E0;
-	     selectUnits(1, select);
+	     BW::selectUnits(1, select);
       delete [] select;
       //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle)); 
     }
@@ -331,8 +330,7 @@ namespace BWAPI
       list[0] = this->getOriginalRawData();
 	     list[1] = NULL;
       int one = 1;
-      void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit * *, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool))0x0049AB90;
-      selectUnitsHelperSTD(one, list, true, true);
+      BW::selectUnitsHelperSTD(one, list, true, true);
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
