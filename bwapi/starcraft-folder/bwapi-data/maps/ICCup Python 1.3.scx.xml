@@ -242,7 +242,7 @@
     <starting-position expansion-id="12 oclock">
       <standard-building-placement>
         <build-position name="non-producting-3X2" width="3" height="2">
-          <position x="60" y="2"/>
+          <position x="83" y="3"/>
           <position x="97" y="0"/>
           <position x="97" y="2"/>
           <position x="94" y="0"/>
@@ -266,6 +266,7 @@
           <position x="93" y="10"/>
           <position x="83" y="3"/>
           <position x="60" y="0"/>
+          <position x="60" y="2"/>
         </build-position>
         <build-position name="barracks" width="4" height="3" shortcut="BB">
           <position x="79"  y="0"/>

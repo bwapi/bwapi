@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="build-order.xsd">
   <include name="globals.xml" />
-  <build-order type="root" name="Crazy mass marine against protoss" race="Terran" against="Protoss" probability="100%">
+  <build-order type="root" name="Crazy mass marine against protoss" race="Terran" against="Protoss" weight="1">
     <call name="Standard terran scv building" />
     <train building="Terran Barracks" priority="5">
       <build name="Terran Marine" weight="12" />
@@ -52,6 +52,57 @@
     <build name="Terran Nuclear Silo" priority="6"/>
     <train building="Terran Nuclear Silo" priority="6">
       <build name="Nuclear Missile" weight="1" />
+    </train>
+  </build-order>
+      
+  <build-order type="root" name="TvP Metal" race="Terran" against="Protoss" weight="1">
+    <call name="Standard terran scv building" />
+    <train building="Terran Barracks" priority="5">
+      <build name="Terran Marine" weight="12" >
+        <condition type="formula" formula="5 - All(Terran Marine)" />
+      </build>
+    </train>
+    <train building="Terran Factory" priority="5">
+      <build name="Terran Siege Tank" weight="2" />
+      <build name="Terran Vulture" weight="2" />
+      <build name="Terran Goliath" weight="1" />
+    </train>    
+    <build name="Terran Barracks" place="barracks" minimal-population="11"/>
+    <build name="Terran Refinery" place="refinery" minimal-population="12"/>
+    <build name="Terran Factory" place="building-with-addon" />
+    <invent name="Spider Mines" priority="6"/>
+    <invent name="Tank Siege Mode" priority="6"/>
+    <upgrade name="Ion Thrusters" />
+    <build name="Terran Machine Shop" />
+    <build name="Terran Factory" place="building-with-addon" />
+    <build name="Terran Machine Shop" />
+    <build name="Terran Engineering Bay" place="engineering-bay" />
+    <build name="Terran Command Center" place="natural-expansion" />
+    <build name="Terran Missile Turret" place="turret-entrance-expansion" />
+    <build name="Terran Factory" place="building-with-addon" />
+    <build name="Terran Machine Shop" />
+    <build name="Terran Factory" place="building-with-addon" />
+    <build name="Terran Machine Shop" />
+    <build name="Terran Armory" place="non-producting-3X2" />
+    <build name="Terran Armory" place="non-producting-3X2" />
+    <upgrade name="Terran Vehicle Plating" level="3" priority="6"/>
+    <upgrade name="Terran Vehicle Weapons" level="3" priority="6"/>
+    <build name="Terran Factory" place="building-with-addon" />
+    <build name="Terran Machine Shop" />
+    <build name="Terran Starport" place="building-with-addon" />
+    <train building="Terran Starport" priority="6">
+      <build name="Terran Science Vessel" weight="1">
+        <condition type="formula" formula="2 - All(Terran Science Vessel)" />
+      </build>
+      <build name="Terran Dropship" weight="1">
+        <condition type="formula" formula="2 - All(Terran Dropship)" />
+      </build>
+    </train>
+    <build name="Terran Control Tower" />
+    <build name="Terran Command Center" place="second-expansion" />
+    <build name="Terran Science Facility" place="building-with-addon" />
+    <build name="Terran Covert Ops" />
+    <invent name="EMP Shockwave" priority="9"/>
     </train>
   </build-order>
 </build-orders>
