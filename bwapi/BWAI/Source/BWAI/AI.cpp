@@ -252,7 +252,7 @@ namespace BWAI
                              this->buildOrderExecutor->actualBranch()->getName().c_str());
     }
     this->mineralGatherers = 0;
-    this->log->logImportant("Ai::onStart end");
+    this->log->logImportant("Ai::onStart end\n\n");
   }
   //------------------------------------------------- ON END -------------------------------------------------
   void AI::onEnd()
@@ -308,7 +308,7 @@ namespace BWAI
     delete this->buildOrderExecutor;
     this->buildOrderExecutor = NULL;
     
-    this->log->logImportant("Ai::onEnd end");
+    this->log->logImportant("Ai::onEnd end\n\n");
   }
   //-----------------------------------------------  ON FRAME ------------------------------------------------
   void AI::onFrame(void)
