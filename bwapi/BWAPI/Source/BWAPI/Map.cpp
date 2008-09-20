@@ -109,7 +109,7 @@ namespace BWAPI
       for (unsigned int y = 0; y < this->fogOfWar->getHeight(); y++)
         {
           u32 value =  (*this->fogOfWar)[y][x];
-          result[x][y] = (value & (1<<playerID)) ? '.' : 'X';
+          result[x][y] = (value & (1<<playerID)) ? 'X' : '.';
         }
     
     Util::Strings::makeBorder(result).printToFile(f); 
