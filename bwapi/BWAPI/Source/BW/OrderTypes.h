@@ -139,6 +139,24 @@ namespace BW
         /** 0x3c = Command code for start game. */
         u8 always0x3c;
     };
+   /** Pauses the game. */
+   class PauseGame
+    {
+      public :
+        PauseGame();
+      private :
+        /** 0x10 = Command code for pause game. */
+        u8 always0x10;
+    };
+    class ResumeGame
+    {
+      public :
+        ResumeGame();
+      private :
+        /** 0x11 = Command code for unpause game. */
+        u8 always0x11;
+    };
+
   }
 }
 #pragma pack()

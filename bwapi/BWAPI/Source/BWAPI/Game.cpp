@@ -391,6 +391,16 @@ namespace BWAPI
   { 
     this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
   }
+  //----------------------------------------------- PAUSE GAME -----------------------------------------------
+  void Game::pauseGame()
+  { 
+    this->IssueCommand((PBYTE)&BW::Orders::PauseGame(),sizeof(BW::Orders::PauseGame));
+  }
+  //----------------------------------------------- RESUME GAME ----------------------------------------------
+  void Game::resumeGame()
+  { 
+    this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(),sizeof(BW::Orders::ResumeGame));
+  }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int Game::getMouseX() const
   {
