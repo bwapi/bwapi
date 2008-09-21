@@ -73,6 +73,8 @@ namespace BWAPI
        * pre-game lobby, and not during counting
        */
       void startGame();
+	  void pauseGame();
+	  void resumeGame();
       /** Gets mouse cursor horizontal position in pixels. */
       int getMouseX() const;
       /** Gets mouse cursor vertical position in pixels. */
