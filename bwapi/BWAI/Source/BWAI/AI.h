@@ -124,9 +124,12 @@ namespace BWAI
       void getIdleWorkers(std::list<Unit*> &workers);
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
       int countOfTerranProductionBuildings();
+      int countOfProtossProductionBuildings();
+      int countOfZergHatcheries();
       void checkSupplyNeed();
       /** @todo investigate and use the nextSupply provider here. */
       s32 plannedTerranSupplyGain();
+      s32 plannedProtossSupplyGain();
       void executeTasks();
       TaskGather* bestFor(Unit* gatherer);
       void removeExpansion(Expansion* expansion);

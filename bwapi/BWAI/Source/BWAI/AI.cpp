@@ -70,6 +70,15 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     
+    try
+    {
+      this->root = new BuildOrder::Root(config->get("build_order_path"));    
+      Util::Logger::globalLog->log("Build order loaded");
+    }
+    catch (GeneralException& exception)
+    {
+      Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
+    }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   AI::~AI(void)
@@ -196,15 +205,8 @@ namespace BWAI
       try
       {
         this->log->logImportant("Ai::onStart start");
-      try
-      {
-        this->root = new BuildOrder::Root(config->get("build_order_path"));    
-        Util::Logger::globalLog->log("Build order loaded");
-      }
-      catch (GeneralException& exception)
-      {
-        Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
-      }
+        root = new BuildOrder::Root(config->get("build_order_path"));
+
       this->map = new BWAPI::Map();
       this->player = player;
       this->opponent = opponent;
@@ -536,9 +538,109 @@ namespace BWAI
         else
           BWAPI::Broodwar.print("Map info for the current map is not available.");
       }
+	    else if (parsed[1] == "position")     // ------------------ Save Position
+      {
+        FILE* f = fopen((config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml").c_str(), "wt");
+        if (!f)
+          throw FileException("Could not open " + BWAPI::Map::getName() + " for writing.");
+        else
+          fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n"
+                     "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+                     "        xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n"
+                     "<expansions>\n");
+        Unit* temp;
+  	    for each (Unit* i in this->units)                   // get expansion (supports main only atm)
+  	      if ((i->getType() == BW::UnitID::Terran_CommandCenter ||
+              i->getType() == BW::UnitID::Protoss_Nexus) &&
+              i->getOwner() == this->player)
+          {
+            fprintf(f, "    <expansion id=\"%d\">\n"
+                       "      <position x=\"%d\" y=\"%d\"/>\n"
+                       "    </expansion>\n", i, i->getPosition().x, i->getPosition().y);
+            temp = i;
+            break;
+          }
+        fprintf(f, "  </expansions>\n"
+                   "  <starting-positions>\n"
+                   "    <starting-position expansion-id=\"%d\">\n"
+                   "      <standard-building-placement>\n"
+                   "        <build-position name=\"non-producting-3X2\" width=\"3\" height=\"2\">\n", temp);
+        for each (Unit* i in this->units)                   // get non-producing 3x2
+          if ((i->getType() == BW::UnitID::Terran_SupplyDepot ||
+              i->getType() == BW::UnitID::Terran_Academy ||
+              i->getType() == BW::UnitID::Terran_Armory ||
+              i->getType() == BW::UnitID::Protoss_ArbiterTribunal ||
+              i->getType() == BW::UnitID::Protoss_CitadelOfAdun ||
+              i->getType() == BW::UnitID::Protoss_CyberneticsCore ||
+              i->getType() == BW::UnitID::Protoss_FleetBeacon ||
+              i->getType() == BW::UnitID::Protoss_Forge ||
+              i->getType() == BW::UnitID::Protoss_Observatory ||
+              i->getType() == BW::UnitID::Protoss_RoboticsSupportBay ||
+              i->getType() == BW::UnitID::Protoss_TemplarArchives) &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        </build-position>\n"
+                   "        <build-position name=\"barracks\" width=\"4\" height=\"3\" shortcut=\"BB\">\n");
+        for each (Unit* i in this->units)                   // get barracks
+          if ((i->getType() == BW::UnitID::Terran_Barracks ||
+               i->getType() == BW::UnitID::Protoss_Gateway) &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        <build-position name=\"engineering-bay\" width=\"4\" height=\"3\" shortcut=\"BE\">\n");
+        for each (Unit* i in this->units)                   // get engineering-bay
+          if (i->getType() == BW::UnitID::Terran_EngineeringBay &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        </build-position>\n"
+                   "        <build-position name=\"refinery\" width=\"4\" height=\"2\" shortcut=\"BR\">\n");
+        for each (Unit* i in this->units)                   // get refinery
+          if ((i->getType() == BW::UnitID::Terran_Refinery ||
+               i->getType() == BW::UnitID::Protoss_Assimilator ||
+               i->getType() == BW::UnitID::Zerg_Extractor) &&
+              i->getOwner() == this->player)
+          {
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+            break;
+          }
+        fprintf(f, "        </build-position>\n"
+                   "        <build-position name=\"turret\" width=\"2\" height=\"2\">\n");
+        for each (Unit* i in this->units)                   // get turret
+          if (i->getType().isBuilding() &&
+              i->getType().canAttack() &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        </build-position>\n"
+                   "        <build-position name=\"bunker\" width=\"2\" height=\"2\">\n");
+        for each (Unit* i in this->units)                   // get bunker
+          if ((i->getType() == BW::UnitID::Terran_Bunker ||
+               i->getType() == BW::UnitID::Protoss_ShieldBattery) &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        </build-position>\n"
+                   "        <build-position name=\"pylon\" width=\"2\" height=\"2\" shortcut=\"PP\">\n");
+        for each (Unit* i in this->units)                   // get Pylon
+          if (i->getType().getID() == BW::UnitID::Protoss_Pylon &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        </build-position>\n"
+                   "        <build-position name=\"building-with-addon\" width=\"4\" height=\"3\" shortcut=\"A+\">\n");
+        for each (Unit* i in this->units)                   // get building with addon
+          if ((i->getType() == BW::UnitID::Terran_Factory ||
+              i->getType() == BW::UnitID::Terran_Starport ||
+              i->getType() == BW::UnitID::Terran_ScienceFacility) &&
+              i->getOwner() == this->player)
+            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+        fprintf(f, "        </build-position>\n"
+                   "      </standard-building-placement>\n"
+                   "    </starting-position>\n"
+                   "  </starting-positions>\n"
+                   "</map-description>");
+        fclose(f);
+        BWAPI::Broodwar.print("Saved current build positions to %s.", BWAPI::Map::getName().c_str());
+      }
       else
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
-                              "buildability, walkability, defined buildings", parsed[1].c_str());
+                              "buildability, walkability, defined buildings, position", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -691,33 +793,31 @@ namespace BWAI
       {
         try
         {
-          //delete this->mapInfo; memeory leak, but this is just for debug reasons, and this way it wan't crash
           mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
-		}
-		catch (GeneralException& exception)
-		{
+		      BWAPI::Broodwar.print("Map data reloaded successfully.");
+		    }
+		    catch (GeneralException& exception)
+		    {
           Util::Logger::globalLog->log("Error when loading map: %s", exception.getMessage().c_str());
-		  BWAPI::Broodwar.print("Shit happened.");
-		}
-		return true;
+		      return true;
+		    }
       }
-	  else if (parsed[1] == "bo")
-	  {
+	    else if (parsed[1] == "bo")
+	    {
         try
         {
-          this->root = new BuildOrder::Root(config->get("build_order_path"));    
-          Util::Logger::globalLog->log("Build order loaded");
+          root = new BuildOrder::Root(config->get("build_order_path"));
+		      BWAPI::Broodwar.print("Build order reloaded successfully.");
         }
         catch (GeneralException& exception)
-		{
+		    {
           Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
-		  BWAPI::Broodwar.print("Shit happened.");
-		}
-		return true;
-	  }
-      else
-        BWAPI::Broodwar.print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
-	    return true;
+		      return true;
+		    }
+	    }
+    else
+      BWAPI::Broodwar.print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
+	  return true;
     }
     return false;
   }
@@ -812,7 +912,7 @@ namespace BWAI
         best->addExecutor(i);
      }
   }
-  //---------------------------------------- OF PRODUCTION BUILDINGS -----------------------------------------
+  //---------------------------------------- OF PRODUCTION BUILDINGS (Terran) --------------------------------
   int AI::countOfTerranProductionBuildings()
   {
     int countOfTerranFactories = 0;
@@ -823,13 +923,39 @@ namespace BWAI
          countOfTerranFactories++;
     return countOfTerranFactories;
   }
+  //---------------------------------------- OF PRODUCTION BUILDINGS (Protoss) -------------------------------
+  int AI::countOfProtossProductionBuildings()
+  {
+    int countOfProtossFactories = 0;
+    for each (Unit* i in this->units)
+      if (i->getType().canProduce() &&
+          i->getOwner() == this->player &&
+          i->getType().isProtoss())
+         countOfProtossFactories++;
+    return countOfProtossFactories;
+  }
+  //---------------------------------------- OF PRODUCTION BUILDINGS (Zerg) ----------------------------------
+  int AI::countOfZergHatcheries()
+  {
+    int countOfZergHatcheries = 0;
+    for each (Unit* i in this->units)
+      if ((i->getType() == BW::UnitID::Zerg_Hatchery ||
+          i->getType() == BW::UnitID::Zerg_Lair ||
+          i->getType() == BW::UnitID::Zerg_Hive) &&
+          i->getOwner() == this->player)
+         countOfZergHatcheries++;
+    return countOfZergHatcheries;
+  }
   //------------------------------------------- CHECK SUPPLY NEED --------------------------------------------
   void AI::checkSupplyNeed()
   { 
     if (!this->startingPosition)
       return;
     int countOfTerranFactories = this->countOfTerranProductionBuildings();
-    if (countOfTerranFactories != 0 &&
+    int countOfProtossFactories = this->countOfProtossProductionBuildings();
+    int countOfZergHatcheries = this->countOfZergHatcheries();
+
+    if (countOfTerranFactories != 0 &&                                    // Terran
         countOfTerranFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() &&
         player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < 400)
     {
@@ -849,6 +975,27 @@ namespace BWAI
                                                        0));
       }
     }        
+
+    if (countOfProtossFactories != 0 &&                                          // Protoss
+        countOfProtossFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() &&
+        player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() < 400)
+    {
+      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", 
+                     countOfProtossFactories, 
+                     player->getSuppliesFreeLocal(BW::Race::Protoss), 
+                     plannedProtossSupplyGain());
+      Unit* builderToUse;
+      BuildingPosition* spot = getFreeBuildingSpot("pylon", builderToUse);
+      if (spot != NULL)
+      {
+        this->log->log("Found free spot for pylon at (%d,%d)", spot->position.x, spot->position.y);
+        this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Protoss_Pylon, 
+                                                       spot, 
+                                                       builderToUse, 
+                                                       this->startingPosition->positions["pylon"],
+                                                       0));
+      }
+    }        
   } 
   //----------------------------------------------------------------------------------------------------------
   s32 AI::plannedTerranSupplyGain()
@@ -860,6 +1007,19 @@ namespace BWAI
         returnValue += 8;
       else if (i->getType() == BW::UnitID::Terran_CommandCenter)
         returnValue += 10;
+    }
+    return returnValue;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  s32 AI::plannedProtossSupplyGain()
+  {
+    s32 returnValue = 0;
+    for each (TaskBuild* i in this->plannedBuildings)
+    {
+      if (i->getBuildingType() == BW::UnitID::Protoss_Pylon)
+        returnValue += 8;
+      else if (i->getType() == BW::UnitID::Protoss_Nexus)
+        returnValue += 9;
     }
     return returnValue;
   }
