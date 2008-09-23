@@ -28,7 +28,7 @@ namespace BWAI
         BWAI::ai->activeMinerals.push_back(newMineral);
       }
     }
-    ai->log->log("%d mineral fields assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str());
+    ai->log->logCommon("%d mineral fields assigned to %s", this->minerals.size(), this->gatherCenter->getName().c_str());
     gatherCenter->expansion = this;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

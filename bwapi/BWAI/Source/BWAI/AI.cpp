@@ -70,15 +70,6 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     
-    try
-    {
-      this->root = new BuildOrder::Root(config->get("build_order_path"));    
-      Util::Logger::globalLog->log("Build order loaded");
-    }
-    catch (GeneralException& exception)
-    {
-      Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
-    }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   AI::~AI(void)
@@ -202,16 +193,25 @@ namespace BWAI
   //------------------------------------------------ ON START ------------------------------------------------
   void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
   {
-    try
-    {
-      this->log->logImportant("Ai::onStart start");
+      try
+      {
+        this->log->logImportant("Ai::onStart start");
+      try
+      {
+        this->root = new BuildOrder::Root(config->get("build_order_path"));    
+        Util::Logger::globalLog->log("Build order loaded");
+      }
+      catch (GeneralException& exception)
+      {
+        Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
+      }
       this->map = new BWAPI::Map();
       this->player = player;
       this->opponent = opponent;
       mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
       this->checkNewExpansions();
      
-      this->log->log("Help pre-prepared information found for the curent map");
+      this->root->log->log("Help pre-prepared information found for the curent map");
       
       if (this->expansions.size())
       {
@@ -223,7 +223,7 @@ namespace BWAI
           }
         if (this->startingPosition)
         {
-         this->log->log("Starting position is (%s) at (%d, %d)", 
+         this->root->log->log("Starting position is (%s) at (%d, %d)", 
                         this->startingPosition->expansion->getID().c_str(), 
                         this->startingPosition->expansion->getPosition().x, 
                         this->startingPosition->expansion->getPosition().y);
@@ -235,7 +235,7 @@ namespace BWAI
     {
       delete map;
       map = NULL;
-      this->log->log("Exception in AI::onStart: %s", exception.getMessage().c_str());
+      this->root->log->log("Exception in AI::onStart: %s", exception.getMessage().c_str());
       delete this->mapInfo;
       this->mapInfo = NULL;
     }
@@ -689,11 +689,35 @@ namespace BWAI
     {
       if (parsed[1] == "map")
       {
-        //delete this->mapInfo; memeory leak, but this is just for debug reasons, and this way it wan't crash
-        this->mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
+        try
+        {
+          //delete this->mapInfo; memeory leak, but this is just for debug reasons, and this way it wan't crash
+          mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
+		}
+		catch (GeneralException& exception)
+		{
+          Util::Logger::globalLog->log("Error when loading map: %s", exception.getMessage().c_str());
+		  BWAPI::Broodwar.print("Shit happened.");
+		}
+		return true;
       }
+	  else if (parsed[1] == "bo")
+	  {
+        try
+        {
+          this->root = new BuildOrder::Root(config->get("build_order_path"));    
+          Util::Logger::globalLog->log("Build order loaded");
+        }
+        catch (GeneralException& exception)
+		{
+          Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
+		  BWAPI::Broodwar.print("Shit happened.");
+		}
+		return true;
+	  }
       else
-        BWAPI::Broodwar.print("Unknown reload command '%s' - possible values are: map", parsed[1].c_str());
+        BWAPI::Broodwar.print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
+	    return true;
     }
     return false;
   }
@@ -747,7 +771,7 @@ namespace BWAI
           i->getOrderID() == BW::OrderID::ConstructingBuilding &&
           i->getOrderTarget() != NULL)
        {
-         this->log->log("Custom building added buildTask");         
+         this->root->log->log("Custom building added buildTask");         
          this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL, 0));
        }
   }
@@ -825,7 +849,7 @@ namespace BWAI
                                                        0));
       }
     }        
-  }
+  } 
   //----------------------------------------------------------------------------------------------------------
   s32 AI::plannedTerranSupplyGain()
   {
@@ -867,7 +891,7 @@ namespace BWAI
           {
             if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
             {
-              this->log->log("Finished refinery");
+              this->root->log->log("Finished refinery");
               Expansion *expansion = NULL;
               for each (Expansion* j in this->expansions)
                 if (j->gatherCenter->getDistance((*i)->getBuilding()) < Expansion::maximumMineralDistance)
@@ -1002,7 +1026,7 @@ namespace BWAI
                )
              )
           {
-            this->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), i->position.x, i->position.y);
+            this->root->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), i->position.x, i->position.y);
             if (occupied != NULL &&
                 occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
               builderToUse = occupied;
