@@ -144,7 +144,7 @@ namespace BW
   //-------------------------------------------- GET TILE HEIGHT ---------------------------------------------
   u16 UnitType::getTileHeight() const
   {
-    return (this->dimensionUp() + this->dimensionDown() +BW::TILE_SIZE - 1)/BW::TILE_SIZE;
+    return (this->dimensionUp() + this->dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
   }
   //------------------------------------------------ IS ZERG -------------------------------------------------
   bool UnitType::isZerg() const
