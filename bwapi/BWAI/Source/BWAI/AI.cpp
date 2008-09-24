@@ -540,6 +540,7 @@ namespace BWAI
       }
 	    else if (parsed[1] == "position")     // ------------------ Save Position
       {
+
         FILE* f = fopen((config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml").c_str(), "wt");
         if (!f)
           throw FileException("Could not open " + BWAPI::Map::getName() + " for writing.");
@@ -548,94 +549,119 @@ namespace BWAI
                      "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
                      "        xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n"
                      "<expansions>\n");
-        Unit* temp;
-  	    for each (Unit* i in this->units)                   // get expansion (supports main only atm)
-  	      if ((i->getType() == BW::UnitID::Terran_CommandCenter ||
-              i->getType() == BW::UnitID::Protoss_Nexus) &&
-              i->getOwner() == this->player)
-          {
-            fprintf(f, "    <expansion id=\"%d\">\n"
-                       "      <position x=\"%d\" y=\"%d\"/>\n"
-                       "    </expansion>\n", i, i->getPosition().x, i->getPosition().y);
-            temp = i;
-            break;
-          }
+
+  	    for (u8 i = 0; i < 8; i++)                   // get starting positions
+          fprintf(f, "    <expansion id=\"Player %d\">\n"
+                     "      <position x=\"%d\" y=\"%d\"/>\n"
+                     "    </expansion>\n", i, BW::startPositions[i].x, BW::startPositions[i].y);
+
         fprintf(f, "  </expansions>\n"
-                   "  <starting-positions>\n"
-                   "    <starting-position expansion-id=\"%d\">\n"
-                   "      <standard-building-placement>\n"
-                   "        <build-position name=\"non-producting-3X2\" width=\"3\" height=\"2\">\n", temp);
-        for each (Unit* i in this->units)                   // get non-producing 3x2
-          if ((i->getType() == BW::UnitID::Terran_SupplyDepot ||
-              i->getType() == BW::UnitID::Terran_Academy ||
-              i->getType() == BW::UnitID::Terran_Armory ||
-              i->getType() == BW::UnitID::Protoss_ArbiterTribunal ||
-              i->getType() == BW::UnitID::Protoss_CitadelOfAdun ||
-              i->getType() == BW::UnitID::Protoss_CyberneticsCore ||
-              i->getType() == BW::UnitID::Protoss_FleetBeacon ||
-              i->getType() == BW::UnitID::Protoss_Forge ||
-              i->getType() == BW::UnitID::Protoss_Observatory ||
-              i->getType() == BW::UnitID::Protoss_RoboticsSupportBay ||
-              i->getType() == BW::UnitID::Protoss_TemplarArchives) &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        </build-position>\n"
-                   "        <build-position name=\"barracks\" width=\"4\" height=\"3\" shortcut=\"BB\">\n");
-        for each (Unit* i in this->units)                   // get barracks
-          if ((i->getType() == BW::UnitID::Terran_Barracks ||
-               i->getType() == BW::UnitID::Protoss_Gateway) &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        <build-position name=\"engineering-bay\" width=\"4\" height=\"3\" shortcut=\"BE\">\n");
-        for each (Unit* i in this->units)                   // get engineering-bay
-          if (i->getType() == BW::UnitID::Terran_EngineeringBay &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        </build-position>\n"
-                   "        <build-position name=\"refinery\" width=\"4\" height=\"2\" shortcut=\"BR\">\n");
-        for each (Unit* i in this->units)                   // get refinery
-          if ((i->getType() == BW::UnitID::Terran_Refinery ||
-               i->getType() == BW::UnitID::Protoss_Assimilator ||
-               i->getType() == BW::UnitID::Zerg_Extractor) &&
-              i->getOwner() == this->player)
-          {
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-            break;
-          }
-        fprintf(f, "        </build-position>\n"
-                   "        <build-position name=\"turret\" width=\"2\" height=\"2\">\n");
-        for each (Unit* i in this->units)                   // get turret
-          if (i->getType().isBuilding() &&
-              i->getType().canAttack() &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        </build-position>\n"
+                   "  <starting-positions>\n");
+
+        for (u8 i2 = 0; i2 < 8; i2++)
+        {
+          fprintf(f, "    <starting-position expansion-id=\"Player %d\">\n"
+                     "      <standard-building-placement>\n"
+                     "        <build-position name=\"expansion\" width=\"4\" height=\"3\">\n", i2);
+
+          for each (Unit* i in this->units)                   // get expansion
+            if ((i->getType().getID() == BW::UnitID::Protoss_Nexus ||
+                 i->getType().getID() == BW::UnitID::Zerg_Hatchery ||
+                 i->getType().getID() == BW::UnitID::Terran_CommandCenter) &&
+                 i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+              
+          fprintf(f, "        <build-position name=\"non-producting-3X2\" width=\"3\" height=\"2\">\n", i2);
+          for each (Unit* i in this->units)                   // get non-producing 3x2
+            if ((i->getType().getID() == BW::UnitID::Terran_SupplyDepot ||
+                i->getType().getID() == BW::UnitID::Terran_Academy ||
+                i->getType().getID() == BW::UnitID::Terran_Armory ||
+                i->getType().getID() == BW::UnitID::Protoss_ArbiterTribunal ||
+                i->getType().getID() == BW::UnitID::Protoss_CitadelOfAdun ||
+                i->getType().getID() == BW::UnitID::Protoss_CyberneticsCore ||
+                i->getType().getID() == BW::UnitID::Protoss_FleetBeacon ||
+                i->getType().getID() == BW::UnitID::Protoss_Forge ||
+                i->getType().getID() == BW::UnitID::Protoss_Observatory ||
+                i->getType().getID() == BW::UnitID::Protoss_RoboticsSupportBay ||
+                i->getType().getID() == BW::UnitID::Protoss_TemplarArchives) &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
+                    "        <build-position name=\"barracks\" width=\"4\" height=\"3\" shortcut=\"BB\">\n");
+
+          for each (Unit* i in this->units)                   // get barracks
+
+            if ((i->getType().getID() == BW::UnitID::Terran_Barracks ||
+                i->getType().getID() == BW::UnitID::Protoss_Gateway) &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
+                     "        <build-position name=\"engineering-bay\" width=\"4\" height=\"3\" shortcut=\"BE\">\n");
+
+          for each (Unit* i in this->units)                   // get engineering-bay
+            if (i->getType().getID() == BW::UnitID::Terran_EngineeringBay &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
+                    "        <build-position name=\"refinery\" width=\"4\" height=\"2\" shortcut=\"BR\">\n");
+
+          for each (Unit* i in this->units)                   // get refinery
+            if ((i->getType().getID() == BW::UnitID::Terran_Refinery ||
+                i->getType().getID() == BW::UnitID::Protoss_Assimilator ||
+                i->getType().getID() == BW::UnitID::Zerg_Extractor) &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+            {
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+              break;
+            }
+
+          fprintf(f, "        </build-position>\n"
+                     "        <build-position name=\"turret\" width=\"2\" height=\"2\">\n");
+
+         for each (Unit* i in this->units)                   // get turret
+            if (i->getType().isBuilding() &&
+                i->getType().canAttack() &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
                    "        <build-position name=\"bunker\" width=\"2\" height=\"2\">\n");
-        for each (Unit* i in this->units)                   // get bunker
-          if ((i->getType() == BW::UnitID::Terran_Bunker ||
-               i->getType() == BW::UnitID::Protoss_ShieldBattery) &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        </build-position>\n"
+
+          for each (Unit* i in this->units)                   // get bunker
+            if ((i->getType().getID() == BW::UnitID::Terran_Bunker ||
+                i->getType().getID() == BW::UnitID::Protoss_ShieldBattery) &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
                    "        <build-position name=\"pylon\" width=\"2\" height=\"2\" shortcut=\"PP\">\n");
-        for each (Unit* i in this->units)                   // get Pylon
-          if (i->getType().getID() == BW::UnitID::Protoss_Pylon &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        </build-position>\n"
+
+          for each (Unit* i in this->units)                   // get Pylon
+            if (i->getType().getID() == BW::UnitID::Protoss_Pylon &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
                    "        <build-position name=\"building-with-addon\" width=\"4\" height=\"3\" shortcut=\"A+\">\n");
-        for each (Unit* i in this->units)                   // get building with addon
-          if ((i->getType() == BW::UnitID::Terran_Factory ||
-              i->getType() == BW::UnitID::Terran_Starport ||
-              i->getType() == BW::UnitID::Terran_ScienceFacility) &&
-              i->getOwner() == this->player)
-            fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-        fprintf(f, "        </build-position>\n"
-                   "      </standard-building-placement>\n"
-                   "    </starting-position>\n"
-                   "  </starting-positions>\n"
+
+          for each (Unit* i in this->units)                   // get building with addon
+            if ((i->getType().getID() == BW::UnitID::Terran_Factory ||
+                i->getType().getID() == BW::UnitID::Terran_Starport ||
+                i->getType().getID() == BW::UnitID::Terran_ScienceFacility) &&
+                i->getOwner() == BWAPI::Broodwar.players[i2])
+              fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
+
+          fprintf(f, "        </build-position>\n"
+                    "      </standard-building-placement>\n"
+                    "    </starting-position>\n");
+        }
+        fprintf(f, "  </starting-positions>\n"
                    "</map-description>");
         fclose(f);
+
         BWAPI::Broodwar.print("Saved current build positions to %s.", BWAPI::Map::getName().c_str());
       }
       else

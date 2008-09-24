@@ -65,6 +65,15 @@ namespace BW
     PlayerInfo player[PLAYER_COUNT - 1]; /**< Player 12 doesn't have the info */
   };
 
+  struct Positions
+  {
+    /** Direct mapping of player info in bw memory */
+    u16   x;
+    u16   y;
+  };
+
+  static u32 BWXFN_PRIMARY = 0x00581DCC;      // Total Units Produced\Owned is first entry
+  static Positions* startPositions = (Positions*) (BWXFN_PRIMARY + 0xB93C);
 
   static Players* BWXFN_Players = (Players*) 0x0057EEE8;
 
