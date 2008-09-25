@@ -568,10 +568,13 @@ namespace BWAI
             if ((i->getType().getID() == BW::UnitID::Protoss_Nexus ||
                  i->getType().getID() == BW::UnitID::Zerg_Hatchery ||
                  i->getType().getID() == BW::UnitID::Terran_CommandCenter) &&
-                 i->getOwner() == BWAPI::Broodwar.players[i2])
+                 i->getOwner() == BWAPI::Broodwar.players[i2] &&
+                 (i->getPosition().x != BW::startPositions[i2].x ||
+                 i->getPosition().y != BW::startPositions[i2].y))
               fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
               
-          fprintf(f, "        <build-position name=\"non-producting-3X2\" width=\"3\" height=\"2\">\n", i2);
+          fprintf(f, "        </build-position>\n"
+            "        <build-position name=\"non-producting-3X2\" width=\"3\" height=\"2\">\n", i2);
           for each (Unit* i in this->units)                   // get non-producing 3x2
             if ((i->getType().getID() == BW::UnitID::Terran_SupplyDepot ||
                 i->getType().getID() == BW::UnitID::Terran_Academy ||
