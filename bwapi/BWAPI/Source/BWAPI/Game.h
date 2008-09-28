@@ -73,8 +73,8 @@ namespace BWAPI
        * pre-game lobby, and not during counting
        */
       void startGame();
-	  void pauseGame();
-	  void resumeGame();
+   void pauseGame();
+   void resumeGame();
       /** Gets mouse cursor horizontal position in pixels. */
       int getMouseX() const;
       /** Gets mouse cursor vertical position in pixels. */
@@ -112,7 +112,7 @@ namespace BWAPI
       bool enabled;      
    private :
       Unit* getFirst();
-	     bool onStartCalled;
+      bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
       Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];

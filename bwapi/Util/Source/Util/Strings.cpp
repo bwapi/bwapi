@@ -146,7 +146,7 @@ namespace Util
      {
       buffer[position] = 0;
       result.append(buffer);
-   	  return result;
+      return result;
      }
     else
      {
