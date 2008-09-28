@@ -32,41 +32,41 @@ namespace Util
     private :
       /** Name of the dictionary, typicaly same as the name of the language */
       std::string name;
-	     /**
+      /**
        * Source property files of the dictionary
-	      * @see DictionaryFile
+       * @see DictionaryFile
        */
       std::list<DictionaryFile*> files;
     public :
       std::map<std::string, Sentence*> values;
       /**
        * Creates dictionary from single source property file
-	      * @param fileName Property file location.
+       * @param fileName Property file location.
        */
        Dictionary(const std::string &fileName);
-	      /**
+       /**
         * Removes dictionary and all contained keys and dictionaryFiles (not
         * files in file system, just their representation in memory)
         */
        virtual ~Dictionary();
-	     /**
+      /**
        * Gets value of the specified key. If the dictionary contains more values
-	      * with the same key, one of these values will be (pseudorandomly)
+       * with the same key, one of these values will be (pseudorandomly)
        * choosen.
-	      * @param key Key of the property value to be returned.
-	      * @return Value of property with the specified key if such value exists,
+       * @param key Key of the property value to be returned.
+       * @return Value of property with the specified key if such value exists,
        *         otherwise string 
-	      * '{Key '[key]' not found }' will be returned.
+       * '{Key '[key]' not found }' will be returned.
        */
        std::string get(const std::string &key);
-	     /** 
-	      * Gets value of the specified key.
-	      * If the dictionary contains more values with the same key, one of these values will be (pseudorandomly) choosen.
-	      * @param key Key of the property value to be returned.
+      /** 
+       * Gets value of the specified key.
+       * If the dictionary contains more values with the same key, one of these values will be (pseudorandomly) choosen.
+       * @param key Key of the property value to be returned.
           * @param arguments Arguments of the property value, first argument corresponds to {1} etc.
-	      * @return Value of property with the specified key if such value exists, otherwise string 
-	      * '{Key '[key]' not found }' will be returned.
-	      */
+       * @return Value of property with the specified key if such value exists, otherwise string 
+       * '{Key '[key]' not found }' will be returned.
+       */
        std::string get(const std::string &key, std::vector<std::string>* arguments);
        std::string get(const std::string &key, const std::string &parameter1);
        std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2);
@@ -76,8 +76,8 @@ namespace Util
        std::string get(const std::string &key, const std::string &parameter1, const std::string &parameter2, const std::string &parameter3, const std::string &parameter4, const std::string &parameter5, const std::string &parameter6);
        /**
         * Gets value of the specified key.
-	       * @param key Key of the property value to be returned.
-	       * @return Value of property with the specified key and given arguments,
+        * @param key Key of the property value to be returned.
+        * @return Value of property with the specified key and given arguments,
         *         otherwise param key will be returned.
         */
        std::string getSafe(const std::string &key);

@@ -30,7 +30,7 @@ namespace Util
           while (endOfTrimmedKey != 0 && isspace(line[endOfTrimmedKey]))
             endOfTrimmedKey--;
           endOfKey++;
-       	  while (isspace(line[endOfKey]))
+          while (isspace(line[endOfKey]))
             endOfKey++;
           sentence = new Sentence(line.substr(0, endOfTrimmedKey + 1), 
                                   line.substr(endOfKey, line.length() - endOfKey), 

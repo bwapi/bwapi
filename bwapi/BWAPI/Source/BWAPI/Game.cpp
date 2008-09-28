@@ -218,19 +218,19 @@ namespace BWAPI
     vsnprintf(buffer, BUFFER_SIZE, text, ap); 
     va_end(ap);
     void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-	  	sendText(buffer);
+    sendText(buffer);
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
   void Game::printPublic(const char *text) const
   {
-	 	__asm
-	 	{
-	 	  mov eax, 0
-	 	  mov ecx, 0
-	 	  mov edx, text
-	 	  mov esi, text
-	 	  call [BW::BWXFN_PrintPublicText]
-	 	}
+   __asm
+   {
+     mov eax, 0
+     mov ecx, 0
+     mov edx, text
+     mov esi, text
+     call [BW::BWXFN_PrintPublicText]
+   }
   }
   #pragma warning(pop)
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
@@ -427,7 +427,7 @@ namespace BWAPI
   void Game::refresh()
   {
     void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWXFN_Refresh;
- 	 	refresh();
+    refresh();
   }
   #pragma warning(pop)
   //----------------------------------------------------------------------------------------------------------
@@ -458,9 +458,9 @@ namespace BWAPI
     while (selected[unitCount] != NULL)
       unitCount ++;
     if (quietSelect)
-	     BW::selectUnits(unitCount, selected);
+      BW::selectUnits(unitCount, selected);
     else
-	     BW::selectUnitsHelperSTD(unitCount, selected, true, true);
+      BW::selectUnitsHelperSTD(unitCount, selected, true, true);
     delete [] selected;   
   }
   //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
