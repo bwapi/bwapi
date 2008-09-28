@@ -93,6 +93,7 @@ INPUT                  = BWAPI/index.h \
                          BWAI/Source/BWAI \
                          BWAI/Source/BuildOrder \
                          BWAI/Source/PathFinding \
+                         BWAI/Source/Formula \
                          Util/Source/Util
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \

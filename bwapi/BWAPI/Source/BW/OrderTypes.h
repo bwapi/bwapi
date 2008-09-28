@@ -61,12 +61,13 @@ namespace BW
       MakeBuilding(BW::TilePosition position, BW::UnitType type); 
       /** 0x0c = make building Command-code in bw */
       u8 always0x0c;
-      /** 1e for terran 1f for protoss*/
-      u8 always0x1e;
+      /** Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f */
+      u8 raceDependant;
       BW::TilePosition position;
       /** Type of building to make */
       BW::UnitType type;
    };
+   
    /** Invent tech. */
    class Invent
    {

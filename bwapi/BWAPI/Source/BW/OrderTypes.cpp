@@ -1,6 +1,7 @@
 #include "OrderTypes.h"
 #include "..\\BWAPI\\Unit.h"
 #include "Offsets.h"
+#include <Util/Exceptions.h>
 namespace BW
 {
   namespace Orders
@@ -46,10 +47,16 @@ namespace BW
     //--------------------------------------------- MAKE BULDING ---------------------------------------------
     MakeBuilding::MakeBuilding(BW::TilePosition position, BW::UnitType type)
     :always0x0c(0x0c)
-    ,always0x1e(0x1e)
     ,position(position)
     ,type(type)
     {
+      switch (type.getRace())
+      {
+        case BW::Race::Zerg : raceDependant = 0x19; break;
+        case BW::Race::Terran : raceDependant = 0x1e; break;
+        case BW::Race::Protoss : raceDependant = 0x1f; break;
+        default : throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
+      }
     }
     //--------------------------------------------- INVENT TECH ----------------------------------------------
     Invent::Invent(BW::TechType tech)
