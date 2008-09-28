@@ -87,7 +87,8 @@ namespace BuildOrder
       return NULL;
     }
     for each (RootBranch* i in this->buildOrders)
-      if (i->against == BWAI::ai->opponent->getRace())
+      if (i->race == BWAI::ai->player->getRace() &&
+          i->against == BWAI::ai->opponent->getRace())
         return new Executor(i);
     return NULL;
   }

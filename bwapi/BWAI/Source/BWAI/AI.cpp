@@ -202,11 +202,18 @@ namespace BWAI
   //------------------------------------------------ ON START ------------------------------------------------
   void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
   {
-      try
-      {
-        this->log->logImportant("Ai::onStart start");
-        root = new BuildOrder::Root(config->get("build_order_path"));
-
+    try
+    {
+      this->log->logImportant("Ai::onStart start");
+      root = new BuildOrder::Root(config->get("build_order_path"));
+    }
+    catch (GeneralException& exception)
+    {
+      this->log->logCritical("Error when loading build order: %s", exception.getMessage().c_str());
+      return;
+    }
+    try
+    {
       this->map = new BWAPI::Map();
       this->player = player;
       this->opponent = opponent;
