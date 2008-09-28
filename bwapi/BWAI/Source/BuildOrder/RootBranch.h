@@ -13,7 +13,7 @@ namespace BuildOrder
     public :
       /** Constructs the branch according to the xml-definition*/
       RootBranch(TiXmlElement* xmlElement);
-      BW::Race::Enum against;
+      BW::Race::Enum race, against;
     private :
       /** Default constructor is forbidden, the customisation of bulidorder in runtime is not supported now */
       RootBranch();
