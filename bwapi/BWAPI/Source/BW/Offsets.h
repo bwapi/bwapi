@@ -55,15 +55,14 @@ namespace BW
     /** Direct mapping of player info in bw memory */
     struct PlayerInfo
     {
+      u32              id;
+      u32              actions; // unused; FF FF FF FF if not a player
       PlayerType::Enum type;
       Race::Enum       race;
       u8               force;
-      char             name[23];
-      u32              playerNumber; /**< @todo unknown */
-      u32              unknown; /** @todo unkown */
-      u16              unknown2; /** @todo unkown */
+      char             name[25];
     };
-    PlayerInfo player[PLAYER_COUNT - 1]; /**< Player 12 doesn't have the info */
+    PlayerInfo player[PLAYER_COUNT];
   };
 
   struct Positions
@@ -73,10 +72,9 @@ namespace BW
     u16   y;
   };
 
-  static u32 BWXFN_PRIMARY = 0x00581DCC;      // Total Units Produced\Owned is first entry
-  static Positions* startPositions = (Positions*) (BWXFN_PRIMARY + 0xB93C);
+  static Positions* startPositions = (Positions*) 0x58D708;
 
-  static Players* BWXFN_Players = (Players*) 0x0057EEE8;
+  static Players* BWXFN_Players = (Players*) 0x0057EEE0;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
