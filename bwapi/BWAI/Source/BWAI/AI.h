@@ -154,6 +154,6 @@ namespace BWAI
       bool cycle;
       BW::Position cyclePosition;
       float cycleAngle;
-      void saveBuildings(const std::string& path);
+      bool saveBuildings(const std::string& path);
   };
 }

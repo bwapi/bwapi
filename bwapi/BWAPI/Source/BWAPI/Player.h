@@ -60,6 +60,13 @@ namespace BWAPI
      * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
      */                       
     s32 getSuppliesUsed(BW::Race::Enum race);
+    /**
+     * Gets synchronised version of max supplies for the given race
+     * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
+     *             in that case there would be undefined behaviour.
+     * @return Count of maximum supplies for the given race (2 times bigger than the value u see in bw)
+     */                       
+    s32 getSuppliesMax(BW::Race::Enum race);
      /**
      * Gets local version of available supplies for the given race - @ref localData
      * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random

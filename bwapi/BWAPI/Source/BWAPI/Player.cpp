@@ -82,6 +82,11 @@ namespace BWAPI
   {
     return BW::BWXFN_Supplies->race[race].used.player[this->getID()];
   }
+  //-------------------------------------------- GET SUPPLY MAX ----------------------------------------------
+  s32 Player::getSuppliesMax(BW::Race::Enum race)
+  {
+    return BW::BWXFN_Supplies->race[race].max.player[this->getID()];
+  }
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   s32 Player::getSuppliesAvailableLocal(BW::Race::Enum race)
   {

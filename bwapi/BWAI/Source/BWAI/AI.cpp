@@ -1,6 +1,7 @@
 #include "AI.h"
 
 #include <algorithm>
+#include <fstream>
 
 #include <Util/Exceptions.h>
 #include <Util/FileLogger.h>
@@ -548,8 +549,10 @@ namespace BWAI
       else if (parsed[1] == "position")     // ------------------ Save Position
       {
         std::string path = config->get("maps_path") + "\\" + BWAPI::Map::getName() + "-autosave.xml";
-        this->saveBuildings(path);
-        BWAPI::Broodwar.print("Saved current build positions to %s.", path.c_str());
+        if (this->saveBuildings(path))
+          BWAPI::Broodwar.print("Saved current build positions to %s.", path.c_str());
+        else
+          BWAPI::Broodwar.print("Failed to write %s.", path.c_str());
       }
       else
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
@@ -735,9 +738,141 @@ namespace BWAI
     return false;
   }
   //------------------------------------------- SAVE BUILDINGS -----------------------------------------------
-  void AI::saveBuildings(const std::string& path)
+  // Re-writing to add positions if they are not found. Needs some thought.
+  bool AI::saveBuildings(const std::string& path)
   {
-    FILE* f = fopen(path.c_str(), "wt");
+    std::string learnBuildStream, learnBuildTest;
+    char learnBuildTemp[256];
+    u32 learnBuildPos, learnBuildLoc;
+
+    char* bxmlHead = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n";
+    char* bMapDescFull = "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n	               xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n";
+    char* bPosition = "position";
+    char* bStartPositions = "starting-positions";
+    char* bStartPosition = "starting-position";
+    char* bStandardBuildingPlace = "standard-building-placement";
+
+    learnBuildStream = " ";
+
+    std::ifstream fin;
+    std::ofstream fout;
+
+    fin.open(path.c_str(), std::ios::in);
+    if (fin.is_open())
+    {
+      fin.seekg(0);
+      while(!fin.eof())
+      {
+        fin.getline(learnBuildTemp, 255);
+        learnBuildStream.append(learnBuildTemp);
+        learnBuildStream.append("\n");
+      }
+      fin.close();
+    }
+    // ######################## XML HEADER
+    learnBuildPos = 0;
+    learnBuildLoc = learnBuildStream.find("<?xml ");
+    if (learnBuildLoc == std::string::npos)
+    {
+      learnBuildStream.insert(learnBuildPos, bxmlHead);
+      learnBuildPos += strlen(bxmlHead);
+    }
+    else
+      learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
+
+    // ######################## MAP-DESCRIPTION ELEMENT
+    learnBuildLoc = learnBuildStream.find("map-description", learnBuildPos);
+    if (learnBuildLoc == std::string::npos)
+    {
+      learnBuildStream.insert(learnBuildPos, bMapDescFull);
+      learnBuildPos += strlen(bMapDescFull);
+      learnBuildStream.insert(learnBuildPos, "</map-description>\n");
+    }
+    else
+      learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
+
+    // ######################## EXPANSIONS ELEMENT
+    learnBuildLoc = learnBuildStream.find("expansions>", learnBuildPos);
+    if (learnBuildLoc == std::string::npos)
+    {
+      learnBuildStream.insert(learnBuildPos, "\n  <expansions>\n");
+      learnBuildPos += 16;
+      learnBuildStream.insert(learnBuildPos, "  </expansions>\n");
+    }
+    else
+      learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
+
+    // ######################## EXPANSION ELEMENTS
+    for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+    {
+      if (BW::startPositions[i].y != 0 && BW::startPositions[i].x != 0)
+      {
+         learnBuildTest = "";
+         learnBuildTest.append("<expansion id=\"Player ");
+         learnBuildTest.append(itoa(i+1, learnBuildTemp, 10));
+         learnBuildTest.append("\">");
+
+         learnBuildLoc = learnBuildStream.find(learnBuildTest, learnBuildPos);
+         if (learnBuildLoc == std::string::npos)
+         {
+           learnBuildStream.insert(learnBuildPos, "\n    ");
+           learnBuildPos += 5;
+           learnBuildStream.insert(learnBuildPos, learnBuildTest);
+           learnBuildPos += learnBuildTest.size();
+           learnBuildStream.insert(learnBuildPos, "\n");
+           learnBuildPos += 1;
+           learnBuildStream.insert(learnBuildPos, "      <position x=\"");
+           learnBuildPos += 19;
+           learnBuildStream.insert(learnBuildPos, itoa(BW::startPositions[i].x, learnBuildTemp, 10));
+           learnBuildPos += strlen(itoa(BW::startPositions[i].x, learnBuildTemp, 10));
+           learnBuildStream.insert(learnBuildPos, "\" y=\"");
+           learnBuildPos += 5;
+           learnBuildStream.insert(learnBuildPos, itoa(BW::startPositions[i].y, learnBuildTemp, 10));
+           learnBuildPos += strlen(itoa(BW::startPositions[i].y, learnBuildTemp, 10));
+           learnBuildStream.insert(learnBuildPos, "\"/>\n");
+           learnBuildPos += 4;
+           learnBuildStream.insert(learnBuildPos, "    </expansion>\n");
+           learnBuildPos += 17;
+         }
+         else
+         {
+           learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
+
+           // ######################## POSITION ELEMENT
+           learnBuildTest = "";
+           learnBuildTest.append("<position x=\"");
+           learnBuildTest.append(itoa(BW::startPositions[i].x, learnBuildTemp, 10));
+           learnBuildTest.append("\" y=\"");
+           learnBuildTest.append(itoa(BW::startPositions[i].y, learnBuildTemp, 10));
+           learnBuildTest.append("\"/>");
+
+           learnBuildLoc = learnBuildStream.find(learnBuildTest, learnBuildPos);
+           if (learnBuildLoc == std::string::npos)
+           {
+             learnBuildStream.insert(learnBuildPos, "\n      ");
+             learnBuildPos += 7;
+             learnBuildStream.insert(learnBuildPos, learnBuildTest);
+             learnBuildPos += learnBuildTest.size();
+             learnBuildStream.insert(learnBuildPos, "\n");
+             learnBuildPos += 1;
+           }
+           learnBuildPos = learnBuildStream.find("</expansion>", learnBuildLoc) + 13;
+           
+         }
+       }
+    }
+
+    // @todo: <starting-positions> + <starting-position  + <standard-building-placement> + <build-position  + positions
+
+    fout.open(path.c_str(), std::ios::out);
+    if (!fout.is_open())
+      return false;
+    fout.seekp(0);
+    fout << learnBuildStream;
+    fout.close();
+    return true;
+                                                        /* Old shit
+   FILE* f = fopen(path.c_str(), "wt");
     if (!f)
       throw FileException("Could not open " + BWAPI::Map::getName() + " for writing.");
     fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n"
@@ -838,7 +973,7 @@ namespace BWAI
     }
     fprintf(f, "  </starting-positions>\n"
                  "</map-description>");
-    fclose(f);
+    fclose(f);*/
   } 
   //------------------------------------------ CHECK NEW EXPANSION -------------------------------------------
   void AI::checkNewExpansions()
@@ -976,7 +1111,7 @@ namespace BWAI
 
     if (countOfTerranFactories != 0 &&                                    // Terran
         countOfTerranFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() &&
-        player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < 400)
+        player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < player->getSuppliesMax(BW::Race::Terran))
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", 
                      countOfTerranFactories, 
@@ -997,14 +1132,14 @@ namespace BWAI
 
     if (countOfProtossFactories != 0 &&                                          // Protoss
         countOfProtossFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() &&
-        player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() < 400)
+        player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() < player->getSuppliesMax(BW::Race::Protoss))
     {
       this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", 
                      countOfProtossFactories, 
                      player->getSuppliesFreeLocal(BW::Race::Protoss), 
                      plannedProtossSupplyGain());
       Unit* builderToUse;
-      BuildingPosition* spot = getFreeBuildingSpot("pylon", builderToUse);
+      BuildingPosition* spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
       if (spot != NULL)
       {
         this->log->log("Found free spot for pylon at (%d,%d)", spot->position.x, spot->position.y);
