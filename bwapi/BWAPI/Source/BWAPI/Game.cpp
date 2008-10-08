@@ -258,12 +258,12 @@ namespace BWAPI
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
       if (config->get("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
       else
         if (strcmp(this->players[i]->getName(),"") != 0 &&
-           (opponent == NULL || this->players[i]->getRace() != BW::Race::Terran))
+           opponent == NULL)
           this->opponent = this->players[i];
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
