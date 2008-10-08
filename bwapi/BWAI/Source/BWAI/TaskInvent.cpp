@@ -34,7 +34,9 @@ namespace BWAI
           return false;
         }
         for each (Unit* i in BWAI::ai->units)
-          if (i->getType() == buildingType &&
+          if (i->isReady() &&
+              i->getOrderID() == BW::OrderID::Nothing2 &&
+              i->getType() == buildingType &&
               i->getTask() == NULL)
             this->addExecutor(i);
       }
