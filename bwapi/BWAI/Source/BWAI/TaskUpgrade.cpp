@@ -31,17 +31,19 @@ namespace BWAI
     if (BWAI::ai->player->upgradeInProgress(this->upgradeType))
       return false;
     if (this->executors.empty())
+    {
+      BW::UnitType buildingType = this->upgradeType.whereToUpgrade();
+      if (buildingType == BW::UnitID::None)
       {
-        BW::UnitType buildingType = this->upgradeType.whereToUpgrade();
-        if (buildingType == BW::UnitID::None)
-        {
-          BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName());
-          return false;
-        }
-        for each (Unit* i in BWAI::ai->units)
-          if (i->getType() == buildingType)
-            this->addExecutor(i);
+        BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName());
+        return false;
       }
+      for each (Unit* i in BWAI::ai->units)
+        if (i->isReady() &&
+            i->getOrderID() == BW::OrderID::Nothing2 &&
+            i->getType() == buildingType)
+          this->addExecutor(i);
+    }
     if (this->executors.empty())
       return false;
     for each (Unit* i in this->executors)

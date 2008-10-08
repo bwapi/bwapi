@@ -75,7 +75,7 @@ namespace BWAPI
   s32 Player::getSuppliesAvailable(BW::Race::Enum race)
   {
     s32 ret = BW::BWXFN_Supplies->race[race].available.player[this->getID()];
-    return ret < 400 ? ret : 400;
+    return ret < getSuppliesMax(race) ? ret : getSuppliesMax(race);
   }
   //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
   s32 Player::getSuppliesUsed(BW::Race::Enum race)
@@ -91,7 +91,7 @@ namespace BWAPI
   s32 Player::getSuppliesAvailableLocal(BW::Race::Enum race)
   {
     s32 ret = this->suppliesAvailableLocal[race];
-    return ret < 400 ? ret : 400;
+    return ret < getSuppliesMax(race) ? ret : getSuppliesMax(race);
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   s32 Player::getSuppliesUsedLocal(BW::Race::Enum race)
