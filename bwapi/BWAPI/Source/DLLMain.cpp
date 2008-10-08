@@ -24,7 +24,7 @@ bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 DWORD removedUnit;
-bool launchedStart = false;
+//bool launchedStart = false;
 DWORD eaxSave,ebxSave,ecxSave,edxSave,esiSave,ediSave, espSave, ebpSave;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onRemoveUnit()
@@ -106,10 +106,10 @@ void __declspec(naked) onGameStart()
 void __declspec(naked) onGameEnd()
 {
   {
+    aiStartCalled = false;
+    //launchedStart = false;
     BWAPI::Broodwar.onGameEnd();
     BWAI::ai->onEnd();
-    aiStartCalled = false;
-    launchedStart = false;
   }
   __asm
   {
@@ -131,8 +131,11 @@ void __declspec(naked)  nextFrameHook()
     BWAI::ai->update();    
     if (!aiStartCalled)
     {
-      BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer, BWAPI::Broodwar.opponent);
-      aiStartCalled = true;
+      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL)
+      {
+        BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer, BWAPI::Broodwar.opponent);
+        aiStartCalled = true;
+      }
     }
     BWAI::ai->onFrame();
   }
