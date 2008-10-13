@@ -131,7 +131,7 @@ void __declspec(naked)  nextFrameHook()
     BWAI::ai->update();    
     if (!aiStartCalled)
     {
-      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL)
+      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL && !*(BW::BWFXN_InReplay))
       {
         BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer, BWAPI::Broodwar.opponent);
         aiStartCalled = true;
