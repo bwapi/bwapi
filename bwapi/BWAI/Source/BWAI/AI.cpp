@@ -191,14 +191,21 @@ namespace BWAI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void AI::update(void)
   {
-    this->units.clear();
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      this->units.push_back(i);
+    try
+    {
+      this->units.clear();
+      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+        this->units.push_back(i);
     
-    this->reserved.clear();
+      this->reserved.clear();
 
-    for each (TaskBuild* i in this->plannedBuildings)
-      this->reserved += i->getReserved();
+      for each (TaskBuild* i in this->plannedBuildings)
+        this->reserved += i->getReserved();
+    }
+    catch (GeneralException& exception)
+    {
+      this->root->log->log("Exception in AI::update: %s", exception.getMessage().c_str());
+    }
   }
   //------------------------------------------------ ON START ------------------------------------------------
   void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
@@ -354,11 +361,14 @@ namespace BWAI
       }
       */
       #pragma endregion
-      this->assignIdleWorkersToMinerals(idleWorkers);
 
+      if (activeMinerals.size() >0)
+      {
+        this->assignIdleWorkersToMinerals(idleWorkers);
+        this->rebalanceMiners();
+        this->checkAssignedWorkers();
+      }
       this->performAutoBuild();
-      this->rebalanceMiners();
-      this->checkAssignedWorkers();
       this->executeTasks();
       
       if (this->cycle && !this->fightGroups.empty())
@@ -434,6 +444,7 @@ namespace BWAI
                        gatherer->getIndex(), 
                        worst->getMineral()->getIndex(), 
                        best->getMineral()->getIndex());
+
        best->addExecutor(gatherer);
        goto anotherStep;
      }
@@ -1266,11 +1277,11 @@ namespace BWAI
         else
           ++i;
     }
-        
-    for each (TaskGather* i in this->activeMinerals)
-      i->execute();
-    for each (TaskGatherGas* i in this->activeRefineries)
-      i->execute();
+    if (this->activeMinerals.size() > 0)
+      for each (TaskGather* i in this->activeMinerals)
+        i->execute();
+      for each (TaskGatherGas* i in this->activeRefineries)
+        i->execute();
   }
   //----------------------------------------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)

@@ -143,53 +143,62 @@ namespace BWAPI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void Game::update()
   {
-    if (!this->enabled)
-      return;
-    if (!this->isOnStartCalled())
-      this->onGameStart();
-    memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
-    memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
-    for (int i = 0; i < 12; i++)
-      this->players[i]->update();
-   
-    this->units.clear();
-    for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-      this->units.push_back(i);
+    try
+    {
+      if (!this->enabled)
+        return;
+      if (!this->isOnStartCalled())
+        this->onGameStart();
+      memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
+      memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+        this->players[i]->update();
+     
+      this->units.clear();
+      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
+        this->units.push_back(i);
 
-    while (this->commandBuffer.size() > this->getLatency())
-      this->commandBuffer.erase(this->commandBuffer.begin());
-    this->commandBuffer.push_back(std::vector<Command *>());
-    for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
-       for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
-         this->commandBuffer[i][j]->execute();
-    this->frameCount ++;
-    this->logUnknownOrStrange();
-    this->updateUnitsOnTile();    
+      while (this->commandBuffer.size() > this->getLatency())
+        this->commandBuffer.erase(this->commandBuffer.begin());
+      this->commandBuffer.push_back(std::vector<Command *>());
+      for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
+         for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
+           this->commandBuffer[i][j]->execute();
+      this->frameCount ++;
+      this->logUnknownOrStrange();
+      this->updateUnitsOnTile();    
     
-    for (int i = 0; i < 12; i++)
-      for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-      {
-        this->players[i]->unitTypeCount[j] = 0;
-        this->players[i]->allUnitTypeCount[j] = 0;
-      }
+      for (int i = 0; i < 12; i++)
+        for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
+        {
+          this->players[i]->unitTypeCount[j] = 0;
+          this->players[i]->allUnitTypeCount[j] = 0;
+        }
     
-    for each (Unit* i in this->units)
-    //for (Game::Units::iterator i = this->units.begin(); i != this->units.end(); ++i)
-      if (i->getOwner()->getID() < 12)
-      {
-        this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
-        if (i->isReady())
-          this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
-        if (!i->isReady() && 
-             !i->getType().isBuilding() && 
-             i->getType().isTerran() &&
-             i->getOrderID() != BW::OrderID::Die)
-          this->badAssumptionLog->log("%s is in the list but not finished", i->getName().c_str());
+      for each (Unit* i in this->units)
+      //for (Game::Units::iterator i = this->units.begin(); i != this->units.end(); ++i)
+        if (i->getOwner()->getID() < 12)
+        {
+          this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
+          if (i->isReady())
+            this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
+          if (!i->isReady() && 
+               !i->getType().isBuilding() && 
+               i->getType().isTerran() &&
+               i->getOrderID() != BW::OrderID::Die)
+            this->badAssumptionLog->log("%s is in the list but not finished", i->getName().c_str());
 
-        if (i->getBuildUnit() != NULL &&
-            i->getType().canProduce())
-          this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
-      }
+          if (i->getBuildUnit() != NULL &&
+              i->getType().canProduce())
+            this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
+        }
+    }
+    catch (GeneralException& exception)
+    {
+      FILE*f = fopen("bwapi-error","wt");
+      fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
+      fclose(f);
+    }
   }
   //------------------------------------------- IS ON START CALLED -------------------------------------------
   bool Game::isOnStartCalled() const
