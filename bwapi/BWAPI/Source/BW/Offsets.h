@@ -84,13 +84,14 @@ namespace BW
   static Unit**         BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418;
   static UnitArray*     BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40;
   const  u32            UNIT_ARRAY_MAX_LENGTH = 1701;
-                 
+  
   static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C0530; /** 1.15.3 */
   static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049ACD0; /** 1.15.3 */
   static u32            BWFXN_CommandUnit = 0x4BFFD0; /** 1.15.3 */
   static u32            BWFXN_IssueCommand = 0x485920; /** 1.15.3 */
   static u32            BWFXN_HUD = 0x004202A0; 
   static u32*           BWFXN_InGame = (u32*) 0x6556C8;
+  static u8*            BWFXN_InReplay = (u8*) 0x006D0EFC;
   static u32            BWFXN_CountDownTimer = 0x0058D6DC; /**< @todo verify */
   static u32            BWXFN_PrintText = 0x0048CE90; /** 1.15.3 */
   //static u32            BWXFN_PrintPublicText = 0x4F2EC0; // Doesn't work now
