@@ -33,8 +33,8 @@ namespace BW
     bool operator != (const BW::UnitID::Enum& id);
     bool operator == (const UnitType& type);
     const char*           getName() const;
-    BW::UnitID::Enum      getID() const;      
-    s8                    getSupplies() const;      
+    BW::UnitID::Enum      getID() const;
+    s8                    getSupplies() const;
     u16                   getMaxHealthPoints() const;
     u16                   getMaxShieldPoints() const;
     u16                   getMaxMana() const;

@@ -65,14 +65,23 @@ namespace BW
 
   struct Positions
   {
-    /** Direct mapping of player info in bw memory */
     u16   x;
     u16   y;
   };
 
-  static Positions* startPositions = (Positions*) 0x58D708;
+  struct ForceName
+  {
+    char           name[30];
+  };
 
+  static Positions* startPositions = (Positions*) 0x58D708;
+  static ForceName* ForceNames = (ForceName*) 0x0058D5A4;
   static Players* BWXFN_Players = (Players*) 0x0057EEE0;
+  static u32  playerUnitCounts = 0x0058230C
+  static s32* CountAllUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 0);
+  static s32* CountCompletedUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 1);
+  static s32* CountKilledUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 2);
+  static s32* CountDeadUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 3);
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
@@ -144,7 +153,7 @@ namespace BW
   static Race::Enum*    BWXFN_UpgradeRace = (Race::Enum*) 0x00655BE4;
   static u16**          BWXFN_StringTableIndex = (u16**) 0x6D1220;
   static u32**          BWXFN_MapFogOfWar = (u32**) 0x006D1248;
-  
+
   struct UpgradeProgress
   {
     Util::BitMask<u64> player[PLAYER_COUNT];

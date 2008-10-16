@@ -40,6 +40,14 @@ namespace BW
   {
     if (this->getID() == BW::UnitID::None)
       return "None";
+    else if (this->getID() == BW::UnitID::All)
+      return "All";
+    else if (this->getID() == BW::UnitID::Men)
+      return "Men";
+    else if (this->getID() == BW::UnitID::Buildings)
+      return "Buildings";
+    else if (this->getID() == BW::UnitID::Factories)
+      return "Factories";
     else
       return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
   }
