@@ -33,6 +33,7 @@ namespace BWAPI
      * @return Pointer directly to bw memory where the name is represented.
      */
     char* getName() const;
+    char* getForceName() const;
     
     /** Gets synchronised version of minerals for the current player. */
     s32 getMinerals() const;
@@ -129,6 +130,12 @@ namespace BWAPI
     bool canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved);
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
+    u8 getForce();
+    s32 getAllUnits(BW::UnitType unit);
+    s32 getDeaths(BW::UnitType unit);
+    s32 getKills(BW::UnitType unit);
+    s32 getCompletedUnits(BW::UnitType unit);
+    s32 getIncompleteUnits(BW::UnitType unit);
     bool researchInProgress(BW::TechType tech) const;    
     bool techResearched(BW::TechType tech) const;
     u8 upgradeLevel(BW::UpgradeType upgrade) const;

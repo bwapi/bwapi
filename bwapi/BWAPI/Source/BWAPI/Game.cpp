@@ -268,12 +268,16 @@ namespace BWAPI
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+    {
+      this->print("UNITS: %d", this->players[i]->getAllUnits(BW::UnitID::All));
       if (config->get("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
       else
         if (strcmp(this->players[i]->getName(),"") != 0 &&
-           opponent == NULL)
+            opponent == NULL &&
+            this->players[i]->getAllUnits(BW::UnitID::All) > 0)
           this->opponent = this->players[i];
+    }
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool Game::onSendText(const char* text)
@@ -380,12 +384,32 @@ namespace BWAPI
         {
           BW::UnitType type((BW::UnitID::Enum)i);
           if (type.isValid())
-            BW::BWXFN_BuildTime->buildTime[i] = 6;
+            BW::BWXFN_BuildTime->buildTime[i] = 16;
         }
         this->print("BWAPI gas/mineral/build time cheat activated (only local ofcourse)");
       }
+      if (parsed[1] == "ore")
+      {
+        BW::BWXFN_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] += 10000;
+        this->print("BWAPI mineral cheat activated (only local ofcourse)");
+      }
+      if (parsed[1] == "gas")
+      {
+        BW::BWXFN_PlayerResources->gas.player[this->BWAPIPlayer->getID()] += 10000;
+        this->print("BWAPI gas cheat activated (only local ofcourse)");
+      }
+      if (parsed[1] == "speed")
+      {
+        for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        {
+          BW::UnitType type((BW::UnitID::Enum)i);
+          if (type.isValid())
+            BW::BWXFN_BuildTime->buildTime[i] = 16;
+        }
+        this->print("BWAPI speed cheat activated (only local ofcourse)");
+      }
       else 
-        this->print("Unknown log command '%s''s - possible values are: all", parsed[1].c_str());
+        this->print("Unknown log command '%s''s - possible values are: all, ore, gas, speed", parsed[1].c_str());
       return true;
     }
     return false;

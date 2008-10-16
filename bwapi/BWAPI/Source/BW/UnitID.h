@@ -239,7 +239,11 @@ namespace BW
       Vaspene_Sac2                  = 0xE1,
       Vespene_Tank1                 = 0xE2,
       Vespene_Tank2                 = 0xE3,
-      None                          = 0XE4
+      None                          = 0XE4,
+      All                           = 0XE5,
+      Men                           = 0XE6,
+      Buildings                     = 0XE7,
+      Factories                     = 0XE8,
     };
   };
 };
