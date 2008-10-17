@@ -186,108 +186,108 @@ namespace BWAPI
   s32 Player::getDeaths(BW::UnitType unit)
   {
     if(unit.getID() < BW::UnitID::None)
-      return BW::countDeadUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
+      return BW::CountDeadUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
 
     s32 temp = 0;
     if (unit == BW::UnitID::All)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        temp += BW::countDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
+        temp += BW::CountDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Buildings)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Factories)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
-          temp += BW::countDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Men)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountDeadUnits[BW::PLAYER_COUNT * i + this->getID()];
     return temp;
   }
   //------------------------------------------------ GET KILLS -----------------------------------------------
   s32 Player::getKills(BW::UnitType unit)
   {
     if(unit.getID() < BW::UnitID::None)
-      return BW::countKilledUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
+      return BW::CountKilledUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
 
     s32 temp = 0;
     if (unit == BW::UnitID::All)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        temp += BW::countKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
+        temp += BW::CountKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Buildings)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Factories)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
-          temp += BW::countKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Men)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountKilledUnits[BW::PLAYER_COUNT * i + this->getID()];
     return temp;
   }
   //------------------------------------------------ GET COMPLETED UNITS -------------------------------------
   s32 Player::getCompletedUnits(BW::UnitType unit)
   {
     if(unit.getID() < BW::UnitID::None)
-      return BW::countCompletedUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
+      return BW::CountCompletedUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
 
     s32 temp = 0;
     if (unit == BW::UnitID::All)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        temp += BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+        temp += BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Buildings)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Factories)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
-          temp += BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Men)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
     return temp;
   }
   //------------------------------------------------ GET INCOMPLETE UNITS ------------------------------------
   s32 Player::getIncompleteUnits(BW::UnitType unit)
   {
      if(unit.getID() < BW::UnitID::None)
-      return BW::countAllUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()] - BW::countCompletedUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
+      return BW::CountAllUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()] - BW::CountCompletedUnits[BW::PLAYER_COUNT * unit.getID() + this->getID()];
 
     s32 temp = 0;
     if (unit == BW::UnitID::All)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        temp += BW::countAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+        temp += BW::CountAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Buildings)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Factories)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
-          temp += BW::countAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
 
     if (unit == BW::UnitID::Men)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += BW::countAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::countCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
+          temp += BW::CountAllUnits[BW::PLAYER_COUNT * i + this->getID()] - BW::CountCompletedUnits[BW::PLAYER_COUNT * i + this->getID()];
     return temp;
   }
   //------------------------------------------------ GET FORCE NAME ------------------------------------------

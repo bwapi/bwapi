@@ -77,7 +77,7 @@ namespace BW
   static Positions* startPositions = (Positions*) 0x58D708;
   static ForceName* ForceNames = (ForceName*) 0x0058D5A4;
   static Players* BWXFN_Players = (Players*) 0x0057EEE0;
-  static u32  playerUnitCounts = 0x0058230C
+  static u32  playerUnitCounts = 0x0058230C;
   static s32* CountAllUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 0);
   static s32* CountCompletedUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 1);
   static s32* CountKilledUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 2);

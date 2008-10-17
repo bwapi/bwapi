@@ -269,7 +269,6 @@ namespace BWAPI
     this->opponent = NULL;
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
     {
-      this->print("UNITS: %d", this->players[i]->getAllUnits(BW::UnitID::All));
       if (config->get("bwapi_name") == this->players[i]->getName())
           this->BWAPIPlayer = this->players[i];
       else
