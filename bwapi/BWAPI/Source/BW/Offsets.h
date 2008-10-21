@@ -179,6 +179,7 @@ namespace BW
   };
   static Supplies* BWXFN_Supplies    = (Supplies*) 0x0058212C;
   
+  
   //------------------------------------------- UNIT MINERAL PRICES ------------------------------------------
   /** Direct mapping of unit types mineral prices. */
   struct MineralPrices_type
@@ -254,29 +255,53 @@ namespace BW
   static UnitsDimensions_type* BWXFN_UnitDimensions = (UnitsDimensions_type*) 0x006617B0;
   const u8 NoWeapon = 130;
   //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
-  /** Direct mapping of unit unit type armor */
+  /** Direct mapping of unit unit weapon type */
   struct UnitsGroundWeapon_type
   {
     u8 unit[UNIT_TYPE_COUNT];
   };
   static UnitsGroundWeapon_type* BWXFN_UnitGroundWeapon = (UnitsGroundWeapon_type*) 0x006636A0;
-
+  
+  //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
+  /** Direct mapping of unit unit sight range */
+  struct UnitsSightRange_type
+  {
+    u8 unit[UNIT_TYPE_COUNT];
+  };
+  static UnitsSightRange_type* BWXFN_UnitSightRange = (UnitsSightRange_type*) 0x00663220;
+  
+  //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
+  /** Direct mapping of unit unit sight range */
+  struct UnitsSeekRange_type
+  {
+    u8 unit[UNIT_TYPE_COUNT];
+  };
+  static UnitsSeekRange_type* BWXFN_UnitSeekRange = (UnitsSeekRange_type*) 0x00662DA0;
+  
   const int weaponTypeCount = 130;
   //------------------------------------------ WEAPON DAMAGE FACTOR ------------------------------------------
-  /** Direct mapping of unit unit type armor */
+  /** Direct mapping of weapon type damage factor*/
   struct WeaponsDamageFactor_type
   {
     u8 weapon[weaponTypeCount];
   };
   static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;         
 
-  //------------- WEAPON DAMAGE TYPE ----------------------                                      -------------
-  /** Direct mapping of unit unit type armor */
+  //------------- WEAPON DAMAGE TYPE -------------------------------------------------------------------------
+  /** Direct mapping of weapon type damage */
   struct WeaponsDamage_type
   {
     u16 weapon[weaponTypeCount];
   };
   static WeaponsDamage_type* BWXFN_WeaponDamage = (WeaponsDamage_type*) 0x00656E98;
+  
+  //------------- WEAPON RANGE TYPE --------------------------------------------------------------------------
+  /** Direct mapping of unit unit type armor */
+  struct WeaponsRange_type
+  {
+    u32 weapon[weaponTypeCount];
+  };
+  static WeaponsRange_type* BWXFN_WeaponRange = (WeaponsRange_type*) 0x00657458;
 
   //------------------------------------------------- FLAGS --------------------------------------------------
   /** Direct mapping of unit flags data */

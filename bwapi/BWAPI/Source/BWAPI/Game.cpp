@@ -387,17 +387,17 @@ namespace BWAPI
         }
         this->print("BWAPI gas/mineral/build time cheat activated (only local ofcourse)");
       }
-      if (parsed[1] == "ore")
+      else if (parsed[1] == "ore")
       {
         BW::BWXFN_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] += 10000;
         this->print("BWAPI mineral cheat activated (only local ofcourse)");
       }
-      if (parsed[1] == "gas")
+      else if (parsed[1] == "gas")
       {
         BW::BWXFN_PlayerResources->gas.player[this->BWAPIPlayer->getID()] += 10000;
         this->print("BWAPI gas cheat activated (only local ofcourse)");
       }
-      if (parsed[1] == "speed")
+      else if (parsed[1] == "speed")
       {
         for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         {
@@ -410,6 +410,45 @@ namespace BWAPI
       else 
         this->print("Unknown log command '%s''s - possible values are: all, ore, gas, speed", parsed[1].c_str());
       return true;
+    }
+    else if (parsed[0] == "/set")
+    {
+      if (parsed[1] == "range")
+      {
+        u16 range = atoi(parsed[2].c_str());
+        size_t length = strlen("/set range  ") + parsed[2].size();
+        std::string name = message.substr(length, message.size() - length);
+        BW::UnitType unit = unitNameToType[name];
+        if (unit == BW::UnitID::None)
+        {
+          this->print("Unknown unit name '%s'", name.c_str());
+          return true;
+        }
+        BW::BWXFN_WeaponRange->weapon[BW::BWXFN_UnitGroundWeapon->unit[unit.getID()]] = range;
+        BW::BWXFN_UnitSeekRange->unit[unit.getID()] = range << 8;
+        this->print("Set range of '%s' to %d", name.c_str(), range);
+      }
+      else if (parsed[1] == "sight")
+      {
+        u8 range = atoi(parsed[2].c_str());
+        if (range > 11)
+        {
+          this->print("Max sight range size is 11");
+          return true;
+        }
+        size_t length = strlen("/set sight  ") + parsed[2].size();
+        std::string name = message.substr(length, message.size() - length);
+        BW::UnitType unit = unitNameToType[name];
+        if (unit == BW::UnitID::None)
+        {
+          this->print("Unknown unit name '%s'", name.c_str());
+          return true;
+        }
+        BW::BWXFN_UnitSightRange->unit[unit.getID()] = range;
+        this->print("Set range of '%s' to %d", name.c_str(), range);
+      }
+     else
+       this->print("Unknown thing to set '%s'", parsed[1].c_str());
     }
     return false;
   }
