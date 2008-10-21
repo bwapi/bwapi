@@ -820,7 +820,7 @@ namespace BWAI
       {
          learnBuildTest = "";
          learnBuildTest.append("<expansion id=\"Player ");
-         learnBuildTest.append(itoa(i+1, learnBuildTemp, 10));
+         learnBuildTest.append(_itoa(i+1, learnBuildTemp, 10));
          learnBuildTest.append("\">");
 
          learnBuildLoc = learnBuildStream.find(learnBuildTest, learnBuildPos);
@@ -834,12 +834,12 @@ namespace BWAI
            learnBuildPos += 1;
            learnBuildStream.insert(learnBuildPos, "      <position x=\"");
            learnBuildPos += 19;
-           learnBuildStream.insert(learnBuildPos, itoa(BW::startPositions[i].x, learnBuildTemp, 10));
-           learnBuildPos += strlen(itoa(BW::startPositions[i].x, learnBuildTemp, 10));
+           learnBuildStream.insert(learnBuildPos, _itoa(BW::startPositions[i].x, learnBuildTemp, 10));
+           learnBuildPos += strlen(_itoa(BW::startPositions[i].x, learnBuildTemp, 10));
            learnBuildStream.insert(learnBuildPos, "\" y=\"");
            learnBuildPos += 5;
-           learnBuildStream.insert(learnBuildPos, itoa(BW::startPositions[i].y, learnBuildTemp, 10));
-           learnBuildPos += strlen(itoa(BW::startPositions[i].y, learnBuildTemp, 10));
+           learnBuildStream.insert(learnBuildPos, _itoa(BW::startPositions[i].y, learnBuildTemp, 10));
+           learnBuildPos += strlen(_itoa(BW::startPositions[i].y, learnBuildTemp, 10));
            learnBuildStream.insert(learnBuildPos, "\"/>\n");
            learnBuildPos += 4;
            learnBuildStream.insert(learnBuildPos, "    </expansion>\n");
@@ -852,9 +852,9 @@ namespace BWAI
            // ######################## POSITION ELEMENT
            learnBuildTest = "";
            learnBuildTest.append("<position x=\"");
-           learnBuildTest.append(itoa(BW::startPositions[i].x, learnBuildTemp, 10));
+           learnBuildTest.append(_itoa(BW::startPositions[i].x, learnBuildTemp, 10));
            learnBuildTest.append("\" y=\"");
-           learnBuildTest.append(itoa(BW::startPositions[i].y, learnBuildTemp, 10));
+           learnBuildTest.append(_itoa(BW::startPositions[i].y, learnBuildTemp, 10));
            learnBuildTest.append("\"/>");
 
            learnBuildLoc = learnBuildStream.find(learnBuildTest, learnBuildPos);
