@@ -273,8 +273,7 @@ namespace BWAPI
           this->BWAPIPlayer = this->players[i];
       else
         if (strcmp(this->players[i]->getName(),"") != 0 &&
-            opponent == NULL &&
-            this->players[i]->getAllUnits(BW::UnitID::All) > 0)
+            opponent == NULL)
           this->opponent = this->players[i];
     }
   }

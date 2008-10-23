@@ -76,6 +76,7 @@ namespace BW
     bool                 isValid();
     /** Used to determine what building builds this addon. Can be extended later if needed.*/
     BW::UnitType         whereToBuild();
+    u16                  getSupplyProduced();
   private :
     BW::UnitID::Enum id;
     Util::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;

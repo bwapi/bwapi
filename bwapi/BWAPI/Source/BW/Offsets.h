@@ -201,6 +201,15 @@ namespace BW
     u8 supplyDemand[UNIT_TYPE_COUNT];
   };
   static SupplyDemands_type* BWXFN_SupplyDemands = (SupplyDemands_type*) 0x00663CD0;
+  
+  //------------------------------------------ UNIT SUPPLY PRODUCED ------------------------------------------
+  /** Direct mapping of unit supply production. */
+  struct SupplyProduced_type
+  {
+    u8 unitType[UNIT_TYPE_COUNT];
+  };
+  static SupplyProduced_type* BWXFN_SupplyProduced = (SupplyProduced_type*) 0x006646B0;
+
   //---------------------------------------------- UNIT MAX HP -----------------------------------------------
   /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
   struct MaxHealthPoints_NotAttackable_Repairable_type

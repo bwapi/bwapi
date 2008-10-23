@@ -184,12 +184,12 @@ namespace BW
   {
     return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Men);
   }
-  //----------------------------------------------------------------------------------------------------------
+  //------------------------------------------------ IS VALID ------------------------------------------------
   bool UnitType::isValid()
   {
     return this->id < 228;
   }
-  //----------------------------------------------------------------------------------------------------------
+  //------------------------------------------------ GET RACE ------------------------------------------------
   BW::Race::Enum UnitType::getRace()
   {
     if (this->isZerg())
@@ -201,27 +201,27 @@ namespace BW
     else
       return BW::Race::Other;
   }
-  //----------------------------------------------------------------------------------------------------------
+  //--------------------------------------------- IS BUILDING ------------------------------------------------
   bool UnitType::isBuilding() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Building);
   }
-  //--------------------------------------------------     ---------------------------------------------------
+  //----------------------------------------------- IS ADDON -------------------------------------------------
   bool UnitType::isAddon() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Addon);
   }
-  //--------------------------------------------------     ---------------------------------------------------
+  //---------------------------------------------- IS FLAYER -------------------------------------------------
   bool UnitType::isFlayer() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Flyer);
   }  
-  //--------------------------------------------------     ---------------------------------------------------
+  //--------------------------------------------- IS NEUTRAL -------------------------------------------------
   bool UnitType::isNeutral() const
   {
     return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
   }  
-  //--------------------------------------------------     ---------------------------------------------------
+  //---------------------------------------- IS NEUTRAL ACCESORIES -------------------------------------------
   bool UnitType::isNeutralAccesories() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
@@ -239,6 +239,11 @@ namespace BW
       case BW::UnitID::Terran_PhysicsLab    : return BW::UnitID::Terran_ScienceFacility;
       default : return BW::UnitID::None;
     }
+  }
+  //---------------------------------------- GET SUPPLY PRODUCED ---------------------------------------------
+  u16 UnitType::getSupplyProduced()
+  {
+    return BWXFN_SupplyProduced->unitType[this->getID()];
   }
   //----------------------------------------------------------------------------------------------------------
 }
