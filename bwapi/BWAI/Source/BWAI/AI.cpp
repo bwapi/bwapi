@@ -1150,7 +1150,7 @@ namespace BWAI
                      player->getSuppliesFreeLocal(BW::Race::Protoss), 
                      plannedProtossSupplyGain());
       Unit* builderToUse;
-      BuildingPosition* spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
+      BuildingPosition* spot = getFreeBuildingSpot("pylon", builderToUse);
       if (spot != NULL)
       {
         this->log->log("Found free spot for pylon at (%d,%d)", spot->position.x, spot->position.y);
@@ -1167,12 +1167,8 @@ namespace BWAI
   {
     s32 returnValue = 0;
     for each (TaskBuild* i in this->plannedBuildings)
-    {
-      if (i->getBuildingType() == BW::UnitID::Terran_SupplyDepot)
-        returnValue += 8;
-      else if (i->getType() == BW::UnitID::Terran_CommandCenter)
-        returnValue += 10;
-    }
+      if (i->getBuildingType().getRace() == BW::Race::Terran)
+        returnValue += i->getBuildingType().getSupplyProduced();
     return returnValue;
   }
   //----------------------------------------------------------------------------------------------------------
@@ -1180,12 +1176,8 @@ namespace BWAI
   {
     s32 returnValue = 0;
     for each (TaskBuild* i in this->plannedBuildings)
-    {
-      if (i->getBuildingType() == BW::UnitID::Protoss_Pylon)
-        returnValue += 8;
-      else if (i->getType() == BW::UnitID::Protoss_Nexus)
-        returnValue += 9;
-    }
+      if (i->getBuildingType().getRace() == BW::Race::Protoss)
+        returnValue += i->getBuildingType().getSupplyProduced();
     return returnValue;
   }
   //---------------------------------------------- FREE BUILDER ----------------------------------------------
