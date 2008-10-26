@@ -54,7 +54,7 @@ namespace BW
     struct PlayerInfo
     {
       u32              id;
-      u32              actions; // unused; FF FF FF FF if not a player
+      u32              actions; // unused; FF FF FF FF if not a human player
       PlayerType::Enum type;
       Race::Enum       race;
       u8               force;
@@ -82,6 +82,7 @@ namespace BW
   static s32* CountCompletedUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 1);
   static s32* CountKilledUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 2);
   static s32* CountDeadUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 3);
+  static u8* BWOFF_gameType = (u8*) 0x00596808;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
