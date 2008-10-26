@@ -69,8 +69,8 @@ extern "C" __declspec(dllexport) void GetData(char *name, char *description, cha
 {
    //if necessary you can add Initialize function here
    //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
-   strcpy(name, "BWAPI_Injector (1.15.3)");
-   strcpy(description, "Injects BWAPI.dll into the Broodwar process.");
+   strcpy(name, "BWAPI Injector (1.15.3)");
+   strcpy(description, "Injects BWAPI.dll into the Broodwar process.\n Be sure to get the latest revision! \n\n - BWAI Project Team");
    strcpy(updateurl, "");
 }
 

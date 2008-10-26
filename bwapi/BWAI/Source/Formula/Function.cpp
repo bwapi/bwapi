@@ -64,12 +64,9 @@ namespace Formula
   {
     switch (this->type)
     {
-      case FunctionType::Finished : return BWAPI::Broodwar.BWAPIPlayer->unitTypeCount[this->unitType.getID()];
-      case FunctionType::All      : return BWAPI::Broodwar.BWAPIPlayer->allUnitTypeCount[this->unitType.getID()];
-      case FunctionType::InProgress : 
-        return (float) 
-               BWAPI::Broodwar.BWAPIPlayer->allUnitTypeCount[this->unitType.getID()] - 
-               BWAPI::Broodwar.BWAPIPlayer->unitTypeCount[this->unitType.getID()];
+      case FunctionType::Finished   : return BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(this->unitType.getID());
+      case FunctionType::All        : return BWAPI::Broodwar.BWAPIPlayer->getAllUnits(this->unitType.getID());
+      case FunctionType::InProgress : return BWAPI::Broodwar.BWAPIPlayer->getIncompleteUnits(this->unitType.getID());
       case FunctionType::ConfigValue: 
         return this->configValue;
       case FunctionType::ActiveMinerals :

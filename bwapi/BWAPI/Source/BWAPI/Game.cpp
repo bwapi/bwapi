@@ -28,6 +28,7 @@
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
+#include <BW/GameType.h>
 
 #include "Globals.h"
 
@@ -269,11 +270,13 @@ namespace BWAPI
     this->opponent = NULL;
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
     {
-      if (config->get("bwapi_name") == this->players[i]->getName())
-          this->BWAPIPlayer = this->players[i];
+      if (config->get("bwapi_name") == this->players[i]->getName() && 
+          this->players[i]->getForceName() != "Observers")
+        this->BWAPIPlayer = this->players[i];
       else
         if (strcmp(this->players[i]->getName(),"") != 0 &&
-            opponent == NULL)
+            opponent == NULL &&
+            this->players[i]->getForceName() != "Observers")
           this->opponent = this->players[i];
     }
   }
@@ -353,7 +356,11 @@ namespace BWAPI
             this->print("Another level is not in progress");
         }
       }
-      else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState", parsed[1].c_str());
+      else if (parsed[1] == "unitCount")
+        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+          this->print("Counted %d units for player %d.", this->players[i]->getAllUnits(BW::UnitID::All), i+1);
+
+      else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState, unitCount", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/log")
