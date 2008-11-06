@@ -118,7 +118,6 @@ namespace BWAPI
       Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       BW::Latency::Enum latency;
       std::vector<std::vector<Command *> > commandBuffer;
-      std::vector<char *> buffers;
       /** All commands ordered from BWAPI */
       Util::Logger *commandLog;
       /** Unknown orderID's */
