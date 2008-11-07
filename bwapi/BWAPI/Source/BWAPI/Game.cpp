@@ -152,9 +152,6 @@ namespace BWAPI
         this->onGameStart();
       memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
-      for (int i = 0; i < 12; i++)
-        for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-          this->players[i]->toMake[j] = 0;
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
      
