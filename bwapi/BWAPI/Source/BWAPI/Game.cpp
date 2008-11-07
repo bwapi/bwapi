@@ -152,6 +152,9 @@ namespace BWAPI
         this->onGameStart();
       memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
+      for (int i = 0; i < 12; i++)
+        for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
+          this->players[i]->toMake[j] = 0;
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
      
@@ -168,31 +171,6 @@ namespace BWAPI
       this->frameCount ++;
       this->logUnknownOrStrange();
       this->updateUnitsOnTile();    
-    
-      for (int i = 0; i < 12; i++)
-        for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-        {
-          this->players[i]->unitTypeCount[j] = 0;
-          this->players[i]->allUnitTypeCount[j] = 0;
-        }
-    
-      for each (Unit* i in this->units)
-      //for (Game::Units::iterator i = this->units.begin(); i != this->units.end(); ++i)
-        if (i->getOwner()->getID() < 12)
-        {
-          this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getType().getID()]++;
-          if (i->isReady())
-            this->players[i->getOwner()->getID()]->unitTypeCount[i->getType().getID()]++;
-          if (!i->isReady() && 
-               !i->getType().isBuilding() && 
-               i->getType().isTerran() &&
-               i->getOrderID() != BW::OrderID::Die)
-            this->badAssumptionLog->log("%s is in the list but not finished", i->getName().c_str());
-
-          if (i->getBuildUnit() != NULL &&
-              i->getType().canProduce())
-            this->players[i->getOwner()->getID()]->allUnitTypeCount[i->getBuildUnit()->getType().getID()]++;
-        }
     }
     catch (GeneralException& exception)
     {
@@ -357,8 +335,56 @@ namespace BWAPI
         }
       }
       else if (parsed[1] == "unitCount")
-        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-          this->print("Counted %d units for player %d.", this->players[i]->getAllUnits(BW::UnitID::All), i+1);
+       { 
+        BW::UnitType unit = BW::UnitID::All;
+         if (parsed[2] != "")
+         {
+           std::string unitName= message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
+           unit = this->unitNameToType[unitName];
+           if (unit == BW::UnitID::None)
+           { 
+             this->print("Unknown unit name '%s'", unitName.c_str());
+             return true;
+           }
+         }
+         this->print("Count of %s's:", unit.getName());
+         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+           this->print("Counted %d units for player %d.", this->players[i]->getAllUnits(unit), i+1);
+       }
+       else if (parsed[1] == "unfinishedCount")
+       { 
+         BW::UnitType unit = BW::UnitID::All;
+         if (parsed[2] != "")
+         {
+           std::string unitName= message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
+           unit = this->unitNameToType[unitName];
+           if (unit == BW::UnitID::None)
+           { 
+             this->print("Unknown unit name '%s'", unitName);
+             return true;
+           }
+         }
+         this->print("Count of unfinished %s's:", unit.getName());
+         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+           this->print("Counted %d units for player %d.", this->players[i]->getIncompleteUnits(unit), i+1);
+       }
+       else if (parsed[1] == "completedCount")
+       { 
+         BW::UnitType unit = BW::UnitID::All;
+         if (parsed[2] != "")
+         {
+           std::string unitName= message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
+           unit = this->unitNameToType[unitName];
+           if (unit == BW::UnitID::None)
+           { 
+             this->print("Unknown unit name '%s'", unitName);
+             return true;
+           }
+         }
+         this->print("Count of completed %s's:", unit.getName());
+         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+           this->print("Counted %d units for player %d.", this->players[i]->getCompletedUnits(unit), i+1);
+       }
 
       else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState, unitCount", parsed[1].c_str());
       return true;
@@ -473,7 +499,7 @@ namespace BWAPI
   { 
     this->IssueCommand((PBYTE)&BW::Orders::PauseGame(),sizeof(BW::Orders::PauseGame));
   }
-  //----------------------------------------------- RESUME GAME ----------------------------------------------
+  //---------------------------------------------- RESUME GAME -----------------------------------------------
   void Game::resumeGame()
   { 
     this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(),sizeof(BW::Orders::ResumeGame));

@@ -43,8 +43,8 @@ namespace BWAI
               (j->condition == NULL || j->condition->applies()) &&
               (
                  best == NULL ||
-                ((float)BWAI::ai->player->allUnitTypeCount[best->unitType.getID()])/((float)best->weight) >
-                ((float)BWAI::ai->player->allUnitTypeCount[j->unitType.getID()])/((float)j->weight))
+                ((float)BWAI::ai->player->getAllUnitsLocal(best->unitType.getID()))/((float)best->weight) >
+                ((float)BWAI::ai->player->getAllUnitsLocal(j->unitType.getID()))/((float)j->weight))
               )
             best = j;
         if (best != NULL && 

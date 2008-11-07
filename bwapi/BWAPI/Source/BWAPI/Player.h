@@ -108,10 +108,6 @@ namespace BWAPI
      * but we didn't find the address so far, so we have to write the logic on our own.
      */
     bool canBuild(BW::UnitType unit);
-    /** Count of units of the same type */
-    u16 unitTypeCount[BW::UNIT_TYPE_COUNT];
-    /** Count of units of the same type - even uncompleted units/buildings are stored here*/
-    u16 allUnitTypeCount[BW::UNIT_TYPE_COUNT];
     /**
      * Finds out if the current player can afford to build the specified unit atm Checks minerals, gas and
      * supply need
@@ -131,11 +127,20 @@ namespace BWAPI
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
     u8 getForce();
+    
     s32 getAllUnits(BW::UnitType unit);
-    s32 getDeaths(BW::UnitType unit);
-    s32 getKills(BW::UnitType unit);
     s32 getCompletedUnits(BW::UnitType unit);
     s32 getIncompleteUnits(BW::UnitType unit);
+    
+    s32 toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts 
+                                      * of units */
+    s32 getAllUnitsLocal(BW::UnitType unit);
+    s32 getCompletedUnitsLocal(BW::UnitType unit);
+    s32 getIncompleteUnitsLocal(BW::UnitType unit);
+    
+    s32 getDeaths(BW::UnitType unit);
+    s32 getKills(BW::UnitType unit);
+    s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit);
     bool researchInProgress(BW::TechType tech) const;    
     bool techResearched(BW::TechType tech) const;
     u8 upgradeLevel(BW::UpgradeType upgrade) const;
