@@ -77,11 +77,27 @@ namespace BW
   static Positions* startPositions = (Positions*) 0x58D708;
   static ForceName* ForceNames = (ForceName*) 0x0058D5A4;
   static Players* BWXFN_Players = (Players*) 0x0057EEE0;
-  static u32  playerUnitCounts = 0x0058230C;
-  static s32* CountAllUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 0);
-  static s32* CountCompletedUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 1);
-  static s32* CountKilledUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 2);
-  static s32* CountDeadUnits = (s32*) (playerUnitCounts + BW::PLAYER_COUNT * BW::UNIT_TYPE_COUNT * 3);
+  
+  //----------------------------------------------- UNIT STATS -----------------------------------------------
+  /** Direct mapping of bw tables used for unti stats like count, completed, kills, deaths */
+  struct Counts
+  {
+    struct UnitStats
+    {
+      /** Direct mapping of resource value of some player (gas or minerals) */
+      struct PlayerStats
+      {
+        s32 player[PLAYER_COUNT];
+      };
+      PlayerStats unit[BW::UNIT_TYPE_COUNT];
+    };
+    UnitStats all;
+    UnitStats completed;
+    UnitStats killed;
+    UnitStats dead;
+  };
+  
+  static Counts* BWXFN_Counts = (Counts*) 0x0058230C;
   static u8* BWOFF_gameType = (u8*) 0x00596808;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
@@ -181,14 +197,14 @@ namespace BW
   static Supplies* BWXFN_Supplies    = (Supplies*) 0x0058212C;
   
   
-  //------------------------------------------- UNIT MINERAL PRICES ------------------------------------------
+  //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
   /** Direct mapping of unit types mineral prices. */
   struct MineralPrices_type
   {
     u16 mineralPrice[UNIT_TYPE_COUNT];
   };
   static MineralPrices_type* BWXFN_MineralPrices = (MineralPrices_type*) 0x00663870;
-  //------------------------------------------- UNIT MINERAL PRICES ------------------------------------------
+  //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
   /** Direct mapping of unit types gas prices. */
   struct GasPrices_type
   {
@@ -297,7 +313,7 @@ namespace BW
   };
   static WeaponsDamageFactor_type* BWXFN_WeaponDamageFactor = (WeaponsDamageFactor_type*) 0x006564C8;         
 
-  //------------- WEAPON DAMAGE TYPE -------------------------------------------------------------------------
+  //------------------------------------------- WEAPON DAMAGE TYPE -------------------------------------------
   /** Direct mapping of weapon type damage */
   struct WeaponsDamage_type
   {
@@ -305,7 +321,7 @@ namespace BW
   };
   static WeaponsDamage_type* BWXFN_WeaponDamage = (WeaponsDamage_type*) 0x00656E98;
   
-  //------------- WEAPON RANGE TYPE --------------------------------------------------------------------------
+  //------------------------------------------- WEAPON RANGE TYPE --------------------------------------------
   /** Direct mapping of unit unit type armor */
   struct WeaponsRange_type
   {
