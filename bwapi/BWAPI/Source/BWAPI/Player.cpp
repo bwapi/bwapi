@@ -64,6 +64,8 @@ namespace BWAPI
       this->suppliesAvailableLocal[i] = this->getSuppliesAvailable((BW::Race::Enum)i);
       this->suppliesUsedLocal[i] = this->getSuppliesUsed((BW::Race::Enum)i);
     }
+    for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
+      this->toMake[j] = 0;
   }
   //---------------------------------------------- SPEND LOCAL -----------------------------------------------
   void  Player::spendLocal(s32 minerals, s32 gas)
@@ -216,8 +218,13 @@ namespace BWAPI
         if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
           temp += counts.unit[i].player[this->getID()];
     return temp;
-  }  
-  //--------------------------------------------- GET FORCE NAME ---------------------------------------------
+  }
+  //------------------------------------------- PLAN TO MAKE -------------------------------------------------
+  void Player::planToMake(BW::UnitType unit)
+  {
+    this->toMake[unit.getID()]++;
+  }
+  //------------------------------------------- GET FORCE NAME -----------------------------------------------
   char* Player::getForceName() const
   {
     return BW::ForceNames[BW::BWXFN_Players->player[this->getID()].force].name;

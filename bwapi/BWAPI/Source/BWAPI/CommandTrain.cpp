@@ -35,11 +35,11 @@ namespace BWAPI
    }
  
    executors[0]->getBuildQueueLocal()[slotToAffect] = this->toTrain.getID();
+   this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    this->executors[0]->getOwner()->spendLocal(this->toTrain.getMineralPrice(),
                                               this->toTrain.getGasPrice());
-   this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    executors[0]->getOwner()->useSuppliesLocal(toTrain.getSupplies(), toTrain.getRace());
-   executors[0]->getOwner()->toMake[toTrain.getID()]++;
+   executors[0]->getOwner()->planToMake(toTrain);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandTrain::getType()

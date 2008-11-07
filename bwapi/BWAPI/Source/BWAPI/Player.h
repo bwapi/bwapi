@@ -132,15 +132,13 @@ namespace BWAPI
     s32 getCompletedUnits(BW::UnitType unit);
     s32 getIncompleteUnits(BW::UnitType unit);
     
-    s32 toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts 
-                                      * of units */
     s32 getAllUnitsLocal(BW::UnitType unit);
     s32 getCompletedUnitsLocal(BW::UnitType unit);
     s32 getIncompleteUnitsLocal(BW::UnitType unit);
     
     s32 getDeaths(BW::UnitType unit);
     s32 getKills(BW::UnitType unit);
-    s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit);
+    void planToMake(BW::UnitType unit);
     bool researchInProgress(BW::TechType tech) const;    
     bool techResearched(BW::TechType tech) const;
     u8 upgradeLevel(BW::UpgradeType upgrade) const;
@@ -149,7 +147,10 @@ namespace BWAPI
     u8 id;  /**< Order of the player, is used to load player's information from the memory */
     s32 mineralsLocal, gasLocal;  /**< Storage of local versions resources. */
 
+    s32 toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts 
+                                      * of units */
     s32 suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
     s32 suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
+    s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit);
   };
 };
