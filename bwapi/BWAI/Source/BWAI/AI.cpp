@@ -345,7 +345,7 @@ namespace BWAI
       BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
       this->refreshSelectionStates(selected);
        
-      this->checkSupplyNeed();
+      //this->checkSupplyNeed();
       this->checkNewExpansions();
 
       std::list<Unit*> idleWorkers;
@@ -748,7 +748,7 @@ namespace BWAI
     }
     return false;
   }
-  //------------------------------------------- SAVE BUILDINGS -----------------------------------------------
+  //--------------------------------------------- SAVE BUILDINGS ---------------------------------------------
   // Re-writing to add positions if they are not found. Needs some thought.
   bool AI::saveBuildings(const std::string& path)
   {
@@ -757,7 +757,8 @@ namespace BWAI
     u32 learnBuildPos, learnBuildLoc;
 
     char* bxmlHead = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n";
-    char* bMapDescFull = "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n	               xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n";
+    char* bMapDescFull = "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+                         "	               xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n";
     char* bPosition = "position";
     char* bStartPositions = "starting-positions";
     char* bStartPosition = "starting-position";
@@ -1077,106 +1078,12 @@ namespace BWAI
         best->addExecutor(i);
      }
   }
-  //---------------------------------------- OF PRODUCTION BUILDINGS (Terran) --------------------------------
-  int AI::countOfTerranProductionBuildings()
-  {
-    int countOfTerranFactories = 0;
-    for each (Unit* i in this->units)
-      if (i->getType().canProduce() &&
-          i->getOwner() == this->player &&
-          i->getType().isTerran())
-         countOfTerranFactories++;
-    return countOfTerranFactories;
-  }
-  //---------------------------------------- OF PRODUCTION BUILDINGS (Protoss) -------------------------------
-  int AI::countOfProtossProductionBuildings()
-  {
-    int countOfProtossFactories = 0;
-    for each (Unit* i in this->units)
-      if (i->getType().canProduce() &&
-          i->getOwner() == this->player &&
-          i->getType().isProtoss())
-         countOfProtossFactories++;
-    return countOfProtossFactories;
-  }
-  //---------------------------------------- OF PRODUCTION BUILDINGS (Zerg) ----------------------------------
-  int AI::countOfZergHatcheries()
-  {
-    int countOfZergHatcheries = 0;
-    for each (Unit* i in this->units)
-      if ((i->getType() == BW::UnitID::Zerg_Hatchery ||
-          i->getType() == BW::UnitID::Zerg_Lair ||
-          i->getType() == BW::UnitID::Zerg_Hive) &&
-          i->getOwner() == this->player)
-         countOfZergHatcheries++;
-    return countOfZergHatcheries;
-  }
-  //------------------------------------------- CHECK SUPPLY NEED --------------------------------------------
-  void AI::checkSupplyNeed()
-  { 
-    if (!this->startingPosition)
-      return;
-    int countOfTerranFactories = this->countOfTerranProductionBuildings();
-    int countOfProtossFactories = this->countOfProtossProductionBuildings();
-    int countOfZergHatcheries = this->countOfZergHatcheries();
-
-    if (countOfTerranFactories != 0 &&                                    // Terran
-        countOfTerranFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() &&
-        player->getSuppliesFreeLocal(BW::Race::Terran) + plannedTerranSupplyGain() < player->getSuppliesMax(BW::Race::Terran))
-    {
-      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", 
-                     countOfTerranFactories, 
-                     player->getSuppliesFreeLocal(BW::Race::Terran), 
-                     plannedTerranSupplyGain());
-      Unit* builderToUse;
-      BuildingPosition* spot = getFreeBuildingSpot("non-producting-3X2", builderToUse);
-      if (spot != NULL)
-      {
-        this->log->log("Found free spot for supply depot at (%d,%d)", spot->position.x, spot->position.y);
-        this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Terran_SupplyDepot, 
-                                                       spot, 
-                                                       builderToUse, 
-                                                       this->startingPosition->positions["non-producting-3X2"],
-                                                       0));
-      }
-    }        
-
-    if (countOfProtossFactories != 0 &&                                          // Protoss
-        countOfProtossFactories * 2 >= player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() &&
-        player->getSuppliesFreeLocal(BW::Race::Protoss) + plannedProtossSupplyGain() < player->getSuppliesMax(BW::Race::Protoss))
-    {
-      this->log->log("Not enough supplies factories = %d freeSupplies = %d plannedToBuildSupplies = %d", 
-                     countOfProtossFactories, 
-                     player->getSuppliesFreeLocal(BW::Race::Protoss), 
-                     plannedProtossSupplyGain());
-      Unit* builderToUse;
-      BuildingPosition* spot = getFreeBuildingSpot("pylon", builderToUse);
-      if (spot != NULL)
-      {
-        this->log->log("Found free spot for pylon at (%d,%d)", spot->position.x, spot->position.y);
-        this->plannedBuildings.push_back(new TaskBuild(BW::UnitID::Protoss_Pylon, 
-                                                       spot, 
-                                                       builderToUse, 
-                                                       this->startingPosition->positions["pylon"],
-                                                       0));
-      }
-    }        
-  } 
-  //----------------------------------------------------------------------------------------------------------
-  s32 AI::plannedTerranSupplyGain()
+  //------------------------------------------- PLANNED SUPPLY GAIN ------------------------------------------
+  s32 AI::plannedSupplyGain(BW::Race::Enum race)
   {
     s32 returnValue = 0;
     for each (TaskBuild* i in this->plannedBuildings)
-      if (i->getBuildingType().getRace() == BW::Race::Terran)
-        returnValue += i->getBuildingType().getSupplyProduced();
-    return returnValue;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  s32 AI::plannedProtossSupplyGain()
-  {
-    s32 returnValue = 0;
-    for each (TaskBuild* i in this->plannedBuildings)
-      if (i->getBuildingType().getRace() == BW::Race::Protoss)
+      if (i->getBuildingType().getRace() == race)
         returnValue += i->getBuildingType().getSupplyProduced();
     return returnValue;
   }

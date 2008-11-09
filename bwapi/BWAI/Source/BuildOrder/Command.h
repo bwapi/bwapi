@@ -12,6 +12,7 @@ namespace BuildOrder
   class Command
   {
     public :
+      Command();
       Command(TiXmlElement* element);
       /** 
        * Tries to execute the current command.

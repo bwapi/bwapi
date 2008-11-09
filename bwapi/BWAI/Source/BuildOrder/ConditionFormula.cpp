@@ -25,4 +25,10 @@ namespace BuildOrder
   {
     return this->formula->evaluate() > 0;
   }
+  //-------------------------------------------- DEBUG EVALUATE ----------------------------------------------
+  void ConditionFormula::debugEvaluate(std::string& view)
+  {
+    this->formula->debugEvaluate(view);
+  }
+  //----------------------------------------------------------------------------------------------------------
 }

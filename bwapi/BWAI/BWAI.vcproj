@@ -351,6 +351,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandRegisterException.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\CommandUpgrade.h"
 					>
 				</File>
@@ -420,6 +424,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\CommandPointer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandRegisterException.cpp"
 					>
 				</File>
 				<File

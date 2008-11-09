@@ -29,4 +29,12 @@ namespace BuildOrder
   {
     return BWAI::ai->player->getSuppliesUsedLocal(BWAI::ai->player->getRace()) >= 2*this->minimalPopulation;
   }
+  //-------------------------------------------- DEBUG EVALUATE ----------------------------------------------
+  void ConditionMinimalPopulation::debugEvaluate(std::string& view)
+  {
+    view += Util::Strings::ssprintf(" MinimalPopulation(%d)=%d ", 
+                             2*this->minimalPopulation, 
+                             BWAI::ai->player->getSuppliesUsedLocal(BWAI::ai->player->getRace()));
+  }
+  //----------------------------------------------------------------------------------------------------------
 }

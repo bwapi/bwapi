@@ -1,4 +1,4 @@
-#include "CommandCall.h"
+#include "CommandRegisterException.h"
 
 #include <map>
 #include <Util/Xml.h>
@@ -8,31 +8,22 @@
 #include "Executor.h"
 #include "Root.h"
 #include "Condition.h"
-#include "Branch.h"
 
 namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandCall::CommandCall(TiXmlElement* xmlElement)
+  CommandRegisterException::CommandRegisterException(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
   }
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandCall::CommandCall(const std::string& name)
-  :Command()
-  ,name(name)
-  {
-  }  
   //----------------------------------------------------------------------------------------------------------
-  bool CommandCall::executeInternal(Executor* executor)
+  bool CommandRegisterException::executeInternal(Executor* executor)
   {
     if (!BWAI::ai->root->functions.count(name))
-      throw GeneralException("Unknown function to call :'" + this->name + "'");
-    Branch* target = BWAI::ai->root->functions[this->name];
-    if (!target->condition ||
-        target->condition->applies())
-      executor->callStack.push_back(CommandPointer(target));
+      throw GeneralException("Unknown function to register as exception: '" + this->name + "'");
+    executor->registeredExceptions.insert(this->name);
+    BWAI::ai->root->log->log("Registered exception '%s'", this->name.c_str());
     return true;
   }
   //----------------------------------------------------------------------------------------------------------

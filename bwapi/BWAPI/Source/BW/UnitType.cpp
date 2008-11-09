@@ -201,27 +201,27 @@ namespace BW
     else
       return BW::Race::Other;
   }
-  //--------------------------------------------- IS BUILDING ------------------------------------------------
+  //---------------------------------------------- IS BUILDING -----------------------------------------------
   bool UnitType::isBuilding() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Building);
   }
-  //----------------------------------------------- IS ADDON -------------------------------------------------
+  //------------------------------------------------ IS ADDON ------------------------------------------------
   bool UnitType::isAddon() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Addon);
   }
-  //---------------------------------------------- IS FLAYER -------------------------------------------------
+  //----------------------------------------------- IS FLAYER ------------------------------------------------
   bool UnitType::isFlayer() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Flyer);
   }  
-  //--------------------------------------------- IS NEUTRAL -------------------------------------------------
+  //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool UnitType::isNeutral() const
   {
     return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
   }  
-  //---------------------------------------- IS NEUTRAL ACCESORIES -------------------------------------------
+  //----------------------------------------- IS NEUTRAL ACCESORIES ------------------------------------------
   bool UnitType::isNeutralAccesories() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
@@ -240,7 +240,7 @@ namespace BW
       default : return BW::UnitID::None;
     }
   }
-  //---------------------------------------- GET SUPPLY PRODUCED ---------------------------------------------
+  //------------------------------------------ GET SUPPLY PRODUCED -------------------------------------------
   u16 UnitType::getSupplyProduced()
   {
     return BWXFN_SupplyProduced->unitType[this->getID()];

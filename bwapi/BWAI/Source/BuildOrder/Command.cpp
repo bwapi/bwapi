@@ -8,6 +8,12 @@
 namespace BuildOrder
 {
    //---------------------------------------------- CONSTRUCTOR ----------------------------------------------
+   Command::Command()
+   :condition(NULL)
+   {
+     this->priority = 0;
+   }
+   //---------------------------------------------- CONSTRUCTOR ----------------------------------------------
    Command::Command(TiXmlElement *element)
    :condition(NULL)
    {

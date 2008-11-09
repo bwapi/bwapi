@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "ConditionType.h"
 #include "ConditionRunType.h"
 
@@ -14,5 +15,6 @@ namespace BuildOrder
       virtual ConditionType::Enum getType() = 0; /**< Get the Condition descenant identification. */
       virtual bool applies() = 0; /**< Returns if the condition is fullfiled (Game specific) */
       static Condition* load(TiXmlElement* xmlElement);
+      virtual void debugEvaluate(std::string& view) = 0;
   };
 }

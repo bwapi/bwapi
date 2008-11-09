@@ -104,6 +104,8 @@ namespace BWAI
       PathFinding::Utilities *pathFinding;
       MapStartingPosition* startingPosition;      
       u16 mineralGatherers;
+      /** @todo investigate and use the nextSupply provider here. */
+      s32 plannedSupplyGain(BW::Race::Enum race);      
    private :
       Unit* getFirst();   
       Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -123,13 +125,6 @@ namespace BWAI
       void performAutoBuild();
       void getIdleWorkers(std::list<Unit*> &workers);
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
-      int countOfTerranProductionBuildings();
-      int countOfProtossProductionBuildings();
-      int countOfZergHatcheries();
-      void checkSupplyNeed();
-      /** @todo investigate and use the nextSupply provider here. */
-      s32 plannedTerranSupplyGain();
-      s32 plannedProtossSupplyGain();
       void executeTasks();
       TaskGather* bestFor(Unit* gatherer);
       void removeExpansion(Expansion* expansion);

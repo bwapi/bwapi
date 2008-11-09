@@ -36,5 +36,15 @@ namespace BuildOrder
         return false;
     return true;
   }
+  //-------------------------------------------- DEBUG EVALUATE ----------------------------------------------
+  void ConditionAnd::debugEvaluate(std::string& view)
+  {
+    for each (Condition* i in this->nested)
+    {
+      if (i != this->nested.front())
+        view += " && ";
+      i->debugEvaluate(view);
+    }
+  }
   //----------------------------------------------------------------------------------------------------------
 }
