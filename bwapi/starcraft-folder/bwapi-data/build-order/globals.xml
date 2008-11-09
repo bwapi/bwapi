@@ -9,4 +9,21 @@
       </build>
     </train>
   </build-order>
+  <build-order type="function" name="Standard terran supply depot building">
+    <condition type="and">
+      <condition type="formula" formula="UsedSupply(Terran) + Factories(Terran)*4  - PlannedSupply(Terran)" />
+      <condition type="formula" formula="200 - PlannedSupply(Terran)" />
+    </condition>
+    <build name="Terran Supply Depot" place="non-producting-3X2"/>
+  </build-order>
+  <build-order type="function" name="Standard protoss probe building">
+    <train building="Protoss Nexus" priority="10">
+      <build name="Protoss Probe" weight="1">
+        <condition type="and">
+          <condition type="formula" formula="ActiveMinerals*2 + All(Protoss Assimilator)*3 + InProgress(Protoss Nexus)*10 + All(Protoss Nexus)*3 - All(Protoss Probe)" />
+          <condition type="formula" formula="ConfigValue(max_count_of_workers) - All(Protoss Probe)" />
+        </condition>
+      </build>
+    </train>
+  </build-order>  
 </build-orders>

@@ -167,6 +167,11 @@ namespace BWAPI
   {
     return this->evaluateCounts(BW::BWXFN_Counts->completed, unit);
   }
+  //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
+  s32 Player::getCompletedUnits(BW::UnitType unit, BW::Race::Enum race)
+  {
+    return this->evaluateCounts(BW::BWXFN_Counts->completed, unit, race);
+  }  
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 Player::getIncompleteUnits(BW::UnitType unit)
   {
@@ -180,7 +185,7 @@ namespace BWAPI
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 Player::getIncompleteUnitsLocal(BW::UnitType unit)
   {
-    return this->getIncompleteUnitsLocal(unit) + toMake[unit.getID()];
+    return this->getIncompleteUnits(unit) + toMake[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
   s32 Player::getDeaths(BW::UnitType unit)
@@ -219,6 +224,37 @@ namespace BWAPI
           temp += counts.unit[i].player[this->getID()];
     return temp;
   }
+  //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
+  s32 Player::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit, BW::Race::Enum race)
+  {
+    if(unit.getID() < BW::UnitID::None)
+      return counts.unit[unit.getID()].player[this->getID()];
+
+    s32 temp = 0;
+    if (unit == BW::UnitID::All)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
+          temp += counts.unit[i].player[this->getID()];
+
+    if (unit == BW::UnitID::Buildings)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
+          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
+            temp += counts.unit[i].player[this->getID()];
+
+    if (unit == BW::UnitID::Factories)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
+          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
+            temp += counts.unit[i].player[this->getID()];
+
+    if (unit == BW::UnitID::Men)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
+          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
+            temp += counts.unit[i].player[this->getID()];
+    return temp;
+  }  
   //------------------------------------------- PLAN TO MAKE -------------------------------------------------
   void Player::planToMake(BW::UnitType unit)
   {

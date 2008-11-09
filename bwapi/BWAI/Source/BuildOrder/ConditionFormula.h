@@ -14,6 +14,7 @@ namespace BuildOrder
       ConditionFormula(TiXmlElement* element);
       bool applies();
       ConditionType::Enum getType();
+      virtual void debugEvaluate(std::string& view);
     private :
       Formula::Base* formula; 
   };

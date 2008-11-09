@@ -16,6 +16,7 @@ namespace BuildOrder
       ~ConditionAnd();
       bool applies();
       ConditionType::Enum getType();
+      virtual void debugEvaluate(std::string& view);
     private :
       std::list<Condition*> nested; 
   };

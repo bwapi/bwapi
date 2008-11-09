@@ -130,10 +130,10 @@ namespace BWAPI
     
     s32 getAllUnits(BW::UnitType unit);
     s32 getCompletedUnits(BW::UnitType unit);
+    s32 getCompletedUnits(BW::UnitType unit, BW::Race::Enum race);
     s32 getIncompleteUnits(BW::UnitType unit);
     
     s32 getAllUnitsLocal(BW::UnitType unit);
-    s32 getCompletedUnitsLocal(BW::UnitType unit);
     s32 getIncompleteUnitsLocal(BW::UnitType unit);
     
     s32 getDeaths(BW::UnitType unit);
@@ -152,5 +152,6 @@ namespace BWAPI
     s32 suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
     s32 suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
     s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit);
+    s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit, BW::Race::Enum);
   };
 };

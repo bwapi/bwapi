@@ -10,7 +10,10 @@ namespace Formula
       All,
       InProgress,
       ConfigValue,
-      ActiveMinerals
+      ActiveMinerals,
+      UsedSupply,
+      PlannedSupply,
+      Factories
     };
   }
 }

@@ -27,6 +27,12 @@ namespace Formula
       this->type = FunctionType::ActiveMinerals;
       needParameter = false;
     }
+    else if (name == "UsedSupply")
+      this->type = FunctionType::UsedSupply;
+    else if (name == "PlannedSupply")
+      this->type = FunctionType::PlannedSupply;
+    else if (name == "Factories")
+      this->type = FunctionType::Factories;
     else 
       throw ParseException("Unknown Function '" + name + "'");
     if (needParameter)
@@ -53,6 +59,10 @@ namespace Formula
         break;
       case FunctionType::ConfigValue :
         sscanf(config->get(this->functionParameter).c_str(),"%f", &this->configValue);
+      case FunctionType::UsedSupply :
+      case FunctionType::PlannedSupply :
+      case FunctionType::Factories :
+        this->race = BW::Race::stringToRace(this->functionParameter);
     }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -64,13 +74,16 @@ namespace Formula
   {
     switch (this->type)
     {
-      case FunctionType::Finished   : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(this->unitType.getID());
-      case FunctionType::All        : return (float) BWAPI::Broodwar.BWAPIPlayer->getAllUnits(this->unitType.getID());
-      case FunctionType::InProgress : return (float) BWAPI::Broodwar.BWAPIPlayer->getIncompleteUnits(this->unitType.getID());
+      case FunctionType::Finished   : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(this->unitType);
+      case FunctionType::All        : return (float) BWAPI::Broodwar.BWAPIPlayer->getAllUnitsLocal(this->unitType);
+      case FunctionType::InProgress : return (float) BWAPI::Broodwar.BWAPIPlayer->getIncompleteUnitsLocal(this->unitType);
       case FunctionType::ConfigValue: 
         return this->configValue;
       case FunctionType::ActiveMinerals :
         return (float) BWAI::ai->activeMinerals.size();
+      case FunctionType::UsedSupply : return (float) BWAPI::Broodwar.BWAPIPlayer->getSuppliesUsedLocal(this->race);
+      case FunctionType::PlannedSupply : return (float) BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar.BWAPIPlayer->getSuppliesAvailableLocal(race);
+      case FunctionType::Factories : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Factories, race);
     }
     return 0;
   }
@@ -84,6 +97,9 @@ namespace Formula
       case FunctionType::InProgress     : view += "InProgress("; break;
       case FunctionType::ConfigValue    : view += "ConfigValue("; break;
       case FunctionType::ActiveMinerals : view += "ActiveMinerals("; break;
+      case FunctionType::UsedSupply     : view += "UsedSupply("; break;
+      case FunctionType::PlannedSupply  : view += "PlannedSupply("; break;
+      case FunctionType::Factories      : view += "Factories("; break;
     }
     view += Util::Strings::ssprintf("%s)=%f", this->functionParameter.c_str(), this->evaluate());
   }

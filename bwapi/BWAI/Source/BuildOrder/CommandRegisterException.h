@@ -5,12 +5,11 @@ class TiXmlElement;
 
 namespace BuildOrder
 {
- /** Represnts task to call function. */
-  class CommandCall : public Command
+ /** Represnts task to register exception globally. */
+  class CommandRegisterException : public Command
   {
     public :
-      CommandCall(TiXmlElement* xmlElement);
-      CommandCall(const std::string& name);
+      CommandRegisterException(TiXmlElement* xmlElement);
       virtual bool executeInternal(Executor* executor);
     private :
       std::string name;

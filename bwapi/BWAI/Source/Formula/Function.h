@@ -20,5 +20,6 @@ namespace Formula
       // I'm too lazy to make another 5 classes for every function with different data, so I put it all here
       BW::UnitType unitType;
       float configValue;
+      BW::Race::Enum race;
   };
 };

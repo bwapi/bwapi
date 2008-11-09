@@ -3,6 +3,7 @@
   <include name="globals.xml" />
   <build-order type="root" name="Crazy mass marine against protoss" race="Terran" against="Protoss" weight="1">
     <call name="Standard terran scv building" />
+    <register-exception name="Standard terran supply depot building" />
     <train building="Terran Barracks" priority="5">
       <build name="Terran Marine" weight="12" />
       <build name="Terran Medic" weight="4" />
@@ -57,6 +58,7 @@
       
   <build-order type="root" name="TvP Metal" race="Terran" against="Protoss" weight="1">
     <call name="Standard terran scv building" />
+    <register-exception name="Standard terran supply depot building">
     <train building="Terran Barracks" priority="5">
       <build name="Terran Marine" weight="12" >
         <condition type="formula" formula="5 - All(Terran Marine)" />
