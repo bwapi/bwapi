@@ -11,7 +11,7 @@
   </build-order>
   <build-order type="function" name="Standard terran supply depot building">
     <condition type="and">
-      <condition type="formula" formula="UsedSupply(Terran) + Factories(Terran)*4  - PlannedSupply(Terran)" />
+      <condition type="formula" formula="UsedSupply(Terran) + Factories(Terran)*2  - PlannedSupply(Terran)" />
       <condition type="formula" formula="200 - PlannedSupply(Terran)" />
     </condition>
     <build name="Terran Supply Depot" place="non-producting-3X2"/>
