@@ -81,8 +81,8 @@ namespace Formula
         return this->configValue;
       case FunctionType::ActiveMinerals :
         return (float) BWAI::ai->activeMinerals.size();
-      case FunctionType::UsedSupply : return (float) BWAPI::Broodwar.BWAPIPlayer->getSuppliesUsedLocal(this->race);
-      case FunctionType::PlannedSupply : return (float) BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar.BWAPIPlayer->getSuppliesAvailableLocal(race);
+      case FunctionType::UsedSupply : return (float) BWAPI::Broodwar.BWAPIPlayer->getSuppliesUsedLocal(this->race)/2;
+      case FunctionType::PlannedSupply : return (float) (BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar.BWAPIPlayer->getSuppliesAvailableLocal(race))/2;
       case FunctionType::Factories : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Factories, race);
     }
     return 0;
