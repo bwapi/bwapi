@@ -67,11 +67,11 @@ namespace Util
         * @note delimiters are _not_ included in return data
         *
         * @param input string to be parsed
-        * @param delims list of delimiters.
-        * I was too laze and took it from http://www.rosettacode.org/wiki/Tokenizing_A_String
+        * @param delimiters list of delimiters.
+        * I was too lazy and took it from http://www.rosettacode.org/wiki/Tokenizing_A_String
         */
-       static std::vector<std::string> splitString(const std::string& str,
-                                                   const std::string& delims=" \t");
+       static std::vector<std::string> splitString(const std::string& input,
+                                                   const std::string& delimiters = " \t");
        template <class Type>
        std::string getBinary(Type value);
        static void skipSpace(const std::string& text, size_t& position);

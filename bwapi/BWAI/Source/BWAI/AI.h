@@ -89,13 +89,11 @@ namespace BWAI
       BWAPI::Player* opponent;
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
-       * Gets set of building positions (wrapped by the BuildingPosition class)
-       * with the specified id. The operation speed should be log(count of
-       * places) as the stl doesn't support hash, but whatever.
-       * @param name of the building-place-set identification - it is the same
-       *        as the name attribute in <building> tak in map xml file.
-       * @returns BuildingPosition set with he specified name if present, @c
-       *          NULL otherwise.
+       * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id. The
+       * operation speed should be log(count of places) as the stl doesn't support hash, but whatever.
+       * @param place name of the building-place-set identification - it is the same as the name attribute in 
+       * the building tag in the map xml file.
+       * @returns BuildingPosition set with he specified name if present, @c NULL otherwise.
        */
       BuildingPositionSet* getPositionsCalled(const std::string& place);
       BWAPI::ReservedResources reserved;

@@ -250,13 +250,13 @@ namespace Util
       input[x + i][y] = text[i];
   }
   //---------------------------------------------- SPLIT STRING ----------------------------------------------
-  std::vector<std::string> Strings::splitString(const std::string& str,
-                                                   const std::string& delims)
+  std::vector<std::string> Strings::splitString(const std::string& input,
+                                                const std::string& delimiters)
  {
   // Skip delims at beginning, find start of first token
-  std::string::size_type lastPos = str.find_first_not_of(delims, 0);
+  std::string::size_type lastPos = input.find_first_not_of(delimiters, 0);
   // Find next delimiter @ end of token
-  std::string::size_type pos = str.find_first_of(delims, lastPos);
+  std::string::size_type pos = input.find_first_of(delimiters, lastPos);
 
   // output vector
   std::vector<std::string> tokens;
@@ -264,11 +264,11 @@ namespace Util
   while (std::string::npos != pos || std::string::npos != lastPos)
     {
       // Found a token, add it to the vector.
-      tokens.push_back(str.substr(lastPos, pos - lastPos));
+      tokens.push_back(input.substr(lastPos, pos - lastPos));
       // Skip delims.  Note the "not_of". this is beginning of token
-      lastPos = str.find_first_not_of(delims, pos);
+      lastPos = input.find_first_not_of(delimiters, pos);
       // Find next delimiter at end of token.
-      pos = str.find_first_of(delims, lastPos);
+      pos = input.find_first_of(delimiters, lastPos);
     }
   return tokens;
  }

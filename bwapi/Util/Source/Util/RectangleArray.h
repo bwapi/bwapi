@@ -38,15 +38,14 @@ namespace Util
         * @return item on the specified position.
         */
        Type* getItem(unsigned int x, unsigned int y);
+       inline Type* operator[](int i) { return this->getColumn(i); }
+       inline Type const * const operator[](int i) const {return this->getColumn(i); }
        /**
         * Sets item of the array on the specified position.
         * @param x horizontal index of the array position.
         * @param y vertical index of the array position.
         * @param item new value of the field.
         */
-       inline Type* operator[](int i) { return this->getColumn(i); }
-
-       inline Type const * const operator[](int i) const {return this->getColumn(i); }
        void setItem(unsigned int x, unsigned int y, Type *item);
        void resize(unsigned int width, unsigned int height);
        void printToFile(FILE* f);
