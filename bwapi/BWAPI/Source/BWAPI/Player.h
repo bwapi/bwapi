@@ -112,14 +112,14 @@ namespace BWAPI
      * Finds out if the current player can afford to build the specified unit atm Checks minerals, gas and
      * supply need
      * @param unit Unit type to be checked
-     * @param Money that must the player keep (reserved to make building or other reason)
+     * @param reserved Resources reserved already by other tasks
      * @returns @c true if the unit can be trained, @c false otherwise.
      */
     bool canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved);
     /**
      * Finds out if the current player can afford to invent the specified tech atm Checks minerals and gas.
      * @param tech Tech type to be checked
-     * @param Money that must the player keep (reserved to make building or other reason)
+     * @param reserved Resources reserved already by other tasks
      * @returns @c true if the tech can be invented, @c false otherwise.
      */
     bool canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved);

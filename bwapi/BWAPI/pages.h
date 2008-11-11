@@ -47,15 +47,9 @@
     <li>BWAPI::Unit#getOrderTargetLocal</li>
     <li>BWAPI::Player#getMineralsLocal</li>
     <li>BWAPI::Player#getGasLocal</li>
-    <li>BWAPI::Player#getSuppliesAvailableProtossLocal</li>
-    <li>BWAPI::Player#getSuppliesUsedProtossLocal</li>
-    <li>BWAPI::Player#freeSuppliesProtossLocal</li>
-    <li>BWAPI::Player#getSuppliesAvailableTerranLocal</li>
-    <li>BWAPI::Player#getSuppliesUsedTerranLocal</li>
-    <li>BWAPI::Player#freeSuppliesTerranLocal</li>
-    <li>BWAPI::Player#getSuppliesAvailableProtossLocal</li>
-    <li>BWAPI::Player#getSuppliesUsedProtossLocal</li>
-    <li>BWAPI::Player#freeSuppliesProtossLocal</li>
+    <li>BWAPI::Player#getSuppliesAvailableLocal</li>
+    <li>BWAPI::Player#getSuppliesUsedLocal</li>
+    <li>BWAPI::Player#freeSuppliesFreeLocal</li>
   </ul>
 
 
@@ -67,18 +61,25 @@
 /** @page functionality List of library functionality
 The library provides easy
 
--# Access to in-game units
--# Access players minerals/gas/supplies/names
--# Select/RightClick/Train command execution
--# Slot State/Race change command execution
+BWAPI
+-# Interface to access units (and it's most important prototype data)
+-# Interface to acces players (minerals/gas/supplies/names/forces)
+-# Select/RightClick/Train/Upgrade/Invent command execution
+-# In game lobby commands (Slot State/Race change command execution)
 -# Game start command execution (form chat lobby)
--# catch start/end events, nextFrame (virtually), removeUnit events.
+-# catch start/end events, nextFrame, removeUnit events.
 -# Precompute game state according to commands immediatly (@ref localData)
 -# Compute the distance of units
--# Get unit sizes (rectangle sizes) and rectangle/position connection (accuratly)
--# Acces the tile map (partialy)
+-# Acces the tile map
 -# Recognize buildability map (it also generates nice txt file describing the buildability map for the current map)
--# Complete all unit prototype support
+BWAI
+Documentation of data files - usage of the bwai will be made eventually, current data files are easy tutorial
+to understand it's function now.
+
+-# Loading of premated map bulding definitions
+-# Loading and execution of simple build order commands (making buildings, training untis, ugprades, techs)
+-# Support of simple formulas and equations in the build order conditions
+Next task is to make the priority work properly.
 
 All things we would currently like to investigate/develop should be in the issue list http://code.google.com/p/bwapi/issues/list
 

@@ -4,11 +4,11 @@
 #include <vector>
 
 #include "DictionaryLine.h"
+namespace Util { class Dictionary; }
+namespace Util { class DictionaryFile; }
 
 namespace Util
 {
-  class Dictionary;
-  class DictionaryFile;
   /**
    * Represents one property value. the representation of the property value can
    * be for example: <br> cant_open_file_message=File {1} couldn't be opened,
@@ -30,7 +30,7 @@ namespace Util
       * @param sentence the right part of property value to be parsed
       * @param dictionary The dictionary this sentence belogs to (to resolve references to other property
       *        values in '{}' brackets
-      * @param parentFile @todo describe
+      * @param parentFile File cointaining this information
       */
      Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile* parentFile);
      virtual ~Sentence(void);

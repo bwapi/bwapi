@@ -28,7 +28,7 @@ namespace BWAPI
        * @param bwUnit         #bwUnit                          
        * @param bwOriginalUnit #bwOriginalUnit
        * @param bwUnitLocal    #bwUnitLocal
-       *
+       * @param index          #index
        */
       Unit(BW::Unit* bwUnit,
            BW::Unit* bwOriginalUnit,
@@ -166,7 +166,7 @@ namespace BWAPI
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
-      u16 index;
+      u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
   };
 };
 

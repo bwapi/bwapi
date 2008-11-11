@@ -9,16 +9,17 @@
 namespace Util
 {
   /** 
-  * Utility for loggin debug output.
-  * Every kind of log should have it's own instance of this class, don't log different things to same log.
-  * Different log instances can be later used to combine different logs with different detailLevels.
-  */
+   * Utility for logging debug output.
+   * This class defines abstract logger interface, every descentant needs to define the flush function to be
+   * instantiable.
+   * Every kind of log should have it's own instance of this class, don't log different things to same log.
+   * Different log instances can be later used to combine different logs with different detailLevels.
+   */
   class Logger
   {
     public :
       /**
        * Creates new logger.
-       * @param name "<name>.log" is the name of the log file
        * @param levelToLog All log inputs with less importancy will be not
        *        logged in this log
        */
@@ -28,7 +29,7 @@ namespace Util
        * Logs the message using printf formatting style.
        * This function use Normal Log level.
        * @param message message to be logged.
-       * @param other Parameters of the printf style format.
+       * @param ... Parameters of the printf style format.
        */
       bool log         (const char* message, ...);
       bool logDetailed (const char* message, ...);
