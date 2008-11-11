@@ -4,6 +4,7 @@
 #include <Util/Exceptions.h>
 #include "ConditionMinimalPopulation.h"
 #include "ConditionFormula.h"
+#include "ConditionEquation.h"
 #include "ConditionAnd.h"
 
 namespace BuildOrder
@@ -16,6 +17,8 @@ namespace BuildOrder
       return new ConditionMinimalPopulation(xmlElement);
     if (conditionType == "formula")
       return new ConditionFormula(xmlElement);
+    if (conditionType == "equation")
+      return new ConditionEquation(xmlElement);      
     if (conditionType == "and")
       return new ConditionAnd(xmlElement);      
     throw new ParseException("Unknown condition type " + conditionType);

@@ -6,7 +6,7 @@
 namespace Util
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile *parentFile)
+  Sentence::Sentence(const std::string& key, std::string sentence, Dictionary* dictionary, DictionaryFile* parentFile)
   :parentFile(parentFile)
   ,key(key)
   {
@@ -35,7 +35,7 @@ namespace Util
           }
           case 'n' :
           {
-            sentence = sentence.substr(0,leftBracketPosition-1) + "\n" +sentence.substr(leftBracketPosition+1,sentence.length() - leftBracketPosition - 1);
+            sentence = sentence.substr(0,leftBracketPosition-1) + "\n" + sentence.substr(leftBracketPosition+1,sentence.length() - leftBracketPosition - 1);
             position = leftBracketPosition + 2;
             goto begin1;
           }

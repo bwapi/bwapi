@@ -7,6 +7,7 @@ namespace BuildOrder
     {
       MinimalPopulation,
       Formula,
+      Equation,
       And,
     };
   }

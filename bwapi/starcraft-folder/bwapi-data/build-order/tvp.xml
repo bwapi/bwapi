@@ -3,15 +3,17 @@
   <include name="globals.xml" />
   <build-order type="root" name="Crazy mass marine against protoss" race="Terran" against="Protoss" weight="1">
     <call name="Standard terran scv building" />
-    <register-exception name="Standard terran supply depot building" />
     <train building="Terran Barracks" priority="5">
       <build name="Terran Marine" weight="12" />
       <build name="Terran Medic" weight="4" />
       <build name="Terran Firebat" weight="1" />
       <build name="Terran Ghost" weight="1" />
     </train>
+    <build name="Terran Supply Depot" place="non-producting-3X2" minimal-population="8"/>
     <build name="Terran Barracks" place="barracks" minimal-population="11"/>
     <build name="Terran Barracks" place="barracks" minimal-population="13"/>
+    <build name="Terran Supply Depot" place="non-producting-3X2" minimal-population="15"/>
+    <register-exception name="Standard terran supply depot building" />
     <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
     <build name="Terran Engineering Bay" place="engineering-bay" minimal-population="26"/>
     <build name="Terran Refinery" place="refinery" minimal-population="30"/>
@@ -33,7 +35,7 @@
         <condition type="formula" formula="4 - All(Terran Science Vessel)" />
       </build>
       <build name="Terran Dropship" weight="1">
-        <condition type="formula" formula="2 - All(Terran Dropship)" />
+        <condition type="equation" equation="All(Terran Dropship) < 2" />
       </build>
     </train>
     <upgrade name="Terran Infantry Armor" level="3" minimal-population="35" priority="6"/>
@@ -61,7 +63,7 @@
     <register-exception name="Standard terran supply depot building">
     <train building="Terran Barracks" priority="5">
       <build name="Terran Marine" weight="12" >
-        <condition type="formula" formula="5 - All(Terran Marine)" />
+        <condition type="equation" equation="All(Terran Marine) < 5" />
       </build>
     </train>
     <train building="Terran Factory" priority="5">
@@ -94,10 +96,10 @@
     <build name="Terran Starport" place="building-with-addon" />
     <train building="Terran Starport" priority="6">
       <build name="Terran Science Vessel" weight="1">
-        <condition type="formula" formula="2 - All(Terran Science Vessel)" />
+        <condition type="equation" equation="All(Terran Science Vessel) < 2" />
       </build>
       <build name="Terran Dropship" weight="1">
-        <condition type="formula" formula="2 - All(Terran Dropship)" />
+        <condition type="equation" equation="All(Terran Dropship) < 2" />
       </build>
     </train>
     <build name="Terran Control Tower" />

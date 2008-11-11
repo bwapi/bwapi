@@ -367,6 +367,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\ConditionEquation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\ConditionFormula.h"
 					>
 				</File>
@@ -440,6 +444,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\ConditionAnd.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\ConditionEquation.cpp"
 					>
 				</File>
 				<File
@@ -519,6 +527,10 @@
 				Name="Enumerations"
 				>
 				<File
+					RelativePath=".\Source\Formula\EqualityType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Formula\FunctionType.h"
 					>
 				</File>
@@ -528,6 +540,10 @@
 				>
 				<File
 					RelativePath=".\Source\Formula\Base.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Formula\Equation.h"
 					>
 				</File>
 				<File
@@ -552,6 +568,10 @@
 				>
 				<File
 					RelativePath=".\Source\Formula\Base.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Formula\Equation.cpp"
 					>
 				</File>
 				<File
