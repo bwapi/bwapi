@@ -30,6 +30,12 @@ namespace BuildOrder
     if (!BWAI::ai->root->functions.count(name))
       throw GeneralException("Unknown function to call :'" + this->name + "'");
     Branch* target = BWAI::ai->root->functions[this->name];
+    /*if (target->condition)
+    {
+      std::string debugResult;
+      target->condition->debugEvaluate(debugResult);
+      BWAI::ai->root->log->log("DEBUG: %s", debugResult.c_str());
+    }*/
     if (!target->condition ||
         target->condition->applies())
       executor->callStack.push_back(CommandPointer(target));

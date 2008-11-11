@@ -8,8 +8,11 @@
       <build name="Terran Medic" weight="4" />
       <build name="Terran Firebat" weight="1" />
     </train>
+    <build name="Terran Supply Depot" place="non-producting-3X2" minimal-population="8"/>
     <build name="Terran Barracks" place="barracks" minimal-population="11"/>
     <build name="Terran Barracks" place="barracks" minimal-population="13"/>
+    <build name="Terran Supply Depot" place="non-producting-3X2" minimal-population="14"/>
+    <register-exception name="Standard terran supply depot building" />
     <build name="Terran Command Center" place="natural-expansion" minimal-population="20"/>
     <build name="Terran Refinery" place="refinery" minimal-population="30"/>
     <build name="Terran Academy" place="non-producting-3X2" minimal-population="31"/>

@@ -101,7 +101,7 @@ namespace Formula
       case FunctionType::PlannedSupply  : view += "PlannedSupply("; break;
       case FunctionType::Factories      : view += "Factories("; break;
     }
-    view += Util::Strings::ssprintf("%s)=%f", this->functionParameter.c_str(), this->evaluate());
+    view += Util::Strings::ssprintf("%s)=%.1f", this->functionParameter.c_str(), this->evaluate());
   }
   //----------------------------------------------------------------------------------------------------------
 }
