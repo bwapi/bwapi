@@ -13,7 +13,11 @@ namespace Formula
       ActiveMinerals,
       UsedSupply,
       PlannedSupply,
-      Factories
+      Factories,
+	  Buildings,
+	  Men,
+	  Infantry,
+	  Mech
     };
   }
 }

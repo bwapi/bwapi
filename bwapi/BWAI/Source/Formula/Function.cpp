@@ -33,7 +33,15 @@ namespace Formula
       this->type = FunctionType::PlannedSupply;
     else if (name == "Factories")
       this->type = FunctionType::Factories;
-    else 
+    else if (name == "Buildings")
+      this->type = FunctionType::Buildings;
+    else if (name == "Men")
+      this->type = FunctionType::Men;
+    else if (name == "Infantry")
+      this->type = FunctionType::Infantry;
+    else if (name == "Mech")
+      this->type = FunctionType::Mech;
+	else 
       throw ParseException("Unknown Function '" + name + "'");
     if (needParameter)
     {
@@ -62,6 +70,10 @@ namespace Formula
       case FunctionType::UsedSupply :
       case FunctionType::PlannedSupply :
       case FunctionType::Factories :
+      case FunctionType::Buildings :
+      case FunctionType::Men :
+      case FunctionType::Infantry :
+      case FunctionType::Mech :
         this->race = BW::Race::stringToRace(this->functionParameter);
     }
   }
@@ -84,6 +96,10 @@ namespace Formula
       case FunctionType::UsedSupply : return (float) BWAPI::Broodwar.BWAPIPlayer->getSuppliesUsedLocal(this->race)/2;
       case FunctionType::PlannedSupply : return (float) (BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar.BWAPIPlayer->getSuppliesAvailableLocal(race))/2;
       case FunctionType::Factories : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Factories, race);
+      case FunctionType::Buildings : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Buildings, race);
+      case FunctionType::Men : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Men, race);
+      case FunctionType::Infantry : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Infantry, race);
+      case FunctionType::Mech : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Mech, race);
     }
     return 0;
   }
@@ -100,6 +116,10 @@ namespace Formula
       case FunctionType::UsedSupply     : view += "UsedSupply("; break;
       case FunctionType::PlannedSupply  : view += "PlannedSupply("; break;
       case FunctionType::Factories      : view += "Factories("; break;
+      case FunctionType::Buildings      : view += "Buildings("; break;
+      case FunctionType::Men            : view += "Men("; break;
+      case FunctionType::Infantry       : view += "Infantry("; break;
+      case FunctionType::Mech           : view += "Mech("; break;
     }
     view += Util::Strings::ssprintf("%s)=%.1f", this->functionParameter.c_str(), this->evaluate());
   }

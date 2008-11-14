@@ -244,6 +244,8 @@ namespace BW
       Men                           = 0XE6,
       Buildings                     = 0XE7,
       Factories                     = 0XE8,
+      Infantry                      = 0XE9, // Custom from here on out
+      Mech                          = 0XEA,
     };
   };
 };

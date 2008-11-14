@@ -48,6 +48,10 @@ namespace BW
       return "Buildings";
     else if (this->getID() == BW::UnitID::Factories)
       return "Factories";
+	else if (this->getID() == BW::UnitID::Infantry)
+      return "Infantry";
+    else if (this->getID() == BW::UnitID::Mech)
+      return "Mech";
     else
       return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
   }
