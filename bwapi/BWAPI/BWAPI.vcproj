@@ -285,6 +285,10 @@
 				Name="Enumerations"
 				>
 				<File
+					RelativePath=".\Source\BW\GameType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\GroupFlags.h"
 					>
 				</File>
