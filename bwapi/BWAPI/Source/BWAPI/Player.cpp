@@ -189,7 +189,50 @@ namespace BWAPI
                                                       this->getCompletedUnits(BW::UnitID::Protoss_ArbiterTribunal) !=0;
      case BW::UnitID::Protoss_TemplarArchives: return this->getCompletedUnits(BW::UnitID::Protoss_CitadelOfAdun) != 0;
      case BW::UnitID::Protoss_ArbiterTribunal: return this->getCompletedUnits(BW::UnitID::Protoss_FleetBeacon) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_TemplarArchives) !=0;
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_TemplarArchives) != 0;
+//Zerg
+     case BW::UnitID::Zerg_Overlord          : 
+     case BW::UnitID::Zerg_Drone             : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0;
+     case BW::UnitID::Zerg_SpawningPool      :
+     case BW::UnitID::Zerg_CreepColony       :
+     case BW::UnitID::Zerg_EvolutionChamber  : return this->getCompletedUnits(BW::UnitID::Zerg_Main) != 0;
+     case BW::UnitID::Zerg_Spire             :
+     case BW::UnitID::Zerg_QueensNest        : return this->getCompletedUnits(BW::UnitID::Zerg_MainLair) != 0;
+     case BW::UnitID::Zerg_DefilerMound      :
+     case BW::UnitID::Zerg_NydusCanal        :
+     case BW::UnitID::Zerg_UltraliskCavern   : return this->getCompletedUnits(BW::UnitID::Zerg_Hive) != 0;
+     case BW::UnitID::Zerg_GreaterSpire      : return this->getCompletedUnits(BW::UnitID::Zerg_Hive) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_Spire) != 0;
+     case BW::UnitID::Zerg_SunkenColony      : return this->getCompletedUnits(BW::UnitID::Zerg_CreepColony) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
+     case BW::UnitID::Zerg_SporeColony       : return this->getCompletedUnits(BW::UnitID::Zerg_CreepColony) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_EvolutionChamber) != 0;
+     case BW::UnitID::Zerg_Lair              :return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0 &&
+                                                     this->getCompletedUnits(BW::UnitID::Zerg_Hatchery) != 0;
+     case BW::UnitID::Zerg_Hive              :return this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0 &&
+                                                     this->getCompletedUnits(BW::UnitID::Zerg_Lair) != 0;
+     case BW::UnitID::Zerg_HydraliskDen      : return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
+     case BW::UnitID::Zerg_Zergling          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
+     case BW::UnitID::Zerg_Hydralisk         : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_HydraliskDen) != 0;
+     case BW::UnitID::Zerg_Scourge           :
+     case BW::UnitID::Zerg_Mutalisk          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_Spire) != 0;
+     case BW::UnitID::Zerg_Devourer          :
+     case BW::UnitID::Zerg_Guardian          : return this->getCompletedUnits(BW::UnitID::Zerg_Mutalisk) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_GreaterSpire) != 0;
+     case BW::UnitID::Zerg_Queen             : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0;
+     case BW::UnitID::Zerg_Defiler           : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_DefilerMound) != 0;
+     case BW::UnitID::Zerg_Zergling          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
+     case BW::UnitID::Zerg_Ultralisk         : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_UltraliskCavern) != 0;
+     case BW::UnitID::Zerg_InfestedTerran    : return this->getCompletedUnits(BW::UnitID::Zerg_InfestedCommandCenter) != 0;
+     case BW::UnitID::Zerg_Lurker            : return this->getCompletedUnits(BW::UnitID::Zerg_Hydralisk) != 0 &&
+                                                      this->techResearched(BW::TechID::LurkerAspect);
      default                                 : return true;
     }
   }
@@ -296,6 +339,19 @@ namespace BWAPI
 			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
           temp += counts.unit[i].player[this->getID()];
 
+    if (unit == BW::UnitID::Zerg_Main)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (unit == BW::UnitID::Zerg_Hatchery ||
+            unit == BW::UnitID::Zerg_Lair ||
+            unit == BW::UnitID::Zerg_Hive)
+          temp += counts.unit[i].player[this->getID()];
+
+    if (unit == BW::UnitID::Zerg_MainLair)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (unit == BW::UnitID::Zerg_Lair ||
+            unit == BW::UnitID::Zerg_Hive)
+          temp += counts.unit[i].player[this->getID()];
+
     if (unit == BW::UnitID::Men)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
@@ -338,6 +394,21 @@ namespace BWAPI
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
 		  if (BW::UnitType((BW::UnitID::Enum)i).isMechanical() &&
 			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
+          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
+            temp += counts.unit[i].player[this->getID()];
+
+    if (unit == BW::UnitID::Zerg_Main)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (unit == BW::UnitID::Zerg_Hatchery ||
+            unit == BW::UnitID::Zerg_Lair ||
+            unit == BW::UnitID::Zerg_Hive)
+          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
+            temp += counts.unit[i].player[this->getID()];
+
+    if (unit == BW::UnitID::Zerg_MainLair)
+      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        if (unit == BW::UnitID::Zerg_Lair ||
+            unit == BW::UnitID::Zerg_Hive)
           if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
             temp += counts.unit[i].player[this->getID()];
 
