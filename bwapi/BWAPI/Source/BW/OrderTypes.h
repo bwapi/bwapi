@@ -273,6 +273,128 @@ namespace BW
         u8 type;
     };
 
+   class UnloadUnit
+   {
+     public :
+      UnloadUnit(BWAPI::Unit *unload);
+       /** 0x29 = Unload Unit */
+       u8 always0x29; 
+       /** The unit to unload bw index */
+       UnitTarget target;
+   };
+
+    class UnloadAll
+    {
+      public :
+        UnloadAll();
+      private :
+        u8 always0x28;
+        u8 unused;
+    };
+
+    class BuildFighter
+    {
+      public :
+        BuildFighter();
+      private :
+        u8 always0x27;
+    };
+
+    class Siege
+    {
+      public :
+        Siege();
+      private :
+        u8 always0x26;
+        u8 unused;
+    };
+
+    class Unsiege
+    {
+      public :
+        Unsiege();
+      private :
+        u8 always0x25;
+        u8 unused;
+    };
+
+   class UnitMorph
+   {
+     public :
+      UnitMorph(BW::UnitType type); 
+      /** 0x23 = Unit Morph (Zerg) Command-code in bw */
+      u8 always0x23;
+      /** Type of unit to train */
+      BW::UnitType type;
+   };
+
+    class Cloak
+    {
+      public :
+        Cloak();
+      private :
+        u8 always0x21;
+        u8 unused;
+    };
+
+    class Decloak
+    {
+      public :
+        Decloak();
+      private :
+        u8 always0x22;
+        u8 unused;
+    };
+
+    class ReturnCargo
+    {
+      public :
+        ReturnCargo(u8 type);
+      private :
+        u8 always0x1E;
+        u8 type;
+    };
+
+    class Stop
+    {
+      public :
+        Stop(u8 type);
+      private :
+        u8 always0x1A;
+        u8 type;
+    };
+
+    class ReaverStop
+    {
+      public :
+        ReaverStop();
+      private :
+        u8 always0x1C;
+    };
+
+    class CarrierStop
+    {
+      public :
+        CarrierStop();
+      private :
+        u8 always0x1B;
+    };
+
+    class CancelUnitMorph
+    {
+      public :
+        CancelUnitMorph();
+      private :
+        u8 always0x19;
+    };
+
+    class CancelConstruction
+    {
+      public :
+        CancelConstruction();
+      private :
+        u8 always0x18;
+    };
 
   }
 }
