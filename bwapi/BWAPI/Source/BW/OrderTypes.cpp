@@ -107,6 +107,78 @@ namespace BW
     :always0x11(0x11)
     {
     }
+    //-------------------------------------- MERGE DARK ARCHON CONSTRUCTOR -----------------------------------
+    MergeDarkArchon::MergeDarkArchon()
+    :always0x5A(0x5A)
+    {
+    }
+    //-------------------------------------- MERGE ARCHON CONSTRUCTOR -----------------------------------
+    MergeArchon::MergeArchon()
+    :always0x2A(0x2A)
+    {
+    }
+    //-------------------------------------------- MINIMAP PING -----------------------------------------------
+    MinimapPing::MinimapPing(BW::Position position)
+    :always0x58(0x58)
+    ,position(position)
+    {
+    }
+    //------------------------------------------ STIM CONSTRUCTOR --------------------------------------------
+    UseStimPack::UseStimPack()
+    :always0x36(0x36)
+    {
+    }
+    //---------------------------------------- BUILDING MORPH CONSTRUCTOR ------------------------------------
+    BuildingMorph::BuildingMorph(BW::UnitType type)
+    :always0x35(0x35)
+    ,type(type)
+    {
+    }
+    //------------------------------------------ CANCEL ADDON ------------------------------------------------
+    CancelAddon::CancelAddon()
+    :always0x34(0x34)
+    {
+    }
+    //------------------------------------------ CANCEL UPGRADE ------------------------------------------------
+    CancelUpgrade::CancelUpgrade()
+    :always0x33(0x33)
+    {
+    }
+    //------------------------------------------ CANCEL RESEARCH ------------------------------------------------
+    CancelResearch::CancelResearch()
+    :always0x31(0x31)
+    {
+    }
+    //------------------------------------------ CANCEL NUKE ------------------------------------------------
+    CancelNuke::CancelNuke()
+    :always0x2E(0x2E)
+    {
+    }
+    //------------------------------------------ LIFTOFF ------------------------------------------------
+    Lift::Lift()
+    :always0x2F(0x2F)
+    ,unknown(0x00)
+    {
+    }
+    //------------------------------------------ BURROW ------------------------------------------------
+    Burrow::Burrow()
+    :always0x2C(0x2C)
+    ,unused(0x00)
+    {
+    }
+    //------------------------------------------ UNBURROW ------------------------------------------------
+    Unburrow::Unburrow()
+    :always0x2D(0x2D)
+    ,unused(0x00)
+    {
+    }
+    //------------------------------------------ HOLD POSITION ------------------------------------------------
+    HoldPosition::HoldPosition(u8 type)
+    :always0x2B(0x2B)
+    ,type(0x00)
+    {
+    }
+
     //------------------------------------------------       -------------------------------------------------
   }
 }

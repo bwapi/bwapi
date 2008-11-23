@@ -158,6 +158,122 @@ namespace BW
         u8 always0x11;
     };
 
+    class MergeDarkArchon
+    {
+      public :
+        MergeDarkArchon();
+      private :
+        /** 0x5A = Command code for Merge Dark Archon. */
+        u8 always0x5A;
+    };
+
+    class MergeArchon
+    {
+      public :
+        MergeArchon();
+      private :
+        /** 0x2A = Command code for Merge Archon. */
+        u8 always0x2A;
+    };
+
+    class MinimapPing
+    {
+      public :
+        MinimapPing(BW::Position position);
+      private :
+        /** 0x58 = Command code for Minimap Ping. */
+        u8 always0x58;
+        BW::Position position;
+    };
+
+    class UseStimPack
+    {
+      public :
+        UseStimPack();
+      private :
+        /** 0x36 = Command code for Stim */
+        u8 always0x36;
+    };
+
+   class BuildingMorph
+   {
+     public :
+      BuildingMorph(BW::UnitType type); 
+      /** 0x35 = Building Morph for zerg */
+      u8 always0x35;
+      /** Type of unit to train */
+      BW::UnitType type;
+   };
+
+    class CancelAddon
+    {
+      public :
+        CancelAddon();
+      private :
+        u8 always0x34;
+    };
+
+    class CancelUpgrade
+    {
+      public :
+        CancelUpgrade();
+      private :
+        u8 always0x33;
+    };
+
+    class CancelResearch
+    {
+      public :
+        CancelResearch();
+      private :
+        u8 always0x31;
+    };
+
+    class CancelNuke
+    {
+      public :
+        CancelNuke();
+      private :
+        u8 always0x2E;
+    };
+
+    class Lift
+    {
+      public :
+        Lift();
+      private :
+        u8 always0x2F;
+        u32 unknown;
+    };
+
+    class Burrow
+    {
+      public :
+        Burrow();
+      private :
+        u8 always0x2C;
+        u8 unused;
+    };
+
+    class Unburrow
+    {
+      public :
+        Unburrow();
+      private :
+        u8 always0x2D;
+        u8 unused;
+    };
+
+    class HoldPosition
+    {
+      public :
+        HoldPosition(u8 type);
+      private :
+        u8 always0x2B;
+        u8 type;
+    };
+
+
   }
 }
 #pragma pack()
