@@ -246,6 +246,8 @@ namespace BW
       Factories                     = 0XE8,
       Infantry                      = 0XE9, // Custom from here on out
       Mech                          = 0XEA,
+      Zerg_Main                     = 0xEB,
+      Zerg_MainLair                 = 0xEC
     };
   };
 };

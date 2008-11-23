@@ -41,6 +41,10 @@ namespace Formula
       this->type = FunctionType::Infantry;
     else if (name == "Mech")
       this->type = FunctionType::Mech;
+    else if (name == "Zerg_Main")
+      this->type = FunctionType::Zerg_Main;
+    else if (name == "Zerg_MainLair")
+      this->type = FunctionType::Zerg_MainLair;
 	else 
       throw ParseException("Unknown Function '" + name + "'");
     if (needParameter)
@@ -74,6 +78,8 @@ namespace Formula
       case FunctionType::Men :
       case FunctionType::Infantry :
       case FunctionType::Mech :
+      case FunctionType::Zerg_Main :
+      case FunctionType::Zerg_MainLair :
         this->race = BW::Race::stringToRace(this->functionParameter);
     }
   }
@@ -100,6 +106,8 @@ namespace Formula
       case FunctionType::Men : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Men, race);
       case FunctionType::Infantry : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Infantry, race);
       case FunctionType::Mech : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Mech, race);
+      case FunctionType::Zerg_Main : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Zerg_Main, race);
+      case FunctionType::Zerg_MainLair : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(BW::UnitID::Zerg_MainLair, race);
     }
     return 0;
   }
@@ -120,6 +128,8 @@ namespace Formula
       case FunctionType::Men            : view += "Men("; break;
       case FunctionType::Infantry       : view += "Infantry("; break;
       case FunctionType::Mech           : view += "Mech("; break;
+      case FunctionType::Zerg_Main      : view += "Zerg_Main("; break;
+      case FunctionType::Zerg_MainLair  : view += "Zerg_MainLair("; break;
     }
     view += Util::Strings::ssprintf("%s)=%.1f", this->functionParameter.c_str(), this->evaluate());
   }
