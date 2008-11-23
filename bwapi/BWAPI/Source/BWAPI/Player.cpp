@@ -115,16 +115,81 @@ namespace BWAPI
   {
     switch (unit.getID())
     {
-     case BW::UnitID::Terran_Medic           : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0;
-     case BW::UnitID::Terran_Firebat         : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0;
+// Terran
+     case BW::UnitID::Terran_Medic           :
+     case BW::UnitID::Terran_Firebat         : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Barracks) != 0;
      case BW::UnitID::Terran_Ghost           : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_CovertOps) != 0;
-     case BW::UnitID::Terran_ComsatStation   : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0;
+                                                      this->getCompletedUnits(BW::UnitID::Terran_CovertOps) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Barracks) != 0;
+     case BW::UnitID::Terran_ComsatStation   : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Terran_CommandCenter) != 0;
+     case BW::UnitID::Terran_Marine          :
+     case BW::UnitID::Terran_Academy         :
+     case BW::UnitID::Terran_Bunker          :
      case BW::UnitID::Terran_Factory         : return this->getCompletedUnits(BW::UnitID::Terran_Barracks) != 0;
+     case BW::UnitID::Terran_Vulture         :
+     case BW::UnitID::Terran_Armory          :
+     case BW::UnitID::Terran_MachineShop     :
      case BW::UnitID::Terran_Starport        : return this->getCompletedUnits(BW::UnitID::Terran_Factory) != 0;
-     case BW::UnitID::Terran_ControlTower    : return this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0;
+     case BW::UnitID::Terran_SiegeTankSiegeMode :
+     case BW::UnitID::Terran_SiegeTankTankMode : return this->getCompletedUnits(BW::UnitID::Terran_Factory) != 0 &&
+                                                        this->getCompletedUnits(BW::UnitID::Terran_MachineShop) != 0;
+     case BW::UnitID::Terran_Goliath         : return this->getCompletedUnits(BW::UnitID::Terran_Factory) != 0 &&
+                                                        this->getCompletedUnits(BW::UnitID::Terran_Armory) != 0;
+     case BW::UnitID::Terran_ControlTower    :
+     case BW::UnitID::Terran_Wraith          :
      case BW::UnitID::Terran_ScienceFacility : return this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0;
+     case BW::UnitID::Terran_Dropship        : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0;
+     case BW::UnitID::Terran_Battlecruiser   : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Terran_PhysicsLab) != 0;
+     case BW::UnitID::Terran_ScienceVessel   : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Terran_ScienceFacility) != 0;
+     case BW::UnitID::Terran_Valkyrie        : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Terran_Armory) != 0;
+     case BW::UnitID::Terran_PhysicsLab      :
      case BW::UnitID::Terran_CovertOps       : return this->getCompletedUnits(BW::UnitID::Terran_ScienceFacility) != 0;
+     case BW::UnitID::Terran_SCV             :
+	 case BW::UnitID::Terran_Barracks        :
+	 case BW::UnitID::Terran_EngineeringBay  : return this->getCompletedUnits(BW::UnitID::Terran_CommandCenter) != 0;
+     case BW::UnitID::Terran_MissileTurret   : return this->getCompletedUnits(BW::UnitID::Terran_EngineeringBay) != 0;
+// Protoss
+     case BW::UnitID::Protoss_Probe          :
+     case BW::UnitID::Protoss_Forge          : 
+     case BW::UnitID::Protoss_Gateway        : return this->getCompletedUnits(BW::UnitID::Protoss_Nexus) != 0;
+     case BW::UnitID::Protoss_PhotonCannon   : return this->getCompletedUnits(BW::UnitID::Protoss_Forge) != 0;
+     case BW::UnitID::Protoss_Zealot         :
+     case BW::UnitID::Protoss_CyberneticsCore:
+     case BW::UnitID::Protoss_ShieldBattery  : return this->getCompletedUnits(BW::UnitID::Protoss_Gateway) != 0;
+     case BW::UnitID::Protoss_HighTemplar    : 
+     case BW::UnitID::Protoss_DarkTemplar    : return this->getCompletedUnits(BW::UnitID::Protoss_Gateway) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_TemplarArchives) != 0;
+     case BW::UnitID::Protoss_CitadelOfAdun  :
+     case BW::UnitID::Protoss_Stargate       :
+     case BW::UnitID::Protoss_RoboticsFacility : return this->getCompletedUnits(BW::UnitID::Protoss_CyberneticsCore) != 0;
+     case BW::UnitID::Protoss_Dragoon        : return this->getCompletedUnits(BW::UnitID::Protoss_CyberneticsCore) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_Gateway) != 0;
+     case BW::UnitID::Protoss_Shuttle        :
+     case BW::UnitID::Protoss_Observatory    :
+     case BW::UnitID::Protoss_RoboticsSupportBay : return this->getCompletedUnits(BW::UnitID::Protoss_RoboticsFacility) != 0;
+     case BW::UnitID::Protoss_Reaver         : return this->getCompletedUnits(BW::UnitID::Protoss_RoboticsFacility) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_RoboticsSupportBay) != 0;
+     case BW::UnitID::Protoss_Observer       : return this->getCompletedUnits(BW::UnitID::Protoss_RoboticsFacility) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_Observatory) != 0;
+     case BW::UnitID::Protoss_Scout          :
+     case BW::UnitID::Protoss_Corsair        :
+     case BW::UnitID::Protoss_FleetBeacon    : return this->getCompletedUnits(BW::UnitID::Protoss_Stargate) != 0;
+     case BW::UnitID::Protoss_Carrier        : return this->getCompletedUnits(BW::UnitID::Protoss_Stargate) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_FleetBeacon) !=0;
+     case BW::UnitID::Protoss_Arbiter        : return this->getCompletedUnits(BW::UnitID::Protoss_Stargate) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_ArbiterTribunal) !=0;
+     case BW::UnitID::Protoss_TemplarArchives: return this->getCompletedUnits(BW::UnitID::Protoss_CitadelOfAdun) != 0;
+     case BW::UnitID::Protoss_ArbiterTribunal: return this->getCompletedUnits(BW::UnitID::Protoss_FleetBeacon) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Protoss_TemplarArchives) !=0;
      default                                 : return true;
     }
   }
