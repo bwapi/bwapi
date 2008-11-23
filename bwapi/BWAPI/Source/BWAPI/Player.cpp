@@ -221,13 +221,13 @@ namespace BWAPI
     if (unit == BW::UnitID::Infantry)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).canAttack() &&
-			BW::UnitType((BW::UnitID::Enum)i).getFlags().getBit(BW::UnitPrototypeFlags::Organicunit) &&
+			BW::UnitType((BW::UnitID::Enum)i).isOrganic() &&
 			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
           temp += counts.unit[i].player[this->getID()];
 
     if (unit == BW::UnitID::Mech)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).getFlags().getBit(BW::UnitPrototypeFlags::Mechanical) &&
+        if (BW::UnitType((BW::UnitID::Enum)i).isMechanical() &&
 			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
           temp += counts.unit[i].player[this->getID()];
 
@@ -264,14 +264,14 @@ namespace BWAPI
 	    if (unit == BW::UnitID::Infantry)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         if (BW::UnitType((BW::UnitID::Enum)i).canAttack() &&
-			BW::UnitType((BW::UnitID::Enum)i).getFlags().getBit(BW::UnitPrototypeFlags::Organicunit) &&
+			BW::UnitType((BW::UnitID::Enum)i).isOrganic() &&
 			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
           if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
             temp += counts.unit[i].player[this->getID()];
 
     if (unit == BW::UnitID::Mech)
       for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-		  if (BW::UnitType((BW::UnitID::Enum)i).getFlags().getBit(BW::UnitPrototypeFlags::Mechanical) &&
+		  if (BW::UnitType((BW::UnitID::Enum)i).isMechanical() &&
 			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
           if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
             temp += counts.unit[i].player[this->getID()];
