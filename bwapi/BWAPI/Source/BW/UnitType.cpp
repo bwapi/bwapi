@@ -230,6 +230,16 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
   }
+  //----------------------------------------- IS ORGANIC ------------------------------------------
+  bool UnitType::isOrganic() const
+  {
+	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Organicunit);
+  }
+  //----------------------------------------- IS MECHANACAL ------------------------------------------
+  bool UnitType::isMechanical() const
+  {
+	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Mechanical);
+  }
   //--------------------------------------------- WHERE TO BUILD ---------------------------------------------
   BW::UnitType UnitType::whereToBuild()
   {

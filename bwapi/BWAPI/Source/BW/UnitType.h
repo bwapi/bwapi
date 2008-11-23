@@ -72,14 +72,17 @@ namespace BW
     bool                 isFlayer() const;
     bool                 isNeutral() const;
     bool                 isNeutralAccesories() const;
+	bool                 isOrganic() const;
+	bool                 isMechanical() const;
     BW::Race::Enum       getRace();                                            
     bool                 isValid();
     /** Used to determine what building builds this addon. Can be extended later if needed.*/
     BW::UnitType         whereToBuild();
     u16                  getSupplyProduced();
     BW::UnitID::Enum id;
+
+  private :
     Util::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
     Util::BitMask<BW::GroupFlags::Enum> getGroupFlags() const;
-  private :
   };
 };
