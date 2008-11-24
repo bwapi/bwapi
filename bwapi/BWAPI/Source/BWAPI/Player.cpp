@@ -226,8 +226,6 @@ namespace BWAPI
                                                       this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0;
      case BW::UnitID::Zerg_Defiler           : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
                                                       this->getCompletedUnits(BW::UnitID::Zerg_DefilerMound) != 0;
-     case BW::UnitID::Zerg_Zergling          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
      case BW::UnitID::Zerg_Ultralisk         : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
                                                       this->getCompletedUnits(BW::UnitID::Zerg_UltraliskCavern) != 0;
      case BW::UnitID::Zerg_InfestedTerran    : return this->getCompletedUnits(BW::UnitID::Zerg_InfestedCommandCenter) != 0;

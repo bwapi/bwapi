@@ -17,8 +17,8 @@ namespace Formula
 	     Buildings,
 	     Men,
 	     Infantry,
-	     Mech
-	     Zerg_Main
+	     Mech,
+	     Zerg_Main,
 	     Zerg_MainLair
     };
   }

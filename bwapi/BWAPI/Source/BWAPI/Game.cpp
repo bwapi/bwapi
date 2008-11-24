@@ -476,8 +476,22 @@ namespace BWAPI
         BW::BWXFN_UnitSightRange->unit[unit.getID()] = range;
         this->print("Set range of '%s' to %d", name.c_str(), range);
       }
-     else
-       this->print("Unknown thing to set '%s'", parsed[1].c_str());
+      else
+        this->print("Unknown thing to set '%s'", parsed[1].c_str());
+    }
+    else if (parsed[0] == "/ping")
+    {
+    // eyes
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1364, 1300)),sizeof(BW::Orders::MinimapPing));
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2730, 1300)),sizeof(BW::Orders::MinimapPing));
+      // mouth :D  Epic fail :D
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2160, 2660)),sizeof(BW::Orders::MinimapPing));
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2100, 2700)),sizeof(BW::Orders::MinimapPing));
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2040, 2740)),sizeof(BW::Orders::MinimapPing));
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1080, 2700)),sizeof(BW::Orders::MinimapPing));
+      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1020, 2660)),sizeof(BW::Orders::MinimapPing));
+      this->print("Issued ping");
+      return true;
     }
     return false;
   }
