@@ -206,7 +206,7 @@ namespace BWAPI
     sendText(buffer);
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
-  void Game::printPublic(const char *text) const
+/*  void Game::printPublic(const char *text) const
   {
    __asm
    {
@@ -216,7 +216,7 @@ namespace BWAPI
      mov esi, text
      call [BW::BWXFN_PrintPublicText]
    }
-  }
+  }*/
   #pragma warning(pop)
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void Game::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
