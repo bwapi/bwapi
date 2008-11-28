@@ -176,8 +176,8 @@ namespace BW
 
   static int*           BWXFN_MouseX = (int*) 0x006CDDAC;  // 1.16: 006CDDA4
   static int*           BWXFN_MouseY = (int*) 0x006CDDB0;  // 1.16: 006CDDA8
-  static int*           BWXFN_ScreenX = (int*) 0x00628430;
-  static int*           BWXFN_ScreenY = (int*) 0x00628458;
+  static int*           BWXFN_ScreenX = (int*) 0x00628430; // 1.16: 00628428
+  static int*           BWXFN_ScreenY = (int*) 0x00628458; // 1.16: 00628450
   static char*          BWXFN_CurrentMapFileName = (char*) 0x0057FD24; // 1.16: 0057FD1C
   static u16*           BWXFN_TechLabelIndex = (u16*) techdataDat[7].address;
   static u16*           BWXFN_UpgradeLabelIndex = (u16*) upgradesDat[8].address;
@@ -198,6 +198,7 @@ namespace BW
     Util::BitMask<u64> player[PLAYER_COUNT];
   };
   static UpgradeProgress* BWXFN_UpgradeProgress = (UpgradeProgress*) 0x0058F3C8; // 1.16: 0x0058F3C0
+  static u32 BWXFN_ResearchProgress = 0x0058F218; //  1.16: 0058F210
 
   //------------------------------------------------ SUPPLIES ------------------------------------------------
   struct Supplies

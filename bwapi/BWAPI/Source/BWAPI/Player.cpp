@@ -430,7 +430,7 @@ namespace BWAPI
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
   bool Player::researchInProgress(BW::TechType tech) const
   {
-    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (0x0058F218 + this->getID()*6);
+    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWXFN_ResearchProgress + this->getID()*6);
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
