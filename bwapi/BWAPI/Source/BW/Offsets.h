@@ -123,44 +123,57 @@ namespace BW
   static UnitArray*     BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40; // array starts at 0059CC90 if index starts at 0; 1.16: 0059CC88
   const  u32            UNIT_ARRAY_MAX_LENGTH = 1701; // should be 1700
   
-  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C0530; /** 1.15.3 */
-  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049ACD0; /** 1.15.3 */
+  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C0530; /** 1.15.3 */ // 1.16: 004C0750
+  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049ACD0; /** 1.15.3 */  // 1.16: 0049AEE0
 //  static u32            BWFXN_CommandUnit = 0x4BFFD0; /** 1.15.3 */    // @todo: verify if necessary
-  static u32            BWFXN_IssueCommand = 0x485920; /** 1.15.3 */
+  static u32            BWFXN_IssueCommand = 0x485920; /** 1.15.3 */ // 1.16: 00485AC0
 //  static u32            BWFXN_HUD = 0x004202A0;     // @todo: verify if necessary
   static u32*           BWFXN_InGame = (u32*) 0x6556C8;    // 1.16: 006556C0 ?
   static u8*            BWFXN_InReplay = (u8*) 0x006D0EFC; // 1.16: 006D0EF4 ?
   static u32            BWFXN_CountDownTimer = 0x0058D6DC; // is correct; 1.16: 0058D6D4
-  static u32            BWXFN_PrintText = 0x0048CE90; /** 1.15.3 */
-  static u32            BWXFN_SendPublicCall = 0x004F2F57; /** 1.15.3 */
+
+  static u32            BWXFN_PrintText = 0x0048CE90; /** 1.15.3 */ // @todo: 1.16 address
+
+  static u32            BWXFN_SendPublicCall = 0x004F2F57; /** 1.15.3 */ // 1.16: 004F3107
   static u32            BWXFN_SendPublicCallBack = BWXFN_SendPublicCall + 5;
-  static u32            BWXFN_SendPublicCallTarget = 0x004C20E0; /** 1.15.3 */
+  static u32            BWXFN_SendPublicCallTarget = 0x004C20E0; /** 1.15.3 */ // 1.16: 004C2310  @todo: Read call location from BWXFN_SendPublicCall
+
   static Unit*          BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;  // 1.16: 005971E8
-  static u32            BWXFN_GameStart = 0x004C96F1; /** 1.15.3 */
+
+  static u32            BWXFN_GameStart = 0x004C96F1; /** 1.15.3 */ // 1.16: 004C9941
   static u32            BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
-  static u32            BWXFN_GameStartTarget = 0x00417C40; /** 1.15.3 */
-  static u32            BWXFN_GameEnd = 0x004EE623;/** 1.15.3 */
+  static u32            BWXFN_GameStartTarget = 0x00417C40; /** 1.15.3 */ // 1.16: 00417C10  @todo: Read call location from BWXFN_GameStart
+
+  static u32            BWXFN_GameEnd = 0x004EE623;/** 1.15.3 */  // 1.16: 004EE7D3
   static u32            BWXFN_GameEndBack = BWXFN_GameEnd + 5;
-  static u32            BWXFN_GameEndTarget = 0x00416DB0; /** 1.15.3 */
-  static u32            BWXFN_NextFrameHelperFunction = 0x004D954D; /** 1.15.3 */
+  static u32            BWXFN_GameEndTarget = 0x00416DB0; /** 1.15.3 */  // 1.16: 00416D80  @todo: Read call location from BWXFN_GameEnd
+
+  static u32            BWXFN_NextFrameHelperFunction = 0x004D954D; /** 1.15.3 */ // 1.16: 004D977D
   static u32            BWXFN_NextFrameHelperFunctionBack = BWXFN_NextFrameHelperFunction + 5;
-  static u32            BWXFN_NextFrameHelperFunctionTarget = 0x004D1160; /** 1.15.3 */
-  static u32            BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */
-  static u32            BWXFN_CancelTrainByClickInTheQueue = 0x00457429; /** 1.15.3 */
+  static u32            BWXFN_NextFrameHelperFunctionTarget = 0x004D1160; /** 1.15.3 */ // 1.16: 004D13B0  @todo: Read call location from BWXFN_NextFrameHelperFunction
+
+  static u32            BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */ //  1.16: 0041DDE0
+
+  static u32            BWXFN_CancelTrainByClickInTheQueue = 0x00457429; /** 1.15.3 */  // 1.16: 004573D9
   static u32            BWXFN_CancelTrainByClickInTheQueueBack = BWXFN_CancelTrainByClickInTheQueue + 5;
   static u32            BWXFN_CancelTrainByClickInTheQueueTarget = BWFXN_IssueCommand;
-  static u32            BWXFN_CancelTrainByEscape = 0x004234C4; /** 1.15.3 */
+
+  static u32            BWXFN_CancelTrainByEscape = 0x004234C4; /** 1.15.3 */  // 1.16: 00423494
   static u32            BWXFN_CancelTrainByEscapeBack = BWXFN_CancelTrainByEscape + 5;
   static u32            BWXFN_CancelTrainByEscapeTarget = BWFXN_IssueCommand;
-  static u32            BWXFN_RemoveUnit = 0x004EC194; /** 1.15.3 */
+
+  static u32            BWXFN_RemoveUnit = 0x004EC194; /** 1.15.3 */  // @todo: 1.16 address
   static u32            BWXFN_RemoveUnitBack = BWXFN_RemoveUnit + 5;
-  static u32            BWXFN_RemoveUnitTarget = 0x004798D0; /** 1.15.3 */
-  static u32            BWXFN_Redraw = 0x004D95C3; /** 1.15.3 */
+  static u32            BWXFN_RemoveUnitTarget = 0x004798D0; /** 1.15.3 */   // @todo: Read call location from BWXFN_RemoveUnitTarget
+
+  static u32            BWXFN_Redraw = 0x004D95C3; /** 1.15.3 */  // 1.16: 004D97F3
   static u32            BWXFN_RedrawBack = BWXFN_Redraw + 5;
-  static u32            BWXFN_RedrawTarget = 0x0041CA20; /** 1.15.3 */
-  static u32            BWXFN_NextLogicFrame = 0x004D93DE; /** 1.15.3 */
+  static u32            BWXFN_RedrawTarget = 0x0041CA20; /** 1.15.3 */  // 1.16: 0041C9F0  @todo: Read call location from BWXFN_Redraw
+
+  static u32            BWXFN_NextLogicFrame = 0x004D93DE; /** 1.15.3 */  // 1.16: 004D960E
   static u32            BWXFN_NextLogicFrameBack = BWXFN_NextLogicFrame + 5;
-  static u32            BWXFN_NextLogicFrameTarget = 0x00488450; /** 1.15.3 */
+  static u32            BWXFN_NextLogicFrameTarget = 0x00488450; /** 1.15.3 */  // 1.16: 00488670  @todo: Read call location from BWXFN_NextLogicFrame
+
   static int*           BWXFN_MouseX = (int*) 0x006CDDAC;  // 1.16: 006CDDA4
   static int*           BWXFN_MouseY = (int*) 0x006CDDB0;  // 1.16: 006CDDA8
   static int*           BWXFN_ScreenX = (int*) 0x00628430;
