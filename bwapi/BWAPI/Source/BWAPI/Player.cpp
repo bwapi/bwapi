@@ -259,12 +259,12 @@ namespace BWAPI
     return BW::BWXFN_Players->player[this->getID()].race;
   }
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
-  BW::Race::Enum Player::getAlliance(u8 opposingID)
+  u8 Player::getAlliance(u8 opposingID)
   {
     return BW::BWDATA_Alliance->alliance[this->getID()][opposingID];
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
-  BW::Race::Enum Player::getOwner()
+  BW::PlayerType::Enum Player::getOwner()
   {
     return BW::BWXFN_Players->player[this->getID()].type;
   }

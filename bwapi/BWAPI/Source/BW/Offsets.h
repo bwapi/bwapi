@@ -84,7 +84,7 @@ namespace BW
   struct PlayerAlliance
   {
     u8           alliance[PLAYER_COUNT][PLAYER_COUNT];
-  }
+  };
 
   static DatLoad* upgradesDat = (DatLoad*) 0x005136E0; // 1.15.3 AND 1.16
   static DatLoad* techdataDat = (DatLoad*) 0x005137D8;
