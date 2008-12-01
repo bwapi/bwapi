@@ -126,8 +126,8 @@ namespace BWAPI
     bool canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved);
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
-    BW::Race::Enum getAlliance(u8 opposingID);
-    BW::Race::Enum getOwner();
+    u8 getAlliance(u8 opposingID);
+    BW::PlayerType::Enum getOwner();
     u8 getForce();
     
     s32 getAllUnits(BW::UnitType unit);

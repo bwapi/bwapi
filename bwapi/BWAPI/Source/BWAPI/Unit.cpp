@@ -361,7 +361,7 @@ namespace BWAPI
     }
     else if (this->getType() == BW::UnitID::Zerg_Hatchery ||
              this->getType() == BW::UnitID::Zerg_Lair ||
-             this->getType() == BW::UnitID::Zerg_Spire
+             this->getType() == BW::UnitID::Zerg_Spire ||
              this->getType() == BW::UnitID::Zerg_CreepColony)
     {
       this->orderSelect();
