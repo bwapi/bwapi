@@ -226,9 +226,7 @@ namespace BWAI
       this->player = player;
       this->opponent = opponent;
       mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
-this->log->logImportant("Ai::onStart getting map name");
       this->checkNewExpansions();
-this->log->logImportant("Ai::onStart Expansions Found");
       this->root->log->log("Help pre-prepared information found for the curent map");
       if (this->expansions.size())
       {
@@ -240,15 +238,12 @@ this->log->logImportant("Ai::onStart Expansions Found");
           }
         if (this->startingPosition)
         {
-this->log->logImportant("Ai::onStart startingPosition is...");
          this->root->log->log("Starting position is (%s) at (%d, %d)", 
                         this->startingPosition->expansion->getID().c_str(), 
                         this->startingPosition->expansion->getPosition().x, 
                         this->startingPosition->expansion->getPosition().y);
-this->log->logImportant("Ai::onStart startingPosition is... end");
         }
       }
-this->log->logImportant("Ai::onStart StartingPosition Found");
       this->pathFinding = new PathFinding::Utilities();
     }
     catch (GeneralException& exception)
@@ -262,7 +257,6 @@ this->log->logImportant("Ai::onStart StartingPosition Found");
     if (this->root != NULL)
     {
       this->buildOrderExecutor = this->root->getStart();
-this->log->logImportant("Ai::onStart root");
       if (this->buildOrderExecutor == NULL)
         this->root->log->log("Didn't find build order to play with %s against %s", 
                              BW::Race::raceName(this->player->getRace()).c_str(), 

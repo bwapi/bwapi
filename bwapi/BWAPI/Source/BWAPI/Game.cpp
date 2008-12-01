@@ -249,15 +249,21 @@ namespace BWAPI
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
     {
       if (config->get("bwapi_name") == this->players[i]->getName() && 
-          this->players[i]->getForceName() != "Observers")
+          this->players[i]->getForceName() != "Observers" &&
+          this->players[i]->getForceName() != "Observer")
         this->BWAPIPlayer = this->players[i];
       else
-        if (strcmp(this->players[i]->getName(),"") != 0 &&
+        if ((this->players[i]->getOwner() == BW::PlayerType::Computer ||
+             this->players[i]->getOwner() == BW::PlayerType::Human ||
+             this->players[i]->getOwner() == BW::PlayerType::ComputerSlot) &&
             opponent == NULL &&
-            this->players[i]->getForceName() != "Observers")
+            this->players[i]->getForceName() != "Observers" &&
+            this->players[i]->getForceName() != "Observer" &&
+            this->BWAPIPlayer->getAlliance(i) == 0)
           this->opponent = this->players[i];
     }
   }
+
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool Game::onSendText(const char* text)
   {
@@ -495,11 +501,6 @@ namespace BWAPI
       this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1020, 2660)),sizeof(BW::Orders::MinimapPing));
       this->print("Issued ping");
       return true;
-    }
-    else if (parsed[0] == "/say")
-    {
-      this->IssueCommand((PBYTE)&BW::Orders::SendText(),sizeof(BW::Orders::SendText));
-
     }
     return false;
   }
