@@ -394,13 +394,11 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string Unit::getName() const
   {
-    
     sprintf(position, "Position = (%u,%u)", this->getPosition().x, 
                                               this->getPosition().y);
-      
-  
+
     sprintf(indexName, "[%d]", this->getIndex());
-   
+
     if (this->getTarget() == NULL)
       strcpy(targetIndex, "Target:[NULL]");
     else
@@ -411,22 +409,21 @@ namespace BWAPI
     else
       sprintf(orderTargetIndex, "OrderTarget:[%d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
   
-
     if (this->getOwner() != NULL)
       sprintf(owner,"Player = (%s)",this->getOwner()->getName());
     else
       sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
-     
+
     if (this->getType().isValid())
       sprintf(unitName, "(%s)", this->getType().getName());
     else
       sprintf(unitName, "(unitID = %u)", this->getType().getID());
-      
+
     if (BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
       sprintf(connectedUnit, "(childUnit1 = NULL)");
     else
       sprintf(connectedUnit, "(childUnit1 = %s)", BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1)->getType().getName());
-  
+
     sprintf(orderName,"(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
     sprintf(message,"%s %s %s %s %s %s %s %s", unitName,
                                               orderName,
@@ -436,7 +433,7 @@ namespace BWAPI
                                               orderTargetIndex,
                                               owner,
                                               connectedUnit);
-  
+
     return std::string(message);
   }
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------

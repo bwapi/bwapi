@@ -202,8 +202,11 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf(buffer, BUFFER_SIZE, text, ap); 
     va_end(ap);
-    void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-    sendText(buffer);
+
+// apparently crashes in 1.16
+
+  /*  void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
+    sendText(buffer);*/
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
 /*  void Game::printPublic(const char *text) const
@@ -492,6 +495,11 @@ namespace BWAPI
       this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1020, 2660)),sizeof(BW::Orders::MinimapPing));
       this->print("Issued ping");
       return true;
+    }
+    else if (parsed[0] == "/say")
+    {
+      this->IssueCommand((PBYTE)&BW::Orders::SendText(),sizeof(BW::Orders::SendText));
+
     }
     return false;
   }

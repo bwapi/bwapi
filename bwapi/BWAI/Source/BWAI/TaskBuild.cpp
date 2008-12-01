@@ -61,7 +61,7 @@ namespace BWAI
         this->building != NULL &&
         this->building->isCompleted())
     {
-      BWAI::ai->log->log("(%s) finished production of (%s)", this->executors.front()->getType().getName(), this->buildingType.getName());
+      BWAI::ai->log->logCritical("(%s) finished production of (%s)", this->executors.front()->getType().getName(), this->buildingType.getName());
       return true;
     }
     if (this->executors.empty() &&
@@ -82,7 +82,7 @@ namespace BWAI
           this->executors.front()->getOrderTarget()->getType() == buildingType)
         {
           this->building = executors.front()->getOrderTarget();
-          BWAI::ai->log->log("(%s) construction started", building->getName().c_str());
+          BWAI::ai->log->logCritical("(%s) construction started", building->getName().c_str());
         }
       }
       else
@@ -90,7 +90,7 @@ namespace BWAI
             this->executors.front()->getBuildUnit()->getType() == buildingType)
         {
           this->building = BWAI::Unit::BWAPIUnitToBWAIUnit(executors.front()->getBuildUnit());
-          BWAI::ai->log->log("(%s) construction of addon started", building->getName().c_str());
+          BWAI::ai->log->logCritical("(%s) construction of addon started", building->getName().c_str());
         }
 
     if (!this->executors.empty() &&
@@ -108,6 +108,7 @@ namespace BWAI
         this->building == NULL &&
         this->spot == BW::TilePosition::Invalid)
       return true; // Special case of the custom building    
+
     if (this->building != NULL &&
         !this->executors.empty() &&
         this->executors.front()->getOrderTargetLocal() != this->building &&
@@ -115,7 +116,7 @@ namespace BWAI
         !this->buildingType.isAddon())
     {
        this->executors.front()->orderRightClick(this->building);
-       BWAI::ai->log->log("(%s) Builder died - new builder sent to finish", building->getName().c_str());
+       BWAI::ai->log->logCritical("(%s) Builder died - new builder sent to finish", building->getName().c_str());
     }
     
     if (!this->executors.empty() && this->building == NULL)
@@ -161,7 +162,7 @@ namespace BWAI
              )
           {
             this->executors.front()->orderRightClick(center);
-            BWAI::ai->log->log("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName(), center.x, center.y);
+            BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName(), center.x, center.y);
           }
         }
         else
@@ -172,7 +173,7 @@ namespace BWAI
                 this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
                 this->executors.front()->getOwner()->canAfford(buildingType, BWAPI::ReservedResources()))
             {
-              BWAI::ai->log->log("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+              BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
               this->executors.front()->build(this->position->position, buildingType);
             }
           }
@@ -181,7 +182,7 @@ namespace BWAI
                 this->executors.front()->hasEmptyBuildQueueLocal() &&
                 this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::BuildAddon)
             {
-              BWAI::ai->log->log("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+              BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
               BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderIDLocal());
               this->executors.front()->build(this->position->position, buildingType);
             }

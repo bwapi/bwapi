@@ -396,6 +396,16 @@ namespace BW
         u8 always0x18;
     };
 
+    class SendText
+    {
+      public :
+        SendText();
+      private :
+        u8 always0x5C;
+        u8 playerID;
+        char* msg;
+    };
+
   }
 }
 #pragma pack()

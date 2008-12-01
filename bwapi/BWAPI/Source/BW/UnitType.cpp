@@ -57,7 +57,7 @@ namespace BW
     else if (this->getID() == BW::UnitID::Zerg_MainLair)
       return "Zerg_MainLair";
     else
-      return (char*)(*((u16*)(*(u32*)0x6d1220 + this->getID()*2 + 2)) + *((u32*)0x6d1220));
+      return (char*)(*((u16*)(*(u32*)BW::BWXFN_StringTableOff + this->getID()*2 + 2)) + *((u32*)BW::BWXFN_StringTableOff));
   }
   //---------------------------------------------- GET UNIT ID -----------------------------------------------
   BW::UnitID::Enum UnitType::getID() const
