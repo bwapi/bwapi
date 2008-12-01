@@ -351,9 +351,29 @@ namespace BWAPI
   //----------------------------------------------- TRAIN UNIT -----------------------------------------------
   void Unit::trainUnit(BW::UnitType type)
   {
-    this->orderSelect();
-    Broodwar.addToCommandBuffer(new CommandTrain(this, type));
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
+    if (this->getType() == BW::UnitID::Zerg_Larva ||
+        this->getType() == BW::UnitID::Zerg_Mutalisk ||
+        this->getType() == BW::UnitID::Zerg_Hydralisk)
+    {
+      this->orderSelect();
+      Broodwar.addToCommandBuffer(new CommandTrain(this, type));
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::UnitMorph(type), 0x3);
+    }
+    else if (this->getType() == BW::UnitID::Zerg_Hatchery ||
+             this->getType() == BW::UnitID::Zerg_Lair ||
+             this->getType() == BW::UnitID::Zerg_Spire
+             this->getType() == BW::UnitID::Zerg_CreepColony)
+    {
+      this->orderSelect();
+      Broodwar.addToCommandBuffer(new CommandTrain(this, type));
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(type), 0x3);
+    }
+    else
+    {
+      this->orderSelect();
+      Broodwar.addToCommandBuffer(new CommandTrain(this, type));
+      Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
+    }
   }
   //--------------------------------------------- GET QUEUE SLOT ---------------------------------------------
   u8 Unit::getBuildQueueSlot() const

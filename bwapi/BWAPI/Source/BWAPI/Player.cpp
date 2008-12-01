@@ -154,8 +154,8 @@ namespace BWAPI
      case BW::UnitID::Terran_PhysicsLab      :
      case BW::UnitID::Terran_CovertOps       : return this->getCompletedUnits(BW::UnitID::Terran_ScienceFacility) != 0;
      case BW::UnitID::Terran_SCV             :
-	 case BW::UnitID::Terran_Barracks        :
-	 case BW::UnitID::Terran_EngineeringBay  : return this->getCompletedUnits(BW::UnitID::Terran_CommandCenter) != 0;
+	   case BW::UnitID::Terran_Barracks        :
+	   case BW::UnitID::Terran_EngineeringBay  : return this->getCompletedUnits(BW::UnitID::Terran_CommandCenter) != 0;
      case BW::UnitID::Terran_MissileTurret   : return this->getCompletedUnits(BW::UnitID::Terran_EngineeringBay) != 0;
 // Protoss
      case BW::UnitID::Protoss_Probe          :
@@ -207,10 +207,10 @@ namespace BWAPI
                                                       this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
      case BW::UnitID::Zerg_SporeColony       : return this->getCompletedUnits(BW::UnitID::Zerg_CreepColony) != 0 &&
                                                       this->getCompletedUnits(BW::UnitID::Zerg_EvolutionChamber) != 0;
-     case BW::UnitID::Zerg_Lair              :return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0 &&
-                                                     this->getCompletedUnits(BW::UnitID::Zerg_Hatchery) != 0;
-     case BW::UnitID::Zerg_Hive              :return this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0 &&
-                                                     this->getCompletedUnits(BW::UnitID::Zerg_Lair) != 0;
+     case BW::UnitID::Zerg_Lair              : return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_Hatchery) != 0;
+     case BW::UnitID::Zerg_Hive              : return this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0 &&
+                                                      this->getCompletedUnits(BW::UnitID::Zerg_Lair) != 0;
      case BW::UnitID::Zerg_HydraliskDen      : return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
      case BW::UnitID::Zerg_Zergling          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
                                                       this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
@@ -257,6 +257,16 @@ namespace BWAPI
   BW::Race::Enum Player::getRace()
   {
     return BW::BWXFN_Players->player[this->getID()].race;
+  }
+  //------------------------------------------------ GET ALLIANCE --------------------------------------------
+  BW::Race::Enum Player::getAlliance(u8 opposingID)
+  {
+    return BW::BWDATA_Alliance->alliance[this->getID()][opposingID];
+  }
+  //------------------------------------------------ GET OWNER -----------------------------------------------
+  BW::Race::Enum Player::getOwner()
+  {
+    return BW::BWXFN_Players->player[this->getID()].type;
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   u8 Player::getForce()
