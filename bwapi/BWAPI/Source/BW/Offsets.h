@@ -83,7 +83,11 @@ namespace BW
 
   struct PlayerAlliance
   {
-    u8           alliance[PLAYER_COUNT][PLAYER_COUNT];
+    struct Alliances
+    {
+      u8 player[PLAYER_COUNT];
+    };
+    Alliances alliance[PLAYER_COUNT];
   };
 
   static DatLoad* upgradesDat = (DatLoad*) 0x005136E0; // 1.15.3 AND 1.16
@@ -102,7 +106,6 @@ namespace BW
   {
     struct UnitStats
     {
-      /** Direct mapping of resource value of some player (gas or minerals) */
       struct PlayerStats
       {
         s32 player[PLAYER_COUNT];

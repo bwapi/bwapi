@@ -261,7 +261,7 @@ namespace BWAPI
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
   u8 Player::getAlliance(u8 opposingID)
   {
-    return BW::BWDATA_Alliance->alliance[this->getID()][opposingID];
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[opposingID];
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
   BW::PlayerType::Enum Player::getOwner()
