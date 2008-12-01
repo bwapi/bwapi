@@ -44,7 +44,7 @@ namespace BW
     PlayerResource minerals;
     PlayerResource gas;
   };
-  static PlayerResources* BWXFN_PlayerResources = (PlayerResources*) 0x0057F0D8; // 1.16: 0057F0D0
+  static PlayerResources* BWXFN_PlayerResources = (PlayerResources*) 0x0057F0D0; //0x0057F0D8; // 1.16: 0057F0D0 (VERIFIED)
 
   //----------------------------------------------- NAMES TYPE -----------------------------------------------
   /** Direct mapping of players info in bw memory */
@@ -81,14 +81,14 @@ namespace BW
     u32            entries;
   };
 
-  static DatLoad* upgradesDat = (DatLoad*) 0x005136E0; // 1.15.3 AND 1.16
-  static DatLoad* techdataDat = (DatLoad*) 0x005137D8; // 1.15.3 AND 1.16
-  static DatLoad* weaponsDat = (DatLoad*) 0x00513868; // 1.15.3 AND 1.16
-  static DatLoad* unitsDat = (DatLoad*) 0x00513C30; // 1.15.3 AND 1.16
+  static DatLoad* upgradesDat = (DatLoad*) 0x005136E0; // 1.15.3 AND 1.16 (VERIFIED)
+  static DatLoad* techdataDat = (DatLoad*) 0x005137D8; // 1.15.3 AND 1.16 (VERIFIED)
+  static DatLoad* weaponsDat = (DatLoad*) 0x00513868; // 1.15.3 AND 1.16 (VERIFIED)
+  static DatLoad* unitsDat = (DatLoad*) 0x00513C30; // 1.15.3 AND 1.16 (VERIFIED)
 
-  static Positions* startPositions = (Positions*) 0x58D708; // 1.16: 0x58D700
-  static ForceName* ForceNames = (ForceName*) 0x0058D5A4; // 1.16: 0x0058D59C
-  static Players* BWXFN_Players = (Players*) 0x0057EEE0; // 1.16: 0057EEC0
+  static Positions* startPositions = (Positions*) 0x058D700; // 0x58D708; // 1.16: 0x0058D700 (VERIFIED)
+  static ForceName* ForceNames = (ForceName*) 0x0058D59C; // 0x0058D5A4; // 1.16: 0x0058D59C (VERIFIED)
+  static Players* BWXFN_Players = (Players*) 0x0057EEC0; // 0x0057EEE0; // 1.16: 0x0057EEC0 (VERIFIED)
   
   //----------------------------------------------- UNIT STATS -----------------------------------------------
   /** Direct mapping of bw tables used for unti stats like count, completed, kills, deaths */
@@ -109,76 +109,77 @@ namespace BW
     UnitStats dead;
   };
   
-  static Counts* BWXFN_Counts = (Counts*) 0x0058230C; // 1.16: 0x00582304
-  static u8* BWOFF_gameType = (u8*) 0x00596808; // 1.16: 0x00596800
+  static Counts* BWXFN_Counts = (Counts*) 0x00582304; //0x0058230C; // 1.16: 0x00582304
+  static u8* BWOFF_gameType = (u8*) 0x00596800; // 0x00596808; // 1.16: 0x00596800
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
-  static TileID**       BWXFN_MapTileArray = (TileID**) 0x005993AC; // 1.16: 0x005993A4
-  static TileType**     BWXFN_TileSet = (TileType**) 0x006D5EA8; /**< Index  0-1023 */ // 1.16: 006D5EA0 ?
-  static DoodatType**   BWXFN_DoodatSet = (DoodatType**) 0x006D5EA8; /**< Index 1024 + */ // 1.16: 006D5EA0 ?
-  static u16*           BWXFN_MapSizeX = (u16*) 0x0057F1BC; // 1.16: 0x0057F1B4
+  static TileID**       BWXFN_MapTileArray = (TileID**) 0x005993A4; // 0x005993AC; // 1.16: 0x005993A4
+  static TileType**     BWXFN_TileSet = (TileType**) 0x006D5EA0; // 0x006D5EA8; /**< Index  0-1023 */ // 1.16: 0x006D5EA0 ?
+  static DoodatType**   BWXFN_DoodatSet = (DoodatType**) 0x006D5EA0; // 0x006D5EA8; /**< Index 1024 + */ // 1.16: 0x006D5EA0 ?
+  static u16*           BWXFN_MapSizeX = (u16*) 0x0057F1B4; // 0x0057F1BC; // 1.16: 0x0057F1B4
   static u16*           BWXFN_MapSizeY = ((u16*) BWXFN_MapSizeX) + 1;
-  static Unit**         BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628418; // 1.16: 00628410
-  static UnitArray*     BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB40; // array starts at 0059CC90 if index starts at 0; 1.16: 0059CC88
+  static Unit**         BWXFN_UnitNodeTable_FirstElement = (Unit**)0x00628410; // 0x00628418; // 1.16: 0x00628410
+  static UnitArray*     BWXFN_UnitNodeTable = (UnitArray*) 0x0059CB38; //0x0059CB40; // array starts at 0x0059CC90 if index starts at 0; 1.16: 0x0059CC88
   const  u32            UNIT_ARRAY_MAX_LENGTH = 1701; // should be 1700
   
-  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C0530; /** 1.15.3 */ // 1.16: 004C0750
-  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049ACD0; /** 1.15.3 */  // 1.16: 0049AEE0
+  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*) (int, BW::Unit * *)) 0x004C0750; //0x004C0530; /** 1.15.3 */ // 1.16: 0x004C0750
+  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AEE0; //0x0049ACD0; /** 1.15.3 */  // 1.16: 0x0049AEE0
 //  static u32            BWFXN_CommandUnit = 0x4BFFD0; /** 1.15.3 */    // @todo: verify if necessary
-  static u32            BWFXN_IssueCommand = 0x485920; /** 1.15.3 */ // 1.16: 00485AC0
+  static u32            BWFXN_IssueCommand = 0x00485AC0; //0x485920; /** 1.15.3 */ // 1.16: 0x00485AC0
 //  static u32            BWFXN_HUD = 0x004202A0;     // @todo: verify if necessary
-  static u32*           BWFXN_InGame = (u32*) 0x6556C8;    // 1.16: 006556C0 ?
-  static u8*            BWFXN_InReplay = (u8*) 0x006D0EFC; // 1.16: 006D0EF4 ?
-  static u32            BWFXN_CountDownTimer = 0x0058D6DC; // is correct; 1.16: 0058D6D4
+  static u32*           BWFXN_InGame = (u32*) 0x006556C0; //0x006556C8;    // 1.16: 0x006556C0 ?
+  static u8*            BWFXN_InReplay = (u8*) 0x006D0EF4; //0x006D0EFC; // 1.16: 0x006D0EF4 ?
+  static u32            BWFXN_CountDownTimer = 0x0058D6D4; //0x0058D6DC; // is correct; 1.16: 0x0058D6D4
 
-  static u32            BWXFN_PrintText = 0x0048CE90; /** 1.15.3 */ // @todo: 1.16 address
+  static u32            BWXFN_PrintText = 0x0048D0B0; //0x0048CE90; /** 1.15.3 */ // 1.16: 0x0048D0B0
 
-  static u32            BWXFN_SendPublicCall = 0x004F2F57; /** 1.15.3 */ // 1.16: 004F3107
+  static u32            BWXFN_SendPublicCall = 0x004F3107; //0x004F2F57; /** 1.15.3 */ // 1.16: 0x004F3107
   static u32            BWXFN_SendPublicCallBack = BWXFN_SendPublicCall + 5;
-  static u32            BWXFN_SendPublicCallTarget = 0x004C20E0; /** 1.15.3 */ // 1.16: 004C2310  @todo: Read call location from BWXFN_SendPublicCall
+  static u32            BWXFN_SendPublicCallTarget = 0x004C2310; //0x004C20E0; /** 1.15.3 */ // 1.16: 0x004C2310  @todo: Read call location from BWXFN_SendPublicCall
 
-  static Unit*          BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971F0;  // 1.16: 005971E8
+  static Unit*          BWXFN_CurrentPlayerSelectionGroup = (Unit*) 0x005971E8; //0x005971F0;  // 1.16: 0x005971E8
 
-  static u32            BWXFN_GameStart = 0x004C96F1; /** 1.15.3 */ // 1.16: 004C9941
+  static u32            BWXFN_GameStart = 0x004C9941; //0x004C96F1; /** 1.15.3 */ // 1.16: 0x004C9941
   static u32            BWXFN_GameStartBack = BW::BWXFN_GameStart + 5;
-  static u32            BWXFN_GameStartTarget = 0x00417C40; /** 1.15.3 */ // 1.16: 00417C10  @todo: Read call location from BWXFN_GameStart
+  static u32            BWXFN_GameStartTarget = 0x00417C10; //0x00417C40; /** 1.15.3 */ // 1.16: 0x00417C10  @todo: Read call location from BWXFN_GameStart
 
-  static u32            BWXFN_GameEnd = 0x004EE623;/** 1.15.3 */  // 1.16: 004EE7D3
+  static u32            BWXFN_GameEnd = 0x004EE7D3; //0x004EE623;/** 1.15.3 */  // 1.16: 0x004EE7D3
   static u32            BWXFN_GameEndBack = BWXFN_GameEnd + 5;
-  static u32            BWXFN_GameEndTarget = 0x00416DB0; /** 1.15.3 */  // 1.16: 00416D80  @todo: Read call location from BWXFN_GameEnd
+  static u32            BWXFN_GameEndTarget = 0x00416D80; //0x00416DB0; /** 1.15.3 */  // 1.16: 0x00416D80  @todo: Read call location from BWXFN_GameEnd
 
-  static u32            BWXFN_NextFrameHelperFunction = 0x004D954D; /** 1.15.3 */ // 1.16: 004D977D
+  static u32            BWXFN_NextFrameHelperFunction = 0x004D977D; //0x004D954D; /** 1.15.3 */ // 1.16: 0x004D977D
   static u32            BWXFN_NextFrameHelperFunctionBack = BWXFN_NextFrameHelperFunction + 5;
-  static u32            BWXFN_NextFrameHelperFunctionTarget = 0x004D1160; /** 1.15.3 */ // 1.16: 004D13B0  @todo: Read call location from BWXFN_NextFrameHelperFunction
+  static u32            BWXFN_NextFrameHelperFunctionTarget = 0x004D13B0; //0x004D1160; /** 1.15.3 */ // 1.16: 0x004D13B0  @todo: Read call location from BWXFN_NextFrameHelperFunction
 
-  static u32            BWXFN_Refresh = 0x0041DE10; /**< or 0x0041E040 ? */ //  1.16: 0041DDE0
+  static u32            BWXFN_Refresh = 0x0041DDE0; //0x0041DE10; /**< or 0x0041E040 ? */ //  1.16: 0x0041DDE0
 
-  static u32            BWXFN_CancelTrainByClickInTheQueue = 0x00457429; /** 1.15.3 */  // 1.16: 004573D9
+  static u32            BWXFN_CancelTrainByClickInTheQueue = 0x004573D9; //0x00457429; /** 1.15.3 */  // 1.16: 0x004573D9
   static u32            BWXFN_CancelTrainByClickInTheQueueBack = BWXFN_CancelTrainByClickInTheQueue + 5;
   static u32            BWXFN_CancelTrainByClickInTheQueueTarget = BWFXN_IssueCommand;
 
-  static u32            BWXFN_CancelTrainByEscape = 0x004234C4; /** 1.15.3 */  // 1.16: 00423494
+  static u32            BWXFN_CancelTrainByEscape = 0x00423494; //0x004234C4; /** 1.15.3 */  // 1.16: 0x00423494
   static u32            BWXFN_CancelTrainByEscapeBack = BWXFN_CancelTrainByEscape + 5;
   static u32            BWXFN_CancelTrainByEscapeTarget = BWFXN_IssueCommand;
 
-  static u32            BWXFN_RemoveUnit = 0x004EC194; /** 1.15.3 */  // @todo: 1.16 address
+  static u32            BWXFN_RemoveUnit = 0x004EC354; //0x004EC194; /** 1.15.3 */  // 1.16: 0x004EC354
   static u32            BWXFN_RemoveUnitBack = BWXFN_RemoveUnit + 5;
-  static u32            BWXFN_RemoveUnitTarget = 0x004798D0; /** 1.15.3 */   // @todo: Read call location from BWXFN_RemoveUnitTarget
+  static u32            BWXFN_RemoveUnitTarget = 0x00479920; //0x004798D0; /** 1.15.3 */ // 1.16: 0x00479920  @todo: Read call location from BWXFN_RemoveUnitTarget
 
-  static u32            BWXFN_Redraw = 0x004D95C3; /** 1.15.3 */  // 1.16: 004D97F3
+  static u32            BWXFN_Redraw = 0x004D97F3; //0x004D95C3; /** 1.15.3 */  // 1.16: 0x004D97F3
   static u32            BWXFN_RedrawBack = BWXFN_Redraw + 5;
-  static u32            BWXFN_RedrawTarget = 0x0041CA20; /** 1.15.3 */  // 1.16: 0041C9F0  @todo: Read call location from BWXFN_Redraw
+  static u32            BWXFN_RedrawTarget = 0x0041C9F0; //0x0041CA20; /** 1.15.3 */  // 1.16: 0x0041C9F0  @todo: Read call location from BWXFN_Redraw
 
-  static u32            BWXFN_NextLogicFrame = 0x004D93DE; /** 1.15.3 */  // 1.16: 004D960E
+  static u32            BWXFN_NextLogicFrame = 0x004D960E; //0x004D93DE; /** 1.15.3 */  // 1.16: 0x004D960E
   static u32            BWXFN_NextLogicFrameBack = BWXFN_NextLogicFrame + 5;
-  static u32            BWXFN_NextLogicFrameTarget = 0x00488450; /** 1.15.3 */  // 1.16: 00488670  @todo: Read call location from BWXFN_NextLogicFrame
+  static u32            BWXFN_NextLogicFrameTarget = 0x00488670; //0x00488450; /** 1.15.3 */  // 1.16: 0x00488670  @todo: Read call location from BWXFN_NextLogicFrame
 
-  static int*           BWXFN_MouseX = (int*) 0x006CDDAC;  // 1.16: 006CDDA4
-  static int*           BWXFN_MouseY = (int*) 0x006CDDB0;  // 1.16: 006CDDA8
-  static int*           BWXFN_ScreenX = (int*) 0x00628430; // 1.16: 00628428
-  static int*           BWXFN_ScreenY = (int*) 0x00628458; // 1.16: 00628450
-  static char*          BWXFN_CurrentMapFileName = (char*) 0x0057FD24; // 1.16: 0057FD1C
+  static u32            BWFXN_Mouse  = 0x006CDDA4;  //0x006CDDAC;  // 1.16: 0x006CDDA4
+  static int*           BWXFN_MouseX = (int*) BWFXN_Mouse;
+  static int*           BWXFN_MouseY = (int*) (BWFXN_Mouse + 4);
+  static int*           BWXFN_ScreenX = (int*) 0x00628428; //0x00628430; // 1.16: 0x00628428  @todo: Find better screen x/y location (as a pair, one address)
+  static int*           BWXFN_ScreenY = (int*) 0x00628450; //0x00628458; // 1.16: 0x00628450
+  static char*          BWXFN_CurrentMapFileName = (char*) 0x0057FD1C; //0x0057FD24; // 1.16: 0x0057FD1C
   static u16*           BWXFN_TechLabelIndex = (u16*) techdataDat[7].address;
   static u16*           BWXFN_UpgradeLabelIndex = (u16*) upgradesDat[8].address;
   static u8*            BWXFN_UpgradeMax = (u8*) upgradesDat[10].address;
@@ -189,16 +190,17 @@ namespace BW
   static u16*           BWXFN_UpgradeTimeCostBase = (u16*) upgradesDat[4].address;
   static u16*           BWXFN_UpgradeTimeCostFactor = (u16*) upgradesDat[5].address;
   static Race::Enum*    BWXFN_UpgradeRace = (Race::Enum*) upgradesDat[9].address;
-  static u16**          BWXFN_StringTableIndex = (u16**) 0x6D1220; // 1.16: 006D1218
-  static char**         BWXFN_StringTable = (char**) 0x006D1220; // this addr is the same as above
-  static u32**          BWXFN_MapFogOfWar = (u32**) 0x006D1248; // 1.16: 006D1240
+  static u32            BWXFN_StringTableOff = 0x006D1218; //0x006D1220; // 1.16: 0x006D1218
+  static u16**          BWXFN_StringTableIndex = (u16**) BWXFN_StringTableOff;
+  static char**         BWXFN_StringTable = (char**) BWXFN_StringTableOff;
+  static u32**          BWXFN_MapFogOfWar = (u32**) 0x006D1240; //0x006D1248; // 1.16: 0x006D1240
 
   struct UpgradeProgress
   {
     Util::BitMask<u64> player[PLAYER_COUNT];
   };
-  static UpgradeProgress* BWXFN_UpgradeProgress = (UpgradeProgress*) 0x0058F3C8; // 1.16: 0x0058F3C0
-  static u32 BWXFN_ResearchProgress = 0x0058F218; //  1.16: 0058F210
+  static UpgradeProgress* BWXFN_UpgradeProgress = (UpgradeProgress*) 0x0058F3C0; //0x0058F3C8; // 1.16: 0x0058F3C0
+  static u32 BWXFN_ResearchProgress = 0x0058F210; //0x0058F218; //  1.16: 0x0058F210
 
   //------------------------------------------------ SUPPLIES ------------------------------------------------
   struct Supplies
@@ -217,7 +219,7 @@ namespace BW
     };
     SuppliesPerRace race[RACE_COUNT];
   };
-  static Supplies* BWXFN_Supplies    = (Supplies*) 0x0058212C; // 1.16: 0x00582124
+  static Supplies* BWXFN_Supplies    = (Supplies*) 0x00582124; //0x0058212C; // 1.16: 0x00582124
   
   
   //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
@@ -388,6 +390,6 @@ namespace BW
     MiniTileFlagArray tile[tileTypeCount];
   };
 
-  static MiniTileMaps_type** BWXFN_MiniTileFlags = (MiniTileMaps_type**) 0x005993B8; // 1.16: 0x005993B0
+  static MiniTileMaps_type** BWXFN_MiniTileFlags = (MiniTileMaps_type**) 0x005993B0; //0x005993B8; // 1.16: 0x005993B0
 };
 #pragma pack()
