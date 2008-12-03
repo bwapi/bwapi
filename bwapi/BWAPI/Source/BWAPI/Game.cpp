@@ -203,23 +203,25 @@ namespace BWAPI
     vsnprintf(buffer, BUFFER_SIZE, text, ap); 
     va_end(ap);
 
+    this->printPublic(buffer);
 // apparently crashes in 1.16
-
   /*  void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
     sendText(buffer);*/
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
-/*  void Game::printPublic(const char *text) const
+  void Game::printPublic(const char *text) const
   {
-   __asm
-   {
-     mov eax, 0
-     mov ecx, 0
-     mov edx, text
-     mov esi, text
-     call [BW::BWXFN_PrintPublicText]
-   }
-  }*/
+    u32 pID = this->BWAPIPlayer->getID();
+    if (this->BWAPIPlayer != NULL)
+      __asm
+      {
+        push 1
+        mov eax, pID
+        mov esi, text
+        push esi
+        call dword ptr [BW::BWFXN_PrintPublic]
+      }
+  }
   #pragma warning(pop)
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void Game::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
@@ -247,21 +249,22 @@ namespace BWAPI
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-    {
       if (config->get("bwapi_name") == this->players[i]->getName() && 
           this->players[i]->getForceName() != "Observers" &&
           this->players[i]->getForceName() != "Observer")
         this->BWAPIPlayer = this->players[i];
-      else
+
+    if (this->BWAPIPlayer != NULL)
+      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if ((this->players[i]->getOwner() == BW::PlayerType::Computer ||
              this->players[i]->getOwner() == BW::PlayerType::Human ||
              this->players[i]->getOwner() == BW::PlayerType::ComputerSlot) &&
-            opponent == NULL &&
+            this->opponent == NULL &&
             this->players[i]->getForceName() != "Observers" &&
             this->players[i]->getForceName() != "Observer" &&
             this->BWAPIPlayer->getAlliance(i) == 0)
           this->opponent = this->players[i];
-    }
+ 
   }
 
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
@@ -501,6 +504,11 @@ namespace BWAPI
       this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1020, 2660)),sizeof(BW::Orders::MinimapPing));
       this->print("Issued ping");
       return true;
+    }
+    else if (parsed[0] == "/say")
+    {
+      char* shit = "Holy fucking shit";
+      this->printPublic(shit);
     }
     return false;
   }
