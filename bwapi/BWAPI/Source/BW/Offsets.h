@@ -140,6 +140,7 @@ namespace BW
   static u32            BWFXN_CountDownTimer = 0x0058D6D4;
 
   static u32            BWXFN_PrintText = 0x0048D0B0;
+  static u32            BWFXN_PrintPublic = 0x0048D0B0;
 
   static u32            BWXFN_SendPublicCall = 0x004F3107; 
   static u32            BWXFN_SendPublicCallBack = BWXFN_SendPublicCall + 5;
