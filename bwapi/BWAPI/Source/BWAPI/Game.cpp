@@ -215,12 +215,12 @@ namespace BWAPI
         popad
       }
     else
-      printPublic(text); // until lobby print private text is found
+      printPublic(txtout); // until lobby print private text is found
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
   void Game::printPublic(const char *text) const
   {
-    if (*BW::BWDATA_InGame)
+    if (*(BW::BWDATA_InGame))
     {
       memcpy(BW::BWDATA_SendTextRequired, &BW::BWDATA_FullMask, 2);
       __asm
