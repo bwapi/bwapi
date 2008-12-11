@@ -203,23 +203,27 @@ namespace BWAPI
     vsnprintf(buffer, BUFFER_SIZE, text, ap); 
     va_end(ap);
 
-    this->printPublic(buffer);
-// apparently crashes in 1.16
-  /*  void (_stdcall* sendText)(const char *) = (void (_stdcall*) (const char *))BW::BWXFN_PrintText;
-    sendText(buffer);*/
+    __asm
+    {
+      pushad
+      push 0       // Unknown
+      mov eax, -1  // Player ID
+      push txtout  // Text
+      call dword ptr [BW::BWXFN_PrintText]
+      popad
+    }
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
   void Game::printPublic(const char *text) const
   {
-    u32 pID = this->BWAPIPlayer->getID();
+    memcpy(BW::BWDATA_SendTextRequired, &BW::BWDATA_FullMask, 2);
     if (this->BWAPIPlayer != NULL)
       __asm
       {
-        push 1
-        mov eax, pID
+        pushad
         mov esi, text
-        push esi
-        call dword ptr [BW::BWFXN_PrintPublic]
+        call [BW::BWXFN_SendPublicCallTarget]
+        popad
       }
   }
   #pragma warning(pop)
@@ -509,6 +513,7 @@ namespace BWAPI
     {
       char* shit = "Holy fucking shit";
       this->printPublic(shit);
+      return true;
     }
     return false;
   }
