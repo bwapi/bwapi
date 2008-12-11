@@ -70,7 +70,7 @@ namespace BW
       Zerg_Hero_KukulzaGuardian     = 0x38,
       Zerg_Hero_Yggdrasill          = 0x39,
       Terran_Valkyrie               = 0x3A,
-      Zerg_DevourerGuardianCocoon   = 0x3B,
+      Zerg_Cocoon                   = 0x3B,
       Protoss_Corsair               = 0x3C,
       Protoss_DarkTemplar           = 0x3D,
       Zerg_Devourer                 = 0x3E,
@@ -239,7 +239,7 @@ namespace BW
       Vaspene_Sac2                  = 0xE1,
       Vespene_Tank1                 = 0xE2,
       Vespene_Tank2                 = 0xE3,
-      None                          = 0XE4,
+      None                          = 0XE4, // Not actually unit ID from here on out
       All                           = 0XE5,
       Men                           = 0XE6,
       Buildings                     = 0XE7,
