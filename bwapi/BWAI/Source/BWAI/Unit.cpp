@@ -27,7 +27,7 @@ namespace BWAI
   {
     if (unit == NULL)
       return NULL;
-    return ai->getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
+    return ai->getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable)/336);
   }
   //------------------------------------------ BW Unit TO BWAI Unit ------------------------------------------
   Unit* Unit::BWAPIUnitToBWAIUnit(BWAPI::Unit* unit)

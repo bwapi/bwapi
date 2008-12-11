@@ -392,7 +392,7 @@ namespace BWAPI
   {
     if (unit == NULL)
       return NULL;
-    return Broodwar.getUnit(((int)unit - (int)BW::BWXFN_UnitNodeTable)/336);
+    return Broodwar.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable)/336);
   }
   #pragma warning (pop)
   //----------------------------------------------------------------------------------------------------------

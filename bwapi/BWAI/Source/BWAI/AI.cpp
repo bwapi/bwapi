@@ -458,7 +458,7 @@ namespace BWAI
   //----------------------------------------------- GET FIRST ------------------------------------------------
   Unit* AI::getFirst()
   {
-    return Unit::BWUnitToBWAIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
+    return Unit::BWUnitToBWAIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void AI::onRemoveUnit(BW::Unit* unit)
