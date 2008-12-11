@@ -97,7 +97,7 @@ namespace BWAPI
       
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i] = new Unit(&unitArrayCopy->unit[i], 
-                                &BW::BWXFN_UnitNodeTable->unit[i],
+                                &BW::BWDATA_UnitNodeTable->unit[i],
                                 &unitArrayCopyLocal->unit[i],
                                 i);
 
@@ -150,8 +150,8 @@ namespace BWAPI
         return;
       if (!this->isOnStartCalled())
         this->onGameStart();
-      memcpy(this->unitArrayCopy, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
-      memcpy(this->unitArrayCopyLocal, BW::BWXFN_UnitNodeTable, sizeof(BW::UnitArray));
+      memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
+      memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
      
@@ -191,7 +191,7 @@ namespace BWAPI
   //----------------------------------------------- IS IN GAME -----------------------------------------------
   bool Game::isInGame() const
   {
-    return *(BW::BWFXN_InGame) == 0;
+    return *(BW::BWDATA_InGame) == 0;
   }
   const int BUFFER_SIZE = 2048;
   char buffer[BUFFER_SIZE];
@@ -202,27 +202,41 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf(buffer, BUFFER_SIZE, text, ap); 
     va_end(ap);
-
-    __asm
-    {
-      pushad
-      push 0       // Unknown
-      mov eax, -1  // Player ID
-      push txtout  // Text
-      call dword ptr [BW::BWXFN_PrintText]
-      popad
-    }
+    
+    char* txtout = buffer;
+    if (*BW::BWDATA_InGame)
+      __asm
+      {
+        pushad
+        push 0       // Unknown
+        mov eax, 8   // Player ID (-1 for notification area)
+        push txtout  // Text
+        call dword ptr [BW::BWFXN_PrintText]
+        popad
+      }
+    else
+      printPublic(text); // until lobby print private text is found
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
   void Game::printPublic(const char *text) const
   {
-    memcpy(BW::BWDATA_SendTextRequired, &BW::BWDATA_FullMask, 2);
-    if (this->BWAPIPlayer != NULL)
+    if (*BW::BWDATA_InGame)
+    {
+      memcpy(BW::BWDATA_SendTextRequired, &BW::BWDATA_FullMask, 2);
       __asm
       {
         pushad
         mov esi, text
-        call [BW::BWXFN_SendPublicCallTarget]
+        call [BW::BWFXN_SendPublicCallTarget]
+        popad
+      }
+    }
+    else
+      __asm
+      {
+        pushad
+        mov edi, text
+        call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
   }
@@ -422,24 +436,24 @@ namespace BWAPI
     {
       if (parsed[1] == "all")
       {
-        BW::BWXFN_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] = 10000;
-        BW::BWXFN_PlayerResources->gas.player[this->BWAPIPlayer->getID()] = 10000;
+        BW::BWDATA_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] = 10000;
+        BW::BWDATA_PlayerResources->gas.player[this->BWAPIPlayer->getID()] = 10000;
         for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         {
           BW::UnitType type((BW::UnitID::Enum)i);
           if (type.isValid())
-            BW::BWXFN_BuildTime->buildTime[i] = 16;
+            BW::BWDATA_BuildTime->buildTime[i] = 16;
         }
         this->print("BWAPI gas/mineral/build time cheat activated (only local ofcourse)");
       }
       else if (parsed[1] == "ore")
       {
-        BW::BWXFN_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] += 10000;
+        BW::BWDATA_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] += 10000;
         this->print("BWAPI mineral cheat activated (only local ofcourse)");
       }
       else if (parsed[1] == "gas")
       {
-        BW::BWXFN_PlayerResources->gas.player[this->BWAPIPlayer->getID()] += 10000;
+        BW::BWDATA_PlayerResources->gas.player[this->BWAPIPlayer->getID()] += 10000;
         this->print("BWAPI gas cheat activated (only local ofcourse)");
       }
       else if (parsed[1] == "speed")
@@ -448,7 +462,7 @@ namespace BWAPI
         {
           BW::UnitType type((BW::UnitID::Enum)i);
           if (type.isValid())
-            BW::BWXFN_BuildTime->buildTime[i] = 16;
+            BW::BWDATA_BuildTime->buildTime[i] = 16;
         }
         this->print("BWAPI speed cheat activated (only local ofcourse)");
       }
@@ -469,8 +483,8 @@ namespace BWAPI
           this->print("Unknown unit name '%s'", name.c_str());
           return true;
         }
-        BW::BWXFN_WeaponRange->weapon[BW::BWXFN_UnitGroundWeapon->unit[unit.getID()]] = range;
-        BW::BWXFN_UnitSeekRange->unit[unit.getID()] = range << 8;
+        BW::BWDATA_WeaponRange->weapon[BW::BWDATA_UnitGroundWeapon->unit[unit.getID()]] = range;
+        BW::BWDATA_UnitSeekRange->unit[unit.getID()] = range << 8;
         this->print("Set range of '%s' to %d", name.c_str(), range);
       }
       else if (parsed[1] == "sight")
@@ -489,31 +503,11 @@ namespace BWAPI
           this->print("Unknown unit name '%s'", name.c_str());
           return true;
         }
-        BW::BWXFN_UnitSightRange->unit[unit.getID()] = range;
+        BW::BWDATA_UnitSightRange->unit[unit.getID()] = range;
         this->print("Set range of '%s' to %d", name.c_str(), range);
       }
       else
         this->print("Unknown thing to set '%s'", parsed[1].c_str());
-    }
-    else if (parsed[0] == "/ping")
-    {
-    // eyes
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1364, 1300)),sizeof(BW::Orders::MinimapPing));
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2730, 1300)),sizeof(BW::Orders::MinimapPing));
-      // mouth :D  Epic fail :D
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2160, 2660)),sizeof(BW::Orders::MinimapPing));
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2100, 2700)),sizeof(BW::Orders::MinimapPing));
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(2040, 2740)),sizeof(BW::Orders::MinimapPing));
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1080, 2700)),sizeof(BW::Orders::MinimapPing));
-      this->IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position(1020, 2660)),sizeof(BW::Orders::MinimapPing));
-      this->print("Issued ping");
-      return true;
-    }
-    else if (parsed[0] == "/say")
-    {
-      char* shit = "Holy fucking shit";
-      this->printPublic(shit);
-      return true;
     }
     return false;
   }
@@ -540,29 +534,29 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int Game::getMouseX() const
   {
-    return *(BW::BWXFN_MouseX);
+    return *(BW::BWDATA_MouseX);
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int Game::getMouseY() const
   {
-   return *(BW::BWXFN_MouseY);
+   return *(BW::BWDATA_MouseY);
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int Game::getScreenX() const
   {
-   return *(BW::BWXFN_ScreenX);
+   return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int Game::getScreenY() const
   {
-   return *(BW::BWXFN_ScreenY);
+   return *(BW::BWDATA_ScreenY);
   }
   //----------------------------------------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4312)
   void Game::refresh()
   {
-    void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWXFN_Refresh;
+    void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWFXN_Refresh;
     refresh();
   }
   #pragma warning(pop)
@@ -577,7 +571,7 @@ namespace BWAPI
     this->reselected = false;
     
     BW::Unit** selected = new BW::Unit * [13];
-    memcpy(selected, BW::BWXFN_CurrentPlayerSelectionGroup, 4*12);
+    memcpy(selected, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
     selected[12] = NULL;
     return selected;
   }
@@ -636,7 +630,7 @@ namespace BWAPI
   //----------------------------------------------- GET FIRST ------------------------------------------------
   Unit* Game::getFirst()
   {
-    return Unit::BWUnitToBWAPIUnit(*BW::BWXFN_UnitNodeTable_FirstElement);
+    return Unit::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   BW::Latency::Enum Game::getLatency()

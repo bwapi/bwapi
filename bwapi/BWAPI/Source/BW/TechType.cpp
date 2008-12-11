@@ -35,7 +35,7 @@ namespace BW
     if (this->getID() == BW::TechID::None)
       return "None";
     else
-      return (*BW::BWXFN_StringTable + (*BW::BWXFN_StringTableIndex)[BW::BWXFN_TechLabelIndex[this->getID()]]);
+      return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_TechLabelIndex[this->getID()]]);
   }
   //------------------------------------------------- GET ID -------------------------------------------------
   TechID::Enum TechType::getID() const
@@ -55,17 +55,17 @@ namespace BW
   //------------------------------------------- GET MINERAL PRICE --------------------------------------------
   u16 TechType::getMineralPrice()
   {
-    return BW::BWXFN_TechMineralCost->tech[this->getID()];
+    return BW::BWDATA_TechMineralCost->tech[this->getID()];
   }
   //--------------------------------------------- GET GAS PRICE ----------------------------------------------
   u16 TechType::getGasPrice()
   {
-    return BW::BWXFN_TechGasCost->tech[this->getID()];
+    return BW::BWDATA_TechGasCost->tech[this->getID()];
   }
   //-------------------------------------------- GET ENERGY PRICE --------------------------------------------
   u16 TechType::getEnergyPrice()
   {
-    return BW::BWXFN_TechEnergyCost->tech[this->getID()];
+    return BW::BWDATA_TechEnergyCost->tech[this->getID()];
   }
   //-------------------------------------------- WHERE TO INVENT ---------------------------------------------
   UnitType TechType::whereToInvent()

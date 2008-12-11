@@ -35,7 +35,7 @@ void __declspec(naked) onRemoveUnit()
   }
   __asm
   {
-    call [BW::BWXFN_RemoveUnitTarget]
+    call [BW::BWFXN_RemoveUnitTarget]
   }
   {
     #pragma warning(push)
@@ -46,7 +46,7 @@ void __declspec(naked) onRemoveUnit()
   }
    __asm
   {
-    jmp [BW::BWXFN_RemoveUnitBack]
+    jmp [BW::BWFXN_RemoveUnitBack]
   }
 }
 
@@ -66,8 +66,8 @@ void __declspec(naked) onCancelTrainByEscape()
   {
     mov edx, onCancelTrain_edx
     mov ecx, onCancelTrain_ecx
-    call [BW::BWXFN_CancelTrainByEscapeTarget]
-    jmp [BW::BWXFN_CancelTrainByEscapeBack]
+    call [BW::BWFXN_CancelTrainByEscapeTarget]
+    jmp [BW::BWFXN_CancelTrainByEscapeBack]
   }
 }
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
@@ -86,8 +86,8 @@ void __declspec(naked) onCancelTrainByClickInTheQueue()
   {
     mov edx, onCancelTrain_edx
     mov ecx, onCancelTrain_ecx
-    call [BW::BWXFN_CancelTrainByClickInTheQueueTarget]
-    jmp [BW::BWXFN_CancelTrainByClickInTheQueueBack]
+    call [BW::BWFXN_CancelTrainByClickInTheQueueTarget]
+    jmp [BW::BWFXN_CancelTrainByClickInTheQueueBack]
   }
 }
 //---------------------------------------------- ON GAME START -----------------------------------------------
@@ -98,8 +98,8 @@ void __declspec(naked) onGameStart()
   }
   __asm
   {
-    call [BW::BWXFN_GameStartTarget]
-    jmp [BW::BWXFN_GameStartBack]
+    call [BW::BWFXN_GameStartTarget]
+    jmp [BW::BWFXN_GameStartBack]
   }
 }
 //----------------------------------------------- ON GAME END ------------------------------------------------
@@ -113,8 +113,8 @@ void __declspec(naked) onGameEnd()
   }
   __asm
   {
-    call [BW::BWXFN_GameEndTarget]
-    jmp [BW::BWXFN_GameEndBack]
+    call [BW::BWFXN_GameEndTarget]
+    jmp [BW::BWFXN_GameEndBack]
   }
 }
 DWORD frameHookEax;
@@ -123,7 +123,7 @@ void __declspec(naked)  nextFrameHook()
 {
  __asm
   {
-    call [BW::BWXFN_NextLogicFrameTarget]
+    call [BW::BWFXN_NextLogicFrameTarget]
     mov frameHookEax, eax
   }
   {
@@ -131,7 +131,7 @@ void __declspec(naked)  nextFrameHook()
     BWAI::ai->update();    
     if (!aiStartCalled)
     {
-      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL && !*(BW::BWFXN_InReplay))
+      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL && !*(BW::BWDATA_InReplay))
       {
         BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer, BWAPI::Broodwar.opponent);
         aiStartCalled = true;
@@ -142,7 +142,7 @@ void __declspec(naked)  nextFrameHook()
   __asm
   {
     mov eax, frameHookEax
-    jmp [BW::BWXFN_NextLogicFrameBack]
+    jmp [BW::BWFXN_NextLogicFrameBack]
   }
 }
 
@@ -161,7 +161,7 @@ void __declspec(naked) onSendText()
     mov ediSave, edi
     mov espSave, esp
     mov ebpSave, ebp
-    mov text, edx;
+    mov text, esi;
   }
   sendToBW = true;
   sendToBW &= !BWAPI::Broodwar.onSendText(text);
@@ -178,12 +178,49 @@ void __declspec(naked) onSendText()
       mov edi, ediSave
       mov esp, espSave
       mov ebp, ebpSave
-      call [BW::BWXFN_SendPublicCallTarget]
-      jmp [BW::BWXFN_SendPublicCallBack]
+      call [BW::BWFXN_SendPublicCallTarget]
+      jmp [BW::BWFXN_SendPublicCallBack]
       }
   __asm
   {
-    jmp [BW::BWXFN_SendPublicCallBack]
+    jmp [BW::BWFXN_SendPublicCallBack]
+  }
+}
+void __declspec(naked) onSendLobby()
+{
+ __asm
+  {
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+    mov ebpSave, ebp
+    mov text, edi;
+  }
+  sendToBW = true;
+  sendToBW &= !BWAPI::Broodwar.onSendText(text);
+  if (sendToBW)
+    sendToBW &= !BWAI::ai->onSendText(text);
+  if (sendToBW)
+    __asm
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+      call [BW::BWFXN_SendLobbyCallTarget]
+      jmp [BW::BWFXN_SendLobbyCallBack]
+      }
+  __asm
+  {
+    jmp [BW::BWFXN_SendLobbyCallBack]
   }
 }
 //------------------------------------------------ JMP PATCH -------------------------------------------------
@@ -217,27 +254,15 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   int sleepTime = atoi(config->get("sleep_before_initialize_hooks").c_str());
 
   Sleep(sleepTime);
-  JmpCallPatch(nextFrameHook, BW::BWXFN_NextLogicFrame, 0);
-  JmpCallPatch(onGameStart, BW::BWXFN_GameStart, 0);
-  JmpCallPatch(onGameEnd, BW::BWXFN_GameEnd, 0);
-  JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWXFN_CancelTrainByClickInTheQueue, 0);
-  JmpCallPatch(onCancelTrainByEscape, BW::BWXFN_CancelTrainByEscape, 0);
-  JmpCallPatch(onRemoveUnit, BW::BWXFN_RemoveUnit, 0);
-  JmpCallPatch(onSendText, BW::BWXFN_SendPublicCall, 0);
+  JmpCallPatch(nextFrameHook, BW::BWFXN_NextLogicFrame, 0);
+  JmpCallPatch(onGameStart, BW::BWFXN_GameStart, 0);
+  JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
+  JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWFXN_CancelTrainByClickInTheQueue, 0);
+  JmpCallPatch(onCancelTrainByEscape, BW::BWFXN_CancelTrainByEscape, 0);
+  JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);
+  JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
+  JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
 
-  
- /* for ever
-  {
-    if (!BWAPI::Broodwar.isInGame())
-    {
-      BWAPI::Broodwar.changeSlot(BW::Orders::ChangeSlot::Computer, 1);
-      BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Zerg, 1);
-      BWAPI::Broodwar.changeRace(BW::Orders::ChangeRace::Terran, 0); 
-      BWAPI::Broodwar.IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
-      //launchedStart = true;
-    }
-    Sleep(6000);
-  }*/
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

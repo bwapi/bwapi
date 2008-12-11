@@ -15,7 +15,7 @@ namespace BWAPI
   Map::Map()
   :buildability(Map::getWidth()  , Map::getHeight()  )
   ,walkability (Map::getWidth()*4, Map::getHeight()*4)
-  ,fogOfWar(new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWXFN_MapFogOfWar))
+  ,fogOfWar(new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar))
   {
    this->setBuildability();
    this->setWalkability();
@@ -28,7 +28,7 @@ namespace BWAPI
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    return *(*BW::BWXFN_MapTileArray + x + y*Map::getWidth());
+    return *(*BW::BWDATA_MapTileArray + x + y*Map::getWidth());
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
@@ -38,12 +38,12 @@ namespace BWAPI
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
   {
-    return *BW::BWXFN_MapSizeX;
+    return *BW::BWDATA_MapSizeX;
   }
   //----------------------------------------------- GET HEIGHT -----------------------------------------------
   u16 Map::getHeight()
   {
-    return *BW::BWXFN_MapSizeY;
+    return *BW::BWDATA_MapSizeY;
   }
   //----------------------------------------- SAVE BUILDABILITY MAP ------------------------------------------
   void Map::saveBuildabilityMap(const std::string& fileName)
@@ -118,7 +118,7 @@ namespace BWAPI
   //--------------------------------------------- GET FILE NAME ----------------------------------------------
   char* Map::getFileName(void)
   {
-    return BW::BWXFN_CurrentMapFileName;
+    return BW::BWDATA_CurrentMapFileName;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
@@ -155,7 +155,7 @@ namespace BWAPI
         for (unsigned int my = 0; my < 4; my++)
           for (unsigned int mx = 0; mx < 4; mx++)
             this->walkability[x*4 + mx][y*4 + my] = 
-              (*BW::BWXFN_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable);
+              (*BW::BWDATA_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable);
      }
   }
   //----------------------------------------------------------------------------------------------------------

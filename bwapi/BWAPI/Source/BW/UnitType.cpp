@@ -57,7 +57,7 @@ namespace BW
     else if (this->getID() == BW::UnitID::Zerg_MainLair)
       return "Zerg_MainLair";
     else
-      return (char*)(*((u16*)(*(u32*)BW::BWXFN_StringTableOff + this->getID()*2 + 2)) + *((u32*)BW::BWXFN_StringTableOff));
+      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + this->getID()*2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
   }
   //---------------------------------------------- GET UNIT ID -----------------------------------------------
   BW::UnitID::Enum UnitType::getID() const
@@ -67,80 +67,80 @@ namespace BW
   //----------------------------------------- GET MAX HEALTH POINTS ------------------------------------------
   u16 UnitType::getMaxHealthPoints() const
   {
-    return BW::BWXFN_MaxHealthPoints_NotAttackable_Repairable->raw[this->getID()].maxHealthPoints;
+    return BW::BWDATA_MaxHealthPoints_NotAttackable_Repairable->raw[this->getID()].maxHealthPoints;
   }
   //----------------------------------------- GET MAX HEALTH POINTS ------------------------------------------
   u16 UnitType::getMaxShieldPoints() const
   {
-    return BW::BWXFN_MaxShieldPoints->maxShieldPoints[this->getID()];
+    return BW::BWDATA_MaxShieldPoints->maxShieldPoints[this->getID()];
   }
   //------------------------------------------- GET MINERAL PRICE --------------------------------------------
   u16 UnitType::getMineralPrice() const
   {
-    return BW::BWXFN_MineralPrices->mineralPrice[this->getID()];
+    return BW::BWDATA_MineralPrices->mineralPrice[this->getID()];
   }
   //--------------------------------------------- GET GAS PRICE ----------------------------------------------
   u16 UnitType::getGasPrice() const
   {
-    return BW::BWXFN_GasPrices->gasPrice[this->getID()];
+    return BW::BWDATA_GasPrices->gasPrice[this->getID()];
   }
   //---------------------------------------------- GET SUPPLIES ----------------------------------------------
   s8 UnitType::getSupplies() const
   {
-    return BW::BWXFN_SupplyDemands->supplyDemand[this->getID()];
+    return BW::BWDATA_SupplyDemands->supplyDemand[this->getID()];
   }
   //----------------------------------------------- GET ARMOR ------------------------------------------------
   u8 UnitType::getArmor() const
   {
-    return BW::BWXFN_Armor->armor[this->getID()];
+    return BW::BWDATA_Armor->armor[this->getID()];
   }
   //--------------------------------------------- GET BUILD TIME ---------------------------------------------
   u16 UnitType::getBuildTime() const
   {
-    return BW::BWXFN_BuildTime->buildTime[this->getID()];
+    return BW::BWDATA_BuildTime->buildTime[this->getID()];
   }
   //--------------------------------------------- DIMENSION LEFT ---------------------------------------------
   u16 UnitType::dimensionLeft() const
   {
-    return BW::BWXFN_UnitDimensions->units[this->getID()].left;
+    return BW::BWDATA_UnitDimensions->units[this->getID()].left;
   }
   //---------------------------------------------- DIMENSION UP ----------------------------------------------
   u16 UnitType::dimensionUp() const
   {
-    return BW::BWXFN_UnitDimensions->units[this->getID()].up;
+    return BW::BWDATA_UnitDimensions->units[this->getID()].up;
   }
   //-------------------------------------------- DIMENSION RIGHT ---------------------------------------------
   u16 UnitType::dimensionRight() const
   {
-    return BW::BWXFN_UnitDimensions->units[this->getID()].right;
+    return BW::BWDATA_UnitDimensions->units[this->getID()].right;
   }
   //--------------------------------------------- DIMENSION DOWN ---------------------------------------------
   u16 UnitType::dimensionDown() const
   {
-    return BW::BWXFN_UnitDimensions->units[this->getID()].down;
+    return BW::BWDATA_UnitDimensions->units[this->getID()].down;
   }
   //------------------------------------------- GET DAMAGE FACTOR --------------------------------------------
   u8 UnitType::getDamageFactor() const
   {
-    int weaponID = BW::BWXFN_UnitGroundWeapon->unit[this->getID()];
+    int weaponID = BW::BWDATA_UnitGroundWeapon->unit[this->getID()];
     if (weaponID == BW::NoWeapon)
        return 0;
     else
-       return BW::BWXFN_WeaponDamageFactor->weapon[weaponID];
+       return BW::BWDATA_WeaponDamageFactor->weapon[weaponID];
   }
   //------------------------------------------- GET GROUND DAMAGE --------------------------------------------
   u16 UnitType::getGroundDamage() const
   {
-    int weaponID = BW::BWXFN_UnitGroundWeapon->unit[this->getID()];
+    int weaponID = BW::BWDATA_UnitGroundWeapon->unit[this->getID()];
     if (weaponID == BW::NoWeapon)
        return 0;
     else
-       return BW::BWXFN_WeaponDamage->weapon[weaponID];
+       return BW::BWDATA_WeaponDamage->weapon[weaponID];
   }
   //----------------------------------------------- GET FLAGS ------------------------------------------------
   Util::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
   {
-    return BW::BWXFN_UnitPrototypeFlags->unit[this->getID()];
+    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()];
   }
   //---------------------------------------------- CAN PRODUCE -----------------------------------------------
   bool UnitType::canProduce() const
@@ -150,7 +150,7 @@ namespace BW
   //-------------------------------------------- GET GROUP FLAGS ---------------------------------------------
   Util::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
   {
-    return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()];
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()];
   }
   //--------------------------------------------- GET TILE WIDTH ---------------------------------------------
   u16 UnitType::getTileWidth() const
@@ -165,32 +165,32 @@ namespace BW
   //------------------------------------------------ IS ZERG -------------------------------------------------
   bool UnitType::isZerg() const
   {
-    return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Zerg);
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Zerg);
   }
   //----------------------------------------------- IS TERRAN ------------------------------------------------
   bool UnitType::isTerran() const
   {
-    return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Terran);
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Terran);
   }
   //----------------------------------------------- IS PROTOSS -----------------------------------------------
   bool UnitType::isProtoss() const
   {
-    return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Protoss);
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Protoss);
   }
   //----------------------------------------------- IS WORKER ------------------------------------------------
   bool UnitType::isWorker() const
   {
-    return BW::BWXFN_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Worker);
+    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Worker);
   }
   //----------------------------------------------- CAN ATTACK -----------------------------------------------
   bool UnitType::canAttack() const
   {
-    return BW::BWXFN_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Attack);
+    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Attack);
   }
   //------------------------------------------------ CAN MOVE ------------------------------------------------
   bool UnitType::canMove() const
   {
-    return BW::BWXFN_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Men);
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Men);
   }
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool UnitType::isValid()
@@ -255,13 +255,18 @@ namespace BW
       case BW::UnitID::Terran_ControlTower  : return BW::UnitID::Terran_Starport;
       case BW::UnitID::Terran_CovertOps     :
       case BW::UnitID::Terran_PhysicsLab    : return BW::UnitID::Terran_ScienceFacility;
+      case BW::UnitID::Zerg_Lair            : return BW::UnitID::Zerg_Hatchery;
+      case BW::UnitID::Zerg_Hive            : return BW::UnitID::Zerg_Lair;
+      case BW::UnitID::Zerg_SunkenColony    :
+      case BW::UnitID::Zerg_SporeColony     : return BW::UnitID::Zerg_CreepColony;
+      case BW::UnitID::Zerg_GreaterSpire    : return BW::UnitID::Zerg_Spire;
       default : return BW::UnitID::None;
     }
   }
   //------------------------------------------ GET SUPPLY PRODUCED -------------------------------------------
   u16 UnitType::getSupplyProduced()
   {
-    return BWXFN_SupplyProduced->unitType[this->getID()];
+    return BWDATA_SupplyProduced->unitType[this->getID()];
   }
   //----------------------------------------------------------------------------------------------------------
 }
