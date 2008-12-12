@@ -36,7 +36,7 @@ namespace BWAI
           (*i)->getOrderIDLocal() != BW::OrderID::ResetCollision2 &&
           (*i)->getOrderIDLocal() != BW::OrderID::ReturnMinerals)
       {
-        BWAI::ai->log->logDetailed("Unit will be remmoved from the gas gather because order is (%s) Unit:", 
+        BWAI::ai->log->logDetailed("Unit will be removed from the gas gather because order is (%s) Unit:", 
                                    BW::OrderID::orderName((*i)->getOrderIDLocal()).c_str(), 
                                    (*i)->getName().c_str());
         this->freeExecutor(*i++);

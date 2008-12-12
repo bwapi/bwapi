@@ -217,16 +217,44 @@ namespace BWAPI
     else
       printPublic(txtout); // until lobby print private text is found
   }
-  //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
-  void Game::printPublic(const char *text) const
+  //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
+  void Game::printEx(s32 pID, const char *text, ...)
   {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf(buffer, BUFFER_SIZE, text, ap); 
+    va_end(ap);
+    
+    char* txtout = buffer;
+    if (*BW::BWDATA_InGame)
+      __asm
+      {
+        pushad
+        push 0       // Unknown
+        mov eax, pID   // Player ID (-1 for notification area)
+        push txtout  // Text
+        call dword ptr [BW::BWFXN_PrintText]
+        popad
+      }
+    else
+      printPublic(txtout); // until lobby print private text is found
+  }
+  //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
+  void Game::printPublic(const char *text, ...)
+  {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf(buffer, BUFFER_SIZE, text, ap); 
+    va_end(ap);
+    
+    char* txtout = buffer;
     if (*(BW::BWDATA_InGame))
     {
       memcpy(BW::BWDATA_SendTextRequired, &BW::BWDATA_FullMask, 2);
       __asm
       {
         pushad
-        mov esi, text
+        mov esi, txtout
         call [BW::BWFXN_SendPublicCallTarget]
         popad
       }
@@ -235,7 +263,7 @@ namespace BWAPI
       __asm
       {
         pushad
-        mov edi, text
+        mov edi, txtout
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }

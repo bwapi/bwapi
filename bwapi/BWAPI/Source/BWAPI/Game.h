@@ -40,8 +40,8 @@ namespace BWAPI
        * @param text Text to be written
        */
       void print(const char *text, ...);
-      /** Doesn't work now */
-      void printPublic(const char *text) const;
+      void printEx(s32 pID, const char *text, ...);
+      void printPublic(const char *text, ...);
       bool isOnStartCalled() const;
       void setOnStartCalled(bool onStartCalled);
       bool isInGame() const;
