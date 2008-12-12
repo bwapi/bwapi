@@ -36,7 +36,7 @@ namespace BWAI
              i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
            )
          )
-      { 
+      {
         BuildOrder::BuildWeight* best = NULL;
         for each (BuildOrder::BuildWeight* j in this->weights->weights)
           if (BWAI::ai->player->canBuild(j->unitType) &&
@@ -46,11 +46,18 @@ namespace BWAI
                 ((float)BWAI::ai->player->getAllUnitsLocal(best->unitType.getID()))/((float)best->weight) >
                 ((float)BWAI::ai->player->getAllUnitsLocal(j->unitType.getID()))/((float)j->weight))
               )
+          {
             best = j;
+          }
         if (best != NULL && 
             BWAI::ai->player->canAfford(best->unitType, BWAPI::ReservedResources()))
+        {
+          BWAPI::Broodwar.printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
           i->trainUnit(best->unitType);
-      }  
+          if (i->getType() == BW::UnitID::Zerg_Larva)
+            i->clearTask();
+        }
+      }
     return false;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

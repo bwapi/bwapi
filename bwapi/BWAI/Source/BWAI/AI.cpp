@@ -359,7 +359,7 @@ namespace BWAI
       */
       #pragma endregion
 
-      if (activeMinerals.size() >0)
+      if (activeMinerals.size() > 0)
       {
         this->assignIdleWorkersToMinerals(idleWorkers);
         this->rebalanceMiners();
@@ -1165,6 +1165,7 @@ namespace BWAI
     { // ---------- Planned units
       std::list<TaskTrain*>::iterator i = this->plannedUnits.begin();
       while (i != this->plannedUnits.end())
+      {
         if ((*i)->execute())
         {
           delete *i;
@@ -1172,6 +1173,7 @@ namespace BWAI
         }
         else
           ++i;
+      }
     }
     if (this->activeMinerals.size() > 0)
       for each (TaskGather* i in this->activeMinerals)
