@@ -78,6 +78,12 @@ namespace BWAPI
   {
     return this->getRawData()->status.getBit(BW::StatusFlags::Completed);
   }
+  //---------------------------------------------- IS Lifted ----------------------------------------------
+  bool Unit::isLifted() const
+  {
+    return this->getRawData()->status.getBit(BW::StatusFlags::InAir) &&
+           this->getRawData()->unitID.isBuilding();
+  }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BW::Position& Unit::getPosition() const
   {
@@ -439,7 +445,8 @@ namespace BWAPI
     else
       sprintf(unitName, "(unitID = %u)", this->getType().getID());
 
-    if (BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
+    if (this->getType() == BW::UnitID::Terran_Vulture ||
+        BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
       sprintf(connectedUnit, "(childUnit1 = NULL)");
     else
       sprintf(connectedUnit, "(childUnit1 = %s)", BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1)->getType().getName());

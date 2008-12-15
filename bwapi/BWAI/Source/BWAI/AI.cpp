@@ -474,7 +474,9 @@ namespace BWAI
       if (dead->expansion != NULL)
         dead->expansion->removeMineral(dead);
     }
-    else if (dead->getType() == BW::UnitID::Terran_Refinery)
+    else if (dead->getType() == BW::UnitID::Terran_Refinery ||
+             dead->getType() == BW::UnitID::Zerg_Extractor ||
+             dead->getType() == BW::UnitID::Protoss_Assimilator)
     {
       if (dead->expansion != NULL)
         this->removeGatherGasTask(dead);
@@ -483,7 +485,9 @@ namespace BWAI
               (
                dead->getType() == BW::UnitID::Terran_CommandCenter ||
                dead->getType() == BW::UnitID::Protoss_Nexus ||
-               dead->getType() == BW::UnitID::Zerg_Hatchery
+               dead->getType() == BW::UnitID::Zerg_Hatchery ||
+               dead->getType() == BW::UnitID::Zerg_Lair ||
+               dead->getType() == BW::UnitID::Zerg_Hive
               ) &&
               dead->expansion != NULL
             )
@@ -554,17 +558,9 @@ namespace BWAI
         else
           BWAPI::Broodwar.print("Map info for the current map is not available.");
       }
-      else if (parsed[1] == "position")     // ------------------ Save Position
-      {
-        std::string path = config->get("maps_path") + "\\" + BWAPI::Map::getName() + "-autosave.xml";
-        if (this->saveBuildings(path))
-          BWAPI::Broodwar.print("Saved current build positions to %s.", path.c_str());
-        else
-          BWAPI::Broodwar.print("Failed to write %s.", path.c_str());
-      }
       else
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
-                              "buildability, walkability, defined buildings, position", parsed[1].c_str());
+                              "buildability, walkability, defined buildings", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -745,245 +741,6 @@ namespace BWAI
     }
     return false;
   }
-  //--------------------------------------------- SAVE BUILDINGS ---------------------------------------------
-  // Re-writing to add positions if they are not found. Needs some thought.
-  bool AI::saveBuildings(const std::string& path)
-  {
-    std::string learnBuildStream, learnBuildTest;
-    char learnBuildTemp[256];
-    u32 learnBuildPos, learnBuildLoc;
-
-    char* bxmlHead = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n";
-    char* bMapDescFull = "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-                         "	               xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n";
-    char* bPosition = "position";
-    char* bStartPositions = "starting-positions";
-    char* bStartPosition = "starting-position";
-    char* bStandardBuildingPlace = "standard-building-placement";
-
-    learnBuildStream = " ";
-
-    std::ifstream fin;
-    std::ofstream fout;
-
-    fin.open(path.c_str(), std::ios::in);
-    if (fin.is_open())
-    {
-      fin.seekg(0);
-      while(!fin.eof())
-      {
-        fin.getline(learnBuildTemp, 255);
-        learnBuildStream.append(learnBuildTemp);
-        learnBuildStream.append("\n");
-      }
-      fin.close();
-    }
-    // ######################## XML HEADER
-    learnBuildPos = 0;
-    learnBuildLoc = learnBuildStream.find("<?xml ");
-    if (learnBuildLoc == std::string::npos)
-    {
-      learnBuildStream.insert(learnBuildPos, bxmlHead);
-      learnBuildPos += strlen(bxmlHead);
-    }
-    else
-      learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
-
-    // ######################## MAP-DESCRIPTION ELEMENT
-    learnBuildLoc = learnBuildStream.find("map-description", learnBuildPos);
-    if (learnBuildLoc == std::string::npos)
-    {
-      learnBuildStream.insert(learnBuildPos, bMapDescFull);
-      learnBuildPos += strlen(bMapDescFull);
-      learnBuildStream.insert(learnBuildPos, "</map-description>\n");
-    }
-    else
-      learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
-
-    // ######################## EXPANSIONS ELEMENT
-    learnBuildLoc = learnBuildStream.find("expansions>", learnBuildPos);
-    if (learnBuildLoc == std::string::npos)
-    {
-      learnBuildStream.insert(learnBuildPos, "\n  <expansions>\n");
-      learnBuildPos += 16;
-      learnBuildStream.insert(learnBuildPos, "  </expansions>\n");
-    }
-    else
-      learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
-
-    // ######################## EXPANSION ELEMENTS
-    for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-    {
-      if (BW::startPositions[i].y != 0 && BW::startPositions[i].x != 0)
-      {
-         learnBuildTest = "";
-         learnBuildTest.append("<expansion id=\"Player ");
-         learnBuildTest.append(_itoa(i+1, learnBuildTemp, 10));
-         learnBuildTest.append("\">");
-
-         learnBuildLoc = learnBuildStream.find(learnBuildTest, learnBuildPos);
-         if (learnBuildLoc == std::string::npos)
-         {
-           learnBuildStream.insert(learnBuildPos, "\n    ");
-           learnBuildPos += 5;
-           learnBuildStream.insert(learnBuildPos, learnBuildTest);
-           learnBuildPos += learnBuildTest.size();
-           learnBuildStream.insert(learnBuildPos, "\n");
-           learnBuildPos += 1;
-           learnBuildStream.insert(learnBuildPos, "      <position x=\"");
-           learnBuildPos += 19;
-           learnBuildStream.insert(learnBuildPos, _itoa(BW::startPositions[i].x, learnBuildTemp, 10));
-           learnBuildPos += strlen(_itoa(BW::startPositions[i].x, learnBuildTemp, 10));
-           learnBuildStream.insert(learnBuildPos, "\" y=\"");
-           learnBuildPos += 5;
-           learnBuildStream.insert(learnBuildPos, _itoa(BW::startPositions[i].y, learnBuildTemp, 10));
-           learnBuildPos += strlen(_itoa(BW::startPositions[i].y, learnBuildTemp, 10));
-           learnBuildStream.insert(learnBuildPos, "\"/>\n");
-           learnBuildPos += 4;
-           learnBuildStream.insert(learnBuildPos, "    </expansion>\n");
-           learnBuildPos += 17;
-         }
-         else
-         {
-           learnBuildPos = learnBuildStream.find(">", learnBuildLoc) + 1;
-
-           // ######################## POSITION ELEMENT
-           learnBuildTest = "";
-           learnBuildTest.append("<position x=\"");
-           learnBuildTest.append(_itoa(BW::startPositions[i].x, learnBuildTemp, 10));
-           learnBuildTest.append("\" y=\"");
-           learnBuildTest.append(_itoa(BW::startPositions[i].y, learnBuildTemp, 10));
-           learnBuildTest.append("\"/>");
-
-           learnBuildLoc = learnBuildStream.find(learnBuildTest, learnBuildPos);
-           if (learnBuildLoc == std::string::npos)
-           {
-             learnBuildStream.insert(learnBuildPos, "\n      ");
-             learnBuildPos += 7;
-             learnBuildStream.insert(learnBuildPos, learnBuildTest);
-             learnBuildPos += learnBuildTest.size();
-             learnBuildStream.insert(learnBuildPos, "\n");
-             learnBuildPos += 1;
-           }
-           learnBuildPos = learnBuildStream.find("</expansion>", learnBuildLoc) + 13;
-           
-         }
-       }
-    }
-
-    // @todo: <starting-positions> + <starting-position  + <standard-building-placement> + <build-position  + positions
-
-    fout.open(path.c_str(), std::ios::out);
-    if (!fout.is_open())
-      return false;
-    fout.seekp(0);
-    fout << learnBuildStream;
-    fout.close();
-    return true;
-                                                        /* Old shit
-   FILE* f = fopen(path.c_str(), "wt");
-    if (!f)
-      throw FileException("Could not open " + BWAPI::Map::getName() + " for writing.");
-    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n"
-               "<map-description xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-               "        xsi:noNamespaceSchemaLocation=\"map-info.xsd\">\n"
-               "<expansions>\n");
-    for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT ; i++)                   // get starting positions
-          fprintf(f, "    <expansion id=\"Player  %d\">\n"
-                     "      <position x=\"%d\" y=\"%d\"/>\n"
-                     "    </expansion>\n", i, BW::startPositions[i].x, BW::startPositions[i].y);
-    fprintf(f, "  </expansions>\n"
-               "  <starting-positions>\n");
- 
-    for (u8 i2 = 0; i2 < BW::PLAYABLE_PLAYER_COUNT; i2++)
-    {
-      fprintf(f, "    <starting-position expansion-id=\"Player %d\">\n"
-                 "      <standard-building-placement>\n"
-                 "        <build-position name=\"expansion\" width=\"4\" height=\"3\">\n", i2);
-      for each (Unit* i in this->units)                   // get expansion
-        if ((i->getType() == BW::UnitID::Protoss_Nexus ||
-             i->getType() == BW::UnitID::Zerg_Hatchery ||
-             i->getType() == BW::UnitID::Terran_CommandCenter) &&
-             i->getOwner() == BWAPI::Broodwar.players[i2] &&
-             (i->getPosition().x != BW::startPositions[i2].x ||
-              i->getPosition().y != BW::startPositions[i2].y))
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"non-producting-3X2\" width=\"3\" height=\"2\">\n", i2);
-      for each (Unit* i in this->units)                   // get non-producing 3x2
-        if ((i->getType() == BW::UnitID::Terran_SupplyDepot ||
-             i->getType() == BW::UnitID::Terran_Academy ||
-             i->getType() == BW::UnitID::Terran_Armory ||
-             i->getType() == BW::UnitID::Protoss_ArbiterTribunal ||
-             i->getType() == BW::UnitID::Protoss_CitadelOfAdun ||
-             i->getType() == BW::UnitID::Protoss_CyberneticsCore ||
-             i->getType() == BW::UnitID::Protoss_FleetBeacon ||
-             i->getType() == BW::UnitID::Protoss_Forge ||
-             i->getType() == BW::UnitID::Protoss_Observatory ||
-             i->getType() == BW::UnitID::Protoss_RoboticsSupportBay ||
-             i->getType() == BW::UnitID::Protoss_TemplarArchives) &&
-             i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"barracks\" width=\"4\" height=\"3\" shortcut=\"BB\">\n");
-      for each (Unit* i in this->units)                   // get barracks
-        if ((i->getType() == BW::UnitID::Terran_Barracks ||
-             i->getType() == BW::UnitID::Protoss_Gateway) &&
-             i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"engineering-bay\" width=\"4\" height=\"3\" shortcut=\"BE\">\n");
-      for each (Unit* i in this->units)                   // get engineering-bay
-        if (i->getType() == BW::UnitID::Terran_EngineeringBay &&
-            i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                  "        <build-position name=\"refinery\" width=\"4\" height=\"2\" shortcut=\"BR\">\n");
-      for each (Unit* i in this->units)                   // get refinery
-        if ((i->getType() == BW::UnitID::Terran_Refinery ||
-             i->getType() == BW::UnitID::Protoss_Assimilator ||
-             i->getType() == BW::UnitID::Zerg_Extractor) &&
-             i->getOwner() == BWAPI::Broodwar.players[i2])
-        {
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-          break;
-        }
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"turret\" width=\"2\" height=\"2\">\n");
-      for each (Unit* i in this->units)                   // get turret
-        if (i->getType().isBuilding() &&
-            i->getType().canAttack() &&
-            i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"bunker\" width=\"2\" height=\"2\">\n");
-      for each (Unit* i in this->units)                   // get bunker
-        if ((i->getType() == BW::UnitID::Terran_Bunker ||
-             i->getType() == BW::UnitID::Protoss_ShieldBattery) &&
-             i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"pylon\" width=\"2\" height=\"2\" shortcut=\"PP\">\n");
-      for each (Unit* i in this->units)                   // get Pylon
-        if (i->getType() == BW::UnitID::Protoss_Pylon &&
-            i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "        <build-position name=\"building-with-addon\" width=\"4\" height=\"3\" shortcut=\"A+\">\n");
-      for each (Unit* i in this->units)                   // get building with addon
-        if ((i->getType() == BW::UnitID::Terran_Factory ||
-             i->getType() == BW::UnitID::Terran_Starport ||
-             i->getType() == BW::UnitID::Terran_ScienceFacility) &&
-             i->getOwner() == BWAPI::Broodwar.players[i2])
-          fprintf(f, "          <position x=\"%d\" y=\"%d\"/>\n", i->getTilePosition().x, i->getTilePosition().y);
-      fprintf(f, "        </build-position>\n"
-                 "      </standard-building-placement>\n"
-                 "    </starting-position>\n");
-    }
-    fprintf(f, "  </starting-positions>\n"
-                 "</map-description>");
-    fclose(f);*/
-  } 
   //------------------------------------------ CHECK NEW EXPANSION -------------------------------------------
   void AI::checkNewExpansions()
   {

@@ -113,6 +113,7 @@ namespace BWAPI
       bool isReady() const;
       /** Gets if the unit construction is done */
       bool isCompleted() const;
+      bool isLifted() const;
       /** Gets #bwUnit */
       BW::Unit *getRawData();
       /** Gets #bwUnit (const version that returns const pointer) */

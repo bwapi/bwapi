@@ -91,7 +91,7 @@ void __declspec(naked) onCancelTrainByClickInTheQueue()
   }
 }
 //---------------------------------------------- ON GAME START -----------------------------------------------
-void __declspec(naked) onGameStart()
+/*void __declspec(naked) onGameStart()
 {
   {
     BWAPI::Broodwar.onGameStart();
@@ -101,7 +101,7 @@ void __declspec(naked) onGameStart()
     call [BW::BWFXN_GameStartTarget]
     jmp [BW::BWFXN_GameStartBack]
   }
-}
+}*/
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
@@ -131,7 +131,7 @@ void __declspec(naked)  nextFrameHook()
     BWAI::ai->update();    
     if (!aiStartCalled)
     {
-      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL && !*(BW::BWDATA_InReplay))
+      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL)
       {
         BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer, BWAPI::Broodwar.opponent);
         aiStartCalled = true;
@@ -255,7 +255,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWFXN_NextLogicFrame, 0);
-  JmpCallPatch(onGameStart, BW::BWFXN_GameStart, 0);
+//  JmpCallPatch(onGameStart, BW::BWFXN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
   JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWFXN_CancelTrainByClickInTheQueue, 0);
   JmpCallPatch(onCancelTrainByEscape, BW::BWFXN_CancelTrainByEscape, 0);
