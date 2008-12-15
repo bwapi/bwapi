@@ -146,10 +146,10 @@ namespace BWAPI
   {
     try
     {
-      if (!this->enabled)
-        return;
       if (!this->isOnStartCalled())
         this->onGameStart();
+      if (!this->enabled)
+        return;
       memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -294,22 +294,26 @@ namespace BWAPI
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
-    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-      if (config->get("bwapi_name") == this->players[i]->getName() && 
-          this->players[i]->getForceName() != "Observers" &&
-          this->players[i]->getForceName() != "Observer")
-        this->BWAPIPlayer = this->players[i];
 
-    if (this->BWAPIPlayer != NULL)
-      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        if ((this->players[i]->getOwner() == BW::PlayerType::Computer ||
-             this->players[i]->getOwner() == BW::PlayerType::Human ||
-             this->players[i]->getOwner() == BW::PlayerType::ComputerSlot) &&
-            this->opponent == NULL &&
-            this->players[i]->getForceName() != "Observers" &&
-            this->players[i]->getForceName() != "Observer" &&
-            this->BWAPIPlayer->getAlliance(i) == 0)
-          this->opponent = this->players[i];
+    if (*(BW::BWDATA_InReplay))
+      return;
+    
+    if (this->players[*(BW::BWDATA_CurrentPlayer)-1]->getForceName() != "Observers" ||
+        this->players[*(BW::BWDATA_CurrentPlayer)-1]->getForceName() != "Observer")
+      this->BWAPIPlayer = this->players[*(BW::BWDATA_CurrentPlayer)-1];
+
+    if (this->BWAPIPlayer == NULL)
+      return;
+
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+      if ((this->players[i]->getOwner() == BW::PlayerType::Computer ||
+           this->players[i]->getOwner() == BW::PlayerType::Human ||
+           this->players[i]->getOwner() == BW::PlayerType::ComputerSlot) &&
+           this->opponent == NULL &&
+           this->players[i]->getForceName() != "Observers" &&
+           this->players[i]->getForceName() != "Observer" &&
+           this->BWAPIPlayer->getAlliance(i) == 0)
+        this->opponent = this->players[i];
  
   }
 

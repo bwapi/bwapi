@@ -28,13 +28,14 @@ namespace BWAI
   bool TaskTrain::execute()
   {
     for each (Unit* i in this->executors)
-      if (
-           i->hasEmptyBuildQueueLocal() ||
+      if (i->isValid() &&
+          !i->isLifted() &&
+           (i->hasEmptyBuildQueueLocal() ||
            (
              i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
              i->getRawDataLocal()->currentBuildUnit != NULL &&
              i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
-           )
+           ))
          )
       {
         BuildOrder::BuildWeight* best = NULL;
