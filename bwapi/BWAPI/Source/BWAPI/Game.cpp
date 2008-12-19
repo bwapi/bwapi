@@ -297,13 +297,18 @@ namespace BWAPI
 
     if (*(BW::BWDATA_InReplay))
       return;
-    
-    if (this->players[*(BW::BWDATA_CurrentPlayer)-1]->getForceName() != "Observers" ||
-        this->players[*(BW::BWDATA_CurrentPlayer)-1]->getForceName() != "Observer")
-      this->BWAPIPlayer = this->players[*(BW::BWDATA_CurrentPlayer)-1];
 
-    if (this->BWAPIPlayer == NULL)
-      return;
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+      if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName()) == 0)
+        this->BWAPIPlayer = this->players[i];
+
+    if (this->BWAPIPlayer == NULL ||
+        this->BWAPIPlayer->getForceName() == "Observers" ||
+        this->BWAPIPlayer->getForceName() == "Observer")
+      {
+        this->BWAPIPlayer = NULL;
+        return;
+      }
 
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
       if ((this->players[i]->getOwner() == BW::PlayerType::Computer ||

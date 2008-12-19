@@ -29,13 +29,19 @@ namespace BWAI
   {
     for each (Unit* i in this->executors)
       if (i->isValid() &&
-          !i->isLifted() &&
-           (i->hasEmptyBuildQueueLocal() ||
-           (
-             i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
-             i->getRawDataLocal()->currentBuildUnit != NULL &&
-             i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
-           ))
+         !i->isLifted() &&
+            (i->hasEmptyBuildQueueLocal() ||
+            (
+              i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
+              i->getRawDataLocal()->currentBuildUnit != NULL &&
+              i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
+            )) &&
+            (
+              i->getOrderID() == BW::OrderID::Nothing2 ||
+              i->getOrderID() == BW::OrderID::Guard ||
+              i->getOrderID() == BW::OrderID::Larva
+            ) &&
+           !i->getType().isWorker()
          )
       {
         BuildOrder::BuildWeight* best = NULL;
