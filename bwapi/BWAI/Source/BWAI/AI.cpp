@@ -196,9 +196,8 @@ namespace BWAI
       this->units.clear();
       for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
         this->units.push_back(i);
-    
-      this->reserved.clear();
 
+      this->reserved.clear();
       for each (TaskBuild* i in this->plannedBuildings)
         this->reserved += i->getReserved();
     }
@@ -335,7 +334,7 @@ namespace BWAI
         return;
       if (!this->player)
         return;
-         
+
       if (this->buildOrderExecutor)
         this->buildOrderExecutor->execute();
 
@@ -860,6 +859,8 @@ namespace BWAI
   //---------------------------------------------- EXECUTE TASK ----------------------------------------------
   void AI::executeTasks()
   {
+    this->update();
+
     { // ---------- Planned buildings
       std::list<TaskBuild*>::iterator i = this->plannedBuildings.begin();
       while (i != this->plannedBuildings.end())
@@ -918,7 +919,7 @@ namespace BWAI
         else
           ++i;
     }
-    
+
     { // ---------- Planned units
       std::list<TaskTrain*>::iterator i = this->plannedUnits.begin();
       while (i != this->plannedUnits.end())
