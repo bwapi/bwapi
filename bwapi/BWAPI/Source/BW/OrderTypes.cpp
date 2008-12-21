@@ -7,6 +7,15 @@ namespace BW
   namespace Orders
   {
 
+    //--------------------------------------- Attack Location COONSTRUCTOR ------------------------------------------
+	AttackLocation::AttackLocation(const BW::Position& target)
+	:always0x15(0x15)
+    ,target(target)
+    ,always0xe4(0xe4)
+	,always0x0e(0x0e)
+    ,alwaysZero(0x0)
+    {
+    }
     //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
     RightClick::RightClick(BWAPI::Unit *target)
     :always0x14(0x14)

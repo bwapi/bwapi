@@ -15,6 +15,20 @@ namespace BW
   /** Set of classes that can pass to IssueCommand function. */
   namespace Orders
   {
+    /** Attack Location command in bw, can target either location or target. */
+    class AttackLocation
+    {
+      public :
+        /** Attack Location on general target. */
+        AttackLocation(const BW::Position& target);
+      private :
+        /** 0x15 = Attack Location command-code in bw */
+        u8 always0x15;
+        BW::Position target;
+        u8 always0xe4;
+        u8 always0x0e;
+        u16 alwaysZero;
+    };
     /** Right click command in bw, can target either location or target. */
     class RightClick
     {

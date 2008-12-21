@@ -11,6 +11,7 @@ namespace BWAPI
      Build       = 3, /** BWAPI#CommandBuild */
      Invent      = 4, /** BWAPI#CommandInvent */
      Upgrade     = 5, /** BWAPI#CommandUpgrade */
+	 AttackLocation = 6, /** Attack Location*/
     };
   }
 }
