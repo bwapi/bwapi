@@ -8,6 +8,7 @@
 #include "Globals.h"
 #include "CommandTrain.h"
 #include "CommandBuild.h"
+#include "CommandAttackLocation.h"
 #include "CommandRightClick.h"
 #include "CommandInvent.h"
 #include "CommandUpgrade.h"
@@ -280,6 +281,13 @@ namespace BWAPI
       return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == BW::UnitID::None;
     else
       return false;
+  }
+  //------------------------------------------- ORDER Attack Location --------------------------------------------
+  void Unit::orderAttackLocation(BW::Position position)
+  {
+    this->orderSelect();
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::AttackLocation(position), sizeof(BW::Orders::AttackLocation)); 
+    Broodwar.addToCommandBuffer(new CommandAttackLocation(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   void Unit::orderRightClick(BW::Position position)

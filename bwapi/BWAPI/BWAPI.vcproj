@@ -357,6 +357,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandAttackLocation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandBuild.cpp"
 					>
 				</File>
@@ -418,6 +422,10 @@
 				>
 				<File
 					RelativePath=".\source\BWAPI\Command.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandAttackLocation.h"
 					>
 				</File>
 				<File

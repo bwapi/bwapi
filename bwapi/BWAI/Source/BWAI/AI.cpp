@@ -705,6 +705,24 @@ namespace BWAI
         formation->execute();
         delete formation;
       }
+    } 
+    else if (parsed[0] == "/attack")
+    {
+      BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
+                                           BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
+      if (parsed[1] == "location")
+      {
+        if (this->fightGroups.empty())
+          return true;        
+        TaskFight* task = this->fightGroups.front();
+
+        for each (Unit* i in task->executors)
+			i->orderAttackLocation(position);
+      }
+      else
+      {
+		  BWAPI::Broodwar.print("Unknown attack command '%s' - possible values are: location", parsed[1].c_str());
+      }
     }
     else if (parsed[0] == "/reload")
     {
