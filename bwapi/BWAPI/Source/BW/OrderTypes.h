@@ -16,18 +16,22 @@ namespace BW
   namespace Orders
   {
     /** Attack Location command in bw, can target either location or target. */
-    class AttackLocation
+    class Attack
     {
       public :
+        /** Attack Location on position. */
+        Attack(const BW::Position& target, u8 order);
+        /** Attack Location on unit. */
+        Attack(BWAPI::Unit *target, u8 order);
         /** Attack Location on general target. */
-        AttackLocation(const BW::Position& target);
+        Attack(const PositionUnitTarget& target, u8 order);
       private :
         /** 0x15 = Attack Location command-code in bw */
         u8 always0x15;
-        BW::Position target;
-        u8 always0xe4;
-        u8 always0x0e;
-        u16 alwaysZero;
+        BW::PositionUnitTarget target;
+        u16 always0xe4;
+        u8 order;
+        u8 type;
     };
     /** Right click command in bw, can target either location or target. */
     class RightClick

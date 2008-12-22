@@ -717,7 +717,7 @@ namespace BWAI
         TaskFight* task = this->fightGroups.front();
 
         for each (Unit* i in task->executors)
-			i->orderAttackLocation(position);
+			i->orderAttackLocation(position, BW::OrderID::AttackMove);
       }
       else
       {

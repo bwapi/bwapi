@@ -283,10 +283,10 @@ namespace BWAPI
       return false;
   }
   //------------------------------------------- ORDER Attack Location --------------------------------------------
-  void Unit::orderAttackLocation(BW::Position position)
+  void Unit::orderAttackLocation(BW::Position position, u8 orderID)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::AttackLocation(position), sizeof(BW::Orders::AttackLocation)); 
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::Attack(position, orderID), sizeof(BW::Orders::Attack)); 
     Broodwar.addToCommandBuffer(new CommandAttackLocation(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
