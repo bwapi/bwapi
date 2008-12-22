@@ -7,13 +7,31 @@ namespace BW
   namespace Orders
   {
 
-    //--------------------------------------- Attack Location COONSTRUCTOR ------------------------------------------
-	AttackLocation::AttackLocation(const BW::Position& target)
-	:always0x15(0x15)
+    //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
+    Attack::Attack(BWAPI::Unit *target, u8 OrderID)
+    :always0x15(0x15)
     ,target(target)
     ,always0xe4(0xe4)
-	,always0x0e(0x0e)
-    ,alwaysZero(0x0)
+    ,order(OrderID)
+    ,type(0x00)
+    {
+    }
+    //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
+    Attack::Attack(const BW::Position& target, u8 OrderID)
+    :always0x15(0x15)
+    ,target(target)
+    ,always0xe4(0xe4)
+    ,order(OrderID)
+    ,type(0x00)
+    {
+    }
+    //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
+    Attack::Attack(const PositionUnitTarget& target, u8 OrderID)
+    :always0x15(0x15)
+    ,target(target)
+    ,always0xe4(0xe4)
+    ,order(OrderID)
+    ,type(0x00)
     {
     }
     //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
@@ -264,13 +282,6 @@ namespace BW
     //------------------------------------------ CANCEL CONSTRUCTION -----------------------------------------
     CancelConstruction::CancelConstruction()
     :always0x18(0x18)
-    {
-    }
-    //------------------------------------------------ SEND TEXT ---------------------------------------------
-    SendText::SendText()
-    :always0x5C(0x5C)
-    ,playerID(0)
-    ,msg("HOLY SHIT\0")
     {
     }
     //------------------------------------------------       -------------------------------------------------

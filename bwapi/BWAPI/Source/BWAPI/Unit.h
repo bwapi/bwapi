@@ -134,7 +134,7 @@ namespace BWAPI
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-	  void orderAttackLocation(BW::Position position);
+	  void orderAttackLocation(BW::Position position, u8 OrderID);
       /**
        * Orders this unit to attack Location on the specified unit. Note that attack location
        * on unit can result in lot of commands (attack)
