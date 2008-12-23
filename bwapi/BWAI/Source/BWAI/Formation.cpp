@@ -24,16 +24,16 @@ namespace BWAI
       }
       (*index).second.push_back(Target(i, BW::Position(0,0)));
     }
-    for each (std::pair<BW::UnitID::Enum, std::list<Target> > i in this->data)
-      BWAPI::ScreenLogger().log("%d %ss", i.second.size(), BW::UnitType(i.first).getName());
+ /*   for each (std::pair<BW::UnitID::Enum, std::list<Target> > i in this->data)
+      BWAPI::ScreenLogger().log("%d %ss", i.second.size(), BW::UnitType(i.first).getName());*/
   }
   //------------------------------------------- GENERATE POSITIONS -------------------------------------------
   void Formation::generatePositions(BW::Position center, float angle)
   {
     std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
     index = this->data.find(BW::UnitID::Terran_Marine);
-    int lineLength = 9;
-    int space = 40;
+    int lineLength = 16;
+    int space = 32;
     center.x -= (int) (sin(angle)*(lineLength/2)*space);
     center.y -= (int) (cos(angle)*(lineLength/2)*space);
     if (index != this->data.end())
@@ -66,7 +66,8 @@ namespace BWAI
     {
       std::list<Target>* list = &(*index).second;
       for each (Target i in *list)
-        i.unit->orderRightClick(i.target);
+        if (i.unit->isIdle())
+          i.unit->orderAttackLocation(i.target, BW::OrderID::AttackMove);
     }
   }
 }
