@@ -89,6 +89,7 @@ namespace BWAPI
       u16 getDistance(int x1, int y1, int x2, int y2) const; 
       /**< Gets bwUnit->BW#Unit#orderID. */
       BW::OrderID::Enum getOrderID() const;
+      bool isIdle() const;
       /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
       BW::OrderID::Enum getSecondaryOrderID() const;      
       /**< Gets bwUnitLocal->BW#Unit#secondaryOrderID. */

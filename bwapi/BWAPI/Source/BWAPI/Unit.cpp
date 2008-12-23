@@ -181,6 +181,18 @@ namespace BWAPI
   {
     return this->getRawData()->orderID;
   }
+  //---------------------------------------------- IS IDLE ---------------------------------------------------
+  bool Unit::isIdle() const
+  {
+    return (this->getOrderID() == BW::OrderID::Guard ||
+            this->getOrderID() == BW::OrderID::Stop ||
+            this->getOrderID() == BW::OrderID::Pickup1 ||
+            this->getOrderID() == BW::OrderID::Nothing2 ||
+            this->getOrderID() == BW::OrderID::Medic ||
+            this->getOrderID() == BW::OrderID::Carrier ||
+            this->getOrderID() == BW::OrderID::Critter ||
+            this->getOrderID() == BW::OrderID::NukeTrain);
+  }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
   BW::OrderID::Enum Unit::getSecondaryOrderID() const
   {

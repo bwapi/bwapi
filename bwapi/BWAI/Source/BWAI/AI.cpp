@@ -631,7 +631,10 @@ namespace BWAI
           TaskFight* task = this->fightGroups.front();
           u16 addedCount = 0;
           for each (Unit* i in this->units)
-            if (i->getType() == BW::UnitID::Terran_Marine &&
+            if (!i->getType().isBuilding() &&
+                !i->getType().isWorker() &&
+                i->getType().canMove() &&
+                i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
                 i->getTask() == NULL)
             {
               addedCount++;
@@ -695,7 +698,6 @@ namespace BWAI
         if (angle == 0 && parsed[1] != "0")
         {
           BWAPI::Broodwar.print("Invalid angle '%s'", parsed[1]);
-          true;
         }
         if (this->fightGroups.empty())
           return true;        
@@ -705,6 +707,7 @@ namespace BWAI
         formation->execute();
         delete formation;
       }
+      return true;
     } 
     else if (parsed[0] == "/attack")
     {
