@@ -81,12 +81,14 @@ namespace BWAI
       std::list<TaskUpgrade*> plannedUpgrades;
       std::list<TaskTrain*> plannedUnits;
       std::list<TaskFight*> fightGroups;
+      std::list<TaskFight*> plannedFights;
       std::set<Task*, Task::TaskPriorityLess> prioritisedTasks; /**< Contains all tasks connected with resource handling sorted by priority */
       BuildOrder::Root *root;
       BuildOrder::Executor *buildOrderExecutor;
       
       BWAPI::Player* player;
       BWAPI::Player* opponent;
+	  BW::Position getEnemyMain();
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id. The

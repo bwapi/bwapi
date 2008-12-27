@@ -343,6 +343,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandFight.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\CommandInvent.h"
 					>
 				</File>
@@ -420,6 +424,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BuildOrder\CommandChangeWeights.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BuildOrder\CommandFight.cpp"
 					>
 				</File>
 				<File
