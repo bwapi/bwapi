@@ -713,6 +713,7 @@ namespace BWAI
     {
       BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
                                            BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
+
       if (parsed[1] == "location")
       {
         if (this->fightGroups.empty())
@@ -959,6 +960,21 @@ namespace BWAI
         i->execute();
       for each (TaskGatherGas* i in this->activeRefineries)
         i->execute();
+
+	  
+    { // ---------- Fights
+      std::list<TaskFight*>::iterator i = this->plannedFights.begin();
+      while (i != this->plannedFights.end())
+      {
+        if ((*i)->execute())
+        {
+          delete *i;
+          i = this->plannedFights.erase(i);
+        }
+        else
+          ++i;
+      }
+    }
   }
   //----------------------------------------------------------------------------------------------------------
   TaskGather* AI::bestFor(Unit* gatherer)
@@ -984,6 +1000,17 @@ namespace BWAI
           return;
         }
   }
+
+  //---------------------------------------- Get enemy main base's position ----------------------------
+  //TODO correctly determine the position of the enemy's main base
+  BW::Position AI::getEnemyMain()
+  {
+	BW::Position position = BW::Position(2500,
+									   2500);
+
+	return position;
+  }
+
   //----------------------------------------------------------------------------------------------------------
   BuildingPosition* AI::getFreeBuildingSpot(std::string spotName, Unit*& builderToUse)
   {
