@@ -27,6 +27,12 @@ namespace BuildOrder
   bool CommandChangeWeights::executeInternal(Executor* executor)
   {
     BWAI::ai->root->log->log("Command change weights for '%s' called", this->weights->factory.getName());
+    for each (std::list<BWAI::TaskTrain*>::iterator i = BWAI::ai->plannedUnits.begin(); i != BWAI::ai->plannedUnits.end(); ++i)
+      if ((*i)->getBuildingType() == this->weights->factory)
+      {
+         BWAI::ai->plannedUnits.erase(i);
+         break;
+      }
     BWAI::ai->plannedUnits.push_back(new BWAI::TaskTrain(this->weights, priority));
     return true;
   }
