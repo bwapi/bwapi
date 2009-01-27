@@ -259,6 +259,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BuildOrder\CommandFight.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BuildOrder\CommandInvent.cpp"
 					>
 				</File>
