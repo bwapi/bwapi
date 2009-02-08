@@ -51,7 +51,7 @@ void __declspec(naked) onRemoveUnit()
 }
 
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-void __declspec(naked) onCancelTrainByEscape()
+/*void __declspec(naked) onCancelTrainByEscape()
 {
   __asm
   {
@@ -90,18 +90,7 @@ void __declspec(naked) onCancelTrainByClickInTheQueue()
     jmp [BW::BWFXN_CancelTrainByClickInTheQueueBack]
   }
 }
-//---------------------------------------------- ON GAME START -----------------------------------------------
-/*void __declspec(naked) onGameStart()
-{
-  {
-    BWAPI::Broodwar.onGameStart();
-  }
-  __asm
-  {
-    call [BW::BWFXN_GameStartTarget]
-    jmp [BW::BWFXN_GameStartBack]
-  }
-}*/
+*/
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
@@ -255,10 +244,9 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWFXN_NextLogicFrame, 0);
-//  JmpCallPatch(onGameStart, BW::BWFXN_GameStart, 0);
   JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
-  JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWFXN_CancelTrainByClickInTheQueue, 0);
-  JmpCallPatch(onCancelTrainByEscape, BW::BWFXN_CancelTrainByEscape, 0);
+//  JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWFXN_CancelTrainByClickInTheQueue, 0);
+//  JmpCallPatch(onCancelTrainByEscape, BW::BWFXN_CancelTrainByEscape, 0);
   JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);
   JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
