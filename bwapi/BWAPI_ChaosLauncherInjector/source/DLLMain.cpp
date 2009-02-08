@@ -6,7 +6,7 @@
 #include <assert.h>
 
 #define BWLAPI 4
-#define STARCRAFTBUILD 12
+#define STARCRAFTBUILD 13
 
 /*  STARCRAFTBUILD
    -1   All
@@ -22,6 +22,8 @@
    9   1.15.1
    10  1.15.2
    11  1.15.3
+   12  1.16.0
+   13  1.16.1
 */
 
 #ifdef _MANAGED

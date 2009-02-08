@@ -133,59 +133,59 @@ namespace BW
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CB58;               // starts properly at +1 unitstruct
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
   
-  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0750;   // @todo: Update
-  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AEE0;   // @todo: Update
+  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0860;
+  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
 
-  static u32            BWFXN_IssueCommand                        =         0x00485AA0;     //0x00485AC0;
+  static u32            BWFXN_IssueCommand                        =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
-//  static u32            BWDATA_CountDownTimer = 0x0058D6F4;                     // unused
+//  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
-  static u32            BWFXN_PrintText                           = 0x0048D1C0;   // 0048D0B0;
+  static u32            BWFXN_PrintText                           = 0x0048D1C0;
   
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static u16            BWDATA_FullMask                           = 0xFFFF;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
-  static u32            BWFXN_SendPublicCall                      = 0x004F3107;                    // @todo: Update
+  static u32            BWFXN_SendPublicCall                      = 0x004F32B7;
   static u32            BWFXN_SendPublicCallBack                  = BWFXN_SendPublicCall + 5;
-  static u32            BWFXN_SendPublicCallTarget                = 0x004C2310;                    // @todo: Update
+  static u32            BWFXN_SendPublicCallTarget                = 0x004C2420;
 
-  static u32            BWFXN_SendLobbyCall                       = 0x004B97CE;                    // @todo: Update
+  static u32            BWFXN_SendLobbyCall                       = 0x004B98DE;
   static u32            BWFXN_SendLobbyCallBack                   = BWFXN_SendLobbyCall + 5;
-  static u32            BWFXN_SendLobbyCallTarget                 = 0x00470C70;                    // @todo: Update
+  static u32            BWFXN_SendLobbyCallTarget                 = 0x004707D0;
 
   static Unit*          BWDATA_CurrentPlayerSelectionGroup        = (Unit*) 0x00597208;
 
-  static u32            BWFXN_GameEnd                             = 0x004EE7D3;                    // @todo: Update
+  static u32            BWFXN_GameEnd                             = 0x004EE983;
   static u32            BWFXN_GameEndBack                         = BWFXN_GameEnd + 5;
-  static u32            BWFXN_GameEndTarget                       = 0x00416D80;                    // @todo: Update
+  static u32            BWFXN_GameEndTarget                       = 0x00416D90;
 
-  static u32            BWFXN_NextFrameHelperFunction             = 0x004D977D;                    // @todo: Update
+  static u32            BWFXN_NextFrameHelperFunction             = 0x004D98BD;
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;
-  static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D13B0;                    // @todo: Update
+  static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
-  static u32            BWFXN_Refresh                             = 0x0041DDE0;                    // @todo: Update
+  static u32            BWFXN_Refresh                             = 0x0041DDF0;
 /*
-  static u32            BWFXN_CancelTrainByClickInTheQueue        = 0x004573D9;                    // @todo: Update
+  static u32            BWFXN_CancelTrainByClickInTheQueue        = 0x004573E9;
   static u32            BWFXN_CancelTrainByClickInTheQueueBack    = BWFXN_CancelTrainByClickInTheQueue + 5;
   static u32            BWFXN_CancelTrainByClickInTheQueueTarget  = BWFXN_IssueCommand;
 
-  static u32            BWFXN_CancelTrainByEscape                 = 0x00423494;                    // @todo: Update
+  static u32            BWFXN_CancelTrainByEscape                 = 0x004234A4;
   static u32            BWFXN_CancelTrainByEscapeBack             = BWFXN_CancelTrainByEscape + 5;
   static u32            BWFXN_CancelTrainByEscapeTarget           = BWFXN_IssueCommand;
 */
-  static u32            BWFXN_RemoveUnit                          = 0x004EC354;                    // @todo: Update
+  static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
-  static u32            BWFXN_RemoveUnitTarget                    = 0x00479920;                    // @todo: Update
+  static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
 
-  static u32            BWFXN_Redraw                              = 0x004D97F3;                    // @todo: Update
+  static u32            BWFXN_Redraw                              = 0x004D9933;
   static u32            BWFXN_RedrawBack                          = BWFXN_Redraw + 5;
-  static u32            BWFXN_RedrawTarget                        = 0x0041C9F0;                    // @todo: Update
+  static u32            BWFXN_RedrawTarget                        = 0x0041CA00;
 
-  static u32            BWFXN_NextLogicFrame                      = 0x004D960E;                    // @todo: Update
+  static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
   static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;
-  static u32            BWFXN_NextLogicFrameTarget                = 0x00488670;                    // @todo: Update
+  static u32            BWFXN_NextLogicFrameTarget                = 0x00488780;
 
   static u32            BWDATA_UpgradeLevelSC                     = 0x0058D2B0;
   static u32            BWDATA_UpgradeLevelBW                     = 0x0058F32C;
@@ -194,12 +194,12 @@ namespace BW
   static u32            BWDATA_PlayerSelection                    = 0x006284E0;
 
   static u32            BWDATA_Mouse                              = 0x006CDDC4;
-  static int*           BWDATA_MouseX                             = (int*) BWDATA_Mouse;
-  static int*           BWDATA_MouseY                             = (int*) (BWDATA_Mouse + 4);
+  static u32*           BWDATA_MouseX                             = (u32*)  BWDATA_Mouse;
+  static u32*           BWDATA_MouseY                             = (u32*) (BWDATA_Mouse + 4);
 
-  static u32            BWDATA_Screen                             = 0x00628448
-  static int*           BWDATA_ScreenX                            = (int*)        BWDATA_Screen;
-  static int*           BWDATA_ScreenY                            = (int*)       (BWDATA_Screen + 40);
+  static u32            BWDATA_Screen                             = 0x00628448;
+  static u32*           BWDATA_ScreenX                            = (u32*)  BWDATA_Screen;
+  static u32*           BWDATA_ScreenY                            = (u32*) (BWDATA_Screen + 40);
 
   static char*          BWDATA_CurrentMapFileName                 = (char*)       0x0057FD3C;
   static u16*           BWDATA_TechLabelIndex                     = (u16*)        techdataDat[7].address;
