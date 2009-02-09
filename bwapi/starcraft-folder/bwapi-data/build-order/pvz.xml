@@ -2,8 +2,9 @@
 <build-orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="build-order.xsd">
   <include name="globals.xml" />
   <build-order type="root" name="FE" race="Protoss" against="Zerg" weight="1">
+    <build name="Protoss Nexus" />
     <call name="Standard protoss probe building" />
-    <train building="Protoss gateway" priority="5">
+    <train building="Protoss Gateway" priority="5">
       <build name="Protoss Zealot" weight="4" />
       <build name="Protoss Dragoon" weight="2" />
       <build name="Protoss High Templar" weight="1" />

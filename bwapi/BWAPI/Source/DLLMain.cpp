@@ -117,7 +117,7 @@ void __declspec(naked)  nextFrameHook()
   }
   {
     BWAPI::Broodwar.update();
-    BWAI::ai->update();    
+    BWAI::ai->update();
     if (!aiStartCalled)
     {
       if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL)

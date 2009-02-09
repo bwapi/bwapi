@@ -62,7 +62,7 @@ namespace BWAI
       void onStart(BWAPI::Player* player, BWAPI::Player* opponent);
       void onEnd();
       void onFrame();
-      void onCancelTrain();
+//      void onCancelTrain();
       void onRemoveUnit(BW::Unit* unit);
       bool onSendText(const char* text);
 
@@ -88,7 +88,7 @@ namespace BWAI
       
       BWAPI::Player* player;
       BWAPI::Player* opponent;
-	  BW::Position getEnemyMain();
+	    BW::Position getEnemyMain();
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id. The
@@ -105,7 +105,8 @@ namespace BWAI
       MapStartingPosition* startingPosition;      
       u16 mineralGatherers;
       /** @todo investigate and use the nextSupply provider here. */
-      s32 plannedSupplyGain(BW::Race::Enum race);      
+      s32 plannedSupplyGain(BW::Race::Enum race);
+      s32 buildTaskUnitsPlanned[228];
    private :
       Unit* getFirst();   
       Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -122,7 +123,7 @@ namespace BWAI
        * If some building finished production, it will start the same unit again
        * @returns something happened (so reselect is needed)
        */
-      void performAutoBuild();
+      //void performAutoBuild();
       void getIdleWorkers(std::list<Unit*> &workers);
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
       void executeTasks();

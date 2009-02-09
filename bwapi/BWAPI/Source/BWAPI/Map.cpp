@@ -46,7 +46,7 @@ namespace BWAPI
     return *BW::BWDATA_MapSizeY;
   }
   //----------------------------------------- SAVE BUILDABILITY MAP ------------------------------------------
-  void Map::saveBuildabilityMap(const std::string& fileName)
+  char *Map::saveBuildabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
     if (!f)
@@ -58,18 +58,28 @@ namespace BWAPI
     fprintf(f, "X = not buildable\n");
     fprintf(f, ". = buildable\n");
 
-    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getBuildabilityArray().getWidth(), 
-                                                                   this->getBuildabilityArray().getHeight());
-    for (unsigned int x = 0; x < this->getBuildabilityArray().getWidth(); x++)
-      for (unsigned int y = 0; y < this->getBuildabilityArray().getHeight(); y++)
-        result[x][y] = this->getBuildabilityArray()[x][y] ? '.' : 'X';
-    
-    Util::Strings::makeBorder(result).printToFile(f); 
-    fclose(f);
-    BWAPI::Broodwar.print("Buildability saved to %s .ini", fileName.c_str());
+    try
+    {
+      Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getBuildabilityArray().getWidth(), 
+                                                                     this->getBuildabilityArray().getHeight());
+
+      fprintf(f, "RectangleArray declaration succeeded.\n");
+      for (unsigned int x = 0; x < this->getBuildabilityArray().getWidth(); x++)
+        for (unsigned int y = 0; y < this->getBuildabilityArray().getHeight(); y++)
+          result[x][y] = this->getBuildabilityArray()[x][y] ? '.' : 'X';
+      
+      Util::Strings::makeBorder(result).printToFile(f); 
+      fclose(f);
+      return "Successfully saved buildability map.";
+    }
+    catch (GeneralException&)
+    {
+      fprintf(f, "Declaration of RectangleArray for fog of war map failed.");
+      return "Declaration of RectangleArray for fog of war map failed.";
+    }
   }
   //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
-  void Map::saveWalkabilityMap(const std::string& fileName)
+  char *Map::saveWalkabilityMap(const std::string& fileName)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
     if (!f)
@@ -81,18 +91,28 @@ namespace BWAPI
     fprintf(f, "X = not walkable\n");
     fprintf(f, ". = walkable\n");
     
-    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getWalkabilityArray().getWidth(), 
-                                                                   this->getWalkabilityArray().getHeight());
-    for (unsigned int x = 0; x < this->getWalkabilityArray().getWidth(); x++)
-      for (unsigned int y = 0; y < this->getWalkabilityArray().getHeight(); y++)
-        result[x][y] = this->getWalkabilityArray()[x][y] ? '.' : 'X';
-    
-    Util::Strings::makeBorder(result).printToFile(f);
-    fclose(f);
-    BWAPI::Broodwar.print("Walkability saved to %s .ini", fileName.c_str());
+    try
+    {
+      Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getWalkabilityArray().getWidth(), 
+                                                                     this->getWalkabilityArray().getHeight());
+
+      fprintf(f, "RectangleArray declaration succeeded.\n");
+      for (unsigned int x = 0; x < this->getWalkabilityArray().getWidth(); x++)
+        for (unsigned int y = 0; y < this->getWalkabilityArray().getHeight(); y++)
+          result[x][y] = this->getWalkabilityArray()[x][y] ? '.' : 'X';
+      
+      Util::Strings::makeBorder(result).printToFile(f);
+      fclose(f);
+      return "Successfully saved walkability map.";
+    }
+    catch (GeneralException&)
+    {
+      fprintf(f, "Declaration of RectangleArray for fog of war map failed.");
+      return "Declaration of RectangleArray for fog of war map failed.";
+    }
   }
   //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
-  void Map::saveFogOfWarMap(const std::string& fileName, u8 playerID)
+  char *Map::saveFogOfWarMap(const std::string& fileName, u8 playerID)
   {
     FILE* f = fopen(fileName.c_str(),"wt");
     if (!f)
@@ -104,16 +124,26 @@ namespace BWAPI
     fprintf(f, "X = not visible\n");
     fprintf(f, ". = visible\n");
     
-    Util::RectangleArray<char> result = Util::RectangleArray<char>(this->fogOfWar->getWidth(), this->fogOfWar->getHeight());
-    for (unsigned int x = 0; x < this->fogOfWar->getWidth(); x++)
-      for (unsigned int y = 0; y < this->fogOfWar->getHeight(); y++)
+    try
+    {
+      Util::RectangleArray<char> result = Util::RectangleArray<char>(this->fogOfWar->getWidth(), this->fogOfWar->getHeight());
+      for (unsigned int x = 0; x < this->fogOfWar->getWidth(); x++)
+        for (unsigned int y = 0; y < this->fogOfWar->getHeight(); y++)
         {
           u32 value =  (*this->fogOfWar)[y][x];
           result[x][y] = (value & (1<<playerID)) ? 'X' : '.';
         }
     
-    Util::Strings::makeBorder(result).printToFile(f); 
-    fclose(f);
+      Util::Strings::makeBorder(result).printToFile(f); 
+      fclose(f);
+      return "Successfully saved fog of war map.";
+    }
+    catch (GeneralException&)
+    {
+      fprintf(f, "Declaration of RectangleArray for fog of war map failed.");
+      return "Declaration of RectangleArray for fog of war map failed.";
+    }
+
   }
   //--------------------------------------------- GET FILE NAME ----------------------------------------------
   char* Map::getFileName(void)

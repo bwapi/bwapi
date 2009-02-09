@@ -27,9 +27,9 @@ namespace BWAPI
        * Saves the buildability map for the currently opened map to the
        * specified file.
        */
-      void saveBuildabilityMap(const std::string& fileName);
-      void saveWalkabilityMap(const std::string& fileName);
-      void saveFogOfWarMap(const std::string& fileName, u8 playerID);
+      char *saveBuildabilityMap(const std::string& fileName);
+      char *saveWalkabilityMap(const std::string& fileName);
+      char *saveFogOfWarMap(const std::string& fileName, u8 playerID);
       const Util::RectangleArray<bool>& getBuildabilityArray();
       const Util::RectangleArray<bool>& getWalkabilityArray();
       Util::RectangleArray<u32>* fogOfWar;

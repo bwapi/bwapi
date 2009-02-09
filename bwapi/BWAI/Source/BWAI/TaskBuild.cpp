@@ -57,137 +57,142 @@ namespace BWAI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   bool TaskBuild::execute()
   {
-    if (!this->executors.empty() &&
-        this->building != NULL &&
-        this->building->isCompleted())
+    if (BWAI::ai->buildTaskUnitsPlanned[(u16)this->buildingType.getID()] - BWAPI::Broodwar.BWAPIPlayer->getAllUnits(this->buildingType) > 0)
     {
-      BWAI::ai->log->logCritical("(%s) finished production of (%s)", this->executors.front()->getType().getName(), this->buildingType.getName());
-      return true;
-    }
-    if (this->executors.empty() &&
-        !this->buildingType.isAddon() &&
-        this->position != NULL)
-    {
-      Unit* builder = ai->freeBuilder(this->position->position);
-      if (builder)
-        this->addExecutor(builder);
-    }
-    if (this->building == NULL && 
-        !this->executors.empty())
-      if (!this->buildingType.isAddon())
+      if (!this->executors.empty() &&
+          this->building != NULL &&
+          this->building->isCompleted())
       {
-        if (
-          this->executors.front()->getOrderTarget() != NULL &&
-          this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding &&
-          this->executors.front()->getOrderTarget()->getType() == buildingType)
-        {
-          this->building = executors.front()->getOrderTarget();
-          BWAI::ai->log->logCritical("(%s) construction started", building->getName().c_str());
-        }
+        BWAI::ai->log->logCritical("(%s) finished production of (%s)", this->executors.front()->getType().getName(), this->buildingType.getName());
+        return true;
       }
-      else
-        if (this->executors.front()->getBuildUnit() != NULL &&
-            this->executors.front()->getBuildUnit()->getType() == buildingType)
-        {
-          this->building = BWAI::Unit::BWAPIUnitToBWAIUnit(executors.front()->getBuildUnit());
-          BWAI::ai->log->logCritical("(%s) construction of addon started", building->getName().c_str());
-        }
-
-    if (!this->executors.empty() &&
-        this->spot.isValid())
-    {
-      if (this->building == NULL &&
-          this->executors.front()->getOrderIDLocal() == BW::OrderID::Nothing2 &&
-          BWAI::ai->player->canAfford(this->buildingType, BWAPI::ReservedResources()))
-        this->executors.front()->build(this->spot, this->getBuildingType());
-      return false;
-    }
-        
-        
-    if (this->alternatives == NULL && 
-        this->building == NULL &&
-        this->spot == BW::TilePosition::Invalid)
-      return true; // Special case of the custom building    
-
-    if (this->building != NULL &&
-        !this->executors.empty() &&
-        this->executors.front()->getOrderTargetLocal() != this->building &&
-        !this->building->isCompleted() &&
-        !this->buildingType.isAddon())
-    {
-       this->executors.front()->orderRightClick(this->building);
-       BWAI::ai->log->logCritical("(%s) Builder died - new builder sent to finish", building->getName().c_str());
-    }
-    
-    if (!this->executors.empty() && this->building == NULL)
-    {
-      if ((this->position == NULL ||
-          !this->canIBuild(this->position->position)) &&
-          !this->buildingType.isAddon())
+      if (this->executors.empty() &&
+          !this->buildingType.isAddon() &&
+          this->position != NULL)
       {
-        if (this->position != NULL)
-        {
-          this->position->reserved = false;
-          this->position = NULL;
-        }
-        for each (BuildingPosition* i in alternatives->positions)
-          if (i->reserved == false &&
-              this->canIBuild(i->position))
-          {
-            this->position = i;
-            this->position->reserved = true;
-            break;
-          }
-        if (this->position == NULL)
-          return false;
+        Unit* builder = ai->freeBuilder(this->position->position);
+        if (builder)
+          this->addExecutor(builder);
       }
-      BW::Position center(this->position->position);
-      center.x += (BW::TILE_SIZE*this->getBuildingType().getTileWidth())/2;
-      center.y += (BW::TILE_SIZE*this->getBuildingType().getTileHeight())/2;
-      if (this->position != NULL)
-        // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
-        if (this->executors.front()->getDistance(center) > 100 &&
-            !this->buildingType.isAddon())
+      if (this->building == NULL && 
+          !this->executors.empty())
+        if (!this->buildingType.isAddon())
         {
           if (
-               (
-                 this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
-                 this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-                 this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild
-               ) &&
-               (
-                  this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
-                  this->executors.front()->getTargetPositionLocal().getDistance(center) > 300
-               )
-             )
+            this->executors.front()->getOrderTarget() != NULL &&
+            this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding &&
+            this->executors.front()->getOrderTarget()->getType() == buildingType)
           {
-            this->executors.front()->orderRightClick(center);
-            BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName(), center.x, center.y);
+            this->building = executors.front()->getOrderTarget();
+            BWAI::ai->log->logCritical("(%s) construction started", building->getName().c_str());
           }
         }
         else
-          if (!this->buildingType.isAddon())
+          if (this->executors.front()->getBuildUnit() != NULL &&
+              this->executors.front()->getBuildUnit()->getType() == buildingType)
           {
-            if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
-                this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-                this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
-                this->executors.front()->getOwner()->canAfford(buildingType, BWAPI::ReservedResources()))
+            this->building = BWAI::Unit::BWAPIUnitToBWAIUnit(executors.front()->getBuildUnit());
+            BWAI::ai->log->logCritical("(%s) construction of addon started", building->getName().c_str());
+          }
+
+      if (!this->executors.empty() &&
+          this->spot.isValid())
+      {
+        if (this->building == NULL &&
+            this->executors.front()->getOrderIDLocal() == BW::OrderID::Nothing2 &&
+            BWAI::ai->player->canAfford(this->buildingType, BWAPI::ReservedResources()))
+          this->executors.front()->build(this->spot, this->getBuildingType());
+        return false;
+      }
+          
+          
+      if (this->alternatives == NULL && 
+          this->building == NULL &&
+          this->spot == BW::TilePosition::Invalid)
+        return true; // Special case of the custom building    
+
+      if (this->building != NULL &&
+          !this->executors.empty() &&
+          this->executors.front()->getOrderTargetLocal() != this->building &&
+          !this->building->isCompleted() &&
+          !this->buildingType.isAddon())
+      {
+         this->executors.front()->orderRightClick(this->building);
+         BWAI::ai->log->logCritical("(%s) Builder died - new builder sent to finish", building->getName().c_str());
+      }
+      
+      if (!this->executors.empty() && this->building == NULL)
+      {
+        if ((this->position == NULL ||
+            !this->canIBuild(this->position->position)) &&
+            !this->buildingType.isAddon())
+        {
+          if (this->position != NULL)
+          {
+            this->position->reserved = false;
+            this->position = NULL;
+          }
+          for each (BuildingPosition* i in alternatives->positions)
+            if (i->reserved == false &&
+                this->canIBuild(i->position))
             {
-              BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
-              this->executors.front()->build(this->position->position, buildingType);
+              this->position = i;
+              this->position->reserved = true;
+              break;
+            }
+          if (this->position == NULL)
+            return false;
+        }
+        BW::Position center(this->position->position);
+        center.x += (BW::TILE_SIZE*this->getBuildingType().getTileWidth())/2;
+        center.y += (BW::TILE_SIZE*this->getBuildingType().getTileHeight())/2;
+        if (this->position != NULL)
+          // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
+          if (this->executors.front()->getDistance(center) > 100 &&
+              !this->buildingType.isAddon())
+          {
+            if (
+                 (
+                   this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
+                   this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
+                   this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild
+                 ) &&
+                 (
+                    this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
+                    this->executors.front()->getTargetPositionLocal().getDistance(center) > 300
+                 )
+               )
+            {
+              this->executors.front()->orderRightClick(center);
+              BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName(), center.x, center.y);
             }
           }
           else
-            if (this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::PlaceAddon &&
-                this->executors.front()->hasEmptyBuildQueueLocal() &&
-                this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::BuildAddon)
+            if (!this->buildingType.isAddon())
             {
-              BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
-              BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderIDLocal());
-              this->executors.front()->build(this->position->position, buildingType);
+              if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
+                  this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
+                  this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
+                  this->executors.front()->getOwner()->canAfford(buildingType, BWAPI::ReservedResources()))
+              {
+                BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+                this->executors.front()->build(this->position->position, buildingType);
+              }
             }
+            else
+              if (this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::PlaceAddon &&
+                  this->executors.front()->hasEmptyBuildQueueLocal() &&
+                  this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::BuildAddon)
+              {
+                BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+                BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderIDLocal());
+                this->executors.front()->build(this->position->position, buildingType);
+              }
+      }
+      return false;
     }
-    return false;
+    else
+      return true;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   TaskType::Enum TaskBuild::getType()

@@ -71,6 +71,9 @@ namespace BWAI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     
+    for (int i = 0; i < 228; i++)
+      this->buildTaskUnitsPlanned[i] = 0;
+
     try
     {
       this->root = new BuildOrder::Root(config->get("build_order_path"));    
@@ -94,7 +97,7 @@ namespace BWAI
       
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete unitArray[i];
-
+    
     delete map;
 
     delete this->log;
@@ -191,8 +194,13 @@ namespace BWAI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void AI::update(void)
   {
+
     try
     {
+      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+        if (BWAPI::Broodwar.getUnit(i)->getType().getID() != this->unitArray[i]->getType().getID())
+          this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
+
       this->units.clear();
       for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
         this->units.push_back(i);
@@ -200,6 +208,7 @@ namespace BWAI
       this->reserved.clear();
       for each (TaskBuild* i in this->plannedBuildings)
         this->reserved += i->getReserved();
+
     }
     catch (GeneralException& exception)
     {
@@ -364,7 +373,7 @@ namespace BWAI
         this->rebalanceMiners();
         this->checkAssignedWorkers();
       }
-      this->performAutoBuild();
+      //this->performAutoBuild();
       this->executeTasks();
       
       if (this->cycle && !this->fightGroups.empty())
@@ -389,13 +398,11 @@ namespace BWAI
     return unitArray[index];
   }
   //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
-  void AI::onCancelTrain()
+/*  void AI::onCancelTrain()
   {
-    /*
     this->log->log("Cancelled unit caught");
     BW::Unit** selected = BWAPI::Broodwar.saveSelected();
-    */
-  }
+  }*/
   //------------------------------------------ START NEW EXPANSION -------------------------------------------
    void AI::startNewExpansion(Unit *gatherCenter)
    {
@@ -506,9 +513,9 @@ namespace BWAI
     {
       if (parsed[1] == "fog")
       {
-        this->map->saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt", 
+        char *result = this->map->saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt", 
                                    this->player->getID());
-        BWAPI::Broodwar.print("fog of war saved to fo 'fog-of-war.txt'");
+        BWAPI::Broodwar.print(result);
       }
       else if (parsed[1] == "techs")
       {
@@ -543,9 +550,15 @@ namespace BWAI
         BWAPI::Broodwar.print("Units saved to %s .ini", fileName.c_str());        
       }      
       else if (parsed[1] == "buildability")
-        this->map->saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
+      {
+        char *result = this->map->saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
+        BWAPI::Broodwar.print(result);
+      }
       else if (parsed[1] == "walkability")
-        this->map->saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
+      {
+        char *result = this->map->saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
+        BWAPI::Broodwar.print(result);
+      }
       else if (parsed[1] == "defined" && parsed[2] == "buildings")
       {
         if (this->mapInfo != NULL)
@@ -560,6 +573,11 @@ namespace BWAI
       else
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
                               "buildability, walkability, defined buildings", parsed[1].c_str());
+      return true;
+    }
+    else if (parsed[0] == "/count")
+    {
+      BWAPI::Broodwar.print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BW::UnitID::Protoss_Pylon], BWAPI::Broodwar.BWAPIPlayer->getAllUnits(BW::UnitID::Protoss_Pylon));
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -795,15 +813,15 @@ namespace BWAI
       BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
   }
   //------------------------------------------- PERFRORM AUTOBUILD -------------------------------------------
-  void AI::performAutoBuild()
+  /*void AI::performAutoBuild()
   {
-    /** 
+    * 
      * Just workaround, all buildings started by user will register as Task Build
      * Reasons:
      * 1) Finished refinery will then register TaskGatherGas
      * 2) If the scv gets killed it will automaticaly send new one
      * 3) Will be counted in the check supply function into planned supplies
-     */
+     
     for each (Unit* i in this->units)
       if (i->isReady() &&
           i->getOwner() == player &&
@@ -815,7 +833,7 @@ namespace BWAI
          this->root->log->log("Custom building added buildTask");         
          this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL, 0));
        }
-  }
+  }*/
   //-------------------------------------------- GET IDLE WORKERS --------------------------------------------
   void AI::getIdleWorkers(std::list<Unit*>& workers)
   {
