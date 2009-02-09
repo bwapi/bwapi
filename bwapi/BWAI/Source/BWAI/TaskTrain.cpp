@@ -35,13 +35,7 @@ namespace BWAI
               i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
               i->getRawDataLocal()->currentBuildUnit != NULL &&
               i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
-            )) &&
-            (
-              i->getOrderID() == BW::OrderID::Nothing2 ||
-              i->getOrderID() == BW::OrderID::Guard ||
-              i->getOrderID() == BW::OrderID::Larva
-            ) &&
-           !i->getType().isWorker()
+            ))
          )
       {
         BuildOrder::BuildWeight* best = NULL;
@@ -59,9 +53,11 @@ namespace BWAI
         if (best != NULL && 
             BWAI::ai->player->canAfford(best->unitType, BWAPI::ReservedResources()))
         {
-          BWAPI::Broodwar.printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
+          BWAPI::Broodwar.printPublic("Attempting to train %s from LOCAL(%s), RAW(%s).", best->unitType.getName(), i->getRawDataLocal()->unitID.getName(), i->getRawData()->unitID.getName());
           i->trainUnit(best->unitType);
-          if (i->getType() == BW::UnitID::Zerg_Larva)
+          if (i->getType() == BW::UnitID::Zerg_Larva ||
+              i->getType() == BW::UnitID::Zerg_Hydralisk ||
+              i->getType() == BW::UnitID::Zerg_Mutalisk)
             i->clearTask();
         }
       }

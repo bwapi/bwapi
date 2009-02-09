@@ -72,8 +72,8 @@ namespace BW
     bool                 isFlayer() const;
     bool                 isNeutral() const;
     bool                 isNeutralAccesories() const;
-	bool                 isOrganic() const;
-	bool                 isMechanical() const;
+	  bool                 isOrganic() const;
+	  bool                 isMechanical() const;
     BW::Race::Enum       getRace();                                            
     bool                 isValid();
     /** Used to determine what building builds this addon. Can be extended later if needed.*/

@@ -44,7 +44,7 @@ namespace BWAPI
     units.reserve(BW::UNIT_ARRAY_MAX_LENGTH);
     try
     {
-     this->configuration = new Util::Dictionary("bwapi.ini");
+     this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
      config = this->configuration;
     }
     catch (GeneralException& exception)
@@ -117,12 +117,12 @@ namespace BWAPI
     delete unitArrayCopy;
     delete unitArrayCopyLocal;
 
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      delete unitArray[i];
+
     for (int i = 0; i < 12; i++)
       delete players[i];
 
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      delete unitArray[i];
-    
     delete this->commandLog;
     delete this->newOrderLog;
     delete this->badAssumptionLog;
@@ -150,6 +150,21 @@ namespace BWAPI
         this->onGameStart();
       if (!this->enabled)
         return;
+
+      delete unitArrayCopy;
+      delete unitArrayCopyLocal;
+      unitArrayCopy = new BW::UnitArray;
+      unitArrayCopyLocal = new BW::UnitArray;
+
+      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+        delete unitArray[i];
+    
+      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+        unitArray[i] = new Unit(&unitArrayCopy->unit[i], 
+                                &BW::BWDATA_UnitNodeTable->unit[i],
+                                &unitArrayCopyLocal->unit[i],
+                                i);
+
       memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
