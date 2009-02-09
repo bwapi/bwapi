@@ -44,7 +44,7 @@ namespace BW
     PlayerResource minerals;
     PlayerResource gas;
   };
-  static PlayerResources* BWDATA_PlayerResources = (PlayerResources*) 0x0057F0D0; 
+  static PlayerResources* BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0; 
 
   //----------------------------------------------- NAMES TYPE -----------------------------------------------
   /** Direct mapping of players info in bw memory */
@@ -124,11 +124,11 @@ namespace BW
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   static TileID**       BWDATA_MapTileArray               = (TileID**)     0x005993C4;
-  static u32            BWDATA_TileShitPointer            =                0x006D5EC0;
+  static u32            BWDATA_TileShitPointer            =                0x006D5EC8;
   static TileType**     BWDATA_TileSet                    = (TileType**)   BWDATA_TileShitPointer;   // 1.16.1      /**< Index  0-1023 */
   static DoodatType**   BWDATA_DoodatSet                  = (DoodatType**) BWDATA_TileShitPointer;   // 1.16.1   /**< Index 1024 + */
   static u16*           BWDATA_MapSizeX                   = (u16*)         0x0057F1D4;               // 1.16.1
-  static u16*           BWDATA_MapSizeY                   = (u16*)        (BWDATA_MapSizeX + 2);
+  static u16*           BWDATA_MapSizeY                   = ((u16*)        BWDATA_MapSizeX) + 1;
   static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CB58;               // starts properly at +1 unitstruct
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
