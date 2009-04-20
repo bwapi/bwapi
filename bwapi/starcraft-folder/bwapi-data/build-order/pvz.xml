@@ -15,5 +15,6 @@
     <build name="Protoss Photon Cannon" place="cannon-fe" minimal-population="15"/>
     <build name="Protoss Pylon" place="pylon" minimal-population="16"/>
     <build name="Protoss Nexus" place="natural-expansion" minimal-population="18"/>
+    <build name="Protoss Pylon" place="pylon" minimal-population="23"/>
   </build-order>
 </build-orders>

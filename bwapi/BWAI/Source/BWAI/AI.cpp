@@ -199,7 +199,10 @@ namespace BWAI
     {
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         if (BWAPI::Broodwar.getUnit(i)->getType().getID() != this->unitArray[i]->getType().getID())
+        {
+          delete this->unitArray[i];
           this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
+        }
 
       this->units.clear();
       for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
