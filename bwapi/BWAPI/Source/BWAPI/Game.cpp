@@ -150,7 +150,7 @@ namespace BWAPI
         this->onGameStart();
       if (!this->enabled)
         return;
-
+      /* For some reason the following lines of code crashes Broodwar shortly after starting a new match.
       delete unitArrayCopy;
       delete unitArrayCopyLocal;
       unitArrayCopy = new BW::UnitArray;
@@ -164,6 +164,7 @@ namespace BWAPI
                                 &BW::BWDATA_UnitNodeTable->unit[i],
                                 &unitArrayCopyLocal->unit[i],
                                 i);
+      */
 
       memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
