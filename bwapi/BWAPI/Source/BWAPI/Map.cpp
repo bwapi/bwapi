@@ -13,17 +13,26 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Map::Map()
-  :buildability(Map::getWidth()  , Map::getHeight()  )
-  ,walkability (Map::getWidth()*4, Map::getHeight()*4)
-  ,fogOfWar(new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar))
+  :fogOfWar(NULL)
   {
-   this->setBuildability();
-   this->setWalkability();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Map::~Map()
   {
-    delete fogOfWar;
+  }
+  //
+  void Map::load()
+  {
+    if (fogOfWar!=NULL)
+    {
+      delete fogOfWar;
+      fogOfWar=NULL;
+    }
+    buildability.resize(Map::getWidth(), Map::getHeight());
+    walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
+    fogOfWar=new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar);
+    setBuildability();
+    setWalkability();
   }
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)

@@ -99,8 +99,6 @@ namespace BWAI
        */
       BuildingPositionSet* getPositionsCalled(const std::string& place);
       BWAPI::ReservedResources reserved;
-      /** Currently opened map, NULL if no map is opened. */
-      BWAPI::Map* map;
       PathFinding::Utilities *pathFinding;
       MapStartingPosition* startingPosition;      
       u16 mineralGatherers;

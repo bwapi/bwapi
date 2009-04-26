@@ -310,6 +310,7 @@ namespace BWAPI
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
+    map.load();
 
     if (*(BW::BWDATA_InReplay))
       return;

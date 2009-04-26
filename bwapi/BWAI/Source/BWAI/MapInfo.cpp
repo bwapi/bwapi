@@ -68,7 +68,7 @@ namespace BWAI
   //----------------------------------------------------------------------------------------------------------
   void MapInfo::saveDefinedBuildingsMap(const std::string& fileName)
   {
-    const Util::RectangleArray<bool> buildability = BWAI::ai->map->getBuildabilityArray();
+    const Util::RectangleArray<bool> buildability = BWAPI::Broodwar.map.getBuildabilityArray();
     Util::RectangleArray<char> result = Util::RectangleArray<char>(buildability.getWidth(), buildability.getHeight());
     for (unsigned int x = 0; x < buildability.getWidth(); x++)
       for (unsigned int y = 0; y < buildability.getHeight(); y++)
