@@ -22,21 +22,21 @@ namespace BWAPI
       static u16 getWidth();
       static u16 getHeight();
       /** Gets file name of the currently opened map by broodwar */
-      static char* getFileName();
-      static std::string getName();
+      static std::string getFileName();
       /**
        * Saves the buildability map for the currently opened map to the
        * specified file.
        */
-      char *saveBuildabilityMap(const std::string& fileName);
-      char *saveWalkabilityMap(const std::string& fileName);
-      char *saveFogOfWarMap(const std::string& fileName, u8 playerID);
-      const Util::RectangleArray<bool>& getBuildabilityArray();
-      const Util::RectangleArray<bool>& getWalkabilityArray();
+      char *saveBuildabilityMap(const std::string& fileName) const;
+      char *saveWalkabilityMap(const std::string& fileName) const;
+      char *saveFogOfWarMap(const std::string& fileName) const;
+      bool buildable(int x, int y) const;
+      bool walkable(int x, int y) const;
+      bool visible(int x, int y) const;
       /** Loads buildability/walkability arrays from the currently opened map. */
       void load();
-      Util::RectangleArray<u32>* fogOfWar;
     private :
+      Util::RectangleArray<u32>* fogOfWar;
       Util::RectangleArray<bool> buildability;
       Util::RectangleArray<bool> walkability;
       void setBuildability();

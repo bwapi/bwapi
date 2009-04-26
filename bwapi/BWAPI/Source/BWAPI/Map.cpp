@@ -7,7 +7,7 @@
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
 #include <BWAPI/Globals.h>
-#include "Globals.h"
+#include <BWAPI/Player.h>
 
 namespace BWAPI
 {
@@ -20,7 +20,7 @@ namespace BWAPI
   Map::~Map()
   {
   }
-  //
+  //-------------------------------------------------- LOAD --------------------------------------------------
   void Map::load()
   {
     if (fogOfWar!=NULL)
@@ -34,6 +34,23 @@ namespace BWAPI
     setBuildability();
     setWalkability();
   }
+  //------------------------------------------------ BUILDABLE -----------------------------------------------
+  bool Map::buildable(int x, int y) const
+  {
+    return buildability[x][y];
+  }
+  //------------------------------------------------ WALKABLE ------------------------------------------------
+  bool Map::walkable(int x, int y) const
+  {
+    return walkability[x][y];
+  }
+  //------------------------------------------------ VISIBLE -------------------------------------------------
+  bool Map::visible(int x, int y) const
+  {
+    u32 value =  (*this->fogOfWar)[y][x];
+    return !(value & (1<<Broodwar.BWAPIPlayer->getID()));
+  }
+
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
@@ -55,13 +72,13 @@ namespace BWAPI
     return *BW::BWDATA_MapSizeY;
   }
   //----------------------------------------- SAVE BUILDABILITY MAP ------------------------------------------
-  char *Map::saveBuildabilityMap(const std::string& fileName)
+  char *Map::saveBuildabilityMap(const std::string& fileName) const
   {
     FILE* f = fopen(fileName.c_str(),"wt");
     if (!f)
       throw FileException("Couldn't save the buildability map to '" + fileName + "'");
     fprintf(f, "Buildability map for currently opened map\n");
-    fprintf(f, "Map file: %s\n", Map::getFileName());
+    fprintf(f, "Map file: %s\n", Map::getFileName().c_str());
     fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not buildable\n");
@@ -69,13 +86,12 @@ namespace BWAPI
 
     try
     {
-      Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getBuildabilityArray().getWidth(), 
-                                                                     this->getBuildabilityArray().getHeight());
+      Util::RectangleArray<char> result = Util::RectangleArray<char>(getWidth(),getHeight());
 
       fprintf(f, "RectangleArray declaration succeeded.\n");
-      for (unsigned int x = 0; x < this->getBuildabilityArray().getWidth(); x++)
-        for (unsigned int y = 0; y < this->getBuildabilityArray().getHeight(); y++)
-          result[x][y] = this->getBuildabilityArray()[x][y] ? '.' : 'X';
+      for (unsigned int x = 0; x < getWidth(); x++)
+        for (unsigned int y = 0; y < getHeight(); y++)
+          result[x][y] = buildable(x,y) ? '.' : 'X';
       
       Util::Strings::makeBorder(result).printToFile(f); 
       fclose(f);
@@ -88,13 +104,13 @@ namespace BWAPI
     }
   }
   //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
-  char *Map::saveWalkabilityMap(const std::string& fileName)
+  char *Map::saveWalkabilityMap(const std::string& fileName) const
   {
     FILE* f = fopen(fileName.c_str(),"wt");
     if (!f)
       throw FileException("Couldn't save the walkability map to '" + fileName + "'");
     fprintf(f, "Walkability map for currently opened map\n");
-    fprintf(f, "Map file: %s\n", Map::getFileName());
+    fprintf(f, "Map file: %s\n", Map::getFileName().c_str());
     fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not walkable\n");
@@ -102,13 +118,13 @@ namespace BWAPI
     
     try
     {
-      Util::RectangleArray<char> result = Util::RectangleArray<char>(this->getWalkabilityArray().getWidth(), 
-                                                                     this->getWalkabilityArray().getHeight());
+      Util::RectangleArray<char> result = Util::RectangleArray<char>(getWidth()*4, 
+                                                                     getHeight()*4);
 
       fprintf(f, "RectangleArray declaration succeeded.\n");
-      for (unsigned int x = 0; x < this->getWalkabilityArray().getWidth(); x++)
-        for (unsigned int y = 0; y < this->getWalkabilityArray().getHeight(); y++)
-          result[x][y] = this->getWalkabilityArray()[x][y] ? '.' : 'X';
+      for (unsigned int x = 0; x < (u16)(getWidth()*4); x++)
+        for (unsigned int y = 0; y < (u16)(getHeight()*4); y++)
+          result[x][y] = walkable(x,y) ? '.' : 'X';
       
       Util::Strings::makeBorder(result).printToFile(f);
       fclose(f);
@@ -121,13 +137,13 @@ namespace BWAPI
     }
   }
   //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
-  char *Map::saveFogOfWarMap(const std::string& fileName, u8 playerID)
+  char *Map::saveFogOfWarMap(const std::string& fileName) const
   {
     FILE* f = fopen(fileName.c_str(),"wt");
     if (!f)
       throw FileException("Couldn't save the fog of war map to '" + fileName + "'");
     fprintf(f, "Fog of war map for currently opened map\n");
-    fprintf(f, "Map file: %s\n", Map::getFileName());
+    fprintf(f, "Map file: %s\n", Map::getFileName().c_str());
     fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
     fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
     fprintf(f, "X = not visible\n");
@@ -139,8 +155,7 @@ namespace BWAPI
       for (unsigned int x = 0; x < this->fogOfWar->getWidth(); x++)
         for (unsigned int y = 0; y < this->fogOfWar->getHeight(); y++)
         {
-          u32 value =  (*this->fogOfWar)[y][x];
-          result[x][y] = (value & (1<<playerID)) ? 'X' : '.';
+          result[x][y] = visible(x,y) ? '.' : 'X';
         }
     
       Util::Strings::makeBorder(result).printToFile(f); 
@@ -154,27 +169,12 @@ namespace BWAPI
     }
 
   }
-  //--------------------------------------------- GET FILE NAME ----------------------------------------------
-  char* Map::getFileName(void)
+  //------------------------------------------------ GET FILE NAME -------------------------------------------
+  std::string Map::getFileName()
   {
-    return BW::BWDATA_CurrentMapFileName;
-  }
-  //------------------------------------------------ GET NAME ------------------------------------------------
-  std::string Map::getName()
-  {
-    std::string mapNameAbsolute = BWAPI::Map::getFileName();
+    std::string mapNameAbsolute(BW::BWDATA_CurrentMapFileName);
     std::string::size_type lastDelimiterPos = mapNameAbsolute.rfind('\\');
     return mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
-  }
-  //----------------------------------------- GET BUILDABILITY ARRAY -----------------------------------------
-  const Util::RectangleArray<bool>& Map::getBuildabilityArray()
-  {
-    return this->buildability;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  const Util::RectangleArray<bool>& Map::getWalkabilityArray()
-  {
-    return this->walkability;
   }
   //-------------------------------------------- SET BUILDABILITY --------------------------------------------
   void Map::setBuildability()

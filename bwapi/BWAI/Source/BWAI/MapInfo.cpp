@@ -68,16 +68,17 @@ namespace BWAI
   //----------------------------------------------------------------------------------------------------------
   void MapInfo::saveDefinedBuildingsMap(const std::string& fileName)
   {
-    const Util::RectangleArray<bool> buildability = BWAPI::Broodwar.map.getBuildabilityArray();
-    Util::RectangleArray<char> result = Util::RectangleArray<char>(buildability.getWidth(), buildability.getHeight());
-    for (unsigned int x = 0; x < buildability.getWidth(); x++)
-      for (unsigned int y = 0; y < buildability.getHeight(); y++)
-        result[x][y] = buildability[x][y] ? '.' : 'X';
+    Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar.map.getWidth(),
+                                                                   BWAPI::Broodwar.map.getHeight());
+    for (unsigned int x = 0; x < BWAPI::Broodwar.map.getWidth(); x++)
+      for (unsigned int y = 0; y < BWAPI::Broodwar.map.getHeight(); y++)
+        result[x][y] = BWAPI::Broodwar.map.buildable(x,y) ? '.' : 'X';
         
-    Util::RectangleArray<int> counts = Util::RectangleArray<int>(buildability.getWidth(), buildability.getHeight()) ;
-    for (unsigned int x = 0; x < buildability.getWidth(); x++)
-      for (unsigned int y = 0; y < buildability.getHeight(); y++)    
-        counts[x][y] = buildability[x][y] ? 0 : 1;
+    Util::RectangleArray<int> counts = Util::RectangleArray<int>(BWAPI::Broodwar.map.getWidth(),
+                                                                 BWAPI::Broodwar.map.getHeight()) ;
+    for (unsigned int x = 0; x < BWAPI::Broodwar.map.getWidth(); x++)
+      for (unsigned int y = 0; y < BWAPI::Broodwar.map.getHeight(); y++)    
+        counts[x][y] = BWAPI::Broodwar.map.buildable(x,y) ? 0 : 1;
         
     
     for each (MapStartingPosition* i in this->startingPositions)
@@ -124,8 +125,8 @@ namespace BWAI
           }
       }
     }  
-    for (unsigned int x = 0; x < buildability.getWidth(); x++)
-      for (unsigned int y = 0; y < buildability.getHeight(); y++)    
+    for (unsigned int x = 0; x < BWAPI::Broodwar.map.getWidth(); x++)
+      for (unsigned int y = 0; y < BWAPI::Broodwar.map.getHeight(); y++)    
         if (counts[x][y] == 2)
           result[x][y] = char(176);
         else if (counts[x][y] == 3)

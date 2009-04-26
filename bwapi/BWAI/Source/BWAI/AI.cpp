@@ -16,7 +16,6 @@
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
-#include <BWAPI/Map.h>
 
 #include <BuildOrder/Root.h>
 #include <BuildOrder/Branch.h>
@@ -232,7 +231,7 @@ namespace BWAI
     {
       this->player = player;
       this->opponent = opponent;
-      mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
+      mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getFileName() + ".xml");
       this->checkNewExpansions();
       this->root->log->log("Help pre-prepared information found for the curent map");
       if (this->expansions.size())
@@ -507,8 +506,7 @@ namespace BWAI
     {
       if (parsed[1] == "fog")
       {
-        char *result = BWAPI::Broodwar.map.saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt", 
-                                   this->player->getID());
+        char *result = BWAPI::Broodwar.map.saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt");
         BWAPI::Broodwar.print(result);
       }
       else if (parsed[1] == "techs")
@@ -746,7 +744,7 @@ namespace BWAI
       {
         try
         {
-          mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
+          mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getFileName() + ".xml");
           BWAPI::Broodwar.print("Map data reloaded successfully.");
         }
         catch (GeneralException& exception)
