@@ -27,7 +27,7 @@ namespace PathFinding
     world.setTo(pattern);
     for (u16 x = 0; x < BWAPI::Map::getWidth()*4; x++)
       for (u16 y = 0; y < BWAPI::Map::getHeight()*4; y++)
-        walkability[x + 1][y + 1] = BWAPI::Broodwar.map.getWalkabilityArray()[x][y];
+        walkability[x + 1][y + 1] = BWAPI::Broodwar.map.walkable(x,y);
     for (unsigned int x = 0; x < walkability.getWidth(); x++)
     {
       walkability[x][0] = false;
