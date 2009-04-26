@@ -21,6 +21,7 @@ namespace BWAPI { class Command; }
 #include <BW/TechType.h>
 #include <BW/UpgradeType.h>
 
+#include <BWAPI/Map.h>
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
  * data.
@@ -109,7 +110,8 @@ namespace BWAPI
       std::map<std::string, BW::UnitType> unitNameToType;
       std::map<std::string, BW::TechType> techNameToType;
       std::map<std::string, BW::UpgradeType> upgradeNameToType;
-      bool enabled;      
+      bool enabled;
+      Map map;
    private :
       Unit* getFirst();
       bool onStartCalled;

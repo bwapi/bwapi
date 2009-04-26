@@ -52,7 +52,6 @@ namespace BWAI
   ,log    (new Util::FileLogger(config->get("log_path") + "\\ai",   Util::LogLevel::Normal))
   ,deadLog(new Util::FileLogger(config->get("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
-  ,map(NULL)
   ,temp(NULL)
   ,pathFinding(NULL)
   ,mineralGatherers(0)
@@ -97,8 +96,6 @@ namespace BWAI
       
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete unitArray[i];
-    
-    delete map;
 
     delete this->log;
     delete deadLog;
@@ -233,7 +230,6 @@ namespace BWAI
     }
     try
     {
-      this->map = new BWAPI::Map();
       this->player = player;
       this->opponent = opponent;
       mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getName() + ".xml");
@@ -259,8 +255,6 @@ namespace BWAI
     }
     catch (GeneralException& exception)
     {
-      delete map;
-      map = NULL;
       this->root->log->log("Exception in AI::onStart: %s", exception.getMessage().c_str());
       delete this->mapInfo;
       this->mapInfo = NULL;
@@ -326,10 +320,7 @@ namespace BWAI
     
     delete this->pathFinding;
     this->pathFinding = NULL;
-    
-    delete this->map;
-    this->map = NULL;
-    
+        
     delete this->buildOrderExecutor;
     this->buildOrderExecutor = NULL;
     
@@ -516,7 +507,7 @@ namespace BWAI
     {
       if (parsed[1] == "fog")
       {
-        char *result = this->map->saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt", 
+        char *result = BWAPI::Broodwar.map.saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt", 
                                    this->player->getID());
         BWAPI::Broodwar.print(result);
       }
@@ -554,12 +545,12 @@ namespace BWAI
       }      
       else if (parsed[1] == "buildability")
       {
-        char *result = this->map->saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
+        char *result = BWAPI::Broodwar.map.saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
         BWAPI::Broodwar.print(result);
       }
       else if (parsed[1] == "walkability")
       {
-        char *result = this->map->saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
+        char *result = BWAPI::Broodwar.map.saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
         BWAPI::Broodwar.print(result);
       }
       else if (parsed[1] == "defined" && parsed[2] == "buildings")

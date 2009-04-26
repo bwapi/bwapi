@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 #include <Util/RectangleArray.h>
@@ -13,7 +15,6 @@ namespace BWAPI
   class Map
   {
     public :
-      /** Loads buildability/walkability arrays from the currently opened map. */
       Map();
       ~Map();
       static BW::TileID getTile(int x, int y);
@@ -32,6 +33,8 @@ namespace BWAPI
       char *saveFogOfWarMap(const std::string& fileName, u8 playerID);
       const Util::RectangleArray<bool>& getBuildabilityArray();
       const Util::RectangleArray<bool>& getWalkabilityArray();
+      /** Loads buildability/walkability arrays from the currently opened map. */
+      void load();
       Util::RectangleArray<u32>* fogOfWar;
     private :
       Util::RectangleArray<bool> buildability;
