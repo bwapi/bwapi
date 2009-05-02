@@ -73,31 +73,31 @@ static Direction::Enum directionConditions[ADVANCED_DIRECTION_COUNT][2] =
  */
 namespace PathFinding
 {
-   /**
-    * Utilities related to pathfinding.
-    */
-   class Utilities
-   {
-     public:
-       Utilities();
-       ~Utilities();
-       bool generatePath(const UnitModel& unit, WalkabilityPosition target);
-       /** static help variables. */
-       bool canStay(const BW::UnitType& type, const WalkabilityPosition& position) const;
-     private :
-       static const u16 STRAIGHT_SPOT_DIRECTION = 8;
-       static const u16 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
-       static const u16 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by 
-                                                        *   this and division by 2^n is a LOT faster as it is 
-                                                        *   just bit shift. */
-       static const u16 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15; 
-       static const u16 MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE = 5000;
-       struct Spot
-       {
-         u32 vaweID;
-         u16 distance;
-         Direction::Enum from;
-       };
+  /**
+   * Utilities related to pathfinding.
+   */
+  class Utilities
+  {
+    public:
+      Utilities();
+      ~Utilities();
+      bool generatePath(const UnitModel& unit, WalkabilityPosition target);
+      /** static help variables. */
+      bool canStay(const BW::UnitType& type, const WalkabilityPosition& position) const;
+    private :
+      static const u16 STRAIGHT_SPOT_DIRECTION = 8;
+      static const u16 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
+      static const u16 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by 
+                                                       *   this and division by 2^n is a LOT faster as it is 
+                                                       *   just bit shift. */
+      static const u16 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15; 
+      static const u16 MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE = 5000;
+      struct Spot
+      {
+        u32 vaweID;
+        u16 distance;
+        Direction::Enum from;
+      };
       Util::RectangleArray<Spot> world;
       Util::RectangleArray<bool> walkability;
       u32 vaweID;

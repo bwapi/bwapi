@@ -14,12 +14,12 @@ namespace Formula
       UsedSupply,
       PlannedSupply,
       Factories,
-	     Buildings,
-	     Men,
-	     Infantry,
-	     Mech,
-	     Zerg_Main,
-	     Zerg_MainLair
+      Buildings,
+      Men,
+      Infantry,
+      Mech,
+      Zerg_Main,
+      Zerg_MainLair
     };
   }
 }

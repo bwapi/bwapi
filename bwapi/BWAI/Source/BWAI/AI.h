@@ -59,7 +59,7 @@ namespace BWAI
       /** Updates next/first pointers */
       void update();
       /** Call in the start of the game */
-      void onStart(BWAPI::Player* player, BWAPI::Player* opponent);
+      void onStart();
       void onEnd();
       void onFrame();
 //      void onCancelTrain();

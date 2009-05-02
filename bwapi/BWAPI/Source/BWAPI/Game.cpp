@@ -727,5 +727,44 @@ namespace BWAPI
             this->unitsOnTile[x][y].push_back(i);
       }
   }
+  //---------------------------------------------- GET UNIT TYPE ---------------------------------------------
+  BW::UnitType Game::getUnitType(std::string &name) const
+  {
+    std::map<std::string, BW::UnitType>::const_iterator i=this->unitNameToType.find(name);
+    if (i==this->unitNameToType.end())
+    {
+      return BW::UnitType();
+    }
+    else
+    {
+      return i->second;
+    }
+  }
+  //---------------------------------------------- GET TECH TYPE ---------------------------------------------
+  BW::TechType Game::getTechType(std::string &name) const
+  {
+    std::map<std::string, BW::TechType>::const_iterator i=this->techNameToType.find(name);
+    if (i==this->techNameToType.end())
+    {
+      return BW::TechType();
+    }
+    else
+    {
+      return i->second;
+    }
+  }
+  //--------------------------------------------- GET UPGRADE TYPE -------------------------------------------
+  BW::UpgradeType Game::getUpgradeType(std::string &name) const
+  {
+    std::map<std::string, BW::UpgradeType>::const_iterator i=this->upgradeNameToType.find(name);
+    if (i==this->upgradeNameToType.end())
+    {
+      return BW::UpgradeType();
+    }
+    else
+    {
+      return i->second;
+    }
+  }
   //----------------------------------------------------------------------------------------------------------
 };

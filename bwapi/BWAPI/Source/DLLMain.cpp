@@ -14,8 +14,6 @@
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Game.h"
-#include "BWAPI/Globals.h"
-#include "BWAPI/Player.h"
 
 #include "../../BWAI/Source/BWAI/AI.h"
 #include "../../BWAI/Source/BWAI/Globals.h"
@@ -120,9 +118,9 @@ void __declspec(naked)  nextFrameHook()
     BWAI::ai->update();
     if (!aiStartCalled)
     {
-      if (BWAPI::Broodwar.BWAPIPlayer != NULL && BWAPI::Broodwar.opponent != NULL)
+      if (BWAPI::Broodwar.isOnStartCalled())
       {
-        BWAI::ai->onStart(BWAPI::Broodwar.BWAPIPlayer, BWAPI::Broodwar.opponent);
+        BWAI::ai->onStart();
         aiStartCalled = true;
       }
     }

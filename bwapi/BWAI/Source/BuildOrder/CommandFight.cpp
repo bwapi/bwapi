@@ -19,49 +19,51 @@ namespace BuildOrder
   CommandFight::CommandFight(TiXmlElement* xmlElement)
   :Command(xmlElement)
   {
-	this->dest_type = Util::Xml::getRequiredAttribute(xmlElement, "dest_type");
-	this->position = Util::Xml::getOptionalAttribute(xmlElement, "position", "");
+    this->dest_type = Util::Xml::getRequiredAttribute(xmlElement, "dest_type");
+    this->position = Util::Xml::getOptionalAttribute(xmlElement, "position", "");
 
-	const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
-	if (minimalPopulationAttribute != NULL && this->condition == NULL)
-	{
-	  this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute))); 
-	  this->conditionRunType = ConditionRunType::WaitToApply;
-	}
+    const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
+    if (minimalPopulationAttribute != NULL && this->condition == NULL)
+    {
+      this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute))); 
+      this->conditionRunType = ConditionRunType::WaitToApply;
+    }
   }
   //----------------------------------------------------------------------------------------------------------
   bool CommandFight::executeInternal(Executor* executor)
   {
     //is it a valid destination type
-	if (dest_type != "main" && dest_type != "expansion") {
+    if (dest_type != "main" && dest_type != "expansion")
+    {
       BWAI::ai->root->log->log("Unknown dest_type '%s'", this->dest_type.c_str());
       return true;
     }
 
-    if (this->conditionApplies()) {
-		BWAI::ai->root->log->log("Command to fight '%s' called", this->dest_type.c_str());
+    if (this->conditionApplies())
+    {
+      BWAI::ai->root->log->log("Command to fight '%s' called", this->dest_type.c_str());
 
-		//Currently adding all fight units to the Fight task
-		//TODO we'll define what type of units, how many, etc. to join the task according to the conditions in the build order xml
-		u16 addedCount = 0;
+      //Currently adding all fight units to the Fight task
+      //TODO we'll define what type of units, how many, etc. to join the task according to the conditions in the build order xml
+      u16 addedCount = 0;
 
-		if (dest_type == "main") {
-			BW::Position position = BWAI::ai->getEnemyMain();
+      if (dest_type == "main")
+      {
+        BW::Position position = BWAI::ai->getEnemyMain();
 
-			for each (BWAI::Unit* i in BWAI::ai->units)
-				if (!i->getType().isBuilding() &&
-					!i->getType().isWorker() &&
-					i->getType().canMove() &&
-					i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
-					i->getTask() == NULL)
-				{
-				  addedCount++;
+        for each (BWAI::Unit* i in BWAI::ai->units)
+          if (!i->getType().isBuilding() &&
+            !i->getType().isWorker() &&
+            i->getType().canMove() &&
+            i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
+            i->getTask() == NULL)
+          {
+            addedCount++;
+            i->orderAttackLocation(position, BW::OrderID::AttackMove);
+          }
+      }
 
-				  i->orderAttackLocation(position, BW::OrderID::AttackMove);
-			}
-		}
-
-		BWAPI::Broodwar.print("%u units sent to fight '%s'", addedCount, this->dest_type.c_str());
+      BWAPI::Broodwar.print("%u units sent to fight '%s'", addedCount, this->dest_type.c_str());
 
       return true;
     }

@@ -215,7 +215,7 @@ namespace BWAI
     }
   }
   //------------------------------------------------ ON START ------------------------------------------------
-  void AI::onStart(BWAPI::Player *player, BWAPI::Player* opponent)
+  void AI::onStart()
   {
     try
     {
@@ -229,8 +229,8 @@ namespace BWAI
     }
     try
     {
-      this->player = player;
-      this->opponent = opponent;
+      this->player = BWAPI::Broodwar.BWAPIPlayer;
+      this->opponent = BWAPI::Broodwar.opponent;
       mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getFileName() + ".xml");
       this->checkNewExpansions();
       this->root->log->log("Help pre-prepared information found for the curent map");
@@ -577,7 +577,7 @@ namespace BWAI
       if (parsed[1] == "add")
       {
         std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
-        BW::TechType tech = BWAPI::Broodwar.techNameToType[techName];
+        BW::TechType tech = BWAPI::Broodwar.getTechType(techName);
         if (tech == BW::TechID::None)
           BWAPI::Broodwar.print("Unknown upgrade name '%s'", techName);
         else
@@ -606,7 +606,7 @@ namespace BWAI
       if (parsed[1] == "add")
       {
         std::string upgradeName = message.substr(strlen("/upgrade add "), message.size() - strlen("/upgrade add "));
-        BW::UpgradeType upgrade = BWAPI::Broodwar.upgradeNameToType[upgradeName];
+        BW::UpgradeType upgrade = BWAPI::Broodwar.getUpgradeType(upgradeName);
         if (upgrade == BW::UpgradeID::None)
           BWAPI::Broodwar.print("Unknown upgrade name '%s'", upgradeName);
         else
