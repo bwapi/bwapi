@@ -36,6 +36,7 @@
 #include "TaskFight.h"
 #include "Unit.h"
 #include "Expansion.h"
+#include "Map.h"
 #include "MapInfo.h"
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"
@@ -506,8 +507,8 @@ namespace BWAI
     {
       if (parsed[1] == "fog")
       {
-        char *result = BWAPI::Broodwar.map.saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt");
-        BWAPI::Broodwar.print(result);
+        std::string result = Map::saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt");
+        BWAPI::Broodwar.print(result.c_str());
       }
       else if (parsed[1] == "techs")
       {
@@ -543,13 +544,13 @@ namespace BWAI
       }      
       else if (parsed[1] == "buildability")
       {
-        char *result = BWAPI::Broodwar.map.saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
-        BWAPI::Broodwar.print(result);
+        std::string result = Map::saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
+        BWAPI::Broodwar.print(result.c_str());
       }
       else if (parsed[1] == "walkability")
       {
-        char *result = BWAPI::Broodwar.map.saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
-        BWAPI::Broodwar.print(result);
+        std::string result = Map::saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
+        BWAPI::Broodwar.print(result.c_str());
       }
       else if (parsed[1] == "defined" && parsed[2] == "buildings")
       {

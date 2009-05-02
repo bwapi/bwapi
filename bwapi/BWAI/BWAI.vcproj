@@ -173,6 +173,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\Map.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\MapExpansion.h"
 					>
 				</File>
@@ -248,6 +252,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\Globals.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\Map.cpp"
 					>
 				</File>
 				<File
