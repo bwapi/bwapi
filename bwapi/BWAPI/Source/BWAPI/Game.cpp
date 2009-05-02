@@ -699,7 +699,7 @@ namespace BWAPI
     {
       for (int x = 0; x < Map::getWidth(); x++)
       {
-         if ((((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8)) == 0)
+        if (this->map.buildable(x,y))
           fprintf(f, "%d", this->unitsOnTile[x][y].size());
         else
           fprintf(f, "X");
