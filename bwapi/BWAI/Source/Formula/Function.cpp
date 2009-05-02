@@ -65,7 +65,7 @@ namespace Formula
       case FunctionType::Finished :
       case FunctionType::All :
       case FunctionType::InProgress :
-        unitType = BWAPI::Broodwar.unitNameToType[this->functionParameter];
+        unitType = BWAPI::Broodwar.getUnitType(this->functionParameter);
         if (unitType == BW::UnitID::None)
           throw ParseException("Unknown unit name " + this->functionParameter);
         break;

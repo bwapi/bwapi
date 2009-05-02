@@ -38,7 +38,7 @@ namespace BuildOrder
   //----------------------------------------------------------------------------------------------------------
   bool CommandBuild::executeInternal(Executor* executor)
   {
-    BW::UnitType toBuild = BWAPI::Broodwar.unitNameToType[this->name];
+    BW::UnitType toBuild = BWAPI::Broodwar.getUnitType(this->name);
     if (BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()] < BWAPI::Broodwar.BWAPIPlayer->getAllUnits(toBuild.getID()))
     {
       BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
@@ -120,11 +120,11 @@ namespace BuildOrder
                 spot.y += 1;
                 break;
               }
-           if (executor == NULL)
-             return false;
-           BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, executor, spot, priority));
-           BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
-           BWAI::ai->root->log->log("Command to build addon '%s' called (using %s)", toBuild.getName(), executor->getType().getName());
+            if (executor == NULL)
+              return false;
+            BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, executor, spot, priority));
+            BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
+            BWAI::ai->root->log->log("Command to build addon '%s' called (using %s)", toBuild.getName(), executor->getType().getName());
           }
         }
         return true;

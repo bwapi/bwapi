@@ -24,7 +24,7 @@ namespace BuildOrder
   //----------------------------------------------------------------------------------------------------------
   bool CommandUpgrade::executeInternal(Executor* executor)
   {
-    BW::UpgradeType toUpgrade = BWAPI::Broodwar.upgradeNameToType[this->name];
+    BW::UpgradeType toUpgrade = BWAPI::Broodwar.getUpgradeType(this->name);
     if (!toUpgrade.isValid())
     {
       BWAI::ai->root->log->log("Unknown upgrade name '%s'", this->name.c_str());
