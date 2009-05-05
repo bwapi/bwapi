@@ -68,13 +68,13 @@ namespace BWAI
                  miningBuddy->getOrderTimer() >= BWAPI::Broodwar.getLatency() &&
                  (
                    miningBuddy->getOrderTimer() == BWAPI::Broodwar.getLatency()-1 ||
-                   BWAPI::Broodwar.frameCount - i->lastFrameSpam > 4
+                   BWAPI::Broodwar.getFrameCount() - i->lastFrameSpam > 4
                  )
                )
              )
            )
         {
-          i->lastFrameSpam = BWAPI::Broodwar.frameCount;
+          i->lastFrameSpam = BWAPI::Broodwar.getFrameCount();
           i->orderRightClick(mineral);
         }
     }

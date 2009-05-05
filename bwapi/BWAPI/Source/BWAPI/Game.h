@@ -92,11 +92,6 @@ namespace BWAPI
       void onRemoveUnit(BW::Unit *unit);
       Player* BWAPIPlayer;
       Player* opponent;
-      std::vector<Unit*> units;
-      void logUnitList();
-      void logUnknownOrStrange();
-      /** Count of game-frames passed from game start. */
-      int frameCount;
       Util::Logger *fatalError;
       bool quietSelect;
       BW::Latency::Enum getLatency();
@@ -109,14 +104,21 @@ namespace BWAPI
       BW::UnitType getUnitType(std::string &name) const;
       BW::TechType getTechType(std::string &name) const;
       BW::UpgradeType getUpgradeType(std::string &name) const;
-      Util::RectangleArray<std::list<Unit*> > unitsOnTile;
+      std::list<Unit*> unitsOnTile(int x, int y) const;
+      int getFrameCount() const;
       bool enabled;
       Map map;
+      Unit* getFirst();
    private :
+      Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
+      std::vector<Unit*> units;
+      /** Count of game-frames passed from game start. */
+      int frameCount;
+      void logUnitList();
+      void logUnknownOrStrange();
       std::map<std::string, BW::UnitType> unitNameToType;
       std::map<std::string, BW::TechType> techNameToType;
       std::map<std::string, BW::UpgradeType> upgradeNameToType;
-      Unit* getFirst();
       bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;

@@ -22,12 +22,12 @@ namespace BWAPI
     return BW::BWDATA_Players->player[this->getID()].name;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
-  s32 Player::getMinerals() const
+  s32 Player::getMineralsSync() const
   {
     return BW::BWDATA_PlayerResources->minerals.player[this->getID()];
   }
   //------------------------------------------------ GET GAS -------------------------------------------------
-  s32 Player::getGas() const
+  s32 Player::getGasSync() const
   {
     return BW::BWDATA_PlayerResources->gas.player[this->getID()];
   }
@@ -45,68 +45,68 @@ namespace BWAPI
   }
   #pragma warning(pop)
   //------------------------------------------- GET MINERALS LOCAL -------------------------------------------
-  s32 Player::getMineralsLocal() const
+  s32 Player::getMinerals() const
   {
     return this->mineralsLocal;
   }
   //--------------------------------------------- GET GAS LOCAL ----------------------------------------------
-  s32 Player::getGasLocal() const
+  s32 Player::getGas() const
   {
     return this->gasLocal;
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void Player::update()
   {
-    this->mineralsLocal = this->getMinerals();
-    this->gasLocal = this->getGas();
+    this->mineralsLocal = this->getMineralsSync();
+    this->gasLocal = this->getGasSync();
     for (int i = 0; i < BW::RACE_COUNT; i++)
     {
-      this->suppliesAvailableLocal[i] = this->getSuppliesAvailable((BW::Race::Enum)i);
-      this->suppliesUsedLocal[i] = this->getSuppliesUsed((BW::Race::Enum)i);
+      this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync((BW::Race::Enum)i);
+      this->suppliesUsedLocal[i] = this->getSuppliesUsedSync((BW::Race::Enum)i);
     }
     for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
       this->toMake[j] = 0;
   }
   //---------------------------------------------- SPEND LOCAL -----------------------------------------------
-  void  Player::spendLocal(s32 minerals, s32 gas)
+  void  Player::spend(s32 minerals, s32 gas)
   {
     this->mineralsLocal -= minerals;
     this->gasLocal -= gas;
   }
   //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
-  s32 Player::getSuppliesAvailable(BW::Race::Enum race)
+  s32 Player::getSuppliesAvailableSync(BW::Race::Enum race)
   {
     s32 ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
-    return ret < getSuppliesMax(race) ? ret : getSuppliesMax(race);
+    return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
   }
   //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
-  s32 Player::getSuppliesUsed(BW::Race::Enum race)
+  s32 Player::getSuppliesUsedSync(BW::Race::Enum race)
   {
     return BW::BWDATA_Supplies->race[race].used.player[this->getID()];
   }
   //--------------------------------------------- GET SUPPLY MAX ---------------------------------------------
-  s32 Player::getSuppliesMax(BW::Race::Enum race)
+  s32 Player::getSuppliesMaxSync(BW::Race::Enum race)
   {
     return BW::BWDATA_Supplies->race[race].max.player[this->getID()];
   }
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
-  s32 Player::getSuppliesAvailableLocal(BW::Race::Enum race)
+  s32 Player::getSuppliesAvailable(BW::Race::Enum race)
   {
     s32 ret = this->suppliesAvailableLocal[race];
-    return ret < getSuppliesMax(race) ? ret : getSuppliesMax(race);
+    return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
-  s32 Player::getSuppliesUsedLocal(BW::Race::Enum race)
+  s32 Player::getSuppliesUsed(BW::Race::Enum race)
   {
     return this->suppliesUsedLocal[race];
   }
   //------------------------------------------ SUPPLIES FREE LOCAL -------------------------------------------
-  s32 Player::getSuppliesFreeLocal(BW::Race::Enum race)
+  s32 Player::getSuppliesFree(BW::Race::Enum race)
   {
-    return this->getSuppliesAvailableLocal(race) - this->getSuppliesUsedLocal(race);
+    return this->getSuppliesAvailable(race) - this->getSuppliesUsed(race);
   }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
-  void Player::useSuppliesLocal(u8 supplies, BW::Race::Enum race)
+  void Player::useSupplies(u8 supplies, BW::Race::Enum race)
   {
     this->suppliesUsedLocal[race] += supplies;
   }
@@ -237,21 +237,21 @@ namespace BWAPI
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved)
   {
-    return ((int)this->getSuppliesFreeLocal(unit.getRace())) - reserved.supply   >= unit.getSupplies() &&
-           ((int)this->getMineralsLocal())                   - reserved.minerals >= unit.getMineralPrice() &&
-           ((int)this->getGasLocal())                        - reserved.gas      >= unit.getGasPrice();
+    return ((int)this->getSuppliesFree(unit.getRace())) - reserved.supply   >= unit.getSupplies() &&
+           ((int)this->getMinerals())                   - reserved.minerals >= unit.getMineralPrice() &&
+           ((int)this->getGas())                        - reserved.gas      >= unit.getGasPrice();
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved)
   {
-    return ((int)this->getMineralsLocal()) - reserved.minerals >= tech.getMineralPrice() &&
-           ((int)this->getGasLocal())      - reserved.gas      >= tech.getGasPrice();
+    return ((int)this->getMinerals()) - reserved.minerals >= tech.getMineralPrice() &&
+           ((int)this->getGas())      - reserved.gas      >= tech.getGasPrice();
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved)
   {
-    return ((int)this->getMineralsLocal()) - reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-           ((int)this->getGasLocal())      - reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
+    return ((int)this->getMinerals()) - reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
+           ((int)this->getGas())      - reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
   BW::Race::Enum Player::getRace()

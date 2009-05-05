@@ -36,9 +36,9 @@ namespace BWAPI
  
    executors[0]->getBuildQueueLocal()[slotToAffect] = this->toTrain.getID();
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
-   this->executors[0]->getOwner()->spendLocal(this->toTrain.getMineralPrice(),
-                                              this->toTrain.getGasPrice());
-   executors[0]->getOwner()->useSuppliesLocal(toTrain.getSupplies(), toTrain.getRace());
+   this->executors[0]->getOwner()->spend(this->toTrain.getMineralPrice(),
+                                         this->toTrain.getGasPrice());
+   executors[0]->getOwner()->useSupplies(toTrain.getSupplies(), toTrain.getRace());
    executors[0]->getOwner()->planToMake(toTrain);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

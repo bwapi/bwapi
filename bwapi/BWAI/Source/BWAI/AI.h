@@ -116,7 +116,6 @@ namespace BWAI
       void rebalanceMiners();
       void checkAssignedWorkers();
       void checkNewExpansions();
-      void refreshSelectionStates(BW::Unit** selected);
       /**
        * If some building finished production, it will start the same unit again
        * @returns something happened (so reselect is needed)

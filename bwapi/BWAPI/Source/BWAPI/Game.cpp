@@ -37,7 +37,7 @@ namespace BWAPI
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Game::Game()
   :onStartCalled(false)
-  ,unitsOnTile(0,0)
+  ,unitsOnTileData(0,0)
   ,quietSelect(true)
   ,enabled(true)
   {
@@ -150,21 +150,6 @@ namespace BWAPI
         this->onGameStart();
       if (!this->enabled)
         return;
-      /* For some reason the following lines of code crashes Broodwar shortly after starting a new match.
-      delete unitArrayCopy;
-      delete unitArrayCopyLocal;
-      unitArrayCopy = new BW::UnitArray;
-      unitArrayCopyLocal = new BW::UnitArray;
-
-      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        delete unitArray[i];
-    
-      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArray[i] = new Unit(&unitArrayCopy->unit[i], 
-                                &BW::BWDATA_UnitNodeTable->unit[i],
-                                &unitArrayCopyLocal->unit[i],
-                                i);
-      */
 
       memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
@@ -700,7 +685,7 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); x++)
       {
         if (this->map.buildable(x,y))
-          fprintf(f, "%d", this->unitsOnTile[x][y].size());
+          fprintf(f, "%d", this->unitsOnTile(x,y).size());
         else
           fprintf(f, "X");
       }
@@ -711,10 +696,10 @@ namespace BWAPI
   //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
   void Game::updateUnitsOnTile()
   {
-    this->unitsOnTile.resize(Map::getWidth(), Map::getHeight());
+    this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
-        this->unitsOnTile[x][y].clear();
+        this->unitsOnTileData[x][y].clear();
     for each (Unit* i in this->units)
       if (i->isValid())
       {
@@ -724,7 +709,7 @@ namespace BWAPI
         int endY =     (i->getPosition().y + i->getType().dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
-            this->unitsOnTile[x][y].push_back(i);
+            this->unitsOnTileData[x][y].push_back(i);
       }
   }
   //---------------------------------------------- GET UNIT TYPE ---------------------------------------------
@@ -765,6 +750,16 @@ namespace BWAPI
     {
       return i->second;
     }
+  }
+  //--------------------------------------------- GET FRAME COUNT --------------------------------------------
+  int Game::getFrameCount() const
+  {
+    return this->frameCount;
+  }
+  //--------------------------------------------- UNITS ON TILE ----------------------------------------------
+  std::list<Unit*> Game::unitsOnTile(int x, int y) const
+  {
+    return unitsOnTileData[x][y];
   }
   //----------------------------------------------------------------------------------------------------------
 };

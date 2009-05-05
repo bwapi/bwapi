@@ -33,8 +33,8 @@ namespace BWAI
             (i->hasEmptyBuildQueueLocal() ||
             (
               i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
-              i->getRawDataLocal()->currentBuildUnit != NULL &&
-              i->getRawData()->currentBuildUnit->remainingBuildTime <= BWAPI::Broodwar.getLatency()
+              i->getBuildUnit() != NULL &&
+              i->getBuildUnit()->getRemainingBuildTime() <= BWAPI::Broodwar.getLatency()
             ))
          )
       {

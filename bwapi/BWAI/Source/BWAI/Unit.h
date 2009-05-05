@@ -18,7 +18,6 @@ namespace BWAI
     public :
       Unit(BWAPI::Unit *unit);
       Expansion* expansion;
-      bool selected;
       static Unit* BWUnitToBWAIUnit(BW::Unit* unit);
       static Unit* BWAPIUnitToBWAIUnit(BWAPI::Unit* unit);
       /** 
