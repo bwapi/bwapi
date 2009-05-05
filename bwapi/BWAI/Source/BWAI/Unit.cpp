@@ -15,7 +15,6 @@ namespace BWAI
   Unit::Unit(BWAPI::Unit *unit)
   :BWAPI::Unit(*unit) /**< default autoconstructor usage */
   ,task(0)
-  ,selected(false)
   ,lastFrameSpam(0)
   ,expansion(0)
   {
@@ -40,22 +39,22 @@ namespace BWAI
   //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* Unit::getTarget()
   {
-    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawData()->targetUnit);
+    return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getTarget());
   }
   //-------------------------------------------- GET TARGET LOCAL --------------------------------------------
   Unit* Unit::getTargetLocal()
   {
-    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->targetUnit);
+    return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getTargetLocal());
   }
   //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* Unit::getOrderTarget()
   {
-    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawData()->orderTargetUnit);
+    return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getOrderTarget());
   }
   //-------------------------------------------- GET TARGET LOCAL --------------------------------------------
   Unit* Unit::getOrderTargetLocal()
   {
-    return BWAI::Unit::BWUnitToBWAIUnit(this->getRawDataLocal()->orderTargetUnit);
+    return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getOrderTargetLocal());
   }
   //------------------------------------------------ GET NEXT ------------------------------------------------
   Unit* Unit::getNext()

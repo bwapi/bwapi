@@ -85,8 +85,6 @@ namespace BWAPI
       u16 getDistance(BW::Position position) const; 
       /** Gets distance of unit centers. */
       u16 getCenterDistance(Unit *unit) const; 
-      /** Gets distance between two positions. */
-      u16 getDistance(int x1, int y1, int x2, int y2) const; 
       /**< Gets bwUnit->BW#Unit#orderID. */
       BW::OrderID::Enum getOrderID() const;
       bool isIdle() const;
@@ -100,6 +98,7 @@ namespace BWAPI
        * (verified for mining).
        */
       u8 getOrderTimer() const;
+      u16 getRemainingBuildTime() const;
       /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType* getBuildQueue();
       /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
@@ -135,7 +134,7 @@ namespace BWAPI
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-	  void orderAttackLocation(BW::Position position, u8 OrderID);
+      void orderAttackLocation(BW::Position position, u8 OrderID);
       /**
        * Orders this unit to attack Location on the specified unit. Note that attack location
        * on unit can result in lot of commands (attack)
@@ -159,8 +158,6 @@ namespace BWAPI
       void invent(BW::TechType tech);
       /** Orders to build the invent the specified upgrade. */
       void upgrade(BW::UpgradeType upgrade);      
-      /** Orders to select this unit (previous selection will be lost. */
-      void orderSelect();
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
       std::string getName() const;
       Unit* getNext();
@@ -174,6 +171,11 @@ namespace BWAPI
        */
       u16 getIndex() const;
     private:
+      /** Orders to select this unit (previous selection will be lost. */
+      void orderSelect();
+      /** Gets distance between two positions. */
+      u16 getDistance(int x1, int y1, int x2, int y2) const; 
+
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */

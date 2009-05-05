@@ -333,7 +333,7 @@ namespace BWAI
     {
       if (!BWAPI::Broodwar.enabled)
         return;
-      if (BWAPI::Broodwar.frameCount < 2)
+      if (BWAPI::Broodwar.getFrameCount() < 2)
         return;
       if (!this->player)
         return;
@@ -342,7 +342,7 @@ namespace BWAI
         this->buildOrderExecutor->execute();
 
       BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
-      this->refreshSelectionStates(selected);
+      //this->refreshSelectionStates(selected);
        
       //this->checkSupplyNeed();
       this->checkNewExpansions();
@@ -458,7 +458,7 @@ namespace BWAI
   //----------------------------------------------- GET FIRST ------------------------------------------------
   Unit* AI::getFirst()
   {
-    return Unit::BWUnitToBWAIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
+    return Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.getFirst());
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void AI::onRemoveUnit(BW::Unit* unit)
@@ -797,36 +797,6 @@ namespace BWAI
           this->removeExpansion(i->expansion);
     }
   }
-  //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
-  void AI::refreshSelectionStates(BW::Unit** selected)
-  {
-    for each (Unit* i in this->units)
-      i->selected = false;
-    for (int i = 0; selected[i] != NULL; i++)
-      BWAI::Unit::BWUnitToBWAIUnit(selected[i])->selected = true;
-  }
-  //------------------------------------------- PERFRORM AUTOBUILD -------------------------------------------
-  /*void AI::performAutoBuild()
-  {
-    * 
-     * Just workaround, all buildings started by user will register as Task Build
-     * Reasons:
-     * 1) Finished refinery will then register TaskGatherGas
-     * 2) If the scv gets killed it will automaticaly send new one
-     * 3) Will be counted in the check supply function into planned supplies
-     
-    for each (Unit* i in this->units)
-      if (i->isReady() &&
-          i->getOwner() == player &&
-          i->getType().isWorker() &&
-          i->getTask() == NULL &&
-          i->getOrderID() == BW::OrderID::ConstructingBuilding &&
-          i->getOrderTarget() != NULL)
-       {
-         this->root->log->log("Custom building added buildTask");         
-         this->plannedBuildings.push_back(new TaskBuild(i->getOrderTarget()->getType(), NULL, i, NULL, 0));
-       }
-  }*/
   //-------------------------------------------- GET IDLE WORKERS --------------------------------------------
   void AI::getIdleWorkers(std::list<Unit*>& workers)
   {
@@ -843,7 +813,6 @@ namespace BWAI
                i->getOrderIDLocal() == BW::OrderID::ResetCollision2 ||
                i->getOrderIDLocal() == BW::OrderID::ReturnMinerals
              ) &&
-             !i->selected &&
              (i->getType().isWorker()) &&
               i->getTask() == NULL)
           workers.push_back(i); 
@@ -1039,15 +1008,15 @@ namespace BWAI
             for (int l = i->position.y; 
                  l < i->position.y + position->tileHeight; 
                  l++)
-              if (!BWAPI::Broodwar.unitsOnTile[k][l].empty())
+              if (!BWAPI::Broodwar.unitsOnTile(k,l).empty())
               {
                 occupiedCount ++;
-                if (BWAPI::Broodwar.unitsOnTile[k][l].size() == 1)
+                if (BWAPI::Broodwar.unitsOnTile(k,l).size() == 1)
                   {
                     if (occupied != NULL &&
-                        occupied->getIndex() == BWAPI::Broodwar.unitsOnTile[k][l].front()->getIndex())
+                        occupied->getIndex() == BWAPI::Broodwar.unitsOnTile(k,l).front()->getIndex())
                       occupiedCount--;
-                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile[k][l].front());
+                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile(k,l).front());
                   }
                 else
                   occupiedCount = 2;

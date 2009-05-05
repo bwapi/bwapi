@@ -127,6 +127,11 @@ namespace BWAPI
     return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
   }
   //-------------------------------------------- GET TATGET LCCAL --------------------------------------------
+  Unit* Unit::getOrderTargetLocal()
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
+  }
+  //-------------------------------------------- GET TATGET LCCAL --------------------------------------------
   const Unit* Unit::getOrderTargetLocal() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
@@ -504,6 +509,11 @@ namespace BWAPI
   u8 Unit::getOrderTimer() const
   {
      return this->getOriginalRawData()->mainOrderTimer;
+  }
+  //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
+  u16 Unit::getRemainingBuildTime() const
+  {
+     return this->getRawDataLocal()->remainingBuildTime;
   }
   //----------------------------------------------------------------------------------------------------------
   u16 Unit::getIndex() const
