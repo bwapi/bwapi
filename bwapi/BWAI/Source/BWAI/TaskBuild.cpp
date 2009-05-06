@@ -4,7 +4,6 @@
 #include <Util/Types.h>
 #include <BW/UnitType.h>
 #include <BW/OrderID.h>
-#include <BW/Unit.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
@@ -57,7 +56,7 @@ namespace BWAI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   bool TaskBuild::execute()
   {
-    if (BWAI::ai->buildTaskUnitsPlanned[(u16)this->buildingType.getID()] - BWAPI::Broodwar.BWAPIPlayer->getAllUnits(this->buildingType) > 0)
+    if (BWAI::ai->buildTaskUnitsPlanned[(u16)this->buildingType.getID()] - BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(this->buildingType) > 0)
     {
       if (!this->executors.empty() &&
           this->building != NULL &&

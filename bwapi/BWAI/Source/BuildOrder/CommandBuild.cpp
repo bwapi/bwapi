@@ -6,7 +6,6 @@
 #include <Util/Logger.h>
 #include <Util/Xml.h>
 #include <BW/UnitType.h>
-#include <BW/Unit.h>
 #include <BWAI/AI.h>
 #include <BWAI/BuildingPositionSet.h>
 #include <BWAI/TaskBuild.h>
@@ -111,7 +110,7 @@ namespace BuildOrder
             for each (BWAI::Unit* i in BWAI::ai->units)
               if (i->isReady() &&
                   i->getType() == builderType &&
-                  i->getRawDataLocal()->childInfoUnion.childUnit1 == NULL &&
+                  i->getChild() == NULL &&
                   (i->getTask() == NULL || i->getTask()->getType() != BWAI::TaskType::Build))
               {
                 executor = i;

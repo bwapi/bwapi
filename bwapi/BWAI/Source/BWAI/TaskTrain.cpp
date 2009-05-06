@@ -1,5 +1,4 @@
 #include "TaskTrain.h"
-#include <BW/Unit.h>
 #include <BWAI/Globals.h>
 #include <BWAPI/Globals.h>
 #include <BWAPI/Player.h>
@@ -53,7 +52,7 @@ namespace BWAI
         if (best != NULL && 
             BWAI::ai->player->canAfford(best->unitType, BWAPI::ReservedResources()))
         {
-          BWAPI::Broodwar.printPublic("Attempting to train %s from LOCAL(%s), RAW(%s).", best->unitType.getName(), i->getRawDataLocal()->unitID.getName(), i->getRawData()->unitID.getName());
+          BWAPI::Broodwar.printPublic("Attempting to train %s from LOCAL(%s), RAW(%s).", best->unitType.getName(), i->getTypeLocal().getName(), i->getType().getName());
           i->trainUnit(best->unitType);
           if (i->getType() == BW::UnitID::Zerg_Larva ||
               i->getType() == BW::UnitID::Zerg_Hydralisk ||
