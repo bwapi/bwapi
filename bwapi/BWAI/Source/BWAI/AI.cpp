@@ -9,7 +9,6 @@
 #include <Util/Strings.h>
 #include <Util/RectangleArray.h>
 
-#include <BW/Unit.h>
 #include <BW/UpgradeType.h>
 #include <BW/TechType.h>
 
@@ -461,9 +460,9 @@ namespace BWAI
     return Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.getFirst());
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-  void AI::onRemoveUnit(BW::Unit* unit)
+  void AI::onRemoveUnit(BWAPI::Unit* unit)
   {
-    Unit* dead = BWAI::Unit::BWUnitToBWAIUnit(unit);
+    Unit* dead = BWAI::Unit::BWAPIUnitToBWAIUnit(unit);
     this->deadLog->log("AI::onRemove Unit %s just died", dead->getName().c_str());
     if (dead->getType().isBuilding())
       for each (TaskBuild* i in this->plannedBuildings)
@@ -635,60 +634,32 @@ namespace BWAI
     {
       if (parsed[1] == "add")
       {
-        if (parsed[2] == "all")
-        {
-          if (this->fightGroups.empty())
-            this->fightGroups.push_back(new TaskFight());
-          TaskFight* task = this->fightGroups.front();
-          u16 addedCount = 0;
-          for each (Unit* i in this->units)
-            if (!i->getType().isBuilding() &&
-                !i->getType().isWorker() &&
-                i->getType().canMove() &&
-                i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
-                i->getTask() == NULL)
-            {
-              addedCount++;
-              task->addExecutor(i);
-            }
-          BWAPI::Broodwar.print("%u units added to the fight group", addedCount);
-        }
-        else
-        {
-          if (this->fightGroups.empty())
-            this->fightGroups.push_back(new TaskFight());
-          TaskFight* task = this->fightGroups.front();
-          BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
-          for (int i = 0; selected[i] != NULL; i++)
+        if (this->fightGroups.empty())
+          this->fightGroups.push_back(new TaskFight());
+        TaskFight* task = this->fightGroups.front();
+        u16 addedCount = 0;
+        for each (Unit* i in this->units)
+          if (!i->getType().isBuilding() &&
+              !i->getType().isWorker() &&
+              i->getType().canMove() &&
+              i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
+              i->getTask() == NULL)
           {
-            Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
-            unit->freeFromTask();
-            task->addExecutor(unit);
+            addedCount++;
+            task->addExecutor(i);
           }
-        }
+        BWAPI::Broodwar.print("%u units added to the fight group", addedCount);
       }
       else if (parsed[1] == "remove")
       {
         if (this->fightGroups.empty())
           return true;
-        if (parsed[2] == "all")
-        {
-          TaskFight* task = this->fightGroups.front();
-          delete task;
-          this->fightGroups.erase(this->fightGroups.begin());
-        }
-        else
-        {
-          BW::Unit ** selected = BWAPI::Broodwar.saveSelected();
-          for (int i = 0; selected[i] != NULL; i++)
-          {
-            Unit* unit = BWAI::Unit::BWUnitToBWAIUnit(selected[i]);
-            unit->freeFromTask();
-          }
-        }
+        TaskFight* task = this->fightGroups.front();
+        delete task;
+        this->fightGroups.erase(this->fightGroups.begin());
       }
       else 
-        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1].c_str());
+        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, remove", parsed[1].c_str());
       return true;
     } 
     else if (parsed[0] == "/formation")

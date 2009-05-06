@@ -141,6 +141,11 @@ namespace BWAPI
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
   }
+  //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
+  Unit* Unit::getChild()
+  {
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
+  }
   //------------------------------------------ GET TATGET POSITION -------------------------------------------
   BW::Position Unit::getTargetPosition() const
   {
@@ -368,6 +373,11 @@ namespace BWAPI
   BW::UnitType Unit::getType() const
   {
    return this->getRawData()->unitID;
+  }
+  //--------------------------------------------- GET TYPE LOCAL ---------------------------------------------
+  BW::UnitType Unit::getTypeLocal() const
+  {
+   return this->getRawDataLocal()->unitID;
   }
   //----------------------------------------------- GET QUEUE ------------------------------------------------
   BW::UnitType* Unit::getBuildQueue()

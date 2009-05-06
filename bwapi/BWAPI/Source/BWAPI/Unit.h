@@ -38,6 +38,7 @@ namespace BWAPI
       ~Unit();
       /** Gets #bwUnit->BW#Unit#unitID */
       BW::UnitType getType() const;
+      BW::UnitType getTypeLocal() const;
       /** Gets #bwUnit->BW#Unit#healthPoints. */
       u16 getHealthPoints() const; 
       /** Gets #bwUnit->BW#Unit#shieldPoints. */
@@ -66,6 +67,7 @@ namespace BWAPI
       const Unit* getOrderTargetLocal() const;
        /** Gets #bwUnitLocal->BW#Unit#currentBuildUnit. */
       Unit* getBuildUnit();
+      Unit* getChild();
       /** Gets #bwUnit->BW#Unit#moveToPos */
       BW::Position getTargetPosition() const;
       /** (const version) Gets #bwUnitLocal->BW#Unit#moveToPos. */

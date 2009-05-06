@@ -1,10 +1,6 @@
 #include "Unit.h"
 
-#include <Util/Logger.h>
-#include <Util/Types.h>
-#include <BW/Offsets.h>
-#include <BW/Unit.h>
-#include <BWAPI/Globals.h>
+#include <BWAPI/Unit.h>
 
 #include "Task.h"
 #include "Globals.h"
@@ -20,22 +16,12 @@ namespace BWAI
   {
   }
   //------------------------------------------ BW Unit TO BWAI Unit ------------------------------------------
-  #pragma warning(push)
-  #pragma warning(disable:4311)
-  Unit* Unit::BWUnitToBWAIUnit(BW::Unit* unit)
-  {
-    if (unit == NULL)
-      return NULL;
-    return ai->getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable)/336);
-  }
-  //------------------------------------------ BW Unit TO BWAI Unit ------------------------------------------
   Unit* Unit::BWAPIUnitToBWAIUnit(BWAPI::Unit* unit)
   {
     if (unit == NULL)
       return NULL;
     return BWAI::ai->getUnit(unit->getIndex());
   }
-  #pragma warning (pop)
   //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* Unit::getTarget()
   {
@@ -71,7 +57,7 @@ namespace BWAI
     }
     #pragma warning(push)
     #endif PARANOID_DEBUG
-    return Unit::BWUnitToBWAIUnit(this->getOriginalRawData()->nextUnit);
+    return Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getNext());
   }
   //------------------------------------------------ GET TASK ------------------------------------------------
   Task* Unit::getTask()

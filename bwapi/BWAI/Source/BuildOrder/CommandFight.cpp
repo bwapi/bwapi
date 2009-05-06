@@ -4,7 +4,6 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-#include <BW/Unit.h>
 #include <BWAPI/Unit.h>
 #include <BWAI/AI.h>
 #include <BWAI/Globals.h>
