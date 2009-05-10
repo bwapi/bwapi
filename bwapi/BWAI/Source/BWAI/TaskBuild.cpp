@@ -98,8 +98,8 @@ namespace BWAI
           this->spot.isValid())
       {
         if (this->building == NULL &&
-            this->executors.front()->getOrderIDLocal() == BW::OrderID::Nothing2 &&
-            BWAI::ai->player->canAfford(this->buildingType, BWAPI::ReservedResources()))
+            this->executors.front()->getOrderID() == BW::OrderID::Nothing2 &&
+            BWAI::ai->player->canAfford(this->buildingType, BWAI::ai->reserved))
           this->executors.front()->build(this->spot, this->getBuildingType());
         return false;
       }
@@ -112,7 +112,7 @@ namespace BWAI
 
       if (this->building != NULL &&
           !this->executors.empty() &&
-          this->executors.front()->getOrderTargetLocal() != this->building &&
+          this->executors.front()->getOrderTarget() != this->building &&
           !this->building->isCompleted() &&
           !this->buildingType.isAddon())
       {
@@ -152,13 +152,13 @@ namespace BWAI
           {
             if (
                  (
-                   this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
-                   this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-                   this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild
+                   this->executors.front()->getOrderID() != BW::OrderID::BuildTerran &&
+                   this->executors.front()->getOrderID() != BW::OrderID::BuildProtoss1 &&
+                   this->executors.front()->getOrderID() != BW::OrderID::DroneStartBuild
                  ) &&
                  (
-                    this->executors.front()->getOrderIDLocal() != BW::OrderID::Move ||
-                    this->executors.front()->getTargetPositionLocal().getDistance(center) > 300
+                    this->executors.front()->getOrderID() != BW::OrderID::Move ||
+                    this->executors.front()->getTargetPosition().getDistance(center) > 300
                  )
                )
             {
@@ -169,9 +169,9 @@ namespace BWAI
           else
             if (!this->buildingType.isAddon())
             {
-              if (this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildTerran &&
-                  this->executors.front()->getOrderIDLocal() != BW::OrderID::BuildProtoss1 &&
-                  this->executors.front()->getOrderIDLocal() != BW::OrderID::DroneStartBuild &&
+              if (this->executors.front()->getOrderID() != BW::OrderID::BuildTerran &&
+                  this->executors.front()->getOrderID() != BW::OrderID::BuildProtoss1 &&
+                  this->executors.front()->getOrderID() != BW::OrderID::DroneStartBuild &&
                   this->executors.front()->getOwner()->canAfford(buildingType, BWAPI::ReservedResources()))
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
@@ -179,12 +179,12 @@ namespace BWAI
               }
             }
             else
-              if (this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::PlaceAddon &&
-                  this->executors.front()->hasEmptyBuildQueueLocal() &&
-                  this->executors.front()->getSecondaryOrderIDLocal() != BW::OrderID::BuildAddon)
+              if (this->executors.front()->getSecondaryOrderID() != BW::OrderID::PlaceAddon &&
+                  this->executors.front()->hasEmptyBuildQueue() &&
+                  this->executors.front()->getSecondaryOrderID() != BW::OrderID::BuildAddon)
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
-                BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderIDLocal());
+                BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderID());
                 this->executors.front()->build(this->position->position, buildingType);
               }
       }

@@ -26,14 +26,14 @@ namespace BWAI
       return true;
     std::list<Unit*>::iterator i = this->executors.begin();
     while (i != this->executors.end())
-      if ((*i)->getOrderIDLocal() != BW::OrderID::PlayerGuard &&
-          (*i)->getOrderIDLocal() != BW::OrderID::MoveToMinerals &&
-          (*i)->getOrderIDLocal() != BW::OrderID::HarvestMinerals2 &&
-          (*i)->getOrderIDLocal() != BW::OrderID::MiningMinerals &&
-          (*i)->getOrderIDLocal() != BW::OrderID::ResetCollision2 &&
-          (*i)->getOrderIDLocal() != BW::OrderID::ReturnMinerals)
+      if ((*i)->getOrderID() != BW::OrderID::PlayerGuard &&
+          (*i)->getOrderID() != BW::OrderID::MoveToMinerals &&
+          (*i)->getOrderID() != BW::OrderID::HarvestMinerals2 &&
+          (*i)->getOrderID() != BW::OrderID::MiningMinerals &&
+          (*i)->getOrderID() != BW::OrderID::ResetCollision2 &&
+          (*i)->getOrderID() != BW::OrderID::ReturnMinerals)
       {
-        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName((*i)->getOrderIDLocal()).c_str(), 
+        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName((*i)->getOrderID()).c_str(), 
                                                                                                 (*i)->getName().c_str());
         this->freeExecutor(*i++);
         ai->expansionsSaturated = false;
@@ -54,13 +54,13 @@ namespace BWAI
         miningBuddy = *this->executors.begin();
       if (
            (
-             i->getOrderIDLocal() == BW::OrderID::MoveToMinerals || 
-             i->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 || 
-             i->getOrderIDLocal() == BW::OrderID::PlayerGuard
+             i->getOrderID() == BW::OrderID::MoveToMinerals || 
+             i->getOrderID() == BW::OrderID::HarvestMinerals2 || 
+             i->getOrderID() == BW::OrderID::PlayerGuard
            ) &&
-           i->getTargetLocal() != this->expansion->gatherCenter &&
+           i->getTarget() != this->expansion->gatherCenter &&
              (
-               i->getTargetLocal() != this->mineral
+               i->getTarget() != this->mineral
                ||
                (
                  i->getDistance(this->mineral) <= BWAPI::Broodwar.getLatency()*3 &&

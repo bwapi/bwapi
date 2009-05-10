@@ -206,7 +206,12 @@ namespace BWAI
 
       this->reserved.clear();
       for each (TaskBuild* i in this->plannedBuildings)
-        this->reserved += i->getReserved();
+      {
+        if (i->getBuilding() ==NULL)
+        {
+          this->reserved += i->getReserved();
+        }
+      }
 
     }
     catch (GeneralException& exception)
@@ -710,6 +715,13 @@ namespace BWAI
 		  BWAPI::Broodwar.print("Unknown attack command '%s' - possible values are: location", parsed[1].c_str());
       }
     }
+    else if (parsed[0] == "/res")
+    {
+      BWAPI::Broodwar.print("Actual: Min: %d Gas: %d",this->player->getMinerals(),this->player->getGas());
+      BWAPI::Broodwar.print("Reserved: Min: %d Gas: %d",this->reserved.minerals,this->reserved.gas);
+      BWAPI::Broodwar.print("Available: Min: %d Gas: %d",this->player->getMinerals()-this->reserved.minerals,this->player->getGas()-this->reserved.gas);
+
+    }
     else if (parsed[0] == "/reload")
     {
       if (parsed[1] == "map")
@@ -777,12 +789,12 @@ namespace BWAI
         if (i->isReady() &&
             i->getOwner() == player &&
               (
-               i->getOrderIDLocal() == BW::OrderID::PlayerGuard ||
-               i->getOrderIDLocal() == BW::OrderID::MoveToMinerals ||
-               i->getOrderIDLocal() == BW::OrderID::HarvestMinerals2 ||
-               i->getOrderIDLocal() == BW::OrderID::MiningMinerals ||
-               i->getOrderIDLocal() == BW::OrderID::ResetCollision2 ||
-               i->getOrderIDLocal() == BW::OrderID::ReturnMinerals
+               i->getOrderID() == BW::OrderID::PlayerGuard ||
+               i->getOrderID() == BW::OrderID::MoveToMinerals ||
+               i->getOrderID() == BW::OrderID::HarvestMinerals2 ||
+               i->getOrderID() == BW::OrderID::MiningMinerals ||
+               i->getOrderID() == BW::OrderID::ResetCollision2 ||
+               i->getOrderID() == BW::OrderID::ReturnMinerals
              ) &&
              (i->getType().isWorker()) &&
               i->getTask() == NULL)

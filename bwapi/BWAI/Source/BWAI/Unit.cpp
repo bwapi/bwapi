@@ -23,27 +23,17 @@ namespace BWAI
     return BWAI::ai->getUnit(unit->getIndex());
   }
   //----------------------------------------------- GET TARGET -----------------------------------------------
-  Unit* Unit::getTarget()
+  Unit* Unit::getTarget() const
   {
     return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getTarget());
   }
-  //-------------------------------------------- GET TARGET LOCAL --------------------------------------------
-  Unit* Unit::getTargetLocal()
-  {
-    return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getTargetLocal());
-  }
   //----------------------------------------------- GET TARGET -----------------------------------------------
-  Unit* Unit::getOrderTarget()
+  Unit* Unit::getOrderTarget() const
   {
     return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getOrderTarget());
   }
-  //-------------------------------------------- GET TARGET LOCAL --------------------------------------------
-  Unit* Unit::getOrderTargetLocal()
-  {
-    return BWAI::Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getOrderTargetLocal());
-  }
   //------------------------------------------------ GET NEXT ------------------------------------------------
-  Unit* Unit::getNext()
+  Unit* Unit::getNext() const
   {
     #ifdef PARANOID_DEBUG
     #pragma warning(push)
@@ -60,7 +50,7 @@ namespace BWAI
     return Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getNext());
   }
   //------------------------------------------------ GET TASK ------------------------------------------------
-  Task* Unit::getTask()
+  Task* Unit::getTask() const
   {
     return this->task;
   }

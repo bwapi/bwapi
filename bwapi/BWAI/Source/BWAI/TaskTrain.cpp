@@ -29,9 +29,9 @@ namespace BWAI
     for each (Unit* i in this->executors)
       if (i->isValid() &&
          !i->isLifted() &&
-            (i->hasEmptyBuildQueueLocal() ||
+            (i->hasEmptyBuildQueue() ||
             (
-              i->getBuildQueueLocal()[(i->getBuildQueueSlotLocal() + 1) % 5] == BW::UnitID::None &&
+              !i->hasFullBuildQueue() &&
               i->getBuildUnit() != NULL &&
               i->getBuildUnit()->getRemainingBuildTime() <= BWAPI::Broodwar.getLatency()
             ))
@@ -50,9 +50,9 @@ namespace BWAI
             best = j;
           }
         if (best != NULL && 
-            BWAI::ai->player->canAfford(best->unitType, BWAPI::ReservedResources()))
+            BWAI::ai->player->canAfford(best->unitType, BWAI::ai->reserved))
         {
-          BWAPI::Broodwar.printPublic("Attempting to train %s from LOCAL(%s), RAW(%s).", best->unitType.getName(), i->getTypeLocal().getName(), i->getType().getName());
+          BWAPI::Broodwar.printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
           i->trainUnit(best->unitType);
           if (i->getType() == BW::UnitID::Zerg_Larva ||
               i->getType() == BW::UnitID::Zerg_Hydralisk ||

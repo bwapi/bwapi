@@ -16,7 +16,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelTrain::execute()
   {
-   this->executors[0]->getBuildQueueLocal()[this->executors[0]->getBuildQueueSlotLocal()] = BW::UnitID::None;
+   this->executors[0]->getBuildQueue()[this->executors[0]->getBuildQueueSlot()] = BW::UnitID::None;
    this->executors[0]->getRawDataLocal()->buildQueueSlot =
     (this->executors[0]->getRawDataLocal()->buildQueueSlot + 1) % 5;
   }
