@@ -34,53 +34,26 @@ namespace BWAPI
            BW::Unit* bwOriginalUnit,
            BW::Unit* bwUnitLocal,
            u16 index);
-      /** Nothing is deleted as no data are owned.*/
       ~Unit();
-      /** Gets #bwUnit->BW#Unit#unitID */
       BW::UnitType getType() const;
-      BW::UnitType getTypeLocal() const;
-      /** Gets #bwUnit->BW#Unit#healthPoints. */
       u16 getHealthPoints() const; 
-      /** Gets #bwUnit->BW#Unit#shieldPoints. */
       u32 getShieldPoints() const; 
-      /** Gets #bwUnit->BW#Unit#position. */
       const BW::Position& getPosition() const;
       BW::TilePosition getTilePosition() const;
-      /** Gets #bwUnit->BW#Unit#orderTargetUnit. */
-      Unit* getTarget();
-      /** Gets #bwUnit->BW#Unit#targetUnit. */
-      const Unit* getTarget() const;
-      /** Gets #bwUnitLocal->BW#Unit#orderTargetUnit. */
-      Unit* getTargetLocal();
-      /** Gets #bwUnitLocal->BW#Unit#targetUnit. */
-      const Unit* getTargetLocal() const;
-      /** (const version) Gets #bwUnitLocal->BW#Unit#targetUnit. */
-      Unit* getOrderTarget();
-      /** Gets #bwUnit->BW#Unit#orderTargetUnit. */
-      const Unit* getOrderTarget() const;
-      /** (const version) Gets #bwUnitLocal->BW#Unit#orderTargetUnit. */
-      Unit* getOrderTargetLocal();
-      /**
-       * Gets owner of the unit defined by
-       * #bwUnitLocal->BW#Unit#orderTargetUnit.
-       */
-      const Unit* getOrderTargetLocal() const;
-       /** Gets #bwUnitLocal->BW#Unit#currentBuildUnit. */
-      Unit* getBuildUnit();
-      Unit* getChild();
-      /** Gets #bwUnit->BW#Unit#moveToPos */
+      Unit* getTarget() const;
+      Unit* getOrderTarget() const;
+      Unit* getBuildUnit() const;
+      Unit* getChild() const;
       BW::Position getTargetPosition() const;
-      /** (const version) Gets #bwUnitLocal->BW#Unit#moveToPos. */
-      BW::Position getTargetPositionLocal() const;
-      /**
-       * (const version) Gets owner of the unit defined by
-       * #bwUnit->BW#Unit#playerID.
-       */
       Player* getOwner() const;
-      /** Gets #bwUnit->BW#Unit#queueSlot. */
       u8 getBuildQueueSlot() const;
-      /** Gets #bwUnitLocal->BW#Unit#buildQueueSlot - @ref localData */
-      u8 getBuildQueueSlotLocal() const;
+      /** Gets #bwUnit->BW#Unit#buildQueue */
+      BW::UnitType* getBuildQueue() const;
+      /** Returns if the unit has empty building queue */
+      bool hasEmptyBuildQueue() const;
+      /** Returns if the unit has full building queue */
+      bool hasFullBuildQueue() const;
+
       /** Gets distance of unit edges. */
       u16 getDistance(Unit *unit) const; 
       /** Gets distance of unit center and position. */
@@ -89,23 +62,14 @@ namespace BWAPI
       u16 getCenterDistance(Unit *unit) const; 
       /**< Gets bwUnit->BW#Unit#orderID. */
       BW::OrderID::Enum getOrderID() const;
-      bool isIdle() const;
       /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
-      BW::OrderID::Enum getSecondaryOrderID() const;      
-      /**< Gets bwUnitLocal->BW#Unit#secondaryOrderID. */
-      BW::OrderID::Enum getSecondaryOrderIDLocal() const;      
-      /**< Gets bwUnitLocal->BW#Unit#orderID - @ref localData */
-      BW::OrderID::Enum getOrderIDLocal() const;
+      BW::OrderID::Enum getSecondaryOrderID() const;
+      bool isIdle() const;
       /* Timer specifiing how long it will take to finish the current order
        * (verified for mining).
        */
       u8 getOrderTimer() const;
       u16 getRemainingBuildTime() const;
-      /** Gets #bwUnit->BW#Unit#buildQueue */
-      BW::UnitType* getBuildQueue();
-      /** Gets #bwUnitLocal->BW#Unit#buildQueue - @ref localData*/
-      BW::UnitType* getBuildQueueLocal();
-      void order(int commandCode, const BW::Position& target);
       /**
        * Gets if the unit is alive (it exists), it uses hp > 0 heuristic for
        * now.
@@ -116,22 +80,12 @@ namespace BWAPI
       /** Gets if the unit construction is done */
       bool isCompleted() const;
       bool isLifted() const;
-      /** Gets #bwUnit */
-      BW::Unit *getRawData();
-      /** Gets #bwUnit (const version that returns const pointer) */
-      const BW::Unit *getRawData() const;
+
       /** Gets #bwOriginalUnit */
-      BW::Unit *getOriginalRawData();
-      /** Gets #bwOriginalUnit (const version that returns const pointer) */
-      const BW::Unit *getOriginalRawData() const;
+      BW::Unit *getOriginalRawData() const;
       /** Gets #bwUnitLocal */
-      BW::Unit *getRawDataLocal();
-      /** Gets #bwUnitLocal (const version that returns const pointer)*/
-      const BW::Unit *getRawDataLocal() const;
-      /** Returns if the unit has empty building queue */
-      bool hasEmptyBuildQueue();
-      /** Returns if the unit has empty building queue in the local version  - @ref localData*/
-      bool hasEmptyBuildQueueLocal();
+      BW::Unit *getRawDataLocal() const;
+
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
@@ -149,7 +103,7 @@ namespace BWAPI
       /**
        * Orders this unit to right click on the specified unit. Note that right
        * click on unit can result in lot of commands (attack, gather, follow,
-       * set relly point)
+       * set rally point)
        */
       void orderRightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
@@ -159,20 +113,27 @@ namespace BWAPI
       /** Orders to build the invent the specified tech. */
       void invent(BW::TechType tech);
       /** Orders to build the invent the specified upgrade. */
-      void upgrade(BW::UpgradeType upgrade);      
+      void upgrade(BW::UpgradeType upgrade);
       static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
       std::string getName() const;
-      Unit* getNext();
+      Unit* getNext() const;
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
       bool isMineral() const;
       /**
-       * Gets index of the un it in the unit array. Note that the index is same
+       * Gets index of the unit in the unit array. Note that the index is same
        * for the original unit array, BWAPI::Unit array and BWAI::Unit array, so
        * it is good way to compare units of different types and for conversion.
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;
+
     private:
+      /** Gets #bwUnit */
+      BW::Unit *getRawData() const;
+
+      bool hasEmptyBuildQueueSync() const;
+      BW::UnitType* getBuildQueueSync() const;
+      u8 getBuildQueueSlotSync() const;
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       /** Gets distance between two positions. */

@@ -24,17 +24,17 @@ namespace BWAPI
      this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::NukeTrain;
      return;
    }
-   int slotToAffect = this->executors[0]->getBuildQueueSlotLocal();
-   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitID::None)
+   int slotToAffect = this->executors[0]->getBuildQueueSlot();
+   if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
       slotToAffect  = (slotToAffect + 1) % 5;
    
-   if (this->executors[0]->getBuildQueueLocal()[slotToAffect] != BW::UnitID::None)
+   if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
    {
      this->failed = true;
      return;
    }
  
-   executors[0]->getBuildQueueLocal()[slotToAffect] = this->toTrain.getID();
+   executors[0]->getBuildQueue()[slotToAffect] = this->toTrain.getID();
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    this->executors[0]->getOwner()->spend(this->toTrain.getMineralPrice(),
                                          this->toTrain.getGasPrice());

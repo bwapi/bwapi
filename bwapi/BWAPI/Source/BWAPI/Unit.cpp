@@ -38,21 +38,17 @@ namespace BWAPI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   u16 Unit::getHealthPoints() const
   {
-    return bwUnit->healthPoints;
+    return this->getRawDataLocal()->healthPoints;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   u32 Unit::getShieldPoints() const
   {
-    return bwUnit->shieldPoints;
-  }
-  //------------------------------------------------- ORDER --------------------------------------------------
-  void Unit::order(int commandCode, const BW::Position& target)
-  {
+    return this->getRawDataLocal()->shieldPoints;
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* Unit::getOwner() const
   {
-    if (this->bwUnit->playerID < 12)
+    if (this->getRawDataLocal()->playerID < 12)
       return Broodwar.players[this->bwUnit->playerID];
     else 
       return NULL;
@@ -60,10 +56,10 @@ namespace BWAPI
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool Unit::isValid() const
   {
-    if (this->getOriginalRawData()->playerID > 11)
+    if (this->getRawDataLocal()->playerID > 11)
        return false;
     if (this->isMineral())
-      return  !this->getOriginalRawData()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
+      return  !this->getRawDataLocal()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
       return this->getHealthPoints() > 0 &&
              this->getType().isValid();
@@ -77,18 +73,18 @@ namespace BWAPI
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool Unit::isCompleted() const
   {
-    return this->getRawData()->status.getBit(BW::StatusFlags::Completed);
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
   //---------------------------------------------- IS Lifted ----------------------------------------------
   bool Unit::isLifted() const
   {
-    return this->getRawData()->status.getBit(BW::StatusFlags::InAir) &&
-           this->getRawData()->unitID.isBuilding();
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
+           this->getRawDataLocal()->unitID.isBuilding();
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BW::Position& Unit::getPosition() const
   {
-    return this->getRawData()->position;
+    return this->getRawDataLocal()->position;
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
   BW::TilePosition Unit::getTilePosition() const
@@ -97,99 +93,54 @@ namespace BWAPI
                         this->getPosition().y - this->getType().getTileHeight()*BW::TILE_SIZE/2);
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
-  Unit* Unit::getTarget()
+  Unit* Unit::getTarget() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
-  const Unit* Unit::getTarget() const
-  {
-    return Unit::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
-  }
-  //-------------------------------------------- GET TATGET LOCAL --------------------------------------------
-  Unit* Unit::getTargetLocal()
-  {
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->targetUnit);
-  }
-  //-------------------------------------------- GET TATGET LOCAL --------------------------------------------
-  const Unit* Unit::getTargetLocal() const
-  {
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->targetUnit);
-  }
-  //----------------------------------------------- GET TATGET -----------------------------------------------
-  Unit* Unit::getOrderTarget()
+  Unit* Unit::getOrderTarget() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
-  }
-  //----------------------------------------------- GET TATGET -----------------------------------------------
-  const Unit* Unit::getOrderTarget() const
-  {
-    return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
-  }
-  //-------------------------------------------- GET TATGET LCCAL --------------------------------------------
-  Unit* Unit::getOrderTargetLocal()
-  {
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
-  }
-  //-------------------------------------------- GET TATGET LCCAL --------------------------------------------
-  const Unit* Unit::getOrderTargetLocal() const
-  {
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* Unit::getBuildUnit()
+  Unit* Unit::getBuildUnit() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* Unit::getChild()
+  Unit* Unit::getChild() const
   {
     return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
   }
   //------------------------------------------ GET TATGET POSITION -------------------------------------------
   BW::Position Unit::getTargetPosition() const
   {
-   return this->getRawData()->moveToPos;
-  }
-  //--------------------------------------- GET TARGET POSITION LOCAL ----------------------------------------
-  BW::Position Unit::getTargetPositionLocal() const
-  {
-    return this->getRawDataLocal()->moveToPos;
+   return this->getRawDataLocal()->moveToPos;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
-  BW::Unit* Unit::getRawData()
-  {
-    return this->bwUnit;
-  }
-  //---------------------------------------------- GET RAW DATA ----------------------------------------------
-  const BW::Unit* Unit::getRawData() const
+  BW::Unit* Unit::getRawData() const
   {
     return this->bwUnit;
   }
   //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
-  BW::Unit* Unit::getRawDataLocal()
-  {
-    return this->bwUnitLocal;
-  }
-  //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
-  const BW::Unit* Unit::getRawDataLocal() const
+  BW::Unit* Unit::getRawDataLocal() const
   {
     return this->bwUnitLocal;
   }
   //----------------------------------------- GET ORIGINAL RAW DATA ------------------------------------------
-  BW::Unit* Unit::getOriginalRawData()
-  {
-    return this->bwOriginalUnit;
-  }
-  //----------------------------------------- GET ORIGINAL RAW DATA ------------------------------------------
-  const BW::Unit* Unit::getOriginalRawData() const
+  BW::Unit* Unit::getOriginalRawData() const
   {
     return this->bwOriginalUnit;
   }
   //---------------------------------------------- GET ORDER ID ----------------------------------------------
   BW::OrderID::Enum Unit::getOrderID() const
   {
-    return this->getRawData()->orderID;
+    return this->getRawDataLocal()->orderID;
+  }
+  //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
+  BW::OrderID::Enum Unit::getSecondaryOrderID() const
+  {
+    return this->getRawDataLocal()->secondaryOrderID;
   }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool Unit::isIdle() const
@@ -202,21 +153,6 @@ namespace BWAPI
             this->getOrderID() == BW::OrderID::Carrier ||
             this->getOrderID() == BW::OrderID::Critter ||
             this->getOrderID() == BW::OrderID::NukeTrain);
-  }
-  //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
-  BW::OrderID::Enum Unit::getSecondaryOrderID() const
-  {
-    return this->getRawData()->secondaryOrderID;
-  }
-  //-------------------------------------- GET SECONDARY ORDER ID LOCAL --------------------------------------
-  BW::OrderID::Enum Unit::getSecondaryOrderIDLocal() const
-  {
-    return this->getRawDataLocal()->secondaryOrderID;
-  }
-  //---------------------------------------------- GET ORDER ID ----------------------------------------------
-  BW::OrderID::Enum Unit::getOrderIDLocal() const
-  {
-    return this->getRawDataLocal()->orderID;
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
 
@@ -292,19 +228,24 @@ namespace BWAPI
   }
   #pragma warning(pop)
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
-  bool Unit::hasEmptyBuildQueue(void)
+  bool Unit::hasEmptyBuildQueueSync() const
   {
-    return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
+    return this->getBuildQueueSync()[this->getBuildQueueSlotSync()] == BW::UnitID::None;
   }
-  //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
-  bool Unit::hasEmptyBuildQueueLocal(void)
+  //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
+  bool Unit::hasEmptyBuildQueue() const
   {
-    if (this->getBuildQueueSlotLocal() < 5)
-      return this->getBuildQueueLocal()[this->getBuildQueueSlotLocal()] == BW::UnitID::None;
+    if (this->getBuildQueueSlot() < 5)
+      return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
     else
       return false;
   }
-  //------------------------------------------- ORDER Attack Location --------------------------------------------
+  //----------------------------------------- HAS FULL QUEUE LOCAL -------------------------------------------
+  bool Unit::hasFullBuildQueue() const
+  {
+    return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
+  }
+  //------------------------------------------- ORDER Attack Location ----------------------------------------
   void Unit::orderAttackLocation(BW::Position position, u8 orderID)
   {
     this->orderSelect();
@@ -372,20 +313,15 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BW::UnitType Unit::getType() const
   {
-   return this->getRawData()->unitID;
-  }
-  //--------------------------------------------- GET TYPE LOCAL ---------------------------------------------
-  BW::UnitType Unit::getTypeLocal() const
-  {
    return this->getRawDataLocal()->unitID;
   }
   //----------------------------------------------- GET QUEUE ------------------------------------------------
-  BW::UnitType* Unit::getBuildQueue()
+  BW::UnitType* Unit::getBuildQueueSync() const
   {
     return this->getRawData()->buildQueue;
   }
   //-------------------------------------------- GET QUEUE LOCAL  --------------------------------------------
-  BW::UnitType* Unit::getBuildQueueLocal()
+  BW::UnitType* Unit::getBuildQueue() const
   {
     return this->getRawDataLocal()->buildQueue;
   }
@@ -417,12 +353,12 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET QUEUE SLOT ---------------------------------------------
-  u8 Unit::getBuildQueueSlot() const
+  u8 Unit::getBuildQueueSlotSync() const
   {
     return this->getRawData()->buildQueueSlot;
   }
   //------------------------------------------ GET QUEUE SLOT LOCAL ------------------------------------------
-  u8 Unit::getBuildQueueSlotLocal() const
+  u8 Unit::getBuildQueueSlot() const
   {
     return this->getOriginalRawData()->buildQueueSlot;
   }
@@ -484,7 +420,7 @@ namespace BWAPI
         BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
       sprintf(connectedUnit, "(childUnit1 = NULL)");
     else
-      sprintf(connectedUnit, "(childUnit1 = %s)", BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1)->getType().getName());
+      sprintf(connectedUnit, "(childUnit1 = %s)", this->getChild()->getType().getName());
 
     sprintf(orderName,"(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
     sprintf(message,"%s %s %s %s %s %s %s %s", unitName,
@@ -499,7 +435,7 @@ namespace BWAPI
     return std::string(message);
   }
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
-  Unit* Unit::getNext()
+  Unit* Unit::getNext() const
   {
     #ifdef PARANOID_DEBUG
     #pragma warning(push)
@@ -513,12 +449,12 @@ namespace BWAPI
     }
     #pragma warning(pop)
     #endif PARANOID_DEBUG
-    return Unit::BWUnitToBWAPIUnit(this->getOriginalRawData()->nextUnit);
+    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->nextUnit);
   }
   //-------------------------------------------- GET ORDER TIMER ---------------------------------------------
   u8 Unit::getOrderTimer() const
   {
-     return this->getOriginalRawData()->mainOrderTimer;
+     return this->getRawDataLocal()->mainOrderTimer;
   }
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   u16 Unit::getRemainingBuildTime() const

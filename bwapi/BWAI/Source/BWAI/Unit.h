@@ -23,14 +23,12 @@ namespace BWAI
        * Gets #bwUnit->BW#Unit#targetUnit. 
        * This is similar to BWAPI#Unit#getTarget, it just get's the unit from ai scope
        */
-      Unit* getTarget();
-      Unit* getTargetLocal();
-      Unit* getOrderTarget();
-      Unit* getOrderTargetLocal();
-      Unit* getNext();
+      Unit* getTarget() const;
+      Unit* getOrderTarget() const;
+      Unit* getNext() const;
       int lastFrameSpam;
       
-      Task* getTask();
+      Task* getTask() const;
       void freeFromTask();
       void clearTask();
       void setTask(Task* task);
