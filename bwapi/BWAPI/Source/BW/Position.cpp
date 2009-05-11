@@ -35,16 +35,22 @@ namespace BW
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool Position::operator == (BW::Position& position) const
+  bool Position::operator == (const BW::Position& position) const
   {
     return this->x == position.x &&
            this->y == position.y;
   }
   //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool Position::operator != (BW::Position& position) const
+  bool Position::operator != (const BW::Position& position) const
   {
     return this->x != position.x ||
            this->y != position.y;
+  }
+  //---------------------------------------------- OPERATOR < ------------------------------------------------
+  bool Position::operator  < (const BW::Position& position) const
+  {
+    return this->x < position.x ||
+           (this->x==position.x && this->y < position.y);
   }
   //----------------------------------------------------------------------------------------------------------
   u16 Position::getDistance(const Position &position) const

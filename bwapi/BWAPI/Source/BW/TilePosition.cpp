@@ -34,16 +34,22 @@ namespace BW
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool TilePosition::operator == (TilePosition& TilePosition)
+  bool TilePosition::operator == (const TilePosition& TilePosition) const
   {
     return this->x == TilePosition.x &&
            this->y == TilePosition.y;
   }
   //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool TilePosition::operator != (TilePosition& TilePosition)
+  bool TilePosition::operator != (const TilePosition& TilePosition) const
   {
     return this->x != TilePosition.x ||
            this->y != TilePosition.y;
+  }
+  //---------------------------------------------- OPERATOR < ------------------------------------------------
+  bool TilePosition::operator < (const TilePosition& TilePosition) const
+  {
+    return this->x < TilePosition.x ||
+           (this->x == TilePosition.x && this->y < TilePosition.y);
   }
   //----------------------------------------------------------------------------------------------------------
   bool TilePosition::isValid()
