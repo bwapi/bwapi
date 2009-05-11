@@ -11,6 +11,7 @@ namespace BWAPI { class Command; }
 #include <vector>
 #include <list>
 #include <map>
+#include <set>
 #include <windows.h>
 
 #include <Util/RectangleArray.h>
@@ -20,6 +21,7 @@ namespace BWAPI { class Command; }
 #include <BW/Latency.h>
 #include <BW/TechType.h>
 #include <BW/UpgradeType.h>
+#include <BW/Position.h>
 
 #include <BWAPI/Map.h>
 /**
@@ -36,6 +38,9 @@ namespace BWAPI
       ~Game();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       Player* players[12];
+
+      const std::set< BW::TilePosition >& getStartLocations() const;
+
       /**
        * Prints text in game (only local)
        * @param text Text to be written
@@ -109,7 +114,8 @@ namespace BWAPI
       bool enabled;
       Map map;
       Unit* getFirst();
-   private :
+    private :
+      std::set<BW::TilePosition> startLocations;
       Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
       std::vector<Unit*> units;
       /** Count of game-frames passed from game start. */

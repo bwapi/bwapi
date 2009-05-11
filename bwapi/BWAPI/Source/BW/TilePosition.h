@@ -14,8 +14,9 @@ namespace BW
       TilePosition(const Position& position);
       TilePosition(TiXmlElement* xmlElement);
       TilePosition(u16 x, u16 y);
-      bool operator == (BW::TilePosition& TilePosition);
-      bool operator != (BW::TilePosition& TilePosition);
+      bool operator == (const BW::TilePosition& TilePosition) const;
+      bool operator != (const BW::TilePosition& TilePosition) const;
+      bool operator  < (const BW::TilePosition& TilePosition) const;
       u16 x;
       u16 y;
       bool isValid();

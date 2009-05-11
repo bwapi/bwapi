@@ -131,6 +131,11 @@ namespace BWAPI
     delete this->fatalError;
     delete this->configuration;
   }
+  const std::set< BW::TilePosition >& Game::getStartLocations() const
+  {
+    return this->startLocations;
+  }
+
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void Game::IssueCommand(PBYTE pbBuffer, u32 iSize) 
   {
@@ -321,6 +326,15 @@ namespace BWAPI
            this->players[i]->getForceName() != "Observer" &&
            this->BWAPIPlayer->getAlliance(i) == 0)
         this->opponent = this->players[i];
+
+    BW::Positions* posptr=BW::startPositions;
+    startLocations.clear();
+    while (posptr->x!=0 || posptr->y!=0)
+    {
+      startLocations.insert(BW::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
+                                             (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
+      posptr++;
+    }
  
   }
 
