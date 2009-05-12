@@ -29,9 +29,10 @@ namespace BW
   public :
     UnitType(); /**< Default constructor orderId will be BW::OrderID::None. */
     UnitType(const BW::UnitID::Enum& id); /**< Conversion constructor */
-    bool operator == (const BW::UnitID::Enum& id);
-    bool operator != (const BW::UnitID::Enum& id);
-    bool operator == (const UnitType& type);
+    bool operator == (const BW::UnitID::Enum& id) const;
+    bool operator != (const BW::UnitID::Enum& id) const;
+    bool operator == (const UnitType& type) const;
+    bool operator  < (const UnitType& type) const;
     const char*           getName() const;
     BW::UnitID::Enum      getID() const;
     s8                    getSupplies() const;
