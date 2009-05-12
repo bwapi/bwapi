@@ -40,6 +40,7 @@ namespace BWAPI
       Player* players[12];
 
       const std::set< BW::TilePosition >& getStartLocations() const;
+      const std::set< BW::UnitType >& allUnitTypes() const;
 
       /**
        * Prints text in game (only local)
@@ -116,6 +117,7 @@ namespace BWAPI
       Unit* getFirst();
     private :
       std::set<BW::TilePosition> startLocations;
+      std::set< BW::UnitType > unitTypes;
       Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
       std::vector<Unit*> units;
       /** Count of game-frames passed from game start. */

@@ -41,14 +41,14 @@ namespace PathFinding
     }
     for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
       count[i] = 0;
-    for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for (std::set< BW::UnitType >::const_iterator i=BWAPI::Broodwar.allUnitTypes().begin();
+      i!=BWAPI::Broodwar.allUnitTypes().end();i++)
     {
-      BW::UnitType type((BW::UnitID::Enum)i);
+      BW::UnitType type=(*i);
       if (type.isBuilding() ||
           type.isFlayer() ||
           type.isNeutral())
         {
-          this->precomputedPlacebility[i] = NULL;
           continue;
         }
       int borderLeft   = (type.dimensionLeft()  + 7)/8;
@@ -61,22 +61,26 @@ namespace PathFinding
                        (borderBottom << 24);
       std::map<u32, Util::RectangleArray<bool>*>::iterator value = this->precomputedPlacebilityContent.find(dimensions);
       if (value != this->precomputedPlacebilityContent.end())
-        this->precomputedPlacebility[i] = (*value).second;
+        this->precomputedPlacebility[type] = (*value).second;
       else
       {
-        this->precomputedPlacebility[i] = new Util::RectangleArray<bool>(BWAPI::Map::getWidth()*4  + 2, 
+        Util::RectangleArray<bool>* newWalkMap = new Util::RectangleArray<bool>(BWAPI::Map::getWidth()*4  + 2, 
                                                                          BWAPI::Map::getHeight()*4 + 2);
+        this->precomputedPlacebility[type]=newWalkMap;
         this->precomputedPlacebilityContent.insert(std::pair<u32, Util::RectangleArray<bool>*>
-                                                            (dimensions, this->precomputedPlacebility[i]));
-        precomputedPlacebility[i]->setTo(false);  
+                                                            (dimensions, newWalkMap));
+        newWalkMap->setTo(false);
         WalkabilityPosition here;
-        for (unsigned int x = borderLeft; x < precomputedPlacebility[i]->getWidth() - borderRight; x++)
+        int width=precomputedPlacebility[type]->getWidth();
+        int height=precomputedPlacebility[type]->getHeight();
+
+        for (unsigned int x = borderLeft; x < newWalkMap->getWidth() - borderRight; x++)
         {
           here.x = x;
-          for (unsigned int y = borderTop; y < precomputedPlacebility[i]->getHeight() - borderBottom; y++)
+          for (unsigned int y = borderTop; y < newWalkMap->getHeight() - borderBottom; y++)
           {
             here.y = y;
-            (*precomputedPlacebility[i])[x][y] = !Utilities::conflictsWithMap(here, type);
+            (*newWalkMap)[x][y] = !Utilities::conflictsWithMap(here, type);
           }
         }
       }
@@ -279,9 +283,9 @@ namespace PathFinding
   //----------------------------------------------------------------------------------------------------------
   bool Utilities::canStay(const BW::UnitType& type, const WalkabilityPosition& position) const
   {
-    if (!this->precomputedPlacebility[type.getID()])
+    if (this->precomputedPlacebility.find(type)==this->precomputedPlacebility.end())
       return true;
-    return (*this->precomputedPlacebility[type.getID()])[position.x][position.y];
+    return (*(this->precomputedPlacebility.find(type)->second))[position.x][position.y];
   }
   //----------------------------------------------------------------------------------------------------------
 }

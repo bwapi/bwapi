@@ -1,4 +1,4 @@
-#include "..//..//BWAPI//Source//BW//Position.h"
+#include "BW/Position.h"
 #include <string>
 class  TiXmlElement;
 

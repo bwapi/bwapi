@@ -103,6 +103,8 @@ namespace BWAPI
 
       this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
       //this->latency = BW::Latency::LanLow;
+      for(int i=0;i<BW::UNIT_TYPE_COUNT;i++)
+        unitTypes.insert(BW::UnitType((BW::UnitID::Enum)i));
     }
     catch (GeneralException& exception)
     {
@@ -134,6 +136,10 @@ namespace BWAPI
   const std::set< BW::TilePosition >& Game::getStartLocations() const
   {
     return this->startLocations;
+  }
+  const std::set< BW::UnitType >& Game::allUnitTypes() const
+  {
+    return this->unitTypes;
   }
 
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------

@@ -21,20 +21,25 @@ namespace BW
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator ==(const BW::UnitID::Enum& id)
+  bool UnitType::operator ==(const BW::UnitID::Enum& id) const
   {
     return id == this->id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator !=(const BW::UnitID::Enum& id)
+  bool UnitType::operator !=(const BW::UnitID::Enum& id) const
   {
     return id != this->id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator ==(const UnitType& type)
+  bool UnitType::operator ==(const UnitType& type) const
   {
     return this->id == type.id;
-  }  
+  }
+  //---------------------------------------------- OPERATOR < ------------------------------------------------
+  bool UnitType::operator <(const UnitType& type) const
+  {
+    return this->id < type.id;
+  }
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* UnitType::getName() const
   {
