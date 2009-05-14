@@ -6,6 +6,7 @@
 
 namespace BWAI  { class Task; }
 namespace BWAI  { class Expansion; }
+namespace BWAI  { class Player; }
 
 namespace BWAI
 {
@@ -26,6 +27,7 @@ namespace BWAI
       Unit* getTarget() const;
       Unit* getOrderTarget() const;
       Unit* getNext() const;
+      Player* getOwner() const;
       int lastFrameSpam;
       
       Task* getTask() const;

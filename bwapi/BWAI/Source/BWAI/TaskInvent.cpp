@@ -2,7 +2,7 @@
 
 #include "Globals.h"
 #include <Util/Logger.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
 
 namespace BWAI
 {
@@ -45,7 +45,7 @@ namespace BWAI
     for each (Unit* i in this->executors)
       if (i->isReady() &&
           i->getOrderID() == BW::OrderID::Nothing2 &&
-          i->getOwner()->canAfford(this->techType, BWAPI::ReservedResources()))
+          i->getOwner()->canAfford(this->techType))
       {
         this->executors.front()->invent(this->techType);
         break;

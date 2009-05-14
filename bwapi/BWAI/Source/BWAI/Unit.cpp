@@ -49,6 +49,11 @@ namespace BWAI
     #endif PARANOID_DEBUG
     return Unit::BWAPIUnitToBWAIUnit(this->BWAPI::Unit::getNext());
   }
+  //------------------------------------------------ GET OWNER -----------------------------------------------
+  Player* Unit::getOwner() const
+  {
+    return ai->getPlayer(this->BWAPI::Unit::getOwner());
+  }
   //------------------------------------------------ GET TASK ------------------------------------------------
   Task* Unit::getTask() const
   {

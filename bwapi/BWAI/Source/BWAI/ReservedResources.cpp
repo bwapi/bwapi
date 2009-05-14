@@ -1,6 +1,6 @@
 #include "ReservedResources.h"
 
-namespace BWAPI
+namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ReservedResources::ReservedResources()

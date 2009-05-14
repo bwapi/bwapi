@@ -7,7 +7,7 @@
 #include <BW/TechType.h>
 #include <BWAI/Globals.h>
 #include <BWAI/TaskInvent.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
 #include <BWAPI/Globals.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
@@ -29,7 +29,7 @@ namespace BuildOrder
       BWAI::ai->root->log->log("Unknown invention name '%s'", this->name.c_str());
       return true;
     }
-    if (BWAI::ai->player->canAfford(toInvent, BWAI::ai->reserved) &&
+    if (BWAI::ai->player->canAfford(toInvent) &&
         this->conditionApplies()) 
     {
       BWAI::ai->root->log->log("Command to invent '%s' called", this->name.c_str());

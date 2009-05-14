@@ -8,7 +8,7 @@
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
 #include <BWAPI/ScreenLogger.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
 #include <BWAI/Globals.h>
 #include "Branch.h"
 #include "RootBranch.h"

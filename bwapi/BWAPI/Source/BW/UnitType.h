@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 #include <Util/Bitmask.h>
 #include <Util/Types.h>
@@ -9,6 +10,8 @@
 #include "UnitPrototypeFlags.h"
 #include "GroupFlags.h"
 #include "UnitID.h"
+#include "TechID.h"
+#include "Offsets.h"
 
 
 namespace BW
@@ -79,9 +82,11 @@ namespace BW
     bool                 isValid();
     /** Used to determine what building builds this addon. Can be extended later if needed.*/
     BW::UnitType         whereToBuild();
+    const std::map< BW::UnitType, int >& getRequiredUnits() const;
+    BW::TechID::Enum        getRequiredTech() const;
     u16                  getSupplyProduced();
     BW::UnitID::Enum id;
-
+    static void initialize();
   private :
     Util::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
     Util::BitMask<BW::GroupFlags::Enum> getGroupFlags() const;

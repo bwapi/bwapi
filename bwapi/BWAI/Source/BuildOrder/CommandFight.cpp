@@ -54,7 +54,7 @@ namespace BuildOrder
           if (!i->getType().isBuilding() &&
             !i->getType().isWorker() &&
             i->getType().canMove() &&
-            i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
+            i->getOwner() == BWAI::ai->player &&
             i->getTask() == NULL)
           {
             addedCount++;

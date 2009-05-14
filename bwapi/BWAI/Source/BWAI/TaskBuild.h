@@ -1,7 +1,7 @@
 #pragma once
 
 #include <BW/TilePosition.h>
-#include <BWAPI/ReservedResources.h>
+#include <BWAI/ReservedResources.h>
 
 #include "Task.h"
 #include "BuildingPosition.h"
@@ -40,7 +40,7 @@ namespace BWAI
       TaskType::Enum getType();
       Unit* getBuilding();
       void buildingDied();
-      BWAPI::ReservedResources getReserved();
+      BWAI::ReservedResources getReserved();
     private :  
       BW::UnitType buildingType;
       BuildingPosition* position;

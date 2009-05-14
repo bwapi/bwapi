@@ -24,6 +24,7 @@ namespace BWAPI { class Command; }
 #include <BW/Position.h>
 
 #include <BWAPI/Map.h>
+#include <BWAPI/Flag.h>
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
  * data.
@@ -115,6 +116,10 @@ namespace BWAPI
       bool enabled;
       Map map;
       Unit* getFirst();
+
+      bool isFlagEnabled(BWAPI::Flag::Enum flag);
+      void enableFlag(BWAPI::Flag::Enum flag);
+      void lockFlags();
     private :
       std::set<BW::TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
@@ -152,6 +157,8 @@ namespace BWAPI
        * to be called.
        */
       bool reselected;
+      bool flags[BWAPI::FLAG_COUNT];
+      bool flagsLocked;
   };
 };
  

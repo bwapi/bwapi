@@ -12,7 +12,7 @@ namespace BW { struct Unit; };
 #include <BW/Offsets.h>
 #include <BW/Race.h>
 
-#include <BWAPI/ReservedResources.h>
+#include <BWAI/ReservedResources.h>
 
 namespace BWAPI
 {
@@ -78,27 +78,6 @@ namespace BWAPI
      * performed
      */
     void update();
-    /**
-     * Checks unit availability for current player, could be probably solved by reading something in memory
-     * but we didn't find the address so far, so we have to write the logic on our own.
-     */
-    bool canBuild(BW::UnitType unit);
-    /**
-     * Finds out if the current player can afford to build the specified unit atm Checks minerals, gas and
-     * supply need
-     * @param unit Unit type to be checked
-     * @param reserved Resources reserved already by other tasks
-     * @returns @c true if the unit can be trained, @c false otherwise.
-     */
-    bool canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved);
-    /**
-     * Finds out if the current player can afford to invent the specified tech atm Checks minerals and gas.
-     * @param tech Tech type to be checked
-     * @param reserved Resources reserved already by other tasks
-     * @returns @c true if the tech can be invented, @c false otherwise.
-     */
-    bool canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved);
-    bool canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved);
     /** Gets the starting race of the player. */
     BW::Race::Enum getRace();
     u8 getAlliance(u8 opposingID);
@@ -109,10 +88,7 @@ namespace BWAPI
     s32 getCompletedUnits(BW::UnitType unit);
     s32 getCompletedUnits(BW::UnitType unit, BW::Race::Enum race);
     s32 getIncompleteUnits(BW::UnitType unit);
-    
-    s32 getAllUnitsLocal(BW::UnitType unit);
-    s32 getIncompleteUnitsLocal(BW::UnitType unit);
-    
+        
     s32 getDeaths(BW::UnitType unit);
     s32 getKills(BW::UnitType unit);
     void planToMake(BW::UnitType unit);

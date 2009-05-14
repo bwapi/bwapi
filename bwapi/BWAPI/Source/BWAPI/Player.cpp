@@ -110,149 +110,6 @@ namespace BWAPI
   {
     this->suppliesUsedLocal[race] += supplies;
   }
-  //----------------------------------------------- CAN BUILD ------------------------------------------------
-  bool Player::canBuild(BW::UnitType unit)
-  {
-    switch (unit.getID())
-    {
-// Terran
-     case BW::UnitID::Terran_Medic           :
-     case BW::UnitID::Terran_Firebat         : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Barracks) != 0;
-     case BW::UnitID::Terran_Ghost           : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_CovertOps) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Barracks) != 0;
-     case BW::UnitID::Terran_ComsatStation   : return this->getCompletedUnits(BW::UnitID::Terran_Academy) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_CommandCenter) != 0;
-     case BW::UnitID::Terran_Marine          :
-     case BW::UnitID::Terran_Academy         :
-     case BW::UnitID::Terran_Bunker          :
-     case BW::UnitID::Terran_Factory         : return this->getCompletedUnits(BW::UnitID::Terran_Barracks) != 0;
-     case BW::UnitID::Terran_Vulture         :
-     case BW::UnitID::Terran_Armory          :
-     case BW::UnitID::Terran_MachineShop     :
-     case BW::UnitID::Terran_Starport        : return this->getCompletedUnits(BW::UnitID::Terran_Factory) != 0;
-     case BW::UnitID::Terran_SiegeTankSiegeMode :
-     case BW::UnitID::Terran_SiegeTankTankMode : return this->getCompletedUnits(BW::UnitID::Terran_Factory) != 0 &&
-                                                        this->getCompletedUnits(BW::UnitID::Terran_MachineShop) != 0;
-     case BW::UnitID::Terran_Goliath         : return this->getCompletedUnits(BW::UnitID::Terran_Factory) != 0 &&
-                                                        this->getCompletedUnits(BW::UnitID::Terran_Armory) != 0;
-     case BW::UnitID::Terran_ControlTower    :
-     case BW::UnitID::Terran_Wraith          :
-     case BW::UnitID::Terran_ScienceFacility : return this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0;
-     case BW::UnitID::Terran_Dropship        : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0;
-     case BW::UnitID::Terran_Battlecruiser   : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_PhysicsLab) != 0;
-     case BW::UnitID::Terran_ScienceVessel   : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_ScienceFacility) != 0;
-     case BW::UnitID::Terran_Valkyrie        : return this->getCompletedUnits(BW::UnitID::Terran_ControlTower) != 0 && 
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Starport) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Terran_Armory) != 0;
-     case BW::UnitID::Terran_PhysicsLab      :
-     case BW::UnitID::Terran_CovertOps       : return this->getCompletedUnits(BW::UnitID::Terran_ScienceFacility) != 0;
-     case BW::UnitID::Terran_SCV             :
-	   case BW::UnitID::Terran_Barracks        :
-	   case BW::UnitID::Terran_EngineeringBay  : return this->getCompletedUnits(BW::UnitID::Terran_CommandCenter) != 0;
-     case BW::UnitID::Terran_MissileTurret   : return this->getCompletedUnits(BW::UnitID::Terran_EngineeringBay) != 0;
-// Protoss
-     case BW::UnitID::Protoss_Probe          :
-     case BW::UnitID::Protoss_Forge          : 
-     case BW::UnitID::Protoss_Gateway        : return this->getCompletedUnits(BW::UnitID::Protoss_Nexus) != 0;
-     case BW::UnitID::Protoss_PhotonCannon   : return this->getCompletedUnits(BW::UnitID::Protoss_Forge) != 0;
-     case BW::UnitID::Protoss_Zealot         :
-     case BW::UnitID::Protoss_CyberneticsCore:
-     case BW::UnitID::Protoss_ShieldBattery  : return this->getCompletedUnits(BW::UnitID::Protoss_Gateway) != 0;
-     case BW::UnitID::Protoss_HighTemplar    : 
-     case BW::UnitID::Protoss_DarkTemplar    : return this->getCompletedUnits(BW::UnitID::Protoss_Gateway) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_TemplarArchives) != 0;
-     case BW::UnitID::Protoss_CitadelOfAdun  :
-     case BW::UnitID::Protoss_Stargate       :
-     case BW::UnitID::Protoss_RoboticsFacility : return this->getCompletedUnits(BW::UnitID::Protoss_CyberneticsCore) != 0;
-     case BW::UnitID::Protoss_Dragoon        : return this->getCompletedUnits(BW::UnitID::Protoss_CyberneticsCore) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_Gateway) != 0;
-     case BW::UnitID::Protoss_Shuttle        :
-     case BW::UnitID::Protoss_Observatory    :
-     case BW::UnitID::Protoss_RoboticsSupportBay : return this->getCompletedUnits(BW::UnitID::Protoss_RoboticsFacility) != 0;
-     case BW::UnitID::Protoss_Reaver         : return this->getCompletedUnits(BW::UnitID::Protoss_RoboticsFacility) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_RoboticsSupportBay) != 0;
-     case BW::UnitID::Protoss_Observer       : return this->getCompletedUnits(BW::UnitID::Protoss_RoboticsFacility) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_Observatory) != 0;
-     case BW::UnitID::Protoss_Scout          :
-     case BW::UnitID::Protoss_Corsair        :
-     case BW::UnitID::Protoss_FleetBeacon    : return this->getCompletedUnits(BW::UnitID::Protoss_Stargate) != 0;
-     case BW::UnitID::Protoss_Carrier        : return this->getCompletedUnits(BW::UnitID::Protoss_Stargate) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_FleetBeacon) !=0;
-     case BW::UnitID::Protoss_Arbiter        : return this->getCompletedUnits(BW::UnitID::Protoss_Stargate) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_ArbiterTribunal) !=0;
-     case BW::UnitID::Protoss_TemplarArchives: return this->getCompletedUnits(BW::UnitID::Protoss_CitadelOfAdun) != 0;
-     case BW::UnitID::Protoss_ArbiterTribunal: return this->getCompletedUnits(BW::UnitID::Protoss_FleetBeacon) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Protoss_TemplarArchives) != 0;
-//Zerg
-     case BW::UnitID::Zerg_Overlord          : 
-     case BW::UnitID::Zerg_Drone             : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0;
-     case BW::UnitID::Zerg_SpawningPool      :
-     case BW::UnitID::Zerg_CreepColony       :
-     case BW::UnitID::Zerg_EvolutionChamber  : return this->getCompletedUnits(BW::UnitID::Zerg_Main) != 0;
-     case BW::UnitID::Zerg_Spire             :
-     case BW::UnitID::Zerg_QueensNest        : return this->getCompletedUnits(BW::UnitID::Zerg_MainLair) != 0;
-     case BW::UnitID::Zerg_DefilerMound      :
-     case BW::UnitID::Zerg_NydusCanal        :
-     case BW::UnitID::Zerg_UltraliskCavern   : return this->getCompletedUnits(BW::UnitID::Zerg_Hive) != 0;
-     case BW::UnitID::Zerg_GreaterSpire      : return this->getCompletedUnits(BW::UnitID::Zerg_Hive) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_Spire) != 0;
-     case BW::UnitID::Zerg_SunkenColony      : return this->getCompletedUnits(BW::UnitID::Zerg_CreepColony) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
-     case BW::UnitID::Zerg_SporeColony       : return this->getCompletedUnits(BW::UnitID::Zerg_CreepColony) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_EvolutionChamber) != 0;
-     case BW::UnitID::Zerg_Lair              : return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_Hatchery) != 0;
-     case BW::UnitID::Zerg_Hive              : return this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_Lair) != 0;
-     case BW::UnitID::Zerg_HydraliskDen      : return this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
-     case BW::UnitID::Zerg_Zergling          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_SpawningPool) != 0;
-     case BW::UnitID::Zerg_Hydralisk         : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_HydraliskDen) != 0;
-     case BW::UnitID::Zerg_Scourge           :
-     case BW::UnitID::Zerg_Mutalisk          : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_Spire) != 0;
-     case BW::UnitID::Zerg_Devourer          :
-     case BW::UnitID::Zerg_Guardian          : return this->getCompletedUnits(BW::UnitID::Zerg_Mutalisk) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_GreaterSpire) != 0;
-     case BW::UnitID::Zerg_Queen             : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_QueensNest) != 0;
-     case BW::UnitID::Zerg_Defiler           : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_DefilerMound) != 0;
-     case BW::UnitID::Zerg_Ultralisk         : return this->getCompletedUnits(BW::UnitID::Zerg_Larva) != 0 &&
-                                                      this->getCompletedUnits(BW::UnitID::Zerg_UltraliskCavern) != 0;
-     case BW::UnitID::Zerg_InfestedTerran    : return this->getCompletedUnits(BW::UnitID::Zerg_InfestedCommandCenter) != 0;
-     case BW::UnitID::Zerg_Lurker            : return this->getCompletedUnits(BW::UnitID::Zerg_Hydralisk) != 0 &&
-                                                      this->techResearched(BW::TechID::LurkerAspect);
-     default                                 : return true;
-    }
-  }
-  //----------------------------------------------- CAN AFFORD -----------------------------------------------
-  bool Player::canAfford(BW::UnitType unit, const BWAPI::ReservedResources& reserved)
-  {
-    return ((int)this->getSuppliesFree(unit.getRace())) - reserved.supply   >= unit.getSupplies() &&
-           ((int)this->getMinerals())                   - reserved.minerals >= unit.getMineralPrice() &&
-           ((int)this->getGas())                        - reserved.gas      >= unit.getGasPrice();
-  }
-  //----------------------------------------------- CAN AFFORD -----------------------------------------------
-  bool Player::canAfford(BW::TechType tech, const BWAPI::ReservedResources& reserved)
-  {
-    return ((int)this->getMinerals()) - reserved.minerals >= tech.getMineralPrice() &&
-           ((int)this->getGas())      - reserved.gas      >= tech.getGasPrice();
-  }
-  //----------------------------------------------- CAN AFFORD -----------------------------------------------
-  bool Player::canAfford(BW::UpgradeType upgrade, u8 level, const BWAPI::ReservedResources& reserved)
-  {
-    return ((int)this->getMinerals()) - reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-           ((int)this->getGas())      - reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
-  }
   //------------------------------------------------ GET RACE ------------------------------------------------
   BW::Race::Enum Player::getRace()
   {
@@ -276,7 +133,7 @@ namespace BWAPI
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   s32 Player::getAllUnits(BW::UnitType unit)
   {
-    return this->evaluateCounts(BW::BWDATA_Counts->all, unit);
+    return this->evaluateCounts(BW::BWDATA_Counts->all, unit) + this->toMake[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
   s32 Player::getCompletedUnits(BW::UnitType unit)
@@ -291,17 +148,7 @@ namespace BWAPI
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 Player::getIncompleteUnits(BW::UnitType unit)
   {
-    return this->getAllUnits(unit) - this->getCompletedUnits(unit);
-  }
-  //--------------------------------------------- GET ALL UNITS ----------------------------------------------
-  s32 Player::getAllUnitsLocal(BW::UnitType unit)
-  {
-    return this->getAllUnits(unit) + this->toMake[unit.getID()];
-  }
-  //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
-  s32 Player::getIncompleteUnitsLocal(BW::UnitType unit)
-  {
-    return this->getIncompleteUnits(unit) + toMake[unit.getID()];
+    return this->getAllUnits(unit) - this->getCompletedUnits(unit) + toMake[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
   s32 Player::getDeaths(BW::UnitType unit)

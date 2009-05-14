@@ -1,3 +1,4 @@
+#pragma once
 namespace BW
 {
   /** Direct mapping of bw's player type */

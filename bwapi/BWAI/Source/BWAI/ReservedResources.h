@@ -2,7 +2,7 @@
 
 #include <Util/Types.h>
 
-namespace BWAPI
+namespace BWAI
 {
   class ReservedResources
   {

@@ -1,6 +1,6 @@
 #include "OrderTypes.h"
-#include "..\\BWAPI\\Unit.h"
-#include "Offsets.h"
+#include <BWAPI/Unit.h>
+#include <BW/Offsets.h>
 #include <Util/Exceptions.h>
 namespace BW
 {

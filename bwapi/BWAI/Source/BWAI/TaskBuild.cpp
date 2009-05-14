@@ -4,7 +4,8 @@
 #include <Util/Types.h>
 #include <BW/UnitType.h>
 #include <BW/OrderID.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
+#include <BWAI/ReservedResources.h>
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
 
@@ -56,7 +57,7 @@ namespace BWAI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   bool TaskBuild::execute()
   {
-    if (BWAI::ai->buildTaskUnitsPlanned[(u16)this->buildingType.getID()] - BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(this->buildingType) > 0)
+    if (BWAI::ai->buildTaskUnitsPlanned[(u16)this->buildingType.getID()] - BWAI::ai->player->getCompletedUnits(this->buildingType) > 0)
     {
       if (!this->executors.empty() &&
           this->building != NULL &&
@@ -99,7 +100,7 @@ namespace BWAI
       {
         if (this->building == NULL &&
             this->executors.front()->getOrderID() == BW::OrderID::Nothing2 &&
-            BWAI::ai->player->canAfford(this->buildingType, BWAI::ai->reserved))
+            BWAI::ai->player->canAfford(this->buildingType))
           this->executors.front()->build(this->spot, this->getBuildingType());
         return false;
       }
@@ -172,7 +173,7 @@ namespace BWAI
               if (this->executors.front()->getOrderID() != BW::OrderID::BuildTerran &&
                   this->executors.front()->getOrderID() != BW::OrderID::BuildProtoss1 &&
                   this->executors.front()->getOrderID() != BW::OrderID::DroneStartBuild &&
-                  this->executors.front()->getOwner()->canAfford(buildingType, BWAPI::ReservedResources()))
+                  this->executors.front()->getOwner()->canAffordNow(buildingType))
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
                 this->executors.front()->build(this->position->position, buildingType);
@@ -228,11 +229,11 @@ namespace BWAI
     return this->building;
   }
   //----------------------------------------------------------------------------------------------------------
-  BWAPI::ReservedResources TaskBuild::getReserved()
+  BWAI::ReservedResources TaskBuild::getReserved()
   {
     if (this->building == NULL)
-      return BWAPI::ReservedResources(this->buildingType.getMineralPrice(), this->buildingType.getGasPrice(), 0);
-    return BWAPI::ReservedResources();
+      return BWAI::ReservedResources(this->buildingType.getMineralPrice(), this->buildingType.getGasPrice(), 0);
+    return BWAI::ReservedResources();
   }
   //----------------------------------------------------------------------------------------------------------
   void TaskBuild::buildingDied()
