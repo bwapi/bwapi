@@ -2,7 +2,7 @@
 
 #include "Globals.h"
 #include <Util/Logger.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
 #include <BuildOrder/Root.h>
 
 namespace BWAI
@@ -49,7 +49,7 @@ namespace BWAI
     for each (Unit* i in this->executors)
       if (i->isReady() &&
           i->getOrderID() == BW::OrderID::Nothing2 &&
-          i->getOwner()->canAfford(this->upgradeType, this->level, BWAPI::ReservedResources()))
+          i->getOwner()->canAfford(this->upgradeType, this->level))
       {
         this->executors.front()->upgrade(this->upgradeType);
         break;

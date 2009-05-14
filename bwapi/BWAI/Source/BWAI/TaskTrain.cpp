@@ -1,7 +1,7 @@
 #include "TaskTrain.h"
 #include <BWAI/Globals.h>
+#include <BWAI/Player.h>
 #include <BWAPI/Globals.h>
-#include <BWAPI/Player.h>
 #include <BuildOrder/BuildWeights.h>
 #include <BuildOrder/Condition.h>
 
@@ -43,14 +43,14 @@ namespace BWAI
               (j->condition == NULL || j->condition->applies()) &&
               (
                  best == NULL ||
-                ((float)BWAI::ai->player->getAllUnitsLocal(best->unitType.getID()))/((float)best->weight) >
-                ((float)BWAI::ai->player->getAllUnitsLocal(j->unitType.getID()))/((float)j->weight))
+                ((float)BWAI::ai->player->getAllUnits(best->unitType.getID()))/((float)best->weight) >
+                ((float)BWAI::ai->player->getAllUnits(j->unitType.getID()))/((float)j->weight))
               )
           {
             best = j;
           }
         if (best != NULL && 
-            BWAI::ai->player->canAfford(best->unitType, BWAI::ai->reserved))
+            BWAI::ai->player->canAfford(best->unitType))
         {
           BWAPI::Broodwar.printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
           i->trainUnit(best->unitType);
@@ -73,9 +73,9 @@ namespace BWAI
     return this->weights->factory;
   }
   //----------------------------------------------------------------------------------------------------------
-  BWAPI::ReservedResources TaskTrain::getReserved()
+  BWAI::ReservedResources TaskTrain::getReserved()
   {
-    return BWAPI::ReservedResources();
+    return BWAI::ReservedResources();
   }
   //----------------------------------------------------------------------------------------------------------
 }

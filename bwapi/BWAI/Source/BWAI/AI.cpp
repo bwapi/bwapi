@@ -34,6 +34,7 @@
 #include "TaskUpgrade.h"
 #include "TaskTrain.h"
 #include "TaskFight.h"
+#include "Player.h"
 #include "Unit.h"
 #include "Expansion.h"
 #include "Map.h"
@@ -235,8 +236,13 @@ namespace BWAI
     }
     try
     {
-      this->player = BWAPI::Broodwar.BWAPIPlayer;
-      this->opponent = BWAPI::Broodwar.opponent;
+      this->player = new Player(BWAPI::Broodwar.BWAPIPlayer);
+      this->opponent = new Player(BWAPI::Broodwar.opponent);
+      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.BWAPIPlayer,this->player));
+      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.opponent,this->opponent));
+      BWAPI::Broodwar.enableFlag(BWAPI::Flag::CompleteMapInformation);
+      BWAPI::Broodwar.enableFlag(BWAPI::Flag::UserInput);
+
       mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getFileName() + ".xml");
       this->checkNewExpansions();
       this->root->log->log("Help pre-prepared information found for the curent map");
@@ -390,6 +396,13 @@ namespace BWAI
     {
       this->log->logCritical("Exception caught in AI::onFrame: %s", e.getMessage().c_str());
     }
+  }
+  //----------------------------------------------- GET PLAYER -----------------------------------------------
+  Player* AI::getPlayer(BWAPI::Player* player)
+  {
+    if (this->player_mapping.find(player)==this->player_mapping.end())
+      return NULL;
+    return this->player_mapping.find(player)->second;
   }
   //------------------------------------------------ GET UNIT ------------------------------------------------
   Unit* AI::getUnit(int index)
@@ -606,7 +619,7 @@ namespace BWAI
           BWAPI::Broodwar.print("Unknown upgrade name '%s'", techName);
         else
         {
-          if (this->player->canAfford(tech, this->reserved))
+          if (this->player->canAfford(tech))
           {
             this->plannedInvents.push_back(new BWAI::TaskInvent(tech, 0));
             BWAPI::Broodwar.print("Added tech '%s'", techName.c_str());
@@ -635,7 +648,7 @@ namespace BWAI
           BWAPI::Broodwar.print("Unknown upgrade name '%s'", upgradeName);
         else
         {
-          if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1, this->reserved))
+          if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1))
           {
             this->plannedUpgrades.push_back(new BWAI::TaskUpgrade(upgrade, this->player->upgradeLevel(upgrade) + 1, 0));
             BWAPI::Broodwar.print("Added upgrade '%s' level %d", upgradeName, this->player->upgradeLevel(upgrade) + 1);
@@ -666,7 +679,7 @@ namespace BWAI
           if (!i->getType().isBuilding() &&
               !i->getType().isWorker() &&
               i->getType().canMove() &&
-              i->getOwner() == BWAPI::Broodwar.BWAPIPlayer &&
+              i->getOwner() == this->player &&
               i->getTask() == NULL)
           {
             addedCount++;

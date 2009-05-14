@@ -2,7 +2,7 @@
 
 namespace BuildOrder { class BuildWeights; }
 
-#include <BWAPI/ReservedResources.h>
+#include <BWAI/ReservedResources.h>
 
 #include "Task.h"
 
@@ -17,7 +17,7 @@ namespace BWAI
       bool execute();
       BW::UnitType getBuildingType();
       TaskType::Enum getType();
-      BWAPI::ReservedResources getReserved();
+      BWAI::ReservedResources getReserved();
       BuildOrder::BuildWeights* weights;
   };
 }

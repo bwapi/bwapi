@@ -5,7 +5,7 @@
 #include <set>
 
 #include <BWAPI/Game.h>
-#include <BWAPI/ReservedResources.h>
+#include <BWAI/ReservedResources.h>
 #include <BW/UnitType.h>
 
 #include "Task.h"
@@ -14,6 +14,7 @@ namespace Util { class Logger; }
 
 namespace PathFinding { class Utilities; }
 
+namespace BWAI { class Player; }
 namespace BWAI { class Unit; }
 namespace BWAI { class TaskGatherGas; }
 namespace BWAI { class TaskGather; }
@@ -62,11 +63,11 @@ namespace BWAI
       void onStart();
       void onEnd();
       void onFrame();
-//      void onCancelTrain();
       void onRemoveUnit(BWAPI::Unit* unit);
       bool onSendText(const char* text);
 
       std::list<Expansion*> expansions;
+      Player* getPlayer(BWAPI::Player* player);
       Unit* getUnit(int index);
       static Unit* optimizeMineralFor;
       bool expansionsSaturated;
@@ -86,9 +87,9 @@ namespace BWAI
       BuildOrder::Root *root;
       BuildOrder::Executor *buildOrderExecutor;
       
-      BWAPI::Player* player;
-      BWAPI::Player* opponent;
-	    BW::Position getEnemyMain();
+      Player* player;
+      Player* opponent;
+      BW::Position getEnemyMain();
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id. The
@@ -98,16 +99,17 @@ namespace BWAI
        * @returns BuildingPosition set with he specified name if present, @c NULL otherwise.
        */
       BuildingPositionSet* getPositionsCalled(const std::string& place);
-      BWAPI::ReservedResources reserved;
+      BWAI::ReservedResources reserved;
       PathFinding::Utilities *pathFinding;
       MapStartingPosition* startingPosition;      
       u16 mineralGatherers;
       /** @todo investigate and use the nextSupply provider here. */
       s32 plannedSupplyGain(BW::Race::Enum race);
       s32 buildTaskUnitsPlanned[228];
-   private :
+    private :
       Unit* getFirst();   
       Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
+      std::map<BWAPI::Player*, Player*> player_mapping;
       BWAPI::UnitPrototype* worker;
       Util::Logger* deadLog;      
       MapInfo *mapInfo;

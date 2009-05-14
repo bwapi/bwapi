@@ -7,7 +7,7 @@
 #include <BW/UpgradeType.h>
 #include <BWAI/Globals.h>
 #include <BWAI/TaskUpgrade.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
 #include <BWAPI/Globals.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
@@ -30,7 +30,7 @@ namespace BuildOrder
       BWAI::ai->root->log->log("Unknown upgrade name '%s'", this->name.c_str());
       return true;
     }
-    if (BWAI::ai->player->canAfford(toUpgrade, level, BWAI::ai->reserved) &&
+    if (BWAI::ai->player->canAfford(toUpgrade, level) &&
         this->conditionApplies()) 
     {
       BWAI::ai->root->log->log("Command to upgrade '%s' called", this->name.c_str());

@@ -19,6 +19,7 @@
 #include <BWAPI/CommandCancelTrain.h>
 #include <BWAPI/Map.h>
 #include <BWAPI/ScreenLogger.h>
+#include <BWAPI/Flag.h>
 
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
@@ -42,6 +43,7 @@ namespace BWAPI
   ,enabled(true)
   {
     units.reserve(BW::UNIT_ARRAY_MAX_LENGTH);
+    BW::UnitType::initialize();
     try
     {
      this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
@@ -53,7 +55,6 @@ namespace BWAPI
       fprintf(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
       fclose(f);
     }
-    
     try
     {
       this->commandLog        = new Util::FileLogger(config->get("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
@@ -306,6 +307,12 @@ namespace BWAPI
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
+
+    /* set all the flags to the default of disabled */
+    for(int i=0;i<FLAG_COUNT;i++)
+      this->flags[i]=false;
+    this->flagsLocked=false;
+
     map.load();
 
     if (*(BW::BWDATA_InReplay))
@@ -780,6 +787,34 @@ namespace BWAPI
   std::list<Unit*> Game::unitsOnTile(int x, int y) const
   {
     return unitsOnTileData[x][y];
+  }
+  //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
+  bool Game::isFlagEnabled(BWAPI::Flag::Enum flag)
+  {
+    return this->flags[flag];
+  }
+  //----------------------------------------------- ENABLE FLAG ----------------------------------------------
+  void Game::enableFlag(BWAPI::Flag::Enum flag)
+  {
+    if (this->flagsLocked==true)
+    {
+      this->printPublic("Flags can only be enabled at the start of a game.");
+      return;
+    }
+    this->flags[flag]=true;
+    if (flag==BWAPI::Flag::CompleteMapInformation)
+    {
+      this->printPublic("Enabled Flag CompleteMapInformation");
+    }
+    if (flag==BWAPI::Flag::UserInput)
+    {
+      this->printPublic("Enabled Flag UserInput");
+    }
+  }
+  //-------------------------------------------------- LOCK FLAGS --------------------------------------------
+  void Game::lockFlags()
+  {
+    this->flagsLocked=true;
   }
   //----------------------------------------------------------------------------------------------------------
 };

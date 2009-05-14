@@ -121,6 +121,7 @@ void __declspec(naked)  nextFrameHook()
       if (BWAPI::Broodwar.isOnStartCalled())
       {
         BWAI::ai->onStart();
+        BWAPI::Broodwar.lockFlags();
         aiStartCalled = true;
       }
     }

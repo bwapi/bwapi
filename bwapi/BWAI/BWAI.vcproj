@@ -189,6 +189,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\Player.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\ReservedResources.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Task.h"
 					>
 				</File>
@@ -268,6 +276,14 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\MapStartingPosition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\Player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\ReservedResources.cpp"
 					>
 				</File>
 				<File

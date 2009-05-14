@@ -93,8 +93,8 @@ namespace Formula
     switch (this->type)
     {
       case FunctionType::Finished   : return (float) BWAPI::Broodwar.BWAPIPlayer->getCompletedUnits(this->unitType);
-      case FunctionType::All        : return (float) BWAPI::Broodwar.BWAPIPlayer->getAllUnitsLocal(this->unitType);
-      case FunctionType::InProgress : return (float) BWAPI::Broodwar.BWAPIPlayer->getIncompleteUnitsLocal(this->unitType);
+      case FunctionType::All        : return (float) BWAPI::Broodwar.BWAPIPlayer->getAllUnits(this->unitType);
+      case FunctionType::InProgress : return (float) BWAPI::Broodwar.BWAPIPlayer->getIncompleteUnits(this->unitType);
       case FunctionType::ConfigValue: 
         return this->configValue;
       case FunctionType::ActiveMinerals :

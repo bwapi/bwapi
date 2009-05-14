@@ -11,7 +11,7 @@
 #include <BWAI/TaskBuild.h>
 #include <BWAI/Globals.h>
 #include <BWAI/MapStartingPosition.h>
-#include <BWAPI/Player.h>
+#include <BWAI/Player.h>
 #include <BWAPI/Globals.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
@@ -38,14 +38,14 @@ namespace BuildOrder
   bool CommandBuild::executeInternal(Executor* executor)
   {
     BW::UnitType toBuild = BWAPI::Broodwar.getUnitType(this->name);
-    if (BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()] < BWAPI::Broodwar.BWAPIPlayer->getAllUnits(toBuild.getID()))
+    if (BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()] < BWAI::ai->player->getAllUnits(toBuild.getID()))
     {
       BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
       return true;
     }
     else
     {
-      if (BWAI::ai->player->canAfford(toBuild, BWAI::ai->reserved) &&
+      if (BWAI::ai->player->canAfford(toBuild) &&
           BWAI::ai->player->canBuild(toBuild)) 
       {
         BWAI::BuildingPositionSet* alternatives;
