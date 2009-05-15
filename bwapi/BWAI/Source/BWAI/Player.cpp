@@ -10,6 +10,7 @@
 namespace BWAI
 {
   Player::Player(BWAPI::Player* player)
+  :player(player)
   {
     this->player=player;
   }

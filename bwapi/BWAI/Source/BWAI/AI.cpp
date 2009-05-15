@@ -16,6 +16,7 @@
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
+#include <BWAPI/Game.h>
 
 #include <BuildOrder/Root.h>
 #include <BuildOrder/Branch.h>
@@ -352,8 +353,6 @@ namespace BWAI
       if (this->buildOrderExecutor)
         this->buildOrderExecutor->execute();
 
-      BW::Unit** selected = BWAPI::Broodwar.saveSelected();    
-      //this->refreshSelectionStates(selected);
        
       //this->checkSupplyNeed();
       this->checkNewExpansions();
@@ -390,7 +389,6 @@ namespace BWAI
         delete formation;
         cycleAngle += (float)0.01;
       } 
-      BWAPI::Broodwar.loadSelected(selected);
     }
     catch (GeneralException& e)
     {
@@ -671,32 +669,60 @@ namespace BWAI
     {
       if (parsed[1] == "add")
       {
-        if (this->fightGroups.empty())
-          this->fightGroups.push_back(new TaskFight());
-        TaskFight* task = this->fightGroups.front();
-        u16 addedCount = 0;
-        for each (Unit* i in this->units)
-          if (!i->getType().isBuilding() &&
-              !i->getType().isWorker() &&
-              i->getType().canMove() &&
-              i->getOwner() == this->player &&
-              i->getTask() == NULL)
+        if (parsed[2] == "all")
+        {
+          if (this->fightGroups.empty())
+            this->fightGroups.push_back(new TaskFight());
+          TaskFight* task = this->fightGroups.front();
+          u16 addedCount = 0;
+          for each (Unit* i in this->units)
+            if (!i->getType().isBuilding() &&
+                !i->getType().isWorker() &&
+                i->getType().canMove() &&
+                i->getOwner() == this->player &&
+                i->getTask() == NULL)
+            {
+              addedCount++;
+              task->addExecutor(i);
+            }
+          BWAPI::Broodwar.print("%u units added to the fight group", addedCount);
+        }
+        else
+        {
+          if (this->fightGroups.empty())
+            this->fightGroups.push_back(new TaskFight());
+          TaskFight* task = this->fightGroups.front();
+          for(std::set<BWAPI::Unit*>::const_iterator i=BWAPI::Broodwar.getSelectedUnits().begin();
+            i!=BWAPI::Broodwar.getSelectedUnits().end();i++)
           {
-            addedCount++;
-            task->addExecutor(i);
+            Unit* unit=BWAI::Unit::BWAPIUnitToBWAIUnit(*i);
+            unit->freeFromTask();
+            task->addExecutor(unit);
           }
-        BWAPI::Broodwar.print("%u units added to the fight group", addedCount);
+        }
       }
       else if (parsed[1] == "remove")
       {
         if (this->fightGroups.empty())
           return true;
-        TaskFight* task = this->fightGroups.front();
-        delete task;
-        this->fightGroups.erase(this->fightGroups.begin());
+        if (parsed[2] == "all")
+        {
+          TaskFight* task = this->fightGroups.front();
+          delete task;
+          this->fightGroups.erase(this->fightGroups.begin());
+        }
+        else
+        {
+          for(std::set<BWAPI::Unit*>::const_iterator i=BWAPI::Broodwar.getSelectedUnits().begin();
+            i!=BWAPI::Broodwar.getSelectedUnits().end();i++)
+          {
+            Unit* unit=BWAI::Unit::BWAPIUnitToBWAIUnit(*i);
+            unit->freeFromTask();
+          }
+        }
       }
       else 
-        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, remove", parsed[1].c_str());
+        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1].c_str());
       return true;
     } 
     else if (parsed[0] == "/formation")
@@ -794,7 +820,7 @@ namespace BWAI
     for each (Unit* i in this->units)
     {
       if (
-           i->isReady() &&
+           i->isCompleted() &&
            (
              i->getType() == BW::UnitID::Terran_CommandCenter ||
              i->getType() == BW::UnitID::Protoss_Nexus ||
@@ -818,9 +844,9 @@ namespace BWAI
     //if (!this->expansionsSaturated)
       for each (Unit* i in this->units)
       {
-        if (i->isReady() &&
+        if (i->isCompleted() &&
             i->getOwner() == player &&
-              (
+            (
                i->getOrderID() == BW::OrderID::PlayerGuard ||
                i->getOrderID() == BW::OrderID::MoveToMinerals ||
                i->getOrderID() == BW::OrderID::HarvestMinerals2 ||
@@ -828,8 +854,9 @@ namespace BWAI
                i->getOrderID() == BW::OrderID::ResetCollision2 ||
                i->getOrderID() == BW::OrderID::ReturnMinerals
              ) &&
-             (i->getType().isWorker()) &&
-              i->getTask() == NULL)
+             !i->isSelected() &&
+             i->getType().isWorker() &&
+             i->getTask() == NULL)
           workers.push_back(i); 
       }
   }

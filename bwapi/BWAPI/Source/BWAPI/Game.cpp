@@ -172,6 +172,8 @@ namespace BWAPI
       for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
         this->units.push_back(i);
 
+      refreshSelectionStates();
+
       while (this->commandBuffer.size() > this->getLatency())
         this->commandBuffer.erase(this->commandBuffer.begin());
       this->commandBuffer.push_back(std::vector<Command *>());
@@ -188,6 +190,15 @@ namespace BWAPI
       fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
+  }
+  //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
+  void Game::refreshSelectionStates()
+  {
+    for(int i = 0; i< BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      this->unitArray[i]->setSelected(false);
+    this->saveSelected();
+    for(int i = 0; savedSelectionStates[i] != NULL; i++)
+      BWAPI::Unit::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
   }
   //------------------------------------------- IS ON START CALLED -------------------------------------------
   bool Game::isOnStartCalled() const
@@ -380,9 +391,8 @@ namespace BWAPI
     {
       if (parsed[1] == "info")
       {
-        BW::Unit** selected = this->saveSelected();
-        for (u16 i = 0; selected[i] != NULL; i++)
-          this->print(BWAPI::Unit::BWUnitToBWAPIUnit(selected[i])->getName().c_str());
+        for (u16 i = 0; savedSelectionStates[i] != NULL; i++)
+          this->print(BWAPI::Unit::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
       }
       else
         this->print("Unknown command '%s''s - possible commands are: info", parsed[1].c_str());
@@ -600,22 +610,30 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int Game::getMouseX() const
   {
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return 0;
     return *(BW::BWDATA_MouseX);
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int Game::getMouseY() const
   {
-   return *(BW::BWDATA_MouseY);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return 0;
+    return *(BW::BWDATA_MouseY);
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int Game::getScreenX() const
   {
-   return *(BW::BWDATA_ScreenX);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return 0;
+    return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int Game::getScreenY() const
   {
-   return *(BW::BWDATA_ScreenY);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return 0;
+    return *(BW::BWDATA_ScreenY);
   }
   //----------------------------------------------------------------------------------------------------------
   #pragma warning(push)
@@ -632,42 +650,48 @@ namespace BWAPI
     return this->unitArray[index];
   }
   //--------------------------------------------- SAVE SELECTED ----------------------------------------------
-  BW::Unit** Game::saveSelected()
+  void Game::saveSelected()
   {
     this->reselected = false;
-    
-    BW::Unit** selected = new BW::Unit * [13];
-    memcpy(selected, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
-    selected[12] = NULL;
-    return selected;
+    memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
+    savedSelectionStates[12] = NULL;
+    int i = 0;
+    selectedUnitSet.clear();
+    while (savedSelectionStates[i] != NULL)
+    {
+      selectedUnitSet.insert(Unit::BWUnitToBWAPIUnit(savedSelectionStates[i]));
+      i++;
+    }
   }
   //--------------------------------------------- LOAD SELECTED ----------------------------------------------
-  void Game::loadSelected(BW::Unit** selected)
+  void Game::loadSelected()
   {
      if (!this->reselected)
      {
-       delete [] selected;
        return;
      }
 
     int unitCount = 0;
-    while (selected[unitCount] != NULL)
+    while (savedSelectionStates[unitCount] != NULL)
       unitCount ++;
     if (quietSelect)
-      BW::selectUnits(unitCount, selected);
+      BW::selectUnits(unitCount, savedSelectionStates);
     else
-      BW::selectUnitsHelperSTD(unitCount, selected, true, true);
-    delete [] selected;   
+      BW::selectUnitsHelperSTD(unitCount, savedSelectionStates, true, true);
+  }
+  const std::set<BWAPI::Unit*>& Game::getSelectedUnits() const
+  {
+    if (BWAPI::Broodwar.isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return emptySet;
+    return selectedUnitSet;
   }
   //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
   void Game::onCancelTrain()
   {
     try
     {
-      BW::Unit** selected = this->saveSelected();
-      if (selected[0] != NULL)
-        this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(selected[0])));
-      delete [] selected;
+      if (savedSelectionStates[0] != NULL)
+        this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(savedSelectionStates[0])));
     }
     catch (GeneralException& exception)
     {
@@ -789,7 +813,7 @@ namespace BWAPI
     return unitsOnTileData[x][y];
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
-  bool Game::isFlagEnabled(BWAPI::Flag::Enum flag)
+  bool Game::isFlagEnabled(BWAPI::Flag::Enum flag) const
   {
     return this->flags[flag];
   }

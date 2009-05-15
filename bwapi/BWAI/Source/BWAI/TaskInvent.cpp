@@ -34,7 +34,7 @@ namespace BWAI
           return false;
         }
         for each (Unit* i in BWAI::ai->units)
-          if (i->isReady() &&
+          if (i->isCompleted() &&
               i->getOrderID() == BW::OrderID::Nothing2 &&
               i->getType() == buildingType &&
               i->getTask() == NULL)
@@ -43,7 +43,7 @@ namespace BWAI
     if (this->executors.empty())
       return false;
     for each (Unit* i in this->executors)
-      if (i->isReady() &&
+      if (i->isCompleted() &&
           i->getOrderID() == BW::OrderID::Nothing2 &&
           i->getOwner()->canAfford(this->techType))
       {

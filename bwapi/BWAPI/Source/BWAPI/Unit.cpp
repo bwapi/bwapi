@@ -29,6 +29,7 @@ namespace BWAPI
   ,bwOriginalUnit(originalUnit)
   ,bwUnitLocal(unitDataLocal)
   ,index(index)
+  ,userSelected(false)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -75,11 +76,23 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
-  //---------------------------------------------- IS Lifted ----------------------------------------------
+  //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool Unit::isLifted() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
            this->getRawDataLocal()->unitID.isBuilding();
+  }
+  //---------------------------------------------- IS SELECTED -----------------------------------------------
+  bool Unit::isSelected() const
+  {
+    if (BWAPI::Broodwar.isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return false;
+    return this->userSelected;
+  }
+  //--------------------------------------------- SET SELECTED -----------------------------------------------
+  void Unit::setSelected(bool selectedState)
+  {
+    this->userSelected=selectedState;
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BW::Position& Unit::getPosition() const

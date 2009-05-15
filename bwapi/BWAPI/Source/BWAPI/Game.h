@@ -94,8 +94,9 @@ namespace BWAPI
       /** @todo Doesn't work */
       void refresh();
       Unit* getUnit(int index);
-      BW::Unit** saveSelected();
-      void loadSelected(BW::Unit** selected);
+      void saveSelected();
+      void loadSelected();
+      const std::set<BWAPI::Unit*>& getSelectedUnits() const;
       void onRemoveUnit(BW::Unit *unit);
       Player* BWAPIPlayer;
       Player* opponent;
@@ -117,10 +118,12 @@ namespace BWAPI
       Map map;
       Unit* getFirst();
 
-      bool isFlagEnabled(BWAPI::Flag::Enum flag);
+      bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
       void enableFlag(BWAPI::Flag::Enum flag);
       void lockFlags();
     private :
+      std::set<BWAPI::Unit*> selectedUnitSet;
+      std::set<BWAPI::Unit*> emptySet;
       std::set<BW::TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
       Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
@@ -159,6 +162,8 @@ namespace BWAPI
       bool reselected;
       bool flags[BWAPI::FLAG_COUNT];
       bool flagsLocked;
+      BW::Unit* savedSelectionStates[13];
+      void refreshSelectionStates();
   };
 };
  
