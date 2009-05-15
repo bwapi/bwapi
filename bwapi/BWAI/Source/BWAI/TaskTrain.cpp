@@ -27,7 +27,7 @@ namespace BWAI
   bool TaskTrain::execute()
   {
     for each (Unit* i in this->executors)
-      if (i->isValid() &&
+      if (i->isCompleted() &&
          !i->isLifted() &&
             (i->hasEmptyBuildQueue() ||
             (

@@ -14,9 +14,10 @@
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Game.h"
+#include "BWAPI/Unit.h"
 
-#include "../../BWAI/Source/BWAI/AI.h"
-#include "../../BWAI/Source/BWAI/Globals.h"
+#include "BWAI/AI.h"
+#include "BWAI/Globals.h"
 
 bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
@@ -126,6 +127,7 @@ void __declspec(naked)  nextFrameHook()
       }
     }
     BWAI::ai->onFrame();
+    BWAPI::Broodwar.loadSelected();
   }
   __asm
   {
@@ -153,7 +155,7 @@ void __declspec(naked) onSendText()
   }
   sendToBW = true;
   sendToBW &= !BWAPI::Broodwar.onSendText(text);
-  if (sendToBW)
+  if (sendToBW && BWAPI::Broodwar.isFlagEnabled(BWAPI::Flag::UserInput))
     sendToBW &= !BWAI::ai->onSendText(text);
   if (sendToBW)
     __asm

@@ -46,7 +46,7 @@ namespace PathFinding
     {
       BW::UnitType type=(*i);
       if (type.isBuilding() ||
-          type.isFlayer() ||
+          type.isFlyer() ||
           type.isNeutral())
         {
           continue;

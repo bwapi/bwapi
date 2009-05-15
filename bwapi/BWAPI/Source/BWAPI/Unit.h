@@ -80,6 +80,8 @@ namespace BWAPI
       /** Gets if the unit construction is done */
       bool isCompleted() const;
       bool isLifted() const;
+      /** Only active when UserInput flag is enabled */
+      bool isSelected() const;
 
       /** Gets #bwOriginalUnit */
       BW::Unit *getOriginalRawData() const;
@@ -126,6 +128,7 @@ namespace BWAPI
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;
+      void setSelected(bool selectedState);
 
     private:
       /** Gets #bwUnit */
@@ -143,6 +146,8 @@ namespace BWAPI
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
+      bool userSelected;
+      bool visible;
   };
 };
 

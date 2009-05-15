@@ -7,6 +7,7 @@
 #include <BWAI/Player.h>
 #include <BWAI/ReservedResources.h>
 #include <BWAPI/Globals.h>
+#include <BWAPI/Unit.h>
 #include <BWAPI/Game.h>
 
 #include "Unit.h"
@@ -91,7 +92,7 @@ namespace BWAI
           if (this->executors.front()->getBuildUnit() != NULL &&
               this->executors.front()->getBuildUnit()->getType() == buildingType)
           {
-            this->building = BWAI::Unit::BWAPIUnitToBWAIUnit(executors.front()->getBuildUnit());
+            this->building = executors.front()->getBuildUnit();
             BWAI::ai->log->logCritical("(%s) construction of addon started", building->getName().c_str());
           }
 

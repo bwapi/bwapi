@@ -13,6 +13,7 @@
 #include <BWAI/MapStartingPosition.h>
 #include <BWAI/Player.h>
 #include <BWAPI/Globals.h>
+#include <BWAPI/Unit.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
 
@@ -108,7 +109,7 @@ namespace BuildOrder
           {
             BW::UnitType builderType = toBuild.whereToBuild();
             for each (BWAI::Unit* i in BWAI::ai->units)
-              if (i->isReady() &&
+              if (i->isCompleted() &&
                   i->getType() == builderType &&
                   i->getChild() == NULL &&
                   (i->getTask() == NULL || i->getTask()->getType() != BWAI::TaskType::Build))
