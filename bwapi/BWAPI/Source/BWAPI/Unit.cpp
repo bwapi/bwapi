@@ -4,7 +4,7 @@
 
 #include <Util/Logger.h>
 
-#include "Player.h"
+#include "BWAPI/Player.h"
 #include "Globals.h"
 #include "CommandTrain.h"
 #include "CommandBuild.h"
@@ -50,7 +50,7 @@ namespace BWAPI
   Player* Unit::getOwner() const
   {
     if (this->getRawDataLocal()->playerID < 12)
-      return Broodwar.players[this->bwUnit->playerID];
+      return (Player*)Broodwar.players[this->bwUnit->playerID];
     else 
       return NULL;
   }

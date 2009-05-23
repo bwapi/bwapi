@@ -101,7 +101,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAPI/Source;Source"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAPI/Source;Source;../include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				IgnoreStandardIncludePath="false"
 				RuntimeLibrary="2"

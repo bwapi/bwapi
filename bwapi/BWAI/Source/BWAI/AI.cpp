@@ -14,7 +14,7 @@
 #include <BW/TechType.h>
 
 #include <BWAPI/Unit.h>
-#include <BWAPI/Player.h>
+#include "BWAPI/Player.h"
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
 
@@ -237,10 +237,10 @@ namespace BWAI
     }
     try
     {
-      this->player = new Player(BWAPI::Broodwar.BWAPIPlayer);
-      this->opponent = new Player(BWAPI::Broodwar.opponent);
-      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.BWAPIPlayer,this->player));
-      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.opponent,this->opponent));
+      this->player = new Player(BWAPI::Broodwar.self());
+      this->opponent = new Player(BWAPI::Broodwar.enemy());
+      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.self(),this->player));
+      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.enemy(),this->opponent));
       BWAPI::Broodwar.enableFlag(BWAPI::Flag::CompleteMapInformation);
       BWAPI::Broodwar.enableFlag(BWAPI::Flag::UserInput);
 
@@ -604,7 +604,7 @@ namespace BWAI
     }
     else if (parsed[0] == "/count")
     {
-      BWAPI::Broodwar.print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BW::UnitID::Protoss_Pylon], BWAPI::Broodwar.BWAPIPlayer->getAllUnits(BW::UnitID::Protoss_Pylon));
+      BWAPI::Broodwar.print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BW::UnitID::Protoss_Pylon], BWAPI::Broodwar.self()->getAllUnits(BW::UnitID::Protoss_Pylon));
       return true;
     }
     else if (parsed[0] == "/tech")

@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAI/Source;Source"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAI/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				IgnoreStandardIncludePath="false"
 				RuntimeLibrary="2"
@@ -401,7 +401,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Player.cpp"
+					RelativePath=".\source\BWAPI\PlayerImpl.cpp"
 					>
 				</File>
 				<File
@@ -461,7 +461,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Player.h"
+					RelativePath=".\source\BWAPI\PlayerImpl.h"
 					>
 				</File>
 				<File
@@ -495,6 +495,14 @@
 			</File>
 			<File
 				RelativePath=".\pages.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Interface"
+			>
+			<File
+				RelativePath="..\include\BWAPI\Player.h"
 				>
 			</File>
 		</Filter>

@@ -1,6 +1,6 @@
 #include "CommandCancelTrain.h"
 #include "Unit.h"
-#include "Player.h"
+#include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {

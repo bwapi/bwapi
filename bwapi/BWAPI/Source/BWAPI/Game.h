@@ -5,6 +5,7 @@ namespace Util  { class Dictionary; }
 namespace BW    { struct UnitArray; }
 namespace BW    { struct Unit; }
 namespace BWAPI { class Player; }
+namespace BWAPI { class PlayerImpl; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class Command; }
 
@@ -38,7 +39,7 @@ namespace BWAPI
       Game();
       ~Game();
       void update(); /**< Updates unitArrayCopy according to bw memory */
-      Player* players[12];
+      PlayerImpl* players[12];
 
       const std::set< BW::TilePosition >& getStartLocations() const;
       const std::set< BW::UnitType >& allUnitTypes() const;
@@ -98,8 +99,8 @@ namespace BWAPI
       void loadSelected();
       const std::set<BWAPI::Unit*>& getSelectedUnits() const;
       void onRemoveUnit(BW::Unit *unit);
-      Player* BWAPIPlayer;
-      Player* opponent;
+      Player* self() const;
+      Player* enemy() const;
       Util::Logger *fatalError;
       bool quietSelect;
       BW::Latency::Enum getLatency();
@@ -121,6 +122,9 @@ namespace BWAPI
       bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
       void enableFlag(BWAPI::Flag::Enum flag);
       void lockFlags();
+
+      PlayerImpl* BWAPIPlayer;
+      PlayerImpl* opponent;
     private :
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;

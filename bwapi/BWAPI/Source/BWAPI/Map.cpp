@@ -3,8 +3,8 @@
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
-#include <BWAPI/Globals.h>
-#include <BWAPI/Player.h>
+#include "Globals.h"
+#include "PlayerImpl.h"
 
 namespace BWAPI
 {

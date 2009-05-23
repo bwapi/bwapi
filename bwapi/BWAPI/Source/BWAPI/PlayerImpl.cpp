@@ -1,5 +1,9 @@
-#include "Player.h"
+#include "PlayerImpl.h"
+#include "Game.h"
+#include "Globals.h"
+#include "Unit.h"
 
+#include <string>
 #include <Util/Bitmask.h>
 
 #include <BW/Offsets.h>
@@ -8,54 +12,55 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Player::Player(u8 id)
+  PlayerImpl::PlayerImpl(u8 id)
     :id(id)
+    ,unitCacheFrame(-1)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
-  Player::~Player()
+  PlayerImpl::~PlayerImpl()
   {
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
-  char* Player::getName() const
+  std::string PlayerImpl::getName() const
   {
-    return BW::BWDATA_Players->player[this->getID()].name;
+    return std::string(BW::BWDATA_Players->player[this->getID()].name);
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
-  s32 Player::getMineralsSync() const
+  s32 PlayerImpl::getMineralsSync() const
   {
     return BW::BWDATA_PlayerResources->minerals.player[this->getID()];
   }
   //------------------------------------------------ GET GAS -------------------------------------------------
-  s32 Player::getGasSync() const
+  s32 PlayerImpl::getGasSync() const
   {
     return BW::BWDATA_PlayerResources->gas.player[this->getID()];
   }
   //------------------------------------------------- GET ID -------------------------------------------------
-  u8 Player::getID() const
+  u8 PlayerImpl::getID() const
   {
     return this->id;
   }
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4312)
-  BW::Unit** Player::selectedUnit()
+  BW::Unit** PlayerImpl::selectedUnit()
   {
     return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID()*48);
   }
   #pragma warning(pop)
   //------------------------------------------- GET MINERALS LOCAL -------------------------------------------
-  s32 Player::getMinerals() const
+  int PlayerImpl::minerals() const
   {
     return this->mineralsLocal;
   }
   //--------------------------------------------- GET GAS LOCAL ----------------------------------------------
-  s32 Player::getGas() const
+  int PlayerImpl::gas() const
   {
     return this->gasLocal;
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
-  void Player::update()
+  void PlayerImpl::update()
   {
     this->mineralsLocal = this->getMineralsSync();
     this->gasLocal = this->getGasSync();
@@ -68,100 +73,100 @@ namespace BWAPI
       this->toMake[j] = 0;
   }
   //---------------------------------------------- SPEND LOCAL -----------------------------------------------
-  void  Player::spend(s32 minerals, s32 gas)
+  void  PlayerImpl::spend(s32 minerals, s32 gas)
   {
     this->mineralsLocal -= minerals;
     this->gasLocal -= gas;
   }
   //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
-  s32 Player::getSuppliesAvailableSync(BW::Race::Enum race)
+  s32 PlayerImpl::getSuppliesAvailableSync(BW::Race::Enum race) const
   {
     s32 ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
     return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
   }
   //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
-  s32 Player::getSuppliesUsedSync(BW::Race::Enum race)
+  s32 PlayerImpl::getSuppliesUsedSync(BW::Race::Enum race) const
   {
     return BW::BWDATA_Supplies->race[race].used.player[this->getID()];
   }
   //--------------------------------------------- GET SUPPLY MAX ---------------------------------------------
-  s32 Player::getSuppliesMaxSync(BW::Race::Enum race)
+  s32 PlayerImpl::getSuppliesMaxSync(BW::Race::Enum race) const
   {
     return BW::BWDATA_Supplies->race[race].max.player[this->getID()];
   }
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
-  s32 Player::getSuppliesAvailable(BW::Race::Enum race)
+  s32 PlayerImpl::supplyTotal() const
   {
-    s32 ret = this->suppliesAvailableLocal[race];
-    return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
+    s32 ret = this->suppliesAvailableLocal[getRace()];
+    return ret < getSuppliesMaxSync(getRace()) ? ret : getSuppliesMaxSync(getRace());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
-  s32 Player::getSuppliesUsed(BW::Race::Enum race)
+  s32 PlayerImpl::supplyUsed() const
   {
-    return this->suppliesUsedLocal[race];
-  }
-  //------------------------------------------ SUPPLIES FREE LOCAL -------------------------------------------
-  s32 Player::getSuppliesFree(BW::Race::Enum race)
-  {
-    return this->getSuppliesAvailable(race) - this->getSuppliesUsed(race);
+    return this->suppliesUsedLocal[getRace()];
   }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
-  void Player::useSupplies(u8 supplies, BW::Race::Enum race)
+  void PlayerImpl::useSupplies(u8 supplies, BW::Race::Enum race)
   {
     this->suppliesUsedLocal[race] += supplies;
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
-  BW::Race::Enum Player::getRace()
+  BW::Race::Enum PlayerImpl::getRace() const
   {
     return BW::BWDATA_Players->player[this->getID()].race;
   }
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
-  u8 Player::getAlliance(u8 opposingID)
+  u8 PlayerImpl::getAlliance(u8 opposingID)
   {
     return BW::BWDATA_Alliance->alliance[this->getID()].player[opposingID];
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
-  BW::PlayerType::Enum Player::getOwner()
+  BW::PlayerType::Enum PlayerImpl::playerType() const
   {
     return BW::BWDATA_Players->player[this->getID()].type;
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
-  u8 Player::getForce()
+  u8 PlayerImpl::getForce()
   {
     return BW::BWDATA_Players->player[this->getID()].force;
   }
+  //----------------------------------------------- GET FORCE ------------------------------------------------
+  Force* PlayerImpl::getForce() const
+  {
+    return NULL;//TODO: create Force class
+  }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
-  s32 Player::getAllUnits(BW::UnitType unit)
+  s32 PlayerImpl::getAllUnits(BW::UnitType unit)
   {
     return this->evaluateCounts(BW::BWDATA_Counts->all, unit) + this->toMake[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
-  s32 Player::getCompletedUnits(BW::UnitType unit)
+  s32 PlayerImpl::getCompletedUnits(BW::UnitType unit)
   {
     return this->evaluateCounts(BW::BWDATA_Counts->completed, unit);
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
-  s32 Player::getCompletedUnits(BW::UnitType unit, BW::Race::Enum race)
+  s32 PlayerImpl::getCompletedUnits(BW::UnitType unit, BW::Race::Enum race)
   {
     return this->evaluateCounts(BW::BWDATA_Counts->completed, unit, race);
   }  
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
-  s32 Player::getIncompleteUnits(BW::UnitType unit)
+  s32 PlayerImpl::getIncompleteUnits(BW::UnitType unit)
   {
     return this->getAllUnits(unit) - this->getCompletedUnits(unit) + toMake[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
-  s32 Player::getDeaths(BW::UnitType unit)
+  s32 PlayerImpl::getDeaths(BW::UnitType unit)
   {
     return this->evaluateCounts(BW::BWDATA_Counts->dead, unit);
   }
   //----------------------------------------------- GET KILLS ------------------------------------------------
-  s32 Player::getKills(BW::UnitType unit)
+  s32 PlayerImpl::getKills(BW::UnitType unit)
   {
     return this->evaluateCounts(BW::BWDATA_Counts->killed, unit);
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
-  s32 Player::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit)
+  s32 PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit)
   {
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[this->getID()];
@@ -214,7 +219,7 @@ namespace BWAPI
     return temp;
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
-  s32 Player::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit, BW::Race::Enum race)
+  s32 PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit, BW::Race::Enum race)
   {
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[this->getID()];
@@ -275,23 +280,23 @@ namespace BWAPI
     return temp;
   }  
   //------------------------------------------- PLAN TO MAKE -------------------------------------------------
-  void Player::planToMake(BW::UnitType unit)
+  void PlayerImpl::planToMake(BW::UnitType unit)
   {
     this->toMake[unit.getID()]++;
   }
   //------------------------------------------- GET FORCE NAME -----------------------------------------------
-  char* Player::getForceName() const
+  char* PlayerImpl::getForceName() const
   {
     return BW::ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
   }
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
-  bool Player::researchInProgress(BW::TechType tech) const
+  bool PlayerImpl::researching(BW::TechType tech) const
   {
     Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID()*6);
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
-  bool Player::techResearched(BW::TechType tech) const
+  bool PlayerImpl::researched(BW::TechType tech) const
   {
    if (tech.getID() < 0x18)
      return *((u8*)(BW::BWDATA_TechResearchSC + this->getID()*0x18 + tech.getID())) == 1;
@@ -299,17 +304,34 @@ namespace BWAPI
      return *((u8*)(BW::BWDATA_TechResearchBW + this->getID()*0x14 + tech.getID() - 0x18)) == 1;
   }
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
-  u8 Player::upgradeLevel(BW::UpgradeType upgrade) const
+  int PlayerImpl::upgradeLevel(BW::UpgradeType upgrade) const
   {
     if (upgrade.getID() < 46)
-     return *((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID()*46 + upgrade.getID()));
+     return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID()*46 + upgrade.getID())));
    else
-     return *((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID()*15 + upgrade.getID() - 46));
+     return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID()*15 + upgrade.getID() - 46)));
   }
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
-  bool Player::upgradeInProgress(BW::UpgradeType upgrade) const
+  bool PlayerImpl::upgrading(BW::UpgradeType upgrade) const
   {
     return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
-  }  
+  }
+  //----------------------------------------------- GET UNITS ------------------------------------------------
+  std::set<Unit*> PlayerImpl::getUnits()
+  {
+    if (this->unitCacheFrame!=BWAPI::Broodwar.getFrameCount())
+    {
+      this->units.clear();
+      for(Unit* u=BWAPI::Broodwar.getFirst();u!=NULL;u=u->getNext())
+      {
+        if (u->getOwner()==this)
+        {
+          this->units.insert(u);
+        }
+      }
+      this->unitCacheFrame=BWAPI::Broodwar.getFrameCount();
+    }
+    return this->units;
+  }
   //----------------------------------------------------------------------------------------------------------
 };

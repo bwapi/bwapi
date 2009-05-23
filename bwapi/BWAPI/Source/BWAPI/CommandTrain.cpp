@@ -1,6 +1,6 @@
 #include "CommandTrain.h"
 #include "Unit.h"
-#include "Player.h"
+#include "PlayerImpl.h"
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
 #include <Util/Logger.h>
@@ -36,10 +36,11 @@ namespace BWAPI
  
    executors[0]->getBuildQueue()[slotToAffect] = this->toTrain.getID();
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
-   this->executors[0]->getOwner()->spend(this->toTrain.getMineralPrice(),
+   PlayerImpl* p=static_cast<PlayerImpl*>(this->executors[0]->getOwner());
+   p->spend(this->toTrain.getMineralPrice(),
                                          this->toTrain.getGasPrice());
-   executors[0]->getOwner()->useSupplies(toTrain.getSupplies(), toTrain.getRace());
-   executors[0]->getOwner()->planToMake(toTrain);
+   p->useSupplies(toTrain.getSupplies(), toTrain.getRace());
+   p->planToMake(toTrain);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandTrain::getType()

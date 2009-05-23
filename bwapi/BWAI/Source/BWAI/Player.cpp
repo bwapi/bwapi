@@ -18,33 +18,29 @@ namespace BWAI
   {
     return this->player->getRace();
   }
-  int Player::getAlliance(int opposingID)
+  BW::PlayerType::Enum Player::playerType()
   {
-    return this->player->getAlliance(opposingID);
-  }
-  BW::PlayerType::Enum Player::getOwner()
-  {
-    return this->player->getOwner();
+    return this->player->playerType();
   }
   int Player::getMinerals() const
   {
-    return this->player->getMinerals();
+    return this->player->minerals();
   }
   int Player::getGas() const
   {
-    return this->player->getGas();
+    return this->player->gas();
   }
-  int Player::getSuppliesAvailable(BW::Race::Enum race)
+  int Player::getSuppliesAvailable() const
   {
-    return this->player->getSuppliesAvailable(race);
+    return this->player->supplyTotal();
   }
-  int Player::getSuppliesUsed(BW::Race::Enum race)
+  int Player::getSuppliesUsed() const
   {
-    return this->player->getSuppliesUsed(race);
+    return this->player->supplyUsed();
   }
-  int Player::getSuppliesFree(BW::Race::Enum race)
+  int Player::getSuppliesFree() const
   {
-    return this->player->getSuppliesAvailable(race)-this->player->getSuppliesUsed(race);
+    return this->player->supplyTotal()-this->player->supplyUsed();
   }
   int Player::getAllUnits(BW::UnitType unit) const
   {
@@ -72,11 +68,11 @@ namespace BWAI
   }
   bool Player::researchInProgress(BW::TechType tech) const
   {
-    return this->player->researchInProgress(tech);
+    return this->player->researching(tech);
   }
   bool Player::techResearched(BW::TechType tech) const
   {
-    return this->player->techResearched(tech);
+    return this->player->researched(tech);
   }
   int Player::upgradeLevel(BW::UpgradeType upgrade) const
   {
@@ -84,7 +80,7 @@ namespace BWAI
   }
   bool Player::upgradeInProgress(BW::UpgradeType upgrade) const
   {
-    return this->player->upgradeInProgress(upgrade);
+    return this->player->upgrading(upgrade);
   }
 
   //------------------------------------------------ CAN BUILD -----------------------------------------------
@@ -105,36 +101,36 @@ namespace BWAI
   {
     if (this==ai->player)
     {
-      return ((int)this->player->getSuppliesFree(unit.getRace())) - ai->reserved.supply   >= unit.getSupplies() &&
-             ((int)this->player->getMinerals())                   - ai->reserved.minerals >= unit.getMineralPrice() &&
-             ((int)this->player->getGas())                        - ai->reserved.gas      >= unit.getGasPrice();
+      return ((int)this->getSuppliesFree()) - ai->reserved.supply   >= unit.getSupplies() &&
+             ((int)this->getMinerals())     - ai->reserved.minerals >= unit.getMineralPrice() &&
+             ((int)this->getGas())          - ai->reserved.gas      >= unit.getGasPrice();
     }
     else
     {
-      return ((int)this->player->getSuppliesFree(unit.getRace())) >= unit.getSupplies() &&
-             ((int)this->player->getMinerals())                   >= unit.getMineralPrice() &&
-             ((int)this->player->getGas())                        >= unit.getGasPrice();
+      return ((int)this->getSuppliesFree()) >= unit.getSupplies() &&
+             ((int)this->getMinerals())     >= unit.getMineralPrice() &&
+             ((int)this->getGas())          >= unit.getGasPrice();
     }
   }
   //--------------------------------------------- CAN AFFORD NOW ---------------------------------------------
   bool Player::canAffordNow(BW::UnitType unit) const
   {
-    return ((int)this->player->getSuppliesFree(unit.getRace())) >= unit.getSupplies() &&
-           ((int)this->player->getMinerals())                   >= unit.getMineralPrice() &&
-           ((int)this->player->getGas())                        >= unit.getGasPrice();
+    return ((int)this->getSuppliesFree()) >= unit.getSupplies() &&
+           ((int)this->getMinerals())     >= unit.getMineralPrice() &&
+           ((int)this->getGas())          >= unit.getGasPrice();
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BW::TechType tech) const
   {
     if (this==ai->player)
     {
-      return ((int)this->player->getMinerals()) - ai->reserved.minerals >= tech.getMineralPrice() &&
-             ((int)this->player->getGas())      - ai->reserved.gas      >= tech.getGasPrice();
+      return ((int)this->getMinerals()) - ai->reserved.minerals >= tech.getMineralPrice() &&
+             ((int)this->getGas())      - ai->reserved.gas      >= tech.getGasPrice();
     }
     else
     {
-      return ((int)this->player->getMinerals()) >= tech.getMineralPrice() &&
-             ((int)this->player->getGas())      >= tech.getGasPrice();
+      return ((int)this->getMinerals()) >= tech.getMineralPrice() &&
+             ((int)this->getGas())      >= tech.getGasPrice();
     }
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
@@ -142,13 +138,13 @@ namespace BWAI
   {
     if (this==ai->player)
     {
-      return ((int)this->player->getMinerals()) - ai->reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-             ((int)this->player->getGas())      - ai->reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
+      return ((int)this->getMinerals()) - ai->reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
+             ((int)this->getGas())      - ai->reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
     }
     else
     {
-      return ((int)this->player->getMinerals()) >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-             ((int)this->player->getGas())      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
+      return ((int)this->getMinerals()) >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
+             ((int)this->getGas())      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
     }
   }
 }
