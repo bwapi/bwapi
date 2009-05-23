@@ -274,7 +274,7 @@ namespace BWAPI
     char* txtout = buffer;
     if (*(BW::BWDATA_InGame))
     {
-      memcpy(BW::BWDATA_SendTextRequired, &BW::BWDATA_FullMask, 2);
+      memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
       __asm
       {
         pushad

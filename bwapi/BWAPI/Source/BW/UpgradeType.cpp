@@ -27,8 +27,10 @@ namespace BW
   {
     if (this->getID() == BW::UpgradeID::None)
       return "None";
-    else
+    else if (this->getID() < 60)
       return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_UpgradeLabelIndex[this->getID()]]);
+    else
+      return "Invalid";
   }
   //----------------------------------------------------------------------------------------------------------
   bool UpgradeType::isValid() const

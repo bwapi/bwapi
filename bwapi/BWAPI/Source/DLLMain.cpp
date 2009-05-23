@@ -31,9 +31,6 @@ void __declspec(naked) onRemoveUnit()
   __asm
   {
     mov removedUnit, esi
-  }
-  __asm
-  {
     call [BW::BWFXN_RemoveUnitTarget]
   }
   {
