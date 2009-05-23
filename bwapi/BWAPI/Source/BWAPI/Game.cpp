@@ -13,7 +13,7 @@
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 
-#include <BWAPI/Player.h>
+#include <BWAPI/PlayerImpl.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/CommandCancelTrain.h>
@@ -94,7 +94,7 @@ namespace BWAPI
       unitArrayCopyLocal = new BW::UnitArray;
 
       for (int i = 0; i < 12; i++)
-        players[i] = new Player((u8)i);    
+        players[i] = new PlayerImpl((u8)i);    
       
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i] = new Unit(&unitArrayCopy->unit[i], 
@@ -330,7 +330,7 @@ namespace BWAPI
       return;
 
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-      if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName()) == 0)
+      if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
         this->BWAPIPlayer = this->players[i];
 
     if (this->BWAPIPlayer == NULL ||
@@ -342,9 +342,9 @@ namespace BWAPI
       }
 
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-      if ((this->players[i]->getOwner() == BW::PlayerType::Computer ||
-           this->players[i]->getOwner() == BW::PlayerType::Human ||
-           this->players[i]->getOwner() == BW::PlayerType::ComputerSlot) &&
+      if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
+           this->players[i]->playerType() == BW::PlayerType::Human ||
+           this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
            this->opponent == NULL &&
            this->players[i]->getForceName() != "Observers" &&
            this->players[i]->getForceName() != "Observer" &&
@@ -414,9 +414,9 @@ namespace BWAPI
           this->print("Unknown tech name '%s'", techName.c_str());
         else
         {
-          if (this->BWAPIPlayer->researchInProgress(tech))
+          if (this->BWAPIPlayer->researching(tech))
             this->print("Tech '%s's research is in progress.", techName.c_str());
-          else if (this->BWAPIPlayer->techResearched(tech))
+          else if (this->BWAPIPlayer->researched(tech))
             this->print("Tech '%s''s is researched.", techName.c_str());
           else
             this->print("Tech '%s''s is not researched.", techName.c_str());
@@ -431,7 +431,7 @@ namespace BWAPI
         else
         {
           this->print("Level is %u.", this->BWAPIPlayer->upgradeLevel(upgrade));
-          if (this->BWAPIPlayer->upgradeInProgress(upgrade))
+          if (this->BWAPIPlayer->upgrading(upgrade))
             this->print("Another level in progress");
           else
             this->print("Another level is not in progress");
@@ -839,6 +839,16 @@ namespace BWAPI
   void Game::lockFlags()
   {
     this->flagsLocked=true;
+  }
+  //----------------------------------------------------- SELF -----------------------------------------------
+  Player* Game::self() const
+  {
+    return (Player*)this->BWAPIPlayer;
+  }
+  //----------------------------------------------------- ENEMY ----------------------------------------------
+  Player* Game::enemy() const
+  {
+    return (Player*)this->opponent;
   }
   //----------------------------------------------------------------------------------------------------------
 };

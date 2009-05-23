@@ -16,15 +16,14 @@ namespace BWAI
     Player(BWAPI::Player* player);
 
     BW::Race::Enum getRace();
-    int getAlliance(int opposingID);
-    BW::PlayerType::Enum getOwner();
+    BW::PlayerType::Enum playerType();
 
     int getMinerals() const;
     int getGas() const;
        
-    int getSuppliesAvailable(BW::Race::Enum race);
-    int getSuppliesUsed(BW::Race::Enum race);
-    int getSuppliesFree(BW::Race::Enum race);
+    int getSuppliesAvailable() const;
+    int getSuppliesUsed() const;
+    int getSuppliesFree() const;
 
     int getAllUnits(BW::UnitType unit) const;
     int getCompletedUnits(BW::UnitType unit) const;

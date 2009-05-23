@@ -27,14 +27,14 @@ namespace BuildOrder
   //------------------------------------------------ APPLIES -------------------------------------------------
   bool ConditionMinimalPopulation::applies()
   {
-    return BWAI::ai->player->getSuppliesUsed(BWAI::ai->player->getRace()) >= 2*this->minimalPopulation;
+    return BWAI::ai->player->getSuppliesUsed() >= 2*this->minimalPopulation;
   }
   //-------------------------------------------- DEBUG EVALUATE ----------------------------------------------
   void ConditionMinimalPopulation::debugEvaluate(std::string& view)
   {
     view += Util::Strings::ssprintf(" MinimalPopulation(%d)=%d ", 
                              2*this->minimalPopulation, 
-                             BWAI::ai->player->getSuppliesUsed(BWAI::ai->player->getRace()));
+                             BWAI::ai->player->getSuppliesUsed());
   }
   //----------------------------------------------------------------------------------------------------------
 }
