@@ -144,7 +144,7 @@ namespace BW
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
-  static u16            BWDATA_FullMask                           = 0xFFFF;
+//  static u16            BWDATA_FullMask                           = 0xFFFF;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
   static u32            BWFXN_SendPublicCall                      = 0x004F32B7;

@@ -34,8 +34,10 @@ namespace BW
   {
     if (this->getID() == BW::TechID::None)
       return "None";
-    else
+    else if (this->getID() < 44)
       return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_TechLabelIndex[this->getID()]]);
+    else
+      return "Invalid";
   }
   //------------------------------------------------- GET ID -------------------------------------------------
   TechID::Enum TechType::getID() const

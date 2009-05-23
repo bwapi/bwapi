@@ -20,6 +20,10 @@ namespace BW
         case Zerg    : return "Zerg";
         case Terran  : return "Terran";
         case Protoss : return "Protoss";
+        case Other   : return "Other";
+        case Select  : return "Select";
+        case Random  : return "Random";
+        case None    : return "None";
         default      : return "Unknown";
       }
     };

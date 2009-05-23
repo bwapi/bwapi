@@ -61,8 +61,10 @@ namespace BW
       return "Zerg_Main";
     else if (this->getID() == BW::UnitID::Zerg_MainLair)
       return "Zerg_MainLair";
-    else
+    else if (this->getID() < 228)
       return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + this->getID()*2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
+    else
+      return "Invalid";
   }
   //---------------------------------------------- GET UNIT ID -----------------------------------------------
   BW::UnitID::Enum UnitType::getID() const
