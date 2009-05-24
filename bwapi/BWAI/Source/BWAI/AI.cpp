@@ -244,7 +244,9 @@ namespace BWAI
       BWAPI::Broodwar.enableFlag(BWAPI::Flag::CompleteMapInformation);
       BWAPI::Broodwar.enableFlag(BWAPI::Flag::UserInput);
 
-      mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getFileName() + ".xml");
+      char mapPath[256] = "\0";
+      sprintf_s(mapPath, 256, "%s\\%08x.xml", config->get("maps_path").c_str(), BWAPI::Map::getMapHash());
+      mapInfo = new MapInfo(mapPath);
       this->checkNewExpansions();
       this->root->log->log("Help pre-prepared information found for the curent map");
       if (this->expansions.size())
@@ -786,7 +788,9 @@ namespace BWAI
       {
         try
         {
-          mapInfo = new MapInfo(config->get("maps_path") + "\\" + BWAPI::Map::getFileName() + ".xml");
+          char mapPath[256] = "\0";
+          sprintf_s(mapPath, 256, "%s\\%08x.xml", config->get("maps_path").c_str(), BWAPI::Map::getMapHash());
+          mapInfo = new MapInfo(mapPath);
           BWAPI::Broodwar.print("Map data reloaded successfully.");
         }
         catch (GeneralException& exception)

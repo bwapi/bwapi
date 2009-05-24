@@ -114,7 +114,7 @@ namespace PathFinding
    /* if (Utilities::conflictsWithMap(unit))
     {
       FILE* f = fopen("Path.txt","at");
-      fprintf(f, "Conflicts\n");
+      fprintf_s(f, "Conflicts\n");
       fclose(f); 
       return false;
     }*/
@@ -210,7 +210,7 @@ namespace PathFinding
     }
     #pragma region DisabledDebugOutput
     /* FILE* f = fopen("Path.txt","at");
-    fprintf(f, "Path not found\n");
+    fprintf_s(f, "Path not found\n");
     
     Util::RectangleArray<char> resultArray =
         Util::RectangleArray<char>(BWAI::ai->map->getWalkabilityArray().getWidth(),

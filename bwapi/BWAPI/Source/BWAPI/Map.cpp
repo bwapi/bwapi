@@ -106,5 +106,19 @@ namespace BWAPI
               (*BW::BWDATA_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable);
      }
   }
+  //------------------------------------------ GET MAP HASH --------------------------------------------------
+  int Map::getMapHash()
+  {
+      int hashval = 0;
+      
+      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
+        for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
+        {
+          hashval += BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->index;
+          hashval *= x + y;
+        }
+      
+      return hashval;
+  }
   //----------------------------------------------------------------------------------------------------------
 }

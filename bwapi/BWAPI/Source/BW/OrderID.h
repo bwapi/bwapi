@@ -589,7 +589,7 @@ namespace BW
         default :
         {
           char message[50];
-          sprintf(message, "Unknown command %d", order);
+          sprintf_s(message, 50, "Unknown command %d", order);
           return message;
         }
       }

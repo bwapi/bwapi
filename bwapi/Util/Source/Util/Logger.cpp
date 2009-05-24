@@ -73,7 +73,7 @@ namespace Util
     if (logLevel > this->levelToLog)
       return true;
 
-    vsnprintf(buffer, BUFFER_SIZE, message, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, message, ap); 
     this->flushInternal(buffer);
     
     if (globalLog != NULL &&

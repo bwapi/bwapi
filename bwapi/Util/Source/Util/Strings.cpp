@@ -319,7 +319,7 @@ namespace Util
  {
     va_list ap;
     va_start(ap, format);
-    vsnprintf(buffer, BUFFER_SIZE, format, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap); 
     va_end(ap);
     return buffer;
  }
