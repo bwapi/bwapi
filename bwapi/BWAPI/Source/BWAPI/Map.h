@@ -30,6 +30,7 @@ namespace BWAPI
       bool buildable(int x, int y) const;
       bool walkable(int x, int y) const;
       bool visible(int x, int y) const;
+      int groundHeight(int x, int y) const;
 
       /** Loads buildability/walkability arrays from the currently opened map. */
       void load();
@@ -40,6 +41,7 @@ namespace BWAPI
   private :
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);
+      Util::BitMask<BW::MiniTileFlags::Enum> getMiniTile(int x, int y) const;
       Util::RectangleArray<u32>* fogOfWar;
       Util::RectangleArray<bool> buildability;
       Util::RectangleArray<bool> walkability;

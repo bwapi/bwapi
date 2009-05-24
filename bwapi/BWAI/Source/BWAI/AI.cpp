@@ -570,6 +570,11 @@ namespace BWAI
         std::string result = Map::saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
         BWAPI::Broodwar.print(result.c_str());
       }
+      else if (parsed[1] == "height")
+      {
+        std::string result = Map::saveHeightMap(config->get("data_path") + "\\height.txt");
+        BWAPI::Broodwar.print(result.c_str());
+      }
       else if (parsed[1] == "startlocations")
       {
         std::string fileName = config->get("data_path") + "\\startlocations";
@@ -601,7 +606,7 @@ namespace BWAI
       }
       else
         BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
-                              "buildability, walkability, startlocations, defined buildings", parsed[1].c_str());
+                              "buildability, walkability, height, startlocations, defined buildings", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/count")

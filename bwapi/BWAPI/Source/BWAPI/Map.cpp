@@ -61,6 +61,13 @@ namespace BWAPI
     u32 value =  (*this->fogOfWar)[y][x];
     return !(value & (1<<Broodwar.BWAPIPlayer->getID()));
   }
+  //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
+  int Map::groundHeight(int x, int y) const
+  {
+    int mid=this->getMiniTile(x,y).getBit(BW::MiniTileFlags::Middle);
+    int high=this->getMiniTile(x,y).getBit(BW::MiniTileFlags::High);
+    return mid+high*2;
+  }
   //-------------------------------------------------- LOAD --------------------------------------------------
   void Map::load()
   {
@@ -95,16 +102,20 @@ namespace BWAPI
   //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()
   {
-    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
-      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
-      {
-        BW::TileID tileID = BWAPI::Map::getTile(x, y);
-        BW::TileType* tile = BW::TileSet::getTileType(tileID);
-        for (unsigned int my = 0; my < 4; my++)
-          for (unsigned int mx = 0; mx < 4; mx++)
-            this->walkability[x*4 + mx][y*4 + my] = 
-              (*BW::BWDATA_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4].getBit(BW::MiniTileFlags::Walkable);
-     }
+    for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
+      for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
+        this->walkability[x][y] = this->getMiniTile(x,y).getBit(BW::MiniTileFlags::Walkable);
+  }
+  //--------------------------------------------- GET MINITILE -----------------------------------------------
+  Util::BitMask<BW::MiniTileFlags::Enum> Map::getMiniTile(int x, int y) const
+  {
+    int tx=x/4;
+    int ty=y/4;
+    int mx=x%4;
+    int my=y%4;
+    BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
+    BW::TileType* tile = BW::TileSet::getTileType(tileID);
+    return (*BW::BWDATA_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------
   int Map::getMapHash()
