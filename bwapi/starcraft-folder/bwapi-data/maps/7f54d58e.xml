@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Map:        Python 1.3
+    Players:    4
+    Tileset:    Jungle
+    Size:       128 x 128
+-->
 
 <map-description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	               xsi:noNamespaceSchemaLocation="map-info.xsd">

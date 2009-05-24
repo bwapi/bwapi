@@ -774,13 +774,19 @@ namespace BWAI
       {
 		  BWAPI::Broodwar.print("Unknown attack command '%s' - possible values are: location", parsed[1].c_str());
       }
+      return true;
     }
     else if (parsed[0] == "/res")
     {
       BWAPI::Broodwar.print("Actual: Min: %d Gas: %d",this->player->getMinerals(),this->player->getGas());
       BWAPI::Broodwar.print("Reserved: Min: %d Gas: %d",this->reserved.minerals,this->reserved.gas);
       BWAPI::Broodwar.print("Available: Min: %d Gas: %d",this->player->getMinerals()-this->reserved.minerals,this->player->getGas()-this->reserved.gas);
-
+      return true;
+    }
+    else if (parsed[0] == "/hash")
+    {
+      this->root->log->log("%08x", BWAPI::Map::getMapHash());
+      return true;
     }
     else if (parsed[0] == "/reload")
     {
@@ -1031,8 +1037,7 @@ namespace BWAI
   //TODO correctly determine the position of the enemy's main base
   BW::Position AI::getEnemyMain()
   {
-	BW::Position position = BW::Position(2500,
-									   2500);
+    BW::Position position = BW::Position(1500, 1500);
 
 	return position;
   }

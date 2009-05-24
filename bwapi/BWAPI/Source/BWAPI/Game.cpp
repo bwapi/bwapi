@@ -339,9 +339,9 @@ namespace BWAPI
            this->BWAPIPlayer->getAlliance(i) == 0)
         this->opponent = this->players[i];
 
-    BW::Positions* posptr=BW::startPositions;
+    BW::Positions* posptr = BW::startPositions;
     startLocations.clear();
-    while (posptr->x!=0 || posptr->y!=0)
+    while (posptr->x != 0 || posptr->y != 0)
     {
       startLocations.insert(BW::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
                                              (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
