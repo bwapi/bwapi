@@ -37,14 +37,19 @@ namespace BWAPI
   {
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  u16 Unit::getHealthPoints() const
+  u16 Unit::health() const
   {
     return this->getRawDataLocal()->healthPoints;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  u32 Unit::getShieldPoints() const
+  u32 Unit::shield() const
   {
     return this->getRawDataLocal()->shieldPoints;
+  }
+  //------------------------------------------- GET ENERGY POINTS --------------------------------------------
+  u16 Unit::energy() const
+  {
+    return this->getRawDataLocal()->energy; /* Unverified */
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* Unit::getOwner() const
@@ -62,7 +67,7 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getRawDataLocal()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
-      return this->getHealthPoints() > 0 &&
+      return this->health() > 0 &&
              this->getType().isValid();
   }
   //------------------------------------------------ IS VALID ------------------------------------------------
@@ -70,6 +75,24 @@ namespace BWAPI
   {
     return this->isValid() &&
            this->isCompleted();
+  }
+  //----------------------------------------------- IS VISIBLE -----------------------------------------------
+  bool Unit::isVisible() const
+  {
+    if (this->getOwner()==BWAPI::Broodwar.self())
+    {
+      return true;
+    }
+    if (!BWAPI::Broodwar.map.visible(this->getTilePosition().x,this->getTilePosition().y))
+    {
+      return false;
+    }
+    /* TODO: Also need to check for detection (overlords, observers, Terran scans, etc) */
+    if (this->isBurrowed() || this->isCloaked())
+    {
+      return false;
+    }
+    return true;
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool Unit::isCompleted() const
@@ -81,6 +104,21 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
            this->getRawDataLocal()->unitID.isBuilding();
+  }
+  //----------------------------------------------- IS BURROWED ----------------------------------------------
+  bool Unit::isBurrowed() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
+  }
+  //------------------------------------------------ IS CLOAKED ----------------------------------------------
+  bool Unit::isCloaked() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
+  }
+  //------------------------------------------------ IS DISABLED ---------------------------------------------
+  bool Unit::isDisabled() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
   }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool Unit::isSelected() const
@@ -240,6 +278,27 @@ namespace BWAPI
                 (long double)((long double)y1 - y2)*((long double)y1 - y2));
   }
   #pragma warning(pop)
+  //---------------------------------------------- IS TRAINING -----------------------------------------------
+  bool Unit::isTraining() const
+  {
+    return !this->hasEmptyBuildQueue();
+  }
+  //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
+  std::list<BW::UnitType > Unit::getTrainingQueue() const
+  {
+    std::list<BW::UnitType > trainList;
+    if (this->hasEmptyBuildQueue()) return trainList;
+    int i = this->getBuildQueueSlot();
+    int starti=i;
+    trainList.push_back(this->getBuildQueue()[i]);
+    i=(i + 1)%5;
+    while(this->getBuildQueue()[this->getBuildQueueSlot()] != BW::UnitID::None && i!=starti)
+    {
+      trainList.push_back(this->getBuildQueue()[i]);
+      i=(i + 1)%5;
+    }
+    return trainList;
+  }
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
   bool Unit::hasEmptyBuildQueueSync() const
   {
@@ -259,21 +318,21 @@ namespace BWAPI
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
-  void Unit::orderAttackLocation(BW::Position position, u8 orderID)
+  void Unit::attackLocation(BW::Position position, u8 orderID)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::Attack(position, orderID), sizeof(BW::Orders::Attack)); 
     Broodwar.addToCommandBuffer(new CommandAttackLocation(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void Unit::orderRightClick(BW::Position position)
+  void Unit::rightClick(BW::Position position)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(position), sizeof(BW::Orders::RightClick)); 
     Broodwar.addToCommandBuffer(new CommandRightClick(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void Unit::orderRightClick(Unit *target)
+  void Unit::rightClick(Unit *target)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(target), sizeof(BW::Orders::RightClick)); 
@@ -302,7 +361,37 @@ namespace BWAPI
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::Upgrade(upgrade), sizeof(BW::Orders::Upgrade)); 
     Broodwar.addToCommandBuffer(new CommandUpgrade(this, upgrade));
-  }  
+  }
+  //-------------------------------------------------- STOP --------------------------------------------------
+  void Unit::stop()
+  {
+    //TODO: Handle stop order
+  }
+  //---------------------------------------------- HOLD POSITION ---------------------------------------------
+  void Unit::holdPosition()
+  {
+    //TODO: Handle hold position order
+  }
+  //-------------------------------------------------- PATROL ------------------------------------------------
+  void Unit::patrol(BW::Position position)
+  {
+    //TODO: Handle patrol order
+  }
+  //------------------------------------------------- USE TECH -----------------------------------------------
+  void Unit::useTech(BW::TechType tech)
+  {
+    //TODO: Handle use tech order
+  }
+  //------------------------------------------------- USE TECH -----------------------------------------------
+  void Unit::useTech(BW::TechType tech, BW::Position position)
+  {
+    //TODO: Handle use tech order
+  }
+  //------------------------------------------------- USE TECH -----------------------------------------------
+  void Unit::useTech(BW::TechType tech, Unit* target)
+  {
+    //TODO: Handle use tech order
+  }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void Unit::orderSelect()
   {
@@ -339,7 +428,7 @@ namespace BWAPI
     return this->getRawDataLocal()->buildQueue;
   }
   //----------------------------------------------- TRAIN UNIT -----------------------------------------------
-  void Unit::trainUnit(BW::UnitType type)
+  void Unit::train(BW::UnitType type)
   {
     if (this->getType() == BW::UnitID::Zerg_Larva ||
         this->getType() == BW::UnitID::Zerg_Mutalisk ||
@@ -420,7 +509,7 @@ namespace BWAPI
       sprintf(orderTargetIndex, "OrderTarget:[%d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
   
     if (this->getOwner() != NULL)
-      sprintf(owner,"Player = (%s)",this->getOwner()->getName());
+      sprintf(owner,"Player = (%s)",this->getOwner()->getName().c_str());
     else
       sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
 
