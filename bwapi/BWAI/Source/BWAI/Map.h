@@ -9,6 +9,7 @@ namespace BWAI
      */
     std::string saveBuildabilityMap(const std::string& fileName);
     std::string saveWalkabilityMap(const std::string& fileName);
+    std::string saveHeightMap(const std::string& fileName);
     std::string saveFogOfWarMap(const std::string& fileName);
   }
 }

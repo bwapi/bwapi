@@ -73,6 +73,39 @@ namespace BWAI
         return std::string("Declaration of RectangleArray for fog of war map failed.");
       }
     }
+    //------------------------------------------- SAVE HEIGHT MAP --------------------------------------------
+    std::string saveHeightMap(const std::string& fileName)
+    {
+      FILE* f = fopen(fileName.c_str(),"wt");
+      if (!f)
+        throw FileException("Couldn't save the height map to '" + fileName + "'");
+      fprintf_s(f, "Height map for currently opened map\n");
+      fprintf_s(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Map::getWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Map::getHeight());
+      fprintf_s(f, "X = not walkable\n");
+      fprintf_s(f, ". = walkable\n");
+      
+      try
+      {
+        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Map::getWidth()*4, 
+                                                                       BWAPI::Map::getHeight()*4);
+
+        fprintf_s(f, "RectangleArray declaration succeeded.\n");
+        for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
+          for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
+            result[x][y] = '0'+BWAPI::Broodwar.map.groundHeight(x,y);
+        
+        Util::Strings::makeBorder(result).printToFile(f);
+        fclose(f);
+        return std::string("Successfully saved height map.");
+      }
+      catch (GeneralException&)
+      {
+        fprintf_s(f, "Declaration of RectangleArray for fog of war map failed.");
+        return std::string("Declaration of RectangleArray for fog of war map failed.");
+      }
+    }
     //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
     std::string saveFogOfWarMap(const std::string& fileName)
     {
