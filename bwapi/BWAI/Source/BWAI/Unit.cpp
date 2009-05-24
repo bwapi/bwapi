@@ -30,12 +30,12 @@ namespace BWAI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int Unit::getHealthPoints() const
   {
-    return this->unit->getHealthPoints();
+    return this->unit->health();
   }
   //------------------------------------------- GET SHIELD POINTS --------------------------------------------
   int Unit::getShieldPoints() const
   {
-    return this->unit->getShieldPoints();
+    return this->unit->shield();
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BW::Position& Unit::getPosition() const
@@ -192,19 +192,19 @@ namespace BWAI
 
   void Unit::orderAttackLocation(BW::Position position, int OrderID)
   {
-    return this->unit->orderAttackLocation(position, OrderID);
+    return this->unit->attackLocation(position, OrderID);
   }
   void Unit::orderRightClick(BW::Position position)
   {
-    return this->unit->orderRightClick(position);
+    return this->unit->rightClick(position);
   }
   void Unit::orderRightClick(Unit *target)
   {
-    this->unit->orderRightClick(target->getUnit());
+    this->unit->rightClick(target->getUnit());
   }
   void Unit::trainUnit(BW::UnitType type)
   {
-    this->unit->trainUnit(type);
+    this->unit->train(type);
   }
   void Unit::build(BW::TilePosition position, BW::UnitType type)
   {
