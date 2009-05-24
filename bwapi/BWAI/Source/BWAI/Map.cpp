@@ -14,18 +14,18 @@ namespace BWAI
       FILE* f = fopen(fileName.c_str(),"wt");
       if (!f)
         throw FileException("Couldn't save the buildability map to '" + fileName + "'");
-      fprintf(f, "Buildability map for currently opened map\n");
-      fprintf(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
-      fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
-      fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
-      fprintf(f, "X = not buildable\n");
-      fprintf(f, ". = buildable\n");
+      fprintf_s(f, "Buildability map for currently opened map\n");
+      fprintf_s(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Map::getWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Map::getHeight());
+      fprintf_s(f, "X = not buildable\n");
+      fprintf_s(f, ". = buildable\n");
 
       try
       {
         Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Map::getWidth(),BWAPI::Map::getHeight());
 
-        fprintf(f, "RectangleArray declaration succeeded.\n");
+        fprintf_s(f, "RectangleArray declaration succeeded.\n");
         for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
           for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
             result[x][y] = BWAPI::Broodwar.map.buildable(x,y) ? '.' : 'X';
@@ -36,7 +36,7 @@ namespace BWAI
       }
       catch (GeneralException&)
       {
-        fprintf(f, "Declaration of RectangleArray for fog of war map failed.");
+        fprintf_s(f, "Declaration of RectangleArray for fog of war map failed.");
         return std::string("Declaration of RectangleArray for fog of war map failed.");
       }
     }
@@ -46,19 +46,19 @@ namespace BWAI
       FILE* f = fopen(fileName.c_str(),"wt");
       if (!f)
         throw FileException("Couldn't save the walkability map to '" + fileName + "'");
-      fprintf(f, "Walkability map for currently opened map\n");
-      fprintf(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
-      fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
-      fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
-      fprintf(f, "X = not walkable\n");
-      fprintf(f, ". = walkable\n");
+      fprintf_s(f, "Walkability map for currently opened map\n");
+      fprintf_s(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Map::getWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Map::getHeight());
+      fprintf_s(f, "X = not walkable\n");
+      fprintf_s(f, ". = walkable\n");
       
       try
       {
         Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Map::getWidth()*4, 
                                                                        BWAPI::Map::getHeight()*4);
 
-        fprintf(f, "RectangleArray declaration succeeded.\n");
+        fprintf_s(f, "RectangleArray declaration succeeded.\n");
         for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
           for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
             result[x][y] = BWAPI::Broodwar.map.walkable(x,y) ? '.' : 'X';
@@ -69,7 +69,7 @@ namespace BWAI
       }
       catch (GeneralException&)
       {
-        fprintf(f, "Declaration of RectangleArray for fog of war map failed.");
+        fprintf_s(f, "Declaration of RectangleArray for fog of war map failed.");
         return std::string("Declaration of RectangleArray for fog of war map failed.");
       }
     }
@@ -79,12 +79,12 @@ namespace BWAI
       FILE* f = fopen(fileName.c_str(),"wt");
       if (!f)
         throw FileException("Couldn't save the fog of war map to '" + fileName + "'");
-      fprintf(f, "Fog of war map for currently opened map\n");
-      fprintf(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
-      fprintf(f, "Map width: %d\n", BWAPI::Map::getWidth());
-      fprintf(f, "Map height: %d\n", BWAPI::Map::getHeight());
-      fprintf(f, "X = not visible\n");
-      fprintf(f, ". = visible\n");
+      fprintf_s(f, "Fog of war map for currently opened map\n");
+      fprintf_s(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Map::getWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Map::getHeight());
+      fprintf_s(f, "X = not visible\n");
+      fprintf_s(f, ". = visible\n");
       
       try
       {
@@ -101,7 +101,7 @@ namespace BWAI
       }
       catch (GeneralException&)
       {
-        fprintf(f, "Declaration of RectangleArray for fog of war map failed.");
+        fprintf_s(f, "Declaration of RectangleArray for fog of war map failed.");
         return std::string("Declaration of RectangleArray for fog of war map failed.");
       }
 

@@ -34,6 +34,9 @@ namespace BWAPI
       /** Loads buildability/walkability arrays from the currently opened map. */
       void load();
 
+      /** Returns a value that represents the map's terrain. */
+      static int Map::getMapHash();
+
   private :
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);

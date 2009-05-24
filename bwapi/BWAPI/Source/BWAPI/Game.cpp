@@ -52,7 +52,7 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error","wt");
-      fprintf(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
+      fprintf_s(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
       fclose(f);
     }
     try
@@ -110,7 +110,7 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error","wt");
-      fprintf(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
+      fprintf_s(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
       fclose(f);
     }
   }
@@ -187,7 +187,7 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error","wt");
-      fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
+      fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
   }
@@ -224,29 +224,17 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf(buffer, BUFFER_SIZE, text, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
     va_end(ap);
     
-    char* txtout = buffer;
-    if (*BW::BWDATA_InGame)
-      __asm
-      {
-        pushad
-        push 0       // Unknown
-        mov eax, 8   // Player ID (-1 for notification area)
-        push txtout  // Text
-        call dword ptr [BW::BWFXN_PrintText]
-        popad
-      }
-    else
-      printPublic(txtout); // until lobby print private text is found
+    printEx(8, buffer);
   }
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
   void Game::printEx(s32 pID, const char *text, ...)
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf(buffer, BUFFER_SIZE, text, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
     va_end(ap);
     
     char* txtout = buffer;
@@ -268,7 +256,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf(buffer, BUFFER_SIZE, text, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
     va_end(ap);
     
     char* txtout = buffer;
@@ -403,7 +391,7 @@ namespace BWAPI
       if (parsed[1] == "playerID")
       {
         char text[100];
-        sprintf(text, "Current player id = %d", this->BWAPIPlayer->getID());
+        sprintf_s(text, 100, "Current player id = %d", this->BWAPIPlayer->getID());
         this->print(text);
       }
       else if (parsed[1] == "researchState")
@@ -736,11 +724,11 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); x++)
       {
         if (this->map.buildable(x,y))
-          fprintf(f, "%d", this->unitsOnTile(x,y).size());
+          fprintf_s(f, "%d", this->unitsOnTile(x,y).size());
         else
-          fprintf(f, "X");
+          fprintf_s(f, "X");
       }
-      fprintf(f,"\n");
+      fprintf_s(f,"\n");
     }
     fclose(f);
   }

@@ -21,9 +21,9 @@ namespace Util
     {
       char time[9];
       _strtime(time);
-      fprintf(f, "%s ", time);
+      fprintf_s(f, "%s ", time);
     }
-    fprintf(f, "%s \n", data);
+    fprintf_s(f, "%s \n", data);
     fclose(f);
     return true;
   }

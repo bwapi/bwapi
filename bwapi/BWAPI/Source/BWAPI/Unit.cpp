@@ -493,39 +493,39 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string Unit::getName() const
   {
-    sprintf(position, "Position = (%u,%u)", this->getPosition().x, 
+    sprintf_s(position, 100, "Position = (%u,%u)", this->getPosition().x, 
                                               this->getPosition().y);
 
-    sprintf(indexName, "[%d]", this->getIndex());
+    sprintf_s(indexName, 50, "[%d]", this->getIndex());
 
     if (this->getTarget() == NULL)
-      strcpy(targetIndex, "Target:[NULL]");
+      strcpy_s(targetIndex, 50, "Target:[NULL]");
     else
-      sprintf(targetIndex, "Target:[%d](%s)", this->getTarget()->getIndex(), this->getTarget()->getType().getName());
+      sprintf_s(targetIndex, 50, "Target:[%d](%s)", this->getTarget()->getIndex(), this->getTarget()->getType().getName());
 
     if (this->getOrderTarget() == NULL)
-      strcpy(orderTargetIndex, "OrderTarget:[NULL]");
+      strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
     else
-      sprintf(orderTargetIndex, "OrderTarget:[%d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
+      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
   
     if (this->getOwner() != NULL)
-      sprintf(owner,"Player = (%s)",this->getOwner()->getName().c_str());
+      sprintf_s(owner, 100, "Player = (%s)", this->getOwner()->getName().c_str());
     else
-      sprintf(owner,"error owner id = (%d)",this->getOriginalRawData()->playerID);
+      sprintf_s(owner, 100, "error owner id = (%d)", this->getOriginalRawData()->playerID);
 
     if (this->getType().isValid())
-      sprintf(unitName, "(%s)", this->getType().getName());
+      sprintf_s(unitName, 100, "(%s)", this->getType().getName());
     else
-      sprintf(unitName, "(unitID = %u)", this->getType().getID());
+      sprintf_s(unitName, 100, "(unitID = %u)", this->getType().getID());
 
     if (this->getType() == BW::UnitID::Terran_Vulture ||
         BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
-      sprintf(connectedUnit, "(childUnit1 = NULL)");
+      sprintf_s(connectedUnit, 100, "(childUnit1 = NULL)");
     else
-      sprintf(connectedUnit, "(childUnit1 = %s)", this->getChild()->getType().getName());
+      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName());
 
-    sprintf(orderName,"(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
-    sprintf(message,"%s %s %s %s %s %s %s %s", unitName,
+    sprintf_s(orderName, 100, "(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
                                               orderName,
                                               indexName,
                                               position,

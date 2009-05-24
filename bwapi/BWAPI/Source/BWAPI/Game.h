@@ -48,9 +48,9 @@ namespace BWAPI
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      void print(const char *text, ...);
-      void printEx(s32 pID, const char *text, ...);
-      void printPublic(const char *text, ...);
+      static void print(const char *text, ...);
+      static void printEx(s32 pID, const char *text, ...);
+      static void printPublic(const char *text, ...);
       bool isOnStartCalled() const;
       void setOnStartCalled(bool onStartCalled);
       bool isInGame() const;

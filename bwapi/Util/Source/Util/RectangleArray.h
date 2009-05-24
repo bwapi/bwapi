@@ -211,9 +211,9 @@ namespace Util
       for (unsigned int x = 0; x < this->getWidth(); x++)
       {
         char ch = this->getColumn(x)[y];
-        fprintf(f, "%c", ch);
+        fprintf_s(f, "%c", ch);
       }
-      fprintf(f, "\n");
+      fprintf_s(f, "\n");
     }
   }
   //---------------------------------------------- SAVE TO FILE ----------------------------------------------
