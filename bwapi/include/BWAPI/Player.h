@@ -19,6 +19,7 @@ namespace BWAPI
     virtual BW::Race::Enum getRace() const=0;
     virtual BW::PlayerType::Enum playerType() const=0;
     virtual Force* getForce() const=0;
+    virtual u8 getID() const=0;
 
     virtual int minerals() const=0;
     virtual int gas() const=0;

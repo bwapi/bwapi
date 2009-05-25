@@ -1059,7 +1059,7 @@ namespace BWAI
   //TODO correctly determine the position of the enemy's main base
   BW::Position AI::getEnemyMain()
   {
-    BW::Position position = BW::Position(1500, 1500);
+    BW::Position position = BW::Position(BW::startPositions[this->opponent->getID()].x, BW::startPositions[this->opponent->getID()].y);
 
 	return position;
   }

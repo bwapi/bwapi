@@ -14,6 +14,10 @@ namespace BWAI
   {
     this->player=player;
   }
+  u8 Player::getID()
+  {
+    return this->player->getID();
+  }
   BW::Race::Enum Player::getRace()
   {
     return this->player->getRace();
