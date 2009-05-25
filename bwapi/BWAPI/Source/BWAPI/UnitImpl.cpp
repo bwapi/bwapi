@@ -1,4 +1,4 @@
-#include "Unit.h"
+#include "UnitImpl.h"
 
 #include <math.h>
 
@@ -21,7 +21,7 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Unit::Unit(BW::Unit* unitData, 
+  UnitImpl::UnitImpl(BW::Unit* unitData, 
              BW::Unit* originalUnit,
              BW::Unit* unitDataLocal,
              u16 index)
@@ -33,26 +33,26 @@ namespace BWAPI
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
-  Unit::~Unit()
+  UnitImpl::~UnitImpl()
   {
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  u16 Unit::health() const
+  u16 UnitImpl::health() const
   {
     return this->getRawDataLocal()->healthPoints;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  u32 Unit::shield() const
+  u32 UnitImpl::shield() const
   {
     return this->getRawDataLocal()->shieldPoints;
   }
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
-  u16 Unit::energy() const
+  u16 UnitImpl::energy() const
   {
     return this->getRawDataLocal()->energy; /* Unverified */
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
-  Player* Unit::getOwner() const
+  Player* UnitImpl::getOwner() const
   {
     if (this->getRawDataLocal()->playerID < 12)
       return (Player*)Broodwar.players[this->bwUnit->playerID];
@@ -60,7 +60,7 @@ namespace BWAPI
       return NULL;
   }
   //------------------------------------------------ IS VALID ------------------------------------------------
-  bool Unit::isValid() const
+  bool UnitImpl::isValid() const
   {
     if (this->getRawDataLocal()->playerID > 11)
        return false;
@@ -71,13 +71,18 @@ namespace BWAPI
              this->getType().isValid();
   }
   //------------------------------------------------ IS VALID ------------------------------------------------
-  bool Unit::isReady() const
+  bool UnitImpl::isReady() const
   {
     return this->isValid() &&
            this->isCompleted();
   }
+  //------------------------------------------------ IS LOADED -----------------------------------------------
+  bool UnitImpl::isLoaded() const
+  {
+    return this->loaded;
+  }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
-  bool Unit::isVisible() const
+  bool UnitImpl::isVisible() const
   {
     if (this->getOwner()==BWAPI::Broodwar.self())
     {
@@ -95,106 +100,111 @@ namespace BWAPI
     return true;
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
-  bool Unit::isCompleted() const
+  bool UnitImpl::isCompleted() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
-  bool Unit::isLifted() const
+  bool UnitImpl::isLifted() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
            this->getRawDataLocal()->unitID.isBuilding();
   }
   //----------------------------------------------- IS BURROWED ----------------------------------------------
-  bool Unit::isBurrowed() const
+  bool UnitImpl::isBurrowed() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
   }
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
-  bool Unit::isCloaked() const
+  bool UnitImpl::isCloaked() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
   }
   //------------------------------------------------ IS DISABLED ---------------------------------------------
-  bool Unit::isDisabled() const
+  bool UnitImpl::isDisabled() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
   }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
-  bool Unit::isSelected() const
+  bool UnitImpl::isSelected() const
   {
     if (BWAPI::Broodwar.isFlagEnabled(BWAPI::Flag::UserInput)==false)
       return false;
     return this->userSelected;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
-  void Unit::setSelected(bool selectedState)
+  void UnitImpl::setSelected(bool selectedState)
   {
     this->userSelected=selectedState;
   }
+  //---------------------------------------------- SET LOADED ------------------------------------------------
+  void UnitImpl::setLoaded(bool loadedState)
+  {
+    this->loaded=loadedState;
+  }
   //---------------------------------------------- GET POSITION ----------------------------------------------
-  const BW::Position& Unit::getPosition() const
+  const BW::Position& UnitImpl::getPosition() const
   {
     return this->getRawDataLocal()->position;
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
-  BW::TilePosition Unit::getTilePosition() const
+  BW::TilePosition UnitImpl::getTilePosition() const
   {
     return BW::Position(this->getPosition().x - this->getType().getTileWidth()*BW::TILE_SIZE/2,
                         this->getPosition().y - this->getType().getTileHeight()*BW::TILE_SIZE/2);
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
-  Unit* Unit::getTarget() const
+  Unit* UnitImpl::getTarget() const
   {
-    return Unit::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
-  Unit* Unit::getOrderTarget() const
+  Unit* UnitImpl::getOrderTarget() const
   {
-    return Unit::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* Unit::getBuildUnit() const
+  Unit* UnitImpl::getBuildUnit() const
   {
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* Unit::getChild() const
+  Unit* UnitImpl::getChild() const
   {
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
   }
   //------------------------------------------ GET TATGET POSITION -------------------------------------------
-  BW::Position Unit::getTargetPosition() const
+  BW::Position UnitImpl::getTargetPosition() const
   {
    return this->getRawDataLocal()->moveToPos;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
-  BW::Unit* Unit::getRawData() const
+  BW::Unit* UnitImpl::getRawData() const
   {
     return this->bwUnit;
   }
   //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
-  BW::Unit* Unit::getRawDataLocal() const
+  BW::Unit* UnitImpl::getRawDataLocal() const
   {
     return this->bwUnitLocal;
   }
   //----------------------------------------- GET ORIGINAL RAW DATA ------------------------------------------
-  BW::Unit* Unit::getOriginalRawData() const
+  BW::Unit* UnitImpl::getOriginalRawData() const
   {
     return this->bwOriginalUnit;
   }
   //---------------------------------------------- GET ORDER ID ----------------------------------------------
-  BW::OrderID::Enum Unit::getOrderID() const
+  BW::OrderID::Enum UnitImpl::getOrderID() const
   {
     return this->getRawDataLocal()->orderID;
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
-  BW::OrderID::Enum Unit::getSecondaryOrderID() const
+  BW::OrderID::Enum UnitImpl::getSecondaryOrderID() const
   {
     return this->getRawDataLocal()->secondaryOrderID;
   }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
-  bool Unit::isIdle() const
+  bool UnitImpl::isIdle() const
   {
     return (this->getOrderID() == BW::OrderID::Guard ||
             this->getOrderID() == BW::OrderID::Stop ||
@@ -209,7 +219,7 @@ namespace BWAPI
 
   #pragma warning(push)
   #pragma warning(disable:4244)
-  u16 Unit::getDistance(Unit *unit) const
+  u16 UnitImpl::getDistance(Unit *unit) const
   {
    u32 result;
    if (unit == this)
@@ -256,7 +266,7 @@ namespace BWAPI
      return 0;
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  u16 Unit::getDistance(BW::Position position) const
+  u16 UnitImpl::getDistance(BW::Position position) const
   {
     return this->getDistance(this->getPosition().x, 
                              this->getPosition().y,
@@ -264,7 +274,7 @@ namespace BWAPI
                              position.y);
   }
   //------------------------------------------ GET CENTER DISTANCE -------------------------------------------
-  u16 Unit::getCenterDistance(Unit *unit) const
+  u16 UnitImpl::getCenterDistance(Unit *unit) const
   {
     return this->getDistance(this->getPosition().x, 
                              this->getPosition().y,
@@ -272,27 +282,27 @@ namespace BWAPI
                              unit->getPosition().y);
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  u16 Unit::getDistance(int x1, int y1, int x2, int y2) const
+  u16 UnitImpl::getDistance(int x1, int y1, int x2, int y2) const
   {
     return sqrt((long double)((long double)x1 - x2)*((long double)x1 - x2) +
                 (long double)((long double)y1 - y2)*((long double)y1 - y2));
   }
   #pragma warning(pop)
   //---------------------------------------------- IS TRAINING -----------------------------------------------
-  bool Unit::isTraining() const
+  bool UnitImpl::isTraining() const
   {
     return !this->hasEmptyBuildQueue();
   }
   //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
-  std::list<BW::UnitType > Unit::getTrainingQueue() const
+  std::list<BW::UnitType > UnitImpl::getTrainingQueue() const
   {
     std::list<BW::UnitType > trainList;
     if (this->hasEmptyBuildQueue()) return trainList;
-    int i = this->getBuildQueueSlot();
+    int i = this->getBuildQueueSlot()%5;
     int starti=i;
-    trainList.push_back(this->getBuildQueue()[i]);
+    trainList.push_front(this->getBuildQueue()[i]);
     i=(i + 1)%5;
-    while(this->getBuildQueue()[this->getBuildQueueSlot()] != BW::UnitID::None && i!=starti)
+    while(this->getBuildQueue()[i] != BW::UnitID::None && i!=starti)
     {
       trainList.push_back(this->getBuildQueue()[i]);
       i=(i + 1)%5;
@@ -300,12 +310,12 @@ namespace BWAPI
     return trainList;
   }
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
-  bool Unit::hasEmptyBuildQueueSync() const
+  bool UnitImpl::hasEmptyBuildQueueSync() const
   {
     return this->getBuildQueueSync()[this->getBuildQueueSlotSync()] == BW::UnitID::None;
   }
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
-  bool Unit::hasEmptyBuildQueue() const
+  bool UnitImpl::hasEmptyBuildQueue() const
   {
     if (this->getBuildQueueSlot() < 5)
       return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
@@ -313,33 +323,33 @@ namespace BWAPI
       return false;
   }
   //----------------------------------------- HAS FULL QUEUE LOCAL -------------------------------------------
-  bool Unit::hasFullBuildQueue() const
+  bool UnitImpl::hasFullBuildQueue() const
   {
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
-  void Unit::attackLocation(BW::Position position, u8 orderID)
+  void UnitImpl::attackLocation(BW::Position position, u8 orderID)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::Attack(position, orderID), sizeof(BW::Orders::Attack)); 
     Broodwar.addToCommandBuffer(new CommandAttackLocation(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void Unit::rightClick(BW::Position position)
+  void UnitImpl::rightClick(BW::Position position)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(position), sizeof(BW::Orders::RightClick)); 
     Broodwar.addToCommandBuffer(new CommandRightClick(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void Unit::rightClick(Unit *target)
+  void UnitImpl::rightClick(Unit *target)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(target), sizeof(BW::Orders::RightClick)); 
-    Broodwar.addToCommandBuffer(new CommandRightClick(this, target));
+    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick)); 
+    Broodwar.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
   }
   //------------------------------------------------- BUILD --------------------------------------------------
-  void Unit::build(BW::TilePosition position, BW::UnitType type)
+  void UnitImpl::build(BW::TilePosition position, BW::UnitType type)
   {
     this->orderSelect();
     if (!type.isAddon())
@@ -349,51 +359,51 @@ namespace BWAPI
     Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
-  void Unit::invent(BW::TechType tech)
+  void UnitImpl::invent(BW::TechType tech)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::Invent(tech), sizeof(BW::Orders::Invent)); 
     Broodwar.addToCommandBuffer(new CommandInvent(this, tech));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
-  void Unit::upgrade(BW::UpgradeType upgrade)
+  void UnitImpl::upgrade(BW::UpgradeType upgrade)
   {
     this->orderSelect();
     Broodwar.IssueCommand((PBYTE)&BW::Orders::Upgrade(upgrade), sizeof(BW::Orders::Upgrade)); 
     Broodwar.addToCommandBuffer(new CommandUpgrade(this, upgrade));
   }
   //-------------------------------------------------- STOP --------------------------------------------------
-  void Unit::stop()
+  void UnitImpl::stop()
   {
     //TODO: Handle stop order
   }
   //---------------------------------------------- HOLD POSITION ---------------------------------------------
-  void Unit::holdPosition()
+  void UnitImpl::holdPosition()
   {
     //TODO: Handle hold position order
   }
   //-------------------------------------------------- PATROL ------------------------------------------------
-  void Unit::patrol(BW::Position position)
+  void UnitImpl::patrol(BW::Position position)
   {
     //TODO: Handle patrol order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void Unit::useTech(BW::TechType tech)
+  void UnitImpl::useTech(BW::TechType tech)
   {
     //TODO: Handle use tech order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void Unit::useTech(BW::TechType tech, BW::Position position)
+  void UnitImpl::useTech(BW::TechType tech, BW::Position position)
   {
     //TODO: Handle use tech order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void Unit::useTech(BW::TechType tech, Unit* target)
+  void UnitImpl::useTech(BW::TechType tech, Unit* target)
   {
     //TODO: Handle use tech order
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
-  void Unit::orderSelect()
+  void UnitImpl::orderSelect()
   {
     if (Broodwar.quietSelect)
     {
@@ -413,22 +423,22 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BW::UnitType Unit::getType() const
+  BW::UnitType UnitImpl::getType() const
   {
    return this->getRawDataLocal()->unitID;
   }
   //----------------------------------------------- GET QUEUE ------------------------------------------------
-  BW::UnitType* Unit::getBuildQueueSync() const
+  BW::UnitType* UnitImpl::getBuildQueueSync() const
   {
     return this->getRawData()->buildQueue;
   }
   //-------------------------------------------- GET QUEUE LOCAL  --------------------------------------------
-  BW::UnitType* Unit::getBuildQueue() const
+  BW::UnitType* UnitImpl::getBuildQueue() const
   {
     return this->getRawDataLocal()->buildQueue;
   }
   //----------------------------------------------- TRAIN UNIT -----------------------------------------------
-  void Unit::train(BW::UnitType type)
+  void UnitImpl::train(BW::UnitType type)
   {
     if (this->getType() == BW::UnitID::Zerg_Larva ||
         this->getType() == BW::UnitID::Zerg_Mutalisk ||
@@ -455,19 +465,19 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET QUEUE SLOT ---------------------------------------------
-  u8 Unit::getBuildQueueSlotSync() const
+  u8 UnitImpl::getBuildQueueSlotSync() const
   {
     return this->getRawData()->buildQueueSlot;
   }
   //------------------------------------------ GET QUEUE SLOT LOCAL ------------------------------------------
-  u8 Unit::getBuildQueueSlot() const
+  u8 UnitImpl::getBuildQueueSlot() const
   {
     return this->getOriginalRawData()->buildQueueSlot;
   }
   //----------------------------------------------------------------------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4311)
-  Unit* Unit::BWUnitToBWAPIUnit(BW::Unit* unit)
+  UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::Unit* unit)
   {
     if (unit == NULL)
       return NULL;
@@ -475,7 +485,7 @@ namespace BWAPI
   }
   #pragma warning (pop)
   //----------------------------------------------------------------------------------------------------------
-  bool Unit::isMineral() const
+  bool UnitImpl::isMineral() const
   {
      return this->getType() == BW::UnitID::Resource_MineralPatch1 ||
             this->getType() == BW::UnitID::Resource_MineralPatch2 ||
@@ -491,7 +501,7 @@ namespace BWAPI
   char connectedUnit[100];
   char message[400];
   //----------------------------------------------------------------------------------------------------------
-  std::string Unit::getName() const
+  std::string UnitImpl::getName() const
   {
     sprintf_s(position, 100, "Position = (%u,%u)", this->getPosition().x, 
                                               this->getPosition().y);
@@ -501,12 +511,12 @@ namespace BWAPI
     if (this->getTarget() == NULL)
       strcpy_s(targetIndex, 50, "Target:[NULL]");
     else
-      sprintf_s(targetIndex, 50, "Target:[%d](%s)", this->getTarget()->getIndex(), this->getTarget()->getType().getName());
+      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)this->getTarget(), this->getTarget()->getType().getName());
 
     if (this->getOrderTarget() == NULL)
       strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
     else
-      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", this->getOrderTarget()->getIndex(), this->getOrderTarget()->getType().getName());
+      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName());
   
     if (this->getOwner() != NULL)
       sprintf_s(owner, 100, "Player = (%s)", this->getOwner()->getName().c_str());
@@ -518,8 +528,7 @@ namespace BWAPI
     else
       sprintf_s(unitName, 100, "(unitID = %u)", this->getType().getID());
 
-    if (this->getType() == BW::UnitID::Terran_Vulture ||
-        BWAPI::Unit::BWUnitToBWAPIUnit(this->getRawData()->childInfoUnion.childUnit1) == NULL)
+    if (this->getChild() == NULL)
       sprintf_s(connectedUnit, 100, "(childUnit1 = NULL)");
     else
       sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName());
@@ -537,7 +546,7 @@ namespace BWAPI
     return std::string(message);
   }
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
-  Unit* Unit::getNext() const
+  UnitImpl* UnitImpl::getNext() const
   {
     #ifdef PARANOID_DEBUG
     #pragma warning(push)
@@ -551,20 +560,20 @@ namespace BWAPI
     }
     #pragma warning(pop)
     #endif PARANOID_DEBUG
-    return Unit::BWUnitToBWAPIUnit(this->getRawDataLocal()->nextUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->nextUnit);
   }
   //-------------------------------------------- GET ORDER TIMER ---------------------------------------------
-  u8 Unit::getOrderTimer() const
+  u8 UnitImpl::getOrderTimer() const
   {
      return this->getRawDataLocal()->mainOrderTimer;
   }
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
-  u16 Unit::getRemainingBuildTime() const
+  u16 UnitImpl::getRemainingBuildTime() const
   {
      return this->getRawDataLocal()->remainingBuildTime;
   }
   //----------------------------------------------------------------------------------------------------------
-  u16 Unit::getIndex() const
+  u16 UnitImpl::getIndex() const
   {
     return this->index;
   }

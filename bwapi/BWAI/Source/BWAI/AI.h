@@ -68,10 +68,10 @@ namespace BWAI
 
       std::list<Expansion*> expansions;
       Player* getPlayer(BWAPI::Player* player);
-      Unit* getUnit(int index);
+      Unit* getUnit(BWAPI::Unit* unit);
       static Unit* optimizeMineralFor;
       bool expansionsSaturated;
-      std::vector<Unit*> units;
+      std::set<Unit*> units;
       Util::Logger* log;
       Unit* freeBuilder(BW::Position position);
 
@@ -107,8 +107,7 @@ namespace BWAI
       s32 plannedSupplyGain(BW::Race::Enum race);
       s32 buildTaskUnitsPlanned[228];
     private :
-      Unit* getFirst();   
-      Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
+      std::map<BWAPI::Unit*,Unit*> unit_mapping;
       std::map<BWAPI::Player*, Player*> player_mapping;
       BWAPI::UnitPrototype* worker;
       Util::Logger* deadLog;      

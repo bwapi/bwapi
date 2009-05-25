@@ -1,10 +1,10 @@
 #include "CommandAttackLocation.h"
-#include "Unit.h"
+#include "UnitImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandAttackLocation::CommandAttackLocation(Unit* executor, const BW::Position& targetPosition)
+  CommandAttackLocation::CommandAttackLocation(UnitImpl* executor, const BW::Position& targetPosition)
   :Command(executor)
   ,targetPosition(targetPosition)
   {

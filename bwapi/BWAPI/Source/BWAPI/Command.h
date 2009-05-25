@@ -3,7 +3,7 @@
 #include <vector>
 namespace BWAPI
 {
-  class Unit;
+  class UnitImpl;
   /**
    * BWAPI internal representation of command. Every command ordered is
    * represented by descendant of this class and stored in the
@@ -17,13 +17,13 @@ namespace BWAPI
        * @param executors Executors of the command (Every command has some
        *        executor).
        */
-      Command(const std::vector<Unit*> &executors);
+      Command(const std::vector<UnitImpl*> &executors);
       /**
        * Special case with one executor only, makes list containing the
        * specified value.
        * @param executor Executor of the command.
        */
-      Command(Unit* executor);
+      Command(UnitImpl* executor);
       virtual ~Command();
       /** Gets the type of the command  */
       virtual BWAPI::CommandTypes::Enum getType() = 0;
@@ -37,6 +37,6 @@ namespace BWAPI
       virtual std::string describe() = 0;
     protected : 
       /** List of executors of the command. */
-      std::vector<Unit*> executors;
+      std::vector<UnitImpl*> executors;
   };
 }

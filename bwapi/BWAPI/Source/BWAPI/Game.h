@@ -7,6 +7,7 @@ namespace BW    { struct Unit; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class PlayerImpl; }
 namespace BWAPI { class Unit; }
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI { class Command; }
 
 #include <vector>
@@ -43,6 +44,8 @@ namespace BWAPI
 
       const std::set< BW::TilePosition >& getStartLocations() const;
       const std::set< BW::UnitType >& allUnitTypes() const;
+      std::set< Player* > getPlayers() const;
+      std::set< Unit* > getUnits();
 
       /**
        * Prints text in game (only local)
@@ -94,7 +97,7 @@ namespace BWAPI
       int getScreenY() const;
       /** @todo Doesn't work */
       void refresh();
-      Unit* getUnit(int index);
+      UnitImpl* getUnit(int index);
       void saveSelected();
       void loadSelected();
       const std::set<BWAPI::Unit*>& getSelectedUnits() const;
@@ -117,7 +120,7 @@ namespace BWAPI
       int getFrameCount() const;
       bool enabled;
       Map map;
-      Unit* getFirst();
+      UnitImpl* getFirst();
 
       bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
       void enableFlag(BWAPI::Flag::Enum flag);
@@ -125,13 +128,13 @@ namespace BWAPI
 
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
+      std::set<UnitImpl*> units;
     private :
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
       std::set<BW::TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
       Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
-      std::vector<Unit*> units;
       /** Count of game-frames passed from game start. */
       int frameCount;
       void logUnitList();
@@ -142,7 +145,7 @@ namespace BWAPI
       bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
-      Unit* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
+      UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       BW::Latency::Enum latency;
       std::vector<std::vector<Command *> > commandBuffer;
       /** All commands ordered from BWAPI */

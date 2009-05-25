@@ -2,13 +2,13 @@
 
 #include <Util/Logger.h>
 
-#include "Unit.h"
+#include "UnitImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandUpgrade::CommandUpgrade(Unit* building, BW::UpgradeType upgrade)
+  CommandUpgrade::CommandUpgrade(UnitImpl* building, BW::UpgradeType upgrade)
   :Command(building)
   ,upgrade(upgrade)
   {

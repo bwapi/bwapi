@@ -2,13 +2,13 @@
 
 #include <Util/Logger.h>
 
-#include "Unit.h"
+#include "UnitImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandInvent::CommandInvent(Unit* building, BW::TechType tech)
+  CommandInvent::CommandInvent(UnitImpl* building, BW::TechType tech)
   :Command(building)
   ,tech(tech)
   {

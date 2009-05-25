@@ -14,7 +14,7 @@
 #include <Util/Strings.h>
 
 #include <BWAPI/PlayerImpl.h>
-#include <BWAPI/Unit.h>
+#include <BWAPI/UnitImpl.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/CommandCancelTrain.h>
 #include <BWAPI/Map.h>
@@ -42,7 +42,6 @@ namespace BWAPI
   ,quietSelect(true)
   ,enabled(true)
   {
-    units.reserve(BW::UNIT_ARRAY_MAX_LENGTH);
     BW::UnitType::initialize();
     try
     {
@@ -97,7 +96,7 @@ namespace BWAPI
         players[i] = new PlayerImpl((u8)i);    
       
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArray[i] = new Unit(&unitArrayCopy->unit[i], 
+        unitArray[i] = new UnitImpl(&unitArrayCopy->unit[i], 
                                 &BW::BWDATA_UnitNodeTable->unit[i],
                                 &unitArrayCopyLocal->unit[i],
                                 i);
@@ -134,13 +133,38 @@ namespace BWAPI
     delete this->fatalError;
     delete this->configuration;
   }
+  //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   const std::set< BW::TilePosition >& Game::getStartLocations() const
   {
     return this->startLocations;
   }
+  //--------------------------------------------- ALL UNIT TYPES ---------------------------------------------
   const std::set< BW::UnitType >& Game::allUnitTypes() const
   {
     return this->unitTypes;
+  }
+  //----------------------------------------------- GET PLAYERS ----------------------------------------------
+  std::set< Player* > Game::getPlayers() const
+  {
+    std::set<Player*> players;
+    for(int i=0;i<12;i++)
+    {
+      if (this->players[i]!=NULL)
+      {
+        players.insert(this->players[i]);
+      }
+    }
+    return players;
+  }
+  //------------------------------------------------- GET UNITS ----------------------------------------------
+  std::set< Unit* > Game::getUnits()
+  {
+    std::set<Unit*> units;
+    for(std::set<UnitImpl*>::iterator i=this->units.begin();i!=this->units.end();i++)
+    {
+      units.insert((Unit*)(*i));
+    }
+    return units;
   }
 
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
@@ -169,8 +193,24 @@ namespace BWAPI
         this->players[i]->update();
      
       this->units.clear();
-      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-        this->units.push_back(i);
+      std::list<UnitImpl*> unitList;
+      for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+      {
+        unitList.push_back(i);
+      }
+      for(std::list<UnitImpl*>::iterator i=unitList.begin();i!=unitList.end();i++)
+      {
+        if (this->units.find(*i)==this->units.end())
+        {
+          this->units.insert(*i);
+          if ((*i)->getChild()!=NULL) /** TODO: Figure out how to read loaded units (in dropship/bunker/etc */
+          {
+            UnitImpl* newi=static_cast<UnitImpl*>((*i)->getChild());
+            unitList.push_back(newi);
+            newi->setLoaded(true);
+          }
+        }
+      }
 
       refreshSelectionStates();
 
@@ -198,7 +238,7 @@ namespace BWAPI
       this->unitArray[i]->setSelected(false);
     this->saveSelected();
     for(int i = 0; savedSelectionStates[i] != NULL; i++)
-      BWAPI::Unit::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
+      BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
   }
   //------------------------------------------- IS ON START CALLED -------------------------------------------
   bool Game::isOnStartCalled() const
@@ -380,7 +420,7 @@ namespace BWAPI
       if (parsed[1] == "info")
       {
         for (u16 i = 0; savedSelectionStates[i] != NULL; i++)
-          this->print(BWAPI::Unit::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
+          this->print(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
       }
       else
         this->print("Unknown command '%s''s - possible commands are: info", parsed[1].c_str());
@@ -633,7 +673,7 @@ namespace BWAPI
   }
   #pragma warning(pop)
   //----------------------------------------------------------------------------------------------------------
-  Unit* Game::getUnit(int index)
+  UnitImpl* Game::getUnit(int index)
   {
     return this->unitArray[index];
   }
@@ -647,7 +687,7 @@ namespace BWAPI
     selectedUnitSet.clear();
     while (savedSelectionStates[i] != NULL)
     {
-      selectedUnitSet.insert(Unit::BWUnitToBWAPIUnit(savedSelectionStates[i]));
+      selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i]));
       i++;
     }
   }
@@ -679,7 +719,7 @@ namespace BWAPI
     try
     {
       if (savedSelectionStates[0] != NULL)
-        this->addToCommandBuffer(new CommandCancelTrain(BWAPI::Unit::BWUnitToBWAPIUnit(savedSelectionStates[0])));
+        this->addToCommandBuffer(new CommandCancelTrain(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[0])));
     }
     catch (GeneralException& exception)
     {
@@ -693,7 +733,7 @@ namespace BWAPI
   //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
   void Game::logUnknownOrStrange()
   {
-    for each (Unit* i in this->units)
+    for each (UnitImpl* i in this->units)
       if (!i->getType().isValid())
         this->newUnitLog->log("%s", i->getName().c_str());
   }
@@ -701,14 +741,14 @@ namespace BWAPI
   void Game::logUnitList()
   {
     this->unitSum->log("----------------------------------------");
-    for each (Unit* i in this->units)
+    for each (UnitImpl* i in this->units)
        this->unitSum->log("%s", i->getName().c_str());
     this->unitSum->log("----------------------------------------");
   }
   //----------------------------------------------- GET FIRST ------------------------------------------------
-  Unit* Game::getFirst()
+  UnitImpl* Game::getFirst()
   {
-    return Unit::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
+    return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   BW::Latency::Enum Game::getLatency()
@@ -739,7 +779,7 @@ namespace BWAPI
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
-    for each (Unit* i in this->units)
+    for each (UnitImpl* i in this->units)
       if (i->isValid())
       {
         int startX =   (i->getPosition().x - i->getType().dimensionLeft())/BW::TILE_SIZE;

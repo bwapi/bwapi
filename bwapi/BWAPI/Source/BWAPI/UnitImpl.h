@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BWAPI/Unit.h"
+
 #include <list>
 
 #include <Util/Types.h>
@@ -22,81 +24,79 @@ namespace BWAPI
    * Interface for broodwar unit, can be used to obtain any information and
    * issue commands.
    */
-  class Unit
+  class UnitImpl : public Unit
   {
     public:
 
-      Player* getOwner() const;
-      BW::UnitType getType() const;
-      u16 health() const;
-      u32 shield() const;
-      u16 energy() const;
-      const BW::Position& getPosition() const;
-      BW::TilePosition getTilePosition() const;
+      virtual Player* getOwner() const;
+      virtual BW::UnitType getType() const;
+      virtual u16 health() const;
+      virtual u32 shield() const;
+      virtual u16 energy() const;
+      virtual const BW::Position& getPosition() const;
+      virtual BW::TilePosition getTilePosition() const;
 
-      Unit* getTarget() const;
-      BW::Position getTargetPosition() const;
-      BW::OrderID::Enum getOrderID() const;
-      Unit* getOrderTarget() const;
+      virtual Unit* getTarget() const;
+      virtual BW::Position getTargetPosition() const;
+      virtual BW::OrderID::Enum getOrderID() const;
+      virtual Unit* getOrderTarget() const;
       /* Timer specifiing how long it will take to finish the current order
        * (verified for mining).
        */
-      u8 getOrderTimer() const;
-      BW::OrderID::Enum getSecondaryOrderID() const;
-      Unit* getBuildUnit() const;
-      u16 getRemainingBuildTime() const;
-      Unit* getChild() const;
+      virtual u8 getOrderTimer() const;
+      virtual BW::OrderID::Enum getSecondaryOrderID() const;
+      virtual Unit* getBuildUnit() const;
+      virtual u16 getRemainingBuildTime() const;
+      virtual Unit* getChild() const;
 
+      /** Returns true if this unit is currently in a dropship/bunker/refinery/shuttle/overlord */
+      virtual bool isLoaded() const;
       /** For now, visibility is derived from heuristics (i.e. fog of war map, cloaking, burrowing, etc) */
-      bool isVisible() const;
+      virtual bool isVisible() const;
       /** Only active when UserInput flag is enabled */
-      bool isSelected() const;
+      virtual bool isSelected() const;
       /** Gets if the unit construction is done */
-      bool isCompleted() const;
-      bool isLifted() const;
-      bool isBurrowed() const;
-      bool isIdle() const;
-      bool isCloaked() const;
-      bool isDisabled() const;
-      bool isTraining() const;
+      virtual bool isCompleted() const;
+      virtual bool isLifted() const;
+      virtual bool isBurrowed() const;
+      virtual bool isIdle() const;
+      virtual bool isCloaked() const;
+      virtual bool isDisabled() const;
+      virtual bool isTraining() const;
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
-      bool isMineral() const; /* TODO: Remove */
-      std::list<BW::UnitType > getTrainingQueue() const;
+      virtual bool isMineral() const; /* TODO: Remove */
+      virtual std::list<BW::UnitType > getTrainingQueue() const;
 
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      void attackLocation(BW::Position position, u8 OrderID);
-      /**
-       * Orders this unit to attack Location on the specified unit. Note that attack location
-       * on unit can result in lot of commands (attack)
-       */
+      virtual void attackLocation(BW::Position position, u8 OrderID);
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      void rightClick(BW::Position position);
+      virtual void rightClick(BW::Position position);
       /**
        * Orders this unit to right click on the specified unit. Note that right
        * click on unit can result in lot of commands (attack, gather, follow,
        * set rally point)
        */
-      void rightClick(Unit *target);
+      virtual void rightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
-      void train(BW::UnitType type);
+      virtual void train(BW::UnitType type);
       /** Orders to build the specified building. */
-      void build(BW::TilePosition position, BW::UnitType type);
+      virtual void build(BW::TilePosition position, BW::UnitType type);
       /** Orders to build the invent the specified tech. */
-      void invent(BW::TechType tech);
+      virtual void invent(BW::TechType tech);
       /** Orders to build the invent the specified upgrade. */
-      void upgrade(BW::UpgradeType upgrade);
-      void stop();
-      void holdPosition();
-      void patrol(BW::Position position);
-      void useTech(BW::TechType tech);
-      void useTech(BW::TechType tech, BW::Position position);
-      void useTech(BW::TechType tech, Unit* target);
+      virtual void upgrade(BW::UpgradeType upgrade);
+      virtual void stop();
+      virtual void holdPosition();
+      virtual void patrol(BW::Position position);
+      virtual void useTech(BW::TechType tech);
+      virtual void useTech(BW::TechType tech, BW::Position position);
+      virtual void useTech(BW::TechType tech, Unit* target);
 
 
     //Internal BWAPI commands:
@@ -106,12 +106,12 @@ namespace BWAPI
        * @param bwUnitLocal    #bwUnitLocal
        * @param index          #index
        */
-      Unit(BW::Unit* bwUnit,
+      UnitImpl(BW::Unit* bwUnit,
            BW::Unit* bwOriginalUnit,
            BW::Unit* bwUnitLocal,
            u16 index);
-      ~Unit();
-      static Unit* BWUnitToBWAPIUnit(BW::Unit* unit);
+      ~UnitImpl();
+      static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
       /**
        * Gets if the unit is alive (it exists), it uses hp > 0 heuristic for
        * now.
@@ -134,8 +134,9 @@ namespace BWAPI
        */
       u16 getIndex() const;
       void setSelected(bool selectedState);
+      void setLoaded(bool loadedState);
       std::string getName() const;
-      Unit* getNext() const;
+      UnitImpl* getNext() const;
       /** Gets #bwOriginalUnit */
       BW::Unit *getOriginalRawData() const;
       /** Gets #bwUnitLocal */
@@ -166,6 +167,7 @@ namespace BWAPI
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       bool userSelected;
       bool visible;
+      bool loaded;
   };
 };
 

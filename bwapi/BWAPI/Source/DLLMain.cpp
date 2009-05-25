@@ -14,7 +14,7 @@
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/Game.h"
-#include "BWAPI/Unit.h"
+#include "BWAPI/UnitImpl.h"
 
 #include "BWAI/AI.h"
 #include "BWAI/Globals.h"
@@ -37,7 +37,7 @@ void __declspec(naked) onRemoveUnit()
     #pragma warning(push)
     #pragma warning(disable:4312)
     BWAPI::Broodwar.onRemoveUnit((BW::Unit*) removedUnit);
-    BWAI::ai->onRemoveUnit(BWAPI::Unit::BWUnitToBWAPIUnit((BW::Unit*) removedUnit));
+    BWAI::ai->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit((BW::Unit*) removedUnit));
     #pragma warning(pop)
   }
    __asm

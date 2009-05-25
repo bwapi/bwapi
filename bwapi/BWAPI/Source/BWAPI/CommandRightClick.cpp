@@ -1,17 +1,17 @@
 #include "CommandRightClick.h"
-#include "Unit.h"
+#include "UnitImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandRightClick::CommandRightClick(Unit* executor, const BW::Position& targetPosition)
+  CommandRightClick::CommandRightClick(UnitImpl* executor, const BW::Position& targetPosition)
   :Command(executor)
   ,targetPosition(targetPosition)
   ,targetUnit(NULL)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandRightClick::CommandRightClick(Unit* executor, BWAPI::Unit* targetUnit)
+  CommandRightClick::CommandRightClick(UnitImpl* executor, UnitImpl* targetUnit)
   :Command(executor)
   ,targetUnit(targetUnit)
   {

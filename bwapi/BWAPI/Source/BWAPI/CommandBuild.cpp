@@ -2,13 +2,13 @@
 
 #include <Util/Logger.h>
 
-#include "Unit.h"
+#include "UnitImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandBuild::CommandBuild(Unit* builder, BW::UnitType toBuild, BW::TilePosition position)
+  CommandBuild::CommandBuild(UnitImpl* builder, BW::UnitType toBuild, BW::TilePosition position)
   :Command(builder)
   ,toBuild(toBuild)
   ,position(position)

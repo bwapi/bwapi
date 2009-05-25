@@ -8,7 +8,7 @@
 #include "PositionUnitTarget.h"
 #include "Race.h"
 
-namespace BWAPI { class Unit; }
+namespace BWAPI { class UnitImpl; }
 #pragma pack(1)
 namespace BW
 {
@@ -22,7 +22,7 @@ namespace BW
         /** Attack Location on position. */
         Attack(const BW::Position& target, u8 order);
         /** Attack Location on unit. */
-        Attack(BWAPI::Unit *target, u8 order);
+        Attack(BWAPI::UnitImpl *target, u8 order);
         /** Attack Location on general target. */
         Attack(const PositionUnitTarget& target, u8 order);
       private :
@@ -40,7 +40,7 @@ namespace BW
         /** Right-click on position. */
         RightClick(const BW::Position& target);
         /** Right-click on unit. */
-        RightClick(BWAPI::Unit *target);
+        RightClick(BWAPI::UnitImpl *target);
         /** Right-click on general target. */
         RightClick(const PositionUnitTarget& target);
       private :
@@ -54,7 +54,7 @@ namespace BW
    class SelectSingle
    {
      public :
-      SelectSingle(BWAPI::Unit *select);
+      SelectSingle(BWAPI::UnitImpl *select);
        /** 0x09 = Select command-code in bw */
        u8 always0x09; 
        /** 0x01 = 1 unit selection */
@@ -294,7 +294,7 @@ namespace BW
    class UnloadUnit
    {
      public :
-      UnloadUnit(BWAPI::Unit *unload);
+      UnloadUnit(BWAPI::UnitImpl *unload);
        /** 0x29 = Unload Unit */
        u8 always0x29; 
        /** The unit to unload bw index */

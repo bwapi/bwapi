@@ -1,7 +1,7 @@
 #include "PlayerImpl.h"
 #include "Game.h"
 #include "Globals.h"
-#include "Unit.h"
+#include "UnitImpl.h"
 
 #include <string>
 #include <Util/Bitmask.h>
@@ -322,11 +322,11 @@ namespace BWAPI
     if (this->unitCacheFrame!=BWAPI::Broodwar.getFrameCount())
     {
       this->units.clear();
-      for(Unit* u=BWAPI::Broodwar.getFirst();u!=NULL;u=u->getNext())
+      for(std::set<UnitImpl*>::iterator u=BWAPI::Broodwar.units.begin();u!=BWAPI::Broodwar.units.end();u++)
       {
-        if (u->getOwner()==this)
+        if ((*u)->getOwner()==this)
         {
-          this->units.insert(u);
+          this->units.insert((Unit*)(*u));
         }
       }
       this->unitCacheFrame=BWAPI::Broodwar.getFrameCount();

@@ -4,6 +4,7 @@
 
 #include <BW/TechType.h>
 
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /** BWAPI internal representation of invent tech command. */
@@ -14,7 +15,7 @@ namespace BWAPI
        * @param building Building that invents the tech
        * @param tech Tech to be invented
        */
-      CommandInvent(Unit* building, BW::TechType tech);
+      CommandInvent(UnitImpl* building, BW::TechType tech);
       ~CommandInvent();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();

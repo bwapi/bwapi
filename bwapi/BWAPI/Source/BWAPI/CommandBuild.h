@@ -5,6 +5,7 @@
 #include <BW/UnitType.h>
 #include <BW/Position.h>
 
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /** BWAPI internal representation of make building command. */
@@ -17,7 +18,7 @@ namespace BWAPI
        * @param toBuild Building that should be constructed
        * @param position of the building (in tiles)
        */
-      CommandBuild(Unit* builder, BW::UnitType toBuild, BW::TilePosition position);
+      CommandBuild(UnitImpl* builder, BW::UnitType toBuild, BW::TilePosition position);
       ~CommandBuild();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();

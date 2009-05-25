@@ -1,5 +1,5 @@
 #include "CommandTrain.h"
-#include "Unit.h"
+#include "UnitImpl.h"
 #include "PlayerImpl.h"
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -7,7 +7,7 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandTrain::CommandTrain(Unit* building, BW::UnitType toTrain)
+  CommandTrain::CommandTrain(UnitImpl* building, BW::UnitType toTrain)
   :Command(building)
   ,toTrain(toTrain)
   {
@@ -37,8 +37,7 @@ namespace BWAPI
    executors[0]->getBuildQueue()[slotToAffect] = this->toTrain.getID();
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    PlayerImpl* p=static_cast<PlayerImpl*>(this->executors[0]->getOwner());
-   p->spend(this->toTrain.getMineralPrice(),
-                                         this->toTrain.getGasPrice());
+   p->spend(this->toTrain.getMineralPrice(),this->toTrain.getGasPrice());
    p->useSupplies(toTrain.getSupplies(), toTrain.getRace());
    p->planToMake(toTrain);
   }

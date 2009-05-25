@@ -409,7 +409,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Unit.cpp"
+					RelativePath=".\Source\BWAPI\UnitImpl.cpp"
 					>
 				</File>
 			</Filter>
@@ -469,7 +469,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Unit.h"
+					RelativePath=".\Source\BWAPI\UnitImpl.h"
 					>
 				</File>
 			</Filter>
@@ -503,6 +503,10 @@
 			>
 			<File
 				RelativePath="..\include\BWAPI\Player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\Unit.h"
 				>
 			</File>
 		</Filter>
