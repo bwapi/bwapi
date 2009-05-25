@@ -29,9 +29,9 @@ namespace BWAI
     for each (Unit* i in this->executors)
       if (i->isCompleted() &&
          !i->isLifted() &&
-            (i->hasEmptyBuildQueue() ||
+            (!i->isTraining() ||
             (
-              !i->hasFullBuildQueue() &&
+              i->getTrainingQueue().size()<2 &&
               i->getBuildUnit() != NULL &&
               i->getBuildUnit()->getRemainingBuildTime() <= BWAPI::Broodwar.getLatency()
             ))

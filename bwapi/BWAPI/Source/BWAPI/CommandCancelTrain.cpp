@@ -1,11 +1,11 @@
 #include "CommandCancelTrain.h"
-#include "Unit.h"
+#include "UnitImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandCancelTrain::CommandCancelTrain(Unit* building)
+  CommandCancelTrain::CommandCancelTrain(UnitImpl* building)
   :Command(building)
   {
   }

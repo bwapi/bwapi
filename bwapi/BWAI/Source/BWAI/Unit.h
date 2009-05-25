@@ -39,20 +39,14 @@ namespace BWAI
       BW::Position getTargetPosition() const;
       Player* getOwner() const;
       std::string getName() const;
-      Unit* getNext() const;
       bool isMineral() const;
       bool isCompleted() const;
       bool isLifted() const;
       bool isSelected() const;
       bool isIdle() const;
 
-      int getBuildQueueSlot() const;
-      /** Gets #bwUnit->BW#Unit#buildQueue */
-      BW::UnitType* getBuildQueue() const;
-      /** Returns if the unit has empty building queue */
-      bool hasEmptyBuildQueue() const;
-      /** Returns if the unit has full building queue */
-      bool hasFullBuildQueue() const;
+      bool isTraining() const;
+      std::list<BW::UnitType > getTrainingQueue() const;
       int getRemainingBuildTime() const;
       int getOrderTimer() const;
 
@@ -66,7 +60,6 @@ namespace BWAI
       BW::OrderID::Enum getOrderID() const;
       /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
       BW::OrderID::Enum getSecondaryOrderID() const;
-      int getIndex() const;
 
       void orderAttackLocation(BW::Position position, int OrderID);
       void orderRightClick(BW::Position position);

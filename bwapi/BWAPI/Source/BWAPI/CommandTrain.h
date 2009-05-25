@@ -6,6 +6,7 @@ namespace BWAPI { class UnitPrototype; }
 
 #include "Command.h"
 
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /**
@@ -19,7 +20,7 @@ namespace BWAPI
        *         (will be passed as executor to Command ancestor
        * @param toTrain Unit that should be constructed
        */
-     CommandTrain(Unit* building, BW::UnitType toTrain);
+     CommandTrain(UnitImpl* building, BW::UnitType toTrain);
       ~CommandTrain();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();

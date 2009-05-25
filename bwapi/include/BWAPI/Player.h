@@ -10,8 +10,6 @@
 namespace BWAPI
 {
   class Unit;
-  class UnitType;
-  class Race;
   class Force;
   class Player
   {

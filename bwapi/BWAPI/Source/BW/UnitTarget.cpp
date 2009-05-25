@@ -2,7 +2,7 @@
 
 #include "Offsets.h"
 
-#include <BWAPI/Unit.h>
+#include <BWAPI/UnitImpl.h>
 
 namespace BW
 {
@@ -14,7 +14,7 @@ namespace BW
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   #pragma warning(push)
   #pragma warning(disable:4311)
-  UnitTarget::UnitTarget(BWAPI::Unit *target)
+  UnitTarget::UnitTarget(BWAPI::UnitImpl *target)
   {
     this->targetID = (int)((int)target->getOriginalRawData() - (int)BWDATA_UnitNodeTable)/336 | 1 << 11; 
   }

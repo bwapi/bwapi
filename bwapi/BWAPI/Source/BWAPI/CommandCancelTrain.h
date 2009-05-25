@@ -1,6 +1,6 @@
 #pragma once
 #include "Command.h"
-namespace BWAPI { class Unit; }
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /** BWAPI internal representation of cancel command. */
@@ -11,7 +11,7 @@ namespace BWAPI
        * @param building Building that constructs the specified unit 
        *         (will be passed as executor to Command ancestor
        */
-      CommandCancelTrain(Unit* building);
+      CommandCancelTrain(UnitImpl* building);
       ~CommandCancelTrain();
       BWAPI::CommandTypes::Enum getType();
       /** 

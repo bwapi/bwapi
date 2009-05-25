@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 #include <BW/PositionUnitTarget.h>
-namespace BWAPI { class Unit; }
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /** BWAPI internal representation of right click command. */
@@ -13,18 +13,18 @@ namespace BWAPI
                 to Command ancestor)
        * @param targetPosition Target of the right click.
        */
-      CommandRightClick(Unit* executor, const BW::Position& targetPosition);
+      CommandRightClick(UnitImpl* executor, const BW::Position& targetPosition);
       /** 
        * @param executor Executor of the right click (will be passed as executor 
                 to Command ancestor)
        * @param targetUnit target of the right click.
        */
-      CommandRightClick(Unit* executor, BWAPI::Unit* targetUnit);
+      CommandRightClick(UnitImpl* executor, UnitImpl* targetUnit);
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
       std::string describe();
     private :
-      BWAPI::Unit *targetUnit;
+      UnitImpl *targetUnit;
       BW::Position targetPosition;
   };
 }

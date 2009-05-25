@@ -1,6 +1,7 @@
 #include "Unit.h"
 
 #include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
 
 #include "Task.h"
 #include "Globals.h"
@@ -20,7 +21,7 @@ namespace BWAI
   {
     if (unit == NULL)
       return NULL;
-    return BWAI::ai->getUnit(unit->getIndex());
+    return BWAI::ai->getUnit(unit);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BW::UnitType Unit::getType() const
@@ -75,17 +76,59 @@ namespace BWAI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   int Unit::getDistance(Unit *unit) const
   {
-    return (int)(this->unit->getDistance(unit->getUnit()));
+    u32 result;
+    if (unit == this)
+      return 0;
+    if (this->getPosition().y - this->getType().dimensionUp() <= unit->getPosition().y + unit->getType().dimensionDown())
+      if (this->getPosition().y + this->getType().dimensionDown() >= unit->getPosition().y - unit->getType().dimensionUp())
+        if (this->getPosition().x > unit->getPosition().x)
+          result = this->getPosition().x - this->getType().dimensionLeft() - unit->getPosition().x - unit->getType().dimensionRight();
+        else
+          result = unit->getPosition().x - unit->getType().dimensionRight() - this->getPosition().x - this->getType().dimensionLeft();
+
+    if (this->getPosition().x - this->getType().dimensionLeft() <= unit->getPosition().x + unit->getType().dimensionRight())
+      if (this->getPosition().x + this->getType().dimensionRight() >= unit->getPosition().x - unit->getType().dimensionLeft())
+        if (this->getPosition().y > unit->getPosition().y)
+          result = this->getPosition().y - this->getType().dimensionUp() - unit->getPosition().y - unit->getType().dimensionDown();
+        else
+          result = unit->getPosition().y - unit->getType().dimensionDown() - this->getPosition().y - this->getType().dimensionUp();
+
+    if (this->getPosition().x > unit->getPosition().x)
+      if (this->getPosition().y > unit->getPosition().y)
+        result = BW::Position(this->getPosition().x - this->getType().dimensionLeft(),
+                              this->getPosition().y - this->getType().dimensionUp())
+                 .getDistance(BW::Position(unit->getPosition().x + unit->getType().dimensionRight(),
+                                           unit->getPosition().y + unit->getType().dimensionDown()));
+      else
+        result = BW::Position(this->getPosition().x - this->getType().dimensionLeft(),
+                              this->getPosition().y + this->getType().dimensionDown())
+                 .getDistance(BW::Position(unit->getPosition().x + unit->getType().dimensionRight(),
+                                           unit->getPosition().y - unit->getType().dimensionUp()));
+    else
+      if (this->getPosition().y > unit->getPosition().y)
+        result = BW::Position(this->getPosition().x + this->getType().dimensionRight(),
+                              this->getPosition().y - this->getType().dimensionUp())
+                 .getDistance(BW::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
+                                           unit->getPosition().y + unit->getType().dimensionDown()));
+      else
+        result = BW::Position(this->getPosition().x + this->getType().dimensionRight(),
+                              this->getPosition().y + this->getType().dimensionDown())
+                 .getDistance(BW::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
+                                           unit->getPosition().y - unit->getType().dimensionUp()));
+    if (result > 0)
+      return result;
+    else
+      return 0;
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   int Unit::getDistance(BW::Position position) const
   {
-    return (int)(this->unit->getDistance(position));
+    return this->unit->getPosition().getDistance(position);
   }
   //------------------------------------------- GET CENTER DISTANCE ------------------------------------------
   int Unit::getCenterDistance(Unit *unit) const
   {
-    return (int)this->unit->getCenterDistance(unit->getUnit());
+    return this->unit->getPosition().getDistance(unit->getPosition());
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   BW::OrderID::Enum Unit::getOrderID() const
@@ -97,15 +140,59 @@ namespace BWAI
   {
     return this->unit->getSecondaryOrderID();
   }
-  //----------------------------------------------- GET INDEX ------------------------------------------------
-  int Unit::getIndex() const
-  {
-    return this->unit->getIndex();
-  }
   //------------------------------------------------ GET NAME ------------------------------------------------
+  char position[100];
+  char indexName[50];
+  char targetIndex[50];
+  char orderTargetIndex[50];
+  char owner[100];
+  char unitName[100];
+  char orderName[100];
+  char connectedUnit[100];
+  char message[400];
   std::string Unit::getName() const
   {
-    return this->unit->getName();
+    sprintf_s(position, 100, "Position = (%u,%u)", this->unit->getPosition().x, 
+                                              this->unit->getPosition().y);
+
+    sprintf_s(indexName, 50, "[%d]", (int)(this->unit));
+
+    if (this->getTarget() == NULL)
+      strcpy_s(targetIndex, 50, "Target:[NULL]");
+    else
+      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)(this->getTarget()), this->getTarget()->getType().getName());
+
+    if (this->getOrderTarget() == NULL)
+      strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
+    else
+      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName());
+  
+    if (this->getOwner() != NULL)
+      sprintf_s(owner, 100, "Player = (NULL)");
+    else
+      sprintf_s(owner, 100, "Player = (%s)", this->unit->getOwner()->getName().c_str());
+
+    if (this->getType().isValid())
+      sprintf_s(unitName, 100, "(%s)", this->getType().getName());
+    else
+      sprintf_s(unitName, 100, "(unitID = %u)", this->getType().getID());
+
+    if (this->unit->getChild() == NULL)
+      sprintf_s(connectedUnit, 100, "(childUnit1 = NULL)");
+    else
+      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->unit->getChild()->getType().getName());
+
+    sprintf_s(orderName, 100, "(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
+                                              orderName,
+                                              indexName,
+                                              position,
+                                              targetIndex,
+                                              orderTargetIndex,
+                                              owner,
+                                              connectedUnit);
+
+    return std::string(message);
   }
   //----------------------------------------------- IS MINERAL -----------------------------------------------
   bool Unit::isMineral() const
@@ -132,25 +219,15 @@ namespace BWAI
   {
     return this->unit;
   }
-  //------------------------------------------ GET BUILD QUEUE SLOT ------------------------------------------
-  int Unit::getBuildQueueSlot() const
+  //----------------------------------------------- IS TRAINING ----------------------------------------------
+  bool Unit::isTraining() const
   {
-    return this->unit->getBuildQueueSlot();
+    return this->unit->isTraining();
   }
-  //--------------------------------------------- GET BUILD QUEUE --------------------------------------------
-  BW::UnitType* Unit::getBuildQueue() const
+  //-------------------------------------------- GET TRAINING QUEUE ------------------------------------------
+  std::list<BW::UnitType > Unit::getTrainingQueue() const
   {
-    return this->unit->getBuildQueue();
-  }
-  //------------------------------------------ HAS EMPTY BUILD QUEUE -----------------------------------------
-  bool Unit::hasEmptyBuildQueue() const
-  {
-    return this->unit->hasEmptyBuildQueue();
-  }
-  //------------------------------------------ HAS FULL BUILD QUEUE ------------------------------------------
-  bool Unit::hasFullBuildQueue() const
-  {
-    return this->unit->hasFullBuildQueue();
+    return this->unit->getTrainingQueue();
   }
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   int Unit::getRemainingBuildTime() const
@@ -161,23 +238,6 @@ namespace BWAI
   int Unit::getOrderTimer() const
   {
     return this->unit->getOrderTimer();
-  }
-  //------------------------------------------------ GET NEXT ------------------------------------------------
-  Unit* Unit::getNext() const
-  {
-    #ifdef PARANOID_DEBUG
-    #pragma warning(push)
-    #pragma warning(disable:4311)
-    if (this->getOriginalRawData()->nextUnit != NULL)
-    {
-      if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable)/BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
-        BWAPI::Broodwar.fatalError->log("Unit array too small, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
-      if ((int)this->getOriginalRawData()->nextUnit < (int)BW::BWXFN_UnitNodeTable)
-        BWAPI::Broodwar.fatalError->log("Unit array begins at bad location, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
-    }
-    #pragma warning(push)
-    #endif PARANOID_DEBUG
-    return Unit::BWAPIUnitToBWAIUnit(this->unit->getNext());
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
   Player* Unit::getOwner() const

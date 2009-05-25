@@ -59,7 +59,6 @@ namespace BWAI
   ,mineralGatherers(0)
   ,buildOrderExecutor(NULL)
   {
-    this->units.reserve(BW::UNIT_ARRAY_MAX_LENGTH);
     BWAI::ai = this;
     try
     {
@@ -69,8 +68,6 @@ namespace BWAI
     {
       Util::Logger::globalLog->log("Used default value for max_mineral_distance as it couldn't be loaded exception: %s", exception.getMessage().c_str());
     }
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
     
     for (int i = 0; i < 228; i++)
       this->buildTaskUnitsPlanned[i] = 0;
@@ -96,8 +93,10 @@ namespace BWAI
     for each (Expansion* i in this->expansions)
       delete i;
       
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      delete unitArray[i];
+    for(std::set<Unit*>::iterator u=this->units.begin();u!=this->units.end();u++)
+      delete (*u);
+    this->units.clear();
+    this->unit_mapping.clear();
 
     delete this->log;
     delete deadLog;
@@ -196,16 +195,25 @@ namespace BWAI
 
     try
     {
-      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        if (BWAPI::Broodwar.getUnit(i)->getType().getID() != this->unitArray[i]->getType().getID())
+      std::set<BWAPI::Unit*> allUnits=BWAPI::Broodwar.getUnits();
+      for(std::set<Unit*>::iterator u=this->units.begin();u!=this->units.end();)
+      {
+        /** && false because Game::getUnits does not yet include loaded units (i.e. in dropship/refinery/bunker/etc */
+        if (allUnits.find((*u)->getUnit())==allUnits.end() && false)
         {
-          delete this->unitArray[i];
-          this->unitArray[i] = new Unit(BWAPI::Broodwar.getUnit(i));
+          this->unit_mapping.erase((*u)->getUnit());
+          delete (*u);
+          u=this->units.erase(u);
         }
-
-      this->units.clear();
-      for (Unit* i = this->getFirst(); i != NULL; i = i->getNext())
-        this->units.push_back(i);
+        else
+        {
+          u++;
+        }
+      }
+      for(std::set<BWAPI::Unit*>::iterator u=allUnits.begin();u!=allUnits.end();u++)
+      {
+        this->getUnit(*u);
+      }
 
       this->reserved.clear();
       for each (TaskBuild* i in this->plannedBuildings)
@@ -324,10 +332,10 @@ namespace BWAI
       delete i;
     this->plannedUnits.clear();
     
-    for (unsigned int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for(std::set<Unit*>::iterator u=this->units.begin();u!=this->units.end();u++)
     {
-      this->unitArray[i]->clearTask();
-      this->unitArray[i]->expansion = NULL;
+      (*u)->clearTask();
+      (*u)->expansion = NULL;
     }
       
     this->startingPosition = NULL;  
@@ -405,9 +413,16 @@ namespace BWAI
     return this->player_mapping.find(player)->second;
   }
   //------------------------------------------------ GET UNIT ------------------------------------------------
-  Unit* AI::getUnit(int index)
+  Unit* AI::getUnit(BWAPI::Unit* unit)
   {
-    return unitArray[index];
+    if (unit==NULL) return NULL;
+    if (this->unit_mapping.find(unit)==this->unit_mapping.end())
+    {
+      this->unit_mapping.insert(std::make_pair(unit,new Unit(unit)));
+    }
+    Unit* u=this->unit_mapping.find(unit)->second;
+    this->units.insert(u);
+    return u;
   }
   //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
 /*  void AI::onCancelTrain()
@@ -456,16 +471,16 @@ namespace BWAI
        best = bestFor(gatherer);
        
        this->log->log("Gatherer [%d] reabalanced from [%d] to [%d]", 
-                       gatherer->getIndex(), 
-                       worst->getMineral()->getIndex(), 
-                       best->getMineral()->getIndex());
+                       (int)gatherer, 
+                       (int)(worst->getMineral()),
+                       (int)(best->getMineral()));
 
        best->addExecutor(gatherer);
        goto anotherStep;
      }
    }
   //----------------------------------------- CHECK ASSIGNED WORKERS -----------------------------------------
- void AI::checkAssignedWorkers(void)
+  void AI::checkAssignedWorkers(void)
   {
     for each (TaskGather* i in this->activeMinerals)
       i->execute();
@@ -473,11 +488,6 @@ namespace BWAI
   //----------------------------------------------------------------------------------------------------------
   Unit* AI::optimizeMineralFor = NULL;
   
-  //----------------------------------------------- GET FIRST ------------------------------------------------
-  Unit* AI::getFirst()
-  {
-    return Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.getFirst());
-  }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void AI::onRemoveUnit(BWAPI::Unit* unit)
   {
@@ -514,6 +524,13 @@ namespace BWAI
       dead->freeFromTask();
     dead->expansion = NULL;
     this->deadLog->log("AI::onRemoveUnit end", dead->getName().c_str());
+    if (this->unit_mapping.find(unit)!=this->unit_mapping.end())
+    {
+      Unit* u=this->unit_mapping.find(unit)->second;
+      this->unit_mapping.erase(unit);
+      units.erase(u);
+      delete u;
+    }
    }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool AI::onSendText(const char* text)
@@ -1070,7 +1087,7 @@ namespace BWAI
                 if (BWAPI::Broodwar.unitsOnTile(k,l).size() == 1)
                   {
                     if (occupied != NULL &&
-                        occupied->getIndex() == BWAPI::Broodwar.unitsOnTile(k,l).front()->getIndex())
+                      occupied->getUnit() == BWAPI::Broodwar.unitsOnTile(k,l).front())
                       occupiedCount--;
                     occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile(k,l).front());
                   }

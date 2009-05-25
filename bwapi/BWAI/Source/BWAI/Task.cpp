@@ -24,7 +24,7 @@ namespace BWAI
   {
     for each (Unit* i in this->executors)
     {
-      BWAI::ai->log->log("Freeing [%d] from the task", i->getIndex());
+      BWAI::ai->log->log("Freeing [%s] from the task", i->getName().c_str());
       i->clearTask();
       i->expansion = NULL;
     }

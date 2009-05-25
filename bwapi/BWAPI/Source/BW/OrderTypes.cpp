@@ -8,7 +8,7 @@ namespace BW
   {
 
     //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
-    Attack::Attack(BWAPI::Unit *target, u8 OrderID)
+    Attack::Attack(BWAPI::UnitImpl *target, u8 OrderID)
     :always0x15(0x15)
     ,target(target)
     ,always0xe4(0xe4)
@@ -35,7 +35,7 @@ namespace BW
     {
     }
     //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
-    RightClick::RightClick(BWAPI::Unit *target)
+    RightClick::RightClick(BWAPI::UnitImpl *target)
     :always0x14(0x14)
     ,target(target)
     ,always0xe4(0xe4)
@@ -59,7 +59,7 @@ namespace BW
     {
     }
     //-------------------------------------- SELECT SINGLE CONSTRUCTOR ---------------------------------------
-    SelectSingle::SelectSingle(BWAPI::Unit *select)
+    SelectSingle::SelectSingle(BWAPI::UnitImpl *select)
     :always0x09(0x09)
     ,always0x01(0x01)
     ,target(select)
@@ -206,7 +206,7 @@ namespace BW
     {
     }
     //------------------------------------------------ UNLOAD UNIT -------------------------------------------
-    UnloadUnit::UnloadUnit(BWAPI::Unit *unload)
+    UnloadUnit::UnloadUnit(BWAPI::UnitImpl *unload)
     :always0x29(0x29)
     ,target(unload)
     {

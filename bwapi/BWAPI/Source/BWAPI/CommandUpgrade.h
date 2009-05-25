@@ -4,6 +4,7 @@
 
 #include <BW/UpgradeType.h>
 
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /** BWAPI internal representation of upgrade command. */
@@ -14,7 +15,7 @@ namespace BWAPI
        * @param building Building thatupgrades
        * @param upgrade Upgrade to be invented
        */
-      CommandUpgrade(Unit* building, BW::UpgradeType upgrade);
+      CommandUpgrade(UnitImpl* building, BW::UpgradeType upgrade);
       ~CommandUpgrade();
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();

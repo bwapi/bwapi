@@ -182,7 +182,7 @@ namespace BWAI
             }
             else
               if (this->executors.front()->getSecondaryOrderID() != BW::OrderID::PlaceAddon &&
-                  this->executors.front()->hasEmptyBuildQueue() &&
+                  !this->executors.front()->isTraining() &&
                   this->executors.front()->getSecondaryOrderID() != BW::OrderID::BuildAddon)
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
@@ -216,7 +216,7 @@ namespace BWAI
            l++)
         if (BWAPI::Broodwar.unitsOnTile(k,l).empty() == false &&
              (
-               BWAPI::Broodwar.unitsOnTile(k,l).front()->getIndex() != this->executors.front()->getIndex() &&
+               BWAPI::Broodwar.unitsOnTile(k,l).front() != this->executors.front()->getUnit() &&
                BWAPI::Broodwar.unitsOnTile(k,l).front()->getType() != BW::UnitID::Resource_VespeneGeyser ||
                BWAPI::Broodwar.unitsOnTile(k,l).size() != 1
              )

@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 #include <BW/PositionUnitTarget.h>
-namespace BWAPI { class Unit; }
+namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
   /** BWAPI internal representation of Attack Location command. */
@@ -13,7 +13,7 @@ namespace BWAPI
                 to Command ancestor)
        * @param targetPosition Target of the attack location.
        */
-      CommandAttackLocation(Unit* executor, const BW::Position& targetPosition);
+      CommandAttackLocation(UnitImpl* executor, const BW::Position& targetPosition);
       virtual void execute();
       BWAPI::CommandTypes::Enum getType();
       std::string describe();
