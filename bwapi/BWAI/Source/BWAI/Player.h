@@ -15,6 +15,7 @@ namespace BWAI
   public:
     Player(BWAPI::Player* player);
 
+    u8 getID();
     BW::Race::Enum getRace();
     BW::PlayerType::Enum playerType();
 
