@@ -14,7 +14,7 @@
 #include <BW/TechType.h>
 
 #include <BWAPI/Unit.h>
-#include "BWAPI/Player.h"
+#include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
 
@@ -195,7 +195,7 @@ namespace BWAI
 
     try
     {
-      std::set<BWAPI::Unit*> allUnits=BWAPI::Broodwar.getUnits();
+      std::set<BWAPI::Unit*> allUnits=BWAPI::Broodwar.getAllUnits();
       for(std::set<Unit*>::iterator u=this->units.begin();u!=this->units.end();)
       {
         /** && false because Game::getUnits does not yet include loaded units (i.e. in dropship/refinery/bunker/etc */
@@ -596,12 +596,12 @@ namespace BWAI
       {
         std::string fileName = config->get("data_path") + "\\startlocations";
         Util::FileLogger startlocationsLog(fileName, Util::LogLevel::MicroDetailed, false);
-        startlocationsLog.log("%s has %d start locations:",BWAPI::Broodwar.map.getName().c_str(),BWAPI::Broodwar.getStartLocations().size());
-        BWAPI::Broodwar.print("%s has %d start locations:",BWAPI::Broodwar.map.getName().c_str(),BWAPI::Broodwar.getStartLocations().size());
+        startlocationsLog.log("%s has %d start locations:",BWAPI::Broodwar.mapName().c_str(),BWAPI::Broodwar.getStartLocations().size());
+        BWAPI::Broodwar.print("%s has %d start locations:",BWAPI::Broodwar.mapName().c_str(),BWAPI::Broodwar.getStartLocations().size());
         for(std::set<BW::TilePosition>::const_iterator i=BWAPI::Broodwar.getStartLocations().begin();
           i!=BWAPI::Broodwar.getStartLocations().end();i++)
         {
-          double angle=atan2((*i).y-BWAPI::Broodwar.map.getHeight()/2.0,(*i).x-BWAPI::Broodwar.map.getWidth()/2.0);
+          double angle=atan2((*i).y-BWAPI::Broodwar.mapHeight()/2.0,(*i).x-BWAPI::Broodwar.mapWidth()/2.0);
           double clock_deg=angle*180.0/3.14159265+90.0;
           int clock_hour=((int)floor(clock_deg*12.0/360.0+0.5)+11)%12+1;
           startlocationsLog.log("%d o clock: %d, %d",clock_hour, (*i).x, (*i).y);

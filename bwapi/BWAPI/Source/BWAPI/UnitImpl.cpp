@@ -88,7 +88,7 @@ namespace BWAPI
     {
       return true;
     }
-    if (!BWAPI::Broodwar.map.visible(this->getTilePosition().x,this->getTilePosition().y))
+    if (!BWAPI::Broodwar.visible(this->getTilePosition().x,this->getTilePosition().y))
     {
       return false;
     }

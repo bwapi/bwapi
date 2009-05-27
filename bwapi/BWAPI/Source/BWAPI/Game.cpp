@@ -133,6 +133,46 @@ namespace BWAPI
     delete this->fatalError;
     delete this->configuration;
   }
+  //----------------------------------------------- MAP WIDTH ------------------------------------------------
+  int Game::mapWidth() const
+  {
+    return Map::getWidth();
+  }
+  //----------------------------------------------- MAP HEIGHT -----------------------------------------------
+  int Game::mapHeight() const
+  {
+    return Map::getHeight();
+  }
+  //---------------------------------------------- MAP FILENAME ----------------------------------------------
+  std::string Game::mapFilename() const
+  {
+    return Map::getFileName();
+  }
+  //------------------------------------------------ MAP NAME ------------------------------------------------
+  std::string Game::mapName() const
+  {
+    return Map::getName();
+  }
+  //------------------------------------------------ BUILDABLE -----------------------------------------------
+  bool Game::buildable(int x, int y) const
+  {
+    return this->map.buildable(x,y);
+  }
+  //------------------------------------------------ WALKABLE ------------------------------------------------
+  bool Game::walkable(int x, int y) const
+  {
+    return this->map.walkable(x,y);
+  }
+  //------------------------------------------------- VISIBLE ------------------------------------------------
+  bool Game::visible(int x, int y) const
+  {
+    return this->map.visible(x,y);
+  }
+  //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
+  int Game::groundHeight(int x, int y) const
+  {
+    return this->map.groundHeight(x,y);
+  }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   const std::set< BW::TilePosition >& Game::getStartLocations() const
   {
@@ -157,16 +197,48 @@ namespace BWAPI
     return players;
   }
   //------------------------------------------------- GET UNITS ----------------------------------------------
-  std::set< Unit* > Game::getUnits()
+  std::set< Unit* > Game::getAllUnits() const
   {
     std::set<Unit*> units;
-    for(std::set<UnitImpl*>::iterator i=this->units.begin();i!=this->units.end();i++)
+    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
     {
       units.insert((Unit*)(*i));
     }
     return units;
   }
-
+  //---------------------------------------------- GET MINERALS ----------------------------------------------
+  std::set< Unit* > Game::getMinerals() const
+  {
+    std::set<Unit*> units;
+    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    {
+      if ((*i)->isMineral())
+        units.insert((Unit*)(*i));
+    }
+    return units;
+  }
+  //---------------------------------------------- GET GEYSERS -----------------------------------------------
+  std::set< Unit* > Game::getGeysers() const
+  {
+    std::set<Unit*> units;
+    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    {
+      if ((*i)->getType()==BW::UnitID::Resource_VespeneGeyser)
+        units.insert((Unit*)(*i));
+    }
+    return units;
+  }
+  //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
+  std::set< Unit* > Game::getNeutralUnits() const
+  {
+    std::set<Unit*> units;
+    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    {
+      if (((PlayerImpl*)(*i)->getOwner())->getID()==11)
+        units.insert((Unit*)(*i));
+    }
+    return units;
+  }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void Game::IssueCommand(PBYTE pbBuffer, u32 iSize) 
   {

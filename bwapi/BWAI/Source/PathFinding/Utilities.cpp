@@ -8,7 +8,6 @@
 #include <BWAI/Globals.h>
 #include <BWAPI/Globals.h>
 #include <BWAI/AI.h>
-#include <BWAPI/Map.h>
 #include <BWAPI/ScreenLogger.h>
 
 
@@ -16,8 +15,8 @@ namespace PathFinding
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Utilities::Utilities()
-  :world      (BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
-  ,walkability(BWAPI::Map::getWidth()*4 + 2, BWAPI::Map::getWidth()*4 + 2)
+  :world      (BWAPI::Broodwar.mapWidth()*4 + 2, BWAPI::Broodwar.mapWidth()*4 + 2)
+  ,walkability(BWAPI::Broodwar.mapWidth()*4 + 2, BWAPI::Broodwar.mapWidth()*4 + 2)
   ,vaweID(0)
   {
     Spot pattern;
@@ -25,9 +24,9 @@ namespace PathFinding
     pattern.vaweID = 0;
     pattern.from = Direction::Unset;
     world.setTo(pattern);
-    for (u16 x = 0; x < BWAPI::Map::getWidth()*4; x++)
-      for (u16 y = 0; y < BWAPI::Map::getHeight()*4; y++)
-        walkability[x + 1][y + 1] = BWAPI::Broodwar.map.walkable(x,y);
+    for (u16 x = 0; x < BWAPI::Broodwar.mapWidth()*4; x++)
+      for (u16 y = 0; y < BWAPI::Broodwar.mapHeight()*4; y++)
+        walkability[x + 1][y + 1] = BWAPI::Broodwar.walkable(x,y);
     for (unsigned int x = 0; x < walkability.getWidth(); x++)
     {
       walkability[x][0] = false;
@@ -64,8 +63,8 @@ namespace PathFinding
         this->precomputedPlacebility[type] = (*value).second;
       else
       {
-        Util::RectangleArray<bool>* newWalkMap = new Util::RectangleArray<bool>(BWAPI::Map::getWidth()*4  + 2, 
-                                                                         BWAPI::Map::getHeight()*4 + 2);
+        Util::RectangleArray<bool>* newWalkMap = new Util::RectangleArray<bool>(BWAPI::Broodwar.mapWidth()*4  + 2, 
+                                                                         BWAPI::Broodwar.mapHeight()*4 + 2);
         this->precomputedPlacebility[type]=newWalkMap;
         this->precomputedPlacebilityContent.insert(std::pair<u32, Util::RectangleArray<bool>*>
                                                             (dimensions, newWalkMap));
