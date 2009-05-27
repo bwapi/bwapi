@@ -37,15 +37,40 @@ namespace BWAPI
   class Game
   {
     public :
-      Game();
-      ~Game();
-      void update(); /**< Updates unitArrayCopy according to bw memory */
-      PlayerImpl* players[12];
 
-      const std::set< BW::TilePosition >& getStartLocations() const;
-      const std::set< BW::UnitType >& allUnitTypes() const;
       std::set< Player* > getPlayers() const;
-      std::set< Unit* > getUnits();
+      std::set< Unit* > getAllUnits() const;
+      std::set< Unit* > getMinerals() const;
+      std::set< Unit* > getGeysers() const;
+      std::set< Unit* > getNeutralUnits() const;
+
+      BW::Latency::Enum getLatency();
+      int getFrameCount() const;
+      int getMouseX() const;
+      int getMouseY() const;
+      int getScreenX() const;
+      int getScreenY() const;
+      bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
+      void enableFlag(BWAPI::Flag::Enum flag);
+
+      std::list<Unit*> unitsOnTile(int x, int y) const;
+
+      const std::set< BW::UnitType >& allUnitTypes() const;
+      BW::UnitType getUnitType(std::string &name) const;
+
+      BW::UpgradeType getUpgradeType(std::string &name) const;
+
+      BW::TechType getTechType(std::string &name) const;
+
+      int mapWidth() const;
+      int mapHeight() const;
+      std::string mapFilename() const;
+      std::string mapName() const;
+      bool buildable(int x, int y) const;
+      bool walkable(int x, int y) const;
+      bool visible(int x, int y) const;
+      int groundHeight(int x, int y) const; 
+      const std::set< BW::TilePosition >& getStartLocations() const;
 
       /**
        * Prints text in game (only local)
@@ -55,7 +80,6 @@ namespace BWAPI
       static void printEx(s32 pID, const char *text, ...);
       static void printPublic(const char *text, ...);
       bool isOnStartCalled() const;
-      void setOnStartCalled(bool onStartCalled);
       bool isInGame() const;
       /**
        * Changes slot state in the pre-game lobby.
@@ -70,6 +94,25 @@ namespace BWAPI
        */
       void changeRace(BW::Race::Enum race, u8 slotID);
       /**
+       * Starts the game in the pre-game lobby. Should be used only in the
+       * pre-game lobby, and not during counting
+       */
+      void startGame();
+      void pauseGame();
+      void resumeGame();
+      const std::set<BWAPI::Unit*>& getSelectedUnits() const;
+      Player* self() const;
+      Player* enemy() const;
+
+
+      //Internal BWAPI commands:
+      Game();
+      ~Game();
+      void update(); /**< Updates unitArrayCopy according to bw memory */
+      PlayerImpl* players[12];
+
+      void setOnStartCalled(bool onStartCalled);
+      /**
        * This function is called after every update (in DLLMain), and is used
        * for debug and other reasons
        */
@@ -80,56 +123,29 @@ namespace BWAPI
       void onGameEnd();
       void onCancelTrain();
       bool onSendText(const char* text);
-      /**
-       * Starts the game in the pre-game lobby. Should be used only in the
-       * pre-game lobby, and not during counting
-       */
-      void startGame();
-      void pauseGame();
-      void resumeGame();
-      /** Gets mouse cursor horizontal position in pixels. */
-      int getMouseX() const;
-      /** Gets mouse cursor vertical position in pixels. */
-      int getMouseY() const;
-      /** Gets horizontal position of game screen in pixels. */
-      int getScreenX() const;
-      /** Gets vertical position of game screen in pixels. */
-      int getScreenY() const;
+      void onRemoveUnit(BW::Unit *unit);
+      void lockFlags();
+      bool enabled;
       /** @todo Doesn't work */
       void refresh();
       UnitImpl* getUnit(int index);
       void saveSelected();
       void loadSelected();
-      const std::set<BWAPI::Unit*>& getSelectedUnits() const;
-      void onRemoveUnit(BW::Unit *unit);
-      Player* self() const;
-      Player* enemy() const;
-      Util::Logger *fatalError;
-      bool quietSelect;
-      BW::Latency::Enum getLatency();
       /**
        * Representation of the configuration file bw-api.ini in the starcraft
        * directory.
        */
       Util::Dictionary* configuration;
-      /** Every tile will have pointers to units touching it. */
-      BW::UnitType getUnitType(std::string &name) const;
-      BW::TechType getTechType(std::string &name) const;
-      BW::UpgradeType getUpgradeType(std::string &name) const;
-      std::list<Unit*> unitsOnTile(int x, int y) const;
-      int getFrameCount() const;
-      bool enabled;
-      Map map;
-      UnitImpl* getFirst();
 
-      bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
-      void enableFlag(BWAPI::Flag::Enum flag);
-      void lockFlags();
+      UnitImpl* getFirst();
+      Util::Logger *fatalError;
+      bool quietSelect;
 
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
       std::set<UnitImpl*> units;
     private :
+      Map map;
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
       std::set<BW::TilePosition> startLocations;
