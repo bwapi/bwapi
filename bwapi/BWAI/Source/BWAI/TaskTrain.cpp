@@ -33,7 +33,7 @@ namespace BWAI
             (
               i->getTrainingQueue().size()<2 &&
               i->getBuildUnit() != NULL &&
-              i->getBuildUnit()->getRemainingBuildTime() <= BWAPI::Broodwar.getLatency()
+              i->getBuildUnit()->getRemainingBuildTime() <= BWAPI::Broodwar->getLatency()
             ))
          )
       {
@@ -52,7 +52,7 @@ namespace BWAI
         if (best != NULL && 
             BWAI::ai->player->canAfford(best->unitType))
         {
-          BWAPI::Broodwar.printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
+          BWAPI::Broodwar->printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
           i->trainUnit(best->unitType);
           if (i->getType() == BW::UnitID::Zerg_Larva ||
               i->getType() == BW::UnitID::Zerg_Hydralisk ||

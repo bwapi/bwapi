@@ -195,7 +195,7 @@ namespace BWAI
 
     try
     {
-      std::set<BWAPI::Unit*> allUnits=BWAPI::Broodwar.getAllUnits();
+      std::set<BWAPI::Unit*> allUnits=BWAPI::Broodwar->getAllUnits();
       for(std::set<Unit*>::iterator u=this->units.begin();u!=this->units.end();)
       {
         /** && false because Game::getUnits does not yet include loaded units (i.e. in dropship/refinery/bunker/etc */
@@ -245,15 +245,15 @@ namespace BWAI
     }
     try
     {
-      this->player = new Player(BWAPI::Broodwar.self());
-      this->opponent = new Player(BWAPI::Broodwar.enemy());
-      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.self(),this->player));
-      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar.enemy(),this->opponent));
-      BWAPI::Broodwar.enableFlag(BWAPI::Flag::CompleteMapInformation);
-      BWAPI::Broodwar.enableFlag(BWAPI::Flag::UserInput);
+      this->player = new Player(BWAPI::Broodwar->self());
+      this->opponent = new Player(BWAPI::Broodwar->enemy());
+      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar->self(),this->player));
+      this->player_mapping.insert(std::make_pair(BWAPI::Broodwar->enemy(),this->opponent));
+      BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
+      BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
 
       char mapPath[256] = "\0";
-      sprintf_s(mapPath, 256, "%s\\%08x.xml", config->get("maps_path").c_str(), BWAPI::Map::getMapHash());
+      sprintf_s(mapPath, 256, "%s\\%08x.xml", config->get("maps_path").c_str(), BWAPI::Broodwar->getMapHash());
       mapInfo = new MapInfo(mapPath);
       this->checkNewExpansions();
       this->root->log->log("Help pre-prepared information found for the curent map");
@@ -353,9 +353,7 @@ namespace BWAI
   {
     try
     {
-      if (!BWAPI::Broodwar.enabled)
-        return;
-      if (BWAPI::Broodwar.getFrameCount() < 2)
+      if (BWAPI::Broodwar->getFrameCount() < 2)
         return;
       if (!this->player)
         return;
@@ -543,7 +541,7 @@ namespace BWAI
       if (parsed[1] == "fog")
       {
         std::string result = Map::saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt");
-        BWAPI::Broodwar.print(result.c_str());
+        BWAPI::Broodwar->print(result.c_str());
       }
       else if (parsed[1] == "techs")
       {
@@ -552,7 +550,7 @@ namespace BWAI
         for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
           if (BW::TechType((BW::TechID::Enum)i).isValid())
             techsLog.log("%s = 0x%02X",BW::TechType((BW::TechID::Enum)i).getName(), i);
-        BWAPI::Broodwar.print("Techs saved to %s .ini", fileName.c_str());
+        BWAPI::Broodwar->print("Techs saved to %s .ini", fileName.c_str());
       }
       else if (parsed[1] == "upgrades")
       {
@@ -564,7 +562,7 @@ namespace BWAI
           if (upgrade.isValid())
             upgradesLog.log("%s = 0x%02X",upgrade.getName(), i);
         }
-        BWAPI::Broodwar.print("Upgrades saved to %s .ini", fileName.c_str());
+        BWAPI::Broodwar->print("Upgrades saved to %s .ini", fileName.c_str());
       }
       else if (parsed[1] == "units")
       {
@@ -575,39 +573,39 @@ namespace BWAI
           BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
             upgradesLog.log("%s = 0x%02X",unit.getName(), i);
         }
-        BWAPI::Broodwar.print("Units saved to %s .ini", fileName.c_str());        
+        BWAPI::Broodwar->print("Units saved to %s .ini", fileName.c_str());        
       }      
       else if (parsed[1] == "buildability")
       {
         std::string result = Map::saveBuildabilityMap(config->get("data_path") + "\\buildability.txt");
-        BWAPI::Broodwar.print(result.c_str());
+        BWAPI::Broodwar->print(result.c_str());
       }
       else if (parsed[1] == "walkability")
       {
         std::string result = Map::saveWalkabilityMap(config->get("data_path") + "\\walkability.txt");
-        BWAPI::Broodwar.print(result.c_str());
+        BWAPI::Broodwar->print(result.c_str());
       }
       else if (parsed[1] == "height")
       {
         std::string result = Map::saveHeightMap(config->get("data_path") + "\\height.txt");
-        BWAPI::Broodwar.print(result.c_str());
+        BWAPI::Broodwar->print(result.c_str());
       }
       else if (parsed[1] == "startlocations")
       {
         std::string fileName = config->get("data_path") + "\\startlocations";
         Util::FileLogger startlocationsLog(fileName, Util::LogLevel::MicroDetailed, false);
-        startlocationsLog.log("%s has %d start locations:",BWAPI::Broodwar.mapName().c_str(),BWAPI::Broodwar.getStartLocations().size());
-        BWAPI::Broodwar.print("%s has %d start locations:",BWAPI::Broodwar.mapName().c_str(),BWAPI::Broodwar.getStartLocations().size());
-        for(std::set<BW::TilePosition>::const_iterator i=BWAPI::Broodwar.getStartLocations().begin();
-          i!=BWAPI::Broodwar.getStartLocations().end();i++)
+        startlocationsLog.log("%s has %d start locations:",BWAPI::Broodwar->mapName().c_str(),BWAPI::Broodwar->getStartLocations().size());
+        BWAPI::Broodwar->print("%s has %d start locations:",BWAPI::Broodwar->mapName().c_str(),BWAPI::Broodwar->getStartLocations().size());
+        for(std::set<BW::TilePosition>::const_iterator i=BWAPI::Broodwar->getStartLocations().begin();
+          i!=BWAPI::Broodwar->getStartLocations().end();i++)
         {
-          double angle=atan2((*i).y-BWAPI::Broodwar.mapHeight()/2.0,(*i).x-BWAPI::Broodwar.mapWidth()/2.0);
+          double angle=atan2((*i).y-BWAPI::Broodwar->mapHeight()/2.0,(*i).x-BWAPI::Broodwar->mapWidth()/2.0);
           double clock_deg=angle*180.0/3.14159265+90.0;
           int clock_hour=((int)floor(clock_deg*12.0/360.0+0.5)+11)%12+1;
           startlocationsLog.log("%d o clock: %d, %d",clock_hour, (*i).x, (*i).y);
-          BWAPI::Broodwar.print("%d o clock: %d, %d",clock_hour, (*i).x, (*i).y);
+          BWAPI::Broodwar->print("%d o clock: %d, %d",clock_hour, (*i).x, (*i).y);
         }
-        BWAPI::Broodwar.print("Saved start locations");
+        BWAPI::Broodwar->print("Saved start locations");
 
       }
       else if (parsed[1] == "defined" && parsed[2] == "buildings")
@@ -616,19 +614,19 @@ namespace BWAI
         {
           std::string fileName = config->get("data_path") + "\\pre-defined-buildings.txt";
           mapInfo->saveDefinedBuildingsMap(fileName);
-          BWAPI::Broodwar.print("Defined buildings saved to %s", fileName.c_str());
+          BWAPI::Broodwar->print("Defined buildings saved to %s", fileName.c_str());
         }
         else
-          BWAPI::Broodwar.print("Map info for the current map is not available.");
+          BWAPI::Broodwar->print("Map info for the current map is not available.");
       }
       else
-        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
+        BWAPI::Broodwar->print("Unknown command '%s' - possible commands are: fog, techs, upgrades, units, "
                               "buildability, walkability, height, startlocations, defined buildings", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/count")
     {
-      BWAPI::Broodwar.print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BW::UnitID::Protoss_Pylon], BWAPI::Broodwar.self()->getAllUnits(BW::UnitID::Protoss_Pylon));
+      BWAPI::Broodwar->print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BW::UnitID::Protoss_Pylon], BWAPI::Broodwar->self()->getAllUnits(BW::UnitID::Protoss_Pylon));
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -636,28 +634,28 @@ namespace BWAI
       if (parsed[1] == "add")
       {
         std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
-        BW::TechType tech = BWAPI::Broodwar.getTechType(techName);
+        BW::TechType tech = BWAPI::Broodwar->getTechType(techName);
         if (tech == BW::TechID::None)
-          BWAPI::Broodwar.print("Unknown upgrade name '%s'", techName);
+          BWAPI::Broodwar->print("Unknown upgrade name '%s'", techName);
         else
         {
           if (this->player->canAfford(tech))
           {
             this->plannedInvents.push_back(new BWAI::TaskInvent(tech, 0));
-            BWAPI::Broodwar.print("Added tech '%s'", techName.c_str());
+            BWAPI::Broodwar->print("Added tech '%s'", techName.c_str());
           }
           else
-            BWAPI::Broodwar.print("Cant afford the tech right now -> Try again later");
+            BWAPI::Broodwar->print("Cant afford the tech right now -> Try again later");
         }
         return true;
       }
       else if (parsed[1] == "list")
       {
         for each (TaskInvent* i in this->plannedInvents)
-          BWAPI::Broodwar.print(i->getTechType().getName());
+          BWAPI::Broodwar->print(i->getTechType().getName());
       }
       else 
-        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
+        BWAPI::Broodwar->print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/upgrade")
@@ -665,28 +663,28 @@ namespace BWAI
       if (parsed[1] == "add")
       {
         std::string upgradeName = message.substr(strlen("/upgrade add "), message.size() - strlen("/upgrade add "));
-        BW::UpgradeType upgrade = BWAPI::Broodwar.getUpgradeType(upgradeName);
+        BW::UpgradeType upgrade = BWAPI::Broodwar->getUpgradeType(upgradeName);
         if (upgrade == BW::UpgradeID::None)
-          BWAPI::Broodwar.print("Unknown upgrade name '%s'", upgradeName);
+          BWAPI::Broodwar->print("Unknown upgrade name '%s'", upgradeName);
         else
         {
           if (this->player->canAfford(upgrade, this->player->upgradeLevel(upgrade) + 1))
           {
             this->plannedUpgrades.push_back(new BWAI::TaskUpgrade(upgrade, this->player->upgradeLevel(upgrade) + 1, 0));
-            BWAPI::Broodwar.print("Added upgrade '%s' level %d", upgradeName, this->player->upgradeLevel(upgrade) + 1);
+            BWAPI::Broodwar->print("Added upgrade '%s' level %d", upgradeName, this->player->upgradeLevel(upgrade) + 1);
           }
           else
-            BWAPI::Broodwar.print("Cant afford the upgrade right now -> Try again later");
+            BWAPI::Broodwar->print("Cant afford the upgrade right now -> Try again later");
         }
         return true;
       }
       else if (parsed[1] == "list")
       {
         for each (TaskUpgrade* i in this->plannedUpgrades)
-          BWAPI::Broodwar.print(i->getUpgradeType().getName());
+          BWAPI::Broodwar->print(i->getUpgradeType().getName());
       }
       else 
-        BWAPI::Broodwar.print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
+        BWAPI::Broodwar->print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/fight")
@@ -709,15 +707,15 @@ namespace BWAI
               addedCount++;
               task->addExecutor(i);
             }
-          BWAPI::Broodwar.print("%u units added to the fight group", addedCount);
+          BWAPI::Broodwar->print("%u units added to the fight group", addedCount);
         }
         else
         {
           if (this->fightGroups.empty())
             this->fightGroups.push_back(new TaskFight());
           TaskFight* task = this->fightGroups.front();
-          for(std::set<BWAPI::Unit*>::const_iterator i=BWAPI::Broodwar.getSelectedUnits().begin();
-            i!=BWAPI::Broodwar.getSelectedUnits().end();i++)
+          for(std::set<BWAPI::Unit*>::const_iterator i=BWAPI::Broodwar->getSelectedUnits().begin();
+            i!=BWAPI::Broodwar->getSelectedUnits().end();i++)
           {
             Unit* unit=BWAI::Unit::BWAPIUnitToBWAIUnit(*i);
             unit->freeFromTask();
@@ -737,8 +735,8 @@ namespace BWAI
         }
         else
         {
-          for(std::set<BWAPI::Unit*>::const_iterator i=BWAPI::Broodwar.getSelectedUnits().begin();
-            i!=BWAPI::Broodwar.getSelectedUnits().end();i++)
+          for(std::set<BWAPI::Unit*>::const_iterator i=BWAPI::Broodwar->getSelectedUnits().begin();
+            i!=BWAPI::Broodwar->getSelectedUnits().end();i++)
           {
             Unit* unit=BWAI::Unit::BWAPIUnitToBWAIUnit(*i);
             unit->freeFromTask();
@@ -746,13 +744,13 @@ namespace BWAI
         }
       }
       else 
-        BWAPI::Broodwar.print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1].c_str());
+        BWAPI::Broodwar->print("Unknown add command '%s' - possible values are: add, add all, remove, remove all", parsed[1].c_str());
       return true;
     } 
     else if (parsed[0] == "/formation")
     {
-      BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
-                                           BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
+      BW::Position position = BW::Position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
+                                           BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
       if (parsed[1] == "cycle")
       {
         this->cyclePosition = position;
@@ -766,7 +764,7 @@ namespace BWAI
         u16 angle = atoi(parsed[1].c_str());
         if (angle == 0 && parsed[1] != "0")
         {
-          BWAPI::Broodwar.print("Invalid angle '%s'", parsed[1]);
+          BWAPI::Broodwar->print("Invalid angle '%s'", parsed[1]);
         }
         if (this->fightGroups.empty())
           return true;        
@@ -780,8 +778,8 @@ namespace BWAI
     } 
     else if (parsed[0] == "/attack")
     {
-      BW::Position position = BW::Position(BWAPI::Broodwar.getMouseX() + BWAPI::Broodwar.getScreenX(),
-                                           BWAPI::Broodwar.getMouseY() + BWAPI::Broodwar.getScreenY());
+      BW::Position position = BW::Position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
+                                           BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
 
       if (parsed[1] == "location")
       {
@@ -794,20 +792,20 @@ namespace BWAI
       }
       else
       {
-		  BWAPI::Broodwar.print("Unknown attack command '%s' - possible values are: location", parsed[1].c_str());
+		  BWAPI::Broodwar->print("Unknown attack command '%s' - possible values are: location", parsed[1].c_str());
       }
       return true;
     }
     else if (parsed[0] == "/res")
     {
-      BWAPI::Broodwar.print("Actual: Min: %d Gas: %d",this->player->getMinerals(),this->player->getGas());
-      BWAPI::Broodwar.print("Reserved: Min: %d Gas: %d",this->reserved.minerals,this->reserved.gas);
-      BWAPI::Broodwar.print("Available: Min: %d Gas: %d",this->player->getMinerals()-this->reserved.minerals,this->player->getGas()-this->reserved.gas);
+      BWAPI::Broodwar->print("Actual: Min: %d Gas: %d",this->player->getMinerals(),this->player->getGas());
+      BWAPI::Broodwar->print("Reserved: Min: %d Gas: %d",this->reserved.minerals,this->reserved.gas);
+      BWAPI::Broodwar->print("Available: Min: %d Gas: %d",this->player->getMinerals()-this->reserved.minerals,this->player->getGas()-this->reserved.gas);
       return true;
     }
     else if (parsed[0] == "/hash")
     {
-      this->root->log->log("%08x", BWAPI::Map::getMapHash());
+      this->root->log->log("%08x", BWAPI::Broodwar->getMapHash());
       return true;
     }
     else if (parsed[0] == "/reload")
@@ -817,9 +815,9 @@ namespace BWAI
         try
         {
           char mapPath[256] = "\0";
-          sprintf_s(mapPath, 256, "%s\\%08x.xml", config->get("maps_path").c_str(), BWAPI::Map::getMapHash());
+          sprintf_s(mapPath, 256, "%s\\%08x.xml", config->get("maps_path").c_str(), BWAPI::Broodwar->getMapHash());
           mapInfo = new MapInfo(mapPath);
-          BWAPI::Broodwar.print("Map data reloaded successfully.");
+          BWAPI::Broodwar->print("Map data reloaded successfully.");
         }
         catch (GeneralException& exception)
         {
@@ -832,7 +830,7 @@ namespace BWAI
         try
         {
           root = new BuildOrder::Root(config->get("build_order_path"));
-          BWAPI::Broodwar.print("Build order reloaded successfully.");
+          BWAPI::Broodwar->print("Build order reloaded successfully.");
         }
         catch (GeneralException& exception)
         {
@@ -841,7 +839,7 @@ namespace BWAI
         }
       }
       else
-        BWAPI::Broodwar.print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
+        BWAPI::Broodwar->print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
       return true;
     }
     return false;
@@ -1081,15 +1079,15 @@ namespace BWAI
             for (int l = i->position.y; 
                  l < i->position.y + position->tileHeight; 
                  l++)
-              if (!BWAPI::Broodwar.unitsOnTile(k,l).empty())
+              if (!BWAPI::Broodwar->unitsOnTile(k,l).empty())
               {
                 occupiedCount ++;
-                if (BWAPI::Broodwar.unitsOnTile(k,l).size() == 1)
+                if (BWAPI::Broodwar->unitsOnTile(k,l).size() == 1)
                   {
                     if (occupied != NULL &&
-                      occupied->getUnit() == BWAPI::Broodwar.unitsOnTile(k,l).front())
+                      occupied->getUnit() == BWAPI::Broodwar->unitsOnTile(k,l).front())
                       occupiedCount--;
-                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar.unitsOnTile(k,l).front());
+                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar->unitsOnTile(k,l).front());
                   }
                 else
                   occupiedCount = 2;

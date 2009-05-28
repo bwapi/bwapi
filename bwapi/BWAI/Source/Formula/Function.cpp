@@ -65,7 +65,7 @@ namespace Formula
       case FunctionType::Finished :
       case FunctionType::All :
       case FunctionType::InProgress :
-        unitType = BWAPI::Broodwar.getUnitType(this->functionParameter);
+        unitType = BWAPI::Broodwar->getUnitType(this->functionParameter);
         if (unitType == BW::UnitID::None)
           throw ParseException("Unknown unit name " + this->functionParameter);
         break;
@@ -92,22 +92,22 @@ namespace Formula
   {
     switch (this->type)
     {
-      case FunctionType::Finished   : return (float) BWAPI::Broodwar.self()->getCompletedUnits(this->unitType);
-      case FunctionType::All        : return (float) BWAPI::Broodwar.self()->getAllUnits(this->unitType);
-      case FunctionType::InProgress : return (float) BWAPI::Broodwar.self()->getIncompleteUnits(this->unitType);
+      case FunctionType::Finished   : return (float) BWAPI::Broodwar->self()->getCompletedUnits(this->unitType);
+      case FunctionType::All        : return (float) BWAPI::Broodwar->self()->getAllUnits(this->unitType);
+      case FunctionType::InProgress : return (float) BWAPI::Broodwar->self()->getIncompleteUnits(this->unitType);
       case FunctionType::ConfigValue: 
         return this->configValue;
       case FunctionType::ActiveMinerals :
         return (float) BWAI::ai->activeMinerals.size();
-      case FunctionType::UsedSupply : return (float) BWAPI::Broodwar.self()->supplyUsed()/2;
-      case FunctionType::PlannedSupply : return (float) (BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar.self()->supplyTotal())/2;
-      case FunctionType::Factories : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Factories, race);
-      case FunctionType::Buildings : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Buildings, race);
-      case FunctionType::Men : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Men, race);
-      case FunctionType::Infantry : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Infantry, race);
-      case FunctionType::Mech : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Mech, race);
-      case FunctionType::Zerg_Main : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Zerg_Main, race);
-      case FunctionType::Zerg_MainLair : return (float) BWAPI::Broodwar.self()->getCompletedUnits(BW::UnitID::Zerg_MainLair, race);
+      case FunctionType::UsedSupply : return (float) BWAPI::Broodwar->self()->supplyUsed()/2;
+      case FunctionType::PlannedSupply : return (float) (BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar->self()->supplyTotal())/2;
+      case FunctionType::Factories : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Factories, race);
+      case FunctionType::Buildings : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Buildings, race);
+      case FunctionType::Men : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Men, race);
+      case FunctionType::Infantry : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Infantry, race);
+      case FunctionType::Mech : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Mech, race);
+      case FunctionType::Zerg_Main : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Zerg_Main, race);
+      case FunctionType::Zerg_MainLair : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Zerg_MainLair, race);
     }
     return 0;
   }

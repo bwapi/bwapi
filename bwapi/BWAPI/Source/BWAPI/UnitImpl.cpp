@@ -5,6 +5,7 @@
 #include <Util/Logger.h>
 
 #include "BWAPI/Player.h"
+#include "BWAPI/GameImpl.h"
 #include "Globals.h"
 #include "CommandTrain.h"
 #include "CommandBuild.h"
@@ -55,7 +56,7 @@ namespace BWAPI
   Player* UnitImpl::getOwner() const
   {
     if (this->getRawDataLocal()->playerID < 12)
-      return (Player*)Broodwar.players[this->bwUnit->playerID];
+      return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
     else 
       return NULL;
   }
@@ -84,11 +85,11 @@ namespace BWAPI
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
   {
-    if (this->getOwner()==BWAPI::Broodwar.self())
+    if (this->getOwner()==BWAPI::BroodwarImpl.self())
     {
       return true;
     }
-    if (!BWAPI::Broodwar.visible(this->getTilePosition().x,this->getTilePosition().y))
+    if (!BWAPI::BroodwarImpl.visible(this->getTilePosition().x,this->getTilePosition().y))
     {
       return false;
     }
@@ -128,7 +129,7 @@ namespace BWAPI
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool UnitImpl::isSelected() const
   {
-    if (BWAPI::Broodwar.isFlagEnabled(BWAPI::Flag::UserInput)==false)
+    if (BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)==false)
       return false;
     return this->userSelected;
   }
@@ -331,46 +332,46 @@ namespace BWAPI
   void UnitImpl::attackLocation(BW::Position position, u8 orderID)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::Attack(position, orderID), sizeof(BW::Orders::Attack)); 
-    Broodwar.addToCommandBuffer(new CommandAttackLocation(this, position));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(position, orderID), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   void UnitImpl::rightClick(BW::Position position)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick(position), sizeof(BW::Orders::RightClick)); 
-    Broodwar.addToCommandBuffer(new CommandRightClick(this, position));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(position), sizeof(BW::Orders::RightClick)); 
+    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   void UnitImpl::rightClick(Unit *target)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick)); 
-    Broodwar.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick)); 
+    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
   }
   //------------------------------------------------- BUILD --------------------------------------------------
   void UnitImpl::build(BW::TilePosition position, BW::UnitType type)
   {
     this->orderSelect();
     if (!type.isAddon())
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
     else
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::MakeAddon(position, type), sizeof(BW::Orders::MakeAddon)); 
-    Broodwar.addToCommandBuffer(new CommandBuild(this, type, position));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(position, type), sizeof(BW::Orders::MakeAddon)); 
+    BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, position));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
   void UnitImpl::invent(BW::TechType tech)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::Invent(tech), sizeof(BW::Orders::Invent)); 
-    Broodwar.addToCommandBuffer(new CommandInvent(this, tech));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(tech), sizeof(BW::Orders::Invent)); 
+    BroodwarImpl.addToCommandBuffer(new CommandInvent(this, tech));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
   void UnitImpl::upgrade(BW::UpgradeType upgrade)
   {
     this->orderSelect();
-    Broodwar.IssueCommand((PBYTE)&BW::Orders::Upgrade(upgrade), sizeof(BW::Orders::Upgrade)); 
-    Broodwar.addToCommandBuffer(new CommandUpgrade(this, upgrade));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(upgrade), sizeof(BW::Orders::Upgrade)); 
+    BroodwarImpl.addToCommandBuffer(new CommandUpgrade(this, upgrade));
   }
   //-------------------------------------------------- STOP --------------------------------------------------
   void UnitImpl::stop()
@@ -405,7 +406,7 @@ namespace BWAPI
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {
-    if (Broodwar.quietSelect)
+    if (BroodwarImpl.quietSelect)
     {
       BW::Unit * * select = new BW::Unit * [1];
       select[0] = this->getOriginalRawData();
@@ -445,8 +446,8 @@ namespace BWAPI
         this->getType() == BW::UnitID::Zerg_Hydralisk)
     {
       this->orderSelect();
-      Broodwar.addToCommandBuffer(new CommandTrain(this, type));
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::UnitMorph(type), 0x3);
+      BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(type), 0x3);
     }
     else if (this->getType() == BW::UnitID::Zerg_Hatchery ||
              this->getType() == BW::UnitID::Zerg_Lair ||
@@ -454,14 +455,14 @@ namespace BWAPI
              this->getType() == BW::UnitID::Zerg_CreepColony)
     {
       this->orderSelect();
-      Broodwar.addToCommandBuffer(new CommandTrain(this, type));
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(type), 0x3);
+      BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(type), 0x3);
     }
     else
     {
       this->orderSelect();
-      Broodwar.addToCommandBuffer(new CommandTrain(this, type));
-      Broodwar.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
+      BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
     }
   }
   //--------------------------------------------- GET QUEUE SLOT ---------------------------------------------
@@ -481,7 +482,7 @@ namespace BWAPI
   {
     if (unit == NULL)
       return NULL;
-    return Broodwar.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable)/336);
+    return BroodwarImpl.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable)/336);
   }
   #pragma warning (pop)
   //----------------------------------------------------------------------------------------------------------

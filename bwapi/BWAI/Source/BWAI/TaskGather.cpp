@@ -63,18 +63,18 @@ namespace BWAI
                i->getTarget() != this->mineral
                ||
                (
-                 i->getDistance(this->mineral) <= BWAPI::Broodwar.getLatency()*3 &&
+                 i->getDistance(this->mineral) <= BWAPI::Broodwar->getLatency()*3 &&
                  miningBuddy != NULL &&
-                 miningBuddy->getOrderTimer() >= BWAPI::Broodwar.getLatency() &&
+                 miningBuddy->getOrderTimer() >= BWAPI::Broodwar->getLatency() &&
                  (
-                   miningBuddy->getOrderTimer() == BWAPI::Broodwar.getLatency()-1 ||
-                   BWAPI::Broodwar.getFrameCount() - i->lastFrameSpam > 4
+                   miningBuddy->getOrderTimer() == BWAPI::Broodwar->getLatency()-1 ||
+                   BWAPI::Broodwar->getFrameCount() - i->lastFrameSpam > 4
                  )
                )
              )
            )
         {
-          i->lastFrameSpam = BWAPI::Broodwar.getFrameCount();
+          i->lastFrameSpam = BWAPI::Broodwar->getFrameCount();
           i->orderRightClick(mineral);
         }
     }

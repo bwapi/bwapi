@@ -1,6 +1,7 @@
 #include "ScreenLogger.h"
 
 #include "Globals.h"
+#include "GameImpl.h"
 
 namespace BWAPI
 {
@@ -14,7 +15,7 @@ namespace BWAPI
   bool ScreenLogger::flush(const char* data)
   {
     if (!this->shut)
-      BWAPI::Broodwar.printPublic(data);
+      BWAPI::BroodwarImpl.printPublic(data);
     return true;
   }
 }

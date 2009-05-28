@@ -385,7 +385,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Game.cpp"
+					RelativePath=".\Source\BWAPI\GameImpl.cpp"
 					>
 				</File>
 				<File
@@ -449,7 +449,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Game.h"
+					RelativePath=".\Source\BWAPI\GameImpl.h"
 					>
 				</File>
 				<File
@@ -501,6 +501,10 @@
 		<Filter
 			Name="Interface"
 			>
+			<File
+				RelativePath="..\include\BWAPI\Game.h"
+				>
+			</File>
 			<File
 				RelativePath="..\include\BWAPI\Player.h"
 				>

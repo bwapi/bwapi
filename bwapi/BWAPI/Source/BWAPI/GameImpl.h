@@ -10,6 +10,8 @@ namespace BWAPI { class Unit; }
 namespace BWAPI { class UnitImpl; }
 namespace BWAPI { class Command; }
 
+#include "BWAPI/Game.h"
+
 #include <vector>
 #include <list>
 #include <map>
@@ -34,89 +36,84 @@ namespace BWAPI { class Command; }
 namespace BWAPI
 {
   /** The main class wrapping the whole game data/methods. */
-  class Game
+  class GameImpl : public Game
   {
     public :
+      virtual std::set< Force* > getForces() const;
+      virtual std::set< Player* > getPlayers() const;
+      virtual std::set< Unit* > getAllUnits() const;
+      virtual std::set< Unit* > getMinerals() const;
+      virtual std::set< Unit* > getGeysers() const;
+      virtual std::set< Unit* > getNeutralUnits() const;
 
-      std::set< Player* > getPlayers() const;
-      std::set< Unit* > getAllUnits() const;
-      std::set< Unit* > getMinerals() const;
-      std::set< Unit* > getGeysers() const;
-      std::set< Unit* > getNeutralUnits() const;
+      virtual BW::Latency::Enum getLatency();
+      virtual int getFrameCount() const;
+      virtual int getMouseX() const;
+      virtual int getMouseY() const;
+      virtual int getScreenX() const;
+      virtual int getScreenY() const;
+      virtual bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
+      virtual void enableFlag(BWAPI::Flag::Enum flag);
 
-      BW::Latency::Enum getLatency();
-      int getFrameCount() const;
-      int getMouseX() const;
-      int getMouseY() const;
-      int getScreenX() const;
-      int getScreenY() const;
-      bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
-      void enableFlag(BWAPI::Flag::Enum flag);
+      virtual std::list<Unit*> unitsOnTile(int x, int y) const;
 
-      std::list<Unit*> unitsOnTile(int x, int y) const;
+      virtual const std::set< BW::UnitType >& allUnitTypes() const;
+      virtual BW::UnitType getUnitType(std::string &name) const;
 
-      const std::set< BW::UnitType >& allUnitTypes() const;
-      BW::UnitType getUnitType(std::string &name) const;
+      virtual BW::UpgradeType getUpgradeType(std::string &name) const;
 
-      BW::UpgradeType getUpgradeType(std::string &name) const;
+      virtual BW::TechType getTechType(std::string &name) const;
 
-      BW::TechType getTechType(std::string &name) const;
-
-      int mapWidth() const;
-      int mapHeight() const;
-      std::string mapFilename() const;
-      std::string mapName() const;
-      bool buildable(int x, int y) const;
-      bool walkable(int x, int y) const;
-      bool visible(int x, int y) const;
-      int groundHeight(int x, int y) const; 
-      const std::set< BW::TilePosition >& getStartLocations() const;
-
+      virtual int mapWidth() const;
+      virtual int mapHeight() const;
+      virtual std::string mapFilename() const;
+      virtual std::string mapName() const;
+      virtual bool buildable(int x, int y) const;
+      virtual bool walkable(int x, int y) const;
+      virtual bool visible(int x, int y) const;
+      virtual int groundHeight(int x, int y) const; 
+      virtual const std::set< BW::TilePosition >& getStartLocations() const;
+      virtual int getMapHash() const;
       /**
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      static void print(const char *text, ...);
-      static void printEx(s32 pID, const char *text, ...);
-      static void printPublic(const char *text, ...);
-      bool isOnStartCalled() const;
-      bool isInGame() const;
+      virtual void print(const char *text, ...);
+      virtual void printEx(s32 pID, const char *text, ...);
+      virtual void printPublic(const char *text, ...);
+      virtual bool isOnStartCalled() const;
+      virtual bool isInGame() const;
       /**
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
        * @param slotID Order of the slot (0 based)
        */
-      void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
+      virtual void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
        * @param slotID Order of the slot (0 based)
        */
-      void changeRace(BW::Race::Enum race, u8 slotID);
+      virtual void changeRace(BW::Race::Enum race, u8 slotID);
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
        */
-      void startGame();
-      void pauseGame();
-      void resumeGame();
-      const std::set<BWAPI::Unit*>& getSelectedUnits() const;
-      Player* self() const;
-      Player* enemy() const;
+      virtual void startGame();
+      virtual void pauseGame();
+      virtual void resumeGame();
+      virtual const std::set<BWAPI::Unit*>& getSelectedUnits() const;
+      virtual Player* self() const;
+      virtual Player* enemy() const;
 
 
       //Internal BWAPI commands:
-      Game();
-      ~Game();
+      GameImpl();
+      ~GameImpl();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       PlayerImpl* players[12];
 
       void setOnStartCalled(bool onStartCalled);
-      /**
-       * This function is called after every update (in DLLMain), and is used
-       * for debug and other reasons
-       */
-      void test(void);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
       void addToCommandBuffer(Command *command);
       void onGameStart();
@@ -128,23 +125,23 @@ namespace BWAPI
       bool enabled;
       /** @todo Doesn't work */
       void refresh();
-      UnitImpl* getUnit(int index);
-      void saveSelected();
       void loadSelected();
+
+      UnitImpl* getFirst();
+      Util::Logger *fatalError;
+
+      std::set<UnitImpl*> units;
+      bool quietSelect;
+      UnitImpl* getUnit(int index);
+      PlayerImpl* BWAPIPlayer;
+      PlayerImpl* opponent;
+    private :
       /**
        * Representation of the configuration file bw-api.ini in the starcraft
        * directory.
        */
       Util::Dictionary* configuration;
-
-      UnitImpl* getFirst();
-      Util::Logger *fatalError;
-      bool quietSelect;
-
-      PlayerImpl* BWAPIPlayer;
-      PlayerImpl* opponent;
-      std::set<UnitImpl*> units;
-    private :
+      void saveSelected();
       Map map;
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
@@ -188,6 +185,14 @@ namespace BWAPI
       BW::Unit* savedSelectionStates[13];
       void refreshSelectionStates();
   };
+  /**
+   * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
+   * As there is only one instance, the class is defined globaly and as value (not pointer), so the instance 
+   * is constructed automatically and there is also no need to care about the destructor.
+   * We wanted to save passing the Game parameter everywhere, so we expect everywhere in the code that this
+   * variable is instantialised.
+   */
+  extern GameImpl BroodwarImpl;
 };
  
   

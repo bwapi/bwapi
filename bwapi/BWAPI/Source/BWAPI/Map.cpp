@@ -4,6 +4,7 @@
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
 #include "Globals.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 
 namespace BWAPI
@@ -59,7 +60,7 @@ namespace BWAPI
   bool Map::visible(int x, int y) const
   {
     u32 value =  (*this->fogOfWar)[y][x];
-    return !(value & (1<<Broodwar.BWAPIPlayer->getID()));
+    return !(value & (1<<BroodwarImpl.BWAPIPlayer->getID()));
   }
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
