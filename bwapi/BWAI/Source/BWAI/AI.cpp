@@ -531,7 +531,7 @@ namespace BWAI
     }
    }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
-  bool AI::onSendText(const char* text)
+  bool AI::onSendText(std::string text)
   {
     std::string message = text;
     std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
