@@ -1,7 +1,7 @@
 #include "Map.h"
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
-#include <BWAPI/Globals.h>
+#include <BWAPI/Game.h>
 
 namespace BWAI
 {
@@ -14,20 +14,20 @@ namespace BWAI
       if (!f)
         throw FileException("Couldn't save the buildability map to '" + fileName + "'");
       fprintf_s(f, "Buildability map for currently opened map\n");
-      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar.mapFilename().c_str());
-      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar.mapWidth());
-      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar.mapHeight());
+      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar->mapFilename().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar->mapWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar->mapHeight());
       fprintf_s(f, "X = not buildable\n");
       fprintf_s(f, ". = buildable\n");
 
       try
       {
-        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Map::getWidth(),BWAPI::Broodwar.mapHeight());
+        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar->mapWidth(),BWAPI::Broodwar->mapHeight());
 
         fprintf_s(f, "RectangleArray declaration succeeded.\n");
-        for (int x = 0; x < BWAPI::Broodwar.mapWidth(); x++)
-          for (int y = 0; y < BWAPI::Broodwar.mapHeight(); y++)
-            result[x][y] = BWAPI::Broodwar.buildable(x,y) ? '.' : 'X';
+        for (int x = 0; x < BWAPI::Broodwar->mapWidth(); x++)
+          for (int y = 0; y < BWAPI::Broodwar->mapHeight(); y++)
+            result[x][y] = BWAPI::Broodwar->buildable(x,y) ? '.' : 'X';
         
         Util::Strings::makeBorder(result).printToFile(f); 
         fclose(f);
@@ -46,21 +46,21 @@ namespace BWAI
       if (!f)
         throw FileException("Couldn't save the walkability map to '" + fileName + "'");
       fprintf_s(f, "Walkability map for currently opened map\n");
-      fprintf_s(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
-      fprintf_s(f, "Map width: %d\n", BWAPI::Map::getWidth());
-      fprintf_s(f, "Map height: %d\n", BWAPI::Map::getHeight());
+      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar->mapFilename().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar->mapWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar->mapHeight());
       fprintf_s(f, "X = not walkable\n");
       fprintf_s(f, ". = walkable\n");
       
       try
       {
-        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Map::getWidth()*4, 
-                                                                       BWAPI::Map::getHeight()*4);
+        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar->mapWidth()*4, 
+                                                                       BWAPI::Broodwar->mapHeight()*4);
 
         fprintf_s(f, "RectangleArray declaration succeeded.\n");
-        for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
-          for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
-            result[x][y] = BWAPI::Broodwar.walkable(x,y) ? '.' : 'X';
+        for (unsigned int x = 0; x < (u16)(BWAPI::Broodwar->mapWidth()*4); x++)
+          for (unsigned int y = 0; y < (u16)(BWAPI::Broodwar->mapHeight()*4); y++)
+            result[x][y] = BWAPI::Broodwar->walkable(x,y) ? '.' : 'X';
         
         Util::Strings::makeBorder(result).printToFile(f);
         fclose(f);
@@ -79,21 +79,21 @@ namespace BWAI
       if (!f)
         throw FileException("Couldn't save the height map to '" + fileName + "'");
       fprintf_s(f, "Height map for currently opened map\n");
-      fprintf_s(f, "Map file: %s\n", BWAPI::Map::getFileName().c_str());
-      fprintf_s(f, "Map width: %d\n", BWAPI::Map::getWidth());
-      fprintf_s(f, "Map height: %d\n", BWAPI::Map::getHeight());
+      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar->mapFilename().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar->mapWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar->mapHeight());
       fprintf_s(f, "X = not walkable\n");
       fprintf_s(f, ". = walkable\n");
       
       try
       {
-        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Map::getWidth()*4, 
-                                                                       BWAPI::Map::getHeight()*4);
+        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar->mapWidth()*4, 
+                                                                       BWAPI::Broodwar->mapHeight()*4);
 
         fprintf_s(f, "RectangleArray declaration succeeded.\n");
-        for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
-          for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
-            result[x][y] = '0'+BWAPI::Broodwar.groundHeight(x,y);
+        for (unsigned int x = 0; x < (u16)(BWAPI::Broodwar->mapWidth()*4); x++)
+          for (unsigned int y = 0; y < (u16)(BWAPI::Broodwar->mapHeight()*4); y++)
+            result[x][y] = '0'+BWAPI::Broodwar->groundHeight(x,y);
         
         Util::Strings::makeBorder(result).printToFile(f);
         fclose(f);
@@ -112,19 +112,19 @@ namespace BWAI
       if (!f)
         throw FileException("Couldn't save the fog of war map to '" + fileName + "'");
       fprintf_s(f, "Fog of war map for currently opened map\n");
-      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar.mapFilename().c_str());
-      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar.mapWidth());
-      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar.mapHeight());
+      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar->mapFilename().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar->mapWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar->mapHeight());
       fprintf_s(f, "X = not visible\n");
       fprintf_s(f, ". = visible\n");
       
       try
       {
-        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar.mapWidth(), BWAPI::Broodwar.mapHeight());
-        for (int x = 0; x < BWAPI::Broodwar.mapWidth(); x++)
-          for (int y = 0; y < BWAPI::Broodwar.mapHeight(); y++)
+        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight());
+        for (int x = 0; x < BWAPI::Broodwar->mapWidth(); x++)
+          for (int y = 0; y < BWAPI::Broodwar->mapHeight(); y++)
           {
-            result[x][y] = BWAPI::Broodwar.visible(x,y) ? '.' : 'X';
+            result[x][y] = BWAPI::Broodwar->visible(x,y) ? '.' : 'X';
           }
       
         Util::Strings::makeBorder(result).printToFile(f); 

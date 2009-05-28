@@ -3,6 +3,7 @@
 #include <map>
 #include <Util/Xml.h>
 #include <Util/Logger.h>
+#include <Util/Exceptions.h>
 #include <BWAI/Globals.h>
 #include "CommandPointer.h"
 #include "Executor.h"

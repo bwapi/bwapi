@@ -13,7 +13,7 @@
 
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
-#include "BWAPI/Game.h"
+#include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
 
 #include "BWAI/AI.h"
@@ -36,7 +36,7 @@ void __declspec(naked) onRemoveUnit()
   {
     #pragma warning(push)
     #pragma warning(disable:4312)
-    BWAPI::Broodwar.onRemoveUnit((BW::Unit*) removedUnit);
+    BWAPI::BroodwarImpl.onRemoveUnit((BW::Unit*) removedUnit);
     BWAI::ai->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit((BW::Unit*) removedUnit));
     #pragma warning(pop)
   }
@@ -93,7 +93,7 @@ void __declspec(naked) onGameEnd()
   {
     aiStartCalled = false;
     //launchedStart = false;
-    BWAPI::Broodwar.onGameEnd();
+    BWAPI::BroodwarImpl.onGameEnd();
     BWAI::ai->onEnd();
   }
   __asm
@@ -112,19 +112,19 @@ void __declspec(naked)  nextFrameHook()
     mov frameHookEax, eax
   }
   {
-    BWAPI::Broodwar.update();
+    BWAPI::BroodwarImpl.update();
     BWAI::ai->update();
     if (!aiStartCalled)
     {
-      if (BWAPI::Broodwar.isOnStartCalled())
+      if (BWAPI::BroodwarImpl.isOnStartCalled())
       {
         BWAI::ai->onStart();
-        BWAPI::Broodwar.lockFlags();
+        BWAPI::BroodwarImpl.lockFlags();
         aiStartCalled = true;
       }
     }
     BWAI::ai->onFrame();
-    BWAPI::Broodwar.loadSelected();
+    BWAPI::BroodwarImpl.loadSelected();
   }
   __asm
   {
@@ -151,8 +151,8 @@ void __declspec(naked) onSendText()
     mov text, esi;
   }
   sendToBW = true;
-  sendToBW &= !BWAPI::Broodwar.onSendText(text);
-  if (sendToBW && BWAPI::Broodwar.isFlagEnabled(BWAPI::Flag::UserInput))
+  sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
+  if (sendToBW && BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput))
     sendToBW &= !BWAI::ai->onSendText(text);
   if (sendToBW)
     __asm
@@ -188,7 +188,7 @@ void __declspec(naked) onSendLobby()
     mov text, edi;
   }
   sendToBW = true;
-  sendToBW &= !BWAPI::Broodwar.onSendText(text);
+  sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
   if (sendToBW)
     sendToBW &= !BWAI::ai->onSendText(text);
   if (sendToBW)

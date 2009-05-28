@@ -15,8 +15,8 @@ namespace PathFinding
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Utilities::Utilities()
-  :world      (BWAPI::Broodwar.mapWidth()*4 + 2, BWAPI::Broodwar.mapWidth()*4 + 2)
-  ,walkability(BWAPI::Broodwar.mapWidth()*4 + 2, BWAPI::Broodwar.mapWidth()*4 + 2)
+  :world      (BWAPI::Broodwar->mapWidth()*4 + 2, BWAPI::Broodwar->mapHeight()*4 + 2)
+  ,walkability(BWAPI::Broodwar->mapWidth()*4 + 2, BWAPI::Broodwar->mapHeight()*4 + 2)
   ,vaweID(0)
   {
     Spot pattern;
@@ -24,9 +24,9 @@ namespace PathFinding
     pattern.vaweID = 0;
     pattern.from = Direction::Unset;
     world.setTo(pattern);
-    for (u16 x = 0; x < BWAPI::Broodwar.mapWidth()*4; x++)
-      for (u16 y = 0; y < BWAPI::Broodwar.mapHeight()*4; y++)
-        walkability[x + 1][y + 1] = BWAPI::Broodwar.walkable(x,y);
+    for (u16 x = 0; x < BWAPI::Broodwar->mapWidth()*4; x++)
+      for (u16 y = 0; y < BWAPI::Broodwar->mapHeight()*4; y++)
+        walkability[x + 1][y + 1] = BWAPI::Broodwar->walkable(x,y);
     for (unsigned int x = 0; x < walkability.getWidth(); x++)
     {
       walkability[x][0] = false;
@@ -40,8 +40,8 @@ namespace PathFinding
     }
     for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
       count[i] = 0;
-    for (std::set< BW::UnitType >::const_iterator i=BWAPI::Broodwar.allUnitTypes().begin();
-      i!=BWAPI::Broodwar.allUnitTypes().end();i++)
+    for (std::set< BW::UnitType >::const_iterator i=BWAPI::Broodwar->allUnitTypes().begin();
+      i!=BWAPI::Broodwar->allUnitTypes().end();i++)
     {
       BW::UnitType type=(*i);
       if (type.isBuilding() ||
@@ -63,8 +63,8 @@ namespace PathFinding
         this->precomputedPlacebility[type] = (*value).second;
       else
       {
-        Util::RectangleArray<bool>* newWalkMap = new Util::RectangleArray<bool>(BWAPI::Broodwar.mapWidth()*4  + 2, 
-                                                                         BWAPI::Broodwar.mapHeight()*4 + 2);
+        Util::RectangleArray<bool>* newWalkMap = new Util::RectangleArray<bool>(BWAPI::Broodwar->mapWidth()*4  + 2, 
+                                                                         BWAPI::Broodwar->mapHeight()*4 + 2);
         this->precomputedPlacebility[type]=newWalkMap;
         this->precomputedPlacebilityContent.insert(std::pair<u32, Util::RectangleArray<bool>*>
                                                             (dimensions, newWalkMap));

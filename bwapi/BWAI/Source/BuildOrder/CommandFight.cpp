@@ -62,7 +62,7 @@ namespace BuildOrder
           }
       }
 
-      BWAPI::Broodwar.print("%u units sent to fight '%s'", addedCount, this->dest_type.c_str());
+      BWAPI::Broodwar->print("%u units sent to fight '%s'", addedCount, this->dest_type.c_str());
 
       return true;
     }

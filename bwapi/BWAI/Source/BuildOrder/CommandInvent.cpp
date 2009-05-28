@@ -23,7 +23,7 @@ namespace BuildOrder
   //----------------------------------------------------------------------------------------------------------
   bool CommandInvent::executeInternal(Executor* executor)
   {
-    BW::TechType toInvent = BWAPI::Broodwar.getTechType(this->name);
+    BW::TechType toInvent = BWAPI::Broodwar->getTechType(this->name);
     if (!toInvent.isValid())
     {
       BWAI::ai->root->log->log("Unknown invention name '%s'", this->name.c_str());
