@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyXml", "TinyXml\TinyXml.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Util", "Util\Util.vcproj", "{C252CA4E-FFA0-404C-B5B4-614CF330C084}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIB", "BWAPILIB\BWAPILIB.vcproj", "{843656FD-9BFD-47BF-8460-7BFE9710EA2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -44,6 +46,10 @@ Global
 		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Debug|Win32.Build.0 = Debug|Win32
 		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|Win32.ActiveCfg = Release|Win32
 		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|Win32.Build.0 = Release|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Debug|Win32.Build.0 = Debug|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Release|Win32.ActiveCfg = Release|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

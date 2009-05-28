@@ -138,6 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="../release/bwapi.lib"
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"

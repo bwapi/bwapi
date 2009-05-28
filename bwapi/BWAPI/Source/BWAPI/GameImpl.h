@@ -9,6 +9,7 @@ namespace BWAPI { class PlayerImpl; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class UnitImpl; }
 namespace BWAPI { class Command; }
+namespace BWAPI { class AIModule; }
 
 #include "BWAPI/Game.h"
 
@@ -120,6 +121,7 @@ namespace BWAPI
       void onGameEnd();
       void onCancelTrain();
       bool onSendText(const char* text);
+      bool parseText(const char* text);
       void onRemoveUnit(BW::Unit *unit);
       void lockFlags();
       bool enabled;
@@ -184,6 +186,8 @@ namespace BWAPI
       bool flagsLocked;
       BW::Unit* savedSelectionStates[13];
       void refreshSelectionStates();
+      AIModule* client;
+      bool startedClient;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

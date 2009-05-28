@@ -5,6 +5,7 @@
 #include <set>
 
 #include <BWAPI/Game.h>
+#include <BWAPI/AIModule.h>
 #include <BWAI/ReservedResources.h>
 #include <BW/UnitType.h>
 
@@ -52,7 +53,7 @@ namespace BWAI
    * definition), so this class is constructated manually justa after the 
    * #BWAPI#Game is constructed and it uses it's content (configuration, logs)
    */
-  class AI
+  class AI : public BWAPI::AIModule
   {
     public :
       AI();
@@ -64,7 +65,7 @@ namespace BWAI
       void onEnd();
       void onFrame();
       void onRemoveUnit(BWAPI::Unit* unit);
-      bool onSendText(const char* text);
+      bool onSendText(std::string text);
 
       std::list<Expansion*> expansions;
       Player* getPlayer(BWAPI::Player* player);

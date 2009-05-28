@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <vector>
 #include <map>
+#include <string>
 #include <algorithm>
 #include <stdio.h>
 
@@ -16,10 +17,6 @@
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
 
-#include "BWAI/AI.h"
-#include "BWAI/Globals.h"
-
-bool aiStartCalled = false;
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 DWORD removedUnit;
@@ -37,7 +34,6 @@ void __declspec(naked) onRemoveUnit()
     #pragma warning(push)
     #pragma warning(disable:4312)
     BWAPI::BroodwarImpl.onRemoveUnit((BW::Unit*) removedUnit);
-    BWAI::ai->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit((BW::Unit*) removedUnit));
     #pragma warning(pop)
   }
    __asm
@@ -91,10 +87,8 @@ void __declspec(naked) onCancelTrainByClickInTheQueue()
 void __declspec(naked) onGameEnd()
 {
   {
-    aiStartCalled = false;
     //launchedStart = false;
     BWAPI::BroodwarImpl.onGameEnd();
-    BWAI::ai->onEnd();
   }
   __asm
   {
@@ -113,18 +107,6 @@ void __declspec(naked)  nextFrameHook()
   }
   {
     BWAPI::BroodwarImpl.update();
-    BWAI::ai->update();
-    if (!aiStartCalled)
-    {
-      if (BWAPI::BroodwarImpl.isOnStartCalled())
-      {
-        BWAI::ai->onStart();
-        BWAPI::BroodwarImpl.lockFlags();
-        aiStartCalled = true;
-      }
-    }
-    BWAI::ai->onFrame();
-    BWAPI::BroodwarImpl.loadSelected();
   }
   __asm
   {
@@ -152,8 +134,6 @@ void __declspec(naked) onSendText()
   }
   sendToBW = true;
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-  if (sendToBW && BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput))
-    sendToBW &= !BWAI::ai->onSendText(text);
   if (sendToBW)
     __asm
     {
@@ -189,8 +169,6 @@ void __declspec(naked) onSendLobby()
   }
   sendToBW = true;
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-  if (sendToBW)
-    sendToBW &= !BWAI::ai->onSendText(text);
   if (sendToBW)
     __asm
     {
@@ -237,7 +215,6 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   Util::Logger::globalLog = new Util::FileLogger(config->get("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
-  BWAI::ai = new BWAI::AI();
   int sleepTime = atoi(config->get("sleep_before_initialize_hooks").c_str());
 
   Sleep(sleepTime);

@@ -31,6 +31,9 @@
 #include <BW/UnitType.h>
 #include <BW/GameType.h>
 
+#include "BWAPI/AIModule.h"
+#include "BWAI/Temporary.h" //Only included for newAIModule method declaration - will be loaded from dll once BWAI is a separate dll.
+
 #include "Globals.h"
 
 namespace BWAPI 
@@ -44,6 +47,8 @@ namespace BWAPI
   ,unitsOnTileData(0,0)
   ,quietSelect(true)
   ,enabled(true)
+  ,client(NULL)
+  ,startedClient(false)
   {
     BWAPI::Broodwar=static_cast<Game*>(this);
     BW::UnitType::initialize();
@@ -317,6 +322,18 @@ namespace BWAPI
       fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
+    if (this->startedClient==false)
+    {
+      this->client = newAIModule(this);
+      this->client->update();
+      this->client->onStart();
+      this->lockFlags();
+      this->startedClient=true;
+    }
+    this->client->update();
+
+    this->client->onFrame();
+    this->loadSelected();
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
@@ -473,12 +490,20 @@ namespace BWAPI
       startLocations.insert(BW::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
                                              (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
       posptr++;
-    }
- 
+    } 
   }
 
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool GameImpl::onSendText(const char* text)
+  {
+    if (!this->parseText(text) && this->isFlagEnabled(BWAPI::Flag::UserInput))
+    {
+      return !this->client->onSendText(std::string(text));
+    }
+    return true;
+  }
+  //----------------------------------------------- PARSE TEXT -----------------------------------------------
+  bool GameImpl::parseText(const char* text)
   {
     std::string message = text;
     std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
@@ -706,6 +731,7 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
+    this->client->onEnd();
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
@@ -817,6 +843,7 @@ namespace BWAPI
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void GameImpl::onRemoveUnit(BW::Unit *unit)
   {
+    this->client->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit(unit));
   }
   //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
   void GameImpl::logUnknownOrStrange()
