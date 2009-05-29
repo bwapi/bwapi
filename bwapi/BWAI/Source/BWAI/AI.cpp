@@ -351,6 +351,7 @@ namespace BWAI
   //-----------------------------------------------  ON FRAME ------------------------------------------------
   void AI::onFrame(void)
   {
+    this->update();
     try
     {
       if (BWAPI::Broodwar->getFrameCount() < 2)

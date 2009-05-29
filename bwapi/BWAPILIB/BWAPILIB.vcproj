@@ -157,6 +157,14 @@
 				RelativePath=".\Source\AIModule.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Source\Order.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Race.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -165,6 +173,14 @@
 			>
 			<File
 				RelativePath="..\include\BWAPI\AIModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\Order.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\Race.h"
 				>
 			</File>
 		</Filter>

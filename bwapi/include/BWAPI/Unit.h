@@ -61,4 +61,4 @@ namespace BWAPI
     virtual void useTech(BW::TechType tech, BW::Position position)=0;
     virtual void useTech(BW::TechType tech, Unit* target)=0;
   };
-};
+}
