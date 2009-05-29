@@ -325,13 +325,11 @@ namespace BWAPI
     if (this->startedClient==false)
     {
       this->client = newAIModule(this);
-      this->client->update();
+      this->client->onFrame();
       this->client->onStart();
       this->lockFlags();
       this->startedClient=true;
     }
-    this->client->update();
-
     this->client->onFrame();
     this->loadSelected();
   }

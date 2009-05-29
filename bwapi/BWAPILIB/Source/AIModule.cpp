@@ -13,13 +13,10 @@ namespace BWAPI
   void AIModule::onEnd()
   {
   }
-  void AIModule::update()
-  {
-  }
   void AIModule::onFrame()
   {
   }
-  bool AIModule::onSendText(std::string)
+  bool AIModule::onSendText(std::string text)
   {
     return false;
   }

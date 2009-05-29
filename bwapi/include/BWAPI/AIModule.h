@@ -8,11 +8,10 @@ namespace BWAPI
   public:
     AIModule();
     virtual ~AIModule();
-    virtual void update();
     virtual void onStart();
     virtual void onEnd();
     virtual void onFrame();
-    virtual bool onSendText(std::string);
+    virtual bool onSendText(std::string text);
     virtual void onRemoveUnit(BWAPI::Unit* unit);
   };
 }
