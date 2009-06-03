@@ -120,7 +120,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 				DisableSpecificWarnings="4100;4480"
 			/>
 			<Tool
@@ -136,12 +136,13 @@
 				Name="VCLinkerTool"
 				OutputFile="$(ChaosDir)\$(ProjectName).bwl"
 				LinkIncremental="1"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				ImportLibrary="$(IntDir)$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
