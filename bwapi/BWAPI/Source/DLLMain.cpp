@@ -42,47 +42,6 @@ void __declspec(naked) onRemoveUnit()
   }
 }
 
-//--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-/*void __declspec(naked) onCancelTrainByEscape()
-{
-  __asm
-  {
-    mov onCancelTrain_edx, edx
-    mov onCancelTrain_ecx, ecx
-  }
-  {
-    BWAPI::Broodwar.onCancelTrain();
-    BWAI::ai->onCancelTrain();
-  }
-  __asm
-  {
-    mov edx, onCancelTrain_edx
-    mov ecx, onCancelTrain_ecx
-    call [BW::BWFXN_CancelTrainByEscapeTarget]
-    jmp [BW::BWFXN_CancelTrainByEscapeBack]
-  }
-}
-//--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-void __declspec(naked) onCancelTrainByClickInTheQueue()
-{
-  __asm
-  {
-    mov onCancelTrain_edx, edx
-    mov onCancelTrain_ecx, ecx
-  }
-  {
-    BWAPI::Broodwar.onCancelTrain();
-    BWAI::ai->onCancelTrain();
-  }
-  __asm
-  {
-    mov edx, onCancelTrain_edx
-    mov ecx, onCancelTrain_ecx
-    call [BW::BWFXN_CancelTrainByClickInTheQueueTarget]
-    jmp [BW::BWFXN_CancelTrainByClickInTheQueueBack]
-  }
-}
-*/
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
@@ -130,7 +89,7 @@ void __declspec(naked) onSendText()
     mov ediSave, edi
     mov espSave, esp
     mov ebpSave, ebp
-    mov text, esi;
+    mov text, esi
   }
   sendToBW = true;
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
@@ -165,7 +124,7 @@ void __declspec(naked) onSendLobby()
     mov ediSave, edi
     mov espSave, esp
     mov ebpSave, ebp
-    mov text, edi;
+    mov text, edi
   }
   sendToBW = true;
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
@@ -220,8 +179,6 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWFXN_NextLogicFrame, 0);
   JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
-//  JmpCallPatch(onCancelTrainByClickInTheQueue, BW::BWFXN_CancelTrainByClickInTheQueue, 0);
-//  JmpCallPatch(onCancelTrainByEscape, BW::BWFXN_CancelTrainByEscape, 0);
   JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);
   JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);

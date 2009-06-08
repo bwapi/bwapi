@@ -83,10 +83,6 @@ extern "C" __declspec(dllexport) void GetData(char *name, char *description, cha
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-   //If you set "Data.bConfigDialog = true;" at function GetPluginAPI then
-   //BWLauncher will call this function if user clicks Config button
-
-   //You'll need to make your own Window here
    return true; //everything OK
 
    //return false; //something went wrong
@@ -94,48 +90,15 @@ extern "C" __declspec(dllexport) bool OpenConfig()
 
 extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD dwProcessID)
 {
-   //This function is called on suspended process
-   //Durning the suspended process some modules of starcraft.exe may not yet exist.
-   //the dwProcessID is not checked, its the created pi.dwProcessId
-
-   //here is safe place to call starcraft methods to load your DLL as a module
-   //hint - process shoudnt be suspended :)
-   //hint - WNDPROCCALL
-
-   /*   dummy example
-   char patch[] = { 0x90 };
-   WriteProcessMemory(hProcess, (LPVOID)0x00123456, patch, sizeof(patch), NULL);
-   */
-
    return true; //everything OK
 
    //return false; //something went wrong
 }
 
-//This fuction is called after
-//ResumeThread(pi.hThread);
-//WaitForInputIdle(pi.hProcess, INFINITE);
-//EnableDebugPriv() -
-//   OpenProcessToken...
-//   LookupPrivilegeValue...
-//   AdjustTokenPrivileges...
-//
-//the dwProcessID is checked by GetWindowThreadProcessId
-//so it is definitely the StarCraft
 #pragma warning(push)
 #pragma warning(disable:4189)
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
-  const DWORD ENV_BUFFER_SIZE = 512;
-  char envBuffer[512];
-/*
-  DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
-  assert(result != 0);
-
-  std::string dllFileName(envBuffer);
-  dllFileName.append("\\BWAPI.dll");
-*/
-
   std::string dllFileName = "BWAPI.dll";
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
