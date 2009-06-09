@@ -99,7 +99,16 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
 #pragma warning(disable:4189)
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
 {
-  std::string dllFileName = "BWAPI.dll";
+  const DWORD ENV_BUFFER_SIZE = 512;
+  char envBuffer[512];
+
+  DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+  assert(result != 0);
+
+  std::string dllFileName(envBuffer);
+  dllFileName.append("\\BWAPI.dll");
+
+//  std::string dllFileName = "BWAPI.dll";
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   assert(NULL != loadLibAddress);

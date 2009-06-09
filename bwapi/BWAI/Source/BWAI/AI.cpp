@@ -4,8 +4,6 @@
 #include <fstream>
 #include <math.h>
 
-#include <Lua51/lua.hpp>
-
 #include <Util/Exceptions.h>
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
