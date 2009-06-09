@@ -12,6 +12,8 @@ namespace BWAPI
     bool operator==(const Order &other) const;
     bool operator<(const Order &other) const;
     std::string getName() const;
+    int getID() const;
+  private:
     int id;
   };
   namespace Orders
