@@ -10,8 +10,6 @@
 #include <Util/Strings.h>
 #include <Util/RectangleArray.h>
 
-#include <LUA/lua.hpp>
-
 #include <BW/UpgradeType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/Order.h>
@@ -48,6 +46,7 @@
 #include "MapStartingPosition.h"
 #include "BuildingPositionSet.h"
 #include "Formation.h"
+#include "LuaAI.h"
 
 namespace BWAI
 {
@@ -85,6 +84,7 @@ namespace BWAI
     {
       Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
     }
+    
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   AI::~AI(void)
@@ -816,13 +816,7 @@ namespace BWAI
     }
     else if (parsed[0] == "/luatest")
     {
-      lua_State *luatest = lua_open();
-      luaL_openlibs(luatest);
-      if (luaL_dofile(luatest, "test.lua") != 0)
-        this->root->log->log("Unable to load test.lua.");
-      else
-        this->root->log->log("test.lua opened successfully.");
-      lua_close(luatest);
+//      LUA::executeFile("bwapi-data\\test.lua");
       return true;
     }
     else if (parsed[0] == "/reload")
