@@ -25,7 +25,9 @@ namespace BWAI
   int LUA::sendText(lua_State *l)
   {
     u32 argcount = lua_gettop(l);
-    lua_tostring(l, 1);
+    //const char *test = lua_tostring(l, 1);
+    
+    BWAPI::Broodwar->printPublic(lua_tostring(l, 1));
     
     lua_pushnumber(l, 1);
     return 1;

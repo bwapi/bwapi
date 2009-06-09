@@ -10,6 +10,8 @@
 #include <BW/UnitType.h>
 #include <BW/Position.h>
 
+#include "LuaAI.h"
+
 #include "Task.h"
 
 namespace Util { class Logger; }
@@ -67,6 +69,8 @@ namespace BWAI
       void onFrame();
       void onRemoveUnit(BWAPI::Unit* unit);
       bool onSendText(std::string text);
+
+      LUA lua;
 
       std::list<Expansion*> expansions;
       Player* getPlayer(BWAPI::Player* player);
