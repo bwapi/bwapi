@@ -696,6 +696,7 @@ namespace BWAPI
       {
         push 1
         push 4
+        push 6
         push oshet
         call [BW::BWFXN_PrintXY]
       };
