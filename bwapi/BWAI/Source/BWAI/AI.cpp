@@ -4,13 +4,13 @@
 #include <fstream>
 #include <math.h>
 
-#include <LUA/lua.hpp>
-
 #include <Util/Exceptions.h>
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
 #include <Util/Strings.h>
 #include <Util/RectangleArray.h>
+
+#include <LUA/lua.hpp>
 
 #include <BW/UpgradeType.h>
 #include <BWAPI/TechType.h>
@@ -816,10 +816,13 @@ namespace BWAI
     }
     else if (parsed[0] == "/luatest")
     {
-//      lua_State *luatest = lua_open();
-//      luaL_openlibs(luatest);
-//      luaL_dofile(luatest, "test.lua");
-//      lua_close(luatest);
+      lua_State *luatest = lua_open();
+      luaL_openlibs(luatest);
+      if (luaL_dofile(luatest, "test.lua") != 0)
+        this->root->log->log("Unable to load test.lua.");
+      else
+        this->root->log->log("test.lua opened successfully.");
+      lua_close(luatest);
       return true;
     }
     else if (parsed[0] == "/reload")
