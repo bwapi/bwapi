@@ -1,7 +1,9 @@
 #pragma once
 
+#include <BWAPI/Player.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/Race.h>
 #include <BW/UnitType.h>
-#include <BW/TechType.h>
 #include <BW/UpgradeType.h>
 #include <BW/PlayerType.h>
 #include <BWAI/ReservedResources.h>
@@ -16,7 +18,7 @@ namespace BWAI
     Player(BWAPI::Player* player);
 
     u8 getID();
-    BW::Race::Enum getRace();
+    BWAPI::Race getRace();
     BW::PlayerType::Enum playerType();
 
     int getMinerals() const;
@@ -28,19 +30,19 @@ namespace BWAI
 
     int getAllUnits(BW::UnitType unit) const;
     int getCompletedUnits(BW::UnitType unit) const;
-    int getCompletedUnits(BW::UnitType unit, BW::Race::Enum race) const;
+    int getCompletedUnits(BW::UnitType unit, BWAPI::Race race) const;
     int getIncompleteUnits(BW::UnitType unit) const;
     int getDeaths(BW::UnitType unit) const;
     int getKills(BW::UnitType unit) const;
-    bool researchInProgress(BW::TechType tech) const;    
-    bool techResearched(BW::TechType tech) const;
+    bool researchInProgress(BWAPI::TechType tech) const;    
+    bool techResearched(BWAPI::TechType tech) const;
     int upgradeLevel(BW::UpgradeType upgrade) const;
     bool upgradeInProgress(BW::UpgradeType upgrade) const; 
 
     bool canBuild(BW::UnitType unit) const;
     bool canAfford(BW::UnitType unit) const;
     bool canAffordNow(BW::UnitType unit) const;
-    bool canAfford(BW::TechType tech) const;
+    bool canAfford(BWAPI::TechType tech) const;
     bool canAfford(BW::UpgradeType upgrade, int level) const;
     const BWAPI::Player* getPlayer() const;
   private:

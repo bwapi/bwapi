@@ -3,7 +3,7 @@
 #include <Util/Logger.h>
 #include <Util/Types.h>
 #include <BW/UnitType.h>
-#include <BW/OrderID.h>
+#include <BWAPI/Order.h>
 #include <BWAI/Player.h>
 #include <BWAI/ReservedResources.h>
 #include <BWAPI/Globals.h>
@@ -81,7 +81,7 @@ namespace BWAI
         {
           if (
             this->executors.front()->getOrderTarget() != NULL &&
-            this->executors.front()->getOrderID() == BW::OrderID::ConstructingBuilding &&
+            this->executors.front()->getOrderID() == BWAPI::Orders::ConstructingBuilding &&
             this->executors.front()->getOrderTarget()->getType() == buildingType)
           {
             this->building = executors.front()->getOrderTarget();
@@ -100,7 +100,7 @@ namespace BWAI
           this->spot.isValid())
       {
         if (this->building == NULL &&
-            this->executors.front()->getOrderID() == BW::OrderID::Nothing2 &&
+            this->executors.front()->getOrderID() == BWAPI::Orders::Nothing2 &&
             BWAI::ai->player->canAfford(this->buildingType))
           this->executors.front()->build(this->spot, this->getBuildingType());
         return false;
@@ -154,12 +154,12 @@ namespace BWAI
           {
             if (
                  (
-                   this->executors.front()->getOrderID() != BW::OrderID::BuildTerran &&
-                   this->executors.front()->getOrderID() != BW::OrderID::BuildProtoss1 &&
-                   this->executors.front()->getOrderID() != BW::OrderID::DroneStartBuild
+                   this->executors.front()->getOrderID() != BWAPI::Orders::BuildTerran &&
+                   this->executors.front()->getOrderID() != BWAPI::Orders::BuildProtoss1 &&
+                   this->executors.front()->getOrderID() != BWAPI::Orders::DroneStartBuild
                  ) &&
                  (
-                    this->executors.front()->getOrderID() != BW::OrderID::Move ||
+                    this->executors.front()->getOrderID() != BWAPI::Orders::Move ||
                     this->executors.front()->getTargetPosition().getDistance(center) > 300
                  )
                )
@@ -171,9 +171,9 @@ namespace BWAI
           else
             if (!this->buildingType.isAddon())
             {
-              if (this->executors.front()->getOrderID() != BW::OrderID::BuildTerran &&
-                  this->executors.front()->getOrderID() != BW::OrderID::BuildProtoss1 &&
-                  this->executors.front()->getOrderID() != BW::OrderID::DroneStartBuild &&
+              if (this->executors.front()->getOrderID() != BWAPI::Orders::BuildTerran &&
+                  this->executors.front()->getOrderID() != BWAPI::Orders::BuildProtoss1 &&
+                  this->executors.front()->getOrderID() != BWAPI::Orders::DroneStartBuild &&
                   this->executors.front()->getOwner()->canAffordNow(buildingType))
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
@@ -181,9 +181,9 @@ namespace BWAI
               }
             }
             else
-              if (this->executors.front()->getSecondaryOrderID() != BW::OrderID::PlaceAddon &&
+              if (this->executors.front()->getSecondaryOrderID() != BWAPI::Orders::PlaceAddon &&
                   !this->executors.front()->isTraining() &&
-                  this->executors.front()->getSecondaryOrderID() != BW::OrderID::BuildAddon)
+                  this->executors.front()->getSecondaryOrderID() != BWAPI::Orders::BuildAddon)
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
                 BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderID());

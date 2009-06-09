@@ -97,13 +97,13 @@ namespace BWAPI
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   s32 PlayerImpl::supplyTotal() const
   {
-    s32 ret = this->suppliesAvailableLocal[getRace()];
-    return ret < getSuppliesMaxSync(getRace()) ? ret : getSuppliesMaxSync(getRace());
+    s32 ret = this->suppliesAvailableLocal[static_cast<BW::Race::Enum>(getRace().getID())];
+    return ret < getSuppliesMaxSync(static_cast<BW::Race::Enum>(getRace().getID())) ? ret : getSuppliesMaxSync(static_cast<BW::Race::Enum>(getRace().getID()));
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   s32 PlayerImpl::supplyUsed() const
   {
-    return this->suppliesUsedLocal[getRace()];
+    return this->suppliesUsedLocal[getRace().getID()];
   }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
   void PlayerImpl::useSupplies(u8 supplies, BW::Race::Enum race)
@@ -111,9 +111,9 @@ namespace BWAPI
     this->suppliesUsedLocal[race] += supplies;
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
-  BW::Race::Enum PlayerImpl::getRace() const
+  BWAPI::Race PlayerImpl::getRace() const
   {
-    return BW::BWDATA_Players->player[this->getID()].race;
+    return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].race));
   }
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
   u8 PlayerImpl::getAlliance(u8 opposingID)
@@ -146,9 +146,9 @@ namespace BWAPI
     return this->evaluateCounts(BW::BWDATA_Counts->completed, unit);
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
-  s32 PlayerImpl::getCompletedUnits(BW::UnitType unit, BW::Race::Enum race)
+  s32 PlayerImpl::getCompletedUnits(BW::UnitType unit, BWAPI::Race race)
   {
-    return this->evaluateCounts(BW::BWDATA_Counts->completed, unit, race);
+    return this->evaluateCounts(BW::BWDATA_Counts->completed, unit, static_cast<BW::Race::Enum>(race.getID()));
   }  
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 PlayerImpl::getIncompleteUnits(BW::UnitType unit)
@@ -290,13 +290,13 @@ namespace BWAPI
     return BW::ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
   }
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
-  bool PlayerImpl::researching(BW::TechType tech) const
+  bool PlayerImpl::researching(BWAPI::TechType tech) const
   {
     Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID()*6);
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
-  bool PlayerImpl::researched(BW::TechType tech) const
+  bool PlayerImpl::researched(BWAPI::TechType tech) const
   {
    if (tech.getID() < 0x18)
      return *((u8*)(BW::BWDATA_TechResearchSC + this->getID()*0x18 + tech.getID())) == 1;

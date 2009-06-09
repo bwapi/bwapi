@@ -30,6 +30,10 @@ namespace BWAPI { class AIModule; }
 
 #include <BWAPI/Map.h>
 #include <BWAPI/Flag.h>
+#include <BWAPI/Race.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/TechType.h>
+
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
  * data.
@@ -60,10 +64,7 @@ namespace BWAPI
 
       virtual const std::set< BW::UnitType >& allUnitTypes() const;
       virtual BW::UnitType getUnitType(std::string &name) const;
-
       virtual BW::UpgradeType getUpgradeType(std::string &name) const;
-
-      virtual BW::TechType getTechType(std::string &name) const;
 
       virtual int mapWidth() const;
       virtual int mapHeight() const;
@@ -86,17 +87,10 @@ namespace BWAPI
       virtual bool isInGame() const;
       virtual void openGameDialog(const char *dlgName, void *dlgThread);
       /**
-       * Changes slot state in the pre-game lobby.
-       * @param slot Desired state of the slot (Open/Closed/Computer)
-       * @param slotID Order of the slot (0 based)
-       */
-      virtual void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
-      /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
-       * @param slotID Order of the slot (0 based)
        */
-      virtual void changeRace(BW::Race::Enum race, u8 slotID);
+      virtual void changeRace(BWAPI::Race race);
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
@@ -114,7 +108,12 @@ namespace BWAPI
       ~GameImpl();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       PlayerImpl* players[12];
-
+      /**
+       * Changes slot state in the pre-game lobby.
+       * @param slot Desired state of the slot (Open/Closed/Computer)
+       * @param slotID Order of the slot (0 based)
+       */
+      void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
       void setOnStartCalled(bool onStartCalled);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
       void addToCommandBuffer(Command *command);

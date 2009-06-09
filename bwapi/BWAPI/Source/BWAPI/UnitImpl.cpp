@@ -195,14 +195,14 @@ namespace BWAPI
     return this->bwOriginalUnit;
   }
   //---------------------------------------------- GET ORDER ID ----------------------------------------------
-  BW::OrderID::Enum UnitImpl::getOrderID() const
+  Order UnitImpl::getOrderID() const
   {
-    return this->getRawDataLocal()->orderID;
+    return BWAPI::Order(this->getRawDataLocal()->orderID);
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
-  BW::OrderID::Enum UnitImpl::getSecondaryOrderID() const
+  Order UnitImpl::getSecondaryOrderID() const
   {
-    return this->getRawDataLocal()->secondaryOrderID;
+    return BWAPI::Order(this->getRawDataLocal()->secondaryOrderID);
   }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
@@ -329,10 +329,10 @@ namespace BWAPI
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
-  void UnitImpl::attackLocation(BW::Position position, u8 orderID)
+  void UnitImpl::attackLocation(BW::Position position, Order order)
   {
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(position, orderID), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(position, order.getID()), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, position));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
@@ -360,11 +360,12 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, position));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
-  void UnitImpl::invent(BW::TechType tech)
+  void UnitImpl::invent(TechType tech)
   {
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(tech), sizeof(BW::Orders::Invent)); 
-    BroodwarImpl.addToCommandBuffer(new CommandInvent(this, tech));
+    BW::TechID::Enum techenum=static_cast<BW::TechID::Enum>(tech.getID());
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
+    BroodwarImpl.addToCommandBuffer(new CommandInvent(this, BW::TechType(techenum)));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
   void UnitImpl::upgrade(BW::UpgradeType upgrade)
@@ -389,17 +390,17 @@ namespace BWAPI
     //TODO: Handle patrol order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(BW::TechType tech)
+  void UnitImpl::useTech(TechType tech)
   {
     //TODO: Handle use tech order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(BW::TechType tech, BW::Position position)
+  void UnitImpl::useTech(TechType tech, BW::Position position)
   {
     //TODO: Handle use tech order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(BW::TechType tech, Unit* target)
+  void UnitImpl::useTech(TechType tech, Unit* target)
   {
     //TODO: Handle use tech order
   }
@@ -534,7 +535,7 @@ namespace BWAPI
     else
       sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName());
 
-    sprintf_s(orderName, 100, "(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf_s(orderName, 100, "(%s)", this->getOrderID().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
                                               orderName,
                                               indexName,

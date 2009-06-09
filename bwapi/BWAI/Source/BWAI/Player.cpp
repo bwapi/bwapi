@@ -1,5 +1,5 @@
 #include <BW/UnitType.h>
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
 #include <BW/UpgradeType.h>
 #include <BW/PlayerType.h>
 #include <BWAPI/Player.h>
@@ -18,7 +18,7 @@ namespace BWAI
   {
     return this->player->getID();
   }
-  BW::Race::Enum Player::getRace()
+  BWAPI::Race Player::getRace()
   {
     return this->player->getRace();
   }
@@ -54,7 +54,7 @@ namespace BWAI
   {
     return this->player->getCompletedUnits(unit);
   }
-  int Player::getCompletedUnits(BW::UnitType unit, BW::Race::Enum race) const
+  int Player::getCompletedUnits(BW::UnitType unit, BWAPI::Race race) const
   {
     return this->player->getCompletedUnits(unit,race);
   }
@@ -70,11 +70,11 @@ namespace BWAI
   {
     return this->player->getKills(unit);
   }
-  bool Player::researchInProgress(BW::TechType tech) const
+  bool Player::researchInProgress(BWAPI::TechType tech) const
   {
     return this->player->researching(tech);
   }
-  bool Player::techResearched(BW::TechType tech) const
+  bool Player::techResearched(BWAPI::TechType tech) const
   {
     return this->player->researched(tech);
   }
@@ -95,8 +95,8 @@ namespace BWAI
       if (this->getCompletedUnits(i->first)<i->second)
         return false;
     }
-    BW::TechType tech=unit.getRequiredTech();
-    if (tech!=BW::TechID::None && !this->techResearched(tech))
+    BWAPI::TechType tech((int)unit.getRequiredTech());
+    if (tech!=BWAPI::TechTypes::None && !this->techResearched(tech))
       return false;
     return true;
   }
@@ -124,17 +124,17 @@ namespace BWAI
            ((int)this->getGas())          >= unit.getGasPrice();
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
-  bool Player::canAfford(BW::TechType tech) const
+  bool Player::canAfford(BWAPI::TechType tech) const
   {
     if (this==ai->player)
     {
-      return ((int)this->getMinerals()) - ai->reserved.minerals >= tech.getMineralPrice() &&
-             ((int)this->getGas())      - ai->reserved.gas      >= tech.getGasPrice();
+      return ((int)this->getMinerals()) - ai->reserved.minerals >= tech.mineralPrice() &&
+             ((int)this->getGas())      - ai->reserved.gas      >= tech.gasPrice();
     }
     else
     {
-      return ((int)this->getMinerals()) >= tech.getMineralPrice() &&
-             ((int)this->getGas())      >= tech.getGasPrice();
+      return ((int)this->getMinerals()) >= tech.mineralPrice() &&
+             ((int)this->getGas())      >= tech.gasPrice();
     }
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------

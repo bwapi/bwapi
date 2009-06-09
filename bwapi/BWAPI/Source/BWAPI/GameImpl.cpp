@@ -429,9 +429,9 @@ namespace BWAPI
     IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID),3); 
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
-  void GameImpl::changeRace(BW::Race::Enum race, u8 slotID)
+  void GameImpl::changeRace(BWAPI::Race race)
   {
-    IssueCommand((PBYTE)&BW::Orders::ChangeRace(race, slotID),3); 
+    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), this->BWAPIPlayer->getID()),3); 
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command *command)
@@ -444,6 +444,9 @@ namespace BWAPI
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
+    BWAPI::Orders::init();
+    BWAPI::TechTypes::init();
+    BWAPI::Races::init();
     this->frameCount = 0;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
@@ -547,8 +550,8 @@ namespace BWAPI
       else if (parsed[1] == "researchState")
       {
         std::string techName = message.substr(strlen("/get researchState "), message.size() - strlen("/get researchState "));
-        BW::TechType tech = this->techNameToType[techName];
-        if (tech == BW::TechID::None)
+        BWAPI::TechType tech = BWAPI::TechTypes::getTechType(techName);
+        if (tech == BWAPI::TechTypes::Unknown || tech == BWAPI::TechTypes::None)
           this->print("Unknown tech name '%s'", techName.c_str());
         else
         {
@@ -911,19 +914,6 @@ namespace BWAPI
     if (i==this->unitNameToType.end())
     {
       return BW::UnitType();
-    }
-    else
-    {
-      return i->second;
-    }
-  }
-  //---------------------------------------------- GET TECH TYPE ---------------------------------------------
-  BW::TechType GameImpl::getTechType(std::string &name) const
-  {
-    std::map<std::string, BW::TechType>::const_iterator i=this->techNameToType.find(name);
-    if (i==this->techNameToType.end())
-    {
-      return BW::TechType();
     }
     else
     {

@@ -2,9 +2,9 @@
 
 #include <list>
 
-#include <BW/OrderID.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/TechType.h>
 #include <BW/UnitType.h>
-#include <BW/TechType.h>
 #include <BW/UpgradeType.h>
 #include <BW/Position.h>
 #include <BW/TilePosition.h>
@@ -26,10 +26,10 @@ namespace BWAPI
 
     virtual Unit* getTarget() const=0;
     virtual BW::Position getTargetPosition() const=0;
-    virtual BW::OrderID::Enum getOrderID() const=0;
+    virtual Order getOrderID() const=0;
     virtual Unit* getOrderTarget() const=0;
     virtual u8 getOrderTimer() const=0;
-    virtual BW::OrderID::Enum getSecondaryOrderID() const=0;
+    virtual Order getSecondaryOrderID() const=0;
     virtual Unit* getBuildUnit() const=0;
     virtual u16 getRemainingBuildTime() const=0;
     virtual Unit* getChild() const=0;
@@ -47,18 +47,18 @@ namespace BWAPI
     virtual bool isMineral() const=0;
     virtual std::list<BW::UnitType > getTrainingQueue() const=0;
 
-    virtual void attackLocation(BW::Position position, u8 OrderID)=0;
+    virtual void attackLocation(BW::Position position, BWAPI::Order order)=0;
     virtual void rightClick(BW::Position position)=0;
     virtual void rightClick(Unit *target)=0;
     virtual void train(BW::UnitType type)=0;
     virtual void build(BW::TilePosition position, BW::UnitType type)=0;
-    virtual void invent(BW::TechType tech)=0;
+    virtual void invent(TechType tech)=0;
     virtual void upgrade(BW::UpgradeType upgrade)=0;
     virtual void stop()=0;
     virtual void holdPosition()=0;
     virtual void patrol(BW::Position position)=0;
-    virtual void useTech(BW::TechType tech)=0;
-    virtual void useTech(BW::TechType tech, BW::Position position)=0;
-    virtual void useTech(BW::TechType tech, Unit* target)=0;
+    virtual void useTech(TechType tech)=0;
+    virtual void useTech(TechType tech, BW::Position position)=0;
+    virtual void useTech(TechType tech, Unit* target)=0;
   };
 }

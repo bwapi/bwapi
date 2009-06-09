@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <set>
+namespace BW { class UnitType; }
 namespace BWAPI
 {
   class TechType
@@ -10,12 +12,14 @@ namespace BWAPI
     TechType(const TechType &other);
     TechType& operator=(const TechType &other);
     bool operator==(const TechType &other) const;
+    bool operator!=(const TechType &other) const;
     bool operator<(const TechType &other) const;
+    int getID() const;
     std::string getName() const;
     int mineralPrice() const;
     int gasPrice() const;
     int energyPrice() const;
-    int getID() const;
+    BW::UnitType* whatResearches() const;
   private:
     int id;
   };
@@ -23,6 +27,7 @@ namespace BWAPI
   {
     TechType getTechType(std::string &name);
     std::set<TechType>& allTechTypes();
+    void init();
     extern const TechType Stim_Packs;
     extern const TechType Lockdown;
     extern const TechType EMP_Shockwave;
