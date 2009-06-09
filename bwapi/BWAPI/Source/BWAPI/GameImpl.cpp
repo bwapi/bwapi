@@ -991,5 +991,14 @@ namespace BWAPI
   {
     return (Player*)this->opponent;
   }
-  //----------------------------------------------------------------------------------------------------------
+  //----------------------------------------------- Game Dialog Window ---------------------------------------
+  void GameImpl::openGameDialog(const char *dlgName, void *dlgThread)
+  {
+    __asm
+    {
+      mov edx, dlgThread
+      mov ecx, dlgName
+      call [BW::BWFXN_OpenGameDialog]
+    }
+  }
 };

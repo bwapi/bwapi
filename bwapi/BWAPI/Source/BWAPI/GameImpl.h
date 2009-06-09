@@ -84,6 +84,7 @@ namespace BWAPI
       virtual void printPublic(const char *text, ...);
       virtual bool isOnStartCalled() const;
       virtual bool isInGame() const;
+      virtual void openGameDialog(const char *dlgName, void *dlgThread);
       /**
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
