@@ -1348,7 +1348,7 @@ void TiXmlText::Print( FILE* cfile, int depth ) const
  {
   TIXML_STRING buffer;
   EncodeString( value, &buffer );
-  fprintf( cfile, "%s", buffer.c_str() );
+  fprintf_s( cfile, "%s", buffer.c_str() );
  }
 }
 

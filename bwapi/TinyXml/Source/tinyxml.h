@@ -1727,7 +1727,7 @@ private:
  printer.SetIndent( "\t" );
 
  doc.Accept( &printer );
- fprintf( stdout, "%s", printer.CStr() );
+ fprintf_s( stdout, "%s", printer.CStr() );
  @endverbatim
 */
 class TiXmlPrinter : public TiXmlVisitor
