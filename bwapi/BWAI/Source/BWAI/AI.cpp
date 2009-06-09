@@ -4,6 +4,8 @@
 #include <fstream>
 #include <math.h>
 
+#include <LUA/lua.hpp>
+
 #include <Util/Exceptions.h>
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
@@ -810,6 +812,14 @@ namespace BWAI
     else if (parsed[0] == "/hash")
     {
       this->root->log->log("%08x", BWAPI::Broodwar->getMapHash());
+      return true;
+    }
+    else if (parsed[0] == "/luatest")
+    {
+//      lua_State *luatest = lua_open();
+//      luaL_openlibs(luatest);
+//      luaL_dofile(luatest, "test.lua");
+//      lua_close(luatest);
       return true;
     }
     else if (parsed[0] == "/reload")
