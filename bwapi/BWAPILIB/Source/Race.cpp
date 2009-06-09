@@ -20,13 +20,13 @@ namespace BWAPI
   std::set< Race > raceSet;
   int raceInit()
   {
-    raceName[Races::Zerg.id]="Zerg";
-    raceName[Races::Terran.id]="Terran";
-    raceName[Races::Protoss.id]="Protoss";
-    raceName[Races::Random.id]="Random";
-    raceName[Races::Other.id]="Other";
-    raceName[Races::None.id]="None";
-    raceName[Races::Unknown.id]="Unknown";
+    raceName[Races::Zerg.getID()]="Zerg";
+    raceName[Races::Terran.getID()]="Terran";
+    raceName[Races::Protoss.getID()]="Protoss";
+    raceName[Races::Random.getID()]="Random";
+    raceName[Races::Other.getID()]="Other";
+    raceName[Races::None.getID()]="None";
+    raceName[Races::Unknown.getID()]="Unknown";
 
     raceSet.insert(Races::Zerg);
     raceSet.insert(Races::Terran);
@@ -64,6 +64,10 @@ namespace BWAPI
   bool Race::operator<(const Race &other) const
   {
     return this->id<other.id;
+  }
+  int Race::getID() const
+  {
+    return this->id;
   }
   std::string Race::getName() const
   {

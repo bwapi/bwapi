@@ -12,6 +12,8 @@ namespace BWAPI
     bool operator==(const Race &other) const;
     bool operator<(const Race &other) const;
     std::string getName() const;
+    int getID() const;
+  private:
     int id;
   };
   namespace Races
