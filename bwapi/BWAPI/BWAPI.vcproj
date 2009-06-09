@@ -125,7 +125,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="4100;4480"
+				DisableSpecificWarnings="4100;4480;4748"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -141,6 +141,7 @@
 				AdditionalDependencies="../release/bwapi.lib"
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
+				AddModuleNamesToAssembly=""
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
