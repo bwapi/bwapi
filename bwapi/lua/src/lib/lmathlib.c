@@ -11,7 +11,7 @@
 #define lmathlib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "..\\lua.h"
 
 #include "lauxlib.h"
 #include "lualib.h"
