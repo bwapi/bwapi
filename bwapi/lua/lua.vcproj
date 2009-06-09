@@ -357,6 +357,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\lua.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\luaconf.h"
 				>
 			</File>
