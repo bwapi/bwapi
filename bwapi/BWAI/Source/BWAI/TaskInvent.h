@@ -1,7 +1,7 @@
 #pragma once
 #include "Task.h"
 
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
 
 namespace BWAI
 {
@@ -9,12 +9,12 @@ namespace BWAI
   class TaskInvent : public Task
   {
     public :
-      TaskInvent(BW::TechType techType, u16 priority);
+      TaskInvent(BWAPI::TechType techType, u16 priority);
       virtual ~TaskInvent();
       bool execute();
       TaskType::Enum getType();
-      BW::TechType getTechType();
+      BWAPI::TechType getTechType();
     private :  
-      BW::TechType techType;
+      BWAPI::TechType techType;
   };
 }

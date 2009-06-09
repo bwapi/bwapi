@@ -4,7 +4,7 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
 #include <BWAI/Globals.h>
 #include <BWAI/TaskInvent.h>
 #include <BWAI/Player.h>
@@ -23,8 +23,8 @@ namespace BuildOrder
   //----------------------------------------------------------------------------------------------------------
   bool CommandInvent::executeInternal(Executor* executor)
   {
-    BW::TechType toInvent = BWAPI::Broodwar->getTechType(this->name);
-    if (!toInvent.isValid())
+    BWAPI::TechType toInvent = BWAPI::TechTypes::getTechType(this->name);
+    if (toInvent==BWAPI::TechTypes::Unknown || toInvent==BWAPI::TechTypes::None)
     {
       BWAI::ai->root->log->log("Unknown invention name '%s'", this->name.c_str());
       return true;

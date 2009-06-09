@@ -131,12 +131,12 @@ namespace BWAI
     return this->unit->getPosition().getDistance(unit->getPosition());
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
-  BW::OrderID::Enum Unit::getOrderID() const
+  BWAPI::Order Unit::getOrderID() const
   {
     return this->unit->getOrderID();
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
-  BW::OrderID::Enum Unit::getSecondaryOrderID() const
+  BWAPI::Order Unit::getSecondaryOrderID() const
   {
     return this->unit->getSecondaryOrderID();
   }
@@ -182,7 +182,7 @@ namespace BWAI
     else
       sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->unit->getChild()->getType().getName());
 
-    sprintf_s(orderName, 100, "(%s)", BW::OrderID::orderName(this->getOrderID()).c_str());
+    sprintf_s(orderName, 100, "(%s)", this->getOrderID().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
                                               orderName,
                                               indexName,
@@ -250,9 +250,9 @@ namespace BWAI
     return this->unit->isSelected();
   }
 
-  void Unit::orderAttackLocation(BW::Position position, int OrderID)
+  void Unit::orderAttackLocation(BW::Position position, BWAPI::Order order)
   {
-    return this->unit->attackLocation(position, OrderID);
+    return this->unit->attackLocation(position, order);
   }
   void Unit::orderRightClick(BW::Position position)
   {
@@ -270,7 +270,7 @@ namespace BWAI
   {
     this->unit->build(position,type);
   }
-  void Unit::invent(BW::TechType tech)
+  void Unit::invent(BWAPI::TechType tech)
   {
     this->unit->invent(tech);
   }

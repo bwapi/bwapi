@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <set>
 namespace BWAPI
 {
   class Order
@@ -10,9 +11,10 @@ namespace BWAPI
     Order(const Order &other);
     Order& operator=(const Order &other);
     bool operator==(const Order &other) const;
+    bool operator!=(const Order &other) const;
     bool operator<(const Order &other) const;
-    std::string getName() const;
     int getID() const;
+    std::string getName() const;
   private:
     int id;
   };
@@ -20,9 +22,11 @@ namespace BWAPI
   {
     Order getOrder(std::string &name);
     std::set<Order>& allOrders();
+    void init();
     extern const Order Die;
     extern const Order Stop;
     extern const Order Guard;
+    extern const Order PlayerGuard;
     extern const Order TurretGuard;
     extern const Order BunkerGuard;
     extern const Order Move;

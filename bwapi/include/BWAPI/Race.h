@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <set>
 namespace BWAPI
 {
   class Race
@@ -10,9 +11,10 @@ namespace BWAPI
     Race(const Race &other);
     Race& operator=(const Race &other);
     bool operator==(const Race &other) const;
+    bool operator!=(const Race &other) const;
     bool operator<(const Race &other) const;
-    std::string getName() const;
     int getID() const;
+    std::string getName() const;
   private:
     int id;
   };
@@ -20,6 +22,7 @@ namespace BWAPI
   {
     Race getRace(std::string &name);
     std::set<Race>& allRaces();
+    void init();
     extern const Race Zerg;
     extern const Race Terran;
     extern const Race Protoss;

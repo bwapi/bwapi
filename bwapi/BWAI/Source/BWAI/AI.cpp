@@ -11,12 +11,14 @@
 #include <Util/RectangleArray.h>
 
 #include <BW/UpgradeType.h>
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/Order.h>
 
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Globals.h>
 #include <BWAPI/Game.h>
+#include <BWAPI/Race.h>
 
 #include <BuildOrder/Root.h>
 #include <BuildOrder/Branch.h>
@@ -155,11 +157,11 @@ namespace BWAI
             ((TaskGather*)worker1->getTask())->getExpansion() != NULL)
         { /* This part prioritise scv's near the command center when they gather, so scv's in mineral line
              Wont be taken, it causes them to be stucked there sometimes. */
-          if (worker2->getOrderID() == BW::OrderID::ReturnMinerals &&
-              worker1->getOrderID() == BW::OrderID::MoveToMinerals)
+          if (worker2->getOrderID() == BWAPI::Orders::ReturnMinerals &&
+              worker1->getOrderID() == BWAPI::Orders::MoveToMinerals)
             return true;
-          if (worker1->getOrderID() == BW::OrderID::ReturnMinerals &&
-              worker2->getOrderID() == BW::OrderID::MoveToMinerals)
+          if (worker1->getOrderID() == BWAPI::Orders::ReturnMinerals &&
+              worker2->getOrderID() == BWAPI::Orders::MoveToMinerals)
             return false;
           u16 distance1 = ((TaskGather*)worker1->getTask())->getExpansion()->gatherCenter->getDistance(worker1);
           u16 distance2 = ((TaskGather*)worker2->getTask())->getExpansion()->gatherCenter->getDistance(worker2);
@@ -286,8 +288,8 @@ namespace BWAI
       this->buildOrderExecutor = this->root->getStart();
       if (this->buildOrderExecutor == NULL)
         this->root->log->log("Didn't find build order to play with %s against %s", 
-                             BW::Race::raceName(this->player->getRace()).c_str(), 
-                             BW::Race::raceName(this->opponent->getRace()).c_str());
+                             this->player->getRace().getName().c_str(), 
+                             this->opponent->getRace().getName().c_str());
       else
         this->root->log->log("Chose root branch : %s", 
                              this->buildOrderExecutor->actualBranch()->getName().c_str());
@@ -548,9 +550,10 @@ namespace BWAI
       {
         std::string fileName = config->get("data_path") + "\\techs";
         Util::FileLogger techsLog(fileName, Util::LogLevel::MicroDetailed, false);
-        for (int i = 0; i < BW::TECH_TYPE_COUNT; i++)
-          if (BW::TechType((BW::TechID::Enum)i).isValid())
-            techsLog.log("%s = 0x%02X",BW::TechType((BW::TechID::Enum)i).getName(), i);
+        for(std::set<BWAPI::TechType>::iterator i=BWAPI::TechTypes::allTechTypes().begin();i!=BWAPI::TechTypes::allTechTypes().end();i++)
+        {
+          techsLog.log("%s = 0x%02X",i->getName().c_str(),i->getID());
+        }
         BWAPI::Broodwar->print("Techs saved to %s .ini", fileName.c_str());
       }
       else if (parsed[1] == "upgrades")
@@ -635,7 +638,7 @@ namespace BWAI
       if (parsed[1] == "add")
       {
         std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
-        BW::TechType tech = BWAPI::Broodwar->getTechType(techName);
+        BWAPI::TechType tech = BWAPI::TechTypes::getTechType(techName);
         if (tech == BW::TechID::None)
           BWAPI::Broodwar->print("Unknown upgrade name '%s'", techName);
         else
@@ -653,7 +656,7 @@ namespace BWAI
       else if (parsed[1] == "list")
       {
         for each (TaskInvent* i in this->plannedInvents)
-          BWAPI::Broodwar->print(i->getTechType().getName());
+          BWAPI::Broodwar->print(i->getTechType().getName().c_str());
       }
       else 
         BWAPI::Broodwar->print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());
@@ -789,7 +792,7 @@ namespace BWAI
         TaskFight* task = this->fightGroups.front();
 
         for each (Unit* i in task->executors)
-			i->orderAttackLocation(position, BW::OrderID::AttackMove);
+			i->orderAttackLocation(position, BWAPI::Orders::AttackMove);
       }
       else
       {
@@ -858,13 +861,13 @@ namespace BWAI
              i->getType() == BW::UnitID::Zerg_Hatchery
            ) &&
            i->getOwner() == player)
-        if (i->getOrderID() != BW::OrderID::BuildingLiftoff &&
+        if (i->getOrderID() != BWAPI::Orders::BuildingLiftoff &&
             i->expansion == NULL)
         {
           this->log->logImportant("Starting new expansion - %s", i->getName().c_str());
           this->startNewExpansion(i);
         }
-        else if (i->getOrderID() == BW::OrderID::BuildingLiftoff &&
+        else if (i->getOrderID() == BWAPI::Orders::BuildingLiftoff &&
                  i->expansion != NULL)
           this->removeExpansion(i->expansion);
     }
@@ -878,12 +881,12 @@ namespace BWAI
         if (i->isCompleted() &&
             i->getOwner() == player &&
             (
-               i->getOrderID() == BW::OrderID::PlayerGuard ||
-               i->getOrderID() == BW::OrderID::MoveToMinerals ||
-               i->getOrderID() == BW::OrderID::HarvestMinerals2 ||
-               i->getOrderID() == BW::OrderID::MiningMinerals ||
-               i->getOrderID() == BW::OrderID::ResetCollision2 ||
-               i->getOrderID() == BW::OrderID::ReturnMinerals
+               i->getOrderID() == BWAPI::Orders::PlayerGuard ||
+               i->getOrderID() == BWAPI::Orders::MoveToMinerals ||
+               i->getOrderID() == BWAPI::Orders::HarvestMinerals2 ||
+               i->getOrderID() == BWAPI::Orders::MiningMinerals ||
+               i->getOrderID() == BWAPI::Orders::ResetCollision2 ||
+               i->getOrderID() == BWAPI::Orders::ReturnMinerals
              ) &&
              !i->isSelected() &&
              i->getType().isWorker() &&
@@ -1099,7 +1102,7 @@ namespace BWAI
                  occupiedCount == 1 &&
                  occupied->getType().isWorker() &&
                  occupied->getTask() == NULL &&
-                 occupied->getOrderID() == BW::OrderID::Guard
+                 occupied->getOrderID() == BWAPI::Orders::Guard
                ) ||
                (
                  occupiedCount == 1 &&

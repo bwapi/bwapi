@@ -8,6 +8,7 @@
 #include <BWAPI/AIModule.h>
 #include <BWAI/ReservedResources.h>
 #include <BW/UnitType.h>
+#include <BW/Position.h>
 
 #include "Task.h"
 

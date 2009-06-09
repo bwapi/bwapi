@@ -3,6 +3,8 @@
 namespace BW { struct Unit; };
 
 #include "BWAPI/Player.h"
+#include <BWAPI/TechType.h>
+#include <BWAPI/Race.h>
 
 #include <list>
 #include <set>
@@ -32,7 +34,7 @@ namespace BWAPI
     virtual std::set<Unit*> getUnits();
 
     /** Gets the starting race of the player. */
-    virtual BW::Race::Enum getRace() const;
+    virtual Race getRace() const;
     virtual BW::PlayerType::Enum playerType() const;
     virtual Force* getForce() const;
 
@@ -58,14 +60,14 @@ namespace BWAPI
     
     virtual int getAllUnits(BW::UnitType unit);
     virtual int getCompletedUnits(BW::UnitType unit);
-    virtual int getCompletedUnits(BW::UnitType unit, BW::Race::Enum race);
+    virtual int getCompletedUnits(BW::UnitType unit, Race race);
     virtual int getIncompleteUnits(BW::UnitType unit);
         
     virtual int getDeaths(BW::UnitType unit);
     virtual int getKills(BW::UnitType unit);
 
-    virtual bool researching(BW::TechType tech) const;
-    virtual bool researched(BW::TechType tech) const;
+    virtual bool researching(TechType tech) const;
+    virtual bool researched(TechType tech) const;
     virtual bool upgrading(BW::UpgradeType upgrade) const;
     virtual int upgradeLevel(BW::UpgradeType upgrade) const;
 

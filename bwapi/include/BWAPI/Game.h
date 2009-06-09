@@ -5,11 +5,12 @@
 #include <set>
 
 #include <BW/Latency.h>
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
 #include <BW/UpgradeType.h>
 #include <BW/TilePosition.h>
-#include <BW/OrderTypes.h>
+#include <BWAPI/Order.h>
 #include <BWAPI/Flag.h>
+#include <BWAPI/Race.h>
 namespace BWAPI
 {
   class Force;
@@ -37,10 +38,7 @@ namespace BWAPI
 
     virtual const std::set< BW::UnitType >& allUnitTypes() const=0;
     virtual BW::UnitType getUnitType(std::string &name) const=0;
-
     virtual BW::UpgradeType getUpgradeType(std::string &name) const=0;
-
-    virtual BW::TechType getTechType(std::string &name) const=0;
 
     virtual int mapWidth() const=0;
     virtual int mapHeight() const=0;
@@ -49,7 +47,7 @@ namespace BWAPI
     virtual bool buildable(int x, int y) const=0;
     virtual bool walkable(int x, int y) const=0;
     virtual bool visible(int x, int y) const=0;
-    virtual int groundHeight(int x, int y) const=0; 
+    virtual int groundHeight(int x, int y) const=0;
     virtual const std::set< BW::TilePosition >& getStartLocations() const=0;
     virtual int getMapHash() const=0;
 
@@ -58,8 +56,7 @@ namespace BWAPI
     virtual void printPublic(const char *text, ...)=0;
     virtual bool isOnStartCalled() const=0;
     virtual bool isInGame() const=0;
-    virtual void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)=0;
-    virtual void changeRace(BW::Race::Enum race, u8 slotID)=0;
+    virtual void changeRace(BWAPI::Race race)=0;
     virtual void startGame()=0;
     virtual void pauseGame()=0;
     virtual void resumeGame()=0;

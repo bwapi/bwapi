@@ -7,7 +7,7 @@
 namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  TaskInvent::TaskInvent(BW::TechType techType, u16 priority)
+  TaskInvent::TaskInvent(BWAPI::TechType techType, u16 priority)
   :Task(priority)
   ,techType(techType)
   {
@@ -27,15 +27,15 @@ namespace BWAI
       return false;
     if (this->executors.empty())
       {
-        BW::UnitType buildingType = this->techType.whereToInvent();
+        BW::UnitType buildingType = *(this->techType.whatResearches());
         if (buildingType == BW::UnitID::None)
         {
-          BWAI::ai->log->log("ERROR: Couldn't resolve where to invent %s", this->techType.getName());
+          BWAI::ai->log->log("ERROR: Couldn't resolve where to invent %s", this->techType.getName().c_str());
           return false;
         }
         for each (Unit* i in BWAI::ai->units)
           if (i->isCompleted() &&
-              i->getOrderID() == BW::OrderID::Nothing2 &&
+              i->getOrderID() == BWAPI::Orders::Nothing2 &&
               i->getType() == buildingType &&
               i->getTask() == NULL)
             this->addExecutor(i);
@@ -44,7 +44,7 @@ namespace BWAI
       return false;
     for each (Unit* i in this->executors)
       if (i->isCompleted() &&
-          i->getOrderID() == BW::OrderID::Nothing2 &&
+          i->getOrderID() == BWAPI::Orders::Nothing2 &&
           i->getOwner()->canAfford(this->techType))
       {
         this->executors.front()->invent(this->techType);
@@ -58,7 +58,7 @@ namespace BWAI
     return TaskType::Invent;
   }
   //---------------------------------------------- GET MINERAL -----------------------------------------------
-  BW::TechType TaskInvent::getTechType()
+  BWAPI::TechType TaskInvent::getTechType()
   {
     return this->techType;
   }

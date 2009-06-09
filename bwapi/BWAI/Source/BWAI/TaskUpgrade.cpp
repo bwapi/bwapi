@@ -40,7 +40,7 @@ namespace BWAI
       }
       for each (Unit* i in BWAI::ai->units)
         if (i->isCompleted() &&
-            i->getOrderID() == BW::OrderID::Nothing2 &&
+            i->getOrderID() == BWAPI::Orders::Nothing2 &&
             i->getType() == buildingType)
           this->addExecutor(i);
     }
@@ -48,7 +48,7 @@ namespace BWAI
       return false;
     for each (Unit* i in this->executors)
       if (i->isCompleted() &&
-          i->getOrderID() == BW::OrderID::Nothing2 &&
+          i->getOrderID() == BWAPI::Orders::Nothing2 &&
           i->getOwner()->canAfford(this->upgradeType, this->level))
       {
         this->executors.front()->upgrade(this->upgradeType);

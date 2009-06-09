@@ -5,6 +5,9 @@
 
 namespace BWAPI
 {
+  std::string raceName[7];
+  std::map<std::string, Race> raceMap;
+  std::set< Race > raceSet;
   namespace Races
   {
     const Race Zerg(0);
@@ -14,30 +17,27 @@ namespace BWAPI
     const Race Other(4);
     const Race None(5);
     const Race Unknown(6);
-  }
-  std::string raceName[7];
-  std::map<std::string, Race> raceMap;
-  std::set< Race > raceSet;
-  int raceInit()
-  {
-    raceName[Races::Zerg.getID()]="Zerg";
-    raceName[Races::Terran.getID()]="Terran";
-    raceName[Races::Protoss.getID()]="Protoss";
-    raceName[Races::Random.getID()]="Random";
-    raceName[Races::Other.getID()]="Other";
-    raceName[Races::None.getID()]="None";
-    raceName[Races::Unknown.getID()]="Unknown";
-
-    raceSet.insert(Races::Zerg);
-    raceSet.insert(Races::Terran);
-    raceSet.insert(Races::Protoss);
-    raceSet.insert(Races::Other);
-    raceSet.insert(Races::None);
-    raceSet.insert(Races::Unknown);
-
-    for(std::set<Race>::iterator i=raceSet.begin();i!=raceSet.end();i++)
+    void init()
     {
-      raceMap.insert(std::make_pair((*i).getName(),*i));
+      raceName[Races::Zerg.getID()]="Zerg";
+      raceName[Races::Terran.getID()]="Terran";
+      raceName[Races::Protoss.getID()]="Protoss";
+      raceName[Races::Random.getID()]="Random";
+      raceName[Races::Other.getID()]="Other";
+      raceName[Races::None.getID()]="None";
+      raceName[Races::Unknown.getID()]="Unknown";
+
+      raceSet.insert(Races::Zerg);
+      raceSet.insert(Races::Terran);
+      raceSet.insert(Races::Protoss);
+      raceSet.insert(Races::Other);
+      raceSet.insert(Races::None);
+      raceSet.insert(Races::Unknown);
+
+      for(std::set<Race>::iterator i=raceSet.begin();i!=raceSet.end();i++)
+      {
+        raceMap.insert(std::make_pair((*i).getName(),*i));
+      }
     }
   }
   Race::Race()
@@ -60,6 +60,10 @@ namespace BWAPI
   bool Race::operator==(const Race &other) const
   {
     return this->id==other.id;
+  }
+  bool Race::operator!=(const Race &other) const
+  {
+    return this->id!=other.id;
   }
   bool Race::operator<(const Race &other) const
   {

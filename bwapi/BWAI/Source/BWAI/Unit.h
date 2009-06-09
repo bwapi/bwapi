@@ -1,8 +1,8 @@
 #pragma once
 
-#include <BW/OrderID.h>
+#include <BWAPI/Order.h>
 #include <BW/UnitType.h>
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
 #include <BW/UpgradeType.h>
 #include <BW/TilePosition.h>
 #include <list>
@@ -57,16 +57,16 @@ namespace BWAI
       /** Gets distance of unit centers. */
       int getCenterDistance(Unit *unit) const;
       /**< Gets bwUnit->BW#Unit#orderID. */
-      BW::OrderID::Enum getOrderID() const;
+      BWAPI::Order getOrderID() const;
       /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
-      BW::OrderID::Enum getSecondaryOrderID() const;
+      BWAPI::Order getSecondaryOrderID() const;
 
-      void orderAttackLocation(BW::Position position, int OrderID);
+      void orderAttackLocation(BW::Position position, BWAPI::Order order);
       void orderRightClick(BW::Position position);
       void orderRightClick(Unit *target);
       void trainUnit(BW::UnitType type);
       void build(BW::TilePosition position, BW::UnitType type);
-      void invent(BW::TechType tech);
+      void invent(BWAPI::TechType tech);
       void upgrade(BW::UpgradeType upgrade);
 
       int lastFrameSpam;

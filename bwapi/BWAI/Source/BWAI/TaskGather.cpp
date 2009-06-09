@@ -26,14 +26,14 @@ namespace BWAI
       return true;
     std::list<Unit*>::iterator i = this->executors.begin();
     while (i != this->executors.end())
-      if ((*i)->getOrderID() != BW::OrderID::PlayerGuard &&
-          (*i)->getOrderID() != BW::OrderID::MoveToMinerals &&
-          (*i)->getOrderID() != BW::OrderID::HarvestMinerals2 &&
-          (*i)->getOrderID() != BW::OrderID::MiningMinerals &&
-          (*i)->getOrderID() != BW::OrderID::ResetCollision2 &&
-          (*i)->getOrderID() != BW::OrderID::ReturnMinerals)
+      if ((*i)->getOrderID() != BWAPI::Orders::PlayerGuard &&
+          (*i)->getOrderID() != BWAPI::Orders::MoveToMinerals &&
+          (*i)->getOrderID() != BWAPI::Orders::HarvestMinerals2 &&
+          (*i)->getOrderID() != BWAPI::Orders::MiningMinerals &&
+          (*i)->getOrderID() != BWAPI::Orders::ResetCollision2 &&
+          (*i)->getOrderID() != BWAPI::Orders::ReturnMinerals)
       {
-        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", BW::OrderID::orderName((*i)->getOrderID()).c_str(), 
+        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", (*i)->getOrderID().getName().c_str(), 
                                                                                                 (*i)->getName().c_str());
         this->freeExecutor(*i++);
         ai->expansionsSaturated = false;
@@ -54,9 +54,9 @@ namespace BWAI
         miningBuddy = *this->executors.begin();
       if (
            (
-             i->getOrderID() == BW::OrderID::MoveToMinerals || 
-             i->getOrderID() == BW::OrderID::HarvestMinerals2 || 
-             i->getOrderID() == BW::OrderID::PlayerGuard
+             i->getOrderID() == BWAPI::Orders::MoveToMinerals || 
+             i->getOrderID() == BWAPI::Orders::HarvestMinerals2 || 
+             i->getOrderID() == BWAPI::Orders::PlayerGuard
            ) &&
            i->getTarget() != this->expansion->gatherCenter &&
              (

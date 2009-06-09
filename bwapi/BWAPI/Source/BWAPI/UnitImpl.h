@@ -5,9 +5,9 @@
 #include <list>
 
 #include <Util/Types.h>
-#include <BW/OrderID.h>
+#include <BWAPI/Order.h>
 #include <BW/UnitType.h>
-#include <BW/TechType.h>
+#include <BWAPI/TechType.h>
 #include <BW/UpgradeType.h>
 #include <BW/TilePosition.h>
 
@@ -38,13 +38,13 @@ namespace BWAPI
 
       virtual Unit* getTarget() const;
       virtual BW::Position getTargetPosition() const;
-      virtual BW::OrderID::Enum getOrderID() const;
+      virtual Order getOrderID() const;
       virtual Unit* getOrderTarget() const;
       /* Timer specifiing how long it will take to finish the current order
        * (verified for mining).
        */
       virtual u8 getOrderTimer() const;
-      virtual BW::OrderID::Enum getSecondaryOrderID() const;
+      virtual Order getSecondaryOrderID() const;
       virtual Unit* getBuildUnit() const;
       virtual u16 getRemainingBuildTime() const;
       virtual Unit* getChild() const;
@@ -71,7 +71,7 @@ namespace BWAPI
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      virtual void attackLocation(BW::Position position, u8 OrderID);
+      virtual void attackLocation(BW::Position position, Order order);
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
@@ -88,15 +88,15 @@ namespace BWAPI
       /** Orders to build the specified building. */
       virtual void build(BW::TilePosition position, BW::UnitType type);
       /** Orders to build the invent the specified tech. */
-      virtual void invent(BW::TechType tech);
+      virtual void invent(TechType tech);
       /** Orders to build the invent the specified upgrade. */
       virtual void upgrade(BW::UpgradeType upgrade);
       virtual void stop();
       virtual void holdPosition();
       virtual void patrol(BW::Position position);
-      virtual void useTech(BW::TechType tech);
-      virtual void useTech(BW::TechType tech, BW::Position position);
-      virtual void useTech(BW::TechType tech, Unit* target);
+      virtual void useTech(TechType tech);
+      virtual void useTech(TechType tech, BW::Position position);
+      virtual void useTech(TechType tech, Unit* target);
 
 
     //Internal BWAPI commands:
