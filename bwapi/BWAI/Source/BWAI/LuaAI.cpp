@@ -1,4 +1,4 @@
-/*#include "LuaAI.h"
+#include "LuaAI.h"
 
 namespace BWAI
 {
@@ -33,4 +33,3 @@ namespace BWAI
   
 } // namespace BWAI
 
-*/

@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 
 #include <Util/Types.h>
 
@@ -14,7 +14,7 @@ namespace BWAI
     public:
       LUA(); // construct
       ~LUA(); // destruct
-      static bool executeFile(const char *fn); // execute
+      bool executeFile(const char *fn); // execute
     private:
       lua_State *lua;
       lua_Debug luaDebug;
@@ -24,4 +24,3 @@ namespace BWAI
   };  // class LUA
 } // namespace BWAI
 
-*/
