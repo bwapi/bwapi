@@ -689,6 +689,17 @@ namespace BWAPI
         this->print("Unknown log command '%s''s - possible values are: all, ore, gas, speed", parsed[1].c_str());
       return true;
     }
+    else if (parsed[0] == "/test")
+    {
+      char *oshet = "OSHIT TESTING";
+      __asm
+      {
+        push 1
+        push 4
+        push oshet
+        call [BW::BWFXN_PrintXY]
+      };
+    }
     else if (parsed[0] == "/set")
     {
       if (parsed[1] == "range")

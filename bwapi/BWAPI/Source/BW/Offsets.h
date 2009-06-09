@@ -175,6 +175,8 @@ namespace BW
   static u32            BWFXN_CancelTrainByEscapeBack             = BWFXN_CancelTrainByEscape + 5;
   static u32            BWFXN_CancelTrainByEscapeTarget           = BWFXN_IssueCommand;
 */
+  static u32            BWFXN_PrintXY                             = 0x417A10;
+  
   static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
   static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
