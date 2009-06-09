@@ -187,8 +187,6 @@ namespace BW
   static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;
   static u32            BWFXN_NextLogicFrameTarget                = 0x00488780;
 
-  static u32            BWFXN_OpenGameDialog                      = 0x004F57A0;
-
   static u32            BWDATA_UpgradeLevelSC                     = 0x0058D2B0;
   static u32            BWDATA_UpgradeLevelBW                     = 0x0058F32C;
   static u32            BWDATA_TechResearchSC                     = 0x0058CF44;

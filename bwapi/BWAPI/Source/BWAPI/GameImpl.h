@@ -85,7 +85,6 @@ namespace BWAPI
       virtual void printPublic(const char *text, ...);
       virtual bool isOnStartCalled() const;
       virtual bool isInGame() const;
-      virtual void openGameDialog(const char *dlgName, void *dlgThread);
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)

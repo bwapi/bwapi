@@ -101,12 +101,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAPI/Source;Source;../include;../lua/src"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAPI/Source;Source;../include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				IgnoreStandardIncludePath="false"
 				RuntimeLibrary="2"
 				WarningLevel="3"
-				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -119,6 +118,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="../include/LUA/lua51.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
