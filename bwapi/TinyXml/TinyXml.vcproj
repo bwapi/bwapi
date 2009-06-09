@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				RuntimeLibrary="2"
 				WarningLevel="3"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
