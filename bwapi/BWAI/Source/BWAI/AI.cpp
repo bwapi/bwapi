@@ -816,7 +816,10 @@ namespace BWAI
     }
     else if (parsed[0] == "/luatest")
     {
-//      LUA::executeFile("bwapi-data\\test.lua");
+      if(lua.executeFile("bwapi-data\\test.lua") == false)
+        this->root->log->log("Could not load test.lua.");
+      else
+        this->root->log->log("Load test.lua successfully.");
       return true;
     }
     else if (parsed[0] == "/reload")
