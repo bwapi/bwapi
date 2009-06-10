@@ -8,7 +8,7 @@
 namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  TaskUpgrade::TaskUpgrade(BW::UpgradeType upgradeType, u8 level, u16 priority)
+  TaskUpgrade::TaskUpgrade(BWAPI::UpgradeType upgradeType, u8 level, u16 priority)
   :Task(priority)
   ,upgradeType(upgradeType)
   ,level(level)
@@ -32,7 +32,7 @@ namespace BWAI
       return false;
     if (this->executors.empty())
     {
-      BW::UnitType buildingType = this->upgradeType.whereToUpgrade();
+      BW::UnitType buildingType = *(this->upgradeType.whatUpgrades());
       if (buildingType == BW::UnitID::None)
       {
         BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName());
@@ -61,8 +61,8 @@ namespace BWAI
   {
     return TaskType::Invent;
   }
-  //---------------------------------------------- GET MINERAL -----------------------------------------------
-  BW::UpgradeType TaskUpgrade::getUpgradeType()
+  //-------------------------------------------- GET UPGRADE TYPE --------------------------------------------
+  BWAPI::UpgradeType TaskUpgrade::getUpgradeType()
   {
     return this->upgradeType;
   }

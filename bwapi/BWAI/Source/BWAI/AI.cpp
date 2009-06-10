@@ -10,15 +10,8 @@
 #include <Util/Strings.h>
 #include <Util/RectangleArray.h>
 
-#include <BW/UpgradeType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/Order.h>
-
-#include <BWAPI/Unit.h>
-#include <BWAPI/Player.h>
+#include <BWAPI.h>
 #include <BWAPI/Globals.h>
-#include <BWAPI/Game.h>
-#include <BWAPI/Race.h>
 
 #include <BuildOrder/Root.h>
 #include <BuildOrder/Branch.h>
@@ -562,11 +555,9 @@ namespace BWAI
       {
         std::string fileName = config->get("data_path") + "\\upgrades";
         Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
-        for (u8 i = 0; i < BW::UPGRADE_TYPE_COUNT; i++)
+        for(std::set<BWAPI::UpgradeType>::iterator i=BWAPI::UpgradeTypes::allUpgradeTypes().begin();i!=BWAPI::UpgradeTypes::allUpgradeTypes().end();i++)
         {
-          BW::UpgradeType upgrade = BW::UpgradeType((BW::UpgradeID::Enum)i);
-          if (upgrade.isValid())
-            upgradesLog.log("%s = 0x%02X",upgrade.getName(), i);
+          upgradesLog.log("%s = 0x%02X",i->getName().c_str(),i->getID());
         }
         BWAPI::Broodwar->print("Upgrades saved to %s .ini", fileName.c_str());
       }
@@ -669,8 +660,8 @@ namespace BWAI
       if (parsed[1] == "add")
       {
         std::string upgradeName = message.substr(strlen("/upgrade add "), message.size() - strlen("/upgrade add "));
-        BW::UpgradeType upgrade = BWAPI::Broodwar->getUpgradeType(upgradeName);
-        if (upgrade == BW::UpgradeID::None)
+        BWAPI::UpgradeType upgrade = BWAPI::UpgradeTypes::getUpgradeType(upgradeName);
+        if (upgrade == BWAPI::UpgradeTypes::None)
           BWAPI::Broodwar->print("Unknown upgrade name '%s'", upgradeName);
         else
         {
@@ -687,7 +678,7 @@ namespace BWAI
       else if (parsed[1] == "list")
       {
         for each (TaskUpgrade* i in this->plannedUpgrades)
-          BWAPI::Broodwar->print(i->getUpgradeType().getName());
+          BWAPI::Broodwar->print(i->getUpgradeType().getName().c_str());
       }
       else 
         BWAPI::Broodwar->print("Unknown command '%s' - possible commands are: add, list", parsed[1].c_str());

@@ -1,9 +1,7 @@
 #pragma once
 
-#include <BWAPI/Order.h>
+#include <BWAPI.h>
 #include <BW/UnitType.h>
-#include <BWAPI/TechType.h>
-#include <BW/UpgradeType.h>
 #include <BW/TilePosition.h>
 #include <list>
 
@@ -67,7 +65,7 @@ namespace BWAI
       void trainUnit(BW::UnitType type);
       void build(BW::TilePosition position, BW::UnitType type);
       void invent(BWAPI::TechType tech);
-      void upgrade(BW::UpgradeType upgrade);
+      void upgrade(BWAPI::UpgradeType upgrade);
 
       int lastFrameSpam;
       

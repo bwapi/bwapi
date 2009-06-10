@@ -4,13 +4,13 @@
 #include <map>
 #include <set>
 
-#include <BW/Latency.h>
-#include <BWAPI/TechType.h>
-#include <BW/UpgradeType.h>
-#include <BW/TilePosition.h>
-#include <BWAPI/Order.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
+#include <BWAPI/Order.h>
+
+#include <BW/Latency.h>
+#include <BW/UnitType.h>
+#include <BW/TilePosition.h>
 namespace BWAPI
 {
   class Force;
@@ -32,13 +32,12 @@ namespace BWAPI
     virtual int getMouseY() const=0;
     virtual int getScreenX() const=0;
     virtual int getScreenY() const=0;
-    virtual bool isFlagEnabled(BWAPI::Flag::Enum flag) const=0;
-    virtual void enableFlag(BWAPI::Flag::Enum flag)=0;
+    virtual bool isFlagEnabled(Flag::Enum flag) const=0;
+    virtual void enableFlag(Flag::Enum flag)=0;
     virtual std::list<Unit*> unitsOnTile(int x, int y) const=0;
 
     virtual const std::set< BW::UnitType >& allUnitTypes() const=0;
     virtual BW::UnitType getUnitType(std::string &name) const=0;
-    virtual BW::UpgradeType getUpgradeType(std::string &name) const=0;
 
     virtual int mapWidth() const=0;
     virtual int mapHeight() const=0;
@@ -56,11 +55,11 @@ namespace BWAPI
     virtual void printPublic(const char *text, ...)=0;
     virtual bool isOnStartCalled() const=0;
     virtual bool isInGame() const=0;
-    virtual void changeRace(BWAPI::Race race)=0;
+    virtual void changeRace(Race race)=0;
     virtual void startGame()=0;
     virtual void pauseGame()=0;
     virtual void resumeGame()=0;
-    virtual const std::set<BWAPI::Unit*>& getSelectedUnits() const=0;
+    virtual const std::set<Unit*>& getSelectedUnits() const=0;
     virtual Player* self() const=0;
     virtual Player* enemy() const=0;
   };

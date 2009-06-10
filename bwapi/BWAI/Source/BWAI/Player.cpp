@@ -1,8 +1,7 @@
+#include <BWAPI.h>
+
 #include <BW/UnitType.h>
-#include <BWAPI/TechType.h>
-#include <BW/UpgradeType.h>
 #include <BW/PlayerType.h>
-#include <BWAPI/Player.h>
 
 #include "Player.h"
 #include "Globals.h"
@@ -78,11 +77,11 @@ namespace BWAI
   {
     return this->player->researched(tech);
   }
-  int Player::upgradeLevel(BW::UpgradeType upgrade) const
+  int Player::upgradeLevel(BWAPI::UpgradeType upgrade) const
   {
     return this->player->upgradeLevel(upgrade);
   }
-  bool Player::upgradeInProgress(BW::UpgradeType upgrade) const
+  bool Player::upgradeInProgress(BWAPI::UpgradeType upgrade) const
   {
     return this->player->upgrading(upgrade);
   }
@@ -138,17 +137,17 @@ namespace BWAI
     }
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
-  bool Player::canAfford(BW::UpgradeType upgrade, int level) const
+  bool Player::canAfford(BWAPI::UpgradeType upgrade, int level) const
   {
     if (this==ai->player)
     {
-      return ((int)this->getMinerals()) - ai->reserved.minerals >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-             ((int)this->getGas())      - ai->reserved.gas      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
+      return ((int)this->getMinerals()) - ai->reserved.minerals >= upgrade.mineralPriceBase() + upgrade.mineralPriceFactor()*(level-1) &&
+             ((int)this->getGas())      - ai->reserved.gas      >= upgrade.gasPriceBase()     + upgrade.gasPriceFactor()    *(level-1);
     }
     else
     {
-      return ((int)this->getMinerals()) >= upgrade.mineralCostBase() + upgrade.mineralCostFactor()*(level-1) &&
-             ((int)this->getGas())      >= upgrade.gasCostBase()     + upgrade.gasCostFactor()    *(level-1);
+      return ((int)this->getMinerals()) >= upgrade.mineralPriceBase() + upgrade.mineralPriceFactor()*(level-1) &&
+             ((int)this->getGas())      >= upgrade.gasPriceBase()     + upgrade.gasPriceFactor()    *(level-1);
     }
   }
 }

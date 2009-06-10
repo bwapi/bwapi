@@ -1,7 +1,7 @@
 #include "BuildWeight.h"
 
 #include <tinyxml.h>
-#include <BWAPI/Game.h>
+#include <BWAPI.h>
 #include <Util/Xml.h>
 #include "Condition.h"
 

@@ -2,9 +2,10 @@
 
 namespace BW { struct Unit; };
 
-#include "BWAPI/Player.h"
-#include <BWAPI/TechType.h>
 #include <BWAPI/Race.h>
+#include <BWAPI/Player.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/UpgradeType.h>
 
 #include <list>
 #include <set>
@@ -68,8 +69,8 @@ namespace BWAPI
 
     virtual bool researching(TechType tech) const;
     virtual bool researched(TechType tech) const;
-    virtual bool upgrading(BW::UpgradeType upgrade) const;
-    virtual int upgradeLevel(BW::UpgradeType upgrade) const;
+    virtual bool upgrading(UpgradeType upgrade) const;
+    virtual int upgradeLevel(UpgradeType upgrade) const;
 
     //Internal BWAPI commands:
 

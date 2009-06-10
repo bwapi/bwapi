@@ -22,6 +22,8 @@
 #include <BWAPI/Map.h>
 #include <BWAPI/ScreenLogger.h>
 #include <BWAPI/Flag.h>
+#include <BWAPI.h>
+
 
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
@@ -82,22 +84,6 @@ namespace BWAPI
         sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
         BW::UnitID::Enum unit((BW::UnitID::Enum) intForSScanf);
         this->unitNameToType.insert(std::pair<std::string, BW::UnitType>(i->getKey(), unit));
-      }
-
-      Util::DictionaryFile techNames(config->get("tech_names_path"));
-      for each (Util::Sentence* i in techNames.usedLines)
-      {
-        sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
-        BW::TechID::Enum tech((BW::TechID::Enum) intForSScanf);
-        this->techNameToType.insert(std::pair<std::string, BW::TechType>(i->getKey(), tech));
-      }
-       
-      Util::DictionaryFile upgradeNames(config->get("upgrade_names_path"));
-      for each (Util::Sentence* i in upgradeNames.usedLines)
-      {
-        sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
-        BW::UpgradeID::Enum upgrade((BW::UpgradeID::Enum) intForSScanf);
-        this->upgradeNameToType.insert(std::pair<std::string, BW::UpgradeType>(i->getKey(), upgrade));
       }
 
       unitArrayCopy = new BW::UnitArray;
@@ -446,9 +432,7 @@ namespace BWAPI
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
-    BWAPI::Orders::init();
-    BWAPI::TechTypes::init();
-    BWAPI::Races::init();
+    BWAPI_init();
     this->frameCount = 0;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
@@ -568,8 +552,8 @@ namespace BWAPI
       else if (parsed[1] == "upgradeState")
       {
         std::string upgradeName = message.substr(strlen("/get upgradeState "), message.size() - strlen("/get upgradeState "));
-        BW::UpgradeType upgrade = this->upgradeNameToType[upgradeName];
-        if (upgrade == BW::UpgradeID::None)
+        BWAPI::UpgradeType upgrade = BWAPI::UpgradeTypes::getUpgradeType(upgradeName);
+        if (upgrade == BWAPI::UpgradeTypes::Unknown || upgrade == BWAPI::UpgradeTypes::None)
           this->print("Unknown upgrade name '%s'", upgradeName.c_str());
         else
         {
@@ -928,19 +912,6 @@ namespace BWAPI
     if (i==this->unitNameToType.end())
     {
       return BW::UnitType();
-    }
-    else
-    {
-      return i->second;
-    }
-  }
-  //--------------------------------------------- GET UPGRADE TYPE -------------------------------------------
-  BW::UpgradeType GameImpl::getUpgradeType(std::string &name) const
-  {
-    std::map<std::string, BW::UpgradeType>::const_iterator i=this->upgradeNameToType.find(name);
-    if (i==this->upgradeNameToType.end())
-    {
-      return BW::UpgradeType();
     }
     else
     {

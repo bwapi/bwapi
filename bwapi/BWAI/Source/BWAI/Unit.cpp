@@ -1,8 +1,6 @@
+#include <BWAPI.h>
+
 #include "Unit.h"
-
-#include <BWAPI/Unit.h>
-#include <BWAPI/Player.h>
-
 #include "Task.h"
 #include "Globals.h"
 
@@ -274,7 +272,7 @@ namespace BWAI
   {
     this->unit->invent(tech);
   }
-  void Unit::upgrade(BW::UpgradeType upgrade)
+  void Unit::upgrade(BWAPI::UpgradeType upgrade)
   {
     this->unit->upgrade(upgrade);
   }

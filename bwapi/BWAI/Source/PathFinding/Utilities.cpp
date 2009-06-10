@@ -4,11 +4,11 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 
+#include <BWAPI/Globals.h>
+#include <BWAPI/ScreenLogger.h>
 #include <BWAI/Unit.h>
 #include <BWAI/Globals.h>
-#include <BWAPI/Globals.h>
 #include <BWAI/AI.h>
-#include <BWAPI/ScreenLogger.h>
 
 
 namespace PathFinding

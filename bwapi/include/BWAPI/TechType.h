@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <set>
+#include <BWAPI/Race.h>
 namespace BW { class UnitType; }
 namespace BWAPI
 {
@@ -16,6 +17,7 @@ namespace BWAPI
     bool operator<(const TechType &other) const;
     int getID() const;
     std::string getName() const;
+    Race getRace() const;
     int mineralPrice() const;
     int gasPrice() const;
     int energyPrice() const;

@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <tchar.h>
 
-#include <BWAPI/AIModule.h>
-#include <BWAPI/Game.h>
+#include <BWAPI.h>
+
 #include "AI.h"
 #include "Globals.h"
 ///The following commented code will be uncommented when we're finally ready to turn the BWAI project into a dll.

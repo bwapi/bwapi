@@ -5,8 +5,8 @@
 #include <Util/Dictionary.h>
 #include <Util/FileLogger.h>
 #include <Util/Xml.h>
+#include <BWAPI.h>
 #include <BWAPI/Globals.h>
-#include <BWAPI/Game.h>
 #include <BWAPI/ScreenLogger.h>
 #include <BWAI/Player.h>
 #include <BWAI/Globals.h>

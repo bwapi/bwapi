@@ -4,8 +4,8 @@
 
 #include <BWAPI/Order.h>
 #include <BWAPI/TechType.h>
+#include <BWAPI/UpgradeType.h>
 #include <BW/UnitType.h>
-#include <BW/UpgradeType.h>
 #include <BW/Position.h>
 #include <BW/TilePosition.h>
 #include <Util/Types.h>
@@ -53,7 +53,7 @@ namespace BWAPI
     virtual void train(BW::UnitType type)=0;
     virtual void build(BW::TilePosition position, BW::UnitType type)=0;
     virtual void invent(TechType tech)=0;
-    virtual void upgrade(BW::UpgradeType upgrade)=0;
+    virtual void upgrade(UpgradeType upgrade)=0;
     virtual void stop()=0;
     virtual void holdPosition()=0;
     virtual void patrol(BW::Position position)=0;

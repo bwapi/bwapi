@@ -1,7 +1,7 @@
 #include "Map.h"
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
-#include <BWAPI/Game.h>
+#include <BWAPI.h>
 
 namespace BWAI
 {

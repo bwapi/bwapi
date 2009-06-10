@@ -1,10 +1,8 @@
 #pragma once
 
-#include <BWAPI/Player.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/Race.h>
+#include <BWAPI.h>
+
 #include <BW/UnitType.h>
-#include <BW/UpgradeType.h>
 #include <BW/PlayerType.h>
 #include <BWAI/ReservedResources.h>
 namespace BWAPI { class Player; }
@@ -36,14 +34,14 @@ namespace BWAI
     int getKills(BW::UnitType unit) const;
     bool researchInProgress(BWAPI::TechType tech) const;    
     bool techResearched(BWAPI::TechType tech) const;
-    int upgradeLevel(BW::UpgradeType upgrade) const;
-    bool upgradeInProgress(BW::UpgradeType upgrade) const; 
+    int upgradeLevel(BWAPI::UpgradeType upgrade) const;
+    bool upgradeInProgress(BWAPI::UpgradeType upgrade) const; 
 
     bool canBuild(BW::UnitType unit) const;
     bool canAfford(BW::UnitType unit) const;
     bool canAffordNow(BW::UnitType unit) const;
     bool canAfford(BWAPI::TechType tech) const;
-    bool canAfford(BW::UpgradeType upgrade, int level) const;
+    bool canAfford(BWAPI::UpgradeType upgrade, int level) const;
     const BWAPI::Player* getPlayer() const;
   private:
     BWAPI::Player* player;
