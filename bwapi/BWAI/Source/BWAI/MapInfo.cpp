@@ -4,7 +4,7 @@
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Dictionary.h>
-#include <BWAPI/Game.h>
+#include <BWAPI.h>
 #include <BWAPI/Globals.h>
 
 #include "MapExpansion.h"

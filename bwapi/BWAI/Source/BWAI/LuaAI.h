@@ -2,8 +2,7 @@
 
 #include <Util/Types.h>
 
-#include <BWAPI/Globals.h>
-#include <BWAPI/Game.h>
+#include <BWAPI.h>
 
 #include <LUA/lua.hpp>
 

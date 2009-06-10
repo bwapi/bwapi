@@ -4,10 +4,10 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-#include <BW/UpgradeType.h>
 #include <BWAI/Globals.h>
 #include <BWAI/TaskUpgrade.h>
 #include <BWAI/Player.h>
+#include <BWAPI.h>
 #include <BWAPI/Globals.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
@@ -24,8 +24,8 @@ namespace BuildOrder
   //----------------------------------------------------------------------------------------------------------
   bool CommandUpgrade::executeInternal(Executor* executor)
   {
-    BW::UpgradeType toUpgrade = BWAPI::Broodwar->getUpgradeType(this->name);
-    if (!toUpgrade.isValid())
+    BWAPI::UpgradeType toUpgrade = BWAPI::UpgradeTypes::getUpgradeType(this->name);
+    if (toUpgrade==BWAPI::UpgradeTypes::None || toUpgrade==BWAPI::UpgradeTypes::Unknown)
     {
       BWAI::ai->root->log->log("Unknown upgrade name '%s'", this->name.c_str());
       return true;

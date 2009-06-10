@@ -3,8 +3,8 @@
 #include <Util/Strings.h>
 #include <Util/Dictionary.h>
 #include <Util/Logger.h>
+#include <BWAPI.h>
 #include <BWAPI/Globals.h>
-#include <BWAPI/Player.h>
 #include <BWAI/Globals.h>
 
 namespace Formula

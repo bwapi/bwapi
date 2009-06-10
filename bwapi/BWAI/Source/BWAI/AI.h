@@ -4,8 +4,7 @@
 #include <map>
 #include <set>
 
-#include <BWAPI/Game.h>
-#include <BWAPI/AIModule.h>
+#include <BWAPI.h>
 #include <BWAI/ReservedResources.h>
 #include <BW/UnitType.h>
 #include <BW/Position.h>

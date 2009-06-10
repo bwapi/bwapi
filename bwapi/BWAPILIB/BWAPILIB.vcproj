@@ -159,6 +159,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAPI.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Order.cpp"
 				>
 			</File>
@@ -168,6 +172,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\TechType.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\UpgradeType.cpp"
 				>
 			</File>
 		</Filter>
@@ -190,6 +198,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\TechType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\UpgradeType.h"
 				>
 			</File>
 		</Filter>

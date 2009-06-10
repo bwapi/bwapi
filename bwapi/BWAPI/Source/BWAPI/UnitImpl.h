@@ -8,7 +8,7 @@
 #include <BWAPI/Order.h>
 #include <BW/UnitType.h>
 #include <BWAPI/TechType.h>
-#include <BW/UpgradeType.h>
+#include <BWAPI/UpgradeType.h>
 #include <BW/TilePosition.h>
 
 namespace Util  { class Logger; }
@@ -90,7 +90,7 @@ namespace BWAPI
       /** Orders to build the invent the specified tech. */
       virtual void invent(TechType tech);
       /** Orders to build the invent the specified upgrade. */
-      virtual void upgrade(BW::UpgradeType upgrade);
+      virtual void upgrade(UpgradeType upgrade);
       virtual void stop();
       virtual void holdPosition();
       virtual void patrol(BW::Position position);

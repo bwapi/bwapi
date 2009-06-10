@@ -1,6 +1,6 @@
 #include "Branch.h"
 
-#include <BWAPI/Race.h>
+#include <BWAPI.h>
 
 namespace BuildOrder
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "Task.h"
 
-#include <BW/UpgradeType.h>
+#include <BWAPI.h>
 
 namespace BWAI
 {
@@ -9,13 +9,13 @@ namespace BWAI
   class TaskUpgrade : public Task
   {
     public :
-      TaskUpgrade(BW::UpgradeType upgrade, u8 level, u16 priority);
+      TaskUpgrade(BWAPI::UpgradeType upgrade, u8 level, u16 priority);
       virtual ~TaskUpgrade();
       bool execute();
       TaskType::Enum getType();
-      BW::UpgradeType getUpgradeType();
+      BWAPI::UpgradeType getUpgradeType();
     private :  
-      BW::UpgradeType upgradeType;
+      BWAPI::UpgradeType upgradeType;
       u8 level;
   };
 }

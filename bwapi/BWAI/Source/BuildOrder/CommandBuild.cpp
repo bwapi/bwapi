@@ -5,6 +5,8 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
+#include <BWAPI.h>
+#include <BWAPI/Globals.h>
 #include <BW/UnitType.h>
 #include <BWAI/AI.h>
 #include <BWAI/BuildingPositionSet.h>
@@ -12,8 +14,6 @@
 #include <BWAI/Globals.h>
 #include <BWAI/MapStartingPosition.h>
 #include <BWAI/Player.h>
-#include <BWAPI/Globals.h>
-#include <BWAPI/Unit.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
 

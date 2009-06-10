@@ -368,11 +368,12 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new CommandInvent(this, BW::TechType(techenum)));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
-  void UnitImpl::upgrade(BW::UpgradeType upgrade)
+  void UnitImpl::upgrade(BWAPI::UpgradeType upgrade)
   {
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(upgrade), sizeof(BW::Orders::Upgrade)); 
-    BroodwarImpl.addToCommandBuffer(new CommandUpgrade(this, upgrade));
+    BW::UpgradeID::Enum upgradeenum=static_cast<BW::UpgradeID::Enum>(upgrade.getID());
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade)); 
+    BroodwarImpl.addToCommandBuffer(new CommandUpgrade(this, BW::UpgradeType(upgradeenum)));
   }
   //-------------------------------------------------- STOP --------------------------------------------------
   void UnitImpl::stop()

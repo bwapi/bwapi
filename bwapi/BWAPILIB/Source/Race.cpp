@@ -19,13 +19,13 @@ namespace BWAPI
     const Race Unknown(6);
     void init()
     {
-      raceName[Races::Zerg.getID()]="Zerg";
-      raceName[Races::Terran.getID()]="Terran";
-      raceName[Races::Protoss.getID()]="Protoss";
-      raceName[Races::Random.getID()]="Random";
-      raceName[Races::Other.getID()]="Other";
-      raceName[Races::None.getID()]="None";
-      raceName[Races::Unknown.getID()]="Unknown";
+      raceName[Zerg.getID()]="Zerg";
+      raceName[Terran.getID()]="Terran";
+      raceName[Protoss.getID()]="Protoss";
+      raceName[Random.getID()]="Random";
+      raceName[Other.getID()]="Other";
+      raceName[None.getID()]="None";
+      raceName[Unknown.getID()]="Unknown";
 
       raceSet.insert(Races::Zerg);
       raceSet.insert(Races::Terran);

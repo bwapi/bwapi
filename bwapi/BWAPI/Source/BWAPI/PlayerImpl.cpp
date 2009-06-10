@@ -304,7 +304,7 @@ namespace BWAPI
      return *((u8*)(BW::BWDATA_TechResearchBW + this->getID()*0x14 + tech.getID() - 0x18)) == 1;
   }
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
-  int PlayerImpl::upgradeLevel(BW::UpgradeType upgrade) const
+  int PlayerImpl::upgradeLevel(UpgradeType upgrade) const
   {
     if (upgrade.getID() < 46)
      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID()*46 + upgrade.getID())));
@@ -312,7 +312,7 @@ namespace BWAPI
      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID()*15 + upgrade.getID() - 46)));
   }
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
-  bool PlayerImpl::upgrading(BW::UpgradeType upgrade) const
+  bool PlayerImpl::upgrading(UpgradeType upgrade) const
   {
     return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
   }

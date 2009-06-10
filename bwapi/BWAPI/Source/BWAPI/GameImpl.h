@@ -33,6 +33,7 @@ namespace BWAPI { class AIModule; }
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/TechType.h>
+#include <BWAPI/UpgradeType.h>
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
@@ -64,7 +65,6 @@ namespace BWAPI
 
       virtual const std::set< BW::UnitType >& allUnitTypes() const;
       virtual BW::UnitType getUnitType(std::string &name) const;
-      virtual BW::UpgradeType getUpgradeType(std::string &name) const;
 
       virtual int mapWidth() const;
       virtual int mapHeight() const;
@@ -154,8 +154,6 @@ namespace BWAPI
       void logUnitList();
       void logUnknownOrStrange();
       std::map<std::string, BW::UnitType> unitNameToType;
-      std::map<std::string, BW::TechType> techNameToType;
-      std::map<std::string, BW::UpgradeType> upgradeNameToType;
       bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;

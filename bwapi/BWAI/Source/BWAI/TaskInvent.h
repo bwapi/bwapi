@@ -1,7 +1,7 @@
 #pragma once
 #include "Task.h"
 
-#include <BWAPI/TechType.h>
+#include <BWAPI.h>
 
 namespace BWAI
 {

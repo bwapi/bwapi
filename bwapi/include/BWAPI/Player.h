@@ -2,9 +2,9 @@
 #include <set>
 #include <string>
 
-#include <BWAPI/TechType.h>
 #include <BWAPI/Race.h>
-#include <BW/UpgradeType.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/UpgradeType.h>
 #include <BW/UnitType.h>
 
 namespace BWAPI
@@ -35,8 +35,8 @@ namespace BWAPI
 
     virtual bool researching(TechType tech) const=0;
     virtual bool researched(TechType tech) const=0;
-    virtual bool upgrading(BW::UpgradeType upgrade) const=0;
-    virtual int upgradeLevel(BW::UpgradeType upgrade) const=0;
+    virtual bool upgrading(UpgradeType upgrade) const=0;
+    virtual int upgradeLevel(UpgradeType upgrade) const=0;
 
   };
 };

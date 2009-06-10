@@ -2,13 +2,11 @@
 
 #include <Util/Logger.h>
 #include <Util/Types.h>
+#include <BWAPI.h>
+#include <BWAPI/Globals.h>
 #include <BW/UnitType.h>
-#include <BWAPI/Order.h>
 #include <BWAI/Player.h>
 #include <BWAI/ReservedResources.h>
-#include <BWAPI/Globals.h>
-#include <BWAPI/Unit.h>
-#include <BWAPI/Game.h>
 
 #include "Unit.h"
 #include "AI.h"

@@ -3,7 +3,7 @@
 #include <tinyxml.h>
 #include <Util/Logger.h>
 #include <Util/Xml.h>
-#include <BWAPI/Game.h>
+#include <BWAPI.h>
 #include "Root.h"
 
 namespace BuildOrder
