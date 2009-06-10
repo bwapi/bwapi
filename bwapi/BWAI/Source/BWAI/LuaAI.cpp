@@ -1,6 +1,18 @@
 #include "LuaAI.h"
 #include "AI.h"
 
+#include <BW/UpgradeType.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/Order.h>
+
+#include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
+#include <BWAPI/Globals.h>
+#include <BWAPI/Game.h>
+#include <BWAPI/Race.h>
+
+#include "Player.h"
+
 namespace BWAI
 {
   LUA::LUA(void)
@@ -8,9 +20,12 @@ namespace BWAI
     lua = lua_open();
     luaL_openlibs(lua);
     lua_register(lua, "sendText", sendText);
-//    lua_register(lua, "mapSize", getMapSize);
-//    lua_register(lua, "mapName", getMapName);
-//    lua_register(lua, "mapFile", getMapFileName);
+    lua_register(lua, "mapSize", getMapSize);
+    lua_register(lua, "mapName", getMapName);
+    lua_register(lua, "terrainInfo", getTerrainInfo);
+//    lua_register(lua, "currentPlayer", getCurrentPlayer);
+    lua_register(lua, "playerName", getPlayerName);
+
 
   } // constructor
 
@@ -45,7 +60,7 @@ namespace BWAI
     lua_pushnumber(l, 1);
     return 1;
   }
-/*// ======================================== Get Map Size
+// ======================================== Get Map Size
   int LUA::getMapSize(lua_State *l)
   {
     if(lua_gettop(l) != 0)
@@ -70,10 +85,10 @@ namespace BWAI
     switch((u32)lua_tonumber(l, 1))
     {
     case 0:
-      lua_pushstring(l, BWAPI::Broodwar->mapFilename().c_str());
+      lua_pushstring(l, BWAPI::Broodwar->mapName().c_str());
       break;
     case 1:
-      lua_pushstring(l, BWAPI::Broodwar->mapName().c_str());
+      lua_pushstring(l, BWAPI::Broodwar->mapFilename().c_str());
       break;
     }
     return 1;
@@ -99,7 +114,7 @@ namespace BWAI
       lua_pushnumber(l, BWAPI::Broodwar->walkable(x, y));
       break;
     case 2: // visible
-      lua_pushnumber(l, BWAPI::Broodwar->walkable(x, y));
+      lua_pushnumber(l, BWAPI::Broodwar->visible(x, y));
       break;
     case 3: // ground height
       lua_pushnumber(l, BWAPI::Broodwar->groundHeight(x, y));
@@ -107,7 +122,35 @@ namespace BWAI
     }
     return 1;
   }
-  */
+// ======================================== Get Current Player
+/*  int LUA::getCurrentPlayer(lua_State *l)
+  {
+    if (lua_gettop(l) != 0)
+    {
+      // error msg
+      return 0;
+    }
+    lua_pushnumber(l, AI::AI().player->getID());
+    return 1;
+  }*/
+// ======================================== Get Player Name
+  int LUA::getPlayerName(lua_State *l)
+  {
+    if (lua_gettop(l) != 1)
+    {
+      // error msg
+      return 0;
+    }
+    u8 pID = lua_tonumber(l, 1);
+    if (pID > 11)
+    {
+      // error msg
+      return 0;
+    }
+    
+    lua_pushstring(l, BWAPI::Broodwar->self()->getName().c_str());
+    return 1;
+  }
   
 } // namespace BWAI
 
