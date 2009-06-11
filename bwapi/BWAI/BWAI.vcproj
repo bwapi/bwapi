@@ -119,6 +119,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="../include/LUA/lua5.1.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -304,6 +305,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\ReservedResources.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\ScreenLogger.cpp"
 					>
 				</File>
 				<File
