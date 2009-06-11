@@ -129,18 +129,11 @@ namespace BWAI
 // ======================================== Get Player Name
   int LUA::getPlayerName(lua_State *l)
   {
-    if (lua_gettop(l) != 1)
+    if (lua_gettop(l) != 0)
     {
       // error msg
       return 0;
     }
-    u8 pID = lua_tonumber(l, 1);
-    if (pID > 11)
-    {
-      // error msg
-      return 0;
-    }
-    
     lua_pushstring(l, BWAPI::Broodwar->self()->getName().c_str());
     return 1;
   }
