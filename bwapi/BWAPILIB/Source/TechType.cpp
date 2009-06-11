@@ -7,6 +7,7 @@
 
 namespace BWAPI
 {
+  bool initializingTechType=true;
   struct TechTypeStruct
   {
     std::string name;
@@ -308,6 +309,7 @@ namespace BWAPI
       {
         techTypeMap.insert(std::make_pair((*i).getName(),*i));
       }
+      initializingTechType=false;
     }
   }
   TechType::TechType()
@@ -317,6 +319,13 @@ namespace BWAPI
   TechType::TechType(int id)
   {
     this->id=id;
+    if (!initializingTechType)
+    {
+      if (id<0 || id>=46 || techTypeData[id].name.length()==0)
+      {
+        this->id=TechTypes::Unknown.id;
+      }
+    }
   }
   TechType::TechType(const TechType &other)
   {

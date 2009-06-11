@@ -1,7 +1,6 @@
 #include <BWAPI.h>
 
 #include <BW/UnitType.h>
-#include <BW/PlayerType.h>
 
 #include "Player.h"
 #include "Globals.h"
@@ -21,7 +20,7 @@ namespace BWAI
   {
     return this->player->getRace();
   }
-  BW::PlayerType::Enum Player::playerType()
+  BWAPI::PlayerType Player::playerType()
   {
     return this->player->playerType();
   }

@@ -4,6 +4,7 @@ namespace BW { struct Unit; };
 
 #include <BWAPI/Race.h>
 #include <BWAPI/Player.h>
+#include <BWAPI/PlayerType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 
@@ -36,7 +37,7 @@ namespace BWAPI
 
     /** Gets the starting race of the player. */
     virtual Race getRace() const;
-    virtual BW::PlayerType::Enum playerType() const;
+    virtual PlayerType playerType() const;
     virtual Force* getForce() const;
 
     /** Gets local version of minerals for the current player - @ref localData */

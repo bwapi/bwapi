@@ -7,7 +7,7 @@
 #include <Util/Xml.h>
 #include <BWAPI.h>
 #include <BWAPI/Globals.h>
-#include <BWAPI/ScreenLogger.h>
+#include <BWAI/ScreenLogger.h>
 #include <BWAI/Player.h>
 #include <BWAI/Globals.h>
 #include "Branch.h"
@@ -22,7 +22,7 @@ namespace BuildOrder
   Root::Root(const std::string& xmlFileName)
   :log(new Util::FileLogger(config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
   {
-    this->log->registerLogger(new BWAPI::ScreenLogger(Util::LogLevel::Normal));
+    this->log->registerLogger(new BWAI::ScreenLogger(Util::LogLevel::Normal));
     include(xmlFileName);
   }
   //------------------------------------------------ INCLUDE -------------------------------------------------

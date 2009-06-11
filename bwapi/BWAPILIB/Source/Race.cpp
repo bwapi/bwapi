@@ -5,6 +5,7 @@
 
 namespace BWAPI
 {
+  bool initializingRace=true;
   std::string raceName[7];
   std::map<std::string, Race> raceMap;
   std::set< Race > raceSet;
@@ -27,17 +28,18 @@ namespace BWAPI
       raceName[None.getID()]="None";
       raceName[Unknown.getID()]="Unknown";
 
-      raceSet.insert(Races::Zerg);
-      raceSet.insert(Races::Terran);
-      raceSet.insert(Races::Protoss);
-      raceSet.insert(Races::Other);
-      raceSet.insert(Races::None);
-      raceSet.insert(Races::Unknown);
+      raceSet.insert(Zerg);
+      raceSet.insert(Terran);
+      raceSet.insert(Protoss);
+      raceSet.insert(Other);
+      raceSet.insert(None);
+      raceSet.insert(Unknown);
 
       for(std::set<Race>::iterator i=raceSet.begin();i!=raceSet.end();i++)
       {
         raceMap.insert(std::make_pair((*i).getName(),*i));
       }
+      initializingRace=false;
     }
   }
   Race::Race()
@@ -47,6 +49,13 @@ namespace BWAPI
   Race::Race(int id)
   {
     this->id=id;
+    if (!initializingRace)
+    {
+      if (id<0 || id>=7)
+      {
+        this->id=Races::Unknown.id;
+      }
+    }
   }
   Race::Race(const Race &other)
   {

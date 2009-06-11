@@ -1,4 +1,5 @@
 #include <BWAPI/AIModule.h>
+#include <BWAPI/Flag.h>
 #include <BWAPI/Force.h>
 #include <BWAPI/Game.h>
 #include <BWAPI/Order.h>
