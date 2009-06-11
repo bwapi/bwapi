@@ -103,6 +103,8 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
   char envBuffer[512];
 
   DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+  if (result == 0)
+    result = GetCurrentDirectory(ENV_BUFFER_SIZE, envBuffer);
   assert(result != 0);
 
   std::string dllFileName(envBuffer);

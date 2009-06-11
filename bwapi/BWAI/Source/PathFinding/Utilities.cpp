@@ -4,7 +4,7 @@
 #include <Util/Strings.h>
 #include <Util/Logger.h>
 
-#include <BWAI/ScreenLogger.h>
+//#include <BWAI/ScreenLogger.h>
 #include <BWAI/Unit.h>
 #include <BWAI/Globals.h>
 #include <BWAI/AI.h>
