@@ -6,7 +6,6 @@
 #include <Util/FileLogger.h>
 #include <Util/Xml.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 #include <BWAI/ScreenLogger.h>
 #include <BWAI/Player.h>
 #include <BWAI/Globals.h>
@@ -20,7 +19,7 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Root::Root(const std::string& xmlFileName)
-  :log(new Util::FileLogger(config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
+    :log(new Util::FileLogger(BWAI::config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
   {
     this->log->registerLogger(new BWAI::ScreenLogger(Util::LogLevel::Normal));
     include(xmlFileName);
@@ -45,7 +44,7 @@ namespace BuildOrder
     TiXmlElement* root = node->ToElement();
 
     for (TiXmlElement* includeElement = root->FirstChildElement("include"); includeElement != NULL; includeElement = includeElement->NextSiblingElement("include"))
-      this->include(config->get("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement,"name"));
+      this->include(BWAI::config->get("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement,"name"));
     
     try
     {

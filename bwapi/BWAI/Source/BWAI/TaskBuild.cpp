@@ -3,7 +3,7 @@
 #include <Util/Logger.h>
 #include <Util/Types.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
+#include <BWAI/Globals.h>
 #include <BW/UnitType.h>
 #include <BWAI/Player.h>
 #include <BWAI/ReservedResources.h>

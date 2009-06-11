@@ -6,7 +6,6 @@
 #include <Util/Logger.h>
 #include <Util/Xml.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 #include <BW/UnitType.h>
 #include <BWAI/AI.h>
 #include <BWAI/BuildingPositionSet.h>

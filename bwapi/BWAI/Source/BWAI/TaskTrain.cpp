@@ -1,7 +1,6 @@
 #include "TaskTrain.h"
 #include <BWAI/Globals.h>
 #include <BWAI/Player.h>
-#include <BWAPI/Globals.h>
 #include <BuildOrder/BuildWeights.h>
 #include <BuildOrder/Condition.h>
 

@@ -1,7 +1,7 @@
 #include "TaskGatherGas.h"
 
 #include <Util/Logger.h>
-#include <BWAPI/Globals.h>
+#include <BWAI/Globals.h>
 
 #include "Globals.h"
 #include "Expansion.h"

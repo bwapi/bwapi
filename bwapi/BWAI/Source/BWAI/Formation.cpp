@@ -2,7 +2,6 @@
 
 #include <math.h>
 
-#include <BWAPI/ScreenLogger.h>
 #include <Pathfinding/Utilities.h>
 #include <BWAI/Globals.h>
 #include <BWAI/Unit.h>
