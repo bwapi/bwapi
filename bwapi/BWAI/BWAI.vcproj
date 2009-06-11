@@ -119,7 +119,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="../include/LUA/lua5.1.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
