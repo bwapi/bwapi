@@ -167,6 +167,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\PlayerType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Race.cpp"
 				>
 			</File>
@@ -189,7 +193,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\Flag.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Order.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\PlayerType.h"
 				>
 			</File>
 			<File

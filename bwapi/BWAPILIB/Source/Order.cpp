@@ -5,6 +5,7 @@
 
 namespace BWAPI
 {
+  bool initializingOrder=true;
   std::string orderName[191];
   std::map<std::string, Order> orderMap;
   std::set< Order > orderSet;
@@ -589,6 +590,7 @@ namespace BWAPI
       {
         orderMap.insert(std::make_pair((*i).getName(),*i));
       }
+      initializingOrder=false;
     }
   }
 
@@ -599,6 +601,13 @@ namespace BWAPI
   Order::Order(int id)
   {
     this->id=id;
+    if (!initializingOrder)
+    {
+      if (id<0 || id>=191 || orderName[id].length()==0)
+      {
+        this->id=Orders::Unknown.id;
+      }
+    }
   }
   Order::Order(const Order &other)
   {

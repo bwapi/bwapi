@@ -1,15 +1,7 @@
 #include "LuaAI.h"
 #include "AI.h"
 
-#include <BW/UpgradeType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/Order.h>
-
-#include <BWAPI/Unit.h>
-#include <BWAPI/Player.h>
-#include <BWAPI/Globals.h>
-#include <BWAPI/Game.h>
-#include <BWAPI/Race.h>
+#include <BWAPI.h>
 
 #include "Player.h"
 

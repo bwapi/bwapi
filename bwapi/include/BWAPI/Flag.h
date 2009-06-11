@@ -1,7 +1,6 @@
 #pragma once
 namespace BWAPI
 {
-  /** Type of #BWAPI#Command descendant. */
   namespace Flag
   {
     enum Enum

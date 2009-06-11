@@ -3,7 +3,6 @@
 #include <BWAPI.h>
 
 #include <BW/UnitType.h>
-#include <BW/PlayerType.h>
 #include <BWAI/ReservedResources.h>
 namespace BWAPI { class Player; }
 namespace BWAI
@@ -17,7 +16,7 @@ namespace BWAI
 
     u8 getID();
     BWAPI::Race getRace();
-    BW::PlayerType::Enum playerType();
+    BWAPI::PlayerType playerType();
 
     int getMinerals() const;
     int getGas() const;

@@ -202,6 +202,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAI\ScreenLogger.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAI\Task.h"
 					>
 				</File>
@@ -301,6 +305,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAI\ReservedResources.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\ScreenLogger.cpp"
 					>
 				</File>
 				<File

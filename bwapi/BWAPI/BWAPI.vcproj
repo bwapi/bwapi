@@ -482,10 +482,6 @@
 					RelativePath=".\source\BWAPI\CommandTypes.h"
 					>
 				</File>
-				<File
-					RelativePath=".\Source\BWAPI\Flag.h"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter

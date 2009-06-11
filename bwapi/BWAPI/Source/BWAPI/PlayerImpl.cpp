@@ -120,10 +120,10 @@ namespace BWAPI
   {
     return BW::BWDATA_Alliance->alliance[this->getID()].player[opposingID];
   }
-  //------------------------------------------------ GET OWNER -----------------------------------------------
-  BW::PlayerType::Enum PlayerImpl::playerType() const
+  //----------------------------------------------- PLAYER TYPE ----------------------------------------------
+  BWAPI::PlayerType PlayerImpl::playerType() const
   {
-    return BW::BWDATA_Players->player[this->getID()].type;
+    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].type));
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   u8 PlayerImpl::getForce()

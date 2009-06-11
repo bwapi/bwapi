@@ -56,6 +56,7 @@ namespace BWAPI
   {
     BWAPI::Broodwar=static_cast<Game*>(this);
     BW::UnitType::initialize();
+
     try
     {
      this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
@@ -477,7 +478,7 @@ namespace BWAPI
       startLocations.insert(BW::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
                                              (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
       posptr++;
-    } 
+    }
   }
 
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------

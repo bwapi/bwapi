@@ -5,6 +5,7 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
+#include <BWAPI/PlayerType.h>
 #include <BW/UnitType.h>
 
 namespace BWAPI
@@ -17,7 +18,7 @@ namespace BWAPI
     virtual std::string getName() const=0;
     virtual std::set<Unit*> getUnits()=0;
     virtual Race getRace() const=0;
-    virtual BW::PlayerType::Enum playerType() const=0;
+    virtual PlayerType playerType() const=0;
     virtual Force* getForce() const=0;
     virtual u8 getID() const=0;
 
