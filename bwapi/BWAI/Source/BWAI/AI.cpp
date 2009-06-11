@@ -11,7 +11,6 @@
 #include <Util/RectangleArray.h>
 
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 
 #include <BuildOrder/Root.h>
 #include <BuildOrder/Branch.h>
@@ -47,14 +46,26 @@ namespace BWAI
   AI::AI(void)
   :mapInfo(NULL)
   ,startingPosition(NULL)
-  ,log    (new Util::FileLogger(config->get("log_path") + "\\ai",   Util::LogLevel::Normal))
-  ,deadLog(new Util::FileLogger(config->get("log_path") + "\\dead", Util::LogLevel::MicroDetailed))
   ,root(NULL)
   ,temp(NULL)
   ,pathFinding(NULL)
   ,mineralGatherers(0)
   ,buildOrderExecutor(NULL)
   {
+
+    try
+    {
+     config = new Util::Dictionary("bwapi-data\\bwapi.ini");
+     log = new Util::FileLogger(config->get("log_path") + "\\ai",   Util::LogLevel::Normal);
+     deadLog =new Util::FileLogger(config->get("log_path") + "\\dead", Util::LogLevel::MicroDetailed);
+    }
+    catch (GeneralException& exception)
+    {
+      FILE*f = fopen("bwapi-error","wt");
+      fprintf_s(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
+      fclose(f);
+    }
+
     BWAI::ai = this;
     try
     {

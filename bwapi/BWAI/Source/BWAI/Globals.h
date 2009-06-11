@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AI.h"
+namespace Util { class Dictionary; }
 
 namespace BWAI
 {
@@ -15,4 +16,5 @@ namespace BWAI
    *       priority task.
    */
   extern AI* ai;
+  extern Util::Dictionary* config;
 }

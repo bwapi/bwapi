@@ -4,7 +4,6 @@
 #include <Util/Dictionary.h>
 #include <Util/Logger.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 #include <BWAI/Globals.h>
 
 namespace Formula
@@ -70,7 +69,7 @@ namespace Formula
           throw ParseException("Unknown unit name " + this->functionParameter);
         break;
       case FunctionType::ConfigValue :
-        sscanf(config->get(this->functionParameter).c_str(),"%f", &this->configValue);
+        sscanf(BWAI::config->get(this->functionParameter).c_str(),"%f", &this->configValue);
       case FunctionType::UsedSupply :
       case FunctionType::PlannedSupply :
       case FunctionType::Factories :

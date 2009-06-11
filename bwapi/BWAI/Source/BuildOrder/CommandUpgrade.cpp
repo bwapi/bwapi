@@ -8,7 +8,6 @@
 #include <BWAI/TaskUpgrade.h>
 #include <BWAI/Player.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 #include "ConditionMinimalPopulation.h"
 #include "Root.h"
 

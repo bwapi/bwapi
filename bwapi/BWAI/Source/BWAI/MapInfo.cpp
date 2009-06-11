@@ -5,7 +5,6 @@
 #include <Util/Strings.h>
 #include <Util/Dictionary.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 
 #include "MapExpansion.h"
 #include "MapStartingPosition.h"

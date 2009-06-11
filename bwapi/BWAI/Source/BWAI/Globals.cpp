@@ -3,4 +3,5 @@
 namespace BWAI
 {
   AI* ai;
+  Util::Dictionary* config;
 }

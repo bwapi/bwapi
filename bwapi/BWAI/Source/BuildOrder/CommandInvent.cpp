@@ -5,7 +5,6 @@
 #include <Util/Logger.h>
 #include <Util/Xml.h>
 #include <BWAPI.h>
-#include <BWAPI/Globals.h>
 #include <BWAI/Globals.h>
 #include <BWAI/TaskInvent.h>
 #include <BWAI/Player.h>
