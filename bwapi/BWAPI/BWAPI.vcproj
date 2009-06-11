@@ -120,7 +120,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAI/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
-				IgnoreStandardIncludePath="false"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -138,7 +137,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../release/bwapi.lib"
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""

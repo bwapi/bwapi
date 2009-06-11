@@ -7,8 +7,6 @@
 #include <algorithm>
 #include <math.h>
 
-#include "../include/LUA/lua.hpp"
-
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
 #include <Util/Sentence.h>

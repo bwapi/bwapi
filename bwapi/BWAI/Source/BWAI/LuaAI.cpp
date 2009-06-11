@@ -10,13 +10,13 @@ namespace BWAI
   LUA::LUA(void)
   {
     lua = lua_open();
-    luaL_openlibs(lua);
     lua_register(lua, "sendText", sendText);
     lua_register(lua, "mapSize", getMapSize);
     lua_register(lua, "mapName", getMapName);
     lua_register(lua, "terrainInfo", getTerrainInfo);
-//    lua_register(lua, "currentPlayer", getCurrentPlayer);
+    lua_register(lua, "currentPlayer", getCurrentPlayer);
     lua_register(lua, "playerName", getPlayerName);
+    lua_register(lua, "mapHash", getMapHash);
 
 
   } // constructor
@@ -52,6 +52,7 @@ namespace BWAI
     lua_pushnumber(l, 1);
     return 1;
   }
+  
 // ======================================== Get Map Size
   int LUA::getMapSize(lua_State *l)
   {
@@ -115,16 +116,16 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Current Player
-/*  int LUA::getCurrentPlayer(lua_State *l)
+  int LUA::getCurrentPlayer(lua_State *l)
   {
     if (lua_gettop(l) != 0)
     {
       // error msg
       return 0;
     }
-    lua_pushnumber(l, AI::AI().player->getID());
+    lua_pushnumber(l, BWAPI::Broodwar->self()->getID());
     return 1;
-  }*/
+  }
 // ======================================== Get Player Name
   int LUA::getPlayerName(lua_State *l)
   {
@@ -143,6 +144,17 @@ namespace BWAI
     lua_pushstring(l, BWAPI::Broodwar->self()->getName().c_str());
     return 1;
   }
-  
+// ======================================== Get Map Hash
+  int LUA::getMapHash(lua_State *l)
+  {
+    if (lua_gettop(l) != 0)
+    {
+      // error msg
+      return 0;
+    }
+    lua_pushnumber(l, BWAPI::Broodwar->getMapHash());
+    return 1;
+  }
+
 } // namespace BWAI
 
