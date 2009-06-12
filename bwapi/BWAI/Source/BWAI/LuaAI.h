@@ -32,6 +32,17 @@ namespace BWAI
       static int getCurrentPlayer(lua_State *l);
       static int getPlayerName(lua_State *l);
       static int getMapHash(lua_State *l);
+      static int getRace(lua_State *l);
+      static int getForceName(lua_State *l);
+      static int isUpgrading(lua_State *l);
+      static int getUpgrade(lua_State *l);
+      static int isResearched(lua_State *l);
+      static int isResearching(lua_State *l);
+      static int getKills(lua_State *l);
+      static int getDeaths(lua_State *l);
+      static int getAllUnits(lua_State *l);
+      static int getCompleteUnits(lua_State *l);
+      static int getIncompleteUnits(lua_State *l);
 
 
 /*
