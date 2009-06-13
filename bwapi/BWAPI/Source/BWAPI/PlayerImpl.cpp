@@ -145,11 +145,6 @@ namespace BWAPI
   {
     return this->evaluateCounts(BW::BWDATA_Counts->completed, unit);
   }
-  //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
-  s32 PlayerImpl::getCompletedUnits(BW::UnitType unit, BWAPI::Race race)
-  {
-    return this->evaluateCounts(BW::BWDATA_Counts->completed, unit, static_cast<BW::Race::Enum>(race.getID()));
-  }  
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 PlayerImpl::getIncompleteUnits(BW::UnitType unit)
   {
@@ -170,114 +165,14 @@ namespace BWAPI
   {
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[this->getID()];
-
-    s32 temp = 0;
-    if (unit == BW::UnitID::All)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Buildings)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Factories)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Infantry)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).canAttack() &&
-			BW::UnitType((BW::UnitID::Enum)i).isOrganic() &&
-			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Mech)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).isMechanical() &&
-			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Zerg_Main)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (unit == BW::UnitID::Zerg_Hatchery ||
-            unit == BW::UnitID::Zerg_Lair ||
-            unit == BW::UnitID::Zerg_Hive)
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Zerg_MainLair)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (unit == BW::UnitID::Zerg_Lair ||
-            unit == BW::UnitID::Zerg_Hive)
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Men)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          temp += counts.unit[i].player[this->getID()];
-    return temp;
+    return 0;
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
   s32 PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit, BW::Race::Enum race)
   {
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[this->getID()];
-
-    s32 temp = 0;
-    if (unit == BW::UnitID::All)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-          temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Buildings)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Factories)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).canProduce())
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-
-	    if (unit == BW::UnitID::Infantry)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (BW::UnitType((BW::UnitID::Enum)i).canAttack() &&
-			BW::UnitType((BW::UnitID::Enum)i).isOrganic() &&
-			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Mech)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-		  if (BW::UnitType((BW::UnitID::Enum)i).isMechanical() &&
-			!BW::UnitType((BW::UnitID::Enum)i).isWorker())
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Zerg_Main)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (unit == BW::UnitID::Zerg_Hatchery ||
-            unit == BW::UnitID::Zerg_Lair ||
-            unit == BW::UnitID::Zerg_Hive)
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Zerg_MainLair)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (unit == BW::UnitID::Zerg_Lair ||
-            unit == BW::UnitID::Zerg_Hive)
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-
-    if (unit == BW::UnitID::Men)
-      for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        if (!BW::UnitType((BW::UnitID::Enum)i).isBuilding())
-          if (BW::UnitType((BW::UnitID::Enum)i).getRace() == race)
-            temp += counts.unit[i].player[this->getID()];
-    return temp;
+    return 0;
   }  
   //------------------------------------------- PLAN TO MAKE -------------------------------------------------
   void PlayerImpl::planToMake(BW::UnitType unit)

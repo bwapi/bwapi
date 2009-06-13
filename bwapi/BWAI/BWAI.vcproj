@@ -346,12 +346,20 @@
 					RelativePath=".\Source\BWAI\Unit.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BWAI\UnitTypeGroup.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Enumerations"
 				>
 				<File
 					RelativePath=".\Source\BWAI\TaskType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAI\UnitTypeGroup.h"
 					>
 				</File>
 			</Filter>

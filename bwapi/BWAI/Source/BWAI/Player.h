@@ -4,6 +4,7 @@
 
 #include <BW/UnitType.h>
 #include <BWAI/ReservedResources.h>
+#include <BWAI/UnitTypeGroup.h>
 namespace BWAPI { class Player; }
 namespace BWAI
 {
@@ -27,10 +28,17 @@ namespace BWAI
 
     int getAllUnits(BW::UnitType unit) const;
     int getCompletedUnits(BW::UnitType unit) const;
-    int getCompletedUnits(BW::UnitType unit, BWAPI::Race race) const;
     int getIncompleteUnits(BW::UnitType unit) const;
     int getDeaths(BW::UnitType unit) const;
     int getKills(BW::UnitType unit) const;
+
+    int getAllUnits(BWAI::UnitTypeGroup::Enum group) const;
+    int getCompletedUnits(BWAI::UnitTypeGroup::Enum group) const;
+    int getIncompleteUnits(BWAI::UnitTypeGroup::Enum group) const;
+    int getDeaths(BWAI::UnitTypeGroup::Enum group) const;
+    int getKills(BWAI::UnitTypeGroup::Enum group) const;
+
+
     bool researchInProgress(BWAPI::TechType tech) const;    
     bool techResearched(BWAPI::TechType tech) const;
     int upgradeLevel(BWAPI::UpgradeType upgrade) const;

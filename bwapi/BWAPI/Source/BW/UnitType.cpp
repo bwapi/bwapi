@@ -45,6 +45,7 @@ namespace BW
   {
     if (this->getID() == BW::UnitID::None)
       return "None";
+    /*
     else if (this->getID() == BW::UnitID::All)
       return "All";
     else if (this->getID() == BW::UnitID::Men)
@@ -61,6 +62,7 @@ namespace BW
       return "Zerg_Main";
     else if (this->getID() == BW::UnitID::Zerg_MainLair)
       return "Zerg_MainLair";
+      */
     else if (this->getID() < 228)
       return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + this->getID()*2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
     else
