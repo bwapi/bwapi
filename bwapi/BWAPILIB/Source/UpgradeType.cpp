@@ -38,7 +38,6 @@ namespace BWAPI
     BW::UnitType* whatUpgrades;
     Race race;
     bool valid;
-    static bool initializing;
   };
   UpgradeTypeInternal upgradeTypeData[63];
   std::map<std::string, UpgradeType> upgradeTypeMap;

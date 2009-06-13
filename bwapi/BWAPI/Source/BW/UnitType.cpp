@@ -81,6 +81,11 @@ namespace BW
   {
     return BW::BWDATA_MaxShieldPoints->maxShieldPoints[this->getID()];
   }
+  //----------------------------------------- GET MAX HEALTH POINTS ------------------------------------------
+  u16 UnitType::getMaxEnergyPoints() const
+  {
+    return 0;
+  }
   //------------------------------------------- GET MINERAL PRICE --------------------------------------------
   u16 UnitType::getMineralPrice() const
   {
@@ -251,24 +256,11 @@ namespace BW
   {
 	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Mechanical);
   }
+  static std::pair< BW::UnitType, int > whatBuildsData[BW::UNIT_TYPE_COUNT];
   //--------------------------------------------- WHERE TO BUILD ---------------------------------------------
-  BW::UnitType UnitType::whereToBuild()
+  std::pair<BW::UnitType,int> UnitType::whatBuilds() const
   {
-    switch (this->getID())
-    {
-      case BW::UnitID::Terran_ComsatStation :
-      case BW::UnitID::Terran_NuclearSilo   : return BW::UnitID::Terran_CommandCenter;
-      case BW::UnitID::Terran_MachineShop   : return BW::UnitID::Terran_Factory;
-      case BW::UnitID::Terran_ControlTower  : return BW::UnitID::Terran_Starport;
-      case BW::UnitID::Terran_CovertOps     :
-      case BW::UnitID::Terran_PhysicsLab    : return BW::UnitID::Terran_ScienceFacility;
-      case BW::UnitID::Zerg_Lair            : return BW::UnitID::Zerg_Hatchery;
-      case BW::UnitID::Zerg_Hive            : return BW::UnitID::Zerg_Lair;
-      case BW::UnitID::Zerg_SunkenColony    :
-      case BW::UnitID::Zerg_SporeColony     : return BW::UnitID::Zerg_CreepColony;
-      case BW::UnitID::Zerg_GreaterSpire    : return BW::UnitID::Zerg_Spire;
-      default : return BW::UnitID::None;
-    }
+    return whatBuildsData[this->getID()];
   }
   static std::map< BW::UnitType, int > requiredUnits[BW::UNIT_TYPE_COUNT];
   const std::map< BW::UnitType,int >& UnitType::getRequiredUnits() const
@@ -289,6 +281,10 @@ namespace BW
   //---------------------------------------------- INITIALIZE ------------------------------------------------
   void UnitType::initialize()
   {
+    for(int i=0;i<BW::UNIT_TYPE_COUNT;i++)
+    {
+      whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::None),0);
+    }
     for(int i=0;i<BW::UNIT_TYPE_COUNT;i++)
     {
       switch (i)
@@ -513,11 +509,13 @@ namespace BW
         // Zerg Advanced Buildings
         case BW::UnitID::Zerg_Spire      :
         case BW::UnitID::Zerg_QueensNest :
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair),1));
           break;
         case BW::UnitID::Zerg_DefilerMound    :
         case BW::UnitID::Zerg_NydusCanal      :
         case BW::UnitID::Zerg_UltraliskCavern :
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hive),1));
           break;
 
@@ -547,45 +545,237 @@ namespace BW
         case BW::UnitID::Zerg_Larva :
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
           break;
-        case BW::UnitID::Zerg_Drone    :
-        case BW::UnitID::Zerg_Overlord :
+        case BW::UnitID::Zerg_Egg :
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
           break;
+        case BW::UnitID::Zerg_Drone    :
+        case BW::UnitID::Zerg_Overlord :
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          break;
         case BW::UnitID::Zerg_Zergling :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
           break;
         case BW::UnitID::Zerg_Hydralisk :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_HydraliskDen),1));
           break;
         case BW::UnitID::Zerg_Scourge  :
         case BW::UnitID::Zerg_Mutalisk :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Spire),1));
+          break;
+        case BW::UnitID::Zerg_Cocoon :
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Mutalisk),1));
           break;
         case BW::UnitID::Zerg_Devourer :
         case BW::UnitID::Zerg_Guardian :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Mutalisk),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Cocoon),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_GreaterSpire),1));
           break;
         case BW::UnitID::Zerg_Queen :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_QueensNest),1));
           break;
         case BW::UnitID::Zerg_Defiler :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_DefilerMound),1));
           break;
         case BW::UnitID::Zerg_Ultralisk :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_UltraliskCavern),1));
           break;
         case BW::UnitID::Zerg_InfestedTerran :
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_InfestedCommandCenter),1));
           break;
-        case BW::UnitID::Zerg_Lurker :
+        case BW::UnitID::Zerg_LurkerEgg :
           requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hydralisk),1));
+          break;
+        case BW::UnitID::Zerg_Lurker :
+          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_LurkerEgg),1));
+          break;
+      }
+      
+      switch (i)
+      {
+        // Terran Basic Buildings
+        case BW::UnitID::Terran_CommandCenter :
+        case BW::UnitID::Terran_SupplyDepot   :
+        case BW::UnitID::Terran_Refinery      :
+	      case BW::UnitID::Terran_Barracks :
+	      case BW::UnitID::Terran_EngineeringBay :
+        case BW::UnitID::Terran_Academy :
+        case BW::UnitID::Terran_Bunker  :
+        case BW::UnitID::Terran_MissileTurret :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1);
+          break;
+
+        // Terran Advanced Buildings
+        case BW::UnitID::Terran_Factory :
+        case BW::UnitID::Terran_Armory   :
+        case BW::UnitID::Terran_Starport :
+        case BW::UnitID::Terran_ScienceFacility :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1);
+          break;
+
+        // Terran Add-ons
+        case BW::UnitID::Terran_ComsatStation :
+        case BW::UnitID::Terran_NuclearSilo :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1);
+          break;
+        case BW::UnitID::Terran_MachineShop :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1);
+          break;
+        case BW::UnitID::Terran_ControlTower :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1);
+          break;
+        case BW::UnitID::Terran_PhysicsLab :
+        case BW::UnitID::Terran_CovertOps  :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1);
+          break;
+
+        // Terran Units
+        case BW::UnitID::Terran_SCV :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1);
+          break;
+        case BW::UnitID::Terran_Marine :
+        case BW::UnitID::Terran_Firebat :
+        case BW::UnitID::Terran_Medic   :
+        case BW::UnitID::Terran_Ghost :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1);
+          break;
+        case BW::UnitID::Terran_Vulture :
+        case BW::UnitID::Terran_SiegeTankSiegeMode :
+        case BW::UnitID::Terran_SiegeTankTankMode  :
+        case BW::UnitID::Terran_Goliath :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1);
+          break;
+        case BW::UnitID::Terran_Wraith :
+        case BW::UnitID::Terran_Dropship :
+        case BW::UnitID::Terran_Battlecruiser :
+        case BW::UnitID::Terran_ScienceVessel :
+        case BW::UnitID::Terran_Valkyrie :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1);
+          break;
+
+        // Protoss Basic Buildings
+        case BW::UnitID::Protoss_Nexus       :
+        case BW::UnitID::Protoss_Pylon       :
+        case BW::UnitID::Protoss_Assimilator :
+        case BW::UnitID::Protoss_Gateway :
+        case BW::UnitID::Protoss_Forge   :
+        case BW::UnitID::Protoss_CyberneticsCore :
+        case BW::UnitID::Protoss_ShieldBattery   :
+        case BW::UnitID::Protoss_PhotonCannon :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1);
+          break;
+
+        // Protoss Advanced Buildings
+        case BW::UnitID::Protoss_RoboticsFacility :
+        case BW::UnitID::Protoss_Stargate         :
+        case BW::UnitID::Protoss_CitadelOfAdun    :
+        case BW::UnitID::Protoss_Observatory        :
+        case BW::UnitID::Protoss_RoboticsSupportBay :
+        case BW::UnitID::Protoss_FleetBeacon :
+        case BW::UnitID::Protoss_TemplarArchives :
+        case BW::UnitID::Protoss_ArbiterTribunal :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1);
+          break;
+
+        // Protoss Units
+        case BW::UnitID::Protoss_Probe :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_Nexus),1);
+          break;
+        case BW::UnitID::Protoss_Zealot :
+        case BW::UnitID::Protoss_Dragoon :
+        case BW::UnitID::Protoss_HighTemplar : 
+        case BW::UnitID::Protoss_DarkTemplar :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1);
+          break;
+        case BW::UnitID::Protoss_Archon :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_HighTemplar),2);
+          break;
+        case BW::UnitID::Protoss_DarkArchon :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_DarkTemplar),2);
+          break;
+        case BW::UnitID::Protoss_Shuttle :
+        case BW::UnitID::Protoss_Reaver :
+        case BW::UnitID::Protoss_Observer :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1);
+          break;
+        case BW::UnitID::Protoss_Scout :
+        case BW::UnitID::Protoss_Corsair :
+        case BW::UnitID::Protoss_Carrier :
+        case BW::UnitID::Protoss_Arbiter :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1);
+          break;
+
+        // Zerg Basic Buildings
+        case BW::UnitID::Zerg_Hatchery    :
+        case BW::UnitID::Zerg_CreepColony :
+        case BW::UnitID::Zerg_Extractor   :
+        case BW::UnitID::Zerg_SpawningPool     :
+        case BW::UnitID::Zerg_EvolutionChamber :
+        case BW::UnitID::Zerg_HydraliskDen :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1);
+          break;
+
+        // Zerg Advanced Buildings
+        case BW::UnitID::Zerg_Spire      :
+        case BW::UnitID::Zerg_QueensNest :
+        case BW::UnitID::Zerg_DefilerMound    :
+        case BW::UnitID::Zerg_NydusCanal      :
+        case BW::UnitID::Zerg_UltraliskCavern :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1);
+          break;
+
+        // Zerg Mutated Buildings
+        case BW::UnitID::Zerg_Lair :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1);
+          break;
+        case BW::UnitID::Zerg_Hive :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair),1);
+          break;
+        case BW::UnitID::Zerg_SunkenColony :
+        case BW::UnitID::Zerg_SporeColony :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_CreepColony),1);
+          break;
+        case BW::UnitID::Zerg_GreaterSpire :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Spire),1);
+          break;
+
+        // Zerg Units
+        case BW::UnitID::Zerg_Larva :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1);
+          break;
+        case BW::UnitID::Zerg_Egg :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1);
+          break;
+        case BW::UnitID::Zerg_Drone    :
+        case BW::UnitID::Zerg_Overlord :
+        case BW::UnitID::Zerg_Zergling :
+        case BW::UnitID::Zerg_Hydralisk :
+        case BW::UnitID::Zerg_Scourge  :
+        case BW::UnitID::Zerg_Mutalisk :
+        case BW::UnitID::Zerg_Queen :
+        case BW::UnitID::Zerg_Defiler :
+        case BW::UnitID::Zerg_Ultralisk :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1);
+          break;
+        case BW::UnitID::Zerg_Cocoon :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Mutalisk),1);
+          break;
+        case BW::UnitID::Zerg_Devourer :
+        case BW::UnitID::Zerg_Guardian :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Cocoon),1);
+          break;
+        case BW::UnitID::Zerg_InfestedTerran :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_InfestedCommandCenter),1);
+          break;
+        case BW::UnitID::Zerg_LurkerEgg :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hydralisk),1);
+        case BW::UnitID::Zerg_Lurker :
+          whatBuildsData[i]=std::make_pair(BW::UnitType(BW::UnitID::Zerg_LurkerEgg),1);
           break;
       }
     }

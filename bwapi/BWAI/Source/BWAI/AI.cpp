@@ -575,11 +575,11 @@ namespace BWAI
       else if (parsed[1] == "units")
       {
         std::string fileName = config->get("data_path") + "\\units";
-        Util::FileLogger upgradesLog(fileName, Util::LogLevel::MicroDetailed, false);
+        Util::FileLogger unitsLog(fileName, Util::LogLevel::MicroDetailed, false);
         for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         {
           BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-            upgradesLog.log("%s = 0x%02X",unit.getName(), i);
+            unitsLog.log("%s = 0x%02X",unit.getName(),i);
         }
         BWAPI::Broodwar->print("Units saved to %s .ini", fileName.c_str());        
       }      

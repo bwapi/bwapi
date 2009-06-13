@@ -6,4 +6,5 @@ void BWAPI::BWAPI_init()
   BWAPI::TechTypes::init();
   BWAPI::PlayerTypes::init();
   BWAPI::UpgradeTypes::init();
+  BWAPI::UnitTypes::init();
 }

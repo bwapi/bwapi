@@ -41,7 +41,7 @@ namespace BW
     s8                    getSupplies() const;
     u16                   getMaxHealthPoints() const;
     u16                   getMaxShieldPoints() const;
-    u16                   getMaxMana() const;
+    u16                   getMaxEnergyPoints() const;
     u16                   getMineralPrice() const;
     u16                   getGasPrice() const;
     u8                    getArmor() const;
@@ -81,7 +81,7 @@ namespace BW
     BW::Race::Enum       getRace();                                            
     bool                 isValid();
     /** Used to determine what building builds this addon. Can be extended later if needed.*/
-    BW::UnitType         whereToBuild();
+    std::pair<BW::UnitType,int> UnitType::whatBuilds() const;
     const std::map< BW::UnitType, int >& getRequiredUnits() const;
     BW::TechID::Enum        getRequiredTech() const;
     u16                  getSupplyProduced();
