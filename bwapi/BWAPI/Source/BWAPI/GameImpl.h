@@ -63,9 +63,6 @@ namespace BWAPI
 
       virtual std::list<Unit*> unitsOnTile(int x, int y) const;
 
-      virtual const std::set< BW::UnitType >& allUnitTypes() const;
-      virtual BW::UnitType getUnitType(std::string &name) const;
-
       virtual int mapWidth() const;
       virtual int mapHeight() const;
       virtual std::string mapFilename() const;

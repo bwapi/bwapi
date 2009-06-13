@@ -4,8 +4,6 @@
 
 #include "Command.h"
 
-#include <BW/UnitType.h>
-
 namespace BuildOrder { class BuildWeights; }
 class TiXmlElement;
 

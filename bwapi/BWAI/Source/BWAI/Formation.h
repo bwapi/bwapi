@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BW/UnitID.h>
+#include <BWAPI.h>
 #include <BW/Position.h>
 
 #include <list>
@@ -24,6 +24,6 @@ namespace BWAI
           BW::Position target;
           Target(Unit* unit, BW::Position target) : unit(unit), target(target) {}
       };
-      std::map<BW::UnitID::Enum, std::list<Target> > data;
+      std::map<BWAPI::UnitType, std::list<Target> > data;
   };
 }

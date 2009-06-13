@@ -135,30 +135,36 @@ namespace BWAPI
   {
     return NULL;//TODO: create Force class
   }
-  //--------------------------------------------- GET ALL UNITS ----------------------------------------------
-  s32 PlayerImpl::getAllUnits(BW::UnitType unit)
+  //------------------------------------------- GET START POSITION -------------------------------------------
+  BW::TilePosition PlayerImpl::getStartLocation() const
   {
-    return this->evaluateCounts(BW::BWDATA_Counts->all, unit) + this->toMake[unit.getID()];
+    return BW::TilePosition((int)((BW::startPositions[this->getID()].x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
+                                             (int)((BW::startPositions[this->getID()].y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE));
+  }
+  //--------------------------------------------- GET ALL UNITS ----------------------------------------------
+  s32 PlayerImpl::getAllUnits(UnitType unit)
+  {
+    return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType(BW::UnitID::Enum(unit.getID()))) + this->toMake[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
-  s32 PlayerImpl::getCompletedUnits(BW::UnitType unit)
+  s32 PlayerImpl::getCompletedUnits(UnitType unit)
   {
-    return this->evaluateCounts(BW::BWDATA_Counts->completed, unit);
+    return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
-  s32 PlayerImpl::getIncompleteUnits(BW::UnitType unit)
+  s32 PlayerImpl::getIncompleteUnits(UnitType unit)
   {
     return this->getAllUnits(unit) - this->getCompletedUnits(unit) + toMake[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
-  s32 PlayerImpl::getDeaths(BW::UnitType unit)
+  s32 PlayerImpl::getDeaths(UnitType unit)
   {
-    return this->evaluateCounts(BW::BWDATA_Counts->dead, unit);
+    return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //----------------------------------------------- GET KILLS ------------------------------------------------
-  s32 PlayerImpl::getKills(BW::UnitType unit)
+  s32 PlayerImpl::getKills(UnitType unit)
   {
-    return this->evaluateCounts(BW::BWDATA_Counts->killed, unit);
+    return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
   s32 PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit)

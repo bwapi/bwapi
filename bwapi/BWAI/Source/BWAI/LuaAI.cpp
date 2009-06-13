@@ -252,7 +252,7 @@ namespace BWAI
         // error msg
         return 0;
       }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getKills(BW::UnitType((BW::UnitID::Enum)type)));
+      lua_pushnumber(l, BWAPI::Broodwar->self()->getKills(BWAPI::UnitType(type)));
       break;
     default:
       // error msg
@@ -277,7 +277,7 @@ namespace BWAI
         // error msg
         return 0;
       }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getDeaths(BW::UnitType((BW::UnitID::Enum)type)));
+      lua_pushnumber(l, BWAPI::Broodwar->self()->getDeaths(BWAPI::UnitType(type)));
       break;
     default:
       // error msg
@@ -302,7 +302,7 @@ namespace BWAI
         // error msg
         return 0;
       }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getAllUnits(BW::UnitType((BW::UnitID::Enum)type)));
+      lua_pushnumber(l, BWAPI::Broodwar->self()->getAllUnits(BWAPI::UnitType(type)));
       break;
     default:
       // error msg
@@ -328,7 +328,7 @@ namespace BWAI
         // error msg
         return 0;
       }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitType((BW::UnitID::Enum)type)));
+      lua_pushnumber(l, BWAPI::Broodwar->self()->getCompletedUnits(BWAPI::UnitType(type)));
       break;
     case 2:
       type = (u16)lua_tonumber(l, 1);
@@ -338,7 +338,7 @@ namespace BWAI
         // error msg
         return 0;
       }
-      lua_pushnumber(l, BWAI::ai->player->getCompletedUnits((BW::UnitID::Enum)type));
+      lua_pushnumber(l, BWAI::ai->player->getCompletedUnits(BWAPI::UnitType(type)));
       break;
     default:
       // error msg
@@ -363,7 +363,7 @@ namespace BWAI
         // error msg
         return 0;
       }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getIncompleteUnits(BW::UnitType((BW::UnitID::Enum)type)));
+      lua_pushnumber(l, BWAPI::Broodwar->self()->getIncompleteUnits(BWAPI::UnitType(type)));
       break;
     default:
       // error msg

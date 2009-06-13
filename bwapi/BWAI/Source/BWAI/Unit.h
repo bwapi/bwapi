@@ -1,7 +1,6 @@
 #pragma once
 
 #include <BWAPI.h>
-#include <BW/UnitType.h>
 #include <BW/TilePosition.h>
 #include <list>
 
@@ -25,7 +24,7 @@ namespace BWAI
        * Gets #bwUnit->BW#Unit#targetUnit. 
        * This is similar to BWAPI#Unit#getTarget, it just get's the unit from ai scope
        */
-      BW::UnitType getType() const;
+      BWAPI::UnitType getType() const;
       int getHealthPoints() const; 
       int getShieldPoints() const; 
       const BW::Position& getPosition() const;
@@ -44,7 +43,7 @@ namespace BWAI
       bool isIdle() const;
 
       bool isTraining() const;
-      std::list<BW::UnitType > getTrainingQueue() const;
+      std::list<BWAPI::UnitType > getTrainingQueue() const;
       int getRemainingBuildTime() const;
       int getOrderTimer() const;
 
@@ -62,8 +61,8 @@ namespace BWAI
       void orderAttackLocation(BW::Position position, BWAPI::Order order);
       void orderRightClick(BW::Position position);
       void orderRightClick(Unit *target);
-      void trainUnit(BW::UnitType type);
-      void build(BW::TilePosition position, BW::UnitType type);
+      void trainUnit(BWAPI::UnitType type);
+      void build(BW::TilePosition position, BWAPI::UnitType type);
       void invent(BWAPI::TechType tech);
       void upgrade(BWAPI::UpgradeType upgrade);
 

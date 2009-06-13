@@ -9,6 +9,7 @@
 #include <BW/UnitType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
+#include <BWAPI/UnitType.h>
 #include <BW/TilePosition.h>
 
 namespace Util  { class Logger; }
@@ -29,7 +30,7 @@ namespace BWAPI
     public:
 
       virtual Player* getOwner() const;
-      virtual BW::UnitType getType() const;
+      virtual UnitType getType() const;
       virtual u16 health() const;
       virtual u32 shield() const;
       virtual u16 energy() const;
@@ -65,7 +66,7 @@ namespace BWAPI
       virtual bool isTraining() const;
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
       virtual bool isMineral() const; /* TODO: Remove */
-      virtual std::list<BW::UnitType > getTrainingQueue() const;
+      virtual std::list<UnitType > getTrainingQueue() const;
 
       /**
        * Order this unit to right click on the specified location. Note that
@@ -84,9 +85,9 @@ namespace BWAPI
        */
       virtual void rightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
-      virtual void train(BW::UnitType type);
+      virtual void train(UnitType type);
       /** Orders to build the specified building. */
-      virtual void build(BW::TilePosition position, BW::UnitType type);
+      virtual void build(BW::TilePosition position, UnitType type);
       /** Orders to build the invent the specified tech. */
       virtual void invent(TechType tech);
       /** Orders to build the invent the specified upgrade. */
@@ -117,6 +118,7 @@ namespace BWAPI
        * now.
        */
       bool isValid() const;
+      BW::UnitType UnitImpl::getBWType() const;
       /** Gets if the unit is alive - exists and it's construction is done. */
       bool isReady() const;
 

@@ -42,8 +42,8 @@ namespace BWAI
               (j->condition == NULL || j->condition->applies()) &&
               (
                  best == NULL ||
-                ((float)BWAI::ai->player->getAllUnits(best->unitType.getID()))/((float)best->weight) >
-                ((float)BWAI::ai->player->getAllUnits(j->unitType.getID()))/((float)j->weight))
+                ((float)BWAI::ai->player->getAllUnits(best->unitType))/((float)best->weight) >
+                ((float)BWAI::ai->player->getAllUnits(j->unitType))/((float)j->weight))
               )
           {
             best = j;
@@ -51,11 +51,11 @@ namespace BWAI
         if (best != NULL && 
             BWAI::ai->player->canAfford(best->unitType))
         {
-          BWAPI::Broodwar->printPublic("Attempting to train %s from %s.", best->unitType.getName(), i->getType().getName());
+          BWAPI::Broodwar->printPublic("Attempting to train %s from %s.", best->unitType.getName().c_str(), i->getType().getName().c_str());
           i->trainUnit(best->unitType);
-          if (i->getType() == BW::UnitID::Zerg_Larva ||
-              i->getType() == BW::UnitID::Zerg_Hydralisk ||
-              i->getType() == BW::UnitID::Zerg_Mutalisk)
+          if (i->getType() == BWAPI::UnitTypes::Zerg_Larva ||
+              i->getType() == BWAPI::UnitTypes::Zerg_Hydralisk ||
+              i->getType() == BWAPI::UnitTypes::Zerg_Mutalisk)
             i->clearTask();
         }
       }
@@ -67,7 +67,7 @@ namespace BWAI
     return TaskType::Train;
   }
   //---------------------------------------------- GET MINERAL -----------------------------------------------
-  BW::UnitType TaskTrain::getBuildingType()
+  BWAPI::UnitType TaskTrain::getBuildingType()
   {
     return this->weights->factory;
   }

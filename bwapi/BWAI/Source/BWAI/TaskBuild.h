@@ -2,7 +2,7 @@
 
 #include <BW/TilePosition.h>
 #include <BWAI/ReservedResources.h>
-
+#include <BWAPI.h>
 #include "Task.h"
 #include "BuildingPosition.h"
 
@@ -24,25 +24,25 @@ namespace BWAI
   class TaskBuild : public Task
   {
     public :
-      TaskBuild(BW::UnitType buildingType,
+      TaskBuild(BWAPI::UnitType buildingType,
                 BuildingPosition* position,
                 Unit* builder,
                 BuildingPositionSet* alternatives,
                 u16 priority);
       
-      TaskBuild(BW::UnitType buildingType,
+      TaskBuild(BWAPI::UnitType buildingType,
                 Unit* builder,
                 BW::TilePosition spot,
                 u16 priority);
       virtual ~TaskBuild();
       bool execute();
-      BW::UnitType getBuildingType();
+      BWAPI::UnitType getBuildingType();
       TaskType::Enum getType();
       Unit* getBuilding();
       void buildingDied();
       BWAI::ReservedResources getReserved();
     private :  
-      BW::UnitType buildingType;
+      BWAPI::UnitType buildingType;
       BuildingPosition* position;
       BuildingPositionSet* alternatives;
       /**

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BW/UnitType.h>
+#include <BWAPI.h>
 namespace BWAI
 {
   /* To add a new unit type group, just add another value to the Enum and add a case in the function isInUnitTypeGroup */
@@ -18,5 +18,5 @@ namespace BWAI
       Zerg_MainLair
     };
   }
-  bool isInUnitTypeGroup(UnitTypeGroup::Enum grp, BW::UnitType typ);
+  bool isInUnitTypeGroup(UnitTypeGroup::Enum grp, BWAPI::UnitType typ);
 }

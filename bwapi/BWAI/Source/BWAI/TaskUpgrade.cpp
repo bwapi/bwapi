@@ -25,17 +25,17 @@ namespace BWAI
   {
     if (BWAI::ai->player->upgradeLevel(this->upgradeType) >= this->level)
     {
-      BWAI::ai->root->log->log("Upgrade %s finished", this->getUpgradeType().getName());
+      BWAI::ai->root->log->log("Upgrade %s finished", this->getUpgradeType().getName().c_str());
       return true;
     }
     if (BWAI::ai->player->upgradeInProgress(this->upgradeType))
       return false;
     if (this->executors.empty())
     {
-      BW::UnitType buildingType = *(this->upgradeType.whatUpgrades());
-      if (buildingType == BW::UnitID::None)
+      BWAPI::UnitType buildingType = *(this->upgradeType.whatUpgrades());
+      if (buildingType == BWAPI::UnitTypes::None)
       {
-        BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName());
+        BWAI::ai->log->log("ERROR: Couldn't resolve where to upgrade %s", this->upgradeType.getName().c_str());
         return false;
       }
       for each (Unit* i in BWAI::ai->units)

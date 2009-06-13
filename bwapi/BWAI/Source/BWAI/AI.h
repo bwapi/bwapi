@@ -6,7 +6,6 @@
 
 #include <BWAPI.h>
 #include <BWAI/ReservedResources.h>
-#include <BW/UnitType.h>
 #include <BW/Position.h>
 
 #include "LuaAI.h"
@@ -109,7 +108,7 @@ namespace BWAI
       MapStartingPosition* startingPosition;      
       u16 mineralGatherers;
       /** @todo investigate and use the nextSupply provider here. */
-      s32 plannedSupplyGain(BW::Race::Enum race);
+      s32 plannedSupplyGain(BWAPI::Race race);
       s32 buildTaskUnitsPlanned[228];
     private :
       std::map<BWAPI::Unit*,Unit*> unit_mapping;

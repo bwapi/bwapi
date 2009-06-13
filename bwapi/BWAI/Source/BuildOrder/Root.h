@@ -5,8 +5,6 @@
 #include <set>
 #include <string>
 
-#include <BW/UnitType.h>
-
 namespace BuildOrder { class Branch; }
 namespace BuildOrder { class RootBranch; }
 namespace BuildOrder { class BuildWeights; }

@@ -6,7 +6,6 @@
 #include <Util/Logger.h>
 #include <Util/Xml.h>
 #include <BWAPI.h>
-#include <BW/UnitType.h>
 #include <BWAI/AI.h>
 #include <BWAI/BuildingPositionSet.h>
 #include <BWAI/TaskBuild.h>
@@ -37,7 +36,7 @@ namespace BuildOrder
   //----------------------------------------------------------------------------------------------------------
   bool CommandBuild::executeInternal(Executor* executor)
   {
-    BW::UnitType toBuild = BWAPI::Broodwar->getUnitType(this->name);
+    BWAPI::UnitType toBuild = BWAPI::UnitTypes::getUnitType(this->name);
     if (BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()] < BWAI::ai->player->getAllUnits(toBuild.getID()))
     {
       BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
@@ -106,7 +105,7 @@ namespace BuildOrder
           }
           else
           {
-            BW::UnitType builderType = toBuild.whatBuilds().first;
+            BWAPI::UnitType builderType = *(toBuild.whatBuilds().first);
             for each (BWAI::Unit* i in BWAI::ai->units)
               if (i->isCompleted() &&
                   i->getType() == builderType &&
@@ -123,7 +122,7 @@ namespace BuildOrder
               return false;
             BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, executor, spot, priority));
             BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
-            BWAI::ai->root->log->log("Command to build addon '%s' called (using %s)", toBuild.getName(), executor->getType().getName());
+            BWAI::ai->root->log->log("Command to build addon '%s' called (using %s)", toBuild.getName().c_str(), executor->getType().getName().c_str());
           }
         }
         return true;

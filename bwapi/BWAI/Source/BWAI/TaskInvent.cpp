@@ -27,8 +27,8 @@ namespace BWAI
       return false;
     if (this->executors.empty())
       {
-        BW::UnitType buildingType = *(this->techType.whatResearches());
-        if (buildingType == BW::UnitID::None)
+        BWAPI::UnitType buildingType = *(this->techType.whatResearches());
+        if (buildingType == BWAPI::UnitTypes::None)
         {
           BWAI::ai->log->log("ERROR: Couldn't resolve where to invent %s", this->techType.getName().c_str());
           return false;

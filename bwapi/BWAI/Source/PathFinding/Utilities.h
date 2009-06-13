@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 
-#include <BW/UnitType.h>
+#include <BWAPI.h>
 #include <BW/Position.h>
 #include <Util/RectangleArray.h>
 
@@ -82,7 +82,7 @@ namespace PathFinding
       ~Utilities();
       bool generatePath(const UnitModel& unit, WalkabilityPosition target);
       /** static help variables. */
-      bool canStay(const BW::UnitType& type, const WalkabilityPosition& position) const;
+      bool canStay(const BWAPI::UnitType& type, const WalkabilityPosition& position) const;
     private :
       static const u16 STRAIGHT_SPOT_DIRECTION = 8;
       static const u16 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
@@ -109,8 +109,8 @@ namespace PathFinding
       /** Quite huge structure that could optimise the path finding, it contains info about placability of
        * unit on every spot.
        */
-      std::map<BW::UnitType, Util::RectangleArray<bool>* > precomputedPlacebility;
+      std::map<BWAPI::UnitType, Util::RectangleArray<bool>* > precomputedPlacebility;
       std::map<u32, Util::RectangleArray<bool>*> precomputedPlacebilityContent; 
-      bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type);
+      bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BWAPI::UnitType& type);
    };
 }

@@ -16,7 +16,7 @@
 namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  TaskBuild::TaskBuild(BW::UnitType buildingType, 
+  TaskBuild::TaskBuild(BWAPI::UnitType buildingType, 
                        BuildingPosition* position, 
                        Unit* builder, 
                        BuildingPositionSet* alternatives, 
@@ -33,7 +33,7 @@ namespace BWAI
     BWAI::ai->prioritisedTasks.insert(this);
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  TaskBuild::TaskBuild(BW::UnitType buildingType,
+  TaskBuild::TaskBuild(BWAPI::UnitType buildingType,
                        Unit* builder,
                        BW::TilePosition spot,
                        u16 priority)
@@ -62,7 +62,7 @@ namespace BWAI
           this->building != NULL &&
           this->building->isCompleted())
       {
-        BWAI::ai->log->logCritical("(%s) finished production of (%s)", this->executors.front()->getType().getName(), this->buildingType.getName());
+        BWAI::ai->log->logCritical("(%s) finished production of (%s)", this->executors.front()->getType().getName().c_str(), this->buildingType.getName().c_str());
         return true;
       }
       if (this->executors.empty() &&
@@ -143,8 +143,8 @@ namespace BWAI
             return false;
         }
         BW::Position center(this->position->position);
-        center.x += (BW::TILE_SIZE*this->getBuildingType().getTileWidth())/2;
-        center.y += (BW::TILE_SIZE*this->getBuildingType().getTileHeight())/2;
+        center.x += (BW::TILE_SIZE*this->getBuildingType().tileWidth())/2;
+        center.y += (BW::TILE_SIZE*this->getBuildingType().tileHeight())/2;
         if (this->position != NULL)
           // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
           if (this->executors.front()->getDistance(center) > 100 &&
@@ -163,7 +163,7 @@ namespace BWAI
                )
             {
               this->executors.front()->orderRightClick(center);
-              BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName(), center.x, center.y);
+              BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName().c_str(), center.x, center.y);
             }
           }
           else
@@ -174,7 +174,7 @@ namespace BWAI
                   this->executors.front()->getOrderID() != BWAPI::Orders::DroneStartBuild &&
                   this->executors.front()->getOwner()->canAffordNow(buildingType))
               {
-                BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+                BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName().c_str());
                 this->executors.front()->build(this->position->position, buildingType);
               }
             }
@@ -183,7 +183,7 @@ namespace BWAI
                   !this->executors.front()->isTraining() &&
                   this->executors.front()->getSecondaryOrderID() != BWAPI::Orders::BuildAddon)
               {
-                BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName());
+                BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName().c_str());
                 BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderID());
                 this->executors.front()->build(this->position->position, buildingType);
               }
@@ -199,7 +199,7 @@ namespace BWAI
     return TaskType::Build;
   }
   //---------------------------------------------- GET MINERAL -----------------------------------------------
-  BW::UnitType TaskBuild::getBuildingType()
+  BWAPI::UnitType TaskBuild::getBuildingType()
   {
     return this->buildingType;
   }
@@ -215,7 +215,7 @@ namespace BWAI
         if (BWAPI::Broodwar->unitsOnTile(k,l).empty() == false &&
              (
                BWAPI::Broodwar->unitsOnTile(k,l).front() != this->executors.front()->getUnit() &&
-               BWAPI::Broodwar->unitsOnTile(k,l).front()->getType() != BW::UnitID::Resource_VespeneGeyser ||
+               BWAPI::Broodwar->unitsOnTile(k,l).front()->getType() != BWAPI::UnitTypes::Resource_Vespene_Geyser ||
                BWAPI::Broodwar->unitsOnTile(k,l).size() != 1
              )
            )
@@ -231,7 +231,7 @@ namespace BWAI
   BWAI::ReservedResources TaskBuild::getReserved()
   {
     if (this->building == NULL)
-      return BWAI::ReservedResources(this->buildingType.getMineralPrice(), this->buildingType.getGasPrice(), 0);
+      return BWAI::ReservedResources(this->buildingType.mineralPrice(), this->buildingType.gasPrice(), 0);
     return BWAI::ReservedResources();
   }
   //----------------------------------------------------------------------------------------------------------

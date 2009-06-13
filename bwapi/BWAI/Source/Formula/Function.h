@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BW/UnitType.h>
+#include <BWAPI.h>
 #include "Base.h"
 #include "FunctionType.h"
 
@@ -18,8 +18,8 @@ namespace Formula
       std::string functionParameter;
       FunctionType::Enum type;
       // I'm too lazy to make another 5 classes for every function with different data, so I put it all here
-      BW::UnitType unitType;
+      BWAPI::UnitType unitType;
       float configValue;
-      BW::Race::Enum race;
+      BWAPI::Race race;
   };
 };

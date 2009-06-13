@@ -2,9 +2,9 @@
 #include <string>
 #include <set>
 #include <BWAPI/Race.h>
-namespace BW { class UnitType; }
 namespace BWAPI
 {
+  class UnitType;
   class TechType
   {
   public:
@@ -21,7 +21,7 @@ namespace BWAPI
     int mineralPrice() const;
     int gasPrice() const;
     int energyPrice() const;
-    BW::UnitType* whatResearches() const;
+    const UnitType* whatResearches() const;
   private:
     int id;
   };

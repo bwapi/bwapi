@@ -1,8 +1,9 @@
 #include "UnitTypeGroup.h"
+#include <BWAPI.h>
 namespace BWAI
 {
   /* Given a group and a unittype, this function will determine if the unit type is in the group */
-  bool isInUnitTypeGroup(UnitTypeGroup::Enum grp, BW::UnitType typ)
+  bool isInUnitTypeGroup(UnitTypeGroup::Enum grp, BWAPI::UnitType typ)
   {
     switch (grp)
     {
@@ -19,9 +20,9 @@ namespace BWAI
       case UnitTypeGroup::Men:
         return !typ.isBuilding();
       case UnitTypeGroup::Zerg_Main:
-        return (typ==BW::UnitID::Zerg_Hatchery || typ==BW::UnitID::Zerg_Lair || typ==BW::UnitID::Zerg_Hive);
+        return (typ==BWAPI::UnitTypes::Zerg_Hatchery || typ==BWAPI::UnitTypes::Zerg_Lair || typ==BWAPI::UnitTypes::Zerg_Hive);
       case UnitTypeGroup::Zerg_MainLair:
-        return (typ==BW::UnitID::Zerg_Lair || typ==BW::UnitID::Zerg_Hive);
+        return (typ==BWAPI::UnitTypes::Zerg_Lair || typ==BWAPI::UnitTypes::Zerg_Hive);
       default:
         return false;
     }
