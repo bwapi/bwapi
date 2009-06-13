@@ -7,6 +7,7 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/Unit.h>
+#include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 
 namespace BWAPI

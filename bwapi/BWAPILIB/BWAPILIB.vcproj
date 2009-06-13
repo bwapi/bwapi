@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\UnitType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\UpgradeType.cpp"
 				>
 			</File>
@@ -210,6 +214,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\TechType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\UnitType.h"
 				>
 			</File>
 			<File

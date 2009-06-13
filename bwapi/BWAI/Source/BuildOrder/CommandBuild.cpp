@@ -106,7 +106,7 @@ namespace BuildOrder
           }
           else
           {
-            BW::UnitType builderType = toBuild.whereToBuild();
+            BW::UnitType builderType = toBuild.whatBuilds().first;
             for each (BWAI::Unit* i in BWAI::ai->units)
               if (i->isCompleted() &&
                   i->getType() == builderType &&
