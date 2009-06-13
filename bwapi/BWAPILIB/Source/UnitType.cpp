@@ -254,7 +254,7 @@ namespace BWAPI
       unitTypeData[Zerg_Scourge.getID()].set("Zerg Scourge",Races::Zerg,&(Zerg_Egg),1,&(Zerg_Egg),1,&(Zerg_Spire),1,NULL,0,NULL,1,0,6400,100,0,25,75,0,450,12,12,11,11,1,1,0,0,false,true,true,false,false,true,false,true,false); 
       unitTypeData[Zerg_Infested_Terran.getID()].set("Infested Terran",Races::Zerg,&(Zerg_Infested_Command_Center),1,&(Zerg_Infested_Command_Center),1,NULL,0,NULL,0,NULL,2,0,15360,100,0,100,50,0,600,8,9,8,10,1,1,1,500,false,true,true,false,false,false,false,true,false); 
       unitTypeData[Terran_Valkyrie.getID()].set("Terran Valkyrie",Races::Terran,&(Terran_Starport),1,&(Terran_Starport),1,&(Terran_Control_Tower),1,&(Terran_Armory),1,NULL,6,0,51200,100,0,250,125,2,750,24,16,24,20,2,2,0,0,false,true,true,false,false,true,false,false,true); 
-      unitTypeData[Zerg_Cocoon.getID()].set("Cocoon",Races::Zerg,&(Zerg_Mutalisk),1,&(Zerg_Mutalisk),1,NULL,0,NULL,0,NULL,0,0,51200,0,0,1,1,0,1,16,16,15,15,1,1,0,0,false,false,false,false,false,true,false,true,false); 
+      unitTypeData[Zerg_Cocoon.getID()].set("Cocoon",Races::Zerg,&(Zerg_Mutalisk),1,&(Zerg_Mutalisk),1,&(Zerg_Greater_Spire),1,NULL,0,NULL,0,0,51200,0,0,1,1,0,1,16,16,15,15,1,1,0,0,false,false,false,false,false,true,false,true,false); 
       unitTypeData[Protoss_Corsair.getID()].set("Protoss Corsair",Races::Protoss,&(Protoss_Stargate),1,&(Protoss_Stargate),1,NULL,0,NULL,0,NULL,4,0,25600,80,0,150,100,1,600,18,16,17,15,2,1,0,0,false,true,true,false,false,true,false,false,true); 
       unitTypeData[Protoss_Dark_Templar.getID()].set("Protoss Dark Templar",Races::Protoss,&(Protoss_Gateway),1,&(Protoss_Gateway),1,&(Protoss_Templar_Archives),1,NULL,0,NULL,4,0,20480,40,0,125,100,1,750,12,6,11,19,1,1,1,40,false,true,true,false,false,false,false,true,false); 
       unitTypeData[Zerg_Devourer.getID()].set("Zerg Devourer",Races::Zerg,&(Zerg_Cocoon),1,&(Zerg_Cocoon),1,&(Zerg_Greater_Spire),1,NULL,0,NULL,4,0,64000,100,0,150,50,2,600,22,22,21,21,2,2,0,0,false,true,true,false,false,true,false,true,false); 
@@ -278,7 +278,7 @@ namespace BWAPI
       unitTypeData[Critter_Kakaru.getID()].set("Kakaru",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,15360,100,0,1,1,0,1,16,16,15,15,1,1,0,0,false,true,true,false,false,true,true,true,false); 
       unitTypeData[Critter_Ragnasaur.getID()].set("Ragnasaur",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,15360,100,0,1,1,0,1,16,16,15,15,1,1,0,0,false,true,true,false,false,false,true,true,false); 
       unitTypeData[Critter_Ursadon.getID()].set("Ursadon",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,15360,100,0,1,1,0,1,16,16,15,15,1,1,0,0,false,true,true,false,false,false,true,true,false); 
-      unitTypeData[Zerg_Lurker_Egg.getID()].set("Zerg Lurker Egg",Races::Zerg,&(Zerg_Lurker_Egg),1,&(Zerg_Hydralisk),1,NULL,0,NULL,0,NULL,0,0,51200,0,0,1,1,10,1,16,16,15,15,1,1,0,0,false,false,false,false,false,false,false,true,false); 
+      unitTypeData[Zerg_Lurker_Egg.getID()].set("Zerg Lurker Egg",Races::Zerg,&(Zerg_Lurker_Egg),1,&(Zerg_Hydralisk),1,NULL,0,NULL,0,&(TechTypes::Lurker_Aspect),0,0,51200,0,0,1,1,10,1,16,16,15,15,1,1,0,0,false,false,false,false,false,false,false,true,false); 
       unitTypeData[Zerg_Lurker.getID()].set("Zerg Lurker",Races::Zerg,&(Zerg_Lurker_Egg),1,&(Zerg_Lurker_Egg),1,NULL,0,NULL,0,&(TechTypes::Lurker_Aspect),4,0,32000,100,0,50,100,1,600,15,15,16,16,1,1,1,20,false,true,true,false,false,false,false,true,false); 
       unitTypeData[Spell_Disruption_Web.getID()].set("Disruption Field",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,8192,100,0,250,250,0,2400,60,40,59,39,4,3,0,0,false,false,false,false,false,false,true,false,false); 
       unitTypeData[Terran_Command_Center.getID()].set("Terran Command Center",Races::Terran,&(Terran_SCV),1,&(Terran_SCV),1,NULL,0,NULL,0,NULL,0,20,56320,100,0,400,0,1,1800,58,41,58,41,4,3,0,0,true,false,false,true,false,false,false,false,true); 
@@ -335,12 +335,131 @@ namespace BWAPI
       unitTypeData[Resource_Mineral_Field.getID()].set("Mineral Field",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,40960,100,0,1,1,0,1,32,16,31,15,2,1,0,0,false,false,false,true,false,false,true,false,false); 
       unitTypeData[Resource_Vespene_Geyser.getID()].set("Vespene Geyser",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,40960,100,0,1,1,0,1,64,32,63,31,4,2,0,0,false,false,false,true,false,false,true,false,false); 
       unitTypeData[Spell_Dark_Swarm.getID()].set("Dark Swarm",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,8192,100,0,250,200,0,2400,80,80,79,79,5,5,0,0,false,false,false,false,false,false,true,false,false); 
+      unitTypeSet.insert(Terran_Marine);
+      unitTypeSet.insert(Terran_Ghost);
+      unitTypeSet.insert(Terran_Vulture);
+      unitTypeSet.insert(Terran_Goliath);
+      unitTypeSet.insert(Terran_Siege_Tank_Tank_Mode);
+      unitTypeSet.insert(Terran_SCV);
+      unitTypeSet.insert(Terran_Wraith);
+      unitTypeSet.insert(Terran_Science_Vessel);
+      unitTypeSet.insert(Terran_Dropship);
+      unitTypeSet.insert(Terran_Battlecruiser);
+      unitTypeSet.insert(Terran_Vulture_Spider_Mine);
+      unitTypeSet.insert(Terran_Nuclear_Missile);
+      unitTypeSet.insert(Terran_Siege_Tank_Siege_Mode);
+      unitTypeSet.insert(Terran_Firebat);
+      unitTypeSet.insert(Spell_Scanner_Sweep);
+      unitTypeSet.insert(Terran_Medic);
+      unitTypeSet.insert(Zerg_Larva);
+      unitTypeSet.insert(Zerg_Egg);
+      unitTypeSet.insert(Zerg_Zergling);
+      unitTypeSet.insert(Zerg_Hydralisk);
+      unitTypeSet.insert(Zerg_Ultralisk);
+      unitTypeSet.insert(Zerg_Broodling);
+      unitTypeSet.insert(Zerg_Drone);
+      unitTypeSet.insert(Zerg_Overlord);
+      unitTypeSet.insert(Zerg_Mutalisk);
+      unitTypeSet.insert(Zerg_Guardian);
+      unitTypeSet.insert(Zerg_Queen);
+      unitTypeSet.insert(Zerg_Defiler);
+      unitTypeSet.insert(Zerg_Scourge);
+      unitTypeSet.insert(Zerg_Infested_Terran);
+      unitTypeSet.insert(Terran_Valkyrie);
+      unitTypeSet.insert(Zerg_Cocoon);
+      unitTypeSet.insert(Protoss_Corsair);
+      unitTypeSet.insert(Protoss_Dark_Templar);
+      unitTypeSet.insert(Zerg_Devourer);
+      unitTypeSet.insert(Protoss_Dark_Archon);
+      unitTypeSet.insert(Protoss_Probe);
+      unitTypeSet.insert(Protoss_Zealot);
+      unitTypeSet.insert(Protoss_Dragoon);
+      unitTypeSet.insert(Protoss_High_Templar);
+      unitTypeSet.insert(Protoss_Archon);
+      unitTypeSet.insert(Protoss_Shuttle);
+      unitTypeSet.insert(Protoss_Scout);
+      unitTypeSet.insert(Protoss_Arbiter);
+      unitTypeSet.insert(Protoss_Carrier);
+      unitTypeSet.insert(Protoss_Interceptor);
+      unitTypeSet.insert(Protoss_Reaver);
+      unitTypeSet.insert(Protoss_Observer);
+      unitTypeSet.insert(Protoss_Scarab);
+      unitTypeSet.insert(Critter_Rhynadon);
+      unitTypeSet.insert(Critter_Bengalaas);
+      unitTypeSet.insert(Critter_Scantid);
+      unitTypeSet.insert(Critter_Kakaru);
+      unitTypeSet.insert(Critter_Ragnasaur);
+      unitTypeSet.insert(Critter_Ursadon);
+      unitTypeSet.insert(Zerg_Lurker_Egg);
+      unitTypeSet.insert(Zerg_Lurker);
+      unitTypeSet.insert(Spell_Disruption_Web);
+      unitTypeSet.insert(Terran_Command_Center);
+      unitTypeSet.insert(Terran_Comsat_Station);
+      unitTypeSet.insert(Terran_Nuclear_Silo);
+      unitTypeSet.insert(Terran_Supply_Depot);
+      unitTypeSet.insert(Terran_Refinery);
+      unitTypeSet.insert(Terran_Barracks);
+      unitTypeSet.insert(Terran_Academy);
+      unitTypeSet.insert(Terran_Factory);
+      unitTypeSet.insert(Terran_Starport);
+      unitTypeSet.insert(Terran_Control_Tower);
+      unitTypeSet.insert(Terran_Science_Facility);
+      unitTypeSet.insert(Terran_Covert_Ops);
+      unitTypeSet.insert(Terran_Physics_Lab);
+      unitTypeSet.insert(Terran_Machine_Shop);
+      unitTypeSet.insert(Terran_Engineering_Bay);
+      unitTypeSet.insert(Terran_Armory);
+      unitTypeSet.insert(Terran_Missile_Turret);
+      unitTypeSet.insert(Terran_Bunker);
+      unitTypeSet.insert(Zerg_Infested_Command_Center);
+      unitTypeSet.insert(Zerg_Hatchery);
+      unitTypeSet.insert(Zerg_Lair);
+      unitTypeSet.insert(Zerg_Hive);
+      unitTypeSet.insert(Zerg_Nydus_Canal);
+      unitTypeSet.insert(Zerg_Hydralisk_Den);
+      unitTypeSet.insert(Zerg_Defiler_Mound);
+      unitTypeSet.insert(Zerg_Greater_Spire);
+      unitTypeSet.insert(Zerg_Queens_Nest);
+      unitTypeSet.insert(Zerg_Evolution_Chamber);
+      unitTypeSet.insert(Zerg_Ultralisk_Cavern);
+      unitTypeSet.insert(Zerg_Spire);
+      unitTypeSet.insert(Zerg_Spawning_Pool);
+      unitTypeSet.insert(Zerg_Creep_Colony);
+      unitTypeSet.insert(Zerg_Spore_Colony);
+      unitTypeSet.insert(Zerg_Sunken_Colony);
+      unitTypeSet.insert(Zerg_Extractor);
+      unitTypeSet.insert(Protoss_Nexus);
+      unitTypeSet.insert(Protoss_Robotics_Facility);
+      unitTypeSet.insert(Protoss_Pylon);
+      unitTypeSet.insert(Protoss_Assimilator);
+      unitTypeSet.insert(Protoss_Observatory);
+      unitTypeSet.insert(Protoss_Gateway);
+      unitTypeSet.insert(Protoss_Photon_Cannon);
+      unitTypeSet.insert(Protoss_Citadel_of_Adun);
+      unitTypeSet.insert(Protoss_Cybernetics_Core);
+      unitTypeSet.insert(Protoss_Templar_Archives);
+      unitTypeSet.insert(Protoss_Forge);
+      unitTypeSet.insert(Protoss_Stargate);
+      unitTypeSet.insert(Protoss_Fleet_Beacon);
+      unitTypeSet.insert(Protoss_Arbiter_Tribunal);
+      unitTypeSet.insert(Protoss_Robotics_Support_Bay);
+      unitTypeSet.insert(Protoss_Shield_Battery);
+      unitTypeSet.insert(Resource_Mineral_Field);
+      unitTypeSet.insert(Resource_Vespene_Geyser);
+      unitTypeSet.insert(Spell_Dark_Swarm);
+      unitTypeSet.insert(None);
+      unitTypeSet.insert(Unknown);
+
+      for(std::set<UnitType>::iterator i=unitTypeSet.begin();i!=unitTypeSet.end();i++)
+      {
+        unitTypeMap.insert(std::make_pair((*i).getName(),*i));
+      }
       initializingUnitType=false;
     }
   }
   UnitType::UnitType()
   {
-   // this->id=UnitTypes::None.id;
+    this->id=UnitTypes::None.id;
   }
   UnitType::UnitType(int id)
   {
@@ -349,7 +468,7 @@ namespace BWAPI
     {
       if (id<0 || id>=14 || unitTypeData[id].name.length()==0)
       {
-     //   this->id=UnitTypes::Unknown.id;
+        this->id=UnitTypes::Unknown.id;
       }
     }
   }
@@ -381,6 +500,130 @@ namespace BWAPI
   std::string UnitType::getName() const
   {
     return unitTypeData[this->id].name;
+  }
+  Race UnitType::getRace() const
+  {
+    return unitTypeData[this->id].race;
+  }
+  const std::pair< const UnitType*,int> UnitType::whatBuilds() const
+  {
+    return unitTypeData[this->id].whatBuilds;
+  }
+  const std::map< const UnitType*, int >& UnitType::requiredUnits() const
+  {
+    return unitTypeData[this->id].requiredUnits;
+  }
+  const TechType* UnitType::requiredTech() const
+  {
+    return unitTypeData[this->id].requiredTech;
+  }
+  int UnitType::suppliesConsumed() const
+  {
+    return unitTypeData[this->id].suppliesConsumed;
+  }
+  int UnitType::suppliesProduced() const
+  {
+    return unitTypeData[this->id].suppliesProduced;
+  }
+  int UnitType::maxHealth() const
+  {
+    return unitTypeData[this->id].maxHealth;
+  }
+  int UnitType::maxShield() const
+  {
+    return unitTypeData[this->id].maxShield;
+  }
+  int UnitType::maxEnergy() const
+  {
+    return unitTypeData[this->id].maxEnergy;
+  }
+  int UnitType::mineralPrice() const
+  {
+    return unitTypeData[this->id].mineralPrice;
+  }
+  int UnitType::gasPrice() const
+  {
+    return unitTypeData[this->id].gasPrice;
+  }
+  int UnitType::armor() const
+  {
+    return unitTypeData[this->id].armor;
+  }
+  int UnitType::buildTime() const
+  {
+    return unitTypeData[this->id].buildTime;
+  }
+  int UnitType::dimensionLeft() const
+  {
+    return unitTypeData[this->id].dimensionLeft;
+  }
+  int UnitType::dimensionUp() const
+  {
+    return unitTypeData[this->id].dimensionUp;
+  }
+  int UnitType::dimensionRight() const
+  {
+    return unitTypeData[this->id].dimensionRight;
+  }
+  int UnitType::dimensionDown() const
+  {
+    return unitTypeData[this->id].dimensionDown;
+  }
+  int UnitType::tileWidth() const
+  {
+    return unitTypeData[this->id].tileWidth;
+  }
+  int UnitType::tileHeight() const
+  {
+    return unitTypeData[this->id].tileHeight;
+  }
+  int UnitType::damageFactor() const
+  {
+    return unitTypeData[this->id].damageFactor;
+  }
+  int UnitType::groundDamage() const
+  {
+    return unitTypeData[this->id].groundDamage;
+  }
+  bool UnitType::canProduce() const
+  {
+    return unitTypeData[this->id].canProduce;
+  }
+  bool UnitType::canAttack() const
+  {
+    return unitTypeData[this->id].canAttack;
+  }
+  bool UnitType::canMove() const
+  {
+    return unitTypeData[this->id].canMove;
+  }
+  bool UnitType::isWorker() const
+  {
+    return (this->id==UnitTypes::Terran_SCV.id || this->id==UnitTypes::Zerg_Drone.id || this->id==UnitTypes::Protoss_Probe.id);
+  }
+  bool UnitType::isBuilding() const
+  {
+    return unitTypeData[this->id].isBuilding;
+  }
+  bool UnitType::isAddon() const
+  {
+    return unitTypeData[this->id].isAddon;
+  }
+  bool UnitType::isFlyer() const
+  {
+    return unitTypeData[this->id].isFlyer;
+  }
+  bool UnitType::isNeutral() const
+  {
+    return unitTypeData[this->id].isNeutral;
+  }
+  bool UnitType::isOrganic() const
+  {
+    return unitTypeData[this->id].isOrganic;
+  }
+  bool UnitType::isMechanical() const
+  {
+    return unitTypeData[this->id].isMechanical;
   }
   UnitType UnitTypes::getUnitType(std::string &name)
   {
