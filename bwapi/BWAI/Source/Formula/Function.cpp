@@ -5,7 +5,7 @@
 #include <Util/Logger.h>
 #include <BWAPI.h>
 #include <BWAI/Globals.h>
-
+#include <BWAI/Player.h>
 namespace Formula
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -100,13 +100,13 @@ namespace Formula
         return (float) BWAI::ai->activeMinerals.size();
       case FunctionType::UsedSupply : return (float) BWAPI::Broodwar->self()->supplyUsed()/2;
       case FunctionType::PlannedSupply : return (float) (BWAI::ai->plannedSupplyGain(race) + BWAPI::Broodwar->self()->supplyTotal())/2;
-      case FunctionType::Factories : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Factories, race);
-      case FunctionType::Buildings : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Buildings, race);
-      case FunctionType::Men : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Men, race);
-      case FunctionType::Infantry : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Infantry, race);
-      case FunctionType::Mech : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Mech, race);
-      case FunctionType::Zerg_Main : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Zerg_Main, race);
-      case FunctionType::Zerg_MainLair : return (float) BWAPI::Broodwar->self()->getCompletedUnits(BW::UnitID::Zerg_MainLair, race);
+      case FunctionType::Factories : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Factories);
+      case FunctionType::Buildings : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Buildings);
+      case FunctionType::Men : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Men);
+      case FunctionType::Infantry : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Infantry);
+      case FunctionType::Mech : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Mech);
+      case FunctionType::Zerg_Main : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Zerg_Main);
+      case FunctionType::Zerg_MainLair : return (float) BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::Zerg_MainLair);
     }
     return 0;
   }

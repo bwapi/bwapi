@@ -466,7 +466,7 @@ namespace BWAPI
     this->id=id;
     if (!initializingUnitType)
     {
-      if (id<0 || id>=14 || unitTypeData[id].name.length()==0)
+      if (id<0 || id>=230 || !unitTypeData[id].valid)
       {
         this->id=UnitTypes::Unknown.id;
       }

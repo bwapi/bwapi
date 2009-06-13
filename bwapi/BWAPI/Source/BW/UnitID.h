@@ -240,14 +240,6 @@ namespace BW
       Vespene_Tank1                 = 0xE2,
       Vespene_Tank2                 = 0xE3,
       None                          = 0XE4, // Not actually unit ID from here on out
-      All                           = 0XE5,
-      Men                           = 0XE6,
-      Buildings                     = 0XE7,
-      Factories                     = 0XE8,
-      Infantry                      = 0XE9, // Custom from here on out
-      Mech                          = 0XEA,
-      Zerg_Main                     = 0xEB,
-      Zerg_MainLair                 = 0xEC
     };
   };
 };

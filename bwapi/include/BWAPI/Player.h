@@ -29,7 +29,6 @@ namespace BWAPI
 
     virtual int getAllUnits(BW::UnitType unit)=0;
     virtual int getCompletedUnits(BW::UnitType unit)=0;
-    virtual int getCompletedUnits(BW::UnitType unit, Race race)=0;
     virtual int getIncompleteUnits(BW::UnitType unit)=0;
     virtual int getDeaths(BW::UnitType unit)=0;
     virtual int getKills(BW::UnitType unit)=0;

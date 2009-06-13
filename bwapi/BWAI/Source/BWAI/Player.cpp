@@ -52,10 +52,6 @@ namespace BWAI
   {
     return this->player->getCompletedUnits(unit);
   }
-  int Player::getCompletedUnits(BW::UnitType unit, BWAPI::Race race) const
-  {
-    return this->player->getCompletedUnits(unit,race);
-  }
   int Player::getIncompleteUnits(BW::UnitType unit) const
   {
     return this->player->getIncompleteUnits(unit);
@@ -67,6 +63,72 @@ namespace BWAI
   int Player::getKills(BW::UnitType unit) const
   {
     return this->player->getKills(unit);
+  }
+
+  int Player::getAllUnits(BWAI::UnitTypeGroup::Enum group) const
+  {
+    int total=0;
+    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    {
+      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
+      if (isInUnitTypeGroup(group,unit))
+      {
+        total+=this->player->getAllUnits(unit);
+      }
+    }
+    return total;
+  }
+  int Player::getCompletedUnits(BWAI::UnitTypeGroup::Enum group) const
+  {
+    int total=0;
+    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    {
+      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
+      if (isInUnitTypeGroup(group,unit))
+      {
+        total+=this->player->getCompletedUnits(unit);
+      }
+    }
+    return total;
+  }
+  int Player::getIncompleteUnits(BWAI::UnitTypeGroup::Enum group) const
+  {
+    int total=0;
+    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    {
+      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
+      if (isInUnitTypeGroup(group,unit))
+      {
+        total+=this->player->getIncompleteUnits(unit);
+      }
+    }
+    return total;
+  }
+  int Player::getDeaths(BWAI::UnitTypeGroup::Enum group) const
+  {
+    int total=0;
+    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    {
+      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
+      if (isInUnitTypeGroup(group,unit))
+      {
+        total+=this->player->getDeaths(unit);
+      }
+    }
+    return total;
+  }
+  int Player::getKills(BWAI::UnitTypeGroup::Enum group) const
+  {
+    int total=0;
+    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    {
+      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
+      if (isInUnitTypeGroup(group,unit))
+      {
+        total+=this->player->getKills(unit);
+      }
+    }
+    return total;
   }
   bool Player::researchInProgress(BWAPI::TechType tech) const
   {

@@ -564,57 +564,105 @@ namespace BWAPI
         }
       }
       else if (parsed[1] == "unitCount")
-       { 
-        BW::UnitType unit = BW::UnitID::All;
-         if (parsed[2] != "")
-         {
-           std::string unitName= message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
-           unit = this->unitNameToType[unitName];
-           if (unit == BW::UnitID::None)
-           { 
-             this->print("Unknown unit name '%s'", unitName.c_str());
-             return true;
-           }
-         }
-         this->print("Count of %s's:", unit.getName());
-         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-           this->print("Counted %d units for player %d.", this->players[i]->getAllUnits(unit), i+1);
-       }
-       else if (parsed[1] == "unfinishedCount")
-       { 
-         BW::UnitType unit = BW::UnitID::All;
-         if (parsed[2] != "")
-         {
-           std::string unitName= message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
-           unit = this->unitNameToType[unitName];
-           if (unit == BW::UnitID::None)
-           { 
-             this->print("Unknown unit name '%s'", unitName);
-             return true;
-           }
-         }
-         this->print("Count of unfinished %s's:", unit.getName());
-         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-           this->print("Counted %d units for player %d.", this->players[i]->getIncompleteUnits(unit), i+1);
-       }
-       else if (parsed[1] == "completedCount")
-       { 
-         BW::UnitType unit = BW::UnitID::All;
-         if (parsed[2] != "")
-         {
-           std::string unitName= message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
-           unit = this->unitNameToType[unitName];
-           if (unit == BW::UnitID::None)
-           { 
-             this->print("Unknown unit name '%s'", unitName);
-             return true;
-           }
-         }
-         this->print("Count of completed %s's:", unit.getName());
-         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-           this->print("Counted %d units for player %d.", this->players[i]->getCompletedUnits(unit), i+1);
-       }
+      { 
 
+        BW::UnitType unit = BW::UnitID::None;
+        bool all=true;
+        if (parsed[2] != "")
+        {
+          std::string unitName= message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
+          unit = this->unitNameToType[unitName];
+          all=false;
+        }
+        if (unit == BW::UnitID::None || !all)
+        { 
+          this->print("Unknown unit name 'None'");
+          return true;
+        }
+        this->print("Count of %s's:", unit.getName());
+        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+        {
+          int count=0;
+          if (all)
+          {
+            for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
+            {
+              count+=this->players[i]->getAllUnits(BW::UnitType(BW::UnitID::Enum(j)));
+            }
+          }
+          else
+          {
+            count=this->players[i]->getAllUnits(unit);
+          }
+          this->print("Counted %d units for player %d.", count, i+1);
+        }
+      }
+      else if (parsed[1] == "unfinishedCount")
+      { 
+        BW::UnitType unit = BW::UnitID::None;
+        bool all=true;
+        if (parsed[2] != "")
+        {
+          std::string unitName= message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
+          unit = this->unitNameToType[unitName];
+          all=false;
+        }
+        if (unit == BW::UnitID::None || !all)
+        { 
+          this->print("Unknown unit name 'None'");
+          return true;
+        }
+        this->print("Count of unfinished %s's:", unit.getName());
+        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+        {
+          int count=0;
+          if (all)
+          {
+            for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
+            {
+              count+=this->players[i]->getIncompleteUnits(BW::UnitType(BW::UnitID::Enum(j)));
+            }
+          }
+          else
+          {
+            count=this->players[i]->getIncompleteUnits(unit);
+          }
+          this->print("Counted %d units for player %d.", count, i+1);
+        }
+      }
+      else if (parsed[1] == "completedCount")
+      { 
+        BW::UnitType unit = BW::UnitID::None;
+        bool all=true;
+        if (parsed[2] != "")
+        {
+          std::string unitName= message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
+          unit = this->unitNameToType[unitName];
+          all=false;
+        }
+        if (unit == BW::UnitID::None || !all)
+        { 
+          this->print("Unknown unit name 'None'");
+          return true;
+        }
+        this->print("Count of completed %s's:", unit.getName());
+        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+        {
+          int count=0;
+          if (all)
+          {
+            for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
+            {
+              count+=this->players[i]->getCompletedUnits(BW::UnitType(BW::UnitID::Enum(j)));
+            }
+          }
+          else
+          {
+            count=this->players[i]->getCompletedUnits(unit);
+          }
+          this->print("Counted %d units for player %d.", count, i+1);
+        }
+      }
       else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState, unitCount", parsed[1].c_str());
       return true;
     }
