@@ -674,15 +674,14 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test") // DON'T USE THIS;
     {
-      char *oshet = "OSHIT TESTING";
+/*      char *oshit = "testingshit\0";
       __asm
       {
-        push 1
-        push 4
-        push 6
-        push oshet
-        call [BW::BWFXN_PrintXY]
-      };
+        mov eax, oshit
+        push 44
+        call 0x0041F2B0
+      }
+      return true;*/
     }
     else if (parsed[0] == "/set")
     {

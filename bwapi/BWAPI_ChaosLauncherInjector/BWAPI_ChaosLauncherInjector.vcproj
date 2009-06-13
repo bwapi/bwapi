@@ -118,7 +118,6 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="0"
 				DisableSpecificWarnings="4100;4480;4748"
@@ -136,11 +135,10 @@
 				Name="VCLinkerTool"
 				OutputFile="$(ChaosDir)\$(ProjectName).bwl"
 				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				MapFileName=""
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary="$(IntDir)$(TargetName).lib"
 				TargetMachine="1"
@@ -171,14 +169,10 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="source"
+		<File
+			RelativePath=".\source\DLLMain.cpp"
 			>
-			<File
-				RelativePath=".\source\DLLMain.cpp"
-				>
-			</File>
-		</Filter>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

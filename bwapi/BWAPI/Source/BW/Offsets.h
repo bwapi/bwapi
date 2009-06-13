@@ -144,7 +144,6 @@ namespace BW
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
-//  static u16            BWDATA_FullMask                           = 0xFFFF;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
   static u32            BWFXN_SendPublicCall                      = 0x004F32B7;
@@ -166,17 +165,11 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
   static u32            BWFXN_Refresh                             = 0x0041DDF0;
-/*
-  static u32            BWFXN_CancelTrainByClickInTheQueue        = 0x004573E9;
-  static u32            BWFXN_CancelTrainByClickInTheQueueBack    = BWFXN_CancelTrainByClickInTheQueue + 5;
-  static u32            BWFXN_CancelTrainByClickInTheQueueTarget  = BWFXN_IssueCommand;
+  /*static u32            BWFXN_DrawXY                              = 0x004202B0;
+  static u32            BWFXN_SetFont                             = 0x0041FB30;
+  static u32*           BWDATA_FontSize                           = (u32*)0x006CE0F4;
+  static u32            BWFXN_DrawBox                             = 0x004E1D20;*/
 
-  static u32            BWFXN_CancelTrainByEscape                 = 0x004234A4;
-  static u32            BWFXN_CancelTrainByEscapeBack             = BWFXN_CancelTrainByEscape + 5;
-  static u32            BWFXN_CancelTrainByEscapeTarget           = BWFXN_IssueCommand;
-*/
-  static u32            BWFXN_PrintXY                             = 0x417A10;
-  
   static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
   static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
