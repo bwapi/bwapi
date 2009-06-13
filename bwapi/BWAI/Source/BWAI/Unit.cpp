@@ -22,7 +22,7 @@ namespace BWAI
     return BWAI::ai->getUnit(unit);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BW::UnitType Unit::getType() const
+  BWAPI::UnitType Unit::getType() const
   {
     return this->unit->getType();
   }
@@ -158,27 +158,24 @@ namespace BWAI
     if (this->getTarget() == NULL)
       strcpy_s(targetIndex, 50, "Target:[NULL]");
     else
-      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)(this->getTarget()), this->getTarget()->getType().getName());
+      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)(this->getTarget()), this->getTarget()->getType().getName().c_str());
 
     if (this->getOrderTarget() == NULL)
       strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
     else
-      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName());
+      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName().c_str());
   
     if (this->getOwner() != NULL)
       sprintf_s(owner, 100, "Player = (NULL)");
     else
       sprintf_s(owner, 100, "Player = (%s)", this->unit->getOwner()->getName().c_str());
 
-    if (this->getType().isValid())
-      sprintf_s(unitName, 100, "(%s)", this->getType().getName());
-    else
-      sprintf_s(unitName, 100, "(unitID = %u)", this->getType().getID());
+    sprintf_s(unitName, 100, "(%s)", this->getType().getName().c_str());
 
     if (this->unit->getChild() == NULL)
       sprintf_s(connectedUnit, 100, "(childUnit1 = NULL)");
     else
-      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->unit->getChild()->getType().getName());
+      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->unit->getChild()->getType().getName().c_str());
 
     sprintf_s(orderName, 100, "(%s)", this->getOrderID().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
@@ -223,7 +220,7 @@ namespace BWAI
     return this->unit->isTraining();
   }
   //-------------------------------------------- GET TRAINING QUEUE ------------------------------------------
-  std::list<BW::UnitType > Unit::getTrainingQueue() const
+  std::list<BWAPI::UnitType > Unit::getTrainingQueue() const
   {
     return this->unit->getTrainingQueue();
   }
@@ -260,11 +257,11 @@ namespace BWAI
   {
     this->unit->rightClick(target->getUnit());
   }
-  void Unit::trainUnit(BW::UnitType type)
+  void Unit::trainUnit(BWAPI::UnitType type)
   {
     this->unit->train(type);
   }
-  void Unit::build(BW::TilePosition position, BW::UnitType type)
+  void Unit::build(BW::TilePosition position, BWAPI::UnitType type)
   {
     this->unit->build(position,type);
   }

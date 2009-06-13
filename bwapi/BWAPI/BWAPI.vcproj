@@ -502,6 +502,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\Constants.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Force.h"
 				>
 			</File>

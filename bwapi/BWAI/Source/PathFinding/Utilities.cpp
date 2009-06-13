@@ -38,10 +38,10 @@ namespace PathFinding
     }
     for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
       count[i] = 0;
-    for (std::set< BW::UnitType >::const_iterator i=BWAPI::Broodwar->allUnitTypes().begin();
-      i!=BWAPI::Broodwar->allUnitTypes().end();i++)
+    for (std::set< BWAPI::UnitType >::const_iterator i=BWAPI::UnitTypes::allUnitTypes().begin();
+      i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
     {
-      BW::UnitType type=(*i);
+      BWAPI::UnitType type=(*i);
       if (type.isBuilding() ||
           type.isFlyer() ||
           type.isNeutral())
@@ -90,7 +90,7 @@ namespace PathFinding
      delete i.second;
   }
   //------------------------------------------- CONFLICTS WITH MAP -------------------------------------------
-  bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BW::UnitType& type)
+  bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BWAPI::UnitType& type)
   {
     int x1 = position.x - (type.dimensionLeft() + 7)/8;
     int x2 = position.x + (type.dimensionRight() + 7)/8;
@@ -278,7 +278,7 @@ namespace PathFinding
     }
   }
   //----------------------------------------------------------------------------------------------------------
-  bool Utilities::canStay(const BW::UnitType& type, const WalkabilityPosition& position) const
+  bool Utilities::canStay(const BWAPI::UnitType& type, const WalkabilityPosition& position) const
   {
     if (this->precomputedPlacebility.find(type)==this->precomputedPlacebility.end())
       return true;

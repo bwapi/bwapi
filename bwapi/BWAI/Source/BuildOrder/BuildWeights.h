@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-#include <BW/UnitType.h>
+#include <BWAPI.h>
 #include "BuildWeight.h"
 
 class TiXmlElement;
@@ -15,7 +15,7 @@ namespace BuildOrder
   class BuildWeights
   {
     public :
-      BW::UnitType factory; /**< Factory whose building rate is affected. */
+      BWAPI::UnitType factory; /**< Factory whose building rate is affected. */
       std::list<BuildWeight*> weights;
       /**
        * Creates new BuildRatio specification according to it's xml representation

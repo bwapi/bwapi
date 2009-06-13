@@ -5,7 +5,7 @@
 #include <BWAPI/Order.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
-#include <BW/UnitType.h>
+#include <BWAPI/UnitType.h>
 #include <BW/Position.h>
 #include <BW/TilePosition.h>
 #include <Util/Types.h>
@@ -17,7 +17,7 @@ namespace BWAPI
   {
   public:
     virtual Player* getOwner() const=0;
-    virtual BW::UnitType getType() const=0;
+    virtual UnitType getType() const=0;
     virtual u16 health() const=0;
     virtual u32 shield() const=0;
     virtual u16 energy() const=0;
@@ -45,13 +45,13 @@ namespace BWAPI
     virtual bool isDisabled() const=0;
     virtual bool isTraining() const=0;
     virtual bool isMineral() const=0;
-    virtual std::list<BW::UnitType > getTrainingQueue() const=0;
+    virtual std::list<UnitType > getTrainingQueue() const=0;
 
     virtual void attackLocation(BW::Position position, BWAPI::Order order)=0;
     virtual void rightClick(BW::Position position)=0;
     virtual void rightClick(Unit *target)=0;
-    virtual void train(BW::UnitType type)=0;
-    virtual void build(BW::TilePosition position, BW::UnitType type)=0;
+    virtual void train(UnitType type)=0;
+    virtual void build(BW::TilePosition position, UnitType type)=0;
     virtual void invent(TechType tech)=0;
     virtual void upgrade(UpgradeType upgrade)=0;
     virtual void stop()=0;

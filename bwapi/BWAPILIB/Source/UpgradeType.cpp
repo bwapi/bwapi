@@ -3,7 +3,7 @@
 #include <set>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/Race.h>
-#include <BW/UnitType.h> // Need to include this until a corresponding BWAPI::UnitType class is added to BWAPILIB
+#include <BWAPI/UnitType.h>
 
 namespace BWAPI
 {
@@ -12,7 +12,7 @@ namespace BWAPI
   {
   public:
     UpgradeTypeInternal() {valid=false;}
-    void set(const char* name, int mineralPriceBase, int mineralPriceFactor, int gasPriceBase, int gasPriceFactor, int upgradeTimeBase, int upgradeTimeFactor, BW::UnitType* whatUpgrades, Race race)
+    void set(const char* name, int mineralPriceBase, int mineralPriceFactor, int gasPriceBase, int gasPriceFactor, int upgradeTimeBase, int upgradeTimeFactor, const BWAPI::UnitType* whatUpgrades, Race race)
     {
       if (initializingUpgradeType)
       {
@@ -35,7 +35,7 @@ namespace BWAPI
     int gasPriceFactor;
     int upgradeTimeBase;
     int upgradeTimeFactor;
-    BW::UnitType* whatUpgrades;
+    const BWAPI::UnitType* whatUpgrades;
     Race race;
     bool valid;
   };
@@ -98,58 +98,58 @@ namespace BWAPI
     const UpgradeType Unknown(62);
     void init()
     {
-      upgradeTypeData[Terran_Infantry_Armor.getID()].set("Terran Infantry Armor",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Terran_EngineeringBay),Races::Terran);
-      upgradeTypeData[Terran_Vehicle_Plating.getID()].set("Terran Vehicle Plating",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Terran_Armory),Races::Terran);
-      upgradeTypeData[Terran_Ship_Plating.getID()].set("Terran Ship Plating",150,75,150,75,4000,480,new BW::UnitType(BW::UnitID::Terran_Armory),Races::Terran);
-      upgradeTypeData[Zerg_Carapace.getID()].set("Zerg Carapace",150,75,150,75,4000,480,new BW::UnitType(BW::UnitID::Zerg_EvolutionChamber),Races::Zerg);
-      upgradeTypeData[Zerg_Flyer_Carapace.getID()].set("Zerg Flyer Carapace",150,75,150,75,4000,480,new BW::UnitType(BW::UnitID::Zerg_Spire),Races::Zerg);
-      upgradeTypeData[Protoss_Armor.getID()].set("Protoss Armor",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Protoss_Forge),Races::Protoss);
-      upgradeTypeData[Protoss_Plating.getID()].set("Protoss Plating",150,75,150,75,4000,480,new BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),Races::Protoss);
-      upgradeTypeData[Terran_Infantry_Weapons.getID()].set("Terran Infantry Weapons",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Terran_EngineeringBay),Races::Terran);
-      upgradeTypeData[Terran_Vehicle_Weapons.getID()].set("Terran Vehicle Weapons",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Terran_Armory),Races::Terran);
-      upgradeTypeData[Terran_Ship_Weapons.getID()].set("Terran Ship Weapons",100,50,100,50,4000,480,new BW::UnitType(BW::UnitID::Terran_Armory),Races::Terran);
-      upgradeTypeData[Zerg_Melee_Attacks.getID()].set("Zerg Melee Attacks",100,50,100,50,4000,480,new BW::UnitType(BW::UnitID::Zerg_EvolutionChamber),Races::Zerg);
-      upgradeTypeData[Zerg_Missile_Attacks.getID()].set("Zerg Missile Attacks",100,50,100,50,4000,480,new BW::UnitType(BW::UnitID::Zerg_EvolutionChamber),Races::Zerg);
-      upgradeTypeData[Zerg_Flyer_Attacks.getID()].set("Zerg Flyer Attacks",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Zerg_Spire),Races::Zerg);
-      upgradeTypeData[Protoss_Ground_Weapons.getID()].set("Protoss Ground Weapons",100,50,100,50,4000,480,new BW::UnitType(BW::UnitID::Protoss_Forge),Races::Protoss);
-      upgradeTypeData[Protoss_Air_Weapons.getID()].set("Protoss Air Weapons",100,75,100,75,4000,480,new BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),Races::Protoss);
-      upgradeTypeData[Protoss_Plasma_Shields.getID()].set("Protoss Plasma Shields",200,100,200,100,4000,480,new BW::UnitType(BW::UnitID::Protoss_Forge),Races::Protoss);
-      upgradeTypeData[U_238_Shells.getID()].set("U-238 Shells",150,0,150,0,1500,0,new BW::UnitType(BW::UnitID::Terran_Academy),Races::Terran);
-      upgradeTypeData[Ion_Thrusters.getID()].set("Ion Thrusters",100,0,100,0,1500,0,new BW::UnitType(BW::UnitID::Terran_MachineShop),Races::Terran);
-      upgradeTypeData[Titan_Reactor.getID()].set("Titan Reactor",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Terran_ScienceFacility),Races::Terran);
-      upgradeTypeData[Ocular_Implants.getID()].set("Ocular Implants",100,0,100,0,2500,0,new BW::UnitType(BW::UnitID::Terran_CovertOps),Races::Terran);
-      upgradeTypeData[Moebius_Reactor.getID()].set("Moebius Reactor",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Terran_CovertOps),Races::Terran);
-      upgradeTypeData[Apollo_Reactor.getID()].set("Apollo Reactor",200,0,200,0,2500,0,new BW::UnitType(BW::UnitID::Terran_ControlTower),Races::Terran);
-      upgradeTypeData[Colossus_Reactor.getID()].set("Colossus Reactor",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Terran_PhysicsLab),Races::Terran);
-      upgradeTypeData[Ventral_Sacs.getID()].set("Ventral Sacs",200,0,200,0,2400,0,new BW::UnitType(BW::UnitID::Zerg_Lair),Races::Zerg);
-      upgradeTypeData[Antennae.getID()].set("Antennae",150,0,150,0,2000,0,new BW::UnitType(BW::UnitID::Zerg_Lair),Races::Zerg);
-      upgradeTypeData[Pneumatized_Carapace.getID()].set("Pneumatized Carapace",150,0,150,0,2000,0,new BW::UnitType(BW::UnitID::Zerg_Lair),Races::Zerg);
-      upgradeTypeData[Metabolic_Boost.getID()].set("Metabolic Boost",100,0,100,0,1500,0,new BW::UnitType(BW::UnitID::Zerg_SpawningPool),Races::Zerg);
-      upgradeTypeData[Adrenal_Glands.getID()].set("Adrenal Glands",200,0,200,0,1500,0,new BW::UnitType(BW::UnitID::Zerg_SpawningPool),Races::Zerg);
-      upgradeTypeData[Muscular_Augments.getID()].set("Muscular Augments",150,0,150,0,1500,0,new BW::UnitType(BW::UnitID::Zerg_HydraliskDen),Races::Zerg);
-      upgradeTypeData[Grooved_Spines.getID()].set("Grooved Spines",150,0,150,0,1500,0,new BW::UnitType(BW::UnitID::Zerg_HydraliskDen),Races::Zerg);
-      upgradeTypeData[Gamete_Meiosis.getID()].set("Gamete Meiosis",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Zerg_QueensNest),Races::Zerg);
-      upgradeTypeData[Metasynaptic_Node.getID()].set("Metasynaptic Node",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Zerg_DefilerMound),Races::Zerg);
-      upgradeTypeData[Singularity_Charge.getID()].set("Singularity Charge",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),Races::Protoss);
-      upgradeTypeData[Leg_Enhancements.getID()].set("Leg Enhancements",150,0,150,0,2000,0,new BW::UnitType(BW::UnitID::Protoss_CitadelOfAdun),Races::Protoss);
-      upgradeTypeData[Scarab_Damage.getID()].set("Scarab Damage",200,0,200,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_RoboticsSupportBay),Races::Protoss);
-      upgradeTypeData[Reaver_Capacity.getID()].set("Reaver Capacity",200,0,200,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_RoboticsSupportBay),Races::Protoss);
-      upgradeTypeData[Gravitic_Drive.getID()].set("Gravitic Drive",200,0,200,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_RoboticsSupportBay),Races::Protoss);
-      upgradeTypeData[Sensor_Array.getID()].set("Sensor Array",150,0,150,0,2000,0,new BW::UnitType(BW::UnitID::Protoss_Observatory),Races::Protoss);
-      upgradeTypeData[Gravitic_Boosters.getID()].set("Gravitic Boosters",150,0,150,0,2000,0,new BW::UnitType(BW::UnitID::Protoss_Observatory),Races::Protoss);
-      upgradeTypeData[Khaydarin_Amulet.getID()].set("Khaydarin Amulet",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_TemplarArchives),Races::Protoss);
-      upgradeTypeData[Apial_Sensors.getID()].set("Apial Sensors",100,0,100,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_TemplarArchives),Races::Protoss);
-      upgradeTypeData[Gravitic_Thrusters.getID()].set("Gravitic Thrusters",200,0,200,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_FleetBeacon),Races::Protoss);
-      upgradeTypeData[Carrier_Capacity.getID()].set("Carrier Capacity",100,0,100,0,1500,0,new BW::UnitType(BW::UnitID::Protoss_FleetBeacon),Races::Protoss);
-      upgradeTypeData[Khaydarin_Core.getID()].set("Khaydarin Core",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_ArbiterTribunal),Races::Protoss);
-      upgradeTypeData[Argus_Jewel.getID()].set("Argus Jewel",100,0,100,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_FleetBeacon),Races::Protoss);
-      upgradeTypeData[Argus_Talisman.getID()].set("Argus Talisman",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Protoss_TemplarArchives),Races::Protoss);
-      upgradeTypeData[Caduceus_Reactor.getID()].set("Caduceus Reactor",150,0,150,0,2500,0,new BW::UnitType(BW::UnitID::Terran_Academy),Races::Terran);
-      upgradeTypeData[Chitinous_Plating.getID()].set("Chitinous Plating",150,0,150,0,2000,0,new BW::UnitType(BW::UnitID::Zerg_UltraliskCavern),Races::Zerg);
-      upgradeTypeData[Anabolic_Synthesis.getID()].set("Anabolic Synthesis",200,0,200,0,2000,0,new BW::UnitType(BW::UnitID::Zerg_UltraliskCavern),Races::Zerg);
-      upgradeTypeData[Charon_Booster.getID()].set("Charon Booster",100,0,100,0,2000,0,new BW::UnitType(BW::UnitID::Terran_MachineShop),Races::Terran);
-      upgradeTypeData[None.getID()].set("None",0,0,0,0,0,0,new BW::UnitType(BW::UnitID::None),Races::None);
-      upgradeTypeData[Unknown.getID()].set("Unknown",0,0,0,0,0,0,new BW::UnitType(BW::UnitID::None),Races::Unknown);
+      upgradeTypeData[Terran_Infantry_Armor.getID()].set("Terran Infantry Armor",100,75,100,75,4000,480,&(UnitTypes::Terran_Engineering_Bay),Races::Terran);
+      upgradeTypeData[Terran_Vehicle_Plating.getID()].set("Terran Vehicle Plating",100,75,100,75,4000,480,&(UnitTypes::Terran_Armory),Races::Terran);
+      upgradeTypeData[Terran_Ship_Plating.getID()].set("Terran Ship Plating",150,75,150,75,4000,480,&(UnitTypes::Terran_Armory),Races::Terran);
+      upgradeTypeData[Zerg_Carapace.getID()].set("Zerg Carapace",150,75,150,75,4000,480,&(UnitTypes::Zerg_Evolution_Chamber),Races::Zerg);
+      upgradeTypeData[Zerg_Flyer_Carapace.getID()].set("Zerg Flyer Carapace",150,75,150,75,4000,480,&(UnitTypes::Zerg_Spire),Races::Zerg);
+      upgradeTypeData[Protoss_Armor.getID()].set("Protoss Armor",100,75,100,75,4000,480,&(UnitTypes::Protoss_Forge),Races::Protoss);
+      upgradeTypeData[Protoss_Plating.getID()].set("Protoss Plating",150,75,150,75,4000,480,&(UnitTypes::Protoss_Cybernetics_Core),Races::Protoss);
+      upgradeTypeData[Terran_Infantry_Weapons.getID()].set("Terran Infantry Weapons",100,75,100,75,4000,480,&(UnitTypes::Terran_Engineering_Bay),Races::Terran);
+      upgradeTypeData[Terran_Vehicle_Weapons.getID()].set("Terran Vehicle Weapons",100,75,100,75,4000,480,&(UnitTypes::Terran_Armory),Races::Terran);
+      upgradeTypeData[Terran_Ship_Weapons.getID()].set("Terran Ship Weapons",100,50,100,50,4000,480,&(UnitTypes::Terran_Armory),Races::Terran);
+      upgradeTypeData[Zerg_Melee_Attacks.getID()].set("Zerg Melee Attacks",100,50,100,50,4000,480,&(UnitTypes::Zerg_Evolution_Chamber),Races::Zerg);
+      upgradeTypeData[Zerg_Missile_Attacks.getID()].set("Zerg Missile Attacks",100,50,100,50,4000,480,&(UnitTypes::Zerg_Evolution_Chamber),Races::Zerg);
+      upgradeTypeData[Zerg_Flyer_Attacks.getID()].set("Zerg Flyer Attacks",100,75,100,75,4000,480,&(UnitTypes::Zerg_Spire),Races::Zerg);
+      upgradeTypeData[Protoss_Ground_Weapons.getID()].set("Protoss Ground Weapons",100,50,100,50,4000,480,&(UnitTypes::Protoss_Forge),Races::Protoss);
+      upgradeTypeData[Protoss_Air_Weapons.getID()].set("Protoss Air Weapons",100,75,100,75,4000,480,&(UnitTypes::Protoss_Cybernetics_Core),Races::Protoss);
+      upgradeTypeData[Protoss_Plasma_Shields.getID()].set("Protoss Plasma Shields",200,100,200,100,4000,480,&(UnitTypes::Protoss_Forge),Races::Protoss);
+      upgradeTypeData[U_238_Shells.getID()].set("U-238 Shells",150,0,150,0,1500,0,&(UnitTypes::Terran_Academy),Races::Terran);
+      upgradeTypeData[Ion_Thrusters.getID()].set("Ion Thrusters",100,0,100,0,1500,0,&(UnitTypes::Terran_Machine_Shop),Races::Terran);
+      upgradeTypeData[Titan_Reactor.getID()].set("Titan Reactor",150,0,150,0,2500,0,&(UnitTypes::Terran_Science_Facility),Races::Terran);
+      upgradeTypeData[Ocular_Implants.getID()].set("Ocular Implants",100,0,100,0,2500,0,&(UnitTypes::Terran_Covert_Ops),Races::Terran);
+      upgradeTypeData[Moebius_Reactor.getID()].set("Moebius Reactor",150,0,150,0,2500,0,&(UnitTypes::Terran_Covert_Ops),Races::Terran);
+      upgradeTypeData[Apollo_Reactor.getID()].set("Apollo Reactor",200,0,200,0,2500,0,&(UnitTypes::Terran_Control_Tower),Races::Terran);
+      upgradeTypeData[Colossus_Reactor.getID()].set("Colossus Reactor",150,0,150,0,2500,0,&(UnitTypes::Terran_Physics_Lab),Races::Terran);
+      upgradeTypeData[Ventral_Sacs.getID()].set("Ventral Sacs",200,0,200,0,2400,0,&(UnitTypes::Zerg_Lair),Races::Zerg);
+      upgradeTypeData[Antennae.getID()].set("Antennae",150,0,150,0,2000,0,&(UnitTypes::Zerg_Lair),Races::Zerg);
+      upgradeTypeData[Pneumatized_Carapace.getID()].set("Pneumatized Carapace",150,0,150,0,2000,0,&(UnitTypes::Zerg_Lair),Races::Zerg);
+      upgradeTypeData[Metabolic_Boost.getID()].set("Metabolic Boost",100,0,100,0,1500,0,&(UnitTypes::Zerg_Spawning_Pool),Races::Zerg);
+      upgradeTypeData[Adrenal_Glands.getID()].set("Adrenal Glands",200,0,200,0,1500,0,&(UnitTypes::Zerg_Spawning_Pool),Races::Zerg);
+      upgradeTypeData[Muscular_Augments.getID()].set("Muscular Augments",150,0,150,0,1500,0,&(UnitTypes::Zerg_Hydralisk_Den),Races::Zerg);
+      upgradeTypeData[Grooved_Spines.getID()].set("Grooved Spines",150,0,150,0,1500,0,&(UnitTypes::Zerg_Hydralisk_Den),Races::Zerg);
+      upgradeTypeData[Gamete_Meiosis.getID()].set("Gamete Meiosis",150,0,150,0,2500,0,&(UnitTypes::Zerg_Queens_Nest),Races::Zerg);
+      upgradeTypeData[Metasynaptic_Node.getID()].set("Metasynaptic Node",150,0,150,0,2500,0,&(UnitTypes::Zerg_Defiler_Mound),Races::Zerg);
+      upgradeTypeData[Singularity_Charge.getID()].set("Singularity Charge",150,0,150,0,2500,0,&(UnitTypes::Protoss_Cybernetics_Core),Races::Protoss);
+      upgradeTypeData[Leg_Enhancements.getID()].set("Leg Enhancements",150,0,150,0,2000,0,&(UnitTypes::Protoss_Citadel_of_Adun),Races::Protoss);
+      upgradeTypeData[Scarab_Damage.getID()].set("Scarab Damage",200,0,200,0,2500,0,&(UnitTypes::Protoss_Robotics_Support_Bay),Races::Protoss);
+      upgradeTypeData[Reaver_Capacity.getID()].set("Reaver Capacity",200,0,200,0,2500,0,&(UnitTypes::Protoss_Robotics_Support_Bay),Races::Protoss);
+      upgradeTypeData[Gravitic_Drive.getID()].set("Gravitic Drive",200,0,200,0,2500,0,&(UnitTypes::Protoss_Robotics_Support_Bay),Races::Protoss);
+      upgradeTypeData[Sensor_Array.getID()].set("Sensor Array",150,0,150,0,2000,0,&(UnitTypes::Protoss_Observatory),Races::Protoss);
+      upgradeTypeData[Gravitic_Boosters.getID()].set("Gravitic Boosters",150,0,150,0,2000,0,&(UnitTypes::Protoss_Observatory),Races::Protoss);
+      upgradeTypeData[Khaydarin_Amulet.getID()].set("Khaydarin Amulet",150,0,150,0,2500,0,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss);
+      upgradeTypeData[Apial_Sensors.getID()].set("Apial Sensors",100,0,100,0,2500,0,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss);
+      upgradeTypeData[Gravitic_Thrusters.getID()].set("Gravitic Thrusters",200,0,200,0,2500,0,&(UnitTypes::Protoss_Fleet_Beacon),Races::Protoss);
+      upgradeTypeData[Carrier_Capacity.getID()].set("Carrier Capacity",100,0,100,0,1500,0,&(UnitTypes::Protoss_Fleet_Beacon),Races::Protoss);
+      upgradeTypeData[Khaydarin_Core.getID()].set("Khaydarin Core",150,0,150,0,2500,0,&(UnitTypes::Protoss_Arbiter_Tribunal),Races::Protoss);
+      upgradeTypeData[Argus_Jewel.getID()].set("Argus Jewel",100,0,100,0,2500,0,&(UnitTypes::Protoss_Fleet_Beacon),Races::Protoss);
+      upgradeTypeData[Argus_Talisman.getID()].set("Argus Talisman",150,0,150,0,2500,0,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss);
+      upgradeTypeData[Caduceus_Reactor.getID()].set("Caduceus Reactor",150,0,150,0,2500,0,&(UnitTypes::Terran_Academy),Races::Terran);
+      upgradeTypeData[Chitinous_Plating.getID()].set("Chitinous Plating",150,0,150,0,2000,0,&(UnitTypes::Zerg_Ultralisk_Cavern),Races::Zerg);
+      upgradeTypeData[Anabolic_Synthesis.getID()].set("Anabolic Synthesis",200,0,200,0,2000,0,&(UnitTypes::Zerg_Ultralisk_Cavern),Races::Zerg);
+      upgradeTypeData[Charon_Booster.getID()].set("Charon Booster",100,0,100,0,2000,0,&(UnitTypes::Terran_Machine_Shop),Races::Terran);
+      upgradeTypeData[None.getID()].set("None",0,0,0,0,0,0,&(UnitTypes::None),Races::None);
+      upgradeTypeData[Unknown.getID()].set("Unknown",0,0,0,0,0,0,&(UnitTypes::None),Races::Unknown);
       upgradeTypeSet.insert(Terran_Infantry_Armor);
       upgradeTypeSet.insert(Terran_Vehicle_Plating);
       upgradeTypeSet.insert(Terran_Ship_Plating);
@@ -254,7 +254,7 @@ namespace BWAPI
   {
     return upgradeTypeData[this->id].name;
   }
-  BWAPI::Race UpgradeType::getRace() const
+  Race UpgradeType::getRace() const
   {
     return upgradeTypeData[this->id].race;
   }
@@ -282,7 +282,7 @@ namespace BWAPI
   {
     return upgradeTypeData[this->id].upgradeTimeFactor;
   }
-  BW::UnitType* UpgradeType::whatUpgrades() const
+  const UnitType* UpgradeType::whatUpgrades() const
   {
     return upgradeTypeData[this->id].whatUpgrades;
   }

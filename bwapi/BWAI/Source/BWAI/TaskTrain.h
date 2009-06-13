@@ -2,6 +2,7 @@
 
 namespace BuildOrder { class BuildWeights; }
 
+#include <BWAPI.h>
 #include <BWAI/ReservedResources.h>
 
 #include "Task.h"
@@ -15,7 +16,7 @@ namespace BWAI
       TaskTrain(BuildOrder::BuildWeights* weights, u16 priority);
       virtual ~TaskTrain();
       bool execute();
-      BW::UnitType getBuildingType();
+      BWAPI::UnitType getBuildingType();
       TaskType::Enum getType();
       BWAI::ReservedResources getReserved();
       BuildOrder::BuildWeights* weights;

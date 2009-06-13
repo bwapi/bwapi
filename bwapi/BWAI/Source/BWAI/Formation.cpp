@@ -13,12 +13,12 @@ namespace BWAI
   {
     for each (Unit* i in units)
     {
-      std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
+      std::map<BWAPI::UnitType, std::list<Target> >::iterator index;
       index = this->data.find(i->getType().getID());
       if (index == this->data.end())
       {
-        this->data.insert(std::pair<BW::UnitID::Enum, std::list<Target> >
-                         (i->getType().getID(), std::list<Target>()));
+        this->data.insert(std::pair<BWAPI::UnitType, std::list<Target> >
+                         (i->getType(), std::list<Target>()));
         index = this->data.find(i->getType().getID());
       }
       (*index).second.push_back(Target(i, BW::Position(0,0)));
@@ -29,8 +29,8 @@ namespace BWAI
   //------------------------------------------- GENERATE POSITIONS -------------------------------------------
   void Formation::generatePositions(BW::Position center, float angle)
   {
-    std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
-    index = this->data.find(BW::UnitID::Terran_Marine);
+    std::map<BWAPI::UnitType, std::list<Target> >::iterator index;
+    index = this->data.find(BWAPI::UnitTypes::Terran_Marine);
     int lineLength = 16;
     int space = 32;
     center.x -= (int) (sin(angle)*(lineLength/2)*space);
@@ -59,8 +59,8 @@ namespace BWAI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void Formation::execute()
   {
-    std::map<BW::UnitID::Enum, std::list<Target> >::iterator index;
-    index = this->data.find(BW::UnitID::Terran_Marine);
+    std::map<BWAPI::UnitType, std::list<Target> >::iterator index;
+    index = this->data.find(BWAPI::UnitTypes::Terran_Marine);
     if (index != this->data.end())
     {
       std::list<Target>* list = &(*index).second;

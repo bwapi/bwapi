@@ -509,20 +509,20 @@ namespace BWAI
       if (dead->expansion != NULL)
         dead->expansion->removeMineral(dead);
     }
-    else if (dead->getType() == BW::UnitID::Terran_Refinery ||
-             dead->getType() == BW::UnitID::Zerg_Extractor ||
-             dead->getType() == BW::UnitID::Protoss_Assimilator)
+    else if (dead->getType() == BWAPI::UnitTypes::Terran_Refinery ||
+             dead->getType() == BWAPI::UnitTypes::Zerg_Extractor ||
+             dead->getType() == BWAPI::UnitTypes::Protoss_Assimilator)
     {
       if (dead->expansion != NULL)
         this->removeGatherGasTask(dead);
     }
     else if (
               (
-               dead->getType() == BW::UnitID::Terran_CommandCenter ||
-               dead->getType() == BW::UnitID::Protoss_Nexus ||
-               dead->getType() == BW::UnitID::Zerg_Hatchery ||
-               dead->getType() == BW::UnitID::Zerg_Lair ||
-               dead->getType() == BW::UnitID::Zerg_Hive
+               dead->getType() == BWAPI::UnitTypes::Terran_Command_Center ||
+               dead->getType() == BWAPI::UnitTypes::Protoss_Nexus ||
+               dead->getType() == BWAPI::UnitTypes::Zerg_Hatchery ||
+               dead->getType() == BWAPI::UnitTypes::Zerg_Lair ||
+               dead->getType() == BWAPI::UnitTypes::Zerg_Hive
               ) &&
               dead->expansion != NULL
             )
@@ -576,10 +576,9 @@ namespace BWAI
       {
         std::string fileName = config->get("data_path") + "\\units";
         Util::FileLogger unitsLog(fileName, Util::LogLevel::MicroDetailed, false);
-        for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+        for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
         {
-          BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-            unitsLog.log("%s = 0x%02X",unit.getName(),i);
+          unitsLog.log("%s = 0x%02X",i->getName().c_str(),i->getID());
         }
         BWAPI::Broodwar->print("Units saved to %s .ini", fileName.c_str());        
       }      
@@ -634,7 +633,7 @@ namespace BWAI
     }
     else if (parsed[0] == "/count")
     {
-      BWAPI::Broodwar->print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BW::UnitID::Protoss_Pylon], BWAPI::Broodwar->self()->getAllUnits(BW::UnitID::Protoss_Pylon));
+      BWAPI::Broodwar->print("Count Pylon: %d; %d", BWAI::ai->buildTaskUnitsPlanned[(u16)BWAPI::UnitTypes::Protoss_Pylon.getID()], BWAPI::Broodwar->self()->getAllUnits(BWAPI::UnitTypes::Protoss_Pylon));
       return true;
     }
     else if (parsed[0] == "/tech")
@@ -643,7 +642,7 @@ namespace BWAI
       {
         std::string techName = message.substr(strlen("/tech add "), message.size() - strlen("/tech add "));
         BWAPI::TechType tech = BWAPI::TechTypes::getTechType(techName);
-        if (tech == BW::TechID::None)
+        if (tech == BWAPI::TechTypes::None)
           BWAPI::Broodwar->print("Unknown upgrade name '%s'", techName);
         else
         {
@@ -868,9 +867,9 @@ namespace BWAI
       if (
            i->isCompleted() &&
            (
-             i->getType() == BW::UnitID::Terran_CommandCenter ||
-             i->getType() == BW::UnitID::Protoss_Nexus ||
-             i->getType() == BW::UnitID::Zerg_Hatchery
+             i->getType() == BWAPI::UnitTypes::Terran_Command_Center ||
+             i->getType() == BWAPI::UnitTypes::Protoss_Nexus ||
+             i->getType() == BWAPI::UnitTypes::Zerg_Hatchery
            ) &&
            i->getOwner() == player)
         if (i->getOrderID() != BWAPI::Orders::BuildingLiftoff &&
@@ -922,12 +921,12 @@ namespace BWAI
      }
   }
   //------------------------------------------- PLANNED SUPPLY GAIN ------------------------------------------
-  s32 AI::plannedSupplyGain(BW::Race::Enum race)
+  s32 AI::plannedSupplyGain(BWAPI::Race race)
   {
     s32 returnValue = 0;
     for each (TaskBuild* i in this->plannedBuildings)
       if (i->getBuildingType().getRace() == race)
-        returnValue += i->getBuildingType().getSupplyProduced();
+        returnValue += i->getBuildingType().suppliesProduced();
     return returnValue;
   }
   //---------------------------------------------- FREE BUILDER ----------------------------------------------
@@ -958,7 +957,7 @@ namespace BWAI
         {
           if ((*i)->getBuilding() != NULL)
           {
-            if ((*i)->getBuildingType() == BW::UnitID::Terran_Refinery)
+            if ((*i)->getBuildingType() == BWAPI::UnitTypes::Terran_Refinery)
             {
               this->root->log->log("Finished refinery");
               Expansion *expansion = NULL;
@@ -973,7 +972,9 @@ namespace BWAI
               {
                 if (j->getBuildingType() == (*i)->getBuildingType() && //normal building finished
                     (*i)->getBuilding()->getTask() == NULL)
+                {
                   j->addExecutor((*i)->getBuilding());
+                }
                 if (!(*i)->executors.empty() && // bulding is building addon finished
                     (*i)->executors.front()->getType() == j->getBuildingType())
                   j->addExecutor((*i)->executors.front());
@@ -1073,7 +1074,7 @@ namespace BWAI
   //TODO correctly determine the position of the enemy's main base
   BW::Position AI::getEnemyMain()
   {
-    BW::Position position = BW::Position(BW::startPositions[this->opponent->getID()].x, BW::startPositions[this->opponent->getID()].y);
+    BW::Position position(this->opponent->getStartLocation().x*4+8,this->opponent->getStartLocation().y*4+6);
 
 	return position;
   }
@@ -1118,13 +1119,13 @@ namespace BWAI
                ) ||
                (
                  occupiedCount == 1 &&
-                 occupied->getType() == BW::UnitID::Resource_VespeneGeyser
+                 occupied->getType() == BWAPI::UnitTypes::Resource_Vespene_Geyser
                )
              )
           {
             this->root->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), i->position.x, i->position.y);
             if (occupied != NULL &&
-                occupied->getType() != BW::UnitID::Resource_VespeneGeyser)
+                occupied->getType() != BWAPI::UnitTypes::Resource_Vespene_Geyser)
               builderToUse = occupied;
             else
               builderToUse = NULL;

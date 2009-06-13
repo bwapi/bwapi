@@ -2,11 +2,12 @@
 #include <set>
 #include <string>
 
+#include <BW/Position.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/PlayerType.h>
-#include <BW/UnitType.h>
+#include <BWAPI/UnitType.h>
 
 namespace BWAPI
 {
@@ -21,17 +22,18 @@ namespace BWAPI
     virtual PlayerType playerType() const=0;
     virtual Force* getForce() const=0;
     virtual u8 getID() const=0;
+    virtual BW::TilePosition getStartLocation() const=0;
 
     virtual int minerals() const=0;
     virtual int gas() const=0;
     virtual int supplyTotal() const=0;
     virtual int supplyUsed() const=0;
 
-    virtual int getAllUnits(BW::UnitType unit)=0;
-    virtual int getCompletedUnits(BW::UnitType unit)=0;
-    virtual int getIncompleteUnits(BW::UnitType unit)=0;
-    virtual int getDeaths(BW::UnitType unit)=0;
-    virtual int getKills(BW::UnitType unit)=0;
+    virtual int getAllUnits(UnitType unit)=0;
+    virtual int getCompletedUnits(UnitType unit)=0;
+    virtual int getIncompleteUnits(UnitType unit)=0;
+    virtual int getDeaths(UnitType unit)=0;
+    virtual int getKills(UnitType unit)=0;
 
     virtual bool researching(TechType tech) const=0;
     virtual bool researched(TechType tech) const=0;

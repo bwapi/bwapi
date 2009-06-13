@@ -7,6 +7,7 @@ namespace BW { struct Unit; };
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
+#include <BWAPI/UnitType.h>
 
 #include <list>
 #include <set>
@@ -39,6 +40,7 @@ namespace BWAPI
     virtual Race getRace() const;
     virtual PlayerType playerType() const;
     virtual Force* getForce() const;
+    virtual BW::TilePosition getStartLocation() const;
 
     /** Gets local version of minerals for the current player - @ref localData */
     virtual int minerals() const;
@@ -60,12 +62,11 @@ namespace BWAPI
     virtual int supplyUsed() const;
 
     
-    virtual int getAllUnits(BW::UnitType unit);
-    virtual int getCompletedUnits(BW::UnitType unit);
-    virtual int getIncompleteUnits(BW::UnitType unit);
-        
-    virtual int getDeaths(BW::UnitType unit);
-    virtual int getKills(BW::UnitType unit);
+    virtual int getAllUnits(UnitType unit);
+    virtual int getCompletedUnits(UnitType unit);
+    virtual int getIncompleteUnits(UnitType unit);
+    virtual int getDeaths(UnitType unit);
+    virtual int getKills(UnitType unit);
 
     virtual bool researching(TechType tech) const;
     virtual bool researched(TechType tech) const;

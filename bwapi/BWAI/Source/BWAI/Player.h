@@ -1,11 +1,8 @@
 #pragma once
 
 #include <BWAPI.h>
-
-#include <BW/UnitType.h>
 #include <BWAI/ReservedResources.h>
 #include <BWAI/UnitTypeGroup.h>
-namespace BWAPI { class Player; }
 namespace BWAI
 {
   class Unit;
@@ -25,12 +22,13 @@ namespace BWAI
     int getSuppliesAvailable() const;
     int getSuppliesUsed() const;
     int getSuppliesFree() const;
+    BW::TilePosition getStartLocation() const;
 
-    int getAllUnits(BW::UnitType unit) const;
-    int getCompletedUnits(BW::UnitType unit) const;
-    int getIncompleteUnits(BW::UnitType unit) const;
-    int getDeaths(BW::UnitType unit) const;
-    int getKills(BW::UnitType unit) const;
+    int getAllUnits(BWAPI::UnitType unit) const;
+    int getCompletedUnits(BWAPI::UnitType unit) const;
+    int getIncompleteUnits(BWAPI::UnitType unit) const;
+    int getDeaths(BWAPI::UnitType unit) const;
+    int getKills(BWAPI::UnitType unit) const;
 
     int getAllUnits(BWAI::UnitTypeGroup::Enum group) const;
     int getCompletedUnits(BWAI::UnitTypeGroup::Enum group) const;
@@ -44,9 +42,9 @@ namespace BWAI
     int upgradeLevel(BWAPI::UpgradeType upgrade) const;
     bool upgradeInProgress(BWAPI::UpgradeType upgrade) const; 
 
-    bool canBuild(BW::UnitType unit) const;
-    bool canAfford(BW::UnitType unit) const;
-    bool canAffordNow(BW::UnitType unit) const;
+    bool canBuild(BWAPI::UnitType unit) const;
+    bool canAfford(BWAPI::UnitType unit) const;
+    bool canAffordNow(BWAPI::UnitType unit) const;
     bool canAfford(BWAPI::TechType tech) const;
     bool canAfford(BWAPI::UpgradeType upgrade, int level) const;
     const BWAPI::Player* getPlayer() const;

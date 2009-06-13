@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <BW/UnitType.h>
+#include <BWAPI.h>
 
 class TiXmlElement;
 namespace BuildOrder { class Condition; }
@@ -13,7 +13,7 @@ namespace BuildOrder
     public : 
       BuildWeight(TiXmlElement *element);
       ~BuildWeight();
-      BW::UnitType unitType;
+      BWAPI::UnitType unitType;
       u16 weight;
       Condition* condition;
   };

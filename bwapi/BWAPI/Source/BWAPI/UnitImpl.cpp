@@ -68,8 +68,7 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getRawDataLocal()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else         
-      return this->health() > 0 &&
-             this->getType().isValid();
+      return this->health() > 0 && this->getType()!=BWAPI::UnitTypes::None && this->getType()!=BWAPI::UnitTypes::Unknown;
   }
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool UnitImpl::isReady() const
@@ -151,8 +150,8 @@ namespace BWAPI
   //------------------------------------------- GET TILE POSITION --------------------------------------------
   BW::TilePosition UnitImpl::getTilePosition() const
   {
-    return BW::Position(this->getPosition().x - this->getType().getTileWidth()*BW::TILE_SIZE/2,
-                        this->getPosition().y - this->getType().getTileHeight()*BW::TILE_SIZE/2);
+    return BW::Position(this->getPosition().x - this->getType().tileWidth()*BW::TILE_SIZE/2,
+                        this->getPosition().y - this->getType().tileHeight()*BW::TILE_SIZE/2);
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
   Unit* UnitImpl::getTarget() const
@@ -295,17 +294,17 @@ namespace BWAPI
     return !this->hasEmptyBuildQueue();
   }
   //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
-  std::list<BW::UnitType > UnitImpl::getTrainingQueue() const
+  std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
-    std::list<BW::UnitType > trainList;
+    std::list<UnitType > trainList;
     if (this->hasEmptyBuildQueue()) return trainList;
     int i = this->getBuildQueueSlot()%5;
     int starti=i;
-    trainList.push_front(this->getBuildQueue()[i]);
+    trainList.push_front(BWAPI::UnitType(this->getBuildQueue()[i].id));
     i=(i + 1)%5;
     while(this->getBuildQueue()[i] != BW::UnitID::None && i!=starti)
     {
-      trainList.push_back(this->getBuildQueue()[i]);
+      trainList.push_back(BWAPI::UnitType(this->getBuildQueue()[i].id));
       i=(i + 1)%5;
     }
     return trainList;
@@ -350,8 +349,9 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
   }
   //------------------------------------------------- BUILD --------------------------------------------------
-  void UnitImpl::build(BW::TilePosition position, BW::UnitType type)
+  void UnitImpl::build(BW::TilePosition position, UnitType type1)
   {
+    BW::UnitType type(BW::UnitID::Enum(type1.getID()));
     this->orderSelect();
     if (!type.isAddon())
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
@@ -426,9 +426,23 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BW::UnitType UnitImpl::getType() const
+  BWAPI::UnitType UnitImpl::getType() const
   {
-   return this->getRawDataLocal()->unitID;
+    if ( this->getRawDataLocal()->unitID.id==BW::UnitID::Resource_MineralPatch1
+      || this->getRawDataLocal()->unitID.id==BW::UnitID::Resource_MineralPatch2
+      || this->getRawDataLocal()->unitID.id==BW::UnitID::Resource_MineralPatch3)
+    {
+      return BWAPI::UnitTypes::Resource_Mineral_Field;
+    }
+    else
+    {
+      return BWAPI::UnitType(this->getRawDataLocal()->unitID.id);
+    }
+  }
+  //------------------------------------------------ GET BW TYPE ---------------------------------------------
+  BW::UnitType UnitImpl::getBWType() const
+  {
+    return this->getRawDataLocal()->unitID;
   }
   //----------------------------------------------- GET QUEUE ------------------------------------------------
   BW::UnitType* UnitImpl::getBuildQueueSync() const
@@ -441,20 +455,21 @@ namespace BWAPI
     return this->getRawDataLocal()->buildQueue;
   }
   //----------------------------------------------- TRAIN UNIT -----------------------------------------------
-  void UnitImpl::train(BW::UnitType type)
+  void UnitImpl::train(UnitType type1)
   {
-    if (this->getType() == BW::UnitID::Zerg_Larva ||
-        this->getType() == BW::UnitID::Zerg_Mutalisk ||
-        this->getType() == BW::UnitID::Zerg_Hydralisk)
+    BW::UnitType type((BW::UnitID::Enum)type1.getID());
+    if (this->getType() == BWAPI::UnitTypes::Zerg_Larva ||
+        this->getType() == BWAPI::UnitTypes::Zerg_Mutalisk ||
+        this->getType() == BWAPI::UnitTypes::Zerg_Hydralisk)
     {
       this->orderSelect();
       BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(type), 0x3);
     }
-    else if (this->getType() == BW::UnitID::Zerg_Hatchery ||
-             this->getType() == BW::UnitID::Zerg_Lair ||
-             this->getType() == BW::UnitID::Zerg_Spire ||
-             this->getType() == BW::UnitID::Zerg_CreepColony)
+    else if (this->getType() == BWAPI::UnitTypes::Zerg_Hatchery ||
+             this->getType() == BWAPI::UnitTypes::Zerg_Lair ||
+             this->getType() == BWAPI::UnitTypes::Zerg_Spire ||
+             this->getType() == BWAPI::UnitTypes::Zerg_Creep_Colony)
     {
       this->orderSelect();
       BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
@@ -514,27 +529,24 @@ namespace BWAPI
     if (this->getTarget() == NULL)
       strcpy_s(targetIndex, 50, "Target:[NULL]");
     else
-      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)this->getTarget(), this->getTarget()->getType().getName());
+      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)this->getTarget(), this->getTarget()->getType().getName().c_str());
 
     if (this->getOrderTarget() == NULL)
       strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
     else
-      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName());
+      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName().c_str());
   
     if (this->getOwner() != NULL)
       sprintf_s(owner, 100, "Player = (%s)", this->getOwner()->getName().c_str());
     else
       sprintf_s(owner, 100, "error owner id = (%d)", this->getOriginalRawData()->playerID);
 
-    if (this->getType().isValid())
-      sprintf_s(unitName, 100, "(%s)", this->getType().getName());
-    else
-      sprintf_s(unitName, 100, "(unitID = %u)", this->getType().getID());
+    sprintf_s(unitName, 100, "(%s)", this->getType().getName().c_str());
 
     if (this->getChild() == NULL)
       sprintf_s(connectedUnit, 100, "(childUnit1 = NULL)");
     else
-      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName());
+      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName().c_str());
 
     sprintf_s(orderName, 100, "(%s)", this->getOrderID().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,

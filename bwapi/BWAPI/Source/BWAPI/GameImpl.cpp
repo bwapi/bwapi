@@ -179,11 +179,6 @@ namespace BWAPI
   {
     return BWAPI::Map::getMapHash();
   }
-  //--------------------------------------------- ALL UNIT TYPES ---------------------------------------------
-  const std::set< BW::UnitType >& GameImpl::allUnitTypes() const
-  {
-    return this->unitTypes;
-  }
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* > GameImpl::getForces() const
   {
@@ -566,15 +561,15 @@ namespace BWAPI
       else if (parsed[1] == "unitCount")
       { 
 
-        BW::UnitType unit = BW::UnitID::None;
+        BWAPI::UnitType unit = BWAPI::UnitTypes::None;
         bool all=true;
         if (parsed[2] != "")
         {
           std::string unitName= message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
-          unit = this->unitNameToType[unitName];
+          unit = BWAPI::UnitTypes::getUnitType(unitName);
           all=false;
         }
-        if (unit == BW::UnitID::None || !all)
+        if (unit == BWAPI::UnitTypes::None || !all)
         { 
           this->print("Unknown unit name 'None'");
           return true;
@@ -587,7 +582,7 @@ namespace BWAPI
           {
             for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
             {
-              count+=this->players[i]->getAllUnits(BW::UnitType(BW::UnitID::Enum(j)));
+              count+=this->players[i]->getAllUnits(BWAPI::UnitType(j));
             }
           }
           else
@@ -599,15 +594,15 @@ namespace BWAPI
       }
       else if (parsed[1] == "unfinishedCount")
       { 
-        BW::UnitType unit = BW::UnitID::None;
+        BWAPI::UnitType unit = BWAPI::UnitTypes::None;
         bool all=true;
         if (parsed[2] != "")
         {
           std::string unitName= message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
-          unit = this->unitNameToType[unitName];
+          unit = BWAPI::UnitTypes::getUnitType(unitName);
           all=false;
         }
-        if (unit == BW::UnitID::None || !all)
+        if (unit == BWAPI::UnitTypes::None || !all)
         { 
           this->print("Unknown unit name 'None'");
           return true;
@@ -620,7 +615,7 @@ namespace BWAPI
           {
             for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
             {
-              count+=this->players[i]->getIncompleteUnits(BW::UnitType(BW::UnitID::Enum(j)));
+              count+=this->players[i]->getIncompleteUnits(BWAPI::UnitType(j));
             }
           }
           else
@@ -632,15 +627,15 @@ namespace BWAPI
       }
       else if (parsed[1] == "completedCount")
       { 
-        BW::UnitType unit = BW::UnitID::None;
+        BWAPI::UnitType unit = BWAPI::UnitTypes::None;
         bool all=true;
         if (parsed[2] != "")
         {
           std::string unitName= message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
-          unit = this->unitNameToType[unitName];
+          unit = BWAPI::UnitTypes::getUnitType(unitName);
           all=false;
         }
-        if (unit == BW::UnitID::None || !all)
+        if (unit == BWAPI::UnitTypes::None || !all)
         { 
           this->print("Unknown unit name 'None'");
           return true;
@@ -653,7 +648,7 @@ namespace BWAPI
           {
             for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
             {
-              count+=this->players[i]->getCompletedUnits(BW::UnitType(BW::UnitID::Enum(j)));
+              count+=this->players[i]->getCompletedUnits(BWAPI::UnitType(j));
             }
           }
           else
@@ -894,7 +889,7 @@ namespace BWAPI
   void GameImpl::logUnknownOrStrange()
   {
     for each (UnitImpl* i in this->units)
-      if (!i->getType().isValid())
+      if (!i->getBWType().isValid())
         this->newUnitLog->log("%s", i->getName().c_str());
   }
   //--------------------------------------------- LOG UNIT LIST ----------------------------------------------
@@ -950,19 +945,6 @@ namespace BWAPI
           for (int y = startY; y < endY; y++)
             this->unitsOnTileData[x][y].push_back(i);
       }
-  }
-  //---------------------------------------------- GET UNIT TYPE ---------------------------------------------
-  BW::UnitType GameImpl::getUnitType(std::string &name) const
-  {
-    std::map<std::string, BW::UnitType>::const_iterator i=this->unitNameToType.find(name);
-    if (i==this->unitNameToType.end())
-    {
-      return BW::UnitType();
-    }
-    else
-    {
-      return i->second;
-    }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int GameImpl::getFrameCount() const

@@ -64,8 +64,8 @@ namespace Formula
       case FunctionType::Finished :
       case FunctionType::All :
       case FunctionType::InProgress :
-        unitType = BWAPI::Broodwar->getUnitType(this->functionParameter);
-        if (unitType == BW::UnitID::None)
+        unitType = BWAPI::UnitTypes::getUnitType(this->functionParameter);
+        if (unitType == BWAPI::UnitTypes::None)
           throw ParseException("Unknown unit name " + this->functionParameter);
         break;
       case FunctionType::ConfigValue :
@@ -79,7 +79,7 @@ namespace Formula
       case FunctionType::Mech :
       case FunctionType::Zerg_Main :
       case FunctionType::Zerg_MainLair :
-        this->race = BW::Race::stringToRace(this->functionParameter);
+        this->race = BWAPI::Races::getRace(this->functionParameter);
     }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

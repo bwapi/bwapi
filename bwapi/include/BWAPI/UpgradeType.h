@@ -2,9 +2,9 @@
 #include <string>
 #include <set>
 #include <BWAPI/Race.h>
-namespace BW { class UnitType; }
 namespace BWAPI
 {
+  class UnitType;
   class UpgradeType
   {
   public:
@@ -24,7 +24,7 @@ namespace BWAPI
     int gasPriceFactor() const;
     int upgradeTimeBase() const;
     int upgradeTimeFactor() const;
-    BW::UnitType* whatUpgrades() const;
+    const UnitType* whatUpgrades() const;
   private:
     int id;
   };

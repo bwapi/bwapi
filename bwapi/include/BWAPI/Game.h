@@ -9,7 +9,6 @@
 #include <BWAPI/Order.h>
 
 #include <BW/Latency.h>
-#include <BW/UnitType.h>
 #include <BW/TilePosition.h>
 namespace BWAPI
 {
@@ -35,9 +34,6 @@ namespace BWAPI
     virtual bool isFlagEnabled(Flag::Enum flag) const=0;
     virtual void enableFlag(Flag::Enum flag)=0;
     virtual std::list<Unit*> unitsOnTile(int x, int y) const=0;
-
-    virtual const std::set< BW::UnitType >& allUnitTypes() const=0;
-    virtual BW::UnitType getUnitType(std::string &name) const=0;
 
     virtual int mapWidth() const=0;
     virtual int mapHeight() const=0;

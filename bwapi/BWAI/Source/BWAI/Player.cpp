@@ -1,7 +1,5 @@
 #include <BWAPI.h>
 
-#include <BW/UnitType.h>
-
 #include "Player.h"
 #include "Globals.h"
 #include "AI.h"
@@ -44,23 +42,27 @@ namespace BWAI
   {
     return this->player->supplyTotal()-this->player->supplyUsed();
   }
-  int Player::getAllUnits(BW::UnitType unit) const
+  BW::TilePosition Player::getStartLocation() const
+  {
+    return this->player->getStartLocation();
+  }
+  int Player::getAllUnits(BWAPI::UnitType unit) const
   {
     return this->player->getAllUnits(unit);
   }
-  int Player::getCompletedUnits(BW::UnitType unit) const
+  int Player::getCompletedUnits(BWAPI::UnitType unit) const
   {
     return this->player->getCompletedUnits(unit);
   }
-  int Player::getIncompleteUnits(BW::UnitType unit) const
+  int Player::getIncompleteUnits(BWAPI::UnitType unit) const
   {
     return this->player->getIncompleteUnits(unit);
   }
-  int Player::getDeaths(BW::UnitType unit) const
+  int Player::getDeaths(BWAPI::UnitType unit) const
   {
     return this->player->getDeaths(unit);
   }
-  int Player::getKills(BW::UnitType unit) const
+  int Player::getKills(BWAPI::UnitType unit) const
   {
     return this->player->getKills(unit);
   }
@@ -68,12 +70,11 @@ namespace BWAI
   int Player::getAllUnits(BWAI::UnitTypeGroup::Enum group) const
   {
     int total=0;
-    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
     {
-      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-      if (isInUnitTypeGroup(group,unit))
+      if (isInUnitTypeGroup(group,*i))
       {
-        total+=this->player->getAllUnits(unit);
+        total+=this->player->getAllUnits(*i);
       }
     }
     return total;
@@ -81,12 +82,11 @@ namespace BWAI
   int Player::getCompletedUnits(BWAI::UnitTypeGroup::Enum group) const
   {
     int total=0;
-    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
     {
-      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-      if (isInUnitTypeGroup(group,unit))
+      if (isInUnitTypeGroup(group,*i))
       {
-        total+=this->player->getCompletedUnits(unit);
+        total+=this->player->getCompletedUnits(*i);
       }
     }
     return total;
@@ -94,12 +94,11 @@ namespace BWAI
   int Player::getIncompleteUnits(BWAI::UnitTypeGroup::Enum group) const
   {
     int total=0;
-    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
     {
-      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-      if (isInUnitTypeGroup(group,unit))
+      if (isInUnitTypeGroup(group,*i))
       {
-        total+=this->player->getIncompleteUnits(unit);
+        total+=this->player->getIncompleteUnits(*i);
       }
     }
     return total;
@@ -107,12 +106,11 @@ namespace BWAI
   int Player::getDeaths(BWAI::UnitTypeGroup::Enum group) const
   {
     int total=0;
-    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
     {
-      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-      if (isInUnitTypeGroup(group,unit))
+      if (isInUnitTypeGroup(group,*i))
       {
-        total+=this->player->getDeaths(unit);
+        total+=this->player->getDeaths(*i);
       }
     }
     return total;
@@ -120,12 +118,11 @@ namespace BWAI
   int Player::getKills(BWAI::UnitTypeGroup::Enum group) const
   {
     int total=0;
-    for (u8 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
     {
-      BW::UnitType unit = BW::UnitType((BW::UnitID::Enum)i);
-      if (isInUnitTypeGroup(group,unit))
+      if (isInUnitTypeGroup(group,*i))
       {
-        total+=this->player->getKills(unit);
+        total+=this->player->getKills(*i);
       }
     }
     return total;
@@ -148,40 +145,40 @@ namespace BWAI
   }
 
   //------------------------------------------------ CAN BUILD -----------------------------------------------
-  bool Player::canBuild(BW::UnitType unit) const
+  bool Player::canBuild(BWAPI::UnitType unit) const
   {
-    for(std::map<BW::UnitType,int>::const_iterator i=unit.getRequiredUnits().begin();i!=unit.getRequiredUnits().end();i++)
+    for(std::map<const BWAPI::UnitType*,int>::const_iterator i=unit.requiredUnits().begin();i!=unit.requiredUnits().end();i++)
     {
-      if (this->getCompletedUnits(i->first)<i->second)
+      if (this->getCompletedUnits(*(i->first))<i->second)
         return false;
     }
-    BWAPI::TechType tech((int)unit.getRequiredTech());
+    BWAPI::TechType tech=*(unit.requiredTech());
     if (tech!=BWAPI::TechTypes::None && !this->techResearched(tech))
       return false;
     return true;
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
-  bool Player::canAfford(BW::UnitType unit) const
+  bool Player::canAfford(BWAPI::UnitType unit) const
   {
     if (this==ai->player)
     {
-      return ((int)this->getSuppliesFree()) - ai->reserved.supply   >= unit.getSupplies() &&
-             ((int)this->getMinerals())     - ai->reserved.minerals >= unit.getMineralPrice() &&
-             ((int)this->getGas())          - ai->reserved.gas      >= unit.getGasPrice();
+      return ((int)this->getSuppliesFree()) - ai->reserved.supply   >= unit.suppliesConsumed() &&
+             ((int)this->getMinerals())     - ai->reserved.minerals >= unit.mineralPrice() &&
+             ((int)this->getGas())          - ai->reserved.gas      >= unit.gasPrice();
     }
     else
     {
-      return ((int)this->getSuppliesFree()) >= unit.getSupplies() &&
-             ((int)this->getMinerals())     >= unit.getMineralPrice() &&
-             ((int)this->getGas())          >= unit.getGasPrice();
+      return ((int)this->getSuppliesFree()) >= unit.suppliesConsumed() &&
+             ((int)this->getMinerals())     >= unit.mineralPrice() &&
+             ((int)this->getGas())          >= unit.gasPrice();
     }
   }
   //--------------------------------------------- CAN AFFORD NOW ---------------------------------------------
-  bool Player::canAffordNow(BW::UnitType unit) const
+  bool Player::canAffordNow(BWAPI::UnitType unit) const
   {
-    return ((int)this->getSuppliesFree()) >= unit.getSupplies() &&
-           ((int)this->getMinerals())     >= unit.getMineralPrice() &&
-           ((int)this->getGas())          >= unit.getGasPrice();
+    return ((int)this->getSuppliesFree()) >= unit.suppliesConsumed() &&
+           ((int)this->getMinerals())     >= unit.mineralPrice() &&
+           ((int)this->getGas())          >= unit.gasPrice();
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BWAPI::TechType tech) const

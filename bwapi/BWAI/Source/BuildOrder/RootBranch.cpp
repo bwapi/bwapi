@@ -1,3 +1,4 @@
+#include <BWAPI.h>
 #include "RootBranch.h"
 
 #include <tinyxml.h>
@@ -13,8 +14,8 @@ namespace BuildOrder
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   RootBranch::RootBranch(TiXmlElement* xmlElement) : Branch(xmlElement)
   {
-    this->race = BW::Race::stringToRace(Util::Xml::getRequiredAttribute(xmlElement, "race"));
-    this->against = BW::Race::stringToRace(Util::Xml::getRequiredAttribute(xmlElement, "against"));
+    this->race = BWAPI::Races::getRace(Util::Xml::getRequiredAttribute(xmlElement, "race"));
+    this->against = BWAPI::Races::getRace(Util::Xml::getRequiredAttribute(xmlElement, "against"));
   }
   //----------------------------------------------------------------------------------------------------------
 }

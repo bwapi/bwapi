@@ -10,7 +10,7 @@ namespace BuildOrder
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   BuildWeight::BuildWeight(TiXmlElement* element)
   {
-    this->unitType = BWAPI::Broodwar->getUnitType(Util::Xml::getRequiredAttribute(element, "name"));
+    this->unitType = BWAPI::UnitTypes::getUnitType(Util::Xml::getRequiredAttribute(element, "name"));
     this->weight = Util::Xml::getRequiredU16Attribute(element, "weight");
     TiXmlElement* conditionElement = element->FirstChildElement("condition");
     if (conditionElement != NULL)

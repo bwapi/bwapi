@@ -335,6 +335,8 @@ namespace BWAPI
       unitTypeData[Resource_Mineral_Field.getID()].set("Mineral Field",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,40960,100,0,1,1,0,1,32,16,31,15,2,1,0,0,false,false,false,true,false,false,true,false,false); 
       unitTypeData[Resource_Vespene_Geyser.getID()].set("Vespene Geyser",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,40960,100,0,1,1,0,1,64,32,63,31,4,2,0,0,false,false,false,true,false,false,true,false,false); 
       unitTypeData[Spell_Dark_Swarm.getID()].set("Dark Swarm",Races::Other,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,8192,100,0,250,200,0,2400,80,80,79,79,5,5,0,0,false,false,false,false,false,false,true,false,false); 
+      unitTypeData[None.getID()].set("None",Races::None,&(None),0,NULL,0,NULL,0,NULL,0,NULL,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false,false,false,false,false,false); 
+      unitTypeData[Unknown.getID()].set("Unknown",Races::Unknown,&(Unknown),0,NULL,0,NULL,0,NULL,0,NULL,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false,false,false,false,false,false); 
       unitTypeSet.insert(Terran_Marine);
       unitTypeSet.insert(Terran_Ghost);
       unitTypeSet.insert(Terran_Vulture);
