@@ -3,13 +3,18 @@
 
 #include <BWAPI.h>
 
+#include "Globals.h"
+#include "TaskUpgrade.h"
+#include "TaskInvent.h"
 #include "Player.h"
+#include "BuildingPositionSet.h"
 
 namespace BWAI
 {
   LUA::LUA(void)
   {
     lua = lua_open();
+    luaL_openlibs(lua);
     lua_register(lua, "sendText", sendText);
     lua_register(lua, "mapSize", getMapSize);
     lua_register(lua, "mapName", getMapName);
@@ -28,6 +33,9 @@ namespace BWAI
     lua_register(lua, "units", getAllUnits);
     lua_register(lua, "complete", getCompleteUnits);
     lua_register(lua, "incomplete", getIncompleteUnits);
+    lua_register(lua, "build", build);
+    lua_register(lua, "upgrade", upgrade);
+    lua_register(lua, "research", upgrade);
 
   } // constructor
 
@@ -365,6 +373,86 @@ namespace BWAI
     return 1;
   }
 
+// ======================================== Build
+  int LUA::build(lua_State *l)
+  {
+/*    u8 argcount = lua_gettop(l);
+    if (argcount > 3 || argcount < 2)
+    {
+      // error msg
+      return 0;
+    }
+
+    u16 type = (u16)lua_tonumber(l, 1);
+    if (type > 228)
+    {
+      // error msg
+      return 0;
+    }
+    BWAI::Unit *testunit = NULL;
+    BWAI::BuildingPosition spot(AI::getFreeBuildingSpot(lua_tostring(l, 2), (BWAI::Unit *&)testunit));
+    BWAI::Unit builder(AI::freeBuilder(spot));
+    u16 priority = 50;
+
+    if (argcount == 3)
+      priority = lua_tonumber(l, 3);
+    BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(type, builder, spot, priority));
+    BWAI::ai->buildTaskUnitsPlanned[type]++;
+*/
+    return 0;
+  }
+// ======================================== Upgrade
+  int LUA::upgrade(lua_State *l)
+  {
+    u8 argcount = lua_gettop(l);
+    if (argcount > 3 || argcount < 1)
+    {
+      // error msg
+      return 0;
+    }
+
+    u16 type = (u16)lua_tonumber(l, 1);
+    if (type > 60)
+    {
+      // error msg
+      return 0;
+    }
+    u16 priority = 50;
+    if (argcount == 3)
+      priority = lua_tonumber(l, 3);
+
+    u16 level = BWAPI::Broodwar->self()->upgradeLevel(type) + 1;
+    if (argcount >= 2)
+      level = lua_tonumber(l, 2);
+
+    BWAI::ai->plannedUpgrades.push_back(new BWAI::TaskUpgrade(BWAPI::UpgradeType(type), level, priority));
+
+    return 0;
+  }
+// ======================================== Research
+  int LUA::research(lua_State *l)
+  {
+    u8 argcount = lua_gettop(l);
+    if (argcount > 2 || argcount < 1)
+    {
+      // error msg
+      return 0;
+    }
+
+    u16 type = (u16)lua_tonumber(l, 1);
+    if (type > 60)
+    {
+      // error msg
+      return 0;
+    }
+    u16 priority = 50;
+    if (argcount == 2)
+      priority = lua_tonumber(l, 2);
+
+    BWAI::ai->plannedInvents.push_back(new BWAI::TaskInvent(BWAPI::TechType(type), priority));
+
+    return 0;
+  }
 
 } // namespace BWAI
 

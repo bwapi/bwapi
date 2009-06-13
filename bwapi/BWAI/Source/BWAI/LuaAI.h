@@ -12,7 +12,6 @@ extern "C"
   #include "../Lua/Source/luaconf.h"
 }
 
-
 namespace BWAI
 {
   class LUA
@@ -43,17 +42,9 @@ namespace BWAI
       static int getAllUnits(lua_State *l);
       static int getCompleteUnits(lua_State *l);
       static int getIncompleteUnits(lua_State *l);
-
-
-/*
-      static int getStartLocation(lua_State *l);
-      static int getCounts(lua_State *l);
-      static int getScore(lua_State *l);
-      static int getForceName(lua_State *l);
-      static int isFlagEnabled(lua_State *l);
-      static int enableFlag(lua_State *l);
-*/
-
+      static int build(lua_State *l);
+      static int upgrade(lua_State *l);
+      static int research(lua_State *l);
 
   };  // class LUA
 } // namespace BWAI
