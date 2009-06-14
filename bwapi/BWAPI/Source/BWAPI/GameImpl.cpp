@@ -310,7 +310,6 @@ namespace BWAPI
     {
 
       TCHAR szDllPath[MAX_PATH];
-      HMODULE hMod;
       std::string ai_dll=config->get("ai_dll");
       for(int i=0;i<ai_dll.length();i++)
       {
@@ -320,6 +319,7 @@ namespace BWAPI
       Util::Logger::globalLog->logCritical("Loading AI DLL from: %s",ai_dll.c_str());
 	    while ((hMod = LoadLibrary(szDllPath)) ? 
         false : this->fatalError->log("Failed to Load the AI dll. GetLastError returns: 0x%X\n", GetLastError()));
+      Util::Logger::globalLog->logCritical("Loaded AI Module");
       Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
     	
       typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
@@ -794,6 +794,9 @@ namespace BWAPI
   {
     this->setOnStartCalled(false);
     this->client->onEnd();
+    this->client=NULL;
+    FreeLibrary(hMod);
+    Util::Logger::globalLog->logCritical("Unloaded AI Module");
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
