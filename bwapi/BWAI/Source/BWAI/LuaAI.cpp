@@ -20,10 +20,13 @@ namespace BWAI
     lua_register(lua, "mapName", getMapName);
     lua_register(lua, "terrainInfo", getTerrainInfo);
     lua_register(lua, "currentPlayer", getCurrentPlayer);
+    lua_register(lua, "opponent", getOpponentPlayer);
     lua_register(lua, "playerName", getPlayerName);
+    lua_register(lua, "opponentName", getOpponentName);
     lua_register(lua, "mapHash", getMapHash);
     lua_register(lua, "race", getRace);
-    lua_register(lua, "force", getForceName);
+    lua_register(lua, "currentForce", getForceName);
+    lua_register(lua, "opponentForce", getOpponentForceName);
     lua_register(lua, "upgrading", isUpgrading);
     lua_register(lua, "upgraded", getUpgrade);
     lua_register(lua, "researched", isResearched);
@@ -144,6 +147,17 @@ namespace BWAI
     lua_pushnumber(l, BWAPI::Broodwar->self()->getID());
     return 1;
   }
+// ======================================== Get Opponent Player
+  int LUA::getOpponentPlayer(lua_State *l)
+  {
+    if (lua_gettop(l) != 0)
+    {
+      // error msg
+      return 0;
+    }
+    lua_pushnumber(l, BWAPI::Broodwar->enemy()->getID());
+    return 1;
+  }
 // ======================================== Get Player Name
   int LUA::getPlayerName(lua_State *l)
   {
@@ -153,6 +167,17 @@ namespace BWAI
       return 0;
     }
     lua_pushstring(l, BWAPI::Broodwar->self()->getName().c_str());
+    return 1;
+  }
+// ======================================== Get Opponent Player Name
+  int LUA::getOpponentName(lua_State *l)
+  {
+    if (lua_gettop(l) != 0)
+    {
+      // error msg
+      return 0;
+    }
+    lua_pushstring(l, BWAPI::Broodwar->enemy()->getName().c_str());
     return 1;
   }
 // ======================================== Get Map Hash
@@ -186,6 +211,17 @@ namespace BWAI
       return 0;
     }
     lua_pushstring(l, BWAPI::Broodwar->self()->getForce()->getName().c_str());
+    return 1;
+  }
+// ======================================== Get Force Name
+  int LUA::getOpponentForceName(lua_State *l)
+  {
+    if (lua_gettop(l) != 0)
+    {
+      // error msg
+      return 0;
+    }
+    lua_pushstring(l, BWAPI::Broodwar->enemy()->getForce()->getName().c_str());
     return 1;
   }
 // ======================================== Is Upgrading
