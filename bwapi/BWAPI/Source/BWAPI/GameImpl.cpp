@@ -170,7 +170,7 @@ namespace BWAPI
     return this->map.groundHeight(x,y);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
-  const std::set< BW::TilePosition >& GameImpl::getStartLocations() const
+  const std::set< TilePosition >& GameImpl::getStartLocations() const
   {
     return this->startLocations;
   }
@@ -468,8 +468,8 @@ namespace BWAPI
     startLocations.clear();
     while (posptr->x != 0 || posptr->y != 0)
     {
-      startLocations.insert(BW::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
-                                             (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
+      startLocations.insert(BWAPI::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
+                                                (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
       posptr++;
     }
   }
@@ -906,9 +906,9 @@ namespace BWAPI
     return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
-  BW::Latency::Enum GameImpl::getLatency()
+  BWAPI::Latency::Enum GameImpl::getLatency()
   {
-    return this->latency;
+    return BWAPI::Latency::Enum(this->latency);
   }
   //--------------------------------------- PRINT UNIT COUNT PER TILE ----------------------------------------
   void GameImpl::printUnitCountPerTile()

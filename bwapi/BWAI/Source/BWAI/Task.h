@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-
+#include <Util/Types.h>
 #include "TaskType.h"
 
 #include "Unit.h"

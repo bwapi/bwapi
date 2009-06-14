@@ -1,5 +1,5 @@
 #include "BuildingPositionSet.h"
-
+#include <BWAPI.h>
 #include <Util/Strings.h>
 #include <tinyxml.h>
 #include <Util/Xml.h>
@@ -17,7 +17,7 @@ namespace BWAI
       this->shortcut = shortcutAttribute;
   
     for (TiXmlElement* position = xmlElement->FirstChildElement("position"); position != NULL; position = position->NextSiblingElement("position"))
-      this->positions.push_back(new BuildingPosition(BW::TilePosition(position)));
+      this->positions.push_back(new BuildingPosition(BWAPI::TilePosition(Util::Xml::getRequiredU16Attribute(position, "x"),Util::Xml::getRequiredU16Attribute(position, "y"))));
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   BuildingPositionSet::~BuildingPositionSet()

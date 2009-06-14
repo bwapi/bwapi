@@ -2,7 +2,7 @@
 
 #include <string>
 #include <BWAPI.h>
-
+#include <Util/Types.h>
 class TiXmlElement;
 namespace BuildOrder { class Condition; }
 

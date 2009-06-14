@@ -1,7 +1,6 @@
 #pragma once
 
 #include <BWAPI.h>
-#include <BW/TilePosition.h>
 #include <list>
 
 namespace BWAPI  { class Unit; }
@@ -27,13 +26,13 @@ namespace BWAI
       BWAPI::UnitType getType() const;
       int getHealthPoints() const; 
       int getShieldPoints() const; 
-      const BW::Position& getPosition() const;
-      BW::TilePosition getTilePosition() const;
+      const BWAPI::Position getPosition() const;
+      const BWAPI::TilePosition getTilePosition() const;
       Unit* getTarget() const;
       Unit* getOrderTarget() const;
       Unit* getBuildUnit() const;
       Unit* getChild() const;
-      BW::Position getTargetPosition() const;
+      BWAPI::Position getTargetPosition() const;
       Player* getOwner() const;
       std::string getName() const;
       bool isMineral() const;
@@ -50,7 +49,7 @@ namespace BWAI
       /** Gets distance of unit edges. */
       int getDistance(Unit *unit) const;
       /** Gets distance of unit center and position. */
-      int getDistance(BW::Position position) const;
+      int getDistance(BWAPI::Position position) const;
       /** Gets distance of unit centers. */
       int getCenterDistance(Unit *unit) const;
       /**< Gets bwUnit->BW#Unit#orderID. */
@@ -58,11 +57,11 @@ namespace BWAI
       /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
       BWAPI::Order getSecondaryOrderID() const;
 
-      void orderAttackLocation(BW::Position position, BWAPI::Order order);
-      void orderRightClick(BW::Position position);
+      void orderAttackLocation(BWAPI::Position position, BWAPI::Order order);
+      void orderRightClick(BWAPI::Position position);
       void orderRightClick(Unit *target);
       void trainUnit(BWAPI::UnitType type);
-      void build(BW::TilePosition position, BWAPI::UnitType type);
+      void build(BWAPI::TilePosition position, BWAPI::UnitType type);
       void invent(BWAPI::TechType tech);
       void upgrade(BWAPI::UpgradeType upgrade);
 

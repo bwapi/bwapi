@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BW/TilePosition.h>
+#include <BWAPI.h>
 
 namespace BWAI
 {
@@ -8,8 +8,8 @@ namespace BWAI
   class BuildingPosition
   {
     public:
-      BuildingPosition(const BW::TilePosition& position);
-      BW::TilePosition position;
+      BuildingPosition(const BWAPI::TilePosition& position);
+      BWAPI::TilePosition position;
       /**
        * Specifies if this position is already reserved by some TaskBuild, this prevents other TaskBuild to
        * use the same location.

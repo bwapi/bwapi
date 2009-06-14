@@ -10,7 +10,7 @@ namespace BWAI
   {
     this->player=player;
   }
-  u8 Player::getID()
+  int Player::getID()
   {
     return this->player->getID();
   }
@@ -42,7 +42,7 @@ namespace BWAI
   {
     return this->player->supplyTotal()-this->player->supplyUsed();
   }
-  BW::TilePosition Player::getStartLocation() const
+  BWAPI::TilePosition Player::getStartLocation() const
   {
     return this->player->getStartLocation();
   }

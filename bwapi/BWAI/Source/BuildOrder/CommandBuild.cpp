@@ -75,7 +75,7 @@ namespace BuildOrder
         {
           BWAI::Unit* executor = NULL;
           BWAI::BuildingPosition* position = NULL;
-          BW::TilePosition spot = BW::TilePosition::Invalid;
+          BWAPI::TilePosition spot = BWAPI::TilePositions::Invalid;
 
           if (alternatives != NULL)
           {

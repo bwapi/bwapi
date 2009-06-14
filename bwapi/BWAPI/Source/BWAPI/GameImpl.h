@@ -20,9 +20,11 @@ namespace BWAPI { class AIModule; }
 #include <windows.h>
 
 #include <Util/RectangleArray.h>
+#include <Util/Types.h>
 
 #include <BW/OrderTypes.h>
 #include <BW/Offsets.h>
+#include <BWAPI/Latency.h>
 #include <BW/Latency.h>
 #include <BW/TechType.h>
 #include <BW/UpgradeType.h>
@@ -52,7 +54,7 @@ namespace BWAPI
       virtual std::set< Unit* > getGeysers() const;
       virtual std::set< Unit* > getNeutralUnits() const;
 
-      virtual BW::Latency::Enum getLatency();
+      virtual BWAPI::Latency::Enum getLatency();
       virtual int getFrameCount() const;
       virtual int getMouseX() const;
       virtual int getMouseY() const;
@@ -71,14 +73,13 @@ namespace BWAPI
       virtual bool walkable(int x, int y) const;
       virtual bool visible(int x, int y) const;
       virtual int groundHeight(int x, int y) const; 
-      virtual const std::set< BW::TilePosition >& getStartLocations() const;
+      virtual const std::set< TilePosition >& getStartLocations() const;
       virtual int getMapHash() const;
       /**
        * Prints text in game (only local)
        * @param text Text to be written
        */
       virtual void print(const char *text, ...);
-      virtual void printEx(s32 pID, const char *text, ...);
       virtual void printPublic(const char *text, ...);
       virtual bool isOnStartCalled() const;
       virtual bool isInGame() const;
@@ -124,6 +125,7 @@ namespace BWAPI
       /** @todo Doesn't work */
       void refresh();
       void loadSelected();
+      void printEx(s32 pID, const char *text, ...);
 
       UnitImpl* getFirst();
       Util::Logger *fatalError;
@@ -143,7 +145,7 @@ namespace BWAPI
       Map map;
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
-      std::set<BW::TilePosition> startLocations;
+      std::set<TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
       Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
       /** Count of game-frames passed from game start. */

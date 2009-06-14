@@ -4,7 +4,7 @@ namespace BWAI { class Unit; }
 
 #include "WalkabilityPosition.h"
 
-#include <BW/Position.h>
+#include <BWAPI.h>
 
 namespace PathFinding
 {
@@ -19,7 +19,7 @@ namespace PathFinding
       /** The unit that made this shadow - is there to avoid collision with itself. */
       const BWAI::Unit* original;  
       /** Position of the shadow, will be modified during the pathfinding algorithm. */
-      BW::Position position;
+      BWAPI::Position position;
       WalkabilityPosition walkabilityPosition;
   };
 }

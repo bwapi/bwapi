@@ -3,7 +3,6 @@
 #include <map>
 
 #include <BWAPI.h>
-#include <BW/Position.h>
 #include <Util/RectangleArray.h>
 
 #include "UnitModel.h"

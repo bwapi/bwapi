@@ -123,7 +123,7 @@ namespace PathFinding
       for (int y = unit.walkabilityPosition.y; y <= (unit.position.y + 7)/8; y++)
       {
         WalkabilityPosition here(x, y);
-        u16 distance = here.toBWPosition().getDistance(unit.position);
+        u16 distance = (u16)(here.toBWAPIPosition().getDistance(unit.position));
         here.x ++;
         here.y ++;
         world[here.x][here.y].distance = distance;

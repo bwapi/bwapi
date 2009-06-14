@@ -12,6 +12,6 @@ namespace BWAPI
     virtual void onEnd();
     virtual void onFrame();
     virtual bool onSendText(std::string text);
-    virtual void onRemoveUnit(BWAPI::Unit* unit);
+    virtual void onRemoveUnit(Unit* unit);
   };
 }

@@ -6,7 +6,6 @@
 
 #include <BWAPI.h>
 #include <BWAI/ReservedResources.h>
-#include <BW/Position.h>
 
 #include "LuaAI.h"
 
@@ -36,9 +35,7 @@ namespace BuildOrder { class Command; }
 namespace BuildOrder { class Branch; }
 namespace BuildOrder { class Executor; }
 
-namespace BWAPI { class Player; }
 namespace BWAPI { class UnitPrototype; }
-namespace BWAPI { class Map; }
 
 /** 
  * Set of classes providing ai tools.
@@ -77,7 +74,7 @@ namespace BWAI
       bool expansionsSaturated;
       std::set<Unit*> units;
       Util::Logger* log;
-      Unit* freeBuilder(BW::Position position);
+      Unit* freeBuilder(BWAPI::Position position);
 
       std::list<TaskGatherGas*> activeRefineries;      
       std::list<TaskGather*> activeMinerals;
@@ -93,7 +90,7 @@ namespace BWAI
       
       Player* player;
       Player* opponent;
-      BW::Position getEnemyMain();
+      BWAPI::Position getEnemyMain();
       BuildingPosition* getFreeBuildingSpot(std::string spotName, Unit*& builderToUse);
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id. The
@@ -146,11 +143,11 @@ namespace BWAI
        */
       bool betterMinralPatch(BWAI::TaskGather* task1, BWAI::TaskGather* task2, Unit* optimiseFor = NULL);
       /** Compares two workers suitability to be freed from it's task to do something else. */
-      bool betterWorkerToFree(Unit* worker1, Unit* worker2, const BW::Position& buildingPosition);
+      bool betterWorkerToFree(Unit* worker1, Unit* worker2, const BWAPI::Position& buildingPosition);
       Unit* temp;
       
       bool cycle;
-      BW::Position cyclePosition;
+      BWAPI::Position cyclePosition;
       float cycleAngle;
       bool saveBuildings(const std::string& path);
   };

@@ -12,7 +12,7 @@ namespace BWAI
   public:
     Player(BWAPI::Player* player);
 
-    u8 getID();
+    int getID();
     BWAPI::Race getRace();
     BWAPI::PlayerType playerType();
 
@@ -22,7 +22,7 @@ namespace BWAI
     int getSuppliesAvailable() const;
     int getSuppliesUsed() const;
     int getSuppliesFree() const;
-    BW::TilePosition getStartLocation() const;
+    BWAPI::TilePosition getStartLocation() const;
 
     int getAllUnits(BWAPI::UnitType unit) const;
     int getCompletedUnits(BWAPI::UnitType unit) const;

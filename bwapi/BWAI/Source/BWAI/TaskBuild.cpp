@@ -4,7 +4,6 @@
 #include <Util/Types.h>
 #include <BWAPI.h>
 #include <BWAI/Globals.h>
-#include <BW/UnitType.h>
 #include <BWAI/Player.h>
 #include <BWAI/ReservedResources.h>
 
@@ -26,7 +25,7 @@ namespace BWAI
   ,position(position)
   ,building(NULL)
   ,alternatives(alternatives)
-  ,spot(BW::TilePosition::Invalid)
+  ,spot(BWAPI::TilePositions::Invalid)
   {
     if (position != NULL)
       position->reserved = true;
@@ -35,7 +34,7 @@ namespace BWAI
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskBuild::TaskBuild(BWAPI::UnitType buildingType,
                        Unit* builder,
-                       BW::TilePosition spot,
+                       BWAPI::TilePosition spot,
                        u16 priority)
   :Task(builder, priority)
   ,buildingType(buildingType)
@@ -107,7 +106,7 @@ namespace BWAI
           
       if (this->alternatives == NULL && 
           this->building == NULL &&
-          this->spot == BW::TilePosition::Invalid)
+          this->spot == BWAPI::TilePositions::Invalid)
         return true; // Special case of the custom building    
 
       if (this->building != NULL &&
@@ -142,9 +141,9 @@ namespace BWAI
           if (this->position == NULL)
             return false;
         }
-        BW::Position center(this->position->position);
-        center.x += (BW::TILE_SIZE*this->getBuildingType().tileWidth())/2;
-        center.y += (BW::TILE_SIZE*this->getBuildingType().tileHeight())/2;
+        BWAPI::Position center(this->position->position);
+        center.x += (BWAPI::TILE_SIZE*this->getBuildingType().tileWidth())/2;
+        center.y += (BWAPI::TILE_SIZE*this->getBuildingType().tileHeight())/2;
         if (this->position != NULL)
           // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
           if (this->executors.front()->getDistance(center) > 100 &&
@@ -204,7 +203,7 @@ namespace BWAI
     return this->buildingType;
   }
   //----------------------------------------------------------------------------------------------------------
-  bool TaskBuild::canIBuild(BW::TilePosition here)
+  bool TaskBuild::canIBuild(BWAPI::TilePosition here)
   {
     for (int k = here.x; 
          k < here.x + this->alternatives->tileWidth; 

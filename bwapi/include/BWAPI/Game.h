@@ -7,9 +7,8 @@
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
-
-#include <BW/Latency.h>
-#include <BW/TilePosition.h>
+#include <BWAPI/Latency.h>
+#include <BWAPI/TilePosition.h>
 namespace BWAPI
 {
   class Force;
@@ -25,7 +24,7 @@ namespace BWAPI
     virtual std::set< Unit* > getGeysers() const=0;
     virtual std::set< Unit* > getNeutralUnits() const=0;
 
-    virtual BW::Latency::Enum getLatency()=0;
+    virtual BWAPI::Latency::Enum getLatency()=0;
     virtual int getFrameCount() const=0;
     virtual int getMouseX() const=0;
     virtual int getMouseY() const=0;
@@ -43,11 +42,10 @@ namespace BWAPI
     virtual bool walkable(int x, int y) const=0;
     virtual bool visible(int x, int y) const=0;
     virtual int groundHeight(int x, int y) const=0;
-    virtual const std::set< BW::TilePosition >& getStartLocations() const=0;
+    virtual const std::set< TilePosition >& getStartLocations() const=0;
     virtual int getMapHash() const=0;
 
     virtual void print(const char *text, ...)=0;
-    virtual void printEx(s32 pID, const char *text, ...)=0;
     virtual void printPublic(const char *text, ...)=0;
     virtual bool isOnStartCalled() const=0;
     virtual bool isInGame() const=0;
