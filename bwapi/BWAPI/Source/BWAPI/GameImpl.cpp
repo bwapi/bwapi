@@ -967,7 +967,7 @@ namespace BWAPI
         int endY =     (i->getPosition().y + i->getType().dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
-            this->unitsOnTileData[x][y].push_back(i);
+            this->unitsOnTileData[x][y].insert(i);
       }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
@@ -976,7 +976,7 @@ namespace BWAPI
     return this->frameCount;
   }
   //--------------------------------------------- UNITS ON TILE ----------------------------------------------
-  std::list<Unit*> GameImpl::unitsOnTile(int x, int y) const
+  std::set<Unit*> GameImpl::unitsOnTile(int x, int y) const
   {
     return unitsOnTileData[x][y];
   }

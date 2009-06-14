@@ -39,13 +39,13 @@ namespace BWAPI
 
       virtual Unit* getTarget() const;
       virtual Position getTargetPosition() const;
-      virtual Order getOrderID() const;
+      virtual Order getOrder() const;
       virtual Unit* getOrderTarget() const;
       /* Timer specifiing how long it will take to finish the current order
        * (verified for mining).
        */
       virtual int getOrderTimer() const;
-      virtual Order getSecondaryOrderID() const;
+      virtual Order getSecondaryOrder() const;
       virtual Unit* getBuildUnit() const;
       virtual int getRemainingBuildTime() const;
       virtual Unit* getChild() const;
@@ -65,14 +65,13 @@ namespace BWAPI
       virtual bool isDisabled() const;
       virtual bool isTraining() const;
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
-      virtual bool isMineral() const; /* TODO: Remove */
       virtual std::list<UnitType > getTrainingQueue() const;
 
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      virtual void attackLocation(Position position, Order order);
+      virtual void attackMove(Position position);
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
@@ -139,6 +138,7 @@ namespace BWAPI
       void setLoaded(bool loadedState);
       std::string getName() const;
       UnitImpl* getNext() const;
+      bool isMineral() const;
       /** Gets #bwOriginalUnit */
       BW::Unit *getOriginalRawData() const;
       /** Gets #bwUnitLocal */

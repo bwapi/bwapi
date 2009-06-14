@@ -53,11 +53,11 @@ namespace BWAI
       /** Gets distance of unit centers. */
       int getCenterDistance(Unit *unit) const;
       /**< Gets bwUnit->BW#Unit#orderID. */
-      BWAPI::Order getOrderID() const;
+      BWAPI::Order getOrder() const;
       /**< Gets bwUnit->BW#Unit#secondaryOrderID. */
-      BWAPI::Order getSecondaryOrderID() const;
+      BWAPI::Order getSecondaryOrder() const;
 
-      void orderAttackLocation(BWAPI::Position position, BWAPI::Order order);
+      void orderAttackMove(BWAPI::Position position);
       void orderRightClick(BWAPI::Position position);
       void orderRightClick(Unit *target);
       void trainUnit(BWAPI::UnitType type);

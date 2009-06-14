@@ -24,7 +24,7 @@ namespace BWAPI
     virtual std::set< Unit* > getGeysers() const=0;
     virtual std::set< Unit* > getNeutralUnits() const=0;
 
-    virtual BWAPI::Latency::Enum getLatency()=0;
+    virtual Latency::Enum getLatency()=0;
     virtual int getFrameCount() const=0;
     virtual int getMouseX() const=0;
     virtual int getMouseY() const=0;
@@ -32,7 +32,7 @@ namespace BWAPI
     virtual int getScreenY() const=0;
     virtual bool isFlagEnabled(Flag::Enum flag) const=0;
     virtual void enableFlag(Flag::Enum flag)=0;
-    virtual std::list<Unit*> unitsOnTile(int x, int y) const=0;
+    virtual std::set<Unit*> unitsOnTile(int x, int y) const=0;
 
     virtual int mapWidth() const=0;
     virtual int mapHeight() const=0;
@@ -47,8 +47,6 @@ namespace BWAPI
 
     virtual void print(const char *text, ...)=0;
     virtual void printPublic(const char *text, ...)=0;
-    virtual bool isOnStartCalled() const=0;
-    virtual bool isInGame() const=0;
     virtual void changeRace(Race race)=0;
     virtual void startGame()=0;
     virtual void pauseGame()=0;

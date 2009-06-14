@@ -135,6 +135,11 @@ namespace BWAPI
   {
     return NULL;//TODO: create Force class
   }
+  //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
+  bool PlayerImpl::isAlliesWith(Player* player) const
+  {
+    return false;
+  }
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
   {

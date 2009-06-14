@@ -4,7 +4,8 @@
 
 #include <Util/Logger.h>
 
-#include "BWAPI/Player.h"
+#include <BWAPI/Player.h>
+#include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
 #include "Globals.h"
 #include "CommandTrain.h"
@@ -194,26 +195,26 @@ namespace BWAPI
     return this->bwOriginalUnit;
   }
   //---------------------------------------------- GET ORDER ID ----------------------------------------------
-  Order UnitImpl::getOrderID() const
+  Order UnitImpl::getOrder() const
   {
     return BWAPI::Order(this->getRawDataLocal()->orderID);
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
-  Order UnitImpl::getSecondaryOrderID() const
+  Order UnitImpl::getSecondaryOrder() const
   {
     return BWAPI::Order(this->getRawDataLocal()->secondaryOrderID);
   }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
-    return (this->getOrderID() == BW::OrderID::Guard ||
-            this->getOrderID() == BW::OrderID::Stop ||
-            this->getOrderID() == BW::OrderID::Pickup1 ||
-            this->getOrderID() == BW::OrderID::Nothing2 ||
-            this->getOrderID() == BW::OrderID::Medic ||
-            this->getOrderID() == BW::OrderID::Carrier ||
-            this->getOrderID() == BW::OrderID::Critter ||
-            this->getOrderID() == BW::OrderID::NukeTrain);
+    return (this->getOrder() == BWAPI::Orders::Guard ||
+            this->getOrder() == BWAPI::Orders::Stop ||
+            this->getOrder() == BWAPI::Orders::Pickup1 ||
+            this->getOrder() == BWAPI::Orders::Nothing2 ||
+            this->getOrder() == BWAPI::Orders::Medic ||
+            this->getOrder() == BWAPI::Orders::Carrier ||
+            this->getOrder() == BWAPI::Orders::Critter ||
+            this->getOrder() == BWAPI::Orders::NukeTrain);
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
 
@@ -328,8 +329,9 @@ namespace BWAPI
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
-  void UnitImpl::attackLocation(Position position, Order order)
+  void UnitImpl::attackMove(Position position)
   {
+    Order order=Orders::AttackMove;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x,position.y), order.getID()), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x,position.y)));
@@ -548,7 +550,7 @@ namespace BWAPI
     else
       sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName().c_str());
 
-    sprintf_s(orderName, 100, "(%s)", this->getOrderID().getName().c_str());
+    sprintf_s(orderName, 100, "(%s)", this->getOrder().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
                                               orderName,
                                               indexName,

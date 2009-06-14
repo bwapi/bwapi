@@ -163,11 +163,11 @@ namespace BWAI
             ((TaskGather*)worker1->getTask())->getExpansion() != NULL)
         { /* This part prioritise scv's near the command center when they gather, so scv's in mineral line
              Wont be taken, it causes them to be stucked there sometimes. */
-          if (worker2->getOrderID() == BWAPI::Orders::ReturnMinerals &&
-              worker1->getOrderID() == BWAPI::Orders::MoveToMinerals)
+          if (worker2->getOrder() == BWAPI::Orders::ReturnMinerals &&
+              worker1->getOrder() == BWAPI::Orders::MoveToMinerals)
             return true;
-          if (worker1->getOrderID() == BWAPI::Orders::ReturnMinerals &&
-              worker2->getOrderID() == BWAPI::Orders::MoveToMinerals)
+          if (worker1->getOrder() == BWAPI::Orders::ReturnMinerals &&
+              worker2->getOrder() == BWAPI::Orders::MoveToMinerals)
             return false;
           u16 distance1 = ((TaskGather*)worker1->getTask())->getExpansion()->gatherCenter->getDistance(worker1);
           u16 distance2 = ((TaskGather*)worker2->getTask())->getExpansion()->gatherCenter->getDistance(worker2);
@@ -795,7 +795,7 @@ namespace BWAI
         TaskFight* task = this->fightGroups.front();
 
         for each (Unit* i in task->executors)
-			i->orderAttackLocation(position, BWAPI::Orders::AttackMove);
+			i->orderAttackMove(position);
       }
       else
       {
@@ -872,13 +872,13 @@ namespace BWAI
              i->getType() == BWAPI::UnitTypes::Zerg_Hatchery
            ) &&
            i->getOwner() == player)
-        if (i->getOrderID() != BWAPI::Orders::BuildingLiftoff &&
+        if (i->getOrder() != BWAPI::Orders::BuildingLiftoff &&
             i->expansion == NULL)
         {
           this->log->logImportant("Starting new expansion - %s", i->getName().c_str());
           this->startNewExpansion(i);
         }
-        else if (i->getOrderID() == BWAPI::Orders::BuildingLiftoff &&
+        else if (i->getOrder() == BWAPI::Orders::BuildingLiftoff &&
                  i->expansion != NULL)
           this->removeExpansion(i->expansion);
     }
@@ -892,12 +892,12 @@ namespace BWAI
         if (i->isCompleted() &&
             i->getOwner() == player &&
             (
-               i->getOrderID() == BWAPI::Orders::PlayerGuard ||
-               i->getOrderID() == BWAPI::Orders::MoveToMinerals ||
-               i->getOrderID() == BWAPI::Orders::HarvestMinerals2 ||
-               i->getOrderID() == BWAPI::Orders::MiningMinerals ||
-               i->getOrderID() == BWAPI::Orders::ResetCollision2 ||
-               i->getOrderID() == BWAPI::Orders::ReturnMinerals
+               i->getOrder() == BWAPI::Orders::PlayerGuard ||
+               i->getOrder() == BWAPI::Orders::MoveToMinerals ||
+               i->getOrder() == BWAPI::Orders::HarvestMinerals2 ||
+               i->getOrder() == BWAPI::Orders::MiningMinerals ||
+               i->getOrder() == BWAPI::Orders::ResetCollision2 ||
+               i->getOrder() == BWAPI::Orders::ReturnMinerals
              ) &&
              !i->isSelected() &&
              i->getType().isWorker() &&
@@ -1102,9 +1102,9 @@ namespace BWAI
                 if (BWAPI::Broodwar->unitsOnTile(k,l).size() == 1)
                   {
                     if (occupied != NULL &&
-                      occupied->getUnit() == BWAPI::Broodwar->unitsOnTile(k,l).front())
+                      occupied->getUnit() == (*BWAPI::Broodwar->unitsOnTile(k,l).begin()))
                       occupiedCount--;
-                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar->unitsOnTile(k,l).front());
+                    occupied =  BWAI::Unit::BWAPIUnitToBWAIUnit((*BWAPI::Broodwar->unitsOnTile(k,l).begin()));
                   }
                 else
                   occupiedCount = 2;
@@ -1115,7 +1115,7 @@ namespace BWAI
                  occupiedCount == 1 &&
                  occupied->getType().isWorker() &&
                  occupied->getTask() == NULL &&
-                 occupied->getOrderID() == BWAPI::Orders::Guard
+                 occupied->getOrder() == BWAPI::Orders::Guard
                ) ||
                (
                  occupiedCount == 1 &&

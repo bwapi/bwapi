@@ -87,13 +87,13 @@ namespace BuildOrder
               return false;
             }
             
-           if (!BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).front()->isCompleted())
+           if (!(*BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).begin())->isCompleted())
             {
               BWAI::ai->root->log->logCommon("Building for the addon not ready");
               return false;
             }
             
-            executor = BWAI::Unit::BWAPIUnitToBWAIUnit(BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).front());
+            executor = BWAI::Unit::BWAPIUnitToBWAIUnit(*BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).begin());
             if (!executor->getType().isBuilding())
             {
               BWAI::ai->root->log->log("Executor chosen is not building ???? but %s", executor->getName().c_str());

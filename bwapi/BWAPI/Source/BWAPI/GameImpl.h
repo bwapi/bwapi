@@ -63,7 +63,7 @@ namespace BWAPI
       virtual bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
       virtual void enableFlag(BWAPI::Flag::Enum flag);
 
-      virtual std::list<Unit*> unitsOnTile(int x, int y) const;
+      virtual std::set<Unit*> unitsOnTile(int x, int y) const;
 
       virtual int mapWidth() const;
       virtual int mapHeight() const;
@@ -81,8 +81,6 @@ namespace BWAPI
        */
       virtual void print(const char *text, ...);
       virtual void printPublic(const char *text, ...);
-      virtual bool isOnStartCalled() const;
-      virtual bool isInGame() const;
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
@@ -122,6 +120,9 @@ namespace BWAPI
       void onRemoveUnit(BW::Unit *unit);
       void lockFlags();
       bool enabled;
+      bool isOnStartCalled() const;
+      bool isInGame() const;
+
       /** @todo Doesn't work */
       void refresh();
       void loadSelected();
@@ -148,7 +149,7 @@ namespace BWAPI
       std::set<BWAPI::Unit*> emptySet;
       std::set<TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
-      Util::RectangleArray<std::list<Unit*> > unitsOnTileData;
+      Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
       /** Count of game-frames passed from game start. */
       int frameCount;
       void logUnitList();
