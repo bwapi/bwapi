@@ -14,15 +14,15 @@ namespace BWAI
     TiXmlElement* positionElement = xmlElement->FirstChildElement("position");
     if (positionElement == NULL)
       throw XmlException("Excepted sub-element <position> in element <expansion>");
-    this->setPosition(BW::Position(positionElement));
+    this->setPosition(BWAPI::Position(Util::Xml::getRequiredU16Attribute(positionElement, "x"),Util::Xml::getRequiredU16Attribute(positionElement, "y")));
   }
   //---------------------------------------------- SET POSITION ----------------------------------------------
-  void MapExpansion::setPosition(BW::Position position)
+  void MapExpansion::setPosition(BWAPI::Position position)
   {
     this->position = position;
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
-  const BW::Position& MapExpansion::getPosition(void) const
+  const BWAPI::Position& MapExpansion::getPosition(void) const
   {
     return this->position; 
   }

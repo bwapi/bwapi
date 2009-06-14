@@ -37,12 +37,12 @@ namespace BWAI
     return this->unit->shield();
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
-  const BW::Position& Unit::getPosition() const
+  const BWAPI::Position Unit::getPosition() const
   {
     return this->unit->getPosition();
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
-  BW::TilePosition Unit::getTilePosition() const
+  const BWAPI::TilePosition Unit::getTilePosition() const
   {
     return this->unit->getTilePosition();
   }
@@ -67,7 +67,7 @@ namespace BWAI
     return Unit::BWAPIUnitToBWAIUnit(this->unit->getChild());
   }
   //------------------------------------------ GET TARGET POSITION -------------------------------------------
-  BW::Position Unit::getTargetPosition() const
+  BWAPI::Position Unit::getTargetPosition() const
   {
     return this->unit->getTargetPosition();
   }
@@ -93,25 +93,25 @@ namespace BWAI
 
     if (this->getPosition().x > unit->getPosition().x)
       if (this->getPosition().y > unit->getPosition().y)
-        result = BW::Position(this->getPosition().x - this->getType().dimensionLeft(),
+        result = (u32)BWAPI::Position(this->getPosition().x - this->getType().dimensionLeft(),
                               this->getPosition().y - this->getType().dimensionUp())
-                 .getDistance(BW::Position(unit->getPosition().x + unit->getType().dimensionRight(),
+                 .getDistance(BWAPI::Position(unit->getPosition().x + unit->getType().dimensionRight(),
                                            unit->getPosition().y + unit->getType().dimensionDown()));
       else
-        result = BW::Position(this->getPosition().x - this->getType().dimensionLeft(),
+        result = (u32)BWAPI::Position(this->getPosition().x - this->getType().dimensionLeft(),
                               this->getPosition().y + this->getType().dimensionDown())
-                 .getDistance(BW::Position(unit->getPosition().x + unit->getType().dimensionRight(),
+                 .getDistance(BWAPI::Position(unit->getPosition().x + unit->getType().dimensionRight(),
                                            unit->getPosition().y - unit->getType().dimensionUp()));
     else
       if (this->getPosition().y > unit->getPosition().y)
-        result = BW::Position(this->getPosition().x + this->getType().dimensionRight(),
+        result = (u32)BWAPI::Position(this->getPosition().x + this->getType().dimensionRight(),
                               this->getPosition().y - this->getType().dimensionUp())
-                 .getDistance(BW::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
+                 .getDistance(BWAPI::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
                                            unit->getPosition().y + unit->getType().dimensionDown()));
       else
-        result = BW::Position(this->getPosition().x + this->getType().dimensionRight(),
+        result = (u32)BWAPI::Position(this->getPosition().x + this->getType().dimensionRight(),
                               this->getPosition().y + this->getType().dimensionDown())
-                 .getDistance(BW::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
+                 .getDistance(BWAPI::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
                                            unit->getPosition().y - unit->getType().dimensionUp()));
     if (result > 0)
       return result;
@@ -119,14 +119,14 @@ namespace BWAI
       return 0;
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  int Unit::getDistance(BW::Position position) const
+  int Unit::getDistance(BWAPI::Position position) const
   {
-    return this->unit->getPosition().getDistance(position);
+    return (int)this->unit->getPosition().getDistance(position);
   }
   //------------------------------------------- GET CENTER DISTANCE ------------------------------------------
   int Unit::getCenterDistance(Unit *unit) const
   {
-    return this->unit->getPosition().getDistance(unit->getPosition());
+    return (int)this->unit->getPosition().getDistance(unit->getPosition());
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   BWAPI::Order Unit::getOrderID() const
@@ -245,11 +245,11 @@ namespace BWAI
     return this->unit->isSelected();
   }
 
-  void Unit::orderAttackLocation(BW::Position position, BWAPI::Order order)
+  void Unit::orderAttackLocation(BWAPI::Position position, BWAPI::Order order)
   {
     return this->unit->attackLocation(position, order);
   }
-  void Unit::orderRightClick(BW::Position position)
+  void Unit::orderRightClick(BWAPI::Position position)
   {
     return this->unit->rightClick(position);
   }
@@ -261,7 +261,7 @@ namespace BWAI
   {
     this->unit->train(type);
   }
-  void Unit::build(BW::TilePosition position, BWAPI::UnitType type)
+  void Unit::build(BWAPI::TilePosition position, BWAPI::UnitType type)
   {
     this->unit->build(position,type);
   }

@@ -6,9 +6,8 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
-#include <BW/Position.h>
-#include <BW/TilePosition.h>
-#include <Util/Types.h>
+#include <BWAPI/Position.h>
+#include <BWAPI/TilePosition.h>
 
 namespace BWAPI
 {
@@ -18,20 +17,20 @@ namespace BWAPI
   public:
     virtual Player* getOwner() const=0;
     virtual UnitType getType() const=0;
-    virtual u16 health() const=0;
-    virtual u32 shield() const=0;
-    virtual u16 energy() const=0;
-    virtual const BW::Position& getPosition() const=0;
-    virtual BW::TilePosition getTilePosition() const=0;
+    virtual int health() const=0;
+    virtual int shield() const=0;
+    virtual int energy() const=0;
+    virtual Position getPosition() const=0;
+    virtual TilePosition getTilePosition() const=0;
 
     virtual Unit* getTarget() const=0;
-    virtual BW::Position getTargetPosition() const=0;
+    virtual Position getTargetPosition() const=0;
     virtual Order getOrderID() const=0;
     virtual Unit* getOrderTarget() const=0;
-    virtual u8 getOrderTimer() const=0;
+    virtual int getOrderTimer() const=0;
     virtual Order getSecondaryOrderID() const=0;
     virtual Unit* getBuildUnit() const=0;
-    virtual u16 getRemainingBuildTime() const=0;
+    virtual int getRemainingBuildTime() const=0;
     virtual Unit* getChild() const=0;
 
     virtual bool isLoaded() const=0;
@@ -47,18 +46,18 @@ namespace BWAPI
     virtual bool isMineral() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
 
-    virtual void attackLocation(BW::Position position, BWAPI::Order order)=0;
-    virtual void rightClick(BW::Position position)=0;
+    virtual void attackLocation(Position position, Order order)=0;
+    virtual void rightClick(Position position)=0;
     virtual void rightClick(Unit *target)=0;
     virtual void train(UnitType type)=0;
-    virtual void build(BW::TilePosition position, UnitType type)=0;
+    virtual void build(TilePosition position, UnitType type)=0;
     virtual void invent(TechType tech)=0;
     virtual void upgrade(UpgradeType upgrade)=0;
     virtual void stop()=0;
     virtual void holdPosition()=0;
-    virtual void patrol(BW::Position position)=0;
+    virtual void patrol(Position position)=0;
     virtual void useTech(TechType tech)=0;
-    virtual void useTech(TechType tech, BW::Position position)=0;
+    virtual void useTech(TechType tech, Position position)=0;
     virtual void useTech(TechType tech, Unit* target)=0;
   };
 }

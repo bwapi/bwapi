@@ -19,6 +19,7 @@ namespace BW { struct Unit; };
 #include <BW/UnitType.h>
 #include <BW/Offsets.h>
 #include <BW/Race.h>
+#include <BW/TilePosition.h>
 
 namespace BWAPI
 {
@@ -40,7 +41,7 @@ namespace BWAPI
     virtual Race getRace() const;
     virtual PlayerType playerType() const;
     virtual Force* getForce() const;
-    virtual BW::TilePosition getStartLocation() const;
+    virtual TilePosition getStartLocation() const;
 
     /** Gets local version of minerals for the current player - @ref localData */
     virtual int minerals() const;
@@ -82,7 +83,7 @@ namespace BWAPI
     PlayerImpl(u8 id);
     ~PlayerImpl();
     /** Gets 0-based index of the player. (11 for neutral) */
-    u8 getID() const;
+    int getID() const;
     char* getForceName() const;
     u8 getAlliance(u8 opposingID);
     u8 getForce();

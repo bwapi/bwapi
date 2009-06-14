@@ -21,13 +21,13 @@ namespace BWAI
                          (i->getType(), std::list<Target>()));
         index = this->data.find(i->getType().getID());
       }
-      (*index).second.push_back(Target(i, BW::Position(0,0)));
+      (*index).second.push_back(Target(i, BWAPI::Position(0,0)));
     }
  /*   for each (std::pair<BW::UnitID::Enum, std::list<Target> > i in this->data)
       BWAPI::ScreenLogger().log("%d %ss", i.second.size(), BW::UnitType(i.first).getName());*/
   }
   //------------------------------------------- GENERATE POSITIONS -------------------------------------------
-  void Formation::generatePositions(BW::Position center, float angle)
+  void Formation::generatePositions(BWAPI::Position center, float angle)
   {
     std::map<BWAPI::UnitType, std::list<Target> >::iterator index;
     index = this->data.find(BWAPI::UnitTypes::Terran_Marine);
@@ -41,8 +41,8 @@ namespace BWAI
       int index = 0, verticalIndex = 0;
       for (std::list<Target>::iterator i = list->begin(); i != list->end(); index++)
       {
-        BW::Position target = BW::Position(center.x + (int)((sin(angle)*index*space + sin(angle - 3.14159/2)*verticalIndex*space)),
-                                           center.y + (int)((cos(angle)*index*space + cos(angle - 3.14159/2)*verticalIndex*space)));
+        BWAPI::Position target = BWAPI::Position(center.x + (int)((sin(angle)*index*space + sin(angle - 3.14159/2)*verticalIndex*space)),
+                                                 center.y + (int)((cos(angle)*index*space + cos(angle - 3.14159/2)*verticalIndex*space)));
         if (BWAI::ai->pathFinding->canStay((*i).unit->getType(), target))
         {
           (*i).target = target;

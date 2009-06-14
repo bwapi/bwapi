@@ -1,8 +1,7 @@
 #pragma once
 
-#include <BW/TilePosition.h>
-#include <BWAI/ReservedResources.h>
 #include <BWAPI.h>
+#include <BWAI/ReservedResources.h>
 #include "Task.h"
 #include "BuildingPosition.h"
 
@@ -32,7 +31,7 @@ namespace BWAI
       
       TaskBuild(BWAPI::UnitType buildingType,
                 Unit* builder,
-                BW::TilePosition spot,
+                BWAPI::TilePosition spot,
                 u16 priority);
       virtual ~TaskBuild();
       bool execute();
@@ -50,7 +49,7 @@ namespace BWAI
        * done, this class can be removed.
        */
       Unit *building;
-      bool canIBuild(BW::TilePosition here);
-      BW::TilePosition spot;
+      bool canIBuild(BWAPI::TilePosition here);
+      BWAPI::TilePosition spot;
   };
 }

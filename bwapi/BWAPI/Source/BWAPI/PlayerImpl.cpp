@@ -37,7 +37,7 @@ namespace BWAPI
     return BW::BWDATA_PlayerResources->gas.player[this->getID()];
   }
   //------------------------------------------------- GET ID -------------------------------------------------
-  u8 PlayerImpl::getID() const
+  int PlayerImpl::getID() const
   {
     return this->id;
   }
@@ -136,9 +136,9 @@ namespace BWAPI
     return NULL;//TODO: create Force class
   }
   //------------------------------------------- GET START POSITION -------------------------------------------
-  BW::TilePosition PlayerImpl::getStartLocation() const
+  TilePosition PlayerImpl::getStartLocation() const
   {
-    return BW::TilePosition((int)((BW::startPositions[this->getID()].x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
+    return BWAPI::TilePosition((int)((BW::startPositions[this->getID()].x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
                                              (int)((BW::startPositions[this->getID()].y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE));
   }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------

@@ -9,15 +9,15 @@ namespace PathFinding
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  WalkabilityPosition::WalkabilityPosition(BW::Position position)
+  WalkabilityPosition::WalkabilityPosition(BWAPI::Position position)
   :x(position.x/8)
   ,y(position.y/8)
   {
   }
   //-------------------------------------------- TO BW::Position ---------------------------------------------
-  BW::Position WalkabilityPosition::toBWPosition()
+  BWAPI::Position WalkabilityPosition::toBWAPIPosition()
   {
-    return BW::Position(this->x*8, this->y*8);
+    return BWAPI::Position(this->x*8, this->y*8);
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
   bool WalkabilityPosition::operator==(const WalkabilityPosition& position)

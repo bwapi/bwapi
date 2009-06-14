@@ -38,17 +38,17 @@ namespace BWAPI
   {
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  u16 UnitImpl::health() const
+  int UnitImpl::health() const
   {
     return this->getRawDataLocal()->healthPoints;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  u32 UnitImpl::shield() const
+  int UnitImpl::shield() const
   {
     return this->getRawDataLocal()->shieldPoints;
   }
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
-  u16 UnitImpl::energy() const
+  int UnitImpl::energy() const
   {
     return this->getRawDataLocal()->energy; /* Unverified */
   }
@@ -143,15 +143,15 @@ namespace BWAPI
     this->loaded=loadedState;
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
-  const BW::Position& UnitImpl::getPosition() const
+  Position UnitImpl::getPosition() const
   {
-    return this->getRawDataLocal()->position;
+    return BWAPI::Position(this->getRawDataLocal()->position.x,this->getRawDataLocal()->position.y);
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
-  BW::TilePosition UnitImpl::getTilePosition() const
+  TilePosition UnitImpl::getTilePosition() const
   {
-    return BW::Position(this->getPosition().x - this->getType().tileWidth()*BW::TILE_SIZE/2,
-                        this->getPosition().y - this->getType().tileHeight()*BW::TILE_SIZE/2);
+    return TilePosition(Position(this->getPosition().x - this->getType().tileWidth()*BW::TILE_SIZE/2,
+                        this->getPosition().y - this->getType().tileHeight()*BW::TILE_SIZE/2));
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
   Unit* UnitImpl::getTarget() const
@@ -174,9 +174,9 @@ namespace BWAPI
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
   }
   //------------------------------------------ GET TATGET POSITION -------------------------------------------
-  BW::Position UnitImpl::getTargetPosition() const
+  Position UnitImpl::getTargetPosition() const
   {
-   return this->getRawDataLocal()->moveToPos;
+    return BWAPI::Position(this->getRawDataLocal()->moveToPos.x,this->getRawDataLocal()->moveToPos.y);
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
   BW::Unit* UnitImpl::getRawData() const
@@ -328,18 +328,18 @@ namespace BWAPI
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
-  void UnitImpl::attackLocation(BW::Position position, Order order)
+  void UnitImpl::attackLocation(Position position, Order order)
   {
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(position, order.getID()), sizeof(BW::Orders::Attack)); 
-    BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, position));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x,position.y), order.getID()), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x,position.y)));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void UnitImpl::rightClick(BW::Position position)
+  void UnitImpl::rightClick(Position position)
   {
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(position), sizeof(BW::Orders::RightClick)); 
-    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, position));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(position.x,position.y)), sizeof(BW::Orders::RightClick)); 
+    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, BW::Position(position.x,position.y)));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   void UnitImpl::rightClick(Unit *target)
@@ -349,15 +349,15 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
   }
   //------------------------------------------------- BUILD --------------------------------------------------
-  void UnitImpl::build(BW::TilePosition position, UnitType type1)
+  void UnitImpl::build(TilePosition position, UnitType type1)
   {
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));
     this->orderSelect();
     if (!type.isAddon())
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(position, type), sizeof(BW::Orders::MakeBuilding)); 
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition(position.x,position.y), type), sizeof(BW::Orders::MakeBuilding)); 
     else
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(position, type), sizeof(BW::Orders::MakeAddon)); 
-    BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, position));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition(position.x,position.y), type), sizeof(BW::Orders::MakeAddon)); 
+    BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, BW::TilePosition(position.x,position.y)));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
   void UnitImpl::invent(TechType tech)
@@ -386,7 +386,7 @@ namespace BWAPI
     //TODO: Handle hold position order
   }
   //-------------------------------------------------- PATROL ------------------------------------------------
-  void UnitImpl::patrol(BW::Position position)
+  void UnitImpl::patrol(Position position)
   {
     //TODO: Handle patrol order
   }
@@ -396,7 +396,7 @@ namespace BWAPI
     //TODO: Handle use tech order
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(TechType tech, BW::Position position)
+  void UnitImpl::useTech(TechType tech, Position position)
   {
     //TODO: Handle use tech order
   }
@@ -578,12 +578,12 @@ namespace BWAPI
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->nextUnit);
   }
   //-------------------------------------------- GET ORDER TIMER ---------------------------------------------
-  u8 UnitImpl::getOrderTimer() const
+  int UnitImpl::getOrderTimer() const
   {
      return this->getRawDataLocal()->mainOrderTimer;
   }
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
-  u16 UnitImpl::getRemainingBuildTime() const
+  int UnitImpl::getRemainingBuildTime() const
   {
      return this->getRawDataLocal()->remainingBuildTime;
   }

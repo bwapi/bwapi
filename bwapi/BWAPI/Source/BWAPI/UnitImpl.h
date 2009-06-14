@@ -31,23 +31,23 @@ namespace BWAPI
 
       virtual Player* getOwner() const;
       virtual UnitType getType() const;
-      virtual u16 health() const;
-      virtual u32 shield() const;
-      virtual u16 energy() const;
-      virtual const BW::Position& getPosition() const;
-      virtual BW::TilePosition getTilePosition() const;
+      virtual int health() const;
+      virtual int shield() const;
+      virtual int energy() const;
+      virtual Position getPosition() const;
+      virtual TilePosition getTilePosition() const;
 
       virtual Unit* getTarget() const;
-      virtual BW::Position getTargetPosition() const;
+      virtual Position getTargetPosition() const;
       virtual Order getOrderID() const;
       virtual Unit* getOrderTarget() const;
       /* Timer specifiing how long it will take to finish the current order
        * (verified for mining).
        */
-      virtual u8 getOrderTimer() const;
+      virtual int getOrderTimer() const;
       virtual Order getSecondaryOrderID() const;
       virtual Unit* getBuildUnit() const;
-      virtual u16 getRemainingBuildTime() const;
+      virtual int getRemainingBuildTime() const;
       virtual Unit* getChild() const;
 
       /** Returns true if this unit is currently in a dropship/bunker/refinery/shuttle/overlord */
@@ -72,12 +72,12 @@ namespace BWAPI
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      virtual void attackLocation(BW::Position position, Order order);
+      virtual void attackLocation(Position position, Order order);
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      virtual void rightClick(BW::Position position);
+      virtual void rightClick(Position position);
       /**
        * Orders this unit to right click on the specified unit. Note that right
        * click on unit can result in lot of commands (attack, gather, follow,
@@ -87,16 +87,16 @@ namespace BWAPI
       /** Orders this unit to train (construct) the specified unit. */
       virtual void train(UnitType type);
       /** Orders to build the specified building. */
-      virtual void build(BW::TilePosition position, UnitType type);
+      virtual void build(TilePosition position, UnitType type);
       /** Orders to build the invent the specified tech. */
       virtual void invent(TechType tech);
       /** Orders to build the invent the specified upgrade. */
       virtual void upgrade(UpgradeType upgrade);
       virtual void stop();
       virtual void holdPosition();
-      virtual void patrol(BW::Position position);
+      virtual void patrol(Position position);
       virtual void useTech(TechType tech);
-      virtual void useTech(TechType tech, BW::Position position);
+      virtual void useTech(TechType tech, Position position);
       virtual void useTech(TechType tech, Unit* target);
 
 

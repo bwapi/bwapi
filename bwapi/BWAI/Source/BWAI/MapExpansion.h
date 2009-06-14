@@ -1,4 +1,4 @@
-#include "BW/Position.h"
+#include <BWAPI.h>
 #include <string>
 class  TiXmlElement;
 
@@ -13,12 +13,12 @@ namespace BWAI
        * @throws XmlException if the xml format is not correct.
        */
       MapExpansion(TiXmlElement* xmlElement);
-      const BW::Position& getPosition(void) const;
+      const BWAPI::Position& getPosition(void) const;
       const std::string& getID(void) const;
     private :
-      BW::Position position;
+      BWAPI::Position position;
       std::string id;
       void setID(const std::string& id);
-      void setPosition(BW::Position);
+      void setPosition(BWAPI::Position);
   };
 }

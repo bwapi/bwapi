@@ -1,6 +1,7 @@
 #include "Map.h"
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
+#include <Util/Types.h>
 #include <BWAPI.h>
 
 namespace BWAI

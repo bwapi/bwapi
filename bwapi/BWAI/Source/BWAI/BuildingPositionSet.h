@@ -1,8 +1,6 @@
 #include <list>
 #include <string>
 
-#include <BW/TilePosition.h>
-
 #include "BuildingPosition.h"
 
 class TiXmlElement;

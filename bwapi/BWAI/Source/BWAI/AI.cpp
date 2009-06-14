@@ -135,7 +135,7 @@ namespace BWAI
     return false;
   }
   //----------------------------------------- BETTER WORKER TO FREE ------------------------------------------
-  bool AI::betterWorkerToFree(Unit* worker1, Unit* worker2, const BW::Position& buildingPosition)
+  bool AI::betterWorkerToFree(Unit* worker1, Unit* worker2, const BWAPI::Position& buildingPosition)
   {
     if (worker2 == NULL)
       return true;
@@ -188,8 +188,8 @@ namespace BWAI
       }
     }
  
-    u16 distance1 = buildingPosition.getDistance(worker1->getPosition());
-    u16 distance2 = buildingPosition.getDistance(worker2->getPosition());
+    double distance1 = buildingPosition.getDistance(worker1->getPosition());
+    double distance2 = buildingPosition.getDistance(worker2->getPosition());
  
     if (distance1 < distance2)
       return true;
@@ -603,7 +603,7 @@ namespace BWAI
         Util::FileLogger startlocationsLog(fileName, Util::LogLevel::MicroDetailed, false);
         startlocationsLog.log("%s has %d start locations:",BWAPI::Broodwar->mapName().c_str(),BWAPI::Broodwar->getStartLocations().size());
         BWAPI::Broodwar->print("%s has %d start locations:",BWAPI::Broodwar->mapName().c_str(),BWAPI::Broodwar->getStartLocations().size());
-        for(std::set<BW::TilePosition>::const_iterator i=BWAPI::Broodwar->getStartLocations().begin();
+        for(std::set<BWAPI::TilePosition>::const_iterator i=BWAPI::Broodwar->getStartLocations().begin();
           i!=BWAPI::Broodwar->getStartLocations().end();i++)
         {
           double angle=atan2((*i).y-BWAPI::Broodwar->mapHeight()/2.0,(*i).x-BWAPI::Broodwar->mapWidth()/2.0);
@@ -756,8 +756,8 @@ namespace BWAI
     } 
     else if (parsed[0] == "/formation")
     {
-      BW::Position position = BW::Position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
-                                           BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
+      BWAPI::Position position = BWAPI::Position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
+                                                 BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
       if (parsed[1] == "cycle")
       {
         this->cyclePosition = position;
@@ -785,8 +785,8 @@ namespace BWAI
     } 
     else if (parsed[0] == "/attack")
     {
-      BW::Position position = BW::Position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
-                                           BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
+      BWAPI::Position position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
+                               BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
 
       if (parsed[1] == "location")
       {
@@ -930,7 +930,7 @@ namespace BWAI
     return returnValue;
   }
   //---------------------------------------------- FREE BUILDER ----------------------------------------------
-  Unit* AI::freeBuilder(BW::Position position)
+  Unit* AI::freeBuilder(BWAPI::Position position)
   {
     Unit* best = NULL;
     for each (Unit* i in this->units)
@@ -1072,9 +1072,9 @@ namespace BWAI
 
   //---------------------------------------- Get enemy main base's position ----------------------------
   //TODO correctly determine the position of the enemy's main base
-  BW::Position AI::getEnemyMain()
+  BWAPI::Position AI::getEnemyMain()
   {
-    BW::Position position(this->opponent->getStartLocation().x*4+8,this->opponent->getStartLocation().y*4+6);
+    BWAPI::Position position(this->opponent->getStartLocation().x*4+8,this->opponent->getStartLocation().y*4+6);
 
 	return position;
   }

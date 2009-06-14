@@ -2,7 +2,7 @@
 #include <set>
 #include <string>
 
-#include <BW/Position.h>
+#include <BWAPI/TilePosition.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
@@ -21,8 +21,8 @@ namespace BWAPI
     virtual Race getRace() const=0;
     virtual PlayerType playerType() const=0;
     virtual Force* getForce() const=0;
-    virtual u8 getID() const=0;
-    virtual BW::TilePosition getStartLocation() const=0;
+    virtual int getID() const=0;
+    virtual TilePosition getStartLocation() const=0;
 
     virtual int minerals() const=0;
     virtual int gas() const=0;

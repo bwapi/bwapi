@@ -1,11 +1,15 @@
-#include "TilePosition.h"
+#include <BWAPI/Constants.h>
+#include <BWAPI/TilePosition.h>
+#include <BWAPI/Position.h>
 
-#include "Position.h"
-#include "Offsets.h"
-
-namespace BW
+namespace BWAPI
 {
-  TilePosition TilePosition::Invalid = TilePosition(1000,1000);
+  namespace TilePositions
+  {
+    const TilePosition Invalid(1000,1000);
+    const TilePosition None(1000,1001);
+    const TilePosition Unknown(1000,1002);
+  }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition()
   :x(0)
@@ -13,15 +17,15 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  TilePosition::TilePosition(u16 x, u16 y)
+  TilePosition::TilePosition(int x, int y)
   :x(x)
   ,y(y)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition(const Position& position)
-  :x(position.x/BW::TILE_SIZE)
-  ,y(position.y/BW::TILE_SIZE)
+  :x(position.x/TILE_SIZE)
+  ,y(position.y/TILE_SIZE)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
@@ -42,10 +46,10 @@ namespace BW
     return this->x < TilePosition.x ||
            (this->x == TilePosition.x && this->y < TilePosition.y);
   }
-  //----------------------------------------------------------------------------------------------------------
-  bool TilePosition::isValid()
+  //----------------------------------------------- IS VALID -------------------------------------------------
+  bool TilePosition::isValid() const
   {
-    return *this != Invalid;
+    return (*this!=TilePositions::Invalid && *this!=TilePositions::None && *this!=TilePositions::Unknown);
   }
   //----------------------------------------------------------------------------------------------------------
 };

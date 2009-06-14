@@ -7,6 +7,7 @@
 #include "UpgradeType.h"
 #include "PositionUnitTarget.h"
 #include "Race.h"
+#include <BW/TilePosition.h>
 
 namespace BWAPI { class UnitImpl; }
 #pragma pack(1)

@@ -514,6 +514,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\Latency.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Player.h"
 				>
 			</File>

@@ -171,11 +171,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\Position.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Race.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Source\TechType.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TilePosition.cpp"
 				>
 			</File>
 			<File
@@ -209,11 +217,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\Position.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Race.h"
 				>
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\TechType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\TilePosition.h"
 				>
 			</File>
 			<File

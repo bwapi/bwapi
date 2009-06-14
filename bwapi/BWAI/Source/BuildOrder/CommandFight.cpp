@@ -46,7 +46,7 @@ namespace BuildOrder
 
       if (dest_type == "main")
       {
-        BW::Position position = BWAI::ai->getEnemyMain();
+        BWAPI::Position position = BWAI::ai->getEnemyMain();
 
         for each (BWAI::Unit* i in BWAI::ai->units)
           if (!i->getType().isBuilding() &&
