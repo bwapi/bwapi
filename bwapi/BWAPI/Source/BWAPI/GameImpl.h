@@ -136,6 +136,7 @@ namespace BWAPI
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
     private :
+      HMODULE hMod;
       /**
        * Representation of the configuration file bw-api.ini in the starcraft
        * directory.
