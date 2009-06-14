@@ -3,7 +3,7 @@ namespace BWAPI
 {
   namespace Latency
   {
-    enum Enum : int
+    enum Enum : unsigned __int8
     {
       SinglePlayer    = 2,
       LanLow          = 5,

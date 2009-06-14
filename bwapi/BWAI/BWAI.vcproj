@@ -104,7 +104,7 @@
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
+				BufferSecurityCheck="false"
 				WarningLevel="3"
 				DisableSpecificWarnings="4748"
 			/>
@@ -119,7 +119,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(ChaosDir)\Starcraft\bwapi-data\AI\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)\starcraft-folder\bwapi-data\AI\$(ProjectName).dll"
+				ImportLibrary="$(IntDir)$(TargetName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -174,9 +174,6 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   Util::Logger::globalLog = new Util::FileLogger(config->get("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
-  int sleepTime = atoi(config->get("sleep_before_initialize_hooks").c_str());
-
-  Sleep(sleepTime);
   JmpCallPatch(nextFrameHook, BW::BWFXN_NextLogicFrame, 0);
   JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
   JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);

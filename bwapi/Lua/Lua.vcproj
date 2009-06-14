@@ -57,7 +57,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -109,6 +108,7 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
 				WarningLevel="4"
 				CompileAs="1"
 			/>
