@@ -67,6 +67,7 @@ namespace BWAI
     }
 
     BWAI::ai = this;
+    BWAPI::BWAPI_init();
     try
     {
       Expansion::maximumMineralDistance = Util::Strings::stringToInt(config->get("max_mineral_distance"));
@@ -88,7 +89,6 @@ namespace BWAI
     {
       Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
     }
-    
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   AI::~AI(void)

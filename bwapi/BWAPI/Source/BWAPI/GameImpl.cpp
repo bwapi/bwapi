@@ -1,7 +1,10 @@
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+
 #include "GameImpl.h"
 
 #include <stdio.h>
 #include <windows.h>
+#include <tchar.h>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -34,7 +37,6 @@
 #include <BW/GameType.h>
 
 #include "BWAPI/AIModule.h"
-#include "BWAI/Temporary.h" //Only included for newAIModule method declaration - will be loaded from dll once BWAI is a separate dll.
 
 #include "Globals.h"
 
@@ -306,7 +308,27 @@ namespace BWAPI
     }
     if (this->startedClient==false)
     {
-      this->client = newAIModule(this);
+
+      TCHAR szDllPath[MAX_PATH];
+      HMODULE hMod;
+      std::string ai_dll=config->get("ai_dll");
+      for(int i=0;i<ai_dll.length();i++)
+      {
+        szDllPath[i]=TCHAR(ai_dll[i]);
+      }
+      szDllPath[ai_dll.length()]=TCHAR('\0');
+      Util::Logger::globalLog->logCritical("Loading AI DLL from: %s",ai_dll.c_str());
+	    while ((hMod = LoadLibrary(szDllPath)) ? 
+        false : this->fatalError->log("Failed to Load the AI dll. GetLastError returns: 0x%X\n", GetLastError()));
+      Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
+    	
+      typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
+
+      Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
+
+	    PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
+	    this->client = newAIModule(this);
+      Util::Logger::globalLog->logCritical("Created an Object of AIModule");
       this->client->onFrame();
       this->client->onStart();
       this->lockFlags();

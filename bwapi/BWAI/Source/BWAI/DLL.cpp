@@ -8,12 +8,7 @@
 
 #include "AI.h"
 #include "Globals.h"
-///The following commented code will be uncommented when we're finally ready to turn the BWAI project into a dll.
-
-//namespace BWAPI { Game* Broodwar; }
-
-/*
-
+namespace BWAPI { Game* Broodwar; }
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
@@ -31,11 +26,10 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 	return TRUE;
 }
-*/
 
-/* extern "C" __declspec(dllexport) */ BWAPI::AIModule* newAIModule(BWAPI::Game* game)
+ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule(BWAPI::Game* game)
 {
-//  BWAPI::Broodwar=game;
+  BWAPI::Broodwar=game;
   BWAI::ai = new BWAI::AI();
   return BWAI::ai;
 }
