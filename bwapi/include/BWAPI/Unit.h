@@ -25,10 +25,10 @@ namespace BWAPI
 
     virtual Unit* getTarget() const=0;
     virtual Position getTargetPosition() const=0;
-    virtual Order getOrderID() const=0;
+    virtual Order getOrder() const=0;
     virtual Unit* getOrderTarget() const=0;
     virtual int getOrderTimer() const=0;
-    virtual Order getSecondaryOrderID() const=0;
+    virtual Order getSecondaryOrder() const=0;
     virtual Unit* getBuildUnit() const=0;
     virtual int getRemainingBuildTime() const=0;
     virtual Unit* getChild() const=0;
@@ -43,12 +43,11 @@ namespace BWAPI
     virtual bool isCloaked() const=0;
     virtual bool isDisabled() const=0;
     virtual bool isTraining() const=0;
-    virtual bool isMineral() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
 
-    virtual void attackLocation(Position position, Order order)=0;
+    virtual void attackMove(Position position)=0;
     virtual void rightClick(Position position)=0;
-    virtual void rightClick(Unit *target)=0;
+    virtual void rightClick(Unit* target)=0;
     virtual void train(UnitType type)=0;
     virtual void build(TilePosition position, UnitType type)=0;
     virtual void invent(TechType tech)=0;

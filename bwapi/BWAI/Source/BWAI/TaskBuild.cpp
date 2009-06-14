@@ -78,7 +78,7 @@ namespace BWAI
         {
           if (
             this->executors.front()->getOrderTarget() != NULL &&
-            this->executors.front()->getOrderID() == BWAPI::Orders::ConstructingBuilding &&
+            this->executors.front()->getOrder() == BWAPI::Orders::ConstructingBuilding &&
             this->executors.front()->getOrderTarget()->getType() == buildingType)
           {
             this->building = executors.front()->getOrderTarget();
@@ -97,7 +97,7 @@ namespace BWAI
           this->spot.isValid())
       {
         if (this->building == NULL &&
-            this->executors.front()->getOrderID() == BWAPI::Orders::Nothing2 &&
+            this->executors.front()->getOrder() == BWAPI::Orders::Nothing2 &&
             BWAI::ai->player->canAfford(this->buildingType))
           this->executors.front()->build(this->spot, this->getBuildingType());
         return false;
@@ -151,12 +151,12 @@ namespace BWAI
           {
             if (
                  (
-                   this->executors.front()->getOrderID() != BWAPI::Orders::BuildTerran &&
-                   this->executors.front()->getOrderID() != BWAPI::Orders::BuildProtoss1 &&
-                   this->executors.front()->getOrderID() != BWAPI::Orders::DroneStartBuild
+                   this->executors.front()->getOrder() != BWAPI::Orders::BuildTerran &&
+                   this->executors.front()->getOrder() != BWAPI::Orders::BuildProtoss1 &&
+                   this->executors.front()->getOrder() != BWAPI::Orders::DroneStartBuild
                  ) &&
                  (
-                    this->executors.front()->getOrderID() != BWAPI::Orders::Move ||
+                    this->executors.front()->getOrder() != BWAPI::Orders::Move ||
                     this->executors.front()->getTargetPosition().getDistance(center) > 300
                  )
                )
@@ -168,9 +168,9 @@ namespace BWAI
           else
             if (!this->buildingType.isAddon())
             {
-              if (this->executors.front()->getOrderID() != BWAPI::Orders::BuildTerran &&
-                  this->executors.front()->getOrderID() != BWAPI::Orders::BuildProtoss1 &&
-                  this->executors.front()->getOrderID() != BWAPI::Orders::DroneStartBuild &&
+              if (this->executors.front()->getOrder() != BWAPI::Orders::BuildTerran &&
+                  this->executors.front()->getOrder() != BWAPI::Orders::BuildProtoss1 &&
+                  this->executors.front()->getOrder() != BWAPI::Orders::DroneStartBuild &&
                   this->executors.front()->getOwner()->canAffordNow(buildingType))
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build (%s)", this->executors.front()->getName().c_str(), buildingType.getName().c_str());
@@ -178,12 +178,12 @@ namespace BWAI
               }
             }
             else
-              if (this->executors.front()->getSecondaryOrderID() != BWAPI::Orders::PlaceAddon &&
+              if (this->executors.front()->getSecondaryOrder() != BWAPI::Orders::PlaceAddon &&
                   !this->executors.front()->isTraining() &&
-                  this->executors.front()->getSecondaryOrderID() != BWAPI::Orders::BuildAddon)
+                  this->executors.front()->getSecondaryOrder() != BWAPI::Orders::BuildAddon)
               {
                 BWAI::ai->log->logCritical("(%s) ordered to build addon (%s)", this->executors.front()->getName().c_str(), buildingType.getName().c_str());
-                BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrderID());
+                BWAI::ai->log->log("secondary order id local = %d", this->executors.front()->getSecondaryOrder());
                 this->executors.front()->build(this->position->position, buildingType);
               }
       }
@@ -213,8 +213,8 @@ namespace BWAI
            l++)
         if (BWAPI::Broodwar->unitsOnTile(k,l).empty() == false &&
              (
-               BWAPI::Broodwar->unitsOnTile(k,l).front() != this->executors.front()->getUnit() &&
-               BWAPI::Broodwar->unitsOnTile(k,l).front()->getType() != BWAPI::UnitTypes::Resource_Vespene_Geyser ||
+               (*BWAPI::Broodwar->unitsOnTile(k,l).begin()) != this->executors.front()->getUnit() &&
+               (*BWAPI::Broodwar->unitsOnTile(k,l).begin())->getType() != BWAPI::UnitTypes::Resource_Vespene_Geyser ||
                BWAPI::Broodwar->unitsOnTile(k,l).size() != 1
              )
            )

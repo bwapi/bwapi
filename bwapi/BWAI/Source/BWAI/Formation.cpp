@@ -66,7 +66,7 @@ namespace BWAI
       std::list<Target>* list = &(*index).second;
       for each (Target i in *list)
         if (i.unit->isIdle())
-          i.unit->orderAttackLocation(i.target, BWAPI::Orders::AttackMove);
+          i.unit->orderAttackMove(i.target);
     }
   }
 }

@@ -21,6 +21,7 @@ namespace BWAPI
     virtual Race getRace() const=0;
     virtual PlayerType playerType() const=0;
     virtual Force* getForce() const=0;
+    virtual bool isAlliesWith(Player* player) const=0;
     virtual int getID() const=0;
     virtual TilePosition getStartLocation() const=0;
 

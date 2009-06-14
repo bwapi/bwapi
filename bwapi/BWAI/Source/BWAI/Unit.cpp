@@ -129,14 +129,14 @@ namespace BWAI
     return (int)this->unit->getPosition().getDistance(unit->getPosition());
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
-  BWAPI::Order Unit::getOrderID() const
+  BWAPI::Order Unit::getOrder() const
   {
-    return this->unit->getOrderID();
+    return this->unit->getOrder();
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
-  BWAPI::Order Unit::getSecondaryOrderID() const
+  BWAPI::Order Unit::getSecondaryOrder() const
   {
-    return this->unit->getSecondaryOrderID();
+    return this->unit->getSecondaryOrder();
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   char position[100];
@@ -177,7 +177,7 @@ namespace BWAI
     else
       sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->unit->getChild()->getType().getName().c_str());
 
-    sprintf_s(orderName, 100, "(%s)", this->getOrderID().getName().c_str());
+    sprintf_s(orderName, 100, "(%s)", this->getOrder().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
                                               orderName,
                                               indexName,
@@ -192,7 +192,7 @@ namespace BWAI
   //----------------------------------------------- IS MINERAL -----------------------------------------------
   bool Unit::isMineral() const
   {
-    return this->unit->isMineral();
+    return this->unit->getType()==BWAPI::UnitTypes::Resource_Mineral_Field;
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool Unit::isCompleted() const
@@ -245,9 +245,9 @@ namespace BWAI
     return this->unit->isSelected();
   }
 
-  void Unit::orderAttackLocation(BWAPI::Position position, BWAPI::Order order)
+  void Unit::orderAttackMove(BWAPI::Position position)
   {
-    return this->unit->attackLocation(position, order);
+    return this->unit->attackMove(position);
   }
   void Unit::orderRightClick(BWAPI::Position position)
   {

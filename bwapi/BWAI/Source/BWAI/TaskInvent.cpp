@@ -35,7 +35,7 @@ namespace BWAI
         }
         for each (Unit* i in BWAI::ai->units)
           if (i->isCompleted() &&
-              i->getOrderID() == BWAPI::Orders::Nothing2 &&
+              i->getOrder() == BWAPI::Orders::Nothing2 &&
               i->getType() == buildingType &&
               i->getTask() == NULL)
             this->addExecutor(i);
@@ -44,7 +44,7 @@ namespace BWAI
       return false;
     for each (Unit* i in this->executors)
       if (i->isCompleted() &&
-          i->getOrderID() == BWAPI::Orders::Nothing2 &&
+          i->getOrder() == BWAPI::Orders::Nothing2 &&
           i->getOwner()->canAfford(this->techType))
       {
         this->executors.front()->invent(this->techType);

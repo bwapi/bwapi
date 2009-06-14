@@ -25,19 +25,19 @@ namespace BWAI
   {
     std::list<Unit*>::iterator i = this->executors.begin();
     while (i != this->executors.end())
-      if ((*i)->getOrderID() != BWAPI::Orders::PlayerGuard &&
-          (*i)->getOrderID() != BWAPI::Orders::HarvestGas1 &&
-          (*i)->getOrderID() != BWAPI::Orders::HarvestGas2 &&
-          (*i)->getOrderID() != BWAPI::Orders::HarvestGas3 &&
-          (*i)->getOrderID() != BWAPI::Orders::ReturnGas &&
-          (*i)->getOrderID() != BWAPI::Orders::MoveToMinerals &&
-          (*i)->getOrderID() != BWAPI::Orders::HarvestMinerals2 &&
-          (*i)->getOrderID() != BWAPI::Orders::MiningMinerals &&
-          (*i)->getOrderID() != BWAPI::Orders::ResetCollision2 &&
-          (*i)->getOrderID() != BWAPI::Orders::ReturnMinerals)
+      if ((*i)->getOrder() != BWAPI::Orders::PlayerGuard &&
+          (*i)->getOrder() != BWAPI::Orders::HarvestGas1 &&
+          (*i)->getOrder() != BWAPI::Orders::HarvestGas2 &&
+          (*i)->getOrder() != BWAPI::Orders::HarvestGas3 &&
+          (*i)->getOrder() != BWAPI::Orders::ReturnGas &&
+          (*i)->getOrder() != BWAPI::Orders::MoveToMinerals &&
+          (*i)->getOrder() != BWAPI::Orders::HarvestMinerals2 &&
+          (*i)->getOrder() != BWAPI::Orders::MiningMinerals &&
+          (*i)->getOrder() != BWAPI::Orders::ResetCollision2 &&
+          (*i)->getOrder() != BWAPI::Orders::ReturnMinerals)
       {
         BWAI::ai->log->logDetailed("Unit will be removed from the gas gather because order is (%s) Unit:", 
-                                   (*i)->getOrderID().getName().c_str(), 
+                                   (*i)->getOrder().getName().c_str(), 
                                    (*i)->getName().c_str());
         this->freeExecutor(*i++);
       }
@@ -45,11 +45,11 @@ namespace BWAI
         i++;
 
     for each (Unit* i in this->executors)
-      if (i->getOrderID() != BWAPI::Orders::HarvestGas1 &&
-          i->getOrderID() != BWAPI::Orders::HarvestGas2 &&
-          i->getOrderID() != BWAPI::Orders::HarvestGas3 &&
-          i->getOrderID() != BWAPI::Orders::ReturnGas &&
-          i->getOrderID() != BWAPI::Orders::ResetCollision2)
+      if (i->getOrder() != BWAPI::Orders::HarvestGas1 &&
+          i->getOrder() != BWAPI::Orders::HarvestGas2 &&
+          i->getOrder() != BWAPI::Orders::HarvestGas3 &&
+          i->getOrder() != BWAPI::Orders::ReturnGas &&
+          i->getOrder() != BWAPI::Orders::ResetCollision2)
         i->orderRightClick(refinery);
     return false;
   }

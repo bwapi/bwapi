@@ -56,7 +56,7 @@ namespace BuildOrder
             i->getTask() == NULL)
           {
             addedCount++;
-            i->orderAttackLocation(position, BWAPI::Orders::AttackMove);
+            i->orderAttackMove(position);
           }
       }
 
