@@ -745,14 +745,9 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test") // DON'T USE THIS;
     {
-/*      char *oshit = "testingshit\0";
-      __asm
-      {
-        mov eax, oshit
-        push 44
-        call 0x0041F2B0
-      }
-      return true;*/
+      drawBoxFilled(20, 20, 80, 80, 6, 1);
+      this->print("testing");
+      return true;
     }
     else if (parsed[0] == "/set")
     {
@@ -1025,4 +1020,59 @@ namespace BWAPI
   {
     return (Player*)this->opponent;
   }
+  //----------------------------------------------------- DRAW -----------------------------------------------
+  void GameImpl::drawBoxFilled(u16 x, u16 y, u16 width, u16 height, u8 color, u8 layer)
+  {
+    u8 i;
+    for (i = 0; i < 8 && drawQueueBoxFilled[i].l != 0; i++) {}
+    if (i < 8)
+    {
+      drawQueueBoxFilled[i].c = color;
+      drawQueueBoxFilled[i].x = x;
+      drawQueueBoxFilled[i].y = y;
+      drawQueueBoxFilled[i].h = height;
+      drawQueueBoxFilled[i].w = width;
+      drawQueueBoxFilled[i].l = layer;
+    }
+  }
+  void GameImpl::drawBox(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer)
+  {
+    u8 i;
+    for (i = 0; i < 8 && drawQueueBox[i][0].l != 0; i++) {}
+    if (i < 8)
+    {
+      drawQueueBox[i][0].c = color;
+      drawQueueBox[i][0].x = x;
+      drawQueueBox[i][0].y = y;
+      drawQueueBox[i][0].h = height;
+      drawQueueBox[i][0].w = lineWidth;
+      drawQueueBox[i][0].l = layer;
+
+      drawQueueBox[i][1].c = color;
+      drawQueueBox[i][1].x = x;
+      drawQueueBox[i][1].y = y;
+      drawQueueBox[i][1].h = lineWidth;
+      drawQueueBox[i][1].w = width;
+      drawQueueBox[i][1].l = layer;
+
+      drawQueueBox[i][2].c = color;
+      drawQueueBox[i][2].x = x + width;
+      drawQueueBox[i][2].y = y;
+      drawQueueBox[i][2].h = height;
+      drawQueueBox[i][2].w = lineWidth;
+      drawQueueBox[i][2].l = layer;
+
+      drawQueueBox[i][3].c = color;
+      drawQueueBox[i][3].x = x;
+      drawQueueBox[i][3].y = y + height;
+      drawQueueBox[i][3].h = lineWidth;
+      drawQueueBox[i][3].w = width;
+      drawQueueBox[i][3].l = layer;
+    }
+  }
+  void GameImpl::drawLine(u16 x, u16 y, u16 x2, u16 y2, u8 color, u8 lineWidth, u8 layer)
+  {
+    
+  }
+
 };

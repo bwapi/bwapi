@@ -37,6 +37,21 @@ namespace BWAPI { class AIModule; }
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 
+// unknown problem, this is what I want to declare
+struct drawQueueStruct
+{
+  u16 x;
+  u16 y;
+  u16 w;
+  u16 h;
+  u8 c;
+  u8 l;
+};
+
+static drawQueueStruct drawQueueBox[8][4];
+static drawQueueStruct drawQueueBoxFilled[8];
+
+
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
  * data.
@@ -136,6 +151,25 @@ namespace BWAPI
       UnitImpl* getUnit(int index);
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
+
+      /*
+      struct drawQueueStruct
+      {
+        u16 x;
+        u16 y;
+        u16 w;
+        u16 h;
+        u8 c;
+        u8 l;
+      };
+
+      static drawQueueStruct drawQueueBox[8][4];
+      static drawQueueStruct drawQueueBoxFilled[8];
+*/
+      // Stuff for drawing to the screen
+      virtual void drawBoxFilled(u16 x, u16 y, u16 width, u16 height, u8 color, u8 layer);
+      virtual void drawBox(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer);
+      virtual void drawLine(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer);
     private :
       HMODULE hMod;
       /**

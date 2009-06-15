@@ -74,7 +74,7 @@ void __declspec(naked)  nextFrameHook()
   }
 }
 
-//---------------------------------------------- SEND TEXT HOOK ----------------------------------------------
+//---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
 char* text;
 bool sendToBW;
 void __declspec(naked) onSendText()
@@ -147,6 +147,106 @@ void __declspec(naked) onSendLobby()
     jmp [BW::BWFXN_SendLobbyCallBack]
   }
 }
+
+//---------------------------------------------- DRAW HOOKS --------------------------------------------------
+u16 i, h, w, x, y;
+//s32 ;
+u8 c, l;
+/*
+void __declspec(naked) drawBoxCall()
+{
+//  if(x+w < 640 && x > 0 && y+h < 480 && y > 0 && h > 0 && w > 0)
+//  {
+    *BW::BWDATA_DrawColor = 6;
+    __asm
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      push 80
+      push 80
+      push 20
+      push 20
+      call [BW::BWFXN_DrawBox]
+    }
+//  }
+}
+*/
+void __declspec(naked) onDrawHigh()
+{
+ __asm
+  {
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+  }
+
+  for (i = 0; i < 8; i++)
+  {
+    c = drawQueueBoxFilled[i].c;
+    x = drawQueueBoxFilled[i].x;
+    y = drawQueueBoxFilled[i].y;
+    w = drawQueueBoxFilled[i].w;
+    h = drawQueueBoxFilled[i].h;
+    l = drawQueueBoxFilled[i].l;
+    if (l == 1)
+    {
+      *BW::BWDATA_DrawColor = 6;
+      __asm
+      {
+        mov eax, eaxSave
+        mov ebx, ebxSave
+        mov ecx, ecxSave
+        mov edx, edxSave
+        mov esi, esiSave
+        mov edi, ediSave
+        mov esp, espSave
+        push 80
+        push 80
+        push 20
+        push 20
+        call [BW::BWFXN_DrawBox]
+      }
+    }
+/*    else if (l == 2)
+    {
+      x -= BWAPI::Broodwar->getScreenX();
+      y -= BWAPI::Broodwar->getScreenY();
+      drawBoxCall();
+    }
+    else if (l == 3)
+    {
+      x += BWAPI::Broodwar->getMouseX();
+      y += BWAPI::Broodwar->getMouseY();
+      drawBoxCall();
+    }*/
+  }
+
+  __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+  }
+
+  __asm
+  {
+    call [BW::BWFXN_DrawHighTarget]
+    jmp [BW::BWFXN_DrawHighBack]
+  }
+}
 //------------------------------------------------ JMP PATCH -------------------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)
@@ -179,6 +279,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);
   JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
+  JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
 
   return 0;
 }
