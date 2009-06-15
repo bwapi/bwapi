@@ -90,6 +90,7 @@ namespace BW
     Alliances alliance[PLAYER_COUNT];
   };
 
+
   static DatLoad* upgradesDat             = (DatLoad*)        0x005136E0;  // 1.15.3, 1.16, 1.16.1
   static DatLoad* techdataDat             = (DatLoad*)        0x005137D8;
   static DatLoad* weaponsDat              = (DatLoad*)        0x00513868;
@@ -165,10 +166,12 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
   static u32            BWFXN_Refresh                             = 0x0041DDF0;
-  /*static u32            BWFXN_DrawXY                              = 0x004202B0;
-  static u32            BWFXN_SetFont                             = 0x0041FB30;
-  static u32*           BWDATA_FontSize                           = (u32*)0x006CE0F4;
-  static u32            BWFXN_DrawBox                             = 0x004E1D20;*/
+  static u32            BWFXN_DrawBox                             = 0x004E1D20;
+  static u8*            BWDATA_DrawColor                          = (u8*)0x006CF4AC;
+
+  static u32            BWFXN_DrawHigh                            = 0x004BD614;
+  static u32            BWFXN_DrawHighBack                        = BWFXN_DrawHigh + 5;
+  static u32            BWFXN_DrawHighTarget                      = 0x0048CF60;
 
   static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;

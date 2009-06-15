@@ -4,6 +4,8 @@
 #include <map>
 #include <set>
 
+#include <Util/Types.h>
+
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
