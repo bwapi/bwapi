@@ -745,7 +745,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test") // DON'T USE THIS;
     {
-      drawBoxFilled(20, 20, 80, 80, 6, 1);
+      drawBox(20, 20, 80, 80, 6, 2, 3);
       this->print("testing");
       return true;
     }
