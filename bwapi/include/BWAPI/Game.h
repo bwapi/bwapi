@@ -4,8 +4,6 @@
 #include <map>
 #include <set>
 
-#include <Util/Types.h>
-
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
@@ -56,6 +54,12 @@ namespace BWAPI
     virtual const std::set<Unit*>& getSelectedUnits() const=0;
     virtual Player* self() const=0;
     virtual Player* enemy() const=0;
+
+    /*
+    virtual void drawBoxFilled(int x, int y, int width, int height, int color, int layer)=0;
+    virtual void drawBox(int x, int y, int width, int height, int color, int lineWidth, int layer)=0;
+    virtual void drawLine(int x1, int y1, int x2, int y2, int color, int lineWidth, int layer)=0;
+    */
   };
   extern Game* Broodwar;
 }
