@@ -316,18 +316,25 @@ namespace BWAPI
 
       szDllPath[ai_dll.length()]=TCHAR('\0');
       Util::Logger::globalLog->logCritical("Loading AI DLL from: %s",ai_dll.c_str());
-      while ((hMod = LoadLibrary(szDllPath)) ? 
-        false : this->fatalError->log("Failed to Load the AI dll. GetLastError returns: 0x%X\n", GetLastError()));
-      Util::Logger::globalLog->logCritical("Loaded AI Module");
-      Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
-    	
-      typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
+      if (!(hMod = LoadLibrary(szDllPath)))
+      {
+        Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
+        printPublic("Error: Failed to load the AI Module");
+        this->client = new AIModule();
+      }
+      else
+      {
+        Util::Logger::globalLog->logCritical("Loaded AI Module");
+        Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
+      	
+        typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
 
-      Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
+        Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
 
-      PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
-      this->client = newAIModule(this);
-      Util::Logger::globalLog->logCritical("Created an Object of AIModule");
+        PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
+        this->client = newAIModule(this);
+        Util::Logger::globalLog->logCritical("Created an Object of AIModule");
+      }
       this->client->onFrame();
       this->client->onStart();
       this->lockFlags();
