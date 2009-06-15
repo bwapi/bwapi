@@ -37,6 +37,7 @@ namespace BWAPI { class AIModule; }
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 
+
 // unknown problem, this is what I want to declare
 struct drawQueueStruct
 {
@@ -48,8 +49,8 @@ struct drawQueueStruct
   u8 l;
 };
 
-static drawQueueStruct drawQueueBox[8][4];
-static drawQueueStruct drawQueueBoxFilled[8];
+extern drawQueueStruct drawQueueBox[8][4];
+extern drawQueueStruct drawQueueBoxFilled[8];
 
 
 /**
@@ -152,8 +153,7 @@ namespace BWAPI
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
 
-      /*
-      struct drawQueueStruct
+/*      struct drawQueueStruct
       {
         u16 x;
         u16 y;
@@ -163,9 +163,9 @@ namespace BWAPI
         u8 l;
       };
 
-      static drawQueueStruct drawQueueBox[8][4];
-      static drawQueueStruct drawQueueBoxFilled[8];
-*/
+      drawQueueStruct drawQueueBox[8][4];
+      drawQueueStruct drawQueueBoxFilled[8];*/
+
       // Stuff for drawing to the screen
       virtual void drawBoxFilled(u16 x, u16 y, u16 width, u16 height, u8 color, u8 layer);
       virtual void drawBox(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer);

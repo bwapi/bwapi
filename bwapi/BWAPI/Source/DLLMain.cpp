@@ -10,12 +10,13 @@
 
 #include <Util/Dictionary.h> 
 #include <Util/FileLogger.h>
-#include <Util/Types.h>
 
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
+
+drawQueueStruct drawQueueBox[8][4];drawQueueStruct drawQueueBoxFilled[8];
 
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
@@ -149,33 +150,8 @@ void __declspec(naked) onSendLobby()
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
-u16 i, h, w, x, y;
-//s32 ;
-u8 c, l;
-/*
-void __declspec(naked) drawBoxCall()
-{
-//  if(x+w < 640 && x > 0 && y+h < 480 && y > 0 && h > 0 && w > 0)
-//  {
-    *BW::BWDATA_DrawColor = 6;
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      push 80
-      push 80
-      push 20
-      push 20
-      call [BW::BWFXN_DrawBox]
-    }
-//  }
-}
-*/
+int i, i2, h, w, x, y, c, l;
+
 void __declspec(naked) onDrawHigh()
 {
  __asm
@@ -199,7 +175,7 @@ void __declspec(naked) onDrawHigh()
     l = drawQueueBoxFilled[i].l;
     if (l == 1)
     {
-      *BW::BWDATA_DrawColor = 6;
+      *BW::BWDATA_DrawColor = c;
       __asm
       {
         mov eax, eaxSave
@@ -209,26 +185,131 @@ void __declspec(naked) onDrawHigh()
         mov esi, esiSave
         mov edi, ediSave
         mov esp, espSave
-        push 80
-        push 80
-        push 20
-        push 20
+        push h
+        push w
+        push y
+        push x
         call [BW::BWFXN_DrawBox]
       }
     }
-/*    else if (l == 2)
+    else if (l == 2)
     {
       x -= BWAPI::Broodwar->getScreenX();
       y -= BWAPI::Broodwar->getScreenY();
-      drawBoxCall();
+      *BW::BWDATA_DrawColor = c;
+      __asm
+      {
+        mov eax, eaxSave
+        mov ebx, ebxSave
+        mov ecx, ecxSave
+        mov edx, edxSave
+        mov esi, esiSave
+        mov edi, ediSave
+        mov esp, espSave
+        push h
+        push w
+        push y
+        push x
+        call [BW::BWFXN_DrawBox]
+      }
     }
     else if (l == 3)
     {
       x += BWAPI::Broodwar->getMouseX();
       y += BWAPI::Broodwar->getMouseY();
-      drawBoxCall();
-    }*/
-  }
+      *BW::BWDATA_DrawColor = c;
+      __asm
+      {
+        mov eax, eaxSave
+        mov ebx, ebxSave
+        mov ecx, ecxSave
+        mov edx, edxSave
+        mov esi, esiSave
+        mov edi, ediSave
+        mov esp, espSave
+        push h
+        push w
+        push y
+        push x
+        call [BW::BWFXN_DrawBox]
+      }
+    } // cascaded if
+  } // for
+
+  for (i = 0; i < 8; i++)
+  {
+    for (i2 = 0; i2 < 4; i2++)
+    {
+      c = drawQueueBox[i][i2].c;
+      x = drawQueueBox[i][i2].x;
+      y = drawQueueBox[i][i2].y;
+      w = drawQueueBox[i][i2].w;
+      h = drawQueueBox[i][i2].h;
+      l = drawQueueBox[i][i2].l;
+      if (l == 1)
+      {
+        *BW::BWDATA_DrawColor = c;
+        __asm
+        {
+          mov eax, eaxSave
+          mov ebx, ebxSave
+          mov ecx, ecxSave
+          mov edx, edxSave
+          mov esi, esiSave
+          mov edi, ediSave
+          mov esp, espSave
+          push h
+          push w
+          push y
+          push x
+          call [BW::BWFXN_DrawBox]
+        }
+      }
+      else if (l == 2)
+      {
+        x -= BWAPI::Broodwar->getScreenX();
+        y -= BWAPI::Broodwar->getScreenY();
+        *BW::BWDATA_DrawColor = c;
+        __asm
+        {
+          mov eax, eaxSave
+          mov ebx, ebxSave
+          mov ecx, ecxSave
+          mov edx, edxSave
+          mov esi, esiSave
+          mov edi, ediSave
+          mov esp, espSave
+          push h
+          push w
+          push y
+          push x
+          call [BW::BWFXN_DrawBox]
+        }
+      }
+      else if (l == 3)
+      {
+        x += BWAPI::Broodwar->getMouseX();
+        y += BWAPI::Broodwar->getMouseY();
+        *BW::BWDATA_DrawColor = c;
+        __asm
+        {
+          mov eax, eaxSave
+          mov ebx, ebxSave
+          mov ecx, ecxSave
+          mov edx, edxSave
+          mov esi, esiSave
+          mov edi, ediSave
+          mov esp, espSave
+          push h
+          push w
+          push y
+          push x
+          call [BW::BWFXN_DrawBox]
+        }
+      } // cascaded if
+    } // for i2
+  } // for i
+
 
   __asm
   {
