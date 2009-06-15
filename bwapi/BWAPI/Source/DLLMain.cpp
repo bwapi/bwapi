@@ -16,7 +16,8 @@
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
 
-drawQueueStruct drawQueueBox[8][4];drawQueueStruct drawQueueBoxFilled[8];
+drawQueueStruct drawQueueBox[8][4];
+drawQueueStruct drawQueueBoxFilled[8];
 
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
