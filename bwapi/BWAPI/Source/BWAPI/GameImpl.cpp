@@ -76,16 +76,6 @@ namespace BWAPI
       this->newUnitLog        = new Util::FileLogger(config->get("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
       this->unitSum           = new Util::FileLogger(config->get("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
       this->fatalError        = new Util::FileLogger(config->get("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
-      
-      int intForSScanf;
-      
-      Util::DictionaryFile unitNames(config->get("unit_names_path"));
-      for each (Util::Sentence* i in unitNames.usedLines)
-      {
-        sscanf(i->getSentence().c_str(), "0x%02X", &intForSScanf);
-        BW::UnitID::Enum unit((BW::UnitID::Enum) intForSScanf);
-        this->unitNameToType.insert(std::pair<std::string, BW::UnitType>(i->getKey(), unit));
-      }
 
       unitArrayCopy = new BW::UnitArray;
       unitArrayCopyLocal = new BW::UnitArray;
@@ -279,7 +269,7 @@ namespace BWAPI
         if (this->units.find(*i)==this->units.end())
         {
           this->units.insert(*i);
-          if ((*i)->getChild()!=NULL) /** TODO: Figure out how to read loaded units (in dropship/bunker/etc */
+          if ((*i)->getChild()!=NULL) // TODO: Figure out how to read loaded units (in dropship/bunker/etc
           {
             UnitImpl* newi=static_cast<UnitImpl*>((*i)->getChild());
             unitList.push_back(newi);
@@ -287,7 +277,6 @@ namespace BWAPI
           }
         }
       }
-
       refreshSelectionStates();
 
       while (this->commandBuffer.size() > this->getLatency())
@@ -454,7 +443,6 @@ namespace BWAPI
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
-    BWAPI_init();
     this->frameCount = 0;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
@@ -756,7 +744,7 @@ namespace BWAPI
         u16 range = atoi(parsed[2].c_str());
         size_t length = strlen("/set range  ") + parsed[2].size();
         std::string name = message.substr(length, message.size() - length);
-        BW::UnitType unit = unitNameToType[name];
+        BW::UnitType unit(BW::UnitID::Enum(BWAPI::UnitTypes::getUnitType(name).getID()));
         if (unit == BW::UnitID::None)
         {
           this->print("Unknown unit name '%s'", name.c_str());
@@ -776,7 +764,7 @@ namespace BWAPI
         }
         size_t length = strlen("/set sight  ") + parsed[2].size();
         std::string name = message.substr(length, message.size() - length);
-        BW::UnitType unit = unitNameToType[name];
+        BW::UnitType unit(BW::UnitID::Enum(BWAPI::UnitTypes::getUnitType(name).getID()));
         if (unit == BW::UnitID::None)
         {
           this->print("Unknown unit name '%s'", name.c_str());
@@ -795,9 +783,19 @@ namespace BWAPI
   {
     this->setOnStartCalled(false);
     this->client->onEnd();
+    delete this->client;
     this->client=NULL;
+    this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
+    for(int i=0;i<13;i++)
+    {
+      this->savedSelectionStates[i]=NULL;
+    }
+    this->selectedUnitSet.clear();
+    this->reselected=false;
+    this->startedClient=false;
+
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()

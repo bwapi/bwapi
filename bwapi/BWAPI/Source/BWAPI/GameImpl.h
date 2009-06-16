@@ -188,7 +188,6 @@ namespace BWAPI
       int frameCount;
       void logUnitList();
       void logUnknownOrStrange();
-      std::map<std::string, BW::UnitType> unitNameToType;
       bool onStartCalled;
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;

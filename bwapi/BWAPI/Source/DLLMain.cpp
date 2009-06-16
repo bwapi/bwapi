@@ -15,6 +15,7 @@
 #include "BWAPI/Globals.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
+#include "BWAPI.h"
 
 drawQueueStruct drawQueueBox[8][4];
 drawQueueStruct drawQueueBoxFilled[8];
@@ -375,7 +376,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
   {
     case DLL_PROCESS_ATTACH: 
     {
-      CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
+      BWAPI::BWAPI_init();
+       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
        return true;
     }
     case DLL_THREAD_ATTACH:
