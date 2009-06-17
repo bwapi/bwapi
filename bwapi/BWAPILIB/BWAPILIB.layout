@@ -2,10 +2,10 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="Source\AIModule.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="369" topLine="0" />
+		<Cursor position="18" topLine="0" />
 	</File>
 	<File name="Source\BWAPI.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="224" topLine="0" />
+		<Cursor position="13" topLine="0" />
 	</File>
 	<File name="Source\Order.cpp" open="1" top="0" tabpos="4">
 		<Cursor position="24961" topLine="608" />
@@ -13,13 +13,19 @@
 	<File name="Source\PlayerType.cpp" open="1" top="0" tabpos="5">
 		<Cursor position="3407" topLine="70" />
 	</File>
+	<File name="Source\Position.cpp" open="1" top="0" tabpos="8">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="Source\Race.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="2200" topLine="56" />
+		<Cursor position="1516" topLine="56" />
+	</File>
+	<File name="Source\TechType.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="98" topLine="0" />
 	</File>
 	<File name="Source\UnitType.cpp" open="1" top="0" tabpos="6">
 		<Cursor position="46598" topLine="597" />
 	</File>
-	<File name="Source\UpgradeType.cpp" open="1" top="1" tabpos="7">
-		<Cursor position="15950" topLine="256" />
+	<File name="Source\UpgradeType.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="14885" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
