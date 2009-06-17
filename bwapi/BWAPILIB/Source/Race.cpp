@@ -2,11 +2,30 @@
 #include <map>
 #include <set>
 #include <BWAPI/Race.h>
+#include <BWAPI/UnitType.h>
 
 namespace BWAPI
 {
   bool initializingRace=true;
-  std::string raceName[7];
+  class RaceInternal
+  {
+  public:
+    void set(const char* name, const UnitType* worker, const UnitType* center, const UnitType* refinery)
+    {
+      if (initializingRace)
+      {
+        this->name=name;
+        this->worker=worker;
+        this->center=center;
+        this->refinery=refinery;
+      }
+    }
+    std::string name;
+    const UnitType* worker;
+    const UnitType* center;
+    const UnitType* refinery;
+  };
+  RaceInternal raceData[7];
   std::map<std::string, Race> raceMap;
   std::set< Race > raceSet;
   namespace Races
@@ -20,13 +39,13 @@ namespace BWAPI
     const Race Unknown(6);
     void init()
     {
-      raceName[Zerg.getID()]="Zerg";
-      raceName[Terran.getID()]="Terran";
-      raceName[Protoss.getID()]="Protoss";
-      raceName[Random.getID()]="Random";
-      raceName[Other.getID()]="Other";
-      raceName[None.getID()]="None";
-      raceName[Unknown.getID()]="Unknown";
+      raceData[Zerg.getID()].set("Zerg",&(UnitTypes::Zerg_Drone),&(UnitTypes::Zerg_Hatchery),&(UnitTypes::Zerg_Extractor));
+      raceData[Terran.getID()].set("Terran",&(UnitTypes::Terran_SCV),&(UnitTypes::Terran_Command_Center),&(UnitTypes::Terran_Refinery));
+      raceData[Protoss.getID()].set("Protoss",&(UnitTypes::Protoss_Probe),&(UnitTypes::Protoss_Nexus),&(UnitTypes::Protoss_Assimilator));
+      raceData[Random.getID()].set("Random",&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown));
+      raceData[Other.getID()].set("Other",&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown));
+      raceData[None.getID()].set("None",&(UnitTypes::None),&(UnitTypes::None),&(UnitTypes::None));
+      raceData[Unknown.getID()].set("Unknown",&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown));
 
       raceSet.insert(Zerg);
       raceSet.insert(Terran);
@@ -84,7 +103,20 @@ namespace BWAPI
   }
   std::string Race::getName() const
   {
-    return raceName[this->id];
+    return raceData[this->id].name;
+  }
+  
+  const UnitType* Race::getWorker() const
+  {
+    return raceData[this->id].worker;
+  }
+  const UnitType* Race::getCenter() const
+  {
+    return raceData[this->id].center;
+  }
+  const UnitType* Race::getRefinery() const
+  {
+    return raceData[this->id].refinery;
   }
   Race Races::getRace(std::string &name)
   {
