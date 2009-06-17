@@ -3,6 +3,7 @@
 #include <set>
 namespace BWAPI
 {
+  class UnitType;
   class Race
   {
   public:
@@ -15,6 +16,9 @@ namespace BWAPI
     bool operator<(const Race &other) const;
     int getID() const;
     std::string getName() const;
+    const UnitType* getWorker() const;
+    const UnitType* getCenter() const;
+    const UnitType* getRefinery() const;
   private:
     int id;
   };
