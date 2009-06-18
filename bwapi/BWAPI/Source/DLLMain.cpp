@@ -154,6 +154,30 @@ void __declspec(naked) onSendLobby()
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 int i, i2, h, w, x, y, c, l;
 
+void restrictLines()
+{
+  if (x + w > 639)
+    w = 640 - x;
+  if (y + h > 479)
+    h = 480 - y;
+  if (x + w < 1)
+    w = 1;
+  if (y + h < 1)
+    h = 1;
+  if (x < 1 && x + w > 1)
+    w += x;
+  if (y < 1 && y + h > 1)
+    h += y;
+  if (x < 1)
+    x = 1;
+  if (y < 1)
+    y = 1;
+  if (x > 639)
+    x = 639;
+  if (y > 479)
+    y = 479;
+}
+
 void __declspec(naked) onDrawHigh()
 {
  __asm
@@ -169,149 +193,79 @@ void __declspec(naked) onDrawHigh()
 
   for (i = 0; i < 8; i++)
   {
-    c = drawQueueBoxFilled[i].c;
+    *BW::BWDATA_DrawColor = drawQueueBoxFilled[i].c;
     x = drawQueueBoxFilled[i].x;
     y = drawQueueBoxFilled[i].y;
     w = drawQueueBoxFilled[i].w;
     h = drawQueueBoxFilled[i].h;
     l = drawQueueBoxFilled[i].l;
-    if (l == 1)
-    {
-      *BW::BWDATA_DrawColor = c;
-      __asm
-      {
-        mov eax, eaxSave
-        mov ebx, ebxSave
-        mov ecx, ecxSave
-        mov edx, edxSave
-        mov esi, esiSave
-        mov edi, ediSave
-        mov esp, espSave
-        push h
-        push w
-        push y
-        push x
-        call [BW::BWFXN_DrawBox]
-      }
-    }
-    else if (l == 2)
+    if (l == 2)
     {
       x -= BWAPI::Broodwar->getScreenX();
       y -= BWAPI::Broodwar->getScreenY();
-      *BW::BWDATA_DrawColor = c;
-      __asm
-      {
-        mov eax, eaxSave
-        mov ebx, ebxSave
-        mov ecx, ecxSave
-        mov edx, edxSave
-        mov esi, esiSave
-        mov edi, ediSave
-        mov esp, espSave
-        push h
-        push w
-        push y
-        push x
-        call [BW::BWFXN_DrawBox]
-      }
     }
     else if (l == 3)
     {
       x += BWAPI::Broodwar->getMouseX();
       y += BWAPI::Broodwar->getMouseY();
-      *BW::BWDATA_DrawColor = c;
-      __asm
-      {
-        mov eax, eaxSave
-        mov ebx, ebxSave
-        mov ecx, ecxSave
-        mov edx, edxSave
-        mov esi, esiSave
-        mov edi, ediSave
-        mov esp, espSave
-        push h
-        push w
-        push y
-        push x
-        call [BW::BWFXN_DrawBox]
-      }
     } // cascaded if
+    restrictLines();
+    __asm
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      push h
+      push w
+      push y
+      push x
+      call [BW::BWFXN_DrawBox]
+    }
   } // for
 
   for (i = 0; i < 8; i++)
   {
     for (i2 = 0; i2 < 4; i2++)
     {
-      c = drawQueueBox[i][i2].c;
+      *BW::BWDATA_DrawColor = drawQueueBox[i][i2].c;
       x = drawQueueBox[i][i2].x;
       y = drawQueueBox[i][i2].y;
       w = drawQueueBox[i][i2].w;
       h = drawQueueBox[i][i2].h;
       l = drawQueueBox[i][i2].l;
-      if (l == 1)
-      {
-        *BW::BWDATA_DrawColor = c;
-        __asm
-        {
-          mov eax, eaxSave
-          mov ebx, ebxSave
-          mov ecx, ecxSave
-          mov edx, edxSave
-          mov esi, esiSave
-          mov edi, ediSave
-          mov esp, espSave
-          push h
-          push w
-          push y
-          push x
-          call [BW::BWFXN_DrawBox]
-        }
-      }
-      else if (l == 2)
+      if (l == 2)
       {
         x -= BWAPI::Broodwar->getScreenX();
         y -= BWAPI::Broodwar->getScreenY();
-        *BW::BWDATA_DrawColor = c;
-        __asm
-        {
-          mov eax, eaxSave
-          mov ebx, ebxSave
-          mov ecx, ecxSave
-          mov edx, edxSave
-          mov esi, esiSave
-          mov edi, ediSave
-          mov esp, espSave
-          push h
-          push w
-          push y
-          push x
-          call [BW::BWFXN_DrawBox]
-        }
       }
       else if (l == 3)
       {
         x += BWAPI::Broodwar->getMouseX();
         y += BWAPI::Broodwar->getMouseY();
-        *BW::BWDATA_DrawColor = c;
-        __asm
-        {
-          mov eax, eaxSave
-          mov ebx, ebxSave
-          mov ecx, ecxSave
-          mov edx, edxSave
-          mov esi, esiSave
-          mov edi, ediSave
-          mov esp, espSave
-          push h
-          push w
-          push y
-          push x
-          call [BW::BWFXN_DrawBox]
-        }
       } // cascaded if
+
+      restrictLines();
+      __asm
+      {
+        mov eax, eaxSave
+        mov ebx, ebxSave
+        mov ecx, ecxSave
+        mov edx, edxSave
+        mov esi, esiSave
+        mov edi, ediSave
+        mov esp, espSave
+        push h
+        push w
+        push y
+        push x
+        call [BW::BWFXN_DrawBox]
+      }
     } // for i2
   } // for i
-
 
   __asm
   {
@@ -322,10 +276,6 @@ void __declspec(naked) onDrawHigh()
     mov esi, esiSave
     mov edi, ediSave
     mov esp, espSave
-  }
-
-  __asm
-  {
     call [BW::BWFXN_DrawHighTarget]
     jmp [BW::BWFXN_DrawHighBack]
   }
