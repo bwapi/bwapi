@@ -2,6 +2,8 @@
 #include <BWAPI/TilePosition.h>
 #include <BWAPI/Position.h>
 
+#include <math.h>
+
 namespace BWAPI
 {
   namespace TilePositions
@@ -72,6 +74,18 @@ namespace BWAPI
   bool TilePosition::isValid() const
   {
     return (*this!=TilePositions::Invalid && *this!=TilePositions::None && *this!=TilePositions::Unknown);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  double TilePosition::getDistance(const TilePosition &position) const
+  {
+    return ((*this)-position).getLength();
+  }
+  //----------------------------------------------------------------------------------------------------------
+  double TilePosition::getLength() const
+  {
+    double x=this->x();
+    double y=this->y();
+    return sqrt(x*x+y*y);
   }
   //----------------------------------------------------------------------------------------------------------
   int& TilePosition::x()

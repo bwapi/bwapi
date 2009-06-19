@@ -73,8 +73,14 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   double Position::getDistance(const Position &position) const
   {
-    return sqrt((long double)((long double)this->x() - position.x())*((long double)this->x() - position.x()) +
-                     (long double)((long double)this->y() - position.y())*((long double)this->y() - position.y()));
+    return ((*this)-position).getLength();
+  }
+  //----------------------------------------------------------------------------------------------------------
+  double Position::getLength() const
+  {
+    double x=this->x();
+    double y=this->y();
+    return sqrt(x*x+y*y);
   }
   //----------------------------------------------------------------------------------------------------------
   int& Position::x()
