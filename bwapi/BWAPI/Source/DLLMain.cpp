@@ -178,6 +178,36 @@ void restrictLines()
     y = 479;
 }
 
+void __declspec(naked) onRefresh()
+{
+  __asm
+  {
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+    mov ebpSave, ebp
+    push 640
+	  xor eax, eax
+	  mov edx, 480
+	  xor ecx, ecx
+    call [BW::BWFXN_RefreshTarget]
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
+    call [BW::BWFXN_RefreshTarget]
+    jmp [BW::BWFXN_RefreshBack]
+  }
+}
+
 void __declspec(naked) onDrawHigh()
 {
  __asm
@@ -313,6 +343,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
   JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
+  JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);
 
   return 0;
 }
