@@ -156,10 +156,10 @@ int i, i2, h, w, x, y, c, l;
 
 void restrictLines()
 {
-  if (x + w > 639)
-    w = 640 - x;
-  if (y + h > 479)
-    h = 480 - y;
+  if (x + w > 638 && x < 639)
+    w = 638 - x;
+  if (y + h > 478 && y < 479)
+    h = 478 - y;
   if (x + w < 1)
     w = 1;
   if (y + h < 1)
@@ -172,10 +172,14 @@ void restrictLines()
     x = 1;
   if (y < 1)
     y = 1;
-  if (x > 639)
-    x = 639;
-  if (y > 479)
-    y = 479;
+  if (x > 638)
+    x = 638;
+  if (y > 478)
+    y = 478;
+  if (x + w > 638)
+    w = 1;
+  if (y + h > 478)
+    h = 1;
 }
 
 void __declspec(naked) onRefresh()
