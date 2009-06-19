@@ -16,6 +16,8 @@ namespace BWAPI
     TilePosition operator-(const TilePosition& position) const;
     TilePosition& operator+=(const TilePosition& position);
     TilePosition& operator-=(const TilePosition& position);
+    double getDistance(const TilePosition& position) const;
+    double getLength() const;
     bool isValid() const;
     int& x();
     int& y();

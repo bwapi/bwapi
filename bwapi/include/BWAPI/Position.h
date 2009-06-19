@@ -16,7 +16,8 @@ namespace BWAPI
     Position operator-(const Position& position) const;
     Position& operator+=(const Position& position);
     Position& operator-=(const Position& position);
-    double getDistance(const Position &position) const;
+    double getDistance(const Position& position) const;
+    double getLength() const;
     int& x();
     int& y();
     int x() const;
