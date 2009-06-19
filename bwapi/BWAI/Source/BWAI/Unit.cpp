@@ -77,42 +77,42 @@ namespace BWAI
     u32 result;
     if (unit == this)
       return 0;
-    if (this->getPosition().y - this->getType().dimensionUp() <= unit->getPosition().y + unit->getType().dimensionDown())
-      if (this->getPosition().y + this->getType().dimensionDown() >= unit->getPosition().y - unit->getType().dimensionUp())
-        if (this->getPosition().x > unit->getPosition().x)
-          result = this->getPosition().x - this->getType().dimensionLeft() - unit->getPosition().x - unit->getType().dimensionRight();
+    if (this->getPosition().y() - this->getType().dimensionUp() <= unit->getPosition().y() + unit->getType().dimensionDown())
+      if (this->getPosition().y() + this->getType().dimensionDown() >= unit->getPosition().y() - unit->getType().dimensionUp())
+        if (this->getPosition().x() > unit->getPosition().x())
+          result = this->getPosition().x() - this->getType().dimensionLeft() - unit->getPosition().x() - unit->getType().dimensionRight();
         else
-          result = unit->getPosition().x - unit->getType().dimensionRight() - this->getPosition().x - this->getType().dimensionLeft();
+          result = unit->getPosition().x() - unit->getType().dimensionRight() - this->getPosition().x() - this->getType().dimensionLeft();
 
-    if (this->getPosition().x - this->getType().dimensionLeft() <= unit->getPosition().x + unit->getType().dimensionRight())
-      if (this->getPosition().x + this->getType().dimensionRight() >= unit->getPosition().x - unit->getType().dimensionLeft())
-        if (this->getPosition().y > unit->getPosition().y)
-          result = this->getPosition().y - this->getType().dimensionUp() - unit->getPosition().y - unit->getType().dimensionDown();
+    if (this->getPosition().x() - this->getType().dimensionLeft() <= unit->getPosition().x() + unit->getType().dimensionRight())
+      if (this->getPosition().x() + this->getType().dimensionRight() >= unit->getPosition().x() - unit->getType().dimensionLeft())
+        if (this->getPosition().y() > unit->getPosition().y())
+          result = this->getPosition().y() - this->getType().dimensionUp() - unit->getPosition().y() - unit->getType().dimensionDown();
         else
-          result = unit->getPosition().y - unit->getType().dimensionDown() - this->getPosition().y - this->getType().dimensionUp();
+          result = unit->getPosition().y() - unit->getType().dimensionDown() - this->getPosition().y() - this->getType().dimensionUp();
 
-    if (this->getPosition().x > unit->getPosition().x)
-      if (this->getPosition().y > unit->getPosition().y)
-        result = (u32)BWAPI::Position(this->getPosition().x - this->getType().dimensionLeft(),
-                              this->getPosition().y - this->getType().dimensionUp())
-                 .getDistance(BWAPI::Position(unit->getPosition().x + unit->getType().dimensionRight(),
-                                           unit->getPosition().y + unit->getType().dimensionDown()));
+    if (this->getPosition().x() > unit->getPosition().x())
+      if (this->getPosition().y() > unit->getPosition().y())
+        result = (u32)BWAPI::Position(this->getPosition().x() - this->getType().dimensionLeft(),
+                              this->getPosition().y() - this->getType().dimensionUp())
+                 .getDistance(BWAPI::Position(unit->getPosition().x() + unit->getType().dimensionRight(),
+                                           unit->getPosition().y() + unit->getType().dimensionDown()));
       else
-        result = (u32)BWAPI::Position(this->getPosition().x - this->getType().dimensionLeft(),
-                              this->getPosition().y + this->getType().dimensionDown())
-                 .getDistance(BWAPI::Position(unit->getPosition().x + unit->getType().dimensionRight(),
-                                           unit->getPosition().y - unit->getType().dimensionUp()));
+        result = (u32)BWAPI::Position(this->getPosition().x() - this->getType().dimensionLeft(),
+                              this->getPosition().y() + this->getType().dimensionDown())
+                 .getDistance(BWAPI::Position(unit->getPosition().x() + unit->getType().dimensionRight(),
+                                           unit->getPosition().y() - unit->getType().dimensionUp()));
     else
-      if (this->getPosition().y > unit->getPosition().y)
-        result = (u32)BWAPI::Position(this->getPosition().x + this->getType().dimensionRight(),
-                              this->getPosition().y - this->getType().dimensionUp())
-                 .getDistance(BWAPI::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
-                                           unit->getPosition().y + unit->getType().dimensionDown()));
+      if (this->getPosition().y() > unit->getPosition().y())
+        result = (u32)BWAPI::Position(this->getPosition().x() + this->getType().dimensionRight(),
+                              this->getPosition().y() - this->getType().dimensionUp())
+                 .getDistance(BWAPI::Position(unit->getPosition().x() - unit->getType().dimensionLeft(),
+                                           unit->getPosition().y() + unit->getType().dimensionDown()));
       else
-        result = (u32)BWAPI::Position(this->getPosition().x + this->getType().dimensionRight(),
-                              this->getPosition().y + this->getType().dimensionDown())
-                 .getDistance(BWAPI::Position(unit->getPosition().x - unit->getType().dimensionLeft(),
-                                           unit->getPosition().y - unit->getType().dimensionUp()));
+        result = (u32)BWAPI::Position(this->getPosition().x() + this->getType().dimensionRight(),
+                              this->getPosition().y() + this->getType().dimensionDown())
+                 .getDistance(BWAPI::Position(unit->getPosition().x() - unit->getType().dimensionLeft(),
+                                           unit->getPosition().y() - unit->getType().dimensionUp()));
     if (result > 0)
       return result;
     else
@@ -150,8 +150,8 @@ namespace BWAI
   char message[400];
   std::string Unit::getName() const
   {
-    sprintf_s(position, 100, "Position = (%u,%u)", this->unit->getPosition().x, 
-                                              this->unit->getPosition().y);
+    sprintf_s(position, 100, "Position = (%d,%d)", this->unit->getPosition().x(), 
+                                              this->unit->getPosition().y());
 
     sprintf_s(indexName, 50, "[%d]", (int)(this->unit));
 

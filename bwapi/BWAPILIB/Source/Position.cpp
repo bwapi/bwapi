@@ -14,45 +14,87 @@ namespace BWAPI
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Position::Position()
-  :x(0)
-  ,y(0)
+  :_x(0)
+  ,_y(0)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Position::Position(const TilePosition& position)
-  :x(position.x*TILE_SIZE)
-  ,y(position.y*TILE_SIZE)
+  :_x(position.x()*TILE_SIZE)
+  ,_y(position.y()*TILE_SIZE)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Position::Position(int x, int y)
-  :x(x)
-  ,y(y)
+  :_x(x)
+  ,_y(y)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
   bool Position::operator == (const Position& position) const
   {
-    return this->x == position.x &&
-           this->y == position.y;
+    return this->x() == position.x() &&
+           this->y() == position.y();
   }
   //---------------------------------------------- OPERATOR != -----------------------------------------------
   bool Position::operator != (const Position& position) const
   {
-    return this->x != position.x ||
-           this->y != position.y;
+    return this->x() != position.x() ||
+           this->y() != position.y();
   }
   //---------------------------------------------- OPERATOR < ------------------------------------------------
   bool Position::operator  < (const Position& position) const
   {
-    return this->x < position.x ||
-           (this->x==position.x && this->y < position.y);
+    return this->x() < position.x() ||
+          (this->x()==position.x() && this->y() < position.y());
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Position Position::operator+(const Position& position) const
+  {
+    return Position(this->x()+position.x(),this->y()+position.y());
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Position Position::operator-(const Position& position) const
+  {
+    return Position(this->x()-position.x(),this->y()-position.y());
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Position& Position::operator+=(const Position& position)
+  {
+    this->x()+=position.x();
+    this->y()+=position.y();
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Position& Position::operator-=(const Position& position)
+  {
+    this->x()-=position.x();
+    this->y()-=position.y();
   }
   //----------------------------------------------------------------------------------------------------------
   double Position::getDistance(const Position &position) const
   {
-    return sqrt((long double)((long double)this->x - position.x)*((long double)this->x - position.x) +
-                     (long double)((long double)this->y - position.y)*((long double)this->y - position.y));
+    return sqrt((long double)((long double)this->x() - position.x())*((long double)this->x() - position.x()) +
+                     (long double)((long double)this->y() - position.y())*((long double)this->y() - position.y()));
+  }
+  //----------------------------------------------------------------------------------------------------------
+  int& Position::x()
+  {
+    return this->_x;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  int& Position::y()
+  {
+    return this->_y;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  int Position::x() const
+  {
+    return this->_x;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  int Position::y() const
+  {
+    return this->_y;
   }
   //----------------------------------------------------------------------------------------------------------
 };

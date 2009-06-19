@@ -10,8 +10,8 @@ namespace PathFinding
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   WalkabilityPosition::WalkabilityPosition(BWAPI::Position position)
-  :x(position.x/8)
-  ,y(position.y/8)
+  :x(position.x()/8)
+  ,y(position.y()/8)
   {
   }
   //-------------------------------------------- TO BW::Position ---------------------------------------------

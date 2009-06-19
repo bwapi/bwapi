@@ -277,8 +277,8 @@ namespace BWAI
         {
          this->root->log->log("Starting position is (%s) at (%d, %d)", 
                         this->startingPosition->expansion->getID().c_str(), 
-                        this->startingPosition->expansion->getPosition().x, 
-                        this->startingPosition->expansion->getPosition().y);
+                        this->startingPosition->expansion->getPosition().x(), 
+                        this->startingPosition->expansion->getPosition().y());
         }
       }
       this->pathFinding = new PathFinding::Utilities();
@@ -606,11 +606,11 @@ namespace BWAI
         for(std::set<BWAPI::TilePosition>::const_iterator i=BWAPI::Broodwar->getStartLocations().begin();
           i!=BWAPI::Broodwar->getStartLocations().end();i++)
         {
-          double angle=atan2((*i).y-BWAPI::Broodwar->mapHeight()/2.0,(*i).x-BWAPI::Broodwar->mapWidth()/2.0);
+          double angle=atan2((*i).y()-BWAPI::Broodwar->mapHeight()/2.0,(*i).x()-BWAPI::Broodwar->mapWidth()/2.0);
           double clock_deg=angle*180.0/3.14159265+90.0;
           int clock_hour=((int)floor(clock_deg*12.0/360.0+0.5)+11)%12+1;
-          startlocationsLog.log("%d o clock: %d, %d",clock_hour, (*i).x, (*i).y);
-          BWAPI::Broodwar->print("%d o clock: %d, %d",clock_hour, (*i).x, (*i).y);
+          startlocationsLog.log("%d o clock: %d, %d",clock_hour, (*i).x(), (*i).y());
+          BWAPI::Broodwar->print("%d o clock: %d, %d",clock_hour, (*i).x(), (*i).y());
         }
         BWAPI::Broodwar->print("Saved start locations");
 
@@ -1074,7 +1074,7 @@ namespace BWAI
   //TODO correctly determine the position of the enemy's main base
   BWAPI::Position AI::getEnemyMain()
   {
-    BWAPI::Position position(this->opponent->getStartLocation().x*4+8,this->opponent->getStartLocation().y*4+6);
+    BWAPI::Position position(this->opponent->getStartLocation().x()*4+8,this->opponent->getStartLocation().y()*4+6);
 
 	return position;
   }
@@ -1090,11 +1090,11 @@ namespace BWAI
         {
           int occupiedCount = 0;
           Unit* occupied = NULL;
-          for (int k = i->position.x; 
-                k < i->position.x + position->tileWidth; 
+          for (int k = i->position.x(); 
+                k < i->position.x() + position->tileWidth; 
                 k++)
-            for (int l = i->position.y; 
-                 l < i->position.y + position->tileHeight; 
+            for (int l = i->position.y(); 
+                 l < i->position.y() + position->tileHeight; 
                  l++)
               if (!BWAPI::Broodwar->unitsOnTile(k,l).empty())
               {
@@ -1123,7 +1123,7 @@ namespace BWAI
                )
              )
           {
-            this->root->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), i->position.x, i->position.y);
+            this->root->log->log("Found free spot for %s at (%d,%d)", spotName.c_str(), i->position.x(), i->position.y());
             if (occupied != NULL &&
                 occupied->getType() != BWAPI::UnitTypes::Resource_Vespene_Geyser)
               builderToUse = occupied;
