@@ -38,13 +38,8 @@ namespace BWAPI
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
   {
-    std::string fileName=getFileName();
-    int i=fileName.find_last_of('.');
-    if (i!=std::string::npos)
-    {
-      return fileName.substr(0,i);
-    }
-    return fileName;
+    std::string mapName(BW::BWDATA_CurrentMapName);
+    return mapName;
   }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool Map::buildable(int x, int y) const

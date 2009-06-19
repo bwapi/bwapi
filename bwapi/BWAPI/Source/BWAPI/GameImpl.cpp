@@ -531,8 +531,34 @@ namespace BWAPI
         for (u16 i = 0; savedSelectionStates[i] != NULL; i++)
           this->print(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
       }
+      else if (parsed[1] == "data")
+      {
+        if (savedSelectionStates[0]!=NULL)
+        {
+          BW::Unit* unit=savedSelectionStates[0];
+          Util::Logger::globalLog->log("Unit address: %x",unit);
+          for(__int8 i=0;i<BW::UNIT_SIZE_IN_BYTES;i++)
+          {
+            Util::Logger::globalLog->log("%x: %x",i,((__int8*)unit)[i]%256);
+          }
+        }
+      }
+      else if (parsed[1] == "first")
+      {
+        for(int i=0;i<12;i++)
+        {
+          if (this->players[i]->getFirst()!=NULL)
+          {
+            this->print("%d - %x",i,this->players[i]->getFirst());
+          }
+          else
+          {
+            this->print("%d - NULL",i);
+          }
+        }
+      }
       else
-        this->print("Unknown command '%s''s - possible commands are: info", parsed[1].c_str());
+        this->print("Unknown command '%s''s - possible commands are: data, info", parsed[1].c_str());
       return true;
     }
     else if (parsed[0] == "/get")
