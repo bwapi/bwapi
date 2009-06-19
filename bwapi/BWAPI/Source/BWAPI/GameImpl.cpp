@@ -731,9 +731,9 @@ namespace BWAPI
         this->print("Unknown log command '%s''s - possible values are: all, ore, gas, speed", parsed[1].c_str());
       return true;
     }
-    else if (parsed[0] == "/test") // DON'T USE THIS;
+    else if (parsed[0] == "/test")
     {
-      drawBox(20, 20, 80, 80, 9, 2, 3);
+      drawBox(this->BWAPIPlayer->getStartLocation().x*32, this->BWAPIPlayer->getStartLocation().y*32, 128, 96, 11, 2, 2);
       this->print("testing");
       return true;
     }
@@ -1054,7 +1054,7 @@ namespace BWAPI
       drawQueueBox[i][1].l = layer;
 
       drawQueueBox[i][2].c = color;
-      drawQueueBox[i][2].x = x + width;
+      drawQueueBox[i][2].x = x + width - lineWidth;
       drawQueueBox[i][2].y = y;
       drawQueueBox[i][2].h = height;
       drawQueueBox[i][2].w = lineWidth;
@@ -1062,7 +1062,7 @@ namespace BWAPI
 
       drawQueueBox[i][3].c = color;
       drawQueueBox[i][3].x = x;
-      drawQueueBox[i][3].y = y + height;
+      drawQueueBox[i][3].y = y + height - lineWidth;
       drawQueueBox[i][3].h = lineWidth;
       drawQueueBox[i][3].w = width;
       drawQueueBox[i][3].l = layer;
