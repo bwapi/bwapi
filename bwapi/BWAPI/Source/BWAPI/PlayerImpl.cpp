@@ -135,6 +135,11 @@ namespace BWAPI
   {
     return NULL;//TODO: create Force class
   }
+  //----------------------------------------------- GET FIRST ------------------------------------------------
+  UnitImpl* PlayerImpl::getFirst()
+  {
+    return UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_UnitNodeTable_PlayerFirstUnit[getID()]);
+  }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlliesWith(Player* player) const
   {

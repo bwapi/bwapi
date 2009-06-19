@@ -8,6 +8,7 @@ namespace BW { struct Unit; };
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
+#include "UnitImpl.h"
 
 #include <list>
 #include <set>
@@ -99,6 +100,7 @@ namespace BWAPI
      * performed
      */
     void update();
+    UnitImpl* getFirst();
 
     void planToMake(BW::UnitType unit);
     /**

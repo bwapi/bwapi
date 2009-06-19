@@ -131,6 +131,7 @@ namespace BW
   static u16*           BWDATA_MapSizeX                   = (u16*)         0x0057F1D4;               // 1.16.1
   static u16*           BWDATA_MapSizeY                   = ((u16*)        BWDATA_MapSizeX) + 1;
   static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
+  static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CB58;               // starts properly at +1 unitstruct
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
   
@@ -203,6 +204,7 @@ namespace BW
   static u32*           BWDATA_ScreenY                            = (u32*) (BWDATA_Screen + 40);
 
   static char*          BWDATA_CurrentMapFileName                 = (char*)       0x0057FD3C;
+  static char*          BWDATA_CurrentMapName                     = (char*)       0x0057FE40;
   static u16*           BWDATA_TechLabelIndex                     = (u16*)        techdataDat[7].address;
   static u16*           BWDATA_UpgradeLabelIndex                  = (u16*)        upgradesDat[8].address;
   static u8*            BWDATA_UpgradeMax                         = (u8*)         upgradesDat[10].address;
