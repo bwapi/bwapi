@@ -89,7 +89,7 @@ namespace BWAPI
     {
       return true;
     }
-    if (!BWAPI::BroodwarImpl.visible(this->getTilePosition().x,this->getTilePosition().y))
+    if (!BWAPI::BroodwarImpl.visible(this->getTilePosition().x(),this->getTilePosition().y()))
     {
       return false;
     }
@@ -151,8 +151,8 @@ namespace BWAPI
   //------------------------------------------- GET TILE POSITION --------------------------------------------
   TilePosition UnitImpl::getTilePosition() const
   {
-    return TilePosition(Position(this->getPosition().x - this->getType().tileWidth()*BW::TILE_SIZE/2,
-                        this->getPosition().y - this->getType().tileHeight()*BW::TILE_SIZE/2));
+    return TilePosition(Position(this->getPosition().x() - this->getType().tileWidth()*BW::TILE_SIZE/2,
+                        this->getPosition().y() - this->getType().tileHeight()*BW::TILE_SIZE/2));
   }
   //----------------------------------------------- GET TATGET -----------------------------------------------
   Unit* UnitImpl::getTarget() const
@@ -225,42 +225,42 @@ namespace BWAPI
    u32 result;
    if (unit == this)
      return 0;
-   if (this->getPosition().y - this->getType().dimensionUp() <= unit->getPosition().y + unit->getType().dimensionDown())
-     if (this->getPosition().y + this->getType().dimensionDown() >= unit->getPosition().y - unit->getType().dimensionUp())
-       if (this->getPosition().x > unit->getPosition().x)
-         result = this->getPosition().x - this->getType().dimensionLeft() - unit->getPosition().x - unit->getType().dimensionRight();
+   if (this->getPosition().y() - this->getType().dimensionUp() <= unit->getPosition().y() + unit->getType().dimensionDown())
+     if (this->getPosition().y() + this->getType().dimensionDown() >= unit->getPosition().y() - unit->getType().dimensionUp())
+       if (this->getPosition().x() > unit->getPosition().x())
+         result = this->getPosition().x() - this->getType().dimensionLeft() - unit->getPosition().x() - unit->getType().dimensionRight();
        else
-         result = unit->getPosition().x - unit->getType().dimensionRight() - this->getPosition().x - this->getType().dimensionLeft();
+         result = unit->getPosition().x() - unit->getType().dimensionRight() - this->getPosition().x() - this->getType().dimensionLeft();
 
-   if (this->getPosition().x - this->getType().dimensionLeft() <= unit->getPosition().x + unit->getType().dimensionRight())
-     if (this->getPosition().x + this->getType().dimensionRight() >= unit->getPosition().x - unit->getType().dimensionLeft())
-       if (this->getPosition().y > unit->getPosition().y)
-         result = this->getPosition().y - this->getType().dimensionUp() - unit->getPosition().y - unit->getType().dimensionDown();
+   if (this->getPosition().x() - this->getType().dimensionLeft() <= unit->getPosition().x() + unit->getType().dimensionRight())
+     if (this->getPosition().x() + this->getType().dimensionRight() >= unit->getPosition().x() - unit->getType().dimensionLeft())
+       if (this->getPosition().y() > unit->getPosition().y())
+         result = this->getPosition().y() - this->getType().dimensionUp() - unit->getPosition().y() - unit->getType().dimensionDown();
        else
-         result = unit->getPosition().y - unit->getType().dimensionDown() - this->getPosition().y - this->getType().dimensionUp();
+         result = unit->getPosition().y() - unit->getType().dimensionDown() - this->getPosition().y() - this->getType().dimensionUp();
 
-   if (this->getPosition().x > unit->getPosition().x)
-     if (this->getPosition().y > unit->getPosition().y)
-       result = this->getDistance(this->getPosition().x - this->getType().dimensionLeft(),
-                                  this->getPosition().y - this->getType().dimensionUp(),
-                                  unit->getPosition().x + unit->getType().dimensionRight(),
-                                  unit->getPosition().y + unit->getType().dimensionDown());
+   if (this->getPosition().x() > unit->getPosition().x())
+     if (this->getPosition().y() > unit->getPosition().y())
+       result = this->getDistance(this->getPosition().x() - this->getType().dimensionLeft(),
+                                  this->getPosition().y() - this->getType().dimensionUp(),
+                                  unit->getPosition().x() + unit->getType().dimensionRight(),
+                                  unit->getPosition().y() + unit->getType().dimensionDown());
      else
-       result = this->getDistance(this->getPosition().x - this->getType().dimensionLeft(),
-                                 this->getPosition().y + this->getType().dimensionDown(),
-                                 unit->getPosition().x + unit->getType().dimensionRight(),
-                                 unit->getPosition().y - unit->getType().dimensionUp());
+       result = this->getDistance(this->getPosition().x() - this->getType().dimensionLeft(),
+                                 this->getPosition().y() + this->getType().dimensionDown(),
+                                 unit->getPosition().x() + unit->getType().dimensionRight(),
+                                 unit->getPosition().y() - unit->getType().dimensionUp());
    else
-     if (this->getPosition().y > unit->getPosition().y)
-       result = this->getDistance(this->getPosition().x + this->getType().dimensionRight(),
-                                this->getPosition().y - this->getType().dimensionUp(),
-                                unit->getPosition().x - unit->getType().dimensionLeft(),
-                                unit->getPosition().y + unit->getType().dimensionDown());
+     if (this->getPosition().y() > unit->getPosition().y())
+       result = this->getDistance(this->getPosition().x() + this->getType().dimensionRight(),
+                                this->getPosition().y() - this->getType().dimensionUp(),
+                                unit->getPosition().x() - unit->getType().dimensionLeft(),
+                                unit->getPosition().y() + unit->getType().dimensionDown());
      else
-       result = this->getDistance(this->getPosition().x + this->getType().dimensionRight(),
-                                this->getPosition().y + this->getType().dimensionDown(),
-                                unit->getPosition().x - unit->getType().dimensionLeft(),
-                                unit->getPosition().y - unit->getType().dimensionUp());
+       result = this->getDistance(this->getPosition().x() + this->getType().dimensionRight(),
+                                this->getPosition().y() + this->getType().dimensionDown(),
+                                unit->getPosition().x() - unit->getType().dimensionLeft(),
+                                unit->getPosition().y() - unit->getType().dimensionUp());
    if (result > 0)
      return result;
    else
@@ -269,18 +269,18 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   u16 UnitImpl::getDistance(BW::Position position) const
   {
-    return this->getDistance(this->getPosition().x, 
-                             this->getPosition().y,
+    return this->getDistance(this->getPosition().x(), 
+                             this->getPosition().y(),
                              position.x, 
                              position.y);
   }
   //------------------------------------------ GET CENTER DISTANCE -------------------------------------------
   u16 UnitImpl::getCenterDistance(Unit *unit) const
   {
-    return this->getDistance(this->getPosition().x, 
-                             this->getPosition().y,
-                             unit->getPosition().x, 
-                             unit->getPosition().y);
+    return this->getDistance(this->getPosition().x(), 
+                             this->getPosition().y(),
+                             unit->getPosition().x(), 
+                             unit->getPosition().y());
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   u16 UnitImpl::getDistance(int x1, int y1, int x2, int y2) const
@@ -333,15 +333,15 @@ namespace BWAPI
   {
     Order order=Orders::AttackMove;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x,position.y), order.getID()), sizeof(BW::Orders::Attack)); 
-    BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x,position.y)));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), order.getID()), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x(),position.y())));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   void UnitImpl::rightClick(Position position)
   {
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(position.x,position.y)), sizeof(BW::Orders::RightClick)); 
-    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, BW::Position(position.x,position.y)));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(position.x(),position.y())), sizeof(BW::Orders::RightClick)); 
+    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, BW::Position(position.x(),position.y())));
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   void UnitImpl::rightClick(Unit *target)
@@ -356,10 +356,10 @@ namespace BWAPI
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));
     this->orderSelect();
     if (!type.isAddon())
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition(position.x,position.y), type), sizeof(BW::Orders::MakeBuilding)); 
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition(position.x(),position.y()), type), sizeof(BW::Orders::MakeBuilding)); 
     else
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition(position.x,position.y), type), sizeof(BW::Orders::MakeAddon)); 
-    BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, BW::TilePosition(position.x,position.y)));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition(position.x(),position.y()), type), sizeof(BW::Orders::MakeAddon)); 
+    BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, BW::TilePosition(position.x(),position.y())));
   }
   //------------------------------------------------- INVENT -------------------------------------------------
   void UnitImpl::invent(TechType tech)
@@ -523,8 +523,8 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string UnitImpl::getName() const
   {
-    sprintf_s(position, 100, "Position = (%u,%u)", this->getPosition().x, 
-                                              this->getPosition().y);
+    sprintf_s(position, 100, "Position = (%d,%d)", this->getPosition().x(), 
+                                              this->getPosition().y());
 
     sprintf_s(indexName, 50, "[%d]", this->getIndex());
 

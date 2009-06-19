@@ -12,9 +12,18 @@ namespace BWAPI
     bool operator == (const Position& position) const;
     bool operator != (const Position& position) const;
     bool operator  < (const Position& position) const;
+    Position operator+(const Position& position) const;
+    Position operator-(const Position& position) const;
+    Position& operator+=(const Position& position);
+    Position& operator-=(const Position& position);
     double getDistance(const Position &position) const;
-    int x;
-    int y;
+    int& x();
+    int& y();
+    int x() const;
+    int y() const;
+  private :
+    int _x;
+    int _y;
   };
   namespace Positions
   {

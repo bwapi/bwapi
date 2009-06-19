@@ -12,9 +12,18 @@ namespace BWAPI
     bool operator == (const TilePosition& TilePosition) const;
     bool operator != (const TilePosition& TilePosition) const;
     bool operator  < (const TilePosition& TilePosition) const;
+    TilePosition operator+(const TilePosition& position) const;
+    TilePosition operator-(const TilePosition& position) const;
+    TilePosition& operator+=(const TilePosition& position);
+    TilePosition& operator-=(const TilePosition& position);
     bool isValid() const;
-    int x;
-    int y;
+    int& x();
+    int& y();
+    int x() const;
+    int y() const;
+  private :
+    int _x;
+    int _y;
   };
   namespace TilePositions
   {

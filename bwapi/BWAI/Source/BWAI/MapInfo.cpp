@@ -86,15 +86,15 @@ namespace BWAI
         BuildingPositionSet* positions = l.second;
         for each (BuildingPosition* j in positions->positions)
         {
-          Util::Strings::makeWindow(result, j->position.x, j->position.y, positions->tileWidth, positions->tileHeight, 1);
-          Util::Strings::printTo(result, positions->shortcut, j->position.x + 1, j->position.y + 1);
+          Util::Strings::makeWindow(result, j->position.x(), j->position.y(), positions->tileWidth, positions->tileHeight, 1);
+          Util::Strings::printTo(result, positions->shortcut, j->position.x() + 1, j->position.y() + 1);
           for (int x = 0; x < positions->tileWidth; x++)
             for (int y = 0; y < positions->tileHeight; y++)
-              counts[x + j->position.x][y + j->position.y]++;
+              counts[x + j->position.x()][y + j->position.y()]++;
         }
       }
-      unsigned int startX = i->expansion->getPosition().x/BWAPI::TILE_SIZE - 2;
-      unsigned int startY = (i->expansion->getPosition().y - 45)/BWAPI::TILE_SIZE;
+      unsigned int startX = i->expansion->getPosition().x()/BWAPI::TILE_SIZE - 2;
+      unsigned int startY = (i->expansion->getPosition().y() - 45)/BWAPI::TILE_SIZE;
       Util::Strings::makeWindow(result, startX, startY, 4, 3, 0);
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 3; y++)
@@ -104,8 +104,8 @@ namespace BWAI
     {
       if (i->isMineral())
         {
-          unsigned int startX = i->getPosition().x/BWAPI::TILE_SIZE - 1;
-          unsigned int startY = i->getPosition().y/BWAPI::TILE_SIZE;
+          unsigned int startX = i->getPosition().x()/BWAPI::TILE_SIZE - 1;
+          unsigned int startY = i->getPosition().y()/BWAPI::TILE_SIZE;
           counts[startX][startY]++;
           counts[startX + 1][startY]++;
           result[startX][startY] = 'M';
@@ -113,8 +113,8 @@ namespace BWAI
         }
       if (i->getType() == BWAPI::UnitTypes::Resource_Vespene_Geyser)
       {
-        unsigned int startX = i->getPosition().x/BWAPI::TILE_SIZE - 2;
-        unsigned int startY = i->getPosition().y/BWAPI::TILE_SIZE - 1;
+        unsigned int startX = i->getPosition().x()/BWAPI::TILE_SIZE - 2;
+        unsigned int startY = i->getPosition().y()/BWAPI::TILE_SIZE - 1;
         for (int x = 0; x < 4; x++)
           for (int y = 0; y < 2; y++)
           {

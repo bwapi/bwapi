@@ -119,8 +119,8 @@ namespace PathFinding
     // sets starting spots of the search
     for (int i = 0; i < SPOT_DISTANCE_WINDOW_SIZE; i++)
       count[i] = 0;
-    for (int x = unit.walkabilityPosition.x; x <= (unit.position.x + 7)/8; x++)
-      for (int y = unit.walkabilityPosition.y; y <= (unit.position.y + 7)/8; y++)
+    for (int x = unit.walkabilityPosition.x; x <= (unit.position.x() + 7)/8; x++)
+      for (int y = unit.walkabilityPosition.y; y <= (unit.position.y() + 7)/8; y++)
       {
         WalkabilityPosition here(x, y);
         u16 distance = (u16)(here.toBWAPIPosition().getDistance(unit.position));

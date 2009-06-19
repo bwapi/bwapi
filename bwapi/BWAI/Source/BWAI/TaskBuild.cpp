@@ -142,8 +142,8 @@ namespace BWAI
             return false;
         }
         BWAPI::Position center(this->position->position);
-        center.x += (BWAPI::TILE_SIZE*this->getBuildingType().tileWidth())/2;
-        center.y += (BWAPI::TILE_SIZE*this->getBuildingType().tileHeight())/2;
+        center.x() += (BWAPI::TILE_SIZE*this->getBuildingType().tileWidth())/2;
+        center.y() += (BWAPI::TILE_SIZE*this->getBuildingType().tileHeight())/2;
         if (this->position != NULL)
           // Note that the auto conversion constructor is used here, so it takes care of conversion between tile position and position
           if (this->executors.front()->getDistance(center) > 100 &&
@@ -162,7 +162,7 @@ namespace BWAI
                )
             {
               this->executors.front()->orderRightClick(center);
-              BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName().c_str(), center.x, center.y);
+              BWAI::ai->log->logCritical("(%s) sent to build (%s) at (%d,%d)", this->executors.front()->getName().c_str(), buildingType.getName().c_str(), center.x(), center.y());
             }
           }
           else
@@ -205,11 +205,11 @@ namespace BWAI
   //----------------------------------------------------------------------------------------------------------
   bool TaskBuild::canIBuild(BWAPI::TilePosition here)
   {
-    for (int k = here.x; 
-         k < here.x + this->alternatives->tileWidth; 
+    for (int k = here.x(); 
+         k < here.x() + this->alternatives->tileWidth; 
               k++)
-      for (int l = here.y; 
-           l < here.y + this->alternatives->tileHeight; 
+      for (int l = here.y(); 
+           l < here.y() + this->alternatives->tileHeight; 
            l++)
         if (BWAPI::Broodwar->unitsOnTile(k,l).empty() == false &&
              (

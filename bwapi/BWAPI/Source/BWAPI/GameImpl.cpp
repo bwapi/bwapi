@@ -759,7 +759,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test")
     {
-      drawBox(this->BWAPIPlayer->getStartLocation().x*32, this->BWAPIPlayer->getStartLocation().y*32, 128, 96, 11, 2, 2);
+      drawBox(this->BWAPIPlayer->getStartLocation().x()*32, this->BWAPIPlayer->getStartLocation().y()*32, 128, 96, 11, 2, 2);
       this->print("testing");
       return true;
     }
@@ -987,10 +987,10 @@ namespace BWAPI
     for each (UnitImpl* i in this->units)
       if (i->isValid())
       {
-        int startX =   (i->getPosition().x - i->getType().dimensionLeft())/BW::TILE_SIZE;
-        int endX   =   (i->getPosition().x + i->getType().dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE; // Division - round up
-        int startY =   (i->getPosition().y - i->getType().dimensionUp())/BW::TILE_SIZE;
-        int endY =     (i->getPosition().y + i->getType().dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
+        int startX =   (i->getPosition().x() - i->getType().dimensionLeft())/BW::TILE_SIZE;
+        int endX   =   (i->getPosition().x() + i->getType().dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE; // Division - round up
+        int startY =   (i->getPosition().y() - i->getType().dimensionUp())/BW::TILE_SIZE;
+        int endY =     (i->getPosition().y() + i->getType().dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
             this->unitsOnTileData[x][y].insert(i);

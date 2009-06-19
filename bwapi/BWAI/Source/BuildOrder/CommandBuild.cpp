@@ -81,19 +81,19 @@ namespace BuildOrder
           {
             BWAI::BuildingPosition* position = alternatives->positions.front();
             
-            if (BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).empty())
+            if (BWAPI::Broodwar->unitsOnTile(position->position.x() - 2,position->position.y()).empty())
             {
               BWAI::ai->root->log->log("Building for the addon not found", Util::LogLevel::Commmon);
               return false;
             }
             
-           if (!(*BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).begin())->isCompleted())
+           if (!(*BWAPI::Broodwar->unitsOnTile(position->position.x() - 2,position->position.y()).begin())->isCompleted())
             {
               BWAI::ai->root->log->logCommon("Building for the addon not ready");
               return false;
             }
             
-            executor = BWAI::Unit::BWAPIUnitToBWAIUnit(*BWAPI::Broodwar->unitsOnTile(position->position.x - 2,position->position.y).begin());
+            executor = BWAI::Unit::BWAPIUnitToBWAIUnit(*BWAPI::Broodwar->unitsOnTile(position->position.x() - 2,position->position.y()).begin());
             if (!executor->getType().isBuilding())
             {
               BWAI::ai->root->log->log("Executor chosen is not building ???? but %s", executor->getName().c_str());
@@ -114,8 +114,8 @@ namespace BuildOrder
               {
                 executor = i;
                 spot = executor->getTilePosition();
-                spot.x += 4;
-                spot.y += 1;
+                spot.x() += 4;
+                spot.y() += 1;
                 break;
               }
             if (executor == NULL)
