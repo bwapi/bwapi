@@ -269,12 +269,14 @@ namespace BWAPI
         if (this->units.find(*i)==this->units.end())
         {
           this->units.insert(*i);
+          /* //This will crash the program when you make a vulture
           if ((*i)->getChild()!=NULL) // TODO: Figure out how to read loaded units (in dropship/bunker/etc
           {
             UnitImpl* newi=static_cast<UnitImpl*>((*i)->getChild());
             unitList.push_back(newi);
             newi->setLoaded(true);
           }
+          */
         }
       }
       refreshSelectionStates();
@@ -305,14 +307,16 @@ namespace BWAPI
 
       szDllPath[ai_dll.length()]=TCHAR('\0');
       Util::Logger::globalLog->logCritical("Loading AI DLL from: %s",ai_dll.c_str());
+      bool loaded;
       if (!(hMod = LoadLibrary(szDllPath)))
       {
+        loaded=false;
         Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
-        printPublic("Error: Failed to load the AI Module");
         this->client = new AIModule();
       }
       else
       {
+        loaded=true;
         Util::Logger::globalLog->logCritical("Loaded AI Module");
         Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
       	
@@ -327,6 +331,14 @@ namespace BWAPI
       this->client->onFrame();
       this->client->onStart();
       this->lockFlags();
+      if (loaded)
+      {
+        printPublic("BWAPI: Loaded the AI Module: %s",ai_dll.c_str());
+      }
+      else
+      {
+        printPublic("Error: Failed to load the AI Module");
+      }
       this->startedClient=true;
     }
     this->client->onFrame();
