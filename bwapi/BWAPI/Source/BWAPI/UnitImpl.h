@@ -62,6 +62,9 @@ namespace BWAPI
       virtual bool isBurrowed() const;
       virtual bool isIdle() const;
       virtual bool isMoving() const;
+      virtual bool isAccelerating() const;
+      virtual bool isBraking() const;
+      virtual bool isStartingAttack() const;
       virtual bool isCloaked() const;
       virtual bool isDisabled() const;
       virtual bool isTraining() const;
