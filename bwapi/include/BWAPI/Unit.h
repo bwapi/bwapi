@@ -47,6 +47,9 @@ namespace BWAPI
     virtual bool isStartingAttack() const=0;
     virtual bool isCloaked() const=0;
     virtual bool isDisabled() const=0;
+    virtual bool isBlind() const=0;
+    virtual bool isBeingHealed() const=0;
+    virtual bool isUnderStorm() const=0;
     virtual bool isTraining() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
 

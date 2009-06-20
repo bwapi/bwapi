@@ -131,6 +131,21 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
   }
+  //------------------------------------------------ IS BLIND ------------------------------------------------
+  bool UnitImpl::isBlind() const
+  {
+    return this->getRawDataLocal()->isBlind != 0;
+  }
+  //--------------------------------------------- IS BEING HEALED --------------------------------------------
+  bool UnitImpl::isBeingHealed() const // Not working right now
+  {
+    return this->getRawDataLocal()->isBeingHealed != 0;
+  }
+  //---------------------------------------------- IS UNDER STORM --------------------------------------------
+  bool UnitImpl::isUnderStorm() const
+  {
+    return this->getRawDataLocal()->isUnderStorm != 0;
+  }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool UnitImpl::isSelected() const
   {
