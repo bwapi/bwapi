@@ -214,6 +214,21 @@ namespace BWAI
   {
     return this->unit->isMoving();
   }
+  //-------------------------------------------- IS ACCELERATING ---------------------------------------------
+  bool Unit::isAccelerating() const
+  {
+    return this->unit->isAccelerating();
+  }
+  //----------------------------------------------- IS BRAKING -----------------------------------------------
+  bool Unit::isBraking() const
+  {
+    return this->unit->isBraking();
+  }
+  //------------------------------------------ IS STARTING ATTACK --------------------------------------------
+  bool Unit::isStartingAttack() const
+  {
+    return this->unit->isStartingAttack();
+  }
   //------------------------------------------------ GET UNIT ------------------------------------------------
   BWAPI::Unit* Unit::getUnit()
   {

@@ -154,12 +154,12 @@ namespace BWAPI
     return TilePosition(Position(this->getPosition().x() - this->getType().tileWidth()*BW::TILE_SIZE/2,
                         this->getPosition().y() - this->getType().tileHeight()*BW::TILE_SIZE/2));
   }
-  //----------------------------------------------- GET TATGET -----------------------------------------------
+  //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* UnitImpl::getTarget() const
   {
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
   }
-  //----------------------------------------------- GET TATGET -----------------------------------------------
+  //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
@@ -169,12 +169,12 @@ namespace BWAPI
   {
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
   }
-  //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
+  //----------------------------------------------- GET CHILD ------------------------------------------------
   Unit* UnitImpl::getChild() const
   {
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
   }
-  //------------------------------------------ GET TATGET POSITION -------------------------------------------
+  //------------------------------------------ GET TARGET POSITION -------------------------------------------
   Position UnitImpl::getTargetPosition() const
   {
     return BWAPI::Position(this->getRawDataLocal()->moveToPos.x,this->getRawDataLocal()->moveToPos.y);
@@ -220,6 +220,21 @@ namespace BWAPI
   bool UnitImpl::isMoving() const
   {
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
+  }
+  //--------------------------------------------- IS ACCELERATING --------------------------------------------
+  bool UnitImpl::isAccelerating() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Accelerating);
+  }
+  //----------------------------------------------- IS BRAKING -----------------------------------------------
+  bool UnitImpl::isBraking() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Braking);
+  }
+  //------------------------------------------- IS STARTING ATTACK -------------------------------------------
+  bool UnitImpl::isStartingAttack() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::StartingAttack);
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
 

@@ -41,6 +41,9 @@ namespace BWAI
       bool isSelected() const;
       bool isIdle() const;
       bool isMoving() const;
+      bool isAccelerating() const;
+      bool isBraking() const;
+      bool isStartingAttack() const;
 
       bool isTraining() const;
       std::list<BWAPI::UnitType > getTrainingQueue() const;
