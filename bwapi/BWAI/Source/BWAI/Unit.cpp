@@ -36,6 +36,16 @@ namespace BWAI
   {
     return this->unit->shield();
   }
+  //------------------------------------------- GET ENERGY POINTS --------------------------------------------
+  int Unit::getEnergyPoints() const
+  {
+    return this->unit->energy();
+  }
+  //--------------------------------------------- GET KILL COUNT ---------------------------------------------
+  int Unit::getKillCount() const
+  {
+    return this->unit->getKillCount();
+  }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BWAPI::Position Unit::getPosition() const
   {

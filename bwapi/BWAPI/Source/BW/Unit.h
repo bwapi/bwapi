@@ -85,13 +85,13 @@ namespace BW
     /*0x088*/ u16                          displayedUnitID;    /**< @todo Verify */
     /*0x08A*/ _UNKNOWN _12[4];
     /*0x08E*/ u8                           rankIncrease;       /**< @todo Unknown */
-    /*0x08F*/ u8                           killCount;          /**< @todo Verify */
+    /*0x08F*/ u8                           killCount;          /**< Killcount */
     /*0x090*/ _UNKNOWN _13[3];
     /*0x093*/ u8                           unknownState_0x93;  /**< @todo Unknown */
     /*0x094*/ u8                           currentButtonSet;   /**< @todo Verify */
     /*0x095*/ _UNKNOWN _14[3];
     /*0x098*/ BW::UnitType                 buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
-    /*0x0A2*/ u16                          energy;             /**< @todo Verify */
+    /*0x0A2*/ u16                          energy;             /**< Energy Points */
     /*0x0A4*/ u8                           buildQueueSlot;     /**< Index of active unit in #buildQueue. */
     /*0x0A5*/ _UNKNOWN _15[1];
     /*0x0A6*/ BW::OrderID::Enum            secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */

@@ -51,7 +51,12 @@ namespace BWAPI
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
   int UnitImpl::energy() const
   {
-    return this->getRawDataLocal()->energy; /* Unverified */
+    return this->getRawDataLocal()->energy;
+  }
+  //-------------------------------------------- GET KILL COUNT ----------------------------------------------
+  int UnitImpl::getKillCount() const
+  {
+    return this->getRawDataLocal()->killCount;
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getOwner() const
