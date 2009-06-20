@@ -239,6 +239,21 @@ namespace BWAI
   {
     return this->unit->isStartingAttack();
   }
+  //------------------------------------------------ IS BLIND ------------------------------------------------
+  bool Unit::isBlind() const
+  {
+    return this->unit->isBlind();
+  }
+  //--------------------------------------------- IS BEING HEALED --------------------------------------------
+  bool Unit::isBeingHealed() const // Not working right now
+  {
+    return this->unit->isBeingHealed();
+  }
+  //--------------------------------------------- IS UNDER STORM ---------------------------------------------
+  bool Unit::isUnderStorm() const
+  {
+    return this->unit->isUnderStorm();
+  }
   //------------------------------------------------ GET UNIT ------------------------------------------------
   BWAPI::Unit* Unit::getUnit()
   {

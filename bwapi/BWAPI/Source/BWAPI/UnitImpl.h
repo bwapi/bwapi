@@ -68,6 +68,9 @@ namespace BWAPI
       virtual bool isStartingAttack() const;
       virtual bool isCloaked() const;
       virtual bool isDisabled() const;
+      virtual bool isBlind() const;
+      virtual bool isBeingHealed() const;
+      virtual bool isUnderStorm() const;
       virtual bool isTraining() const;
       /** Gets if the current unit mineral (there are 3 Types of minerals) */
       virtual std::list<UnitType > getTrainingQueue() const;
