@@ -216,6 +216,11 @@ namespace BWAPI
             this->getOrder() == BWAPI::Orders::Critter ||
             this->getOrder() == BWAPI::Orders::NukeTrain);
   }
+  //------------------------------------------------ IS MOVING -----------------------------------------------
+  bool UnitImpl::isMoving() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
+  }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
 
   #pragma warning(push)

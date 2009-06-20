@@ -209,6 +209,11 @@ namespace BWAI
   {
     return this->unit->isIdle();
   }
+  //----------------------------------------------- IS MOVING ------------------------------------------------
+  bool Unit::isMoving() const
+  {
+    return this->unit->isMoving();
+  }
   //------------------------------------------------ GET UNIT ------------------------------------------------
   BWAPI::Unit* Unit::getUnit()
   {
