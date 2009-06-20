@@ -20,6 +20,7 @@ namespace BWAPI
     virtual int health() const=0;
     virtual int shield() const=0;
     virtual int energy() const=0;
+    virtual int getKillCount() const=0;
     virtual Position getPosition() const=0;
     virtual TilePosition getTilePosition() const=0;
 

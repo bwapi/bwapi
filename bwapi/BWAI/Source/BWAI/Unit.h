@@ -26,6 +26,8 @@ namespace BWAI
       BWAPI::UnitType getType() const;
       int getHealthPoints() const; 
       int getShieldPoints() const; 
+      int getEnergyPoints() const; 
+      int getKillCount() const; 
       const BWAPI::Position getPosition() const;
       const BWAPI::TilePosition getTilePosition() const;
       Unit* getTarget() const;

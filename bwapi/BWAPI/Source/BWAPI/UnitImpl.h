@@ -34,6 +34,7 @@ namespace BWAPI
       virtual int health() const;
       virtual int shield() const;
       virtual int energy() const;
+      virtual int getKillCount() const;
       virtual Position getPosition() const;
       virtual TilePosition getTilePosition() const;
 
