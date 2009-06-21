@@ -9,6 +9,7 @@ namespace BW { struct Unit; };
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
 #include "UnitImpl.h"
+#include "ForceImpl.h"
 
 #include <list>
 #include <set>
@@ -89,6 +90,7 @@ namespace BWAPI
     char* getForceName() const;
     u8 getAlliance(u8 opposingID);
     u8 getForce();
+    ForceImpl* force;
 
     /** Modifies the local version of resources according to the specification - @ref localData */
     void spend(s32 minerals, s32 gas);

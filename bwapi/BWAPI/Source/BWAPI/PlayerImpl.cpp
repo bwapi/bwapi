@@ -24,6 +24,10 @@ namespace BWAPI
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string PlayerImpl::getName() const
   {
+    if (this->getID()==11)
+    {
+      return std::string("Neutral");
+    }
     return std::string(BW::BWDATA_Players->player[this->getID()].name);
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
@@ -133,7 +137,7 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* PlayerImpl::getForce() const
   {
-    return NULL;//TODO: create Force class
+    return (Force*)this->force;
   }
   //----------------------------------------------- GET FIRST ------------------------------------------------
   UnitImpl* PlayerImpl::getFirst()

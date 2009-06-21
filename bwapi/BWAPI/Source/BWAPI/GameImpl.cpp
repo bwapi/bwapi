@@ -16,6 +16,7 @@
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 
+#include <BWAPI/ForceImpl.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/Command.h>
@@ -174,8 +175,8 @@ namespace BWAPI
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* > GameImpl::getForces() const
   {
-    std::set<Force*> forces;
-    return forces; //TODO: Implement forces interface and class.
+
+    return this->forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
   std::set< Player* > GameImpl::getPlayers() const
@@ -183,7 +184,7 @@ namespace BWAPI
     std::set<Player*> players;
     for(int i=0;i<12;i++)
     {
-      if (this->players[i]!=NULL)
+      if (this->players[i]!=NULL && this->players[i]->getName().length()>0)
       {
         players.insert(this->players[i]);
       }
@@ -499,6 +500,30 @@ namespace BWAPI
       startLocations.insert(BWAPI::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
                                                 (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
       posptr++;
+    }
+    std::set<std::string> force_names;
+    std::map<std::string, ForceImpl*> force_name_to_forceimpl;
+    for(int i=0;i<12;i++)
+    {
+      if (this->players[i]!=NULL && this->players[i]->getName().length()>0)
+      {
+        force_names.insert(std::string(this->players[i]->getForceName()));
+      }
+    }
+    for(std::set<std::string>::iterator i=force_names.begin();i!=force_names.end();i++)
+    {
+      ForceImpl* newforce=new ForceImpl(*i);
+      forces.insert((Force*)newforce);
+      force_name_to_forceimpl.insert(std::make_pair(*i,newforce));
+    }
+    for(int i=0;i<12;i++)
+    {
+      if (this->players[i]!=NULL && this->players[i]->getName().length()>0)
+      {
+        ForceImpl* force=force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
+        force->players.insert(this->players[i]);
+        this->players[i]->force=force;
+      }
     }
   }
 

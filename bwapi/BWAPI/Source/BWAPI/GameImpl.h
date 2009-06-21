@@ -183,6 +183,7 @@ namespace BWAPI
       std::set<BWAPI::Unit*> emptySet;
       std::set<TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
+      std::set<BWAPI::Force*> forces;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
       /** Count of game-frames passed from game start. */
       int frameCount;
