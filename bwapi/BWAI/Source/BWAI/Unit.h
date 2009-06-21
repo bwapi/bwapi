@@ -70,6 +70,7 @@ namespace BWAI
       void orderRightClick(BWAPI::Position position);
       void orderRightClick(Unit *target);
       void orderPatrol(BWAPI::Position position);
+      void stop();
       void trainUnit(BWAPI::UnitType type);
       void build(BWAPI::TilePosition position, BWAPI::UnitType type);
       void invent(BWAPI::TechType tech);

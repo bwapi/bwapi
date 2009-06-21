@@ -306,6 +306,10 @@ namespace BWAI
   {
     this->unit->patrol(position);
   }
+  void Unit::stop()
+  {
+    this->unit->stop();
+  }
   void Unit::trainUnit(BWAPI::UnitType type)
   {
     this->unit->train(type);

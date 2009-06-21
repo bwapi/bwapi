@@ -421,7 +421,9 @@ namespace BWAPI
   //-------------------------------------------------- STOP --------------------------------------------------
   void UnitImpl::stop()
   {
-    //TODO: Handle stop order
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+    this->getRawDataLocal()->orderID = BW::OrderID::Stop;
   }
   //---------------------------------------------- HOLD POSITION ---------------------------------------------
   void UnitImpl::holdPosition()
