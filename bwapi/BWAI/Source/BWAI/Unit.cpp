@@ -302,6 +302,10 @@ namespace BWAI
   {
     this->unit->rightClick(target->getUnit());
   }
+  void Unit::orderPatrol(BWAPI::Position position)
+  {
+    this->unit->patrol(position);
+  }
   void Unit::trainUnit(BWAPI::UnitType type)
   {
     this->unit->train(type);

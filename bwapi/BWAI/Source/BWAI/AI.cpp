@@ -803,6 +803,26 @@ namespace BWAI
       }
       return true;
     }
+    else if (parsed[0] == "/patrol")
+    {
+      BWAPI::Position position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
+                               BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
+
+      if (parsed[1] == "location")
+      {
+        if (this->fightGroups.empty())
+          return true;        
+        TaskFight* task = this->fightGroups.front();
+
+        for each (Unit* i in task->executors)
+			i->orderPatrol(position);
+      }
+      else
+      {
+		  BWAPI::Broodwar->print("Unknown patrol command '%s' - possible values are: location", parsed[1].c_str());
+      }
+      return true;
+    }
     else if (parsed[0] == "/res")
     {
       BWAPI::Broodwar->print("Actual: Min: %d Gas: %d",this->player->getMinerals(),this->player->getGas());
