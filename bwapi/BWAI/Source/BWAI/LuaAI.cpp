@@ -116,8 +116,8 @@ namespace BWAI
       return 0;
     }
 
-    u32 x = lua_tonumber(l,2);
-    u32 y = lua_tonumber(l,3);
+    int x = (int)lua_tonumber(l,2);
+    int y = (int)lua_tonumber(l,3);
 
     switch((u32)lua_tonumber(l, 1))
     {
@@ -453,13 +453,13 @@ namespace BWAI
       // error msg
       return 0;
     }
-    u16 priority = 50;
+    int priority = 50;
     if (argcount == 3)
-      priority = lua_tonumber(l, 3);
+      priority = (int)lua_tonumber(l, 3);
 
-    u16 level = BWAPI::Broodwar->self()->upgradeLevel(type) + 1;
+    int level = BWAPI::Broodwar->self()->upgradeLevel(type) + 1;
     if (argcount >= 2)
-      level = lua_tonumber(l, 2);
+      level = (int)lua_tonumber(l, 2);
 
     BWAI::ai->plannedUpgrades.push_back(new BWAI::TaskUpgrade(BWAPI::UpgradeType(type), level, priority));
 
@@ -481,9 +481,9 @@ namespace BWAI
       // error msg
       return 0;
     }
-    u16 priority = 50;
+    int priority = 50;
     if (argcount == 2)
-      priority = lua_tonumber(l, 2);
+      priority = (int)lua_tonumber(l, 2);
 
     BWAI::ai->plannedInvents.push_back(new BWAI::TaskInvent(BWAPI::TechType(type), priority));
 

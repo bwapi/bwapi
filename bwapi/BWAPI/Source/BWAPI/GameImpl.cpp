@@ -282,7 +282,7 @@ namespace BWAPI
       }
       refreshSelectionStates();
 
-      while (this->commandBuffer.size() > this->getLatency())
+      while ((int)(this->commandBuffer.size()) > this->getLatency())
         this->commandBuffer.erase(this->commandBuffer.begin());
       this->commandBuffer.push_back(std::vector<Command *>());
       for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
