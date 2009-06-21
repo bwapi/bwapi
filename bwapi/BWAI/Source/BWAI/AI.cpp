@@ -783,7 +783,7 @@ namespace BWAI
       }
       return true;
     } 
-    else if (parsed[0] == "/attack")
+    else if (parsed[0] == "/attack" || parsed[0] == "/patrol")
     {
       BWAPI::Position position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
                                BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
@@ -795,31 +795,16 @@ namespace BWAI
         TaskFight* task = this->fightGroups.front();
 
         for each (Unit* i in task->executors)
-			i->orderAttackMove(position);
+        {
+          if (parsed[0] == "/attack")
+            i->orderAttackMove(position);
+          else
+            i->orderPatrol(position);
+        }
       }
       else
       {
-		  BWAPI::Broodwar->print("Unknown attack command '%s' - possible values are: location", parsed[1].c_str());
-      }
-      return true;
-    }
-    else if (parsed[0] == "/patrol")
-    {
-      BWAPI::Position position(BWAPI::Broodwar->getMouseX() + BWAPI::Broodwar->getScreenX(),
-                               BWAPI::Broodwar->getMouseY() + BWAPI::Broodwar->getScreenY());
-
-      if (parsed[1] == "location")
-      {
-        if (this->fightGroups.empty())
-          return true;        
-        TaskFight* task = this->fightGroups.front();
-
-        for each (Unit* i in task->executors)
-			i->orderPatrol(position);
-      }
-      else
-      {
-		  BWAPI::Broodwar->print("Unknown patrol command '%s' - possible values are: location", parsed[1].c_str());
+		  BWAPI::Broodwar->print("Unknown %s command '%s' - possible values are: location", (parsed[0] == "/attack") ? "attack" : "patrol" , parsed[1].c_str());
       }
       return true;
     }
