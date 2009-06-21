@@ -11,6 +11,7 @@
 #include "CommandTrain.h"
 #include "CommandBuild.h"
 #include "CommandAttackLocation.h"
+#include "CommandPatrol.h"
 #include "CommandRightClick.h"
 #include "CommandInvent.h"
 #include "CommandUpgrade.h"
@@ -430,7 +431,9 @@ namespace BWAPI
   //-------------------------------------------------- PATROL ------------------------------------------------
   void UnitImpl::patrol(Position position)
   {
-    //TODO: Handle patrol order
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandPatrol(this, BW::Position(position.x(),position.y())));
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
   void UnitImpl::useTech(TechType tech)

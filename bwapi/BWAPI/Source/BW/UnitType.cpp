@@ -60,12 +60,12 @@ namespace BW
   {
     return BW::BWDATA_MaxHealthPoints_NotAttackable_Repairable->raw[this->getID()].maxHealthPoints;
   }
-  //----------------------------------------- GET MAX HEALTH POINTS ------------------------------------------
+  //----------------------------------------- GET MAX SHIELD POINTS ------------------------------------------
   u16 UnitType::getMaxShieldPoints() const
   {
     return BW::BWDATA_MaxShieldPoints->maxShieldPoints[this->getID()];
   }
-  //----------------------------------------- GET MAX HEALTH POINTS ------------------------------------------
+  //----------------------------------------- GET MAX ENERGY POINTS ------------------------------------------
   u16 UnitType::getMaxEnergyPoints() const
   {
     return 0;
