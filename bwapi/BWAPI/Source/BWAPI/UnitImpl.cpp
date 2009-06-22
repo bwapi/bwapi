@@ -444,10 +444,15 @@ namespace BWAPI
       case BW::UnitID::Zerg_Scourge:
         this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition4;
         break;
+      case BW::UnitID::Terran_Medic:
+        this->getRawDataLocal()->orderID = BW::OrderID::MedicHoldPosition;
+        break;
+      case BW::UnitID::Protoss_Reaver:
+        this->getRawDataLocal()->orderID = BW::OrderID::ReaverHold;
+        break;
       default:
         this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition2;
     }
-    this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition1;
   }
   //-------------------------------------------------- PATROL ------------------------------------------------
   void UnitImpl::patrol(Position position)
