@@ -314,6 +314,10 @@ namespace BWAI
   {
     this->unit->holdPosition();
   }
+  void Unit::useTech(BWAPI::TechType tech)
+  {
+    this->unit->useTech(tech);
+  }
   void Unit::trainUnit(BWAPI::UnitType type)
   {
     this->unit->train(type);

@@ -464,7 +464,42 @@ namespace BWAPI
   //------------------------------------------------- USE TECH -----------------------------------------------
   void UnitImpl::useTech(TechType tech)
   {
-    //TODO: Handle use tech order
+    this->orderSelect();
+    switch (tech.getID())
+    {
+      case BW::TechID::Stimpacks:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
+        break;
+      case BW::TechID::TankSiegeMode:
+      {
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+        // todo: Implement isSieged()
+      } break;
+      case BW::TechID::PersonnelCloaking:
+      case BW::TechID::CloakingField:
+      {
+        if(this->isCloaked())
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+        else
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+      } break;
+      case BW::TechID::Burrowing:
+      {
+        if(this->isBurrowed())
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+        else
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+      } break;
+      case BW::TechID::ArchonWarp:
+      {
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
+      } break;
+      case BW::TechID::DarkArchonMeld:
+      {
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
+      } break;
+    }
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
   void UnitImpl::useTech(TechType tech, Position position)
@@ -475,6 +510,10 @@ namespace BWAPI
   void UnitImpl::useTech(TechType tech, Unit* target)
   {
     //TODO: Handle use tech order
+  }
+  void UnitImpl::morph(UnitType type)
+  {
+    //TODO: Handle morph (Zerg)
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()

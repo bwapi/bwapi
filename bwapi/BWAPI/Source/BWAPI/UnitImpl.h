@@ -105,6 +105,7 @@ namespace BWAPI
       virtual void useTech(TechType tech);
       virtual void useTech(TechType tech, Position position);
       virtual void useTech(TechType tech, Unit* target);
+      virtual void morph(UnitType type);
 
 
     //Internal BWAPI commands:
