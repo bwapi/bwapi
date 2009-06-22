@@ -72,6 +72,8 @@ namespace BWAI
       void orderPatrol(BWAPI::Position position);
       void stop();
       void holdPosition();
+      void useTech(BWAPI::TechType tech);
+      
       void trainUnit(BWAPI::UnitType type);
       void build(BWAPI::TilePosition position, BWAPI::UnitType type);
       void invent(BWAPI::TechType tech);

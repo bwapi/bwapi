@@ -66,5 +66,6 @@ namespace BWAPI
     virtual void useTech(TechType tech)=0;
     virtual void useTech(TechType tech, Position position)=0;
     virtual void useTech(TechType tech, Unit* target)=0;
+    virtual void morph(UnitType type)=0;
   };
 }
