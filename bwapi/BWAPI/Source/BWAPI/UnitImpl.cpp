@@ -428,7 +428,26 @@ namespace BWAPI
   //---------------------------------------------- HOLD POSITION ---------------------------------------------
   void UnitImpl::holdPosition()
   {
-    //TODO: Handle hold position order
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
+    switch (this->getBWType().getID())
+    {
+      case BW::UnitID::Protoss_Carrier:
+      case BW::UnitID::Protoss_Hero_Gantrithor:
+        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition1;
+        break;
+      case BW::UnitID::Zerg_Queen:
+      case BW::UnitID::Zerg_Hero_Matriarch:
+        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition3;
+        break;
+      case BW::UnitID::Zerg_InfestedTerran:
+      case BW::UnitID::Zerg_Scourge:
+        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition4;
+        break;
+      default:
+        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition2;
+    }
+    this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition1;
   }
   //-------------------------------------------------- PATROL ------------------------------------------------
   void UnitImpl::patrol(Position position)

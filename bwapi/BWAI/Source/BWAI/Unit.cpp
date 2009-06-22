@@ -310,6 +310,10 @@ namespace BWAI
   {
     this->unit->stop();
   }
+  void Unit::holdPosition()
+  {
+    this->unit->holdPosition();
+  }
   void Unit::trainUnit(BWAPI::UnitType type)
   {
     this->unit->train(type);
