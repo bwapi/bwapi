@@ -862,6 +862,280 @@ namespace BWAI
         BWAPI::Broodwar->print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
       return true;
     }
+    else if (parsed[0] == "/call")
+    {
+      std::set<BWAPI::Unit*> selectedUnits=BWAPI::Broodwar->getSelectedUnits();
+      if (selectedUnits.size()>0)
+      {
+        BWAPI::Unit* unit=*selectedUnits.begin();
+        if (parsed[1] == "getOwner")
+        {
+          BWAPI::Broodwar->printPublic("%s [%s]",unit->getOwner()->getName().c_str(),unit->getOwner()->getRace().getName().c_str());
+        }
+        else if (parsed[1] == "getType")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->getType().getName().c_str());
+        }
+        else if (parsed[1] == "health")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->health());
+        }
+        else if (parsed[1] == "shield")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->shield());
+        }
+        else if (parsed[1] == "energy")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->energy());
+        }
+        else if (parsed[1] == "getKillCount")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->getKillCount());
+        }
+        else if (parsed[1] == "getPosition")
+        {
+          BWAPI::Broodwar->printPublic("(%d,%d)",unit->getPosition().x(),unit->getPosition().y());
+        }
+        else if (parsed[1] == "getTilePosition")
+        {
+          BWAPI::Broodwar->printPublic("(%d,%d)",unit->getTilePosition().x(),unit->getTilePosition().y());
+        }
+        else if (parsed[1] == "getTarget")
+        {
+          if (unit->getTarget()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getTarget()->getName().c_str());
+          }
+        }
+        else if (parsed[1] == "getTargetPosition")
+        {
+          BWAPI::Broodwar->printPublic("(%d,%d)",unit->getPosition().x(),unit->getPosition().y());
+        }
+        else if (parsed[1] == "getOrder")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->getOrder().getName().c_str());
+        }
+        else if (parsed[1] == "getOrderTarget")
+        {
+          if (unit->getOrderTarget()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getOrderTarget()->getName().c_str());
+          }
+        }
+        else if (parsed[1] == "getOrderTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->getOrderTimer());
+        }
+        else if (parsed[1] == "getSecondaryOrder")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->getSecondaryOrder().getName().c_str());
+        }
+        else if (parsed[1] == "getBuildUnit")
+        {
+          if (unit->getBuildUnit()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getBuildUnit()->getName().c_str());
+          }
+        }
+        else if (parsed[1] == "getRemainingBuildTime")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->getRemainingBuildTime());
+        }
+        else if (parsed[1] == "getChild")
+        {
+          if (unit->getChild()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getChild()->getName().c_str());
+          }
+        }
+        else if (parsed[1] == "getTrainingQueue")
+        {
+          std::list<BWAPI::UnitType> tqueue=unit->getTrainingQueue();
+          if (tqueue.empty())
+          {
+            BWAPI::Broodwar->printPublic("<empty>");
+          }
+          else
+          {
+            for(std::list<BWAPI::UnitType>::iterator t=tqueue.begin();t!=tqueue.end();t++)
+            {
+              BWAPI::Broodwar->printPublic("%s",(*t).getName().c_str());
+            }
+          }
+        }
+        else if (parsed[1] == "isAccelerating")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isAccelerating() ? "true" : "false");
+        }
+        else if (parsed[1] == "isBeingHealed")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isBeingHealed() ? "true" : "false");
+        }
+        else if (parsed[1] == "isBlind")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isBlind() ? "true" : "false");
+        }
+        else if (parsed[1] == "isBraking")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isBraking() ? "true" : "false");
+        }
+        else if (parsed[1] == "isBurrowed")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isBurrowed() ? "true" : "false");
+        }
+        else if (parsed[1] == "isCloaked")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isCloaked() ? "true" : "false");
+        }
+        else if (parsed[1] == "isCompleted")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isCompleted() ? "true" : "false");
+        }
+        else if (parsed[1] == "isDisabled")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isDisabled() ? "true" : "false");
+        }
+        else if (parsed[1] == "isIdle")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isIdle() ? "true" : "false");
+        }
+        else if (parsed[1] == "isLifted")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isLifted() ? "true" : "false");
+        }
+        else if (parsed[1] == "isLoaded")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isLoaded() ? "true" : "false");
+        }
+        else if (parsed[1] == "isMoving")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isMoving() ? "true" : "false");
+        }
+        else if (parsed[1] == "isSelected")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isSelected() ? "true" : "false");
+        }
+        else if (parsed[1] == "isSieged")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isSieged() ? "true" : "false");
+        }
+        else if (parsed[1] == "isStartingAttack")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isStartingAttack() ? "true" : "false");
+        }
+        else if (parsed[1] == "isTraining")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isTraining() ? "true" : "false");
+        }
+        else if (parsed[1] == "isUnderStorm")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isUnderStorm() ? "true" : "false");
+        }
+        else if (parsed[1] == "isVisible")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isVisible() ? "true" : "false");
+        }
+        else if (parsed[1] == "holdPosition")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->holdPosition();
+          }
+        }
+        else if (parsed[1] == "stop")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->stop();
+          }
+        }
+        else if (parsed[1] == "patrol")
+        {
+          int x=Util::Strings::stringToInt(std::string(parsed[2]));
+          int y=Util::Strings::stringToInt(std::string(parsed[3]));
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->patrol(BWAPI::Position(x,y));
+          }
+        }
+        else if (parsed[1] == "burrow")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->burrow();
+          }
+        }
+        else if (parsed[1] == "unburrow")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->unburrow();
+          }
+        }
+        else if (parsed[1] == "siege")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->siege();
+          }
+        }
+        else if (parsed[1] == "unsiege")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->unsiege();
+          }
+        }
+        else if (parsed[1] == "cloak")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->cloak();
+          }
+        }
+        else if (parsed[1] == "decloak")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->decloak();
+          }
+        }
+        else if (parsed[1] == "lift")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->lift();
+          }
+        }
+        else if (parsed[1] == "land")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->land();
+          }
+        }
+        else
+        {
+          BWAPI::Broodwar->printPublic("Unrecognized method call");
+        }
+      }
+    }
     return false;
   }
   //------------------------------------------ CHECK NEW EXPANSION -------------------------------------------

@@ -50,62 +50,75 @@ namespace BWAPI
       virtual Unit* getBuildUnit() const;
       virtual int getRemainingBuildTime() const;
       virtual Unit* getChild() const;
-
-      /** Returns true if this unit is currently in a dropship/bunker/refinery/shuttle/overlord */
-      virtual bool isLoaded() const;
-      /** For now, visibility is derived from heuristics (i.e. fog of war map, cloaking, burrowing, etc) */
-      virtual bool isVisible() const;
-      /** Only active when UserInput flag is enabled */
-      virtual bool isSelected() const;
-      /** Gets if the unit construction is done */
-      virtual bool isCompleted() const;
-      virtual bool isLifted() const;
-      virtual bool isBurrowed() const;
-      virtual bool isIdle() const;
-      virtual bool isMoving() const;
-      virtual bool isAccelerating() const;
-      virtual bool isBraking() const;
-      virtual bool isStartingAttack() const;
-      virtual bool isCloaked() const;
-      virtual bool isDisabled() const;
-      virtual bool isBlind() const;
-      virtual bool isBeingHealed() const;
-      virtual bool isUnderStorm() const;
-      virtual bool isTraining() const;
-      /** Gets if the current unit mineral (there are 3 Types of minerals) */
       virtual std::list<UnitType > getTrainingQueue() const;
 
+      virtual bool isAccelerating() const;
+      virtual bool isBeingHealed() const;
+      virtual bool isBlind() const;
+      virtual bool isBraking() const;
+      virtual bool isBurrowed() const;
+      virtual bool isCloaked() const;
+      virtual bool isCompleted() const;
+      virtual bool isDisabled() const;
+      virtual bool isIdle() const;
+      virtual bool isLifted() const;
+      virtual bool isLoaded() const;
+      virtual bool isMoving() const;
+      virtual bool isSelected() const;
+      virtual bool isSieged() const;
+      virtual bool isStartingAttack() const;
+      virtual bool isTraining() const;
+      virtual bool isUnderStorm() const;
+      virtual bool isVisible() const;
+
+      virtual bool attackMove(Position position);
+      virtual bool attackUnit(Unit* target);
       /**
        * Order this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
-      virtual void attackMove(Position position);
-      /**
-       * Order this unit to right click on the specified location. Note that
-       * right click on location will always result in move.
-       */
-      virtual void rightClick(Position position);
+      virtual bool rightClick(Position position);
       /**
        * Orders this unit to right click on the specified unit. Note that right
        * click on unit can result in lot of commands (attack, gather, follow,
        * set rally point)
        */
-      virtual void rightClick(Unit *target);
+      virtual bool rightClick(Unit *target);
       /** Orders this unit to train (construct) the specified unit. */
-      virtual void train(UnitType type);
+      virtual bool train(UnitType type);
       /** Orders to build the specified building. */
-      virtual void build(TilePosition position, UnitType type);
-      /** Orders to build the invent the specified tech. */
-      virtual void invent(TechType tech);
-      /** Orders to build the invent the specified upgrade. */
-      virtual void upgrade(UpgradeType upgrade);
-      virtual void stop();
-      virtual void holdPosition();
-      virtual void patrol(Position position);
-      virtual void useTech(TechType tech);
-      virtual void useTech(TechType tech, Position position);
-      virtual void useTech(TechType tech, Unit* target);
-      virtual void morph(UnitType type);
+      virtual bool build(TilePosition position, UnitType type);
+      /** Orders to build the research the specified tech. */
+      virtual bool research(TechType tech);
+      /** Orders to build the upgrade the specified upgrade. */
+      virtual bool upgrade(UpgradeType upgrade);
+      virtual bool stop();
+      virtual bool holdPosition();
+      virtual bool patrol(Position position);
+      virtual bool repair(Unit* target);
+      virtual bool morph(UnitType type);
+      virtual bool burrow();
+      virtual bool unburrow();
+      virtual bool siege();
+      virtual bool unsiege();
+      virtual bool cloak();
+      virtual bool decloak();
+      virtual bool lift();
+      virtual bool land();
+      virtual bool load(Unit* target);
+      virtual bool unload(Unit* target);
+      virtual bool unloadAll();
+      virtual bool unloadAll(Position position);
+      virtual bool cancelConstruction();
+      virtual bool haltConstruction();
+      virtual bool cancelTrain();
+      virtual bool cancelTrain(int slot);
+      virtual bool cancelAddon();
+      virtual bool cancelUpgrade();
+      virtual bool cancelResearch();
+      virtual bool useTech(TechType tech);
+      virtual bool useTech(TechType tech, Position position);
+      virtual bool useTech(TechType tech, Unit* target);
 
 
     //Internal BWAPI commands:

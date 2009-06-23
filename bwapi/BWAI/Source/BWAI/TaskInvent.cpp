@@ -47,7 +47,7 @@ namespace BWAI
           i->getOrder() == BWAPI::Orders::Nothing2 &&
           i->getOwner()->canAfford(this->techType))
       {
-        this->executors.front()->invent(this->techType);
+        this->executors.front()->research(this->techType);
         break;
       }
     return false;
