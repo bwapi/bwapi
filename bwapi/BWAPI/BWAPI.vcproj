@@ -385,6 +385,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandRepair.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandRightClick.cpp"
 					>
 				</File>
@@ -466,6 +470,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\CommandPatrol.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandRepair.h"
 					>
 				</File>
 				<File

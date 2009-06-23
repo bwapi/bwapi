@@ -17,6 +17,7 @@ namespace BWAPI
       Patrol         = 8,  /** BWAPI#CommandPatrol */
       Stop           = 9,  /** BWAPI#CommandStop */
       HoldPosition   = 10, /** BWAPI#CommandHoldPosition */
+      Repair         = 11, /** BWAPI#CommandRepair */
     };
   }
 }

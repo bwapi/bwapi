@@ -215,7 +215,7 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Addon);
   }
-  //----------------------------------------------- IS FLAYER ------------------------------------------------
+  //----------------------------------------------- IS FLYER -------------------------------------------------
   bool UnitType::isFlyer() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Flyer);

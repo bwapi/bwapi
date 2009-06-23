@@ -306,6 +306,10 @@ namespace BWAI
   {
     this->unit->patrol(position);
   }
+  void Unit::repair(BWAPI::Unit* target)
+  {
+    this->unit->repair(target);
+  }
   void Unit::stop()
   {
     this->unit->stop();
