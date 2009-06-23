@@ -361,11 +361,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandAttackUnit.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandBuild.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandHoldPosition.cpp"
 					>
 				</File>
 				<File
@@ -378,6 +386,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandRightClick.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandStop.cpp"
 					>
 				</File>
 				<File
@@ -433,11 +445,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandAttackUnit.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandBuild.h"
 					>
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandHoldPosition.h"
 					>
 				</File>
 				<File
@@ -450,6 +470,10 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandRightClick.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandStop.h"
 					>
 				</File>
 				<File

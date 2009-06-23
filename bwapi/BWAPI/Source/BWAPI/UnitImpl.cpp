@@ -11,7 +11,10 @@
 #include "CommandTrain.h"
 #include "CommandBuild.h"
 #include "CommandAttackLocation.h"
+#include "CommandAttackUnit.h"
 #include "CommandPatrol.h"
+#include "CommandHoldPosition.h"
+#include "CommandStop.h"
 #include "CommandRightClick.h"
 #include "CommandInvent.h"
 #include "CommandUpgrade.h"
@@ -153,6 +156,11 @@ namespace BWAPI
     if (BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)==false)
       return false;
     return this->userSelected;
+  }
+  //---------------------------------------------- IS SELECTED -----------------------------------------------
+  bool UnitImpl::isSieged() const
+  {
+    return this->getBWType().getID()==BW::UnitID::Terran_SiegeTankSiegeMode;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -370,30 +378,47 @@ namespace BWAPI
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
-  void UnitImpl::attackMove(Position position)
+  bool UnitImpl::attackMove(Position position)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     Order order=Orders::AttackMove;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), order.getID()), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x(),position.y())));
+    return true;
+  }
+  //--------------------------------------------- ORDER Attack Unit ------------------------------------------
+  bool UnitImpl::attackUnit(Unit *target)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    Order order=Orders::AttackUnit;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, order.getID()), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandAttackUnit(this, (UnitImpl*)target));
+    return true;
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void UnitImpl::rightClick(Position position)
+  bool UnitImpl::rightClick(Position position)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position(position.x(),position.y())), sizeof(BW::Orders::RightClick)); 
     BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, BW::Position(position.x(),position.y())));
+    return true;
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  void UnitImpl::rightClick(Unit *target)
+  bool UnitImpl::rightClick(Unit *target)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick)); 
     BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
+    return true;
   }
   //------------------------------------------------- BUILD --------------------------------------------------
-  void UnitImpl::build(TilePosition position, UnitType type1)
+  bool UnitImpl::build(TilePosition position, UnitType type1)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));
     this->orderSelect();
     if (!type.isAddon())
@@ -401,33 +426,42 @@ namespace BWAPI
     else
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition(position.x(),position.y()), type), sizeof(BW::Orders::MakeAddon)); 
     BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, BW::TilePosition(position.x(),position.y())));
+    return true;
   }
-  //------------------------------------------------- INVENT -------------------------------------------------
-  void UnitImpl::invent(TechType tech)
+  //------------------------------------------------ RESEARCH ------------------------------------------------
+  bool UnitImpl::research(TechType tech)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BW::TechID::Enum techenum=static_cast<BW::TechID::Enum>(tech.getID());
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
     BroodwarImpl.addToCommandBuffer(new CommandInvent(this, BW::TechType(techenum)));
+    return true;
   }
-  //------------------------------------------------- INVENT -------------------------------------------------
-  void UnitImpl::upgrade(BWAPI::UpgradeType upgrade)
+  //------------------------------------------------- UPGRADE ------------------------------------------------
+  bool UnitImpl::upgrade(UpgradeType upgrade)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BW::UpgradeID::Enum upgradeenum=static_cast<BW::UpgradeID::Enum>(upgrade.getID());
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade)); 
     BroodwarImpl.addToCommandBuffer(new CommandUpgrade(this, BW::UpgradeType(upgradeenum)));
+    return true;
   }
   //-------------------------------------------------- STOP --------------------------------------------------
-  void UnitImpl::stop()
+  bool UnitImpl::stop()
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
     this->getRawDataLocal()->orderID = BW::OrderID::Stop;
+    BroodwarImpl.addToCommandBuffer(new CommandStop(this));
+    return true;
   }
   //---------------------------------------------- HOLD POSITION ---------------------------------------------
-  void UnitImpl::holdPosition()
+  bool UnitImpl::holdPosition()
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
     switch (this->getBWType().getID())
@@ -453,17 +487,203 @@ namespace BWAPI
       default:
         this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition2;
     }
+    BroodwarImpl.addToCommandBuffer(new CommandHoldPosition(this));
+    return true;
   }
   //-------------------------------------------------- PATROL ------------------------------------------------
-  void UnitImpl::patrol(Position position)
+  bool UnitImpl::patrol(Position position)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandPatrol(this, BW::Position(position.x(),position.y())));
+    return true;
+  }
+  //-------------------------------------------------- REPAIR ------------------------------------------------
+  bool UnitImpl::repair(Unit* target)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle repair (Terran). Needed to be able to repair dropship, bunker, and refinery (cases where right clicking will cause an action other than repair).
+    return true;
+  }
+  //-------------------------------------------------- MORPH -------------------------------------------------
+  bool UnitImpl::morph(UnitType type)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle morph (Zerg)
+    return true;
+  }
+  //-------------------------------------------------- BURROW ------------------------------------------------
+  bool UnitImpl::burrow()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if(!this->isBurrowed())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+    return true;
+  }
+  //------------------------------------------------- UNBURROW -----------------------------------------------
+  bool UnitImpl::unburrow()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if(this->isBurrowed())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+    return true;
+  }
+  //-------------------------------------------------- SIEGE -------------------------------------------------
+  bool UnitImpl::siege()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if (!this->isSieged())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+    return true;
+  }
+  //------------------------------------------------- UNSIEGE ------------------------------------------------
+  bool UnitImpl::unsiege()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if (this->isSieged())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+    return true;
+  }
+  //-------------------------------------------------- CLOAK -------------------------------------------------
+  bool UnitImpl::cloak()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if(!this->isCloaked())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+    return true;
+  }
+  //------------------------------------------------- DECLOAK ------------------------------------------------
+  bool UnitImpl::decloak()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if(this->isCloaked())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+    return true;
+  }
+  //--------------------------------------------------- LIFT -------------------------------------------------
+  bool UnitImpl::lift()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if(!this->isLifted())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Lift(), sizeof(BW::Orders::Lift));
+    return true;
+  }
+  //--------------------------------------------------- LAND -------------------------------------------------
+  bool UnitImpl::land()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    if(this->isLifted())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Lift(), sizeof(BW::Orders::Lift));//Doesn't work. Need to find Land order.
+    return true;
+  }
+  //--------------------------------------------------- LOAD -------------------------------------------------
+  bool UnitImpl::load(Unit* target)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle loadUnit (Bunker/Dropship/Shuttle/Overload)
+    //Should handle both cases:
+    //1) this is a transport unit and target is a loadable ground unit
+    //2) this is a loadable ground unit and target is a tranport unit
+    return true;
+  }
+  //-------------------------------------------------- UNLOAD ------------------------------------------------
+  bool UnitImpl::unload(Unit* target)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle unloadUnit (Bunker/Dropship/Shuttle/Overload)
+    //Should handle both cases:
+    //1) this is a transport unit and target is a loadable ground unit
+    //2) this is a loadable ground unit and target is a tranport unit
+    return true;
+  }
+  //------------------------------------------------- UNLOADALL ----------------------------------------------
+  bool UnitImpl::unloadAll()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle loadAll (Bunker)
+    return true;
+  }
+  //------------------------------------------------- UNLOADALL ----------------------------------------------
+  bool UnitImpl::unloadAll(Position position)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle loadAll (Dropship/Shuttle/Overload)
+    return true;
+  }
+  //-------------------------------------------- CANCEL CONSTRUCTION -----------------------------------------
+  bool UnitImpl::cancelConstruction()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle cancelConstruction
+    return true;
+  }
+  //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
+  bool UnitImpl::haltConstruction()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle haltConstruction (Terran)
+    return true;
+  }
+  //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
+  bool UnitImpl::cancelTrain()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    //TODO: Handle cancelTrain
+    return true;
+  }
+  //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
+  bool UnitImpl::cancelTrain(int slot)
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle cancelTrain for any slot
+    return true;
+  }
+  //----------------------------------------------- CANCEL ADDON ---------------------------------------------
+  bool UnitImpl::cancelAddon()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle cancelAddon
+    return true;
+  }
+  //---------------------------------------------- CANCEL UPGRADE --------------------------------------------
+  bool UnitImpl::cancelUpgrade()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle cancelUpgrade
+    return true;
+  }
+  //---------------------------------------------- CANCEL RESEARCH -------------------------------------------
+  bool UnitImpl::cancelResearch()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
+    //TODO: Handle cancelResearch
+    return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(TechType tech)
+  bool UnitImpl::useTech(TechType tech)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     switch (tech.getID())
     {
@@ -472,9 +692,10 @@ namespace BWAPI
         break;
       case BW::TechID::TankSiegeMode:
       {
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
-        // todo: Implement isSieged()
+        if (this->isSieged())
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+        else
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
       } break;
       case BW::TechID::PersonnelCloaking:
       case BW::TechID::CloakingField:
@@ -500,20 +721,23 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
       } break;
     }
+    return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(TechType tech, Position position)
+  bool UnitImpl::useTech(TechType tech, Position position)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
     //TODO: Handle use tech order
+    return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
-  void UnitImpl::useTech(TechType tech, Unit* target)
+  bool UnitImpl::useTech(TechType tech, Unit* target)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    this->orderSelect();
     //TODO: Handle use tech order
-  }
-  void UnitImpl::morph(UnitType type)
-  {
-    //TODO: Handle morph (Zerg)
+    return true;
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
@@ -565,8 +789,9 @@ namespace BWAPI
     return this->getRawDataLocal()->buildQueue;
   }
   //----------------------------------------------- TRAIN UNIT -----------------------------------------------
-  void UnitImpl::train(UnitType type1)
+  bool UnitImpl::train(UnitType type1)
   {
+    if (this->getOwner()!=Broodwar->self()) return false;
     BW::UnitType type((BW::UnitID::Enum)type1.getID());
     if (this->getType() == BWAPI::UnitTypes::Zerg_Larva ||
         this->getType() == BWAPI::UnitTypes::Zerg_Mutalisk ||
@@ -591,6 +816,7 @@ namespace BWAPI
       BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
     }
+    return true;
   }
   //--------------------------------------------- GET QUEUE SLOT ---------------------------------------------
   u8 UnitImpl::getBuildQueueSlotSync() const

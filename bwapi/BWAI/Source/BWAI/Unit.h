@@ -37,6 +37,7 @@ namespace BWAI
       BWAPI::Position getTargetPosition() const;
       Player* getOwner() const;
       std::string getName() const;
+
       bool isMineral() const;
       bool isCompleted() const;
       bool isLifted() const;
@@ -76,7 +77,7 @@ namespace BWAI
       
       void trainUnit(BWAPI::UnitType type);
       void build(BWAPI::TilePosition position, BWAPI::UnitType type);
-      void invent(BWAPI::TechType tech);
+      void research(BWAPI::TechType tech);
       void upgrade(BWAPI::UpgradeType upgrade);
 
       int lastFrameSpam;

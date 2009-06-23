@@ -292,11 +292,11 @@ namespace BWAI
 
   void Unit::orderAttackMove(BWAPI::Position position)
   {
-    return this->unit->attackMove(position);
+    this->unit->attackMove(position);
   }
   void Unit::orderRightClick(BWAPI::Position position)
   {
-    return this->unit->rightClick(position);
+    this->unit->rightClick(position);
   }
   void Unit::orderRightClick(Unit *target)
   {
@@ -326,9 +326,9 @@ namespace BWAI
   {
     this->unit->build(position,type);
   }
-  void Unit::invent(BWAPI::TechType tech)
+  void Unit::research(BWAPI::TechType tech)
   {
-    this->unit->invent(tech);
+    this->unit->research(tech);
   }
   void Unit::upgrade(BWAPI::UpgradeType upgrade)
   {

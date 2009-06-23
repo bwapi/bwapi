@@ -1,35 +1,33 @@
-#include "CommandAttackLocation.h"
+#include "CommandStop.h"
 #include "UnitImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandAttackLocation::CommandAttackLocation(UnitImpl* executor, const BW::Position& targetPosition)
+  CommandStop::CommandStop(UnitImpl* executor)
   :Command(executor)
-  ,targetPosition(targetPosition)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
-  void CommandAttackLocation::execute()
+  void CommandStop::execute()
   {
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
       if ((this->executors[i]->getType().canMove()))
-        {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackMove;
-          this->executors[i]->getRawDataLocal()->position = this->targetPosition;
-        }
+      {
+        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Stop;
+      }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandAttackLocation::getType()
+  BWAPI::CommandTypes::Enum CommandStop::getType()
   {
-    return BWAPI::CommandTypes::AttackLocation;
+    return BWAPI::CommandTypes::Stop;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandAttackLocation::describe()
+  std::string CommandStop::describe()
   {
-	  return this->executors[0]->getName() + " attacked location";
+	  return this->executors[0]->getName() + " stopped";
   }
   //----------------------------------------------------------------------------------------------------------
 }

@@ -1,35 +1,35 @@
-#include "CommandAttackLocation.h"
+#include "CommandAttackUnit.h"
 #include "UnitImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandAttackLocation::CommandAttackLocation(UnitImpl* executor, const BW::Position& targetPosition)
+  CommandAttackUnit::CommandAttackUnit(UnitImpl* executor, UnitImpl* target)
   :Command(executor)
-  ,targetPosition(targetPosition)
+  ,target(target)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
-  void CommandAttackLocation::execute()
+  void CommandAttackUnit::execute()
   {
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
       if ((this->executors[i]->getType().canMove()))
         {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackMove;
-          this->executors[i]->getRawDataLocal()->position = this->targetPosition;
+          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
+          this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
         }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandAttackLocation::getType()
+  BWAPI::CommandTypes::Enum CommandAttackUnit::getType()
   {
-    return BWAPI::CommandTypes::AttackLocation;
+    return BWAPI::CommandTypes::AttackUnit;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandAttackLocation::describe()
+  std::string CommandAttackUnit::describe()
   {
-	  return this->executors[0]->getName() + " attacked location";
+	  return this->executors[0]->getName() + " attacked unit";
   }
   //----------------------------------------------------------------------------------------------------------
 }

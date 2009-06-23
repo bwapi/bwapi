@@ -16,15 +16,15 @@ namespace BWAPI
     {
       if ((this->executors[i]->getType().canMove()))
         {
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Patrol;
-          executors[i]->getRawDataLocal()->position = this->targetPosition;
+          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Patrol;
+          this->executors[i]->getRawDataLocal()->position = this->targetPosition;
         }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandPatrol::getType()
   {
-    return BWAPI::CommandTypes::AttackLocation;
+    return BWAPI::CommandTypes::Patrol;
   }
   //----------------------------------------------------------------------------------------------------------
   std::string CommandPatrol::describe()
