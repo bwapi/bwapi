@@ -18,6 +18,7 @@
 #include "CommandRightClick.h"
 #include "CommandInvent.h"
 #include "CommandUpgrade.h"
+#include "CommandRepair.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -504,7 +505,8 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle repair (Terran). Needed to be able to repair dropship, bunker, and refinery (cases where right clicking will cause an action other than repair).
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Repair1), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new CommandRepair(this, (UnitImpl*)target));
     return true;
   }
   //-------------------------------------------------- MORPH -------------------------------------------------
@@ -693,24 +695,24 @@ namespace BWAPI
       case BW::TechID::TankSiegeMode:
       {
         if (this->isSieged())
-          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+          this->unsiege();
         else
-          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+          this->siege();
       } break;
       case BW::TechID::PersonnelCloaking:
       case BW::TechID::CloakingField:
       {
         if(this->isCloaked())
-          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+          this->decloak();
         else
-          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+          this->cloak();
       } break;
       case BW::TechID::Burrowing:
       {
         if(this->isBurrowed())
-          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+          this->unburrow();
         else
-          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+          this->burrow();
       } break;
       case BW::TechID::ArchonWarp:
       {
