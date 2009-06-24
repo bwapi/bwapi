@@ -265,6 +265,17 @@ namespace BW
         u32 unknown;
     };
 
+    class Land
+    {
+      public :
+        Land(BW::TilePosition position, BW::UnitType type);
+      private :
+        u8 always0x0C;
+        u8 always0x47;
+        BW::TilePosition position;
+        BW::UnitType type;
+    };
+
     class Burrow
     {
       public :
@@ -424,7 +435,6 @@ namespace BW
         u8 playerID;
         char* msg;
     };
-
   }
 }
 #pragma pack()

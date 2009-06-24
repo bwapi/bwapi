@@ -868,7 +868,11 @@ namespace BWAI
       if (selectedUnits.size()>0)
       {
         BWAPI::Unit* unit=*selectedUnits.begin();
-        if (parsed[1] == "getOwner")
+        if (parsed[1] == "getAddress")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit);
+        }
+        else if (parsed[1] == "getOwner")
         {
           BWAPI::Broodwar->printPublic("%s [%s]",unit->getOwner()->getName().c_str(),unit->getOwner()->getRace().getName().c_str());
         }
@@ -908,7 +912,7 @@ namespace BWAI
           }
           else
           {
-            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getTarget()->getName().c_str());
+            BWAPI::Broodwar->printPublic("%d: %s",unit->getTarget(), BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getTarget()->getName().c_str());
           }
         }
         else if (parsed[1] == "getTargetPosition")
@@ -946,7 +950,7 @@ namespace BWAI
           }
           else
           {
-            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getBuildUnit()->getName().c_str());
+            BWAPI::Broodwar->printPublic("%d: %s",unit->getBuildUnit(), BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getBuildUnit()->getName().c_str());
           }
         }
         else if (parsed[1] == "getRemainingBuildTime")
@@ -961,7 +965,7 @@ namespace BWAI
           }
           else
           {
-            BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getChild()->getName().c_str());
+            BWAPI::Broodwar->printPublic("%d: %s",unit->getChild(),BWAI::Unit::BWAPIUnitToBWAIUnit(unit)->getChild()->getName().c_str());
           }
         }
         else if (parsed[1] == "getTrainingQueue")
@@ -1127,7 +1131,41 @@ namespace BWAI
         {
           for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
           {
-            (*u)->land();
+            int x=Util::Strings::stringToInt(std::string(parsed[2]));
+            int y=Util::Strings::stringToInt(std::string(parsed[3]));
+            (*u)->land(BWAPI::TilePosition(x,y));
+          }
+        }
+        else if (parsed[1] == "load")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+            (*u)->load(unit);
+          }
+        }
+        else if (parsed[1] == "unload")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+            (*u)->unload(unit);
+          }
+        }
+        else if (parsed[1] == "unloadAll")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            if (parsed.size()<4)
+            {
+              (*u)->unloadAll();
+            }
+            else
+            {
+              int x=Util::Strings::stringToInt(std::string(parsed[2]));
+              int y=Util::Strings::stringToInt(std::string(parsed[3]));
+              (*u)->unloadAll(BWAPI::Position(x,y));
+            }
           }
         }
         else
