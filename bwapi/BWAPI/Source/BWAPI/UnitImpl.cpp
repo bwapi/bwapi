@@ -382,9 +382,8 @@ namespace BWAPI
   bool UnitImpl::attackMove(Position position)
   {
     if (this->getOwner()!=Broodwar->self()) return false;
-    Order order=Orders::AttackMove;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), order.getID()), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()),BW::OrderID::AttackMove), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x(),position.y())));
     return true;
   }
@@ -392,9 +391,8 @@ namespace BWAPI
   bool UnitImpl::attackUnit(Unit *target)
   {
     if (this->getOwner()!=Broodwar->self()) return false;
-    Order order=Orders::AttackUnit;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, order.getID()), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::AttackUnit), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandAttackUnit(this, (UnitImpl*)target));
     return true;
   }
@@ -581,12 +579,14 @@ namespace BWAPI
     return true;
   }
   //--------------------------------------------------- LAND -------------------------------------------------
-  bool UnitImpl::land()
+  bool UnitImpl::land(TilePosition position)
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if(this->isLifted())
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Lift(), sizeof(BW::Orders::Lift));//Doesn't work. Need to find Land order.
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition(position.x(),position.y()),this->getBWType()), sizeof(BW::Orders::Land));//Doesn't work. Need to find Land order.
+    }
     return true;
   }
   //--------------------------------------------------- LOAD -------------------------------------------------
@@ -594,10 +594,14 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle loadUnit (Bunker/Dropship/Shuttle/Overload)
-    //Should handle both cases:
-    //1) this is a transport unit and target is a loadable ground unit
-    //2) this is a loadable ground unit and target is a tranport unit
+    if (this->getType()==UnitTypes::Terran_Bunker || target->getType()==UnitTypes::Terran_Bunker)
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup3), sizeof(BW::Orders::Attack)); 
+    }
+    else
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup1), sizeof(BW::Orders::Attack)); 
+    }
     return true;
   }
   //-------------------------------------------------- UNLOAD ------------------------------------------------
@@ -605,10 +609,7 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle unloadUnit (Bunker/Dropship/Shuttle/Overload)
-    //Should handle both cases:
-    //1) this is a transport unit and target is a loadable ground unit
-    //2) this is a loadable ground unit and target is a tranport unit
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadUnit((UnitImpl*)target), sizeof(BW::Orders::UnloadUnit)); 
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
@@ -616,7 +617,7 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle loadAll (Bunker)
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll)); 
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
@@ -624,7 +625,7 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle loadAll (Dropship/Shuttle/Overload)
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack)); 
     return true;
   }
   //-------------------------------------------- CANCEL CONSTRUCTION -----------------------------------------

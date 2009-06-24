@@ -104,7 +104,7 @@ namespace BWAPI
       virtual bool cloak();
       virtual bool decloak();
       virtual bool lift();
-      virtual bool land();
+      virtual bool land(TilePosition position);
       virtual bool load(Unit* target);
       virtual bool unload(Unit* target);
       virtual bool unloadAll();
