@@ -1078,6 +1078,21 @@ namespace BWAI
             (*u)->patrol(BWAPI::Position(x,y));
           }
         }
+        else if (parsed[1] == "repair")
+        {
+          if (parsed.size()<3 || parsed[2].length()==0)
+          {
+            BWAPI::Broodwar->printPublic("Error: No unit specified.");
+          }
+          else
+          {
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+              (*u)->repair(unit);
+            }
+          }
+        }
         else if (parsed[1] == "burrow")
         {
           for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
@@ -1138,10 +1153,17 @@ namespace BWAI
         }
         else if (parsed[1] == "load")
         {
-          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          if (parsed.size()<3 || parsed[2].length()==0)
           {
-            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
-            (*u)->load(unit);
+            BWAPI::Broodwar->printPublic("Error: No unit specified.");
+          }
+          else
+          {
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+              (*u)->load(unit);
+            }
           }
         }
         else if (parsed[1] == "unload")
