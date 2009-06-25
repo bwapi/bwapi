@@ -381,6 +381,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandMorphBuilding.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandMorphUnit.cpp"
 					>
 				</File>
@@ -470,6 +474,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\CommandInvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandMorphBuilding.h"
 					>
 				</File>
 				<File

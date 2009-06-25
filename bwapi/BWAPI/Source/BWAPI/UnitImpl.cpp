@@ -20,6 +20,7 @@
 #include "CommandUpgrade.h"
 #include "CommandRepair.h"
 #include "CommandMorphUnit.h"
+#include "CommandMorphBuilding.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -540,12 +541,39 @@ namespace BWAPI
         if(morphingunit != BW::UnitID::Zerg_Mutalisk) return false;
         break;
         
+      //--- Hatchery ---
+      case BW::UnitID::Zerg_Lair:
+        if(morphingunit != BW::UnitID::Zerg_Hatchery) return false;
+        break;
+        
+      //--- Lair ---
+      case BW::UnitID::Zerg_Hive:
+        if(morphingunit != BW::UnitID::Zerg_Lair) return false;
+        break;
+        
+      //--- Spire ---
+      case BW::UnitID::Zerg_GreaterSpire:
+        if(morphingunit != BW::UnitID::Zerg_Spire) return false;
+        break;
+        
+      //--- Creep Colony ---
+      case BW::UnitID::Zerg_SunkenColony:
+      case BW::UnitID::Zerg_SporeColony:
+        if(morphingunit != BW::UnitID::Zerg_CreepColony) return false;
+        break;
+        
       default:
         return false;
     }
     BW::UnitType rawtype(((BW::UnitID::Enum)type.getID()));
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
-    BroodwarImpl.addToCommandBuffer(new CommandMorphUnit(this, rawtype));
+    if(type.isBuilding())
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(rawtype), sizeof(BW::Orders::BuildingMorph));
+      BroodwarImpl.addToCommandBuffer(new CommandMorphBuilding(this, rawtype));
+    } else {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
+      BroodwarImpl.addToCommandBuffer(new CommandMorphUnit(this, rawtype));
+    }
     return true;
   }
   //-------------------------------------------------- BURROW ------------------------------------------------
