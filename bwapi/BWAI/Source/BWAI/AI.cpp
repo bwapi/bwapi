@@ -1146,24 +1146,31 @@ namespace BWAI
         }
         else if (parsed[1] == "unload")
         {
-          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          if (parsed.size()<3 || parsed[2].length()==0)
           {
-            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
-            (*u)->unload(unit);
+            BWAPI::Broodwar->printPublic("Error: No unit specified.");
+          }
+          else
+          {
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+              (*u)->unload(unit);
+            }
           }
         }
         else if (parsed[1] == "unloadAll")
         {
           for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
           {
-            if (parsed.size()<4)
+            if (parsed.size()<4 || parsed[2].length()==0)
             {
               (*u)->unloadAll();
             }
             else
             {
-              int x=Util::Strings::stringToInt(std::string(parsed[2]));
-              int y=Util::Strings::stringToInt(std::string(parsed[3]));
+              int x=Util::Strings::stringToInt(parsed[2]);
+              int y=Util::Strings::stringToInt(parsed[3]);
               (*u)->unloadAll(BWAPI::Position(x,y));
             }
           }

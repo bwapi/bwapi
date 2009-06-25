@@ -585,7 +585,7 @@ namespace BWAPI
     this->orderSelect();
     if(this->isLifted())
     {
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition(position.x(),position.y()),this->getBWType()), sizeof(BW::Orders::Land));//Doesn't work. Need to find Land order.
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition(position.x(),position.y()),this->getBWType()), sizeof(BW::Orders::Land));
     }
     return true;
   }
@@ -594,36 +594,56 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    if (this->getType()==UnitTypes::Terran_Bunker || target->getType()==UnitTypes::Terran_Bunker)
+    if (this->getType()==UnitTypes::Terran_Bunker)
     {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup3), sizeof(BW::Orders::Attack)); 
+      return true;
     }
-    else
+    else if (this->getType()==UnitTypes::Terran_Dropship || this->getType()==UnitTypes::Protoss_Shuttle || this->getType()==UnitTypes::Zerg_Overlord)
     {
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup1), sizeof(BW::Orders::Attack)); 
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup2), sizeof(BW::Orders::Attack)); 
+      return true;
     }
-    return true;
+    else if (target->getType()==UnitTypes::Terran_Bunker || target->getType()==UnitTypes::Terran_Dropship || target->getType()==UnitTypes::Protoss_Shuttle || target->getType()==UnitTypes::Zerg_Overlord)
+    {
+      this->rightClick(target);
+      return true;
+    }
+    //if neither this unit nor the target unit is a bunker, dropship, shuttle, or overlord, return false.
+    return false;
   }
   //-------------------------------------------------- UNLOAD ------------------------------------------------
   bool UnitImpl::unload(Unit* target)
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadUnit((UnitImpl*)target), sizeof(BW::Orders::UnloadUnit)); 
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadUnit((UnitImpl*)target), sizeof(BW::Orders::UnloadUnit));
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
   bool UnitImpl::unloadAll()
   {
-    if (this->getOwner()!=Broodwar->self()) return false;
+    if (this->getType()==UnitTypes::Terran_Dropship || this->getType()==UnitTypes::Protoss_Shuttle || this->getType()==UnitTypes::Zerg_Overlord)
+    {
+      return this->unloadAll(this->getPosition());
+    }
+    if (this->getOwner()!=Broodwar->self() || this->getType()!=UnitTypes::Terran_Bunker) return false;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll)); 
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
   bool UnitImpl::unloadAll(Position position)
   {
+    if (this->getType()==UnitTypes::Terran_Bunker)
+    {
+      this->unloadAll();
+    }
     if (this->getOwner()!=Broodwar->self()) return false;
+    if (this->getType()!=UnitTypes::Terran_Dropship && this->getType()!=UnitTypes::Protoss_Shuttle && this->getType()!=UnitTypes::Zerg_Overlord)
+    {
+      return false;
+    }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack)); 
     return true;
