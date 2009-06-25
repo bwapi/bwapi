@@ -19,6 +19,7 @@ namespace BWAPI
       HoldPosition   = 10, /** BWAPI#CommandHoldPosition */
       Repair         = 11, /** BWAPI#CommandRepair */
       MorphUnit      = 12, /** BWAPI#CommandMorphUnit */
+      MorphBuilding  = 13, /** BWAPI#CommandMorphBuilding */
     };
   }
 }
