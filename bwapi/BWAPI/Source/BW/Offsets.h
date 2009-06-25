@@ -137,8 +137,8 @@ namespace BW
   
   static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0860;
   static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
-
-  static u32            BWFXN_IssueCommand                        =         0x00485BD0;
+  extern u32            BWFXN_IssueCommand;
+  static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
 //  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
@@ -177,6 +177,8 @@ namespace BW
   static u32            BWFXN_DrawHighBack                        = BWFXN_DrawHigh + 5;
   static u32            BWFXN_DrawHighTarget                      = 0x0048CF60;
 
+  static u32            BWFXN_IssueCommandRet                     = 0x00485BD5;
+  static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
   static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
   static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
