@@ -4,14 +4,14 @@
 namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
-  /** BWAPI internal representation of Attack Location command. */
+  /** BWAPI internal representation of Attack Unit command. */
   class CommandAttackUnit : public Command
   {
     public :
       /** 
-       * @param executor Executor of the attack location (will be passed as executor 
+       * @param executor Executor of the AttackUnit command (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the attack location.
+       * @param target Target of the AttackUnit command.
        */
       CommandAttackUnit(UnitImpl* executor, UnitImpl* target);
       virtual void execute();

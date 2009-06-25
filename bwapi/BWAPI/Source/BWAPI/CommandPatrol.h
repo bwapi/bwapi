@@ -9,9 +9,9 @@ namespace BWAPI
   {
     public :
       /** 
-       * @param executor Executor of the patrol (will be passed as executor 
+       * @param executor Executor of the Patrol command (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the patrol.
+       * @param targetPosition Target of the Patrol command.
        */
       CommandPatrol(UnitImpl* executor, const BW::Position& targetPosition);
       virtual void execute();

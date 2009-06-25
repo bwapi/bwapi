@@ -9,9 +9,9 @@ namespace BWAPI
   {
     public :
       /** 
-       * @param executor Executor of the repair (will be passed as executor 
+       * @param executor Executor of the Repair command (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the repair.
+       * @param targetPosition Target of the Repair command.
        */
       CommandRepair(UnitImpl* executor, UnitImpl* target);
       virtual void execute();
