@@ -19,6 +19,7 @@
 #include "CommandInvent.h"
 #include "CommandUpgrade.h"
 #include "CommandRepair.h"
+#include "CommandMorphUnit.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -512,7 +513,35 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle morph (Zerg)
+    int morphingunit = this->getType().getID();
+    switch (type.getID())
+    {
+      //--- Larva ---
+      case BW::UnitID::Zerg_Drone:
+      case BW::UnitID::Zerg_Zergling:
+      case BW::UnitID::Zerg_Overlord:
+      case BW::UnitID::Zerg_Hydralisk:
+      case BW::UnitID::Zerg_Mutalisk:
+      case BW::UnitID::Zerg_Scourge:
+      case BW::UnitID::Zerg_Queen:
+      case BW::UnitID::Zerg_Ultralisk:
+      case BW::UnitID::Zerg_Defiler:
+        if(morphingunit != BW::UnitID::Zerg_Larva) return false;
+        break;
+      
+      //--- Hydralisk ---
+      case BW::UnitID::Zerg_Lurker:
+        if(morphingunit != BW::UnitID::Zerg_Hydralisk) return false;
+        break;
+      
+      //--- Mutalisk ---  
+      case BW::UnitID::Zerg_Devourer:
+      case BW::UnitID::Zerg_Guardian:
+        if(morphingunit != BW::UnitID::Zerg_Mutalisk) return false;
+    }
+    BW::UnitType rawtype(((BW::UnitID::Enum)type.getID()));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
+    BroodwarImpl.addToCommandBuffer(new CommandMorphUnit(this, rawtype));
     return true;
   }
   //-------------------------------------------------- BURROW ------------------------------------------------

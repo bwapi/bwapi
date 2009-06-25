@@ -18,6 +18,7 @@ namespace BWAPI
       Stop           = 9,  /** BWAPI#CommandStop */
       HoldPosition   = 10, /** BWAPI#CommandHoldPosition */
       Repair         = 11, /** BWAPI#CommandRepair */
+      MorphUnit      = 12, /** BWAPI#CommandMorphUnit */
     };
   }
 }

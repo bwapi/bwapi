@@ -1093,6 +1093,21 @@ namespace BWAI
             }
           }
         }
+        else if (parsed[1] == "morph")
+        {
+          if (parsed.size()<3 || parsed[2].length()==0)
+          {
+            BWAPI::Broodwar->printPublic("Error: No unit specified.");
+          }
+          else
+          {
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              BWAPI::UnitType type(Util::Strings::stringToInt(std::string(parsed[2])));
+              (*u)->morph(type);
+            }
+          }
+        }
         else if (parsed[1] == "burrow")
         {
           for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)

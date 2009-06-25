@@ -72,6 +72,7 @@ namespace BWAI
       void orderRightClick(Unit *target);
       void orderPatrol(BWAPI::Position position);
       void repair(BWAPI::Unit *target);
+      void morph(BWAPI::UnitType type);
       void stop();
       void holdPosition();
       void useTech(BWAPI::TechType tech);

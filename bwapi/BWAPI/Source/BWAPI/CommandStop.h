@@ -11,7 +11,6 @@ namespace BWAPI
       /** 
        * @param executor Executor of the patrol (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the patrol.
        */
       CommandStop(UnitImpl* executor);
       virtual void execute();
