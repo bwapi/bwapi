@@ -4,14 +4,13 @@
 namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
-  /** BWAPI internal representation of Patrol command. */
+  /** BWAPI internal representation of Hold command. */
   class CommandHoldPosition : public Command
   {
     public :
       /** 
-       * @param executor Executor of the patrol (will be passed as executor 
+       * @param executor Executor of the Hold command (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the patrol.
        */
       CommandHoldPosition(UnitImpl* executor);
       virtual void execute();

@@ -9,9 +9,9 @@ namespace BWAPI
   {
     public :
       /** 
-       * @param executor Executor of the attack location (will be passed as executor 
+       * @param executor Executor of the Attack Location command (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the attack location.
+       * @param targetPosition Target of the Attack Location command.
        */
       CommandAttackLocation(UnitImpl* executor, const BW::Position& targetPosition);
       virtual void execute();
