@@ -331,6 +331,98 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
 #pragma warning(pop)
+//-------------------------------------------- SPECIAL JMP PATCH ---------------------------------------------
+#pragma warning(push)
+#pragma warning(disable:4311)
+#pragma warning(disable:4312)
+void JmpCallPatchS(void *pDest, int pSrc, int nNops = 0)
+{
+  DWORD OldProt = 0;
+  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
+  unsigned char jmp = 0xE9;
+  memcpy((LPVOID)pSrc, &jmp, 1);
+  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
+  memcpy((LPVOID)(pSrc + 1), &address, 4); 
+  *(BYTE*)((DWORD)pSrc + 5) = 0xC3;
+  for (int i = 0; i < nNops; ++i)
+    *(BYTE*)((DWORD)pSrc + 5 + 1 + i) = 0x90;
+  VirtualProtect((LPVOID)pSrc, 5 + 1 + nNops, OldProt, &OldProt);
+}
+#pragma warning(pop)
+
+void __declspec(naked) NewIssueCommand()
+{
+  //execute the part of the function that we overwrote:
+  __asm
+  {
+    push ebp
+    mov ebp, esp
+    push ecx
+    mov eax, dword ptr ds:[0x654AA0]
+    //jump to execute the rest of the function
+    jmp [BW::BWFXN_NewIssueCommand]
+  }
+}
+u32 commandIDptr;
+u8 commandID;
+void __declspec(naked) onIssueCommand()
+{
+  __asm
+  {
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+    mov ebpSave, ebp
+    mov commandIDptr, ecx;
+  }
+  commandID=*(u8*)commandIDptr;
+  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
+    || commandID==0x37
+    || commandID==0x09
+    || commandID==0x10
+    || commandID==0x11
+    || commandID==0x3C
+    || commandID==0x41
+    || commandID==0x44)
+    {
+    __asm
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+    }
+    NewIssueCommand();
+    __asm
+    {
+      jmp [BW::BWFXN_IssueCommandRet]
+    }
+  }
+  else
+    {
+    __asm
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+      jmp [BW::BWFXN_IssueCommandRet]
+    }
+  }
+}
+u32 BW::BWFXN_IssueCommand= (u32)NewIssueCommand;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
@@ -348,6 +440,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
   JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
   JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);
+  JmpCallPatchS(onIssueCommand, BW::BWFXN_OldIssueCommand, 3);
 
   return 0;
 }
