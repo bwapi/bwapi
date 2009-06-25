@@ -538,6 +538,10 @@ namespace BWAPI
       case BW::UnitID::Zerg_Devourer:
       case BW::UnitID::Zerg_Guardian:
         if(morphingunit != BW::UnitID::Zerg_Mutalisk) return false;
+        break;
+        
+      default:
+        return false;
     }
     BW::UnitType rawtype(((BW::UnitID::Enum)type.getID()));
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
