@@ -65,6 +65,21 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->killCount;
   }
+  //----------------------------------------- GROUND WEAPON COOLDOWN -----------------------------------------
+  int UnitImpl::groundWeaponCooldown() const
+  {
+    return this->getRawDataLocal()->groundWeaponCooldown;
+  }
+  //------------------------------------------ AIR WEAPON COOLDOWN -------------------------------------------
+  int UnitImpl::airWeaponCooldown() const
+  {
+    return this->getRawDataLocal()->airWeaponCooldown;
+  }
+  //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
+  int UnitImpl::spellCooldown() const
+  {
+    return this->getRawDataLocal()->spellCooldown;
+  }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getOwner() const
   {

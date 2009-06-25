@@ -35,6 +35,9 @@ namespace BWAPI
       virtual int shield() const;
       virtual int energy() const;
       virtual int getKillCount() const;
+      virtual int groundWeaponCooldown() const;
+      virtual int airWeaponCooldown() const;
+      virtual int spellCooldown() const;
       virtual Position getPosition() const;
       virtual TilePosition getTilePosition() const;
 

@@ -21,6 +21,9 @@ namespace BWAPI
     virtual int shield() const=0;
     virtual int energy() const=0;
     virtual int getKillCount() const=0;
+    virtual int groundWeaponCooldown() const=0;
+    virtual int airWeaponCooldown() const=0;
+    virtual int spellCooldown() const=0;
     virtual Position getPosition() const=0;
     virtual TilePosition getTilePosition() const=0;
 

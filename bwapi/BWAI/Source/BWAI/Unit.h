@@ -28,6 +28,9 @@ namespace BWAI
       int getShieldPoints() const; 
       int getEnergyPoints() const; 
       int getKillCount() const; 
+      int groundWeaponCooldown() const;
+      int airWeaponCooldown() const;
+      int spellCooldown() const;
       const BWAPI::Position getPosition() const;
       const BWAPI::TilePosition getTilePosition() const;
       Unit* getTarget() const;

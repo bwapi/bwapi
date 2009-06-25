@@ -896,6 +896,18 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%d",unit->getKillCount());
         }
+        else if (parsed[1] == "groundWeaponCooldown")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->groundWeaponCooldown());
+        }
+        else if (parsed[1] == "airWeaponCooldown")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->airWeaponCooldown());
+        }
+        else if (parsed[1] == "spellCooldown")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->spellCooldown());
+        }
         else if (parsed[1] == "getPosition")
         {
           BWAPI::Broodwar->printPublic("(%d,%d)",unit->getPosition().x(),unit->getPosition().y());
