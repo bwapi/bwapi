@@ -46,6 +46,21 @@ namespace BWAI
   {
     return this->unit->getKillCount();
   }
+  //----------------------------------------- GROUND WEAPON COOLDOWN -----------------------------------------
+  int Unit::groundWeaponCooldown() const
+  {
+    return this->unit->groundWeaponCooldown();
+  }
+  //------------------------------------------ AIR WEAPON COOLDOWN -------------------------------------------
+  int Unit::airWeaponCooldown() const
+  {
+    return this->unit->airWeaponCooldown();
+  }
+  //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
+  int Unit::spellCooldown() const
+  {
+    return this->unit->spellCooldown();
+  }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BWAPI::Position Unit::getPosition() const
   {
