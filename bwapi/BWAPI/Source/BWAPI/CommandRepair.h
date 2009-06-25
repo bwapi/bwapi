@@ -4,14 +4,14 @@
 namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
-  /** BWAPI internal representation of Patrol command. */
+  /** BWAPI internal representation of Repair command. */
   class CommandRepair : public Command
   {
     public :
       /** 
-       * @param executor Executor of the patrol (will be passed as executor 
+       * @param executor Executor of the repair (will be passed as executor 
                 to Command ancestor)
-       * @param targetPosition Target of the patrol.
+       * @param targetPosition Target of the repair.
        */
       CommandRepair(UnitImpl* executor, UnitImpl* target);
       virtual void execute();

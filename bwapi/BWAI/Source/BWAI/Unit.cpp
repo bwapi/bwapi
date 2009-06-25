@@ -310,6 +310,10 @@ namespace BWAI
   {
     this->unit->repair(target);
   }
+  void Unit::morph(BWAPI::UnitType type)
+  {
+    this->unit->morph(type);
+  }
   void Unit::stop()
   {
     this->unit->stop();
