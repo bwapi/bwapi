@@ -241,8 +241,8 @@ namespace BWAPI
     {
       MOV ECX, pbBuffer
       MOV EDX, iSize
-      CALL [BW::BWFXN_IssueCommand]
     }
+    NewIssueCommand();
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()

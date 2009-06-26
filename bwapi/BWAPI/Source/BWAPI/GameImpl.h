@@ -51,7 +51,7 @@ struct drawQueueStruct
 
 extern drawQueueStruct drawQueueBox[8][4];
 extern drawQueueStruct drawQueueBoxFilled[8];
-
+void NewIssueCommand();
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
