@@ -63,12 +63,14 @@ namespace BWAPI
   {
     this->x()+=position.x();
     this->y()+=position.y();
+    return *this;
   }
   //----------------------------------------------------------------------------------------------------------
   Position& Position::operator-=(const Position& position)
   {
     this->x()-=position.x();
     this->y()-=position.y();
+    return *this;
   }
   //----------------------------------------------------------------------------------------------------------
   double Position::getDistance(const Position &position) const

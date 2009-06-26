@@ -1,35 +1,30 @@
-#include "CommandAttackLocation.h"
+#include "CommandSiege.h"
 #include "UnitImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  CommandAttackLocation::CommandAttackLocation(UnitImpl* executor, const BW::Position& targetPosition)
+  CommandSiege::CommandSiege(UnitImpl* executor)
   :Command(executor)
-  ,targetPosition(targetPosition)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
-  void CommandAttackLocation::execute()
+  void CommandSiege::execute()
   {
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
-      if ((this->executors[i]->getType().canMove()))
-        {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackMove;
-          this->executors[i]->getRawDataLocal()->position = this->targetPosition;
-        }
+      this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::SiegeMode;
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandAttackLocation::getType()
+  BWAPI::CommandTypes::Enum CommandSiege::getType()
   {
-    return BWAPI::CommandTypes::AttackLocation;
+    return BWAPI::CommandTypes::Siege;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandAttackLocation::describe()
+  std::string CommandSiege::describe()
   {
-	  return this->executors[0]->getName() + " attacked location";
+	  return this->executors[0]->getName() + " sieged";
   }
   //----------------------------------------------------------------------------------------------------------
 }
