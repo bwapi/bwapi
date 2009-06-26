@@ -331,25 +331,7 @@ void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
 #pragma warning(pop)
-//-------------------------------------------- SPECIAL JMP PATCH ---------------------------------------------
-#pragma warning(push)
-#pragma warning(disable:4311)
-#pragma warning(disable:4312)
-void JmpCallPatchS(void *pDest, int pSrc, int nNops = 0)
-{
-  DWORD OldProt = 0;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-  unsigned char jmp = 0xE9;
-  memcpy((LPVOID)pSrc, &jmp, 1);
-  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
-  memcpy((LPVOID)(pSrc + 1), &address, 4); 
-  *(BYTE*)((DWORD)pSrc + 5) = 0xC3;
-  for (int i = 0; i < nNops; ++i)
-    *(BYTE*)((DWORD)pSrc + 5 + 1 + i) = 0x90;
-  VirtualProtect((LPVOID)pSrc, 5 + 1 + nNops, OldProt, &OldProt);
-}
-#pragma warning(pop)
-
+//-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
 void __declspec(naked) NewIssueCommand()
 {
   //execute the part of the function that we overwrote:
@@ -363,6 +345,7 @@ void __declspec(naked) NewIssueCommand()
     jmp [BW::BWFXN_NewIssueCommand]
   }
 }
+//--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
 u32 commandIDptr;
 u8 commandID;
 void __declspec(naked) onIssueCommand()
@@ -380,15 +363,19 @@ void __declspec(naked) onIssueCommand()
     mov commandIDptr, ecx;
   }
   commandID=*(u8*)commandIDptr;
+
+  //decide if we should let the command go through
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
-    || commandID==0x37
-    || commandID==0x09
-    || commandID==0x10
-    || commandID==0x11
-    || commandID==0x3C
-    || commandID==0x41
-    || commandID==0x44)
-    {
+
+    //If user input is disabled, only allow the following commands to go through:
+    || commandID==0x37  //Unknown, called every frame
+    || commandID==0x09  //SelectSingle
+    || commandID==0x10  //PauseGame
+    || commandID==0x11  //ResumeGame
+    || commandID==0x3C  //StartGame
+    || commandID==0x41  //ChangeRace
+    || commandID==0x44) //ChangeSlot
+  {
     __asm
     {
       mov eax, eaxSave
@@ -403,7 +390,7 @@ void __declspec(naked) onIssueCommand()
     NewIssueCommand();
     __asm
     {
-      jmp [BW::BWFXN_IssueCommandRet]
+      retn
     }
   }
   else
@@ -418,11 +405,10 @@ void __declspec(naked) onIssueCommand()
       mov edi, ediSave
       mov esp, espSave
       mov ebp, ebpSave
-      jmp [BW::BWFXN_IssueCommandRet]
+      retn
     }
   }
 }
-u32 BW::BWFXN_IssueCommand= (u32)NewIssueCommand;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
@@ -440,7 +426,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
   JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
   JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);
-  JmpCallPatchS(onIssueCommand, BW::BWFXN_OldIssueCommand, 3);
+  JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
   return 0;
 }
