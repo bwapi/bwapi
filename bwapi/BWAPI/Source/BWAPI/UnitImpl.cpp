@@ -10,7 +10,7 @@
 #include "Globals.h"
 #include "CommandTrain.h"
 #include "CommandBuild.h"
-#include "CommandAttackLocation.h"
+#include "CommandAttackMove.h"
 #include "CommandAttackUnit.h"
 #include "CommandPatrol.h"
 #include "CommandHoldPosition.h"
@@ -21,6 +21,17 @@
 #include "CommandRepair.h"
 #include "CommandMorphUnit.h"
 #include "CommandMorphBuilding.h"
+#include "CommandBurrow.h"
+#include "CommandUnburrow.h"
+#include "CommandCloak.h"
+#include "CommandDecloak.h"
+#include "CommandSiege.h"
+#include "CommandUnsiege.h"
+#include "CommandLift.h"
+#include "CommandLand.h"
+#include "CommandLoad.h"
+#include "CommandUnload.h"
+#include "CommandUnloadAll.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -456,7 +467,7 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()),BW::OrderID::AttackMove), sizeof(BW::Orders::Attack)); 
-    BroodwarImpl.addToCommandBuffer(new CommandAttackLocation(this, BW::Position(position.x(),position.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandAttackMove(this, BW::Position(position.x(),position.y())));
     return true;
   }
   //--------------------------------------------- ORDER Attack Unit ------------------------------------------
@@ -652,7 +663,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if(!this->isBurrowed())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+      BroodwarImpl.addToCommandBuffer(new CommandBurrow(this));
+    }
     return true;
   }
   //------------------------------------------------- UNBURROW -----------------------------------------------
@@ -661,7 +675,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if(this->isBurrowed())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+      BroodwarImpl.addToCommandBuffer(new CommandUnburrow(this));
+    }
     return true;
   }
   //-------------------------------------------------- SIEGE -------------------------------------------------
@@ -670,7 +687,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if (!this->isSieged())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+      BroodwarImpl.addToCommandBuffer(new CommandSiege(this));
+    }
     return true;
   }
   //------------------------------------------------- UNSIEGE ------------------------------------------------
@@ -679,7 +699,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if (this->isSieged())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+      BroodwarImpl.addToCommandBuffer(new CommandUnsiege(this));
+    }
     return true;
   }
   //-------------------------------------------------- CLOAK -------------------------------------------------
@@ -688,7 +711,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if(!this->isCloaked())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+      BroodwarImpl.addToCommandBuffer(new CommandCloak(this));
+    }
     return true;
   }
   //------------------------------------------------- DECLOAK ------------------------------------------------
@@ -697,7 +723,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if(this->isCloaked())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+      BroodwarImpl.addToCommandBuffer(new CommandDecloak(this));
+    }
     return true;
   }
   //--------------------------------------------------- LIFT -------------------------------------------------
@@ -706,7 +735,10 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     if(!this->isLifted())
+    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Lift(), sizeof(BW::Orders::Lift));
+      BroodwarImpl.addToCommandBuffer(new CommandLift(this));
+    }
     return true;
   }
   //--------------------------------------------------- LAND -------------------------------------------------
@@ -717,6 +749,7 @@ namespace BWAPI
     if(this->isLifted())
     {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition(position.x(),position.y()),this->getBWType()), sizeof(BW::Orders::Land));
+      BroodwarImpl.addToCommandBuffer(new CommandLand(this,BW::TilePosition(position.x(),position.y())));
     }
     return true;
   }
@@ -725,19 +758,25 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
+    bool loaded=false;
     if (this->getType()==UnitTypes::Terran_Bunker)
     {
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup3), sizeof(BW::Orders::Attack)); 
-      return true;
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup3), sizeof(BW::Orders::Attack));
+      loaded=true;
     }
     else if (this->getType()==UnitTypes::Terran_Dropship || this->getType()==UnitTypes::Protoss_Shuttle || this->getType()==UnitTypes::Zerg_Overlord)
     {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup2), sizeof(BW::Orders::Attack)); 
-      return true;
+      loaded=true;
     }
     else if (target->getType()==UnitTypes::Terran_Bunker || target->getType()==UnitTypes::Terran_Dropship || target->getType()==UnitTypes::Protoss_Shuttle || target->getType()==UnitTypes::Zerg_Overlord)
     {
       this->rightClick(target);
+      loaded=true;
+    }
+    if (loaded)
+    {
+      BroodwarImpl.addToCommandBuffer(new CommandLoad(this,(UnitImpl*)target));
       return true;
     }
     //if neither this unit nor the target unit is a bunker, dropship, shuttle, or overlord, return false.
@@ -749,6 +788,7 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadUnit((UnitImpl*)target), sizeof(BW::Orders::UnloadUnit));
+    BroodwarImpl.addToCommandBuffer(new CommandUnload(this,(UnitImpl*)target));
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
@@ -761,6 +801,7 @@ namespace BWAPI
     if (this->getOwner()!=Broodwar->self() || this->getType()!=UnitTypes::Terran_Bunker) return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
+    BroodwarImpl.addToCommandBuffer(new CommandUnloadAll(this));
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
@@ -777,6 +818,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandUnloadAll(this,BW::Position(position.x(),position.y())));
     return true;
   }
   //-------------------------------------------- CANCEL CONSTRUCTION -----------------------------------------

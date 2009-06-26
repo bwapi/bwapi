@@ -357,7 +357,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandAttackLocation.cpp"
+					RelativePath=".\Source\BWAPI\CommandAttackMove.cpp"
 					>
 				</File>
 				<File
@@ -369,7 +369,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandBurrow.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandCloak.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandDecloak.cpp"
 					>
 				</File>
 				<File
@@ -378,6 +390,18 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\CommandInvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandLand.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandLift.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandLoad.cpp"
 					>
 				</File>
 				<File
@@ -401,11 +425,31 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandSiege.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandStop.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandTrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnburrow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnload.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnloadAll.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnsiege.cpp"
 					>
 				</File>
 				<File
@@ -453,7 +497,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandAttackLocation.h"
+					RelativePath=".\Source\BWAPI\CommandAttackMove.h"
 					>
 				</File>
 				<File
@@ -465,7 +509,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandBurrow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandCloak.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandDecloak.h"
 					>
 				</File>
 				<File
@@ -474,6 +530,18 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\CommandInvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandLand.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandLift.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandLoad.h"
 					>
 				</File>
 				<File
@@ -497,11 +565,31 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandSiege.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandStop.h"
 					>
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\CommandTrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnburrow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnload.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnloadAll.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUnsiege.h"
 					>
 				</File>
 				<File

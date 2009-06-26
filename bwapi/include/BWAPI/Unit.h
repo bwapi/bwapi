@@ -55,15 +55,15 @@ namespace BWAPI
     virtual bool isCloaked() const=0;
     virtual bool isCompleted() const=0;
     virtual bool isDisabled() const=0;
-    virtual bool isLockedDown() const=0;
-    virtual bool isStasised() const=0;
     virtual bool isIdle() const=0;
     virtual bool isLifted() const=0;
     virtual bool isLoaded() const=0;
+    virtual bool isLockedDown() const=0;
     virtual bool isMoving() const=0;
     virtual bool isSelected() const=0;
     virtual bool isSieged() const=0;
     virtual bool isStartingAttack() const=0;
+    virtual bool isStasised() const=0;
     virtual bool isTraining() const=0;
     virtual bool isUnderStorm() const=0;
     virtual bool isVisible() const=0;
