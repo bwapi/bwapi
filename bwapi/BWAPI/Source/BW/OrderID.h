@@ -309,7 +309,7 @@ namespace BW
                                       * Default Requirements: Unused. */
       StasisField            = 0x93, /**< Cast Spell: Stasis Field.
                                       * Default Requirements: Unused. */
-      Hallucianation1        = 0x94, /**< Hallucination Cast on target.
+      Hallucination1        = 0x94, /**< Hallucination Cast on target.
                                       * Default Requirements: Unused. */
       Hallucination2         = 0x95, /**< Kill Halluciation on spell cast.
                                       * Default Requirements: Unused. */
@@ -545,7 +545,7 @@ namespace BW
         case Consume : return "Consume";
         case Ensnare : return "Ensnare";
         case StasisField : return "Stasis Field";
-        case Hallucianation1 : return "Hallucianation1";
+        case Hallucination1 : return "Hallucianation1";
         case Hallucination2 : return "*Hallucination2";
         case ResetCollision1 : return "Reset Collision1";
         case ResetCollision2 : return "Reset Collision2";
