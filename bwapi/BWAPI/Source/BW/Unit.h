@@ -65,8 +65,8 @@ namespace BW
     /*0x050*/ _UNKNOWN _7[4];
     /*0x054*/ u8                            mainOrderTimer;       /**< @todo Unknown */
     /*0x055*/ u8                            groundWeaponCooldown;
-    /*0x056*/ u8                            airWeaponCooldown;    /**< @todo Verify */
-    /*0x057*/ u8                            spellCooldown;        /**< @todo Verify */
+    /*0x056*/ u8                            airWeaponCooldown;
+    /*0x057*/ u8                            spellCooldown;
     /*0x058*/ BW::Position                  orderTargetPos;       /**< @todo Verify */
     /*0x05C*/ BW::Unit*                     orderTargetUnit;      /**< @todo Verify */
     /*0x060*/ u32                           shieldPoints;         /**< Bw shows this value/256 */

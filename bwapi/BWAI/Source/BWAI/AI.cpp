@@ -908,6 +908,38 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%d",unit->spellCooldown());
         }
+        else if (parsed[1] == "defenseMatrixTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->defenseMatrixTimer());
+        }
+        else if (parsed[1] == "stimTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->stimTimer());
+        }
+        else if (parsed[1] == "ensnareTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->ensnareTimer());
+        }
+        else if (parsed[1] == "lockdownTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->lockdownTimer());
+        }
+        else if (parsed[1] == "stasisTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->stasisTimer());
+        }
+        else if (parsed[1] == "plagueTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->plagueTimer());
+        }
+        else if (parsed[1] == "maelstromTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->maelstromTimer());
+        }
+        else if (parsed[1] == "irradiateTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->irradiateTimer());
+        }
         else if (parsed[1] == "getPosition")
         {
           BWAPI::Broodwar->printPublic("(%d,%d)",unit->getPosition().x(),unit->getPosition().y());

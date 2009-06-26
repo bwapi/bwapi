@@ -61,6 +61,46 @@ namespace BWAI
   {
     return this->unit->spellCooldown();
   }
+  //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
+  int Unit::defenseMatrixTimer() const
+  {
+    return this->unit->defenseMatrixTimer();
+  }
+  //----------------------------------------------- STIM TIMER -----------------------------------------------
+  int Unit::stimTimer() const
+  {
+    return this->unit->stimTimer();
+  }
+  //--------------------------------------------- ENSNARE TIMER ----------------------------------------------
+  int Unit::ensnareTimer() const
+  {
+    return this->unit->ensnareTimer();
+  }
+  //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
+  int Unit::lockdownTimer() const
+  {
+    return this->unit->lockdownTimer();
+  }
+  //-------------------------------------------- IRRADIATE TIMER ---------------------------------------------
+  int Unit::irradiateTimer() const
+  {
+    return this->unit->irradiateTimer();
+  }
+  //---------------------------------------------- STASIS TIMER ----------------------------------------------
+  int Unit::stasisTimer() const
+  {
+    return this->unit->stasisTimer();
+  }
+  //---------------------------------------------- PLAGUE TIMER ----------------------------------------------
+  int Unit::plagueTimer() const
+  {
+    return this->unit->plagueTimer();
+  }
+  //--------------------------------------------- MAELSTROM TIMER --------------------------------------------
+  int Unit::maelstromTimer() const
+  {
+    return this->unit->maelstromTimer();
+  }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BWAPI::Position Unit::getPosition() const
   {
