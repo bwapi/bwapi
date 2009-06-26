@@ -916,6 +916,8 @@ namespace BWAPI
       {
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
       } break;
+      default:
+        return false;
     }
     return true;
   }
@@ -924,7 +926,43 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle use tech order
+    switch (tech.getID())
+    {
+      case BW::TechID::DarkSwarm:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::DarkSwarm), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::DisruptionWeb:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::CastDisruptionWeb), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::EMPShockwave:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::EmpShockwave), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Ensnare:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::Ensnare), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Maelstorm:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::CastMaelstrom), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Plague:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::Plague), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::PsionicStorm:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::PsiStorm), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Recall:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::Teleport), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::ScannerSweep:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::PlaceScanner), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::SpiderMines:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::PlaceMine), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::StasisField:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::StasisField), sizeof(BW::Orders::Attack));
+        break;
+      default: return false;
+    }
     return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
@@ -932,7 +970,52 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle use tech order
+    switch (tech.getID())
+    {
+      case BW::TechID::Consume:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Consume), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::DefensiveMatrix:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::DefensiveMatrix), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Feedback:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastFeedback), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Hallucination:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Hallucination1), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Healing:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MedicHeal1), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Infestation:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::InfestMine2), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Irradiate:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Irradiate), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Lockdown:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MagnaPulse), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::MindControl:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastMindControl), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::OpticalFlare:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastOpticalFlare), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Parasite:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastParasite), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::Restoration:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Restoration), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::SpawnBroodlings:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::SummonBroodlings), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::YamatoGun:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::FireYamatoGun1), sizeof(BW::Orders::Attack));
+        break;
+      default: return false;
+    }
     return true;
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------

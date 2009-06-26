@@ -89,7 +89,9 @@ namespace BWAI
       void morph(BWAPI::UnitType type);
       void stop();
       void holdPosition();
-      void useTech(BWAPI::TechType tech);
+      bool useTech(BWAPI::TechType tech);
+      bool useTech(BWAPI::TechType tech, BWAPI::Unit* target);
+      bool useTech(BWAPI::TechType tech, BWAPI::Position position);
       
       void trainUnit(BWAPI::UnitType type);
       void build(BWAPI::TilePosition position, BWAPI::UnitType type);

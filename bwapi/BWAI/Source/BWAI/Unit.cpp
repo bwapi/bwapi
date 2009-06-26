@@ -392,9 +392,17 @@ namespace BWAI
   {
     this->unit->holdPosition();
   }
-  void Unit::useTech(BWAPI::TechType tech)
+  bool Unit::useTech(BWAPI::TechType tech)
   {
-    this->unit->useTech(tech);
+    return this->unit->useTech(tech);
+  }
+  bool Unit::useTech(BWAPI::TechType tech, BWAPI::Unit* target)
+  {
+    return this->unit->useTech(tech, target);
+  }
+  bool Unit::useTech(BWAPI::TechType tech, BWAPI::Position position)
+  {
+    return this->unit->useTech(tech, position);
   }
   void Unit::trainUnit(BWAPI::UnitType type)
   {
