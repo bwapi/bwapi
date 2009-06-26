@@ -224,19 +224,19 @@ namespace BW
     /*0x10A*/ BW::Position                 contours2Unknown;   /**< @todo Unknown */
     /*0x110*/ u16                          removeTimer;        /**< @todo Verify (Hallucination, DSwarm, DWeb, Broodling) */
     /*0x112*/ u16                          defenseMatrixDamage;/**< @todo Verify */
-    /*0x114*/ u8                           defenseMatrixTimer; /**< @todo Verify */
-    /*0x115*/ u8                           stimTimer;          /**< @todo Verify */
+    /*0x114*/ u8                           defenseMatrixTimer;
+    /*0x115*/ u8                           stimTimer;
     /*0x116*/ u8                           ensareTimer;        /**< @todo Verify */
-    /*0x117*/ u8                           lockdownTimer;      /**< @todo Verify */
+    /*0x117*/ u8                           lockdownTimer;
     /*0x118*/ u8                           irradiateTimer;     /**< @todo Verify */
     /*0x119*/ u8                           stasisTimer;        /**< @todo Verify */
     /*0x11A*/ u8                           plagueTimer;        /**< @todo Verify */
-    /*0x11B*/ u8                           isUnderStorm;       /**< 1 if under storm; 0 else */
+    /*0x11B*/ u8                           isUnderStorm;
     /*0x11C*/ BW::Unit*                    irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                           irradiatePlayerID;  /**< @todo Verify */
     /*0x121*/ Util::BitMask<ParasiteFlags::Enum> parasiteFlags;/**< @todo Verify BW#ParasiteFlags */
     /*0x122*/ u8                           cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
-    /*0x123*/ u8                           isBlind;            /**< 1 if blind; 0 else */
+    /*0x123*/ u8                           isBlind;
     /*0x124*/ u8                           maelstromTimer;     /**< @todo Verify */
     /*0x125*/ _UNKNOWN _23[1];
     /*0x126*/ u8                           acidSporeTime[9];   /**< @todo Verify */

@@ -908,6 +908,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%d",unit->spellCooldown());
         }
+        else if (parsed[1] == "defenseMatrixPoints")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->defenseMatrixPoints());
+        }
         else if (parsed[1] == "defenseMatrixTimer")
         {
           BWAPI::Broodwar->printPublic("%d",unit->defenseMatrixTimer());
@@ -1058,6 +1062,14 @@ namespace BWAI
         else if (parsed[1] == "isDisabled")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isDisabled() ? "true" : "false");
+        }
+        else if (parsed[1] == "isLockedDown")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isLockedDown() ? "true" : "false");
+        }
+        else if (parsed[1] == "isStasised")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isStasised() ? "true" : "false");
         }
         else if (parsed[1] == "isIdle")
         {

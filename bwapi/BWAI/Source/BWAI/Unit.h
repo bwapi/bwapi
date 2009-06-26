@@ -31,6 +31,7 @@ namespace BWAI
       int groundWeaponCooldown() const;
       int airWeaponCooldown() const;
       int spellCooldown() const;
+      int defenseMatrixPoints() const;
       int defenseMatrixTimer() const;
       int stimTimer() const;
       int ensnareTimer() const;
@@ -51,6 +52,8 @@ namespace BWAI
 
       bool isMineral() const;
       bool isCompleted() const;
+      bool isLockedDown() const;
+      bool isStasised() const;
       bool isLifted() const;
       bool isSelected() const;
       bool isIdle() const;

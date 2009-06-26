@@ -61,6 +61,11 @@ namespace BWAI
   {
     return this->unit->spellCooldown();
   }
+  //------------------------------------------ DEFENSE MATRIX POINTS -----------------------------------------
+  int Unit::defenseMatrixPoints() const
+  {
+    return this->unit->defenseMatrixPoints();
+  }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
   int Unit::defenseMatrixTimer() const
   {
@@ -263,6 +268,16 @@ namespace BWAI
   bool Unit::isCompleted() const
   {
     return this->unit->isCompleted();
+  }
+  //--------------------------------------------- IS LOCKED DOWN ---------------------------------------------
+  bool Unit::isLockedDown() const
+  {
+    return this->unit->isLockedDown();
+  }
+  //---------------------------------------------- IS STASISED -----------------------------------------------
+  bool Unit::isStasised() const
+  {
+    return this->unit->isStasised();
   }
   //----------------------------------------------- IS LIFTED ------------------------------------------------
   bool Unit::isLifted() const

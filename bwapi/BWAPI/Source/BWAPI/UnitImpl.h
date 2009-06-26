@@ -38,6 +38,7 @@ namespace BWAPI
       virtual int groundWeaponCooldown() const;
       virtual int airWeaponCooldown() const;
       virtual int spellCooldown() const;
+      virtual int defenseMatrixPoints() const;
       virtual int defenseMatrixTimer() const;
       virtual int stimTimer() const;
       virtual int ensnareTimer() const;
@@ -71,6 +72,8 @@ namespace BWAPI
       virtual bool isCloaked() const;
       virtual bool isCompleted() const;
       virtual bool isDisabled() const;
+      virtual bool isLockedDown() const;
+      virtual bool isStasised() const;
       virtual bool isIdle() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;
