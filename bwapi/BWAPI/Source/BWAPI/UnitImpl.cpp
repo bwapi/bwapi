@@ -80,6 +80,11 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->spellCooldown;
   }
+  //------------------------------------------ DEFENSE MATRIX POINTS -----------------------------------------
+  int UnitImpl::defenseMatrixPoints() const
+  {
+    return this->getRawDataLocal()->defenseMatrixDamage;
+  }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
   int UnitImpl::defenseMatrixTimer() const
   {
@@ -192,6 +197,16 @@ namespace BWAPI
   bool UnitImpl::isDisabled() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
+  }
+  //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
+  bool UnitImpl::isLockedDown() const
+  {
+    return this->lockdownTimer() > 0;
+  }
+  //----------------------------------------------- IS STASISED ----------------------------------------------
+  bool UnitImpl::isStasised() const
+  {
+    return this->stasisTimer() > 0;
   }
   //------------------------------------------------ IS BLIND ------------------------------------------------
   bool UnitImpl::isBlind() const
