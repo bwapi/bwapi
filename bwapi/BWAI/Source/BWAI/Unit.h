@@ -31,6 +31,14 @@ namespace BWAI
       int groundWeaponCooldown() const;
       int airWeaponCooldown() const;
       int spellCooldown() const;
+      int defenseMatrixTimer() const;
+      int stimTimer() const;
+      int ensnareTimer() const;
+      int lockdownTimer() const;
+      int irradiateTimer() const;
+      int stasisTimer() const;
+      int plagueTimer() const;
+      int maelstromTimer() const;
       const BWAPI::Position getPosition() const;
       const BWAPI::TilePosition getTilePosition() const;
       Unit* getTarget() const;

@@ -38,6 +38,14 @@ namespace BWAPI
       virtual int groundWeaponCooldown() const;
       virtual int airWeaponCooldown() const;
       virtual int spellCooldown() const;
+      virtual int defenseMatrixTimer() const;
+      virtual int stimTimer() const;
+      virtual int ensnareTimer() const;
+      virtual int lockdownTimer() const;
+      virtual int irradiateTimer() const;
+      virtual int stasisTimer() const;
+      virtual int plagueTimer() const;
+      virtual int maelstromTimer() const;
       virtual Position getPosition() const;
       virtual TilePosition getTilePosition() const;
 

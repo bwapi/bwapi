@@ -80,6 +80,46 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->spellCooldown;
   }
+  //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
+  int UnitImpl::defenseMatrixTimer() const
+  {
+    return this->getRawDataLocal()->defenseMatrixTimer;
+  }
+  //----------------------------------------------- STIM TIMER -----------------------------------------------
+  int UnitImpl::stimTimer() const
+  {
+    return this->getRawDataLocal()->stimTimer;
+  }
+  //---------------------------------------------- ENSNARE TIMER ---------------------------------------------
+  int UnitImpl::ensnareTimer() const
+  {
+    return this->getRawDataLocal()->ensareTimer;
+  }
+  //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
+  int UnitImpl::lockdownTimer() const
+  {
+    return this->getRawDataLocal()->lockdownTimer;
+  }
+  //--------------------------------------------- IRRADIATE TIMER --------------------------------------------
+  int UnitImpl::irradiateTimer() const
+  {
+    return this->getRawDataLocal()->irradiateTimer;
+  }
+  //---------------------------------------------- STASIS TIMER ----------------------------------------------
+  int UnitImpl::stasisTimer() const
+  {
+    return this->getRawDataLocal()->stasisTimer;
+  }
+  //---------------------------------------------- PLAGUE TIMER ----------------------------------------------
+  int UnitImpl::plagueTimer() const
+  {
+    return this->getRawDataLocal()->plagueTimer;
+  }
+  //--------------------------------------------- MAELSTROM TIMER --------------------------------------------
+  int UnitImpl::maelstromTimer() const
+  {
+    return this->getRawDataLocal()->maelstromTimer;
+  }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getOwner() const
   {
