@@ -28,7 +28,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelTrain::describe()
   {
-    return this->executors[0]->getName() + " canceled unit production";
+    return this->executors[0]->getName() + " cancelled unit production";
   }
   //----------------------------------------------------------------------------------------------------------
 }

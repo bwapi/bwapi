@@ -31,6 +31,9 @@ namespace BWAPI
       Load,
       Unload,
       UnloadAll,
+      CancelResearch,
+      CancelUpgrade,
+      CancelConstruction,
     };
   }
 }

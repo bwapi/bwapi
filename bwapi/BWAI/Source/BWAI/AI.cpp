@@ -1129,6 +1129,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s",unit->isStartingAttack() ? "true" : "false");
         }
+        else if (parsed[1] == "isResearching")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isResearching() ? "true" : "false");
+        }
         else if (parsed[1] == "isTraining")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isTraining() ? "true" : "false");
@@ -1136,6 +1140,10 @@ namespace BWAI
         else if (parsed[1] == "isUnderStorm")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isUnderStorm() ? "true" : "false");
+        }
+        else if (parsed[1] == "isUpgrading")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isUpgrading() ? "true" : "false");
         }
         else if (parsed[1] == "isVisible")
         {
@@ -1296,6 +1304,34 @@ namespace BWAI
               int y=Util::Strings::stringToInt(parsed[3]);
               (*u)->unloadAll(BWAPI::Position(x,y));
             }
+          }
+        }
+        else if (parsed[1] == "cancelResearch")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->cancelResearch();
+          }
+        }
+        else if (parsed[1] == "cancelUpgrade")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->cancelUpgrade();
+          }
+        }
+        else if (parsed[1] == "cancelConstruction")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->cancelConstruction();
+          }
+        }
+        else if (parsed[1] == "haltConstruction")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->haltConstruction();
           }
         }
         else

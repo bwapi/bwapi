@@ -61,12 +61,14 @@ namespace BWAPI
     virtual bool isLoaded() const=0;
     virtual bool isLockedDown() const=0;
     virtual bool isMoving() const=0;
+    virtual bool isResearching() const=0;
     virtual bool isSelected() const=0;
     virtual bool isSieged() const=0;
     virtual bool isStartingAttack() const=0;
     virtual bool isStasised() const=0;
     virtual bool isTraining() const=0;
     virtual bool isUnderStorm() const=0;
+    virtual bool isUpgrading() const=0;
     virtual bool isVisible() const=0;
 
     virtual bool attackMove(Position position)=0;
@@ -99,8 +101,8 @@ namespace BWAPI
     virtual bool cancelTrain()=0;
     virtual bool cancelTrain(int slot)=0;
     virtual bool cancelAddon()=0;
-    virtual bool cancelUpgrade()=0;
     virtual bool cancelResearch()=0;
+    virtual bool cancelUpgrade()=0;
     virtual bool useTech(TechType tech)=0;
     virtual bool useTech(TechType tech, Position position)=0;
     virtual bool useTech(TechType tech, Unit* target)=0;
