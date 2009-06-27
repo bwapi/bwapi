@@ -11,7 +11,7 @@ namespace BWAPI
       /** 
        * @param executor Executor of the Attack Unit command (will be passed as executor 
                 to Command ancestor)
-       * @param target Target of the AttackUnit command.
+       * @param target Target of the Attack Unit command.
        */
       CommandAttackUnit(UnitImpl* executor, UnitImpl* target);
       virtual void execute();

@@ -32,6 +32,9 @@
 #include "CommandLoad.h"
 #include "CommandUnload.h"
 #include "CommandUnloadAll.h"
+#include "CommandCancelResearch.h"
+#include "CommandCancelUpgrade.h"
+#include "CommandCancelConstruction.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -154,17 +157,127 @@ namespace BWAPI
     else         
       return this->health() > 0 && this->getType()!=BWAPI::UnitTypes::None && this->getType()!=BWAPI::UnitTypes::Unknown;
   }
-  //------------------------------------------------ IS VALID ------------------------------------------------
+  //------------------------------------------------ IS READY ------------------------------------------------
   bool UnitImpl::isReady() const
   {
     return this->isValid() &&
            this->isCompleted();
+  }
+  //--------------------------------------------- IS ACCELERATING --------------------------------------------
+  bool UnitImpl::isAccelerating() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Accelerating);
+  }
+  //--------------------------------------------- IS BEING HEALED --------------------------------------------
+  bool UnitImpl::isBeingHealed() const // Not working right now
+  {
+    return this->getRawDataLocal()->isBeingHealed != 0;
+  }
+  //------------------------------------------------ IS BLIND ------------------------------------------------
+  bool UnitImpl::isBlind() const
+  {
+    return this->getRawDataLocal()->isBlind != 0;
+  }
+  //----------------------------------------------- IS BRAKING -----------------------------------------------
+  bool UnitImpl::isBraking() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Braking);
+  }
+  //----------------------------------------------- IS BURROWED ----------------------------------------------
+  bool UnitImpl::isBurrowed() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
+  }
+  //------------------------------------------------ IS CLOAKED ----------------------------------------------
+  bool UnitImpl::isCloaked() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
+  }
+  //---------------------------------------------- IS COMPLETED ----------------------------------------------
+  bool UnitImpl::isCompleted() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
+  }
+  //------------------------------------------------ IS DISABLED ---------------------------------------------
+  bool UnitImpl::isDisabled() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
+  }
+  //---------------------------------------------- IS IDLE ---------------------------------------------------
+  bool UnitImpl::isIdle() const
+  {
+    return (this->getOrder() == BWAPI::Orders::Guard ||
+            this->getOrder() == BWAPI::Orders::Stop ||
+            this->getOrder() == BWAPI::Orders::Pickup1 ||
+            this->getOrder() == BWAPI::Orders::Nothing2 ||
+            this->getOrder() == BWAPI::Orders::Medic ||
+            this->getOrder() == BWAPI::Orders::Carrier ||
+            this->getOrder() == BWAPI::Orders::Critter ||
+            this->getOrder() == BWAPI::Orders::NukeTrain);
+  }
+  //------------------------------------------------ IS LIFTED -----------------------------------------------
+  bool UnitImpl::isLifted() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
+           this->getRawDataLocal()->unitID.isBuilding();
   }
   //------------------------------------------------ IS LOADED -----------------------------------------------
   bool UnitImpl::isLoaded() const
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport)
         || this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding);
+  }
+  //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
+  bool UnitImpl::isLockedDown() const
+  {
+    return this->lockdownTimer() > 0;
+  }
+  //------------------------------------------------ IS MOVING -----------------------------------------------
+  bool UnitImpl::isMoving() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
+  }
+  //---------------------------------------------- IS RESEARCHING --------------------------------------------
+  bool UnitImpl::isResearching() const
+  {
+    return this->getOrder()==Orders::ResearchTech;
+  }
+  //---------------------------------------------- IS SELECTED -----------------------------------------------
+  bool UnitImpl::isSelected() const
+  {
+    if (BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)==false)
+      return false;
+    return this->userSelected;
+  }
+  //---------------------------------------------- IS SELECTED -----------------------------------------------
+  bool UnitImpl::isSieged() const
+  {
+    return this->getBWType().getID()==BW::UnitID::Terran_SiegeTankSiegeMode;
+  }
+  //------------------------------------------- IS STARTING ATTACK -------------------------------------------
+  bool UnitImpl::isStartingAttack() const
+  {
+    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::StartingAttack);
+  }
+  //----------------------------------------------- IS STASISED ----------------------------------------------
+  bool UnitImpl::isStasised() const
+  {
+    return this->stasisTimer() > 0;
+  }
+  //---------------------------------------------- IS TRAINING -----------------------------------------------
+  bool UnitImpl::isTraining() const
+  {
+    return !this->hasEmptyBuildQueue();
+  }
+  //---------------------------------------------- IS UNDER STORM --------------------------------------------
+  bool UnitImpl::isUnderStorm() const
+  {
+    return this->getRawDataLocal()->isUnderStorm != 0;
+  }
+  //----------------------------------------------- IS UPGRADING ---------------------------------------------
+  bool UnitImpl::isUpgrading() const
+  {
+    return this->getOrder()==Orders::Upgrade;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
@@ -183,69 +296,6 @@ namespace BWAPI
       return false;
     }
     return true;
-  }
-  //---------------------------------------------- IS COMPLETED ----------------------------------------------
-  bool UnitImpl::isCompleted() const
-  {
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
-  }
-  //------------------------------------------------ IS LIFTED -----------------------------------------------
-  bool UnitImpl::isLifted() const
-  {
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
-           this->getRawDataLocal()->unitID.isBuilding();
-  }
-  //----------------------------------------------- IS BURROWED ----------------------------------------------
-  bool UnitImpl::isBurrowed() const
-  {
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
-  }
-  //------------------------------------------------ IS CLOAKED ----------------------------------------------
-  bool UnitImpl::isCloaked() const
-  {
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
-  }
-  //------------------------------------------------ IS DISABLED ---------------------------------------------
-  bool UnitImpl::isDisabled() const
-  {
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
-  }
-  //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
-  bool UnitImpl::isLockedDown() const
-  {
-    return this->lockdownTimer() > 0;
-  }
-  //----------------------------------------------- IS STASISED ----------------------------------------------
-  bool UnitImpl::isStasised() const
-  {
-    return this->stasisTimer() > 0;
-  }
-  //------------------------------------------------ IS BLIND ------------------------------------------------
-  bool UnitImpl::isBlind() const
-  {
-    return this->getRawDataLocal()->isBlind != 0;
-  }
-  //--------------------------------------------- IS BEING HEALED --------------------------------------------
-  bool UnitImpl::isBeingHealed() const // Not working right now
-  {
-    return this->getRawDataLocal()->isBeingHealed != 0;
-  }
-  //---------------------------------------------- IS UNDER STORM --------------------------------------------
-  bool UnitImpl::isUnderStorm() const
-  {
-    return this->getRawDataLocal()->isUnderStorm != 0;
-  }
-  //---------------------------------------------- IS SELECTED -----------------------------------------------
-  bool UnitImpl::isSelected() const
-  {
-    if (BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)==false)
-      return false;
-    return this->userSelected;
-  }
-  //---------------------------------------------- IS SELECTED -----------------------------------------------
-  bool UnitImpl::isSieged() const
-  {
-    return this->getBWType().getID()==BW::UnitID::Terran_SiegeTankSiegeMode;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -312,38 +362,6 @@ namespace BWAPI
   Order UnitImpl::getSecondaryOrder() const
   {
     return BWAPI::Order(this->getRawDataLocal()->secondaryOrderID);
-  }
-  //---------------------------------------------- IS IDLE ---------------------------------------------------
-  bool UnitImpl::isIdle() const
-  {
-    return (this->getOrder() == BWAPI::Orders::Guard ||
-            this->getOrder() == BWAPI::Orders::Stop ||
-            this->getOrder() == BWAPI::Orders::Pickup1 ||
-            this->getOrder() == BWAPI::Orders::Nothing2 ||
-            this->getOrder() == BWAPI::Orders::Medic ||
-            this->getOrder() == BWAPI::Orders::Carrier ||
-            this->getOrder() == BWAPI::Orders::Critter ||
-            this->getOrder() == BWAPI::Orders::NukeTrain);
-  }
-  //------------------------------------------------ IS MOVING -----------------------------------------------
-  bool UnitImpl::isMoving() const
-  {
-    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
-  }
-  //--------------------------------------------- IS ACCELERATING --------------------------------------------
-  bool UnitImpl::isAccelerating() const
-  {
-    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Accelerating);
-  }
-  //----------------------------------------------- IS BRAKING -----------------------------------------------
-  bool UnitImpl::isBraking() const
-  {
-    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Braking);
-  }
-  //------------------------------------------- IS STARTING ATTACK -------------------------------------------
-  bool UnitImpl::isStartingAttack() const
-  {
-    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::StartingAttack);
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
 
@@ -418,11 +436,6 @@ namespace BWAPI
                 (long double)((long double)y1 - y2)*((long double)y1 - y2));
   }
   #pragma warning(pop)
-  //---------------------------------------------- IS TRAINING -----------------------------------------------
-  bool UnitImpl::isTraining() const
-  {
-    return !this->hasEmptyBuildQueue();
-  }
   //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
@@ -837,16 +850,17 @@ namespace BWAPI
   {
     if (this->getOwner()!=Broodwar->self()) return false;
     this->orderSelect();
-    //TODO: Handle cancelConstruction
+    if (!this->getType().isBuilding()) return false;
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
+    BroodwarImpl.addToCommandBuffer(new CommandCancelConstruction(this));
     return true;
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool UnitImpl::haltConstruction()
   {
     if (this->getOwner()!=Broodwar->self()) return false;
-    this->orderSelect();
-    //TODO: Handle haltConstruction (Terran)
-    return true;
+    if (this->getOrder()!=Orders::ConstructingBuilding) return false;
+    return this->stop();
   }
   //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
   bool UnitImpl::cancelTrain()
@@ -871,20 +885,24 @@ namespace BWAPI
     //TODO: Handle cancelAddon
     return true;
   }
-  //---------------------------------------------- CANCEL UPGRADE --------------------------------------------
-  bool UnitImpl::cancelUpgrade()
-  {
-    if (this->getOwner()!=Broodwar->self()) return false;
-    this->orderSelect();
-    //TODO: Handle cancelUpgrade
-    return true;
-  }
   //---------------------------------------------- CANCEL RESEARCH -------------------------------------------
   bool UnitImpl::cancelResearch()
   {
     if (this->getOwner()!=Broodwar->self()) return false;
+    if (!this->isResearching()) return false;
     this->orderSelect();
-    //TODO: Handle cancelResearch
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
+    BroodwarImpl.addToCommandBuffer(new CommandCancelResearch(this));
+    return true;
+  }
+  //---------------------------------------------- CANCEL UPGRADE --------------------------------------------
+  bool UnitImpl::cancelUpgrade()
+  {
+    if (this->getOwner()!=Broodwar->self()) return false;
+    if (!this->isUpgrading()) return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
+    BroodwarImpl.addToCommandBuffer(new CommandCancelUpgrade(this));
     return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
