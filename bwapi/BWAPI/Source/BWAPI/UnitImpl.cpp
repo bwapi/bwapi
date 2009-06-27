@@ -163,7 +163,8 @@ namespace BWAPI
   //------------------------------------------------ IS LOADED -----------------------------------------------
   bool UnitImpl::isLoaded() const
   {
-    return this->getOrder()==Orders::BunkerGuard;
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport)
+        || this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding);
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
@@ -442,6 +443,21 @@ namespace BWAPI
       i=(i + 1)%5;
     }
     return trainList;
+  }
+  //------------------------------------------- GET LOADED UNITS ---------------------------------------------
+  std::list<Unit*> UnitImpl::getLoadedUnits() const
+  {
+    std::list<Unit*> unitList;
+    for(int i=0;i<8;i++)
+    {
+      if (this->getRawDataLocal()->loadedUnitIndex[i]!=0)
+      {
+        BW::Unit* bwunit=(BW::Unit*)(0x4F4B58+this->getRawDataLocal()->loadedUnitIndex[i]*BW::UNIT_SIZE_IN_BYTES);
+        UnitImpl* unit=BWUnitToBWAPIUnit(bwunit);
+        unitList.push_back((Unit*)unit);
+      }
+    }
+    return unitList;
   }
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
   bool UnitImpl::hasEmptyBuildQueueSync() const

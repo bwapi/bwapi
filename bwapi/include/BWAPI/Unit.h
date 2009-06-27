@@ -46,6 +46,7 @@ namespace BWAPI
     virtual int getRemainingBuildTime() const=0;
     virtual Unit* getChild() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
+    virtual std::list<Unit*> getLoadedUnits() const=0;
 
     virtual bool isAccelerating() const=0;
     virtual bool isBeingHealed() const=0;

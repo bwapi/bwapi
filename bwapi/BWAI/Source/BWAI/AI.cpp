@@ -1046,6 +1046,21 @@ namespace BWAI
             }
           }
         }
+        else if (parsed[1] == "getLoadedUnits")
+        {
+          std::list<BWAPI::Unit*> loaded=unit->getLoadedUnits();
+          if (loaded.empty())
+          {
+            BWAPI::Broodwar->printPublic("<empty>");
+          }
+          else
+          {
+            for(std::list<BWAPI::Unit*>::iterator t=loaded.begin();t!=loaded.end();t++)
+            {
+              BWAPI::Broodwar->printPublic("%s",BWAI::Unit::BWAPIUnitToBWAIUnit(*t)->getName().c_str());
+            }
+          }
+        }
         else if (parsed[1] == "isAccelerating")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isAccelerating() ? "true" : "false");
