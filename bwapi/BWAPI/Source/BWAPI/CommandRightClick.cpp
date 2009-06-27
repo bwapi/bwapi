@@ -36,7 +36,7 @@ namespace BWAPI
                     targetUnit->getType() == BW::UnitID::Zerg_Extractor
                   )
                 )
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::HarvestGas1;
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToGas;
  
         else if ((this->executors[i]->getType().canAttack()) && 
                  targetUnit->getOwner() != executors[i]->getOwner())

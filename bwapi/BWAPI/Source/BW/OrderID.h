@@ -175,17 +175,17 @@ namespace BW
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
       Harvest2               = 0x50, /**< Move to harvest shrouded minerals/gas
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
-      HarvestGas1            = 0x51, /**< Move to harvest gas.
+      MoveToGas              = 0x51, /**< Move to harvest gas.
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
-      HarvestGas2            = 0x52, /**< Check if it can enter the gas mine(no unit in it).
+      WaitForGas             = 0x52, /**< Check if it can enter the gas mine(no unit in it).
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
-      HarvestGas3            = 0x53, /**< Enter/exit mine, set return order.
+      HarvestGas             = 0x53, /**< Enter/exit mine, set return order.
                                       * Default Requirements: Unused. */
       ReturnGas              = 0x54, /**< Return order, has gas.
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
       MoveToMinerals         = 0x55, /**< Move to harvest minerals.
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
-      HarvestMinerals2       = 0x56, /**< Can harvest minerals(one unit per field).
+      WaitForMinerals        = 0x56, /**< Can harvest minerals(one unit per field).
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
       MiningMinerals         = 0x57, /**< Harvesting minerals. Runs iscript to spawn weapon.
                                       * Default Requirements: Unused. */
@@ -478,13 +478,13 @@ namespace BW
         case SpawningLarva : return "*SpawningLarva";
         case Harvest1 : return "Harvest1";
         case Harvest2 : return "Harvest2";
-        case HarvestGas1 : return "Harvest Gas1";
-        case HarvestGas2 : return "Harvest Gas2";
-        case HarvestGas3 : return "Harvest Gas3";
+        case MoveToGas : return "Move To Gas";
+        case WaitForGas : return "Wait For Gas";
+        case HarvestGas : return "Harvest Gas";
         case ReturnGas : return "Return Gas";
-        case MoveToMinerals : return "Harvest Minerals1";
-        case HarvestMinerals2 : return "Harvest Minerals2";
-        case MiningMinerals : return "Harvest Minerals3";
+        case MoveToMinerals : return "Move To Minerals";
+        case WaitForMinerals : return "Wait For Minerals";
+        case MiningMinerals : return "Mining Minerals";
         case Harvest3 : return "Harvest3";
         case Harvest4 : return "Harvest4";
         case ReturnMinerals : return "Return Minerals";

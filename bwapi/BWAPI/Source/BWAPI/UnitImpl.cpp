@@ -163,7 +163,7 @@ namespace BWAPI
   //------------------------------------------------ IS LOADED -----------------------------------------------
   bool UnitImpl::isLoaded() const
   {
-    return this->loaded;
+    return this->getOrder()==Orders::BunkerGuard;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const

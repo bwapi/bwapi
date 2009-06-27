@@ -26,12 +26,12 @@ namespace BWAI
     std::list<Unit*>::iterator i = this->executors.begin();
     while (i != this->executors.end())
       if ((*i)->getOrder() != BWAPI::Orders::PlayerGuard &&
-          (*i)->getOrder() != BWAPI::Orders::HarvestGas1 &&
-          (*i)->getOrder() != BWAPI::Orders::HarvestGas2 &&
-          (*i)->getOrder() != BWAPI::Orders::HarvestGas3 &&
+          (*i)->getOrder() != BWAPI::Orders::MoveToGas &&
+          (*i)->getOrder() != BWAPI::Orders::WaitForGas &&
+          (*i)->getOrder() != BWAPI::Orders::HarvestGas &&
           (*i)->getOrder() != BWAPI::Orders::ReturnGas &&
           (*i)->getOrder() != BWAPI::Orders::MoveToMinerals &&
-          (*i)->getOrder() != BWAPI::Orders::HarvestMinerals2 &&
+          (*i)->getOrder() != BWAPI::Orders::WaitForMinerals &&
           (*i)->getOrder() != BWAPI::Orders::MiningMinerals &&
           (*i)->getOrder() != BWAPI::Orders::ResetCollision2 &&
           (*i)->getOrder() != BWAPI::Orders::ReturnMinerals)
@@ -45,9 +45,9 @@ namespace BWAI
         i++;
 
     for each (Unit* i in this->executors)
-      if (i->getOrder() != BWAPI::Orders::HarvestGas1 &&
-          i->getOrder() != BWAPI::Orders::HarvestGas2 &&
-          i->getOrder() != BWAPI::Orders::HarvestGas3 &&
+      if (i->getOrder() != BWAPI::Orders::MoveToGas &&
+          i->getOrder() != BWAPI::Orders::WaitForGas &&
+          i->getOrder() != BWAPI::Orders::HarvestGas &&
           i->getOrder() != BWAPI::Orders::ReturnGas &&
           i->getOrder() != BWAPI::Orders::ResetCollision2)
         i->orderRightClick(refinery);

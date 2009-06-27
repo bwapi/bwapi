@@ -150,5 +150,6 @@ namespace BWAI
       BWAPI::Position cyclePosition;
       float cycleAngle;
       bool saveBuildings(const std::string& path);
+      BWAPI::Unit* savedUnitAddress;
   };
 }
