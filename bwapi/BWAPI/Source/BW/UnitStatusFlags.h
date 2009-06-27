@@ -12,8 +12,8 @@ namespace BW
       InAir               = 1 <<  2,
       Disabled            = 1 <<  3,  /**< @todo verify Protoss Un-powered? */
       Burrowed            = 1 <<  4,
-      EnteringBuilding    = 1 <<  5,
-      EnteringTransport   = 1 <<  6,
+      InBuilding          = 1 <<  5,
+      InTransport         = 1 <<  6,
       UNKNOWN1            = 1 <<  7,  /**< @todo Unknown */
       RequiresDetection   = 1 <<  8,
       Cloaked             = 1 <<  9,

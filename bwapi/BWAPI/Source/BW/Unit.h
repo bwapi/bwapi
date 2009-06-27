@@ -99,7 +99,9 @@ namespace BW
     /*0x0A8*/ u16                          hpGainDuringRepair; /**< @todo Verify */
     /*0x0AA*/ _UNKNOWN _17[2];
     /*0x0AC*/ u16                          remainingBuildTime; /**< Remaining bulding time */
-    /*0x0AE*/ _UNKNOWN _18[18];
+    /*0x0AE*/ _UNKNOWN _18[2];
+              /** Child unit information (structure depends on unitID */
+    /*0x0B0*/ u16 loadedUnitIndex[8];
               /** Child unit information (structure depends on unitID */
     /*0x0C0*/ union ChildInfoUnion_type
               { 
