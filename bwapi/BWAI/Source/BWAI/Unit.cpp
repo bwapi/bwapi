@@ -141,6 +141,10 @@ namespace BWAI
   {
     return this->unit->getTargetPosition();
   }
+  int Unit::currentDirection() const
+  {
+    return this->unit->currentDirection();
+  }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   int Unit::getDistance(Unit *unit) const
   {

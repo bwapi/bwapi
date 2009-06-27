@@ -338,6 +338,11 @@ namespace BWAPI
   {
     return BWAPI::Position(this->getRawDataLocal()->moveToPos.x,this->getRawDataLocal()->moveToPos.y);
   }
+  //-------------------------------------------- CURRENT DIRECTION -------------------------------------------
+  int UnitImpl::currentDirection() const
+  {
+    return this->getRawDataLocal()->currentDirection;
+  }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
   BW::Unit* UnitImpl::getRawData() const
   {
