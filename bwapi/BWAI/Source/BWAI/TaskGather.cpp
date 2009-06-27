@@ -28,7 +28,7 @@ namespace BWAI
     while (i != this->executors.end())
       if ((*i)->getOrder() != BWAPI::Orders::PlayerGuard &&
           (*i)->getOrder() != BWAPI::Orders::MoveToMinerals &&
-          (*i)->getOrder() != BWAPI::Orders::HarvestMinerals2 &&
+          (*i)->getOrder() != BWAPI::Orders::WaitForMinerals &&
           (*i)->getOrder() != BWAPI::Orders::MiningMinerals &&
           (*i)->getOrder() != BWAPI::Orders::ResetCollision2 &&
           (*i)->getOrder() != BWAPI::Orders::ReturnMinerals)
@@ -55,7 +55,7 @@ namespace BWAI
       if (
            (
              i->getOrder() == BWAPI::Orders::MoveToMinerals || 
-             i->getOrder() == BWAPI::Orders::HarvestMinerals2 || 
+             i->getOrder() == BWAPI::Orders::WaitForMinerals || 
              i->getOrder() == BWAPI::Orders::PlayerGuard
            ) &&
            i->getTarget() != this->expansion->gatherCenter &&

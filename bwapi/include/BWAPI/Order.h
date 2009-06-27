@@ -104,12 +104,12 @@ namespace BWAPI
     extern const Order SpawningLarva;
     extern const Order Harvest1;
     extern const Order Harvest2;
-    extern const Order HarvestGas1;
-    extern const Order HarvestGas2;
-    extern const Order HarvestGas3;
+    extern const Order MoveToGas;
+    extern const Order WaitForGas;
+    extern const Order HarvestGas;
     extern const Order ReturnGas;
     extern const Order MoveToMinerals;
-    extern const Order HarvestMinerals2;
+    extern const Order WaitForMinerals;
     extern const Order MiningMinerals;
     extern const Order Harvest3;
     extern const Order Harvest4;
@@ -171,7 +171,7 @@ namespace BWAPI
     extern const Order Consume;
     extern const Order Ensnare;
     extern const Order StasisField;
-    extern const Order Hallucianation1;
+    extern const Order Hallucination1;
     extern const Order Hallucination2;
     extern const Order ResetCollision1;
     extern const Order ResetCollision2;

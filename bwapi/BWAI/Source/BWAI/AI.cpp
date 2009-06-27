@@ -89,6 +89,7 @@ namespace BWAI
     {
       Util::Logger::globalLog->log("Error when loading build order: %s", exception.getMessage().c_str());
     }
+    this->savedUnitAddress=NULL;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   AI::~AI(void)
@@ -868,7 +869,21 @@ namespace BWAI
       if (selectedUnits.size()>0)
       {
         BWAPI::Unit* unit=*selectedUnits.begin();
-        if (parsed[1] == "getAddress")
+        if (this->savedUnitAddress!=NULL)
+        {
+          unit=this->savedUnitAddress;
+          BWAPI::Broodwar->printPublic("Using unit %d",unit);
+        }
+
+        if (parsed[1] == "saveAddress")
+        {
+          this->savedUnitAddress=unit;
+        }
+        else if (parsed[1] == "clearAddress")
+        {
+          this->savedUnitAddress=NULL;
+        }
+        else if (parsed[1] == "getAddress")
         {
           BWAPI::Broodwar->printPublic("%d",unit);
         }
@@ -1311,7 +1326,7 @@ namespace BWAI
             (
                i->getOrder() == BWAPI::Orders::PlayerGuard ||
                i->getOrder() == BWAPI::Orders::MoveToMinerals ||
-               i->getOrder() == BWAPI::Orders::HarvestMinerals2 ||
+               i->getOrder() == BWAPI::Orders::WaitForMinerals ||
                i->getOrder() == BWAPI::Orders::MiningMinerals ||
                i->getOrder() == BWAPI::Orders::ResetCollision2 ||
                i->getOrder() == BWAPI::Orders::ReturnMinerals
