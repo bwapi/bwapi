@@ -47,6 +47,7 @@ namespace BWAI
       Unit* getBuildUnit() const;
       Unit* getChild() const;
       BWAPI::Position getTargetPosition() const;
+      int currentDirection() const;
       Player* getOwner() const;
       std::string getName() const;
 

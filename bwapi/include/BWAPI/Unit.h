@@ -35,6 +35,7 @@ namespace BWAPI
     virtual int maelstromTimer() const=0;
     virtual Position getPosition() const=0;
     virtual TilePosition getTilePosition() const=0;
+    virtual int currentDirection() const=0;
 
     virtual Unit* getTarget() const=0;
     virtual Position getTargetPosition() const=0;

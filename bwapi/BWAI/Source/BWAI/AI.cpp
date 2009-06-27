@@ -982,6 +982,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("(%d,%d)",unit->getPosition().x(),unit->getPosition().y());
         }
+        else if (parsed[1] == "currentDirection")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->currentDirection());
+        }
         else if (parsed[1] == "getOrder")
         {
           BWAPI::Broodwar->printPublic("%s",unit->getOrder().getName().c_str());
