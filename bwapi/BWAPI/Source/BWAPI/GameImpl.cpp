@@ -270,21 +270,18 @@ namespace BWAPI
         if (this->units.find(*i)==this->units.end())
         {
           this->units.insert(*i);
-          /* //This will crash the program when you make a vulture
-          if ((*i)->getChild()!=NULL) // TODO: Figure out how to read loaded units (in dropship/bunker/etc
+          std::list<BWAPI::Unit*> loadedUnits=(*i)->getLoadedUnits();
+          for(std::list<BWAPI::Unit*>::iterator j=loadedUnits.begin();j!=loadedUnits.end();j++)
           {
-            UnitImpl* newi=static_cast<UnitImpl*>((*i)->getChild());
-            unitList.push_back(newi);
-            newi->setLoaded(true);
+            this->units.insert((UnitImpl*)(*j));
           }
-          */
         }
       }
       refreshSelectionStates();
 
       while ((int)(this->commandBuffer.size()) > this->getLatency())
       {
-        for(int i=0;i<this->commandBuffer[0].size();i++)
+        for(unsigned int i=0;i<this->commandBuffer[0].size();i++)
         {
           delete this->commandBuffer[0][i];
         }
