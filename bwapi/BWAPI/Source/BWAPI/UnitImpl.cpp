@@ -252,11 +252,6 @@ namespace BWAPI
   {
     this->userSelected=selectedState;
   }
-  //---------------------------------------------- SET LOADED ------------------------------------------------
-  void UnitImpl::setLoaded(bool loadedState)
-  {
-    this->loaded=loadedState;
-  }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   Position UnitImpl::getPosition() const
   {

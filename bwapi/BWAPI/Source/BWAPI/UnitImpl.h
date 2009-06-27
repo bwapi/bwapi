@@ -206,7 +206,6 @@ namespace BWAPI
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       bool userSelected;
       bool visible;
-      bool loaded;
   };
 };
 
