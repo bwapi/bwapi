@@ -48,6 +48,10 @@ namespace BWAPI
     virtual Unit* getChild() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
     virtual std::list<Unit*> getLoadedUnits() const=0;
+    virtual TechType getTech() const=0;
+    virtual UpgradeType getUpgrade() const=0;
+    virtual int getRemainingResearchTime() const=0;
+    virtual int getRemainingUpgradeTime() const=0;
 
     virtual bool isAccelerating() const=0;
     virtual bool isBeingHealed() const=0;

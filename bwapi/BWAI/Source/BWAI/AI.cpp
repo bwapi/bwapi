@@ -1065,6 +1065,22 @@ namespace BWAI
             }
           }
         }
+        else if (parsed[1] == "getTech")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->getTech().getName().c_str());
+        }
+        else if (parsed[1] == "getUpgrade")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->getUpgrade().getName().c_str());
+        }
+        else if (parsed[1] == "getRemainingResearchTime")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->getRemainingResearchTime());
+        }
+        else if (parsed[1] == "getRemainingUpgradeTime")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->getRemainingUpgradeTime());
+        }
         else if (parsed[1] == "isAccelerating")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isAccelerating() ? "true" : "false");
