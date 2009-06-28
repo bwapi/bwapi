@@ -1046,6 +1046,16 @@ namespace BWAPI
   {
     return unitsOnTileData[x][y];
   }
+  //--------------------------------------------- GET LAST ERROR ---------------------------------------------
+  Error GameImpl::getLastError() const
+  {
+    return this->lastError;
+  }
+  //--------------------------------------------- SET LAST ERROR ---------------------------------------------
+  void GameImpl::setLastError(BWAPI::Error e)
+  {
+    this->lastError=e;
+  }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool GameImpl::isFlagEnabled(BWAPI::Flag::Enum flag) const
   {

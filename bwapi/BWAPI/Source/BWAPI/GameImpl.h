@@ -78,8 +78,8 @@ namespace BWAPI
       virtual int getScreenY() const;
       virtual bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
       virtual void enableFlag(BWAPI::Flag::Enum flag);
-
       virtual std::set<Unit*> unitsOnTile(int x, int y) const;
+      virtual Error getLastError() const;
 
       virtual int mapWidth() const;
       virtual int mapHeight() const;
@@ -138,6 +138,7 @@ namespace BWAPI
       bool enabled;
       bool isOnStartCalled() const;
       bool isInGame() const;
+      void setLastError(BWAPI::Error e);
 
       /** @todo Doesn't work */
       void refresh();
@@ -220,6 +221,7 @@ namespace BWAPI
       void refreshSelectionStates();
       AIModule* client;
       bool startedClient;
+      BWAPI::Error lastError;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
