@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 
+#include <BWAPI/Error.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
@@ -33,6 +34,7 @@ namespace BWAPI
     virtual bool isFlagEnabled(Flag::Enum flag) const=0;
     virtual void enableFlag(Flag::Enum flag)=0;
     virtual std::set<Unit*> unitsOnTile(int x, int y) const=0;
+    virtual Error getLastError() const=0;
 
     virtual int mapWidth() const=0;
     virtual int mapHeight() const=0;
