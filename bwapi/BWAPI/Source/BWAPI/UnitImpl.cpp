@@ -555,14 +555,9 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!this->getType().isWorker() || !type1.isBuilding())
+    if (!this->getType().isWorker() || !type1.isBuilding() || this->getType().getRace()!=type1.getRace())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (this->getType().getRace()!=type1.getRace())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_Race);
       return false;
     }
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));

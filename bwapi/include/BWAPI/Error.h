@@ -26,7 +26,6 @@ namespace BWAPI
     void init();
     extern const Error Unit_Not_Visible;
     extern const Error Unit_Not_Owned;
-    extern const Error Incompatible_Race;
     extern const Error Incompatible_UnitType;
     extern const Error Incompatible_TechType;
     extern const Error Incompatible_UpgradeType;
