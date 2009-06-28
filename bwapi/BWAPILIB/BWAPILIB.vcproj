@@ -163,7 +163,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Errors.cpp"
+				RelativePath=".\Source\Error.cpp"
 				>
 			</File>
 			<File
