@@ -472,6 +472,32 @@ namespace BWAPI
     }
     return unitList;
   }
+  //----------------------------------------------- GET TECH -------------------------------------------------
+  TechType UnitImpl::getTech() const
+  {
+    int techID=this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
+    return TechType(techID);
+  }
+  //---------------------------------------------- GET UPGRADE -----------------------------------------------
+  UpgradeType UnitImpl::getUpgrade() const
+  {
+    int upgradeID=this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
+    return UpgradeType(upgradeID);
+  }
+  //-------------------------------------- GET REMAINING RESEARCH TIME ---------------------------------------
+  int UnitImpl::getRemainingResearchTime() const
+  {
+    if (this->isResearching())
+      return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
+    return 0;
+  }
+  //-------------------------------------- GET REMAINING UPGRADE TIME ----------------------------------------
+  int UnitImpl::getRemainingUpgradeTime() const
+  {
+    if (this->isUpgrading())
+      return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
+    return 0;
+  }
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
   bool UnitImpl::hasEmptyBuildQueueSync() const
   {
