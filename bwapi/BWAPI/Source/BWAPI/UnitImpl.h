@@ -134,6 +134,7 @@ namespace BWAPI
       virtual bool unloadAll(Position position);
       virtual bool cancelConstruction();
       virtual bool haltConstruction();
+      virtual bool cancelMorph();
       virtual bool cancelTrain();
       virtual bool cancelTrain(int slot);
       virtual bool cancelAddon();

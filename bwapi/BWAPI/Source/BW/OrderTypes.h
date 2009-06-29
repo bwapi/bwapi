@@ -435,6 +435,26 @@ namespace BW
         u8 playerID;
         char* msg;
     };
+
+    class CancelTrain
+    {
+      public :
+        CancelTrain(u8 slot);
+      private :
+        u8 always0x20;
+        u8 slot;
+        u8 unknown;
+    };
+
+    class CancelTrainLast
+    {
+      public :
+        CancelTrainLast();
+      private :
+        u8 always0x20;
+        u8 always0xFE;
+        u8 unknown;
+    };
   }
 }
 #pragma pack()
