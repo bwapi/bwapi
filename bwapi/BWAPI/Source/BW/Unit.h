@@ -49,7 +49,7 @@ namespace BW
     /*0x020*/ Util::BitMask<MovementFlags::Enum>  movementFlags;  /**< Flags specifying movement type - defined in BW#MovementFlags. */
     /*0x021*/ u8                            currentDirection;     /**< The current direction the unit is facing */
     /*0x022*/ u8                            flingyTurnRadius;     /**< @todo Unknown */
-    /*0x023*/ u8                            velocityDirection;    /**< The usually only differs from the currentDirection field for units that can accelerate
+    /*0x023*/ u8                            velocityDirection;    /**< This usually only differs from the currentDirection field for units that can accelerate
                                                                    *   and travel in a different direction than they are facing. For example Mutalisks can change
                                                                    *   the direction they are facing faster than then can change the direction they are moving.
                                                                    */
