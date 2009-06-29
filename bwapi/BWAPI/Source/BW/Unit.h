@@ -41,11 +41,18 @@ namespace BW
     /*0x00C*/ BW::Sprite*                   sprite;
     /*0x010*/ BW::Position                  moveToPos;
     /*0x014*/ BW::Unit*                     targetUnit;
-    /*0x018*/ _UNKNOWN _2[8];
+    /*0x018*/ BW::Position                  nextWaypoint;         /**< The next way point in the path the unit is following to get to its destination.
+                                                                    * Equal to moveToPos for air units since they don't need to navigate around buildings
+                                                                    * or other units.
+                                                                    */
+    /*0x01C*/ BW::Position                  nextWaypoint2;        /**< Appears to always be equal to nextWaypoint */
     /*0x020*/ Util::BitMask<MovementFlags::Enum>  movementFlags;  /**< Flags specifying movement type - defined in BW#MovementFlags. */
-    /*0x021*/ _UNKNOWN _3[1];
+    /*0x021*/ u8                            currentDirection;     /**< The current direction the unit is facing */
     /*0x022*/ u8                            flingyTurnRadius;     /**< @todo Unknown */
-    /*0x023*/ u8                            currentDirection;     /**< @todo Unknown */
+    /*0x023*/ u8                            velocityDirection;    /**< The usually only differs from the currentDirection field for units that can accelerate
+                                                                   *   and travel in a different direction than they are facing. For example Mutalisks can change
+                                                                   *   the direction they are facing faster than then can change the direction they are moving.
+                                                                   */
     /*0x024*/ u16                           flingyID;             /**< @todo Unknown */
     /*0x026*/ _UNKNOWN _4[1];
     /*0x027*/ u8                            flingyMovementType;   /**< @todo Unknown */
