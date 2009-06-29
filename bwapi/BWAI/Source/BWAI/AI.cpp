@@ -1354,9 +1354,41 @@ namespace BWAI
             (*u)->haltConstruction();
           }
         }
+        else if (parsed[1] == "cancelMorph")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->cancelMorph();
+          }
+        }
+        else if (parsed[1] == "cancelAddon")
+        {
+          for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+          {
+            (*u)->cancelAddon();
+          }
+        }
+        else if (parsed[1] == "cancelTrain")
+        {
+          if (parsed.size()<3 || parsed[2].length()==0)
+          {
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              (*u)->cancelTrain();
+            }
+          }
+          else
+          {
+            int slot=Util::Strings::stringToInt(parsed[2]);
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              (*u)->cancelTrain(slot);
+            }
+          }
+        }
         else
         {
-          BWAPI::Broodwar->printPublic("Unrecognized method call");
+          BWAPI::Broodwar->printPublic("Unrecognized method call: %s",parsed[1].c_str());
         }
       }
     }

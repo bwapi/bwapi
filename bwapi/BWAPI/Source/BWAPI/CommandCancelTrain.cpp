@@ -7,6 +7,13 @@ namespace BWAPI
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelTrain::CommandCancelTrain(UnitImpl* building)
   :Command(building)
+  ,slot(-2)
+  {
+  }
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  CommandCancelTrain::CommandCancelTrain(UnitImpl* building, int slot)
+  :Command(building)
+  ,slot(slot)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -16,9 +23,31 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelTrain::execute()
   {
-   this->executors[0]->getBuildQueue()[this->executors[0]->getBuildQueueSlot()] = BW::UnitID::None;
-   this->executors[0]->getRawDataLocal()->buildQueueSlot =
-    (this->executors[0]->getRawDataLocal()->buildQueueSlot + 1) % 5;
+    if (slot<0)
+    {
+      int i = this->executors[0]->getBuildQueueSlot()%5;
+      int starti=i;
+      while(this->executors[0]->getBuildQueue()[(i+1)%5] != BW::UnitID::None && (i+1)%5!=starti)
+      {
+        i = (i + 1) % 5;
+      }
+      this->executors[0]->getBuildQueue()[i]=BW::UnitID::None;
+    }
+    else
+    {
+      int i = this->executors[0]->getBuildQueueSlot()%5;
+      int starti=i;
+      for(int j=0;j<slot;j++)
+      {
+        i=(i + 1) % 5;
+      }
+      while(this->executors[0]->getBuildQueue()[(i+1)%5] != BW::UnitID::None && (i+1)%5!=starti)
+      {
+        this->executors[0]->getBuildQueue()[i]=this->executors[0]->getBuildQueue()[(i+1)%5];
+        i=(i + 1) % 5;
+      }
+      this->executors[0]->getBuildQueue()[i]=BW::UnitID::None;
+    }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandCancelTrain::getType()

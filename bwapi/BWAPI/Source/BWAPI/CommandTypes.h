@@ -34,6 +34,8 @@ namespace BWAPI
       CancelResearch,
       CancelUpgrade,
       CancelConstruction,
+      CancelAddon,
+      CancelMorph,
     };
   }
 }

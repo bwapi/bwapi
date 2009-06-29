@@ -12,6 +12,7 @@ namespace BWAPI
        *         (will be passed as executor to Command ancestor
        */
       CommandCancelTrain(UnitImpl* building);
+      CommandCancelTrain(UnitImpl* building, int slot);
       ~CommandCancelTrain();
       BWAPI::CommandTypes::Enum getType();
       /** 
@@ -21,5 +22,7 @@ namespace BWAPI
         */
       virtual void execute();
       std::string describe();
+    private:
+      int slot;
   };
 }

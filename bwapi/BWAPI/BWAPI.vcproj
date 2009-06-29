@@ -373,7 +373,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandCancelAddon.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandCancelConstruction.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandCancelMorph.cpp"
 					>
 				</File>
 				<File
@@ -525,7 +533,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandCancelAddon.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandCancelConstruction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandCancelMorph.h"
 					>
 				</File>
 				<File
