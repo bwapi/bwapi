@@ -1085,6 +1085,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s",unit->isAccelerating() ? "true" : "false");
         }
+        else if (parsed[1] == "isBeingConstructed")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isBeingConstructed() ? "true" : "false");
+        }
         else if (parsed[1] == "isBeingHealed")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isBeingHealed() ? "true" : "false");
@@ -1108,6 +1112,10 @@ namespace BWAI
         else if (parsed[1] == "isCompleted")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isCompleted() ? "true" : "false");
+        }
+        else if (parsed[1] == "isConstructing")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isConstructing() ? "true" : "false");
         }
         else if (parsed[1] == "isDisabled")
         {
@@ -1133,9 +1141,21 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s",unit->isLoaded() ? "true" : "false");
         }
+        else if (parsed[1] == "isMorphing")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isMorphing() ? "true" : "false");
+        }
         else if (parsed[1] == "isMoving")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isMoving() ? "true" : "false");
+        }
+        else if (parsed[1] == "isRepairing")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isRepairing() ? "true" : "false");
+        }
+        else if (parsed[1] == "isResearching")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isResearching() ? "true" : "false");
         }
         else if (parsed[1] == "isSelected")
         {
@@ -1148,10 +1168,6 @@ namespace BWAI
         else if (parsed[1] == "isStartingAttack")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isStartingAttack() ? "true" : "false");
-        }
-        else if (parsed[1] == "isResearching")
-        {
-          BWAPI::Broodwar->printPublic("%s",unit->isResearching() ? "true" : "false");
         }
         else if (parsed[1] == "isTraining")
         {

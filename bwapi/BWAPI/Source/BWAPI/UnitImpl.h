@@ -11,6 +11,7 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
 #include <BW/TilePosition.h>
+#include <BW/OrderID.h>
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };
@@ -72,18 +73,22 @@ namespace BWAPI
 
 
       virtual bool isAccelerating() const;
+      virtual bool isBeingConstructed() const;
       virtual bool isBeingHealed() const;
       virtual bool isBlind() const;
       virtual bool isBraking() const;
       virtual bool isBurrowed() const;
       virtual bool isCloaked() const;
       virtual bool isCompleted() const;
+      virtual bool isConstructing() const;
       virtual bool isDisabled() const;
       virtual bool isIdle() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;
       virtual bool isLockedDown() const;
+      virtual bool isMorphing() const;
       virtual bool isMoving() const;
+      virtual bool isRepairing() const;
       virtual bool isResearching() const;
       virtual bool isSelected() const;
       virtual bool isSieged() const;
@@ -180,6 +185,7 @@ namespace BWAPI
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;
+      BW::OrderID::Enum getBWOrder() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
       std::string getName() const;
@@ -197,6 +203,7 @@ namespace BWAPI
       /** Returns if the unit has full building queue */
       bool hasFullBuildQueue() const;
 
+      UnitImpl* buildUnit;
     private:
       /** Gets #bwUnit */
       BW::Unit *getRawData() const;

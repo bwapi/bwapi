@@ -261,9 +261,19 @@ namespace BWAPI
      
       this->units.clear();
       std::list<UnitImpl*> unitList;
+      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      {
+        this->getUnit(i)->buildUnit=NULL;
+      }
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
         unitList.push_back(i);
+        if (i->getOrderTarget()!=NULL && i->getBWOrder()==BW::OrderID::ConstructingBuilding)
+        {
+          UnitImpl* j=(UnitImpl*)(i->getOrderTarget());
+          i->buildUnit=j;
+          j->buildUnit=i;
+        }
       }
       for(std::list<UnitImpl*>::iterator i=unitList.begin();i!=unitList.end();i++)
       {

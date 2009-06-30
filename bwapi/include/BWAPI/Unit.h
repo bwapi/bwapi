@@ -54,18 +54,22 @@ namespace BWAPI
     virtual int getRemainingUpgradeTime() const=0;
 
     virtual bool isAccelerating() const=0;
+    virtual bool isBeingConstructed() const=0;
     virtual bool isBeingHealed() const=0;
     virtual bool isBlind() const=0;
     virtual bool isBraking() const=0;
     virtual bool isBurrowed() const=0;
     virtual bool isCloaked() const=0;
     virtual bool isCompleted() const=0;
+    virtual bool isConstructing() const=0;
     virtual bool isDisabled() const=0;
     virtual bool isIdle() const=0;
     virtual bool isLifted() const=0;
     virtual bool isLoaded() const=0;
     virtual bool isLockedDown() const=0;
+    virtual bool isMorphing() const=0;
     virtual bool isMoving() const=0;
+    virtual bool isRepairing() const=0;
     virtual bool isResearching() const=0;
     virtual bool isSelected() const=0;
     virtual bool isSieged() const=0;
