@@ -1514,12 +1514,18 @@ namespace BWAPI
   //-------------------------------------------- GET ORDER TIMER ---------------------------------------------
   int UnitImpl::getOrderTimer() const
   {
-     return this->getRawDataLocal()->mainOrderTimer;
+    return this->getRawDataLocal()->mainOrderTimer;
   }
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   int UnitImpl::getRemainingBuildTime() const
   {
-     return this->getRawDataLocal()->remainingBuildTime;
+    return this->getRawDataLocal()->remainingBuildTime;
+  }
+  int UnitImpl::getRemainingTrainTime() const
+  {
+    if (this->getRawDataLocal()->currentBuildUnit)
+      return this->getRawDataLocal()->currentBuildUnit->remainingBuildTime;
+    return 0;
   }
   //----------------------------------------------------------------------------------------------------------
   u16 UnitImpl::getIndex() const

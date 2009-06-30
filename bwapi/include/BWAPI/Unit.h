@@ -45,6 +45,7 @@ namespace BWAPI
     virtual Order getSecondaryOrder() const=0;
     virtual Unit* getBuildUnit() const=0;
     virtual int getRemainingBuildTime() const=0;
+    virtual int getRemainingTrainTime() const=0;
     virtual Unit* getChild() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
     virtual std::list<Unit*> getLoadedUnits() const=0;

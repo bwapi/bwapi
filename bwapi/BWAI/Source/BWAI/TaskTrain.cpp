@@ -31,8 +31,7 @@ namespace BWAI
             (!i->isTraining() ||
             (
               i->getTrainingQueue().size()<2 &&
-              i->getBuildUnit() != NULL &&
-              i->getBuildUnit()->getRemainingBuildTime() <= BWAPI::Broodwar->getLatency()
+              i->getUnit()->getRemainingTrainTime() <= BWAPI::Broodwar->getLatency()
             ))
          )
       {
