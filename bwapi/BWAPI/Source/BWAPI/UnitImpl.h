@@ -84,7 +84,6 @@ namespace BWAPI
       virtual bool isCloaked() const;
       virtual bool isCompleted() const;
       virtual bool isConstructing() const;
-      virtual bool isDisabled() const;
       virtual bool isIdle() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;
@@ -99,6 +98,7 @@ namespace BWAPI
       virtual bool isStasised() const;
       virtual bool isTraining() const;
       virtual bool isUnderStorm() const;
+      virtual bool isUnpowered() const;
       virtual bool isUpgrading() const;
       virtual bool isVisible() const;
 

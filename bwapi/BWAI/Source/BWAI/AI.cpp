@@ -1132,10 +1132,6 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s",unit->isConstructing() ? "true" : "false");
         }
-        else if (parsed[1] == "isDisabled")
-        {
-          BWAPI::Broodwar->printPublic("%s",unit->isDisabled() ? "true" : "false");
-        }
         else if (parsed[1] == "isLockedDown")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isLockedDown() ? "true" : "false");
@@ -1191,6 +1187,10 @@ namespace BWAI
         else if (parsed[1] == "isUnderStorm")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isUnderStorm() ? "true" : "false");
+        }
+        else if (parsed[1] == "isUnpowered")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isUnpowered() ? "true" : "false");
         }
         else if (parsed[1] == "isUpgrading")
         {
