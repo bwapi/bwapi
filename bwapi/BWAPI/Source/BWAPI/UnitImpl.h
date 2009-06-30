@@ -71,6 +71,8 @@ namespace BWAPI
       virtual UpgradeType getUpgrade() const;
       virtual int getRemainingResearchTime() const;
       virtual int getRemainingUpgradeTime() const;
+      virtual Position getRallyPosition() const;
+      virtual Unit* getRallyUnit() const;
 
 
       virtual bool isAccelerating() const;
