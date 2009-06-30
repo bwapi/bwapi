@@ -56,6 +56,7 @@ namespace BWAPI
   ,bwUnitLocal(unitDataLocal)
   ,index(index)
   ,userSelected(false)
+  ,buildUnit(NULL)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -171,6 +172,13 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Accelerating);
   }
+  //-------------------------------------------- IS BEING CONSTRUCTED ----------------------------------------
+  bool UnitImpl::isBeingConstructed() const
+  {
+    if (!this->isCompleted() && this->getType().isBuilding())
+      return this->buildUnit!=NULL || this->getType().getRace()!=Races::Terran;
+    return false;
+  }
   //--------------------------------------------- IS BEING HEALED --------------------------------------------
   bool UnitImpl::isBeingHealed() const // Not working right now
   {
@@ -201,6 +209,11 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
+  //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
+  bool UnitImpl::isConstructing() const
+  {
+    return this->getBWOrder()==BW::OrderID::ConstructingBuilding;
+  }
   //------------------------------------------------ IS DISABLED ---------------------------------------------
   bool UnitImpl::isDisabled() const
   {
@@ -209,14 +222,14 @@ namespace BWAPI
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
-    return (this->getOrder() == BWAPI::Orders::Guard ||
-            this->getOrder() == BWAPI::Orders::Stop ||
-            this->getOrder() == BWAPI::Orders::Pickup1 ||
-            this->getOrder() == BWAPI::Orders::Nothing2 ||
-            this->getOrder() == BWAPI::Orders::Medic ||
-            this->getOrder() == BWAPI::Orders::Carrier ||
-            this->getOrder() == BWAPI::Orders::Critter ||
-            this->getOrder() == BWAPI::Orders::NukeTrain);
+    return (this->getBWOrder() == BW::OrderID::Guard ||
+            this->getBWOrder() == BW::OrderID::Stop ||
+            this->getBWOrder() == BW::OrderID::Pickup1 ||
+            this->getBWOrder() == BW::OrderID::Nothing2 ||
+            this->getBWOrder() == BW::OrderID::Medic ||
+            this->getBWOrder() == BW::OrderID::Carrier ||
+            this->getBWOrder() == BW::OrderID::Critter ||
+            this->getBWOrder() == BW::OrderID::NukeTrain);
   }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
@@ -235,15 +248,25 @@ namespace BWAPI
   {
     return this->lockdownTimer() > 0;
   }
+  //----------------------------------------------- IS MORPHING ----------------------------------------------
+  bool UnitImpl::isMorphing() const
+  {
+    return this->getBWOrder()==BW::OrderID::Morph1 || this->getBWOrder()==BW::OrderID::Morph2 || this->getBWOrder()==BW::OrderID::ZergBuildSelf;
+  }
   //------------------------------------------------ IS MOVING -----------------------------------------------
   bool UnitImpl::isMoving() const
   {
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
   }
+  //----------------------------------------------- IS REPAIRING ---------------------------------------------
+  bool UnitImpl::isRepairing() const
+  {
+    return this->getBWOrder()==BW::OrderID::Repair1 || this->getBWOrder()==BW::OrderID::Repair2;
+  }
   //---------------------------------------------- IS RESEARCHING --------------------------------------------
   bool UnitImpl::isResearching() const
   {
-    return this->getOrder()==Orders::ResearchTech;
+    return this->getBWOrder()==BW::OrderID::ResearchTech;
   }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool UnitImpl::isSelected() const
@@ -280,7 +303,7 @@ namespace BWAPI
   //----------------------------------------------- IS UPGRADING ---------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
-    return this->getOrder()==Orders::Upgrade;
+    return this->getBWOrder()==BW::OrderID::Upgrade;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
@@ -329,7 +352,7 @@ namespace BWAPI
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
-    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
+    return (Unit*)this->buildUnit;
   }
   //----------------------------------------------- GET CHILD ------------------------------------------------
   Unit* UnitImpl::getChild() const
@@ -365,6 +388,11 @@ namespace BWAPI
   Order UnitImpl::getOrder() const
   {
     return BWAPI::Order(this->getRawDataLocal()->orderID);
+  }
+  //---------------------------------------------- GET ORDER ID ----------------------------------------------
+  BW::OrderID::Enum UnitImpl::getBWOrder() const
+  {
+    return this->getRawDataLocal()->orderID;
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
   Order UnitImpl::getSecondaryOrder() const
@@ -1055,9 +1083,12 @@ namespace BWAPI
       return false;
     }
     if (!this->getType().isBuilding()) return false;
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
-    BroodwarImpl.addToCommandBuffer(new CommandCancelConstruction(this));
+    if (!this->isCompleted())
+    {
+      this->orderSelect();
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
+      BroodwarImpl.addToCommandBuffer(new CommandCancelConstruction(this));
+    }
     return true;
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
@@ -1084,9 +1115,12 @@ namespace BWAPI
     {
       return this->cancelConstruction();
     }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
-    BroodwarImpl.addToCommandBuffer(new CommandCancelMorph(this));
+    if (this->isMorphing())
+    {
+      this->orderSelect();
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
+      BroodwarImpl.addToCommandBuffer(new CommandCancelMorph(this));
+    }
     return true;
   }
   //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
@@ -1115,7 +1149,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (this->isTraining() || (int)(this->getTrainingQueue().size())>slot)
+    if (this->isTraining() && (int)(this->getTrainingQueue().size())>slot)
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrain(slot), sizeof(BW::Orders::CancelTrain));
@@ -1146,10 +1180,12 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!this->isResearching()) return false;
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
-    BroodwarImpl.addToCommandBuffer(new CommandCancelResearch(this));
+    if (this->isResearching())
+    {
+      this->orderSelect();
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
+      BroodwarImpl.addToCommandBuffer(new CommandCancelResearch(this));
+    }
     return true;
   }
   //---------------------------------------------- CANCEL UPGRADE --------------------------------------------
@@ -1161,10 +1197,12 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!this->isUpgrading()) return false;
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
-    BroodwarImpl.addToCommandBuffer(new CommandCancelUpgrade(this));
+    if (this->isUpgrading())
+    {
+      this->orderSelect();
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
+      BroodwarImpl.addToCommandBuffer(new CommandCancelUpgrade(this));
+    }
     return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------
