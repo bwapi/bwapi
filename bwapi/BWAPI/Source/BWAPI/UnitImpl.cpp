@@ -214,11 +214,6 @@ namespace BWAPI
   {
     return this->getBWOrder()==BW::OrderID::ConstructingBuilding;
   }
-  //------------------------------------------------ IS DISABLED ---------------------------------------------
-  bool UnitImpl::isDisabled() const
-  {
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Disabled);
-  }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
@@ -299,6 +294,15 @@ namespace BWAPI
   bool UnitImpl::isUnderStorm() const
   {
     return this->getRawDataLocal()->isUnderStorm != 0;
+  }
+  //------------------------------------------------ IS UNPOWERED --------------------------------------------
+  bool UnitImpl::isUnpowered() const
+  {
+    if (this->getBWType().getRace()==BW::Race::Protoss && this->getBWType().isBuilding())
+    {
+      return this->getRawDataLocal()->status.getBit(BW::StatusFlags::DoodadStatesThing);
+    }
+    return false;
   }
   //----------------------------------------------- IS UPGRADING ---------------------------------------------
   bool UnitImpl::isUpgrading() const
