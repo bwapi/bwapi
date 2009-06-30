@@ -1024,6 +1024,21 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%d",unit->getRemainingBuildTime());
         }
+        else if (parsed[1] == "getRallyPosition")
+        {
+          BWAPI::Broodwar->printPublic("(%d,%d)",unit->getRallyPosition().x(),unit->getRallyPosition().y());
+        }
+        else if (parsed[1] == "getRallyUnit")
+        {
+          if (unit->getRallyUnit()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%d: %s",unit->getRallyUnit(),BWAI::Unit::BWAPIUnitToBWAIUnit(unit->getRallyUnit())->getName().c_str());
+          }
+        }
         else if (parsed[1] == "getChild")
         {
           if (unit->getChild()==NULL)

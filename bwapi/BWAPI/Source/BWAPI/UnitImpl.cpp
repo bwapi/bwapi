@@ -531,6 +531,21 @@ namespace BWAPI
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
   }
+  //------------------------------------------ GET RALLY POSITION --------------------------------------------
+  Position UnitImpl::getRallyPosition() const
+  {
+    if (this->getBWType().canProduce())
+      return Position(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyX,
+                      this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyY);
+    return Positions::None;
+  }
+  //-------------------------------------------- GET RALLY UNIT ----------------------------------------------
+  Unit* UnitImpl::getRallyUnit() const
+  {
+    if (this->getBWType().canProduce())
+      return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyUnit);
+    return NULL;
+  }
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
   bool UnitImpl::hasEmptyBuildQueueSync() const
   {
