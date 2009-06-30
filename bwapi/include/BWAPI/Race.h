@@ -19,6 +19,8 @@ namespace BWAPI
     const UnitType* getWorker() const;
     const UnitType* getCenter() const;
     const UnitType* getRefinery() const;
+    const UnitType* getTransport() const;
+    const UnitType* getSupplyProvider() const;
   private:
     int id;
   };
