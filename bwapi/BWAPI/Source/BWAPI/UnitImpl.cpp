@@ -352,6 +352,8 @@ namespace BWAPI
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
+    if (this->getRawDataLocal()->currentBuildUnit)
+      return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
     return (Unit*)this->buildUnit;
   }
   //----------------------------------------------- GET CHILD ------------------------------------------------
@@ -647,7 +649,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!this->getType().isWorker() || !type1.isBuilding() || *type1.whatBuilds().first!=this->getType())
+    if (!type1.isBuilding() || *type1.whatBuilds().first!=this->getType())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
