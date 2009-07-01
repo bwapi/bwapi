@@ -36,6 +36,8 @@ namespace BWAPI
       CancelConstruction,
       CancelAddon,
       CancelMorph,
+      Follow,
+      SetRally,
     };
   }
 }

@@ -1132,6 +1132,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s",unit->isConstructing() ? "true" : "false");
         }
+        else if (parsed[1] == "isFollowing")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isFollowing() ? "true" : "false");
+        }
         else if (parsed[1] == "isLockedDown")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isLockedDown() ? "true" : "false");
@@ -1159,6 +1163,10 @@ namespace BWAI
         else if (parsed[1] == "isMoving")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isMoving() ? "true" : "false");
+        }
+        else if (parsed[1] == "isPatrolling")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isPatrolling() ? "true" : "false");
         }
         else if (parsed[1] == "isRepairing")
         {
@@ -1223,7 +1231,7 @@ namespace BWAI
             (*u)->patrol(BWAPI::Position(x,y));
           }
         }
-        else if (parsed[1] == "repair")
+        else if (parsed[1] == "follow")
         {
           if (parsed.size()<3 || parsed[2].length()==0)
           {
@@ -1234,6 +1242,52 @@ namespace BWAI
             for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
             {
               BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+              (*u)->follow(unit);
+            }
+          }
+        }
+        else if (parsed[1] == "setRallyPosition")
+        {
+          if (parsed.size()<4 || parsed[3].length()==0)
+          {
+            BWAPI::Broodwar->printPublic("Error: No position specified.");
+          }
+          else
+          {
+            int x=Util::Strings::stringToInt(std::string(parsed[2]));
+            int y=Util::Strings::stringToInt(std::string(parsed[3]));
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              (*u)->setRallyPosition(BWAPI::Position(x,y));
+            }
+          }
+        }
+        else if (parsed[1] == "setRallyUnit")
+        {
+          if (parsed.size()<3 || parsed[2].length()==0)
+          {
+            BWAPI::Broodwar->printPublic("Error: No unit specified.");
+          }
+          else
+          {
+            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
+              (*u)->setRallyUnit(unit);
+            }
+          }
+        }
+        else if (parsed[1] == "repair")
+        {
+          if (parsed.size()<3 || parsed[2].length()==0)
+          {
+            BWAPI::Broodwar->printPublic("Error: No unit specified.");
+          }
+          else
+          {
+            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
+            for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
+            {
               (*u)->repair(unit);
             }
           }
@@ -1246,9 +1300,9 @@ namespace BWAI
           }
           else
           {
+            BWAPI::UnitType type(Util::Strings::stringToInt(std::string(parsed[2])));
             for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
             {
-              BWAPI::UnitType type(Util::Strings::stringToInt(std::string(parsed[2])));
               (*u)->morph(type);
             }
           }
@@ -1304,10 +1358,10 @@ namespace BWAI
         }
         else if (parsed[1] == "land")
         {
+          int x=Util::Strings::stringToInt(std::string(parsed[2]));
+          int y=Util::Strings::stringToInt(std::string(parsed[3]));
           for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
           {
-            int x=Util::Strings::stringToInt(std::string(parsed[2]));
-            int y=Util::Strings::stringToInt(std::string(parsed[3]));
             (*u)->land(BWAPI::TilePosition(x,y));
           }
         }
@@ -1319,9 +1373,9 @@ namespace BWAI
           }
           else
           {
+            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
             for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
             {
-              BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
               (*u)->load(unit);
             }
           }
@@ -1334,9 +1388,9 @@ namespace BWAI
           }
           else
           {
+            BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
             for(std::set<BWAPI::Unit*>::iterator u=selectedUnits.begin();u!=selectedUnits.end();u++)
             {
-              BWAPI::Unit* unit=(BWAPI::Unit*)Util::Strings::stringToInt(std::string(parsed[2]));
               (*u)->unload(unit);
             }
           }
