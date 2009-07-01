@@ -17,7 +17,7 @@ namespace BWAPI
       if ((this->executors[i]->getType().canMove()))
         {
           this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackMove;
-          this->executors[i]->getRawDataLocal()->position = this->targetPosition;
+          this->executors[i]->getRawDataLocal()->moveToPos = this->targetPosition;
         }
     }
   }

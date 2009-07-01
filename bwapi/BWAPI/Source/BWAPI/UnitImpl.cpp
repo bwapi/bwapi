@@ -38,6 +38,8 @@
 #include "CommandCancelTrain.h"
 #include "CommandCancelMorph.h"
 #include "CommandCancelAddon.h"
+#include "CommandFollow.h"
+#include "CommandSetRally.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -214,6 +216,11 @@ namespace BWAPI
   {
     return this->getBWOrder()==BW::OrderID::ConstructingBuilding;
   }
+  //---------------------------------------------- IS FOLLOWING ----------------------------------------------
+  bool UnitImpl::isFollowing() const
+  {
+    return this->getBWOrder()==BW::OrderID::Follow;
+  }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
@@ -252,6 +259,11 @@ namespace BWAPI
   bool UnitImpl::isMoving() const
   {
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
+  }
+  //---------------------------------------------- IS PATROLLING ---------------------------------------------
+  bool UnitImpl::isPatrolling() const
+  {
+    return this->getBWOrder()==BW::OrderID::Patrol;
   }
   //----------------------------------------------- IS REPAIRING ---------------------------------------------
   bool UnitImpl::isRepairing() const
@@ -791,6 +803,61 @@ namespace BWAPI
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(),position.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack)); 
     BroodwarImpl.addToCommandBuffer(new CommandPatrol(this, BW::Position(position.x(),position.y())));
+    return true;
+  }
+  //-------------------------------------------------- FOLLOW ------------------------------------------------
+  bool UnitImpl::follow(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    if (this->getOwner()!=Broodwar->self())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
+      return false;
+    }
+    if (this->getType().isBuilding())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Follow), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandFollow(this, (UnitImpl*)target));
+    return true;
+  }
+  //------------------------------------------------- SET RALLY ----------------------------------------------
+  bool UnitImpl::setRallyPosition(Position target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    if (this->getOwner()!=Broodwar->self())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
+      return false;
+    }
+    if (!this->getType().canProduce())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(target.x(),target.y()), BW::OrderID::RallyPoint2), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, BW::Position(target.x(),target.y())));
+    return true;
+  }
+  //------------------------------------------------- SET RALLY ----------------------------------------------
+  bool UnitImpl::setRallyUnit(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    if (this->getOwner()!=Broodwar->self())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
+      return false;
+    }
+    if (!this->getType().canProduce())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPoint1), sizeof(BW::Orders::Attack)); 
+    BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, (UnitImpl*)target));
     return true;
   }
   //-------------------------------------------------- REPAIR ------------------------------------------------

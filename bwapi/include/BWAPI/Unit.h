@@ -65,12 +65,14 @@ namespace BWAPI
     virtual bool isCloaked() const=0;
     virtual bool isCompleted() const=0;
     virtual bool isConstructing() const=0;
+    virtual bool isFollowing() const=0;
     virtual bool isIdle() const=0;
     virtual bool isLifted() const=0;
     virtual bool isLoaded() const=0;
     virtual bool isLockedDown() const=0;
     virtual bool isMorphing() const=0;
     virtual bool isMoving() const=0;
+    virtual bool isPatrolling() const=0;
     virtual bool isRepairing() const=0;
     virtual bool isResearching() const=0;
     virtual bool isSelected() const=0;
@@ -94,6 +96,9 @@ namespace BWAPI
     virtual bool stop()=0;
     virtual bool holdPosition()=0;
     virtual bool patrol(Position position)=0;
+    virtual bool follow(Unit* target)=0;
+    virtual bool setRallyPosition(Position target)=0;
+    virtual bool setRallyUnit(Unit* target)=0;
     virtual bool repair(Unit* target)=0;
     virtual bool morph(UnitType type)=0;
     virtual bool burrow()=0;
