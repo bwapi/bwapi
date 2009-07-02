@@ -363,6 +363,7 @@ namespace BWAI
   {
     BWAPI::Broodwar->drawBox(2,BWAPI::Broodwar->self()->getStartLocation().x()*32,BWAPI::Broodwar->self()->getStartLocation().y()*32,BWAPI::Broodwar->self()->getStartLocation().x()*32+4*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*32,drawColor,false);
     BWAPI::Broodwar->drawLine(1,BWAPI::Broodwar->self()->getStartLocation().x()*32-BWAPI::Broodwar->getScreenX(),BWAPI::Broodwar->self()->getStartLocation().y()*32-BWAPI::Broodwar->getScreenY(),BWAPI::Broodwar->getMouseX(),BWAPI::Broodwar->getMouseY(),drawColor);
+    BWAPI::Broodwar->drawCircle(2,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,drawColor,false);
     this->update();
     try
     {

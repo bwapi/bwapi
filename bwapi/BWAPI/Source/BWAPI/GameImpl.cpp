@@ -42,6 +42,7 @@
 
 #include "Globals.h"
 #include "ShapeBox.h"
+#include "ShapeCircle.h"
 #include "ShapeDot.h"
 #include "ShapeLine.h"
 
@@ -1147,6 +1148,10 @@ namespace BWAPI
   void GameImpl::drawDot(int coordinateType, int x, int y, Color color)
   {
     addShape(new ShapeDot(coordinateType,x,y,color.getID()));
+  }
+  void GameImpl::drawCircle(int coordinateType, int x, int y, int radius, Color color, bool isSolid)
+  {
+    addShape(new ShapeCircle(coordinateType,x,y,radius,color.getID(),isSolid));
   }
   void GameImpl::drawLine(int coordinateType, int x1, int y1, int x2, int y2, Color color)
   {
