@@ -68,6 +68,7 @@ namespace BWAI
 
     BWAI::ai = this;
     BWAPI::BWAPI_init();
+    drawColor=BWAPI::Color(0,0,255);
     try
     {
       Expansion::maximumMineralDistance = Util::Strings::stringToInt(config->get("max_mineral_distance"));
@@ -360,6 +361,8 @@ namespace BWAI
   //-----------------------------------------------  ON FRAME ------------------------------------------------
   void AI::onFrame(void)
   {
+    BWAPI::Broodwar->drawBox(2,BWAPI::Broodwar->self()->getStartLocation().x()*32,BWAPI::Broodwar->self()->getStartLocation().y()*32,BWAPI::Broodwar->self()->getStartLocation().x()*32+4*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*32,drawColor,false);
+    BWAPI::Broodwar->drawLine(1,BWAPI::Broodwar->self()->getStartLocation().x()*32-BWAPI::Broodwar->getScreenX(),BWAPI::Broodwar->self()->getStartLocation().y()*32-BWAPI::Broodwar->getScreenY(),BWAPI::Broodwar->getMouseX(),BWAPI::Broodwar->getMouseY(),drawColor);
     this->update();
     try
     {
@@ -546,7 +549,18 @@ namespace BWAI
     std::string message = text;
     std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
     parsed.push_back("");parsed.push_back("");parsed.push_back(""); // to avoid range checks everywhere
-    if (parsed[0] == "/save")
+    if (parsed[0] == "/setColor")
+    {
+      int red=Util::Strings::stringToInt(std::string(parsed[1]));
+      int green=Util::Strings::stringToInt(std::string(parsed[2]));
+      int blue=Util::Strings::stringToInt(std::string(parsed[3]));
+      this->drawColor=BWAPI::Color(red,green,blue);
+    }
+    else if (parsed[0] == "/getStartLocation")
+    {
+      BWAPI::Broodwar->print("(%d,%d)",BWAPI::Broodwar->self()->getStartLocation().x(),BWAPI::Broodwar->self()->getStartLocation().y());
+    }
+    else if (parsed[0] == "/save")
     {
       if (parsed[1] == "fog")
       {

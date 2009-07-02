@@ -513,6 +513,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\ShapeBox.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeDot.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeLine.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\UnitImpl.cpp"
 					>
 				</File>
@@ -677,6 +689,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\Shape.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeBox.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeDot.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeLine.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\UnitImpl.h"
 					>
 				</File>
@@ -736,6 +764,10 @@
 		</Filter>
 		<File
 			RelativePath=".\source\DLLMain.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\BWAPI\DLLMain.h"
 			>
 		</File>
 		<File

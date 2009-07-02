@@ -36,22 +36,9 @@ namespace BWAPI { class AIModule; }
 #include <BWAPI/Order.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
-
-
-// unknown problem, this is what I want to declare
-struct drawQueueStruct
-{
-  u16 x;
-  u16 y;
-  u16 w;
-  u16 h;
-  u8 c;
-  u8 l;
-};
-
-extern drawQueueStruct drawQueueBox[8][4];
-extern drawQueueStruct drawQueueBoxFilled[8];
-void NewIssueCommand();
+#include "Shape.h"
+#include "ShapeBox.h"
+#include "ShapeLine.h"
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
@@ -112,6 +99,9 @@ namespace BWAPI
       virtual const std::set<BWAPI::Unit*>& getSelectedUnits() const;
       virtual Player* self() const;
       virtual Player* enemy() const;
+      virtual void drawBox(int coordinateType, int left, int top, int right, int bottom, Color color, bool isSolid=false);
+      virtual void drawDot(int coordinateType, int x, int y, Color color);
+      virtual void drawLine(int coordinateType, int x1, int y1, int x2, int y2, Color color);
 
 
       //Internal BWAPI commands:
@@ -168,9 +158,19 @@ namespace BWAPI
       drawQueueStruct drawQueueBoxFilled[8];*/
 
       // Stuff for drawing to the screen
+      /*
       virtual void drawBoxFilled(u16 x, u16 y, u16 width, u16 height, u8 color, u8 layer);
       virtual void drawBox(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer);
       virtual void drawLine(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer);
+      */
+      int _getMouseX() const;
+      int _getMouseY() const;
+      int _getScreenX() const;
+      int _getScreenY() const;
+      void addShape(Shape* s);
+      std::vector<Shape*> shapes;
+      std::vector<Shape*> cachedShapes;
+      HANDLE hcachedShapesMutex;
     private :
       HMODULE hMod;
       /**
