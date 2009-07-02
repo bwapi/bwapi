@@ -163,6 +163,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\Color.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Error.cpp"
 				>
 			</File>
@@ -206,6 +210,10 @@
 			>
 			<File
 				RelativePath="..\include\BWAPI\AIModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\Color.h"
 				>
 			</File>
 			<File

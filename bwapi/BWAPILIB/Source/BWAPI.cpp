@@ -8,4 +8,5 @@ void BWAPI::BWAPI_init()
   BWAPI::UpgradeTypes::init();
   BWAPI::UnitTypes::init();
   BWAPI::Errors::init();
+  BWAPI::Colors::init();
 }

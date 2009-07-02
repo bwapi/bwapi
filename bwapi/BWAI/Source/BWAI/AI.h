@@ -107,6 +107,7 @@ namespace BWAI
       /** @todo investigate and use the nextSupply provider here. */
       s32 plannedSupplyGain(BWAPI::Race race);
       s32 buildTaskUnitsPlanned[228];
+      BWAPI::Color drawColor;
     private :
       std::map<BWAPI::Unit*,Unit*> unit_mapping;
       std::map<BWAPI::Player*, Player*> player_mapping;

@@ -38,8 +38,12 @@
 #include <BW/GameType.h>
 
 #include "BWAPI/AIModule.h"
+#include "DLLMain.h"
 
 #include "Globals.h"
+#include "ShapeBox.h"
+#include "ShapeDot.h"
+#include "ShapeLine.h"
 
 namespace BWAPI 
 {
@@ -54,6 +58,7 @@ namespace BWAPI
   ,enabled(true)
   ,client(NULL)
   ,startedClient(false)
+  ,hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
   {
     BWAPI::Broodwar=static_cast<Game*>(this);
     BW::UnitType::initialize();
@@ -357,6 +362,16 @@ namespace BWAPI
     }
     this->client->onFrame();
     this->loadSelected();
+    if(WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
+    {
+      for(unsigned int i=0;i<this->cachedShapes.size();i++)
+      {
+        delete this->cachedShapes[i];
+      }
+      this->cachedShapes=this->shapes;
+      ::ReleaseMutex(hcachedShapesMutex);
+    }
+    this->shapes.clear();
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
@@ -806,13 +821,13 @@ namespace BWAPI
       else 
         this->print("Unknown log command '%s''s - possible values are: all, ore, gas, speed", parsed[1].c_str());
       return true;
-    }
+    }/*
     else if (parsed[0] == "/test")
     {
       drawBox(this->BWAPIPlayer->getStartLocation().x()*32, this->BWAPIPlayer->getStartLocation().y()*32, 128, 96, 11, 2, 2);
       this->print("testing");
       return true;
-    }
+    }*/
     else if (parsed[0] == "/set")
     {
       if (parsed[1] == "range")
@@ -914,6 +929,22 @@ namespace BWAPI
   {
     if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
       return 0;
+    return *(BW::BWDATA_ScreenY);
+  }
+  int GameImpl::_getMouseX() const
+  {
+    return *(BW::BWDATA_MouseX);
+  }
+  int GameImpl::_getMouseY() const
+  {
+    return *(BW::BWDATA_MouseY);
+  }
+  int GameImpl::_getScreenX() const
+  {
+    return *(BW::BWDATA_ScreenX);
+  }
+  int GameImpl::_getScreenY() const
+  {
     return *(BW::BWDATA_ScreenY);
   }
   //----------------------------------------------------------------------------------------------------------
@@ -1105,58 +1136,20 @@ namespace BWAPI
     return (Player*)this->opponent;
   }
   //----------------------------------------------------- DRAW -----------------------------------------------
-  void GameImpl::drawBoxFilled(u16 x, u16 y, u16 width, u16 height, u8 color, u8 layer)
+  void GameImpl::addShape(Shape* s)
   {
-    u8 i;
-    for (i = 0; i < 8 && drawQueueBoxFilled[i].l != 0; i++) {}
-    if (i < 8)
-    {
-      drawQueueBoxFilled[i].c = color;
-      drawQueueBoxFilled[i].x = x;
-      drawQueueBoxFilled[i].y = y;
-      drawQueueBoxFilled[i].h = height;
-      drawQueueBoxFilled[i].w = width;
-      drawQueueBoxFilled[i].l = layer;
-    }
+    this->shapes.push_back(s);
   }
-  void GameImpl::drawBox(u16 x, u16 y, u16 width, u16 height, u8 color, u8 lineWidth, u8 layer)
+  void GameImpl::drawBox(int coordinateType, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    u8 i;
-    for (i = 0; i < 8 && drawQueueBox[i][0].l != 0; i++) {}
-    if (i < 8)
-    {
-      drawQueueBox[i][0].c = color;
-      drawQueueBox[i][0].x = x;
-      drawQueueBox[i][0].y = y;
-      drawQueueBox[i][0].h = height;
-      drawQueueBox[i][0].w = lineWidth;
-      drawQueueBox[i][0].l = layer;
-
-      drawQueueBox[i][1].c = color;
-      drawQueueBox[i][1].x = x;
-      drawQueueBox[i][1].y = y;
-      drawQueueBox[i][1].h = lineWidth;
-      drawQueueBox[i][1].w = width;
-      drawQueueBox[i][1].l = layer;
-
-      drawQueueBox[i][2].c = color;
-      drawQueueBox[i][2].x = x + width - lineWidth;
-      drawQueueBox[i][2].y = y;
-      drawQueueBox[i][2].h = height;
-      drawQueueBox[i][2].w = lineWidth;
-      drawQueueBox[i][2].l = layer;
-
-      drawQueueBox[i][3].c = color;
-      drawQueueBox[i][3].x = x;
-      drawQueueBox[i][3].y = y + height - lineWidth;
-      drawQueueBox[i][3].h = lineWidth;
-      drawQueueBox[i][3].w = width;
-      drawQueueBox[i][3].l = layer;
-    }
+    addShape(new ShapeBox(coordinateType,left,top,right,bottom,color.getID(),isSolid));
   }
-  void GameImpl::drawLine(u16 x, u16 y, u16 x2, u16 y2, u8 color, u8 lineWidth, u8 layer)
+  void GameImpl::drawDot(int coordinateType, int x, int y, Color color)
   {
-    
+    addShape(new ShapeDot(coordinateType,x,y,color.getID()));
   }
-
+  void GameImpl::drawLine(int coordinateType, int x1, int y1, int x2, int y2, Color color)
+  {
+    addShape(new ShapeLine(coordinateType,x1,y1,x2,y2,color.getID()));
+  }
 };

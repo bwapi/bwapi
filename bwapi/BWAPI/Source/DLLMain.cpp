@@ -16,9 +16,8 @@
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
 #include "BWAPI.h"
-
-drawQueueStruct drawQueueBox[8][4];
-drawQueueStruct drawQueueBoxFilled[8];
+#include "BWAPI/DLLMain.h"
+#include "BWAPI/Shape.h"
 
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
@@ -153,7 +152,7 @@ void __declspec(naked) onSendLobby()
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 int i, i2, h, w, x, y, c, l;
-
+/*
 void restrictLines()
 {
   if (x + w > 638 && x < 639)
@@ -181,6 +180,7 @@ void restrictLines()
   if (y + h > 478)
     h = 1;
 }
+*/
 
 void __declspec(naked) onRefresh()
 {
@@ -211,10 +211,10 @@ void __declspec(naked) onRefresh()
     jmp [BW::BWFXN_RefreshBack]
   }
 }
-
+unsigned int shape_i;
 void __declspec(naked) onDrawHigh()
 {
- __asm
+  __asm
   {
     mov eaxSave, eax
     mov ebxSave, ebx
@@ -225,82 +225,14 @@ void __declspec(naked) onDrawHigh()
     mov espSave, esp
   }
 
-  for (i = 0; i < 8; i++)
-  {
-    *BW::BWDATA_DrawColor = drawQueueBoxFilled[i].c;
-    x = drawQueueBoxFilled[i].x;
-    y = drawQueueBoxFilled[i].y;
-    w = drawQueueBoxFilled[i].w;
-    h = drawQueueBoxFilled[i].h;
-    l = drawQueueBoxFilled[i].l;
-    if (l == 2)
+  if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::BroodwarImpl.hcachedShapesMutex, INFINITE))
+	{
+    for(shape_i=0;shape_i<BWAPI::BroodwarImpl.cachedShapes.size();shape_i++)
     {
-      x -= BWAPI::Broodwar->getScreenX();
-      y -= BWAPI::Broodwar->getScreenY();
+      BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
     }
-    else if (l == 3)
-    {
-      x += BWAPI::Broodwar->getMouseX();
-      y += BWAPI::Broodwar->getMouseY();
-    } // cascaded if
-    restrictLines();
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      push h
-      push w
-      push y
-      push x
-      call [BW::BWFXN_DrawBox]
-    }
-  } // for
-
-  for (i = 0; i < 8; i++)
-  {
-    for (i2 = 0; i2 < 4; i2++)
-    {
-      *BW::BWDATA_DrawColor = drawQueueBox[i][i2].c;
-      x = drawQueueBox[i][i2].x;
-      y = drawQueueBox[i][i2].y;
-      w = drawQueueBox[i][i2].w;
-      h = drawQueueBox[i][i2].h;
-      l = drawQueueBox[i][i2].l;
-      if (l == 2)
-      {
-        x -= BWAPI::Broodwar->getScreenX();
-        y -= BWAPI::Broodwar->getScreenY();
-      }
-      else if (l == 3)
-      {
-        x += BWAPI::Broodwar->getMouseX();
-        y += BWAPI::Broodwar->getMouseY();
-      } // cascaded if
-
-      restrictLines();
-      __asm
-      {
-        mov eax, eaxSave
-        mov ebx, ebxSave
-        mov ecx, ecxSave
-        mov edx, edxSave
-        mov esi, esiSave
-        mov edi, ediSave
-        mov esp, espSave
-        push h
-        push w
-        push y
-        push x
-        call [BW::BWFXN_DrawBox]
-      }
-    } // for i2
-  } // for i
-
+		::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
+	}
   __asm
   {
     mov eax, eaxSave
@@ -312,6 +244,45 @@ void __declspec(naked) onDrawHigh()
     mov esp, espSave
     call [BW::BWFXN_DrawHighTarget]
     jmp [BW::BWFXN_DrawHighBack]
+  }
+}
+
+void drawBox(int _x,int _y,int _w,int _h,int color,int layer)
+{
+  *BW::BWDATA_DrawColor = color;
+  x=_x;
+  y=_y;
+  w=_w;
+  h=_h;
+  if (layer == 2)
+  {
+    x -= BWAPI::BroodwarImpl._getScreenX();
+    y -= BWAPI::BroodwarImpl._getScreenY();
+  }
+  else if (layer == 3)
+  {
+    x += BWAPI::BroodwarImpl._getMouseX();
+    y += BWAPI::BroodwarImpl._getMouseY();
+  }
+  if (x+w<=0 || y+h<=0 || x>=639 || y>=479)
+    return;
+  if (x+w>639) w=639-x;
+  if (y+h>479) h=479-y;
+  if (x<0) {w+=x;x=0;}
+  if (y<0) {h+=y;y=0;}
+
+
+  __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    push h
+    push w
+    push y
+    push x
+    call [BW::BWFXN_DrawBox]
   }
 }
 //------------------------------------------------ JMP PATCH -------------------------------------------------
