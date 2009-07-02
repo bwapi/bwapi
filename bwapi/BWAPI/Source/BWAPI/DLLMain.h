@@ -1,3 +1,4 @@
 #pragma once
 void NewIssueCommand();
-void drawBox(int x,int y,int w,int h,int color,int layer);
+void drawDot(int _x,int _y,int color,int layer);
+void drawBox(int _x,int _y,int _w,int _h,int color,int layer);

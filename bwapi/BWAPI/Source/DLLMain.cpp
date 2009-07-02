@@ -285,6 +285,41 @@ void drawBox(int _x,int _y,int _w,int _h,int color,int layer)
     call [BW::BWFXN_DrawBox]
   }
 }
+
+void drawDot(int _x,int _y,int color,int layer)
+{
+  *BW::BWDATA_DrawColor = color;
+  x=_x;
+  y=_y;
+  w=1;
+  h=1;
+  if (layer == 2)
+  {
+    x -= BWAPI::BroodwarImpl._getScreenX();
+    y -= BWAPI::BroodwarImpl._getScreenY();
+  }
+  else if (layer == 3)
+  {
+    x += BWAPI::BroodwarImpl._getMouseX();
+    y += BWAPI::BroodwarImpl._getMouseY();
+  }
+  if (x+1<=0 || y+1<=0 || x>=638 || y>=478)
+    return;
+
+
+  __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    push h
+    push w
+    push y
+    push x
+    call [BW::BWFXN_DrawBox]
+  }
+}
 //------------------------------------------------ JMP PATCH -------------------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)

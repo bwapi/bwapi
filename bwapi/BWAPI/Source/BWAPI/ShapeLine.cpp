@@ -54,7 +54,7 @@ namespace BWAPI
         yDraw = y;
       }
       // plot
-      drawBox(xDraw, yDraw,1,1,color,coordinateType);
+      drawDot(xDraw, yDraw,color,coordinateType);
       // next
       if (E > 0) {
         E += TwoDyTwoDx; //E += 2*Dy - 2*Dx;

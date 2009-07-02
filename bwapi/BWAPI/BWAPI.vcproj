@@ -517,6 +517,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\ShapeCircle.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\ShapeDot.cpp"
 					>
 				</File>
@@ -694,6 +698,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\ShapeBox.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeCircle.h"
 					>
 				</File>
 				<File
