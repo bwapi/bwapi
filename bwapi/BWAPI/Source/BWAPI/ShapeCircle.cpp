@@ -17,6 +17,32 @@ namespace BWAPI
   {
     if (this->isSolid)
     {
+      int f = 1 - radius;
+      int ddF_x = 1;
+      int ddF_y = -2 * radius;
+      int xi = 0;
+      int yi = radius;
+   
+      drawDot(x, y + radius,color,coordinateType);
+      drawDot(x, y - radius,color,coordinateType);
+      drawBox(x - radius, y,radius*2,1,color,coordinateType);
+
+      while(xi < yi)
+      {
+        if(f >= 0)
+        {
+          yi--;
+          ddF_y += 2;
+          f += ddF_y;
+        }
+        xi++;
+        ddF_x += 2;
+        f += ddF_x;
+        drawBox(x - xi, y - yi, xi*2 + 1, 1, color, coordinateType);
+        drawBox(x - xi, y + yi, xi*2 + 1, 1, color, coordinateType);
+        drawBox(x - yi, y - xi, yi*2 + 1, 1, color, coordinateType);
+        drawBox(x - yi, y + xi, yi*2 + 1, 1, color, coordinateType);
+      }
     }
     else
     {

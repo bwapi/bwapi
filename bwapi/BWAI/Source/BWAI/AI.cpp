@@ -363,7 +363,8 @@ namespace BWAI
   {
     BWAPI::Broodwar->drawBox(2,BWAPI::Broodwar->self()->getStartLocation().x()*32,BWAPI::Broodwar->self()->getStartLocation().y()*32,BWAPI::Broodwar->self()->getStartLocation().x()*32+4*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*32,drawColor,false);
     BWAPI::Broodwar->drawLine(1,BWAPI::Broodwar->self()->getStartLocation().x()*32-BWAPI::Broodwar->getScreenX(),BWAPI::Broodwar->self()->getStartLocation().y()*32-BWAPI::Broodwar->getScreenY(),BWAPI::Broodwar->getMouseX(),BWAPI::Broodwar->getMouseY(),drawColor);
-    BWAPI::Broodwar->drawCircle(2,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,drawColor,false);
+    BWAPI::Broodwar->drawCircle(2,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,51,BWAPI::Colors::Green,true);
+    BWAPI::Broodwar->drawCircle(2,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,BWAPI::Colors::Red,false);
     this->update();
     try
     {
@@ -556,6 +557,10 @@ namespace BWAI
       int green=Util::Strings::stringToInt(std::string(parsed[2]));
       int blue=Util::Strings::stringToInt(std::string(parsed[3]));
       this->drawColor=BWAPI::Color(red,green,blue);
+    }
+    else if (parsed[0] == "/getColor")
+    {
+      BWAPI::Broodwar->print("%d (%d,%d,%d)",this->drawColor.getID(),this->drawColor.red(),this->drawColor.green(),this->drawColor.blue());
     }
     else if (parsed[0] == "/getStartLocation")
     {
