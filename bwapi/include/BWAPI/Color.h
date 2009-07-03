@@ -24,6 +24,16 @@ namespace BWAPI
   namespace Colors
   {
     void init();
+    extern const Color Red;
+    extern const Color Green;
+    extern const Color Blue;
+    extern const Color Yellow;
+    extern const Color Cyan;
+    extern const Color Purple;
+    extern const Color Orange;
+    extern const Color Black;
+    extern const Color White;
+    extern const Color Grey;
   }
 }
 
