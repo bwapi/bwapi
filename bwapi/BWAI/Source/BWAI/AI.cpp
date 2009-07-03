@@ -932,6 +932,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%d",unit->energy());
         }
+        else if (parsed[1] == "resources")
+        {
+          BWAPI::Broodwar->printPublic("%d",unit->resources());
+        }
         else if (parsed[1] == "getKillCount")
         {
           BWAPI::Broodwar->printPublic("%d",unit->getKillCount());

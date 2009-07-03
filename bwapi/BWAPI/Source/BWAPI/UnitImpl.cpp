@@ -80,6 +80,21 @@ namespace BWAPI
   {
     return this->getRawDataLocal()->energy;
   }
+  //----------------------------------------------- RESOURCES ------------------------------------------------
+  int UnitImpl::resources() const
+  {
+    if (this->getBWType()!=BW::UnitID::Resource_MineralPatch1 &&
+        this->getBWType()!=BW::UnitID::Resource_MineralPatch2 &&
+        this->getBWType()!=BW::UnitID::Resource_MineralPatch3 &&
+        this->getBWType()!=BW::UnitID::Resource_VespeneGeyser &&
+        this->getBWType()!=BW::UnitID::Terran_Refinery &&
+        this->getBWType()!=BW::UnitID::Protoss_Assimilator &&
+        this->getBWType()!=BW::UnitID::Zerg_Extractor)
+    {
+      return 0;
+    }
+    return this->getRawDataLocal()->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+  }
   //-------------------------------------------- GET KILL COUNT ----------------------------------------------
   int UnitImpl::getKillCount() const
   {

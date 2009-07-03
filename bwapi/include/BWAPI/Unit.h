@@ -20,6 +20,7 @@ namespace BWAPI
     virtual int health() const=0;
     virtual int shield() const=0;
     virtual int energy() const=0;
+    virtual int resources() const=0;
     virtual int getKillCount() const=0;
     virtual int groundWeaponCooldown() const=0;
     virtual int airWeaponCooldown() const=0;
