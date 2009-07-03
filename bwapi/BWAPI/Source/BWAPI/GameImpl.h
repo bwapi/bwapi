@@ -99,10 +99,10 @@ namespace BWAPI
       virtual const std::set<BWAPI::Unit*>& getSelectedUnits() const;
       virtual Player* self() const;
       virtual Player* enemy() const;
-      virtual void drawBox(int coordinateType, int left, int top, int right, int bottom, Color color, bool isSolid=false);
-      virtual void drawCircle(int coordinateType, int x, int y, int radius, Color color, bool isSolid=false);
-      virtual void drawDot(int coordinateType, int x, int y, Color color);
-      virtual void drawLine(int coordinateType, int x1, int y1, int x2, int y2, Color color);
+      virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid=false);
+      virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid=false);
+      virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
+      virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
 
 
       //Internal BWAPI commands:

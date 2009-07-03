@@ -361,10 +361,10 @@ namespace BWAI
   //-----------------------------------------------  ON FRAME ------------------------------------------------
   void AI::onFrame(void)
   {
-    BWAPI::Broodwar->drawBox(2,BWAPI::Broodwar->self()->getStartLocation().x()*32,BWAPI::Broodwar->self()->getStartLocation().y()*32,BWAPI::Broodwar->self()->getStartLocation().x()*32+4*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*32,drawColor,false);
-    BWAPI::Broodwar->drawLine(1,BWAPI::Broodwar->self()->getStartLocation().x()*32-BWAPI::Broodwar->getScreenX(),BWAPI::Broodwar->self()->getStartLocation().y()*32-BWAPI::Broodwar->getScreenY(),BWAPI::Broodwar->getMouseX(),BWAPI::Broodwar->getMouseY(),drawColor);
-    BWAPI::Broodwar->drawCircle(2,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,51,BWAPI::Colors::Green,true);
-    BWAPI::Broodwar->drawCircle(2,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,BWAPI::Colors::Red,false);
+    BWAPI::Broodwar->drawBox(BWAPI::CoordinateType::Map,BWAPI::Broodwar->self()->getStartLocation().x()*32,BWAPI::Broodwar->self()->getStartLocation().y()*32,BWAPI::Broodwar->self()->getStartLocation().x()*32+4*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*32,drawColor,false);
+    BWAPI::Broodwar->drawLine(BWAPI::CoordinateType::Screen,BWAPI::Broodwar->self()->getStartLocation().x()*32-BWAPI::Broodwar->getScreenX(),BWAPI::Broodwar->self()->getStartLocation().y()*32-BWAPI::Broodwar->getScreenY(),BWAPI::Broodwar->getMouseX(),BWAPI::Broodwar->getMouseY(),drawColor);
+    BWAPI::Broodwar->drawCircle(BWAPI::CoordinateType::Map,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,51,BWAPI::Colors::Green,true);
+    BWAPI::Broodwar->drawCircle(BWAPI::CoordinateType::Map,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,BWAPI::Colors::Red,false);
     this->update();
     try
     {

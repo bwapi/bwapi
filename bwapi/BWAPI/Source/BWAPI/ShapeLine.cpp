@@ -3,8 +3,8 @@
 #include <math.h>
 namespace BWAPI
 {
-  ShapeLine::ShapeLine(int coordinateType, int x1, int y1, int x2, int y2, int color)
-  :coordinateType(coordinateType)
+  ShapeLine::ShapeLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int color)
+  :ctype(ctype)
   ,x1(x1)
   ,y1(y1)
   ,x2(x2)
@@ -54,7 +54,7 @@ namespace BWAPI
         yDraw = y;
       }
       // plot
-      drawDot(xDraw, yDraw,color,coordinateType);
+      drawDot(xDraw, yDraw,color,ctype);
       // next
       if (E > 0) {
         E += TwoDyTwoDx; //E += 2*Dy - 2*Dx;
