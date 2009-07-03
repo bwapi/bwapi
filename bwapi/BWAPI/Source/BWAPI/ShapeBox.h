@@ -5,10 +5,10 @@ namespace BWAPI
   class ShapeBox : public Shape
   {
   public :
-    ShapeBox(int coordinateType, int left, int top, int right, int bottom, int color, bool isSolid=false);
+    ShapeBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, int color, bool isSolid=false);
     virtual void draw();
   private :
-    int coordinateType;
+    CoordinateType::Enum ctype;
     int left;
     int top;
     int right;

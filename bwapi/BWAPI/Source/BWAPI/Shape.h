@@ -1,4 +1,5 @@
 #pragma once
+#include <BWAPI/CoordinateType.h>
 namespace BWAPI
 {
   class Shape

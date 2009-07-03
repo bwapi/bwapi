@@ -1,6 +1,7 @@
 #include <BWAPI/AIModule.h>
 #include <BWAPI/Color.h>
 #include <BWAPI/Constants.h>
+#include <BWAPI/CoordinateType.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Force.h>

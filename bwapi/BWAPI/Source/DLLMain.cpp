@@ -247,19 +247,19 @@ void __declspec(naked) onDrawHigh()
   }
 }
 
-void drawBox(int _x,int _y,int _w,int _h,int color,int layer)
+void drawBox(int _x,int _y,int _w,int _h,int color,BWAPI::CoordinateType::Enum ctype)
 {
   *BW::BWDATA_DrawColor = color;
   x=_x;
   y=_y;
   w=_w;
   h=_h;
-  if (layer == 2)
+  if (ctype == 2)
   {
     x -= BWAPI::BroodwarImpl._getScreenX();
     y -= BWAPI::BroodwarImpl._getScreenY();
   }
-  else if (layer == 3)
+  else if (ctype == 3)
   {
     x += BWAPI::BroodwarImpl._getMouseX();
     y += BWAPI::BroodwarImpl._getMouseY();
@@ -286,19 +286,19 @@ void drawBox(int _x,int _y,int _w,int _h,int color,int layer)
   }
 }
 
-void drawDot(int _x,int _y,int color,int layer)
+void drawDot(int _x,int _y,int color,BWAPI::CoordinateType::Enum ctype)
 {
   *BW::BWDATA_DrawColor = color;
   x=_x;
   y=_y;
   w=1;
   h=1;
-  if (layer == 2)
+  if (ctype == 2)
   {
     x -= BWAPI::BroodwarImpl._getScreenX();
     y -= BWAPI::BroodwarImpl._getScreenY();
   }
-  else if (layer == 3)
+  else if (ctype == 3)
   {
     x += BWAPI::BroodwarImpl._getMouseX();
     y += BWAPI::BroodwarImpl._getMouseY();

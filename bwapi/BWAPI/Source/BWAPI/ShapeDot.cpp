@@ -3,8 +3,8 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-  ShapeDot::ShapeDot(int coordinateType, int x, int y, int color)
-  :coordinateType(coordinateType)
+  ShapeDot::ShapeDot(CoordinateType::Enum ctype, int x, int y, int color)
+  :ctype(ctype)
   ,x(x)
   ,y(y)
   ,color(color)
@@ -13,6 +13,6 @@ namespace BWAPI
 
   void ShapeDot::draw()
   {
-    drawBox(x,y,1,1,color,coordinateType);
+    drawDot(x,y,color,ctype);
   }
 }

@@ -1141,20 +1141,20 @@ namespace BWAPI
   {
     this->shapes.push_back(s);
   }
-  void GameImpl::drawBox(int coordinateType, int left, int top, int right, int bottom, Color color, bool isSolid)
+  void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    addShape(new ShapeBox(coordinateType,left,top,right,bottom,color.getID(),isSolid));
+    addShape(new ShapeBox(ctype,left,top,right,bottom,color.getID(),isSolid));
   }
-  void GameImpl::drawDot(int coordinateType, int x, int y, Color color)
+  void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
-    addShape(new ShapeDot(coordinateType,x,y,color.getID()));
+    addShape(new ShapeDot(ctype,x,y,color.getID()));
   }
-  void GameImpl::drawCircle(int coordinateType, int x, int y, int radius, Color color, bool isSolid)
+  void GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
-    addShape(new ShapeCircle(coordinateType,x,y,radius,color.getID(),isSolid));
+    addShape(new ShapeCircle(ctype,x,y,radius,color.getID(),isSolid));
   }
-  void GameImpl::drawLine(int coordinateType, int x1, int y1, int x2, int y2, Color color)
+  void GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
-    addShape(new ShapeLine(coordinateType,x1,y1,x2,y2,color.getID()));
+    addShape(new ShapeLine(ctype,x1,y1,x2,y2,color.getID()));
   }
 };

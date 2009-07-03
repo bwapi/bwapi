@@ -750,6 +750,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\CoordinateType.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Force.h"
 				>
 			</File>
