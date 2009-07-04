@@ -1,6 +1,7 @@
 #include "ShapeLine.h"
 #include "DLLMain.h"
 #include <math.h>
+#include "GameImpl.h"
 namespace BWAPI
 {
   ShapeLine::ShapeLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int color)
