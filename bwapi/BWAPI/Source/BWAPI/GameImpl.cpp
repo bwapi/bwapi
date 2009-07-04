@@ -1155,6 +1155,28 @@ namespace BWAPI
   }
   void GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
+    int screen_x1=x1;
+    int screen_y1=y1;
+    int screen_x2=x2;
+    int screen_y2=y2;
+    if (ctype==2)
+    {
+      screen_x1=x1-BWAPI::BroodwarImpl._getScreenX();
+      screen_y1=y1-BWAPI::BroodwarImpl._getScreenY();
+      screen_x2=x2-BWAPI::BroodwarImpl._getScreenX();
+      screen_y2=y2-BWAPI::BroodwarImpl._getScreenY();
+    }
+    else if (ctype==3)
+    {
+      screen_x1=x1+BWAPI::BroodwarImpl._getMouseX();
+      screen_y1=y1+BWAPI::BroodwarImpl._getMouseY();
+      screen_x2=x2+BWAPI::BroodwarImpl._getMouseX();
+      screen_y2=y2+BWAPI::BroodwarImpl._getMouseY();
+    }
+    if ((screen_x1<0 && screen_x2<0) ||
+        (screen_y1<0 && screen_y2<0) ||
+        (screen_x1>640 && screen_x2>640) ||
+        (screen_y1>480 && screen_y2>480)) return;
     addShape(new ShapeLine(ctype,x1,y1,x2,y2,color.getID()));
   }
 };
