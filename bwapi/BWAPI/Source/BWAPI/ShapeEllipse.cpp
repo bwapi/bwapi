@@ -39,6 +39,32 @@ namespace BWAPI
         drawDot(this->x - x, this->y - y,color,ctype);
         drawDot(this->x + x, this->y - y,color,ctype);
         
+        y++;
+        stoppingY += twoAsquare;
+        ellipseerror += ychange;
+        ychange += twoAsquare;
+        if ((2 * ellipseerror + xchange) > 0)
+        {
+          x--;
+          stoppingX -= twoBsquare;
+          ellipseerror += xchange;
+          xchange += twoBsquare;
+        }
+      }
+      x = 0;
+      y = this->yrad;
+      xchange = this->yrad * this->yrad;
+      ychange = this->xrad * this->xrad * (1 - 2 * this->yrad);
+      ellipseerror = 0;
+      stoppingX = 0;
+      stoppingY = twoAsquare * this->yrad;
+      while (stoppingX <= stoppingY)
+      {
+        drawDot(this->x + x, this->y + y,color,ctype);
+        drawDot(this->x - x, this->y + y,color,ctype);
+        drawDot(this->x - x, this->y - y,color,ctype);
+        drawDot(this->x + x, this->y - y,color,ctype);
+        
         x++;
         stoppingX += twoBsquare;
         ellipseerror += xchange;
