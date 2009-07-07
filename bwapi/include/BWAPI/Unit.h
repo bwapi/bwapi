@@ -49,6 +49,7 @@ namespace BWAPI
     virtual int getRemainingTrainTime() const=0;
     virtual Unit* getChild() const=0;
     virtual std::list<UnitType > getTrainingQueue() const=0;
+    virtual Unit* getTransport() const=0;
     virtual std::list<Unit*> getLoadedUnits() const=0;
     virtual TechType getTech() const=0;
     virtual UpgradeType getUpgrade() const=0;
@@ -56,6 +57,7 @@ namespace BWAPI
     virtual int getRemainingUpgradeTime() const=0;
     virtual Position getRallyPosition() const=0;
     virtual Unit* getRallyUnit() const=0;
+    virtual Unit* getAddon() const=0;
 
     virtual bool isAccelerating() const=0;
     virtual bool isBeingConstructed() const=0;

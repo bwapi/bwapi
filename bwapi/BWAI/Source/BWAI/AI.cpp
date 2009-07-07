@@ -1080,6 +1080,17 @@ namespace BWAI
             BWAPI::Broodwar->printPublic("%d: %s",unit->getRallyUnit(),BWAI::Unit::BWAPIUnitToBWAIUnit(unit->getRallyUnit())->getName().c_str());
           }
         }
+        else if (parsed[1] == "getAddon")
+        {
+          if (unit->getAddon()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%d: %s",unit->getRallyUnit(),BWAI::Unit::BWAPIUnitToBWAIUnit(unit->getAddon())->getName().c_str());
+          }
+        }
         else if (parsed[1] == "getChild")
         {
           if (unit->getChild()==NULL)
@@ -1104,6 +1115,17 @@ namespace BWAI
             {
               BWAPI::Broodwar->printPublic("%s",(*t).getName().c_str());
             }
+          }
+        }
+        else if (parsed[1] == "getTransport")
+        {
+          if (unit->getTransport()==NULL)
+          {
+            BWAPI::Broodwar->printPublic("NULL");
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%d: %s",unit->getRallyUnit(),BWAI::Unit::BWAPIUnitToBWAIUnit(unit->getTransport())->getName().c_str());
           }
         }
         else if (parsed[1] == "getLoadedUnits")

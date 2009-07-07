@@ -521,6 +521,12 @@ namespace BWAPI
     }
     return trainList;
   }
+  //-------------------------------------------- GET TRANSPORT -----------------------------------------------
+  Unit* UnitImpl::getTransport() const
+  {
+    if (!this->isLoaded()) return NULL;
+    return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit));
+  }
   //------------------------------------------- GET LOADED UNITS ---------------------------------------------
   std::list<Unit*> UnitImpl::getLoadedUnits() const
   {
@@ -575,6 +581,25 @@ namespace BWAPI
   {
     if (this->getBWType().canProduce())
       return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyUnit);
+    return NULL;
+  }
+  //----------------------------------------------- GET ADDON ------------------------------------------------
+  Unit* UnitImpl::getAddon() const
+  {
+    if (this->getType().isBuilding())
+    {
+      if (this->getRawDataLocal()->currentBuildUnit!=NULL)
+      {
+        if (UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit)->getBWType().isAddon())
+        {
+          return  (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
+        }
+      }
+      if (this->getRawDataLocal()->childInfoUnion.childUnit1!=NULL)
+      {
+        return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
+      }
+    }
     return NULL;
   }
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
