@@ -362,7 +362,6 @@ namespace BWAI
   void AI::onFrame(void)
   {
     BWAPI::Broodwar->drawCircle(BWAPI::CoordinateType::Map,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,BWAPI::Colors::Red,false);
-    //BWAPI::Broodwar->drawEllipse(BWAPI::CoordinateType::Map,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,20,40,BWAPI::Colors::Red,false);
     std::set<BWAPI::Unit*> myUnits=BWAPI::Broodwar->self()->getUnits();
     for(std::set<BWAPI::Unit*>::iterator i=myUnits.begin();i!=myUnits.end();i++)
     {
