@@ -2,6 +2,7 @@
 #include <BWAPI/Color.h>
 #include <BWAPI/Constants.h>
 #include <BWAPI/CoordinateType.h>
+#include <BWAPI/DamageType.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Force.h>

@@ -167,6 +167,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\DamageType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Error.cpp"
 				>
 			</File>
@@ -214,6 +218,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Color.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\DamageType.h"
 				>
 			</File>
 			<File
