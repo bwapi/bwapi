@@ -525,6 +525,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\ShapeEllipse.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\ShapeLine.cpp"
 					>
 				</File>
@@ -706,6 +710,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\ShapeDot.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeEllipse.h"
 					>
 				</File>
 				<File

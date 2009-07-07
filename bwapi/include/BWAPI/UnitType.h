@@ -3,6 +3,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/Race.h>
+#include <BWAPI/DamageType.h>
 namespace BWAPI
 {
   class TechType;
