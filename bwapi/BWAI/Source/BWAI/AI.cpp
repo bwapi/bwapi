@@ -568,6 +568,12 @@ namespace BWAI
     {
       BWAPI::Broodwar->print("%d (%d,%d,%d)",this->drawColor.getID(),this->drawColor.red(),this->drawColor.green(),this->drawColor.blue());
     }
+    else if (parsed[0] == "/setScreenPosition")
+    {
+      int x=Util::Strings::stringToInt(std::string(parsed[1]));
+      int y=Util::Strings::stringToInt(std::string(parsed[2]));
+      BWAPI::Broodwar->setScreenPosition(x,y);
+    }
     else if (parsed[0] == "/getStartLocation")
     {
       BWAPI::Broodwar->print("(%d,%d)",BWAPI::Broodwar->self()->getStartLocation().x(),BWAPI::Broodwar->self()->getStartLocation().y());
