@@ -11,5 +11,6 @@ namespace BWAI
     std::string saveWalkabilityMap(const std::string& fileName);
     std::string saveHeightMap(const std::string& fileName);
     std::string saveFogOfWarMap(const std::string& fileName);
+    std::string saveZergCreepMap(const std::string& fileName);
   }
 }

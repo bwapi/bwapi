@@ -578,6 +578,11 @@ namespace BWAI
         std::string result = Map::saveFogOfWarMap(config->get("data_path") + "\\fog-of-war.txt");
         BWAPI::Broodwar->print(result.c_str());
       }
+      else if (parsed[1] == "creep")
+      {
+        std::string result = Map::saveZergCreepMap(config->get("data_path") + "\\zerg-creep.txt");
+        BWAPI::Broodwar->print(result.c_str());
+      }
       else if (parsed[1] == "techs")
       {
         std::string fileName = config->get("data_path") + "\\techs";

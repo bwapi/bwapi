@@ -163,6 +163,11 @@ namespace BWAPI
   {
     return this->map.visible(x,y);
   }
+  //------------------------------------------------ HAS CREEP -----------------------------------------------
+  bool GameImpl::hasCreep(int x, int y) const
+  {
+    return this->map.hasCreep(x,y);
+  }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int GameImpl::groundHeight(int x, int y) const
   {
