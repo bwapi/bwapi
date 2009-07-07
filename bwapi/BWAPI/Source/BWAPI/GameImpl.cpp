@@ -938,18 +938,28 @@ namespace BWAPI
       return 0;
     return *(BW::BWDATA_ScreenY);
   }
+  //------------------------------------------- SET SCREEN POSITION ------------------------------------------
+  void GameImpl::setScreenPosition(int x,int y)
+  {
+    *(BW::BWDATA_ScreenX)=x;
+    *(BW::BWDATA_ScreenY)=y;
+  }
+  //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::_getMouseX() const
   {
     return *(BW::BWDATA_MouseX);
   }
+  //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::_getMouseY() const
   {
     return *(BW::BWDATA_MouseY);
   }
+  //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::_getScreenX() const
   {
     return *(BW::BWDATA_ScreenX);
   }
+  //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int GameImpl::_getScreenY() const
   {
     return *(BW::BWDATA_ScreenY);

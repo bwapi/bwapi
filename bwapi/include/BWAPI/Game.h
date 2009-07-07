@@ -33,6 +33,8 @@ namespace BWAPI
     virtual int getMouseY() const=0;
     virtual int getScreenX() const=0;
     virtual int getScreenY() const=0;
+    virtual void setScreenPosition(int x, int y)=0;
+
     virtual bool isFlagEnabled(Flag::Enum flag) const=0;
     virtual void enableFlag(Flag::Enum flag)=0;
     virtual std::set<Unit*> unitsOnTile(int x, int y) const=0;

@@ -6,7 +6,7 @@
 namespace BWAPI
 {
   bool initializingDamageType=true;
-  std::string damageTypeName[4];
+  std::string damageTypeName[5];
   std::map<std::string, DamageType> damageTypeMap;
   std::set< DamageType > damageTypeSet;
   namespace DamageTypes
