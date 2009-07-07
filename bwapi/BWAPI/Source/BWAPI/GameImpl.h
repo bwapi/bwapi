@@ -75,6 +75,7 @@ namespace BWAPI
       virtual bool buildable(int x, int y) const;
       virtual bool walkable(int x, int y) const;
       virtual bool visible(int x, int y) const;
+      virtual bool hasCreep(int x, int y) const;
       virtual int groundHeight(int x, int y) const; 
       virtual const std::set< TilePosition >& getStartLocations() const;
       virtual int getMapHash() const;

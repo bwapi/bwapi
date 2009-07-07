@@ -57,6 +57,11 @@ namespace BWAPI
     u32 value =  (*this->fogOfWar)[y][x];
     return !(value & (1<<BroodwarImpl.BWAPIPlayer->getID()));
   }
+  //----------------------------------------------- HAS CREEP ------------------------------------------------
+  bool Map::hasCreep(int x, int y) const
+  {
+    return (*this->zergCreep)[y][x]!=0;
+  }
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
   {
@@ -75,6 +80,7 @@ namespace BWAPI
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
     fogOfWar=new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar);
+    zergCreep=new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_ZergCreepArray);
     setBuildability();
     setWalkability();
   }

@@ -106,7 +106,7 @@ namespace BWAI
         return std::string("Declaration of RectangleArray for fog of war map failed.");
       }
     }
-    //------------------------------------------ SAVE WALKABILITY MAP ------------------------------------------
+    //----------------------------------------- SAVE WALKABILITY MAP -----------------------------------------
     std::string saveFogOfWarMap(const std::string& fileName)
     {
       FILE* f = fopen(fileName.c_str(),"wt");
@@ -137,7 +137,38 @@ namespace BWAI
         fprintf_s(f, "Declaration of RectangleArray for fog of war map failed.");
         return std::string("Declaration of RectangleArray for fog of war map failed.");
       }
-
+    }
+    //------------------------------------------ SAVE ZERG CREEP MAP -----------------------------------------
+    std::string saveZergCreepMap(const std::string& fileName)
+    {
+      FILE* f = fopen(fileName.c_str(),"wt");
+      if (!f)
+        throw FileException("Couldn't save the zerg creep map to '" + fileName + "'");
+      fprintf_s(f, "Zerg creep map for currently opened map\n");
+      fprintf_s(f, "Map file: %s\n", BWAPI::Broodwar->mapFilename().c_str());
+      fprintf_s(f, "Map width: %d\n", BWAPI::Broodwar->mapWidth());
+      fprintf_s(f, "Map height: %d\n", BWAPI::Broodwar->mapHeight());
+      fprintf_s(f, "X = has creep\n");
+      fprintf_s(f, ". = doesn't have creep\n");
+      
+      try
+      {
+        Util::RectangleArray<char> result = Util::RectangleArray<char>(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight());
+        for (int x = 0; x < BWAPI::Broodwar->mapWidth(); x++)
+          for (int y = 0; y < BWAPI::Broodwar->mapHeight(); y++)
+          {
+            result[x][y] = BWAPI::Broodwar->hasCreep(x,y) ? 'X' : '.';
+          }
+      
+        Util::Strings::makeBorder(result).printToFile(f); 
+        fclose(f);
+        return std::string("Successfully saved zerg creep map.");
+      }
+      catch (GeneralException&)
+      {
+        fprintf_s(f, "Declaration of RectangleArray for zerg creep map failed.");
+        return std::string("Declaration of RectangleArray for zerg creep map failed.");
+      }
     }
   }
 }
