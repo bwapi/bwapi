@@ -1207,6 +1207,10 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s",unit->isStasised() ? "true" : "false");
         }
+        else if (parsed[1] == "isHallucination")
+        {
+          BWAPI::Broodwar->printPublic("%s",unit->isHallucination() ? "true" : "false");
+        }
         else if (parsed[1] == "isIdle")
         {
           BWAPI::Broodwar->printPublic("%s",unit->isIdle() ? "true" : "false");

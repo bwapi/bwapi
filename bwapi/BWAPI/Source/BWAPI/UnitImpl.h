@@ -88,6 +88,7 @@ namespace BWAPI
       virtual bool isCompleted() const;
       virtual bool isConstructing() const;
       virtual bool isFollowing() const;
+      virtual bool isHallucination() const;
       virtual bool isIdle() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;

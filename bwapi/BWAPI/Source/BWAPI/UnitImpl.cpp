@@ -236,6 +236,11 @@ namespace BWAPI
   {
     return this->getBWOrder()==BW::OrderID::Follow;
   }
+  //-------------------------------------------- IS HALLUCINATION --------------------------------------------
+  bool UnitImpl::isHallucination() const
+  {
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::IsHallucination);
+  }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
