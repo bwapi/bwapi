@@ -26,10 +26,13 @@ namespace BW
       UNKNOWN3            = 1 << 16,  /**< @todo Unknown */
       IsABuilding         = 1 << 17,
 
+      IsNormal            = 1 << 20,  /**< 1 for "normal" units, 0 for hallucinated units */
+
       Invincible          = 1 << 26,
 
       SpeedUpgrade        = 1 << 28,
-      CooldownUpgrade     = 1 << 29
+      CooldownUpgrade     = 1 << 29,
+      IsHallucination     = 1 << 30,  /**< 1 for hallucinated units, 0 for "normal" units */
     };
   };
 };
