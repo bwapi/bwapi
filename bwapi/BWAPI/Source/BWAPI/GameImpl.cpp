@@ -9,6 +9,8 @@
 #include <vector>
 #include <algorithm>
 #include <math.h>
+#include <fstream>
+
 
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
@@ -597,6 +599,66 @@ namespace BWAPI
         this->print("Unknown command '%s''s - possible commands are: on, off", parsed[1].c_str());
       return true;
     }
+    else if (parsed[0] == "/save")
+    {
+      if (parsed[1] == "unit")
+      {
+        std::ofstream unitData;
+        unitData.open ("bwapi-data/unitData.txt");
+        for(std::set<BWAPI::UnitType>::const_iterator u=BWAPI::UnitTypes::allUnitTypes().begin();u!=BWAPI::UnitTypes::allUnitTypes().end();u++)
+        {
+          std::pair<const BWAPI::UnitType*,int> requiredUnits[3];
+          BW::UnitType bwu((BW::UnitID::Enum)u->getID());
+          requiredUnits[0]=requiredUnits[1]=requiredUnits[2]=std::make_pair((BWAPI::UnitType*)NULL,0);
+          int i=0;
+          for(std::map<const BWAPI::UnitType*,int>::const_iterator r=u->requiredUnits().begin();r!=u->requiredUnits().end();r++)
+          {
+            requiredUnits[i++]=*r;
+          }
+
+          unitData << "      unitTypeData[" << Util::Strings::stringToVariableName(u->getName()) << ".getID()].set(\""
+                   << u->getName() << "\",Races::" << Util::Strings::stringToVariableName(u->getRace().getName()) << ",&("
+                   << Util::Strings::stringToVariableName(u->whatBuilds().first->getName()) << "),"
+                   << u->whatBuilds().second << ",";
+          for(int i=0;i<3;i++)
+          {
+            if (requiredUnits[i].first==NULL)
+            {
+              unitData << "NULL,";
+            }
+            else
+            {
+              unitData << "&(" << Util::Strings::stringToVariableName(requiredUnits[i].first->getName()) << "),";
+            }
+            unitData << requiredUnits[i].second << ",";
+          }
+          unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u->requiredTech()->getName()) << "),";
+          if (*u!=UnitTypes::None && *u!=UnitTypes::Unknown)
+          {
+          unitData << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << "," << bwu.getMaxHealthPoints()
+                   << "," << bwu.getMaxShieldPoints() << "," << bwu.getMaxEnergyPoints() << ","
+                   << bwu.getMineralPrice() << "," << bwu.getGasPrice() << "," << (int)bwu.getArmor() << ","
+                   << bwu.getBuildTime() << "," << bwu.dimensionLeft() << "," << bwu.dimensionUp() << ","
+                   << bwu.dimensionRight() << "," << bwu.dimensionDown() << "," << bwu.getTileWidth() << ","
+                   << bwu.getTileHeight() << "," << (int)bwu.getDamageFactor() << "," << bwu.getGroundDamage()
+                   << "," << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove() << ","
+                   << bwu.isBuilding() << "," << bwu.isAddon() << "," << bwu.isFlyer() << ","
+                   << bwu.isNeutral() << "," << bwu.isOrganic() << "," << bwu.isMechanical()
+                   << ");\n";
+          }
+          else
+          {
+            unitData << "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);\n";
+          }
+        }
+        unitData.close();
+      }
+      else
+      {
+        this->print("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
+      }
+      return true;
+    }
     else if (parsed[0] == "/unit")
     {
       if (parsed[1] == "info")
@@ -792,50 +854,6 @@ namespace BWAPI
         this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1].c_str());
       return true;
     }
-    else if (parsed[0] == "/cheat")
-    {
-      if (parsed[1] == "all")
-      {
-        BW::BWDATA_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] = 10000;
-        BW::BWDATA_PlayerResources->gas.player[this->BWAPIPlayer->getID()] = 10000;
-        for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        {
-          BW::UnitType type((BW::UnitID::Enum)i);
-          if (type.isValid())
-            BW::BWDATA_BuildTime->buildTime[i] = 16;
-        }
-        this->print("BWAPI gas/mineral/build time cheat activated (only local ofcourse)");
-      }
-      else if (parsed[1] == "ore")
-      {
-        BW::BWDATA_PlayerResources->minerals.player[this->BWAPIPlayer->getID()] += 10000;
-        this->print("BWAPI mineral cheat activated (only local ofcourse)");
-      }
-      else if (parsed[1] == "gas")
-      {
-        BW::BWDATA_PlayerResources->gas.player[this->BWAPIPlayer->getID()] += 10000;
-        this->print("BWAPI gas cheat activated (only local ofcourse)");
-      }
-      else if (parsed[1] == "speed")
-      {
-        for (u16 i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        {
-          BW::UnitType type((BW::UnitID::Enum)i);
-          if (type.isValid())
-            BW::BWDATA_BuildTime->buildTime[i] = 16;
-        }
-        this->print("BWAPI speed cheat activated (only local ofcourse)");
-      }
-      else 
-        this->print("Unknown log command '%s''s - possible values are: all, ore, gas, speed", parsed[1].c_str());
-      return true;
-    }/*
-    else if (parsed[0] == "/test")
-    {
-      drawBox(this->BWAPIPlayer->getStartLocation().x()*32, this->BWAPIPlayer->getStartLocation().y()*32, 128, 96, 11, 2, 2);
-      this->print("testing");
-      return true;
-    }*/
     else if (parsed[0] == "/set")
     {
       if (parsed[1] == "range")
@@ -1164,7 +1182,7 @@ namespace BWAPI
   }
   void GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-      addShape(new ShapeTriangle(ctype,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
+    addShape(new ShapeTriangle(ctype,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
   }
   void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {

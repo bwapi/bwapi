@@ -80,10 +80,15 @@ namespace BW
   {
     return BW::BWDATA_GasPrices->gasPrice[this->getID()];
   }
-  //---------------------------------------------- GET SUPPLIES ----------------------------------------------
-  s8 UnitType::getSupplies() const
+  //--------------------------------------------- SUPPLY REQUIRED --------------------------------------------
+  s8 UnitType::supplyRequired() const
   {
     return BW::BWDATA_SupplyDemands->supplyDemand[this->getID()];
+  }
+  //--------------------------------------------- SUPPLY PROVIDED --------------------------------------------
+  s8 UnitType::supplyProvided() const
+  {
+    return BW::BWDATA_SupplyProduced->unitType[this->getID()];
   }
   //----------------------------------------------- GET ARMOR ------------------------------------------------
   u8 UnitType::getArmor() const
@@ -205,6 +210,86 @@ namespace BW
     else
       return BW::Race::Other;
   }
+  //----------------------------------------------- IS FLYER -------------------------------------------------
+  bool UnitType::isFlyer() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Flyer);
+  }
+  //---------------------------------------------- REGENERATES HP --------------------------------------------
+  bool UnitType::regeneratesHP() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::RegeneratesHP);
+  }
+  //---------------------------------------------- IS SPELL CASTER -------------------------------------------
+  bool UnitType::isSpellcaster() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Spellcaster);
+  }
+  //-------------------------------------------- HAS PERMANENT CLOAK -----------------------------------------
+  bool UnitType::hasPermanentCloak() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::PermanentCloak);
+  }
+  //----------------------------------------------- IS INVINCIBLE --------------------------------------------
+  bool UnitType::isInvincible() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Invincible);
+  }
+  //----------------------------------------------- IS ORGANIC -----------------------------------------------
+  bool UnitType::isOrganic() const
+  {
+	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Organicunit);
+  }
+  //--------------------------------------------- IS MECHANACAL ----------------------------------------------
+  bool UnitType::isMechanical() const
+  {
+	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Mechanical);
+  }
+  //---------------------------------------------- IS ROBOTIC ------------------------------------------------
+  bool UnitType::isRobotic() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::RoboticUnit);
+  }
+  //---------------------------------------------- IS DETECTOR -----------------------------------------------
+  bool UnitType::isDetector() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Detector);
+  }
+  //----------------------------------------- IS RESOURCE CONTAINER ------------------------------------------
+  bool UnitType::isResourceContainer() const
+  {
+    return false;//TODO: implement this
+  }
+  //----------------------------------------- IS RESOURCE CONTAINER ------------------------------------------
+  bool UnitType::isResourceDepot() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::ResourceDepot);
+  }
+  //---------------------------------------------- REQUIRES PSI ----------------------------------------------
+  bool UnitType::requiresPsi() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::RequiredPsi);
+  }
+  //--------------------------------------------- REQUIRES CREEP ---------------------------------------------
+  bool UnitType::requiresCreep() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::CreepBuilding);
+  }
+  //----------------------------------------- IS TWO UNITS IN ONE EGG ----------------------------------------
+  bool UnitType::isTwoUnitsInOneEgg() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::TwoUnitsIn1Egg);
+  }
+  //--------------------------------------------- IS BURROWABLE ----------------------------------------------
+  bool UnitType::isBurrowable() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Burrowable);
+  }
+  //--------------------------------------------- IS CLOAKABLE ----------------------------------------------
+  bool UnitType::isCloakable() const
+  {
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Cloakable);
+  }
   //---------------------------------------------- IS BUILDING -----------------------------------------------
   bool UnitType::isBuilding() const
   {
@@ -215,11 +300,11 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::Addon);
   }
-  //----------------------------------------------- IS FLYER -------------------------------------------------
-  bool UnitType::isFlyer() const
+  //------------------------------------------------ IS ADDON ------------------------------------------------
+  bool UnitType::isFlyingBuilding() const
   {
-    return this->getFlags().getBit(BW::UnitPrototypeFlags::Flyer);
-  }  
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::FlyingBuilding);
+  }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool UnitType::isNeutral() const
   {
@@ -230,16 +315,7 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
   }
-  //----------------------------------------- IS ORGANIC ------------------------------------------
-  bool UnitType::isOrganic() const
-  {
-	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Organicunit);
-  }
-  //----------------------------------------- IS MECHANACAL ------------------------------------------
-  bool UnitType::isMechanical() const
-  {
-	  return this->getFlags().getBit(BW::UnitPrototypeFlags::Mechanical);
-  }
+
   static std::pair< BW::UnitType, int > whatBuildsData[BW::UNIT_TYPE_COUNT];
   //--------------------------------------------- WHERE TO BUILD ---------------------------------------------
   std::pair<BW::UnitType,int> UnitType::whatBuilds() const
