@@ -103,6 +103,7 @@ namespace BWAPI
       virtual Player* self() const;
       virtual Player* enemy() const;
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid=false);
+      virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid=false);
       virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid=false);
       virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid=false);
       virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
