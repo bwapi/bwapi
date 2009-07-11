@@ -238,6 +238,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\Strings.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Types.h"
 					>
 				</File>

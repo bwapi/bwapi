@@ -56,7 +56,7 @@
     <build name="Terran Barracks" place="barracks"/>
     <build name="Terran Nuclear Silo" priority="6"/>
     <train building="Terran Nuclear Silo" priority="6">
-      <build name="Nuclear Missile" weight="1" />
+      <build name="Terran Nuclear Missile" weight="1" />
     </train>
   </build-order>
       
@@ -70,7 +70,7 @@
       </build>
     </train>
     <train building="Terran Factory" priority="5">
-      <build name="Terran Siege Tank" weight="2" />
+      <build name="Terran Siege Tank Tank Mode" weight="2" />
       <build name="Terran Vulture" weight="2" />
       <build name="Terran Goliath" weight="1" />
     </train>    

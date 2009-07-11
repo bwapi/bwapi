@@ -33,6 +33,7 @@ namespace Util
         *         (non-numerical characters)
         */
        static unsigned long stringToInt(const std::string &input, const unsigned long begin = 0, const int distance = 9);
+       static std::string stringToVariableName(const std::string &input);
        static void stringToFile(const std::string &input, FILE* f);
        static void saveToFile(const std::string &input, const std::string &fileName);
        static bool beginsWithNumber(const std::string &input);

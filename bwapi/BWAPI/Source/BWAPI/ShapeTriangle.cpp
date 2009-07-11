@@ -60,9 +60,9 @@ namespace BWAPI
 	  }
 	  else
 	  {
-	    new ShapeLine(ctype,ax,ay,bx,by,color);
-	    new ShapeLine(ctype,ax,ay,cx,cy,color);
-	    new ShapeLine(ctype,bx,by,cx,cy,color);
+      ShapeLine(ctype,ax,ay,bx,by,color).draw();
+	    ShapeLine(ctype,ax,ay,cx,cy,color).draw();
+	    ShapeLine(ctype,bx,by,cx,cy,color).draw();
 	  }
   }
 }

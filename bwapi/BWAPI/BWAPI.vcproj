@@ -533,6 +533,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\ShapeTriangle.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\UnitImpl.cpp"
 					>
 				</File>
@@ -718,6 +722,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\ShapeLine.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeTriangle.h"
 					>
 				</File>
 				<File
