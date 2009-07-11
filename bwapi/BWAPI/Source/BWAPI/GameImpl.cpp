@@ -1164,14 +1164,7 @@ namespace BWAPI
   }
   void GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    if(isSolid)
-    {
       addShape(new ShapeTriangle(ctype,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
-    } else {
-      drawLine(ctype,ax,ay,bx,by,color);
-      drawLine(ctype,ax,ay,cx,cy,color);
-      drawLine(ctype,bx,by,cx,cy,color);
-    }
   }
   void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
