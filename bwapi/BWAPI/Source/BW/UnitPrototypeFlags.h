@@ -19,7 +19,7 @@ namespace BW
       TwoUnitsIn1Egg          = 1 << 0x0A,
       NeutralAccessories      = 1 << 0x0B,
       ResourceDepot           = 1 << 0x0C,
-      ContainsGas             = 1 << 0x0D,
+      ResourceContainer       = 1 << 0x0D,
       RoboticUnit             = 1 << 0x0E,
       Detector                = 1 << 0x0F,
       Organicunit             = 1 << 0x10,

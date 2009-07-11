@@ -899,6 +899,124 @@ namespace BWAI
         BWAPI::Broodwar->print("Unknown reload command '%s' - possible values are: map, bo", parsed[1].c_str());
       return true;
     }
+    else if (parsed[0] == "/type")
+    {
+      std::set<BWAPI::Unit*> selectedUnits=BWAPI::Broodwar->getSelectedUnits();
+      if (selectedUnits.size()>0)
+      {
+        BWAPI::Unit* unit=*selectedUnits.begin();
+        BWAPI::UnitType type=unit->getType();
+        if (parsed[1] == "supplyRequired")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.supplyRequired());
+        }
+        else if (parsed[1] == "supplyProvided")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.supplyProvided());
+        }
+        else if (parsed[1] == "canProduce")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.canProduce() ? "true" : "false");
+        }
+        else if (parsed[1] == "canAttack")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.canAttack() ? "true" : "false");
+        }
+        else if (parsed[1] == "canMove")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.canMove() ? "true" : "false");
+        }
+        else if (parsed[1] == "isFlyer")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isFlyer() ? "true" : "false");
+        }
+        else if (parsed[1] == "regeneratesHP")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.regeneratesHP() ? "true" : "false");
+        }
+        else if (parsed[1] == "isSpellcaster")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isSpellcaster() ? "true" : "false");
+        }
+        else if (parsed[1] == "hasPermanentCloak")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.hasPermanentCloak() ? "true" : "false");
+        }
+        else if (parsed[1] == "isInvincible")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isInvincible() ? "true" : "false");
+        }
+        else if (parsed[1] == "isOrganic")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isOrganic() ? "true" : "false");
+        }
+        else if (parsed[1] == "isMechanical")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isMechanical() ? "true" : "false");
+        }
+        else if (parsed[1] == "isRobotic")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isRobotic() ? "true" : "false");
+        }
+        else if (parsed[1] == "isDetector")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isDetector() ? "true" : "false");
+        }
+        else if (parsed[1] == "isResourceContainer")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isResourceContainer() ? "true" : "false");
+        }
+        else if (parsed[1] == "isResourceDepot")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isResourceDepot() ? "true" : "false");
+        }
+        else if (parsed[1] == "isWorker")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isWorker() ? "true" : "false");
+        }
+        else if (parsed[1] == "requiresPsi")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.requiresPsi() ? "true" : "false");
+        }
+        else if (parsed[1] == "requiresCreep")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.requiresCreep() ? "true" : "false");
+        }
+        else if (parsed[1] == "isTwoUnitsInOneEgg")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isTwoUnitsInOneEgg() ? "true" : "false");
+        }
+        else if (parsed[1] == "isBurrowable")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isBurrowable() ? "true" : "false");
+        }
+        else if (parsed[1] == "isCloakable")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isCloakable() ? "true" : "false");
+        }
+        else if (parsed[1] == "isBuilding")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isBuilding() ? "true" : "false");
+        }
+        else if (parsed[1] == "isAddon")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isAddon() ? "true" : "false");
+        }
+        else if (parsed[1] == "isFlyingBuilding")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isFlyingBuilding() ? "true" : "false");
+        }
+        else if (parsed[1] == "isNeutral")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.isNeutral() ? "true" : "false");
+        }
+        else
+        {
+          BWAPI::Broodwar->printPublic("Unrecognized method call: %s",parsed[1].c_str());
+        }
+      }
+      return true;
+    }
     else if (parsed[0] == "/call")
     {
       std::set<BWAPI::Unit*> selectedUnits=BWAPI::Broodwar->getSelectedUnits();
@@ -1542,6 +1660,7 @@ namespace BWAI
           BWAPI::Broodwar->printPublic("Unrecognized method call: %s",parsed[1].c_str());
         }
       }
+      return true;
     }
     return false;
   }
@@ -1612,7 +1731,7 @@ namespace BWAI
     s32 returnValue = 0;
     for each (TaskBuild* i in this->plannedBuildings)
       if (i->getBuildingType().getRace() == race)
-        returnValue += i->getBuildingType().suppliesProduced();
+        returnValue += i->getBuildingType().supplyProvided();
     return returnValue;
   }
   //---------------------------------------------- FREE BUILDER ----------------------------------------------

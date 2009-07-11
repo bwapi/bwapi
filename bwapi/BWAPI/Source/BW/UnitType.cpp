@@ -178,11 +178,6 @@ namespace BW
   {
     return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Protoss);
   }
-  //----------------------------------------------- IS WORKER ------------------------------------------------
-  bool UnitType::isWorker() const
-  {
-    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Worker);
-  }
   //----------------------------------------------- CAN ATTACK -----------------------------------------------
   bool UnitType::canAttack() const
   {
@@ -258,12 +253,17 @@ namespace BW
   //----------------------------------------- IS RESOURCE CONTAINER ------------------------------------------
   bool UnitType::isResourceContainer() const
   {
-    return false;//TODO: implement this
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::ResourceContainer);
   }
   //----------------------------------------- IS RESOURCE CONTAINER ------------------------------------------
   bool UnitType::isResourceDepot() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::ResourceDepot);
+  }
+  //----------------------------------------------- IS WORKER ------------------------------------------------
+  bool UnitType::isWorker() const
+  {
+    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Worker);
   }
   //---------------------------------------------- REQUIRES PSI ----------------------------------------------
   bool UnitType::requiresPsi() const

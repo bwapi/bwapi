@@ -23,8 +23,8 @@ namespace BWAPI
     const std::pair< const UnitType*,int> whatBuilds() const;
     const std::map< const UnitType*,int >& requiredUnits() const;
     const TechType* requiredTech() const;
-    int suppliesConsumed() const;
-    int suppliesProduced() const;
+    int supplyRequired() const;
+    int supplyProvided() const;
     int maxHealth() const;
     int maxShield() const;
     int maxEnergy() const;
@@ -43,13 +43,28 @@ namespace BWAPI
     bool canProduce() const;
     bool canAttack() const;
     bool canMove() const;
-    bool isWorker() const;
-    bool isBuilding() const;
-    bool isAddon() const;
+
     bool isFlyer() const;
-    bool isNeutral() const;
+    bool regeneratesHP() const;
+    bool isSpellcaster() const;
+    bool hasPermanentCloak() const;
+    bool isInvincible() const;
     bool isOrganic() const;
     bool isMechanical() const;
+    bool isRobotic() const;
+    bool isDetector() const;
+    bool isResourceContainer() const;
+    bool isResourceDepot() const;
+    bool isWorker() const;
+    bool requiresPsi() const;
+    bool requiresCreep() const;
+    bool isTwoUnitsInOneEgg() const;
+    bool isBurrowable() const;
+    bool isCloakable() const;
+    bool isBuilding() const;
+    bool isAddon() const;
+    bool isFlyingBuilding() const;
+    bool isNeutral() const;
   private:
     int id;
   };
