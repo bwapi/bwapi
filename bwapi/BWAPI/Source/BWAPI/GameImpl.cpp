@@ -641,14 +641,19 @@ namespace BWAPI
                    << bwu.getBuildTime() << "," << bwu.dimensionLeft() << "," << bwu.dimensionUp() << ","
                    << bwu.dimensionRight() << "," << bwu.dimensionDown() << "," << bwu.getTileWidth() << ","
                    << bwu.getTileHeight() << "," << (int)bwu.getDamageFactor() << "," << bwu.getGroundDamage()
-                   << "," << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove() << ","
-                   << bwu.isBuilding() << "," << bwu.isAddon() << "," << bwu.isFlyer() << ","
-                   << bwu.isNeutral() << "," << bwu.isOrganic() << "," << bwu.isMechanical()
+                   << "," << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove()
+                   << "," << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster()
+                   << "," << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic()
+                   << "," << bwu.isMechanical() << "," << bwu.isRobotic() << "," << bwu.isDetector()
+                   << "," << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker()
+                   << "," << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg()
+                   << "," << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding()
+                   << "," << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral()
                    << ");\n";
           }
           else
           {
-            unitData << "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);\n";
+            unitData << "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);\n";
           }
         }
         unitData.close();

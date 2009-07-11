@@ -162,13 +162,13 @@ namespace BWAI
   {
     if (this==ai->player)
     {
-      return ((int)this->getSuppliesFree()) - ai->reserved.supply   >= unit.suppliesConsumed() &&
+      return ((int)this->getSuppliesFree()) - ai->reserved.supply   >= unit.supplyRequired() &&
              ((int)this->getMinerals())     - ai->reserved.minerals >= unit.mineralPrice() &&
              ((int)this->getGas())          - ai->reserved.gas      >= unit.gasPrice();
     }
     else
     {
-      return ((int)this->getSuppliesFree()) >= unit.suppliesConsumed() &&
+      return ((int)this->getSuppliesFree()) >= unit.supplyRequired() &&
              ((int)this->getMinerals())     >= unit.mineralPrice() &&
              ((int)this->getGas())          >= unit.gasPrice();
     }
@@ -176,7 +176,7 @@ namespace BWAI
   //--------------------------------------------- CAN AFFORD NOW ---------------------------------------------
   bool Player::canAffordNow(BWAPI::UnitType unit) const
   {
-    return ((int)this->getSuppliesFree()) >= unit.suppliesConsumed() &&
+    return ((int)this->getSuppliesFree()) >= unit.supplyRequired() &&
            ((int)this->getMinerals())     >= unit.mineralPrice() &&
            ((int)this->getGas())          >= unit.gasPrice();
   }
