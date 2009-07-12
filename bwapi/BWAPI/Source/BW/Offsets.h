@@ -247,39 +247,39 @@ namespace BW
     SuppliesPerRace race[RACE_COUNT];
   };
   static Supplies* BWDATA_Supplies    = (Supplies*) 0x00582144;
-  
-  
-  //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
-  /** Direct mapping of unit types mineral prices. */
-  struct MineralPrices_type
-  {
-    u16 mineralPrice[UNIT_TYPE_COUNT];
-  };
-  static MineralPrices_type* BWDATA_MineralPrices = (MineralPrices_type*) unitsDat[40].address;
 
-  //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
-  /** Direct mapping of unit types gas prices. */
-  struct GasPrices_type
+  struct unitsDat_u8_type
   {
-    u16 gasPrice[UNIT_TYPE_COUNT];
-  };
-  static GasPrices_type* BWDATA_GasPrices = (GasPrices_type*) unitsDat[41].address;
-  //------------------------------------------ UNIT SUPPLY DEMANDS -------------------------------------------
-  /** Direct mapping of unit supply demands. */
-  struct SupplyDemands_type
+    u8 unitType[UNIT_TYPE_COUNT];
+  };  
+  struct unitsDat_u16_type
   {
-    u8 supplyDemand[UNIT_TYPE_COUNT];
-  };
-  static SupplyDemands_type* BWDATA_SupplyDemands = (SupplyDemands_type*) unitsDat[46].address;
-  
-  //------------------------------------------ UNIT SUPPLY PRODUCED ------------------------------------------
-  /** Direct mapping of unit supply production. */
-  struct SupplyProduced_type
+    u16 unitType[UNIT_TYPE_COUNT];
+  };  
+  /*
+  //------------------------------------------ UNKNOWN -------------------------------------------
+  struct Unknown_type
   {
     u8 unitType[UNIT_TYPE_COUNT];
   };
-  static SupplyProduced_type* BWDATA_SupplyProduced = (SupplyProduced_type*) unitsDat[45].address;
+  static Unknown_type* BWDATA_Unknown = (Unknown_type*) unitsDat[23].address;
+  */
+  //------------------------------------------------ GRAPHICS ------------------------------------------------
+  static unitsDat_u8_type* BWDATA_Graphics = (unitsDat_u8_type*) unitsDat[0].address;
+  //------------------------------------------------ SUB UNIT ------------------------------------------------
+  static unitsDat_u16_type* BWDATA_SubUnit = (unitsDat_u16_type*) unitsDat[1].address;
 
+  
+  //----------------------------------------------- DIRECTION ------------------------------------------------
+  static unitsDat_u8_type* BWDATA_Direction = (unitsDat_u8_type*) unitsDat[5].address;
+  //-------------------------------------------------- RACES -------------------------------------------------
+  struct Races_type
+  {
+    u8 unitType[UNIT_TYPE_COUNT];
+  };
+  static Races_type* BWDATA_IsProtoss = (Races_type*) unitsDat[6].address;
+  //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
+  static unitsDat_u16_type* BWDATA_MaxShieldPoints = (unitsDat_u16_type*) unitsDat[7].address;
   //---------------------------------------------- UNIT MAX HP -----------------------------------------------
   /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
   struct MaxHealthPoints_NotAttackable_Repairable_type
@@ -294,31 +294,70 @@ namespace BW
     MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[UNIT_TYPE_COUNT];
   };
   static MaxHealthPoints_NotAttackable_Repairable_type* BWDATA_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) unitsDat[8].address;
-  //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
-  /** Direct mapping of unit unit type Shield points */
-  struct MaxShieldPoints_type
-  {
-    u16 maxShieldPoints[UNIT_TYPE_COUNT];
-  };
-  static MaxShieldPoints_type* BWDATA_MaxShieldPoints = (MaxShieldPoints_type*) unitsDat[7].address;
-   //------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
-  /** Direct mapping of unit type armor */
-  struct Armor_type
-  {
-    u8 armor[UNIT_TYPE_COUNT];
-  };
-  static Armor_type* BWDATA_Armor = (Armor_type*) unitsDat[27].address;
+  //--------------------------------------------- ELEVATION ----------------------------------------------
+  static unitsDat_u8_type* BWDATA_Elevation= (unitsDat_u8_type*) unitsDat[9].address;
 
-    //----------------------------------------- UNIT MAX BUILD TIME ------------------------------------------
-  /** Direct mapping of unit build time*/
-  struct BuildTime_type
-  {
-   u16 buildTime[UNIT_TYPE_COUNT];
-  };
-  static BuildTime_type* BWDATA_BuildTime = (BuildTime_type*) unitsDat[42].address;
 
-  //-------------------------------------------- UNIT DIRECTIONS ---------------------------------------------
-  /** Direct mapping of unit unit type armor */
+  //--------------------------------------------- UNIT SUBLABEL ----------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitSubLabel= (unitsDat_u8_type*) unitsDat[11].address;
+
+
+  //------------------------------------------ UNIT GROUND WEAPON --------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitGroundWeapon = (unitsDat_u8_type*) unitsDat[17].address;
+  //-------------------------------------------- MAX GROUND HITS ---------------------------------------------
+  static unitsDat_u8_type* BWDATA_MaxGroundHits = (unitsDat_u8_type*) unitsDat[18].address;
+  //------------------------------------------- UNIT AIR WEAPON ----------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitAirWeapon = (unitsDat_u8_type*) unitsDat[19].address;
+  //---------------------------------------------- MAX AIR HITS ----------------------------------------------
+  static unitsDat_u8_type* BWDATA_MaxAirHits = (unitsDat_u8_type*) unitsDat[20].address;
+  //-------------------------------------------- UNIT AI INTERVAL --------------------------------------------
+  static unitsDat_u8_type* BWDATA_AIInterval = (unitsDat_u8_type*) unitsDat[21].address;
+  //------------------------------------------------- FLAGS --------------------------------------------------
+  struct PrototypeFlags_type
+  {
+    Util::BitMask<UnitPrototypeFlags::Enum> unit[UNIT_TYPE_COUNT];
+  };
+  static PrototypeFlags_type* BWDATA_UnitPrototypeFlags = (PrototypeFlags_type*) unitsDat[22].address;
+  //-------------------------------------------- UNIT SEEK RANGE ---------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitSeekRange = (unitsDat_u8_type*) unitsDat[23].address;
+  //-------------------------------------------- UNIT SIGHT RANGE --------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitSightRange = (unitsDat_u8_type*) unitsDat[24].address;
+
+
+  //----------------------------------------------- UNIT SIZE ------------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitSize = (unitsDat_u8_type*) unitsDat[26].address;
+  //---------------------------------------------- UNIT ARMOR ------------------------------------------------
+  static unitsDat_u8_type* BWDATA_Armor = (unitsDat_u8_type*) unitsDat[27].address;
+
+
+  //-------------------------------------------- UNIT READY SOUND --------------------------------------------
+  static unitsDat_u16_type* BWDATA_ReadySound = (unitsDat_u16_type*) unitsDat[29].address;
+  //------------------------------------------ UNIT FIRST WHAT SOUND -----------------------------------------
+  static unitsDat_u16_type* BWDATA_FirstWhatSound = (unitsDat_u16_type*) unitsDat[30].address;
+  //------------------------------------------ UNIT LAST WHAT SOUND ------------------------------------------
+  static unitsDat_u16_type* BWDATA_LastWhatSound = (unitsDat_u16_type*) unitsDat[31].address;
+  //---------------------------------------- UNIT FIRST ANNOYED SOUND ----------------------------------------
+  static unitsDat_u16_type* BWDATA_FirstAnnoyedSound = (unitsDat_u16_type*) unitsDat[32].address;
+  //----------------------------------------- UNIT LAST ANNOYED SOUND ----------------------------------------
+  static unitsDat_u16_type* BWDATA_LastAnnoyedSound = (unitsDat_u16_type*) unitsDat[33].address;
+  //------------------------------------------- UNIT FIRST YES SOUND -----------------------------------------
+  static unitsDat_u16_type* BWDATA_FirstYesSound = (unitsDat_u16_type*) unitsDat[34].address;
+  //------------------------------------------- UNIT LAST YES SOUND ------------------------------------------
+  static unitsDat_u16_type* BWDATA_LastYesSound = (unitsDat_u16_type*) unitsDat[35].address;
+  //--------------------------------------------- UNIT PLACEMENT ---------------------------------------------
+  struct UnitPlacement_type
+  {
+    struct Placement_Internal_type
+    {
+      u16 height;
+      u16 width;
+    };
+    Placement_Internal_type unitType[UNIT_TYPE_COUNT];
+  };
+  static UnitPlacement_type* BWDATA_UnitPlacement = (UnitPlacement_type*) unitsDat[36].address;
+
+
+  //-------------------------------------------- UNIT DIMENSIONS ---------------------------------------------
   struct UnitsDimensions_type
   {
     /** Dimensions of unit, it's the distance from the 'center' of unit to each border */
@@ -332,30 +371,36 @@ namespace BW
     UnitDimensions units[UNIT_TYPE_COUNT];
   };
   static UnitsDimensions_type* BWDATA_UnitDimensions = (UnitsDimensions_type*) unitsDat[38].address;
+  //------------------------------------------- UNIT IDLE PORTRAIT -------------------------------------------
+  static unitsDat_u16_type* BWDATA_IdlePortrait = (unitsDat_u16_type*) unitsDat[39].address;
+  //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
+  static unitsDat_u16_type* BWDATA_MineralPrices = (unitsDat_u16_type*) unitsDat[40].address;
+  //------------------------------------------ UNIT MINERAL PRICES -------------------------------------------
+  static unitsDat_u16_type* BWDATA_GasPrices = (unitsDat_u16_type*) unitsDat[41].address;
+  //-------------------------------------------- UNIT BUILD TIME ---------------------------------------------
+  static unitsDat_u16_type* BWDATA_BuildTime = (unitsDat_u16_type*) unitsDat[42].address;
+
+  //---------------------------------------------- GROUP FLAGS -----------------------------------------------
+  struct PrototypeGroupFlags_type
+  {
+    Util::BitMask<GroupFlags::Enum> unit[UNIT_TYPE_COUNT];
+  };
+  static PrototypeGroupFlags_type* BWDATA_PrototypeGroupFlags = (PrototypeGroupFlags_type*) unitsDat[44].address;
+  //------------------------------------------ UNIT SUPPLY PROVIDED ------------------------------------------
+  static unitsDat_u8_type* BWDATA_SupplyProvided = (unitsDat_u8_type*) unitsDat[45].address;
+  //------------------------------------------ UNIT SUPPLY REQUIRED ------------------------------------------
+  static unitsDat_u8_type* BWDATA_SupplyRequired = (unitsDat_u8_type*) unitsDat[46].address;
+  //------------------------------------------ UNIT SPACE REQUIRED -------------------------------------------
+  static unitsDat_u8_type* BWDATA_SpaceRequired = (unitsDat_u8_type*) unitsDat[47].address;
+  //------------------------------------------ UNIT SPACE PRODUCED -------------------------------------------
+  static unitsDat_u8_type* BWDATA_SpaceProvided = (unitsDat_u8_type*) unitsDat[48].address;
+  //------------------------------------------- UNIT BUILD SCORE ---------------------------------------------
+  static unitsDat_u16_type* BWDATA_BuildScore = (unitsDat_u16_type*) unitsDat[49].address;
+  //------------------------------------------- UNIT DESTROY SCORE -------------------------------------------
+  static unitsDat_u16_type* BWDATA_DestroyScore = (unitsDat_u16_type*) unitsDat[50].address;
+
   const u8 NoWeapon = 130;
-  //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
-  /** Direct mapping of unit unit weapon type */
-  struct UnitsGroundWeapon_type
-  {
-    u8 unit[UNIT_TYPE_COUNT];
-  };
-  static UnitsGroundWeapon_type* BWDATA_UnitGroundWeapon = (UnitsGroundWeapon_type*) unitsDat[17].address;
-  
-  //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
-  /** Direct mapping of unit unit sight range */
-  struct UnitsSightRange_type
-  {
-    u8 unit[UNIT_TYPE_COUNT];
-  };
-  static UnitsSightRange_type* BWDATA_UnitSightRange = (UnitsSightRange_type*) unitsDat[24].address;
-  
-  //-------------------------------------------- GROUND WEAPONS  ---------------------------------------------
-  /** Direct mapping of unit unit sight range */
-  struct UnitsSeekRange_type
-  {
-    u8 unit[UNIT_TYPE_COUNT];
-  };
-  static UnitsSeekRange_type* BWDATA_UnitSeekRange = (UnitsSeekRange_type*) unitsDat[23].address;
+
   
   const int weaponTypeCount = 130;
   //------------------------------------------ WEAPON DAMAGE FACTOR ------------------------------------------
@@ -382,21 +427,7 @@ namespace BW
   };
   static WeaponsRange_type* BWDATA_WeaponRange = (WeaponsRange_type*) weaponsDat[5].address;
 
-  //------------------------------------------------- FLAGS --------------------------------------------------
-  /** Direct mapping of unit flags data */
-  struct PrototypeFlags_type
-  {
-    Util::BitMask<UnitPrototypeFlags::Enum> unit[UNIT_TYPE_COUNT];
-  };
-  static PrototypeFlags_type* BWDATA_UnitPrototypeFlags = (PrototypeFlags_type*) unitsDat[22].address;
 
-  //---------------------------------------------- GROUP FLAGS -----------------------------------------------
-  /** Direct mapping of unit flags data */
-  struct PrototypeGroupFlags_type
-  {
-    Util::BitMask<GroupFlags::Enum> unit[UNIT_TYPE_COUNT];
-  };
-  static PrototypeGroupFlags_type* BWDATA_PrototypeGroupFlags = (PrototypeGroupFlags_type*) unitsDat[44].address;
   //------------------------------------------- TECH MINERAL COST --------------------------------------------
   struct TechCost
   {

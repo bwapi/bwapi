@@ -63,7 +63,7 @@ namespace BW
   //----------------------------------------- GET MAX SHIELD POINTS ------------------------------------------
   u16 UnitType::getMaxShieldPoints() const
   {
-    return BW::BWDATA_MaxShieldPoints->maxShieldPoints[this->getID()];
+    return BW::BWDATA_MaxShieldPoints->unitType[this->getID()];
   }
   //----------------------------------------- GET MAX ENERGY POINTS ------------------------------------------
   u16 UnitType::getMaxEnergyPoints() const
@@ -73,32 +73,32 @@ namespace BW
   //------------------------------------------- GET MINERAL PRICE --------------------------------------------
   u16 UnitType::getMineralPrice() const
   {
-    return BW::BWDATA_MineralPrices->mineralPrice[this->getID()];
+    return BW::BWDATA_MineralPrices->unitType[this->getID()];
   }
   //--------------------------------------------- GET GAS PRICE ----------------------------------------------
   u16 UnitType::getGasPrice() const
   {
-    return BW::BWDATA_GasPrices->gasPrice[this->getID()];
+    return BW::BWDATA_GasPrices->unitType[this->getID()];
   }
   //--------------------------------------------- SUPPLY REQUIRED --------------------------------------------
   s8 UnitType::supplyRequired() const
   {
-    return BW::BWDATA_SupplyDemands->supplyDemand[this->getID()];
+    return BW::BWDATA_SupplyRequired->unitType[this->getID()];
   }
   //--------------------------------------------- SUPPLY PROVIDED --------------------------------------------
   s8 UnitType::supplyProvided() const
   {
-    return BW::BWDATA_SupplyProduced->unitType[this->getID()];
+    return BW::BWDATA_SupplyProvided->unitType[this->getID()];
   }
   //----------------------------------------------- GET ARMOR ------------------------------------------------
   u8 UnitType::getArmor() const
   {
-    return BW::BWDATA_Armor->armor[this->getID()];
+    return BW::BWDATA_Armor->unitType[this->getID()];
   }
   //--------------------------------------------- GET BUILD TIME ---------------------------------------------
   u16 UnitType::getBuildTime() const
   {
-    return BW::BWDATA_BuildTime->buildTime[this->getID()];
+    return BW::BWDATA_BuildTime->unitType[this->getID()];
   }
   //--------------------------------------------- DIMENSION LEFT ---------------------------------------------
   u16 UnitType::dimensionLeft() const
@@ -123,7 +123,7 @@ namespace BW
   //------------------------------------------- GET DAMAGE FACTOR --------------------------------------------
   u8 UnitType::getDamageFactor() const
   {
-    int weaponID = BW::BWDATA_UnitGroundWeapon->unit[this->getID()];
+    int weaponID = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
     if (weaponID == BW::NoWeapon)
        return 0;
     else
@@ -132,7 +132,7 @@ namespace BW
   //------------------------------------------- GET GROUND DAMAGE --------------------------------------------
   u16 UnitType::getGroundDamage() const
   {
-    int weaponID = BW::BWDATA_UnitGroundWeapon->unit[this->getID()];
+    int weaponID = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
     if (weaponID == BW::NoWeapon)
        return 0;
     else
@@ -332,11 +332,6 @@ namespace BW
     if (this->getID()==BW::UnitID::Zerg_Lurker)
       return BW::TechID::LurkerAspect;
     return BW::TechID::None;
-  }
-  //------------------------------------------ GET SUPPLY PRODUCED -------------------------------------------
-  u16 UnitType::getSupplyProduced()
-  {
-    return BWDATA_SupplyProduced->unitType[this->getID()];
   }
   //---------------------------------------------- INITIALIZE ------------------------------------------------
   void UnitType::initialize()
