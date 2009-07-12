@@ -45,12 +45,12 @@ namespace BW
   {
     if (this->getID() == BW::UnitID::None)
       return "None";
-    else if (this->getID() < 228)
+    else if (this->getID() < BW::UNIT_TYPE_COUNT)
       return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + this->getID()*2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
     else
       return "Invalid";
   }
-  //---------------------------------------------- GET UNIT ID -----------------------------------------------
+  //------------------------------------------------- GET ID -------------------------------------------------
   BW::UnitID::Enum UnitType::getID() const
   {
     return this->id;
