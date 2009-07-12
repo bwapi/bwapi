@@ -395,9 +395,6 @@ namespace BW
 
   const u8 NoWeapon = 130;
 
-  
-
-
   struct weaponsDat_u8_type
   {
     u8 weaponType[WEAPON_TYPE_COUNT];

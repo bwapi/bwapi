@@ -38,6 +38,7 @@
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
 #include <BW/GameType.h>
+#include <BW/WeaponType.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -669,7 +670,7 @@ namespace BWAPI
         }
         unitsDat.close();
       }
-      *//*
+      */
       else if (parsed[1]=="weaponsDat")
       {
         std::ofstream weaponsDat;
@@ -677,10 +678,10 @@ namespace BWAPI
         for(int i=0;i<BW::WEAPON_TYPE_COUNT;i++)
         {
 
-          weaponsDat << i << ": " << (int)BW::BWDATA_UnknownWeapon->weaponType[i] << "\n";         
+          weaponsDat << i << ": " << BW::WeaponType((BW::WeaponID::Enum)i).getName() << "\n";         
         }
         weaponsDat.close();
-      }*/
+      }
       else
       {
         this->print("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
