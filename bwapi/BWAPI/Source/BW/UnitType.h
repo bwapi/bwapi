@@ -100,7 +100,6 @@ namespace BW
     std::pair<BW::UnitType,int> UnitType::whatBuilds() const;
     const std::map< BW::UnitType, int >& getRequiredUnits() const;
     BW::TechID::Enum        getRequiredTech() const;
-    u16                  getSupplyProduced();
     BW::UnitID::Enum id;
     static void initialize();
   private :
