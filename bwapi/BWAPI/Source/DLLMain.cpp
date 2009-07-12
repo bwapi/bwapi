@@ -369,6 +369,7 @@ void __declspec(naked) onIssueCommand()
     mov commandIDptr, ecx;
   }
   commandID=*(u8*)commandIDptr;
+  //Util::Logger::globalLog->log("command ID: 0x%x",(int)commandID);
 
   //decide if we should let the command go through
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
@@ -380,7 +381,13 @@ void __declspec(naked) onIssueCommand()
     || commandID==0x11  //ResumeGame
     || commandID==0x3C  //StartGame
     || commandID==0x41  //ChangeRace
-    || commandID==0x44) //ChangeSlot
+    || commandID==0x44  //ChangeSlot
+    || commandID==0x3D  //PlayerJoin?
+    || commandID==0x3E  //Lobby?
+    || commandID==0x3F  //?
+    || commandID==0x40  //?
+    || commandID==0x0A  //?
+    )
   {
     __asm
     {
@@ -400,7 +407,9 @@ void __declspec(naked) onIssueCommand()
     }
   }
   else
-    {
+  {
+    //Util::Logger::globalLog->log("blocked command ID: 0x%x",(int)commandID);
+
     __asm
     {
       mov eax, eaxSave
