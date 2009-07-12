@@ -344,6 +344,10 @@
 					RelativePath=".\Source\BW\UpgradeID.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BW\WeaponTargetFlags.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

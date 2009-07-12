@@ -669,7 +669,18 @@ namespace BWAPI
         }
         unitsDat.close();
       }
-      */
+      *//*
+      else if (parsed[1]=="weaponsDat")
+      {
+        std::ofstream weaponsDat;
+        weaponsDat.open("bwapi-data/weaponsDat.txt");
+        for(int i=0;i<BW::WEAPON_TYPE_COUNT;i++)
+        {
+
+          weaponsDat << i << ": " << (int)BW::BWDATA_UnknownWeapon->weaponType[i] << "\n";         
+        }
+        weaponsDat.close();
+      }*/
       else
       {
         this->print("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
@@ -884,7 +895,7 @@ namespace BWAPI
           this->print("Unknown unit name '%s'", name.c_str());
           return true;
         }
-        BW::BWDATA_WeaponRange->weapon[BW::BWDATA_UnitGroundWeapon->unitType[unit.getID()]] = range;
+        BW::BWDATA_WeaponMaxRange->weaponType[BW::BWDATA_UnitGroundWeapon->unitType[unit.getID()]] = range;
         BW::BWDATA_UnitSeekRange->unitType[unit.getID()] = range << 8;
         this->print("Set range of '%s' to %d", name.c_str(), range);
       }

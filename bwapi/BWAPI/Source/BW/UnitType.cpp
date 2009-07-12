@@ -127,7 +127,7 @@ namespace BW
     if (weaponID == BW::NoWeapon)
        return 0;
     else
-       return BW::BWDATA_WeaponDamageFactor->weapon[weaponID];
+       return BW::BWDATA_WeaponDamageFactor->weaponType[weaponID];
   }
   //------------------------------------------- GET GROUND DAMAGE --------------------------------------------
   u16 UnitType::getGroundDamage() const
@@ -136,7 +136,7 @@ namespace BW
     if (weaponID == BW::NoWeapon)
        return 0;
     else
-       return BW::BWDATA_WeaponDamage->weapon[weaponID];
+       return BW::BWDATA_WeaponDamageAmount->weaponType[weaponID];
   }
   //----------------------------------------------- GET FLAGS ------------------------------------------------
   Util::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
