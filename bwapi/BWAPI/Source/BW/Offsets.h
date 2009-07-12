@@ -6,6 +6,7 @@
 #include "../StaticAssert.h"
 
 #include "UnitPrototypeFlags.h"
+#include "WeaponTargetFlags.h"
 #include "MiniTileFlags.h"
 #include "GroupFlags.h"
 #include "PlayerType.h"
@@ -25,6 +26,7 @@ namespace BW
   static const u8  UNIT_TYPE_COUNT       = 228;
   static const u8  TECH_TYPE_COUNT       =  44;
   static const u8  UPGRADE_TYPE_COUNT    =  66;
+  static const u8  WEAPON_TYPE_COUNT     = 130;
 
   static const int TILE_SIZE          =  32;
  
@@ -251,21 +253,13 @@ namespace BW
   struct unitsDat_u8_type
   {
     u8 unitType[UNIT_TYPE_COUNT];
-  };  
+  };
   struct unitsDat_u16_type
   {
     u16 unitType[UNIT_TYPE_COUNT];
-  };  
-  /*
-  //------------------------------------------ UNKNOWN -------------------------------------------
-  struct Unknown_type
-  {
-    u8 unitType[UNIT_TYPE_COUNT];
   };
-  static Unknown_type* BWDATA_Unknown = (Unknown_type*) unitsDat[23].address;
-  */
-  //------------------------------------------------ GRAPHICS ------------------------------------------------
-  static unitsDat_u8_type* BWDATA_Graphics = (unitsDat_u8_type*) unitsDat[0].address;
+  //---------------------------------------------- UNIT GRAPHICS ---------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitGraphics = (unitsDat_u8_type*) unitsDat[0].address;
   //------------------------------------------------ SUB UNIT ------------------------------------------------
   static unitsDat_u16_type* BWDATA_SubUnit = (unitsDat_u16_type*) unitsDat[1].address;
 
@@ -402,30 +396,70 @@ namespace BW
   const u8 NoWeapon = 130;
 
   
-  const int weaponTypeCount = 130;
-  //------------------------------------------ WEAPON DAMAGE FACTOR ------------------------------------------
-  /** Direct mapping of weapon type damage factor*/
-  struct WeaponsDamageFactor_type
-  {
-    u8 weapon[weaponTypeCount];
-  };
-  static WeaponsDamageFactor_type* BWDATA_WeaponDamageFactor = (WeaponsDamageFactor_type*) weaponsDat[17].address;
 
+
+  struct weaponsDat_u8_type
+  {
+    u8 weaponType[WEAPON_TYPE_COUNT];
+  };
+  struct weaponsDat_u16_type
+  {
+    u16 weaponType[WEAPON_TYPE_COUNT];
+  };
+  struct weaponsDat_u32_type
+  {
+    u32 weaponType[WEAPON_TYPE_COUNT];
+  };
+
+  //--------------------------------------------- WEAPON LABEL --------------------------------------------
+  static weaponsDat_u16_type* BWDATA_WeaponLabel = (weaponsDat_u16_type*) weaponsDat[0].address;
+  //--------------------------------------------- WEAPON GRAPHICS --------------------------------------------
+  static weaponsDat_u32_type* BWDATA_WeaponGraphics = (weaponsDat_u32_type*) weaponsDat[1].address;
+  //--------------------------------------------- WEAPON GRAPHICS --------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponUnusedTechProperty = (weaponsDat_u8_type*) weaponsDat[2].address;
+  //------------------------------------------- WEAPON TARGET FLAGS ------------------------------------------
+  struct TargetFlags_type
+  {
+    Util::BitMask<WeaponTargetFlags::Enum> weaponType[WEAPON_TYPE_COUNT];
+  };
+  static TargetFlags_type* BWDATA_WeaponTargetFlags = (TargetFlags_type*) weaponsDat[3].address;
+  //-------------------------------------------- WEAPON MIN RANGE --------------------------------------------
+  static weaponsDat_u32_type* BWDATA_WeaponMinRange = (weaponsDat_u32_type*) weaponsDat[4].address;
+  //-------------------------------------------- WEAPON MAX RANGE --------------------------------------------
+  static weaponsDat_u32_type* BWDATA_WeaponMaxRange = (weaponsDat_u32_type*) weaponsDat[5].address;
+  //--------------------------------------------- WEAPON UPGRADE ---------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponUpgrade = (weaponsDat_u8_type*) weaponsDat[6].address;
   //------------------------------------------- WEAPON DAMAGE TYPE -------------------------------------------
-  /** Direct mapping of weapon type damage */
-  struct WeaponsDamage_type
-  {
-    u16 weapon[weaponTypeCount];
-  };
-  static WeaponsDamage_type* BWDATA_WeaponDamage = (WeaponsDamage_type*) weaponsDat[14].address;
-  
-  //------------------------------------------- WEAPON RANGE TYPE --------------------------------------------
-  /** Direct mapping of unit unit type armor */
-  struct WeaponsRange_type
-  {
-    u32 weapon[weaponTypeCount];
-  };
-  static WeaponsRange_type* BWDATA_WeaponRange = (WeaponsRange_type*) weaponsDat[5].address;
+  static weaponsDat_u8_type* BWDATA_WeaponDamageType = (weaponsDat_u8_type*) weaponsDat[7].address;
+  //---------------------------------------- WEAPON GRAPHICAL BEHAVIOR ---------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponGraphicalBehavior = (weaponsDat_u8_type*) weaponsDat[8].address;  
+  //------------------------------------------- WEAPON REMOVE AFTER ------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponRemoveAfter = (weaponsDat_u8_type*) weaponsDat[9].address;
+  //------------------------------------------ WEAPON EXPLOSION TYPE -----------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponExplosionType = (weaponsDat_u8_type*) weaponsDat[10].address;  
+  //--------------------------------------- WEAPON INNER SPLASH RADIUS ---------------------------------------
+  static weaponsDat_u16_type* BWDATA_WeaponInnerSplashRadius = (weaponsDat_u16_type*) weaponsDat[11].address;
+  //--------------------------------------- WEAPON MEDIUM SPLASH RADIUS --------------------------------------
+  static weaponsDat_u16_type* BWDATA_WeaponMedianSplashRadius = (weaponsDat_u16_type*) weaponsDat[12].address;
+  //--------------------------------------- WEAPON MEDIUM SPLASH RADIUS --------------------------------------
+  static weaponsDat_u16_type* BWDATA_WeaponOuterSplashRadius = (weaponsDat_u16_type*) weaponsDat[13].address;
+  //------------------------------------------ WEAPON DAMAGE AMOUNT ------------------------------------------
+  static weaponsDat_u16_type* BWDATA_WeaponDamageAmount = (weaponsDat_u16_type*) weaponsDat[14].address;
+  //------------------------------------------ WEAPON DAMAGE BONUS -------------------------------------------
+  static weaponsDat_u16_type* BWDATA_WeaponDamageBonus = (weaponsDat_u16_type*) weaponsDat[15].address;
+  //----------------------------------------- WEAPON DAMAGE COOLDOWN -----------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponDamageCooldown = (weaponsDat_u8_type*) weaponsDat[16].address;
+  //------------------------------------------ WEAPON DAMAGE FACTOR ------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponDamageFactor = (weaponsDat_u8_type*) weaponsDat[17].address;
+  //----------------------------------------- WEAPON ATTACK DIRECTION ----------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponAttackDirection = (weaponsDat_u8_type*) weaponsDat[18].address;
+  //------------------------------------------- WEAPON LAUNCH SPIN -------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponLaunchSpin = (weaponsDat_u8_type*) weaponsDat[19].address;
+  //-------------------------------------------- WEAPON X OFFSET ---------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponXOffset = (weaponsDat_u8_type*) weaponsDat[20].address;
+  //-------------------------------------------- WEAPON Y OFFSET ---------------------------------------------
+  static weaponsDat_u8_type* BWDATA_WeaponYOffset = (weaponsDat_u8_type*) weaponsDat[21].address;
+
 
 
   //------------------------------------------- TECH MINERAL COST --------------------------------------------
