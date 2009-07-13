@@ -677,8 +677,14 @@ namespace BWAPI
         weaponsDat.open("bwapi-data/weaponsDat.txt");
         for(int i=0;i<BW::WEAPON_TYPE_COUNT;i++)
         {
-
-          weaponsDat << i << ": " << BW::WeaponType((BW::WeaponID::Enum)i).getName() << "\n";         
+          BW::WeaponType w=BW::WeaponType((BW::WeaponID::Enum)i);
+          weaponsDat << i << ": " << std::string(w.getName()) << "\n";
+          weaponsDat << "  damage amount:" << (int)w.damageAmount() << "\n";
+          weaponsDat << "  damage bonus:" << (int)w.damageBonus() << "\n";
+          weaponsDat << "  damage cooldown:" << (int)w.damageCooldown() << "\n";
+          weaponsDat << "  damage factor:" << (int)w.damageFactor() << "\n";
+          weaponsDat << "  damage type:" << (int)w.damageType() << "\n";
+          weaponsDat << "  min range:" << (int)w.minRange() << ", max range: " << (int)w.maxRange() << "\n";
         }
         weaponsDat.close();
       }

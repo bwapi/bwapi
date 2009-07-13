@@ -297,6 +297,14 @@
 				Name="Enumerations"
 				>
 				<File
+					RelativePath=".\Source\BW\DamageID.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\ExplosionID.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\GameType.h"
 					>
 				</File>
