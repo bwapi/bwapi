@@ -37,7 +37,7 @@ namespace BWAPI
    executors[0]->getBuildQueue()[slotToAffect] = this->toTrain.getID();
    this->executors[0]->getRawDataLocal()->buildQueueSlot = slotToAffect;
    PlayerImpl* p=static_cast<PlayerImpl*>(this->executors[0]->getOwner());
-   p->spend(this->toTrain.getMineralPrice(),this->toTrain.getGasPrice());
+   p->spend(this->toTrain.mineralPrice(),this->toTrain.gasPrice());
    p->useSupplies(toTrain.supplyRequired(), toTrain.getRace());
    p->planToMake(toTrain);
   }
