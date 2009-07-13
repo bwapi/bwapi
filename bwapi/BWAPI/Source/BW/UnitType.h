@@ -103,7 +103,6 @@ namespace BW
     bool                 isBuilding() const;
     bool                 isAddon() const;
     bool                 isFlyingBuilding() const;
-
     bool                 isNeutral() const;
 
     bool                 isNeutralAccesories() const;
