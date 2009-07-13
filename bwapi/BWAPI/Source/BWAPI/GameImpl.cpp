@@ -659,18 +659,22 @@ namespace BWAPI
         }
         unitData.close();
       }
-      /*
       else if (parsed[1]=="unitsDat")
       {
+
+        struct unitsDat_Unknown
+        {
+          u8 unitType[BW::UNIT_TYPE_COUNT];
+        };
+        static unitsDat_Unknown* BWDATA_UnitUnknown = (unitsDat_Unknown*) BW::unitsDat[25].address;
         std::ofstream unitsDat;
         unitsDat.open("bwapi-data/unitsDat.txt");
         for(std::set<UnitType>::const_iterator i=UnitTypes::allUnitTypes().begin();i!=UnitTypes::allUnitTypes().end();i++)
         {
-          unitsDat << i->getID() << ": " << (int)BW::BWDATA_Unknown->unitType[i->getID()] << ": " << i->getName() << "\n";         
+          unitsDat << i->getID() << ": " << (int)BWDATA_UnitUnknown->unitType[i->getID()] << ": " << i->getName() << "\n";         
         }
         unitsDat.close();
       }
-      */
       else if (parsed[1]=="weaponsDat")
       {
         std::ofstream weaponsDat;
