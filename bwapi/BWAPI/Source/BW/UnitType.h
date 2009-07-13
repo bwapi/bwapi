@@ -11,6 +11,7 @@
 #include "GroupFlags.h"
 #include "UnitID.h"
 #include "TechID.h"
+#include "WeaponID.h"
 #include "Offsets.h"
 
 
@@ -36,34 +37,45 @@ namespace BW
     bool operator != (const BW::UnitID::Enum& id) const;
     bool operator == (const UnitType& type) const;
     bool operator  < (const UnitType& type) const;
-    const char*          getName() const;
     BW::UnitID::Enum     getID() const;
-    u16                  getMaxHealthPoints() const;
-    u16                  getMaxShieldPoints() const;
-    u16                  getMaxEnergyPoints() const;
-    u16                  getMineralPrice() const;
-    u16                  getGasPrice() const;
-    u8                   getArmor() const;
-    u16                  getBuildTime() const;
-    s8                   supplyRequired() const;
-    s8                   supplyProvided() const;
+    const char*          getName() const;
+    BW::Race::Enum       getRace() const;
+    std::pair<BW::UnitType,int>          whatBuilds() const;
+    const std::map< BW::UnitType, int >& requiredUnits() const;
+    BW::TechID::Enum                     requiredTech() const;
+
+    u16                  maxHitPoints() const;
+    u16                  maxShields() const;
+    u16                  maxEnergy() const;
+    u8                   armor() const;
+
+    u16                  mineralPrice() const;
+    u16                  gasPrice() const;
+    u16                  buildTime() const;
+
+    u8                   supplyRequired() const;
+    u8                   supplyProvided() const;
+    u8                   spaceRequired() const;
+    u8                   spaceProvided() const;
+    u16                  buildScore() const;
+    u16                  destroyScore() const;
+
+    u8                   size() const;
+    u16                  tileWidth() const;
+    u16                  tileHeight() const;
     u16                  dimensionLeft() const;
     u16                  dimensionUp() const;
     u16                  dimensionRight() const;
     u16                  dimensionDown() const;
-    u16                  getTileWidth() const;
-    u16                  getTileHeight() const;
-    /**
-     * Gets Damage factor of the ground weapon of the unit @todo find out what
-     * does it mean.
-     */
-    u8                   getDamageFactor() const;
-    /** Gets base Damage of the ground weapon of the unit. */
-    u16                  getGroundDamage() const;
+
+    u8                   sightRange() const;
+    BW::WeaponID::Enum   groundWeapon() const;
+    u8                   maxGroundHits() const;
+    BW::WeaponID::Enum   airWeapon() const;
+    u8                   maxAirHits() const;
+
+
     bool                 canProduce() const;
-    bool                 isZerg() const;
-    bool                 isTerran() const;
-    bool                 isProtoss() const;
     bool                 canAttack() const;
     bool                 canMove() const; /**< I use some internal heuristic that every unit from [men]  group
                                             * can move, @todo verify (or load some value specially for that) 
@@ -93,13 +105,12 @@ namespace BW
     bool                 isFlyingBuilding() const;
 
     bool                 isNeutral() const;
+
     bool                 isNeutralAccesories() const;
-    BW::Race::Enum       getRace();                                            
-    bool                 isValid();
-    /** Used to determine what building builds this addon. Can be extended later if needed.*/
-    std::pair<BW::UnitType,int> UnitType::whatBuilds() const;
-    const std::map< BW::UnitType, int >& getRequiredUnits() const;
-    BW::TechID::Enum        getRequiredTech() const;
+    bool                 isZerg() const;
+    bool                 isTerran() const;
+    bool                 isProtoss() const;
+    bool                 isValid() const;
     BW::UnitID::Enum id;
     static void initialize();
   private :

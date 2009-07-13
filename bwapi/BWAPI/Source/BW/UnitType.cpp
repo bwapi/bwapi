@@ -11,6 +11,8 @@
 
 namespace BW
 {
+  static std::pair< BW::UnitType, int > whatBuildsData[BW::UNIT_TYPE_COUNT];
+  static std::map< BW::UnitType, int > requiredUnitsData[BW::UNIT_TYPE_COUNT];
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UnitType::UnitType()
   :id(BW::UnitID::None)
@@ -41,6 +43,11 @@ namespace BW
   {
     return this->id < type.id;
   }
+  //------------------------------------------------- GET ID -------------------------------------------------
+  BW::UnitID::Enum UnitType::getID() const
+  {
+    return this->id;
+  }
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* UnitType::getName() const
   {
@@ -51,55 +58,118 @@ namespace BW
     else
       return "Invalid";
   }
-  //------------------------------------------------- GET ID -------------------------------------------------
-  BW::UnitID::Enum UnitType::getID() const
+  //------------------------------------------------ GET RACE ------------------------------------------------
+  BW::Race::Enum UnitType::getRace() const
   {
-    return this->id;
+    if (this->isZerg())
+      return BW::Race::Zerg;
+    else if (this->isProtoss())
+      return BW::Race::Protoss;
+    else if (this->isTerran())
+      return BW::Race::Terran;
+    else
+      return BW::Race::Other;
   }
-  //----------------------------------------- GET MAX HEALTH POINTS ------------------------------------------
-  u16 UnitType::getMaxHealthPoints() const
+  //---------------------------------------------- WHAT BUILDS -----------------------------------------------
+  std::pair<BW::UnitType,int> UnitType::whatBuilds() const
+  {
+    return whatBuildsData[this->getID()];
+  }
+  //--------------------------------------------- REQUIRED UNITS ---------------------------------------------
+  const std::map< BW::UnitType,int >& UnitType::requiredUnits() const
+  {
+    return requiredUnitsData[this->id];
+  }
+  //--------------------------------------------- REQUIRED TECH ----------------------------------------------
+  BW::TechID::Enum UnitType::requiredTech() const
+  {
+    if (this->getID()==BW::UnitID::Zerg_Lurker)
+      return BW::TechID::LurkerAspect;
+    return BW::TechID::None;
+  }
+
+  //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
+  u16 UnitType::maxHitPoints() const
   {
     return BW::BWDATA_MaxHealthPoints_NotAttackable_Repairable->raw[this->getID()].maxHealthPoints;
   }
-  //----------------------------------------- GET MAX SHIELD POINTS ------------------------------------------
-  u16 UnitType::getMaxShieldPoints() const
+  //----------------------------------------------- MAX SHIELDS ----------------------------------------------
+  u16 UnitType::maxShields() const
   {
     return BW::BWDATA_MaxShieldPoints->unitType[this->getID()];
   }
-  //----------------------------------------- GET MAX ENERGY POINTS ------------------------------------------
-  u16 UnitType::getMaxEnergyPoints() const
+  //------------------------------------------------ MAX ENERGY ----------------------------------------------
+  u16 UnitType::maxEnergy() const
   {
     return 0;
   }
-  //------------------------------------------- GET MINERAL PRICE --------------------------------------------
-  u16 UnitType::getMineralPrice() const
+  //------------------------------------------------ MAX ARMOR -----------------------------------------------
+  u8 UnitType::armor() const
+  {
+    return BW::BWDATA_Armor->unitType[this->getID()];
+  }
+
+  //--------------------------------------------- MINERAL PRICE ----------------------------------------------
+  u16 UnitType::mineralPrice() const
   {
     return BW::BWDATA_MineralPrices->unitType[this->getID()];
   }
-  //--------------------------------------------- GET GAS PRICE ----------------------------------------------
-  u16 UnitType::getGasPrice() const
+  //----------------------------------------------- GAS PRICE ------------------------------------------------
+  u16 UnitType::gasPrice() const
   {
     return BW::BWDATA_GasPrices->unitType[this->getID()];
   }
+  //----------------------------------------------- BUILD TIME -----------------------------------------------
+  u16 UnitType::buildTime() const
+  {
+    return BW::BWDATA_BuildTime->unitType[this->getID()];
+  }
+
   //--------------------------------------------- SUPPLY REQUIRED --------------------------------------------
-  s8 UnitType::supplyRequired() const
+  u8 UnitType::supplyRequired() const
   {
     return BW::BWDATA_SupplyRequired->unitType[this->getID()];
   }
   //--------------------------------------------- SUPPLY PROVIDED --------------------------------------------
-  s8 UnitType::supplyProvided() const
+  u8 UnitType::supplyProvided() const
   {
     return BW::BWDATA_SupplyProvided->unitType[this->getID()];
   }
-  //----------------------------------------------- GET ARMOR ------------------------------------------------
-  u8 UnitType::getArmor() const
+  //--------------------------------------------- SPACE REQUIRED ---------------------------------------------
+  u8 UnitType::spaceRequired() const
   {
-    return BW::BWDATA_Armor->unitType[this->getID()];
+    return BW::BWDATA_SpaceRequired->unitType[this->getID()];
   }
-  //--------------------------------------------- GET BUILD TIME ---------------------------------------------
-  u16 UnitType::getBuildTime() const
+  //--------------------------------------------- SPACE PROVIDED ---------------------------------------------
+  u8 UnitType::spaceProvided() const
   {
-    return BW::BWDATA_BuildTime->unitType[this->getID()];
+    return BW::BWDATA_SpaceProvided->unitType[this->getID()];
+  }
+  //----------------------------------------------- BUILD SCORE ----------------------------------------------
+  u16 UnitType::buildScore() const
+  {
+    return BW::BWDATA_BuildScore->unitType[this->getID()];
+  }
+  //---------------------------------------------- DESTROY SCORE ---------------------------------------------
+  u16 UnitType::destroyScore() const
+  {
+    return BW::BWDATA_DestroyScore->unitType[this->getID()];
+  }
+
+  //-------------------------------------------------- SIZE --------------------------------------------------
+  u8 UnitType::size() const
+  {
+    return BW::BWDATA_UnitSize->unitType[this->getID()];
+  }
+  //----------------------------------------------- TILE WIDTH -----------------------------------------------
+  u16 UnitType::tileWidth() const
+  {
+    return (this->dimensionLeft() + this->dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
+  }
+  //---------------------------------------------- TILE HEIGHT -----------------------------------------------
+  u16 UnitType::tileHeight() const
+  {
+    return (this->dimensionUp() + this->dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
   }
   //--------------------------------------------- DIMENSION LEFT ---------------------------------------------
   u16 UnitType::dimensionLeft() const
@@ -121,63 +191,38 @@ namespace BW
   {
     return BW::BWDATA_UnitDimensions->units[this->getID()].down;
   }
-  //------------------------------------------- GET DAMAGE FACTOR --------------------------------------------
-  u8 UnitType::getDamageFactor() const
+
+  //----------------------------------------------- SIGHT RANGE ----------------------------------------------
+  u8 UnitType::sightRange() const
   {
-    int weaponID = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
-    if (weaponID == BW::WeaponID::None)
-       return 0;
-    else
-       return BW::BWDATA_WeaponDamageFactor->weaponType[weaponID];
+    return BW::BWDATA_UnitSightRange->unitType[this->getID()];
   }
-  //------------------------------------------- GET GROUND DAMAGE --------------------------------------------
-  u16 UnitType::getGroundDamage() const
+
+  //--------------------------------------------- GROUND WEAPON ----------------------------------------------
+  BW::WeaponID::Enum UnitType::groundWeapon() const
   {
-    int weaponID = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
-    if (weaponID == BW::WeaponID::None)
-       return 0;
-    else
-       return BW::BWDATA_WeaponDamageAmount->weaponType[weaponID];
+    return BW::WeaponID::Enum(BW::BWDATA_UnitGroundWeapon->unitType[this->getID()]);
   }
-  //----------------------------------------------- GET FLAGS ------------------------------------------------
-  Util::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
+  //-------------------------------------------- MAX GROUND HITS ---------------------------------------------
+  u8 UnitType::maxGroundHits() const
   {
-    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()];
+    return BW::BWDATA_MaxGroundHits->unitType[this->getID()];
   }
+  //---------------------------------------------- AIR WEAPON ------------------------------------------------
+  BW::WeaponID::Enum UnitType::airWeapon() const
+  {
+    return BW::WeaponID::Enum(BW::BWDATA_UnitAirWeapon->unitType[this->getID()]);
+  }
+  //--------------------------------------------- MAX AIR HITS -----------------------------------------------
+  u8 UnitType::maxAirHits() const
+  {
+    return BW::BWDATA_MaxAirHits->unitType[this->getID()];
+  }
+
   //---------------------------------------------- CAN PRODUCE -----------------------------------------------
   bool UnitType::canProduce() const
   {
     return this->getGroupFlags().getBit(BW::GroupFlags::Factory);
-  }
-  //-------------------------------------------- GET GROUP FLAGS ---------------------------------------------
-  Util::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
-  {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()];
-  }
-  //--------------------------------------------- GET TILE WIDTH ---------------------------------------------
-  u16 UnitType::getTileWidth() const
-  {
-    return (this->dimensionLeft() + this->dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
-  }
-  //-------------------------------------------- GET TILE HEIGHT ---------------------------------------------
-  u16 UnitType::getTileHeight() const
-  {
-    return (this->dimensionUp() + this->dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
-  }
-  //------------------------------------------------ IS ZERG -------------------------------------------------
-  bool UnitType::isZerg() const
-  {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Zerg);
-  }
-  //----------------------------------------------- IS TERRAN ------------------------------------------------
-  bool UnitType::isTerran() const
-  {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Terran);
-  }
-  //----------------------------------------------- IS PROTOSS -----------------------------------------------
-  bool UnitType::isProtoss() const
-  {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Protoss);
   }
   //----------------------------------------------- CAN ATTACK -----------------------------------------------
   bool UnitType::canAttack() const
@@ -188,23 +233,6 @@ namespace BW
   bool UnitType::canMove() const
   {
     return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Men);
-  }
-  //------------------------------------------------ IS VALID ------------------------------------------------
-  bool UnitType::isValid()
-  {
-    return this->id < 228;
-  }
-  //------------------------------------------------ GET RACE ------------------------------------------------
-  BW::Race::Enum UnitType::getRace()
-  {
-    if (this->isZerg())
-      return BW::Race::Zerg;
-    else if (this->isProtoss())
-      return BW::Race::Protoss;
-    else if (this->isTerran())
-      return BW::Race::Terran;
-    else
-      return BW::Race::Other;
   }
   //----------------------------------------------- IS FLYER -------------------------------------------------
   bool UnitType::isFlyer() const
@@ -311,29 +339,33 @@ namespace BW
   {
     return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
   }  
+
   //----------------------------------------- IS NEUTRAL ACCESORIES ------------------------------------------
   bool UnitType::isNeutralAccesories() const
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::NeutralAccessories);
   }
+  //------------------------------------------------ IS ZERG -------------------------------------------------
+  bool UnitType::isZerg() const
+  {
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Zerg);
+  }
+  //----------------------------------------------- IS TERRAN ------------------------------------------------
+  bool UnitType::isTerran() const
+  {
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Terran);
+  }
+  //----------------------------------------------- IS PROTOSS -----------------------------------------------
+  bool UnitType::isProtoss() const
+  {
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Protoss);
+  }
+  //------------------------------------------------ IS VALID ------------------------------------------------
+  bool UnitType::isValid() const
+  {
+    return this->id < BW::UNIT_TYPE_COUNT;
+  }
 
-  static std::pair< BW::UnitType, int > whatBuildsData[BW::UNIT_TYPE_COUNT];
-  //--------------------------------------------- WHERE TO BUILD ---------------------------------------------
-  std::pair<BW::UnitType,int> UnitType::whatBuilds() const
-  {
-    return whatBuildsData[this->getID()];
-  }
-  static std::map< BW::UnitType, int > requiredUnits[BW::UNIT_TYPE_COUNT];
-  const std::map< BW::UnitType,int >& UnitType::getRequiredUnits() const
-  {
-    return requiredUnits[this->id];
-  }
-  BW::TechID::Enum UnitType::getRequiredTech() const
-  {
-    if (this->getID()==BW::UnitID::Zerg_Lurker)
-      return BW::TechID::LurkerAspect;
-    return BW::TechID::None;
-  }
   //---------------------------------------------- INITIALIZE ------------------------------------------------
   void UnitType::initialize()
   {
@@ -349,306 +381,306 @@ namespace BW
         case BW::UnitID::Terran_CommandCenter :
         case BW::UnitID::Terran_SupplyDepot   :
         case BW::UnitID::Terran_Refinery      :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
           break;
 	      case BW::UnitID::Terran_Barracks :
 	      case BW::UnitID::Terran_EngineeringBay :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
           break;
         case BW::UnitID::Terran_Academy :
         case BW::UnitID::Terran_Bunker  :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
           break;
         case BW::UnitID::Terran_MissileTurret :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_EngineeringBay),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_EngineeringBay),1));
           break;
 
         // Terran Advanced Buildings
         case BW::UnitID::Terran_Factory :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
           break;
         case BW::UnitID::Terran_Armory   :
         case BW::UnitID::Terran_Starport :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
           break;
         case BW::UnitID::Terran_ScienceFacility :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
           break;
 
         // Terran Add-ons
         case BW::UnitID::Terran_ComsatStation :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Academy),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Academy),1));
           break;
         case BW::UnitID::Terran_NuclearSilo :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CovertOps),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CovertOps),1));
           break;
         case BW::UnitID::Terran_MachineShop :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
           break;
         case BW::UnitID::Terran_ControlTower :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
           break;
         case BW::UnitID::Terran_PhysicsLab :
         case BW::UnitID::Terran_CovertOps  :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1));
           break;
 
         // Terran Units
         case BW::UnitID::Terran_SCV :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter),1));
           break;
         case BW::UnitID::Terran_Marine :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
           break;
         case BW::UnitID::Terran_Firebat :
         case BW::UnitID::Terran_Medic   :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Academy),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Academy),1));
           break;
         case BW::UnitID::Terran_Ghost :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Academy),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CovertOps),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Academy),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_CovertOps),1));
           break;
         case BW::UnitID::Terran_Vulture :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
           break;
         case BW::UnitID::Terran_SiegeTankSiegeMode :
         case BW::UnitID::Terran_SiegeTankTankMode  :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_MachineShop),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_MachineShop),1));
           break;
         case BW::UnitID::Terran_Goliath :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Armory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Armory),1));
           break;
         case BW::UnitID::Terran_Wraith :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
           break;
         case BW::UnitID::Terran_Dropship :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
           break;
         case BW::UnitID::Terran_Battlecruiser :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_PhysicsLab),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_PhysicsLab),1));
           break;
         case BW::UnitID::Terran_ScienceVessel :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility),1));
           break;
         case BW::UnitID::Terran_Valkyrie :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Armory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_ControlTower),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Terran_Armory),1));
           break;
 
         // Protoss Basic Buildings
         case BW::UnitID::Protoss_Nexus       :
         case BW::UnitID::Protoss_Pylon       :
         case BW::UnitID::Protoss_Assimilator :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
           break;
         case BW::UnitID::Protoss_Gateway :
         case BW::UnitID::Protoss_Forge   :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Nexus),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Nexus),1));
           break;
         case BW::UnitID::Protoss_CyberneticsCore :
         case BW::UnitID::Protoss_ShieldBattery   :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
           break;
         case BW::UnitID::Protoss_PhotonCannon :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Forge),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Forge),1));
           break;
 
         // Protoss Advanced Buildings
         case BW::UnitID::Protoss_RoboticsFacility :
         case BW::UnitID::Protoss_Stargate         :
         case BW::UnitID::Protoss_CitadelOfAdun    :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),1));
           break;
         case BW::UnitID::Protoss_Observatory        :
         case BW::UnitID::Protoss_RoboticsSupportBay :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
           break;
         case BW::UnitID::Protoss_FleetBeacon :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
           break;
         case BW::UnitID::Protoss_TemplarArchives :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_CitadelOfAdun),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_CitadelOfAdun),1));
           break;
         case BW::UnitID::Protoss_ArbiterTribunal :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_TemplarArchives),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_TemplarArchives),1));
           break;
 
         // Protoss Units
         case BW::UnitID::Protoss_Probe :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Nexus),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Nexus),1));
           break;
         case BW::UnitID::Protoss_Zealot :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
           break;
         case BW::UnitID::Protoss_Dragoon :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_CyberneticsCore),1));
           break;
         case BW::UnitID::Protoss_HighTemplar : 
         case BW::UnitID::Protoss_DarkTemplar :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_TemplarArchives),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_TemplarArchives),1));
           break;
         case BW::UnitID::Protoss_Archon :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_HighTemplar),2));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_HighTemplar),2));
           break;
         case BW::UnitID::Protoss_DarkArchon :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_DarkTemplar),2));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_DarkTemplar),2));
           break;
         case BW::UnitID::Protoss_Shuttle :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
           break;
         case BW::UnitID::Protoss_Reaver :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsSupportBay),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsSupportBay),1));
           break;
         case BW::UnitID::Protoss_Observer :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Observatory),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Observatory),1));
           break;
         case BW::UnitID::Protoss_Scout :
         case BW::UnitID::Protoss_Corsair :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
           break;
         case BW::UnitID::Protoss_Carrier :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_FleetBeacon),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_FleetBeacon),1));
           break;
         case BW::UnitID::Protoss_Arbiter :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_ArbiterTribunal),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Protoss_ArbiterTribunal),1));
           break;
 
         // Zerg Basic Buildings
         case BW::UnitID::Zerg_Hatchery    :
         case BW::UnitID::Zerg_CreepColony :
         case BW::UnitID::Zerg_Extractor   :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
           break;
         case BW::UnitID::Zerg_SpawningPool     :
         case BW::UnitID::Zerg_EvolutionChamber :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
           break;
         case BW::UnitID::Zerg_HydraliskDen :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
           break;
 
         // Zerg Advanced Buildings
         case BW::UnitID::Zerg_Spire      :
         case BW::UnitID::Zerg_QueensNest :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair),1));
           break;
         case BW::UnitID::Zerg_DefilerMound    :
         case BW::UnitID::Zerg_NydusCanal      :
         case BW::UnitID::Zerg_UltraliskCavern :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hive),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hive),1));
           break;
 
         // Zerg Mutated Buildings
         case BW::UnitID::Zerg_Lair :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
           break;
         case BW::UnitID::Zerg_Hive :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_QueensNest),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_QueensNest),1));
           break;
         case BW::UnitID::Zerg_SunkenColony :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_CreepColony),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_CreepColony),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
           break;
         case BW::UnitID::Zerg_SporeColony :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_CreepColony),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_EvolutionChamber),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_CreepColony),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_EvolutionChamber),1));
           break;
         case BW::UnitID::Zerg_GreaterSpire :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Spire),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hive),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Spire),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hive),1));
           break;
 
         // Zerg Units
         case BW::UnitID::Zerg_Larva :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hatchery),1));
           break;
         case BW::UnitID::Zerg_Egg :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva),1));
           break;
         case BW::UnitID::Zerg_Drone    :
         case BW::UnitID::Zerg_Overlord :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
           break;
         case BW::UnitID::Zerg_Zergling :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_SpawningPool),1));
           break;
         case BW::UnitID::Zerg_Hydralisk :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_HydraliskDen),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_HydraliskDen),1));
           break;
         case BW::UnitID::Zerg_Scourge  :
         case BW::UnitID::Zerg_Mutalisk :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Spire),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Spire),1));
           break;
         case BW::UnitID::Zerg_Cocoon :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Mutalisk),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Mutalisk),1));
           break;
         case BW::UnitID::Zerg_Devourer :
         case BW::UnitID::Zerg_Guardian :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Cocoon),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_GreaterSpire),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Cocoon),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_GreaterSpire),1));
           break;
         case BW::UnitID::Zerg_Queen :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_QueensNest),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_QueensNest),1));
           break;
         case BW::UnitID::Zerg_Defiler :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_DefilerMound),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_DefilerMound),1));
           break;
         case BW::UnitID::Zerg_Ultralisk :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_UltraliskCavern),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_UltraliskCavern),1));
           break;
         case BW::UnitID::Zerg_InfestedTerran :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_InfestedCommandCenter),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_InfestedCommandCenter),1));
           break;
         case BW::UnitID::Zerg_LurkerEgg :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hydralisk),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_Hydralisk),1));
           break;
         case BW::UnitID::Zerg_Lurker :
-          requiredUnits[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_LurkerEgg),1));
+          requiredUnitsData[i].insert(std::make_pair(BW::UnitType(BW::UnitID::Zerg_LurkerEgg),1));
           break;
       }
       
@@ -835,6 +867,16 @@ namespace BW
           break;
       }
     }
+  }
+  //----------------------------------------------- GET FLAGS ------------------------------------------------
+  Util::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
+  {
+    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()];
+  }
+  //-------------------------------------------- GET GROUP FLAGS ---------------------------------------------
+  Util::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
+  {
+    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()];
   }
   //----------------------------------------------------------------------------------------------------------
 }

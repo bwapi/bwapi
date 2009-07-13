@@ -636,12 +636,12 @@ namespace BWAPI
           unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u->requiredTech()->getName()) << "),";
           if (*u!=UnitTypes::None && *u!=UnitTypes::Unknown)
           {
-          unitData << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << "," << bwu.getMaxHealthPoints()
-                   << "," << bwu.getMaxShieldPoints() << "," << bwu.getMaxEnergyPoints() << ","
-                   << bwu.getMineralPrice() << "," << bwu.getGasPrice() << "," << (int)bwu.getArmor() << ","
-                   << bwu.getBuildTime() << "," << bwu.dimensionLeft() << "," << bwu.dimensionUp() << ","
-                   << bwu.dimensionRight() << "," << bwu.dimensionDown() << "," << bwu.getTileWidth() << ","
-                   << bwu.getTileHeight() << "," << (int)bwu.getDamageFactor() << "," << bwu.getGroundDamage()
+          unitData << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << "," << bwu.maxHitPoints()
+                   << "," << bwu.maxShields() << "," << bwu.maxEnergy() << ","
+                   << bwu.mineralPrice() << "," << bwu.gasPrice() << "," << (int)bwu.armor() << ","
+                   << bwu.buildTime() << "," << bwu.dimensionLeft() << "," << bwu.dimensionUp() << ","
+                   << bwu.dimensionRight() << "," << bwu.dimensionDown() << "," << bwu.tileWidth() << ","
+                   << bwu.tileHeight()
                    << "," << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove()
                    << "," << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster()
                    << "," << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic()

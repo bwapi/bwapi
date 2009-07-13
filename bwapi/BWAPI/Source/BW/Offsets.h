@@ -268,12 +268,8 @@ namespace BW
   
   //----------------------------------------------- DIRECTION ------------------------------------------------
   static unitsDat_u8_type* BWDATA_Direction = (unitsDat_u8_type*) unitsDat[5].address;
-  //-------------------------------------------------- RACES -------------------------------------------------
-  struct Races_type
-  {
-    u8 unitType[UNIT_TYPE_COUNT];
-  };
-  static Races_type* BWDATA_IsProtoss = (Races_type*) unitsDat[6].address;
+  //--------------------------------------------- SHIELDS ENABLED --------------------------------------------
+  static unitsDat_u8_type* BWDATA_ShieldsEnabled = (unitsDat_u8_type*) unitsDat[6].address;
   //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
   static unitsDat_u16_type* BWDATA_MaxShieldPoints = (unitsDat_u16_type*) unitsDat[7].address;
   //---------------------------------------------- UNIT MAX HP -----------------------------------------------
