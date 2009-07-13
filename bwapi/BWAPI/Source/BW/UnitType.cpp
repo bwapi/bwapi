@@ -5,6 +5,7 @@
 #include <BWAPI/Unit.h>
 
 #include "Unit.h"
+#include "WeaponID.h"
 #include "Offsets.h"
 #include "Position.h"
 
@@ -124,7 +125,7 @@ namespace BW
   u8 UnitType::getDamageFactor() const
   {
     int weaponID = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
-    if (weaponID == BW::NoWeapon)
+    if (weaponID == BW::WeaponID::None)
        return 0;
     else
        return BW::BWDATA_WeaponDamageFactor->weaponType[weaponID];
@@ -133,7 +134,7 @@ namespace BW
   u16 UnitType::getGroundDamage() const
   {
     int weaponID = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
-    if (weaponID == BW::NoWeapon)
+    if (weaponID == BW::WeaponID::None)
        return 0;
     else
        return BW::BWDATA_WeaponDamageAmount->weaponType[weaponID];

@@ -27,6 +27,8 @@ namespace BW
   static const u8  TECH_TYPE_COUNT       =  44;
   static const u8  UPGRADE_TYPE_COUNT    =  66;
   static const u8  WEAPON_TYPE_COUNT     = 130;
+  static const u8  DAMAGE_TYPE_COUNT     =   5;
+  static const u8  EXPLOSION_TYPE_COUNT  =  25;
 
   static const int TILE_SIZE          =  32;
  
@@ -393,8 +395,6 @@ namespace BW
   //------------------------------------------- UNIT DESTROY SCORE -------------------------------------------
   static unitsDat_u16_type* BWDATA_DestroyScore = (unitsDat_u16_type*) unitsDat[50].address;
 
-  const u8 NoWeapon = 130;
-
   struct weaponsDat_u8_type
   {
     u8 weaponType[WEAPON_TYPE_COUNT];
@@ -408,11 +408,11 @@ namespace BW
     u32 weaponType[WEAPON_TYPE_COUNT];
   };
 
-  //--------------------------------------------- WEAPON LABEL --------------------------------------------
+  //---------------------------------------------- WEAPON LABEL ----------------------------------------------
   static weaponsDat_u16_type* BWDATA_WeaponLabel = (weaponsDat_u16_type*) weaponsDat[0].address;
   //--------------------------------------------- WEAPON GRAPHICS --------------------------------------------
   static weaponsDat_u32_type* BWDATA_WeaponGraphics = (weaponsDat_u32_type*) weaponsDat[1].address;
-  //--------------------------------------------- WEAPON GRAPHICS --------------------------------------------
+  //--------------------------------------- WEAPON UNUSED TECH PROPERTY --------------------------------------
   static weaponsDat_u8_type* BWDATA_WeaponUnusedTechProperty = (weaponsDat_u8_type*) weaponsDat[2].address;
   //------------------------------------------- WEAPON TARGET FLAGS ------------------------------------------
   struct TargetFlags_type
@@ -436,9 +436,9 @@ namespace BW
   static weaponsDat_u8_type* BWDATA_WeaponExplosionType = (weaponsDat_u8_type*) weaponsDat[10].address;  
   //--------------------------------------- WEAPON INNER SPLASH RADIUS ---------------------------------------
   static weaponsDat_u16_type* BWDATA_WeaponInnerSplashRadius = (weaponsDat_u16_type*) weaponsDat[11].address;
-  //--------------------------------------- WEAPON MEDIUM SPLASH RADIUS --------------------------------------
+  //--------------------------------------- WEAPON MEDIAN SPLASH RADIUS --------------------------------------
   static weaponsDat_u16_type* BWDATA_WeaponMedianSplashRadius = (weaponsDat_u16_type*) weaponsDat[12].address;
-  //--------------------------------------- WEAPON MEDIUM SPLASH RADIUS --------------------------------------
+  //--------------------------------------- WEAPON OUTER SPLASH RADIUS ---------------------------------------
   static weaponsDat_u16_type* BWDATA_WeaponOuterSplashRadius = (weaponsDat_u16_type*) weaponsDat[13].address;
   //------------------------------------------ WEAPON DAMAGE AMOUNT ------------------------------------------
   static weaponsDat_u16_type* BWDATA_WeaponDamageAmount = (weaponsDat_u16_type*) weaponsDat[14].address;

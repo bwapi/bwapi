@@ -23,9 +23,11 @@ namespace BWAPI
     DamageType getDamageType(std::string &name);
     std::set<DamageType>& allDamageTypes();
     void init();
+    extern const DamageType Independent;
+    extern const DamageType Explosive;
     extern const DamageType Concussive;
     extern const DamageType Normal;
-    extern const DamageType Explosive;
+    extern const DamageType Ignore_Armor;
     extern const DamageType None;
     extern const DamageType Unknown;
   }

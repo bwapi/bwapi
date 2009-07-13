@@ -6,27 +6,33 @@
 namespace BWAPI
 {
   bool initializingDamageType=true;
-  std::string damageTypeName[5];
+  std::string damageTypeName[7];
   std::map<std::string, DamageType> damageTypeMap;
   std::set< DamageType > damageTypeSet;
   namespace DamageTypes
   {
-    const DamageType Concussive(0);
-    const DamageType Normal(1);
-    const DamageType Explosive(2);
-    const DamageType None(3);
-    const DamageType Unknown(4);
+    const DamageType Independent(0);
+    const DamageType Explosive(1);
+    const DamageType Concussive(2);
+    const DamageType Normal(3);
+    const DamageType Ignore_Armor(4);
+    const DamageType None(5);
+    const DamageType Unknown(6);
     void init()
     {
+      damageTypeName[Independent.getID()]="Independent";
+      damageTypeName[Explosive.getID()]="Explosive";
       damageTypeName[Concussive.getID()]="Concussive";
       damageTypeName[Normal.getID()]="Normal";
-      damageTypeName[Explosive.getID()]="Explosive";
+      damageTypeName[Ignore_Armor.getID()]="Ignore Armor";
       damageTypeName[None.getID()]="None";
       damageTypeName[Unknown.getID()]="Unknown";
 
+      damageTypeSet.insert(Independent);
+      damageTypeSet.insert(Explosive);
       damageTypeSet.insert(Concussive);
       damageTypeSet.insert(Normal);
-      damageTypeSet.insert(Explosive);
+      damageTypeSet.insert(Ignore_Armor);
       damageTypeSet.insert(None);
       damageTypeSet.insert(Unknown);
 

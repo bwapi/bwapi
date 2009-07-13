@@ -42,9 +42,8 @@ namespace BW
       return "None";
     else if (this->getID() < BW::WEAPON_TYPE_COUNT)
     {
-      int stringNum=BW::BWDATA_WeaponLabel->weaponType[this->id];
-      //doesn't work yet
-      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + stringNum*2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
+      u16 stringNum=BW::BWDATA_WeaponLabel->weaponType[this->getID()];
+      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + stringNum*2)) + *((u32*)BW::BWDATA_StringTableOff));
     }
     else
       return "Invalid";
@@ -53,5 +52,110 @@ namespace BW
   BW::WeaponID::Enum WeaponType::getID() const
   {
     return this->id;
+  }
+  //--------------------------------------------- DAMAGE AMOUNT ----------------------------------------------
+  u16 WeaponType::damageAmount() const
+  {
+    return BW::BWDATA_WeaponDamageAmount->weaponType[this->getID()];
+  }
+  //--------------------------------------------- DAMAGE BONUS -----------------------------------------------
+  u16 WeaponType::damageBonus() const
+  {
+    return BW::BWDATA_WeaponDamageBonus->weaponType[this->getID()];
+  }
+  //-------------------------------------------- DAMAGE COOLDOWN ---------------------------------------------
+  u8 WeaponType::damageCooldown() const
+  {
+    return BW::BWDATA_WeaponDamageCooldown->weaponType[this->getID()];
+  }
+  //--------------------------------------------- DAMAGE FACTOR ----------------------------------------------
+  u8 WeaponType::damageFactor() const
+  {
+    return BW::BWDATA_WeaponDamageFactor->weaponType[this->getID()];
+  }
+  //---------------------------------------------- UPGRADE TYPE ----------------------------------------------
+  BW::TechType WeaponType::upgradeType() const
+  {
+    return BW::TechType(BW::TechID::Enum(BW::BWDATA_WeaponUpgrade->weaponType[this->getID()]));
+  }
+  //----------------------------------------------- DAMAGE TYPE ----------------------------------------------
+  BW::DamageID::Enum WeaponType::damageType() const
+  {
+    return BW::DamageID::Enum(BW::BWDATA_WeaponDamageType->weaponType[this->getID()]);
+  }
+  //---------------------------------------------- EXPLOSION TYPE --------------------------------------------
+  BW::ExplosionID::Enum WeaponType::explosionType() const
+  {
+    return BW::ExplosionID::Enum(BW::BWDATA_WeaponExplosionType->weaponType[this->getID()]);
+  }
+  //------------------------------------------------ MIN RANGE -----------------------------------------------
+  u32 WeaponType::minRange() const
+  {
+    return BW::BWDATA_WeaponMinRange->weaponType[this->getID()];
+  }
+  //------------------------------------------------ MAX RANGE -----------------------------------------------
+  u32 WeaponType::maxRange() const
+  {
+    return BW::BWDATA_WeaponMaxRange->weaponType[this->getID()];
+  }
+  //------------------------------------------- INNER SPLASH RADIUS ------------------------------------------
+  u16 WeaponType::innerSplashRadius() const
+  {
+    return BW::BWDATA_WeaponInnerSplashRadius->weaponType[this->getID()];
+  }
+  //------------------------------------------- MEDIAN SPLASH RADIUS -----------------------------------------
+  u16 WeaponType::medianSplashRadius() const
+  {
+    return BW::BWDATA_WeaponMedianSplashRadius->weaponType[this->getID()];
+  }
+  //------------------------------------------- OUTER SPLASH RADIUS ------------------------------------------
+  u16 WeaponType::outerSplashRadius() const
+  {
+    return BW::BWDATA_WeaponOuterSplashRadius->weaponType[this->getID()];
+  }
+  //----------------------------------------------- TARGETS AIR ----------------------------------------------
+  bool WeaponType::targetsAir() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Air);
+  }
+  //---------------------------------------------- TARGETS GROUND --------------------------------------------
+  bool WeaponType::targetsGround() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Ground);
+  }
+  //------------------------------------------- TARGETS MECHANICAL -------------------------------------------
+  bool WeaponType::targetsMechanical() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Mechanical);
+  }
+  //--------------------------------------------- TARGETS ORGANIC --------------------------------------------
+  bool WeaponType::targetsOrganic() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Organic);
+  }
+  //------------------------------------------- TARGETS NONBUILDING ------------------------------------------
+  bool WeaponType::targetsNonBuilding() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::NonBuilding);
+  }
+  //------------------------------------------- TARGETS NONROBOTIC -------------------------------------------
+  bool WeaponType::targetsNonRobotic() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::NonRobotic);
+  }
+  //-------------------------------------------- TARGETS TERRAIN ---------------------------------------------
+  bool WeaponType::targetsTerrain() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Terrain);
+  }
+  //------------------------------------------- TARGETS ORGORMECH --------------------------------------------
+  bool WeaponType::targetsOrgOrMech() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::OrgOrMech);
+  }
+  //---------------------------------------------- TARGETS OWN -----------------------------------------------
+  bool WeaponType::targetsOwn() const
+  {
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Own);
   }
 }
