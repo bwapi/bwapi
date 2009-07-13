@@ -260,12 +260,22 @@ namespace BW
   {
     u16 unitType[UNIT_TYPE_COUNT];
   };
+  struct unitsDat_u32_type
+  {
+    u32 unitType[UNIT_TYPE_COUNT];
+  };
+
+
   //---------------------------------------------- UNIT GRAPHICS ---------------------------------------------
   static unitsDat_u8_type* BWDATA_UnitGraphics = (unitsDat_u8_type*) unitsDat[0].address;
-  //------------------------------------------------ SUB UNIT ------------------------------------------------
-  static unitsDat_u16_type* BWDATA_SubUnit = (unitsDat_u16_type*) unitsDat[1].address;
+  //----------------------------------------------- SUB UNIT 1 -----------------------------------------------
+  static unitsDat_u16_type* BWDATA_SubUnit1 = (unitsDat_u16_type*) unitsDat[1].address;
+  //----------------------------------------------- SUB UNIT 2 -----------------------------------------------
+  static unitsDat_u16_type* BWDATA_SubUnit2 = (unitsDat_u16_type*) unitsDat[2].address;
 
   
+  //--------------------------------------- UNIT CONSTRUCTION GRAPHICS ---------------------------------------
+  static unitsDat_u32_type* BWDATA_ConstructionGraphics = (unitsDat_u32_type*) unitsDat[4].address;
   //----------------------------------------------- DIRECTION ------------------------------------------------
   static unitsDat_u8_type* BWDATA_Direction = (unitsDat_u8_type*) unitsDat[5].address;
   //--------------------------------------------- SHIELDS ENABLED --------------------------------------------
@@ -314,14 +324,14 @@ namespace BW
   static unitsDat_u8_type* BWDATA_UnitSeekRange = (unitsDat_u8_type*) unitsDat[23].address;
   //-------------------------------------------- UNIT SIGHT RANGE --------------------------------------------
   static unitsDat_u8_type* BWDATA_UnitSightRange = (unitsDat_u8_type*) unitsDat[24].address;
-
-
+  //---------------------------------------------- UNIT UPGRADE ----------------------------------------------
+  static unitsDat_u8_type* BWDATA_UnitUpgrade = (unitsDat_u8_type*) unitsDat[25].address;
   //----------------------------------------------- UNIT SIZE ------------------------------------------------
   static unitsDat_u8_type* BWDATA_UnitSize = (unitsDat_u8_type*) unitsDat[26].address;
   //---------------------------------------------- UNIT ARMOR ------------------------------------------------
   static unitsDat_u8_type* BWDATA_Armor = (unitsDat_u8_type*) unitsDat[27].address;
-
-
+  //----------------------------------------- UNIT RIGHT CLICK ACTION ----------------------------------------
+  static unitsDat_u8_type* BWDATA_RightClickAction = (unitsDat_u8_type*) unitsDat[28].address;
   //-------------------------------------------- UNIT READY SOUND --------------------------------------------
   static unitsDat_u16_type* BWDATA_ReadySound = (unitsDat_u16_type*) unitsDat[29].address;
   //------------------------------------------ UNIT FIRST WHAT SOUND -----------------------------------------
@@ -372,6 +382,7 @@ namespace BW
   //-------------------------------------------- UNIT BUILD TIME ---------------------------------------------
   static unitsDat_u16_type* BWDATA_BuildTime = (unitsDat_u16_type*) unitsDat[42].address;
 
+
   //---------------------------------------------- GROUP FLAGS -----------------------------------------------
   struct PrototypeGroupFlags_type
   {
@@ -390,6 +401,12 @@ namespace BW
   static unitsDat_u16_type* BWDATA_BuildScore = (unitsDat_u16_type*) unitsDat[49].address;
   //------------------------------------------- UNIT DESTROY SCORE -------------------------------------------
   static unitsDat_u16_type* BWDATA_DestroyScore = (unitsDat_u16_type*) unitsDat[50].address;
+
+
+  //--------------------------------------------- BROODWAR ONLY ----------------------------------------------
+  static unitsDat_u16_type* BWDATA_BroodwarOnly = (unitsDat_u16_type*) unitsDat[52].address;
+  //------------------------------------------- AVAILABILITY FLAGS -------------------------------------------
+  static unitsDat_u16_type* BWDATA_AvailabilityFlags = (unitsDat_u16_type*) unitsDat[53].address;
 
   struct weaponsDat_u8_type
   {

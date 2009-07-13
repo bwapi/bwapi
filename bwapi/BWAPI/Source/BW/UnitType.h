@@ -37,9 +37,12 @@ namespace BW
     bool operator != (const BW::UnitID::Enum& id) const;
     bool operator == (const UnitType& type) const;
     bool operator  < (const UnitType& type) const;
+
     BW::UnitID::Enum     getID() const;
     const char*          getName() const;
+    const char*          getSubLabel() const;
     BW::Race::Enum       getRace() const;
+
     std::pair<BW::UnitType,int>          whatBuilds() const;
     const std::map< BW::UnitType, int >& requiredUnits() const;
     BW::TechID::Enum                     requiredTech() const;
