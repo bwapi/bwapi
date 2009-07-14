@@ -3,6 +3,7 @@ void BWAPI::BWAPI_init()
 {
   BWAPI::Races::init();
   BWAPI::DamageTypes::init();
+  BWAPI::ExplosionTypes::init();
   BWAPI::Orders::init();
   BWAPI::TechTypes::init();
   BWAPI::PlayerTypes::init();
