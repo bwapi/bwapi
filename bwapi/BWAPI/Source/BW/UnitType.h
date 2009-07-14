@@ -11,6 +11,7 @@
 #include "GroupFlags.h"
 #include "UnitID.h"
 #include "TechID.h"
+#include "UpgradeID.h"
 #include "WeaponID.h"
 #include "Offsets.h"
 
@@ -46,6 +47,7 @@ namespace BW
     std::pair<BW::UnitType,int>          whatBuilds() const;
     const std::map< BW::UnitType, int >& requiredUnits() const;
     BW::TechID::Enum                     requiredTech() const;
+    BW::UpgradeID::Enum                  armorUpgrade() const;
 
     u16                  maxHitPoints() const;
     u16                  maxShields() const;

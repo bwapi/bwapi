@@ -58,6 +58,23 @@ namespace BW
     else
       return "Invalid";
   }
+  //---------------------------------------------- GET SUB LABEL ---------------------------------------------
+  const char* UnitType::getSubLabel() const
+  {
+    if (this->getID() == BW::UnitID::None)
+      return "None";
+    else if (this->getID() < BW::UNIT_TYPE_COUNT)
+    {
+      u16 label=BW::BWDATA_UnitSubLabel->unitType[this->getID()];
+      if (label==0)
+      {
+        return "";
+      }
+      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + (label+1302)*2)) + *((u32*)BW::BWDATA_StringTableOff));
+    }
+    else
+      return "Invalid";
+  }
   //------------------------------------------------ GET RACE ------------------------------------------------
   BW::Race::Enum UnitType::getRace() const
   {
@@ -88,6 +105,11 @@ namespace BW
     return BW::TechID::None;
   }
 
+  //--------------------------------------------- ARMOR UPGRADE ----------------------------------------------
+  BW::UpgradeID::Enum UnitType::armorUpgrade() const
+  {
+    return BW::UpgradeID::Enum(BW::BWDATA_UnitUpgrade->unitType[this->getID()]);
+  }
   //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
   u16 UnitType::maxHitPoints() const
   {
