@@ -4,6 +4,7 @@
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/DamageType.h>
 #include <BWAPI/Error.h>
+#include <BWAPI/ExplosionType.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Force.h>
 #include <BWAPI/Game.h>

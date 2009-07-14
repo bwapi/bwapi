@@ -175,6 +175,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\ExplosionType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Order.cpp"
 				>
 			</File>
@@ -226,6 +230,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Error.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\ExplosionType.h"
 				>
 			</File>
 			<File
