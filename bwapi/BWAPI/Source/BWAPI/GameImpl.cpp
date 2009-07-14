@@ -671,7 +671,7 @@ namespace BWAPI
         unitsDat.open("bwapi-data/unitsDat.txt");
         for(std::set<UnitType>::const_iterator i=UnitTypes::allUnitTypes().begin();i!=UnitTypes::allUnitTypes().end();i++)
         {
-          unitsDat << i->getID() << ": " << (int)BWDATA_UnitUnknown->unitType[i->getID()] << ": " << i->getName() << "\n";         
+          unitsDat << i->getID() << ": " << (int)BWDATA_UnitUnknown->unitType[i->getID()] << ": " << i->getName() << ": " << BW::UnitType(BW::UnitID::Enum(i->getID())).getSubLabel() << "\n";         
         }
         unitsDat.close();
       }
