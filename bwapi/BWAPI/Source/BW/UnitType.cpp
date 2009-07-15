@@ -241,6 +241,27 @@ namespace BW
     return BW::BWDATA_MaxAirHits->unitType[this->getID()];
   }
 
+  //----------------------------------------------- TOP SPEED ------------------------------------------------
+  u32 UnitType::topSpeed() const
+  {
+    return BW::BWDATA_FlingyTopSpeed->flingyType[this->graphics()];
+  }
+  //---------------------------------------------- ACCELERATION ----------------------------------------------
+  u16 UnitType::acceleration() const
+  {
+    return BW::BWDATA_FlingyAcceleration->flingyType[this->graphics()];
+  }
+  //---------------------------------------------- HALT DISTANCE ---------------------------------------------
+  u32 UnitType::haltDistance() const
+  {
+    return BW::BWDATA_FlingyHaltDistance->flingyType[this->graphics()];
+  }
+  //---------------------------------------------- TURN RADIUS -----------------------------------------------
+  u8 UnitType::turnRadius() const
+  {
+    return BW::BWDATA_FlingyTurnRadius->flingyType[this->graphics()];
+  }
+
   //---------------------------------------------- CAN PRODUCE -----------------------------------------------
   bool UnitType::canProduce() const
   {
@@ -362,6 +383,11 @@ namespace BW
     return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
   }  
 
+  //------------------------------------------------ GRAPHICS ------------------------------------------------
+  u8 UnitType::graphics() const
+  {
+    return BW::BWDATA_UnitGraphics->unitType[this->getID()];
+  }
   //----------------------------------------- IS NEUTRAL ACCESORIES ------------------------------------------
   bool UnitType::isNeutralAccesories() const
   {

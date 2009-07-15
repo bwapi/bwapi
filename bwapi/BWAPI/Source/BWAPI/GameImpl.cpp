@@ -671,7 +671,11 @@ namespace BWAPI
         unitsDat.open("bwapi-data/unitsDat.txt");
         for(std::set<UnitType>::const_iterator i=UnitTypes::allUnitTypes().begin();i!=UnitTypes::allUnitTypes().end();i++)
         {
-          unitsDat << i->getID() << ": " << (int)BWDATA_UnitUnknown->unitType[i->getID()] << ": " << i->getName() << ": " << BW::UnitType(BW::UnitID::Enum(i->getID())).getSubLabel() << "\n";         
+          unitsDat << i->getID() << ": " << (int)BWDATA_UnitUnknown->unitType[i->getID()] << ": " << i->getName() << ": " << BW::UnitType(BW::UnitID::Enum(i->getID())).getSubLabel() << "\n";
+          unitsDat << "top speed: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).topSpeed() << "\n";
+          unitsDat << "acceleration: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).acceleration() << "\n";
+          unitsDat << "halt distance: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).haltDistance() << "\n";
+          unitsDat << "turn radius: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).turnRadius() << "\n";
         }
         unitsDat.close();
       }
