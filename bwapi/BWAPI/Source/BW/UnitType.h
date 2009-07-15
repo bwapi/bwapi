@@ -79,6 +79,10 @@ namespace BW
     BW::WeaponID::Enum   airWeapon() const;
     u8                   maxAirHits() const;
 
+    u32                  topSpeed() const;
+    u16                  acceleration() const;
+    u32                  haltDistance() const;
+    u8                   turnRadius() const;
 
     bool                 canProduce() const;
     bool                 canAttack() const;
@@ -110,6 +114,7 @@ namespace BW
     bool                 isFlyingBuilding() const;
     bool                 isNeutral() const;
 
+    u8                   graphics() const;
     bool                 isNeutralAccesories() const;
     bool                 isZerg() const;
     bool                 isTerran() const;

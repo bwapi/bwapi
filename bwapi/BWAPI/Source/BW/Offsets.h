@@ -29,6 +29,7 @@ namespace BW
   static const u8  WEAPON_TYPE_COUNT     = 130;
   static const u8  DAMAGE_TYPE_COUNT     =   5;
   static const u8  EXPLOSION_TYPE_COUNT  =  25;
+  static const u8  FLINGY_TYPE_COUNT     = 209;
 
   static const int TILE_SIZE          =  32;
  
@@ -407,6 +408,34 @@ namespace BW
   static unitsDat_u16_type* BWDATA_BroodwarOnly = (unitsDat_u16_type*) unitsDat[52].address;
   //------------------------------------------- AVAILABILITY FLAGS -------------------------------------------
   static unitsDat_u16_type* BWDATA_AvailabilityFlags = (unitsDat_u16_type*) unitsDat[53].address;
+
+
+  struct flingyDat_u8_type
+  {
+    u8 flingyType[FLINGY_TYPE_COUNT];
+  };
+  struct flingyDat_u16_type
+  {
+    u16 flingyType[FLINGY_TYPE_COUNT];
+  };
+  struct flingyDat_u32_type
+  {
+    u32 flingyType[FLINGY_TYPE_COUNT];
+  };
+  //----------------------------------------- FLINGY MOVEMENT CONTROL ----------------------------------------
+  static flingyDat_u8_type* BWDATA_FlingyMovementControl = (flingyDat_u8_type*) 0x006C9858;
+  //------------------------------------------ FLINGY HALT DISTANCE ------------------------------------------
+  static flingyDat_u32_type* BWDATA_FlingyHaltDistance = (flingyDat_u32_type*) 0x006C9930;
+  //------------------------------------------ FLINGY ACCELERATION -------------------------------------------
+  static flingyDat_u16_type* BWDATA_FlingyAcceleration = (flingyDat_u16_type*) 0x006C9C78;
+  //------------------------------------------- FLINGY TURN RADIUS -------------------------------------------
+  static flingyDat_u8_type* BWDATA_FlingyTurnRadius = (flingyDat_u8_type*) 0x006C9E20;
+  //-------------------------------------------- FLINGY TOP SPEED --------------------------------------------
+  static flingyDat_u32_type* BWDATA_FlingyTopSpeed = (flingyDat_u32_type*) 0x006C9EF8;
+  //--------------------------------------------- FLINGY UNUSED ----------------------------------------------
+  static flingyDat_u8_type* BWDATA_FlingyUnused = (flingyDat_u8_type*) 0x006CA240;
+  //------------------------------------------- FLINGY SPRITE FILE -------------------------------------------
+  static flingyDat_u16_type* BWDATA_FlingySpriteFile = (flingyDat_u16_type*) 0x006CA318;
 
   struct weaponsDat_u8_type
   {
