@@ -18,6 +18,7 @@
 #include <BWAPI/Unit.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
+#include <BWAPI/WeaponType.h>
 
 namespace BWAPI
 {

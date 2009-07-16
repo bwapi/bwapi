@@ -74,9 +74,9 @@ namespace BW
     return BW::BWDATA_WeaponDamageFactor->weaponType[this->getID()];
   }
   //---------------------------------------------- UPGRADE TYPE ----------------------------------------------
-  BW::TechType WeaponType::upgradeType() const
+  BW::UpgradeType WeaponType::upgradeType() const
   {
-    return BW::TechType(BW::TechID::Enum(BW::BWDATA_WeaponUpgrade->weaponType[this->getID()]));
+    return BW::UpgradeType(BW::UpgradeID::Enum(BW::BWDATA_WeaponUpgrade->weaponType[this->getID()]));
   }
   //----------------------------------------------- DAMAGE TYPE ----------------------------------------------
   BW::DamageID::Enum WeaponType::damageType() const

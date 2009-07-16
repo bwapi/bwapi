@@ -712,7 +712,7 @@ namespace BWAPI
   UnitType UnitTypes::getUnitType(std::string &name)
   {
     std::map<std::string, UnitType>::iterator i=unitTypeMap.find(name);
-  //  if (i==unitTypeMap.end()) return UnitTypes::Unknown;
+    if (i==unitTypeMap.end()) return UnitTypes::Unknown;
     return (*i).second;
   }
   std::set<UnitType>& UnitTypes::allUnitTypes()

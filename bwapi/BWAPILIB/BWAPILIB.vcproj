@@ -210,6 +210,10 @@
 				RelativePath=".\Source\UpgradeType.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Source\WeaponType.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -270,6 +274,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\UpgradeType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\WeaponType.h"
 				>
 			</File>
 		</Filter>
