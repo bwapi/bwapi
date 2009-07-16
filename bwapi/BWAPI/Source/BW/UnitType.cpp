@@ -223,7 +223,12 @@ namespace BW
   //--------------------------------------------- GROUND WEAPON ----------------------------------------------
   BW::WeaponID::Enum UnitType::groundWeapon() const
   {
-    return BW::WeaponID::Enum(BW::BWDATA_UnitGroundWeapon->unitType[this->getID()]);
+    BW::WeaponID::Enum w=BW::WeaponID::Enum(BW::BWDATA_UnitGroundWeapon->unitType[this->getID()]);
+    if (w==BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()]!=BW::UnitID::None)
+    {
+      w=BW::WeaponID::Enum(BW::BWDATA_UnitGroundWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]]);
+    }
+    return w;
   }
   //-------------------------------------------- MAX GROUND HITS ---------------------------------------------
   u8 UnitType::maxGroundHits() const
@@ -233,7 +238,12 @@ namespace BW
   //---------------------------------------------- AIR WEAPON ------------------------------------------------
   BW::WeaponID::Enum UnitType::airWeapon() const
   {
-    return BW::WeaponID::Enum(BW::BWDATA_UnitAirWeapon->unitType[this->getID()]);
+    BW::WeaponID::Enum w=BW::WeaponID::Enum(BW::BWDATA_UnitAirWeapon->unitType[this->getID()]);
+    if (w==BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()]!=BW::UnitID::None)
+    {
+      w=BW::WeaponID::Enum(BW::BWDATA_UnitAirWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]]);
+    }
+    return w;
   }
   //--------------------------------------------- MAX AIR HITS -----------------------------------------------
   u8 UnitType::maxAirHits() const

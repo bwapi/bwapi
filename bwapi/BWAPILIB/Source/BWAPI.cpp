@@ -8,6 +8,7 @@ void BWAPI::BWAPI_init()
   BWAPI::TechTypes::init();
   BWAPI::PlayerTypes::init();
   BWAPI::UpgradeTypes::init();
+  BWAPI::WeaponTypes::init();
   BWAPI::UnitTypes::init();
   BWAPI::Errors::init();
   BWAPI::Colors::init();

@@ -659,6 +659,37 @@ namespace BWAPI
         }
         unitData.close();
       }
+      else if (parsed[1]=="weapon")
+      {
+        std::ofstream weaponData;
+        weaponData.open ("bwapi-data/weaponData.txt");
+        for(std::set<BWAPI::WeaponType>::const_iterator w=BWAPI::WeaponTypes::allWeaponTypes().begin();w!=BWAPI::WeaponTypes::allWeaponTypes().end();w++)
+        {
+          BW::WeaponType bww((BW::WeaponID::Enum)w->getID());
+
+          weaponData << "      weaponTypeData[" << Util::Strings::stringToVariableName(w->getName()) << ".getID()].set(\""
+                     << w->getName() << "\",";
+          if (*w==BWAPI::WeaponTypes::None || *w==BWAPI::WeaponTypes::Unknown)
+          {
+            weaponData << "0,0,0,0,&(UpgradeTypes::None),&(DamageTypes::None),&(ExplosionTypes::None),0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
+          }
+          else
+          {
+            weaponData << (int)bww.damageAmount() << "," << (int)bww.damageBonus() << ","
+                       << (int)bww.damageCooldown() << "," << (int)bww.damageFactor() << ",&(UpgradeTypes::"
+                       << Util::Strings::stringToVariableName(bww.upgradeType().getName()) << "),&(DamageTypes::"
+                       << Util::Strings::stringToVariableName(BWAPI::DamageType(bww.damageType()).getName()) << "),&(ExplosionTypes::"
+                       << Util::Strings::stringToVariableName(BWAPI::ExplosionType(bww.explosionType()).getName())
+                       << ")," << bww.minRange() << "," << bww.maxRange() << "," << bww.innerSplashRadius() << ","
+                       << bww.medianSplashRadius() << "," << bww.outerSplashRadius() << "," << bww.targetsAir() << ","
+                       << bww.targetsGround() << "," << bww.targetsMechanical() << "," << bww.targetsOrganic() << ","
+                       << bww.targetsNonBuilding() << "," << bww.targetsNonRobotic() << "," << bww.targetsTerrain() << ","
+                       << bww.targetsOrgOrMech() << "," << bww.targetsOwn()
+                       << ");\n";
+          }
+        }
+        weaponData.close();
+      }
       else if (parsed[1]=="unitsDat")
       {
 
@@ -671,11 +702,8 @@ namespace BWAPI
         unitsDat.open("bwapi-data/unitsDat.txt");
         for(std::set<UnitType>::const_iterator i=UnitTypes::allUnitTypes().begin();i!=UnitTypes::allUnitTypes().end();i++)
         {
-          unitsDat << i->getID() << ": " << (int)BWDATA_UnitUnknown->unitType[i->getID()] << ": " << i->getName() << ": " << BW::UnitType(BW::UnitID::Enum(i->getID())).getSubLabel() << "\n";
-          unitsDat << "top speed: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).topSpeed() << "\n";
-          unitsDat << "acceleration: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).acceleration() << "\n";
-          unitsDat << "halt distance: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).haltDistance() << "\n";
-          unitsDat << "turn radius: " << (int)BW::UnitType(BW::UnitID::Enum(i->getID())).turnRadius() << "\n";
+          unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getName() << "\n";
+          unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getName() << "\n";
         }
         unitsDat.close();
       }
@@ -683,16 +711,17 @@ namespace BWAPI
       {
         std::ofstream weaponsDat;
         weaponsDat.open("bwapi-data/weaponsDat.txt");
-        for(int i=0;i<BW::WEAPON_TYPE_COUNT;i++)
+        for(std::set<WeaponType>::const_iterator i=WeaponTypes::allWeaponTypes().begin();i!=WeaponTypes::allWeaponTypes().end();i++)
         {
-          BW::WeaponType w=BW::WeaponType((BW::WeaponID::Enum)i);
-          weaponsDat << i << ": " << std::string(w.getName()) << "\n";
-          weaponsDat << "  damage amount:" << (int)w.damageAmount() << "\n";
-          weaponsDat << "  damage bonus:" << (int)w.damageBonus() << "\n";
-          weaponsDat << "  damage cooldown:" << (int)w.damageCooldown() << "\n";
-          weaponsDat << "  damage factor:" << (int)w.damageFactor() << "\n";
-          weaponsDat << "  damage type:" << (int)w.damageType() << "\n";
-          weaponsDat << "  min range:" << (int)w.minRange() << ", max range: " << (int)w.maxRange() << "\n";
+          weaponsDat << i->getID() << ": " << std::string(i->getName()) << "\n";
+          weaponsDat << "  damage amount:" << i->damageAmount() << "\n";
+          weaponsDat << "  damage bonus:" << i->damageBonus() << "\n";
+          weaponsDat << "  damage cooldown:" << i->damageCooldown() << "\n";
+          weaponsDat << "  damage factor:" << i->damageFactor() << "\n";
+          weaponsDat << "  damage type:" << i->damageType()->getName() << "(" << i->damageType()->getID() << ")\n";
+          weaponsDat << "  explosion type:" << i->explosionType()->getName() << "(" << i->explosionType()->getID() << ")\n";
+          weaponsDat << "  min range:" << i->minRange() << ", max range: " << i->maxRange() << "\n";
+          weaponsDat << "  targets ground:" << i->targetsGround() << ", targetsAir: " << i->targetsAir() << "\n";
         }
         weaponsDat.close();
       }

@@ -11,7 +11,7 @@
 #include "DamageID.h"
 #include "ExplosionID.h"
 #include "Offsets.h"
-#include "TechType.h"
+#include "UpgradeType.h"
 
 
 namespace BW
@@ -37,7 +37,7 @@ namespace BW
     u16                    damageBonus() const;
     u8                     damageCooldown() const;
     u8                     damageFactor() const;
-    BW::TechType           upgradeType() const;
+    BW::UpgradeType        upgradeType() const;
     BW::DamageID::Enum     damageType() const;
     BW::ExplosionID::Enum  explosionType() const;
     u32                    minRange() const;
