@@ -618,7 +618,12 @@ namespace BWAPI
           }
 
           unitData << "      unitTypeData[" << Util::Strings::stringToVariableName(u->getName()) << ".getID()].set(\""
-                   << u->getName() << "\",Races::" << Util::Strings::stringToVariableName(u->getRace().getName()) << ",&("
+                   << u->getName() << "\",\"";
+          if (*u!=UnitTypes::None && *u!=UnitTypes::Unknown)
+          {
+            unitData << std::string(bwu.getSubLabel());
+          }
+          unitData << "\",Races::" << Util::Strings::stringToVariableName(u->getRace().getName()) << ",&("
                    << Util::Strings::stringToVariableName(u->whatBuilds().first->getName()) << "),"
                    << u->whatBuilds().second << ",";
           for(int i=0;i<3;i++)
@@ -636,25 +641,34 @@ namespace BWAPI
           unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u->requiredTech()->getName()) << "),";
           if (*u!=UnitTypes::None && *u!=UnitTypes::Unknown)
           {
-          unitData << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << "," << bwu.maxHitPoints()
-                   << "," << bwu.maxShields() << "," << bwu.maxEnergy() << ","
-                   << bwu.mineralPrice() << "," << bwu.gasPrice() << "," << (int)bwu.armor() << ","
-                   << bwu.buildTime() << "," << bwu.dimensionLeft() << "," << bwu.dimensionUp() << ","
-                   << bwu.dimensionRight() << "," << bwu.dimensionDown() << "," << bwu.tileWidth() << ","
-                   << bwu.tileHeight()
-                   << "," << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove()
-                   << "," << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster()
-                   << "," << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic()
-                   << "," << bwu.isMechanical() << "," << bwu.isRobotic() << "," << bwu.isDetector()
-                   << "," << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker()
-                   << "," << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg()
-                   << "," << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding()
-                   << "," << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral()
+          unitData << "&(UpgradeTypes::"
+                   << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),"
+                   << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
+                   << (int)bwu.armor() << "," << (int)bwu.mineralPrice() << "," << (int)bwu.gasPrice() << ","
+                   << (int)bwu.buildTime() << "," << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << ","
+                   << (int)bwu.spaceRequired() << "," << (int)bwu.spaceProvided() << "," << (int)bwu.buildScore() << ","
+                   << (int)bwu.destroyScore() << ",&(UnitSizeTypes::" << BWAPI::UnitSizeType((int)bwu.size()).getName() << ")," << (int)bwu.tileWidth() << ","
+                   << (int)bwu.tileHeight() << "," << (int)bwu.dimensionLeft() << "," << (int)bwu.dimensionUp() << ","
+                   << (int)bwu.dimensionRight() << "," << (int)bwu.dimensionDown() << "," << (int)bwu.seekRange() << ","
+                   << (int)bwu.sightRange() << ",&(WeaponTypes::"
+                   << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.groundWeapon()).getName()) << "),"
+                   << (int)bwu.maxGroundHits() << ",&(WeaponTypes::"
+                   << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.airWeapon()).getName()) << "),"
+                   << (int)bwu.maxAirHits() << "," << (int)bwu.topSpeed() << "," << (int)bwu.acceleration() << ","
+                   << (int)bwu.haltDistance() << "," << (int)bwu.turnRadius() << ","
+                   << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove() << ","
+                   << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster() << ","
+                   << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic() << ","
+                   << bwu.isMechanical() << "," << bwu.isRobotic() << "," << bwu.isDetector() << ","
+                   << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker() << ","
+                   << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg() << ","
+                   << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding() << ","
+                   << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral()
                    << ");\n";
           }
           else
           {
-            unitData << "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);\n";
+            unitData << "&(UpgradeTypes::None), 0,0,0, 0,0,0, 0,0,0, 255,0,0, 0,&(UnitSizeTypes::None),0, 0,0,0, 0,0,0, 0,&(WeaponTypes::None), 0,&(WeaponTypes::None), 0,0,0, 0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0);\n";
           }
         }
         unitData.close();
@@ -702,8 +716,11 @@ namespace BWAPI
         unitsDat.open("bwapi-data/unitsDat.txt");
         for(std::set<UnitType>::const_iterator i=UnitTypes::allUnitTypes().begin();i!=UnitTypes::allUnitTypes().end();i++)
         {
-          unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getName() << "\n";
-          unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getName() << "\n";
+          BW::UnitType bwu((BW::UnitID::Enum)i->getID());
+            unitsDat <<"(" << i->getID() << ")" << i->getName() << ", seek range: " << (int)bwu.seekRange() << "\n";
+
+            //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getName() << "\n";
+            //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getName() << "\n";
         }
         unitsDat.close();
       }
