@@ -118,11 +118,19 @@ namespace BW
   //----------------------------------------------- MAX SHIELDS ----------------------------------------------
   u16 UnitType::maxShields() const
   {
-    return BW::BWDATA_MaxShieldPoints->unitType[this->getID()];
+    if (BW::BWDATA_ShieldsEnabled->unitType[this->getID()]!=0)
+    {
+      return BW::BWDATA_MaxShieldPoints->unitType[this->getID()];
+    }
+    return 0;
   }
   //------------------------------------------------ MAX ENERGY ----------------------------------------------
   u16 UnitType::maxEnergy() const
   {
+    if (this->isSpellcaster())
+    {
+      return 200;
+    }
     return 0;
   }
   //------------------------------------------------ MAX ARMOR -----------------------------------------------
@@ -179,9 +187,9 @@ namespace BW
   }
 
   //-------------------------------------------------- SIZE --------------------------------------------------
-  u8 UnitType::size() const
+  UnitSizeType::Enum UnitType::size() const
   {
-    return BW::BWDATA_UnitSize->unitType[this->getID()];
+    return UnitSizeType::Enum(BW::BWDATA_UnitSize->unitType[this->getID()]);
   }
   //----------------------------------------------- TILE WIDTH -----------------------------------------------
   u16 UnitType::tileWidth() const
@@ -214,12 +222,16 @@ namespace BW
     return BW::BWDATA_UnitDimensions->units[this->getID()].down;
   }
 
+  //----------------------------------------------- SEEK RANGE -----------------------------------------------
+  u8 UnitType::seekRange() const
+  {
+    return BW::BWDATA_UnitSeekRange->unitType[this->getID()];
+  }
   //----------------------------------------------- SIGHT RANGE ----------------------------------------------
   u8 UnitType::sightRange() const
   {
     return BW::BWDATA_UnitSightRange->unitType[this->getID()];
   }
-
   //--------------------------------------------- GROUND WEAPON ----------------------------------------------
   BW::WeaponID::Enum UnitType::groundWeapon() const
   {
@@ -391,7 +403,7 @@ namespace BW
   bool UnitType::isNeutral() const
   {
     return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
-  }  
+  }
 
   //------------------------------------------------ GRAPHICS ------------------------------------------------
   u8 UnitType::graphics() const

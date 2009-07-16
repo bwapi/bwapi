@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\UnitSizeType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\UnitType.cpp"
 				>
 			</File>
@@ -266,6 +270,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\TilePosition.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\UnitSizeType.h"
 				>
 			</File>
 			<File

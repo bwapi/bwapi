@@ -361,7 +361,16 @@ namespace BWAI
   //-----------------------------------------------  ON FRAME ------------------------------------------------
   void AI::onFrame(void)
   {
-    BWAPI::Broodwar->drawCircle(BWAPI::CoordinateType::Map,BWAPI::Broodwar->self()->getStartLocation().x()*32+2*32,BWAPI::Broodwar->self()->getStartLocation().y()*32+3*16,100,BWAPI::Colors::Red,false);
+    /*
+    std::set<BWAPI::Unit*> selected=BWAPI::Broodwar->getSelectedUnits();
+    for(std::set<BWAPI::Unit*>::iterator i=selected.begin();i!=selected.end();i++)
+    {
+      int x=(*i)->getPosition().x();
+      int y=(*i)->getPosition().y();
+      int r=(*i)->getType().sightRange()*BWAPI::TILE_SIZE;
+      BWAPI::Broodwar->drawCircle(BWAPI::CoordinateType::Map,x,y,r,BWAPI::Colors::Cyan,false);
+    }
+
     std::set<BWAPI::Unit*> myUnits=BWAPI::Broodwar->self()->getUnits();
     for(std::set<BWAPI::Unit*>::iterator i=myUnits.begin();i!=myUnits.end();i++)
     {
@@ -370,6 +379,7 @@ namespace BWAI
         BWAPI::Broodwar->drawLine(BWAPI::CoordinateType::Map,(*i)->getPosition().x(),(*i)->getPosition().y(),(*i)->getTargetPosition().x(),(*i)->getTargetPosition().y(),BWAPI::Colors::Green);
       }
     }
+    */
     this->update();
     try
     {
@@ -906,13 +916,125 @@ namespace BWAI
       {
         BWAPI::Unit* unit=*selectedUnits.begin();
         BWAPI::UnitType type=unit->getType();
-        if (parsed[1] == "supplyRequired")
+        if (parsed[1] == "getID")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.getID());
+        }
+        else if (parsed[1] == "getName")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.getName().c_str());
+        }
+        else if (parsed[1] == "getSubLabel")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.getSubLabel().c_str());
+        }
+        else if (parsed[1] == "getRace")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.getRace().getName().c_str());
+        }
+        else if (parsed[1] == "whatBuilds")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.whatBuilds().first->getName().c_str());
+        }
+        else if (parsed[1] == "armorUpgrade")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.armorUpgrade()->getName().c_str());
+        }
+        else if (parsed[1] == "maxHitPoints")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.maxHitPoints());
+        }
+        else if (parsed[1] == "maxShields")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.maxShields());
+        }
+        else if (parsed[1] == "maxEnergy")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.maxEnergy());
+        }
+        else if (parsed[1] == "armor")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.armor());
+        }
+        else if (parsed[1] == "mineralPrice")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.mineralPrice());
+        }
+        else if (parsed[1] == "gasPrice")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.gasPrice());
+        }
+        else if (parsed[1] == "buildTime")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.buildTime());
+        }
+        else if (parsed[1] == "supplyRequired")
         {
           BWAPI::Broodwar->printPublic("%d",type.supplyRequired());
         }
         else if (parsed[1] == "supplyProvided")
         {
           BWAPI::Broodwar->printPublic("%d",type.supplyProvided());
+        }
+        else if (parsed[1] == "spaceRequired")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.spaceRequired());
+        }
+        else if (parsed[1] == "spaceProvided")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.spaceProvided());
+        }
+        else if (parsed[1] == "buildScore")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.buildScore());
+        }
+        else if (parsed[1] == "destroyScore")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.destroyScore());
+        }
+        else if (parsed[1] == "size")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.size().getName().c_str());
+        }
+        else if (parsed[1] == "tileWidth")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.tileWidth());
+        }
+        else if (parsed[1] == "tileHeight")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.tileHeight());
+        }
+        else if (parsed[1] == "seekRange")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.sightRange());
+        }
+        else if (parsed[1] == "sightRange")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.sightRange());
+        }
+        else if (parsed[1] == "groundWeapon")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.groundWeapon()->getName().c_str());
+        }
+        else if (parsed[1] == "airWeapon")
+        {
+          BWAPI::Broodwar->printPublic("%s",type.groundWeapon()->getName().c_str());
+        }
+        else if (parsed[1] == "topSpeed")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.topSpeed());
+        }
+        else if (parsed[1] == "acceleration")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.acceleration());
+        }
+        else if (parsed[1] == "haltDistance")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.haltDistance());
+        }
+        else if (parsed[1] == "turnRadius")
+        {
+          BWAPI::Broodwar->printPublic("%d",type.turnRadius());
         }
         else if (parsed[1] == "canProduce")
         {

@@ -353,6 +353,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\UnitSizeType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\UnitStatusFlags.h"
 					>
 				</File>

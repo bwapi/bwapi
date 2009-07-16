@@ -9,6 +9,7 @@ void BWAPI::BWAPI_init()
   BWAPI::PlayerTypes::init();
   BWAPI::UpgradeTypes::init();
   BWAPI::WeaponTypes::init();
+  BWAPI::UnitSizeTypes::init();
   BWAPI::UnitTypes::init();
   BWAPI::Errors::init();
   BWAPI::Colors::init();

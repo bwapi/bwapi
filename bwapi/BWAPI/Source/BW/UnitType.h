@@ -14,6 +14,7 @@
 #include "UpgradeID.h"
 #include "WeaponID.h"
 #include "Offsets.h"
+#include "UnitSizeType.h"
 
 
 namespace BW
@@ -65,7 +66,7 @@ namespace BW
     u16                  buildScore() const;
     u16                  destroyScore() const;
 
-    u8                   size() const;
+    UnitSizeType::Enum   size() const;
     u16                  tileWidth() const;
     u16                  tileHeight() const;
     u16                  dimensionLeft() const;
@@ -73,6 +74,7 @@ namespace BW
     u16                  dimensionRight() const;
     u16                  dimensionDown() const;
 
+    u8                   seekRange() const;
     u8                   sightRange() const;
     BW::WeaponID::Enum   groundWeapon() const;
     u8                   maxGroundHits() const;

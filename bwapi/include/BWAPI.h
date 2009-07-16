@@ -16,6 +16,7 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/TilePosition.h>
 #include <BWAPI/Unit.h>
+#include <BWAPI/UnitSizeType.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>

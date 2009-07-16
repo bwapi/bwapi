@@ -3,10 +3,12 @@
 #include <map>
 #include <set>
 #include <BWAPI/Race.h>
-#include <BWAPI/DamageType.h>
+#include <BWAPI/UnitSizeType.h>
 namespace BWAPI
 {
   class TechType;
+  class UpgradeType;
+  class WeaponType;
   class UnitType
   {
   public:
@@ -19,27 +21,50 @@ namespace BWAPI
     bool operator<(const UnitType &other) const;
     int getID() const;
     std::string getName() const;
+    std::string getSubLabel() const;
     Race getRace() const;
+
     const std::pair< const UnitType*,int> whatBuilds() const;
     const std::map< const UnitType*,int >& requiredUnits() const;
     const TechType* requiredTech() const;
-    int supplyRequired() const;
-    int supplyProvided() const;
-    int maxHealth() const;
-    int maxShield() const;
+    const UpgradeType* armorUpgrade() const;
+
+    int maxHitPoints() const;
+    int maxShields() const;
     int maxEnergy() const;
+    int armor() const;
+
     int mineralPrice() const;
     int gasPrice() const;
-    int armor() const;
     int buildTime() const;
+
+    int supplyRequired() const;
+    int supplyProvided() const;
+    int spaceRequired() const;
+    int spaceProvided() const;
+    int buildScore() const;
+    int destroyScore() const;
+
+    UnitSizeType size() const;
+    int tileWidth() const;
+    int tileHeight() const;
     int dimensionLeft() const;
     int dimensionUp() const;
     int dimensionRight() const;
     int dimensionDown() const;
-    int tileWidth() const;
-    int tileHeight() const;
-    int damageFactor() const;
-    int groundDamage() const;
+
+    int seekRange() const;
+    int sightRange() const;
+    const WeaponType* groundWeapon() const;
+    int maxGroundHits() const;
+    const WeaponType* airWeapon() const;
+    int maxAirHits() const;
+
+    int topSpeed() const;
+    int acceleration() const;
+    int haltDistance() const;
+    int turnRadius() const;
+
     bool canProduce() const;
     bool canAttack() const;
     bool canMove() const;
