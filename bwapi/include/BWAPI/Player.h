@@ -24,6 +24,7 @@ namespace BWAPI
     virtual bool isAlliesWith(Player* player) const=0;
     virtual int getID() const=0;
     virtual TilePosition getStartLocation() const=0;
+    virtual bool isNeutral() const=0;
 
     virtual int minerals() const=0;
     virtual int gas() const=0;

@@ -39,7 +39,7 @@ namespace BWAPI
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToGas;
  
         else if ((this->executors[i]->getType().canAttack()) && 
-                 targetUnit->getOwner() != executors[i]->getOwner())
+                 targetUnit->getPlayer() != executors[i]->getPlayer())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 
         else if ((this->executors[i]->getType().canMove()))

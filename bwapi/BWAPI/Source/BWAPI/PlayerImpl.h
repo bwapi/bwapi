@@ -45,6 +45,7 @@ namespace BWAPI
     virtual Force* getForce() const;
     virtual bool isAlliesWith(Player* player) const;
     virtual TilePosition getStartLocation() const;
+    virtual bool isNeutral() const;
 
     /** Gets local version of minerals for the current player - @ref localData */
     virtual int minerals() const;
