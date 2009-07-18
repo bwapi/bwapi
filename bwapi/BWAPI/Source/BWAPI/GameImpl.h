@@ -178,6 +178,9 @@ namespace BWAPI
       std::vector<Shape*> shapes;
       std::vector<Shape*> cachedShapes;
       HANDLE hcachedShapesMutex;
+      /** Unknown unitID's */
+      Util::Logger* newUnitLog;
+      std::set<int> invalidIndices;
     private :
       HMODULE hMod;
       /**
@@ -207,8 +210,6 @@ namespace BWAPI
       Util::Logger* commandLog;
       /** Unknown orderID's */
       Util::Logger* newOrderLog;
-      /** Unknown unitID's */
-      Util::Logger* newUnitLog;
       /** Failed check of assumption */
       Util::Logger* badAssumptionLog;
       /** Sum of all units*/

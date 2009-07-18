@@ -271,6 +271,7 @@ namespace BWAPI
         return;
       memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
+
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
 
@@ -1010,8 +1011,11 @@ namespace BWAPI
   {
     this->setOnStartCalled(false);
     this->client->onEnd();
-    delete this->client;
-    this->client = NULL;
+    if (this->client != NULL)
+    {
+      delete this->client;
+      this->client=NULL;
+    }
     this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
@@ -1019,6 +1023,7 @@ namespace BWAPI
     {
       this->savedSelectionStates[i] = NULL;
     }
+    this->invalidIndices.clear();
     this->selectedUnitSet.clear();
     this->reselected = false;
     this->startedClient = false;
@@ -1160,14 +1165,26 @@ namespace BWAPI
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void GameImpl::onRemoveUnit(BW::Unit* unit)
   {
-    this->client->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit(unit));
+    if (this->client != NULL)
+    {
+      this->client->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit(unit));
+    }
   }
   //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
   void GameImpl::logUnknownOrStrange()
   {
     for each (UnitImpl* i in this->units)
-      if (!i->getBWType().isValid())
-        this->newUnitLog->log("%s", i->getName().c_str());
+    {
+      if (i==NULL)
+      {
+        this->newUnitLog->log("Error: NULL pointer");
+      }
+      else
+      {
+        if (!i->getBWType().isValid())
+          this->newUnitLog->log("%s", i->getName().c_str());
+      }
+    }
   }
   //--------------------------------------------- LOG UNIT LIST ----------------------------------------------
   void GameImpl::logUnitList()

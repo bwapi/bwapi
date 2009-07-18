@@ -387,6 +387,7 @@ void __declspec(naked) onIssueCommand()
        || commandID == 0x3F //?
        || commandID == 0x40 //?
        || commandID == 0x0A //?
+       || commandID == 0x56  //Replay stuff
      )
   {
     __asm
