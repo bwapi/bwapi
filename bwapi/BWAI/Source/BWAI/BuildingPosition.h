@@ -14,6 +14,6 @@ namespace BWAI
        * Specifies if this position is already reserved by some TaskBuild, this prevents other TaskBuild to
        * use the same location.
        */
-      bool reserved; 
+      bool reserved;
   };
 }

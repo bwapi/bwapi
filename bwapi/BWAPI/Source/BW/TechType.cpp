@@ -4,14 +4,14 @@
 
 namespace BW
 {
- //----------------------------------------------- CONSTRUCTOR -----------------------------------------------
+//----------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TechType::TechType()
-  :id(BW::TechID::None)
+      : id(BW::TechID::None)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TechType::TechType(const BW::TechID::Enum& id)
-  :id(id)
+      : id(id)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
@@ -28,7 +28,7 @@ namespace BW
   bool TechType::operator ==(const TechType& type)
   {
     return this->id == type.id;
-  }  
+  }
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* TechType::getName() const
   {
@@ -85,7 +85,7 @@ namespace BW
       case BW::TechID::TankSiegeMode      : return BW::UnitID::Terran_MachineShop;
       case BW::TechID::YamatoGun          : return BW::UnitID::Terran_PhysicsLab;
       case BW::TechID::CloakingField      : return BW::UnitID::Terran_ControlTower;
-      
+
       case BW::TechID::Burrowing          : return BW::UnitID::Zerg_Hatchery;
       case BW::TechID::LurkerAspect       : return BW::UnitID::Zerg_HydraliskDen;
       case BW::TechID::Ensnare            :
@@ -93,7 +93,7 @@ namespace BW
       case BW::TechID::SpawnBroodlings    : return BW::UnitID::Zerg_QueensNest;
       case BW::TechID::Plague             :
       case BW::TechID::Consume            : return BW::UnitID::Zerg_DefilerMound;
-      
+
       case BW::TechID::PsionicStorm       :
       case BW::TechID::Hallucination      :
       case BW::TechID::MindControl        :
@@ -101,7 +101,7 @@ namespace BW
       case BW::TechID::Recall             :
       case BW::TechID::StasisField        : return BW::UnitID::Protoss_ArbiterTribunal;
       case BW::TechID::DisruptionWeb      : return BW::UnitID::Protoss_FleetBeacon;
-      
+
       default : return BW::UnitID::None;
     }
   }

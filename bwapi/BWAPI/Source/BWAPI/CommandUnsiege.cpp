@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUnsiege::CommandUnsiege(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandUnsiege::describe()
   {
-	  return this->executors[0]->getName() + " unsieged";
+    return this->executors[0]->getName() + " unsieged";
   }
   //----------------------------------------------------------------------------------------------------------
 }

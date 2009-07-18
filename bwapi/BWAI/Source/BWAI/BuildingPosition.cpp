@@ -2,8 +2,8 @@
 namespace BWAI
 {
   BuildingPosition::BuildingPosition(const BWAPI::TilePosition& position)
-  :position(position)
-  ,reserved(false)
+      : position(position)
+      , reserved(false)
   {
   }
 }

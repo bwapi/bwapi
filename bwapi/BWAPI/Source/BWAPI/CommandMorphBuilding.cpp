@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandMorphBuilding::CommandMorphBuilding(UnitImpl* executor, BW::UnitType toMorph)
-  :Command(executor)
-  ,toMorph(toMorph)
+      : Command(executor)
+      , toMorph(toMorph)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -28,7 +28,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandMorphBuilding::describe()
   {
-	  return this->executors[0]->getName() + " is morphing into (" + this->toMorph.getName() + ")";
+    return this->executors[0]->getName() + " is morphing into (" + this->toMorph.getName() + ")";
   }
   //----------------------------------------------------------------------------------------------------------
 }

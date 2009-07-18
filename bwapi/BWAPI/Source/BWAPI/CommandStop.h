@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandStop : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Stop command (will be passed as executor 
+      /**
+       * @param executor Executor of the Stop command (will be passed as executor
        *        to Command ancestor)
        */
       CommandStop(UnitImpl* executor);

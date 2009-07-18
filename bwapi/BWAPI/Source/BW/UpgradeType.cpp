@@ -6,11 +6,11 @@ namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UpgradeType::UpgradeType()
-  :id(BW::UpgradeID::None)
+      : id(BW::UpgradeID::None)
   {}
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UpgradeType::UpgradeType(const UpgradeID::Enum& id)
-  :id(id)
+      : id(id)
   {}
   //---------------------------------------------- OPERATOR == -----------------------------------------------
   bool UpgradeType::operator == (const UpgradeID::Enum& id) const
@@ -102,7 +102,7 @@ namespace BW
       case BW::UpgradeID::OcularImplants        : return BW::UnitID::Terran_CovertOps;
       case BW::UpgradeID::ApolloReactor         : return BW::UnitID::Terran_ControlTower;
       case BW::UpgradeID::ColossusReactor       : return BW::UnitID::Terran_PhysicsLab;
-      
+
       case BW::UpgradeID::ZergMeleeAttacks      :
       case BW::UpgradeID::ZergMissileAttacks    :
       case BW::UpgradeID::ZergCarapace          : return BW::UnitID::Zerg_EvolutionChamber;
@@ -119,7 +119,7 @@ namespace BW
       case BW::UpgradeID::MetasynapticNode      : return BW::UnitID::Zerg_DefilerMound;
       case BW::UpgradeID::AnabolicSynthesis     :
       case BW::UpgradeID::ChitinousPlating      : return BW::UnitID::Zerg_UltraliskCavern;
-      
+
       case BW::UpgradeID::ProtossArmor          :
       case BW::UpgradeID::ProtossGroundWeapons  :
       case BW::UpgradeID::ProtossPlasmaShields  : return BW::UnitID::Protoss_Forge;

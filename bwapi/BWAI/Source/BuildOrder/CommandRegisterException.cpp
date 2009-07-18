@@ -14,7 +14,7 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandRegisterException::CommandRegisterException(TiXmlElement* xmlElement)
-  :Command(xmlElement)
+      : Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
   }

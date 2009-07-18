@@ -44,7 +44,7 @@ namespace Formula
       this->type = FunctionType::Zerg_Main;
     else if (name == "Zerg_MainLair")
       this->type = FunctionType::Zerg_MainLair;
-	else 
+    else
       throw ParseException("Unknown Function '" + name + "'");
     if (needParameter)
     {
@@ -69,7 +69,7 @@ namespace Formula
           throw ParseException("Unknown unit name " + this->functionParameter);
         break;
       case FunctionType::ConfigValue :
-        sscanf(BWAI::config->get(this->functionParameter).c_str(),"%f", &this->configValue);
+        sscanf(BWAI::config->get(this->functionParameter).c_str(), "%f", &this->configValue);
       case FunctionType::UsedSupply :
       case FunctionType::PlannedSupply :
       case FunctionType::Factories :
@@ -94,7 +94,7 @@ namespace Formula
       case FunctionType::Finished   : return (float) BWAPI::Broodwar->self()->getCompletedUnits(this->unitType);
       case FunctionType::All        : return (float) BWAPI::Broodwar->self()->getAllUnits(this->unitType);
       case FunctionType::InProgress : return (float) BWAPI::Broodwar->self()->getIncompleteUnits(this->unitType);
-      case FunctionType::ConfigValue: 
+      case FunctionType::ConfigValue:
         return this->configValue;
       case FunctionType::ActiveMinerals :
         return (float) BWAI::ai->activeMinerals.size();

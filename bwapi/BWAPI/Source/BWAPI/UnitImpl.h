@@ -120,7 +120,7 @@ namespace BWAPI
        * click on unit can result in lot of commands (attack, gather, follow,
        * set rally point)
        */
-      virtual bool rightClick(Unit *target);
+      virtual bool rightClick(Unit* target);
       /** Orders this unit to train (construct) the specified unit. */
       virtual bool train(UnitType type);
       /** Orders to build the specified building. */
@@ -162,17 +162,17 @@ namespace BWAPI
       virtual bool useTech(TechType tech, Unit* target);
 
 
-    //Internal BWAPI commands:
-      /** 
-       * @param bwUnit         #bwUnit                          
+      //Internal BWAPI commands:
+      /**
+       * @param bwUnit         #bwUnit
        * @param bwOriginalUnit #bwOriginalUnit
        * @param bwUnitLocal    #bwUnitLocal
        * @param index          #index
        */
       UnitImpl(BW::Unit* bwUnit,
-           BW::Unit* bwOriginalUnit,
-           BW::Unit* bwUnitLocal,
-           u16 index);
+               BW::Unit* bwOriginalUnit,
+               BW::Unit* bwUnitLocal,
+               u16 index);
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
       /**
@@ -185,11 +185,11 @@ namespace BWAPI
       bool isReady() const;
 
       /** Gets distance of unit edges. */
-      u16 getDistance(Unit *unit) const; 
+      u16 getDistance(Unit* unit) const;
       /** Gets distance of unit center and position. */
-      u16 getDistance(BW::Position position) const; 
+      u16 getDistance(BW::Position position) const;
       /** Gets distance of unit centers. */
-      u16 getCenterDistance(Unit *unit) const; 
+      u16 getCenterDistance(Unit* unit) const;
       /**
        * Gets index of the unit in the unit array. Note that the index is same
        * for the original unit array, BWAPI::Unit array and BWAI::Unit array, so
@@ -204,9 +204,9 @@ namespace BWAPI
       UnitImpl* getNext() const;
       bool isMineral() const;
       /** Gets #bwOriginalUnit */
-      BW::Unit *getOriginalRawData() const;
+      BW::Unit* getOriginalRawData() const;
       /** Gets #bwUnitLocal */
-      BW::Unit *getRawDataLocal() const;
+      BW::Unit* getRawDataLocal() const;
       u8 getBuildQueueSlot() const;
       /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType* getBuildQueue() const;
@@ -218,7 +218,7 @@ namespace BWAPI
       UnitImpl* buildUnit;
     private:
       /** Gets #bwUnit */
-      BW::Unit *getRawData() const;
+      BW::Unit* getRawData() const;
 
       bool hasEmptyBuildQueueSync() const;
       BW::UnitType* getBuildQueueSync() const;
@@ -226,10 +226,10 @@ namespace BWAPI
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
       /** Gets distance between two positions. */
-      u16 getDistance(int x1, int y1, int x2, int y2) const; 
+      u16 getDistance(int x1, int y1, int x2, int y2) const;
 
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
-      BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */ 
+      BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       bool userSelected;

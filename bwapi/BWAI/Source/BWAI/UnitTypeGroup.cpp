@@ -20,9 +20,9 @@ namespace BWAI
       case UnitTypeGroup::Men:
         return !typ.isBuilding();
       case UnitTypeGroup::Zerg_Main:
-        return (typ==BWAPI::UnitTypes::Zerg_Hatchery || typ==BWAPI::UnitTypes::Zerg_Lair || typ==BWAPI::UnitTypes::Zerg_Hive);
+        return (typ == BWAPI::UnitTypes::Zerg_Hatchery || typ == BWAPI::UnitTypes::Zerg_Lair || typ == BWAPI::UnitTypes::Zerg_Hive);
       case UnitTypeGroup::Zerg_MainLair:
-        return (typ==BWAPI::UnitTypes::Zerg_Lair || typ==BWAPI::UnitTypes::Zerg_Hive);
+        return (typ == BWAPI::UnitTypes::Zerg_Lair || typ == BWAPI::UnitTypes::Zerg_Hive);
       default:
         return false;
     }

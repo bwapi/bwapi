@@ -32,48 +32,48 @@
 
 struct ExchangeData
 {
-   int iPluginAPI;
-   int iStarCraftBuild;
-   bool bConfigDialog;                 //Is Configurable
-   bool bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
+  int iPluginAPI;
+  int iStarCraftBuild;
+  bool bConfigDialog;                 //Is Configurable
+  bool bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
 };
 #include <stdio.h>
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
-                )
+                     )
 {
-   switch (ul_reason_for_call)
-   {
-      case DLL_PROCESS_ATTACH:
-      case DLL_THREAD_ATTACH:
-      case DLL_THREAD_DETACH:
-      case DLL_PROCESS_DETACH:
-         break;
-   }
-   return TRUE;
+  switch (ul_reason_for_call)
+  {
+    case DLL_PROCESS_ATTACH:
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+      break;
+  }
+  return TRUE;
 }
 
 //
 // GET Functions for BWLauncher
 //
 //
-extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData &Data)
+extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 {
-   //BWL Gets version from Resource - VersionInfo
-   Data.iPluginAPI = BWLAPI;
-   Data.iStarCraftBuild = STARCRAFTBUILD;
-   Data.bConfigDialog = false;
-   Data.bNotSCBWmodule = true;
+  //BWL Gets version from Resource - VersionInfo
+  Data.iPluginAPI = BWLAPI;
+  Data.iStarCraftBuild = STARCRAFTBUILD;
+  Data.bConfigDialog = false;
+  Data.bNotSCBWmodule = true;
 }
 
-extern "C" __declspec(dllexport) void GetData(char *name, char *description, char *updateurl)
+extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
-   //if necessary you can add Initialize function here
-   //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
-   strcpy(name, "BWAPI Injector (1.16.1)");
-   strcpy(description, "Injects BWAPI.dll into the Broodwar process.   Be sure to get the latest revision!      - BWAI Project Team");
-   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
+  //if necessary you can add Initialize function here
+  //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
+  strcpy(name, "BWAPI Injector (1.16.1)");
+  strcpy(description, "Injects BWAPI.dll into the Broodwar process.   Be sure to get the latest revision!      - BWAI Project Team");
+  strcpy(updateurl, "http://bwapi.googlecode.com/files/");
 }
 
 
@@ -83,16 +83,16 @@ extern "C" __declspec(dllexport) void GetData(char *name, char *description, cha
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-   return true; //everything OK
+  return true; //everything OK
 
-   //return false; //something went wrong
+  //return false; //something went wrong
 }
 
 extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD dwProcessID)
 {
-   return true; //everything OK
+  return true; //everything OK
 
-   //return false; //something went wrong
+  //return false; //something went wrong
 }
 
 #pragma warning(push)
@@ -115,13 +115,13 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   assert(NULL != loadLibAddress);
 
-  void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size()+1, MEM_COMMIT, PAGE_READWRITE);
+  void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
   assert(NULL != pathAddress);
 
   SIZE_T bytesWritten;
 
-  BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size()+1, &bytesWritten);
-  assert(success && bytesWritten == dllFileName.size()+1);
+  BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
+  assert(success && bytesWritten == dllFileName.size() + 1);
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
   assert(NULL != hThread);
@@ -132,7 +132,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
   GetExitCodeThread(hThread, &hLibModule);
   assert(0 != hLibModule);
 
-  VirtualFreeEx(hProcess, pathAddress, dllFileName.size()+1, MEM_RELEASE);
+  VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);
 
   return true; //everything OK
@@ -141,4 +141,4 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
 
 #ifdef _MANAGED
 #pragma managed(pop)
-#endif 
+#endif

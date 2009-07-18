@@ -12,7 +12,7 @@ namespace BWAPI
   class CommandBuild : public Command
   {
     public :
-      /** 
+      /**
        * @param builder Worker that builds the building
        *         (will be passed as executor to Command ancestor)
        * @param toBuild Building that should be constructed

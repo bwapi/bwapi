@@ -15,7 +15,7 @@ namespace BW
       bool operator == (const BW::Position& position) const;
       bool operator != (const BW::Position& position) const;
       bool operator  < (const BW::Position& position) const;
-      u16 getDistance(const Position &position) const;
+      u16 getDistance(const Position& position) const;
       u16 x;
       u16 y;
   };

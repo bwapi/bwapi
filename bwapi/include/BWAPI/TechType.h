@@ -7,27 +7,27 @@ namespace BWAPI
   class UnitType;
   class TechType
   {
-  public:
-    TechType();
-    TechType(int id);
-    TechType(const TechType &other);
-    TechType& operator=(const TechType &other);
-    bool operator==(const TechType &other) const;
-    bool operator!=(const TechType &other) const;
-    bool operator<(const TechType &other) const;
-    int getID() const;
-    std::string getName() const;
-    Race getRace() const;
-    int mineralPrice() const;
-    int gasPrice() const;
-    int energyPrice() const;
-    const UnitType* whatResearches() const;
-  private:
-    int id;
+    public:
+      TechType();
+      TechType(int id);
+      TechType(const TechType& other);
+      TechType& operator=(const TechType& other);
+      bool operator==(const TechType& other) const;
+      bool operator!=(const TechType& other) const;
+      bool operator<(const TechType& other) const;
+      int getID() const;
+      std::string getName() const;
+      Race getRace() const;
+      int mineralPrice() const;
+      int gasPrice() const;
+      int energyPrice() const;
+      const UnitType* whatResearches() const;
+    private:
+      int id;
   };
   namespace TechTypes
   {
-    TechType getTechType(std::string &name);
+    TechType getTechType(std::string& name);
     std::set<TechType>& allTechTypes();
     void init();
     extern const TechType Stim_Packs;

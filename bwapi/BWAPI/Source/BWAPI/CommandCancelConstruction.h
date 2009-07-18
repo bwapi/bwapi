@@ -7,8 +7,8 @@ namespace BWAPI
   class CommandCancelConstruction : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Cancel Construction command (will be passed as executor 
+      /**
+       * @param executor Executor of the Cancel Construction command (will be passed as executor
                 to Command ancestor)
        */
       CommandCancelConstruction(UnitImpl* building);

@@ -15,6 +15,6 @@ namespace BuildOrder
       bool applies();
       virtual void debugEvaluate(std::string& view);
     private :
-      u16 minimalPopulation; 
+      u16 minimalPopulation;
   };
 }

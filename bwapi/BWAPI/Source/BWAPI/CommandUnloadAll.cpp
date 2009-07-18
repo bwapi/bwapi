@@ -5,13 +5,13 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUnloadAll::CommandUnloadAll(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUnloadAll::CommandUnloadAll(UnitImpl* executor, BW::Position targetPosition)
-  :Command(executor)
-  ,targetPosition(targetPosition)
+      : Command(executor)
+      , targetPosition(targetPosition)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -21,7 +21,7 @@ namespace BWAPI
     {
       if ((this->executors[i]->getType().canMove()))
       {
-        if (this->executors[i]->getType()==UnitTypes::Terran_Bunker)
+        if (this->executors[i]->getType() == UnitTypes::Terran_Bunker)
         {
           this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Unload;
         }
@@ -41,7 +41,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandUnloadAll::describe()
   {
-	  return this->executors[0]->getName() + " unloaded all units";
+    return this->executors[0]->getName() + " unloaded all units";
   }
   //----------------------------------------------------------------------------------------------------------
 }

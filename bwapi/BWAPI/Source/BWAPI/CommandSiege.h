@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandSiege : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Siege command (will be passed as executor 
+      /**
+       * @param executor Executor of the Siege command (will be passed as executor
        *        to Command ancestor)
        */
       CommandSiege(UnitImpl* executor);

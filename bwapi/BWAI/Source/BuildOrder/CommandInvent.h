@@ -6,7 +6,7 @@
 
 namespace BuildOrder
 {
- /** Represnts task to make invent Tech in the build order. */
+  /** Represnts task to make invent Tech in the build order. */
   class CommandInvent : public Command
   {
     public :

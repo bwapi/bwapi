@@ -8,7 +8,7 @@ class TiXmlElement;
 
 namespace BuildOrder
 {
-  /** 
+  /**
    * Specifies ratio of units that should be built in building.
    * It can provide more complex settings later (like at least 2 dropships then vessel etc)
    */
@@ -20,7 +20,7 @@ namespace BuildOrder
       /**
        * Creates new BuildRatio specification according to it's xml representation
        * @param element XML representation of this class
-       */                                               
+       */
       BuildWeights(TiXmlElement* element);
       ~BuildWeights();
       void loadTypes();

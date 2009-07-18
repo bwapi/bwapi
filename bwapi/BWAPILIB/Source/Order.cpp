@@ -5,7 +5,7 @@
 
 namespace BWAPI
 {
-  bool initializingOrder=true;
+  bool initializingOrder = true;
   std::string orderName[191];
   std::map<std::string, Order> orderMap;
   std::set< Order > orderSet;
@@ -204,197 +204,197 @@ namespace BWAPI
     const Order Unknown(190);
     void init()
     {
-      orderName[Die.getID()]="Die";
-      orderName[Stop.getID()]="Stop";
-      orderName[Guard.getID()]="Guard";
-      orderName[PlayerGuard.getID()]="PlayerGuard";
-      orderName[TurretGuard.getID()]="TurretGuard";
-      orderName[BunkerGuard.getID()]="BunkerGuard";
-      orderName[Move.getID()]="Move";
-      orderName[ReaverStop.getID()]="ReaverStop";
-      orderName[Attack1.getID()]="Attack1";
-      orderName[Attack2.getID()]="Attack2";
-      orderName[AttackUnit.getID()]="AttackUnit";
-      orderName[AttackFixedRange.getID()]="AttackFixedRange";
-      orderName[AttackTile.getID()]="AttackTile";
-      orderName[Hover.getID()]="Hover";
-      orderName[AttackMove.getID()]="AttackMove";
-      orderName[InfestMine1.getID()]="InfestMine1";
-      orderName[Nothing1.getID()]="Nothing1";
-      orderName[Powerup1.getID()]="Powerup1";
-      orderName[TowerGuard.getID()]="TowerGuard";
-      orderName[TowerAttack.getID()]="TowerAttack";
-      orderName[VultureMine.getID()]="VultureMine";
-      orderName[StayinRange.getID()]="StayinRange";
-      orderName[TurretAttack.getID()]="TurretAttack";
-      orderName[Nothing2.getID()]="Nothing2";
-      orderName[Nothing3.getID()]="Nothing3";
-      orderName[DroneStartBuild.getID()]="DroneStartBuild";
-      orderName[DroneBuild.getID()]="DroneBuild";
-      orderName[InfestMine2.getID()]="InfestMine2";
-      orderName[InfestMine3.getID()]="InfestMine3";
-      orderName[InfestMine4.getID()]="InfestMine4";
-      orderName[BuildTerran.getID()]="BuildTerran";
-      orderName[BuildProtoss1.getID()]="BuildProtoss1";
-      orderName[BuildProtoss2.getID()]="BuildProtoss2";
-      orderName[ConstructingBuilding.getID()]="ConstructingBuilding";
-      orderName[Repair1.getID()]="Repair1";
-      orderName[Repair2.getID()]="Repair2";
-      orderName[PlaceAddon.getID()]="PlaceAddon";
-      orderName[BuildAddon.getID()]="BuildAddon";
-      orderName[Train.getID()]="Train";
-      orderName[RallyPoint1.getID()]="RallyPoint1";
-      orderName[RallyPoint2.getID()]="RallyPoint2";
-      orderName[ZergBirth.getID()]="ZergBirth";
-      orderName[Morph1.getID()]="Morph1";
-      orderName[Morph2.getID()]="Morph2";
-      orderName[BuildSelf1.getID()]="BuildSelf1";
-      orderName[ZergBuildSelf.getID()]="ZergBuildSelf";
-      orderName[Build5.getID()]="Build5";
-      orderName[Enternyduscanal.getID()]="Enternyduscanal";
-      orderName[BuildSelf2.getID()]="BuildSelf2";
-      orderName[Follow.getID()]="Follow";
-      orderName[Carrier.getID()]="Carrier";
-      orderName[CarrierIgnore1.getID()]="CarrierIgnore1";
-      orderName[CarrierStop.getID()]="CarrierStop";
-      orderName[CarrierAttack1.getID()]="CarrierAttack1";
-      orderName[CarrierAttack2.getID()]="CarrierAttack2";
-      orderName[CarrierIgnore2.getID()]="CarrierIgnore2";
-      orderName[CarrierFight.getID()]="CarrierFight";
-      orderName[HoldPosition1.getID()]="HoldPosition1";
-      orderName[Reaver.getID()]="Reaver";
-      orderName[ReaverAttack1.getID()]="ReaverAttack1";
-      orderName[ReaverAttack2.getID()]="ReaverAttack2";
-      orderName[ReaverFight.getID()]="ReaverFight";
-      orderName[ReaverHold.getID()]="ReaverHold";
-      orderName[TrainFighter.getID()]="TrainFighter";
-      orderName[StrafeUnit1.getID()]="StrafeUnit1";
-      orderName[StrafeUnit2.getID()]="StrafeUnit2";
-      orderName[RechargeShields1.getID()]="RechargeShields1";
-      orderName[Rechargeshields2.getID()]="Rechargeshields2";
-      orderName[ShieldBattery.getID()]="ShieldBattery";
-      orderName[Return.getID()]="Return";
-      orderName[DroneLand.getID()]="DroneLand";
-      orderName[BuildingLand.getID()]="BuildingLand";
-      orderName[BuildingLiftoff.getID()]="BuildingLiftoff";
-      orderName[DroneLiftoff.getID()]="DroneLiftoff";
-      orderName[Liftoff.getID()]="Liftoff";
-      orderName[ResearchTech.getID()]="ResearchTech";
-      orderName[Upgrade.getID()]="Upgrade";
-      orderName[Larva.getID()]="Larva";
-      orderName[SpawningLarva.getID()]="SpawningLarva";
-      orderName[Harvest1.getID()]="Harvest1";
-      orderName[Harvest2.getID()]="Harvest2";
-      orderName[MoveToGas.getID()]="MoveToGas";
-      orderName[WaitForGas.getID()]="WaitForGas";
-      orderName[HarvestGas.getID()]="HarvestGas";
-      orderName[ReturnGas.getID()]="ReturnGas";
-      orderName[MoveToMinerals.getID()]="MoveToMinerals";
-      orderName[WaitForMinerals.getID()]="WaitForMinerals";
-      orderName[MiningMinerals.getID()]="MiningMinerals";
-      orderName[Harvest3.getID()]="Harvest3";
-      orderName[Harvest4.getID()]="Harvest4";
-      orderName[ReturnMinerals.getID()]="ReturnMinerals";
-      orderName[Harvest5.getID()]="Harvest5";
-      orderName[EnterTransport.getID()]="EnterTransport";
-      orderName[Pickup1.getID()]="Pickup1";
-      orderName[Pickup2.getID()]="Pickup2";
-      orderName[Pickup3.getID()]="Pickup3";
-      orderName[Pickup4.getID()]="Pickup4";
-      orderName[Powerup2.getID()]="Powerup2";
-      orderName[SiegeMode.getID()]="SiegeMode";
-      orderName[TankMode.getID()]="TankMode";
-      orderName[WatchTarget.getID()]="WatchTarget";
-      orderName[InitCreepGrowth.getID()]="InitCreepGrowth";
-      orderName[SpreadCreep.getID()]="SpreadCreep";
-      orderName[StoppingCreepGrowth.getID()]="StoppingCreepGrowth";
-      orderName[GuardianAspect.getID()]="GuardianAspect";
-      orderName[WarpingArchon.getID()]="WarpingArchon";
-      orderName[CompletingArchonsummon.getID()]="CompletingArchonsummon";
-      orderName[HoldPosition2.getID()]="HoldPosition2";
-      orderName[HoldPosition3.getID()]="HoldPosition3";
-      orderName[Cloak.getID()]="Cloak";
-      orderName[Decloak.getID()]="Decloak";
-      orderName[Unload.getID()]="Unload";
-      orderName[MoveUnload.getID()]="MoveUnload";
-      orderName[FireYamatoGun1.getID()]="FireYamatoGun1";
-      orderName[FireYamatoGun2.getID()]="FireYamatoGun2";
-      orderName[MagnaPulse.getID()]="MagnaPulse";
-      orderName[Burrow.getID()]="Burrow";
-      orderName[Burrowed.getID()]="Burrowed";
-      orderName[Unburrow.getID()]="Unburrow";
-      orderName[DarkSwarm.getID()]="DarkSwarm";
-      orderName[CastParasite.getID()]="CastParasite";
-      orderName[SummonBroodlings.getID()]="SummonBroodlings";
-      orderName[EmpShockwave.getID()]="EmpShockwave";
-      orderName[NukeWait.getID()]="NukeWait";
-      orderName[NukeTrain.getID()]="NukeTrain";
-      orderName[NukeLaunch.getID()]="NukeLaunch";
-      orderName[NukePaint.getID()]="NukePaint";
-      orderName[NukeUnit.getID()]="NukeUnit";
-      orderName[NukeGround.getID()]="NukeGround";
-      orderName[NukeTrack.getID()]="NukeTrack";
-      orderName[InitArbiter.getID()]="InitArbiter";
-      orderName[CloakNearbyUnits.getID()]="CloakNearbyUnits";
-      orderName[PlaceMine.getID()]="PlaceMine";
-      orderName[Rightclickaction.getID()]="Rightclickaction";
-      orderName[SapUnit.getID()]="SapUnit";
-      orderName[SapLocation.getID()]="SapLocation";
-      orderName[HoldPosition4.getID()]="HoldPosition4";
-      orderName[Teleport.getID()]="Teleport";
-      orderName[TeleporttoLocation.getID()]="TeleporttoLocation";
-      orderName[PlaceScanner.getID()]="PlaceScanner";
-      orderName[Scanner.getID()]="Scanner";
-      orderName[DefensiveMatrix.getID()]="DefensiveMatrix";
-      orderName[PsiStorm.getID()]="PsiStorm";
-      orderName[Irradiate.getID()]="Irradiate";
-      orderName[Plague.getID()]="Plague";
-      orderName[Consume.getID()]="Consume";
-      orderName[Ensnare.getID()]="Ensnare";
-      orderName[StasisField.getID()]="StasisField";
-      orderName[Hallucination1.getID()]="Hallucination1";
-      orderName[Hallucination2.getID()]="Hallucination2";
-      orderName[ResetCollision1.getID()]="ResetCollision1";
-      orderName[ResetCollision2.getID()]="ResetCollision2";
-      orderName[Patrol.getID()]="Patrol";
-      orderName[CTFCOPInit.getID()]="CTFCOPInit";
-      orderName[CTFCOP1.getID()]="CTFCOP1";
-      orderName[CTFCOP2.getID()]="CTFCOP2";
-      orderName[ComputerAI.getID()]="ComputerAI";
-      orderName[AtkMoveEP.getID()]="AtkMoveEP";
-      orderName[HarassMove.getID()]="HarassMove";
-      orderName[AIPatrol.getID()]="AIPatrol";
-      orderName[GuardPost.getID()]="GuardPost";
-      orderName[RescuePassive.getID()]="RescuePassive";
-      orderName[Neutral.getID()]="Neutral";
-      orderName[ComputerReturn.getID()]="ComputerReturn";
-      orderName[InitPsiProvider.getID()]="InitPsiProvider";
-      orderName[SelfDestrucing.getID()]="SelfDestrucing";
-      orderName[Critter.getID()]="Critter";
-      orderName[HiddenGun.getID()]="HiddenGun";
-      orderName[OpenDoor.getID()]="OpenDoor";
-      orderName[CloseDoor.getID()]="CloseDoor";
-      orderName[HideTrap.getID()]="HideTrap";
-      orderName[RevealTrap.getID()]="RevealTrap";
-      orderName[Enabledoodad.getID()]="Enabledoodad";
-      orderName[Disabledoodad.getID()]="Disabledoodad";
-      orderName[Warpin.getID()]="Warpin";
-      orderName[Medic.getID()]="Medic";
-      orderName[MedicHeal1.getID()]="MedicHeal1";
-      orderName[HealMove.getID()]="HealMove";
-      orderName[MedicHoldPosition.getID()]="MedicHoldPosition";
-      orderName[MedicHeal2.getID()]="MedicHeal2";
-      orderName[Restoration.getID()]="Restoration";
-      orderName[CastDisruptionWeb.getID()]="CastDisruptionWeb";
-      orderName[CastMindControl.getID()]="CastMindControl";
-      orderName[WarpingDarkArchon.getID()]="WarpingDarkArchon";
-      orderName[CastFeedback.getID()]="CastFeedback";
-      orderName[CastOpticalFlare.getID()]="CastOpticalFlare";
-      orderName[CastMaelstrom.getID()]="CastMaelstrom";
-      orderName[JunkYardDog.getID()]="JunkYardDog";
-      orderName[Fatal.getID()]="Fatal";
-      orderName[None.getID()]="None";
-      orderName[Unknown.getID()]="Unknown";
+      orderName[Die.getID()] = "Die";
+      orderName[Stop.getID()] = "Stop";
+      orderName[Guard.getID()] = "Guard";
+      orderName[PlayerGuard.getID()] = "PlayerGuard";
+      orderName[TurretGuard.getID()] = "TurretGuard";
+      orderName[BunkerGuard.getID()] = "BunkerGuard";
+      orderName[Move.getID()] = "Move";
+      orderName[ReaverStop.getID()] = "ReaverStop";
+      orderName[Attack1.getID()] = "Attack1";
+      orderName[Attack2.getID()] = "Attack2";
+      orderName[AttackUnit.getID()] = "AttackUnit";
+      orderName[AttackFixedRange.getID()] = "AttackFixedRange";
+      orderName[AttackTile.getID()] = "AttackTile";
+      orderName[Hover.getID()] = "Hover";
+      orderName[AttackMove.getID()] = "AttackMove";
+      orderName[InfestMine1.getID()] = "InfestMine1";
+      orderName[Nothing1.getID()] = "Nothing1";
+      orderName[Powerup1.getID()] = "Powerup1";
+      orderName[TowerGuard.getID()] = "TowerGuard";
+      orderName[TowerAttack.getID()] = "TowerAttack";
+      orderName[VultureMine.getID()] = "VultureMine";
+      orderName[StayinRange.getID()] = "StayinRange";
+      orderName[TurretAttack.getID()] = "TurretAttack";
+      orderName[Nothing2.getID()] = "Nothing2";
+      orderName[Nothing3.getID()] = "Nothing3";
+      orderName[DroneStartBuild.getID()] = "DroneStartBuild";
+      orderName[DroneBuild.getID()] = "DroneBuild";
+      orderName[InfestMine2.getID()] = "InfestMine2";
+      orderName[InfestMine3.getID()] = "InfestMine3";
+      orderName[InfestMine4.getID()] = "InfestMine4";
+      orderName[BuildTerran.getID()] = "BuildTerran";
+      orderName[BuildProtoss1.getID()] = "BuildProtoss1";
+      orderName[BuildProtoss2.getID()] = "BuildProtoss2";
+      orderName[ConstructingBuilding.getID()] = "ConstructingBuilding";
+      orderName[Repair1.getID()] = "Repair1";
+      orderName[Repair2.getID()] = "Repair2";
+      orderName[PlaceAddon.getID()] = "PlaceAddon";
+      orderName[BuildAddon.getID()] = "BuildAddon";
+      orderName[Train.getID()] = "Train";
+      orderName[RallyPoint1.getID()] = "RallyPoint1";
+      orderName[RallyPoint2.getID()] = "RallyPoint2";
+      orderName[ZergBirth.getID()] = "ZergBirth";
+      orderName[Morph1.getID()] = "Morph1";
+      orderName[Morph2.getID()] = "Morph2";
+      orderName[BuildSelf1.getID()] = "BuildSelf1";
+      orderName[ZergBuildSelf.getID()] = "ZergBuildSelf";
+      orderName[Build5.getID()] = "Build5";
+      orderName[Enternyduscanal.getID()] = "Enternyduscanal";
+      orderName[BuildSelf2.getID()] = "BuildSelf2";
+      orderName[Follow.getID()] = "Follow";
+      orderName[Carrier.getID()] = "Carrier";
+      orderName[CarrierIgnore1.getID()] = "CarrierIgnore1";
+      orderName[CarrierStop.getID()] = "CarrierStop";
+      orderName[CarrierAttack1.getID()] = "CarrierAttack1";
+      orderName[CarrierAttack2.getID()] = "CarrierAttack2";
+      orderName[CarrierIgnore2.getID()] = "CarrierIgnore2";
+      orderName[CarrierFight.getID()] = "CarrierFight";
+      orderName[HoldPosition1.getID()] = "HoldPosition1";
+      orderName[Reaver.getID()] = "Reaver";
+      orderName[ReaverAttack1.getID()] = "ReaverAttack1";
+      orderName[ReaverAttack2.getID()] = "ReaverAttack2";
+      orderName[ReaverFight.getID()] = "ReaverFight";
+      orderName[ReaverHold.getID()] = "ReaverHold";
+      orderName[TrainFighter.getID()] = "TrainFighter";
+      orderName[StrafeUnit1.getID()] = "StrafeUnit1";
+      orderName[StrafeUnit2.getID()] = "StrafeUnit2";
+      orderName[RechargeShields1.getID()] = "RechargeShields1";
+      orderName[Rechargeshields2.getID()] = "Rechargeshields2";
+      orderName[ShieldBattery.getID()] = "ShieldBattery";
+      orderName[Return.getID()] = "Return";
+      orderName[DroneLand.getID()] = "DroneLand";
+      orderName[BuildingLand.getID()] = "BuildingLand";
+      orderName[BuildingLiftoff.getID()] = "BuildingLiftoff";
+      orderName[DroneLiftoff.getID()] = "DroneLiftoff";
+      orderName[Liftoff.getID()] = "Liftoff";
+      orderName[ResearchTech.getID()] = "ResearchTech";
+      orderName[Upgrade.getID()] = "Upgrade";
+      orderName[Larva.getID()] = "Larva";
+      orderName[SpawningLarva.getID()] = "SpawningLarva";
+      orderName[Harvest1.getID()] = "Harvest1";
+      orderName[Harvest2.getID()] = "Harvest2";
+      orderName[MoveToGas.getID()] = "MoveToGas";
+      orderName[WaitForGas.getID()] = "WaitForGas";
+      orderName[HarvestGas.getID()] = "HarvestGas";
+      orderName[ReturnGas.getID()] = "ReturnGas";
+      orderName[MoveToMinerals.getID()] = "MoveToMinerals";
+      orderName[WaitForMinerals.getID()] = "WaitForMinerals";
+      orderName[MiningMinerals.getID()] = "MiningMinerals";
+      orderName[Harvest3.getID()] = "Harvest3";
+      orderName[Harvest4.getID()] = "Harvest4";
+      orderName[ReturnMinerals.getID()] = "ReturnMinerals";
+      orderName[Harvest5.getID()] = "Harvest5";
+      orderName[EnterTransport.getID()] = "EnterTransport";
+      orderName[Pickup1.getID()] = "Pickup1";
+      orderName[Pickup2.getID()] = "Pickup2";
+      orderName[Pickup3.getID()] = "Pickup3";
+      orderName[Pickup4.getID()] = "Pickup4";
+      orderName[Powerup2.getID()] = "Powerup2";
+      orderName[SiegeMode.getID()] = "SiegeMode";
+      orderName[TankMode.getID()] = "TankMode";
+      orderName[WatchTarget.getID()] = "WatchTarget";
+      orderName[InitCreepGrowth.getID()] = "InitCreepGrowth";
+      orderName[SpreadCreep.getID()] = "SpreadCreep";
+      orderName[StoppingCreepGrowth.getID()] = "StoppingCreepGrowth";
+      orderName[GuardianAspect.getID()] = "GuardianAspect";
+      orderName[WarpingArchon.getID()] = "WarpingArchon";
+      orderName[CompletingArchonsummon.getID()] = "CompletingArchonsummon";
+      orderName[HoldPosition2.getID()] = "HoldPosition2";
+      orderName[HoldPosition3.getID()] = "HoldPosition3";
+      orderName[Cloak.getID()] = "Cloak";
+      orderName[Decloak.getID()] = "Decloak";
+      orderName[Unload.getID()] = "Unload";
+      orderName[MoveUnload.getID()] = "MoveUnload";
+      orderName[FireYamatoGun1.getID()] = "FireYamatoGun1";
+      orderName[FireYamatoGun2.getID()] = "FireYamatoGun2";
+      orderName[MagnaPulse.getID()] = "MagnaPulse";
+      orderName[Burrow.getID()] = "Burrow";
+      orderName[Burrowed.getID()] = "Burrowed";
+      orderName[Unburrow.getID()] = "Unburrow";
+      orderName[DarkSwarm.getID()] = "DarkSwarm";
+      orderName[CastParasite.getID()] = "CastParasite";
+      orderName[SummonBroodlings.getID()] = "SummonBroodlings";
+      orderName[EmpShockwave.getID()] = "EmpShockwave";
+      orderName[NukeWait.getID()] = "NukeWait";
+      orderName[NukeTrain.getID()] = "NukeTrain";
+      orderName[NukeLaunch.getID()] = "NukeLaunch";
+      orderName[NukePaint.getID()] = "NukePaint";
+      orderName[NukeUnit.getID()] = "NukeUnit";
+      orderName[NukeGround.getID()] = "NukeGround";
+      orderName[NukeTrack.getID()] = "NukeTrack";
+      orderName[InitArbiter.getID()] = "InitArbiter";
+      orderName[CloakNearbyUnits.getID()] = "CloakNearbyUnits";
+      orderName[PlaceMine.getID()] = "PlaceMine";
+      orderName[Rightclickaction.getID()] = "Rightclickaction";
+      orderName[SapUnit.getID()] = "SapUnit";
+      orderName[SapLocation.getID()] = "SapLocation";
+      orderName[HoldPosition4.getID()] = "HoldPosition4";
+      orderName[Teleport.getID()] = "Teleport";
+      orderName[TeleporttoLocation.getID()] = "TeleporttoLocation";
+      orderName[PlaceScanner.getID()] = "PlaceScanner";
+      orderName[Scanner.getID()] = "Scanner";
+      orderName[DefensiveMatrix.getID()] = "DefensiveMatrix";
+      orderName[PsiStorm.getID()] = "PsiStorm";
+      orderName[Irradiate.getID()] = "Irradiate";
+      orderName[Plague.getID()] = "Plague";
+      orderName[Consume.getID()] = "Consume";
+      orderName[Ensnare.getID()] = "Ensnare";
+      orderName[StasisField.getID()] = "StasisField";
+      orderName[Hallucination1.getID()] = "Hallucination1";
+      orderName[Hallucination2.getID()] = "Hallucination2";
+      orderName[ResetCollision1.getID()] = "ResetCollision1";
+      orderName[ResetCollision2.getID()] = "ResetCollision2";
+      orderName[Patrol.getID()] = "Patrol";
+      orderName[CTFCOPInit.getID()] = "CTFCOPInit";
+      orderName[CTFCOP1.getID()] = "CTFCOP1";
+      orderName[CTFCOP2.getID()] = "CTFCOP2";
+      orderName[ComputerAI.getID()] = "ComputerAI";
+      orderName[AtkMoveEP.getID()] = "AtkMoveEP";
+      orderName[HarassMove.getID()] = "HarassMove";
+      orderName[AIPatrol.getID()] = "AIPatrol";
+      orderName[GuardPost.getID()] = "GuardPost";
+      orderName[RescuePassive.getID()] = "RescuePassive";
+      orderName[Neutral.getID()] = "Neutral";
+      orderName[ComputerReturn.getID()] = "ComputerReturn";
+      orderName[InitPsiProvider.getID()] = "InitPsiProvider";
+      orderName[SelfDestrucing.getID()] = "SelfDestrucing";
+      orderName[Critter.getID()] = "Critter";
+      orderName[HiddenGun.getID()] = "HiddenGun";
+      orderName[OpenDoor.getID()] = "OpenDoor";
+      orderName[CloseDoor.getID()] = "CloseDoor";
+      orderName[HideTrap.getID()] = "HideTrap";
+      orderName[RevealTrap.getID()] = "RevealTrap";
+      orderName[Enabledoodad.getID()] = "Enabledoodad";
+      orderName[Disabledoodad.getID()] = "Disabledoodad";
+      orderName[Warpin.getID()] = "Warpin";
+      orderName[Medic.getID()] = "Medic";
+      orderName[MedicHeal1.getID()] = "MedicHeal1";
+      orderName[HealMove.getID()] = "HealMove";
+      orderName[MedicHoldPosition.getID()] = "MedicHoldPosition";
+      orderName[MedicHeal2.getID()] = "MedicHeal2";
+      orderName[Restoration.getID()] = "Restoration";
+      orderName[CastDisruptionWeb.getID()] = "CastDisruptionWeb";
+      orderName[CastMindControl.getID()] = "CastMindControl";
+      orderName[WarpingDarkArchon.getID()] = "WarpingDarkArchon";
+      orderName[CastFeedback.getID()] = "CastFeedback";
+      orderName[CastOpticalFlare.getID()] = "CastOpticalFlare";
+      orderName[CastMaelstrom.getID()] = "CastMaelstrom";
+      orderName[JunkYardDog.getID()] = "JunkYardDog";
+      orderName[Fatal.getID()] = "Fatal";
+      orderName[None.getID()] = "None";
+      orderName[Unknown.getID()] = "Unknown";
       orderSet.insert(Die);
       orderSet.insert(Stop);
       orderSet.insert(Guard);
@@ -586,49 +586,49 @@ namespace BWAPI
       orderSet.insert(Fatal);
       orderSet.insert(None);
       orderSet.insert(Unknown);
-      for(std::set<Order>::iterator i=orderSet.begin();i!=orderSet.end();i++)
+      for(std::set<Order>::iterator i = orderSet.begin(); i != orderSet.end(); i++)
       {
-        orderMap.insert(std::make_pair((*i).getName(),*i));
+        orderMap.insert(std::make_pair((*i).getName(), *i));
       }
-      initializingOrder=false;
+      initializingOrder = false;
     }
   }
 
   Order::Order()
   {
-    this->id=Orders::None.id;
+    this->id = Orders::None.id;
   }
   Order::Order(int id)
   {
-    this->id=id;
+    this->id = id;
     if (!initializingOrder)
     {
-      if (id<0 || id>=191 || orderName[id].length()==0)
+      if (id < 0 || id >= 191 || orderName[id].length() == 0)
       {
-        this->id=Orders::Unknown.id;
+        this->id = Orders::Unknown.id;
       }
     }
   }
-  Order::Order(const Order &other)
+  Order::Order(const Order& other)
   {
-    this->id=other.id;
+    this->id = other.id;
   }
-  Order& Order::operator=(const Order &other)
+  Order& Order::operator=(const Order& other)
   {
-    this->id=other.id;
+    this->id = other.id;
     return *this;
   }
-  bool Order::operator==(const Order &other) const
+  bool Order::operator==(const Order& other) const
   {
-    return this->id==other.id;
+    return this->id == other.id;
   }
-  bool Order::operator!=(const Order &other) const
+  bool Order::operator!=(const Order& other) const
   {
-    return this->id!=other.id;
+    return this->id != other.id;
   }
-  bool Order::operator<(const Order &other) const
+  bool Order::operator<(const Order& other) const
   {
-    return this->id<other.id;
+    return this->id < other.id;
   }
   int Order::getID() const
   {
@@ -638,10 +638,10 @@ namespace BWAPI
   {
     return orderName[this->id];
   }
-  Order Orders::getOrder(std::string &name)
+  Order Orders::getOrder(std::string& name)
   {
-    std::map<std::string, Order>::iterator i=orderMap.find(name);
-    if (i==orderMap.end()) return Orders::Unknown;
+    std::map<std::string, Order>::iterator i = orderMap.find(name);
+    if (i == orderMap.end()) return Orders::Unknown;
     return (*i).second;
   }
   std::set<Order>& Orders::allOrders()

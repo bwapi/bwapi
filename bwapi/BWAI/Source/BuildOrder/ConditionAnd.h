@@ -18,6 +18,6 @@ namespace BuildOrder
       ConditionType::Enum getType();
       virtual void debugEvaluate(std::string& view);
     private :
-      std::list<Condition*> nested; 
+      std::list<Condition*> nested;
   };
 }

@@ -9,7 +9,7 @@ namespace BWAI
 {
   /** Represents set of building positions that are meant to be commutable. */
   class BuildingPositionSet
-  
+
   {
     public :
       /** Loads the position set from xml element. */

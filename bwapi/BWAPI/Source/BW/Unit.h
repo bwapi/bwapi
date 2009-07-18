@@ -19,19 +19,19 @@ namespace BW { struct Order; };
 namespace BW
 {
   const u32 UNIT_SIZE_IN_BYTES = 336;
- 
 
-  /** 
+
+  /**
    * Direct data mapping of the broodwar unit structure. Most of the information here is derived
    * from http://farty1billion.dyndns.org/EUDDB/?pg=ref&a=unitnode
-   * Values marked @todo Unknown are labeled as the EUDDB has them labeled, but the true meaning 
+   * Values marked @todo Unknown are labeled as the EUDDB has them labeled, but the true meaning
    * is not understood. Values marked @todo Verify have known meanings, but are not confirmed.
    */
-  #pragma pack(1)
+#pragma pack(1)
   struct Unit
   {
     /*0x000*/ BW::Unit*                    previousUnit;
-    /*0x004*/ BW::Unit*                    nextUnit;              /**< Pointer to next unit in the unit linked list, we use 
+    /*0x004*/ BW::Unit*                    nextUnit;              /**< Pointer to next unit in the unit linked list, we use
                                                                    *   it to iterate units.
                                                                    *   @see BW#BWXFN_UnitNodeTable_FirstElement
                                                                    **/
@@ -107,96 +107,96 @@ namespace BW
     /*0x0AA*/ _UNKNOWN _17[2];
     /*0x0AC*/ u16                          remainingBuildTime; /**< Remaining bulding time */
     /*0x0AE*/ _UNKNOWN _18[2];
-              /** Child unit information (structure depends on unitID */
+    /** Child unit information (structure depends on unitID */
     /*0x0B0*/ u16 loadedUnitIndex[8];
-              /** Child unit information (structure depends on unitID */
+    /** Child unit information (structure depends on unitID */
     /*0x0C0*/ union ChildInfoUnion_type
-              { 
-                /** Child info structure if the unit is vulture. */
-                struct UnitIsVultureBike_type
-                {
-                  u8 spiderMineCount;
-                  _UNKNOWN _1[3];
-                } vultureBikeMines;
-                /**
-                 * Unit type - meaning
-                 * -# Carrier/Reaver - First Hangar Unit
-                 * -# Scarab/Interceptor - Parent
-                 * -# Building - addon
-                 * -# Worker - Powerup carried
-                 */
-                BW::Unit* childUnit1;
-              }                       childInfoUnion;     /**< @todo Verify */
-              /** Additional unit info depending on unit type */
+    {
+      /** Child info structure if the unit is vulture. */
+      struct UnitIsVultureBike_type
+      {
+        u8 spiderMineCount;
+        _UNKNOWN _1[3];
+      } vultureBikeMines;
+      /**
+       * Unit type - meaning
+       * -# Carrier/Reaver - First Hangar Unit
+       * -# Scarab/Interceptor - Parent
+       * -# Building - addon
+       * -# Worker - Powerup carried
+       */
+      BW::Unit* childUnit1;
+    }                       childInfoUnion;     /**< @todo Verify */
+    /** Additional unit info depending on unit type */
     /*0x0C4*/ union ChildUnitUnion1_type
-              {
-                /** If the unit is building, this structure applies. */
-                struct UnitIsBuilding_type
-                {
-                  u16 addonBuildID;
-                  u16 upgradeResearchTime;
-                } unitIsBuilding;
+    {
+      /** If the unit is building, this structure applies. */
+      struct UnitIsBuilding_type
+      {
+        u16 addonBuildID;
+        u16 upgradeResearchTime;
+      } unitIsBuilding;
 
-                /** If the unit is Scarab/Interceptor - Next Unit in Parent Hangar */ 
-                BW::Unit* nextUnitInParentHangar;
-              }                       childUnitUnion1;    /**< @todo Verify */
-              /** Additional unit info depending on unit type */
+      /** If the unit is Scarab/Interceptor - Next Unit in Parent Hangar */
+      BW::Unit* nextUnitInParentHangar;
+    }                       childUnitUnion1;    /**< @todo Verify */
+    /** Additional unit info depending on unit type */
     /*0x0C8*/ union ChildUnitUnion2_type
-              {
-                /** if the unit is not scarab/interceptor this structure maps the data. */
-                struct UnitIsNotScarabInterceptor_type
-                {
-                  /** If the unit is Reaver */
-                  union ScarabInfo
-                  {
-                    u8 scarabCount;
-                    u8 techID;
-                  } subChildUnitUnion1;
-                  /** If the unit is carrier */
-                  union InterceptorInfo
-                  {
-                    u8 interceptorCount;
-                    u8 upgradeID;
-                  } subChildUnitUnion2;
-                  /** If the unit is hatchery, this contains timer of the larva spawning */
-                  u8 larvaSpawnTimer;
-                  /** If the unit is terran building, it contains timer of building landing */
-                  u8 isLanding;
-                } unitIsNotScarabInterceptor;
+    {
+      /** if the unit is not scarab/interceptor this structure maps the data. */
+      struct UnitIsNotScarabInterceptor_type
+      {
+        /** If the unit is Reaver */
+        union ScarabInfo
+        {
+          u8 scarabCount;
+          u8 techID;
+        } subChildUnitUnion1;
+        /** If the unit is carrier */
+        union InterceptorInfo
+        {
+          u8 interceptorCount;
+          u8 upgradeID;
+        } subChildUnitUnion2;
+        /** If the unit is hatchery, this contains timer of the larva spawning */
+        u8 larvaSpawnTimer;
+        /** If the unit is terran building, it contains timer of building landing */
+        u8 isLanding;
+      } unitIsNotScarabInterceptor;
 
-                /* If this unit is Scarab/Interceptor, it is pointer to Previous in Parent's Hangar */
-                BW::Unit* prevUnitInParentHangar;                
-              }                       childUnitUnion2;    /**< @todo Verify */
-              /** Additional unit info it's value meaning is different for interceptor/scarab - creep unit or repairing scv @todo verify*/
+      /* If this unit is Scarab/Interceptor, it is pointer to Previous in Parent's Hangar */
+      BW::Unit* prevUnitInParentHangar;
+    }                       childUnitUnion2;    /**< @todo Verify */
+    /** Additional unit info it's value meaning is different for interceptor/scarab - creep unit or repairing scv @todo verify*/
     /*0x0CC*/ union ChildUnitUnion3_type
-              {                
-                u8 inHanger; // If interceptor/scarab
-                u8 creepExpansionTimer; // If creep unit, timer between creep expansions
-                u8 decreaseMineralTimer; // If repairing
-              }                       childUnitUnion3;    /**< @todo Verify */
+    {
+      u8 inHanger; // If interceptor/scarab
+      u8 creepExpansionTimer; // If creep unit, timer between creep expansions
+      u8 decreaseMineralTimer; // If repairing
+    }                       childUnitUnion3;    /**< @todo Verify */
     /*0x0CD*/ u8                      upgradeLevel;       /**< @todo Unknown */
     /*0x0CE*/ u8                      isCarryingSomething; /**< @todo Verify (may be set if going to carry something or targetting resources.. If 'isgathering' ? */
     /*0x0CF*/ u8                      resourceCarying;     /**< The amount of resources it is carrying */
-              /** Some internal unit data that are not investigated good enough*/
+    /** Some internal unit data that are not investigated good enough*/
     /*0x0D0*/ union UnitUnion1_type
-              {
-                /** When the unit is worker? @todo investigate */
-                union UnitUnion1Sub_type
-                {
-                  u16 x, y;
-                  /** When the unit is mineral? @todo investigate */
-                  struct ResourceUnitUnionSub_type
-                  {
-                    u16 resourceContained;
-                    u8 resourceIsScript;
-                    u8 resourceCount;
-                  } resourceUnitUnionSub;
-                } unitUnion1Sub;
-                /** Probably the connected nydius canal @todo investigate*/
-                BW::Unit* resourceTarget_connectedNydus;
-                /** Nuke dot, but of what, the ghost? @todo investigate*/
-                BW::Sprite* nukeDot;
-              }                       unitUnion1;         /**< @todo Verify */
+    {
+      /** When the unit is worker? @todo investigate */
+      union UnitUnion1Sub_type
+      {
+        u16 x, y;
+        /** When the unit is mineral? @todo investigate */
+        struct ResourceUnitUnionSub_type
+        {
+          u16 resourceContained;
+          u8 resourceIsScript;
+          u8 resourceCount;
+        } resourceUnitUnionSub;
+      } unitUnion1Sub;
+      /** Probably the connected nydius canal @todo investigate*/
+      BW::Unit* resourceTarget_connectedNydus;
+      /** Nuke dot, but of what, the ghost? @todo investigate*/
+      BW::Sprite* nukeDot;
+    }                       unitUnion1;         /**< @todo Verify */
     /*0x0D4*/ _UNKNOWN _19[8];
     /*0x0DC*/ Util::BitMask<StatusFlags::Enum>   status;       /**< @todo Verify */
     /*0x0E0*/ u8                           resourceType;       /**< @todo Unknown (type of resource this unit is?) */
@@ -206,26 +206,26 @@ namespace BW
     /*0x0E4*/ _UNKNOWN _20[8];
     /*0x0EC*/ BW::Unit*                    currentBuildUnit;   /**< @todo Unknown */
     /*0x0F0*/ _UNKNOWN _21[8];
-              /** 
-               * Additional unit data it's meaning depends if it is Unit that can have rally point or is psi provider (what about main?)
-               * @todo investigate
-               */
+    /**
+     * Additional unit data it's meaning depends if it is Unit that can have rally point or is psi provider (what about main?)
+     * @todo investigate
+     */
     /*0x0F8*/ union RallyPsiProviderUnion_type
-              {
-               /** If the unit is rally type @todo investigate*/
-                struct Rally_type
-                {
-                  /* BW::Position rallyPos; */
-                  u16 rallyX, rallyY;
-                  BW::Unit* rallyUnit;
-                } rally;
-                /** If the unit is psi provider @todo investigate */
-                struct PsiProvider_type
-                {
-                  BW::Unit* prevPsiProvider;
-                  BW::Unit* nextPsiProvider;
-                };
-              }                            rallyPsiProviderUnion; /**< @todo Verify */
+    {
+      /** If the unit is rally type @todo investigate*/
+      struct Rally_type
+      {
+        /* BW::Position rallyPos; */
+        u16 rallyX, rallyY;
+        BW::Unit* rallyUnit;
+      } rally;
+      /** If the unit is psi provider @todo investigate */
+      struct PsiProvider_type
+      {
+        BW::Unit* prevPsiProvider;
+        BW::Unit* nextPsiProvider;
+      };
+    }                            rallyPsiProviderUnion; /**< @todo Verify */
     /*0x100*/ u32                          pathUnknown_0x100;  /**< @todo Unknown */
     /*0x104*/ _UNKNOWN _22[3];
     /*0x107*/ u8                           isBeingHealed;      /**< @todo Verify - seems like it isn't working */
@@ -260,7 +260,7 @@ namespace BW
     /*0x14F*/ u8                           driftPosY;          /**< @todo Unknown (mapsizex/1.5 max) */
     /*0x150*/ _UNKNOWN _26[1];
   };
-  #pragma pack()
+#pragma pack()
   /** Direct maping of the UnitNodeTable in bw memory. */
   struct UnitArray
   {
@@ -268,6 +268,6 @@ namespace BW
   };
 
   BOOST_STATIC_ASSERT(sizeof(Unit) == UNIT_SIZE_IN_BYTES);
-  BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES * UNIT_ARRAY_MAX_LENGTH);
+  BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES*  UNIT_ARRAY_MAX_LENGTH);
 };
 

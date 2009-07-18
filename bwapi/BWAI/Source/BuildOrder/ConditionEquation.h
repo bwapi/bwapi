@@ -16,6 +16,6 @@ namespace BuildOrder
       ConditionType::Enum getType();
       virtual void debugEvaluate(std::string& view);
     private :
-      Formula::Equation* equation; 
+      Formula::Equation* equation;
   };
 }

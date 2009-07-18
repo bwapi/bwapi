@@ -5,7 +5,7 @@ namespace BW
   /** Bitmap specifying certain unit states */
   namespace StatusFlags
   {
-    enum Enum : u32
+  enum Enum : u32
     {
       Completed           = 1 <<  0,
       OnGround            = 1 <<  1,

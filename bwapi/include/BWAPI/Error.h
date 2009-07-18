@@ -6,22 +6,22 @@ namespace BWAPI
   class UnitType;
   class Error
   {
-  public:
-    Error();
-    Error(int id);
-    Error(const Error &other);
-    Error& operator=(const Error &other);
-    bool operator==(const Error &other) const;
-    bool operator!=(const Error &other) const;
-    bool operator<(const Error &other) const;
-    int getID() const;
-    std::string toString() const;
-  private:
-    int id;
+    public:
+      Error();
+      Error(int id);
+      Error(const Error& other);
+      Error& operator=(const Error& other);
+      bool operator==(const Error& other) const;
+      bool operator!=(const Error& other) const;
+      bool operator<(const Error& other) const;
+      int getID() const;
+      std::string toString() const;
+    private:
+      int id;
   };
   namespace Errors
   {
-    Error getError(std::string &name);
+    Error getError(std::string& name);
     std::set<Error>& allErrors();
     void init();
     extern const Error Unit_Not_Visible;

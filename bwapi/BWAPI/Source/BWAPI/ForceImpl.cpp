@@ -3,7 +3,7 @@ namespace BWAPI
 {
   ForceImpl::ForceImpl(std::string name)
   {
-    this->name=name;
+    this->name = name;
   }
   std::string ForceImpl::getName() const
   {

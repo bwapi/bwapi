@@ -5,7 +5,7 @@ class TiXmlElement;
 
 namespace BuildOrder
 {
- /** Represnts task to make building in the build order. */
+  /** Represnts task to make building in the build order. */
   class CommandBuild : public Command
   {
     public :

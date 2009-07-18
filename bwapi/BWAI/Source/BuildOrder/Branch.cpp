@@ -17,10 +17,10 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Branch::Branch(TiXmlElement* xmlElement)
-    : condition(NULL)
+      : condition(NULL)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
-    
+
     Util::Logger* log = new Util::FileLogger("elements", Util::LogLevel::MicroDetailed);
     for (TiXmlElement* i = xmlElement->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
       if (i->ValueTStr() == "condition" && i == xmlElement->FirstChildElement())
@@ -32,16 +32,16 @@ namespace BuildOrder
       else if (i->ValueTStr() == "invent")
         this->commands.push_back(new CommandInvent(i));
       else if (i->ValueTStr() == "upgrade")
-        this->commands.push_back(new CommandUpgrade(i));  
+        this->commands.push_back(new CommandUpgrade(i));
       else if (i->ValueTStr() == "fight")
-        this->commands.push_back(new CommandFight(i));        
+        this->commands.push_back(new CommandFight(i));
       else if (i->ValueTStr() == "call")
-        this->commands.push_back(new CommandCall(i));                
+        this->commands.push_back(new CommandCall(i));
       else if (i->ValueTStr() == "register-exception")
         this->commands.push_back(new CommandRegisterException(i));
-      else 
+      else
         throw ParseException((std::string)"Unknown element '" + i->ValueTStr().c_str() + "' found in <bulid-order>");
-        
+
     delete log;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------

@@ -18,7 +18,7 @@ namespace BuildOrder
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void Executor::execute()
   {
-    again:
+  again:
     if (this->finished())
       return;
     CommandPointer& last = callStack.back();
@@ -28,18 +28,18 @@ namespace BuildOrder
       goto again;
     }
     for each (const std::string& i in this->registeredExceptions)
-      {
-        for each (const CommandPointer& j in this->callStack)
-          if (j.branch->getName() == i)
-          // I must check if I don't call exception from inside of the exception body (or function called from 
+    {
+      for each (const CommandPointer& j in this->callStack)
+        if (j.branch->getName() == i)
+          // I must check if I don't call exception from inside of the exception body (or function called from
           // inside it's body) to avoid unexpected behaviour
-            goto end;
-        {
-          CommandCall test(i);
-          test.execute(this);
-        }
-        end:;
+          goto end;
+      {
+        CommandCall test(i);
+        test.execute(this);
       }
+    end:;
+    }
     if ((*last.position)->execute(this))
     {
       ++last.position;

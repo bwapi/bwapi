@@ -14,7 +14,7 @@ namespace BWAI
       bool execute();
       TaskType::Enum getType();
       BWAPI::UpgradeType getUpgradeType();
-    private :  
+    private :
       BWAPI::UpgradeType upgradeType;
       u8 level;
   };

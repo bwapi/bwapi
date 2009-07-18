@@ -5,7 +5,7 @@
 
 namespace BWAPI
 {
-  bool initializingPlayerType=true;
+  bool initializingPlayerType = true;
   std::string playerTypeName[14];
   std::map<std::string, PlayerType> playerTypeMap;
   std::set< PlayerType > playerTypeSet;
@@ -25,18 +25,18 @@ namespace BWAPI
     const PlayerType Unknown(13);
     void init()
     {
-      playerTypeName[NotUsed.getID()]="NotUsed";
-      playerTypeName[Computer.getID()]="Computer";
-      playerTypeName[Human.getID()]="Human";
-      playerTypeName[Rescuable.getID()]="Rescuable";
-      playerTypeName[ComputerSlot.getID()]="ComputerSlot";
-      playerTypeName[OpenSlot.getID()]="OpenSlot";
-      playerTypeName[Neutral.getID()]="Neutral";
-      playerTypeName[ClosedSlot.getID()]="ClosedSlot";
-      playerTypeName[HumanDefeated.getID()]="HumanDefeated";
-      playerTypeName[ComputerDefeated.getID()]="ComputerDefeated";
-      playerTypeName[None.getID()]="None";
-      playerTypeName[Unknown.getID()]="Unknown";
+      playerTypeName[NotUsed.getID()] = "NotUsed";
+      playerTypeName[Computer.getID()] = "Computer";
+      playerTypeName[Human.getID()] = "Human";
+      playerTypeName[Rescuable.getID()] = "Rescuable";
+      playerTypeName[ComputerSlot.getID()] = "ComputerSlot";
+      playerTypeName[OpenSlot.getID()] = "OpenSlot";
+      playerTypeName[Neutral.getID()] = "Neutral";
+      playerTypeName[ClosedSlot.getID()] = "ClosedSlot";
+      playerTypeName[HumanDefeated.getID()] = "HumanDefeated";
+      playerTypeName[ComputerDefeated.getID()] = "ComputerDefeated";
+      playerTypeName[None.getID()] = "None";
+      playerTypeName[Unknown.getID()] = "Unknown";
       playerTypeSet.insert(NotUsed);
       playerTypeSet.insert(Computer);
       playerTypeSet.insert(Human);
@@ -49,48 +49,48 @@ namespace BWAPI
       playerTypeSet.insert(ComputerDefeated);
       playerTypeSet.insert(None);
       playerTypeSet.insert(Unknown);
-      for(std::set<PlayerType>::iterator i=playerTypeSet.begin();i!=playerTypeSet.end();i++)
+      for(std::set<PlayerType>::iterator i = playerTypeSet.begin(); i != playerTypeSet.end(); i++)
       {
-        playerTypeMap.insert(std::make_pair((*i).getName(),*i));
+        playerTypeMap.insert(std::make_pair((*i).getName(), *i));
       }
-      initializingPlayerType=false;
+      initializingPlayerType = false;
     }
   }
   PlayerType::PlayerType()
   {
-    this->id=PlayerTypes::None.id;
+    this->id = PlayerTypes::None.id;
   }
   PlayerType::PlayerType(int id)
   {
-    this->id=id;
+    this->id = id;
     if (!initializingPlayerType)
     {
-      if (id<0 || id>=14 || playerTypeName[id].length()==0)
+      if (id < 0 || id >= 14 || playerTypeName[id].length() == 0)
       {
-        this->id=PlayerTypes::Unknown.id;
+        this->id = PlayerTypes::Unknown.id;
       }
     }
   }
-  PlayerType::PlayerType(const PlayerType &other)
+  PlayerType::PlayerType(const PlayerType& other)
   {
-    this->id=other.id;
+    this->id = other.id;
   }
-  PlayerType& PlayerType::operator=(const PlayerType &other)
+  PlayerType& PlayerType::operator=(const PlayerType& other)
   {
-    this->id=other.id;
+    this->id = other.id;
     return *this;
   }
-  bool PlayerType::operator==(const PlayerType &other) const
+  bool PlayerType::operator==(const PlayerType& other) const
   {
-    return this->id==other.id;
+    return this->id == other.id;
   }
-  bool PlayerType::operator!=(const PlayerType &other) const
+  bool PlayerType::operator!=(const PlayerType& other) const
   {
-    return this->id!=other.id;
+    return this->id != other.id;
   }
-  bool PlayerType::operator<(const PlayerType &other) const
+  bool PlayerType::operator<(const PlayerType& other) const
   {
-    return this->id<other.id;
+    return this->id < other.id;
   }
   int PlayerType::getID() const
   {
@@ -100,10 +100,10 @@ namespace BWAPI
   {
     return playerTypeName[this->id];
   }
-  PlayerType PlayerTypes::getPlayerType(std::string &name)
+  PlayerType PlayerTypes::getPlayerType(std::string& name)
   {
-    std::map<std::string, PlayerType>::iterator i=playerTypeMap.find(name);
-    if (i==playerTypeMap.end()) return PlayerTypes::Unknown;
+    std::map<std::string, PlayerType>::iterator i = playerTypeMap.find(name);
+    if (i == playerTypeMap.end()) return PlayerTypes::Unknown;
     return (*i).second;
   }
   std::set<PlayerType>& PlayerTypes::allPlayerTypes()

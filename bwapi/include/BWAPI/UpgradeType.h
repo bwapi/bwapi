@@ -7,30 +7,30 @@ namespace BWAPI
   class UnitType;
   class UpgradeType
   {
-  public:
-    UpgradeType();
-    UpgradeType(int id);
-    UpgradeType(const UpgradeType &other);
-    UpgradeType& operator=(const UpgradeType &other);
-    bool operator==(const UpgradeType &other) const;
-    bool operator!=(const UpgradeType &other) const;
-    bool operator<(const UpgradeType &other) const;
-    int getID() const;
-    std::string getName() const;
-    Race getRace() const;
-    int mineralPriceBase() const;
-    int mineralPriceFactor() const;
-    int gasPriceBase() const;
-    int gasPriceFactor() const;
-    int upgradeTimeBase() const;
-    int upgradeTimeFactor() const;
-    const UnitType* whatUpgrades() const;
-  private:
-    int id;
+    public:
+      UpgradeType();
+      UpgradeType(int id);
+      UpgradeType(const UpgradeType& other);
+      UpgradeType& operator=(const UpgradeType& other);
+      bool operator==(const UpgradeType& other) const;
+      bool operator!=(const UpgradeType& other) const;
+      bool operator<(const UpgradeType& other) const;
+      int getID() const;
+      std::string getName() const;
+      Race getRace() const;
+      int mineralPriceBase() const;
+      int mineralPriceFactor() const;
+      int gasPriceBase() const;
+      int gasPriceFactor() const;
+      int upgradeTimeBase() const;
+      int upgradeTimeFactor() const;
+      const UnitType* whatUpgrades() const;
+    private:
+      int id;
   };
   namespace UpgradeTypes
   {
-    UpgradeType getUpgradeType(std::string &name);
+    UpgradeType getUpgradeType(std::string& name);
     std::set<UpgradeType>& allUpgradeTypes();
     void init();
     extern const UpgradeType Terran_Infantry_Armor;

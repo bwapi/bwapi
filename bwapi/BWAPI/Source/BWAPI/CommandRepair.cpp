@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandRepair::CommandRepair(UnitImpl* executor, UnitImpl* target)
-  :Command(executor)
-  ,target(target)
+      : Command(executor)
+      , target(target)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -15,10 +15,10 @@ namespace BWAPI
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
       if ((this->executors[i]->getType().canMove()))
-        {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Repair1;
-          this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
-        }
+      {
+        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Repair1;
+        this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
+      }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
@@ -30,7 +30,7 @@ namespace BWAPI
   std::string CommandRepair::describe()
   {
     bool building = this->target->getType().isBuilding() || this->target->getType().isAddon();
-	  return this->executors[0]->getName() + " is repairing " + (building ? "Building" : "Unit");
+    return this->executors[0]->getName() + " is repairing " + (building ? "Building" : "Unit");
   }
   //----------------------------------------------------------------------------------------------------------
 }

@@ -15,16 +15,16 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCall::CommandCall(TiXmlElement* xmlElement)
-  :Command(xmlElement)
+      : Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCall::CommandCall(const std::string& name)
-  :Command()
-  ,name(name)
+      : Command()
+      , name(name)
   {
-  }  
+  }
   //----------------------------------------------------------------------------------------------------------
   bool CommandCall::executeInternal(Executor* executor)
   {

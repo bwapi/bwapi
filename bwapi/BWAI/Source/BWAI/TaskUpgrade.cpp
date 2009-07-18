@@ -9,9 +9,9 @@ namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskUpgrade::TaskUpgrade(BWAPI::UpgradeType upgradeType, u8 level, u16 priority)
-  :Task(priority)
-  ,upgradeType(upgradeType)
-  ,level(level)
+      : Task(priority)
+      , upgradeType(upgradeType)
+      , level(level)
   {
     BWAI::ai->prioritisedTasks.insert(this);
   }

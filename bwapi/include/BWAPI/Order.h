@@ -5,22 +5,22 @@ namespace BWAPI
 {
   class Order
   {
-  public:
-    Order();
-    Order(int id);
-    Order(const Order &other);
-    Order& operator=(const Order &other);
-    bool operator==(const Order &other) const;
-    bool operator!=(const Order &other) const;
-    bool operator<(const Order &other) const;
-    int getID() const;
-    std::string getName() const;
-  private:
-    int id;
+    public:
+      Order();
+      Order(int id);
+      Order(const Order& other);
+      Order& operator=(const Order& other);
+      bool operator==(const Order& other) const;
+      bool operator!=(const Order& other) const;
+      bool operator<(const Order& other) const;
+      int getID() const;
+      std::string getName() const;
+    private:
+      int id;
   };
   namespace Orders
   {
-    Order getOrder(std::string &name);
+    Order getOrder(std::string& name);
     std::set<Order>& allOrders();
     void init();
     extern const Order Die;

@@ -5,9 +5,9 @@
 
 namespace BW
 {
-  /** 
-   * Combination of bw position representation and bw target representation, 
-   * it is connectd as bw uses this combination on several places. 
+  /**
+   * Combination of bw position representation and bw target representation,
+   * it is connectd as bw uses this combination on several places.
    */
   class PositionUnitTarget
   {
@@ -15,7 +15,7 @@ namespace BW
       PositionUnitTarget(const Position& position);
       PositionUnitTarget(const UnitTarget& target);
       BW::Position position;
-      BW::UnitTarget target; 
+      BW::UnitTarget target;
   };
 }
 

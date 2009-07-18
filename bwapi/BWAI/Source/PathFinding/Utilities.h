@@ -15,7 +15,7 @@ static const int ADVANCED_DIRECTION_COUNT = 8;
 
 namespace Direction
 {
-  enum Enum : u8
+enum Enum : u8
   {
     Up        = 0,
     Right     = 1,
@@ -30,7 +30,7 @@ namespace Direction
   };
 }
 
-static const int forwardDirection[ADVANCED_DIRECTION_COUNT][2] = 
+static const int forwardDirection[ADVANCED_DIRECTION_COUNT][2] =
 {
  { 0, -1},
  { 1,  0},
@@ -43,7 +43,7 @@ static const int forwardDirection[ADVANCED_DIRECTION_COUNT][2] =
 };
 
 
-static const int reverseDirection[ADVANCED_DIRECTION_COUNT][2] = 
+static const int reverseDirection[ADVANCED_DIRECTION_COUNT][2] =
 {
  { 0,  1},
  {-1,  0},
@@ -57,14 +57,14 @@ static const int reverseDirection[ADVANCED_DIRECTION_COUNT][2] =
 
 static Direction::Enum directionConditions[ADVANCED_DIRECTION_COUNT][2] =
 {
- {Direction::Unset ,Direction::Unset},
- {Direction::Unset ,Direction::Unset},
- {Direction::Unset ,Direction::Unset},
- {Direction::Unset ,Direction::Unset},
- {Direction::Up    ,Direction::Right},
- {Direction::Right ,Direction::Down},
- {Direction::Down  ,Direction::Left},
- {Direction::Left  ,Direction::Up},
+  {Direction::Unset , Direction::Unset},
+  {Direction::Unset , Direction::Unset},
+  {Direction::Unset , Direction::Unset},
+  {Direction::Unset , Direction::Unset},
+  {Direction::Up    , Direction::Right},
+  {Direction::Right , Direction::Down},
+  {Direction::Down  , Direction::Left},
+  {Direction::Left  , Direction::Up},
 };
 /**
  * All stuff related directly to path finding.
@@ -85,10 +85,10 @@ namespace PathFinding
     private :
       static const u16 STRAIGHT_SPOT_DIRECTION = 8;
       static const u16 ANGLED_SPOT_DIRECTION = 11; // Near to sqrt(8^2+8^2)
-      static const u16 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by 
-                                                       *   this and division by 2^n is a LOT faster as it is 
+      static const u16 SPOT_DISTANCE_WINDOW_SIZE = 16; /**< should be 2^n as I will divide the distance by
+                                                       *   this and division by 2^n is a LOT faster as it is
                                                        *   just bit shift. */
-      static const u16 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15; 
+      static const u16 SPOT_DISTANCE_WINDOW_SIZE_BITS = 15;
       static const u16 MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE = 5000;
       struct Spot
       {
@@ -101,15 +101,15 @@ namespace PathFinding
       u32 vaweID;
       WalkabilityPosition vawe[SPOT_DISTANCE_WINDOW_SIZE][MAXIMUM_COUNT_OF_SPOTS_IN_THE_SAME_DISTANCE];
       u16 count[SPOT_DISTANCE_WINDOW_SIZE];
-      
+
       bool canMove(const WalkabilityPosition& position, Direction::Enum direction);
-      void setDirectionBuffer(const UnitModel& unit);      
-      std::vector<std::pair<int, int> > directionBuffer[BASIC_DIRECTION_COUNT];      
+      void setDirectionBuffer(const UnitModel& unit);
+      std::vector<std::pair<int, int> > directionBuffer[BASIC_DIRECTION_COUNT];
       /** Quite huge structure that could optimise the path finding, it contains info about placability of
        * unit on every spot.
        */
       std::map<BWAPI::UnitType, Util::RectangleArray<bool>* > precomputedPlacebility;
-      std::map<u32, Util::RectangleArray<bool>*> precomputedPlacebilityContent; 
+      std::map<u32, Util::RectangleArray<bool>*> precomputedPlacebilityContent;
       bool Utilities::conflictsWithMap(const WalkabilityPosition& position, const BWAPI::UnitType& type);
-   };
+  };
 }

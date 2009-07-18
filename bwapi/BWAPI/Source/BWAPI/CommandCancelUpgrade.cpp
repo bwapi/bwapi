@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelUpgrade::CommandCancelUpgrade(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelUpgrade::describe()
   {
-	  return this->executors[0]->getName() + " cancelled upgrade";
+    return this->executors[0]->getName() + " cancelled upgrade";
   }
   //----------------------------------------------------------------------------------------------------------
 }

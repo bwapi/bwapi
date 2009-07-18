@@ -10,9 +10,9 @@ namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskGatherGas::TaskGatherGas(Unit* refinery, Expansion* expansion)
-  :Task()
-  ,refinery(refinery)
-  ,expansion(expansion)
+      : Task()
+      , refinery(refinery)
+      , expansion(expansion)
   {
     this->refinery->expansion = expansion;
   }
@@ -36,8 +36,8 @@ namespace BWAI
           (*i)->getOrder() != BWAPI::Orders::ResetCollision2 &&
           (*i)->getOrder() != BWAPI::Orders::ReturnMinerals)
       {
-        BWAI::ai->log->logDetailed("Unit will be removed from the gas gather because order is (%s) Unit:", 
-                                   (*i)->getOrder().getName().c_str(), 
+        BWAI::ai->log->logDetailed("Unit will be removed from the gas gather because order is (%s) Unit:",
+                                   (*i)->getOrder().getName().c_str(),
                                    (*i)->getName().c_str());
         this->freeExecutor(*i++);
       }

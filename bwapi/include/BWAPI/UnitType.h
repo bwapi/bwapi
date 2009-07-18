@@ -11,91 +11,91 @@ namespace BWAPI
   class WeaponType;
   class UnitType
   {
-  public:
-    UnitType();
-    UnitType(int id);
-    UnitType(const UnitType &other);
-    UnitType& operator=(const UnitType &other);
-    bool operator==(const UnitType &other) const;
-    bool operator!=(const UnitType &other) const;
-    bool operator<(const UnitType &other) const;
-    int getID() const;
-    std::string getName() const;
-    std::string getSubLabel() const;
-    Race getRace() const;
+    public:
+      UnitType();
+      UnitType(int id);
+      UnitType(const UnitType& other);
+      UnitType& operator=(const UnitType& other);
+      bool operator==(const UnitType& other) const;
+      bool operator!=(const UnitType& other) const;
+      bool operator<(const UnitType& other) const;
+      int getID() const;
+      std::string getName() const;
+      std::string getSubLabel() const;
+      Race getRace() const;
 
-    const std::pair< const UnitType*,int> whatBuilds() const;
-    const std::map< const UnitType*,int >& requiredUnits() const;
-    const TechType* requiredTech() const;
-    const UpgradeType* armorUpgrade() const;
+      const std::pair< const UnitType*, int> whatBuilds() const;
+      const std::map< const UnitType*, int >& requiredUnits() const;
+      const TechType* requiredTech() const;
+      const UpgradeType* armorUpgrade() const;
 
-    int maxHitPoints() const;
-    int maxShields() const;
-    int maxEnergy() const;
-    int armor() const;
+      int maxHitPoints() const;
+      int maxShields() const;
+      int maxEnergy() const;
+      int armor() const;
 
-    int mineralPrice() const;
-    int gasPrice() const;
-    int buildTime() const;
+      int mineralPrice() const;
+      int gasPrice() const;
+      int buildTime() const;
 
-    int supplyRequired() const;
-    int supplyProvided() const;
-    int spaceRequired() const;
-    int spaceProvided() const;
-    int buildScore() const;
-    int destroyScore() const;
+      int supplyRequired() const;
+      int supplyProvided() const;
+      int spaceRequired() const;
+      int spaceProvided() const;
+      int buildScore() const;
+      int destroyScore() const;
 
-    UnitSizeType size() const;
-    int tileWidth() const;
-    int tileHeight() const;
-    int dimensionLeft() const;
-    int dimensionUp() const;
-    int dimensionRight() const;
-    int dimensionDown() const;
+      UnitSizeType size() const;
+      int tileWidth() const;
+      int tileHeight() const;
+      int dimensionLeft() const;
+      int dimensionUp() const;
+      int dimensionRight() const;
+      int dimensionDown() const;
 
-    int seekRange() const;
-    int sightRange() const;
-    const WeaponType* groundWeapon() const;
-    int maxGroundHits() const;
-    const WeaponType* airWeapon() const;
-    int maxAirHits() const;
+      int seekRange() const;
+      int sightRange() const;
+      const WeaponType* groundWeapon() const;
+      int maxGroundHits() const;
+      const WeaponType* airWeapon() const;
+      int maxAirHits() const;
 
-    int topSpeed() const;
-    int acceleration() const;
-    int haltDistance() const;
-    int turnRadius() const;
+      int topSpeed() const;
+      int acceleration() const;
+      int haltDistance() const;
+      int turnRadius() const;
 
-    bool canProduce() const;
-    bool canAttack() const;
-    bool canMove() const;
+      bool canProduce() const;
+      bool canAttack() const;
+      bool canMove() const;
 
-    bool isFlyer() const;
-    bool regeneratesHP() const;
-    bool isSpellcaster() const;
-    bool hasPermanentCloak() const;
-    bool isInvincible() const;
-    bool isOrganic() const;
-    bool isMechanical() const;
-    bool isRobotic() const;
-    bool isDetector() const;
-    bool isResourceContainer() const;
-    bool isResourceDepot() const;
-    bool isWorker() const;
-    bool requiresPsi() const;
-    bool requiresCreep() const;
-    bool isTwoUnitsInOneEgg() const;
-    bool isBurrowable() const;
-    bool isCloakable() const;
-    bool isBuilding() const;
-    bool isAddon() const;
-    bool isFlyingBuilding() const;
-    bool isNeutral() const;
-  private:
-    int id;
+      bool isFlyer() const;
+      bool regeneratesHP() const;
+      bool isSpellcaster() const;
+      bool hasPermanentCloak() const;
+      bool isInvincible() const;
+      bool isOrganic() const;
+      bool isMechanical() const;
+      bool isRobotic() const;
+      bool isDetector() const;
+      bool isResourceContainer() const;
+      bool isResourceDepot() const;
+      bool isWorker() const;
+      bool requiresPsi() const;
+      bool requiresCreep() const;
+      bool isTwoUnitsInOneEgg() const;
+      bool isBurrowable() const;
+      bool isCloakable() const;
+      bool isBuilding() const;
+      bool isAddon() const;
+      bool isFlyingBuilding() const;
+      bool isNeutral() const;
+    private:
+      int id;
   };
   namespace UnitTypes
   {
-    UnitType getUnitType(std::string &name);
+    UnitType getUnitType(std::string& name);
     std::set<UnitType>& allUnitTypes();
     void init();
     extern const UnitType Terran_Marine;

@@ -21,15 +21,15 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandBuild::CommandBuild(TiXmlElement* xmlElement)
-  :Command(xmlElement)
+      : Command(xmlElement)
   {
     this->name = Util::Xml::getRequiredAttribute(xmlElement, "name");
     this->place = Util::Xml::getOptionalAttribute(xmlElement, "place", "");
-    
-    const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
+
+    const char*  minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
     if (minimalPopulationAttribute != NULL && this->condition == NULL)
     {
-      this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute))); 
+      this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute)));
       this->conditionRunType = ConditionRunType::WaitToApply;
     }
   }
@@ -45,14 +45,14 @@ namespace BuildOrder
     else
     {
       if (BWAI::ai->player->canAfford(toBuild) &&
-          BWAI::ai->player->canBuild(toBuild)) 
+          BWAI::ai->player->canBuild(toBuild))
       {
         BWAI::BuildingPositionSet* alternatives;
         if (!this->place.empty())
-          alternatives = BWAI::ai->getPositionsCalled(this->place); 
+          alternatives = BWAI::ai->getPositionsCalled(this->place);
         else
           alternatives = NULL;
-       
+
         if (!toBuild.isAddon())
         {
           if (alternatives == NULL)
@@ -66,7 +66,7 @@ namespace BuildOrder
             return true;
           }
           BWAI::Unit* scvToUse = NULL;
-          BWAI::BuildingPosition* position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse); 
+          BWAI::BuildingPosition* position = BWAI::ai->getFreeBuildingSpot(this->place, scvToUse);
           BWAI::ai->root->log->log("Command build '%s' called", this->name.c_str());
           BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(toBuild, position, scvToUse, alternatives, priority));
           BWAI::ai->buildTaskUnitsPlanned[(u16)toBuild.getID()]++;
@@ -80,20 +80,20 @@ namespace BuildOrder
           if (alternatives != NULL)
           {
             BWAI::BuildingPosition* position = alternatives->positions.front();
-            
-            if (BWAPI::Broodwar->unitsOnTile(position->position.x() - 2,position->position.y()).empty())
+
+            if (BWAPI::Broodwar->unitsOnTile(position->position.x() - 2, position->position.y()).empty())
             {
               BWAI::ai->root->log->log("Building for the addon not found", Util::LogLevel::Commmon);
               return false;
             }
-            
-           if (!(*BWAPI::Broodwar->unitsOnTile(position->position.x() - 2,position->position.y()).begin())->isCompleted())
+
+            if (!(*BWAPI::Broodwar->unitsOnTile(position->position.x() - 2, position->position.y()).begin())->isCompleted())
             {
               BWAI::ai->root->log->logCommon("Building for the addon not ready");
               return false;
             }
-            
-            executor = BWAI::Unit::BWAPIUnitToBWAIUnit(*BWAPI::Broodwar->unitsOnTile(position->position.x() - 2,position->position.y()).begin());
+
+            executor = BWAI::Unit::BWAPIUnitToBWAIUnit(*BWAPI::Broodwar->unitsOnTile(position->position.x() - 2, position->position.y()).begin());
             if (!executor->getType().isBuilding())
             {
               BWAI::ai->root->log->log("Executor chosen is not building ???? but %s", executor->getName().c_str());

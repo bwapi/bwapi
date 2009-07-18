@@ -5,14 +5,14 @@ namespace Formula
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Number::Number(float value)
-  :value(value)
+      : value(value)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Number::Number(const std::string& value)
   {
     sscanf(value.c_str(), "%f", &this->value);
-  }  
+  }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Number::~Number(void)
   {

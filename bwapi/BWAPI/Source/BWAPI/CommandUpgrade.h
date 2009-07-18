@@ -11,7 +11,7 @@ namespace BWAPI
   class CommandUpgrade : public Command
   {
     public :
-      /** 
+      /**
        * @param building Building thatupgrades
        * @param upgrade Upgrade to be invented
        */

@@ -5,22 +5,22 @@ namespace BWAPI
 {
   class ExplosionType
   {
-  public:
-    ExplosionType();
-    ExplosionType(int id);
-    ExplosionType(const ExplosionType &other);
-    ExplosionType& operator=(const ExplosionType &other);
-    bool operator==(const ExplosionType &other) const;
-    bool operator!=(const ExplosionType &other) const;
-    bool operator<(const ExplosionType &other) const;
-    int getID() const;
-    std::string getName() const;
-  private:
-    int id;
+    public:
+      ExplosionType();
+      ExplosionType(int id);
+      ExplosionType(const ExplosionType& other);
+      ExplosionType& operator=(const ExplosionType& other);
+      bool operator==(const ExplosionType& other) const;
+      bool operator!=(const ExplosionType& other) const;
+      bool operator<(const ExplosionType& other) const;
+      int getID() const;
+      std::string getName() const;
+    private:
+      int id;
   };
   namespace ExplosionTypes
   {
-    ExplosionType getExplosionType(std::string &name);
+    ExplosionType getExplosionType(std::string& name);
     std::set<ExplosionType>& allExplosionTypes();
     void init();
     extern const ExplosionType None;

@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandFollow::CommandFollow(UnitImpl* executor, UnitImpl* target)
-  :Command(executor)
-  ,target(target)
+      : Command(executor)
+      , target(target)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -15,10 +15,10 @@ namespace BWAPI
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
       if ((this->executors[i]->getType().canMove()))
-        {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Follow;
-          this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
-        }
+      {
+        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Follow;
+        this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
+      }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
@@ -29,7 +29,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandFollow::describe()
   {
-	  return this->executors[0]->getName() + " followed unit";
+    return this->executors[0]->getName() + " followed unit";
   }
   //----------------------------------------------------------------------------------------------------------
 }

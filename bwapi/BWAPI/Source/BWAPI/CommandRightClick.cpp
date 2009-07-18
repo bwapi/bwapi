@@ -5,15 +5,15 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandRightClick::CommandRightClick(UnitImpl* executor, const BW::Position& targetPosition)
-  :Command(executor)
-  ,targetPosition(targetPosition)
-  ,targetUnit(NULL)
+      : Command(executor)
+      , targetPosition(targetPosition)
+      , targetUnit(NULL)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandRightClick::CommandRightClick(UnitImpl* executor, UnitImpl* targetUnit)
-  :Command(executor)
-  ,targetUnit(targetUnit)
+      : Command(executor)
+      , targetUnit(targetUnit)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,21 +24,21 @@ namespace BWAPI
       if (targetUnit != NULL)
       {
         if (
-             (this->executors[i]->getType().isWorker()) && 
-              targetUnit->isMineral()
-           )
+          (this->executors[i]->getType().isWorker()) &&
+          targetUnit->isMineral()
+        )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
 
-        else if (this->executors[i]->getType().isWorker() && 
-                  (
-                    targetUnit->getType() == BW::UnitID::Terran_Refinery ||
-                    targetUnit->getType() == BW::UnitID::Protoss_Assimilator ||
-                    targetUnit->getType() == BW::UnitID::Zerg_Extractor
-                  )
+        else if (this->executors[i]->getType().isWorker() &&
+                 (
+                   targetUnit->getType() == BW::UnitID::Terran_Refinery ||
+                   targetUnit->getType() == BW::UnitID::Protoss_Assimilator ||
+                   targetUnit->getType() == BW::UnitID::Zerg_Extractor
+                 )
                 )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToGas;
- 
-        else if ((this->executors[i]->getType().canAttack()) && 
+
+        else if ((this->executors[i]->getType().canAttack()) &&
                  targetUnit->getPlayer() != executors[i]->getPlayer())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 

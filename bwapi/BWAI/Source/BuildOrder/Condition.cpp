@@ -18,9 +18,9 @@ namespace BuildOrder
     if (conditionType == "formula")
       return new ConditionFormula(xmlElement);
     if (conditionType == "equation")
-      return new ConditionEquation(xmlElement);      
+      return new ConditionEquation(xmlElement);
     if (conditionType == "and")
-      return new ConditionAnd(xmlElement);      
+      return new ConditionAnd(xmlElement);
     throw new ParseException("Unknown condition type " + conditionType);
   }
   //----------------------------------------------------------------------------------------------------------

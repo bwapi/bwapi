@@ -5,23 +5,23 @@
 
 namespace BW
 {
-  TilePosition TilePosition::Invalid = TilePosition(1000,1000);
+  TilePosition TilePosition::Invalid = TilePosition(1000, 1000);
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition()
-  :x(0)
-  ,y(0)
+      : x(0)
+      , y(0)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition(u16 x, u16 y)
-  :x(x)
-  ,y(y)
+      : x(x)
+      , y(y)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition(const Position& position)
-  :x(position.x/BW::TILE_SIZE)
-  ,y(position.y/BW::TILE_SIZE)
+      : x(position.x / BW::TILE_SIZE)
+      , y(position.y / BW::TILE_SIZE)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------

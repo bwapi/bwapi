@@ -9,7 +9,7 @@ namespace BW
    */
   namespace UnitID
   {
-    enum Enum : u16
+  enum Enum : u16
     {
       Terran_Marine                 = 0x00,
       Terran_Ghost                  = 0x01,

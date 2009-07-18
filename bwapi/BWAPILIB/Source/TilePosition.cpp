@@ -8,26 +8,26 @@ namespace BWAPI
 {
   namespace TilePositions
   {
-    const TilePosition Invalid(1000,1000);
-    const TilePosition None(1000,1001);
-    const TilePosition Unknown(1000,1002);
+    const TilePosition Invalid(1000, 1000);
+    const TilePosition None(1000, 1001);
+    const TilePosition Unknown(1000, 1002);
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition()
-  :_x(0)
-  ,_y(0)
+      : _x(0)
+      , _y(0)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition(int x, int y)
-  :_x(x)
-  ,_y(y)
+      : _x(x)
+      , _y(y)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition(const Position& position)
-  :_x(position.x()/TILE_SIZE)
-  ,_y(position.y()/TILE_SIZE)
+      : _x(position.x() / TILE_SIZE)
+      , _y(position.y() / TILE_SIZE)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
@@ -51,41 +51,41 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   TilePosition TilePosition::operator+(const TilePosition& position) const
   {
-    return TilePosition(this->x()+position.x(),this->y()+position.y());
+    return TilePosition(this->x() + position.x(), this->y() + position.y());
   }
   //----------------------------------------------------------------------------------------------------------
   TilePosition TilePosition::operator-(const TilePosition& position) const
   {
-    return TilePosition(this->x()-position.x(),this->y()-position.y());
+    return TilePosition(this->x() - position.x(), this->y() - position.y());
   }
   //----------------------------------------------------------------------------------------------------------
   TilePosition& TilePosition::operator+=(const TilePosition& position)
   {
-    this->x()+=position.x();
-    this->y()+=position.y();
+    this->x() += position.x();
+    this->y() += position.y();
   }
   //----------------------------------------------------------------------------------------------------------
   TilePosition& TilePosition::operator-=(const TilePosition& position)
   {
-    this->x()-=position.x();
-    this->y()-=position.y();
+    this->x() -= position.x();
+    this->y() -= position.y();
   }
   //----------------------------------------------- IS VALID -------------------------------------------------
   bool TilePosition::isValid() const
   {
-    return (*this!=TilePositions::Invalid && *this!=TilePositions::None && *this!=TilePositions::Unknown);
+    return (*this != TilePositions::Invalid && *this != TilePositions::None && *this != TilePositions::Unknown);
   }
   //----------------------------------------------------------------------------------------------------------
-  double TilePosition::getDistance(const TilePosition &position) const
+  double TilePosition::getDistance(const TilePosition& position) const
   {
-    return ((*this)-position).getLength();
+    return ((*this) - position).getLength();
   }
   //----------------------------------------------------------------------------------------------------------
   double TilePosition::getLength() const
   {
-    double x=this->x();
-    double y=this->y();
-    return sqrt(x*x+y*y);
+    double x = this->x();
+    double y = this->y();
+    return sqrt(x * x + y * y);
   }
   //----------------------------------------------------------------------------------------------------------
   int& TilePosition::x()

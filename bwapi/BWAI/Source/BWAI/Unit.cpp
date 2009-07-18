@@ -7,11 +7,11 @@
 namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Unit::Unit(BWAPI::Unit *unit)
-  :unit(unit)
-  ,task(0)
-  ,lastFrameSpam(0)
-  ,expansion(0)
+  Unit::Unit(BWAPI::Unit* unit)
+      : unit(unit)
+      , task(0)
+      , lastFrameSpam(0)
+      , expansion(0)
   {
   }
   //------------------------------------------ BW Unit TO BWAI Unit ------------------------------------------
@@ -146,7 +146,7 @@ namespace BWAI
     return this->unit->currentDirection();
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  int Unit::getDistance(Unit *unit) const
+  int Unit::getDistance(Unit* unit) const
   {
     u32 result;
     if (unit == this)
@@ -168,25 +168,24 @@ namespace BWAI
     if (this->getPosition().x() > unit->getPosition().x())
       if (this->getPosition().y() > unit->getPosition().y())
         result = (u32)BWAPI::Position(this->getPosition().x() - this->getType().dimensionLeft(),
-                              this->getPosition().y() - this->getType().dimensionUp())
+                                      this->getPosition().y() - this->getType().dimensionUp())
                  .getDistance(BWAPI::Position(unit->getPosition().x() + unit->getType().dimensionRight(),
-                                           unit->getPosition().y() + unit->getType().dimensionDown()));
+                                              unit->getPosition().y() + unit->getType().dimensionDown()));
       else
         result = (u32)BWAPI::Position(this->getPosition().x() - this->getType().dimensionLeft(),
-                              this->getPosition().y() + this->getType().dimensionDown())
+                                      this->getPosition().y() + this->getType().dimensionDown())
                  .getDistance(BWAPI::Position(unit->getPosition().x() + unit->getType().dimensionRight(),
-                                           unit->getPosition().y() - unit->getType().dimensionUp()));
+                                              unit->getPosition().y() - unit->getType().dimensionUp()));
+    else if (this->getPosition().y() > unit->getPosition().y())
+      result = (u32)BWAPI::Position(this->getPosition().x() + this->getType().dimensionRight(),
+                                    this->getPosition().y() - this->getType().dimensionUp())
+               .getDistance(BWAPI::Position(unit->getPosition().x() - unit->getType().dimensionLeft(),
+                                            unit->getPosition().y() + unit->getType().dimensionDown()));
     else
-      if (this->getPosition().y() > unit->getPosition().y())
-        result = (u32)BWAPI::Position(this->getPosition().x() + this->getType().dimensionRight(),
-                              this->getPosition().y() - this->getType().dimensionUp())
-                 .getDistance(BWAPI::Position(unit->getPosition().x() - unit->getType().dimensionLeft(),
-                                           unit->getPosition().y() + unit->getType().dimensionDown()));
-      else
-        result = (u32)BWAPI::Position(this->getPosition().x() + this->getType().dimensionRight(),
-                              this->getPosition().y() + this->getType().dimensionDown())
-                 .getDistance(BWAPI::Position(unit->getPosition().x() - unit->getType().dimensionLeft(),
-                                           unit->getPosition().y() - unit->getType().dimensionUp()));
+      result = (u32)BWAPI::Position(this->getPosition().x() + this->getType().dimensionRight(),
+                                    this->getPosition().y() + this->getType().dimensionDown())
+               .getDistance(BWAPI::Position(unit->getPosition().x() - unit->getType().dimensionLeft(),
+                                            unit->getPosition().y() - unit->getType().dimensionUp()));
     if (result > 0)
       return result;
     else
@@ -198,7 +197,7 @@ namespace BWAI
     return (int)this->unit->getPosition().getDistance(position);
   }
   //------------------------------------------- GET CENTER DISTANCE ------------------------------------------
-  int Unit::getCenterDistance(Unit *unit) const
+  int Unit::getCenterDistance(Unit* unit) const
   {
     return (int)this->unit->getPosition().getDistance(unit->getPosition());
   }
@@ -224,8 +223,8 @@ namespace BWAI
   char message[400];
   std::string Unit::getName() const
   {
-    sprintf_s(position, 100, "Position = (%d,%d)", this->unit->getPosition().x(), 
-                                              this->unit->getPosition().y());
+    sprintf_s(position, 100, "Position = (%d,%d)", this->unit->getPosition().x(),
+              this->unit->getPosition().y());
 
     sprintf_s(indexName, 50, "[%d]", (int)(this->unit));
 
@@ -238,7 +237,7 @@ namespace BWAI
       strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
     else
       sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName().c_str());
-  
+
     if (this->getOwner() != NULL)
       sprintf_s(owner, 100, "Player = (NULL)");
     else
@@ -253,20 +252,20 @@ namespace BWAI
 
     sprintf_s(orderName, 100, "(%s)", this->getOrder().getName().c_str());
     sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
-                                              orderName,
-                                              indexName,
-                                              position,
-                                              targetIndex,
-                                              orderTargetIndex,
-                                              owner,
-                                              connectedUnit);
+              orderName,
+              indexName,
+              position,
+              targetIndex,
+              orderTargetIndex,
+              owner,
+              connectedUnit);
 
     return std::string(message);
   }
   //----------------------------------------------- IS MINERAL -----------------------------------------------
   bool Unit::isMineral() const
   {
-    return this->unit->getType()==BWAPI::UnitTypes::Resource_Mineral_Field;
+    return this->unit->getType() == BWAPI::UnitTypes::Resource_Mineral_Field;
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool Unit::isCompleted() const
@@ -372,7 +371,7 @@ namespace BWAI
   {
     this->unit->rightClick(position);
   }
-  void Unit::orderRightClick(Unit *target)
+  void Unit::orderRightClick(Unit* target)
   {
     this->unit->rightClick(target->getUnit());
   }
@@ -414,7 +413,7 @@ namespace BWAI
   }
   void Unit::build(BWAPI::TilePosition position, BWAPI::UnitType type)
   {
-    this->unit->build(position,type);
+    this->unit->build(position, type);
   }
   void Unit::research(BWAPI::TechType tech)
   {

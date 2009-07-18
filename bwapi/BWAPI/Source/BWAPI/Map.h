@@ -39,7 +39,7 @@ namespace BWAPI
       /** Returns a value that represents the map's terrain. */
       static int Map::getMapHash();
 
-  private :
+    private :
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);
       Util::BitMask<BW::MiniTileFlags::Enum> getMiniTile(int x, int y) const;

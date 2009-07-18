@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelConstruction::CommandCancelConstruction(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelConstruction::describe()
   {
-	  return this->executors[0]->getName() + " cancelled construction";
+    return this->executors[0]->getName() + " cancelled construction";
   }
   //----------------------------------------------------------------------------------------------------------
 }

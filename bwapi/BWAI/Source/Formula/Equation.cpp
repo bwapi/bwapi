@@ -6,9 +6,9 @@ namespace Formula
 {
   //------------------------------------------------ CONSTRUCTOR ---------------------------------------------
   Equation::Equation(Base* left, Base* right, EqualityType::Enum equalityType)
-  :left(left)
-  ,right(right)
-  ,equalityType(equalityType)
+      : left(left)
+      , right(right)
+      , equalityType(equalityType)
   {
   }
   //------------------------------------------------- EVALUATE -----------------------------------------------
@@ -55,7 +55,7 @@ namespace Formula
       return new Equation(Base::parse(input.substr(0, equationMark)),
                           Base::parse(input.substr(equationMark + 1, input.size() - equationMark - 1)),
                           EqualityType::EqualityRelation);
-    throw ParseException("Error in equation input '" + input + "' - equation sides and relation not recognized");                          
+    throw ParseException("Error in equation input '" + input + "' - equation sides and relation not recognized");
   }
   //----------------------------------------------------------------------------------------------------------
 }

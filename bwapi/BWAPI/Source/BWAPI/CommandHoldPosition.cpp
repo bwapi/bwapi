@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandHoldPosition::CommandHoldPosition(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -49,7 +49,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandHoldPosition::describe()
   {
-	  return this->executors[0]->getName() + " held position";
+    return this->executors[0]->getName() + " held position";
   }
   //----------------------------------------------------------------------------------------------------------
 }

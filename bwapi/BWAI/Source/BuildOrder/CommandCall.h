@@ -5,7 +5,7 @@ class TiXmlElement;
 
 namespace BuildOrder
 {
- /** Represnts task to call function. */
+  /** Represnts task to call function. */
   class CommandCall : public Command
   {
     public :

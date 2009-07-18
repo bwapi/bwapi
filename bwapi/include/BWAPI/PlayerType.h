@@ -5,22 +5,22 @@ namespace BWAPI
 {
   class PlayerType
   {
-  public:
-    PlayerType();
-    PlayerType(int id);
-    PlayerType(const PlayerType &other);
-    PlayerType& operator=(const PlayerType &other);
-    bool operator==(const PlayerType &other) const;
-    bool operator!=(const PlayerType &other) const;
-    bool operator<(const PlayerType &other) const;
-    int getID() const;
-    std::string getName() const;
-  private:
-    int id;
+    public:
+      PlayerType();
+      PlayerType(int id);
+      PlayerType(const PlayerType& other);
+      PlayerType& operator=(const PlayerType& other);
+      bool operator==(const PlayerType& other) const;
+      bool operator!=(const PlayerType& other) const;
+      bool operator<(const PlayerType& other) const;
+      int getID() const;
+      std::string getName() const;
+    private:
+      int id;
   };
   namespace PlayerTypes
   {
-    PlayerType getPlayerType(std::string &name);
+    PlayerType getPlayerType(std::string& name);
     std::set<PlayerType>& allPlayerTypes();
     void init();
     extern const PlayerType NotUsed;

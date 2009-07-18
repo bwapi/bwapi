@@ -9,9 +9,9 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandBuild::CommandBuild(UnitImpl* builder, BW::UnitType toBuild, BW::TilePosition position)
-  :Command(builder)
-  ,toBuild(toBuild)
-  ,position(position)
+      : Command(builder)
+      , toBuild(toBuild)
+      , position(position)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

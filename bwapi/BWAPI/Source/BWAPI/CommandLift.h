@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandLift : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Lift command (will be passed as executor 
+      /**
+       * @param executor Executor of the Lift command (will be passed as executor
        *        to Command ancestor)
        */
       CommandLift(UnitImpl* executor);

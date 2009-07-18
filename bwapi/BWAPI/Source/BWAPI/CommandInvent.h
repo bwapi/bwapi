@@ -11,7 +11,7 @@ namespace BWAPI
   class CommandInvent : public Command
   {
     public :
-      /** 
+      /**
        * @param building Building that invents the tech
        * @param tech Tech to be invented
        */

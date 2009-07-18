@@ -9,8 +9,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUpgrade::CommandUpgrade(UnitImpl* building, BW::UpgradeType upgrade)
-  :Command(building)
-  ,upgrade(upgrade)
+      : Command(building)
+      , upgrade(upgrade)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

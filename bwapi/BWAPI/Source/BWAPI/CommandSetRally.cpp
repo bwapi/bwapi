@@ -5,16 +5,16 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandSetRally::CommandSetRally(UnitImpl* executor, BW::Position targetPosition)
-  :Command(executor)
-  ,targetPosition(targetPosition)
-  ,targetUnit(NULL)
+      : Command(executor)
+      , targetPosition(targetPosition)
+      , targetUnit(NULL)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandSetRally::CommandSetRally(UnitImpl* executor, UnitImpl* targetUnit)
-  :Command(executor)
-  ,targetPosition(0,0)
-  ,targetUnit(targetUnit)
+      : Command(executor)
+      , targetPosition(0, 0)
+      , targetUnit(targetUnit)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -48,9 +48,9 @@ namespace BWAPI
   {
     if (this->targetUnit)
     {
-  	  return this->executors[0]->getName() + " set rally to unit";
+      return this->executors[0]->getName() + " set rally to unit";
     }
-	  return this->executors[0]->getName() + " set rally to position";
+    return this->executors[0]->getName() + " set rally to position";
   }
   //----------------------------------------------------------------------------------------------------------
 }

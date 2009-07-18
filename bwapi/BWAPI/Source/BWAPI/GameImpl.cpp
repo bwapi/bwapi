@@ -1,4 +1,4 @@
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
 #include "GameImpl.h"
 
@@ -51,32 +51,32 @@
 #include "ShapeLine.h"
 #include "ShapeTriangle.h"
 
-namespace BWAPI 
+namespace BWAPI
 {
   Game* Broodwar;
   GameImpl BroodwarImpl;
 
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   GameImpl::GameImpl()
-  :onStartCalled(false)
-  ,unitsOnTileData(0,0)
-  ,quietSelect(true)
-  ,enabled(true)
-  ,client(NULL)
-  ,startedClient(false)
-  ,hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
+      : onStartCalled(false)
+      , unitsOnTileData(0, 0)
+      , quietSelect(true)
+      , enabled(true)
+      , client(NULL)
+      , startedClient(false)
+      , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
   {
-    BWAPI::Broodwar=static_cast<Game*>(this);
+    BWAPI::Broodwar = static_cast<Game*>(this);
     BW::UnitType::initialize();
 
     try
     {
-     this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
-     config = this->configuration;
+      this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
+      config = this->configuration;
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error","wt");
+      FILE*f = fopen("bwapi-error", "wt");
       fprintf_s(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
       fclose(f);
     }
@@ -93,22 +93,22 @@ namespace BWAPI
       unitArrayCopyLocal = new BW::UnitArray;
 
       for (int i = 0; i < 12; i++)
-        players[i] = new PlayerImpl((u8)i);    
-      
+        players[i] = new PlayerImpl((u8)i);
+
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArray[i] = new UnitImpl(&unitArrayCopy->unit[i], 
-                                &BW::BWDATA_UnitNodeTable->unit[i],
-                                &unitArrayCopyLocal->unit[i],
-                                i);
+        unitArray[i] = new UnitImpl(&unitArrayCopy->unit[i],
+                                    &BW::BWDATA_UnitNodeTable->unit[i],
+                                    &unitArrayCopyLocal->unit[i],
+                                    i);
 
       this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
       //this->latency = BW::Latency::LanLow;
-      for(int i=0;i<BW::UNIT_TYPE_COUNT;i++)
+      for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         unitTypes.insert(BW::UnitType((BW::UnitID::Enum)i));
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error","wt");
+      FILE*f = fopen("bwapi-error", "wt");
       fprintf_s(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
       fclose(f);
     }
@@ -156,27 +156,27 @@ namespace BWAPI
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool GameImpl::buildable(int x, int y) const
   {
-    return this->map.buildable(x,y);
+    return this->map.buildable(x, y);
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
   bool GameImpl::walkable(int x, int y) const
   {
-    return this->map.walkable(x,y);
+    return this->map.walkable(x, y);
   }
   //------------------------------------------------- VISIBLE ------------------------------------------------
   bool GameImpl::visible(int x, int y) const
   {
-    return this->map.visible(x,y);
+    return this->map.visible(x, y);
   }
   //------------------------------------------------ HAS CREEP -----------------------------------------------
   bool GameImpl::hasCreep(int x, int y) const
   {
-    return this->map.hasCreep(x,y);
+    return this->map.hasCreep(x, y);
   }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int GameImpl::groundHeight(int x, int y) const
   {
-    return this->map.groundHeight(x,y);
+    return this->map.groundHeight(x, y);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   const std::set< TilePosition >& GameImpl::getStartLocations() const
@@ -198,9 +198,9 @@ namespace BWAPI
   std::set< Player* > GameImpl::getPlayers() const
   {
     std::set<Player*> players;
-    for(int i=0;i<12;i++)
+    for (int i = 0; i < 12; i++)
     {
-      if (this->players[i]!=NULL && this->players[i]->getName().length()>0)
+      if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
         players.insert(this->players[i]);
       }
@@ -211,7 +211,7 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getAllUnits() const
   {
     std::set<Unit*> units;
-    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
       units.insert((Unit*)(*i));
     }
@@ -221,7 +221,7 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getMinerals() const
   {
     std::set<Unit*> units;
-    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
       if ((*i)->isMineral())
         units.insert((Unit*)(*i));
@@ -232,9 +232,9 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getGeysers() const
   {
     std::set<Unit*> units;
-    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      if ((*i)->getType()==BW::UnitID::Resource_VespeneGeyser)
+      if ((*i)->getType() == BW::UnitID::Resource_VespeneGeyser)
         units.insert((Unit*)(*i));
     }
     return units;
@@ -243,17 +243,17 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getNeutralUnits() const
   {
     std::set<Unit*> units;
-    for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      if (((PlayerImpl*)(*i)->getPlayer())->getID()==11)
+      if (((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
         units.insert((Unit*)(*i));
     }
     return units;
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-  void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize) 
+  void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
   {
-    __asm 
+    __asm
     {
       MOV ECX, pbBuffer
       MOV EDX, iSize
@@ -273,30 +273,30 @@ namespace BWAPI
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
-     
+
       this->units.clear();
       std::list<UnitImpl*> unitList;
-      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
-        this->getUnit(i)->buildUnit=NULL;
+        this->getUnit(i)->buildUnit = NULL;
       }
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
         unitList.push_back(i);
-        if (i->getOrderTarget()!=NULL && i->getBWOrder()==BW::OrderID::ConstructingBuilding)
+        if (i->getOrderTarget() != NULL && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
         {
-          UnitImpl* j=(UnitImpl*)(i->getOrderTarget());
-          i->buildUnit=j;
-          j->buildUnit=i;
+          UnitImpl* j = (UnitImpl*)(i->getOrderTarget());
+          i->buildUnit = j;
+          j->buildUnit = i;
         }
       }
-      for(std::list<UnitImpl*>::iterator i=unitList.begin();i!=unitList.end();i++)
+      for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
       {
-        if (this->units.find(*i)==this->units.end())
+        if (this->units.find(*i) == this->units.end())
         {
           this->units.insert(*i);
-          std::list<BWAPI::Unit*> loadedUnits=(*i)->getLoadedUnits();
-          for(std::list<BWAPI::Unit*>::iterator j=loadedUnits.begin();j!=loadedUnits.end();j++)
+          std::list<BWAPI::Unit*> loadedUnits = (*i)->getLoadedUnits();
+          for (std::list<BWAPI::Unit*>::iterator j = loadedUnits.begin(); j != loadedUnits.end(); j++)
           {
             this->units.insert((UnitImpl*)(*j));
           }
@@ -306,7 +306,7 @@ namespace BWAPI
 
       while ((int)(this->commandBuffer.size()) > this->getLatency())
       {
-        for(unsigned int i=0;i<this->commandBuffer[0].size();i++)
+        for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
         {
           delete this->commandBuffer[0][i];
         }
@@ -314,41 +314,41 @@ namespace BWAPI
       }
       this->commandBuffer.push_back(std::vector<Command *>());
       for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
-         for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
-           this->commandBuffer[i][j]->execute();
+        for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
+          this->commandBuffer[i][j]->execute();
       this->frameCount ++;
       this->logUnknownOrStrange();
-      this->updateUnitsOnTile();    
+      this->updateUnitsOnTile();
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error","wt");
+      FILE*f = fopen("bwapi-error", "wt");
       fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
-    if (this->startedClient==false)
+    if (this->startedClient == false)
     {
 
       TCHAR szDllPath[MAX_PATH];
-      std::string ai_dll=config->get("ai_dll");
-      for(unsigned int i = 0; i < ai_dll.length(); i++)
-        szDllPath[i]=TCHAR(ai_dll[i]);
+      std::string ai_dll = config->get("ai_dll");
+      for (unsigned int i = 0; i < ai_dll.length(); i++)
+        szDllPath[i] = TCHAR(ai_dll[i]);
 
-      szDllPath[ai_dll.length()]=TCHAR('\0');
-      Util::Logger::globalLog->logCritical("Loading AI DLL from: %s",ai_dll.c_str());
+      szDllPath[ai_dll.length()] = TCHAR('\0');
+      Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", ai_dll.c_str());
       bool loaded;
       if (!(hMod = LoadLibrary(szDllPath)))
       {
-        loaded=false;
+        loaded = false;
         Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
         this->client = new AIModule();
       }
       else
       {
-        loaded=true;
+        loaded = true;
         Util::Logger::globalLog->logCritical("Loaded AI Module");
         Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
-      	
+
         typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
 
         Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
@@ -362,24 +362,24 @@ namespace BWAPI
       this->lockFlags();
       if (loaded)
       {
-        printPublic("BWAPI: Loaded the AI Module: %s",ai_dll.c_str());
+        printPublic("BWAPI: Loaded the AI Module: %s", ai_dll.c_str());
       }
       else
       {
         printPublic("Error: Failed to load the AI Module");
       }
-      this->startedClient=true;
+      this->startedClient = true;
     }
 
     this->client->onFrame();
     this->loadSelected();
-    if(WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
+    if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
     {
-      for(unsigned int i=0;i<this->cachedShapes.size();i++)
+      for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
       {
         delete this->cachedShapes[i];
       }
-      this->cachedShapes=this->shapes;
+      this->cachedShapes = this->shapes;
       ::ReleaseMutex(hcachedShapesMutex);
     }
     this->shapes.clear();
@@ -387,10 +387,10 @@ namespace BWAPI
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
   {
-    for(int i = 0; i< BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->unitArray[i]->setSelected(false);
     this->saveSelected();
-    for(int i = 0; savedSelectionStates[i] != NULL; i++)
+    for (int i = 0; savedSelectionStates[i] != NULL; i++)
       BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
   }
   //------------------------------------------- IS ON START CALLED -------------------------------------------
@@ -403,8 +403,8 @@ namespace BWAPI
   {
     this->onStartCalled = onStartCalled;
   }
-  #pragma warning(push)
-  #pragma warning(disable:4312)
+#pragma warning(push)
+#pragma warning(disable:4312)
   //------------------------------------------------ IN GAME -------------------------------------------------
   bool GameImpl::inGame() const
   {
@@ -419,55 +419,55 @@ namespace BWAPI
   char buffer[BUFFER_SIZE];
 
   //------------------------------------------------- PRINT --------------------------------------------------
-  void GameImpl::print(const char *text, ...)
+  void GameImpl::print(const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    
+
     printEx(8, buffer);
   }
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-  void GameImpl::printEx(s32 pID, const char *text, ...)
+  void GameImpl::printEx(s32 pID, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    
+
     char* txtout = buffer;
     if (inGame() || inReplay())
       __asm
-      {
-        pushad
-        push 0       // Unknown
-        mov eax, pID   // Player ID (-1 for notification area)
-        push txtout  // Text
-        call dword ptr [BW::BWFXN_PrintText]
-        popad
-      }
+    {
+      pushad
+      push 0       // Unknown
+      mov eax, pID   // Player ID (-1 for notification area)
+      push txtout  // Text
+      call dword ptr [BW::BWFXN_PrintText]
+      popad
+    }
     else
       printPublic(txtout); // until lobby print private text is found
   }
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
-  void GameImpl::printPublic(const char *text, ...)
+  void GameImpl::printPublic(const char* text, ...)
   {
     if (inReplay())
     {
       va_list ap;
       va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      
+
       printEx(8, buffer);
       return;
     }
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    
+
     char* txtout = buffer;
     if (inGame() || inReplay())
     {
@@ -482,26 +482,26 @@ namespace BWAPI
     }
     else
       __asm
-      {
-        pushad
-        mov edi, txtout
-        call [BW::BWFXN_SendLobbyCallTarget]
-        popad
-      }
+    {
+      pushad
+      mov edi, txtout
+      call [BW::BWFXN_SendLobbyCallTarget]
+      popad
+    }
   }
-  #pragma warning(pop)
+#pragma warning(pop)
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
-    IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID),3); 
+    IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(BWAPI::Race race)
   {
-    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), this->BWAPIPlayer->getID()),3); 
+    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), this->BWAPIPlayer->getID()), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
-  void GameImpl::addToCommandBuffer(Command *command)
+  void GameImpl::addToCommandBuffer(Command* command)
   {
     this->reselected = true;
     command->execute();
@@ -517,17 +517,17 @@ namespace BWAPI
     this->opponent = NULL;
 
     /* set all the flags to the default of disabled */
-    for(int i=0;i<FLAG_COUNT;i++)
-      this->flags[i]=false;
-    this->flagsLocked=false;
+    for (int i = 0; i < FLAG_COUNT; i++)
+      this->flags[i] = false;
+    this->flagsLocked = false;
 
     map.load();
 
     if (*(BW::BWDATA_InReplay))
     {
-      for(int i=0;i<FLAG_COUNT;i++)
-        this->flags[i]=true;
-      this->flagsLocked=false;
+      for (int i = 0; i < FLAG_COUNT; i++)
+        this->flags[i] = true;
+      this->flagsLocked = false;
     }
     else
     {
@@ -538,51 +538,51 @@ namespace BWAPI
       if (this->BWAPIPlayer == NULL ||
           this->BWAPIPlayer->getForceName() == "Observers" ||
           this->BWAPIPlayer->getForceName() == "Observer")
-        {
-          this->BWAPIPlayer = NULL;
-          return;
-        }
+      {
+        this->BWAPIPlayer = NULL;
+        return;
+      }
 
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
              this->players[i]->playerType() == BW::PlayerType::Human ||
              this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
-             this->opponent == NULL &&
-             this->players[i]->getForceName() != "Observers" &&
-             this->players[i]->getForceName() != "Observer" &&
-             this->BWAPIPlayer->getAlliance(i) == 0)
+            this->opponent == NULL &&
+            this->players[i]->getForceName() != "Observers" &&
+            this->players[i]->getForceName() != "Observer" &&
+            this->BWAPIPlayer->getAlliance(i) == 0)
           this->opponent = this->players[i];
     }
     BW::Positions* posptr = BW::startPositions;
     startLocations.clear();
     while (posptr->x != 0 || posptr->y != 0)
     {
-      startLocations.insert(BWAPI::TilePosition((int)((posptr->x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
-                                                (int)((posptr->y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE)));
+      startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2) / BW::TILE_SIZE),
+                                                (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
       posptr++;
     }
     std::set<std::string> force_names;
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
-    for(int i=0;i<12;i++)
+    for (int i = 0; i < 12; i++)
     {
-      if (this->players[i]!=NULL && this->players[i]->getName().length()>0)
+      if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
         force_names.insert(std::string(this->players[i]->getForceName()));
       }
     }
-    for(std::set<std::string>::iterator i=force_names.begin();i!=force_names.end();i++)
+    for (std::set<std::string>::iterator i = force_names.begin(); i != force_names.end(); i++)
     {
-      ForceImpl* newforce=new ForceImpl(*i);
+      ForceImpl* newforce = new ForceImpl(*i);
       forces.insert((Force*)newforce);
-      force_name_to_forceimpl.insert(std::make_pair(*i,newforce));
+      force_name_to_forceimpl.insert(std::make_pair(*i, newforce));
     }
-    for(int i=0;i<12;i++)
+    for (int i = 0; i < 12; i++)
     {
-      if (this->players[i]!=NULL && this->players[i]->getName().length()>0)
+      if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
-        ForceImpl* force=force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
+        ForceImpl* force = force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
         force->players.insert(this->players[i]);
-        this->players[i]->force=force;
+        this->players[i]->force = force;
       }
     }
   }
@@ -617,7 +617,7 @@ namespace BWAPI
         this->enabled = false;
         this->print("bwapi disabled");
       }
-      else 
+      else
         this->print("Unknown command '%s''s - possible commands are: on, off", parsed[1].c_str());
       return true;
     }
@@ -627,29 +627,29 @@ namespace BWAPI
       {
         std::ofstream unitData;
         unitData.open ("bwapi-data/unitData.txt");
-        for(std::set<BWAPI::UnitType>::const_iterator u=BWAPI::UnitTypes::allUnitTypes().begin();u!=BWAPI::UnitTypes::allUnitTypes().end();u++)
+        for (std::set<BWAPI::UnitType>::const_iterator u = BWAPI::UnitTypes::allUnitTypes().begin(); u != BWAPI::UnitTypes::allUnitTypes().end(); u++)
         {
-          std::pair<const BWAPI::UnitType*,int> requiredUnits[3];
+          std::pair<const BWAPI::UnitType*, int> requiredUnits[3];
           BW::UnitType bwu((BW::UnitID::Enum)u->getID());
-          requiredUnits[0]=requiredUnits[1]=requiredUnits[2]=std::make_pair((BWAPI::UnitType*)NULL,0);
-          int i=0;
-          for(std::map<const BWAPI::UnitType*,int>::const_iterator r=u->requiredUnits().begin();r!=u->requiredUnits().end();r++)
+          requiredUnits[0] = requiredUnits[1] = requiredUnits[2] = std::make_pair((BWAPI::UnitType*)NULL, 0);
+          int i = 0;
+          for (std::map<const BWAPI::UnitType*, int>::const_iterator r = u->requiredUnits().begin(); r != u->requiredUnits().end(); r++)
           {
-            requiredUnits[i++]=*r;
+            requiredUnits[i++] = *r;
           }
 
           unitData << "      unitTypeData[" << Util::Strings::stringToVariableName(u->getName()) << ".getID()].set(\""
-                   << u->getName() << "\",\"";
-          if (*u!=UnitTypes::None && *u!=UnitTypes::Unknown)
+          << u->getName() << "\",\"";
+          if (*u != UnitTypes::None && *u != UnitTypes::Unknown)
           {
             unitData << std::string(bwu.getSubLabel());
           }
           unitData << "\",Races::" << Util::Strings::stringToVariableName(u->getRace().getName()) << ",&("
-                   << Util::Strings::stringToVariableName(u->whatBuilds().first->getName()) << "),"
-                   << u->whatBuilds().second << ",";
-          for(int i=0;i<3;i++)
+          << Util::Strings::stringToVariableName(u->whatBuilds().first->getName()) << "),"
+          << u->whatBuilds().second << ",";
+          for (int i = 0; i < 3; i++)
           {
-            if (requiredUnits[i].first==NULL)
+            if (requiredUnits[i].first == NULL)
             {
               unitData << "NULL,";
             }
@@ -660,32 +660,32 @@ namespace BWAPI
             unitData << requiredUnits[i].second << ",";
           }
           unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u->requiredTech()->getName()) << "),";
-          if (*u!=UnitTypes::None && *u!=UnitTypes::Unknown)
+          if (*u != UnitTypes::None && *u != UnitTypes::Unknown)
           {
-          unitData << "&(UpgradeTypes::"
-                   << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),"
-                   << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
-                   << (int)bwu.armor() << "," << (int)bwu.mineralPrice() << "," << (int)bwu.gasPrice() << ","
-                   << (int)bwu.buildTime() << "," << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << ","
-                   << (int)bwu.spaceRequired() << "," << (int)bwu.spaceProvided() << "," << (int)bwu.buildScore() << ","
-                   << (int)bwu.destroyScore() << ",&(UnitSizeTypes::" << BWAPI::UnitSizeType((int)bwu.size()).getName() << ")," << (int)bwu.tileWidth() << ","
-                   << (int)bwu.tileHeight() << "," << (int)bwu.dimensionLeft() << "," << (int)bwu.dimensionUp() << ","
-                   << (int)bwu.dimensionRight() << "," << (int)bwu.dimensionDown() << "," << (int)bwu.seekRange() << ","
-                   << (int)bwu.sightRange() << ",&(WeaponTypes::"
-                   << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.groundWeapon()).getName()) << "),"
-                   << (int)bwu.maxGroundHits() << ",&(WeaponTypes::"
-                   << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.airWeapon()).getName()) << "),"
-                   << (int)bwu.maxAirHits() << "," << (int)bwu.topSpeed() << "," << (int)bwu.acceleration() << ","
-                   << (int)bwu.haltDistance() << "," << (int)bwu.turnRadius() << ","
-                   << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove() << ","
-                   << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster() << ","
-                   << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic() << ","
-                   << bwu.isMechanical() << "," << bwu.isRobotic() << "," << bwu.isDetector() << ","
-                   << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker() << ","
-                   << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg() << ","
-                   << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding() << ","
-                   << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral()
-                   << ");\n";
+            unitData << "&(UpgradeTypes::"
+            << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),"
+            << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
+            << (int)bwu.armor() << "," << (int)bwu.mineralPrice() << "," << (int)bwu.gasPrice() << ","
+            << (int)bwu.buildTime() << "," << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << ","
+            << (int)bwu.spaceRequired() << "," << (int)bwu.spaceProvided() << "," << (int)bwu.buildScore() << ","
+            << (int)bwu.destroyScore() << ",&(UnitSizeTypes::" << BWAPI::UnitSizeType((int)bwu.size()).getName() << ")," << (int)bwu.tileWidth() << ","
+            << (int)bwu.tileHeight() << "," << (int)bwu.dimensionLeft() << "," << (int)bwu.dimensionUp() << ","
+            << (int)bwu.dimensionRight() << "," << (int)bwu.dimensionDown() << "," << (int)bwu.seekRange() << ","
+            << (int)bwu.sightRange() << ",&(WeaponTypes::"
+            << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.groundWeapon()).getName()) << "),"
+            << (int)bwu.maxGroundHits() << ",&(WeaponTypes::"
+            << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.airWeapon()).getName()) << "),"
+            << (int)bwu.maxAirHits() << "," << (int)bwu.topSpeed() << "," << (int)bwu.acceleration() << ","
+            << (int)bwu.haltDistance() << "," << (int)bwu.turnRadius() << ","
+            << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove() << ","
+            << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster() << ","
+            << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic() << ","
+            << bwu.isMechanical() << "," << bwu.isRobotic() << "," << bwu.isDetector() << ","
+            << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker() << ","
+            << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg() << ","
+            << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding() << ","
+            << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral()
+            << ");\n";
           }
           else
           {
@@ -694,38 +694,38 @@ namespace BWAPI
         }
         unitData.close();
       }
-      else if (parsed[1]=="weapon")
+      else if (parsed[1] == "weapon")
       {
         std::ofstream weaponData;
         weaponData.open ("bwapi-data/weaponData.txt");
-        for(std::set<BWAPI::WeaponType>::const_iterator w=BWAPI::WeaponTypes::allWeaponTypes().begin();w!=BWAPI::WeaponTypes::allWeaponTypes().end();w++)
+        for (std::set<BWAPI::WeaponType>::const_iterator w = BWAPI::WeaponTypes::allWeaponTypes().begin(); w != BWAPI::WeaponTypes::allWeaponTypes().end(); w++)
         {
           BW::WeaponType bww((BW::WeaponID::Enum)w->getID());
 
           weaponData << "      weaponTypeData[" << Util::Strings::stringToVariableName(w->getName()) << ".getID()].set(\""
-                     << w->getName() << "\",";
-          if (*w==BWAPI::WeaponTypes::None || *w==BWAPI::WeaponTypes::Unknown)
+          << w->getName() << "\",";
+          if (*w == BWAPI::WeaponTypes::None || *w == BWAPI::WeaponTypes::Unknown)
           {
             weaponData << "0,0,0,0,&(UpgradeTypes::None),&(DamageTypes::None),&(ExplosionTypes::None),0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
           }
           else
           {
             weaponData << (int)bww.damageAmount() << "," << (int)bww.damageBonus() << ","
-                       << (int)bww.damageCooldown() << "," << (int)bww.damageFactor() << ",&(UpgradeTypes::"
-                       << Util::Strings::stringToVariableName(bww.upgradeType().getName()) << "),&(DamageTypes::"
-                       << Util::Strings::stringToVariableName(BWAPI::DamageType(bww.damageType()).getName()) << "),&(ExplosionTypes::"
-                       << Util::Strings::stringToVariableName(BWAPI::ExplosionType(bww.explosionType()).getName())
-                       << ")," << bww.minRange() << "," << bww.maxRange() << "," << bww.innerSplashRadius() << ","
-                       << bww.medianSplashRadius() << "," << bww.outerSplashRadius() << "," << bww.targetsAir() << ","
-                       << bww.targetsGround() << "," << bww.targetsMechanical() << "," << bww.targetsOrganic() << ","
-                       << bww.targetsNonBuilding() << "," << bww.targetsNonRobotic() << "," << bww.targetsTerrain() << ","
-                       << bww.targetsOrgOrMech() << "," << bww.targetsOwn()
-                       << ");\n";
+            << (int)bww.damageCooldown() << "," << (int)bww.damageFactor() << ",&(UpgradeTypes::"
+            << Util::Strings::stringToVariableName(bww.upgradeType().getName()) << "),&(DamageTypes::"
+            << Util::Strings::stringToVariableName(BWAPI::DamageType(bww.damageType()).getName()) << "),&(ExplosionTypes::"
+            << Util::Strings::stringToVariableName(BWAPI::ExplosionType(bww.explosionType()).getName())
+            << ")," << bww.minRange() << "," << bww.maxRange() << "," << bww.innerSplashRadius() << ","
+            << bww.medianSplashRadius() << "," << bww.outerSplashRadius() << "," << bww.targetsAir() << ","
+            << bww.targetsGround() << "," << bww.targetsMechanical() << "," << bww.targetsOrganic() << ","
+            << bww.targetsNonBuilding() << "," << bww.targetsNonRobotic() << "," << bww.targetsTerrain() << ","
+            << bww.targetsOrgOrMech() << "," << bww.targetsOwn()
+            << ");\n";
           }
         }
         weaponData.close();
       }
-      else if (parsed[1]=="unitsDat")
+      else if (parsed[1] == "unitsDat")
       {
 
         struct unitsDat_Unknown
@@ -735,21 +735,21 @@ namespace BWAPI
         static unitsDat_Unknown* BWDATA_UnitUnknown = (unitsDat_Unknown*) BW::unitsDat[25].address;
         std::ofstream unitsDat;
         unitsDat.open("bwapi-data/unitsDat.txt");
-        for(std::set<UnitType>::const_iterator i=UnitTypes::allUnitTypes().begin();i!=UnitTypes::allUnitTypes().end();i++)
+        for (std::set<UnitType>::const_iterator i = UnitTypes::allUnitTypes().begin(); i != UnitTypes::allUnitTypes().end(); i++)
         {
           BW::UnitType bwu((BW::UnitID::Enum)i->getID());
-            unitsDat <<"(" << i->getID() << ")" << i->getName() << ", seek range: " << (int)bwu.seekRange() << "\n";
+          unitsDat << "(" << i->getID() << ")" << i->getName() << ", seek range: " << (int)bwu.seekRange() << "\n";
 
-            //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getName() << "\n";
-            //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getName() << "\n";
+          //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getName() << "\n";
+          //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getName() << "\n";
         }
         unitsDat.close();
       }
-      else if (parsed[1]=="weaponsDat")
+      else if (parsed[1] == "weaponsDat")
       {
         std::ofstream weaponsDat;
         weaponsDat.open("bwapi-data/weaponsDat.txt");
-        for(std::set<WeaponType>::const_iterator i=WeaponTypes::allWeaponTypes().begin();i!=WeaponTypes::allWeaponTypes().end();i++)
+        for (std::set<WeaponType>::const_iterator i = WeaponTypes::allWeaponTypes().begin(); i != WeaponTypes::allWeaponTypes().end(); i++)
         {
           weaponsDat << i->getID() << ": " << std::string(i->getName()) << "\n";
           weaponsDat << "  damage amount:" << i->damageAmount() << "\n";
@@ -778,27 +778,27 @@ namespace BWAPI
       }
       else if (parsed[1] == "data")
       {
-        if (savedSelectionStates[0]!=NULL)
+        if (savedSelectionStates[0] != NULL)
         {
-          BW::Unit* unit=savedSelectionStates[0];
-          Util::Logger::globalLog->log("Unit address: %x",unit);
-          for(__int8 i=0;i<BW::UNIT_SIZE_IN_BYTES;i++)
+          BW::Unit* unit = savedSelectionStates[0];
+          Util::Logger::globalLog->log("Unit address: %x", unit);
+          for (__int8 i = 0; i < BW::UNIT_SIZE_IN_BYTES; i++)
           {
-            Util::Logger::globalLog->log("%x: %x",i,((__int8*)unit)[i]%256);
+            Util::Logger::globalLog->log("%x: %x", i, ((__int8*)unit)[i] % 256);
           }
         }
       }
       else if (parsed[1] == "first")
       {
-        for(int i=0;i<12;i++)
+        for (int i = 0; i < 12; i++)
         {
-          if (this->players[i]->getFirst()!=NULL)
+          if (this->players[i]->getFirst() != NULL)
           {
-            this->print("%d - %x",i,this->players[i]->getFirst());
+            this->print("%d - %x", i, this->players[i]->getFirst());
           }
           else
           {
-            this->print("%d - NULL",i);
+            this->print("%d - NULL", i);
           }
         }
       }
@@ -846,103 +846,103 @@ namespace BWAPI
         }
       }
       else if (parsed[1] == "unitCount")
-      { 
+      {
 
         BWAPI::UnitType unit = BWAPI::UnitTypes::None;
-        bool all=true;
+        bool all = true;
         if (parsed[2] != "")
         {
-          std::string unitName= message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
+          std::string unitName = message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
           unit = BWAPI::UnitTypes::getUnitType(unitName);
-          all=false;
+          all = false;
         }
         if (unit == BWAPI::UnitTypes::None || !all)
-        { 
+        {
           this->print("Unknown unit name 'None'");
           return true;
         }
         this->print("Count of %s's:", unit.getName());
         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         {
-          int count=0;
+          int count = 0;
           if (all)
           {
-            for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
+            for (int j = 0; j < BW::UNIT_TYPE_COUNT; j++)
             {
-              count+=this->players[i]->getAllUnits(BWAPI::UnitType(j));
+              count += this->players[i]->getAllUnits(BWAPI::UnitType(j));
             }
           }
           else
           {
-            count=this->players[i]->getAllUnits(unit);
+            count = this->players[i]->getAllUnits(unit);
           }
-          this->print("Counted %d units for player %d.", count, i+1);
+          this->print("Counted %d units for player %d.", count, i + 1);
         }
       }
       else if (parsed[1] == "unfinishedCount")
-      { 
+      {
         BWAPI::UnitType unit = BWAPI::UnitTypes::None;
-        bool all=true;
+        bool all = true;
         if (parsed[2] != "")
         {
-          std::string unitName= message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
+          std::string unitName = message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
           unit = BWAPI::UnitTypes::getUnitType(unitName);
-          all=false;
+          all = false;
         }
         if (unit == BWAPI::UnitTypes::None || !all)
-        { 
+        {
           this->print("Unknown unit name 'None'");
           return true;
         }
         this->print("Count of unfinished %s's:", unit.getName());
         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         {
-          int count=0;
+          int count = 0;
           if (all)
           {
-            for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
+            for (int j = 0; j < BW::UNIT_TYPE_COUNT; j++)
             {
-              count+=this->players[i]->getIncompleteUnits(BWAPI::UnitType(j));
+              count += this->players[i]->getIncompleteUnits(BWAPI::UnitType(j));
             }
           }
           else
           {
-            count=this->players[i]->getIncompleteUnits(unit);
+            count = this->players[i]->getIncompleteUnits(unit);
           }
-          this->print("Counted %d units for player %d.", count, i+1);
+          this->print("Counted %d units for player %d.", count, i + 1);
         }
       }
       else if (parsed[1] == "completedCount")
-      { 
+      {
         BWAPI::UnitType unit = BWAPI::UnitTypes::None;
-        bool all=true;
+        bool all = true;
         if (parsed[2] != "")
         {
-          std::string unitName= message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
+          std::string unitName = message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
           unit = BWAPI::UnitTypes::getUnitType(unitName);
-          all=false;
+          all = false;
         }
         if (unit == BWAPI::UnitTypes::None || !all)
-        { 
+        {
           this->print("Unknown unit name 'None'");
           return true;
         }
         this->print("Count of completed %s's:", unit.getName());
         for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         {
-          int count=0;
+          int count = 0;
           if (all)
           {
-            for(int j=0;j<BW::UNIT_TYPE_COUNT;j++)
+            for (int j = 0; j < BW::UNIT_TYPE_COUNT; j++)
             {
-              count+=this->players[i]->getCompletedUnits(BWAPI::UnitType(j));
+              count += this->players[i]->getCompletedUnits(BWAPI::UnitType(j));
             }
           }
           else
           {
-            count=this->players[i]->getCompletedUnits(unit);
+            count = this->players[i]->getCompletedUnits(unit);
           }
-          this->print("Counted %d units for player %d.", count, i+1);
+          this->print("Counted %d units for player %d.", count, i + 1);
         }
       }
       else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState, unitCount", parsed[1].c_str());
@@ -960,7 +960,7 @@ namespace BWAPI
         ScreenLogger::shut = false;
         this->print("Screen log unshutted");
       }
-      else 
+      else
         this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1].c_str());
       return true;
     }
@@ -1011,67 +1011,67 @@ namespace BWAPI
     this->setOnStartCalled(false);
     this->client->onEnd();
     delete this->client;
-    this->client=NULL;
+    this->client = NULL;
     this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
-    for(int i=0;i<13;i++)
+    for (int i = 0; i < 13; i++)
     {
-      this->savedSelectionStates[i]=NULL;
+      this->savedSelectionStates[i] = NULL;
     }
     this->selectedUnitSet.clear();
-    this->reselected=false;
-    this->startedClient=false;
+    this->reselected = false;
+    this->startedClient = false;
 
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
-  { 
-    this->IssueCommand((PBYTE)&BW::Orders::StartGame(),sizeof(BW::Orders::StartGame));
+  {
+    this->IssueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
   void GameImpl::pauseGame()
-  { 
-    this->IssueCommand((PBYTE)&BW::Orders::PauseGame(),sizeof(BW::Orders::PauseGame));
+  {
+    this->IssueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
   void GameImpl::resumeGame()
-  { 
-    this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(),sizeof(BW::Orders::ResumeGame));
+  {
+    this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX() const
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
       return 0;
     return *(BW::BWDATA_MouseX);
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY() const
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
       return 0;
     return *(BW::BWDATA_MouseY);
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX() const
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
       return 0;
     return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int GameImpl::getScreenY() const
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
       return 0;
     return *(BW::BWDATA_ScreenY);
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
-  void GameImpl::setScreenPosition(int x,int y)
+  void GameImpl::setScreenPosition(int x, int y)
   {
-    *(BW::BWDATA_ScreenX)=x;
-    *(BW::BWDATA_ScreenY)=y;
+    *(BW::BWDATA_ScreenX) = x;
+    *(BW::BWDATA_ScreenY) = y;
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::_getMouseX() const
@@ -1094,14 +1094,14 @@ namespace BWAPI
     return *(BW::BWDATA_ScreenY);
   }
   //----------------------------------------------------------------------------------------------------------
-  #pragma warning(push)
-  #pragma warning(disable:4312)
+#pragma warning(push)
+#pragma warning(disable:4312)
   void GameImpl::refresh()
   {
     void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWFXN_Refresh;
     refresh();
   }
-  #pragma warning(pop)
+#pragma warning(pop)
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
   {
@@ -1124,10 +1124,10 @@ namespace BWAPI
   //--------------------------------------------- LOAD SELECTED ----------------------------------------------
   void GameImpl::loadSelected()
   {
-     if (!this->reselected)
-     {
-       return;
-     }
+    if (!this->reselected)
+    {
+      return;
+    }
 
     int unitCount = 0;
     while (savedSelectionStates[unitCount] != NULL)
@@ -1140,7 +1140,7 @@ namespace BWAPI
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   const std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits() const
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput)==false)
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
       return emptySet;
     return selectedUnitSet;
   }
@@ -1158,7 +1158,7 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-  void GameImpl::onRemoveUnit(BW::Unit *unit)
+  void GameImpl::onRemoveUnit(BW::Unit* unit)
   {
     this->client->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit(unit));
   }
@@ -1174,7 +1174,7 @@ namespace BWAPI
   {
     this->unitSum->log("----------------------------------------");
     for each (UnitImpl* i in this->units)
-       this->unitSum->log("%s", i->getName().c_str());
+      this->unitSum->log("%s", i->getName().c_str());
     this->unitSum->log("----------------------------------------");
   }
   //----------------------------------------------- GET FIRST ------------------------------------------------
@@ -1190,17 +1190,17 @@ namespace BWAPI
   //--------------------------------------- PRINT UNIT COUNT PER TILE ----------------------------------------
   void GameImpl::printUnitCountPerTile()
   {
-    FILE *f = fopen("unit-counts.txt", "wt");
-    for (int y = 0; y < Map::getHeight();y++)
+    FILE* f = fopen("unit-counts.txt", "wt");
+    for (int y = 0; y < Map::getHeight(); y++)
     {
       for (int x = 0; x < Map::getWidth(); x++)
       {
-        if (this->map.buildable(x,y))
-          fprintf_s(f, "%d", this->unitsOnTile(x,y).size());
+        if (this->map.buildable(x, y))
+          fprintf_s(f, "%d", this->unitsOnTile(x, y).size());
         else
           fprintf_s(f, "X");
       }
-      fprintf_s(f,"\n");
+      fprintf_s(f, "\n");
     }
     fclose(f);
   }
@@ -1214,10 +1214,10 @@ namespace BWAPI
     for each (UnitImpl* i in this->units)
       if (i->isValid())
       {
-        int startX =   (i->getPosition().x() - i->getType().dimensionLeft())/BW::TILE_SIZE;
-        int endX   =   (i->getPosition().x() + i->getType().dimensionRight() + BW::TILE_SIZE - 1)/BW::TILE_SIZE; // Division - round up
-        int startY =   (i->getPosition().y() - i->getType().dimensionUp())/BW::TILE_SIZE;
-        int endY =     (i->getPosition().y() + i->getType().dimensionDown() + BW::TILE_SIZE - 1)/BW::TILE_SIZE;
+        int startX =   (i->getPosition().x() - i->getType().dimensionLeft()) / BW::TILE_SIZE;
+        int endX   =   (i->getPosition().x() + i->getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+        int startY =   (i->getPosition().y() - i->getType().dimensionUp()) / BW::TILE_SIZE;
+        int endY =     (i->getPosition().y() + i->getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
             this->unitsOnTileData[x][y].insert(i);
@@ -1241,7 +1241,7 @@ namespace BWAPI
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
   void GameImpl::setLastError(BWAPI::Error e)
   {
-    this->lastError=e;
+    this->lastError = e;
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool GameImpl::isFlagEnabled(BWAPI::Flag::Enum flag) const
@@ -1251,17 +1251,17 @@ namespace BWAPI
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
   void GameImpl::enableFlag(BWAPI::Flag::Enum flag)
   {
-    if (this->flagsLocked==true)
+    if (this->flagsLocked == true)
     {
       this->printPublic("Flags can only be enabled at the start of a game.");
       return;
     }
-    this->flags[flag]=true;
-    if (flag==BWAPI::Flag::CompleteMapInformation)
+    this->flags[flag] = true;
+    if (flag == BWAPI::Flag::CompleteMapInformation)
     {
       this->printPublic("Enabled Flag CompleteMapInformation");
     }
-    if (flag==BWAPI::Flag::UserInput)
+    if (flag == BWAPI::Flag::UserInput)
     {
       this->printPublic("Enabled Flag UserInput");
     }
@@ -1269,7 +1269,7 @@ namespace BWAPI
   //-------------------------------------------------- LOCK FLAGS --------------------------------------------
   void GameImpl::lockFlags()
   {
-    this->flagsLocked=true;
+    this->flagsLocked = true;
   }
   //----------------------------------------------------- SELF -----------------------------------------------
   Player* GameImpl::self() const
@@ -1288,48 +1288,48 @@ namespace BWAPI
   }
   void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    addShape(new ShapeBox(ctype,left,top,right,bottom,color.getID(),isSolid));
+    addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
   }
   void GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    addShape(new ShapeTriangle(ctype,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
+    addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
   void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
-    addShape(new ShapeDot(ctype,x,y,color.getID()));
+    addShape(new ShapeDot(ctype, x, y, color.getID()));
   }
   void GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
-    addShape(new ShapeCircle(ctype,x,y,radius,color.getID(),isSolid));
+    addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
   }
   void GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    addShape(new ShapeEllipse(ctype,x,y,xrad,yrad,color.getID(),isSolid));
+    addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
   }
   void GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
-    int screen_x1=x1;
-    int screen_y1=y1;
-    int screen_x2=x2;
-    int screen_y2=y2;
-    if (ctype==2)
+    int screen_x1 = x1;
+    int screen_y1 = y1;
+    int screen_x2 = x2;
+    int screen_y2 = y2;
+    if (ctype == 2)
     {
-      screen_x1=x1-BWAPI::BroodwarImpl._getScreenX();
-      screen_y1=y1-BWAPI::BroodwarImpl._getScreenY();
-      screen_x2=x2-BWAPI::BroodwarImpl._getScreenX();
-      screen_y2=y2-BWAPI::BroodwarImpl._getScreenY();
+      screen_x1 = x1 - BWAPI::BroodwarImpl._getScreenX();
+      screen_y1 = y1 - BWAPI::BroodwarImpl._getScreenY();
+      screen_x2 = x2 - BWAPI::BroodwarImpl._getScreenX();
+      screen_y2 = y2 - BWAPI::BroodwarImpl._getScreenY();
     }
-    else if (ctype==3)
+    else if (ctype == 3)
     {
-      screen_x1=x1+BWAPI::BroodwarImpl._getMouseX();
-      screen_y1=y1+BWAPI::BroodwarImpl._getMouseY();
-      screen_x2=x2+BWAPI::BroodwarImpl._getMouseX();
-      screen_y2=y2+BWAPI::BroodwarImpl._getMouseY();
+      screen_x1 = x1 + BWAPI::BroodwarImpl._getMouseX();
+      screen_y1 = y1 + BWAPI::BroodwarImpl._getMouseY();
+      screen_x2 = x2 + BWAPI::BroodwarImpl._getMouseX();
+      screen_y2 = y2 + BWAPI::BroodwarImpl._getMouseY();
     }
-    if ((screen_x1<0 && screen_x2<0) ||
-        (screen_y1<0 && screen_y2<0) ||
-        (screen_x1>640 && screen_x2>640) ||
-        (screen_y1>480 && screen_y2>480)) return;
-    addShape(new ShapeLine(ctype,x1,y1,x2,y2,color.getID()));
+    if ((screen_x1 < 0 && screen_x2 < 0) ||
+        (screen_y1 < 0 && screen_y2 < 0) ||
+        (screen_x1 > 640 && screen_x2 > 640) ||
+        (screen_y1 > 480 && screen_y2 > 480)) return;
+    addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
   }
 };
