@@ -96,6 +96,7 @@ namespace BWAPI
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
        */
+      virtual bool inReplay() const;
       virtual void startGame();
       virtual void pauseGame();
       virtual void resumeGame();
@@ -133,7 +134,7 @@ namespace BWAPI
       void lockFlags();
       bool enabled;
       bool isOnStartCalled() const;
-      bool isInGame() const;
+      bool inGame() const;
       void setLastError(BWAPI::Error e);
 
       /** @todo Doesn't work */

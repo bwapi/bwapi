@@ -30,7 +30,7 @@ namespace BWAPI
   {
     public:
 
-      virtual Player* getOwner() const;
+      virtual Player* getPlayer() const;
       virtual UnitType getType() const;
       virtual int health() const;
       virtual int shield() const;

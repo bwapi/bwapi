@@ -242,7 +242,7 @@ namespace BWAI
     if (this->getOwner() != NULL)
       sprintf_s(owner, 100, "Player = (NULL)");
     else
-      sprintf_s(owner, 100, "Player = (%s)", this->unit->getOwner()->getName().c_str());
+      sprintf_s(owner, 100, "Player = (%s)", this->unit->getPlayer()->getName().c_str());
 
     sprintf_s(unitName, 100, "(%s)", this->getType().getName().c_str());
 
@@ -356,7 +356,7 @@ namespace BWAI
   //------------------------------------------------ GET OWNER -----------------------------------------------
   Player* Unit::getOwner() const
   {
-    return ai->getPlayer(this->unit->getOwner());
+    return ai->getPlayer(this->unit->getPlayer());
   }
   //----------------------------------------------- IS SELECTED ----------------------------------------------
   bool Unit::isSelected() const

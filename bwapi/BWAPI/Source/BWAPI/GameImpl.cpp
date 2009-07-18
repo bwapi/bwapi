@@ -245,7 +245,7 @@ namespace BWAPI
     std::set<Unit*> units;
     for(std::set<UnitImpl*>::const_iterator i=this->units.begin();i!=this->units.end();i++)
     {
-      if (((PlayerImpl*)(*i)->getOwner())->getID()==11)
+      if (((PlayerImpl*)(*i)->getPlayer())->getID()==11)
         units.insert((Unit*)(*i));
     }
     return units;
@@ -269,7 +269,6 @@ namespace BWAPI
         this->onGameStart();
       if (!this->enabled)
         return;
-
       memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -358,8 +357,8 @@ namespace BWAPI
         this->client = newAIModule(this);
         Util::Logger::globalLog->logCritical("Created an Object of AIModule");
       }
-      this->client->onFrame();
       this->client->onStart();
+      this->client->onFrame();
       this->lockFlags();
       if (loaded)
       {
@@ -371,6 +370,7 @@ namespace BWAPI
       }
       this->startedClient=true;
     }
+
     this->client->onFrame();
     this->loadSelected();
     if(WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
@@ -405,13 +405,19 @@ namespace BWAPI
   }
   #pragma warning(push)
   #pragma warning(disable:4312)
-  //----------------------------------------------- IS IN GAME -----------------------------------------------
-  bool GameImpl::isInGame() const
+  //------------------------------------------------ IN GAME -------------------------------------------------
+  bool GameImpl::inGame() const
   {
-    return *(BW::BWDATA_InGame) == 0;
+    return *(BW::BWDATA_InGame) != 0;
+  }
+  //----------------------------------------------- IN REPLAY ------------------------------------------------
+  bool GameImpl::inReplay() const
+  {
+    return *(BW::BWDATA_InReplay) != 0;
   }
   const int BUFFER_SIZE = 2048;
   char buffer[BUFFER_SIZE];
+
   //------------------------------------------------- PRINT --------------------------------------------------
   void GameImpl::print(const char *text, ...)
   {
@@ -431,7 +437,7 @@ namespace BWAPI
     va_end(ap);
     
     char* txtout = buffer;
-    if (*BW::BWDATA_InGame)
+    if (inGame() || inReplay())
       __asm
       {
         pushad
@@ -447,13 +453,23 @@ namespace BWAPI
   //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
   void GameImpl::printPublic(const char *text, ...)
   {
+    if (inReplay())
+    {
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
+      va_end(ap);
+      
+      printEx(8, buffer);
+      return;
+    }
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap); 
     va_end(ap);
     
     char* txtout = buffer;
-    if (*(BW::BWDATA_InGame))
+    if (inGame() || inReplay())
     {
       memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
       __asm
@@ -508,30 +524,35 @@ namespace BWAPI
     map.load();
 
     if (*(BW::BWDATA_InReplay))
-      return;
+    {
+      for(int i=0;i<FLAG_COUNT;i++)
+        this->flags[i]=true;
+      this->flagsLocked=false;
+    }
+    else
+    {
+      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+        if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
+          this->BWAPIPlayer = this->players[i];
 
-    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-      if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
-        this->BWAPIPlayer = this->players[i];
+      if (this->BWAPIPlayer == NULL ||
+          this->BWAPIPlayer->getForceName() == "Observers" ||
+          this->BWAPIPlayer->getForceName() == "Observer")
+        {
+          this->BWAPIPlayer = NULL;
+          return;
+        }
 
-    if (this->BWAPIPlayer == NULL ||
-        this->BWAPIPlayer->getForceName() == "Observers" ||
-        this->BWAPIPlayer->getForceName() == "Observer")
-      {
-        this->BWAPIPlayer = NULL;
-        return;
-      }
-
-    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-      if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
-           this->players[i]->playerType() == BW::PlayerType::Human ||
-           this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
-           this->opponent == NULL &&
-           this->players[i]->getForceName() != "Observers" &&
-           this->players[i]->getForceName() != "Observer" &&
-           this->BWAPIPlayer->getAlliance(i) == 0)
-        this->opponent = this->players[i];
-
+      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+        if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
+             this->players[i]->playerType() == BW::PlayerType::Human ||
+             this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
+             this->opponent == NULL &&
+             this->players[i]->getForceName() != "Observers" &&
+             this->players[i]->getForceName() != "Observer" &&
+             this->BWAPIPlayer->getAlliance(i) == 0)
+          this->opponent = this->players[i];
+    }
     BW::Positions* posptr = BW::startPositions;
     startLocations.clear();
     while (posptr->x != 0 || posptr->y != 0)

@@ -15,7 +15,7 @@ namespace BWAPI
   class Unit
   {
   public:
-    virtual Player* getOwner() const=0;
+    virtual Player* getPlayer() const=0;
     virtual UnitType getType() const=0;
     virtual int health() const=0;
     virtual int shield() const=0;

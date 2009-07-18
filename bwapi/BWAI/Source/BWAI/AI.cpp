@@ -1163,9 +1163,9 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%d",unit);
         }
-        else if (parsed[1] == "getOwner")
+        else if (parsed[1] == "getPlayer")
         {
-          BWAPI::Broodwar->printPublic("%s [%s]",unit->getOwner()->getName().c_str(),unit->getOwner()->getRace().getName().c_str());
+          BWAPI::Broodwar->printPublic("%s [%s]",unit->getPlayer()->getName().c_str(),unit->getPlayer()->getRace().getName().c_str());
         }
         else if (parsed[1] == "getType")
         {

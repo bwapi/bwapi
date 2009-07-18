@@ -55,6 +55,7 @@ namespace BWAPI
     virtual void print(const char *text, ...)=0;
     virtual void printPublic(const char *text, ...)=0;
     virtual void changeRace(Race race)=0;
+    virtual bool inReplay() const=0;
     virtual void startGame()=0;
     virtual void pauseGame()=0;
     virtual void resumeGame()=0;

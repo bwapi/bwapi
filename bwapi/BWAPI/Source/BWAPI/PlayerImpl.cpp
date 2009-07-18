@@ -155,6 +155,11 @@ namespace BWAPI
     return BWAPI::TilePosition((int)((BW::startPositions[this->getID()].x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
                                              (int)((BW::startPositions[this->getID()].y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE));
   }
+  //----------------------------------------------- IS NEUTRAL -----------------------------------------------
+  bool PlayerImpl::isNeutral() const
+  {
+    return this->getID()==11;
+  }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   s32 PlayerImpl::getAllUnits(UnitType unit)
   {
@@ -239,7 +244,7 @@ namespace BWAPI
       this->units.clear();
       for(std::set<UnitImpl*>::iterator u=BWAPI::BroodwarImpl.units.begin();u!=BWAPI::BroodwarImpl.units.end();u++)
       {
-        if ((*u)->getOwner()==this)
+        if ((*u)->getPlayer()==this)
         {
           this->units.insert((Unit*)(*u));
         }
