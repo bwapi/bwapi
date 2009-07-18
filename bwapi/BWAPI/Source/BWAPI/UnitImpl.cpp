@@ -541,7 +541,10 @@ namespace BWAPI
       {
         BW::Unit* bwunit = (BW::Unit*)(0x4F4B58 + this->getRawDataLocal()->loadedUnitIndex[i] * BW::UNIT_SIZE_IN_BYTES);
         UnitImpl* unit = BWUnitToBWAPIUnit(bwunit);
-        unitList.push_back((Unit*)unit);
+        if (unit!=NULL)
+        {
+          unitList.push_back((Unit*)unit);
+        }
       }
     }
     return unitList;
@@ -1564,6 +1567,16 @@ namespace BWAPI
   {
     if (unit == NULL)
       return NULL;
+    int index=((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
+    if (index<0 || index>=BW::UNIT_ARRAY_MAX_LENGTH)
+    {
+      if (BroodwarImpl.invalidIndices.find(index)==BroodwarImpl.invalidIndices.end())
+      {
+        BroodwarImpl.newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x",index,unit);
+        BroodwarImpl.invalidIndices.insert(index);
+      }
+      return NULL;
+    }
     return BroodwarImpl.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336);
   }
 #pragma warning (pop)
