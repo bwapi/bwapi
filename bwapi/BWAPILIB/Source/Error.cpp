@@ -5,7 +5,7 @@
 
 namespace BWAPI
 {
-  bool initializingError=true;
+  bool initializingError = true;
   std::string errorName[16];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
@@ -29,22 +29,22 @@ namespace BWAPI
     const Error Unknown(15);
     void init()
     {
-      errorName[Unit_Not_Visible.getID()]="Unit Not Visible";
-      errorName[Unit_Not_Owned.getID()]="Unit Not Owned";
-      errorName[Incompatible_UnitType.getID()]="Incompatible UnitType";
-      errorName[Incompatible_TechType.getID()]="Incompatible TechType";
-      errorName[Incompatible_UpgradeType.getID()]="Incompatible UpgradeType";
-      errorName[Insufficient_Minerals.getID()]="Insufficient Minerals";
-      errorName[Insufficient_Gas.getID()]="Insufficient Gas";
-      errorName[Insufficient_Supply.getID()]="Insufficient Supply";
-      errorName[Insufficient_Energy.getID()]="Insufficient Energy";
-      errorName[Insufficient_Tech.getID()]="Insufficient Tech";
-      errorName[Insufficient_Ammo.getID()]="Insufficient Ammo";
-      errorName[Unbuildable_Location.getID()]="Unbuildable Location";
-      errorName[Out_Of_Range.getID()]="Out Of Range";
-      errorName[Unable_To_Hit.getID()]="Unable To Hit";
-      errorName[None.getID()]="None";
-      errorName[Unknown.getID()]="Unknown";
+      errorName[Unit_Not_Visible.getID()] = "Unit Not Visible";
+      errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
+      errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
+      errorName[Incompatible_TechType.getID()] = "Incompatible TechType";
+      errorName[Incompatible_UpgradeType.getID()] = "Incompatible UpgradeType";
+      errorName[Insufficient_Minerals.getID()] = "Insufficient Minerals";
+      errorName[Insufficient_Gas.getID()] = "Insufficient Gas";
+      errorName[Insufficient_Supply.getID()] = "Insufficient Supply";
+      errorName[Insufficient_Energy.getID()] = "Insufficient Energy";
+      errorName[Insufficient_Tech.getID()] = "Insufficient Tech";
+      errorName[Insufficient_Ammo.getID()] = "Insufficient Ammo";
+      errorName[Unbuildable_Location.getID()] = "Unbuildable Location";
+      errorName[Out_Of_Range.getID()] = "Out Of Range";
+      errorName[Unable_To_Hit.getID()] = "Unable To Hit";
+      errorName[None.getID()] = "None";
+      errorName[Unknown.getID()] = "Unknown";
       errorSet.insert(Unit_Not_Visible);
       errorSet.insert(Unit_Not_Owned);
       errorSet.insert(Incompatible_UnitType);
@@ -61,49 +61,49 @@ namespace BWAPI
       errorSet.insert(Unable_To_Hit);
       errorSet.insert(None);
       errorSet.insert(Unknown);
-      for(std::set<Error>::iterator i=errorSet.begin();i!=errorSet.end();i++)
+      for(std::set<Error>::iterator i = errorSet.begin(); i != errorSet.end(); i++)
       {
-        errorMap.insert(std::make_pair((*i).toString(),*i));
+        errorMap.insert(std::make_pair((*i).toString(), *i));
       }
-      initializingError=false;
+      initializingError = false;
     }
   }
 
   Error::Error()
   {
-    this->id=Errors::None.id;
+    this->id = Errors::None.id;
   }
   Error::Error(int id)
   {
-    this->id=id;
+    this->id = id;
     if (!initializingError)
     {
-      if (id<0 || id>=16)
+      if (id < 0 || id >= 16)
       {
-        this->id=Errors::Unknown.id;
+        this->id = Errors::Unknown.id;
       }
     }
   }
-  Error::Error(const Error &other)
+  Error::Error(const Error& other)
   {
-    this->id=other.id;
+    this->id = other.id;
   }
-  Error& Error::operator=(const Error &other)
+  Error& Error::operator=(const Error& other)
   {
-    this->id=other.id;
+    this->id = other.id;
     return *this;
   }
-  bool Error::operator==(const Error &other) const
+  bool Error::operator==(const Error& other) const
   {
-    return this->id==other.id;
+    return this->id == other.id;
   }
-  bool Error::operator!=(const Error &other) const
+  bool Error::operator!=(const Error& other) const
   {
-    return this->id!=other.id;
+    return this->id != other.id;
   }
-  bool Error::operator<(const Error &other) const
+  bool Error::operator<(const Error& other) const
   {
-    return this->id<other.id;
+    return this->id < other.id;
   }
   int Error::getID() const
   {
@@ -113,10 +113,10 @@ namespace BWAPI
   {
     return errorName[this->id];
   }
-  Error Errors::getError(std::string &name)
+  Error Errors::getError(std::string& name)
   {
-    std::map<std::string, Error>::iterator i=errorMap.find(name);
-    if (i==errorMap.end()) return Errors::Unknown;
+    std::map<std::string, Error>::iterator i = errorMap.find(name);
+    if (i == errorMap.end()) return Errors::Unknown;
     return (*i).second;
   }
   std::set<Error>& Errors::allErrors()

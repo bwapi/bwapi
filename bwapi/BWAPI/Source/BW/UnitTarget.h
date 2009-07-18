@@ -16,8 +16,8 @@ namespace BW
    *    is unit index + 1 << 11 (1 in the binary code on 11th place)
    *
    */
-  #pragma pack(1)
- class UnitTarget
+#pragma pack(1)
+  class UnitTarget
   {
     public :
       /** Default contructor, sets x and y to 0. */
@@ -27,5 +27,5 @@ namespace BW
     private :
       u16 targetID; /**< Unit index pointer stored in the way bw understands it */
   };
-  #pragma pack()
+#pragma pack()
 }

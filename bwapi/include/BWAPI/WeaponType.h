@@ -8,43 +8,43 @@ namespace BWAPI
   class ExplosionType;
   class WeaponType
   {
-  public:
-    WeaponType();
-    WeaponType(int id);
-    WeaponType(const WeaponType &other);
-    WeaponType& operator=(const WeaponType &other);
-    bool operator==(const WeaponType &other) const;
-    bool operator!=(const WeaponType &other) const;
-    bool operator<(const WeaponType &other) const;
-    int getID() const;
-    std::string getName() const;
-    int damageAmount() const;
-    int damageBonus() const;
-    int damageCooldown() const;
-    int damageFactor() const;
-    const UpgradeType* upgradeType() const;
-    const DamageType* damageType() const;
-    const ExplosionType* explosionType() const;
-    int minRange() const;
-    int maxRange() const;
-    int innerSplashRadius() const;
-    int medianSplashRadius() const;
-    int outerSplashRadius() const;
-    bool targetsAir() const;
-    bool targetsGround() const;
-    bool targetsMechanical() const;
-    bool targetsOrganic() const;
-    bool targetsNonBuilding() const;
-    bool targetsNonRobotic() const;
-    bool targetsTerrain() const;
-    bool targetsOrgOrMech() const;
-    bool targetsOwn() const;
-  private:
-    int id;
+    public:
+      WeaponType();
+      WeaponType(int id);
+      WeaponType(const WeaponType& other);
+      WeaponType& operator=(const WeaponType& other);
+      bool operator==(const WeaponType& other) const;
+      bool operator!=(const WeaponType& other) const;
+      bool operator<(const WeaponType& other) const;
+      int getID() const;
+      std::string getName() const;
+      int damageAmount() const;
+      int damageBonus() const;
+      int damageCooldown() const;
+      int damageFactor() const;
+      const UpgradeType* upgradeType() const;
+      const DamageType* damageType() const;
+      const ExplosionType* explosionType() const;
+      int minRange() const;
+      int maxRange() const;
+      int innerSplashRadius() const;
+      int medianSplashRadius() const;
+      int outerSplashRadius() const;
+      bool targetsAir() const;
+      bool targetsGround() const;
+      bool targetsMechanical() const;
+      bool targetsOrganic() const;
+      bool targetsNonBuilding() const;
+      bool targetsNonRobotic() const;
+      bool targetsTerrain() const;
+      bool targetsOrgOrMech() const;
+      bool targetsOwn() const;
+    private:
+      int id;
   };
   namespace WeaponTypes
   {
-    WeaponType getWeaponType(std::string &name);
+    WeaponType getWeaponType(std::string& name);
     std::set<WeaponType>& allWeaponTypes();
     std::set<WeaponType>& normalWeaponTypes();
     std::set<WeaponType>& specialWeaponTypes();

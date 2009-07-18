@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandPatrol : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Patrol command (will be passed as executor 
+      /**
+       * @param executor Executor of the Patrol command (will be passed as executor
                 to Command ancestor)
        * @param targetPosition Target of the Patrol command.
        */

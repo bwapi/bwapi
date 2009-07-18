@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandRepair : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Repair command (will be passed as executor 
+      /**
+       * @param executor Executor of the Repair command (will be passed as executor
                 to Command ancestor)
        * @param targetPosition Target of the Repair command.
        */

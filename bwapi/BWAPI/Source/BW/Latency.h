@@ -5,7 +5,7 @@ namespace BW
   /** Number of frames until actions take effect @ref localData.  */
   namespace Latency
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       SinglePlayer    = 2,
       LanLow          = 5,

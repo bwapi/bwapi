@@ -14,7 +14,7 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandChangeWeights::CommandChangeWeights(TiXmlElement* xmlElement)
-  :Command(xmlElement)
+      : Command(xmlElement)
   {
     this->weights = new BuildWeights(xmlElement);
   }
@@ -30,8 +30,8 @@ namespace BuildOrder
     for (std::list<BWAI::TaskTrain*>::iterator i = BWAI::ai->plannedUnits.begin(); i != BWAI::ai->plannedUnits.end(); ++i)
       if ((*i)->getBuildingType() == this->weights->factory)
       {
-         BWAI::ai->plannedUnits.erase(i);
-         break;
+        BWAI::ai->plannedUnits.erase(i);
+        break;
       }
     BWAI::ai->plannedUnits.push_back(new BWAI::TaskTrain(this->weights, priority));
     return true;

@@ -6,9 +6,9 @@
 namespace BWAI
 {
   Player::Player(BWAPI::Player* player)
-  :player(player)
+      : player(player)
   {
-    this->player=player;
+    this->player = player;
   }
   int Player::getID()
   {
@@ -40,7 +40,7 @@ namespace BWAI
   }
   int Player::getSuppliesFree() const
   {
-    return this->player->supplyTotal()-this->player->supplyUsed();
+    return this->player->supplyTotal() - this->player->supplyUsed();
   }
   BWAPI::TilePosition Player::getStartLocation() const
   {
@@ -69,60 +69,60 @@ namespace BWAI
 
   int Player::getAllUnits(BWAI::UnitTypeGroup::Enum group) const
   {
-    int total=0;
-    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
+    int total = 0;
+    for(std::set<BWAPI::UnitType>::iterator i = BWAPI::UnitTypes::allUnitTypes().begin(); i != BWAPI::UnitTypes::allUnitTypes().end(); i++)
     {
-      if (isInUnitTypeGroup(group,*i))
+      if (isInUnitTypeGroup(group, *i))
       {
-        total+=this->player->getAllUnits(*i);
+        total += this->player->getAllUnits(*i);
       }
     }
     return total;
   }
   int Player::getCompletedUnits(BWAI::UnitTypeGroup::Enum group) const
   {
-    int total=0;
-    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
+    int total = 0;
+    for(std::set<BWAPI::UnitType>::iterator i = BWAPI::UnitTypes::allUnitTypes().begin(); i != BWAPI::UnitTypes::allUnitTypes().end(); i++)
     {
-      if (isInUnitTypeGroup(group,*i))
+      if (isInUnitTypeGroup(group, *i))
       {
-        total+=this->player->getCompletedUnits(*i);
+        total += this->player->getCompletedUnits(*i);
       }
     }
     return total;
   }
   int Player::getIncompleteUnits(BWAI::UnitTypeGroup::Enum group) const
   {
-    int total=0;
-    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
+    int total = 0;
+    for(std::set<BWAPI::UnitType>::iterator i = BWAPI::UnitTypes::allUnitTypes().begin(); i != BWAPI::UnitTypes::allUnitTypes().end(); i++)
     {
-      if (isInUnitTypeGroup(group,*i))
+      if (isInUnitTypeGroup(group, *i))
       {
-        total+=this->player->getIncompleteUnits(*i);
+        total += this->player->getIncompleteUnits(*i);
       }
     }
     return total;
   }
   int Player::getDeaths(BWAI::UnitTypeGroup::Enum group) const
   {
-    int total=0;
-    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
+    int total = 0;
+    for(std::set<BWAPI::UnitType>::iterator i = BWAPI::UnitTypes::allUnitTypes().begin(); i != BWAPI::UnitTypes::allUnitTypes().end(); i++)
     {
-      if (isInUnitTypeGroup(group,*i))
+      if (isInUnitTypeGroup(group, *i))
       {
-        total+=this->player->getDeaths(*i);
+        total += this->player->getDeaths(*i);
       }
     }
     return total;
   }
   int Player::getKills(BWAI::UnitTypeGroup::Enum group) const
   {
-    int total=0;
-    for(std::set<BWAPI::UnitType>::iterator i=BWAPI::UnitTypes::allUnitTypes().begin();i!=BWAPI::UnitTypes::allUnitTypes().end();i++)
+    int total = 0;
+    for(std::set<BWAPI::UnitType>::iterator i = BWAPI::UnitTypes::allUnitTypes().begin(); i != BWAPI::UnitTypes::allUnitTypes().end(); i++)
     {
-      if (isInUnitTypeGroup(group,*i))
+      if (isInUnitTypeGroup(group, *i))
       {
-        total+=this->player->getKills(*i);
+        total += this->player->getKills(*i);
       }
     }
     return total;
@@ -147,20 +147,20 @@ namespace BWAI
   //------------------------------------------------ CAN BUILD -----------------------------------------------
   bool Player::canBuild(BWAPI::UnitType unit) const
   {
-    for(std::map<const BWAPI::UnitType*,int>::const_iterator i=unit.requiredUnits().begin();i!=unit.requiredUnits().end();i++)
+    for(std::map<const BWAPI::UnitType*, int>::const_iterator i = unit.requiredUnits().begin(); i != unit.requiredUnits().end(); i++)
     {
-      if (this->getCompletedUnits(*(i->first))<i->second)
+      if (this->getCompletedUnits(*(i->first)) < i->second)
         return false;
     }
-    BWAPI::TechType tech=*(unit.requiredTech());
-    if (tech!=BWAPI::TechTypes::None && !this->techResearched(tech))
+    BWAPI::TechType tech = *(unit.requiredTech());
+    if (tech != BWAPI::TechTypes::None && !this->techResearched(tech))
       return false;
     return true;
   }
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BWAPI::UnitType unit) const
   {
-    if (this==ai->player)
+    if (this == ai->player)
     {
       return ((int)this->getSuppliesFree()) - ai->reserved.supply   >= unit.supplyRequired() &&
              ((int)this->getMinerals())     - ai->reserved.minerals >= unit.mineralPrice() &&
@@ -183,7 +183,7 @@ namespace BWAI
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BWAPI::TechType tech) const
   {
-    if (this==ai->player)
+    if (this == ai->player)
     {
       return ((int)this->getMinerals()) - ai->reserved.minerals >= tech.mineralPrice() &&
              ((int)this->getGas())      - ai->reserved.gas      >= tech.gasPrice();
@@ -197,15 +197,15 @@ namespace BWAI
   //----------------------------------------------- CAN AFFORD -----------------------------------------------
   bool Player::canAfford(BWAPI::UpgradeType upgrade, int level) const
   {
-    if (this==ai->player)
+    if (this == ai->player)
     {
-      return ((int)this->getMinerals()) - ai->reserved.minerals >= upgrade.mineralPriceBase() + upgrade.mineralPriceFactor()*(level-1) &&
-             ((int)this->getGas())      - ai->reserved.gas      >= upgrade.gasPriceBase()     + upgrade.gasPriceFactor()    *(level-1);
+      return ((int)this->getMinerals()) - ai->reserved.minerals >= upgrade.mineralPriceBase() + upgrade.mineralPriceFactor() * (level - 1) &&
+             ((int)this->getGas())      - ai->reserved.gas      >= upgrade.gasPriceBase()     + upgrade.gasPriceFactor()    * (level - 1);
     }
     else
     {
-      return ((int)this->getMinerals()) >= upgrade.mineralPriceBase() + upgrade.mineralPriceFactor()*(level-1) &&
-             ((int)this->getGas())      >= upgrade.gasPriceBase()     + upgrade.gasPriceFactor()    *(level-1);
+      return ((int)this->getMinerals()) >= upgrade.mineralPriceBase() + upgrade.mineralPriceFactor() * (level - 1) &&
+             ((int)this->getGas())      >= upgrade.gasPriceBase()     + upgrade.gasPriceFactor()    * (level - 1);
     }
   }
 }

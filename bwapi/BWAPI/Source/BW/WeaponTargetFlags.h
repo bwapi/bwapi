@@ -5,7 +5,7 @@ namespace BW
   /** Weapon target flags */
   namespace WeaponTargetFlags
   {
-    enum Enum : u16
+  enum Enum : u16
     {
       Air          = 1 << 0,
       Ground       = 1 << 1,

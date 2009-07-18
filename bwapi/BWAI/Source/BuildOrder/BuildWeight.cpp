@@ -15,7 +15,7 @@ namespace BuildOrder
     TiXmlElement* conditionElement = element->FirstChildElement("condition");
     if (conditionElement != NULL)
       this->condition = Condition::load(conditionElement);
-    else 
+    else
       this->condition = NULL;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

@@ -46,15 +46,15 @@ namespace BWAI
   {
     lua_close(lua);
   } // destructor
-  
-  bool LUA::executeFile(const char *fn)
+
+  bool LUA::executeFile(const char* fn)
   {
     if(luaL_dofile(lua, fn) != 0)
       return false;
     return true;
   } // executeFile
 // ======================================== Send text
-  int LUA::sendText(lua_State *l)
+  int LUA::sendText(lua_State* l)
   {
     if(lua_gettop(l) != 1)
     {
@@ -69,13 +69,13 @@ namespace BWAI
     }
 
     BWAPI::Broodwar->printPublic(lua_tostring(l, 1));
-    
+
     lua_pushnumber(l, 1);
     return 1;
   }
-  
+
 // ======================================== Get Map Size
-  int LUA::getMapSize(lua_State *l)
+  int LUA::getMapSize(lua_State* l)
   {
     if(lua_gettop(l) != 0)
     {
@@ -88,7 +88,7 @@ namespace BWAI
     return 2;
   }
 // ======================================== Get Map Name
-  int LUA::getMapName(lua_State *l)
+  int LUA::getMapName(lua_State* l)
   {
     if (lua_gettop(l) != 1)
     {
@@ -98,17 +98,17 @@ namespace BWAI
 
     switch((u32)lua_tonumber(l, 1))
     {
-    case 0:
-      lua_pushstring(l, BWAPI::Broodwar->mapName().c_str());
-      break;
-    case 1:
-      lua_pushstring(l, BWAPI::Broodwar->mapFilename().c_str());
-      break;
+      case 0:
+        lua_pushstring(l, BWAPI::Broodwar->mapName().c_str());
+        break;
+      case 1:
+        lua_pushstring(l, BWAPI::Broodwar->mapFilename().c_str());
+        break;
     }
     return 1;
   }
 // ======================================== Get Terrain Info
-  int LUA::getTerrainInfo(lua_State *l)
+  int LUA::getTerrainInfo(lua_State* l)
   {
     if (lua_gettop(l) != 3)
     {
@@ -116,28 +116,28 @@ namespace BWAI
       return 0;
     }
 
-    int x = (int)lua_tonumber(l,2);
-    int y = (int)lua_tonumber(l,3);
+    int x = (int)lua_tonumber(l, 2);
+    int y = (int)lua_tonumber(l, 3);
 
     switch((u32)lua_tonumber(l, 1))
     {
-    case 0: // buildable
-      lua_pushnumber(l, BWAPI::Broodwar->buildable(x, y));
-      break;
-    case 1: // walkable
-      lua_pushnumber(l, BWAPI::Broodwar->walkable(x, y));
-      break;
-    case 2: // visible
-      lua_pushnumber(l, BWAPI::Broodwar->visible(x, y));
-      break;
-    case 3: // ground height
-      lua_pushnumber(l, BWAPI::Broodwar->groundHeight(x, y));
-      break;
+      case 0: // buildable
+        lua_pushnumber(l, BWAPI::Broodwar->buildable(x, y));
+        break;
+      case 1: // walkable
+        lua_pushnumber(l, BWAPI::Broodwar->walkable(x, y));
+        break;
+      case 2: // visible
+        lua_pushnumber(l, BWAPI::Broodwar->visible(x, y));
+        break;
+      case 3: // ground height
+        lua_pushnumber(l, BWAPI::Broodwar->groundHeight(x, y));
+        break;
     }
     return 1;
   }
 // ======================================== Get Current Player
-  int LUA::getCurrentPlayer(lua_State *l)
+  int LUA::getCurrentPlayer(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -148,7 +148,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Opponent Player
-  int LUA::getOpponentPlayer(lua_State *l)
+  int LUA::getOpponentPlayer(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -159,7 +159,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Player Name
-  int LUA::getPlayerName(lua_State *l)
+  int LUA::getPlayerName(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -170,7 +170,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Opponent Player Name
-  int LUA::getOpponentName(lua_State *l)
+  int LUA::getOpponentName(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -181,7 +181,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Map Hash
-  int LUA::getMapHash(lua_State *l)
+  int LUA::getMapHash(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -192,7 +192,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Race
-  int LUA::getRace(lua_State *l)
+  int LUA::getRace(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -203,7 +203,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Force Name
-  int LUA::getForceName(lua_State *l)
+  int LUA::getForceName(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -214,7 +214,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Force Name
-  int LUA::getOpponentForceName(lua_State *l)
+  int LUA::getOpponentForceName(lua_State* l)
   {
     if (lua_gettop(l) != 0)
     {
@@ -225,7 +225,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Is Upgrading
-  int LUA::isUpgrading(lua_State *l)
+  int LUA::isUpgrading(lua_State* l)
   {
     u8 type = (u8)lua_tonumber(l, 1);
     if (lua_gettop(l) != 1 || type > 60)
@@ -237,7 +237,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Get Upgrade Level
-  int LUA::getUpgrade(lua_State *l)
+  int LUA::getUpgrade(lua_State* l)
   {
     u8 type = (u8)lua_tonumber(l, 1);
     if (lua_gettop(l) != 1 || type > 60)
@@ -249,7 +249,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Is Researched
-  int LUA::isResearched(lua_State *l)
+  int LUA::isResearched(lua_State* l)
   {
     u8 type = (u8)lua_tonumber(l, 1);
     if (lua_gettop(l) != 1 || type > 45)
@@ -261,7 +261,7 @@ namespace BWAI
     return 1;
   }
 // ======================================== Is Researching
-  int LUA::isResearching(lua_State *l)
+  int LUA::isResearching(lua_State* l)
   {
     u8 type = (u8)lua_tonumber(l, 1);
     if (lua_gettop(l) != 1 || type > 45)
@@ -273,172 +273,172 @@ namespace BWAI
     return 1;
   }
 // ======================================== Kills
-  int LUA::getKills(lua_State *l)
+  int LUA::getKills(lua_State* l)
   {
     u16 type;
     switch(lua_gettop(l))
     {
-    case 0:
-      lua_pushnumber(l, BWAI::ai->player->getKills(BWAI::UnitTypeGroup::All));
-      break;
-    case 1:
-      type = (u16)lua_tonumber(l, 1);
-      if (type > 336)
-      {
+      case 0:
+        lua_pushnumber(l, BWAI::ai->player->getKills(BWAI::UnitTypeGroup::All));
+        break;
+      case 1:
+        type = (u16)lua_tonumber(l, 1);
+        if (type > 336)
+        {
+          // error msg
+          return 0;
+        }
+        lua_pushnumber(l, BWAPI::Broodwar->self()->getKills(BWAPI::UnitType(type)));
+        break;
+      default:
         // error msg
         return 0;
-      }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getKills(BWAPI::UnitType(type)));
-      break;
-    default:
-      // error msg
-      return 0;
     }
-    
+
     return 1;
   }
 // ======================================== Deaths
-  int LUA::getDeaths(lua_State *l)
+  int LUA::getDeaths(lua_State* l)
   {
     u16 type;
     switch(lua_gettop(l))
     {
-    case 0:
-      lua_pushnumber(l, BWAI::ai->player->getDeaths(BWAI::UnitTypeGroup::All));
-      break;
-    case 1:
-      type = (u16)lua_tonumber(l, 1);
-      if (type > 336)
-      {
+      case 0:
+        lua_pushnumber(l, BWAI::ai->player->getDeaths(BWAI::UnitTypeGroup::All));
+        break;
+      case 1:
+        type = (u16)lua_tonumber(l, 1);
+        if (type > 336)
+        {
+          // error msg
+          return 0;
+        }
+        lua_pushnumber(l, BWAPI::Broodwar->self()->getDeaths(BWAPI::UnitType(type)));
+        break;
+      default:
         // error msg
         return 0;
-      }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getDeaths(BWAPI::UnitType(type)));
-      break;
-    default:
-      // error msg
-      return 0;
     }
-    
+
     return 1;
   }
 // ======================================== Get all Units
-  int LUA::getAllUnits(lua_State *l)
+  int LUA::getAllUnits(lua_State* l)
   {
     u16 type;
     switch(lua_gettop(l))
     {
-    case 0:
-      lua_pushnumber(l, BWAI::ai->player->getAllUnits(BWAI::UnitTypeGroup::All));
-      break;
-    case 1:
-      type = (u16)lua_tonumber(l, 1);
-      if (type > 336)
-      {
+      case 0:
+        lua_pushnumber(l, BWAI::ai->player->getAllUnits(BWAI::UnitTypeGroup::All));
+        break;
+      case 1:
+        type = (u16)lua_tonumber(l, 1);
+        if (type > 336)
+        {
+          // error msg
+          return 0;
+        }
+        lua_pushnumber(l, BWAPI::Broodwar->self()->getAllUnits(BWAPI::UnitType(type)));
+        break;
+      default:
         // error msg
         return 0;
-      }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getAllUnits(BWAPI::UnitType(type)));
-      break;
-    default:
-      // error msg
-      return 0;
     }
-    
+
     return 1;
   }
 // ======================================== Completed Units
-  int LUA::getCompleteUnits(lua_State *l)
+  int LUA::getCompleteUnits(lua_State* l)
   {
     u16 type;
     u8 race;
     switch(lua_gettop(l))
     {
-    case 0:
-      lua_pushnumber(l, BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::All));
-      break;
-    case 1:
-      type = (u16)lua_tonumber(l, 1);
-      if (type > 336)
-      {
+      case 0:
+        lua_pushnumber(l, BWAI::ai->player->getCompletedUnits(BWAI::UnitTypeGroup::All));
+        break;
+      case 1:
+        type = (u16)lua_tonumber(l, 1);
+        if (type > 336)
+        {
+          // error msg
+          return 0;
+        }
+        lua_pushnumber(l, BWAPI::Broodwar->self()->getCompletedUnits(BWAPI::UnitType(type)));
+        break;
+      case 2:
+        type = (u16)lua_tonumber(l, 1);
+        race = (u8)lua_tonumber(l, 2);
+        if (type > 336)
+        {
+          // error msg
+          return 0;
+        }
+        lua_pushnumber(l, BWAI::ai->player->getCompletedUnits(BWAPI::UnitType(type)));
+        break;
+      default:
         // error msg
         return 0;
-      }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getCompletedUnits(BWAPI::UnitType(type)));
-      break;
-    case 2:
-      type = (u16)lua_tonumber(l, 1);
-      race = (u8)lua_tonumber(l, 2);
-      if (type > 336)
-      {
-        // error msg
-        return 0;
-      }
-      lua_pushnumber(l, BWAI::ai->player->getCompletedUnits(BWAPI::UnitType(type)));
-      break;
-    default:
-      // error msg
-      return 0;
     }
-    
+
     return 1;
   }
 // ======================================== Incomplete units
-  int LUA::getIncompleteUnits(lua_State *l)
+  int LUA::getIncompleteUnits(lua_State* l)
   {
     u16 type;
     switch(lua_gettop(l))
     {
-    case 0:
-      lua_pushnumber(l, BWAI::ai->player->getIncompleteUnits(BWAI::UnitTypeGroup::All));
-      break;
-    case 1:
-      type = (u16)lua_tonumber(l, 1);
-      if (type > 336)
-      {
+      case 0:
+        lua_pushnumber(l, BWAI::ai->player->getIncompleteUnits(BWAI::UnitTypeGroup::All));
+        break;
+      case 1:
+        type = (u16)lua_tonumber(l, 1);
+        if (type > 336)
+        {
+          // error msg
+          return 0;
+        }
+        lua_pushnumber(l, BWAPI::Broodwar->self()->getIncompleteUnits(BWAPI::UnitType(type)));
+        break;
+      default:
         // error msg
         return 0;
-      }
-      lua_pushnumber(l, BWAPI::Broodwar->self()->getIncompleteUnits(BWAPI::UnitType(type)));
-      break;
-    default:
-      // error msg
-      return 0;
     }
-    
+
     return 1;
   }
 
 // ======================================== Build
-  int LUA::build(lua_State *l)
+  int LUA::build(lua_State* l)
   {
-/*    u8 argcount = lua_gettop(l);
-    if (argcount > 3 || argcount < 2)
-    {
-      // error msg
-      return 0;
-    }
+    /*    u8 argcount = lua_gettop(l);
+        if (argcount > 3 || argcount < 2)
+        {
+          // error msg
+          return 0;
+        }
 
-    u16 type = (u16)lua_tonumber(l, 1);
-    if (type > 228)
-    {
-      // error msg
-      return 0;
-    }
-    BWAI::Unit *testunit = NULL;
-    BWAI::BuildingPosition spot(AI::getFreeBuildingSpot(lua_tostring(l, 2), (BWAI::Unit *&)testunit));
-    BWAI::Unit builder(AI::freeBuilder(spot));
-    u16 priority = 50;
+        u16 type = (u16)lua_tonumber(l, 1);
+        if (type > 228)
+        {
+          // error msg
+          return 0;
+        }
+        BWAI::Unit *testunit = NULL;
+        BWAI::BuildingPosition spot(AI::getFreeBuildingSpot(lua_tostring(l, 2), (BWAI::Unit *&)testunit));
+        BWAI::Unit builder(AI::freeBuilder(spot));
+        u16 priority = 50;
 
-    if (argcount == 3)
-      priority = lua_tonumber(l, 3);
-    BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(type, builder, spot, priority));
-    BWAI::ai->buildTaskUnitsPlanned[type]++;
-*/
+        if (argcount == 3)
+          priority = lua_tonumber(l, 3);
+        BWAI::ai->plannedBuildings.push_back(new BWAI::TaskBuild(type, builder, spot, priority));
+        BWAI::ai->buildTaskUnitsPlanned[type]++;
+    */
     return 0;
   }
 // ======================================== Upgrade
-  int LUA::upgrade(lua_State *l)
+  int LUA::upgrade(lua_State* l)
   {
     u8 argcount = lua_gettop(l);
     if (argcount > 3 || argcount < 1)
@@ -466,7 +466,7 @@ namespace BWAI
     return 0;
   }
 // ======================================== Research
-  int LUA::research(lua_State *l)
+  int LUA::research(lua_State* l)
   {
     u8 argcount = lua_gettop(l);
     if (argcount > 2 || argcount < 1)

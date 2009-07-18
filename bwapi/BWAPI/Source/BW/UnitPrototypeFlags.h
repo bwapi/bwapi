@@ -4,7 +4,7 @@ namespace BW
   /** Flags specifying certain characteristics of unit prototype */
   namespace UnitPrototypeFlags
   {
-    enum Enum : u32
+  enum Enum : u32
     {
       Building                = 1 << 0x00,
       Addon                   = 1 << 0x01,

@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandLand::CommandLand(UnitImpl* executor, const BW::TilePosition& targetPosition)
-  :Command(executor)
-  ,targetPosition(targetPosition)
+      : Command(executor)
+      , targetPosition(targetPosition)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -25,7 +25,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandLand::describe()
   {
-	  return this->executors[0]->getName() + " landed";
+    return this->executors[0]->getName() + " landed";
   }
   //----------------------------------------------------------------------------------------------------------
 }

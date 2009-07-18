@@ -23,7 +23,7 @@ namespace BW
         /** Attack Location on position. */
         Attack(const BW::Position& target, u8 order);
         /** Attack Location on unit. */
-        Attack(BWAPI::UnitImpl *target, u8 order);
+        Attack(BWAPI::UnitImpl* target, u8 order);
         /** Attack Location on general target. */
         Attack(const PositionUnitTarget& target, u8 order);
       private :
@@ -41,7 +41,7 @@ namespace BW
         /** Right-click on position. */
         RightClick(const BW::Position& target);
         /** Right-click on unit. */
-        RightClick(BWAPI::UnitImpl *target);
+        RightClick(BWAPI::UnitImpl* target);
         /** Right-click on general target. */
         RightClick(const PositionUnitTarget& target);
       private :
@@ -51,78 +51,78 @@ namespace BW
         u8 always0xe4;
         u16 alwaysZero;
     };
-   /** Selection command in bw, single unit version. */
-   class SelectSingle
-   {
-     public :
-      SelectSingle(BWAPI::UnitImpl *select);
-       /** 0x09 = Select command-code in bw */
-       u8 always0x09; 
-       /** 0x01 = 1 unit selection */
-       u8 always0x01;
-       /** The unit to select bw index */
-       UnitTarget target;
-   };
-   /** Train unit command in bw. */
-   class TrainUnit
-   {
-     public :
-      TrainUnit(BW::UnitType type); 
-      /** 0x1f = Train Command-code in bw */
-      u8 always0x1f;
-      /** Type of unit to train */
-      BW::UnitType type;
-   };
-   /** Make building. */
-   class MakeBuilding
-   {
-     public :
-      MakeBuilding(BW::TilePosition position, BW::UnitType type); 
-      /** 0x0c = make building Command-code in bw */
-      u8 always0x0c;
-      /** Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f */
-      u8 raceDependant;
-      BW::TilePosition position;
-      /** Type of building to make */
-      BW::UnitType type;
-   };
-   
-   /** Invent tech. */
-   class Invent
-   {
-     public :
-      Invent(BW::TechType type); 
-      /** 0x30 = invent tech Command-code in bw */
-      u8 always0x30;
-      /** Type of tech to invent */
-      BW::TechType tech;
-   };
-   class Upgrade
-   {
-     public :
-      Upgrade(BW::UpgradeType upgrade); 
-      /** 0x32 = upgrade Command-code in bw */
-      u8 always0x32;
-      /** Type of upgrade */
-      BW::UpgradeType upgrade;
-   };  
-   class MakeAddon
-   {
-     public :
-      MakeAddon(BW::TilePosition position, BW::UnitType type); 
-      /** 0x0c = make building Command-code in bw */
-      u8 always0x0c;
-      /** 1e for terran 1f for protoss*/
-      u8 always0x24;
-      BW::TilePosition position;
-      /** Type of building to make */
-      BW::UnitType type;
-   };   
-   /** Change slot command in bw. */
-   class ChangeSlot
+    /** Selection command in bw, single unit version. */
+    class SelectSingle
     {
       public :
-       typedef enum Slot : u8
+        SelectSingle(BWAPI::UnitImpl* select);
+        /** 0x09 = Select command-code in bw */
+        u8 always0x09;
+        /** 0x01 = 1 unit selection */
+        u8 always0x01;
+        /** The unit to select bw index */
+        UnitTarget target;
+    };
+    /** Train unit command in bw. */
+    class TrainUnit
+    {
+      public :
+        TrainUnit(BW::UnitType type);
+        /** 0x1f = Train Command-code in bw */
+        u8 always0x1f;
+        /** Type of unit to train */
+        BW::UnitType type;
+    };
+    /** Make building. */
+    class MakeBuilding
+    {
+      public :
+        MakeBuilding(BW::TilePosition position, BW::UnitType type);
+        /** 0x0c = make building Command-code in bw */
+        u8 always0x0c;
+        /** Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f */
+        u8 raceDependant;
+        BW::TilePosition position;
+        /** Type of building to make */
+        BW::UnitType type;
+    };
+
+    /** Invent tech. */
+    class Invent
+    {
+      public :
+        Invent(BW::TechType type);
+        /** 0x30 = invent tech Command-code in bw */
+        u8 always0x30;
+        /** Type of tech to invent */
+        BW::TechType tech;
+    };
+    class Upgrade
+    {
+      public :
+        Upgrade(BW::UpgradeType upgrade);
+        /** 0x32 = upgrade Command-code in bw */
+        u8 always0x32;
+        /** Type of upgrade */
+        BW::UpgradeType upgrade;
+    };
+    class MakeAddon
+    {
+      public :
+        MakeAddon(BW::TilePosition position, BW::UnitType type);
+        /** 0x0c = make building Command-code in bw */
+        u8 always0x0c;
+        /** 1e for terran 1f for protoss*/
+        u8 always0x24;
+        BW::TilePosition position;
+        /** Type of building to make */
+        BW::UnitType type;
+    };
+    /** Change slot command in bw. */
+    class ChangeSlot
+    {
+      public :
+      typedef enum Slot : u8
         {
           Computer = 0,
           Open = 1,
@@ -137,8 +137,8 @@ namespace BW
         /** Target slot state. */
         Slot slot;
     };
-   /** Change race command in bw. */
-   class ChangeRace
+    /** Change race command in bw. */
+    class ChangeRace
     {
       public :
         ChangeRace(BW::Race::Enum slot, u8 slotID);
@@ -150,8 +150,8 @@ namespace BW
         /** Target slot race. */
         BW::Race::Enum race;
     };
-   /** Starts game in the pre-game lobby. */
-   class StartGame
+    /** Starts game in the pre-game lobby. */
+    class StartGame
     {
       public :
         StartGame();
@@ -159,8 +159,8 @@ namespace BW
         /** 0x3c = Command code for start game. */
         u8 always0x3c;
     };
-   /** Pauses the game. */
-   class PauseGame
+    /** Pauses the game. */
+    class PauseGame
     {
       public :
         PauseGame();
@@ -214,15 +214,15 @@ namespace BW
         u8 always0x36;
     };
 
-   class BuildingMorph
-   {
-     public :
-      BuildingMorph(BW::UnitType type); 
-      /** 0x35 = Building Morph for zerg */
-      u8 always0x35;
-      /** Type of unit to train */
-      BW::UnitType type;
-   };
+    class BuildingMorph
+    {
+      public :
+        BuildingMorph(BW::UnitType type);
+        /** 0x35 = Building Morph for zerg */
+        u8 always0x35;
+        /** Type of unit to train */
+        BW::UnitType type;
+    };
 
     class CancelAddon
     {
@@ -303,15 +303,15 @@ namespace BW
         u8 type;
     };
 
-   class UnloadUnit
-   {
-     public :
-      UnloadUnit(BWAPI::UnitImpl *unload);
-       /** 0x29 = Unload Unit */
-       u8 always0x29; 
-       /** The unit to unload bw index */
-       UnitTarget target;
-   };
+    class UnloadUnit
+    {
+      public :
+        UnloadUnit(BWAPI::UnitImpl* unload);
+        /** 0x29 = Unload Unit */
+        u8 always0x29;
+        /** The unit to unload bw index */
+        UnitTarget target;
+    };
 
     class UnloadAll
     {
@@ -348,15 +348,15 @@ namespace BW
         u8 unused;
     };
 
-   class UnitMorph
-   {
-     public :
-      UnitMorph(BW::UnitType type); 
-      /** 0x23 = Unit Morph (Zerg) Command-code in bw */
-      u8 always0x23;
-      /** Type of unit to train */
-      BW::UnitType type;
-   };
+    class UnitMorph
+    {
+      public :
+        UnitMorph(BW::UnitType type);
+        /** 0x23 = Unit Morph (Zerg) Command-code in bw */
+        u8 always0x23;
+        /** Type of unit to train */
+        BW::UnitType type;
+    };
 
     class Cloak
     {

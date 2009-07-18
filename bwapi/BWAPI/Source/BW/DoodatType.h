@@ -13,21 +13,21 @@ namespace BW
     public :
       u16 index;
       u8 buildability; /**< 8th bit should sign not buildable. */
-      u8 groundHeightAndOverlayFlags; /**< Ground Height(4 lower bits) - Deprecated? Some values are incorrect. 
+      u8 groundHeightAndOverlayFlags; /**< Ground Height(4 lower bits) - Deprecated? Some values are incorrect.
                                        * Overlay Flags:
                                        * o 0x0 - None
                                        * o 0x1 - Sprites.dat Reference
                                        * o 0x2 - Units.dat Reference (unit sprite)
-                                       * o 0x4 - Overlay is Flipped 
+                                       * o 0x4 - Overlay is Flipped
                                        */
       u16 overlayID;
       u16 _1;
       u16 doodatGrupString;
       u16 _2;
       u16 dddataBinIndex;
-      u16 doodatHeight; 
-      u16 doodatWidth; 
-      u16 _3; 
+      u16 doodatHeight;
+      u16 doodatWidth;
+      u16 _3;
       u16 miniTile[16]; /** MegaTile References (VF4/VX4) */
   };
   BOOST_STATIC_ASSERT(sizeof(TileType) == DOODAT_TYPE_SIZE_IN_BYTES);

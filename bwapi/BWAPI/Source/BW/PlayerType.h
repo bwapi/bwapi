@@ -4,7 +4,7 @@ namespace BW
   /** Direct mapping of bw's player type */
   namespace PlayerType
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       NotUsed          = 0,
       Computer         = 1,

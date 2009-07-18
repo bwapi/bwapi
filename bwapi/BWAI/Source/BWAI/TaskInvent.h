@@ -14,7 +14,7 @@ namespace BWAI
       bool execute();
       TaskType::Enum getType();
       BWAPI::TechType getTechType();
-    private :  
+    private :
       BWAPI::TechType techType;
   };
 }

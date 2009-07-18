@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandLift::CommandLift(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandLift::describe()
   {
-	  return this->executors[0]->getName() + " lifted off";
+    return this->executors[0]->getName() + " lifted off";
   }
   //----------------------------------------------------------------------------------------------------------
 }

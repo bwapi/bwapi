@@ -78,15 +78,15 @@ namespace BWAPI
       virtual bool walkable(int x, int y) const;
       virtual bool visible(int x, int y) const;
       virtual bool hasCreep(int x, int y) const;
-      virtual int groundHeight(int x, int y) const; 
+      virtual int groundHeight(int x, int y) const;
       virtual const std::set< TilePosition >& getStartLocations() const;
       virtual int getMapHash() const;
       /**
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      virtual void print(const char *text, ...);
-      virtual void printPublic(const char *text, ...);
+      virtual void print(const char* text, ...);
+      virtual void printPublic(const char* text, ...);
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
@@ -103,10 +103,10 @@ namespace BWAPI
       virtual const std::set<BWAPI::Unit*>& getSelectedUnits() const;
       virtual Player* self() const;
       virtual Player* enemy() const;
-      virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid=false);
-      virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid=false);
-      virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid=false);
-      virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid=false);
+      virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
+      virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+      virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
+      virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
       virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
       virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
 
@@ -124,13 +124,13 @@ namespace BWAPI
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
       void setOnStartCalled(bool onStartCalled);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
-      void addToCommandBuffer(Command *command);
+      void addToCommandBuffer(Command* command);
       void onGameStart();
       void onGameEnd();
       void onCancelTrain();
       bool onSendText(const char* text);
       bool parseText(const char* text);
-      void onRemoveUnit(BW::Unit *unit);
+      void onRemoveUnit(BW::Unit* unit);
       void lockFlags();
       bool enabled;
       bool isOnStartCalled() const;
@@ -140,10 +140,10 @@ namespace BWAPI
       /** @todo Doesn't work */
       void refresh();
       void loadSelected();
-      void printEx(s32 pID, const char *text, ...);
+      void printEx(s32 pID, const char* text, ...);
 
       UnitImpl* getFirst();
-      Util::Logger *fatalError;
+      Util::Logger* fatalError;
 
       std::set<UnitImpl*> units;
       bool quietSelect;
@@ -151,18 +151,18 @@ namespace BWAPI
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
 
-/*      struct drawQueueStruct
-      {
-        u16 x;
-        u16 y;
-        u16 w;
-        u16 h;
-        u8 c;
-        u8 l;
-      };
+      /*      struct drawQueueStruct
+            {
+              u16 x;
+              u16 y;
+              u16 w;
+              u16 h;
+              u8 c;
+              u8 l;
+            };
 
-      drawQueueStruct drawQueueBox[8][4];
-      drawQueueStruct drawQueueBoxFilled[8];*/
+            drawQueueStruct drawQueueBox[8][4];
+            drawQueueStruct drawQueueBoxFilled[8];*/
 
       // Stuff for drawing to the screen
       /*
@@ -204,15 +204,15 @@ namespace BWAPI
       BW::Latency::Enum latency;
       std::vector<std::vector<Command *> > commandBuffer;
       /** All commands ordered from BWAPI */
-      Util::Logger *commandLog;
+      Util::Logger* commandLog;
       /** Unknown orderID's */
-      Util::Logger *newOrderLog;
+      Util::Logger* newOrderLog;
       /** Unknown unitID's */
-      Util::Logger *newUnitLog;
+      Util::Logger* newUnitLog;
       /** Failed check of assumption */
-      Util::Logger *badAssumptionLog;
+      Util::Logger* badAssumptionLog;
       /** Sum of all units*/
-      Util::Logger *unitSum;
+      Util::Logger* unitSum;
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnitsOnTile();
       /** Made for debug reasons, may come later someday, so I leave it*/
@@ -232,13 +232,13 @@ namespace BWAPI
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
-   * As there is only one instance, the class is defined globaly and as value (not pointer), so the instance 
+   * As there is only one instance, the class is defined globaly and as value (not pointer), so the instance
    * is constructed automatically and there is also no need to care about the destructor.
    * We wanted to save passing the Game parameter everywhere, so we expect everywhere in the code that this
    * variable is instantialised.
    */
   extern GameImpl BroodwarImpl;
 };
- 
-  
+
+
 

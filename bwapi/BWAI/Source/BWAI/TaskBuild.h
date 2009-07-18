@@ -28,7 +28,7 @@ namespace BWAI
                 Unit* builder,
                 BuildingPositionSet* alternatives,
                 u16 priority);
-      
+
       TaskBuild(BWAPI::UnitType buildingType,
                 Unit* builder,
                 BWAPI::TilePosition spot,
@@ -40,7 +40,7 @@ namespace BWAI
       Unit* getBuilding();
       void buildingDied();
       BWAI::ReservedResources getReserved();
-    private :  
+    private :
       BWAPI::UnitType buildingType;
       BuildingPosition* position;
       BuildingPositionSet* alternatives;
@@ -48,7 +48,7 @@ namespace BWAI
        * Will point to the building that is being constructed, and when it is
        * done, this class can be removed.
        */
-      Unit *building;
+      Unit* building;
       bool canIBuild(BWAPI::TilePosition here);
       BWAPI::TilePosition spot;
   };

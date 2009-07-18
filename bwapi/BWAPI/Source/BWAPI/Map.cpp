@@ -11,7 +11,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Map::Map()
-  :fogOfWar(NULL)
+      : fogOfWar(NULL)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -55,39 +55,39 @@ namespace BWAPI
   bool Map::visible(int x, int y) const
   {
     u32 value =  (*this->fogOfWar)[y][x];
-    return !(value & (1<<BroodwarImpl.BWAPIPlayer->getID()));
+    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
   }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const
   {
-    return (*this->zergCreep)[y][x]!=0;
+    return (*this->zergCreep)[y][x] != 0;
   }
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
   {
-    int mid=this->getMiniTile(x,y).getBit(BW::MiniTileFlags::Middle);
-    int high=this->getMiniTile(x,y).getBit(BW::MiniTileFlags::High);
-    return mid+high*2;
+    int mid = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Middle);
+    int high = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::High);
+    return mid + high * 2;
   }
   //-------------------------------------------------- LOAD --------------------------------------------------
   void Map::load()
   {
-    if (fogOfWar!=NULL)
+    if (fogOfWar != NULL)
     {
       delete fogOfWar;
-      fogOfWar=NULL;
+      fogOfWar = NULL;
     }
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
-    fogOfWar=new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar);
-    zergCreep=new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_ZergCreepArray);
+    fogOfWar = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar);
+    zergCreep = new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_ZergCreepArray);
     setBuildability();
     setWalkability();
   }
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    return *(*BW::BWDATA_MapTileArray + x + y*Map::getWidth());
+    return *(*BW::BWDATA_MapTileArray + x + y * Map::getWidth());
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
@@ -106,15 +106,15 @@ namespace BWAPI
   {
     for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
       for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
-        this->walkability[x][y] = this->getMiniTile(x,y).getBit(BW::MiniTileFlags::Walkable);
+        this->walkability[x][y] = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Walkable);
   }
   //--------------------------------------------- GET MINITILE -----------------------------------------------
   Util::BitMask<BW::MiniTileFlags::Enum> Map::getMiniTile(int x, int y) const
   {
-    int tx=x/4;
-    int ty=y/4;
-    int mx=x%4;
-    int my=y%4;
+    int tx = x / 4;
+    int ty = y / 4;
+    int mx = x % 4;
+    int my = y % 4;
     BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
     return (*BW::BWDATA_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
@@ -122,16 +122,16 @@ namespace BWAPI
   //------------------------------------------ GET MAP HASH --------------------------------------------------
   int Map::getMapHash()
   {
-      int hashval = 0;
-      
-      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
-        for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
-        {
-          hashval += BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->index;
-          hashval *= x + y;
-        }
-      
-      return hashval;
+    int hashval = 0;
+
+    for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
+      for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
+      {
+        hashval += BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->index;
+        hashval *= x + y;
+      }
+
+    return hashval;
   }
   //----------------------------------------------------------------------------------------------------------
 }

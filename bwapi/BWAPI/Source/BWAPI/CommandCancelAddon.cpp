@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelAddon::CommandCancelAddon(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelAddon::describe()
   {
-	  return this->executors[0]->getName() + " cancelled addon";
+    return this->executors[0]->getName() + " cancelled addon";
   }
   //----------------------------------------------------------------------------------------------------------
 }

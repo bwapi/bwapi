@@ -5,7 +5,7 @@ namespace BW
   /** Definition of Flags specifying movement type - used in BW#Unit#movementFlags */
   namespace MovementFlags
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       OrderedAtLeastOnce  = 1 << 0, /**< @todo investigate more.
                                      * It get's to 0 after the first move-involved command - sometimes get's to 1 again

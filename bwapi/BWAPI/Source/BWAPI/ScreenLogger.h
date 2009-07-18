@@ -14,4 +14,4 @@ namespace BWAPI
     protected :
       virtual bool flush(const char* data);
   };
-}  
+}

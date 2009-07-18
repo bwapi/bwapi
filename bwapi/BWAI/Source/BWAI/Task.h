@@ -13,12 +13,12 @@ namespace BWAI
    * Every unit assigned to task has its #BWAI#Unit#task pointer set to the
    * appropriate task, but the unit is not 'owner' of the task as more units can
    * sh are the same task and the task doesn't die with the unit.
-   * 
+   *
    * The owner of tasks is #BWAI#AI and it maintain it's execution and removal.
    *
-   * The task anyway is meant to be something independent that should solve all 
+   * The task anyway is meant to be something independent that should solve all
    * problems connected with the task on it's own.
-   *   
+   *
    * It is also important to know, that when unit needs to be removed from the
    * task The task is maintainer of that, it will remove the unit from it's
    * executor list and also frees the unit's pointer to the task.
@@ -44,11 +44,11 @@ namespace BWAI
       /**
        * Adds executor to the task, note that in the moment you add executor to
        * the task, the task will maintain the unit itself and it shouldn't be
-       * manipulated externally. 
+       * manipulated externally.
        */
       virtual void addExecutor(Unit* unit);
 
-      /** 
+      /**
        * List of executors of this task.
        * As standard stl doesn't contain hash_map and the microsoft version is
        * bad (sorted associative container instead of Hashed Associative Container)
@@ -63,11 +63,11 @@ namespace BWAI
       std::list<Unit*> executors;
       /** Priority of task - the higher the more important the task is. */
       u16 priority;
-     
+
       struct TaskPriorityLess:
-      public std::binary_function<const Task*, const Task*, bool>
+            public std::binary_function<const Task*, const Task*, bool>
       {
-        bool operator()(const Task *task1, const Task *task2) const
+        bool operator()(const Task* task1, const Task* task2) const
         {
           return task1->priority > task2->priority;
         }

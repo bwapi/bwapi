@@ -15,7 +15,7 @@ namespace PathFinding
       WalkabilityPosition(BWAPI::Position position);
       bool operator==(const WalkabilityPosition& position);
       bool operator!=(const WalkabilityPosition& position);
-      u16 x,y;
+      u16 x, y;
       BWAPI::Position toBWAPIPosition();
   };
 }

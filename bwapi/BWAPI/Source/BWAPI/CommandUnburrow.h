@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandUnburrow : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Unburrow command (will be passed as executor 
+      /**
+       * @param executor Executor of the Unburrow command (will be passed as executor
        *        to Command ancestor)
        */
       CommandUnburrow(UnitImpl* executor);

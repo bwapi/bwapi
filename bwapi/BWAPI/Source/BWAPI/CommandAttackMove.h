@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandAttackMove : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Attack Move command (will be passed as executor 
+      /**
+       * @param executor Executor of the Attack Move command (will be passed as executor
                 to Command ancestor)
        * @param targetPosition Target of the Attack Move command.
        */

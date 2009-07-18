@@ -4,7 +4,7 @@ namespace BW
   /** Direct mapping of bw's unit size type */
   namespace UnitSizeType
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       Independent = 0,
       Small       = 1,

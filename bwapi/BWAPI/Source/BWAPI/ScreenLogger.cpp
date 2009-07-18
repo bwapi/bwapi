@@ -8,7 +8,7 @@ namespace BWAPI
   bool ScreenLogger::shut = false;
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ScreenLogger::ScreenLogger(Util::LogLevel::Enum logLevel)
-  :Logger(logLevel)
+      : Logger(logLevel)
   {
   }
   //------------------------------------------------- FLUSH --------------------------------------------------

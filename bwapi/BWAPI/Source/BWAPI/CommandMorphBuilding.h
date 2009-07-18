@@ -9,8 +9,8 @@ namespace BWAPI
   class CommandMorphBuilding : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Morph Building command (will be passed as executor 
+      /**
+       * @param executor Executor of the Morph Building command (will be passed as executor
        *       to Command ancestor)
        * @param toMorph The Building to be morphed into
        */

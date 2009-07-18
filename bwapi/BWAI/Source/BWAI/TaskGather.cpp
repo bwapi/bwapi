@@ -10,9 +10,9 @@ namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TaskGather::TaskGather(Unit* mineral, Expansion* expansion)
-  :Task()
-  ,mineral(mineral)
-  ,expansion(expansion)
+      : Task()
+      , mineral(mineral)
+      , expansion(expansion)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -33,8 +33,8 @@ namespace BWAI
           (*i)->getOrder() != BWAPI::Orders::ResetCollision2 &&
           (*i)->getOrder() != BWAPI::Orders::ReturnMinerals)
       {
-        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", (*i)->getOrder().getName().c_str(), 
-                                                                                                (*i)->getName().c_str());
+        BWAI::ai->log->logDetailed("Unit will be remmoved from the gather because order is (%s) Unit:", (*i)->getOrder().getName().c_str(),
+                                   (*i)->getName().c_str());
         this->freeExecutor(*i++);
         ai->expansionsSaturated = false;
       }
@@ -45,38 +45,37 @@ namespace BWAI
     {
       //BWAI::ai->log->log("TaskGather::execute::onWorker");
       Unit* miningBuddy = NULL;
-      if (i == this->executors.front() && 
+      if (i == this->executors.front() &&
           i != this->executors.back())
         miningBuddy = *(--this->executors.end());
-      else
-        if (i != this->executors.front() && 
-            i == this->executors.back())
+      else if (i != this->executors.front() &&
+               i == this->executors.back())
         miningBuddy = *this->executors.begin();
       if (
-           (
-             i->getOrder() == BWAPI::Orders::MoveToMinerals || 
-             i->getOrder() == BWAPI::Orders::WaitForMinerals || 
-             i->getOrder() == BWAPI::Orders::PlayerGuard
-           ) &&
-           i->getTarget() != this->expansion->gatherCenter &&
-             (
-               i->getTarget() != this->mineral
-               ||
-               (
-                 i->getDistance(this->mineral) <= BWAPI::Broodwar->getLatency()*3 &&
-                 miningBuddy != NULL &&
-                 miningBuddy->getOrderTimer() >= BWAPI::Broodwar->getLatency() &&
-                 (
-                   miningBuddy->getOrderTimer() == BWAPI::Broodwar->getLatency()-1 ||
-                   BWAPI::Broodwar->getFrameCount() - i->lastFrameSpam > 4
-                 )
-               )
-             )
-           )
-        {
-          i->lastFrameSpam = BWAPI::Broodwar->getFrameCount();
-          i->orderRightClick(mineral);
-        }
+        (
+          i->getOrder() == BWAPI::Orders::MoveToMinerals ||
+          i->getOrder() == BWAPI::Orders::WaitForMinerals ||
+          i->getOrder() == BWAPI::Orders::PlayerGuard
+        ) &&
+        i->getTarget() != this->expansion->gatherCenter &&
+        (
+          i->getTarget() != this->mineral
+          ||
+          (
+            i->getDistance(this->mineral) <= BWAPI::Broodwar->getLatency()*3 &&
+            miningBuddy != NULL &&
+            miningBuddy->getOrderTimer() >= BWAPI::Broodwar->getLatency() &&
+            (
+              miningBuddy->getOrderTimer() == BWAPI::Broodwar->getLatency() - 1 ||
+              BWAPI::Broodwar->getFrameCount() - i->lastFrameSpam > 4
+            )
+          )
+        )
+      )
+      {
+        i->lastFrameSpam = BWAPI::Broodwar->getFrameCount();
+        i->orderRightClick(mineral);
+      }
     }
     return false;
   }

@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <stdio.h>
 
-#include <Util/Dictionary.h> 
+#include <Util/Dictionary.h>
 #include <Util/FileLogger.h>
 
 #include "BW/Offsets.h"
@@ -23,7 +23,7 @@ DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 DWORD removedUnit;
 //bool launchedStart = false;
-DWORD eaxSave,ebxSave,ecxSave,edxSave,esiSave,ediSave, espSave, ebpSave;
+DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onRemoveUnit()
 {
@@ -33,12 +33,12 @@ void __declspec(naked) onRemoveUnit()
     call [BW::BWFXN_RemoveUnitTarget]
   }
   {
-    #pragma warning(push)
-    #pragma warning(disable:4312)
+#pragma warning(push)
+#pragma warning(disable:4312)
     BWAPI::BroodwarImpl.onRemoveUnit((BW::Unit*) removedUnit);
-    #pragma warning(pop)
+#pragma warning(pop)
   }
-   __asm
+  __asm
   {
     jmp [BW::BWFXN_RemoveUnitBack]
   }
@@ -61,7 +61,7 @@ DWORD frameHookEax;
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
 void __declspec(naked)  nextFrameHook()
 {
- __asm
+  __asm
   {
     call [BW::BWFXN_NextLogicFrameTarget]
     mov frameHookEax, eax
@@ -81,7 +81,7 @@ char* text;
 bool sendToBW;
 void __declspec(naked) onSendText()
 {
- __asm
+  __asm
   {
     mov eaxSave, eax
     mov ebxSave, ebx
@@ -97,18 +97,18 @@ void __declspec(naked) onSendText()
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
   if (sendToBW)
     __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-      call [BW::BWFXN_SendPublicCallTarget]
-      jmp [BW::BWFXN_SendPublicCallBack]
-      }
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
+    call [BW::BWFXN_SendPublicCallTarget]
+    jmp [BW::BWFXN_SendPublicCallBack]
+  }
   __asm
   {
     jmp [BW::BWFXN_SendPublicCallBack]
@@ -116,7 +116,7 @@ void __declspec(naked) onSendText()
 }
 void __declspec(naked) onSendLobby()
 {
- __asm
+  __asm
   {
     mov eaxSave, eax
     mov ebxSave, ebx
@@ -132,18 +132,18 @@ void __declspec(naked) onSendLobby()
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
   if (sendToBW)
     __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-      call [BW::BWFXN_SendLobbyCallTarget]
-      jmp [BW::BWFXN_SendLobbyCallBack]
-      }
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
+    call [BW::BWFXN_SendLobbyCallTarget]
+    jmp [BW::BWFXN_SendLobbyCallBack]
+  }
   __asm
   {
     jmp [BW::BWFXN_SendLobbyCallBack]
@@ -195,9 +195,9 @@ void __declspec(naked) onRefresh()
     mov espSave, esp
     mov ebpSave, ebp
     push 640
-	  xor eax, eax
-	  mov edx, 480
-	  xor ecx, ecx
+    xor eax, eax
+    mov edx, 480
+    xor ecx, ecx
     call [BW::BWFXN_RefreshTarget]
     mov eax, eaxSave
     mov ebx, ebxSave
@@ -226,13 +226,13 @@ void __declspec(naked) onDrawHigh()
   }
 
   if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::BroodwarImpl.hcachedShapesMutex, INFINITE))
-	{
-    for(shape_i=0;shape_i<BWAPI::BroodwarImpl.cachedShapes.size();shape_i++)
+  {
+    for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.cachedShapes.size(); shape_i++)
     {
       BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
     }
-		::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
-	}
+    ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
+  }
   __asm
   {
     mov eax, eaxSave
@@ -247,13 +247,13 @@ void __declspec(naked) onDrawHigh()
   }
 }
 
-void drawBox(int _x,int _y,int _w,int _h,int color,BWAPI::CoordinateType::Enum ctype)
+void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::Enum ctype)
 {
   *BW::BWDATA_DrawColor = color;
-  x=_x;
-  y=_y;
-  w=_w;
-  h=_h;
+  x = _x;
+  y = _y;
+  w = _w;
+  h = _h;
   if (ctype == 2)
   {
     x -= BWAPI::BroodwarImpl._getScreenX();
@@ -264,12 +264,12 @@ void drawBox(int _x,int _y,int _w,int _h,int color,BWAPI::CoordinateType::Enum c
     x += BWAPI::BroodwarImpl._getMouseX();
     y += BWAPI::BroodwarImpl._getMouseY();
   }
-  if (x+w<=0 || y+h<=0 || x>=639 || y>=479)
+  if (x + w <= 0 || y + h <= 0 || x >= 639 || y >= 479)
     return;
-  if (x+w>639) w=639-x;
-  if (y+h>479) h=479-y;
-  if (x<0) {w+=x;x=0;}
-  if (y<0) {h+=y;y=0;}
+  if (x + w > 639) w = 639 - x;
+  if (y + h > 479) h = 479 - y;
+  if (x < 0) {w += x; x = 0;}
+  if (y < 0) {h += y; y = 0;}
 
 
   __asm
@@ -286,13 +286,13 @@ void drawBox(int _x,int _y,int _w,int _h,int color,BWAPI::CoordinateType::Enum c
   }
 }
 
-void drawDot(int _x,int _y,int color,BWAPI::CoordinateType::Enum ctype)
+void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
 {
   *BW::BWDATA_DrawColor = color;
-  x=_x;
-  y=_y;
-  w=1;
-  h=1;
+  x = _x;
+  y = _y;
+  w = 1;
+  h = 1;
   if (ctype == 2)
   {
     x -= BWAPI::BroodwarImpl._getScreenX();
@@ -303,7 +303,7 @@ void drawDot(int _x,int _y,int color,BWAPI::CoordinateType::Enum ctype)
     x += BWAPI::BroodwarImpl._getMouseX();
     y += BWAPI::BroodwarImpl._getMouseY();
   }
-  if (x+1<=0 || y+1<=0 || x>=638 || y>=478)
+  if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
 
 
@@ -324,14 +324,14 @@ void drawDot(int _x,int _y,int color,BWAPI::CoordinateType::Enum ctype)
 #pragma warning(push)
 #pragma warning(disable:4311)
 #pragma warning(disable:4312)
-void JmpCallPatch(void *pDest, int pSrc, int nNops = 0)
+void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
 {
   DWORD OldProt = 0;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
   unsigned char jmp = 0xE9;
   memcpy((LPVOID)pSrc, &jmp, 1);
   DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
-  memcpy((LPVOID)(pSrc + 1), &address, 4); 
+  memcpy((LPVOID)(pSrc + 1), &address, 4);
   for (int i = 0; i < nNops; ++i)
     *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
@@ -346,7 +346,7 @@ void __declspec(naked) NewIssueCommand()
     push ebp
     mov ebp, esp
     push ecx
-    mov eax, dword ptr ds:[0x654AA0]
+  mov eax, dword ptr ds: [0x654AA0]
     //jump to execute the rest of the function
     jmp [BW::BWFXN_NewIssueCommand]
   }
@@ -368,26 +368,26 @@ void __declspec(naked) onIssueCommand()
     mov ebpSave, ebp
     mov commandIDptr, ecx;
   }
-  commandID=*(u8*)commandIDptr;
+  commandID = *(u8*)commandIDptr;
   //Util::Logger::globalLog->log("command ID: 0x%x",(int)commandID);
 
   //decide if we should let the command go through
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
 
-    //If user input is disabled, only allow the following commands to go through:
-    || commandID==0x37  //Unknown, called every frame
-    || commandID==0x09  //SelectSingle
-    || commandID==0x10  //PauseGame
-    || commandID==0x11  //ResumeGame
-    || commandID==0x3C  //StartGame
-    || commandID==0x41  //ChangeRace
-    || commandID==0x44  //ChangeSlot
-    || commandID==0x3D  //PlayerJoin?
-    || commandID==0x3E  //Lobby?
-    || commandID==0x3F  //?
-    || commandID==0x40  //?
-    || commandID==0x0A  //?
-    )
+       //If user input is disabled, only allow the following commands to go through:
+       || commandID == 0x37 //Unknown, called every frame
+       || commandID == 0x09 //SelectSingle
+       || commandID == 0x10 //PauseGame
+       || commandID == 0x11 //ResumeGame
+       || commandID == 0x3C //StartGame
+       || commandID == 0x41 //ChangeRace
+       || commandID == 0x44 //ChangeSlot
+       || commandID == 0x3D //PlayerJoin?
+       || commandID == 0x3E //Lobby?
+       || commandID == 0x3F //?
+       || commandID == 0x40 //?
+       || commandID == 0x0A //?
+     )
   {
     __asm
     {
@@ -447,22 +447,22 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
 BOOL APIENTRY DllMain( HMODULE hModule,
-                      DWORD  ul_reason_for_call,
-                      LPVOID lpReserved
-                      )
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
 {
   switch (ul_reason_for_call)
   {
-    case DLL_PROCESS_ATTACH: 
+    case DLL_PROCESS_ATTACH:
     {
       BWAPI::BWAPI_init();
-       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
-       return true;
+      CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
+      return true;
     }
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
-    break;
+      break;
   }
   return true;
 }

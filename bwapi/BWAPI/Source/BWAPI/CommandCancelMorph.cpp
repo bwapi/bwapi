@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelMorph::CommandCancelMorph(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelMorph::describe()
   {
-	  return this->executors[0]->getName() + " cancelled morph";
+    return this->executors[0]->getName() + " cancelled morph";
   }
   //----------------------------------------------------------------------------------------------------------
 }

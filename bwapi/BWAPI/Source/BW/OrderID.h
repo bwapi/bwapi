@@ -5,13 +5,13 @@
 
 namespace BW
 {
-  /** 
-   * Specifies type of action performed by unit. 
+  /**
+   * Specifies type of action performed by unit.
    * from http://www.staredit.net/wiki/Orders.dat_Entry_Listing
    */
   namespace OrderID
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       Die                    = 0x00, /**< Causes the unit to die. Normal units run the death iscript animation, while hallucinated units have the sound/sprite spawned and then are removed.
                                       * Default Requirements: Allow on hallucinated units. */

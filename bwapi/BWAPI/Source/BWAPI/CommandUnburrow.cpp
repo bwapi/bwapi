@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUnburrow::CommandUnburrow(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -27,7 +27,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandUnburrow::describe()
   {
-	  return this->executors[0]->getName() + " unburrowed";
+    return this->executors[0]->getName() + " unburrowed";
   }
   //----------------------------------------------------------------------------------------------------------
 }

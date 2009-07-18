@@ -19,7 +19,7 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Root::Root(const std::string& xmlFileName)
-    :log(new Util::FileLogger(BWAI::config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
+      : log(new Util::FileLogger(BWAI::config->get("log_path") + "\\build-order", Util::LogLevel::MicroDetailed))
   {
     this->log->registerLogger(new BWAI::ScreenLogger(Util::LogLevel::Normal));
     include(xmlFileName);
@@ -29,9 +29,9 @@ namespace BuildOrder
   {
     if (this->includedFiles.count(xmlFileName))
       return; // already included
-    
+
     this->includedFiles.insert(xmlFileName);
-    FILE* f = fopen(xmlFileName.c_str(),"rb");
+    FILE* f = fopen(xmlFileName.c_str(), "rb");
     if (!f)
       throw FileException("Unable to load data file " + xmlFileName);
 
@@ -44,8 +44,8 @@ namespace BuildOrder
     TiXmlElement* root = node->ToElement();
 
     for (TiXmlElement* includeElement = root->FirstChildElement("include"); includeElement != NULL; includeElement = includeElement->NextSiblingElement("include"))
-      this->include(BWAI::config->get("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement,"name"));
-    
+      this->include(BWAI::config->get("build_order_directory") + "\\" + Util::Xml::getRequiredAttribute(includeElement, "name"));
+
     try
     {
       for (TiXmlElement* buildOrder = root->FirstChildElement("build-order"); buildOrder != NULL; buildOrder = buildOrder->NextSiblingElement("build-order"))

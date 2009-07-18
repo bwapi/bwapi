@@ -37,18 +37,18 @@ namespace BuildOrder { class Executor; }
 
 namespace BWAPI { class UnitPrototype; }
 
-/** 
+/**
  * Set of classes providing ai tools.
  */
 namespace BWAI
 {
   /**
    * Singleton - root ai class maintaining all the stuff, it's only instance
-   * should be the one defined in globals. 
+   * should be the one defined in globals.
    *
    * There are good reasons that the class is constructed dynamically, the main
    * is that non-dynamical classes have not defined order of constructor (c++
-   * definition), so this class is constructated manually justa after the 
+   * definition), so this class is constructated manually justa after the
    * #BWAPI#Game is constructed and it uses it's content (configuration, logs)
    */
   class AI : public BWAPI::AIModule
@@ -76,7 +76,7 @@ namespace BWAI
       Util::Logger* log;
       Unit* freeBuilder(BWAPI::Position position);
 
-      std::list<TaskGatherGas*> activeRefineries;      
+      std::list<TaskGatherGas*> activeRefineries;
       std::list<TaskGather*> activeMinerals;
       std::list<TaskBuild*> plannedBuildings;
       std::list<TaskInvent*> plannedInvents;
@@ -85,9 +85,9 @@ namespace BWAI
       std::list<TaskFight*> fightGroups;
       std::list<TaskFight*> plannedFights;
       std::set<Task*, Task::TaskPriorityLess> prioritisedTasks; /**< Contains all tasks connected with resource handling sorted by priority */
-      BuildOrder::Root *root;
-      BuildOrder::Executor *buildOrderExecutor;
-      
+      BuildOrder::Root* root;
+      BuildOrder::Executor* buildOrderExecutor;
+
       Player* player;
       Player* opponent;
       BWAPI::Position getEnemyMain();
@@ -95,27 +95,27 @@ namespace BWAI
       /**
        * Gets set of building positions (wrapped by the BuildingPosition class) with the specified id. The
        * operation speed should be log(count of places) as the stl doesn't support hash, but whatever.
-       * @param place name of the building-place-set identification - it is the same as the name attribute in 
+       * @param place name of the building-place-set identification - it is the same as the name attribute in
        * the building tag in the map xml file.
        * @returns BuildingPosition set with he specified name if present, @c NULL otherwise.
        */
       BuildingPositionSet* getPositionsCalled(const std::string& place);
       BWAI::ReservedResources reserved;
-      PathFinding::Utilities *pathFinding;
-      MapStartingPosition* startingPosition;      
+      PathFinding::Utilities* pathFinding;
+      MapStartingPosition* startingPosition;
       u16 mineralGatherers;
       /** @todo investigate and use the nextSupply provider here. */
       s32 plannedSupplyGain(BWAPI::Race race);
       s32 buildTaskUnitsPlanned[228];
       BWAPI::Color drawColor;
     private :
-      std::map<BWAPI::Unit*,Unit*> unit_mapping;
+      std::map<BWAPI::Unit*, Unit*> unit_mapping;
       std::map<BWAPI::Player*, Player*> player_mapping;
       BWAPI::UnitPrototype* worker;
-      Util::Logger* deadLog;      
-      MapInfo *mapInfo;
-            
-      void startNewExpansion(Unit *gatherCenter);
+      Util::Logger* deadLog;
+      MapInfo* mapInfo;
+
+      void startNewExpansion(Unit* gatherCenter);
       void rebalanceMiners();
       void checkAssignedWorkers();
       void checkNewExpansions();
@@ -124,7 +124,7 @@ namespace BWAI
        * @returns something happened (so reselect is needed)
        */
       //void performAutoBuild();
-      void getIdleWorkers(std::list<Unit*> &workers);
+      void getIdleWorkers(std::list<Unit*>& workers);
       void assignIdleWorkersToMinerals(std::list<Unit*>& idleWorkers);
       void executeTasks();
       TaskGather* bestFor(Unit* gatherer);
@@ -140,13 +140,13 @@ namespace BWAI
        * @param task2 TaskGather assigned to the second mineral patch
        * @param optimiseFor Define what worker is it regarded to (so the distance can can be taken in to
        *        account), if NULL conditions that needs to know the gatherer position won't be used.
-       * @returns @c true if the fist mineral patch is better, @c false otherwise. 
+       * @returns @c true if the fist mineral patch is better, @c false otherwise.
        */
       bool betterMinralPatch(BWAI::TaskGather* task1, BWAI::TaskGather* task2, Unit* optimiseFor = NULL);
       /** Compares two workers suitability to be freed from it's task to do something else. */
       bool betterWorkerToFree(Unit* worker1, Unit* worker2, const BWAPI::Position& buildingPosition);
       Unit* temp;
-      
+
       bool cycle;
       BWAPI::Position cyclePosition;
       float cycleAngle;

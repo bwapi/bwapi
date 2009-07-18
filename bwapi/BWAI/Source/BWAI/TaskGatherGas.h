@@ -4,8 +4,8 @@ namespace BWAI { class Expansion; }
 
 namespace BWAI
 {
-  /** 
-   * Task to gather gas, note that one instance of this class 
+  /**
+   * Task to gather gas, note that one instance of this class
    * per refinery/assimilator/extractor is expected.
    */
   class TaskGatherGas : public Task
@@ -15,10 +15,10 @@ namespace BWAI
       virtual ~TaskGatherGas();
       bool execute();
       TaskType::Enum getType();
-      
+
       Unit* getRefinery();
       Expansion* getExpansion();
-    private :  
+    private :
       BWAI::Unit* refinery;
       Expansion* expansion;
   };

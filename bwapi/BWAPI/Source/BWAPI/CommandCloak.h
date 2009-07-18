@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandCloak: public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Cloak command (will be passed as executor 
+      /**
+       * @param executor Executor of the Cloak command (will be passed as executor
        *        to Command ancestor)
        */
       CommandCloak(UnitImpl* executor);

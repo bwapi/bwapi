@@ -10,8 +10,8 @@ namespace BuildOrder
 {
   class BuildWeight
   {
-    public : 
-      BuildWeight(TiXmlElement *element);
+    public :
+      BuildWeight(TiXmlElement* element);
       ~BuildWeight();
       BWAPI::UnitType unitType;
       u16 weight;

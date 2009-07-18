@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandAttackMove::CommandAttackMove(UnitImpl* executor, const BW::Position& targetPosition)
-  :Command(executor)
-  ,targetPosition(targetPosition)
+      : Command(executor)
+      , targetPosition(targetPosition)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -15,10 +15,10 @@ namespace BWAPI
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
       if ((this->executors[i]->getType().canMove()))
-        {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackMove;
-          this->executors[i]->getRawDataLocal()->moveToPos = this->targetPosition;
-        }
+      {
+        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackMove;
+        this->executors[i]->getRawDataLocal()->moveToPos = this->targetPosition;
+      }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
@@ -29,7 +29,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandAttackMove::describe()
   {
-	  return this->executors[0]->getName() + " attacked location";
+    return this->executors[0]->getName() + " attacked location";
   }
   //----------------------------------------------------------------------------------------------------------
 }

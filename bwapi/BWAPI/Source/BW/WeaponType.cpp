@@ -7,12 +7,12 @@ namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   WeaponType::WeaponType()
-  :id(BW::WeaponID::None)
+      : id(BW::WeaponID::None)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   WeaponType::WeaponType(const BW::WeaponID::Enum& id)
-  :id(id)
+      : id(id)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
@@ -42,8 +42,8 @@ namespace BW
       return "None";
     else if (this->getID() < BW::WEAPON_TYPE_COUNT)
     {
-      u16 stringNum=BW::BWDATA_WeaponLabel->weaponType[this->getID()];
-      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + stringNum*2)) + *((u32*)BW::BWDATA_StringTableOff));
+      u16 stringNum = BW::BWDATA_WeaponLabel->weaponType[this->getID()];
+      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + stringNum * 2)) + *((u32*)BW::BWDATA_StringTableOff));
     }
     else
       return "Invalid";

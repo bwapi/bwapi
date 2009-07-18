@@ -23,7 +23,7 @@ namespace BuildOrder
       std::map<std::string, Branch*> functions;
       std::list<RootBranch*> buildOrders;
       std::map<std::string, BuildWeights*> weights;
-      Util::Logger *log;
+      Util::Logger* log;
       Executor* getStart();
       std::set<std::string> includedFiles;
   };

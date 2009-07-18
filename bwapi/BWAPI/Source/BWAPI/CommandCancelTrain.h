@@ -7,15 +7,15 @@ namespace BWAPI
   class CommandCancelTrain : public Command
   {
     public :
-      /** 
-       * @param building Building that constructs the specified unit 
+      /**
+       * @param building Building that constructs the specified unit
        *         (will be passed as executor to Command ancestor
        */
       CommandCancelTrain(UnitImpl* building);
       CommandCancelTrain(UnitImpl* building, int slot);
       ~CommandCancelTrain();
       BWAPI::CommandTypes::Enum getType();
-      /** 
+      /**
         * @todo Give back money
         * @todo Give back supply
         * @todo Take supply if another unit in slot

@@ -4,7 +4,7 @@ namespace BW
   /** Game Types. */
   namespace gameType
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       Melee      = 2,
       FFA        = 4,

@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandSetRally : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Set Rally command (will be passed as executor 
+      /**
+       * @param executor Executor of the Set Rally command (will be passed as executor
                 to Command ancestor)
        * @param target Target of the Set Rally command.
        */

@@ -4,12 +4,12 @@
 namespace BWAPI
 {
   ShapeCircle::ShapeCircle(CoordinateType::Enum ctype, int x, int y, int radius, int color, bool isSolid)
-  :ctype(ctype)
-  ,x(x)
-  ,y(y)
-  ,radius(radius)
-  ,color(color)
-  ,isSolid(isSolid)
+      : ctype(ctype)
+      , x(x)
+      , y(y)
+      , radius(radius)
+      , color(color)
+      , isSolid(isSolid)
   {
   }
 
@@ -22,10 +22,10 @@ namespace BWAPI
       int ddF_y = -2 * radius;
       int xi = 0;
       int yi = radius;
-   
-      drawDot(x, y + radius,color,ctype);
-      drawDot(x, y - radius,color,ctype);
-      drawBox(x - radius, y,radius*2,1,color,ctype);
+
+      drawDot(x, y + radius, color, ctype);
+      drawDot(x, y - radius, color, ctype);
+      drawBox(x - radius, y, radius*2, 1, color, ctype);
 
       while(xi < yi)
       {
@@ -51,15 +51,15 @@ namespace BWAPI
       int ddF_y = -2 * radius;
       int xi = 0;
       int yi = radius;
-   
-      drawDot(x, y + radius,color,ctype);
-      drawDot(x, y - radius,color,ctype);
-      drawDot(x + radius, y,color,ctype);
-      drawDot(x - radius, y,color,ctype);
-   
+
+      drawDot(x, y + radius, color, ctype);
+      drawDot(x, y - radius, color, ctype);
+      drawDot(x + radius, y, color, ctype);
+      drawDot(x - radius, y, color, ctype);
+
       while(xi < yi)
       {
-        if(f >= 0) 
+        if(f >= 0)
         {
           yi--;
           ddF_y += 2;
@@ -67,15 +67,15 @@ namespace BWAPI
         }
         xi++;
         ddF_x += 2;
-        f += ddF_x;    
-        drawDot(x + xi, y + yi,color,ctype);
-        drawDot(x - xi, y + yi,color,ctype);
-        drawDot(x + xi, y - yi,color,ctype);
-        drawDot(x - xi, y - yi,color,ctype);
-        drawDot(x + yi, y + xi,color,ctype);
-        drawDot(x - yi, y + xi,color,ctype);
-        drawDot(x + yi, y - xi,color,ctype);
-        drawDot(x - yi, y - xi,color,ctype);
+        f += ddF_x;
+        drawDot(x + xi, y + yi, color, ctype);
+        drawDot(x - xi, y + yi, color, ctype);
+        drawDot(x + xi, y - yi, color, ctype);
+        drawDot(x - xi, y - yi, color, ctype);
+        drawDot(x + yi, y + xi, color, ctype);
+        drawDot(x - yi, y + xi, color, ctype);
+        drawDot(x + yi, y - xi, color, ctype);
+        drawDot(x - yi, y - xi, color, ctype);
       }
     }
   }

@@ -7,8 +7,8 @@ namespace BWAPI
   class CommandCancelUpgrade : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Cancel Upgrade command (will be passed as executor 
+      /**
+       * @param executor Executor of the Cancel Upgrade command (will be passed as executor
                 to Command ancestor)
        */
       CommandCancelUpgrade(UnitImpl* building);

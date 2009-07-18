@@ -7,8 +7,8 @@ namespace BWAPI
   class CommandCancelMorph : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Cancel Morph command (will be passed as executor 
+      /**
+       * @param executor Executor of the Cancel Morph command (will be passed as executor
                 to Command ancestor)
        */
       CommandCancelMorph(UnitImpl* building);

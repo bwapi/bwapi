@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandDecloak::CommandDecloak(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -27,7 +27,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandDecloak::describe()
   {
-	  return this->executors[0]->getName() + " decloaked";
+    return this->executors[0]->getName() + " decloaked";
   }
   //----------------------------------------------------------------------------------------------------------
 }

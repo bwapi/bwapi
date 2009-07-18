@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandUnload::CommandUnload(UnitImpl* executor, UnitImpl* target)
-  :Command(executor)
-  ,target(target)
+      : Command(executor)
+      , target(target)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -26,7 +26,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandUnload::describe()
   {
-	  return this->executors[0]->getName() + " unloaded unit";
+    return this->executors[0]->getName() + " unloaded unit";
   }
   //----------------------------------------------------------------------------------------------------------
 }

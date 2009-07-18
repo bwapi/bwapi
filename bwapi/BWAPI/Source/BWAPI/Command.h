@@ -17,7 +17,7 @@ namespace BWAPI
        * @param executors Executors of the command (Every command has some
        *        executor).
        */
-      Command(const std::vector<UnitImpl*> &executors);
+      Command(const std::vector<UnitImpl*>& executors);
       /**
        * Special case with one executor only, makes list containing the
        * specified value.
@@ -35,7 +35,7 @@ namespace BWAPI
       /** This value specifies if the last execution of the command failed */
       bool failed;
       virtual std::string describe() = 0;
-    protected : 
+    protected :
       /** List of executors of the command. */
       std::vector<UnitImpl*> executors;
   };

@@ -4,18 +4,18 @@ namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ReservedResources::ReservedResources()
-  :minerals(0)
-  ,gas(0)
-  ,supply(0)
-  ,reservedIncome(0)
+      : minerals(0)
+      , gas(0)
+      , supply(0)
+      , reservedIncome(0)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   ReservedResources::ReservedResources(u16 minerals, u16 gas, u16 supply)
-  :minerals(minerals)
-  ,gas(gas)
-  ,supply(supply)
-  ,reservedIncome(0)
+      : minerals(minerals)
+      , gas(gas)
+      , supply(supply)
+      , reservedIncome(0)
   {
   }
   //---------------------------------------------- OPERATOR += -----------------------------------------------
@@ -33,6 +33,6 @@ namespace BWAI
     this->gas = 0;
     this->supply = 0;
     this->reservedIncome = 0;
-  }  
+  }
   //----------------------------------------------------------------------------------------------------------
 }

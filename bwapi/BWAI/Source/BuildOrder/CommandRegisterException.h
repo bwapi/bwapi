@@ -5,7 +5,7 @@ class TiXmlElement;
 
 namespace BuildOrder
 {
- /** Represnts task to register exception globally. */
+  /** Represnts task to register exception globally. */
   class CommandRegisterException : public Command
   {
     public :

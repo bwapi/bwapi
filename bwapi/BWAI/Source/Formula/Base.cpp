@@ -28,11 +28,11 @@ namespace Formula
     try
     {
       for ever
-      {
-        Util::Strings::skipSpace(input, position);
+    {
+      Util::Strings::skipSpace(input, position);
         switch (input[position])
         {
-          case '(' : 
+          case '(' :
             position++;
             multiplication->nested.push_back(Base::parseInternal(input, ++position));
             if (input[position] != ')')
@@ -50,7 +50,7 @@ namespace Formula
               multiplication = NULL;
               summation->nested.push_back(item);
             }
-            else 
+            else
               summation->nested.push_back(multiplication);
             if (summation->nested.empty())
               throw ParseException("Empty expression in " + input);
@@ -69,10 +69,10 @@ namespace Formula
             break;
           case '-' :
             summation->nested.push_back(multiplication);
-            multiplication = new Multiplication();          
-            multiplication->nested.push_back(new Number(-1));            
+            multiplication = new Multiplication();
+            multiplication->nested.push_back(new Number(-1));
             break;
-          default : 
+          default :
             if (isdigit(input[position]))
             {
               multiplication->nested.push_back(new Number(Util::Strings::readNumber(input, position)));
@@ -82,7 +82,7 @@ namespace Formula
               multiplication->nested.push_back(new Function(input, position));
             else
               throw ParseException((std::string)"Unknown character '" + input[position] + "'in formula '" + input + "' at position " + Util::Strings::intToString(position));
-        } 
+        }
         position ++;
       }
     }

@@ -5,7 +5,7 @@
 
 namespace BWAPI
 {
-  bool initializingExplosionType=true;
+  bool initializingExplosionType = true;
   std::string explosionTypeName[26];
   std::map<std::string, ExplosionType> explosionTypeMap;
   std::set< ExplosionType > explosionTypeSet;
@@ -38,31 +38,31 @@ namespace BWAPI
     const ExplosionType Unknown(25);
     void init()
     {
-      explosionTypeName[None.getID()]="None";
-      explosionTypeName[Normal.getID()]="Normal";
-      explosionTypeName[Radial_Splash.getID()]="Radial Splash";
-      explosionTypeName[Enemy_Splash.getID()]="Enemy Splash";
-      explosionTypeName[Lockdown.getID()]="Lockdown";
-      explosionTypeName[Nuclear_Missile.getID()]="Nuclear Missile";
-      explosionTypeName[Parasite.getID()]="Parasite";
-      explosionTypeName[Broodlings.getID()]="Broodlings";
-      explosionTypeName[EMP_Shockwave.getID()]="EMP Shockwave";
-      explosionTypeName[Irradiate.getID()]="Irradiate";
-      explosionTypeName[Ensnare.getID()]="Ensnare";
-      explosionTypeName[Plague.getID()]="Plague";
-      explosionTypeName[Stasis_Field.getID()]="Stasis Field";
-      explosionTypeName[Dark_Swarm.getID()]="Dark Swarm";
-      explosionTypeName[Consume.getID()]="Consume";
-      explosionTypeName[Yamato_Gun.getID()]="Yamato Gun";
-      explosionTypeName[Restoration.getID()]="Restoration";
-      explosionTypeName[Disruption_Web.getID()]="Disruption Web";
-      explosionTypeName[Corrosive_Acid.getID()]="Corrosive Acid";
-      explosionTypeName[Mind_Control.getID()]="Mind Control";
-      explosionTypeName[Feedback.getID()]="Feedback";
-      explosionTypeName[Optical_Flare.getID()]="Optical Flare";
-      explosionTypeName[Maelstrom.getID()]="Maelstrom";
-      explosionTypeName[Air_Splash.getID()]="Air Splash";
-      explosionTypeName[Unknown.getID()]="Unknown";
+      explosionTypeName[None.getID()] = "None";
+      explosionTypeName[Normal.getID()] = "Normal";
+      explosionTypeName[Radial_Splash.getID()] = "Radial Splash";
+      explosionTypeName[Enemy_Splash.getID()] = "Enemy Splash";
+      explosionTypeName[Lockdown.getID()] = "Lockdown";
+      explosionTypeName[Nuclear_Missile.getID()] = "Nuclear Missile";
+      explosionTypeName[Parasite.getID()] = "Parasite";
+      explosionTypeName[Broodlings.getID()] = "Broodlings";
+      explosionTypeName[EMP_Shockwave.getID()] = "EMP Shockwave";
+      explosionTypeName[Irradiate.getID()] = "Irradiate";
+      explosionTypeName[Ensnare.getID()] = "Ensnare";
+      explosionTypeName[Plague.getID()] = "Plague";
+      explosionTypeName[Stasis_Field.getID()] = "Stasis Field";
+      explosionTypeName[Dark_Swarm.getID()] = "Dark Swarm";
+      explosionTypeName[Consume.getID()] = "Consume";
+      explosionTypeName[Yamato_Gun.getID()] = "Yamato Gun";
+      explosionTypeName[Restoration.getID()] = "Restoration";
+      explosionTypeName[Disruption_Web.getID()] = "Disruption Web";
+      explosionTypeName[Corrosive_Acid.getID()] = "Corrosive Acid";
+      explosionTypeName[Mind_Control.getID()] = "Mind Control";
+      explosionTypeName[Feedback.getID()] = "Feedback";
+      explosionTypeName[Optical_Flare.getID()] = "Optical Flare";
+      explosionTypeName[Maelstrom.getID()] = "Maelstrom";
+      explosionTypeName[Air_Splash.getID()] = "Air Splash";
+      explosionTypeName[Unknown.getID()] = "Unknown";
 
       explosionTypeSet.insert(None);
       explosionTypeSet.insert(Normal);
@@ -90,48 +90,48 @@ namespace BWAPI
       explosionTypeSet.insert(Air_Splash);
       explosionTypeSet.insert(Unknown);
 
-      for(std::set<ExplosionType>::iterator i=explosionTypeSet.begin();i!=explosionTypeSet.end();i++)
+      for(std::set<ExplosionType>::iterator i = explosionTypeSet.begin(); i != explosionTypeSet.end(); i++)
       {
-        explosionTypeMap.insert(std::make_pair((*i).getName(),*i));
+        explosionTypeMap.insert(std::make_pair((*i).getName(), *i));
       }
-      initializingExplosionType=false;
+      initializingExplosionType = false;
     }
   }
   ExplosionType::ExplosionType()
   {
-    this->id=ExplosionTypes::None.id;
+    this->id = ExplosionTypes::None.id;
   }
   ExplosionType::ExplosionType(int id)
   {
-    this->id=id;
+    this->id = id;
     if (!initializingExplosionType)
     {
-      if (id<0 || id>=26)
+      if (id < 0 || id >= 26)
       {
-        this->id=ExplosionTypes::Unknown.id;
+        this->id = ExplosionTypes::Unknown.id;
       }
     }
   }
-  ExplosionType::ExplosionType(const ExplosionType &other)
+  ExplosionType::ExplosionType(const ExplosionType& other)
   {
-    this->id=other.id;
+    this->id = other.id;
   }
-  ExplosionType& ExplosionType::operator=(const ExplosionType &other)
+  ExplosionType& ExplosionType::operator=(const ExplosionType& other)
   {
-    this->id=other.id;
+    this->id = other.id;
     return *this;
   }
-  bool ExplosionType::operator==(const ExplosionType &other) const
+  bool ExplosionType::operator==(const ExplosionType& other) const
   {
-    return this->id==other.id;
+    return this->id == other.id;
   }
-  bool ExplosionType::operator!=(const ExplosionType &other) const
+  bool ExplosionType::operator!=(const ExplosionType& other) const
   {
-    return this->id!=other.id;
+    return this->id != other.id;
   }
-  bool ExplosionType::operator<(const ExplosionType &other) const
+  bool ExplosionType::operator<(const ExplosionType& other) const
   {
-    return this->id<other.id;
+    return this->id < other.id;
   }
   int ExplosionType::getID() const
   {
@@ -141,11 +141,11 @@ namespace BWAPI
   {
     return explosionTypeName[this->id];
   }
-  
-  ExplosionType ExplosionTypes::getExplosionType(std::string &name)
+
+  ExplosionType ExplosionTypes::getExplosionType(std::string& name)
   {
-    std::map<std::string, ExplosionType>::iterator i=explosionTypeMap.find(name);
-    if (i==explosionTypeMap.end()) return ExplosionTypes::Unknown;
+    std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
+    if (i == explosionTypeMap.end()) return ExplosionTypes::Unknown;
     return (*i).second;
   }
   std::set<ExplosionType>& ExplosionTypes::allExplosionTypes()

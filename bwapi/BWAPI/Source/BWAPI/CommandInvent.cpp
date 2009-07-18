@@ -9,8 +9,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandInvent::CommandInvent(UnitImpl* building, BW::TechType tech)
-  :Command(building)
-  ,tech(tech)
+      : Command(building)
+      , tech(tech)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------

@@ -13,8 +13,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   PlayerImpl::PlayerImpl(u8 id)
-    :id(id)
-    ,unitCacheFrame(-1)
+      : id(id)
+      , unitCacheFrame(-1)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string PlayerImpl::getName() const
   {
-    if (this->getID()==11)
+    if (this->getID() == 11)
     {
       return std::string("Neutral");
     }
@@ -46,13 +46,13 @@ namespace BWAPI
     return this->id;
   }
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
-  #pragma warning(push)
-  #pragma warning(disable:4312)
+#pragma warning(push)
+#pragma warning(disable:4312)
   BW::Unit** PlayerImpl::selectedUnit()
   {
-    return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID()*48);
+    return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID() * 48);
   }
-  #pragma warning(pop)
+#pragma warning(pop)
   //------------------------------------------- GET MINERALS LOCAL -------------------------------------------
   int PlayerImpl::minerals() const
   {
@@ -152,13 +152,13 @@ namespace BWAPI
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
   {
-    return BWAPI::TilePosition((int)((BW::startPositions[this->getID()].x-BW::TILE_SIZE*2)/BW::TILE_SIZE),
-                                             (int)((BW::startPositions[this->getID()].y-(int)(BW::TILE_SIZE*1.5))/BW::TILE_SIZE));
+    return BWAPI::TilePosition((int)((BW::startPositions[this->getID()].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
+                               (int)((BW::startPositions[this->getID()].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool PlayerImpl::isNeutral() const
   {
-    return this->getID()==11;
+    return this->getID() == 11;
   }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   s32 PlayerImpl::getAllUnits(UnitType unit)
@@ -198,7 +198,7 @@ namespace BWAPI
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[this->getID()];
     return 0;
-  }  
+  }
   //------------------------------------------- PLAN TO MAKE -------------------------------------------------
   void PlayerImpl::planToMake(BW::UnitType unit)
   {
@@ -212,24 +212,24 @@ namespace BWAPI
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
   bool PlayerImpl::researching(BWAPI::TechType tech) const
   {
-    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID()*6);
+    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID() * 6);
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
   bool PlayerImpl::researched(BWAPI::TechType tech) const
   {
-   if (tech.getID() < 0x18)
-     return *((u8*)(BW::BWDATA_TechResearchSC + this->getID()*0x18 + tech.getID())) == 1;
-   else
-     return *((u8*)(BW::BWDATA_TechResearchBW + this->getID()*0x14 + tech.getID() - 0x18)) == 1;
+    if (tech.getID() < 0x18)
+      return *((u8*)(BW::BWDATA_TechResearchSC + this->getID() * 0x18 + tech.getID())) == 1;
+    else
+      return *((u8*)(BW::BWDATA_TechResearchBW + this->getID() * 0x14 + tech.getID() - 0x18)) == 1;
   }
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
   int PlayerImpl::upgradeLevel(UpgradeType upgrade) const
   {
     if (upgrade.getID() < 46)
-     return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID()*46 + upgrade.getID())));
-   else
-     return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID()*15 + upgrade.getID() - 46)));
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID() * 46 + upgrade.getID())));
+    else
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID() * 15 + upgrade.getID() - 46)));
   }
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
   bool PlayerImpl::upgrading(UpgradeType upgrade) const
@@ -239,17 +239,17 @@ namespace BWAPI
   //----------------------------------------------- GET UNITS ------------------------------------------------
   std::set<Unit*> PlayerImpl::getUnits()
   {
-    if (this->unitCacheFrame!=BWAPI::BroodwarImpl.getFrameCount())
+    if (this->unitCacheFrame != BWAPI::BroodwarImpl.getFrameCount())
     {
       this->units.clear();
-      for(std::set<UnitImpl*>::iterator u=BWAPI::BroodwarImpl.units.begin();u!=BWAPI::BroodwarImpl.units.end();u++)
+      for(std::set<UnitImpl*>::iterator u = BWAPI::BroodwarImpl.units.begin(); u != BWAPI::BroodwarImpl.units.end(); u++)
       {
-        if ((*u)->getPlayer()==this)
+        if ((*u)->getPlayer() == this)
         {
           this->units.insert((Unit*)(*u));
         }
       }
-      this->unitCacheFrame=BWAPI::BroodwarImpl.getFrameCount();
+      this->unitCacheFrame = BWAPI::BroodwarImpl.getFrameCount();
     }
     return this->units;
   }

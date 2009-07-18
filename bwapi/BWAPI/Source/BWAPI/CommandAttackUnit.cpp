@@ -5,8 +5,8 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandAttackUnit::CommandAttackUnit(UnitImpl* executor, UnitImpl* target)
-  :Command(executor)
-  ,target(target)
+      : Command(executor)
+      , target(target)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -29,7 +29,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandAttackUnit::describe()
   {
-	  return this->executors[0]->getName() + " attacked unit";
+    return this->executors[0]->getName() + " attacked unit";
   }
   //----------------------------------------------------------------------------------------------------------
 }

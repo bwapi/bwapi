@@ -16,12 +16,12 @@ namespace BWAI
       virtual ~TaskGather();
       bool execute();
       TaskType::Enum getType();
-      
+
       Unit* getMineral();
       Expansion* getExpansion();
       virtual void freeExecutor(Unit* unit);
       virtual void addExecutor(Unit* unit);
-    private :  
+    private :
       BWAI::Unit* mineral;
       Expansion* expansion;
   };

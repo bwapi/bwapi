@@ -12,8 +12,8 @@ namespace BuildOrder
   BuildWeights::BuildWeights(TiXmlElement* xmlElement)
   {
     this->factory = BWAPI::UnitTypes::getUnitType(Util::Xml::getRequiredAttribute(xmlElement, "building"));
-    for (TiXmlElement* buildElement = xmlElement->FirstChildElement("build"); 
-         buildElement != NULL; 
+    for (TiXmlElement* buildElement = xmlElement->FirstChildElement("build");
+         buildElement != NULL;
          buildElement = buildElement->NextSiblingElement("build"))
       this->weights.push_back(new BuildWeight(buildElement));
   }

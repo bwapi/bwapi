@@ -5,7 +5,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelResearch::CommandCancelResearch(UnitImpl* executor)
-  :Command(executor)
+      : Command(executor)
   {
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
@@ -24,7 +24,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string CommandCancelResearch::describe()
   {
-	  return this->executors[0]->getName() + " cancelled research";
+    return this->executors[0]->getName() + " cancelled research";
   }
   //----------------------------------------------------------------------------------------------------------
 }

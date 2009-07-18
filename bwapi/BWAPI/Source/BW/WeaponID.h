@@ -8,7 +8,7 @@ namespace BW
    */
   namespace WeaponID
   {
-    enum Enum : u8
+  enum Enum : u8
     {
       Gauss_Rifle                               = 0x00,
       Gauss_Rifle_Jim_Raynor_Marine             = 0x01,

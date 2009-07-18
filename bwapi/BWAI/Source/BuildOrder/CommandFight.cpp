@@ -14,15 +14,15 @@ namespace BuildOrder
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandFight::CommandFight(TiXmlElement* xmlElement)
-  :Command(xmlElement)
+      : Command(xmlElement)
   {
     this->dest_type = Util::Xml::getRequiredAttribute(xmlElement, "dest_type");
     this->position = Util::Xml::getOptionalAttribute(xmlElement, "position", "");
 
-    const char * minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
+    const char*  minimalPopulationAttribute = xmlElement->Attribute("minimal-population");
     if (minimalPopulationAttribute != NULL && this->condition == NULL)
     {
-      this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute))); 
+      this->condition = new ConditionMinimalPopulation(u16(Util::Strings::stringToInt(minimalPopulationAttribute)));
       this->conditionRunType = ConditionRunType::WaitToApply;
     }
   }
@@ -50,10 +50,10 @@ namespace BuildOrder
 
         for each (BWAI::Unit* i in BWAI::ai->units)
           if (!i->getType().isBuilding() &&
-            !i->getType().isWorker() &&
-            i->getType().canMove() &&
-            i->getOwner() == BWAI::ai->player &&
-            i->getTask() == NULL)
+              !i->getType().isWorker() &&
+              i->getType().canMove() &&
+              i->getOwner() == BWAI::ai->player &&
+              i->getTask() == NULL)
           {
             addedCount++;
             i->orderAttackMove(position);

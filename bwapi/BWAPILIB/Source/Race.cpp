@@ -6,28 +6,28 @@
 
 namespace BWAPI
 {
-  bool initializingRace=true;
+  bool initializingRace = true;
   class RaceInternal
   {
-  public:
-    void set(const char* name, const UnitType* worker, const UnitType* center, const UnitType* refinery, const UnitType* transport, const UnitType* supplyProvider)
-    {
-      if (initializingRace)
+    public:
+      void set(const char* name, const UnitType* worker, const UnitType* center, const UnitType* refinery, const UnitType* transport, const UnitType* supplyProvider)
       {
-        this->name=name;
-        this->worker=worker;
-        this->center=center;
-        this->refinery=refinery;
-        this->transport=transport;
-        this->supplyProvider=supplyProvider;
+        if (initializingRace)
+        {
+          this->name = name;
+          this->worker = worker;
+          this->center = center;
+          this->refinery = refinery;
+          this->transport = transport;
+          this->supplyProvider = supplyProvider;
+        }
       }
-    }
-    std::string name;
-    const UnitType* worker;
-    const UnitType* center;
-    const UnitType* refinery;
-    const UnitType* transport;
-    const UnitType* supplyProvider;
+      std::string name;
+      const UnitType* worker;
+      const UnitType* center;
+      const UnitType* refinery;
+      const UnitType* transport;
+      const UnitType* supplyProvider;
   };
   RaceInternal raceData[7];
   std::map<std::string, Race> raceMap;
@@ -43,13 +43,13 @@ namespace BWAPI
     const Race Unknown(6);
     void init()
     {
-      raceData[Zerg.getID()].set("Zerg",&(UnitTypes::Zerg_Drone),&(UnitTypes::Zerg_Hatchery),&(UnitTypes::Zerg_Extractor),&(UnitTypes::Zerg_Overlord),&(UnitTypes::Zerg_Overlord));
-      raceData[Terran.getID()].set("Terran",&(UnitTypes::Terran_SCV),&(UnitTypes::Terran_Command_Center),&(UnitTypes::Terran_Refinery),&(UnitTypes::Terran_Dropship),&(UnitTypes::Terran_Supply_Depot));
-      raceData[Protoss.getID()].set("Protoss",&(UnitTypes::Protoss_Probe),&(UnitTypes::Protoss_Nexus),&(UnitTypes::Protoss_Assimilator),&(UnitTypes::Protoss_Shuttle),&(UnitTypes::Protoss_Pylon));
-      raceData[Random.getID()].set("Random",&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown));
-      raceData[Other.getID()].set("Other",&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown));
-      raceData[None.getID()].set("None",&(UnitTypes::None),&(UnitTypes::None),&(UnitTypes::None),&(UnitTypes::None),&(UnitTypes::None));
-      raceData[Unknown.getID()].set("Unknown",&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown),&(UnitTypes::Unknown));
+      raceData[Zerg.getID()].set("Zerg", &(UnitTypes::Zerg_Drone), &(UnitTypes::Zerg_Hatchery), &(UnitTypes::Zerg_Extractor), &(UnitTypes::Zerg_Overlord), &(UnitTypes::Zerg_Overlord));
+      raceData[Terran.getID()].set("Terran", &(UnitTypes::Terran_SCV), &(UnitTypes::Terran_Command_Center), &(UnitTypes::Terran_Refinery), &(UnitTypes::Terran_Dropship), &(UnitTypes::Terran_Supply_Depot));
+      raceData[Protoss.getID()].set("Protoss", &(UnitTypes::Protoss_Probe), &(UnitTypes::Protoss_Nexus), &(UnitTypes::Protoss_Assimilator), &(UnitTypes::Protoss_Shuttle), &(UnitTypes::Protoss_Pylon));
+      raceData[Random.getID()].set("Random", &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown));
+      raceData[Other.getID()].set("Other", &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown));
+      raceData[None.getID()].set("None", &(UnitTypes::None), &(UnitTypes::None), &(UnitTypes::None), &(UnitTypes::None), &(UnitTypes::None));
+      raceData[Unknown.getID()].set("Unknown", &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown));
 
       raceSet.insert(Zerg);
       raceSet.insert(Terran);
@@ -58,48 +58,48 @@ namespace BWAPI
       raceSet.insert(None);
       raceSet.insert(Unknown);
 
-      for(std::set<Race>::iterator i=raceSet.begin();i!=raceSet.end();i++)
+      for(std::set<Race>::iterator i = raceSet.begin(); i != raceSet.end(); i++)
       {
-        raceMap.insert(std::make_pair((*i).getName(),*i));
+        raceMap.insert(std::make_pair((*i).getName(), *i));
       }
-      initializingRace=false;
+      initializingRace = false;
     }
   }
   Race::Race()
   {
-    this->id=Races::None.id;
+    this->id = Races::None.id;
   }
   Race::Race(int id)
   {
-    this->id=id;
+    this->id = id;
     if (!initializingRace)
     {
-      if (id<0 || id>=7)
+      if (id < 0 || id >= 7)
       {
-        this->id=Races::Unknown.id;
+        this->id = Races::Unknown.id;
       }
     }
   }
-  Race::Race(const Race &other)
+  Race::Race(const Race& other)
   {
-    this->id=other.id;
+    this->id = other.id;
   }
-  Race& Race::operator=(const Race &other)
+  Race& Race::operator=(const Race& other)
   {
-    this->id=other.id;
+    this->id = other.id;
     return *this;
   }
-  bool Race::operator==(const Race &other) const
+  bool Race::operator==(const Race& other) const
   {
-    return this->id==other.id;
+    return this->id == other.id;
   }
-  bool Race::operator!=(const Race &other) const
+  bool Race::operator!=(const Race& other) const
   {
-    return this->id!=other.id;
+    return this->id != other.id;
   }
-  bool Race::operator<(const Race &other) const
+  bool Race::operator<(const Race& other) const
   {
-    return this->id<other.id;
+    return this->id < other.id;
   }
   int Race::getID() const
   {
@@ -109,7 +109,7 @@ namespace BWAPI
   {
     return raceData[this->id].name;
   }
-  
+
   const UnitType* Race::getWorker() const
   {
     return raceData[this->id].worker;
@@ -130,10 +130,10 @@ namespace BWAPI
   {
     return raceData[this->id].supplyProvider;
   }
-  Race Races::getRace(std::string &name)
+  Race Races::getRace(std::string& name)
   {
-    std::map<std::string, Race>::iterator i=raceMap.find(name);
-    if (i==raceMap.end()) return Races::Unknown;
+    std::map<std::string, Race>::iterator i = raceMap.find(name);
+    if (i == raceMap.end()) return Races::Unknown;
     return (*i).second;
   }
   std::set<Race>& Races::allRaces()

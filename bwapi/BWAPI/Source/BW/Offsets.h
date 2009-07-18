@@ -32,7 +32,7 @@ namespace BW
   static const u8  FLINGY_TYPE_COUNT     = 209;
 
   static const int TILE_SIZE          =  32;
- 
+
   struct Unit;
   struct UnitArray;
   class TileType;
@@ -49,7 +49,7 @@ namespace BW
     PlayerResource minerals;
     PlayerResource gas;
   };
-  static PlayerResources* BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0; 
+  static PlayerResources* BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0;
 
   //----------------------------------------------- NAMES TYPE -----------------------------------------------
   /** Direct mapping of players info in bw memory */
@@ -123,7 +123,7 @@ namespace BW
     UnitStats killed;
     UnitStats dead;
   };
-  
+
   static Counts* BWDATA_Counts    = (Counts*) 0x00582324;    // 1.16.1
   static u8* BWDATA_gameType      = (u8*)     0x00596820;    // 1.16.1
 
@@ -140,16 +140,16 @@ namespace BW
   static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CB58;               // starts properly at +1 unitstruct
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
-  
-  static void (_stdcall* selectUnits)(int count, BW::Unit ** unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0860;
-  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit **, bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
+
+  static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0860;
+  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit** , bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
   static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
 //  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
-  
+
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
@@ -274,7 +274,7 @@ namespace BW
   //----------------------------------------------- SUB UNIT 2 -----------------------------------------------
   static unitsDat_u16_type* BWDATA_SubUnit2 = (unitsDat_u16_type*) unitsDat[2].address;
 
-  
+
   //--------------------------------------- UNIT CONSTRUCTION GRAPHICS ---------------------------------------
   static unitsDat_u32_type* BWDATA_ConstructionGraphics = (unitsDat_u32_type*) unitsDat[4].address;
   //----------------------------------------------- DIRECTION ------------------------------------------------
@@ -298,11 +298,11 @@ namespace BW
   };
   static MaxHealthPoints_NotAttackable_Repairable_type* BWDATA_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) unitsDat[8].address;
   //--------------------------------------------- ELEVATION ----------------------------------------------
-  static unitsDat_u8_type* BWDATA_Elevation= (unitsDat_u8_type*) unitsDat[9].address;
+  static unitsDat_u8_type* BWDATA_Elevation = (unitsDat_u8_type*) unitsDat[9].address;
 
 
   //--------------------------------------------- UNIT SUBLABEL ----------------------------------------------
-  static unitsDat_u8_type* BWDATA_UnitSubLabel= (unitsDat_u8_type*) unitsDat[11].address;
+  static unitsDat_u8_type* BWDATA_UnitSubLabel = (unitsDat_u8_type*) unitsDat[11].address;
 
 
   //------------------------------------------ UNIT GROUND WEAPON --------------------------------------------
@@ -471,11 +471,11 @@ namespace BW
   //------------------------------------------- WEAPON DAMAGE TYPE -------------------------------------------
   static weaponsDat_u8_type* BWDATA_WeaponDamageType = (weaponsDat_u8_type*) weaponsDat[7].address;
   //---------------------------------------- WEAPON GRAPHICAL BEHAVIOR ---------------------------------------
-  static weaponsDat_u8_type* BWDATA_WeaponGraphicalBehavior = (weaponsDat_u8_type*) weaponsDat[8].address;  
+  static weaponsDat_u8_type* BWDATA_WeaponGraphicalBehavior = (weaponsDat_u8_type*) weaponsDat[8].address;
   //------------------------------------------- WEAPON REMOVE AFTER ------------------------------------------
   static weaponsDat_u8_type* BWDATA_WeaponRemoveAfter = (weaponsDat_u8_type*) weaponsDat[9].address;
   //------------------------------------------ WEAPON EXPLOSION TYPE -----------------------------------------
-  static weaponsDat_u8_type* BWDATA_WeaponExplosionType = (weaponsDat_u8_type*) weaponsDat[10].address;  
+  static weaponsDat_u8_type* BWDATA_WeaponExplosionType = (weaponsDat_u8_type*) weaponsDat[10].address;
   //--------------------------------------- WEAPON INNER SPLASH RADIUS ---------------------------------------
   static weaponsDat_u16_type* BWDATA_WeaponInnerSplashRadius = (weaponsDat_u16_type*) weaponsDat[11].address;
   //--------------------------------------- WEAPON MEDIAN SPLASH RADIUS --------------------------------------

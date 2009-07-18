@@ -13,7 +13,7 @@ namespace BW
     public :
       UpgradeType();
       UpgradeType(const UpgradeID::Enum& id);
-      
+
       bool            operator == (const UpgradeID::Enum& id) const;
       UpgradeID::Enum getID() const;
       const char*     getName() const;

@@ -9,8 +9,8 @@ namespace BWAPI
   class CommandLand : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Attack Location command (will be passed as executor 
+      /**
+       * @param executor Executor of the Attack Location command (will be passed as executor
                 to Command ancestor)
        * @param targetPosition Target of the Land command.
        */

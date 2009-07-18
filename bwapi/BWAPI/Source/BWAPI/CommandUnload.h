@@ -8,8 +8,8 @@ namespace BWAPI
   class CommandUnload : public Command
   {
     public :
-      /** 
-       * @param executor Executor of the Unload command (will be passed as executor 
+      /**
+       * @param executor Executor of the Unload command (will be passed as executor
                 to Command ancestor)
        * @param target Target of the AttackUnit command.
        */

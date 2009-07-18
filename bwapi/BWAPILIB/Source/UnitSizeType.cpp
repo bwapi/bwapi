@@ -5,7 +5,7 @@
 
 namespace BWAPI
 {
-  bool initializingUnitSizeType=true;
+  bool initializingUnitSizeType = true;
   std::string unitSizeTypeName[6];
   std::map<std::string, UnitSizeType> unitSizeTypeMap;
   std::set< UnitSizeType > unitSizeTypeSet;
@@ -19,12 +19,12 @@ namespace BWAPI
     const UnitSizeType Unknown(5);
     void init()
     {
-      unitSizeTypeName[Independent.getID()]="Independent";
-      unitSizeTypeName[Small.getID()]="Small";
-      unitSizeTypeName[Medium.getID()]="Medium";
-      unitSizeTypeName[Large.getID()]="Large";
-      unitSizeTypeName[None.getID()]="None";
-      unitSizeTypeName[Unknown.getID()]="Unknown";
+      unitSizeTypeName[Independent.getID()] = "Independent";
+      unitSizeTypeName[Small.getID()] = "Small";
+      unitSizeTypeName[Medium.getID()] = "Medium";
+      unitSizeTypeName[Large.getID()] = "Large";
+      unitSizeTypeName[None.getID()] = "None";
+      unitSizeTypeName[Unknown.getID()] = "Unknown";
 
       unitSizeTypeSet.insert(Independent);
       unitSizeTypeSet.insert(Small);
@@ -33,48 +33,48 @@ namespace BWAPI
       unitSizeTypeSet.insert(None);
       unitSizeTypeSet.insert(Unknown);
 
-      for(std::set<UnitSizeType>::iterator i=unitSizeTypeSet.begin();i!=unitSizeTypeSet.end();i++)
+      for(std::set<UnitSizeType>::iterator i = unitSizeTypeSet.begin(); i != unitSizeTypeSet.end(); i++)
       {
-        unitSizeTypeMap.insert(std::make_pair((*i).getName(),*i));
+        unitSizeTypeMap.insert(std::make_pair((*i).getName(), *i));
       }
-      initializingUnitSizeType=false;
+      initializingUnitSizeType = false;
     }
   }
   UnitSizeType::UnitSizeType()
   {
-    this->id=UnitSizeTypes::None.id;
+    this->id = UnitSizeTypes::None.id;
   }
   UnitSizeType::UnitSizeType(int id)
   {
-    this->id=id;
+    this->id = id;
     if (!initializingUnitSizeType)
     {
-      if (id<0 || id>=6)
+      if (id < 0 || id >= 6)
       {
-        this->id=UnitSizeTypes::Unknown.id;
+        this->id = UnitSizeTypes::Unknown.id;
       }
     }
   }
-  UnitSizeType::UnitSizeType(const UnitSizeType &other)
+  UnitSizeType::UnitSizeType(const UnitSizeType& other)
   {
-    this->id=other.id;
+    this->id = other.id;
   }
-  UnitSizeType& UnitSizeType::operator=(const UnitSizeType &other)
+  UnitSizeType& UnitSizeType::operator=(const UnitSizeType& other)
   {
-    this->id=other.id;
+    this->id = other.id;
     return *this;
   }
-  bool UnitSizeType::operator==(const UnitSizeType &other) const
+  bool UnitSizeType::operator==(const UnitSizeType& other) const
   {
-    return this->id==other.id;
+    return this->id == other.id;
   }
-  bool UnitSizeType::operator!=(const UnitSizeType &other) const
+  bool UnitSizeType::operator!=(const UnitSizeType& other) const
   {
-    return this->id!=other.id;
+    return this->id != other.id;
   }
-  bool UnitSizeType::operator<(const UnitSizeType &other) const
+  bool UnitSizeType::operator<(const UnitSizeType& other) const
   {
-    return this->id<other.id;
+    return this->id < other.id;
   }
   int UnitSizeType::getID() const
   {
@@ -84,11 +84,11 @@ namespace BWAPI
   {
     return unitSizeTypeName[this->id];
   }
-  
-  UnitSizeType UnitSizeTypes::getUnitSizeType(std::string &name)
+
+  UnitSizeType UnitSizeTypes::getUnitSizeType(std::string& name)
   {
-    std::map<std::string, UnitSizeType>::iterator i=unitSizeTypeMap.find(name);
-    if (i==unitSizeTypeMap.end()) return UnitSizeTypes::Unknown;
+    std::map<std::string, UnitSizeType>::iterator i = unitSizeTypeMap.find(name);
+    if (i == unitSizeTypeMap.end()) return UnitSizeTypes::Unknown;
     return (*i).second;
   }
   std::set<UnitSizeType>& UnitSizeTypes::allUnitSizeTypes()

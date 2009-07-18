@@ -9,12 +9,12 @@ namespace BWAI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Task::Task(u16 priority)
-  :priority(priority)
+      : priority(priority)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Task::Task(Unit* executor, u16 priority)
-  :priority(priority)
+      : priority(priority)
   {
     if (executor != NULL)
       this->addExecutor(executor);
