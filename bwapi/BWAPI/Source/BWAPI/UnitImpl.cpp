@@ -1431,6 +1431,9 @@ namespace BWAPI
       case BW::TechID::Maelstorm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::CastMaelstrom), sizeof(BW::Orders::Attack));
         break;
+      case BW::TechID::NuclearStrike:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::NukePaint), sizeof(BW::Orders::Attack));
+        break;
       case BW::TechID::Plague:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::Plague), sizeof(BW::Orders::Attack));
         break;

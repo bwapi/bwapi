@@ -65,5 +65,6 @@ namespace BWAPI
     extern const TechType Healing;
     extern const TechType None;
     extern const TechType Unknown;
+    extern const TechType Nuclear_Strike;
   };
 }
