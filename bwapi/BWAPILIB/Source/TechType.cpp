@@ -17,7 +17,7 @@ namespace BWAPI
     const UnitType* whatResearches;
     Race race;
   };
-  TechTypeStruct techTypeData[46];
+  TechTypeStruct techTypeData[47];
   std::map<std::string, TechType> techTypeMap;
   std::set< TechType > techTypeSet;
   namespace TechTypes
@@ -57,6 +57,7 @@ namespace BWAPI
     const TechType Healing(34);
     const TechType None(44);
     const TechType Unknown(45);
+    const TechType Nuclear_Strike(46);
     void init()
     {
       techTypeData[Stim_Packs.getID()].name = "Stim Packs";
@@ -269,41 +270,48 @@ namespace BWAPI
       techTypeData[Unknown.getID()].energyPrice = 0;
       techTypeData[Unknown.getID()].whatResearches = &(UnitTypes::None);
       techTypeData[Unknown.getID()].race = Races::Unknown;
-      techTypeSet.insert(TechTypes::Stim_Packs);
-      techTypeSet.insert(TechTypes::Lockdown);
-      techTypeSet.insert(TechTypes::EMP_Shockwave);
-      techTypeSet.insert(TechTypes::Spider_Mines);
-      techTypeSet.insert(TechTypes::Scanner_Sweep);
-      techTypeSet.insert(TechTypes::Tank_Siege_Mode);
-      techTypeSet.insert(TechTypes::Defensive_Matrix);
-      techTypeSet.insert(TechTypes::Irradiate);
-      techTypeSet.insert(TechTypes::Yamato_Gun);
-      techTypeSet.insert(TechTypes::Cloaking_Field);
-      techTypeSet.insert(TechTypes::Personnel_Cloaking);
-      techTypeSet.insert(TechTypes::Burrowing);
-      techTypeSet.insert(TechTypes::Infestation);
-      techTypeSet.insert(TechTypes::Spawn_Broodling);
-      techTypeSet.insert(TechTypes::Dark_Swarm);
-      techTypeSet.insert(TechTypes::Plague);
-      techTypeSet.insert(TechTypes::Consume);
-      techTypeSet.insert(TechTypes::Ensnare);
-      techTypeSet.insert(TechTypes::Parasite);
-      techTypeSet.insert(TechTypes::Psionic_Storm);
-      techTypeSet.insert(TechTypes::Hallucination);
-      techTypeSet.insert(TechTypes::Recall);
-      techTypeSet.insert(TechTypes::Stasis_Field);
-      techTypeSet.insert(TechTypes::Archon_Warp);
-      techTypeSet.insert(TechTypes::Restoration);
-      techTypeSet.insert(TechTypes::Disruption_Web);
-      techTypeSet.insert(TechTypes::Mind_Control);
-      techTypeSet.insert(TechTypes::Dark_Archon_Meld);
-      techTypeSet.insert(TechTypes::Feedback);
-      techTypeSet.insert(TechTypes::Optical_Flare);
-      techTypeSet.insert(TechTypes::Maelstrom);
-      techTypeSet.insert(TechTypes::Lurker_Aspect);
-      techTypeSet.insert(TechTypes::Healing);
-      techTypeSet.insert(TechTypes::None);
-      techTypeSet.insert(TechTypes::Unknown);
+      techTypeData[Nuclear_Strike.getID()].name = "Nuclear Strike";
+      techTypeData[Nuclear_Strike.getID()].mineralPrice = 0;
+      techTypeData[Nuclear_Strike.getID()].gasPrice = 0;
+      techTypeData[Nuclear_Strike.getID()].energyPrice = 0;
+      techTypeData[Nuclear_Strike.getID()].whatResearches = &(UnitTypes::None);
+      techTypeData[Nuclear_Strike.getID()].race = Races::Terran;
+      techTypeSet.insert(Stim_Packs);
+      techTypeSet.insert(Lockdown);
+      techTypeSet.insert(EMP_Shockwave);
+      techTypeSet.insert(Spider_Mines);
+      techTypeSet.insert(Scanner_Sweep);
+      techTypeSet.insert(Tank_Siege_Mode);
+      techTypeSet.insert(Defensive_Matrix);
+      techTypeSet.insert(Irradiate);
+      techTypeSet.insert(Yamato_Gun);
+      techTypeSet.insert(Cloaking_Field);
+      techTypeSet.insert(Personnel_Cloaking);
+      techTypeSet.insert(Burrowing);
+      techTypeSet.insert(Infestation);
+      techTypeSet.insert(Spawn_Broodling);
+      techTypeSet.insert(Dark_Swarm);
+      techTypeSet.insert(Plague);
+      techTypeSet.insert(Consume);
+      techTypeSet.insert(Ensnare);
+      techTypeSet.insert(Parasite);
+      techTypeSet.insert(Psionic_Storm);
+      techTypeSet.insert(Hallucination);
+      techTypeSet.insert(Recall);
+      techTypeSet.insert(Stasis_Field);
+      techTypeSet.insert(Archon_Warp);
+      techTypeSet.insert(Restoration);
+      techTypeSet.insert(Disruption_Web);
+      techTypeSet.insert(Mind_Control);
+      techTypeSet.insert(Dark_Archon_Meld);
+      techTypeSet.insert(Feedback);
+      techTypeSet.insert(Optical_Flare);
+      techTypeSet.insert(Maelstrom);
+      techTypeSet.insert(Lurker_Aspect);
+      techTypeSet.insert(Healing);
+      techTypeSet.insert(None);
+      techTypeSet.insert(Unknown);
+      techTypeSet.insert(Nuclear_Strike);
 
       for(std::set<TechType>::iterator i = techTypeSet.begin(); i != techTypeSet.end(); i++)
       {
@@ -321,7 +329,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingTechType)
     {
-      if (id < 0 || id >= 46 || techTypeData[id].name.length() == 0)
+      if (id < 0 || id >= 47 || techTypeData[id].name.length() == 0)
       {
         this->id = TechTypes::Unknown.id;
       }
