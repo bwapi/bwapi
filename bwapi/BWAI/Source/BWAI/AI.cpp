@@ -235,6 +235,7 @@ namespace BWAI
   //------------------------------------------------ ON START ------------------------------------------------
   void AI::onStart()
   {
+    this->onFrame();
     try
     {
       this->log->logImportant("Ai::onStart start");
@@ -1160,73 +1161,73 @@ namespace BWAI
         {
           BWAPI::Broodwar->printPublic("%s", unit->getType().getName().c_str());
         }
-        else if (parsed[1] == "health")
+        else if (parsed[1] == "getHitPoints")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->health());
+          BWAPI::Broodwar->printPublic("%d", unit->getHitPoints());
         }
-        else if (parsed[1] == "shield")
+        else if (parsed[1] == "getShield")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->shield());
+          BWAPI::Broodwar->printPublic("%d", unit->getShields());
         }
-        else if (parsed[1] == "energy")
+        else if (parsed[1] == "getEnergy")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->energy());
+          BWAPI::Broodwar->printPublic("%d", unit->getEnergy());
         }
-        else if (parsed[1] == "resources")
+        else if (parsed[1] == "getResources")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->resources());
+          BWAPI::Broodwar->printPublic("%d", unit->getResources());
         }
         else if (parsed[1] == "getKillCount")
         {
           BWAPI::Broodwar->printPublic("%d", unit->getKillCount());
         }
-        else if (parsed[1] == "groundWeaponCooldown")
+        else if (parsed[1] == "getGroundWeaponCooldown")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->groundWeaponCooldown());
+          BWAPI::Broodwar->printPublic("%d", unit->getGroundWeaponCooldown());
         }
-        else if (parsed[1] == "airWeaponCooldown")
+        else if (parsed[1] == "getAirWeaponCooldown")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->airWeaponCooldown());
+          BWAPI::Broodwar->printPublic("%d", unit->getAirWeaponCooldown());
         }
-        else if (parsed[1] == "spellCooldown")
+        else if (parsed[1] == "getSpellCooldown")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->spellCooldown());
+          BWAPI::Broodwar->printPublic("%d", unit->getSpellCooldown());
         }
-        else if (parsed[1] == "defenseMatrixPoints")
+        else if (parsed[1] == "getDefenseMatrixPoints")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->defenseMatrixPoints());
+          BWAPI::Broodwar->printPublic("%d", unit->getDefenseMatrixPoints());
         }
-        else if (parsed[1] == "defenseMatrixTimer")
+        else if (parsed[1] == "getDefenseMatrixTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->defenseMatrixTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getDefenseMatrixTimer());
         }
-        else if (parsed[1] == "stimTimer")
+        else if (parsed[1] == "getStimTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->stimTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getStimTimer());
         }
-        else if (parsed[1] == "ensnareTimer")
+        else if (parsed[1] == "getEnsnareTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->ensnareTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getEnsnareTimer());
         }
-        else if (parsed[1] == "lockdownTimer")
+        else if (parsed[1] == "getLockdownTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->lockdownTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getLockdownTimer());
         }
-        else if (parsed[1] == "stasisTimer")
+        else if (parsed[1] == "getStasisTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->stasisTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getStasisTimer());
         }
-        else if (parsed[1] == "plagueTimer")
+        else if (parsed[1] == "getPlagueTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->plagueTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getPlagueTimer());
         }
-        else if (parsed[1] == "maelstromTimer")
+        else if (parsed[1] == "getMaelstromTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->maelstromTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getMaelstromTimer());
         }
-        else if (parsed[1] == "irradiateTimer")
+        else if (parsed[1] == "getIrradiateTimer")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->irradiateTimer());
+          BWAPI::Broodwar->printPublic("%d", unit->getIrradiateTimer());
         }
         else if (parsed[1] == "getPosition")
         {
@@ -1249,11 +1250,11 @@ namespace BWAI
         }
         else if (parsed[1] == "getTargetPosition")
         {
-          BWAPI::Broodwar->printPublic("(%d,%d)", unit->getPosition().x(), unit->getPosition().y());
+          BWAPI::Broodwar->printPublic("(%d,%d)", unit->getTargetPosition().x(), unit->getTargetPosition().y());
         }
-        else if (parsed[1] == "currentDirection")
+        else if (parsed[1] == "getCurrentDirection")
         {
-          BWAPI::Broodwar->printPublic("%d", unit->currentDirection());
+          BWAPI::Broodwar->printPublic("%d", unit->getCurrentDirection());
         }
         else if (parsed[1] == "getOrder")
         {
@@ -1386,6 +1387,10 @@ namespace BWAI
         else if (parsed[1] == "getRemainingUpgradeTime")
         {
           BWAPI::Broodwar->printPublic("%d", unit->getRemainingUpgradeTime());
+        }
+        else if (parsed[1] == "getRemoveTimer")
+        {
+          BWAPI::Broodwar->printPublic("%d", unit->getRemoveTimer());
         }
         else if (parsed[1] == "isAccelerating")
         {

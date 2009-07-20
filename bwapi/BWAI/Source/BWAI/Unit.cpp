@@ -29,17 +29,17 @@ namespace BWAI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int Unit::getHealthPoints() const
   {
-    return this->unit->health();
+    return this->unit->getHitPoints();
   }
   //------------------------------------------- GET SHIELD POINTS --------------------------------------------
   int Unit::getShieldPoints() const
   {
-    return this->unit->shield();
+    return this->unit->getShields();
   }
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
   int Unit::getEnergyPoints() const
   {
-    return this->unit->energy();
+    return this->unit->getEnergy();
   }
   //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int Unit::getKillCount() const
@@ -49,62 +49,62 @@ namespace BWAI
   //----------------------------------------- GROUND WEAPON COOLDOWN -----------------------------------------
   int Unit::groundWeaponCooldown() const
   {
-    return this->unit->groundWeaponCooldown();
+    return this->unit->getGroundWeaponCooldown();
   }
   //------------------------------------------ AIR WEAPON COOLDOWN -------------------------------------------
   int Unit::airWeaponCooldown() const
   {
-    return this->unit->airWeaponCooldown();
+    return this->unit->getAirWeaponCooldown();
   }
   //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
   int Unit::spellCooldown() const
   {
-    return this->unit->spellCooldown();
+    return this->unit->getSpellCooldown();
   }
   //------------------------------------------ DEFENSE MATRIX POINTS -----------------------------------------
   int Unit::defenseMatrixPoints() const
   {
-    return this->unit->defenseMatrixPoints();
+    return this->unit->getDefenseMatrixPoints();
   }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
   int Unit::defenseMatrixTimer() const
   {
-    return this->unit->defenseMatrixTimer();
+    return this->unit->getDefenseMatrixTimer();
   }
   //----------------------------------------------- STIM TIMER -----------------------------------------------
   int Unit::stimTimer() const
   {
-    return this->unit->stimTimer();
+    return this->unit->getStimTimer();
   }
   //--------------------------------------------- ENSNARE TIMER ----------------------------------------------
   int Unit::ensnareTimer() const
   {
-    return this->unit->ensnareTimer();
+    return this->unit->getEnsnareTimer();
   }
   //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
   int Unit::lockdownTimer() const
   {
-    return this->unit->lockdownTimer();
+    return this->unit->getLockdownTimer();
   }
   //-------------------------------------------- IRRADIATE TIMER ---------------------------------------------
   int Unit::irradiateTimer() const
   {
-    return this->unit->irradiateTimer();
+    return this->unit->getIrradiateTimer();
   }
   //---------------------------------------------- STASIS TIMER ----------------------------------------------
   int Unit::stasisTimer() const
   {
-    return this->unit->stasisTimer();
+    return this->unit->getStasisTimer();
   }
   //---------------------------------------------- PLAGUE TIMER ----------------------------------------------
   int Unit::plagueTimer() const
   {
-    return this->unit->plagueTimer();
+    return this->unit->getPlagueTimer();
   }
   //--------------------------------------------- MAELSTROM TIMER --------------------------------------------
   int Unit::maelstromTimer() const
   {
-    return this->unit->maelstromTimer();
+    return this->unit->getMaelstromTimer();
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   const BWAPI::Position Unit::getPosition() const
@@ -143,7 +143,7 @@ namespace BWAI
   }
   int Unit::currentDirection() const
   {
-    return this->unit->currentDirection();
+    return this->unit->getCurrentDirection();
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   int Unit::getDistance(Unit* unit) const

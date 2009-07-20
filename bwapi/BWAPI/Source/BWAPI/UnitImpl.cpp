@@ -66,22 +66,30 @@ namespace BWAPI
   {
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  int UnitImpl::health() const
+  int UnitImpl::getHitPoints() const
   {
     return this->getRawDataLocal()->healthPoints;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  int UnitImpl::shield() const
+  int UnitImpl::getShields() const
   {
-    return this->getRawDataLocal()->shieldPoints;
+    if (this->getBWType().maxShields()>0)
+    {
+      return this->getRawDataLocal()->shieldPoints;
+    }
+    return 0;
   }
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
-  int UnitImpl::energy() const
+  int UnitImpl::getEnergy() const
   {
-    return this->getRawDataLocal()->energy;
+    if (this->getBWType().isSpellcaster())
+    {
+      return this->getRawDataLocal()->energy;
+    }
+    return 0;
   }
   //----------------------------------------------- RESOURCES ------------------------------------------------
-  int UnitImpl::resources() const
+  int UnitImpl::getResources() const
   {
     if (this->getBWType() != BW::UnitID::Resource_MineralPatch1 &&
         this->getBWType() != BW::UnitID::Resource_MineralPatch2 &&
@@ -101,64 +109,69 @@ namespace BWAPI
     return this->getRawDataLocal()->killCount;
   }
   //----------------------------------------- GROUND WEAPON COOLDOWN -----------------------------------------
-  int UnitImpl::groundWeaponCooldown() const
+  int UnitImpl::getGroundWeaponCooldown() const
   {
     return this->getRawDataLocal()->groundWeaponCooldown;
   }
   //------------------------------------------ AIR WEAPON COOLDOWN -------------------------------------------
-  int UnitImpl::airWeaponCooldown() const
+  int UnitImpl::getAirWeaponCooldown() const
   {
     return this->getRawDataLocal()->airWeaponCooldown;
   }
   //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
-  int UnitImpl::spellCooldown() const
+  int UnitImpl::getSpellCooldown() const
   {
     return this->getRawDataLocal()->spellCooldown;
   }
   //------------------------------------------ DEFENSE MATRIX POINTS -----------------------------------------
-  int UnitImpl::defenseMatrixPoints() const
+  int UnitImpl::getDefenseMatrixPoints() const
   {
     return this->getRawDataLocal()->defenseMatrixDamage;
   }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
-  int UnitImpl::defenseMatrixTimer() const
+  int UnitImpl::getDefenseMatrixTimer() const
   {
     return this->getRawDataLocal()->defenseMatrixTimer;
   }
   //----------------------------------------------- STIM TIMER -----------------------------------------------
-  int UnitImpl::stimTimer() const
+  int UnitImpl::getStimTimer() const
   {
     return this->getRawDataLocal()->stimTimer;
   }
   //---------------------------------------------- ENSNARE TIMER ---------------------------------------------
-  int UnitImpl::ensnareTimer() const
+  int UnitImpl::getEnsnareTimer() const
   {
     return this->getRawDataLocal()->ensareTimer;
   }
   //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
-  int UnitImpl::lockdownTimer() const
+  int UnitImpl::getLockdownTimer() const
   {
     return this->getRawDataLocal()->lockdownTimer;
   }
   //--------------------------------------------- IRRADIATE TIMER --------------------------------------------
-  int UnitImpl::irradiateTimer() const
+  int UnitImpl::getIrradiateTimer() const
   {
     return this->getRawDataLocal()->irradiateTimer;
   }
   //---------------------------------------------- STASIS TIMER ----------------------------------------------
-  int UnitImpl::stasisTimer() const
+  int UnitImpl::getStasisTimer() const
   {
     return this->getRawDataLocal()->stasisTimer;
   }
   //---------------------------------------------- PLAGUE TIMER ----------------------------------------------
-  int UnitImpl::plagueTimer() const
+  int UnitImpl::getPlagueTimer() const
   {
     return this->getRawDataLocal()->plagueTimer;
   }
   //--------------------------------------------- MAELSTROM TIMER --------------------------------------------
-  int UnitImpl::maelstromTimer() const
+  int UnitImpl::getMaelstromTimer() const
   {
     return this->getRawDataLocal()->maelstromTimer;
+  }
+  //---------------------------------------------- REMOVE TIMER ----------------------------------------------
+  int UnitImpl::getRemoveTimer() const
+  {
+    return this->getRawDataLocal()->removeTimer;
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getPlayer() const
@@ -176,7 +189,7 @@ namespace BWAPI
     if (this->isMineral())
       return  !this->getRawDataLocal()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
     else
-      return this->health() > 0 && this->getType() != BWAPI::UnitTypes::None && this->getType() != BWAPI::UnitTypes::Unknown;
+      return this->getHitPoints() > 0 && this->getType() != BWAPI::UnitTypes::None && this->getType() != BWAPI::UnitTypes::Unknown;
   }
   //------------------------------------------------ IS READY ------------------------------------------------
   bool UnitImpl::isReady() const
@@ -244,7 +257,8 @@ namespace BWAPI
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
-    return (this->getBWOrder() == BW::OrderID::Guard ||
+    return (this->getBWOrder() == BW::OrderID::PlayerGuard ||
+            this->getBWOrder() == BW::OrderID::Guard ||
             this->getBWOrder() == BW::OrderID::Stop ||
             this->getBWOrder() == BW::OrderID::Pickup1 ||
             this->getBWOrder() == BW::OrderID::Nothing2 ||
@@ -268,7 +282,7 @@ namespace BWAPI
   //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
   bool UnitImpl::isLockedDown() const
   {
-    return this->lockdownTimer() > 0;
+    return this->getLockdownTimer() > 0;
   }
   //----------------------------------------------- IS MORPHING ----------------------------------------------
   bool UnitImpl::isMorphing() const
@@ -315,7 +329,7 @@ namespace BWAPI
   //----------------------------------------------- IS STASISED ----------------------------------------------
   bool UnitImpl::isStasised() const
   {
-    return this->stasisTimer() > 0;
+    return this->getStasisTimer() > 0;
   }
   //---------------------------------------------- IS TRAINING -----------------------------------------------
   bool UnitImpl::isTraining() const
@@ -403,7 +417,7 @@ namespace BWAPI
     return BWAPI::Position(this->getRawDataLocal()->moveToPos.x, this->getRawDataLocal()->moveToPos.y);
   }
   //-------------------------------------------- CURRENT DIRECTION -------------------------------------------
-  int UnitImpl::currentDirection() const
+  int UnitImpl::getCurrentDirection() const
   {
     return this->getRawDataLocal()->currentDirection;
   }

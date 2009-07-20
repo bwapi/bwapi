@@ -231,7 +231,7 @@ namespace BW
     /*0x107*/ u8                           isBeingHealed;      /**< @todo Verify - seems like it isn't working */
     /*0x108*/ BW::Position                 contours1Unknown;   /**< @todo Unknown */
     /*0x10A*/ BW::Position                 contours2Unknown;   /**< @todo Unknown */
-    /*0x110*/ u16                          removeTimer;        /**< @todo Verify (Hallucination, DSwarm, DWeb, Broodling) */
+    /*0x110*/ u16                          removeTimer;        /**< @todo Verified for Hallucination, unverified for DSwarm, DWeb, Broodling */
     /*0x112*/ u16                          defenseMatrixDamage;/**< @todo Verify */
     /*0x114*/ u8                           defenseMatrixTimer;
     /*0x115*/ u8                           stimTimer;
