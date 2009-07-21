@@ -5,6 +5,7 @@
 namespace BWAPI
 {
   class UnitType;
+  class WeaponType;
   class TechType
   {
     public:
@@ -20,8 +21,10 @@ namespace BWAPI
       Race getRace() const;
       int mineralPrice() const;
       int gasPrice() const;
-      int energyPrice() const;
+      int energyUsed() const;
       const UnitType* whatResearches() const;
+      const WeaponType* getWeapon() const;
+      const std::set<const UnitType*>& whatUses() const;
     private:
       int id;
   };
@@ -43,7 +46,7 @@ namespace BWAPI
     extern const TechType Personnel_Cloaking;
     extern const TechType Burrowing;
     extern const TechType Infestation;
-    extern const TechType Spawn_Broodling;
+    extern const TechType Spawn_Broodlings;
     extern const TechType Dark_Swarm;
     extern const TechType Plague;
     extern const TechType Consume;
