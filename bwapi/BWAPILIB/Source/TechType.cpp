@@ -4,20 +4,54 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
+#include <BWAPI/WeaponType.h>
 
 namespace BWAPI
 {
   bool initializingTechType = true;
-  struct TechTypeStruct
+  class TechTypeInternal
   {
-    std::string name;
-    int mineralPrice;
-    int gasPrice;
-    int energyPrice;
-    const UnitType* whatResearches;
-    Race race;
+    public:
+      TechTypeInternal() {valid = false;}
+      void set(const char* name, int mineralPrice, int gasPrice, int energyUsed, const UnitType* whatResearches, Race race, const WeaponType* weapon, const UnitType* whatUses1, const UnitType* whatUses2=NULL, const UnitType* whatUses3=NULL, const UnitType* whatUses4=NULL)
+      {
+        this->name=name;
+        this->mineralPrice=mineralPrice;
+        this->gasPrice=gasPrice;
+        this->energyUsed=energyUsed;
+        this->whatResearches=whatResearches;
+        this->race=race;
+        this->weapon=weapon;
+        if (whatUses1!=NULL && whatUses1!=&(UnitTypes::None))
+        {
+          this->whatUses.insert(whatUses1);
+        }
+        if (whatUses2!=NULL && whatUses2!=&(UnitTypes::None))
+        {
+          this->whatUses.insert(whatUses2);
+        }
+        if (whatUses3!=NULL && whatUses3!=&(UnitTypes::None))
+        {
+          this->whatUses.insert(whatUses3);
+        }
+        if (whatUses4!=NULL && whatUses4!=&(UnitTypes::None))
+        {
+          this->whatUses.insert(whatUses4);
+        }
+        this->valid = true;
+      }
+      std::string name;
+      int mineralPrice;
+      int gasPrice;
+      int energyUsed;
+      const UnitType* whatResearches;
+      Race race;
+      const WeaponType* weapon;
+      std::set<const UnitType*> whatUses;
+
+      bool valid;
   };
-  TechTypeStruct techTypeData[47];
+  TechTypeInternal techTypeData[47];
   std::map<std::string, TechType> techTypeMap;
   std::set< TechType > techTypeSet;
   namespace TechTypes
@@ -35,7 +69,7 @@ namespace BWAPI
     const TechType Personnel_Cloaking(10);
     const TechType Burrowing(11);
     const TechType Infestation(12);
-    const TechType Spawn_Broodling(13);
+    const TechType Spawn_Broodlings(13);
     const TechType Dark_Swarm(14);
     const TechType Plague(15);
     const TechType Consume(16);
@@ -60,222 +94,42 @@ namespace BWAPI
     const TechType Nuclear_Strike(46);
     void init()
     {
-      techTypeData[Stim_Packs.getID()].name = "Stim Packs";
-      techTypeData[Stim_Packs.getID()].mineralPrice = 100;
-      techTypeData[Stim_Packs.getID()].gasPrice = 100;
-      techTypeData[Stim_Packs.getID()].energyPrice = 0;
-      techTypeData[Stim_Packs.getID()].whatResearches = &(UnitTypes::Terran_Academy);
-      techTypeData[Stim_Packs.getID()].race = Races::Terran;
-      techTypeData[Lockdown.getID()].name = "Lockdown";
-      techTypeData[Lockdown.getID()].mineralPrice = 200;
-      techTypeData[Lockdown.getID()].gasPrice = 200;
-      techTypeData[Lockdown.getID()].energyPrice = 100;
-      techTypeData[Lockdown.getID()].whatResearches = &(UnitTypes::Terran_Covert_Ops);
-      techTypeData[Lockdown.getID()].race = Races::Terran;
-      techTypeData[EMP_Shockwave.getID()].name = "EMP Shockwave";
-      techTypeData[EMP_Shockwave.getID()].mineralPrice = 200;
-      techTypeData[EMP_Shockwave.getID()].gasPrice = 200;
-      techTypeData[EMP_Shockwave.getID()].energyPrice = 100;
-      techTypeData[EMP_Shockwave.getID()].whatResearches = &(UnitTypes::Terran_Science_Facility);
-      techTypeData[EMP_Shockwave.getID()].race = Races::Terran;
-      techTypeData[Spider_Mines.getID()].name = "Spider Mines";
-      techTypeData[Spider_Mines.getID()].mineralPrice = 100;
-      techTypeData[Spider_Mines.getID()].gasPrice = 100;
-      techTypeData[Spider_Mines.getID()].energyPrice = 0;
-      techTypeData[Spider_Mines.getID()].whatResearches = &(UnitTypes::Terran_Machine_Shop);
-      techTypeData[Spider_Mines.getID()].race = Races::Terran;
-      techTypeData[Scanner_Sweep.getID()].name = "Scanner Sweep";
-      techTypeData[Scanner_Sweep.getID()].mineralPrice = 0;
-      techTypeData[Scanner_Sweep.getID()].gasPrice = 0;
-      techTypeData[Scanner_Sweep.getID()].energyPrice = 50;
-      techTypeData[Scanner_Sweep.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Scanner_Sweep.getID()].race = Races::Terran;
-      techTypeData[Tank_Siege_Mode.getID()].name = "Tank Siege Mode";
-      techTypeData[Tank_Siege_Mode.getID()].mineralPrice = 150;
-      techTypeData[Tank_Siege_Mode.getID()].gasPrice = 150;
-      techTypeData[Tank_Siege_Mode.getID()].energyPrice = 0;
-      techTypeData[Tank_Siege_Mode.getID()].whatResearches = &(UnitTypes::Terran_Machine_Shop);
-      techTypeData[Tank_Siege_Mode.getID()].race = Races::Terran;
-      techTypeData[Defensive_Matrix.getID()].name = "Defensive Matrix";
-      techTypeData[Defensive_Matrix.getID()].mineralPrice = 150;
-      techTypeData[Defensive_Matrix.getID()].gasPrice = 150;
-      techTypeData[Defensive_Matrix.getID()].energyPrice = 100;
-      techTypeData[Defensive_Matrix.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Defensive_Matrix.getID()].race = Races::Terran;
-      techTypeData[Irradiate.getID()].name = "Irradiate";
-      techTypeData[Irradiate.getID()].mineralPrice = 200;
-      techTypeData[Irradiate.getID()].gasPrice = 200;
-      techTypeData[Irradiate.getID()].energyPrice = 75;
-      techTypeData[Irradiate.getID()].whatResearches = &(UnitTypes::Terran_Science_Facility);
-      techTypeData[Irradiate.getID()].race = Races::Terran;
-      techTypeData[Yamato_Gun.getID()].name = "Yamato Gun";
-      techTypeData[Yamato_Gun.getID()].mineralPrice = 100;
-      techTypeData[Yamato_Gun.getID()].gasPrice = 100;
-      techTypeData[Yamato_Gun.getID()].energyPrice = 150;
-      techTypeData[Yamato_Gun.getID()].whatResearches = &(UnitTypes::Terran_Physics_Lab);
-      techTypeData[Yamato_Gun.getID()].race = Races::Terran;
-      techTypeData[Cloaking_Field.getID()].name = "Cloaking Field";
-      techTypeData[Cloaking_Field.getID()].mineralPrice = 150;
-      techTypeData[Cloaking_Field.getID()].gasPrice = 150;
-      techTypeData[Cloaking_Field.getID()].energyPrice = 25;
-      techTypeData[Cloaking_Field.getID()].whatResearches = &(UnitTypes::Terran_Control_Tower);
-      techTypeData[Cloaking_Field.getID()].race = Races::Terran;
-      techTypeData[Personnel_Cloaking.getID()].name = "Personnel Cloaking";
-      techTypeData[Personnel_Cloaking.getID()].mineralPrice = 100;
-      techTypeData[Personnel_Cloaking.getID()].gasPrice = 100;
-      techTypeData[Personnel_Cloaking.getID()].energyPrice = 25;
-      techTypeData[Personnel_Cloaking.getID()].whatResearches = &(UnitTypes::Terran_Covert_Ops);
-      techTypeData[Personnel_Cloaking.getID()].race = Races::Terran;
-      techTypeData[Burrowing.getID()].name = "Burrowing";
-      techTypeData[Burrowing.getID()].mineralPrice = 100;
-      techTypeData[Burrowing.getID()].gasPrice = 100;
-      techTypeData[Burrowing.getID()].energyPrice = 0;
-      techTypeData[Burrowing.getID()].whatResearches = &(UnitTypes::Zerg_Hatchery);
-      techTypeData[Burrowing.getID()].race = Races::Zerg;
-      techTypeData[Infestation.getID()].name = "Infestation";
-      techTypeData[Infestation.getID()].mineralPrice = 100;
-      techTypeData[Infestation.getID()].gasPrice = 100;
-      techTypeData[Infestation.getID()].energyPrice = 0;
-      techTypeData[Infestation.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Infestation.getID()].race = Races::Zerg;
-      techTypeData[Spawn_Broodling.getID()].name = "Spawn Broodling";
-      techTypeData[Spawn_Broodling.getID()].mineralPrice = 100;
-      techTypeData[Spawn_Broodling.getID()].gasPrice = 100;
-      techTypeData[Spawn_Broodling.getID()].energyPrice = 150;
-      techTypeData[Spawn_Broodling.getID()].whatResearches = &(UnitTypes::Zerg_Queens_Nest);
-      techTypeData[Spawn_Broodling.getID()].race = Races::Zerg;
-      techTypeData[Dark_Swarm.getID()].name = "Dark Swarm";
-      techTypeData[Dark_Swarm.getID()].mineralPrice = 100;
-      techTypeData[Dark_Swarm.getID()].gasPrice = 100;
-      techTypeData[Dark_Swarm.getID()].energyPrice = 100;
-      techTypeData[Dark_Swarm.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Dark_Swarm.getID()].race = Races::Zerg;
-      techTypeData[Plague.getID()].name = "Plague";
-      techTypeData[Plague.getID()].mineralPrice = 200;
-      techTypeData[Plague.getID()].gasPrice = 200;
-      techTypeData[Plague.getID()].energyPrice = 150;
-      techTypeData[Plague.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Plague.getID()].race = Races::Zerg;
-      techTypeData[Consume.getID()].name = "Consume";
-      techTypeData[Consume.getID()].mineralPrice = 100;
-      techTypeData[Consume.getID()].gasPrice = 100;
-      techTypeData[Consume.getID()].energyPrice = 0;
-      techTypeData[Consume.getID()].whatResearches = &(UnitTypes::Zerg_Defiler_Mound);
-      techTypeData[Consume.getID()].race = Races::Zerg;
-      techTypeData[Ensnare.getID()].name = "Ensnare";
-      techTypeData[Ensnare.getID()].mineralPrice = 100;
-      techTypeData[Ensnare.getID()].gasPrice = 100;
-      techTypeData[Ensnare.getID()].energyPrice = 75;
-      techTypeData[Ensnare.getID()].whatResearches = &(UnitTypes::Zerg_Queens_Nest);
-      techTypeData[Ensnare.getID()].race = Races::Zerg;
-      techTypeData[Parasite.getID()].name = "Parasite";
-      techTypeData[Parasite.getID()].mineralPrice = 100;
-      techTypeData[Parasite.getID()].gasPrice = 100;
-      techTypeData[Parasite.getID()].energyPrice = 75;
-      techTypeData[Parasite.getID()].whatResearches = &(UnitTypes::Zerg_Queens_Nest);
-      techTypeData[Parasite.getID()].race = Races::Zerg;
-      techTypeData[Psionic_Storm.getID()].name = "Psionic Storm";
-      techTypeData[Psionic_Storm.getID()].mineralPrice = 200;
-      techTypeData[Psionic_Storm.getID()].gasPrice = 200;
-      techTypeData[Psionic_Storm.getID()].energyPrice = 75;
-      techTypeData[Psionic_Storm.getID()].whatResearches = &(UnitTypes::Protoss_Templar_Archives);
-      techTypeData[Psionic_Storm.getID()].race = Races::Protoss;
-      techTypeData[Hallucination.getID()].name = "Hallucination";
-      techTypeData[Hallucination.getID()].mineralPrice = 150;
-      techTypeData[Hallucination.getID()].gasPrice = 150;
-      techTypeData[Hallucination.getID()].energyPrice = 100;
-      techTypeData[Hallucination.getID()].whatResearches = &(UnitTypes::Protoss_Templar_Archives);
-      techTypeData[Hallucination.getID()].race = Races::Protoss;
-      techTypeData[Recall.getID()].name = "Recall";
-      techTypeData[Recall.getID()].mineralPrice = 150;
-      techTypeData[Recall.getID()].gasPrice = 150;
-      techTypeData[Recall.getID()].energyPrice = 150;
-      techTypeData[Recall.getID()].whatResearches = &(UnitTypes::Protoss_Arbiter_Tribunal);
-      techTypeData[Recall.getID()].race = Races::Protoss;
-      techTypeData[Stasis_Field.getID()].name = "Stasis Field";
-      techTypeData[Stasis_Field.getID()].mineralPrice = 150;
-      techTypeData[Stasis_Field.getID()].gasPrice = 150;
-      techTypeData[Stasis_Field.getID()].energyPrice = 100;
-      techTypeData[Stasis_Field.getID()].whatResearches = &(UnitTypes::Protoss_Arbiter_Tribunal);
-      techTypeData[Stasis_Field.getID()].race = Races::Protoss;
-      techTypeData[Archon_Warp.getID()].name = "Archon Warp";
-      techTypeData[Archon_Warp.getID()].mineralPrice = 150;
-      techTypeData[Archon_Warp.getID()].gasPrice = 150;
-      techTypeData[Archon_Warp.getID()].energyPrice = 0;
-      techTypeData[Archon_Warp.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Archon_Warp.getID()].race = Races::Protoss;
-      techTypeData[Restoration.getID()].name = "Restoration";
-      techTypeData[Restoration.getID()].mineralPrice = 100;
-      techTypeData[Restoration.getID()].gasPrice = 100;
-      techTypeData[Restoration.getID()].energyPrice = 50;
-      techTypeData[Restoration.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Restoration.getID()].race = Races::Protoss;
-      techTypeData[Disruption_Web.getID()].name = "Disruption Web";
-      techTypeData[Disruption_Web.getID()].mineralPrice = 200;
-      techTypeData[Disruption_Web.getID()].gasPrice = 200;
-      techTypeData[Disruption_Web.getID()].energyPrice = 125;
-      techTypeData[Disruption_Web.getID()].whatResearches = &(UnitTypes::Protoss_Fleet_Beacon);
-      techTypeData[Disruption_Web.getID()].race = Races::Protoss;
-      techTypeData[Mind_Control.getID()].name = "Mind Control";
-      techTypeData[Mind_Control.getID()].mineralPrice = 200;
-      techTypeData[Mind_Control.getID()].gasPrice = 200;
-      techTypeData[Mind_Control.getID()].energyPrice = 150;
-      techTypeData[Mind_Control.getID()].whatResearches = &(UnitTypes::Protoss_Templar_Archives);
-      techTypeData[Mind_Control.getID()].race = Races::Protoss;
-      techTypeData[Dark_Archon_Meld.getID()].name = "Dark Archon Meld";
-      techTypeData[Dark_Archon_Meld.getID()].mineralPrice = 200;
-      techTypeData[Dark_Archon_Meld.getID()].gasPrice = 200;
-      techTypeData[Dark_Archon_Meld.getID()].energyPrice = 100;
-      techTypeData[Dark_Archon_Meld.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Dark_Archon_Meld.getID()].race = Races::Protoss;
-      techTypeData[Feedback.getID()].name = "Feedback";
-      techTypeData[Feedback.getID()].mineralPrice = 100;
-      techTypeData[Feedback.getID()].gasPrice = 100;
-      techTypeData[Feedback.getID()].energyPrice = 50;
-      techTypeData[Feedback.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Feedback.getID()].race = Races::Protoss;
-      techTypeData[Optical_Flare.getID()].name = "Optical Flare";
-      techTypeData[Optical_Flare.getID()].mineralPrice = 100;
-      techTypeData[Optical_Flare.getID()].gasPrice = 100;
-      techTypeData[Optical_Flare.getID()].energyPrice = 75;
-      techTypeData[Optical_Flare.getID()].whatResearches = &(UnitTypes::Terran_Academy);
-      techTypeData[Optical_Flare.getID()].race = Races::Protoss;
-      techTypeData[Maelstrom.getID()].name = "Maelstrom";
-      techTypeData[Maelstrom.getID()].mineralPrice = 100;
-      techTypeData[Maelstrom.getID()].gasPrice = 100;
-      techTypeData[Maelstrom.getID()].energyPrice = 100;
-      techTypeData[Maelstrom.getID()].whatResearches = &(UnitTypes::Protoss_Templar_Archives);
-      techTypeData[Maelstrom.getID()].race = Races::Protoss;
-      techTypeData[Lurker_Aspect.getID()].name = "Lurker Aspect";
-      techTypeData[Lurker_Aspect.getID()].mineralPrice = 200;
-      techTypeData[Lurker_Aspect.getID()].gasPrice = 200;
-      techTypeData[Lurker_Aspect.getID()].energyPrice = 100;
-      techTypeData[Lurker_Aspect.getID()].whatResearches = &(UnitTypes::Zerg_Hydralisk_Den);
-      techTypeData[Lurker_Aspect.getID()].race = Races::Zerg;
-      techTypeData[Healing.getID()].name = "Healing";
-      techTypeData[Healing.getID()].mineralPrice = 0;
-      techTypeData[Healing.getID()].gasPrice = 0;
-      techTypeData[Healing.getID()].energyPrice = 1;
-      techTypeData[Healing.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Healing.getID()].race = Races::Terran;
-      techTypeData[None.getID()].name = "None";
-      techTypeData[None.getID()].mineralPrice = 0;
-      techTypeData[None.getID()].gasPrice = 0;
-      techTypeData[None.getID()].energyPrice = 0;
-      techTypeData[None.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[None.getID()].race = Races::None;
-      techTypeData[Unknown.getID()].name = "Unknown";
-      techTypeData[Unknown.getID()].mineralPrice = 0;
-      techTypeData[Unknown.getID()].gasPrice = 0;
-      techTypeData[Unknown.getID()].energyPrice = 0;
-      techTypeData[Unknown.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Unknown.getID()].race = Races::Unknown;
-      techTypeData[Nuclear_Strike.getID()].name = "Nuclear Strike";
-      techTypeData[Nuclear_Strike.getID()].mineralPrice = 0;
-      techTypeData[Nuclear_Strike.getID()].gasPrice = 0;
-      techTypeData[Nuclear_Strike.getID()].energyPrice = 0;
-      techTypeData[Nuclear_Strike.getID()].whatResearches = &(UnitTypes::None);
-      techTypeData[Nuclear_Strike.getID()].race = Races::Terran;
+      techTypeData[Stim_Packs.getID()].set("Stim Packs",100,100,0,&(UnitTypes::Terran_Academy),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Marine),&(UnitTypes::Terran_Firebat));
+      techTypeData[Lockdown.getID()].set("Lockdown",200,200,100,&(UnitTypes::Terran_Covert_Ops),Races::Terran,&(WeaponTypes::Lockdown),&(UnitTypes::Terran_Ghost));
+      techTypeData[EMP_Shockwave.getID()].set("EMP Shockwave",200,200,100,&(UnitTypes::Terran_Science_Facility),Races::Terran,&(WeaponTypes::EMP_Shockwave),&(UnitTypes::Terran_Science_Vessel));
+      techTypeData[Spider_Mines.getID()].set("Spider Mines",100,100,0,&(UnitTypes::Terran_Machine_Shop),Races::Terran,&(WeaponTypes::Spider_Mines),&(UnitTypes::Terran_Vulture));
+      techTypeData[Scanner_Sweep.getID()].set("Scanner Sweep",0,0,50,&(UnitTypes::None),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Comsat_Station));
+      techTypeData[Tank_Siege_Mode.getID()].set("Tank Siege Mode",150,150,0,&(UnitTypes::Terran_Machine_Shop),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Siege_Tank_Tank_Mode),&(UnitTypes::Terran_Siege_Tank_Siege_Mode));
+      techTypeData[Defensive_Matrix.getID()].set("Defensive Matrix",0,0,100,&(UnitTypes::None),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Science_Vessel));
+      techTypeData[Irradiate.getID()].set("Irradiate",200,200,75,&(UnitTypes::Terran_Science_Facility),Races::Terran,&(WeaponTypes::Irradiate),&(UnitTypes::Terran_Science_Vessel));
+      techTypeData[Yamato_Gun.getID()].set("Yamato Gun",100,100,150,&(UnitTypes::Terran_Physics_Lab),Races::Terran,&(WeaponTypes::Yamato_Gun),&(UnitTypes::Terran_Battlecruiser));
+      techTypeData[Cloaking_Field.getID()].set("Cloaking Field",150,150,25,&(UnitTypes::Terran_Control_Tower),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Wraith));
+      techTypeData[Personnel_Cloaking.getID()].set("Personnel Cloaking",100,100,25,&(UnitTypes::Terran_Covert_Ops),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Ghost));
+      techTypeData[Burrowing.getID()].set("Burrowing",100,100,0,&(UnitTypes::Zerg_Hatchery),Races::Zerg,&(WeaponTypes::None),&(UnitTypes::Zerg_Drone),&(UnitTypes::Zerg_Zergling),&(UnitTypes::Zerg_Hydralisk),&(UnitTypes::Zerg_Defiler));
+      techTypeData[Infestation.getID()].set("Infestation",0,0,0,&(UnitTypes::None),Races::Zerg,&(WeaponTypes::None),&(UnitTypes::Zerg_Queen));
+      techTypeData[Spawn_Broodlings.getID()].set("Spawn Broodlings",100,100,150,&(UnitTypes::Zerg_Queens_Nest),Races::Zerg,&(WeaponTypes::Spawn_Broodlings),&(UnitTypes::Zerg_Queen));
+      techTypeData[Dark_Swarm.getID()].set("Dark Swarm",0,0,100,&(UnitTypes::None),Races::Zerg,&(WeaponTypes::Dark_Swarm),&(UnitTypes::Zerg_Defiler));
+      techTypeData[Plague.getID()].set("Plague",200,200,150,&(UnitTypes::Zerg_Defiler_Mound),Races::Zerg,&(WeaponTypes::Plague),&(UnitTypes::Zerg_Defiler));
+      techTypeData[Consume.getID()].set("Consume",100,100,0,&(UnitTypes::Zerg_Defiler_Mound),Races::Zerg,&(WeaponTypes::Consume),&(UnitTypes::Zerg_Defiler));
+      techTypeData[Ensnare.getID()].set("Ensnare",100,100,75,&(UnitTypes::Zerg_Queens_Nest),Races::Zerg,&(WeaponTypes::Ensnare),&(UnitTypes::Zerg_Queen));
+      techTypeData[Parasite.getID()].set("Parasite",0,0,75,&(UnitTypes::None),Races::Zerg,&(WeaponTypes::Parasite),&(UnitTypes::Zerg_Queen));
+      techTypeData[Psionic_Storm.getID()].set("Psionic Storm",200,200,75,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss,&(WeaponTypes::Psionic_Storm),&(UnitTypes::Protoss_High_Templar));
+      techTypeData[Hallucination.getID()].set("Hallucination",150,150,100,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_High_Templar));
+      techTypeData[Recall.getID()].set("Recall",150,150,150,&(UnitTypes::Protoss_Arbiter_Tribunal),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_Arbiter));
+      techTypeData[Stasis_Field.getID()].set("Stasis Field",150,150,100,&(UnitTypes::Protoss_Arbiter_Tribunal),Races::Protoss,&(WeaponTypes::Stasis_Field),&(UnitTypes::Protoss_Arbiter));
+      techTypeData[Archon_Warp.getID()].set("Archon Warp",0,0,0,&(UnitTypes::None),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_High_Templar));
+      techTypeData[Restoration.getID()].set("Restoration",100,100,50,&(UnitTypes::None),Races::Terran,&(WeaponTypes::Restoration),&(UnitTypes::Terran_Medic));
+      techTypeData[Disruption_Web.getID()].set("Disruption Web",200,200,125,&(UnitTypes::Protoss_Fleet_Beacon),Races::Protoss,&(WeaponTypes::Disruption_Web),&(UnitTypes::Protoss_Corsair));
+      techTypeData[Mind_Control.getID()].set("Mind Control",200,200,150,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss,&(WeaponTypes::Mind_Control),&(UnitTypes::Protoss_Dark_Archon));
+      techTypeData[Dark_Archon_Meld.getID()].set("Dark Archon Meld",0,0,0,&(UnitTypes::None),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_Dark_Templar));
+      techTypeData[Feedback.getID()].set("Feedback",0,0,50,&(UnitTypes::None),Races::Protoss,&(WeaponTypes::Feedback),&(UnitTypes::Protoss_Dark_Archon));
+      techTypeData[Optical_Flare.getID()].set("Optical Flare",100,100,75,&(UnitTypes::Terran_Academy),Races::Terran,&(WeaponTypes::Optical_Flare),&(UnitTypes::Terran_Medic));
+      techTypeData[Maelstrom.getID()].set("Maelstrom",100,100,100,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss,&(WeaponTypes::Maelstrom),&(UnitTypes::Protoss_Dark_Archon));
+      techTypeData[Lurker_Aspect.getID()].set("Lurker Aspect",200,200,0,&(UnitTypes::Zerg_Hydralisk_Den),Races::Zerg,&(WeaponTypes::None),&(UnitTypes::Zerg_Lurker));
+      techTypeData[Healing.getID()].set("Healing",0,0,1,&(UnitTypes::None),Races::Terran,&(WeaponTypes::None),&(UnitTypes::Terran_Medic));
+      techTypeData[None.getID()].set("None",0,0,0,&(UnitTypes::None),Races::None,&(WeaponTypes::None),&(UnitTypes::None));
+      techTypeData[Unknown.getID()].set("Unknown",0,0,0,&(UnitTypes::None),Races::Unknown,&(WeaponTypes::None),&(UnitTypes::None));
+      techTypeData[Nuclear_Strike.getID()].set("Nuclear Strike",0,0,0,&(UnitTypes::None),Races::Terran,&(WeaponTypes::Nuclear_Strike),&(UnitTypes::Terran_Ghost));
       techTypeSet.insert(Stim_Packs);
       techTypeSet.insert(Lockdown);
       techTypeSet.insert(EMP_Shockwave);
@@ -289,7 +143,7 @@ namespace BWAPI
       techTypeSet.insert(Personnel_Cloaking);
       techTypeSet.insert(Burrowing);
       techTypeSet.insert(Infestation);
-      techTypeSet.insert(Spawn_Broodling);
+      techTypeSet.insert(Spawn_Broodlings);
       techTypeSet.insert(Dark_Swarm);
       techTypeSet.insert(Plague);
       techTypeSet.insert(Consume);
@@ -372,13 +226,21 @@ namespace BWAPI
   {
     return techTypeData[this->id].gasPrice;
   }
-  int TechType::energyPrice() const
+  int TechType::energyUsed() const
   {
-    return techTypeData[this->id].energyPrice;
+    return techTypeData[this->id].energyUsed;
   }
   const UnitType* TechType::whatResearches() const
   {
     return techTypeData[this->id].whatResearches;
+  }
+  const WeaponType* TechType::getWeapon() const
+  {
+    return techTypeData[this->id].weapon;
+  }
+  const std::set<const UnitType*>& TechType::whatUses() const
+  {
+    return techTypeData[this->id].whatUses;
   }
   TechType TechTypes::getTechType(std::string& name)
   {
