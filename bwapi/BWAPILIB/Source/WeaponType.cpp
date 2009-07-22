@@ -1,7 +1,9 @@
 #include <string>
 #include <map>
 #include <set>
+#include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
+#include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/DamageType.h>
 #include <BWAPI/ExplosionType.h>
@@ -13,11 +15,12 @@ namespace BWAPI
   {
     public:
       WeaponTypeInternal() {valid = false;}
-      void set(const char* name, int damageAmount, int damageBonus, int damageCooldown, int damageFactor, const UpgradeType* upgradeType, const DamageType* damageType, const ExplosionType* explosionType, int minRange, int maxRange, int innerSplashRadius, int medianSplashRadius, int outerSplashRadius, bool targetsAir, bool targetsGround, bool targetsMechanical, bool targetsOrganic, bool targetsNonBuilding, bool targetsNonRobotic, bool targetsTerrain, bool targetsOrgOrMech, bool targetsOwn)
+      void set(const char* name, const TechType* techType, int damageAmount, int damageBonus, int damageCooldown, int damageFactor, const UpgradeType* upgradeType, const DamageType* damageType, const ExplosionType* explosionType, int minRange, int maxRange, int innerSplashRadius, int medianSplashRadius, int outerSplashRadius, bool targetsAir, bool targetsGround, bool targetsMechanical, bool targetsOrganic, bool targetsNonBuilding, bool targetsNonRobotic, bool targetsTerrain, bool targetsOrgOrMech, bool targetsOwn, const UnitType* whatUses)
       {
         if (initializingWeaponType)
         {
           this->name = name;
+          this->techType = techType;
           this->damageAmount = damageAmount;
           this->damageBonus = damageBonus;
           this->damageCooldown = damageCooldown;
@@ -39,10 +42,13 @@ namespace BWAPI
           this->targetsTerrain = targetsTerrain;
           this->targetsOrgOrMech = targetsOrgOrMech;
           this->targetsOwn = targetsOwn;
+          this->whatUses=whatUses;
           this->valid = true;
         }
       }
       std::string name;
+      const TechType* techType;
+      const UnitType* whatUses;
       int damageAmount;
       int damageBonus;
       int damageCooldown;
@@ -140,69 +146,69 @@ namespace BWAPI
     const WeaponType Unknown(131);
     void init()
     {
-      weaponTypeData[Gauss_Rifle.getID()].set("Gauss Rifle", 6, 1, 15, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[C_10_Canister_Rifle.getID()].set("C-10 Canister Rifle", 10, 1, 22, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Fragmentation_Grenade.getID()].set("Fragmentation Grenade", 20, 2, 30, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Spider_Mines.getID()].set("Spider Mines", 125, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Radial_Splash), 0, 10, 50, 75, 100, 0, 1, 0, 0, 1, 0, 0, 0, 0);
-      weaponTypeData[Twin_Autocannons.getID()].set("Twin Autocannons", 12, 1, 22, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 192, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Hellfire_Missile_Pack.getID()].set("Hellfire Missile Pack", 10, 2, 22, 2, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Arclite_Cannon.getID()].set("Arclite Cannon", 30, 3, 37, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Fusion_Cutter.getID()].set("Fusion Cutter", 5, 1, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 10, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Gemini_Missiles.getID()].set("Gemini Missiles", 20, 2, 22, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Burst_Lasers.getID()].set("Burst Lasers", 8, 1, 30, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[ATS_Laser_Battery.getID()].set("ATS Laser Battery", 25, 3, 30, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 192, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[ATA_Laser_Battery.getID()].set("ATA Laser Battery", 25, 3, 30, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 192, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Flame_Thrower.getID()].set("Flame Thrower", 8, 1, 22, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Enemy_Splash), 0, 32, 15, 20, 25, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Arclite_Shock_Cannon.getID()].set("Arclite Shock Cannon", 70, 5, 75, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Radial_Splash), 64, 384, 10, 25, 40, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Longbolt_Missile.getID()].set("Longbolt Missile", 20, 0, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Yamato_Gun.getID()].set("Yamato Gun", 260, 0, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Yamato_Gun), 0, 320, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Nuclear_Strike.getID()].set("Nuclear Strike", 600, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Nuclear_Missile), 0, 3, 128, 192, 256, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Lockdown.getID()].set("Lockdown", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Concussive), &(ExplosionTypes::Lockdown), 0, 256, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0);
-      weaponTypeData[EMP_Shockwave.getID()].set("EMP Shockwave", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Concussive), &(ExplosionTypes::EMP_Shockwave), 0, 256, 64, 64, 64, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Irradiate.getID()].set("Irradiate", 250, 0, 75, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Irradiate), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Claws.getID()].set("Claws", 5, 1, 8, 1, &(UpgradeTypes::Zerg_Melee_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Needle_Spines.getID()].set("Needle Spines", 10, 1, 15, 1, &(UpgradeTypes::Zerg_Missile_Attacks), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Kaiser_Blades.getID()].set("Kaiser Blades", 20, 3, 15, 1, &(UpgradeTypes::Zerg_Melee_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 25, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Toxic_Spores.getID()].set("Toxic Spores", 4, 1, 15, 1, &(UpgradeTypes::Zerg_Melee_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Spines.getID()].set("Spines", 5, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 32, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Acid_Spore.getID()].set("Acid Spore", 20, 2, 30, 1, &(UpgradeTypes::Zerg_Flyer_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 256, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Glave_Wurm.getID()].set("Glave Wurm", 9, 1, 30, 1, &(UpgradeTypes::Zerg_Flyer_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 96, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Seeker_Spores.getID()].set("Seeker Spores", 15, 0, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Subterranean_Tentacle.getID()].set("Subterranean Tentacle", 40, 0, 32, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Suicide_Infested_Terran.getID()].set("Suicide Infested Terran", 500, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Radial_Splash), 0, 3, 20, 40, 60, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Suicide_Scourge.getID()].set("Suicide Scourge", 110, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Parasite.getID()].set("Parasite", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Parasite), 0, 384, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0);
-      weaponTypeData[Spawn_Broodlings.getID()].set("Spawn Broodlings", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Broodlings), 0, 288, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0);
-      weaponTypeData[Ensnare.getID()].set("Ensnare", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Ensnare), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Dark_Swarm.getID()].set("Dark Swarm", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Dark_Swarm), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Plague.getID()].set("Plague", 300, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Plague), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Consume.getID()].set("Consume", 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Consume), 0, 16, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1);
-      weaponTypeData[Particle_Beam.getID()].set("Particle Beam", 5, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 32, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Psi_Blades.getID()].set("Psi Blades", 8, 1, 22, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Phase_Disruptor.getID()].set("Phase Disruptor", 20, 2, 30, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Psionic_Shockwave.getID()].set("Psionic Shockwave", 30, 3, 20, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 64, 3, 15, 30, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Dual_Photon_Blasters.getID()].set("Dual Photon Blasters", 8, 1, 30, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Anti_matter_Missiles.getID()].set("Anti-matter Missiles", 14, 1, 22, 2, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Phase_Disruptor_Cannon.getID()].set("Phase Disruptor Cannon", 10, 1, 45, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Pulse_Cannon.getID()].set("Pulse Cannon", 6, 1, 1, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[STS_Photon_Cannon.getID()].set("STS Photon Cannon", 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[STA_Photon_Cannon.getID()].set("STA Photon Cannon", 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Scarab.getID()].set("Scarab", 100, 25, 1, 1, &(UpgradeTypes::Scarab_Damage), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 128, 20, 40, 60, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Stasis_Field.getID()].set("Stasis Field", 0, 1, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Stasis_Field), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Psionic_Storm.getID()].set("Psionic Storm", 14, 1, 45, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Radial_Splash), 0, 288, 48, 48, 48, 1, 1, 0, 0, 1, 0, 1, 0, 0);
-      weaponTypeData[Neutron_Flare.getID()].set("Neutron Flare", 5, 1, 8, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Air_Splash), 0, 160, 5, 50, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Disruption_Web.getID()].set("Disruption Web", 0, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Disruption_Web), 0, 288, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Restoration.getID()].set("Restoration", 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Restoration), 0, 192, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Halo_Rockets.getID()].set("Halo Rockets", 6, 1, 64, 2, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Air_Splash), 0, 192, 5, 50, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Corrosive_Acid.getID()].set("Corrosive Acid", 25, 2, 100, 1, &(UpgradeTypes::Zerg_Flyer_Attacks), &(DamageTypes::Explosive), &(ExplosionTypes::Corrosive_Acid), 0, 192, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Mind_Control.getID()].set("Mind Control", 8, 1, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Mind_Control), 0, 256, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Feedback.getID()].set("Feedback", 8, 1, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Feedback), 0, 320, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Optical_Flare.getID()].set("Optical Flare", 8, 1, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Optical_Flare), 0, 288, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Maelstrom.getID()].set("Maelstrom", 0, 1, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Maelstrom), 0, 320, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0);
-      weaponTypeData[Subterranean_Spines.getID()].set("Subterranean Spines", 20, 2, 37, 1, &(UpgradeTypes::Zerg_Missile_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 192, 20, 20, 20, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Warp_Blades.getID()].set("Warp Blades", 40, 3, 30, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[None.getID()].set("None", 0, 0, 0, 0, &(UpgradeTypes::None), &(DamageTypes::None), &(ExplosionTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      weaponTypeData[Unknown.getID()].set("Unknown", 0, 0, 0, 0, &(UpgradeTypes::None), &(DamageTypes::None), &(ExplosionTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      weaponTypeData[Gauss_Rifle.getID()].set("Gauss Rifle", &(TechTypes::None), 6, 1, 15, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Marine));
+      weaponTypeData[C_10_Canister_Rifle.getID()].set("C-10 Canister Rifle", &(TechTypes::None), 10, 1, 22, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Ghost));
+      weaponTypeData[Fragmentation_Grenade.getID()].set("Fragmentation Grenade", &(TechTypes::None), 20, 2, 30, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Vulture));
+      weaponTypeData[Spider_Mines.getID()].set("Spider Mines", &(TechTypes::Spider_Mines), 125, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Radial_Splash), 0, 10, 50, 75, 100, 0, 1, 0, 0, 1, 0, 0, 0, 0, &(UnitTypes::Terran_Vulture_Spider_Mine));
+      weaponTypeData[Twin_Autocannons.getID()].set("Twin Autocannons", &(TechTypes::None), 12, 1, 22, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 192, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Goliath));
+      weaponTypeData[Hellfire_Missile_Pack.getID()].set("Hellfire Missile Pack", &(TechTypes::None), 10, 2, 22, 2, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Goliath));
+      weaponTypeData[Arclite_Cannon.getID()].set("Arclite Cannon", &(TechTypes::None), 30, 3, 37, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Siege_Tank_Tank_Mode));
+      weaponTypeData[Fusion_Cutter.getID()].set("Fusion Cutter", &(TechTypes::None), 5, 1, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 10, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_SCV));
+      weaponTypeData[Gemini_Missiles.getID()].set("Gemini Missiles", &(TechTypes::None), 20, 2, 22, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Wraith));
+      weaponTypeData[Burst_Lasers.getID()].set("Burst Lasers", &(TechTypes::None), 8, 1, 30, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Wraith));
+      weaponTypeData[ATS_Laser_Battery.getID()].set("ATS Laser Battery", &(TechTypes::None), 25, 3, 30, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 192, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Battlecruiser));
+      weaponTypeData[ATA_Laser_Battery.getID()].set("ATA Laser Battery", &(TechTypes::None), 25, 3, 30, 1, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 192, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Battlecruiser));
+      weaponTypeData[Flame_Thrower.getID()].set("Flame Thrower", &(TechTypes::None), 8, 1, 22, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Enemy_Splash), 0, 32, 15, 20, 25, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Firebat));
+      weaponTypeData[Arclite_Shock_Cannon.getID()].set("Arclite Shock Cannon", &(TechTypes::None), 70, 5, 75, 1, &(UpgradeTypes::Terran_Vehicle_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Radial_Splash), 64, 384, 10, 25, 40, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Siege_Tank_Siege_Mode));
+      weaponTypeData[Longbolt_Missile.getID()].set("Longbolt Missile", &(TechTypes::None), 20, 0, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Missile_Turret));
+      weaponTypeData[Yamato_Gun.getID()].set("Yamato Gun", &(TechTypes::Yamato_Gun), 260, 0, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Yamato_Gun), 0, 320, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Battlecruiser));
+      weaponTypeData[Nuclear_Strike.getID()].set("Nuclear Strike", &(TechTypes::Nuclear_Strike), 600, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Nuclear_Missile), 0, 3, 128, 192, 256, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Ghost));
+      weaponTypeData[Lockdown.getID()].set("Lockdown", &(TechTypes::Lockdown), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Concussive), &(ExplosionTypes::Lockdown), 0, 256, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, &(UnitTypes::Terran_Ghost));
+      weaponTypeData[EMP_Shockwave.getID()].set("EMP Shockwave", &(TechTypes::EMP_Shockwave), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Concussive), &(ExplosionTypes::EMP_Shockwave), 0, 256, 64, 64, 64, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Terran_Science_Vessel));
+      weaponTypeData[Irradiate.getID()].set("Irradiate", &(TechTypes::Irradiate), 250, 0, 75, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Irradiate), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Terran_Science_Vessel));
+      weaponTypeData[Claws.getID()].set("Claws", &(TechTypes::None), 5, 1, 8, 1, &(UpgradeTypes::Zerg_Melee_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Zergling));
+      weaponTypeData[Needle_Spines.getID()].set("Needle Spines", &(TechTypes::None), 10, 1, 15, 1, &(UpgradeTypes::Zerg_Missile_Attacks), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Hydralisk));
+      weaponTypeData[Kaiser_Blades.getID()].set("Kaiser Blades", &(TechTypes::None), 20, 3, 15, 1, &(UpgradeTypes::Zerg_Melee_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 25, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Ultralisk));
+      weaponTypeData[Toxic_Spores.getID()].set("Toxic Spores", &(TechTypes::None), 4, 1, 15, 1, &(UpgradeTypes::Zerg_Melee_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Broodling));
+      weaponTypeData[Spines.getID()].set("Spines", &(TechTypes::None), 5, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 32, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Drone));
+      weaponTypeData[Acid_Spore.getID()].set("Acid Spore", &(TechTypes::None), 20, 2, 30, 1, &(UpgradeTypes::Zerg_Flyer_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 256, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Guardian));
+      weaponTypeData[Glave_Wurm.getID()].set("Glave Wurm", &(TechTypes::None), 9, 1, 30, 1, &(UpgradeTypes::Zerg_Flyer_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 96, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Mutalisk));
+      weaponTypeData[Seeker_Spores.getID()].set("Seeker Spores", &(TechTypes::None), 15, 0, 15, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Spore_Colony));
+      weaponTypeData[Subterranean_Tentacle.getID()].set("Subterranean Tentacle", &(TechTypes::None), 40, 0, 32, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Sunken_Colony));
+      weaponTypeData[Suicide_Infested_Terran.getID()].set("Suicide Infested Terran", &(TechTypes::None), 500, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Explosive), &(ExplosionTypes::Radial_Splash), 0, 3, 20, 40, 60, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Infested_Terran));
+      weaponTypeData[Suicide_Scourge.getID()].set("Suicide Scourge", &(TechTypes::None), 110, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Scourge));
+      weaponTypeData[Parasite.getID()].set("Parasite", &(TechTypes::Parasite), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Parasite), 0, 384, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0,&(UnitTypes::Zerg_Queen));
+      weaponTypeData[Spawn_Broodlings.getID()].set("Spawn Broodlings", &(TechTypes::Spawn_Broodlings), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Broodlings), 0, 288, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0,&(UnitTypes::Zerg_Queen));
+      weaponTypeData[Ensnare.getID()].set("Ensnare", &(TechTypes::Ensnare), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Ensnare), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0,&(UnitTypes::Zerg_Queen));
+      weaponTypeData[Dark_Swarm.getID()].set("Dark Swarm", &(TechTypes::Dark_Swarm), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Dark_Swarm), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Defiler));
+      weaponTypeData[Plague.getID()].set("Plague", &(TechTypes::Plague), 300, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Plague), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0,&(UnitTypes::Zerg_Defiler));
+      weaponTypeData[Consume.getID()].set("Consume", &(TechTypes::Consume), 0, 0, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Consume), 0, 16, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,&(UnitTypes::Zerg_Defiler));
+      weaponTypeData[Particle_Beam.getID()].set("Particle Beam", &(TechTypes::None), 5, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 32, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Probe));
+      weaponTypeData[Psi_Blades.getID()].set("Psi Blades", &(TechTypes::None), 8, 1, 22, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Zealot));
+      weaponTypeData[Phase_Disruptor.getID()].set("Phase Disruptor", &(TechTypes::None), 20, 2, 30, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Dragoon));
+      weaponTypeData[Psionic_Shockwave.getID()].set("Psionic Shockwave", &(TechTypes::None), 30, 3, 20, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 64, 3, 15, 30, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Archon));
+      weaponTypeData[Dual_Photon_Blasters.getID()].set("Dual Photon Blasters", &(TechTypes::None), 8, 1, 30, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Scout));
+      weaponTypeData[Anti_matter_Missiles.getID()].set("Anti-matter Missiles", &(TechTypes::None), 14, 1, 22, 2, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Scout));
+      weaponTypeData[Phase_Disruptor_Cannon.getID()].set("Phase Disruptor Cannon", &(TechTypes::None), 10, 1, 45, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Arbiter));
+      weaponTypeData[Pulse_Cannon.getID()].set("Pulse Cannon", &(TechTypes::None), 6, 1, 1, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Interceptor));
+      weaponTypeData[STS_Photon_Cannon.getID()].set("STS Photon Cannon", &(TechTypes::None), 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Photon_Cannon));
+      weaponTypeData[STA_Photon_Cannon.getID()].set("STA Photon Cannon", &(TechTypes::None), 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Photon_Cannon));
+      weaponTypeData[Scarab.getID()].set("Scarab", &(TechTypes::None), 100, 25, 1, 1, &(UpgradeTypes::Scarab_Damage), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 128, 20, 40, 60, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Scarab));
+      weaponTypeData[Stasis_Field.getID()].set("Stasis Field", &(TechTypes::Stasis_Field), 0, 1, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Stasis_Field), 0, 288, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Protoss_Arbiter));
+      weaponTypeData[Psionic_Storm.getID()].set("Psionic Storm", &(TechTypes::Psionic_Storm), 14, 1, 45, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Radial_Splash), 0, 288, 48, 48, 48, 1, 1, 0, 0, 1, 0, 1, 0, 0,&(UnitTypes::Protoss_High_Templar));
+      weaponTypeData[Neutron_Flare.getID()].set("Neutron Flare", &(TechTypes::None), 5, 1, 8, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Air_Splash), 0, 160, 5, 50, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Corsair));
+      weaponTypeData[Disruption_Web.getID()].set("Disruption Web", &(TechTypes::Disruption_Web), 0, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Disruption_Web), 0, 288, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Corsair));
+      weaponTypeData[Restoration.getID()].set("Restoration", &(TechTypes::Restoration), 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Restoration), 0, 192, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Terran_Medic));
+      weaponTypeData[Halo_Rockets.getID()].set("Halo Rockets", &(TechTypes::None), 6, 1, 64, 2, &(UpgradeTypes::Terran_Ship_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Air_Splash), 0, 192, 5, 50, 100, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Valkyrie));
+      weaponTypeData[Corrosive_Acid.getID()].set("Corrosive Acid", &(TechTypes::None), 25, 2, 100, 1, &(UpgradeTypes::Zerg_Flyer_Attacks), &(DamageTypes::Explosive), &(ExplosionTypes::Corrosive_Acid), 0, 192, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Devourer));
+      weaponTypeData[Mind_Control.getID()].set("Mind Control", &(TechTypes::Mind_Control), 8, 1, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Mind_Control), 0, 256, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Protoss_Dark_Archon));
+      weaponTypeData[Feedback.getID()].set("Feedback", &(TechTypes::Feedback), 8, 1, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Ignore_Armor), &(ExplosionTypes::Feedback), 0, 320, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Protoss_Dark_Archon));
+      weaponTypeData[Optical_Flare.getID()].set("Optical Flare", &(TechTypes::Optical_Flare), 8, 1, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Optical_Flare), 0, 288, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Medic));
+      weaponTypeData[Maelstrom.getID()].set("Maelstrom", &(TechTypes::Maelstrom), 0, 1, 1, 1, &(UpgradeTypes::None), &(DamageTypes::Independent), &(ExplosionTypes::Maelstrom), 0, 320, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, &(UnitTypes::Protoss_Dark_Archon));
+      weaponTypeData[Subterranean_Spines.getID()].set("Subterranean Spines", &(TechTypes::None), 20, 2, 37, 1, &(UpgradeTypes::Zerg_Missile_Attacks), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 192, 20, 20, 20, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Zerg_Lurker));
+      weaponTypeData[Warp_Blades.getID()].set("Warp Blades", &(TechTypes::None), 40, 3, 30, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Dark_Templar));
+      weaponTypeData[None.getID()].set("None", &(TechTypes::None), 0, 0, 0, 0, &(UpgradeTypes::None), &(DamageTypes::None), &(ExplosionTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::None));
+      weaponTypeData[Unknown.getID()].set("Unknown", &(TechTypes::None), 0, 0, 0, 0, &(UpgradeTypes::None), &(DamageTypes::None), &(ExplosionTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::None));
 
       weaponTypeSet.insert(Gauss_Rifle);
       weaponTypeSet.insert(C_10_Canister_Rifle);
@@ -379,6 +385,14 @@ namespace BWAPI
   std::string WeaponType::getName() const
   {
     return weaponTypeData[this->id].name;
+  }
+  const TechType* WeaponType::getTech() const
+  {
+    return weaponTypeData[this->id].techType;
+  }
+  const UnitType* WeaponType::whatUses() const
+  {
+    return weaponTypeData[this->id].whatUses;
   }
   int WeaponType::damageAmount() const
   {

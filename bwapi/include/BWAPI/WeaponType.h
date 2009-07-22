@@ -3,6 +3,7 @@
 #include <set>
 namespace BWAPI
 {
+  class TechType;
   class UpgradeType;
   class DamageType;
   class ExplosionType;
@@ -18,6 +19,8 @@ namespace BWAPI
       bool operator<(const WeaponType& other) const;
       int getID() const;
       std::string getName() const;
+      const TechType* getTech() const;
+      const UnitType* whatUses() const;
       int damageAmount() const;
       int damageBonus() const;
       int damageCooldown() const;
