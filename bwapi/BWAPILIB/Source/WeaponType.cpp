@@ -42,7 +42,7 @@ namespace BWAPI
           this->targetsTerrain = targetsTerrain;
           this->targetsOrgOrMech = targetsOrgOrMech;
           this->targetsOwn = targetsOwn;
-          this->whatUses=whatUses;
+          this->whatUses = whatUses;
           this->valid = true;
         }
       }
