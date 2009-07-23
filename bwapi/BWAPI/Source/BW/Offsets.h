@@ -107,7 +107,7 @@ namespace BW
   static PlayerAlliance* BWDATA_Alliance  = (PlayerAlliance*) 0x0058D634;  // 1.16.1
 
   //----------------------------------------------- UNIT STATS -----------------------------------------------
-  /** Direct mapping of bw tables used for unti stats like count, completed, kills, deaths */
+  /** Direct mapping of BW tables used for unit stats like count, completed, kills, deaths */
   struct Counts
   {
     struct UnitStats
