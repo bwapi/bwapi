@@ -4,6 +4,9 @@ namespace BW
   /** Direct mapping of bw's player type */
   namespace PlayerType
   {
+  /*  Notes: I think this is ID & 0x07
+             Defeated or inactive is ID & 0x08
+  */
   enum Enum : u8
     {
       NotUsed          = 0,

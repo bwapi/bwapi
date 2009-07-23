@@ -5,6 +5,8 @@
 
 namespace BW
 {
+  /*  Notes: I think this is ID & 0x07
+  */
   /** Maps bw definition of race. */
   namespace Race
   {
