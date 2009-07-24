@@ -172,6 +172,16 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
   static u32            BWFXN_DrawBox                             = 0x004E1D20;
+  static u32            BWFXN_PrintXY                             = 0x004202B0;
+  /* note: correctly calling BWFXN_PrintXY
+    Must be called with drawbox.
+    {
+      mov eax, ptext
+      mov esi, x
+      push y
+      call [BW::BWFXN_DrawBox]
+    }
+  */
   static u8*            BWDATA_DrawColor                          = (u8*)0x006CF4AC;
 
   static u32            BWFXN_Refresh                             = 0x0041E26B;
