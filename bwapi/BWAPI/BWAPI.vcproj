@@ -297,6 +297,10 @@
 				Name="Enumerations"
 				>
 				<File
+					RelativePath=".\Source\BW\BNETCommands.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\DamageID.h"
 					>
 				</File>
