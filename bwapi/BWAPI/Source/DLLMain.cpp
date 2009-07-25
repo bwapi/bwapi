@@ -330,7 +330,7 @@ void drawText(int _x, int _y, const char* ptext)
     mov eax, ptext
     mov esi, _x
     push _y
-    call [BW::BWFXN_DrawBox]
+    call [BW::BWFXN_PrintXY]
   }
 }
 

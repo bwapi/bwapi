@@ -179,7 +179,7 @@ namespace BW
       mov eax, ptext
       mov esi, x
       push y
-      call [BW::BWFXN_DrawBox]
+      call [BW::BWFXN_PrintXY]
     }
   */
   static u8*            BWDATA_DrawColor                          = (u8*)0x006CF4AC;
