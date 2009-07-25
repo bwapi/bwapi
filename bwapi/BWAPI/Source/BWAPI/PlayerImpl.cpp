@@ -147,7 +147,8 @@ namespace BWAPI
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlliesWith(Player* player) const
   {
-    return false;
+    if (this->isNeutral() || player->isNeutral()) return false;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()]!=0;
   }
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
