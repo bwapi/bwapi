@@ -231,6 +231,8 @@ void __declspec(naked) onDrawHigh()
     {
       BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
     }
+    //uncomment to test the new drawText function
+    //drawText(50,50,"Hello world!");
     ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
   }
   __asm
@@ -320,6 +322,18 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
     call [BW::BWFXN_DrawBox]
   }
 }
+
+void drawText(int _x, int _y, const char* ptext)
+{
+  __asm
+  {
+    mov eax, ptext
+    mov esi, x
+    push y
+    call [BW::BWFXN_DrawBox]
+  }
+}
+
 //------------------------------------------------ JMP PATCH -------------------------------------------------
 #pragma warning(push)
 #pragma warning(disable:4311)

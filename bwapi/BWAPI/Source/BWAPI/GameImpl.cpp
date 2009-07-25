@@ -1027,7 +1027,16 @@ namespace BWAPI
     this->selectedUnitSet.clear();
     this->reselected = false;
     this->startedClient = false;
-
+    if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
+    {
+      for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
+      {
+        delete this->cachedShapes[i];
+      }
+      this->cachedShapes.clear();
+      ::ReleaseMutex(hcachedShapesMutex);
+    }
+    this->shapes.clear();
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
