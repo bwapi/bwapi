@@ -328,8 +328,8 @@ void drawText(int _x, int _y, const char* ptext)
   __asm
   {
     mov eax, ptext
-    mov esi, x
-    push y
+    mov esi, _x
+    push _y
     call [BW::BWFXN_DrawBox]
   }
 }
