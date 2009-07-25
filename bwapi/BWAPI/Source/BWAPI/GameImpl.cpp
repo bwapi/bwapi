@@ -624,7 +624,19 @@ namespace BWAPI
     }
     else if (parsed[0] == "/save")
     {
-      if (parsed[1] == "unit")
+      if (parsed[1] == "allies")
+      {
+        std::set<Player*> players=this->getPlayers();
+        for(std::set<Player*>::iterator i=players.begin();i!=players.end();i++)
+        {
+          for(std::set<Player*>::iterator j=players.begin();j!=players.end();j++)
+          {
+            BWAPI::Broodwar->printPublic("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
+            Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
+          }
+        }
+      }
+      else if (parsed[1] == "unit")
       {
         std::ofstream unitData;
         unitData.open ("bwapi-data/unitData.txt");

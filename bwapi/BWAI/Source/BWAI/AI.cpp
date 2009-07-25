@@ -857,6 +857,29 @@ namespace BWAI
       this->root->log->log("%08x", BWAPI::Broodwar->getMapHash());
       return true;
     }
+    else if (parsed[0] == "/allies")
+    {
+      std::string fileName = config->get("data_path") + "\\allies";
+      Util::FileLogger alliesLog(fileName, Util::LogLevel::MicroDetailed, false);
+      std::set<BWAPI::Player*> players=BWAPI::Broodwar->getPlayers();
+      for(std::set<BWAPI::Player*>::iterator i=players.begin();i!=players.end();i++)
+      {
+        for(std::set<BWAPI::Player*>::iterator j=players.begin();j!=players.end();j++)
+        {
+          if ((*i)->isAlliesWith(*j))
+          {
+            BWAPI::Broodwar->printPublic("%s[%d] is allies with %s[%d]", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID());
+            alliesLog.log("%s[%d] is allies with %s[%d]", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID());
+          }
+          else
+          {
+            BWAPI::Broodwar->printPublic("%s[%d] is not allies with %s[%d]", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID());
+            alliesLog.log("%s[%d] is not allies with %s[%d]", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID());
+          }
+        }
+      }
+      return true;
+    }
     else if (parsed[0] == "/luatest")
     {
       if(lua.executeFile("bwapi-data\\test.lua") == false)
