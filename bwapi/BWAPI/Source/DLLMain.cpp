@@ -152,35 +152,6 @@ void __declspec(naked) onSendLobby()
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 int i, i2, h, w, x, y, c, l;
-/*
-void restrictLines()
-{
-  if (x + w > 638 && x < 639)
-    w = 638 - x;
-  if (y + h > 478 && y < 479)
-    h = 478 - y;
-  if (x + w < 1)
-    w = 1;
-  if (y + h < 1)
-    h = 1;
-  if (x < 1 && x + w > 1)
-    w += x;
-  if (y < 1 && y + h > 1)
-    h += y;
-  if (x < 1)
-    x = 1;
-  if (y < 1)
-    y = 1;
-  if (x > 638)
-    x = 638;
-  if (y > 478)
-    y = 478;
-  if (x + w > 638)
-    w = 1;
-  if (y + h > 478)
-    h = 1;
-}
-*/
 
 void __declspec(naked) onRefresh()
 {
@@ -233,6 +204,7 @@ void __declspec(naked) onDrawHigh()
     }
     //uncomment to test the new drawText function
     //drawText(50,50,"Hello world!");
+    // Note: I think only one draw function can be called in a loop??
     ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
   }
   __asm
@@ -325,6 +297,7 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
 
 void drawText(int _x, int _y, const char* ptext)
 {
+  // Note: We may be missing setting the font style.
   __asm
   {
     mov eax, ptext
@@ -360,7 +333,7 @@ void __declspec(naked) NewIssueCommand()
     push ebp
     mov ebp, esp
     push ecx
-  mov eax, dword ptr ds: [0x654AA0]
+    mov eax, dword ptr ds: [0x654AA0]
     //jump to execute the rest of the function
     jmp [BW::BWFXN_NewIssueCommand]
   }
