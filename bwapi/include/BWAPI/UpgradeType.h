@@ -24,6 +24,7 @@ namespace BWAPI
       int gasPriceFactor() const;
       int upgradeTimeBase() const;
       int upgradeTimeFactor() const;
+      int maxRepeats() const;
       const UnitType* whatUpgrades() const;
     private:
       int id;

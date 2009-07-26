@@ -776,6 +776,17 @@ namespace BWAPI
         }
         weaponsDat.close();
       }
+      else if (parsed[1] == "upgradesMax")
+      {
+        std::ofstream upgradesMax;
+        upgradesMax.open("bwapi-data/upgradesMax.txt");
+        for (std::set<UpgradeType>::const_iterator i = UpgradeTypes::allUpgradeTypes().begin(); i != UpgradeTypes::allUpgradeTypes().end(); i++)
+        {
+          BW::UpgradeType ut=BW::UpgradeType(BW::UpgradeID::Enum((*i).getID()));
+          upgradesMax << i->getID() << ": " << (int)ut.upgradesMax() << "\n"; 
+        }
+        upgradesMax.close();
+      }
       else
       {
         this->print("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
