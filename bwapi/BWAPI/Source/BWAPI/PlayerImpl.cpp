@@ -148,7 +148,7 @@ namespace BWAPI
   bool PlayerImpl::isAlliesWith(Player* player) const
   {
     if (this->isNeutral() || player->isNeutral()) return false;
-    //if (this->getForce()==player->getForce() && this->getForce()->getName()!="Players") return true;
+    if (this->getForce()==player->getForce() && this->getForce()->getName()!="Players") return true;
     return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()]!=0;
   }
   //------------------------------------------- GET START POSITION -------------------------------------------
