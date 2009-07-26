@@ -1,1 +1,0 @@
-sendText("Holy shit");
