@@ -852,10 +852,16 @@ namespace BWAI
       BWAPI::Broodwar->print("Available: Min: %d Gas: %d", this->player->getMinerals() - this->reserved.minerals, this->player->getGas() - this->reserved.gas);
       return true;
     }
-    else if (parsed[0] == "/hash")
+    else if (parsed[0] == "/forces")
     {
-      this->root->log->log("%08x", BWAPI::Broodwar->getMapHash());
-      return true;
+      std::string fileName = config->get("data_path") + "\\forces";
+      Util::FileLogger forcesLog(fileName, Util::LogLevel::MicroDetailed, false);
+      std::set<BWAPI::Player*> players=BWAPI::Broodwar->getPlayers();
+      for(std::set<BWAPI::Player*>::iterator i=players.begin();i!=players.end();i++)
+      {
+        BWAPI::Broodwar->printPublic("%s[%d] is on force %s", (*i)->getName().c_str(), (*i)->getID(), (*i)->getForce()->getName().c_str());
+        forcesLog.log("%s[%d] is on force %s", (*i)->getName().c_str(), (*i)->getID(), (*i)->getForce()->getName().c_str());
+      }
     }
     else if (parsed[0] == "/allies")
     {
