@@ -101,8 +101,6 @@ namespace BWAPI
                                     &unitArrayCopyLocal->unit[i],
                                     i);
 
-      this->latency = BW::Latency::BattlenetLow; // @todo read from the address in update
-      //this->latency = BW::Latency::LanLow;
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         unitTypes.insert(BW::UnitType((BW::UnitID::Enum)i));
     }
@@ -606,21 +604,9 @@ namespace BWAPI
       parsed.push_back("");
     if (parsed.size() < 3)
       parsed.push_back("");
-    if (parsed[0] == "/bwapi")
+    if (parsed[0] == "/latency")
     {
-      if (parsed[1] == "on")
-      {
-        this->enabled = true;
-        this->print("bwapi enabled");
-      }
-      else if (parsed[1] == "off")
-      {
-        this->enabled = false;
-        this->print("bwapi disabled");
-      }
-      else
-        this->print("Unknown command '%s''s - possible commands are: on, off", parsed[1].c_str());
-      return true;
+      printPublic("latency: %d",getLatency());
     }
     else if (parsed[0] == "/save")
     {
@@ -830,203 +816,6 @@ namespace BWAPI
         this->print("Unknown command '%s''s - possible commands are: data, info", parsed[1].c_str());
       return true;
     }
-    else if (parsed[0] == "/get")
-    {
-      if (parsed[1] == "playerID")
-      {
-        char text[100];
-        sprintf_s(text, 100, "Current player id = %d", this->BWAPIPlayer->getID());
-        this->print(text);
-      }
-      else if (parsed[1] == "researchState")
-      {
-        std::string techName = message.substr(strlen("/get researchState "), message.size() - strlen("/get researchState "));
-        BWAPI::TechType tech = BWAPI::TechTypes::getTechType(techName);
-        if (tech == BWAPI::TechTypes::Unknown || tech == BWAPI::TechTypes::None)
-          this->print("Unknown tech name '%s'", techName.c_str());
-        else
-        {
-          if (this->BWAPIPlayer->researching(tech))
-            this->print("Tech '%s's research is in progress.", techName.c_str());
-          else if (this->BWAPIPlayer->researched(tech))
-            this->print("Tech '%s''s is researched.", techName.c_str());
-          else
-            this->print("Tech '%s''s is not researched.", techName.c_str());
-        }
-      }
-      else if (parsed[1] == "upgradeState")
-      {
-        std::string upgradeName = message.substr(strlen("/get upgradeState "), message.size() - strlen("/get upgradeState "));
-        BWAPI::UpgradeType upgrade = BWAPI::UpgradeTypes::getUpgradeType(upgradeName);
-        if (upgrade == BWAPI::UpgradeTypes::Unknown || upgrade == BWAPI::UpgradeTypes::None)
-          this->print("Unknown upgrade name '%s'", upgradeName.c_str());
-        else
-        {
-          this->print("Level is %u.", this->BWAPIPlayer->upgradeLevel(upgrade));
-          if (this->BWAPIPlayer->upgrading(upgrade))
-            this->print("Another level in progress");
-          else
-            this->print("Another level is not in progress");
-        }
-      }
-      else if (parsed[1] == "unitCount")
-      {
-
-        BWAPI::UnitType unit = BWAPI::UnitTypes::None;
-        bool all = true;
-        if (parsed[2] != "")
-        {
-          std::string unitName = message.substr(strlen("/get unitCount "), message.size() - strlen("/get unitCount "));
-          unit = BWAPI::UnitTypes::getUnitType(unitName);
-          all = false;
-        }
-        if (unit == BWAPI::UnitTypes::None || !all)
-        {
-          this->print("Unknown unit name 'None'");
-          return true;
-        }
-        this->print("Count of %s's:", unit.getName());
-        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        {
-          int count = 0;
-          if (all)
-          {
-            for (int j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-            {
-              count += this->players[i]->getAllUnits(BWAPI::UnitType(j));
-            }
-          }
-          else
-          {
-            count = this->players[i]->getAllUnits(unit);
-          }
-          this->print("Counted %d units for player %d.", count, i + 1);
-        }
-      }
-      else if (parsed[1] == "unfinishedCount")
-      {
-        BWAPI::UnitType unit = BWAPI::UnitTypes::None;
-        bool all = true;
-        if (parsed[2] != "")
-        {
-          std::string unitName = message.substr(strlen("/get unfinishedCount "), message.size() - strlen("/get unfinishedCount "));
-          unit = BWAPI::UnitTypes::getUnitType(unitName);
-          all = false;
-        }
-        if (unit == BWAPI::UnitTypes::None || !all)
-        {
-          this->print("Unknown unit name 'None'");
-          return true;
-        }
-        this->print("Count of unfinished %s's:", unit.getName());
-        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        {
-          int count = 0;
-          if (all)
-          {
-            for (int j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-            {
-              count += this->players[i]->getIncompleteUnits(BWAPI::UnitType(j));
-            }
-          }
-          else
-          {
-            count = this->players[i]->getIncompleteUnits(unit);
-          }
-          this->print("Counted %d units for player %d.", count, i + 1);
-        }
-      }
-      else if (parsed[1] == "completedCount")
-      {
-        BWAPI::UnitType unit = BWAPI::UnitTypes::None;
-        bool all = true;
-        if (parsed[2] != "")
-        {
-          std::string unitName = message.substr(strlen("/get completedCount "), message.size() - strlen("/get completedCount "));
-          unit = BWAPI::UnitTypes::getUnitType(unitName);
-          all = false;
-        }
-        if (unit == BWAPI::UnitTypes::None || !all)
-        {
-          this->print("Unknown unit name 'None'");
-          return true;
-        }
-        this->print("Count of completed %s's:", unit.getName());
-        for (u8 i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        {
-          int count = 0;
-          if (all)
-          {
-            for (int j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-            {
-              count += this->players[i]->getCompletedUnits(BWAPI::UnitType(j));
-            }
-          }
-          else
-          {
-            count = this->players[i]->getCompletedUnits(unit);
-          }
-          this->print("Counted %d units for player %d.", count, i + 1);
-        }
-      }
-      else this->print("Unknown value '%s' - possible values are: playerID, researchState, upgradeState, unitCount", parsed[1].c_str());
-      return true;
-    }
-    else if (parsed[0] == "/log")
-    {
-      if (parsed[1] == "shut")
-      {
-        ScreenLogger::shut = true;
-        this->print("Screen log shutted");
-      }
-      else if (parsed[1] == "unshut")
-      {
-        ScreenLogger::shut = false;
-        this->print("Screen log unshutted");
-      }
-      else
-        this->print("Unknown log command '%s''s - possible values are: shut, unshut", parsed[1].c_str());
-      return true;
-    }
-    else if (parsed[0] == "/set")
-    {
-      if (parsed[1] == "range")
-      {
-        u16 range = atoi(parsed[2].c_str());
-        size_t length = strlen("/set range  ") + parsed[2].size();
-        std::string name = message.substr(length, message.size() - length);
-        BW::UnitType unit(BW::UnitID::Enum(BWAPI::UnitTypes::getUnitType(name).getID()));
-        if (unit == BW::UnitID::None)
-        {
-          this->print("Unknown unit name '%s'", name.c_str());
-          return true;
-        }
-        BW::BWDATA_WeaponMaxRange->weaponType[BW::BWDATA_UnitGroundWeapon->unitType[unit.getID()]] = range;
-        BW::BWDATA_UnitSeekRange->unitType[unit.getID()] = range << 8;
-        this->print("Set range of '%s' to %d", name.c_str(), range);
-      }
-      else if (parsed[1] == "sight")
-      {
-        u8 range = atoi(parsed[2].c_str());
-        if (range > 11)
-        {
-          this->print("Max sight range size is 11");
-          return true;
-        }
-        size_t length = strlen("/set sight  ") + parsed[2].size();
-        std::string name = message.substr(length, message.size() - length);
-        BW::UnitType unit(BW::UnitID::Enum(BWAPI::UnitTypes::getUnitType(name).getID()));
-        if (unit == BW::UnitID::None)
-        {
-          this->print("Unknown unit name '%s'", name.c_str());
-          return true;
-        }
-        BW::BWDATA_UnitSightRange->unitType[unit.getID()] = range;
-        this->print("Set range of '%s' to %d", name.c_str(), range);
-      }
-      else
-        this->print("Unknown thing to set '%s'", parsed[1].c_str());
-    }
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
@@ -1234,7 +1023,17 @@ namespace BWAPI
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   BWAPI::Latency::Enum GameImpl::getLatency()
   {
-    return BWAPI::Latency::Enum(this->latency);
+    switch(*BW::BWDATA_Latency)
+    {
+      case 0:
+        return BWAPI::Latency::LanLow;
+      case 1:
+        return BWAPI::Latency::LanMedium;
+      case 2:
+        return BWAPI::Latency::LanHigh;
+      default:
+        return BWAPI::Latency::LanLow;
+    }
   }
   //--------------------------------------- PRINT UNIT COUNT PER TILE ----------------------------------------
   void GameImpl::printUnitCountPerTile()
