@@ -24,9 +24,10 @@ namespace BWAPI
       std::string getSubLabel() const;
       Race getRace() const;
 
-      const std::pair< const UnitType*, int> whatBuilds() const;
+      const std::pair< const UnitType*, int > whatBuilds() const;
       const std::map< const UnitType*, int >& requiredUnits() const;
       const TechType* requiredTech() const;
+      const std::set< const TechType* >& abilities() const;
       const UpgradeType* armorUpgrade() const;
 
       int maxHitPoints() const;
@@ -174,6 +175,8 @@ namespace BWAPI
     extern const UnitType Terran_Armory;
     extern const UnitType Terran_Missile_Turret;
     extern const UnitType Terran_Bunker;
+    extern const UnitType Special_Crashed_Norad_II;
+    extern const UnitType Special_Ion_Cannon;
     extern const UnitType Zerg_Infested_Command_Center;
     extern const UnitType Zerg_Hatchery;
     extern const UnitType Zerg_Lair;
@@ -190,7 +193,12 @@ namespace BWAPI
     extern const UnitType Zerg_Creep_Colony;
     extern const UnitType Zerg_Spore_Colony;
     extern const UnitType Zerg_Sunken_Colony;
+    extern const UnitType Special_Overmind_With_Shell;
+    extern const UnitType Special_Overmind;
     extern const UnitType Zerg_Extractor;
+    extern const UnitType Special_Mature_Chrysalis;
+    extern const UnitType Special_Cerebrate;
+    extern const UnitType Special_Cerebrate_Daggoth;
     extern const UnitType Protoss_Nexus;
     extern const UnitType Protoss_Robotics_Facility;
     extern const UnitType Protoss_Pylon;
@@ -203,12 +211,20 @@ namespace BWAPI
     extern const UnitType Protoss_Templar_Archives;
     extern const UnitType Protoss_Forge;
     extern const UnitType Protoss_Stargate;
+    extern const UnitType Special_Stasis_Cell_Prison;
     extern const UnitType Protoss_Fleet_Beacon;
     extern const UnitType Protoss_Arbiter_Tribunal;
     extern const UnitType Protoss_Robotics_Support_Bay;
     extern const UnitType Protoss_Shield_Battery;
+    extern const UnitType Special_Khaydarin_Crystal_Form;
+    extern const UnitType Special_Protoss_Temple;
+    extern const UnitType Special_XelNaga_Temple;
     extern const UnitType Resource_Mineral_Field;
     extern const UnitType Resource_Vespene_Geyser;
+    extern const UnitType Special_Warp_Gate;
+    extern const UnitType Special_Psi_Disrupter;
+    extern const UnitType Special_Power_Generator;
+    extern const UnitType Special_Overmind_Cocoon;
     extern const UnitType Spell_Dark_Swarm;
     extern const UnitType None;
     extern const UnitType Unknown;
