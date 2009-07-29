@@ -94,7 +94,10 @@ void __declspec(naked) onSendText()
     mov text, esi
   }
   sendToBW = true;
-  sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
+  if (!BWAPI::BroodwarImpl.isSinglePlayer() && *text!='\0')
+  {
+    sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
+  }
   if (sendToBW)
     __asm
   {
@@ -109,9 +112,48 @@ void __declspec(naked) onSendText()
     call [BW::BWFXN_SendPublicCallTarget]
     jmp [BW::BWFXN_SendPublicCallBack]
   }
+  *text='\0';
   __asm
   {
     jmp [BW::BWFXN_SendPublicCallBack]
+  }
+}
+void __declspec(naked) onSendSingle()
+{
+  __asm
+  {
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+    mov ebpSave, ebp
+    mov text, edx
+  }
+  sendToBW = true;
+  if (BWAPI::BroodwarImpl.isSinglePlayer() && *text!='\0')
+  {
+    sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
+  }
+  if (sendToBW)
+    __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
+    call [BW::BWFXN_SendTextCallTarget]
+    jmp [BW::BWFXN_SendTextCallBack]
+  }
+  __asm
+  {
+    jmp [BW::BWFXN_SendTextCallBack]
   }
 }
 void __declspec(naked) onSendLobby()
@@ -426,6 +468,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
   JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);
   JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
+  JmpCallPatch(onSendSingle, BW::BWFXN_SendTextCall, 0);
   JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
   JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
   JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);

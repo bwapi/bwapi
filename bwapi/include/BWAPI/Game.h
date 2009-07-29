@@ -52,8 +52,8 @@ namespace BWAPI
       virtual const std::set< TilePosition >& getStartLocations() const = 0;
       virtual int getMapHash() const = 0;
 
-      virtual void print(const char* text, ...) = 0;
-      virtual void printPublic(const char* text, ...) = 0;
+      virtual void printf(const char* text, ...) = 0;
+      virtual void sendText(const char* text, ...) = 0;
       virtual void changeRace(Race race) = 0;
       virtual bool inReplay() const = 0;
       virtual void startGame() = 0;

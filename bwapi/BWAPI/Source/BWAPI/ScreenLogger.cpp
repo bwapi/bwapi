@@ -15,7 +15,7 @@ namespace BWAPI
   bool ScreenLogger::flush(const char* data)
   {
     if (!this->shut)
-      BWAPI::BroodwarImpl.printPublic(data);
+      BWAPI::BroodwarImpl.printf(data);
     return true;
   }
 }

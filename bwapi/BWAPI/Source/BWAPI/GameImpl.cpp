@@ -361,11 +361,11 @@ namespace BWAPI
       this->lockFlags();
       if (loaded)
       {
-        printPublic("BWAPI: Loaded the AI Module: %s", ai_dll.c_str());
+        sendText("BWAPI: Loaded the AI Module: %s", ai_dll.c_str());
       }
       else
       {
-        printPublic("Error: Failed to load the AI Module");
+        sendText("Error: Failed to load the AI Module");
       }
       this->startedClient = true;
     }
@@ -392,6 +392,11 @@ namespace BWAPI
     for (int i = 0; savedSelectionStates[i] != NULL; i++)
       BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
   }
+  //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
+  bool GameImpl::isSinglePlayer() const
+  {
+    return (*BW::BWDATA_IsMultiplayer==0);
+  }
   //------------------------------------------- IS ON START CALLED -------------------------------------------
   bool GameImpl::isOnStartCalled() const
   {
@@ -417,16 +422,6 @@ namespace BWAPI
   const int BUFFER_SIZE = 2048;
   char buffer[BUFFER_SIZE];
 
-  //------------------------------------------------- PRINT --------------------------------------------------
-  void GameImpl::print(const char* text, ...)
-  {
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-    va_end(ap);
-
-    printEx(8, buffer);
-  }
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
   void GameImpl::printEx(s32 pID, const char* text, ...)
   {
@@ -447,12 +442,12 @@ namespace BWAPI
       popad
     }
     else
-      printPublic(txtout); // until lobby print private text is found
+      printf(txtout); // until lobby print private text is found
   }
-  //---------------------------------------------- PRINT PUBLIC ----------------------------------------------
-  void GameImpl::printPublic(const char* text, ...)
+  //------------------------------------------------- PRINTF -------------------------------------------------
+  void GameImpl::printf(const char* text, ...)
   {
-    if (inReplay())
+    if (inReplay() || inGame())
     {
       va_list ap;
       va_start(ap, text);
@@ -462,13 +457,51 @@ namespace BWAPI
       printEx(8, buffer);
       return;
     }
+
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
 
     char* txtout = buffer;
-    if (inGame() || inReplay())
+    if (!inGame())
+    {
+        __asm
+      {
+        pushad
+        mov edi, txtout
+        call [BW::BWFXN_SendLobbyCallTarget]
+        popad
+      }
+    }
+  }
+
+  void GameImpl::sendText(const char* text, ...)
+  {
+    if (inReplay() || (inGame() && isSinglePlayer()))
+    {
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+      va_end(ap);
+      if (inReplay())
+      {
+        printEx(8, buffer);
+      }
+      else
+      {
+        printEx(this->BWAPIPlayer->getID(), buffer);
+      }
+      return;
+    }
+
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_end(ap);
+
+    char* txtout = buffer;
+    if (inGame())
     {
       memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
       __asm
@@ -591,7 +624,10 @@ namespace BWAPI
   {
     if (!this->parseText(text) && this->isFlagEnabled(BWAPI::Flag::UserInput))
     {
-      return !this->client->onSendText(std::string(text));
+      if (this->client!=NULL)
+      {
+        return !this->client->onSendText(std::string(text));
+      }
     }
     return true;
   }
@@ -606,7 +642,8 @@ namespace BWAPI
       parsed.push_back("");
     if (parsed[0] == "/latency")
     {
-      printPublic("latency: %d",getLatency());
+      printf("latency: %d",getLatency());
+      return true;
     }
     else if (parsed[0] == "/save")
     {
@@ -617,7 +654,7 @@ namespace BWAPI
         {
           for(std::set<Player*>::iterator j=players.begin();j!=players.end();j++)
           {
-            BWAPI::Broodwar->printPublic("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
+            BWAPI::Broodwar->printf("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
             Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
           }
         }
@@ -775,7 +812,7 @@ namespace BWAPI
       }
       else
       {
-        this->print("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
+        this->printf("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
       }
       return true;
     }
@@ -784,7 +821,7 @@ namespace BWAPI
       if (parsed[1] == "info")
       {
         for (u16 i = 0; savedSelectionStates[i] != NULL; i++)
-          this->print(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
+          this->printf(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
       }
       else if (parsed[1] == "data")
       {
@@ -804,16 +841,16 @@ namespace BWAPI
         {
           if (this->players[i]->getFirst() != NULL)
           {
-            this->print("%d - %x", i, this->players[i]->getFirst());
+            this->printf("%d - %x", i, this->players[i]->getFirst());
           }
           else
           {
-            this->print("%d - NULL", i);
+            this->printf("%d - NULL", i);
           }
         }
       }
       else
-        this->print("Unknown command '%s''s - possible commands are: data, info", parsed[1].c_str());
+        this->printf("Unknown command '%s''s - possible commands are: data, info", parsed[1].c_str());
       return true;
     }
     return false;
@@ -1023,6 +1060,10 @@ namespace BWAPI
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   BWAPI::Latency::Enum GameImpl::getLatency()
   {
+    if (isSinglePlayer())
+    {
+      return BWAPI::Latency::SinglePlayer;
+    }
     switch(*BW::BWDATA_Latency)
     {
       case 0:
@@ -1101,17 +1142,17 @@ namespace BWAPI
   {
     if (this->flagsLocked == true)
     {
-      this->printPublic("Flags can only be enabled at the start of a game.");
+      this->sendText("Flags can only be enabled at the start of a game.");
       return;
     }
     this->flags[flag] = true;
     if (flag == BWAPI::Flag::CompleteMapInformation)
     {
-      this->printPublic("Enabled Flag CompleteMapInformation");
+      this->sendText("Enabled Flag CompleteMapInformation");
     }
     if (flag == BWAPI::Flag::UserInput)
     {
-      this->printPublic("Enabled Flag UserInput");
+      this->sendText("Enabled Flag UserInput");
     }
   }
   //-------------------------------------------------- LOCK FLAGS --------------------------------------------
