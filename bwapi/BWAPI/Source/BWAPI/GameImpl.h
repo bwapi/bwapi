@@ -85,8 +85,8 @@ namespace BWAPI
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      virtual void print(const char* text, ...);
-      virtual void printPublic(const char* text, ...);
+      virtual void printf(const char* text, ...);
+      virtual void sendText(const char* text, ...);
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
@@ -133,6 +133,7 @@ namespace BWAPI
       void onRemoveUnit(BW::Unit* unit);
       void lockFlags();
       bool enabled;
+      bool isSinglePlayer() const;
       bool isOnStartCalled() const;
       bool inGame() const;
       void setLastError(BWAPI::Error e);

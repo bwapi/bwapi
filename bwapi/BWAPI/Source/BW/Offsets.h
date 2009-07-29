@@ -146,12 +146,17 @@ namespace BW
   static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
+  static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
 //  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
+
+  static u32            BWFXN_SendTextCall                        = 0x004F335D;
+  static u32            BWFXN_SendTextCallBack                    = BWFXN_SendTextCall + 5;
+  static u32            BWFXN_SendTextCallTarget                  = 0x0041008E;
 
   static u32            BWFXN_SendPublicCall                      = 0x004F32B7;
   static u32            BWFXN_SendPublicCallBack                  = BWFXN_SendPublicCall + 5;
