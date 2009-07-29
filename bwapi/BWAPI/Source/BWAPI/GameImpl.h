@@ -204,7 +204,6 @@ namespace BWAPI
       BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
       UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
-      BW::Latency::Enum latency;
       std::vector<std::vector<Command *> > commandBuffer;
       /** All commands ordered from BWAPI */
       Util::Logger* commandLog;
