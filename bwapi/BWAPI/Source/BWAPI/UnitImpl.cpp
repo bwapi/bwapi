@@ -265,7 +265,8 @@ namespace BWAPI
             this->getBWOrder() == BW::OrderID::Medic ||
             this->getBWOrder() == BW::OrderID::Carrier ||
             this->getBWOrder() == BW::OrderID::Critter ||
-            this->getBWOrder() == BW::OrderID::NukeTrain);
+            this->getBWOrder() == BW::OrderID::NukeTrain ||
+            this->getBWOrder() == BW::OrderID::Larva);
   }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
