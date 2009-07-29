@@ -696,11 +696,34 @@ namespace BWAPI
             unitData << requiredUnits[i].second << ",";
           }
           unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u->requiredTech()->getName()) << "),";
+          int count=0;
+          for(std::set<TechType>::iterator t=TechTypes::allTechTypes().begin();t!=TechTypes::allTechTypes().end();t++)
+          {
+            for(std::set<const UnitType*>::const_iterator u2=t->whatUses().begin();u2!=t->whatUses().end();u2++)
+            {
+              if ((*u2)->getID()==u->getID())
+              {
+                unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(t->getName()) << "),";
+                count++;
+              }
+            }
+          }
+          for(int c=count;c<4;c++)
+          {
+            unitData << "&(TechTypes::None),";
+          }
           if (*u != UnitTypes::None && *u != UnitTypes::Unknown)
           {
-            unitData << "&(UpgradeTypes::"
-            << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),"
-            << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
+            unitData << "&(UpgradeTypes::";
+            if (BWAPI::UpgradeType(bwu.armorUpgrade())==UpgradeTypes::Unknown)
+            {
+              unitData << "None),";
+            }
+            else
+            {
+              unitData << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),";
+            }
+            unitData << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
             << (int)bwu.armor() << "," << (int)bwu.mineralPrice() << "," << (int)bwu.gasPrice() << ","
             << (int)bwu.buildTime() << "," << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << ","
             << (int)bwu.spaceRequired() << "," << (int)bwu.spaceProvided() << "," << (int)bwu.buildScore() << ","
