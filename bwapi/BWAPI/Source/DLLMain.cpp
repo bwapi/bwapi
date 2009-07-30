@@ -245,8 +245,7 @@ void __declspec(naked) onDrawHigh()
       BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
     }
     //uncomment to test the new drawText function
-    //drawText(50,50,"Hello world!");
-    // Note: I think only one draw function can be called in a loop??
+    //drawText(50,50,"PrintXY Test");
     ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
   }
   __asm
@@ -339,12 +338,19 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
 
 void drawText(int _x, int _y, const char* ptext)
 {
-  // Note: We may be missing setting the font style.
+  int temp=0;
+  DWORD temp_ptr=(DWORD)&temp;
+  u16* yptr=(u16*)0x006CE0E0;
+  *yptr=_y;
   __asm
   {
     mov eax, ptext
-    mov esi, _x
-    push _y
+    mov ebx, 0x48
+    mov ecx, temp_ptr
+    mov edx, 0x55
+    mov esi, 0x66
+    mov edi, ptext
+    push temp_ptr
     call [BW::BWFXN_PrintXY]
   }
 }
