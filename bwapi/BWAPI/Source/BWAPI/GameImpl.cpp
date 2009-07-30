@@ -171,6 +171,51 @@ namespace BWAPI
   {
     return this->map.hasCreep(x, y);
   }
+  //------------------------------------------------ HAS POWER -----------------------------------------------
+  bool GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight) const
+  {
+    if (!(tileWidth==2 && tileHeight==2) && !(tileWidth==3 && tileHeight==2) && !(tileWidth==4 && tileHeight==3))
+    {
+      return false;
+    }
+    if (tileWidth==4)
+    {
+      x++;
+    }
+    for(std::list<UnitImpl*>::const_iterator i=this->myPylons.begin();i!=this->myPylons.end();i++)
+    {
+      int px=(*i)->getTilePosition().x();
+      int py=(*i)->getTilePosition().y();
+      int bx=x-px+4;
+      int by=y-py+7;
+      if (bx>=0 && by>=0 && bx<=14 && by<=8)
+      {
+        switch(by)
+        {
+          case 0:
+            if (bx>=1 && bx<=12) return true;
+          break;
+          case 1:
+            if (bx<=13) return true;
+          break;
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+            return true;
+          break;
+          case 6:
+            if (bx<=13) return true;
+          case 7:
+            if (bx>=1 && bx<=12) return true;
+          case 8:
+            if (bx>=4 && bx<=9) return true;
+          break;
+        }
+      }
+    }
+    return false;
+  }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int GameImpl::groundHeight(int x, int y) const
   {
@@ -289,11 +334,16 @@ namespace BWAPI
           j->buildUnit = i;
         }
       }
+      this->myPylons.clear();
       for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
       {
         if (this->units.find(*i) == this->units.end())
         {
           this->units.insert(*i);
+          if ((*i)->getPlayer()==(Player*)this->BWAPIPlayer && (*i)->getBWType().getID()==BW::UnitID::Protoss_Pylon && (*i)->isCompleted())
+          {
+            this->myPylons.push_back(*i);
+          }
           std::list<BWAPI::Unit*> loadedUnits = (*i)->getLoadedUnits();
           for (std::list<BWAPI::Unit*>::iterator j = loadedUnits.begin(); j != loadedUnits.end(); j++)
           {

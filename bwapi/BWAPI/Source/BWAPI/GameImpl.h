@@ -78,6 +78,7 @@ namespace BWAPI
       virtual bool walkable(int x, int y) const;
       virtual bool visible(int x, int y) const;
       virtual bool hasCreep(int x, int y) const;
+      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) const;
       virtual int groundHeight(int x, int y) const;
       virtual const std::set< TilePosition >& getStartLocations() const;
       virtual int getMapHash() const;
@@ -196,6 +197,7 @@ namespace BWAPI
       std::set<TilePosition> startLocations;
       std::set< BW::UnitType > unitTypes;
       std::set<BWAPI::Force*> forces;
+      std::list<BWAPI::UnitImpl*> myPylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
       /** Count of game-frames passed from game start. */
       int frameCount;
