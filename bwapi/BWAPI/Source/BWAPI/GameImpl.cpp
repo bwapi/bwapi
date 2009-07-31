@@ -50,6 +50,7 @@
 #include "ShapeDot.h"
 #include "ShapeLine.h"
 #include "ShapeTriangle.h"
+#include "ShapeText.h"
 
 namespace BWAPI
 {
@@ -1293,5 +1294,13 @@ namespace BWAPI
         (screen_x1 > 640 && screen_x2 > 640) ||
         (screen_y1 > 480 && screen_y2 > 480)) return;
     addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
+  }
+  void GameImpl::text(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
+  {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_end(ap);
+    addShape(new ShapeText(ctype,x,y,std::string(buffer)));
   }
 };
