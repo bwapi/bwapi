@@ -338,24 +338,23 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
 
 void drawText(int _x, int _y, const char* ptext)
 {
+  if (_y>400) return;
   int temp=0;
   DWORD temp_ptr=(DWORD)&temp;
-  u8* ptr1=(u8*)0x006CE0D4;*ptr1=0x03;
-  u8* ptr2=(u8*)0x006CE110;*ptr2=0x12;
-  u8* ptr3=(u8*)0x006CE111;*ptr3=0x0D;
-  u16* ptr6=(u16*)0x006CE0CE;*ptr6=0x000D;
-  u32* ptr9=(u32*)0x006CE0CC;*ptr9=0x000D0000+_x+200;
-  u32* ptr10=(u32*)0x006CE0E0;*ptr10=0x00000000+_y;
-  u32* ptr11=(u32*)0x006CE108;*ptr11=0x00000000+_x;
-  u32* ptr12=(u32*)0x006D5DDC;*ptr12=0x02E883AC;
+  *BW::BWDATA_PrintXY_Unknown1=0x21;
+  *BW::BWDATA_PrintXY_Unknown2=0x00D8;
+  *BW::BWDATA_PrintXY_Unknown3=0x0013;
+  *BW::BWDATA_PrintXY_PositionX2=640;
+  *BW::BWDATA_PrintXY_PositionX=_x;
+  *BW::BWDATA_PrintXY_PositionY=_y;
+  *BW::BWDATA_PrintXY_Current_Font=0x02E883AC;
 
   __asm
   {
     mov eax, ptext
     mov ebx, 0x00000000
-    mov ecx, temp_ptr
-    mov edx, 0x0000000D
-    mov esi, 0x00000066
+    mov ecx, 0x0000000D
+    mov esi, 0x000000e8
     mov edi, ptext
     push temp_ptr
     call [BW::BWFXN_PrintXY]

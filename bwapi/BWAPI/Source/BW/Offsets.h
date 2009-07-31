@@ -178,6 +178,14 @@ namespace BW
 
   static u32            BWFXN_DrawBox                             = 0x004E1D20;
   static u32            BWFXN_PrintXY                             = 0x004200D0;
+  static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
+  static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
+  static u32*           BWDATA_PrintXY_Current_Font               = (u32*) 0x006D5DDC;
+  static u32*           BWDATA_PrintXY_PositionX2                 = (u32*) 0x006CE0CC;
+  static u8*            BWDATA_PrintXY_Unknown1                   = (u8*)  0x006CE110;
+  static u16*           BWDATA_PrintXY_Unknown2                   = (u16*) 0x006CE0C8;
+  static u16*           BWDATA_PrintXY_Unknown3                   = (u16*) 0x006CE0CE;
+
   static u8*            BWDATA_DrawColor                          = (u8*)  0x006CF4AC;
 
   static u32            BWFXN_Refresh                             = 0x0041E26B;
