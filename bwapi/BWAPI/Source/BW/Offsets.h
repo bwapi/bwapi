@@ -182,9 +182,27 @@ namespace BW
   static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
   static u32*           BWDATA_PrintXY_Current_Font               = (u32*) 0x006D5DDC;
   static u32*           BWDATA_PrintXY_PositionX2                 = (u32*) 0x006CE0CC;
+
+  struct fontMemStruct
+  {
+    u32 tFontColor;
+    u32 tFontUnknown;
+    u16 x1;
+    u16 y1;
+    u16 x2;
+    u16 y2;
+  };
+
+  static fontMemStruct* BWDATA_PrintXY_Font                       = (fontMemStruct*) 0x006CE0C0;
   static u8*            BWDATA_PrintXY_Unknown1                   = (u8*)  0x006CE110;
   static u16*           BWDATA_PrintXY_Unknown2                   = (u16*) 0x006CE0C8;
   static u16*           BWDATA_PrintXY_Unknown3                   = (u16*) 0x006CE0CE;
+
+
+  static u32*           BWDATA_Font8_Handle                       = (u32*) 0x006CE0F4;
+  static u32*           BWDATA_Font10_Handle                      = (u32*) 0x006CE0F8;
+  static u32*           BWDATA_Font16_Handle                      = (u32*) 0x006CE0FC;
+  static u32*           BWDATA_Font16x_Handle                     = (u32*) 0x006CE100;
 
   static u8*            BWDATA_DrawColor                          = (u8*)  0x006CF4AC;
 
