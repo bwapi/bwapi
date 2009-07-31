@@ -244,8 +244,6 @@ void __declspec(naked) onDrawHigh()
     {
       BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
     }
-    //uncomment to test the new drawText function
-    drawText(BWAPI::BroodwarImpl._getMouseX(),BWAPI::BroodwarImpl._getMouseY(),"PrintXY Test");
     ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
   }
   __asm
@@ -336,9 +334,19 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
   }
 }
 
-void drawText(int _x, int _y, const char* ptext)
+void drawText(int _x, int _y, const char* ptext, BWAPI::CoordinateType::Enum ctype)
 {
-  if (_y>400) return;
+  if (ctype == 2)
+  {
+    _x -= BWAPI::BroodwarImpl._getScreenX();
+    _y -= BWAPI::BroodwarImpl._getScreenY();
+  }
+  else if (ctype == 3)
+  {
+    _x += BWAPI::BroodwarImpl._getMouseX();
+    _y += BWAPI::BroodwarImpl._getMouseY();
+  }
+  if (_x<0 || _y<0 || _x>640 || _y>400) return;
   int temp=0;
   DWORD temp_ptr=(DWORD)&temp;
   *BW::BWDATA_PrintXY_Unknown1=0x21;

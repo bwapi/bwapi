@@ -88,6 +88,7 @@ namespace BWAPI
        */
       virtual void printf(const char* text, ...);
       virtual void sendText(const char* text, ...);
+      virtual void text(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)

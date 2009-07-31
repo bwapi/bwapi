@@ -55,6 +55,7 @@ namespace BWAPI
 
       virtual void printf(const char* text, ...) = 0;
       virtual void sendText(const char* text, ...) = 0;
+      virtual void text(CoordinateType::Enum ctype, int x, int y, const char* text, ...) = 0;
       virtual void changeRace(Race race) = 0;
       virtual bool inReplay() const = 0;
       virtual void startGame() = 0;

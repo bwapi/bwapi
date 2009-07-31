@@ -565,6 +565,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\ShapeText.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\ShapeTriangle.cpp"
 					>
 				</File>
@@ -754,6 +758,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\ShapeLine.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\ShapeText.h"
 					>
 				</File>
 				<File
