@@ -347,7 +347,13 @@ void drawText(int _x, int _y, const char* ptext)
   *BW::BWDATA_PrintXY_PositionX2=640;
   *BW::BWDATA_PrintXY_PositionX=_x;
   *BW::BWDATA_PrintXY_PositionY=_y;
-  *BW::BWDATA_PrintXY_Current_Font=0x02E883AC;
+  *BW::BWDATA_PrintXY_Current_Font=*BW::BWDATA_Font10_Handle;
+  BW::BWDATA_PrintXY_Font->tFontColor=0x006CE028;
+  BW::BWDATA_PrintXY_Font->tFontUnknown=0x00000001;
+  BW::BWDATA_PrintXY_Font->x1=0x00D8;
+  BW::BWDATA_PrintXY_Font->y1=0x0000;
+  BW::BWDATA_PrintXY_Font->x2=0x0280;
+  BW::BWDATA_PrintXY_Font->y2=0x0000;
 
   __asm
   {
