@@ -149,6 +149,12 @@ namespace BW
   static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
 //  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
+  static u32            BWFXN_QuitMission                         = 0x004C95A0;
+  static u32*           BWDATA_QuitMission_UNKNOWN1                = (u32*) 0x006D051C;
+  static u32*           BWDATA_QuitMission_UNKNOWN2                = (u32*) 0x00512684;
+  static u32*           BWDATA_QuitMission_UNKNOWN3                = (u32*) 0x006D0F14;
+  static u32*           BWDATA_QuitMission_UNKNOWN4                = (u32*) 0x0057F23C;
+
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
