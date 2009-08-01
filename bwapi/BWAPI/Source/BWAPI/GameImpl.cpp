@@ -989,6 +989,7 @@ namespace BWAPI
     *BW::BWDATA_QuitMission_UNKNOWN4=0x000001BD;
     u32 var1=2;
     u32 ptr1=(u32)(&var1);
+    //Most of the following ASM was taking from the function at 004C95A0
     __asm
     {
       MOV EAX,0x00000000
