@@ -170,7 +170,9 @@ namespace BWAPI
   //------------------------------------------------ HAS CREEP -----------------------------------------------
   bool GameImpl::hasCreep(int x, int y) const
   {
-    return this->map.hasCreep(x, y);
+    if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->visible(x, y))
+      return this->map.hasCreep(x, y);
+    return false;
   }
   //------------------------------------------------ HAS POWER -----------------------------------------------
   bool GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight) const
@@ -235,7 +237,6 @@ namespace BWAPI
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* > GameImpl::getForces() const
   {
-
     return this->forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
@@ -255,9 +256,22 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getAllUnits() const
   {
     std::set<Unit*> units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+    if (this->isFlagEnabled(Flag::CompleteMapInformation))
     {
-      units.insert((Unit*)(*i));
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        units.insert((Unit*)(*i));
+      }
+    }
+    else
+    {
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->isVisible())
+        {
+          units.insert((Unit*)(*i));
+        }
+      }
     }
     return units;
   }
@@ -265,10 +279,21 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getMinerals() const
   {
     std::set<Unit*> units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+    if (this->isFlagEnabled(Flag::CompleteMapInformation))
     {
-      if ((*i)->isMineral())
-        units.insert((Unit*)(*i));
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->isMineral())
+          units.insert((Unit*)(*i));
+      }
+    }
+    else
+    {
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->isVisible() && (*i)->isMineral())
+          units.insert((Unit*)(*i));
+      }
     }
     return units;
   }
@@ -276,10 +301,21 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getGeysers() const
   {
     std::set<Unit*> units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+    if (this->isFlagEnabled(Flag::CompleteMapInformation))
     {
-      if ((*i)->getType() == BW::UnitID::Resource_VespeneGeyser)
-        units.insert((Unit*)(*i));
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->getType() == BW::UnitID::Resource_VespeneGeyser)
+          units.insert((Unit*)(*i));
+      }
+    }
+    else
+    {
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->isVisible() && (*i)->getType() == BW::UnitID::Resource_VespeneGeyser)
+          units.insert((Unit*)(*i));
+      }
     }
     return units;
   }
@@ -287,10 +323,21 @@ namespace BWAPI
   std::set< Unit* > GameImpl::getNeutralUnits() const
   {
     std::set<Unit*> units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+    if (this->isFlagEnabled(Flag::CompleteMapInformation))
     {
-      if (((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
-        units.insert((Unit*)(*i));
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if (((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
+          units.insert((Unit*)(*i));
+      }
+    }
+    else
+    {
+      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->isVisible() && ((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
+          units.insert((Unit*)(*i));
+      }
     }
     return units;
   }
@@ -1233,7 +1280,12 @@ namespace BWAPI
   //--------------------------------------------- UNITS ON TILE ----------------------------------------------
   std::set<Unit*> GameImpl::unitsOnTile(int x, int y) const
   {
-    return unitsOnTileData[x][y];
+    if (this->isFlagEnabled(Flag::CompleteMapInformation) || visible(x,y))
+    {
+      return unitsOnTileData[x][y];
+    }
+    std::set<Unit*> emptySet;
+    return emptySet;
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
   Error GameImpl::getLastError() const
