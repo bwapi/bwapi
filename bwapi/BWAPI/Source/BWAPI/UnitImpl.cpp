@@ -257,7 +257,7 @@ namespace BWAPI
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
-    return (this->getBWOrder() == BW::OrderID::PlayerGuard ||
+    return ((this->getBWOrder() == BW::OrderID::PlayerGuard ||
             this->getBWOrder() == BW::OrderID::Guard ||
             this->getBWOrder() == BW::OrderID::Stop ||
             this->getBWOrder() == BW::OrderID::Pickup1 ||
@@ -266,7 +266,8 @@ namespace BWAPI
             this->getBWOrder() == BW::OrderID::Carrier ||
             this->getBWOrder() == BW::OrderID::Critter ||
             this->getBWOrder() == BW::OrderID::NukeTrain ||
-            this->getBWOrder() == BW::OrderID::Larva);
+            this->getBWOrder() == BW::OrderID::Larva) &&
+            !this->isTraining());
   }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
