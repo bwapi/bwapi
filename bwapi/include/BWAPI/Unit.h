@@ -96,6 +96,7 @@ namespace BWAPI
       virtual bool rightClick(Unit* target) = 0;
       virtual bool train(UnitType type) = 0;
       virtual bool build(TilePosition position, UnitType type) = 0;
+      virtual bool buildAddon(UnitType type) = 0;
       virtual bool research(TechType tech) = 0;
       virtual bool upgrade(UpgradeType upgrade) = 0;
       virtual bool stop() = 0;
