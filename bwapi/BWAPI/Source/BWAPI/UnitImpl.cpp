@@ -756,6 +756,17 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, BW::TilePosition(position.x(), position.y())));
     return true;
   }
+  //----------------------------------------------- BUILD ADDON ----------------------------------------------
+  bool UnitImpl::buildAddon(UnitType type1)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    if (!type1.isAddon())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    return this->build(TilePosition(this->getTilePosition().x()+4,this->getTilePosition().y()+1),type1);    
+  }
   //------------------------------------------------ RESEARCH ------------------------------------------------
   bool UnitImpl::research(TechType tech)
   {

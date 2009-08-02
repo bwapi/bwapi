@@ -126,6 +126,7 @@ namespace BWAPI
       virtual bool train(UnitType type);
       /** Orders to build the specified building. */
       virtual bool build(TilePosition position, UnitType type);
+      virtual bool buildAddon(UnitType type);
       /** Orders to build the research the specified tech. */
       virtual bool research(TechType tech);
       /** Orders to build the upgrade the specified upgrade. */
