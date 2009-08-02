@@ -249,6 +249,22 @@ namespace BWAPI
   {
     return this->getBWOrder() == BW::OrderID::Follow;
   }
+  //-------------------------------------------- IS GATHERING GAS --------------------------------------------
+  bool UnitImpl::isGatheringGas() const
+  {
+    return (this->getBWOrder()==BW::OrderID::MoveToGas ||
+            this->getBWOrder()==BW::OrderID::WaitForGas ||
+            this->getBWOrder()==BW::OrderID::HarvestGas ||
+            this->getBWOrder()==BW::OrderID::ReturnGas);
+  }
+  //----------------------------------------- IS GATHERING MINERALS ------------------------------------------
+  bool UnitImpl::isGatheringMinerals() const
+  {
+    return (this->getBWOrder()==BW::OrderID::MoveToMinerals ||
+            this->getBWOrder()==BW::OrderID::WaitForMinerals ||
+            this->getBWOrder()==BW::OrderID::MiningMinerals ||
+            this->getBWOrder()==BW::OrderID::ReturnMinerals);
+  }
   //-------------------------------------------- IS HALLUCINATION --------------------------------------------
   bool UnitImpl::isHallucination() const
   {

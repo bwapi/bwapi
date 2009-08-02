@@ -845,12 +845,13 @@ namespace BWAPI
             << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker() << ","
             << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg() << ","
             << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding() << ","
-            << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral()
+            << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral() << ","
+            << bwu.isRefinery()
             << ");\n";
           }
           else
           {
-            unitData << "&(UpgradeTypes::None), 0,0,0, 0,0,0, 0,0,0, 255,0,0, 0,&(UnitSizeTypes::None),0, 0,0,0, 0,0,0, 0,&(WeaponTypes::None), 0,&(WeaponTypes::None), 0,0,0, 0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0);\n";
+            unitData << "&(UpgradeTypes::None), 0,0,0, 0,0,0, 0,0,0, 255,0,0, 0,&(UnitSizeTypes::None),0, 0,0,0, 0,0,0, 0,&(WeaponTypes::None), 0,&(WeaponTypes::None),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);\n";
           }
         }
         unitData.close();

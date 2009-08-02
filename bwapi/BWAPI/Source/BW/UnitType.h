@@ -105,6 +105,7 @@ namespace BW
       bool                 isDetector() const;
       bool                 isResourceContainer() const;
       bool                 isResourceDepot() const;
+      bool                 isRefinery() const;
       bool                 isWorker() const;
       bool                 requiresPsi() const;
       bool                 requiresCreep() const;
