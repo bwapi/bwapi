@@ -354,6 +354,13 @@ namespace BW
   {
     return this->getFlags().getBit(BW::UnitPrototypeFlags::ResourceDepot);
   }
+  //---------------------------------------------- IS REFINERY -----------------------------------------------
+  bool UnitType::isRefinery() const
+  {
+    return (this->getID()==BW::UnitID::Terran_Refinery ||
+            this->getID()==BW::UnitID::Protoss_Assimilator ||
+            this->getID()==BW::UnitID::Zerg_Extractor);
+  }
   //----------------------------------------------- IS WORKER ------------------------------------------------
   bool UnitType::isWorker() const
   {

@@ -70,6 +70,8 @@ namespace BWAPI
       virtual bool isCompleted() const = 0;
       virtual bool isConstructing() const = 0;
       virtual bool isFollowing() const = 0;
+      virtual bool isGatheringGas() const = 0;
+      virtual bool isGatheringMinerals() const = 0;
       virtual bool isHallucination() const = 0;
       virtual bool isIdle() const = 0;
       virtual bool isLifted() const = 0;
