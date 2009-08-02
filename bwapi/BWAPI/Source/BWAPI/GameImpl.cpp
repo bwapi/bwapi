@@ -189,8 +189,8 @@ namespace BWAPI
     {
       int px=(*i)->getTilePosition().x();
       int py=(*i)->getTilePosition().y();
-      int bx=x-px+4;
-      int by=y-py+7;
+      int bx=x-px+7;
+      int by=y-py+4;
       if (bx>=0 && by>=0 && bx<=14 && by<=8)
       {
         switch(by)
@@ -218,6 +218,114 @@ namespace BWAPI
       }
     }
     return false;
+  }
+  //---------------------------------------------- CAN BUILD HERE --------------------------------------------
+  bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type) const
+  {
+    if (position.x()<0) return false;
+    if (position.y()<0) return false;
+    int width=type.tileWidth();
+    int height=type.tileHeight();
+    if (position.x()+width>this->mapWidth()) return false;
+    if (position.y()+height>this->mapHeight()) return false;
+    if (type.isRefinery())
+    {
+      std::set<BWAPI::Unit*> geysers=this->getGeysers();
+      for(std::set<BWAPI::Unit*>::iterator g=geysers.begin();g!=geysers.end();g++)
+      {
+        if ((*g)->getTilePosition()==position)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+    for(int x=position.x();x<position.x()+width;x++)
+    {
+      for(int y=position.y();y<position.y()+height;y++)
+      {
+        std::set<Unit*> groundUnits;
+        std::set<Unit*> unitsOnTile=this->unitsOnTile(x,y);
+        for(std::set<Unit*>::iterator i=unitsOnTile.begin();i!=unitsOnTile.end();i++)
+        {
+          if (!(*i)->getType().isFlyer() && !(*i)->isLifted())
+          {
+            groundUnits.insert(*i);
+          }
+        }
+        if (!this->buildable(x,y) || groundUnits.size()>1)
+        {
+          return false;
+        }
+        if (!groundUnits.empty())
+        {
+          Unit* blocking=*(groundUnits.begin());
+          if (blocking!=builder)
+          {
+            return false;
+          }
+        }
+      }
+    }
+    if (type.getRace()==BWAPI::Races::Zerg)
+    {
+      if (!type.isResourceDepot())
+      {
+        for(int x=position.x();x<position.x()+width;x++)
+        {
+          for(int y=position.y();y<position.y()+height;y++)
+          {
+            if (!BWAPI::Broodwar->hasCreep(x,y))
+            {
+              return false;
+            }
+          }
+        }
+      }
+    }
+    else
+    {
+      for(int x=position.x();x<position.x()+width;x++)
+      {
+        for(int y=position.y();y<position.y()+height;y++)
+        {
+          if (BWAPI::Broodwar->hasCreep(x,y))
+          {
+            return false;
+          }
+        }
+      }
+    }
+    if (type.requiresPsi())
+    {
+      return this->hasPower(position.x(),position.y(),width,height);
+    }
+    if (type.isResourceDepot())
+    {
+      std::set<BWAPI::Unit*> minerals=this->getMinerals();
+      for(std::set<BWAPI::Unit*>::iterator m=minerals.begin();m!=minerals.end();m++)
+      {
+        if ((*m)->getTilePosition().x()>position.x()-5 &&
+            (*m)->getTilePosition().y()>position.y()-4 &&
+            (*m)->getTilePosition().x()<position.x()+7 &&
+            (*m)->getTilePosition().y()<position.y()+6)
+        {
+          return false;
+        }
+      }
+      std::set<BWAPI::Unit*> geysers=this->getGeysers();
+      for(std::set<BWAPI::Unit*>::iterator g=geysers.begin();g!=geysers.end();g++)
+      {
+        if ((*g)->getTilePosition().x()>position.x()-7 &&
+            (*g)->getTilePosition().y()>position.y()-5 &&
+            (*g)->getTilePosition().x()<position.x()+7 &&
+            (*g)->getTilePosition().y()<position.y()+6)
+        {
+          return false;
+        }
+      }
+    }
+    return true;
   }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int GameImpl::groundHeight(int x, int y) const

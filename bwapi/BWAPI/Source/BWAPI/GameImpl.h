@@ -79,6 +79,7 @@ namespace BWAPI
       virtual bool visible(int x, int y) const;
       virtual bool hasCreep(int x, int y) const;
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) const;
+      virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type) const;
       virtual int groundHeight(int x, int y) const;
       virtual const std::set< TilePosition >& getStartLocations() const;
       virtual int getMapHash() const;
