@@ -242,7 +242,12 @@ namespace BWAPI
   //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
   bool UnitImpl::isConstructing() const
   {
-    return this->getBWOrder() == BW::OrderID::ConstructingBuilding;
+    return this->getBWOrder() == BW::OrderID::ConstructingBuilding || 
+           this->getBWOrder() == BW::OrderID::DroneBuild ||
+           this->getBWOrder() == BW::OrderID::DroneStartBuild ||
+           this->getBWOrder() == BW::OrderID::DroneLand ||
+           this->getBWOrder() == BW::OrderID::BuildProtoss1 ||
+           this->getBWOrder() == BW::OrderID::BuildProtoss2;
   }
   //---------------------------------------------- IS FOLLOWING ----------------------------------------------
   bool UnitImpl::isFollowing() const
