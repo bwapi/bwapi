@@ -63,12 +63,14 @@ namespace BWAPI
   {
     this->x() += position.x();
     this->y() += position.y();
+    return *this;
   }
   //----------------------------------------------------------------------------------------------------------
   TilePosition& TilePosition::operator-=(const TilePosition& position)
   {
     this->x() -= position.x();
     this->y() -= position.y();
+    return *this;
   }
   //----------------------------------------------- IS VALID -------------------------------------------------
   bool TilePosition::isValid() const
