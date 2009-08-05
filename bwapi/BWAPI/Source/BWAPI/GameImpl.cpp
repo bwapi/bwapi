@@ -554,6 +554,9 @@ namespace BWAPI
         loaded = false;
         Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
         this->client = new AIModule();
+        this->enableFlag(Flag::UserInput);
+        this->enableFlag(Flag::CompleteMapInformation);
+        this->lockFlags();
       }
       else
       {
