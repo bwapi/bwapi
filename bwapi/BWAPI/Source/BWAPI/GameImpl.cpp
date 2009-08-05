@@ -498,7 +498,7 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
         unitList.push_back(i);
-        if (i->_getOrderTarget() != NULL && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
+        if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
         {
           UnitImpl* j = (UnitImpl*)(i->_getOrderTarget());
           i->buildUnit = j;
@@ -1326,16 +1326,16 @@ namespace BWAPI
     unitArray[index]->die();
     this->units.erase(unitArray[index]);
     deadUnits.push_back(unitArray[index]);
+    BWAPI::UnitImpl* deadUnit=unitArray[index];
     unitArray[index] = new UnitImpl(&unitArrayCopy->unit[index],
                                 &BW::BWDATA_UnitNodeTable->unit[index],
                                 &unitArrayCopyLocal->unit[index],
                                 index);
     if (this->client != NULL)
     {
-      BWAPI::UnitImpl* u=unitArray[index];
-      if (u!=NULL && u->canAccess())
+      if (deadUnit!=NULL && deadUnit->canAccessSpecial())
       {
-        this->client->onRemoveUnit(u);
+        this->client->onRemoveUnit(deadUnit);
       }
     }
   }
