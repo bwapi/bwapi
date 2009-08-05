@@ -811,19 +811,16 @@ namespace BWAPI
     startLocations.clear();
     while (posptr->x != 0 || posptr->y != 0)
     {
-      startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2) / BW::TILE_SIZE),
+      startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2)          / BW::TILE_SIZE),
                                                 (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
       posptr++;
     }
     std::set<std::string> force_names;
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
     for (int i = 0; i < 12; i++)
-    {
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
-      {
         force_names.insert(std::string(this->players[i]->getForceName()));
-      }
-    }
+
     for (std::set<std::string>::iterator i = force_names.begin(); i != force_names.end(); i++)
     {
       ForceImpl* newforce = new ForceImpl(*i);
@@ -831,26 +828,20 @@ namespace BWAPI
       force_name_to_forceimpl.insert(std::make_pair(*i, newforce));
     }
     for (int i = 0; i < 12; i++)
-    {
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
         ForceImpl* force = force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
         force->players.insert(this->players[i]);
         this->players[i]->force = force;
       }
-    }
   }
 
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool GameImpl::onSendText(const char* text)
   {
     if (!this->parseText(text) && this->isFlagEnabled(BWAPI::Flag::UserInput))
-    {
       if (this->client!=NULL)
-      {
         return !this->client->onSendText(std::string(text));
-      }
-    }
     return true;
   }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
@@ -865,6 +856,7 @@ namespace BWAPI
     if (parsed[0] == "/surrender")
     {
       this->surrender();
+      return true;
     }
     else if (parsed[0] == "/latency")
     {
@@ -1160,13 +1152,14 @@ namespace BWAPI
   //---------------------------------------------- SURRENDER -----------------------------------------------
   void GameImpl::surrender()
   {
-    *BW::BWDATA_QuitMission_UNKNOWN1=0xFFFFFFFE;
-    *BW::BWDATA_QuitMission_UNKNOWN2=0x00000001;
-    *BW::BWDATA_QuitMission_UNKNOWN3=0x00000000;
-    *BW::BWDATA_QuitMission_UNKNOWN4=0x000001BD;
-    u32 var1=2;
-    u32 ptr1=(u32)(&var1);
+    *BW::BWDATA_QuitMission_UNKNOWN1 = 0xFFFFFFFE;
+    *BW::BWDATA_QuitMission_UNKNOWN2 = 0x00000001;
+    *BW::BWDATA_QuitMission_UNKNOWN3 = 0x00000000;
+    *BW::BWDATA_QuitMission_UNKNOWN4 = 0x000001BD;
+    u32 var1 = 2;
+    u32 ptr1 = (u32)(&var1);
     //Most of the following ASM was taking from the function at 004C95A0
+    //Note: this function was labelled by me as quit2mnu_LastBINDLG; Being only a BIN Dialog function, not the one we want.
     __asm
     {
       MOV EAX,0x00000000
