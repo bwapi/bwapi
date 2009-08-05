@@ -23,23 +23,23 @@ namespace BWAPI
     {
       if (targetUnit != NULL)
       {
-        if (
-          (this->executors[i]->getType().isWorker()) &&
-          targetUnit->getType()==UnitTypes::Resource_Mineral_Field
-        )
+        if (this->executors[i]->getType().isWorker() &&
+            targetUnit->getType()==UnitTypes::Resource_Mineral_Field)
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
 
         else if (this->executors[i]->getType().isWorker() &&
-                 (
-                   targetUnit->getType() == BW::UnitID::Terran_Refinery ||
-                   targetUnit->getType() == BW::UnitID::Protoss_Assimilator ||
-                   targetUnit->getType() == BW::UnitID::Zerg_Extractor
-                 )
-                )
+                 targetUnit->getType().isRefinery())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToGas;
 
+        else if (this->executors[i]->getType().isWorker() &&
+                 targetUnit->getType().getRace()==Races::Terran &&
+                 *targetUnit->getType().whatBuilds().first==this->executors[i]->getType() &&
+                 !targetUnit->isCompleted())
+          executors[i]->getRawDataLocal()->orderID = BW::OrderID::ConstructingBuilding;
+
         else if ((this->executors[i]->getType().canAttack()) &&
-                 targetUnit->getPlayer() != executors[i]->getPlayer())
+                 targetUnit->getPlayer() != executors[i]->getPlayer() &&
+                 !targetUnit->getType().isNeutral())
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
 
         else if ((this->executors[i]->getType().canMove()))
