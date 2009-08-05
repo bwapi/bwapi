@@ -183,7 +183,9 @@ namespace BWAPI
       void die();
 
       inline bool canAccess() const;
+      inline bool canAccessSpecial() const;
       inline bool attemptAccess() const;
+      inline bool attemptAccessSpecial() const;
       inline bool _exists() const;
       Player* _getPlayer() const;
       UnitType _getType() const;
@@ -241,6 +243,7 @@ namespace BWAPI
       bool userSelected;
       bool visible;
       BWAPI::Player* savedPlayer;
+      BWAPI::UnitType savedUnitType;
   };
 };
 

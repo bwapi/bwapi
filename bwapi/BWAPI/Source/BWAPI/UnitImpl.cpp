@@ -61,6 +61,7 @@ namespace BWAPI
       , buildUnit(NULL)
       , alive(false)
       , savedPlayer(NULL)
+      , savedType(UnitTypes::None)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -196,7 +197,8 @@ namespace BWAPI
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
-    if (!this->attemptAccess()) return (Player*)BroodwarImpl.players[11];
+    if (!this->attemptAccessSpecial()) return (Player*)BroodwarImpl.players[11];
+    if (!this->_exists()) return this->savedPlayer;
     if (this->getRawDataLocal()->playerID < 12)
       return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
     else
@@ -205,7 +207,7 @@ namespace BWAPI
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::_getPlayer() const
   {
-    if (!this->_exists()) return NULL;
+    if (!this->_exists()) return this->savedPlayer;
     return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
@@ -1679,7 +1681,9 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::getType() const
   {
-    if (!this->attemptAccess()) return UnitTypes::Unknown;
+    if (!this->attemptAccessSpecial()) return UnitTypes::Unknown;
+    if (!this->_exists()) return this->savedUnitType;
+
     if ( this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch1
          || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch2
          || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch3)
@@ -1694,7 +1698,7 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::_getType() const
   {
-    if (!this->_exists()) return UnitTypes::Unknown;
+    if (!this->_exists()) return this->savedUnitType;
     if ( this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch1
          || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch2
          || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch3)
@@ -1756,6 +1760,7 @@ namespace BWAPI
   {
     if (!this->_exists()) return;
     this->savedPlayer=this->_getPlayer();
+    this->savedUnitType=this->_getType();
     this->bwUnit=NULL;
     this->bwUnitLocal=NULL;
     this->bwOriginalUnit=NULL;
@@ -1778,6 +1783,21 @@ namespace BWAPI
     }
     return false;
   }
+  bool UnitImpl::canAccessSpecial() const
+  {
+    if (this->isVisible()) return true;
+    if (this->_exists())
+    {
+      if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return true;
+      if (BroodwarImpl.flagsLocked==false)
+      {
+        if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories()) return true;
+      }
+      if (BroodwarImpl.inUpdate==true) return true;
+    }
+    if (!this->_exists() && this->savedPlayer==BroodwarImpl.self()) return true;
+    return false;
+  }
   bool UnitImpl::attemptAccess() const
   {
     if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::None);
@@ -1787,6 +1807,13 @@ namespace BWAPI
       if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
       return false;
     }
+    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
+    return false;      
+  }
+  bool UnitImpl::attemptAccessSpecial() const
+  {
+    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::None);
+    if (this->canAccessSpecial()) return true;
     if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
     return false;      
   }
