@@ -61,7 +61,7 @@ namespace BWAPI
       , buildUnit(NULL)
       , alive(false)
       , savedPlayer(NULL)
-      , savedType(UnitTypes::None)
+      , savedUnitType(UnitTypes::None)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
