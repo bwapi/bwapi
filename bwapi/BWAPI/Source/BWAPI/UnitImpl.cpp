@@ -1741,13 +1741,13 @@ namespace BWAPI
   void UnitImpl::die()
   {
     if (!this->_exists()) return;
+    this->savedPlayer=this->_getPlayer();
     this->bwUnit=NULL;
     this->bwUnitLocal=NULL;
     this->bwOriginalUnit=NULL;
     this->index=-1;
     this->userSelected=false;
     this->visible=false;
-    this->savedPlayer=this->getPlayer();
     this->alive=false;
   }
   bool UnitImpl::canAccess() const
