@@ -202,7 +202,7 @@ namespace BW
   static fontMemStruct* BWDATA_PrintXY_Font                       = (fontMemStruct*) 0x006CE0C0;
   static u8*            BWDATA_PrintXY_Unknown1                   = (u8*)  0x006CE110;
 
-  static u32            BWDATA_FontData                           = 0x006CE028
+  static u32            BWDATA_FontData                           = 0x006CE028;
 
   static u32            BWDATA_FontBase                           = 0x006CE0F4;
   static u32*           BWDATA_Font8_Handle                       = (u32*) BWDATA_FontBase;
