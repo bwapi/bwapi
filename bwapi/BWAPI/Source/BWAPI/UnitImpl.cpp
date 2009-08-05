@@ -259,7 +259,7 @@ namespace BWAPI
   //----------------------------------------------- IS BURROWED ----------------------------------------------
   bool UnitImpl::_isBurrowed() const
   {
-    if (!this->exists()) return false;
+    if (!this->_exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
   }
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
@@ -271,7 +271,7 @@ namespace BWAPI
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
   bool UnitImpl::_isCloaked() const
   {
-    if (!this->exists()) return false;
+    if (!this->_exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
@@ -283,7 +283,7 @@ namespace BWAPI
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool UnitImpl::_isCompleted() const
   {
-    if (!this->exists()) return false;
+    if (!this->_exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
   //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
@@ -477,7 +477,7 @@ namespace BWAPI
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
   {
-    if (!this->exists()) return;
+    if (!this->_exists()) return;
     this->userSelected = selectedState;
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
@@ -574,7 +574,7 @@ namespace BWAPI
   //------------------------------------------------ GET ORDER -----------------------------------------------
   BW::OrderID::Enum UnitImpl::getBWOrder() const
   {
-    if (!this->exists()) return BW::OrderID::Nothing2;
+    if (!this->_exists()) return BW::OrderID::Nothing2;
     return this->getRawDataLocal()->orderID;
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
@@ -696,13 +696,13 @@ namespace BWAPI
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
   bool UnitImpl::hasEmptyBuildQueueSync() const
   {
-    if (!this->exists()) true;
+    if (!this->_exists()) true;
     return this->getBuildQueueSync()[this->getBuildQueueSlotSync()] == BW::UnitID::None;
   }
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
   bool UnitImpl::hasEmptyBuildQueue() const
   {
-    if (!this->exists()) true;
+    if (!this->_exists()) true;
     if (this->getBuildQueueSlot() < 5)
       return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
     else
@@ -711,7 +711,7 @@ namespace BWAPI
   //----------------------------------------- HAS FULL QUEUE LOCAL -------------------------------------------
   bool UnitImpl::hasFullBuildQueue() const
   {
-    if (!this->exists()) false;
+    if (!this->_exists()) false;
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------

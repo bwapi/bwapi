@@ -350,6 +350,9 @@ void drawText(int _x, int _y, const char* ptext, BWAPI::CoordinateType::Enum cty
   int temp = 0;
   DWORD temp_ptr = (DWORD)&temp;
   *BW::BWDATA_PrintXY_Unknown1 = 0x21;
+  *BW::BWDATA_PrintXY_Unknown2 = 0x00D8;
+  *BW::BWDATA_PrintXY_Unknown3 = 0x0013;
+  *BW::BWDATA_PrintXY_PositionX2 = 640;
   *BW::BWDATA_PrintXY_PositionX = _x;
   *BW::BWDATA_PrintXY_PositionY = _y;
   *BW::BWDATA_PrintXY_Current_Font = *BW::BWDATA_Font10_Handle;
