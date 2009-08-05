@@ -66,6 +66,7 @@ namespace BWAPI
       , client(NULL)
       , startedClient(false)
       , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
+      , inUpdate(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
     BW::UnitType::initialize();
@@ -327,6 +328,57 @@ namespace BWAPI
     }
     return true;
   }
+
+  bool GameImpl::canMake(Unit* builder, UnitType type) const
+  {
+    if (self()==NULL) return false;
+    if (self()->minerals()<type.mineralPrice()) return false;
+    if (self()->gas()<type.gasPrice()) return false;
+
+    if (type.supplyRequired()>0)
+      if (self()->supplyTotal()<self()->supplyUsed()+type.supplyRequired()) return false;
+
+    UnitType addon=UnitTypes::None;
+    for(std::map<const UnitType*, int>::const_iterator i=type.requiredUnits().begin();i!=type.requiredUnits().end();i++)
+    {
+      if (i->first->isAddon())
+      {
+        addon=*i->first;
+      }
+    }
+    for(std::map<const UnitType*, int>::const_iterator i=type.requiredUnits().begin();i!=type.requiredUnits().end();i++)
+    {
+      bool pass=false;
+      if (self()->getCompletedUnits(*(i->first))>=i->second) pass=true;
+      if (*i->first==UnitTypes::Zerg_Hatchery)
+      {
+        if (self()->getCompletedUnits(UnitTypes::Zerg_Lair)>=i->second) pass=true;
+        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive)>=i->second) pass=true;
+      }
+      if (*i->first==UnitTypes::Zerg_Lair)
+      {
+        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive)>=i->second) pass=true;
+      }
+      if (pass==false) return false;
+    }
+
+    if (*type.requiredTech()!=TechTypes::None)
+      if (!self()->researched(*(type.requiredTech()))) return false;
+
+    if (builder!=NULL)
+    {
+      bool pass=false;
+      if (builder->getType()==*(type.whatBuilds().first)) pass=true;
+
+      if (pass==false) return false;
+      if (addon!=UnitTypes::None)
+      {
+        if (builder->getAddon()==NULL) return false;
+        if (builder->getAddon()->getType()!=addon) return false;
+      }
+    }
+    return true;
+  }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int GameImpl::groundHeight(int x, int y) const
   {
@@ -363,91 +415,48 @@ namespace BWAPI
   //------------------------------------------------- GET UNITS ----------------------------------------------
   std::set< Unit* > GameImpl::getAllUnits() const
   {
-    std::set<Unit*> units;
-    if (this->isFlagEnabled(Flag::CompleteMapInformation))
+    std::set<Unit*> return_units;
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
+      if ((*i)->canAccess())
       {
-        units.insert((Unit*)(*i));
+        return_units.insert((Unit*)(*i));
       }
     }
-    else
-    {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if ((*i)->isVisible())
-        {
-          units.insert((Unit*)(*i));
-        }
-      }
-    }
-    return units;
+    return return_units;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
   std::set< Unit* > GameImpl::getMinerals() const
   {
-    std::set<Unit*> units;
-    if (this->isFlagEnabled(Flag::CompleteMapInformation))
+    std::set<Unit*> return_units;
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if ((*i)->isMineral())
-          units.insert((Unit*)(*i));
-      }
+      if ((*i)->canAccess() && (*i)->getType() == BWAPI::UnitTypes::Resource_Mineral_Field)
+        return_units.insert((Unit*)(*i));
     }
-    else
-    {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if ((*i)->isVisible() && (*i)->isMineral())
-          units.insert((Unit*)(*i));
-      }
-    }
-    return units;
+    return return_units;
   }
   //---------------------------------------------- GET GEYSERS -----------------------------------------------
   std::set< Unit* > GameImpl::getGeysers() const
   {
-    std::set<Unit*> units;
-    if (this->isFlagEnabled(Flag::CompleteMapInformation))
+    std::set<Unit*> return_units;
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if ((*i)->getType() == BW::UnitID::Resource_VespeneGeyser)
-          units.insert((Unit*)(*i));
-      }
+      if ((*i)->canAccess() && (*i)->getType() == BWAPI::UnitTypes::Resource_Vespene_Geyser)
+        return_units.insert((Unit*)(*i));
     }
-    else
-    {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if ((*i)->isVisible() && (*i)->getType() == BW::UnitID::Resource_VespeneGeyser)
-          units.insert((Unit*)(*i));
-      }
-    }
-    return units;
+    return return_units;
   }
   //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
   std::set< Unit* > GameImpl::getNeutralUnits() const
   {
-    std::set<Unit*> units;
-    if (this->isFlagEnabled(Flag::CompleteMapInformation))
+    std::set<Unit*> return_units;
+    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if (((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
-          units.insert((Unit*)(*i));
-      }
+      if ((*i)->canAccess() && ((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
+        return_units.insert((Unit*)(*i));
     }
-    else
-    {
-      for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-      {
-        if ((*i)->isVisible() && ((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
-          units.insert((Unit*)(*i));
-      }
-    }
-    return units;
+    return return_units;
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
@@ -464,6 +473,7 @@ namespace BWAPI
   {
     try
     {
+      this->inUpdate=true;
       if (!this->isOnStartCalled())
         this->onGameStart();
       if (!this->enabled)
@@ -474,7 +484,6 @@ namespace BWAPI
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
 
-      this->units.clear();
       std::list<UnitImpl*> unitList;
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
@@ -483,9 +492,9 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
         unitList.push_back(i);
-        if (i->getOrderTarget() != NULL && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
+        if (i->_getOrderTarget() != NULL && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
         {
-          UnitImpl* j = (UnitImpl*)(i->getOrderTarget());
+          UnitImpl* j = (UnitImpl*)(i->_getOrderTarget());
           i->buildUnit = j;
           j->buildUnit = i;
         }
@@ -495,16 +504,13 @@ namespace BWAPI
       {
         if (this->units.find(*i) == this->units.end())
         {
+          (*i)->alive=true;
           this->units.insert(*i);
-          if ((*i)->getPlayer()==(Player*)this->BWAPIPlayer && (*i)->getBWType().getID()==BW::UnitID::Protoss_Pylon && (*i)->isCompleted())
-          {
-            this->myPylons.push_back(*i);
-          }
-          std::list<BWAPI::Unit*> loadedUnits = (*i)->getLoadedUnits();
-          for (std::list<BWAPI::Unit*>::iterator j = loadedUnits.begin(); j != loadedUnits.end(); j++)
-          {
-            this->units.insert((UnitImpl*)(*j));
-          }
+          this->onAddUnit(*i);
+        }
+        if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->getBWType().getID()==BW::UnitID::Protoss_Pylon && (*i)->_isCompleted())
+        {
+          this->myPylons.push_back(*i);
         }
       }
       refreshSelectionStates();
@@ -524,6 +530,7 @@ namespace BWAPI
       this->frameCount ++;
       this->logUnknownOrStrange();
       this->updateUnitsOnTile();
+      this->inUpdate=false;
     }
     catch (GeneralException& exception)
     {
@@ -1110,6 +1117,11 @@ namespace BWAPI
     this->selectedUnitSet.clear();
     this->reselected = false;
     this->startedClient = false;
+    for(std::list<UnitImpl*>::iterator d=this->deadUnits.begin();d!=this->deadUnits.end();d++)
+    {
+      delete *d;
+    }
+    this->deadUnits.clear();
     if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
     {
       for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
@@ -1292,9 +1304,41 @@ namespace BWAPI
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void GameImpl::onRemoveUnit(BW::Unit* unit)
   {
+    int index=((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
+    if (index<0 || index>=BW::UNIT_ARRAY_MAX_LENGTH)
+    {
+      if (this->invalidIndices.find(index)==this->invalidIndices.end())
+      {
+        this->newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x",index,unit);
+        this->invalidIndices.insert(index);
+      }
+      return;
+    }
+    unitArray[index]->die();
+    this->units.erase(unitArray[index]);
+    deadUnits.push_back(unitArray[index]);
+    unitArray[index] = new UnitImpl(&unitArrayCopy->unit[index],
+                                &BW::BWDATA_UnitNodeTable->unit[index],
+                                &unitArrayCopyLocal->unit[index],
+                                index);
     if (this->client != NULL)
     {
-      this->client->onRemoveUnit(BWAPI::UnitImpl::BWUnitToBWAPIUnit(unit));
+      BWAPI::UnitImpl* u=unitArray[index];
+      if (u!=NULL && u->canAccess())
+      {
+        this->client->onRemoveUnit(u);
+      }
+    }
+  }
+  //---------------------------------------------- ON ADD UNIT -----------------------------------------------
+  void GameImpl::onAddUnit(BWAPI::Unit* unit)
+  {
+    if (this->client != NULL)
+    {
+      if (unit!=NULL && ((UnitImpl*)unit)->canAccess())
+      {
+        this->client->onAddUnit(unit);
+      }
     }
   }
   //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
@@ -1370,16 +1414,15 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
     for each (UnitImpl* i in this->units)
-      if (i->isValid())
-      {
-        int startX =   (i->getPosition().x() - i->getType().dimensionLeft()) / BW::TILE_SIZE;
-        int endX   =   (i->getPosition().x() + i->getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-        int startY =   (i->getPosition().y() - i->getType().dimensionUp()) / BW::TILE_SIZE;
-        int endY =     (i->getPosition().y() + i->getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
-        for (int x = startX; x < endX; x++)
-          for (int y = startY; y < endY; y++)
-            this->unitsOnTileData[x][y].insert(i);
-      }
+    {
+      int startX =   (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
+      int endX   =   (i->_getPosition().x() + i->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+      int startY =   (i->_getPosition().y() - i->_getType().dimensionUp()) / BW::TILE_SIZE;
+      int endY =     (i->_getPosition().y() + i->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+      for (int x = startX; x < endX; x++)
+        for (int y = startY; y < endY; y++)
+          this->unitsOnTileData[x][y].insert(i);
+    }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int GameImpl::getFrameCount() const

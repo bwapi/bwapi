@@ -59,6 +59,8 @@ namespace BWAPI
       , index(index)
       , userSelected(false)
       , buildUnit(NULL)
+      , alive(false)
+      , savedPlayer(NULL)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -68,11 +70,13 @@ namespace BWAPI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::getHitPoints() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->healthPoints;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::getShields() const
   {
+    if (!this->attemptAccess()) return 0;
     if (this->getBWType().maxShields()>0)
     {
       return this->getRawDataLocal()->shieldPoints;
@@ -82,6 +86,7 @@ namespace BWAPI
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
   int UnitImpl::getEnergy() const
   {
+    if (!this->attemptAccess()) return 0;
     if (this->getBWType().isSpellcaster())
     {
       return this->getRawDataLocal()->energy;
@@ -91,6 +96,7 @@ namespace BWAPI
   //----------------------------------------------- RESOURCES ------------------------------------------------
   int UnitImpl::getResources() const
   {
+    if (!this->attemptAccess()) return 0;
     if (this->getBWType() != BW::UnitID::Resource_MineralPatch1 &&
         this->getBWType() != BW::UnitID::Resource_MineralPatch2 &&
         this->getBWType() != BW::UnitID::Resource_MineralPatch3 &&
@@ -106,142 +112,184 @@ namespace BWAPI
   //-------------------------------------------- GET KILL COUNT ----------------------------------------------
   int UnitImpl::getKillCount() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->killCount;
   }
   //----------------------------------------- GROUND WEAPON COOLDOWN -----------------------------------------
   int UnitImpl::getGroundWeaponCooldown() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->groundWeaponCooldown;
   }
   //------------------------------------------ AIR WEAPON COOLDOWN -------------------------------------------
   int UnitImpl::getAirWeaponCooldown() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->airWeaponCooldown;
   }
   //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
   int UnitImpl::getSpellCooldown() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->spellCooldown;
   }
   //------------------------------------------ DEFENSE MATRIX POINTS -----------------------------------------
   int UnitImpl::getDefenseMatrixPoints() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->defenseMatrixDamage;
   }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
   int UnitImpl::getDefenseMatrixTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->defenseMatrixTimer;
   }
   //----------------------------------------------- STIM TIMER -----------------------------------------------
   int UnitImpl::getStimTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->stimTimer;
   }
   //---------------------------------------------- ENSNARE TIMER ---------------------------------------------
   int UnitImpl::getEnsnareTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->ensareTimer;
   }
   //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
   int UnitImpl::getLockdownTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->lockdownTimer;
   }
   //--------------------------------------------- IRRADIATE TIMER --------------------------------------------
   int UnitImpl::getIrradiateTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->irradiateTimer;
   }
   //---------------------------------------------- STASIS TIMER ----------------------------------------------
   int UnitImpl::getStasisTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->stasisTimer;
   }
   //---------------------------------------------- PLAGUE TIMER ----------------------------------------------
   int UnitImpl::getPlagueTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->plagueTimer;
   }
   //--------------------------------------------- MAELSTROM TIMER --------------------------------------------
   int UnitImpl::getMaelstromTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->maelstromTimer;
   }
   //---------------------------------------------- REMOVE TIMER ----------------------------------------------
   int UnitImpl::getRemoveTimer() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->removeTimer;
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
+    if (!this->attemptAccess()) return (Player*)BroodwarImpl.players[11];
     if (this->getRawDataLocal()->playerID < 12)
       return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
     else
       return NULL;
   }
-  //------------------------------------------------ IS VALID ------------------------------------------------
-  bool UnitImpl::isValid() const
+  //----------------------------------------------- GET OWNER ------------------------------------------------
+  Player* UnitImpl::_getPlayer() const
   {
-    if (this->getRawDataLocal()->playerID > 11)
-      return false;
-    if (this->isMineral())
-      return  !this->getRawDataLocal()->orderFlags.getBit(BW::OrderFlags::willWanderAgain);
-    else
-      return this->getHitPoints() > 0 && this->getType() != BWAPI::UnitTypes::None && this->getType() != BWAPI::UnitTypes::Unknown;
+    if (!this->_exists()) return NULL;
+    return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
   }
-  //------------------------------------------------ IS READY ------------------------------------------------
-  bool UnitImpl::isReady() const
+  //------------------------------------------------- EXISTS -------------------------------------------------
+  bool UnitImpl::exists() const
   {
-    return this->isValid() &&
-           this->isCompleted();
+    return this->alive;
+  }
+  //------------------------------------------------- EXISTS -------------------------------------------------
+  bool UnitImpl::_exists() const
+  {
+    return this->alive;
   }
   //--------------------------------------------- IS ACCELERATING --------------------------------------------
   bool UnitImpl::isAccelerating() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Accelerating);
   }
   //-------------------------------------------- IS BEING CONSTRUCTED ----------------------------------------
   bool UnitImpl::isBeingConstructed() const
   {
+    if (!this->attemptAccess()) return false;
     if (!this->isCompleted() && this->getType().isBuilding())
       return this->buildUnit != NULL || this->getType().getRace() != Races::Terran;
     return false;
   }
   //--------------------------------------------- IS BEING HEALED --------------------------------------------
-  bool UnitImpl::isBeingHealed() const // Not working right now
+  bool UnitImpl::isBeingHealed() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->isBeingHealed != 0;
   }
   //------------------------------------------------ IS BLIND ------------------------------------------------
   bool UnitImpl::isBlind() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->isBlind != 0;
   }
   //----------------------------------------------- IS BRAKING -----------------------------------------------
   bool UnitImpl::isBraking() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Braking);
   }
   //----------------------------------------------- IS BURROWED ----------------------------------------------
   bool UnitImpl::isBurrowed() const
   {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
+  }
+  //----------------------------------------------- IS BURROWED ----------------------------------------------
+  bool UnitImpl::_isBurrowed() const
+  {
+    if (!this->exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
   }
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
   bool UnitImpl::isCloaked() const
   {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
+  }
+  //------------------------------------------------ IS CLOAKED ----------------------------------------------
+  bool UnitImpl::_isCloaked() const
+  {
+    if (!this->exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool UnitImpl::isCompleted() const
   {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
+  }
+  //---------------------------------------------- IS COMPLETED ----------------------------------------------
+  bool UnitImpl::_isCompleted() const
+  {
+    if (!this->exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
   //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
   bool UnitImpl::isConstructing() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::ConstructingBuilding || 
            this->getBWOrder() == BW::OrderID::DroneBuild ||
            this->getBWOrder() == BW::OrderID::DroneStartBuild ||
@@ -252,11 +300,13 @@ namespace BWAPI
   //---------------------------------------------- IS FOLLOWING ----------------------------------------------
   bool UnitImpl::isFollowing() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::Follow;
   }
   //-------------------------------------------- IS GATHERING GAS --------------------------------------------
   bool UnitImpl::isGatheringGas() const
   {
+    if (!this->attemptAccess()) return false;
     return (this->getBWOrder()==BW::OrderID::MoveToGas ||
             this->getBWOrder()==BW::OrderID::WaitForGas ||
             this->getBWOrder()==BW::OrderID::HarvestGas ||
@@ -265,6 +315,7 @@ namespace BWAPI
   //----------------------------------------- IS GATHERING MINERALS ------------------------------------------
   bool UnitImpl::isGatheringMinerals() const
   {
+    if (!this->attemptAccess()) return false;
     return (this->getBWOrder()==BW::OrderID::MoveToMinerals ||
             this->getBWOrder()==BW::OrderID::WaitForMinerals ||
             this->getBWOrder()==BW::OrderID::MiningMinerals ||
@@ -273,11 +324,13 @@ namespace BWAPI
   //-------------------------------------------- IS HALLUCINATION --------------------------------------------
   bool UnitImpl::isHallucination() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::IsHallucination);
   }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
+    if (!this->attemptAccess()) return false;
     return ((this->getBWOrder() == BW::OrderID::PlayerGuard ||
             this->getBWOrder() == BW::OrderID::Guard ||
             this->getBWOrder() == BW::OrderID::Stop ||
@@ -293,48 +346,57 @@ namespace BWAPI
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InAir) &&
            this->getRawDataLocal()->unitID.isBuilding();
   }
   //------------------------------------------------ IS LOADED -----------------------------------------------
   bool UnitImpl::isLoaded() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport)
            || this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding);
   }
   //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
   bool UnitImpl::isLockedDown() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getLockdownTimer() > 0;
   }
   //----------------------------------------------- IS MORPHING ----------------------------------------------
   bool UnitImpl::isMorphing() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::Morph1 || this->getBWOrder() == BW::OrderID::Morph2 || this->getBWOrder() == BW::OrderID::ZergBuildSelf;
   }
   //------------------------------------------------ IS MOVING -----------------------------------------------
   bool UnitImpl::isMoving() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
   }
   //---------------------------------------------- IS PATROLLING ---------------------------------------------
   bool UnitImpl::isPatrolling() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::Patrol;
   }
   //----------------------------------------------- IS REPAIRING ---------------------------------------------
   bool UnitImpl::isRepairing() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::Repair1 || this->getBWOrder() == BW::OrderID::Repair2;
   }
   //---------------------------------------------- IS RESEARCHING --------------------------------------------
   bool UnitImpl::isResearching() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::ResearchTech;
   }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool UnitImpl::isSelected() const
   {
+    if (!this->attemptAccess()) return false;
     if (BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) == false)
       return false;
     return this->userSelected;
@@ -342,31 +404,37 @@ namespace BWAPI
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool UnitImpl::isSieged() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWType().getID() == BW::UnitID::Terran_SiegeTankSiegeMode;
   }
   //------------------------------------------- IS STARTING ATTACK -------------------------------------------
   bool UnitImpl::isStartingAttack() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::StartingAttack);
   }
   //----------------------------------------------- IS STASISED ----------------------------------------------
   bool UnitImpl::isStasised() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getStasisTimer() > 0;
   }
   //---------------------------------------------- IS TRAINING -----------------------------------------------
   bool UnitImpl::isTraining() const
   {
+    if (!this->attemptAccess()) return false;
     return !this->hasEmptyBuildQueue();
   }
   //---------------------------------------------- IS UNDER STORM --------------------------------------------
   bool UnitImpl::isUnderStorm() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->isUnderStorm != 0;
   }
   //------------------------------------------------ IS UNPOWERED --------------------------------------------
   bool UnitImpl::isUnpowered() const
   {
+    if (!this->attemptAccess()) return false;
     if (this->getBWType().getRace() == BW::Race::Protoss && this->getBWType().isBuilding())
     {
       return this->getRawDataLocal()->status.getBit(BW::StatusFlags::DoodadStatesThing);
@@ -376,21 +444,31 @@ namespace BWAPI
   //----------------------------------------------- IS UPGRADING ---------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
+    if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::Upgrade;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
   {
-    if (this->getPlayer() == BWAPI::BroodwarImpl.self())
+    BroodwarImpl.setLastError(Errors::None);
+    if (!this->_exists())
+    {
+      if (this->savedPlayer==BroodwarImpl.self())
+      {
+        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+      }
+      return false;
+    }
+    if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
     {
       return true;
     }
-    if (!BWAPI::BroodwarImpl.visible(this->getTilePosition().x(), this->getTilePosition().y()))
+    if (!BWAPI::BroodwarImpl.visible(this->_getTilePosition().x(), this->_getTilePosition().y()))
     {
       return false;
     }
     /* TODO: Also need to check for detection (overlords, observers, Terran scans, etc) */
-    if (this->isBurrowed() || this->isCloaked())
+    if (this->_isBurrowed() || this->_isCloaked())
     {
       return false;
     }
@@ -399,32 +477,57 @@ namespace BWAPI
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
   {
+    if (!this->exists()) return;
     this->userSelected = selectedState;
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   Position UnitImpl::getPosition() const
   {
+    if (!this->attemptAccess()) return BWAPI::Positions::Unknown;
+    return BWAPI::Position(this->getRawDataLocal()->position.x, this->getRawDataLocal()->position.y);
+  }
+  //---------------------------------------------- GET POSITION ----------------------------------------------
+  Position UnitImpl::_getPosition() const
+  {
+    if (!this->_exists()) return BWAPI::Positions::Unknown;
     return BWAPI::Position(this->getRawDataLocal()->position.x, this->getRawDataLocal()->position.y);
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
   TilePosition UnitImpl::getTilePosition() const
   {
+    if (!this->attemptAccess()) return BWAPI::TilePositions::Unknown;
     return TilePosition(Position(this->getPosition().x() - this->getType().tileWidth() * BW::TILE_SIZE / 2,
                                  this->getPosition().y() - this->getType().tileHeight() * BW::TILE_SIZE / 2));
+  }
+  //------------------------------------------- GET TILE POSITION --------------------------------------------
+  TilePosition UnitImpl::_getTilePosition() const
+  {
+    if (!this->_exists()) return BWAPI::TilePositions::Unknown;
+    return TilePosition(Position(this->_getPosition().x() - this->_getType().tileWidth() * BW::TILE_SIZE / 2,
+                                 this->_getPosition().y() - this->_getType().tileHeight() * BW::TILE_SIZE / 2));
   }
   //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* UnitImpl::getTarget() const
   {
+    if (!this->attemptAccess()) return NULL;
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
+    if (!this->isVisible()) return NULL;
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+  }
+  //-------------------------------------------- GET ORDER TARGET --------------------------------------------
+  Unit* UnitImpl::_getOrderTarget() const
+  {
+    if (!this->_exists()) return NULL;
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
+    if (!this->attemptAccess()) return NULL;
     if (this->getRawDataLocal()->currentBuildUnit)
       return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
     return (Unit*)this->buildUnit;
@@ -432,16 +535,19 @@ namespace BWAPI
   //----------------------------------------------- GET CHILD ------------------------------------------------
   Unit* UnitImpl::getChild() const
   {
+    if (!this->attemptAccess()) return NULL;
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
   }
   //------------------------------------------ GET TARGET POSITION -------------------------------------------
   Position UnitImpl::getTargetPosition() const
   {
+    if (!this->attemptAccess()) return BWAPI::Positions::Unknown;
     return BWAPI::Position(this->getRawDataLocal()->moveToPos.x, this->getRawDataLocal()->moveToPos.y);
   }
   //-------------------------------------------- CURRENT DIRECTION -------------------------------------------
   int UnitImpl::getCurrentDirection() const
   {
+    if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->currentDirection;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
@@ -459,97 +565,29 @@ namespace BWAPI
   {
     return this->bwOriginalUnit;
   }
-  //---------------------------------------------- GET ORDER ID ----------------------------------------------
+  //------------------------------------------------ GET ORDER -----------------------------------------------
   Order UnitImpl::getOrder() const
   {
+    if (!this->attemptAccess()) return BWAPI::Orders::None;
     return BWAPI::Order(this->getRawDataLocal()->orderID);
   }
-  //---------------------------------------------- GET ORDER ID ----------------------------------------------
+  //------------------------------------------------ GET ORDER -----------------------------------------------
   BW::OrderID::Enum UnitImpl::getBWOrder() const
   {
+    if (!this->exists()) return BW::OrderID::Nothing2;
     return this->getRawDataLocal()->orderID;
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
   Order UnitImpl::getSecondaryOrder() const
   {
+    if (!this->attemptAccess()) return BWAPI::Orders::None;
     return BWAPI::Order(this->getRawDataLocal()->secondaryOrderID);
   }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
-
-#pragma warning(push)
-#pragma warning(disable:4244)
-  u16 UnitImpl::getDistance(Unit* unit) const
-  {
-    u32 result;
-    if (unit == this)
-      return 0;
-    if (this->getPosition().y() - this->getType().dimensionUp() <= unit->getPosition().y() + unit->getType().dimensionDown())
-      if (this->getPosition().y() + this->getType().dimensionDown() >= unit->getPosition().y() - unit->getType().dimensionUp())
-        if (this->getPosition().x() > unit->getPosition().x())
-          result = this->getPosition().x() - this->getType().dimensionLeft() - unit->getPosition().x() - unit->getType().dimensionRight();
-        else
-          result = unit->getPosition().x() - unit->getType().dimensionRight() - this->getPosition().x() - this->getType().dimensionLeft();
-
-    if (this->getPosition().x() - this->getType().dimensionLeft() <= unit->getPosition().x() + unit->getType().dimensionRight())
-      if (this->getPosition().x() + this->getType().dimensionRight() >= unit->getPosition().x() - unit->getType().dimensionLeft())
-        if (this->getPosition().y() > unit->getPosition().y())
-          result = this->getPosition().y() - this->getType().dimensionUp() - unit->getPosition().y() - unit->getType().dimensionDown();
-        else
-          result = unit->getPosition().y() - unit->getType().dimensionDown() - this->getPosition().y() - this->getType().dimensionUp();
-
-    if (this->getPosition().x() > unit->getPosition().x())
-      if (this->getPosition().y() > unit->getPosition().y())
-        result = this->getDistance(this->getPosition().x() - this->getType().dimensionLeft(),
-                                   this->getPosition().y() - this->getType().dimensionUp(),
-                                   unit->getPosition().x() + unit->getType().dimensionRight(),
-                                   unit->getPosition().y() + unit->getType().dimensionDown());
-      else
-        result = this->getDistance(this->getPosition().x() - this->getType().dimensionLeft(),
-                                   this->getPosition().y() + this->getType().dimensionDown(),
-                                   unit->getPosition().x() + unit->getType().dimensionRight(),
-                                   unit->getPosition().y() - unit->getType().dimensionUp());
-    else if (this->getPosition().y() > unit->getPosition().y())
-      result = this->getDistance(this->getPosition().x() + this->getType().dimensionRight(),
-                                 this->getPosition().y() - this->getType().dimensionUp(),
-                                 unit->getPosition().x() - unit->getType().dimensionLeft(),
-                                 unit->getPosition().y() + unit->getType().dimensionDown());
-    else
-      result = this->getDistance(this->getPosition().x() + this->getType().dimensionRight(),
-                                 this->getPosition().y() + this->getType().dimensionDown(),
-                                 unit->getPosition().x() - unit->getType().dimensionLeft(),
-                                 unit->getPosition().y() - unit->getType().dimensionUp());
-    if (result > 0)
-      return result;
-    else
-      return 0;
-  }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  u16 UnitImpl::getDistance(BW::Position position) const
-  {
-    return this->getDistance(this->getPosition().x(),
-                             this->getPosition().y(),
-                             position.x,
-                             position.y);
-  }
-  //------------------------------------------ GET CENTER DISTANCE -------------------------------------------
-  u16 UnitImpl::getCenterDistance(Unit* unit) const
-  {
-    return this->getDistance(this->getPosition().x(),
-                             this->getPosition().y(),
-                             unit->getPosition().x(),
-                             unit->getPosition().y());
-  }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  u16 UnitImpl::getDistance(int x1, int y1, int x2, int y2) const
-  {
-    return sqrt((long double)((long double)x1 - x2) * ((long double)x1 - x2) +
-                (long double)((long double)y1 - y2) * ((long double)y1 - y2));
-  }
-#pragma warning(pop)
   //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
     std::list<UnitType > trainList;
+    if (!this->attemptAccess()) return trainList;
     if (this->hasEmptyBuildQueue()) return trainList;
     int i = this->getBuildQueueSlot() % 5;
     int starti = i;
@@ -565,6 +603,7 @@ namespace BWAPI
   //-------------------------------------------- GET TRANSPORT -----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {
+    if (!this->attemptAccess()) return NULL;
     if (!this->isLoaded()) return NULL;
     return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit));
   }
@@ -572,6 +611,7 @@ namespace BWAPI
   std::list<Unit*> UnitImpl::getLoadedUnits() const
   {
     std::list<Unit*> unitList;
+    if (!this->attemptAccess()) return unitList;
     for(int i = 0; i < 8; i++)
     {
       if (this->getRawDataLocal()->loadedUnitIndex[i] != 0)
@@ -589,18 +629,21 @@ namespace BWAPI
   //----------------------------------------------- GET TECH -------------------------------------------------
   TechType UnitImpl::getTech() const
   {
+    if (!this->attemptAccess()) return TechTypes::None;
     int techID = this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
     return TechType(techID);
   }
   //---------------------------------------------- GET UPGRADE -----------------------------------------------
   UpgradeType UnitImpl::getUpgrade() const
   {
+    if (!this->attemptAccess()) return UpgradeTypes::None;
     int upgradeID = this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
     return UpgradeType(upgradeID);
   }
   //-------------------------------------- GET REMAINING RESEARCH TIME ---------------------------------------
   int UnitImpl::getRemainingResearchTime() const
   {
+    if (!this->attemptAccess()) return 0;
     if (this->isResearching())
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
@@ -608,6 +651,7 @@ namespace BWAPI
   //-------------------------------------- GET REMAINING UPGRADE TIME ----------------------------------------
   int UnitImpl::getRemainingUpgradeTime() const
   {
+    if (!this->attemptAccess()) return 0;
     if (this->isUpgrading())
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
@@ -615,6 +659,7 @@ namespace BWAPI
   //------------------------------------------ GET RALLY POSITION --------------------------------------------
   Position UnitImpl::getRallyPosition() const
   {
+    if (!this->attemptAccess()) return BWAPI::Positions::None;
     if (this->getBWType().canProduce())
       return Position(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyX,
                       this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyY);
@@ -623,6 +668,7 @@ namespace BWAPI
   //-------------------------------------------- GET RALLY UNIT ----------------------------------------------
   Unit* UnitImpl::getRallyUnit() const
   {
+    if (!this->attemptAccess()) return NULL;
     if (this->getBWType().canProduce())
       return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyUnit);
     return NULL;
@@ -630,6 +676,7 @@ namespace BWAPI
   //----------------------------------------------- GET ADDON ------------------------------------------------
   Unit* UnitImpl::getAddon() const
   {
+    if (!this->attemptAccess()) return NULL;
     if (this->getType().isBuilding())
     {
       if (this->getRawDataLocal()->currentBuildUnit != NULL)
@@ -649,11 +696,13 @@ namespace BWAPI
   //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
   bool UnitImpl::hasEmptyBuildQueueSync() const
   {
+    if (!this->exists()) true;
     return this->getBuildQueueSync()[this->getBuildQueueSlotSync()] == BW::UnitID::None;
   }
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
   bool UnitImpl::hasEmptyBuildQueue() const
   {
+    if (!this->exists()) true;
     if (this->getBuildQueueSlot() < 5)
       return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
     else
@@ -662,12 +711,14 @@ namespace BWAPI
   //----------------------------------------- HAS FULL QUEUE LOCAL -------------------------------------------
   bool UnitImpl::hasFullBuildQueue() const
   {
+    if (!this->exists()) false;
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
   bool UnitImpl::attackMove(Position position)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -682,6 +733,7 @@ namespace BWAPI
   bool UnitImpl::attackUnit(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -696,6 +748,7 @@ namespace BWAPI
   bool UnitImpl::rightClick(Position position)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -710,6 +763,7 @@ namespace BWAPI
   bool UnitImpl::rightClick(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -724,6 +778,7 @@ namespace BWAPI
   bool UnitImpl::train(UnitType type1)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -759,6 +814,7 @@ namespace BWAPI
   bool UnitImpl::build(TilePosition position, UnitType type1)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -782,6 +838,7 @@ namespace BWAPI
   bool UnitImpl::buildAddon(UnitType type1)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (!type1.isAddon())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -793,6 +850,7 @@ namespace BWAPI
   bool UnitImpl::research(TechType tech)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -813,6 +871,7 @@ namespace BWAPI
   bool UnitImpl::upgrade(UpgradeType upgrade)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -833,6 +892,7 @@ namespace BWAPI
   bool UnitImpl::stop()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -848,6 +908,7 @@ namespace BWAPI
   bool UnitImpl::holdPosition()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -885,6 +946,7 @@ namespace BWAPI
   bool UnitImpl::patrol(Position position)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -904,6 +966,7 @@ namespace BWAPI
   bool UnitImpl::follow(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -923,6 +986,7 @@ namespace BWAPI
   bool UnitImpl::setRallyPosition(Position target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -941,6 +1005,7 @@ namespace BWAPI
   bool UnitImpl::setRallyUnit(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -959,6 +1024,7 @@ namespace BWAPI
   bool UnitImpl::repair(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -978,6 +1044,7 @@ namespace BWAPI
   bool UnitImpl::morph(UnitType type)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1006,6 +1073,7 @@ namespace BWAPI
   bool UnitImpl::burrow()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1023,6 +1091,7 @@ namespace BWAPI
   bool UnitImpl::unburrow()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1040,6 +1109,7 @@ namespace BWAPI
   bool UnitImpl::siege()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1063,6 +1133,7 @@ namespace BWAPI
   bool UnitImpl::unsiege()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1085,6 +1156,7 @@ namespace BWAPI
   bool UnitImpl::cloak()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1102,6 +1174,7 @@ namespace BWAPI
   bool UnitImpl::decloak()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1119,6 +1192,7 @@ namespace BWAPI
   bool UnitImpl::lift()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1141,6 +1215,7 @@ namespace BWAPI
   bool UnitImpl::land(TilePosition position)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1163,6 +1238,7 @@ namespace BWAPI
   bool UnitImpl::load(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1198,6 +1274,7 @@ namespace BWAPI
   bool UnitImpl::unload(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1212,6 +1289,7 @@ namespace BWAPI
   bool UnitImpl::unloadAll()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1235,6 +1313,7 @@ namespace BWAPI
   bool UnitImpl::unloadAll(Position position)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1258,6 +1337,7 @@ namespace BWAPI
   bool UnitImpl::cancelConstruction()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1276,6 +1356,7 @@ namespace BWAPI
   bool UnitImpl::haltConstruction()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1288,6 +1369,7 @@ namespace BWAPI
   bool UnitImpl::cancelMorph()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1309,6 +1391,7 @@ namespace BWAPI
   bool UnitImpl::cancelTrain()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1326,6 +1409,7 @@ namespace BWAPI
   bool UnitImpl::cancelTrain(int slot)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1343,6 +1427,7 @@ namespace BWAPI
   bool UnitImpl::cancelAddon()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1357,6 +1442,7 @@ namespace BWAPI
   bool UnitImpl::cancelResearch()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1374,6 +1460,7 @@ namespace BWAPI
   bool UnitImpl::cancelUpgrade()
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1391,6 +1478,7 @@ namespace BWAPI
   bool UnitImpl::useTech(TechType tech)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1442,6 +1530,7 @@ namespace BWAPI
   bool UnitImpl::useTech(TechType tech, Position position)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1496,6 +1585,7 @@ namespace BWAPI
   bool UnitImpl::useTech(TechType tech, Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1575,6 +1665,22 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::getType() const
   {
+    if (!this->attemptAccess()) return UnitTypes::Unknown;
+    if ( this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch1
+         || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch2
+         || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch3)
+    {
+      return BWAPI::UnitTypes::Resource_Mineral_Field;
+    }
+    else
+    {
+      return BWAPI::UnitType(this->getRawDataLocal()->unitID.id);
+    }
+  }
+  //------------------------------------------------ GET TYPE ------------------------------------------------
+  BWAPI::UnitType UnitImpl::_getType() const
+  {
+    if (!this->_exists()) return UnitTypes::Unknown;
     if ( this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch1
          || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch2
          || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch3)
@@ -1589,6 +1695,7 @@ namespace BWAPI
   //------------------------------------------------ GET BW TYPE ---------------------------------------------
   BW::UnitType UnitImpl::getBWType() const
   {
+    if (!this->_exists()) return BW::UnitType(BW::UnitID::None);
     return this->getRawDataLocal()->unitID;
   }
   //----------------------------------------------- GET QUEUE ------------------------------------------------
@@ -1631,12 +1738,43 @@ namespace BWAPI
     return BroodwarImpl.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336);
   }
 #pragma warning (pop)
-  //----------------------------------------------------------------------------------------------------------
-  bool UnitImpl::isMineral() const
+  void UnitImpl::die()
   {
-    return this->getType() == BW::UnitID::Resource_MineralPatch1 ||
-           this->getType() == BW::UnitID::Resource_MineralPatch2 ||
-           this->getType() == BW::UnitID::Resource_MineralPatch3;
+    if (!this->_exists()) return;
+    this->bwUnit=NULL;
+    this->bwUnitLocal=NULL;
+    this->bwOriginalUnit=NULL;
+    this->index=-1;
+    this->userSelected=false;
+    this->visible=false;
+    this->savedPlayer=this->getPlayer();
+    this->alive=false;
+  }
+  bool UnitImpl::canAccess() const
+  {
+    if (this->isVisible()) return true;
+    if (this->_exists())
+    {
+      if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return true;
+      if (BroodwarImpl.flagsLocked==false)
+      {
+        if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories()) return true;
+      }
+      if (BroodwarImpl.inUpdate==true) return true;
+    }
+    return false;
+  }
+  bool UnitImpl::attemptAccess() const
+  {
+    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::None);
+    if (this->canAccess()) return true;
+    if (!this->_exists() && this->savedPlayer==BroodwarImpl.self())
+    {
+      if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+      return false;
+    }
+    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
+    return false;      
   }
   char position[100];
   char indexName[50];

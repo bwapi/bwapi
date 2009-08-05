@@ -79,6 +79,7 @@ namespace BWAPI
       virtual Unit* getAddon() const;
 
 
+      virtual bool exists() const;
       virtual bool isAccelerating() const;
       virtual bool isBeingConstructed() const;
       virtual bool isBeingHealed() const;
@@ -179,21 +180,22 @@ namespace BWAPI
                u16 index);
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
-      /**
-       * Gets if the unit is alive (it exists), it uses hp > 0 heuristic for
-       * now.
-       */
-      bool isValid() const;
-      BW::UnitType UnitImpl::getBWType() const;
-      /** Gets if the unit is alive - exists and it's construction is done. */
-      bool isReady() const;
+      void die();
 
-      /** Gets distance of unit edges. */
-      u16 getDistance(Unit* unit) const;
-      /** Gets distance of unit center and position. */
-      u16 getDistance(BW::Position position) const;
-      /** Gets distance of unit centers. */
-      u16 getCenterDistance(Unit* unit) const;
+      inline bool canAccess() const;
+      inline bool attemptAccess() const;
+      inline bool _exists() const;
+      Player* _getPlayer() const;
+      UnitType _getType() const;
+      Position _getPosition() const;
+      TilePosition _getTilePosition() const;
+      Unit* _getOrderTarget() const;
+      bool _isBurrowed() const;
+      bool _isCloaked() const;
+      bool _isCompleted() const;
+
+      BW::UnitType UnitImpl::getBWType() const;
+
       /**
        * Gets index of the unit in the unit array. Note that the index is same
        * for the original unit array, BWAPI::Unit array and BWAI::Unit array, so
@@ -206,7 +208,6 @@ namespace BWAPI
       void setLoaded(bool loadedState);
       std::string getName() const;
       UnitImpl* getNext() const;
-      bool isMineral() const;
       /** Gets #bwOriginalUnit */
       BW::Unit* getOriginalRawData() const;
       /** Gets #bwUnitLocal */
@@ -220,6 +221,7 @@ namespace BWAPI
       bool hasFullBuildQueue() const;
 
       UnitImpl* buildUnit;
+      bool alive;
     private:
       /** Gets #bwUnit */
       BW::Unit* getRawData() const;
@@ -238,6 +240,7 @@ namespace BWAPI
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       bool userSelected;
       bool visible;
+      BWAPI::Player* savedPlayer;
   };
 };
 

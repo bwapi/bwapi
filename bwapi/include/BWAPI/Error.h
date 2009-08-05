@@ -24,6 +24,7 @@ namespace BWAPI
     Error getError(std::string& name);
     std::set<Error>& allErrors();
     void init();
+    extern const Error Unit_Does_Not_Exist;
     extern const Error Unit_Not_Visible;
     extern const Error Unit_Not_Owned;
     extern const Error Incompatible_UnitType;
