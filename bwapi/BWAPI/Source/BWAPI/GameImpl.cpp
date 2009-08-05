@@ -1316,10 +1316,9 @@ namespace BWAPI
       }
       return;
     }
-    unitArray[index]->die();
-    this->units.erase(unitArray[index]);
-    deadUnits.push_back(unitArray[index]);
     BWAPI::UnitImpl* deadUnit=unitArray[index];
+    this->units.erase(deadUnit);
+    deadUnits.push_back(deadUnit);
     unitArray[index] = new UnitImpl(&unitArrayCopy->unit[index],
                                 &BW::BWDATA_UnitNodeTable->unit[index],
                                 &unitArrayCopyLocal->unit[index],
@@ -1331,6 +1330,7 @@ namespace BWAPI
         this->client->onRemoveUnit(deadUnit);
       }
     }
+    deadUnit->die();
   }
   //---------------------------------------------- ON ADD UNIT -----------------------------------------------
   void GameImpl::onAddUnit(BWAPI::Unit* unit)
