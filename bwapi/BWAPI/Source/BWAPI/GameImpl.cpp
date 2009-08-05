@@ -372,12 +372,9 @@ namespace BWAPI
 
     if (builder != NULL)
     {
-      bool pass = false;
-      if (builder->getType() == *(type.whatBuilds().first))
-        pass = true;
-
-      if (pass == false)
+      if (builder->getType() != *(type.whatBuilds().first))
         return false;
+
       if (addon != UnitTypes::None)
       {
         if (builder->getAddon() == NULL)
