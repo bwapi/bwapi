@@ -331,50 +331,59 @@ namespace BWAPI
 
   bool GameImpl::canMake(Unit* builder, UnitType type) const
   {
-    if (self()==NULL) return false;
-    if (self()->minerals()<type.mineralPrice()) return false;
-    if (self()->gas()<type.gasPrice()) return false;
+    if (self() == NULL)
+      return false;
+    if (self()->minerals() < type.mineralPrice())
+      return false;
+    if (self()->gas() < type.gasPrice())
+      return false;
 
-    if (type.supplyRequired()>0)
-      if (self()->supplyTotal()<self()->supplyUsed()+type.supplyRequired()) return false;
+    if (type.supplyRequired() > 0)
+      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired())
+        return false;
 
-    UnitType addon=UnitTypes::None;
-    for(std::map<const UnitType*, int>::const_iterator i=type.requiredUnits().begin();i!=type.requiredUnits().end();i++)
-    {
+    UnitType addon = UnitTypes::None;
+    for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
       if (i->first->isAddon())
-      {
         addon=*i->first;
-      }
-    }
-    for(std::map<const UnitType*, int>::const_iterator i=type.requiredUnits().begin();i!=type.requiredUnits().end();i++)
+
+    for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
     {
-      bool pass=false;
-      if (self()->getCompletedUnits(*(i->first))>=i->second) pass=true;
-      if (*i->first==UnitTypes::Zerg_Hatchery)
+      bool pass = false;
+      if (self()->getCompletedUnits(*(i->first)) >= i->second)
+        pass = true;
+      if (*i->first == UnitTypes::Zerg_Hatchery)
       {
-        if (self()->getCompletedUnits(UnitTypes::Zerg_Lair)>=i->second) pass=true;
-        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive)>=i->second) pass=true;
+        if (self()->getCompletedUnits(UnitTypes::Zerg_Lair) >= i->second)
+          pass = true;
+        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive) >= i->second)
+          pass = true;
       }
-      if (*i->first==UnitTypes::Zerg_Lair)
-      {
-        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive)>=i->second) pass=true;
-      }
-      if (pass==false) return false;
+      if (*i->first == UnitTypes::Zerg_Lair)
+        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive) >= i->second)
+          pass = true;
+      if (pass == false)
+        return false;
     }
 
-    if (*type.requiredTech()!=TechTypes::None)
-      if (!self()->researched(*(type.requiredTech()))) return false;
+    if (*type.requiredTech() != TechTypes::None)
+      if (!self()->researched(*(type.requiredTech())))
+        return false;
 
-    if (builder!=NULL)
+    if (builder != NULL)
     {
-      bool pass=false;
-      if (builder->getType()==*(type.whatBuilds().first)) pass=true;
+      bool pass = false;
+      if (builder->getType() == *(type.whatBuilds().first))
+        pass = true;
 
-      if (pass==false) return false;
-      if (addon!=UnitTypes::None)
+      if (pass == false)
+        return false;
+      if (addon != UnitTypes::None)
       {
-        if (builder->getAddon()==NULL) return false;
-        if (builder->getAddon()->getType()!=addon) return false;
+        if (builder->getAddon() == NULL)
+          return false;
+        if (builder->getAddon()->getType() != addon)
+          return false;
       }
     }
     return true;

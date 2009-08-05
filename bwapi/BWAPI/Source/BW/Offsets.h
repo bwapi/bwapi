@@ -100,6 +100,7 @@ namespace BW
   static DatLoad* techdataDat             = (DatLoad*)        0x005137D8;
   static DatLoad* weaponsDat              = (DatLoad*)        0x00513868;
   static DatLoad* unitsDat                = (DatLoad*)        0x00513C30;
+  static DatLoad* flingyDat               = (DatLoad*)        0x00515A38;
 
   static Positions* startPositions        = (Positions*)      0x0058D720;  // 1.16.1
   static ForceName* ForceNames            = (ForceName*)      0x0058D5BC;  // 1.16.1
@@ -187,11 +188,10 @@ namespace BW
   static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
   static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
   static u32*           BWDATA_PrintXY_Current_Font               = (u32*) 0x006D5DDC;
-  static u32*           BWDATA_PrintXY_PositionX2                 = (u32*) 0x006CE0CC;
 
   struct fontMemStruct
   {
-    u32 tFontColor;
+    u32 tFontData;
     u32 tFontUnknown;
     u16 x1;
     u16 y1;
@@ -201,16 +201,16 @@ namespace BW
 
   static fontMemStruct* BWDATA_PrintXY_Font                       = (fontMemStruct*) 0x006CE0C0;
   static u8*            BWDATA_PrintXY_Unknown1                   = (u8*)  0x006CE110;
-  static u16*           BWDATA_PrintXY_Unknown2                   = (u16*) 0x006CE0C8;
-  static u16*           BWDATA_PrintXY_Unknown3                   = (u16*) 0x006CE0CE;
 
+  static u32            BWDATA_FontData                           = 0x006CE028
 
-  static u32*           BWDATA_Font8_Handle                       = (u32*) 0x006CE0F4;
-  static u32*           BWDATA_Font10_Handle                      = (u32*) 0x006CE0F8;
-  static u32*           BWDATA_Font16_Handle                      = (u32*) 0x006CE0FC;
-  static u32*           BWDATA_Font16x_Handle                     = (u32*) 0x006CE100;
+  static u32            BWDATA_FontBase                           = 0x006CE0F4;
+  static u32*           BWDATA_Font8_Handle                       = (u32*) BWDATA_FontBase;
+  static u32*           BWDATA_Font10_Handle                      = (u32*) BWDATA_FontBase + 4;
+  static u32*           BWDATA_Font16_Handle                      = (u32*) BWDATA_FontBase + 8;
+  static u32*           BWDATA_Font16x_Handle                     = (u32*) BWDATA_FontBase + 12;
 
-  static u8*            BWDATA_DrawColor                          = (u8*)  0x006CF4AC;
+  static u8*            BWDATA_DrawColor                          = (u8*) 0x006CF4AC;
 
   static u32            BWFXN_Refresh                             = 0x0041E26B;
   static u32            BWFXN_RefreshTarget                       = 0x0041E0D0;
@@ -222,6 +222,7 @@ namespace BW
 
   static u32            BWFXN_IssueCommandRet                     = 0x00485BD5;
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
+
   static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
   static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
@@ -461,19 +462,19 @@ namespace BW
     u32 flingyType[FLINGY_TYPE_COUNT];
   };
   //----------------------------------------- FLINGY MOVEMENT CONTROL ----------------------------------------
-  static flingyDat_u8_type* BWDATA_FlingyMovementControl = (flingyDat_u8_type*) 0x006C9858;
+  static flingyDat_u8_type* BWDATA_FlingyMovementControl = (flingyDat_u8_type*) flingyDat[6].address;
   //------------------------------------------ FLINGY HALT DISTANCE ------------------------------------------
-  static flingyDat_u32_type* BWDATA_FlingyHaltDistance = (flingyDat_u32_type*) 0x006C9930;
+  static flingyDat_u32_type* BWDATA_FlingyHaltDistance = (flingyDat_u32_type*) flingyDat[3].address;
   //------------------------------------------ FLINGY ACCELERATION -------------------------------------------
-  static flingyDat_u16_type* BWDATA_FlingyAcceleration = (flingyDat_u16_type*) 0x006C9C78;
+  static flingyDat_u16_type* BWDATA_FlingyAcceleration = (flingyDat_u16_type*) flingyDat[2].address;
   //------------------------------------------- FLINGY TURN RADIUS -------------------------------------------
-  static flingyDat_u8_type* BWDATA_FlingyTurnRadius = (flingyDat_u8_type*) 0x006C9E20;
+  static flingyDat_u8_type* BWDATA_FlingyTurnRadius = (flingyDat_u8_type*) flingyDat[4].address;
   //-------------------------------------------- FLINGY TOP SPEED --------------------------------------------
-  static flingyDat_u32_type* BWDATA_FlingyTopSpeed = (flingyDat_u32_type*) 0x006C9EF8;
+  static flingyDat_u32_type* BWDATA_FlingyTopSpeed = (flingyDat_u32_type*) flingyDat[1].address;
   //--------------------------------------------- FLINGY UNUSED ----------------------------------------------
-  static flingyDat_u8_type* BWDATA_FlingyUnused = (flingyDat_u8_type*) 0x006CA240;
+  static flingyDat_u8_type* BWDATA_FlingyUnused = (flingyDat_u8_type*) flingyDat[5].address;
   //------------------------------------------- FLINGY SPRITE FILE -------------------------------------------
-  static flingyDat_u16_type* BWDATA_FlingySpriteFile = (flingyDat_u16_type*) 0x006CA318;
+  static flingyDat_u16_type* BWDATA_FlingySpriteFile = (flingyDat_u16_type*) flingyDat[0].address;
 
   struct weaponsDat_u8_type
   {
