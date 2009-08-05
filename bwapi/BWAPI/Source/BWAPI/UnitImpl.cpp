@@ -734,6 +734,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -764,6 +766,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -967,6 +971,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1006,6 +1012,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1025,6 +1033,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1239,6 +1249,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -1275,6 +1287,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
+    if (target==NULL) return false;
+    if (!((UnitImpl*)target)->attemptAccess()) return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
