@@ -56,11 +56,13 @@ namespace BWAPI
   //------------------------------------------- GET MINERALS LOCAL -------------------------------------------
   int PlayerImpl::minerals() const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->mineralsLocal;
   }
   //--------------------------------------------- GET GAS LOCAL ----------------------------------------------
   int PlayerImpl::gas() const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->gasLocal;
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
@@ -101,12 +103,14 @@ namespace BWAPI
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   s32 PlayerImpl::supplyTotal() const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     s32 ret = this->suppliesAvailableLocal[static_cast<BW::Race::Enum>(getRace().getID())];
     return ret < getSuppliesMaxSync(static_cast<BW::Race::Enum>(getRace().getID())) ? ret : getSuppliesMaxSync(static_cast<BW::Race::Enum>(getRace().getID()));
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   s32 PlayerImpl::supplyUsed() const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->suppliesUsedLocal[getRace().getID()];
   }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
@@ -154,6 +158,7 @@ namespace BWAPI
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return TilePositions::Unknown;
     return BWAPI::TilePosition((int)((BW::startPositions[this->getID()].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
                                (int)((BW::startPositions[this->getID()].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
   }
@@ -165,26 +170,31 @@ namespace BWAPI
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   s32 PlayerImpl::getAllUnits(UnitType unit)
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType(BW::UnitID::Enum(unit.getID()))) + this->toMake[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
   s32 PlayerImpl::getCompletedUnits(UnitType unit)
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 PlayerImpl::getIncompleteUnits(UnitType unit)
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->getAllUnits(unit) - this->getCompletedUnits(unit) + toMake[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
   s32 PlayerImpl::getDeaths(UnitType unit)
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //----------------------------------------------- GET KILLS ------------------------------------------------
   s32 PlayerImpl::getKills(UnitType unit)
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
@@ -214,12 +224,14 @@ namespace BWAPI
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
   bool PlayerImpl::researching(BWAPI::TechType tech) const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return false;
     Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID() * 6);
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
   bool PlayerImpl::researched(BWAPI::TechType tech) const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return false;
     if (tech.getID() < 0x18)
       return *((u8*)(BW::BWDATA_TechResearchSC + this->getID() * 0x18 + tech.getID())) == 1;
     else
@@ -228,6 +240,7 @@ namespace BWAPI
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
   int PlayerImpl::upgradeLevel(UpgradeType upgrade) const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     if (upgrade.getID() < 46)
       return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID() * 46 + upgrade.getID())));
     else
@@ -236,6 +249,7 @@ namespace BWAPI
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
   bool PlayerImpl::upgrading(UpgradeType upgrade) const
   {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return false;
     return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
   }
   //----------------------------------------------- GET UNITS ------------------------------------------------
@@ -246,7 +260,7 @@ namespace BWAPI
       this->units.clear();
       for(std::set<UnitImpl*>::iterator u = BWAPI::BroodwarImpl.units.begin(); u != BWAPI::BroodwarImpl.units.end(); u++)
       {
-        if ((*u)->getPlayer() == this)
+        if ((*u)->getPlayer() == this && (*u)->canAccess())
         {
           this->units.insert((Unit*)(*u));
         }

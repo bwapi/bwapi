@@ -80,6 +80,7 @@ namespace BWAPI
       virtual bool hasCreep(int x, int y) const;
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) const;
       virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type) const;
+      virtual bool canMake(Unit* builder, UnitType type) const;
       virtual int groundHeight(int x, int y) const;
       virtual const std::set< TilePosition >& getStartLocations() const;
       virtual int getMapHash() const;
@@ -135,6 +136,7 @@ namespace BWAPI
       bool onSendText(const char* text);
       bool parseText(const char* text);
       void onRemoveUnit(BW::Unit* unit);
+      void onAddUnit(BWAPI::Unit* unit);
       void lockFlags();
       bool enabled;
       bool isSinglePlayer() const;
@@ -186,6 +188,8 @@ namespace BWAPI
       /** Unknown unitID's */
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;
+      bool flagsLocked;
+      bool inUpdate;
     private :
       HMODULE hMod;
       /**
@@ -229,12 +233,12 @@ namespace BWAPI
        */
       bool reselected;
       bool flags[BWAPI::FLAG_COUNT];
-      bool flagsLocked;
       BW::Unit* savedSelectionStates[13];
       void refreshSelectionStates();
       AIModule* client;
       bool startedClient;
       BWAPI::Error lastError;
+      std::list<UnitImpl*> deadUnits;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

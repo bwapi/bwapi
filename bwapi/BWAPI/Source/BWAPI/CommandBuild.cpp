@@ -21,7 +21,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandBuild::execute()
   {
-    if (this->executors[0]->isReady())
+    if (this->executors[0]->isCompleted())
       switch (this->executors[0]->getType().getID())
       {
         case BW::UnitID::Zerg_Drone    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneBuild; break;

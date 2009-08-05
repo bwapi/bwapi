@@ -25,7 +25,7 @@ namespace BWAPI
       {
         if (
           (this->executors[i]->getType().isWorker()) &&
-          targetUnit->isMineral()
+          targetUnit->getType()==UnitTypes::Resource_Mineral_Field
         )
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
 

@@ -6,29 +6,31 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[16];
+  std::string errorName[17];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
   {
-    const Error Unit_Not_Visible(0);
-    const Error Unit_Not_Owned(1);
-    const Error Incompatible_UnitType(2);
-    const Error Incompatible_TechType(3);
-    const Error Incompatible_UpgradeType(4);
-    const Error Insufficient_Minerals(5);
-    const Error Insufficient_Gas(6);
-    const Error Insufficient_Supply(7);
-    const Error Insufficient_Energy(8);
-    const Error Insufficient_Tech(9);
-    const Error Insufficient_Ammo(10);
-    const Error Unbuildable_Location(11);
-    const Error Out_Of_Range(12);
-    const Error Unable_To_Hit(13);
-    const Error None(14);
-    const Error Unknown(15);
+    const Error Unit_Does_Not_Exist(0);
+    const Error Unit_Not_Visible(1);
+    const Error Unit_Not_Owned(2);
+    const Error Incompatible_UnitType(3);
+    const Error Incompatible_TechType(4);
+    const Error Incompatible_UpgradeType(5);
+    const Error Insufficient_Minerals(6);
+    const Error Insufficient_Gas(7);
+    const Error Insufficient_Supply(8);
+    const Error Insufficient_Energy(9);
+    const Error Insufficient_Tech(10);
+    const Error Insufficient_Ammo(11);
+    const Error Unbuildable_Location(12);
+    const Error Out_Of_Range(13);
+    const Error Unable_To_Hit(14);
+    const Error None(15);
+    const Error Unknown(16);
     void init()
     {
+      errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
       errorName[Unit_Not_Visible.getID()] = "Unit Not Visible";
       errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
@@ -45,6 +47,7 @@ namespace BWAPI
       errorName[Unable_To_Hit.getID()] = "Unable To Hit";
       errorName[None.getID()] = "None";
       errorName[Unknown.getID()] = "Unknown";
+      errorSet.insert(Unit_Does_Not_Exist);
       errorSet.insert(Unit_Not_Visible);
       errorSet.insert(Unit_Not_Owned);
       errorSet.insert(Incompatible_UnitType);
@@ -78,7 +81,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingError)
     {
-      if (id < 0 || id >= 16)
+      if (id < 0 || id >= 17)
       {
         this->id = Errors::Unknown.id;
       }

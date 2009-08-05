@@ -16,11 +16,14 @@ namespace BWAPI
   void AIModule::onFrame()
   {
   }
-  bool AIModule::onSendText(std::string text)
+  void AIModule::onAddUnit(BWAPI::Unit* unit)
   {
-    return false;
   }
   void AIModule::onRemoveUnit(BWAPI::Unit* unit)
   {
+  }
+  bool AIModule::onSendText(std::string text)
+  {
+    return false;
   }
 }
