@@ -228,7 +228,7 @@ namespace BWAPI
     int width=type.tileWidth();
     int height=type.tileHeight();
     if (position.x()+width>this->mapWidth()) return false;
-    if (position.y()+height>this->mapHeight()) return false;
+    if (position.y()+height>=this->mapHeight()) return false;
     if (type.isRefinery())
     {
       std::set<BWAPI::Unit*> geysers=this->getGeysers();
@@ -498,12 +498,6 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
         unitList.push_back(i);
-        if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
-        {
-          UnitImpl* j = (UnitImpl*)(i->_getOrderTarget());
-          i->buildUnit = j;
-          j->buildUnit = i;
-        }
       }
       this->myPylons.clear();
       for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
@@ -520,18 +514,23 @@ namespace BWAPI
           this->myPylons.push_back(*i);
         }
       }
-      /*
       std::set<UnitImpl*>::iterator i_next;
       for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i=i_next)
       {
         i_next=i;
         i_next++;
+        /*
         if (((*i)->_exists() && (*i)->getHitPoints()<=0))
         {
           this->onRemoveUnit(*i);
+        }*/
+        if ((*i)->_getOrderTarget() != NULL && (*i)->_getOrderTarget()->exists() && (*i)->getBWOrder() == BW::OrderID::ConstructingBuilding)
+        {
+          UnitImpl* j = (UnitImpl*)((*i)->_getOrderTarget());
+          (*i)->buildUnit = j;
+          j->buildUnit = (*i);
         }
       }
-      */
       refreshSelectionStates();
 
       while ((int)(this->commandBuffer.size()) > this->getLatency())

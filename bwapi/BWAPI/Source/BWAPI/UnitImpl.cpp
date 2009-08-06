@@ -299,6 +299,7 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::ConstructingBuilding || 
+           this->getBWOrder() == BW::OrderID::BuildTerran ||
            this->getBWOrder() == BW::OrderID::DroneBuild ||
            this->getBWOrder() == BW::OrderID::DroneStartBuild ||
            this->getBWOrder() == BW::OrderID::DroneLand ||
@@ -1749,7 +1750,7 @@ namespace BWAPI
   {
     if (unit == NULL)
       return NULL;
-    int index=((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
+    int index=(((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336) & 2047;
     if (index<0 || index>=BW::UNIT_ARRAY_MAX_LENGTH)
     {
       if (BroodwarImpl.invalidIndices.find(index)==BroodwarImpl.invalidIndices.end())

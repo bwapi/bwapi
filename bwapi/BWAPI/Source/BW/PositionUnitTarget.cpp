@@ -1,4 +1,5 @@
 #include "PositionUnitTarget.h"
+#include "Unit.h"
 namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -10,6 +11,10 @@ namespace BW
   PositionUnitTarget::PositionUnitTarget(const UnitTarget& target)
       : target(target)
   {
+    int mask = 2047;
+    u16 index=target.getTarget() & mask;
+    Unit* unit=(Unit*)((int)BWDATA_UnitNodeTable+(int)index*336);
+    this->position=unit->position;
   }
   //----------------------------------------------------------------------------------------------------------
 }
