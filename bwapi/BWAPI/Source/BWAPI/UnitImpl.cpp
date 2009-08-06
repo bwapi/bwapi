@@ -60,6 +60,7 @@ namespace BWAPI
       , userSelected(false)
       , buildUnit(NULL)
       , alive(false)
+      , dead(false)
       , savedPlayer(NULL)
       , savedUnitType(UnitTypes::None)
   {
@@ -214,6 +215,11 @@ namespace BWAPI
   bool UnitImpl::exists() const
   {
     return this->alive;
+  }
+  //------------------------------------------------- EXISTS -------------------------------------------------
+  bool UnitImpl::died() const
+  {
+    return this->dead;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool UnitImpl::_exists() const
@@ -1758,7 +1764,7 @@ namespace BWAPI
 #pragma warning (pop)
   void UnitImpl::die()
   {
-    if (!this->_exists()) return;
+    if (!this->alive) return;
     this->savedPlayer=this->_getPlayer();
     this->savedUnitType=this->_getType();
     this->bwUnit=NULL;
@@ -1768,6 +1774,7 @@ namespace BWAPI
     this->userSelected=false;
     this->visible=false;
     this->alive=false;
+    this->dead=true;
   }
   bool UnitImpl::canAccess() const
   {
@@ -1779,8 +1786,8 @@ namespace BWAPI
       {
         if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories()) return true;
       }
-      if (BroodwarImpl.inUpdate==true) return true;
     }
+    if (BroodwarImpl.inUpdate==true) return true;
     return false;
   }
   bool UnitImpl::canAccessSpecial() const

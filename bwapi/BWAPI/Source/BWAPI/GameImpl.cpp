@@ -508,6 +508,7 @@ namespace BWAPI
       this->myPylons.clear();
       for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
       {
+
         if (this->units.find(*i) == this->units.end())
         {
           (*i)->alive=true;
@@ -517,6 +518,16 @@ namespace BWAPI
         if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->getBWType().getID()==BW::UnitID::Protoss_Pylon && (*i)->_isCompleted())
         {
           this->myPylons.push_back(*i);
+        }
+      }
+      std::set<UnitImpl*>::iterator i_next;
+      for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i=i_next)
+      {
+        i_next=i;
+        i_next++;
+        if (((*i)->_exists() && (*i)->getHitPoints()<=0))
+        {
+          this->onRemoveUnit(*i);
         }
       }
       refreshSelectionStates();
@@ -1304,6 +1315,25 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
+  void GameImpl::onRemoveUnit(BWAPI::UnitImpl* unit)
+  {
+    int index=unit->getIndex();
+    if (!unit->alive) return;
+    this->units.erase(unit);
+    deadUnits.push_back(unit);
+    unitArray[index] = new UnitImpl(&unitArrayCopy->unit[index],
+                                &BW::BWDATA_UnitNodeTable->unit[index],
+                                &unitArrayCopyLocal->unit[index],
+                                index);
+    if (this->client != NULL)
+    {
+      if (unit!=NULL && unit->canAccessSpecial())
+      {
+        this->client->onRemoveUnit(unit);
+      }
+    }
+    unit->die();
+  }
   void GameImpl::onRemoveUnit(BW::Unit* unit)
   {
     int index=((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
@@ -1317,20 +1347,7 @@ namespace BWAPI
       return;
     }
     BWAPI::UnitImpl* deadUnit=unitArray[index];
-    this->units.erase(deadUnit);
-    deadUnits.push_back(deadUnit);
-    unitArray[index] = new UnitImpl(&unitArrayCopy->unit[index],
-                                &BW::BWDATA_UnitNodeTable->unit[index],
-                                &unitArrayCopyLocal->unit[index],
-                                index);
-    if (this->client != NULL)
-    {
-      if (deadUnit!=NULL && deadUnit->canAccessSpecial())
-      {
-        this->client->onRemoveUnit(deadUnit);
-      }
-    }
-    deadUnit->die();
+    this->onRemoveUnit(deadUnit);
   }
   //---------------------------------------------- ON ADD UNIT -----------------------------------------------
   void GameImpl::onAddUnit(BWAPI::Unit* unit)
