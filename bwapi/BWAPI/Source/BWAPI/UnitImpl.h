@@ -187,6 +187,7 @@ namespace BWAPI
       inline bool attemptAccess() const;
       inline bool attemptAccessSpecial() const;
       inline bool _exists() const;
+      bool died() const;
       Player* _getPlayer() const;
       UnitType _getType() const;
       Position _getPosition() const;
@@ -224,17 +225,15 @@ namespace BWAPI
 
       UnitImpl* buildUnit;
       bool alive;
-    private:
       /** Gets #bwUnit */
       BW::Unit* getRawData() const;
+    private:
 
       bool hasEmptyBuildQueueSync() const;
       BW::UnitType* getBuildQueueSync() const;
       u8 getBuildQueueSlotSync() const;
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
-      /** Gets distance between two positions. */
-      u16 getDistance(int x1, int y1, int x2, int y2) const;
 
       BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */
@@ -244,6 +243,7 @@ namespace BWAPI
       bool visible;
       BWAPI::Player* savedPlayer;
       BWAPI::UnitType savedUnitType;
+      bool dead;
   };
 };
 

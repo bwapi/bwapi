@@ -135,6 +135,7 @@ namespace BWAPI
       void onCancelTrain();
       bool onSendText(const char* text);
       bool parseText(const char* text);
+      void onRemoveUnit(BWAPI::UnitImpl* unit);
       void onRemoveUnit(BW::Unit* unit);
       void onAddUnit(BWAPI::Unit* unit);
       void lockFlags();
