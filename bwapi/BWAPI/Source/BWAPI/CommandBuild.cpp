@@ -21,6 +21,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandBuild::execute()
   {
+    if (!this->executors[0]->_exists()) return;
     if (this->executors[0]->isCompleted())
       switch (this->executors[0]->getType().getID())
       {

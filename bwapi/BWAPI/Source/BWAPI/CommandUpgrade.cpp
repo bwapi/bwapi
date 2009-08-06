@@ -20,6 +20,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandUpgrade::execute()
   {
+    if (!this->executors[0]->_exists()) return;
     if (this->executors[0]->isCompleted())
       this->executors.front()->getRawDataLocal()->orderID = BW::OrderID::Upgrade;
   }
