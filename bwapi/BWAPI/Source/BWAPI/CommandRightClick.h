@@ -26,5 +26,6 @@ namespace BWAPI
     private :
       UnitImpl* targetUnit;
       BW::Position targetPosition;
+      bool isPosition;
   };
 }

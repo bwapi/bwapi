@@ -24,6 +24,7 @@ namespace BW
       UnitTarget();
       /** Constructor, takes BWAPI unit pointer, and decodes it to bw index type.*/
       UnitTarget(BWAPI::UnitImpl* target);
+      u16 getTarget() const;
     private :
       u16 targetID; /**< Unit index pointer stored in the way bw understands it */
   };

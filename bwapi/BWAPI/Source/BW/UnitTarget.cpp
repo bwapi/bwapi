@@ -18,6 +18,11 @@ namespace BW
   {
     this->targetID = (int)((int)target->getOriginalRawData() - (int)BWDATA_UnitNodeTable) / 336 | 1 << 11;
   }
+  //-------------------------------------------------- GETTARGET ---------------------------------------------
+  u16 UnitTarget::getTarget() const
+  {
+    return this->targetID;
+  }
 #pragma warning(pop)
   //----------------------------------------------------------------------------------------------------------
 
