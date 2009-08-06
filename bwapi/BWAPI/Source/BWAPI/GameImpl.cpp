@@ -520,6 +520,7 @@ namespace BWAPI
           this->myPylons.push_back(*i);
         }
       }
+      /*
       std::set<UnitImpl*>::iterator i_next;
       for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i=i_next)
       {
@@ -530,6 +531,7 @@ namespace BWAPI
           this->onRemoveUnit(*i);
         }
       }
+      */
       refreshSelectionStates();
 
       while ((int)(this->commandBuffer.size()) > this->getLatency())

@@ -23,6 +23,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelTrain::execute()
   {
+    if (!this->executors[0]->_exists()) return;
     if (slot < 0)
     {
       int i = this->executors[0]->getBuildQueueSlot() % 5;
