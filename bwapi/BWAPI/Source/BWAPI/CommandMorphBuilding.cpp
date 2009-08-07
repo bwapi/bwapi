@@ -1,5 +1,6 @@
 #include "CommandMorphBuilding.h"
 #include "UnitImpl.h"
+#include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -20,6 +21,10 @@ namespace BWAPI
         this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Morph2;
       }
     }
+    PlayerImpl* p = static_cast<PlayerImpl*>(this->executors[0]->getPlayer());
+    p->spend(this->toMorph.mineralPrice(), this->toMorph.gasPrice());
+    p->useSupplies(toMorph.supplyRequired(), toMorph.getRace());
+    p->planToMake(toMorph);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::CommandTypes::Enum CommandMorphBuilding::getType()

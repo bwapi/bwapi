@@ -15,8 +15,8 @@ namespace BWAPI
     const Error Unit_Not_Visible(1);
     const Error Unit_Not_Owned(2);
     const Error Incompatible_UnitType(3);
-    const Error Incompatible_TechType(4);
-    const Error Incompatible_UpgradeType(5);
+    const Error Already_Researched(4);
+    const Error Fully_Upgraded(5);
     const Error Insufficient_Minerals(6);
     const Error Insufficient_Gas(7);
     const Error Insufficient_Supply(8);
@@ -34,8 +34,8 @@ namespace BWAPI
       errorName[Unit_Not_Visible.getID()] = "Unit Not Visible";
       errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
-      errorName[Incompatible_TechType.getID()] = "Incompatible TechType";
-      errorName[Incompatible_UpgradeType.getID()] = "Incompatible UpgradeType";
+      errorName[Already_Researched.getID()] = "Already Researched";
+      errorName[Fully_Upgraded.getID()] = "Fully Upgraded";
       errorName[Insufficient_Minerals.getID()] = "Insufficient Minerals";
       errorName[Insufficient_Gas.getID()] = "Insufficient Gas";
       errorName[Insufficient_Supply.getID()] = "Insufficient Supply";
@@ -51,8 +51,8 @@ namespace BWAPI
       errorSet.insert(Unit_Not_Visible);
       errorSet.insert(Unit_Not_Owned);
       errorSet.insert(Incompatible_UnitType);
-      errorSet.insert(Incompatible_TechType);
-      errorSet.insert(Incompatible_UpgradeType);
+      errorSet.insert(Already_Researched);
+      errorSet.insert(Fully_Upgraded);
       errorSet.insert(Insufficient_Minerals);
       errorSet.insert(Insufficient_Gas);
       errorSet.insert(Insufficient_Supply);
