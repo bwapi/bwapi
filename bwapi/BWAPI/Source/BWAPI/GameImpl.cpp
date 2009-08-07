@@ -413,14 +413,12 @@ namespace BWAPI
       }
 
     if (builder != NULL)
-    {
-      if (addon != UnitTypes::None)
+      if (addon != UnitTypes::None && addon.whatBuilds().first==type.whatBuilds().first)
         if (builder->getAddon() == NULL || builder->getAddon()->getType() != addon)
         {
           this->setLastError(Errors::Insufficient_Tech);
           return false;
         }
-    }
     return true;
   }
   //----------------------------------------------- CAN RESEARCH ---------------------------------------------
@@ -1570,11 +1568,14 @@ namespace BWAPI
   //--------------------------------------------- UNITS ON TILE ----------------------------------------------
   std::set<Unit*> GameImpl::unitsOnTile(int x, int y) const
   {
+    std::set<Unit*> emptySet;
+    if (x<0 || y<0 || x>=this->mapWidth() || y>=this->mapHeight())
+      return emptySet;
+
     if (this->isFlagEnabled(Flag::CompleteMapInformation) || visible(x,y))
     {
       return unitsOnTileData[x][y];
     }
-    std::set<Unit*> emptySet;
     return emptySet;
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------

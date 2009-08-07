@@ -836,7 +836,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (!Broodwar->canBuildHere(this,position,type1)) return false;
+    if (!type1.isAddon() && !Broodwar->canBuildHere(this,position,type1)) return false;
 
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));
     this->orderSelect();
