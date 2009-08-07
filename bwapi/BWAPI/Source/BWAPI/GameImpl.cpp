@@ -221,8 +221,9 @@ namespace BWAPI
     return false;
   }
   //---------------------------------------------- CAN BUILD HERE --------------------------------------------
-  bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type) const
+  bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
+    this->setLastError(Errors::Unbuildable_Location);
     if (position.x()<0) return false;
     if (position.y()<0) return false;
     int width=type.tileWidth();
@@ -236,6 +237,7 @@ namespace BWAPI
       {
         if ((*g)->getTilePosition()==position)
         {
+          this->setLastError(Errors::None);
           return true;
         }
       }
@@ -299,7 +301,12 @@ namespace BWAPI
     }
     if (type.requiresPsi())
     {
-      return this->hasPower(position.x(),position.y(),width,height);
+      if (this->hasPower(position.x(),position.y(),width,height))
+      {
+        this->setLastError(Errors::None);
+        return true;
+      }
+      return false;
     }
     if (type.isResourceDepot())
     {
@@ -326,21 +333,50 @@ namespace BWAPI
         }
       }
     }
+    this->setLastError(Errors::None);
     return true;
   }
-
-  bool GameImpl::canMake(Unit* builder, UnitType type) const
+  //------------------------------------------------- CAN MAKE -----------------------------------------------
+  bool GameImpl::canMake(Unit* builder, UnitType type)
   {
+    this->setLastError(Errors::None);
     if (self() == NULL)
+    {
+      this->setLastError(Errors::Unit_Not_Owned);
       return false;
+    }
+
+    if (builder != NULL)
+    {
+      if (builder->getPlayer()!=self())
+      {
+        this->setLastError(Errors::Unit_Not_Owned);
+        return false;
+      }
+      if (builder->getType() != *(type.whatBuilds().first))
+      {
+        this->setLastError(Errors::Incompatible_UnitType);
+        return false;
+      }
+    }
+
     if (self()->minerals() < type.mineralPrice())
+    {
+      this->setLastError(Errors::Insufficient_Minerals);
       return false;
+    }
     if (self()->gas() < type.gasPrice())
+    {
+      this->setLastError(Errors::Insufficient_Gas);
       return false;
+    }
 
     if (type.supplyRequired() > 0)
-      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired())
+      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first->supplyRequired())
+      {
+        this->setLastError(Errors::Insufficient_Supply);
         return false;
+      }
 
     UnitType addon = UnitTypes::None;
     for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
@@ -363,25 +399,107 @@ namespace BWAPI
         if (self()->getCompletedUnits(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       if (pass == false)
+      {
+        this->setLastError(Errors::Insufficient_Tech);
         return false;
+      }
     }
 
     if (*type.requiredTech() != TechTypes::None)
       if (!self()->researched(*(type.requiredTech())))
+      {
+        this->setLastError(Errors::Insufficient_Tech);
         return false;
+      }
 
     if (builder != NULL)
     {
-      if (builder->getType() != *(type.whatBuilds().first))
-        return false;
-
       if (addon != UnitTypes::None)
+        if (builder->getAddon() == NULL || builder->getAddon()->getType() != addon)
+        {
+          this->setLastError(Errors::Insufficient_Tech);
+          return false;
+        }
+    }
+    return true;
+  }
+  //----------------------------------------------- CAN RESEARCH ---------------------------------------------
+  bool GameImpl::canResearch(Unit* unit, TechType type)
+  {
+    this->setLastError(Errors::None);
+    if (self() == NULL)
+    {
+      this->setLastError(Errors::Unit_Not_Owned);
+      return false;
+    }
+
+    if (unit != NULL)
+    {
+      if (unit->getPlayer()!=self())
       {
-        if (builder->getAddon() == NULL)
-          return false;
-        if (builder->getAddon()->getType() != addon)
-          return false;
+        this->setLastError(Errors::Unit_Not_Owned);
+        return false;
       }
+      if (unit->getType() != *(type.whatResearches()))
+      {
+        this->setLastError(Errors::Incompatible_UnitType);
+        return false;
+      }
+    }
+    if (self()->researched(type))
+    {
+      this->setLastError(Errors::Already_Researched);
+      return false;
+    }
+    if (self()->minerals() < type.mineralPrice())
+    {
+      this->setLastError(Errors::Insufficient_Minerals);
+      return false;
+    }
+    if (self()->gas() < type.gasPrice())
+    {
+      this->setLastError(Errors::Insufficient_Gas);
+      return false;
+    }
+    return true;
+  }
+  //----------------------------------------------- CAN UPGRADE ----------------------------------------------
+  bool GameImpl::canUpgrade(Unit* unit, UpgradeType type)
+  {
+    this->setLastError(Errors::None);
+    if (self() == NULL)
+    {
+      this->setLastError(Errors::Unit_Not_Owned);
+      return false;
+    }
+
+    if (unit != NULL)
+    {
+      if (unit->getPlayer()!=self())
+      {
+        this->setLastError(Errors::Unit_Not_Owned);
+        return false;
+      }
+      if (unit->getType() != *(type.whatUpgrades()))
+      {
+        this->setLastError(Errors::Incompatible_UnitType);
+        return false;
+      }
+    }
+    if (self()->upgradeLevel(type)>=type.maxRepeats())
+    {
+      this->setLastError(Errors::Fully_Upgraded);
+      return false;
+    }
+    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*self()->upgradeLevel(type))
+    {
+      this->setLastError(Errors::Insufficient_Minerals);
+      return false;
+    }
+    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*self()->upgradeLevel(type))
+    {
+      this->setLastError(Errors::Insufficient_Gas);
+      return false;
     }
     return true;
   }

@@ -792,11 +792,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
-    if (this->getPlayer() != Broodwar->self())
+    if (!Broodwar->canMake(this,type1)) return false;
+    if (type1.isBuilding())
     {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+
     BW::UnitType type((BW::UnitID::Enum)type1.getID());
     if (this->getType() == BWAPI::UnitTypes::Zerg_Larva ||
         this->getType() == BWAPI::UnitTypes::Zerg_Mutalisk ||
@@ -828,16 +830,14 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
-    if (!type1.isBuilding() || *type1.whatBuilds().first != this->getType())
+    if (!Broodwar->canMake(this,type1)) return false;
+    if (!type1.isBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+    if (!Broodwar->canBuildHere(this,position,type1)) return false;
+
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));
     this->orderSelect();
     if (!type.isAddon())
@@ -864,16 +864,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
-    if (*tech.whatResearches() != this->getType())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_TechType);
-      return false;
-    }
+    if (!Broodwar->canResearch(this,tech)) return false;
+
     this->orderSelect();
     BW::TechID::Enum techenum = static_cast<BW::TechID::Enum>(tech.getID());
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
@@ -885,16 +877,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
-    if (*upgrade.whatUpgrades() != this->getType())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UpgradeType);
-      return false;
-    }
+    if (!Broodwar->canUpgrade(this,upgrade)) return false;
+
     this->orderSelect();
     BW::UpgradeID::Enum upgradeenum = static_cast<BW::UpgradeID::Enum>(upgrade.getID());
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade));
@@ -1064,16 +1048,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
-    if (this->getType().getRace() != Races::Zerg || *type.whatBuilds().first != this->getType())
+    if (!Broodwar->canMake(this,type)) return false;
+    if (type.isBuilding()!=this->getType().isBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+
     this->orderSelect();
     BW::UnitType rawtype(((BW::UnitID::Enum)type.getID()));
     if(type.isBuilding())
@@ -1544,7 +1525,7 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
       } break;
       default:
-        BroodwarImpl.setLastError(Errors::Incompatible_TechType);
+        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
         return false;
     }
     return true;
@@ -1599,7 +1580,7 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::StasisField), sizeof(BW::Orders::Attack));
         break;
       default:
-        BroodwarImpl.setLastError(Errors::Incompatible_TechType);
+        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
         return false;
     }
     return true;
@@ -1660,7 +1641,7 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::FireYamatoGun1), sizeof(BW::Orders::Attack));
         break;
       default:
-        BroodwarImpl.setLastError(Errors::Incompatible_TechType);
+        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
         return false;
     }
     return true;
