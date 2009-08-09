@@ -28,6 +28,9 @@ namespace BWAPI
 
       virtual int minerals() const = 0;
       virtual int gas() const = 0;
+      virtual int cumulativeMinerals() const = 0;
+      virtual int cumulativeGas() const = 0;
+
       virtual int supplyTotal() const = 0;
       virtual int supplyUsed() const = 0;
 
