@@ -48,6 +48,8 @@ namespace BW
     };
     PlayerResource minerals;
     PlayerResource gas;
+    PlayerResource cumulativeGas;
+    PlayerResource cumulativeMinerals;
   };
   static PlayerResources* BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0;
 

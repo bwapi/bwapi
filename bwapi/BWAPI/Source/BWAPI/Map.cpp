@@ -44,21 +44,21 @@ namespace BWAPI
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool Map::buildable(int x, int y) const
   {
-    if (x<0 || y<0 || x>=buildability.getWidth() || y>=buildability.getHeight())
+    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
       return false;
     return buildability[x][y];
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
   bool Map::walkable(int x, int y) const
   {
-    if (x<0 || y<0 || x>=walkability.getWidth() || y>=walkability.getHeight())
+    if ((unsigned int)x>=walkability.getWidth() || (unsigned int)y>=walkability.getHeight())
       return false;
     return walkability[x][y];
   }
   //------------------------------------------------ VISIBLE -------------------------------------------------
   bool Map::visible(int x, int y) const
   {
-    if (x<0 || y<0 || x>=buildability.getWidth() || y>=buildability.getHeight())
+    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
       return false;
     u32 value =  (*this->fogOfWar)[y][x];
     return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
@@ -66,14 +66,14 @@ namespace BWAPI
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const
   {
-    if (x<0 || y<0 || x>=buildability.getWidth() || y>=buildability.getHeight())
+    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
       return false;
     return (*this->zergCreep)[y][x] != 0;
   }
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
   {
-    if (x<0 || y<0 || x>=walkability.getWidth() || y>=walkability.getHeight())
+    if ((unsigned int)x>=walkability.getWidth() || (unsigned int)y>=walkability.getHeight())
       return false;
     int mid = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Middle);
     int high = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::High);

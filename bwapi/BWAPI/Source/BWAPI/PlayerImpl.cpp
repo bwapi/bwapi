@@ -53,17 +53,29 @@ namespace BWAPI
     return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID() * 48);
   }
 #pragma warning(pop)
-  //------------------------------------------- GET MINERALS LOCAL -------------------------------------------
+  //------------------------------------------------ MINERALS ------------------------------------------------
   int PlayerImpl::minerals() const
   {
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->mineralsLocal;
   }
-  //--------------------------------------------- GET GAS LOCAL ----------------------------------------------
+  //-------------------------------------------------- GAS ---------------------------------------------------
   int PlayerImpl::gas() const
   {
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
     return this->gasLocal;
+  }
+  //------------------------------------------ CUMULATIVE MINERALS -------------------------------------------
+  int PlayerImpl::cumulativeMinerals() const
+  {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
+    return BW::BWDATA_PlayerResources->cumulativeMinerals.player[this->getID()];
+  }
+  //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
+  int PlayerImpl::cumulativeGas() const
+  {
+    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return 0;
+    return BW::BWDATA_PlayerResources->cumulativeGas.player[this->getID()];
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void PlayerImpl::update()

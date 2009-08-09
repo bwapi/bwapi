@@ -47,10 +47,11 @@ namespace BWAPI
       virtual TilePosition getStartLocation() const;
       virtual bool isNeutral() const;
 
-      /** Gets local version of minerals for the current player - @ref localData */
       virtual int minerals() const;
-      /** Gets local version of gas for the current player - @ref localData */
       virtual int gas() const;
+
+      virtual int cumulativeMinerals() const;
+      virtual int cumulativeGas() const;
       /**
       * Gets local version of available supplies for the given race - @ref localData
       * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
