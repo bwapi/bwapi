@@ -29,6 +29,7 @@ namespace BWAPI
     extern const Error Unit_Not_Owned;
     extern const Error Unit_Busy;
     extern const Error Incompatible_UnitType;
+    extern const Error Incompatible_TechType;
     extern const Error Already_Researched;
     extern const Error Fully_Upgraded;
     extern const Error Insufficient_Minerals;

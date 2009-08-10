@@ -6,7 +6,7 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[18];
+  std::string errorName[19];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -16,19 +16,20 @@ namespace BWAPI
     const Error Unit_Not_Owned(2);
     const Error Unit_Busy(3);
     const Error Incompatible_UnitType(4);
-    const Error Already_Researched(5);
-    const Error Fully_Upgraded(6);
-    const Error Insufficient_Minerals(7);
-    const Error Insufficient_Gas(8);
-    const Error Insufficient_Supply(9);
-    const Error Insufficient_Energy(10);
-    const Error Insufficient_Tech(11);
-    const Error Insufficient_Ammo(12);
-    const Error Unbuildable_Location(13);
-    const Error Out_Of_Range(14);
-    const Error Unable_To_Hit(15);
-    const Error None(16);
-    const Error Unknown(17);
+    const Error Incompatible_TechType(5);
+    const Error Already_Researched(6);
+    const Error Fully_Upgraded(7);
+    const Error Insufficient_Minerals(8);
+    const Error Insufficient_Gas(9);
+    const Error Insufficient_Supply(10);
+    const Error Insufficient_Energy(11);
+    const Error Insufficient_Tech(12);
+    const Error Insufficient_Ammo(13);
+    const Error Unbuildable_Location(14);
+    const Error Out_Of_Range(15);
+    const Error Unable_To_Hit(16);
+    const Error None(17);
+    const Error Unknown(18);
     void init()
     {
       errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
@@ -36,6 +37,7 @@ namespace BWAPI
       errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
       errorName[Unit_Busy.getID()] = "Unit Busy";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
+      errorName[Incompatible_UnitType.getID()] = "Incompatible TechType";
       errorName[Already_Researched.getID()] = "Already Researched";
       errorName[Fully_Upgraded.getID()] = "Fully Upgraded";
       errorName[Insufficient_Minerals.getID()] = "Insufficient Minerals";
@@ -52,7 +54,9 @@ namespace BWAPI
       errorSet.insert(Unit_Does_Not_Exist);
       errorSet.insert(Unit_Not_Visible);
       errorSet.insert(Unit_Not_Owned);
+      errorSet.insert(Unit_Busy);
       errorSet.insert(Incompatible_UnitType);
+      errorSet.insert(Incompatible_TechType);
       errorSet.insert(Already_Researched);
       errorSet.insert(Fully_Upgraded);
       errorSet.insert(Insufficient_Minerals);
@@ -83,7 +87,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingError)
     {
-      if (id < 0 || id >= 18)
+      if (id < 0 || id >= 19)
       {
         this->id = Errors::Unknown.id;
       }

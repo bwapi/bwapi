@@ -7,6 +7,7 @@
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
+#include <BWAPI/WeaponType.h>
 #include "Globals.h"
 #include "CommandTrain.h"
 #include "CommandBuild.h"
@@ -350,9 +351,7 @@ namespace BWAPI
             this->getBWOrder() == BW::OrderID::Critter ||
             this->getBWOrder() == BW::OrderID::NukeTrain ||
             this->getBWOrder() == BW::OrderID::Larva) &&
-            !this->isTraining() &&
-            !this->isResearching() &&
-            !this->isUpgrading());
+            !this->isTraining());
   }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
@@ -752,6 +751,24 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    const WeaponType* weapon=this->getType().groundWeapon();
+    if (target->isLifted() || target->getType().isFlyer())
+      weapon=this->getType().airWeapon();
+
+    if (*weapon==WeaponTypes::None)
+    {
+      BroodwarImpl.setLastError(Errors::Unable_To_Hit);
+      return false;
+    }
+    if (!this->getType().canMove())
+    {
+      if (this->getPosition().getDistance(target->getPosition())>weapon->maxRange() ||
+          this->getPosition().getDistance(target->getPosition())<weapon->minRange())
+      {
+        BroodwarImpl.setLastError(Errors::Out_Of_Range);
+        return false;
+      }
+    }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::AttackUnit), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new CommandAttackUnit(this, (UnitImpl*)target));
@@ -784,6 +801,27 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (!target->getPlayer()->isNeutral() && !target->getPlayer()->isAlliesWith(this->getPlayer()))
+    {
+      const WeaponType* weapon=this->getType().groundWeapon();
+      if (target->isLifted() || target->getType().isFlyer())
+        weapon=this->getType().airWeapon();
+
+      if (*weapon==WeaponTypes::None)
+      {
+        BroodwarImpl.setLastError(Errors::Unable_To_Hit);
+        return false;
+      }
+      if (!this->getType().canMove())
+      {
+        if (this->getPosition().getDistance(target->getPosition())>weapon->maxRange() ||
+            this->getPosition().getDistance(target->getPosition())<weapon->minRange())
+        {
+          BroodwarImpl.setLastError(Errors::Out_Of_Range);
+          return false;
+        }
+      }
+    }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick));
     BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
@@ -798,6 +836,11 @@ namespace BWAPI
     if (type1.isBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
       return false;
     }
 
@@ -838,6 +881,11 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+    if (this->isConstructing() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
     if (!type1.isAddon() && !Broodwar->canBuildHere(this,position,type1)) return false;
 
     BW::UnitType type(BW::UnitID::Enum(type1.getID()));
@@ -867,6 +915,11 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
     if (!Broodwar->canResearch(this,tech)) return false;
+    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
 
     this->orderSelect();
     BW::TechID::Enum techenum = static_cast<BW::TechID::Enum>(tech.getID());
@@ -880,6 +933,11 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (!this->attemptAccess()) return false;
     if (!Broodwar->canUpgrade(this,upgrade)) return false;
+    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
 
     this->orderSelect();
     BW::UpgradeID::Enum upgradeenum = static_cast<BW::UpgradeID::Enum>(upgrade.getID());
@@ -1035,7 +1093,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (this->getType() != UnitTypes::Terran_SCV || !target->getType().isMechanical())
+    if (this->getType() != UnitTypes::Terran_SCV || target->getType().isOrganic())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
@@ -1054,6 +1112,11 @@ namespace BWAPI
     if (type.isBuilding()!=this->getType().isBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (!this->isIdle() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
       return false;
     }
 
@@ -1081,6 +1144,17 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (!this->getType().isBurrowable())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->researched(TechTypes::Burrowing))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+
     if(!this->isBurrowed())
     {
       this->orderSelect();
@@ -1099,6 +1173,17 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (!this->getType().isBurrowable())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->researched(TechTypes::Burrowing))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+
     if(this->isBurrowed())
     {
       this->orderSelect();
@@ -1120,6 +1205,11 @@ namespace BWAPI
     if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode && this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (!Broodwar->self()->researched(TechTypes::Tank_Siege_Mode))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
     }
 
@@ -1146,6 +1236,12 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+    if (!Broodwar->self()->researched(TechTypes::Tank_Siege_Mode))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+
     if (this->isSieged())
     {
       this->orderSelect();
@@ -1163,6 +1259,37 @@ namespace BWAPI
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
+    }
+    if (this->getType()!=UnitTypes::Terran_Wraith && this->getType()!=UnitTypes::Terran_Ghost)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (this->getType()==UnitTypes::Terran_Wraith)
+    {
+      if (!Broodwar->self()->researched(TechTypes::Cloaking_Field))
+      {
+        BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+        return false;
+      }
+      if (this->getEnergy()<TechTypes::Cloaking_Field.energyUsed())
+      {
+        BroodwarImpl.setLastError(Errors::Insufficient_Energy);
+        return false;
+      }
+    }
+    if (this->getType()==UnitTypes::Terran_Ghost)
+    {
+      if (!Broodwar->self()->researched(TechTypes::Personnel_Cloaking))
+      {
+        BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+        return false;
+      }
+      if (this->getEnergy()<TechTypes::Personnel_Cloaking.energyUsed())
+      {
+        BroodwarImpl.setLastError(Errors::Insufficient_Energy);
+        return false;
+      }
     }
     if(!this->isCloaked())
     {
@@ -1182,6 +1309,18 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (this->getType()!=UnitTypes::Terran_Wraith && this->getType()!=UnitTypes::Terran_Ghost)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if ((this->getType()==UnitTypes::Terran_Wraith && !Broodwar->self()->researched(TechTypes::Cloaking_Field))
+      || (this->getType()==UnitTypes::Terran_Ghost && !Broodwar->self()->researched(TechTypes::Personnel_Cloaking)))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+
     if(this->isCloaked())
     {
       this->orderSelect();
@@ -1349,13 +1488,15 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!this->getType().isBuilding()) return false;
-    if (!this->isCompleted())
+    if (this->isCompleted()) return false;
+    if (!this->getType().isBuilding())
     {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
-      BroodwarImpl.addToCommandBuffer(new CommandCancelConstruction(this));
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
     }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
+    BroodwarImpl.addToCommandBuffer(new CommandCancelConstruction(this));
     return true;
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
@@ -1490,44 +1631,58 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (!Broodwar->self()->researched(tech))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+    if (this->getEnergy()<tech.energyUsed())
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Energy);
+      return false;
+    }
+    bool found=false;
+    for(std::set<const UnitType*>::const_iterator i=tech.whatUses().begin();i!=tech.whatUses().end();i++)
+      if (*(*i)==this->getType())
+        found=true;
+    if (!found)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
     this->orderSelect();
     switch (tech.getID())
     {
       case BW::TechID::Stimpacks:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
-        break;
+        return true;
       case BW::TechID::TankSiegeMode:
-      {
         if (this->isSieged())
           this->unsiege();
         else
           this->siege();
-      } break;
+        return true;
       case BW::TechID::PersonnelCloaking:
       case BW::TechID::CloakingField:
-      {
         if(this->isCloaked())
           this->decloak();
         else
           this->cloak();
-      } break;
+        return true;
       case BW::TechID::Burrowing:
-      {
         if(this->isBurrowed())
           this->unburrow();
         else
           this->burrow();
-      } break;
+        return true;
       case BW::TechID::ArchonWarp:
-      {
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
-      } break;
+        return true;
       case BW::TechID::DarkArchonMeld:
-      {
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
-      } break;
+        return true;
       default:
-        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+        BroodwarImpl.setLastError(Errors::Incompatible_TechType);
         return false;
     }
     return true;
@@ -1542,47 +1697,66 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (!Broodwar->self()->researched(tech))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+    if (this->getEnergy()<tech.energyUsed())
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Energy);
+      return false;
+    }
+    bool found=false;
+    for(std::set<const UnitType*>::const_iterator i=tech.whatUses().begin();i!=tech.whatUses().end();i++)
+      if (*(*i)==this->getType())
+        found=true;
+    if (!found)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
     this->orderSelect();
     switch (tech.getID())
     {
       case BW::TechID::DarkSwarm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::DarkSwarm), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::DisruptionWeb:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::CastDisruptionWeb), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::EMPShockwave:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::EmpShockwave), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Ensnare:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::Ensnare), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Maelstorm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::CastMaelstrom), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::NuclearStrike:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::NukePaint), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Plague:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::Plague), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::PsionicStorm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::PsiStorm), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Recall:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::Teleport), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::ScannerSweep:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::PlaceScanner), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::SpiderMines:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::PlaceMine), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::StasisField:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position(position.x(), position.y()), BW::OrderID::StasisField), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       default:
-        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+        BroodwarImpl.setLastError(Errors::Incompatible_TechType);
         return false;
     }
     return true;
@@ -1597,53 +1771,72 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
+    if (!Broodwar->self()->researched(tech))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+    if (this->getEnergy()<tech.energyUsed())
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Energy);
+      return false;
+    }
+    bool found=false;
+    for(std::set<const UnitType*>::const_iterator i=tech.whatUses().begin();i!=tech.whatUses().end();i++)
+      if (*(*i)==this->getType())
+        found=true;
+    if (!found)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
     this->orderSelect();
     switch (tech.getID())
     {
       case BW::TechID::Consume:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Consume), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::DefensiveMatrix:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::DefensiveMatrix), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Feedback:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastFeedback), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Hallucination:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Hallucination1), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Healing:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MedicHeal1), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Infestation:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::InfestMine2), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Irradiate:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Irradiate), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Lockdown:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MagnaPulse), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::MindControl:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastMindControl), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::OpticalFlare:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastOpticalFlare), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Parasite:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastParasite), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::Restoration:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Restoration), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::SpawnBroodlings:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::SummonBroodlings), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       case BW::TechID::YamatoGun:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::FireYamatoGun1), sizeof(BW::Orders::Attack));
-        break;
+        return true;
       default:
-        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+        BroodwarImpl.setLastError(Errors::Incompatible_TechType);
         return false;
     }
     return true;
