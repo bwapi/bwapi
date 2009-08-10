@@ -27,6 +27,7 @@ namespace BWAPI
     extern const Error Unit_Does_Not_Exist;
     extern const Error Unit_Not_Visible;
     extern const Error Unit_Not_Owned;
+    extern const Error Unit_Busy;
     extern const Error Incompatible_UnitType;
     extern const Error Already_Researched;
     extern const Error Fully_Upgraded;
