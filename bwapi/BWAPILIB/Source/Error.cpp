@@ -6,7 +6,7 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[17];
+  std::string errorName[18];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -14,25 +14,27 @@ namespace BWAPI
     const Error Unit_Does_Not_Exist(0);
     const Error Unit_Not_Visible(1);
     const Error Unit_Not_Owned(2);
-    const Error Incompatible_UnitType(3);
-    const Error Already_Researched(4);
-    const Error Fully_Upgraded(5);
-    const Error Insufficient_Minerals(6);
-    const Error Insufficient_Gas(7);
-    const Error Insufficient_Supply(8);
-    const Error Insufficient_Energy(9);
-    const Error Insufficient_Tech(10);
-    const Error Insufficient_Ammo(11);
-    const Error Unbuildable_Location(12);
-    const Error Out_Of_Range(13);
-    const Error Unable_To_Hit(14);
-    const Error None(15);
-    const Error Unknown(16);
+    const Error Unit_Busy(3);
+    const Error Incompatible_UnitType(4);
+    const Error Already_Researched(5);
+    const Error Fully_Upgraded(6);
+    const Error Insufficient_Minerals(7);
+    const Error Insufficient_Gas(8);
+    const Error Insufficient_Supply(9);
+    const Error Insufficient_Energy(10);
+    const Error Insufficient_Tech(11);
+    const Error Insufficient_Ammo(12);
+    const Error Unbuildable_Location(13);
+    const Error Out_Of_Range(14);
+    const Error Unable_To_Hit(15);
+    const Error None(16);
+    const Error Unknown(17);
     void init()
     {
       errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
       errorName[Unit_Not_Visible.getID()] = "Unit Not Visible";
       errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
+      errorName[Unit_Busy.getID()] = "Unit Busy";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
       errorName[Already_Researched.getID()] = "Already Researched";
       errorName[Fully_Upgraded.getID()] = "Fully Upgraded";
@@ -81,7 +83,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingError)
     {
-      if (id < 0 || id >= 17)
+      if (id < 0 || id >= 18)
       {
         this->id = Errors::Unknown.id;
       }

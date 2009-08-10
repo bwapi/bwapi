@@ -350,7 +350,9 @@ namespace BWAPI
             this->getBWOrder() == BW::OrderID::Critter ||
             this->getBWOrder() == BW::OrderID::NukeTrain ||
             this->getBWOrder() == BW::OrderID::Larva) &&
-            !this->isTraining());
+            !this->isTraining() &&
+            !this->isResearching() &&
+            !this->isUpgrading());
   }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
