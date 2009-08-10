@@ -37,6 +37,8 @@ namespace BWAPI
       virtual int getRemoveTimer() const = 0;
       virtual Position getPosition() const = 0;
       virtual TilePosition getTilePosition() const = 0;
+      virtual double getDistance(Unit* target) const = 0;
+      virtual double getDistance(Position target) const = 0;
       virtual int getCurrentDirection() const = 0;
 
       virtual Unit* getTarget() const = 0;

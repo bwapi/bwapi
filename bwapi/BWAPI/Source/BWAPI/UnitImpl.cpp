@@ -1,6 +1,7 @@
 #include "UnitImpl.h"
 
 #include <math.h>
+#include <limits>
 
 #include <Util/Logger.h>
 
@@ -516,6 +517,101 @@ namespace BWAPI
     return TilePosition(Position(this->_getPosition().x() - this->_getType().tileWidth() * BW::TILE_SIZE / 2,
                                  this->_getPosition().y() - this->_getType().tileHeight() * BW::TILE_SIZE / 2));
   }
+  //---------------------------------------------- GET DISTANCE ----------------------------------------------
+  double UnitImpl::getDistance(Unit* target) const
+  {
+    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
+    if (!((UnitImpl*)target)->attemptAccess()) return std::numeric_limits<double>::infinity();
+    if (this == target)
+      return 0;
+    const Unit* i=this;
+    const Unit* j=target;
+    double result = 0;
+    if (i->getPosition().y() - i->getType().dimensionUp() <= j->getPosition().y() + j->getType().dimensionDown())
+      if (i->getPosition().y() + i->getType().dimensionDown() >= j->getPosition().y() - j->getType().dimensionUp())
+        if (i->getPosition().x() > j->getPosition().x())
+          result = i->getPosition().x() - i->getType().dimensionLeft()  - j->getPosition().x() - j->getType().dimensionRight();
+        else
+          result = j->getPosition().x() - j->getType().dimensionRight() - i->getPosition().x() - i->getType().dimensionLeft();
+
+    if (i->getPosition().x() - i->getType().dimensionLeft() <= j->getPosition().x() + j->getType().dimensionRight())
+      if (i->getPosition().x() + i->getType().dimensionRight() >= j->getPosition().x() - j->getType().dimensionLeft())
+        if (i->getPosition().y() > j->getPosition().y())
+          result = i->getPosition().y() - i->getType().dimensionUp()   - j->getPosition().y() - j->getType().dimensionDown();
+        else
+          result = j->getPosition().y() - j->getType().dimensionDown() - i->getPosition().y() - i->getType().dimensionUp();
+
+    if (i->getPosition().x() > j->getPosition().x())
+    {
+      if (i->getPosition().y() > j->getPosition().y())
+        result = BWAPI::Position(i->getPosition().x() - i->getType().dimensionLeft(),
+                                 i->getPosition().y() - i->getType().dimensionUp()).getDistance(
+                 BWAPI::Position(j->getPosition().x() + j->getType().dimensionRight(),
+                                 j->getPosition().y() + j->getType().dimensionDown()));
+      else
+        result = BWAPI::Position(i->getPosition().x() - i->getType().dimensionLeft(),
+                                 i->getPosition().y() + i->getType().dimensionDown()).getDistance(
+                 BWAPI::Position(j->getPosition().x() + j->getType().dimensionRight(),
+                                 j->getPosition().y() - j->getType().dimensionUp()));
+    }
+    else
+    {
+      if (i->getPosition().y() > j->getPosition().y())
+        result = BWAPI::Position(i->getPosition().x() + i->getType().dimensionRight(),
+                                 i->getPosition().y() - i->getType().dimensionUp()).getDistance(
+                 BWAPI::Position(j->getPosition().x() - j->getType().dimensionLeft(),
+                                 j->getPosition().y() + j->getType().dimensionDown()));
+      else
+        result = BWAPI::Position(i->getPosition().x() + i->getType().dimensionRight(),
+                                 i->getPosition().y() + i->getType().dimensionDown()).getDistance(
+                 BWAPI::Position(j->getPosition().x() - j->getType().dimensionLeft(),
+                                 j->getPosition().y() - j->getType().dimensionUp()));
+    }
+    if (result > 0)
+      return result;
+    return 0;
+  }
+  //---------------------------------------------- GET DISTANCE ----------------------------------------------
+  double UnitImpl::getDistance(Position target) const
+  {
+    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
+    double result = 0;
+    if (getPosition().y() - getType().dimensionUp() <= target.y())
+      if (getPosition().y() + getType().dimensionDown() >= target.y())
+        if (getPosition().x() > target.x())
+          result = getPosition().x() - getType().dimensionLeft()  - target.x();
+        else
+          result = target.x() - getPosition().x() - getType().dimensionLeft();
+
+    if (getPosition().x() - getType().dimensionLeft() <= target.x())
+      if (getPosition().x() + getType().dimensionRight() >= target.x())
+        if (getPosition().y() > target.y())
+          result = getPosition().y() - getType().dimensionUp()   - target.y();
+        else
+          result = target.y() - getPosition().y() - getType().dimensionUp();
+
+    if (this->getPosition().x() > target.x())
+    {
+      if (this->getPosition().y() > target.y())
+        result = BWAPI::Position(getPosition().x() - getType().dimensionLeft(),
+                                 getPosition().y() - getType().dimensionUp()).getDistance(target);
+      else
+        result = BWAPI::Position(getPosition().x() - getType().dimensionLeft(),
+                                 getPosition().y() + getType().dimensionDown()).getDistance(target);
+    }
+    else
+    {
+      if (this->getPosition().y() > target.y())
+        result = BWAPI::Position(getPosition().x() + getType().dimensionRight(),
+                                 getPosition().y() - getType().dimensionUp()).getDistance(target);
+      else
+        result = BWAPI::Position(getPosition().x() + getType().dimensionRight(),
+                                 getPosition().y() + getType().dimensionDown()).getDistance(target);
+    }
+    if (result > 0)
+      return result;
+    return 0;
+  }
   //----------------------------------------------- GET TARGET -----------------------------------------------
   Unit* UnitImpl::getTarget() const
   {
@@ -762,8 +858,8 @@ namespace BWAPI
     }
     if (!this->getType().canMove())
     {
-      if (this->getPosition().getDistance(target->getPosition())>weapon->maxRange() ||
-          this->getPosition().getDistance(target->getPosition())<weapon->minRange())
+      if (this->getDistance(target)>weapon->maxRange() ||
+          this->getDistance(target)<weapon->minRange())
       {
         BroodwarImpl.setLastError(Errors::Out_Of_Range);
         return false;
@@ -814,8 +910,8 @@ namespace BWAPI
       }
       if (!this->getType().canMove())
       {
-        if (this->getPosition().getDistance(target->getPosition())>weapon->maxRange() ||
-            this->getPosition().getDistance(target->getPosition())<weapon->minRange())
+        if (this->getDistance(target)>weapon->maxRange() ||
+            this->getDistance(target)<weapon->minRange())
         {
           BroodwarImpl.setLastError(Errors::Out_Of_Range);
           return false;
