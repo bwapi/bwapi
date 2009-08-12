@@ -428,21 +428,22 @@ void __declspec(naked) onIssueCommand()
 
   //decide if we should let the command go through
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
-
+       || !BWAPI::BroodwarImpl.isOnStartCalled()
        //If user input is disabled, only allow the following commands to go through:
-       || commandID == 0x37 //Unknown, called every frame
-       || commandID == 0x09 //SelectSingle
-       || commandID == 0x10 //PauseGame
-       || commandID == 0x11 //ResumeGame
-       || commandID == 0x3C //StartGame
-       || commandID == 0x41 //ChangeRace
-       || commandID == 0x44 //ChangeSlot
-       || commandID == 0x3D //PlayerJoin?
-       || commandID == 0x3E //Lobby?
-       || commandID == 0x3F //?
-       || commandID == 0x40 //?
-       || commandID == 0x0A //?
-       || commandID == 0x56  //Replay stuff
+       || commandID == 0x09 // Select
+       || commandID == 0x0A // Shift Select
+       || commandID == 0x10 // Pause Game
+       || commandID == 0x11 // Resume Game
+       || commandID == 0x37 // Game Hash
+       || commandID == 0x3C // Start Game
+       || commandID == 0x3D // Map Download %
+       || commandID == 0x3E // Game Slot Modification
+       || commandID == 0x3F // Unknown
+       || commandID == 0x40 // Unknown
+       || commandID == 0x41 // Race Change
+       || commandID == 0x44 // Slot Change
+       || commandID == 0x54 // Mission Briefing Start
+       || commandID == 0x56 // Replay stuff
      )
   {
     __asm
