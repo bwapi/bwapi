@@ -443,7 +443,7 @@ void __declspec(naked) onIssueCommand()
        || commandID == 0x41 // Race Change
        || commandID == 0x44 // Slot Change
        || commandID == 0x54 // Mission Briefing Start
-       || commandID == 0x56 // Replay stuff
+       || commandID == 0x56 // Change Replay Speed
      )
   {
     __asm
