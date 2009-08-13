@@ -489,12 +489,12 @@ namespace BWAPI
       this->setLastError(Errors::Fully_Upgraded);
       return false;
     }
-    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*self()->upgradeLevel(type))
+    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->upgradeLevel(type)-1))
     {
       this->setLastError(Errors::Insufficient_Minerals);
       return false;
     }
-    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*self()->upgradeLevel(type))
+    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->upgradeLevel(type)-1))
     {
       this->setLastError(Errors::Insufficient_Gas);
       return false;
