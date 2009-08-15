@@ -465,25 +465,12 @@ namespace BWAPI
     if (!this->_exists())
     {
       if (this->savedPlayer==BroodwarImpl.self())
-      {
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-      }
       return false;
     }
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
-    {
       return true;
-    }
-    if (!BWAPI::BroodwarImpl.visible(this->_getTilePosition().x(), this->_getTilePosition().y()))
-    {
-      return false;
-    }
-    /* TODO: Also need to check for detection (overlords, observers, Terran scans, etc) */
-    if (this->_isBurrowed() || this->_isCloaked())
-    {
-      return false;
-    }
-    return true;
+    return (this->getRawData()->sprite->visibilityFlags & (1 << Broodwar->self()->getID()));
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)

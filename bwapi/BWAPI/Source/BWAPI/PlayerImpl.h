@@ -67,7 +67,6 @@ namespace BWAPI
        */
       virtual int supplyUsed() const;
 
-
       virtual int getAllUnits(UnitType unit);
       virtual int getCompletedUnits(UnitType unit);
       virtual int getIncompleteUnits(UnitType unit);
