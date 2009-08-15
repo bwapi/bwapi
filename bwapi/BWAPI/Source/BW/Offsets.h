@@ -11,6 +11,7 @@
 #include "GroupFlags.h"
 #include "PlayerType.h"
 #include "Race.h"
+#include "Sprite.h"
 
 /**
  * Broodwar content access tools. The namespace contains:
@@ -143,6 +144,7 @@ namespace BW
   static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CB58;               // starts properly at +1 unitstruct
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
+
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0860;
   static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit** , bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
@@ -150,6 +152,7 @@ namespace BW
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
   static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
+
 //  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
   static u32            BWFXN_QuitMission                         = 0x004C95A0;
