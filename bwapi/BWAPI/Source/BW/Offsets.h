@@ -79,14 +79,14 @@ namespace BW
 
   struct ForceName
   {
-    char           name[30];
+    char  name[30];
   };
 
   struct DatLoad
   {
-    u32            address;
-    u32            length;
-    u32            entries;
+    u32   address;
+    u32   length;
+    u32   entries;
   };
 
   struct PlayerAlliance
@@ -99,15 +99,15 @@ namespace BW
   };
 
 
-  static DatLoad* upgradesDat             = (DatLoad*)        0x005136E0;  // 1.15.3, 1.16, 1.16.1
-  static DatLoad* techdataDat             = (DatLoad*)        0x005137D8;
-  static DatLoad* weaponsDat              = (DatLoad*)        0x00513868;
-  static DatLoad* unitsDat                = (DatLoad*)        0x00513C30;
-  static DatLoad* flingyDat               = (DatLoad*)        0x00515A38;
+  static DatLoad*       upgradesDat       = (DatLoad*)        0x005136E0;  // 1.15.3, 1.16, 1.16.1
+  static DatLoad*       techdataDat       = (DatLoad*)        0x005137D8;
+  static DatLoad*       weaponsDat        = (DatLoad*)        0x00513868;
+  static DatLoad*       unitsDat          = (DatLoad*)        0x00513C30;
+  static DatLoad*       flingyDat         = (DatLoad*)        0x00515A38;
 
-  static Positions* startPositions        = (Positions*)      0x0058D720;  // 1.16.1
-  static ForceName* ForceNames            = (ForceName*)      0x0058D5BC;  // 1.16.1
-  static Players* BWDATA_Players          = (Players*)        0x0057EEE0;  // 1.16.1
+  static Positions*      startPositions   = (Positions*)      0x0058D720;  // 1.16.1
+  static ForceName*      ForceNames       = (ForceName*)      0x0058D5BC;  // 1.16.1
+  static Players*        BWDATA_Players   = (Players*)        0x0057EEE0;  // 1.16.1
   static PlayerAlliance* BWDATA_Alliance  = (PlayerAlliance*) 0x0058D634;  // 1.16.1
 
   //----------------------------------------------- UNIT STATS -----------------------------------------------
@@ -129,7 +129,7 @@ namespace BW
   };
 
   static Counts* BWDATA_Counts    = (Counts*) 0x00582324;    // 1.16.1
-  static u8* BWDATA_gameType      = (u8*)     0x00596820;    // 1.16.1
+  static u8*     BWDATA_gameType  = (u8*)     0x00596820;    // 1.16.1
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
@@ -146,7 +146,7 @@ namespace BW
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
 
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
-  static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect) = (void (_stdcall*)  (int, BW::Unit * *))             0x004C0860;
+  static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect)  = (void (_stdcall*) (int, BW::Unit * *))             0x004C0860;
   static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit** , bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
   static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
@@ -228,16 +228,16 @@ namespace BW
   static u32            BWFXN_DrawHighBack                        = BWFXN_DrawHigh + 5;
   static u32            BWFXN_DrawHighTarget                      = 0x0048CF60;
 
-  static u32            BWFXN_IssueCommandRet                     = 0x00485BD5;
+//  static u32            BWFXN_IssueCommandRet                     = 0x00485BD5;
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 
   static u32            BWFXN_RemoveUnit                          = 0x004EC504;
   static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
   static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
 
-  static u32            BWFXN_Redraw                              = 0x004D9933;
-  static u32            BWFXN_RedrawBack                          = BWFXN_Redraw + 5;
-  static u32            BWFXN_RedrawTarget                        = 0x0041CA00;
+//  static u32            BWFXN_Redraw                              = 0x004D9933;
+//  static u32            BWFXN_RedrawBack                          = BWFXN_Redraw + 5;
+//  static u32            BWFXN_RedrawTarget                        = 0x0041CA00;
 
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
   static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;
