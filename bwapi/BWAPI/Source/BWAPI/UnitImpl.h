@@ -72,6 +72,9 @@ namespace BWAPI
       virtual std::list<UnitType > getTrainingQueue() const;
       virtual Unit* getTransport() const;
       virtual std::list<Unit*> getLoadedUnits() const;
+      virtual int getInterceptorCount() const;
+      virtual int getScarabCount() const;
+      virtual int getSpiderMineCount() const;
       virtual TechType getTech() const;
       virtual UpgradeType getUpgrade() const;
       virtual int getRemainingResearchTime() const;

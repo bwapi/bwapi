@@ -71,6 +71,11 @@ namespace BW
         , type(type)
     {
     }
+    //--------------------------------------- TRAIN FIGHTER CONSTRUCTOR --------------------------------------
+    TrainFighter::TrainFighter()
+        : always0x27(0x27)
+    {
+    }
     //--------------------------------------------- MAKE BULDING ---------------------------------------------
     MakeBuilding::MakeBuilding(BW::TilePosition position, BW::UnitType type)
         : always0x0c(0x0c)

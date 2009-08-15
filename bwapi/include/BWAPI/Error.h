@@ -38,6 +38,7 @@ namespace BWAPI
     extern const Error Insufficient_Energy;
     extern const Error Insufficient_Tech;
     extern const Error Insufficient_Ammo;
+    extern const Error Insufficient_Space;
     extern const Error Unbuildable_Location;
     extern const Error Out_Of_Range;
     extern const Error Unable_To_Hit;

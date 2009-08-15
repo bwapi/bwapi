@@ -166,6 +166,11 @@ namespace BWAPI
     if (player->playerType() != BWAPI::PlayerTypes::Computer &&
         player->playerType() != BWAPI::PlayerTypes::Human)
       return false;
+
+    if (this->playerType()   != BWAPI::PlayerTypes::Computer &&
+        this->playerType()   != BWAPI::PlayerTypes::Human)
+      return false;
+
     return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
   }
   //------------------------------------------- GET START POSITION -------------------------------------------

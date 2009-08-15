@@ -358,6 +358,28 @@ namespace BWAPI
         this->setLastError(Errors::Incompatible_UnitType);
         return false;
       }
+      if (builder->getType() == UnitTypes::Protoss_Carrier)
+      {
+        int max_amt=4;
+        if (self()->upgradeLevel(UpgradeTypes::Carrier_Capacity)>0)
+          max_amt+=4;
+        if (builder->getInterceptorCount()+(int)builder->getTrainingQueue().size()>=max_amt)
+        {
+          this->setLastError(Errors::Insufficient_Space);
+          return false;
+        }
+      }
+      if (builder->getType() == UnitTypes::Protoss_Reaver)
+      {
+        int max_amt=5;
+        if (self()->upgradeLevel(UpgradeTypes::Reaver_Capacity)>0)
+          max_amt+=5;
+        if (((UnitImpl*)builder)->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount+(int)builder->getTrainingQueue().size()>=max_amt)
+        {
+          this->setLastError(Errors::Insufficient_Space);
+          return false;
+        }
+      }
     }
 
     if (self()->minerals() < type.mineralPrice())
@@ -630,16 +652,8 @@ namespace BWAPI
           this->myPylons.push_back(*i);
         }
       }
-      std::set<UnitImpl*>::iterator i_next;
-      for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i=i_next)
+      for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i++)
       {
-        i_next=i;
-        i_next++;
-        /*
-        if (((*i)->_exists() && (*i)->getHitPoints()<=0))
-        {
-          this->onRemoveUnit(*i);
-        }*/
         if ((*i)->_getOrderTarget() != NULL && (*i)->_getOrderTarget()->exists() && (*i)->getBWOrder() == BW::OrderID::ConstructingBuilding)
         {
           UnitImpl* j = (UnitImpl*)((*i)->_getOrderTarget());
@@ -647,6 +661,33 @@ namespace BWAPI
           j->buildUnit = (*i);
         }
       }
+      /*
+      for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i++)
+      {
+        if ((*i)->getType()==UnitTypes::Protoss_Carrier)
+        {
+          int count=(*i)->getInterceptorCount();
+          int x1=(*i)->getPosition().x();
+          int y1=(*i)->getPosition().y();
+          text(CoordinateType::Map,x1,y1,"Interceptor count: %d",count);
+        }
+        if ((*i)->getType()==UnitTypes::Protoss_Reaver)
+        {
+          int count=(*i)->getScarabCount();
+          int x1=(*i)->getPosition().x();
+          int y1=(*i)->getPosition().y();
+          text(CoordinateType::Map,x1,y1,"Scarab count: %d",count);
+        }
+        if ((*i)->getType()==UnitTypes::Terran_Vulture)
+        {
+          int count=(*i)->getSpiderMineCount();
+          int x1=(*i)->getPosition().x();
+          int y1=(*i)->getPosition().y();
+          text(CoordinateType::Map,x1,y1,"Spider Mine count: %d",count);
+        }
+      }
+      */
+
       refreshSelectionStates();
 
       while ((int)(this->commandBuffer.size()) > this->getLatency())
@@ -1184,43 +1225,6 @@ namespace BWAPI
       {
         this->printf("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
       }
-      return true;
-    }
-    else if (parsed[0] == "/unit")
-    {
-      if (parsed[1] == "info")
-      {
-        for (u16 i = 0; savedSelectionStates[i] != NULL; i++)
-          this->printf(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->getName().c_str());
-      }
-      else if (parsed[1] == "data")
-      {
-        if (savedSelectionStates[0] != NULL)
-        {
-          BW::Unit* unit = savedSelectionStates[0];
-          Util::Logger::globalLog->log("Unit address: %x", unit);
-          for (__int8 i = 0; i < BW::UNIT_SIZE_IN_BYTES; i++)
-          {
-            Util::Logger::globalLog->log("%x: %x", i, ((__int8*)unit)[i] % 256);
-          }
-        }
-      }
-      else if (parsed[1] == "first")
-      {
-        for (int i = 0; i < 12; i++)
-        {
-          if (this->players[i]->getFirst() != NULL)
-          {
-            this->printf("%d - %x", i, this->players[i]->getFirst());
-          }
-          else
-          {
-            this->printf("%d - NULL", i);
-          }
-        }
-      }
-      else
-        this->printf("Unknown command '%s''s - possible commands are: data, info", parsed[1].c_str());
       return true;
     }
     return false;

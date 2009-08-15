@@ -6,7 +6,7 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[19];
+  std::string errorName[20];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -25,11 +25,12 @@ namespace BWAPI
     const Error Insufficient_Energy(11);
     const Error Insufficient_Tech(12);
     const Error Insufficient_Ammo(13);
-    const Error Unbuildable_Location(14);
-    const Error Out_Of_Range(15);
-    const Error Unable_To_Hit(16);
-    const Error None(17);
-    const Error Unknown(18);
+    const Error Insufficient_Space(14);
+    const Error Unbuildable_Location(15);
+    const Error Out_Of_Range(16);
+    const Error Unable_To_Hit(17);
+    const Error None(18);
+    const Error Unknown(19);
     void init()
     {
       errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
@@ -46,6 +47,7 @@ namespace BWAPI
       errorName[Insufficient_Energy.getID()] = "Insufficient Energy";
       errorName[Insufficient_Tech.getID()] = "Insufficient Tech";
       errorName[Insufficient_Ammo.getID()] = "Insufficient Ammo";
+      errorName[Insufficient_Space.getID()] = "Insufficient Space";
       errorName[Unbuildable_Location.getID()] = "Unbuildable Location";
       errorName[Out_Of_Range.getID()] = "Out Of Range";
       errorName[Unable_To_Hit.getID()] = "Unable To Hit";
@@ -65,6 +67,7 @@ namespace BWAPI
       errorSet.insert(Insufficient_Energy);
       errorSet.insert(Insufficient_Tech);
       errorSet.insert(Insufficient_Ammo);
+      errorSet.insert(Insufficient_Space);
       errorSet.insert(Unbuildable_Location);
       errorSet.insert(Out_Of_Range);
       errorSet.insert(Unable_To_Hit);
@@ -87,7 +90,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingError)
     {
-      if (id < 0 || id >= 19)
+      if (id < 0 || id >= 20)
       {
         this->id = Errors::Unknown.id;
       }
