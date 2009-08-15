@@ -470,7 +470,7 @@ namespace BWAPI
     }
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
       return true;
-    return (this->getRawData()->sprite->visibilityFlags && (1 << Broodwar->self()->getID()));
+    return (this->getRawData()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) > 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
