@@ -24,6 +24,6 @@ namespace BWAPI
   }
   bool AIModule::onSendText(std::string text)
   {
-    return false;
+    return true;
   }
 }

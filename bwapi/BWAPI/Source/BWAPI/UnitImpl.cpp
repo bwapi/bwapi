@@ -365,8 +365,12 @@ namespace BWAPI
   bool UnitImpl::isLoaded() const
   {
     if (!this->attemptAccess()) return false;
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport)
-           || this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding);
+    if (this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport)
+     || this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding))
+      return true;
+    if (this->getType()==UnitTypes::Protoss_Interceptor || this->getType()==UnitTypes::Protoss_Scarab)
+      return (this->getRawDataLocal()->childUnitUnion3.inHanger!=0);
+    return false;
   }
   //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
   bool UnitImpl::isLockedDown() const
@@ -470,7 +474,7 @@ namespace BWAPI
     }
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
       return true;
-    return (this->getRawData()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) > 0;
+    return (this->getRawData()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -698,6 +702,8 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return NULL;
     if (!this->isLoaded()) return NULL;
+    if (this->getType()==UnitTypes::Protoss_Carrier || this->getType()==UnitTypes::Protoss_Reaver)
+      return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.parentUnit));
     return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit));
   }
   //------------------------------------------- GET LOADED UNITS ---------------------------------------------
@@ -718,6 +724,28 @@ namespace BWAPI
       }
     }
     return unitList;
+  }
+  //----------------------------------------- GET INTERCEPTOR COUNT ------------------------------------------
+  int UnitImpl::getInterceptorCount() const
+  {
+    if (!this->attemptAccess()) return 0;
+    if (this->getType()!=UnitTypes::Protoss_Carrier) return 0;
+    return this->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.interceptorCountInHangar
+          +this->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.interceptorCountOutOfHangar;
+  }
+  //-------------------------------------------- GET SCARAB COUNT --------------------------------------------
+  int UnitImpl::getScarabCount() const
+  {
+    if (!this->attemptAccess()) return 0;
+    if (this->getType()!=UnitTypes::Protoss_Reaver) return 0;
+    return this->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
+  }
+  //------------------------------------------ GET SPIDER MINE COUNT -----------------------------------------
+  int UnitImpl::getSpiderMineCount() const
+  {
+    if (!this->attemptAccess()) return 0;
+    if (this->getType()!=UnitTypes::Terran_Vulture) return 0;
+    return this->getRawData()->childInfoUnion.vultureBikeMines.spiderMineCount;
   }
   //----------------------------------------------- GET TECH -------------------------------------------------
   TechType UnitImpl::getTech() const
@@ -928,12 +956,12 @@ namespace BWAPI
     }
 
     BW::UnitType type((BW::UnitID::Enum)type1.getID());
+    this->orderSelect();
+    BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
     if (this->getType() == BWAPI::UnitTypes::Zerg_Larva ||
         this->getType() == BWAPI::UnitTypes::Zerg_Mutalisk ||
         this->getType() == BWAPI::UnitTypes::Zerg_Hydralisk)
     {
-      this->orderSelect();
-      BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(type), 0x3);
     }
     else if (this->getType() == BWAPI::UnitTypes::Zerg_Hatchery ||
@@ -941,14 +969,15 @@ namespace BWAPI
              this->getType() == BWAPI::UnitTypes::Zerg_Spire ||
              this->getType() == BWAPI::UnitTypes::Zerg_Creep_Colony)
     {
-      this->orderSelect();
-      BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(type), 0x3);
+    }
+    else if (this->getType() == BWAPI::UnitTypes::Protoss_Carrier ||
+             this->getType() == BWAPI::UnitTypes::Protoss_Reaver)
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::TrainFighter(), 0x1);
     }
     else
     {
-      this->orderSelect();
-      BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::TrainUnit(type), 0x3);
     }
     return true;
@@ -1797,6 +1826,11 @@ namespace BWAPI
     if (!found)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (tech==TechTypes::Spider_Mines && this->getSpiderMineCount()<=0)
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
       return false;
     }
     this->orderSelect();

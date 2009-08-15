@@ -73,6 +73,14 @@ namespace BW
         /** Type of unit to train */
         BW::UnitType type;
     };
+    /** Train unit command in bw. */
+    class TrainFighter
+    {
+      public :
+        TrainFighter();
+        /** 0x1f = Train fighter Command-code in bw */
+        u8 always0x27;
+    };
     /** Make building. */
     class MakeBuilding
     {

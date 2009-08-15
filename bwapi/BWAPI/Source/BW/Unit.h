@@ -125,6 +125,7 @@ namespace BW
        * -# Worker - Powerup carried
        */
       BW::Unit* childUnit1;
+      BW::Unit* parentUnit;
     } childInfoUnion;            /**< @todo Verify */
     /** Additional unit info depending on unit type */
     /*0x0C4*/ union ChildUnitUnion1_type
@@ -149,12 +150,13 @@ namespace BW
         union ScarabInfo
         {
           u8 scarabCount;
+          u8 interceptorCountInHangar;
           u8 techID;
         } subChildUnitUnion1;
         /** If the unit is carrier */
         union InterceptorInfo
         {
-          u8 interceptorCount;
+          u8 interceptorCountOutOfHangar;
           u8 upgradeID;
         } subChildUnitUnion2;
         /** If the unit is hatchery, this contains timer of the larva spawning */
