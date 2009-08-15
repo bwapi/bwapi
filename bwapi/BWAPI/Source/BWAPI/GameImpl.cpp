@@ -1264,6 +1264,10 @@ namespace BWAPI
       this->cachedShapes.clear();
       ::ReleaseMutex(hcachedShapesMutex);
     }
+    for (unsigned int i = 0; i < this->shapes.size(); i++)
+    {
+      delete this->shapes[i];
+    }
     this->shapes.clear();
   }
   //----------------------------------------------- START GAME -----------------------------------------------
