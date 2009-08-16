@@ -51,13 +51,11 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  UnitImpl::UnitImpl(BW::Unit* unitData,
-                     BW::Unit* originalUnit,
-                     BW::Unit* unitDataLocal,
+  UnitImpl::UnitImpl(BW::Unit* originalUnit,
+                     BW::Unit* unitLocal,
                      u16 index)
-      : bwUnit(unitData)
-      , bwOriginalUnit(originalUnit)
-      , bwUnitLocal(unitDataLocal)
+      : bwOriginalUnit(originalUnit)
+      , bwUnitLocal(unitLocal)
       , index(index)
       , userSelected(false)
       , buildUnit(NULL)
@@ -203,7 +201,7 @@ namespace BWAPI
     if (!this->attemptAccessSpecial()) return (Player*)BroodwarImpl.players[11];
     if (!this->_exists()) return this->savedPlayer;
     if (this->getRawDataLocal()->playerID < 12)
-      return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
+      return (Player*)BroodwarImpl.players[this->getRawDataLocal()->playerID];
     else
       return NULL;
   }
@@ -211,7 +209,7 @@ namespace BWAPI
   Player* UnitImpl::_getPlayer() const
   {
     if (!this->_exists()) return this->savedPlayer;
-    return (Player*)BroodwarImpl.players[this->bwUnit->playerID];
+    return (Player*)BroodwarImpl.players[this->getRawDataLocal()->playerID];
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool UnitImpl::exists() const
@@ -474,7 +472,7 @@ namespace BWAPI
     }
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
       return true;
-    return (this->getRawData()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
+    return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -647,11 +645,6 @@ namespace BWAPI
     if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->currentDirection;
   }
-  //---------------------------------------------- GET RAW DATA ----------------------------------------------
-  BW::Unit* UnitImpl::getRawData() const
-  {
-    return this->bwUnit;
-  }
   //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
   BW::Unit* UnitImpl::getRawDataLocal() const
   {
@@ -730,22 +723,22 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return 0;
     if (this->getType()!=UnitTypes::Protoss_Carrier) return 0;
-    return this->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.interceptorCountInHangar
-          +this->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.interceptorCountOutOfHangar;
+    return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.interceptorCountInHangar
+          +this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.interceptorCountOutOfHangar;
   }
   //-------------------------------------------- GET SCARAB COUNT --------------------------------------------
   int UnitImpl::getScarabCount() const
   {
     if (!this->attemptAccess()) return 0;
     if (this->getType()!=UnitTypes::Protoss_Reaver) return 0;
-    return this->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
+    return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
   }
   //------------------------------------------ GET SPIDER MINE COUNT -----------------------------------------
   int UnitImpl::getSpiderMineCount() const
   {
     if (!this->attemptAccess()) return 0;
     if (this->getType()!=UnitTypes::Terran_Vulture) return 0;
-    return this->getRawData()->childInfoUnion.vultureBikeMines.spiderMineCount;
+    return this->getRawDataLocal()->childInfoUnion.vultureBikeMines.spiderMineCount;
   }
   //----------------------------------------------- GET TECH -------------------------------------------------
   TechType UnitImpl::getTech() const
@@ -813,12 +806,6 @@ namespace BWAPI
       }
     }
     return NULL;
-  }
-  //-------------------------------------------- HAS EMPTY QUEUE ---------------------------------------------
-  bool UnitImpl::hasEmptyBuildQueueSync() const
-  {
-    if (!this->_exists()) true;
-    return this->getBuildQueueSync()[this->getBuildQueueSlotSync()] == BW::UnitID::None;
   }
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
   bool UnitImpl::hasEmptyBuildQueue() const
@@ -2016,20 +2003,10 @@ namespace BWAPI
     if (!this->_exists()) return BW::UnitType(BW::UnitID::None);
     return this->getRawDataLocal()->unitID;
   }
-  //----------------------------------------------- GET QUEUE ------------------------------------------------
-  BW::UnitType* UnitImpl::getBuildQueueSync() const
-  {
-    return this->getRawData()->buildQueue;
-  }
   //-------------------------------------------- GET QUEUE LOCAL  --------------------------------------------
   BW::UnitType* UnitImpl::getBuildQueue() const
   {
     return this->getRawDataLocal()->buildQueue;
-  }
-  //--------------------------------------------- GET QUEUE SLOT ---------------------------------------------
-  u8 UnitImpl::getBuildQueueSlotSync() const
-  {
-    return this->getRawData()->buildQueueSlot;
   }
   //------------------------------------------ GET QUEUE SLOT LOCAL ------------------------------------------
   u8 UnitImpl::getBuildQueueSlot() const
@@ -2061,12 +2038,10 @@ namespace BWAPI
     if (!this->alive) return;
     this->savedPlayer=this->_getPlayer();
     this->savedUnitType=this->_getType();
-    this->bwUnit=NULL;
     this->bwUnitLocal=NULL;
     this->bwOriginalUnit=NULL;
     this->index=-1;
     this->userSelected=false;
-    this->visible=false;
     this->alive=false;
     this->dead=true;
   }
