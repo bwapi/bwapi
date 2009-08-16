@@ -1948,22 +1948,10 @@ namespace BWAPI
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {
-    if (BroodwarImpl.quietSelect)
-    {
-      BW::Unit * * select = new BW::Unit * [1];
-      select[0] = this->getOriginalRawData();
-      BW::selectUnits(1, select);
-      delete [] select;
-      //Broodwar.IssueCommand((PBYTE)&BW::Orders::SelectSingle(this),sizeof(BW::Orders::SelectSingle));
-    }
-    else
-    {
-      BW::Unit * * list = new BW::Unit * [2];
-      list[0] = this->getOriginalRawData();
-      list[1] = NULL;
-      int one = 1;
-      BW::selectUnitsHelperSTD(one, list, true, true);
-    }
+    BW::Unit * * select = new BW::Unit * [1];
+    select[0] = this->getOriginalRawData();
+    BW::selectUnits(1, select);
+    delete [] select;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::getType() const

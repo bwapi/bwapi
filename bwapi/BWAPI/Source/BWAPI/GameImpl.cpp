@@ -61,7 +61,6 @@ namespace BWAPI
   GameImpl::GameImpl()
       : onStartCalled(false)
       , unitsOnTileData(0, 0)
-      , quietSelect(true)
       , enabled(true)
       , client(NULL)
       , startedClient(false)
@@ -1410,10 +1409,7 @@ namespace BWAPI
     int unitCount = 0;
     while (savedSelectionStates[unitCount] != NULL)
       unitCount ++;
-    if (quietSelect)
-      BW::selectUnits(unitCount, savedSelectionStates);
-    else
-      BW::selectUnitsHelperSTD(unitCount, savedSelectionStates, true, true);
+    BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   const std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits() const
