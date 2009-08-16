@@ -404,17 +404,17 @@ namespace BWAPI
     for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
     {
       bool pass = false;
-      if (self()->getCompletedUnits(*(i->first)) >= i->second)
+      if (self()->completedUnitCount(*(i->first)) >= i->second)
         pass = true;
       if (*i->first == UnitTypes::Zerg_Hatchery)
       {
-        if (self()->getCompletedUnits(UnitTypes::Zerg_Lair) >= i->second)
+        if (self()->completedUnitCount(UnitTypes::Zerg_Lair) >= i->second)
           pass = true;
-        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive) >= i->second)
+        if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       }
       if (*i->first == UnitTypes::Zerg_Lair)
-        if (self()->getCompletedUnits(UnitTypes::Zerg_Hive) >= i->second)
+        if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       if (pass == false)
       {

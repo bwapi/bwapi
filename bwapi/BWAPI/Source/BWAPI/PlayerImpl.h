@@ -36,42 +36,33 @@ namespace BWAPI
        * Gets the name of the player
        * @return Pointer directly to bw memory where the name is represented.
        */
+      virtual int getID() const;
       virtual std::string getName() const;
       virtual std::set<Unit*> getUnits();
-
-      /** Gets the starting race of the player. */
       virtual Race getRace() const;
       virtual PlayerType playerType() const;
       virtual Force* getForce() const;
-      virtual bool isAlliesWith(Player* player) const;
-      virtual TilePosition getStartLocation() const;
+      virtual bool isAlly(Player* player) const;
+      virtual bool isEnemy(Player* player) const;
       virtual bool isNeutral() const;
+      virtual TilePosition getStartLocation() const;
 
       virtual int minerals() const;
       virtual int gas() const;
 
       virtual int cumulativeMinerals() const;
       virtual int cumulativeGas() const;
-      /**
-      * Gets local version of available supplies for the given race - @ref localData
-      * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
-      *             in that case there would be undefined behaviour.
-      * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
-      */
-      virtual int supplyTotal() const;
-      /**
-       * Gets local version of used supplies for the given race
-       * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
-       *             in that case there would be undefined behaviour.
-       * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
-       */
-      virtual int supplyUsed() const;
 
-      virtual int getAllUnits(UnitType unit);
-      virtual int getCompletedUnits(UnitType unit);
-      virtual int getIncompleteUnits(UnitType unit);
-      virtual int getDeaths(UnitType unit);
-      virtual int getKills(UnitType unit);
+      virtual int supplyTotal() const;
+      virtual int supplyUsed() const;
+      virtual int supplyTotal(Race race) const;
+      virtual int supplyUsed(Race race) const;
+
+      virtual int allUnitCount(UnitType unit) const;
+      virtual int completedUnitCount(UnitType unit) const;
+      virtual int incompleteUnitCount(UnitType unit) const;
+      virtual int deadUnitCount(UnitType unit) const;
+      virtual int killedUnitCount(UnitType unit) const;
 
       virtual bool researching(TechType tech) const;
       virtual bool researched(TechType tech) const;
@@ -87,7 +78,6 @@ namespace BWAPI
       PlayerImpl(u8 id);
       ~PlayerImpl();
       /** Gets 0-based index of the player. (11 for neutral) */
-      int getID() const;
       char* getForceName() const;
       u8 getAlliance(u8 opposingID);
       u8 getForce();
@@ -156,8 +146,7 @@ namespace BWAPI
                                       * of units */
       s32 suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
       s32 suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
-      s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit);
-      s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit, BW::Race::Enum);
+      s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const;
 
       std::set<Unit*> units;
       int unitCacheFrame;

@@ -887,7 +887,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!target->getPlayer()->isNeutral() && !target->getPlayer()->isAlliesWith(this->getPlayer()))
+    if (!target->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(target->getPlayer()))
     {
       const WeaponType* weapon=this->getType().groundWeapon();
       if (target->isLifted() || target->getType().isFlyer())
