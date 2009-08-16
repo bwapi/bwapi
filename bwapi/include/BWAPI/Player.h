@@ -16,15 +16,16 @@ namespace BWAPI
   class Player
   {
     public :
+      virtual int getID() const = 0;
       virtual std::string getName() const = 0;
       virtual std::set<Unit*> getUnits() = 0;
       virtual Race getRace() const = 0;
       virtual PlayerType playerType() const = 0;
       virtual Force* getForce() const = 0;
-      virtual bool isAlliesWith(Player* player) const = 0;
-      virtual int getID() const = 0;
-      virtual TilePosition getStartLocation() const = 0;
+      virtual bool isAlly(Player* player) const = 0;
+      virtual bool isEnemy(Player* player) const = 0;
       virtual bool isNeutral() const = 0;
+      virtual TilePosition getStartLocation() const = 0;
 
       virtual int minerals() const = 0;
       virtual int gas() const = 0;
@@ -33,12 +34,14 @@ namespace BWAPI
 
       virtual int supplyTotal() const = 0;
       virtual int supplyUsed() const = 0;
+      virtual int supplyTotal(Race race) const = 0;
+      virtual int supplyUsed(Race race) const = 0;
 
-      virtual int getAllUnits(UnitType unit) = 0;
-      virtual int getCompletedUnits(UnitType unit) = 0;
-      virtual int getIncompleteUnits(UnitType unit) = 0;
-      virtual int getDeaths(UnitType unit) = 0;
-      virtual int getKills(UnitType unit) = 0;
+      virtual int allUnitCount(UnitType unit) const = 0;
+      virtual int completedUnitCount(UnitType unit) const = 0;
+      virtual int incompleteUnitCount(UnitType unit) const = 0;
+      virtual int deadUnitCount(UnitType unit) const = 0;
+      virtual int killedUnitCount(UnitType unit) const = 0;
 
       virtual bool researching(TechType tech) const = 0;
       virtual bool researched(TechType tech) const = 0;

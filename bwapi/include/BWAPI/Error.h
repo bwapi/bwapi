@@ -42,6 +42,7 @@ namespace BWAPI
     extern const Error Unbuildable_Location;
     extern const Error Out_Of_Range;
     extern const Error Unable_To_Hit;
+    extern const Error Access_Denied;
     extern const Error None;
     extern const Error Unknown;
   }

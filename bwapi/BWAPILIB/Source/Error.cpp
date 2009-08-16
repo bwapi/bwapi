@@ -6,7 +6,7 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[20];
+  std::string errorName[21];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -29,8 +29,9 @@ namespace BWAPI
     const Error Unbuildable_Location(15);
     const Error Out_Of_Range(16);
     const Error Unable_To_Hit(17);
-    const Error None(18);
-    const Error Unknown(19);
+    const Error Access_Denied(18);
+    const Error None(19);
+    const Error Unknown(20);
     void init()
     {
       errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
@@ -51,6 +52,7 @@ namespace BWAPI
       errorName[Unbuildable_Location.getID()] = "Unbuildable Location";
       errorName[Out_Of_Range.getID()] = "Out Of Range";
       errorName[Unable_To_Hit.getID()] = "Unable To Hit";
+      errorName[Access_Denied.getID()] = "Access Denied";
       errorName[None.getID()] = "None";
       errorName[Unknown.getID()] = "Unknown";
       errorSet.insert(Unit_Does_Not_Exist);
@@ -71,6 +73,7 @@ namespace BWAPI
       errorSet.insert(Unbuildable_Location);
       errorSet.insert(Out_Of_Range);
       errorSet.insert(Unable_To_Hit);
+      errorSet.insert(Access_Denied);
       errorSet.insert(None);
       errorSet.insert(Unknown);
       for(std::set<Error>::iterator i = errorSet.begin(); i != errorSet.end(); i++)
@@ -90,7 +93,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingError)
     {
-      if (id < 0 || id >= 20)
+      if (id < 0 || id >= 21)
       {
         this->id = Errors::Unknown.id;
       }
