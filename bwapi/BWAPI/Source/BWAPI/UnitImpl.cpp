@@ -607,19 +607,19 @@ namespace BWAPI
   Unit* UnitImpl::getTarget() const
   {
     if (!this->attemptAccess()) return NULL;
-    return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->targetUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->targetUnit);
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
     if (!this->isVisible()) return NULL;
-    return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::_getOrderTarget() const
   {
     if (!this->_exists()) return NULL;
-    return UnitImpl::BWUnitToBWAPIUnit(this->getRawData()->orderTargetUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
