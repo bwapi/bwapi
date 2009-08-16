@@ -91,15 +91,13 @@ namespace BWAPI
       this->unitSum           = new Util::FileLogger(config->get("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
       this->fatalError        = new Util::FileLogger(config->get("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
 
-      unitArrayCopy = new BW::UnitArray;
       unitArrayCopyLocal = new BW::UnitArray;
 
       for (int i = 0; i < 12; i++)
         players[i] = new PlayerImpl((u8)i);
 
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArray[i] = new UnitImpl(&unitArrayCopy->unit[i],
-                                    &BW::BWDATA_UnitNodeTable->unit[i],
+        unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                     &unitArrayCopyLocal->unit[i],
                                     i);
 
@@ -116,7 +114,6 @@ namespace BWAPI
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
   {
-    delete unitArrayCopy;
     delete unitArrayCopyLocal;
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
@@ -374,7 +371,7 @@ namespace BWAPI
         int max_amt=5;
         if (self()->upgradeLevel(UpgradeTypes::Reaver_Capacity)>0)
           max_amt+=5;
-        if (((UnitImpl*)builder)->getRawData()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount+(int)builder->getTrainingQueue().size()>=max_amt)
+        if (builder->getScarabCount()+(int)builder->getTrainingQueue().size()>=max_amt)
         {
           this->setLastError(Errors::Insufficient_Space);
           return false;
@@ -622,7 +619,6 @@ namespace BWAPI
         this->onGameStart();
       if (!this->enabled)
         return;
-      memcpy(this->unitArrayCopy, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
 
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -1446,10 +1442,9 @@ namespace BWAPI
     if (!unit->alive) return;
     this->units.erase(unit);
     deadUnits.push_back(unit);
-    unitArray[index] = new UnitImpl(&unitArrayCopy->unit[index],
-                                &BW::BWDATA_UnitNodeTable->unit[index],
-                                &unitArrayCopyLocal->unit[index],
-                                index);
+    unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
+                                    &unitArrayCopyLocal->unit[index],
+                                    index);
     if (this->client != NULL)
     {
       if (unit!=NULL && unit->canAccessSpecial())

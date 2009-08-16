@@ -195,7 +195,6 @@ namespace BWAPI
       void logUnitList();
       void logUnknownOrStrange();
       bool onStartCalled;
-      BW::UnitArray* unitArrayCopy;
       BW::UnitArray* unitArrayCopyLocal;
       UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;

@@ -173,15 +173,8 @@ namespace BWAPI
 
 
       //Internal BWAPI commands:
-      /**
-       * @param bwUnit         #bwUnit
-       * @param bwOriginalUnit #bwOriginalUnit
-       * @param bwUnitLocal    #bwUnitLocal
-       * @param index          #index
-       */
-      UnitImpl(BW::Unit* bwUnit,
-               BW::Unit* bwOriginalUnit,
-               BW::Unit* bwUnitLocal,
+      UnitImpl(BW::Unit* originalUnit,
+               BW::Unit* unitLocal,
                u16 index);
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
@@ -230,22 +223,15 @@ namespace BWAPI
 
       UnitImpl* buildUnit;
       bool alive;
-      /** Gets #bwUnit */
-      BW::Unit* getRawData() const;
     private:
 
-      bool hasEmptyBuildQueueSync() const;
-      BW::UnitType* getBuildQueueSync() const;
-      u8 getBuildQueueSlotSync() const;
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
 
-      BW::Unit* bwUnit; /**< Pointer to our copy of of unit data table. */
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       bool userSelected;
-      bool visible;
       BWAPI::Player* savedPlayer;
       BWAPI::UnitType savedUnitType;
       bool dead;
