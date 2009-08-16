@@ -156,7 +156,6 @@ namespace BWAPI
       Util::Logger* fatalError;
 
       std::set<UnitImpl*> units;
-      bool quietSelect;
       UnitImpl* getUnit(int index);
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
