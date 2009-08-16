@@ -330,14 +330,6 @@ namespace BW
         u8 unused;
     };
 
-    class BuildFighter
-    {
-      public :
-        BuildFighter();
-      private :
-        u8 always0x27;
-    };
-
     class Siege
     {
       public :

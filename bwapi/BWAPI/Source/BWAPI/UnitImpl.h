@@ -191,8 +191,6 @@ namespace BWAPI
       Position _getPosition() const;
       TilePosition _getTilePosition() const;
       Unit* _getOrderTarget() const;
-      bool _isBurrowed() const;
-      bool _isCloaked() const;
       bool _isCompleted() const;
 
       BW::UnitType UnitImpl::getBWType() const;
