@@ -264,22 +264,10 @@ namespace BWAPI
     if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
   }
-  //----------------------------------------------- IS BURROWED ----------------------------------------------
-  bool UnitImpl::_isBurrowed() const
-  {
-    if (!this->_exists()) return false;
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
-  }
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
   bool UnitImpl::isCloaked() const
   {
     if (!this->attemptAccess()) return false;
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
-  }
-  //------------------------------------------------ IS CLOAKED ----------------------------------------------
-  bool UnitImpl::_isCloaked() const
-  {
-    if (!this->_exists()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Cloaked);
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
@@ -1055,7 +1043,12 @@ namespace BWAPI
       return false;
     }
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+    if (this->getType()==UnitTypes::Protoss_Reaver)
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::Stop));
+    else if (this->getType()==UnitTypes::Protoss_Carrier)
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::Stop));
+    else
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
     this->getRawDataLocal()->orderID = BW::OrderID::Stop;
     BroodwarImpl.addToCommandBuffer(new CommandStop(this));
     return true;
