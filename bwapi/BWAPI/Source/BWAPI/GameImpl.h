@@ -50,42 +50,42 @@ namespace BWAPI
   class GameImpl : public Game
   {
     public :
-      virtual std::set< Force* > getForces() const;
-      virtual std::set< Player* > getPlayers() const;
-      virtual std::set< Unit* > getAllUnits() const;
-      virtual std::set< Unit* > getMinerals() const;
-      virtual std::set< Unit* > getGeysers() const;
-      virtual std::set< Unit* > getNeutralUnits() const;
+      virtual std::set< Force* > getForces();
+      virtual std::set< Player* > getPlayers();
+      virtual std::set< Unit* > getAllUnits();
+      virtual std::set< Unit* > getMinerals();
+      virtual std::set< Unit* > getGeysers();
+      virtual std::set< Unit* > getNeutralUnits();
 
       virtual BWAPI::Latency::Enum getLatency();
-      virtual int getFrameCount() const;
-      virtual int getMouseX() const;
-      virtual int getMouseY() const;
-      virtual int getScreenX() const;
-      virtual int getScreenY() const;
+      virtual int getFrameCount();
+      virtual int getMouseX();
+      virtual int getMouseY();
+      virtual int getScreenX();
+      virtual int getScreenY();
       virtual void setScreenPosition(int x, int y);
 
-      virtual bool isFlagEnabled(BWAPI::Flag::Enum flag) const;
+      virtual bool isFlagEnabled(BWAPI::Flag::Enum flag);
       virtual void enableFlag(BWAPI::Flag::Enum flag);
-      virtual std::set<Unit*> unitsOnTile(int x, int y) const;
+      virtual std::set<Unit*> unitsOnTile(int x, int y);
       virtual Error getLastError() const;
 
-      virtual int mapWidth() const;
-      virtual int mapHeight() const;
-      virtual std::string mapFilename() const;
-      virtual std::string mapName() const;
-      virtual bool buildable(int x, int y) const;
-      virtual bool walkable(int x, int y) const;
-      virtual bool visible(int x, int y) const;
-      virtual bool hasCreep(int x, int y) const;
-      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) const;
+      virtual int mapWidth();
+      virtual int mapHeight();
+      virtual std::string mapFilename();
+      virtual std::string mapName();
+      virtual bool buildable(int x, int y);
+      virtual bool walkable(int x, int y);
+      virtual bool visible(int x, int y);
+      virtual bool hasCreep(int x, int y);
+      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
       virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type);
       virtual bool canMake(Unit* builder, UnitType type);
       virtual bool canResearch(Unit* unit, TechType type);
       virtual bool canUpgrade(Unit* unit, UpgradeType type);
-      virtual int groundHeight(int x, int y) const;
-      virtual const std::set< TilePosition >& getStartLocations() const;
-      virtual int getMapHash() const;
+      virtual int groundHeight(int x, int y);
+      virtual const std::set< TilePosition >& getStartLocations();
+      virtual int getMapHash();
       /**
        * Prints text in game (only local)
        * @param text Text to be written
@@ -102,14 +102,14 @@ namespace BWAPI
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
        */
-      virtual bool inReplay() const;
+      virtual bool inReplay();
       virtual void startGame();
       virtual void pauseGame();
       virtual void resumeGame();
       virtual void surrender();
-      virtual const std::set<BWAPI::Unit*>& getSelectedUnits() const;
-      virtual Player* self() const;
-      virtual Player* enemy() const;
+      virtual const std::set<BWAPI::Unit*>& getSelectedUnits();
+      virtual Player* self();
+      virtual Player* enemy();
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
       virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
       virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
