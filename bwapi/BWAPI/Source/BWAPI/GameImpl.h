@@ -168,6 +168,13 @@ namespace BWAPI
       std::vector<Shape*> shapes;
       std::vector<Shape*> cachedShapes;
       HANDLE hcachedShapesMutex;
+      HANDLE mutexW;
+      HANDLE mutexR;
+      HANDLE mutex1;
+      HANDLE mutex2;
+      HANDLE mutex3;
+      int readCount;
+      int writeCount;
       /** Unknown unitID's */
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;

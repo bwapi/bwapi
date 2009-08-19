@@ -2101,10 +2101,7 @@ namespace BWAPI
     else
       sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName().c_str());
 
-    if (this->getPlayer() != NULL)
-      sprintf_s(owner, 100, "Player = (%s)", this->getPlayer()->getName().c_str());
-    else
-      sprintf_s(owner, 100, "error owner id = (%d)", this->getOriginalRawData()->playerID);
+    sprintf_s(owner, 100, "Player = (%s)", this->getPlayer()->getName().c_str());
 
     sprintf_s(unitName, 100, "(%s)", this->getType().getName().c_str());
 
@@ -2128,18 +2125,6 @@ namespace BWAPI
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
   {
-#ifdef PARANOID_DEBUG
-#pragma warning(push)
-#pragma warning(disable:4311)
-    if (this->getOriginalRawData()->nextUnit != NULL)
-    {
-      if (((int)this->getOriginalRawData()->nextUnit - (int)BW::BWXFN_UnitNodeTable) / BW::UNIT_SIZE_IN_BYTES >= BW::UNIT_ARRAY_MAX_LENGTH)
-        BWAPI::Broodwar.fatalError->log("Unit array too small, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
-      if ((int)this->getOriginalRawData()->nextUnit < (int)BW::BWXFN_UnitNodeTable)
-        BWAPI::Broodwar.fatalError->log("Unit array begins at bad location, found unit with addr %X", (int)this->getOriginalRawData()->nextUnit);
-    }
-#pragma warning(pop)
-#endif PARANOID_DEBUG
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->nextUnit);
   }
   //-------------------------------------------- GET ORDER TIMER ---------------------------------------------
