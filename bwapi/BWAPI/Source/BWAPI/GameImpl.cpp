@@ -65,6 +65,13 @@ namespace BWAPI
       , client(NULL)
       , startedClient(false)
       , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
+      , mutexW(::CreateMutex(NULL, FALSE, NULL))
+      , mutexR(::CreateMutex(NULL, FALSE, NULL))
+      , mutex1(::CreateMutex(NULL, FALSE, NULL))
+      , mutex2(::CreateMutex(NULL, FALSE, NULL))
+      , mutex3(::CreateMutex(NULL, FALSE, NULL))
+      , readCount(0)
+      , writeCount(0)
       , inUpdate(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
@@ -632,8 +639,16 @@ namespace BWAPI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
+    WaitForSingleObject(mutex2, INFINITE);
+    this->writeCount++;
+    if (this->writeCount==1)
+      WaitForSingleObject(mutexR, INFINITE);
+    ReleaseMutex(mutex2);
+    WaitForSingleObject(mutexW, INFINITE);
+
     try
     {
+
       this->inUpdate=true;
       if (!this->isOnStartCalled())
         this->onGameStart();
@@ -677,32 +692,6 @@ namespace BWAPI
           j->buildUnit = (*i);
         }
       }
-      /*
-      for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i++)
-      {
-        if ((*i)->getType()==UnitTypes::Protoss_Carrier)
-        {
-          int count=(*i)->getInterceptorCount();
-          int x1=(*i)->getPosition().x();
-          int y1=(*i)->getPosition().y();
-          text(CoordinateType::Map,x1,y1,"Interceptor count: %d",count);
-        }
-        if ((*i)->getType()==UnitTypes::Protoss_Reaver)
-        {
-          int count=(*i)->getScarabCount();
-          int x1=(*i)->getPosition().x();
-          int y1=(*i)->getPosition().y();
-          text(CoordinateType::Map,x1,y1,"Scarab count: %d",count);
-        }
-        if ((*i)->getType()==UnitTypes::Terran_Vulture)
-        {
-          int count=(*i)->getSpiderMineCount();
-          int x1=(*i)->getPosition().x();
-          int y1=(*i)->getPosition().y();
-          text(CoordinateType::Map,x1,y1,"Spider Mine count: %d",count);
-        }
-      }
-      */
 
       refreshSelectionStates();
 
@@ -721,6 +710,18 @@ namespace BWAPI
       this->frameCount ++;
       this->logUnknownOrStrange();
       this->updateUnitsOnTile();
+
+      if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
+      {
+        for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
+        {
+          delete this->cachedShapes[i];
+        }
+        this->cachedShapes = this->shapes;
+        ::ReleaseMutex(hcachedShapesMutex);
+      }
+      this->shapes.clear();
+
       this->inUpdate=false;
     }
     catch (GeneralException& exception)
@@ -729,6 +730,15 @@ namespace BWAPI
       fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
+
+
+    ReleaseMutex(mutexW);
+    WaitForSingleObject(mutex2, INFINITE);
+      this->writeCount--;
+      if (this->writeCount==0)
+        ReleaseMutex(mutexR);
+    ReleaseMutex(mutex2);
+
     if (this->startedClient == false)
     {
 
@@ -779,16 +789,7 @@ namespace BWAPI
 
     this->client->onFrame();
     this->loadSelected();
-    if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
-    {
-      for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
-      {
-        delete this->cachedShapes[i];
-      }
-      this->cachedShapes = this->shapes;
-      ::ReleaseMutex(hcachedShapesMutex);
-    }
-    this->shapes.clear();
+
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
