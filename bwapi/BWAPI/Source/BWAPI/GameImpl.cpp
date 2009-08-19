@@ -65,13 +65,6 @@ namespace BWAPI
       , client(NULL)
       , startedClient(false)
       , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
-      , mutexW(::CreateMutex(NULL, FALSE, NULL))
-      , mutexR(::CreateMutex(NULL, FALSE, NULL))
-      , mutex1(::CreateMutex(NULL, FALSE, NULL))
-      , mutex2(::CreateMutex(NULL, FALSE, NULL))
-      , mutex3(::CreateMutex(NULL, FALSE, NULL))
-      , readCount(0)
-      , writeCount(0)
       , inUpdate(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
@@ -639,7 +632,6 @@ namespace BWAPI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
-    this->writeStart();
     try
     {
 
@@ -724,8 +716,6 @@ namespace BWAPI
       fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
-
-    this->writeStop();
 
     if (this->startedClient == false)
     {
@@ -1728,43 +1718,5 @@ namespace BWAPI
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
     addShape(new ShapeText(ctype,x,y,std::string(buffer)));
-  }
-  void GameImpl::readStart()
-  {
-    WaitForSingleObject(mutex3, INFINITE);
-      WaitForSingleObject(mutexR, INFINITE);
-        WaitForSingleObject(mutex1, INFINITE);
-          this->readCount++;
-          if (this->readCount==1)
-            WaitForSingleObject(mutexW, INFINITE);
-        ReleaseMutex(mutex1);
-      ReleaseMutex(mutexR);
-    ReleaseMutex(mutex3);
-  }
-  void GameImpl::readStop()
-  {
-    WaitForSingleObject(mutex1, INFINITE);
-      this->readCount--;
-      if (this->readCount==0)
-        ReleaseMutex(mutexW);
-    ReleaseMutex(mutex1);
-  }
-  void GameImpl::writeStart()
-  {
-    WaitForSingleObject(mutex2, INFINITE);
-      this->writeCount++;
-      if (this->writeCount==1)
-        WaitForSingleObject(mutexR, INFINITE);
-    ReleaseMutex(mutex2);
-    WaitForSingleObject(mutexW, INFINITE);
-  }
-  void GameImpl::writeStop()
-  {
-    ReleaseMutex(mutexW);
-    WaitForSingleObject(mutex2, INFINITE);
-      this->writeCount--;
-      if (this->writeCount==0)
-        ReleaseMutex(mutexR);
-    ReleaseMutex(mutex2);
   }
 };
