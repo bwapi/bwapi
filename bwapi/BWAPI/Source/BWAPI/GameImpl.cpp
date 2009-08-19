@@ -538,7 +538,7 @@ namespace BWAPI
     return this->map.groundHeight(x, y);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
-  const std::set< TilePosition >& GameImpl::getStartLocations()
+  std::set< TilePosition > GameImpl::getStartLocations()
   {
     this->setLastError(Errors::None);
     return this->startLocations;
@@ -1435,7 +1435,7 @@ namespace BWAPI
     BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
-  const std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
+  std::set<BWAPI::Unit*> GameImpl::getSelectedUnits()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)

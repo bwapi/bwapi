@@ -36,7 +36,6 @@ namespace BWAPI
       virtual int getMouseY() = 0;
       virtual int getScreenX() = 0;
       virtual int getScreenY() = 0;
-      virtual void setScreenPosition(int x, int y) = 0;
 
       virtual bool isFlagEnabled(Flag::Enum flag) = 0;
       virtual void enableFlag(Flag::Enum flag) = 0;
@@ -57,7 +56,7 @@ namespace BWAPI
       virtual bool canResearch(Unit* unit, TechType type) = 0;
       virtual bool canUpgrade(Unit* unit, UpgradeType type) = 0;
       virtual int groundHeight(int x, int y)= 0;
-      virtual const std::set< TilePosition >& getStartLocations() = 0;
+      virtual std::set< TilePosition > getStartLocations() = 0;
       virtual int getMapHash() = 0;
 
       virtual void printf(const char* text, ...) = 0;
@@ -69,7 +68,7 @@ namespace BWAPI
       virtual void pauseGame() = 0;
       virtual void resumeGame() = 0;
       virtual void surrender() = 0;
-      virtual const std::set<Unit*>& getSelectedUnits() = 0;
+      virtual std::set<Unit*> getSelectedUnits() = 0;
       virtual Player* self() = 0;
       virtual Player* enemy() = 0;
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid) = 0;

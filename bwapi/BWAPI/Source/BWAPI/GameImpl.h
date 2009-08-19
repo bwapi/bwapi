@@ -63,7 +63,6 @@ namespace BWAPI
       virtual int getMouseY();
       virtual int getScreenX();
       virtual int getScreenY();
-      virtual void setScreenPosition(int x, int y);
 
       virtual bool isFlagEnabled(BWAPI::Flag::Enum flag);
       virtual void enableFlag(BWAPI::Flag::Enum flag);
@@ -84,7 +83,7 @@ namespace BWAPI
       virtual bool canResearch(Unit* unit, TechType type);
       virtual bool canUpgrade(Unit* unit, UpgradeType type);
       virtual int groundHeight(int x, int y);
-      virtual const std::set< TilePosition >& getStartLocations();
+      virtual std::set< TilePosition > getStartLocations();
       virtual int getMapHash();
       /**
        * Prints text in game (only local)
@@ -107,7 +106,7 @@ namespace BWAPI
       virtual void pauseGame();
       virtual void resumeGame();
       virtual void surrender();
-      virtual const std::set<BWAPI::Unit*>& getSelectedUnits();
+      virtual std::set<BWAPI::Unit*> getSelectedUnits();
       virtual Player* self();
       virtual Player* enemy();
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
@@ -123,6 +122,7 @@ namespace BWAPI
       ~GameImpl();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       PlayerImpl* players[12];
+      void setScreenPosition(int x, int y);
       /**
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
