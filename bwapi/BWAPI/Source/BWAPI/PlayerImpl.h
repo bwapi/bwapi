@@ -110,7 +110,7 @@ namespace BWAPI
        * @param race Race we want to affect.
        */
       void useSupplies(u8 supplies, BW::Race::Enum race);
-
+      void onGameEnd();
     private :
       /**
        * Gets synchronised version of available supplies for the given race.
