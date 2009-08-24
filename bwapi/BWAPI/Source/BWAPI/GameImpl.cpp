@@ -1266,6 +1266,11 @@ namespace BWAPI
       delete this->shapes[i];
     }
     this->shapes.clear();
+
+    for(int i = 0 ; i < 12 ; i++)
+      if (this->players[i] != NULL)
+        this->players[i]->onGameEnd();
+
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()

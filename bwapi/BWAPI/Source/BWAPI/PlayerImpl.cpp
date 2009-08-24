@@ -414,4 +414,10 @@ namespace BWAPI
     return BW::ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
   }
   //----------------------------------------------------------------------------------------------------------
+  void PlayerImpl::onGameEnd()
+  {
+    this->unitCacheFrame=-1;
+    this->units.clear();
+  }
+  //----------------------------------------------------------------------------------------------------------
 };
