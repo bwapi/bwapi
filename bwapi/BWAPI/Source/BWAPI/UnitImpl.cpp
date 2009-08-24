@@ -460,6 +460,10 @@ namespace BWAPI
     }
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
       return true;
+
+    if (this->getRawDataLocal()->sprite==NULL)
+      return false;
+
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
