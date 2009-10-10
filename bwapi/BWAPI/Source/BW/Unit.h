@@ -13,7 +13,7 @@
 #include <BW/OrderFlags.h>
 #include <BW/Offsets.h>
 
-namespace BW { struct Sprite; };
+namespace BW { struct CSprite; };
 namespace BW { struct Order; };
 
 namespace BW
@@ -38,7 +38,7 @@ namespace BW
     /*0x008*/ u32                                 healthPoints;          /**< Health points of unit, note that the displayed value
                                                                           *   in broodwar is ceil(healthPoints/256)
                                                                           */
-    /*0x00C*/ BW::Sprite*                         sprite;
+    /*0x00C*/ BW::CSprite*                        sprite;
     /*0x010*/ BW::Position                        moveToPos;
     /*0x014*/ BW::Unit*                           targetUnit;
     /*0x018*/ BW::Position                        nextWaypoint;  /**< The next way point in the path the unit is following to get to its destination.
@@ -196,7 +196,7 @@ namespace BW
       /** Probably the connected nydius canal @todo investigate*/
       BW::Unit* resourceTarget_connectedNydus;
       /** Nuke dot, but of what, the ghost? @todo investigate*/
-      BW::Sprite* nukeDot;
+      BW::CSprite* nukeDot;
     } unitUnion1;                     /**< @todo Verify */
     /*0x0D4*/ _UNKNOWN _19[8];
     /*0x0DC*/ Util::BitMask<StatusFlags::Enum>  status;
