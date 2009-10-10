@@ -10,7 +10,7 @@ namespace BW
       Completed           = 1 <<  0,
       OnGround            = 1 <<  1,
       InAir               = 1 <<  2,
-      Disabled            = 1 <<  3,  /**< @todo verify Protoss Un-powered? */
+      Disabled            = 1 <<  3,  /**< Protoss Unpowered */
       Burrowed            = 1 <<  4,
       InBuilding          = 1 <<  5,
       InTransport         = 1 <<  6,
@@ -20,13 +20,15 @@ namespace BW
       DoodadStatesThing   = 1 << 10,  /**< @todo Unknown */
       CloakingForFree     = 1 << 11,  /**< Requires no energy to cloak */
       CanNotReceiveOrders = 1 << 12,
-      NoBrkCodeStartThing = 1 << 13,  /**< @todo Unknown */
+      NoBrkCodeStart      = 1 << 13,  /**< Unbreakable code section in iscript */
       UNKNOWN2            = 1 << 14,  /**< @todo Unknown */
       CanNotAttack        = 1 << 15,  /**< @todo Unknown */
       UNKNOWN3            = 1 << 16,  /**< @todo Unknown */
       IsABuilding         = 1 << 17,
+      Turret              = 1 << 18,
 
       IsNormal            = 1 << 20,  /**< 1 for "normal" units, 0 for hallucinated units */
+      NoCollide           = 1 << 21,
 
       Invincible          = 1 << 26,
 
