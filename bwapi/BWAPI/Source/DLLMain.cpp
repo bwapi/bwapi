@@ -481,6 +481,13 @@ void __declspec(naked) onIssueCommand()
     }
   }
 }
+void __declspec(naked) push0patch()
+{
+  __asm
+  {
+    push 0
+  }
+}
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
@@ -500,6 +507,15 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
   JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);
   JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
+
+  DWORD OldProt = 0;
+  VirtualProtect((void*)0x004DD000, 0x2000, PAGE_EXECUTE_READWRITE, &OldProt);
+
+  memset((void*)0x004DE392, 0x90, 11);
+  memcpy((void*)0x004DD76D, &push0patch, 2);
+  memcpy((void*)0x004DE392, &push0patch, 2);
+
+  VirtualProtect((void*)0x004DD000, 0x2000, OldProt, &OldProt);
 
   return 0;
 }
