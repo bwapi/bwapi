@@ -513,7 +513,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 
   memset((void*)0x004DE392, 0x90, 11);
   memcpy((void*)0x004DD76D, &push0patch, 2);
-  memcpy((void*)0x004DE392, &push0patch, 2);
+  memcpy((void*)0x004DD161, &push0patch, 2);
 
   VirtualProtect((void*)0x004DD000, 0x2000, OldProt, &OldProt);
 

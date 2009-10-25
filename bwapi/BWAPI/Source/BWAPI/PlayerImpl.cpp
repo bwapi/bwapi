@@ -73,29 +73,13 @@ namespace BWAPI
   bool PlayerImpl::isAlly(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (player->playerType() != BWAPI::PlayerTypes::Computer &&
-        player->playerType() != BWAPI::PlayerTypes::Human)
-      return false;
-
-    if (this->playerType()   != BWAPI::PlayerTypes::Computer &&
-        this->playerType()   != BWAPI::PlayerTypes::Human)
-      return false;
-
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[(PlayerImpl*)player->getID()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (player->playerType() != BWAPI::PlayerTypes::Computer &&
-        player->playerType() != BWAPI::PlayerTypes::Human)
-      return false;
-
-    if (this->playerType()   != BWAPI::PlayerTypes::Computer &&
-        this->playerType()   != BWAPI::PlayerTypes::Human)
-      return false;
-
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] == 0;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[(PlayerImpl*)player->getID()] == 0;
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool PlayerImpl::isNeutral() const
