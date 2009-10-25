@@ -516,7 +516,6 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   memcpy((void*)0x004DD161, &push0patch, 2);
 
   VirtualProtect((void*)0x004DD000, 0x2000, OldProt, &OldProt);
-
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
