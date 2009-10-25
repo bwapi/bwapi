@@ -73,13 +73,13 @@ namespace BWAPI
   bool PlayerImpl::isAlly(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[(PlayerImpl*)player->getID()] != 0;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[(PlayerImpl*)player->getID()] == 0;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] == 0;
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool PlayerImpl::isNeutral() const
