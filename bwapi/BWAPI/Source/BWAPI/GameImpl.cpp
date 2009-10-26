@@ -1322,39 +1322,6 @@ namespace BWAPI
     }
     *BW::BWDATA_NextMenu=0;
     BW::changeMenu();
-    
-    
-    //    *BW::BWDATA_QuitMission_UNKNOWN2 = 0x00000001;
-    /*
-    u32 var1 = 2;
-    u32 ptr1 = (u32)(&var1);
-    //Most of the following ASM was taking from the function at 004C95A0
-    //Note: this function was labelled by me as quit2mnu_LastBINDLG; Being only a BIN Dialog function, not the one we want.
-    __asm
-    {
-      MOV EAX,0x00000000
-      MOV EBX,0x00000000
-      MOV ECX,0x02A59BBC
-      MOV EDX,ptr1
-      MOV ESI,ptr1
-
-      MOV EAX,DWORD PTR DS:[BW::BWDATA_QuitMission_UNKNOWN1]
-      PUSH EBX
-      XOR EBX,EBX
-      CMP EAX, -2
-      PUSH ESI
-      MOV ESI, ECX
-      MOV DWORD PTR DS:[0x6D1234],EBX
-      MOV EDX,DWORD PTR DS:[BW::BWDATA_QuitMission_UNKNOWN2]
-      MOV EAX,DWORD PTR DS:[BW::BWDATA_QuitMission_UNKNOWN3]
-      MOV BYTE PTR DS:[0x6D11EC],BL
-      MOV WORD PTR DS:[0x51CE90],7
-      MOV ECX,DWORD PTR DS:[BW::BWDATA_QuitMission_UNKNOWN4]
-      MOV DWORD PTR DS:[0x6D0F31],ECX
-      POP ESI
-      POP EBX
-    }
-    */
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX()
