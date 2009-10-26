@@ -139,6 +139,12 @@ namespace BW
         : always0x11(0x11)
     {
     }
+    //------------------------------------------ RESUME CONSTRUCTOR ------------------------------------------
+    LeaveGame::LeaveGame(u8 type)
+        : always0x57(0x57)
+        , type(type)
+    {
+    }
     //-------------------------------------- MERGE DARK ARCHON CONSTRUCTOR -----------------------------------
     MergeDarkArchon::MergeDarkArchon()
         : always0x5A(0x5A)

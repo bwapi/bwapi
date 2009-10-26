@@ -78,7 +78,7 @@ namespace BW
     {
       public :
         TrainFighter();
-        /** 0x1f = Train fighter Command-code in bw */
+        /** 0x27 = Train fighter Command-code in bw */
         u8 always0x27;
     };
     /** Make building. */
@@ -183,6 +183,15 @@ namespace BW
       private :
         /** 0x11 = Command code for unpause game. */
         u8 always0x11;
+    };
+    class LeaveGame
+    {
+      public :
+        LeaveGame(u8 type);
+      private :
+        /** 0x57 = Command code for unpause game. */
+        u8 always0x57;
+        u8 type;
     };
 
     class MergeDarkArchon
