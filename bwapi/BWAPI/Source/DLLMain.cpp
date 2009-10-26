@@ -391,6 +391,20 @@ void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
     *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
+void WriteNops(void* pDest, int nNops)
+{
+  DWORD OldProt = 0;
+  VirtualProtect(pDest, nNops, PAGE_EXECUTE_READWRITE, &OldProt);
+  memset(pDest, 0x90, nNops);
+  VirtualProtect(pDest, nNops, OldProt, &OldProt);
+}
+void WriteMem(void* pDest, void* pSource, int nSize)
+{
+  DWORD OldProt = 0;
+  VirtualProtect(pDest, nSize, PAGE_EXECUTE_READWRITE, &OldProt);
+  memcpy_s(pDest, nSize, pSource, nSize);
+  VirtualProtect(pDest, nSize, OldProt, &OldProt);
+}
 #pragma warning(pop)
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
 void __declspec(naked) NewIssueCommand()
@@ -483,11 +497,11 @@ void __declspec(naked) onIssueCommand()
 }
 void __declspec(naked) push0patch()
 {
-  __asm
-  {
+  __asm 
     push 0
-  }
 }
+
+u32 speedmods[7] = {0, 0, 0, 0, 0, 0, 0}; // original: 501, 333, 249, 201, 168, 144, 126
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
 {
@@ -508,14 +522,11 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);
   JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
-  DWORD OldProt = 0;
-  VirtualProtect((void*)0x004DD000, 0x2000, PAGE_EXECUTE_READWRITE, &OldProt);
+  WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
+  WriteMem((void*)BW::BWDATA_MenuInHack, &push0patch, 2); // menu in
+  WriteMem((void*)BW::BWDATA_MenuOutHack, &push0patch, 2); // menu out
+  WriteMem(BW::BWDATA_GameSpeedModifiers, speedmods, 7 * 4); // game speed
 
-  memset((void*)0x004DE392, 0x90, 11);
-  memcpy((void*)0x004DD76D, &push0patch, 2);
-  memcpy((void*)0x004DD161, &push0patch, 2);
-
-  VirtualProtect((void*)0x004DD000, 0x2000, OldProt, &OldProt);
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
