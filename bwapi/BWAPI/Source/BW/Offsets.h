@@ -128,8 +128,13 @@ namespace BW
     UnitStats dead;
   };
 
-  static Counts* BWDATA_Counts    = (Counts*) 0x00582324;    // 1.16.1
-  static u8*     BWDATA_gameType  = (u8*)     0x00596820;    // 1.16.1
+  static Counts* BWDATA_Counts             = (Counts*) 0x00582324;    // 1.16.1
+  static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
+
+  static u32     BWDATA_MenuLoadHack       =           0x004DE392;
+  static u32     BWDATA_MenuInHack         =           0x004DD76D;
+  static u32     BWDATA_MenuOutHack        =           0x004DD161;
+  static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
