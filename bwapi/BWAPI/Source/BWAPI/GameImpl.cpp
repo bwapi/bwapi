@@ -1294,10 +1294,38 @@ namespace BWAPI
   void GameImpl::surrender()
   {
     this->setLastError(Errors::None);
-    *BW::BWDATA_QuitMission_UNKNOWN1 = 0xFFFFFFFE;
-    *BW::BWDATA_QuitMission_UNKNOWN2 = 0x00000001;
-    *BW::BWDATA_QuitMission_UNKNOWN3 = 0x00000000;
-    *BW::BWDATA_QuitMission_UNKNOWN4 = 0x000001BD;
+    *BW::BWDATA_QuitMission_UNKNOWN1 = -2;
+    *BW::BWDATA_QuitMission_UNKNOWN3 = 0;
+    *BW::BWDATA_QuitMission_UNKNOWN4 = 0xAF;
+    *BW::BWDATA_QuitMission_UNKNOWN5 = 0;
+    *BW::BWDATA_QuitMission_UNKNOWN6 = 1;
+    __asm
+    {
+      MOV EAX,DWORD PTR DS:[0x6D051C]
+      PUSH EBX
+      XOR EBX,EBX
+      PUSH ESI
+      MOV ESI,ECX
+      MOV DWORD PTR DS:[0x6D1234],EBX
+      MOV BYTE PTR DS:[0x6D11EC],BL
+      MOV WORD PTR DS:[0x51CE90],4
+      MOV EAX,DWORD PTR DS:[0x57F23C]
+      MOV DWORD PTR DS:[0x6D0F31],EAX
+      MOV CL,BYTE PTR DS:[0x58F440]
+      NEG CL
+      SBB ECX,ECX
+      AND ECX,00000010
+      ADD ECX,6
+      MOV DWORD PTR DS:[0x6D11BC],ECX
+      POP ESI
+      POP EBX
+    }
+    *BW::BWDATA_NextMenu=0;
+    BW::changeMenu();
+    
+    
+    //    *BW::BWDATA_QuitMission_UNKNOWN2 = 0x00000001;
+    /*
     u32 var1 = 2;
     u32 ptr1 = (u32)(&var1);
     //Most of the following ASM was taking from the function at 004C95A0
@@ -1326,6 +1354,7 @@ namespace BWAPI
       POP ESI
       POP EBX
     }
+    */
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX()
