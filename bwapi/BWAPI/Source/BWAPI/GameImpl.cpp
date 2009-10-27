@@ -1019,9 +1019,9 @@ namespace BWAPI
       parsed.push_back("");
     if (parsed.size() < 3)
       parsed.push_back("");
-    if (parsed[0] == "/surrender")
+    if (parsed[0] == "/leave")
     {
-      this->surrender();
+      this->leaveGame();
       return true;
     }
     else if (parsed[0] == "/latency")
@@ -1290,37 +1290,14 @@ namespace BWAPI
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
-  //---------------------------------------------- SURRENDER -----------------------------------------------
-  void GameImpl::surrender()
+  //---------------------------------------------- LEAVE GAME ------------------------------------------------
+  void GameImpl::leaveGame()
   {
     this->setLastError(Errors::None);
-    *BW::BWDATA_QuitMission_UNKNOWN1 = -2;
-    *BW::BWDATA_QuitMission_UNKNOWN3 = 0;
-    *BW::BWDATA_QuitMission_UNKNOWN4 = 0xAF;
-    *BW::BWDATA_QuitMission_UNKNOWN5 = 0;
-    *BW::BWDATA_QuitMission_UNKNOWN6 = 1;
-    __asm
-    {
-      MOV EAX,DWORD PTR DS:[0x6D051C]
-      PUSH EBX
-      XOR EBX,EBX
-      PUSH ESI
-      MOV ESI,ECX
-      MOV DWORD PTR DS:[0x6D1234],EBX
-      MOV BYTE PTR DS:[0x6D11EC],BL
-      MOV WORD PTR DS:[0x51CE90],4
-      MOV EAX,DWORD PTR DS:[0x57F23C]
-      MOV DWORD PTR DS:[0x6D0F31],EAX
-      MOV CL,BYTE PTR DS:[0x58F440]
-      NEG CL
-      SBB ECX,ECX
-      AND ECX,00000010
-      ADD ECX,6
-      MOV DWORD PTR DS:[0x6D11BC],ECX
-      POP ESI
-      POP EBX
-    }
-    *BW::BWDATA_NextMenu=0;
+    *BW::BWDATA_QuitMission_UNKNOWN8 = 0;
+    *BW::BWDATA_QuitMission_UNKNOWN9 = 4;
+
+    *BW::BWDATA_NextMenu = 1;
     BW::changeMenu();
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
