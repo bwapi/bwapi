@@ -268,12 +268,14 @@ namespace BWAPI
   bool UnitImpl::isCarryingGas() const
   {
     if (!this->attemptAccess()) return false;
+    if (!this->getType().isWorker()) return false;
     return this->getRawDataLocal()->resourceType==1;
   }
   //------------------------------------------- IS CARRYING MINERALS -----------------------------------------
   bool UnitImpl::isCarryingMinerals() const
   {
     if (!this->attemptAccess()) return false;
+    if (!this->getType().isWorker()) return false;
     return this->getRawDataLocal()->resourceType==2;
   }
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
