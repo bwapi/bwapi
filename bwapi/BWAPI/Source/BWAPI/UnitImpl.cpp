@@ -264,6 +264,18 @@ namespace BWAPI
     if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Burrowed);
   }
+  //--------------------------------------------- IS CARRYING GAS --------------------------------------------
+  bool UnitImpl::isCarryingGas() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->resourceType==1;
+  }
+  //------------------------------------------- IS CARRYING MINERALS -----------------------------------------
+  bool UnitImpl::isCarryingMinerals() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->resourceType==2;
+  }
   //------------------------------------------------ IS CLOAKED ----------------------------------------------
   bool UnitImpl::isCloaked() const
   {
