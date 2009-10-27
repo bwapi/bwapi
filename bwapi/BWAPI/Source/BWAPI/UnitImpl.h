@@ -91,6 +91,8 @@ namespace BWAPI
       virtual bool isBlind() const;
       virtual bool isBraking() const;
       virtual bool isBurrowed() const;
+      virtual bool isCarryingGas() const;
+      virtual bool isCarryingMinerals() const;
       virtual bool isCloaked() const;
       virtual bool isCompleted() const;
       virtual bool isConstructing() const;
