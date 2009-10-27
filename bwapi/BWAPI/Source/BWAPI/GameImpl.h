@@ -105,7 +105,7 @@ namespace BWAPI
       virtual void startGame();
       virtual void pauseGame();
       virtual void resumeGame();
-      virtual void surrender();
+      virtual void leaveGame();
       virtual std::set<BWAPI::Unit*> getSelectedUnits();
       virtual Player* self();
       virtual Player* enemy();

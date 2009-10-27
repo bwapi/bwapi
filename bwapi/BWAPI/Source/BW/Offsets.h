@@ -162,12 +162,8 @@ namespace BW
 
 //  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
-  static u32            BWFXN_QuitMission                           = 0x004C95A0;
-  static s32*           BWDATA_QuitMission_UNKNOWN1                = (s32*) 0x006D051C;
-  static u32*           BWDATA_QuitMission_UNKNOWN3                = (u32*) 0x006D0F14;
-  static u32*           BWDATA_QuitMission_UNKNOWN4                = (u32*) 0x0057F23C;
-  static u8*            BWDATA_QuitMission_UNKNOWN5                = (u8*)  0x0057F0B4;
-  static u8*            BWDATA_QuitMission_UNKNOWN6                = (u8*)  0x0058F440;
+  static u8*            BWDATA_QuitMission_UNKNOWN8                = (u8*)  0x006D11EC;
+  static u16*           BWDATA_QuitMission_UNKNOWN9                = (u16*) 0x0051CE90;
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
 
