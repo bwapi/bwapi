@@ -136,6 +136,8 @@ namespace BW
   static u32     BWDATA_MenuOutHack        =           0x004DD161;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
 
+  static u32     BWDATA_LoadedUnits        = 0x004F4B58;
+
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   static TileID**       BWDATA_ZergCreepArray             = (TileID**)     0x005993A8;

@@ -714,12 +714,10 @@ namespace BWAPI
     {
       if (this->getRawDataLocal()->loadedUnitIndex[i] != 0)
       {
-        BW::Unit* bwunit = (BW::Unit*)(0x4F4B58 + this->getRawDataLocal()->loadedUnitIndex[i] * BW::UNIT_SIZE_IN_BYTES);
+        BW::Unit* bwunit = (BW::Unit*)(BW::BWDATA_LoadedUnits + this->getRawDataLocal()->loadedUnitIndex[i] * BW::UNIT_SIZE_IN_BYTES);
         UnitImpl* unit = BWUnitToBWAPIUnit(bwunit);
         if (unit!=NULL)
-        {
           unitList.push_back((Unit*)unit);
-        }
       }
     }
     return unitList;
@@ -802,14 +800,10 @@ namespace BWAPI
       if (this->getRawDataLocal()->currentBuildUnit != NULL)
       {
         if (UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit)->getBWType().isAddon())
-        {
           return  (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
-        }
       }
       if (this->getRawDataLocal()->childInfoUnion.childUnit1 != NULL)
-      {
         return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
-      }
     }
     return NULL;
   }
