@@ -103,6 +103,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="&quot;$(SolutionDir)\SubWCRev.exe&quot; &quot;$(SolutionDir)\.&quot; &quot;$(SolutionDir)\svnrev_template.h&quot; &quot;$(SolutionDir)\svnrev.h&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -118,13 +119,20 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				UseUnicodeResponseFiles="false"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="4100;4480;4748"
+				DisableSpecificWarnings="4238; 4480;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -137,6 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				UseUnicodeResponseFiles="false"
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
@@ -144,6 +153,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="1"
@@ -153,6 +163,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"

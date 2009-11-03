@@ -38,7 +38,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\Release"
 			IntermediateDirectory="$(IntDir)\$(ConfigurationName)"
 			ConfigurationType="0"
 			>

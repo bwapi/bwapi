@@ -101,6 +101,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="&quot;$(SolutionDir)\SubWCRev.exe&quot; &quot;$(SolutionDir)\.&quot; &quot;$(SolutionDir)\svnrev_template.h&quot; &quot;$(SolutionDir)\svnrev.h&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -116,11 +117,19 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				UseUnicodeResponseFiles="false"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
+				OmitFramePointers="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				StringPooling="true"
 				RuntimeLibrary="2"
+				StructMemberAlignment="1"
+				BufferSecurityCheck="false"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="false"
 				WarningLevel="4"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="4100;4480;4748"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -133,6 +142,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				UseUnicodeResponseFiles="false"
 				OutputFile="$(ChaosDir)\$(ProjectName).bwl"
 				LinkIncremental="1"
 				MapFileName=""
@@ -148,6 +158,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"

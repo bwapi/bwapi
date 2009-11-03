@@ -1,34 +1,12 @@
-// DllTemplate.cpp : Defines the entry point for the DLL application.
-//
-
+#include <stdio.h>
 #include <windows.h>
 #include <string>
 #include <assert.h>
+#include <shellapi.h>
+#include "..\\..\\svnrev.h"
 
 #define BWLAPI 4
 #define STARCRAFTBUILD 13
-
-/*  STARCRAFTBUILD
-   -1   All
-   0   1.04
-   1   1.08b
-   2   1.09b
-   3   1.10
-   4   1.11b
-   5   1.12b
-   6   1.13f
-   7   1.14
-   8   1.15
-   9   1.15.1
-   10  1.15.2
-   11  1.15.3
-   12  1.16.0
-   13  1.16.1
-*/
-
-#ifdef _MANAGED
-#pragma managed(push, off)
-#endif
 
 struct ExchangeData
 {
@@ -37,11 +15,8 @@ struct ExchangeData
   bool bConfigDialog;                 //Is Configurable
   bool bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
 };
-#include <stdio.h>
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+
+BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 {
   switch (ul_reason_for_call)
   {
@@ -54,50 +29,41 @@ BOOL APIENTRY DllMain( HMODULE hModule,
   return TRUE;
 }
 
-//
 // GET Functions for BWLauncher
-//
 //
 extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 {
   //BWL Gets version from Resource - VersionInfo
   Data.iPluginAPI = BWLAPI;
   Data.iStarCraftBuild = STARCRAFTBUILD;
-  Data.bConfigDialog = false;
+  Data.bConfigDialog = true;
   Data.bNotSCBWmodule = true;
 }
 
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
-  //if necessary you can add Initialize function here
-  //possibly check CurrentCulture (CultureInfo) to localize your DLL due to system settings
+  char newDescription[512];
+  sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
+  
   strcpy(name, "BWAPI Injector (1.16.1)");
-  strcpy(description, "Injects BWAPI.dll into the Broodwar process.   Be sure to get the latest revision!      - BWAI Project Team");
+  strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
 }
 
-
-//
 // Functions called by BWLauncher
-//
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-  return true; //everything OK
-
-  //return false; //something went wrong
+  ShellExecuteA(NULL, "open", "http://bwapi.googlecode.com/", NULL, NULL, SW_SHOWNORMAL);
+  return true;
 }
 
-extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD dwProcessID)
+extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE, DWORD)
 {
-  return true; //everything OK
-
-  //return false; //something went wrong
+  return true;
 }
 
-#pragma warning(push)
-#pragma warning(disable:4189)
-extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProcessID)
+extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 {
   const DWORD ENV_BUFFER_SIZE = 512;
   char envBuffer[512];
@@ -109,8 +75,6 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
 
   std::string dllFileName(envBuffer);
   dllFileName.append("\\BWAPI.dll");
-
-//  std::string dllFileName = "BWAPI.dll";
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   assert(NULL != loadLibAddress);
@@ -137,8 +101,3 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD dwProces
 
   return true; //everything OK
 }
-#pragma warning(pop)
-
-#ifdef _MANAGED
-#pragma managed(pop)
-#endif

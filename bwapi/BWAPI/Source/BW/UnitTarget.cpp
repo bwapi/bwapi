@@ -16,7 +16,7 @@ namespace BW
 #pragma warning(disable:4311)
   UnitTarget::UnitTarget(BWAPI::UnitImpl* target)
   {
-    this->targetID = (int)((int)target->getOriginalRawData() - (int)BWDATA_UnitNodeTable) / 336 | 1 << 11;
+    this->targetID = (u16)(((int)target->getOriginalRawData() - (int)BWDATA_UnitNodeTable) / 336 | 1 << 11);
   }
   //-------------------------------------------------- GETTARGET ---------------------------------------------
   u16 UnitTarget::getTarget() const

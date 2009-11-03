@@ -262,7 +262,7 @@ void __declspec(naked) onDrawHigh()
 
 void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::Enum ctype)
 {
-  *BW::BWDATA_DrawColor = color;
+  *BW::BWDATA_DrawColor = (u8)color;
   x = _x;
   y = _y;
   w = _w;
@@ -301,7 +301,7 @@ void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::E
 
 void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
 {
-  *BW::BWDATA_DrawColor = color;
+  *BW::BWDATA_DrawColor = (u8)color;
   x = _x;
   y = _y;
   w = 1;
@@ -503,7 +503,7 @@ void __declspec(naked) push0patch()
 
 u32 speedmods[7] = {0, 0, 0, 0, 0, 0, 0}; // original: 501, 333, 249, 201, 168, 144, 126
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
-DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
+DWORD WINAPI CTRT_Thread(LPVOID)
 {
   if (config == NULL)
     return 1;
@@ -530,10 +530,7 @@ DWORD WINAPI CTRT_Thread( LPVOID lpThreadParameter )
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 {
   switch (ul_reason_for_call)
   {

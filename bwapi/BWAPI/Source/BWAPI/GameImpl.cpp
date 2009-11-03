@@ -98,7 +98,7 @@ namespace BWAPI
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                     &unitArrayCopyLocal->unit[i],
-                                    i);
+                                    (u16)i);
 
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         unitTypes.insert(BW::UnitType((BW::UnitID::Enum)i));
@@ -728,7 +728,8 @@ namespace BWAPI
       szDllPath[ai_dll.length()] = TCHAR('\0');
       Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", ai_dll.c_str());
       bool loaded;
-      if (!(hMod = LoadLibrary(szDllPath)))
+      hMod = LoadLibrary(szDllPath);
+      if (hMod == NULL)
       {
         loaded = false;
         Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
@@ -918,7 +919,7 @@ namespace BWAPI
   void GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
-    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), this->BWAPIPlayer->getID()), 3);
+    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
@@ -956,8 +957,8 @@ namespace BWAPI
           this->BWAPIPlayer = this->players[i];
 
       if (this->BWAPIPlayer == NULL ||
-          this->BWAPIPlayer->getForceName() == "Observers" ||
-          this->BWAPIPlayer->getForceName() == "Observer")
+          lstrcmpi(this->BWAPIPlayer->getForceName(), "Observers") == 0 ||
+          lstrcmpi(this->BWAPIPlayer->getForceName(), "Observer") == 0)
       {
         this->BWAPIPlayer = NULL;
         return;
@@ -968,9 +969,9 @@ namespace BWAPI
              this->players[i]->playerType() == BW::PlayerType::Human ||
              this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
             this->opponent == NULL &&
-            this->players[i]->getForceName() != "Observers" &&
-            this->players[i]->getForceName() != "Observer" &&
-            this->BWAPIPlayer->getAlliance(i) == 0)
+            lstrcmpi(this->players[i]->getForceName(), "Observers") != 0 &&
+            lstrcmpi(this->players[i]->getForceName(), "Observer") != 0 &&
+            this->BWAPIPlayer->getAlliance((u8)i) == 0)
           this->opponent = this->players[i];
     }
     BW::Positions* posptr = BW::startPositions;
@@ -1038,8 +1039,8 @@ namespace BWAPI
         {
           for(std::set<Player*>::iterator j=players.begin();j!=players.end();j++)
           {
-            BWAPI::Broodwar->printf("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
-            Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((*j)->getID()));
+            BWAPI::Broodwar->printf("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((u8)(*j)->getID()));
+            Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((u8)(*j)->getID()));
           }
         }
       }
@@ -1445,7 +1446,7 @@ namespace BWAPI
     deadUnits.push_back(unit);
     unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
                                     &unitArrayCopyLocal->unit[index],
-                                    index);
+                                    (u16)index);
     if (this->client != NULL)
     {
       if (unit!=NULL && unit->canAccessSpecial())
