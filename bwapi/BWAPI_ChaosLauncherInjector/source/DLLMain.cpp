@@ -12,8 +12,8 @@ struct ExchangeData
 {
   int iPluginAPI;
   int iStarCraftBuild;
-  bool bConfigDialog;                 //Is Configurable
-  bool bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
+  BOOL bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
+  BOOL bConfigDialog;                 //Is Configurable
 };
 
 BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
@@ -36,8 +36,8 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
   //BWL Gets version from Resource - VersionInfo
   Data.iPluginAPI = BWLAPI;
   Data.iStarCraftBuild = STARCRAFTBUILD;
-  Data.bConfigDialog = true;
-  Data.bNotSCBWmodule = true;
+  Data.bConfigDialog = TRUE;
+  Data.bNotSCBWmodule = FALSE;
 }
 
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
@@ -54,7 +54,8 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-  ShellExecuteA(NULL, "open", "http://bwapi.googlecode.com/", NULL, NULL, SW_SHOWNORMAL);
+  if (ShellExecuteA(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL) == 0)
+    return false;
   return true;
 }
 

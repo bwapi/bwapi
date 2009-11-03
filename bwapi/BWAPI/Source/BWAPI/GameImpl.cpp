@@ -1,5 +1,6 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
+#include "..\\..\\svnrev.h"
 #include "GameImpl.h"
 
 #include <stdio.h>
@@ -719,6 +720,7 @@ namespace BWAPI
 
     if (this->startedClient == false)
     {
+      sendText("BWAPI revision %s is now live.", SVN_REV_STR);
 
       TCHAR szDllPath[MAX_PATH];
       std::string ai_dll = config->get("ai_dll");
