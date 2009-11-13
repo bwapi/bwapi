@@ -501,7 +501,6 @@ void __declspec(naked) push0patch()
     push 0
 }
 
-u32 speedmods[7] = {0, 0, 0, 0, 0, 0, 0}; // original: 501, 333, 249, 201, 168, 144, 126
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -525,8 +524,6 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
   WriteMem((void*)BW::BWDATA_MenuInHack, &push0patch, 2); // menu in
   WriteMem((void*)BW::BWDATA_MenuOutHack, &push0patch, 2); // menu out
-  WriteMem(BW::BWDATA_GameSpeedModifiers, speedmods, 7 * 4); // game speed
-
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

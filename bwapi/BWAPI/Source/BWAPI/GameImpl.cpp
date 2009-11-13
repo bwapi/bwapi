@@ -1227,6 +1227,14 @@ namespace BWAPI
       }
       return true;
     }
+    else if (parsed[0] == "/speed")
+    {
+      if (parsed[1] != "")
+        setLocalSpeed(atoi(parsed[1].c_str()));
+      else
+        setLocalSpeed(-1);
+      return true;
+    }
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
@@ -1700,4 +1708,24 @@ namespace BWAPI
     va_end(ap);
     addShape(new ShapeText(ctype,x,y,std::string(buffer)));
   }
+
+  void GameImpl::setLocalSpeed(int speed)
+  {
+    if (speed < 0)
+    {
+      BW::BWDATA_GameSpeedModifiers[0] = 501;
+      BW::BWDATA_GameSpeedModifiers[1] = 333;
+      BW::BWDATA_GameSpeedModifiers[2] = 249;
+      BW::BWDATA_GameSpeedModifiers[3] = 201;
+      BW::BWDATA_GameSpeedModifiers[4] = 168;
+      BW::BWDATA_GameSpeedModifiers[5] = 144;
+      BW::BWDATA_GameSpeedModifiers[6] = 126;
+    }
+    else
+    {
+      for (int i = 0; i < 7; i++)
+        BW::BWDATA_GameSpeedModifiers[i] = speed;
+    }
+  }
+
 };
