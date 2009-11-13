@@ -106,6 +106,7 @@ namespace BWAPI
       virtual void pauseGame();
       virtual void resumeGame();
       virtual void leaveGame();
+      virtual void setLocalSpeed(int speed);
       virtual std::set<BWAPI::Unit*> getSelectedUnits();
       virtual Player* self();
       virtual Player* enemy();
@@ -221,7 +222,6 @@ namespace BWAPI
       bool startedClient;
       BWAPI::Error lastError;
       std::list<UnitImpl*> deadUnits;
-      void setLocalSpeed(int speed);
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

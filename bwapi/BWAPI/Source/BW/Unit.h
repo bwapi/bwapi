@@ -236,7 +236,7 @@ namespace BW
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;
     /*0x115*/ u8                                  stimTimer;
-    /*0x116*/ u8                                  ensareTimer;
+    /*0x116*/ u8                                  ensnareTimer;
     /*0x117*/ u8                                  lockdownTimer;
     /*0x118*/ u8                                  irradiateTimer;
     /*0x119*/ u8                                  stasisTimer;
