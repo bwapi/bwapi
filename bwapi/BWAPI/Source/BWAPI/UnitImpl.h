@@ -41,15 +41,17 @@ namespace BWAPI
       virtual int getAirWeaponCooldown() const;
       virtual int getSpellCooldown() const;
       virtual int getDefenseMatrixPoints() const;
+
       virtual int getDefenseMatrixTimer() const;
-      virtual int getStimTimer() const;
       virtual int getEnsnareTimer() const;
-      virtual int getLockdownTimer() const;
       virtual int getIrradiateTimer() const;
-      virtual int getStasisTimer() const;
-      virtual int getPlagueTimer() const;
+      virtual int getLockdownTimer() const;
       virtual int getMaelstromTimer() const;
+      virtual int getPlagueTimer() const;
       virtual int getRemoveTimer() const;
+      virtual int getStasisTimer() const;
+      virtual int getStimTimer() const;
+
       virtual Position getPosition() const;
       virtual TilePosition getTilePosition() const;
       virtual double getDistance(Unit* target) const;
@@ -96,17 +98,22 @@ namespace BWAPI
       virtual bool isCloaked() const;
       virtual bool isCompleted() const;
       virtual bool isConstructing() const;
+      virtual bool isDefenseMatrixed() const;
+      virtual bool isEnsnared() const;
       virtual bool isFollowing() const;
       virtual bool isGatheringGas() const;
       virtual bool isGatheringMinerals() const;
       virtual bool isHallucination() const;
       virtual bool isIdle() const;
+      virtual bool isIrradiated() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;
       virtual bool isLockedDown() const;
+      virtual bool isMaelstromed() const;
       virtual bool isMorphing() const;
       virtual bool isMoving() const;
       virtual bool isPatrolling() const;
+      virtual bool isPlagued() const;
       virtual bool isRepairing() const;
       virtual bool isResearching() const;
       virtual bool isSelected() const;

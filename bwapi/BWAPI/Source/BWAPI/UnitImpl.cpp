@@ -157,7 +157,7 @@ namespace BWAPI
   int UnitImpl::getEnsnareTimer() const
   {
     if (!this->attemptAccess()) return 0;
-    return this->getRawDataLocal()->ensareTimer;
+    return this->getRawDataLocal()->ensnareTimer;
   }
   //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
   int UnitImpl::getLockdownTimer() const
@@ -308,6 +308,18 @@ namespace BWAPI
            this->getBWOrder() == BW::OrderID::BuildProtoss1 ||
            this->getBWOrder() == BW::OrderID::BuildProtoss2;
   }
+  //------------------------------------------- IS DEFENSE MATRIXED ------------------------------------------
+  bool UnitImpl::isDefenseMatrixed() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->defenseMatrixTimer > 0;
+  }
+  //----------------------------------------------- IS ENSNARED ----------------------------------------------
+  bool UnitImpl::isEnsnared() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->ensnareTimer > 0;
+  }
   //---------------------------------------------- IS FOLLOWING ----------------------------------------------
   bool UnitImpl::isFollowing() const
   {
@@ -354,6 +366,12 @@ namespace BWAPI
             this->getBWOrder() == BW::OrderID::Larva) &&
             !this->isTraining());
   }
+  //---------------------------------------------- IS IRRADIATED ---------------------------------------------
+  bool UnitImpl::isIrradiated() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->irradiateTimer > 0;
+  }
   //------------------------------------------------ IS LIFTED -----------------------------------------------
   bool UnitImpl::isLifted() const
   {
@@ -378,6 +396,12 @@ namespace BWAPI
     if (!this->attemptAccess()) return false;
     return this->getLockdownTimer() > 0;
   }
+  //---------------------------------------------- IS MAELSTROMED --------------------------------------------
+  bool UnitImpl::isMaelstromed() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->maelstromTimer > 0;
+  }
   //----------------------------------------------- IS MORPHING ----------------------------------------------
   bool UnitImpl::isMorphing() const
   {
@@ -395,6 +419,12 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return false;
     return this->getBWOrder() == BW::OrderID::Patrol;
+  }
+  //----------------------------------------------- IS PLAGUED -----------------------------------------------
+  bool UnitImpl::isPlagued() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->plagueTimer > 0;
   }
   //----------------------------------------------- IS REPAIRING ---------------------------------------------
   bool UnitImpl::isRepairing() const
