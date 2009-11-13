@@ -90,9 +90,10 @@ namespace BWAPI
       virtual bool isLifted() const = 0;
       virtual bool isLoaded() const = 0;
       virtual bool isLockedDown() const = 0;
-      virtual bool isMaelstromed() const = 0;
+      virtual bool isMaelstrommed() const = 0;
       virtual bool isMorphing() const = 0;
       virtual bool isMoving() const = 0;
+      virtual bool isParasited() const = 0;
       virtual bool isPatrolling() const = 0;
       virtual bool isPlagued() const = 0;
       virtual bool isRepairing() const = 0;
@@ -101,6 +102,7 @@ namespace BWAPI
       virtual bool isSieged() const = 0;
       virtual bool isStartingAttack() const = 0;
       virtual bool isStasised() const = 0;
+      virtual bool isStimmed() const = 0;
       virtual bool isTraining() const = 0;
       virtual bool isUnderStorm() const = 0;
       virtual bool isUnpowered() const = 0;

@@ -397,7 +397,7 @@ namespace BWAPI
     return this->getLockdownTimer() > 0;
   }
   //---------------------------------------------- IS MAELSTROMED --------------------------------------------
-  bool UnitImpl::isMaelstromed() const
+  bool UnitImpl::isMaelstrommed() const
   {
     if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->maelstromTimer > 0;
@@ -413,6 +413,12 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return false;
     return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::Moving);
+  }
+  //----------------------------------------------- IS PARASITED ---------------------------------------------
+  bool UnitImpl::isParasited() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getRawDataLocal()->parasiteFlags.value != 0;
   }
   //---------------------------------------------- IS PATROLLING ---------------------------------------------
   bool UnitImpl::isPatrolling() const
@@ -463,6 +469,12 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return false;
     return this->getStasisTimer() > 0;
+  }
+  //----------------------------------------------- IS STIMMED -----------------------------------------------
+  bool UnitImpl::isStimmed() const
+  {
+    if (!this->attemptAccess()) return false;
+    return this->getStimTimer() > 0;
   }
   //---------------------------------------------- IS TRAINING -----------------------------------------------
   bool UnitImpl::isTraining() const
