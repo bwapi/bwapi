@@ -958,23 +958,19 @@ namespace BWAPI
         if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
           this->BWAPIPlayer = this->players[i];
 
-      if (this->BWAPIPlayer == NULL ||
-          lstrcmpi(this->BWAPIPlayer->getForceName(), "Observers") == 0 ||
-          lstrcmpi(this->BWAPIPlayer->getForceName(), "Observer") == 0)
-      {
-        this->BWAPIPlayer = NULL;
+      if (this->BWAPIPlayer == NULL)
         return;
-      }
 
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
              this->players[i]->playerType() == BW::PlayerType::Human ||
              this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
             this->opponent == NULL &&
-            lstrcmpi(this->players[i]->getForceName(), "Observers") != 0 &&
-            lstrcmpi(this->players[i]->getForceName(), "Observer") != 0 &&
-            this->BWAPIPlayer->getAlliance((u8)i) == 0)
+            this->BWAPIPlayer->isEnemy(this->players[i]))
           this->opponent = this->players[i];
+
+      if (this->opponent == NULL)
+        this->commandLog->log("Warning: Could not find any opponent");
     }
     BW::Positions* posptr = BW::startPositions;
     startLocations.clear();
