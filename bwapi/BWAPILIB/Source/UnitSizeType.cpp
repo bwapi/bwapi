@@ -17,7 +17,7 @@ namespace BWAPI
     const UnitSizeType Large(3);
     const UnitSizeType None(4);
     const UnitSizeType Unknown(5);
-    void __cdecl init()
+    void init()
     {
       unitSizeTypeName[Independent.getID()] = "Independent";
       unitSizeTypeName[Small.getID()] = "Small";
@@ -59,39 +59,39 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  UnitSizeType& __cdecl UnitSizeType::operator=(const UnitSizeType& other)
+  UnitSizeType& UnitSizeType::operator=(const UnitSizeType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl UnitSizeType::operator==(const UnitSizeType& other) const
+  bool UnitSizeType::operator==(const UnitSizeType& other) const
   {
     return this->id == other.id;
   }
-  bool __cdecl UnitSizeType::operator!=(const UnitSizeType& other) const
+  bool UnitSizeType::operator!=(const UnitSizeType& other) const
   {
     return this->id != other.id;
   }
-  bool __cdecl UnitSizeType::operator<(const UnitSizeType& other) const
+  bool UnitSizeType::operator<(const UnitSizeType& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl UnitSizeType::getID() const
+  int UnitSizeType::getID() const
   {
     return this->id;
   }
-  std::string __cdecl UnitSizeType::getName() const
+  std::string UnitSizeType::getName() const
   {
     return unitSizeTypeName[this->id];
   }
 
-  UnitSizeType __cdecl UnitSizeTypes::getUnitSizeType(std::string& name)
+  UnitSizeType UnitSizeTypes::getUnitSizeType(std::string& name)
   {
     std::map<std::string, UnitSizeType>::iterator i = unitSizeTypeMap.find(name);
     if (i == unitSizeTypeMap.end()) return UnitSizeTypes::Unknown;
     return (*i).second;
   }
-  std::set<UnitSizeType>& __cdecl UnitSizeTypes::allUnitSizeTypes()
+  std::set<UnitSizeType>& UnitSizeTypes::allUnitSizeTypes()
   {
     return unitSizeTypeSet;
   }

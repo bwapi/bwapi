@@ -15,7 +15,7 @@ namespace BWAPI
   {
     public:
       WeaponTypeInternal() {valid = false;}
-      void __cdecl set(const char* name, const TechType* techType, int damageAmount, int damageBonus, int damageCooldown, int damageFactor, const UpgradeType* upgradeType, const DamageType* damageType, const ExplosionType* explosionType, int minRange, int maxRange, int innerSplashRadius, int medianSplashRadius, int outerSplashRadius, bool targetsAir, bool targetsGround, bool targetsMechanical, bool targetsOrganic, bool targetsNonBuilding, bool targetsNonRobotic, bool targetsTerrain, bool targetsOrgOrMech, bool targetsOwn, const UnitType* whatUses)
+      void set(const char* name, const TechType* techType, int damageAmount, int damageBonus, int damageCooldown, int damageFactor, const UpgradeType* upgradeType, const DamageType* damageType, const ExplosionType* explosionType, int minRange, int maxRange, int innerSplashRadius, int medianSplashRadius, int outerSplashRadius, bool targetsAir, bool targetsGround, bool targetsMechanical, bool targetsOrganic, bool targetsNonBuilding, bool targetsNonRobotic, bool targetsTerrain, bool targetsOrgOrMech, bool targetsOwn, const UnitType* whatUses)
       {
         if (initializingWeaponType)
         {
@@ -144,7 +144,7 @@ namespace BWAPI
 
     const WeaponType None(130);
     const WeaponType Unknown(131);
-    void __cdecl init()
+    void init()
     {
       weaponTypeData[Gauss_Rifle.getID()].set("Gauss Rifle", &(TechTypes::None), 6, 1, 15, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Marine));
       weaponTypeData[C_10_Canister_Rifle.getID()].set("C-10 Canister Rifle", &(TechTypes::None), 10, 1, 22, 1, &(UpgradeTypes::Terran_Infantry_Weapons), &(DamageTypes::Concussive), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Terran_Ghost));
@@ -361,138 +361,138 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  WeaponType& __cdecl WeaponType::operator=(const WeaponType& other)
+  WeaponType& WeaponType::operator=(const WeaponType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl WeaponType::operator==(const WeaponType& other) const
+  bool WeaponType::operator==(const WeaponType& other) const
   {
     return this->id == other.id;
   }
-  bool __cdecl WeaponType::operator!=(const WeaponType& other) const
+  bool WeaponType::operator!=(const WeaponType& other) const
   {
     return this->id != other.id;
   }
-  bool __cdecl WeaponType::operator<(const WeaponType& other) const
+  bool WeaponType::operator<(const WeaponType& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl WeaponType::getID() const
+  int WeaponType::getID() const
   {
     return this->id;
   }
-  std::string __cdecl WeaponType::getName() const
+  std::string WeaponType::getName() const
   {
     return weaponTypeData[this->id].name;
   }
-  const TechType* __cdecl WeaponType::getTech() const
+  const TechType* WeaponType::getTech() const
   {
     return weaponTypeData[this->id].techType;
   }
-  const UnitType* __cdecl WeaponType::whatUses() const
+  const UnitType* WeaponType::whatUses() const
   {
     return weaponTypeData[this->id].whatUses;
   }
-  int __cdecl WeaponType::damageAmount() const
+  int WeaponType::damageAmount() const
   {
     return weaponTypeData[this->id].damageAmount;
   }
-  int __cdecl WeaponType::damageBonus() const
+  int WeaponType::damageBonus() const
   {
     return weaponTypeData[this->id].damageBonus;
   }
-  int __cdecl WeaponType::damageCooldown() const
+  int WeaponType::damageCooldown() const
   {
     return weaponTypeData[this->id].damageCooldown;
   }
-  int __cdecl WeaponType::damageFactor() const
+  int WeaponType::damageFactor() const
   {
     return weaponTypeData[this->id].damageFactor;
   }
-  const UpgradeType* __cdecl WeaponType::upgradeType() const
+  const UpgradeType* WeaponType::upgradeType() const
   {
     return weaponTypeData[this->id].upgradeType;
   }
-  const DamageType* __cdecl WeaponType::damageType() const
+  const DamageType* WeaponType::damageType() const
   {
     return weaponTypeData[this->id].damageType;
   }
-  const ExplosionType* __cdecl WeaponType::explosionType() const
+  const ExplosionType* WeaponType::explosionType() const
   {
     return weaponTypeData[this->id].explosionType;
   }
-  int __cdecl WeaponType::minRange() const
+  int WeaponType::minRange() const
   {
     return weaponTypeData[this->id].minRange;
   }
-  int __cdecl WeaponType::maxRange() const
+  int WeaponType::maxRange() const
   {
     return weaponTypeData[this->id].maxRange;
   }
-  int __cdecl WeaponType::innerSplashRadius() const
+  int WeaponType::innerSplashRadius() const
   {
     return weaponTypeData[this->id].innerSplashRadius;
   }
-  int __cdecl WeaponType::medianSplashRadius() const
+  int WeaponType::medianSplashRadius() const
   {
     return weaponTypeData[this->id].medianSplashRadius;
   }
-  int __cdecl WeaponType::outerSplashRadius() const
+  int WeaponType::outerSplashRadius() const
   {
     return weaponTypeData[this->id].outerSplashRadius;
   }
-  bool __cdecl WeaponType::targetsAir() const
+  bool WeaponType::targetsAir() const
   {
     return weaponTypeData[this->id].targetsAir;
   }
-  bool __cdecl WeaponType::targetsGround() const
+  bool WeaponType::targetsGround() const
   {
     return weaponTypeData[this->id].targetsGround;
   }
-  bool __cdecl WeaponType::targetsMechanical() const
+  bool WeaponType::targetsMechanical() const
   {
     return weaponTypeData[this->id].targetsMechanical;
   }
-  bool __cdecl WeaponType::targetsOrganic() const
+  bool WeaponType::targetsOrganic() const
   {
     return weaponTypeData[this->id].targetsOrganic;
   }
-  bool __cdecl WeaponType::targetsNonBuilding() const
+  bool WeaponType::targetsNonBuilding() const
   {
     return weaponTypeData[this->id].targetsNonBuilding;
   }
-  bool __cdecl WeaponType::targetsNonRobotic() const
+  bool WeaponType::targetsNonRobotic() const
   {
     return weaponTypeData[this->id].targetsNonRobotic;
   }
-  bool __cdecl WeaponType::targetsTerrain() const
+  bool WeaponType::targetsTerrain() const
   {
     return weaponTypeData[this->id].targetsTerrain;
   }
-  bool __cdecl WeaponType::targetsOrgOrMech() const
+  bool WeaponType::targetsOrgOrMech() const
   {
     return weaponTypeData[this->id].targetsOrgOrMech;
   }
-  bool __cdecl WeaponType::targetsOwn() const
+  bool WeaponType::targetsOwn() const
   {
     return weaponTypeData[this->id].targetsOwn;
   }
-  WeaponType __cdecl WeaponTypes::getWeaponType(std::string& name)
+  WeaponType WeaponTypes::getWeaponType(std::string& name)
   {
     std::map<std::string, WeaponType>::iterator i = weaponTypeMap.find(name);
     if (i == weaponTypeMap.end()) return WeaponTypes::Unknown;
     return (*i).second;
   }
-  std::set<WeaponType>& __cdecl WeaponTypes::allWeaponTypes()
+  std::set<WeaponType>& WeaponTypes::allWeaponTypes()
   {
     return weaponTypeSet;
   }
-  std::set<WeaponType>& __cdecl WeaponTypes::normalWeaponTypes()
+  std::set<WeaponType>& WeaponTypes::normalWeaponTypes()
   {
     return weaponTypeSet;
   }
-  std::set<WeaponType>& __cdecl WeaponTypes::specialWeaponTypes()
+  std::set<WeaponType>& WeaponTypes::specialWeaponTypes()
   {
     return weaponTypeSet;
   }

@@ -9,20 +9,20 @@ namespace BWAPI
       DamageType();
       DamageType(int id);
       DamageType(const DamageType& other);
-      DamageType& __cdecl operator=(const DamageType& other);
-      bool __cdecl operator==(const DamageType& other) const;
-      bool __cdecl operator!=(const DamageType& other) const;
-      bool __cdecl operator<(const DamageType& other) const;
-      int __cdecl getID() const;
-      std::string __cdecl getName() const;
+      DamageType& operator=(const DamageType& other);
+      bool operator==(const DamageType& other) const;
+      bool operator!=(const DamageType& other) const;
+      bool operator<(const DamageType& other) const;
+      int getID() const;
+      std::string getName() const;
     private:
       int id;
   };
   namespace DamageTypes
   {
-    DamageType __cdecl getDamageType(std::string& name);
-    std::set<DamageType>& __cdecl allDamageTypes();
-    void __cdecl init();
+    DamageType getDamageType(std::string& name);
+    std::set<DamageType>& allDamageTypes();
+    void init();
     extern const DamageType Independent;
     extern const DamageType Explosive;
     extern const DamageType Concussive;

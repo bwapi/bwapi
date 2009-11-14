@@ -16,7 +16,7 @@ namespace BWAPI
   {
     public:
       UnitTypeInternal() {valid = false;}
-      void __cdecl set(const char* name, const char* subLabel, Race race, const UnitType* whatBuilds, int whatBuildsAmt, const UnitType* requiredUnit1, int requiredUnit1Amt, const UnitType* requiredUnit2, int requiredUnit2Amt, const UnitType* requiredUnit3, int requiredUnit3Amt, const TechType* requiredTech, const TechType* ability1, const TechType* ability2, const TechType* ability3, const TechType* ability4, const UpgradeType* armorUpgrade, int maxHitPoints, int maxShields, int maxEnergy, int armor,  int mineralPrice, int gasPrice, int buildTime, int supplyRequired, int supplyProvided, int spaceRequired, int spaceProvided, int buildScore, int destroyScore, const UnitSizeType* unitSizeType, int tileWidth, int tileHeight, int dimensionLeft, int dimensionUp, int dimensionRight, int dimensionDown,  int seekRange, int sightRange, const WeaponType* groundWeapon, int maxGroundHits, const WeaponType* airWeapon, int maxAirHits, int topSpeed, int acceleration, int haltDistance, int turnRadius, bool canProduce, bool canAttack, bool canMove, bool isFlyer, bool regeneratesHP, bool isSpellcaster,  bool hasPermanentCloak, bool isInvincible, bool isOrganic, bool isMechanical, bool isRobotic, bool isDetector, bool isResourceContainer, bool isResourceDepot, bool isWorker, bool requiresPsi, bool requiresCreep, bool isTwoUnitsInOneEgg, bool isBurrowable, bool isCloakable, bool isBuilding, bool isAddon, bool isFlyingBuilding, bool isNeutral, bool isRefinery)
+      void set(const char* name, const char* subLabel, Race race, const UnitType* whatBuilds, int whatBuildsAmt, const UnitType* requiredUnit1, int requiredUnit1Amt, const UnitType* requiredUnit2, int requiredUnit2Amt, const UnitType* requiredUnit3, int requiredUnit3Amt, const TechType* requiredTech, const TechType* ability1, const TechType* ability2, const TechType* ability3, const TechType* ability4, const UpgradeType* armorUpgrade, int maxHitPoints, int maxShields, int maxEnergy, int armor,  int mineralPrice, int gasPrice, int buildTime, int supplyRequired, int supplyProvided, int spaceRequired, int spaceProvided, int buildScore, int destroyScore, const UnitSizeType* unitSizeType, int tileWidth, int tileHeight, int dimensionLeft, int dimensionUp, int dimensionRight, int dimensionDown,  int seekRange, int sightRange, const WeaponType* groundWeapon, int maxGroundHits, const WeaponType* airWeapon, int maxAirHits, int topSpeed, int acceleration, int haltDistance, int turnRadius, bool canProduce, bool canAttack, bool canMove, bool isFlyer, bool regeneratesHP, bool isSpellcaster,  bool hasPermanentCloak, bool isInvincible, bool isOrganic, bool isMechanical, bool isRobotic, bool isDetector, bool isResourceContainer, bool isResourceDepot, bool isWorker, bool requiresPsi, bool requiresCreep, bool isTwoUnitsInOneEgg, bool isBurrowable, bool isCloakable, bool isBuilding, bool isAddon, bool isFlyingBuilding, bool isNeutral, bool isRefinery)
       {
         if (initializingUnitType)
         {
@@ -330,7 +330,7 @@ namespace BWAPI
     const UnitType Spell_Dark_Swarm(202);
     const UnitType None(228);
     const UnitType Unknown(229);
-    void __cdecl init()
+    void init()
     {
       unitTypeData[Terran_Marine.getID()].set("Terran Marine", "Private", Races::Terran, &(Terran_Barracks), 1, &(Terran_Barracks), 1, NULL, 0, NULL, 0, &(TechTypes::None), &(TechTypes::Stim_Packs), &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(UpgradeTypes::Terran_Infantry_Armor), 10240, 0, 0, 0, 50, 0, 360, 2, 0, 1, 0, 50, 100, &(UnitSizeTypes::Small), 1, 1, 8, 9, 8, 10, 4, 7, &(WeaponTypes::Gauss_Rifle), 1, &(WeaponTypes::Gauss_Rifle), 1, 1, 1, 1, 40, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Terran_Ghost.getID()].set("Terran Ghost", "Specialist", Races::Terran, &(Terran_Barracks), 1, &(Terran_Barracks), 1, &(Terran_Academy), 1, &(Terran_Covert_Ops), 1, &(TechTypes::None), &(TechTypes::Lockdown), &(TechTypes::Personnel_Cloaking), &(TechTypes::Nuclear_Strike), &(TechTypes::None), &(UpgradeTypes::Terran_Infantry_Armor), 11520, 0, 200, 0, 25, 75, 750, 2, 0, 1, 0, 175, 350, &(UnitSizeTypes::Small), 1, 1, 7, 10, 7, 11, 7, 9, &(WeaponTypes::C_10_Canister_Rifle), 1, &(WeaponTypes::C_10_Canister_Rifle), 1, 1, 1, 1, 40, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0);
@@ -618,295 +618,295 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  UnitType& __cdecl UnitType::operator=(const UnitType& other)
+  UnitType& UnitType::operator=(const UnitType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl UnitType::operator==(const UnitType& other) const
+  bool UnitType::operator==(const UnitType& other) const
   {
     return this->id == other.id;
   }
-  bool __cdecl UnitType::operator!=(const UnitType& other) const
+  bool UnitType::operator!=(const UnitType& other) const
   {
     return this->id != other.id;
   }
-  bool __cdecl UnitType::operator<(const UnitType& other) const
+  bool UnitType::operator<(const UnitType& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl UnitType::getID() const
+  int UnitType::getID() const
   {
     return this->id;
   }
-  std::string __cdecl UnitType::getName() const
+  std::string UnitType::getName() const
   {
     return unitTypeData[this->id].name;
   }
-  std::string __cdecl UnitType::getSubLabel() const
+  std::string UnitType::getSubLabel() const
   {
     return unitTypeData[this->id].subLabel;
   }
-  Race __cdecl UnitType::getRace() const
+  Race UnitType::getRace() const
   {
     return unitTypeData[this->id].race;
   }
 
-  const std::pair< const UnitType*, int> __cdecl UnitType::whatBuilds() const
+  const std::pair< const UnitType*, int> UnitType::whatBuilds() const
   {
     return unitTypeData[this->id].whatBuilds;
   }
-  const std::map< const UnitType*, int >& __cdecl UnitType::requiredUnits() const
+  const std::map< const UnitType*, int >& UnitType::requiredUnits() const
   {
     return unitTypeData[this->id].requiredUnits;
   }
-  const TechType* __cdecl UnitType::requiredTech() const
+  const TechType* UnitType::requiredTech() const
   {
     return unitTypeData[this->id].requiredTech;
   }
-  const std::set<const TechType* >& __cdecl UnitType::abilities() const
+  const std::set<const TechType* >& UnitType::abilities() const
   {
     return unitTypeData[this->id].abilities;
   }
-  const UpgradeType* __cdecl UnitType::armorUpgrade() const
+  const UpgradeType* UnitType::armorUpgrade() const
   {
     return unitTypeData[this->id].armorUpgrade;
   }
 
-  int __cdecl UnitType::maxHitPoints() const
+  int UnitType::maxHitPoints() const
   {
     return unitTypeData[this->id].maxHitPoints;
   }
-  int __cdecl UnitType::maxShields() const
+  int UnitType::maxShields() const
   {
     return unitTypeData[this->id].maxShields;
   }
-  int __cdecl UnitType::maxEnergy() const
+  int UnitType::maxEnergy() const
   {
     return unitTypeData[this->id].maxEnergy;
   }
-  int __cdecl UnitType::armor() const
+  int UnitType::armor() const
   {
     return unitTypeData[this->id].armor;
   }
 
-  int __cdecl UnitType::mineralPrice() const
+  int UnitType::mineralPrice() const
   {
     return unitTypeData[this->id].mineralPrice;
   }
-  int __cdecl UnitType::gasPrice() const
+  int UnitType::gasPrice() const
   {
     return unitTypeData[this->id].gasPrice;
   }
-  int __cdecl UnitType::buildTime() const
+  int UnitType::buildTime() const
   {
     return unitTypeData[this->id].buildTime;
   }
 
-  int __cdecl UnitType::supplyRequired() const
+  int UnitType::supplyRequired() const
   {
     return unitTypeData[this->id].supplyRequired;
   }
-  int __cdecl UnitType::supplyProvided() const
+  int UnitType::supplyProvided() const
   {
     return unitTypeData[this->id].supplyProvided;
   }
-  int __cdecl UnitType::spaceRequired() const
+  int UnitType::spaceRequired() const
   {
     return unitTypeData[this->id].spaceRequired;
   }
-  int __cdecl UnitType::spaceProvided() const
+  int UnitType::spaceProvided() const
   {
     return unitTypeData[this->id].spaceProvided;
   }
-  int __cdecl UnitType::buildScore() const
+  int UnitType::buildScore() const
   {
     return unitTypeData[this->id].buildScore;
   }
-  int __cdecl UnitType::destroyScore() const
+  int UnitType::destroyScore() const
   {
     return unitTypeData[this->id].destroyScore;
   }
 
-  UnitSizeType __cdecl UnitType::size() const
+  UnitSizeType UnitType::size() const
   {
     return *unitTypeData[this->id].unitSizeType;
   }
-  int __cdecl UnitType::tileWidth() const
+  int UnitType::tileWidth() const
   {
     return unitTypeData[this->id].tileWidth;
   }
-  int __cdecl UnitType::tileHeight() const
+  int UnitType::tileHeight() const
   {
     return unitTypeData[this->id].tileHeight;
   }
-  int __cdecl UnitType::dimensionLeft() const
+  int UnitType::dimensionLeft() const
   {
     return unitTypeData[this->id].dimensionLeft;
   }
-  int __cdecl UnitType::dimensionUp() const
+  int UnitType::dimensionUp() const
   {
     return unitTypeData[this->id].dimensionUp;
   }
-  int __cdecl UnitType::dimensionRight() const
+  int UnitType::dimensionRight() const
   {
     return unitTypeData[this->id].dimensionRight;
   }
-  int __cdecl UnitType::dimensionDown() const
+  int UnitType::dimensionDown() const
   {
     return unitTypeData[this->id].dimensionDown;
   }
 
-  int __cdecl UnitType::seekRange() const
+  int UnitType::seekRange() const
   {
     return unitTypeData[this->id].seekRange;
   }
-  int __cdecl UnitType::sightRange() const
+  int UnitType::sightRange() const
   {
     return unitTypeData[this->id].sightRange;
   }
-  const WeaponType* __cdecl UnitType::groundWeapon() const
+  const WeaponType* UnitType::groundWeapon() const
   {
     return unitTypeData[this->id].groundWeapon;
   }
-  int __cdecl UnitType::maxGroundHits() const
+  int UnitType::maxGroundHits() const
   {
     return unitTypeData[this->id].maxGroundHits;
   }
-  const WeaponType* __cdecl UnitType::airWeapon() const
+  const WeaponType* UnitType::airWeapon() const
   {
     return unitTypeData[this->id].airWeapon;
   }
-  int __cdecl UnitType::maxAirHits() const
+  int UnitType::maxAirHits() const
   {
     return unitTypeData[this->id].maxAirHits;
   }
 
-  int __cdecl UnitType::topSpeed() const
+  int UnitType::topSpeed() const
   {
     return unitTypeData[this->id].topSpeed;
   }
-  int __cdecl UnitType::acceleration() const
+  int UnitType::acceleration() const
   {
     return unitTypeData[this->id].acceleration;
   }
-  int __cdecl UnitType::haltDistance() const
+  int UnitType::haltDistance() const
   {
     return unitTypeData[this->id].haltDistance;
   }
-  int __cdecl UnitType::turnRadius() const
+  int UnitType::turnRadius() const
   {
     return unitTypeData[this->id].turnRadius;
   }
 
-  bool __cdecl UnitType::canProduce() const
+  bool UnitType::canProduce() const
   {
     return unitTypeData[this->id].canProduce;
   }
-  bool __cdecl UnitType::canAttack() const
+  bool UnitType::canAttack() const
   {
     return unitTypeData[this->id].canAttack;
   }
-  bool __cdecl UnitType::canMove() const
+  bool UnitType::canMove() const
   {
     return unitTypeData[this->id].canMove;
   }
-  bool __cdecl UnitType::isFlyer() const
+  bool UnitType::isFlyer() const
   {
     return unitTypeData[this->id].isFlyer;
   }
-  bool __cdecl UnitType::regeneratesHP() const
+  bool UnitType::regeneratesHP() const
   {
     return unitTypeData[this->id].regeneratesHP;
   }
-  bool __cdecl UnitType::isSpellcaster() const
+  bool UnitType::isSpellcaster() const
   {
     return unitTypeData[this->id].isSpellcaster;
   }
-  bool __cdecl UnitType::hasPermanentCloak() const
+  bool UnitType::hasPermanentCloak() const
   {
     return unitTypeData[this->id].hasPermanentCloak;
   }
-  bool __cdecl UnitType::isInvincible() const
+  bool UnitType::isInvincible() const
   {
     return unitTypeData[this->id].isInvincible;
   }
-  bool __cdecl UnitType::isOrganic() const
+  bool UnitType::isOrganic() const
   {
     return unitTypeData[this->id].isOrganic;
   }
-  bool __cdecl UnitType::isMechanical() const
+  bool UnitType::isMechanical() const
   {
     return unitTypeData[this->id].isMechanical;
   }
-  bool __cdecl UnitType::isRobotic() const
+  bool UnitType::isRobotic() const
   {
     return unitTypeData[this->id].isRobotic;
   }
-  bool __cdecl UnitType::isDetector() const
+  bool UnitType::isDetector() const
   {
     return unitTypeData[this->id].isDetector;
   }
-  bool __cdecl UnitType::isResourceContainer() const
+  bool UnitType::isResourceContainer() const
   {
     return unitTypeData[this->id].isResourceContainer;
   }
-  bool __cdecl UnitType::isResourceDepot() const
+  bool UnitType::isResourceDepot() const
   {
     return unitTypeData[this->id].isResourceDepot;
   }
-  bool __cdecl UnitType::isRefinery() const
+  bool UnitType::isRefinery() const
   {
     return unitTypeData[this->id].isRefinery;
   }
-  bool __cdecl UnitType::isWorker() const
+  bool UnitType::isWorker() const
   {
     return unitTypeData[this->id].isWorker;
   }
-  bool __cdecl UnitType::requiresPsi() const
+  bool UnitType::requiresPsi() const
   {
     return unitTypeData[this->id].requiresPsi;
   }
-  bool __cdecl UnitType::requiresCreep() const
+  bool UnitType::requiresCreep() const
   {
     return unitTypeData[this->id].requiresCreep;
   }
-  bool __cdecl UnitType::isTwoUnitsInOneEgg() const
+  bool UnitType::isTwoUnitsInOneEgg() const
   {
     return unitTypeData[this->id].isTwoUnitsInOneEgg;
   }
-  bool __cdecl UnitType::isBurrowable() const
+  bool UnitType::isBurrowable() const
   {
     return unitTypeData[this->id].isBurrowable;
   }
-  bool __cdecl UnitType::isCloakable() const
+  bool UnitType::isCloakable() const
   {
     return unitTypeData[this->id].isCloakable;
   }
-  bool __cdecl UnitType::isBuilding() const
+  bool UnitType::isBuilding() const
   {
     return unitTypeData[this->id].isBuilding;
   }
-  bool __cdecl UnitType::isAddon() const
+  bool UnitType::isAddon() const
   {
     return unitTypeData[this->id].isAddon;
   }
-  bool __cdecl UnitType::isFlyingBuilding() const
+  bool UnitType::isFlyingBuilding() const
   {
     return unitTypeData[this->id].isFlyingBuilding;
   }
-  bool __cdecl UnitType::isNeutral() const
+  bool UnitType::isNeutral() const
   {
     return unitTypeData[this->id].isNeutral;
   }
 
-  UnitType __cdecl UnitTypes::getUnitType(std::string& name)
+  UnitType UnitTypes::getUnitType(std::string& name)
   {
     std::map<std::string, UnitType>::iterator i = unitTypeMap.find(name);
     if (i == unitTypeMap.end()) return UnitTypes::Unknown;
     return (*i).second;
   }
-  std::set<UnitType>& __cdecl UnitTypes::allUnitTypes()
+  std::set<UnitType>& UnitTypes::allUnitTypes()
   {
     return unitTypeSet;
   }
