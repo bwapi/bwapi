@@ -36,38 +36,38 @@ namespace BWAPI
        * Gets the name of the player
        * @return Pointer directly to bw memory where the name is represented.
        */
-      virtual int getID() const;
-      virtual std::string getName() const;
-      virtual std::set<Unit*> getUnits();
-      virtual Race getRace() const;
-      virtual PlayerType playerType() const;
-      virtual Force* getForce() const;
-      virtual bool isAlly(Player* player) const;
-      virtual bool isEnemy(Player* player) const;
-      virtual bool isNeutral() const;
-      virtual TilePosition getStartLocation() const;
+      virtual int __cdecl getID() const;
+      virtual std::string __cdecl getName() const;
+      virtual std::set<Unit*> __cdecl getUnits();
+      virtual Race __cdecl getRace() const;
+      virtual PlayerType __cdecl playerType() const;
+      virtual Force* __cdecl getForce() const;
+      virtual bool __cdecl isAlly(Player* player) const;
+      virtual bool __cdecl isEnemy(Player* player) const;
+      virtual bool __cdecl isNeutral() const;
+      virtual TilePosition __cdecl getStartLocation() const;
 
-      virtual int minerals() const;
-      virtual int gas() const;
+      virtual int __cdecl minerals() const;
+      virtual int __cdecl gas() const;
 
-      virtual int cumulativeMinerals() const;
-      virtual int cumulativeGas() const;
+      virtual int __cdecl cumulativeMinerals() const;
+      virtual int __cdecl cumulativeGas() const;
 
-      virtual int supplyTotal() const;
-      virtual int supplyUsed() const;
-      virtual int supplyTotal(Race race) const;
-      virtual int supplyUsed(Race race) const;
+      virtual int __cdecl supplyTotal() const;
+      virtual int __cdecl supplyUsed() const;
+      virtual int __cdecl supplyTotal(Race race) const;
+      virtual int __cdecl supplyUsed(Race race) const;
 
-      virtual int allUnitCount(UnitType unit) const;
-      virtual int completedUnitCount(UnitType unit) const;
-      virtual int incompleteUnitCount(UnitType unit) const;
-      virtual int deadUnitCount(UnitType unit) const;
-      virtual int killedUnitCount(UnitType unit) const;
+      virtual int __cdecl allUnitCount(UnitType unit) const;
+      virtual int __cdecl completedUnitCount(UnitType unit) const;
+      virtual int __cdecl incompleteUnitCount(UnitType unit) const;
+      virtual int __cdecl deadUnitCount(UnitType unit) const;
+      virtual int __cdecl killedUnitCount(UnitType unit) const;
 
-      virtual bool researching(TechType tech) const;
-      virtual bool researched(TechType tech) const;
-      virtual bool upgrading(UpgradeType upgrade) const;
-      virtual int upgradeLevel(UpgradeType upgrade) const;
+      virtual bool __cdecl researching(TechType tech) const;
+      virtual bool __cdecl researched(TechType tech) const;
+      virtual bool __cdecl upgrading(UpgradeType upgrade) const;
+      virtual int __cdecl upgradeLevel(UpgradeType upgrade) const;
 
       //Internal BWAPI commands:
 
