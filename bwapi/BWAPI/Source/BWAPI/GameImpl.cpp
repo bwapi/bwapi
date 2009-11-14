@@ -1281,7 +1281,7 @@ namespace BWAPI
     for(int i = 0 ; i < 12 ; i++)
       if (this->players[i] != NULL)
         this->players[i]->onGameEnd();
-
+    this->setLocalSpeed(-1);
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void  GameImpl::startGame()
