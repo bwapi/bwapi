@@ -131,49 +131,49 @@ namespace BWAPI
     delete this->configuration;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
-  int __cdecl GameImpl::mapWidth()
+  int  GameImpl::mapWidth()
   {
     this->setLastError(Errors::None);
     return Map::getWidth();
   }
   //----------------------------------------------- MAP HEIGHT -----------------------------------------------
-  int __cdecl GameImpl::mapHeight()
+  int  GameImpl::mapHeight()
   {
     this->setLastError(Errors::None);
     return Map::getHeight();
   }
   //---------------------------------------------- MAP FILENAME ----------------------------------------------
-  std::string __cdecl GameImpl::mapFilename()
+  std::string  GameImpl::mapFilename()
   {
     this->setLastError(Errors::None);
     return Map::getFileName();
   }
   //------------------------------------------------ MAP NAME ------------------------------------------------
-  std::string __cdecl GameImpl::mapName()
+  std::string  GameImpl::mapName()
   {
     this->setLastError(Errors::None);
     return Map::getName();
   }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
-  bool __cdecl GameImpl::buildable(int x, int y)
+  bool  GameImpl::buildable(int x, int y)
   {
     this->setLastError(Errors::None);
     return this->map.buildable(x, y);
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
-  bool __cdecl GameImpl::walkable(int x, int y)
+  bool  GameImpl::walkable(int x, int y)
   {
     this->setLastError(Errors::None);
     return this->map.walkable(x, y);
   }
   //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool __cdecl GameImpl::visible(int x, int y)
+  bool  GameImpl::visible(int x, int y)
   {
     this->setLastError(Errors::None);
     return this->map.visible(x, y);
   }
   //------------------------------------------------ HAS CREEP -----------------------------------------------
-  bool __cdecl GameImpl::hasCreep(int x, int y)
+  bool  GameImpl::hasCreep(int x, int y)
   {
     this->setLastError(Errors::None);
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->visible(x, y))
@@ -184,7 +184,7 @@ namespace BWAPI
     return this->map.hasCreep(x, y);
   }
   //------------------------------------------------ HAS POWER -----------------------------------------------
-  bool __cdecl GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
+  bool  GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
   {
     this->setLastError(Errors::None);
     if (!(tileWidth==2 && tileHeight==2) && !(tileWidth==3 && tileHeight==2) && !(tileWidth==4 && tileHeight==3))
@@ -230,7 +230,7 @@ namespace BWAPI
     return false;
   }
   //---------------------------------------------- CAN BUILD HERE --------------------------------------------
-  bool __cdecl GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
+  bool  GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
     this->setLastError(Errors::Unbuildable_Location);
     if (position.x()<0) return false;
@@ -346,7 +346,7 @@ namespace BWAPI
     return true;
   }
   //------------------------------------------------- CAN MAKE -----------------------------------------------
-  bool __cdecl GameImpl::canMake(Unit* builder, UnitType type)
+  bool  GameImpl::canMake(Unit* builder, UnitType type)
   {
     this->setLastError(Errors::None);
     if (self() == NULL)
@@ -453,7 +453,7 @@ namespace BWAPI
     return true;
   }
   //----------------------------------------------- CAN RESEARCH ---------------------------------------------
-  bool __cdecl GameImpl::canResearch(Unit* unit, TechType type)
+  bool  GameImpl::canResearch(Unit* unit, TechType type)
   {
     this->setLastError(Errors::None);
     if (self() == NULL)
@@ -493,7 +493,7 @@ namespace BWAPI
     return true;
   }
   //----------------------------------------------- CAN UPGRADE ----------------------------------------------
-  bool __cdecl GameImpl::canUpgrade(Unit* unit, UpgradeType type)
+  bool  GameImpl::canUpgrade(Unit* unit, UpgradeType type)
   {
     this->setLastError(Errors::None);
     if (self() == NULL)
@@ -533,31 +533,31 @@ namespace BWAPI
     return true;
   }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
-  int __cdecl GameImpl::groundHeight(int x, int y)
+  int  GameImpl::groundHeight(int x, int y)
   {
     this->setLastError(Errors::None);
     return this->map.groundHeight(x, y);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
-  std::set< TilePosition > __cdecl GameImpl::getStartLocations()
+  std::set< TilePosition >  GameImpl::getStartLocations()
   {
     this->setLastError(Errors::None);
     return this->startLocations;
   }
   //----------------------------------------------- GET MAP HASH ---------------------------------------------
-  int __cdecl GameImpl::getMapHash()
+  int  GameImpl::getMapHash()
   {
     this->setLastError(Errors::None);
     return BWAPI::Map::getMapHash();
   }
   //----------------------------------------------- GET FORCES -----------------------------------------------
-  std::set< Force* > __cdecl GameImpl::getForces()
+  std::set< Force* >  GameImpl::getForces()
   {
     this->setLastError(Errors::None);
     return this->forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
-  std::set< Player* > __cdecl GameImpl::getPlayers()
+  std::set< Player* >  GameImpl::getPlayers()
   {
     this->setLastError(Errors::None);
     std::set<Player*> players;
@@ -571,7 +571,7 @@ namespace BWAPI
     return players;
   }
   //------------------------------------------------- GET UNITS ----------------------------------------------
-  std::set< Unit* > __cdecl GameImpl::getAllUnits()
+  std::set< Unit* >  GameImpl::getAllUnits()
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
@@ -585,7 +585,7 @@ namespace BWAPI
     return return_units;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
-  std::set< Unit* > __cdecl GameImpl::getMinerals()
+  std::set< Unit* >  GameImpl::getMinerals()
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
@@ -597,7 +597,7 @@ namespace BWAPI
     return return_units;
   }
   //---------------------------------------------- GET GEYSERS -----------------------------------------------
-  std::set< Unit* > __cdecl GameImpl::getGeysers()
+  std::set< Unit* >  GameImpl::getGeysers()
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
@@ -609,7 +609,7 @@ namespace BWAPI
     return return_units;
   }
   //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
-  std::set< Unit* > __cdecl GameImpl::getNeutralUnits()
+  std::set< Unit* >  GameImpl::getNeutralUnits()
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
@@ -804,7 +804,7 @@ namespace BWAPI
     return *(BW::BWDATA_InGame) != 0;
   }
   //----------------------------------------------- IN REPLAY ------------------------------------------------
-  bool __cdecl GameImpl::inReplay()
+  bool  GameImpl::inReplay()
   {
     this->setLastError(Errors::None);
     return *(BW::BWDATA_InReplay) != 0;
@@ -835,7 +835,7 @@ namespace BWAPI
       printf(txtout); // until lobby print private text is found
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
-  void __cdecl GameImpl::printf(const char* text, ...)
+  void  GameImpl::printf(const char* text, ...)
   {
     if (inReplay() || inGame())
     {
@@ -866,7 +866,7 @@ namespace BWAPI
     }
   }
 
-  void __cdecl GameImpl::sendText(const char* text, ...)
+  void  GameImpl::sendText(const char* text, ...)
   {
     if (inReplay() || (inGame() && isSinglePlayer()))
     {
@@ -918,7 +918,7 @@ namespace BWAPI
     IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
-  void __cdecl GameImpl::changeRace(BWAPI::Race race)
+  void  GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
@@ -1284,25 +1284,25 @@ namespace BWAPI
 
   }
   //----------------------------------------------- START GAME -----------------------------------------------
-  void __cdecl GameImpl::startGame()
+  void  GameImpl::startGame()
   {
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
-  void __cdecl GameImpl::pauseGame()
+  void  GameImpl::pauseGame()
   {
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
-  void __cdecl GameImpl::resumeGame()
+  void  GameImpl::resumeGame()
   {
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
-  void __cdecl GameImpl::leaveGame()
+  void  GameImpl::leaveGame()
   {
     this->setLastError(Errors::None);
     *BW::BWDATA_QuitMission_UNKNOWN8 = 0;
@@ -1312,7 +1312,7 @@ namespace BWAPI
     BW::changeMenu();
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
-  int __cdecl GameImpl::getMouseX()
+  int  GameImpl::getMouseX()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
@@ -1323,7 +1323,7 @@ namespace BWAPI
     return *(BW::BWDATA_MouseX);
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-  int __cdecl GameImpl::getMouseY()
+  int  GameImpl::getMouseY()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
@@ -1334,7 +1334,7 @@ namespace BWAPI
     return *(BW::BWDATA_MouseY);
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
-  int __cdecl GameImpl::getScreenX()
+  int  GameImpl::getScreenX()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
@@ -1345,7 +1345,7 @@ namespace BWAPI
     return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-  int __cdecl GameImpl::getScreenY()
+  int  GameImpl::getScreenY()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
@@ -1424,7 +1424,7 @@ namespace BWAPI
     BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
-  std::set<BWAPI::Unit*> __cdecl GameImpl::getSelectedUnits()
+  std::set<BWAPI::Unit*>  GameImpl::getSelectedUnits()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
@@ -1522,7 +1522,7 @@ namespace BWAPI
     return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
-  BWAPI::Latency::Enum __cdecl GameImpl::getLatency()
+  BWAPI::Latency::Enum  GameImpl::getLatency()
   {
     this->setLastError(Errors::None);
     if (isSinglePlayer())
@@ -1577,13 +1577,13 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
-  int __cdecl GameImpl::getFrameCount()
+  int  GameImpl::getFrameCount()
   {
     this->setLastError(Errors::None);
     return this->frameCount;
   }
   //--------------------------------------------- UNITS ON TILE ----------------------------------------------
-  std::set<Unit*> __cdecl GameImpl::unitsOnTile(int x, int y)
+  std::set<Unit*>  GameImpl::unitsOnTile(int x, int y)
   {
     this->setLastError(Errors::None);
     std::set<Unit*> emptySet;
@@ -1598,7 +1598,7 @@ namespace BWAPI
     return unitsOnTileData[x][y];
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
-  Error __cdecl GameImpl::getLastError() const
+  Error  GameImpl::getLastError() const
   {
     return this->lastError;
   }
@@ -1608,13 +1608,13 @@ namespace BWAPI
     this->lastError = e;
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
-  bool __cdecl GameImpl::isFlagEnabled(BWAPI::Flag::Enum flag)
+  bool  GameImpl::isFlagEnabled(BWAPI::Flag::Enum flag)
   {
     this->setLastError(Errors::None);
     return this->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
-  void __cdecl GameImpl::enableFlag(BWAPI::Flag::Enum flag)
+  void  GameImpl::enableFlag(BWAPI::Flag::Enum flag)
   {
     this->setLastError(Errors::None);
     if (this->flagsLocked == true)
@@ -1638,13 +1638,13 @@ namespace BWAPI
     this->flagsLocked = true;
   }
   //----------------------------------------------------- SELF -----------------------------------------------
-  Player* __cdecl GameImpl::self()
+  Player*  GameImpl::self()
   {
     this->setLastError(Errors::None);
     return (Player*)this->BWAPIPlayer;
   }
   //----------------------------------------------------- ENEMY ----------------------------------------------
-  Player* __cdecl GameImpl::enemy()
+  Player*  GameImpl::enemy()
   {
     this->setLastError(Errors::None);
     return (Player*)this->opponent;
@@ -1654,27 +1654,27 @@ namespace BWAPI
   {
     this->shapes.push_back(s);
   }
-  void __cdecl GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
+  void  GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
   }
-  void __cdecl GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  void  GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
-  void __cdecl GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
+  void  GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
     addShape(new ShapeDot(ctype, x, y, color.getID()));
   }
-  void __cdecl GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
+  void  GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
   }
-  void __cdecl GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  void  GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
   }
-  void __cdecl GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
+  void  GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
     int screen_x1 = x1;
     int screen_y1 = y1;
@@ -1700,7 +1700,7 @@ namespace BWAPI
         (screen_y1 > 480 && screen_y2 > 480)) return;
     addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
   }
-  void __cdecl GameImpl::text(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
+  void  GameImpl::text(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
@@ -1709,7 +1709,7 @@ namespace BWAPI
     addShape(new ShapeText(ctype,x,y,std::string(buffer)));
   }
 
-  void __cdecl GameImpl::setLocalSpeed(int speed)
+  void  GameImpl::setLocalSpeed(int speed)
   {
     if (speed < 0)
     {

@@ -50,72 +50,72 @@ namespace BWAPI
   class GameImpl : public Game
   {
     public :
-      virtual std::set< Force* > __cdecl getForces();
-      virtual std::set< Player* > __cdecl getPlayers();
-      virtual std::set< Unit* > __cdecl getAllUnits();
-      virtual std::set< Unit* > __cdecl getMinerals();
-      virtual std::set< Unit* > __cdecl getGeysers();
-      virtual std::set< Unit* > __cdecl getNeutralUnits();
+      virtual std::set< Force* >  getForces();
+      virtual std::set< Player* >  getPlayers();
+      virtual std::set< Unit* >  getAllUnits();
+      virtual std::set< Unit* >  getMinerals();
+      virtual std::set< Unit* >  getGeysers();
+      virtual std::set< Unit* >  getNeutralUnits();
 
-      virtual BWAPI::Latency::Enum __cdecl getLatency();
-      virtual int __cdecl getFrameCount();
-      virtual int __cdecl getMouseX();
-      virtual int __cdecl getMouseY();
-      virtual int __cdecl getScreenX();
-      virtual int __cdecl getScreenY();
+      virtual BWAPI::Latency::Enum  getLatency();
+      virtual int  getFrameCount();
+      virtual int  getMouseX();
+      virtual int  getMouseY();
+      virtual int  getScreenX();
+      virtual int  getScreenY();
 
-      virtual bool __cdecl isFlagEnabled(BWAPI::Flag::Enum flag);
-      virtual void __cdecl enableFlag(BWAPI::Flag::Enum flag);
-      virtual std::set<Unit*> __cdecl unitsOnTile(int x, int y);
-      virtual Error __cdecl getLastError() const;
+      virtual bool  isFlagEnabled(BWAPI::Flag::Enum flag);
+      virtual void  enableFlag(BWAPI::Flag::Enum flag);
+      virtual std::set<Unit*>  unitsOnTile(int x, int y);
+      virtual Error  getLastError() const;
 
-      virtual int __cdecl mapWidth();
-      virtual int __cdecl mapHeight();
-      virtual std::string __cdecl mapFilename();
-      virtual std::string __cdecl mapName();
-      virtual bool __cdecl buildable(int x, int y);
-      virtual bool __cdecl walkable(int x, int y);
-      virtual bool __cdecl visible(int x, int y);
-      virtual bool __cdecl hasCreep(int x, int y);
-      virtual bool __cdecl hasPower(int x, int y, int tileWidth, int tileHeight);
-      virtual bool __cdecl canBuildHere(Unit* builder, TilePosition position, UnitType type);
-      virtual bool __cdecl canMake(Unit* builder, UnitType type);
-      virtual bool __cdecl canResearch(Unit* unit, TechType type);
-      virtual bool __cdecl canUpgrade(Unit* unit, UpgradeType type);
-      virtual int __cdecl groundHeight(int x, int y);
-      virtual std::set< TilePosition > __cdecl getStartLocations();
-      virtual int __cdecl getMapHash();
+      virtual int  mapWidth();
+      virtual int  mapHeight();
+      virtual std::string  mapFilename();
+      virtual std::string  mapName();
+      virtual bool  buildable(int x, int y);
+      virtual bool  walkable(int x, int y);
+      virtual bool  visible(int x, int y);
+      virtual bool  hasCreep(int x, int y);
+      virtual bool  hasPower(int x, int y, int tileWidth, int tileHeight);
+      virtual bool  canBuildHere(Unit* builder, TilePosition position, UnitType type);
+      virtual bool  canMake(Unit* builder, UnitType type);
+      virtual bool  canResearch(Unit* unit, TechType type);
+      virtual bool  canUpgrade(Unit* unit, UpgradeType type);
+      virtual int  groundHeight(int x, int y);
+      virtual std::set< TilePosition >  getStartLocations();
+      virtual int  getMapHash();
       /**
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      virtual void __cdecl printf(const char* text, ...);
-      virtual void __cdecl sendText(const char* text, ...);
-      virtual void __cdecl text(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
+      virtual void  printf(const char* text, ...);
+      virtual void  sendText(const char* text, ...);
+      virtual void  text(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
        */
-      virtual void __cdecl changeRace(BWAPI::Race race);
+      virtual void  changeRace(BWAPI::Race race);
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
        */
-      virtual bool __cdecl inReplay();
-      virtual void __cdecl startGame();
-      virtual void __cdecl pauseGame();
-      virtual void __cdecl resumeGame();
-      virtual void __cdecl leaveGame();
-      virtual void __cdecl setLocalSpeed(int speed);
-      virtual std::set<BWAPI::Unit*> __cdecl getSelectedUnits();
-      virtual Player* __cdecl self();
-      virtual Player* __cdecl enemy();
-      virtual void __cdecl drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
-      virtual void __cdecl drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-      virtual void __cdecl drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
-      virtual void __cdecl drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-      virtual void __cdecl drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
-      virtual void __cdecl drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
+      virtual bool  inReplay();
+      virtual void  startGame();
+      virtual void  pauseGame();
+      virtual void  resumeGame();
+      virtual void  leaveGame();
+      virtual void  setLocalSpeed(int speed);
+      virtual std::set<BWAPI::Unit*>  getSelectedUnits();
+      virtual Player*  self();
+      virtual Player*  enemy();
+      virtual void  drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
+      virtual void  drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+      virtual void  drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
+      virtual void  drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
+      virtual void  drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
+      virtual void  drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
 
 
       //Internal BWAPI commands:
