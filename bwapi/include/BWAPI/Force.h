@@ -8,7 +8,7 @@ namespace BWAPI
   class Force
   {
     public :
-      virtual std::string getName() const = 0;
-      virtual std::set<Player*> getPlayers() const = 0;
+      virtual std::string __cdecl getName() const = 0;
+      virtual std::set<Player*> __cdecl getPlayers() const = 0;
   };
 }

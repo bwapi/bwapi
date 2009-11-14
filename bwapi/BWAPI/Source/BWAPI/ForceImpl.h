@@ -9,8 +9,8 @@ namespace BWAPI
   {
     public:
       ForceImpl(std::string name);
-      virtual std::string getName() const;
-      virtual std::set<Player*> getPlayers() const;
+      virtual std::string __cdecl getName() const;
+      virtual std::set<Player*> __cdecl getPlayers() const;
       std::set<Player*> players;
       std::string name;
   };
