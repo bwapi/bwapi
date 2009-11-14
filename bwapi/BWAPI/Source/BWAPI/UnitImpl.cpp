@@ -514,11 +514,15 @@ namespace BWAPI
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
       return false;
     }
-    if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
-      return true;
 
     if (this->getRawDataLocal()->sprite==NULL)
       return false;
+
+    if (BroodwarImpl.inReplay())
+      return true;
+
+    if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
+      return true;
 
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
