@@ -653,11 +653,7 @@ namespace BWAPI
       }
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
-        if (i->getOriginalRawData()!=NULL)
-        {
-          if (i->getOriginalRawData()->sprite!=NULL)
-            unitList.push_back(i);
-        }
+        unitList.push_back(i);
       }
       this->myPylons.clear();
       for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
@@ -1247,6 +1243,7 @@ namespace BWAPI
       delete this->client;
       this->client=NULL;
     }
+    this->units.clear();
     this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
