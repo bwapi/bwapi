@@ -9,20 +9,20 @@ namespace BWAPI
       UnitSizeType();
       UnitSizeType(int id);
       UnitSizeType(const UnitSizeType& other);
-      UnitSizeType& __cdecl operator=(const UnitSizeType& other);
-      bool __cdecl operator==(const UnitSizeType& other) const;
-      bool __cdecl operator!=(const UnitSizeType& other) const;
-      bool __cdecl operator<(const UnitSizeType& other) const;
-      int __cdecl getID() const;
-      std::string __cdecl getName() const;
+      UnitSizeType& operator=(const UnitSizeType& other);
+      bool operator==(const UnitSizeType& other) const;
+      bool operator!=(const UnitSizeType& other) const;
+      bool operator<(const UnitSizeType& other) const;
+      int getID() const;
+      std::string getName() const;
     private:
       int id;
   };
   namespace UnitSizeTypes
   {
-    UnitSizeType __cdecl getUnitSizeType(std::string& name);
-    std::set<UnitSizeType>& __cdecl allUnitSizeTypes();
-    void __cdecl init();
+    UnitSizeType getUnitSizeType(std::string& name);
+    std::set<UnitSizeType>& allUnitSizeTypes();
+    void init();
     extern const UnitSizeType Independent;
     extern const UnitSizeType Small;
     extern const UnitSizeType Medium;

@@ -18,7 +18,7 @@ namespace BWAPI
     const DamageType Ignore_Armor(4);
     const DamageType None(5);
     const DamageType Unknown(6);
-    void __cdecl init()
+    void init()
     {
       damageTypeName[Independent.getID()] = "Independent";
       damageTypeName[Explosive.getID()] = "Explosive";
@@ -62,39 +62,39 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  DamageType& __cdecl DamageType::operator=(const DamageType& other)
+  DamageType& DamageType::operator=(const DamageType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl DamageType::operator==(const DamageType& other) const
+  bool DamageType::operator==(const DamageType& other) const
   {
     return this->id == other.id;
   }
-  bool __cdecl DamageType::operator!=(const DamageType& other) const
+  bool DamageType::operator!=(const DamageType& other) const
   {
     return this->id != other.id;
   }
-  bool __cdecl DamageType::operator<(const DamageType& other) const
+  bool DamageType::operator<(const DamageType& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl DamageType::getID() const
+  int DamageType::getID() const
   {
     return this->id;
   }
-  std::string __cdecl DamageType::getName() const
+  std::string DamageType::getName() const
   {
     return damageTypeName[this->id];
   }
 
-  DamageType __cdecl DamageTypes::getDamageType(std::string& name)
+  DamageType DamageTypes::getDamageType(std::string& name)
   {
     std::map<std::string, DamageType>::iterator i = damageTypeMap.find(name);
     if (i == damageTypeMap.end()) return DamageTypes::Unknown;
     return (*i).second;
   }
-  std::set<DamageType>& __cdecl DamageTypes::allDamageTypes()
+  std::set<DamageType>& DamageTypes::allDamageTypes()
   {
     return damageTypeSet;
   }

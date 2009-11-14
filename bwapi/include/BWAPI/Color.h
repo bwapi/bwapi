@@ -10,20 +10,20 @@ namespace BWAPI
       Color(int id);
       Color(const Color& other);
       Color(int red, int green, int blue);
-      Color& __cdecl operator=(const Color& other);
-      bool __cdecl operator==(const Color& other) const;
-      bool __cdecl operator!=(const Color& other) const;
-      bool __cdecl operator<(const Color& other) const;
-      int __cdecl getID() const;
-      int __cdecl red() const;
-      int __cdecl green() const;
-      int __cdecl blue() const;
+      Color& operator=(const Color& other);
+      bool operator==(const Color& other) const;
+      bool operator!=(const Color& other) const;
+      bool operator<(const Color& other) const;
+      int getID() const;
+      int red() const;
+      int green() const;
+      int blue() const;
     private:
       int id;
   };
   namespace Colors
   {
-    void __cdecl init();
+    void init();
     extern const Color Red;
     extern const Color Green;
     extern const Color Blue;

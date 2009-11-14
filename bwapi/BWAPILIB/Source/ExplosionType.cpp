@@ -36,7 +36,7 @@ namespace BWAPI
     const ExplosionType Maelstrom(22);
     const ExplosionType Air_Splash(24);
     const ExplosionType Unknown(25);
-    void __cdecl init()
+    void init()
     {
       explosionTypeName[None.getID()] = "None";
       explosionTypeName[Normal.getID()] = "Normal";
@@ -116,39 +116,39 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  ExplosionType& __cdecl ExplosionType::operator=(const ExplosionType& other)
+  ExplosionType& ExplosionType::operator=(const ExplosionType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl ExplosionType::operator==(const ExplosionType& other) const
+  bool ExplosionType::operator==(const ExplosionType& other) const
   {
     return this->id == other.id;
   }
-  bool __cdecl ExplosionType::operator!=(const ExplosionType& other) const
+  bool ExplosionType::operator!=(const ExplosionType& other) const
   {
     return this->id != other.id;
   }
-  bool __cdecl ExplosionType::operator<(const ExplosionType& other) const
+  bool ExplosionType::operator<(const ExplosionType& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl ExplosionType::getID() const
+  int ExplosionType::getID() const
   {
     return this->id;
   }
-  std::string __cdecl ExplosionType::getName() const
+  std::string ExplosionType::getName() const
   {
     return explosionTypeName[this->id];
   }
 
-  ExplosionType __cdecl ExplosionTypes::getExplosionType(std::string& name)
+  ExplosionType ExplosionTypes::getExplosionType(std::string& name)
   {
     std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
     if (i == explosionTypeMap.end()) return ExplosionTypes::Unknown;
     return (*i).second;
   }
-  std::set<ExplosionType>& __cdecl ExplosionTypes::allExplosionTypes()
+  std::set<ExplosionType>& ExplosionTypes::allExplosionTypes()
   {
     return explosionTypeSet;
   }

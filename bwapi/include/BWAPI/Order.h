@@ -9,20 +9,20 @@ namespace BWAPI
       Order();
       Order(int id);
       Order(const Order& other);
-      Order& __cdecl operator=(const Order& other);
-      bool __cdecl operator==(const Order& other) const;
-      bool __cdecl operator!=(const Order& other) const;
-      bool __cdecl operator<(const Order& other) const;
-      int __cdecl getID() const;
-      std::string __cdecl getName() const;
+      Order& operator=(const Order& other);
+      bool operator==(const Order& other) const;
+      bool operator!=(const Order& other) const;
+      bool operator<(const Order& other) const;
+      int getID() const;
+      std::string getName() const;
     private:
       int id;
   };
   namespace Orders
   {
-    Order __cdecl getOrder(std::string& name);
-    std::set<Order>& __cdecl allOrders();
-    void __cdecl init();
+    Order getOrder(std::string& name);
+    std::set<Order>& allOrders();
+    void init();
     extern const Order Die;
     extern const Order Stop;
     extern const Order Guard;

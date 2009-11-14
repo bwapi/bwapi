@@ -32,7 +32,7 @@ namespace BWAPI
     const Error Access_Denied(18);
     const Error None(19);
     const Error Unknown(20);
-    void __cdecl init()
+    void init()
     {
       errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
       errorName[Unit_Not_Visible.getID()] = "Unit Not Visible";
@@ -103,38 +103,38 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  Error& __cdecl Error::operator=(const Error& other)
+  Error& Error::operator=(const Error& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl Error::operator==(const Error& other) const
+  bool Error::operator==(const Error& other) const
   {
     return this->id == other.id;
   }
-  bool __cdecl Error::operator!=(const Error& other) const
+  bool Error::operator!=(const Error& other) const
   {
     return this->id != other.id;
   }
-  bool __cdecl Error::operator<(const Error& other) const
+  bool Error::operator<(const Error& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl Error::getID() const
+  int Error::getID() const
   {
     return this->id;
   }
-  std::string __cdecl Error::toString() const
+  std::string Error::toString() const
   {
     return errorName[this->id];
   }
-  Error __cdecl Errors::getError(std::string& name)
+  Error Errors::getError(std::string& name)
   {
     std::map<std::string, Error>::iterator i = errorMap.find(name);
     if (i == errorMap.end()) return Errors::Unknown;
     return (*i).second;
   }
-  std::set<Error>& __cdecl Errors::allErrors()
+  std::set<Error>& Errors::allErrors()
   {
     return errorSet;
   }

@@ -49,7 +49,7 @@ namespace BWAPI
     const Color Grey(74);
 
     std::list<int> cell[8][8][8];
-    void __cdecl init()
+    void init()
     {
       for(int i = 0; i < 256; i++)
       {
@@ -134,36 +134,36 @@ namespace BWAPI
     }
     this->id = best_id;
   }
-  Color& __cdecl Color::operator=(const Color& other)
+  Color& Color::operator=(const Color& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool __cdecl Color::operator==(const Color& other) const
+  bool Color::operator==(const Color& other) const
   {
     return palette[this->id] == palette[other.id];
   }
-  bool __cdecl Color::operator!=(const Color& other) const
+  bool Color::operator!=(const Color& other) const
   {
     return palette[this->id] != palette[other.id];
   }
-  bool __cdecl Color::operator<(const Color& other) const
+  bool Color::operator<(const Color& other) const
   {
     return this->id < other.id;
   }
-  int __cdecl Color::getID() const
+  int Color::getID() const
   {
     return this->id;
   }
-  int __cdecl Color::red() const
+  int Color::red() const
   {
     return (palette[this->id] >> 16) & 0xFF;
   }
-  int __cdecl Color::green() const
+  int Color::green() const
   {
     return (palette[this->id] >> 8) & 0xFF;
   }
-  int __cdecl Color::blue() const
+  int Color::blue() const
   {
     return palette[this->id] & 0xFF;
   }

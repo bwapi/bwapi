@@ -31,81 +31,81 @@ namespace BWAPI
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool __cdecl TilePosition::operator == (const TilePosition& TilePosition) const
+  bool TilePosition::operator == (const TilePosition& TilePosition) const
   {
     return this->x() == TilePosition.x() &&
            this->y() == TilePosition.y();
   }
   //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool __cdecl TilePosition::operator != (const TilePosition& TilePosition) const
+  bool TilePosition::operator != (const TilePosition& TilePosition) const
   {
     return this->x() != TilePosition.x() ||
            this->y() != TilePosition.y();
   }
   //---------------------------------------------- OPERATOR < ------------------------------------------------
-  bool __cdecl TilePosition::operator < (const TilePosition& TilePosition) const
+  bool TilePosition::operator < (const TilePosition& TilePosition) const
   {
     return this->x() < TilePosition.x() ||
            (this->x() == TilePosition.x() && this->y() < TilePosition.y());
   }
   //----------------------------------------------------------------------------------------------------------
-  TilePosition __cdecl TilePosition::operator+(const TilePosition& position) const
+  TilePosition TilePosition::operator+(const TilePosition& position) const
   {
     return TilePosition(this->x() + position.x(), this->y() + position.y());
   }
   //----------------------------------------------------------------------------------------------------------
-  TilePosition __cdecl TilePosition::operator-(const TilePosition& position) const
+  TilePosition TilePosition::operator-(const TilePosition& position) const
   {
     return TilePosition(this->x() - position.x(), this->y() - position.y());
   }
   //----------------------------------------------------------------------------------------------------------
-  TilePosition& __cdecl TilePosition::operator+=(const TilePosition& position)
+  TilePosition& TilePosition::operator+=(const TilePosition& position)
   {
     this->x() += position.x();
     this->y() += position.y();
     return *this;
   }
   //----------------------------------------------------------------------------------------------------------
-  TilePosition& __cdecl TilePosition::operator-=(const TilePosition& position)
+  TilePosition& TilePosition::operator-=(const TilePosition& position)
   {
     this->x() -= position.x();
     this->y() -= position.y();
     return *this;
   }
   //----------------------------------------------- IS VALID -------------------------------------------------
-  bool __cdecl TilePosition::isValid() const
+  bool TilePosition::isValid() const
   {
     return (*this != TilePositions::Invalid && *this != TilePositions::None && *this != TilePositions::Unknown);
   }
   //----------------------------------------------------------------------------------------------------------
-  double __cdecl TilePosition::getDistance(const TilePosition& position) const
+  double TilePosition::getDistance(const TilePosition& position) const
   {
     return ((*this) - position).getLength();
   }
   //----------------------------------------------------------------------------------------------------------
-  double __cdecl TilePosition::getLength() const
+  double TilePosition::getLength() const
   {
     double x = this->x();
     double y = this->y();
     return sqrt(x * x + y * y);
   }
   //----------------------------------------------------------------------------------------------------------
-  int& __cdecl TilePosition::x()
+  int& TilePosition::x()
   {
     return this->_x;
   }
   //----------------------------------------------------------------------------------------------------------
-  int& __cdecl TilePosition::y()
+  int& TilePosition::y()
   {
     return this->_y;
   }
   //----------------------------------------------------------------------------------------------------------
-  int __cdecl TilePosition::x() const
+  int TilePosition::x() const
   {
     return this->_x;
   }
   //----------------------------------------------------------------------------------------------------------
-  int __cdecl TilePosition::y() const
+  int TilePosition::y() const
   {
     return this->_y;
   }

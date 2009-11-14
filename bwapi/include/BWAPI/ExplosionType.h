@@ -9,20 +9,20 @@ namespace BWAPI
       ExplosionType();
       ExplosionType(int id);
       ExplosionType(const ExplosionType& other);
-      ExplosionType& __cdecl operator=(const ExplosionType& other);
-      bool __cdecl operator==(const ExplosionType& other) const;
-      bool __cdecl operator!=(const ExplosionType& other) const;
-      bool __cdecl operator<(const ExplosionType& other) const;
-      int __cdecl getID() const;
-      std::string __cdecl getName() const;
+      ExplosionType& operator=(const ExplosionType& other);
+      bool operator==(const ExplosionType& other) const;
+      bool operator!=(const ExplosionType& other) const;
+      bool operator<(const ExplosionType& other) const;
+      int getID() const;
+      std::string getName() const;
     private:
       int id;
   };
   namespace ExplosionTypes
   {
-    ExplosionType __cdecl getExplosionType(std::string& name);
-    std::set<ExplosionType>& __cdecl allExplosionTypes();
-    void __cdecl init();
+    ExplosionType getExplosionType(std::string& name);
+    std::set<ExplosionType>& allExplosionTypes();
+    void init();
     extern const ExplosionType None;
     extern const ExplosionType Normal;
     extern const ExplosionType Radial_Splash;
