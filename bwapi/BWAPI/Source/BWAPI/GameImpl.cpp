@@ -959,7 +959,10 @@ namespace BWAPI
           this->BWAPIPlayer = this->players[i];
 
       if (this->BWAPIPlayer == NULL)
+      {
+        this->commandLog->log("Error: Could not locate BWAPI player.");
         return;
+      }
 
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
