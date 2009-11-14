@@ -31,76 +31,76 @@ namespace BWAPI
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool Position::operator == (const Position& position) const
+  bool __cdecl Position::operator == (const Position& position) const
   {
     return this->x() == position.x() &&
            this->y() == position.y();
   }
   //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool Position::operator != (const Position& position) const
+  bool __cdecl Position::operator != (const Position& position) const
   {
     return this->x() != position.x() ||
            this->y() != position.y();
   }
   //---------------------------------------------- OPERATOR < ------------------------------------------------
-  bool Position::operator  < (const Position& position) const
+  bool __cdecl Position::operator  < (const Position& position) const
   {
     return this->x() < position.x() ||
            (this->x() == position.x() && this->y() < position.y());
   }
   //----------------------------------------------------------------------------------------------------------
-  Position Position::operator+(const Position& position) const
+  Position __cdecl Position::operator+(const Position& position) const
   {
     return Position(this->x() + position.x(), this->y() + position.y());
   }
   //----------------------------------------------------------------------------------------------------------
-  Position Position::operator-(const Position& position) const
+  Position __cdecl Position::operator-(const Position& position) const
   {
     return Position(this->x() - position.x(), this->y() - position.y());
   }
   //----------------------------------------------------------------------------------------------------------
-  Position& Position::operator+=(const Position& position)
+  Position& __cdecl Position::operator+=(const Position& position)
   {
     this->x() += position.x();
     this->y() += position.y();
     return *this;
   }
   //----------------------------------------------------------------------------------------------------------
-  Position& Position::operator-=(const Position& position)
+  Position& __cdecl Position::operator-=(const Position& position)
   {
     this->x() -= position.x();
     this->y() -= position.y();
     return *this;
   }
   //----------------------------------------------------------------------------------------------------------
-  double Position::getDistance(const Position& position) const
+  double __cdecl Position::getDistance(const Position& position) const
   {
     return ((*this) - position).getLength();
   }
   //----------------------------------------------------------------------------------------------------------
-  double Position::getLength() const
+  double __cdecl Position::getLength() const
   {
     double x = this->x();
     double y = this->y();
     return sqrt(x * x + y * y);
   }
   //----------------------------------------------------------------------------------------------------------
-  int& Position::x()
+  int& __cdecl Position::x()
   {
     return this->_x;
   }
   //----------------------------------------------------------------------------------------------------------
-  int& Position::y()
+  int& __cdecl Position::y()
   {
     return this->_y;
   }
   //----------------------------------------------------------------------------------------------------------
-  int Position::x() const
+  int __cdecl Position::x() const
   {
     return this->_x;
   }
   //----------------------------------------------------------------------------------------------------------
-  int Position::y() const
+  int __cdecl Position::y() const
   {
     return this->_y;
   }

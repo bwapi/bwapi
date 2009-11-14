@@ -10,7 +10,7 @@ namespace BWAPI
   class RaceInternal
   {
     public:
-      void set(const char* name, const UnitType* worker, const UnitType* center, const UnitType* refinery, const UnitType* transport, const UnitType* supplyProvider)
+      void __cdecl set(const char* name, const UnitType* worker, const UnitType* center, const UnitType* refinery, const UnitType* transport, const UnitType* supplyProvider)
       {
         if (initializingRace)
         {
@@ -41,7 +41,7 @@ namespace BWAPI
     const Race Other(4);
     const Race None(5);
     const Race Unknown(6);
-    void init()
+    void __cdecl init()
     {
       raceData[Zerg.getID()].set("Zerg", &(UnitTypes::Zerg_Drone), &(UnitTypes::Zerg_Hatchery), &(UnitTypes::Zerg_Extractor), &(UnitTypes::Zerg_Overlord), &(UnitTypes::Zerg_Overlord));
       raceData[Terran.getID()].set("Terran", &(UnitTypes::Terran_SCV), &(UnitTypes::Terran_Command_Center), &(UnitTypes::Terran_Refinery), &(UnitTypes::Terran_Dropship), &(UnitTypes::Terran_Supply_Depot));
@@ -84,59 +84,59 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  Race& Race::operator=(const Race& other)
+  Race& __cdecl Race::operator=(const Race& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool Race::operator==(const Race& other) const
+  bool __cdecl Race::operator==(const Race& other) const
   {
     return this->id == other.id;
   }
-  bool Race::operator!=(const Race& other) const
+  bool __cdecl Race::operator!=(const Race& other) const
   {
     return this->id != other.id;
   }
-  bool Race::operator<(const Race& other) const
+  bool __cdecl Race::operator<(const Race& other) const
   {
     return this->id < other.id;
   }
-  int Race::getID() const
+  int __cdecl Race::getID() const
   {
     return this->id;
   }
-  std::string Race::getName() const
+  std::string __cdecl Race::getName() const
   {
     return raceData[this->id].name;
   }
 
-  const UnitType* Race::getWorker() const
+  const UnitType* __cdecl Race::getWorker() const
   {
     return raceData[this->id].worker;
   }
-  const UnitType* Race::getCenter() const
+  const UnitType* __cdecl Race::getCenter() const
   {
     return raceData[this->id].center;
   }
-  const UnitType* Race::getRefinery() const
+  const UnitType* __cdecl Race::getRefinery() const
   {
     return raceData[this->id].refinery;
   }
-  const UnitType* Race::getTransport() const
+  const UnitType* __cdecl Race::getTransport() const
   {
     return raceData[this->id].transport;
   }
-  const UnitType* Race::getSupplyProvider() const
+  const UnitType* __cdecl Race::getSupplyProvider() const
   {
     return raceData[this->id].supplyProvider;
   }
-  Race Races::getRace(std::string& name)
+  Race __cdecl Races::getRace(std::string& name)
   {
     std::map<std::string, Race>::iterator i = raceMap.find(name);
     if (i == raceMap.end()) return Races::Unknown;
     return (*i).second;
   }
-  std::set<Race>& Races::allRaces()
+  std::set<Race>& __cdecl Races::allRaces()
   {
     return raceSet;
   }

@@ -202,7 +202,7 @@ namespace BWAPI
     const Order Fatal(188);
     const Order None(189);
     const Order Unknown(190);
-    void init()
+    void __cdecl init()
     {
       orderName[Die.getID()] = "Die";
       orderName[Stop.getID()] = "Stop";
@@ -613,38 +613,38 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  Order& Order::operator=(const Order& other)
+  Order& __cdecl Order::operator=(const Order& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool Order::operator==(const Order& other) const
+  bool __cdecl Order::operator==(const Order& other) const
   {
     return this->id == other.id;
   }
-  bool Order::operator!=(const Order& other) const
+  bool __cdecl Order::operator!=(const Order& other) const
   {
     return this->id != other.id;
   }
-  bool Order::operator<(const Order& other) const
+  bool __cdecl Order::operator<(const Order& other) const
   {
     return this->id < other.id;
   }
-  int Order::getID() const
+  int __cdecl Order::getID() const
   {
     return this->id;
   }
-  std::string Order::getName() const
+  std::string __cdecl Order::getName() const
   {
     return orderName[this->id];
   }
-  Order Orders::getOrder(std::string& name)
+  Order __cdecl Orders::getOrder(std::string& name)
   {
     std::map<std::string, Order>::iterator i = orderMap.find(name);
     if (i == orderMap.end()) return Orders::Unknown;
     return (*i).second;
   }
-  std::set<Order>& Orders::allOrders()
+  std::set<Order>& __cdecl Orders::allOrders()
   {
     return orderSet;
   }

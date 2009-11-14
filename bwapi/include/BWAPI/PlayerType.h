@@ -9,20 +9,20 @@ namespace BWAPI
       PlayerType();
       PlayerType(int id);
       PlayerType(const PlayerType& other);
-      PlayerType& operator=(const PlayerType& other);
-      bool operator==(const PlayerType& other) const;
-      bool operator!=(const PlayerType& other) const;
-      bool operator<(const PlayerType& other) const;
-      int getID() const;
-      std::string getName() const;
+      PlayerType& __cdecl operator=(const PlayerType& other);
+      bool __cdecl operator==(const PlayerType& other) const;
+      bool __cdecl operator!=(const PlayerType& other) const;
+      bool __cdecl operator<(const PlayerType& other) const;
+      int __cdecl getID() const;
+      std::string __cdecl getName() const;
     private:
       int id;
   };
   namespace PlayerTypes
   {
-    PlayerType getPlayerType(std::string& name);
-    std::set<PlayerType>& allPlayerTypes();
-    void init();
+    PlayerType __cdecl getPlayerType(std::string& name);
+    std::set<PlayerType>& __cdecl allPlayerTypes();
+    void __cdecl init();
     extern const PlayerType NotUsed;
     extern const PlayerType Computer;
     extern const PlayerType Human;

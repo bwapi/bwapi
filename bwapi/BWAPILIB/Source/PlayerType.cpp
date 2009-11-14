@@ -23,7 +23,7 @@ namespace BWAPI
     const PlayerType ComputerDefeated(11);
     const PlayerType None(12);
     const PlayerType Unknown(13);
-    void init()
+    void __cdecl init()
     {
       playerTypeName[NotUsed.getID()] = "NotUsed";
       playerTypeName[Computer.getID()] = "Computer";
@@ -75,38 +75,38 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  PlayerType& PlayerType::operator=(const PlayerType& other)
+  PlayerType& __cdecl PlayerType::operator=(const PlayerType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool PlayerType::operator==(const PlayerType& other) const
+  bool __cdecl PlayerType::operator==(const PlayerType& other) const
   {
     return this->id == other.id;
   }
-  bool PlayerType::operator!=(const PlayerType& other) const
+  bool __cdecl PlayerType::operator!=(const PlayerType& other) const
   {
     return this->id != other.id;
   }
-  bool PlayerType::operator<(const PlayerType& other) const
+  bool __cdecl PlayerType::operator<(const PlayerType& other) const
   {
     return this->id < other.id;
   }
-  int PlayerType::getID() const
+  int __cdecl PlayerType::getID() const
   {
     return this->id;
   }
-  std::string PlayerType::getName() const
+  std::string __cdecl PlayerType::getName() const
   {
     return playerTypeName[this->id];
   }
-  PlayerType PlayerTypes::getPlayerType(std::string& name)
+  PlayerType __cdecl PlayerTypes::getPlayerType(std::string& name)
   {
     std::map<std::string, PlayerType>::iterator i = playerTypeMap.find(name);
     if (i == playerTypeMap.end()) return PlayerTypes::Unknown;
     return (*i).second;
   }
-  std::set<PlayerType>& PlayerTypes::allPlayerTypes()
+  std::set<PlayerType>& __cdecl PlayerTypes::allPlayerTypes()
   {
     return playerTypeSet;
   }
