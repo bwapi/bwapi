@@ -12,7 +12,7 @@ namespace BWAPI
   {
     public:
       UpgradeTypeInternal() {valid = false;}
-      void set(const char* name, int mineralPriceBase, int mineralPriceFactor, int gasPriceBase, int gasPriceFactor, int upgradeTimeBase, int upgradeTimeFactor, const BWAPI::UnitType* whatUpgrades, Race race, int maxRepeats)
+      void __cdecl set(const char* name, int mineralPriceBase, int mineralPriceFactor, int gasPriceBase, int gasPriceFactor, int upgradeTimeBase, int upgradeTimeFactor, const BWAPI::UnitType* whatUpgrades, Race race, int maxRepeats)
       {
         if (initializingUpgradeType)
         {
@@ -98,7 +98,7 @@ namespace BWAPI
     const UpgradeType Charon_Booster(54);
     const UpgradeType None(61);
     const UpgradeType Unknown(62);
-    void init()
+    void __cdecl init()
     {
       upgradeTypeData[Terran_Infantry_Armor.getID()].set("Terran Infantry Armor", 100, 75, 100, 75, 4000, 480, &(UnitTypes::Terran_Engineering_Bay), Races::Terran, 3);
       upgradeTypeData[Terran_Vehicle_Plating.getID()].set("Terran Vehicle Plating", 100, 75, 100, 75, 4000, 480, &(UnitTypes::Terran_Armory), Races::Terran, 3);
@@ -231,74 +231,74 @@ namespace BWAPI
   {
     this->id = other.id;
   }
-  UpgradeType& UpgradeType::operator=(const UpgradeType& other)
+  UpgradeType& __cdecl UpgradeType::operator=(const UpgradeType& other)
   {
     this->id = other.id;
     return *this;
   }
-  bool UpgradeType::operator==(const UpgradeType& other) const
+  bool __cdecl UpgradeType::operator==(const UpgradeType& other) const
   {
     return this->id == other.id;
   }
-  bool UpgradeType::operator!=(const UpgradeType& other) const
+  bool __cdecl UpgradeType::operator!=(const UpgradeType& other) const
   {
     return this->id != other.id;
   }
-  bool UpgradeType::operator<(const UpgradeType& other) const
+  bool __cdecl UpgradeType::operator<(const UpgradeType& other) const
   {
     return this->id < other.id;
   }
-  int UpgradeType::getID() const
+  int __cdecl UpgradeType::getID() const
   {
     return this->id;
   }
-  std::string UpgradeType::getName() const
+  std::string __cdecl UpgradeType::getName() const
   {
     return upgradeTypeData[this->id].name;
   }
-  Race UpgradeType::getRace() const
+  Race __cdecl UpgradeType::getRace() const
   {
     return upgradeTypeData[this->id].race;
   }
-  int UpgradeType::mineralPriceBase() const
+  int __cdecl UpgradeType::mineralPriceBase() const
   {
     return upgradeTypeData[this->id].mineralPriceBase;
   }
-  int UpgradeType::mineralPriceFactor() const
+  int __cdecl UpgradeType::mineralPriceFactor() const
   {
     return upgradeTypeData[this->id].mineralPriceFactor;
   }
-  int UpgradeType::gasPriceBase() const
+  int __cdecl UpgradeType::gasPriceBase() const
   {
     return upgradeTypeData[this->id].gasPriceBase;
   }
-  int UpgradeType::gasPriceFactor() const
+  int __cdecl UpgradeType::gasPriceFactor() const
   {
     return upgradeTypeData[this->id].gasPriceFactor;
   }
-  int UpgradeType::upgradeTimeBase() const
+  int __cdecl UpgradeType::upgradeTimeBase() const
   {
     return upgradeTypeData[this->id].upgradeTimeBase;
   }
-  int UpgradeType::upgradeTimeFactor() const
+  int __cdecl UpgradeType::upgradeTimeFactor() const
   {
     return upgradeTypeData[this->id].upgradeTimeFactor;
   }
-  const UnitType* UpgradeType::whatUpgrades() const
+  const UnitType* __cdecl UpgradeType::whatUpgrades() const
   {
     return upgradeTypeData[this->id].whatUpgrades;
   }
-  int UpgradeType::maxRepeats() const
+  int __cdecl UpgradeType::maxRepeats() const
   {
     return upgradeTypeData[this->id].maxRepeats;
   }
-  UpgradeType UpgradeTypes::getUpgradeType(std::string& name)
+  UpgradeType __cdecl UpgradeTypes::getUpgradeType(std::string& name)
   {
     std::map<std::string, UpgradeType>::iterator i = upgradeTypeMap.find(name);
     if (i == upgradeTypeMap.end()) return UpgradeTypes::Unknown;
     return (*i).second;
   }
-  std::set<UpgradeType>& UpgradeTypes::allUpgradeTypes()
+  std::set<UpgradeType>& __cdecl UpgradeTypes::allUpgradeTypes()
   {
     return upgradeTypeSet;
   }

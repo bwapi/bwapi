@@ -10,25 +10,25 @@ namespace BWAPI
       Race();
       Race(int id);
       Race(const Race& other);
-      Race& operator=(const Race& other);
-      bool operator==(const Race& other) const;
-      bool operator!=(const Race& other) const;
-      bool operator<(const Race& other) const;
-      int getID() const;
-      std::string getName() const;
-      const UnitType* getWorker() const;
-      const UnitType* getCenter() const;
-      const UnitType* getRefinery() const;
-      const UnitType* getTransport() const;
-      const UnitType* getSupplyProvider() const;
+      Race& __cdecl operator=(const Race& other);
+      bool __cdecl operator==(const Race& other) const;
+      bool __cdecl operator!=(const Race& other) const;
+      bool __cdecl operator<(const Race& other) const;
+      int __cdecl getID() const;
+      std::string __cdecl getName() const;
+      const UnitType* __cdecl getWorker() const;
+      const UnitType* __cdecl getCenter() const;
+      const UnitType* __cdecl getRefinery() const;
+      const UnitType* __cdecl getTransport() const;
+      const UnitType* __cdecl getSupplyProvider() const;
     private:
       int id;
   };
   namespace Races
   {
-    Race getRace(std::string& name);
-    std::set<Race>& allRaces();
-    void init();
+    Race __cdecl getRace(std::string& name);
+    std::set<Race>& __cdecl allRaces();
+    void __cdecl init();
     extern const Race Zerg;
     extern const Race Terran;
     extern const Race Protoss;

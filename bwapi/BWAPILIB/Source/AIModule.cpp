@@ -7,22 +7,22 @@ namespace BWAPI
   AIModule::~AIModule()
   {
   }
-  void AIModule::onStart()
+  void __cdecl AIModule::onStart()
   {
   }
-  void AIModule::onEnd()
+  void __cdecl AIModule::onEnd()
   {
   }
-  void AIModule::onFrame()
+  void __cdecl AIModule::onFrame()
   {
   }
-  void AIModule::onAddUnit(BWAPI::Unit* unit)
+  void __cdecl AIModule::onAddUnit(BWAPI::Unit* unit)
   {
   }
-  void AIModule::onRemoveUnit(BWAPI::Unit* unit)
+  void __cdecl AIModule::onRemoveUnit(BWAPI::Unit* unit)
   {
   }
-  bool AIModule::onSendText(std::string text)
+  bool __cdecl AIModule::onSendText(std::string text)
   {
     return true;
   }

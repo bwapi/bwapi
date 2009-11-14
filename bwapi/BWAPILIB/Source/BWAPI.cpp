@@ -1,5 +1,5 @@
 #include <BWAPI.h>
-void BWAPI::BWAPI_init()
+void __cdecl BWAPI::BWAPI_init()
 {
   BWAPI::Races::init();
   BWAPI::DamageTypes::init();

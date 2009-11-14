@@ -13,26 +13,26 @@ namespace BWAPI
       TechType(int id);
       TechType(const TechType& other);
       TechType& operator=(const TechType& other);
-      bool operator==(const TechType& other) const;
-      bool operator!=(const TechType& other) const;
-      bool operator<(const TechType& other) const;
-      int getID() const;
-      std::string getName() const;
-      Race getRace() const;
-      int mineralPrice() const;
-      int gasPrice() const;
-      int energyUsed() const;
-      const UnitType* whatResearches() const;
-      const WeaponType* getWeapon() const;
-      const std::set<const UnitType*>& whatUses() const;
+      bool __cdecl operator==(const TechType& other) const;
+      bool __cdecl operator!=(const TechType& other) const;
+      bool __cdecl operator<(const TechType& other) const;
+      int __cdecl getID() const;
+      std::string __cdecl getName() const;
+      Race __cdecl getRace() const;
+      int __cdecl mineralPrice() const;
+      int __cdecl gasPrice() const;
+      int __cdecl energyUsed() const;
+      const UnitType* __cdecl whatResearches() const;
+      const WeaponType* __cdecl getWeapon() const;
+      const std::set<const UnitType*>& __cdecl whatUses() const;
     private:
       int id;
   };
   namespace TechTypes
   {
-    TechType getTechType(std::string& name);
-    std::set<TechType>& allTechTypes();
-    void init();
+    TechType __cdecl getTechType(std::string& name);
+    std::set<TechType>& __cdecl allTechTypes();
+    void __cdecl init();
     extern const TechType Stim_Packs;
     extern const TechType Lockdown;
     extern const TechType EMP_Shockwave;

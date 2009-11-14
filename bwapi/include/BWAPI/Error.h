@@ -10,20 +10,20 @@ namespace BWAPI
       Error();
       Error(int id);
       Error(const Error& other);
-      Error& operator=(const Error& other);
-      bool operator==(const Error& other) const;
-      bool operator!=(const Error& other) const;
-      bool operator<(const Error& other) const;
-      int getID() const;
-      std::string toString() const;
+      Error& __cdecl operator=(const Error& other);
+      bool __cdecl operator==(const Error& other) const;
+      bool __cdecl operator!=(const Error& other) const;
+      bool __cdecl operator<(const Error& other) const;
+      int __cdecl getID() const;
+      std::string __cdecl toString() const;
     private:
       int id;
   };
   namespace Errors
   {
-    Error getError(std::string& name);
-    std::set<Error>& allErrors();
-    void init();
+    Error __cdecl getError(std::string& name);
+    std::set<Error>& __cdecl allErrors();
+    void __cdecl init();
     extern const Error Unit_Does_Not_Exist;
     extern const Error Unit_Not_Visible;
     extern const Error Unit_Not_Owned;

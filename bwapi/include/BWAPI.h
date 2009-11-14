@@ -23,5 +23,5 @@
 
 namespace BWAPI
 {
-  void BWAPI_init();
+  void __cdecl BWAPI_init();
 }

@@ -11,29 +11,29 @@ namespace BWAPI
       UpgradeType();
       UpgradeType(int id);
       UpgradeType(const UpgradeType& other);
-      UpgradeType& operator=(const UpgradeType& other);
-      bool operator==(const UpgradeType& other) const;
-      bool operator!=(const UpgradeType& other) const;
-      bool operator<(const UpgradeType& other) const;
-      int getID() const;
-      std::string getName() const;
-      Race getRace() const;
-      int mineralPriceBase() const;
-      int mineralPriceFactor() const;
-      int gasPriceBase() const;
-      int gasPriceFactor() const;
-      int upgradeTimeBase() const;
-      int upgradeTimeFactor() const;
-      int maxRepeats() const;
-      const UnitType* whatUpgrades() const;
+      UpgradeType& __cdecl operator=(const UpgradeType& other);
+      bool __cdecl operator==(const UpgradeType& other) const;
+      bool __cdecl operator!=(const UpgradeType& other) const;
+      bool __cdecl operator<(const UpgradeType& other) const;
+      int __cdecl getID() const;
+      std::string __cdecl getName() const;
+      Race __cdecl getRace() const;
+      int __cdecl mineralPriceBase() const;
+      int __cdecl mineralPriceFactor() const;
+      int __cdecl gasPriceBase() const;
+      int __cdecl gasPriceFactor() const;
+      int __cdecl upgradeTimeBase() const;
+      int __cdecl upgradeTimeFactor() const;
+      int __cdecl maxRepeats() const;
+      const UnitType* __cdecl whatUpgrades() const;
     private:
       int id;
   };
   namespace UpgradeTypes
   {
-    UpgradeType getUpgradeType(std::string& name);
-    std::set<UpgradeType>& allUpgradeTypes();
-    void init();
+    UpgradeType __cdecl getUpgradeType(std::string& name);
+    std::set<UpgradeType>& __cdecl allUpgradeTypes();
+    void __cdecl init();
     extern const UpgradeType Terran_Infantry_Armor;
     extern const UpgradeType Terran_Vehicle_Plating;
     extern const UpgradeType Terran_Ship_Plating;
