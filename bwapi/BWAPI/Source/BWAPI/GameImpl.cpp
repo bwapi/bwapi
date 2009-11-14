@@ -653,16 +653,10 @@ namespace BWAPI
       }
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
-        if (i->getType().getID()==0)
+        if (i->getOriginalRawData()!=NULL)
         {
-          if (i->getHitPoints()>0)
-          {
+          if (i->getOriginalRawData()->sprite!=NULL)
             unitList.push_back(i);
-          }
-        }
-        else
-        {
-          unitList.push_back(i);
         }
       }
       this->myPylons.clear();
