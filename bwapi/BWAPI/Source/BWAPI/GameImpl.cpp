@@ -653,7 +653,17 @@ namespace BWAPI
       }
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
       {
-        unitList.push_back(i);
+        if (i->getType().getID()==0)
+        {
+          if (i->getHitPoints()>0)
+          {
+            unitList.push_back(i);
+          }
+        }
+        else
+        {
+          unitList.push_back(i);
+        }
       }
       this->myPylons.clear();
       for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
