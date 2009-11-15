@@ -943,7 +943,9 @@ namespace BWAPI
 
     /* get the start locations */
     BW::Positions* posptr = BW::BWDATA_startPositions;
-    startLocations.clear();
+    this->startLocations.clear();
+    this->playerSet.clear();
+    this->forces.clear();
     while (posptr->x != 0 || posptr->y != 0)
     {
       startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2)          / BW::TILE_SIZE),
