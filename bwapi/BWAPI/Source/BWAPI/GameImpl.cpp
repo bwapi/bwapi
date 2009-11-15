@@ -1459,10 +1459,13 @@ namespace BWAPI
                                     (u16)index);
     if (this->client != NULL)
     {
+      bool isInUpdate = this->inUpdate;
+      this->inUpdate = false;
       if (unit!=NULL && unit->canAccessSpecial())
       {
         this->client->onRemoveUnit(unit);
       }
+      this->inUpdate = isInUpdate;
     }
     unit->die();
   }
@@ -1486,10 +1489,12 @@ namespace BWAPI
   {
     if (this->client != NULL)
     {
+      this->inUpdate = false;
       if (unit!=NULL && ((UnitImpl*)unit)->canAccess())
       {
         this->client->onAddUnit(unit);
       }
+      this->inUpdate = true;
     }
   }
   //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
