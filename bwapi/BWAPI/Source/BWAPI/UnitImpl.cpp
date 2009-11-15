@@ -59,8 +59,8 @@ namespace BWAPI
       , index(index)
       , userSelected(false)
       , buildUnit(NULL)
-      , alive(false)
-      , dead(false)
+      , alive(false) //alive is true while the unit exists
+      , dead(false) //dead only set to true once the unit has died
       , savedPlayer(NULL)
       , savedUnitType(UnitTypes::None)
   {
@@ -198,12 +198,11 @@ namespace BWAPI
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
+    // if we have no special access, return neutral player
     if (!this->attemptAccessSpecial()) return (Player*)BroodwarImpl.players[11];
-    if (!this->_exists()) return this->savedPlayer;
-    if (this->getRawDataLocal()->playerID < 12)
-      return (Player*)BroodwarImpl.players[this->getRawDataLocal()->playerID];
-    else
-      return NULL;
+
+    // otherwise, return player
+    return this->_getPlayer();
   }
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::_getPlayer() const
@@ -212,16 +211,22 @@ namespace BWAPI
     return (Player*)BroodwarImpl.players[this->getRawDataLocal()->playerID];
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
+  // returns true if the unit exists from an AI Module level of access - inaccessible enemy units will return
+  // false, whether or not the unit exists.
   bool UnitImpl::exists() const
   {
-    return this->alive;
+    BroodwarImpl.setLastError(Errors::None);
+    if (!canAccessSpecial()) return false;
+    return this->alive; //return _exists();
   }
-  //------------------------------------------------- EXISTS -------------------------------------------------
+  //-------------------------------------------------- DIED --------------------------------------------------
+  //returns true if the unit once exists and now does not exist
   bool UnitImpl::died() const
   {
     return this->dead;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
+  //returns true if the unit exists
   bool UnitImpl::_exists() const
   {
     return this->alive;
@@ -288,7 +293,7 @@ namespace BWAPI
   bool UnitImpl::isCompleted() const
   {
     if (!this->attemptAccess()) return false;
-    return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
+    return this->_isCompleted();
   }
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool UnitImpl::_isCompleted() const
@@ -536,7 +541,7 @@ namespace BWAPI
   Position UnitImpl::getPosition() const
   {
     if (!this->attemptAccess()) return BWAPI::Positions::Unknown;
-    return BWAPI::Position(this->getRawDataLocal()->position.x, this->getRawDataLocal()->position.y);
+    return this->_getPosition();
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   Position UnitImpl::_getPosition() const
@@ -548,8 +553,7 @@ namespace BWAPI
   TilePosition UnitImpl::getTilePosition() const
   {
     if (!this->attemptAccess()) return BWAPI::TilePositions::Unknown;
-    return TilePosition(Position(this->getPosition().x() - this->getType().tileWidth() * BW::TILE_SIZE / 2,
-                                 this->getPosition().y() - this->getType().tileHeight() * BW::TILE_SIZE / 2));
+    return this->_getTilePosition();
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
   TilePosition UnitImpl::_getTilePosition() const
@@ -662,8 +666,8 @@ namespace BWAPI
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
-    if (!this->isVisible()) return NULL;
-    return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
+    if (!this->attemptAccess()) return NULL;
+    return this->_getOrderTarget();
   }
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::_getOrderTarget() const
@@ -2011,18 +2015,7 @@ namespace BWAPI
   BWAPI::UnitType UnitImpl::getType() const
   {
     if (!this->attemptAccessSpecial()) return UnitTypes::Unknown;
-    if (!this->_exists()) return this->savedUnitType;
-
-    if ( this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch1
-         || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch2
-         || this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch3)
-    {
-      return BWAPI::UnitTypes::Resource_Mineral_Field;
-    }
-    else
-    {
-      return BWAPI::UnitType(this->getRawDataLocal()->unitID.id);
-    }
+    return this->_getType();
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::_getType() const
@@ -2077,9 +2070,14 @@ namespace BWAPI
 #pragma warning (pop)
   void UnitImpl::die()
   {
+    //if the unit already does exist, don't kill it again
     if (!this->alive) return;
+
+    //save player and unit type
     this->savedPlayer    = this->_getPlayer();
     this->savedUnitType  = this->_getType();
+
+    //set pointers to null so we don't read information from unit table anymore
     this->bwUnitLocal    = NULL;
     this->bwOriginalUnit = NULL;
     this->index          = 0xFFFF;
@@ -2087,6 +2085,12 @@ namespace BWAPI
     this->alive          = false;
     this->dead           = true;
   }
+
+  /* canAccess returns true if the AI module is allowed to access the unit.
+    If the unit is visible, returns true.
+    If the unit is does not exist, returns false.
+    If the unit is not visible and exists, returns true only if CompleteMapInformation is enabled.
+  */
   bool UnitImpl::canAccess() const
   {
     if (this->isVisible()) return true;
@@ -2095,47 +2099,60 @@ namespace BWAPI
       if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
         return true;
 
+      /* neutral units visible during AIModule::onStart */
       if (BroodwarImpl.flagsLocked == false)
         if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories())
           return true;
+
+      if (BroodwarImpl.inUpdate == true)
+        return true;
     }
-    if (BroodwarImpl.inUpdate == true)
-      return true;
     return false;
   }
+
+  //returns true if canAccess() is true or (the unit does not exist and is owned by self)
   bool UnitImpl::canAccessSpecial() const
   {
-    if (this->isVisible()) return true;
-    if (this->_exists())
-    {
-      if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) return true;
-      if (BroodwarImpl.flagsLocked==false)
-      {
-        if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories()) return true;
-      }
-      if (BroodwarImpl.inUpdate==true) return true;
-    }
+    if (canAccess()) return true;
     if (!this->_exists() && this->savedPlayer==BroodwarImpl.self()) return true;
     return false;
   }
+
+  // calls canAccess, setting error codes as needed
   bool UnitImpl::attemptAccess() const
   {
-    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::None);
-    if (this->canAccess()) return true;
-    if (!this->_exists() && this->savedPlayer==BroodwarImpl.self())
+    if (!BroodwarImpl.inUpdate)
     {
-      if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+      BroodwarImpl.setLastError(Errors::None);
+      if (this->canAccess()) return true;
+      if (!this->_exists() && this->savedPlayer==BroodwarImpl.self())
+      {
+        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+        return false;
+      }
+      BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
       return false;
     }
-    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-    return false;      
+    else
+    {
+      return this->canAccess();
+    }
   }
+
+  // calls canAccessSpecial, setting error codes as needed
   bool UnitImpl::attemptAccessSpecial() const
   {
-    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::None);
-    if (this->canAccessSpecial()) return true;
-    if (!BroodwarImpl.inUpdate) BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-    return false;      
+    if (!BroodwarImpl.inUpdate)
+    {
+      BroodwarImpl.setLastError(Errors::None);
+      if (this->canAccessSpecial()) return true;
+      BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
+      return false;
+    }
+    else
+    {
+      return this->canAccessSpecial();
+    }
   }
   char position[100];
   char indexName[50];
