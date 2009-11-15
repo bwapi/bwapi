@@ -24,7 +24,7 @@ namespace BWAPI
       int energyUsed() const;
       const UnitType* whatResearches() const;
       const WeaponType* getWeapon() const;
-      const std::set<const UnitType*>& whatUses() const;
+      const std::set<const UnitType*> whatUses() const;
     private:
       int id;
   };

@@ -1792,9 +1792,10 @@ namespace BWAPI
       return false;
     }
     bool found=false;
-    for(std::set<const UnitType*>::const_iterator i=tech.whatUses().begin();i!=tech.whatUses().end();i++)
-      if (*(*i)==this->getType())
-        found=true;
+    for each (const UnitType* i in tech.whatUses())
+      if (*i == this->getType())
+        found = true;
+
     if (!found)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1858,9 +1859,10 @@ namespace BWAPI
       return false;
     }
     bool found=false;
-    for(std::set<const UnitType*>::const_iterator i=tech.whatUses().begin();i!=tech.whatUses().end();i++)
-      if (*(*i)==this->getType())
-        found=true;
+    for each (const UnitType* i in tech.whatUses())
+      if (*i == this->getType())
+        found = true;
+
     if (!found)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1936,10 +1938,11 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    bool found=false;
-    for(std::set<const UnitType*>::const_iterator i=tech.whatUses().begin();i!=tech.whatUses().end();i++)
-      if (*(*i)==this->getType())
-        found=true;
+    bool found = false;
+    for each (const UnitType* i in tech.whatUses())
+      if (*i == this->getType())
+        found = true;
+
     if (!found)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);

@@ -105,8 +105,8 @@ namespace BW
   static DatLoad*       unitsDat          = (DatLoad*)        0x00513C30;
   static DatLoad*       flingyDat         = (DatLoad*)        0x00515A38;
 
-  static Positions*      startPositions   = (Positions*)      0x0058D720;  // 1.16.1
-  static ForceName*      ForceNames       = (ForceName*)      0x0058D5BC;  // 1.16.1
+  static Positions*      BWDATA_startPositions   = (Positions*)      0x0058D720;  // 1.16.1
+  static ForceName*      BWDATA_ForceNames       = (ForceName*)      0x0058D5BC;  // 1.16.1
   static Players*        BWDATA_Players   = (Players*)        0x0057EEE0;  // 1.16.1
   static PlayerAlliance* BWDATA_Alliance  = (PlayerAlliance*) 0x0058D634;  // 1.16.1
 
