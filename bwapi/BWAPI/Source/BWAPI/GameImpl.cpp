@@ -1219,7 +1219,7 @@ namespace BWAPI
       if (parsed[1] != "")
         setLocalSpeed(atoi(parsed[1].c_str()));
       else
-        setLocalSpeed(-1);
+        setLocalSpeed();
       return true;
     }
     return false;
@@ -1630,22 +1630,87 @@ namespace BWAPI
   {
     addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
   }
+  void  GameImpl::drawScreenBox(int left, int top, int right, int bottom, Color color, bool isSolid)
+  {
+    addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMapBox(int left, int top, int right, int bottom, Color color, bool isSolid)
+  {
+    addShape(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMouseBox(int left, int top, int right, int bottom, Color color, bool isSolid)
+  {
+    addShape(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
+  }
+
   void  GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
+  void  GameImpl::drawScreenTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  {
+    addShape(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMapTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  {
+    addShape(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMouseTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  {
+    addShape(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+  }
+
   void  GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
     addShape(new ShapeDot(ctype, x, y, color.getID()));
   }
+  void  GameImpl::drawScreenDot(int x, int y, Color color)
+  {
+    addShape(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
+  }
+  void  GameImpl::drawMapDot(int x, int y, Color color)
+  {
+    addShape(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color.getID()));
+  }
+  void  GameImpl::drawMouseDot(int x, int y, Color color)
+  {
+    addShape(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color.getID()));
+  }
+
   void  GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
   }
+  void  GameImpl::drawScreenCircle(int x, int y, int radius, Color color, bool isSolid)
+  {
+    addShape(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMapCircle(int x, int y, int radius, Color color, bool isSolid)
+  {
+    addShape(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMouseCircle(int x, int y, int radius, Color color, bool isSolid)
+  {
+    addShape(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color.getID(), isSolid));
+  }
+
   void  GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
   }
+  void  GameImpl::drawScreenEllipse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  {
+    addShape(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMapEllipse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  {
+    addShape(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color.getID(), isSolid));
+  }
+  void  GameImpl::drawMouseEllipse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  {
+    addShape(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color.getID(), isSolid));
+  }
+
   void  GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
     int screen_x1 = x1;
@@ -1673,6 +1738,18 @@ namespace BWAPI
 
     addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
   }
+  void  GameImpl::drawScreenLine(int x1, int y1, int x2, int y2, Color color)
+  {
+    drawLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color);
+  }
+  void  GameImpl::drawMapLine(int x1, int y1, int x2, int y2, Color color)
+  {
+    drawLine(BWAPI::CoordinateType::Map, x1, y1, x2, y2, color);
+  }
+  void  GameImpl::drawMouseLine(int x1, int y1, int x2, int y2, Color color)
+  {
+    drawLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color);
+  }
 
   void  GameImpl::text(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
   {
@@ -1681,6 +1758,30 @@ namespace BWAPI
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
     addShape(new ShapeText(ctype,x,y,std::string(buffer)));
+  }
+  void  GameImpl::textScreen(int x, int y, const char* text, ...)
+  {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_end(ap);
+    GameImpl::text(BWAPI::CoordinateType::Screen, x, y, "%s", buffer);
+  }
+  void  GameImpl::textMap(int x, int y, const char* text, ...)
+  {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_end(ap);
+    GameImpl::text(BWAPI::CoordinateType::Map, x, y, "%s", buffer);
+  }
+  void  GameImpl::textMouse(int x, int y, const char* text, ...)
+  {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_end(ap);
+    GameImpl::text(BWAPI::CoordinateType::Mouse, x, y, "%s", buffer);
   }
 
   //--------------------------------------------------- GAME SPEED -------------------------------------------

@@ -92,6 +92,10 @@ namespace BWAPI
       virtual void  printf(const char* text, ...);
       virtual void  sendText(const char* text, ...);
       virtual void  text(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
+      virtual void  textScreen(int x, int y, const char* text, ...);
+      virtual void  textMap(int x, int y, const char* text, ...);
+      virtual void  textMouse(int x, int y, const char* text, ...);
+
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
@@ -106,17 +110,34 @@ namespace BWAPI
       virtual void  pauseGame();
       virtual void  resumeGame();
       virtual void  leaveGame();
-      virtual void  setLocalSpeed(int speed);
+      virtual void  setLocalSpeed(int speed = -1);
       virtual std::set<BWAPI::Unit*>  getSelectedUnits();
       virtual Player*  self();
       virtual Player*  enemy();
-      virtual void  drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
-      virtual void  drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-      virtual void  drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
-      virtual void  drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-      virtual void  drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
-      virtual void  drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
-
+      virtual void  drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMapBox(int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawScreenBox(int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMouseBox(int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMapTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawScreenTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMouseTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMapCircle(int x, int y, int radius, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawScreenCircle(int x, int y, int radius, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMouseCircle(int x, int y, int radius, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMapEllipse(int x, int y, int xrad, int yrad, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawMouseEllipse(int x, int y, int xrad, int yrad, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawScreenEllipse(int x, int y, int xrad, int yrad, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
+      virtual void  drawDot(CoordinateType::Enum ctype, int x, int y, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawMapDot(int x, int y, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawMouseDot(int x, int y, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawScreenDot(int x, int y, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawMapLine(int x1, int y1, int x2, int y2, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawMouseLine(int x1, int y1, int x2, int y2, Color color = Color(BWAPI::Colors::Green));
+      virtual void  drawScreenLine(int x1, int y1, int x2, int y2, Color color = Color(BWAPI::Colors::Green));
 
       //Internal BWAPI commands:
       GameImpl();
@@ -231,6 +252,3 @@ namespace BWAPI
    */
   extern GameImpl BroodwarImpl;
 };
-
-
-
