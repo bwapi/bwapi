@@ -554,7 +554,7 @@ namespace BWAPI
     return this->map.groundHeight(x, y);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
-  std::set< TilePosition >  GameImpl::getStartLocations()
+  std::set< TilePosition >& GameImpl::getStartLocations()
   {
     /* Return the set of Start Locations */
     this->setLastError(Errors::None);
@@ -568,66 +568,41 @@ namespace BWAPI
     return BWAPI::Map::getMapHash();
   }
   //----------------------------------------------- GET FORCES -----------------------------------------------
-  std::set< Force* >  GameImpl::getForces()
+  std::set< Force* >& GameImpl::getForces()
   {
     /* Return a set of forces */
     this->setLastError(Errors::None);
     return this->forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
-  std::set< Player* >  GameImpl::getPlayers()
+  std::set< Player* >& GameImpl::getPlayers()
   {
     this->setLastError(Errors::None);
-    std::set<Player*> players;
-    for (int i = 0; i < BW::PLAYER_COUNT; i++)
-      if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
-        players.insert(this->players[i]);
-
-    return players;
+    return this->playerSet;
   }
   //------------------------------------------------- GET UNITS ----------------------------------------------
-  std::set< Unit* >  GameImpl::getAllUnits()
+  std::set< Unit* >& GameImpl::getAllUnits()
   {
     this->setLastError(Errors::None);
-    std::set<Unit*> return_units;
-    for each (UnitImpl* i in this->units)
-      if (i->canAccess())
-        return_units.insert((Unit*)i);
-
-    return return_units;
+    return this->allUnits;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
-  std::set< Unit* >  GameImpl::getMinerals()
+  std::set< Unit* >& GameImpl::getMinerals()
   {
     this->setLastError(Errors::None);
-    std::set<Unit*> return_units;
-    for each (UnitImpl* i in this->units)
-      if (i->canAccess() && i->getType() == BWAPI::UnitTypes::Resource_Mineral_Field)
-        return_units.insert((Unit*)i);
-
-    return return_units;
+    return this->minerals;
   }
   //---------------------------------------------- GET GEYSERS -----------------------------------------------
-  std::set< Unit* >  GameImpl::getGeysers()
+  std::set< Unit* >& GameImpl::getGeysers()
   {
     this->setLastError(Errors::None);
-    std::set<Unit*> return_units;
-    for each (UnitImpl* i in this->units)
-      if (i->canAccess() && i->getType() == BWAPI::UnitTypes::Resource_Vespene_Geyser)
-        return_units.insert((Unit*)i);
-
-    return return_units;
+    return this->geysers;
   }
   //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
-  std::set< Unit* >  GameImpl::getNeutralUnits()
+  std::set< Unit* >& GameImpl::getNeutralUnits()
   {
     this->setLastError(Errors::None);
-    std::set<Unit*> return_units;
-    for each (UnitImpl* i in this->units)
-      if (i->canAccess() && ((PlayerImpl*)i->getPlayer())->getID() == 11)
-        return_units.insert((Unit*)i);
-
-    return return_units;
+    return this->neutralUnits;
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
@@ -663,7 +638,6 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
         unitList.push_back(i);
 
-      this->myPylons.clear();
       for each (UnitImpl* i in unitList)
       {
         if (this->units.find(i) == this->units.end())
@@ -672,9 +646,6 @@ namespace BWAPI
           this->units.insert(i);
           this->onAddUnit(i);
         }
-
-        if (i->_getPlayer() == (Player*)this->BWAPIPlayer && i->getBWType().getID() == BW::UnitID::Protoss_Pylon && i->_isCompleted())
-          this->myPylons.push_back(i);
       }
       for each (UnitImpl* i in units)
       {
@@ -702,7 +673,7 @@ namespace BWAPI
 
       this->frameCount++;
       this->logUnknownOrStrange();
-      this->updateUnitsOnTile();
+      this->updateUnits();
 
       if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
       {
@@ -985,13 +956,16 @@ namespace BWAPI
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
+      {
         force_names.insert(std::string(this->players[i]->getForceName()));
+        this->playerSet.insert(this->players[i]);
+      }
 
     /* create ForceImpl for force names */
     for each (std::string i in force_names)
     {
       ForceImpl* newforce = new ForceImpl(i);
-      forces.insert((Force*)newforce);
+      this->forces.insert((Force*)newforce);
       force_name_to_forceimpl.insert(std::make_pair(i, newforce));
     }
 
@@ -1235,6 +1209,13 @@ namespace BWAPI
       this->client=NULL;
     }
     this->units.clear();
+    this->forces.clear();
+    this->playerSet.clear();
+    this->allUnits.clear();
+    this->minerals.clear();
+    this->geysers.clear();
+    this->neutralUnits.clear();
+    this->myPylons.clear();
     this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
@@ -1404,7 +1385,7 @@ namespace BWAPI
     BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
-  std::set<BWAPI::Unit*>  GameImpl::getSelectedUnits()
+  std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
   {
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
@@ -1530,23 +1511,57 @@ namespace BWAPI
     fclose(f);
   }
   //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
-  void GameImpl::updateUnitsOnTile()
+  void GameImpl::updateUnits()
   {
+    this->inUpdate = false;
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
 
-    for each (UnitImpl* i in this->units)
+    this->allUnits.clear();
+    this->minerals.clear();
+    this->geysers.clear();
+    this->myPylons.clear();
+
+    for(std::set<Player*>::iterator i = this->playerSet.begin();i!=this->playerSet.end();i++)
+      ((PlayerImpl*)(*i))->units.clear();
+
+    for (std::set<UnitImpl*>::iterator i = this->units.begin(); i != this->units.end(); i++)
     {
-      int startX =   (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
-      int endX   =   (i->_getPosition().x() + i->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-      int startY =   (i->_getPosition().y() - i->_getType().dimensionUp()) / BW::TILE_SIZE;
-      int endY =     (i->_getPosition().y() + i->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
-      for (int x = startX; x < endX; x++)
-        for (int y = startY; y < endY; y++)
-          this->unitsOnTileData[x][y].insert(i);
+      if ((*i)->canAccess())
+      {
+        int startX =   ((*i)->_getPosition().x() - (*i)->_getType().dimensionLeft()) / BW::TILE_SIZE;
+        int endX   =   ((*i)->_getPosition().x() + (*i)->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+        int startY =   ((*i)->_getPosition().y() - (*i)->_getType().dimensionUp()) / BW::TILE_SIZE;
+        int endY =     ((*i)->_getPosition().y() + (*i)->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+        for (int x = startX; x < endX; x++)
+          for (int y = startY; y < endY; y++)
+            this->unitsOnTileData[x][y].insert(*i);
+
+        ((PlayerImpl*)((*i)->_getPlayer()))->units.insert(*i);
+
+        this->allUnits.insert(*i);
+
+        if ((*i)->_getPlayer()->isNeutral())
+        {
+          this->neutralUnits.insert(*i);
+          if ((*i)->_getType()==UnitTypes::Resource_Mineral_Field)
+            this->minerals.insert(*i);
+          else
+          {
+            if ((*i)->_getType()==UnitTypes::Resource_Vespene_Geyser)
+              this->geysers.insert(*i);
+          }
+        }
+        else
+        {
+          if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->_getType()==UnitTypes::Protoss_Pylon && (*i)->_isCompleted())
+            this->myPylons.push_back(*i);
+        }
+      }
     }
+    this->inUpdate = true;
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int  GameImpl::getFrameCount()
@@ -1555,17 +1570,16 @@ namespace BWAPI
     return this->frameCount;
   }
   //--------------------------------------------- UNITS ON TILE ----------------------------------------------
-  std::set<Unit*>  GameImpl::unitsOnTile(int x, int y)
+  std::set<Unit*>& GameImpl::unitsOnTile(int x, int y)
   {
     this->setLastError(Errors::None);
-    std::set<Unit*> emptySet;
     if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
-      return emptySet;
+      return this->emptySet;
 
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !visible(x,y))
     {
       this->setLastError(Errors::Access_Denied);
-      return emptySet;
+      return this->emptySet;
     }
     return unitsOnTileData[x][y];
   }

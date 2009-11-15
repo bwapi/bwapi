@@ -14,7 +14,6 @@ namespace BWAPI
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   PlayerImpl::PlayerImpl(u8 id)
       : id(id)
-      , unitCacheFrame(-1)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -38,18 +37,9 @@ namespace BWAPI
     return std::string(BW::BWDATA_Players->player[this->getID()].name);
   }
   //----------------------------------------------- GET UNITS ------------------------------------------------
-  std::set<Unit*> PlayerImpl::getUnits()
+  std::set<Unit*>& PlayerImpl::getUnits()
   {
-    /* Get all the units that this player owns */
     BroodwarImpl.setLastError(Errors::None);
-    if (this->unitCacheFrame != BWAPI::BroodwarImpl.getFrameCount())
-    {
-      this->units.clear();
-      for each (UnitImpl* u in BWAPI::BroodwarImpl.units)
-        if (u->getPlayer() == this && u->canAccess())
-          this->units.insert((Unit*)u);
-      this->unitCacheFrame = BWAPI::BroodwarImpl.getFrameCount();
-    }
     return this->units;
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
@@ -405,7 +395,6 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   void PlayerImpl::onGameEnd()
   {
-    this->unitCacheFrame=-1;
     this->units.clear();
   }
   //----------------------------------------------------------------------------------------------------------
