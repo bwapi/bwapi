@@ -238,7 +238,7 @@ namespace BWAPI
   {
     return techTypeData[this->id].weapon;
   }
-  const std::set<const UnitType*> TechType::whatUses() const
+  const std::set<const UnitType*>& TechType::whatUses() const
   {
     return techTypeData[this->id].whatUses;
   }

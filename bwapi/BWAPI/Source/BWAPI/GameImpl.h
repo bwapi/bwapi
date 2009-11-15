@@ -50,12 +50,12 @@ namespace BWAPI
   class GameImpl : public Game
   {
     public :
-      virtual std::set< Force* >  getForces();
-      virtual std::set< Player* >  getPlayers();
-      virtual std::set< Unit* >  getAllUnits();
-      virtual std::set< Unit* >  getMinerals();
-      virtual std::set< Unit* >  getGeysers();
-      virtual std::set< Unit* >  getNeutralUnits();
+      virtual std::set< Force* >&  getForces();
+      virtual std::set< Player* >&  getPlayers();
+      virtual std::set< Unit* >&  getAllUnits();
+      virtual std::set< Unit* >&  getMinerals();
+      virtual std::set< Unit* >&  getGeysers();
+      virtual std::set< Unit* >&  getNeutralUnits();
 
       virtual BWAPI::Latency::Enum  getLatency();
       virtual int  getFrameCount();
@@ -66,7 +66,7 @@ namespace BWAPI
 
       virtual bool  isFlagEnabled(BWAPI::Flag::Enum flag);
       virtual void  enableFlag(BWAPI::Flag::Enum flag);
-      virtual std::set<Unit*>  unitsOnTile(int x, int y);
+      virtual std::set<Unit*>& unitsOnTile(int x, int y);
       virtual Error  getLastError() const;
 
       virtual int  mapWidth();
@@ -83,7 +83,7 @@ namespace BWAPI
       virtual bool  canResearch(Unit* unit, TechType type);
       virtual bool  canUpgrade(Unit* unit, UpgradeType type);
       virtual int  groundHeight(int x, int y);
-      virtual std::set< TilePosition >  getStartLocations();
+      virtual std::set< TilePosition >& getStartLocations();
       virtual int  getMapHash();
       /**
        * Prints text in game (only local)
@@ -111,7 +111,7 @@ namespace BWAPI
       virtual void  resumeGame();
       virtual void  leaveGame();
       virtual void  setLocalSpeed(int speed = -1);
-      virtual std::set<BWAPI::Unit*>  getSelectedUnits();
+      virtual std::set<BWAPI::Unit*>& getSelectedUnits();
       virtual Player*  self();
       virtual Player*  enemy();
       virtual void  drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
@@ -206,10 +206,18 @@ namespace BWAPI
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
       std::set<TilePosition> startLocations;
-      std::set< BW::UnitType > unitTypes;
+      std::set< BW::UnitType> unitTypes;
+
       std::set<BWAPI::Force*> forces;
+      std::set<BWAPI::Player*> playerSet;
+
+      std::set<BWAPI::Unit*> allUnits;
+      std::set<BWAPI::Unit*> minerals;
+      std::set<BWAPI::Unit*> geysers;
+      std::set<BWAPI::Unit*> neutralUnits;
       std::list<BWAPI::UnitImpl*> myPylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
+
       /** Count of game-frames passed from game start. */
       int frameCount;
       void logUnitList();
@@ -227,7 +235,7 @@ namespace BWAPI
       /** Sum of all units*/
       Util::Logger* unitSum;
       /** Will update the unitsOnTile content, should be called every frame. */
-      void updateUnitsOnTile();
+      void updateUnits();
       /** Made for debug reasons, may come later someday, so I leave it*/
       void printUnitCountPerTile();
       /**

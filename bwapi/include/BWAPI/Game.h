@@ -23,12 +23,12 @@ namespace BWAPI
   class Game
   {
     public :
-      virtual std::set< Force* > getForces() = 0;
-      virtual std::set< Player* > getPlayers() = 0;
-      virtual std::set< Unit* > getAllUnits() = 0;
-      virtual std::set< Unit* > getMinerals() = 0;
-      virtual std::set< Unit* > getGeysers() = 0;
-      virtual std::set< Unit* > getNeutralUnits() = 0;
+      virtual std::set< Force* >& getForces() = 0;
+      virtual std::set< Player* >& getPlayers() = 0;
+      virtual std::set< Unit* >& getAllUnits() = 0;
+      virtual std::set< Unit* >& getMinerals() = 0;
+      virtual std::set< Unit* >& getGeysers() = 0;
+      virtual std::set< Unit* >& getNeutralUnits() = 0;
 
       virtual Latency::Enum getLatency() = 0;
       virtual int getFrameCount() = 0;
@@ -39,7 +39,7 @@ namespace BWAPI
 
       virtual bool isFlagEnabled(Flag::Enum flag) = 0;
       virtual void enableFlag(Flag::Enum flag) = 0;
-      virtual std::set<Unit*> unitsOnTile(int x, int y) = 0;
+      virtual std::set<Unit*>& unitsOnTile(int x, int y) = 0;
       virtual Error getLastError() const = 0;
 
       virtual int mapWidth() = 0;
@@ -56,7 +56,7 @@ namespace BWAPI
       virtual bool canResearch(Unit* unit, TechType type) = 0;
       virtual bool canUpgrade(Unit* unit, UpgradeType type) = 0;
       virtual int groundHeight(int x, int y)= 0;
-      virtual std::set< TilePosition > getStartLocations() = 0;
+      virtual std::set< TilePosition >& getStartLocations() = 0;
       virtual int getMapHash() = 0;
 
       virtual void printf(const char* text, ...) = 0;
@@ -69,7 +69,7 @@ namespace BWAPI
       virtual void resumeGame() = 0;
       virtual void leaveGame() = 0;
       virtual void setLocalSpeed(int speed = -1) = 0;
-      virtual std::set<Unit*> getSelectedUnits() = 0;
+      virtual std::set<Unit*>& getSelectedUnits() = 0;
       virtual Player* self() = 0;
       virtual Player* enemy() = 0;
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;

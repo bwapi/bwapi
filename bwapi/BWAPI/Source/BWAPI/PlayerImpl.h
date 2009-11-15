@@ -38,7 +38,7 @@ namespace BWAPI
        */
       virtual int  getID() const;
       virtual std::string  getName() const;
-      virtual std::set<Unit*>  getUnits();
+      virtual std::set<Unit*>&  getUnits();
       virtual Race  getRace() const;
       virtual PlayerType  playerType() const;
       virtual Force*  getForce() const;
@@ -111,6 +111,7 @@ namespace BWAPI
        */
       void useSupplies(u8 supplies, BW::Race::Enum race);
       void onGameEnd();
+      std::set<Unit*> units;
     private :
       /**
        * Gets synchronised version of available supplies for the given race.
@@ -148,7 +149,5 @@ namespace BWAPI
       s32 suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
       s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const;
 
-      std::set<Unit*> units;
-      int unitCacheFrame;
   };
 };
