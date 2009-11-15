@@ -524,7 +524,7 @@ namespace BWAPI
       return false;
 
     if (BroodwarImpl.inReplay())
-      return true;
+      return this->getRawDataLocal()->sprite->visibilityFlags>0;
 
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
       return true;
@@ -2110,11 +2110,12 @@ namespace BWAPI
     return false;
   }
 
-  //returns true if canAccess() is true or (the unit does not exist and is owned by self)
+  //returns true if canAccess() is true or the unit is owned by self
+  //always returns true for units owned by self, even dead units
   bool UnitImpl::canAccessSpecial() const
   {
     if (canAccess()) return true;
-    if (!this->_exists() && this->savedPlayer==BroodwarImpl.self()) return true;
+    if (this->savedPlayer==BroodwarImpl.self()) return true;
     return false;
   }
 
