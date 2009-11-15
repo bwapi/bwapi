@@ -40,13 +40,14 @@ namespace BWAPI
   //----------------------------------------------- GET UNITS ------------------------------------------------
   std::set<Unit*> PlayerImpl::getUnits()
   {
+    /* Get all the units that this player owns */
     BroodwarImpl.setLastError(Errors::None);
     if (this->unitCacheFrame != BWAPI::BroodwarImpl.getFrameCount())
     {
       this->units.clear();
-      for(std::set<UnitImpl*>::iterator u = BWAPI::BroodwarImpl.units.begin(); u != BWAPI::BroodwarImpl.units.end(); u++)
-        if ((*u)->getPlayer() == this && (*u)->canAccess())
-          this->units.insert((Unit*)(*u));
+      for each (UnitImpl* u in BWAPI::BroodwarImpl.units)
+        if (u->getPlayer() == this && u->canAccess())
+          this->units.insert((Unit*)u);
       this->unitCacheFrame = BWAPI::BroodwarImpl.getFrameCount();
     }
     return this->units;
@@ -90,6 +91,7 @@ namespace BWAPI
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
   {
+    /* error checking */
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return TilePositions::None;
@@ -98,12 +100,14 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return TilePositions::Unknown;
     }
-    return BWAPI::TilePosition((int)((BW::startPositions[this->getID()].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
-                               (int)((BW::startPositions[this->getID()].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
+    /* return the start location as a tile position */
+    return BWAPI::TilePosition((int)((BW::BWDATA_startPositions[this->getID()].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
+                               (int)((BW::BWDATA_startPositions[this->getID()].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
   }
   //------------------------------------------------ MINERALS ------------------------------------------------
   int PlayerImpl::minerals() const
   {
+    /* error handling */
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
@@ -112,6 +116,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
+    /* return the local mineral count */
     return this->mineralsLocal;
   }
   //-------------------------------------------------- GAS ---------------------------------------------------
@@ -395,7 +400,7 @@ namespace BWAPI
   //------------------------------------------- GET FORCE NAME -----------------------------------------------
   char* PlayerImpl::getForceName() const
   {
-    return BW::ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
+    return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
   }
   //----------------------------------------------------------------------------------------------------------
   void PlayerImpl::onGameEnd()

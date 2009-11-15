@@ -135,7 +135,6 @@ namespace BWAPI
       void addToCommandBuffer(Command* command);
       void onGameStart();
       void onGameEnd();
-      void onCancelTrain();
       bool onSendText(const char* text);
       bool parseText(const char* text);
       void onRemoveUnit(BWAPI::UnitImpl* unit);

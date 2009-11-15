@@ -32,25 +32,15 @@ void __declspec(naked) onRemoveUnit()
     mov removedUnit, esi
     call [BW::BWFXN_RemoveUnitTarget]
   }
-  {
-#pragma warning(push)
-#pragma warning(disable:4312)
-    BWAPI::BroodwarImpl.onRemoveUnit((BW::Unit*) removedUnit);
-#pragma warning(pop)
-  }
+  BWAPI::BroodwarImpl.onRemoveUnit((BW::Unit*) removedUnit);
   __asm
-  {
     jmp [BW::BWFXN_RemoveUnitBack]
-  }
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
-  {
-    //launchedStart = false;
-    BWAPI::BroodwarImpl.onGameEnd();
-  }
+  BWAPI::BroodwarImpl.onGameEnd();
   __asm
   {
     call [BW::BWFXN_GameEndTarget]
@@ -66,9 +56,7 @@ void __declspec(naked)  nextFrameHook()
     call [BW::BWFXN_NextLogicFrameTarget]
     mov frameHookEax, eax
   }
-  {
-    BWAPI::BroodwarImpl.update();
-  }
+  BWAPI::BroodwarImpl.update();
   __asm
   {
     mov eax, frameHookEax
@@ -94,29 +82,26 @@ void __declspec(naked) onSendText()
     mov text, esi
   }
   sendToBW = true;
-  if (!BWAPI::BroodwarImpl.isSinglePlayer() && *text!='\0')
-  {
+  if (!BWAPI::BroodwarImpl.isSinglePlayer() && text[0] != 0)
     sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-  }
+
   if (sendToBW)
     __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    call [BW::BWFXN_SendPublicCallTarget]
-    jmp [BW::BWFXN_SendPublicCallBack]
-  }
-  *text='\0';
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+      call [BW::BWFXN_SendPublicCallTarget]
+    }
+
+  text[0] = 0;
   __asm
-  {
     jmp [BW::BWFXN_SendPublicCallBack]
-  }
 }
 void __declspec(naked) onSendSingle()
 {
@@ -133,28 +118,24 @@ void __declspec(naked) onSendSingle()
     mov text, edx
   }
   sendToBW = true;
-  if (BWAPI::BroodwarImpl.isSinglePlayer() && *text!='\0')
-  {
+  if (BWAPI::BroodwarImpl.isSinglePlayer() && text[0] != 0)
     sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-  }
+
   if (sendToBW)
     __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    call [BW::BWFXN_SendTextCallTarget]
-    jmp [BW::BWFXN_SendTextCallBack]
-  }
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+      call [BW::BWFXN_SendTextCallTarget]
+    }
   __asm
-  {
     jmp [BW::BWFXN_SendTextCallBack]
-  }
 }
 void __declspec(naked) onSendLobby()
 {
@@ -174,22 +155,20 @@ void __declspec(naked) onSendLobby()
   sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
   if (sendToBW)
     __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    call [BW::BWFXN_SendLobbyCallTarget]
-    jmp [BW::BWFXN_SendLobbyCallBack]
-  }
+    {
+      mov eax, eaxSave
+      mov ebx, ebxSave
+      mov ecx, ecxSave
+      mov edx, edxSave
+      mov esi, esiSave
+      mov edi, ediSave
+      mov esp, espSave
+      mov ebp, ebpSave
+      call [BW::BWFXN_SendLobbyCallTarget]
+    }
+
   __asm
-  {
     jmp [BW::BWFXN_SendLobbyCallBack]
-  }
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
@@ -224,6 +203,7 @@ void __declspec(naked) onRefresh()
     jmp [BW::BWFXN_RefreshBack]
   }
 }
+
 unsigned int shape_i;
 void __declspec(naked) onDrawHigh()
 {
@@ -241,11 +221,11 @@ void __declspec(naked) onDrawHigh()
   if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::BroodwarImpl.hcachedShapesMutex, INFINITE))
   {
     for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.cachedShapes.size(); shape_i++)
-    {
       BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
-    }
+
     ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
   }
+
   __asm
   {
     mov eax, eaxSave
@@ -284,7 +264,6 @@ void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::E
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
 
-
   __asm
   {
     mov eax, eaxSave
@@ -318,7 +297,6 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
   }
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
-
 
   __asm
   {
@@ -376,9 +354,6 @@ void drawText(int _x, int _y, const char* ptext, BWAPI::CoordinateType::Enum cty
 }
 
 //------------------------------------------------ JMP PATCH -------------------------------------------------
-#pragma warning(push)
-#pragma warning(disable:4311)
-#pragma warning(disable:4312)
 void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
 {
   DWORD OldProt = 0;
@@ -391,6 +366,7 @@ void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
     *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
   VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
 }
+
 void WriteNops(void* pDest, int nNops)
 {
   DWORD OldProt = 0;
@@ -398,6 +374,7 @@ void WriteNops(void* pDest, int nNops)
   memset(pDest, 0x90, nNops);
   VirtualProtect(pDest, nNops, OldProt, &OldProt);
 }
+
 void WriteMem(void* pDest, void* pSource, int nSize)
 {
   DWORD OldProt = 0;
@@ -405,7 +382,6 @@ void WriteMem(void* pDest, void* pSource, int nSize)
   memcpy_s(pDest, nSize, pSource, nSize);
   VirtualProtect(pDest, nSize, OldProt, &OldProt);
 }
-#pragma warning(pop)
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
 void __declspec(naked) NewIssueCommand()
 {
@@ -473,14 +449,11 @@ void __declspec(naked) onIssueCommand()
     }
     NewIssueCommand();
     __asm
-    {
       retn
-    }
   }
   else
   {
     //Util::Logger::globalLog->log("blocked command ID: 0x%x",(int)commandID);
-
     __asm
     {
       mov eax, eaxSave
@@ -511,19 +484,19 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   Util::Logger::globalLog = new Util::FileLogger(config->get("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
-  JmpCallPatch(nextFrameHook, BW::BWFXN_NextLogicFrame, 0);
-  JmpCallPatch(onGameEnd, BW::BWFXN_GameEnd, 0);
-  JmpCallPatch(onRemoveUnit, BW::BWFXN_RemoveUnit, 0);
-  JmpCallPatch(onSendText, BW::BWFXN_SendPublicCall, 0);
-  JmpCallPatch(onSendSingle, BW::BWFXN_SendTextCall, 0);
-  JmpCallPatch(onSendLobby, BW::BWFXN_SendLobbyCall, 0);
-  JmpCallPatch(onDrawHigh, BW::BWFXN_DrawHigh, 0);
-  JmpCallPatch(onRefresh, BW::BWFXN_Refresh, 0);
+  JmpCallPatch(nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
+  JmpCallPatch(onGameEnd,      BW::BWFXN_GameEnd,         0);
+  JmpCallPatch(onRemoveUnit,   BW::BWFXN_RemoveUnit,      0);
+  JmpCallPatch(onSendText,     BW::BWFXN_SendPublicCall,  0);
+  JmpCallPatch(onSendSingle,   BW::BWFXN_SendTextCall,    0);
+  JmpCallPatch(onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
+  JmpCallPatch(onDrawHigh,     BW::BWFXN_DrawHigh,        0);
+  JmpCallPatch(onRefresh,      BW::BWFXN_Refresh,         0);
   JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
-  WriteMem((void*)BW::BWDATA_MenuInHack, &push0patch, 2); // menu in
-  WriteMem((void*)BW::BWDATA_MenuOutHack, &push0patch, 2); // menu out
+  WriteMem( (void*)BW::BWDATA_MenuInHack,  &push0patch, 2); // menu in
+  WriteMem( (void*)BW::BWDATA_MenuOutHack, &push0patch, 2); // menu out
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
@@ -537,9 +510,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
       return true;
     }
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
+    default:
       break;
   }
   return true;

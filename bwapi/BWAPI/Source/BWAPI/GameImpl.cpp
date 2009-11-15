@@ -69,10 +69,13 @@ namespace BWAPI
       , inUpdate(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
+
+    /* initialize the unit types */
     BW::UnitType::initialize();
 
     try
     {
+      /* open the config file */
       this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
       config = this->configuration;
     }
@@ -84,6 +87,7 @@ namespace BWAPI
     }
     try
     {
+      /* create log handles */
       this->commandLog        = new Util::FileLogger(config->get("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
       this->newOrderLog       = new Util::FileLogger(config->get("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
       this->badAssumptionLog  = new Util::FileLogger(config->get("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
@@ -93,14 +97,17 @@ namespace BWAPI
 
       unitArrayCopyLocal = new BW::UnitArray;
 
-      for (int i = 0; i < 12; i++)
+      /* iterate through players and create PlayerImpl for each */
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
         players[i] = new PlayerImpl((u8)i);
 
+      /* iterate through units and create UnitImpl for each */
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                     &unitArrayCopyLocal->unit[i],
                                     (u16)i);
 
+      /* iterate through unit types and create UnitType for each */
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
         unitTypes.insert(BW::UnitType((BW::UnitID::Enum)i));
     }
@@ -116,12 +123,15 @@ namespace BWAPI
   {
     delete unitArrayCopyLocal;
 
+    /* destroy all UnitImpl */
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete unitArray[i];
 
-    for (int i = 0; i < 12; i++)
+    /* destroy all PlayerImpl */
+    for (int i = 0; i < BW::PLAYER_COUNT; i++)
       delete players[i];
 
+    /* destroy all log handles */
     delete this->commandLog;
     delete this->newOrderLog;
     delete this->badAssumptionLog;
@@ -133,49 +143,58 @@ namespace BWAPI
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
   int  GameImpl::mapWidth()
   {
+    /* Get the width of the map */
     this->setLastError(Errors::None);
     return Map::getWidth();
   }
   //----------------------------------------------- MAP HEIGHT -----------------------------------------------
   int  GameImpl::mapHeight()
   {
+    /* Get the height of the map */
     this->setLastError(Errors::None);
     return Map::getHeight();
   }
   //---------------------------------------------- MAP FILENAME ----------------------------------------------
   std::string  GameImpl::mapFilename()
   {
+    /* Get the map file name */
     this->setLastError(Errors::None);
     return Map::getFileName();
   }
   //------------------------------------------------ MAP NAME ------------------------------------------------
   std::string  GameImpl::mapName()
   {
+    /* Get the name of the map */
     this->setLastError(Errors::None);
     return Map::getName();
   }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool  GameImpl::buildable(int x, int y)
   {
+    /* Check if the specified coordinates are buildable */
     this->setLastError(Errors::None);
     return this->map.buildable(x, y);
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
   bool  GameImpl::walkable(int x, int y)
   {
+    /* Check if the specified coordinates are walkable */
     this->setLastError(Errors::None);
     return this->map.walkable(x, y);
   }
   //------------------------------------------------- VISIBLE ------------------------------------------------
   bool  GameImpl::visible(int x, int y)
   {
+    /* Check if the specified coordinates are visible */
     this->setLastError(Errors::None);
     return this->map.visible(x, y);
   }
   //------------------------------------------------ HAS CREEP -----------------------------------------------
   bool  GameImpl::hasCreep(int x, int y)
   {
+    /* Check if the specified coordinates have creep */
     this->setLastError(Errors::None);
+    /* Deny this information if you don't have complete map information */
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->visible(x, y))
     {
       this->setLastError(Errors::Access_Denied);
@@ -186,30 +205,33 @@ namespace BWAPI
   //------------------------------------------------ HAS POWER -----------------------------------------------
   bool  GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
   {
+    /* Check if the specified coordinates have power */
     this->setLastError(Errors::None);
-    if (!(tileWidth==2 && tileHeight==2) && !(tileWidth==3 && tileHeight==2) && !(tileWidth==4 && tileHeight==3))
+    if (!(tileWidth == 2 && tileHeight == 2) && !(tileWidth == 3 && tileHeight == 2) && !(tileWidth == 4 && tileHeight == 3))
     {
       return false;
     }
-    if (tileWidth==4)
+    if (tileWidth == 4)
     {
       x++;
     }
-    for(std::list<UnitImpl*>::const_iterator i=this->myPylons.begin();i!=this->myPylons.end();i++)
+    /* Loop through all pylons for the current player */
+    for each (UnitImpl* i in myPylons)
     {
-      int px=(*i)->getTilePosition().x();
-      int py=(*i)->getTilePosition().y();
-      int bx=x-px+7;
-      int by=y-py+4;
-      if (bx>=0 && by>=0 && bx<=14 && by<=8)
+      int px = i->getTilePosition().x();
+      int py = i->getTilePosition().y();
+      int bx = x - px + 7;
+      int by = y - py + 4;
+      /* Deal with special cases, pylon offset cutoff */
+      if (bx >= 0 && by >= 0 && bx <= 14 && by <= 8)
       {
         switch(by)
         {
           case 0:
-            if (bx>=1 && bx<=12) return true;
+            if (bx >= 1 && bx <= 12) return true;
           break;
           case 1:
-            if (bx<=13) return true;
+            if (bx <= 13) return true;
           break;
           case 2:
           case 3:
@@ -218,11 +240,11 @@ namespace BWAPI
             return true;
           break;
           case 6:
-            if (bx<=13) return true;
+            if (bx <= 13) return true;
           case 7:
-            if (bx>=1 && bx<=12) return true;
+            if (bx >= 1 && bx <= 12) return true;
           case 8:
-            if (bx>=4 && bx<=9) return true;
+            if (bx >= 4 && bx <= 9) return true;
           break;
         }
       }
@@ -241,10 +263,9 @@ namespace BWAPI
     if (position.y()+height>=this->mapHeight()) return false;
     if (type.isRefinery())
     {
-      std::set<BWAPI::Unit*> geysers=this->getGeysers();
-      for(std::set<BWAPI::Unit*>::iterator g=geysers.begin();g!=geysers.end();g++)
+      for each (Unit* g in getGeysers())
       {
-        if ((*g)->getTilePosition()==position)
+        if (g->getTilePosition() == position)
         {
           this->setLastError(Errors::None);
           return true;
@@ -252,91 +273,71 @@ namespace BWAPI
       }
       return false;
     }
-    for(int x=position.x();x<position.x()+width;x++)
+    for(int x = position.x(); x < position.x() + width; x++)
     {
-      for(int y=position.y();y<position.y()+height;y++)
+      for(int y = position.y(); y < position.y() + height; y++)
       {
         std::set<Unit*> groundUnits;
-        std::set<Unit*> unitsOnTile=this->unitsOnTile(x,y);
-        for(std::set<Unit*>::iterator i=unitsOnTile.begin();i!=unitsOnTile.end();i++)
-        {
-          if (!(*i)->getType().isFlyer() && !(*i)->isLifted())
-          {
-            groundUnits.insert(*i);
-          }
-        }
-        if (!this->buildable(x,y) || groundUnits.size()>1)
-        {
+        for each (Unit* i in unitsOnTile(x,y))
+          if (!i->getType().isFlyer() && !i->isLifted())
+            groundUnits.insert(i);
+
+        if (!this->buildable(x,y) || groundUnits.size() > 1)
           return false;
-        }
+
         if (!groundUnits.empty())
         {
-          Unit* blocking=*(groundUnits.begin());
-          if (blocking!=builder)
-          {
+          Unit* blocking = *(groundUnits.begin());
+          if (blocking != builder)
             return false;
-          }
         }
       }
     }
-    if (type.getRace()==BWAPI::Races::Zerg)
+    if (type.getRace() == BWAPI::Races::Zerg)
     {
       if (!type.isResourceDepot())
-      {
-        for(int x=position.x();x<position.x()+width;x++)
-        {
-          for(int y=position.y();y<position.y()+height;y++)
-          {
+        for(int x = position.x(); x < position.x() + width; x++)
+          for(int y = position.y(); y < position.y() + height; y++)
             if (!BWAPI::Broodwar->hasCreep(x,y))
-            {
               return false;
-            }
-          }
-        }
-      }
     }
     else
     {
-      for(int x=position.x();x<position.x()+width;x++)
-      {
-        for(int y=position.y();y<position.y()+height;y++)
-        {
+      for(int x = position.x(); x < position.x() + width; x++)
+        for(int y = position.y(); y < position.y() + height; y++)
           if (BWAPI::Broodwar->hasCreep(x,y))
-          {
             return false;
-          }
-        }
-      }
     }
+
     if (type.requiresPsi())
     {
-      if (this->hasPower(position.x(),position.y(),width,height))
+      if (this->hasPower(position.x(), position.y(), width, height))
       {
         this->setLastError(Errors::None);
         return true;
       }
       return false;
     }
+
     if (type.isResourceDepot())
     {
-      std::set<BWAPI::Unit*> minerals=this->getMinerals();
-      for(std::set<BWAPI::Unit*>::iterator m=minerals.begin();m!=minerals.end();m++)
+      for each (BWAPI::Unit* m in getMinerals())
       {
-        if ((*m)->getTilePosition().x()>position.x()-5 &&
-            (*m)->getTilePosition().y()>position.y()-4 &&
-            (*m)->getTilePosition().x()<position.x()+7 &&
-            (*m)->getTilePosition().y()<position.y()+6)
+        if (m->getTilePosition().x()>position.x()-5 &&
+            m->getTilePosition().y()>position.y()-4 &&
+            m->getTilePosition().x()<position.x()+7 &&
+            m->getTilePosition().y()<position.y()+6)
         {
           return false;
         }
       }
-      std::set<BWAPI::Unit*> geysers=this->getGeysers();
-      for(std::set<BWAPI::Unit*>::iterator g=geysers.begin();g!=geysers.end();g++)
+
+      for each (BWAPI::Unit* g in getGeysers())
       {
-        if ((*g)->getTilePosition().x()>position.x()-7 &&
-            (*g)->getTilePosition().y()>position.y()-5 &&
-            (*g)->getTilePosition().x()<position.x()+7 &&
-            (*g)->getTilePosition().y()<position.y()+6)
+        if (g->getTilePosition().x()>position.x()-7 &&
+            g->getTilePosition().y()>position.y()-5 &&
+            g->getTilePosition().x()<position.x()+7 &&
+            g->getTilePosition().y()<position.y()+6)
         {
           return false;
         }
@@ -348,6 +349,7 @@ namespace BWAPI
   //------------------------------------------------- CAN MAKE -----------------------------------------------
   bool  GameImpl::canMake(Unit* builder, UnitType type)
   {
+    /* Error checking */
     this->setLastError(Errors::None);
     if (self() == NULL)
     {
@@ -357,33 +359,40 @@ namespace BWAPI
 
     if (builder != NULL)
     {
-      if (builder->getPlayer()!=self())
+      /* Check if the owner of the unit is you */
+      if (builder->getPlayer() != self())
       {
         this->setLastError(Errors::Unit_Not_Owned);
         return false;
       }
+
+      /* Check if this unit can actually build the unit type */
       if (builder->getType() != *(type.whatBuilds().first))
       {
         this->setLastError(Errors::Incompatible_UnitType);
         return false;
       }
+
+      /* Carrier space */
       if (builder->getType() == UnitTypes::Protoss_Carrier)
       {
-        int max_amt=4;
+        int max_amt = 4;
         if (self()->upgradeLevel(UpgradeTypes::Carrier_Capacity)>0)
-          max_amt+=4;
-        if (builder->getInterceptorCount()+(int)builder->getTrainingQueue().size()>=max_amt)
+          max_amt += 4;
+        if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
         {
           this->setLastError(Errors::Insufficient_Space);
           return false;
         }
       }
+
+      /* Reaver Space */
       if (builder->getType() == UnitTypes::Protoss_Reaver)
       {
-        int max_amt=5;
-        if (self()->upgradeLevel(UpgradeTypes::Reaver_Capacity)>0)
-          max_amt+=5;
-        if (builder->getScarabCount()+(int)builder->getTrainingQueue().size()>=max_amt)
+        int max_amt = 5;
+        if (self()->upgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
+          max_amt += 5;
+        if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= max_amt)
         {
           this->setLastError(Errors::Insufficient_Space);
           return false;
@@ -391,17 +400,21 @@ namespace BWAPI
       }
     }
 
+    /* Check if player has enough minerals */
     if (self()->minerals() < type.mineralPrice())
     {
       this->setLastError(Errors::Insufficient_Minerals);
       return false;
     }
+
+    /* Check if player has enough gas */
     if (self()->gas() < type.gasPrice())
     {
       this->setLastError(Errors::Insufficient_Gas);
       return false;
     }
-
+    
+    /* Check if player has enough supplies */
     if (type.supplyRequired() > 0)
       if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first->supplyRequired())
       {
@@ -455,6 +468,7 @@ namespace BWAPI
   //----------------------------------------------- CAN RESEARCH ---------------------------------------------
   bool  GameImpl::canResearch(Unit* unit, TechType type)
   {
+    /* Error checking */
     this->setLastError(Errors::None);
     if (self() == NULL)
     {
@@ -535,24 +549,28 @@ namespace BWAPI
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int  GameImpl::groundHeight(int x, int y)
   {
+    /* Return the ground height */
     this->setLastError(Errors::None);
     return this->map.groundHeight(x, y);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >  GameImpl::getStartLocations()
   {
+    /* Return the set of Start Locations */
     this->setLastError(Errors::None);
     return this->startLocations;
   }
   //----------------------------------------------- GET MAP HASH ---------------------------------------------
   int  GameImpl::getMapHash()
   {
+    /* Return a hash of the map's terrain */
     this->setLastError(Errors::None);
     return BWAPI::Map::getMapHash();
   }
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* >  GameImpl::getForces()
   {
+    /* Return a set of forces */
     this->setLastError(Errors::None);
     return this->forces;
   }
@@ -561,13 +579,10 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     std::set<Player*> players;
-    for (int i = 0; i < 12; i++)
-    {
+    for (int i = 0; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
-      {
         players.insert(this->players[i]);
-      }
-    }
+
     return players;
   }
   //------------------------------------------------- GET UNITS ----------------------------------------------
@@ -575,13 +590,10 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-    {
-      if ((*i)->canAccess())
-      {
-        return_units.insert((Unit*)(*i));
-      }
-    }
+    for each (UnitImpl* i in this->units)
+      if (i->canAccess())
+        return_units.insert((Unit*)i);
+
     return return_units;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
@@ -589,11 +601,10 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-    {
-      if ((*i)->canAccess() && (*i)->getType() == BWAPI::UnitTypes::Resource_Mineral_Field)
-        return_units.insert((Unit*)(*i));
-    }
+    for each (UnitImpl* i in this->units)
+      if (i->canAccess() && i->getType() == BWAPI::UnitTypes::Resource_Mineral_Field)
+        return_units.insert((Unit*)i);
+
     return return_units;
   }
   //---------------------------------------------- GET GEYSERS -----------------------------------------------
@@ -601,11 +612,10 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-    {
-      if ((*i)->canAccess() && (*i)->getType() == BWAPI::UnitTypes::Resource_Vespene_Geyser)
-        return_units.insert((Unit*)(*i));
-    }
+    for each (UnitImpl* i in this->units)
+      if (i->canAccess() && i->getType() == BWAPI::UnitTypes::Resource_Vespene_Geyser)
+        return_units.insert((Unit*)i);
+
     return return_units;
   }
   //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
@@ -613,11 +623,10 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     std::set<Unit*> return_units;
-    for (std::set<UnitImpl*>::const_iterator i = this->units.begin(); i != this->units.end(); i++)
-    {
-      if ((*i)->canAccess() && ((PlayerImpl*)(*i)->getPlayer())->getID() == 11)
-        return_units.insert((Unit*)(*i));
-    }
+    for each (UnitImpl* i in this->units)
+      if (i->canAccess() && ((PlayerImpl*)i->getPlayer())->getID() == 11)
+        return_units.insert((Unit*)i);
+
     return return_units;
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
@@ -635,12 +644,13 @@ namespace BWAPI
   {
     try
     {
-
-      this->inUpdate=true;
+      this->inUpdate = true;
       if (!this->isOnStartCalled())
         this->onGameStart();
+      
       if (!this->enabled)
         return;
+
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
 
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -648,68 +658,63 @@ namespace BWAPI
 
       std::list<UnitImpl*> unitList;
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      {
         this->getUnit(i)->buildUnit = NULL;
-      }
-      for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
-      {
-        unitList.push_back(i);
-      }
-      this->myPylons.clear();
-      for (std::list<UnitImpl*>::iterator i = unitList.begin(); i != unitList.end(); i++)
-      {
 
-        if (this->units.find(*i) == this->units.end())
-        {
-          (*i)->alive=true;
-          this->units.insert(*i);
-          this->onAddUnit(*i);
-        }
-        if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->getBWType().getID()==BW::UnitID::Protoss_Pylon && (*i)->_isCompleted())
-        {
-          this->myPylons.push_back(*i);
-        }
-      }
-      for(std::set<UnitImpl*>::iterator i=units.begin();i!=units.end();i++)
+      for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+        unitList.push_back(i);
+
+      this->myPylons.clear();
+      for each (UnitImpl* i in unitList)
       {
-        if ((*i)->_getOrderTarget() != NULL && (*i)->_getOrderTarget()->exists() && (*i)->getBWOrder() == BW::OrderID::ConstructingBuilding)
+        if (this->units.find(i) == this->units.end())
         {
-          UnitImpl* j = (UnitImpl*)((*i)->_getOrderTarget());
-          (*i)->buildUnit = j;
-          j->buildUnit = (*i);
+          i->alive=true;
+          this->units.insert(i);
+          this->onAddUnit(i);
+        }
+
+        if (i->_getPlayer() == (Player*)this->BWAPIPlayer && i->getBWType().getID() == BW::UnitID::Protoss_Pylon && i->_isCompleted())
+          this->myPylons.push_back(i);
+      }
+      for each (UnitImpl* i in units)
+      {
+        if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
+        {
+          UnitImpl* j = (UnitImpl*)(i->_getOrderTarget());
+          i->buildUnit = j;
+          j->buildUnit = i;
         }
       }
 
       refreshSelectionStates();
-
       while ((int)(this->commandBuffer.size()) > this->getLatency())
       {
         for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
-        {
           delete this->commandBuffer[0][i];
-        }
+
         this->commandBuffer.erase(this->commandBuffer.begin());
       }
+
       this->commandBuffer.push_back(std::vector<Command *>());
       for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
         for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
           this->commandBuffer[i][j]->execute();
-      this->frameCount ++;
+
+      this->frameCount++;
       this->logUnknownOrStrange();
       this->updateUnitsOnTile();
 
       if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
       {
         for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
-        {
           delete this->cachedShapes[i];
-        }
+
         this->cachedShapes = this->shapes;
         ::ReleaseMutex(hcachedShapesMutex);
       }
       this->shapes.clear();
 
-      this->inUpdate=false;
+      this->inUpdate = false;
     }
     catch (GeneralException& exception)
     {
@@ -758,25 +763,21 @@ namespace BWAPI
       this->client->onFrame();
       this->lockFlags();
       if (loaded)
-      {
         sendText("BWAPI: Loaded the AI Module: %s", ai_dll.c_str());
-      }
       else
-      {
         sendText("Error: Failed to load the AI Module");
-      }
       this->startedClient = true;
     }
 
     this->client->onFrame();
     this->loadSelected();
-
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
   {
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       this->unitArray[i]->setSelected(false);
+
     this->saveSelected();
     for (int i = 0; savedSelectionStates[i] != NULL; i++)
       BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
@@ -784,7 +785,7 @@ namespace BWAPI
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
   bool GameImpl::isSinglePlayer() const
   {
-    return (*BW::BWDATA_IsMultiplayer==0);
+    return (*BW::BWDATA_IsMultiplayer == 0);
   }
   //------------------------------------------- IS ON START CALLED -------------------------------------------
   bool GameImpl::isOnStartCalled() const
@@ -796,8 +797,6 @@ namespace BWAPI
   {
     this->onStartCalled = onStartCalled;
   }
-#pragma warning(push)
-#pragma warning(disable:4312)
   //------------------------------------------------ IN GAME -------------------------------------------------
   bool GameImpl::inGame() const
   {
@@ -837,26 +836,21 @@ namespace BWAPI
   //------------------------------------------------- PRINTF -------------------------------------------------
   void  GameImpl::printf(const char* text, ...)
   {
-    if (inReplay() || inGame())
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-
-      printEx(8, buffer);
-      return;
-    }
-
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
 
+    if (inReplay() || inGame())
+    {
+      printEx(8, buffer);
+      return;
+    }
+
     char* txtout = buffer;
     if (!inGame())
     {
-        __asm
+      __asm
       {
         pushad
         mov edi, txtout
@@ -868,27 +862,22 @@ namespace BWAPI
 
   void  GameImpl::sendText(const char* text, ...)
   {
-    if (inReplay() || (inGame() && isSinglePlayer()))
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-      if (inReplay())
-      {
-        printEx(8, buffer);
-      }
-      else
-      {
-        printEx(this->BWAPIPlayer->getID(), buffer);
-      }
-      return;
-    }
-
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
+
+    if (inReplay())
+    {
+      printEx(8, buffer);
+      return;
+    }
+
+    if (inGame() && isSinglePlayer())
+    {
+      printEx(this->BWAPIPlayer->getID(), buffer);
+      return;
+    }
 
     char* txtout = buffer;
     if (inGame())
@@ -904,14 +893,13 @@ namespace BWAPI
     }
     else
       __asm
-    {
-      pushad
-      mov edi, txtout
-      call [BW::BWFXN_SendLobbyCallTarget]
-      popad
-    }
+      {
+        pushad
+        mov edi, txtout
+        call [BW::BWFXN_SendLobbyCallTarget]
+        popad
+      }
   }
-#pragma warning(pop)
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
@@ -934,6 +922,7 @@ namespace BWAPI
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
+    /* initialize the variables */
     this->frameCount = 0;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
@@ -944,9 +933,10 @@ namespace BWAPI
       this->flags[i] = false;
     this->flagsLocked = false;
 
+    /* load the map data */
     map.load();
 
-    if (*(BW::BWDATA_InReplay))
+    if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {
       for (int i = 0; i < FLAG_COUNT; i++)
         this->flags[i] = true;
@@ -954,16 +944,19 @@ namespace BWAPI
     }
     else
     {
+      /* find the current player by name */
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
           this->BWAPIPlayer = this->players[i];
 
+      /* error if player not found */
       if (this->BWAPIPlayer == NULL)
       {
         this->commandLog->log("Error: Could not locate BWAPI player.");
         return;
       }
 
+      /* find the opponent player */
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
              this->players[i]->playerType() == BW::PlayerType::Human ||
@@ -972,10 +965,13 @@ namespace BWAPI
             this->BWAPIPlayer->isEnemy(this->players[i]))
           this->opponent = this->players[i];
 
+      /* error if opponent not found */
       if (this->opponent == NULL)
         this->commandLog->log("Warning: Could not find any opponent");
     }
-    BW::Positions* posptr = BW::startPositions;
+
+    /* get the start locations */
+    BW::Positions* posptr = BW::BWDATA_startPositions;
     startLocations.clear();
     while (posptr->x != 0 || posptr->y != 0)
     {
@@ -983,19 +979,24 @@ namespace BWAPI
                                                 (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
       posptr++;
     }
+
+    /* get force names */
     std::set<std::string> force_names;
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
         force_names.insert(std::string(this->players[i]->getForceName()));
 
-    for (std::set<std::string>::iterator i = force_names.begin(); i != force_names.end(); i++)
+    /* create ForceImpl for force names */
+    for each (std::string i in force_names)
     {
-      ForceImpl* newforce = new ForceImpl(*i);
+      ForceImpl* newforce = new ForceImpl(i);
       forces.insert((Force*)newforce);
-      force_name_to_forceimpl.insert(std::make_pair(*i, newforce));
+      force_name_to_forceimpl.insert(std::make_pair(i, newforce));
     }
-    for (int i = 0; i < 12; i++)
+
+    /* create ForceImpl for players */
+    for (int i = 0; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
         ForceImpl* force = force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
@@ -1007,6 +1008,7 @@ namespace BWAPI
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool GameImpl::onSendText(const char* text)
   {
+    /* prep onSendText */
     if (!this->parseText(text) && this->isFlagEnabled(BWAPI::Flag::UserInput))
       if (this->client!=NULL)
         return !this->client->onSendText(std::string(text));
@@ -1015,12 +1017,15 @@ namespace BWAPI
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)
   {
+    /* analyze the string */
     std::string message = text;
     std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
-    if (parsed.size() < 3)
+
+    /* fix for bad referencing */
+    while (parsed.size() < 5)
       parsed.push_back("");
-    if (parsed.size() < 3)
-      parsed.push_back("");
+
+    /* commands list */
     if (parsed[0] == "/leave")
     {
       this->leaveGame();
@@ -1035,13 +1040,12 @@ namespace BWAPI
     {
       if (parsed[1] == "allies")
       {
-        std::set<Player*> players=this->getPlayers();
-        for(std::set<Player*>::iterator i=players.begin();i!=players.end();i++)
+        for each (BWAPI::Player* i in getPlayers())
         {
-          for(std::set<Player*>::iterator j=players.begin();j!=players.end();j++)
+          for each (BWAPI::Player* j in getPlayers())
           {
-            BWAPI::Broodwar->printf("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((u8)(*j)->getID()));
-            Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", (*i)->getName().c_str(), (*i)->getID(), (*j)->getName().c_str(), (*j)->getID(),(int)((PlayerImpl*)(*i))->getAlliance((u8)(*j)->getID()));
+            BWAPI::Broodwar->printf("%s[%d] alliance data for %s[%d]: %d", i->getName().c_str(), i->getID(), j->getName().c_str(), j->getID(), (int)((PlayerImpl*)i)->getAlliance((u8)j->getID()));
+            Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", i->getName().c_str(), i->getID(), j->getName().c_str(), j->getID(), (int)((PlayerImpl*)i)->getAlliance((u8)j->getID()));
           }
         }
       }
@@ -1049,66 +1053,56 @@ namespace BWAPI
       {
         std::ofstream unitData;
         unitData.open ("bwapi-data/unitData.txt");
-        for (std::set<BWAPI::UnitType>::const_iterator u = BWAPI::UnitTypes::allUnitTypes().begin(); u != BWAPI::UnitTypes::allUnitTypes().end(); u++)
+        for each (BWAPI::UnitType u in BWAPI::UnitTypes::allUnitTypes())
         {
           std::pair<const BWAPI::UnitType*, int> requiredUnits[3];
-          BW::UnitType bwu((BW::UnitID::Enum)u->getID());
+          BW::UnitType bwu((BW::UnitID::Enum)u.getID());
           requiredUnits[0] = requiredUnits[1] = requiredUnits[2] = std::make_pair((BWAPI::UnitType*)NULL, 0);
           int i = 0;
-          for (std::map<const BWAPI::UnitType*, int>::const_iterator r = u->requiredUnits().begin(); r != u->requiredUnits().end(); r++)
-          {
+          for (std::map<const BWAPI::UnitType*, int>::const_iterator r = u.requiredUnits().begin(); r != u.requiredUnits().end(); r++)
             requiredUnits[i++] = *r;
-          }
 
-          unitData << "      unitTypeData[" << Util::Strings::stringToVariableName(u->getName()) << ".getID()].set(\""
-          << u->getName() << "\",\"";
-          if (*u != UnitTypes::None && *u != UnitTypes::Unknown)
-          {
+          unitData << "      unitTypeData[" << Util::Strings::stringToVariableName(u.getName()) << ".getID()].set(\""
+          << u.getName() << "\",\"";
+          if (u != UnitTypes::None && u != UnitTypes::Unknown)
             unitData << std::string(bwu.getSubLabel());
-          }
-          unitData << "\",Races::" << Util::Strings::stringToVariableName(u->getRace().getName()) << ",&("
-          << Util::Strings::stringToVariableName(u->whatBuilds().first->getName()) << "),"
-          << u->whatBuilds().second << ",";
+
+          unitData << "\",Races::" << Util::Strings::stringToVariableName(u.getRace().getName()) << ",&("
+          << Util::Strings::stringToVariableName(u.whatBuilds().first->getName()) << "),"
+          << u.whatBuilds().second << ",";
           for (int i = 0; i < 3; i++)
           {
             if (requiredUnits[i].first == NULL)
-            {
               unitData << "NULL,";
-            }
             else
-            {
               unitData << "&(" << Util::Strings::stringToVariableName(requiredUnits[i].first->getName()) << "),";
-            }
+
             unitData << requiredUnits[i].second << ",";
           }
-          unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u->requiredTech()->getName()) << "),";
+          unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u.requiredTech()->getName()) << "),";
           int count=0;
-          for(std::set<TechType>::iterator t=TechTypes::allTechTypes().begin();t!=TechTypes::allTechTypes().end();t++)
+          for each (TechType t in TechTypes::allTechTypes())
           {
-            for(std::set<const UnitType*>::const_iterator u2=t->whatUses().begin();u2!=t->whatUses().end();u2++)
+            for each (const UnitType *const u2 in t.whatUses())
             {
-              if ((*u2)->getID()==u->getID())
+              if (u2->getID() == u.getID())
               {
-                unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(t->getName()) << "),";
+                unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(t.getName()) << "),";
                 count++;
               }
             }
           }
-          for(int c=count;c<4;c++)
-          {
+          for(int c=count; c < 4; c++)
             unitData << "&(TechTypes::None),";
-          }
-          if (*u != UnitTypes::None && *u != UnitTypes::Unknown)
+
+          if (u != UnitTypes::None && u != UnitTypes::Unknown)
           {
             unitData << "&(UpgradeTypes::";
-            if (BWAPI::UpgradeType(bwu.armorUpgrade())==UpgradeTypes::Unknown)
-            {
+            if (BWAPI::UpgradeType(bwu.armorUpgrade()) == UpgradeTypes::Unknown)
               unitData << "None),";
-            }
             else
-            {
               unitData << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),";
-            }
+
             unitData << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
             << (int)bwu.armor() << "," << (int)bwu.mineralPrice() << "," << (int)bwu.gasPrice() << ","
             << (int)bwu.buildTime() << "," << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << ","
@@ -1144,16 +1138,14 @@ namespace BWAPI
       {
         std::ofstream weaponData;
         weaponData.open ("bwapi-data/weaponData.txt");
-        for (std::set<BWAPI::WeaponType>::const_iterator w = BWAPI::WeaponTypes::allWeaponTypes().begin(); w != BWAPI::WeaponTypes::allWeaponTypes().end(); w++)
+        for each (BWAPI::WeaponType w in BWAPI::WeaponTypes::allWeaponTypes())
         {
-          BW::WeaponType bww((BW::WeaponID::Enum)w->getID());
+          BW::WeaponType bww((BW::WeaponID::Enum)w.getID());
 
-          weaponData << "      weaponTypeData[" << Util::Strings::stringToVariableName(w->getName()) << ".getID()].set(\""
-          << w->getName() << "\",";
-          if (*w == BWAPI::WeaponTypes::None || *w == BWAPI::WeaponTypes::Unknown)
-          {
+          weaponData << "      weaponTypeData[" << Util::Strings::stringToVariableName(w.getName()) << ".getID()].set(\""
+          << w.getName() << "\",";
+          if (w == BWAPI::WeaponTypes::None || w == BWAPI::WeaponTypes::Unknown)
             weaponData << "0,0,0,0,&(UpgradeTypes::None),&(DamageTypes::None),&(ExplosionTypes::None),0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
-          }
           else
           {
             weaponData << (int)bww.damageAmount() << "," << (int)bww.damageBonus() << ","
@@ -1173,7 +1165,6 @@ namespace BWAPI
       }
       else if (parsed[1] == "unitsDat")
       {
-
         struct unitsDat_Unknown
         {
           u8 unitType[BW::UNIT_TYPE_COUNT];
@@ -1181,13 +1172,10 @@ namespace BWAPI
         static unitsDat_Unknown* BWDATA_UnitUnknown = (unitsDat_Unknown*) BW::unitsDat[25].address;
         std::ofstream unitsDat;
         unitsDat.open("bwapi-data/unitsDat.txt");
-        for (std::set<UnitType>::const_iterator i = UnitTypes::allUnitTypes().begin(); i != UnitTypes::allUnitTypes().end(); i++)
+        for each (UnitType i in UnitTypes::allUnitTypes())
         {
-          BW::UnitType bwu((BW::UnitID::Enum)i->getID());
-          unitsDat << "(" << i->getID() << ")" << i->getName() << ", seek range: " << (int)bwu.seekRange() << "\n";
-
-          //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).groundWeapon()).getName() << "\n";
-          //unitsDat << "(" << (int)BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getID() << ")" << BW::WeaponType(BW::UnitType(BW::UnitID::Enum(i->getID())).airWeapon()).getName() << "\n";
+          BW::UnitType bwu((BW::UnitID::Enum)i.getID());
+          unitsDat << "(" << i.getID() << ")" << i.getName() << ", seek range: " << (int)bwu.seekRange() << "\n";
         }
         unitsDat.close();
       }
@@ -1195,17 +1183,17 @@ namespace BWAPI
       {
         std::ofstream weaponsDat;
         weaponsDat.open("bwapi-data/weaponsDat.txt");
-        for (std::set<WeaponType>::const_iterator i = WeaponTypes::allWeaponTypes().begin(); i != WeaponTypes::allWeaponTypes().end(); i++)
+        for each (WeaponType i in WeaponTypes::allWeaponTypes())
         {
-          weaponsDat << i->getID() << ": " << std::string(i->getName()) << "\n";
-          weaponsDat << "  damage amount:" << i->damageAmount() << "\n";
-          weaponsDat << "  damage bonus:" << i->damageBonus() << "\n";
-          weaponsDat << "  damage cooldown:" << i->damageCooldown() << "\n";
-          weaponsDat << "  damage factor:" << i->damageFactor() << "\n";
-          weaponsDat << "  damage type:" << i->damageType()->getName() << "(" << i->damageType()->getID() << ")\n";
-          weaponsDat << "  explosion type:" << i->explosionType()->getName() << "(" << i->explosionType()->getID() << ")\n";
-          weaponsDat << "  min range:" << i->minRange() << ", max range: " << i->maxRange() << "\n";
-          weaponsDat << "  targets ground:" << i->targetsGround() << ", targetsAir: " << i->targetsAir() << "\n";
+          weaponsDat << i.getID() << ": " << std::string(i.getName()) << "\n";
+          weaponsDat << "  damage amount:" << i.damageAmount() << "\n";
+          weaponsDat << "  damage bonus:" << i.damageBonus() << "\n";
+          weaponsDat << "  damage cooldown:" << i.damageCooldown() << "\n";
+          weaponsDat << "  damage factor:" << i.damageFactor() << "\n";
+          weaponsDat << "  damage type:" << i.damageType()->getName() << "(" << i.damageType()->getID() << ")\n";
+          weaponsDat << "  explosion type:" << i.explosionType()->getName() << "(" << i.explosionType()->getID() << ")\n";
+          weaponsDat << "  min range:" << i.minRange() << ", max range: " << i.maxRange() << "\n";
+          weaponsDat << "  targets ground:" << i.targetsGround() << ", targetsAir: " << i.targetsAir() << "\n";
         }
         weaponsDat.close();
       }
@@ -1213,16 +1201,16 @@ namespace BWAPI
       {
         std::ofstream upgradesMax;
         upgradesMax.open("bwapi-data/upgradesMax.txt");
-        for (std::set<UpgradeType>::const_iterator i = UpgradeTypes::allUpgradeTypes().begin(); i != UpgradeTypes::allUpgradeTypes().end(); i++)
+        for each (UpgradeType i in UpgradeTypes::allUpgradeTypes())
         {
-          BW::UpgradeType ut=BW::UpgradeType(BW::UpgradeID::Enum((*i).getID()));
-          upgradesMax << i->getID() << ": " << (int)ut.upgradesMax() << "\n"; 
+          BW::UpgradeType ut=BW::UpgradeType(BW::UpgradeID::Enum(i.getID()));
+          upgradesMax << i.getID() << ": " << (int)ut.upgradesMax() << "\n"; 
         }
         upgradesMax.close();
       }
       else
       {
-        this->printf("Unknown command '%s''s - possible commands are: unit", parsed[1].c_str());
+        this->printf("Unknown command \"%s\" - possible commands are: allies, unit, weapon, unitsDat, weaponsDat, upgradesMax", parsed[1].c_str());
       }
       return true;
     }
@@ -1251,34 +1239,31 @@ namespace BWAPI
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
     for (int i = 0; i < 13; i++)
-    {
       this->savedSelectionStates[i] = NULL;
-    }
+
     this->invalidIndices.clear();
     this->selectedUnitSet.clear();
     this->reselected = false;
     this->startedClient = false;
-    for(std::list<UnitImpl*>::iterator d=this->deadUnits.begin();d!=this->deadUnits.end();d++)
-    {
-      delete *d;
-    }
+    for each (UnitImpl* d in this->deadUnits)
+      delete d;
+
     this->deadUnits.clear();
     if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
     {
       for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
-      {
         delete this->cachedShapes[i];
-      }
+
       this->cachedShapes.clear();
       ::ReleaseMutex(hcachedShapesMutex);
     }
+
     for (unsigned int i = 0; i < this->shapes.size(); i++)
-    {
       delete this->shapes[i];
-    }
+
     this->shapes.clear();
 
-    for(int i = 0 ; i < 12 ; i++)
+    for(int i = 0 ; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL)
         this->players[i]->onGameEnd();
     this->setLocalSpeed(-1);
@@ -1383,14 +1368,11 @@ namespace BWAPI
     return *(BW::BWDATA_ScreenY);
   }
   //----------------------------------------------------------------------------------------------------------
-#pragma warning(push)
-#pragma warning(disable:4312)
   void GameImpl::refresh()
   {
-    void (_stdcall* refresh)(void) = (void (_stdcall*) ())BW::BWFXN_Refresh;
-    refresh();
+    __asm
+      call BW::BWFXN_Refresh
   }
-#pragma warning(pop)
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
   {
@@ -1414,9 +1396,7 @@ namespace BWAPI
   void GameImpl::loadSelected()
   {
     if (!this->reselected)
-    {
       return;
-    }
 
     int unitCount = 0;
     while (savedSelectionStates[unitCount] != NULL)
@@ -1434,47 +1414,35 @@ namespace BWAPI
     }
     return selectedUnitSet;
   }
-  //-------------------------------------------- ON CANCEL TRAIN ---------------------------------------------
-  void GameImpl::onCancelTrain()
-  {
-    try
-    {
-      if (savedSelectionStates[0] != NULL)
-        this->addToCommandBuffer(new CommandCancelTrain(BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[0])));
-    }
-    catch (GeneralException& exception)
-    {
-      Util::Logger::globalLog->log("Exception in onCancelTrain: %s", exception.getMessage().c_str());
-    }
-  }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void GameImpl::onRemoveUnit(BWAPI::UnitImpl* unit)
   {
-    int index=unit->getIndex();
+    int index = unit->getIndex();
     if (!unit->alive) return;
     this->units.erase(unit);
     deadUnits.push_back(unit);
     unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
                                     &unitArrayCopyLocal->unit[index],
                                     (u16)index);
+
     if (this->client != NULL)
     {
       bool isInUpdate = this->inUpdate;
       this->inUpdate = false;
-      if (unit!=NULL && unit->canAccessSpecial())
-      {
+      if (unit != NULL && unit->canAccessSpecial())
         this->client->onRemoveUnit(unit);
-      }
+
       this->inUpdate = isInUpdate;
     }
+
     unit->die();
   }
   void GameImpl::onRemoveUnit(BW::Unit* unit)
   {
-    int index=((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
-    if (index<0 || index>=BW::UNIT_ARRAY_MAX_LENGTH)
+    int index = ((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
+    if (index < 0 || index >= BW::UNIT_ARRAY_MAX_LENGTH)
     {
-      if (this->invalidIndices.find(index)==this->invalidIndices.end())
+      if (this->invalidIndices.find(index) == this->invalidIndices.end())
       {
         this->newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x",index,unit);
         this->invalidIndices.insert(index);
@@ -1491,9 +1459,8 @@ namespace BWAPI
     {
       this->inUpdate = false;
       if (unit!=NULL && ((UnitImpl*)unit)->canAccess())
-      {
         this->client->onAddUnit(unit);
-      }
+
       this->inUpdate = true;
     }
   }
@@ -1502,7 +1469,7 @@ namespace BWAPI
   {
     for each (UnitImpl* i in this->units)
     {
-      if (i==NULL)
+      if (i == NULL)
       {
         this->newUnitLog->log("Error: NULL pointer");
       }
@@ -1531,9 +1498,8 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     if (isSinglePlayer())
-    {
       return BWAPI::Latency::SinglePlayer;
-    }
+
     switch(*BW::BWDATA_Latency)
     {
       case 0:
@@ -1570,6 +1536,7 @@ namespace BWAPI
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
+
     for each (UnitImpl* i in this->units)
     {
       int startX =   (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
@@ -1592,7 +1559,7 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     std::set<Unit*> emptySet;
-    if (x<0 || y<0 || x>=this->mapWidth() || y>=this->mapHeight())
+    if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
       return emptySet;
 
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !visible(x,y))
@@ -1703,8 +1670,10 @@ namespace BWAPI
         (screen_y1 < 0 && screen_y2 < 0) ||
         (screen_x1 > 640 && screen_x2 > 640) ||
         (screen_y1 > 480 && screen_y2 > 480)) return;
+
     addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
   }
+
   void  GameImpl::text(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
   {
     va_list ap;
@@ -1714,10 +1683,13 @@ namespace BWAPI
     addShape(new ShapeText(ctype,x,y,std::string(buffer)));
   }
 
+  //--------------------------------------------------- GAME SPEED -------------------------------------------
   void  GameImpl::setLocalSpeed(int speed)
   {
+    /* Sets the frame rate of the client */
     if (speed < 0)
     {
+      /* Reset the speed if it is negative */
       BW::BWDATA_GameSpeedModifiers[0] = 501;
       BW::BWDATA_GameSpeedModifiers[1] = 333;
       BW::BWDATA_GameSpeedModifiers[2] = 249;
@@ -1728,6 +1700,7 @@ namespace BWAPI
     }
     else
     {
+      /* Set all speeds if it is positive */
       for (int i = 0; i < 7; i++)
         BW::BWDATA_GameSpeedModifiers[i] = speed;
     }
