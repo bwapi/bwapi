@@ -73,9 +73,14 @@ namespace BWAPI
   int UnitImpl::getHitPoints() const
   {
     if (!this->attemptAccess()) return 0;
-    return this->getRawDataLocal()->healthPoints;
+    return this->_getHitPoints();
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
+  int UnitImpl::_getHitPoints() const
+  {
+    return this->getRawDataLocal()->healthPoints;
+  }
+  //---------------------------------------------- GET SHIELDS -----------------------------------------------
   int UnitImpl::getShields() const
   {
     if (!this->attemptAccess()) return 0;
@@ -99,6 +104,11 @@ namespace BWAPI
   int UnitImpl::getResources() const
   {
     if (!this->attemptAccess()) return 0;
+    return this->_getResources();
+  }
+  //----------------------------------------------- RESOURCES ------------------------------------------------
+  int UnitImpl::_getResources() const
+  {
     if (this->getBWType() != BW::UnitID::Resource_MineralPatch1 &&
         this->getBWType() != BW::UnitID::Resource_MineralPatch2 &&
         this->getBWType() != BW::UnitID::Resource_MineralPatch3 &&
@@ -2014,7 +2024,8 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::getType() const
   {
-    if (!this->attemptAccessSpecial()) return UnitTypes::Unknown;
+    if (!this->attemptAccessSpecial() && !this->_getPlayer()->isNeutral())
+      return UnitTypes::Unknown;
     return this->_getType();
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
@@ -2224,10 +2235,41 @@ namespace BWAPI
       return this->getRawDataLocal()->currentBuildUnit->remainingBuildTime;
     return 0;
   }
-  //----------------------------------------------------------------------------------------------------------
+  //----------------------------------------------- GET INDEX ------------------------------------------------
   u16 UnitImpl::getIndex() const
   {
     return this->index;
   }
-  //----------------------------------------------------------------------------------------------------------
+  //------------------------------------- INITIAL INFORMATION FUNCTIONS --------------------------------------
+  void UnitImpl::saveInitialInformation()
+  {
+    this->staticPosition=this->_getPosition();
+    this->staticTilePosition=this->_getTilePosition();
+    this->staticResources=this->_getResources();
+    this->staticHitPoints=this->_getHitPoints();
+  }
+  Position UnitImpl::getInitialPosition() const
+  {
+    if (this->_getPlayer()->isNeutral())
+      return this->staticPosition;
+    return Positions::Unknown;
+  }
+  TilePosition UnitImpl::getInitialTilePosition() const
+  {
+    if (this->_getPlayer()->isNeutral())
+      return this->staticTilePosition;
+    return TilePositions::Unknown;
+  }
+  int UnitImpl::getInitialResources() const
+  {
+    if (this->_getPlayer()->isNeutral())
+      return this->staticResources;
+    return 0;
+  }
+  int UnitImpl::getInitialHitPoints() const
+  {
+    if (this->_getPlayer()->isNeutral())
+      return this->staticHitPoints;
+    return 0;
+  }
 };
