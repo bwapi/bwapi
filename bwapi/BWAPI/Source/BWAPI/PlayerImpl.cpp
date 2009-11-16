@@ -313,13 +313,10 @@ namespace BWAPI
     return BW::BWDATA_PlayerResources->gas.player[this->getID()];
   }
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
-#pragma warning(push)
-#pragma warning(disable:4312)
   BW::Unit** PlayerImpl::selectedUnit()
   {
     return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID() * 48);
   }
-#pragma warning(pop)
   //------------------------------------------------- UPDATE -------------------------------------------------
   void PlayerImpl::update()
   {

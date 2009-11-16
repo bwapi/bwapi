@@ -16,8 +16,9 @@ struct ExchangeData
   BOOL bConfigDialog;                 //Is Configurable
 };
 
-BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
+BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
 {
+  /*
   switch (ul_reason_for_call)
   {
     case DLL_PROCESS_ATTACH:
@@ -25,7 +26,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
       break;
-  }
+  }*/
   return TRUE;
 }
 
@@ -86,6 +87,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   SIZE_T bytesWritten;
 
   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
+  success; // Fix warning
   assert(success && bytesWritten == dllFileName.size() + 1);
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);

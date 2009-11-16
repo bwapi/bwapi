@@ -2061,8 +2061,6 @@ namespace BWAPI
     return this->getOriginalRawData()->buildQueueSlot;
   }
   //----------------------------------------------------------------------------------------------------------
-#pragma warning(push)
-#pragma warning(disable:4311)
   UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::Unit* unit)
   {
     if (unit == NULL)
@@ -2079,7 +2077,7 @@ namespace BWAPI
     }
     return BroodwarImpl.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336);
   }
-#pragma warning (pop)
+
   void UnitImpl::die()
   {
     //if the unit already does exist, don't kill it again
