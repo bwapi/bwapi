@@ -604,6 +604,24 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return this->neutralUnits;
   }
+  //---------------------------------------------- GET MINERALS ----------------------------------------------
+  std::set< Unit* >& GameImpl::getStaticMinerals()
+  {
+    this->setLastError(Errors::None);
+    return this->staticMinerals;
+  }
+  //---------------------------------------------- GET GEYSERS -----------------------------------------------
+  std::set< Unit* >& GameImpl::getStaticGeysers()
+  {
+    this->setLastError(Errors::None);
+    return this->staticGeysers;
+  }
+  //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
+  std::set< Unit* >& GameImpl::getStaticNeutralUnits()
+  {
+    this->setLastError(Errors::None);
+    return this->staticNeutralUnits;
+  }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
   {
@@ -1218,6 +1236,11 @@ namespace BWAPI
     this->geysers.clear();
     this->neutralUnits.clear();
     this->myPylons.clear();
+
+    this->staticMinerals.clear();
+    this->staticGeysers.clear();
+    this->staticNeutralUnits.clear();
+
     this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
@@ -1560,6 +1583,24 @@ namespace BWAPI
         {
           if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->_getType()==UnitTypes::Protoss_Pylon && (*i)->_isCompleted())
             this->myPylons.push_back(*i);
+        }
+      }
+    }
+    if (this->staticNeutralUnits.empty())
+    {
+      for (std::set<UnitImpl*>::iterator i = this->units.begin(); i != this->units.end(); i++)
+      {
+        if ((*i)->_getPlayer()->isNeutral())
+        {
+          (*i)->saveInitialInformation();
+          this->staticNeutralUnits.insert(*i);
+          if ((*i)->_getType()==UnitTypes::Resource_Mineral_Field)
+            this->staticMinerals.insert(*i);
+          else
+          {
+            if ((*i)->_getType()==UnitTypes::Resource_Vespene_Geyser)
+              this->staticGeysers.insert(*i);
+          }
         }
       }
     }

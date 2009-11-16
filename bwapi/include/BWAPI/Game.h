@@ -30,6 +30,10 @@ namespace BWAPI
       virtual std::set< Unit* >& getGeysers() = 0;
       virtual std::set< Unit* >& getNeutralUnits() = 0;
 
+      virtual std::set< Unit* >& getStaticMinerals() = 0;
+      virtual std::set< Unit* >& getStaticGeysers() = 0;
+      virtual std::set< Unit* >& getStaticNeutralUnits() = 0;
+
       virtual Latency::Enum getLatency() = 0;
       virtual int getFrameCount() = 0;
       virtual int getMouseX() = 0;

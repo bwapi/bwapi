@@ -33,9 +33,11 @@ namespace BWAPI
       virtual Player*  getPlayer() const;
       virtual UnitType  getType() const;
       virtual int  getHitPoints() const;
+      virtual int  getInitialHitPoints() const;
       virtual int  getShields() const;
       virtual int  getEnergy() const;
       virtual int  getResources() const;
+      virtual int  getInitialResources() const;
       virtual int  getKillCount() const;
       virtual int  getGroundWeaponCooldown() const;
       virtual int  getAirWeaponCooldown() const;
@@ -53,7 +55,9 @@ namespace BWAPI
       virtual int  getStimTimer() const;
 
       virtual Position  getPosition() const;
+      virtual Position  getInitialPosition() const;
       virtual TilePosition  getTilePosition() const;
+      virtual TilePosition  getInitialTilePosition() const;
       virtual double  getDistance(Unit* target) const;
       virtual double  getDistance(Position target) const;
       virtual int  getCurrentDirection() const;
@@ -201,6 +205,8 @@ namespace BWAPI
       UnitType _getType() const;
       Position _getPosition() const;
       TilePosition _getTilePosition() const;
+      int _getResources() const;
+      int _getHitPoints() const;
       Unit* _getOrderTarget() const;
       bool _isCompleted() const;
 
@@ -232,6 +238,7 @@ namespace BWAPI
 
       UnitImpl* buildUnit;
       bool alive;
+      void saveInitialInformation();
     private:
 
       /** Orders to select this unit (previous selection will be lost. */
@@ -243,6 +250,10 @@ namespace BWAPI
       bool userSelected;
       BWAPI::Player* savedPlayer;
       BWAPI::UnitType savedUnitType;
+      BWAPI::Position staticPosition;
+      BWAPI::TilePosition staticTilePosition;
+      int staticResources;
+      int staticHitPoints;
       bool dead;
   };
 };

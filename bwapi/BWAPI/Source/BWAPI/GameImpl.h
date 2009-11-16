@@ -57,6 +57,10 @@ namespace BWAPI
       virtual std::set< Unit* >&  getGeysers();
       virtual std::set< Unit* >&  getNeutralUnits();
 
+      virtual std::set< Unit* >& getStaticMinerals();
+      virtual std::set< Unit* >& getStaticGeysers();
+      virtual std::set< Unit* >& getStaticNeutralUnits();
+
       virtual BWAPI::Latency::Enum  getLatency();
       virtual int  getFrameCount();
       virtual int  getMouseX();
@@ -217,6 +221,10 @@ namespace BWAPI
       std::set<BWAPI::Unit*> neutralUnits;
       std::list<BWAPI::UnitImpl*> myPylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
+
+      std::set<BWAPI::Unit*> staticMinerals;
+      std::set<BWAPI::Unit*> staticGeysers;
+      std::set<BWAPI::Unit*> staticNeutralUnits;
 
       /** Count of game-frames passed from game start. */
       int frameCount;

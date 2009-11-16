@@ -18,9 +18,11 @@ namespace BWAPI
       virtual Player* getPlayer() const = 0;
       virtual UnitType getType() const = 0;
       virtual int getHitPoints() const = 0;
+      virtual int getInitialHitPoints() const = 0;
       virtual int getShields() const = 0;
       virtual int getEnergy() const = 0;
       virtual int getResources() const = 0;
+      virtual int getInitialResources() const = 0;
       virtual int getKillCount() const = 0;
       virtual int getGroundWeaponCooldown() const = 0;
       virtual int getAirWeaponCooldown() const = 0;
@@ -38,7 +40,9 @@ namespace BWAPI
       virtual int getStimTimer() const = 0;
 
       virtual Position getPosition() const = 0;
+      virtual Position getInitialPosition() const = 0;
       virtual TilePosition getTilePosition() const = 0;
+      virtual TilePosition getInitialTilePosition() const = 0;
       virtual double getDistance(Unit* target) const = 0;
       virtual double getDistance(Position target) const = 0;
       virtual int getCurrentDirection() const = 0;
