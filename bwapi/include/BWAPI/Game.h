@@ -61,10 +61,6 @@ namespace BWAPI
 
       virtual void printf(const char* text, ...) = 0;
       virtual void sendText(const char* text, ...) = 0;
-      virtual void text(CoordinateType::Enum ctype, int x, int y, const char* text, ...) = 0;
-      virtual void textScreen(int x, int y, const char* text, ...) = 0;
-      virtual void textMap(int x, int y, const char* text, ...) = 0;
-      virtual void textMouse(int x, int y, const char* text, ...) = 0;
       virtual void changeRace(Race race) = 0;
       virtual bool inReplay() = 0;
       virtual void startGame() = 0;
@@ -75,6 +71,11 @@ namespace BWAPI
       virtual std::set<Unit*>& getSelectedUnits() = 0;
       virtual Player* self() = 0;
       virtual Player* enemy() = 0;
+
+      virtual void drawText(CoordinateType::Enum ctype, int x, int y, const char* text, ...) = 0;
+      virtual void drawTextScreen(int x, int y, const char* text, ...) = 0;
+      virtual void drawTextMap(int x, int y, const char* text, ...) = 0;
+      virtual void drawTextMouse(int x, int y, const char* text, ...) = 0;
 
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
       virtual void drawScreenBox(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;

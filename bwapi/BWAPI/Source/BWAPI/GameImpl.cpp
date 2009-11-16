@@ -1767,7 +1767,7 @@ namespace BWAPI
     drawLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color);
   }
 
-  void  GameImpl::text(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
+  void  GameImpl::drawText(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
@@ -1775,29 +1775,29 @@ namespace BWAPI
     va_end(ap);
     addShape(new ShapeText(ctype,x,y,std::string(buffer)));
   }
-  void  GameImpl::textScreen(int x, int y, const char* text, ...)
+  void  GameImpl::drawTextScreen(int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    GameImpl::text(BWAPI::CoordinateType::Screen, x, y, "%s", buffer);
+    addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
   }
-  void  GameImpl::textMap(int x, int y, const char* text, ...)
+  void  GameImpl::drawTextMap(int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    GameImpl::text(BWAPI::CoordinateType::Map, x, y, "%s", buffer);
+    addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
   }
-  void  GameImpl::textMouse(int x, int y, const char* text, ...)
+  void  GameImpl::drawTextMouse(int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    GameImpl::text(BWAPI::CoordinateType::Mouse, x, y, "%s", buffer);
+    addShape(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer)));
   }
 
   //--------------------------------------------------- GAME SPEED -------------------------------------------
