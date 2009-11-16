@@ -1273,6 +1273,18 @@ namespace BWAPI
       if (this->players[i] != NULL)
         this->players[i]->onGameEnd();
     this->setLocalSpeed(-1);
+
+
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    {
+      unitArray[i]->userSelected=false;
+      unitArray[i]->buildUnit=NULL;
+      unitArray[i]->alive=false;
+      unitArray[i]->dead=false;
+      unitArray[i]->savedPlayer=NULL;
+      unitArray[i]->savedUnitType=NULL;
+      unitArray[i]->staticInformation=false;
+    }
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void  GameImpl::startGame()

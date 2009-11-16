@@ -237,9 +237,15 @@ namespace BWAPI
       /** Returns if the unit has full building queue */
       bool hasFullBuildQueue() const;
 
+      void saveInitialInformation();
+
       UnitImpl* buildUnit;
       bool alive;
-      void saveInitialInformation();
+      bool dead;
+      bool userSelected;
+      bool staticInformation;
+      BWAPI::Player* savedPlayer;
+      BWAPI::UnitType savedUnitType;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */
@@ -248,15 +254,11 @@ namespace BWAPI
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
-      bool userSelected;
-      BWAPI::Player* savedPlayer;
-      BWAPI::UnitType savedUnitType;
       UnitType staticType;
       BWAPI::Position staticPosition;
       BWAPI::TilePosition staticTilePosition;
       int staticResources;
       int staticHitPoints;
-      bool dead;
   };
 };
 
