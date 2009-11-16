@@ -420,6 +420,7 @@ void __declspec(naked) onIssueCommand()
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
        || !BWAPI::BroodwarImpl.isOnStartCalled()
        //If user input is disabled, only allow the following commands to go through:
+       || commandID == 0x08 // Restart Game
        || commandID == 0x09 // Select
        || commandID == 0x0A // Shift Select
        || commandID == 0x10 // Pause Game
