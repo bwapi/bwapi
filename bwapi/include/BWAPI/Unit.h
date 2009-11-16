@@ -17,6 +17,7 @@ namespace BWAPI
     public:
       virtual Player* getPlayer() const = 0;
       virtual UnitType getType() const = 0;
+      virtual UnitType getInitialType() const = 0;
       virtual int getHitPoints() const = 0;
       virtual int getInitialHitPoints() const = 0;
       virtual int getShields() const = 0;
