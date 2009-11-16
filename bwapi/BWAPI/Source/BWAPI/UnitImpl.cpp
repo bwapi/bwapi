@@ -63,6 +63,7 @@ namespace BWAPI
       , dead(false) //dead only set to true once the unit has died
       , savedPlayer(NULL)
       , savedUnitType(UnitTypes::None)
+      , staticInformation(false)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -2243,6 +2244,7 @@ namespace BWAPI
   //------------------------------------- INITIAL INFORMATION FUNCTIONS --------------------------------------
   void UnitImpl::saveInitialInformation()
   {
+    this->staticInformation=true;
     this->staticType=this->_getType();
     this->staticPosition=this->_getPosition();
     this->staticTilePosition=this->_getTilePosition();
@@ -2251,31 +2253,31 @@ namespace BWAPI
   }
   UnitType UnitImpl::getInitialType() const
   {
-    if (this->_getPlayer()->isNeutral())
+    if (this->staticInformation)
       return this->staticType;
     return UnitTypes::Unknown;
   }
   Position UnitImpl::getInitialPosition() const
   {
-    if (this->_getPlayer()->isNeutral())
+    if (this->staticInformation)
       return this->staticPosition;
     return Positions::Unknown;
   }
   TilePosition UnitImpl::getInitialTilePosition() const
   {
-    if (this->_getPlayer()->isNeutral())
+    if (this->staticInformation)
       return this->staticTilePosition;
     return TilePositions::Unknown;
   }
   int UnitImpl::getInitialResources() const
   {
-    if (this->_getPlayer()->isNeutral())
+    if (this->staticInformation)
       return this->staticResources;
     return 0;
   }
   int UnitImpl::getInitialHitPoints() const
   {
-    if (this->_getPlayer()->isNeutral())
+    if (this->staticInformation)
       return this->staticHitPoints;
     return 0;
   }
