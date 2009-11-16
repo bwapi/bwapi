@@ -645,6 +645,7 @@ namespace BWAPI
         return;
 
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
+      refreshSelectionStates();
 
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         this->players[i]->update();
@@ -675,7 +676,6 @@ namespace BWAPI
         }
       }
 
-      refreshSelectionStates();
       while ((int)(this->commandBuffer.size()) > this->getLatency())
       {
         for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
@@ -757,7 +757,6 @@ namespace BWAPI
         sendText("Error: Failed to load the AI Module");
       this->startedClient = true;
     }
-
     this->client->onFrame();
     this->loadSelected();
   }
@@ -903,7 +902,6 @@ namespace BWAPI
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
   {
-    this->reselected = true;
     command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
     this->commandLog->log("(%4d) %s", this->frameCount, command->describe().c_str());
@@ -1249,7 +1247,6 @@ namespace BWAPI
 
     this->invalidIndices.clear();
     this->selectedUnitSet.clear();
-    this->reselected = false;
     this->startedClient = false;
     for each (UnitImpl* d in this->deadUnits)
       delete d;
@@ -1399,7 +1396,6 @@ namespace BWAPI
   //--------------------------------------------- SAVE SELECTED ----------------------------------------------
   void GameImpl::saveSelected()
   {
-    this->reselected = false;
     memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
     savedSelectionStates[12] = NULL;
     int i = 0;
@@ -1413,9 +1409,6 @@ namespace BWAPI
   //--------------------------------------------- LOAD SELECTED ----------------------------------------------
   void GameImpl::loadSelected()
   {
-    if (!this->reselected)
-      return;
-
     int unitCount = 0;
     while (savedSelectionStates[unitCount] != NULL)
       unitCount ++;
