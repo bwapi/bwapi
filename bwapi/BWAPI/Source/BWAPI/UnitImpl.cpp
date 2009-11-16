@@ -2251,7 +2251,9 @@ namespace BWAPI
   }
   UnitType UnitImpl::getInitialType() const
   {
-    return this->staticType;
+    if (this->_getPlayer()->isNeutral())
+      return this->staticType;
+    return UnitTypes::Unknown;
   }
   Position UnitImpl::getInitialPosition() const
   {
