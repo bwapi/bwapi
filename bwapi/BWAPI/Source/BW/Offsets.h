@@ -138,6 +138,10 @@ namespace BW
 
   static u32     BWDATA_LoadedUnits        = 0x004F4B58;
 
+  static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
+  static u32     BWFXN_gluPOKCancel_MBox   = 0x004B73B0;
+  static u32     BWFXN_gluPEdit_MBox       = 0x004B6E50;
+
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   static TileID**       BWDATA_ZergCreepArray             = (TileID**)     0x005993A8;
