@@ -250,7 +250,6 @@ namespace BWAPI
        * Specifies if some order was given, so the loadSelect function will have
        * to be called.
        */
-      bool reselected;
       bool flags[BWAPI::FLAG_COUNT];
       BW::Unit* savedSelectionStates[13];
       void refreshSelectionStates();
