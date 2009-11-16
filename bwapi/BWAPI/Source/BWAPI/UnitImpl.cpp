@@ -2024,7 +2024,7 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::getType() const
   {
-    if (!this->attemptAccessSpecial() && !this->_getPlayer()->isNeutral())
+    if (!this->attemptAccessSpecial())
       return UnitTypes::Unknown;
     return this->_getType();
   }
@@ -2243,10 +2243,15 @@ namespace BWAPI
   //------------------------------------- INITIAL INFORMATION FUNCTIONS --------------------------------------
   void UnitImpl::saveInitialInformation()
   {
+    this->staticType=this->_getType();
     this->staticPosition=this->_getPosition();
     this->staticTilePosition=this->_getTilePosition();
     this->staticResources=this->_getResources();
     this->staticHitPoints=this->_getHitPoints();
+  }
+  UnitType UnitImpl::getInitialType() const
+  {
+    return this->staticType;
   }
   Position UnitImpl::getInitialPosition() const
   {

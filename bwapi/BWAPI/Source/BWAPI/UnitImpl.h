@@ -32,6 +32,7 @@ namespace BWAPI
 
       virtual Player*  getPlayer() const;
       virtual UnitType  getType() const;
+      virtual UnitType  getInitialType() const;
       virtual int  getHitPoints() const;
       virtual int  getInitialHitPoints() const;
       virtual int  getShields() const;
@@ -250,6 +251,7 @@ namespace BWAPI
       bool userSelected;
       BWAPI::Player* savedPlayer;
       BWAPI::UnitType savedUnitType;
+      UnitType staticType;
       BWAPI::Position staticPosition;
       BWAPI::TilePosition staticTilePosition;
       int staticResources;
