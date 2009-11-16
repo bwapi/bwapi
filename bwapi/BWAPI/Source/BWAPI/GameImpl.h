@@ -91,10 +91,6 @@ namespace BWAPI
        */
       virtual void  printf(const char* text, ...);
       virtual void  sendText(const char* text, ...);
-      virtual void  text(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
-      virtual void  textScreen(int x, int y, const char* text, ...);
-      virtual void  textMap(int x, int y, const char* text, ...);
-      virtual void  textMouse(int x, int y, const char* text, ...);
 
       /**
        * Changes race in the pre-game lobby.
@@ -114,6 +110,10 @@ namespace BWAPI
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
       virtual Player*  self();
       virtual Player*  enemy();
+      virtual void  drawText(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
+      virtual void  drawTextScreen(int x, int y, const char* text, ...);
+      virtual void  drawTextMap(int x, int y, const char* text, ...);
+      virtual void  drawTextMouse(int x, int y, const char* text, ...);
       virtual void  drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
       virtual void  drawMapBox(int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
       virtual void  drawScreenBox(int left, int top, int right, int bottom, Color color = Color(BWAPI::Colors::Green), bool isSolid = false);
