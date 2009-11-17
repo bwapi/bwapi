@@ -246,6 +246,7 @@ namespace BWAPI
       BWAPI::UnitType savedUnitType;
       bool lastVisible;
       bool makeVisible;
+      UnitType lastType;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */

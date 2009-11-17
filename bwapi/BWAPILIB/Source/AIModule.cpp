@@ -26,6 +26,9 @@ namespace BWAPI
   void AIModule::onUnitDestroy(BWAPI::Unit* unit)
   {
   }
+  void AIModule::onUnitMorph(BWAPI::Unit* unit)
+  {
+  }
   void AIModule::onUnitShow(BWAPI::Unit* unit)
   {
   }
