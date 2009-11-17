@@ -1459,7 +1459,10 @@ namespace BWAPI
       bool isInUpdate = this->inUpdate;
       this->inUpdate = false;
       if (unit != NULL && unit->canAccessSpecial())
+      {
+        this->client->onUnitHide(unit);
         this->client->onUnitDestroy(unit);
+      }
 
       this->inUpdate = isInUpdate;
     }
