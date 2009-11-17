@@ -90,8 +90,6 @@ namespace BWAPI
       virtual Unit*  getRallyUnit() const;
       virtual Unit*  getAddon() const;
 
-
-      virtual bool  canAccess() const;
       virtual bool  exists() const;
       virtual bool  isAccelerating() const;
       virtual bool  isBeingConstructed() const;
@@ -196,7 +194,7 @@ namespace BWAPI
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
       void die();
-
+      inline bool canAccess() const;
       inline bool canAccessSpecial() const;
       inline bool attemptAccess() const;
       inline bool attemptAccessSpecial() const;

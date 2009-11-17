@@ -72,7 +72,6 @@ namespace BWAPI
       virtual Unit* getRallyUnit() const = 0;
       virtual Unit* getAddon() const = 0;
 
-      virtual bool canAccess() const = 0;
       virtual bool exists() const = 0;
       virtual bool isAccelerating() const = 0;
       virtual bool isBeingConstructed() const = 0;
