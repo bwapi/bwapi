@@ -101,11 +101,13 @@ namespace BWAPI
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
        */
       virtual void  changeRace(BWAPI::Race race);
+      virtual bool  isMultiplayer();
+      virtual bool  isPaused();
+      virtual bool  isReplay();
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
        */
-      virtual bool  inReplay();
       virtual void  startGame();
       virtual void  pauseGame();
       virtual void  resumeGame();
@@ -167,9 +169,10 @@ namespace BWAPI
       void onAddUnit(BWAPI::Unit* unit);
       void lockFlags();
       bool enabled;
-      bool isSinglePlayer() const;
       bool isOnStartCalled() const;
       bool inGame() const;
+      bool _isSinglePlayer() const;
+      bool _isReplay() const;
       void setLastError(BWAPI::Error e);
 
       /** @todo Doesn't work */

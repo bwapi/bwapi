@@ -534,7 +534,7 @@ namespace BWAPI
     if (this->getRawDataLocal()->sprite==NULL)
       return false;
 
-    if (BroodwarImpl.inReplay())
+    if (BroodwarImpl._isReplay())
       return this->getRawDataLocal()->sprite->visibilityFlags>0;
 
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())

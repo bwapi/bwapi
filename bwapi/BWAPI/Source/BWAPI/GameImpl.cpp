@@ -771,7 +771,13 @@ namespace BWAPI
       BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
   }
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-  bool GameImpl::isSinglePlayer() const
+  bool GameImpl::isMultiplayer()
+  {
+    this->setLastError(Errors::None);
+    return (*BW::BWDATA_IsMultiplayer != 0);
+  }
+  //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
+  bool GameImpl::_isSinglePlayer() const
   {
     return (*BW::BWDATA_IsMultiplayer == 0);
   }
@@ -790,10 +796,21 @@ namespace BWAPI
   {
     return *(BW::BWDATA_InGame) != 0;
   }
-  //----------------------------------------------- IN REPLAY ------------------------------------------------
-  bool  GameImpl::inReplay()
+  //----------------------------------------------- IS PAUSED ------------------------------------------------
+  bool GameImpl::isPaused()
   {
     this->setLastError(Errors::None);
+    return *BW::BWDATA_IsPaused != 0;
+  }
+  //----------------------------------------------- IN REPLAY ------------------------------------------------
+  bool  GameImpl::isReplay()
+  {
+    this->setLastError(Errors::None);
+    return *(BW::BWDATA_InReplay) != 0;
+  }
+  //----------------------------------------------- IN REPLAY ------------------------------------------------
+  bool  GameImpl::_isReplay() const
+  {
     return *(BW::BWDATA_InReplay) != 0;
   }
   const int BUFFER_SIZE = 2048;
@@ -808,7 +825,7 @@ namespace BWAPI
     va_end(ap);
 
     char* txtout = buffer;
-    if (inGame() || inReplay())
+    if (inGame() || _isReplay())
       __asm
     {
       pushad
@@ -829,7 +846,7 @@ namespace BWAPI
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
 
-    if (inReplay() || inGame())
+    if (_isReplay() || inGame())
     {
       printEx(8, buffer);
       return;
@@ -855,13 +872,13 @@ namespace BWAPI
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
 
-    if (inReplay())
+    if (_isReplay())
     {
       printEx(8, buffer);
       return;
     }
 
-    if (inGame() && isSinglePlayer())
+    if (inGame() && _isSinglePlayer())
     {
       printEx(this->BWAPIPlayer->getID(), buffer);
       return;
@@ -1508,7 +1525,7 @@ namespace BWAPI
   BWAPI::Latency::Enum  GameImpl::getLatency()
   {
     this->setLastError(Errors::None);
-    if (isSinglePlayer())
+    if (_isSinglePlayer())
       return BWAPI::Latency::SinglePlayer;
 
     switch(*BW::BWDATA_Latency)

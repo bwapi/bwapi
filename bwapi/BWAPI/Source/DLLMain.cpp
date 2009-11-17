@@ -82,7 +82,7 @@ void __declspec(naked) onSendText()
     mov text, esi
   }
   sendToBW = true;
-  if (!BWAPI::BroodwarImpl.isSinglePlayer() && text[0] != 0)
+  if (!BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
     sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
 
   if (sendToBW)
@@ -118,7 +118,7 @@ void __declspec(naked) onSendSingle()
     mov text, edx
   }
   sendToBW = true;
-  if (BWAPI::BroodwarImpl.isSinglePlayer() && text[0] != 0)
+  if (BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
     sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
 
   if (sendToBW)

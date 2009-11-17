@@ -66,7 +66,9 @@ namespace BWAPI
       virtual void printf(const char* text, ...) = 0;
       virtual void sendText(const char* text, ...) = 0;
       virtual void changeRace(Race race) = 0;
-      virtual bool inReplay() = 0;
+      virtual bool isMultiplayer() = 0;
+      virtual bool isPaused() = 0;
+      virtual bool isReplay() = 0;
       virtual void startGame() = 0;
       virtual void pauseGame() = 0;
       virtual void resumeGame() = 0;
