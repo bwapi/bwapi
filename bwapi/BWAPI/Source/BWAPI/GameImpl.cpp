@@ -1298,6 +1298,7 @@ namespace BWAPI
       unitArray[i]->savedPlayer=NULL;
       unitArray[i]->savedUnitType=NULL;
       unitArray[i]->staticInformation=false;
+      unitArray[i]->lastVisible=false;
     }
   }
   //----------------------------------------------- START GAME -----------------------------------------------
@@ -1458,7 +1459,7 @@ namespace BWAPI
       bool isInUpdate = this->inUpdate;
       this->inUpdate = false;
       if (unit != NULL && unit->canAccessSpecial())
-        this->client->onRemoveUnit(unit);
+        this->client->onUnitDestroy(unit);
 
       this->inUpdate = isInUpdate;
     }
@@ -1487,7 +1488,7 @@ namespace BWAPI
     {
       this->inUpdate = false;
       if (unit!=NULL && ((UnitImpl*)unit)->canAccess())
-        this->client->onAddUnit(unit);
+        this->client->onUnitCreate(unit);
 
       this->inUpdate = true;
     }
@@ -1605,6 +1606,25 @@ namespace BWAPI
         {
           if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->_getType()==UnitTypes::Protoss_Pylon && (*i)->_isCompleted())
             this->myPylons.push_back(*i);
+        }
+      }
+      if (!(*i)->lastVisible && (*i)->isVisible())
+      {
+        (*i)->lastVisible=true;
+        if (this->client)
+          this->client->onUnitShow(*i);
+      }
+      else
+      {
+        if ((*i)->lastVisible && !(*i)->isVisible())
+        {
+          (*i)->lastVisible=false;
+          if (this->client)
+          {
+            (*i)->makeVisible=true;
+            this->client->onUnitHide(*i);
+            (*i)->makeVisible=false;
+          }
         }
       }
     }
