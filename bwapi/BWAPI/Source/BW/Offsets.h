@@ -163,7 +163,7 @@ namespace BW
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
   static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
-  static u8*            BWDATA_IsPaused                           = (u8*)   0x0051CE6C;
+  static u8*            BWDATA_IsNotPaused                        = (u8*)   0x0051CE6C;
   static u32*           BWDATA_NextMenu                           = (u32*)  0x006D11BC;
   static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
 
