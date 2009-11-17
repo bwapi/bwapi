@@ -64,6 +64,8 @@ namespace BWAPI
       , savedPlayer(NULL)
       , savedUnitType(UnitTypes::None)
       , staticInformation(false)
+      , lastVisible(false)
+      , makeVisible(false)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -538,6 +540,9 @@ namespace BWAPI
       return this->getRawDataLocal()->sprite->visibilityFlags>0;
 
     if (this->_getPlayer() == BWAPI::BroodwarImpl.self())
+      return true;
+
+    if (this->makeVisible)
       return true;
 
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;

@@ -246,6 +246,8 @@ namespace BWAPI
       bool staticInformation;
       BWAPI::Player* savedPlayer;
       BWAPI::UnitType savedUnitType;
+      bool lastVisible;
+      bool makeVisible;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */
