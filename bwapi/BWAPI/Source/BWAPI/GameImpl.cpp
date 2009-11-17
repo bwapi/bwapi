@@ -1299,6 +1299,7 @@ namespace BWAPI
       unitArray[i]->savedUnitType=NULL;
       unitArray[i]->staticInformation=false;
       unitArray[i]->lastVisible=false;
+      unitArray[i]->lastType=UnitTypes::Unknown;
     }
   }
   //----------------------------------------------- START GAME -----------------------------------------------
@@ -1615,7 +1616,14 @@ namespace BWAPI
           if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->_getType()==UnitTypes::Protoss_Pylon && (*i)->_isCompleted())
             this->myPylons.push_back(*i);
         }
+        if ((*i)->lastType!=(*i)->_getType() && (*i)->lastType!=UnitTypes::Unknown && (*i)->_getType()!=UnitTypes::Unknown)
+        {
+          if (this->client)
+            this->client->onUnitMorph(*i);
+        }
       }
+      (*i)->lastType=(*i)->_getType();
+
       if (!(*i)->lastVisible && (*i)->isVisible())
       {
         (*i)->lastVisible=true;
