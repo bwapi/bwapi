@@ -79,39 +79,39 @@ namespace BWAPI
       virtual Player* enemy() = 0;
 
       virtual void drawText(CoordinateType::Enum ctype, int x, int y, const char* text, ...) = 0;
-      virtual void drawTextScreen(int x, int y, const char* text, ...) = 0;
       virtual void drawTextMap(int x, int y, const char* text, ...) = 0;
       virtual void drawTextMouse(int x, int y, const char* text, ...) = 0;
+      virtual void drawTextScreen(int x, int y, const char* text, ...) = 0;
 
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
-      virtual void drawScreenBox(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
-      virtual void drawMapBox(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
-      virtual void drawMouseBox(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
+      virtual void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
+      virtual void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
+      virtual void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
 
       virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
-      virtual void drawScreenTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
-      virtual void drawMapTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
-      virtual void drawMouseTriangle(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
+      virtual void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
+      virtual void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
+      virtual void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
 
       virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false) = 0;
-      virtual void drawScreenCircle(int x, int y, int radius, Color color, bool isSolid = false) = 0;
-      virtual void drawMapCircle(int x, int y, int radius, Color color, bool isSolid = false) = 0;
-      virtual void drawMouseCircle(int x, int y, int radius, Color color, bool isSolid = false) = 0;
+      virtual void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false) = 0;
+      virtual void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid = false) = 0;
+      virtual void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid = false) = 0;
 
       virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
-      virtual void drawScreenEllipse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
-      virtual void drawMapEllipse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
-      virtual void drawMouseEllipse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
+      virtual void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
+      virtual void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
+      virtual void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
 
       virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color) = 0;
-      virtual void drawScreenDot(int x, int y, Color color) = 0;
-      virtual void drawMapDot(int x, int y, Color color) = 0;
-      virtual void drawMouseDot(int x, int y, Color color) = 0;
+      virtual void drawDotMap(int x, int y, Color color) = 0;
+      virtual void drawDotMouse(int x, int y, Color color) = 0;
+      virtual void drawDotScreen(int x, int y, Color color) = 0;
 
       virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color) = 0;
-      virtual void drawScreenLine(int x1, int y1, int x2, int y2, Color color) = 0;
-      virtual void drawMapLine(int x1, int y1, int x2, int y2, Color color) = 0;
-      virtual void drawMouseLine(int x1, int y1, int x2, int y2, Color color) = 0;
+      virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color) = 0;
+      virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color) = 0;
+      virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color) = 0;
   };
   extern Game* Broodwar;
 }
