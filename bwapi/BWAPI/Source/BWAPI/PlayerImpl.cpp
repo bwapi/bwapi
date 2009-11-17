@@ -85,7 +85,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return TilePositions::None;
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return TilePositions::Unknown;
@@ -101,7 +101,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -115,7 +115,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -128,7 +128,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -141,7 +141,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -152,7 +152,7 @@ namespace BWAPI
   int PlayerImpl::supplyTotal() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -164,7 +164,7 @@ namespace BWAPI
   int PlayerImpl::supplyUsed() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -175,7 +175,7 @@ namespace BWAPI
   int PlayerImpl::supplyTotal(Race race) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
@@ -187,7 +187,7 @@ namespace BWAPI
   int PlayerImpl::supplyUsed(Race race) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl.inReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
