@@ -1237,9 +1237,9 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
-    this->client->onEnd();
     if (this->client != NULL)
     {
+      this->client->onEnd();
       delete this->client;
       this->client=NULL;
     }
