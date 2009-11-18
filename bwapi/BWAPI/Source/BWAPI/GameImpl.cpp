@@ -1881,7 +1881,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
+    addShape(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer)));
   }
   void  GameImpl::drawTextMouse(int x, int y, const char* text, ...)
   {
