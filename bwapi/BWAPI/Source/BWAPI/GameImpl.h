@@ -174,6 +174,9 @@ namespace BWAPI
       void onRemoveUnit(BWAPI::UnitImpl* unit);
       void onRemoveUnit(BW::Unit* unit);
       void onAddUnit(BWAPI::Unit* unit);
+      bool inScreen(int ctype, int x, int y);
+      bool inScreen(int ctype, int x1, int y1, int x2, int y2);
+      bool inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3);
       void lockFlags();
       bool enabled;
       bool isOnStartCalled() const;
