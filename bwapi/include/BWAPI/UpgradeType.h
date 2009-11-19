@@ -26,6 +26,7 @@ namespace BWAPI
       int upgradeTimeFactor() const;
       int maxRepeats() const;
       const UnitType* whatUpgrades() const;
+      const std::set<const UnitType*>& whatUses() const;
     private:
       int id;
   };
