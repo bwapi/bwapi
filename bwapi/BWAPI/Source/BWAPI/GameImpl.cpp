@@ -73,21 +73,9 @@ namespace BWAPI
 
     try
     {
-      /* open the config file */
-      this->configuration = new Util::Dictionary("bwapi-data\\bwapi.ini");
-      config = this->configuration;
-    }
-    catch (GeneralException& exception)
-    {
-      FILE*f = fopen("bwapi-error", "wt");
-      fprintf_s(f, "Couldn't load configuration file bwapi.ini because: %s", exception.getMessage().c_str());
-      fclose(f);
-    }
-    try
-    {
       /* create log handles */
-      this->commandLog        = new Util::FileLogger(config->get("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
-      this->newUnitLog        = new Util::FileLogger(config->get("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
+      this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::MicroDetailed);
+      this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
 
       unitArrayCopyLocal = new BW::UnitArray;
 
@@ -128,7 +116,6 @@ namespace BWAPI
     /* destroy all log handles */
     delete this->commandLog;
     delete this->newUnitLog;
-    delete this->configuration;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
   int  GameImpl::mapWidth()
@@ -707,44 +694,42 @@ namespace BWAPI
       sendText("BWAPI revision %s is now live.", SVN_REV_STR);
 
       TCHAR szDllPath[MAX_PATH];
-      std::string ai_dll = config->get("ai_dll");
-      for (unsigned int i = 0; i < ai_dll.length(); i++)
-        szDllPath[i] = TCHAR(ai_dll[i]);
+      GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+      if (_strcmpi(szDllPath, "NULL") == 0)
+      {
+        sendText("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
+        FILE* f = fopen("bwapi-error.txt", "a+");
+        fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
+        fclose(f);
+      }
 
-      szDllPath[ai_dll.length()] = TCHAR('\0');
-      Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", ai_dll.c_str());
-      bool loaded;
+      Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
       hMod = LoadLibrary(szDllPath);
       if (hMod == NULL)
       {
-        loaded = false;
         Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
         this->client = new AIModule();
         this->enableFlag(Flag::UserInput);
         this->enableFlag(Flag::CompleteMapInformation);
         this->lockFlags();
+        sendText("Error: Failed to load the AI Module");
       }
       else
       {
-        loaded = true;
         Util::Logger::globalLog->logCritical("Loaded AI Module");
         Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
 
         typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
-
         Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
 
         PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
         this->client = newAIModule(this);
         Util::Logger::globalLog->logCritical("Created an Object of AIModule");
+        sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
       }
       this->client->onStart();
       this->client->onFrame();
       this->lockFlags();
-      if (loaded)
-        sendText("BWAPI: Loaded the AI Module: %s", ai_dll.c_str());
-      else
-        sendText("Error: Failed to load the AI Module");
       this->startedClient = true;
     }
     this->client->onFrame();

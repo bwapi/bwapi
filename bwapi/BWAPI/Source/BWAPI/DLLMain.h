@@ -1,6 +1,8 @@
 #pragma once
 #include <BWAPI/CoordinateType.h>
+#include <windows.h>
 void NewIssueCommand();
 void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype);
 void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::Enum ctype);
 void drawText(int _x, int _y, const char* ptext, BWAPI::CoordinateType::Enum ctype);
+static char logPath[MAX_PATH];

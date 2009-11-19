@@ -214,11 +214,6 @@ namespace BWAPI
       bool inUpdate;
     private :
       HMODULE hMod;
-      /**
-       * Representation of the configuration file bw-api.ini in the starcraft
-       * directory.
-       */
-      Util::Dictionary* configuration;
       void saveSelected();
       Map map;
       std::set<BWAPI::Unit*> selectedUnitSet;
