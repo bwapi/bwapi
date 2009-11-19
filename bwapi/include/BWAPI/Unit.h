@@ -71,7 +71,6 @@ namespace BWAPI
       virtual Position getRallyPosition() const = 0;
       virtual Unit* getRallyUnit() const = 0;
       virtual Unit* getAddon() const = 0;
-      virtual bool hasTech(TechType tech) const = 0;
       virtual int getUpgradeLevel(UpgradeType upgrade) const = 0;
 
       virtual bool exists() const = 0;

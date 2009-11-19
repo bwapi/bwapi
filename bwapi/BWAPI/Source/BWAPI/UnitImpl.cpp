@@ -245,30 +245,6 @@ namespace BWAPI
   {
     return this->alive;
   }
-  //------------------------------------------------ HAS TECH ------------------------------------------------
-  bool UnitImpl::hasTech(TechType tech) const
-  {
-    if (!this->attemptAccess()) return false;
-    if (!this->_getPlayer()->researched(tech)) return false;
-    for each (const UnitType* u in tech.whatUses())
-    {
-      if (*u==this->_getType())
-        return true;
-    }
-    return false;
-  }
-  //---------------------------------------------- HAS UPGRADE -----------------------------------------------
-  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
-  {
-    if (!this->attemptAccess()) return false;
-    if (this->_getPlayer()->upgradeLevel(upgrade)==0) return 0;
-    for each (const UnitType* u in upgrade.whatUses())
-    {
-      if (*u==this->_getType())
-        return this->_getPlayer()->upgradeLevel(upgrade);
-    }
-    return 0;
-  }
   //--------------------------------------------- IS ACCELERATING --------------------------------------------
   bool UnitImpl::isAccelerating() const
   {
@@ -741,6 +717,18 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->currentDirection;
+  }
+  //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
+  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
+  {
+    if (!this->attemptAccess()) return false;
+    if (this->_getPlayer()->upgradeLevel(upgrade)==0) return 0;
+    for each (const UnitType* u in upgrade.whatUses())
+    {
+      if (*u==this->_getType())
+        return this->_getPlayer()->upgradeLevel(upgrade);
+    }
+    return 0;
   }
   //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
   BW::Unit* UnitImpl::getRawDataLocal() const

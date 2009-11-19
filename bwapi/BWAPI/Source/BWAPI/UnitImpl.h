@@ -63,6 +63,7 @@ namespace BWAPI
       virtual double  getDistance(Position target) const;
       virtual int  getCurrentDirection() const;
 
+      virtual int  getUpgradeLevel(UpgradeType upgrade) const;
       virtual Unit*  getTarget() const;
       virtual Position  getTargetPosition() const;
       virtual Order  getOrder() const;
@@ -89,8 +90,6 @@ namespace BWAPI
       virtual Position  getRallyPosition() const;
       virtual Unit*  getRallyUnit() const;
       virtual Unit*  getAddon() const;
-      virtual bool  hasTech(TechType tech) const;
-      virtual int   getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual bool  exists() const;
       virtual bool  isAccelerating() const;
