@@ -107,8 +107,8 @@ namespace BW
 
   static Positions*      BWDATA_startPositions   = (Positions*)      0x0058D720;  // 1.16.1
   static ForceName*      BWDATA_ForceNames       = (ForceName*)      0x0058D5BC;  // 1.16.1
-  static Players*        BWDATA_Players   = (Players*)        0x0057EEE0;  // 1.16.1
-  static PlayerAlliance* BWDATA_Alliance  = (PlayerAlliance*) 0x0058D634;  // 1.16.1
+  static Players*        BWDATA_Players          = (Players*)        0x0057EEE0;  // 1.16.1
+  static PlayerAlliance* BWDATA_Alliance         = (PlayerAlliance*) 0x0058D634;  // 1.16.1
 
   //----------------------------------------------- UNIT STATS -----------------------------------------------
   /** Direct mapping of BW tables used for unit stats like count, completed, kills, deaths */
@@ -163,8 +163,8 @@ namespace BW
   static u16*           BWDATA_MapSizeY                   = ((u16*)        BWDATA_MapSizeX) + 1;
   static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
   static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
-  static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CB58;               // starts properly at +1 unitstruct
-  const  u32            UNIT_ARRAY_MAX_LENGTH             = 1701;                                    // should be 1700
+  static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CCA8;
+  const  u32            UNIT_ARRAY_MAX_LENGTH             = 1700;
 
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect)  = (void (_stdcall*) (int, BW::Unit * *))             0x004C0860;
@@ -176,8 +176,6 @@ namespace BW
   static u8*            BWDATA_IsNotPaused                        = (u8*)   0x0051CE6C;
   static u32*           BWDATA_NextMenu                           = (u32*)  0x006D11BC;
   static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
-
-//  static u32            BWDATA_CountDownTimer = 0x0058D714;                     // unused
 
   static u8*            BWDATA_QuitMission_UNKNOWN8                = (u8*)  0x006D11EC;
   static u16*           BWDATA_QuitMission_UNKNOWN9                = (u16*) 0x0051CE90;
@@ -249,16 +247,11 @@ namespace BW
   static u32            BWFXN_DrawHighBack                        = BWFXN_DrawHigh + 5;
   static u32            BWFXN_DrawHighTarget                      = 0x0048CF60;
 
-//  static u32            BWFXN_IssueCommandRet                     = 0x00485BD5;
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 
-  static u32            BWFXN_RemoveUnit                          = 0x004EC504;
-  static u32            BWFXN_RemoveUnitBack                      = BWFXN_RemoveUnit + 5;
-  static u32            BWFXN_RemoveUnitTarget                    = 0x00479480;
-
-//  static u32            BWFXN_Redraw                              = 0x004D9933;
-//  static u32            BWFXN_RedrawBack                          = BWFXN_Redraw + 5;
-//  static u32            BWFXN_RedrawTarget                        = 0x0041CA00;
+  static u32            BWFXN_KillUnit                            = 0x004EC504;
+  static u32            BWFXN_KillUnitBack                        = BWFXN_KillUnit + 5;
+  static u32            BWFXN_KillUnitTarget                      = 0x00479480;
 
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
   static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;

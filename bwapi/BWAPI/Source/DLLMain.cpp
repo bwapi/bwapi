@@ -25,16 +25,16 @@ DWORD removedUnit;
 //bool launchedStart = false;
 DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-void __declspec(naked) onRemoveUnit()
+void __declspec(naked) onUnitDeath()
 {
   __asm
   {
     mov removedUnit, esi
-    call [BW::BWFXN_RemoveUnitTarget]
+    call [BW::BWFXN_KillUnitTarget]
   }
-  BWAPI::BroodwarImpl.onRemoveUnit((BW::Unit*) removedUnit);
+  BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
   __asm
-    jmp [BW::BWFXN_RemoveUnitBack]
+    jmp [BW::BWFXN_KillUnitBack]
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
@@ -492,7 +492,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 
   JmpCallPatch(nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
   JmpCallPatch(onGameEnd,      BW::BWFXN_GameEnd,         0);
-  JmpCallPatch(onRemoveUnit,   BW::BWFXN_RemoveUnit,      0);
+  JmpCallPatch(onUnitDeath,    BW::BWFXN_KillUnit,        0);
   JmpCallPatch(onSendText,     BW::BWFXN_SendPublicCall,  0);
   JmpCallPatch(onSendSingle,   BW::BWFXN_SendTextCall,    0);
   JmpCallPatch(onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
