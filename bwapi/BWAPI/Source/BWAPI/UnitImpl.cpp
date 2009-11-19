@@ -366,7 +366,7 @@ namespace BWAPI
   //-------------------------------------------- IS HALLUCINATION --------------------------------------------
   bool UnitImpl::isHallucination() const
   {
-    if (!this->attemptAccess()) return false;
+    if (!this->attemptAccessInside()) return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::IsHallucination);
   }
   //---------------------------------------------- IS IDLE ---------------------------------------------------
@@ -401,7 +401,7 @@ namespace BWAPI
   //------------------------------------------------ IS LOADED -----------------------------------------------
   bool UnitImpl::isLoaded() const
   {
-    if (!this->attemptAccess()) return false;
+    if (!this->attemptAccessInside()) return false;
     if (this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport)
      || this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding))
       return true;
@@ -750,7 +750,7 @@ namespace BWAPI
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
     std::list<UnitType > trainList;
-    if (!this->attemptAccess()) return trainList;
+    if (!this->attemptAccessInside()) return trainList;
     if (this->hasEmptyBuildQueue()) return trainList;
     int i = this->getBuildQueueSlot() % 5;
     int starti = i;
@@ -766,7 +766,7 @@ namespace BWAPI
   //-------------------------------------------- GET TRANSPORT -----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {
-    if (!this->attemptAccess()) return NULL;
+    if (!this->attemptAccessInside()) return NULL;
     if (!this->isLoaded()) return NULL;
     if (this->getType()==UnitTypes::Protoss_Carrier || this->getType()==UnitTypes::Protoss_Reaver)
       return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.parentUnit));
@@ -776,7 +776,7 @@ namespace BWAPI
   std::list<Unit*> UnitImpl::getLoadedUnits() const
   {
     std::list<Unit*> unitList;
-    if (!this->attemptAccess()) return unitList;
+    if (!this->attemptAccessInside()) return unitList;
     for(int i = 0; i < 8; i++)
     {
       if (this->getRawDataLocal()->loadedUnitIndex[i] != 0)
@@ -800,35 +800,35 @@ namespace BWAPI
   //-------------------------------------------- GET SCARAB COUNT --------------------------------------------
   int UnitImpl::getScarabCount() const
   {
-    if (!this->attemptAccess()) return 0;
+    if (!this->attemptAccessInside()) return 0;
     if (this->getType()!=UnitTypes::Protoss_Reaver) return 0;
     return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
   }
   //------------------------------------------ GET SPIDER MINE COUNT -----------------------------------------
   int UnitImpl::getSpiderMineCount() const
   {
-    if (!this->attemptAccess()) return 0;
+    if (!this->attemptAccessInside()) return 0;
     if (this->getType()!=UnitTypes::Terran_Vulture) return 0;
     return this->getRawDataLocal()->childInfoUnion.vultureBikeMines.spiderMineCount;
   }
   //----------------------------------------------- GET TECH -------------------------------------------------
   TechType UnitImpl::getTech() const
   {
-    if (!this->attemptAccess()) return TechTypes::None;
+    if (!this->attemptAccessInside()) return TechTypes::None;
     int techID = this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
     return TechType(techID);
   }
   //---------------------------------------------- GET UPGRADE -----------------------------------------------
   UpgradeType UnitImpl::getUpgrade() const
   {
-    if (!this->attemptAccess()) return UpgradeTypes::None;
+    if (!this->attemptAccessInside()) return UpgradeTypes::None;
     int upgradeID = this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
     return UpgradeType(upgradeID);
   }
   //-------------------------------------- GET REMAINING RESEARCH TIME ---------------------------------------
   int UnitImpl::getRemainingResearchTime() const
   {
-    if (!this->attemptAccess()) return 0;
+    if (!this->attemptAccessInside()) return 0;
     if (this->isResearching())
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
@@ -836,7 +836,7 @@ namespace BWAPI
   //-------------------------------------- GET REMAINING UPGRADE TIME ----------------------------------------
   int UnitImpl::getRemainingUpgradeTime() const
   {
-    if (!this->attemptAccess()) return 0;
+    if (!this->attemptAccessInside()) return 0;
     if (this->isUpgrading())
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
@@ -844,7 +844,7 @@ namespace BWAPI
   //------------------------------------------ GET RALLY POSITION --------------------------------------------
   Position UnitImpl::getRallyPosition() const
   {
-    if (!this->attemptAccess()) return BWAPI::Positions::None;
+    if (!this->attemptAccessInside()) return BWAPI::Positions::None;
     if (this->getBWType().canProduce())
       return Position(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyX,
                       this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyY);
@@ -853,7 +853,7 @@ namespace BWAPI
   //-------------------------------------------- GET RALLY UNIT ----------------------------------------------
   Unit* UnitImpl::getRallyUnit() const
   {
-    if (!this->attemptAccess()) return NULL;
+    if (!this->attemptAccessInside()) return NULL;
     if (this->getBWType().canProduce())
       return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyUnit);
     return NULL;
@@ -2137,6 +2137,14 @@ namespace BWAPI
     return false;
   }
 
+  //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)
+  bool UnitImpl::canAccessInside() const
+  {
+    if (!canAccess()) return false;
+    if (this->_getPlayer()==BroodwarImpl.self()) return true;
+    return BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
+  }
+
   // calls canAccess, setting error codes as needed
   bool UnitImpl::attemptAccess() const
   {
@@ -2171,6 +2179,27 @@ namespace BWAPI
     else
     {
       return this->canAccessSpecial();
+    }
+  }
+
+  // calls canAccessSpecial, setting error codes as needed
+  bool UnitImpl::attemptAccessInside() const
+  {
+    if (!BroodwarImpl.inUpdate)
+    {
+      BroodwarImpl.setLastError(Errors::None);
+      if (this->canAccessInside()) return true;
+      if (!this->_exists() && this->savedPlayer==BroodwarImpl.self())
+      {
+        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+        return false;
+      }
+      BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
+      return false;
+    }
+    else
+    {
+      return this->canAccessInside();
     }
   }
   char position[100];

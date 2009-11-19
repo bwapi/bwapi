@@ -196,8 +196,10 @@ namespace BWAPI
       void die();
       inline bool canAccess() const;
       inline bool canAccessSpecial() const;
+      inline bool canAccessInside() const;
       inline bool attemptAccess() const;
       inline bool attemptAccessSpecial() const;
+      inline bool attemptAccessInside() const;
       inline bool _exists() const;
       bool died() const;
       Player* _getPlayer() const;
