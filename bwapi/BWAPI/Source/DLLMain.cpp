@@ -479,7 +479,15 @@ void __declspec(naked) push0patch()
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
   delete Util::Logger::globalLog;
-  Util::Logger::globalLog = new Util::FileLogger(config->get("log_path") + "\\global", Util::LogLevel::MicroDetailed);
+  GetPrivateProfileStringA("paths", "log_path", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+  if (_strcmpi(logPath, "NULL") == 0)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not find log_path under paths in \"bwapi-data\\bwapi.ini\".\n");
+    fclose(f);
+  }
+
+  Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
   JmpCallPatch(nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
@@ -493,9 +501,9 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
-  WriteMem( (void*)BW::BWDATA_MenuInHack,  &push0patch, 2); // menu in
-  WriteMem( (void*)BW::BWDATA_MenuOutHack, &push0patch, 2); // menu out
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack, &push0patch, 2); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_MenuInHack,       &push0patch, 2); // menu in
+  WriteMem( (void*)BW::BWDATA_MenuOutHack,      &push0patch, 2); // menu out
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack,  &push0patch, 2); // Battle.net Server Select
   WriteMem( (void*)BW::BWDATA_MultiplayerHack2, &push0patch, 2); // Battle.net Server Select
 
   return 0;
