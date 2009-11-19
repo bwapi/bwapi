@@ -478,9 +478,6 @@ void __declspec(naked) push0patch()
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
-  if (config == NULL)
-    return 1;
-
   delete Util::Logger::globalLog;
   Util::Logger::globalLog = new Util::FileLogger(config->get("log_path") + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
@@ -498,6 +495,9 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
   WriteMem( (void*)BW::BWDATA_MenuInHack,  &push0patch, 2); // menu in
   WriteMem( (void*)BW::BWDATA_MenuOutHack, &push0patch, 2); // menu out
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack, &push0patch, 2); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack2, &push0patch, 2); // Battle.net Server Select
+
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
@@ -511,8 +511,6 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
       return true;
     }
-    default:
-      break;
   }
   return true;
 }

@@ -12,7 +12,6 @@
 #include <math.h>
 #include <fstream>
 
-
 #include <Util/FileLogger.h>
 #include <Util/Dictionary.h>
 #include <Util/Sentence.h>
@@ -28,7 +27,6 @@
 #include <BWAPI/ScreenLogger.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI.h>
-
 
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
@@ -89,11 +87,7 @@ namespace BWAPI
     {
       /* create log handles */
       this->commandLog        = new Util::FileLogger(config->get("log_path") + "\\commands", Util::LogLevel::MicroDetailed);
-      this->newOrderLog       = new Util::FileLogger(config->get("log_path") + "\\new_orders", Util::LogLevel::MicroDetailed);
-      this->badAssumptionLog  = new Util::FileLogger(config->get("log_path") + "\\bad_assumptions", Util::LogLevel::MicroDetailed);
       this->newUnitLog        = new Util::FileLogger(config->get("log_path") + "\\new_unit_id", Util::LogLevel::MicroDetailed);
-      this->unitSum           = new Util::FileLogger(config->get("log_path") + "\\unit_sum", Util::LogLevel::MicroDetailed);
-      this->fatalError        = new Util::FileLogger(config->get("log_path") + "\\FATAL-ERROR", Util::LogLevel::MicroDetailed);
 
       unitArrayCopyLocal = new BW::UnitArray;
 
@@ -133,11 +127,7 @@ namespace BWAPI
 
     /* destroy all log handles */
     delete this->commandLog;
-    delete this->newOrderLog;
-    delete this->badAssumptionLog;
     delete this->newUnitLog;
-    delete this->unitSum;
-    delete this->fatalError;
     delete this->configuration;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
@@ -1518,14 +1508,6 @@ namespace BWAPI
       }
     }
   }
-  //--------------------------------------------- LOG UNIT LIST ----------------------------------------------
-  void GameImpl::logUnitList()
-  {
-    this->unitSum->log("----------------------------------------");
-    for each (UnitImpl* i in this->units)
-      this->unitSum->log("%s", i->getName().c_str());
-    this->unitSum->log("----------------------------------------");
-  }
   //----------------------------------------------- GET FIRST ------------------------------------------------
   UnitImpl* GameImpl::getFirst()
   {
@@ -2000,5 +1982,44 @@ namespace BWAPI
         (screen_x1 > 640 && screen_x2 > 640 && screen_x3 > 640) ||
         (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480)) return false;
     return true;
+  }
+
+  bool GameImpl::gluMessageBox(char* message, int type)
+  {
+    bool rval = false;
+    switch(type)
+    {
+    case MB_OKCANCEL:
+      __asm
+      {
+        mov eax, message
+          call BW::BWFXN_gluPOKCancel_MBox
+        mov rval, al
+      }
+      break;
+    default:  // MB_OK
+      __asm
+      {
+        mov eax, message
+          call BW::BWFXN_gluPOK_MBox
+      }
+      return false;
+    }
+    return rval;
+  }
+
+  bool GameImpl::gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
+  {
+    bool rval;
+    __asm
+    {
+      push restricted
+      push destsize
+      push dest
+      push message
+      call BW::BWFXN_gluPEdit_MBox
+      mov  rval, al
+    }
+    return rval;
   }
 };
