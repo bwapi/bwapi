@@ -722,11 +722,11 @@ namespace BWAPI
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     if (!this->attemptAccess()) return false;
-    if (this->_getPlayer()->upgradeLevel(upgrade)==0) return 0;
+    if (this->_getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
     for each (const UnitType* u in upgrade.whatUses())
     {
       if (*u==this->_getType())
-        return this->_getPlayer()->upgradeLevel(upgrade);
+        return this->_getPlayer()->getUpgradeLevel(upgrade);
     }
     return 0;
   }
@@ -1332,7 +1332,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->researched(TechTypes::Burrowing))
+    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->hasResearched(TechTypes::Burrowing))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1361,7 +1361,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->researched(TechTypes::Burrowing))
+    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->hasResearched(TechTypes::Burrowing))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1390,7 +1390,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (!Broodwar->self()->researched(TechTypes::Tank_Siege_Mode))
+    if (!Broodwar->self()->hasResearched(TechTypes::Tank_Siege_Mode))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1419,7 +1419,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (!Broodwar->self()->researched(TechTypes::Tank_Siege_Mode))
+    if (!Broodwar->self()->hasResearched(TechTypes::Tank_Siege_Mode))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1450,7 +1450,7 @@ namespace BWAPI
     }
     if (this->getType()==UnitTypes::Terran_Wraith)
     {
-      if (!Broodwar->self()->researched(TechTypes::Cloaking_Field))
+      if (!Broodwar->self()->hasResearched(TechTypes::Cloaking_Field))
       {
         BroodwarImpl.setLastError(Errors::Insufficient_Tech);
         return false;
@@ -1463,7 +1463,7 @@ namespace BWAPI
     }
     if (this->getType()==UnitTypes::Terran_Ghost)
     {
-      if (!Broodwar->self()->researched(TechTypes::Personnel_Cloaking))
+      if (!Broodwar->self()->hasResearched(TechTypes::Personnel_Cloaking))
       {
         BroodwarImpl.setLastError(Errors::Insufficient_Tech);
         return false;
@@ -1497,8 +1497,8 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if ((this->getType()==UnitTypes::Terran_Wraith && !Broodwar->self()->researched(TechTypes::Cloaking_Field))
-      || (this->getType()==UnitTypes::Terran_Ghost && !Broodwar->self()->researched(TechTypes::Personnel_Cloaking)))
+    if ((this->getType()==UnitTypes::Terran_Wraith && !Broodwar->self()->hasResearched(TechTypes::Cloaking_Field))
+      || (this->getType()==UnitTypes::Terran_Ghost && !Broodwar->self()->hasResearched(TechTypes::Personnel_Cloaking)))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1814,7 +1814,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!Broodwar->self()->researched(tech))
+    if (!Broodwar->self()->hasResearched(tech))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1881,7 +1881,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!Broodwar->self()->researched(tech))
+    if (!Broodwar->self()->hasResearched(tech))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1961,7 +1961,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (!Broodwar->self()->researched(tech))
+    if (!Broodwar->self()->hasResearched(tech))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;

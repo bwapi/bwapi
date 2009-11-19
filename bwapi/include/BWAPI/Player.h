@@ -43,10 +43,10 @@ namespace BWAPI
       virtual int deadUnitCount(UnitType unit) const = 0;
       virtual int killedUnitCount(UnitType unit) const = 0;
 
-      virtual bool researching(TechType tech) const = 0;
-      virtual bool researched(TechType tech) const = 0;
-      virtual bool upgrading(UpgradeType upgrade) const = 0;
-      virtual int upgradeLevel(UpgradeType upgrade) const = 0;
+      virtual int  getUpgradeLevel(UpgradeType upgrade) const = 0;
+      virtual bool hasResearched(TechType tech) const = 0;
+      virtual bool isResearching(TechType tech) const = 0;
+      virtual bool isUpgrading(UpgradeType upgrade) const = 0;
 
   };
 };
