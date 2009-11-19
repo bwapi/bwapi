@@ -1452,7 +1452,7 @@ namespace BWAPI
   }
   void GameImpl::onUnitDeath(BW::Unit* unit)
   {
-    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336 + 1) & 0x7FF;
+    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
     if (index > BW::UNIT_ARRAY_MAX_LENGTH)
     {
       if (this->invalidIndices.find(index) == this->invalidIndices.end())
