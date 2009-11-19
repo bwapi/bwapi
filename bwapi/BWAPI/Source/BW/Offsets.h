@@ -130,14 +130,24 @@ namespace BW
 
   static Counts* BWDATA_Counts             = (Counts*) 0x00582324;    // 1.16.1
   static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
+  static u32     BWDATA_LoadedUnits        = 0x004F4B58;
 
+  /* Speed Hacks */
   static u32     BWDATA_MenuLoadHack       =           0x004DE392;
   static u32     BWDATA_MenuInHack         =           0x004DD76D;
   static u32     BWDATA_MenuOutHack        =           0x004DD161;
+  static u32     BWDATA_MultiplayerHack    =           0x004DD5A1;
+  static u32     BWDATA_MultiplayerHack2   =           0x004DD5C8;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
 
-  static u32     BWDATA_LoadedUnits        = 0x004F4B58;
+  /* Attempt at invoking the ophelia cheat code */
+  static bool*   BWDATA_OpheliaCheat       = (bool*)   0x0051BFF8; // make this 1
+  static u32*    BWDATA_OpheliaCheat2      = (u32*)    0x0057F0B4; // make this 0
+  static DWORD*  BWDATA_GameCheats         = (DWORD*)  0x006D5A6C; // ophelia is 0x20000000??
+  static u16*    BWDATA_ThisMenu           = (u16*)    0x00596904; // in-game = 1
+  static u16*    BWDATA_NextCampaign       = (u16*)    0x0051C410; // ??
 
+  /* Native message boxes */
   static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
   static u32     BWFXN_gluPOKCancel_MBox   = 0x004B73B0;
   static u32     BWFXN_gluPEdit_MBox       = 0x004B6E50;

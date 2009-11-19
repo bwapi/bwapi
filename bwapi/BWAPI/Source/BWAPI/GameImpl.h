@@ -152,6 +152,9 @@ namespace BWAPI
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
 
+      virtual bool gluMessageBox(char* message, int type);
+      virtual bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
@@ -191,8 +194,6 @@ namespace BWAPI
       void printEx(s32 pID, const char* text, ...);
 
       UnitImpl* getFirst();
-      Util::Logger* fatalError;
-
       std::set<UnitImpl*> units;
       UnitImpl* getUnit(int index);
       PlayerImpl* BWAPIPlayer;
@@ -241,7 +242,6 @@ namespace BWAPI
 
       /** Count of game-frames passed from game start. */
       int frameCount;
-      void logUnitList();
       void logUnknownOrStrange();
       bool onStartCalled;
       BW::UnitArray* unitArrayCopyLocal;
@@ -249,12 +249,6 @@ namespace BWAPI
       std::vector<std::vector<Command *> > commandBuffer;
       /** All commands ordered from BWAPI */
       Util::Logger* commandLog;
-      /** Unknown orderID's */
-      Util::Logger* newOrderLog;
-      /** Failed check of assumption */
-      Util::Logger* badAssumptionLog;
-      /** Sum of all units*/
-      Util::Logger* unitSum;
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnits();
       /** Made for debug reasons, may come later someday, so I leave it*/
