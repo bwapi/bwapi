@@ -354,7 +354,7 @@ namespace BWAPI
       if (builder->getType() == UnitTypes::Protoss_Carrier)
       {
         int max_amt = 4;
-        if (self()->upgradeLevel(UpgradeTypes::Carrier_Capacity)>0)
+        if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity)>0)
           max_amt += 4;
         if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
         {
@@ -367,7 +367,7 @@ namespace BWAPI
       if (builder->getType() == UnitTypes::Protoss_Reaver)
       {
         int max_amt = 5;
-        if (self()->upgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
+        if (self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
           max_amt += 5;
         if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= max_amt)
         {
@@ -427,7 +427,7 @@ namespace BWAPI
     }
 
     if (*type.requiredTech() != TechTypes::None)
-      if (!self()->researched(*(type.requiredTech())))
+      if (!self()->hasResearched(*(type.requiredTech())))
       {
         this->setLastError(Errors::Insufficient_Tech);
         return false;
@@ -466,7 +466,7 @@ namespace BWAPI
         return false;
       }
     }
-    if (self()->researched(type))
+    if (self()->hasResearched(type))
     {
       this->setLastError(Errors::Already_Researched);
       return false;
@@ -506,17 +506,17 @@ namespace BWAPI
         return false;
       }
     }
-    if (self()->upgradeLevel(type)>=type.maxRepeats())
+    if (self()->getUpgradeLevel(type)>=type.maxRepeats())
     {
       this->setLastError(Errors::Fully_Upgraded);
       return false;
     }
-    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->upgradeLevel(type)-1))
+    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->getUpgradeLevel(type)-1))
     {
       this->setLastError(Errors::Insufficient_Minerals);
       return false;
     }
-    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->upgradeLevel(type)-1))
+    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->getUpgradeLevel(type)-1))
     {
       this->setLastError(Errors::Insufficient_Gas);
       return false;

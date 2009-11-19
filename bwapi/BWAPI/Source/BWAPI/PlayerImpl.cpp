@@ -250,7 +250,7 @@ namespace BWAPI
     return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
   }
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
-  bool PlayerImpl::researching(BWAPI::TechType tech) const
+  bool PlayerImpl::isResearching(BWAPI::TechType tech) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -262,7 +262,7 @@ namespace BWAPI
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
-  bool PlayerImpl::researched(BWAPI::TechType tech) const
+  bool PlayerImpl::hasResearched(BWAPI::TechType tech) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -276,7 +276,7 @@ namespace BWAPI
       return *((u8*)(BW::BWDATA_TechResearchBW + this->getID() * 0x14 + tech.getID() - 0x18)) == 1;
   }
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
-  bool PlayerImpl::upgrading(UpgradeType upgrade) const
+  bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -287,7 +287,7 @@ namespace BWAPI
     return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
   }
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
-  int PlayerImpl::upgradeLevel(UpgradeType upgrade) const
+  int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
