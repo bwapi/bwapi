@@ -130,6 +130,7 @@ namespace BWAPI
       std::map< const UnitType*, int > requiredUnits;
       const TechType* requiredTech;
       std::set< const TechType* > abilities;
+      std::set< const UpgradeType* > upgrades;
       const UpgradeType* armorUpgrade;
 
       int maxHitPoints;
@@ -462,6 +463,13 @@ namespace BWAPI
       unitTypeData[None.getID()].set("None", "", Races::None, &(None), 0, NULL, 0, NULL, 0, NULL, 0, &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(UpgradeTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, &(UnitSizeTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, &(WeaponTypes::None), 0, &(WeaponTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Unknown.getID()].set("Unknown", "", Races::Unknown, &(Unknown), 0, NULL, 0, NULL, 0, NULL, 0, &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(UpgradeTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, &(UnitSizeTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, &(WeaponTypes::None), 0, &(WeaponTypes::None), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+      for (std::set<UpgradeType>::iterator i=UpgradeTypes::allUpgradeTypes().begin();i!=UpgradeTypes::allUpgradeTypes().end();i++)
+      {
+        for each (const UnitType* ut in i->whatUses())
+        {
+          unitTypeData[ut->getID()].upgrades.insert(&(*i));
+        }
+      }
       unitTypeSet.insert(Terran_Marine);
       unitTypeSet.insert(Terran_Ghost);
       unitTypeSet.insert(Terran_Vulture);
@@ -667,6 +675,10 @@ namespace BWAPI
   const std::set<const TechType* >& UnitType::abilities() const
   {
     return unitTypeData[this->id].abilities;
+  }
+  const std::set<const UpgradeType* >& UnitType::upgrades() const
+  {
+    return unitTypeData[this->id].upgrades;
   }
   const UpgradeType* UnitType::armorUpgrade() const
   {

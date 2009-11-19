@@ -28,6 +28,7 @@ namespace BWAPI
       const std::map< const UnitType*, int >& requiredUnits() const;
       const TechType* requiredTech() const;
       const std::set< const TechType* >& abilities() const;
+      const std::set< const UpgradeType* >& upgrades() const;
       const UpgradeType* armorUpgrade() const;
 
       int maxHitPoints() const;
