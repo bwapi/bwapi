@@ -1420,7 +1420,7 @@ namespace BWAPI
     return selectedUnitSet;
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-  void GameImpl::onRemoveUnit(BWAPI::UnitImpl* unit)
+  void GameImpl::onUnitDeath(BWAPI::UnitImpl* unit)
   {
     int index = unit->getIndex();
     if (!unit->alive) return;
@@ -1450,10 +1450,10 @@ namespace BWAPI
 
     unit->die();
   }
-  void GameImpl::onRemoveUnit(BW::Unit* unit)
+  void GameImpl::onUnitDeath(BW::Unit* unit)
   {
-    int index = ((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336;
-    if (index < 0 || index >= BW::UNIT_ARRAY_MAX_LENGTH)
+    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336 + 1) & 0x7FF;
+    if (index > BW::UNIT_ARRAY_MAX_LENGTH)
     {
       if (this->invalidIndices.find(index) == this->invalidIndices.end())
       {
@@ -1462,8 +1462,8 @@ namespace BWAPI
       }
       return;
     }
-    BWAPI::UnitImpl* deadUnit=unitArray[index];
-    this->onRemoveUnit(deadUnit);
+    BWAPI::UnitImpl* deadUnit = unitArray[index];
+    this->onUnitDeath(deadUnit);
   }
   //---------------------------------------------- ON ADD UNIT -----------------------------------------------
   void GameImpl::onAddUnit(BWAPI::Unit* unit)

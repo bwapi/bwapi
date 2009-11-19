@@ -100,7 +100,7 @@ namespace BW
     /*0x098*/ BW::UnitType                        buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
-    /*0x0A5*/ _UNKNOWN                            _15[1];
+    /*0x0A5*/ u8                                  targetOrderSpecial; /**< A byte used to determine the target ID for the unit */
     /*0x0A6*/ BW::OrderID::Enum                   secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
     /*0x0A7*/ _UNKNOWN                            _16[1];
     /*0x0A8*/ u16                                 hpGainDuringRepair; /**< @todo Verify */

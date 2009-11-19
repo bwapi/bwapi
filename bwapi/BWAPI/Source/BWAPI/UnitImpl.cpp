@@ -2071,17 +2071,18 @@ namespace BWAPI
   {
     if (unit == NULL)
       return NULL;
-    int index=(((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336) & 2047;
-    if (index<0 || index>=BW::UNIT_ARRAY_MAX_LENGTH)
+
+    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336 + 1) & 0x7FF;
+    if (index > BW::UNIT_ARRAY_MAX_LENGTH)
     {
-      if (BroodwarImpl.invalidIndices.find(index)==BroodwarImpl.invalidIndices.end())
+      if (BroodwarImpl.invalidIndices.find(index) == BroodwarImpl.invalidIndices.end())
       {
         BroodwarImpl.newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x",index,unit);
         BroodwarImpl.invalidIndices.insert(index);
       }
       return NULL;
     }
-    return BroodwarImpl.getUnit(((int)unit - (int)BW::BWDATA_UnitNodeTable) / 336);
+    return BroodwarImpl.getUnit(index);
   }
 
   void UnitImpl::die()
