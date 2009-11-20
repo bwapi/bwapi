@@ -1210,6 +1210,11 @@ namespace BWAPI
         setLocalSpeed();
       return true;
     }
+    else if (parsed[0] == "/restart")
+    {
+      restartGame();
+      return true;
+    }
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
@@ -1303,11 +1308,18 @@ namespace BWAPI
   void  GameImpl::leaveGame()
   {
     this->setLastError(Errors::None);
-    *BW::BWDATA_QuitMission_UNKNOWN8 = 0;
-    *BW::BWDATA_QuitMission_UNKNOWN9 = 4;
-
-    *BW::BWDATA_NextMenu = 1;
-    BW::changeMenu();
+    *BW::BWDATA_GameState = 0;
+    *BW::BWDATA_GamePosition = 6;
+   // *BW::BWDATA_NextMenu = 1;
+   // BW::changeMenu();
+  }
+  //--------------------------------------------- RESTART GAME -----------------------------------------------
+  void  GameImpl::restartGame()
+  {
+    /* Does not work on Battle.net */
+    this->setLastError(Errors::None);
+    *BW::BWDATA_GameState = 0;
+    *BW::BWDATA_GamePosition = 5;
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int  GameImpl::getMouseX()

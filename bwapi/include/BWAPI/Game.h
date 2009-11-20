@@ -73,6 +73,7 @@ namespace BWAPI
       virtual void pauseGame() = 0;
       virtual void resumeGame() = 0;
       virtual void leaveGame() = 0;
+      virtual void restartGame() = 0;
       virtual void setLocalSpeed(int speed = -1) = 0;
       virtual std::set<Unit*>& getSelectedUnits() = 0;
       virtual Player* self() = 0;

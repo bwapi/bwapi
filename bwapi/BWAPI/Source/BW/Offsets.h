@@ -141,13 +141,6 @@ namespace BW
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
   static u32     BWDATA_OpponentStartHack  =           0x004B995B;
 
-  /* Attempt at invoking the ophelia cheat code */
-  static bool*   BWDATA_OpheliaCheat       = (bool*)   0x0051BFF8; // make this 1
-  static u32*    BWDATA_OpheliaCheat2      = (u32*)    0x0057F0B4; // make this 0
-  static DWORD*  BWDATA_GameCheats         = (DWORD*)  0x006D5A6C; // ophelia is 0x20000000??
-  static u16*    BWDATA_ThisMenu           = (u16*)    0x00596904; // in-game = 1
-  static u16*    BWDATA_NextCampaign       = (u16*)    0x0051C410; // ??
-
   /* Native message boxes */
   static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
   static u32     BWFXN_gluPOKCancel_MBox   = 0x004B73B0;
@@ -178,8 +171,8 @@ namespace BW
   static u32*           BWDATA_NextMenu                           = (u32*)  0x006D11BC;
   static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
 
-  static u8*            BWDATA_QuitMission_UNKNOWN8                = (u8*)  0x006D11EC;
-  static u16*           BWDATA_QuitMission_UNKNOWN9                = (u16*) 0x0051CE90;
+  static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
+  static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
 
