@@ -993,7 +993,7 @@ namespace BWAPI
   bool GameImpl::onSendText(const char* text)
   {
     /* prep onSendText */
-    if (this->parseText(text))
+    if (this->parseText(text) || !this->isFlagEnabled(BWAPI::Flag::UserInput))
       return true;
     else
     {
