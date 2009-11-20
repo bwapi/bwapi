@@ -151,8 +151,7 @@ void __declspec(naked) onSendLobby()
     mov ebpSave, ebp
     mov text, edi
   }
-  sendToBW = true;
-  sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
+  sendToBW = !BWAPI::BroodwarImpl.onSendText(text);
   if (sendToBW)
     __asm
     {
@@ -168,7 +167,17 @@ void __declspec(naked) onSendLobby()
     }
 
   __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
     jmp [BW::BWFXN_SendLobbyCallBack]
+  }
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
@@ -420,6 +429,10 @@ void __declspec(naked) onIssueCommand()
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
        || !BWAPI::BroodwarImpl.isOnStartCalled()
        //If user input is disabled, only allow the following commands to go through:
+       || commandID == 0x00 // Game Chat
+       || commandID == 0x05 // Keep Alive
+       || commandID == 0x06 // Save Game
+       || commandID == 0x07 // Load Game
        || commandID == 0x08 // Restart Game
        || commandID == 0x09 // Select
        || commandID == 0x0A // Shift Select
@@ -430,11 +443,26 @@ void __declspec(naked) onIssueCommand()
        || commandID == 0x3D // Map Download %
        || commandID == 0x3E // Game Slot Modification
        || commandID == 0x3F // Unknown
-       || commandID == 0x40 // Unknown
+       || commandID == 0x40 // Join Game
        || commandID == 0x41 // Race Change
+       || commandID == 0x42 // Melee Force Change
+       || commandID == 0x43 // UMS   Force Change
        || commandID == 0x44 // Slot Change
+       || commandID == 0x45 // Swap Players
+       || commandID == 0x48 // Game Init (Random Seed)
+       || commandID == 0x49 // Info Request
+       || commandID == 0x4A // Force Data Transfer
+       || commandID == 0x4B // Force Name Transfer
+       || commandID == 0x4C // Lobby Chat
+       || commandID == 0x4E // Boot Player
+       || commandID == 0x4F // Map Transfer
        || commandID == 0x54 // Mission Briefing Start
+       || commandID == 0x55 // Set Latency
        || commandID == 0x56 // Change Replay Speed
+       || commandID == 0x57 // Leave Game
+       || commandID == 0x58 // Minimap Ping
+       || commandID == 0x5B // Make Game Public
+       || commandID == 0x5C // Replay Game Chat
      )
   {
     __asm
@@ -474,7 +502,11 @@ void __declspec(naked) push0patch()
   __asm 
     push 0
 }
-
+void __declspec(naked) cmp0eaxPatch()
+{
+  __asm
+    cmp eax, 0
+}
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -501,11 +533,11 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
-  WriteMem( (void*)BW::BWDATA_MenuInHack,       &push0patch, 2); // menu in
-  WriteMem( (void*)BW::BWDATA_MenuOutHack,      &push0patch, 2); // menu out
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack,  &push0patch, 2); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack2, &push0patch, 2); // Battle.net Server Select
-
+  WriteMem( (void*)BW::BWDATA_MenuInHack,        &push0patch, 2); // menu in
+  WriteMem( (void*)BW::BWDATA_MenuOutHack,       &push0patch, 2); // menu out
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack,   &push0patch, 2); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  &push0patch, 2); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_OpponentStartHack, &cmp0eaxPatch, 3); // Start without an opponent
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
