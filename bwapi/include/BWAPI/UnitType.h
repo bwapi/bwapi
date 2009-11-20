@@ -62,7 +62,7 @@ namespace BWAPI
       const WeaponType* airWeapon() const;
       int maxAirHits() const;
 
-      int topSpeed() const;
+      double topSpeed() const;
       int acceleration() const;
       int haltDistance() const;
       int turnRadius() const;
