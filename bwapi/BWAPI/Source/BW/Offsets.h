@@ -139,6 +139,7 @@ namespace BW
   static u32     BWDATA_MultiplayerHack    =           0x004DD5A1;
   static u32     BWDATA_MultiplayerHack2   =           0x004DD5C8;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
+  static u32     BWDATA_OpponentStartHack  =           0x004B995B;
 
   /* Attempt at invoking the ophelia cheat code */
   static bool*   BWDATA_OpheliaCheat       = (bool*)   0x0051BFF8; // make this 1
