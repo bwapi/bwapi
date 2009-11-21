@@ -349,19 +349,57 @@ namespace BWAPI
   bool UnitImpl::isGatheringGas() const
   {
     if (!this->attemptAccess()) return false;
-    return (this->getBWOrder()==BW::OrderID::MoveToGas ||
-            this->getBWOrder()==BW::OrderID::WaitForGas ||
-            this->getBWOrder()==BW::OrderID::HarvestGas ||
-            this->getBWOrder()==BW::OrderID::ReturnGas);
+    if (!this->_getType().isWorker()) return false;
+    if (!this->getRawDataLocal()->status.getBit(BW::StatusFlags::IsGathering)) return false;
+    if (this->getBWOrder()!=BW::OrderID::MoveToGas &&
+        this->getBWOrder()!=BW::OrderID::WaitForGas &&
+        this->getBWOrder()!=BW::OrderID::HarvestGas &&
+        this->getBWOrder()!=BW::OrderID::ReturnGas &&
+        this->getBWOrder()!=BW::OrderID::ResetCollision2)
+      return false;
+    if (this->getBWOrder()==BW::OrderID::ResetCollision2)
+      return this->isCarryingGas();
+    if (this->getBWOrder()!=BW::OrderID::MoveToGas)
+      return true;
+    if (this->getTarget()!=NULL)
+    {
+      if (this->getTarget()->getType()==UnitTypes::Resource_Vespene_Geyser)
+        return false;
+      if (((BWAPI::UnitImpl*)this->getTarget())->_getPlayer()!=this->_getPlayer())
+        return false;
+      if (!this->getTarget()->isCompleted())
+        return false;
+      if (this->getTarget()->getType().isRefinery())
+        return true;
+    }
+    if (this->getOrderTarget()!=NULL)
+    {
+      if (this->getOrderTarget()->getType()==UnitTypes::Resource_Vespene_Geyser)
+        return false;
+      if (((BWAPI::UnitImpl*)this->getOrderTarget())->_getPlayer()!=this->_getPlayer())
+        return false;
+      if (!this->getOrderTarget()->isCompleted())
+        return false;
+      if (this->getOrderTarget()->getType().isRefinery())
+        return true;
+    }
+    return false;
   }
   //----------------------------------------- IS GATHERING MINERALS ------------------------------------------
   bool UnitImpl::isGatheringMinerals() const
   {
     if (!this->attemptAccess()) return false;
-    return (this->getBWOrder()==BW::OrderID::MoveToMinerals ||
-            this->getBWOrder()==BW::OrderID::WaitForMinerals ||
-            this->getBWOrder()==BW::OrderID::MiningMinerals ||
-            this->getBWOrder()==BW::OrderID::ReturnMinerals);
+    if (!this->_getType().isWorker()) return false;
+    if (!this->getRawDataLocal()->status.getBit(BW::StatusFlags::IsGathering)) return false;
+    if (this->getBWOrder()!=BW::OrderID::MoveToMinerals &&
+        this->getBWOrder()!=BW::OrderID::WaitForMinerals &&
+        this->getBWOrder()!=BW::OrderID::MiningMinerals &&
+        this->getBWOrder()!=BW::OrderID::ReturnMinerals &&
+        this->getBWOrder()!=BW::OrderID::ResetCollision2)
+      return false;
+    if (this->getBWOrder()==BW::OrderID::ResetCollision2)
+      return this->isCarryingMinerals();
+    return true;
   }
   //-------------------------------------------- IS HALLUCINATION --------------------------------------------
   bool UnitImpl::isHallucination() const
