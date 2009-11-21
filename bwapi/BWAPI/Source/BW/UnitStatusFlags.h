@@ -30,6 +30,8 @@ namespace BW
       IsNormal            = 1 << 20,  /**< 1 for "normal" units, 0 for hallucinated units */
       NoCollide           = 1 << 21,
 
+      IsGathering         = 1 << 23,
+
       Invincible          = 1 << 26,
 
       SpeedUpgrade        = 1 << 28,
