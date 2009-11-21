@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;../BWAI/Source;Source"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
