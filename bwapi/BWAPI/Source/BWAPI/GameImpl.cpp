@@ -1563,6 +1563,9 @@ namespace BWAPI
     this->minerals.clear();
     this->geysers.clear();
     this->myPylons.clear();
+    std::list<BWAPI::UnitImpl*> morphUnits;
+    std::list<BWAPI::UnitImpl*> showUnits;
+    std::list<BWAPI::UnitImpl*> hideUnits;
 
     for(std::set<Player*>::iterator i = this->playerSet.begin();i!=this->playerSet.end();i++)
       ((PlayerImpl*)(*i))->units.clear();
@@ -1601,8 +1604,7 @@ namespace BWAPI
         }
         if ((*i)->lastType!=(*i)->_getType() && (*i)->lastType!=UnitTypes::Unknown && (*i)->_getType()!=UnitTypes::Unknown)
         {
-          if (this->client)
-            this->client->onUnitMorph(*i);
+          morphUnits.push_back(*i);
         }
       }
       (*i)->lastType=(*i)->_getType();
@@ -1610,20 +1612,14 @@ namespace BWAPI
       if (!(*i)->lastVisible && (*i)->isVisible())
       {
         (*i)->lastVisible=true;
-        if (this->client)
-          this->client->onUnitShow(*i);
+        showUnits.push_back(*i);
       }
       else
       {
         if ((*i)->lastVisible && !(*i)->isVisible())
         {
           (*i)->lastVisible=false;
-          if (this->client)
-          {
-            (*i)->makeVisible=true;
-            this->client->onUnitHide(*i);
-            (*i)->makeVisible=false;
-          }
+          hideUnits.push_back(*i);
         }
       }
     }
@@ -1643,6 +1639,25 @@ namespace BWAPI
               this->staticGeysers.insert(*i);
           }
         }
+      }
+    }
+    for(std::list<BWAPI::UnitImpl*>::iterator i=morphUnits.begin();i!=morphUnits.end();i++)
+    {
+      if (this->client)
+        this->client->onUnitMorph(*i);
+    }
+    for(std::list<BWAPI::UnitImpl*>::iterator i=showUnits.begin();i!=showUnits.end();i++)
+    {
+      if (this->client)
+        this->client->onUnitShow(*i);
+    }
+    for(std::list<BWAPI::UnitImpl*>::iterator i=hideUnits.begin();i!=hideUnits.end();i++)
+    {
+      if (this->client)
+      {
+        (*i)->makeVisible=true;
+        this->client->onUnitHide(*i);
+        (*i)->makeVisible=false;
       }
     }
     this->inUpdate = true;
