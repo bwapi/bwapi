@@ -252,6 +252,7 @@ namespace BWAPI
       bool makeVisible;
       UnitType lastType;
       Player* lastPlayer;
+      bool nukeDetected;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */

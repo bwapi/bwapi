@@ -68,6 +68,7 @@ namespace BWAPI
       , makeVisible(false)
       , lastType(UnitTypes::Unknown)
       , lastPlayer(NULL)
+      , nukeDetected(false)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -2178,6 +2179,7 @@ namespace BWAPI
     this->dead           = true;
     this->lastType       = UnitTypes::Unknown;
     this->lastPlayer     = NULL;
+    this->nukeDetected   = false;
   }
 
   /* canAccess returns true if the AI module is allowed to access the unit.
