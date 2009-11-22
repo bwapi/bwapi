@@ -13,7 +13,6 @@
 #include <fstream>
 
 #include <Util/FileLogger.h>
-#include <Util/Dictionary.h>
 #include <Util/Sentence.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
@@ -667,7 +666,6 @@ namespace BWAPI
           this->commandBuffer[i][j]->execute();
 
       this->frameCount++;
-      this->logUnknownOrStrange();
       this->updateUnits();
 
       if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
@@ -1072,7 +1070,7 @@ namespace BWAPI
     this->commandBuffer.clear();
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
-    for (int i = 0; i < 13; i++)
+    for (int i = 0; i < 13; i++) // Why is this 13? There can only be 12 units selected.
       this->savedSelectionStates[i] = NULL;
 
     this->invalidIndices.clear();
@@ -1323,22 +1321,6 @@ namespace BWAPI
       this->inUpdate = true;
     }
   }
-  //----------------------------------------- LOG UNKNOWN OR STRANGE -----------------------------------------
-  void GameImpl::logUnknownOrStrange()
-  {
-    for each (UnitImpl* i in this->units)
-    {
-      if (i == NULL)
-      {
-        this->newUnitLog->log("Error: NULL pointer");
-      }
-      else
-      {
-        if (!i->getBWType().isValid())
-          this->newUnitLog->log("%s", i->getName().c_str());
-      }
-    }
-  }
   //----------------------------------------------- GET FIRST ------------------------------------------------
   UnitImpl* GameImpl::getFirst()
   {
@@ -1363,23 +1345,6 @@ namespace BWAPI
         return BWAPI::Latency::LanLow;
     }
   }
-  //--------------------------------------- PRINT UNIT COUNT PER TILE ----------------------------------------
-  void GameImpl::printUnitCountPerTile()
-  {
-    FILE* f = fopen("unit-counts.txt", "wt");
-    for (int y = 0; y < Map::getHeight(); y++)
-    {
-      for (int x = 0; x < Map::getWidth(); x++)
-      {
-        if (this->map.buildable(x, y))
-          fprintf_s(f, "%d", this->unitsOnTile(x, y).size());
-        else
-          fprintf_s(f, "X");
-      }
-      fprintf_s(f, "\n");
-    }
-    fclose(f);
-  }
   //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
   void GameImpl::updateUnits()
   {
@@ -1397,107 +1362,104 @@ namespace BWAPI
     std::list<BWAPI::UnitImpl*> hideUnits;
     std::list<BWAPI::UnitImpl*> renegadeUnits;
 
-    for(std::set<Player*>::iterator i = this->playerSet.begin();i!=this->playerSet.end();i++)
-      ((PlayerImpl*)(*i))->units.clear();
+    for each (Player* i in playerSet)
+      ((PlayerImpl*)i)->units.clear();
 
-    for (std::set<UnitImpl*>::iterator i = this->units.begin(); i != this->units.end(); i++)
+    for each (UnitImpl* i in units)
     {
-      if ((*i)->canAccess())
+      if (i->canAccess())
       {
-        int startX =   ((*i)->_getPosition().x() - (*i)->_getType().dimensionLeft()) / BW::TILE_SIZE;
-        int endX   =   ((*i)->_getPosition().x() + (*i)->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-        int startY =   ((*i)->_getPosition().y() - (*i)->_getType().dimensionUp()) / BW::TILE_SIZE;
-        int endY =     ((*i)->_getPosition().y() + (*i)->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+        int startX = (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
+        int endX   = (i->_getPosition().x() + i->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+        int startY = (i->_getPosition().y() - i->_getType().dimensionUp()) / BW::TILE_SIZE;
+        int endY   = (i->_getPosition().y() + i->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
-            this->unitsOnTileData[x][y].insert(*i);
+            this->unitsOnTileData[x][y].insert(i);
 
-        ((PlayerImpl*)((*i)->_getPlayer()))->units.insert(*i);
+        ((PlayerImpl*)(i->_getPlayer()))->units.insert(i);
 
-        this->allUnits.insert(*i);
+        this->allUnits.insert(i);
 
-        if ((*i)->_getPlayer()->isNeutral())
+        if (i->_getPlayer()->isNeutral())
         {
-          this->neutralUnits.insert(*i);
-          if ((*i)->_getType()==UnitTypes::Resource_Mineral_Field)
-            this->minerals.insert(*i);
+          this->neutralUnits.insert(i);
+          if (i->_getType()==UnitTypes::Resource_Mineral_Field)
+            this->minerals.insert(i);
           else
           {
-            if ((*i)->_getType()==UnitTypes::Resource_Vespene_Geyser)
-              this->geysers.insert(*i);
+            if (i->_getType()==UnitTypes::Resource_Vespene_Geyser)
+              this->geysers.insert(i);
           }
         }
         else
         {
-          if ((*i)->_getPlayer()==(Player*)this->BWAPIPlayer && (*i)->_getType()==UnitTypes::Protoss_Pylon && (*i)->_isCompleted())
-            this->myPylons.push_back(*i);
+          if (i->_getPlayer() == (Player*)this->BWAPIPlayer && i->_getType() == UnitTypes::Protoss_Pylon && i->_isCompleted())
+            this->myPylons.push_back(i);
         }
-        if ((*i)->lastType!=(*i)->_getType() && (*i)->lastType!=UnitTypes::Unknown && (*i)->_getType()!=UnitTypes::Unknown)
-        {
-          morphUnits.push_back(*i);
-        }
-        if ((*i)->lastPlayer!=(*i)->_getPlayer() && (*i)->lastPlayer!=NULL && (*i)->_getPlayer()!=NULL)
-        {
-          renegadeUnits.push_back(*i);
-        }
-      }
-      (*i)->lastType=(*i)->_getType();
-      (*i)->lastPlayer=(*i)->_getPlayer();
+        if (i->lastType != i->_getType() && i->lastType != UnitTypes::Unknown && i->_getType() != UnitTypes::Unknown)
+          morphUnits.push_back(i);
 
-      if (!(*i)->lastVisible && (*i)->isVisible())
+        if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
+          renegadeUnits.push_back(i);
+      }
+      i->lastType   = i->_getType();
+      i->lastPlayer = i->_getPlayer();
+
+      if (!i->lastVisible && i->isVisible())
       {
-        (*i)->lastVisible=true;
-        showUnits.push_back(*i);
+        i->lastVisible = true;
+        showUnits.push_back(i);
       }
       else
       {
-        if ((*i)->lastVisible && !(*i)->isVisible())
+        if (i->lastVisible && !i->isVisible())
         {
-          (*i)->lastVisible=false;
-          hideUnits.push_back(*i);
+          i->lastVisible = false;
+          hideUnits.push_back(i);
         }
       }
     }
     if (this->staticNeutralUnits.empty())
     {
-      for (std::set<UnitImpl*>::iterator i = this->units.begin(); i != this->units.end(); i++)
+      for each (UnitImpl* i in units)
       {
-        if ((*i)->_getPlayer()->isNeutral())
+        if (i->_getPlayer()->isNeutral())
         {
-          (*i)->saveInitialInformation();
-          this->staticNeutralUnits.insert(*i);
-          if ((*i)->_getType()==UnitTypes::Resource_Mineral_Field)
-            this->staticMinerals.insert(*i);
+          i->saveInitialInformation();
+          this->staticNeutralUnits.insert(i);
+          if (i->_getType() == UnitTypes::Resource_Mineral_Field)
+            this->staticMinerals.insert(i);
           else
           {
-            if ((*i)->_getType()==UnitTypes::Resource_Vespene_Geyser)
-              this->staticGeysers.insert(*i);
+            if (i->_getType() == UnitTypes::Resource_Vespene_Geyser)
+              this->staticGeysers.insert(i);
           }
         }
       }
     }
-    for(std::list<BWAPI::UnitImpl*>::iterator i=renegadeUnits.begin();i!=renegadeUnits.end();i++)
+    for each (BWAPI::UnitImpl* i in renegadeUnits)
     {
       if (this->client)
-        this->client->onUnitRenegade(*i);
+        this->client->onUnitRenegade(i);
     }
-    for(std::list<BWAPI::UnitImpl*>::iterator i=morphUnits.begin();i!=morphUnits.end();i++)
+    for each (BWAPI::UnitImpl* i in morphUnits)
     {
       if (this->client)
-        this->client->onUnitMorph(*i);
+        this->client->onUnitMorph(i);
     }
-    for(std::list<BWAPI::UnitImpl*>::iterator i=showUnits.begin();i!=showUnits.end();i++)
+    for each (BWAPI::UnitImpl* i in showUnits)
     {
       if (this->client)
-        this->client->onUnitShow(*i);
+        this->client->onUnitShow(i);
     }
-    for(std::list<BWAPI::UnitImpl*>::iterator i=hideUnits.begin();i!=hideUnits.end();i++)
+    for each (BWAPI::UnitImpl* i in hideUnits)
     {
       if (this->client)
       {
-        (*i)->makeVisible=true;
-        this->client->onUnitHide(*i);
-        (*i)->makeVisible=false;
+        i->makeVisible = true;
+        this->client->onUnitHide(i);
+        i->makeVisible = false;
       }
     }
     this->inUpdate = true;
