@@ -28,4 +28,4 @@ namespace BWAPI
     private :
       BW::UnitType toTrain;
   };
-}
+};

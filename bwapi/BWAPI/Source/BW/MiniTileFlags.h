@@ -14,4 +14,4 @@ namespace BW
       Ramp       = 1 << 4, /**< Appears on the middle minitiles of most ramps/stairs. */
     };
   }
-}
+};

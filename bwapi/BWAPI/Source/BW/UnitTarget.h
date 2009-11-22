@@ -1,6 +1,8 @@
 #pragma once
 #include <Util/Types.h>
 namespace BWAPI { class UnitImpl; }
+
+#pragma pack(1)
 namespace BW
 {
 
@@ -16,7 +18,6 @@ namespace BW
    *    is unit index + 1 << 11 (1 in the binary code on 11th place)
    *
    */
-#pragma pack(1)
   class UnitTarget
   {
     public :
@@ -28,5 +29,5 @@ namespace BW
     private :
       u16 targetID; /**< Unit index pointer stored in the way bw understands it */
   };
+};
 #pragma pack()
-}

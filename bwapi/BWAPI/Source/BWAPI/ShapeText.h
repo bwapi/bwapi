@@ -14,4 +14,4 @@ namespace BWAPI
     int y;
     std::string text;
   };
-}
+};

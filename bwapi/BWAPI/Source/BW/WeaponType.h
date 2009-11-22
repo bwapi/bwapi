@@ -2,7 +2,6 @@
 
 #include <string>
 #include <map>
-
 #include <Util/Bitmask.h>
 #include <Util/Types.h>
 
@@ -12,7 +11,6 @@
 #include "ExplosionID.h"
 #include "Offsets.h"
 #include "UpgradeType.h"
-
 
 namespace BW
 {
@@ -57,4 +55,5 @@ namespace BW
       u8                     id;
     private :
   };
-}
+};
+

@@ -23,4 +23,4 @@ namespace BW
       ComputerDefeated = 11  /**< Left */
     };
   }
-}
+};

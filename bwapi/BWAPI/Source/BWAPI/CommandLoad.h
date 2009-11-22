@@ -20,4 +20,4 @@ namespace BWAPI
     private :
       UnitImpl* target;
   };
-}
+};

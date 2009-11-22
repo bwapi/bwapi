@@ -21,4 +21,3 @@ namespace Util
     return (value & bit) != 0;
   }
 }
- 

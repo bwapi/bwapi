@@ -13,4 +13,4 @@ namespace BWAPI
   {
     return this->players;
   }
-}
+};

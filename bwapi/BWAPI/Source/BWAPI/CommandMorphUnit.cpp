@@ -37,4 +37,4 @@ namespace BWAPI
     return this->executors[0]->getName() + " is morphing into (" + this->toMorph.getName() + ")";
   }
   //----------------------------------------------------------------------------------------------------------
-}
+};

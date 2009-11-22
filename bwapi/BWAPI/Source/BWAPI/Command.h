@@ -39,4 +39,4 @@ namespace BWAPI
       /** List of executors of the command. */
       std::vector<UnitImpl*> executors;
   };
-}
+};

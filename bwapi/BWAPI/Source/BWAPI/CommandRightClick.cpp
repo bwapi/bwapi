@@ -80,4 +80,4 @@ namespace BWAPI
       return this->executors[0]->getName() + " right-clicked to position";
   }
   //----------------------------------------------------------------------------------------------------------
-}
+};

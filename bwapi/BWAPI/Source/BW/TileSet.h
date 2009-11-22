@@ -13,4 +13,4 @@ namespace BW
       static TileType* getTileType(TileID tileID);
       static DoodatType* getDoodatType(TileID tileID);
   };
-}
+};

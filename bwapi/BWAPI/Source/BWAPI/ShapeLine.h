@@ -15,4 +15,4 @@ namespace BWAPI
       int y2;
       int color;
   };
-}
+};

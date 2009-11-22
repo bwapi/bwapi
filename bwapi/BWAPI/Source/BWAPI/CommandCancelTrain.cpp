@@ -61,4 +61,4 @@ namespace BWAPI
     return this->executors[0]->getName() + " cancelled unit production";
   }
   //----------------------------------------------------------------------------------------------------------
-}
+};

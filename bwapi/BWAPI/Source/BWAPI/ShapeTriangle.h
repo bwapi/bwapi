@@ -18,4 +18,4 @@ namespace BWAPI
       int color;
       bool isSolid;
   };
-}
+};

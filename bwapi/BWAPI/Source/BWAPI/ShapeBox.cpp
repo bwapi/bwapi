@@ -29,4 +29,4 @@ namespace BWAPI
       drawBox(left, bottom - lineWidth, right - left, lineWidth, color, ctype);
     }
   }
-}
+};

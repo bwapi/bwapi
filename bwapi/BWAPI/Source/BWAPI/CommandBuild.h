@@ -27,4 +27,4 @@ namespace BWAPI
       BW::UnitType toBuild;
       BW::Position position;
   };
-}
+};
