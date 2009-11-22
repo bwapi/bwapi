@@ -17,5 +17,6 @@ namespace BWAPI
       virtual void onUnitMorph(Unit* unit);
       virtual void onUnitShow(Unit* unit);
       virtual void onUnitHide(Unit* unit);
+      virtual void onUnitRenegade(Unit* unit);
   };
 }

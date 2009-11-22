@@ -1284,6 +1284,7 @@ namespace BWAPI
       unitArray[i]->staticInformation=false;
       unitArray[i]->lastVisible=false;
       unitArray[i]->lastType=UnitTypes::Unknown;
+      unitArray[i]->lastPlayer=NULL;
     }
   }
   //----------------------------------------------- START GAME -----------------------------------------------
@@ -1566,6 +1567,7 @@ namespace BWAPI
     std::list<BWAPI::UnitImpl*> morphUnits;
     std::list<BWAPI::UnitImpl*> showUnits;
     std::list<BWAPI::UnitImpl*> hideUnits;
+    std::list<BWAPI::UnitImpl*> renegadeUnits;
 
     for(std::set<Player*>::iterator i = this->playerSet.begin();i!=this->playerSet.end();i++)
       ((PlayerImpl*)(*i))->units.clear();
@@ -1606,8 +1608,13 @@ namespace BWAPI
         {
           morphUnits.push_back(*i);
         }
+        if ((*i)->lastPlayer!=(*i)->_getPlayer() && (*i)->lastPlayer!=NULL && (*i)->_getPlayer()!=NULL)
+        {
+          renegadeUnits.push_back(*i);
+        }
       }
       (*i)->lastType=(*i)->_getType();
+      (*i)->lastPlayer=(*i)->_getPlayer();
 
       if (!(*i)->lastVisible && (*i)->isVisible())
       {
@@ -1640,6 +1647,11 @@ namespace BWAPI
           }
         }
       }
+    }
+    for(std::list<BWAPI::UnitImpl*>::iterator i=renegadeUnits.begin();i!=renegadeUnits.end();i++)
+    {
+      if (this->client)
+        this->client->onUnitRenegade(*i);
     }
     for(std::list<BWAPI::UnitImpl*>::iterator i=morphUnits.begin();i!=morphUnits.end();i++)
     {
