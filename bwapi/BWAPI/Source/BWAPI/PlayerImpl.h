@@ -46,6 +46,7 @@ namespace BWAPI
       virtual bool  isEnemy(Player* player) const;
       virtual bool  isNeutral() const;
       virtual TilePosition  getStartLocation() const;
+      virtual bool leftGame() const;
 
       virtual int  minerals() const;
       virtual int  gas() const;
@@ -112,6 +113,7 @@ namespace BWAPI
       void useSupplies(u8 supplies, BW::Race::Enum race);
       void onGameEnd();
       std::set<Unit*> units;
+      bool leftTheGame;
     private :
       /**
        * Gets synchronised version of available supplies for the given race.

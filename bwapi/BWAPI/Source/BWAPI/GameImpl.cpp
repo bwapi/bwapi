@@ -624,7 +624,15 @@ namespace BWAPI
       refreshSelectionStates();
 
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
+      {
+        bool prevLeftGame=this->players[i]->leftGame();
         this->players[i]->update();
+        if (!prevLeftGame && this->players[i]->leftGame())
+        {
+          if (this->client!=NULL)
+            this->client->onPlayerLeft((Player*)this->players[i]);
+        }
+      }
 
       std::list<UnitImpl*> unitList;
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
