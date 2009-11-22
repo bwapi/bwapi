@@ -23,6 +23,9 @@ namespace BWAPI
   void AIModule::onPlayerLeft(Player *player)
   {
   }
+  void AIModule::onNukeDetect(Position target)
+  {
+  }
   void AIModule::onUnitCreate(BWAPI::Unit* unit)
   {
   }

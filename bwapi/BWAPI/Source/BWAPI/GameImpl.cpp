@@ -658,6 +658,19 @@ namespace BWAPI
           i->buildUnit = j;
           j->buildUnit = i;
         }
+        if (i->getType()==UnitTypes::Terran_Nuclear_Missile && i->nukeDetected==false && i->getRawDataLocal()->connectedUnit->unitID==BW::UnitID::Terran_Ghost)
+        {
+          i->nukeDetected=true;
+          BW::Position bwtarget=i->getRawDataLocal()->orderTargetPos;
+          Position target(bwtarget.x,bwtarget.y);
+          if (this->client)
+          {
+            if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->visible(target.x()/32,target.y()/32))
+              this->client->onNukeDetect(target);
+            else
+              this->client->onNukeDetect(Positions::Unknown);
+          }
+        }
       }
 
       while ((int)(this->commandBuffer.size()) > this->getLatency())
@@ -1120,6 +1133,7 @@ namespace BWAPI
       unitArray[i]->lastVisible=false;
       unitArray[i]->lastType=UnitTypes::Unknown;
       unitArray[i]->lastPlayer=NULL;
+      unitArray[i]->nukeDetected=false;
     }
   }
   //----------------------------------------------- START GAME -----------------------------------------------
