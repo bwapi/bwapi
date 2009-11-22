@@ -12,7 +12,7 @@ namespace BWAPI
                 to Command ancestor)
        */
       CommandCancelConstruction(UnitImpl* building);
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       virtual void execute();
       std::string describe();
   };

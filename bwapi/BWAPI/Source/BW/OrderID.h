@@ -11,7 +11,7 @@ namespace BW
    */
   namespace OrderID
   {
-  enum Enum : u8
+  enum Enum
     {
       Die                    = 0x00, /**< Causes the unit to die. Normal units run the death iscript animation, while hallucinated units have the sound/sprite spawned and then are removed.
                                       * Default Requirements: Allow on hallucinated units. */

@@ -7,7 +7,7 @@ namespace BW
    */
   namespace BNET
   {
-    enum Enum : u8
+    enum Enum
     {
       SID_NULL                           = 0x00,
       SID_UNKNOWN_0X01                   = 0x01,

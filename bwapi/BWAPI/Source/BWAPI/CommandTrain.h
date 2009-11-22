@@ -23,7 +23,7 @@ namespace BWAPI
       CommandTrain(UnitImpl* building, BW::UnitType toTrain);
       ~CommandTrain();
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::UnitType toTrain;

@@ -7,7 +7,7 @@ namespace BW
    */
   namespace ExplosionID
   {
-  enum Enum : u8
+  enum Enum
     {
       None            = 0x00,
       Normal          = 0x01,

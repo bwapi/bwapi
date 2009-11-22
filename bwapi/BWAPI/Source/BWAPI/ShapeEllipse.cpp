@@ -3,7 +3,7 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-	ShapeEllipse::ShapeEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, int color, bool isSolid)
+	ShapeEllipse::ShapeEllipse(int ctype, int x, int y, int xrad, int yrad, int color, bool isSolid)
 			: ctype(ctype)
 			, x(x)
 			, y(y)

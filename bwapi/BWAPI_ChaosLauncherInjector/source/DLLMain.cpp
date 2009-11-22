@@ -7,6 +7,7 @@
 
 #define BWLAPI 4
 #define STARCRAFTBUILD 13
+#define ENV_BUFFER_SIZE 512
 
 struct ExchangeData
 {
@@ -58,40 +59,72 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE, DWORD)
 
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 {
-  const DWORD ENV_BUFFER_SIZE = 512;
-  char envBuffer[512];
-
-  DWORD result = GetEnvironmentVariable("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+  char envBuffer[ENV_BUFFER_SIZE];
+  DWORD result = GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
   if (result == 0)
-    result = GetCurrentDirectory(ENV_BUFFER_SIZE, envBuffer);
-  assert(result != 0);
+    result = GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer);
+  
+  if (result == 0)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not find ChaosDir or current directory.\n");
+    MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK);
+    fclose(f);
+  }
 
   std::string dllFileName(envBuffer);
   dllFileName.append("\\BWAPI.dll");
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
-  assert(NULL != loadLibAddress);
+  if (loadLibAddress == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get loadLibAddress.\n");
+    MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK);
+    fclose(f);
+  }
 
   void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
-  assert(NULL != pathAddress);
+  if (pathAddress == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get pathAddress.\n");
+    MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK);
+    fclose(f);
+  }
 
   SIZE_T bytesWritten;
-
   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
-  success; // Fix warning
-  assert(success && bytesWritten == dllFileName.size() + 1);
+  if (success == FALSE || bytesWritten != dllFileName.size() + 1)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not Write proc memory.\n");
+    MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK);
+    fclose(f);
+  }
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
-  assert(NULL != hThread);
+  if (hThread == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not Create remote thread.\n");
+    MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
+    fclose(f);
+  }
 
   WaitForSingleObject(hThread, INFINITE);
 
-  DWORD hLibModule; // Base address of the loaded module
+  DWORD hLibModule = NULL; // Base address of the loaded module
   GetExitCodeThread(hThread, &hLibModule);
-  assert(0 != hLibModule);
+  if (hLibModule == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get hLibModule.\n");
+    MessageBoxA(NULL, "Could not get hLibModule.\n", "Error", MB_OK);
+    fclose(f);
+  }
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);
-
   return true; //everything OK
 }

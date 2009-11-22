@@ -18,7 +18,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandLift::getType()
+  int CommandLift::getType()
   {
     return BWAPI::CommandTypes::Lift;
   }

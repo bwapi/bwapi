@@ -7,7 +7,7 @@ namespace BW
    */
   namespace DamageID
   {
-  enum Enum : u8
+  enum Enum
     {
       Independent = 0x00,
       Explosive   = 0x01,

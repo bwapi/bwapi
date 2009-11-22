@@ -18,7 +18,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandCancelMorph::getType()
+  int CommandCancelMorph::getType()
   {
     return BWAPI::CommandTypes::CancelMorph;
   }

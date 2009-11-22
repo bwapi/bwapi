@@ -22,6 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -40,17 +41,16 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				UseUnicodeResponseFiles="false"
 				Optimization="0"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
+				WarningLevel="4"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4100;4480"
+				DisableSpecificWarnings="4238;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -63,8 +63,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				UseUnicodeResponseFiles="false"
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -76,6 +77,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -133,7 +135,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="4238; 4480;4239;"
+				DisableSpecificWarnings="4238;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

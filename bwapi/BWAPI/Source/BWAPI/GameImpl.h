@@ -61,15 +61,15 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticGeysers();
       virtual std::set< Unit* >& getStaticNeutralUnits();
 
-      virtual BWAPI::Latency::Enum  getLatency();
+      virtual int  getLatency();
       virtual int  getFrameCount();
       virtual int  getMouseX();
       virtual int  getMouseY();
       virtual int  getScreenX();
       virtual int  getScreenY();
 
-      virtual bool  isFlagEnabled(BWAPI::Flag::Enum flag);
-      virtual void  enableFlag(BWAPI::Flag::Enum flag);
+      virtual bool  isFlagEnabled(int flag);
+      virtual void  enableFlag(int flag);
       virtual std::set<Unit*>& unitsOnTile(int x, int y);
       virtual Error  getLastError() const;
 
@@ -118,37 +118,37 @@ namespace BWAPI
       virtual Player*  self();
       virtual Player*  enemy();
 
-      virtual void drawText(CoordinateType::Enum ctype, int x, int y, const char* text, ...);
+      virtual void drawText(int ctype, int x, int y, const char* text, ...);
       virtual void drawTextMap(int x, int y, const char* text, ...);
       virtual void drawTextMouse(int x, int y, const char* text, ...);
       virtual void drawTextScreen(int x, int y, const char* text, ...);
 
-      virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
+      virtual void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
       virtual void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);
       virtual void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false);
       virtual void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid = false);
 
-      virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+      virtual void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
       virtual void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
       virtual void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
       virtual void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
 
-      virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
+      virtual void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid = false);
       virtual void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false);
       virtual void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid = false);
       virtual void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid = false);
 
-      virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
+      virtual void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
       virtual void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
       virtual void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
       virtual void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
 
-      virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
+      virtual void drawDot(int ctype, int x, int y, Color color);
       virtual void drawDotMap(int x, int y, Color color);
       virtual void drawDotMouse(int x, int y, Color color);
       virtual void drawDotScreen(int x, int y, Color color);
 
-      virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
+      virtual void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);

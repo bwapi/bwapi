@@ -14,7 +14,7 @@ namespace BWAPI
        */
       CommandLift(UnitImpl* executor);
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
   };

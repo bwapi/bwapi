@@ -7,7 +7,7 @@ namespace BW
    */
   namespace FlingyID
   {
-  enum Enum : u8
+  enum Enum
     {
       Scourge                     = 0x00,
       Broodling                   = 0x01,

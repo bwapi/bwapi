@@ -5,7 +5,7 @@ namespace BW
   /** Mapping of bit meaning for the MiniTile Flag property.*/
   namespace MiniTileFlags
   {
-  enum Enum : u16
+  enum Enum
     {
       Walkable   = 1 << 0,
       Middle     = 1 << 1,

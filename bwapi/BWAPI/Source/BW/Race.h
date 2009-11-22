@@ -10,7 +10,7 @@ namespace BW
   /** Maps bw definition of race. */
   namespace Race
   {
-  enum Enum : u8
+  enum Enum
     {
       Zerg    = 0,
       Terran  = 1,
@@ -20,7 +20,7 @@ namespace BW
       Random  = 6,
       None    = 7,
     };
-    Enum stringToRace(const std::string& name);
-    std::string raceName(Enum race);
+    u8 stringToRace(const std::string& name);
+    std::string raceName(u8 race);
   }
 }

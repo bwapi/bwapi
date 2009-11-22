@@ -38,7 +38,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandLoad::getType()
+  int CommandLoad::getType()
   {
     return BWAPI::CommandTypes::Load;
   }

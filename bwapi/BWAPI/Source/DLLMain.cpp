@@ -248,7 +248,7 @@ void __declspec(naked) onDrawHigh()
   }
 }
 
-void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::Enum ctype)
+void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
   *BW::BWDATA_DrawColor = (u8)color;
   x = _x;
@@ -286,7 +286,7 @@ void drawBox(int _x, int _y, int _w, int _h, int color, BWAPI::CoordinateType::E
   }
 }
 
-void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
+void drawDot(int _x, int _y, int color, int ctype)
 {
   *BW::BWDATA_DrawColor = (u8)color;
   x = _x;
@@ -320,7 +320,7 @@ void drawDot(int _x, int _y, int color, BWAPI::CoordinateType::Enum ctype)
   }
 }
 
-void drawText(int _x, int _y, const char* ptext, BWAPI::CoordinateType::Enum ctype)
+void drawText(int _x, int _y, const char* ptext, int ctype)
 {
   if (ctype == 2)
   {

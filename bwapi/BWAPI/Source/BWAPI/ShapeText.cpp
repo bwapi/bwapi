@@ -3,7 +3,7 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-  ShapeText::ShapeText(CoordinateType::Enum ctype, int x, int y, std::string text)
+  ShapeText::ShapeText(int ctype, int x, int y, std::string text)
   :ctype(ctype)
   ,x(x)
   ,y(y)

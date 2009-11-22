@@ -51,7 +51,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandCancelTrain::getType()
+  int CommandCancelTrain::getType()
   {
     return CommandTypes::Train;
   }

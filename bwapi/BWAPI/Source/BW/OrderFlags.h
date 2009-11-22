@@ -5,7 +5,7 @@ namespace BW
   /** Some additional info concering unit movement, mostly unknown */
   namespace OrderFlags
   {
-  enum Enum : u8
+  enum Enum
     {
       willWanderAgain   = 1 << 0, /**< Specifies if the unit will wander again after the current command is finished
                                    * Larva has this at 1 , but when you stop it (using the trick), it will become 0

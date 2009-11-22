@@ -19,7 +19,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandLand::getType()
+  int CommandLand::getType()
   {
     return BWAPI::CommandTypes::Land;
   }

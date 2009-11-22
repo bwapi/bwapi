@@ -21,7 +21,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandUnburrow::getType()
+  int CommandUnburrow::getType()
   {
     return BWAPI::CommandTypes::Unburrow;
   }

@@ -21,7 +21,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandCloak::getType()
+  int CommandCloak::getType()
   {
     return BWAPI::CommandTypes::Cloak;
   }

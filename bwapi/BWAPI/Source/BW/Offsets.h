@@ -61,14 +61,14 @@ namespace BW
     /** Direct mapping of player info in bw memory */
     struct PlayerInfo
     {
-      u32              id;
-      u32              actions; // unused; FF FF FF FF if not a human player
-      PlayerType::Enum type;
-      Race::Enum       race;
-      u8               force;
-      char             name[25];
+      u32  id;
+      u32  actions; // unused; FF FF FF FF if not a human player
+      u8   type;
+      u8   race;
+      u8   force;
+      char name[25];
     };
-    PlayerInfo   player[PLAYER_COUNT];
+    PlayerInfo  player[PLAYER_COUNT];
   };
 
   struct Positions
@@ -276,7 +276,7 @@ namespace BW
   static u16*           BWDATA_UpgradeGasCostFactor               = (u16*)        upgradesDat[3].address;
   static u16*           BWDATA_UpgradeTimeCostBase                = (u16*)        upgradesDat[4].address;
   static u16*           BWDATA_UpgradeTimeCostFactor              = (u16*)        upgradesDat[5].address;
-  static Race::Enum*    BWDATA_UpgradeRace                        = (Race::Enum*) upgradesDat[9].address;
+  static u8*            BWDATA_UpgradeRace                        = (u8*)         upgradesDat[9].address;
   static u32            BWDATA_StringTableOff                     =               0x006D1238;
   static u16**          BWDATA_StringTableIndex                   = (u16**)       BWDATA_StringTableOff;
   static char**         BWDATA_StringTable                        = (char**)      BWDATA_StringTableOff;
@@ -373,7 +373,7 @@ namespace BW
   //------------------------------------------------- FLAGS --------------------------------------------------
   struct PrototypeFlags_type
   {
-    Util::BitMask<UnitPrototypeFlags::Enum> unit[UNIT_TYPE_COUNT];
+    Util::BitMask<u32> unit[UNIT_TYPE_COUNT];
   };
   static PrototypeFlags_type* BWDATA_UnitPrototypeFlags = (PrototypeFlags_type*) unitsDat[22].address;
   //-------------------------------------------- UNIT SEEK RANGE ---------------------------------------------
@@ -442,7 +442,7 @@ namespace BW
   //---------------------------------------------- GROUP FLAGS -----------------------------------------------
   struct PrototypeGroupFlags_type
   {
-    Util::BitMask<GroupFlags::Enum> unit[UNIT_TYPE_COUNT];
+    Util::BitMask<u8> unit[UNIT_TYPE_COUNT];
   };
   static PrototypeGroupFlags_type* BWDATA_PrototypeGroupFlags = (PrototypeGroupFlags_type*) unitsDat[44].address;
   //------------------------------------------ UNIT SUPPLY PROVIDED ------------------------------------------
@@ -514,7 +514,7 @@ namespace BW
   //------------------------------------------- WEAPON TARGET FLAGS ------------------------------------------
   struct TargetFlags_type
   {
-    Util::BitMask<WeaponTargetFlags::Enum> weaponType[WEAPON_TYPE_COUNT];
+    Util::BitMask<u16> weaponType[WEAPON_TYPE_COUNT];
   };
   static TargetFlags_type* BWDATA_WeaponTargetFlags = (TargetFlags_type*) weaponsDat[3].address;
   //-------------------------------------------- WEAPON MIN RANGE --------------------------------------------
@@ -571,7 +571,7 @@ namespace BW
   {
     struct MiniTileFlagArray
     {
-      Util::BitMask<MiniTileFlags::Enum> miniTile[16];
+      Util::BitMask<u16> miniTile[16];
     };
     MiniTileFlagArray tile[tileTypeCount];
   };

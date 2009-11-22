@@ -23,7 +23,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandAttackMove::getType()
+  int CommandAttackMove::getType()
   {
     return BWAPI::CommandTypes::AttackMove;
   }

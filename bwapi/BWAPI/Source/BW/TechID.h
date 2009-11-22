@@ -10,7 +10,7 @@ namespace BW
    */
   namespace TechID
   {
-  enum Enum : u8
+  enum Enum
     {
       Stimpacks         = 0x00,
       Lockdown          = 0x01,

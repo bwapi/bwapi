@@ -21,7 +21,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandStop::getType()
+  int CommandStop::getType()
   {
     return BWAPI::CommandTypes::Stop;
   }

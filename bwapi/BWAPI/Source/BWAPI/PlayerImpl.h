@@ -104,13 +104,13 @@ namespace BWAPI
        *             in that case there would be undefined behaviour.
        * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesFree(BW::Race::Enum race);
+      s32 getSuppliesFree(u8 race);
       /**
        * Order to use (reserve) certain amount of supplies in the local version - @ref localData
        * @param supplies Amount of supplies to reserve.
        * @param race Race we want to affect.
        */
-      void useSupplies(u8 supplies, BW::Race::Enum race);
+      void useSupplies(u8 supplies, u8 race);
       void onGameEnd();
       std::set<Unit*> units;
       bool leftTheGame;
@@ -121,21 +121,21 @@ namespace BWAPI
        *             in that case there would be undefined behaviour.
        * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesAvailableSync(BW::Race::Enum race) const;
+      s32 getSuppliesAvailableSync(u8 race) const;
       /**
        * Gets synchronised version of used supplies for the given race
        * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
        *             in that case there would be undefined behaviour.
        * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesUsedSync(BW::Race::Enum race) const;
+      s32 getSuppliesUsedSync(u8 race) const;
       /**
        * Gets synchronised version of max supplies for the given race
        * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
        *             in that case there would be undefined behaviour.
        * @return Count of maximum supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesMaxSync(BW::Race::Enum race) const;
+      s32 getSuppliesMaxSync(u8 race) const;
 
       /** Gets synchronised version of minerals for the current player. */
       s32 getMineralsSync() const;

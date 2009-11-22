@@ -7,18 +7,20 @@ namespace BW
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UpgradeType::UpgradeType()
       : id(BW::UpgradeID::None)
-  {}
+  {
+  }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  UpgradeType::UpgradeType(const UpgradeID::Enum& id)
+  UpgradeType::UpgradeType(const u8& id)
       : id(id)
-  {}
+  {
+  }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UpgradeType::operator == (const UpgradeID::Enum& id) const
+  bool UpgradeType::operator == (const u8& id) const
   {
     return this->id == id;
   }
   //------------------------------------------------ GET ID  -------------------------------------------------
-  UpgradeID::Enum UpgradeType::getID() const
+  u8 UpgradeType::getID() const
   {
     return this->id;
   }
@@ -78,7 +80,7 @@ namespace BW
     return BW::BWDATA_UpgradeTimeCostFactor[this->getID()];
   }
   //-------------------------------------------------- RACE --------------------------------------------------
-  Race::Enum UpgradeType::race() const
+  u8 UpgradeType::race() const
   {
     return BW::BWDATA_UpgradeRace[this->getID()];
   }

@@ -46,7 +46,7 @@ namespace BW
                                                                     * or other units.
                                                                     */
     /*0x01C*/ BW::Position                        nextWaypoint2;  /**< Appears to always be equal to nextWaypoint */
-    /*0x020*/ Util::BitMask<MovementFlags::Enum>  movementFlags;  /**< Flags specifying movement type - defined in BW#MovementFlags. */
+    /*0x020*/ Util::BitMask<u8>                   movementFlags;  /**< Flags specifying movement type - defined in BW#MovementFlags. */
     /*0x021*/ u8                                  currentDirection;     /**< The current direction the unit is facing */
     /*0x022*/ u8                                  flingyTurnRadius;
     /*0x023*/ u8                                  velocityDirection;    /**< This usually only differs from the currentDirection field for units that can accelerate
@@ -68,8 +68,8 @@ namespace BW
     /*0x048*/ u16                                 flingyAcceleration;
     /*0x04A*/ _UNKNOWN                            _6[2];
     /*0x04C*/ u8                                  playerID;             /**< Specification of owner of this unit. */
-    /*0x04D*/ BW::OrderID::Enum                   orderID;              /**< Specification of type of order currently given. */
-    /*0x04E*/ Util::BitMask<BW::OrderFlags::Enum> orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
+    /*0x04D*/ u8                                  orderID;              /**< Specification of type of order currently given. */
+    /*0x04E*/ Util::BitMask<u8>                   orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
     /*0x04F*/ u8                                  orderSignal;          /**< @todo Unknown */
     /*0x050*/ _UNKNOWN                            _7[4];
     /*0x054*/ u8                                  mainOrderTimer;       /**< @todo Unknown */
@@ -103,7 +103,7 @@ namespace BW
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
     /*0x0A5*/ u8                                  targetOrderSpecial; /**< A byte used to determine the target ID for the unit */
-    /*0x0A6*/ BW::OrderID::Enum                   secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
+    /*0x0A6*/ u8                                  secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
     /*0x0A7*/ _UNKNOWN                            _16[1];
     /*0x0A8*/ u16                                 hpGainDuringRepair; /**< @todo Verify */
     /*0x0AA*/ _UNKNOWN                            _17[2];
@@ -201,7 +201,7 @@ namespace BW
       BW::CSprite* nukeDot;
     } unitUnion1;                     /**< @todo Verify */
     /*0x0D4*/ _UNKNOWN _19[8];
-    /*0x0DC*/ Util::BitMask<StatusFlags::Enum>  status;
+    /*0x0DC*/ Util::BitMask<u32>                status;
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */
     /*0x0E1*/ u8                                wireframeRandomizer;/**< @todo Unknown */
     /*0x0E2*/ u8                                secondaryOrderState;/**< @todo Unknown */
@@ -246,7 +246,7 @@ namespace BW
     /*0x11B*/ u8                                  isUnderStorm;
     /*0x11C*/ BW::Unit*                           irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                                  irradiatePlayerID;  /**< @todo Verify */
-    /*0x121*/ Util::BitMask<ParasiteFlags::Enum>  parasiteFlags;
+    /*0x121*/ Util::BitMask<u8>                   parasiteFlags;
     /*0x122*/ u8                                  cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
@@ -270,7 +270,7 @@ namespace BW
     Unit unit[UNIT_ARRAY_MAX_LENGTH];
   };
 
-  BOOST_STATIC_ASSERT(sizeof(Unit) == UNIT_SIZE_IN_BYTES);
-  BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES*  UNIT_ARRAY_MAX_LENGTH);
+  //BOOST_STATIC_ASSERT(sizeof(Unit) == UNIT_SIZE_IN_BYTES);
+  //BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES*  UNIT_ARRAY_MAX_LENGTH);
 };
 

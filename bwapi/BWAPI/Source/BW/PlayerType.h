@@ -7,7 +7,7 @@ namespace BW
   /*  Notes: I think this is ID & 0x07
              Defeated or inactive is ID & 0x08
   */
-  enum Enum : u8
+  enum Enum
     {
       NotUsed          = 0,
       Computer         = 1,

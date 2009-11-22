@@ -4,7 +4,7 @@ namespace BW
   /** Additional unit prototype information. */
   namespace GroupFlags
   {
-  enum Enum : u8
+  enum Enum
     {
       Zerg        = 1 << 0,
       Terran      = 1 << 1,

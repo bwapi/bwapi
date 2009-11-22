@@ -3,7 +3,7 @@ namespace BW
 {
   namespace Race
   {
-    Enum stringToRace(const std::string& name)
+    u8 stringToRace(const std::string& name)
     {
       if (name == "Zerg")
         return Zerg;
@@ -13,7 +13,7 @@ namespace BW
         return Protoss;
       return None;
     };
-    std::string raceName(Enum race)
+    std::string raceName(u8 race)
     {
       switch (race)
       {

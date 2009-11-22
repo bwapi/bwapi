@@ -16,7 +16,7 @@ namespace BWAPI
        */
       CommandLand(UnitImpl* executor, const BW::TilePosition& targetPosition);
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::TilePosition targetPosition;

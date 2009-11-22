@@ -3,7 +3,7 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-  ShapeDot::ShapeDot(CoordinateType::Enum ctype, int x, int y, int color)
+  ShapeDot::ShapeDot(int ctype, int x, int y, int color)
   :ctype(ctype)
   ,x(x)
   ,y(y)

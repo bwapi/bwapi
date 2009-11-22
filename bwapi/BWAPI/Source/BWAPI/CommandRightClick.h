@@ -21,7 +21,7 @@ namespace BWAPI
        */
       CommandRightClick(UnitImpl* executor, UnitImpl* targetUnit);
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       UnitImpl* targetUnit;

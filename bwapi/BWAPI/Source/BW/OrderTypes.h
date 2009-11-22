@@ -130,7 +130,7 @@ namespace BW
     class ChangeSlot
     {
       public :
-      typedef enum Slot : u8
+      typedef enum Slot
         {
           Computer = 0,
           Open = 1,
@@ -149,14 +149,14 @@ namespace BW
     class ChangeRace
     {
       public :
-        ChangeRace(BW::Race::Enum slot, u8 slotID);
+        ChangeRace(u8 slot, u8 slotID);
       private :
         /** 0x41 = Command code for change race in bw. */
         u8 always0x41;
         /** Order of the slot to change (0 for the 1st slot). */
         u8 slotID;
         /** Target slot race. */
-        BW::Race::Enum race;
+        u8 race;
     };
     /** Starts game in the pre-game lobby. */
     class StartGame

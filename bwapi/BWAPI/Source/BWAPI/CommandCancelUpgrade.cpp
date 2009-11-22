@@ -18,7 +18,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandCancelUpgrade::getType()
+  int CommandCancelUpgrade::getType()
   {
     return BWAPI::CommandTypes::CancelUpgrade;
   }
