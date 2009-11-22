@@ -213,7 +213,7 @@ namespace BWAPI
       bool _isResearching() const;
       bool _isUpgrading() const;
 
-      BW::UnitType UnitImpl::getBWType() const;
+      BW::UnitType getBWType() const;
 
       /**
        * Gets index of the unit in the unit array. Note that the index is same

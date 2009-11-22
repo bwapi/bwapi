@@ -36,7 +36,7 @@ namespace BWAPI
       void load();
 
       /** Returns a value that represents the map's terrain. */
-      static int Map::getMapHash();
+      static int getMapHash();
 
     private :
       static BW::TileID getTile(int x, int y);

@@ -95,7 +95,7 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error", "a+");
-      fprintf_s(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
+      fprintf(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
       fclose(f);
     }
   }
@@ -704,7 +704,7 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error", "a+");
-      fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
+      fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
 
