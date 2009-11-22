@@ -26,14 +26,21 @@ DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onUnitDeath()
 {
+#ifdef __MINGW32__
+  asm("mov _removedUnit, %esi\n"
+      "call [BW::BWFXN_KillUnitTarget]"
+     );
+  BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
+  asm("jmp [BW::BWFXN_KillUnitBack]");
+#else
   __asm
   {
     mov removedUnit, esi
     call [BW::BWFXN_KillUnitTarget]
   }
   BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
-  __asm
-    jmp [BW::BWFXN_KillUnitBack]
+  __asm jmp [BW::BWFXN_KillUnitBack]
+#endif
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
@@ -495,16 +502,8 @@ void __declspec(naked) onIssueCommand()
     }
   }
 }
-void __declspec(naked) push0patch()
-{
-  __asm 
-    push 0
-}
-void __declspec(naked) cmp0eaxPatch()
-{
-  __asm
-    cmp eax, 0
-}
+
+const char zero = 0;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -531,11 +530,11 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   JmpCallPatch((void*)&onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
-  WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&push0patch, 2); // menu in
-  WriteMem( (void*)BW::BWDATA_MenuOutHack,       (void*)&push0patch, 2); // menu out
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack,   (void*)&push0patch, 2); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&push0patch, 2); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&cmp0eaxPatch, 3); // Start without an opponent
+  WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&zero, 1); // menu in
+  WriteMem( (void*)BW::BWDATA_MenuOutHack,       (void*)&zero, 1); // menu out
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack,   (void*)&zero, 1); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&zero, 1); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&zero, 1); // Start without an opponent
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
