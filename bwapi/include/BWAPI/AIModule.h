@@ -9,7 +9,7 @@ namespace BWAPI
       AIModule();
       virtual ~AIModule();
       virtual void onStart();
-      virtual void onEnd();
+      virtual void onEnd(bool isWinner);
       virtual void onFrame();
       virtual bool onSendText(std::string text);
       virtual void onUnitCreate(Unit* unit);

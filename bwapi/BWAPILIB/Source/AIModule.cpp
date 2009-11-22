@@ -10,7 +10,7 @@ namespace BWAPI
   void AIModule::onStart()
   {
   }
-  void AIModule::onEnd()
+  void AIModule::onEnd(bool isWinner)
   {
   }
   void AIModule::onFrame()
