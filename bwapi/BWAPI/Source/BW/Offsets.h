@@ -134,12 +134,12 @@ namespace BW
 
   /* Speed Hacks */
   static u32     BWDATA_MenuLoadHack       =           0x004DE392;
-  static u32     BWDATA_MenuInHack         =           0x004DD76D;
-  static u32     BWDATA_MenuOutHack        =           0x004DD161;
-  static u32     BWDATA_MultiplayerHack    =           0x004DD5A1;
-  static u32     BWDATA_MultiplayerHack2   =           0x004DD5C8;
+  static u32     BWDATA_MenuInHack         =           0x004DD76E;
+  static u32     BWDATA_MenuOutHack        =           0x004DD162;
+  static u32     BWDATA_MultiplayerHack    =           0x004DD5A2;
+  static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
-  static u32     BWDATA_OpponentStartHack  =           0x004B995B;
+  static u32     BWDATA_OpponentStartHack  =           0x004B995D;
 
   /* Native message boxes */
   static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
