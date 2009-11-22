@@ -3,6 +3,7 @@
 namespace BWAPI
 {
   class Unit;
+  class Player;
   class AIModule
   {
     public:
@@ -12,6 +13,7 @@ namespace BWAPI
       virtual void onEnd(bool isWinner);
       virtual void onFrame();
       virtual bool onSendText(std::string text);
+      virtual void onPlayerLeft(Player* player);
       virtual void onUnitCreate(Unit* unit);
       virtual void onUnitDestroy(Unit* unit);
       virtual void onUnitMorph(Unit* unit);

@@ -13,7 +13,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   PlayerImpl::PlayerImpl(u8 id)
-      : id(id)
+      : id(id), leftTheGame(false)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -327,6 +327,12 @@ namespace BWAPI
       this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync((BW::Race::Enum)i);
       this->suppliesUsedLocal[i] = this->getSuppliesUsedSync((BW::Race::Enum)i);
     }
+    if (BW::BWDATA_Players->player[this->getID()].type==BW::PlayerType::HumanDefeated ||
+        BW::BWDATA_Players->player[this->getID()].type==BW::PlayerType::Computer ||
+        (BW::BWDATA_Players->player[this->getID()].type==BW::PlayerType::Neutral && !this->isNeutral()))
+    {
+      this->leftTheGame=true;
+    }
     for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
       this->toMake[j] = 0;
   }
@@ -393,6 +399,12 @@ namespace BWAPI
   void PlayerImpl::onGameEnd()
   {
     this->units.clear();
+    this->leftTheGame=false;
+  }
+  //---------------------------------------------- LEFT GAME -------------------------------------------------
+  bool PlayerImpl::leftGame() const
+  {
+    return this->leftTheGame;
   }
   //----------------------------------------------------------------------------------------------------------
 };

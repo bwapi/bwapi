@@ -20,6 +20,9 @@ namespace BWAPI
   {
     return true;
   }
+  void AIModule::onPlayerLeft(Player *player)
+  {
+  }
   void AIModule::onUnitCreate(BWAPI::Unit* unit)
   {
   }
