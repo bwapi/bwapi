@@ -765,10 +765,14 @@ namespace BWAPI
     return BWAPI::Position(this->getRawDataLocal()->moveToPos.x, this->getRawDataLocal()->moveToPos.y);
   }
   //---------------------------------------------- GET DIRECTION ---------------------------------------------
-  int UnitImpl::getDirection() const
+  double UnitImpl::getAngle() const
   {
     if (!this->attemptAccess()) return 0;
-    return this->getRawDataLocal()->currentDirection;
+    int d=this->getRawDataLocal()->currentDirection;
+    d-=64;
+    if (d<0) d+=256;
+    double a=(double)d*3.14159265358979323846/128.0;
+    return a;
   }
   //---------------------------------------------- GET VELOCITY X --------------------------------------------
   double UnitImpl::getVelocityX() const
