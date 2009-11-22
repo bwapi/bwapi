@@ -249,6 +249,7 @@ namespace BWAPI
       bool lastVisible;
       bool makeVisible;
       UnitType lastType;
+      Player* lastPlayer;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */

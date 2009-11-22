@@ -35,4 +35,7 @@ namespace BWAPI
   void AIModule::onUnitHide(BWAPI::Unit* unit)
   {
   }
+  void AIModule::onUnitRenegade(BWAPI::Unit* unit)
+  {
+  }
 }
