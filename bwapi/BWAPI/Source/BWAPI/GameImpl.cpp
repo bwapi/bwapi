@@ -987,6 +987,7 @@ namespace BWAPI
         force->players.insert(this->players[i]);
         this->players[i]->force = force;
       }
+    this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
   }
 
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
@@ -1022,184 +1023,6 @@ namespace BWAPI
     else if (parsed[0] == "/latency")
     {
       printf("latency: %d",getLatency());
-      return true;
-    }
-    else if (parsed[0] == "/save")
-    {
-      if (parsed[1] == "allies")
-      {
-        for each (BWAPI::Player* i in getPlayers())
-        {
-          for each (BWAPI::Player* j in getPlayers())
-          {
-            BWAPI::Broodwar->printf("%s[%d] alliance data for %s[%d]: %d", i->getName().c_str(), i->getID(), j->getName().c_str(), j->getID(), (int)((PlayerImpl*)i)->getAlliance((u8)j->getID()));
-            Util::Logger::globalLog->log("%s[%d] alliance data for %s[%d]: %d", i->getName().c_str(), i->getID(), j->getName().c_str(), j->getID(), (int)((PlayerImpl*)i)->getAlliance((u8)j->getID()));
-          }
-        }
-      }
-      else if (parsed[1] == "unit")
-      {
-        std::ofstream unitData;
-        unitData.open ("bwapi-data/unitData.txt");
-        for each (BWAPI::UnitType u in BWAPI::UnitTypes::allUnitTypes())
-        {
-          std::pair<const BWAPI::UnitType*, int> requiredUnits[3];
-          BW::UnitType bwu((BW::UnitID::Enum)u.getID());
-          requiredUnits[0] = requiredUnits[1] = requiredUnits[2] = std::make_pair((BWAPI::UnitType*)NULL, 0);
-          int i = 0;
-          for (std::map<const BWAPI::UnitType*, int>::const_iterator r = u.requiredUnits().begin(); r != u.requiredUnits().end(); r++)
-            requiredUnits[i++] = *r;
-
-          unitData << "      unitTypeData[" << Util::Strings::stringToVariableName(u.getName()) << ".getID()].set(\""
-          << u.getName() << "\",\"";
-          if (u != UnitTypes::None && u != UnitTypes::Unknown)
-            unitData << std::string(bwu.getSubLabel());
-
-          unitData << "\",Races::" << Util::Strings::stringToVariableName(u.getRace().getName()) << ",&("
-          << Util::Strings::stringToVariableName(u.whatBuilds().first->getName()) << "),"
-          << u.whatBuilds().second << ",";
-          for (int i = 0; i < 3; i++)
-          {
-            if (requiredUnits[i].first == NULL)
-              unitData << "NULL,";
-            else
-              unitData << "&(" << Util::Strings::stringToVariableName(requiredUnits[i].first->getName()) << "),";
-
-            unitData << requiredUnits[i].second << ",";
-          }
-          unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(u.requiredTech()->getName()) << "),";
-          int count=0;
-          for each (TechType t in TechTypes::allTechTypes())
-          {
-            for each (const UnitType *const u2 in t.whatUses())
-            {
-              if (u2->getID() == u.getID())
-              {
-                unitData << "&(TechTypes::" << Util::Strings::stringToVariableName(t.getName()) << "),";
-                count++;
-              }
-            }
-          }
-          for(int c=count; c < 4; c++)
-            unitData << "&(TechTypes::None),";
-
-          if (u != UnitTypes::None && u != UnitTypes::Unknown)
-          {
-            unitData << "&(UpgradeTypes::";
-            if (BWAPI::UpgradeType(bwu.armorUpgrade()) == UpgradeTypes::Unknown)
-              unitData << "None),";
-            else
-              unitData << Util::Strings::stringToVariableName(BWAPI::UpgradeType(bwu.armorUpgrade()).getName()) << "),";
-
-            unitData << (int)bwu.maxHitPoints() << "," << (int)bwu.maxShields() << "," << (int)bwu.maxEnergy() << ","
-            << (int)bwu.armor() << "," << (int)bwu.mineralPrice() << "," << (int)bwu.gasPrice() << ","
-            << (int)bwu.buildTime() << "," << (int)bwu.supplyRequired() << "," << (int)bwu.supplyProvided() << ","
-            << (int)bwu.spaceRequired() << "," << (int)bwu.spaceProvided() << "," << (int)bwu.buildScore() << ","
-            << (int)bwu.destroyScore() << ",&(UnitSizeTypes::" << BWAPI::UnitSizeType((int)bwu.size()).getName() << ")," << (int)bwu.tileWidth() << ","
-            << (int)bwu.tileHeight() << "," << (int)bwu.dimensionLeft() << "," << (int)bwu.dimensionUp() << ","
-            << (int)bwu.dimensionRight() << "," << (int)bwu.dimensionDown() << "," << (int)bwu.seekRange() << ","
-            << (int)bwu.sightRange() << ",&(WeaponTypes::"
-            << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.groundWeapon()).getName()) << "),"
-            << (int)bwu.maxGroundHits() << ",&(WeaponTypes::"
-            << Util::Strings::stringToVariableName(BWAPI::WeaponType((int)bwu.airWeapon()).getName()) << "),"
-            << (int)bwu.maxAirHits() << "," << (int)bwu.topSpeed() << "," << (int)bwu.acceleration() << ","
-            << (int)bwu.haltDistance() << "," << (int)bwu.turnRadius() << ","
-            << bwu.canProduce() << "," << bwu.canAttack() << "," << bwu.canMove() << ","
-            << bwu.isFlyer() << "," << bwu.regeneratesHP() << "," << bwu.isSpellcaster() << ","
-            << bwu.hasPermanentCloak() << "," << bwu.isInvincible() << "," << bwu.isOrganic() << ","
-            << bwu.isMechanical() << "," << bwu.isRobotic() << "," << bwu.isDetector() << ","
-            << bwu.isResourceContainer() << "," << bwu.isResourceDepot() << "," << bwu.isWorker() << ","
-            << bwu.requiresPsi() << "," << bwu.requiresCreep() << "," << bwu.isTwoUnitsInOneEgg() << ","
-            << bwu.isBurrowable() << "," << bwu.isCloakable() << "," << bwu.isBuilding() << ","
-            << bwu.isAddon() << "," << bwu.isFlyingBuilding() << "," << bwu.isNeutral() << ","
-            << bwu.isRefinery()
-            << ");\n";
-          }
-          else
-          {
-            unitData << "&(UpgradeTypes::None), 0,0,0, 0,0,0, 0,0,0, 255,0,0, 0,&(UnitSizeTypes::None),0, 0,0,0, 0,0,0, 0,&(WeaponTypes::None), 0,&(WeaponTypes::None),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);\n";
-          }
-        }
-        unitData.close();
-      }
-      else if (parsed[1] == "weapon")
-      {
-        std::ofstream weaponData;
-        weaponData.open ("bwapi-data/weaponData.txt");
-        for each (BWAPI::WeaponType w in BWAPI::WeaponTypes::allWeaponTypes())
-        {
-          BW::WeaponType bww((BW::WeaponID::Enum)w.getID());
-
-          weaponData << "      weaponTypeData[" << Util::Strings::stringToVariableName(w.getName()) << ".getID()].set(\""
-          << w.getName() << "\",";
-          if (w == BWAPI::WeaponTypes::None || w == BWAPI::WeaponTypes::Unknown)
-            weaponData << "0,0,0,0,&(UpgradeTypes::None),&(DamageTypes::None),&(ExplosionTypes::None),0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
-          else
-          {
-            weaponData << (int)bww.damageAmount() << "," << (int)bww.damageBonus() << ","
-            << (int)bww.damageCooldown() << "," << (int)bww.damageFactor() << ",&(UpgradeTypes::"
-            << Util::Strings::stringToVariableName(bww.upgradeType().getName()) << "),&(DamageTypes::"
-            << Util::Strings::stringToVariableName(BWAPI::DamageType(bww.damageType()).getName()) << "),&(ExplosionTypes::"
-            << Util::Strings::stringToVariableName(BWAPI::ExplosionType(bww.explosionType()).getName())
-            << ")," << bww.minRange() << "," << bww.maxRange() << "," << bww.innerSplashRadius() << ","
-            << bww.medianSplashRadius() << "," << bww.outerSplashRadius() << "," << bww.targetsAir() << ","
-            << bww.targetsGround() << "," << bww.targetsMechanical() << "," << bww.targetsOrganic() << ","
-            << bww.targetsNonBuilding() << "," << bww.targetsNonRobotic() << "," << bww.targetsTerrain() << ","
-            << bww.targetsOrgOrMech() << "," << bww.targetsOwn()
-            << ");\n";
-          }
-        }
-        weaponData.close();
-      }
-      else if (parsed[1] == "unitsDat")
-      {
-        struct unitsDat_Unknown
-        {
-          u8 unitType[BW::UNIT_TYPE_COUNT];
-        };
-        static unitsDat_Unknown* BWDATA_UnitUnknown = (unitsDat_Unknown*) BW::unitsDat[25].address;
-        std::ofstream unitsDat;
-        unitsDat.open("bwapi-data/unitsDat.txt");
-        for each (UnitType i in UnitTypes::allUnitTypes())
-        {
-          BW::UnitType bwu((BW::UnitID::Enum)i.getID());
-          unitsDat << "(" << i.getID() << ")" << i.getName() << ", seek range: " << (int)bwu.seekRange() << "\n";
-        }
-        unitsDat.close();
-      }
-      else if (parsed[1] == "weaponsDat")
-      {
-        std::ofstream weaponsDat;
-        weaponsDat.open("bwapi-data/weaponsDat.txt");
-        for each (WeaponType i in WeaponTypes::allWeaponTypes())
-        {
-          weaponsDat << i.getID() << ": " << std::string(i.getName()) << "\n";
-          weaponsDat << "  damage amount:" << i.damageAmount() << "\n";
-          weaponsDat << "  damage bonus:" << i.damageBonus() << "\n";
-          weaponsDat << "  damage cooldown:" << i.damageCooldown() << "\n";
-          weaponsDat << "  damage factor:" << i.damageFactor() << "\n";
-          weaponsDat << "  damage type:" << i.damageType()->getName() << "(" << i.damageType()->getID() << ")\n";
-          weaponsDat << "  explosion type:" << i.explosionType()->getName() << "(" << i.explosionType()->getID() << ")\n";
-          weaponsDat << "  min range:" << i.minRange() << ", max range: " << i.maxRange() << "\n";
-          weaponsDat << "  targets ground:" << i.targetsGround() << ", targetsAir: " << i.targetsAir() << "\n";
-        }
-        weaponsDat.close();
-      }
-      else if (parsed[1] == "upgradesMax")
-      {
-        std::ofstream upgradesMax;
-        upgradesMax.open("bwapi-data/upgradesMax.txt");
-        for each (UpgradeType i in UpgradeTypes::allUpgradeTypes())
-        {
-          BW::UpgradeType ut=BW::UpgradeType(BW::UpgradeID::Enum(i.getID()));
-          upgradesMax << i.getID() << ": " << (int)ut.upgradesMax() << "\n"; 
-        }
-        upgradesMax.close();
-      }
-      else
-      {
-        this->printf("Unknown command \"%s\" - possible commands are: allies, unit, weapon, unitsDat, weaponsDat, upgradesMax", parsed[1].c_str());
-      }
       return true;
     }
     else if (parsed[0] == "/speed")
@@ -1555,7 +1378,6 @@ namespace BWAPI
   void GameImpl::updateUnits()
   {
     this->inUpdate = false;
-    this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
