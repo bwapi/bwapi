@@ -1066,10 +1066,15 @@ namespace BWAPI
     if (this->client != NULL)
     {
       bool win=true;
-      for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+      if (this->isReplay())
+        win=false;
+      else
       {
-        if (self()->isEnemy(i->_getPlayer()))
-          win=false;
+        for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+        {
+          if (self()->isEnemy(i->_getPlayer()))
+            win=false;
+        }
       }
       this->client->onEnd(win);
       delete this->client;
