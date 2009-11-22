@@ -422,7 +422,6 @@ void __declspec(naked) onIssueCommand()
     mov commandIDptr, ecx;
   }
   commandID = *(u8*)commandIDptr;
-  //Util::Logger::globalLog->log("command ID: 0x%x",(int)commandID);
 
   //decide if we should let the command go through
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
@@ -521,22 +520,22 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
-  JmpCallPatch(nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
-  JmpCallPatch(onGameEnd,      BW::BWFXN_GameEnd,         0);
-  JmpCallPatch(onUnitDeath,    BW::BWFXN_KillUnit,        0);
-  JmpCallPatch(onSendText,     BW::BWFXN_SendPublicCall,  0);
-  JmpCallPatch(onSendSingle,   BW::BWFXN_SendTextCall,    0);
-  JmpCallPatch(onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
-  JmpCallPatch(onDrawHigh,     BW::BWFXN_DrawHigh,        0);
-  JmpCallPatch(onRefresh,      BW::BWFXN_Refresh,         0);
-  JmpCallPatch(onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
+  JmpCallPatch((void*)&nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
+  JmpCallPatch((void*)&onGameEnd,      BW::BWFXN_GameEnd,         0);
+  JmpCallPatch((void*)&onUnitDeath,    BW::BWFXN_KillUnit,        0);
+  JmpCallPatch((void*)&onSendText,     BW::BWFXN_SendPublicCall,  0);
+  JmpCallPatch((void*)&onSendSingle,   BW::BWFXN_SendTextCall,    0);
+  JmpCallPatch((void*)&onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
+  JmpCallPatch((void*)&onDrawHigh,     BW::BWFXN_DrawHigh,        0);
+  JmpCallPatch((void*)&onRefresh,      BW::BWFXN_Refresh,         0);
+  JmpCallPatch((void*)&onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
 
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
-  WriteMem( (void*)BW::BWDATA_MenuInHack,        &push0patch, 2); // menu in
-  WriteMem( (void*)BW::BWDATA_MenuOutHack,       &push0patch, 2); // menu out
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack,   &push0patch, 2); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  &push0patch, 2); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_OpponentStartHack, &cmp0eaxPatch, 3); // Start without an opponent
+  WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&push0patch, 2); // menu in
+  WriteMem( (void*)BW::BWDATA_MenuOutHack,       (void*)&push0patch, 2); // menu out
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack,   (void*)&push0patch, 2); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&push0patch, 2); // Battle.net Server Select
+  WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&cmp0eaxPatch, 3); // Start without an opponent
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
