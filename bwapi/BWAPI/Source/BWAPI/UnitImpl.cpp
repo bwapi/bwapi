@@ -359,8 +359,12 @@ namespace BWAPI
       return false;
     if (this->getBWOrder()==BW::OrderID::ResetCollision2)
       return this->isCarryingGas();
+
+    //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
     if (this->getBWOrder()!=BW::OrderID::MoveToGas)
       return true;
+
+    //if BWOrder is MoveToGas, we need to do some additional checks to make sure the unit is really gathering
     if (this->getTarget()!=NULL)
     {
       if (this->getTarget()->getType()==UnitTypes::Resource_Vespene_Geyser)
