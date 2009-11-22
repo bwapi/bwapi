@@ -210,6 +210,8 @@ namespace BWAPI
       int _getHitPoints() const;
       Unit* _getOrderTarget() const;
       bool _isCompleted() const;
+      bool _isResearching() const;
+      bool _isUpgrading() const;
 
       BW::UnitType UnitImpl::getBWType() const;
 

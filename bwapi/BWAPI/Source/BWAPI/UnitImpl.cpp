@@ -416,7 +416,8 @@ namespace BWAPI
   bool UnitImpl::isIdle() const
   {
     if (!this->attemptAccess()) return false;
-    return ((this->getBWOrder() == BW::OrderID::PlayerGuard ||
+    if (this->isTraining() || this->_isResearching() || this->_isUpgrading()) return false;
+    return (this->getBWOrder() == BW::OrderID::PlayerGuard ||
             this->getBWOrder() == BW::OrderID::Guard ||
             this->getBWOrder() == BW::OrderID::Stop ||
             this->getBWOrder() == BW::OrderID::Pickup1 ||
@@ -425,8 +426,7 @@ namespace BWAPI
             this->getBWOrder() == BW::OrderID::Carrier ||
             this->getBWOrder() == BW::OrderID::Critter ||
             this->getBWOrder() == BW::OrderID::NukeTrain ||
-            this->getBWOrder() == BW::OrderID::Larva) &&
-            !this->isTraining());
+            this->getBWOrder() == BW::OrderID::Larva);
   }
   //---------------------------------------------- IS IRRADIATED ---------------------------------------------
   bool UnitImpl::isIrradiated() const
@@ -503,7 +503,11 @@ namespace BWAPI
   //---------------------------------------------- IS RESEARCHING --------------------------------------------
   bool UnitImpl::isResearching() const
   {
-    if (!this->attemptAccess()) return false;
+    if (!this->attemptAccessInside()) return false;
+    return _isResearching();
+  }
+  bool UnitImpl::_isResearching() const
+  {
     return this->getBWOrder() == BW::OrderID::ResearchTech;
   }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
@@ -563,7 +567,11 @@ namespace BWAPI
   //----------------------------------------------- IS UPGRADING ---------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
-    if (!this->attemptAccess()) return false;
+    if (!this->attemptAccessInside()) return false;
+    return _isUpgrading();
+  }
+  bool UnitImpl::_isUpgrading() const
+  {
     return this->getBWOrder() == BW::OrderID::Upgrade;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
@@ -896,7 +904,7 @@ namespace BWAPI
   int UnitImpl::getRemainingResearchTime() const
   {
     if (!this->attemptAccessInside()) return 0;
-    if (this->isResearching())
+    if (this->_isResearching())
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
   }
@@ -904,7 +912,7 @@ namespace BWAPI
   int UnitImpl::getRemainingUpgradeTime() const
   {
     if (!this->attemptAccessInside()) return 0;
-    if (this->isUpgrading())
+    if (this->_isUpgrading())
       return this->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
     return 0;
   }
@@ -1833,7 +1841,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (this->isResearching())
+    if (this->_isResearching())
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
@@ -1851,7 +1859,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (this->isUpgrading())
+    if (this->_isUpgrading())
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
