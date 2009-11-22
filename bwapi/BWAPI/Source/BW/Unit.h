@@ -62,7 +62,9 @@ namespace BW
     /*0x034*/ u32                                 flingySpeed;
     /*0x038*/ u32                                 unknownSpeed_0x038;   /**< @todo Unknown */
     /*0x03C*/ u32                                 unknownSpeed_0x03C;   /**< @todo Unknown */
-    /*0x040*/ _UNKNOWN                            _5[8];
+    /*0x040*/ s32                                 current_speedX;
+    /*0x044*/ s32                                 current_speedY;
+
     /*0x048*/ u16                                 flingyAcceleration;
     /*0x04A*/ _UNKNOWN                            _6[2];
     /*0x04C*/ u8                                  playerID;             /**< Specification of owner of this unit. */

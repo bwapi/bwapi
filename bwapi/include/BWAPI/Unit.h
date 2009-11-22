@@ -46,7 +46,9 @@ namespace BWAPI
       virtual TilePosition getInitialTilePosition() const = 0;
       virtual double getDistance(Unit* target) const = 0;
       virtual double getDistance(Position target) const = 0;
-      virtual int getCurrentDirection() const = 0;
+      virtual int getDirection() const = 0;
+      virtual double getVelocityX() const = 0;
+      virtual double getVelocityY() const = 0;
 
       virtual Unit* getTarget() const = 0;
       virtual Position getTargetPosition() const = 0;

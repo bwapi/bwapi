@@ -754,11 +754,23 @@ namespace BWAPI
     if (!this->attemptAccess()) return BWAPI::Positions::Unknown;
     return BWAPI::Position(this->getRawDataLocal()->moveToPos.x, this->getRawDataLocal()->moveToPos.y);
   }
-  //-------------------------------------------- CURRENT DIRECTION -------------------------------------------
-  int UnitImpl::getCurrentDirection() const
+  //---------------------------------------------- GET DIRECTION ---------------------------------------------
+  int UnitImpl::getDirection() const
   {
     if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->currentDirection;
+  }
+  //---------------------------------------------- GET VELOCITY X --------------------------------------------
+  double UnitImpl::getVelocityX() const
+  {
+    if (!this->attemptAccess()) return 0;
+    return (double)this->getRawDataLocal()->current_speedX*0.00325576172;//scale to pixels per frame
+  }
+  //---------------------------------------------- GET VELOCITY Y --------------------------------------------
+  double UnitImpl::getVelocityY() const
+  {
+    if (!this->attemptAccess()) return 0;
+    return (double)this->getRawDataLocal()->current_speedY*0.00325576172;//scale to pixels per frame
   }
   //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
