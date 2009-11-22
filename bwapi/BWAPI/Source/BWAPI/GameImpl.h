@@ -238,7 +238,6 @@ namespace BWAPI
 
       /** Count of game-frames passed from game start. */
       int frameCount;
-      void logUnknownOrStrange();
       bool onStartCalled;
       BW::UnitArray* unitArrayCopyLocal;
       UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -247,8 +246,6 @@ namespace BWAPI
       Util::Logger* commandLog;
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnits();
-      /** Made for debug reasons, may come later someday, so I leave it*/
-      void printUnitCountPerTile();
       /**
        * Specifies if some order was given, so the loadSelect function will have
        * to be called.

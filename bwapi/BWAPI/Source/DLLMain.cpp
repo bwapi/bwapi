@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <stdio.h>
 
-#include <Util/Dictionary.h>
 #include <Util/FileLogger.h>
 
 #include "BW/Offsets.h"
