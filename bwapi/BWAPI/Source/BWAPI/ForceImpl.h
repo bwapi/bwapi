@@ -14,4 +14,4 @@ namespace BWAPI
       std::set<Player*> players;
       std::string name;
   };
-}
+};

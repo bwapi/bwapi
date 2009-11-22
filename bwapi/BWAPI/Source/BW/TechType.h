@@ -35,4 +35,4 @@ namespace BW
       /**< Identificator of the tech. */
       u8 id;
   };
-}
+};

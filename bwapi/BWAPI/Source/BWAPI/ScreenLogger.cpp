@@ -18,4 +18,4 @@ namespace BWAPI
       BWAPI::BroodwarImpl.printf(data);
     return true;
   }
-}
+};

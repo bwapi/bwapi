@@ -40,4 +40,4 @@ namespace BWAPI
       SetRally,
     };
   }
-}
+};

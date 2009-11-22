@@ -36,8 +36,3 @@ namespace BWAPI
     extern const Color Grey;
   }
 }
-
-
-
-
-

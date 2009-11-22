@@ -77,4 +77,4 @@ namespace BW
       None                  = 0x3D
     };
   }
-}
+};

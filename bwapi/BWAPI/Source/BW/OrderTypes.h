@@ -465,5 +465,5 @@ namespace BW
         u8 unknown;
     };
   }
-}
+};
 #pragma pack()

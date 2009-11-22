@@ -23,4 +23,4 @@ namespace BWAPI
     private :
       BW::TechType tech;
   };
-}
+};

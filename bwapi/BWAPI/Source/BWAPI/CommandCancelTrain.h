@@ -25,4 +25,4 @@ namespace BWAPI
     private:
       int slot;
   };
-}
+};

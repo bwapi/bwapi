@@ -158,4 +158,4 @@ namespace BW
   {
     return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Own);
   }
-}
+};

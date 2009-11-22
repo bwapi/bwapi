@@ -45,4 +45,4 @@ namespace BWAPI
     return this->executors[0]->getName() + " will construct (" + toBuild.getName() + ")";
   }
   //----------------------------------------------------------------------------------------------------------
-}
+};

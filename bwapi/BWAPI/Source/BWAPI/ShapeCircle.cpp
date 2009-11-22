@@ -79,4 +79,4 @@ namespace BWAPI
       }
     }
   }
-}
+};

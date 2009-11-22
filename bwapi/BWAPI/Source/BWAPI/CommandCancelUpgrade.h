@@ -16,4 +16,4 @@ namespace BWAPI
       virtual void execute();
       std::string describe();
   };
-}
+};

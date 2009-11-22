@@ -21,4 +21,4 @@ namespace BWAPI
     private :
       BW::TilePosition targetPosition;
   };
-}
+};

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <BW/UnitType.h>
 
 #include "UpgradeID.h"
@@ -31,4 +30,5 @@ namespace BW
     private :
       u8 id;
   };
-}
+};
+

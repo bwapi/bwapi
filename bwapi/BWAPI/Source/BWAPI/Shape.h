@@ -7,4 +7,4 @@ namespace BWAPI
     public :
       virtual void draw() = 0;
   };
-}
+};

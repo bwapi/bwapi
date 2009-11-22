@@ -11,4 +11,4 @@ namespace BW
   {
     return  (*BW::BWDATA_DoodatSet + ((tileID >> 4 ) & 0X7FF));
   }
-}
+};

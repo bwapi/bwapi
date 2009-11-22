@@ -19,4 +19,4 @@ namespace BW
       unknown2          = 1 << 3
     };
   }
-}
+};

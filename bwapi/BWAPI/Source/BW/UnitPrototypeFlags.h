@@ -40,4 +40,4 @@ namespace BW
       ProducesUnits           = (u32) 1 << 0x1F /**< It can produce units directly (making buildings doesn't count) */
     };
   }
-}
+};

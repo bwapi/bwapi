@@ -60,4 +60,4 @@ namespace BW
       NuclearStrike     = 0x2D
     };
   }
-}
+};

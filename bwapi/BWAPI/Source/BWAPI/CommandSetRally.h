@@ -22,4 +22,4 @@ namespace BWAPI
       BW::Position targetPosition;
       UnitImpl* targetUnit;
   };
-}
+};

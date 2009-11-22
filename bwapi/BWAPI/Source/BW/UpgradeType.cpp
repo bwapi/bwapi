@@ -145,4 +145,4 @@ namespace BW
       default : return BW::UnitID::None;
     }
   }
-}
+};

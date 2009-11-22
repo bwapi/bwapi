@@ -15,4 +15,4 @@ namespace BWAPI
   {
     drawText(x,y,text.c_str(),ctype);
   }
-}
+};

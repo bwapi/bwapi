@@ -23,4 +23,4 @@ namespace BW
     u8 stringToRace(const std::string& name);
     std::string raceName(u8 race);
   }
-}
+};

@@ -68,4 +68,4 @@ namespace BWAPI
       ShapeLine(ctype, bx, by, cx, cy, color).draw();
     }
   }
-}
+};

@@ -20,4 +20,4 @@ namespace BWAPI
     private :
       BW::Position targetPosition;
   };
-}
+};

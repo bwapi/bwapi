@@ -18,4 +18,4 @@ namespace BWAPI
       std::string describe();
     private :
   };
-}
+};

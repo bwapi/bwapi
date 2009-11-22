@@ -34,4 +34,4 @@ namespace BWAPI
     return this->executors[0]->getName() + " is repairing " + (building ? "Building" : "Unit");
   }
   //----------------------------------------------------------------------------------------------------------
-}
+};

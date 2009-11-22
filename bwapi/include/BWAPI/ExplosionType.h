@@ -50,4 +50,3 @@ namespace BWAPI
     extern const ExplosionType Unknown;
   }
 }
-

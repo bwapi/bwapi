@@ -15,4 +15,4 @@ namespace BWAPI
   {
     drawDot(x,y,color,ctype);
   }
-}
+};

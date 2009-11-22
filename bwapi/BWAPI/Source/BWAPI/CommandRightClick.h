@@ -28,4 +28,4 @@ namespace BWAPI
       BW::Position targetPosition;
       bool isPosition;
   };
-}
+};
