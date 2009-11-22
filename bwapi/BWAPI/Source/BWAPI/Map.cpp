@@ -119,7 +119,7 @@ namespace BWAPI
         this->walkability[x][y] = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Walkable);
   }
   //--------------------------------------------- GET MINITILE -----------------------------------------------
-  Util::BitMask<BW::MiniTileFlags::Enum> Map::getMiniTile(int x, int y) const
+  Util::BitMask<u16> Map::getMiniTile(int x, int y) const
   {
     int tx = x / 4;
     int ty = y / 4;

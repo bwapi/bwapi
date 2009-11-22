@@ -26,20 +26,20 @@ namespace BW
   {
     public :
       WeaponType();
-      WeaponType(const BW::WeaponID::Enum& id);
-      bool operator == (const BW::WeaponID::Enum& id) const;
-      bool operator != (const BW::WeaponID::Enum& id) const;
+      WeaponType(const u8& id);
+      bool operator == (const u8& id) const;
+      bool operator != (const u8& id) const;
       bool operator == (const WeaponType& type) const;
       bool operator  < (const WeaponType& type) const;
       const char*            getName() const;
-      BW::WeaponID::Enum     getID() const;
+      u8                     getID() const;
       u16                    damageAmount() const;
       u16                    damageBonus() const;
       u8                     damageCooldown() const;
       u8                     damageFactor() const;
       BW::UpgradeType        upgradeType() const;
-      BW::DamageID::Enum     damageType() const;
-      BW::ExplosionID::Enum  explosionType() const;
+      u8                     damageType() const;
+      u8                     explosionType() const;
       u32                    minRange() const;
       u32                    maxRange() const;
       u16                    innerSplashRadius() const;
@@ -54,7 +54,7 @@ namespace BW
       bool                   targetsTerrain() const;
       bool                   targetsOrgOrMech() const;
       bool                   targetsOwn() const;
-      BW::WeaponID::Enum id;
+      u8                     id;
     private :
   };
 }

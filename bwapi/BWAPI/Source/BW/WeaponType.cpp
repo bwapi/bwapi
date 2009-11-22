@@ -11,17 +11,17 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  WeaponType::WeaponType(const BW::WeaponID::Enum& id)
+  WeaponType::WeaponType(const u8& id)
       : id(id)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool WeaponType::operator ==(const BW::WeaponID::Enum& id) const
+  bool WeaponType::operator ==(const u8& id) const
   {
     return id == this->id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool WeaponType::operator !=(const BW::WeaponID::Enum& id) const
+  bool WeaponType::operator !=(const u8& id) const
   {
     return id != this->id;
   }
@@ -49,7 +49,7 @@ namespace BW
       return "Invalid";
   }
   //----------------------------------------------- GET ID ---------------------------------------------------
-  BW::WeaponID::Enum WeaponType::getID() const
+  u8 WeaponType::getID() const
   {
     return this->id;
   }
@@ -76,17 +76,17 @@ namespace BW
   //---------------------------------------------- UPGRADE TYPE ----------------------------------------------
   BW::UpgradeType WeaponType::upgradeType() const
   {
-    return BW::UpgradeType(BW::UpgradeID::Enum(BW::BWDATA_WeaponUpgrade->weaponType[this->getID()]));
+    return BW::UpgradeType(BW::BWDATA_WeaponUpgrade->weaponType[this->getID()]);
   }
   //----------------------------------------------- DAMAGE TYPE ----------------------------------------------
-  BW::DamageID::Enum WeaponType::damageType() const
+  u8 WeaponType::damageType() const
   {
-    return BW::DamageID::Enum(BW::BWDATA_WeaponDamageType->weaponType[this->getID()]);
+    return BW::BWDATA_WeaponDamageType->weaponType[this->getID()];
   }
   //---------------------------------------------- EXPLOSION TYPE --------------------------------------------
-  BW::ExplosionID::Enum WeaponType::explosionType() const
+  u8 WeaponType::explosionType() const
   {
-    return BW::ExplosionID::Enum(BW::BWDATA_WeaponExplosionType->weaponType[this->getID()]);
+    return BW::BWDATA_WeaponExplosionType->weaponType[this->getID()];
   }
   //------------------------------------------------ MIN RANGE -----------------------------------------------
   u32 WeaponType::minRange() const

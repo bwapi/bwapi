@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <set>
 #include <BWAPI/Race.h>

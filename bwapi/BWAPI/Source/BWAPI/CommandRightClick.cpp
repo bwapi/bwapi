@@ -67,7 +67,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandRightClick::getType()
+  int CommandRightClick::getType()
   {
     return BWAPI::CommandTypes::RightClick;
   }

@@ -4,7 +4,7 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-  ShapeTriangle::ShapeTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, int color, bool isSolid)
+  ShapeTriangle::ShapeTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, int color, bool isSolid)
       : ctype(ctype)
       , ax(ax)
       , ay(ay)

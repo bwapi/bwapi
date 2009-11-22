@@ -43,7 +43,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandHoldPosition::getType()
+  int CommandHoldPosition::getType()
   {
     return BWAPI::CommandTypes::HoldPosition;
   }

@@ -42,7 +42,7 @@ namespace BWAPI
     private :
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);
-      Util::BitMask<BW::MiniTileFlags::Enum> getMiniTile(int x, int y) const;
+      Util::BitMask<u16> getMiniTile(int x, int y) const;
       Util::RectangleArray<u32>* fogOfWar;
       Util::RectangleArray<u16>* zergCreep;
       Util::RectangleArray<bool> buildability;

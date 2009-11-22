@@ -222,7 +222,7 @@ namespace BWAPI
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;
-      BW::OrderID::Enum getBWOrder() const;
+      u8  getBWOrder() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
       std::string getName() const;

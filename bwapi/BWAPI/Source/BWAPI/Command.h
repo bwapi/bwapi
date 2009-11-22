@@ -26,7 +26,7 @@ namespace BWAPI
       Command(UnitImpl* executor);
       virtual ~Command();
       /** Gets the type of the command  */
-      virtual BWAPI::CommandTypes::Enum getType() = 0;
+      virtual int getType() = 0;
       /**
        * Executes the current command. Note that this command will only affect
        * data with Local postfix.

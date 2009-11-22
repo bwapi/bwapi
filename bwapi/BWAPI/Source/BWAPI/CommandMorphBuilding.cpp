@@ -27,7 +27,7 @@ namespace BWAPI
     p->planToMake(toMorph);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandMorphBuilding::getType()
+  int CommandMorphBuilding::getType()
   {
     return BWAPI::CommandTypes::MorphBuilding;
   }

@@ -16,7 +16,7 @@ namespace BWAPI
        */
       CommandMorphBuilding(UnitImpl* executor, BW::UnitType toMorph);
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::UnitType toMorph;

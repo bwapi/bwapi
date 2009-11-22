@@ -23,7 +23,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandRepair::getType()
+  int CommandRepair::getType()
   {
     return BWAPI::CommandTypes::Repair;
   }

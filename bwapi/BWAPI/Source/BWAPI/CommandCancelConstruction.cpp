@@ -18,7 +18,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandCancelConstruction::getType()
+  int CommandCancelConstruction::getType()
   {
     return BWAPI::CommandTypes::CancelResearch;
   }

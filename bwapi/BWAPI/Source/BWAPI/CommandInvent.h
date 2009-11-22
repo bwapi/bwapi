@@ -18,7 +18,7 @@ namespace BWAPI
       CommandInvent(UnitImpl* building, BW::TechType tech);
       ~CommandInvent();
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::TechType tech;

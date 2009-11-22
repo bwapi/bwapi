@@ -90,11 +90,11 @@ namespace BWAPI
 
       /* iterate through unit types and create UnitType for each */
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-        unitTypes.insert(BW::UnitType((BW::UnitID::Enum)i));
+        unitTypes.insert(BW::UnitType((u16)i));
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error", "wt");
+      FILE*f = fopen("bwapi-error", "a+");
       fprintf_s(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
       fclose(f);
     }
@@ -658,7 +658,7 @@ namespace BWAPI
           i->buildUnit = j;
           j->buildUnit = i;
         }
-        if (i->getType()==UnitTypes::Terran_Nuclear_Missile && i->nukeDetected==false && i->getRawDataLocal()->connectedUnit->unitID==BW::UnitID::Terran_Ghost)
+        if (i->getType()==UnitTypes::Terran_Nuclear_Missile && i->nukeDetected == false && i->getRawDataLocal()->connectedUnit->unitID==BW::UnitID::Terran_Ghost)
         {
           i->nukeDetected=true;
           BW::Position bwtarget=i->getRawDataLocal()->orderTargetPos;
@@ -703,7 +703,7 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error", "wt");
+      FILE*f = fopen("bwapi-error", "a+");
       fprintf_s(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
       fclose(f);
     }
@@ -908,7 +908,7 @@ namespace BWAPI
   void  GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
-    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<BW::Race::Enum>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
+    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
@@ -1354,7 +1354,7 @@ namespace BWAPI
     return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
-  BWAPI::Latency::Enum  GameImpl::getLatency()
+  int GameImpl::getLatency()
   {
     this->setLastError(Errors::None);
     if (_isSinglePlayer())
@@ -1522,13 +1522,13 @@ namespace BWAPI
     this->lastError = e;
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
-  bool  GameImpl::isFlagEnabled(BWAPI::Flag::Enum flag)
+  bool  GameImpl::isFlagEnabled(int flag)
   {
     this->setLastError(Errors::None);
     return this->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
-  void  GameImpl::enableFlag(BWAPI::Flag::Enum flag)
+  void  GameImpl::enableFlag(int flag)
   {
     this->setLastError(Errors::None);
     if (this->flagsLocked == true)
@@ -1568,7 +1568,7 @@ namespace BWAPI
   {
     this->shapes.push_back(s);
   }
-  void  GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
+  void  GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     if (!inScreen(ctype,left,top,right,bottom)) return;
     addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
@@ -1589,7 +1589,7 @@ namespace BWAPI
     addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
   }
 
-  void  GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
+  void  GameImpl::drawDot(int ctype, int x, int y, Color color)
   {
     if (!inScreen(ctype,x,y)) return;
     addShape(new ShapeDot(ctype, x, y, color.getID()));
@@ -1610,7 +1610,7 @@ namespace BWAPI
     addShape(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
   }
 
-  void  GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
+  void  GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
     addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
@@ -1631,7 +1631,7 @@ namespace BWAPI
     addShape(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
   }
 
-  void  GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  void  GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
     addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
@@ -1652,7 +1652,7 @@ namespace BWAPI
     addShape(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
   }
 
-  void  GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
+  void  GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(ctype,x1,y1,x2,y2)) return;
     addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
@@ -1673,7 +1673,7 @@ namespace BWAPI
     addShape(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
   }
 
-  void  GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  void  GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
     addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
@@ -1694,7 +1694,7 @@ namespace BWAPI
     addShape(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
 
-  void  GameImpl::drawText(CoordinateType::Enum ctype, int x, int y, const char* text, ...)
+  void  GameImpl::drawText(int ctype, int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);

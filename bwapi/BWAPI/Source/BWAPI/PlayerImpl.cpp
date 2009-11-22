@@ -157,8 +157,8 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    s32 ret = this->suppliesAvailableLocal[static_cast<BW::Race::Enum>(getRace().getID())];
-    return ret < getSuppliesMaxSync(static_cast<BW::Race::Enum>(getRace().getID())) ? ret : getSuppliesMaxSync(static_cast<BW::Race::Enum>(getRace().getID()));
+    s32 ret = this->suppliesAvailableLocal[getRace().getID()];
+    return ret < getSuppliesMaxSync((u8)getRace().getID()) ? ret : getSuppliesMaxSync((u8)getRace().getID());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   int PlayerImpl::supplyUsed() const
@@ -180,8 +180,8 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    s32 ret = this->suppliesAvailableLocal[static_cast<BW::Race::Enum>(race.getID())];
-    return ret < getSuppliesMaxSync(static_cast<BW::Race::Enum>(race.getID())) ? ret : getSuppliesMaxSync(static_cast<BW::Race::Enum>(race.getID()));
+    s32 ret = this->suppliesAvailableLocal[race.getID()];
+    return ret < getSuppliesMaxSync((u8)race.getID()) ? ret : getSuppliesMaxSync((u8)race.getID());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
@@ -203,7 +203,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType(BW::UnitID::Enum(unit.getID()))) + this->toMake[unit.getID()];
+    return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType((u16)unit.getID())) + this->toMake[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
   s32 PlayerImpl::completedUnitCount(UnitType unit) const
@@ -214,7 +214,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
+    return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType((u16)unit.getID()));
   }
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 PlayerImpl::incompleteUnitCount(UnitType unit) const
@@ -236,7 +236,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType(BW::UnitID::Enum(unit.getID())));
+    return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType((u16)unit.getID()));
   }
   //----------------------------------------------- GET KILLS ------------------------------------------------
   s32 PlayerImpl::killedUnitCount(UnitType unit) const
@@ -247,7 +247,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType(BW::UnitID::Enum(unit.getID())));
+    return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType((u16)unit.getID()));
   }
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
   bool PlayerImpl::isResearching(BWAPI::TechType tech) const
@@ -322,16 +322,16 @@ namespace BWAPI
   {
     this->mineralsLocal = this->getMineralsSync();
     this->gasLocal = this->getGasSync();
-    for (int i = 0; i < BW::RACE_COUNT; i++)
+    for (u8 i = 0; i < BW::RACE_COUNT; i++)
     {
-      this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync((BW::Race::Enum)i);
-      this->suppliesUsedLocal[i] = this->getSuppliesUsedSync((BW::Race::Enum)i);
+      this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync(i);
+      this->suppliesUsedLocal[i] = this->getSuppliesUsedSync(i);
     }
-    if (BW::BWDATA_Players->player[this->getID()].type==BW::PlayerType::HumanDefeated ||
-        BW::BWDATA_Players->player[this->getID()].type==BW::PlayerType::Computer ||
-        (BW::BWDATA_Players->player[this->getID()].type==BW::PlayerType::Neutral && !this->isNeutral()))
+    if (BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::HumanDefeated ||
+        BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::Computer ||
+        (BW::BWDATA_Players->player[this->getID()].type == BW::PlayerType::Neutral && !this->isNeutral()))
     {
-      this->leftTheGame=true;
+      this->leftTheGame = true;
     }
     for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
       this->toMake[j] = 0;
@@ -343,23 +343,23 @@ namespace BWAPI
     this->gasLocal -= gas;
   }
   //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
-  s32 PlayerImpl::getSuppliesAvailableSync(BW::Race::Enum race) const
+  s32 PlayerImpl::getSuppliesAvailableSync(u8 race) const
   {
     s32 ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
     return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
   }
   //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
-  s32 PlayerImpl::getSuppliesUsedSync(BW::Race::Enum race) const
+  s32 PlayerImpl::getSuppliesUsedSync(u8 race) const
   {
     return BW::BWDATA_Supplies->race[race].used.player[this->getID()];
   }
   //--------------------------------------------- GET SUPPLY MAX ---------------------------------------------
-  s32 PlayerImpl::getSuppliesMaxSync(BW::Race::Enum race) const
+  s32 PlayerImpl::getSuppliesMaxSync(u8 race) const
   {
     return BW::BWDATA_Supplies->race[race].max.player[this->getID()];
   }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
-  void PlayerImpl::useSupplies(u8 supplies, BW::Race::Enum race)
+  void PlayerImpl::useSupplies(u8 supplies, u8 race)
   {
     this->suppliesUsedLocal[race] += supplies;
   }

@@ -23,7 +23,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandPatrol::getType()
+  int CommandPatrol::getType()
   {
     return BWAPI::CommandTypes::Patrol;
   }

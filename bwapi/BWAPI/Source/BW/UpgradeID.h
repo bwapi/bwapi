@@ -11,7 +11,7 @@ namespace BW
    */
   namespace UpgradeID
   {
-  enum Enum : u8
+  enum Enum
     {
       TerranInfantryArmor   = 0x00,
       TerranVehiclePlating  = 0x01,

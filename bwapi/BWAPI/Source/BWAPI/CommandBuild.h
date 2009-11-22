@@ -21,7 +21,7 @@ namespace BWAPI
       CommandBuild(UnitImpl* builder, BW::UnitType toBuild, BW::TilePosition position);
       ~CommandBuild();
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::UnitType toBuild;

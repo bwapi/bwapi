@@ -23,7 +23,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandFollow::getType()
+  int CommandFollow::getType()
   {
     return BWAPI::CommandTypes::Follow;
   }

@@ -18,7 +18,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandUnsiege::getType()
+  int CommandUnsiege::getType()
   {
     return BWAPI::CommandTypes::Unsiege;
   }

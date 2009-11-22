@@ -18,7 +18,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandCancelAddon::getType()
+  int CommandCancelAddon::getType()
   {
     return BWAPI::CommandTypes::CancelAddon;
   }

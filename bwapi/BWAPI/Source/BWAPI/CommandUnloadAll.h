@@ -15,7 +15,7 @@ namespace BWAPI
       CommandUnloadAll(UnitImpl* executor);
       CommandUnloadAll(UnitImpl* executor, BW::Position targetPosition);
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::Position targetPosition;

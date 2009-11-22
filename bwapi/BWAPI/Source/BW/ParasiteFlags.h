@@ -5,7 +5,7 @@ namespace BW
   /** Bit mask specifying players who parasited the unit in BW#Unit#parasiteFlags */
   namespace ParasiteFlags
   {
-  enum Enum : u8
+  enum Enum
     {
       Player1Parasited  = 1 << 0,
       Player2Parasited  = 1 << 1,

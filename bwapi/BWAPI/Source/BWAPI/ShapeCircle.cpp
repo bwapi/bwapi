@@ -3,7 +3,7 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-  ShapeCircle::ShapeCircle(CoordinateType::Enum ctype, int x, int y, int radius, int color, bool isSolid)
+  ShapeCircle::ShapeCircle(int ctype, int x, int y, int radius, int color, bool isSolid)
       : ctype(ctype)
       , x(x)
       , y(y)

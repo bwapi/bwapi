@@ -14,12 +14,12 @@ namespace BW
   {
     public :
       TechType(); /**< Default constructor techId will be BW::TechID::None. */
-      TechType(const BW::TechID::Enum& id); /**< Conversion constructor */
-      bool operator == (const BW::TechID::Enum& id);
-      bool operator != (const BW::TechID::Enum& id);
+      TechType(const u8& id); /**< Conversion constructor */
+      bool operator == (const u8& id);
+      bool operator != (const u8& id);
       bool operator == (const TechType& type);
       const char* getName() const;
-      TechID::Enum getID() const;
+      u8 getID() const;
       /**
        * Some bw techs are not valid and they don't have even valid names, so any manipulation with it should
        * be avoided
@@ -33,6 +33,6 @@ namespace BW
       UnitType whereToInvent();
     private :
       /**< Identificator of the tech. */
-      TechID::Enum id;
+      u8 id;
   };
 }

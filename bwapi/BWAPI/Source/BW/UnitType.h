@@ -34,21 +34,21 @@ namespace BW
   {
     public :
       UnitType(); /**< Default constructor orderId will be BW::OrderID::None. */
-      UnitType(const BW::UnitID::Enum& id); /**< Conversion constructor */
-      bool operator == (const BW::UnitID::Enum& id) const;
-      bool operator != (const BW::UnitID::Enum& id) const;
+      UnitType(const u16& id); /**< Conversion constructor */
+      bool operator == (const u16& id) const;
+      bool operator != (const u16& id) const;
       bool operator == (const UnitType& type) const;
       bool operator  < (const UnitType& type) const;
 
-      BW::UnitID::Enum     getID() const;
-      const char*          getName() const;
-      const char*          getSubLabel() const;
-      BW::Race::Enum       getRace() const;
+      u16         getID() const;
+      const char* getName() const;
+      const char* getSubLabel() const;
+      u8          getRace() const;
 
-      std::pair<BW::UnitType, int>          whatBuilds() const;
+      std::pair<BW::UnitType, int>         whatBuilds() const;
       const std::map< BW::UnitType, int >& requiredUnits() const;
-      BW::TechID::Enum                     requiredTech() const;
-      BW::UpgradeID::Enum                  armorUpgrade() const;
+      u8                                   requiredTech() const;
+      u8                                   armorUpgrade() const;
 
       u16                  maxHitPoints() const;
       u16                  maxShields() const;
@@ -66,7 +66,7 @@ namespace BW
       u16                  buildScore() const;
       u16                  destroyScore() const;
 
-      UnitSizeType::Enum   size() const;
+      u8                   size() const;
       u16                  tileWidth() const;
       u16                  tileHeight() const;
       u16                  dimensionLeft() const;
@@ -76,9 +76,9 @@ namespace BW
 
       u8                   seekRange() const;
       u8                   sightRange() const;
-      BW::WeaponID::Enum   groundWeapon() const;
+      u8                   groundWeapon() const;
       u8                   maxGroundHits() const;
-      BW::WeaponID::Enum   airWeapon() const;
+      u8                   airWeapon() const;
       u8                   maxAirHits() const;
 
       u32                  topSpeed() const;
@@ -123,10 +123,10 @@ namespace BW
       bool                 isTerran() const;
       bool                 isProtoss() const;
       bool                 isValid() const;
-      BW::UnitID::Enum id;
+      u16                  id;
       static void initialize();
     private :
-      Util::BitMask<BW::UnitPrototypeFlags::Enum> getFlags() const;
-      Util::BitMask<BW::GroupFlags::Enum> getGroupFlags() const;
+      Util::BitMask<u32> getFlags() const;
+      Util::BitMask<u8>  getGroupFlags() const;
   };
 };

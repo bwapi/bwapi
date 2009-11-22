@@ -40,7 +40,7 @@ namespace BWAPI
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandSetRally::getType()
+  int CommandSetRally::getType()
   {
     return BWAPI::CommandTypes::SetRally;
   }

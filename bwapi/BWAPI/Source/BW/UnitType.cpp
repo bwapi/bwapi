@@ -19,17 +19,17 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  UnitType::UnitType(const BW::UnitID::Enum& id)
+  UnitType::UnitType(const u16& id)
       : id(id)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator ==(const BW::UnitID::Enum& id) const
+  bool UnitType::operator ==(const u16& id) const
   {
     return id == this->id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator !=(const BW::UnitID::Enum& id) const
+  bool UnitType::operator !=(const u16& id) const
   {
     return id != this->id;
   }
@@ -44,7 +44,7 @@ namespace BW
     return this->id < type.id;
   }
   //------------------------------------------------- GET ID -------------------------------------------------
-  BW::UnitID::Enum UnitType::getID() const
+  u16 UnitType::getID() const
   {
     return this->id;
   }
@@ -76,7 +76,7 @@ namespace BW
       return "Invalid";
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
-  BW::Race::Enum UnitType::getRace() const
+  u8 UnitType::getRace() const
   {
     if (this->isZerg())
       return BW::Race::Zerg;
@@ -98,7 +98,7 @@ namespace BW
     return requiredUnitsData[this->id];
   }
   //--------------------------------------------- REQUIRED TECH ----------------------------------------------
-  BW::TechID::Enum UnitType::requiredTech() const
+  u8 UnitType::requiredTech() const
   {
     if (this->getID() == BW::UnitID::Zerg_Lurker)
       return BW::TechID::LurkerAspect;
@@ -106,9 +106,9 @@ namespace BW
   }
 
   //--------------------------------------------- ARMOR UPGRADE ----------------------------------------------
-  BW::UpgradeID::Enum UnitType::armorUpgrade() const
+  u8 UnitType::armorUpgrade() const
   {
-    return BW::UpgradeID::Enum(BW::BWDATA_UnitUpgrade->unitType[this->getID()]);
+    return BW::BWDATA_UnitUpgrade->unitType[this->getID()];
   }
   //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
   u16 UnitType::maxHitPoints() const
@@ -187,9 +187,9 @@ namespace BW
   }
 
   //-------------------------------------------------- SIZE --------------------------------------------------
-  UnitSizeType::Enum UnitType::size() const
+  u8 UnitType::size() const
   {
-    return UnitSizeType::Enum(BW::BWDATA_UnitSize->unitType[this->getID()]);
+    return BW::BWDATA_UnitSize->unitType[this->getID()];
   }
   //----------------------------------------------- TILE WIDTH -----------------------------------------------
   u16 UnitType::tileWidth() const
@@ -233,12 +233,12 @@ namespace BW
     return BW::BWDATA_UnitSightRange->unitType[this->getID()];
   }
   //--------------------------------------------- GROUND WEAPON ----------------------------------------------
-  BW::WeaponID::Enum UnitType::groundWeapon() const
+  u8 UnitType::groundWeapon() const
   {
-    BW::WeaponID::Enum w = BW::WeaponID::Enum(BW::BWDATA_UnitGroundWeapon->unitType[this->getID()]);
+    u8 w = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
     if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
     {
-      w = BW::WeaponID::Enum(BW::BWDATA_UnitGroundWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]]);
+      w = BW::BWDATA_UnitGroundWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
     }
     return w;
   }
@@ -248,12 +248,12 @@ namespace BW
     return BW::BWDATA_MaxGroundHits->unitType[this->getID()];
   }
   //---------------------------------------------- AIR WEAPON ------------------------------------------------
-  BW::WeaponID::Enum UnitType::airWeapon() const
+  u8 UnitType::airWeapon() const
   {
-    BW::WeaponID::Enum w = BW::WeaponID::Enum(BW::BWDATA_UnitAirWeapon->unitType[this->getID()]);
+    u8 w = BW::BWDATA_UnitAirWeapon->unitType[this->getID()];
     if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
     {
-      w = BW::WeaponID::Enum(BW::BWDATA_UnitAirWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]]);
+      w = BW::BWDATA_UnitAirWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
     }
     return w;
   }
@@ -946,12 +946,12 @@ namespace BW
     }
   }
   //----------------------------------------------- GET FLAGS ------------------------------------------------
-  Util::BitMask<BW::UnitPrototypeFlags::Enum> UnitType::getFlags() const
+  Util::BitMask<u32> UnitType::getFlags() const
   {
     return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()];
   }
   //-------------------------------------------- GET GROUP FLAGS ---------------------------------------------
-  Util::BitMask<BW::GroupFlags::Enum> UnitType::getGroupFlags() const
+  Util::BitMask<u8> UnitType::getGroupFlags() const
   {
     return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()];
   }

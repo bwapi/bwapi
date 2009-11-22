@@ -43,7 +43,7 @@ namespace BWAPI
     p->planToMake(toTrain);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::CommandTypes::Enum CommandTrain::getType()
+  int CommandTrain::getType()
   {
     return CommandTypes::Train;
   }

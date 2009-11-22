@@ -14,7 +14,7 @@ namespace BWAPI
       CommandCancelTrain(UnitImpl* building);
       CommandCancelTrain(UnitImpl* building, int slot);
       ~CommandCancelTrain();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       /**
         * @todo Give back money
         * @todo Give back supply

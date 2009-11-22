@@ -10,17 +10,17 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  TechType::TechType(const BW::TechID::Enum& id)
+  TechType::TechType(const u8& id)
       : id(id)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool TechType::operator ==(const BW::TechID::Enum& id)
+  bool TechType::operator ==(const u8& id)
   {
     return id == this->id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool TechType::operator !=(const BW::TechID::Enum& id)
+  bool TechType::operator !=(const u8& id)
   {
     return id != this->id;
   }
@@ -40,7 +40,7 @@ namespace BW
       return "Invalid";
   }
   //------------------------------------------------- GET ID -------------------------------------------------
-  TechID::Enum TechType::getID() const
+  u8 TechType::getID() const
   {
     return this->id;
   }

@@ -815,7 +815,7 @@ namespace BWAPI
     return BWAPI::Order(this->getRawDataLocal()->orderID);
   }
   //------------------------------------------------ GET ORDER -----------------------------------------------
-  BW::OrderID::Enum UnitImpl::getBWOrder() const
+  u8 UnitImpl::getBWOrder() const
   {
     if (!this->_exists()) return BW::OrderID::Nothing2;
     return this->getRawDataLocal()->orderID;
@@ -1089,7 +1089,7 @@ namespace BWAPI
       return false;
     }
 
-    BW::UnitType type((BW::UnitID::Enum)type1.getID());
+    BW::UnitType type((u16)type1.getID());
     this->orderSelect();
     BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
     if (this->getType() == BWAPI::UnitTypes::Zerg_Larva ||
@@ -1134,7 +1134,7 @@ namespace BWAPI
     }
     if (!type1.isAddon() && !Broodwar->canBuildHere(this,position,type1)) return false;
 
-    BW::UnitType type(BW::UnitID::Enum(type1.getID()));
+    BW::UnitType type((u16)type1.getID());
     this->orderSelect();
     if (!type.isAddon())
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeBuilding));
@@ -1168,7 +1168,7 @@ namespace BWAPI
     }
 
     this->orderSelect();
-    BW::TechID::Enum techenum = static_cast<BW::TechID::Enum>(tech.getID());
+    u8 techenum = (u8)tech.getID();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
     BroodwarImpl.addToCommandBuffer(new CommandInvent(this, BW::TechType(techenum)));
     return true;
@@ -1186,7 +1186,7 @@ namespace BWAPI
     }
 
     this->orderSelect();
-    BW::UpgradeID::Enum upgradeenum = static_cast<BW::UpgradeID::Enum>(upgrade.getID());
+    u8 upgradeenum = (u8)upgrade.getID();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade));
     BroodwarImpl.addToCommandBuffer(new CommandUpgrade(this, BW::UpgradeType(upgradeenum)));
     return true;
@@ -1372,7 +1372,7 @@ namespace BWAPI
     }
 
     this->orderSelect();
-    BW::UnitType rawtype(((BW::UnitID::Enum)type.getID()));
+    BW::UnitType rawtype((u16)type.getID());
     if(type.isBuilding())
     {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(rawtype), sizeof(BW::Orders::BuildingMorph));

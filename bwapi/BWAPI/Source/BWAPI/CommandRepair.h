@@ -15,7 +15,7 @@ namespace BWAPI
        */
       CommandRepair(UnitImpl* executor, UnitImpl* target);
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       UnitImpl* target;

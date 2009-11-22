@@ -18,7 +18,7 @@ namespace BWAPI
       CommandUpgrade(UnitImpl* building, BW::UpgradeType upgrade);
       ~CommandUpgrade();
       virtual void execute();
-      BWAPI::CommandTypes::Enum getType();
+      int getType();
       std::string describe();
     private :
       BW::UpgradeType upgrade;

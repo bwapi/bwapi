@@ -3,7 +3,7 @@
 #include "BWAPI/Game.h"
 namespace BWAPI
 {
-  ShapeBox::ShapeBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, int color, bool isSolid)
+  ShapeBox::ShapeBox(int ctype, int left, int top, int right, int bottom, int color, bool isSolid)
       : ctype(ctype)
       , left(left)
       , top(top)
