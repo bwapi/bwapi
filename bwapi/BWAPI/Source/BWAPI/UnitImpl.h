@@ -61,16 +61,14 @@ namespace BWAPI
       virtual TilePosition  getInitialTilePosition() const;
       virtual double  getDistance(Unit* target) const;
       virtual double  getDistance(Position target) const;
-      virtual int  getCurrentDirection() const;
+      virtual int  getDirection() const;
+      virtual double getVelocityX() const;
+      virtual double getVelocityY() const;
 
-      virtual int  getUpgradeLevel(UpgradeType upgrade) const;
       virtual Unit*  getTarget() const;
       virtual Position  getTargetPosition() const;
       virtual Order  getOrder() const;
       virtual Unit*  getOrderTarget() const;
-      /* Timer specifiing how long it will take to finish the current order
-       * (verified for mining).
-       */
       virtual int  getOrderTimer() const;
       virtual Order  getSecondaryOrder() const;
       virtual Unit*  getBuildUnit() const;
@@ -90,6 +88,7 @@ namespace BWAPI
       virtual Position  getRallyPosition() const;
       virtual Unit*  getRallyUnit() const;
       virtual Unit*  getAddon() const;
+      virtual int  getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual bool  exists() const;
       virtual bool  isAccelerating() const;
