@@ -151,6 +151,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return this->map.buildable(x, y);
   }
+  //------------------------------------------------ BUILDABLE -----------------------------------------------
+  bool  GameImpl::buildable(TilePosition position)
+  {
+    /* Check if the specified coordinates are buildable */
+    this->setLastError(Errors::None);
+    return this->map.buildable(position.x(), position.y());
+  }
   //------------------------------------------------ WALKABLE ------------------------------------------------
   bool  GameImpl::walkable(int x, int y)
   {
@@ -165,6 +172,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return this->map.visible(x, y);
   }
+  //------------------------------------------------- VISIBLE ------------------------------------------------
+  bool  GameImpl::visible(TilePosition position)
+  {
+    /* Check if the specified coordinates are visible */
+    this->setLastError(Errors::None);
+    return this->map.visible(position.x(), position.y());
+  }
   //------------------------------------------------ HAS CREEP -----------------------------------------------
   bool  GameImpl::hasCreep(int x, int y)
   {
@@ -177,6 +191,11 @@ namespace BWAPI
       return false;
     }
     return this->map.hasCreep(x, y);
+  }
+  //------------------------------------------------ HAS CREEP -----------------------------------------------
+  bool  GameImpl::hasCreep(TilePosition position)
+  {
+    return this->hasCreep(position.x(), position.y());
   }
   //------------------------------------------------ HAS POWER -----------------------------------------------
   bool  GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
@@ -226,6 +245,11 @@ namespace BWAPI
       }
     }
     return false;
+  }
+  //------------------------------------------------ HAS POWER -----------------------------------------------
+  bool  GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight)
+  {
+    return this->hasPower(position.x(),position.y(),tileWidth,tileHeight);
   }
   //---------------------------------------------- CAN BUILD HERE --------------------------------------------
   bool  GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
