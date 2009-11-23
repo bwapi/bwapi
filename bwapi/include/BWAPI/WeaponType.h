@@ -83,7 +83,7 @@ namespace BWAPI
     extern const WeaponType Phase_Disruptor;
     extern const WeaponType Psionic_Shockwave;
     extern const WeaponType Dual_Photon_Blasters;
-    extern const WeaponType Anti_matter_Missiles;
+    extern const WeaponType Anti_Matter_Missiles;
     extern const WeaponType Phase_Disruptor_Cannon;
     extern const WeaponType Pulse_Cannon;
     extern const WeaponType STS_Photon_Cannon;
