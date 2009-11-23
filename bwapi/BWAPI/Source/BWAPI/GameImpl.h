@@ -77,18 +77,26 @@ namespace BWAPI
       virtual int  mapHeight();
       virtual std::string  mapFilename();
       virtual std::string  mapName();
-      virtual bool  buildable(int x, int y);
-      virtual bool  walkable(int x, int y);
-      virtual bool  visible(int x, int y);
-      virtual bool  hasCreep(int x, int y);
-      virtual bool  hasPower(int x, int y, int tileWidth, int tileHeight);
-      virtual bool  canBuildHere(Unit* builder, TilePosition position, UnitType type);
-      virtual bool  canMake(Unit* builder, UnitType type);
-      virtual bool  canResearch(Unit* unit, TechType type);
-      virtual bool  canUpgrade(Unit* unit, UpgradeType type);
+      virtual int getMapHash();
+
+      virtual bool buildable(int x, int y);
+      virtual bool walkable(int x, int y);
+      virtual bool visible(int x, int y);
       virtual int  groundHeight(int x, int y);
+      virtual bool hasCreep(int x, int y);
+      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
+
+
+      virtual bool buildable(TilePosition position);
+      virtual bool visible(TilePosition position);
+      virtual bool hasCreep(TilePosition position);
+      virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight);
+
+      virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type);
+      virtual bool canMake(Unit* builder, UnitType type);
+      virtual bool canResearch(Unit* unit, TechType type);
+      virtual bool canUpgrade(Unit* unit, UpgradeType type);
       virtual std::set< TilePosition >& getStartLocations();
-      virtual int  getMapHash();
       /**
        * Prints text in game (only local)
        * @param text Text to be written
