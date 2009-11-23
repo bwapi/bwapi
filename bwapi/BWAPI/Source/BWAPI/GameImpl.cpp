@@ -671,6 +671,15 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
         unitList.push_back(i);
 
+      if (false)//change to true to show attacks
+      {
+        for(BW::AttackType *curritem = *BW::BWDATA_AttackNodeTable_FirstElement ; curritem; curritem = curritem->next)
+        {
+          Broodwar->drawTextMap(curritem->pos_x, curritem->pos_y, "%s frames: %d", AttackType(curritem->type).getName().c_str(), curritem->time_left>>8);
+          Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
+        }
+      }
+
       for each (UnitImpl* i in unitList)
       {
         if (this->units.find(i) == this->units.end())
