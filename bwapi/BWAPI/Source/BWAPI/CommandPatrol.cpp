@@ -18,7 +18,6 @@ namespace BWAPI
       if ((this->executors[i]->getType().canMove()))
       {
         this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Patrol;
-        this->executors[i]->getRawDataLocal()->position = this->targetPosition;
       }
     }
   }
