@@ -110,7 +110,7 @@ namespace BWAPI
     const WeaponType Phase_Disruptor(66);
     const WeaponType Psionic_Shockwave(70);
     const WeaponType Dual_Photon_Blasters(73);
-    const WeaponType Anti_matter_Missiles(74);
+    const WeaponType Anti_Matter_Missiles(74);
     const WeaponType Phase_Disruptor_Cannon(77);
     const WeaponType Pulse_Cannon(79);
     const WeaponType STS_Photon_Cannon(80);
@@ -188,7 +188,7 @@ namespace BWAPI
       weaponTypeData[Phase_Disruptor.getID()].set("Phase Disruptor", &(TechTypes::None), 20, 2, 30, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Dragoon));
       weaponTypeData[Psionic_Shockwave.getID()].set("Psionic Shockwave", &(TechTypes::None), 30, 3, 20, 1, &(UpgradeTypes::Protoss_Ground_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Enemy_Splash), 0, 64, 3, 15, 30, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Archon));
       weaponTypeData[Dual_Photon_Blasters.getID()].set("Dual Photon Blasters", &(TechTypes::None), 8, 1, 30, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Scout));
-      weaponTypeData[Anti_matter_Missiles.getID()].set("Anti-matter Missiles", &(TechTypes::None), 14, 1, 22, 2, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Scout));
+      weaponTypeData[Anti_Matter_Missiles.getID()].set("Anti-Matter Missiles", &(TechTypes::None), 14, 1, 22, 2, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Scout));
       weaponTypeData[Phase_Disruptor_Cannon.getID()].set("Phase Disruptor Cannon", &(TechTypes::None), 10, 1, 45, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Explosive), &(ExplosionTypes::Normal), 0, 160, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Arbiter));
       weaponTypeData[Pulse_Cannon.getID()].set("Pulse Cannon", &(TechTypes::None), 6, 1, 1, 1, &(UpgradeTypes::Protoss_Air_Weapons), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Interceptor));
       weaponTypeData[STS_Photon_Cannon.getID()].set("STS Photon Cannon", &(TechTypes::None), 20, 0, 22, 1, &(UpgradeTypes::None), &(DamageTypes::Normal), &(ExplosionTypes::Normal), 0, 224, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, &(UnitTypes::Protoss_Photon_Cannon));
@@ -241,7 +241,7 @@ namespace BWAPI
       weaponTypeSet.insert(Phase_Disruptor);
       weaponTypeSet.insert(Psionic_Shockwave);
       weaponTypeSet.insert(Dual_Photon_Blasters);
-      weaponTypeSet.insert(Anti_matter_Missiles);
+      weaponTypeSet.insert(Anti_Matter_Missiles);
       weaponTypeSet.insert(Phase_Disruptor_Cannon);
       weaponTypeSet.insert(Pulse_Cannon);
       weaponTypeSet.insert(STS_Photon_Cannon);
@@ -283,7 +283,7 @@ namespace BWAPI
       normalWeaponTypeSet.insert(Phase_Disruptor);
       normalWeaponTypeSet.insert(Psionic_Shockwave);
       normalWeaponTypeSet.insert(Dual_Photon_Blasters);
-      normalWeaponTypeSet.insert(Anti_matter_Missiles);
+      normalWeaponTypeSet.insert(Anti_Matter_Missiles);
       normalWeaponTypeSet.insert(Phase_Disruptor_Cannon);
       normalWeaponTypeSet.insert(Pulse_Cannon);
       normalWeaponTypeSet.insert(STS_Photon_Cannon);
