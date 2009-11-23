@@ -95,6 +95,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\AttackType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI.cpp"
 				>
 			</File>
@@ -162,6 +166,10 @@
 			>
 			<File
 				RelativePath="..\include\BWAPI\AIModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\AttackType.h"
 				>
 			</File>
 			<File

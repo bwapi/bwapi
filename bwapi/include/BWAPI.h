@@ -1,4 +1,5 @@
 #include <BWAPI/AIModule.h>
+#include <BWAPI/AttackType.h>
 #include <BWAPI/Color.h>
 #include <BWAPI/Constants.h>
 #include <BWAPI/CoordinateType.h>
