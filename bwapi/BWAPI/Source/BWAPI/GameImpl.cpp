@@ -601,11 +601,17 @@ namespace BWAPI
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
   {
+#ifdef __MINGW32__
+    __asm__("mov %ecx, _pbBuffer\n"
+            "mov %edx, _iSize"
+           );
+#else
     __asm
     {
-      MOV ECX, pbBuffer
-      MOV EDX, iSize
+      mov ecx, pbBuffer
+      mov edx, iSize
     }
+#endif
     NewIssueCommand();
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
@@ -820,15 +826,25 @@ namespace BWAPI
 
     char* txtout = buffer;
     if (inGame() || _isReplay())
+#ifdef __MINGW32__
+      __asm__("pushad\n"
+              "push 0\n"
+              "mov %eax, _pID\n"
+              "push _txtout\n"
+              "call dword ptr [BW::BWFXN_PrintText]\n"
+              "popad"
+             );
+#else
       __asm
-    {
-      pushad
-      push 0       // Unknown
-      mov eax, pID   // Player ID (-1 for notification area)
-      push txtout  // Text
-      call dword ptr [BW::BWFXN_PrintText]
-      popad
-    }
+      {
+        pushad
+        push 0       // Unknown
+        mov eax, pID   // Player ID (-1 for notification area)
+        push txtout  // Text
+        call dword ptr [BW::BWFXN_PrintText]
+        popad
+      }
+#endif
     else
       printf(txtout); // until lobby print private text is found
   }
@@ -848,7 +864,13 @@ namespace BWAPI
 
     char* txtout = buffer;
     if (!inGame())
-    {
+#ifdef __MINGW32__
+      __asm__("pushad\n"
+              "mov %edi, _txtout\n"
+              "call [BW::BWFXN_SendLobbyCallTarget]\n"
+              "popad"
+             );
+#else
       __asm
       {
         pushad
@@ -856,7 +878,7 @@ namespace BWAPI
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
-    }
+#endif
   }
 
   void  GameImpl::sendText(const char* text, ...)
@@ -882,6 +904,20 @@ namespace BWAPI
     if (inGame())
     {
       memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
+#ifdef __MINGW32__
+      __asm__("pushad\n"
+              "mov %esi, _txtout\n"
+              "call [BW::BWFXN_SendPublicCallTarget]\n"
+              "popad"
+             );
+    }
+    else
+      __asm__("pushad\n"
+              "mov %edi, _txtout\n"
+              "call [BW::BWFXN_SendLobbyCallTarget]\n"
+              "popad"
+             );
+#else
       __asm
       {
         pushad
@@ -898,6 +934,7 @@ namespace BWAPI
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
+#endif
   }
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
@@ -1250,8 +1287,11 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   void GameImpl::refresh()
   {
-    __asm
-      call BW::BWFXN_Refresh
+#ifdef __MINGW32__
+    __asm__("call BW::BWFXN_Refresh");
+#else
+    __asm call BW::BWFXN_Refresh
+#endif
   }
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
@@ -1835,10 +1875,21 @@ namespace BWAPI
     switch(type)
     {
     case MB_OKCANCEL:
+#ifdef __MINGW32__
+      __asm__("mov %eax, _message\n"
+              "call BW::BWFXN_gluPOKCancel_MBox\n"
+              "mov rval, %al"
+             );
+      break;
+    default:  // MB_OK
+      __asm__("mov %eax, _message\n"
+              "call BW::BWFXN_gluPOK_MBox"
+             );
+#else
       __asm
       {
         mov eax, message
-          call BW::BWFXN_gluPOKCancel_MBox
+        call BW::BWFXN_gluPOKCancel_MBox
         mov rval, al
       }
       break;
@@ -1848,6 +1899,7 @@ namespace BWAPI
         mov eax, message
           call BW::BWFXN_gluPOK_MBox
       }
+#endif
       return false;
     }
     return rval;
@@ -1856,6 +1908,15 @@ namespace BWAPI
   bool GameImpl::gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
   {
     bool rval;
+#ifdef __MINGW32__
+    __asm__("push _restricted\n"
+            "push _destsize\n"
+            "push _dest\n"
+            "push _message\n"
+            "call BW::BWFXN_gluPEdit_MBox\n"
+            "mov  _rval, %al"
+           );
+#else
     __asm
     {
       push restricted
@@ -1865,6 +1926,7 @@ namespace BWAPI
       call BW::BWFXN_gluPEdit_MBox
       mov  rval, al
     }
+#endif
     return rval;
   }
 };
