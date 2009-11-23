@@ -1307,6 +1307,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+    this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::RallyPoint2), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, BW::Position((u16)target.x(), (u16)target.y())));
     return true;
@@ -1328,6 +1329,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
+    this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPoint1), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, (UnitImpl*)target));
     return true;
