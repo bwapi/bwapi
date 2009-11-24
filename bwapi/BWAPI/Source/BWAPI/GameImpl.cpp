@@ -16,6 +16,8 @@
 #include <Util/Sentence.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
+#include <Util/Foreach.h>
+#include <Util/Gnu.h>
 
 #include <BWAPI/ForceImpl.h>
 #include <BWAPI/PlayerImpl.h>
@@ -211,7 +213,7 @@ namespace BWAPI
       x++;
     }
     /* Loop through all pylons for the current player */
-    for each (UnitImpl* i in myPylons)
+    foreach (UnitImpl* i, myPylons)
     {
       int px = i->getTilePosition().x();
       int py = i->getTilePosition().y();
@@ -263,7 +265,7 @@ namespace BWAPI
     if (position.y()+height>=this->mapHeight()) return false;
     if (type.isRefinery())
     {
-      for each (Unit* g in getGeysers())
+      foreach (Unit* g, getGeysers())
       {
         if (g->getTilePosition() == position)
         {
@@ -278,7 +280,7 @@ namespace BWAPI
       for(int y = position.y(); y < position.y() + height; y++)
       {
         std::set<Unit*> groundUnits;
-        for each (Unit* i in unitsOnTile(x,y))
+        foreach (Unit* i, unitsOnTile(x,y))
           if (!i->getType().isFlyer() && !i->isLifted())
             groundUnits.insert(i);
 
@@ -321,7 +323,7 @@ namespace BWAPI
 
     if (type.isResourceDepot())
     {
-      for each (BWAPI::Unit* m in getMinerals())
+      foreach (BWAPI::Unit* m, getMinerals())
       {
         if (m->getTilePosition().x()>position.x()-5 &&
             m->getTilePosition().y()>position.y()-4 &&
@@ -332,7 +334,7 @@ namespace BWAPI
         }
       }
 
-      for each (BWAPI::Unit* g in getGeysers())
+      foreach (BWAPI::Unit* g, getGeysers())
       {
         if (g->getTilePosition().x()>position.x()-7 &&
             g->getTilePosition().y()>position.y()-5 &&
@@ -680,7 +682,7 @@ namespace BWAPI
         }
       }
 
-      for each (UnitImpl* i in unitList)
+      foreach (UnitImpl* i, unitList)
       {
         if (this->units.find(i) == this->units.end())
         {
@@ -689,7 +691,7 @@ namespace BWAPI
           this->onAddUnit(i);
         }
       }
-      for each (UnitImpl* i in units)
+      foreach (UnitImpl* i, units)
       {
         if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
         {
@@ -1061,7 +1063,7 @@ namespace BWAPI
       }
 
     /* create ForceImpl for force names */
-    for each (std::string i in force_names)
+    foreach (std::string i, force_names)
     {
       ForceImpl* newforce = new ForceImpl(i);
       this->forces.insert((Force*)newforce);
@@ -1172,7 +1174,7 @@ namespace BWAPI
     this->invalidIndices.clear();
     this->selectedUnitSet.clear();
     this->startedClient = false;
-    for each (UnitImpl* d in this->deadUnits)
+    foreach (UnitImpl* d, this->deadUnits)
       delete d;
 
     this->deadUnits.clear();
@@ -1462,10 +1464,10 @@ namespace BWAPI
     std::list<BWAPI::UnitImpl*> hideUnits;
     std::list<BWAPI::UnitImpl*> renegadeUnits;
 
-    for each (Player* i in playerSet)
+    foreach (Player* i, playerSet)
       ((PlayerImpl*)i)->units.clear();
 
-    for each (UnitImpl* i in units)
+    foreach (UnitImpl* i, units)
     {
       if (i->canAccess())
       {
@@ -1522,7 +1524,7 @@ namespace BWAPI
     }
     if (this->staticNeutralUnits.empty())
     {
-      for each (UnitImpl* i in units)
+      foreach (UnitImpl* i, units)
       {
         if (i->_getPlayer()->isNeutral())
         {
@@ -1538,22 +1540,22 @@ namespace BWAPI
         }
       }
     }
-    for each (BWAPI::UnitImpl* i in renegadeUnits)
+    foreach (BWAPI::UnitImpl* i, renegadeUnits)
     {
       if (this->client)
         this->client->onUnitRenegade(i);
     }
-    for each (BWAPI::UnitImpl* i in morphUnits)
+    foreach (BWAPI::UnitImpl* i, morphUnits)
     {
       if (this->client)
         this->client->onUnitMorph(i);
     }
-    for each (BWAPI::UnitImpl* i in showUnits)
+    foreach (BWAPI::UnitImpl* i, showUnits)
     {
       if (this->client)
         this->client->onUnitShow(i);
     }
-    for each (BWAPI::UnitImpl* i in hideUnits)
+    foreach (BWAPI::UnitImpl* i, hideUnits)
     {
       if (this->client)
       {

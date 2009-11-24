@@ -1,8 +1,12 @@
 #include "Sentence.h"
 
+#include <stdlib.h>
+
 #include "Strings.h"
 #include "Dictionary.h"
+#include "Foreach.h"
 
+typedef std::pair<std::string, unsigned int> SentencePart;
 namespace Util
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -88,14 +92,14 @@ namespace Util
             newNumberString = sentence.substr(leftBracketPosition + 1,newrightBracketPosition - leftBracketPosition - 1);
             if (newNumberString.find_first_not_of("0123456789",0) == -1)
             {
-              this->sentenceParts.push_back(std::pair<std::string, unsigned int>(std::string(sentence.substr(rightBracketPosition + 1,leftBracketPosition - rightBracketPosition - 1)),unsigned int(atoi(NumberString.c_str()) - 1)));
+              this->sentenceParts.push_back(std::pair<std::string, unsigned int>(std::string(sentence.substr(rightBracketPosition + 1,leftBracketPosition - rightBracketPosition - 1)),(unsigned int)atoi(NumberString.c_str()) - 1));
               rightBracketPosition = newrightBracketPosition;
               NumberString = newNumberString;
             }
             else
               if (dictionary == NULL || dictionary->values[NumberString] == NULL)
               {
-                this->sentenceParts.push_back(std::pair<std::string,unsigned int>(std::string("Parametr must be NUMBER (error in Dictionary file)"), unsigned int(0)));
+                this->sentenceParts.push_back(SentencePart(std::string("Parametr must be NUMBER (error in Dictionary file)"), 0U));
                 return;
               }
               else
@@ -108,7 +112,7 @@ namespace Util
            }
            else
            {
-            this->sentenceParts.push_back(std::pair<std::string,unsigned int>(std::string(sentence.substr(rightBracketPosition + 1,sentence.length() - rightBracketPosition - 1)),unsigned int(atoi(NumberString.c_str()) - 1)));
+            this->sentenceParts.push_back(SentencePart(std::string(sentence.substr(rightBracketPosition + 1,sentence.length() - rightBracketPosition - 1)),(unsigned int)atoi(NumberString.c_str()) - 1));
             return;
            }
          }
@@ -116,7 +120,7 @@ namespace Util
          {
           if (dictionary == NULL || dictionary->values[NumberString] == NULL)
            {
-            this->sentenceParts.push_back(std::pair<std::string,unsigned int>(std::string("Parametr must be NUMBER or DICTIONARY KEY (error in Dictionary file)"), unsigned int(0)));
+            this->sentenceParts.push_back(SentencePart(std::string("Parametr must be NUMBER or DICTIONARY KEY (error in Dictionary file)"), 0U));
             return;
            }
           else
@@ -161,7 +165,7 @@ namespace Util
   std::string Sentence::getSentenceMap()
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       returnValue += "{" + Strings::intToString(i.second) + "}";
       returnValue += i.first;
@@ -173,7 +177,7 @@ namespace Util
   {
     std::string returnValue = this->sentence;
     
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       returnValue += " {Missing Argument} ";
       returnValue += i.first;
@@ -184,7 +188,7 @@ namespace Util
   std::string Sentence::getSentence(std::vector<std::string>* argumentList)
   {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       if (i.second <= argumentList->size())
         returnValue += (*argumentList)[(i.second)];
@@ -198,7 +202,7 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1)
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       switch (i.second)
        {
@@ -213,7 +217,7 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2)
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       switch (i.second)
        {
@@ -229,7 +233,7 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3)
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       switch (i.second)
        {
@@ -246,7 +250,7 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4)
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       switch (i.second)
        {
@@ -264,7 +268,7 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5)
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       switch (i.second)
        {
@@ -283,7 +287,7 @@ namespace Util
   std::string Sentence::getSentence(const std::string& parameter1, const std::string& parameter2, const std::string& parameter3, const std::string& parameter4, const std::string& parameter5, const std::string& parameter6)
    {
     std::string returnValue = this->sentence;
-    for each (std::pair<std::string,unsigned int> i in this->sentenceParts)
+    foreach (SentencePart i, this->sentenceParts)
      {
       switch (i.second)
        {

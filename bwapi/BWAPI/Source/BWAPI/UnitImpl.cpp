@@ -4,6 +4,8 @@
 #include <limits>
 
 #include <Util/Logger.h>
+#include <Util/Foreach.h>
+#include <Util/Gnu.h>
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
@@ -240,12 +242,6 @@ namespace BWAPI
   bool UnitImpl::died() const
   {
     return this->dead;
-  }
-  //------------------------------------------------- EXISTS -------------------------------------------------
-  //returns true if the unit exists
-  bool UnitImpl::_exists() const
-  {
-    return this->alive;
   }
   //--------------------------------------------- IS ACCELERATING --------------------------------------------
   bool UnitImpl::isAccelerating() const
@@ -791,7 +787,7 @@ namespace BWAPI
   {
     if (!this->attemptAccess()) return false;
     if (this->_getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
-    for each (const UnitType* u in upgrade.whatUses())
+    foreach (const UnitType* u, upgrade.whatUses())
     {
       if (*u==this->_getType())
         return this->_getPlayer()->getUpgradeLevel(upgrade);
@@ -1895,7 +1891,7 @@ namespace BWAPI
       return false;
     }
     bool found=false;
-    for each (const UnitType* i in tech.whatUses())
+    foreach (const UnitType* i, tech.whatUses())
       if (*i == this->getType())
         found = true;
 
@@ -1962,7 +1958,7 @@ namespace BWAPI
       return false;
     }
     bool found=false;
-    for each (const UnitType* i in tech.whatUses())
+    foreach (const UnitType* i, tech.whatUses())
       if (*i == this->getType())
         found = true;
 
@@ -2042,7 +2038,7 @@ namespace BWAPI
       return false;
     }
     bool found = false;
-    for each (const UnitType* i in tech.whatUses())
+    foreach (const UnitType* i, tech.whatUses())
       if (*i == this->getType())
         found = true;
 

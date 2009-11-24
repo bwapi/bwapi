@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <list>
 
 namespace Util { class DictionaryLine; }

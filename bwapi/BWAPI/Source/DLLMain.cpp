@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include <Util/FileLogger.h>
+#include <Util/Gnu.h>
 
 #include "BW/Offsets.h"
 #include "BWAPI/Globals.h"

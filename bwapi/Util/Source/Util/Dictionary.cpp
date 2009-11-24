@@ -3,6 +3,7 @@
 #include "UnusedLine.h"
 #include "DictionaryFile.h"
 #include "Strings.h"
+#include "Foreach.h"
 #include <algorithm>
 
 namespace Util
@@ -20,13 +21,13 @@ namespace Util
   //---------------------------------------------- SAVE TO FILE ----------------------------------------------
   void Dictionary::saveToFile(void)
   {
-    for each (DictionaryFile* i in this->files)
+    foreach(DictionaryFile* i, this->files)
     i->saveToFile();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Dictionary::~Dictionary()
    {
-    for each (DictionaryFile* i in this->files)
+    foreach(DictionaryFile* i, this->files)
      delete i;
    }
   //----------------------------------------------- GET VALUE ------------------------------------------------
@@ -123,7 +124,7 @@ namespace Util
   //----------------------------------------------- CLEAR ALL ------------------------------------------------
   void Dictionary::clearAll(void)
   {
-    for each (DictionaryFile* i in this->files)
+    foreach(DictionaryFile* i, this->files)
      delete i;
     files.clear();
   }
