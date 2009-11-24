@@ -4,6 +4,8 @@
 #include <stdarg.h>
 
 #include "FileLogger.h"
+#include "Foreach.h"
+#include "Gnu.h"
 
 namespace Util
 {
@@ -89,7 +91,7 @@ namespace Util
   //----------------------------------------------------------------------------------------------------------
   bool Logger::flushInternal(const char* buffer)
   {
-    for each (Logger* i in this->connectedLoggers)
+    foreach (Logger* i, this->connectedLoggers)
      i->flush(buffer);
     return this->flush(buffer);
   }

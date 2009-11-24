@@ -1,6 +1,9 @@
 #include <string>
 #include <map>
 #include <set>
+
+#include <Util/Foreach.h>
+
 #include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/UnitSizeType.h>
@@ -465,7 +468,7 @@ namespace BWAPI
 
       for (std::set<UpgradeType>::iterator i=UpgradeTypes::allUpgradeTypes().begin();i!=UpgradeTypes::allUpgradeTypes().end();i++)
       {
-        for each (const UnitType* ut in i->whatUses())
+        foreach (const UnitType* ut, i->whatUses())
         {
           unitTypeData[ut->getID()].upgrades.insert(&(*i));
         }

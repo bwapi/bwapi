@@ -5,6 +5,7 @@
 #include "Strings.h"
 #include "Dictionary.h"
 #include "UnusedLine.h"
+#include "Foreach.h"
 
 namespace Util
 {
@@ -53,7 +54,7 @@ namespace Util
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   DictionaryFile::~DictionaryFile(void)
   {
-    for each (DictionaryLine* i in this->lines)
+    foreach (DictionaryLine* i, this->lines)
       delete i;
   }
   //---------------------------------------------- SAVE TO FILE ----------------------------------------------
@@ -66,7 +67,7 @@ namespace Util
       throw new FileException("Couldn't open file for reading " + fileName);
 
     std::string line;
-    for each (DictionaryLine* i in this->lines)
+    foreach (DictionaryLine* i, this->lines)
     {
       if (i != this->lines.front())
         fwrite("\n",sizeof(char),1,f);

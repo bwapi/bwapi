@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <cstdarg>
 #include <string>
 #include <list>
 

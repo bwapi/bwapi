@@ -267,5 +267,12 @@ namespace BWAPI
       int staticResources;
       int staticHitPoints;
   };
+  
+  //------------------------------------------------- EXISTS -------------------------------------------------
+  //returns true if the unit exists
+  bool UnitImpl::_exists() const
+  {
+    return this->alive;
+  }
 };
 

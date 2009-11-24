@@ -1,6 +1,8 @@
 #pragma once
 #include "CommandTypes.h"
 #include <vector>
+#include <string>
+
 namespace BWAPI
 {
   class UnitImpl;

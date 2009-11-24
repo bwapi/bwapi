@@ -4,6 +4,7 @@
 #include <stdarg.h>
 
 #include "Exceptions.h"
+#include "Gnu.h"
 
 namespace Util
 {
