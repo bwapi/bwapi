@@ -1136,7 +1136,7 @@ namespace BWAPI
     if (this->client != NULL)
     {
       bool win=true;
-      if (this->isReplay())
+      if (this->_isReplay())
         win=false;
       else
       {

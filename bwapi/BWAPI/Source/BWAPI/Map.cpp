@@ -61,6 +61,8 @@ namespace BWAPI
     if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
       return false;
     u32 value =  (*this->fogOfWar)[y][x];
+    if (BroodwarImpl._isReplay())
+      return (value & 255) != 255;
     return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
   }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
