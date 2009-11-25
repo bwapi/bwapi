@@ -543,10 +543,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Globals.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Map.cpp"
 					>
 				</File>
@@ -739,10 +735,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Globals.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\Map.h"
 					>
 				</File>
@@ -799,18 +791,6 @@
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="doxygen"
-			>
-			<File
-				RelativePath=".\index.h"
-				>
-			</File>
-			<File
-				RelativePath=".\pages.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Interface"

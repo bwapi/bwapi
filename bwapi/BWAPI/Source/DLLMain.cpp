@@ -12,7 +12,6 @@
 #include <Util/Gnu.h>
 
 #include "BW/Offsets.h"
-#include "BWAPI/Globals.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
 #include "BWAPI.h"

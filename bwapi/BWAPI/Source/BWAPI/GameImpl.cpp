@@ -42,7 +42,6 @@
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
 
-#include "Globals.h"
 #include "ShapeBox.h"
 #include "ShapeCircle.h"
 #include "ShapeEllipse.h"

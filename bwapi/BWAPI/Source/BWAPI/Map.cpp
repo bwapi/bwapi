@@ -3,7 +3,6 @@
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
-#include "Globals.h"
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 
