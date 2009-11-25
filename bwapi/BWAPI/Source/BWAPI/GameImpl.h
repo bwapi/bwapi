@@ -1,7 +1,6 @@
 #pragma once
 
 namespace Util  { class Logger; }
-namespace Util  { class Dictionary; }
 namespace BW    { struct UnitArray; }
 namespace BW    { struct Unit; }
 namespace BWAPI { class Player; }

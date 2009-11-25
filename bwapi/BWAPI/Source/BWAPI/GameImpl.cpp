@@ -13,7 +13,6 @@
 #include <fstream>
 
 #include <Util/FileLogger.h>
-#include <Util/Sentence.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Foreach.h>
