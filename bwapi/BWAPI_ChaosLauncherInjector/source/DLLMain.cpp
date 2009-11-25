@@ -3,7 +3,7 @@
 #include <string>
 #include <assert.h>
 #include <shellapi.h>
-#include "..\\..\\svnrev.h"
+#include "../../svnrev.h"
 
 #define BWLAPI 4
 #define STARCRAFTBUILD 13
