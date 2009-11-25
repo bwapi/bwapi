@@ -1,6 +1,5 @@
 #include "ScreenLogger.h"
 
-#include "Globals.h"
 #include "GameImpl.h"
 
 namespace BWAPI

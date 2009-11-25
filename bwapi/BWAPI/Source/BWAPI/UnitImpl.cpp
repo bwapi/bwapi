@@ -11,7 +11,6 @@
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
-#include "Globals.h"
 #include "CommandTrain.h"
 #include "CommandBuild.h"
 #include "CommandAttackMove.h"

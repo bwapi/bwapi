@@ -1,7 +1,6 @@
 #include "PlayerImpl.h"
 #include "GameImpl.h"
 #include "UnitImpl.h"
-#include "Globals.h"
 
 #include <string>
 #include <Util/Bitmask.h>
