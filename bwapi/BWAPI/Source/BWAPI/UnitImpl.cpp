@@ -596,7 +596,7 @@ namespace BWAPI
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
   //-------------------------------------------- IS BEING MINED ----------------------------------------------
-  bool UnitImpl::isBeingMined() const
+  bool UnitImpl::isBeingGathered() const
   {
     if (!this->attemptAccess())
       return false;
@@ -604,7 +604,7 @@ namespace BWAPI
     if (!this->getType().isResourceContainer())
       return false;
 
-    return this->getRawDataLocal()->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingMined != 0;
+    return this->getRawDataLocal()->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
