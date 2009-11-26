@@ -576,7 +576,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (!this->_exists())
     {
-      if (this->savedPlayer==BroodwarImpl.self())
+      if (this->savedPlayer == BroodwarImpl.self())
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
       return false;
     }
@@ -594,6 +594,17 @@ namespace BWAPI
       return true;
 
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
+  }
+  //-------------------------------------------- IS BEING MINED ----------------------------------------------
+  bool UnitImpl::isBeingMined() const
+  {
+    if (!this->attemptAccess())
+      return false;
+    
+    if (!this->getType().isResourceContainer())
+      return false;
+
+    return this->getRawDataLocal()->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingMined != 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -2231,7 +2242,7 @@ namespace BWAPI
     {
       BroodwarImpl.setLastError(Errors::None);
       if (this->canAccess()) return true;
-      if (!this->_exists() && this->savedPlayer==BroodwarImpl.self())
+      if (!this->_exists() && this->savedPlayer == BroodwarImpl.self())
       {
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
         return false;

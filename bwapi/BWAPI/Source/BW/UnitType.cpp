@@ -292,7 +292,8 @@ namespace BW
   //----------------------------------------------- CAN ATTACK -----------------------------------------------
   bool UnitType::canAttack() const
   {
-    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Attack);
+    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Attack)
+           && (this->groundWeapon() != BW::WeaponID::None || this->airWeapon() != BW::WeaponID::None);
   }
   //------------------------------------------------ CAN MOVE ------------------------------------------------
   bool UnitType::canMove() const
