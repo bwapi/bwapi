@@ -39,7 +39,7 @@ namespace BWAPI
       errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
       errorName[Unit_Busy.getID()] = "Unit Busy";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
-      errorName[Incompatible_UnitType.getID()] = "Incompatible TechType";
+      errorName[Incompatible_TechType.getID()] = "Incompatible TechType";
       errorName[Already_Researched.getID()] = "Already Researched";
       errorName[Fully_Upgraded.getID()] = "Fully Upgraded";
       errorName[Insufficient_Minerals.getID()] = "Insufficient Minerals";
