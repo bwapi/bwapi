@@ -192,7 +192,7 @@ namespace BW
         {
           u16 resourceContained;
           u8  resourceIsScript;
-          u8  resourceCount;
+          u8  isBeingMined;
         } resourceUnitUnionSub;
       } unitUnion1Sub;
       /** Probably the connected nydius canal @todo investigate*/

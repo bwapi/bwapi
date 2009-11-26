@@ -116,6 +116,7 @@ namespace BWAPI
       virtual bool isUnpowered() const = 0;
       virtual bool isUpgrading() const = 0;
       virtual bool isVisible() const = 0;
+      virtual bool isBeingMined() const = 0;
 
       virtual bool attackMove(Position position) = 0;
       virtual bool attackUnit(Unit* target) = 0;
