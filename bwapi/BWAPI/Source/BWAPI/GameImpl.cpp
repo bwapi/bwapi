@@ -786,9 +786,8 @@ namespace BWAPI
         sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
       }
       this->client->onStart();
-      this->client->onFrame();
-      this->lockFlags();
       this->startedClient = true;
+      this->lockFlags();
     }
     this->client->onFrame();
     this->loadSelected();
