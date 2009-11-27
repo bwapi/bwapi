@@ -784,13 +784,13 @@ namespace BWAPI
   double UnitImpl::getVelocityX() const
   {
     if (!this->attemptAccess()) return 0;
-    return (double)this->getRawDataLocal()->current_speedX*0.00325576172;//scale to pixels per frame
+    return (double)this->getRawDataLocal()->current_speedX/256.0;//scale to pixels per frame
   }
   //---------------------------------------------- GET VELOCITY Y --------------------------------------------
   double UnitImpl::getVelocityY() const
   {
     if (!this->attemptAccess()) return 0;
-    return (double)this->getRawDataLocal()->current_speedY*0.00325576172;//scale to pixels per frame
+    return (double)this->getRawDataLocal()->current_speedY/256.0;//scale to pixels per frame
   }
   //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
