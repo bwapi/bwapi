@@ -725,7 +725,6 @@ namespace BWAPI
         for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
           this->commandBuffer[i][j]->execute();
 
-      this->frameCount++;
       this->updateUnits();
 
       if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
@@ -791,6 +790,7 @@ namespace BWAPI
     }
     this->client->onFrame();
     this->loadSelected();
+    this->frameCount++;
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
