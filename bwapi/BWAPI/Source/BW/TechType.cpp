@@ -51,8 +51,7 @@ namespace BW
         id == BW::TechID::UnusedTech33 ||
         id == BW::TechID::UnusedTech26)
       return false;
-    else
-      return true;
+    return true;
   }
   //------------------------------------------- GET MINERAL PRICE --------------------------------------------
   u16 TechType::getMineralPrice()

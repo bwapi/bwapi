@@ -1895,12 +1895,12 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
     }
-    if (this->getEnergy()<tech.energyUsed())
+    if (this->getEnergy() < tech.energyUsed())
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    bool found=false;
+    bool found = false;
     foreach (const UnitType* i, tech.whatUses())
       if (*i == this->getType())
         found = true;
