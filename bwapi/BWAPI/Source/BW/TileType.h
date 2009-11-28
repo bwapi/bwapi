@@ -14,7 +14,7 @@ namespace BW
       u16 leftEdge;
       u16 topEdge;
       u16 rightEdge;
-      u16 buttomEdge;
+      u16 bottomEdge;
       u16 _1;
       u16 _2; /**<  Unknown - Edge piece has rows above it. (Recently noticed; not fully understood.)
                     o 1 = Basic edge piece.
