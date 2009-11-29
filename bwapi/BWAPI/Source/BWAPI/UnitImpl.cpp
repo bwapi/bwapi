@@ -524,7 +524,7 @@ namespace BWAPI
   bool UnitImpl::isStartingAttack() const
   {
     if (!this->attemptAccess()) return false;
-    return this->getRawDataLocal()->movementFlags.getBit(BW::MovementFlags::StartingAttack);
+    return this->startingAttack;
   }
   //----------------------------------------------- IS STASISED ----------------------------------------------
   bool UnitImpl::isStasised() const
