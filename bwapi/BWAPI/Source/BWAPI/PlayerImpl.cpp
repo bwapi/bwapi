@@ -269,6 +269,10 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return false;
     }
+    if (*tech.whatResearches()==UnitTypes::None)
+    {
+      return true;
+    }
     if (tech.getID() < 0x18)
       return *((u8*)(BW::BWDATA_TechResearchSC + this->getID() * 0x18 + tech.getID())) == 1;
     else
