@@ -254,6 +254,9 @@ namespace BWAPI
       UnitType lastType;
       Player* lastPlayer;
       bool nukeDetected;
+      bool startingAttack;
+      int lastAirWeaponCooldown;
+      int lastGroundWeaponCooldown;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */

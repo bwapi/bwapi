@@ -1502,6 +1502,9 @@ namespace BWAPI
         if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
           renegadeUnits.push_back(i);
       }
+      i->startingAttack=i->getAirWeaponCooldown()>i->lastAirWeaponCooldown || i->getGroundWeaponCooldown()>i->lastGroundWeaponCooldown;
+      i->lastAirWeaponCooldown=i->getAirWeaponCooldown();
+      i->lastGroundWeaponCooldown=i->getGroundWeaponCooldown();
       i->lastType   = i->_getType();
       i->lastPlayer = i->_getPlayer();
 
