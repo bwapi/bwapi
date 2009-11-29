@@ -10,6 +10,7 @@ namespace BWAPI { class UnitImpl; }
 namespace BWAPI { class Command; }
 namespace BWAPI { class AIModule; }
 
+
 #include "BWAPI/Game.h"
 
 #include <vector>
@@ -207,10 +208,12 @@ namespace BWAPI
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
 
+      //doesn't check user input flag
       int _getMouseX() const;
       int _getMouseY() const;
       int _getScreenX() const;
       int _getScreenY() const;
+
       void addShape(Shape* s);
       std::vector<Shape*> shapes;
       std::vector<Shape*> cachedShapes;
@@ -220,6 +223,7 @@ namespace BWAPI
       std::set<int> invalidIndices;
       bool flagsLocked;
       bool inUpdate;
+      std::list<std::string > interceptedMessages;
     private :
       HMODULE hMod;
       void saveSelected();

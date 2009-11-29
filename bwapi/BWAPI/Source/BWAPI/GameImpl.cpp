@@ -789,6 +789,13 @@ namespace BWAPI
       this->lockFlags();
     }
     this->client->onFrame();
+    for(std::list< std::string >::iterator i=this->interceptedMessages.begin();i!=this->interceptedMessages.end();i++)
+    {
+      bool send=!BroodwarImpl.onSendText(i->c_str());
+      if (send)
+        BroodwarImpl.sendText(i->c_str());
+    }
+    this->interceptedMessages.clear();
     this->loadSelected();
     this->frameCount++;
   }
@@ -919,6 +926,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
+    char* txtout = buffer;
 
     if (_isReplay())
     {
@@ -932,7 +940,6 @@ namespace BWAPI
       return;
     }
 
-    char* txtout = buffer;
     if (inGame())
     {
       memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
@@ -957,6 +964,7 @@ namespace BWAPI
         call [BW::BWFXN_SendPublicCallTarget]
         popad
       }
+
     }
     else
       __asm

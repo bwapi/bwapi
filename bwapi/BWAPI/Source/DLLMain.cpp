@@ -17,7 +17,6 @@
 #include "BWAPI.h"
 #include "BWAPI/DLLMain.h"
 #include "BWAPI/Shape.h"
-
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
 DWORD removedUnit;
@@ -89,68 +88,29 @@ void __declspec(naked)  nextFrameHook()
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
 char* text;
 bool sendToBW;
+std::string msg;
 void __declspec(naked) onSendText()
 {
 #ifdef __MINGW32__
-  __asm__("mov _eaxSave, %eax\n"
-      "mov _ebxSave, %ebx\n"
-      "mov _ecxSave, %ecx\n"
-      "mov _edxSave, %edx\n"
-      "mov _esiSave, %esi\n"
-      "mov _ediSave, %edi\n"
-      "mov _espSave, %esp\n"
-      "mov _ebpSave, %ebp\n"
-      "mov _text, %esi"
-     );
-  sendToBW = true;
+  __asm__("mov _text, %esi");
   if (!BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
-    sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-
-  if (sendToBW)
-    __asm__("mov %eax, _eaxSave\n"
-        "mov %ebx, _ebxSave\n"
-        "mov %ecx, _ecxSave\n"
-        "mov %edx, _edxSave\n"
-        "mov %esi, _esiSave\n"
-        "mov %edi, _ediSave\n"
-        "mov %esp, _espSave\n"
-        "mov %ebp, _ebpSave\n"
-        "call [BW::BWFXN_SendPublicCallTarget]"
-       );
+  {
+    msg=text;
+    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+  }
 
   text[0] = 0;
   __asm__("jmp [BW::BWFXN_SendPublicCallBack]");
 #else
   __asm
   {
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-    mov ebpSave, ebp
     mov text, esi
   }
-  sendToBW = true;
   if (!BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
-    sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-
-  if (sendToBW)
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-      call [BW::BWFXN_SendPublicCallTarget]
-    }
-
+  {
+    msg=text;
+    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+  }
   text[0] = 0;
   __asm jmp [BW::BWFXN_SendPublicCallBack]
 #endif
@@ -158,62 +118,23 @@ void __declspec(naked) onSendText()
 void __declspec(naked) onSendSingle()
 {
 #ifdef __MINGW32__
-  __asm__("mov _eaxSave, %eax\n"
-      "mov _ebxSave, %ebx\n"
-      "mov _ecxSave, %ecx\n"
-      "mov _edxSave, %edx\n"
-      "mov _esiSave, %esi\n"
-      "mov _ediSave, %edi\n"
-      "mov _espSave, %esp\n"
-      "mov _ebpSave, %ebp\n"
-      "mov _text, %edx"
-     );
-  sendToBW = true;
+  __asm__("mov _text, %edx");
   if (BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
-    sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-
-  if (sendToBW)
-    __asm__("mov %eax, _eaxSave\n"
-        "mov %ebx, _ebxSave\n"
-        "mov %ecx, _ecxSave\n"
-        "mov %edx, _edxSave\n"
-        "mov %esi, _esiSave\n"
-        "mov %edi, _ediSave\n"
-        "mov %esp, _espSave\n"
-        "mov %ebp, _ebpSave\n"
-        "call [BW::BWFXN_SendTextCallTarget]"
-       );
+  {
+    msg=text;
+    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+  }
   __asm__("jmp [BW::BWFXN_SendTextCallBack]");
 #else
   __asm
   {
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-    mov ebpSave, ebp
     mov text, edx
   }
-  sendToBW = true;
   if (BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
-    sendToBW &= !BWAPI::BroodwarImpl.onSendText(text);
-
-  if (sendToBW)
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-      call [BW::BWFXN_SendTextCallTarget]
-    }
+  {
+    msg=text;
+    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+  }
   __asm jmp [BW::BWFXN_SendTextCallBack]
 #endif
 }
@@ -230,19 +151,16 @@ void __declspec(naked) onSendLobby()
       "mov _ebpSave, %ebp\n"
       "mov _text, %edi"
      );
-  sendToBW = !BWAPI::BroodwarImpl.onSendText(text);
-  if (sendToBW)
-    __asm__("mov %eax, _eaxSave\n"
-        "mov %ebx, _ebxSave\n"
-        "mov %ecx, _ecxSave\n"
-        "mov %edx, _edxSave\n"
-        "mov %esi, _esiSave\n"
-        "mov %edi, _ediSave\n"
-        "mov %esp, _espSave\n"
-        "mov %ebp, _ebpSave\n"
-        "call [BW::BWFXN_SendLobbyCallTarget]"
-       );
-
+  __asm__("mov %eax, _eaxSave\n"
+      "mov %ebx, _ebxSave\n"
+      "mov %ecx, _ecxSave\n"
+      "mov %edx, _edxSave\n"
+      "mov %esi, _esiSave\n"
+      "mov %edi, _ediSave\n"
+      "mov %esp, _espSave\n"
+      "mov %ebp, _ebpSave\n"
+      "call [BW::BWFXN_SendLobbyCallTarget]"
+     );
   __asm__("mov %eax, _eaxSave\n"
       "mov %ebx, _ebxSave\n"
       "mov %ecx, _ecxSave\n"
@@ -266,21 +184,18 @@ void __declspec(naked) onSendLobby()
     mov ebpSave, ebp
     mov text, edi
   }
-  sendToBW = !BWAPI::BroodwarImpl.onSendText(text);
-  if (sendToBW)
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-      call [BW::BWFXN_SendLobbyCallTarget]
-    }
-
+  __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
+    call [BW::BWFXN_SendLobbyCallTarget]
+  }
   __asm
   {
     mov eax, eaxSave
