@@ -338,13 +338,13 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   h = _h;
   if (ctype == 2)
   {
-    x -= BWAPI::BroodwarImpl._getScreenX();
-    y -= BWAPI::BroodwarImpl._getScreenY();
+    x -= *(BW::BWDATA_ScreenX);
+    y -= *(BW::BWDATA_ScreenY);
   }
   else if (ctype == 3)
   {
-    x += BWAPI::BroodwarImpl._getMouseX();
-    y += BWAPI::BroodwarImpl._getMouseY();
+    x += *(BW::BWDATA_MouseX);
+    y += *(BW::BWDATA_MouseY);
   }
   if (x + w <= 0 || y + h <= 0 || x >= 639 || y >= 479)
     return;
@@ -389,13 +389,13 @@ void drawDot(int _x, int _y, int color, int ctype)
   h = 1;
   if (ctype == 2)
   {
-    x -= BWAPI::BroodwarImpl._getScreenX();
-    y -= BWAPI::BroodwarImpl._getScreenY();
+    x -= *(BW::BWDATA_ScreenX);
+    y -= *(BW::BWDATA_ScreenY);
   }
   else if (ctype == 3)
   {
-    x += BWAPI::BroodwarImpl._getMouseX();
-    y += BWAPI::BroodwarImpl._getMouseY();
+    x += *(BW::BWDATA_MouseX);
+    y += *(BW::BWDATA_MouseY);
   }
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
@@ -431,16 +431,17 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
 {
   if (ctype == 2)
   {
-    _x -= BWAPI::BroodwarImpl._getScreenX();
-    _y -= BWAPI::BroodwarImpl._getScreenY();
+    _x -= *(BW::BWDATA_ScreenX);
+    _y -= *(BW::BWDATA_ScreenY);
   }
   else if (ctype == 3)
   {
-    _x += BWAPI::BroodwarImpl._getMouseX();
-    _y += BWAPI::BroodwarImpl._getMouseY();
+    _x += *(BW::BWDATA_MouseX);
+    _y += *(BW::BWDATA_MouseY);
   }
   if (_x<0 || _y<0 || _x>640 || _y>400) return;
   int temp = 0;
+  /* @todo: this looks retarded, and probably not all of it is necessary */
   DWORD temp_ptr = (DWORD)&temp;
   *BW::BWDATA_PrintXY_Unknown1 = 0x21;
   *BW::BWDATA_PrintXY_Unknown2 = 0x00D8;

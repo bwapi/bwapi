@@ -672,14 +672,13 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
         unitList.push_back(i);
 
-      if (false)//change to true to show attacks
+/*
+      for(BW::AttackType *curritem = *BW::BWDATA_AttackNodeTable_FirstElement ; curritem; curritem = curritem->next)
       {
-        for(BW::AttackType *curritem = *BW::BWDATA_AttackNodeTable_FirstElement ; curritem; curritem = curritem->next)
-        {
-          Broodwar->drawTextMap(curritem->pos_x, curritem->pos_y, "%s frames: %d", AttackType(curritem->type).getName().c_str(), curritem->time_left>>8);
-          Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
-        }
+        Broodwar->drawTextMap(curritem->pos_x, curritem->pos_y, "%s frames: %d", AttackType(curritem->type).getName().c_str(), curritem->time_left>>8);
+        Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
       }
+*/
 
       foreach (UnitImpl* i, unitList)
       {
@@ -1238,34 +1237,37 @@ namespace BWAPI
   //----------------------------------------------- START GAME -----------------------------------------------
   void  GameImpl::startGame()
   {
+    /* Starts the game as a lobby host */
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
   void  GameImpl::pauseGame()
   {
+    /* Pauses the game */
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
   void  GameImpl::resumeGame()
   {
+    /* Resumes the game */
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
   void  GameImpl::leaveGame()
   {
+    /* Leaves the current game. Moves directly to the post-game score screen */
     this->setLastError(Errors::None);
     *BW::BWDATA_GameState = 0;
     *BW::BWDATA_GamePosition = 6;
-   // *BW::BWDATA_NextMenu = 1;
-   // BW::changeMenu();
   }
   //--------------------------------------------- RESTART GAME -----------------------------------------------
   void  GameImpl::restartGame()
   {
-    /* Does not work on Battle.net */
+    /* Restarts the current match 
+       Does not work on Battle.net */
     this->setLastError(Errors::None);
     *BW::BWDATA_GameState = 0;
     *BW::BWDATA_GamePosition = 5;
@@ -1273,6 +1275,7 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int  GameImpl::getMouseX()
   {
+    /* Retrieves the mouse's X coordinate */
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
     {
@@ -1284,6 +1287,7 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int  GameImpl::getMouseY()
   {
+    /* Retrieves the mouse's Y coordinate */
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
     {
@@ -1295,6 +1299,7 @@ namespace BWAPI
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int  GameImpl::getScreenX()
   {
+    /* Retrieves the screen's X coordinate in relation to the map */
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
     {
@@ -1306,6 +1311,7 @@ namespace BWAPI
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int  GameImpl::getScreenY()
   {
+    /* Retrieves the screen's Y coordinate in relation to the map */
     this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
     {
@@ -1317,29 +1323,10 @@ namespace BWAPI
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
+    /* Sets the screen's position in relation to the map */
     this->setLastError(Errors::None);
     *(BW::BWDATA_ScreenX) = x;
     *(BW::BWDATA_ScreenY) = y;
-  }
-  //---------------------------------------------- GET MOUSE X -----------------------------------------------
-  int GameImpl::_getMouseX() const
-  {
-    return *(BW::BWDATA_MouseX);
-  }
-  //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-  int GameImpl::_getMouseY() const
-  {
-    return *(BW::BWDATA_MouseY);
-  }
-  //---------------------------------------------- GET SCREEN X ----------------------------------------------
-  int GameImpl::_getScreenX() const
-  {
-    return *(BW::BWDATA_ScreenX);
-  }
-  //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-  int GameImpl::_getScreenY() const
-  {
-    return *(BW::BWDATA_ScreenY);
   }
   //----------------------------------------------------------------------------------------------------------
   void GameImpl::refresh()
@@ -1373,7 +1360,7 @@ namespace BWAPI
   {
     int unitCount = 0;
     while (savedSelectionStates[unitCount] != NULL)
-      unitCount ++;
+      unitCount++;
     BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
@@ -1390,6 +1377,7 @@ namespace BWAPI
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void GameImpl::onUnitDeath(BWAPI::UnitImpl* unit)
   {
+    /* Called when a unit dies(death animation), not when it is removed */
     int index = unit->getIndex();
     if (!unit->alive) return;
     this->units.erase(unit);
@@ -1404,21 +1392,17 @@ namespace BWAPI
       this->inUpdate = false;
       if (unit != NULL && unit->canAccessSpecial())
       {
-        unit->makeVisible=true;
+        unit->makeVisible = true;
         if (unit->lastVisible)
-        {
           this->client->onUnitHide(unit);
-        }
         this->client->onUnitDestroy(unit);
 
-		// notify the client that the units in the transport died
-		std::list<Unit*> loadedUnits = unit->getLoadedUnits();
-		for(std::list<Unit*>::iterator itor=loadedUnits.begin(); itor != loadedUnits.end(); ++itor)
-		{
-			this->client->onUnitDestroy(*itor);
-		}
+		    /* notify the client that the units in the transport died */
+        std::list<Unit*> loadedList = unit->getLoadedUnits();
+		    foreach(Unit* loaded, loadedList)
+			    this->client->onUnitDestroy(loaded);
 
-        unit->makeVisible=false;
+        unit->makeVisible = false;
       }
 
       this->inUpdate = isInUpdate;
@@ -1428,12 +1412,13 @@ namespace BWAPI
   }
   void GameImpl::onUnitDeath(BW::Unit* unit)
   {
+    /* index as seen in Starcraft */
     u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
     if (index > BW::UNIT_ARRAY_MAX_LENGTH)
     {
       if (this->invalidIndices.find(index) == this->invalidIndices.end())
       {
-        this->newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x",index,unit);
+        this->newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x", index, unit);
         this->invalidIndices.insert(index);
       }
       return;
@@ -1447,7 +1432,7 @@ namespace BWAPI
     if (this->client != NULL)
     {
       this->inUpdate = false;
-      if (unit!=NULL && ((UnitImpl*)unit)->canAccess())
+      if (unit != NULL && ((UnitImpl*)unit)->canAccess())
         this->client->onUnitCreate(unit);
 
       this->inUpdate = true;
@@ -1461,10 +1446,14 @@ namespace BWAPI
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   int GameImpl::getLatency()
   {
+    /* Returns the real latency values */
+
+    /* Error checking */
     this->setLastError(Errors::None);
     if (_isSinglePlayer())
       return BWAPI::Latency::SinglePlayer;
 
+    /* Lame options checking */
     switch(*BW::BWDATA_Latency)
     {
       case 0:
@@ -1481,10 +1470,12 @@ namespace BWAPI
   void GameImpl::updateUnits()
   {
     this->inUpdate = false;
+    /* Clear all units on tile data */
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
 
+    /* Clear other stuff */
     this->allUnits.clear();
     this->minerals.clear();
     this->geysers.clear();
@@ -1535,11 +1526,11 @@ namespace BWAPI
         if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
           renegadeUnits.push_back(i);
       }
-      i->startingAttack=i->getAirWeaponCooldown()>i->lastAirWeaponCooldown || i->getGroundWeaponCooldown()>i->lastGroundWeaponCooldown;
-      i->lastAirWeaponCooldown=i->getAirWeaponCooldown();
-      i->lastGroundWeaponCooldown=i->getGroundWeaponCooldown();
-      i->lastType   = i->_getType();
-      i->lastPlayer = i->_getPlayer();
+      i->startingAttack           = i->getAirWeaponCooldown() > i->lastAirWeaponCooldown || i->getGroundWeaponCooldown() > i->lastGroundWeaponCooldown;
+      i->lastAirWeaponCooldown    = i->getAirWeaponCooldown();
+      i->lastGroundWeaponCooldown = i->getGroundWeaponCooldown();
+      i->lastType                 = i->_getType();
+      i->lastPlayer               = i->_getPlayer();
 
       if (!i->lastVisible && i->isVisible())
       {
@@ -1573,21 +1564,21 @@ namespace BWAPI
         }
       }
     }
+
+    /* Pass all renegade units to the AI client */
     foreach (BWAPI::UnitImpl* i, renegadeUnits)
-    {
       if (this->client)
         this->client->onUnitRenegade(i);
-    }
+
+    /* Pass all morphing units to the AI client */
     foreach (BWAPI::UnitImpl* i, morphUnits)
-    {
       if (this->client)
         this->client->onUnitMorph(i);
-    }
+
     foreach (BWAPI::UnitImpl* i, showUnits)
-    {
       if (this->client)
         this->client->onUnitShow(i);
-    }
+
     foreach (BWAPI::UnitImpl* i, hideUnits)
     {
       if (this->client)
@@ -1597,17 +1588,20 @@ namespace BWAPI
         i->makeVisible = false;
       }
     }
+
     this->inUpdate = true;
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int  GameImpl::getFrameCount()
   {
+    /* Retrieves the number of frames since game start */
     this->setLastError(Errors::None);
     return this->frameCount;
   }
   //--------------------------------------------- UNITS ON TILE ----------------------------------------------
   std::set<Unit*>& GameImpl::unitsOnTile(int x, int y)
   {
+    /* Retrieves a set of units that are on the specified tile */
     this->setLastError(Errors::None);
     if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
       return this->emptySet;
@@ -1622,77 +1616,100 @@ namespace BWAPI
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
   Error  GameImpl::getLastError() const
   {
+    /* returns the last error encountered in BWAPI */
     return this->lastError;
   }
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
   void GameImpl::setLastError(BWAPI::Error e)
   {
+    /* implies that an error has occured */
     this->lastError = e;
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool  GameImpl::isFlagEnabled(int flag)
   {
+    /* checks if a BWAPI flag is enabled */
     this->setLastError(Errors::None);
     return this->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
   void  GameImpl::enableFlag(int flag)
   {
+    /* Enable the specified flag */
+
+    /* Error checking */
     this->setLastError(Errors::None);
     if (this->flagsLocked == true)
     {
       this->sendText("Flags can only be enabled at the start of a game.");
       return;
     }
-    this->flags[flag] = true;
-    if (flag == BWAPI::Flag::CompleteMapInformation)
+
+    if (flag >= BWAPI::FLAG_COUNT)
     {
-      this->sendText("Enabled Flag CompleteMapInformation");
+      this->sendText("Invalid flag (%d).", flag);
+      return;
     }
-    if (flag == BWAPI::Flag::UserInput)
+
+    /* Modify flag state */
+    this->flags[flag] = true;
+    switch(flag)
     {
+    case BWAPI::Flag::CompleteMapInformation:
+      this->sendText("Enabled Flag CompleteMapInformation");
+      break;
+    case BWAPI::Flag::UserInput:
       this->sendText("Enabled Flag UserInput");
+      break;
     }
   }
   //-------------------------------------------------- LOCK FLAGS --------------------------------------------
   void GameImpl::lockFlags()
   {
+    /* Prevent BWAPI flags from being modified */
     this->flagsLocked = true;
   }
   //----------------------------------------------------- SELF -----------------------------------------------
   Player*  GameImpl::self()
   {
+    /* Retrieves the class for the current player */
     this->setLastError(Errors::None);
     return (Player*)this->BWAPIPlayer;
   }
   //----------------------------------------------------- ENEMY ----------------------------------------------
   Player*  GameImpl::enemy()
   {
+    /* Retrieves the class for the first opponent player */
     this->setLastError(Errors::None);
     return (Player*)this->opponent;
   }
   //----------------------------------------------------- DRAW -----------------------------------------------
   void GameImpl::addShape(Shape* s)
   {
+    /* Adds a shape to the draw queue */
     this->shapes.push_back(s);
   }
   void  GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
+    /* Draws a box */
     if (!inScreen(ctype,left,top,right,bottom)) return;
     addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
   }
   void  GameImpl::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
+    /* Draws a box in relation to the map */
     if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
     addShape(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
   }
   void  GameImpl::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
+    /* Draws a box in relation to the mouse */
     if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
     addShape(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
   }
   void  GameImpl::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
+    /* Draws a box in relation to the screen */
     if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
     addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
   }
@@ -1864,13 +1881,13 @@ namespace BWAPI
     int screen_y1 = y;
     if (ctype == 2)
     {
-      screen_x1 -= BWAPI::BroodwarImpl._getScreenX();
-      screen_y1 -= BWAPI::BroodwarImpl._getScreenY();
+      screen_x1 -= *(BW::BWDATA_ScreenX);
+      screen_y1 -= *(BW::BWDATA_ScreenY);
     }
     else if (ctype == 3)
     {
-      screen_x1 += BWAPI::BroodwarImpl._getMouseX();
-      screen_y1 += BWAPI::BroodwarImpl._getMouseY();
+      screen_x1 += *(BW::BWDATA_MouseX);
+      screen_y1 += *(BW::BWDATA_MouseY);
     }
     if (screen_x1 < 0   || screen_y1 < 0 ||
         screen_x1 > 640 || screen_y1 > 480) return false;
@@ -1885,17 +1902,17 @@ namespace BWAPI
     int screen_y2 = y2;
     if (ctype == 2)
     {
-      screen_x1 -= BWAPI::BroodwarImpl._getScreenX();
-      screen_y1 -= BWAPI::BroodwarImpl._getScreenY();
-      screen_x2 -= BWAPI::BroodwarImpl._getScreenX();
-      screen_y2 -= BWAPI::BroodwarImpl._getScreenY();
+      screen_x1 -= *(BW::BWDATA_ScreenX);
+      screen_y1 -= *(BW::BWDATA_ScreenY);
+      screen_x2 -= *(BW::BWDATA_ScreenX);
+      screen_y2 -= *(BW::BWDATA_ScreenY);
     }
     else if (ctype == 3)
     {
-      screen_x1 += BWAPI::BroodwarImpl._getMouseX();
-      screen_y1 += BWAPI::BroodwarImpl._getMouseY();
-      screen_x2 += BWAPI::BroodwarImpl._getMouseX();
-      screen_y2 += BWAPI::BroodwarImpl._getMouseY();
+      screen_x1 += *(BW::BWDATA_MouseX);
+      screen_y1 += *(BW::BWDATA_MouseY);
+      screen_x2 += *(BW::BWDATA_MouseX);
+      screen_y2 += *(BW::BWDATA_MouseY);
     }
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
@@ -1914,21 +1931,21 @@ namespace BWAPI
     int screen_y3 = y3;
     if (ctype == 2)
     {
-      screen_x1 -= BWAPI::BroodwarImpl._getScreenX();
-      screen_y1 -= BWAPI::BroodwarImpl._getScreenY();
-      screen_x2 -= BWAPI::BroodwarImpl._getScreenX();
-      screen_y2 -= BWAPI::BroodwarImpl._getScreenY();
-      screen_x3 -= BWAPI::BroodwarImpl._getScreenX();
-      screen_y3 -= BWAPI::BroodwarImpl._getScreenY();
+      screen_x1 -= *(BW::BWDATA_ScreenX);
+      screen_y1 -= *(BW::BWDATA_ScreenY);
+      screen_x2 -= *(BW::BWDATA_ScreenX);
+      screen_y2 -= *(BW::BWDATA_ScreenY);
+      screen_x3 -= *(BW::BWDATA_ScreenX);
+      screen_y3 -= *(BW::BWDATA_ScreenY);
     }
     else if (ctype == 3)
     {
-      screen_x1 += BWAPI::BroodwarImpl._getMouseX();
-      screen_y1 += BWAPI::BroodwarImpl._getMouseY();
-      screen_x2 += BWAPI::BroodwarImpl._getMouseX();
-      screen_y2 += BWAPI::BroodwarImpl._getMouseY();
-      screen_x3 += BWAPI::BroodwarImpl._getMouseX();
-      screen_y3 += BWAPI::BroodwarImpl._getMouseY();
+      screen_x1 += *(BW::BWDATA_MouseX);
+      screen_y1 += *(BW::BWDATA_MouseY);
+      screen_x2 += *(BW::BWDATA_MouseX);
+      screen_y2 += *(BW::BWDATA_MouseY);
+      screen_x3 += *(BW::BWDATA_MouseX);
+      screen_y3 += *(BW::BWDATA_MouseY);
     }
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
