@@ -818,6 +818,11 @@ namespace BWAPI
     this->loadSelected();
     this->frameCount++;
   }
+  //---------------------------------------------- ON MENU FRAME ---------------------------------------------
+  void GameImpl::onMenuFrame()
+  {
+   // Util::Logger::globalLog->logCritical("Inside menu! :D");
+  }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
   {

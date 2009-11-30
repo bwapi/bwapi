@@ -85,6 +85,62 @@ void __declspec(naked)  nextFrameHook()
 #endif
 }
 
+//--------------------------------------------- MENU FRAME HOOK ----------------------------------------------
+DWORD menu_eaxSave, menu_ebxSave, menu_ecxSave, menu_edxSave, menu_esiSave, menu_ediSave, menu_espSave, menu_ebpSave;
+void __declspec(naked)  menuFrameHook()
+{
+  //not sure if all these registers need to be saved, but just to be safe.
+#ifdef __MINGW32__
+  __asm__("call [BW::BWFXN_NextMenuFrameTarget]\n"
+      "mov menu_eaxSave, %eax\n"
+      "mov menu_ebxSave, %ebx\n"
+      "mov menu_ecxSave, %ecx\n"
+      "mov menu_edxSave, %edx\n"
+      "mov menu_esiSave, %esi\n"
+      "mov menu_ediSave, %edi\n"
+      "mov menu_espSave, %esp\n"
+      "mov menu_ebpSave, %ebp\n"
+     );
+  BWAPI::BroodwarImpl.onMenuFrame();
+  __asm__("mov %eax, menu_eaxSave\n"
+    "mov %ebx, menu_ebxSave\n"
+    "mov %ecx, menu_ecxSave\n"
+    "mov %edx, menu_edxSave\n"
+    "mov %esi, menu_esiSave\n"
+    "mov %edi, menu_ediSave\n"
+    "mov %esp, menu_espSave\n"
+    "mov %ebp, menu_ebpSave\n"
+      "jmp [BW::BWFXN_NextMenuFrameBack]"
+     );
+#else
+  __asm
+  {
+    call [BW::BWFXN_NextMenuFrameTarget]
+    mov menu_eaxSave, eax
+    mov menu_ebxSave, ebx
+    mov menu_ecxSave, ecx
+    mov menu_edxSave, edx
+    mov menu_esiSave, esi
+    mov menu_ediSave, edi
+    mov menu_espSave, esp
+    mov menu_ebpSave, ebp
+  }
+  BWAPI::BroodwarImpl.onMenuFrame();
+  __asm
+  {
+    mov eax, menu_eaxSave
+    mov ebx, menu_ebxSave
+    mov ecx, menu_ecxSave
+    mov edx, menu_edxSave
+    mov esi, menu_esiSave
+    mov edi, menu_ediSave
+    mov esp, menu_espSave
+    mov ebp, menu_ebpSave
+    jmp [BW::BWFXN_NextMenuFrameBack]
+  }
+#endif
+}
+
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
 char* text;
 bool sendToBW;
@@ -675,6 +731,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
   JmpCallPatch((void*)&nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
+  JmpCallPatch((void*)&menuFrameHook,  BW::BWFXN_NextMenuFrame,   0);
   JmpCallPatch((void*)&onGameEnd,      BW::BWFXN_GameEnd,         0);
   JmpCallPatch((void*)&onUnitDeath,    BW::BWFXN_KillUnit,        0);
   JmpCallPatch((void*)&onSendText,     BW::BWFXN_SendPublicCall,  0);
