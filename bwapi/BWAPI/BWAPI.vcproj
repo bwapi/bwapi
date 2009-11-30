@@ -195,6 +195,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\Source\BW\CheatType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\DoodatType.h"
 					>
 				</File>
@@ -267,6 +271,10 @@
 				Name="Source files"
 				>
 				<File
+					RelativePath=".\Source\BW\CheatType.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Position.cpp"
 					>
 				</File>
@@ -312,6 +320,10 @@
 				>
 				<File
 					RelativePath=".\Source\BW\BNETCommands.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\CheatFlags.h"
 					>
 				</File>
 				<File

@@ -438,11 +438,19 @@ namespace BW
     class SendText
     {
       public :
-        SendText();
+        SendText(u8 playerID, const char* msg);
       private :
         u8 always0x5C;
         u8 playerID;
-        char* msg;
+        const char* msg;
+    };
+    class UseCheat
+    {
+      public :
+        UseCheat(u32 flags);
+      private :
+        u8 always0x12;
+        u32 flags;
     };
 
     class CancelTrain
