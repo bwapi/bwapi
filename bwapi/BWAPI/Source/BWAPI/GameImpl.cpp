@@ -1395,12 +1395,13 @@ namespace BWAPI
         unit->makeVisible = true;
         if (unit->lastVisible)
           this->client->onUnitHide(unit);
-        this->client->onUnitDestroy(unit);
 
-		    /* notify the client that the units in the transport died */
+        /* notify the client that the units in the transport died */
         std::list<Unit*> loadedList = unit->getLoadedUnits();
 		    foreach(Unit* loaded, loadedList)
-			    this->client->onUnitDestroy(loaded);
+			    this->onUnitDeath((UnitImpl*)loaded);
+
+        this->client->onUnitDestroy(unit);
 
         unit->makeVisible = false;
       }
