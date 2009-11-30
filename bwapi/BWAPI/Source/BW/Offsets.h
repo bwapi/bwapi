@@ -271,6 +271,10 @@ namespace BW
   static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;
   static u32            BWFXN_NextLogicFrameTarget                = 0x00488780;
 
+  static u32            BWFXN_NextMenuFrame                       = 0x0041A0D3;
+  static u32            BWFXN_NextMenuFrameBack                   = BWFXN_NextMenuFrame + 5;
+  static u32            BWFXN_NextMenuFrameTarget                 = 0x004D1BF0;
+
   static u32            BWDATA_UpgradeLevelSC                     = 0x0058D2B0;
   static u32            BWDATA_UpgradeLevelBW                     = 0x0058F32C;
   static u32            BWDATA_TechResearchSC                     = 0x0058CF44;

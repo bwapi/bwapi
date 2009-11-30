@@ -170,6 +170,7 @@ namespace BWAPI
       GameImpl();
       ~GameImpl();
       void update(); /**< Updates unitArrayCopy according to bw memory */
+      void onMenuFrame();
       PlayerImpl* players[12];
       void setScreenPosition(int x, int y);
       /**
