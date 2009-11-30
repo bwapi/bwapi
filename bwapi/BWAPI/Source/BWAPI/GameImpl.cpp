@@ -38,6 +38,7 @@
 #include <BW/UnitType.h>
 #include <BW/GameType.h>
 #include <BW/WeaponType.h>
+#include <BW/CheatType.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -865,6 +866,20 @@ namespace BWAPI
 
     char* txtout = buffer;
     if (inGame() || _isReplay())
+    {
+      if (!isMultiplayer())
+      {
+        BW::CheatFlags::Enum cheatID=BW::getCheatFlag(text);
+        if (cheatID!=BW::CheatFlags::None)
+        {
+          this->cheatFlags ^= cheatID;
+          BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+          if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
+              cheatID==BW::CheatFlags::BreateDeep ||
+              cheatID==BW::CheatFlags::WhatsMineIsMine)
+            this->cheatFlags ^= cheatID;
+        }
+      }
 #ifdef __MINGW32__
       __asm__("pushad\n"
               "push 0\n"
@@ -884,6 +899,7 @@ namespace BWAPI
         popad
       }
 #endif
+    }
     else
       printf(txtout); // until lobby print private text is found
   }
@@ -1217,6 +1233,7 @@ namespace BWAPI
       unitArray[i]->lastPlayer=NULL;
       unitArray[i]->nukeDetected=false;
     }
+    this->cheatFlags=0;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void  GameImpl::startGame()
