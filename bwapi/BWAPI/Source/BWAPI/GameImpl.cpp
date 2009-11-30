@@ -1410,6 +1410,14 @@ namespace BWAPI
           this->client->onUnitHide(unit);
         }
         this->client->onUnitDestroy(unit);
+
+		// notify the client that the units in the transport died
+		std::list<Unit*> loadedUnits = unit->getLoadedUnits();
+		for(std::list<Unit*>::iterator itor=loadedUnits.begin(); itor != loadedUnits.end(); ++itor)
+		{
+			this->client->onUnitDestroy(*itor);
+		}
+
         unit->makeVisible=false;
       }
 
