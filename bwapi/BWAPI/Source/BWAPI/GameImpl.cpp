@@ -283,6 +283,11 @@ namespace BWAPI
     int height=type.tileHeight();
     if (position.x()+width>this->mapWidth()) return false;
     if (position.y()+height>=this->mapHeight()) return false;
+    if (position.y()+height==this->mapHeight()-1)
+    {
+      if (position.x()<5) return false;
+      if (position.x()+width>this->mapWidth()-5) return false;
+    }
     if (type.isRefinery())
     {
       foreach (Unit* g, getGeysers())
