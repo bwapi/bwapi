@@ -18,7 +18,7 @@ namespace BWAPI
     public :
       virtual int getID() const = 0;
       virtual std::string getName() const = 0;
-      virtual std::set<Unit*>& getUnits() = 0;
+      virtual const std::set<Unit*>& getUnits() const = 0;
       virtual Race getRace() const = 0;
       virtual PlayerType playerType() const = 0;
       virtual Force* getForce() const = 0;

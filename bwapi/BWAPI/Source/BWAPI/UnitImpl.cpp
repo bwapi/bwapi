@@ -1089,7 +1089,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
+    if (this->isLifted() || !this->isCompleted())
     {
       BroodwarImpl.setLastError(Errors::Unit_Busy);
       return false;

@@ -36,7 +36,7 @@ namespace BWAPI
     return std::string(BW::BWDATA_Players->player[this->getID()].name);
   }
   //----------------------------------------------- GET UNITS ------------------------------------------------
-  std::set<Unit*>& PlayerImpl::getUnits()
+  const std::set<Unit*>& PlayerImpl::getUnits() const
   {
     BroodwarImpl.setLastError(Errors::None);
     return this->units;
