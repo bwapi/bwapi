@@ -52,15 +52,17 @@ namespace BWAPI
       virtual std::string mapName() = 0;
       virtual int getMapHash() = 0;
 
-      virtual bool buildable(int x, int y) = 0;
-      virtual bool walkable(int x, int y) = 0;
-      virtual bool visible(int x, int y) = 0;
-      virtual int groundHeight(int x, int y)= 0;
+      virtual int  getGroundHeight(int x, int y) = 0;
+      virtual bool isWalkable(int x, int y) = 0;
+      virtual bool isBuildable(int x, int y) = 0;
+      virtual bool isVisible(int x, int y) = 0;
+      virtual bool isExplored(int x, int y) = 0;
       virtual bool hasCreep(int x, int y) = 0;
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) = 0;
 
-      virtual bool buildable(TilePosition position) = 0;
-      virtual bool visible(TilePosition position) = 0;
+      virtual bool isBuildable(TilePosition position) = 0;
+      virtual bool isVisible(TilePosition position) = 0;
+      virtual bool isExplored(TilePosition position) = 0;
       virtual bool hasCreep(TilePosition position) = 0;
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight) = 0;
 

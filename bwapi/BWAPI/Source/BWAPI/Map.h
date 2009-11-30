@@ -29,6 +29,7 @@ namespace BWAPI
       bool buildable(int x, int y) const;
       bool walkable(int x, int y) const;
       bool visible(int x, int y) const;
+      bool isExplored(int x, int y) const;
       bool hasCreep(int x, int y) const;
       int groundHeight(int x, int y) const;
 
