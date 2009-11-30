@@ -145,40 +145,61 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return Map::getName();
   }
+  //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
+  int  GameImpl::getGroundHeight(int x, int y)
+  {
+    /* Return the ground height */
+    this->setLastError(Errors::None);
+    return this->map.groundHeight(x, y);
+  }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
-  bool  GameImpl::buildable(int x, int y)
+  bool  GameImpl::isBuildable(int x, int y)
   {
     /* Check if the specified coordinates are buildable */
     this->setLastError(Errors::None);
     return this->map.buildable(x, y);
   }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
-  bool  GameImpl::buildable(TilePosition position)
+  bool  GameImpl::isBuildable(TilePosition position)
   {
     /* Check if the specified coordinates are buildable */
     this->setLastError(Errors::None);
     return this->map.buildable(position.x(), position.y());
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
-  bool  GameImpl::walkable(int x, int y)
+  bool  GameImpl::isWalkable(int x, int y)
   {
     /* Check if the specified coordinates are walkable */
     this->setLastError(Errors::None);
     return this->map.walkable(x, y);
   }
   //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool  GameImpl::visible(int x, int y)
+  bool  GameImpl::isVisible(int x, int y)
   {
     /* Check if the specified coordinates are visible */
     this->setLastError(Errors::None);
     return this->map.visible(x, y);
   }
   //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool  GameImpl::visible(TilePosition position)
+  bool  GameImpl::isVisible(TilePosition position)
   {
     /* Check if the specified coordinates are visible */
     this->setLastError(Errors::None);
     return this->map.visible(position.x(), position.y());
+  }
+  //------------------------------------------------- VISIBLE ------------------------------------------------
+  bool  GameImpl::isExplored(int x, int y)
+  {
+    /* Check if the specified coordinates are visible */
+    this->setLastError(Errors::None);
+    return this->map.isExplored(x, y);
+  }
+  //------------------------------------------------- VISIBLE ------------------------------------------------
+  bool  GameImpl::isExplored(TilePosition position)
+  {
+    /* Check if the specified coordinates are visible */
+    this->setLastError(Errors::None);
+    return this->map.isExplored(position.x(), position.y());
   }
   //------------------------------------------------ HAS CREEP -----------------------------------------------
   bool  GameImpl::hasCreep(int x, int y)
@@ -186,7 +207,7 @@ namespace BWAPI
     /* Check if the specified coordinates have creep */
     this->setLastError(Errors::None);
     /* Deny this information if you don't have complete map information */
-    if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->visible(x, y))
+    if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->isVisible(x, y))
     {
       this->setLastError(Errors::Access_Denied);
       return false;
@@ -283,7 +304,7 @@ namespace BWAPI
           if (!i->getType().isFlyer() && !i->isLifted())
             groundUnits.insert(i);
 
-        if (!this->buildable(x,y) || groundUnits.size() > 1)
+        if (!this->isBuildable(x,y) || groundUnits.size() > 1)
           return false;
 
         if (!groundUnits.empty())
@@ -547,13 +568,6 @@ namespace BWAPI
     }
     return true;
   }
-  //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
-  int  GameImpl::groundHeight(int x, int y)
-  {
-    /* Return the ground height */
-    this->setLastError(Errors::None);
-    return this->map.groundHeight(x, y);
-  }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()
   {
@@ -704,7 +718,7 @@ namespace BWAPI
           Position target(bwtarget.x,bwtarget.y);
           if (this->client)
           {
-            if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->visible(target.x()/32,target.y()/32))
+            if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->isVisible(target.x()/32,target.y()/32))
               this->client->onNukeDetect(target);
             else
               this->client->onNukeDetect(Positions::Unknown);
@@ -1607,7 +1621,7 @@ namespace BWAPI
     if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
       return this->emptySet;
 
-    if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !visible(x,y))
+    if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x,y))
     {
       this->setLastError(Errors::Access_Denied);
       return this->emptySet;

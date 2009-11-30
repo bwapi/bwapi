@@ -64,6 +64,17 @@ namespace BWAPI
       return (value & 255) != 255;
     return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
   }
+  //--------------------------------------------- HAS EXPLORED -----------------------------------------------
+  bool Map::isExplored(int x, int y) const
+  {
+    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
+      return false;
+    u32 value =  (*this->fogOfWar)[y][x];
+    value = value >> 8;
+    if (BroodwarImpl._isReplay())
+      return (value & 255) != 255;
+    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
+  }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const
   {
