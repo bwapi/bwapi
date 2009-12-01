@@ -1,2 +1,2 @@
-@del output\*.* /q
+@del include\BWAgent\*.* /q
 @rem @pause
