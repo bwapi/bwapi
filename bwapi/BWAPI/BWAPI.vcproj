@@ -841,11 +841,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\Source\BWAPI\Bridge.cpp"
+			RelativePath=".\Source\BWAPI\BridgeHub.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Source\BWAPI\Bridge.h"
+			RelativePath=".\Source\BWAPI\BridgeHub.h"
 			>
 		</File>
 		<File
@@ -853,7 +853,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\Util\Source\Util\Buffer.h"
+			RelativePath="..\Bridge\Constants.cpp"
 			>
 		</File>
 		<File
@@ -934,6 +934,10 @@
 		</File>
 		<File
 			RelativePath="..\Bridge\Structure.h"
+			>
+		</File>
+		<File
+			RelativePath="..\svnrev.h"
 			>
 		</File>
 		<File

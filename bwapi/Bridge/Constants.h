@@ -3,5 +3,5 @@
 namespace Bridge
 {
   // constants
-  const char* globalPipeName = "BWAPI_Synch_Pipe";
+  extern const char* globalPipeName;
 }

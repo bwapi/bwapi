@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Bridge\Structure.h"
+#include <Bridge\Structure.h>
 
 namespace BWAgent
 {

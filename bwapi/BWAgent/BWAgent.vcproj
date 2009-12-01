@@ -115,7 +115,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\Util\Source;..\BWAPI\Source; .."
+				AdditionalIncludeDirectories="..\Util\Source;..\BWAPI\Source;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAGENT_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -186,6 +186,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\BWAgent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\Constants.cpp"
 				>
 			</File>
 			<File
@@ -318,6 +322,10 @@
 			</File>
 			<File
 				RelativePath="..\Bridge\Structure.h"
+				>
+			</File>
+			<File
+				RelativePath="..\svnrev.h"
 				>
 			</File>
 		</Filter>

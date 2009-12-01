@@ -42,7 +42,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
-#include "Bridge.h"
+#include "BridgeHub.h"
 
 #include <Bridge/PipeMessage.h>
 #include <Bridge/Structure.h>
@@ -70,7 +70,6 @@ namespace BWAPI
       , startedClient(false)
       , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
       , inUpdate(false)
-      , bridgeConnectionEstablished(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -665,90 +664,6 @@ namespace BWAPI
 #endif
     NewIssueCommand();
   }
-  //------------------------------------------------- BRIDGE CHECK INCOMING CONNECTIONS ----------------------
-  bool GameImpl::bridgeCheckIncomingConnections()
-  {
-    // check for incoming pipe connections
-    if(!this->bridgeConnectionEstablished && bridge.pipe.pollIncomingConnection())
-    {
-      // receive handshake
-      Bridge::PipeMessage::AgentHandshake handshake;
-      {
-        Util::Buffer data;
-        if(!bridge.pipe.receive(data))
-        {
-          this->printf("Could not receive pipe");
-          bridge.pipe.create(Bridge::globalPipeName);
-          return false;
-        }
-        if(!data.getMemory().readTo(handshake))
-        {
-          this->printf("Packet corrupt");
-          bridge.pipe.create(Bridge::globalPipeName);
-          return false;
-        }
-      }
-
-      // audit agent
-      bool accept = true;
-      if(handshake.agentVersion != SVN_REV)
-      {
-        accept = false;
-        this->printf("Wrong agent version, rejected");
-      }
-      if(!bridge.remoteProcess.acquire(handshake.agentProcessId, true))
-      {
-        accept = false;
-        this->printf("Could not open agent's process, rejected");
-      }
-
-      // send back response
-      Bridge::PipeMessage::HubHandshake handshake2;
-      handshake2.accepted = accept;
-      handshake2.hubProcessHandle = bridge.remoteProcess.exportOwnHandle();
-      handshake2.hubVersion = SVN_REV;
-      if(!bridge.pipe.sendStructure(handshake2))
-      {
-        this->printf("Could not open agent's process, rejected");
-        bridge.pipe.create(Bridge::globalPipeName);
-        return false;
-      }
-
-      // agent screw'd it, beat it
-      if(!accept)
-      {
-        bridge.pipe.create(Bridge::globalPipeName);
-        return false;
-      }
-
-      // wait for response acknoledgement
-      Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
-      {
-        Util::Buffer data;
-        if(!bridge.pipe.receive(data))
-        {
-          this->printf("Could not receive pipe");
-          bridge.pipe.create(Bridge::globalPipeName);
-          return false;
-        }
-        if(!data.getMemory().readTo(ack))
-        {
-          this->printf("Packet corrupt");
-          bridge.pipe.create(Bridge::globalPipeName);
-          return false;
-        }
-      }
-      if(!ack.accepted)
-      {
-        this->printf("Agent has rejected response (could not open process handle?)");
-        bridge.pipe.create(Bridge::globalPipeName);
-        return false;
-      }
-
-      return true;
-    }
-    return false;
-  }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
@@ -757,12 +672,30 @@ namespace BWAPI
     {
       firsttime = false;
       // initialize bridge
-      bridge.pipe.create(Bridge::globalPipeName);
+      if(!BridgeHub::initConnectionServer())
+      {
+        this->printf("error initializing server: %s\n", BridgeHub::getLastError().c_str());
+      }
     }
-    if(this->bridgeCheckIncomingConnections())
+    if(!BridgeHub::isAgentConnected())
     {
-      this->bridgeConnectionEstablished = true;
-      this->printf("agent connected");
+      if(!BridgeHub::acceptIncomingConnections())
+      {
+        this->printf("problem accepting connections: %s\n", BridgeHub::getLastError().c_str());
+        if(!BridgeHub::initConnectionServer())
+        {
+          this->printf("could not init server: %s\n", BridgeHub::getLastError().c_str());
+        }
+      }
+    }
+    else
+    {
+      static bool firsttime2 = true;
+      if(firsttime2)
+      {
+        firsttime2 = false;
+        this->printf("connected");
+      }
     }
 
     try
