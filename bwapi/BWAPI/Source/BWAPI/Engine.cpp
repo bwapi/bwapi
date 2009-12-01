@@ -117,7 +117,6 @@ namespace BWAPI
       bool flags[BWAPI::FLAG_COUNT];
       BW::Unit* savedSelectionStates[13];
       void refreshSelectionStates();
-      AIModule* client;
       bool startedClient;
       BWAPI::Error lastError;
       std::list<UnitImpl*> deadUnits;
@@ -138,7 +137,6 @@ namespace BWAPI
       onStartCalled=false;
       unitsOnTileData.resize(0, 0);
       enabled=true;
-      client=NULL;
       startedClient=false;
       hcachedShapesMutex=::CreateMutex(NULL, FALSE, _T("cachedShapesVector"));
       inUpdate=false;
@@ -770,8 +768,7 @@ namespace BWAPI
           players[i]->update();
           if (!prevLeftGame && players[i]->leftGame())
           {
-            if (client!=NULL)
-              client->onPlayerLeft((Player*)players[i]);
+            //client->onPlayerLeft((Player*)players[i]);
           }
         }
 
@@ -812,13 +809,10 @@ namespace BWAPI
             i->nukeDetected=true;
             BW::Position bwtarget=i->getRawDataLocal()->orderTargetPos;
             Position target(bwtarget.x,bwtarget.y);
-            if (client)
-            {
-              if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
-                client->onNukeDetect(target);
-              else
-                client->onNukeDetect(Positions::Unknown);
-            }
+            //if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
+              //client->onNukeDetect(target);
+            //else
+              //client->onNukeDetect(Positions::Unknown);
           }
         }
 
@@ -856,18 +850,7 @@ namespace BWAPI
         fclose(f);
       }
 
-      if (startedClient == false)
-      {
-        client = new AIModule();
-        enableFlag(Flag::UserInput);
-        enableFlag(Flag::CompleteMapInformation);
-        lockFlags();
-        client->onStart();
-        startedClient = true;
-        lockFlags();
-      }
-
-      client->onFrame();
+      //client->onFrame();
       for(std::list< std::string >::iterator i=interceptedMessages.begin();i!=interceptedMessages.end();i++)
       {
         bool send=!onSendText(i->c_str());
@@ -1193,8 +1176,8 @@ namespace BWAPI
         return true;
       else
       {
-        if (client != NULL)
-          return !client->onSendText(std::string(text));
+        //if (client != NULL)
+          //return !client->onSendText(std::string(text));
       }
       return false;
     }
@@ -1239,6 +1222,7 @@ namespace BWAPI
     void onGameEnd()
     {
       setOnStartCalled(false);
+      /*
       if (client != NULL)
       {
         bool win=true;
@@ -1256,6 +1240,7 @@ namespace BWAPI
         delete client;
         client=NULL;
       }
+      */
       units.clear();
       forces.clear();
       playerSet.clear();
@@ -1270,8 +1255,6 @@ namespace BWAPI
       staticNeutralUnits.clear();
 
       commandBuffer.clear();
-      FreeLibrary(hMod);
-      Util::Logger::globalLog->logCritical("Unloaded AI Module");
       for (int i = 0; i < 13; i++) // Why is this 13? There can only be 12 units selected.
         savedSelectionStates[i] = NULL;
 
@@ -1469,7 +1452,7 @@ namespace BWAPI
       unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
                                       &unitArrayCopyLocal->unit[index],
                                       (u16)index);
-
+/*
       if (client != NULL)
       {
         bool isInUpdate = inUpdate;
@@ -1477,22 +1460,22 @@ namespace BWAPI
         if (unit != NULL && unit->canAccessSpecial())
         {
           unit->makeVisible = true;
-          if (unit->lastVisible)
-            client->onUnitHide(unit);
+          //if (unit->lastVisible)
+            //client->onUnitHide(unit);
 
-          /* notify the client that the units in the transport died */
+          /* notify the client that the units in the transport died *//*
           std::list<Unit*> loadedList = unit->getLoadedUnits();
 		      foreach(Unit* loaded, loadedList)
 			      onUnitDeath((UnitImpl*)loaded);
 
-          client->onUnitDestroy(unit);
+          //client->onUnitDestroy(unit);
 
           unit->makeVisible = false;
         }
 
         inUpdate = isInUpdate;
       }
-
+*/
       unit->die();
     }
     void onUnitDeath(BW::Unit* unit)
@@ -1514,6 +1497,7 @@ namespace BWAPI
     //---------------------------------------------- ON ADD UNIT -----------------------------------------------
     void onAddUnit(BWAPI::Unit* unit)
     {
+      /*
       if (client != NULL)
       {
         inUpdate = false;
@@ -1522,6 +1506,7 @@ namespace BWAPI
 
         inUpdate = true;
       }
+      */
     }
     //----------------------------------------------- GET FIRST ------------------------------------------------
     UnitImpl* getFirst()
@@ -1651,15 +1636,15 @@ namespace BWAPI
       }
 
       /* Pass all renegade units to the AI client */
-      foreach (BWAPI::UnitImpl* i, renegadeUnits)
-        if (client)
-          client->onUnitRenegade(i);
+//      foreach (BWAPI::UnitImpl* i, renegadeUnits)
+//        if (client)
+//          client->onUnitRenegade(i);
 
       /* Pass all morphing units to the AI client */
-      foreach (BWAPI::UnitImpl* i, morphUnits)
-        if (client)
-          client->onUnitMorph(i);
-
+//      foreach (BWAPI::UnitImpl* i, morphUnits)
+//        if (client)
+//          client->onUnitMorph(i);
+/*
       foreach (BWAPI::UnitImpl* i, showUnits)
         if (client)
           client->onUnitShow(i);
@@ -1673,7 +1658,7 @@ namespace BWAPI
           i->makeVisible = false;
         }
       }
-
+*/
       inUpdate = true;
     }
     //--------------------------------------------- GET FRAME COUNT --------------------------------------------
