@@ -1,6 +1,5 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
-#include "../../svnrev.h"
 #include "GameImpl.h"
 
 #include <stdio.h>
@@ -12,6 +11,7 @@
 #include <math.h>
 #include <fstream>
 
+#include <Util/Version.h>
 #include <Util/FileLogger.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
@@ -42,6 +42,11 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
+#include "Bridge.h"
+
+#include <Bridge/PipeMessage.h>
+#include <Bridge/Structure.h>
+#include <Bridge/Constants.h>
 
 #include "ShapeBox.h"
 #include "ShapeCircle.h"
@@ -65,6 +70,7 @@ namespace BWAPI
       , startedClient(false)
       , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
       , inUpdate(false)
+      , bridgeConnectionEstablished(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -73,6 +79,7 @@ namespace BWAPI
 
     try
     {
+
       /* create log handles */
       this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::MicroDetailed);
       this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
@@ -658,9 +665,106 @@ namespace BWAPI
 #endif
     NewIssueCommand();
   }
+  //------------------------------------------------- BRIDGE CHECK INCOMING CONNECTIONS ----------------------
+  bool GameImpl::bridgeCheckIncomingConnections()
+  {
+    // check for incoming pipe connections
+    if(!this->bridgeConnectionEstablished && bridge.pipe.pollIncomingConnection())
+    {
+      // receive handshake
+      Bridge::PipeMessage::AgentHandshake handshake;
+      {
+        Util::Buffer data;
+        if(!bridge.pipe.receive(data))
+        {
+          this->printf("Could not receive pipe");
+          bridge.pipe.create(Bridge::globalPipeName);
+          return false;
+        }
+        if(!data.getMemory().readTo(handshake))
+        {
+          this->printf("Packet corrupt");
+          bridge.pipe.create(Bridge::globalPipeName);
+          return false;
+        }
+      }
+
+      // audit agent
+      bool accept = true;
+      if(handshake.agentVersion != SVN_REV)
+      {
+        accept = false;
+        this->printf("Wrong agent version, rejected");
+      }
+      if(!bridge.remoteProcess.acquire(handshake.agentProcessId, true))
+      {
+        accept = false;
+        this->printf("Could not open agent's process, rejected");
+      }
+
+      // send back response
+      Bridge::PipeMessage::HubHandshake handshake2;
+      handshake2.accepted = accept;
+      handshake2.hubProcessHandle = bridge.remoteProcess.exportOwnHandle();
+      handshake2.hubVersion = SVN_REV;
+      if(!bridge.pipe.sendStructure(handshake2))
+      {
+        this->printf("Could not open agent's process, rejected");
+        bridge.pipe.create(Bridge::globalPipeName);
+        return false;
+      }
+
+      // agent screw'd it, beat it
+      if(!accept)
+      {
+        bridge.pipe.create(Bridge::globalPipeName);
+        return false;
+      }
+
+      // wait for response acknoledgement
+      Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
+      {
+        Util::Buffer data;
+        if(!bridge.pipe.receive(data))
+        {
+          this->printf("Could not receive pipe");
+          bridge.pipe.create(Bridge::globalPipeName);
+          return false;
+        }
+        if(!data.getMemory().readTo(ack))
+        {
+          this->printf("Packet corrupt");
+          bridge.pipe.create(Bridge::globalPipeName);
+          return false;
+        }
+      }
+      if(!ack.accepted)
+      {
+        this->printf("Agent has rejected response (could not open process handle?)");
+        bridge.pipe.create(Bridge::globalPipeName);
+        return false;
+      }
+
+      return true;
+    }
+    return false;
+  }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
+    static bool firsttime = true;
+    if(firsttime)
+    {
+      firsttime = false;
+      // initialize bridge
+      bridge.pipe.create(Bridge::globalPipeName);
+    }
+    if(this->bridgeCheckIncomingConnections())
+    {
+      this->bridgeConnectionEstablished = true;
+      this->printf("agent connected");
+    }
+
     try
     {
       this->inUpdate = true;
@@ -670,6 +774,7 @@ namespace BWAPI
       if (!this->enabled)
         return;
 
+      // make a local copy of the unit array
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       refreshSelectionStates();
 
@@ -807,6 +912,7 @@ namespace BWAPI
       this->startedClient = true;
       this->lockFlags();
     }
+
     this->client->onFrame();
     for(std::list< std::string >::iterator i=this->interceptedMessages.begin();i!=this->interceptedMessages.end();i++)
     {
