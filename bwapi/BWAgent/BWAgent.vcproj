@@ -289,10 +289,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\Messages.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Util\Source\Util\Pipe.h"
 				>
 			</File>
