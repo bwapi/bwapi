@@ -858,42 +858,10 @@ namespace BWAPI
 
       if (startedClient == false)
       {
-        sendText("BWAPI revision %s is now live.", SVN_REV_STR);
-
-        TCHAR szDllPath[MAX_PATH];
-        GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
-        if (_strcmpi(szDllPath, "NULL") == 0)
-        {
-          sendText("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
-          FILE* f = fopen("bwapi-error.txt", "a+");
-          fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
-          fclose(f);
-        }
-
-        Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
-        hMod = LoadLibrary(szDllPath);
-        if (hMod == NULL)
-        {
-          Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
-          client = new AIModule();
-          enableFlag(Flag::UserInput);
-          enableFlag(Flag::CompleteMapInformation);
-          lockFlags();
-          sendText("Error: Failed to load the AI Module");
-        }
-        else
-        {
-          Util::Logger::globalLog->logCritical("Loaded AI Module");
-          Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
-
-          typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
-          Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
-
-          PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
-          client = newAIModule(NULL);
-          Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-          sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
-        }
+        client = new AIModule();
+        enableFlag(Flag::UserInput);
+        enableFlag(Flag::CompleteMapInformation);
+        lockFlags();
         client->onStart();
         startedClient = true;
         lockFlags();
