@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
-				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
@@ -126,7 +126,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
+				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -841,6 +841,26 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\Source\BWAPI\Bridge.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\BWAPI\Bridge.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\Buffer.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\Buffer.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Bridge\Constants.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>
 		</File>
@@ -849,7 +869,75 @@
 			>
 		</File>
 		<File
+			RelativePath="..\Bridge\Doodle.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Bridge\KnownUnit.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\MemoryFrame.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\MemoryFrame.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\Pipe.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\Pipe.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Bridge\PipeMessage.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\RemoteProcess.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\RemoteProcess.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\RemoteProcessId.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\SharedMemory.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\SharedMemory.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\SharedMemoryExport.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\SharedMemoryExport.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\SharedSet.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\StaticAssert.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Bridge\Structure.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\Version.h"
 			>
 		</File>
 	</Files>
