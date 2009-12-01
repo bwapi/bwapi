@@ -29,6 +29,7 @@
 }
 
 std::string outputDirectory;
+std::string collectorName;
 std::set<std::string> stripFiles;   // strip theese of all unnecessarity
 std::set<std::string> transitFiles; // these are user's side classes, don't strip these, just correct the path
 std::set<std::string> includePaths;
@@ -45,6 +46,12 @@ void readIniFile(std::string iniFileName)
     EXIT("':output directory' expected");
 
   outputDirectory = reader.readLine();
+
+  line = reader.readLine();
+  if(line != ":collector name")
+    EXIT("':collector name' expected");
+
+  collectorName = reader.readLine();
 
   line = reader.readLine();
   if(line != ":include directories")
@@ -147,7 +154,8 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
   filter.insert("class");
   filter.insert("public");
   filter.insert("namespace");
-  filter.insert("AGENT");
+  filter.insert("AGENT_API");
+  filter.insert("AGENT_INTERFACE");
   filter.insert("virtual");   // just temporarily
   while(true)
   {
@@ -179,7 +187,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
     {
       if(firstNonSpace != -1)
       {
-        // find match
+        // find match with any filter string
         bool match = false;
         std::string matchString;
         for each(std::string filterString in filter)
@@ -193,7 +201,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
         }
         if(!match)
           continue; // ignore the line
-        if(matchString == "AGENT" || matchString == "virtual")
+        if(matchString == "AGENT_INTERFACE" || matchString == "virtual")
         {
           // make virtual functions pure
           std::string pureEnd = ") = 0;";
@@ -252,12 +260,14 @@ void copyFiles()
 void generateAllX(std::string extension)
 {
   Util::FileLineWriter writer;
-  writer.openFile("all." + extension);
+  writer.openFile(outputDirectory + "\\" + collectorName + "." + extension);
+  if(extension == "h")
+    writer.writeLine("#pragma once");
   for each(std::string fileName in processedFiles)
   {
     if(fileName.substr(fileName.size()-extension.size(), extension.size()) != extension)
       continue;
-    writer.writeLine("#include \"" + outputDirectory + "\\" + fileName + "\"");
+    writer.writeLine("#include \"" + fileName + "\"");
   }
 }
 //----------------------------- MAIN ---------------------------------------------------------------------
