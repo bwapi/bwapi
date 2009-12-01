@@ -123,5 +123,4 @@ namespace BWAPI
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color) = 0;
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color) = 0;
   };
-  extern Game* Broodwar;
 }

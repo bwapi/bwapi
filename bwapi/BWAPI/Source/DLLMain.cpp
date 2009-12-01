@@ -12,7 +12,7 @@
 #include <Util/Gnu.h>
 
 #include "BW/Offsets.h"
-#include "BWAPI/GameImpl.h"
+#include "BWAPI/Engine.h"
 #include "BWAPI/UnitImpl.h"
 #include "BWAPI.h"
 #include "BWAPI/DLLMain.h"
@@ -29,7 +29,7 @@ void __declspec(naked) onUnitDeath()
   __asm__("mov _removedUnit, %esi\n"
       "call [BW::BWFXN_KillUnitTarget]"
      );
-  BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
+  BWAPI::Engine::onUnitDeath((BW::Unit*) removedUnit);
   __asm__("jmp [BW::BWFXN_KillUnitBack]");
 #else
   __asm
@@ -37,7 +37,7 @@ void __declspec(naked) onUnitDeath()
     mov removedUnit, esi
     call [BW::BWFXN_KillUnitTarget]
   }
-  BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
+  BWAPI::Engine::onUnitDeath((BW::Unit*) removedUnit);
   __asm jmp [BW::BWFXN_KillUnitBack]
 #endif
 }
@@ -45,7 +45,7 @@ void __declspec(naked) onUnitDeath()
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
-  BWAPI::BroodwarImpl.onGameEnd();
+  BWAPI::Engine::onGameEnd();
 #ifdef __MINGW32__
   __asm__("call [BW::BWFXN_GameEndTarget]\n"
       "jmp [BW::BWFXN_GameEndBack]"
@@ -66,7 +66,7 @@ void __declspec(naked)  nextFrameHook()
   __asm__("call [BW::BWFXN_NextLogicFrameTarget]\n"
       "mov _frameHookEax, %eax"
      );
-  BWAPI::BroodwarImpl.update();
+  BWAPI::Engine::update();
   __asm__("mov %eax, _frameHookEax\n"
       "jmp [BW::BWFXN_NextLogicFrameBack]"
      );
@@ -76,7 +76,7 @@ void __declspec(naked)  nextFrameHook()
     call [BW::BWFXN_NextLogicFrameTarget]
     mov frameHookEax, eax
   }
-  BWAPI::BroodwarImpl.update();
+  BWAPI::Engine::update();
   __asm
   {
     mov eax, frameHookEax
@@ -101,7 +101,7 @@ void __declspec(naked)  menuFrameHook()
       "mov menu_espSave, %esp\n"
       "mov menu_ebpSave, %ebp\n"
      );
-  BWAPI::BroodwarImpl.onMenuFrame();
+  BWAPI::Engine::onMenuFrame();
   __asm__("mov %eax, menu_eaxSave\n"
     "mov %ebx, menu_ebxSave\n"
     "mov %ecx, menu_ecxSave\n"
@@ -125,7 +125,7 @@ void __declspec(naked)  menuFrameHook()
     mov menu_espSave, esp
     mov menu_ebpSave, ebp
   }
-  BWAPI::BroodwarImpl.onMenuFrame();
+  BWAPI::Engine::onMenuFrame();
   __asm
   {
     mov eax, menu_eaxSave
@@ -143,16 +143,13 @@ void __declspec(naked)  menuFrameHook()
 
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
 char* text;
-bool sendToBW;
-std::string msg;
 void __declspec(naked) onSendText()
 {
 #ifdef __MINGW32__
   __asm__("mov _text, %esi");
-  if (!BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
+  if (!BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
-    msg=text;
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+    BWAPI::Engine::addInterceptedMessage(text);
   }
 
   text[0] = 0;
@@ -162,10 +159,9 @@ void __declspec(naked) onSendText()
   {
     mov text, esi
   }
-  if (!BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
+  if (!BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
-    msg=text;
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+    BWAPI::Engine::addInterceptedMessage(text);
   }
   text[0] = 0;
   __asm jmp [BW::BWFXN_SendPublicCallBack]
@@ -175,10 +171,9 @@ void __declspec(naked) onSendSingle()
 {
 #ifdef __MINGW32__
   __asm__("mov _text, %edx");
-  if (BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
+  if (BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
-    msg=text;
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+    BWAPI::Engine::addInterceptedMessage(text);
   }
   __asm__("jmp [BW::BWFXN_SendTextCallBack]");
 #else
@@ -186,10 +181,9 @@ void __declspec(naked) onSendSingle()
   {
     mov text, edx
   }
-  if (BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
+  if (BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
-    msg=text;
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+    BWAPI::Engine::addInterceptedMessage(text);
   }
   __asm jmp [BW::BWFXN_SendTextCallBack]
 #endif
@@ -222,7 +216,7 @@ void __declspec(naked) onSendLobby()
       "mov %ecx, _ecxSave\n"
       "mov %edx, _edxSave\n"
       "mov %esi, _esiSave\n"
-      "mov %edi, _ediSave\n"
+      "mov %edi, _eiSave\n"
       "mov %esp, _espSave\n"
       "mov %ebp, _ebpSave\n"
       "call [BW::BWFXN_SendLobbyCallBack]"
@@ -351,12 +345,12 @@ void __declspec(naked) onDrawHigh()
     mov espSave, esp
   }
 #endif
-  if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::BroodwarImpl.hcachedShapesMutex, INFINITE))
+  if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::Engine::hcachedShapesMutex, INFINITE))
   {
-    for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.cachedShapes.size(); shape_i++)
-      BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
+    for(shape_i = 0; shape_i < BWAPI::Engine::cachedShapes.size(); shape_i++)
+      BWAPI::Engine::cachedShapes[shape_i]->draw();
 
-    ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
+    ::ReleaseMutex(BWAPI::Engine::hcachedShapesMutex);
   }
 #ifdef __MINGW32__
   __asm__("mov %eax, _eaxSave\n"
@@ -620,8 +614,8 @@ void __declspec(naked) onIssueCommand()
   commandID = *(u8*)commandIDptr;
 
   //decide if we should let the command go through
-  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
-       || !BWAPI::BroodwarImpl.isOnStartCalled()
+  if ( BWAPI::Engine::isFlagEnabled(BWAPI::Flag::UserInput)
+       || !BWAPI::Engine::isOnStartCalled()
        //If user input is disabled, only allow the following commands to go through:
        || commandID == 0x00 // Game Chat
        || commandID == 0x05 // Keep Alive
@@ -757,6 +751,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     case DLL_PROCESS_ATTACH:
     {
       BWAPI::BWAPI_init();
+      BWAPI::Engine::init();
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
       return true;
     }

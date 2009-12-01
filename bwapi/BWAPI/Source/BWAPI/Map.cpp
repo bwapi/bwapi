@@ -3,7 +3,7 @@
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
 #include <BW/DoodatType.h>
-#include "GameImpl.h"
+#include "Engine.h"
 #include "PlayerImpl.h"
 
 namespace BWAPI
@@ -60,9 +60,9 @@ namespace BWAPI
     if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
       return false;
     u32 value =  (*this->fogOfWar)[y][x];
-    if (BroodwarImpl._isReplay())
+    if (Engine::_isReplay())
       return (value & 255) != 255;
-    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
+    return !(value & (1 << Engine::self()->getID()));
   }
   //--------------------------------------------- HAS EXPLORED -----------------------------------------------
   bool Map::isExplored(int x, int y) const
@@ -71,9 +71,9 @@ namespace BWAPI
       return false;
     u32 value =  (*this->fogOfWar)[y][x];
     value = value >> 8;
-    if (BroodwarImpl._isReplay())
+    if (Engine::_isReplay())
       return (value & 255) != 255;
-    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
+    return !(value & (1 << Engine::self()->getID()));
   }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const
