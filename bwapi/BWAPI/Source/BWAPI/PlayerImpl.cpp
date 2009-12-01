@@ -1,5 +1,5 @@
 #include "PlayerImpl.h"
-#include "GameImpl.h"
+#include "Engine.h"
 #include "UnitImpl.h"
 
 #include <string>
@@ -22,13 +22,13 @@ namespace BWAPI
   //------------------------------------------------- GET ID -------------------------------------------------
   int PlayerImpl::getID() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     return this->id;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string PlayerImpl::getName() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     if (this->getID() == 11)
     {
       return std::string("Neutral");
@@ -38,55 +38,57 @@ namespace BWAPI
   //----------------------------------------------- GET UNITS ------------------------------------------------
   const std::set<Unit*>& PlayerImpl::getUnits() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     return this->units;
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
   BWAPI::Race PlayerImpl::getRace() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].race));
   }
   //----------------------------------------------- PLAYER TYPE ----------------------------------------------
   BWAPI::PlayerType PlayerImpl::playerType() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].type));
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* PlayerImpl::getForce() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     return (Force*)this->force;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlly(Player* player) const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
+    if (player==NULL) return false;
     return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
+    if (player==NULL) return false;
     return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] == 0;
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool PlayerImpl::isNeutral() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     return this->getID() == 11;
   }
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
   {
     /* error checking */
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     if (this->isNeutral())
       return TilePositions::None;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return TilePositions::Unknown;
     }
     /* return the start location as a tile position */
@@ -97,12 +99,12 @@ namespace BWAPI
   int PlayerImpl::minerals() const
   {
     /* error handling */
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     /* return the local mineral count */
@@ -111,12 +113,12 @@ namespace BWAPI
   //-------------------------------------------------- GAS ---------------------------------------------------
   int PlayerImpl::gas() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->gasLocal;
@@ -124,12 +126,12 @@ namespace BWAPI
   //------------------------------------------ CUMULATIVE MINERALS -------------------------------------------
   int PlayerImpl::cumulativeMinerals() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return BW::BWDATA_PlayerResources->cumulativeMinerals.player[this->getID()];
@@ -137,12 +139,12 @@ namespace BWAPI
   //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
   int PlayerImpl::cumulativeGas() const
   {
-    BroodwarImpl.setLastError(Errors::None);
+    Engine::setLastError(Errors::None);
     if (this->isNeutral())
       return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return BW::BWDATA_PlayerResources->cumulativeGas.player[this->getID()];
@@ -150,10 +152,10 @@ namespace BWAPI
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   int PlayerImpl::supplyTotal() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     s32 ret = this->suppliesAvailableLocal[getRace().getID()];
@@ -162,10 +164,10 @@ namespace BWAPI
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   int PlayerImpl::supplyUsed() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->suppliesUsedLocal[getRace().getID()];
@@ -173,10 +175,10 @@ namespace BWAPI
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     s32 ret = this->suppliesAvailableLocal[race.getID()];
@@ -185,10 +187,10 @@ namespace BWAPI
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->suppliesUsedLocal[race.getID()];
@@ -196,10 +198,10 @@ namespace BWAPI
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   s32 PlayerImpl::allUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType((u16)unit.getID())) + this->toMake[unit.getID()];
@@ -207,10 +209,10 @@ namespace BWAPI
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
   s32 PlayerImpl::completedUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType((u16)unit.getID()));
@@ -218,10 +220,10 @@ namespace BWAPI
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   s32 PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->allUnitCount(unit) - this->completedUnitCount(unit) + toMake[unit.getID()];
@@ -229,10 +231,10 @@ namespace BWAPI
   //----------------------------------------------- GET DEATHS -----------------------------------------------
   s32 PlayerImpl::deadUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType((u16)unit.getID()));
@@ -240,10 +242,10 @@ namespace BWAPI
   //----------------------------------------------- GET KILLS ------------------------------------------------
   s32 PlayerImpl::killedUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType((u16)unit.getID()));
@@ -251,10 +253,10 @@ namespace BWAPI
   //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
   bool PlayerImpl::isResearching(BWAPI::TechType tech) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return false;
     }
     Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID() * 6);
@@ -263,10 +265,10 @@ namespace BWAPI
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
   bool PlayerImpl::hasResearched(BWAPI::TechType tech) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return false;
     }
     if (*tech.whatResearches()==UnitTypes::None)
@@ -281,10 +283,10 @@ namespace BWAPI
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
   bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return false;
     }
     return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
@@ -292,10 +294,10 @@ namespace BWAPI
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
+      Engine::setLastError(Errors::Access_Denied);
       return 0;
     }
     if (upgrade.getID() < 46)
