@@ -266,10 +266,6 @@ namespace BWAPI
       BWAPI::Error lastError;
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
-
-      // bridge state
-      bool bridgeCheckIncomingConnections();
-      bool bridgeConnectionEstablished;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
