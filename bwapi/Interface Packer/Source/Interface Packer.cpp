@@ -181,16 +181,36 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
       {
         // find match
         bool match = false;
+        std::string matchString;
         for each(std::string filterString in filter)
         {
           if(line.substr(firstNonSpace, filterString.size()) == filterString)
           {
             match = true;
+            matchString = filterString;
             break;
           }
         }
         if(!match)
           continue; // ignore the line
+        if(matchString == "AGENT" || matchString == "virtual")
+        {
+          // make virtual functions pure
+          std::string pureEnd = ") = 0;";
+          if(line.find('~') != std::string::npos)
+          {
+            // this is a destructor. those may not be pure
+            pureEnd = "){};";
+          }
+
+          // characters to replace ');'
+          // note there is often a comment at the end
+          int endPos = line.find(");");
+          if(endPos != std::string::npos)
+          {
+            line = line.substr(0, endPos) + pureEnd + line.substr(endPos+2);
+          }
+        }
       }
     }
 
