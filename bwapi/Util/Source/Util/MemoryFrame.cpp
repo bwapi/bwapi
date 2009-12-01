@@ -105,7 +105,7 @@ namespace Util
     return retval;
   }
   //----------------------- WRITE --------------------------------------
-  void MemoryFrame::write(MemoryFrame &source)
+  void MemoryFrame::write(const MemoryFrame &source)
   {
     int bytes = source.size();
     ::memcpy(this->begin(), source.begin(), bytes);

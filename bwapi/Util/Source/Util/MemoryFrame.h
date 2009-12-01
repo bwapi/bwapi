@@ -50,7 +50,7 @@ namespace Util
         this->skip(sizeof(T));
       }
     MemoryFrame read(int bytes);
-    void write(MemoryFrame &source);
+    void write(const MemoryFrame &source);
     template<typename T>
       T& readAs()
       {
