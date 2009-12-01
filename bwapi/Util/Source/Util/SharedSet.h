@@ -34,7 +34,7 @@ namespace Util
       , exportHasCleared(true)
     {
     }
-    SharedSet()           // import only
+    SharedSet()           // for import only
       : newBlockSize(0)
     {
     }
