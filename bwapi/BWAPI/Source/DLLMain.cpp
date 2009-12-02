@@ -76,7 +76,7 @@ void __declspec(naked)  nextFrameHook()
     call [BW::BWFXN_NextLogicFrameTarget]
     mov frameHookEax, eax
   }
-  BWAPI::Engine::update();
+  BWAPI::Engine::_update();
   __asm
   {
     mov eax, frameHookEax

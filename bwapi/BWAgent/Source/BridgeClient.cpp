@@ -141,11 +141,6 @@ namespace BWAgent
           Bridge::PipeMessage::Packet<Bridge::PipeMessage::AgentInitMatchDone> done;
           success = sharedStuff.pipe.sendStructure(done);
         }break;
-      case OnSendText:
-        {
-          Bridge::PipeMessage::Packet<Bridge::PipeMessage::AgentOnSendTextDone> done;
-          success = sharedStuff.pipe.sendStructure(done);
-        }break;
       }
       if(!success)
       {
@@ -175,12 +170,11 @@ namespace BWAgent
         // onInitMatch state
         Bridge::SharedStuff::SharedGameDataStructure::Export staticGameData;
         packet.readTo(staticGameData);
-        if (!staticGameData.isValid())
+        if (!sharedStuff.staticData.import(staticGameData))
         {
-          lastError = __FUNCTION__ ": staticGameData is invalid memory.";
+          lastError = __FUNCTION__ ": staticGameData failed importing.";
           return false;
         }
-        sharedStuff.staticData.import(staticGameData);
         sharedStaticData = &sharedStuff.staticData.get();
         bridgeState = OnInitMatch;
       }
@@ -188,11 +182,6 @@ namespace BWAgent
       {
         // onFrame state
         bridgeState = OnFrame;
-      }
-      else if(packetType == Bridge::PipeMessage::ServerOnSendText::Id)
-      {
-        // onSendText state
-        bridgeState = OnSendText;
       }
       else
       {

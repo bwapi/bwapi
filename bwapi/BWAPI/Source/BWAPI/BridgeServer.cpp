@@ -194,6 +194,10 @@ namespace BWAPI
 
       return true;
     }
+    //-------------------------- STOP MATCH -----------------------------------------------------
+    bool stopMatch()
+    {
+    }
     //-------------------------- INVOKE ON FRAME ------------------------------------------------
     bool invokeOnFrame()
     {
@@ -244,7 +248,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------ ON SEND TEXT ------------------------------------------------
-    bool invokeOnSendText()
+    bool pushSendText()
     {
       // check prerequisites
       if(!stateConnectionEstablished)

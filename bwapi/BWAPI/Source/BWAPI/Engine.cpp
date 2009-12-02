@@ -68,7 +68,8 @@ namespace BWAPI
       InMatch
     };
 
-    bool isBridgeInitialized = false;
+    bool isBridgeUsable = true;         // false when bridge should be used no more
+    bool isBridgeInitialized = false;   // true once initBridge called
     GameState gameState = Startup;
     //----------------------------------- ---------------------------------------------
     /** @todo Doesn't work */
@@ -726,9 +727,97 @@ namespace BWAPI
       NewIssueCommand();
     }
     //------------------------------------------------- UPDATE -------------------------------------------------
-    void update()
+    void update(GameState nextState)
     {
-      try
+      // prerequisites
+      if(nextState == Startup)
+      {
+        return;
+      }
+
+      // state transitions
+      if(gameState == Startup)
+      {
+        if(!BridgeServer::initConnectionServer())
+        {
+          printf("could not initialize bridge server: %s\n", BridgeServer::getLastError().c_str());
+          isBridgeUsable = false;
+        }
+      }
+      if(gameState == InMenu)
+      {
+        if(nextState == InMatch)
+        {
+          if(BridgeServer::isAgentConnected())
+          {
+            BridgeServer::initMatch();
+          }
+        }
+      }
+      gameState = nextState;
+
+      // onFrame
+      if(BridgeServer::isAgentConnected())
+      {
+        if(BridgeServer::sharedStaticData)
+        {
+          BridgeServer::sharedStaticData->getLatency    = getLatency();
+          BridgeServer::sharedStaticData->getFrameCount = getFrameCount();
+          BridgeServer::sharedStaticData->getMouseX     = getMouseX();
+          BridgeServer::sharedStaticData->getMouseY     = getMouseY();
+          BridgeServer::sharedStaticData->getScreenX    = getScreenX();
+          BridgeServer::sharedStaticData->getScreenY    = getScreenY();
+          BridgeServer::sharedStaticData->mapWidth      = mapWidth();
+          BridgeServer::sharedStaticData->mapHeight     = mapHeight();
+          BridgeServer::sharedStaticData->getMapHash    = getMapHash();
+          BridgeServer::sharedStaticData->isMultiplayer = isMultiplayer();
+          BridgeServer::sharedStaticData->isReplay      = isReplay();
+          BridgeServer::sharedStaticData->isPaused      = isPaused();
+        }
+        if(!BridgeServer::invokeOnFrame())
+        {
+          BridgeServer::disconnect();
+          printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
+        }
+      }
+
+      // handle incoming connections
+      if(isBridgeUsable)
+      {
+        if(!BridgeServer::isAgentConnected())
+        {
+          if(!BridgeServer::acceptIncomingConnections())
+          {
+            printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
+            BridgeServer::disconnect();
+            isBridgeUsable = false;
+          }
+          if(BridgeServer::isAgentConnected())
+          {
+            printf("connected");
+            if(gameState == InMatch)
+            {
+              if(!BridgeServer::initMatch())
+              {
+                printf("failed initMatch: %s", BridgeServer::getLastError().c_str());
+                BridgeServer::disconnect();
+              }
+            }
+          }
+        }
+      }
+    }
+    //---------------------------------------------- ON MENU FRAME ---------------------------------------------
+    void onMenuFrame()
+    {
+      update(InMenu);
+    }
+    //------------------------------------------------- UPDATE -------------------------------------------------
+    void _update()
+    {
+      update(InMatch);
+      return;
+/*      try
       {
         inUpdate = true;
         if (!isOnStartCalled())
@@ -736,59 +825,6 @@ namespace BWAPI
         
         if (!enabled)
           return;
-
-        if(gameState == InMenu && BridgeServer::isAgentConnected())
-        {
-          enableFlag(BWAPI::Flag::UserInput);
-          BridgeServer::initMatch();
-        }
-        gameState = InMatch;
-
-        //
-        if(!BridgeServer::isAgentConnected())
-        {
-          if(!BridgeServer::acceptIncomingConnections())
-          {
-            printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
-            BridgeServer::disconnect();
-          }
-          if(BridgeServer::isAgentConnected())
-          {
-            printf("connected");
-          }
-        }
-        else
-        {
-          static bool firsttime2 = true;
-          if(firsttime2)
-          {
-            firsttime2 = false;
-            printf("connected");
-          }
-        }
-        if(BridgeServer::isAgentConnected())
-        {
-          if(BridgeServer::sharedStaticData)
-          {
-            BridgeServer::sharedStaticData->getLatency    = getLatency();
-            BridgeServer::sharedStaticData->getFrameCount = getFrameCount();
-            BridgeServer::sharedStaticData->getMouseX     = getMouseX();
-            BridgeServer::sharedStaticData->getMouseY     = getMouseY();
-            BridgeServer::sharedStaticData->getScreenX    = getScreenX();
-            BridgeServer::sharedStaticData->getScreenY    = getScreenY();
-            BridgeServer::sharedStaticData->mapWidth      = mapWidth();
-            BridgeServer::sharedStaticData->mapHeight     = mapHeight();
-            BridgeServer::sharedStaticData->getMapHash    = getMapHash();
-            BridgeServer::sharedStaticData->isMultiplayer = isMultiplayer();
-            BridgeServer::sharedStaticData->isReplay      = isReplay();
-            BridgeServer::sharedStaticData->isPaused      = isPaused();
-          }
-          if(!BridgeServer::invokeOnFrame())
-          {
-            BridgeServer::disconnect();
-            printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
-          }
-        }
 
 
         // make a local copy of the unit array
@@ -812,13 +848,13 @@ namespace BWAPI
         for (UnitImpl* i = getFirst(); i != NULL; i = i->getNext())
           unitList.push_back(i);
 
-  /*
-        for(BW::AttackType *curritem = *BW::BWDATA_AttackNodeTable_FirstElement ; curritem; curritem = curritem->next)
-        {
-          Broodwar->drawTextMap(curritem->pos_x, curritem->pos_y, "%s frames: %d", AttackType(curritem->type).getName().c_str(), curritem->time_left>>8);
-          Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
-        }
-  */
+  
+//        for(BW::AttackType *curritem = *BW::BWDATA_AttackNodeTable_FirstElement ; curritem; curritem = curritem->next)
+//        {
+//          Broodwar->drawTextMap(curritem->pos_x, curritem->pos_y, "%s frames: %d", AttackType(curritem->type).getName().c_str(), curritem->time_left>>8);
+//          Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
+//        }
+  
 
         foreach (UnitImpl* i, unitList)
         {
@@ -892,32 +928,7 @@ namespace BWAPI
       }
       interceptedMessages.clear();
       loadSelected();
-      frameCount++;
-    }
-    //---------------------------------------------- ON MENU FRAME ---------------------------------------------
-    void onMenuFrame()
-    {
-      gameState = InMenu;
-      if(!isBridgeInitialized)
-      {
-        // initialize bridge
-        if(!BridgeServer::initConnectionServer())
-        {
-          Util::Logger::globalLog->logCritical("error initializing server: %s\n", BridgeServer::getLastError().c_str());
-        }
-        isBridgeInitialized = true;
-      }
-      if(!BridgeServer::isAgentConnected())
-      {
-        if(!BridgeServer::acceptIncomingConnections())
-        {
-        }
-      }
-      else
-      {
-      }
-
-     // Util::Logger::globalLog->logCritical("Inside menu! :D");
+      frameCount++;*/
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
     void refreshSelectionStates()
@@ -1237,7 +1248,8 @@ namespace BWAPI
         if(BridgeServer::isAgentConnected())
         {
           //push text onto stack
-          BridgeServer::invokeOnSendText();
+          if(!BridgeServer::pushSendText())
+            BridgeServer::disconnect();
         }
       }
       return false;

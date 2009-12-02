@@ -22,7 +22,6 @@ namespace BWAgent
       Intermediate,
       OnInitMatch,
       OnFrame,
-      OnSendText
     };
     extern BridgeState getCurrentState();
   }
