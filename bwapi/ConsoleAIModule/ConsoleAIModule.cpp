@@ -18,7 +18,7 @@ public:
   };
   void onFrame()
   {
-    printf("on frame\n");
+    printf("on frame %d,%d\n", BWAgent::Game::getMouseX(), BWAgent::Game::getMouseY());
   };
   bool onSendText(std::string text)
   {
