@@ -6,7 +6,14 @@ namespace Bridge
 {
   struct StaticGameDataStructure
   {
-    int mouseX;
-    int mouseY;
+    int getLatency;
+    int getFrameCount;
+    int getMouseX;
+    int getMouseY;
+    int getScreenX;
+    int getScreenY;
+    int mapWidth;
+    int mapHeight;
+    int getMapHash;
   };
 }

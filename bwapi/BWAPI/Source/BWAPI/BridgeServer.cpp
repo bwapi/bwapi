@@ -238,7 +238,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------ ON SEND TEXT ------------------------------------------------
-    bool invokeOnSendText(std::string text)
+    bool invokeOnSendText()
     {
       // check prerequisites
       if(!stateConnectionEstablished)
