@@ -14,6 +14,7 @@ namespace BWAPI
 
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();
+    extern void disconnect();
     extern bool initMatch();
     extern bool invokeOnFrame();
     extern bool invokeOnSendText();

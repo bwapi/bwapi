@@ -83,7 +83,7 @@ namespace BWAPI
         handshake2.serverVersion = SVN_REV;
         if(!sharedStuff.pipe.sendStructure(handshake2))
         {
-          lastError = "Could not open agent's process, rejected";
+          lastError = "Could not send pipe";
           return false;
         }
 
@@ -119,6 +119,12 @@ namespace BWAPI
       }
       return true;
     }
+    //-------------------------- DISCONNECT -----------------------------------------------------
+    void disconnect()
+    {
+      sharedStuff.pipe.disconnect();
+      stateConnectionEstablished = false;
+    }
     //-------------------------- INIT MATCH -----------------------------------------------------
     bool initMatch()
     {
@@ -143,8 +149,8 @@ namespace BWAPI
         lastError = __FUNCTION__ ": staticData creating failed";
         return false;
       }
-      initMatchEvent.data.staticGameDataExport = sharedStuff.staticData.exportToProcess(
-        sharedStuff.remoteProcess, true);
+      initMatchEvent.data.staticGameDataExport =
+        sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
       if(!initMatchEvent.data.staticGameDataExport.isValid())
       {
         lastError = __FUNCTION__ ": staticData export failed";
