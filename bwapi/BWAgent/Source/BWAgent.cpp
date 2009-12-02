@@ -59,6 +59,10 @@ namespace BWAgent
         {
           aiModule.onFrame();
         }break;
+      case BridgeClient::BridgeState::OnSendText:
+        {
+          aiModule.onSendText(std::string("temp"));
+        }break;
       }
     }
     return true;

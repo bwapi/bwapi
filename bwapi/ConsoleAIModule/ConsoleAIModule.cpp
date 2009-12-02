@@ -20,7 +20,11 @@ public:
   {
     printf("on frame\n");
   };
-  bool onSendText(std::string text) {return false;};
+  bool onSendText(std::string text)
+  {
+    printf("onSendText: '%s'\n",text.c_str());
+    return false;
+  };
 //  void onPlayerLeft(Player* player) {};
 //  void onNukeDetect(Position target) {};
 

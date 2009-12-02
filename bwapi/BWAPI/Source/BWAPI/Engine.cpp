@@ -761,8 +761,6 @@ namespace BWAPI
         BridgeServer::invokeOnFrame();
       }
 
-
-
       try
       {
         inUpdate = true;
@@ -1211,13 +1209,16 @@ namespace BWAPI
     bool onSendText(const char* text)
     {
       /* prep onSendText */
+      /*
       if (parseText(text) || !isFlagEnabled(BWAPI::Flag::UserInput))
         return true;
       else
       {
-        //if (client != NULL)
-          //return !client->onSendText(std::string(text));
-      }
+      }*/
+        if(BridgeServer::isAgentConnected())
+        {
+          BridgeServer::invokeOnSendText(text);
+        }
       return false;
     }
     //----------------------------------------------- PARSE TEXT -----------------------------------------------

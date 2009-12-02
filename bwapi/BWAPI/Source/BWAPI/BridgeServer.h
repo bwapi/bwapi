@@ -12,6 +12,7 @@ namespace BWAPI
     extern bool acceptIncomingConnections();
     extern bool initMatch();
     extern bool invokeOnFrame();
+    extern bool invokeOnSendText(std::string text);
     extern bool isAgentConnected();
     extern const std::string &getLastError();
   }

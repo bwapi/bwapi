@@ -141,6 +141,11 @@ namespace BWAgent
           Bridge::PipeMessage::Packet<Bridge::PipeMessage::AgentInitMatchDone> done;
           success = sharedStuff.pipe.sendStructure(done);
         }break;
+      case OnSendText:
+        {
+          Bridge::PipeMessage::Packet<Bridge::PipeMessage::AgentOnSendTextDone> done;
+          success = sharedStuff.pipe.sendStructure(done);
+        }break;
       }
       if(!success)
       {

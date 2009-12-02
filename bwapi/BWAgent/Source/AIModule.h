@@ -12,5 +12,6 @@ namespace BWAgent
       virtual ~AIModule();
       virtual void onStartMatch();
       virtual void onFrame();
+      virtual bool onSendText(std::string text);
   };
 }

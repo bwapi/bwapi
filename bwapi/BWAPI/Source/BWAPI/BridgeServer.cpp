@@ -228,6 +228,55 @@ namespace BWAPI
 
       return true;
     }
+    //------------------------------ ON SEND TEXT ------------------------------------------------
+    bool invokeOnSendText(std::string text)
+    {
+      // check prerequisites
+      if(!stateConnectionEstablished)
+      {
+        lastError = __FUNCTION__ ": no connection established";
+        return false;
+      }
+
+      // send next frame invocation packet
+      Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerOnSendText> onSendTextPacket;
+      onSendTextPacket;  // no data yet
+      sharedStuff.pipe.sendStructure(onSendTextPacket);
+
+      // receive completion notification
+      Util::Buffer buffer;
+      if(!sharedStuff.pipe.receive(buffer))
+      {
+        lastError = __FUNCTION__ ": receive completion packet failed";
+        return false;
+      }
+
+      // parse packet
+      Util::MemoryFrame packet = buffer.getMemory();
+      int packetType;
+      if(!packet.readTo(packetType))
+      {
+        lastError = __FUNCTION__ ": received packet too small";
+        return false;
+      }
+
+      if(packetType != Bridge::PipeMessage::AgentOnSendTextDone::Id)
+      {
+        lastError = __FUNCTION__ ": unexpected packet type " + packetType;
+        return false;
+      }
+
+      Bridge::PipeMessage::AgentOnSendTextDone completion;
+      if(!packet.readTo(completion))
+      {
+        lastError = __FUNCTION__ ": completion packet too small";
+        return false;
+      }
+
+      completion; // yet no data here
+
+      return true;
+    }
     //-------------------------- IS AGENT CONNECTED ---------------------------------------------
     bool isAgentConnected()
     {
