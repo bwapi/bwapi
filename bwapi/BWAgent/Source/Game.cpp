@@ -75,6 +75,17 @@ namespace BWAgent
         return -1;
       return BridgeClient::sharedStaticData->mapHash;
     }
+
+    //---------------------------------------------- IS VISIBLE ------------------------------------------------
+    bool isVisible(int x, int y)
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
+        return false;
+      return BridgeClient::sharedStaticData->isVisible[x][y];
+    }
+
     //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
     bool isMultiplayer()
     {
@@ -119,10 +130,6 @@ namespace BWAgent
     }
     //------------------------------------------------ WALKABLE ------------------------------------------------
     bool  isWalkable(int x, int y)
-    {
-    }
-    //------------------------------------------------- VISIBLE ------------------------------------------------
-    bool  isVisible(int x, int y)
     {
     }
     //------------------------------------------------- VISIBLE ------------------------------------------------
