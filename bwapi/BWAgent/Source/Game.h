@@ -1,5 +1,5 @@
 #pragma once
-#include "BWAgent.h"
+#include "BWAgentInterface.h"
 
 namespace Util  { class Logger; }
 namespace BWAPI { class Player; }
@@ -21,6 +21,8 @@ namespace BWAgent
   /** singleton Game class functions */
   namespace Game
   {
+    AGENT_API int getMouseX();
+    AGENT_API int getMouseY();
 /*    AGENT_API std::set< Force* >&  getForces();
     AGENT_API std::set< Player* >&  getPlayers();
     AGENT_API std::set< Unit* >&  getAllUnits();

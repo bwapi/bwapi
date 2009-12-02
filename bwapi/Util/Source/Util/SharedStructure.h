@@ -27,10 +27,10 @@ namespace Util
     private:
       SharedMemoryPointer<S> pointer;
     };
-    class Export
+    struct Export
     {
       friend class SharedStructure;
-    public:
+
       Export(){};
       bool isValid() const
       {

@@ -13,8 +13,8 @@ public:
   void onEnd(bool isWinner) {};
   void onFrame() {};
   bool onSendText(std::string text) {return false;};
-  void onPlayerLeft(Player* player) {};
-  void onNukeDetect(Position target) {};
+//  void onPlayerLeft(Player* player) {};
+//  void onNukeDetect(Position target) {};
 
   void onUnitCreate(Unit* unit) {};
   void onUnitDestroy(Unit* unit) {};

@@ -1,7 +1,7 @@
 #include "BridgeHub.h"
 
 #include <Bridge\Constants.h>
-#include <Bridge\Structure.h>
+#include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
 
 #include <Util\Version.h>
@@ -14,7 +14,7 @@ namespace BWAPI
   //private:
     //-------------------------- PRIVATE VARIABLES ----------------------------------------------
     bool stateConnectionEstablished;
-    Bridge::Structure sharedStuff;
+    Bridge::SharedStuff sharedStuff;
 
     //-------------------------- ----------------------------------------------------------------
     std::string lastError;

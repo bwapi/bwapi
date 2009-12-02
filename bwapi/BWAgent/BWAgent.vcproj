@@ -173,11 +173,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Source\AgentError.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Bridge.cpp"
+				RelativePath=".\Source\BridgeAgent.cpp"
 				>
 			</File>
 			<File
@@ -186,6 +182,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\BWAgent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\BWAPITypes.cpp"
 				>
 			</File>
 			<File
@@ -245,15 +245,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Source\AgentError.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\AIModule.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Bridge.h"
+				RelativePath=".\Source\BridgeAgent.h"
 				>
 			</File>
 			<File

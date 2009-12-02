@@ -1,5 +1,5 @@
 #pragma once
-#include "Util\SharedSet.h"
+#include <Bridge\SharedStuff.h>
 
 namespace Bridge
 {
@@ -46,6 +46,7 @@ namespace Bridge
     //------------------------------------------------
     struct HubOnStart
     {
+      Bridge::SharedStuff::SharedGameDataStructure::Export staticGameDataExport;
       UNIQUE_MESSAGE_ID;
     };
     struct AgentOnStartDone
