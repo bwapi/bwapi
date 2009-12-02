@@ -15,5 +15,8 @@ namespace Bridge
     int mapWidth;
     int mapHeight;
     int getMapHash;
+    bool isMultiplayer;
+    bool isReplay;
+    bool isPaused;
   };
 }

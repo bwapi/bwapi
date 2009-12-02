@@ -30,6 +30,11 @@ namespace BWAgent
     AGENT_API int mapWidth();
     AGENT_API int mapHeight();
     AGENT_API int getMapHash();
+
+    AGENT_API bool isMultiplayer();
+    AGENT_API bool isPaused();
+    AGENT_API bool isReplay();
+
 /*    AGENT_API std::set< Force* >&  getForces();
     AGENT_API std::set< Player* >&  getPlayers();
     AGENT_API std::set< Unit* >&  getAllUnits();

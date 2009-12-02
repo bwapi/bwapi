@@ -778,6 +778,9 @@ namespace BWAPI
             BridgeServer::sharedStaticData->mapWidth      = mapWidth();
             BridgeServer::sharedStaticData->mapHeight     = mapHeight();
             BridgeServer::sharedStaticData->getMapHash    = getMapHash();
+            BridgeServer::sharedStaticData->isMultiplayer = isMultiplayer();
+            BridgeServer::sharedStaticData->isReplay      = isReplay();
+            BridgeServer::sharedStaticData->isPaused      = isPaused();
           }
           BridgeServer::invokeOnFrame();
         }

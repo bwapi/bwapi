@@ -75,6 +75,27 @@ namespace BWAgent
         return -1;
       return BridgeClient::sharedStaticData->getMapHash;
     }
+    //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
+    bool isMultiplayer()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      return BridgeClient::sharedStaticData->isMultiplayer;
+    }
+    //----------------------------------------------- IS REPLAY ------------------------------------------------
+    bool isReplay()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      return BridgeClient::sharedStaticData->isReplay;
+    }
+    //----------------------------------------------- IS PAUSED ------------------------------------------------
+    bool isPaused()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      return BridgeClient::sharedStaticData->isPaused;
+    }
 /*
     //---------------------------------------------- MAP FILENAME ----------------------------------------------
     std::string  mapFilename()
@@ -200,14 +221,6 @@ namespace BWAgent
     void refreshSelectionStates()
     {
     }
-    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-    bool isMultiplayer()
-    {
-    }
-    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-    bool _isSinglePlayer() const
-    {
-    }
     //------------------------------------------- IS ON START CALLED -------------------------------------------
     bool isOnStartCalled() const
     {
@@ -220,25 +233,7 @@ namespace BWAgent
     bool inGame() const
     {
     }
-    //----------------------------------------------- IS PAUSED ------------------------------------------------
-    bool isPaused()
-    {
-    }
-    //----------------------------------------------- IN REPLAY ------------------------------------------------
-    bool  isReplay()
-    {
-    }
-    //----------------------------------------------- IN REPLAY ------------------------------------------------
-    bool  _isReplay() const
-    {
-    }
-    const int BUFFER_SIZE = 2048;
-    char buffer[BUFFER_SIZE];
 
-    //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-    void printEx(s32 pID, const char* text, ...)
-    {
-    }
     //------------------------------------------------- PRINTF -------------------------------------------------
     void  printf(const char* text, ...)
     {
@@ -249,27 +244,6 @@ namespace BWAgent
     }
     //---------------------------------------------- CHANGE RACE -----------------------------------------------
     void  changeRace(BWAPI::Race race)
-    {
-    }
-    //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
-    void addToCommandBuffer(Command* command)
-    {
-    }
-    //--------------------------------------------- ON GAME START ----------------------------------------------
-    void onGameStart()
-    {
-    }
-
-    //---------------------------------------------- ON SEND TEXT ----------------------------------------------
-    bool onSendText(const char* text)
-    {
-    }
-    //----------------------------------------------- PARSE TEXT -----------------------------------------------
-    bool parseText(const char* text)
-    {
-    }
-    //---------------------------------------------- ON GAME END -----------------------------------------------
-    void onGameEnd()
     {
     }
     //----------------------------------------------- START GAME -----------------------------------------------
