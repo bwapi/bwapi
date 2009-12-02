@@ -41,7 +41,7 @@ namespace Bridge
       Packet() : packetType(T::Id){};
     };
     //------------------------------------------------
-    // Sent at the beginning of a Match to pass controll.
+    // Sent at the beginning of a Match to pass control.
     // During this controll time, Agents has access to
     // all neutral units
     // Export one-time exports here
@@ -56,7 +56,7 @@ namespace Bridge
       UNIQUE_MESSAGE_ID;
     };
     //------------------------------------------------
-    // Sent each frame, to pass controll between
+    // Sent each frame, to pass control between
     // the two processes.
     // Server sends first.
     //------------------------------------------------
