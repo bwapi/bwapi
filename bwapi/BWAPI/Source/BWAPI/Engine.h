@@ -165,7 +165,7 @@ namespace BWAPI
       extern bool gluMessageBox(char* message, int type);
       extern bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
 
-      extern void update(); /**< Updates unitArrayCopy according to bw memory */
+      extern void _update(); /**< Updates unitArrayCopy according to bw memory */
       extern void onMenuFrame();
       extern void setScreenPosition(int x, int y);
       extern void init();

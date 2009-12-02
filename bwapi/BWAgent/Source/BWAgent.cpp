@@ -51,17 +51,13 @@ namespace BWAgent
       BridgeClient::BridgeState bridgeState = BridgeClient::getCurrentState();
       switch(bridgeState)
       {
-      case BridgeClient::BridgeState::OnInitMatch:
+      case BridgeClient::OnInitMatch:
         {
           aiModule.onStartMatch();
         }break;
-      case BridgeClient::BridgeState::OnFrame:
+      case BridgeClient::OnFrame:
         {
           aiModule.onFrame();
-        }break;
-      case BridgeClient::BridgeState::OnSendText:
-        {
-          aiModule.onSendText(std::string("temp"));
         }break;
       }
     }
