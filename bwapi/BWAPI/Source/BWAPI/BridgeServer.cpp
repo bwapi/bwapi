@@ -120,6 +120,13 @@ namespace BWAPI
     //-------------------------- INIT MATCH -----------------------------------------------------
     bool initMatch()
     {
+      // check prerequisites
+      if(!stateConnectionEstablished)
+      {
+        lastError = __FUNCTION__ ": connection not established";
+        return false;
+      }
+
       // create match initialization packet
       Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerInitMatch> initMatchEvent;
       if(initMatchEvent.packetType != Bridge::PipeMessage::ServerInitMatch::Id)
@@ -129,9 +136,9 @@ namespace BWAPI
       }
 
       // export static data
-      initMatchEvent.staticGameDataExport = sharedStuff.staticData.exportToProcess(
+      initMatchEvent.data.staticGameDataExport = sharedStuff.staticData.exportToProcess(
         sharedStuff.remoteProcess, true);
-      if(!initMatchEvent.staticGameDataExport.isValid())
+      if(!initMatchEvent.data.staticGameDataExport.isValid())
       {
         lastError = __FUNCTION__ ": staticData export failed";
         return false;
@@ -145,7 +152,7 @@ namespace BWAPI
 
       // wait untill event is done
       Util::Buffer buffer;
-      if(sharedStuff.pipe.receive(buffer))
+      if(!sharedStuff.pipe.receive(buffer))
       {
         lastError = __FUNCTION__ ": error receiving completion event";
         return false;
@@ -169,6 +176,55 @@ namespace BWAPI
       }
 
       initMatchDone;  // yet no data to read
+
+      return true;
+    }
+    //-------------------------- INVOKE ON FRAME ------------------------------------------------
+    bool invokeOnFrame()
+    {
+      // check prerequisites
+      if(!stateConnectionEstablished)
+      {
+        lastError = __FUNCTION__ ": no connection established";
+        return false;
+      }
+
+      // send next frame invocation packet
+      Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerNextFrame> nextFrame;
+      nextFrame;  // no data yet
+      sharedStuff.pipe.sendStructure(nextFrame);
+
+      // receive completion notification
+      Util::Buffer buffer;
+      if(!sharedStuff.pipe.receive(buffer))
+      {
+        lastError = __FUNCTION__ ": receive completion packet failed";
+        return false;
+      }
+
+      // parse packet
+      Util::MemoryFrame packet = buffer.getMemory();
+      int packetType;
+      if(!packet.readTo(packetType))
+      {
+        lastError = __FUNCTION__ ": received packet too small";
+        return false;
+      }
+
+      if(packetType != Bridge::PipeMessage::AgentNextFrameDone::Id)
+      {
+        lastError = __FUNCTION__ ": unexpected packet type " + packetType;
+        return false;
+      }
+
+      Bridge::PipeMessage::AgentNextFrameDone completion;
+      if(!packet.readTo(completion))
+      {
+        lastError = __FUNCTION__ ": completion packet too small";
+        return false;
+      }
+
+      completion; // yet no data here
 
       return true;
     }

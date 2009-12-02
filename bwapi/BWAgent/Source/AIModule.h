@@ -10,6 +10,7 @@ namespace BWAgent
     public:
       AIModule();
       virtual ~AIModule();
+      virtual void onStartMatch();
       virtual void onFrame();
   };
 }

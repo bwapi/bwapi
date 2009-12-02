@@ -728,6 +728,14 @@ namespace BWAPI
     //------------------------------------------------- UPDATE -------------------------------------------------
     void update()
     {
+      //
+      if(gameState == InMenu && BridgeServer::isAgentConnected())
+      {
+        BridgeServer::initMatch();
+      }
+      gameState = InMatch;
+
+      //
       if(!BridgeServer::isAgentConnected())
       {
         if(!BridgeServer::acceptIncomingConnections())
@@ -748,6 +756,13 @@ namespace BWAPI
           printf("connected");
         }
       }
+      if(BridgeServer::isAgentConnected())
+      {
+        BridgeServer::invokeOnFrame();
+      }
+
+
+
       try
       {
         inUpdate = true;
@@ -872,6 +887,15 @@ namespace BWAPI
           Util::Logger::globalLog->logCritical("error initializing server: %s\n", BridgeServer::getLastError().c_str());
         }
         isBridgeInitialized = true;
+      }
+      if(!BridgeServer::isAgentConnected())
+      {
+        if(!BridgeServer::acceptIncomingConnections())
+        {
+        }
+      }
+      else
+      {
       }
 
      // Util::Logger::globalLog->logCritical("Inside menu! :D");

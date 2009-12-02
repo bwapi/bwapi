@@ -33,9 +33,10 @@ namespace Bridge
     //------------------------------------------------
     // Base packet
     //------------------------------------------------
-    template<typename T> struct Packet : T
+    template<typename T> struct Packet
     {
       int packetType;
+      T data;
 
       Packet() : packetType(T::Id){};
     };

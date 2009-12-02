@@ -11,11 +11,14 @@ class ConsoleModule : public AIModule
 {
 public:
   ~ConsoleModule(){};
-  void onStart() {};
   void onEnd(bool isWinner) {};
+  void onStartMatch()
+  {
+    printf("on start match\n");
+  };
   void onFrame()
   {
-    printf("on frame");
+    printf("on frame\n");
   };
   bool onSendText(std::string text) {return false;};
 //  void onPlayerLeft(Player* player) {};
@@ -32,13 +35,17 @@ public:
 int _tmain(int argc, _TCHAR* argv[])
 {
   ConsoleModule consoleModule;
-  if(!BWAgent::connect(&consoleModule))
+  if(!BWAgent::connect())
   {
     printf("could not connect: %s\n", BWAgent::getLastError());
     system("pause");
     return 1;
   }
   printf("connected\n");
+  if(!takeover(consoleModule))
+  {
+    printf(BWAgent::getLastError().c_str());
+  }
   system("pause");
   return 0;
 }
