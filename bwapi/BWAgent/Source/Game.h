@@ -31,7 +31,12 @@ namespace BWAgent
     AGENT_API int mapHeight();
     AGENT_API int getMapHash();
 
+    AGENT_API int  getGroundHeight(int x, int y);
+    AGENT_API bool isWalkable(int x, int y);
+    AGENT_API bool isBuildable(int x, int y);
     AGENT_API bool isVisible(int x, int y);
+    AGENT_API bool isExplored(int x, int y);
+    AGENT_API bool hasCreep(int x, int y);
 
     AGENT_API bool isMultiplayer();
     AGENT_API bool isPaused();
@@ -54,19 +59,10 @@ namespace BWAgent
     AGENT_API std::set<Unit*>& unitsOnTile(int x, int y);
     AGENT_API Error  getLastError() const;
 
-    AGENT_API int  mapWidth();
-    AGENT_API int  mapHeight();
     AGENT_API std::string  mapFilename();
     AGENT_API std::string  mapName();
-    AGENT_API int getMapHash();
 
-    AGENT_API int  getGroundHeight(int x, int y);
-    AGENT_API bool isWalkable(int x, int y);
-    AGENT_API bool isBuildable(int x, int y);
-    AGENT_API bool isExplored(int x, int y);
-    AGENT_API bool hasCreep(int x, int y);
     AGENT_API bool hasPower(int x, int y, int tileWidth, int tileHeight);
-
 
     AGENT_API bool isBuildable(TilePosition position);
     AGENT_API bool isVisible(TilePosition position);
