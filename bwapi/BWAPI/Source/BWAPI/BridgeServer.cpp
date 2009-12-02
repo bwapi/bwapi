@@ -13,10 +13,12 @@ namespace BWAPI
   {
   //private:
     //-------------------------- PRIVATE VARIABLES ----------------------------------------------
-    bool stateConnectionEstablished;
+    bool stateSharedMemoryInitialized = false;
+    bool stateConnectionEstablished = false;
+    bool stateIsInitialized = false;
     Bridge::SharedStuff sharedStuff;
 
-    //-------------------------- ----------------------------------------------------------------
+    //error handling
     std::string lastError;
     void resetError()
     {
@@ -37,8 +39,10 @@ namespace BWAPI
       if(!sharedStuff.pipe.create(Bridge::globalPipeName))
       {
         lastError = "Could not create pipe server";
+        stateIsInitialized = false;
         return false;
       }
+      stateIsInitialized = true;
       return true;
     }
     //-------------------------- CHECK INCOMING CONNECTIONS -------------------------------------
@@ -122,11 +126,15 @@ namespace BWAPI
     //-------------------------- DISCONNECT -----------------------------------------------------
     void disconnect()
     {
+      if(stateSharedMemoryInitialized)
+      {
+        releaseSharedMemory();
+      }
       sharedStuff.pipe.disconnect();
       stateConnectionEstablished = false;
     }
     //-------------------------- INIT MATCH -----------------------------------------------------
-    bool initMatch()
+    bool initSharedMemory()
     {
       // check prerequisites
       if(!stateConnectionEstablished)
@@ -134,6 +142,7 @@ namespace BWAPI
         lastError = __FUNCTION__ ": connection not established";
         return false;
       }
+      resetError();
 
       // create match initialization packet
       Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerInitMatch> initMatchEvent;
@@ -193,11 +202,13 @@ namespace BWAPI
 
       initMatchDone;  // yet no data to read
 
+      stateSharedMemoryInitialized = true;
       return true;
     }
     //-------------------------- STOP MATCH -----------------------------------------------------
-    bool stopMatch()
+    bool releaseSharedMemory()
     {
+      stateSharedMemoryInitialized = false;
       return true;
     }
     //-------------------------- INVOKE ON FRAME ------------------------------------------------
@@ -302,6 +313,16 @@ namespace BWAPI
     bool isAgentConnected()
     {
       return stateConnectionEstablished;
+    }
+    //-------------------------- IS BRIDGE INITIALIZED ------------------------------------------
+    bool isBridgeInitialized()
+    {
+      return stateIsInitialized;
+    }
+    //-------------------------- IS SHARED MEMORY INITIALIZED -----------------------------------
+    bool isSharedMemoryInitialized()
+    {
+      return stateSharedMemoryInitialized;
     }
     //-------------------------- ----------------------------------------------------------------
   }

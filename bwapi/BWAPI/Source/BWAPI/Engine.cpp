@@ -61,11 +61,7 @@ namespace BWAPI
   namespace Engine
   {
     //----------------------------------- ENGINE STATE --------------------------------
-    // bridge state
-    bool isBridgeUsable = true;         // false when bridge should be used no more
-    bool isBridgeInitialized = false;   // true once initBridge called
-
-    // game state
+    // broodwar game state
     enum GameState
     {
       Startup,
@@ -742,28 +738,32 @@ namespace BWAPI
       // state transitions
       GameState lastState = gameState;
       gameState = nextState;
-      if(lastState == Startup)
+
+      // init bridge server
+      if(lastState == Startup && nextState != Startup)
       {
         if(!BridgeServer::initConnectionServer())
         {
           printf("could not initialize bridge server: %s\n", BridgeServer::getLastError().c_str());
-          isBridgeUsable = false;
         }
       }
-      if(lastState == InMenu)
+
+      // init shared memory
+      if(gameState == InMatch
+        && BridgeServer::isAgentConnected()
+        &&!BridgeServer::isSharedMemoryInitialized())
       {
-        if(nextState == InMatch)
+        if(!BridgeServer::initSharedMemory())
         {
-          if(BridgeServer::isAgentConnected())
-          {
-            if(!BridgeServer::initMatch())
-            {
-              printf("failed initMatch: %s\n", BridgeServer::getLastError().c_str());
-              BridgeServer::disconnect();
-            }
-          }
-          frameCount = 0;
+          printf("failed to init shared memory: %s\n", BridgeServer::getLastError().c_str());
+          BridgeServer::disconnect();
         }
+      }
+
+      // reset frame count
+      if(nextState == InMatch && lastState != InMatch)
+      {
+        frameCount = 0;
       }
 
       // onFrame
@@ -793,32 +793,21 @@ namespace BWAPI
       }
 
       // handle incoming connections
-      if(isBridgeUsable)
+      if(BridgeServer::isBridgeInitialized()
+        &&!BridgeServer::isAgentConnected())
       {
-        if(!BridgeServer::isAgentConnected())
+        if(!BridgeServer::acceptIncomingConnections())
         {
-          if(!BridgeServer::acceptIncomingConnections())
-          {
-            printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
-            BridgeServer::disconnect();
-            isBridgeUsable = false;
-          }
-          if(BridgeServer::isAgentConnected())
-          {
-            printf("connected");
-            if(gameState == InMatch)
-            {
-              if(!BridgeServer::initMatch())
-              {
-                printf("failed initMatch: %s", BridgeServer::getLastError().c_str());
-                BridgeServer::disconnect();
-              }
-            }
-          }
+          printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
+          BridgeServer::disconnect();
+        }
+        if(BridgeServer::isAgentConnected())
+        {
+          printf("connected");
         }
       }
 
-      // consequent state changes
+      // count frames
       if(gameState == InMatch)
       {
         frameCount++;
