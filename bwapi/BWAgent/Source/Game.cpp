@@ -24,7 +24,7 @@ namespace BWAgent
     {
       if(!BridgeClient::sharedStaticData)
         return -1;
-      return BridgeClient::sharedStaticData->getFrameCount;
+      return BridgeClient::sharedStaticData->frameCount;
     }
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
     int getMouseX()
@@ -73,7 +73,7 @@ namespace BWAgent
     {
       if(!BridgeClient::sharedStaticData)
         return -1;
-      return BridgeClient::sharedStaticData->getMapHash;
+      return BridgeClient::sharedStaticData->mapHash;
     }
     //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
     bool isMultiplayer()
