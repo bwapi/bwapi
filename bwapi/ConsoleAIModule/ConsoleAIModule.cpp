@@ -44,7 +44,9 @@ int _tmain(int argc, _TCHAR* argv[])
   {
     printf("waiting for server to start up\n");
     while(!BWAgent::connect())
-    {}
+    {
+      Sleep(200);
+    }
   }
   printf("connected\n");
   if(!takeover(consoleModule))

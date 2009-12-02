@@ -749,11 +749,12 @@ namespace BWAPI
         {
           if(!BridgeServer::acceptIncomingConnections())
           {
-            printf("problem accepting connections: %s\n", BridgeServer::getLastError().c_str());
-            if(!BridgeServer::initConnectionServer())
-            {
-              printf("could not init server: %s\n", BridgeServer::getLastError().c_str());
-            }
+            printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
+            BridgeServer::disconnect();
+          }
+          if(BridgeServer::isAgentConnected())
+          {
+            printf("connected");
           }
         }
         else
@@ -782,7 +783,11 @@ namespace BWAPI
             BridgeServer::sharedStaticData->isReplay      = isReplay();
             BridgeServer::sharedStaticData->isPaused      = isPaused();
           }
-          BridgeServer::invokeOnFrame();
+          if(!BridgeServer::invokeOnFrame())
+          {
+            BridgeServer::disconnect();
+            printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
+          }
         }
 
 
