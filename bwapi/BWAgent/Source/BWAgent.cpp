@@ -1,7 +1,6 @@
 #include "BWAgent.h"
-#include "BridgeAgent.h"
+#include "BridgeClient.h"
 #include "AIModule.h"
-#include "BridgeAgent.h"
 
 #include "Util\Version.h"
 
@@ -27,9 +26,9 @@ namespace BWAgent
   int connect(AIModule* aiModule)
   {
     resetError();
-    if(!BridgeAgent::connect())
+    if(!BridgeClient::connect())
     {
-      lastError = "could not connect: " + BridgeAgent::getLastError();
+      lastError = "could not connect: " + BridgeClient::getLastError();
       return 0;
     }
     return 1;

@@ -1,4 +1,4 @@
-#include "BridgeAgent.h"
+#include "BridgeClient.h"
 
 #include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
@@ -14,7 +14,7 @@
 namespace BWAgent
 {
   // singleton class
-  namespace BridgeAgent
+  namespace BridgeClient
   {
   //private:
     Bridge::SharedStuff sharedStuff;
