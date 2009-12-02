@@ -45,7 +45,7 @@
 #include "BridgeHub.h"
 
 #include <Bridge/PipeMessage.h>
-#include <Bridge/Structure.h>
+#include <Bridge/SharedStuff.h>
 #include <Bridge/Constants.h>
 
 #include "ShapeBox.h"

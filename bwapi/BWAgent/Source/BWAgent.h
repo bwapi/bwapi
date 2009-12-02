@@ -1,6 +1,8 @@
 #pragma once
 #include "BWAgentInterface.h"
 
+#include <string>
+
 namespace BWAgent
 {
   class AIModule;
@@ -12,5 +14,5 @@ namespace BWAgent
   AGENT_API int connect(AIModule*);
 
   // returns last operation's error string.
-  AGENT_API const char* getLastError();
+  AGENT_API std::string getLastError();
 }
