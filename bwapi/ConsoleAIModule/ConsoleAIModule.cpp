@@ -13,7 +13,10 @@ public:
   ~ConsoleModule(){};
   void onStart() {};
   void onEnd(bool isWinner) {};
-  void onFrame() {};
+  void onFrame()
+  {
+    printf("on frame");
+  };
   bool onSendText(std::string text) {return false;};
 //  void onPlayerLeft(Player* player) {};
 //  void onNukeDetect(Position target) {};
