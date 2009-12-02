@@ -191,6 +191,7 @@ namespace BWAPI
       extern void lockFlags();
       extern bool isOnStartCalled();
       extern bool inGame();
+      extern bool isInLobby();
       extern bool _isSinglePlayer();
       extern bool _isReplay();
       extern void setLastError(BWAPI::Error e);
