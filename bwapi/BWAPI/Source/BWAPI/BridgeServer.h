@@ -10,7 +10,8 @@ namespace BWAPI
   //public:
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();
-    extern const std::string &getLastError();
+    extern bool initMatch();
     extern bool isAgentConnected();
+    extern const std::string &getLastError();
   }
 }

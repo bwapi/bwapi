@@ -37,7 +37,13 @@ namespace BWAgent
   // AGENT_API
   bool takeover()
   {
-    BridgeClient;
+    resetError();
+    if(BridgeClient::waitForEvent())
+    {
+      lastError = "error while waiting for event. " + BridgeClient::getLastError();
+      return false;
+    }
+    return true;
   }
 
   // AGENT_API

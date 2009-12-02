@@ -70,7 +70,7 @@ namespace BWAgent
           lastError = "Could not read pipe";
           return false;
         }
-        Bridge::PipeMessage::HubHandshake handshake;
+        Bridge::PipeMessage::ServerHandshake handshake;
         if(!data.getMemory().readTo(handshake))
         {
           lastError = "Handshake failure";
@@ -78,10 +78,10 @@ namespace BWAgent
         }
         if(!handshake.accepted)
         {
-          if(handshake.hubVersion != SVN_REV)
+          if(handshake.serverVersion != SVN_REV)
           {
             lastError = "BWAPI.dll(";
-            lastError += handshake.hubVersion;
+            lastError += handshake.serverVersion;
             lastError += ") and BWAgent.dll(" SVN_REV_STR ") version mismatch";
             return false;
           }
@@ -89,7 +89,7 @@ namespace BWAgent
           return false;
         }
         // try access the process for handle duplication
-        if(!sharedStuff.remoteProcess.importHandle(handshake.hubProcessHandle))
+        if(!sharedStuff.remoteProcess.importHandle(handshake.serverProcessHandle))
         {
           lastError = "imported faulty process handle";
           return false;
@@ -109,6 +109,30 @@ namespace BWAgent
 
       // connected
       connectionEstablished = true;
+
+      return true;
+    }
+    //----------------------------------------- -----------------------------------------------------------------
+    extern bool waitForEvent()
+    {
+      resetError();
+
+      // receive something
+      Util::Buffer buffer;
+      if(sharedStuff.pipe.receive(buffer))
+      {
+        lastError = __FUNCTION__ ": waitForEvent: error pipe.receive.";
+        return false;
+      }
+
+      // examine received packer
+      Util::MemoryFrame packet = buffer.getMemory();
+      int packetType;
+      if(!packet.readTo(packetType))
+      {
+        lastError = __FUNCTION__ ": waitForEvent: too small packet.";
+        return false;
+      }
 
       return true;
     }

@@ -33,7 +33,7 @@ namespace Bridge
     //------------------------------------------------
     // Base packet
     //------------------------------------------------
-    template<typename T> struct Packet
+    template<typename T> struct Packet : T
     {
       int packetType;
 
@@ -45,12 +45,12 @@ namespace Bridge
     // all neutral units
     // Export one-time exports here
     //------------------------------------------------
-    struct ServerOnStart
+    struct ServerInitMatch
     {
       Bridge::SharedStuff::SharedGameDataStructure::Export staticGameDataExport;
       UNIQUE_MESSAGE_ID;
     };
-    struct AgentOnStartDone
+    struct AgentInitMatchDone
     {
       UNIQUE_MESSAGE_ID;
     };
