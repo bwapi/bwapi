@@ -15,11 +15,13 @@ namespace BWAPI
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();
     extern void disconnect();
-    extern bool initMatch();
-    extern bool stopMatch();
+    extern bool initSharedMemory();
+    extern bool releaseSharedMemory();
     extern bool invokeOnFrame();
     extern bool pushSendText();
-    extern bool isAgentConnected();
+    extern bool isAgentConnected();               // true when pipe connection works
+    extern bool isBridgeInitialized();            // true once initBridge called
+    extern bool isSharedMemoryInitialized();      // true once memory allocated
     extern const std::string &getLastError();
   }
 }
