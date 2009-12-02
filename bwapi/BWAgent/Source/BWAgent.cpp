@@ -16,14 +16,15 @@ namespace BWAgent
   }
 
 //public:
+  //----------------------------------- GET VERSION -----------------------------------------------
   // AGENT_API
   int getVersion()
   {
     return SVN_REV;
   }
-
+  //----------------------------------- CONNECT ---------------------------------------------------
   // AGENT_API
-  int connect(AIModule* aiModule)
+  int connect()
   {
     resetError();
     if(!BridgeClient::connect())
@@ -33,22 +34,40 @@ namespace BWAgent
     }
     return 1;
   }
-
+  //----------------------------------- TAKE OVER -------------------------------------------------
   // AGENT_API
-  bool takeover()
+  bool takeover(AIModule& aiModule)
   {
     resetError();
-    if(BridgeClient::waitForEvent())
+    while(true)
     {
-      lastError = "error while waiting for event. " + BridgeClient::getLastError();
-      return false;
+      if(!BridgeClient::waitForEvent())
+      {
+        lastError = __FUNCTION__ ": " + BridgeClient::getLastError();
+        return false;
+      }
+
+      // react upon bridge state
+      BridgeClient::BridgeState bridgeState = BridgeClient::getCurrentState();
+      switch(bridgeState)
+      {
+      case BridgeClient::BridgeState::OnInitMatch:
+        {
+          aiModule.onStartMatch();
+        }break;
+      case BridgeClient::BridgeState::OnFrame:
+        {
+          aiModule.onFrame();
+        }break;
+      }
     }
     return true;
   }
-
+  //----------------------------------- GET LAST ERROR --------------------------------------------
   // AGENT_API
   std::string getLastError()
   {
     return lastError;
   }
+  //----------------------------------- -----------------------------------------------------------
 }
