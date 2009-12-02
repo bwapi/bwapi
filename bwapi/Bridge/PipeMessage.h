@@ -68,6 +68,16 @@ namespace Bridge
     {
       UNIQUE_MESSAGE_ID;
     };
+    struct ServerOnSendText
+    {
+      std::string text;
+      UNIQUE_MESSAGE_ID;
+    };
+    struct AgentOnSendTextDone
+    {
+      bool retval;
+      UNIQUE_MESSAGE_ID;
+    };
     //------------------------------------------------
     // Notifies of the current game being over
     // Requests all Shared objects to be released
