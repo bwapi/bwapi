@@ -718,16 +718,6 @@ namespace BWAPI
     //------------------------------------------------- UPDATE -------------------------------------------------
     void update()
     {
-      static bool firsttime = true;
-      if(firsttime)
-      {
-        firsttime = false;
-        // initialize bridge
-        if(!BridgeHub::initConnectionServer())
-        {
-          printf("error initializing server: %s\n", BridgeHub::getLastError().c_str());
-        }
-      }
       if(!BridgeHub::isAgentConnected())
       {
         if(!BridgeHub::acceptIncomingConnections())
@@ -748,7 +738,6 @@ namespace BWAPI
           printf("connected");
         }
       }
-
       try
       {
         inUpdate = true;
@@ -864,6 +853,17 @@ namespace BWAPI
     //---------------------------------------------- ON MENU FRAME ---------------------------------------------
     void onMenuFrame()
     {
+      static bool firsttime = true;
+      if(firsttime)
+      {
+        firsttime = false;
+        // initialize bridge
+        if(!BridgeHub::initConnectionServer())
+        {
+          printf("error initializing server: %s\n", BridgeHub::getLastError().c_str());
+        }
+      }
+
      // Util::Logger::globalLog->logCritical("Inside menu! :D");
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
