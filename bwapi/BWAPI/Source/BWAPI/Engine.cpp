@@ -728,47 +728,6 @@ namespace BWAPI
     //------------------------------------------------- UPDATE -------------------------------------------------
     void update()
     {
-      //
-      if(gameState == InMenu && BridgeServer::isAgentConnected())
-      {
-        enableFlag(BWAPI::Flag::UserInput);
-        BridgeServer::initMatch();
-      }
-      gameState = InMatch;
-
-      //
-      if(!BridgeServer::isAgentConnected())
-      {
-        if(!BridgeServer::acceptIncomingConnections())
-        {
-          printf("problem accepting connections: %s\n", BridgeServer::getLastError().c_str());
-          if(!BridgeServer::initConnectionServer())
-          {
-            printf("could not init server: %s\n", BridgeServer::getLastError().c_str());
-          }
-        }
-      }
-      else
-      {
-        static bool firsttime2 = true;
-        if(firsttime2)
-        {
-          firsttime2 = false;
-          printf("connected");
-        }
-      }
-      if(BridgeServer::isAgentConnected())
-      {
-        if(BridgeServer::sharedStaticData)
-        {
-          BridgeServer::sharedStaticData->mouseX = getMouseX();
-          BridgeServer::sharedStaticData->mouseY = getMouseY();
-        }
-        BridgeServer::invokeOnFrame();
-      }
-
-
-
       try
       {
         inUpdate = true;
@@ -777,6 +736,52 @@ namespace BWAPI
         
         if (!enabled)
           return;
+
+        if(gameState == InMenu && BridgeServer::isAgentConnected())
+        {
+          enableFlag(BWAPI::Flag::UserInput);
+          BridgeServer::initMatch();
+        }
+        gameState = InMatch;
+
+        //
+        if(!BridgeServer::isAgentConnected())
+        {
+          if(!BridgeServer::acceptIncomingConnections())
+          {
+            printf("problem accepting connections: %s\n", BridgeServer::getLastError().c_str());
+            if(!BridgeServer::initConnectionServer())
+            {
+              printf("could not init server: %s\n", BridgeServer::getLastError().c_str());
+            }
+          }
+        }
+        else
+        {
+          static bool firsttime2 = true;
+          if(firsttime2)
+          {
+            firsttime2 = false;
+            printf("connected");
+          }
+        }
+        if(BridgeServer::isAgentConnected())
+        {
+          if(BridgeServer::sharedStaticData)
+          {
+            BridgeServer::sharedStaticData->getLatency    = getLatency();
+            BridgeServer::sharedStaticData->getFrameCount = getFrameCount();
+            BridgeServer::sharedStaticData->getMouseX     = getMouseX();
+            BridgeServer::sharedStaticData->getMouseY     = getMouseY();
+            BridgeServer::sharedStaticData->getScreenX    = getScreenX();
+            BridgeServer::sharedStaticData->getScreenY    = getScreenY();
+            BridgeServer::sharedStaticData->mapWidth      = mapWidth();
+            BridgeServer::sharedStaticData->mapHeight     = mapHeight();
+            BridgeServer::sharedStaticData->getMapHash    = getMapHash();
+          }
+          BridgeServer::invokeOnFrame();
+        }
+
 
         // make a local copy of the unit array
         memcpy(unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
@@ -1221,8 +1226,11 @@ namespace BWAPI
         return true;
       else
       {
-        //if (client != NULL)
-          //return !client->onSendText(std::string(text));
+        if(BridgeServer::isAgentConnected())
+        {
+          //push text onto stack
+          BridgeServer::invokeOnSendText();
+        }
       }
       return false;
     }

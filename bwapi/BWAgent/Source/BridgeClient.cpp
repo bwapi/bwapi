@@ -180,6 +180,11 @@ namespace BWAgent
         // onFrame state
         bridgeState = OnFrame;
       }
+      else if(packetType == Bridge::PipeMessage::ServerOnSendText::Id)
+      {
+        // onSendText state
+        bridgeState = OnSendText;
+      }
       else
       {
         lastError = __FUNCTION__ ": unknown packet type " + packetType;

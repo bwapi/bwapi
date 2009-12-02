@@ -317,10 +317,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\Structure.h"
-				>
-			</File>
-			<File
 				RelativePath="..\svnrev.h"
 				>
 			</File>

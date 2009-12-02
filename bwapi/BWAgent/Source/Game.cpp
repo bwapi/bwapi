@@ -12,29 +12,70 @@ namespace BWAgent
 {
   namespace Game
   {
+    //---------------------------------------------- GET LATENCY -----------------------------------------------
+    int getLatency()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->getLatency;
+    }
+    //--------------------------------------------- GET FRAME COUNT --------------------------------------------
+    int getFrameCount()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->getFrameCount;
+    }
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
     int getMouseX()
     {
       if(!BridgeClient::sharedStaticData)
         return -1;
-      return BridgeClient::sharedStaticData->mouseX;
+      return BridgeClient::sharedStaticData->getMouseX;
     }
     //---------------------------------------------- GET MOUSE Y -----------------------------------------------
     int getMouseY()
     {
       if(!BridgeClient::sharedStaticData)
         return -1;
-      return BridgeClient::sharedStaticData->mouseY;
+      return BridgeClient::sharedStaticData->getMouseY;
     }
-/*
-    //----------------------------------------------- MAP WIDTH ------------------------------------------------
-    int  mapWidth()
+    //---------------------------------------------- GET SCREEN X ----------------------------------------------
+    int getScreenX()
     {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->getScreenX;
+    }
+    //---------------------------------------------- GET SCREEN Y ----------------------------------------------
+    int getScreenY()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->getScreenY;
+    }
+    //----------------------------------------------- MAP WIDTH ------------------------------------------------
+    int mapWidth()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->mapWidth;
     }
     //----------------------------------------------- MAP HEIGHT -----------------------------------------------
-    int  mapHeight()
+    int mapHeight()
     {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->mapHeight;
     }
+    //----------------------------------------------- GET MAP HASH ---------------------------------------------
+    int getMapHash()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      return BridgeClient::sharedStaticData->getMapHash;
+    }
+/*
     //---------------------------------------------- MAP FILENAME ----------------------------------------------
     std::string  mapFilename()
     {
@@ -109,10 +150,6 @@ namespace BWAgent
     }
     //--------------------------------------------- GET START LOCATIONS ----------------------------------------
     std::set< TilePosition >& getStartLocations()
-    {
-    }
-    //----------------------------------------------- GET MAP HASH ---------------------------------------------
-    int  getMapHash()
     {
     }
     //----------------------------------------------- GET FORCES -----------------------------------------------
@@ -255,14 +292,6 @@ namespace BWAgent
     void  restartGame()
     {
     }
-    //---------------------------------------------- GET SCREEN X ----------------------------------------------
-    int  getScreenX()
-    {
-    }
-    //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-    int  getScreenY()
-    {
-    }
     //------------------------------------------- SET SCREEN POSITION ------------------------------------------
     void setScreenPosition(int x, int y)
     {
@@ -299,16 +328,8 @@ namespace BWAgent
     UnitImpl* getFirst()
     {
     }
-    //---------------------------------------------- GET LATENCY -----------------------------------------------
-    int getLatency()
-    {
-    }
     //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
     void updateUnits()
-    {
-    }
-    //--------------------------------------------- GET FRAME COUNT --------------------------------------------
-    int  getFrameCount()
     {
     }
     //--------------------------------------------- UNITS ON TILE ----------------------------------------------

@@ -21,8 +21,15 @@ namespace BWAgent
   /** singleton Game class functions */
   namespace Game
   {
+    AGENT_API int getLatency();
+    AGENT_API int getFrameCount();
     AGENT_API int getMouseX();
     AGENT_API int getMouseY();
+    AGENT_API int getScreenX();
+    AGENT_API int getScreenY();
+    AGENT_API int mapWidth();
+    AGENT_API int mapHeight();
+    AGENT_API int getMapHash();
 /*    AGENT_API std::set< Force* >&  getForces();
     AGENT_API std::set< Player* >&  getPlayers();
     AGENT_API std::set< Unit* >&  getAllUnits();
@@ -34,12 +41,6 @@ namespace BWAgent
     AGENT_API std::set< Unit* >& getStaticGeysers();
     AGENT_API std::set< Unit* >& getStaticNeutralUnits();
 
-    AGENT_API int getLatency();
-    AGENT_API int getFrameCount();
-    AGENT_API int getMouseX();
-    AGENT_API int getMouseY();
-    AGENT_API int getScreenX();
-    AGENT_API int getScreenY();
 
     AGENT_API bool  isFlagEnabled(int flag);
     AGENT_API void  enableFlag(int flag);
