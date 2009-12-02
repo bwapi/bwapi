@@ -181,7 +181,7 @@ namespace BWAgent
           return false;
         }
         sharedStuff.staticData.import(staticGameData);
-        BWAgent::BridgeClient::sharedStaticData=&sharedStuff.staticData.get();
+        sharedStaticData = &sharedStuff.staticData.get();
         bridgeState = OnInitMatch;
       }
       else if(packetType == Bridge::PipeMessage::ServerNextFrame::Id)
