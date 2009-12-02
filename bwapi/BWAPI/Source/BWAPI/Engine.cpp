@@ -912,6 +912,11 @@ namespace BWAPI
     {
       return *(BW::BWDATA_InGame) != 0;
     }
+    //--------------------------------------------- IS IN LOBBY ----------------------------------------------
+    bool isInLobby()
+    {
+      return *BW::BWDATA_NextMenu==3;
+    }
     //----------------------------------------------- IS PAUSED ------------------------------------------------
     bool isPaused()
     {
@@ -981,7 +986,7 @@ namespace BWAPI
       }
 
       char* txtout = buffer;
-      if (!inGame())
+      if (!inGame() && isInLobby())
   #ifdef __MINGW32__
         __asm__("pushad\n"
                 "mov %edi, _txtout\n"
