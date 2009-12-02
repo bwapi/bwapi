@@ -18,7 +18,7 @@ public:
   };
   void onFrame()
   {
-    printf("on frame %d\n", BWAgent::Game::getFrameCount());
+    printf("on frame %d, (%d,%d)\n", BWAgent::Game::getFrameCount(),BWAgent::Game::mapWidth(),BWAgent::Game::mapHeight());
   };
   bool onSendText(std::string text)
   {
