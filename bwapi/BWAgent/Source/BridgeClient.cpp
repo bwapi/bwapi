@@ -173,6 +173,15 @@ namespace BWAgent
       if(packetType == Bridge::PipeMessage::ServerInitMatch::Id)
       {
         // onInitMatch state
+        Bridge::SharedStuff::SharedGameDataStructure::Export staticGameData;
+        packet.readTo(staticGameData);
+        if (!staticGameData.isValid())
+        {
+          lastError = __FUNCTION__ ": staticGameData is invalid memory.";
+          return false;
+        }
+        sharedStuff.staticData.import(staticGameData);
+        BWAgent::BridgeClient::sharedStaticData=&sharedStuff.staticData.get();
         bridgeState = OnInitMatch;
       }
       else if(packetType == Bridge::PipeMessage::ServerNextFrame::Id)
