@@ -731,6 +731,7 @@ namespace BWAPI
       //
       if(gameState == InMenu && BridgeServer::isAgentConnected())
       {
+        enableFlag(BWAPI::Flag::UserInput);
         BridgeServer::initMatch();
       }
       gameState = InMatch;
@@ -758,8 +759,15 @@ namespace BWAPI
       }
       if(BridgeServer::isAgentConnected())
       {
+        if(BridgeServer::sharedStaticData)
+        {
+          BridgeServer::sharedStaticData->mouseX = getMouseX();
+          BridgeServer::sharedStaticData->mouseY = getMouseY();
+        }
         BridgeServer::invokeOnFrame();
       }
+
+
 
       try
       {
@@ -1209,16 +1217,13 @@ namespace BWAPI
     bool onSendText(const char* text)
     {
       /* prep onSendText */
-      /*
       if (parseText(text) || !isFlagEnabled(BWAPI::Flag::UserInput))
         return true;
       else
       {
-      }*/
-        if(BridgeServer::isAgentConnected())
-        {
-          BridgeServer::invokeOnSendText(text);
-        }
+        //if (client != NULL)
+          //return !client->onSendText(std::string(text));
+      }
       return false;
     }
     //----------------------------------------------- PARSE TEXT -----------------------------------------------

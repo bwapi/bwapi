@@ -28,6 +28,8 @@ namespace BWAPI
     }
     //-------------------------- ----------------------------------------------------------------
   //public:
+    //-------------------------- PUBLIC DATA ----------------------------------------------------
+    Bridge::StaticGameDataStructure* sharedStaticData = NULL;
     //-------------------------- INIT -----------------------------------------------------------
     bool initConnectionServer()
     {
@@ -135,7 +137,12 @@ namespace BWAPI
         return false;
       }
 
-      // export static data
+      // create and export static data
+      if(!sharedStuff.staticData.create())
+      {
+        lastError = __FUNCTION__ ": staticData creating failed";
+        return false;
+      }
       initMatchEvent.data.staticGameDataExport = sharedStuff.staticData.exportToProcess(
         sharedStuff.remoteProcess, true);
       if(!initMatchEvent.data.staticGameDataExport.isValid())
@@ -143,6 +150,8 @@ namespace BWAPI
         lastError = __FUNCTION__ ": staticData export failed";
         return false;
       }
+
+      sharedStaticData = &sharedStuff.staticData.get();
 
       if(!sharedStuff.pipe.sendStructure(initMatchEvent))
       {
