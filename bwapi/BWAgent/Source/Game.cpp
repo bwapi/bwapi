@@ -209,26 +209,6 @@ namespace BWAgent
     std::set< Unit* >& getStaticNeutralUnits()
     {
     }
-    //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-    void IssueCommand(PBYTE pbBuffer, u32 iSize)
-    {
-    }
-    //------------------------------------------------- UPDATE -------------------------------------------------
-    void update()
-    {
-    }
-    //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
-    void refreshSelectionStates()
-    {
-    }
-    //------------------------------------------- IS ON START CALLED -------------------------------------------
-    bool isOnStartCalled() const
-    {
-    }
-    //------------------------------------------ SET ON START CALLED -------------------------------------------
-    void setOnStartCalled(bool onStartCalled)
-    {
-    }
     //------------------------------------------------ IN GAME -------------------------------------------------
     bool inGame() const
     {
@@ -270,40 +250,8 @@ namespace BWAgent
     void setScreenPosition(int x, int y)
     {
     }
-    //----------------------------------------------------------------------------------------------------------
-    void refresh()
-    {
-    }
-    //----------------------------------------------------------------------------------------------------------
-    UnitImpl* getUnit(int index)
-    {
-    }
-    //--------------------------------------------- SAVE SELECTED ----------------------------------------------
-    void saveSelected()
-    {
-    }
-    //--------------------------------------------- LOAD SELECTED ----------------------------------------------
-    void loadSelected()
-    {
-    }
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
     std::set<BWAPI::Unit*>& getSelectedUnits()
-    {
-    }
-    //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-    void onUnitDeath(BW::Unit* unit)
-    {
-    }
-    //---------------------------------------------- ON ADD UNIT -----------------------------------------------
-    void onAddUnit(BWAPI::Unit* unit)
-    {
-    }
-    //----------------------------------------------- GET FIRST ------------------------------------------------
-    UnitImpl* getFirst()
-    {
-    }
-    //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
-    void updateUnits()
     {
     }
     //--------------------------------------------- UNITS ON TILE ----------------------------------------------
@@ -314,20 +262,12 @@ namespace BWAgent
     Error  getLastError() const
     {
     }
-    //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-    void setLastError(BWAPI::Error e)
-    {
-    }
     //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
     bool  isFlagEnabled(int flag)
     {
     }
     //----------------------------------------------- ENABLE FLAG ----------------------------------------------
     void  enableFlag(int flag)
-    {
-    }
-    //-------------------------------------------------- LOCK FLAGS --------------------------------------------
-    void lockFlags()
     {
     }
     //----------------------------------------------------- SELF -----------------------------------------------
@@ -339,9 +279,6 @@ namespace BWAgent
     {
     }
     //----------------------------------------------------- DRAW -----------------------------------------------
-    void addShape(Shape* s)
-    {
-    }
     void  drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
     }
@@ -437,25 +374,6 @@ namespace BWAgent
     void  setLocalSpeed(int speed)
     {
     }
-
-    bool inScreen(int ctype, int x, int y)
-    {
-    }
-
-    bool inScreen(int ctype, int x1, int y1, int x2, int y2)
-    {
-    }
-
-    bool inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3)
-    {
-    }
-
-    bool gluMessageBox(char* message, int type)
-    {
-    }
-
-    bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
-    {
-    }*/
+    */
   };
 };
