@@ -15,6 +15,7 @@ namespace Bridge
     int mapWidth;
     int mapHeight;
     int mapHash;
+    bool isVisible[256][256];
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;

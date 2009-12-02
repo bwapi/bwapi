@@ -31,6 +31,8 @@ namespace BWAgent
     AGENT_API int mapHeight();
     AGENT_API int getMapHash();
 
+    AGENT_API bool isVisible(int x, int y);
+
     AGENT_API bool isMultiplayer();
     AGENT_API bool isPaused();
     AGENT_API bool isReplay();
@@ -61,7 +63,6 @@ namespace BWAgent
     AGENT_API int  getGroundHeight(int x, int y);
     AGENT_API bool isWalkable(int x, int y);
     AGENT_API bool isBuildable(int x, int y);
-    AGENT_API bool isVisible(int x, int y);
     AGENT_API bool isExplored(int x, int y);
     AGENT_API bool hasCreep(int x, int y);
     AGENT_API bool hasPower(int x, int y, int tileWidth, int tileHeight);

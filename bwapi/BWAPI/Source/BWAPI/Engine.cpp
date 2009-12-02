@@ -781,6 +781,9 @@ namespace BWAPI
           staticData.mapWidth      = mapWidth();
           staticData.mapHeight     = mapHeight();
           staticData.mapHash       = getMapHash();
+          for (int x=0;x<mapWidth();x++)
+            for (int y=0;y<mapHeight();y++)
+              staticData.isVisible[x][y] = isVisible(x,y);
           staticData.isMultiplayer = isMultiplayer();
           staticData.isReplay      = isReplay();
           staticData.isPaused      = isPaused();
@@ -821,16 +824,16 @@ namespace BWAPI
     //------------------------------------------------- UPDATE -------------------------------------------------
     void _update()
     {
+      inUpdate = true;
+      if (!isOnStartCalled())
+        onGameStart();
+       
       update(InMatch);
+      inUpdate = false;
       return;
 /*      try
       {
-        inUpdate = true;
-        if (!isOnStartCalled())
-          onGameStart();
-        
-        if (!enabled)
-          return;
+
 
 
         // make a local copy of the unit array
@@ -965,7 +968,7 @@ namespace BWAPI
     //------------------------------------------ SET ON START CALLED -------------------------------------------
     void setOnStartCalled(bool onStartCalled)
     {
-      onStartCalled = onStartCalled;
+      Engine::onStartCalled = onStartCalled;
     }
     //------------------------------------------------ IN GAME -------------------------------------------------
     bool inGame()
