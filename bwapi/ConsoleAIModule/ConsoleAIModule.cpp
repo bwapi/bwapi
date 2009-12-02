@@ -3,6 +3,8 @@
 
 #include <BWAgent\all.h>
 
+#include "windows.h"
+
 using namespace BWAgent;
 
 class ConsoleModule : public AIModule

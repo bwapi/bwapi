@@ -18,10 +18,9 @@ namespace BWAgent
   {
   //private:
     Bridge::SharedStuff sharedStuff;
-    bool connectionEstablished;
 
-    // access to shared memory
-    Bridge::StaticGameDataStructure* sharedStaticData;
+    // Bridge Client state
+    bool connectionEstablished = false;
 
     // error handling
     std::string lastError;
@@ -31,20 +30,24 @@ namespace BWAgent
     }
 
   //public:
+    //----------------------------------------- PUBLIC DATA -----------------------------------------------------
+    // public access to shared memory
+    Bridge::StaticGameDataStructure* sharedStaticData;
+    //----------------------------------------- CONNECT ---------------------------------------------------------
     int connect()
     {
       resetError();
       if(connectionEstablished)
       {
         lastError = "Already connected";
-        return 0;
+        return true;
       }
 
       // try to connect
       if(!sharedStuff.pipe.connect(Bridge::globalPipeName))
       {
         lastError = "Could not establish pipe connection. Check whether:\n - Broodwar is lauched with BWAPI\n - Another bot is already connected";
-        return 0;
+        return false;
       }
 
       // send handshake packet
@@ -55,7 +58,7 @@ namespace BWAgent
         if(!sharedStuff.pipe.sendStructure(handshake))
         {
           lastError = "Could not send per pipe";
-          return 0;
+          return false;
         }
       }
 
@@ -65,13 +68,13 @@ namespace BWAgent
         if(!sharedStuff.pipe.receive(data))
         {
           lastError = "Could not read pipe";
-          return 0;
+          return false;
         }
         Bridge::PipeMessage::HubHandshake handshake;
         if(!data.getMemory().readTo(handshake))
         {
           lastError = "Handshake failure";
-          return 0;
+          return false;
         }
         if(!handshake.accepted)
         {
@@ -80,16 +83,16 @@ namespace BWAgent
             lastError = "BWAPI.dll(";
             lastError += handshake.hubVersion;
             lastError += ") and BWAgent.dll(" SVN_REV_STR ") version mismatch";
-            return 0;
+            return false;
           }
           lastError = "BWAPI rejected the connection";
-          return 0;
+          return false;
         }
         // try access the process for handle duplication
         if(!sharedStuff.remoteProcess.importHandle(handshake.hubProcessHandle))
         {
           lastError = "imported faulty process handle";
-          return 0;
+          return false;
         }
       }
 
@@ -100,19 +103,20 @@ namespace BWAgent
         if(!sharedStuff.pipe.sendStructure(ack))
         {
           lastError = "Sending AgentHandshakeAcknoledge failed";
-          return 0;
+          return false;
         }
       }
 
       // connected
       connectionEstablished = true;
 
-      return 1;
+      return true;
     }
-
+    //----------------------------------------- GET LAST ERROR --------------------------------------------------
     std::string getLastError()
     {
       return lastError;
     }
+    //----------------------------------------- -----------------------------------------------------------------
   }
 }

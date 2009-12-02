@@ -1,4 +1,4 @@
-#include "BridgeHub.h"
+#include "BridgeServer.h"
 
 #include <Bridge\Constants.h>
 #include <Bridge\SharedStuff.h>
@@ -9,7 +9,7 @@
 namespace BWAPI
 {
   // see it as a singleton class.
-  namespace BridgeHub
+  namespace BridgeServer
   {
   //private:
     //-------------------------- PRIVATE VARIABLES ----------------------------------------------
@@ -75,10 +75,10 @@ namespace BWAPI
         }
 
         // send back response
-        Bridge::PipeMessage::HubHandshake handshake2;
+        Bridge::PipeMessage::ServerHandshake handshake2;
         handshake2.accepted = accept;
-        handshake2.hubProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
-        handshake2.hubVersion = SVN_REV;
+        handshake2.serverProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
+        handshake2.serverVersion = SVN_REV;
         if(!sharedStuff.pipe.sendStructure(handshake2))
         {
           lastError = "Could not open agent's process, rejected";

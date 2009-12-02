@@ -35,6 +35,12 @@ namespace BWAgent
   }
 
   // AGENT_API
+  bool takeover()
+  {
+    BridgeClient;
+  }
+
+  // AGENT_API
   std::string getLastError()
   {
     return lastError;
