@@ -1,7 +1,7 @@
 //#define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
 #include "Game.h"
-#include "BridgeAgent.h"
+#include "BridgeClient.h"
 
 #include <string>
 
@@ -15,16 +15,16 @@ namespace BWAgent
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
     int getMouseX()
     {
-      if(!BridgeAgent::sharedStaticData)
+      if(!BridgeClient::sharedStaticData)
         return -1;
-      return BridgeAgent::sharedStaticData->mouseX;
+      return BridgeClient::sharedStaticData->mouseX;
     }
     //---------------------------------------------- GET MOUSE Y -----------------------------------------------
     int getMouseY()
     {
-      if(!BridgeAgent::sharedStaticData)
+      if(!BridgeClient::sharedStaticData)
         return -1;
-      return BridgeAgent::sharedStaticData->mouseY;
+      return BridgeClient::sharedStaticData->mouseY;
     }
 /*
     //----------------------------------------------- MAP WIDTH ------------------------------------------------

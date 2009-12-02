@@ -6,7 +6,7 @@
 
 namespace BWAgent
 {
-  namespace BridgeAgent
+  namespace BridgeClient
   {
   //public:
     extern Bridge::StaticGameDataStructure* sharedStaticData;
