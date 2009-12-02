@@ -117,6 +117,61 @@ namespace BWAPI
       }
       return true;
     }
+    //-------------------------- INIT MATCH -----------------------------------------------------
+    bool initMatch()
+    {
+      // create match initialization packet
+      Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerInitMatch> initMatchEvent;
+      if(initMatchEvent.packetType != Bridge::PipeMessage::ServerInitMatch::Id)
+      {
+        lastError = __FUNCTION__ ": unique id macro does not work";
+        return false;
+      }
+
+      // export static data
+      initMatchEvent.staticGameDataExport = sharedStuff.staticData.exportToProcess(
+        sharedStuff.remoteProcess, true);
+      if(!initMatchEvent.staticGameDataExport.isValid())
+      {
+        lastError = __FUNCTION__ ": staticData export failed";
+        return false;
+      }
+
+      if(!sharedStuff.pipe.sendStructure(initMatchEvent))
+      {
+        lastError = __FUNCTION__ ": error sending packet";
+        return false;
+      }
+
+      // wait untill event is done
+      Util::Buffer buffer;
+      if(sharedStuff.pipe.receive(buffer))
+      {
+        lastError = __FUNCTION__ ": error receiving completion event";
+        return false;
+      }
+
+      // audit completion
+      Util::MemoryFrame packet = buffer.getMemory();
+      int packetType;
+      packet.readTo(packetType);
+      if(packetType != Bridge::PipeMessage::AgentInitMatchDone::Id)
+      {
+        lastError = __FUNCTION__ ": received unexpected packet type " + packetType;
+        return false;
+      }
+
+      Bridge::PipeMessage::AgentInitMatchDone initMatchDone;
+      if(!packet.readTo(initMatchDone))
+      {
+        lastError = __FUNCTION__ ": received packet too small";
+        return false;
+      }
+
+      initMatchDone;  // yet no data to read
+
+      return true;
+    }
     //-------------------------- IS AGENT CONNECTED ---------------------------------------------
     bool isAgentConnected()
     {
