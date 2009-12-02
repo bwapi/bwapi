@@ -76,6 +76,33 @@ namespace BWAgent
       return BridgeClient::sharedStaticData->mapHash;
     }
 
+    //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
+    int getGroundHeight(int x, int y)
+    {
+      if(!BridgeClient::sharedStaticData)
+        return -1;
+      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth*4 || y>=BridgeClient::sharedStaticData->mapHeight*4)
+        return 0;
+      return BridgeClient::sharedStaticData->getGroundHeight[x][y];
+    }
+    //---------------------------------------------- IS WALKABLE -----------------------------------------------
+    bool isWalkable(int x, int y)
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth*4 || y>=BridgeClient::sharedStaticData->mapHeight*4)
+        return false;
+      return BridgeClient::sharedStaticData->isWalkable[x][y];
+    }
+    //--------------------------------------------- IS BUILDABLE -----------------------------------------------
+    bool isBuildable(int x, int y)
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
+        return false;
+      return BridgeClient::sharedStaticData->isBuildable[x][y];
+    }
     //---------------------------------------------- IS VISIBLE ------------------------------------------------
     bool isVisible(int x, int y)
     {
@@ -84,6 +111,24 @@ namespace BWAgent
       if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
         return false;
       return BridgeClient::sharedStaticData->isVisible[x][y];
+    }
+    //---------------------------------------------- IS EXPLORED -----------------------------------------------
+    bool isExplored(int x, int y)
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
+        return false;
+      return BridgeClient::sharedStaticData->isExplored[x][y];
+    }
+    //----------------------------------------------- HAS CREEP ------------------------------------------------
+    bool hasCreep(int x, int y)
+    {
+      if(!BridgeClient::sharedStaticData)
+        return false;
+      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
+        return false;
+      return BridgeClient::sharedStaticData->hasCreep[x][y];
     }
 
     //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------

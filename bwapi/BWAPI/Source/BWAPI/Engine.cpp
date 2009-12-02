@@ -758,6 +758,21 @@ namespace BWAPI
           printf("failed to init shared memory: %s\n", BridgeServer::getLastError().c_str());
           BridgeServer::disconnect();
         }
+        if(BridgeServer::sharedStaticData)
+        {
+          Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
+          for (int x=0;x<mapWidth()*4;x++)
+            for (int y=0;y<mapHeight()*4;y++)
+            {
+              staticData.getGroundHeight[x][y] = getGroundHeight(x,y);
+              staticData.isWalkable[x][y] = isWalkable(x,y);
+            }
+          for (int x=0;x<mapWidth();x++)
+            for (int y=0;y<mapHeight();y++)
+              staticData.isBuildable[x][y] = isBuildable(x,y);
+        }
+
+
       }
 
       // reset frame count
@@ -783,7 +798,11 @@ namespace BWAPI
           staticData.mapHash       = getMapHash();
           for (int x=0;x<mapWidth();x++)
             for (int y=0;y<mapHeight();y++)
+            {
               staticData.isVisible[x][y] = isVisible(x,y);
+              staticData.isExplored[x][y] = isExplored(x,y);
+              staticData.hasCreep[x][y] = hasCreep(x,y);
+            }
           staticData.isMultiplayer = isMultiplayer();
           staticData.isReplay      = isReplay();
           staticData.isPaused      = isPaused();
