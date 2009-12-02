@@ -841,11 +841,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\Source\BWAPI\BridgeHub.cpp"
+			RelativePath=".\Source\BWAPI\BridgeServer.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Source\BWAPI\BridgeHub.h"
+			RelativePath=".\Source\BWAPI\BridgeServer.h"
 			>
 		</File>
 		<File

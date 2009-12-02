@@ -5,7 +5,7 @@
 namespace BWAPI
 {
   // see it as a singleton class.
-  namespace BridgeHub
+  namespace BridgeServer
   {
   //public:
     extern bool initConnectionServer();

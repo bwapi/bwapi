@@ -42,7 +42,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
-#include "BridgeHub.h"
+#include "BridgeServer.h"
 
 #include <Bridge/PipeMessage.h>
 #include <Bridge/SharedStuff.h>
@@ -60,75 +60,85 @@ namespace BWAPI
 {
   namespace Engine
   {
+    //----------------------------------- ENGINE STATE --------------------------------
+    enum GameState
+    {
+      Startup,
+      InMenu,
+      InMatch
+    };
 
-      /** @todo Doesn't work */
-      void refresh();
-      void loadSelected();
-      void printEx(s32 pID, const char* text, ...);
+    bool isBridgeInitialized = false;
+    GameState gameState = Startup;
+    //----------------------------------- ---------------------------------------------
+    /** @todo Doesn't work */
+    void refresh();
+    void loadSelected();
+    void printEx(s32 pID, const char* text, ...);
 
-      UnitImpl* getFirst();
-      std::set<UnitImpl*> units;
-      PlayerImpl* BWAPIPlayer;
-      PlayerImpl* opponent;
+    UnitImpl* getFirst();
+    std::set<UnitImpl*> units;
+    PlayerImpl* BWAPIPlayer;
+    PlayerImpl* opponent;
 
-      void addShape(Shape* s);
-      std::vector<Shape*> shapes;
-      /** Unknown unitID's */
-      bool flagsLocked;
-      bool inUpdate;
-      std::list<std::string > interceptedMessages;
+    void addShape(Shape* s);
+    std::vector<Shape*> shapes;
+    /** Unknown unitID's */
+    bool flagsLocked;
+    bool inUpdate;
+    std::list<std::string > interceptedMessages;
 
-      HMODULE hMod;
-      void saveSelected();
-      Map map;
-      std::set<BWAPI::Unit*> selectedUnitSet;
-      std::set<BWAPI::Unit*> emptySet;
-      std::set<TilePosition> startLocations;
-      std::set< BW::UnitType> unitTypes;
+    HMODULE hMod;
+    void saveSelected();
+    Map map;
+    std::set<BWAPI::Unit*> selectedUnitSet;
+    std::set<BWAPI::Unit*> emptySet;
+    std::set<TilePosition> startLocations;
+    std::set< BW::UnitType> unitTypes;
 
-      std::set<BWAPI::Force*> forces;
-      std::set<BWAPI::Player*> playerSet;
+    std::set<BWAPI::Force*> forces;
+    std::set<BWAPI::Player*> playerSet;
 
-      std::set<BWAPI::Unit*> allUnits;
-      std::set<BWAPI::Unit*> minerals;
-      std::set<BWAPI::Unit*> geysers;
-      std::set<BWAPI::Unit*> neutralUnits;
-      std::list<BWAPI::UnitImpl*> myPylons;
-      Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
+    std::set<BWAPI::Unit*> allUnits;
+    std::set<BWAPI::Unit*> minerals;
+    std::set<BWAPI::Unit*> geysers;
+    std::set<BWAPI::Unit*> neutralUnits;
+    std::list<BWAPI::UnitImpl*> myPylons;
+    Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
 
-      std::set<BWAPI::Unit*> staticMinerals;
-      std::set<BWAPI::Unit*> staticGeysers;
-      std::set<BWAPI::Unit*> staticNeutralUnits;
+    std::set<BWAPI::Unit*> staticMinerals;
+    std::set<BWAPI::Unit*> staticGeysers;
+    std::set<BWAPI::Unit*> staticNeutralUnits;
 
-      /** Count of game-frames passed from game start. */
-      int frameCount;
-      bool onStartCalled;
-      BW::UnitArray* unitArrayCopyLocal;
-      UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
-      std::vector<std::vector<Command *> > commandBuffer;
-      /** All commands ordered from BWAPI */
-      Util::Logger* commandLog;
-      /** Will update the unitsOnTile content, should be called every frame. */
-      void updateUnits();
-      /**
-       * Specifies if some order was given, so the loadSelect function will have
-       * to be called.
-       */
-      bool flags[BWAPI::FLAG_COUNT];
-      BW::Unit* savedSelectionStates[13];
-      void refreshSelectionStates();
-      bool startedClient;
-      BWAPI::Error lastError;
-      std::list<UnitImpl*> deadUnits;
-      u32 cheatFlags;
+    /** Count of game-frames passed from game start. */
+    int frameCount;
+    bool onStartCalled;
+    BW::UnitArray* unitArrayCopyLocal;
+    UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
+    std::vector<std::vector<Command *> > commandBuffer;
+    /** All commands ordered from BWAPI */
+    Util::Logger* commandLog;
+    /** Will update the unitsOnTile content, should be called every frame. */
+    void updateUnits();
+    /**
+     * Specifies if some order was given, so the loadSelect function will have
+     * to be called.
+     */
+    bool flags[BWAPI::FLAG_COUNT];
+    BW::Unit* savedSelectionStates[13];
+    void refreshSelectionStates();
+    bool startedClient;
+    BWAPI::Error lastError;
+    std::list<UnitImpl*> deadUnits;
+    u32 cheatFlags;
 
-      
-      PlayerImpl* players[12];
-      bool enabled;
-      HANDLE hcachedShapesMutex;
-      std::set<int> invalidIndices;
-      std::vector<Shape*> cachedShapes;
-      Util::Logger* newUnitLog;
+    
+    PlayerImpl* players[12];
+    bool enabled;
+    HANDLE hcachedShapesMutex;
+    std::set<int> invalidIndices;
+    std::vector<Shape*> cachedShapes;
+    Util::Logger* newUnitLog;
 
 
     //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -718,14 +728,14 @@ namespace BWAPI
     //------------------------------------------------- UPDATE -------------------------------------------------
     void update()
     {
-      if(!BridgeHub::isAgentConnected())
+      if(!BridgeServer::isAgentConnected())
       {
-        if(!BridgeHub::acceptIncomingConnections())
+        if(!BridgeServer::acceptIncomingConnections())
         {
-          printf("problem accepting connections: %s\n", BridgeHub::getLastError().c_str());
-          if(!BridgeHub::initConnectionServer())
+          printf("problem accepting connections: %s\n", BridgeServer::getLastError().c_str());
+          if(!BridgeServer::initConnectionServer())
           {
-            printf("could not init server: %s\n", BridgeHub::getLastError().c_str());
+            printf("could not init server: %s\n", BridgeServer::getLastError().c_str());
           }
         }
       }
@@ -853,15 +863,15 @@ namespace BWAPI
     //---------------------------------------------- ON MENU FRAME ---------------------------------------------
     void onMenuFrame()
     {
-      static bool firsttime = true;
-      if(firsttime)
+      gameState = InMenu;
+      if(!isBridgeInitialized)
       {
-        firsttime = false;
         // initialize bridge
-        if(!BridgeHub::initConnectionServer())
+        if(!BridgeServer::initConnectionServer())
         {
-          printf("error initializing server: %s\n", BridgeHub::getLastError().c_str());
+          Util::Logger::globalLog->logCritical("error initializing server: %s\n", BridgeServer::getLastError().c_str());
         }
+        isBridgeInitialized = true;
       }
 
      // Util::Logger::globalLog->logCritical("Inside menu! :D");

@@ -5,7 +5,7 @@ namespace Bridge
 {
   namespace PipeMessage
   {
-#define UNIQUE_MESSAGE_ID static const int ID = (__COUNTER__+1);
+#define UNIQUE_MESSAGE_ID static const int Id = (__COUNTER__+1);
 #pragma pack(push, 1)
     //------------------------------------------------
     // Automatic ID distribution, starting with 1
@@ -20,11 +20,11 @@ namespace Bridge
       int agentVersion;
       Util::RemoteProcessId agentProcessId;
     };
-    struct HubHandshake
+    struct ServerHandshake
     {
       bool accepted;
-      int hubVersion;
-      int hubProcessHandle;
+      int serverVersion;
+      int serverProcessHandle;
     };
     struct AgentHandshakeAcknoledge
     {
@@ -37,14 +37,15 @@ namespace Bridge
     {
       int packetType;
 
-      Packet() : packetType(T::ID){};
+      Packet() : packetType(T::Id){};
     };
     //------------------------------------------------
-    // Sent at the beginning of a Match to pass controll
+    // Sent at the beginning of a Match to pass controll.
     // During this controll time, Agents has access to
     // all neutral units
+    // Export one-time exports here
     //------------------------------------------------
-    struct HubOnStart
+    struct ServerOnStart
     {
       Bridge::SharedStuff::SharedGameDataStructure::Export staticGameDataExport;
       UNIQUE_MESSAGE_ID;
@@ -56,9 +57,9 @@ namespace Bridge
     //------------------------------------------------
     // Sent each frame, to pass controll between
     // the two processes.
-    // Hub sends first.
+    // Server sends first.
     //------------------------------------------------
-    struct HubNextFrame
+    struct ServerNextFrame
     {
       UNIQUE_MESSAGE_ID;
     };
@@ -70,14 +71,14 @@ namespace Bridge
     // Notifies of the current game being over
     // Requests all Shared objects to be released
     //------------------------------------------------
-    struct HubEndMatch
+    struct ServerEndMatch
     {
       UNIQUE_MESSAGE_ID;
     };
     //------------------------------------------------
     // Exports the Unit array
     //------------------------------------------------
-    struct HubExportUnitUpdate
+    struct ServerExportUnitUpdate
     {
       UNIQUE_MESSAGE_ID;
       // dynamic set export data
