@@ -61,16 +61,21 @@ namespace BWAPI
   namespace Engine
   {
     //----------------------------------- ENGINE STATE --------------------------------
+    // bridge state
+    bool isBridgeUsable = true;         // false when bridge should be used no more
+    bool isBridgeInitialized = false;   // true once initBridge called
+
+    // game state
     enum GameState
     {
       Startup,
       InMenu,
       InMatch
     };
-
-    bool isBridgeUsable = true;         // false when bridge should be used no more
-    bool isBridgeInitialized = false;   // true once initBridge called
     GameState gameState = Startup;
+
+    // match state
+    int frameCount;
     //----------------------------------- ---------------------------------------------
     /** @todo Doesn't work */
     void refresh();
@@ -112,7 +117,6 @@ namespace BWAPI
     std::set<BWAPI::Unit*> staticNeutralUnits;
 
     /** Count of game-frames passed from game start. */
-    int frameCount;
     bool onStartCalled;
     BW::UnitArray* unitArrayCopyLocal;
     UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
@@ -736,7 +740,9 @@ namespace BWAPI
       }
 
       // state transitions
-      if(gameState == Startup)
+      GameState lastState = gameState;
+      gameState = nextState;
+      if(lastState == Startup)
       {
         if(!BridgeServer::initConnectionServer())
         {
@@ -744,35 +750,40 @@ namespace BWAPI
           isBridgeUsable = false;
         }
       }
-      if(gameState == InMenu)
+      if(lastState == InMenu)
       {
         if(nextState == InMatch)
         {
           if(BridgeServer::isAgentConnected())
           {
-            BridgeServer::initMatch();
+            if(!BridgeServer::initMatch())
+            {
+              printf("failed initMatch: %s\n", BridgeServer::getLastError().c_str());
+              BridgeServer::disconnect();
+            }
           }
+          frameCount = 0;
         }
       }
-      gameState = nextState;
 
       // onFrame
-      if(BridgeServer::isAgentConnected())
+      if(gameState == InMatch && BridgeServer::isAgentConnected())
       {
         if(BridgeServer::sharedStaticData)
         {
-          BridgeServer::sharedStaticData->getLatency    = getLatency();
-          BridgeServer::sharedStaticData->getFrameCount = getFrameCount();
-          BridgeServer::sharedStaticData->getMouseX     = getMouseX();
-          BridgeServer::sharedStaticData->getMouseY     = getMouseY();
-          BridgeServer::sharedStaticData->getScreenX    = getScreenX();
-          BridgeServer::sharedStaticData->getScreenY    = getScreenY();
-          BridgeServer::sharedStaticData->mapWidth      = mapWidth();
-          BridgeServer::sharedStaticData->mapHeight     = mapHeight();
-          BridgeServer::sharedStaticData->getMapHash    = getMapHash();
-          BridgeServer::sharedStaticData->isMultiplayer = isMultiplayer();
-          BridgeServer::sharedStaticData->isReplay      = isReplay();
-          BridgeServer::sharedStaticData->isPaused      = isPaused();
+          Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
+          staticData.getLatency    = getLatency();
+          staticData.frameCount    = frameCount;
+          staticData.getMouseX     = getMouseX();
+          staticData.getMouseY     = getMouseY();
+          staticData.getScreenX    = getScreenX();
+          staticData.getScreenY    = getScreenY();
+          staticData.mapWidth      = mapWidth();
+          staticData.mapHeight     = mapHeight();
+          staticData.mapHash       = getMapHash();
+          staticData.isMultiplayer = isMultiplayer();
+          staticData.isReplay      = isReplay();
+          staticData.isPaused      = isPaused();
         }
         if(!BridgeServer::invokeOnFrame())
         {
@@ -805,6 +816,12 @@ namespace BWAPI
             }
           }
         }
+      }
+
+      // consequent state changes
+      if(gameState == InMatch)
+      {
+        frameCount++;
       }
     }
     //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -928,7 +945,7 @@ namespace BWAPI
       }
       interceptedMessages.clear();
       loadSelected();
-      frameCount++;*/
+      */
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
     void refreshSelectionStates()
@@ -1733,13 +1750,6 @@ namespace BWAPI
       }
 */
       inUpdate = true;
-    }
-    //--------------------------------------------- GET FRAME COUNT --------------------------------------------
-    int  getFrameCount()
-    {
-      /* Retrieves the number of frames since game start */
-      setLastError(Errors::None);
-      return frameCount;
     }
     //--------------------------------------------- UNITS ON TILE ----------------------------------------------
     std::set<Unit*>& unitsOnTile(int x, int y)

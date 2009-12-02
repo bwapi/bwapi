@@ -157,6 +157,7 @@ namespace BWAPI
         return false;
       }
 
+      // pushlish the shared memory location
       sharedStaticData = &sharedStuff.staticData.get();
 
       if(!sharedStuff.pipe.sendStructure(initMatchEvent))
@@ -197,6 +198,7 @@ namespace BWAPI
     //-------------------------- STOP MATCH -----------------------------------------------------
     bool stopMatch()
     {
+      return true;
     }
     //-------------------------- INVOKE ON FRAME ------------------------------------------------
     bool invokeOnFrame()

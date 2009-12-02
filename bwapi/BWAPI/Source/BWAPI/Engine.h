@@ -61,7 +61,6 @@ namespace BWAPI
       extern std::set< Unit* >& getStaticNeutralUnits();
 
       extern int  getLatency();
-      extern int  getFrameCount();
       extern int  getMouseX();
       extern int  getMouseY();
       extern int  getScreenX();

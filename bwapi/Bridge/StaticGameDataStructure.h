@@ -7,14 +7,14 @@ namespace Bridge
   struct StaticGameDataStructure
   {
     int getLatency;
-    int getFrameCount;
+    int frameCount;
     int getMouseX;
     int getMouseY;
     int getScreenX;
     int getScreenY;
     int mapWidth;
     int mapHeight;
-    int getMapHash;
+    int mapHash;
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
