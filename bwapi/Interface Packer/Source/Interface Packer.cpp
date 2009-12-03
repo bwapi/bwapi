@@ -151,6 +151,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
   filter.insert("#");
   filter.insert("{");
   filter.insert("}");
+  filter.insert("};");
   filter.insert("//");
   filter.insert("/*");
   filter.insert("*/");

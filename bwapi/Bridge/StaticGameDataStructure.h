@@ -1,7 +1,6 @@
 #pragma once
 
-#include <BWAPITypes\Position.h>
-
+#include "..\BWAPITypes\UnitCommands.h"
 namespace Bridge
 {
   struct StaticGameDataStructure
@@ -14,8 +13,8 @@ namespace Bridge
     int getScreenY;
     int mapWidth;
     int mapHeight;
-    char mapFilename[260];
-    char mapName[32];
+    char mapFilename[260];//size based on broodwar memory
+    char mapName[32];//size based on broodwar memory
     int mapHash;
     int getGroundHeight[1024][1024];
     bool isWalkable[1024][1024];
@@ -26,5 +25,7 @@ namespace Bridge
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
+    BWAPI::UnitCommand commandQueue[10000];//may replace with resizable structure if needed
+    int lastFreeCommandSlot;
   };
 }
