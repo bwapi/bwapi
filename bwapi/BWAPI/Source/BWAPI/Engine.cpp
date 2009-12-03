@@ -782,6 +782,7 @@ namespace BWAPI
 
           strncpy(staticData.mapName,mapName().c_str(),32);
           staticData.mapName[31]='\0';
+          staticData.lastFreeCommandSlot=0;
         }
         if(!BridgeServer::publishSharedMemory())
         {
@@ -829,6 +830,15 @@ namespace BWAPI
           BridgeServer::disconnect();
           printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
+        if(BridgeServer::sharedStaticData)
+        {
+          Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
+          for(int i=0;i<staticData.lastFreeCommandSlot;i++)
+          {
+            Engine::executeUnitCommand(staticData.commandQueue[i]);
+          }
+          staticData.lastFreeCommandSlot = 0;
+        }
       }
 
       // handle incoming connections
@@ -860,17 +870,11 @@ namespace BWAPI
     //------------------------------------------------- UPDATE -------------------------------------------------
     void _update()
     {
-      inUpdate = true;
-      if (!isOnStartCalled())
-        onGameStart();
-       
-      update(InMatch);
-      inUpdate = false;
-      return;
-/*      try
+      try
       {
-
-
+        inUpdate = true;
+        if (!isOnStartCalled())
+          onGameStart();
 
         // make a local copy of the unit array
         memcpy(unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
@@ -972,8 +976,9 @@ namespace BWAPI
           sendText(i->c_str());
       }
       interceptedMessages.clear();
+
+      update(InMatch);
       loadSelected();
-      */
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
     void refreshSelectionStates()
@@ -2208,7 +2213,7 @@ namespace BWAPI
       return inUpdate;
     }
 
-    void executeUnitCommand(UnitCommand c)
+    void executeUnitCommand(UnitCommand& c)
     {
       Unit* u = NULL; //= mapUnitIDToUnitPointer(c.unitID);
       Position targetPosition(c.x,c.y);

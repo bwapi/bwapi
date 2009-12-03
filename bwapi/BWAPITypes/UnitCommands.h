@@ -5,6 +5,7 @@ namespace BWAPI
   {
     enum Enum
     {
+      None,
       AttackPosition,
       AttackUnit,
       RightClickPosition,
