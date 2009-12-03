@@ -783,6 +783,9 @@ namespace BWAPI
           strncpy(staticData.mapName,mapName().c_str(),32);
           staticData.mapName[31]='\0';
           staticData.lastFreeCommandSlot=0;
+
+          Engine::enableFlag(Flag::UserInput); //temp
+
         }
         if(!BridgeServer::publishSharedMemory())
         {
@@ -824,6 +827,16 @@ namespace BWAPI
           staticData.isMultiplayer = isMultiplayer();
           staticData.isReplay      = isReplay();
           staticData.isPaused      = isPaused();
+          staticData.visibleCount=0;
+          int i=0;
+          foreach(Unit* u,Engine::allUnits)
+          {
+            staticData.unitDataVisible[i].getID=(int)u;
+            staticData.unitDataVisible[i].x=u->getPosition().x();
+            staticData.unitDataVisible[i].y=u->getPosition().y();
+            i++;
+          }
+          staticData.visibleCount=i;
         }
         if(!BridgeServer::invokeOnFrame())
         {

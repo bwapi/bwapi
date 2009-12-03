@@ -1,10 +1,11 @@
 #include "BridgeClient.h"
+#include "Mappings.h"
+#include "Unit.h"
 
 #include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
 #include <Bridge\Constants.h>
 #include <Bridge\Doodle.h>
-
 #include <Util\Version.h>
 #include <Util\RemoteProcess.h>
 #include <Util\Pipe.h>
@@ -118,6 +119,40 @@ namespace BWAgent
     {
       return bridgeState;
     }
+    void updateMappings()
+    {
+      allUnits.clear();
+      for(int i=0;i<sharedStaticData->basicCount;i++)
+      {
+        int id=sharedStaticData->unitDataBasic[i].getID;
+        if (unitIdToObject.find(id)==unitIdToObject.end())
+          unitIdToObject[id]=new BWAgent::Unit();
+        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Basic,(BWAPI::State*)&sharedStaticData->unitDataBasic[i]);
+      }
+      for(int i=0;i<sharedStaticData->detectedCount;i++)
+      {
+        int id=sharedStaticData->unitDataDetected[i].getID;
+        if (unitIdToObject.find(id)==unitIdToObject.end())
+          unitIdToObject[id]=new BWAgent::Unit();
+        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Detected,(BWAPI::State*)&sharedStaticData->unitDataDetected[i]);
+      }
+      for(int i=0;i<sharedStaticData->visibleCount;i++)
+      {
+        int id=sharedStaticData->unitDataVisible[i].getID;
+        if (unitIdToObject.find(id)==unitIdToObject.end())
+          unitIdToObject[id]=new BWAgent::Unit();
+        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Visible,(BWAPI::State*)&sharedStaticData->unitDataVisible[i]);
+        allUnits.insert(unitIdToObject[id]);
+      }
+      for(int i=0;i<sharedStaticData->fullyObservableCount;i++)
+      {
+        int id=sharedStaticData->unitDataFullyObservable[i].getID;
+        if (unitIdToObject.find(id)==unitIdToObject.end())
+          unitIdToObject[id]=new BWAgent::Unit();
+        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::FullyObservable,(BWAPI::State*)&sharedStaticData->unitDataFullyObservable[i]);
+        allUnits.insert(unitIdToObject[id]);
+      }
+    }
     //----------------------------------------- WAIT FOR EVENT --------------------------------------------------
     bool waitForEvent()
     {
@@ -182,6 +217,7 @@ namespace BWAgent
       {
         // onFrame state
         bridgeState = OnFrame;
+        updateMappings();
       }
       else
       {
