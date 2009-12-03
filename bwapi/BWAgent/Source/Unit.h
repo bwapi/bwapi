@@ -1,13 +1,15 @@
 #pragma once
+#include "BWAgentInterface.h"
 #include <..\..\BWAPITypes\UnitStruct.h>
 
 namespace BWAgent
 {
-  class Unit
+  class AGENT_API Unit
   {
   public:
     Unit();
     int getID();
+    int getType();
     int getHitPoints();
     bool holdPosition();
     void _update(BWAPI::ClearanceLevels level,BWAPI::State* data);

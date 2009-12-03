@@ -827,16 +827,17 @@ namespace BWAPI
           staticData.isMultiplayer = isMultiplayer();
           staticData.isReplay      = isReplay();
           staticData.isPaused      = isPaused();
-          staticData.visibleCount=0;
+          staticData.unitCount=0;
           int i=0;
           foreach(Unit* u,Engine::allUnits)
           {
-            staticData.unitDataVisible[i].getID=(int)u;
-            staticData.unitDataVisible[i].x=u->getPosition().x();
-            staticData.unitDataVisible[i].y=u->getPosition().y();
+            staticData.unitData[i].getID=(int)u;
+            staticData.unitData[i].getType=u->getType().getID();
+            staticData.unitData[i].x=u->getPosition().x();
+            staticData.unitData[i].y=u->getPosition().y();
             i++;
           }
-          staticData.visibleCount=i;
+          staticData.unitCount=i;
         }
         if(!BridgeServer::invokeOnFrame())
         {
@@ -2228,10 +2229,10 @@ namespace BWAPI
 
     void executeUnitCommand(UnitCommand& c)
     {
-      Unit* u = NULL; //= mapUnitIDToUnitPointer(c.unitID);
+      Unit* u=(Unit*)c.unitID;
       Position targetPosition(c.x,c.y);
       TilePosition targetTilePosition(c.x,c.y);
-      Unit* targetUnit = NULL;//= mapUnitIDToUnitPointer(c.targetID);
+      Unit* targetUnit=(Unit*)c.targetID;
 
       if (!u) return;
 

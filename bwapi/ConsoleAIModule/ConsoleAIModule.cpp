@@ -23,7 +23,10 @@ public:
     printf("all units (size): %d",Game::getAllUnits().size());
     for(std::set<Unit*>::iterator i=Game::getAllUnits().begin();i!=Game::getAllUnits().end();i++)
     {
-      //(*i)->holdPosition();
+      if ((*i)->getType()==64)
+      {
+        (*i)->holdPosition();
+      }
     }
   };
   bool onSendText(std::string text)

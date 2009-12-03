@@ -175,7 +175,7 @@ namespace BWAPI
       }
 
       initMatchEvent.data.staticGameDataExport =
-        sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
+        sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, false);
       if(!initMatchEvent.data.staticGameDataExport.isValid())
       {
         lastError = __FUNCTION__ ": staticData export failed";

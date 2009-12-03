@@ -13,21 +13,28 @@ namespace BWAgent
   }
   int Unit::getID()
   {
-    if(!BridgeClient::sharedStaticData || data==NULL)
+    if(!BridgeClient::sharedStaticData || !this->data)
       return -1;
     return data->getID;
   }
+  int Unit::getType()
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getType;
+  }
+
 
   int Unit::getHitPoints()
   {
-    if(!BridgeClient::sharedStaticData || data==NULL)
+    if(!BridgeClient::sharedStaticData || !this->data)
       return -1;
     return data->getHitPoints;
   }
 
   bool Unit::holdPosition()
   {
-    if(!BridgeClient::sharedStaticData)
+    if(!BridgeClient::sharedStaticData || !this->data)
       return false;
     BWAPI::UnitCommand* c = &(BridgeClient::sharedStaticData->commandQueue[BridgeClient::sharedStaticData->lastFreeCommandSlot]);
     c->unitID = data->getID;
