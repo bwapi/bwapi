@@ -28,14 +28,8 @@ namespace Bridge
     bool isPaused;
     BWAPI::UnitCommand commandQueue[10000];//may replace with resizable structure if needed
     int lastFreeCommandSlot;
-    BWAPI::StateBasic           unitDataBasic[10000];     //holds all units that are not detected (these units could be dead, or simply invisible and undetected)
-    int basicCount;
-    BWAPI::StateDetected        unitDataDetected[1700];   //holds all detected units that are not visible - limit based on actual starcraft limit
-    int detectedCount;
-    BWAPI::StateVisible         unitDataVisible[1700];    //holds all visible units that are not fully observable - limit based on actual starcraft limit
-    int visibleCount;
-    BWAPI::StateFullyObservable unitDataFullyObservable[1700]; //holds all fully observable units - limit based on actual starcraft limit
-    int fullyObservableCount;
+    BWAPI::State unitData[10000];     //holds all units that are not detected (these units could be dead, or simply invisible and undetected)
+    int unitCount;
 
     //note: if Complete Map Information is enabled, then all units will either be StateFullyObservable, or StateBasic (dead).
   };
