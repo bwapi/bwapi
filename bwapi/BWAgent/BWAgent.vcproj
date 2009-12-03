@@ -320,6 +320,10 @@
 				RelativePath="..\svnrev.h"
 				>
 			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitCommands.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

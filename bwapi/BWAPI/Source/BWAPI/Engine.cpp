@@ -56,6 +56,8 @@
 #include "ShapeTriangle.h"
 #include "ShapeText.h"
 
+#include <BWAPITypes/UnitCommands.h>
+
 namespace BWAPI
 {
   namespace Engine
@@ -140,6 +142,8 @@ namespace BWAPI
     std::set<int> invalidIndices;
     std::vector<Shape*> cachedShapes;
     Util::Logger* newUnitLog;
+
+    void executeUnitCommand(UnitCommand& c);
 
 
     //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -2189,6 +2193,147 @@ namespace BWAPI
     bool isInUpdate()
     {
       return inUpdate;
+    }
+
+    void executeUnitCommand(UnitCommand c)
+    {
+      Unit* u = NULL; //= mapUnitIDToUnitPointer(c.unitID);
+      Position targetPosition(c.x,c.y);
+      TilePosition targetTilePosition(c.x,c.y);
+      Unit* targetUnit = NULL;//= mapUnitIDToUnitPointer(c.targetID);
+
+      if (!u) return;
+
+      switch(c.commandID)
+      {
+      case CommandID::AttackPosition:
+        u->attackMove(targetPosition);
+        break;
+      case CommandID::AttackUnit:
+        if (targetUnit==NULL) break;
+        u->attackUnit(targetUnit);
+        break;
+      case CommandID::RightClickPosition:
+        u->rightClick(targetPosition);
+        break;
+      case CommandID::RightClickUnit:
+        if (targetUnit==NULL) break;
+        u->rightClick(targetUnit);
+        break;
+      case CommandID::Train:
+        u->train(UnitType(c.specialID));
+        break;
+      case CommandID::Build:
+        u->build(targetTilePosition,UnitType(c.specialID));
+        break;
+      case CommandID::BuildAddon:
+        u->buildAddon(UnitType(c.specialID));
+        break;
+      case CommandID::Research:
+        u->research(TechType(c.specialID));
+        break;
+      case CommandID::Upgrade:
+        u->upgrade(UpgradeType(c.specialID));
+        break;
+      case CommandID::Stop:
+        u->stop();
+        break;
+      case CommandID::HoldPosition:
+        u->holdPosition();
+        break;
+      case CommandID::Patrol:
+        u->patrol(targetPosition);
+        break;
+      case CommandID::Follow:
+        if (targetUnit==NULL) break;
+        u->follow(targetUnit);
+        break;
+      case CommandID::SetRallyPosition:
+        u->setRallyPosition(targetPosition);
+        break;
+      case CommandID::SetRallyUnit:
+        if (targetUnit==NULL) break;
+        u->setRallyUnit(targetUnit);
+        break;
+      case CommandID::Repair:
+        if (targetUnit==NULL) break;
+        u->repair(targetUnit);
+        break;
+      case CommandID::Morph:
+        u->morph(UnitType(c.specialID));
+        break;
+      case CommandID::Burrow:
+        u->burrow();
+        break;
+      case CommandID::Unburrow:
+        u->unburrow();
+        break;
+      case CommandID::Siege:
+        u->siege();
+        break;
+      case CommandID::Unsiege:
+        u->unsiege();
+        break;
+      case CommandID::Cloak:
+        u->cloak();
+        break;
+      case CommandID::Decloak:
+        u->decloak();
+        break;
+      case CommandID::Lift:
+        u->lift();
+        break;
+      case CommandID::Land:
+        u->land(targetTilePosition);
+        break;
+      case CommandID::Load:
+        if (targetUnit==NULL) return;
+        u->load(targetUnit);
+        break;
+      case CommandID::Unload:
+        if (targetUnit==NULL) return;
+        u->unload(targetUnit);
+        break;
+      case CommandID::UnloadAll:
+        u->unloadAll();
+        break;
+      case CommandID::CancelConstruction:
+        u->cancelConstruction();
+        break;
+      case CommandID::HaltConstruction:
+        u->haltConstruction();
+        break;
+      case CommandID::CancelMorph:
+        u->cancelMorph();
+        break;
+      case CommandID::CancelTrain:
+        u->cancelTrain();
+        break;
+      case CommandID::CancelTrainSlot:
+        u->cancelTrain(c.specialID);
+        break;
+      case CommandID::CancelAddon:
+        u->cancelAddon();
+        break;
+      case CommandID::CancelResearch:
+        u->cancelResearch();
+        break;
+      case CommandID::CancelUpgrade:
+        u->cancelUpgrade();
+        break;
+      case CommandID::UseTech:
+        u->useTech(TechType(c.specialID));
+        break;
+      case CommandID::UseTechPosition:
+        u->useTech(TechType(c.specialID),targetPosition);
+        break;
+      case CommandID::UseTechUnit:
+        if (targetUnit==NULL) break;
+        u->useTech(TechType(c.specialID),targetUnit);
+        break;
+      default:
+        break;
+      }
     }
   }
 };

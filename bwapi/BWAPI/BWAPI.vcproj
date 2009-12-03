@@ -791,6 +791,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\UnitCommands.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\UnitImpl.h"
 					>
 				</File>
