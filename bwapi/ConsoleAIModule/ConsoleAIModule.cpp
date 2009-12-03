@@ -20,6 +20,7 @@ public:
   {
     printf("on frame %d, (%d,%d)\n", BWAgent::Game::getFrameCount(),BWAgent::Game::getMouseX(),BWAgent::Game::getMouseY());
     printf("on frame %d\n", BWAgent::Game::isVisible((BWAgent::Game::getMouseX()+BWAgent::Game::getScreenX())/32,(BWAgent::Game::getMouseY()+BWAgent::Game::getScreenY())/32));
+    printf("all units (size): %d",Game::getAllUnits().size());
   };
   bool onSendText(std::string text)
   {

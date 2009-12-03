@@ -219,6 +219,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\Mappings.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\MemoryFrame.cpp"
 				>
 			</File>
@@ -285,7 +289,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\KnownUnit.h"
+				RelativePath=".\Source\Mappings.h"
 				>
 			</File>
 			<File

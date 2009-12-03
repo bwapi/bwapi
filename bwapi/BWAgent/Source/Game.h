@@ -19,8 +19,10 @@ namespace BWAPI { class AIModule; }
 namespace BWAgent
 {
   /** singleton Game class functions */
+  class Unit;
   namespace Game
   {
+    AGENT_API std::set< Unit* >& getAllUnits();
     AGENT_API int getLatency();
     AGENT_API int getFrameCount();
     AGENT_API int getMouseX();
