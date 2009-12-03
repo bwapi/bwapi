@@ -133,8 +133,30 @@ namespace BWAPI
       sharedStuff.pipe.disconnect();
       stateConnectionEstablished = false;
     }
+    //-------------------------- CREATE SHARED MEMORY -------------------------------------------
+    bool createSharedMemory()
+    {
+      // check prerequisites
+      if(!stateConnectionEstablished)
+      {
+        lastError = __FUNCTION__ ": connection not established";
+        return false;
+      }
+      resetError();
+      
+      // create and export static data
+      if(!BridgeServer::sharedStuff.staticData.create())
+      {
+        lastError = __FUNCTION__ ": staticData creating failed";
+        return false;
+      }
+      sharedStaticData = &sharedStuff.staticData.get();
+
+      return true;
+    }
+
     //-------------------------- INIT MATCH -----------------------------------------------------
-    bool initSharedMemory()
+    bool publishSharedMemory()
     {
       // check prerequisites
       if(!stateConnectionEstablished)
@@ -152,12 +174,6 @@ namespace BWAPI
         return false;
       }
 
-      // create and export static data
-      if(!sharedStuff.staticData.create())
-      {
-        lastError = __FUNCTION__ ": staticData creating failed";
-        return false;
-      }
       initMatchEvent.data.staticGameDataExport =
         sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
       if(!initMatchEvent.data.staticGameDataExport.isValid())
@@ -167,8 +183,6 @@ namespace BWAPI
       }
 
       // pushlish the shared memory location
-      sharedStaticData = &sharedStuff.staticData.get();
-
       if(!sharedStuff.pipe.sendStructure(initMatchEvent))
       {
         lastError = __FUNCTION__ ": error sending packet";

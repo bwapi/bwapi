@@ -14,7 +14,7 @@ public:
   void onEnd(bool isWinner) {};
   void onStartMatch()
   {
-    printf("on start match\n");
+    printf("on start match [%s]\n",Game::mapName().c_str());
   };
   void onFrame()
   {

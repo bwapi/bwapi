@@ -757,9 +757,11 @@ namespace BWAPI
         && BridgeServer::isAgentConnected()
         &&!BridgeServer::isSharedMemoryInitialized())
       {
-        if(!BridgeServer::initSharedMemory())
+
+        // create and export static data
+        if(!BridgeServer::createSharedMemory())
         {
-          printf("failed to init shared memory: %s\n", BridgeServer::getLastError().c_str());
+          printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
           BridgeServer::disconnect();
         }
         if(BridgeServer::sharedStaticData)
@@ -774,6 +776,17 @@ namespace BWAPI
           for (int x=0;x<mapWidth();x++)
             for (int y=0;y<mapHeight();y++)
               staticData.isBuildable[x][y] = isBuildable(x,y);
+
+          strncpy(staticData.mapFilename,mapFilename().c_str(),260);
+          staticData.mapFilename[259]='\0';
+
+          strncpy(staticData.mapName,mapName().c_str(),32);
+          staticData.mapName[31]='\0';
+        }
+        if(!BridgeServer::publishSharedMemory())
+        {
+          printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
+          BridgeServer::disconnect();
         }
 
 

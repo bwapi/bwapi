@@ -29,6 +29,8 @@ namespace BWAgent
     AGENT_API int getScreenY();
     AGENT_API int mapWidth();
     AGENT_API int mapHeight();
+    AGENT_API std::string mapFilename();
+    AGENT_API std::string mapName();
     AGENT_API int getMapHash();
 
     AGENT_API int  getGroundHeight(int x, int y);
@@ -59,8 +61,6 @@ namespace BWAgent
     AGENT_API std::set<Unit*>& unitsOnTile(int x, int y);
     AGENT_API Error  getLastError() const;
 
-    AGENT_API std::string  mapFilename();
-    AGENT_API std::string  mapName();
 
     AGENT_API bool hasPower(int x, int y, int tileWidth, int tileHeight);
 

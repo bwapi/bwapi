@@ -68,6 +68,20 @@ namespace BWAgent
         return -1;
       return BridgeClient::sharedStaticData->mapHeight;
     }
+    //---------------------------------------------- MAP FILENAME ----------------------------------------------
+    std::string mapFilename()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return "";
+      return BridgeClient::sharedStaticData->mapFilename;
+    }
+    //------------------------------------------------ MAP NAME ------------------------------------------------
+    std::string mapName()
+    {
+      if(!BridgeClient::sharedStaticData)
+        return "";
+      return BridgeClient::sharedStaticData->mapName;
+    }
     //----------------------------------------------- GET MAP HASH ---------------------------------------------
     int getMapHash()
     {
@@ -153,28 +167,8 @@ namespace BWAgent
       return BridgeClient::sharedStaticData->isPaused;
     }
 /*
-    //---------------------------------------------- MAP FILENAME ----------------------------------------------
-    std::string  mapFilename()
-    {
-    }
-    //------------------------------------------------ MAP NAME ------------------------------------------------
-    std::string  mapName()
-    {
-    }
-    //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
-    int  getGroundHeight(int x, int y)
-    {
-    }
-    //------------------------------------------------ BUILDABLE -----------------------------------------------
-    bool  isBuildable(int x, int y)
-    {
-    }
     //------------------------------------------------ BUILDABLE -----------------------------------------------
     bool  isBuildable(TilePosition position)
-    {
-    }
-    //------------------------------------------------ WALKABLE ------------------------------------------------
-    bool  isWalkable(int x, int y)
     {
     }
     //------------------------------------------------- VISIBLE ------------------------------------------------
@@ -182,15 +176,7 @@ namespace BWAgent
     {
     }
     //------------------------------------------------- VISIBLE ------------------------------------------------
-    bool  isExplored(int x, int y)
-    {
-    }
-    //------------------------------------------------- VISIBLE ------------------------------------------------
     bool  isExplored(TilePosition position)
-    {
-    }
-    //------------------------------------------------ HAS CREEP -----------------------------------------------
-    bool  hasCreep(int x, int y)
     {
     }
     //------------------------------------------------ HAS CREEP -----------------------------------------------
