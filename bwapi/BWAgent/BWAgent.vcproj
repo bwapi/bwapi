@@ -317,10 +317,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\svnrev.h"
-				>
-			</File>
-			<File
 				RelativePath="..\BWAPITypes\UnitCommands.h"
 				>
 			</File>

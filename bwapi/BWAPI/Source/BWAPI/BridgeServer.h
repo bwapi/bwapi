@@ -15,7 +15,8 @@ namespace BWAPI
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();
     extern void disconnect();
-    extern bool initSharedMemory();
+    extern bool createSharedMemory();
+    extern bool publishSharedMemory();
     extern bool releaseSharedMemory();
     extern bool invokeOnFrame();
     extern bool pushSendText();
