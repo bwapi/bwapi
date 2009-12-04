@@ -6,7 +6,6 @@
 namespace BWAgent
 {
   class AIModule;
-
   extern AIModule *callbackModule;
 
   // return BWAgent.dll revision number

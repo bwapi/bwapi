@@ -15,7 +15,7 @@ namespace BWAPI
     };
   }
   // Unit's state we know about, depending on clearance level
-  struct StateBasic
+  struct StateNoticed
   {
     int getID;
     int getInitialType;
@@ -23,7 +23,7 @@ namespace BWAPI
     int getInitialResources;
     //PlayerStruct* getInitialPlayer;
   };
-  struct StateDetected : StateBasic
+  struct StateDetected : StateNoticed
   {
     //replace with position object later
     int x;

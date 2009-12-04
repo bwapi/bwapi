@@ -38,6 +38,7 @@ namespace Util
     //----------------------- METHODS ----------------------------------
     bool init(int blockSize, bool exportReadOnly);
     Index insert(const Util::MemoryFrame &storee);
+    Index insertBytes(int byteCount);
     void clear();
     void release();   // forces to release all memory blocks. Not exportable
     bool isUpdateExportNeeded() const;

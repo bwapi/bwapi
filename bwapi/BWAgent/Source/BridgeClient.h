@@ -20,6 +20,9 @@ namespace BWAgent
 
     extern std::deque<std::string> getUserInputStrings();
 
+    extern bool isConnected();
+    extern bool pushSendText(bool send, char *string);
+
     // state
     enum RpcState : int
     {

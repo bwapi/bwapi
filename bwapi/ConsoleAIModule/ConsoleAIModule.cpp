@@ -36,6 +36,7 @@ public:
   void onSendText(std::string text)
   {
     printf("onSendText: '%s'\n",text.c_str());
+    Game::sendText("typed: %s",text.c_str());
   };
 //  void onPlayerLeft(Player* player) {};
 //  void onNukeDetect(Position target) {};

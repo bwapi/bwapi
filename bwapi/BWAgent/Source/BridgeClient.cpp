@@ -130,6 +130,7 @@ namespace BWAgent
     {
       return rpcState;
     }
+    //----------------------------------------- UPDATE MAPPINGS -------------------------------------------------
     void updateMappings()
     {
       allUnits.clear();
@@ -166,6 +167,25 @@ namespace BWAgent
         }
       }
 
+      // export sendText updates
+      while(sharedStuff.sendText.isUpdateExportNeeded())
+      {
+        // create export package
+        Bridge::PipeMessage::AgentUpdateSendText packet;
+        if(!sharedStuff.sendText.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = __FUNCTION__ ": exporting sendText update failed";
+          return false;
+        }
+
+        // send update export
+        if(!sharedStuff.pipe.sendRawStructure(packet))
+        {
+          lastError = __FUNCTION__ ": sending sendText update export packet failed";
+          return false;
+        }
+      }
+
       return true;
     }
     //----------------------------------------- WAIT FOR EVENT --------------------------------------------------
@@ -196,6 +216,7 @@ namespace BWAgent
           // return RPC
           Bridge::PipeMessage::AgentMatchInitDone done;
           success = sharedStuff.pipe.sendRawStructure(done);
+          sharedMemoryInitialized = true;
         }break;
       }
       if(!success)
@@ -261,6 +282,11 @@ namespace BWAgent
             lastError = __FUNCTION__ ": commands failed initializing.";
             return false;
           }
+          if(!sharedStuff.sendText.init(2000, true))
+          {
+            lastError = __FUNCTION__ ": sendText failed initializing.";
+            return false;
+          }
 
           // import all static data. It's all combined into staticData
           if (!sharedStuff.staticData.import(packet.staticGameDataExport))
@@ -282,6 +308,9 @@ namespace BWAgent
           // onFrame state
           rpcState = OnFrame;
           updateMappings();
+
+          // clear all frame-by-frame buffers
+          sharedStuff.sendText.clear();
 
           // return
           break;
@@ -305,6 +334,30 @@ namespace BWAgent
         i = sharedStuff.userInput.getNext(i);
       }
       return retval;
+    }
+    //----------------------------------------- IS CONNECTED ----------------------------------------------------
+    bool isConnected()
+    {
+      return connectionEstablished;
+    }
+    //----------------------------------------- IS SHARED MEMORY INITIALIZED ------------------------------------
+    bool isSharedMemoryInitialized()
+    {
+      return sharedMemoryInitialized;
+    }
+    //----------------------------------------- PUSH SEND TEXT --------------------------------------------------
+    bool pushSendText(bool send, char *string)
+    {
+      if(!connectionEstablished || !sharedMemoryInitialized)
+        return false;
+      Util::MemoryFrame textmem = Util::MemoryFrame(string, strlen(string)+1);
+      Bridge::SharedStuff::SendTextStack::Index index = sharedStuff.sendText.insertBytes(sizeof(bool) + textmem.size());
+      if(!index.isValid())
+        return false;
+      Util::MemoryFrame targetmem = sharedStuff.sendText.get(index);
+      targetmem.writeAs<bool>(send);
+      targetmem.write(textmem);
+      return true;
     }
     //----------------------------------------- GET LAST ERROR --------------------------------------------------
     std::string getLastError()

@@ -24,8 +24,8 @@ namespace Util
       return false;
     return true;
   }
-  //----------------------- INSERT -------------------------------------
-  SharedStack::Index SharedStack::insert(const Util::MemoryFrame &storee)
+  //----------------------- INSERT BYTES -------------------------------
+  SharedStack::Index SharedStack::insertBytes(int byteCount)
   {
     Block *targetBlock = NULL;
     unsigned int b;
@@ -34,7 +34,7 @@ namespace Util
       Block &block = this->ownedBlocks[b];
 
       // check if there's a free spot in this block
-      if(block.head + storee.size() + sizeof(EntryHead)*2
+      if(block.head + byteCount + sizeof(EntryHead)*2
         <= (unsigned)block.size)
       {
         targetBlock = &block;
@@ -46,7 +46,7 @@ namespace Util
     if(!targetBlock)
     {
       // maybe storee is just too fat!
-      if(storee.size() + sizeof(EntryHead)*2 > (unsigned)this->nextNewBlockSize)
+      if(byteCount + sizeof(EntryHead)*2 > (unsigned)this->nextNewBlockSize)
       {
         return Index::invalid;
       }
@@ -55,7 +55,7 @@ namespace Util
       if(!this->_createNewPageBlock())
         return Index::invalid;
 
-      // insert into this newly created, last, block
+      // return this newly created, last, block
       b = this->ownedBlocks.size()-1;
       targetBlock = &this->ownedBlocks[b];
     }
@@ -69,11 +69,11 @@ namespace Util
 
     // write the head
     EntryHead entry;
-    entry.size = storee.size();
+    entry.size = byteCount;
     memory.writeAs(entry);
 
     // store the new entry here
-    memory.write(storee);
+    memory.skip(byteCount);
 
     // mark next entry as final (null entry/null head)
     entry.size = 0;
@@ -85,9 +85,23 @@ namespace Util
     index.blockHead = block.head;
 
     // update modified block's stats
-    block.head += storee.size() + sizeof(EntryHead);
+    block.head += byteCount + sizeof(EntryHead);
 
     return index;
+  }
+  //----------------------- INSERT -------------------------------------
+  SharedStack::Index SharedStack::insert(const Util::MemoryFrame &storee)
+  {
+    // reserve space
+    Index i = this->insertBytes(storee.size());
+    if(!i.isValid())
+      return Index::invalid;
+    Util::MemoryFrame memory = this->get(i);
+
+    // store the new entry here
+    memory.write(storee);
+
+    return i;
   }
   //----------------------- CLEAR ------------------------------------
   void SharedStack::clear()
