@@ -17,45 +17,26 @@ namespace BWAPI
   // Unit's state we know about, depending on clearance level
   struct StateNoticed
   {
-    int getID;
-    int getInitialType;
-    int getInitialHitPoints;
-    int getInitialResources;
-    //PlayerStruct* getInitialPlayer;
+    //replace with position object later
+    int position_x;
+    int position_y;
+    bool isAccelerating;
+    bool isMoving;
+    bool isIdle;
+    int type;
+    int removeTimer;
+    int id;
+    bool isStartingAttack;
+    bool isUnderStorm;
   };
   struct StateDetected : StateNoticed
   {
-    //replace with position object later
-    int x;
-    int y;
-  };
-  struct StateVisible : StateDetected
-  {
-    //todo: move some of these to fully observable
-    int getPlayer;
-    int getType;
-    int getHitPoints;
-    int getShields;
-    int getEnergy;
-    int getResources;
-    int getKillCount;
-    int getGroundWeaponCooldown;
-    int getAirWeaponCooldown;
-    int getSpellCooldown;
-    int getDefenseMatrixPoints;
-
-    int getDefenseMatrixTimer;
-    int getEnsnareTimer;
-    int getIrradiateTimer;
-    int getLockdownTimer;
-    int getMaelstromTimer;
-    int getPlagueTimer;
-    int getRemoveTimer;
-    int getStasisTimer;
-    int getStimTimer;
-
-    bool exists;
-    bool isAccelerating;
+    int player;
+    int hitPoints;
+    int shields;
+    int energy;
+    int resources;
+    int killCount;
     bool isBeingConstructed;
     bool isBeingGathered;
     bool isBeingHealed;
@@ -69,38 +50,57 @@ namespace BWAPI
     bool isConstructing;
     bool isDefenseMatrixed;
     bool isEnsnared;
-    bool isFollowing;
     bool isGatheringGas;
     bool isGatheringMinerals;
-    bool isHallucination;
-    bool isIdle;
     bool isIrradiated;
     bool isLifted;
-    bool isLoaded;
     bool isLockedDown;
     bool isMaelstrommed;
     bool isMorphing;
-    bool isMoving;
     bool isParasited;
-    bool isPatrolling;
     bool isPlagued;
     bool isRepairing;
     bool isResearching;
     bool isSelected;
     bool isSieged;
-    bool isStartingAttack;
     bool isStasised;
     bool isStimmed;
     bool isTraining;
-    bool isUnderStorm;
     bool isUnpowered;
     bool isUpgrading;
-    bool isVisible;
+
+    int groundWeaponCooldown;
+    int airWeaponCooldown;
+    int spellCooldown;
   };
-  struct StateFullyObservable : StateVisible
+  struct StateVisible : StateDetected
   {
-    bool isResearching;//can not get this from visible enemy units
+    // i found no states that are accessible when visible
+    // but are not accessible when detected. if this keeps up,
+    // remove detected, weld things, and let agent use
+    // isCloaked to see if it's just visible or detected
   };
-  typedef StateFullyObservable State;      // all states unified
+  struct StateFull : StateVisible
+  {
+    // you could only possibly see this if you own it
+    bool isHallucination;
+    bool isLoaded;
+
+    // you can't see timer from enemy units, can you?
+    int defenseMatrixTimer;
+    int ensnareTimer;
+    int irradiateTimer;
+    int lockdownTimer;
+    int maelstromTimer;
+    int plagueTimer;
+    int stasisTimer;
+    int stimTimer;
+    int defenseMatrixPoints;
+
+    // orders you can only get from your own units
+    bool isFollowing;
+    bool isPatrolling;
+  };
+  typedef StateFull State;      // all states unified
 
 }
