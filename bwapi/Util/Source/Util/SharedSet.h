@@ -14,6 +14,7 @@ namespace Util { template <typename T> class SharedSet; }
 #include "SharedMemory.h"
 #include <set>
 #include <vector>
+#include "ForEach.h"
 
 namespace Util
 {
@@ -40,7 +41,7 @@ namespace Util
     }
     ~SharedSet()
     {
-      for each(Block block in this->ownedBlocks)
+      foreach(Block block, this->ownedBlocks)
       {
         delete block.memory;
       }
@@ -108,7 +109,8 @@ namespace Util
       this->ownedBlocks.push_back(newBlock);
 
       // clean the new entries
-      Entry *entries = newBlock.memory->getMemory().beginAs<Entry>();
+      MemoryFrame temp=newBlock.memory->getMemory();
+      Entry *entries = temp.beginAs<Entry>();
       for(int i = 0; i < newBlock.size; i++)
       {
         entries[i].busy = false;
@@ -128,7 +130,8 @@ namespace Util
     {
       // mark target entry as unused
       Block &targetBlock = this->ownedBlocks[removee.blockIndex];
-      Entry *targetBlockEntries = targetBlock.memory->getMemory().beginAs<Entry>();
+      MemoryFrame temp = targetBlock.memory->getMemory();
+      Entry *targetBlockEntries = temp.beginAs<Entry>();
       targetBlockEntries[removee.blockEntryIndex].busy = false;
 
       // move head to new position
@@ -151,7 +154,8 @@ namespace Util
     T& operator [] (Index pointee)
     {
       Block &targetBlock = this->ownedBlocks[pointee.blockIndex];
-      Entry *targetBlockEntries = targetBlock.memory->getMemory().beginAs<Entry>();
+      MemoryFrame temp=targetBlock.memory->getMemory();
+      Entry *targetBlockEntries = temp.beginAs<Entry>();
       Entry &targetEntry = targetBlockEntries[pointee.blockEntryIndex];
 
       return targetEntry.strucure;
@@ -159,10 +163,11 @@ namespace Util
     //----------------------- CLEAR ------------------------------------
     void clear()
     {
-      for each(Block &block in this->ownedBlocks)
+      foreach(Block &block, this->ownedBlocks)
       {
         // mark everything as free
-        Entry *entries = block.memory->getMemory().beginAs<Entry>();
+        MemoryFrame temp=block.memory->getMemory();
+        Entry *entries = temp.beginAs<Entry>();
         for(int i = 0; i < block.size; i++)
         {
           entries[i].busy = false;
@@ -176,7 +181,7 @@ namespace Util
     //----------------------- RELEASE ----------------------------------
     void release()
     {
-      for each(Block &block in this->ownedBlocks)
+      foreach(Block &block, this->ownedBlocks)
       {
         delete block->memory;
       }

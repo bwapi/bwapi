@@ -1,4 +1,6 @@
 #include "FileLineReader.h"
+#include <stdio.h>
+#include <string.h>
 
 namespace Util
 {
@@ -14,8 +16,8 @@ namespace Util
   //----------------------- OPEN FILE ----------------------------------
   bool FileLineReader::openFile(std::string filePath)
   {
-    int failure = fopen_s(&this->handle, filePath.c_str(), "r");
-    if(failure)
+    this->handle = fopen(filePath.c_str(), "r");
+    if(!this->handle)
       return false;
     lineNumber = 0;
     return true;
@@ -27,7 +29,7 @@ namespace Util
     if(!fgets(buff, 200, this->handle))
       buff[0] = 0;
     this->lineNumber++;
-    int length = ::strlen(buff);
+    int length = strlen(buff);
     if(buff[length-1] == '\n')
       buff[length-1] = 0;
     return std::string(buff);

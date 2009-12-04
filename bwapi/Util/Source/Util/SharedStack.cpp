@@ -1,5 +1,5 @@
 #include "SharedStack.h"
-
+#include "ForEach.h"
 namespace Util
 {
   //----------------------- CONSTRUCTION -------------------------------
@@ -108,7 +108,7 @@ namespace Util
   //----------------------- RELEASE ----------------------------------
   void SharedStack::release()
   {
-    for each(const Block &block in this->ownedBlocks)
+    foreach(const Block &block, this->ownedBlocks)
     {
       delete block.memory;
     }

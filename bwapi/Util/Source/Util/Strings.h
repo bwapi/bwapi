@@ -1,5 +1,5 @@
 #pragma once
-#define STRING_UTIL_BUFFER_SIZE 100
+#define STRING_UTIL_BUFFER_SIZE 1000
 
 #include <string>
 #include <vector>
