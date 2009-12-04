@@ -48,8 +48,8 @@ namespace BWAgent
       }
 
       // react upon bridge state
-      BridgeClient::BridgeState bridgeState = BridgeClient::getCurrentState();
-      switch(bridgeState)
+      BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
+      switch(rpcState)
       {
       case BridgeClient::OnInitMatch:
         {

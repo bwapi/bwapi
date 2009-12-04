@@ -59,7 +59,7 @@ namespace Bridge
     };
     struct AgentUpdateCommands : Util::TypeHead<UNIQUE_ID>
     {
-      Bridge::SharedStuff::UserInputStack::Export exp;
+      Bridge::SharedStuff::CommandStack::Export exp;
     };
     //------------------------------------------------
     // Sent each frame, to pass control between

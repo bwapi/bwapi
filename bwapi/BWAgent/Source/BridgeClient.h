@@ -14,18 +14,19 @@ namespace BWAgent
 
     // methods
     extern std::string getLastError();
-    extern int connect();
+    extern bool connect();
+    extern void disconnect();
     extern bool waitForEvent();
 
     extern std::deque<std::string> getUserInputStrings();
 
     // state
-    enum BridgeState : int
+    enum RpcState : int
     {
       Intermediate,
       OnInitMatch,
       OnFrame,
     };
-    extern BridgeState getCurrentState();
+    extern RpcState getCurrentRpc();
   }
 }

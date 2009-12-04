@@ -22,7 +22,8 @@ namespace BWAgent
 
     // Bridge Client state
     bool connectionEstablished = false;
-    BridgeState bridgeState = Intermediate;
+    bool sharedMemoryInitialized = false;
+    RpcState rpcState = Intermediate;
 
     // error handling
     std::string lastError;
@@ -36,7 +37,7 @@ namespace BWAgent
     // public access to shared memory
     Bridge::StaticGameData* sharedStaticData;
     //----------------------------------------- CONNECT ---------------------------------------------------------
-    int connect()
+    bool connect()
     {
       resetError();
       if(connectionEstablished)
@@ -114,10 +115,20 @@ namespace BWAgent
 
       return true;
     }
-    //----------------------------------------- GET CURRENT STATE -----------------------------------------------
-    BridgeState getCurrentState()
+    //----------------------------------------- DISCONNECT ------------------------------------------------------
+    void disconnect()
     {
-      return bridgeState;
+      if(sharedMemoryInitialized)
+      {
+        sharedStuff.sendText.release();
+      }
+      sharedStuff.pipe.disconnect();
+      connectionEstablished = true;
+    }
+    //----------------------------------------- GET CURRENT STATE -----------------------------------------------
+    RpcState getCurrentRpc()
+    {
+      return rpcState;
     }
     void updateMappings()
     {
@@ -138,7 +149,7 @@ namespace BWAgent
 
       // send readyness packet
       bool success = false;
-      switch(bridgeState)
+      switch(rpcState)
       {
       case Intermediate:
         {
@@ -219,7 +230,7 @@ namespace BWAgent
           sharedStaticData = &sharedStuff.staticData.get();
           
 
-          bridgeState = OnInitMatch;
+          rpcState = OnInitMatch;
 
           // return
           break;
@@ -228,7 +239,7 @@ namespace BWAgent
         if(packetType == Bridge::PipeMessage::ServerFrameNext::_typeId)
         {
           // onFrame state
-          bridgeState = OnFrame;
+          rpcState = OnFrame;
           updateMappings();
 
           // return
