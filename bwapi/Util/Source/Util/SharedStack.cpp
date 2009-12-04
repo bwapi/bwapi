@@ -113,13 +113,12 @@ namespace Util
       delete block.memory;
     }
     this->ownedBlocks.clear();
-    this-> exportedBlocks = 0;
+    this->exportedBlocks = 0;
   }
   //----------------------- IS UPDATE EXPORT NEEDED ------------------
   bool SharedStack::isUpdateExportNeeded() const
   {
-    return exportHasCleared ||
-      (unsigned)this->exportedBlocks < this->ownedBlocks.size();
+    return (unsigned)this->exportedBlocks < this->ownedBlocks.size();
   }
   //----------------------- EXPORT NEXT ------------------------------
   bool SharedStack::exportNextUpdate(Export &out, RemoteProcess &targetProcess)
@@ -145,12 +144,62 @@ namespace Util
 
     return true;
   }
-  //----------------------- INDEX IS VALID -----------------------------
-  bool SharedStack::Index::isValid()
+  //----------------------- BEGIN --------------------------------------
+  SharedStack::Index SharedStack::begin() const
   {
-    return this->blockIndex >= 0;
+    // any blocks we have?
+    if(this->ownedBlocks.size() <= 0)
+      return Index::invalid;
+    // first index
+    Index index;
+    index.blockIndex = 0;
+    index.blockHead = 0;
+    // check if the first block is not actually empty
+    if(this->ownedBlocks[0].memory->getMemory().getAs<int>() == 0)
+      return Index::invalid;
+    return index;
   }
-  SharedStack::Index SharedStack::Index::invalid = {-1, -1};
+  //----------------------- GET ----------------------------------------
+  Util::MemoryFrame SharedStack::get(Index index) const
+  {
+    if(index.blockIndex >= (int)this->ownedBlocks.size())
+      return Util::MemoryFrame();
+    Util::MemoryFrame memory = this->ownedBlocks[index.blockIndex].memory->getMemory();
+    memory.skip(index.blockHead);
+    EntryHead entry = memory.readAs<EntryHead>();
+    return memory.getSubFrame(0, entry.size);
+  }
+  //----------------------- GET NEXT -----------------------------------
+  SharedStack::Index SharedStack::getNext(Index index) const
+  {
+    // get this entry
+    Util::MemoryFrame memory = this->ownedBlocks[index.blockIndex].memory->getMemory();
+    memory.skip(index.blockHead);
+    EntryHead entry = memory.readAs<EntryHead>();
+
+    // shift to next address
+    index.blockHead += sizeof(EntryHead);
+    index.blockHead += entry.size;
+    if(index.blockHead >= this->ownedBlocks[index.blockIndex].size) // out of range, weird error, shouldn't have happened
+      return Index::invalid;
+
+    // get next entry
+    memory = this->ownedBlocks[index.blockIndex].memory->getMemory();
+    memory.skip(index.blockHead);
+    entry = memory.readAs<EntryHead>();
+    while(entry.size == 0) // last entry in this block
+    {
+      if(index.blockIndex == (int)this->ownedBlocks.size()-1) // last block
+        return Index::invalid;
+
+      // get the begin of next block
+      index.blockIndex++;
+      index.blockHead = 0;
+      memory = this->ownedBlocks[index.blockIndex].memory->getMemory();
+      entry = memory.readAs<EntryHead>();
+    }
+    return index;
+  }
   //----------------------- --------------------------------------------
   //----------------------- CREATE NEW PAGE BLOCK ----------------------
   bool SharedStack::_createNewPageBlock()
@@ -172,5 +221,12 @@ namespace Util
 
     return true;
   }
+  //----------------------- --------------------------------------------
+  //----------------------- INDEX IS VALID -----------------------------
+  bool SharedStack::Index::isValid()
+  {
+    return this->blockIndex >= 0;
+  }
+  const SharedStack::Index SharedStack::Index::invalid = {-1, -1};
   //----------------------- --------------------------------------------
 }

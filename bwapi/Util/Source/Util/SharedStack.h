@@ -29,7 +29,7 @@ namespace Util
       int blockHead;
 
       bool isValid();
-      static Index invalid;
+      static const Index invalid;
     };
     typedef SharedMemory::Export Export;
     //----------------------- CONSTRUCTION -----------------------------
@@ -43,6 +43,10 @@ namespace Util
     bool isUpdateExportNeeded() const;
     bool exportNextUpdate(Export &out, RemoteProcess &targetProcess);
     bool importNextUpdate(const Export &in);
+    //----------------------- ITERATION --------------------------------
+    Index begin() const;
+    Index getNext(Index index) const;
+    Util::MemoryFrame get(Index index) const;
     //----------------------- ------------------------------------------
   private:
     struct Block

@@ -20,9 +20,10 @@ namespace BWAPI
     extern bool createSharedMemory();
     extern bool exportSharedMemory();
     extern bool releaseSharedMemory();
+    extern bool updateRemoteSharedMemory();
     extern bool invokeOnFrame();
     extern bool invokeOnStartMatch(bool fromBeginning);
-    extern bool pushSendText();
+    extern bool pushSendText(const char *text);
     extern bool isAgentConnected();               // true when pipe connection works
     extern bool isBridgeInitialized();            // true once initBridge called
     extern bool isSharedMemoryInitialized();      // true once memory allocated
