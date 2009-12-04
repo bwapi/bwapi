@@ -44,20 +44,20 @@ namespace Util
     {
       release();
       H head;
-      this->buffer.appendStructure<H>(head);
+      buffer.appendStructure<H>(head);
       int null = 0;
-      this->buffer.appendStructure<int>(null);
+      buffer.appendStructure<int>(null);
       return buffer.getMemory().getAs<H>();
     }
     void appendEntry(const T &entry)
     {
-      this->buffer.appendStructure<T>(entry);
+      buffer.appendStructure<T>(entry);
       // increment entry count
-      this->buffer.getMemory().offsetAs<int>(sizeof(H))++;
+      buffer.getMemory().offsetAs<int>(sizeof(H))++;
     }
     HybridFrame<H, T> getFrame()
     {
-      return HybridFrame(this->buffer.getMemory());
+      return HybridFrame<H,T>(buffer.getMemory());
     }
     MemoryFrame getMemory()
     {
@@ -86,9 +86,9 @@ namespace Util
 
     HybridFrame(const Util::MemoryFrame &source)
       : frame(source)
-      , head(source.getMemory().getAs<H>())
-      , count(source.getMemory().offsetAs<int>(sizeof(H)))
-      , tail(source.getMemory().offset<T>(sizeof(H)+sizeof(int)))
+      , head(source.getAs<H>())
+      , count(source.offsetAs<int>(sizeof(H)))
+      , tail(source.offset<T>(sizeof(H)+sizeof(int)))
     {
     }
     MemoryFrame getMemory()

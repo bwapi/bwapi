@@ -5,6 +5,7 @@
 #include <Bridge\PipeMessage.h>
 
 #include <Util\Version.h>
+#include <Util\Strings.h>
 
 namespace BWAPI
 {
@@ -139,7 +140,7 @@ namespace BWAPI
       // check prerequisites
       if(!stateConnectionEstablished)
       {
-        lastError = __FUNCTION__ ": connection not established";
+        lastError = std::string(__FUNCTION__)+": connection not established";
         return false;
       }
       resetError();
@@ -148,7 +149,7 @@ namespace BWAPI
       // create and publish static data
       if(!sharedStuff.staticData.create())
       {
-        lastError = __FUNCTION__ ": staticData creating failed";
+        lastError = std::string(__FUNCTION__)+ ": staticData creating failed";
         return false;
       }
       sharedStaticData = &sharedStuff.staticData.get();
@@ -172,7 +173,7 @@ namespace BWAPI
       // check prerequisites
       if(!stateConnectionEstablished)
       {
-        lastError = __FUNCTION__ ": connection not established";
+        lastError = std::string(__FUNCTION__)+ ": connection not established";
         return false;
       }
       resetError();
@@ -187,14 +188,14 @@ namespace BWAPI
         startMatchEvent.staticGameDataExport = sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
         if(!startMatchEvent.staticGameDataExport.isValid())
         {
-          lastError = __FUNCTION__ ": staticData export failed";
+          lastError = std::string(__FUNCTION__)+ ": staticData export failed";
           return false;
         }
 
         // pushlish the shared memory location
         if(!sharedStuff.pipe.sendRawStructure(startMatchEvent))
         {
-          lastError = __FUNCTION__ ": error sending packet";
+          lastError = std::string(__FUNCTION__)+ ": error sending packet";
           return false;
         }
       }
@@ -203,7 +204,7 @@ namespace BWAPI
       Util::Buffer buffer;
       if(!sharedStuff.pipe.receive(buffer))
       {
-        lastError = __FUNCTION__ ": error receiving completion event";
+        lastError = std::string(__FUNCTION__)+ ": error receiving completion event";
         return false;
       }
 
@@ -212,14 +213,14 @@ namespace BWAPI
       int packetType = packet.getAs<int>();
       if(packetType != Bridge::PipeMessage::AgentMatchInitDone::_typeId)
       {
-        lastError = __FUNCTION__ ": received unexpected packet type " + packetType;
+        lastError = std::string(__FUNCTION__)+ ": received unexpected packet type " + Util::Strings::intToString(packetType);
         return false;
       }
 
       Bridge::PipeMessage::AgentMatchInitDone initMatchDone;
       if(!packet.readTo(initMatchDone))
       {
-        lastError = __FUNCTION__ ": received packet too small";
+        lastError = std::string(__FUNCTION__)+ ": received packet too small";
         return false;
       }
 
@@ -234,7 +235,7 @@ namespace BWAPI
       // check prerequisites
       if(!stateConnectionEstablished)
       {
-        lastError = __FUNCTION__ ": no connection established";
+        lastError = std::string(__FUNCTION__)+ ": no connection established";
         return false;
       }
 
@@ -247,7 +248,7 @@ namespace BWAPI
       Util::Buffer buffer;
       if(!sharedStuff.pipe.receive(buffer))
       {
-        lastError = __FUNCTION__ ": receive completion packet failed";
+        lastError = std::string(__FUNCTION__)+ ": receive completion packet failed";
         return false;
       }
 
@@ -258,14 +259,14 @@ namespace BWAPI
 
       if(packetType != Bridge::PipeMessage::AgentFrameNextDone::_typeId)
       {
-        lastError = __FUNCTION__ ": unexpected packet type " + packetType;
+        lastError = std::string(__FUNCTION__)+ ": unexpected packet type " + Util::Strings::intToString(packetType);
         return false;
       }
 
       Bridge::PipeMessage::AgentFrameNextDone completion;
       if(!packet.readTo(completion))
       {
-        lastError = __FUNCTION__ ": completion packet too small";
+        lastError = std::string(__FUNCTION__)+ ": completion packet too small";
         return false;
       }
 
@@ -279,7 +280,7 @@ namespace BWAPI
       // check prerequisites
       if(!stateSharedMemoryInitialized)
       {
-        lastError = __FUNCTION__ ": shared memory not initialized";
+        lastError = std::string(__FUNCTION__)+ ": shared memory not initialized";
         return false;
       }
 
@@ -297,7 +298,7 @@ namespace BWAPI
         Bridge::PipeMessage::ServerUpdateUserInput packet;
         if(!sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
-          lastError = __FUNCTION__ ": update exporting userInput failed";
+          lastError = std::string(__FUNCTION__)+ ": update exporting userInput failed";
           return false;
         }
 
