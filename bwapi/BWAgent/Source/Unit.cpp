@@ -8,29 +8,154 @@
 
 namespace BWAgent
 {
-  void pushCommand(BWAPI::CommandID::Enum commandID,int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
+  void pushCommand(BWAPI::CommandID::Enum commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
   Unit::Unit()
   {
   }
-  int Unit::getID()
+  int Unit::getID() const
   {
     if(!BridgeClient::sharedStaticData || !this->data)
       return -1;
     return data->getID;
   }
-  int Unit::getType()
+  int Unit::getPlayer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getPlayer;
+  }
+  int Unit::getType() const
   {
     if(!BridgeClient::sharedStaticData || !this->data)
       return -1;
     return data->getType;
   }
-
-
-  int Unit::getHitPoints()
+  int Unit::getInitialType() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getInitialType;
+  }
+  int Unit::getHitPoints() const
   {
     if(!BridgeClient::sharedStaticData || !this->data)
       return -1;
     return data->getHitPoints;
+  }
+  int Unit::getInitialHitPoints() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getInitialHitPoints;
+  }
+  int Unit::getShields() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getShields;
+  }
+  int Unit::getEnergy() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getEnergy;
+  }
+  int Unit::getResources() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getResources;
+  }
+  int Unit::getInitialResources() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getInitialResources;
+  }
+  int Unit::getKillCount() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getKillCount;
+  }
+  int Unit::getGroundWeaponCooldown() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getGroundWeaponCooldown;
+  }
+  int Unit::getAirWeaponCooldown() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getAirWeaponCooldown;
+  }
+  int Unit::getSpellCooldown() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getSpellCooldown;
+  }
+  int Unit::getDefenseMatrixPoints() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getDefenseMatrixPoints;
+  }
+
+  int Unit::getDefenseMatrixTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getDefenseMatrixTimer;
+  }
+  int Unit::getEnsnareTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getEnsnareTimer;
+  }
+  int Unit::getIrradiateTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getIrradiateTimer;
+  }
+  int Unit::getLockdownTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getLockdownTimer;
+  }
+  int Unit::getMaelstromTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getMaelstromTimer;
+  }
+  int Unit::getPlagueTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getPlagueTimer;
+  }
+  int Unit::getRemoveTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getRemoveTimer;
+  }
+  int Unit::getStasisTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getStasisTimer;
+  }
+  int Unit::getStimTimer() const
+  {
+    if(!BridgeClient::sharedStaticData || !this->data)
+      return -1;
+    return data->getStimTimer;
   }
 
   bool Unit::exists() const
@@ -288,9 +413,16 @@ namespace BWAgent
   }
   bool Unit::attackUnit(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::AttackUnit,data->getID,0,0,target->getID());
+    return true;
+  }
+  bool Unit::rightClick(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+      return false;
+    pushCommand(BWAPI::CommandID::RightClickUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::stop()
@@ -305,6 +437,27 @@ namespace BWAgent
     if(!BridgeClient::sharedCommandData || !this->data)
       return false;
     pushCommand(BWAPI::CommandID::HoldPosition,data->getID);
+    return true;
+  }
+  bool Unit::follow(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Follow,data->getID,0,0,target->getID());
+    return true;
+  }
+  bool Unit::setRallyUnit(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+      return false;
+    pushCommand(BWAPI::CommandID::SetRallyUnit,data->getID,0,0,target->getID());
+    return true;
+  }
+  bool Unit::repair(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Repair,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::burrow()
@@ -354,6 +507,27 @@ namespace BWAgent
     if(!BridgeClient::sharedCommandData || !this->data)
       return false;
     pushCommand(BWAPI::CommandID::Lift,data->getID);
+    return true;
+  }
+  bool Unit::load(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Load,data->getID,0,0,target->getID());
+    return true;
+  }
+  bool Unit::unload(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Unload,data->getID,0,0,target->getID());
+    return true;
+  }
+  bool Unit::unloadAll()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::UnloadAll,data->getID);
     return true;
   }
   bool Unit::cancelConstruction()

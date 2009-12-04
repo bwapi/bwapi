@@ -16,6 +16,8 @@ namespace BWAPI
   {
     int getID;
     int getInitialType;
+    int getInitialHitPoints;
+    int getInitialResources;
     //PlayerStruct* getInitialPlayer;
   };
   struct StateDetected : StateBasic
@@ -26,11 +28,29 @@ namespace BWAPI
   };
   struct StateVisible : StateDetected
   {
-    //PlayerStruct* getPlayer;
+    //todo: move some of these to fully observable
+    int getPlayer;
     int getType;
     int getHitPoints;
+    int getShields;
+    int getEnergy;
+    int getResources;
+    int getKillCount;
+    int getGroundWeaponCooldown;
+    int getAirWeaponCooldown;
+    int getSpellCooldown;
+    int getDefenseMatrixPoints;
 
-    //todo: move some of these to fully observable
+    int getDefenseMatrixTimer;
+    int getEnsnareTimer;
+    int getIrradiateTimer;
+    int getLockdownTimer;
+    int getMaelstromTimer;
+    int getPlagueTimer;
+    int getRemoveTimer;
+    int getStasisTimer;
+    int getStimTimer;
+
     bool exists;
     bool isAccelerating;
     bool isBeingConstructed;
