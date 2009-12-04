@@ -46,6 +46,7 @@ namespace Bridge
       bool fromBeginning;
 
       Bridge::SharedStuff::SharedGameDataStructure::Export staticGameDataExport;
+      Bridge::SharedStuff::SharedCommandDataStructure::Export commandDataExport;
     };
     struct AgentMatchInitDone : Util::TypeHead<UNIQUE_ID>
     {

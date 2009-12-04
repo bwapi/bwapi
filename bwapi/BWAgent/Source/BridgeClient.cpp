@@ -35,6 +35,7 @@ namespace BWAgent
     //----------------------------------------- PUBLIC DATA -----------------------------------------------------
     // public access to shared memory
     Bridge::StaticGameDataStructure* sharedStaticData;
+    Bridge::CommandDataStructure* sharedCommandData;
     //----------------------------------------- CONNECT ---------------------------------------------------------
     int connect()
     {
@@ -208,6 +209,7 @@ namespace BWAgent
 
           // release everything, just to be sure
           sharedStuff.staticData.release();
+          sharedStuff.commandData.release();
           sharedStuff.userInput.release();
 
           if (!sharedStuff.staticData.import(packet.staticGameDataExport))
@@ -216,6 +218,13 @@ namespace BWAgent
             return false;
           }
           sharedStaticData = &sharedStuff.staticData.get();
+          
+          if (!sharedStuff.commandData.import(packet.commandDataExport))
+          {
+            lastError = __FUNCTION__ ": commandData failed importing.";
+            return false;
+          }
+          sharedCommandData = &sharedStuff.commandData.get();
           bridgeState = OnInitMatch;
 
           // return

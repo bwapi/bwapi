@@ -24,6 +24,9 @@ namespace Bridge
     typedef Util::SharedStructure<StaticGameDataStructure> SharedGameDataStructure;
     SharedGameDataStructure staticData;
 
+    typedef Util::SharedStructure<CommandDataStructure> SharedCommandDataStructure;
+    SharedCommandDataStructure commandData;
+
     typedef Util::SharedStack UserInputStack;
     UserInputStack userInput;
   };

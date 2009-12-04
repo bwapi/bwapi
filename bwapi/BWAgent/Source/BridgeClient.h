@@ -12,6 +12,8 @@ namespace BWAgent
   //public:
     extern Bridge::StaticGameDataStructure* sharedStaticData;
 
+    extern Bridge::CommandDataStructure* sharedCommandData;
+
     // methods
     extern std::string getLastError();
     extern int connect();

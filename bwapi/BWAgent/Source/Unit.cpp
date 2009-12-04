@@ -34,12 +34,12 @@ namespace BWAgent
 
   bool Unit::holdPosition()
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
+    if(!BridgeClient::sharedCommandData || !this->data)
       return false;
-    BWAPI::UnitCommand* c = &(BridgeClient::sharedStaticData->commandQueue[BridgeClient::sharedStaticData->lastFreeCommandSlot]);
+    BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);
     c->unitID = data->getID;
     c->commandID = BWAPI::CommandID::HoldPosition;
-    BridgeClient::sharedStaticData->lastFreeCommandSlot++;
+    BridgeClient::sharedCommandData->lastFreeCommandSlot++;
     return true;
   }
   void Unit::_update(BWAPI::ClearanceLevels level,BWAPI::State* data)

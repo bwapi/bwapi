@@ -768,6 +768,8 @@ namespace BWAPI
         if(BridgeServer::isSharedMemoryInitialized())
         {
           Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
+          Bridge::CommandDataStructure &commandData = *BridgeServer::sharedCommandData;
+
           for (int x=0;x<mapWidth()*4;x++)
             for (int y=0;y<mapHeight()*4;y++)
             {
@@ -783,7 +785,8 @@ namespace BWAPI
 
           strncpy(staticData.mapName,mapName().c_str(),32);
           staticData.mapName[31]='\0';
-          staticData.lastFreeCommandSlot=0;
+
+          commandData.lastFreeCommandSlot=0;
 
           Engine::enableFlag(Flag::UserInput); //temp
 
@@ -856,15 +859,14 @@ namespace BWAPI
           BridgeServer::disconnect();
           printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
-
-        // execute AI's commands
+        if(BridgeServer::sharedCommandData)
         {
-          Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
-          for(int i=0;i<staticData.lastFreeCommandSlot;i++)
+          Bridge::CommandDataStructure &commandData = *BridgeServer::sharedCommandData;
+          for(int i=0;i<commandData.lastFreeCommandSlot;i++)
           {
-            Engine::executeUnitCommand(staticData.commandQueue[i]);
+            Engine::executeUnitCommand(commandData.commandQueue[i]);
           }
-          staticData.lastFreeCommandSlot = 0;
+          commandData.lastFreeCommandSlot = 0;
         }
       }
 

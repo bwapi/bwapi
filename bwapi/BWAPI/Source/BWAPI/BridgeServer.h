@@ -13,6 +13,7 @@ namespace BWAPI
   {
   //public:
     extern Bridge::StaticGameDataStructure* sharedStaticData;
+    extern Bridge::CommandDataStructure* sharedCommandData;
 
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();
