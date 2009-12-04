@@ -55,7 +55,24 @@ namespace BWAgent
     bool isUpgrading() const;
     bool isVisible() const;
 
+    bool attackUnit(Unit* target);
+    bool stop();
     bool holdPosition();
+    bool burrow();
+    bool unburrow();
+    bool siege();
+    bool unsiege();
+    bool cloak();
+    bool decloak();
+    bool lift();
+    bool cancelConstruction();
+    bool haltConstruction();
+    bool cancelMorph();
+    bool cancelTrain();
+    bool cancelTrain(int slot);
+    bool cancelAddon();
+    bool cancelResearch();
+    bool cancelUpgrade();
     void _update(BWAPI::ClearanceLevels level,BWAPI::State* data);
   private:
     BWAPI::ClearanceLevels level;//type of struct that data points to
