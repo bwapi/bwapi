@@ -1,5 +1,4 @@
 #include "SharedMemory.h"
-#include "SharedMemoryExport.h"
 
 namespace Util
 {
@@ -13,7 +12,7 @@ namespace Util
 
   SharedMemory::~SharedMemory()
   {
-    discard();
+    release();
   }
 
   //----------------------- CREATE -------------------------------------
@@ -48,7 +47,7 @@ namespace Util
     return true;
   }
   //----------------------- IMPORT -------------------------------------
-  bool SharedMemory::import(SharedMemoryExport source)
+  bool SharedMemory::import(Export source)
   {
     this->bufferBase = ::MapViewOfFile(
       source.targetProcessMappingObjectHandle,
@@ -71,7 +70,7 @@ namespace Util
     return MemoryFrame(this->bufferBase, this->bufferSize);
   }
   //----------------------- EXPORT TO PROCESS --------------------------
-  SharedMemoryExport SharedMemory::exportToProcess(RemoteProcess &target, bool readOnly) const
+  SharedMemory::Export SharedMemory::exportToProcess(RemoteProcess &target, bool readOnly) const
   {
     HANDLE targetProcessHandle = target.getHandle();
     HANDLE exportHandle;
@@ -85,16 +84,16 @@ namespace Util
       readOnly ? PAGE_READONLY : DUPLICATE_SAME_ACCESS);
     if(!success)
     {
-      return SharedMemoryExport();
+      return Export();
     }
-    SharedMemoryExport exportObject;
+    Export exportObject;
     exportObject.bufferSize = this->bufferSize;
     exportObject.targetProcessMappingObjectHandle = exportHandle;
     exportObject.readOnly = readOnly;
     return exportObject;
   }
-  //----------------------- DISCARD ------------------------------------
-  void SharedMemory::discard()
+  //----------------------- RELEASE ------------------------------------
+  void SharedMemory::release()
   {
     if(this->mappingObjectHandle != INVALID_HANDLE_VALUE)
     {
@@ -115,4 +114,16 @@ namespace Util
     GetSystemInfo(&sysinfo);
     return sysinfo.dwPageSize;
   }
+  //--------------------------------------------------------------------
+  //----------------------- CONSTRUCTION -------------------------------
+  SharedMemory::Export::Export()
+    : targetProcessMappingObjectHandle(INVALID_HANDLE_VALUE)
+  {
+  }
+  //----------------------- IS VALID -----------------------------------
+  bool SharedMemory::Export::isValid() const
+  {
+    return this->targetProcessMappingObjectHandle != INVALID_HANDLE_VALUE;
+  }
+  //----------------------- --------------------------------------------
 }

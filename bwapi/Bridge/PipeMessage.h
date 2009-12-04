@@ -1,19 +1,23 @@
 #pragma once
 #include <Bridge\SharedStuff.h>
 
+#include <Util\Pipe.h>
+#include <Util\TypeHead.h>
+
 namespace Bridge
 {
   namespace PipeMessage
   {
-#define UNIQUE_MESSAGE_ID static const int Id = (__COUNTER__+1);
 #pragma pack(push, 1)
     //------------------------------------------------
-    // Automatic ID distribution, starting with 1
+    // Automatic ID distribution
+    // as line number of structure declaration
     //------------------------------------------------
+#define UNIQUE_ID __LINE__
     //------------------------------------------------
     // Sent once at the beginning as identification
     // Do not change! To keep backwards compability
-    // Does not even include BasePacket
+    // Does not even include TypeHead
     //------------------------------------------------
     struct AgentHandshake
     {
@@ -31,72 +35,56 @@ namespace Bridge
       bool accepted;
     };
     //------------------------------------------------
-    // Base packet
-    //------------------------------------------------
-    template<typename T> struct Packet
-    {
-      int packetType;
-      T data;
-
-      Packet() : packetType(T::Id){};
-    };
-    //------------------------------------------------
     // Sent at the beginning of a Match to pass control.
     // During this controll time, Agents has access to
     // all neutral units
-    // Export one-time exports here
+    //
+    // Also exports static shared memory
     //------------------------------------------------
-    struct ServerInitMatch
+    struct ServerMatchInit : Util::TypeHead<UNIQUE_ID>
     {
+      bool fromBeginning;
+
       Bridge::SharedStuff::SharedGameDataStructure::Export staticGameDataExport;
-      UNIQUE_MESSAGE_ID;
     };
-    struct AgentInitMatchDone
+    struct AgentMatchInitDone : Util::TypeHead<UNIQUE_ID>
     {
-      UNIQUE_MESSAGE_ID;
+    };
+    //------------------------------------------------
+    // Update packets. One for each update export page,
+    // don;t choke me, I'm working on a solution, won't
+    // be ready soon tho, I want it to be perfect...
+    //------------------------------------------------
+    struct ServerUpdateUserInput : Util::TypeHead<UNIQUE_ID>
+    {
+      Bridge::SharedStuff::UserInputStack::Export exp;
+    };
+    struct AgentCommands : Util::TypeHead<UNIQUE_ID>
+    {
+      Bridge::SharedStuff::UserInputStack::Export exp;
     };
     //------------------------------------------------
     // Sent each frame, to pass control between
     // the two processes.
     // Server sends first.
     //------------------------------------------------
-    struct ServerNextFrame
+    struct ServerFrameNext : Util::TypeHead<UNIQUE_ID>
     {
-      UNIQUE_MESSAGE_ID;
     };
-    struct AgentNextFrameDone
+    struct AgentFrameNextDone : Util::TypeHead<UNIQUE_ID>
     {
-      UNIQUE_MESSAGE_ID;
-    };
-    struct ServerOnSendText
-    {
-      std::string text;
-      UNIQUE_MESSAGE_ID;
-    };
-    struct AgentOnSendTextDone
-    {
-      bool retval;
-      UNIQUE_MESSAGE_ID;
     };
     //------------------------------------------------
     // Notifies of the current game being over
     // Requests all Shared objects to be released
     //------------------------------------------------
-    struct ServerEndMatch
+    struct ServerMatchEnd : Util::TypeHead<UNIQUE_ID>
     {
-      UNIQUE_MESSAGE_ID;
     };
     //------------------------------------------------
-    // Exports the Unit array
+    //
     //------------------------------------------------
-    struct ServerExportUnitUpdate
-    {
-      UNIQUE_MESSAGE_ID;
-      // dynamic set export data
-    };
-
 #pragma pack(pop)
-#define PIPEMESSAGE_TYPE_COUNT UNIQUE_MESSAGE_ID;
-#undef UNIQUE_MESSAGE_ID
+#undef UNIQUE_ID
   }
 }

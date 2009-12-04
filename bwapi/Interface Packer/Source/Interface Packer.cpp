@@ -226,10 +226,10 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
       }
     }
 
+    writer.writeLine(line);
     // eof
     if(reader.isEof())
       break;
-    writer.writeLine(line);
   }
 }
 //----------------------------- COPY FILES ---------------------------------------------------------------

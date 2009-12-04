@@ -57,7 +57,7 @@ namespace BWAgent
         Bridge::PipeMessage::AgentHandshake handshake;
         handshake.agentVersion = SVN_REV;
         handshake.agentProcessId = ::GetCurrentProcessId();
-        if(!sharedStuff.pipe.sendStructure(handshake))
+        if(!sharedStuff.pipe.sendRawStructure(handshake))
         {
           lastError = __FUNCTION__ ": Could not send per pipe";
           return false;
@@ -102,7 +102,7 @@ namespace BWAgent
       {
         Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
         ack.accepted = true;
-        if(!sharedStuff.pipe.sendStructure(ack))
+        if(!sharedStuff.pipe.sendRawStructure(ack))
         {
           lastError = __FUNCTION__ ": Sending AgentHandshakeAcknoledge failed";
           return false;
@@ -146,13 +146,13 @@ namespace BWAgent
         }break;
       case OnFrame:
         {
-          Bridge::PipeMessage::Packet<Bridge::PipeMessage::AgentNextFrameDone> done;
-          success = sharedStuff.pipe.sendStructure(done);
+          Bridge::PipeMessage::AgentFrameNextDone done;
+          success = sharedStuff.pipe.sendRawStructure(done);
         }break;
       case OnInitMatch:
         {
-          Bridge::PipeMessage::Packet<Bridge::PipeMessage::AgentInitMatchDone> done;
-          success = sharedStuff.pipe.sendStructure(done);
+          Bridge::PipeMessage::AgentMatchInitDone done;
+          success = sharedStuff.pipe.sendRawStructure(done);
         }break;
       }
       if(!success)
@@ -162,47 +162,75 @@ namespace BWAgent
       }
 
       // wait and receive something
-      Util::Buffer buffer;
-      if(!sharedStuff.pipe.receive(buffer))
+      while(true)
       {
-        lastError = __FUNCTION__ ": error pipe receive.";
-        return false;
-      }
-
-      // examine received packet
-      Util::MemoryFrame packet = buffer.getMemory();
-      int packetType;
-      if(!packet.readTo(packetType))
-      {
-        lastError = __FUNCTION__ ": too small packet.";
-        return false;
-      }
-
-      if(packetType == Bridge::PipeMessage::ServerInitMatch::Id)
-      {
-        // onInitMatch state
-        Bridge::SharedStuff::SharedGameDataStructure::Export staticGameData;
-        packet.readTo(staticGameData);
-        if (!sharedStuff.staticData.import(staticGameData))
+        Util::Buffer buffer;
+        if(!sharedStuff.pipe.receive(buffer))
         {
-          lastError = __FUNCTION__ ": staticGameData failed importing.";
+          lastError = __FUNCTION__ ": error pipe receive.";
           return false;
         }
-        sharedStaticData = &sharedStuff.staticData.get();
-        bridgeState = OnInitMatch;
-      }
-      else if(packetType == Bridge::PipeMessage::ServerNextFrame::Id)
-      {
-        // onFrame state
-        bridgeState = OnFrame;
-        updateMappings();
-      }
-      else
-      {
-        lastError = __FUNCTION__ ": unknown packet type " + packetType;
+
+        // examine received packet
+        Util::MemoryFrame bufferFrame = buffer.getMemory();
+        int packetType = bufferFrame.getAs<int>();
+
+        // update userInput
+        if(packetType == Bridge::PipeMessage::ServerUpdateUserInput::_typeId)
+        {
+          Bridge::PipeMessage::ServerUpdateUserInput packet;
+          if(!sharedStuff.userInput.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import userInput.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
+        // explicit events
+        if(packetType == Bridge::PipeMessage::ServerMatchInit::_typeId)
+        {
+          // onInitMatch state
+          Bridge::PipeMessage::ServerMatchInit packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small ServerMatchInit packet.";
+            return false;
+          }
+
+          // release everything, just to be sure
+          sharedStuff.staticData.release();
+          sharedStuff.userInput.release();
+
+          if (!sharedStuff.staticData.import(packet.staticGameDataExport))
+          {
+            lastError = __FUNCTION__ ": staticGameData failed importing.";
+            return false;
+          }
+          sharedStaticData = &sharedStuff.staticData.get();
+          bridgeState = OnInitMatch;
+
+          // return
+          break;
+        }
+
+        if(packetType == Bridge::PipeMessage::ServerFrameNext::_typeId)
+        {
+          // onFrame state
+          bridgeState = OnFrame;
+          updateMappings();
+
+          // return
+          break;
+        }
+
+        // None catched
+        lastError = __FUNCTION__ ": unknown packet type ";
+        lastError += packetType;
         return false;
       }
-
       return true;
     }
     //----------------------------------------- GET LAST ERROR --------------------------------------------------

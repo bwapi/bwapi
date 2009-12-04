@@ -85,7 +85,7 @@ namespace BWAPI
         handshake2.accepted = accept;
         handshake2.serverProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
         handshake2.serverVersion = SVN_REV;
-        if(!sharedStuff.pipe.sendStructure(handshake2))
+        if(!sharedStuff.pipe.sendRawStructure(handshake2))
         {
           lastError = "Could not send pipe";
           return false;
@@ -143,20 +143,31 @@ namespace BWAPI
         return false;
       }
       resetError();
-      
-      // create and export static data
-      if(!BridgeServer::sharedStuff.staticData.create())
+      stateSharedMemoryInitialized = false;
+
+      // create and publish static data
+      if(!sharedStuff.staticData.create())
       {
         lastError = __FUNCTION__ ": staticData creating failed";
         return false;
       }
       sharedStaticData = &sharedStuff.staticData.get();
 
+      // init dynamic objects
+      sharedStuff.userInput.init(1000, true);
+
+      stateSharedMemoryInitialized = true;
       return true;
     }
 
-    //-------------------------- INIT MATCH -----------------------------------------------------
-    bool publishSharedMemory()
+    //-------------------------- STOP MATCH -----------------------------------------------------
+    bool releaseSharedMemory()
+    {
+      stateSharedMemoryInitialized = false;
+      return true;
+    }
+    //-------------------------- INVOKE ON START MATCH ------------------------------------------
+    bool invokeOnStartMatch(bool fromBeginning)
     {
       // check prerequisites
       if(!stateConnectionEstablished)
@@ -166,27 +177,26 @@ namespace BWAPI
       }
       resetError();
 
-      // create match initialization packet
-      Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerInitMatch> initMatchEvent;
-      if(initMatchEvent.packetType != Bridge::PipeMessage::ServerInitMatch::Id)
+      // send onStartMatch event
       {
-        lastError = __FUNCTION__ ": unique id macro does not work";
-        return false;
-      }
+        // create packet
+        Bridge::PipeMessage::ServerMatchInit startMatchEvent;
 
-      initMatchEvent.data.staticGameDataExport =
-        sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, false);
-      if(!initMatchEvent.data.staticGameDataExport.isValid())
-      {
-        lastError = __FUNCTION__ ": staticData export failed";
-        return false;
-      }
+        startMatchEvent.fromBeginning = fromBeginning;
 
-      // pushlish the shared memory location
-      if(!sharedStuff.pipe.sendStructure(initMatchEvent))
-      {
-        lastError = __FUNCTION__ ": error sending packet";
-        return false;
+        startMatchEvent.staticGameDataExport = sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
+        if(!startMatchEvent.staticGameDataExport.isValid())
+        {
+          lastError = __FUNCTION__ ": staticData export failed";
+          return false;
+        }
+
+        // pushlish the shared memory location
+        if(!sharedStuff.pipe.sendRawStructure(startMatchEvent))
+        {
+          lastError = __FUNCTION__ ": error sending packet";
+          return false;
+        }
       }
 
       // wait untill event is done
@@ -199,15 +209,14 @@ namespace BWAPI
 
       // audit completion
       Util::MemoryFrame packet = buffer.getMemory();
-      int packetType;
-      packet.readTo(packetType);
-      if(packetType != Bridge::PipeMessage::AgentInitMatchDone::Id)
+      int packetType = packet.getAs<int>();
+      if(packetType != Bridge::PipeMessage::AgentMatchInitDone::_typeId)
       {
         lastError = __FUNCTION__ ": received unexpected packet type " + packetType;
         return false;
       }
 
-      Bridge::PipeMessage::AgentInitMatchDone initMatchDone;
+      Bridge::PipeMessage::AgentMatchInitDone initMatchDone;
       if(!packet.readTo(initMatchDone))
       {
         lastError = __FUNCTION__ ": received packet too small";
@@ -217,12 +226,6 @@ namespace BWAPI
       initMatchDone;  // yet no data to read
 
       stateSharedMemoryInitialized = true;
-      return true;
-    }
-    //-------------------------- STOP MATCH -----------------------------------------------------
-    bool releaseSharedMemory()
-    {
-      stateSharedMemoryInitialized = false;
       return true;
     }
     //-------------------------- INVOKE ON FRAME ------------------------------------------------
@@ -236,9 +239,9 @@ namespace BWAPI
       }
 
       // send next frame invocation packet
-      Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerNextFrame> nextFrame;
-      nextFrame;  // no data yet
-      sharedStuff.pipe.sendStructure(nextFrame);
+      Bridge::PipeMessage::ServerFrameNext nextFrame;
+      nextFrame; // no data yet
+      sharedStuff.pipe.sendRawStructure(nextFrame);
 
       // receive completion notification
       Util::Buffer buffer;
@@ -250,20 +253,16 @@ namespace BWAPI
 
       // parse packet
       Util::MemoryFrame packet = buffer.getMemory();
-      int packetType;
-      if(!packet.readTo(packetType))
-      {
-        lastError = __FUNCTION__ ": received packet too small";
-        return false;
-      }
+      int packetType = packet.getAs<int>();
 
-      if(packetType != Bridge::PipeMessage::AgentNextFrameDone::Id)
+
+      if(packetType != Bridge::PipeMessage::AgentFrameNextDone::_typeId)
       {
         lastError = __FUNCTION__ ": unexpected packet type " + packetType;
         return false;
       }
 
-      Bridge::PipeMessage::AgentNextFrameDone completion;
+      Bridge::PipeMessage::AgentFrameNextDone completion;
       if(!packet.readTo(completion))
       {
         lastError = __FUNCTION__ ": completion packet too small";
@@ -278,49 +277,33 @@ namespace BWAPI
     bool pushSendText()
     {
       // check prerequisites
-      if(!stateConnectionEstablished)
+      if(!stateSharedMemoryInitialized)
       {
-        lastError = __FUNCTION__ ": no connection established";
+        lastError = __FUNCTION__ ": shared memory not initialized";
         return false;
       }
 
-      // send next frame invocation packet
-      Bridge::PipeMessage::Packet<Bridge::PipeMessage::ServerOnSendText> onSendTextPacket;
-      onSendTextPacket;  // no data yet
-      sharedStuff.pipe.sendStructure(onSendTextPacket);
+//      sharedStuff.
 
-      // receive completion notification
-      Util::Buffer buffer;
-      if(!sharedStuff.pipe.receive(buffer))
+      return true;
+    }
+    //-------------------------- UPDATE REMOTE SHARED MEMORY ------------------------------------
+    bool updateRemoteSharedMemory()
+    {
+      // export userInput updates
+      while(sharedStuff.userInput.isUpdateExportNeeded())
       {
-        lastError = __FUNCTION__ ": receive completion packet failed";
-        return false;
+        // create export package
+        Bridge::PipeMessage::ServerUpdateUserInput packet;
+        if(!sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = __FUNCTION__ ": update exporting userInput failed";
+          return false;
+        }
+
+        // send update export
+        sharedStuff.pipe.sendRawStructure(packet);
       }
-
-      // parse packet
-      Util::MemoryFrame packet = buffer.getMemory();
-      int packetType;
-      if(!packet.readTo(packetType))
-      {
-        lastError = __FUNCTION__ ": received packet too small";
-        return false;
-      }
-
-      if(packetType != Bridge::PipeMessage::AgentOnSendTextDone::Id)
-      {
-        lastError = __FUNCTION__ ": unexpected packet type " + packetType;
-        return false;
-      }
-
-      Bridge::PipeMessage::AgentOnSendTextDone completion;
-      if(!packet.readTo(completion))
-      {
-        lastError = __FUNCTION__ ": completion packet too small";
-        return false;
-      }
-
-      completion; // yet no data here
-
       return true;
     }
     //-------------------------- IS AGENT CONNECTED ---------------------------------------------

@@ -921,15 +921,15 @@
 			>
 		</File>
 		<File
-			RelativePath="..\Util\Source\Util\SharedMemoryExport.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\SharedMemoryExport.h"
-			>
-		</File>
-		<File
 			RelativePath="..\Util\Source\Util\SharedSet.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\SharedStack.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Bridge\SharedStuff.h"
 			>
 		</File>
 		<File
@@ -942,6 +942,14 @@
 		</File>
 		<File
 			RelativePath="..\svnrev.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\TypedFrame.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Util\Source\Util\TypeHead.h"
 			>
 		</File>
 		<File

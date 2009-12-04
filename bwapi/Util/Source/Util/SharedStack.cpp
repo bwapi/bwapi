@@ -3,10 +3,9 @@
 namespace Util
 {
   //----------------------- CONSTRUCTION -------------------------------
-  SharedStack::SharedStack(int firstBlockSize, bool exportReadOnly)
+  SharedStack::SharedStack()
     : exportedBlocks(0)
-    , nextNewBlockSize(firstBlockSize)
-    , exportReadOnly(exportReadOnly)
+    , nextNewBlockSize(0)
     , exportHasCleared(true)
   {
   }
@@ -16,7 +15,16 @@ namespace Util
     this->release();
     this->ownedBlocks.clear();
   }
-  //----------------------- insert -------------------------------------
+  //----------------------- ALLOCATE -----------------------------------
+  bool SharedStack::init(int blockSize, bool exportReadOnly)
+  {
+    this->nextNewBlockSize = blockSize;
+    this->exportReadOnly = exportReadOnly;
+    if(!this->_createNewPageBlock())
+      return false;
+    return false;
+  }
+  //----------------------- INSERT -------------------------------------
   SharedStack::Index SharedStack::insert(const Util::MemoryFrame &storee)
   {
     Block *targetBlock = NULL;
@@ -44,21 +52,12 @@ namespace Util
       }
 
       // create new block
-      Block newBlock;
-      newBlock.size = this->nextNewBlockSize;
-      newBlock.head = 0;
-      newBlock.memory = new SharedMemory();
-      if(!newBlock.memory->create(this->nextNewBlockSize))
-      {
+      if(!this->_createNewPageBlock())
         return Index::invalid;
-      }
-      this->ownedBlocks.push_back(newBlock);
 
-      targetBlock = &this->ownedBlocks[b = this->ownedBlocks.size()-1];
-
-      // next block gets created bigger
-      // self-compensating approach during memory drainage
-      this->nextNewBlockSize = (int)(this->nextNewBlockSize * 1.75);
+      // insert into this newly created, last, block
+      b = this->ownedBlocks.size()-1;
+      targetBlock = &this->ownedBlocks[b];
     }
 
     // insertion
@@ -122,55 +121,29 @@ namespace Util
     return exportHasCleared ||
       (unsigned)this->exportedBlocks < this->ownedBlocks.size();
   }
-  //----------------------- ASSEMBLE UPDATE EXPORT PACKET ------------
-  bool SharedStack::assembleUpdateExportPacket(Buffer &dest, RemoteProcess &target)
+  //----------------------- EXPORT NEXT ------------------------------
+  bool SharedStack::exportNextUpdate(Export &out, RemoteProcess &targetProcess)
   {
-      dest.release();
+    if(this->exportedBlocks >= (int)this->ownedBlocks.size())
+      return false;
+    out = this->ownedBlocks[this->exportedBlocks].memory->exportToProcess(targetProcess, this->exportReadOnly);
+    if(!out.isValid())
+      return false;
+    this->exportedBlocks++;
+    return true;
+  }
+  //----------------------- IMPORT NEXT ------------------------------
+  bool SharedStack::importNextUpdate(const Export &in)
+  {
+    // import the new SharedMemory
+    Block block;
+    block.memory = new SharedMemory();
+    if(!block.memory->import(in))
+      return false;
+    block.size = block.memory->getMemory().size();
+    this->ownedBlocks.push_back(block);
 
-      dest.appendStructure(this->exportHasCleared);
-      this->exportHasCleared = false;
-      for(unsigned int i = exportedBlocks; i < this->ownedBlocks.size(); i++)
-      {
-        ExportBlockEntry &entry = dest.appendStructure<ExportBlockEntry>();
-        entry.size =    this->ownedBlocks[i].size;
-        entry.memory =  this->ownedBlocks[i].memory->exportToProcess(target, this->exportReadOnly);
-        if(!entry.memory.isValid())
-          return false;
-      }
-      this->exportedBlocks = this->ownedBlocks.size();
-      return true;
-    }
-    //----------------------- IMPORT UPDATE PACKET ---------------------
-    bool SharedStack::importUpdatePacket(const MemoryFrame &packetMemory)
-    {
-      MemoryFrame data = packetMemory;
-
-      bool cleared;
-      if(!data.readTo(cleared))
-      {
-        return false;
-      }
-      // TODO: something...
-
-      if(!data.isMultipleOf<ExportBlockEntry>())
-      {
-        return false;
-      }
-      
-      while(!data.isEmpty())
-      {
-        ExportBlockEntry &entry = data.readAs<ExportBlockEntry>();
-
-        // import the new SharedMemory
-        Block block;
-        block.memory = new SharedMemory();
-        if(!block.memory->import(entry.memory))
-          return false;
-        block.size = entry.size;
-        this->ownedBlocks.push_back(block);
-      }
-
-      return true;
+    return true;
   }
   //----------------------- INDEX IS VALID -----------------------------
   bool SharedStack::Index::isValid()
@@ -178,5 +151,26 @@ namespace Util
     return this->blockIndex >= 0;
   }
   SharedStack::Index SharedStack::Index::invalid = {-1, -1};
+  //----------------------- --------------------------------------------
+  //----------------------- CREATE NEW PAGE BLOCK ----------------------
+  bool SharedStack::_createNewPageBlock()
+  {
+    // create new Block with SharedMemory in it
+    Block newBlock;
+    newBlock.size = this->nextNewBlockSize;
+    newBlock.head = 0;
+    newBlock.memory = new SharedMemory();
+    if(!newBlock.memory->create(this->nextNewBlockSize))
+    {
+      return false;
+    }
+    this->ownedBlocks.push_back(newBlock);
+
+    // next block gets created bigger
+    // self-compensating approach during memory drainage
+    this->nextNewBlockSize = (int)(this->nextNewBlockSize * 1.75);
+
+    return true;
+  }
   //----------------------- --------------------------------------------
 }

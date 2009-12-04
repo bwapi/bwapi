@@ -132,9 +132,9 @@ namespace Util
       targetBlockEntries[removee.blockEntryIndex].busy = false;
 
       // move head to new position
-      if(i < targetBlock.head)
+      if(removee.blockEntryIndex < targetBlock.head)
       {
-        targetBlock.head = i;
+        targetBlock.head = removee.blockEntryIndex;
       }
     }
     //----------------------- IS VALID INDEX ---------------------------
@@ -255,7 +255,7 @@ namespace Util
     struct ExportBlockEntry
     {
       unsigned int size;
-      SharedMemoryExport memory;
+      SharedMemory::Export memory;
     };
     int newBlockSize;
     int exportedBlocks;

@@ -31,16 +31,18 @@ namespace Util
       bool isValid();
       static Index invalid;
     };
+    typedef SharedMemory::Export Export;
     //----------------------- CONSTRUCTION -----------------------------
-    SharedStack(int blockSize, bool exportReadOnly);
+    SharedStack();
     ~SharedStack();
     //----------------------- METHODS ----------------------------------
+    bool init(int blockSize, bool exportReadOnly);
     Index insert(const Util::MemoryFrame &storee);
     void clear();
     void release();   // forces to release all memory blocks. Not exportable
-    bool assembleUpdateExportPacket(Buffer &dest, RemoteProcess &target);
-    bool importUpdatePacket(const MemoryFrame &packetMemory);
     bool isUpdateExportNeeded() const;
+    bool exportNextUpdate(Export &out, RemoteProcess &targetProcess);
+    bool importNextUpdate(const Export &in);
     //----------------------- ------------------------------------------
   private:
     struct Block
@@ -57,12 +59,15 @@ namespace Util
     struct ExportBlockEntry
     {
       unsigned int size;
-      SharedMemoryExport memory;
+      SharedMemory::Export memory;
     };
     int nextNewBlockSize;
     int exportedBlocks;
     bool exportReadOnly;
     bool exportHasCleared;
     std::vector<Block> ownedBlocks;
+
+    // helpers
+    bool _createNewPageBlock();
   };
 }

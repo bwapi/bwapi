@@ -32,7 +32,7 @@ namespace Util
 
     bool send(const MemoryFrame &in);           // blocks only if sent tooo much
     template<typename T>
-      bool sendStructure(const T &data)
+      bool sendRawStructure(const T &data)
       {
         return send(MemoryFrame::from(data));
       }
@@ -46,6 +46,24 @@ namespace Util
     bool isMessageIncoming() const;
 //    RemoteProcessId getClientProcessId() const;
 
+    template<typename T> static bool receiveOnlyAs(T &dest)
+    {
+      // receive
+      Util::Buffer buffer;
+      if(!pipe.receive(buffer))
+        return false;
+      Util::MemoryFrame mem = buffer.getMemory();
+
+      // check size
+      if(mem.size() != sizeof(T))
+        return false;
+      
+      // read data
+      if(!mem.readTo<T>(dest))
+        return false;
+      return true;
+    }
+
   private:
     HANDLE pipeObjectHandle;
     bool connected;
@@ -56,3 +74,4 @@ namespace Util
     static void _fixPipeName(std::string&);
   };
 }
+
