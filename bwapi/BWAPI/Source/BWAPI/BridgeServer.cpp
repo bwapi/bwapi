@@ -33,6 +33,7 @@ namespace BWAPI
   //public:
     //-------------------------- PUBLIC DATA ----------------------------------------------------
     Bridge::StaticGameDataStructure* sharedStaticData = NULL;
+    Bridge::CommandDataStructure* sharedCommandData = NULL;
     //-------------------------- INIT -----------------------------------------------------------
     bool initConnectionServer()
     {
@@ -154,6 +155,14 @@ namespace BWAPI
       }
       sharedStaticData = &sharedStuff.staticData.get();
 
+      // create and publish static data
+      if(!sharedStuff.commandData.create())
+      {
+        lastError = std::string(__FUNCTION__)+ ": commandData creating failed";
+        return false;
+      }
+      sharedCommandData = &sharedStuff.commandData.get();
+
       // init dynamic objects
       sharedStuff.userInput.init(1000, true);
 
@@ -189,6 +198,13 @@ namespace BWAPI
         if(!startMatchEvent.staticGameDataExport.isValid())
         {
           lastError = std::string(__FUNCTION__)+ ": staticData export failed";
+          return false;
+        }
+
+        startMatchEvent.commandDataExport = sharedStuff.commandData.exportToProcess(sharedStuff.remoteProcess, false);
+        if(!startMatchEvent.commandDataExport.isValid())
+        {
+          lastError = std::string(__FUNCTION__)+ ": commandData export failed";
           return false;
         }
 

@@ -26,11 +26,13 @@ namespace Bridge
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
-    BWAPI::UnitCommand commandQueue[10000];//may replace with resizable structure if needed
-    int lastFreeCommandSlot;
-    BWAPI::State unitData[10000];     //holds all units that are not detected (these units could be dead, or simply invisible and undetected)
+    BWAPI::State unitData[10000];
     int unitCount;
 
-    //note: if Complete Map Information is enabled, then all units will either be StateFullyObservable, or StateBasic (dead).
+  };
+  struct CommandDataStructure
+  {
+    BWAPI::UnitCommand commandQueue[10000];
+    int lastFreeCommandSlot;
   };
 }

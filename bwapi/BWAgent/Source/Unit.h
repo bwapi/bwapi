@@ -1,6 +1,6 @@
 #pragma once
 #include "BWAgentInterface.h"
-#include <..\..\BWAPITypes\UnitStruct.h>
+#include <BWAPITypes\UnitStruct.h>
 
 namespace BWAgent
 {
