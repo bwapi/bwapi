@@ -4,6 +4,8 @@
 
 #include <string>
 
+namespace Bridge {}
+
 namespace BWAPI
 {
   // see it as a singleton class.

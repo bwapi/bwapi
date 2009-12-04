@@ -1,5 +1,10 @@
 #include "Pipe.h"
+#include <WinBase.h>
+#include <windows.h>
 
+#ifndef FILE_FLAG_FIRST_PIPE_INSTANCE
+  #define FILE_FLAG_FIRST_PIPE_INSTANCE   0x00080000
+#endif
 namespace Util
 {
   //----------------------- CONSTRUCTION -------------------------------
@@ -24,7 +29,6 @@ namespace Util
     this->listening = false;
 
     Pipe::_fixPipeName(globalPipeName);
-
     this->pipeObjectHandle = ::CreateNamedPipeA(
       globalPipeName.c_str(),   // system wide pipe name
       PIPE_ACCESS_DUPLEX    |

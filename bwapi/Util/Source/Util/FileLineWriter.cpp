@@ -1,5 +1,5 @@
 #include "FileLineWriter.h"
-
+#include <stdio.h>
 namespace Util
 {
   //----------------------- CONSTRUCTION -------------------------------
@@ -15,8 +15,8 @@ namespace Util
   //----------------------- OPEN FILE ----------------------------------
   bool FileLineWriter::openFile(std::string filePath)
   {
-    int failure = fopen_s(&this->handle, filePath.c_str(), "w");
-    if(failure)
+    this->handle = fopen(filePath.c_str(), "w");
+    if(!this->handle)
       return false;
     lineNumber = 0;
     return true;

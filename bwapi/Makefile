@@ -4,22 +4,22 @@
 SRCS := $(wildcard BWAPI/Source/BW/*.cpp) $(wildcard Util/Source/Util/*.cpp) $(wildcard BWAPI/Source/BWAPI/*.cpp) $(wildcard BWAPILIB/Source/*.cpp) BWAPI/Source/DLLMain.cpp
 
 CXX := g++
-CFLAGS := -O2 -std=gnu++0x -IBWAPI/Source -IUtil/Source -Iinclude -w
+CFLAGS := -O2 -std=gnu++0x -IBWAPI/Source -IUtil/Source -Iinclude -w -I.
 
 .PHONY: all clean
 
 all: bin/BWAPI.dll
 
-#-include obj/*.P
+#-include *.P
 
-bin/BWAPI.dll: $(patsubst %.cpp,obj/%.o,$(SRCS))
+bin/BWAPI.dll: $(patsubst %.cpp,%.o,$(SRCS))
 	@-mkdir $(dir $@)
 	$(CXX) -shared -o $@ $^
 
-# $(CXX) $(CFLAGS) -MMD -MP -MF obj/$(subst /,__,$(patsubst obj/%.o,%.P,$@)) -c -o $@ $^
-obj/%.o: %.cpp
+# $(CXX) $(CFLAGS) -MMD -MP -MF $(subst /,__,$(patsubst %.o,%.P,$@)) -c -o $@ $^
+%.o: %.cpp
 	@-mkdir $(dir $@)
 	$(CXX) $(CFLAGS) -c -o $@ $^
 
 clean:
-	-rmdir /s /q obj bin
+	-rm -r bin $(patsubst %.cpp,%.o,$(SRCS))

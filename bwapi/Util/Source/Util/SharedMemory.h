@@ -81,7 +81,6 @@ namespace Util
   private:
     //----------------------- ------------------------------------------
     SharedMemory(SharedMemory&);                // no copying
-
     HANDLE mappingObjectHandle;
     void *bufferBase;
     unsigned int bufferSize;

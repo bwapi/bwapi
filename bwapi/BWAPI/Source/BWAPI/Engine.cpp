@@ -1070,12 +1070,13 @@ namespace BWAPI
       if (inGame() || _isReplay())
       {
   #ifdef __MINGW32__
-        __asm__("pushad\n"
+        int temp=BW::BWFXN_PrintText;
+        __asm__("pushal\n"
                 "push 0\n"
                 "mov %eax, _pID\n"
                 "push _txtout\n"
-                "call dword ptr [BW::BWFXN_PrintText]\n"
-                "popad"
+                "call temp\n"
+                "popal"
                );
   #else
         __asm
@@ -1108,11 +1109,12 @@ namespace BWAPI
 
       char* txtout = buffer;
       if (!inGame() && isInLobby())
-  #ifdef __MINGW32__
-        __asm__("pushad\n"
+  #ifdef __GNUC__
+        int temp=BW::BWFXN_SendLobbyCallTarget;
+        __asm__("pushal\n"
                 "mov %edi, _txtout\n"
-                "call [BW::BWFXN_SendLobbyCallTarget]\n"
-                "popad"
+                "call temp\n"
+                "popal"
                );
   #else
         __asm
@@ -1161,19 +1163,23 @@ namespace BWAPI
       if (inGame())
       {
         memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
-  #ifdef __MINGW32__
-        __asm__("pushad\n"
+  #ifdef __GNUC__
+        int temp=BW::BWFXN_SendPublicCallTarget;
+        __asm__("pushal\n"
                 "mov %esi, _txtout\n"
-                "call [BW::BWFXN_SendPublicCallTarget]\n"
-                "popad"
+                "call temp\n"
+                "popal"
                );
       }
       else
-        __asm__("pushad\n"
+      {
+        int temp=BW::BWFXN_SendLobbyCallTarget;
+        __asm__("pushal\n"
                 "mov %edi, _txtout\n"
-                "call [BW::BWFXN_SendLobbyCallTarget]\n"
-                "popad"
+                "call temp\n"
+                "popal"
                );
+      }
   #else
         __asm
         {
@@ -1538,11 +1544,13 @@ namespace BWAPI
     //----------------------------------------------------------------------------------------------------------
     void refresh()
     {
-  #ifdef __MINGW32__
-      __asm__("call BW::BWFXN_Refresh");
-  #else
-      __asm call BW::BWFXN_Refresh
-  #endif
+      /* Unusued
+      #ifdef __MINGW32__
+        __asm__("call [BW::BWFXN_Refresh]");
+      #else
+        __asm call BW::BWFXN_Refresh
+      #endif
+      */
     }
     //----------------------------------------------------------------------------------------------------------
     UnitImpl* getUnit(int index)
@@ -2160,18 +2168,21 @@ namespace BWAPI
     bool gluMessageBox(char* message, int type)
     {
       bool rval = false;
+      int temp;
       switch(type)
       {
       case MB_OKCANCEL:
-  #ifdef __MINGW32__
+  #ifdef __GNUC__
+        temp=BW::BWFXN_gluPOKCancel_MBox;
         __asm__("mov %eax, _message\n"
-                "call BW::BWFXN_gluPOKCancel_MBox\n"
+          "call temp\n"
                 "mov rval, %al"
                );
         break;
       default:  // MB_OK
+        temp=BW::BWFXN_gluPOKCancel_MBox;
         __asm__("mov %eax, _message\n"
-                "call BW::BWFXN_gluPOK_MBox"
+          "call temp"
                );
   #else
         __asm
@@ -2196,12 +2207,13 @@ namespace BWAPI
     bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
     {
       bool rval;
-  #ifdef __MINGW32__
+  #ifdef __GNUC__
+      int temp=BW::BWFXN_gluPEdit_MBox;
       __asm__("push _restricted\n"
               "push _destsize\n"
               "push _dest\n"
               "push _message\n"
-              "call BW::BWFXN_gluPEdit_MBox\n"
+              "call temp\n"
               "mov  _rval, %al"
              );
   #else
@@ -2211,7 +2223,7 @@ namespace BWAPI
         push destsize
         push dest
         push message
-        call BW::BWFXN_gluPEdit_MBox
+        call [BW::BWFXN_gluPEdit_MBox]
         mov  rval, al
       }
   #endif
