@@ -168,6 +168,7 @@ namespace BWAgent
         if(!sharedStuff.pipe.receive(buffer))
         {
           lastError = __FUNCTION__ ": error pipe receive.";
+          int lastWinError = (int)::GetLastError();
           return false;
         }
 
@@ -179,6 +180,11 @@ namespace BWAgent
         if(packetType == Bridge::PipeMessage::ServerUpdateUserInput::_typeId)
         {
           Bridge::PipeMessage::ServerUpdateUserInput packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small ServerUpdateUserInput packet.";
+            return false;
+          }
           if(!sharedStuff.userInput.importNextUpdate(packet.exp))
           {
             lastError = __FUNCTION__ ": could not import userInput.";
@@ -232,6 +238,18 @@ namespace BWAgent
         return false;
       }
       return true;
+    }
+    //----------------------------------------- GET USER INPUT STRINGS ------------------------------------------
+    std::deque<std::string> getUserInputStrings()
+    {
+      std::deque<std::string> retval;
+      Bridge::SharedStuff::UserInputStack::Index i = sharedStuff.userInput.begin();
+      while(i.isValid())
+      {
+        retval.push_back(std::string(sharedStuff.userInput.get(i).beginAs<char>()));
+        i = sharedStuff.userInput.getNext(i);
+      }
+      return retval;
     }
     //----------------------------------------- GET LAST ERROR --------------------------------------------------
     std::string getLastError()

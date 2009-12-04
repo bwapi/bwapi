@@ -272,10 +272,13 @@ namespace BWAPI
 
       completion; // yet no data here
 
+      // clear frame-to-frame buffers
+      sharedStuff.userInput.clear();
+
       return true;
     }
     //------------------------------ ON SEND TEXT ------------------------------------------------
-    bool pushSendText()
+    bool pushSendText(const char *text)
     {
       // check prerequisites
       if(!stateSharedMemoryInitialized)
@@ -284,7 +287,10 @@ namespace BWAPI
         return false;
       }
 
-//      sharedStuff.
+      Util::Buffer userInputEntry;
+      int stringLength = ::strlen(text) + 1; // including terminal NULL
+      userInputEntry.append(Util::MemoryFrame((char*)text, stringLength));
+      sharedStuff.userInput.insert(userInputEntry.getMemory());
 
       return true;
     }

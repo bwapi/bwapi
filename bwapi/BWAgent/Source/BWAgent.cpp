@@ -57,6 +57,10 @@ namespace BWAgent
         }break;
       case BridgeClient::OnFrame:
         {
+          for each(const std::string &input in BridgeClient::getUserInputStrings())
+          {
+            aiModule.onSendText(input);
+          }
           aiModule.onFrame();
         }break;
       }

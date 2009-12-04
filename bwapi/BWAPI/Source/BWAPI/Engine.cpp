@@ -790,8 +790,8 @@ namespace BWAPI
           // invoke OnStartMatch()
           if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
           {
-            printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
             BridgeServer::disconnect();
+            printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
           }
         }
       }
@@ -808,7 +808,7 @@ namespace BWAPI
         && BridgeServer::isAgentConnected()
         && BridgeServer::isSharedMemoryInitialized())
       {
-        if(BridgeServer::sharedStaticData)
+        // fill buffers with recent world state data
         {
           Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
           staticData.getLatency    = getLatency();
@@ -842,12 +842,22 @@ namespace BWAPI
           }
           staticData.unitCount=i;
         }
+
+        // update remote shared memry
+        if(!BridgeServer::updateRemoteSharedMemory())
+        {
+          BridgeServer::disconnect();
+          printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
+        }
+
+        // call OnFrame RPC
         if(!BridgeServer::invokeOnFrame())
         {
           BridgeServer::disconnect();
           printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
-        if(BridgeServer::sharedStaticData)
+
+        // execute AI's commands
         {
           Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
           for(int i=0;i<staticData.lastFreeCommandSlot;i++)
@@ -1321,7 +1331,7 @@ namespace BWAPI
         if(BridgeServer::isAgentConnected())
         {
           //push text onto stack
-          if(!BridgeServer::pushSendText())
+          if(!BridgeServer::pushSendText(text))
             BridgeServer::disconnect();
         }
       }

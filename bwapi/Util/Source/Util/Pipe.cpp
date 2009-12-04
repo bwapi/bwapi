@@ -268,20 +268,21 @@ namespace Util
 
     // allocate the right space
     int middle = out.size();
+    DWORD availableByteCount;
+    DWORD availableByteLeft;
     {
-      DWORD availableByteCount;
       BOOL success = ::PeekNamedPipe(
         this->pipeObjectHandle,
         NULL,
         0,
         NULL,
         &availableByteCount,
-        NULL);
+        &availableByteLeft);
 
       if(!success)
         return false;
 
-      out.setSize(out.size() + availableByteCount);
+      out.setSize(out.size() + availableByteLeft);
     }
 
     // read message to memory
