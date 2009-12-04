@@ -22,29 +22,41 @@ namespace BWAgent
   class Unit;
   namespace Game
   {
-    AGENT_API std::set< Unit* >& getAllUnits();
-    AGENT_API int getLatency();
-    AGENT_API int getFrameCount();
-    AGENT_API int getMouseX();
-    AGENT_API int getMouseY();
-    AGENT_API int getScreenX();
-    AGENT_API int getScreenY();
+    //--------------------------------------- QUERIES --------------------------------------
+    // Map related
     AGENT_API int mapWidth();
     AGENT_API int mapHeight();
     AGENT_API std::string mapFilename();
     AGENT_API std::string mapName();
     AGENT_API int getMapHash();
-
-    AGENT_API int  getGroundHeight(int x, int y);
+    AGENT_API int getGroundHeight(int x, int y);
     AGENT_API bool isWalkable(int x, int y);
     AGENT_API bool isBuildable(int x, int y);
     AGENT_API bool isVisible(int x, int y);
     AGENT_API bool isExplored(int x, int y);
     AGENT_API bool hasCreep(int x, int y);
 
+    // Match related
     AGENT_API bool isMultiplayer();
-    AGENT_API bool isPaused();
     AGENT_API bool isReplay();
+
+    // World related
+    AGENT_API std::set< Unit* >& getAllUnits();
+
+    // GUI related
+    AGENT_API int getMouseX();
+    AGENT_API int getMouseY();
+    AGENT_API int getScreenX();
+    AGENT_API int getScreenY();
+    AGENT_API int getLatency();
+    AGENT_API int getFrameCount();
+    AGENT_API bool isPaused();
+
+
+
+    //--------------------------------------- INSTRUCTIONS ---------------------------------
+    AGENT_API void printf(const char* text, ...);
+    AGENT_API void sendText(const char* text, ...);
 
 /*    AGENT_API std::set< Force* >&  getForces();
     AGENT_API std::set< Player* >&  getPlayers();
@@ -77,12 +89,6 @@ namespace BWAgent
     AGENT_API bool canResearch(Unit* unit, TechType type);
     AGENT_API bool canUpgrade(Unit* unit, UpgradeType type);
     AGENT_API std::set< TilePosition >& getStartLocations();
-    /**
-     * Prints text in game (only local)
-     * @param text Text to be written
-     */
-/*    AGENT_API void printf(const char* text, ...);
-    AGENT_API void sendText(const char* text, ...);
 
     /**
      * Changes race in the pre-game lobby.

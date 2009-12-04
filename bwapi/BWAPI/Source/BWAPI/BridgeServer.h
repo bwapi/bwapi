@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Bridge\StaticGameData.h>
+#include <Bridge\SendTextEntry.h>
 
 #include <string>
+#include <deque>
 
 namespace Bridge {}
 
@@ -28,5 +30,7 @@ namespace BWAPI
     extern bool isBridgeInitialized();            // true once initBridge called
     extern bool isSharedMemoryInitialized();      // true once memory allocated
     extern const std::string &getLastError();
+
+    extern std::deque<Bridge::SendTextEntry*> getSendTextEntries();
   }
 }

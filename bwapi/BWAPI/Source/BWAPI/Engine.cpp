@@ -924,6 +924,18 @@ namespace BWAPI
           printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
 
+        // process sendTexts
+        {
+          std::deque<Bridge::SendTextEntry*> sendTexts = BridgeServer::getSendTextEntries();
+          for each(Bridge::SendTextEntry* entry in sendTexts)
+          {
+            if(entry->send)
+              sendText(entry->str);
+            else
+              printf(entry->str);
+          }
+        }
+
         // process issued commands
         {
           /* invalid untill command stack works
@@ -1067,9 +1079,7 @@ namespace BWAPI
       //client->onFrame();
       for(std::list< std::string >::iterator i=interceptedMessages.begin();i!=interceptedMessages.end();i++)
       {
-        bool send=!onSendText(i->c_str());
-        if (send)
-          sendText(i->c_str());
+        onSendText(i->c_str());
       }
       interceptedMessages.clear();
 

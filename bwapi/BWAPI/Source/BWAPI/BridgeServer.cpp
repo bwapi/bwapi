@@ -282,6 +282,25 @@ namespace BWAPI
           continue;
         }
 
+        // it way be an update export packet
+        if(packetType == Bridge::PipeMessage::AgentUpdateSendText::_typeId)
+        {
+          Bridge::PipeMessage::AgentUpdateSendText packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small AgentUpdateSendText packet.";
+            return false;
+          }
+          if(!sharedStuff.sendText.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import sendText update.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
         // if it's not the completion packet
         if(packetType != Bridge::PipeMessage::AgentFrameNextDone::_typeId)
         {
@@ -324,6 +343,18 @@ namespace BWAPI
       sharedStuff.userInput.insert(userInputEntry.getMemory());
 
       return true;
+    }
+    //-------------------------- GET SEND TEXT ENTRIES ------------------------------------------
+    std::deque<Bridge::SendTextEntry*> getSendTextEntries()
+    {
+      std::deque<Bridge::SendTextEntry*> retval;
+      Bridge::SharedStuff::SendTextStack::Index i = sharedStuff.sendText.begin();
+      while(i.isValid())
+      {
+        retval.push_back(sharedStuff.sendText.get(i).beginAs<Bridge::SendTextEntry>());
+        i = sharedStuff.sendText.getNext(i);
+      }
+      return retval;
     }
     //-------------------------- UPDATE REMOTE SHARED MEMORY ------------------------------------
     bool updateRemoteSharedMemory()

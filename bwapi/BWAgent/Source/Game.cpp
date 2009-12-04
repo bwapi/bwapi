@@ -6,7 +6,8 @@
 
 #include <string>
 
-#include "Util\Version.h"
+#include <Util\Version.h>
+#include <Util\Buffer.h>
 
 
 namespace BWAgent
@@ -172,7 +173,37 @@ namespace BWAgent
         return false;
       return BridgeClient::sharedStaticData->isPaused;
     }
-/*
+    //------------------------------------------------ PRINTF --------------------------------------------------
+    void printf(const char* text, ...)
+    {
+      static Util::Buffer generalBuffer;
+      if(BridgeClient::isConnected())
+      {
+        generalBuffer.setSize(2048);
+        char *textf = generalBuffer.getMemory().beginAs<char>();
+        va_list ap;
+        va_start(ap, text);
+        vsnprintf_s(textf, generalBuffer.size(), generalBuffer.size(), text, ap);
+        va_end(ap);
+        BridgeClient::pushSendText(false, textf);
+      }
+    }
+    //------------------------------------------------ SEND TEXT -----------------------------------------------
+    void sendText(const char* text, ...)
+    {
+      static Util::Buffer generalBuffer;
+      if(BridgeClient::isConnected())
+      {
+        generalBuffer.setSize(2048);
+        char *textf = generalBuffer.getMemory().beginAs<char>();
+        va_list ap;
+        va_start(ap, text);
+        vsnprintf_s(textf, generalBuffer.size(), generalBuffer.size(), text, ap);
+        va_end(ap);
+        BridgeClient::pushSendText(true, textf);
+      }
+    }
+    /*
     //------------------------------------------------ BUILDABLE -----------------------------------------------
     bool  isBuildable(TilePosition position)
     {
@@ -251,11 +282,6 @@ namespace BWAgent
     }
     //------------------------------------------------ IN GAME -------------------------------------------------
     bool inGame() const
-    {
-    }
-
-    //------------------------------------------------- PRINTF -------------------------------------------------
-    void  printf(const char* text, ...)
     {
     }
     //---------------------------------------------- CHANGE SLOT -----------------------------------------------
