@@ -50,7 +50,7 @@ namespace Util
     {
       // receive
       Util::Buffer buffer;
-      if(!pipe.receive(buffer))
+      if(!this->receive(buffer))
         return false;
       Util::MemoryFrame mem = buffer.getMemory();
 
