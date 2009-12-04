@@ -3,14 +3,17 @@ namespace BWAPI
 {
   // access for a unit the agent has knowledge of
   typedef int ClearanceLevel;
-  enum ClearanceLevels
+  namespace ClearanceLevels
   {
-    None = 0,
-    Basic = 1,
-    Detected = 2,
-    Visible = 3,
-    FullyObservable = 4  // highest clearance level
-  };
+    enum
+    {
+      None = 0,
+      Basic = 1,
+      Detected = 2,
+      Visible = 3,
+      Full = 4  // highest clearance level
+    };
+  }
   // Unit's state we know about, depending on clearance level
   struct StateBasic
   {
