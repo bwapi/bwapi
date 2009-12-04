@@ -62,7 +62,7 @@ namespace Util
     template<typename T>
       T *unpack(Pointer<T> p) const // to process address space
       {
-        if(!winBufferAddress)
+        if(!(int)this->bufferBase)
           return NULL;
         return (T*)(this->bufferBase + p.offset);
       }
@@ -70,7 +70,7 @@ namespace Util
     template<typename T>
       Pointer<T> pack(T *pt) const  // to shared address space
       {
-        SharedMemoryPointer<T> retval;
+        Pointer<T> retval;
         retval.offset = (int)pt - (int)this->bufferBase;
       }
 

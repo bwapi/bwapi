@@ -46,7 +46,7 @@ namespace Util
     bool isMessageIncoming() const;
 //    RemoteProcessId getClientProcessId() const;
 
-    template<typename T> static bool receiveOnlyAs(T &dest)
+    template<typename T> bool receiveOnlyAs(T &dest)
     {
       // receive
       Util::Buffer buffer;
