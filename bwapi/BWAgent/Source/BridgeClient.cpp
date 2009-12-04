@@ -138,9 +138,35 @@ namespace BWAgent
         int id=sharedStaticData->unitData[i].getID;
         if (unitIdToObject.find(id)==unitIdToObject.end())
           unitIdToObject[id]=new BWAgent::Unit();
-        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::FullyObservable,(BWAPI::State*)&sharedStaticData->unitData[i]);
+        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Full,(BWAPI::State*)&sharedStaticData->unitData[i]);
         allUnits.insert(unitIdToObject[id]);
       }
+    }
+    //----------------------------------------- UPDATE REMOTE SHARED MEMORY -------------------------------------
+    bool updateRemoteSharedMemory()
+    {
+      resetError();
+
+      // export commands updates
+      while(sharedStuff.commands.isUpdateExportNeeded())
+      {
+        // create export package
+        Bridge::PipeMessage::AgentUpdateCommands packet;
+        if(!sharedStuff.commands.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = __FUNCTION__ ": exporting commands update failed";
+          return false;
+        }
+
+        // send update export
+        if(!sharedStuff.pipe.sendRawStructure(packet))
+        {
+          lastError = __FUNCTION__ ": sending commands update export packet failed";
+          return false;
+        }
+      }
+
+      return true;
     }
     //----------------------------------------- WAIT FOR EVENT --------------------------------------------------
     bool waitForEvent()
@@ -157,11 +183,17 @@ namespace BWAgent
         }break;
       case OnFrame:
         {
+          // update remote dynamic memory
+          if(!updateRemoteSharedMemory())
+            return false;
+
+          // return RPC
           Bridge::PipeMessage::AgentFrameNextDone done;
           success = sharedStuff.pipe.sendRawStructure(done);
         }break;
       case OnInitMatch:
         {
+          // return RPC
           Bridge::PipeMessage::AgentMatchInitDone done;
           success = sharedStuff.pipe.sendRawStructure(done);
         }break;
@@ -198,7 +230,7 @@ namespace BWAgent
           }
           if(!sharedStuff.userInput.importNextUpdate(packet.exp))
           {
-            lastError = __FUNCTION__ ": could not import userInput.";
+            lastError = __FUNCTION__ ": could not import userInput update.";
             return false;
           }
 
@@ -222,6 +254,15 @@ namespace BWAgent
           sharedStuff.commands.release();
           sharedStuff.userInput.release();
 
+
+          // init agent-side dynamic memory
+          if(!sharedStuff.commands.init(1000, true))
+          {
+            lastError = __FUNCTION__ ": commands failed initializing.";
+            return false;
+          }
+
+          // import all static data. It's all combined into staticData
           if (!sharedStuff.staticData.import(packet.staticGameDataExport))
           {
             lastError = __FUNCTION__ ": staticGameData failed importing.";

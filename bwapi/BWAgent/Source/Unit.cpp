@@ -587,7 +587,7 @@ namespace BWAgent
     return true;
   }
 
-  void Unit::_update(BWAPI::ClearanceLevels level,BWAPI::State* data)
+  void Unit::_update(BWAPI::ClearanceLevel level,BWAPI::State* data)
   {
     this->level=level;
     this->data=data;

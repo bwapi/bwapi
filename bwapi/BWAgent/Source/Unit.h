@@ -153,9 +153,9 @@ namespace BWAgent
 //    bool useTech(TechType tech);
 //    bool useTech(TechType tech, Position position);
 //    bool useTech(TechType tech, Unit* target);
-    void _update(BWAPI::ClearanceLevels level,BWAPI::State* data);
+    void _update(BWAPI::ClearanceLevel level,BWAPI::State* data);
   private:
-    BWAPI::ClearanceLevels level;//type of struct that data points to
+    BWAPI::ClearanceLevel level;//type of struct that data points to
     BWAPI::State* data;
   };
 }

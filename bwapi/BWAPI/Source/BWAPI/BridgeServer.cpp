@@ -248,33 +248,60 @@ namespace BWAPI
       nextFrame; // no data yet
       sharedStuff.pipe.sendRawStructure(nextFrame);
 
-      // receive completion notification
-      Util::Buffer buffer;
-      if(!sharedStuff.pipe.receive(buffer))
+      // wait untill completion packet received
+      while(true)
       {
-        lastError = std::string(__FUNCTION__)+ ": receive completion packet failed";
-        return false;
+        // receive completion notification
+        Util::Buffer buffer;
+        if(!sharedStuff.pipe.receive(buffer))
+        {
+          lastError = std::string(__FUNCTION__)+ ": receive completion packet failed";
+          return false;
+        }
+
+        // get packet type
+        Util::MemoryFrame bufferFrame = buffer.getMemory();
+        int packetType = bufferFrame.getAs<int>();
+
+        // it way be an update export packet
+        if(packetType == Bridge::PipeMessage::AgentUpdateCommands::_typeId)
+        {
+          Bridge::PipeMessage::AgentUpdateCommands packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small AgentUpdateCommands packet.";
+            return false;
+          }
+          if(!sharedStuff.commands.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import commands update.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
+        // if it's not the completion packet
+        if(packetType != Bridge::PipeMessage::AgentFrameNextDone::_typeId)
+        {
+          lastError = std::string(__FUNCTION__)+ ": unexpected packet type " + Util::Strings::intToString(packetType);
+          return false;
+        }
+
+        // try parse as completion packet
+        Bridge::PipeMessage::AgentFrameNextDone completion;
+        if(!bufferFrame.readTo(completion))
+        {
+          lastError = std::string(__FUNCTION__)+ ": completion packet too small";
+          return false;
+        }
+
+        completion; // yet no data here
+
+        // sucessfully invoked
+        break;
       }
-
-      // parse packet
-      Util::MemoryFrame packet = buffer.getMemory();
-      int packetType = packet.getAs<int>();
-
-
-      if(packetType != Bridge::PipeMessage::AgentFrameNextDone::_typeId)
-      {
-        lastError = std::string(__FUNCTION__)+ ": unexpected packet type " + Util::Strings::intToString(packetType);
-        return false;
-      }
-
-      Bridge::PipeMessage::AgentFrameNextDone completion;
-      if(!packet.readTo(completion))
-      {
-        lastError = std::string(__FUNCTION__)+ ": completion packet too small";
-        return false;
-      }
-
-      completion; // yet no data here
 
       // clear frame-to-frame buffers
       sharedStuff.userInput.clear();
@@ -308,7 +335,7 @@ namespace BWAPI
         Bridge::PipeMessage::ServerUpdateUserInput packet;
         if(!sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
-          lastError = std::string(__FUNCTION__)+ ": update exporting userInput failed";
+          lastError = std::string(__FUNCTION__)+ ": exporting userInput update failed";
           return false;
         }
 
