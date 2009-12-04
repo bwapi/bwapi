@@ -1,5 +1,5 @@
 #pragma once
-#include "StaticGameDataStructure.h"
+#include "StaticGameData.h"
 //#include "UnitStruct.h"
 #include "SendTextEvent.h"
 
@@ -21,13 +21,16 @@ namespace Bridge
 //    typedef Util::SharedSet<KnownUnit> SharedKnownUnitSet;
 //    SharedKnownUnitSet knownUnitSet;
 
-    typedef Util::SharedStructure<StaticGameDataStructure> SharedGameDataStructure;
-    SharedGameDataStructure staticData;
+    typedef Util::SharedStructure<StaticGameData> StaticGameDataStructure;
+    StaticGameDataStructure staticData;
 
-    typedef Util::SharedStructure<CommandDataStructure> SharedCommandDataStructure;
-    SharedCommandDataStructure commandData;
+    typedef Util::SharedStack CommandStack;
+    CommandStack commands;
 
     typedef Util::SharedStack UserInputStack;
     UserInputStack userInput;
+
+    typedef Util::SharedStack SendTextStack;
+    SendTextStack sendText;
   };
 }

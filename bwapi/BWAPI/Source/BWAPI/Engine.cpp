@@ -767,8 +767,7 @@ namespace BWAPI
         // fill the const part of static data
         if(BridgeServer::isSharedMemoryInitialized())
         {
-          Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
-          Bridge::CommandDataStructure &commandData = *BridgeServer::sharedCommandData;
+          Bridge::StaticGameData &staticData = *BridgeServer::sharedStaticData;
 
           for (int x=0;x<mapWidth()*4;x++)
             for (int y=0;y<mapHeight()*4;y++)
@@ -785,8 +784,6 @@ namespace BWAPI
 
           strncpy(staticData.mapName,mapName().c_str(),32);
           staticData.mapName[31]='\0';
-
-          commandData.lastFreeCommandSlot=0;
 
           Engine::enableFlag(Flag::UserInput); //temp
 
@@ -813,7 +810,7 @@ namespace BWAPI
       {
         // fill buffers with recent world state data
         {
-          Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
+          Bridge::StaticGameData &staticData = *BridgeServer::sharedStaticData;
           staticData.getLatency    = getLatency();
           staticData.frameCount    = frameCount;
           staticData.getMouseX     = getMouseX();
@@ -926,14 +923,17 @@ namespace BWAPI
           BridgeServer::disconnect();
           printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
-        if(BridgeServer::sharedCommandData)
+
+        // process issued commands
         {
+          /* invalid untill command stack works
           Bridge::CommandDataStructure &commandData = *BridgeServer::sharedCommandData;
           for(int i=0;i<commandData.lastFreeCommandSlot;i++)
           {
             Engine::executeUnitCommand(commandData.commandQueue[i]);
           }
           commandData.lastFreeCommandSlot = 0;
+          */
         }
       }
 

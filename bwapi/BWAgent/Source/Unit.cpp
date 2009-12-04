@@ -413,175 +413,175 @@ namespace BWAgent
   }
   bool Unit::attackUnit(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::AttackUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::rightClick(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::RightClickUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::stop()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Stop,data->getID);
     return true;
   }
   bool Unit::holdPosition()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::HoldPosition,data->getID);
     return true;
   }
   bool Unit::follow(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::Follow,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::setRallyUnit(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::SetRallyUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::repair(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::Repair,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::burrow()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Burrow,data->getID);
     return true;
   }
   bool Unit::unburrow()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Unburrow,data->getID);
     return true;
   }
   bool Unit::siege()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Siege,data->getID);
     return true;
   }
   bool Unit::unsiege()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Unsiege,data->getID);
     return true;
   }
   bool Unit::cloak()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Cloak,data->getID);
     return true;
   }
   bool Unit::decloak()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Decloak,data->getID);
     return true;
   }
   bool Unit::lift()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::Lift,data->getID);
     return true;
   }
   bool Unit::load(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::Load,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::unload(Unit* target)
   {
-    if(!BridgeClient::sharedCommandData || !this->data || !target || !target->data)
+    if(!this->data || !target || !target->data)
       return false;
     pushCommand(BWAPI::CommandID::Unload,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::unloadAll()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::UnloadAll,data->getID);
     return true;
   }
   bool Unit::cancelConstruction()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelConstruction,data->getID);
     return true;
   }
   bool Unit::haltConstruction()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::HaltConstruction,data->getID);
     return true;
   }
   bool Unit::cancelMorph()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelMorph,data->getID);
     return true;
   }
   bool Unit::cancelTrain()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelTrain,data->getID);
     return true;
   }
   bool Unit::cancelTrain(int slot)
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelTrain,data->getID,0,0,0,slot);
     return true;
   }
   bool Unit::cancelAddon()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelAddon,data->getID);
     return true;
   }
   bool Unit::cancelResearch()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelResearch,data->getID);
     return true;
   }
   bool Unit::cancelUpgrade()
   {
-    if(!BridgeClient::sharedCommandData || !this->data)
+    if(!this->data)
       return false;
     pushCommand(BWAPI::CommandID::CancelUpgrade,data->getID);
     return true;
@@ -594,6 +594,7 @@ namespace BWAgent
   }
   void pushCommand(BWAPI::CommandID::Enum commandID, int unitID, int x, int y, int targetID, int specialID)
   {
+    /*
     BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);
     c->commandID=commandID;
     c->unitID=unitID;
@@ -602,5 +603,6 @@ namespace BWAgent
     c->targetID=targetID;
     c->specialID=specialID;
     BridgeClient::sharedCommandData->lastFreeCommandSlot++;
+    */
   }
 }

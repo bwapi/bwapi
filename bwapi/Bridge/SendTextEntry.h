@@ -4,7 +4,7 @@
 #include "..\BWAPITypes\UnitStruct.h"
 namespace Bridge
 {
-  struct StaticGameDataStructure
+  struct StaticGameData
   {
     int getLatency;
     int frameCount;
@@ -29,10 +29,5 @@ namespace Bridge
     BWAPI::State unitData[10000];
     int unitCount;
 
-  };
-  struct CommandDataStructure
-  {
-    BWAPI::UnitCommand commandQueue[10000];
-    int lastFreeCommandSlot;
   };
 }

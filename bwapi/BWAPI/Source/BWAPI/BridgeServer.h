@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Bridge\StaticGameDataStructure.h>
+#include <Bridge\StaticGameData.h>
 
 #include <string>
 
@@ -12,8 +12,7 @@ namespace BWAPI
   namespace BridgeServer
   {
   //public:
-    extern Bridge::StaticGameDataStructure* sharedStaticData;
-    extern Bridge::CommandDataStructure* sharedCommandData;
+    extern Bridge::StaticGameData* sharedStaticData;
 
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();

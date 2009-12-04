@@ -45,22 +45,19 @@ namespace Bridge
     {
       bool fromBeginning;
 
-      Bridge::SharedStuff::SharedGameDataStructure::Export staticGameDataExport;
-      Bridge::SharedStuff::SharedCommandDataStructure::Export commandDataExport;
+      Bridge::SharedStuff::StaticGameDataStructure::Export staticGameDataExport;
     };
     struct AgentMatchInitDone : Util::TypeHead<UNIQUE_ID>
     {
     };
     //------------------------------------------------
     // Update packets. One for each update export page,
-    // don;t choke me, I'm working on a solution, won't
-    // be ready soon tho, I want it to be perfect...
     //------------------------------------------------
     struct ServerUpdateUserInput : Util::TypeHead<UNIQUE_ID>
     {
       Bridge::SharedStuff::UserInputStack::Export exp;
     };
-    struct AgentCommands : Util::TypeHead<UNIQUE_ID>
+    struct AgentUpdateCommands : Util::TypeHead<UNIQUE_ID>
     {
       Bridge::SharedStuff::UserInputStack::Export exp;
     };
