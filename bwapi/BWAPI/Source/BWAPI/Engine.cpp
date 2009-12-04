@@ -717,9 +717,9 @@ namespace BWAPI
     //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
     void IssueCommand(PBYTE pbBuffer, u32 iSize)
     {
-  #ifdef __MINGW32__
-      __asm__("mov %ecx, _pbBuffer\n"
-              "mov %edx, _iSize"
+  #ifdef __GNUC__
+      __asm__("mov %ecx, pbBuffer\n"
+              "mov %edx, iSize"
              );
   #else
       __asm
@@ -1069,12 +1069,12 @@ namespace BWAPI
       char* txtout = buffer;
       if (inGame() || _isReplay())
       {
-  #ifdef __MINGW32__
+  #ifdef __GNUC__
         int temp=BW::BWFXN_PrintText;
         __asm__("pushal\n"
                 "push 0\n"
                 "mov %eax, _pID\n"
-                "push _txtout\n"
+                "push txtout\n"
                 "call temp\n"
                 "popal"
                );
@@ -1545,7 +1545,7 @@ namespace BWAPI
     void refresh()
     {
       /* Unusued
-      #ifdef __MINGW32__
+      #ifdef __GNUC__
         __asm__("call [BW::BWFXN_Refresh]");
       #else
         __asm call BW::BWFXN_Refresh
