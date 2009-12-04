@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Bridge\StaticGameDataStructure.h>
+#include <Bridge\StaticGameData.h>
 
 #include <string>
 #include <deque>
@@ -10,9 +10,7 @@ namespace BWAgent
   namespace BridgeClient
   {
   //public:
-    extern Bridge::StaticGameDataStructure* sharedStaticData;
-
-    extern Bridge::CommandDataStructure* sharedCommandData;
+    extern Bridge::StaticGameData* sharedStaticData;
 
     // methods
     extern std::string getLastError();

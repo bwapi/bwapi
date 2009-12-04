@@ -22,7 +22,7 @@ namespace Util
     this->exportReadOnly = exportReadOnly;
     if(!this->_createNewPageBlock())
       return false;
-    return false;
+    return true;
   }
   //----------------------- INSERT -------------------------------------
   SharedStack::Index SharedStack::insert(const Util::MemoryFrame &storee)
