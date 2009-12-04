@@ -837,10 +837,34 @@ namespace BWAPI
           int i=0;
           foreach(Unit* u,Engine::allUnits)
           {
-            staticData.unitData[i].getID=(int)u;
-            staticData.unitData[i].getType=u->getType().getID();
             staticData.unitData[i].x=u->getPosition().x();
             staticData.unitData[i].y=u->getPosition().y();
+
+            staticData.unitData[i].getID=(int)(u);
+            staticData.unitData[i].getInitialType=u->getInitialType().getID(); //does not need to be updated every frame
+            staticData.unitData[i].getInitialHitPoints=u->getInitialHitPoints();
+            staticData.unitData[i].getInitialResources=u->getInitialResources();
+            staticData.unitData[i].getPlayer=u->getPlayer()->getID();
+            staticData.unitData[i].getType=u->getType().getID();
+            staticData.unitData[i].getHitPoints=u->getHitPoints();
+            staticData.unitData[i].getShields=u->getShields();
+            staticData.unitData[i].getEnergy=u->getEnergy();
+            staticData.unitData[i].getResources=u->getResources();
+            staticData.unitData[i].getKillCount=u->getKillCount();
+            staticData.unitData[i].getGroundWeaponCooldown=u->getGroundWeaponCooldown();
+            staticData.unitData[i].getAirWeaponCooldown=u->getAirWeaponCooldown();
+            staticData.unitData[i].getSpellCooldown=u->getSpellCooldown();
+            staticData.unitData[i].getDefenseMatrixPoints=u->getDefenseMatrixPoints();
+
+            staticData.unitData[i].getDefenseMatrixTimer=u->getDefenseMatrixTimer();
+            staticData.unitData[i].getEnsnareTimer=u->getEnsnareTimer();
+            staticData.unitData[i].getIrradiateTimer=u->getIrradiateTimer();
+            staticData.unitData[i].getLockdownTimer=u->getLockdownTimer();
+            staticData.unitData[i].getMaelstromTimer=u->getMaelstromTimer();
+            staticData.unitData[i].getPlagueTimer=u->getPlagueTimer();
+            staticData.unitData[i].getRemoveTimer=u->getRemoveTimer();
+            staticData.unitData[i].getStasisTimer=u->getStasisTimer();
+            staticData.unitData[i].getStimTimer=u->getStimTimer();
 
             staticData.unitData[i].exists=u->exists();
             staticData.unitData[i].isAccelerating=u->isAccelerating();
