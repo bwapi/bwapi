@@ -8,6 +8,7 @@
 
 namespace BWAgent
 {
+  void pushCommand(BWAPI::CommandID::Enum commandID,int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
   Unit::Unit()
   {
   }
@@ -285,20 +286,147 @@ namespace BWAgent
       return false;
     return data->isVisible;
   }
-
+  bool Unit::attackUnit(Unit* target)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::AttackUnit,data->getID,0,0,target->getID());
+    return true;
+  }
+  bool Unit::stop()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Stop,data->getID);
+    return true;
+  }
   bool Unit::holdPosition()
   {
     if(!BridgeClient::sharedCommandData || !this->data)
       return false;
-    BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);
-    c->unitID = data->getID;
-    c->commandID = BWAPI::CommandID::HoldPosition;
-    BridgeClient::sharedCommandData->lastFreeCommandSlot++;
+    pushCommand(BWAPI::CommandID::HoldPosition,data->getID);
     return true;
   }
+  bool Unit::burrow()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Burrow,data->getID);
+    return true;
+  }
+  bool Unit::unburrow()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Unburrow,data->getID);
+    return true;
+  }
+  bool Unit::siege()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Siege,data->getID);
+    return true;
+  }
+  bool Unit::unsiege()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Unsiege,data->getID);
+    return true;
+  }
+  bool Unit::cloak()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Cloak,data->getID);
+    return true;
+  }
+  bool Unit::decloak()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Decloak,data->getID);
+    return true;
+  }
+  bool Unit::lift()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::Lift,data->getID);
+    return true;
+  }
+  bool Unit::cancelConstruction()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelConstruction,data->getID);
+    return true;
+  }
+  bool Unit::haltConstruction()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::HaltConstruction,data->getID);
+    return true;
+  }
+  bool Unit::cancelMorph()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelMorph,data->getID);
+    return true;
+  }
+  bool Unit::cancelTrain()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelTrain,data->getID);
+    return true;
+  }
+  bool Unit::cancelTrain(int slot)
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelTrain,data->getID,0,0,0,slot);
+    return true;
+  }
+  bool Unit::cancelAddon()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelAddon,data->getID);
+    return true;
+  }
+  bool Unit::cancelResearch()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelResearch,data->getID);
+    return true;
+  }
+  bool Unit::cancelUpgrade()
+  {
+    if(!BridgeClient::sharedCommandData || !this->data)
+      return false;
+    pushCommand(BWAPI::CommandID::CancelUpgrade,data->getID);
+    return true;
+  }
+
   void Unit::_update(BWAPI::ClearanceLevels level,BWAPI::State* data)
   {
     this->level=level;
     this->data=data;
+  }
+  void pushCommand(BWAPI::CommandID::Enum commandID, int unitID, int x, int y, int targetID, int specialID)
+  {
+    BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);
+    c->commandID=commandID;
+    c->unitID=unitID;
+    c->x=x;
+    c->y=y;
+    c->targetID=targetID;
+    c->specialID=specialID;
+    BridgeClient::sharedCommandData->lastFreeCommandSlot++;
   }
 }
