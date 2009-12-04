@@ -209,18 +209,24 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
         {
           // make virtual functions pure
           std::string pureEnd = ") = 0;";
+          std::string pureEndConst = ") const = 0;";
           if(line.find('~') != std::string::npos)
           {
-            // this is a destructor. those may not be pure
+            // this is a destructor. those may not be pure (or const)
             pureEnd = "){};";
           }
 
-          // characters to replace ');'
+          // characters to replace
           // note there is often a comment at the end
           int endPos = line.find(");");
-          if(endPos != std::string::npos)
+          int endPosConst = line.find(") const;");
+          if(endPos       != std::string::npos)
           {
-            line = line.substr(0, endPos) + pureEnd + line.substr(endPos+2);
+            line = line.substr(0, endPos)       + pureEnd       + line.substr(endPos+2);
+          }
+          if(endPosConst  != std::string::npos)
+          {
+            line = line.substr(0, endPosConst)  + pureEndConst  + line.substr(endPosConst+8);
           }
         }
       }

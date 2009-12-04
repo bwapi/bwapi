@@ -25,9 +25,10 @@ public:
     
     for(std::set<Unit*>::iterator i=Game::getAllUnits().begin();i!=Game::getAllUnits().end();i++)
     {
-      if ((*i)->getType()==64)
+      Unit *unit = (*i);
+      if (unit->getType()==64)
       {
-        (*i)->holdPosition();
+        unit->holdPosition();
       }
     }
     
