@@ -25,7 +25,7 @@ namespace Util
     {
       friend class SharedStructure;
     private:
-      SharedMemoryPointer<S> pointer;
+      SharedMemory::Pointer<S> pointer;
     };
     struct Export
     {
@@ -37,7 +37,7 @@ namespace Util
         return smemExport.isValid();
       }
     private:
-      SharedMemoryExport smemExport;
+      SharedMemory::Export smemExport;
     };
     //----------------------- CONSTRUCTION ----------------------------------------------
     SharedStructure()
@@ -57,10 +57,10 @@ namespace Util
     {
       return smem.import(source.smemExport);
     }
-    //----------------------- DISCARD ---------------------------------------------------
-    void discard()
+    //----------------------- RELEASE ---------------------------------------------------
+    void release()
     {
-      smem.discard();
+      smem.release();
     }
     //----------------------- EXPORT TO PROCESS -----------------------------------------
     Export exportToProcess(RemoteProcess &target, bool readOnly) const

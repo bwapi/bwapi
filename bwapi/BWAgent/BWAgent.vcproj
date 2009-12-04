@@ -239,7 +239,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Util\Source\Util\SharedMemoryExport.cpp"
+				RelativePath="..\Util\Source\Util\SharedStack.cpp"
 				>
 			</File>
 			<File
@@ -289,6 +289,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\Hybrid.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Mappings.h"
 				>
 			</File>
@@ -317,11 +321,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Util\Source\Util\SharedMemoryExport.h"
+				RelativePath="..\Util\Source\Util\SharedSet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Util\Source\Util\SharedSet.h"
+				RelativePath="..\Util\Source\Util\SharedStack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\SharedStuff.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\TypeHead.h"
 				>
 			</File>
 			<File

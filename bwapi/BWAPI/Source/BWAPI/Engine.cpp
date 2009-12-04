@@ -757,14 +757,15 @@ namespace BWAPI
         && BridgeServer::isAgentConnected()
         &&!BridgeServer::isSharedMemoryInitialized())
       {
-
         // create and export static data
         if(!BridgeServer::createSharedMemory())
         {
           printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
           BridgeServer::disconnect();
         }
-        if(BridgeServer::sharedStaticData)
+
+        // fill the const part of static data
+        if(BridgeServer::isSharedMemoryInitialized())
         {
           Bridge::StaticGameDataStructure &staticData = *BridgeServer::sharedStaticData;
           for (int x=0;x<mapWidth()*4;x++)
@@ -786,15 +787,15 @@ namespace BWAPI
 
           Engine::enableFlag(Flag::UserInput); //temp
 
+          // invoke OnStartMatch()
+          if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
+          {
+            printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
+            BridgeServer::disconnect();
+          }
         }
-        if(!BridgeServer::publishSharedMemory())
-        {
-          printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
-          BridgeServer::disconnect();
-        }
-
-
       }
+
 
       // reset frame count
       if(nextState == InMatch && lastState != InMatch)
@@ -803,7 +804,9 @@ namespace BWAPI
       }
 
       // onFrame
-      if(gameState == InMatch && BridgeServer::isAgentConnected())
+      if(gameState == InMatch
+        && BridgeServer::isAgentConnected()
+        && BridgeServer::isSharedMemoryInitialized())
       {
         if(BridgeServer::sharedStaticData)
         {
