@@ -760,7 +760,7 @@ namespace BWAPI
         // create and export static data
         if(!BridgeServer::createSharedMemory())
         {
-          printf("failed to publish shared memory: %s\n", BridgeServer::getLastError().c_str());
+          printf("failed to create shared memory: %s\n", BridgeServer::getLastError().c_str());
           BridgeServer::disconnect();
         }
 
@@ -971,7 +971,7 @@ namespace BWAPI
       update(InMenu);
     }
     //------------------------------------------------- UPDATE -------------------------------------------------
-    void _update()
+    void onMatchFrame()
     {
       try
       {

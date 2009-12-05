@@ -130,21 +130,7 @@ namespace BWAgent
     {
       return rpcState;
     }
-    //----------------------------------------- UPDATE MAPPINGS -------------------------------------------------
-    void updateMappings()
-    {
-      /*
-      allUnits.clear();
-      for(int i=0;i<sharedStaticData->unitCount;i++)
-      {
-        int id=sharedStaticData->unitData[i].id;
-        if (unitIdToObject.find(id)==unitIdToObject.end())
-          unitIdToObject[id]=new BWAgent::Unit();
-        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Full,(BWAPI::UnitState*)&sharedStaticData->unitData[i]);
-        allUnits.insert(unitIdToObject[id]);
-      }
-      */
-    }
+
     //----------------------------------------- UPDATE REMOTE SHARED MEMORY -------------------------------------
     bool updateRemoteSharedMemory()
     {
@@ -326,7 +312,6 @@ namespace BWAgent
         if(packetType == Bridge::PipeMessage::ServerFrameNext::_typeId)
         {
           // onFrame state
-          updateMappings();
 
           // clear all frame-by-frame buffers
           sharedStuff.sendText.clear();
