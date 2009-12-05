@@ -1,13 +1,15 @@
 #pragma once
 #include "StaticGameData.h"
-//#include "UnitStruct.h"
 #include "SendTextEvent.h"
+#include "KnownUnitEntry.h"
 
 #include <Util\Pipe.h>
 #include <Util\RemoteProcess.h>
 #include <Util\SharedSet.h>
 #include <Util\SharedStack.h>
 #include <Util\SharedStructure.h>
+
+#include <BWAPITypes\UnitState.h>
 
 namespace Bridge
 {
@@ -18,8 +20,8 @@ namespace Bridge
     Util::RemoteProcess remoteProcess;
 
     // shared memories
-//    typedef Util::SharedSet<KnownUnit> SharedKnownUnitSet;
-//    SharedKnownUnitSet knownUnitSet;
+    typedef Util::SharedSet<KnownUnitEntry> KnownUnitSet;
+    KnownUnitSet knownUnits;
 
     typedef Util::SharedStructure<StaticGameData> StaticGameDataStructure;
     StaticGameDataStructure staticData;

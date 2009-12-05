@@ -136,10 +136,10 @@ namespace BWAgent
       allUnits.clear();
       for(int i=0;i<sharedStaticData->unitCount;i++)
       {
-        int id=sharedStaticData->unitData[i].getID;
+        int id=sharedStaticData->unitData[i].id;
         if (unitIdToObject.find(id)==unitIdToObject.end())
           unitIdToObject[id]=new BWAgent::Unit();
-        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Full,(BWAPI::State*)&sharedStaticData->unitData[i]);
+        unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Full,(BWAPI::UnitState*)&sharedStaticData->unitData[i]);
         allUnits.insert(unitIdToObject[id]);
       }
     }
@@ -259,6 +259,25 @@ namespace BWAgent
           continue;
         }
 
+        // update knownUnits
+        if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnits::_typeId)
+        {
+          Bridge::PipeMessage::ServerUpdateKnownUnits packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnits packet.";
+            return false;
+          }
+          if(!sharedStuff.knownUnits.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import knownUnits update.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
         // explicit events
         if(packetType == Bridge::PipeMessage::ServerMatchInit::_typeId)
         {
@@ -274,7 +293,7 @@ namespace BWAgent
           sharedStuff.staticData.release();
           sharedStuff.commands.release();
           sharedStuff.userInput.release();
-
+          sharedStuff.knownUnits.release();
 
           // init agent-side dynamic memory
           if(!sharedStuff.commands.init(1000, true))
@@ -288,7 +307,7 @@ namespace BWAgent
             return false;
           }
 
-          // import all static data. It's all combined into staticData
+          // import static data. It's all combined into staticData
           if (!sharedStuff.staticData.import(packet.staticGameDataExport))
           {
             lastError = __FUNCTION__ ": staticGameData failed importing.";
@@ -298,7 +317,6 @@ namespace BWAgent
           
 
           rpcState = OnInitMatch;
-
           // return
           break;
         }
@@ -306,12 +324,12 @@ namespace BWAgent
         if(packetType == Bridge::PipeMessage::ServerFrameNext::_typeId)
         {
           // onFrame state
-          rpcState = OnFrame;
           updateMappings();
 
           // clear all frame-by-frame buffers
           sharedStuff.sendText.clear();
 
+          rpcState = OnFrame;
           // return
           break;
         }

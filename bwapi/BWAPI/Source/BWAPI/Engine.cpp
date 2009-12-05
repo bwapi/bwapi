@@ -834,36 +834,32 @@ namespace BWAPI
           int i=0;
           foreach(Unit* u,Engine::allUnits)
           {
-            staticData.unitData[i].x=u->getPosition().x();
-            staticData.unitData[i].y=u->getPosition().y();
+            staticData.unitData[i].position_x=u->getPosition().x();
+            staticData.unitData[i].position_y=u->getPosition().y();
 
-            staticData.unitData[i].getID=(int)(u);
-            staticData.unitData[i].getInitialType=u->getInitialType().getID(); //does not need to be updated every frame
-            staticData.unitData[i].getInitialHitPoints=u->getInitialHitPoints();
-            staticData.unitData[i].getInitialResources=u->getInitialResources();
-            staticData.unitData[i].getPlayer=u->getPlayer()->getID();
-            staticData.unitData[i].getType=u->getType().getID();
-            staticData.unitData[i].getHitPoints=u->getHitPoints();
-            staticData.unitData[i].getShields=u->getShields();
-            staticData.unitData[i].getEnergy=u->getEnergy();
-            staticData.unitData[i].getResources=u->getResources();
-            staticData.unitData[i].getKillCount=u->getKillCount();
-            staticData.unitData[i].getGroundWeaponCooldown=u->getGroundWeaponCooldown();
-            staticData.unitData[i].getAirWeaponCooldown=u->getAirWeaponCooldown();
-            staticData.unitData[i].getSpellCooldown=u->getSpellCooldown();
-            staticData.unitData[i].getDefenseMatrixPoints=u->getDefenseMatrixPoints();
+            staticData.unitData[i].id=(int)(u);
+            staticData.unitData[i].player=u->getPlayer()->getID();
+            staticData.unitData[i].type=u->getType().getID();
+            staticData.unitData[i].hitPoints=u->getHitPoints();
+            staticData.unitData[i].shields=u->getShields();
+            staticData.unitData[i].energy=u->getEnergy();
+            staticData.unitData[i].resources=u->getResources();
+            staticData.unitData[i].killCount=u->getKillCount();
+            staticData.unitData[i].groundWeaponCooldown=u->getGroundWeaponCooldown();
+            staticData.unitData[i].airWeaponCooldown=u->getAirWeaponCooldown();
+            staticData.unitData[i].spellCooldown=u->getSpellCooldown();
+            staticData.unitData[i].defenseMatrixPoints=u->getDefenseMatrixPoints();
 
-            staticData.unitData[i].getDefenseMatrixTimer=u->getDefenseMatrixTimer();
-            staticData.unitData[i].getEnsnareTimer=u->getEnsnareTimer();
-            staticData.unitData[i].getIrradiateTimer=u->getIrradiateTimer();
-            staticData.unitData[i].getLockdownTimer=u->getLockdownTimer();
-            staticData.unitData[i].getMaelstromTimer=u->getMaelstromTimer();
-            staticData.unitData[i].getPlagueTimer=u->getPlagueTimer();
-            staticData.unitData[i].getRemoveTimer=u->getRemoveTimer();
-            staticData.unitData[i].getStasisTimer=u->getStasisTimer();
-            staticData.unitData[i].getStimTimer=u->getStimTimer();
+            staticData.unitData[i].defenseMatrixTimer=u->getDefenseMatrixTimer();
+            staticData.unitData[i].ensnareTimer=u->getEnsnareTimer();
+            staticData.unitData[i].irradiateTimer=u->getIrradiateTimer();
+            staticData.unitData[i].lockdownTimer=u->getLockdownTimer();
+            staticData.unitData[i].maelstromTimer=u->getMaelstromTimer();
+            staticData.unitData[i].plagueTimer=u->getPlagueTimer();
+            staticData.unitData[i].removeTimer=u->getRemoveTimer();
+            staticData.unitData[i].stasisTimer=u->getStasisTimer();
+            staticData.unitData[i].stimTimer=u->getStimTimer();
 
-            staticData.unitData[i].exists=u->exists();
             staticData.unitData[i].isAccelerating=u->isAccelerating();
             staticData.unitData[i].isBeingConstructed=u->isBeingConstructed();
             staticData.unitData[i].isBeingGathered=u->isBeingGathered();
@@ -904,7 +900,6 @@ namespace BWAPI
             staticData.unitData[i].isUnderStorm=u->isUnderStorm();
             staticData.unitData[i].isUnpowered=u->isUnpowered();
             staticData.unitData[i].isUpgrading=u->isUpgrading();
-            staticData.unitData[i].isVisible=u->isVisible();
             i++;
           }
           staticData.unitCount=i;

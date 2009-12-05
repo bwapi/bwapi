@@ -297,6 +297,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Bridge\KnownUnit.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Mappings.h"
 				>
 			</File>
@@ -354,6 +358,10 @@
 			</File>
 			<File
 				RelativePath="..\BWAPITypes\UnitCommands.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitState.h"
 				>
 			</File>
 		</Filter>

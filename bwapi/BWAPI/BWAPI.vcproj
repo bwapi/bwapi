@@ -953,6 +953,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\BWAPITypes\UnitState.h"
+			>
+		</File>
+		<File
 			RelativePath="..\Util\Source\Util\Version.h"
 			>
 		</File>

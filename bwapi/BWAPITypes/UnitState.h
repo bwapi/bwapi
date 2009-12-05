@@ -15,7 +15,7 @@ namespace BWAPI
     };
   }
   // Unit's state we know about, depending on clearance level
-  struct StateNoticed
+  struct UnitStateNoticed
   {
     //replace with position object later
     int position_x;
@@ -29,7 +29,7 @@ namespace BWAPI
     bool isStartingAttack;
     bool isUnderStorm;
   };
-  struct StateDetected : StateNoticed
+  struct UnitStateDetected : UnitStateNoticed
   {
     int player;
     int hitPoints;
@@ -73,14 +73,14 @@ namespace BWAPI
     int airWeaponCooldown;
     int spellCooldown;
   };
-  struct StateVisible : StateDetected
+  struct UnitStateVisible : UnitStateDetected
   {
     // i found no states that are accessible when visible
     // but are not accessible when detected. if this keeps up,
     // remove detected, weld things, and let agent use
     // isCloaked to see if it's just visible or detected
   };
-  struct StateFull : StateVisible
+  struct UnitStateFull : UnitStateVisible
   {
     // you could only possibly see this if you own it
     bool isHallucination;
@@ -101,6 +101,6 @@ namespace BWAPI
     bool isFollowing;
     bool isPatrolling;
   };
-  typedef StateFull State;      // all states unified
+  typedef UnitStateFull UnitState;      // all states unified
 
 }
