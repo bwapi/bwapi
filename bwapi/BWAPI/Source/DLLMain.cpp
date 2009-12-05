@@ -23,67 +23,55 @@ DWORD removedUnit;
 //bool launchedStart = false;
 DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 using namespace BW;
+
+/*
+char threadIdBuffer[1000];
+void printThreadId(const char *text)
+{
+  sprintf(threadIdBuffer, "%s thread id: %d\n", text, GetCurrentThreadId());
+  OutputDebugStringA(threadIdBuffer);
+}
+*/
+
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onUnitDeath()
 {
-#ifdef __GNUC__
-  __asm__("mov _removedUnit, %esi\n"
-      "call BWFXN_KillUnitTarget"
-     );
-  BWAPI::Engine::onUnitDeath((BW::Unit*) removedUnit);
-  __asm__("jmp BWFXN_KillUnitBack");
-#else
   __asm
   {
     mov removedUnit, esi
     call [BW::BWFXN_KillUnitTarget]
   }
+//  printThreadId("onUnitDeath");
   BWAPI::Engine::onUnitDeath((BW::Unit*) removedUnit);
   __asm jmp [BW::BWFXN_KillUnitBack]
-#endif
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
   BWAPI::Engine::onGameEnd();
-#ifdef __GNUC__
-  __asm__("call BWFXN_GameEndTarget\n"
-      "jmp BWFXN_GameEndBack"
-     );
-#else
   __asm
   {
     call [BW::BWFXN_GameEndTarget]
     jmp [BW::BWFXN_GameEndBack]
   }
-#endif
 }
 DWORD frameHookEax;
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
 void __declspec(naked)  nextFrameHook()
 {
-#ifdef __GNUC__
-  __asm__("call BWFXN_NextLogicFrameTarget\n"
-      "mov _frameHookEax, %eax"
-     );
-  BWAPI::Engine::_update();
-  __asm__("mov %eax, _frameHookEax\n"
-      "jmp BWFXN_NextLogicFrameBack"
-     );
-#else
   __asm
   {
     call [BW::BWFXN_NextLogicFrameTarget]
     mov frameHookEax, eax
   }
-  BWAPI::Engine::_update();
+//  printThreadId("nextFrameHook");
+  BWAPI::Engine::onMatchFrame();
   __asm
   {
     mov eax, frameHookEax
     jmp [BW::BWFXN_NextLogicFrameBack]
   }
-#endif
 }
 
 //--------------------------------------------- MENU FRAME HOOK ----------------------------------------------
@@ -91,29 +79,6 @@ DWORD menu_eaxSave, menu_ebxSave, menu_ecxSave, menu_edxSave, menu_esiSave, menu
 void __declspec(naked)  menuFrameHook()
 {
   //not sure if all these registers need to be saved, but just to be safe.
-#ifdef __GNUC__
-  __asm__("call BWFXN_NextMenuFrameTarget\n"
-      "mov menu_eaxSave, %eax\n"
-      "mov menu_ebxSave, %ebx\n"
-      "mov menu_ecxSave, %ecx\n"
-      "mov menu_edxSave, %edx\n"
-      "mov menu_esiSave, %esi\n"
-      "mov menu_ediSave, %edi\n"
-      "mov menu_espSave, %esp\n"
-      "mov menu_ebpSave, %ebp\n"
-     );
-  BWAPI::Engine::onMenuFrame();
-  __asm__("mov %eax, menu_eaxSave\n"
-    "mov %ebx, menu_ebxSave\n"
-    "mov %ecx, menu_ecxSave\n"
-    "mov %edx, menu_edxSave\n"
-    "mov %esi, menu_esiSave\n"
-    "mov %edi, menu_ediSave\n"
-    "mov %esp, menu_espSave\n"
-    "mov %ebp, menu_ebpSave\n"
-      "jmp BWFXN_NextMenuFrameBack"
-     );
-#else
   __asm
   {
     call [BW::BWFXN_NextMenuFrameTarget]
@@ -126,6 +91,7 @@ void __declspec(naked)  menuFrameHook()
     mov menu_espSave, esp
     mov menu_ebpSave, ebp
   }
+//  printThreadId("menuFrameHook");
   BWAPI::Engine::onMenuFrame();
   __asm
   {
@@ -139,90 +105,39 @@ void __declspec(naked)  menuFrameHook()
     mov ebp, menu_ebpSave
     jmp [BW::BWFXN_NextMenuFrameBack]
   }
-#endif
 }
 
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
 char* text;
 void __declspec(naked) onSendText()
 {
-#ifdef __GNUC__
-  __asm__("mov _text, %esi");
-  if (!BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
-  {
-    BWAPI::Engine::addInterceptedMessage(text);
-  }
-
-  text[0] = 0;
-  __asm__("jmp BWFXN_SendPublicCallBack");
-#else
   __asm
   {
     mov text, esi
   }
+//  printThreadId("onSendText");
   if (!BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
     BWAPI::Engine::addInterceptedMessage(text);
   }
   text[0] = 0;
   __asm jmp [BW::BWFXN_SendPublicCallBack]
-#endif
 }
 void __declspec(naked) onSendSingle()
 {
-#ifdef __GNUC__
-  __asm__("mov _text, %edx");
-  if (BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
-  {
-    BWAPI::Engine::addInterceptedMessage(text);
-  }
-  __asm__("jmp BWFXN_SendTextCallBack");
-#else
   __asm
   {
     mov text, edx
   }
+//  printThreadId("onSendSingle");
   if (BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
     BWAPI::Engine::addInterceptedMessage(text);
   }
   __asm jmp BWFXN_SendTextCallBack
-#endif
 }
 void __declspec(naked) onSendLobby()
 {
-#ifdef __GNUC__
-  __asm__("mov _eaxSave, %eax\n"
-      "mov _ebxSave, %ebx\n"
-      "mov _ecxSave, %ecx\n"
-      "mov _edxSave, %edx\n"
-      "mov _esiSave, %esi\n"
-      "mov _ediSave, %edi\n"
-      "mov _espSave, %esp\n"
-      "mov _ebpSave, %ebp\n"
-      "mov _text, %edi"
-     );
-  __asm__("mov %eax, _eaxSave\n"
-      "mov %ebx, _ebxSave\n"
-      "mov %ecx, _ecxSave\n"
-      "mov %edx, _edxSave\n"
-      "mov %esi, _esiSave\n"
-      "mov %edi, _ediSave\n"
-      "mov %esp, _espSave\n"
-      "mov %ebp, _ebpSave\n"
-      "call BWFXN_SendLobbyCallTarget"
-     );
-  __asm__("mov %eax, _eaxSave\n"
-      "mov %ebx, _ebxSave\n"
-      "mov %ecx, _ecxSave\n"
-      "mov %edx, _edxSave\n"
-      "mov %esi, _esiSave\n"
-      "mov %edi, _eiSave\n"
-      "mov %esp, _espSave\n"
-      "mov %ebp, _ebpSave\n"
-      "call BWFXN_SendLobbyCallBack"
-     );
-#else
   __asm
   {
     mov eaxSave, eax
@@ -237,14 +152,6 @@ void __declspec(naked) onSendLobby()
   }
   __asm
   {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
     call [BW::BWFXN_SendLobbyCallTarget]
   }
   __asm
@@ -259,7 +166,6 @@ void __declspec(naked) onSendLobby()
     mov ebp, ebpSave
     jmp [BW::BWFXN_SendLobbyCallBack]
   }
-#endif
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
@@ -267,32 +173,6 @@ int i, i2, h, w, x, y, c, l;
 
 void __declspec(naked) onRefresh()
 {
-#ifdef __GNUC__
-  __asm__("mov _eaxSave, %eax\n"
-      "mov _ebxSave, %ebx\n"
-      "mov _ecxSave, %ecx\n"
-      "mov _edxSave, %edx\n"
-      "mov _esiSave, %esi\n"
-      "mov _ediSave, %edi\n"
-      "mov _espSave, %esp\n"
-      "mov _ebpSave, %ebp\n"
-      "push 640\n"
-      "xor %eax, %eax\n"
-      "mov %edx, 480\n"
-      "xor %ecx, %ecx\n"
-      "call BWFXN_RefreshTarget\n"
-      "mov %eax, _eaxSave\n"
-      "mov %ebx, _ebxSave\n"
-      "mov %ecx, _ecxSave\n"
-      "mov %edx, _edxSave\n"
-      "mov %esi, _esiSave\n"
-      "mov %edi, _ediSave\n"
-      "mov %esp, _espSave\n"
-      "mov %ebp, _ebpSave\n"
-      "call BWFXN_RefreshTarget\n"
-      "jmp BWFXN_RefreshBack"
-    );
-#else
   __asm
   {
     mov eaxSave, eax
@@ -319,22 +199,11 @@ void __declspec(naked) onRefresh()
     call [BW::BWFXN_RefreshTarget]
     jmp [BW::BWFXN_RefreshBack]
   }
-#endif
 }
 
 unsigned int shape_i;
 void __declspec(naked) onDrawHigh()
 {
-#ifdef __GNUC__
-  __asm__("mov _eaxSave, %eax\n"
-      "mov _ebxSave, %ebx\n"
-      "mov _ecxSave, %ecx\n"
-      "mov _edxSave, %edx\n"
-      "mov _esiSave, %esi\n"
-      "mov _ediSave, %edi\n"
-      "mov _espSave, %esp"
-     );
-#else
   __asm
   {
     mov eaxSave, eax
@@ -345,7 +214,7 @@ void __declspec(naked) onDrawHigh()
     mov ediSave, edi
     mov espSave, esp
   }
-#endif
+//  printThreadId("onDrawHigh");
   if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::Engine::hcachedShapesMutex, INFINITE))
   {
     for(shape_i = 0; shape_i < BWAPI::Engine::cachedShapes.size(); shape_i++)
@@ -353,18 +222,6 @@ void __declspec(naked) onDrawHigh()
 
     ::ReleaseMutex(BWAPI::Engine::hcachedShapesMutex);
   }
-#ifdef __GNUC__
-  __asm__("mov %eax, _eaxSave\n"
-      "mov %ebx, _ebxSave\n"
-      "mov %ecx, _ecxSave\n"
-      "mov %edx, _edxSave\n"
-      "mov %esi, _esiSave\n"
-      "mov %edi, _ediSave\n"
-      "mov %esp, _espSave\n"
-      "call BWFXN_DrawHighTarget\n"
-      "jmp BWFXN_DrawHighBack"
-     );
-#else
   __asm
   {
     mov eax, eaxSave
@@ -377,7 +234,6 @@ void __declspec(naked) onDrawHigh()
     call [BW::BWFXN_DrawHighTarget]
     jmp [BW::BWFXN_DrawHighBack]
   }
-#endif
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
@@ -404,18 +260,6 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
 
-#ifdef __GNUC__
-  __asm__("mov %eax, _eaxSave\n"
-      "mov %ebx, _ebxSave\n"
-      "mov %ecx, _ecxSave\n"
-      "mov %edx, _edxSave\n"
-      "push _h\n"
-      "push _w\n"
-      "push _y\n"
-      "push _x\n"
-      "call BWFXN_DrawBox"
-     );
-#else
   __asm
   {
     mov eax, eaxSave
@@ -428,7 +272,6 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
     push x
     call [BW::BWFXN_DrawBox]
   }
-#endif
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
@@ -451,18 +294,6 @@ void drawDot(int _x, int _y, int color, int ctype)
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
 
-#ifdef __GNUC__
-  __asm__("mov %eax, _eaxSave\n"
-      "mov %ebx, _ebxSave\n"
-      "mov %ecx, _ecxSave\n"
-      "mov %edx, _edxSave\n"
-      "push _h\n"
-      "push _w\n"
-      "push _y\n"
-      "push _x\n"
-      "call BWFXN_DrawBox"
-     );
-#else
   __asm
   {
     mov eax, eaxSave
@@ -475,7 +306,6 @@ void drawDot(int _x, int _y, int color, int ctype)
     push x
     call [BW::BWFXN_DrawBox]
   }
-#endif
 }
 
 void drawText(int _x, int _y, const char* ptext, int ctype)
@@ -508,16 +338,6 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   BW::BWDATA_PrintXY_Font->x2 = 0x0280;
   BW::BWDATA_PrintXY_Font->y2 = 0x0000;
 
-#ifdef __GNUC__
-  __asm__("mov %eax, _ptext\n"
-      "mov %ebx, 0x00000000\n"
-      "mov %ecx, 0x0000000D\n"
-      "mov %esi, 0x000000e8\n"
-      "mov %edi, _ptext\n"
-      "push _temp_ptr\n"
-      "call BWFXN_PrintXY"
-     );
-#else
   __asm
   {
     mov eax, ptext
@@ -528,7 +348,6 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
     push temp_ptr
     call [BW::BWFXN_PrintXY]
   }
-#endif
 }
 
 //------------------------------------------------ JMP PATCH -------------------------------------------------
@@ -564,14 +383,6 @@ void WriteMem(void* pDest, void* pSource, int nSize)
 void __declspec(naked) NewIssueCommand()
 {
   //execute the part of the function that we overwrote:
-#ifdef __GNUC__
-  __asm__("push %ebp\n"
-      "mov %ebp, %esp\n"
-      "push %ecx\n"
-      "mov %eax, 0x654AA0\n"
-      "jmp BWFXN_NewIssueCommand"
-     );
-#else
   __asm
   {
     push ebp
@@ -580,25 +391,12 @@ void __declspec(naked) NewIssueCommand()
     mov eax, dword ptr ds: [0x654AA0]
     jmp [BW::BWFXN_NewIssueCommand]
   }
-#endif
 }
 //--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
 u32 commandIDptr;
 u8 commandID;
 void __declspec(naked) onIssueCommand()
 {
-#ifdef __GNUC__
-  __asm__("mov _eaxSave, %eax\n"
-      "mov _ebxSave, %ebx\n"
-      "mov _ecxSave, %ecx\n"
-      "mov _edxSave, %edx\n"
-      "mov _esiSave, %esi\n"
-      "mov _ediSave, %edi\n"
-      "mov _espSave, %esp\n"
-      "mov _ebpSave, %ebp\n"
-      "mov _commandIDptr, %ecx"
-     );
-#else
   __asm
   {
     mov eaxSave, eax
@@ -611,7 +409,6 @@ void __declspec(naked) onIssueCommand()
     mov ebpSave, ebp
     mov commandIDptr, ecx;
   }
-#endif
   commandID = *(u8*)commandIDptr;
 
   //decide if we should let the command go through
@@ -654,31 +451,6 @@ void __declspec(naked) onIssueCommand()
        || commandID == 0x5C // Replay Game Chat
      )
   {
-#ifdef __GNUC__
-    __asm__("mov %eax, _eaxSave\n"
-        "mov %ebx, _ebxSave\n"
-        "mov %ecx, _ecxSave\n"
-        "mov %edx, _edxSave\n"
-        "mov %esi, _esiSave\n"
-        "mov %edi, _ediSave\n"
-        "mov %esp, _espSave\n"
-        "mov %ebp, _ebpSave"
-       );
-    NewIssueCommand();
-    __asm__("ret");
-  }
-  else
-    __asm__("mov %eax, _eaxSave\n"
-        "mov %ebx, _ebxSave\n"
-        "mov %ecx, _ecxSave\n"
-        "mov %edx, _edxSave\n"
-        "mov %esi, _esiSave\n"
-        "mov %edi, _ediSave\n"
-        "mov %esp, _espSave\n"
-        "mov %ebp, _ebpSave\n"
-        "ret"
-       );
-#else
     __asm
     {
       mov eax, eaxSave
@@ -706,7 +478,6 @@ void __declspec(naked) onIssueCommand()
       mov ebp, ebpSave
       retn
     }
-#endif
 }
 
 const char zero = 0;
