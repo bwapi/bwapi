@@ -14,249 +14,249 @@ namespace BWAgent
   }
   int Unit::getID() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::id);
+    return getRespectClearance(&BWAPI::UnitState::id);
   }
   int Unit::getPlayer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::player);
+    return getRespectClearance(&BWAPI::UnitState::player);
   }
   int Unit::getType() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::type);
+    return getRespectClearance(&BWAPI::UnitState::type);
   }
   int Unit::getHitPoints() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::hitPoints);
+    return getRespectClearance(&BWAPI::UnitState::hitPoints);
   }
   int Unit::getShields() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::shields);
+    return getRespectClearance(&BWAPI::UnitState::shields);
   }
   int Unit::getEnergy() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::energy);
+    return getRespectClearance(&BWAPI::UnitState::energy);
   }
   int Unit::getResources() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::resources);
+    return getRespectClearance(&BWAPI::UnitState::resources);
   }
   int Unit::getKillCount() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::killCount);
+    return getRespectClearance(&BWAPI::UnitState::killCount);
   }
   int Unit::getGroundWeaponCooldown() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::groundWeaponCooldown);
+    return getRespectClearance(&BWAPI::UnitState::groundWeaponCooldown);
   }
   int Unit::getAirWeaponCooldown() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::airWeaponCooldown);
+    return getRespectClearance(&BWAPI::UnitState::airWeaponCooldown);
   }
   int Unit::getSpellCooldown() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::spellCooldown);
+    return getRespectClearance(&BWAPI::UnitState::spellCooldown);
   }
   int Unit::getDefenseMatrixPoints() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::defenseMatrixPoints);
+    return getRespectClearance(&BWAPI::UnitState::defenseMatrixPoints);
   }
 
   int Unit::getDefenseMatrixTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::defenseMatrixTimer);
+    return getRespectClearance(&BWAPI::UnitState::defenseMatrixTimer);
   }
   int Unit::getEnsnareTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::ensnareTimer);
+    return getRespectClearance(&BWAPI::UnitState::ensnareTimer);
   }
   int Unit::getIrradiateTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::irradiateTimer);
+    return getRespectClearance(&BWAPI::UnitState::irradiateTimer);
   }
   int Unit::getLockdownTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::lockdownTimer);
+    return getRespectClearance(&BWAPI::UnitState::lockdownTimer);
   }
   int Unit::getMaelstromTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::maelstromTimer);
+    return getRespectClearance(&BWAPI::UnitState::maelstromTimer);
   }
   int Unit::getPlagueTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::plagueTimer);
+    return getRespectClearance(&BWAPI::UnitState::plagueTimer);
   }
   int Unit::getRemoveTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::removeTimer);
+    return getRespectClearance(&BWAPI::UnitState::removeTimer);
   }
   int Unit::getStasisTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::stasisTimer);
+    return getRespectClearance(&BWAPI::UnitState::stasisTimer);
   }
   int Unit::getStimTimer() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::stimTimer);
+    return getRespectClearance(&BWAPI::UnitState::stimTimer);
   }
 
   bool Unit::isAccelerating() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isAccelerating);
+    return getRespectClearance(&BWAPI::UnitState::isAccelerating);
   }
   bool Unit::isBeingConstructed() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBeingConstructed);
+    return getRespectClearance(&BWAPI::UnitState::isBeingConstructed);
   }
   bool Unit::isBeingGathered() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBeingGathered);
+    return getRespectClearance(&BWAPI::UnitState::isBeingGathered);
   }
   bool Unit::isBeingHealed() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBeingHealed);
+    return getRespectClearance(&BWAPI::UnitState::isBeingHealed);
   }
   bool Unit::isBlind() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBlind);
+    return getRespectClearance(&BWAPI::UnitState::isBlind);
   }
   bool Unit::isBraking() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBraking);
+    return getRespectClearance(&BWAPI::UnitState::isBraking);
   }
   bool Unit::isBurrowed() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBurrowed);
+    return getRespectClearance(&BWAPI::UnitState::isBurrowed);
   }
   bool Unit::isCarryingGas() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCarryingGas);
+    return getRespectClearance(&BWAPI::UnitState::isCarryingGas);
   }
   bool Unit::isCarryingMinerals() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCarryingMinerals);
+    return getRespectClearance(&BWAPI::UnitState::isCarryingMinerals);
   }
   bool Unit::isCloaked() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCloaked);
+    return getRespectClearance(&BWAPI::UnitState::isCloaked);
   }
   bool Unit::isCompleted() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCompleted);
+    return getRespectClearance(&BWAPI::UnitState::isCompleted);
   }
   bool Unit::isConstructing() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isConstructing);
+    return getRespectClearance(&BWAPI::UnitState::isConstructing);
   }
   bool Unit::isDefenseMatrixed() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isDefenseMatrixed);
+    return getRespectClearance(&BWAPI::UnitState::isDefenseMatrixed);
   }
   bool Unit::isEnsnared() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isEnsnared);
+    return getRespectClearance(&BWAPI::UnitState::isEnsnared);
   }
   bool Unit::isFollowing() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isFollowing);
+    return getRespectClearance(&BWAPI::UnitState::isFollowing);
   }
   bool Unit::isGatheringGas() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isGatheringGas);
+    return getRespectClearance(&BWAPI::UnitState::isGatheringGas);
   }
   bool Unit::isGatheringMinerals() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isGatheringMinerals);
+    return getRespectClearance(&BWAPI::UnitState::isGatheringMinerals);
   }
   bool Unit::isHallucination() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isHallucination);
+    return getRespectClearance(&BWAPI::UnitState::isHallucination);
   }
   bool Unit::isIdle() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isIdle);
+    return getRespectClearance(&BWAPI::UnitState::isIdle);
   }
   bool Unit::isIrradiated() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isIrradiated);
+    return getRespectClearance(&BWAPI::UnitState::isIrradiated);
   }
   bool Unit::isLifted() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isLifted);
+    return getRespectClearance(&BWAPI::UnitState::isLifted);
   }
   bool Unit::isLoaded() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isLoaded);
+    return getRespectClearance(&BWAPI::UnitState::isLoaded);
   }
   bool Unit::isLockedDown() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isLockedDown);
+    return getRespectClearance(&BWAPI::UnitState::isLockedDown);
   }
   bool Unit::isMaelstrommed() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isMaelstrommed);
+    return getRespectClearance(&BWAPI::UnitState::isMaelstrommed);
   }
   bool Unit::isMorphing() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isMorphing);
+    return getRespectClearance(&BWAPI::UnitState::isMorphing);
   }
   bool Unit::isMoving() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isMoving);
+    return getRespectClearance(&BWAPI::UnitState::isMoving);
   }
   bool Unit::isParasited() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isParasited);
+    return getRespectClearance(&BWAPI::UnitState::isParasited);
   }
   bool Unit::isPatrolling() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isPatrolling);
+    return getRespectClearance(&BWAPI::UnitState::isPatrolling);
   }
   bool Unit::isPlagued() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isPlagued);
+    return getRespectClearance(&BWAPI::UnitState::isPlagued);
   }
   bool Unit::isRepairing() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isRepairing);
+    return getRespectClearance(&BWAPI::UnitState::isRepairing);
   }
   bool Unit::isResearching() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isResearching);
+    return getRespectClearance(&BWAPI::UnitState::isResearching);
   }
   bool Unit::isSelected() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isSelected);
+    return getRespectClearance(&BWAPI::UnitState::isSelected);
   }
   bool Unit::isSieged() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isSieged);
+    return getRespectClearance(&BWAPI::UnitState::isSieged);
   }
   bool Unit::isStartingAttack() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isStartingAttack);
+    return getRespectClearance(&BWAPI::UnitState::isStartingAttack);
   }
   bool Unit::isStasised() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isStasised);
+    return getRespectClearance(&BWAPI::UnitState::isStasised);
   }
   bool Unit::isStimmed() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isStimmed);
+    return getRespectClearance(&BWAPI::UnitState::isStimmed);
   }
   bool Unit::isTraining() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isTraining);
+    return getRespectClearance(&BWAPI::UnitState::isTraining);
   }
   bool Unit::isUnderStorm() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isUnderStorm);
+    return getRespectClearance(&BWAPI::UnitState::isUnderStorm);
   }
   bool Unit::isUnpowered() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isUnpowered);
+    return getRespectClearance(&BWAPI::UnitState::isUnpowered);
   }
   bool Unit::isUpgrading() const
   {
-    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isUpgrading);
+    return getRespectClearance(&BWAPI::UnitState::isUpgrading);
   }
   bool Unit::isVisible() const
   {

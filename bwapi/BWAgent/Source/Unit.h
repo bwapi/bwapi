@@ -154,13 +154,13 @@ namespace BWAgent
 
     // helpers
     template<typename T>
-      const T &getRespectClearance(const Bridge::KnownUnitEntry *entry, T BWAPI::UnitState::*var) const
+      const T &getRespectClearance(T BWAPI::UnitState::*var) const
       {
         static T null = 0;
-        if(!entry)
+        if(!this->knownUnit)
           return null; // TODO: set last error
         // TODO: check if clearance level clears
-        return entry->state.*var;
+        return this->knownUnit->state.*var;
       }
   };
 }
