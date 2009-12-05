@@ -27,16 +27,10 @@ namespace Util
       int blockIndex;
       int blockEntryIndex;
     };
+    typedef SharedMemory::Export Export;
     //----------------------- CONSTRUCTION -----------------------------
-    SharedSet(int blockSize, bool exportReadOnly)
-      : exportedBlocks(0)
-      , newBlockSize(blockSize)
-      , exportReadOnly(exportReadOnly)
-      , exportHasCleared(true)
-    {
-    }
     SharedSet()           // for import only
-      : newBlockSize(0)
+      : nextNewBlockSize(0)
     {
     }
     ~SharedSet()
@@ -46,6 +40,13 @@ namespace Util
         delete block.memory;
       }
       this->ownedBlocks.clear();
+    }
+    //----------------------- INIT -------------------------------------
+    bool init(int blockSize, bool exportReadOnly)
+    {
+      this->nextNewBlockSize = blockSize;
+      this->exportReadOnly = exportReadOnly;
+      return true;
     }
     //----------------------- INSERT -----------------------------------
     Index insert(T &storee)
@@ -97,16 +98,17 @@ namespace Util
       // no free spots in any block
       // allocate new block
       Block newBlock;
-      newBlock.size = this->newBlockSize;
+      newBlock.size = this->nextNewBlockSize;
       newBlock.count = 1;
       newBlock.head = 1;
       newBlock.memory = new SharedMemory();
-      if(!newBlock.memory->create(this->newBlockSize * sizeof(T)))
+      if(!newBlock.memory->create(this->nextNewBlockSize * sizeof(T)))
       {
         Index index = {-1, -1};
         return index;
       }
       this->ownedBlocks.push_back(newBlock);
+      this->nextNewBlockSize *= 1.5;
 
       // clean the new entries
       MemoryFrame temp=newBlock.memory->getMemory();
@@ -151,7 +153,7 @@ namespace Util
       return true;
     }
     //----------------------- OPERATOR [] ------------------------------
-    T& operator [] (Index pointee)
+    T& get(Index pointee)
     {
       Block &targetBlock = this->ownedBlocks[pointee.blockIndex];
       MemoryFrame temp=targetBlock.memory->getMemory();
@@ -181,70 +183,44 @@ namespace Util
     //----------------------- RELEASE ----------------------------------
     void release()
     {
-      foreach(Block &block, this->ownedBlocks)
+      foreach(const Block &block, this->ownedBlocks)
       {
-        delete block->memory;
+        delete block.memory;
       }
       this->ownedBlocks.clear();
     }
     //----------------------- IS UPDATE EXPORT NEEDED ------------------
     bool isUpdateExportNeeded() const
     {
-      return exportHasCleared ||
-        this->exportedBlocks < this->ownedBlocks.size();
+      return this->exportedBlocks < (int)this->ownedBlocks.size();
     }
-    //----------------------- ASSEMBLE UPDATE EXPORT PACKET ------------
-    bool assembleUpdateExportPacket(Buffer &dest, RemoteProcess &target)
+    //----------------------- EXPORT NEXT ------------------------------
+    bool exportNextUpdate(Export &out, RemoteProcess &targetProcess)
     {
-      dest.release();
-
-      dest.appendStructure(this->exportHasCleared);
-      this->exportHasCleared = false;
-      for(unsigned int i = exportedBlocks; i < this->ownedBlocks.size(); i++)
-      {
-        ExportBlockEntry &entry = dest.appendStructure<ExportBlockEntry>();
-        entry.size =    this->ownedBlocks[i].size;
-        entry.memory =  this->ownedBlocks[i].memory->exportToProcess(target, this->exportReadOnly);
-        if(!entry.memory.isValid())
-          return false;
-        this->exportedBlocks++;
-      }
+      if(this->exportedBlocks >= (int)this->ownedBlocks.size())
+        return false;
+      out = this->ownedBlocks[this->exportedBlocks].memory->exportToProcess(targetProcess, this->exportReadOnly);
+      if(!out.isValid())
+        return false;
+      this->exportedBlocks++;
       return true;
     }
-    //----------------------- IMPORT UPDATE PACKET ---------------------
-    bool importUpdatePacket(MemoryFrame &packetMemory)
+    //----------------------- IMPORT NEXT ------------------------------
+    bool importNextUpdate(const Export &in)
     {
-      MemoryFrame data = packetMemory;
-
-      bool cleared;
-      if(!data.readTo(cleared))
-      {
+      // import the new SharedMemory
+      Block block;
+      block.memory = new SharedMemory();
+      if(!block.memory->import(in))
         return false;
-      }
-      // TODO: something...
-
-      if(!data.isMultipleOf<ExportBlockEntry>())
-      {
-        return false;
-      }
-      
-      while(!data.isEmpty())
-      {
-        ExportBlockEntry &entry = data.readAs<ExportBlockEntry>();
-
-        // import the new SharedMemory
-        Block block;
-        block.memory = new SharedMemory();
-        if(!block.memory->import(entry.memory))
-          return false;
-        block.size = entry.size;
-        this->ownedBlocks.push_back(block);
-      }
+      block.size = block.memory->getMemory().size();
+      this->ownedBlocks.push_back(block);
 
       return true;
     }
     //----------------------- ------------------------------------------
   private:
+    //----------------------- --------------------------------------------
     struct Block
     {
       Util::SharedMemory* memory;
@@ -262,7 +238,7 @@ namespace Util
       unsigned int size;
       SharedMemory::Export memory;
     };
-    int newBlockSize;
+    int nextNewBlockSize;
     int exportedBlocks;
     bool exportReadOnly;
     bool exportHasCleared;

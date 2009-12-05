@@ -1,7 +1,7 @@
 #pragma once
 
 #include "..\BWAPITypes\UnitCommands.h"
-#include "..\BWAPITypes\UnitStruct.h"
+#include "..\BWAPITypes\UnitState.h"
 namespace Bridge
 {
   struct StaticGameData
@@ -27,7 +27,7 @@ namespace Bridge
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
-    BWAPI::State unitData[10000];
+    BWAPI::UnitState unitData[10000];
     int unitCount;
 
   };

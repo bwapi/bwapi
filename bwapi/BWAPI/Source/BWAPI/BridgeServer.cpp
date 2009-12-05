@@ -160,6 +160,11 @@ namespace BWAPI
         lastError = std::string(__FUNCTION__)+ ": userInput creation failed";
         return false;
       }
+      if(!sharedStuff.knownUnits.init(100, true))
+      {
+        lastError = std::string(__FUNCTION__)+ ": knownUnits creation failed";
+        return false;
+      }
 
       stateSharedMemoryInitialized = true;
       return true;
@@ -249,7 +254,7 @@ namespace BWAPI
       sharedStuff.pipe.sendRawStructure(nextFrame);
 
       // wait untill completion packet received
-      while(true)
+      for(;;)
       {
         // receive completion notification
         Util::Buffer buffer;
@@ -367,6 +372,21 @@ namespace BWAPI
         if(!sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
           lastError = std::string(__FUNCTION__)+ ": exporting userInput update failed";
+          return false;
+        }
+
+        // send update export
+        sharedStuff.pipe.sendRawStructure(packet);
+      }
+
+      // export knownUnits updates
+      while(sharedStuff.knownUnits.isUpdateExportNeeded())
+      {
+        // create export package
+        Bridge::PipeMessage::ServerUpdateKnownUnits packet;
+        if(!sharedStuff.knownUnits.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = std::string(__FUNCTION__)+ ": exporting knownUnits update failed";
           return false;
         }
 

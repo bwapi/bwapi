@@ -1,6 +1,6 @@
 #pragma once
 #include "BWAgentInterface.h"
-#include <BWAPITypes\UnitStruct.h>
+#include <BWAPITypes\UnitState.h>
 
 namespace BWAgent
 {
@@ -11,13 +11,10 @@ namespace BWAgent
     AGENT_INTERFACE int getID() const;
     AGENT_INTERFACE int getPlayer() const;
     AGENT_INTERFACE int getType() const;
-    AGENT_INTERFACE int getInitialType() const;
     AGENT_INTERFACE int getHitPoints() const;
-    AGENT_INTERFACE int getInitialHitPoints() const;
     AGENT_INTERFACE int getShields() const;
     AGENT_INTERFACE int getEnergy() const;
     AGENT_INTERFACE int getResources() const;
-    AGENT_INTERFACE int getInitialResources() const;
     AGENT_INTERFACE int getKillCount() const;
     AGENT_INTERFACE int getGroundWeaponCooldown() const;
     AGENT_INTERFACE int getAirWeaponCooldown() const;
@@ -70,7 +67,6 @@ namespace BWAgent
     Unit* getAddon() const;
     int getUpgradeLevel(UpgradeType upgrade) const;
 */
-    AGENT_INTERFACE bool exists() const;
     AGENT_INTERFACE bool isAccelerating() const;
     AGENT_INTERFACE bool isBeingConstructed() const;
     AGENT_INTERFACE bool isBeingGathered() const;
@@ -153,9 +149,9 @@ namespace BWAgent
 //    bool useTech(TechType tech);
 //    bool useTech(TechType tech, Position position);
 //    bool useTech(TechType tech, Unit* target);
-    void _update(BWAPI::ClearanceLevel level,BWAPI::State* data);
+    void _update(BWAPI::ClearanceLevel level,BWAPI::UnitState* data);
   private:
     BWAPI::ClearanceLevel level;//type of struct that data points to
-    BWAPI::State* data;
+    BWAPI::UnitState* data;
   };
 }
