@@ -14,559 +14,382 @@ namespace BWAgent
   }
   int Unit::getID() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->id;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::id);
   }
   int Unit::getPlayer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->player;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::player);
   }
   int Unit::getType() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->type;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::type);
   }
   int Unit::getHitPoints() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->hitPoints;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::hitPoints);
   }
   int Unit::getShields() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->shields;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::shields);
   }
   int Unit::getEnergy() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->energy;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::energy);
   }
   int Unit::getResources() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->resources;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::resources);
   }
   int Unit::getKillCount() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->killCount;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::killCount);
   }
   int Unit::getGroundWeaponCooldown() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->groundWeaponCooldown;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::groundWeaponCooldown);
   }
   int Unit::getAirWeaponCooldown() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->airWeaponCooldown;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::airWeaponCooldown);
   }
   int Unit::getSpellCooldown() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->spellCooldown;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::spellCooldown);
   }
   int Unit::getDefenseMatrixPoints() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->defenseMatrixPoints;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::defenseMatrixPoints);
   }
 
   int Unit::getDefenseMatrixTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->defenseMatrixTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::defenseMatrixTimer);
   }
   int Unit::getEnsnareTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->ensnareTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::ensnareTimer);
   }
   int Unit::getIrradiateTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->irradiateTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::irradiateTimer);
   }
   int Unit::getLockdownTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->lockdownTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::lockdownTimer);
   }
   int Unit::getMaelstromTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->maelstromTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::maelstromTimer);
   }
   int Unit::getPlagueTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->plagueTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::plagueTimer);
   }
   int Unit::getRemoveTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->removeTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::removeTimer);
   }
   int Unit::getStasisTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->stasisTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::stasisTimer);
   }
   int Unit::getStimTimer() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return -1;
-    return data->stimTimer;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::stimTimer);
   }
 
   bool Unit::isAccelerating() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isAccelerating;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isAccelerating);
   }
   bool Unit::isBeingConstructed() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isBeingConstructed;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBeingConstructed);
   }
   bool Unit::isBeingGathered() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isBeingGathered;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBeingGathered);
   }
   bool Unit::isBeingHealed() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isBeingHealed;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBeingHealed);
   }
   bool Unit::isBlind() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isBlind;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBlind);
   }
   bool Unit::isBraking() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isBraking;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBraking);
   }
   bool Unit::isBurrowed() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isBurrowed;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isBurrowed);
   }
   bool Unit::isCarryingGas() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isCarryingGas;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCarryingGas);
   }
   bool Unit::isCarryingMinerals() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isCarryingMinerals;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCarryingMinerals);
   }
   bool Unit::isCloaked() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isCloaked;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCloaked);
   }
   bool Unit::isCompleted() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isCompleted;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isCompleted);
   }
   bool Unit::isConstructing() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isConstructing;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isConstructing);
   }
   bool Unit::isDefenseMatrixed() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isDefenseMatrixed;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isDefenseMatrixed);
   }
   bool Unit::isEnsnared() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isEnsnared;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isEnsnared);
   }
   bool Unit::isFollowing() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isFollowing;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isFollowing);
   }
   bool Unit::isGatheringGas() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isGatheringGas;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isGatheringGas);
   }
   bool Unit::isGatheringMinerals() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isGatheringMinerals;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isGatheringMinerals);
   }
   bool Unit::isHallucination() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isHallucination;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isHallucination);
   }
   bool Unit::isIdle() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isIdle;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isIdle);
   }
   bool Unit::isIrradiated() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isIrradiated;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isIrradiated);
   }
   bool Unit::isLifted() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isLifted;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isLifted);
   }
   bool Unit::isLoaded() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isLoaded;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isLoaded);
   }
   bool Unit::isLockedDown() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isLockedDown;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isLockedDown);
   }
   bool Unit::isMaelstrommed() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isMaelstrommed;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isMaelstrommed);
   }
   bool Unit::isMorphing() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isMorphing;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isMorphing);
   }
   bool Unit::isMoving() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isMoving;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isMoving);
   }
   bool Unit::isParasited() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isParasited;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isParasited);
   }
   bool Unit::isPatrolling() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isPatrolling;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isPatrolling);
   }
   bool Unit::isPlagued() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isPlagued;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isPlagued);
   }
   bool Unit::isRepairing() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isRepairing;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isRepairing);
   }
   bool Unit::isResearching() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isResearching;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isResearching);
   }
   bool Unit::isSelected() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isSelected;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isSelected);
   }
   bool Unit::isSieged() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isSieged;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isSieged);
   }
   bool Unit::isStartingAttack() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isStartingAttack;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isStartingAttack);
   }
   bool Unit::isStasised() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isStasised;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isStasised);
   }
   bool Unit::isStimmed() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isStimmed;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isStimmed);
   }
   bool Unit::isTraining() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isTraining;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isTraining);
   }
   bool Unit::isUnderStorm() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isUnderStorm;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isUnderStorm);
   }
   bool Unit::isUnpowered() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isUnpowered;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isUnpowered);
   }
   bool Unit::isUpgrading() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
-      return false;
-    return data->isUpgrading;
+    return getRespectClearance(this->knownUnit, &BWAPI::UnitState::isUpgrading);
   }
   bool Unit::isVisible() const
   {
-    if(!BridgeClient::sharedStaticData || !this->data)
+    if(!this->knownUnit)
       return false;
-    return false; //data->isVisible; TODO: readd when unit capsulated
+    return this->knownUnit->clearance > BWAPI::ClearanceLevels::Noticed;
   }
   bool Unit::attackUnit(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::AttackUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::rightClick(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::RightClickUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::stop()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Stop,data->getID);
     return true;
   }
   bool Unit::holdPosition()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::HoldPosition,data->getID);
     return true;
   }
   bool Unit::follow(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Follow,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::setRallyUnit(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::SetRallyUnit,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::repair(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Repair,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::burrow()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Burrow,data->getID);
     return true;
   }
   bool Unit::unburrow()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Unburrow,data->getID);
     return true;
   }
   bool Unit::siege()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Siege,data->getID);
     return true;
   }
   bool Unit::unsiege()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Unsiege,data->getID);
     return true;
   }
   bool Unit::cloak()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Cloak,data->getID);
     return true;
   }
   bool Unit::decloak()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Decloak,data->getID);
     return true;
   }
   bool Unit::lift()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Lift,data->getID);
     return true;
   }
   bool Unit::load(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Load,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::unload(Unit* target)
   {
-    if(!this->data || !target || !target->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::Unload,data->getID,0,0,target->getID());
     return true;
   }
   bool Unit::unloadAll()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::UnloadAll,data->getID);
     return true;
   }
   bool Unit::cancelConstruction()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelConstruction,data->getID);
     return true;
   }
   bool Unit::haltConstruction()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::HaltConstruction,data->getID);
     return true;
   }
   bool Unit::cancelMorph()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelMorph,data->getID);
     return true;
   }
   bool Unit::cancelTrain()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelTrain,data->getID);
     return true;
   }
   bool Unit::cancelTrain(int slot)
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelTrain,data->getID,0,0,0,slot);
     return true;
   }
   bool Unit::cancelAddon()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelAddon,data->getID);
     return true;
   }
   bool Unit::cancelResearch()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelResearch,data->getID);
     return true;
   }
   bool Unit::cancelUpgrade()
   {
-    if(!this->data)
-      return false;
 //    pushCommand(BWAPI::CommandID::CancelUpgrade,data->getID);
     return true;
   }
 
-  void Unit::_update(BWAPI::ClearanceLevel level,BWAPI::UnitState* data)
-  {
-    this->level=level;
-    this->data=data;
-  }
   void pushCommand(BWAPI::CommandID::Enum commandID, int unitID, int x, int y, int targetID, int specialID)
   {
     /*

@@ -133,6 +133,7 @@ namespace BWAgent
     //----------------------------------------- UPDATE MAPPINGS -------------------------------------------------
     void updateMappings()
     {
+      /*
       allUnits.clear();
       for(int i=0;i<sharedStaticData->unitCount;i++)
       {
@@ -142,6 +143,7 @@ namespace BWAgent
         unitIdToObject[id]->_update(BWAPI::ClearanceLevels::Full,(BWAPI::UnitState*)&sharedStaticData->unitData[i]);
         allUnits.insert(unitIdToObject[id]);
       }
+      */
     }
     //----------------------------------------- UPDATE REMOTE SHARED MEMORY -------------------------------------
     bool updateRemoteSharedMemory()

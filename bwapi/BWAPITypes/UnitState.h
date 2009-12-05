@@ -7,8 +7,8 @@ namespace BWAPI
   {
     enum
     {
-      None = 0,
-      Basic = 1,
+      None = 0, // should not be used. unit gets removed
+      Noticed = 1,
       Detected = 2,
       Visible = 3,
       Full = 4  // highest clearance level
