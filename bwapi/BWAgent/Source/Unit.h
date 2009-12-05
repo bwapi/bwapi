@@ -1,6 +1,6 @@
 #pragma once
 #include "BWAgentInterface.h"
-#include <BWAPITypes\UnitState.h>
+#include <Bridge\KnownUnitEntry.h>
 
 namespace BWAgent
 {
@@ -149,9 +149,18 @@ namespace BWAgent
 //    bool useTech(TechType tech);
 //    bool useTech(TechType tech, Position position);
 //    bool useTech(TechType tech, Unit* target);
-    void _update(BWAPI::ClearanceLevel level,BWAPI::UnitState* data);
   private:
-    BWAPI::ClearanceLevel level;//type of struct that data points to
-    BWAPI::UnitState* data;
+    Bridge::KnownUnitEntry *knownUnit;  // if it's NULL, the unit does not exist anymore
+
+    // helpers
+    template<typename T>
+      const T &getRespectClearance(const Bridge::KnownUnitEntry *entry, T BWAPI::UnitState::*var) const
+      {
+        static T null = 0;
+        if(!entry)
+          return null; // TODO: set last error
+        // TODO: check if clearance level clears
+        return entry->state.*var;
+      }
   };
 }
