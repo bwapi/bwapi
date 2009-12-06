@@ -264,11 +264,6 @@ namespace BW
     /*0x150*/ _UNKNOWN                            _26[1];
   };
 #pragma pack()
-  /** Direct maping of the UnitNodeTable in bw memory. */
-  struct UnitArray
-  {
-    Unit unit[UNIT_ARRAY_MAX_LENGTH];
-  };
 
   //BOOST_STATIC_ASSERT(sizeof(Unit) == UNIT_SIZE_IN_BYTES);
   //BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES*  UNIT_ARRAY_MAX_LENGTH);

@@ -99,10 +99,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\BWAPI.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\Color.cpp"
 				>
 			</File>
