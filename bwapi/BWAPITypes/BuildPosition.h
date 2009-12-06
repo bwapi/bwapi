@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math\Point.h"
+#include <Util\Point.h>
 
 namespace BWAPI
 {

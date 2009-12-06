@@ -13,8 +13,10 @@ namespace BWAPI
   //------------------------------------------------- FLUSH --------------------------------------------------
   bool ScreenLogger::flush(const char* data)
   {
+    /* TODO: let the engine read the logger.
     if (!this->shut)
       BWAPI::Engine::printf(data);
+    */
     return true;
   }
 };

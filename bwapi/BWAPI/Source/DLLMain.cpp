@@ -13,8 +13,6 @@
 
 #include "BW/Offsets.h"
 #include "BWAPI/Engine.h"
-#include "BWAPI/UnitImpl.h"
-#include "BWAPI.h"
 #include "BWAPI/DLLMain.h"
 #include "BWAPI/Shape.h"
 DWORD onCancelTrain_edx;
@@ -34,7 +32,7 @@ void printThreadId(const char *text)
 */
 
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-void __declspec(naked) onUnitDeath()
+void __declspec(naked) UnitDeathHook()
 {
   __asm
   {
@@ -46,10 +44,10 @@ void __declspec(naked) onUnitDeath()
   __asm jmp [BW::BWFXN_KillUnitBack]
 }
 
-//----------------------------------------------- ON GAME END ------------------------------------------------
-void __declspec(naked) onGameEnd()
+//----------------------------------------------- ON MATCH END -----------------------------------------------
+void __declspec(naked) MatchEndHook()
 {
-  BWAPI::Engine::onGameEnd();
+  BWAPI::Engine::onMatchEnd();
   __asm
   {
     call [BW::BWFXN_GameEndTarget]
@@ -58,7 +56,7 @@ void __declspec(naked) onGameEnd()
 }
 DWORD frameHookEax;
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
-void __declspec(naked)  nextFrameHook()
+void __declspec(naked)  NextFrameHook()
 {
   __asm
   {
@@ -76,7 +74,7 @@ void __declspec(naked)  nextFrameHook()
 
 //--------------------------------------------- MENU FRAME HOOK ----------------------------------------------
 DWORD menu_eaxSave, menu_ebxSave, menu_ecxSave, menu_edxSave, menu_esiSave, menu_ediSave, menu_espSave, menu_ebpSave;
-void __declspec(naked)  menuFrameHook()
+void __declspec(naked)  MenuFrameHook()
 {
   //not sure if all these registers need to be saved, but just to be safe.
   __asm
@@ -108,36 +106,42 @@ void __declspec(naked)  menuFrameHook()
 }
 
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
-char* text;
-void __declspec(naked) onSendText()
+void __declspec(naked) SendTextHook()
 {
+  static char* text;
   __asm
   {
     mov text, esi
   }
 //  printThreadId("onSendText");
+  /* TODO: redirect to Engine
   if (!BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
     BWAPI::Engine::addInterceptedMessage(text);
   }
+  */
   text[0] = 0;
   __asm jmp [BW::BWFXN_SendPublicCallBack]
 }
-void __declspec(naked) onSendSingle()
+void __declspec(naked) SendSingleHook()
 {
+  static char* text;
   __asm
   {
     mov text, edx
   }
 //  printThreadId("onSendSingle");
+  /* TODO: redirect to Engine
   if (BWAPI::Engine::_isSinglePlayer() && text[0] != 0)
   {
     BWAPI::Engine::addInterceptedMessage(text);
   }
+  */
   __asm jmp BWFXN_SendTextCallBack
 }
-void __declspec(naked) onSendLobby()
+void __declspec(naked) SendLobbyHook()
 {
+  static char* text;
   __asm
   {
     mov eaxSave, eax
@@ -171,7 +175,7 @@ void __declspec(naked) onSendLobby()
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 int i, i2, h, w, x, y, c, l;
 
-void __declspec(naked) onRefresh()
+void __declspec(naked) RefreshHook()
 {
   __asm
   {
@@ -201,9 +205,9 @@ void __declspec(naked) onRefresh()
   }
 }
 
-unsigned int shape_i;
-void __declspec(naked) onDrawHigh()
+void __declspec(naked) MatchDrawHighHook()
 {
+  static unsigned int shape_i;
   __asm
   {
     mov eaxSave, eax
@@ -215,6 +219,7 @@ void __declspec(naked) onDrawHigh()
     mov espSave, esp
   }
 //  printThreadId("onDrawHigh");
+  /* TODO: Validate when dynamic shape stack is implemented
   if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::Engine::hcachedShapesMutex, INFINITE))
   {
     for(shape_i = 0; shape_i < BWAPI::Engine::cachedShapes.size(); shape_i++)
@@ -222,6 +227,7 @@ void __declspec(naked) onDrawHigh()
 
     ::ReleaseMutex(BWAPI::Engine::hcachedShapesMutex);
   }
+  */
   __asm
   {
     mov eax, eaxSave
@@ -350,37 +356,8 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   }
 }
 
-//------------------------------------------------ JMP PATCH -------------------------------------------------
-void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
-{
-  DWORD OldProt = 0;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-  unsigned char jmp = 0xE9;
-  memcpy((LPVOID)pSrc, &jmp, 1);
-  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
-  memcpy((LPVOID)(pSrc + 1), &address, 4);
-  for (int i = 0; i < nNops; ++i)
-    *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
-}
-
-void WriteNops(void* pDest, int nNops)
-{
-  DWORD OldProt = 0;
-  VirtualProtect(pDest, nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-  memset(pDest, 0x90, nNops);
-  VirtualProtect(pDest, nNops, OldProt, &OldProt);
-}
-
-void WriteMem(void* pDest, void* pSource, int nSize)
-{
-  DWORD OldProt = 0;
-  VirtualProtect(pDest, nSize, PAGE_EXECUTE_READWRITE, &OldProt);
-  memcpy_s(pDest, nSize, pSource, nSize);
-  VirtualProtect(pDest, nSize, OldProt, &OldProt);
-}
-//-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
-void __declspec(naked) NewIssueCommand()
+//-------------------------------------------- ISSUE NEW COMMAND ---------------------------------------------
+void __declspec(naked) IssueNewCommand()
 {
   //execute the part of the function that we overwrote:
   __asm
@@ -393,10 +370,10 @@ void __declspec(naked) NewIssueCommand()
   }
 }
 //--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
-u32 commandIDptr;
-u8 commandID;
-void __declspec(naked) onIssueCommand()
+void __declspec(naked) IssueCommandHook()
 {
+  static u32 commandIDptr;
+  static u8 commandID;
   __asm
   {
     mov eaxSave, eax
@@ -411,10 +388,12 @@ void __declspec(naked) onIssueCommand()
   }
   commandID = *(u8*)commandIDptr;
 
+  /* TODO: copy, redirect into Engine, process there
   //decide if we should let the command go through
   if ( BWAPI::Engine::isFlagEnabled(BWAPI::Flag::UserInput)
        || !BWAPI::Engine::isOnStartCalled()
        //If user input is disabled, only allow the following commands to go through:
+       // TODO: make enum
        || commandID == 0x00 // Game Chat
        || commandID == 0x05 // Keep Alive
        || commandID == 0x06 // Save Game
@@ -450,6 +429,8 @@ void __declspec(naked) onIssueCommand()
        || commandID == 0x5B // Make Game Public
        || commandID == 0x5C // Replay Game Chat
      )
+   */
+  if(true)
   {
     __asm
     {
@@ -480,7 +461,35 @@ void __declspec(naked) onIssueCommand()
     }
 }
 
-const char zero = 0;
+//------------------------------------------------ JMP PATCH -------------------------------------------------
+void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
+{
+  DWORD OldProt = 0;
+  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
+  unsigned char jmp = 0xE9;
+  memcpy((LPVOID)pSrc, &jmp, 1);
+  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
+  memcpy((LPVOID)(pSrc + 1), &address, 4);
+  for (int i = 0; i < nNops; ++i)
+    *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
+  VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
+}
+//------------------------------------------------ WRITE NOPS ------------------------------------------------
+void WriteNops(void* pDest, int nNops)
+{
+  DWORD OldProt = 0;
+  VirtualProtect(pDest, nNops, PAGE_EXECUTE_READWRITE, &OldProt);
+  memset(pDest, 0x90, nNops);
+  VirtualProtect(pDest, nNops, OldProt, &OldProt);
+}
+//------------------------------------------------ WRITE MEM -------------------------------------------------
+void WriteMem(void* pDest, void* pSource, int nSize)
+{
+  DWORD OldProt = 0;
+  VirtualProtect(pDest, nSize, PAGE_EXECUTE_READWRITE, &OldProt);
+  memcpy(pDest, pSource, nSize);
+  VirtualProtect(pDest, nSize, OldProt, &OldProt);
+}
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -496,17 +505,18 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
   Util::Logger::globalLog->log("BWAPI initialisation started");
 
-  JmpCallPatch((void*)&nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
-  JmpCallPatch((void*)&menuFrameHook,  BW::BWFXN_NextMenuFrame,   0);
-  JmpCallPatch((void*)&onGameEnd,      BW::BWFXN_GameEnd,         0);
-  JmpCallPatch((void*)&onUnitDeath,    BW::BWFXN_KillUnit,        0);
-  JmpCallPatch((void*)&onSendText,     BW::BWFXN_SendPublicCall,  0);
-  JmpCallPatch((void*)&onSendSingle,   BW::BWFXN_SendTextCall,    0);
-  JmpCallPatch((void*)&onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
-  JmpCallPatch((void*)&onDrawHigh,     BW::BWFXN_DrawHigh,        0);
-  JmpCallPatch((void*)&onRefresh,      BW::BWFXN_Refresh,         0);
-  JmpCallPatch((void*)&onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
+  JmpCallPatch((void*)&NextFrameHook,     BW::BWFXN_NextLogicFrame,  0);
+  JmpCallPatch((void*)&MenuFrameHook,     BW::BWFXN_NextMenuFrame,   0);
+  JmpCallPatch((void*)&MatchEndHook,      BW::BWFXN_GameEnd,         0);
+  JmpCallPatch((void*)&UnitDeathHook,     BW::BWFXN_KillUnit,        0);
+  JmpCallPatch((void*)&SendTextHook,      BW::BWFXN_SendPublicCall,  0);
+  JmpCallPatch((void*)&SendSingleHook,    BW::BWFXN_SendTextCall,    0);
+  JmpCallPatch((void*)&SendLobbyHook,     BW::BWFXN_SendLobbyCall,   0);
+  JmpCallPatch((void*)&MatchDrawHighHook, BW::BWFXN_DrawHigh,        0);
+  JmpCallPatch((void*)&RefreshHook,       BW::BWFXN_Refresh,         0);
+  JmpCallPatch((void*)&IssueCommandHook,  BW::BWFXN_OldIssueCommand, 4);
 
+  static const char zero = 0;
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
   WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&zero, 1); // menu in
   WriteMem( (void*)BW::BWDATA_MenuOutHack,       (void*)&zero, 1); // menu out
@@ -522,8 +532,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   {
     case DLL_PROCESS_ATTACH:
     {
-      BWAPI::BWAPI_init();
-      BWAPI::Engine::init();
+      BWAPI::Engine::onDllLoad();
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
       return true;
     }

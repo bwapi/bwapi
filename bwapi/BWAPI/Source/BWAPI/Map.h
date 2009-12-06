@@ -7,47 +7,33 @@
 namespace BWAPI
 {
   /**
-   * Interface to acces broodwar map data. Loads buildability/walkability when
-   * constructed from the current map. It means it that instance of this class
-   * should exist only as long as the single map is opened.
+   * Interface to acces broodwar map data. Loads buildability/walkability
+   * from the current map.
    */
-  class Map
+  namespace Map
   {
-    public :
-      Map();
-      ~Map();
-      /** Gets file name of the currently opened map by broodwar */
-      static std::string getFileName();
-      static std::string getName();
+//public :
+    // Gets file name of the currently opened map by broodwar
+    extern std::string getFileName();
+    extern std::string getName();
 
-      /** Width of the current map in terms of build tiles */
-      static u16 getWidth();
+    // Width of the current map in terms of build tiles
+    extern u16 getWidth();
 
-      /** Height of the current map in terms of build tiles */
-      static u16 getHeight();
+    // Height of the current map in terms of build tiles
+    extern u16 getHeight();
 
-      bool buildable(int x, int y) const;
-      bool walkable(int x, int y) const;
-      bool visible(int x, int y) const;
-      bool isExplored(int x, int y) const;
-      bool hasCreep(int x, int y) const;
-      int groundHeight(int x, int y) const;
+    extern bool buildable(int x, int y);
+    extern bool walkable(int x, int y);
+    extern bool visible(int x, int y);
+    extern bool isExplored(int x, int y);
+    extern bool hasCreep(int x, int y);
+    extern int groundHeight(int x, int y);
 
-      /** Loads buildability/walkability arrays from the currently opened map. */
-      void load();
+    // Loads buildability/walkability arrays from the currently opened map.
+    extern void load();
 
-      /** Returns a value that represents the map's terrain. */
-      static int getMapHash();
-
-    private :
-      static BW::TileID getTile(int x, int y);
-      static u8 getTileVariation(BW::TileID);
-      Util::BitMask<u16> getMiniTile(int x, int y) const;
-      Util::RectangleArray<u32>* fogOfWar;
-      Util::RectangleArray<u16>* zergCreep;
-      Util::RectangleArray<bool> buildability;
-      Util::RectangleArray<bool> walkability;
-      void setBuildability();
-      void setWalkability();
+    // Returns a value that represents the map's terrain.
+    extern int getMapHash();
   };
 };

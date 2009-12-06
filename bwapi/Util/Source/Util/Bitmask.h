@@ -5,19 +5,24 @@ namespace Util
   /** 
    * Representation of list of bool values using binary.
    * Size of the bitmask is always the same as Type (so it can be mapped in bw structurs)
-   * This also means, that the bitmas has sizeof(Type)*8 values.
+   * This also means, that the bitmask has sizeof(Type)*8 values.
    */
   template <class Type>
-  class BitMask
+  struct BitMask
   {
-    public :
-      bool getBit(Type bit) const;
     Type value;
+    //------------------------------------------------ GET BIT -------------------------------------------------
+    /* uncomment when you actually need dynamic masks
+    bool getBit(Type mask) const
+    {
+      return (value & mask) != 0;
+    }
+    */
+    //------------------------------------------------ GET CONST BIT -------------------------------------------
+    template <int mask>
+      bool getBit() const
+      {
+        return (value & mask) != 0;
+      }
   };
-  //------------------------------------------------ GET BIT -------------------------------------------------
-  template <class Type>
-  bool BitMask<Type>::getBit(Type bit) const
-  {
-    return (value & bit) != 0;
-  }
 }

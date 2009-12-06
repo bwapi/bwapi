@@ -1,6 +1,10 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
 #include "Engine.h"
+#include "Unit.h"   // BWAPI Unit
+#include "DLLMain.h"
+#include "Map.h"
+#include "BridgeServer.h"
 
 #include <stdio.h>
 #include <windows.h>
@@ -12,23 +16,19 @@
 #include <fstream>
 
 #include <Util/Version.h>
+#include <Util/StaticArray.h>
 #include <Util/FileLogger.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Foreach.h>
 #include <Util/Gnu.h>
 
-#include <BWAPI/ForceImpl.h>
-#include <BWAPI/PlayerImpl.h>
-#include <BWAPI/UnitImpl.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/CommandCancelTrain.h>
-#include <BWAPI/Map.h>
 #include <BWAPI/ScreenLogger.h>
-#include <BWAPI/Flag.h>
-#include <BWAPI.h>
 
 #include <BW/Unit.h>
+#include <BW/UnitArray.h>
 #include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
@@ -40,9 +40,11 @@
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
 
-#include "BWAPI/AIModule.h"
-#include "DLLMain.h"
-#include "BridgeServer.h"
+#include <BWAPITypes/UnitCommands.h>
+#include <BWAPITypes/BuildPosition.h>
+#include <BWAPITypes/UnitType.h>
+#include <BWAPITypes/Latency.h>
+#include <BWAPITypes/Flag.h>
 
 #include <Bridge/PipeMessage.h>
 #include <Bridge/SharedStuff.h>
@@ -56,12 +58,12 @@
 #include "ShapeTriangle.h"
 #include "ShapeText.h"
 
-#include <BWAPITypes/UnitCommands.h>
 
 namespace BWAPI
 {
   namespace Engine
   {
+//private:
     //----------------------------------- ENGINE STATE --------------------------------
     // broodwar game state
     enum GameState
@@ -72,10 +74,30 @@ namespace BWAPI
     };
     GameState gameState = Startup;
 
-    // match state
+    // match state TODO: move some things to ::Map
     int frameCount;
-    //----------------------------------- ---------------------------------------------
-    /** @todo Doesn't work */
+    Unit unitArray[BW::UNIT_ARRAY_MAX_LENGTH];  // index correlated with BW::BWDATA_UnitNodeTable
+    std::set<BW::UnitType> unitTypes;
+    std::set<BWAPI::Position> startLocations;
+    int savedSelectionStates[13];
+    std::list<std::string > interceptedMessages;
+
+    // BWAPI state
+    bool flags[Flags::count];
+
+    // error handling
+    Util::Logger* newUnitLog;
+    Util::Logger* commandLog;   // All commands ordered from BWAPI
+    //------------------------------- -------------------------------------------------
+    // TODO: enlist all private functions defined in Engine here
+    //------------------------------- -------------------------------------------------
+    void init();
+    void refreshSelectionStates();
+    void loadSelected();
+    bool parseText(const char* text);
+    void  setLocalSpeed(int speed);
+
+    /* reference, what does not get transferred to Engine, will get removed
     void refresh();
     void loadSelected();
     void printEx(s32 pID, const char* text, ...);
@@ -87,18 +109,15 @@ namespace BWAPI
 
     void addShape(Shape* s);
     std::vector<Shape*> shapes;
-    /** Unknown unitID's */
+    // Unknown unitID's
     bool flagsLocked;
     bool inUpdate;
-    std::list<std::string > interceptedMessages;
 
     HMODULE hMod;
     void saveSelected();
     Map map;
     std::set<BWAPI::Unit*> selectedUnitSet;
     std::set<BWAPI::Unit*> emptySet;
-    std::set<TilePosition> startLocations;
-    std::set< BW::UnitType> unitTypes;
 
     std::set<BWAPI::Force*> forces;
     std::set<BWAPI::Player*> playerSet;
@@ -114,21 +133,17 @@ namespace BWAPI
     std::set<BWAPI::Unit*> staticGeysers;
     std::set<BWAPI::Unit*> staticNeutralUnits;
 
-    /** Count of game-frames passed from game start. */
+    // Count of game-frames passed from game start.
     bool onStartCalled;
     BW::UnitArray* unitArrayCopyLocal;
-    UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
     std::vector<std::vector<Command *> > commandBuffer;
-    /** All commands ordered from BWAPI */
-    Util::Logger* commandLog;
-    /** Will update the unitsOnTile content, should be called every frame. */
+    
+    // Will update the unitsOnTile content, should be called every frame.
     void updateUnits();
-    /**
-     * Specifies if some order was given, so the loadSelect function will have
-     * to be called.
-     */
-    bool flags[BWAPI::FLAG_COUNT];
-    BW::Unit* savedSelectionStates[13];
+    //
+    // Specifies if some order was given, so the loadSelect function will have
+    // to be called.
+    //
     void refreshSelectionStates();
     bool startedClient;
     BWAPI::Error lastError;
@@ -141,44 +156,38 @@ namespace BWAPI
     HANDLE hcachedShapesMutex;
     std::set<int> invalidIndices;
     std::vector<Shape*> cachedShapes;
-    Util::Logger* newUnitLog;
 
     void executeUnitCommand(UnitCommand& c);
+    */
 
 
-    //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+    //---------------------------------------------- INITIALIZATION --------------------------------------------
     void init()
     {
-      onStartCalled=false;
-      unitsOnTileData.resize(0, 0);
-      enabled=true;
-      startedClient=false;
-      hcachedShapesMutex=::CreateMutex(NULL, FALSE, _T("cachedShapesVector"));
-      inUpdate=false;
-
       /* initialize the unit types */
       BW::UnitType::initialize();
 
       try
       {
-
-        /* create log handles */
+        // create log handles
         commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::MicroDetailed);
         newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
 
-        unitArrayCopyLocal = new BW::UnitArray;
-
-        /* iterate through players and create PlayerImpl for each */
+        /* TODO: reform
+        // iterate through players and create PlayerImpl for each
         for (int i = 0; i < BW::PLAYER_COUNT; i++)
           players[i] = new PlayerImpl((u8)i);
+        */
 
-        /* iterate through units and create UnitImpl for each */
+        /* TODO: reform
+        // iterate through units and create UnitImpl for each
         for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                       &unitArrayCopyLocal->unit[i],
                                       (u16)i);
+        */
 
-        /* iterate through unit types and create UnitType for each */
+        // iterate through unit types and create UnitType for each
         for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
           unitTypes.insert(BW::UnitType((u16)i));
       }
@@ -189,113 +198,294 @@ namespace BWAPI
         fclose(f);
       }
     }
-    //----------------------------------------------- MAP WIDTH ------------------------------------------------
-    int mapWidth()
+    //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
+    void issueCommand(PBYTE pbBuffer, u32 iSize)
     {
-      /* Get the width of the map */
-      setLastError(Errors::None);
-      return Map::getWidth();
-    }
-    //----------------------------------------------- MAP HEIGHT -----------------------------------------------
-    int mapHeight()
-    {
-      /* Get the height of the map */
-      setLastError(Errors::None);
-      return Map::getHeight();
-    }
-    //---------------------------------------------- MAP FILENAME ----------------------------------------------
-    std::string mapFilename()
-    {
-      /* Get the map file name */
-      setLastError(Errors::None);
-      return Map::getFileName();
-    }
-    //------------------------------------------------ MAP NAME ------------------------------------------------
-    std::string mapName()
-    {
-      /* Get the name of the map */
-      setLastError(Errors::None);
-      return Map::getName();
-    }
-    //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
-    int getGroundHeight(int x, int y)
-    {
-      /* Return the ground height */
-      setLastError(Errors::None);
-      return map.groundHeight(x, y);
-    }
-    //------------------------------------------------ BUILDABLE -----------------------------------------------
-    bool isBuildable(int x, int y)
-    {
-      /* Check if the specified coordinates are buildable */
-      setLastError(Errors::None);
-      return map.buildable(x, y);
-    }
-    //------------------------------------------------ BUILDABLE -----------------------------------------------
-    bool isBuildable(TilePosition position)
-    {
-      /* Check if the specified coordinates are buildable */
-      setLastError(Errors::None);
-      return map.buildable(position.x(), position.y());
-    }
-    //------------------------------------------------ WALKABLE ------------------------------------------------
-    bool isWalkable(int x, int y)
-    {
-      /* Check if the specified coordinates are walkable */
-      setLastError(Errors::None);
-      return map.walkable(x, y);
-    }
-    //------------------------------------------------- VISIBLE ------------------------------------------------
-    bool isVisible(int x, int y)
-    {
-      /* Check if the specified coordinates are visible */
-      setLastError(Errors::None);
-      return map.visible(x, y);
-    }
-    //------------------------------------------------- VISIBLE ------------------------------------------------
-    bool isVisible(TilePosition position)
-    {
-      /* Check if the specified coordinates are visible */
-      setLastError(Errors::None);
-      return map.visible(position.x(), position.y());
-    }
-    //------------------------------------------------- VISIBLE ------------------------------------------------
-    bool isExplored(int x, int y)
-    {
-      /* Check if the specified coordinates are visible */
-      setLastError(Errors::None);
-      return map.isExplored(x, y);
-    }
-    //------------------------------------------------- VISIBLE ------------------------------------------------
-    bool isExplored(TilePosition position)
-    {
-      /* Check if the specified coordinates are visible */
-      setLastError(Errors::None);
-      return map.isExplored(position.x(), position.y());
-    }
-    //------------------------------------------------ HAS CREEP -----------------------------------------------
-    bool hasCreep(int x, int y)
-    {
-      /* Check if the specified coordinates have creep */
-      setLastError(Errors::None);
-      /* Deny this information if you don't have complete map information */
-      if (!isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x, y))
+      __asm
       {
-        setLastError(Errors::Access_Denied);
-        return false;
+        mov ecx, pbBuffer
+        mov edx, iSize
       }
-      return map.hasCreep(x, y);
+      NewIssueCommand();
     }
-    //------------------------------------------------ HAS CREEP -----------------------------------------------
-    bool hasCreep(TilePosition position)
+    //--------------------------------------------- IN GAME ----------------------------------------------------
+    bool inGame()
     {
-      return hasCreep(position.x(), position.y());
+      return *(BW::BWDATA_InGame) != 0;
     }
+    //---------------------------------------------- IS REPLAY -------------------------------------------------
+    bool isReplay()
+    {
+      return *(BW::BWDATA_InReplay) != 0;
+    }
+    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
+    bool isMultiplayer()
+    {
+      return (*BW::BWDATA_IsMultiplayer != 0);
+    }
+    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
+    bool isSinglePlayer()
+    {
+      return (*BW::BWDATA_IsMultiplayer == 0);
+    }
+    //--------------------------------------------- IS IN LOBBY ----------------------------------------------
+    bool isInLobby()
+    {
+      return *BW::BWDATA_NextMenu==3;
+    }
+    //----------------------------------------------- IS PAUSED ------------------------------------------------
+    bool isPaused()
+    {
+      return *BW::BWDATA_IsNotPaused == 0;
+    }
+    //---------------------------------------------- GET MOUSE X -----------------------------------------------
+    int  getMouseX()
+    {
+      // Retrieves the mouse's X coordinate
+      
+      return *(BW::BWDATA_MouseX);
+    }
+    //---------------------------------------------- GET MOUSE Y -----------------------------------------------
+    int  getMouseY()
+    {
+      // Retrieves the mouse's Y coordinate
+      
+      return *(BW::BWDATA_MouseY);
+    }
+    //---------------------------------------------- GET SCREEN X ----------------------------------------------
+    int  getScreenX()
+    {
+      // Retrieves the screen's X coordinate in relation to the map
+      
+      return *(BW::BWDATA_ScreenX);
+    }
+    //---------------------------------------------- GET SCREEN Y ----------------------------------------------
+    int  getScreenY()
+    {
+      // Retrieves the screen's Y coordinate in relation to the map
+      
+      return *(BW::BWDATA_ScreenY);
+    }
+    //------------------------------------------- SET SCREEN POSITION ------------------------------------------
+    void setScreenPosition(int x, int y)
+    {
+      /* Sets the screen's position in relation to the map */
+      
+      *(BW::BWDATA_ScreenX) = x;
+      *(BW::BWDATA_ScreenY) = y;
+    }
+    //----------------------------------------------- START GAME -----------------------------------------------
+    void  startGame()
+    {
+      /* Starts the game as a lobby host */
+      
+      issueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
+    }
+    //----------------------------------------------- PAUSE GAME -----------------------------------------------
+    void  pauseGame()
+    {
+      /* Pauses the game */
+      
+      issueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
+    }
+    //---------------------------------------------- RESUME GAME -----------------------------------------------
+    void  resumeGame()
+    {
+      /* Resumes the game */
+      
+      issueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
+    }
+    //---------------------------------------------- LEAVE GAME ------------------------------------------------
+    void  leaveGame()
+    {
+      /* Leaves the current game. Moves directly to the post-game score screen */
+      
+      *BW::BWDATA_GameState = 0;
+      *BW::BWDATA_GamePosition = 6;
+    }
+    //--------------------------------------------- RESTART GAME -----------------------------------------------
+    void  restartGame()
+    {
+      /* Restarts the current match 
+         Does not work on Battle.net */
+      
+      *BW::BWDATA_GameState = 0;
+      *BW::BWDATA_GamePosition = 5;
+    }
+    //---------------------------------------------- GET LATENCY -----------------------------------------------
+    int getLatency()
+    {
+      /* Returns the real latency values */
+
+      /* Error checking */
+      
+      if (isSinglePlayer())
+        return BWAPI::Latencies::SinglePlayer;
+
+      /* Lame options checking */
+      switch(*BW::BWDATA_Latency)
+      {
+        case 0:
+          return BWAPI::Latencies::LanLow;
+        case 1:
+          return BWAPI::Latencies::LanMedium;
+        case 2:
+          return BWAPI::Latencies::LanHigh;
+        default:
+          return BWAPI::Latencies::LanLow;
+      }
+    }
+    //---------------------------------------------- CHANGE SLOT -----------------------------------------------
+    void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
+    {
+      issueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
+    }
+    //---------------------------------------------- CHANGE RACE -----------------------------------------------
+    void  changeRace(BWAPI::Race race)
+    {
+      /* TODO: reform
+      issueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)BWAPIPlayer->getID()), 3);
+      */
+    }
+    //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
+    void printEx(s32 pID, const char* text, ...)
+    {
+      // TODO: capsulate formatting to one function
+      Util::StaticArray<char, 2048> buffer;
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
+      va_end(ap);
+
+      char* txtout = buffer.data;
+      if (inGame() || isReplay())
+      {
+        __asm
+        {
+          pushad
+          push 0       // Unknown
+          mov eax, pID   // Player ID (-1 for notification area)
+          push txtout  // Text
+          call dword ptr [BW::BWFXN_PrintText]
+          popad
+        }
+      }
+      else
+        printf(txtout); // until lobby print private text is found
+    }
+    //------------------------------------------------- PRINTF -------------------------------------------------
+    void  printf(const char* text, ...)
+    {
+      // TODO: capsulate formatting to one function
+      Util::StaticArray<char, 2048> buffer;
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
+      va_end(ap);
+
+      if (isReplay() || inGame())
+      {
+        printEx(8, buffer.data);
+        return;
+      }
+
+      char* txtout = buffer.data;
+      if (!inGame() && isInLobby())
+        __asm
+        {
+          pushad
+          mov edi, txtout
+          call [BW::BWFXN_SendLobbyCallTarget]
+          popad
+        }
+    }
+
+    void  sendText(const char* text, ...)
+    {
+      // TODO: capsulate formatting to one function
+      Util::StaticArray<char, 2048> buffer;
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
+      va_end(ap);
+      char* txtout = buffer.data;
+
+      if (isReplay())
+      {
+        printEx(8, buffer.data);
+        return;
+      }
+
+      if (inGame() && isSinglePlayer())
+      {
+        /* TODO: reform
+        BW::CheatFlags::Enum cheatID=BW::getCheatFlag(text);
+        if (cheatID!=BW::CheatFlags::None)
+        {
+          cheatFlags ^= cheatID;
+          issueCommand((PBYTE)&BW::Orders::UseCheat(cheatFlags), sizeof(BW::Orders::UseCheat));
+          if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
+              cheatID==BW::CheatFlags::BreateDeep ||
+              cheatID==BW::CheatFlags::WhatsMineIsMine)
+            cheatFlags ^= cheatID;
+            
+        }
+        else
+        {
+          printEx(BWAPIPlayer->getID(), buffer);
+        }
+        */
+        return;
+      }
+
+      if (inGame())
+      {
+        memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
+        __asm
+        {
+          pushad
+          mov esi, txtout
+          call [BW::BWFXN_SendPublicCallTarget]
+          popad
+        }
+
+      }
+      else
+        __asm
+        {
+          pushad
+          mov edi, txtout
+          call [BW::BWFXN_SendLobbyCallTarget]
+          popad
+        }
+    }
+    //----------------------------------------------- ENABLE FLAG ----------------------------------------------
+    void  enableFlag(int flag)
+    {
+      // Enable the specified flag
+      if (flag >= Flags::count)
+      {
+        sendText("Invalid flag (%d).", flag);
+        return;
+      }
+
+      // Modify flag state
+      flags[flag] = true;
+      switch(flag)
+      {
+      case Flags::CompleteMapInformation:
+        sendText("Enabled Flag CompleteMapInformation");
+        break;
+      case Flags::UserInput:
+        sendText("Enabled Flag UserInput");
+        break;
+      }
+    }
+    /* template reference
     //------------------------------------------------ HAS POWER -----------------------------------------------
     bool hasPower(int x, int y, int tileWidth, int tileHeight)
     {
-      /* Check if the specified coordinates have power */
-      setLastError(Errors::None);
+      
       if (!(tileWidth == 2 && tileHeight == 2) && !(tileWidth == 3 && tileHeight == 2) && !(tileWidth == 4 && tileHeight == 3))
       {
         return false;
@@ -304,14 +494,14 @@ namespace BWAPI
       {
         x++;
       }
-      /* Loop through all pylons for the current player */
+      // Loop through all pylons for the current player
       foreach (UnitImpl* i, myPylons)
       {
         int px = i->getTilePosition().x();
         int py = i->getTilePosition().y();
         int bx = x - px + 7;
         int by = y - py + 4;
-        /* Deal with special cases, pylon offset cutoff */
+        // Deal with special cases, pylon offset cutoff
         if (bx >= 0 && by >= 0 && bx <= 14 && by <= 8)
         {
           switch(by)
@@ -346,7 +536,7 @@ namespace BWAPI
       return hasPower(position.x(),position.y(),tileWidth,tileHeight);
     }
     //---------------------------------------------- CAN BUILD HERE --------------------------------------------
-    bool  canBuildHere(Unit* builder, TilePosition position, UnitType type)
+    bool canBuildHere(Unit* builder, TilePosition position, UnitType type)
     {
       setLastError(Errors::Unbuildable_Location);
       if (position.x()<0) return false;
@@ -366,7 +556,7 @@ namespace BWAPI
         {
           if (g->getTilePosition() == position)
           {
-            setLastError(Errors::None);
+            
             return true;
           }
         }
@@ -412,7 +602,7 @@ namespace BWAPI
       {
         if (hasPower(position.x(), position.y(), width, height))
         {
-          setLastError(Errors::None);
+          
           return true;
         }
         return false;
@@ -442,14 +632,14 @@ namespace BWAPI
           }
         }
       }
-      setLastError(Errors::None);
+      
       return true;
     }
     //------------------------------------------------- CAN MAKE -----------------------------------------------
-    bool  canMake(Unit* builder, UnitType type)
+    bool canMake(Unit* builder, UnitType type)
     {
-      /* Error checking */
-      setLastError(Errors::None);
+      // Error checking
+      
       if (self() == NULL)
       {
         setLastError(Errors::Unit_Not_Owned);
@@ -458,21 +648,21 @@ namespace BWAPI
 
       if (builder != NULL)
       {
-        /* Check if the owner of the unit is you */
+        // Check if the owner of the unit is you
         if (builder->getPlayer() != self())
         {
           setLastError(Errors::Unit_Not_Owned);
           return false;
         }
 
-        /* Check if this unit can actually build the unit type */
+        // Check if this unit can actually build the unit type
         if (builder->getType() != *(type.whatBuilds().first))
         {
           setLastError(Errors::Incompatible_UnitType);
           return false;
         }
 
-        /* Carrier space */
+        // Carrier space
         if (builder->getType() == UnitTypes::Protoss_Carrier)
         {
           int max_amt = 4;
@@ -485,7 +675,7 @@ namespace BWAPI
           }
         }
 
-        /* Reaver Space */
+        // Reaver Space
         if (builder->getType() == UnitTypes::Protoss_Reaver)
         {
           int max_amt = 5;
@@ -499,21 +689,21 @@ namespace BWAPI
         }
       }
 
-      /* Check if player has enough minerals */
+      // Check if player has enough minerals
       if (self()->minerals() < type.mineralPrice())
       {
         setLastError(Errors::Insufficient_Minerals);
         return false;
       }
 
-      /* Check if player has enough gas */
+      // Check if player has enough gas
       if (self()->gas() < type.gasPrice())
       {
         setLastError(Errors::Insufficient_Gas);
         return false;
       }
       
-      /* Check if player has enough supplies */
+      // Check if player has enough supplies
       if (type.supplyRequired() > 0)
         if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first->supplyRequired())
         {
@@ -567,8 +757,8 @@ namespace BWAPI
     //----------------------------------------------- CAN RESEARCH ---------------------------------------------
     bool  canResearch(Unit* unit, TechType type)
     {
-      /* Error checking */
-      setLastError(Errors::None);
+      // Error checking
+      
       if (self() == NULL)
       {
         setLastError(Errors::Unit_Not_Owned);
@@ -608,7 +798,7 @@ namespace BWAPI
     //----------------------------------------------- CAN UPGRADE ----------------------------------------------
     bool  canUpgrade(Unit* unit, UpgradeType type)
     {
-      setLastError(Errors::None);
+      
       if (self() == NULL)
       {
         setLastError(Errors::Unit_Not_Owned);
@@ -648,87 +838,72 @@ namespace BWAPI
     //--------------------------------------------- GET START LOCATIONS ----------------------------------------
     std::set< TilePosition >& getStartLocations()
     {
-      /* Return the set of Start Locations */
-      setLastError(Errors::None);
+      // Return the set of Start Locations
+      
       return startLocations;
-    }
-    //----------------------------------------------- GET MAP HASH ---------------------------------------------
-    int  getMapHash()
-    {
-      /* Return a hash of the map's terrain */
-      setLastError(Errors::None);
-      return BWAPI::Map::getMapHash();
     }
     //----------------------------------------------- GET FORCES -----------------------------------------------
     std::set< Force* >& getForces()
     {
-      /* Return a set of forces */
-      setLastError(Errors::None);
+      // Return a set of forces
+      
       return forces;
     }
     //----------------------------------------------- GET PLAYERS ----------------------------------------------
     std::set< Player* >& getPlayers()
     {
-      setLastError(Errors::None);
+      
       return playerSet;
     }
     //------------------------------------------------- GET UNITS ----------------------------------------------
     std::set< Unit* >& getAllUnits()
     {
-      setLastError(Errors::None);
+      
       return allUnits;
     }
     //---------------------------------------------- GET MINERALS ----------------------------------------------
     std::set< Unit* >& getMinerals()
     {
-      setLastError(Errors::None);
+      
       return minerals;
     }
     //---------------------------------------------- GET GEYSERS -----------------------------------------------
     std::set< Unit* >& getGeysers()
     {
-      setLastError(Errors::None);
+      
       return geysers;
     }
     //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
     std::set< Unit* >& getNeutralUnits()
     {
-      setLastError(Errors::None);
+      
       return neutralUnits;
     }
     //---------------------------------------------- GET MINERALS ----------------------------------------------
     std::set< Unit* >& getStaticMinerals()
     {
-      setLastError(Errors::None);
+      
       return staticMinerals;
     }
     //---------------------------------------------- GET GEYSERS -----------------------------------------------
     std::set< Unit* >& getStaticGeysers()
     {
-      setLastError(Errors::None);
+      
       return staticGeysers;
     }
     //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
     std::set< Unit* >& getStaticNeutralUnits()
     {
-      setLastError(Errors::None);
+      
       return staticNeutralUnits;
     }
-    //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-    void IssueCommand(PBYTE pbBuffer, u32 iSize)
+    */
+    //------------------------------------------------- ON DLL LOAD --------------------------------------------
+    void onDllLoad()
     {
-  #ifdef __GNUC__
-      __asm__("mov %ecx, pbBuffer\n"
-              "mov %edx, iSize"
-             );
-  #else
-      __asm
-      {
-        mov ecx, pbBuffer
-        mov edx, iSize
-      }
-  #endif
-      NewIssueCommand();
+      // stop!!!
+      // please reconsider, this thread is not the starcraft thread. hardly foreseeable future bugs can
+      // be avoided altogether by moving initialisation code to update()
     }
     //------------------------------------------------- UPDATE -------------------------------------------------
     void update(GameState nextState)
@@ -752,6 +927,61 @@ namespace BWAPI
         }
       }
 
+      /* TODO: find out where and if to call there anymore
+      {
+        BWAPI::Races::init();
+        BWAPI::DamageTypes::init();
+        BWAPI::ExplosionTypes::init();
+        BWAPI::Orders::init();
+        BWAPI::TechTypes::init();
+        BWAPI::PlayerTypes::init();
+        BWAPI::UpgradeTypes::init();
+        BWAPI::WeaponTypes::init();
+        BWAPI::UnitSizeTypes::init();
+        BWAPI::UnitTypes::init();
+        BWAPI::AttackTypes::init();
+        BWAPI::Errors::init();
+        BWAPI::Colors::init();
+      }
+      */
+
+      // enable user input as long as no agent is in charge
+      if(lastState != InMatch
+        && nextState == InMatch)
+//        &&!BridgeServer::isAgentConnected())  // temp
+      {
+        Engine::enableFlag(Flags::UserInput);
+      }
+
+      // equivalent to onStartMatch()
+      if(lastState != InMatch
+        && nextState == InMatch)
+      {
+        // reset frame count
+        frameCount = 0;
+
+        // init unitArray
+        {
+          // mark all array as unused
+          for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+          {
+            unitArray[i].exists = false;
+            unitArray[i].knownUnit = NULL;
+          }
+
+          // traverse the visible unit node chain
+          for(BW::Unit* bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
+          {
+            int i = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit);
+            unitArray[i].exists = true;
+            unitArray[i].bwId = 0; //bwUnit->unitque id? TODO: find solution
+          }
+
+          // ASSUMPTION: at the beginning, there are no hidden units or scanner sweeps
+          // ignore the other chains
+        }
+      }
+
       // init shared memory
       if(gameState == InMatch
         && BridgeServer::isAgentConnected()
@@ -764,44 +994,40 @@ namespace BWAPI
           BridgeServer::disconnect();
         }
 
-        // fill the const part of static data
+        // fill the const part of static data, for the rest of the match
         if(BridgeServer::isSharedMemoryInitialized())
         {
           Bridge::StaticGameData &staticData = *BridgeServer::sharedStaticData;
 
-          for (int x=0;x<mapWidth()*4;x++)
-            for (int y=0;y<mapHeight()*4;y++)
+          for (int x=0;x<Map::getWidth()*4;x++)
+            for (int y=0;y<Map::getHeight()*4;y++)
             {
-              staticData.getGroundHeight[x][y] = getGroundHeight(x,y);
-              staticData.isWalkable[x][y] = isWalkable(x,y);
+              staticData.getGroundHeight[x][y] = Map::groundHeight(x,y);
+              staticData.isWalkable[x][y] = Map::walkable(x,y);
             }
-          for (int x=0;x<mapWidth();x++)
-            for (int y=0;y<mapHeight();y++)
-              staticData.isBuildable[x][y] = isBuildable(x,y);
+          for (int x=0;x<Map::getWidth();x++)
+            for (int y=0;y<Map::getHeight();y++)
+              staticData.isBuildable[x][y] = Map::buildable(x,y);
 
-          strncpy(staticData.mapFilename,mapFilename().c_str(),260);
+          strncpy(staticData.mapFilename,Map::getFileName().c_str(),260);
           staticData.mapFilename[259]='\0';
 
-          strncpy(staticData.mapName,mapName().c_str(),32);
+          strncpy(staticData.mapName,Map::getName().c_str(),32);
           staticData.mapName[31]='\0';
 
-          Engine::enableFlag(Flag::UserInput); //temp
-
-          // invoke OnStartMatch()
-          if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
+          // manage onStartMatch RPC
           {
-            BridgeServer::disconnect();
-            printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
+            //
+            // invoke onStartMatch()
+            if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
+            {
+              BridgeServer::disconnect();
+              printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
+            }
           }
         }
       }
 
-
-      // reset frame count
-      if(nextState == InMatch && lastState != InMatch)
-      {
-        frameCount = 0;
-      }
 
       // onFrame
       if(gameState == InMatch
@@ -817,92 +1043,104 @@ namespace BWAPI
           staticData.getMouseY     = getMouseY();
           staticData.getScreenX    = getScreenX();
           staticData.getScreenY    = getScreenY();
-          staticData.mapWidth      = mapWidth();
-          staticData.mapHeight     = mapHeight();
-          staticData.mapHash       = getMapHash();
-          for (int x=0;x<mapWidth();x++)
-            for (int y=0;y<mapHeight();y++)
+          staticData.mapWidth      = Map::getWidth();
+          staticData.mapHeight     = Map::getHeight();
+          staticData.mapHash       = Map::getMapHash();
+          for (int x=0;x<Map::getWidth();x++)
+            for (int y=0;y<Map::getHeight();y++)
             {
-              staticData.isVisible[x][y] = isVisible(x,y);
-              staticData.isExplored[x][y] = isExplored(x,y);
-              staticData.hasCreep[x][y] = hasCreep(x,y);
+              staticData.isVisible[x][y] = Map::visible(x,y);
+              staticData.isExplored[x][y] = Map::isExplored(x,y);
+              staticData.hasCreep[x][y] = Map::hasCreep(x,y);
             }
           staticData.isMultiplayer = isMultiplayer();
           staticData.isReplay      = isReplay();
           staticData.isPaused      = isPaused();
           staticData.unitCount=0;
           int i=0;
-          foreach(Unit* u,Engine::allUnits)
+          // TODO: use the optimised algorithm
+          for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           {
-            staticData.unitData[i].position_x=u->getPosition().x();
-            staticData.unitData[i].position_y=u->getPosition().y();
+            Unit &unit = unitArray[i];
+            if(!unit.exists)    // unit exists in BW memory
+              continue;
+            if(!unit.knownUnit) // agent does know nothing about this unit
+              continue;
 
-            staticData.unitData[i].id=(int)(u);
-            staticData.unitData[i].player=u->getPlayer()->getID();
-            staticData.unitData[i].type=u->getType().getID();
-            staticData.unitData[i].hitPoints=u->getHitPoints();
-            staticData.unitData[i].shields=u->getShields();
-            staticData.unitData[i].energy=u->getEnergy();
-            staticData.unitData[i].resources=u->getResources();
-            staticData.unitData[i].killCount=u->getKillCount();
-            staticData.unitData[i].groundWeaponCooldown=u->getGroundWeaponCooldown();
-            staticData.unitData[i].airWeaponCooldown=u->getAirWeaponCooldown();
-            staticData.unitData[i].spellCooldown=u->getSpellCooldown();
-            staticData.unitData[i].defenseMatrixPoints=u->getDefenseMatrixPoints();
+            // transfer recent data about this particular BW unit
+            Bridge::KnownUnitEntry &knownUnit = *unit.knownUnit;
+            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[unit.bwId];
 
-            staticData.unitData[i].defenseMatrixTimer=u->getDefenseMatrixTimer();
-            staticData.unitData[i].ensnareTimer=u->getEnsnareTimer();
-            staticData.unitData[i].irradiateTimer=u->getIrradiateTimer();
-            staticData.unitData[i].lockdownTimer=u->getLockdownTimer();
-            staticData.unitData[i].maelstromTimer=u->getMaelstromTimer();
-            staticData.unitData[i].plagueTimer=u->getPlagueTimer();
-            staticData.unitData[i].removeTimer=u->getRemoveTimer();
-            staticData.unitData[i].stasisTimer=u->getStasisTimer();
-            staticData.unitData[i].stimTimer=u->getStimTimer();
+            // TODO: implement compile-time checked clearance limit
+            /* TODO: implement BW::get functions in BW. use those
+            knownUnit.state.position_x  = u->getPosition().x();
+            knownUnit.state.position_y  = u->getPosition().y();
 
-            staticData.unitData[i].isAccelerating=u->isAccelerating();
-            staticData.unitData[i].isBeingConstructed=u->isBeingConstructed();
-            staticData.unitData[i].isBeingGathered=u->isBeingGathered();
-            staticData.unitData[i].isBeingHealed=u->isBeingHealed();
-            staticData.unitData[i].isBlind=u->isBlind();
-            staticData.unitData[i].isBraking=u->isBraking();
-            staticData.unitData[i].isBurrowed=u->isBurrowed();
-            staticData.unitData[i].isCarryingGas=u->isCarryingGas();
-            staticData.unitData[i].isCarryingMinerals=u->isCarryingMinerals();
-            staticData.unitData[i].isCloaked=u->isCloaked();
-            staticData.unitData[i].isCompleted=u->isCompleted();
-            staticData.unitData[i].isConstructing=u->isConstructing();
-            staticData.unitData[i].isDefenseMatrixed=u->isDefenseMatrixed();
-            staticData.unitData[i].isEnsnared=u->isEnsnared();
-            staticData.unitData[i].isFollowing=u->isFollowing();
-            staticData.unitData[i].isGatheringGas=u->isGatheringGas();
-            staticData.unitData[i].isGatheringMinerals=u->isGatheringMinerals();
-            staticData.unitData[i].isHallucination=u->isHallucination();
-            staticData.unitData[i].isIdle=u->isIdle();
-            staticData.unitData[i].isIrradiated=u->isIrradiated();
-            staticData.unitData[i].isLifted=u->isLifted();
-            staticData.unitData[i].isLoaded=u->isLoaded();
-            staticData.unitData[i].isLockedDown=u->isLockedDown();
-            staticData.unitData[i].isMaelstrommed=u->isMaelstrommed();
-            staticData.unitData[i].isMorphing=u->isMorphing();
-            staticData.unitData[i].isMoving=u->isMoving();
-            staticData.unitData[i].isParasited=u->isParasited();
-            staticData.unitData[i].isPatrolling=u->isPatrolling();
-            staticData.unitData[i].isPlagued=u->isPlagued();
-            staticData.unitData[i].isRepairing=u->isRepairing();
-            staticData.unitData[i].isResearching=u->isResearching();
-            staticData.unitData[i].isSelected=u->isSelected();
-            staticData.unitData[i].isSieged=u->isSieged();
-            staticData.unitData[i].isStartingAttack=u->isStartingAttack();
-            staticData.unitData[i].isStasised=u->isStasised();
-            staticData.unitData[i].isStimmed=u->isStimmed();
-            staticData.unitData[i].isTraining=u->isTraining();
-            staticData.unitData[i].isUnderStorm=u->isUnderStorm();
-            staticData.unitData[i].isUnpowered=u->isUnpowered();
-            staticData.unitData[i].isUpgrading=u->isUpgrading();
-            i++;
+            knownUnit.state.id                    = (int)(&knownUnit);
+            knownUnit.state.player                = bwUnit.getPlayer()->getID();
+            knownUnit.state.type                  = bwUnit.getType().getID();
+            knownUnit.state.hitPoints             = bwUnit.getHitPoints();
+            knownUnit.state.shields               = bwUnit.getShields();
+            knownUnit.state.energy                = bwUnit.getEnergy();
+            knownUnit.state.resources             = bwUnit.getResources();
+            knownUnit.state.killCount             = bwUnit.getKillCount();
+            knownUnit.state.groundWeaponCooldown  = bwUnit.getGroundWeaponCooldown();
+            knownUnit.state.airWeaponCooldown     = bwUnit.getAirWeaponCooldown();
+            knownUnit.state.spellCooldown         = bwUnit.getSpellCooldown();
+            knownUnit.state.defenseMatrixPoints   = bwUnit.getDefenseMatrixPoints();
+
+            knownUnit.state.defenseMatrixTimer    = bwUnit.getDefenseMatrixTimer();
+            knownUnit.state.ensnareTimer          = bwUnit.getEnsnareTimer();
+            knownUnit.state.irradiateTimer        = bwUnit.getIrradiateTimer();
+            knownUnit.state.lockdownTimer         = bwUnit.getLockdownTimer();
+            knownUnit.state.maelstromTimer        = bwUnit.getMaelstromTimer();
+            knownUnit.state.plagueTimer           = bwUnit.getPlagueTimer();
+            knownUnit.state.removeTimer           = bwUnit.getRemoveTimer();
+            knownUnit.state.stasisTimer           = bwUnit.getStasisTimer();
+            knownUnit.state.stimTimer             = bwUnit.getStimTimer();
+
+            knownUnit.state.isAccelerating        = bwUnit.isAccelerating();
+            knownUnit.state.isBeingConstructed    = bwUnit.isBeingConstructed();
+            knownUnit.state.isBeingGathered       = bwUnit.isBeingGathered();
+            knownUnit.state.isBeingHealed         = bwUnit.isBeingHealed();
+            knownUnit.state.isBlind               = bwUnit.isBlind();
+            knownUnit.state.isBraking             = bwUnit.isBraking();
+            knownUnit.state.isBurrowed            = bwUnit.isBurrowed();
+            knownUnit.state.isCarryingGas         = bwUnit.isCarryingGas();
+            knownUnit.state.isCarryingMinerals    = bwUnit.isCarryingMinerals();
+            knownUnit.state.isCloaked             = bwUnit.isCloaked();
+            knownUnit.state.isCompleted           = bwUnit.isCompleted();
+            knownUnit.state.isConstructing        = bwUnit.isConstructing();
+            knownUnit.state.isDefenseMatrixed     = bwUnit.isDefenseMatrixed();
+            knownUnit.state.isEnsnared            = bwUnit.isEnsnared();
+            knownUnit.state.isFollowing           = bwUnit.isFollowing();
+            knownUnit.state.isGatheringGas        = bwUnit.isGatheringGas();
+            knownUnit.state.isGatheringMinerals   = bwUnit.isGatheringMinerals();
+            knownUnit.state.isHallucination       = bwUnit.isHallucination();
+            knownUnit.state.isIdle                = bwUnit.isIdle();            // rusty: regarding SCV's not reporting that their idle.. I was calling worker->build() on both of them, and giving them the same location of the geyser
+            knownUnit.state.isIrradiated          = bwUnit.isIrradiated();
+            knownUnit.state.isLifted              = bwUnit.isLifted();
+            knownUnit.state.isLoaded              = bwUnit.isLoaded();
+            knownUnit.state.isLockedDown          = bwUnit.isLockedDown();
+            knownUnit.state.isMaelstrommed        = bwUnit.isMaelstrommed();
+            knownUnit.state.isMorphing            = bwUnit.isMorphing();
+            knownUnit.state.isMoving              = bwUnit.isMoving();
+            knownUnit.state.isParasited           = bwUnit.isParasited();
+            knownUnit.state.isPatrolling          = bwUnit.isPatrolling();
+            knownUnit.state.isPlagued             = bwUnit.isPlagued();
+            knownUnit.state.isRepairing           = bwUnit.isRepairing();
+            knownUnit.state.isResearching         = bwUnit.isResearching();
+            knownUnit.state.isSelected            = bwUnit.isSelected();
+            knownUnit.state.isSieged              = bwUnit.isSieged();
+            knownUnit.state.isStartingAttack      = bwUnit.isStartingAttack();
+            knownUnit.state.isStasised            = bwUnit.isStasised();
+            knownUnit.state.isStimmed             = bwUnit.isStimmed();
+            knownUnit.state.isTraining            = bwUnit.isTraining();
+            knownUnit.state.isUnderStorm          = bwUnit.isUnderStorm();
+            knownUnit.state.isUnpowered           = bwUnit.isUnpowered();
+            knownUnit.state.isUpgrading           = bwUnit.isUpgrading();
+            */
           }
-          staticData.unitCount=i;
         }
 
         // update remote shared memry
@@ -933,7 +1171,7 @@ namespace BWAPI
 
         // process issued commands
         {
-          /* invalid untill command stack works
+          /* TODO: implement when command stack works
           Bridge::CommandDataStructure &commandData = *BridgeServer::sharedCommandData;
           for(int i=0;i<commandData.lastFreeCommandSlot;i++)
           {
@@ -971,18 +1209,21 @@ namespace BWAPI
       update(InMenu);
     }
     //------------------------------------------------- UPDATE -------------------------------------------------
+    void onGameStart();
     void onMatchFrame()
     {
       try
       {
-        inUpdate = true;
-        if (!isOnStartCalled())
+        static bool onStartCalled = false;
+        if(!onStartCalled)
+        {
           onGameStart();
+          onStartCalled = true;
+        }
 
-        // make a local copy of the unit array
-        memcpy(unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
         refreshSelectionStates();
 
+        /* TODO: reform
         for (int i = 0; i < BW::PLAYER_COUNT; i++)
         {
           bool prevLeftGame=players[i]->leftGame();
@@ -1008,15 +1249,6 @@ namespace BWAPI
 //        }
   
 
-        foreach (UnitImpl* i, unitList)
-        {
-          if (units.find(i) == units.end())
-          {
-            i->alive=true;
-            units.insert(i);
-            onAddUnit(i);
-          }
-        }
         foreach (UnitImpl* i, units)
         {
           if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
@@ -1061,8 +1293,8 @@ namespace BWAPI
           ::ReleaseMutex(hcachedShapesMutex);
         }
         shapes.clear();
+        */
 
-        inUpdate = false;
       }
       catch (GeneralException& exception)
       {
@@ -1084,262 +1316,62 @@ namespace BWAPI
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
     void refreshSelectionStates()
     {
+      /* TODO: reform
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i]->setSelected(false);
 
       saveSelected();
       for (int i = 0; savedSelectionStates[i] != NULL; i++)
         BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
-    }
-    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-    bool isMultiplayer()
-    {
-      setLastError(Errors::None);
-      return (*BW::BWDATA_IsMultiplayer != 0);
-    }
-    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-    bool _isSinglePlayer()
-    {
-      return (*BW::BWDATA_IsMultiplayer == 0);
-    }
-    //------------------------------------------- IS ON START CALLED -------------------------------------------
-    bool isOnStartCalled()
-    {
-      return onStartCalled;
-    }
-    //------------------------------------------ SET ON START CALLED -------------------------------------------
-    void setOnStartCalled(bool onStartCalled)
-    {
-      Engine::onStartCalled = onStartCalled;
-    }
-    //------------------------------------------------ IN GAME -------------------------------------------------
-    bool inGame()
-    {
-      return *(BW::BWDATA_InGame) != 0;
-    }
-    //--------------------------------------------- IS IN LOBBY ----------------------------------------------
-    bool isInLobby()
-    {
-      return *BW::BWDATA_NextMenu==3;
-    }
-    //----------------------------------------------- IS PAUSED ------------------------------------------------
-    bool isPaused()
-    {
-      setLastError(Errors::None);
-      return *BW::BWDATA_IsNotPaused == 0;
-    }
-    //----------------------------------------------- IN REPLAY ------------------------------------------------
-    bool  isReplay()
-    {
-      setLastError(Errors::None);
-      return *(BW::BWDATA_InReplay) != 0;
-    }
-    //----------------------------------------------- IN REPLAY ------------------------------------------------
-    bool  _isReplay()
-    {
-      return *(BW::BWDATA_InReplay) != 0;
-    }
-    const int BUFFER_SIZE = 2048;
-    char buffer[BUFFER_SIZE];
-
-    //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-    void printEx(s32 pID, const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-
-      char* txtout = buffer;
-      if (inGame() || _isReplay())
-      {
-  #ifdef __GNUC__
-        int temp=BW::BWFXN_PrintText;
-        __asm__("pushal\n"
-                "push 0\n"
-                "mov %eax, _pID\n"
-                "push txtout\n"
-                "call temp\n"
-                "popal"
-               );
-  #else
-        __asm
-        {
-          pushad
-          push 0       // Unknown
-          mov eax, pID   // Player ID (-1 for notification area)
-          push txtout  // Text
-          call dword ptr [BW::BWFXN_PrintText]
-          popad
-        }
-  #endif
-      }
-      else
-        printf(txtout); // until lobby print private text is found
-    }
-    //------------------------------------------------- PRINTF -------------------------------------------------
-    void  printf(const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-
-      if (_isReplay() || inGame())
-      {
-        printEx(8, buffer);
-        return;
-      }
-
-      char* txtout = buffer;
-      if (!inGame() && isInLobby())
-  #ifdef __GNUC__
-        int temp=BW::BWFXN_SendLobbyCallTarget;
-        __asm__("pushal\n"
-                "mov %edi, _txtout\n"
-                "call temp\n"
-                "popal"
-               );
-  #else
-        __asm
-        {
-          pushad
-          mov edi, txtout
-          call [BW::BWFXN_SendLobbyCallTarget]
-          popad
-        }
-  #endif
-    }
-
-    void  sendText(const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-      char* txtout = buffer;
-
-      if (_isReplay())
-      {
-        printEx(8, buffer);
-        return;
-      }
-
-      if (inGame() && _isSinglePlayer())
-      {
-        BW::CheatFlags::Enum cheatID=BW::getCheatFlag(text);
-        if (cheatID!=BW::CheatFlags::None)
-        {
-          cheatFlags ^= cheatID;
-          IssueCommand((PBYTE)&BW::Orders::UseCheat(cheatFlags), sizeof(BW::Orders::UseCheat));
-          if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
-              cheatID==BW::CheatFlags::BreateDeep ||
-              cheatID==BW::CheatFlags::WhatsMineIsMine)
-            cheatFlags ^= cheatID;
-        }
-        else
-        {
-          printEx(BWAPIPlayer->getID(), buffer);
-        }
-        return;
-      }
-
-      if (inGame())
-      {
-        memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
-  #ifdef __GNUC__
-        int temp=BW::BWFXN_SendPublicCallTarget;
-        __asm__("pushal\n"
-                "mov %esi, _txtout\n"
-                "call temp\n"
-                "popal"
-               );
-      }
-      else
-      {
-        int temp=BW::BWFXN_SendLobbyCallTarget;
-        __asm__("pushal\n"
-                "mov %edi, _txtout\n"
-                "call temp\n"
-                "popal"
-               );
-      }
-  #else
-        __asm
-        {
-          pushad
-          mov esi, txtout
-          call [BW::BWFXN_SendPublicCallTarget]
-          popad
-        }
-
-      }
-      else
-        __asm
-        {
-          pushad
-          mov edi, txtout
-          call [BW::BWFXN_SendLobbyCallTarget]
-          popad
-        }
-  #endif
-    }
-    //---------------------------------------------- CHANGE SLOT -----------------------------------------------
-    void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
-    {
-      IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
-    }
-    //---------------------------------------------- CHANGE RACE -----------------------------------------------
-    void  changeRace(BWAPI::Race race)
-    {
-      setLastError(Errors::None);
-      IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)BWAPIPlayer->getID()), 3);
+      */
     }
     //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
     void addToCommandBuffer(Command* command)
     {
+      /* TODO: reform
       command->execute();
       commandBuffer[commandBuffer.size() - 1].push_back(command);
       commandLog->log("(%4d) %s", frameCount, command->describe().c_str());
+      */
     }
     //--------------------------------------------- ON GAME START ----------------------------------------------
     void onGameStart()
     {
-      /* initialize the variables */
+      /* TODO: reform that? oh geez
+      // initialize the variables
       frameCount = 0;
-      setOnStartCalled(true);
       BWAPIPlayer = NULL;
       opponent = NULL;
 
-      /* set all the flags to the default of disabled */
-      for (int i = 0; i < FLAG_COUNT; i++)
+      // set all the flags to the default of disabled
+      for (int i = 0; i < Flags::count; i++)
         flags[i] = false;
       flagsLocked = false;
 
-      /* load the map data */
+      // load the map data
       map.load();
 
-      if (*(BW::BWDATA_InReplay)) /* set replay flags */
+      if (*(BW::BWDATA_InReplay)) // set replay flags
       {
-        for (int i = 0; i < FLAG_COUNT; i++)
+        for (int i = 0; i < Flags::count; i++)
           flags[i] = true;
         flagsLocked = false;
       }
       else
       {
-        /* find the current player by name */
+        // find the current player by name
         for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
           if (strcmp(BW::BWDATA_CurrentPlayer, players[i]->getName().c_str()) == 0)
             BWAPIPlayer = players[i];
 
-        /* error if player not found */
+        // error if player not found
         if (BWAPIPlayer == NULL)
         {
           commandLog->log("Error: Could not locate BWAPI player.");
           return;
         }
 
-        /* find the opponent player */
+        // find the opponent player
         for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
           if ((players[i]->playerType() == BW::PlayerType::Computer ||
                players[i]->playerType() == BW::PlayerType::Human ||
@@ -1348,12 +1380,12 @@ namespace BWAPI
               BWAPIPlayer->isEnemy(players[i]))
             opponent = players[i];
 
-        /* error if opponent not found */
+        // error if opponent not found
         if (opponent == NULL)
           commandLog->log("Warning: Could not find any opponent");
       }
 
-      /* get the start locations */
+      // get the start locations
       BW::Positions* posptr = BW::BWDATA_startPositions;
       startLocations.clear();
       playerSet.clear();
@@ -1365,7 +1397,7 @@ namespace BWAPI
         posptr++;
       }
 
-      /* get force names */
+      // get force names
       std::set<std::string> force_names;
       std::map<std::string, ForceImpl*> force_name_to_forceimpl;
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -1375,7 +1407,7 @@ namespace BWAPI
           playerSet.insert(players[i]);
         }
 
-      /* create ForceImpl for force names */
+      // create ForceImpl for force names
       foreach (std::string i, force_names)
       {
         ForceImpl* newforce = new ForceImpl(i);
@@ -1383,7 +1415,7 @@ namespace BWAPI
         force_name_to_forceimpl.insert(std::make_pair(i, newforce));
       }
 
-      /* create ForceImpl for players */
+      // create ForceImpl for players
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
         if (players[i] != NULL && players[i]->getName().length() > 0)
         {
@@ -1392,13 +1424,14 @@ namespace BWAPI
           players[i]->force = force;
         }
       unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+      */
     }
 
     //---------------------------------------------- ON SEND TEXT ----------------------------------------------
     bool onSendText(const char* text)
     {
-      /* prep onSendText */
-      if (parseText(text) || !isFlagEnabled(BWAPI::Flag::UserInput))
+      // prep onSendText
+      if (parseText(text) || !flags[Flags::UserInput])
         return true;
       else
       {
@@ -1438,7 +1471,7 @@ namespace BWAPI
         if (parsed[1] != "")
           setLocalSpeed(atoi(parsed[1].c_str()));
         else
-          setLocalSpeed();
+          setLocalSpeed(-1);
         return true;
       }
       else if (parsed[0] == "/restart")
@@ -1451,12 +1484,11 @@ namespace BWAPI
     //---------------------------------------------- ON GAME END -----------------------------------------------
     void onGameEnd()
     {
-      setOnStartCalled(false);
-      /*
+      /* TODO: reform
       if (client != NULL)
       {
         bool win=true;
-        if (_isReplay())
+        if (isReplay)
           win=false;
         else
         {
@@ -1470,7 +1502,6 @@ namespace BWAPI
         delete client;
         client=NULL;
       }
-      */
       units.clear();
       forces.clear();
       playerSet.clear();
@@ -1530,100 +1561,7 @@ namespace BWAPI
         unitArray[i]->nukeDetected=false;
       }
       cheatFlags=0;
-    }
-    //----------------------------------------------- START GAME -----------------------------------------------
-    void  startGame()
-    {
-      /* Starts the game as a lobby host */
-      setLastError(Errors::None);
-      IssueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
-    }
-    //----------------------------------------------- PAUSE GAME -----------------------------------------------
-    void  pauseGame()
-    {
-      /* Pauses the game */
-      setLastError(Errors::None);
-      IssueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
-    }
-    //---------------------------------------------- RESUME GAME -----------------------------------------------
-    void  resumeGame()
-    {
-      /* Resumes the game */
-      setLastError(Errors::None);
-      IssueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
-    }
-    //---------------------------------------------- LEAVE GAME ------------------------------------------------
-    void  leaveGame()
-    {
-      /* Leaves the current game. Moves directly to the post-game score screen */
-      setLastError(Errors::None);
-      *BW::BWDATA_GameState = 0;
-      *BW::BWDATA_GamePosition = 6;
-    }
-    //--------------------------------------------- RESTART GAME -----------------------------------------------
-    void  restartGame()
-    {
-      /* Restarts the current match 
-         Does not work on Battle.net */
-      setLastError(Errors::None);
-      *BW::BWDATA_GameState = 0;
-      *BW::BWDATA_GamePosition = 5;
-    }
-    //---------------------------------------------- GET MOUSE X -----------------------------------------------
-    int  getMouseX()
-    {
-      /* Retrieves the mouse's X coordinate */
-      setLastError(Errors::None);
-      if (isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      {
-        setLastError(Errors::Access_Denied);
-        return 0;
-      }
-      return *(BW::BWDATA_MouseX);
-    }
-    //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-    int  getMouseY()
-    {
-      /* Retrieves the mouse's Y coordinate */
-      setLastError(Errors::None);
-      if (isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      {
-        setLastError(Errors::Access_Denied);
-        return 0;
-      }
-      return *(BW::BWDATA_MouseY);
-    }
-    //---------------------------------------------- GET SCREEN X ----------------------------------------------
-    int  getScreenX()
-    {
-      /* Retrieves the screen's X coordinate in relation to the map */
-      setLastError(Errors::None);
-      if (isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      {
-        setLastError(Errors::Access_Denied);
-        return 0;
-      }
-      return *(BW::BWDATA_ScreenX);
-    }
-    //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-    int  getScreenY()
-    {
-      /* Retrieves the screen's Y coordinate in relation to the map */
-      setLastError(Errors::None);
-      if (isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      {
-        setLastError(Errors::Access_Denied);
-        return 0;
-      }
-      return *(BW::BWDATA_ScreenY);
-    }
-    //------------------------------------------- SET SCREEN POSITION ------------------------------------------
-    void setScreenPosition(int x, int y)
-    {
-      /* Sets the screen's position in relation to the map */
-      setLastError(Errors::None);
-      *(BW::BWDATA_ScreenX) = x;
-      *(BW::BWDATA_ScreenY) = y;
+      */
     }
     //----------------------------------------------------------------------------------------------------------
     void refresh()
@@ -1635,11 +1573,6 @@ namespace BWAPI
         __asm call BW::BWFXN_Refresh
       #endif
       */
-    }
-    //----------------------------------------------------------------------------------------------------------
-    UnitImpl* getUnit(int index)
-    {
-      return unitArray[index];
     }
     //--------------------------------------------- SAVE SELECTED ----------------------------------------------
     void saveSelected()
@@ -1665,8 +1598,8 @@ namespace BWAPI
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
     std::set<BWAPI::Unit*>& getSelectedUnits()
     {
-      setLastError(Errors::None);
-      if (isFlagEnabled(BWAPI::Flag::UserInput) == false)
+      
+      if (isFlagEnabled(Flag::UserInput) == false)
       {
         setLastError(Errors::Access_Denied);
         return emptySet;
@@ -1725,258 +1658,6 @@ namespace BWAPI
       }
       BWAPI::UnitImpl* deadUnit = unitArray[index];
       onUnitDeath(deadUnit);
-    }
-    //---------------------------------------------- ON ADD UNIT -----------------------------------------------
-    void onAddUnit(BWAPI::Unit* unit)
-    {
-      /*
-      if (client != NULL)
-      {
-        inUpdate = false;
-        if (unit != NULL && ((UnitImpl*)unit)->canAccess())
-          client->onUnitCreate(unit);
-
-        inUpdate = true;
-      }
-      */
-    }
-    //----------------------------------------------- GET FIRST ------------------------------------------------
-    UnitImpl* getFirst()
-    {
-      return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
-    }
-    //---------------------------------------------- GET LATENCY -----------------------------------------------
-    int getLatency()
-    {
-      /* Returns the real latency values */
-
-      /* Error checking */
-      setLastError(Errors::None);
-      if (_isSinglePlayer())
-        return BWAPI::Latency::SinglePlayer;
-
-      /* Lame options checking */
-      switch(*BW::BWDATA_Latency)
-      {
-        case 0:
-          return BWAPI::Latency::LanLow;
-        case 1:
-          return BWAPI::Latency::LanMedium;
-        case 2:
-          return BWAPI::Latency::LanHigh;
-        default:
-          return BWAPI::Latency::LanLow;
-      }
-    }
-    //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
-    void updateUnits()
-    {
-      inUpdate = false;
-      /* Clear all units on tile data */
-      for (int y = 0; y < Map::getHeight(); y++)
-        for (int x = 0; x < Map::getWidth(); x++)
-          unitsOnTileData[x][y].clear();
-
-      /* Clear other stuff */
-      allUnits.clear();
-      minerals.clear();
-      geysers.clear();
-      myPylons.clear();
-      std::list<BWAPI::UnitImpl*> morphUnits;
-      std::list<BWAPI::UnitImpl*> showUnits;
-      std::list<BWAPI::UnitImpl*> hideUnits;
-      std::list<BWAPI::UnitImpl*> renegadeUnits;
-
-      foreach (Player* i, playerSet)
-        ((PlayerImpl*)i)->units.clear();
-
-      foreach (UnitImpl* i, units)
-      {
-        if (i->canAccess())
-        {
-          int startX = (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
-          int endX   = (i->_getPosition().x() + i->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-          int startY = (i->_getPosition().y() - i->_getType().dimensionUp()) / BW::TILE_SIZE;
-          int endY   = (i->_getPosition().y() + i->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
-          for (int x = startX; x < endX; x++)
-            for (int y = startY; y < endY; y++)
-              unitsOnTileData[x][y].insert(i);
-
-          ((PlayerImpl*)(i->_getPlayer()))->units.insert(i);
-
-          allUnits.insert(i);
-
-          if (i->_getPlayer()->isNeutral())
-          {
-            neutralUnits.insert(i);
-            if (i->_getType()==UnitTypes::Resource_Mineral_Field)
-              minerals.insert(i);
-            else
-            {
-              if (i->_getType()==UnitTypes::Resource_Vespene_Geyser)
-                geysers.insert(i);
-            }
-          }
-          else
-          {
-            if (i->_getPlayer() == (Player*)BWAPIPlayer && i->_getType() == UnitTypes::Protoss_Pylon && i->_isCompleted())
-              myPylons.push_back(i);
-          }
-          if (i->lastType != i->_getType() && i->lastType != UnitTypes::Unknown && i->_getType() != UnitTypes::Unknown)
-            morphUnits.push_back(i);
-
-          if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
-            renegadeUnits.push_back(i);
-        }
-        i->startingAttack           = i->getAirWeaponCooldown() > i->lastAirWeaponCooldown || i->getGroundWeaponCooldown() > i->lastGroundWeaponCooldown;
-        i->lastAirWeaponCooldown    = i->getAirWeaponCooldown();
-        i->lastGroundWeaponCooldown = i->getGroundWeaponCooldown();
-        i->lastType                 = i->_getType();
-        i->lastPlayer               = i->_getPlayer();
-
-        if (!i->lastVisible && i->isVisible())
-        {
-          i->lastVisible = true;
-          showUnits.push_back(i);
-        }
-        else
-        {
-          if (i->lastVisible && !i->isVisible())
-          {
-            i->lastVisible = false;
-            hideUnits.push_back(i);
-          }
-        }
-      }
-      if (staticNeutralUnits.empty())
-      {
-        foreach (UnitImpl* i, units)
-        {
-          if (i->_getPlayer()->isNeutral())
-          {
-            i->saveInitialInformation();
-            staticNeutralUnits.insert(i);
-            if (i->_getType() == UnitTypes::Resource_Mineral_Field)
-              staticMinerals.insert(i);
-            else
-            {
-              if (i->_getType() == UnitTypes::Resource_Vespene_Geyser)
-                staticGeysers.insert(i);
-            }
-          }
-        }
-      }
-
-      /* Pass all renegade units to the AI client */
-//      foreach (BWAPI::UnitImpl* i, renegadeUnits)
-//        if (client)
-//          client->onUnitRenegade(i);
-
-      /* Pass all morphing units to the AI client */
-//      foreach (BWAPI::UnitImpl* i, morphUnits)
-//        if (client)
-//          client->onUnitMorph(i);
-/*
-      foreach (BWAPI::UnitImpl* i, showUnits)
-        if (client)
-          client->onUnitShow(i);
-
-      foreach (BWAPI::UnitImpl* i, hideUnits)
-      {
-        if (client)
-        {
-          i->makeVisible = true;
-          client->onUnitHide(i);
-          i->makeVisible = false;
-        }
-      }
-*/
-      inUpdate = true;
-    }
-    //--------------------------------------------- UNITS ON TILE ----------------------------------------------
-    std::set<Unit*>& unitsOnTile(int x, int y)
-    {
-      /* Retrieves a set of units that are on the specified tile */
-      setLastError(Errors::None);
-      if (x < 0 || y < 0 || x >= mapWidth() || y >= mapHeight())
-        return emptySet;
-
-      if (!isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x,y))
-      {
-        setLastError(Errors::Access_Denied);
-        return emptySet;
-      }
-      return unitsOnTileData[x][y];
-    }
-    //--------------------------------------------- GET LAST ERROR ---------------------------------------------
-    Error  getLastError()
-    {
-      /* returns the last error encountered in BWAPI */
-      return lastError;
-    }
-    //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-    void setLastError(BWAPI::Error e)
-    {
-      /* implies that an error has occured */
-      lastError = e;
-    }
-    //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
-    bool  isFlagEnabled(int flag)
-    {
-      /* checks if a BWAPI flag is enabled */
-      setLastError(Errors::None);
-      return flags[flag];
-    }
-    //----------------------------------------------- ENABLE FLAG ----------------------------------------------
-    void  enableFlag(int flag)
-    {
-      /* Enable the specified flag */
-
-      /* Error checking */
-      setLastError(Errors::None);
-      if (flagsLocked == true)
-      {
-        sendText("Flags can only be enabled at the start of a game.");
-        return;
-      }
-
-      if (flag >= BWAPI::FLAG_COUNT)
-      {
-        sendText("Invalid flag (%d).", flag);
-        return;
-      }
-
-      /* Modify flag state */
-      flags[flag] = true;
-      switch(flag)
-      {
-      case BWAPI::Flag::CompleteMapInformation:
-        sendText("Enabled Flag CompleteMapInformation");
-        break;
-      case BWAPI::Flag::UserInput:
-        sendText("Enabled Flag UserInput");
-        break;
-      }
-    }
-    //-------------------------------------------------- LOCK FLAGS --------------------------------------------
-    void lockFlags()
-    {
-      /* Prevent BWAPI flags from being modified */
-      flagsLocked = true;
-    }
-    //----------------------------------------------------- SELF -----------------------------------------------
-    Player*  self()
-    {
-      /* Retrieves the class for the current player */
-      setLastError(Errors::None);
-      return (Player*)BWAPIPlayer;
-    }
-    //----------------------------------------------------- ENEMY ----------------------------------------------
-    Player*  enemy()
-    {
-      /* Retrieves the class for the first opponent player */
-      setLastError(Errors::None);
-      return (Player*)opponent;
     }
     //----------------------------------------------------- DRAW -----------------------------------------------
     void addShape(Shape* s)

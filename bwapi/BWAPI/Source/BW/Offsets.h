@@ -168,17 +168,25 @@ namespace BW
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
-  static TileID**       BWDATA_ZergCreepArray             = (TileID**)     0x005993A8;
-  static TileID**       BWDATA_MapTileArray               = (TileID**)     0x005993C4;
-  static u32            BWDATA_TileStuffPointer           =                0x006D5EC8;
-  static TileType**     BWDATA_TileSet                    = (TileType**)   BWDATA_TileStuffPointer;  // 1.16.1      /**< Index  0-1023 */
-  static DoodatType**   BWDATA_DoodatSet                  = (DoodatType**) BWDATA_TileStuffPointer;  // 1.16.1   /**< Index 1024 + */
-  static u16*           BWDATA_MapSizeX                   = (u16*)         0x0057F1D4;               // 1.16.1
-  static u16*           BWDATA_MapSizeY                   = ((u16*)        BWDATA_MapSizeX) + 1;
-  static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
-  static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
-  static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CCA8;
-  const  u32            UNIT_ARRAY_MAX_LENGTH             = 1700;
+  static TileID**       BWDATA_ZergCreepArray                   = (TileID**)     0x005993A8;  // 1.16.1
+  static TileID**       BWDATA_MapTileArray                     = (TileID**)     0x005993C4;  // 1.16.1
+  static u32            BWDATA_TileStuffPointer                 =                0x006D5EC8;  // 1.16.1
+  static TileType**     BWDATA_TileSet                          = (TileType**)   BWDATA_TileStuffPointer;  // 1.16.1      /**< Index  0-1023 */
+  static DoodatType**   BWDATA_DoodatSet                        = (DoodatType**) BWDATA_TileStuffPointer;  // 1.16.1   /**< Index 1024 + */
+  static u16*           BWDATA_MapSizeX                         = (u16*)         0x0057F1D4;               // 1.16.1
+  static u16*           BWDATA_MapSizeY                         = ((u16*)        BWDATA_MapSizeX) + 1;
+  static Unit**         BWDATA_UnitNodeChain_VisibleUnit_First  = (Unit**)       0x00628430;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_VisibleUnit_Last   = (Unit**)       0x0059CC9C;  // 1.16.1 - unreliable could be 0x0059CD10, holds the same value...
+  static Unit**         BWDATA_UnitNodeChain_HiddenUnit_First   = (Unit**)       0x006283EC;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_HiddenUnit_Last    = (Unit**)       0x00628428;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_UnusedUnit_First   = (Unit**)       0x00628438;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_UnusedUnit_Last    = (Unit**)       0x0062843C;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_ScannerSweep_First = (Unit**)       0x006283F4;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_ScannerSweep_Last  = (Unit**)       0x00628434;  // 1.16.1
+  static Unit**         BWDATA_UnitNodeChain_PlayerFirstUnit    = (Unit**)       0x006283F8;      // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
+  static UnitArray*     BWDATA_UnitNodeTable                    = (UnitArray*)   0x0059CCA8;  // 1.16.1
+  static u32*           BWDATA_UnitNodeTable_UsedNodeCount      = (u32*)         0x006283F0;  // 1.16.1
+  const  u32            UNIT_ARRAY_MAX_LENGTH                   = 1700;
 
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect)  = (void (_stdcall*) (int, BW::Unit * *))             0x004C0860;

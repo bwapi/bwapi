@@ -415,155 +415,11 @@
 				Name="Source Files"
 				>
 				<File
-					RelativePath=".\source\BWAPI\Command.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackMove.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackUnit.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandBuild.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandBurrow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelAddon.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelConstruction.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelMorph.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelResearch.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelUpgrade.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCloak.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandDecloak.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandFollow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandHoldPosition.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandInvent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLand.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLift.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLoad.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphBuilding.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphUnit.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandPatrol.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandRepair.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandRightClick.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSetRally.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSiege.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandStop.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandTrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnburrow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnload.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnloadAll.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnsiege.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUpgrade.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\Engine.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\ForceImpl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\Map.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\OrderTypes.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\PlayerImpl.cpp"
 					>
 				</File>
 				<File
@@ -598,160 +454,12 @@
 					RelativePath=".\Source\BWAPI\ShapeTriangle.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\Source\BWAPI\UnitImpl.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Header files"
 				>
 				<File
-					RelativePath=".\source\BWAPI\Command.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackMove.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackUnit.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandBuild.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandBurrow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelAddon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelConstruction.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelMorph.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelResearch.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelUpgrade.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCloak.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandDecloak.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandFollow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandHoldPosition.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandInvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLand.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLift.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLoad.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphBuilding.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphUnit.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandPatrol.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandRepair.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandRightClick.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSetRally.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSiege.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandStop.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandTrain.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnburrow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnload.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnloadAll.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnsiege.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUpgrade.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\Engine.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ForceImpl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\Map.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\PlayerImpl.h"
 					>
 				</File>
 				<File
@@ -794,10 +502,6 @@
 					RelativePath="..\BWAPITypes\UnitCommands.h"
 					>
 				</File>
-				<File
-					RelativePath=".\Source\BWAPI\UnitImpl.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Enumerations"
@@ -812,10 +516,6 @@
 			Name="Interface"
 			>
 			<File
-				RelativePath="..\include\BWAPI.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\BWAPI\Constants.h"
 				>
 			</File>
@@ -825,10 +525,6 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Force.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\Game.h"
 				>
 			</File>
 			<File
