@@ -179,7 +179,8 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   // copy line per line
   std::set<std::string> filter;
   bool strip = false;
-  filter.insert("#");
+  bool ignore = false;
+  filter.insert("#"); // line beginnings that withstand stripping
   filter.insert("{");
   filter.insert("}");
   filter.insert("};");
@@ -196,6 +197,31 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   {
     std::string line = reader.readLine();
     int firstNonSpace = line.find_first_not_of(' ');
+
+    // modus changer commands
+    if(firstNonSpace != std::string::npos)
+    {
+      if(line.substr(firstNonSpace, 11) == "AGENT_STRIP")
+      {
+        strip = true;
+        ignore = false;
+        continue;
+      }
+      if(line.substr(firstNonSpace, 13) == "AGENT_TRANSIT")
+      {
+        strip = false;
+        ignore = false;
+        continue;
+      }
+      if(line.substr(firstNonSpace, 12) == "AGENT_IGNORE")
+      {
+        strip = false;
+        ignore = true;
+        continue;
+      }
+    }
+    if(ignore)
+      continue;
 
     // fix include statements to local paths
     if(line.substr(0, 8) == "#include")
@@ -242,11 +268,6 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
         // splice folders out of the path
         line = line.substr(0, from) + "\"" + includeePrefix + includeeFileName + "\"" + line.substr(to+1, line.size()-(to+1));
       }
-    }
-
-    if(line.substr(0, 11) == "AGENT_STRIP")
-    {
-      strip = true;
     }
 
     // filter strip

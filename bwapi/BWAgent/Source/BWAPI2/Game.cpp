@@ -1,207 +1,133 @@
-//#define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
-
 #include "Game.h"
-#include "BridgeClient.h"
-#include "Mappings.h"
 
-#include <string>
+#include "Unit.h"
 
 #include <Util\Version.h>
 #include <Util\Buffer.h>
 
+#include <string>
 
-namespace BWAgent
+namespace BWAPI2
 {
   namespace Game
   {
     //------------------------------------------------- GET UNITS ----------------------------------------------
     std::set< Unit* >& getAllUnits()
     {
-      return BWAgent::allUnits;
+      // STUB
+      return std::set< Unit* >();
     }
     //---------------------------------------------- GET LATENCY -----------------------------------------------
     int getLatency()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->getLatency;
+      return 0;
     }
     //--------------------------------------------- GET FRAME COUNT --------------------------------------------
     int getFrameCount()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->frameCount;
+      return 0;
     }
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
     int getMouseX()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->getMouseX;
+      return 0;
     }
     //---------------------------------------------- GET MOUSE Y -----------------------------------------------
     int getMouseY()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->getMouseY;
+      return 0;
     }
     //---------------------------------------------- GET SCREEN X ----------------------------------------------
     int getScreenX()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->getScreenX;
+      return 0;
     }
     //---------------------------------------------- GET SCREEN Y ----------------------------------------------
     int getScreenY()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->getScreenY;
+      return 0;
     }
     //----------------------------------------------- MAP WIDTH ------------------------------------------------
     int mapWidth()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->mapWidth;
+      return 0;
     }
     //----------------------------------------------- MAP HEIGHT -----------------------------------------------
     int mapHeight()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->mapHeight;
+      return 0;
     }
     //---------------------------------------------- MAP FILENAME ----------------------------------------------
     std::string mapFilename()
     {
-      if(!BridgeClient::sharedStaticData)
-        return "";
-      return BridgeClient::sharedStaticData->mapFilename;
+      return "";
     }
     //------------------------------------------------ MAP NAME ------------------------------------------------
     std::string mapName()
     {
-      if(!BridgeClient::sharedStaticData)
-        return "";
-      return BridgeClient::sharedStaticData->mapName;
+      return "";
     }
     //----------------------------------------------- GET MAP HASH ---------------------------------------------
     int getMapHash()
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      return BridgeClient::sharedStaticData->mapHash;
+      return 0;
     }
 
     //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
     int getGroundHeight(int x, int y)
     {
-      if(!BridgeClient::sharedStaticData)
-        return -1;
-      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth*4 || y>=BridgeClient::sharedStaticData->mapHeight*4)
-        return 0;
-      return BridgeClient::sharedStaticData->getGroundHeight[x][y];
+      return 0;
     }
     //---------------------------------------------- IS WALKABLE -----------------------------------------------
     bool isWalkable(int x, int y)
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth*4 || y>=BridgeClient::sharedStaticData->mapHeight*4)
-        return false;
-      return BridgeClient::sharedStaticData->isWalkable[x][y];
+      return 0;
     }
     //--------------------------------------------- IS BUILDABLE -----------------------------------------------
     bool isBuildable(int x, int y)
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
-        return false;
-      return BridgeClient::sharedStaticData->isBuildable[x][y];
+      return 0;
     }
     //---------------------------------------------- IS VISIBLE ------------------------------------------------
     bool isVisible(int x, int y)
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
-        return false;
-      return BridgeClient::sharedStaticData->isVisible[x][y];
+      return 0;
     }
     //---------------------------------------------- IS EXPLORED -----------------------------------------------
     bool isExplored(int x, int y)
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
-        return false;
-      return BridgeClient::sharedStaticData->isExplored[x][y];
+      return 0;
     }
     //----------------------------------------------- HAS CREEP ------------------------------------------------
     bool hasCreep(int x, int y)
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      if (x<0 || y<0 || x>=BridgeClient::sharedStaticData->mapWidth || y>=BridgeClient::sharedStaticData->mapHeight)
-        return false;
-      return BridgeClient::sharedStaticData->hasCreep[x][y];
+      return 0;
     }
 
     //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
     bool isMultiplayer()
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      return BridgeClient::sharedStaticData->isMultiplayer;
+      return 0;
     }
     //----------------------------------------------- IS REPLAY ------------------------------------------------
     bool isReplay()
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      return BridgeClient::sharedStaticData->isReplay;
+      return 0;
     }
     //----------------------------------------------- IS PAUSED ------------------------------------------------
     bool isPaused()
     {
-      if(!BridgeClient::sharedStaticData)
-        return false;
-      return BridgeClient::sharedStaticData->isPaused;
+      return 0;
     }
     //------------------------------------------------ PRINTF --------------------------------------------------
     void printf(const char* text, ...)
     {
-      static Util::Buffer generalBuffer;
-      if(BridgeClient::isConnected())
-      {
-        generalBuffer.setSize(2048);
-        char *textf = generalBuffer.getMemory().beginAs<char>();
-        va_list ap;
-        va_start(ap, text);
-        vsnprintf_s(textf, generalBuffer.size(), generalBuffer.size(), text, ap);
-        va_end(ap);
-        BridgeClient::pushSendText(false, textf);
-      }
+      return;
     }
     //------------------------------------------------ SEND TEXT -----------------------------------------------
     void sendText(const char* text, ...)
     {
-      static Util::Buffer generalBuffer;
-      if(BridgeClient::isConnected())
-      {
-        generalBuffer.setSize(2048);
-        char *textf = generalBuffer.getMemory().beginAs<char>();
-        va_list ap;
-        va_start(ap, text);
-        vsnprintf_s(textf, generalBuffer.size(), generalBuffer.size(), text, ap);
-        va_end(ap);
-        BridgeClient::pushSendText(true, textf);
-      }
+      return;
     }
     /*
     //------------------------------------------------ BUILDABLE -----------------------------------------------

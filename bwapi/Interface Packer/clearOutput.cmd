@@ -1,2 +1,2 @@
-@del include\BWAgent\*.* /q
+@del include\BWAPI2\*.* /q
 @rem @pause
