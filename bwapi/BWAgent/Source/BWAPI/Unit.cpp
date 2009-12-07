@@ -4,11 +4,13 @@
 
 #include <string>
 
+#include "Bridge\UnitCommandEntry.h"
+
 #include "Util\Version.h"
 
 namespace BWAgent
 {
-  void pushCommand(BWAPI::CommandID::Enum commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
+//  void pushCommand(BWAPI::CommandID commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
   Unit::Unit()
   {
   }
@@ -390,7 +392,7 @@ namespace BWAgent
     return true;
   }
 
-  void pushCommand(BWAPI::CommandID::Enum commandID, int unitID, int x, int y, int targetID, int specialID)
+  void pushCommand(BWAPI::UnitCommandTypeID commandID, int unitID, int x, int y, int targetID, int specialID)
   {
     /*
     BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);

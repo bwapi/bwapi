@@ -8,9 +8,9 @@ namespace BW
    * Direct mapping of bw tech identification.
    * Source is http://www.staredit.net/wiki/Techdata.dat_Entry_Listing
    */
-  namespace TechID
+  namespace TechIDs
   {
-  enum Enum
+    enum Enum
     {
       Stimpacks         = 0x00,
       Lockdown          = 0x01,
@@ -60,4 +60,5 @@ namespace BW
       NuclearStrike     = 0x2D
     };
   }
+  typedef TechIDs::Enum TechID;
 };

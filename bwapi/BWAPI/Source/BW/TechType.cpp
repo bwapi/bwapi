@@ -1,12 +1,12 @@
 #include "TechType.h"
-
 #include "Offsets.h"
+#include "UnitTypeID.h"
 
 namespace BW
 {
 //----------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TechType::TechType()
-      : id(BW::TechID::None)
+      : id(BW::TechIDs::None)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -32,7 +32,7 @@ namespace BW
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* TechType::getName() const
   {
-    if (this->getID() == BW::TechID::None)
+    if (this->getID() == BW::TechIDs::None)
       return "None";
     else if (this->getID() < 44)
       return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_TechLabelIndex[this->getID()]]);
@@ -47,9 +47,9 @@ namespace BW
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool TechType::isValid() const
   {
-    if (id >= BW::TechID::UnusedTech35 ||
-        id == BW::TechID::UnusedTech33 ||
-        id == BW::TechID::UnusedTech26)
+    if (id >= BW::TechIDs::UnusedTech35 ||
+        id == BW::TechIDs::UnusedTech33 ||
+        id == BW::TechIDs::UnusedTech26)
       return false;
     return true;
   }
@@ -73,35 +73,35 @@ namespace BW
   {
     switch (this->getID())
     {
-      case BW::TechID::Stimpacks          :
-      case BW::TechID::OpticalFlare       :
-      case BW::TechID::Restoration        : return BW::UnitID::Terran_Academy;
-      case BW::TechID::Lockdown           :
-      case BW::TechID::PersonnelCloaking  : return BW::UnitID::Terran_CovertOps;
-      case BW::TechID::EMPShockwave       :
-      case BW::TechID::Irradiate          : return BW::UnitID::Terran_ScienceFacility;
-      case BW::TechID::SpiderMines        :
-      case BW::TechID::TankSiegeMode      : return BW::UnitID::Terran_MachineShop;
-      case BW::TechID::YamatoGun          : return BW::UnitID::Terran_PhysicsLab;
-      case BW::TechID::CloakingField      : return BW::UnitID::Terran_ControlTower;
+      case BW::TechIDs::Stimpacks          :
+      case BW::TechIDs::OpticalFlare       :
+      case BW::TechIDs::Restoration        : return BW::UnitTypeIDs::Terran_Academy;
+      case BW::TechIDs::Lockdown           :
+      case BW::TechIDs::PersonnelCloaking  : return BW::UnitTypeIDs::Terran_CovertOps;
+      case BW::TechIDs::EMPShockwave       :
+      case BW::TechIDs::Irradiate          : return BW::UnitTypeIDs::Terran_ScienceFacility;
+      case BW::TechIDs::SpiderMines        :
+      case BW::TechIDs::TankSiegeMode      : return BW::UnitTypeIDs::Terran_MachineShop;
+      case BW::TechIDs::YamatoGun          : return BW::UnitTypeIDs::Terran_PhysicsLab;
+      case BW::TechIDs::CloakingField      : return BW::UnitTypeIDs::Terran_ControlTower;
 
-      case BW::TechID::Burrowing          : return BW::UnitID::Zerg_Hatchery;
-      case BW::TechID::LurkerAspect       : return BW::UnitID::Zerg_HydraliskDen;
-      case BW::TechID::Ensnare            :
-      case BW::TechID::Parasite           :
-      case BW::TechID::SpawnBroodlings    : return BW::UnitID::Zerg_QueensNest;
-      case BW::TechID::Plague             :
-      case BW::TechID::Consume            : return BW::UnitID::Zerg_DefilerMound;
+      case BW::TechIDs::Burrowing          : return BW::UnitTypeIDs::Zerg_Hatchery;
+      case BW::TechIDs::LurkerAspect       : return BW::UnitTypeIDs::Zerg_HydraliskDen;
+      case BW::TechIDs::Ensnare            :
+      case BW::TechIDs::Parasite           :
+      case BW::TechIDs::SpawnBroodlings    : return BW::UnitTypeIDs::Zerg_QueensNest;
+      case BW::TechIDs::Plague             :
+      case BW::TechIDs::Consume            : return BW::UnitTypeIDs::Zerg_DefilerMound;
 
-      case BW::TechID::PsionicStorm       :
-      case BW::TechID::Hallucination      :
-      case BW::TechID::MindControl        :
-      case BW::TechID::Maelstorm          : return BW::UnitID::Protoss_TemplarArchives;
-      case BW::TechID::Recall             :
-      case BW::TechID::StasisField        : return BW::UnitID::Protoss_ArbiterTribunal;
-      case BW::TechID::DisruptionWeb      : return BW::UnitID::Protoss_FleetBeacon;
+      case BW::TechIDs::PsionicStorm       :
+      case BW::TechIDs::Hallucination      :
+      case BW::TechIDs::MindControl        :
+      case BW::TechIDs::Maelstorm          : return BW::UnitTypeIDs::Protoss_TemplarArchives;
+      case BW::TechIDs::Recall             :
+      case BW::TechIDs::StasisField        : return BW::UnitTypeIDs::Protoss_ArbiterTribunal;
+      case BW::TechIDs::DisruptionWeb      : return BW::UnitTypeIDs::Protoss_FleetBeacon;
 
-      default : return BW::UnitID::None;
+      default : return BW::UnitTypeIDs::None;
     }
   }
   //----------------------------------------------------------------------------------------------------------

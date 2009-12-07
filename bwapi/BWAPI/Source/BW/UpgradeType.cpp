@@ -1,4 +1,5 @@
 #include "UpgradeType.h"
+#include "UnitTypeID.h"
 
 #include "Offsets.h"
 
@@ -6,7 +7,7 @@ namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UpgradeType::UpgradeType()
-      : id(BW::UpgradeID::None)
+    : id(BW::UpgradeIDs::None)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -27,7 +28,7 @@ namespace BW
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* UpgradeType::getName() const
   {
-    if (this->getID() == BW::UpgradeID::None)
+    if (this->getID() == BW::UpgradeIDs::None)
       return "None";
     else if (this->getID() < 60)
       return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_UpgradeLabelIndex[this->getID()]]);
@@ -37,12 +38,12 @@ namespace BW
   //----------------------------------------------------------------------------------------------------------
   bool UpgradeType::isValid() const
   {
-    return this->getID()  < UpgradeID::UnusedUpgrade55 &&
-           this->getID() != UpgradeID::UnusedUpgrade45 &&
-           this->getID() != UpgradeID::UnusedUpgrade46 &&
-           this->getID() != UpgradeID::UnusedUpgrade48 &&
-           this->getID() != UpgradeID::UnusedUpgrade50 &&
-           this->getID() != UpgradeID::BurstLasers;
+    return this->getID()  < UpgradeIDs::UnusedUpgrade55 &&
+           this->getID() != UpgradeIDs::UnusedUpgrade45 &&
+           this->getID() != UpgradeIDs::UnusedUpgrade46 &&
+           this->getID() != UpgradeIDs::UnusedUpgrade48 &&
+           this->getID() != UpgradeIDs::UnusedUpgrade50 &&
+           this->getID() != UpgradeIDs::BurstLasers;
   }
   //---------------------------------------------- UPGRDES MAX -----------------------------------------------
   u8 UpgradeType::upgradesMax() const
@@ -89,60 +90,60 @@ namespace BW
   {
     switch (this->getID())
     {
-      case BW::UpgradeID::TerranInfantryWeapons :
-      case BW::UpgradeID::TerranInfantryArmor   : return BW::UnitID::Terran_EngineeringBay;
-      case BW::UpgradeID::TerranVehicleWeapons  :
-      case BW::UpgradeID::TerranVehiclePlating  :
-      case BW::UpgradeID::TerranShipWeapons     :
-      case BW::UpgradeID::TerranShipPlating     : return BW::UnitID::Terran_Armory;
-      case BW::UpgradeID::CaduceusReactor       :
-      case BW::UpgradeID::U_238Shells           : return BW::UnitID::Terran_Academy;
-      case BW::UpgradeID::CharonBooster         :
-      case BW::UpgradeID::IonThrusters          : return BW::UnitID::Terran_MachineShop;
-      case BW::UpgradeID::TitanReactor          : return BW::UnitID::Terran_ScienceFacility;
-      case BW::UpgradeID::MoebiusReactor        :
-      case BW::UpgradeID::OcularImplants        : return BW::UnitID::Terran_CovertOps;
-      case BW::UpgradeID::ApolloReactor         : return BW::UnitID::Terran_ControlTower;
-      case BW::UpgradeID::ColossusReactor       : return BW::UnitID::Terran_PhysicsLab;
+      case BW::UpgradeIDs::TerranInfantryWeapons :
+      case BW::UpgradeIDs::TerranInfantryArmor   : return BW::UnitTypeIDs::Terran_EngineeringBay;
+      case BW::UpgradeIDs::TerranVehicleWeapons  :
+      case BW::UpgradeIDs::TerranVehiclePlating  :
+      case BW::UpgradeIDs::TerranShipWeapons     :
+      case BW::UpgradeIDs::TerranShipPlating     : return BW::UnitTypeIDs::Terran_Armory;
+      case BW::UpgradeIDs::CaduceusReactor       :
+      case BW::UpgradeIDs::U_238Shells           : return BW::UnitTypeIDs::Terran_Academy;
+      case BW::UpgradeIDs::CharonBooster         :
+      case BW::UpgradeIDs::IonThrusters          : return BW::UnitTypeIDs::Terran_MachineShop;
+      case BW::UpgradeIDs::TitanReactor          : return BW::UnitTypeIDs::Terran_ScienceFacility;
+      case BW::UpgradeIDs::MoebiusReactor        :
+      case BW::UpgradeIDs::OcularImplants        : return BW::UnitTypeIDs::Terran_CovertOps;
+      case BW::UpgradeIDs::ApolloReactor         : return BW::UnitTypeIDs::Terran_ControlTower;
+      case BW::UpgradeIDs::ColossusReactor       : return BW::UnitTypeIDs::Terran_PhysicsLab;
 
-      case BW::UpgradeID::ZergMeleeAttacks      :
-      case BW::UpgradeID::ZergMissileAttacks    :
-      case BW::UpgradeID::ZergCarapace          : return BW::UnitID::Zerg_EvolutionChamber;
-      case BW::UpgradeID::ZergFlyerAttacks      :
-      case BW::UpgradeID::ZergFlyerCaparace     : return BW::UnitID::Zerg_Spire;
-      case BW::UpgradeID::PneumatizedCarapace   :
-      case BW::UpgradeID::Antennae              :
-      case BW::UpgradeID::VentralSacs           : return BW::UnitID::Zerg_Lair;
-      case BW::UpgradeID::AdrenalGlands         :
-      case BW::UpgradeID::MetabolicBoost        : return BW::UnitID::Zerg_SpawningPool;
-      case BW::UpgradeID::MuscularAugments      :
-      case BW::UpgradeID::GroovedSpines         : return BW::UnitID::Zerg_Hydralisk;
-      case BW::UpgradeID::GameteMeiosis         : return BW::UnitID::Zerg_QueensNest;
-      case BW::UpgradeID::MetasynapticNode      : return BW::UnitID::Zerg_DefilerMound;
-      case BW::UpgradeID::AnabolicSynthesis     :
-      case BW::UpgradeID::ChitinousPlating      : return BW::UnitID::Zerg_UltraliskCavern;
+      case BW::UpgradeIDs::ZergMeleeAttacks      :
+      case BW::UpgradeIDs::ZergMissileAttacks    :
+      case BW::UpgradeIDs::ZergCarapace          : return BW::UnitTypeIDs::Zerg_EvolutionChamber;
+      case BW::UpgradeIDs::ZergFlyerAttacks      :
+      case BW::UpgradeIDs::ZergFlyerCaparace     : return BW::UnitTypeIDs::Zerg_Spire;
+      case BW::UpgradeIDs::PneumatizedCarapace   :
+      case BW::UpgradeIDs::Antennae              :
+      case BW::UpgradeIDs::VentralSacs           : return BW::UnitTypeIDs::Zerg_Lair;
+      case BW::UpgradeIDs::AdrenalGlands         :
+      case BW::UpgradeIDs::MetabolicBoost        : return BW::UnitTypeIDs::Zerg_SpawningPool;
+      case BW::UpgradeIDs::MuscularAugments      :
+      case BW::UpgradeIDs::GroovedSpines         : return BW::UnitTypeIDs::Zerg_Hydralisk;
+      case BW::UpgradeIDs::GameteMeiosis         : return BW::UnitTypeIDs::Zerg_QueensNest;
+      case BW::UpgradeIDs::MetasynapticNode      : return BW::UnitTypeIDs::Zerg_DefilerMound;
+      case BW::UpgradeIDs::AnabolicSynthesis     :
+      case BW::UpgradeIDs::ChitinousPlating      : return BW::UnitTypeIDs::Zerg_UltraliskCavern;
 
-      case BW::UpgradeID::ProtossArmor          :
-      case BW::UpgradeID::ProtossGroundWeapons  :
-      case BW::UpgradeID::ProtossPlasmaShields  : return BW::UnitID::Protoss_Forge;
-      case BW::UpgradeID::SingularityCharge     :
-      case BW::UpgradeID::ProtossAirWeapons     :
-      case BW::UpgradeID::ProtossPlating        : return BW::UnitID::Protoss_CyberneticsCore;
-      case BW::UpgradeID::LegEnhancements       : return BW::UnitID::Protoss_CitadelOfAdun;
-      case BW::UpgradeID::GraviticDrive         :
-      case BW::UpgradeID::ReaverCapacity        :
-      case BW::UpgradeID::ScarabDamage          : return BW::UnitID::Protoss_RoboticsSupportBay;
-      case BW::UpgradeID::GraviticBoosters      :
-      case BW::UpgradeID::SensorArray           : return BW::UnitID::Protoss_Observatory;
-      case BW::UpgradeID::ArgusTalisman         :
-      case BW::UpgradeID::ApialSensors          :
-      case BW::UpgradeID::KhaydarinAmulet       : return BW::UnitID::Protoss_TemplarArchives;
-      case BW::UpgradeID::ArgusJewel            :
-      case BW::UpgradeID::CarrierCapacity       :
-      case BW::UpgradeID::GraviticThrusters     : return BW::UnitID::Protoss_FleetBeacon;
-      case BW::UpgradeID::KhaydarinCore         : return BW::UnitID::Protoss_ArbiterTribunal;
+      case BW::UpgradeIDs::ProtossArmor          :
+      case BW::UpgradeIDs::ProtossGroundWeapons  :
+      case BW::UpgradeIDs::ProtossPlasmaShields  : return BW::UnitTypeIDs::Protoss_Forge;
+      case BW::UpgradeIDs::SingularityCharge     :
+      case BW::UpgradeIDs::ProtossAirWeapons     :
+      case BW::UpgradeIDs::ProtossPlating        : return BW::UnitTypeIDs::Protoss_CyberneticsCore;
+      case BW::UpgradeIDs::LegEnhancements       : return BW::UnitTypeIDs::Protoss_CitadelOfAdun;
+      case BW::UpgradeIDs::GraviticDrive         :
+      case BW::UpgradeIDs::ReaverCapacity        :
+      case BW::UpgradeIDs::ScarabDamage          : return BW::UnitTypeIDs::Protoss_RoboticsSupportBay;
+      case BW::UpgradeIDs::GraviticBoosters      :
+      case BW::UpgradeIDs::SensorArray           : return BW::UnitTypeIDs::Protoss_Observatory;
+      case BW::UpgradeIDs::ArgusTalisman         :
+      case BW::UpgradeIDs::ApialSensors          :
+      case BW::UpgradeIDs::KhaydarinAmulet       : return BW::UnitTypeIDs::Protoss_TemplarArchives;
+      case BW::UpgradeIDs::ArgusJewel            :
+      case BW::UpgradeIDs::CarrierCapacity       :
+      case BW::UpgradeIDs::GraviticThrusters     : return BW::UnitTypeIDs::Protoss_FleetBeacon;
+      case BW::UpgradeIDs::KhaydarinCore         : return BW::UnitTypeIDs::Protoss_ArbiterTribunal;
 
-      default : return BW::UnitID::None;
+      default : return BW::UnitTypeIDs::None;
     }
   }
 };

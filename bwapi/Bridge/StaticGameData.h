@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\BWAPITypes\UnitCommands.h"
+#include "..\BWAPITypes\UnitCommand.h"
 #include "..\BWAPITypes\UnitState.h"
 namespace Bridge
 {

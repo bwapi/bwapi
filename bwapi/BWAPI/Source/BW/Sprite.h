@@ -14,7 +14,7 @@ namespace BW
     u8 unknown2;
     u8 selectionTimer;
     u32 index;
-    Position position;
+    BW::Position position;
     u32 CImage_underlay;
     u32 CImage_mainGraphic;
     u32 CImage_overlay;

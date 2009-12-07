@@ -1,23 +1,22 @@
 #pragma once
 
-#include <Util/Types.h>
-namespace BW { class TilePosition; }
+#include <Util\Point.h>
+#include <Util\Types.h>
 
 namespace BW
 {
-  /** Direct mapping of bw representation of map position. */
-  class Position
+  struct WalkPosition;
+  struct BuildPosition;
+  struct Position : Util::Point<u16>
   {
-    public :
-      Position();
-      Position(const BW::TilePosition& position);
-      Position(u16 x, u16 y);
-      bool operator == (const BW::Position& position) const;
-      bool operator != (const BW::Position& position) const;
-      bool operator  < (const BW::Position& position) const;
-      u16 getDistance(const Position& position) const;
-      u16 x;
-      u16 y;
+    static Position Invalid;
+
+    Position();
+    Position(Util::Point<u16> point);
+    Position(int x, int y);
+    Position(const WalkPosition &convertFrom);
+    Position(const BuildPosition &convertFrom);
   };
 };
+
 

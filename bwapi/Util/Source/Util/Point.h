@@ -1,30 +1,109 @@
 #pragma once
 
-namespace BWAPI
+namespace Util
 {
-  namespace Math
+  template<typename L>  // linear type
+  struct Point
   {
-    struct Point
-    {
-        int x;
-        int y;
+      L x;
+      L y;
 
-        static Point Invalid;
+      typedef L LinearType;
 
-        Point();
-        Point(int x, int y);
-        bool operator == (const Point& b) const;
-        bool operator != (const Point& b) const;
-        bool operator  < (const Point& b) const;
-        Point operator + (const Point& b) const;
-        Point operator - (const Point& b) const;
-        Point& operator += (const Point& b);
-        Point& operator -= (const Point& b);
-        void exchange(Point& b);
-        double getDistance(const Point& b) const;
-        double getLength() const;
-        bool isValid();
-    };
+      static const Point<L> Invalid;
+
+      Point();
+      Point(L x, L y);
+      bool operator == (const Point<L>& b) const;
+      bool operator != (const Point<L>& b) const;
+      bool operator  < (const Point<L>& b) const;
+      Point<L> operator + (const Point<L>& b) const;
+      Point<L> operator - (const Point<L>& b) const;
+      Point<L>& operator += (const Point<L>& b);
+      Point<L>& operator -= (const Point<L>& b);
+      void exchange(Point<L>& b);
+      double getDistance(const Point<L>& b) const;
+      double getLength() const;
+  };
+  template<typename L>
+  const Point<L> Point<L>::Invalid = Point<L>(1 << (sizeof(L)*8 - 1), 1 << (sizeof(L)*8 - 1));
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  template<typename L>
+  Point<L>::Point()
+      : x(0)
+      , y(0)
+  {
   }
-};
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  template<typename L>
+  Point<L>::Point(L x, L y)
+      : x(x)
+      , y(y)
+  {
+  }
+  //---------------------------------------------- OPERATOR == -----------------------------------------------
+  template<typename L>
+  bool Point<L>::operator == (const Point<L>& point) const
+  {
+    return this->x == point.x &&
+           this->y == point.y;
+  }
+  //---------------------------------------------- OPERATOR != -----------------------------------------------
+  template<typename L>
+  bool Point<L>::operator != (const Point<L>& point) const
+  {
+    return this->x != point.x ||
+           this->y != point.y;
+  }
+  //---------------------------------------------- OPERATOR < ------------------------------------------------
+  template<typename L>
+  bool Point<L>::operator  < (const Point<L>& point) const
+  {
+    return this->x < point.x ||
+           (this->x == point.x && this->y < point.y);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  Point<L> Point<L>::operator+(const Point<L>& point) const
+  {
+    return Point(this->x + point.x, this->y + point.y);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  Point<L> Point<L>::operator-(const Point<L>& point) const
+  {
+    return Point(this->x - point.x, this->y - point.y);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  Point<L>& Point<L>::operator+=(const Point<L>& point)
+  {
+    this->x += point.x;
+    this->y += point.y;
+    return *this;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  Point<L>& Point<L>::operator-=(const Point<L>& point)
+  {
+    this->x -= point.x;
+    this->y -= point.y;
+    return *this;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  double Point<L>::getDistance(const Point<L>& point) const
+  {
+    return ((*this) - point).getLength();
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  double Point<L>::getLength() const
+  {
+    double x = this->x;
+    double y = this->y;
+    return sqrt(x * x + y * y);
+  }
+  //----------------------------------------------------------------------------------------------------------
+}
 

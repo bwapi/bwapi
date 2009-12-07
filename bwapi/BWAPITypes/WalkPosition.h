@@ -1,6 +1,16 @@
+#include <BW\WalkPosition.h>
+
+namespace BWAPI
+{
+  typedef BW::WalkPosition WalkPosition;
+}
+
+/* moved to BW 
+TODO: look if it pays off
+
 #pragma once
 
-#include "Math\Point.h"
+#include <Util\Point.h>
 
 namespace BWAPI
 {
@@ -18,4 +28,4 @@ namespace BWAPI
     WalkPosition(const BuildPosition &convertFrom);
   };
 };
-
+*/

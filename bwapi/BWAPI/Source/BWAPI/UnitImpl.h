@@ -5,13 +5,15 @@
 #include <list>
 
 #include <Util/Types.h>
-#include <BWAPI/Order.h>
-#include <BW/UnitType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/UnitType.h>
+
+#include <BWAPITypes/Activity.h>
+#include <BWAPITypes/TechType.h>
+#include <BWAPITypes/UpgradeType.h>
+#include <BWAPITypes/UnitType.h>
+
 #include <BW/TilePosition.h>
-#include <BW/OrderID.h>
+#include <BW/ActivityID.h>
+#include <BW/UnitType.h>
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };
@@ -67,10 +69,10 @@ namespace BWAPI
 
       virtual Unit*  getTarget() const;
       virtual Position  getTargetPosition() const;
-      virtual Order  getOrder() const;
-      virtual Unit*  getOrderTarget() const;
-      virtual int  getOrderTimer() const;
-      virtual Order  getSecondaryOrder() const;
+      virtual Activity  getActivity() const;
+      virtual Unit*  getActivityTarget() const;
+      virtual int  getActivityTimer() const;
+      virtual Activity  getSecondaryActivity() const;
       virtual Unit*  getBuildUnit() const;
       virtual int  getRemainingBuildTime() const;
       virtual int  getRemainingTrainTime() const;
@@ -136,24 +138,24 @@ namespace BWAPI
       virtual bool  attackMove(Position position);
       virtual bool  attackUnit(Unit* target);
       /**
-       * Order this unit to right click on the specified location. Note that
+       * Activity this unit to right click on the specified location. Note that
        * right click on location will always result in move.
        */
       virtual bool  rightClick(Position position);
       /**
-       * Orders this unit to right click on the specified unit. Note that right
+       * Activitys this unit to right click on the specified unit. Note that right
        * click on unit can result in lot of commands (attack, gather, follow,
        * set rally point)
        */
       virtual bool  rightClick(Unit* target);
-      /** Orders this unit to train (construct) the specified unit. */
+      /** Activitys this unit to train (construct) the specified unit. */
       virtual bool  train(UnitType type);
-      /** Orders to build the specified building. */
+      /** Activitys to build the specified building. */
       virtual bool  build(TilePosition position, UnitType type);
       virtual bool  buildAddon(UnitType type);
-      /** Orders to build the research the specified tech. */
+      /** Activitys to build the research the specified tech. */
       virtual bool  research(TechType tech);
-      /** Orders to build the upgrade the specified upgrade. */
+      /** Activitys to build the upgrade the specified upgrade. */
       virtual bool  upgrade(UpgradeType upgrade);
       virtual bool  stop();
       virtual bool  holdPosition();
@@ -209,7 +211,7 @@ namespace BWAPI
       TilePosition _getTilePosition() const;
       int _getResources() const;
       int _getHitPoints() const;
-      Unit* _getOrderTarget() const;
+      Unit* _getActivityTarget() const;
       bool _isCompleted() const;
       bool _isResearching() const;
       bool _isUpgrading() const;
@@ -223,7 +225,7 @@ namespace BWAPI
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;
-      u8  getBWOrder() const;
+      u8  getBWActivity() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
       std::string getName() const;
@@ -259,8 +261,8 @@ namespace BWAPI
       int lastGroundWeaponCooldown;
     private:
 
-      /** Orders to select this unit (previous selection will be lost. */
-      void orderSelect();
+      /** Activitys to select this unit (previous selection will be lost. */
+      void ActivitySelect();
 
       BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */

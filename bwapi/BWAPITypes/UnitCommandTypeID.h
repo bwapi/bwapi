@@ -1,7 +1,12 @@
 #pragma once
+/**
+ * UnitCommand contains a whole single command
+ *
+ */
+
 namespace BWAPI
 {
-  namespace CommandID
+  namespace UnitCommandTypeIDs
   {
     enum Enum
     {
@@ -48,13 +53,5 @@ namespace BWAPI
       UseTechUnit
     };
   }
-  struct UnitCommand
-  {
-    CommandID::Enum commandID;
-    int unitID;
-    int x; //x position or tile position, depending on order type
-    int y; //y position or tile position, depending on order type
-    int targetID; //target unit ID, if applicable
-    int specialID; //tech type, upgrade type, or unit type, depending on command type
-  };
+  typedef UnitCommandTypeIDs::Enum UnitCommandTypeID;
 }

@@ -116,46 +116,46 @@ namespace BW
   //----------------------------------------------- TARGETS AIR ----------------------------------------------
   bool WeaponType::targetsAir() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Air);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::Air>();
   }
   //---------------------------------------------- TARGETS GROUND --------------------------------------------
   bool WeaponType::targetsGround() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Ground);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::Ground>();
   }
   //------------------------------------------- TARGETS MECHANICAL -------------------------------------------
   bool WeaponType::targetsMechanical() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Mechanical);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::Mechanical>();
   }
   //--------------------------------------------- TARGETS ORGANIC --------------------------------------------
   bool WeaponType::targetsOrganic() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Organic);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::Organic>();
   }
   //------------------------------------------- TARGETS NONBUILDING ------------------------------------------
   bool WeaponType::targetsNonBuilding() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::NonBuilding);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::NonBuilding>();
   }
   //------------------------------------------- TARGETS NONROBOTIC -------------------------------------------
   bool WeaponType::targetsNonRobotic() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::NonRobotic);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::NonRobotic>();
   }
   //-------------------------------------------- TARGETS TERRAIN ---------------------------------------------
   bool WeaponType::targetsTerrain() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Terrain);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::Terrain>();
   }
   //------------------------------------------- TARGETS ORGORMECH --------------------------------------------
   bool WeaponType::targetsOrgOrMech() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::OrgOrMech);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::OrgOrMech>();
   }
   //---------------------------------------------- TARGETS OWN -----------------------------------------------
   bool WeaponType::targetsOwn() const
   {
-    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit(BW::WeaponTargetFlags::Own);
+    return BW::BWDATA_WeaponTargetFlags->weaponType[this->getID()].getBit<BW::WeaponTargetFlags::Own>();
   }
 };

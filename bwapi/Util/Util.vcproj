@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="2"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -91,6 +91,10 @@
 				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 				>
 				<File
+					RelativePath=".\Source\Util\Buffer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Exceptions.cpp"
 					>
 				</File>
@@ -100,6 +104,26 @@
 				</File>
 				<File
 					RelativePath=".\Source\Util\Logger.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\MemoryFrame.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\Pipe.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\RemoteProcess.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedMemory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedStack.cpp"
 					>
 				</File>
 				<File
@@ -139,6 +163,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\MemoryFrame.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\Pipe.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\RectangleArray.h"
 					>
 				</File>
@@ -147,11 +179,43 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\RemoteProcess.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\RemoteProcessId.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedMemory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedSet.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Bridge\SharedStuff.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Strings.h"
 					>
 				</File>
 				<File
+					RelativePath="..\svnrev.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\TypeHead.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Types.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\Version.h"
 					>
 				</File>
 			</Filter>

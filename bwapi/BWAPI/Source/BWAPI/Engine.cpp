@@ -23,15 +23,11 @@
 #include <Util/Foreach.h>
 #include <Util/Gnu.h>
 
-#include <BWAPI/Command.h>
-#include <BWAPI/CommandCancelTrain.h>
-#include <BWAPI/ScreenLogger.h>
-
 #include <BW/Unit.h>
 #include <BW/UnitArray.h>
 #include <BW/Offsets.h>
-#include <BW/UnitTarget.h>
-#include <BW/OrderTypes.h>
+#include <BW/UnitID.h>
+#include <BW/Command.h>
 #include <BW/Latency.h>
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
@@ -39,9 +35,17 @@
 #include <BW/GameType.h>
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
+#include <BW/RaceID.h>
+#include <BW/Broodwar.h>
 
-#include <BWAPITypes/UnitCommands.h>
+#include <BWAPI/Command.h>
+#include <BWAPI/CommandCancelTrain.h>
+#include <BWAPI/ScreenLogger.h>
+
+#include <BWAPITypes/UnitCommand.h>
 #include <BWAPITypes/BuildPosition.h>
+#include <BWAPITypes/WalkPosition.h>
+#include <BWAPITypes/Position.h>
 #include <BWAPITypes/UnitType.h>
 #include <BWAPITypes/Latency.h>
 #include <BWAPITypes/Flag.h>
@@ -76,11 +80,13 @@ namespace BWAPI
 
     // match state TODO: move some things to ::Map
     int frameCount;
-    Unit unitArray[BW::UNIT_ARRAY_MAX_LENGTH];  // index correlated with BW::BWDATA_UnitNodeTable
     std::set<BW::UnitType> unitTypes;
-    std::set<BWAPI::Position> startLocations;
+    std::set<BW::Position> startLocations;
     int savedSelectionStates[13];
-    std::list<std::string > interceptedMessages;
+
+    // reflects needed states from last frame to detect add and remove events.
+    // Is index correlated with BW::getUnitArray();
+    Unit bwUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
 
     // BWAPI state
     bool flags[Flags::count];
@@ -95,13 +101,14 @@ namespace BWAPI
     void refreshSelectionStates();
     void loadSelected();
     bool parseText(const char* text);
-    void  setLocalSpeed(int speed);
+    void setLocalSpeed(int speed);
 
     /* reference, what does not get transferred to Engine, will get removed
     void refresh();
     void loadSelected();
     void printEx(s32 pID, const char* text, ...);
 
+    std::list<std::string > interceptedMessages;
     UnitImpl* getFirst();
     std::set<UnitImpl*> units;
     PlayerImpl* BWAPIPlayer;
@@ -154,7 +161,6 @@ namespace BWAPI
     PlayerImpl* players[12];
     bool enabled;
     HANDLE hcachedShapesMutex;
-    std::set<int> invalidIndices;
     std::vector<Shape*> cachedShapes;
 
     void executeUnitCommand(UnitCommand& c);
@@ -182,7 +188,7 @@ namespace BWAPI
         /* TODO: reform
         // iterate through units and create UnitImpl for each
         for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-          unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
+          bwUnitArrayMirror[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                       &unitArrayCopyLocal->unit[i],
                                       (u16)i);
         */
@@ -199,24 +205,26 @@ namespace BWAPI
       }
     }
     //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-    void issueCommand(PBYTE pbBuffer, u32 iSize)
+    void issueCommandFromMemory(Util::MemoryFrame buffer)
     {
+      void *pbBuffer = buffer.begin();
+      int iSize = buffer.size();
       __asm
       {
         mov ecx, pbBuffer
         mov edx, iSize
       }
-      NewIssueCommand();
+      IssueNewCommand();
     }
+    template<typename T>
+      void issueCommand(T &cmdStruct)
+      {
+        issueCommandFromMemory(Util::MemoryFrame(&cmdStruct, sizeof(T)));
+      }
     //--------------------------------------------- IN GAME ----------------------------------------------------
     bool inGame()
     {
       return *(BW::BWDATA_InGame) != 0;
-    }
-    //---------------------------------------------- IS REPLAY -------------------------------------------------
-    bool isReplay()
-    {
-      return *(BW::BWDATA_InReplay) != 0;
     }
     //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
     bool isMultiplayer()
@@ -279,21 +287,21 @@ namespace BWAPI
     {
       /* Starts the game as a lobby host */
       
-      issueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
+      issueCommand(BW::Command::StartGame());
     }
     //----------------------------------------------- PAUSE GAME -----------------------------------------------
     void  pauseGame()
     {
       /* Pauses the game */
       
-      issueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
+      issueCommand(BW::Command::PauseGame());
     }
     //---------------------------------------------- RESUME GAME -----------------------------------------------
     void  resumeGame()
     {
       /* Resumes the game */
       
-      issueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
+      issueCommand(BW::Command::ResumeGame());
     }
     //---------------------------------------------- LEAVE GAME ------------------------------------------------
     void  leaveGame()
@@ -336,15 +344,15 @@ namespace BWAPI
       }
     }
     //---------------------------------------------- CHANGE SLOT -----------------------------------------------
-    void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
+    void changeSlot(BW::SlotID slot, BW::SlotStateID slotState)
     {
-      issueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
+      issueCommand(BW::Command::ChangeSlot(slot, slotState));
     }
     //---------------------------------------------- CHANGE RACE -----------------------------------------------
-    void  changeRace(BWAPI::Race race)
+    void changeRace(BW::RaceID race)
     {
       /* TODO: reform
-      issueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)BWAPIPlayer->getID()), 3);
+      issueCommand((PBYTE)&BW::Command::ChangeRace(static_cast<u8>(race.getID()), (u8)BWAPIPlayer->getID()));
       */
     }
     //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
@@ -358,7 +366,7 @@ namespace BWAPI
       va_end(ap);
 
       char* txtout = buffer.data;
-      if (inGame() || isReplay())
+      if (inGame() || BW::isInReplay())
       {
         __asm
         {
@@ -383,7 +391,7 @@ namespace BWAPI
       vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
       va_end(ap);
 
-      if (isReplay() || inGame())
+      if (BW::isInReplay() || inGame())
       {
         printEx(8, buffer.data);
         return;
@@ -410,7 +418,7 @@ namespace BWAPI
       va_end(ap);
       char* txtout = buffer.data;
 
-      if (isReplay())
+      if (BW::isInReplay())
       {
         printEx(8, buffer.data);
         return;
@@ -423,7 +431,7 @@ namespace BWAPI
         if (cheatID!=BW::CheatFlags::None)
         {
           cheatFlags ^= cheatID;
-          issueCommand((PBYTE)&BW::Orders::UseCheat(cheatFlags), sizeof(BW::Orders::UseCheat));
+          issueCommand((PBYTE)&BW::Command::UseCheat(cheatFlags), sizeof(BW::Command::UseCheat));
           if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
               cheatID==BW::CheatFlags::BreateDeep ||
               cheatID==BW::CheatFlags::WhatsMineIsMine)
@@ -927,12 +935,12 @@ namespace BWAPI
         }
       }
 
-      /* TODO: find out where and if to call there anymore
+      /* TODO: find out where (moved?) and if to call these
       {
         BWAPI::Races::init();
         BWAPI::DamageTypes::init();
         BWAPI::ExplosionTypes::init();
-        BWAPI::Orders::init();
+        BWAPI::Command::init();
         BWAPI::TechTypes::init();
         BWAPI::PlayerTypes::init();
         BWAPI::UpgradeTypes::init();
@@ -954,27 +962,31 @@ namespace BWAPI
       }
 
       // equivalent to onStartMatch()
+      // do what has to be done once each match start
       if(lastState != InMatch
         && nextState == InMatch)
       {
         // reset frame count
         frameCount = 0;
 
-        // init unitArray
+        // load map data
+        Map::load();
+
+        // init bwUnitTableMirror
         {
           // mark all array as unused
           for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           {
-            unitArray[i].exists = false;
-            unitArray[i].knownUnit = NULL;
+            bwUnitArrayMirror[i].exists = false;
+            bwUnitArrayMirror[i].knownUnit = NULL;
           }
 
           // traverse the visible unit node chain
           for(BW::Unit* bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
           {
             int i = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit);
-            unitArray[i].exists = true;
-            unitArray[i].bwId = 0; //bwUnit->unitque id? TODO: find solution
+            bwUnitArrayMirror[i].exists = true;
+            bwUnitArrayMirror[i].bwId = 0; //bwUnit->unitque id? TODO: find solution
           }
 
           // ASSUMPTION: at the beginning, there are no hidden units or scanner sweeps
@@ -1047,21 +1059,23 @@ namespace BWAPI
           staticData.mapHeight     = Map::getHeight();
           staticData.mapHash       = Map::getMapHash();
           for (int x=0;x<Map::getWidth();x++)
+          {
             for (int y=0;y<Map::getHeight();y++)
             {
               staticData.isVisible[x][y] = Map::visible(x,y);
               staticData.isExplored[x][y] = Map::isExplored(x,y);
               staticData.hasCreep[x][y] = Map::hasCreep(x,y);
             }
+          }
           staticData.isMultiplayer = isMultiplayer();
-          staticData.isReplay      = isReplay();
+          staticData.isReplay      = BW::isInReplay();
           staticData.isPaused      = isPaused();
           staticData.unitCount=0;
           int i=0;
           // TODO: use the optimised algorithm
           for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           {
-            Unit &unit = unitArray[i];
+            Unit &unit = bwUnitArrayMirror[i];
             if(!unit.exists)    // unit exists in BW memory
               continue;
             if(!unit.knownUnit) // agent does know nothing about this unit
@@ -1303,13 +1317,6 @@ namespace BWAPI
         fclose(f);
       }
 
-      //client->onFrame();
-      for(std::list< std::string >::iterator i=interceptedMessages.begin();i!=interceptedMessages.end();i++)
-      {
-        onSendText(i->c_str());
-      }
-      interceptedMessages.clear();
-
       update(InMatch);
       loadSelected();
     }
@@ -1318,7 +1325,7 @@ namespace BWAPI
     {
       /* TODO: reform
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArray[i]->setSelected(false);
+        bwUnitArrayMirror[i]->setSelected(false);
 
       saveSelected();
       for (int i = 0; savedSelectionStates[i] != NULL; i++)
@@ -1481,8 +1488,8 @@ namespace BWAPI
       }
       return false;
     }
-    //---------------------------------------------- ON GAME END -----------------------------------------------
-    void onGameEnd()
+    //---------------------------------------------- ON MATCH END ----------------------------------------------
+    void onMatchEnd()
     {
       /* TODO: reform
       if (client != NULL)
@@ -1548,17 +1555,17 @@ namespace BWAPI
 
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
-        unitArray[i]->userSelected=false;
-        unitArray[i]->buildUnit=NULL;
-        unitArray[i]->alive=false;
-        unitArray[i]->dead=false;
-        unitArray[i]->savedPlayer=NULL;
-        unitArray[i]->savedUnitType=NULL;
-        unitArray[i]->staticInformation=false;
-        unitArray[i]->lastVisible=false;
-        unitArray[i]->lastType=UnitTypes::Unknown;
-        unitArray[i]->lastPlayer=NULL;
-        unitArray[i]->nukeDetected=false;
+        bwUnitArrayMirror[i]->userSelected=false;
+        bwUnitArrayMirror[i]->buildUnit=NULL;
+        bwUnitArrayMirror[i]->alive=false;
+        bwUnitArrayMirror[i]->dead=false;
+        bwUnitArrayMirror[i]->savedPlayer=NULL;
+        bwUnitArrayMirror[i]->savedUnitType=NULL;
+        bwUnitArrayMirror[i]->staticInformation=false;
+        bwUnitArrayMirror[i]->lastVisible=false;
+        bwUnitArrayMirror[i]->lastType=UnitTypes::Unknown;
+        bwUnitArrayMirror[i]->lastPlayer=NULL;
+        bwUnitArrayMirror[i]->nukeDetected=false;
       }
       cheatFlags=0;
       */
@@ -1577,6 +1584,7 @@ namespace BWAPI
     //--------------------------------------------- SAVE SELECTED ----------------------------------------------
     void saveSelected()
     {
+      /* TODO: reform
       memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
       savedSelectionStates[12] = NULL;
       int i = 0;
@@ -1586,30 +1594,37 @@ namespace BWAPI
         selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i]));
         i++;
       }
+      */
     }
     //--------------------------------------------- LOAD SELECTED ----------------------------------------------
     void loadSelected()
     {
+      /* TODO: reform
       int unitCount = 0;
       while (savedSelectionStates[unitCount] != NULL)
         unitCount++;
       BW::selectUnits(unitCount, savedSelectionStates);
+      */
     }
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
     std::set<BWAPI::Unit*>& getSelectedUnits()
     {
-      
+      /* TODO: reform
       if (isFlagEnabled(Flag::UserInput) == false)
       {
         setLastError(Errors::Access_Denied);
         return emptySet;
       }
       return selectedUnitSet;
+      */
+      static std::set<BWAPI::Unit*> stat; // STUB
+      return stat;
     }
     //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
     void onUnitDeath(BWAPI::UnitImpl* unit)
     {
-      /* Called when a unit dies(death animation), not when it is removed */
+      /* TODO: reform
+      // Called when a unit dies(death animation), not when it is removed
       int index = unit->getIndex();
       if (!unit->alive) return;
       units.erase(unit);
@@ -1617,7 +1632,7 @@ namespace BWAPI
       unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
                                       &unitArrayCopyLocal->unit[index],
                                       (u16)index);
-/*
+
       if (client != NULL)
       {
         bool isInUpdate = inUpdate;
@@ -1628,7 +1643,7 @@ namespace BWAPI
           //if (unit->lastVisible)
             //client->onUnitHide(unit);
 
-          /* notify the client that the units in the transport died *//*
+          // notify the client that the units in the transport died
           std::list<Unit*> loadedList = unit->getLoadedUnits();
 		      foreach(Unit* loaded, loadedList)
 			      onUnitDeath((UnitImpl*)loaded);
@@ -1640,12 +1655,15 @@ namespace BWAPI
 
         inUpdate = isInUpdate;
       }
-*/
+
       unit->die();
+      */
     }
     void onUnitDeath(BW::Unit* unit)
     {
-      /* index as seen in Starcraft */
+      /* TODO: reform
+      static std::set<int> invalidIndices;
+      // index as seen in Starcraft
       u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
       if (index > BW::UNIT_ARRAY_MAX_LENGTH)
       {
@@ -1658,34 +1676,36 @@ namespace BWAPI
       }
       BWAPI::UnitImpl* deadUnit = unitArray[index];
       onUnitDeath(deadUnit);
+      */
     }
     //----------------------------------------------------- DRAW -----------------------------------------------
+    /* TODO: reform
     void addShape(Shape* s)
     {
-      /* Adds a shape to the draw queue */
+      // Adds a shape to the draw queue 
       shapes.push_back(s);
     }
     void  drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      /* Draws a box */
+      // Draws a box 
       if (!inScreen(ctype,left,top,right,bottom)) return;
       addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
     }
     void  drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      /* Draws a box in relation to the map */
+      // Draws a box in relation to the map 
       if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
       addShape(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
     }
     void  drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      /* Draws a box in relation to the mouse */
+      // Draws a box in relation to the mouse 
       if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
       addShape(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
     }
     void  drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      /* Draws a box in relation to the screen */
+      // Draws a box in relation to the screen 
       if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
       addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
     }
@@ -1827,14 +1847,14 @@ namespace BWAPI
       va_end(ap);
       addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
     }
-
+    */
     //--------------------------------------------------- GAME SPEED -------------------------------------------
     void  setLocalSpeed(int speed)
     {
-      /* Sets the frame rate of the client */
+      // Sets the frame rate of the client
       if (speed < 0)
       {
-        /* Reset the speed if it is negative */
+        // Reset the speed if it is negative
         BW::BWDATA_GameSpeedModifiers[0] = 501;
         BW::BWDATA_GameSpeedModifiers[1] = 333;
         BW::BWDATA_GameSpeedModifiers[2] = 249;
@@ -1845,7 +1865,7 @@ namespace BWAPI
       }
       else
       {
-        /* Set all speeds if it is positive */
+        // Set all speeds if it is positive
         for (int i = 0; i < 7; i++)
           BW::BWDATA_GameSpeedModifiers[i] = speed;
       }
@@ -1937,19 +1957,6 @@ namespace BWAPI
       switch(type)
       {
       case MB_OKCANCEL:
-  #ifdef __GNUC__
-        temp=BW::BWFXN_gluPOKCancel_MBox;
-        __asm__("mov %eax, _message\n"
-          "call temp\n"
-                "mov rval, %al"
-               );
-        break;
-      default:  // MB_OK
-        temp=BW::BWFXN_gluPOKCancel_MBox;
-        __asm__("mov %eax, _message\n"
-          "call temp"
-               );
-  #else
         __asm
         {
           mov eax, message
@@ -1963,7 +1970,6 @@ namespace BWAPI
           mov eax, message
             call BW::BWFXN_gluPOK_MBox
         }
-  #endif
         return false;
       }
       return rval;
@@ -1972,16 +1978,6 @@ namespace BWAPI
     bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
     {
       bool rval;
-  #ifdef __GNUC__
-      int temp=BW::BWFXN_gluPEdit_MBox;
-      __asm__("push _restricted\n"
-              "push _destsize\n"
-              "push _dest\n"
-              "push _message\n"
-              "call temp\n"
-              "mov  _rval, %al"
-             );
-  #else
       __asm
       {
         push restricted
@@ -1991,24 +1987,17 @@ namespace BWAPI
         call [BW::BWFXN_gluPEdit_MBox]
         mov  rval, al
       }
-  #endif
       return rval;
     }
     void addInterceptedMessage(const char* message)
     {
+      /* TODO: evaluate here and send them to the bridge
       interceptedMessages.push_back(std::string(message));
+      */
     }
-    bool flagsAreLocked()
-    {
-      return flagsLocked;
-    }
-    bool isInUpdate()
-    {
-      return inUpdate;
-    }
-
     void executeUnitCommand(UnitCommand& c)
     {
+      /* TODO: reform
       Unit* u=(Unit*)c.unitID;
       Position targetPosition(c.x,c.y);
       TilePosition targetTilePosition(c.x,c.y);
@@ -2146,6 +2135,7 @@ namespace BWAPI
       default:
         break;
       }
+      */
     }
   }
 };

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "..\BWAPITypes\UnitCommands.h"
-#include "..\BWAPITypes\UnitStruct.h"
+#include "..\BWAPITypes\UnitCommand.h"
 namespace Bridge
 {
   struct CommandEntry

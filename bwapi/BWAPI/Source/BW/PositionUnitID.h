@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Position.h"
-#include "UnitTarget.h"
+#include "UnitID.h"
 
 namespace BW
 {
@@ -9,13 +9,14 @@ namespace BW
    * Combination of bw position representation and bw target representation,
    * it is connectd as bw uses this combination on several places.
    */
-  class PositionUnitTarget
+  struct PositionUnitID
   {
-    public :
-      PositionUnitTarget(const Position& position);
-      PositionUnitTarget(const UnitTarget& target);
-      BW::Position position;
-      BW::UnitTarget target;
+    BW::Position position;
+    BW::UnitID unitId;
+
+    PositionUnitID();
+    PositionUnitID(const BW::Position& target);
+    PositionUnitID(const BW::UnitID& target);
   };
 }
 

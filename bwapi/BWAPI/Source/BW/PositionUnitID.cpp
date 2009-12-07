@@ -1,18 +1,22 @@
-#include "PositionUnitTarget.h"
+#include "PositionUnitID.h"
 #include "Unit.h"
+#include "UnitArray.h"
 namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  PositionUnitTarget::PositionUnitTarget(const Position& position)
+  PositionUnitID::PositionUnitID()
+  {
+  }
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  PositionUnitID::PositionUnitID(const Position& position)
       : position(position)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  PositionUnitTarget::PositionUnitTarget(const UnitTarget& target)
-      : target(target)
+  PositionUnitID::PositionUnitID(const BW::UnitID& target)
+      : unitId(target)
   {
-    int index = 336 * ((target.getTarget() & 0x7FF) - 1);
-    Unit* unit = (Unit*)((int)BWDATA_UnitNodeTable + index);
+    BW::Unit* unit = & BW::BWDATA_UnitNodeTable->unit[target.getIndex()];
     this->position = unit->position;
   }
   //----------------------------------------------------------------------------------------------------------

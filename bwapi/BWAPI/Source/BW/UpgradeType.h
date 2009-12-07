@@ -2,7 +2,7 @@
 #include <BW/UnitType.h>
 
 #include "UpgradeID.h"
-#include "Race.h"
+#include "RaceID.h"
 
 namespace BW
 {
