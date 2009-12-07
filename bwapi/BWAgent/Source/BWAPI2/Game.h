@@ -1,5 +1,5 @@
 #pragma once
-#include "BWAgentInterface.h"
+#include <BWAgent\BWAgentInterface.h>
 
 namespace Util  { class Logger; }
 namespace BWAPI { class Player; }
@@ -13,11 +13,10 @@ namespace BWAPI { class AIModule; }
 #include <list>
 #include <map>
 #include <set>
-#include <windows.h>
 
 AGENT_STRIP;
 
-namespace BWAgent
+namespace BWAPI2
 {
   /** singleton Game class functions */
   class Unit;
@@ -59,7 +58,8 @@ namespace BWAgent
     AGENT_API void printf(const char* text, ...);
     AGENT_API void sendText(const char* text, ...);
 
-/*    AGENT_API std::set< Force* >&  getForces();
+/* TODO: uncomment, create STUBs so it compiles right
+    AGENT_API std::set< Force* >&  getForces();
     AGENT_API std::set< Player* >&  getPlayers();
     AGENT_API std::set< Unit* >&  getAllUnits();
     AGENT_API std::set< Unit* >&  getMinerals();

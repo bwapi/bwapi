@@ -1,6 +1,5 @@
 #include "BWAgent.h"
 #include "BridgeClient.h"
-#include "AIModule.h"
 
 #include "Util\Version.h"
 
@@ -39,6 +38,7 @@ namespace BWAgent
   bool takeover(AIModule& aiModule)
   {
     resetError();
+/*  STUB
     while(true)
     {
       if(!BridgeClient::waitForEvent())
@@ -64,7 +64,7 @@ namespace BWAgent
           aiModule.onFrame();
         }break;
       }
-    }
+    }*/
     return true;
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------

@@ -1,8 +1,14 @@
 #pragma once
-#include "BWAgentInterface.h"
+#include <BWAgent\BWAgentInterface.h>
+
+
+AGENT_IGNORE;   // tell IP to ignore lines untill AGENT_STRIP or AGENT_COPY
+
+// this include files will be ignored in export, because it is only
+// needed for private functions, which will not be exported
 #include <Bridge\KnownUnitEntry.h>
 
-AGENT_STRIP;
+AGENT_STRIP;	// tell IP to strip all that's not AGENT_INTERFACE declared
 
 namespace BWAgent
 {
@@ -154,6 +160,7 @@ namespace BWAgent
   private:
     Bridge::KnownUnitEntry *knownUnit;  // if it's NULL, the unit does not exist anymore
 
+    AGENT_IGNORE;   // ignore templates, stripping templates does not work yet in IP
     // helpers
     template<typename T>
       const T &getRespectClearance(T BWAPI::UnitState::*var) const
@@ -164,5 +171,6 @@ namespace BWAgent
         // TODO: check if clearance level clears
         return this->knownUnit->state.*var;
       }
+    AGENT_STRIP;
   };
 }

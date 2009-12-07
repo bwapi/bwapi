@@ -1,6 +1,5 @@
 #include "BridgeClient.h"
 #include "Mappings.h"
-#include "Unit.h"
 
 #include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>

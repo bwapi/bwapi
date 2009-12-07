@@ -1,12 +1,10 @@
-
 #include "Unit.h"
-#include "BridgeClient.h"
+
+#include <BWAgent\BridgeClient.h>
+
+#include <Util\Version.h>
 
 #include <string>
-
-#include "Bridge\UnitCommandEntry.h"
-
-#include "Util\Version.h"
 
 namespace BWAgent
 {
