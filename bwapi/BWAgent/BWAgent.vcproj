@@ -86,6 +86,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="explorer &quot;..\Interface Packer\run.cmd&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -177,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\Buffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI\BWAgent.cpp"
 				>
 			</File>
@@ -211,6 +216,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\MemoryFrame.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\Pipe.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\RemoteProcess.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\SharedMemory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\SharedStack.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI\Unit.cpp"
 				>
 			</File>
@@ -226,6 +251,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\BWAPI\BridgeClient.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\Buffer.h"
 				>
 			</File>
 			<File
@@ -253,7 +282,47 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\MemoryFrame.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\Pipe.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\RemoteProcess.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\RemoteProcessId.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\SharedMemory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\SharedSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\SharedStack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\SharedStructure.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\StaticArray.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI\Unit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\Version.h"
 				>
 			</File>
 		</Filter>

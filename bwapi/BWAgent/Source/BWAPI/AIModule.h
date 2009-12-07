@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 //#include "Position.h"
+
+AGENT_STRIP;
+
 namespace BWAgent
 {
   class Unit;

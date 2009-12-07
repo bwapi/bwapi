@@ -2,6 +2,8 @@
 #include "BWAgentInterface.h"
 #include <Bridge\KnownUnitEntry.h>
 
+AGENT_STRIP;
+
 namespace BWAgent
 {
   class Unit
