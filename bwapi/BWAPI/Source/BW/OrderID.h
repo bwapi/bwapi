@@ -9,7 +9,8 @@ namespace BW
    * Specifies type of action performed by unit.
    * from http://www.staredit.net/wiki/Orders.dat_Entry_Listing
    */
-  namespace OrderID
+  typedef int OrderID;
+  namespace OrderIDs
   {
   enum Enum
     {

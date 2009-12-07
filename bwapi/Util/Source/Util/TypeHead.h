@@ -12,6 +12,5 @@ namespace Util
 
       TypeHead() : _type(TYPEID) {};
       static const int _typeId = TYPEID;
-
     };
 }

@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,14 +41,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Util\Source;..\BWAPI\Source;.."
+				AdditionalIncludeDirectories="Source;..\Util\Source;..\BWAPI\Source;.."
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BWAGENT_EXPORTS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -115,7 +115,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\Util\Source;..\BWAPI\Source;.."
+				AdditionalIncludeDirectories="Source;..\Util\Source;..\BWAPI\Source;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAGENT_EXPORTS;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -173,23 +173,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Source\BridgeClient.cpp"
+				RelativePath=".\Source\BWAPI\BridgeClient.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Util\Source\Util\Buffer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\BWAgent.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\BWAPITypes\BWAPITypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\Constants.cpp"
+				RelativePath=".\Source\BWAPI\BWAgent.cpp"
 				>
 			</File>
 			<File
@@ -215,35 +203,15 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Source\Game.cpp"
+				RelativePath=".\Source\BWAPI\Game.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Mappings.cpp"
+				RelativePath=".\Source\BWAPI\Mappings.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Util\Source\Util\MemoryFrame.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\Pipe.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\RemoteProcess.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\SharedMemory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\SharedStack.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Unit.cpp"
+				RelativePath=".\Source\BWAPI\Unit.cpp"
 				>
 			</File>
 		</Filter>
@@ -253,115 +221,39 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Source\AIModule.h"
+				RelativePath=".\Source\BWAPI\AIModule.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\BridgeClient.h"
+				RelativePath=".\Source\BWAPI\BridgeClient.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Util\Source\Util\Buffer.h"
+				RelativePath=".\Source\BWAPI\BWAgent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\BWAgent.h"
+				RelativePath=".\Source\BWAPI\BWAgentInterface.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\BWAgentInterface.h"
+				RelativePath=".\Source\BWAPI\Error.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\CommandEntry.h"
+				RelativePath=".\Source\BWAPI\Errors.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\Constants.h"
+				RelativePath=".\Source\BWAPI\Game.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\Doodle.h"
+				RelativePath=".\Source\BWAPI\Mappings.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Error.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Game.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\Hybrid.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\KnownUnit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Mappings.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\MemoryFrame.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\Pipe.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\PipeMessage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\RemoteProcess.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\RemoteProcessId.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\SendTextEntry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\SharedMemory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\SharedSet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\SharedStack.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\SharedStuff.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\StaticGameData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Util\Source\Util\TypeHead.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Unit.h"
-				>
-			</File>
-			<File
-				RelativePath="..\BWAPITypes\UnitCommands.h"
-				>
-			</File>
-			<File
-				RelativePath="..\BWAPITypes\UnitState.h"
+				RelativePath=".\Source\BWAPI\Unit.h"
 				>
 			</File>
 		</Filter>
@@ -371,6 +263,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<File
+			RelativePath="..\Bridge\Constants.cpp"
+			>
+		</File>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
+			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
 			<Tool
@@ -48,7 +48,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
-				WarningLevel="4"
+				WarningLevel="2"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4238;"
 			/>
@@ -195,7 +195,15 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\Source\BW\BuildPosition.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\CheatType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\Command.h"
 					>
 				</File>
 				<File
@@ -215,15 +223,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\OrderTypes.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\Position.h"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\PositionUnitTarget.h"
+					RelativePath=".\Source\BW\PositionUnitID.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\RaceID.h"
 					>
 				</File>
 				<File
@@ -232,10 +240,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\BW\TechType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BW\TilePosition.h"
 					>
 				</File>
 				<File
@@ -251,7 +255,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\UnitTarget.h"
+					RelativePath=".\source\BW\UnitID.h"
 					>
 				</File>
 				<File
@@ -263,6 +267,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\WalkPosition.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\WeaponType.h"
 					>
 				</File>
@@ -271,7 +279,19 @@
 				Name="Source files"
 				>
 				<File
+					RelativePath=".\Source\BW\Broodwar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\BuildPosition.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\CheatType.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\Command.cpp"
 					>
 				</File>
 				<File
@@ -279,11 +299,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\PositionUnitTarget.cpp"
+					RelativePath=".\Source\BW\PositionUnitID.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BW\Race.cpp"
+					RelativePath=".\Source\BW\RaceID.cpp"
 					>
 				</File>
 				<File
@@ -291,15 +311,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\TilePosition.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\TileSet.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\UnitTarget.cpp"
+					RelativePath=".\Source\BW\UnitArray.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\UnitID.cpp"
 					>
 				</File>
 				<File
@@ -308,6 +328,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BW\UpgradeType.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\WalkPosition.cpp"
 					>
 				</File>
 				<File
@@ -359,10 +383,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\OrderID.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\ParasiteFlags.h"
 					>
 				</File>
@@ -371,15 +391,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BW\Race.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BW\TechID.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BW\UnitID.h"
 					>
 				</File>
 				<File
@@ -415,49 +427,33 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\Source\BWAPI\BridgeServer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\Engine.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\OrderTypes.cpp"
+					RelativePath=".\Source\BWAPI\Map.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\ScreenLogger.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeBox.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeCircle.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeDot.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeEllipse.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeLine.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeText.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeTriangle.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Header files"
 				>
+				<File
+					RelativePath=".\Source\BWAPI\BridgeServer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Bridge\Doodle.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Source\BWAPI\Engine.h"
 					>
@@ -471,35 +467,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\ShapeBox.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeCircle.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeDot.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeEllipse.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeLine.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeText.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\ShapeTriangle.h"
-					>
-				</File>
-				<File
 					RelativePath="..\BWAPITypes\UnitCommands.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\UnitState.h"
 					>
 				</File>
 			</Filter>
@@ -508,6 +480,26 @@
 				>
 				<File
 					RelativePath=".\source\BWAPI\CommandTypes.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Bridge"
+				>
+				<File
+					RelativePath="..\Bridge\Constants.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Bridge\Constants.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Bridge\KnownUnit.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Bridge\PipeMessage.h"
 					>
 				</File>
 			</Filter>
@@ -541,119 +533,15 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\Source\BWAPI\BridgeServer.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Source\BWAPI\BridgeServer.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\Buffer.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\Constants.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\Constants.h"
-			>
-		</File>
-		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Source\BWAPI\DLLMain.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\Doodle.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\KnownUnit.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\MemoryFrame.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\MemoryFrame.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\Pipe.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\Pipe.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\PipeMessage.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\RemoteProcess.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\RemoteProcess.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\RemoteProcessId.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\SharedMemory.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\SharedMemory.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\SharedSet.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\SharedStack.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\SharedStuff.h"
+			RelativePath=".\Source\DLLMain.h"
 			>
 		</File>
 		<File
 			RelativePath=".\source\StaticAssert.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Bridge\Structure.h"
-			>
-		</File>
-		<File
-			RelativePath="..\svnrev.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\TypedFrame.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\TypeHead.h"
-			>
-		</File>
-		<File
-			RelativePath="..\BWAPITypes\UnitState.h"
-			>
-		</File>
-		<File
-			RelativePath="..\Util\Source\Util\Version.h"
 			>
 		</File>
 	</Files>

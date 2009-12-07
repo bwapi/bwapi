@@ -1,3 +1,6 @@
+/* moved to BW 
+TODO: look if it pays off
+
 #include "Position.h"
 #include "WalkPosition.h"
 #include "BuildPosition.h"
@@ -32,3 +35,4 @@ namespace BWAPI
   }
   //------------------------------ ---------------------------------------------
 };
+*/

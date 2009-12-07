@@ -10,7 +10,7 @@
 #include "MiniTileFlags.h"
 #include "GroupFlags.h"
 #include "PlayerType.h"
-#include "Race.h"
+#include "RaceID.h"
 #include "Sprite.h"
 
 /**
@@ -205,7 +205,7 @@ namespace BW
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
-  static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
+  static char*          BWDATA_CurrentPlayerName                  = (char*) 0x0057EE9C;            // 1.16.1
 
   static u32            BWFXN_SendTextCall                        = 0x004F335D;
   static u32            BWFXN_SendTextCallBack                    = BWFXN_SendTextCall + 5;

@@ -3,5 +3,5 @@
 namespace BW
 {
 //public:
-  
+  extern bool isInReplay();
 }

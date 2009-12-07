@@ -6,7 +6,7 @@
 #include <Util/Bitmask.h>
 #include <Util/Types.h>
 
-#include "Race.h"
+#include "RaceID.h"
 #include "UnitPrototypeFlags.h"
 #include "GroupFlags.h"
 #include "UnitID.h"

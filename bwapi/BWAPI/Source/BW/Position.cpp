@@ -1,53 +1,34 @@
 #include "Position.h"
-#include "TilePosition.h"
-
-#include <math.h>
-
-#include "Offsets.h"
+#include "WalkPosition.h"
+#include "BuildPosition.h"
 
 namespace BW
 {
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  Position Position::Invalid(Util::Point<u16>::Invalid);
+  //----------------------------- CONSTRUCTOR ----------------------------------
   Position::Position()
-      : x(0)
-      , y(0)
+    : Point()
   {
   }
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Position::Position(const BW::TilePosition& position)
-      : x(position.x*BW::TILE_SIZE)
-      , y(position.y*BW::TILE_SIZE)
+  //----------------------------- CONSTRUCTOR ----------------------------------
+  Position::Position(Util::Point<u16> point)
+    : Point(point)
   {
   }
-  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
-  Position::Position(u16 x, u16 y)
-      : x(x)
-      , y(y)
+  //----------------------------- CONSTRUCTOR ----------------------------------
+  Position::Position(int x, int y)
+    : Point(x, y)
   {
   }
-  //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool Position::operator == (const BW::Position& position) const
+  //------------------------------ CONVERSION ----------------------------------
+  Position::Position(const WalkPosition &convertFrom)
+    : Point(convertFrom.x*8, convertFrom.y*8)
   {
-    return this->x == position.x &&
-           this->y == position.y;
   }
-  //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool Position::operator != (const BW::Position& position) const
+  //------------------------------ CONVERSION ----------------------------------
+  Position::Position(const BuildPosition &convertFrom)
+    : Point(convertFrom.x*32, convertFrom.y*32)
   {
-    return this->x != position.x ||
-           this->y != position.y;
   }
-  //---------------------------------------------- OPERATOR < ------------------------------------------------
-  bool Position::operator  < (const BW::Position& position) const
-  {
-    return this->x < position.x ||
-           (this->x == position.x && this->y < position.y);
-  }
-  //----------------------------------------------------------------------------------------------------------
-  u16 Position::getDistance(const Position& position) const
-  {
-    return (u16)sqrt((long double)((long double)this->x - position.x) * ((long double)this->x - position.x) +
-                     (long double)((long double)this->y - position.y) * ((long double)this->y - position.y));
-  }
-  //----------------------------------------------------------------------------------------------------------
+  //------------------------------ ---------------------------------------------
 };

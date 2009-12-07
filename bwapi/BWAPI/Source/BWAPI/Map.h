@@ -13,6 +13,9 @@ namespace BWAPI
   namespace Map
   {
 //public :
+    // initialisation
+    extern void init();
+
     // Gets file name of the currently opened map by broodwar
     extern std::string getFileName();
     extern std::string getName();

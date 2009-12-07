@@ -1,5 +1,6 @@
-#define WIN32_LEAN_AND_MEAN
+#include "DLLMain.h"
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <assert.h>
 #include <vector>
@@ -13,7 +14,6 @@
 
 #include "BW/Offsets.h"
 #include "BWAPI/Engine.h"
-#include "BWAPI/DLLMain.h"
 #include "BWAPI/Shape.h"
 DWORD onCancelTrain_edx;
 DWORD onCancelTrain_ecx;
@@ -443,7 +443,7 @@ void __declspec(naked) IssueCommandHook()
       mov esp, espSave
       mov ebp, ebpSave
     }
-    NewIssueCommand();
+    IssueNewCommand();
     __asm retn
   }
   else

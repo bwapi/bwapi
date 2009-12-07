@@ -1,3 +1,13 @@
+#include <BW\BuildPosition.h>
+
+namespace BWAPI
+{
+  typedef BW::BuildPosition BuildPosition;
+}
+
+/* moved to BW 
+TODO: look if it pays off
+
 #pragma once
 
 #include <Util\Point.h>
@@ -19,3 +29,4 @@ namespace BWAPI
   };
 };
 
+*/

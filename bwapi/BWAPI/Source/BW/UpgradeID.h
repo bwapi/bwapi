@@ -7,9 +7,9 @@ namespace BW
   /**
    * Enumeration of the upgrade types. Most values from
    * http://www.staredit.net/wiki/Upgrades.dat_Entry_Listing Not all values (IE: hero
-   * values) are listed, since these are not needed in normal games and I am lazy.
+   * values) are listed, since these are not needed in normal games and I we are lazy.
    */
-  namespace UpgradeID
+  namespace UpgradeIDs
   {
   enum Enum
     {
@@ -77,4 +77,5 @@ namespace BW
       None                  = 0x3D
     };
   }
+  typedef UpgradeIDs::Enum UpgradeID;
 };

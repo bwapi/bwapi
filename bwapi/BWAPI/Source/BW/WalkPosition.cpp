@@ -1,25 +1,22 @@
-/* moved to BW 
-TODO: look if it pays off
-
 #include "WalkPosition.h"
 #include "Position.h"
 #include "BuildPosition.h"
 
-namespace BWAPI
+namespace BW
 {
-  WalkPosition WalkPosition::Invalid(Math::Point::Invalid);
+  WalkPosition WalkPosition::Invalid(Util::Point<u16>::Invalid);
   //----------------------------- CONSTRUCTOR ----------------------------------
   WalkPosition::WalkPosition()
     : Point()
   {
   }
   //----------------------------- CONSTRUCTOR ----------------------------------
-  WalkPosition::WalkPosition(Math::Point point)
+  WalkPosition::WalkPosition(Util::Point<u16> point)
     : Point(point)
   {
   }
   //----------------------------- CONSTRUCTOR ----------------------------------
-  WalkPosition::WalkPosition(int x, int y)
+  WalkPosition::WalkPosition(u16 x, u16 y)
     : Point(x, y)
   {
   }
@@ -35,4 +32,3 @@ namespace BWAPI
   }
   //------------------------------ ---------------------------------------------
 };
-*/
