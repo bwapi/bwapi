@@ -22,7 +22,7 @@ public:
     
     printf("on frame %d\n", BWAgent::Game::isVisible((BWAgent::Game::getMouseX()+BWAgent::Game::getScreenX())/32,(BWAgent::Game::getMouseY()+BWAgent::Game::getScreenY())/32));
     printf("all units (size): %d",Game::getAllUnits().size());
-    
+/*    
     for(std::set<Unit*>::iterator i=Game::getAllUnits().begin();i!=Game::getAllUnits().end();i++)
     {
       Unit *unit = (*i);
@@ -31,7 +31,7 @@ public:
         unit->holdPosition();
       }
     }
-    
+   */ 
   };
   void onSendText(std::string text)
   {

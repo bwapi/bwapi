@@ -30,10 +30,11 @@
 
 std::string outputDirectory;
 std::string collectorName;
-std::set<std::string> stripFiles;   // strip theese of all unnecessarity
-std::set<std::string> transitFiles; // these are user's side classes, don't strip these, just correct the path
+std::set<std::string> targetFiles;   // files to transit
 std::set<std::string> includePaths;
 std::set<std::string> processedFiles;
+
+std::set<std::string> missingFiles;
 //----------------------------- READ INI FILE ------------------------------------------------------------
 void readIniFile(std::string iniFileName)
 {
@@ -62,8 +63,8 @@ void readIniFile(std::string iniFileName)
     line = reader.readLine();
     if(line[0] == ':')
     {
-      if(line != ":strip files")
-        EXIT("':strip files' expected at line %d", reader.getLineNumber());
+      if(line != ":target files")
+        EXIT("':target files' expected at line %d", reader.getLineNumber());
       break;
     }
     if(line.size() == 0)
@@ -73,19 +74,8 @@ void readIniFile(std::string iniFileName)
   while(!reader.isEof())
   {
     line = reader.readLine();
-    if(line[0] == ':')
-    {
-      if(line != ":transit files")
-        EXIT("':transit files' expected at line %d", reader.getLineNumber());
-      break;
-    }
-    if(line.size() == 0)
+    if(!line.size())
       continue;
-    stripFiles.insert(line);
-  }
-  while(!reader.isEof())
-  {
-    line = reader.readLine();
     if(line[0] == ':')
     {
       EXIT("':' in '%s' no expected on line %d", line.c_str(), reader.getLineNumber());
@@ -93,7 +83,7 @@ void readIniFile(std::string iniFileName)
     }
     if(line.size() == 0)
       continue;
-    transitFiles.insert(line);
+    targetFiles.insert(line);
   }
 }
 //----------------------------- FILE EXISTS --------------------------------------------------------------
@@ -112,11 +102,46 @@ std::string fileNameFromPath(std::string filePath)
       return filePath.substr(head, filePath.size() - head);
     }
   }
-  return filePath;
+  return filePath;  // no slashes found => all is file name
+}
+//----------------------------- GET FILE DIRECTORY FROM PATH ---------------------------------------------
+std::string fileDirectoryFromPath(std::string filePath)
+{
+  for(int head = filePath.size()-1; head >= 0; head--)
+  {
+    if(filePath[head] == '\\' || filePath[head] == '/')
+    {
+      return filePath.substr(0, head);
+    }
+  }
+  return "";  // no slashes found => no directory
+}
+//----------------------------- GET FILE PREFIX FROM PATH ------------------------------------------------
+std::string filePrefixFromPath(std::string filePath)
+{
+  std::string fileDirectory = fileDirectoryFromPath(filePath);
+  std::string prefix = "a";
+  int id = 0;
+  for(int i = 0; i < fileDirectory.size(); i++)
+  {
+    id += fileDirectory[i];
+  }
+  char buffer[100];
+  itoa(id, buffer, 30);
+  prefix += std::string(buffer);
+  return prefix;
 }
 //----------------------------- FIND FILE PATH -----------------------------------------------------------
-std::string findFilePath(std::string fileName)
+std::string findFilePath(std::string fileName, std::string additionalIncludePath = "")
 {
+  if(additionalIncludePath.size())
+  {
+    std::string fullPath = additionalIncludePath + "\\" + fileName;
+    if(fileExists(fullPath))
+    {
+      return fullPath;
+    }
+  }
   for each(std::string includePath in includePaths)
   {
     std::string fullPath = includePath + "\\" + fileName;
@@ -128,12 +153,14 @@ std::string findFilePath(std::string fileName)
   return "";
 }
 //----------------------------- PROCESS FILE -------------------------------------------------------------
-void processFile(std::string sourceFilePath, std::string destFilePath, bool strip)
+void processFile(std::string sourceFilePath, std::string destFilePath)
 {
   if(fileExists(destFilePath))
   {
     EXIT("file already exists: %s\n", destFilePath.c_str());
   }
+
+  // file IO means
   Util::FileLineReader reader;
   Util::FileLineWriter writer;
   if(!reader.openFile(sourceFilePath))
@@ -144,10 +171,14 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
   {
     EXIT("error opening dest '%s'", destFilePath.c_str());
   }
-  printf("%s: %s => %s\n", strip ? "strip" : "transit", sourceFilePath.c_str(), destFilePath.c_str());
+
+  // parameter deductions
+  std::string fileDirectory = fileDirectoryFromPath(sourceFilePath);
+  std::string filePrefix = filePrefixFromPath(sourceFilePath);
 
   // copy line per line
   std::set<std::string> filter;
+  bool strip = false;
   filter.insert("#");
   filter.insert("{");
   filter.insert("}");
@@ -173,17 +204,49 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
       int to   = line.find_last_of('"');
       int from2= line.find_first_of('<');
       int to2  = line.find_last_of('>');
+      bool relative = false;
       if(from2 != to2)
       {
         from = from2;
         to = to2;
+        relative = true;
       }
       if(to != from)
       {
+        // extract relative file name
+        std::string includeeRelativeFileName = line.substr(from+1, to-(from+1));
+
+        // find the file
+        std::string includeeFilePath = findFilePath(includeeRelativeFileName, fileDirectory);
+
+        // extract the file name
+        std::string includeeFileName = fileNameFromPath(includeeFilePath);
+
+        std::string includeePrefix;
+        if(includeeFilePath == "") // if not found, leave it as is
+        {
+          if(missingFiles.find(includeeRelativeFileName) == missingFiles.end())
+          {
+            printf("missing include: '%s' in '%s'\n", includeeRelativeFileName.c_str(), sourceFilePath.c_str());
+            missingFiles.insert(includeeRelativeFileName);
+          }
+          includeePrefix = "";
+          includeeFileName = includeeRelativeFileName;
+        }
+        else
+        {
+          // generate included file prefix
+          includeePrefix = filePrefixFromPath(includeeFilePath);
+        }
+
         // splice folders out of the path
-        std::string includee = line.substr(from+1, to-(from+1));
-        line = line.substr(0, from) + "\"" + fileNameFromPath(includee) + "\"" + line.substr(to+1, line.size()-(to+1));
+        line = line.substr(0, from) + "\"" + includeePrefix + includeeFileName + "\"" + line.substr(to+1, line.size()-(to+1));
       }
+    }
+
+    if(line.substr(0, 11) == "AGENT_STRIP")
+    {
+      strip = true;
     }
 
     // filter strip
@@ -237,33 +300,23 @@ void processFile(std::string sourceFilePath, std::string destFilePath, bool stri
     if(reader.isEof())
       break;
   }
+//  printf("%s: %s => %s\n", strip ? "strip" : "transit", sourceFilePath.c_str(), destFilePath.c_str());
 }
 //----------------------------- COPY FILES ---------------------------------------------------------------
 void copyFiles()
 {
-  for each(std::string relativeFileName in stripFiles)
+  for each(std::string relativeFileName in targetFiles)
   {
     std::string filePath = findFilePath(relativeFileName);
     if(filePath == "")
     {
-      printf("could not find strip file '%s'\n", relativeFileName);
+      printf("could not find target file '%s'\n", relativeFileName.c_str());
       continue;
     }
     std::string fileName = fileNameFromPath(filePath);
-    processFile(filePath, outputDirectory + "\\" + fileName, true);
-    processedFiles.insert(fileName);
-  }
-  for each(std::string relativeFileName in transitFiles)
-  {
-    std::string filePath = findFilePath(relativeFileName);
-    if(filePath == "")
-    {
-      printf("could not find transit file '%s'\n", relativeFileName);
-      continue;
-    }
-    std::string fileName = fileNameFromPath(filePath);
-    processFile(filePath, outputDirectory + "\\" + fileName, false);
-    processedFiles.insert(fileName);
+    std::string filePrefix = filePrefixFromPath(filePath);
+    processFile(filePath, outputDirectory + "\\" + filePrefix + fileName);
+    processedFiles.insert(filePrefix + fileName);
   }
 }
 //----------------------------- GENERATE ALL H -----------------------------------------------------------

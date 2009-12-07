@@ -9,12 +9,13 @@ namespace BWAPI { class UnitImpl; }
 namespace BWAPI { class Command; }
 namespace BWAPI { class AIModule; }
 
-
 #include <vector>
 #include <list>
 #include <map>
 #include <set>
 #include <windows.h>
+
+AGENT_STRIP;
 
 namespace BWAgent
 {

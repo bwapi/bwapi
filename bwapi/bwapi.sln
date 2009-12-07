@@ -14,14 +14,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interface Packer", "Interface Packer\Interface Packer.vcproj", "{C99586CD-1E91-4359-ABEB-A1AA1D111DEF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAgent", "BWAgent\BWAgent.vcproj", "{65AE3EC2-0FFC-46A4-8B84-BB144D29B04A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleAIModule", "ConsoleAIModule\ConsoleAIModule.vcproj", "{05887930-FFDD-40FB-AC1F-147690138D52}"
-	ProjectSection(ProjectDependencies) = postProject
-		{65AE3EC2-0FFC-46A4-8B84-BB144D29B04A} = {65AE3EC2-0FFC-46A4-8B84-BB144D29B04A}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
