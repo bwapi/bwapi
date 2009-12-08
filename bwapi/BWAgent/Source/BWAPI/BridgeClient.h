@@ -5,7 +5,7 @@
 #include <string>
 #include <deque>
 
-namespace BWAgent
+namespace BWAPI
 {
   namespace BridgeClient
   {

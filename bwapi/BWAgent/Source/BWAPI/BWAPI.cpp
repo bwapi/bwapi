@@ -1,10 +1,11 @@
-#include "BWAgent.h"
+#include "BWAPI.h"
+
 #include "BridgeClient.h"
 
-#include "Util\Version.h"
+#include <Util\Version.h>
 
 // singleton base class
-namespace BWAgent
+namespace BWAPI
 {
 //private:
 
@@ -16,14 +17,14 @@ namespace BWAgent
 
 //public:
   //----------------------------------- GET VERSION -----------------------------------------------
-  // AGENT_API
-  int getVersion()
+  // BWAPI_FUNCTION
+  int BWAPI_CALL GetVersion()
   {
     return SVN_REV;
   }
   //----------------------------------- CONNECT ---------------------------------------------------
-  // AGENT_API
-  int connect()
+  // BWAPI_FUNCTION
+  bool BWAPI_CALL Connect()
   {
     resetError();
     if(!BridgeClient::connect())
@@ -34,8 +35,11 @@ namespace BWAgent
     return 1;
   }
   //----------------------------------- TAKE OVER -------------------------------------------------
-  // AGENT_API
-  bool takeover(AIModule& aiModule)
+  // BWAPI_FUNCTION
+  bool BWAPI_CALL Takeover(BWAPI_MatchFrameCallback a,
+    BWAPI_MatchStartCallback b,
+    BWAPI_UnitAddCallback c,
+    BWAPI_UnitRemoveCallback d)
   {
     resetError();
 /*  STUB
@@ -68,10 +72,10 @@ namespace BWAgent
     return true;
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------
-  // AGENT_API
-  std::string getLastError()
+  // BWAPI_FUNCTION
+  const char* BWAPI_CALL GetErrorString()
   {
-    return lastError;
+    return lastError.c_str();
   }
   //----------------------------------- -----------------------------------------------------------
 }

@@ -14,14 +14,14 @@ public:
   void onEnd(bool isWinner) {};
   void onStartMatch()
   {
-    printf("on start match [%s]\n",Game::mapName().c_str());
+    printf("on start match [%s]\n",Game::mapName());
   };
   void onFrame()
   {
     printf("on frame %d, (%d,%d)\n", BWAPI2::Game::getFrameCount(),BWAPI2::Game::getMouseX(),BWAPI2::Game::getMouseY());
     
     printf("on frame %d\n", BWAPI2::Game::isVisible((BWAPI2::Game::getMouseX()+BWAPI2::Game::getScreenX())/32,(BWAPI2::Game::getMouseY()+BWAPI2::Game::getScreenY())/32));
-    printf("all units (size): %d",Game::getAllUnits().size());
+//    printf("all units (size): %d",Game::getAllUnits().size());
 /*    
     for(std::set<Unit*>::iterator i=Game::getAllUnits().begin();i!=Game::getAllUnits().end();i++)
     {
@@ -64,7 +64,7 @@ int _tmain(int argc, _TCHAR* argv[])
   printf("connected\n");
   if(!takeover(consoleModule))
   {
-    printf(BWAPI2::getLastError().c_str());
+    printf(BWAPI2::getLastError());
   }
   system("pause");
   return 0;
