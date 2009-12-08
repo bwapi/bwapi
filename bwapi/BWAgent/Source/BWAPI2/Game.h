@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAgent\BWAgentInterface.h>
+#include "BWAPI2Interface.h"
 
 namespace Util  { class Logger; }
 namespace BWAPI { class Player; }
@@ -14,7 +14,7 @@ namespace BWAPI { class AIModule; }
 #include <map>
 #include <set>
 
-AGENT_STRIP;
+IP_STRIP;
 
 namespace BWAPI2
 {
@@ -24,132 +24,132 @@ namespace BWAPI2
   {
     //--------------------------------------- QUERIES --------------------------------------
     // Map related
-    AGENT_API int mapWidth();
-    AGENT_API int mapHeight();
-    AGENT_API std::string mapFilename();
-    AGENT_API std::string mapName();
-    AGENT_API int getMapHash();
-    AGENT_API int getGroundHeight(int x, int y);
-    AGENT_API bool isWalkable(int x, int y);
-    AGENT_API bool isBuildable(int x, int y);
-    AGENT_API bool isVisible(int x, int y);
-    AGENT_API bool isExplored(int x, int y);
-    AGENT_API bool hasCreep(int x, int y);
+    BWAPI2_FUNCTION int BWAPI2_CALL mapWidth();
+    BWAPI2_FUNCTION int BWAPI2_CALL mapHeight();
+    BWAPI2_FUNCTION const char* BWAPI2_CALL mapFilename();
+    BWAPI2_FUNCTION const char* BWAPI2_CALL mapName();
+    BWAPI2_FUNCTION int BWAPI2_CALL getMapHash();
+    BWAPI2_FUNCTION int BWAPI2_CALL getGroundHeight(int x, int y);
+    BWAPI2_FUNCTION bool BWAPI2_CALL isWalkable(int x, int y);
+    BWAPI2_FUNCTION bool BWAPI2_CALL isBuildable(int x, int y);
+    BWAPI2_FUNCTION bool BWAPI2_CALL isVisible(int x, int y);
+    BWAPI2_FUNCTION bool BWAPI2_CALL isExplored(int x, int y);
+    BWAPI2_FUNCTION bool BWAPI2_CALL hasCreep(int x, int y);
 
     // Match related
-    AGENT_API bool isMultiplayer();
-    AGENT_API bool isReplay();
+    BWAPI2_FUNCTION bool BWAPI2_CALL isMultiplayer();
+    BWAPI2_FUNCTION bool BWAPI2_CALL isReplay();
 
     // World related
-    AGENT_API std::set< Unit* >& getAllUnits();
+//    BWAPI2_FUNCTION void BWAPI2_CALL getAllUnits(); // TODO: return type
 
     // GUI related
-    AGENT_API int getMouseX();
-    AGENT_API int getMouseY();
-    AGENT_API int getScreenX();
-    AGENT_API int getScreenY();
-    AGENT_API int getLatency();
-    AGENT_API int getFrameCount();
-    AGENT_API bool isPaused();
+    BWAPI2_FUNCTION int BWAPI2_CALL getMouseX();
+    BWAPI2_FUNCTION int BWAPI2_CALL getMouseY();
+    BWAPI2_FUNCTION int BWAPI2_CALL getScreenX();
+    BWAPI2_FUNCTION int BWAPI2_CALL getScreenY();
+    BWAPI2_FUNCTION int BWAPI2_CALL getLatency();
+    BWAPI2_FUNCTION int BWAPI2_CALL getFrameCount();
+    BWAPI2_FUNCTION bool BWAPI2_CALL isPaused();
 
 
 
     //--------------------------------------- INSTRUCTIONS ---------------------------------
-    AGENT_API void printf(const char* text, ...);
-    AGENT_API void sendText(const char* text, ...);
+//    BWAPI2_FUNCTION void BWAPI2_CALL printf(const char* text, ...); // TODO: find better name. overwrites the printf from stdio.h
+    BWAPI2_FUNCTION void BWAPI2_CALL sendText(const char* text, ...);
 
 /* TODO: uncomment, create STUBs so it compiles right
-    AGENT_API std::set< Force* >&  getForces();
-    AGENT_API std::set< Player* >&  getPlayers();
-    AGENT_API std::set< Unit* >&  getAllUnits();
-    AGENT_API std::set< Unit* >&  getMinerals();
-    AGENT_API std::set< Unit* >&  getGeysers();
-    AGENT_API std::set< Unit* >&  getNeutralUnits();
+    BWAPI2_FUNCTION std::set< Force* >&  getForces();
+    BWAPI2_FUNCTION std::set< Player* >&  getPlayers();
+    BWAPI2_FUNCTION std::set< Unit* >&  getAllUnits();
+    BWAPI2_FUNCTION std::set< Unit* >&  getMinerals();
+    BWAPI2_FUNCTION std::set< Unit* >&  getGeysers();
+    BWAPI2_FUNCTION std::set< Unit* >&  getNeutralUnits();
 
-    AGENT_API std::set< Unit* >& getStaticMinerals();
-    AGENT_API std::set< Unit* >& getStaticGeysers();
-    AGENT_API std::set< Unit* >& getStaticNeutralUnits();
-
-
-    AGENT_API bool  isFlagEnabled(int flag);
-    AGENT_API void  enableFlag(int flag);
-    AGENT_API std::set<Unit*>& unitsOnTile(int x, int y);
-    AGENT_API Error  getLastError() const;
+    BWAPI2_FUNCTION std::set< Unit* >& getStaticMinerals();
+    BWAPI2_FUNCTION std::set< Unit* >& getStaticGeysers();
+    BWAPI2_FUNCTION std::set< Unit* >& getStaticNeutralUnits();
 
 
-    AGENT_API bool hasPower(int x, int y, int tileWidth, int tileHeight);
+    BWAPI2_FUNCTION bool  isFlagEnabled(int flag);
+    BWAPI2_FUNCTION void  enableFlag(int flag);
+    BWAPI2_FUNCTION std::set<Unit*>& unitsOnTile(int x, int y);
+    BWAPI2_FUNCTION Error  getLastError() const;
 
-    AGENT_API bool isBuildable(TilePosition position);
-    AGENT_API bool isVisible(TilePosition position);
-    AGENT_API bool isExplored(TilePosition position);
-    AGENT_API bool hasCreep(TilePosition position);
-    AGENT_API bool hasPower(TilePosition position, int tileWidth, int tileHeight);
 
-    AGENT_API bool canBuildHere(Unit* builder, TilePosition position, UnitType type);
-    AGENT_API bool canMake(Unit* builder, UnitType type);
-    AGENT_API bool canResearch(Unit* unit, TechType type);
-    AGENT_API bool canUpgrade(Unit* unit, UpgradeType type);
-    AGENT_API std::set< TilePosition >& getStartLocations();
+    BWAPI2_FUNCTION bool hasPower(int x, int y, int tileWidth, int tileHeight);
+
+    BWAPI2_FUNCTION bool isBuildable(TilePosition position);
+    BWAPI2_FUNCTION bool isVisible(TilePosition position);
+    BWAPI2_FUNCTION bool isExplored(TilePosition position);
+    BWAPI2_FUNCTION bool hasCreep(TilePosition position);
+    BWAPI2_FUNCTION bool hasPower(TilePosition position, int tileWidth, int tileHeight);
+
+    BWAPI2_FUNCTION bool canBuildHere(Unit* builder, TilePosition position, UnitType type);
+    BWAPI2_FUNCTION bool canMake(Unit* builder, UnitType type);
+    BWAPI2_FUNCTION bool canResearch(Unit* unit, TechType type);
+    BWAPI2_FUNCTION bool canUpgrade(Unit* unit, UpgradeType type);
+    BWAPI2_FUNCTION std::set< TilePosition >& getStartLocations();
 
     /**
      * Changes race in the pre-game lobby.
      * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
      */
- /*   AGENT_API void changeRace(BWAPI::Race race);
-    AGENT_API bool isMultiplayer();
-    AGENT_API bool isPaused();
-    AGENT_API bool isReplay();
+ /*   BWAPI2_FUNCTION void changeRace(BWAPI::Race race);
+    BWAPI2_FUNCTION bool isMultiplayer();
+    BWAPI2_FUNCTION bool isPaused();
+    BWAPI2_FUNCTION bool isReplay();
     /**
      * Starts the game in the pre-game lobby. Should be used only in the
      * pre-game lobby, and not during counting
      */
- /*   AGENT_API void startGame();
-    AGENT_API void pauseGame();
-    AGENT_API void resumeGame();
-    AGENT_API void leaveGame();
-    AGENT_API void restartGame();
-    AGENT_API void setLocalSpeed(int speed = -1);
-    AGENT_API std::set<BWAPI::Unit*>& getSelectedUnits();
-    AGENT_API Player* self();
-    AGENT_API Player* enemy();
+ /*   BWAPI2_FUNCTION void startGame();
+    BWAPI2_FUNCTION void pauseGame();
+    BWAPI2_FUNCTION void resumeGame();
+    BWAPI2_FUNCTION void leaveGame();
+    BWAPI2_FUNCTION void restartGame();
+    BWAPI2_FUNCTION void setLocalSpeed(int speed = -1);
+    BWAPI2_FUNCTION std::set<BWAPI::Unit*>& getSelectedUnits();
+    BWAPI2_FUNCTION Player* self();
+    BWAPI2_FUNCTION Player* enemy();
 
-    AGENT_API void drawText(int ctype, int x, int y, const char* text, ...);
-    AGENT_API void drawTextMap(int x, int y, const char* text, ...);
-    AGENT_API void drawTextMouse(int x, int y, const char* text, ...);
-    AGENT_API void drawTextScreen(int x, int y, const char* text, ...);
+    BWAPI2_FUNCTION void drawText(int ctype, int x, int y, const char* text, ...);
+    BWAPI2_FUNCTION void drawTextMap(int x, int y, const char* text, ...);
+    BWAPI2_FUNCTION void drawTextMouse(int x, int y, const char* text, ...);
+    BWAPI2_FUNCTION void drawTextScreen(int x, int y, const char* text, ...);
 
-    AGENT_API void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
-    AGENT_API void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);
-    AGENT_API void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false);
-    AGENT_API void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid = false);
 
-    AGENT_API void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-    AGENT_API void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-    AGENT_API void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-    AGENT_API void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
 
-    AGENT_API void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid = false);
-    AGENT_API void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false);
-    AGENT_API void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid = false);
-    AGENT_API void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid = false);
 
-    AGENT_API void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-    AGENT_API void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-    AGENT_API void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-    AGENT_API void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
+    BWAPI2_FUNCTION void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
 
-    AGENT_API void drawDot(int ctype, int x, int y, Color color);
-    AGENT_API void drawDotMap(int x, int y, Color color);
-    AGENT_API void drawDotMouse(int x, int y, Color color);
-    AGENT_API void drawDotScreen(int x, int y, Color color);
+    BWAPI2_FUNCTION void drawDot(int ctype, int x, int y, Color color);
+    BWAPI2_FUNCTION void drawDotMap(int x, int y, Color color);
+    BWAPI2_FUNCTION void drawDotMouse(int x, int y, Color color);
+    BWAPI2_FUNCTION void drawDotScreen(int x, int y, Color color);
 
-    AGENT_API void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color);
-    AGENT_API void drawLineMap(int x1, int y1, int x2, int y2, Color color);
-    AGENT_API void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
-    AGENT_API void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
+    BWAPI2_FUNCTION void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color);
+    BWAPI2_FUNCTION void drawLineMap(int x1, int y1, int x2, int y2, Color color);
+    BWAPI2_FUNCTION void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
+    BWAPI2_FUNCTION void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
 
-    AGENT_API bool gluMessageBox(char* message, int type);
-    AGENT_API bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
+    BWAPI2_FUNCTION bool gluMessageBox(char* message, int type);
+    BWAPI2_FUNCTION bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
     */
   }
 }

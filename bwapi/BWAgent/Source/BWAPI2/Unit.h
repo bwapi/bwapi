@@ -1,14 +1,14 @@
 #pragma once
-#include <BWAgent\BWAgentInterface.h>
+#include "BWAPI2Interface.h"
 
 
-AGENT_IGNORE;   // tell IP to ignore lines untill AGENT_STRIP or AGENT_COPY
+IP_IGNORE;   // tell IP to ignore lines untill AGENT_STRIP or AGENT_COPY
 
 // this include files will be ignored in export, because it is only
 // needed for private functions, which will not be exported
 #include <Bridge\KnownUnitEntry.h>
 
-AGENT_STRIP;	// tell IP to strip all that's not AGENT_INTERFACE declared
+IP_STRIP;	// tell IP to strip all that's not BWAPI2_METHOD declared
 
 namespace BWAgent
 {
@@ -16,28 +16,28 @@ namespace BWAgent
   {
   public:
     Unit();
-    AGENT_INTERFACE int getID() const;
-    AGENT_INTERFACE int getPlayer() const;
-    AGENT_INTERFACE int getType() const;
-    AGENT_INTERFACE int getHitPoints() const;
-    AGENT_INTERFACE int getShields() const;
-    AGENT_INTERFACE int getEnergy() const;
-    AGENT_INTERFACE int getResources() const;
-    AGENT_INTERFACE int getKillCount() const;
-    AGENT_INTERFACE int getGroundWeaponCooldown() const;
-    AGENT_INTERFACE int getAirWeaponCooldown() const;
-    AGENT_INTERFACE int getSpellCooldown() const;
-    AGENT_INTERFACE int getDefenseMatrixPoints() const;
+    BWAPI2_METHOD int getID() const;
+    BWAPI2_METHOD int getPlayer() const;
+    BWAPI2_METHOD int getType() const;
+    BWAPI2_METHOD int getHitPoints() const;
+    BWAPI2_METHOD int getShields() const;
+    BWAPI2_METHOD int getEnergy() const;
+    BWAPI2_METHOD int getResources() const;
+    BWAPI2_METHOD int getKillCount() const;
+    BWAPI2_METHOD int getGroundWeaponCooldown() const;
+    BWAPI2_METHOD int getAirWeaponCooldown() const;
+    BWAPI2_METHOD int getSpellCooldown() const;
+    BWAPI2_METHOD int getDefenseMatrixPoints() const;
 
-    AGENT_INTERFACE int getDefenseMatrixTimer() const;
-    AGENT_INTERFACE int getEnsnareTimer() const;
-    AGENT_INTERFACE int getIrradiateTimer() const;
-    AGENT_INTERFACE int getLockdownTimer() const;
-    AGENT_INTERFACE int getMaelstromTimer() const;
-    AGENT_INTERFACE int getPlagueTimer() const;
-    AGENT_INTERFACE int getRemoveTimer() const;
-    AGENT_INTERFACE int getStasisTimer() const;
-    AGENT_INTERFACE int getStimTimer() const;
+    BWAPI2_METHOD int getDefenseMatrixTimer() const;
+    BWAPI2_METHOD int getEnsnareTimer() const;
+    BWAPI2_METHOD int getIrradiateTimer() const;
+    BWAPI2_METHOD int getLockdownTimer() const;
+    BWAPI2_METHOD int getMaelstromTimer() const;
+    BWAPI2_METHOD int getPlagueTimer() const;
+    BWAPI2_METHOD int getRemoveTimer() const;
+    BWAPI2_METHOD int getStasisTimer() const;
+    BWAPI2_METHOD int getStimTimer() const;
 
 /*
     Position getPosition() const;
@@ -75,92 +75,92 @@ namespace BWAgent
     Unit* getAddon() const;
     int getUpgradeLevel(UpgradeType upgrade) const;
 */
-    AGENT_INTERFACE bool isAccelerating() const;
-    AGENT_INTERFACE bool isBeingConstructed() const;
-    AGENT_INTERFACE bool isBeingGathered() const;
-    AGENT_INTERFACE bool isBeingHealed() const;
-    AGENT_INTERFACE bool isBlind() const;
-    AGENT_INTERFACE bool isBraking() const;
-    AGENT_INTERFACE bool isBurrowed() const;
-    AGENT_INTERFACE bool isCarryingGas() const;
-    AGENT_INTERFACE bool isCarryingMinerals() const;
-    AGENT_INTERFACE bool isCloaked() const;
-    AGENT_INTERFACE bool isCompleted() const;
-    AGENT_INTERFACE bool isConstructing() const;
-    AGENT_INTERFACE bool isDefenseMatrixed() const;
-    AGENT_INTERFACE bool isEnsnared() const;
-    AGENT_INTERFACE bool isFollowing() const;
-    AGENT_INTERFACE bool isGatheringGas() const;
-    AGENT_INTERFACE bool isGatheringMinerals() const;
-    AGENT_INTERFACE bool isHallucination() const;
-    AGENT_INTERFACE bool isIdle() const;
-    AGENT_INTERFACE bool isIrradiated() const;
-    AGENT_INTERFACE bool isLifted() const;
-    AGENT_INTERFACE bool isLoaded() const;
-    AGENT_INTERFACE bool isLockedDown() const;
-    AGENT_INTERFACE bool isMaelstrommed() const;
-    AGENT_INTERFACE bool isMorphing() const;
-    AGENT_INTERFACE bool isMoving() const;
-    AGENT_INTERFACE bool isParasited() const;
-    AGENT_INTERFACE bool isPatrolling() const;
-    AGENT_INTERFACE bool isPlagued() const;
-    AGENT_INTERFACE bool isRepairing() const;
-    AGENT_INTERFACE bool isResearching() const;
-    AGENT_INTERFACE bool isSelected() const;
-    AGENT_INTERFACE bool isSieged() const;
-    AGENT_INTERFACE bool isStartingAttack() const;
-    AGENT_INTERFACE bool isStasised() const;
-    AGENT_INTERFACE bool isStimmed() const;
-    AGENT_INTERFACE bool isTraining() const;
-    AGENT_INTERFACE bool isUnderStorm() const;
-    AGENT_INTERFACE bool isUnpowered() const;
-    AGENT_INTERFACE bool isUpgrading() const;
-    AGENT_INTERFACE bool isVisible() const;
+    BWAPI2_METHOD bool isAccelerating() const;
+    BWAPI2_METHOD bool isBeingConstructed() const;
+    BWAPI2_METHOD bool isBeingGathered() const;
+    BWAPI2_METHOD bool isBeingHealed() const;
+    BWAPI2_METHOD bool isBlind() const;
+    BWAPI2_METHOD bool isBraking() const;
+    BWAPI2_METHOD bool isBurrowed() const;
+    BWAPI2_METHOD bool isCarryingGas() const;
+    BWAPI2_METHOD bool isCarryingMinerals() const;
+    BWAPI2_METHOD bool isCloaked() const;
+    BWAPI2_METHOD bool isCompleted() const;
+    BWAPI2_METHOD bool isConstructing() const;
+    BWAPI2_METHOD bool isDefenseMatrixed() const;
+    BWAPI2_METHOD bool isEnsnared() const;
+    BWAPI2_METHOD bool isFollowing() const;
+    BWAPI2_METHOD bool isGatheringGas() const;
+    BWAPI2_METHOD bool isGatheringMinerals() const;
+    BWAPI2_METHOD bool isHallucination() const;
+    BWAPI2_METHOD bool isIdle() const;
+    BWAPI2_METHOD bool isIrradiated() const;
+    BWAPI2_METHOD bool isLifted() const;
+    BWAPI2_METHOD bool isLoaded() const;
+    BWAPI2_METHOD bool isLockedDown() const;
+    BWAPI2_METHOD bool isMaelstrommed() const;
+    BWAPI2_METHOD bool isMorphing() const;
+    BWAPI2_METHOD bool isMoving() const;
+    BWAPI2_METHOD bool isParasited() const;
+    BWAPI2_METHOD bool isPatrolling() const;
+    BWAPI2_METHOD bool isPlagued() const;
+    BWAPI2_METHOD bool isRepairing() const;
+    BWAPI2_METHOD bool isResearching() const;
+    BWAPI2_METHOD bool isSelected() const;
+    BWAPI2_METHOD bool isSieged() const;
+    BWAPI2_METHOD bool isStartingAttack() const;
+    BWAPI2_METHOD bool isStasised() const;
+    BWAPI2_METHOD bool isStimmed() const;
+    BWAPI2_METHOD bool isTraining() const;
+    BWAPI2_METHOD bool isUnderStorm() const;
+    BWAPI2_METHOD bool isUnpowered() const;
+    BWAPI2_METHOD bool isUpgrading() const;
+    BWAPI2_METHOD bool isVisible() const;
 
 //    bool attackMove(Position position);
-    AGENT_INTERFACE bool attackUnit(Unit* target);
+    BWAPI2_METHOD bool attackUnit(Unit* target);
 //    bool rightClick(Position position);
-    AGENT_INTERFACE bool rightClick(Unit* target);
+    BWAPI2_METHOD bool rightClick(Unit* target);
 //    bool train(UnitType type);
 //    bool build(TilePosition position, UnitType type);
 //    bool buildAddon(UnitType type);
 //    bool research(TechType tech);
 //    bool upgrade(UpgradeType upgrade);
-    AGENT_INTERFACE bool stop();
-    AGENT_INTERFACE bool holdPosition();
+    BWAPI2_METHOD bool stop();
+    BWAPI2_METHOD bool holdPosition();
 //    bool patrol(Position position);
-    AGENT_INTERFACE bool follow(Unit* target);
+    BWAPI2_METHOD bool follow(Unit* target);
 //    bool setRallyPosition(Position target);
-    AGENT_INTERFACE bool setRallyUnit(Unit* target);
-    AGENT_INTERFACE bool repair(Unit* target);
+    BWAPI2_METHOD bool setRallyUnit(Unit* target);
+    BWAPI2_METHOD bool repair(Unit* target);
 //    bool morph(UnitType type);
-    AGENT_INTERFACE bool burrow();
-    AGENT_INTERFACE bool unburrow();
-    AGENT_INTERFACE bool siege();
-    AGENT_INTERFACE bool unsiege();
-    AGENT_INTERFACE bool cloak();
-    AGENT_INTERFACE bool decloak();
-    AGENT_INTERFACE bool lift();
+    BWAPI2_METHOD bool burrow();
+    BWAPI2_METHOD bool unburrow();
+    BWAPI2_METHOD bool siege();
+    BWAPI2_METHOD bool unsiege();
+    BWAPI2_METHOD bool cloak();
+    BWAPI2_METHOD bool decloak();
+    BWAPI2_METHOD bool lift();
 //    bool land(TilePosition position);
-    AGENT_INTERFACE bool load(Unit* target);
-    AGENT_INTERFACE bool unload(Unit* target);
-    AGENT_INTERFACE bool unloadAll();
+    BWAPI2_METHOD bool load(Unit* target);
+    BWAPI2_METHOD bool unload(Unit* target);
+    BWAPI2_METHOD bool unloadAll();
 //    bool unloadAll(Position position);
-    AGENT_INTERFACE bool cancelConstruction();
-    AGENT_INTERFACE bool haltConstruction();
-    AGENT_INTERFACE bool cancelMorph();
-    AGENT_INTERFACE bool cancelTrain();
-    AGENT_INTERFACE bool cancelTrain(int slot);
-    AGENT_INTERFACE bool cancelAddon();
-    AGENT_INTERFACE bool cancelResearch();
-    AGENT_INTERFACE bool cancelUpgrade();
+    BWAPI2_METHOD bool cancelConstruction();
+    BWAPI2_METHOD bool haltConstruction();
+    BWAPI2_METHOD bool cancelMorph();
+    BWAPI2_METHOD bool cancelTrain();
+    BWAPI2_METHOD bool cancelTrain(int slot);
+    BWAPI2_METHOD bool cancelAddon();
+    BWAPI2_METHOD bool cancelResearch();
+    BWAPI2_METHOD bool cancelUpgrade();
 //    bool useTech(TechType tech);
 //    bool useTech(TechType tech, Position position);
 //    bool useTech(TechType tech, Unit* target);
   private:
     Bridge::KnownUnitEntry *knownUnit;  // if it's NULL, the unit does not exist anymore
 
-    AGENT_IGNORE;   // ignore templates, stripping templates does not work yet in IP
+    IP_IGNORE;   // ignore templates, stripping templates does not work yet in IP
     // helpers
     template<typename T>
       const T &getRespectClearance(T BWAPI::UnitState::*var) const
@@ -171,6 +171,6 @@ namespace BWAgent
         // TODO: check if clearance level clears
         return this->knownUnit->state.*var;
       }
-    AGENT_STRIP;
+    IP_STRIP;
   };
 }

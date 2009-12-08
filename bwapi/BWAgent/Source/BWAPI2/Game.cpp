@@ -12,120 +12,120 @@ namespace BWAPI2
   namespace Game
   {
     //------------------------------------------------- GET UNITS ----------------------------------------------
-    std::set< Unit* >& getAllUnits()
+/*    std::set< Unit* >& getAllUnits()
     {
       // STUB
       return std::set< Unit* >();
-    }
+    }*/
     //---------------------------------------------- GET LATENCY -----------------------------------------------
-    int getLatency()
+    int BWAPI2_CALL getLatency()
     {
       return 0;
     }
     //--------------------------------------------- GET FRAME COUNT --------------------------------------------
-    int getFrameCount()
+    int BWAPI2_CALL getFrameCount()
     {
       return 0;
     }
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
-    int getMouseX()
+    int BWAPI2_CALL getMouseX()
     {
       return 0;
     }
     //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-    int getMouseY()
+    int BWAPI2_CALL getMouseY()
     {
       return 0;
     }
     //---------------------------------------------- GET SCREEN X ----------------------------------------------
-    int getScreenX()
+    int BWAPI2_CALL getScreenX()
     {
       return 0;
     }
     //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-    int getScreenY()
+    int BWAPI2_CALL getScreenY()
     {
       return 0;
     }
     //----------------------------------------------- MAP WIDTH ------------------------------------------------
-    int mapWidth()
+    int BWAPI2_CALL mapWidth()
     {
       return 0;
     }
     //----------------------------------------------- MAP HEIGHT -----------------------------------------------
-    int mapHeight()
+    int BWAPI2_CALL mapHeight()
     {
       return 0;
     }
     //---------------------------------------------- MAP FILENAME ----------------------------------------------
-    std::string mapFilename()
+    const char* BWAPI2_CALL mapFilename()
     {
       return "";
     }
     //------------------------------------------------ MAP NAME ------------------------------------------------
-    std::string mapName()
+    const char* BWAPI2_CALL mapName()
     {
       return "";
     }
     //----------------------------------------------- GET MAP HASH ---------------------------------------------
-    int getMapHash()
+    int BWAPI2_CALL getMapHash()
     {
       return 0;
     }
 
     //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
-    int getGroundHeight(int x, int y)
+    int BWAPI2_CALL getGroundHeight(int x, int y)
     {
       return 0;
     }
     //---------------------------------------------- IS WALKABLE -----------------------------------------------
-    bool isWalkable(int x, int y)
+    bool BWAPI2_CALL isWalkable(int x, int y)
     {
       return 0;
     }
     //--------------------------------------------- IS BUILDABLE -----------------------------------------------
-    bool isBuildable(int x, int y)
+    bool BWAPI2_CALL isBuildable(int x, int y)
     {
       return 0;
     }
     //---------------------------------------------- IS VISIBLE ------------------------------------------------
-    bool isVisible(int x, int y)
+    bool BWAPI2_CALL isVisible(int x, int y)
     {
       return 0;
     }
     //---------------------------------------------- IS EXPLORED -----------------------------------------------
-    bool isExplored(int x, int y)
+    bool BWAPI2_CALL isExplored(int x, int y)
     {
       return 0;
     }
     //----------------------------------------------- HAS CREEP ------------------------------------------------
-    bool hasCreep(int x, int y)
+    bool BWAPI2_CALL hasCreep(int x, int y)
     {
       return 0;
     }
 
     //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
-    bool isMultiplayer()
+    bool BWAPI2_CALL isMultiplayer()
     {
       return 0;
     }
     //----------------------------------------------- IS REPLAY ------------------------------------------------
-    bool isReplay()
+    bool BWAPI2_CALL isReplay()
     {
       return 0;
     }
     //----------------------------------------------- IS PAUSED ------------------------------------------------
-    bool isPaused()
+    bool BWAPI2_CALL isPaused()
     {
       return 0;
     }
     //------------------------------------------------ PRINTF --------------------------------------------------
-    void printf(const char* text, ...)
+    void BWAPI2_CALL printf(const char* text, ...)
     {
       return;
     }
     //------------------------------------------------ SEND TEXT -----------------------------------------------
-    void sendText(const char* text, ...)
+    void BWAPI2_CALL sendText(const char* text, ...)
     {
       return;
     }

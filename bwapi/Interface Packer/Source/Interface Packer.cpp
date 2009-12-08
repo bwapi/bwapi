@@ -183,16 +183,14 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   filter.insert("#"); // line beginnings that withstand stripping
   filter.insert("{");
   filter.insert("}");
-  filter.insert("};");
   filter.insert("//");
   filter.insert("/*");
   filter.insert("*/");
   filter.insert("class");
   filter.insert("public");
   filter.insert("namespace");
-  filter.insert("AGENT_API");
-  filter.insert("AGENT_INTERFACE");
-  filter.insert("virtual");   // just temporarily
+  filter.insert("BWAPI2_FUNCTION");
+  filter.insert("BWAPI2_METHOD");
   while(true)
   {
     std::string line = reader.readLine();
@@ -201,22 +199,22 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
     // modus changer commands
     if(firstNonSpace != std::string::npos)
     {
-      if(line.substr(firstNonSpace, 11) == "AGENT_STRIP")
+      if(line.substr(firstNonSpace, 8) == "IP_STRIP")
       {
         strip = true;
         ignore = false;
         continue;
       }
-      if(line.substr(firstNonSpace, 13) == "AGENT_TRANSIT")
-      {
-        strip = false;
-        ignore = false;
-        continue;
-      }
-      if(line.substr(firstNonSpace, 12) == "AGENT_IGNORE")
+      if(line.substr(firstNonSpace, 9) == "IP_IGNORE")
       {
         strip = false;
         ignore = true;
+        continue;
+      }
+      if(line.substr(firstNonSpace, 10) == "IP_TRANSIT")
+      {
+        strip = false;
+        ignore = false;
         continue;
       }
     }
@@ -289,7 +287,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
         }
         if(!match)
           continue; // ignore the line
-        if(matchString == "AGENT_INTERFACE" || matchString == "virtual")
+        if(matchString == "BWAPI2_METHOD" || matchString == "virtual")
         {
           // make virtual functions pure
           std::string pureEnd = ") = 0;";

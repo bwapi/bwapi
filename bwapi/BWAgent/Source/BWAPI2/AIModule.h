@@ -1,9 +1,10 @@
 #pragma once
-#include <string>
-//#include "Position.h"
-#include <BWAgent\BWAgentInterface.h>
 
-AGENT_STRIP;
+#include "BWAPI2Interface.h"
+
+#include <string>
+
+IP_STRIP;
 
 namespace BWAPI2
 {
@@ -13,9 +14,9 @@ namespace BWAPI2
   {
     public:
       AIModule();
-      AGENT_INTERFACE ~AIModule();
-      AGENT_INTERFACE void onStartMatch();
-      AGENT_INTERFACE void onFrame();
-      AGENT_INTERFACE void onSendText(std::string text);
+      BWAPI2_METHOD ~AIModule();
+      BWAPI2_METHOD void onStartMatch();
+      BWAPI2_METHOD void onFrame();
+      BWAPI2_METHOD void onSendText(std::string text);
   };
 }

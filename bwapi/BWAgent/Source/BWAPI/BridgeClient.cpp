@@ -1,5 +1,4 @@
 #include "BridgeClient.h"
-#include "Mappings.h"
 
 #include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
@@ -11,7 +10,7 @@
 #include <Util\SharedMemory.h>
 #include <Util\SharedSet.h>
 
-namespace BWAgent
+namespace BWAPI
 {
   // singleton class
   namespace BridgeClient

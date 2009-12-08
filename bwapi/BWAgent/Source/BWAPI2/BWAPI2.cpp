@@ -1,10 +1,10 @@
 #include "BWAPI2.h"
+#include "AIModule.h"
 
-#include <BWAgent\BWAgent.h>
+#include <BWAPI\BWAPI.h>
 
 #include <Util\Version.h>
 
-#include "AIModule.h"
 
 // singleton base class
 namespace BWAPI2
@@ -19,26 +19,26 @@ namespace BWAPI2
 
 //public:
   //----------------------------------- GET VERSION -----------------------------------------------
-  // AGENT_API
-  int getVersion()
+  // BWAPI2_FUNCTION
+  int BWAPI2_CALL getVersion()
   {
     return SVN_REV;
   }
   //----------------------------------- CONNECT ---------------------------------------------------
-  // AGENT_API
-  int connect()
+  // BWAPI2_FUNCTION
+  int BWAPI2_CALL connect()
   {
     resetError();
-    if(!BWAgent::connect())
+    if(!BWAPI::Connect())
     {
-      lastError = "could not connect: " + BWAgent::getLastError();
+      lastError = "could not connect: " + std::string(BWAPI::GetErrorString());
       return 0;
     }
     return 1;
   }
   //----------------------------------- TAKE OVER -------------------------------------------------
-  // AGENT_API
-  bool takeover(AIModule& aiModule)
+  // BWAPI2_FUNCTION
+  bool BWAPI2_CALL takeover(AIModule& aiModule)
   {
     /* TODO: rewrite to use BWAPI1
     resetError();
@@ -72,10 +72,10 @@ namespace BWAPI2
     return true;
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------
-  // AGENT_API
-  std::string getLastError()
+  // BWAPI2_FUNCTION
+  const char* BWAPI2_CALL getLastError()
   {
-    return lastError;
+    return lastError.c_str();
   }
   //----------------------------------- -----------------------------------------------------------
 }

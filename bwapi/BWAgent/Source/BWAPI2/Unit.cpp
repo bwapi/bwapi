@@ -1,7 +1,5 @@
 #include "Unit.h"
 
-#include <BWAgent\BridgeClient.h>
-
 #include <Util\Version.h>
 
 #include <string>
@@ -390,9 +388,9 @@ namespace BWAgent
     return true;
   }
 
+  /*
   void pushCommand(BWAPI::UnitCommandTypeID commandID, int unitID, int x, int y, int targetID, int specialID)
   {
-    /*
     BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);
     c->commandID=commandID;
     c->unitID=unitID;
@@ -401,6 +399,6 @@ namespace BWAgent
     c->targetID=targetID;
     c->specialID=specialID;
     BridgeClient::sharedCommandData->lastFreeCommandSlot++;
-    */
   }
+  */
 }
