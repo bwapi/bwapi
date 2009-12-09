@@ -18,5 +18,6 @@ namespace BWAPI
     extern void onUnitDeath(BW::Unit* unit);
     extern void onDllLoad();
     extern void onMessageIntercepted(const char* text);
+    extern void onMatchDrawHigh();
   };
 };

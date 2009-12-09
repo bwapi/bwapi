@@ -2,6 +2,8 @@
 
 #include <Bridge\StaticGameData.h>
 
+#include <Util\MemoryFrame.h>
+
 #include <string>
 #include <deque>
 
@@ -11,6 +13,9 @@ namespace BWAPI
   {
   //public:
     extern Bridge::StaticGameData* sharedStaticData;
+
+    // additonal RPC state data
+    extern bool isMatchStartFromBeginning;
 
     // methods
     extern std::string getLastError();
@@ -22,6 +27,10 @@ namespace BWAPI
 
     extern bool isConnected();
     extern bool pushSendText(bool send, char *string);
+
+    // draw stack
+    extern bool pushDrawText(int x, int y, const char*);
+    extern bool pushDrawRectangle(int x, int y, int w, int h, int color);
 
     // state
     enum RpcState : int

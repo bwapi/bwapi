@@ -3,8 +3,9 @@
 #include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
 #include <Bridge\Constants.h>
-#include <Bridge\Doodle.h>
+#include <Bridge\DrawShape.h>
 #include <Util\Version.h>
+#include <Util\Strings.h>
 #include <Util\RemoteProcess.h>
 #include <Util\Pipe.h>
 #include <Util\SharedMemory.h>
@@ -34,6 +35,9 @@ namespace BWAPI
     //----------------------------------------- PUBLIC DATA -----------------------------------------------------
     // public access to shared memory
     Bridge::StaticGameData* sharedStaticData;
+
+    // additional data for RPC states
+    bool isMatchStartFromBeginning = false;
     //----------------------------------------- CONNECT ---------------------------------------------------------
     bool connect()
     {
@@ -133,7 +137,7 @@ namespace BWAPI
     bool updateRemoteSharedMemory()
     {
       resetError();
-
+      // TODO: DRY this code
       // export commands updates
       while(sharedStuff.commands.isUpdateExportNeeded())
       {
@@ -168,6 +172,25 @@ namespace BWAPI
         if(!sharedStuff.pipe.sendRawStructure(packet))
         {
           lastError = __FUNCTION__ ": sending sendText update export packet failed";
+          return false;
+        }
+      }
+
+      // export drawShapes updates
+      while(sharedStuff.drawShapes.isUpdateExportNeeded())
+      {
+        // create export package
+        Bridge::PipeMessage::AgentUpdateDrawShapes packet;
+        if(!sharedStuff.drawShapes.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = __FUNCTION__ ": exporting drawShapes update failed";
+          return false;
+        }
+
+        // send update export
+        if(!sharedStuff.pipe.sendRawStructure(packet))
+        {
+          lastError = __FUNCTION__ ": sending drawShapes update export packet failed";
           return false;
         }
       }
@@ -275,6 +298,17 @@ namespace BWAPI
             return false;
           }
 
+          // save options
+          isMatchStartFromBeginning = packet.fromBeginning;
+
+          // first import static data. It's all combined into staticData
+          if (!sharedStuff.staticData.import(packet.staticGameDataExport))
+          {
+            lastError = __FUNCTION__ ": staticGameData failed importing.";
+            return false;
+          }
+          sharedStaticData = &sharedStuff.staticData.get();
+          
           // release everything, just to be sure
           sharedStuff.staticData.release();
           sharedStuff.commands.release();
@@ -292,15 +326,11 @@ namespace BWAPI
             lastError = __FUNCTION__ ": sendText failed initializing.";
             return false;
           }
-
-          // import static data. It's all combined into staticData
-          if (!sharedStuff.staticData.import(packet.staticGameDataExport))
+          if(!sharedStuff.drawShapes.init(3000, true))
           {
-            lastError = __FUNCTION__ ": staticGameData failed importing.";
+            lastError = __FUNCTION__ ": drawShapes failed initializing.";
             return false;
           }
-          sharedStaticData = &sharedStuff.staticData.get();
-          
 
           rpcState = OnInitMatch;
           // return
@@ -313,6 +343,7 @@ namespace BWAPI
 
           // clear all frame-by-frame buffers
           sharedStuff.sendText.clear();
+          sharedStuff.drawShapes.clear();
 
           rpcState = OnFrame;
           // return
@@ -321,7 +352,7 @@ namespace BWAPI
 
         // None catched
         lastError = __FUNCTION__ ": unknown packet type ";
-        lastError += packetType;
+        lastError += Util::Strings::intToString(packetType);
         return false;
       }
       return true;
@@ -351,8 +382,11 @@ namespace BWAPI
     //----------------------------------------- PUSH SEND TEXT --------------------------------------------------
     bool pushSendText(bool send, char *string)
     {
+      // check prerequisites
       if(!connectionEstablished || !sharedMemoryInitialized)
         return false;
+
+      // push next packet
       Util::MemoryFrame textmem = Util::MemoryFrame(string, strlen(string)+1);
       Bridge::SharedStuff::SendTextStack::Index index = sharedStuff.sendText.insertBytes(sizeof(bool) + textmem.size());
       if(!index.isValid())
@@ -361,6 +395,40 @@ namespace BWAPI
       targetmem.writeAs<bool>(send);
       targetmem.write(textmem);
       return true;
+    }
+    //----------------------------------------- -----------------------------------------------------------------
+    bool pushDrawShapePacket(Util::MemoryFrame packet, Util::MemoryFrame text = Util::MemoryFrame())
+    {
+      // check prerequisites
+      if(!connectionEstablished || !sharedMemoryInitialized)
+        return false;
+
+      // push next packet
+      Bridge::SharedStuff::DrawShapeStack::Index index = sharedStuff.drawShapes.insertBytes(packet.size() + text.size());
+      if(!index.isValid())
+        return false;
+      Util::MemoryFrame targetmem = sharedStuff.drawShapes.get(index);
+      targetmem.write(packet);
+      targetmem.write(text);
+
+      return true;
+    }
+    bool pushDrawText(int x, int y, const char* text)
+    {
+      Bridge::DrawShape::Text packet;
+      packet.pos.x = x;
+      packet.pos.y = y;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet), Util::MemoryFrame((void*)text, strlen(text)+1));
+    }
+    bool pushDrawRectangle(int x, int y, int w, int h, int color)
+    {
+      Bridge::DrawShape::Rectangle packet;
+      packet.pos.x = x;
+      packet.pos.y = y;
+      packet.size.x = x;
+      packet.size.y = y;
+      packet.color = color;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
     //----------------------------------------- GET LAST ERROR --------------------------------------------------
     std::string getLastError()

@@ -268,7 +268,7 @@ namespace BWAPI
         Util::MemoryFrame bufferFrame = buffer.getMemory();
         int packetType = bufferFrame.getAs<int>();
 
-        // it way be an update export packet
+        // it way be commands update export packet
         if(packetType == Bridge::PipeMessage::AgentUpdateCommands::_typeId)
         {
           Bridge::PipeMessage::AgentUpdateCommands packet;
@@ -287,7 +287,7 @@ namespace BWAPI
           continue;
         }
 
-        // it way be an update export packet
+        // it way be sendText update export packet
         if(packetType == Bridge::PipeMessage::AgentUpdateSendText::_typeId)
         {
           Bridge::PipeMessage::AgentUpdateSendText packet;
@@ -299,6 +299,25 @@ namespace BWAPI
           if(!sharedStuff.sendText.importNextUpdate(packet.exp))
           {
             lastError = __FUNCTION__ ": could not import sendText update.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
+        // it way be drawShapes update export packet
+        if(packetType == Bridge::PipeMessage::AgentUpdateDrawShapes::_typeId)
+        {
+          Bridge::PipeMessage::AgentUpdateDrawShapes packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small AgentUpdateDrawShapes packet.";
+            return false;
+          }
+          if(!sharedStuff.drawShapes.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import drawShapes update.";
             return false;
           }
 
@@ -394,6 +413,21 @@ namespace BWAPI
         sharedStuff.pipe.sendRawStructure(packet);
       }
       return true;
+    }
+    //-------------------------- GET ALL DRAW SHAPES --------------------------------------------
+    void enumAllDrawShapes(DrawShapeCallback enumCallback)
+    {
+      if(!enumCallback)
+        return;
+
+      // iterate over all shapes
+      Bridge::SharedStuff::DrawShapeStack::Index index = sharedStuff.drawShapes.begin();
+      while(index.isValid())
+      {
+        // the sharedmemory is not visible outside of the BridgeServer
+        enumCallback(sharedStuff.drawShapes.get(index));
+        index = sharedStuff.drawShapes.getNext(index);
+      }
     }
     //-------------------------- IS AGENT CONNECTED ---------------------------------------------
     bool isAgentConnected()

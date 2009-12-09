@@ -16,7 +16,7 @@ namespace Util
     std::string returnValue;
     while (value != 0)
     {
-      returnValue = (char) (48+(value % 10)) + returnValue;
+      returnValue = (char) ('0'+(value % 10)) + returnValue;
       value/=10;
     }
     if (value >= 0)

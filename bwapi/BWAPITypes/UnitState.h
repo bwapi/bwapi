@@ -17,6 +17,8 @@ namespace BWAPI
   // Unit's state we know about, depending on clearance level
   struct UnitStateNoticed
   {
+    // in the root object
+    ClearanceLevel clearanceLevel;
     //replace with position object later
     int position_x;
     int position_y;

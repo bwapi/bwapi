@@ -3,9 +3,12 @@
 #include "Command.h"
 #include "Latency.h"
 #include "Offsets.h"
+#include "CheatFlags.h"
+#include "CheatType.h"
 
 #include <DLLMain.h>
 
+#include <Util/StaticArray.h>
 
 namespace BW
 {
@@ -130,5 +133,116 @@ namespace BW
   void changeSlot(BW::SlotID slot, BW::SlotStateID slotState)
   {
     issueCommand(BW::Command::ChangeSlot(slot, slotState));
+  }
+  //--------------------------------- PRINT WITH PLAYER ID ---------------------------------
+  void printEx(s32 pID, const char* text, ...)
+  {
+    // TODO: capsulate formatting to one function
+    Util::StaticArray<char, 2048> buffer;
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
+    va_end(ap);
+
+    char* txtout = buffer.data;
+    if (BW::isInGame() || BW::isInReplay())
+    {
+      __asm
+      {
+        pushad
+        push 0       // Unknown
+        mov eax, pID   // Player ID (-1 for notification area)
+        push txtout  // Text
+        call dword ptr [BW::BWFXN_PrintText]
+        popad
+      }
+    }
+    else
+      printf(txtout); // until lobby print private text is found
+  }
+  //-------------------------------------- PRINTF ------------------------------------------
+  void printf(const char* text, ...)
+  {
+    // TODO: capsulate formatting to one function
+    Util::StaticArray<char, 2048> buffer;
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
+    va_end(ap);
+
+    if (BW::isInReplay() || BW::isInGame())
+    {
+      printEx(8, buffer.data);
+      return;
+    }
+
+    char* txtout = buffer.data;
+    if (!BW::isInGame() && BW::isInLobby())
+      __asm
+      {
+        pushad
+        mov edi, txtout
+        call [BW::BWFXN_SendLobbyCallTarget]
+        popad
+      }
+  }
+  void sendText(const char* text, ...)
+  {
+    // TODO: capsulate formatting to one function
+    Util::StaticArray<char, 2048> buffer;
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
+    va_end(ap);
+    char* txtout = buffer.data;
+
+    if (BW::isInReplay())
+    {
+      printEx(8, buffer.data);
+      return;
+    }
+
+    if (BW::isInGame() && BW::isSingleplayer())
+    {
+      static DWORD activeCheatFlags = 0;
+      // TODO: separate cheat enabling and text printing
+      BW::CheatFlag cheatID = BW::getCheatFlag(text);
+      if (cheatID!=BW::CheatFlags::None)
+      {
+        activeCheatFlags ^= cheatID;
+        issueCommand(BW::Command::UseCheat(activeCheatFlags));
+        if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
+            cheatID==BW::CheatFlags::BreateDeep ||
+            cheatID==BW::CheatFlags::WhatsMineIsMine)
+          activeCheatFlags ^= cheatID;
+      }
+      else
+      {
+        // TODO: fix
+        //printEx(self player id, buffer);
+      }
+      return;
+    }
+
+    if (BW::isInGame())
+    {
+      memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
+      __asm
+      {
+        pushad
+        mov esi, txtout
+        call [BW::BWFXN_SendPublicCallTarget]
+        popad
+      }
+
+    }
+    else
+      __asm
+      {
+        pushad
+        mov edi, txtout
+        call [BW::BWFXN_SendLobbyCallTarget]
+        popad
+      }
   }
 }

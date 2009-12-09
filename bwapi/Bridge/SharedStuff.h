@@ -34,5 +34,8 @@ namespace Bridge
 
     typedef Util::SharedStack SendTextStack;
     SendTextStack sendText;
+
+    typedef Util::SharedStack DrawShapeStack;
+    DrawShapeStack drawShapes;
   };
 }

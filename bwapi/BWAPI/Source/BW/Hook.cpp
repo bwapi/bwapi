@@ -229,16 +229,7 @@ namespace BW
       mov drawRegisters.esp, esp
     }
   //  printThreadId("onDrawHigh");
-    /* TODO: Validate when dynamic shape stack is implemented
-    if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::Engine::hcachedShapesMutex, INFINITE))
-    {
-      for(shape_i = 0; shape_i < BWAPI::Engine::cachedShapes.size(); shape_i++)
-        BWAPI::Engine::cachedShapes[shape_i]->draw();
-
-      ::ReleaseMutex(BWAPI::Engine::hcachedShapesMutex);
-    }
-    */
-    BW::drawText(10, 10, "test text");
+    BWAPI::Engine::onMatchDrawHigh();
     __asm
     {
       mov eax, drawRegisters.eax

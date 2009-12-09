@@ -17,7 +17,6 @@
 #include <fstream>
 
 #include <Util/Version.h>
-#include <Util/StaticArray.h>
 #include <Util/FileLogger.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
@@ -213,125 +212,13 @@ namespace BWAPI
       issueCommand((PBYTE)&BW::Command::ChangeRace(static_cast<u8>(race.getID()), (u8)BWAPIPlayer->getID()));
       */
     }
-    //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-    void printEx(s32 pID, const char* text, ...)
-    {
-      // TODO: capsulate formatting to one function
-      Util::StaticArray<char, 2048> buffer;
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
-      va_end(ap);
-
-      char* txtout = buffer.data;
-      if (BW::isInGame() || BW::isInReplay())
-      {
-        __asm
-        {
-          pushad
-          push 0       // Unknown
-          mov eax, pID   // Player ID (-1 for notification area)
-          push txtout  // Text
-          call dword ptr [BW::BWFXN_PrintText]
-          popad
-        }
-      }
-      else
-        printf(txtout); // until lobby print private text is found
-    }
-    //------------------------------------------------- PRINTF -------------------------------------------------
-    void printf(const char* text, ...)
-    {
-      // TODO: capsulate formatting to one function
-      Util::StaticArray<char, 2048> buffer;
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
-      va_end(ap);
-
-      if (BW::isInReplay() || BW::isInGame())
-      {
-        printEx(8, buffer.data);
-        return;
-      }
-
-      char* txtout = buffer.data;
-      if (!BW::isInGame() && BW::isInLobby())
-        __asm
-        {
-          pushad
-          mov edi, txtout
-          call [BW::BWFXN_SendLobbyCallTarget]
-          popad
-        }
-    }
-
-    void  sendText(const char* text, ...)
-    {
-      // TODO: capsulate formatting to one function
-      Util::StaticArray<char, 2048> buffer;
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
-      va_end(ap);
-      char* txtout = buffer.data;
-
-      if (BW::isInReplay())
-      {
-        printEx(8, buffer.data);
-        return;
-      }
-
-      if (BW::isInGame() && BW::isSingleplayer())
-      {
-        /* TODO: reform
-        BW::CheatFlags::Enum cheatID=BW::getCheatFlag(text);
-        if (cheatID!=BW::CheatFlags::None)
-        {
-          cheatFlags ^= cheatID;
-          issueCommand((PBYTE)&BW::Command::UseCheat(cheatFlags), sizeof(BW::Command::UseCheat));
-          if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
-              cheatID==BW::CheatFlags::BreateDeep ||
-              cheatID==BW::CheatFlags::WhatsMineIsMine)
-            cheatFlags ^= cheatID;
-            
-        }
-        else
-        {
-          printEx(BWAPIPlayer->getID(), buffer);
-        }
-        */
-        return;
-      }
-
-      if (BW::isInGame())
-      {
-        memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
-        __asm
-        {
-          pushad
-          mov esi, txtout
-          call [BW::BWFXN_SendPublicCallTarget]
-          popad
-        }
-
-      }
-      else
-        __asm
-        {
-          pushad
-          mov edi, txtout
-          call [BW::BWFXN_SendLobbyCallTarget]
-          popad
-        }
-    }
     //----------------------------------------------- ENABLE FLAG ----------------------------------------------
     void  enableFlag(int flag)
     {
       // Enable the specified flag
       if (flag >= Flags::count)
       {
-        sendText("Invalid flag (%d).", flag);
+        BW::sendText("Invalid flag (%d).", flag);
         return;
       }
 
@@ -340,10 +227,10 @@ namespace BWAPI
       switch(flag)
       {
       case Flags::CompleteMapInformation:
-        sendText("Enabled Flag CompleteMapInformation");
+        BW::sendText("Enabled Flag CompleteMapInformation");
         break;
       case Flags::UserInput:
-        sendText("Enabled Flag UserInput");
+        BW::sendText("Enabled Flag UserInput");
         break;
       }
     }
@@ -789,7 +676,7 @@ namespace BWAPI
       {
         if(!BridgeServer::initConnectionServer())
         {
-          printf("could not initialize bridge server: %s\n", BridgeServer::getLastError().c_str());
+          BW::printf("could not initialize bridge server: %s\n", BridgeServer::getLastError().c_str());
         }
       }
 
@@ -860,7 +747,7 @@ namespace BWAPI
         // create and export static data
         if(!BridgeServer::createSharedMemory())
         {
-          printf("failed to create shared memory: %s\n", BridgeServer::getLastError().c_str());
+          BW::printf("failed to create shared memory: %s\n", BridgeServer::getLastError().c_str());
           BridgeServer::disconnect();
         }
 
@@ -892,7 +779,7 @@ namespace BWAPI
             if(!BridgeServer::invokeOnStartMatch(lastState != InGame))
             {
               BridgeServer::disconnect();
-              printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
+              BW::printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
             }
           }
         }
@@ -1019,14 +906,14 @@ namespace BWAPI
         if(!BridgeServer::updateRemoteSharedMemory())
         {
           BridgeServer::disconnect();
-          printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
+          BW::printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
 
         // call OnFrame RPC
         if(!BridgeServer::invokeOnFrame())
         {
           BridgeServer::disconnect();
-          printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
+          BW::printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
         }
 
         // process sendTexts
@@ -1035,9 +922,9 @@ namespace BWAPI
           for each(Bridge::SendTextEntry* entry in sendTexts)
           {
             if(entry->send)
-              sendText(entry->str);
+              BW::sendText(entry->str);
             else
-              printf(entry->str);
+              BW::printf(entry->str);
           }
         }
 
@@ -1060,12 +947,12 @@ namespace BWAPI
       {
         if(!BridgeServer::acceptIncomingConnections())
         {
-          printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
+          BW::printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
           BridgeServer::disconnect();
         }
         if(BridgeServer::isAgentConnected())
         {
-          printf("connected");
+          BW::printf("connected");
         }
       }
 
@@ -1329,7 +1216,7 @@ namespace BWAPI
       }
       else if (parsed[0] == "/latency")
       {
-        printf("latency: %d", BW::getLatency());
+        BW::printf("latency: %d", BW::getLatency());
         return true;
       }
       else if (parsed[0] == "/speed")
@@ -1816,6 +1703,41 @@ namespace BWAPI
       interceptedMessages.push_back(std::string(message));
       */
     }
+    //---------------------------------------- ON MATCH DRAW HIGH ----------------------------------------------
+    void eachDrawShape(Util::MemoryFrame shapePacket)
+    {
+      int type = shapePacket.getAs<int>();
+      if(type == Bridge::DrawShape::Text::_typeId)
+      {
+        Bridge::DrawShape::Text text;
+        if(!shapePacket.readTo(text) || !shapePacket.size())
+        {
+          // packet too small
+          return;
+        }
+        if(shapePacket.endAs<char>()[-1] != 0)
+        {
+          // not null terminated
+          return;
+        }
+        BW::drawText(text.pos.x, text.pos.y, shapePacket.beginAs<char>());
+      }
+      if(type == Bridge::DrawShape::Rectangle::_typeId)
+      {
+        Bridge::DrawShape::Rectangle rect;
+        if(!shapePacket.readTo(rect))
+        {
+          // packet too small
+          return;
+        }
+        BW::drawBox(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color);
+      }
+    }
+    void onMatchDrawHigh()
+    {
+      BridgeServer::enumAllDrawShapes(eachDrawShape);
+    }
+    //---------------------------------------- -----------------------------------------------------------------
     void executeUnitCommand(UnitCommand& c)
     {
       /* TODO: reform

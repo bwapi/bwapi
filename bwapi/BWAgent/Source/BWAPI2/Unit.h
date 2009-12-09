@@ -169,7 +169,7 @@ namespace BWAgent
         if(!this->knownUnit)
           return null; // TODO: set last error
         // TODO: check if clearance level clears
-        return this->knownUnit->state.*var;
+        return this->knownUnit->*var;
       }
     IP_STRIP;
   };

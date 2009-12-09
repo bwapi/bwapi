@@ -175,6 +175,10 @@
 				RelativePath="..\Bridge\Constants.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Bridge\DrawShape.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="BWAPI"
@@ -223,6 +227,10 @@
 			</File>
 			<File
 				RelativePath="..\Util\Source\Util\Buffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\Exceptions.cpp"
 				>
 			</File>
 			<File
@@ -282,6 +290,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\Strings.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\Version.h"
 				>
 			</File>
@@ -326,6 +338,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\BWAPI\Source\BW\Position.cpp"
+			>
+		</File>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

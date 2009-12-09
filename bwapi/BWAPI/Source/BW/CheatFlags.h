@@ -1,10 +1,9 @@
+#pragma once
 #include <Util/Types.h>
 
 namespace BW
 {
-  /**
-   * Enumeration of cheat codes
-   */
+  // Enumeration of cheat codes
   namespace CheatFlags
   {
     enum Enum
@@ -29,4 +28,5 @@ namespace BW
       None                   = 1 << 31
     };
   }
+  typedef CheatFlags::Enum CheatFlag;
 };
