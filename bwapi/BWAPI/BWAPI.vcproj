@@ -215,6 +215,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\Hook.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Offsets.h"
 					>
 				</File>
@@ -292,6 +296,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BW\Command.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\Hook.cpp"
 					>
 				</File>
 				<File
