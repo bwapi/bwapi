@@ -2,9 +2,10 @@
 
 #include "Engine.h"
 #include "Unit.h"   // BWAPI Unit
-#include "DLLMain.h"
 #include "Map.h"
 #include "BridgeServer.h"
+
+#include <DLLMain.h>
 
 #include <stdio.h>
 #include <windows.h>
@@ -23,6 +24,8 @@
 #include <Util/Foreach.h>
 #include <Util/Gnu.h>
 
+#include <BW/Broodwar.h>
+#include <BW/Hook.h>
 #include <BW/Unit.h>
 #include <BW/UnitArray.h>
 #include <BW/Offsets.h>
@@ -36,7 +39,6 @@
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
 #include <BW/RaceID.h>
-#include <BW/Broodwar.h>
 
 #include <BWAPI/Command.h>
 #include <BWAPI/CommandCancelTrain.h>
@@ -74,7 +76,7 @@ namespace BWAPI
     {
       Startup,
       InMenu,
-      InMatch
+      InGame
     };
     GameState gameState = Startup;
 
@@ -204,150 +206,6 @@ namespace BWAPI
         fclose(f);
       }
     }
-    //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-    void issueCommandFromMemory(Util::MemoryFrame buffer)
-    {
-      void *pbBuffer = buffer.begin();
-      int iSize = buffer.size();
-      __asm
-      {
-        mov ecx, pbBuffer
-        mov edx, iSize
-      }
-      IssueNewCommand();
-    }
-    template<typename T>
-      void issueCommand(T &cmdStruct)
-      {
-        issueCommandFromMemory(Util::MemoryFrame(&cmdStruct, sizeof(T)));
-      }
-    //--------------------------------------------- IN GAME ----------------------------------------------------
-    bool inGame()
-    {
-      return *(BW::BWDATA_InGame) != 0;
-    }
-    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-    bool isMultiplayer()
-    {
-      return (*BW::BWDATA_IsMultiplayer != 0);
-    }
-    //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-    bool isSinglePlayer()
-    {
-      return (*BW::BWDATA_IsMultiplayer == 0);
-    }
-    //--------------------------------------------- IS IN LOBBY ----------------------------------------------
-    bool isInLobby()
-    {
-      return *BW::BWDATA_NextMenu==3;
-    }
-    //----------------------------------------------- IS PAUSED ------------------------------------------------
-    bool isPaused()
-    {
-      return *BW::BWDATA_IsNotPaused == 0;
-    }
-    //---------------------------------------------- GET MOUSE X -----------------------------------------------
-    int  getMouseX()
-    {
-      // Retrieves the mouse's X coordinate
-      
-      return *(BW::BWDATA_MouseX);
-    }
-    //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-    int  getMouseY()
-    {
-      // Retrieves the mouse's Y coordinate
-      
-      return *(BW::BWDATA_MouseY);
-    }
-    //---------------------------------------------- GET SCREEN X ----------------------------------------------
-    int  getScreenX()
-    {
-      // Retrieves the screen's X coordinate in relation to the map
-      
-      return *(BW::BWDATA_ScreenX);
-    }
-    //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-    int  getScreenY()
-    {
-      // Retrieves the screen's Y coordinate in relation to the map
-      
-      return *(BW::BWDATA_ScreenY);
-    }
-    //------------------------------------------- SET SCREEN POSITION ------------------------------------------
-    void setScreenPosition(int x, int y)
-    {
-      /* Sets the screen's position in relation to the map */
-      
-      *(BW::BWDATA_ScreenX) = x;
-      *(BW::BWDATA_ScreenY) = y;
-    }
-    //----------------------------------------------- START GAME -----------------------------------------------
-    void  startGame()
-    {
-      /* Starts the game as a lobby host */
-      
-      issueCommand(BW::Command::StartGame());
-    }
-    //----------------------------------------------- PAUSE GAME -----------------------------------------------
-    void  pauseGame()
-    {
-      /* Pauses the game */
-      
-      issueCommand(BW::Command::PauseGame());
-    }
-    //---------------------------------------------- RESUME GAME -----------------------------------------------
-    void  resumeGame()
-    {
-      /* Resumes the game */
-      
-      issueCommand(BW::Command::ResumeGame());
-    }
-    //---------------------------------------------- LEAVE GAME ------------------------------------------------
-    void  leaveGame()
-    {
-      /* Leaves the current game. Moves directly to the post-game score screen */
-      
-      *BW::BWDATA_GameState = 0;
-      *BW::BWDATA_GamePosition = 6;
-    }
-    //--------------------------------------------- RESTART GAME -----------------------------------------------
-    void  restartGame()
-    {
-      /* Restarts the current match 
-         Does not work on Battle.net */
-      
-      *BW::BWDATA_GameState = 0;
-      *BW::BWDATA_GamePosition = 5;
-    }
-    //---------------------------------------------- GET LATENCY -----------------------------------------------
-    int getLatency()
-    {
-      /* Returns the real latency values */
-
-      /* Error checking */
-      
-      if (isSinglePlayer())
-        return BWAPI::Latencies::SinglePlayer;
-
-      /* Lame options checking */
-      switch(*BW::BWDATA_Latency)
-      {
-        case 0:
-          return BWAPI::Latencies::LanLow;
-        case 1:
-          return BWAPI::Latencies::LanMedium;
-        case 2:
-          return BWAPI::Latencies::LanHigh;
-        default:
-          return BWAPI::Latencies::LanLow;
-      }
-    }
-    //---------------------------------------------- CHANGE SLOT -----------------------------------------------
-    void changeSlot(BW::SlotID slot, BW::SlotStateID slotState)
-    {
-      issueCommand(BW::Command::ChangeSlot(slot, slotState));
-    }
     //---------------------------------------------- CHANGE RACE -----------------------------------------------
     void changeRace(BW::RaceID race)
     {
@@ -366,7 +224,7 @@ namespace BWAPI
       va_end(ap);
 
       char* txtout = buffer.data;
-      if (inGame() || BW::isInReplay())
+      if (BW::isInGame() || BW::isInReplay())
       {
         __asm
         {
@@ -382,7 +240,7 @@ namespace BWAPI
         printf(txtout); // until lobby print private text is found
     }
     //------------------------------------------------- PRINTF -------------------------------------------------
-    void  printf(const char* text, ...)
+    void printf(const char* text, ...)
     {
       // TODO: capsulate formatting to one function
       Util::StaticArray<char, 2048> buffer;
@@ -391,14 +249,14 @@ namespace BWAPI
       vsnprintf_s(buffer.data, buffer.size, buffer.size, text, ap);
       va_end(ap);
 
-      if (BW::isInReplay() || inGame())
+      if (BW::isInReplay() || BW::isInGame())
       {
         printEx(8, buffer.data);
         return;
       }
 
       char* txtout = buffer.data;
-      if (!inGame() && isInLobby())
+      if (!BW::isInGame() && BW::isInLobby())
         __asm
         {
           pushad
@@ -424,7 +282,7 @@ namespace BWAPI
         return;
       }
 
-      if (inGame() && isSinglePlayer())
+      if (BW::isInGame() && BW::isSingleplayer())
       {
         /* TODO: reform
         BW::CheatFlags::Enum cheatID=BW::getCheatFlag(text);
@@ -446,7 +304,7 @@ namespace BWAPI
         return;
       }
 
-      if (inGame())
+      if (BW::isInGame())
       {
         memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
         __asm
@@ -954,17 +812,17 @@ namespace BWAPI
       */
 
       // enable user input as long as no agent is in charge
-      if(lastState != InMatch
-        && nextState == InMatch)
+      if(lastState != InGame
+        && nextState == InGame)
 //        &&!BridgeServer::isAgentConnected())  // temp
       {
         Engine::enableFlag(Flags::UserInput);
       }
 
-      // equivalent to onStartMatch()
+      // equivalent to onStartGame()
       // do what has to be done once each match start
-      if(lastState != InMatch
-        && nextState == InMatch)
+      if(lastState != InGame
+        && nextState == InGame)
       {
         // reset frame count
         frameCount = 0;
@@ -995,7 +853,7 @@ namespace BWAPI
       }
 
       // init shared memory
-      if(gameState == InMatch
+      if(gameState == InGame
         && BridgeServer::isAgentConnected()
         &&!BridgeServer::isSharedMemoryInitialized())
       {
@@ -1027,11 +885,11 @@ namespace BWAPI
           strncpy(staticData.mapName,Map::getName().c_str(),32);
           staticData.mapName[31]='\0';
 
-          // manage onStartMatch RPC
+          // manage onStartGame RPC
           {
             //
-            // invoke onStartMatch()
-            if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
+            // invoke onStartGame()
+            if(!BridgeServer::invokeOnStartMatch(lastState != InGame))
             {
               BridgeServer::disconnect();
               printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
@@ -1042,19 +900,19 @@ namespace BWAPI
 
 
       // onFrame
-      if(gameState == InMatch
+      if(gameState == InGame
         && BridgeServer::isAgentConnected()
         && BridgeServer::isSharedMemoryInitialized())
       {
         // fill buffers with recent world state data
         {
           Bridge::StaticGameData &staticData = *BridgeServer::sharedStaticData;
-          staticData.getLatency    = getLatency();
+          staticData.getLatency    = BW::getLatency();
           staticData.frameCount    = frameCount;
-          staticData.getMouseX     = getMouseX();
-          staticData.getMouseY     = getMouseY();
-          staticData.getScreenX    = getScreenX();
-          staticData.getScreenY    = getScreenY();
+          staticData.getMouseX     = BW::getMouseX();
+          staticData.getMouseY     = BW::getMouseY();
+          staticData.getScreenX    = BW::getScreenX();
+          staticData.getScreenY    = BW::getScreenY();
           staticData.mapWidth      = Map::getWidth();
           staticData.mapHeight     = Map::getHeight();
           staticData.mapHash       = Map::getMapHash();
@@ -1067,9 +925,9 @@ namespace BWAPI
               staticData.hasCreep[x][y] = Map::hasCreep(x,y);
             }
           }
-          staticData.isMultiplayer = isMultiplayer();
+          staticData.isMultiplayer = BW::isMultiplayer();
           staticData.isReplay      = BW::isInReplay();
-          staticData.isPaused      = isPaused();
+          staticData.isPaused      = BW::isPaused();
           staticData.unitCount=0;
           int i=0;
           // TODO: use the optimised algorithm
@@ -1212,7 +1070,7 @@ namespace BWAPI
       }
 
       // count frames
-      if(gameState == InMatch)
+      if(gameState == InGame)
       {
         frameCount++;
       }
@@ -1223,7 +1081,7 @@ namespace BWAPI
       update(InMenu);
     }
     //------------------------------------------------- UPDATE -------------------------------------------------
-    void onGameStart();
+    void onMatchStart();
     void onMatchFrame()
     {
       try
@@ -1231,7 +1089,7 @@ namespace BWAPI
         static bool onStartCalled = false;
         if(!onStartCalled)
         {
-          onGameStart();
+          onMatchStart();
           onStartCalled = true;
         }
 
@@ -1317,7 +1175,7 @@ namespace BWAPI
         fclose(f);
       }
 
-      update(InMatch);
+      update(InGame);
       loadSelected();
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
@@ -1341,9 +1199,10 @@ namespace BWAPI
       commandLog->log("(%4d) %s", frameCount, command->describe().c_str());
       */
     }
-    //--------------------------------------------- ON GAME START ----------------------------------------------
-    void onGameStart()
+    //--------------------------------------------- ON MATCH START ---------------------------------------------
+    void onMatchStart()
     {
+
       /* TODO: reform that? oh geez
       // initialize the variables
       frameCount = 0;
@@ -1465,12 +1324,12 @@ namespace BWAPI
       /* commands list */
       if (parsed[0] == "/leave")
       {
-        leaveGame();
+        BW::leaveGame();
         return true;
       }
       else if (parsed[0] == "/latency")
       {
-        printf("latency: %d",getLatency());
+        printf("latency: %d", BW::getLatency());
         return true;
       }
       else if (parsed[0] == "/speed")
@@ -1483,7 +1342,7 @@ namespace BWAPI
       }
       else if (parsed[0] == "/restart")
       {
-        restartGame();
+        BW::restartGame();
         return true;
       }
       return false;
@@ -1573,7 +1432,7 @@ namespace BWAPI
     //----------------------------------------------------------------------------------------------------------
     void refresh()
     {
-      /* Unusued
+      /* Unusued TODO: what does unused mean? what does this even do? decide move to BW:: or remove
       #ifdef __GNUC__
         __asm__("call [BW::BWFXN_Refresh]");
       #else
@@ -1620,45 +1479,7 @@ namespace BWAPI
       static std::set<BWAPI::Unit*> stat; // STUB
       return stat;
     }
-    //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-    void onUnitDeath(BWAPI::UnitImpl* unit)
-    {
-      /* TODO: reform
-      // Called when a unit dies(death animation), not when it is removed
-      int index = unit->getIndex();
-      if (!unit->alive) return;
-      units.erase(unit);
-      deadUnits.push_back(unit);
-      unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
-                                      &unitArrayCopyLocal->unit[index],
-                                      (u16)index);
-
-      if (client != NULL)
-      {
-        bool isInUpdate = inUpdate;
-        inUpdate = false;
-        if (unit != NULL && unit->canAccessSpecial())
-        {
-          unit->makeVisible = true;
-          //if (unit->lastVisible)
-            //client->onUnitHide(unit);
-
-          // notify the client that the units in the transport died
-          std::list<Unit*> loadedList = unit->getLoadedUnits();
-		      foreach(Unit* loaded, loadedList)
-			      onUnitDeath((UnitImpl*)loaded);
-
-          //client->onUnitDestroy(unit);
-
-          unit->makeVisible = false;
-        }
-
-        inUpdate = isInUpdate;
-      }
-
-      unit->die();
-      */
-    }
+    //--------------------------------------------- ON UNIT DEATH ---------------------------------------------
     void onUnitDeath(BW::Unit* unit)
     {
       /* TODO: reform
@@ -1989,7 +1810,7 @@ namespace BWAPI
       }
       return rval;
     }
-    void addInterceptedMessage(const char* message)
+    void onMessageIntercepted(const char* message)
     {
       /* TODO: evaluate here and send them to the bridge
       interceptedMessages.push_back(std::string(message));

@@ -17,5 +17,6 @@ namespace BWAPI
     extern bool onSendText(const char* text);
     extern void onUnitDeath(BW::Unit* unit);
     extern void onDllLoad();
+    extern void onMessageIntercepted(const char* text);
   };
 };

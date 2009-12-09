@@ -3,11 +3,11 @@
 namespace BW
 {
   /** Number of frames until actions take effect @ref localData.  */
-  namespace Latency
+  namespace Latencies
   {
-  enum Enum
+    enum Enum
     {
-      SinglePlayer    = 2,
+      Singleplayer    = 2,
       LanLow          = 5,
       LanMedium       = 7,
       LanHigh         = 9,
@@ -16,4 +16,5 @@ namespace BW
       BattlenetHigh   = 24
     };
   }
+  typedef Latencies::Enum Latency;
 };
