@@ -1,70 +1,46 @@
 #include <stdio.h>
 #include <tchar.h>
 
-#include <BWAPI2\all.h>
+#include <BWAPI\all.h>
 
 #include "windows.h"
 
-using namespace BWAPI2;
-
-class ConsoleModule : public AIModule
+void BWAPI_CALL onUnitAdd(BWAPI::UnitState *)
 {
-public:
-  ~ConsoleModule(){};
-  void onEnd(bool isWinner) {};
-  void onStartMatch()
-  {
-    printf("on start match [%s]\n",Game::mapName());
-  };
-  void onFrame()
-  {
-    printf("on frame %d, (%d,%d)\n", BWAPI2::Game::getFrameCount(),BWAPI2::Game::getMouseX(),BWAPI2::Game::getMouseY());
-    
-    printf("on frame %d\n", BWAPI2::Game::isVisible((BWAPI2::Game::getMouseX()+BWAPI2::Game::getScreenX())/32,(BWAPI2::Game::getMouseY()+BWAPI2::Game::getScreenY())/32));
-//    printf("all units (size): %d",Game::getAllUnits().size());
-/*    
-    for(std::set<Unit*>::iterator i=Game::getAllUnits().begin();i!=Game::getAllUnits().end();i++)
-    {
-      Unit *unit = (*i);
-      if (unit->getType()==64)
-      {
-        unit->holdPosition();
-      }
-    }
-   */ 
-  };
-  void onSendText(std::string text)
-  {
-    printf("onSendText: '%s'\n",text.c_str());
-    Game::sendText("typed: %s",text.c_str());
-  };
-//  void onPlayerLeft(Player* player) {};
-//  void onNukeDetect(Position target) {};
+}
 
-  void onUnitCreate(Unit* unit) {};
-  void onUnitDestroy(Unit* unit) {};
-  void onUnitMorph(Unit* unit) {};
-  void onUnitShow(Unit* unit) {};
-  void onUnitHide(Unit* unit) {};
-  void onUnitRenegade(Unit* unit) {};
-};
+void BWAPI_CALL onUnitRemove(BWAPI::UnitState *)
+{
+}
+
+void BWAPI_CALL onSendText(const char* text)
+{
+}
+
+void BWAPI_CALL onMatchStart(bool fromBeginning)
+{
+}
+
+void BWAPI_CALL onMatchFrame()
+{
+  BWDrawText(10, 10, "AI drawn text");
+  printf("onframe\n");
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-  ConsoleModule consoleModule;
-
-  if (!BWAPI2::connect())
+  if (!BWConnect())
   {
     printf("waiting for server to start up\n");
-    while(!BWAPI2::connect())
+    while(!BWConnect())
     {
       Sleep(200);
     }
   }
   printf("connected\n");
-  if(!takeover(consoleModule))
+  if(!BWTakeover(onMatchFrame, onMatchStart, onUnitAdd, onUnitRemove, onSendText))
   {
-    printf(BWAPI2::getLastError());
+    printf(BWGetLastError());
   }
   system("pause");
   return 0;

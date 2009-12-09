@@ -1,5 +1,4 @@
 #include "BWAPI.h"
-
 #include "BridgeClient.h"
 
 #include <Util\Version.h>
@@ -17,14 +16,12 @@ namespace BWAPI
 
 //public:
   //----------------------------------- GET VERSION -----------------------------------------------
-  // BWAPI_FUNCTION
-  int BWAPI_CALL GetVersion()
+  BWAPI_FUNCTION int BWAPI_CALL BWGetVersion()
   {
     return SVN_REV;
   }
   //----------------------------------- CONNECT ---------------------------------------------------
-  // BWAPI_FUNCTION
-  bool BWAPI_CALL Connect()
+  BWAPI_FUNCTION bool BWAPI_CALL BWConnect()
   {
     resetError();
     if(!BridgeClient::connect())
@@ -35,14 +32,13 @@ namespace BWAPI
     return 1;
   }
   //----------------------------------- TAKE OVER -------------------------------------------------
-  // BWAPI_FUNCTION
-  bool BWAPI_CALL Takeover(BWAPI_MatchFrameCallback a,
-    BWAPI_MatchStartCallback b,
-    BWAPI_UnitAddCallback c,
-    BWAPI_UnitRemoveCallback d)
+  BWAPI_FUNCTION bool BWAPI_CALL BWTakeover(BWMatchFrameCallback onMatchFrame,
+    BWMatchStartCallback onMatchStart,
+    BWUnitAddCallback onUnitAdd,
+    BWUnitRemoveCallback onUnitRemove,
+    BWSendTextCallback onSendText)
   {
     resetError();
-/*  STUB
     while(true)
     {
       if(!BridgeClient::waitForEvent())
@@ -57,23 +53,32 @@ namespace BWAPI
       {
       case BridgeClient::OnInitMatch:
         {
-          aiModule.onStartMatch();
+          if(onMatchStart)onMatchStart(BridgeClient::isMatchStartFromBeginning);
         }break;
       case BridgeClient::OnFrame:
         {
           for each(const std::string &input in BridgeClient::getUserInputStrings())
           {
-            aiModule.onSendText(input);
+            if(onSendText)onSendText(input.c_str());
           }
-          aiModule.onFrame();
+          onMatchFrame();
         }break;
       }
-    }*/
+    }
     return true;
   }
+  //----------------------------------- -----------------------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text)
+  {
+    BridgeClient::pushDrawText(x, y, text);
+  }
+  //----------------------------------- -----------------------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWDrawRect(int x, int y, int w, int h, int color)
+  {
+    BridgeClient::pushDrawRectangle(x, y, w, h, color);
+  }
   //----------------------------------- GET LAST ERROR --------------------------------------------
-  // BWAPI_FUNCTION
-  const char* BWAPI_CALL GetErrorString()
+  BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError()
   {
     return lastError.c_str();
   }

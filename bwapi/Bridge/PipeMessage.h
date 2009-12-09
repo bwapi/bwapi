@@ -69,6 +69,10 @@ namespace Bridge
     {
       Bridge::SharedStuff::SendTextStack::Export exp;
     };
+    struct AgentUpdateDrawShapes : Util::TypeHead<UNIQUE_ID>
+    {
+      Bridge::SharedStuff::DrawShapeStack::Export exp;
+    };
     //------------------------------------------------
     // Sent each frame, to pass control between
     // the two processes.

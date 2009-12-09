@@ -2,6 +2,9 @@
 
 #include <Bridge\StaticGameData.h>
 #include <Bridge\SendTextEntry.h>
+#include <Bridge\DrawShape.h>
+
+#include <Util\MemoryFrame.h>
 
 #include <string>
 #include <deque>
@@ -30,6 +33,9 @@ namespace BWAPI
     extern bool isBridgeInitialized();            // true once initBridge called
     extern bool isSharedMemoryInitialized();      // true once memory allocated
     extern const std::string &getLastError();
+
+    typedef void (*DrawShapeCallback)(Util::MemoryFrame packet);
+    extern void enumAllDrawShapes(DrawShapeCallback);
 
     extern std::deque<Bridge::SendTextEntry*> getSendTextEntries();
   }

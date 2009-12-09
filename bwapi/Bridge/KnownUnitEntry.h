@@ -6,18 +6,16 @@
  *  it just gets removed
  *
  *  Note that this is the "information behaviour". BWAgent's
- *  compatibility Unit layer will provide another.
+ *  compatibility Unit layer (BWAPI2) will provide another.
  *********/
 
 #include <BWAPITypes\UnitState.h>
 
 namespace Bridge
 {
-  struct KnownUnitEntry
+  // inheritance because the published pointer will be cast to UnitState
+  struct KnownUnitEntry : BWAPI::UnitState
   {
-    BWAPI::ClearanceLevel clearance;
-    BWAPI::UnitState state;
-
-    // TODO: add issued command
+    // TODO: add issued commands or other not unit state related properties
   };
 }

@@ -20,7 +20,7 @@
 #include <string>
 #include <set>
 
-#define EXIT(...)      \
+#define EXIT(...)       \
 {                       \
   printf(__VA_ARGS__);  \
   printf("\n");         \
@@ -355,7 +355,16 @@ void generateAllX(std::string extension)
 //----------------------------- MAIN ---------------------------------------------------------------------
 int _tmain(int argc, _TCHAR* argv[])
 {
-  readIniFile("details.ini");
+  const char* initFileName = argv[1];
+  if(!initFileName || initFileName[0] == 0)
+    return 1;
+  if(!fileExists(initFileName))
+  {
+    printf("could not find ini file %s", initFileName);
+    system("pause");
+    return 1;
+  }
+  readIniFile(initFileName);
   copyFiles();
   generateAllX("h");
   generateAllX("cpp");

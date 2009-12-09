@@ -29,9 +29,9 @@ namespace BWAPI2
   int BWAPI2_CALL connect()
   {
     resetError();
-    if(!BWAPI::Connect())
+    if(!BWConnect())
     {
-      lastError = "could not connect: " + std::string(BWAPI::GetErrorString());
+      lastError = "could not connect: " + std::string(BWGetLastError());
       return 0;
     }
     return 1;
