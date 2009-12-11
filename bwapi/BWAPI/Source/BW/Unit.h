@@ -233,7 +233,7 @@ namespace BW
     /*0x104*/ _UNKNOWN                            _22[3];
     /*0x107*/ u8                                  isBeingHealed;      /**< @todo Verify - seems like it isn't working */
     /*0x108*/ BW::Position                        contours1Unknown;   /**< @todo Unknown */
-    /*0x10A*/ BW::Position                        contours2Unknown;   /**< @todo Unknown */
+    /*0x10C*/ BW::Position                        contours2Unknown;   /**< @todo Unknown */
     /*0x110*/ u16                                 removeTimer;        /**< @todo Verified for Hallucination, unverified for DSwarm, DWeb, Broodling */
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;
@@ -252,16 +252,16 @@ namespace BW
     /*0x124*/ u8                                  maelstromTimer;
     /*0x125*/ _UNKNOWN                            _23[1];
     /*0x126*/ u8                                  acidSporeTime[9];   /**< @todo Verify */
-    /*0x130*/ u16                                 offsetIndex3by3;    /**< @todo Unknown */
-    /*0x132*/ _UNKNOWN                            _24[6];
-    /*0x138*/ u16                                 airStrength;        /**< @todo Verify (1 if has no air weapon but has a ground) */
-    /*0x13A*/ u16                                 groundStrength;     /**< @todo Verify (1 if has no ground weapon but has an air) */
-    /*0x13C*/ _UNKNOWN                            _25[16];
-    /*0x14C*/ u8                                  repulseUnknown1;    /**< @todo Unknown */
-    /*0x14D*/ u8                                  repulseUnknown2;    /**< @todo Unknown */
-    /*0x14E*/ u8                                  driftPosX;          /**< @todo Unknown (mapsizex/1.5 max) */
-    /*0x14F*/ u8                                  driftPosY;          /**< @todo Unknown (mapsizex/1.5 max) */
-    /*0x150*/ _UNKNOWN                            _26[1];
+    /*0x12F*/ u16                                 offsetIndex3by3;    /**< @todo Unknown */
+    /*0x131*/ _UNKNOWN                            _24[6];
+    /*0x137*/ u16                                 airStrength;        /**< @todo Verify (1 if has no air weapon but has a ground) */
+    /*0x139*/ u16                                 groundStrength;     /**< @todo Verify (1 if has no ground weapon but has an air) */
+    /*0x13B*/ _UNKNOWN                            _25[16];
+    /*0x14B*/ u8                                  repulseUnknown1;    /**< @todo Unknown */
+    /*0x14C*/ u8                                  repulseUnknown2;    /**< @todo Unknown */
+    /*0x14D*/ u8                                  driftPosX;          /**< @todo Unknown (mapsizex/1.5 max) */
+    /*0x14E*/ u8                                  driftPosY;          /**< @todo Unknown (mapsizex/1.5 max) */
+    /*0x14F*/ _UNKNOWN                            _26[1];
   };
 #pragma pack()
 
