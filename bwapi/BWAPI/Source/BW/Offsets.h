@@ -377,7 +377,7 @@ namespace BW
   //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
   static unitsDat_s16_type* BWDATA_MaxShieldPoints = (unitsDat_s16_type*) unitsDat[7].address;
   //---------------------------------------------- UNIT MAX HP -----------------------------------------------
-  struct unitsDat_s32_type* BWDATA_MaxHitPoints = (unitsDat_s32_type*) unitsDat[8].address;
+  static unitsDat_s32_type* BWDATA_MaxHitPoints = (unitsDat_s32_type*) unitsDat[8].address;
   //--------------------------------------------- ELEVATION ----------------------------------------------
   static unitsDat_u8_type* BWDATA_Elevation = (unitsDat_u8_type*) unitsDat[9].address;
   //--------------------------------------------- UNIT SUBLABEL ----------------------------------------------

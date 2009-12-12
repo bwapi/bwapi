@@ -353,7 +353,7 @@ void generateAllX(std::string extension)
   }
 }
 //----------------------------- MAIN ---------------------------------------------------------------------
-int _tmain(int argc, _TCHAR* argv[])
+int _tmain(int argc, char* argv[])
 {
   char* initFileName = argv[1];
   if(!initFileName || initFileName[0] == 0)
