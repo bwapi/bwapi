@@ -15,6 +15,8 @@ typedef unsigned long   DWORD;
 typedef void*           PVOID;
 typedef unsigned int    UINT;
 
+typedef void*           HANDLE;
+
 #ifdef NULL
 #undef NULL
 #endif

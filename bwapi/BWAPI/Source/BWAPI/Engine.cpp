@@ -817,21 +817,22 @@ namespace BWAPI
           staticData.isPaused      = BW::isPaused();
           staticData.unitCount=0;
           int i=0;
-          // TODO: use the optimised algorithm
-          for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+
+          // TODO: use another algorithm, this is just test
+          BridgeServer::sharedStuff.knownUnits.clear();
+          for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
           {
-            Unit &unit = bwUnitArrayMirror[i];
-            if(!unit.exists)    // unit exists in BW memory
-              continue;
-            if(!unit.knownUnit) // agent does know nothing about this unit
-              continue;
+            int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
+            Unit &mirror = bwUnitArrayMirror[linear];
 
             // transfer recent data about this particular BW unit
-            Bridge::KnownUnitEntry &knownUnit = *unit.knownUnit;
-            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[unit.bwId];
+            Bridge::KnownUnitEntry knownUnit;
+            BridgeServer::sharedStuff.knownUnits.insert(knownUnit);
+
 
             // TODO: implement compile-time checked clearance limit
             /* TODO: implement BW::get functions in BW. use those
+            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[unit.bwId];
             knownUnit.state.position_x  = u->getPosition().x();
             knownUnit.state.position_y  = u->getPosition().y();
 

@@ -26,6 +26,12 @@ namespace Util
     {
       int blockIndex;
       int blockEntryIndex;
+
+      static const Index Invalid;   // instantiation further down
+      bool isValid()
+      {
+        return this->blockIndex >= 0;
+      }
     };
     typedef SharedMemory::Export Export;
     //----------------------- CONSTRUCTION -----------------------------
@@ -51,10 +57,9 @@ namespace Util
     //----------------------- INSERT -----------------------------------
     Index insert(T &storee)
     {
-      if(this->newBlockSize <= 0)
+      if(this->nextNewBlockSize <= 0)
       {
-        Index index = {-1, -1};
-        return index;
+        return Index::Invalid;
       }
       for(unsigned int b = 0; b < this->ownedBlocks.size(); b++)
       {
@@ -104,11 +109,10 @@ namespace Util
       newBlock.memory = new SharedMemory();
       if(!newBlock.memory->create(this->nextNewBlockSize * sizeof(T)))
       {
-        Index index = {-1, -1};
-        return index;
+        return Index::Invalid;
       }
       this->ownedBlocks.push_back(newBlock);
-      this->nextNewBlockSize *= 1.5;
+      this->nextNewBlockSize = (int)(this->nextNewBlockSize * 1.5);
 
       // clean the new entries
       MemoryFrame temp=newBlock.memory->getMemory();
@@ -143,9 +147,9 @@ namespace Util
       }
     }
     //----------------------- IS VALID INDEX ---------------------------
-    bool isValidIndex(const Index &index)
+    bool isIndexValid(const Index &index)
     {
-      if(index.blockIndex < 0 || index.blockIndex >= this->ownedBlocks.size())
+      if(index.blockIndex < 0 || index.blockIndex >= (int)this->ownedBlocks.size())
         return false;
       Block &block = this->ownedBlocks[index.blockIndex];
       if(index.blockEntryIndex < 0 || index.blockEntryIndex >= block.size)
@@ -155,18 +159,16 @@ namespace Util
     //----------------------- OPERATOR [] ------------------------------
     T& get(Index pointee)
     {
-      Block &targetBlock = this->ownedBlocks[pointee.blockIndex];
-      MemoryFrame temp=targetBlock.memory->getMemory();
-      Entry *targetBlockEntries = temp.beginAs<Entry>();
-      Entry &targetEntry = targetBlockEntries[pointee.blockEntryIndex];
+      Entry &targetEntry = getEntryByIndex(pointee);
 
       return targetEntry.strucure;
     }
     //----------------------- CLEAR ------------------------------------
     void clear()
     {
-      foreach(Block &block, this->ownedBlocks)
+      for(int i = 0; i < this->ownedBlocks.size(); i++)
       {
+        Block &block = this->ownedBlocks[i];
         // mark everything as free
         MemoryFrame temp=block.memory->getMemory();
         Entry *entries = temp.beginAs<Entry>();
@@ -213,10 +215,37 @@ namespace Util
       block.memory = new SharedMemory();
       if(!block.memory->import(in))
         return false;
-      block.size = block.memory->getMemory().size();
+      block.size = block.memory->getMemory().size() / sizeof(T);
       this->ownedBlocks.push_back(block);
 
       return true;
+    }
+    //----------------------- BEGIN ------------------------------------
+    Index begin()
+    {
+      if(ownedBlocks.size() <= 0)
+        return Index::Invalid;
+      Index retval = {0, 0};
+      if(isIndexValid(retval))
+        return retval;
+      return getNext(retval);
+    }
+    //----------------------- GET NEXT ---------------------------------
+    Index getNext(Index index)
+    {
+      while(index.blockIndex < (int)ownedBlocks.size())
+      {
+        Block &block = ownedBlocks[index.blockIndex];
+        while(index.blockEntryIndex < block.size)
+        {
+          index.blockEntryIndex++;
+          if(getEntryByIndexAndBlock(index.blockEntryIndex, block).busy)
+            return index;
+        }
+        index.blockEntryIndex = 0;
+        index.blockIndex++;
+      }
+      return Index::Invalid;
     }
     //----------------------- ------------------------------------------
   private:
@@ -224,7 +253,7 @@ namespace Util
     struct Block
     {
       Util::SharedMemory* memory;
-      int size;
+      int size;   // measured in Entry count
       int count;
       int head;   // lowest bound of free slots
     };
@@ -238,11 +267,27 @@ namespace Util
       unsigned int size;
       SharedMemory::Export memory;
     };
-    int nextNewBlockSize;
+    int nextNewBlockSize; // in Entry count
     int exportedBlocks;
     bool exportReadOnly;
     bool exportHasCleared;
     std::vector<Block> ownedBlocks;
+    //----------------------- GET ENTRY BY INDEX -------------------------
+    Entry &getEntryByIndex(Index pointee)
+    {
+      Block &targetBlock = this->ownedBlocks[pointee.blockIndex];
+      MemoryFrame temp=targetBlock.memory->getMemory();
+      Entry *targetBlockEntries = temp.beginAs<Entry>();
+      return targetBlockEntries[pointee.blockEntryIndex];
+    }
+    //----------------------- GET ENTRY BY INDEX AND BLOCK ---------------
+    Entry &getEntryByIndexAndBlock(int index, Block &block)
+    {
+      Entry *targetBlockEntries = block.memory->getMemory().beginAs<Entry>();
+      return targetBlockEntries[index];
+    }
     //----------------------- ------------------------------------------
   };
+
+  template<typename T> const typename SharedSet<T>::Index SharedSet<T>::Index::Invalid = {-1, -1};
 }

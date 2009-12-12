@@ -2,6 +2,9 @@
 #include "BridgeClient.h"
 
 #include <Util\Version.h>
+#include <Util\Types.h>
+
+#include <Bridge\SharedStuff.h>
 
 // singleton base class
 namespace BWAPI
@@ -15,6 +18,13 @@ namespace BWAPI
   }
 
 //public:
+  //----------------------------------- CLOSE HANDLE ----------------------------------------------
+  BWAPI_FUNCTION void BWCloseHandle(HANDLE h)
+  {
+    if(!h)
+      return;
+    delete h;
+  }
   //----------------------------------- GET VERSION -----------------------------------------------
   BWAPI_FUNCTION int BWAPI_CALL BWGetVersion()
   {
@@ -76,6 +86,34 @@ namespace BWAPI
   BWAPI_FUNCTION void BWAPI_CALL BWDrawRect(int x, int y, int w, int h, int color)
   {
     BridgeClient::pushDrawRectangle(x, y, w, h, color);
+  }
+  //----------------------------------- ALL UNITS ITERATOR ----------------------------------------
+  struct AllUnitsHandle
+  {
+    Bridge::SharedStuff::KnownUnitSet::Index index;
+  };
+  //----------------------------------- ALL UNITS BEGIN -------------------------------------------
+  BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin()
+  {
+    AllUnitsHandle *handle = new AllUnitsHandle;
+    handle->index = BridgeClient::sharedStuff.knownUnits.begin();
+    return handle;
+  }
+  //----------------------------------- ALL UNITS NEXT --------------------------------------------
+  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWAllUnitsNext(HANDLE h)
+  {
+    AllUnitsHandle &handle = *(AllUnitsHandle*)h;
+    if(!handle.index.isValid())
+      return NULL;
+    BWAPI::UnitState &retval = BridgeClient::sharedStuff.knownUnits.get(handle.index);
+    handle.index = BridgeClient::sharedStuff.knownUnits.getNext(handle.index);
+    return &retval;
+  }
+  //----------------------------------- ALL UNITS CLOSE -------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWAllUnitsClose(HANDLE h)
+  {
+    // for now just assume AI didn't screw up
+    delete (AllUnitsHandle*)h;
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------
   BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError()
