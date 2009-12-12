@@ -112,12 +112,12 @@ namespace BW
     return BW::BWDATA_UnitUpgrade->unitType[this->getID()];
   }
   //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
-  u16 UnitType::maxHitPoints() const
+  s32 UnitType::maxHitPoints() const
   {
-    return BW::BWDATA_MaxHealthPoints_NotAttackable_Repairable->raw[this->getID()].maxHealthPoints;
+    return BW::BWDATA_MaxHitPoints->unitType[this->getID()];
   }
   //----------------------------------------------- MAX SHIELDS ----------------------------------------------
-  u16 UnitType::maxShields() const
+  s16 UnitType::maxShields() const
   {
     if (BW::BWDATA_ShieldsEnabled->unitType[this->getID()] != 0)
     {
@@ -126,7 +126,7 @@ namespace BW
     return 0;
   }
   //------------------------------------------------ MAX ENERGY ----------------------------------------------
-  u16 UnitType::maxEnergy() const
+  u8 UnitType::maxEnergy() const
   {
     if (this->isSpellcaster())
     {
@@ -139,7 +139,6 @@ namespace BW
   {
     return BW::BWDATA_Armor->unitType[this->getID()];
   }
-
   //--------------------------------------------- MINERAL PRICE ----------------------------------------------
   u16 UnitType::mineralPrice() const
   {

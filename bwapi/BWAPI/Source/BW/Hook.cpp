@@ -484,12 +484,18 @@ namespace BW
     JmpCallPatch((void*)&IssueCommandHook,  BW::BWFXN_OldIssueCommand, 4);
 
     static const char zero = 0;
+    static const char one  = 1;
     WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
     WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&zero, 1); // menu in
     WriteMem( (void*)BW::BWDATA_MenuOutHack,       (void*)&zero, 1); // menu out
     WriteMem( (void*)BW::BWDATA_MultiplayerHack,   (void*)&zero, 1); // Battle.net Server Select
     WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&zero, 1); // Battle.net Server Select
     WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&zero, 1); // Start without an opponent
+
+    GetPrivateProfileStringA("hacks", "Countdown_Hack", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+    if (_strcmpi(logPath, "on") == 0)
+      WriteMem( (void*)BW::BWDATA_CountdownHack, (void*)&one, 1); // Fast multiplayer countdown
+
     return 0;
   }
 }

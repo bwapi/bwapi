@@ -200,7 +200,7 @@ namespace BWAPI
       }
     }
     //---------------------------------------------- CHANGE RACE -----------------------------------------------
-    void changeRace(BW::RaceID race)
+    void changeRace(u8 race)
     {
       /* TODO: reform
       issueCommand((PBYTE)&BW::Command::ChangeRace(static_cast<u8>(race.getID()), (u8)BWAPIPlayer->getID()));

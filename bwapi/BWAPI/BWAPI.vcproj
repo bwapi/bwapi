@@ -463,10 +463,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Bridge\Doodle.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\Engine.h"
 					>
 				</File>
@@ -476,10 +472,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\Shape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\BWAPITypes\UnitCommands.h"
 					>
 				</File>
 				<File
@@ -497,34 +489,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Interface"
-			>
-			<File
-				RelativePath="..\include\BWAPI\Constants.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\CoordinateType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\Force.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\Latency.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\Player.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\Unit.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Bridge"
 			>
 			<File
@@ -533,10 +497,6 @@
 			</File>
 			<File
 				RelativePath="..\Bridge\Constants.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\KnownUnit.h"
 				>
 			</File>
 			<File

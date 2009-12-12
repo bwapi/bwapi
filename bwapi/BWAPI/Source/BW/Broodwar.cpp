@@ -130,12 +130,12 @@ namespace BW
     }
   }
   //------------------------------------ CHANGE SLOT ---------------------------------------
-  void changeSlot(BW::SlotID slot, BW::SlotStateID slotState)
+  void changeSlot(u8 slot, u8 slotState)
   {
     issueCommand(BW::Command::ChangeSlot(slot, slotState));
   }
   //--------------------------------- PRINT WITH PLAYER ID ---------------------------------
-  void printEx(s32 pID, const char* text, ...)
+  void printEx(int pID, const char* text, ...)
   {
     // TODO: capsulate formatting to one function
     Util::StaticArray<char, 2048> buffer;
