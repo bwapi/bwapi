@@ -130,7 +130,7 @@ namespace BW
     }
   }
   //------------------------------------ CHANGE SLOT ---------------------------------------
-  void changeSlot(u8 slot, u8 slotState)
+  void changeSlot(BW::SlotID slot, BW::SlotStateID slotState)
   {
     issueCommand(BW::Command::ChangeSlot(slot, slotState));
   }

@@ -7,6 +7,7 @@
 #include "UpgradeType.h"
 #include "PositionUnitID.h"
 #include "RaceID.h"
+#include "SlotID.h"
 #include "OrderID.h"
 #include "SlotStateID.h"
 #include "BuildPosition.h"
@@ -126,24 +127,24 @@ namespace BW
     class ChangeSlot : TypeHead<0x44>  // 0x44 = Change slot command-code in bw 
     {
       public :
-        ChangeSlot(u8 slotId, u8 slotStateId);
+        ChangeSlot(SlotID slotId, SlotStateID slotStateId);
       private :
         // Order of the slot to change (0 for the 1st slot) 
-        u8 slotId;
+        SlotID slotId;
         // Target slot state. 
-        u8 slotStateId;
+        SlotStateID slotStateId;
     };
     // Change race command in bw. 
     class ChangeRace : TypeHead<0x41>  // 0x41 = Command code for change race in bw. 
     {
       public :
-        ChangeRace(u8 slotId, u8 raceId);
+        ChangeRace(SlotID slotId, RaceID raceId);
       private :
         
         // Order of the slot to change (0 for the 1st slot). 
-        u8 slotId;
+        SlotID slotId;
         // Target slot race. 
-        u8 raceId;
+        RaceID raceId;
     };
     // Starts game in the pre-game lobby. 
     class StartGame : TypeHead<0x3c>  // 0x3c = Command code for start game. 

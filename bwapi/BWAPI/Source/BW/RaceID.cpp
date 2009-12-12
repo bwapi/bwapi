@@ -3,7 +3,7 @@ namespace BW
 {
   namespace RaceIDs
   {
-    u8 fromString(const std::string& name)
+    RaceID fromString(const std::string& name)
     {
       if (name == "Zerg")
         return Zerg;
@@ -13,7 +13,7 @@ namespace BW
         return Protoss;
       return None;
     };
-    std::string getName(u8 race)
+    std::string getName(RaceID race)
     {
       switch (race)
       {

@@ -9,7 +9,7 @@ namespace BW
   // Maps bw definition of race.
   namespace RaceIDs
   {
-    enum Enum
+    enum Enum : u8
     {
       Zerg    = 0,
       Terran  = 1,
@@ -20,11 +20,12 @@ namespace BW
       None    = 7,
     };
   }
+  typedef RaceIDs::Enum RaceID;
 
   // Database functions
   namespace RaceIDs
   {
-    u8 fromString(const std::string& name);
-    std::string getName(u8 race);
+    RaceID fromString(const std::string& name);
+    std::string getName(RaceID race);
   };
 };
