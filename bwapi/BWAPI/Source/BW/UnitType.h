@@ -50,9 +50,9 @@ namespace BW
       u8                                   requiredTech() const;
       u8                                   armorUpgrade() const;
 
-      u16                  maxHitPoints() const;
-      u16                  maxShields() const;
-      u16                  maxEnergy() const;
+      s32                  maxHitPoints() const;
+      s16                  maxShields() const;
+      u8                   maxEnergy() const;
       u8                   armor() const;
 
       u16                  mineralPrice() const;

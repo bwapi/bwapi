@@ -166,7 +166,7 @@ namespace Util
     //----------------------- CLEAR ------------------------------------
     void clear()
     {
-      for(int i = 0; i < this->ownedBlocks.size(); i++)
+      for(unsigned int i = 0; i < this->ownedBlocks.size(); i++)
       {
         Block &block = this->ownedBlocks[i];
         // mark everything as free

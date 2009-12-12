@@ -8,12 +8,11 @@ namespace BW
 {
   namespace SlotStateIDs
   {
-    enum Enum : u8
+    enum Enum
     {
       Computer = 0,
       Open = 1,
       Closed = 2
     };
   }
-  typedef SlotStateIDs::Enum SlotStateID;
 }

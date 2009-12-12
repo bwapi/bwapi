@@ -102,13 +102,13 @@ namespace BW
     {
     }
     //------------------------------------------- MOVE CONSTRUCTOR -------------------------------------------
-    ChangeSlot::ChangeSlot(BW::SlotID slot, BW::SlotStateID slotState)
+    ChangeSlot::ChangeSlot(u8 slot, u8 slotState)
       : slotId(slot)
       , slotStateId(slotState)
     {
     }
     //--------------------------------------- CHANGE RACE CONSTRUCTOR ----------------------------------------
-    ChangeRace::ChangeRace(BW::SlotID slot, BW::RaceID race)
+    ChangeRace::ChangeRace(u8 slot, u8 race)
       : slotId(slot)
       , raceId(race)
     {

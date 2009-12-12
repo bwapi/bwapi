@@ -31,8 +31,7 @@ namespace BW
   static const u8  DAMAGE_TYPE_COUNT     =   5;
   static const u8  EXPLOSION_TYPE_COUNT  =  25;
   static const u8  FLINGY_TYPE_COUNT     = 209;
-
-  static const int TILE_SIZE          =  32;
+  static const int TILE_SIZE             =  32;
 
   struct Unit;
   struct UnitArray;
@@ -99,16 +98,16 @@ namespace BW
   };
 
 
-  static DatLoad*       upgradesDat       = (DatLoad*)        0x005136E0;  // 1.15.3, 1.16, 1.16.1
-  static DatLoad*       techdataDat       = (DatLoad*)        0x005137D8;
-  static DatLoad*       weaponsDat        = (DatLoad*)        0x00513868;
-  static DatLoad*       unitsDat          = (DatLoad*)        0x00513C30;
-  static DatLoad*       flingyDat         = (DatLoad*)        0x00515A38;
+  static DatLoad*       upgradesDat	           = (DatLoad*)        0x005136E0;  // 1.15.3, 1.16, 1.16.1
+  static DatLoad*       techdataDat            = (DatLoad*)        0x005137D8;
+  static DatLoad*       weaponsDat             = (DatLoad*)        0x00513868;
+  static DatLoad*       unitsDat               = (DatLoad*)        0x00513C30;
+  static DatLoad*       flingyDat              = (DatLoad*)        0x00515A38;
 
-  static Positions*      BWDATA_startPositions   = (Positions*)      0x0058D720;  // 1.16.1
-  static ForceName*      BWDATA_ForceNames       = (ForceName*)      0x0058D5BC;  // 1.16.1
-  static Players*        BWDATA_Players          = (Players*)        0x0057EEE0;  // 1.16.1
-  static PlayerAlliance* BWDATA_Alliance         = (PlayerAlliance*) 0x0058D634;  // 1.16.1
+  static Positions*      BWDATA_startPositions = (Positions*)      0x0058D720;  // 1.16.1
+  static ForceName*      BWDATA_ForceNames     = (ForceName*)      0x0058D5BC;  // 1.16.1
+  static Players*        BWDATA_Players        = (Players*)        0x0057EEE0;  // 1.16.1
+  static PlayerAlliance* BWDATA_Alliance       = (PlayerAlliance*) 0x0058D634;  // 1.16.1
 
   //----------------------------------------------- UNIT STATS -----------------------------------------------
   /** Direct mapping of BW tables used for unit stats like count, completed, kills, deaths */
@@ -153,13 +152,14 @@ namespace BW
   static u32     BWDATA_LoadedUnits        = 0x004F4B58;
 
   /* Speed Hacks */
-  static u32     BWDATA_MenuLoadHack       =           0x004DE392;
-  static u32     BWDATA_MenuInHack         =           0x004DD76E;
-  static u32     BWDATA_MenuOutHack        =           0x004DD162;
-  static u32     BWDATA_MultiplayerHack    =           0x004DD5A2;
-  static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
-  static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
-  static u32     BWDATA_OpponentStartHack  =           0x004B995D;
+  static u32     BWDATA_MenuLoadHack       =       0x004DE392;
+  static u32     BWDATA_MenuInHack         =       0x004DD76E;
+  static u32     BWDATA_MenuOutHack        =       0x004DD162;
+  static u32     BWDATA_MultiplayerHack    =       0x004DD5A2;
+  static u32     BWDATA_MultiplayerHack2   =       0x004DD5C9;
+  static u32*    BWDATA_GameSpeedModifiers = (u32*)0x005124F4;
+  static u32     BWDATA_OpponentStartHack  =       0x004B995D;
+  static u32     BWDATA_CountdownHack      =       0x004720C5;
 
   /* Native message boxes */
   static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
@@ -191,13 +191,14 @@ namespace BW
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect)  = (void (_stdcall*) (int, BW::Unit * *))             0x004C0860;
   static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit** , bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
+  static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
+
   static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
   static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
   static u8*            BWDATA_IsNotPaused                        = (u8*)   0x0051CE6C;
   static u32*           BWDATA_NextMenu                           = (u32*)  0x006D11BC;
-  static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
 
   static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
@@ -348,11 +349,18 @@ namespace BW
   {
     u16 unitType[UNIT_TYPE_COUNT];
   };
+  struct unitsDat_s16_type
+  {
+    s16 unitType[UNIT_TYPE_COUNT];
+  };
   struct unitsDat_u32_type
   {
     u32 unitType[UNIT_TYPE_COUNT];
   };
-
+  struct unitsDat_s32_type
+  {
+    s32 unitType[UNIT_TYPE_COUNT];
+  };
 
   //---------------------------------------------- UNIT GRAPHICS ---------------------------------------------
   static unitsDat_u8_type* BWDATA_UnitGraphics = (unitsDat_u8_type*) unitsDat[0].address;
@@ -360,8 +368,6 @@ namespace BW
   static unitsDat_u16_type* BWDATA_SubUnit1 = (unitsDat_u16_type*) unitsDat[1].address;
   //----------------------------------------------- SUB UNIT 2 -----------------------------------------------
   static unitsDat_u16_type* BWDATA_SubUnit2 = (unitsDat_u16_type*) unitsDat[2].address;
-
-
   //--------------------------------------- UNIT CONSTRUCTION GRAPHICS ---------------------------------------
   static unitsDat_u32_type* BWDATA_ConstructionGraphics = (unitsDat_u32_type*) unitsDat[4].address;
   //----------------------------------------------- DIRECTION ------------------------------------------------
@@ -369,29 +375,13 @@ namespace BW
   //--------------------------------------------- SHIELDS ENABLED --------------------------------------------
   static unitsDat_u8_type* BWDATA_ShieldsEnabled = (unitsDat_u8_type*) unitsDat[6].address;
   //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
-  static unitsDat_u16_type* BWDATA_MaxShieldPoints = (unitsDat_u16_type*) unitsDat[7].address;
+  static unitsDat_s16_type* BWDATA_MaxShieldPoints = (unitsDat_s16_type*) unitsDat[7].address;
   //---------------------------------------------- UNIT MAX HP -----------------------------------------------
-  /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
-  struct MaxHealthPoints_NotAttackable_Repairable_type
-  {
-    /** mapping of the Max Health Points)/(Not Attackable)/(Requirable) for single unit type. */
-    struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
-    {
-      u16 maxHealthPoints;
-      u8 notAttackable;
-      u8 repairable;
-    };
-    MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[UNIT_TYPE_COUNT];
-  };
-  static MaxHealthPoints_NotAttackable_Repairable_type* BWDATA_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) unitsDat[8].address;
+  struct unitsDat_s32_type* BWDATA_MaxHitPoints = (unitsDat_s32_type*) unitsDat[8].address;
   //--------------------------------------------- ELEVATION ----------------------------------------------
   static unitsDat_u8_type* BWDATA_Elevation = (unitsDat_u8_type*) unitsDat[9].address;
-
-
   //--------------------------------------------- UNIT SUBLABEL ----------------------------------------------
   static unitsDat_u8_type* BWDATA_UnitSubLabel = (unitsDat_u8_type*) unitsDat[11].address;
-
-
   //------------------------------------------ UNIT GROUND WEAPON --------------------------------------------
   static unitsDat_u8_type* BWDATA_UnitGroundWeapon = (unitsDat_u8_type*) unitsDat[17].address;
   //-------------------------------------------- MAX GROUND HITS ---------------------------------------------

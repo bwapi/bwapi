@@ -84,15 +84,15 @@ namespace BWAPI
   {
     if (isSolid)
     {
-      int f = 1 - radius;
+      int f = (int)(1 - radius);
       int ddF_x = 1;
-      int ddF_y = -2 * radius;
+      int ddF_y = (int)(-2 * radius);
       int xi = 0;
-      int yi = radius;
+      int yi = (int)(radius);
 
-      BW::drawDot(x, y + radius, color);
-      BW::drawDot(x, y - radius, color);
-      BW::drawBox(x - radius, y, radius*2, 1, color);
+      BW::drawDot(x, (int)(y + radius), color);
+      BW::drawDot(x, (int)(y - radius), color);
+      BW::drawBox((int)(x - radius), y, (int)(radius*2), 1, color);
 
       while(xi < yi)
       {
@@ -113,16 +113,16 @@ namespace BWAPI
     }
     else
     {
-      int f = 1 - radius;
+      int f = (int)(1 - radius);
       int ddF_x = 1;
-      int ddF_y = -2 * radius;
+      int ddF_y = (int)(-2 * radius);
       int xi = 0;
-      int yi = radius;
+      int yi = (int)(radius);
 
-      BW::drawDot(x, y + radius, color);
-      BW::drawDot(x, y - radius, color);
-      BW::drawDot(x + radius, y, color);
-      BW::drawDot(x - radius, y, color);
+      BW::drawDot(x, (int)(y + radius), color);
+      BW::drawDot(x, (int)(y - radius), color);
+      BW::drawDot((int)(x + radius), y, color);
+      BW::drawDot((int)(x - radius), y, color);
 
       while(xi < yi)
       {

@@ -122,12 +122,12 @@ std::string filePrefixFromPath(std::string filePath)
   std::string fileDirectory = fileDirectoryFromPath(filePath);
   std::string prefix = "a";
   int id = 0;
-  for(int i = 0; i < fileDirectory.size(); i++)
+  for(unsigned int i = 0; i < fileDirectory.size(); i++)
   {
     id += fileDirectory[i];
   }
   char buffer[100];
-  itoa(id, buffer, 30);
+  _itoa_s(id, buffer, 100, 30);
   prefix += std::string(buffer);
   return prefix;
 }
@@ -194,7 +194,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   while(true)
   {
     std::string line = reader.readLine();
-    int firstNonSpace = line.find_first_not_of(' ');
+    unsigned int firstNonSpace = line.find_first_not_of(' ');
 
     // modus changer commands
     if(firstNonSpace != std::string::npos)
@@ -300,8 +300,8 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
 
           // characters to replace
           // note there is often a comment at the end
-          int endPos = line.find(");");
-          int endPosConst = line.find(") const;");
+          unsigned int endPos = line.find(");");
+          unsigned int endPosConst = line.find(") const;");
           if(endPos       != std::string::npos)
           {
             line = line.substr(0, endPos)       + pureEnd       + line.substr(endPos+2);
@@ -355,7 +355,7 @@ void generateAllX(std::string extension)
 //----------------------------- MAIN ---------------------------------------------------------------------
 int _tmain(int argc, _TCHAR* argv[])
 {
-  const char* initFileName = argv[1];
+  char* initFileName = argv[1];
   if(!initFileName || initFileName[0] == 0)
     return 1;
   if(!fileExists(initFileName))
