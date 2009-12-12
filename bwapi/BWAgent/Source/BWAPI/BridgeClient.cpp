@@ -432,6 +432,7 @@ namespace BWAPI
 
       return true;
     }
+    // TODO: change to pre-allocation
     bool pushDrawText(int x, int y, const char* text)
     {
       Bridge::DrawShape::Text packet;
@@ -439,13 +440,42 @@ namespace BWAPI
       packet.pos.y = y;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet), Util::MemoryFrame((void*)text, strlen(text)+1));
     }
-    bool pushDrawRectangle(int x, int y, int w, int h, int color)
+    bool pushDrawRectangle(int x, int y, int w, int h, int color, bool solid)
     {
       Bridge::DrawShape::Rectangle packet;
       packet.pos.x = x;
       packet.pos.y = y;
       packet.size.x = x;
       packet.size.y = y;
+      packet.color = color;
+      packet.isSolid = solid;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet));
+    }
+    bool pushDrawCircle(int x, int y, int r, int color, bool solid)
+    {
+      Bridge::DrawShape::Circle packet;
+      packet.center.x = x;
+      packet.center.y = y;
+      packet.radius = r;
+      packet.color = color;
+      packet.isSolid = solid;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet));
+    }
+    bool pushDrawLine(int x, int y, int x2, int y2, int color)
+    {
+      Bridge::DrawShape::Line packet;
+      packet.from.x = x;
+      packet.from.y = y;
+      packet.to.x = x2;
+      packet.to.y = y2;
+      packet.color = color;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet));
+    }
+    bool pushDrawDot(int x, int y, int color)
+    {
+      Bridge::DrawShape::Dot packet;
+      packet.pos.x = x;
+      packet.pos.y = y;
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }

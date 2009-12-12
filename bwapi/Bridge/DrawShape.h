@@ -20,6 +20,7 @@ namespace Bridge
       BW::Position center;
       double radius;
       int color;
+      bool isSolid;
     };
 
     struct Rectangle : Util::TypeHead<UNIQUE_ID>
@@ -27,9 +28,10 @@ namespace Bridge
       BW::Position pos;
       BW::Position size;
       int color;
+      bool isSolid;
     };
 
-    struct Point : Util::TypeHead<UNIQUE_ID>
+    struct Dot : Util::TypeHead<UNIQUE_ID>
     {
       BW::Position pos;
       int color;

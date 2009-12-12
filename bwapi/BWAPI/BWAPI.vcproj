@@ -450,6 +450,10 @@
 					RelativePath=".\Source\BWAPI\ScreenLogger.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BWAPI\Shape.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header files"

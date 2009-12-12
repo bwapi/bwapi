@@ -38,6 +38,11 @@ void BWAPI_CALL onMatchFrame()
 
   sprintf(buffer, "unit count: %d", count);
   BWDrawText(10, 10, buffer);
+  const int green = 117;
+  BWDrawRectangle(20, 20, 10, 10, green, false);
+  BWDrawCircle(20, 30, 10, green, false);
+  BWDrawLine(20, 40, 30, 30, green);
+  BWDrawDot(20, 50, green);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
