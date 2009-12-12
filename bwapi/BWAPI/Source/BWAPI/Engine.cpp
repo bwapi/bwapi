@@ -4,6 +4,7 @@
 #include "Unit.h"   // BWAPI Unit
 #include "Map.h"
 #include "BridgeServer.h"
+#include "Shape.h"
 
 #include <DLLMain.h>
 
@@ -55,13 +56,6 @@
 #include <Bridge/SharedStuff.h>
 #include <Bridge/Constants.h>
 
-#include "ShapeBox.h"
-#include "ShapeCircle.h"
-#include "ShapeEllipse.h"
-#include "ShapeDot.h"
-#include "ShapeLine.h"
-#include "ShapeTriangle.h"
-#include "ShapeText.h"
 
 
 namespace BWAPI
@@ -1599,7 +1593,7 @@ namespace BWAPI
         screen_y1 += *(BW::BWDATA_MouseY);
       }
       if (screen_x1 < 0   || screen_y1 < 0 ||
-          screen_x1 > 640 || screen_y1 > 480) return false;
+          screen_x1 >= 640 || screen_y1 >= 480) return false;
       return true;
     }
 
@@ -1625,8 +1619,8 @@ namespace BWAPI
       }
       if ((screen_x1 < 0 && screen_x2 < 0) ||
           (screen_y1 < 0 && screen_y2 < 0) ||
-          (screen_x1 > 640 && screen_x2 > 640) ||
-          (screen_y1 > 480 && screen_y2 > 480)) return false;
+          (screen_x1 >= 640 && screen_x2 >= 640) ||
+          (screen_y1 >= 480 && screen_y2 >= 480)) return false;
       return true;
     }
 
@@ -1658,8 +1652,8 @@ namespace BWAPI
       }
       if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
           (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-          (screen_x1 > 640 && screen_x2 > 640 && screen_x3 > 640) ||
-          (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480)) return false;
+          (screen_x1 >= 640 && screen_x2 >= 640 && screen_x3 >= 640) ||
+          (screen_y1 >= 480 && screen_y2 >= 480 && screen_y3 >= 480)) return false;
       return true;
     }
 
@@ -1727,6 +1721,16 @@ namespace BWAPI
         }
         BW::drawText(text.pos.x, text.pos.y, shapePacket.beginAs<char>());
       }
+      if(type == Bridge::DrawShape::Line::_typeId)
+      {
+        Bridge::DrawShape::Line line;
+        if(!shapePacket.readTo(line))
+        {
+          // packet too small
+          return;
+        }
+        drawLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
+      }
       if(type == Bridge::DrawShape::Rectangle::_typeId)
       {
         Bridge::DrawShape::Rectangle rect;
@@ -1735,7 +1739,27 @@ namespace BWAPI
           // packet too small
           return;
         }
-        BW::drawBox(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color);
+        drawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color, rect.isSolid);
+      }
+      if(type == Bridge::DrawShape::Circle::_typeId)
+      {
+        Bridge::DrawShape::Circle circle;
+        if(!shapePacket.readTo(circle))
+        {
+          // packet too small
+          return;
+        }
+        drawCircle(circle.center.x, circle.center.y, circle.radius, circle.color, circle.isSolid);
+      }
+      if(type == Bridge::DrawShape::Dot::_typeId)
+      {
+        Bridge::DrawShape::Dot dot;
+        if(!shapePacket.readTo(dot))
+        {
+          // packet too small
+          return;
+        }
+        BW::drawDot(dot.pos.x, dot.pos.y, dot.color);
       }
     }
     void onMatchDrawHigh()

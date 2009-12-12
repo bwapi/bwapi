@@ -18,13 +18,6 @@ namespace BWAPI
   }
 
 //public:
-  //----------------------------------- CLOSE HANDLE ----------------------------------------------
-  BWAPI_FUNCTION void BWCloseHandle(HANDLE h)
-  {
-    if(!h)
-      return;
-    delete h;
-  }
   //----------------------------------- GET VERSION -----------------------------------------------
   BWAPI_FUNCTION int BWAPI_CALL BWGetVersion()
   {
@@ -77,17 +70,32 @@ namespace BWAPI
     }
     return true;
   }
-  //----------------------------------- -----------------------------------------------------------
+  //----------------------------------- DRAW TEXT -------------------------------------------------
   BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text)
   {
     BridgeClient::pushDrawText(x, y, text);
   }
-  //----------------------------------- -----------------------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWDrawRect(int x, int y, int w, int h, int color)
+  //----------------------------------- DRAW RECTANGLE --------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWDrawRectangle(int x, int y, int w, int h, int color, int solid)
   {
-    BridgeClient::pushDrawRectangle(x, y, w, h, color);
+    BridgeClient::pushDrawRectangle(x, y, w, h, color, !!solid);
   }
-  //----------------------------------- ALL UNITS ITERATOR ----------------------------------------
+  //----------------------------------- DRAW CIRCLE -----------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWDrawCircle(int x, int y, int r, int color, int solid)
+  {
+    BridgeClient::pushDrawCircle(x, y, r, color, !!solid);
+  }
+  //----------------------------------- DRAW LINE -------------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int color)
+  {
+    BridgeClient::pushDrawLine(x, y, x2, y2, color);
+  }
+  //----------------------------------- DRAW DOT --------------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color)
+  {
+    BridgeClient::pushDrawDot(x, y, color);
+  }
+  //----------------------------------- ALL UNITS ITERATION ---------------------------------------
   struct AllUnitsHandle
   {
     Bridge::SharedStuff::KnownUnitSet::Index index;

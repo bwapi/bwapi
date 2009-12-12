@@ -29,7 +29,10 @@ BWAPI_FUNCTION bool BWAPI_CALL BWTakeover(
 
 // draw operations
 BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text);
-BWAPI_FUNCTION void BWAPI_CALL BWDrawRect(int x, int y, int w, int h, int color);
+BWAPI_FUNCTION void BWAPI_CALL BWDrawRectangle(int x, int y, int w, int h, int color, int solid);
+BWAPI_FUNCTION void BWAPI_CALL BWDrawCircle(int x, int y, int r, int color, int solid);
+BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int color);
+BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color);
 
 // unit array enumeration
 BWAPI_FUNCTION HANDLE             BWAPI_CALL BWAllUnitsBegin();

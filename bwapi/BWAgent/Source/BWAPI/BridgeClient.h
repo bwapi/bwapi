@@ -32,7 +32,10 @@ namespace BWAPI
 
     // draw stack
     extern bool pushDrawText(int x, int y, const char*);
-    extern bool pushDrawRectangle(int x, int y, int w, int h, int color);
+    extern bool pushDrawRectangle(int x, int y, int w, int h, int color, bool solid);
+    extern bool pushDrawCircle(int x, int y, int r, int color, bool solid);
+    extern bool pushDrawLine(int x, int y, int x2, int y2, int color);
+    extern bool pushDrawDot(int x, int y, int color);
 
     // state
     enum RpcState : int
