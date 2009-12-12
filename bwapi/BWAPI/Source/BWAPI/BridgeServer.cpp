@@ -1,7 +1,6 @@
 #include "BridgeServer.h"
 
 #include <Bridge\Constants.h>
-#include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
 
 #include <Util\Version.h>
@@ -163,6 +162,11 @@ namespace BWAPI
       if(!sharedStuff.knownUnits.init(100, true))
       {
         lastError = std::string(__FUNCTION__)+ ": knownUnits creation failed";
+        return false;
+      }
+      if(!sharedStuff.knownUnitEvents.init(100, true))
+      {
+        lastError = std::string(__FUNCTION__)+ ": knownUnitEvents creation failed";
         return false;
       }
 
@@ -406,6 +410,21 @@ namespace BWAPI
         if(!sharedStuff.knownUnits.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
           lastError = std::string(__FUNCTION__)+ ": exporting knownUnits update failed";
+          return false;
+        }
+
+        // send update export
+        sharedStuff.pipe.sendRawStructure(packet);
+      }
+
+      // export knownUnitEvents updates
+      while(sharedStuff.knownUnitEvents.isUpdateExportNeeded())
+      {
+        // create export package
+        Bridge::PipeMessage::ServerUpdateKnownUnitEvents packet;
+        if(!sharedStuff.knownUnitEvents.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = std::string(__FUNCTION__)+ ": exporting knownUnitEvents update failed";
           return false;
         }
 

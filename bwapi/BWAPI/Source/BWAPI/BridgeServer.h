@@ -2,6 +2,7 @@
 
 #include <Bridge\StaticGameData.h>
 #include <Bridge\SendTextEntry.h>
+#include <Bridge\SharedStuff.h>
 #include <Bridge\DrawShape.h>
 
 #include <Util\MemoryFrame.h>
@@ -17,6 +18,7 @@ namespace BWAPI
   namespace BridgeServer
   {
   //public:
+    extern Bridge::SharedStuff sharedStuff;
     extern Bridge::StaticGameData* sharedStaticData;
 
     extern bool initConnectionServer();

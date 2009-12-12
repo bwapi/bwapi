@@ -491,26 +491,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="Bridge"
-				>
-				<File
-					RelativePath="..\Bridge\Constants.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Bridge\Constants.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Bridge\KnownUnit.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Bridge\PipeMessage.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Interface"
@@ -537,6 +517,30 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Unit.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Bridge"
+			>
+			<File
+				RelativePath="..\Bridge\Constants.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\Constants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\KnownUnit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\KnownUnitEventEntry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\PipeMessage.h"
 				>
 			</File>
 		</Filter>

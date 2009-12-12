@@ -1,6 +1,5 @@
 #include "BridgeClient.h"
 
-#include <Bridge\SharedStuff.h>
 #include <Bridge\PipeMessage.h>
 #include <Bridge\Constants.h>
 #include <Bridge\DrawShape.h>
@@ -287,6 +286,25 @@ namespace BWAPI
           continue;
         }
 
+        // update knownUnitEvents
+        if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnitEvents::_typeId)
+        {
+          Bridge::PipeMessage::ServerUpdateKnownUnitEvents packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnitEvents packet.";
+            return false;
+          }
+          if(!sharedStuff.knownUnitEvents.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import knownUnitEvents update.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
         // explicit events
         if(packetType == Bridge::PipeMessage::ServerMatchInit::_typeId)
         {
@@ -314,6 +332,7 @@ namespace BWAPI
           sharedStuff.commands.release();
           sharedStuff.userInput.release();
           sharedStuff.knownUnits.release();
+          sharedStuff.knownUnitEvents.release();
 
           // init agent-side dynamic memory
           if(!sharedStuff.commands.init(1000, true))

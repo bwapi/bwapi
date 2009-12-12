@@ -23,8 +23,21 @@ void BWAPI_CALL onMatchStart(bool fromBeginning)
 
 void BWAPI_CALL onMatchFrame()
 {
-  BWDrawText(10, 10, "AI drawn text");
-  printf("onframe\n");
+  static char buffer[100];
+
+  int count = 0;
+  HANDLE h = BWAllUnitsBegin();
+  BWAPI::UnitState *unit;
+  for(;;)
+  {
+    unit = BWAllUnitsNext(h);
+    if(!unit)
+      break;
+    count++;
+  }
+
+  sprintf(buffer, "unit count: %d", count);
+  BWDrawText(10, 10, buffer);
 }
 
 int _tmain(int argc, _TCHAR* argv[])

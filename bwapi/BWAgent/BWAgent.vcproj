@@ -179,6 +179,10 @@
 				RelativePath="..\Bridge\DrawShape.h"
 				>
 			</File>
+			<File
+				RelativePath="..\Bridge\KnownUnitEventEntry.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="BWAPI"
