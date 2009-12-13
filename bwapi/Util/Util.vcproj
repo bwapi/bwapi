@@ -103,6 +103,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\FlagArray.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Logger.cpp"
 					>
 				</File>
@@ -144,6 +148,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\Util\FileLogger.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\FlagArray.h"
 					>
 				</File>
 				<File

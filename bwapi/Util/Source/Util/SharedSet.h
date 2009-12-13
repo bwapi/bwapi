@@ -113,7 +113,7 @@ namespace Util
       newBlock.count = 1;
       newBlock.head = 1;
       newBlock.memory = new SharedMemory();
-      if(!newBlock.memory->create(this->nextNewBlockSize * sizeof(T)))
+      if(!newBlock.memory->create(this->nextNewBlockSize * sizeof(Entry)))
       {
         // TODO: throw
         __debugbreak();
@@ -231,7 +231,7 @@ namespace Util
       block.memory = new SharedMemory();
       if(!block.memory->import(in))
         return false;
-      block.size = block.memory->getMemory().size() / sizeof(T);
+      block.size = block.memory->getMemory().size() / sizeof(Entry);
       this->ownedBlocks.push_back(block);
 
       return true;
