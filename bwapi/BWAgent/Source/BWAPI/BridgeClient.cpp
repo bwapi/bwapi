@@ -33,7 +33,7 @@ namespace BWAPI
   //public:
     //----------------------------------------- PUBLIC DATA -----------------------------------------------------
     // public access to shared memory
-    Bridge::StaticGameData* sharedStaticData;
+    BWAPI::StaticGameData* sharedStaticData;
 
     // additional data for RPC states
     bool isMatchStartFromBeginning = false;
@@ -319,6 +319,13 @@ namespace BWAPI
           // save options
           isMatchStartFromBeginning = packet.fromBeginning;
 
+          // release everything, just to be sure
+          sharedStuff.staticData.release();
+          sharedStuff.commands.release();
+          sharedStuff.userInput.release();
+          sharedStuff.knownUnits.release();
+          sharedStuff.knownUnitEvents.release();
+
           // first import static data. It's all combined into staticData
           if (!sharedStuff.staticData.import(packet.staticGameDataExport))
           {
@@ -326,13 +333,6 @@ namespace BWAPI
             return false;
           }
           sharedStaticData = &sharedStuff.staticData.get();
-          
-          // release everything, just to be sure
-          sharedStuff.staticData.release();
-          sharedStuff.commands.release();
-          sharedStuff.userInput.release();
-          sharedStuff.knownUnits.release();
-          sharedStuff.knownUnitEvents.release();
 
           // init agent-side dynamic memory
           if(!sharedStuff.commands.init(1000, true))
@@ -374,6 +374,7 @@ namespace BWAPI
         lastError += Util::Strings::intToString(packetType);
         return false;
       }
+
       return true;
     }
     //----------------------------------------- GET USER INPUT STRINGS ------------------------------------------

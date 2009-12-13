@@ -5,6 +5,8 @@
 
 #include "windows.h"
 
+BWAPI::StaticGameData *data;
+
 void BWAPI_CALL onUnitAdd(BWAPI::UnitState *)
 {
 }
@@ -19,11 +21,14 @@ void BWAPI_CALL onSendText(const char* text)
 
 void BWAPI_CALL onMatchStart(bool fromBeginning)
 {
+  printf("on start match\n");
+  data = BWGetStaticGameData();
 }
 
 void BWAPI_CALL onMatchFrame()
 {
   static char buffer[100];
+  const int green = 117;
 
   int count = 0;
   HANDLE h = BWAllUnitsBegin();
@@ -33,16 +38,14 @@ void BWAPI_CALL onMatchFrame()
     unit = BWAllUnitsNext(h);
     if(!unit)
       break;
+    BWAPI::Position pos(unit->position);
+    BWPositionMapToScreen(&pos);
+    BWDrawCircle(pos.x, pos.y, 10, green, false);
     count++;
   }
 
   sprintf(buffer, "unit count: %d", count);
   BWDrawText(10, 10, buffer);
-  const int green = 117;
-  BWDrawRectangle(20, 20, 10, 10, green, false);
-  BWDrawCircle(20, 30, 10, green, false);
-  BWDrawLine(20, 40, 30, 30, green);
-  BWDrawDot(20, 50, green);
 }
 
 int _tmain(int argc, _TCHAR* argv[])

@@ -11,10 +11,15 @@ namespace BW
   {
     static BuildPosition Invalid;
     BuildPosition();
-    BuildPosition(Util::Point<u16> point);
     BuildPosition(u16 x, u16 y);
     BuildPosition(const Position &convertFrom);
     BuildPosition(const WalkPosition &convertFrom);
+
+    template<typename T>
+      BuildPosition(Util::Point<T> point)
+        : Point(point)
+      {
+      }
   };
 };
 

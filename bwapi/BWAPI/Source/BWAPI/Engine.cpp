@@ -656,6 +656,99 @@ namespace BWAPI
       // please reconsider, this thread is not the starcraft thread. hardly foreseeable future bugs can
       // be avoided altogether by moving initialisation code to update()
     }
+    //--------------------------------------------- ON MATCH START ---------------------------------------------
+    void onMatchStart()
+    {
+
+      /* TODO: reform that? oh geez
+      // initialize the variables
+      frameCount = 0;
+      BWAPIPlayer = NULL;
+      opponent = NULL;
+
+      // set all the flags to the default of disabled
+      for (int i = 0; i < Flags::count; i++)
+        flags[i] = false;
+      flagsLocked = false;
+
+      // load the map data
+      map.load();
+
+      if (*(BW::BWDATA_InReplay)) // set replay flags
+      {
+        for (int i = 0; i < Flags::count; i++)
+          flags[i] = true;
+        flagsLocked = false;
+      }
+      else
+      {
+        // find the current player by name
+        for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+          if (strcmp(BW::BWDATA_CurrentPlayer, players[i]->getName().c_str()) == 0)
+            BWAPIPlayer = players[i];
+
+        // error if player not found
+        if (BWAPIPlayer == NULL)
+        {
+          commandLog->log("Error: Could not locate BWAPI player.");
+          return;
+        }
+
+        // find the opponent player
+        for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+          if ((players[i]->playerType() == BW::PlayerType::Computer ||
+               players[i]->playerType() == BW::PlayerType::Human ||
+               players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
+              opponent == NULL &&
+              BWAPIPlayer->isEnemy(players[i]))
+            opponent = players[i];
+
+        // error if opponent not found
+        if (opponent == NULL)
+          commandLog->log("Warning: Could not find any opponent");
+      }
+
+      // get the start locations
+      BW::Positions* posptr = BW::BWDATA_startPositions;
+      startLocations.clear();
+      playerSet.clear();
+      forces.clear();
+      while (posptr->x != 0 || posptr->y != 0)
+      {
+        startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2)          / BW::TILE_SIZE),
+                                                  (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
+        posptr++;
+      }
+
+      // get force names
+      std::set<std::string> force_names;
+      std::map<std::string, ForceImpl*> force_name_to_forceimpl;
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+        if (players[i] != NULL && players[i]->getName().length() > 0)
+        {
+          force_names.insert(std::string(players[i]->getForceName()));
+          playerSet.insert(players[i]);
+        }
+
+      // create ForceImpl for force names
+      foreach (std::string i, force_names)
+      {
+        ForceImpl* newforce = new ForceImpl(i);
+        forces.insert((Force*)newforce);
+        force_name_to_forceimpl.insert(std::make_pair(i, newforce));
+      }
+
+      // create ForceImpl for players
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+        if (players[i] != NULL && players[i]->getName().length() > 0)
+        {
+          ForceImpl* force = force_name_to_forceimpl.find(std::string(players[i]->getForceName()))->second;
+          force->players.insert(players[i]);
+          players[i]->force = force;
+        }
+      unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+      */
+    }
     //------------------------------------------------- UPDATE -------------------------------------------------
     void update(GameState nextState)
     {
@@ -669,6 +762,9 @@ namespace BWAPI
       GameState lastState = gameState;
       gameState = nextState;
 
+      // each root if is a conditioned function
+
+      //--------------------------------------------------------------------------------------
       // init bridge server
       if(lastState == Startup && nextState != Startup)
       {
@@ -678,7 +774,7 @@ namespace BWAPI
         }
       }
 
-      /* TODO: find out where (moved?) and if to call these
+      /* TODO: find out where (moved?), when and if to call these
       {
         BWAPI::Races::init();
         BWAPI::DamageTypes::init();
@@ -696,6 +792,7 @@ namespace BWAPI
       }
       */
 
+      //--------------------------------------------------------------------------------------
       // enable user input as long as no agent is in charge
       if(lastState != InGame
         && nextState == InGame)
@@ -704,6 +801,7 @@ namespace BWAPI
         Engine::enableFlag(Flags::UserInput);
       }
 
+      //--------------------------------------------------------------------------------------
       // equivalent to onStartGame()
       // do what has to be done once each match start
       if(lastState != InGame
@@ -721,22 +819,13 @@ namespace BWAPI
           for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           {
             bwUnitArrayMirror[i].exists = false;
+            bwUnitArrayMirror[i].isDying = false;
             bwUnitArrayMirror[i].knownUnit = NULL;
           }
-
-          // traverse the visible unit node chain
-          for(BW::Unit* bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
-          {
-            int i = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit);
-            bwUnitArrayMirror[i].exists = true;
-            bwUnitArrayMirror[i].bwId = 0; //bwUnit->unitque id? TODO: find solution
-          }
-
-          // ASSUMPTION: at the beginning, there are no hidden units or scanner sweeps
-          // ignore the other chains
         }
       }
 
+      //--------------------------------------------------------------------------------------
       // init shared memory
       if(gameState == InGame
         && BridgeServer::isAgentConnected()
@@ -752,7 +841,7 @@ namespace BWAPI
         // fill the const part of static data, for the rest of the match
         if(BridgeServer::isSharedMemoryInitialized())
         {
-          Bridge::StaticGameData &staticData = *BridgeServer::sharedStaticData;
+          BWAPI::StaticGameData &staticData = *BridgeServer::sharedStaticData;
 
           for (int x=0;x<Map::getWidth()*4;x++)
             for (int y=0;y<Map::getHeight()*4;y++)
@@ -770,6 +859,12 @@ namespace BWAPI
           strncpy(staticData.mapName,Map::getName().c_str(),32);
           staticData.mapName[31]='\0';
 
+          staticData.mapWidth      = Map::getWidth();
+          staticData.mapHeight     = Map::getHeight();
+          staticData.mapHash       = Map::getMapHash();
+          staticData.isMultiplayer = BW::isMultiplayer();
+          staticData.isReplay      = BW::isInReplay();
+
           // manage onStartGame RPC
           {
             //
@@ -783,7 +878,7 @@ namespace BWAPI
         }
       }
 
-
+      //--------------------------------------------------------------------------------------
       // onFrame
       if(gameState == InGame
         && BridgeServer::isAgentConnected()
@@ -791,16 +886,13 @@ namespace BWAPI
       {
         // fill buffers with recent world state data
         {
-          Bridge::StaticGameData &staticData = *BridgeServer::sharedStaticData;
-          staticData.getLatency    = BW::getLatency();
-          staticData.frameCount    = frameCount;
-          staticData.getMouseX     = BW::getMouseX();
-          staticData.getMouseY     = BW::getMouseY();
-          staticData.getScreenX    = BW::getScreenX();
-          staticData.getScreenY    = BW::getScreenY();
-          staticData.mapWidth      = Map::getWidth();
-          staticData.mapHeight     = Map::getHeight();
-          staticData.mapHash       = Map::getMapHash();
+          BWAPI::StaticGameData &staticData = *BridgeServer::sharedStaticData;
+          staticData.getLatency     = BW::getLatency();
+          staticData.frameCount     = frameCount;
+          staticData.mouseX         = BW::getMouseX();
+          staticData.mouseY         = BW::getMouseY();
+          staticData.screenX        = BW::getScreenX();
+          staticData.screenY        = BW::getScreenY();
           for (int x=0;x<Map::getWidth();x++)
           {
             for (int y=0;y<Map::getHeight();y++)
@@ -810,94 +902,142 @@ namespace BWAPI
               staticData.hasCreep[x][y] = Map::hasCreep(x,y);
             }
           }
-          staticData.isMultiplayer = BW::isMultiplayer();
-          staticData.isReplay      = BW::isInReplay();
           staticData.isPaused      = BW::isPaused();
           staticData.unitCount=0;
-          int i=0;
 
-          // TODO: use another algorithm, this is just test
-          BridgeServer::sharedStuff.knownUnits.clear();
+          // TODO: find out if new units are inserted at the beginning or end of the chain, optimize on that
+          // traverse all game units
           for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
           {
             int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
             Unit &mirror = bwUnitArrayMirror[linear];
 
-            // transfer recent data about this particular BW unit
-            Bridge::KnownUnitEntry knownUnit;
-            BridgeServer::sharedStuff.knownUnits.insert(knownUnit);
+            // if this unit is freshly created
+            if(mirror.exists)
+              continue;
 
+            // TODO: find out if the unit's dying
+            bool isDying = false;
+            if(!isDying && mirror.isDying)
+            {
+              // the unit is not dying anymore? It's a new one
+              // remove previous.
+              if(mirror.knownUnit)
+                BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+            }
 
-            // TODO: implement compile-time checked clearance limit
-            /* TODO: implement BW::get functions in BW. use those
-            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[unit.bwId];
-            knownUnit.state.position_x  = u->getPosition().x();
-            knownUnit.state.position_y  = u->getPosition().y();
+            // add it to the reflection
+            mirror.exists = true;
+            mirror.isDying = false;
+            mirror.knownUnit = NULL;
+          }
 
-            knownUnit.state.id                    = (int)(&knownUnit);
-            knownUnit.state.player                = bwUnit.getPlayer()->getID();
-            knownUnit.state.type                  = bwUnit.getType().getID();
-            knownUnit.state.hitPoints             = bwUnit.getHitPoints();
-            knownUnit.state.shields               = bwUnit.getShields();
-            knownUnit.state.energy                = bwUnit.getEnergy();
-            knownUnit.state.resources             = bwUnit.getResources();
-            knownUnit.state.killCount             = bwUnit.getKillCount();
-            knownUnit.state.groundWeaponCooldown  = bwUnit.getGroundWeaponCooldown();
-            knownUnit.state.airWeaponCooldown     = bwUnit.getAirWeaponCooldown();
-            knownUnit.state.spellCooldown         = bwUnit.getSpellCooldown();
-            knownUnit.state.defenseMatrixPoints   = bwUnit.getDefenseMatrixPoints();
+          // TODO: replace traversing with flag based search technique
+          // traverse each known unit
+          for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+          {
+            Unit &mirror = bwUnitArrayMirror[i];
+            if(!mirror.exists)
+              continue;
 
-            knownUnit.state.defenseMatrixTimer    = bwUnit.getDefenseMatrixTimer();
-            knownUnit.state.ensnareTimer          = bwUnit.getEnsnareTimer();
-            knownUnit.state.irradiateTimer        = bwUnit.getIrradiateTimer();
-            knownUnit.state.lockdownTimer         = bwUnit.getLockdownTimer();
-            knownUnit.state.maelstromTimer        = bwUnit.getMaelstromTimer();
-            knownUnit.state.plagueTimer           = bwUnit.getPlagueTimer();
-            knownUnit.state.removeTimer           = bwUnit.getRemoveTimer();
-            knownUnit.state.stasisTimer           = bwUnit.getStasisTimer();
-            knownUnit.state.stimTimer             = bwUnit.getStimTimer();
+            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[i];
 
-            knownUnit.state.isAccelerating        = bwUnit.isAccelerating();
-            knownUnit.state.isBeingConstructed    = bwUnit.isBeingConstructed();
-            knownUnit.state.isBeingGathered       = bwUnit.isBeingGathered();
-            knownUnit.state.isBeingHealed         = bwUnit.isBeingHealed();
-            knownUnit.state.isBlind               = bwUnit.isBlind();
-            knownUnit.state.isBraking             = bwUnit.isBraking();
-            knownUnit.state.isBurrowed            = bwUnit.isBurrowed();
-            knownUnit.state.isCarryingGas         = bwUnit.isCarryingGas();
-            knownUnit.state.isCarryingMinerals    = bwUnit.isCarryingMinerals();
-            knownUnit.state.isCloaked             = bwUnit.isCloaked();
-            knownUnit.state.isCompleted           = bwUnit.isCompleted();
-            knownUnit.state.isConstructing        = bwUnit.isConstructing();
-            knownUnit.state.isDefenseMatrixed     = bwUnit.isDefenseMatrixed();
-            knownUnit.state.isEnsnared            = bwUnit.isEnsnared();
-            knownUnit.state.isFollowing           = bwUnit.isFollowing();
-            knownUnit.state.isGatheringGas        = bwUnit.isGatheringGas();
-            knownUnit.state.isGatheringMinerals   = bwUnit.isGatheringMinerals();
-            knownUnit.state.isHallucination       = bwUnit.isHallucination();
-            knownUnit.state.isIdle                = bwUnit.isIdle();            // rusty: regarding SCV's not reporting that their idle.. I was calling worker->build() on both of them, and giving them the same location of the geyser
-            knownUnit.state.isIrradiated          = bwUnit.isIrradiated();
-            knownUnit.state.isLifted              = bwUnit.isLifted();
-            knownUnit.state.isLoaded              = bwUnit.isLoaded();
-            knownUnit.state.isLockedDown          = bwUnit.isLockedDown();
-            knownUnit.state.isMaelstrommed        = bwUnit.isMaelstrommed();
-            knownUnit.state.isMorphing            = bwUnit.isMorphing();
-            knownUnit.state.isMoving              = bwUnit.isMoving();
-            knownUnit.state.isParasited           = bwUnit.isParasited();
-            knownUnit.state.isPatrolling          = bwUnit.isPatrolling();
-            knownUnit.state.isPlagued             = bwUnit.isPlagued();
-            knownUnit.state.isRepairing           = bwUnit.isRepairing();
-            knownUnit.state.isResearching         = bwUnit.isResearching();
-            knownUnit.state.isSelected            = bwUnit.isSelected();
-            knownUnit.state.isSieged              = bwUnit.isSieged();
-            knownUnit.state.isStartingAttack      = bwUnit.isStartingAttack();
-            knownUnit.state.isStasised            = bwUnit.isStasised();
-            knownUnit.state.isStimmed             = bwUnit.isStimmed();
-            knownUnit.state.isTraining            = bwUnit.isTraining();
-            knownUnit.state.isUnderStorm          = bwUnit.isUnderStorm();
-            knownUnit.state.isUnpowered           = bwUnit.isUnpowered();
-            knownUnit.state.isUpgrading           = bwUnit.isUpgrading();
-            */
+            // check the new knownability of this unit
+            bool isKnown = Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
+
+            if(!!mirror.knownUnit != isKnown)
+            {
+              if(isKnown)
+              {
+                // unit becomes known
+
+                // reserve a KnownUnitEntry and store it's address so it gets filled
+                mirror.knownUnit = &BridgeServer::sharedStuff.knownUnits.insertEmpty(&mirror.knownUnitIndex);
+              }
+              else
+              {
+                // unit becomes not known
+
+                // release KnownUnit address
+                BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+                mirror.knownUnit = NULL;
+              }
+            }
+
+            if(isKnown)
+            {
+              // transfer recent data about this particular BW unit
+              Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
+
+              // TODO: implement compile-time checked clearance limit
+              knownUnit.position = bwUnit.position;
+
+              /* TODO: find according BW::Unit members
+              knownUnit.state.id                    = (int)(&knownUnit);
+              knownUnit.state.player                = bwUnit.getPlayer()->getID();
+              knownUnit.state.type                  = bwUnit.getType().getID();
+              knownUnit.state.hitPoints             = bwUnit.getHitPoints();
+              knownUnit.state.shields               = bwUnit.getShields();
+              knownUnit.state.energy                = bwUnit.getEnergy();
+              knownUnit.state.resources             = bwUnit.getResources();
+              knownUnit.state.killCount             = bwUnit.getKillCount();
+              knownUnit.state.groundWeaponCooldown  = bwUnit.getGroundWeaponCooldown();
+              knownUnit.state.airWeaponCooldown     = bwUnit.getAirWeaponCooldown();
+              knownUnit.state.spellCooldown         = bwUnit.getSpellCooldown();
+              knownUnit.state.defenseMatrixPoints   = bwUnit.getDefenseMatrixPoints();
+
+              knownUnit.state.defenseMatrixTimer    = bwUnit.getDefenseMatrixTimer();
+              knownUnit.state.ensnareTimer          = bwUnit.getEnsnareTimer();
+              knownUnit.state.irradiateTimer        = bwUnit.getIrradiateTimer();
+              knownUnit.state.lockdownTimer         = bwUnit.getLockdownTimer();
+              knownUnit.state.maelstromTimer        = bwUnit.getMaelstromTimer();
+              knownUnit.state.plagueTimer           = bwUnit.getPlagueTimer();
+              knownUnit.state.removeTimer           = bwUnit.getRemoveTimer();
+              knownUnit.state.stasisTimer           = bwUnit.getStasisTimer();
+              knownUnit.state.stimTimer             = bwUnit.getStimTimer();
+
+              knownUnit.state.isAccelerating        = bwUnit.isAccelerating();
+              knownUnit.state.isBeingConstructed    = bwUnit.isBeingConstructed();
+              knownUnit.state.isBeingGathered       = bwUnit.isBeingGathered();
+              knownUnit.state.isBeingHealed         = bwUnit.isBeingHealed();
+              knownUnit.state.isBlind               = bwUnit.isBlind();
+              knownUnit.state.isBraking             = bwUnit.isBraking();
+              knownUnit.state.isBurrowed            = bwUnit.isBurrowed();
+              knownUnit.state.isCarryingGas         = bwUnit.isCarryingGas();
+              knownUnit.state.isCarryingMinerals    = bwUnit.isCarryingMinerals();
+              knownUnit.state.isCloaked             = bwUnit.isCloaked();
+              knownUnit.state.isCompleted           = bwUnit.isCompleted();
+              knownUnit.state.isConstructing        = bwUnit.isConstructing();
+              knownUnit.state.isDefenseMatrixed     = bwUnit.isDefenseMatrixed();
+              knownUnit.state.isEnsnared            = bwUnit.isEnsnared();
+              knownUnit.state.isFollowing           = bwUnit.isFollowing();
+              knownUnit.state.isGatheringGas        = bwUnit.isGatheringGas();
+              knownUnit.state.isGatheringMinerals   = bwUnit.isGatheringMinerals();
+              knownUnit.state.isHallucination       = bwUnit.isHallucination();
+              knownUnit.state.isIdle                = bwUnit.isIdle();            // rusty: regarding SCV's not reporting that their idle.. I was calling worker->build() on both of them, and giving them the same location of the geyser
+              knownUnit.state.isIrradiated          = bwUnit.isIrradiated();
+              knownUnit.state.isLifted              = bwUnit.isLifted();
+              knownUnit.state.isLoaded              = bwUnit.isLoaded();
+              knownUnit.state.isLockedDown          = bwUnit.isLockedDown();
+              knownUnit.state.isMaelstrommed        = bwUnit.isMaelstrommed();
+              knownUnit.state.isMorphing            = bwUnit.isMorphing();
+              knownUnit.state.isMoving              = bwUnit.isMoving();
+              knownUnit.state.isParasited           = bwUnit.isParasited();
+              knownUnit.state.isPatrolling          = bwUnit.isPatrolling();
+              knownUnit.state.isPlagued             = bwUnit.isPlagued();
+              knownUnit.state.isRepairing           = bwUnit.isRepairing();
+              knownUnit.state.isResearching         = bwUnit.isResearching();
+              knownUnit.state.isSelected            = bwUnit.isSelected();
+              knownUnit.state.isSieged              = bwUnit.isSieged();
+              knownUnit.state.isStartingAttack      = bwUnit.isStartingAttack();
+              knownUnit.state.isStasised            = bwUnit.isStasised();
+              knownUnit.state.isStimmed             = bwUnit.isStimmed();
+              knownUnit.state.isTraining            = bwUnit.isTraining();
+              knownUnit.state.isUnderStorm          = bwUnit.isUnderStorm();
+              knownUnit.state.isUnpowered           = bwUnit.isUnpowered();
+              knownUnit.state.isUpgrading           = bwUnit.isUpgrading();
+              */
+            } //if(isKnown)
           }
         }
 
@@ -940,6 +1080,7 @@ namespace BWAPI
         }
       }
 
+      //--------------------------------------------------------------------------------------
       // handle incoming connections
       if(BridgeServer::isBridgeInitialized()
         &&!BridgeServer::isAgentConnected())
@@ -955,6 +1096,7 @@ namespace BWAPI
         }
       }
 
+      //--------------------------------------------------------------------------------------
       // count frames
       if(gameState == InGame)
       {
@@ -1085,100 +1227,6 @@ namespace BWAPI
       commandLog->log("(%4d) %s", frameCount, command->describe().c_str());
       */
     }
-    //--------------------------------------------- ON MATCH START ---------------------------------------------
-    void onMatchStart()
-    {
-
-      /* TODO: reform that? oh geez
-      // initialize the variables
-      frameCount = 0;
-      BWAPIPlayer = NULL;
-      opponent = NULL;
-
-      // set all the flags to the default of disabled
-      for (int i = 0; i < Flags::count; i++)
-        flags[i] = false;
-      flagsLocked = false;
-
-      // load the map data
-      map.load();
-
-      if (*(BW::BWDATA_InReplay)) // set replay flags
-      {
-        for (int i = 0; i < Flags::count; i++)
-          flags[i] = true;
-        flagsLocked = false;
-      }
-      else
-      {
-        // find the current player by name
-        for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-          if (strcmp(BW::BWDATA_CurrentPlayer, players[i]->getName().c_str()) == 0)
-            BWAPIPlayer = players[i];
-
-        // error if player not found
-        if (BWAPIPlayer == NULL)
-        {
-          commandLog->log("Error: Could not locate BWAPI player.");
-          return;
-        }
-
-        // find the opponent player
-        for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-          if ((players[i]->playerType() == BW::PlayerType::Computer ||
-               players[i]->playerType() == BW::PlayerType::Human ||
-               players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
-              opponent == NULL &&
-              BWAPIPlayer->isEnemy(players[i]))
-            opponent = players[i];
-
-        // error if opponent not found
-        if (opponent == NULL)
-          commandLog->log("Warning: Could not find any opponent");
-      }
-
-      // get the start locations
-      BW::Positions* posptr = BW::BWDATA_startPositions;
-      startLocations.clear();
-      playerSet.clear();
-      forces.clear();
-      while (posptr->x != 0 || posptr->y != 0)
-      {
-        startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2)          / BW::TILE_SIZE),
-                                                  (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
-        posptr++;
-      }
-
-      // get force names
-      std::set<std::string> force_names;
-      std::map<std::string, ForceImpl*> force_name_to_forceimpl;
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
-        if (players[i] != NULL && players[i]->getName().length() > 0)
-        {
-          force_names.insert(std::string(players[i]->getForceName()));
-          playerSet.insert(players[i]);
-        }
-
-      // create ForceImpl for force names
-      foreach (std::string i, force_names)
-      {
-        ForceImpl* newforce = new ForceImpl(i);
-        forces.insert((Force*)newforce);
-        force_name_to_forceimpl.insert(std::make_pair(i, newforce));
-      }
-
-      // create ForceImpl for players
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
-        if (players[i] != NULL && players[i]->getName().length() > 0)
-        {
-          ForceImpl* force = force_name_to_forceimpl.find(std::string(players[i]->getForceName()))->second;
-          force->players.insert(players[i]);
-          players[i]->force = force;
-        }
-      unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
-      */
-    }
-
     //---------------------------------------------- ON SEND TEXT ----------------------------------------------
     bool onSendText(const char* text)
     {
@@ -1385,176 +1433,6 @@ namespace BWAPI
       onUnitDeath(deadUnit);
       */
     }
-    //----------------------------------------------------- DRAW -----------------------------------------------
-    /* TODO: reform
-    void addShape(Shape* s)
-    {
-      // Adds a shape to the draw queue 
-      shapes.push_back(s);
-    }
-    void  drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
-    {
-      // Draws a box 
-      if (!inScreen(ctype,left,top,right,bottom)) return;
-      addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
-    }
-    void  drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
-    {
-      // Draws a box in relation to the map 
-      if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
-      addShape(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
-    }
-    void  drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
-    {
-      // Draws a box in relation to the mouse 
-      if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
-      addShape(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
-    }
-    void  drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
-    {
-      // Draws a box in relation to the screen 
-      if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
-      addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
-    }
-
-    void  drawDot(int ctype, int x, int y, Color color)
-    {
-      if (!inScreen(ctype,x,y)) return;
-      addShape(new ShapeDot(ctype, x, y, color.getID()));
-    }
-    void  drawDotMap(int x, int y, Color color)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Map,x,y)) return;
-      addShape(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color.getID()));
-    }
-    void  drawDotMouse(int x, int y, Color color)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Mouse,x,y)) return;
-      addShape(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color.getID()));
-    }
-    void  drawDotScreen(int x, int y, Color color)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Screen,x,y)) return;
-      addShape(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
-    }
-
-    void  drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
-    {
-      if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
-      addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
-    }
-    void  drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Map,x-radius,y-radius,x+radius,y+radius)) return;
-      addShape(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color.getID(), isSolid));
-    }
-    void  drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Mouse,x-radius,y-radius,x+radius,y+radius)) return;
-      addShape(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color.getID(), isSolid));
-    }
-    void  drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Screen,x-radius,y-radius,x+radius,y+radius)) return;
-      addShape(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
-    }
-
-    void  drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
-    {
-      if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-      addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
-    }
-    void  drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Map,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-      addShape(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color.getID(), isSolid));
-    }
-    void  drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Mouse,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-      addShape(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color.getID(), isSolid));
-    }
-    void  drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Screen,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-      addShape(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
-    }
-
-    void  drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
-    {
-      if (!inScreen(ctype,x1,y1,x2,y2)) return;
-      addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
-    }
-    void  drawLineMap(int x1, int y1, int x2, int y2, Color color)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Map,x1,y1,x2,y2)) return;
-      addShape(new ShapeLine(BWAPI::CoordinateType::Map, x1, y1, x2, y2, color.getID()));
-    }
-    void  drawLineMouse(int x1, int y1, int x2, int y2, Color color)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Mouse,x1,y1,x2,y2)) return;
-      addShape(new ShapeLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color.getID()));
-    }
-    void  drawLineScreen(int x1, int y1, int x2, int y2, Color color)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
-      addShape(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
-    }
-
-    void  drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-    {
-      if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
-      addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
-    }
-    void  drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy)) return;
-      addShape(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
-    }
-    void  drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy)) return;
-      addShape(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
-    }
-    void  drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-    {
-      if (!inScreen(BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy)) return;
-      addShape(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
-    }
-
-    void  drawText(int ctype, int x, int y, const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-      addShape(new ShapeText(ctype,x,y,std::string(buffer)));
-    }
-    void  drawTextMap(int x, int y, const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-      addShape(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer)));
-    }
-    void  drawTextMouse(int x, int y, const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-      addShape(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer)));
-    }
-    void  drawTextScreen(int x, int y, const char* text, ...)
-    {
-      va_list ap;
-      va_start(ap, text);
-      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-      va_end(ap);
-      addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
-    }
-    */
     //--------------------------------------------------- GAME SPEED -------------------------------------------
     void  setLocalSpeed(int speed)
     {

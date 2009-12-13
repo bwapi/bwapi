@@ -238,6 +238,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\HandleFactory.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\MemoryFrame.cpp"
 				>
 			</File>
@@ -342,10 +346,98 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\BWAPI\Source\BW\Position.cpp"
+		<Filter
+			Name="Types"
 			>
-		</File>
+			<File
+				RelativePath="..\BWAPITypes\Activity.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\BuildPosition.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\BuildPosition.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\Error.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\Flag.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\Latency.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\Position.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\Position.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\Race.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\StaticGameData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\TechType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitCommand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitCommandTypeID.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitSizeType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\UnitType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\WalkPosition.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPITypes\WalkPosition.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="BW"
+			>
+			<File
+				RelativePath="..\BWAPI\Source\BW\BuildPosition.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPI\Source\BW\Position.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\BWAPI\Source\BW\WalkPosition.cpp"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

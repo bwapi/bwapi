@@ -1,21 +1,13 @@
-/* moved to BW 
-TODO: look if it pays off
-
 #include "Position.h"
 #include "WalkPosition.h"
 #include "BuildPosition.h"
 
 namespace BWAPI
 {
-  Position Position::Invalid(Math::Point::Invalid);
+  Position Position::Invalid(Util::Point<int>::Invalid);
   //----------------------------- CONSTRUCTOR ----------------------------------
   Position::Position()
     : Point()
-  {
-  }
-  //----------------------------- CONSTRUCTOR ----------------------------------
-  Position::Position(Math::Point point)
-    : Point(point)
   {
   }
   //----------------------------- CONSTRUCTOR ----------------------------------
@@ -35,4 +27,3 @@ namespace BWAPI
   }
   //------------------------------ ---------------------------------------------
 };
-*/

@@ -54,12 +54,15 @@ namespace Util
       this->exportReadOnly = exportReadOnly;
       return true;
     }
-    //----------------------- INSERT -----------------------------------
-    Index insert(T &storee)
+    //----------------------- INSERT EMPTY -----------------------------
+    // index may be NULL
+    T& insertEmpty(Index *index = NULL)
     {
       if(this->nextNewBlockSize <= 0)
       {
-        return Index::Invalid;
+        // TODO: throw
+        __debugbreak();
+        //return Index::Invalid;
       }
       for(unsigned int b = 0; b < this->ownedBlocks.size(); b++)
       {
@@ -87,17 +90,20 @@ namespace Util
 
         // store the new entry here
         entries[i].busy = true;
-        entries[i].strucure = storee;
 
         // update block stats
         block.head = i;
         block.count++;
 
-        // return the process-independent index to this entry
-        Index index;
-        index.blockIndex = b;
-        index.blockEntryIndex = i;
-        return index;
+        // fill the process-independent index to this entry
+        if(index)
+        {
+          index->blockIndex = b;
+          index->blockEntryIndex = i;
+        }
+
+        // return the new entry location
+        return entries[i].strucure;
       }
 
       // no free spots in any block
@@ -109,7 +115,9 @@ namespace Util
       newBlock.memory = new SharedMemory();
       if(!newBlock.memory->create(this->nextNewBlockSize * sizeof(T)))
       {
-        return Index::Invalid;
+        // TODO: throw
+        __debugbreak();
+        //return Index::Invalid;
       }
       this->ownedBlocks.push_back(newBlock);
       this->nextNewBlockSize = (int)(this->nextNewBlockSize * 1.5);
@@ -122,13 +130,21 @@ namespace Util
         entries[i].busy = false;
       }
 
-      // fill in the first entry
-      entries[0].strucure = storee;
+      // fill the process-independent index to this entry
+      if(index)
+      {
+        index->blockIndex = this->ownedBlocks.size()-1;
+        index->blockEntryIndex = 0;
+      }
 
-      // return the process-independent index to this entry
+      // return the first entry
+      return entries[0].strucure;
+    }
+    //----------------------- INSERT -----------------------------------
+    Index insert(T &storee)
+    {
       Index index;
-      index.blockIndex = this->ownedBlocks.size()-1;
-      index.blockEntryIndex = 0;
+      T& insertEmpty(&index) = storee; // store data
       return index;
     }
     //----------------------- REMOVE -----------------------------------
@@ -259,8 +275,8 @@ namespace Util
     };
     struct Entry
     {
-      bool busy;
       T strucure;
+      bool busy;
     };
     struct ExportBlockEntry
     {

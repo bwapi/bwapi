@@ -11,11 +11,6 @@ namespace BW
   {
   }
   //----------------------------- CONSTRUCTOR ----------------------------------
-  WalkPosition::WalkPosition(Util::Point<u16> point)
-    : Point(point)
-  {
-  }
-  //----------------------------- CONSTRUCTOR ----------------------------------
   WalkPosition::WalkPosition(u16 x, u16 y)
     : Point(x, y)
   {

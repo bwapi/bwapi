@@ -454,6 +454,10 @@
 					RelativePath=".\Source\BWAPI\Shape.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\BWAPITypes\test.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header files"
@@ -472,6 +476,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\Shape.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\StaticGameData.h"
 					>
 				</File>
 				<File

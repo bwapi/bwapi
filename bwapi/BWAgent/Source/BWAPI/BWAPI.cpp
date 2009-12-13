@@ -95,6 +95,18 @@ namespace BWAPI
   {
     BridgeClient::pushDrawDot(x, y, color);
   }
+  //----------------------------------- GET STATIC DATA -------------------------------------------
+  BWAPI_FUNCTION BWAPI::StaticGameData* BWAPI_CALL BWGetStaticGameData()
+  {
+    BWAPI::StaticGameData *retval = BridgeClient::sharedStaticData;
+    return retval;
+  }
+  //----------------------------------- POSITION MAP TO SCREEN ------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWPositionMapToScreen(BWAPI::Position* pos)
+  {
+    pos->x -= BridgeClient::sharedStaticData->screenX;
+    pos->y -= BridgeClient::sharedStaticData->screenY;
+  }
   //----------------------------------- ALL UNITS ITERATION ---------------------------------------
   struct AllUnitsHandle
   {
