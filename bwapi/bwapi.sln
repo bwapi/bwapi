@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
@@ -16,6 +16,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAgent", "BWAgent\BWAgent.vcproj", "{65AE3EC2-0FFC-46A4-8B84-BB144D29B04A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleAIModule", "ConsoleAIModule\ConsoleAIModule.vcproj", "{05887930-FFDD-40FB-AC1F-147690138D52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B1AEB046-587C-46D4-AE9A-189EE9CA4B08} = {B1AEB046-587C-46D4-AE9A-189EE9CA4B08}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunInterfacePacker", "RunInterfacePacker\RunInterfacePacker.vcproj", "{B1AEB046-587C-46D4-AE9A-189EE9CA4B08}"
+	ProjectSection(ProjectDependencies) = postProject
+		{65AE3EC2-0FFC-46A4-8B84-BB144D29B04A} = {65AE3EC2-0FFC-46A4-8B84-BB144D29B04A}
+		{C99586CD-1E91-4359-ABEB-A1AA1D111DEF} = {C99586CD-1E91-4359-ABEB-A1AA1D111DEF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +60,10 @@ Global
 		{05887930-FFDD-40FB-AC1F-147690138D52}.Debug|Win32.Build.0 = Debug|Win32
 		{05887930-FFDD-40FB-AC1F-147690138D52}.Release|Win32.ActiveCfg = Release|Win32
 		{05887930-FFDD-40FB-AC1F-147690138D52}.Release|Win32.Build.0 = Release|Win32
+		{B1AEB046-587C-46D4-AE9A-189EE9CA4B08}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B1AEB046-587C-46D4-AE9A-189EE9CA4B08}.Debug|Win32.Build.0 = Debug|Win32
+		{B1AEB046-587C-46D4-AE9A-189EE9CA4B08}.Release|Win32.ActiveCfg = Release|Win32
+		{B1AEB046-587C-46D4-AE9A-189EE9CA4B08}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
