@@ -56,7 +56,7 @@
 #include <Bridge/SharedStuff.h>
 #include <Bridge/Constants.h>
 
-
+#include <Tracer\Tracer.h>
 
 namespace BWAPI
 {
@@ -69,7 +69,7 @@ namespace BWAPI
     {
       Startup,
       InMenu,
-      InGame
+      InMatch
     };
     GameState gameState = Startup;
 
@@ -762,7 +762,14 @@ namespace BWAPI
       GameState lastState = gameState;
       gameState = nextState;
 
-      // each root if is a conditioned function
+      // each root "if" is a conditioned function
+
+      //--------------------------------------------------------------------------------------
+      //  tracer frame
+      if(gameState == InMatch)
+      {
+        Tracer::onMatchFrame();
+      }
 
       //--------------------------------------------------------------------------------------
       // init bridge server
@@ -794,8 +801,8 @@ namespace BWAPI
 
       //--------------------------------------------------------------------------------------
       // enable user input as long as no agent is in charge
-      if(lastState != InGame
-        && nextState == InGame)
+      if(lastState != InMatch
+        && nextState == InMatch)
 //        &&!BridgeServer::isAgentConnected())  // temp
       {
         Engine::enableFlag(Flags::UserInput);
@@ -804,8 +811,8 @@ namespace BWAPI
       //--------------------------------------------------------------------------------------
       // equivalent to onStartGame()
       // do what has to be done once each match start
-      if(lastState != InGame
-        && nextState == InGame)
+      if(lastState != InMatch
+        && nextState == InMatch)
       {
         // reset frame count
         frameCount = 0;
@@ -827,7 +834,7 @@ namespace BWAPI
 
       //--------------------------------------------------------------------------------------
       // init shared memory
-      if(gameState == InGame
+      if(gameState == InMatch
         && BridgeServer::isAgentConnected()
         &&!BridgeServer::isSharedMemoryInitialized())
       {
@@ -869,7 +876,7 @@ namespace BWAPI
           {
             //
             // invoke onStartGame()
-            if(!BridgeServer::invokeOnStartMatch(lastState != InGame))
+            if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
             {
               BridgeServer::disconnect();
               BW::printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
@@ -879,8 +886,8 @@ namespace BWAPI
       }
 
       //--------------------------------------------------------------------------------------
-      // onFrame
-      if(gameState == InGame
+      // agent onFrame
+      if(gameState == InMatch
         && BridgeServer::isAgentConnected()
         && BridgeServer::isSharedMemoryInitialized())
       {
@@ -1098,7 +1105,7 @@ namespace BWAPI
 
       //--------------------------------------------------------------------------------------
       // count frames
-      if(gameState == InGame)
+      if(gameState == InMatch)
       {
         frameCount++;
       }
@@ -1203,7 +1210,7 @@ namespace BWAPI
         fclose(f);
       }
 
-      update(InGame);
+      update(InMatch);
       loadSelected();
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
@@ -1226,23 +1233,6 @@ namespace BWAPI
       commandBuffer[commandBuffer.size() - 1].push_back(command);
       commandLog->log("(%4d) %s", frameCount, command->describe().c_str());
       */
-    }
-    //---------------------------------------------- ON SEND TEXT ----------------------------------------------
-    bool onSendText(const char* text)
-    {
-      // prep onSendText
-      if (parseText(text) || !flags[Flags::UserInput])
-        return true;
-      else
-      {
-        if(BridgeServer::isAgentConnected())
-        {
-          //push text onto stack
-          if(!BridgeServer::pushSendText(text))
-            BridgeServer::disconnect();
-        }
-      }
-      return false;
     }
     //----------------------------------------------- PARSE TEXT -----------------------------------------------
     bool parseText(const char* text)
@@ -1277,6 +1267,14 @@ namespace BWAPI
       else if (parsed[0] == "/restart")
       {
         BW::restartGame();
+        return true;
+      }
+      else if (parsed[0] == "/tracer")
+      {
+        if(!Tracer::command(parsed))
+        {
+          BW::printf("unknown tracer command");
+        }
         return true;
       }
       return false;
@@ -1574,11 +1572,27 @@ namespace BWAPI
       }
       return rval;
     }
-    void onMessageIntercepted(const char* message)
+    void onMessageIntercepted(const char* text)
     {
-      /* TODO: evaluate here and send them to the bridge
-      interceptedMessages.push_back(std::string(message));
-      */
+      if (parseText(text) || !flags[Flags::UserInput])
+      {
+        return;
+      }
+      else
+      {
+        if(BridgeServer::isAgentConnected())
+        {
+          //push text onto stack
+          if(!BridgeServer::pushSendText(text))
+            BridgeServer::disconnect();
+        }
+        else
+        {
+          BW::sendText("%s", text);
+          return;
+        }
+      }
+      return;
     }
     //---------------------------------------- ON MATCH DRAW HIGH ----------------------------------------------
     void eachDrawShape(Util::MemoryFrame shapePacket)
@@ -1642,6 +1656,7 @@ namespace BWAPI
     }
     void onMatchDrawHigh()
     {
+      Tracer::onDraw();
       BridgeServer::enumAllDrawShapes(eachDrawShape);
     }
     //---------------------------------------- -----------------------------------------------------------------

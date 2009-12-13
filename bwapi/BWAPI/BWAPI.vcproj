@@ -516,6 +516,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Tracer"
+			>
+			<File
+				RelativePath=".\Source\Tracer\Tracer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Tracer\Tracer.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>
