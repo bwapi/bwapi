@@ -23,6 +23,7 @@
 #include <Util/Strings.h>
 #include <Util/Foreach.h>
 #include <Util/Gnu.h>
+#include <Util\FlagArray.h>
 
 #include <BW/Broodwar.h>
 #include <BW/Hook.h>
@@ -80,8 +81,11 @@ namespace BWAPI
     int savedSelectionStates[13];
 
     // reflects needed states from last frame to detect add and remove events.
-    // Is index correlated with BW::getUnitArray();
-    Unit bwUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
+    // is index correlated with BW::getUnitArray();
+    BWAPI::Unit unitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
+
+    // index correlated with the unit array mirror. Used for performance optimisation
+    Util::FlagArray unitArrayMirrorFlags;
 
     // BWAPI state
     bool flags[Flags::count];
@@ -183,7 +187,7 @@ namespace BWAPI
         /* TODO: reform
         // iterate through units and create UnitImpl for each
         for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-          bwUnitArrayMirror[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
+          unitArrayMirror[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                       &unitArrayCopyLocal->unit[i],
                                       (u16)i);
         */
@@ -825,11 +829,16 @@ namespace BWAPI
           // mark all array as unused
           for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           {
-            bwUnitArrayMirror[i].exists = false;
-            bwUnitArrayMirror[i].isDying = false;
-            bwUnitArrayMirror[i].knownUnit = NULL;
+            unitArrayMirror[i].isInChain = false;
+            unitArrayMirror[i].wasInChain = false;
+            unitArrayMirror[i].isDying = false;
+            unitArrayMirror[i].knownUnit = NULL;
           }
         }
+
+        // init flag array
+        unitArrayMirrorFlags.setSize(BW::UNIT_ARRAY_MAX_LENGTH);
+        unitArrayMirrorFlags.setAllFlags(false);
       }
 
       //--------------------------------------------------------------------------------------
@@ -912,141 +921,184 @@ namespace BWAPI
           staticData.isPaused      = BW::isPaused();
           staticData.unitCount=0;
 
-          // TODO: find out if new units are inserted at the beginning or end of the chain, optimize on that
-          // traverse all game units
+          // traverse all game unit chains
           for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
           {
             int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
-            Unit &mirror = bwUnitArrayMirror[linear];
+            Unit &mirror = unitArrayMirror[linear];
 
-            // if this unit is freshly created
-            if(mirror.exists)
+            mirror.isInChain = true;
+            unitArrayMirrorFlags.setFlag(linear, true); // mark slot for processing
+
+            // not interesting if this unit existed before
+            if(mirror.wasInChain)
               continue;
 
-            // TODO: find out if the unit's dying
-            bool isDying = false;
-            if(!isDying && mirror.isDying)
-            {
-              // the unit is not dying anymore? It's a new one
-              // remove previous.
-              if(mirror.knownUnit)
-                BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
-            }
-
-            // add it to the reflection
-            mirror.exists = true;
+            // unit did not exist before. init the reflection for this unit
             mirror.isDying = false;
             mirror.knownUnit = NULL;
           }
 
-          // TODO: replace traversing with flag based search technique
-          // traverse each known unit
-          for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+          // flag based search
+          for(int w = -1;;)
           {
-            Unit &mirror = bwUnitArrayMirror[i];
-            if(!mirror.exists)
-              continue;
+            // find all non-zero words
+            w = unitArrayMirrorFlags.findNextWord(w+1);
+            if(w == -1)
+              break;  // reached end
 
-            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[i];
-
-            // check the new knownability of this unit
-            bool isKnown = Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
-
-            if(!!mirror.knownUnit != isKnown)
+            // check each unit reflection that corresponds to a set flag
+            int word = unitArrayMirrorFlags.getWord(w);
+            int baseIndex = w * Util::FlagArray::flagsInWord;
+            for(int f = 0; f < Util::FlagArray::flagsInWord; f++)
             {
+              if(!(word & (1 << f)))
+                continue;
+              // flag is set => this unit slot is used.
+
+              // get corresponding BW::Unit and mirror
+              int linear = baseIndex + f;
+              BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[linear];
+              Unit &mirror = unitArrayMirror[linear];
+
+              // process the chain states
+              bool wasInChain = mirror.wasInChain;
+              bool isInChain = mirror.isInChain;
+              mirror.wasInChain = isInChain;
+              mirror.isInChain = false;
+              if(!isInChain)
+              {
+                // slot not used anymore
+                unitArrayMirrorFlags.setFlag(linear, false);
+              }
+
+              // if flag was set but slot is not used
+              if(!isInChain && !wasInChain)
+              {
+                // optimization not working, debug me!
+                __debugbreak();
+                continue;
+              }
+
+              if(!isInChain && wasInChain)
+              {
+                // unit perished
+                if(mirror.knownUnit)
+                  BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+                continue;
+              }
+
+              // TODO: find out if the unit is dying. not urgent tho
+              bool isDying = false;
+              if(!isDying && mirror.isDying)
+              {
+                // the unit is not dying anymore? It's a new one
+                // remove previous.
+                if(mirror.knownUnit)
+                  BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+              }
+
+              // check the new knownability of this unit
+              // TODO: extend knowability criteria
+              bool isKnown = Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
+
+              // if knownability changed
+              if(!!mirror.knownUnit != isKnown)
+              {
+                if(isKnown)
+                {
+                  // unit becomes known
+
+                  // reserve a KnownUnitEntry and store it's address so it gets filled
+                  mirror.knownUnit = &BridgeServer::sharedStuff.knownUnits.insertEmpty(&mirror.knownUnitIndex);
+                }
+                else
+                {
+                  // unit becomes not known
+
+                  // release KnownUnit address
+                  BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+                  mirror.knownUnit = NULL;
+                }
+              }
+
               if(isKnown)
               {
-                // unit becomes known
+                // transfer recent data about this particular BW unit
+                Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
 
-                // reserve a KnownUnitEntry and store it's address so it gets filled
-                mirror.knownUnit = &BridgeServer::sharedStuff.knownUnits.insertEmpty(&mirror.knownUnitIndex);
-              }
-              else
-              {
-                // unit becomes not known
+                // TODO: implement compile-time checked clearance limit
+                knownUnit.position = bwUnit.position;
 
-                // release KnownUnit address
-                BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
-                mirror.knownUnit = NULL;
-              }
-            }
+                /* TODO: find according BW::Unit members
+                knownUnit.state.id                    = (int)(&knownUnit);
+                knownUnit.state.player                = bwUnit.getPlayer()->getID();
+                knownUnit.state.type                  = bwUnit.getType().getID();
+                knownUnit.state.hitPoints             = bwUnit.getHitPoints();
+                knownUnit.state.shields               = bwUnit.getShields();
+                knownUnit.state.energy                = bwUnit.getEnergy();
+                knownUnit.state.resources             = bwUnit.getResources();
+                knownUnit.state.killCount             = bwUnit.getKillCount();
+                knownUnit.state.groundWeaponCooldown  = bwUnit.getGroundWeaponCooldown();
+                knownUnit.state.airWeaponCooldown     = bwUnit.getAirWeaponCooldown();
+                knownUnit.state.spellCooldown         = bwUnit.getSpellCooldown();
+                knownUnit.state.defenseMatrixPoints   = bwUnit.getDefenseMatrixPoints();
 
-            if(isKnown)
-            {
-              // transfer recent data about this particular BW unit
-              Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
+                knownUnit.state.defenseMatrixTimer    = bwUnit.getDefenseMatrixTimer();
+                knownUnit.state.ensnareTimer          = bwUnit.getEnsnareTimer();
+                knownUnit.state.irradiateTimer        = bwUnit.getIrradiateTimer();
+                knownUnit.state.lockdownTimer         = bwUnit.getLockdownTimer();
+                knownUnit.state.maelstromTimer        = bwUnit.getMaelstromTimer();
+                knownUnit.state.plagueTimer           = bwUnit.getPlagueTimer();
+                knownUnit.state.removeTimer           = bwUnit.getRemoveTimer();
+                knownUnit.state.stasisTimer           = bwUnit.getStasisTimer();
+                knownUnit.state.stimTimer             = bwUnit.getStimTimer();
 
-              // TODO: implement compile-time checked clearance limit
-              knownUnit.position = bwUnit.position;
-
-              /* TODO: find according BW::Unit members
-              knownUnit.state.id                    = (int)(&knownUnit);
-              knownUnit.state.player                = bwUnit.getPlayer()->getID();
-              knownUnit.state.type                  = bwUnit.getType().getID();
-              knownUnit.state.hitPoints             = bwUnit.getHitPoints();
-              knownUnit.state.shields               = bwUnit.getShields();
-              knownUnit.state.energy                = bwUnit.getEnergy();
-              knownUnit.state.resources             = bwUnit.getResources();
-              knownUnit.state.killCount             = bwUnit.getKillCount();
-              knownUnit.state.groundWeaponCooldown  = bwUnit.getGroundWeaponCooldown();
-              knownUnit.state.airWeaponCooldown     = bwUnit.getAirWeaponCooldown();
-              knownUnit.state.spellCooldown         = bwUnit.getSpellCooldown();
-              knownUnit.state.defenseMatrixPoints   = bwUnit.getDefenseMatrixPoints();
-
-              knownUnit.state.defenseMatrixTimer    = bwUnit.getDefenseMatrixTimer();
-              knownUnit.state.ensnareTimer          = bwUnit.getEnsnareTimer();
-              knownUnit.state.irradiateTimer        = bwUnit.getIrradiateTimer();
-              knownUnit.state.lockdownTimer         = bwUnit.getLockdownTimer();
-              knownUnit.state.maelstromTimer        = bwUnit.getMaelstromTimer();
-              knownUnit.state.plagueTimer           = bwUnit.getPlagueTimer();
-              knownUnit.state.removeTimer           = bwUnit.getRemoveTimer();
-              knownUnit.state.stasisTimer           = bwUnit.getStasisTimer();
-              knownUnit.state.stimTimer             = bwUnit.getStimTimer();
-
-              knownUnit.state.isAccelerating        = bwUnit.isAccelerating();
-              knownUnit.state.isBeingConstructed    = bwUnit.isBeingConstructed();
-              knownUnit.state.isBeingGathered       = bwUnit.isBeingGathered();
-              knownUnit.state.isBeingHealed         = bwUnit.isBeingHealed();
-              knownUnit.state.isBlind               = bwUnit.isBlind();
-              knownUnit.state.isBraking             = bwUnit.isBraking();
-              knownUnit.state.isBurrowed            = bwUnit.isBurrowed();
-              knownUnit.state.isCarryingGas         = bwUnit.isCarryingGas();
-              knownUnit.state.isCarryingMinerals    = bwUnit.isCarryingMinerals();
-              knownUnit.state.isCloaked             = bwUnit.isCloaked();
-              knownUnit.state.isCompleted           = bwUnit.isCompleted();
-              knownUnit.state.isConstructing        = bwUnit.isConstructing();
-              knownUnit.state.isDefenseMatrixed     = bwUnit.isDefenseMatrixed();
-              knownUnit.state.isEnsnared            = bwUnit.isEnsnared();
-              knownUnit.state.isFollowing           = bwUnit.isFollowing();
-              knownUnit.state.isGatheringGas        = bwUnit.isGatheringGas();
-              knownUnit.state.isGatheringMinerals   = bwUnit.isGatheringMinerals();
-              knownUnit.state.isHallucination       = bwUnit.isHallucination();
-              knownUnit.state.isIdle                = bwUnit.isIdle();            // rusty: regarding SCV's not reporting that their idle.. I was calling worker->build() on both of them, and giving them the same location of the geyser
-              knownUnit.state.isIrradiated          = bwUnit.isIrradiated();
-              knownUnit.state.isLifted              = bwUnit.isLifted();
-              knownUnit.state.isLoaded              = bwUnit.isLoaded();
-              knownUnit.state.isLockedDown          = bwUnit.isLockedDown();
-              knownUnit.state.isMaelstrommed        = bwUnit.isMaelstrommed();
-              knownUnit.state.isMorphing            = bwUnit.isMorphing();
-              knownUnit.state.isMoving              = bwUnit.isMoving();
-              knownUnit.state.isParasited           = bwUnit.isParasited();
-              knownUnit.state.isPatrolling          = bwUnit.isPatrolling();
-              knownUnit.state.isPlagued             = bwUnit.isPlagued();
-              knownUnit.state.isRepairing           = bwUnit.isRepairing();
-              knownUnit.state.isResearching         = bwUnit.isResearching();
-              knownUnit.state.isSelected            = bwUnit.isSelected();
-              knownUnit.state.isSieged              = bwUnit.isSieged();
-              knownUnit.state.isStartingAttack      = bwUnit.isStartingAttack();
-              knownUnit.state.isStasised            = bwUnit.isStasised();
-              knownUnit.state.isStimmed             = bwUnit.isStimmed();
-              knownUnit.state.isTraining            = bwUnit.isTraining();
-              knownUnit.state.isUnderStorm          = bwUnit.isUnderStorm();
-              knownUnit.state.isUnpowered           = bwUnit.isUnpowered();
-              knownUnit.state.isUpgrading           = bwUnit.isUpgrading();
-              */
-            } //if(isKnown)
-          }
-        }
+                knownUnit.state.isAccelerating        = bwUnit.isAccelerating();
+                knownUnit.state.isBeingConstructed    = bwUnit.isBeingConstructed();
+                knownUnit.state.isBeingGathered       = bwUnit.isBeingGathered();
+                knownUnit.state.isBeingHealed         = bwUnit.isBeingHealed();
+                knownUnit.state.isBlind               = bwUnit.isBlind();
+                knownUnit.state.isBraking             = bwUnit.isBraking();
+                knownUnit.state.isBurrowed            = bwUnit.isBurrowed();
+                knownUnit.state.isCarryingGas         = bwUnit.isCarryingGas();
+                knownUnit.state.isCarryingMinerals    = bwUnit.isCarryingMinerals();
+                knownUnit.state.isCloaked             = bwUnit.isCloaked();
+                knownUnit.state.isCompleted           = bwUnit.isCompleted();
+                knownUnit.state.isConstructing        = bwUnit.isConstructing();
+                knownUnit.state.isDefenseMatrixed     = bwUnit.isDefenseMatrixed();
+                knownUnit.state.isEnsnared            = bwUnit.isEnsnared();
+                knownUnit.state.isFollowing           = bwUnit.isFollowing();
+                knownUnit.state.isGatheringGas        = bwUnit.isGatheringGas();
+                knownUnit.state.isGatheringMinerals   = bwUnit.isGatheringMinerals();
+                knownUnit.state.isHallucination       = bwUnit.isHallucination();
+                knownUnit.state.isIdle                = bwUnit.isIdle();            // rusty: regarding SCV's not reporting that their idle.. I was calling worker->build() on both of them, and giving them the same location of the geyser
+                knownUnit.state.isIrradiated          = bwUnit.isIrradiated();
+                knownUnit.state.isLifted              = bwUnit.isLifted();
+                knownUnit.state.isLoaded              = bwUnit.isLoaded();
+                knownUnit.state.isLockedDown          = bwUnit.isLockedDown();
+                knownUnit.state.isMaelstrommed        = bwUnit.isMaelstrommed();
+                knownUnit.state.isMorphing            = bwUnit.isMorphing();
+                knownUnit.state.isMoving              = bwUnit.isMoving();
+                knownUnit.state.isParasited           = bwUnit.isParasited();
+                knownUnit.state.isPatrolling          = bwUnit.isPatrolling();
+                knownUnit.state.isPlagued             = bwUnit.isPlagued();
+                knownUnit.state.isRepairing           = bwUnit.isRepairing();
+                knownUnit.state.isResearching         = bwUnit.isResearching();
+                knownUnit.state.isSelected            = bwUnit.isSelected();
+                knownUnit.state.isSieged              = bwUnit.isSieged();
+                knownUnit.state.isStartingAttack      = bwUnit.isStartingAttack();
+                knownUnit.state.isStasised            = bwUnit.isStasised();
+                knownUnit.state.isStimmed             = bwUnit.isStimmed();
+                knownUnit.state.isTraining            = bwUnit.isTraining();
+                knownUnit.state.isUnderStorm          = bwUnit.isUnderStorm();
+                knownUnit.state.isUnpowered           = bwUnit.isUnpowered();
+                knownUnit.state.isUpgrading           = bwUnit.isUpgrading();
+                */
+              } //if(isKnown)
+            } //foreach flag
+          } //foeach flagarray word
+        } //fill buffers with recend world state data
 
         // update remote shared memry
         if(!BridgeServer::updateRemoteSharedMemory())
@@ -1218,7 +1270,7 @@ namespace BWAPI
     {
       /* TODO: reform
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        bwUnitArrayMirror[i]->setSelected(false);
+        unitArrayMirror[i]->setSelected(false);
 
       saveSelected();
       for (int i = 0; savedSelectionStates[i] != NULL; i++)
@@ -1346,17 +1398,17 @@ namespace BWAPI
 
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
-        bwUnitArrayMirror[i]->userSelected=false;
-        bwUnitArrayMirror[i]->buildUnit=NULL;
-        bwUnitArrayMirror[i]->alive=false;
-        bwUnitArrayMirror[i]->dead=false;
-        bwUnitArrayMirror[i]->savedPlayer=NULL;
-        bwUnitArrayMirror[i]->savedUnitType=NULL;
-        bwUnitArrayMirror[i]->staticInformation=false;
-        bwUnitArrayMirror[i]->lastVisible=false;
-        bwUnitArrayMirror[i]->lastType=UnitTypes::Unknown;
-        bwUnitArrayMirror[i]->lastPlayer=NULL;
-        bwUnitArrayMirror[i]->nukeDetected=false;
+        unitArrayMirror[i]->userSelected=false;
+        unitArrayMirror[i]->buildUnit=NULL;
+        unitArrayMirror[i]->alive=false;
+        unitArrayMirror[i]->dead=false;
+        unitArrayMirror[i]->savedPlayer=NULL;
+        unitArrayMirror[i]->savedUnitType=NULL;
+        unitArrayMirror[i]->staticInformation=false;
+        unitArrayMirror[i]->lastVisible=false;
+        unitArrayMirror[i]->lastType=UnitTypes::Unknown;
+        unitArrayMirror[i]->lastPlayer=NULL;
+        unitArrayMirror[i]->nukeDetected=false;
       }
       cheatFlags=0;
       */

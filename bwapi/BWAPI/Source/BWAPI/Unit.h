@@ -14,7 +14,8 @@ namespace BWAPI
 {
   struct Unit
   {
-    bool                                      exists;
+    bool                                      isInChain;
+    bool                                      wasInChain;
     bool                                      isDying;
     Bridge::KnownUnitEntry*                   knownUnit;
     Bridge::SharedStuff::KnownUnitSet::Index  knownUnitIndex; // needed for removing from .knownUnits
