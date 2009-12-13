@@ -286,18 +286,37 @@ namespace BWAPI
           continue;
         }
 
-        // update knownUnitEvents
-        if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnitEvents::_typeId)
+        // update knownUnitAddEvents
+        if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents::_typeId)
         {
-          Bridge::PipeMessage::ServerUpdateKnownUnitEvents packet;
+          Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents packet;
           if(!bufferFrame.readTo(packet))
           {
-            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnitEvents packet.";
+            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnitAddEvents packet.";
             return false;
           }
-          if(!sharedStuff.knownUnitEvents.importNextUpdate(packet.exp))
+          if(!sharedStuff.knownUnitAddEvents.importNextUpdate(packet.exp))
           {
-            lastError = __FUNCTION__ ": could not import knownUnitEvents update.";
+            lastError = __FUNCTION__ ": could not import knownUnitAddEvents update.";
+            return false;
+          }
+
+          // wait for next packet
+          continue;
+        }
+
+        // update knownUnitRemoveEvents
+          if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents::_typeId)
+        {
+          Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents packet;
+          if(!bufferFrame.readTo(packet))
+          {
+            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnitRemoveEvents packet.";
+            return false;
+          }
+          if(!sharedStuff.knownUnitRemoveEvents.importNextUpdate(packet.exp))
+          {
+            lastError = __FUNCTION__ ": could not import knownUnitRemoveEvents update.";
             return false;
           }
 
@@ -324,7 +343,8 @@ namespace BWAPI
           sharedStuff.commands.release();
           sharedStuff.userInput.release();
           sharedStuff.knownUnits.release();
-          sharedStuff.knownUnitEvents.release();
+          sharedStuff.knownUnitAddEvents.release();
+          sharedStuff.knownUnitRemoveEvents.release();
 
           // first import static data. It's all combined into staticData
           if (!sharedStuff.staticData.import(packet.staticGameDataExport))

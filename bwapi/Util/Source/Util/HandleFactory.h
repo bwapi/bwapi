@@ -2,7 +2,7 @@
  * Used by a native interface to allocate Handle state holding objects
  */
 
-#include <set>
+#include <list>
 
 namespace Util
 {
@@ -13,85 +13,61 @@ namespace Util
     //----------------------------- ----------------------------------------------
     struct Entry : T
     {
-      int busy;
+      bool busy;
     };
-    static const sizeOfT = (sizeof(Entry)+sizeof(int)-1)/sizeof(int); // round up to next int boundary
-    Util::Buffer entryList;
-    int count;
-    int head;
+    static const int sizeOfT = sizeof(T); // doesn't work yet: ((sizeof(Entry)+sizeof(int)-1)/sizeof(int))*sizeof(int); // round up to next int boundary
+    typedef std::list<Entry> EntrySet;
+    EntrySet entrySet;
+    //----------------------------- FIND -----------------------------------------
+    typename EntrySet::iterator find(T* structure)
+    {
+      EntrySet::iterator it;
+      for(it = entrySet.begin(); it != entrySet.end(); it++)
+      {
+        if(&(*it) == structure)
+          break;
+      }
+      return it;
+    }
     //----------------------------- ----------------------------------------------
   public:
     //----------------------------- CONSTRUCTION ---------------------------------
     HandleFactory()
-      : count(0)
-      , head(0)
     {
     }
     //----------------------------- CREATE ---------------------------------------
     T* create()
     {
-      Entry *entry = entryList.getMemory().beginAs<Entry>();
-      while(head < count)
-      {
-        Entry &curr = entry[head];
-        if(!curr.busy)
-          break;
-        head++;
-      }
-      if(head == count)
-      {
-        // no new slot, allocate more memory
-        count++;
-        entryList.setSize(count * sizeOfT);
-        Entry &newEntry = entryList.getMemory().endAs<Entry>()[-1];
-        newEntry.busy = true;
-        return &newEntry;
-      }
-      Entry &newEntry = entry[head];
-      newEntry.busy = true;
-      return &newEntry;
+      Entry newEntry;
+      EntrySet::iterator it = entrySet.insert(entrySet.begin(), newEntry);
+      return &(*it);
     }
     //----------------------------- IS VALID -------------------------------------
     bool isValid(T* structure)
     {
-      Util::MemoryFrame mem = entryList.getMemory();
-      if(&structure < mem.begin()
-        || &structure > mem.end()
-        || ((&structure - mem.begin()) % sizeOfT) != 0)
-      {
-        return false;
-      }
-      return true;
+      return find(structure) == entrySet.end();
     }
     //----------------------------- RELEASE --------------------------------------
     void release(T* structure)
     {
-      if(!isValid(structure))
+      EntrySet::iterator it = find(structure);
+      if(it == entrySet.end())
       {
         // usually the library user program screwed up
         return;
       }
 
-      // free slot
-      Entry *entry = (Entry*)structure;
-      entry->busy = false;
-
-      // update head
-      int index = (entry - mem.begin()) / sizeOfT;
-      if(index < head)
-        head = index;
+      // remove structure
+      entrySet.erase(it);
 
       return;
     }
     //----------------------------- RELEASE ALL ----------------------------------
     void releaseAll()
     {
-      // free each slot
-      for(int i = 0; i < count; i++)
-      {
-        entryList[i].busy = false;
-      }
+      // free all items
+      entrySet.clear();
     }
     //----------------------------- ----------------------------------------------
-  }
+  };
 }

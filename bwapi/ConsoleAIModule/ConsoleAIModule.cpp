@@ -43,9 +43,12 @@ void BWAPI_CALL onMatchFrame()
     BWDrawCircle(pos.x, pos.y, 10, green, false);
     count++;
   }
+  BWAllUnitsClose(h);
 
   sprintf(buffer, "unit count: %d", count);
   BWDrawText(10, 10, buffer);
+  sprintf(buffer, "handle: %d", (int)h);
+  BWDrawText(10, 18, buffer);
 }
 
 int _tmain(int argc, _TCHAR* argv[])

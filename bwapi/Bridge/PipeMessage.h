@@ -61,9 +61,13 @@ namespace Bridge
     {
       Bridge::SharedStuff::KnownUnitSet::Export exp;
     };
-    struct ServerUpdateKnownUnitEvents : Util::TypeHead<UNIQUE_ID>
+    struct ServerUpdateKnownUnitAddEvents : Util::TypeHead<UNIQUE_ID>
     {
-      Bridge::SharedStuff::KnownUnitEventStack::Export exp;
+      Bridge::SharedStuff::KnownUnitAddEventStack::Export exp;
+    };
+    struct ServerUpdateKnownUnitRemoveEvents : Util::TypeHead<UNIQUE_ID>
+    {
+      Bridge::SharedStuff::KnownUnitRemoveEventStack::Export exp;
     };
     struct AgentUpdateCommands : Util::TypeHead<UNIQUE_ID>
     {
