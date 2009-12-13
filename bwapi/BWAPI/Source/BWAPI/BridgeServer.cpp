@@ -164,9 +164,14 @@ namespace BWAPI
         lastError = std::string(__FUNCTION__)+ ": knownUnits creation failed";
         return false;
       }
-      if(!sharedStuff.knownUnitEvents.init(100, true))
+      if(!sharedStuff.knownUnitAddEvents.init(1000, true))
       {
-        lastError = std::string(__FUNCTION__)+ ": knownUnitEvents creation failed";
+        lastError = std::string(__FUNCTION__)+ ": knownUnitAddEvents creation failed";
+        return false;
+      }
+      if(!sharedStuff.knownUnitRemoveEvents.init(1000, true))
+      {
+        lastError = std::string(__FUNCTION__)+ ": knownUnitRemoveEvents creation failed";
         return false;
       }
 
@@ -417,14 +422,29 @@ namespace BWAPI
         sharedStuff.pipe.sendRawStructure(packet);
       }
 
-      // export knownUnitEvents updates
-      while(sharedStuff.knownUnitEvents.isUpdateExportNeeded())
+      // export knownUnitAddEvents updates
+      while(sharedStuff.knownUnitAddEvents.isUpdateExportNeeded())
       {
         // create export package
-        Bridge::PipeMessage::ServerUpdateKnownUnitEvents packet;
-        if(!sharedStuff.knownUnitEvents.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents packet;
+        if(!sharedStuff.knownUnitAddEvents.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
-          lastError = std::string(__FUNCTION__)+ ": exporting knownUnitEvents update failed";
+          lastError = std::string(__FUNCTION__)+ ": exporting knownUnitAddEvents update failed";
+          return false;
+        }
+
+        // send update export
+        sharedStuff.pipe.sendRawStructure(packet);
+      }
+
+      // export knownUnitRemoveEvents updates
+      while(sharedStuff.knownUnitRemoveEvents.isUpdateExportNeeded())
+      {
+        // create export package
+        Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents packet;
+        if(!sharedStuff.knownUnitRemoveEvents.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        {
+          lastError = std::string(__FUNCTION__)+ ": exporting knownUnitRemoveEvents update failed";
           return false;
         }
 

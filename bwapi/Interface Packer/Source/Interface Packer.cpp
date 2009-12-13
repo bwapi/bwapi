@@ -191,7 +191,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   filter.insert("namespace");
   filter.insert("BWAPI2_FUNCTION");
   filter.insert("BWAPI2_METHOD");
-  while(true)
+  for(;;)
   {
     std::string line = reader.readLine();
     unsigned int firstNonSpace = line.find_first_not_of(' ');

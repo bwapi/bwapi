@@ -3,6 +3,7 @@
 
 #include <Util\Version.h>
 #include <Util\Types.h>
+#include <Util\HandleFactory.h>
 
 #include <Bridge\SharedStuff.h>
 
@@ -112,10 +113,11 @@ namespace BWAPI
   {
     Bridge::SharedStuff::KnownUnitSet::Index index;
   };
+  Util::HandleFactory<AllUnitsHandle> allUnitsHandleFactory;
   //----------------------------------- ALL UNITS BEGIN -------------------------------------------
   BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin()
   {
-    AllUnitsHandle *handle = new AllUnitsHandle;
+    AllUnitsHandle *handle = allUnitsHandleFactory.create();
     handle->index = BridgeClient::sharedStuff.knownUnits.begin();
     return handle;
   }
@@ -132,8 +134,7 @@ namespace BWAPI
   //----------------------------------- ALL UNITS CLOSE -------------------------------------------
   BWAPI_FUNCTION void BWAPI_CALL BWAllUnitsClose(HANDLE h)
   {
-    // for now just assume AI didn't screw up
-    delete (AllUnitsHandle*)h;
+    allUnitsHandleFactory.release((AllUnitsHandle*)h);
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------
   BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError()

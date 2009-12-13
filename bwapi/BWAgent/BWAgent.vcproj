@@ -183,6 +183,10 @@
 				RelativePath="..\Bridge\KnownUnitEventEntry.h"
 				>
 			</File>
+			<File
+				RelativePath="..\Bridge\PipeMessage.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="BWAPI"
