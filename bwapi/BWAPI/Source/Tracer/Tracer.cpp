@@ -1,8 +1,11 @@
 #include "Tracer.h"
 
 #include <BW\Hook.h>
+#include <BW\Broodwar.h>
 
 #include <BWAPI\Shape.h>
+
+#include <Util\Strings.h>
 
 namespace BWAPI
 {
@@ -11,6 +14,8 @@ namespace BWAPI
 //private:
     // state
     bool active = false;
+    int wordWidth = 4;
+    bool showUnits = true;
 
     // drawing
     struct ShapeLine
@@ -43,6 +48,29 @@ namespace BWAPI
       text.text = str;
       textShapes.push_back(text);
     }
+    //----------------------------------- PUSH MAP LINE --------------------------------
+    void pushMapLine(Position from, Position to, int color)
+    {
+      ShapeLine line;
+      line.from = from - Position(BW::getScreenPos());
+      line.to = to - Position(BW::getScreenPos());
+      line.color = color;
+      lineShapes.push_back(line);
+    }
+    //----------------------------------- PUSH MAP TEXT --------------------------------
+    void pushMapText(Position pos, std::string str)
+    {
+      ShapeText text;
+      text.pos = pos - Position(BW::getScreenPos());
+      text.text = str;
+      textShapes.push_back(text);
+    }
+    //----------------------------------- REMOVE DRAWINGS ------------------------------
+    void removeDrawings()
+    {
+      lineShapes.clear();
+      textShapes.clear();
+    }
     //----------------------------------- ----------------------------------------------
 //public:
     //----------------------------------- IS ACTIVE ------------------------------------
@@ -63,6 +91,35 @@ namespace BWAPI
         active = false;
         return true;
       }
+      if(parsed[1] == "byte")
+      {
+        wordWidth = 1;
+        return true;
+      }
+      if(parsed[1] == "word")
+      {
+        wordWidth = 2;
+        return true;
+      }
+      if(parsed[1] == "dword")
+      {
+        wordWidth = 4;
+        return true;
+      }
+      if(parsed[1] == "units")
+      {
+        if(parsed[2] == "show")
+        {
+          showUnits = true;
+          return true;
+        }
+        if(parsed[2] == "hide")
+        {
+          showUnits = false;
+          return true;
+        }
+        return false;
+      }
       return false;
     }
     //----------------------------------- ON FRAME -------------------------------------
@@ -70,7 +127,8 @@ namespace BWAPI
     {
       if(!active)
         return;
-      pushText(Position(10, 10), "tracer is on");
+      removeDrawings();
+
     }
     //----------------------------------- ON DRAW --------------------------------------
     void onDraw()

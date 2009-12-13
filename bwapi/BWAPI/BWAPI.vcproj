@@ -520,6 +520,18 @@
 			Name="Tracer"
 			>
 			<File
+				RelativePath=".\Source\Tracer\ChangeScout.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Tracer\FrameTimer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Tracer\FrameTimer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Tracer\Tracer.cpp"
 				>
 			</File>

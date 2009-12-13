@@ -67,6 +67,11 @@ namespace BW
     // Retrieves the screen's Y coordinate in relation to the map
     return *(BW::BWDATA_ScreenY);
   }
+  //----------------------------------- GET SCREEN POS ------------------------------------
+  Position getScreenPos()
+  {
+    return Position(*(BW::BWDATA_ScreenX), *(BW::BWDATA_ScreenY));
+  }
   //-------------------------------- SET SCREEN POSITION ----------------------------------
   void setScreenPosition(int x, int y)
   {
@@ -218,7 +223,7 @@ namespace BW
       }
       else
       {
-        // TODO: fix
+        // TODO: fix. currently this blocks normal text output
         //printEx(self player id, buffer);
       }
       return;

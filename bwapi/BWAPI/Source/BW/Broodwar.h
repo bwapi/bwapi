@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Position.h"
+
 #include <Util\Types.h>
 
 namespace BW
@@ -15,6 +17,7 @@ namespace BW
   extern int getMouseY();
   extern int getScreenX();
   extern int getScreenY();
+  extern Position getScreenPos();
   extern int getLatency();
 
   extern void setScreenPosition(int x, int y);
