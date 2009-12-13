@@ -1,9 +1,10 @@
 #pragma once
 
-#include <Bridge\StaticGameData.h>
 #include <Bridge\SendTextEntry.h>
 #include <Bridge\SharedStuff.h>
 #include <Bridge\DrawShape.h>
+
+#include <BWAPITypes\StaticGameData.h>
 
 #include <Util\MemoryFrame.h>
 
@@ -19,7 +20,7 @@ namespace BWAPI
   {
   //public:
     extern Bridge::SharedStuff sharedStuff;
-    extern Bridge::StaticGameData* sharedStaticData;
+    extern BWAPI::StaticGameData* sharedStaticData;
 
     extern bool initConnectionServer();
     extern bool acceptIncomingConnections();

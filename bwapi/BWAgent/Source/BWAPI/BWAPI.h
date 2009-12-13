@@ -2,6 +2,7 @@
 #include "BWAPIInterface.h"
 
 #include <BWAPITypes\UnitState.h>
+#include <BWAPITypes\StaticGameData.h>
 
 #include <windows.h>
 #include <string>
@@ -26,6 +27,10 @@ BWAPI_FUNCTION bool BWAPI_CALL BWTakeover(
   BWUnitAddCallback,
   BWUnitRemoveCallback,
   BWSendTextCallback);
+
+// static data
+BWAPI_FUNCTION BWAPI::StaticGameData* BWAPI_CALL BWGetStaticGameData();
+BWAPI_FUNCTION void                   BWAPI_CALL BWPositionMapToScreen(BWAPI::Position* pos);
 
 // draw operations
 BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text);

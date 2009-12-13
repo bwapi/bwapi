@@ -11,10 +11,15 @@ namespace BW
   {
     static WalkPosition Invalid;
     WalkPosition();
-    WalkPosition(Util::Point<u16> point);
     WalkPosition(u16 x, u16 y);
     WalkPosition(const Position &convertFrom);
     WalkPosition(const BuildPosition &convertFrom);
+
+    template<typename T>
+      WalkPosition(Util::Point<T> point)
+        : Point(point)
+      {
+      }
   };
 };
 

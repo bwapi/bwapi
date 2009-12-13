@@ -1,4 +1,7 @@
 #pragma once
+
+#include <BWAPITypes\Position.h>
+
 namespace BWAPI
 {
   // access for a unit the agent has knowledge of
@@ -20,8 +23,7 @@ namespace BWAPI
     // in the root object
     ClearanceLevel clearanceLevel;
     //replace with position object later
-    int position_x;
-    int position_y;
+    Position position;
     bool isAccelerating;
     bool isMoving;
     bool isIdle;

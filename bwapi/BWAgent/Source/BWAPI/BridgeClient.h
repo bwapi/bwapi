@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Bridge\SharedStuff.h>
-#include <Bridge\StaticGameData.h>
+#include <BWAPITypes\StaticGameData.h>
 
 #include <Util\MemoryFrame.h>
 
@@ -13,7 +13,7 @@ namespace BWAPI
   namespace BridgeClient
   {
   //public:
-    extern Bridge::StaticGameData* sharedStaticData;
+    extern BWAPI::StaticGameData* sharedStaticData;
     extern Bridge::SharedStuff sharedStuff;
 
     // additonal RPC state data

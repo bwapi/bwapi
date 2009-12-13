@@ -11,11 +11,6 @@ namespace BW
   {
   }
   //----------------------------- CONSTRUCTOR ----------------------------------
-  BuildPosition::BuildPosition(Util::Point<u16> point)
-    : Point(point)
-  {
-  }
-  //----------------------------- CONSTRUCTOR ----------------------------------
   BuildPosition::BuildPosition(u16 x, u16 y)
     : Point(x, y)
   {

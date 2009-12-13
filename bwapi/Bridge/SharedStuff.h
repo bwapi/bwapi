@@ -1,5 +1,4 @@
 #pragma once
-#include "StaticGameData.h"
 #include "SendTextEvent.h"
 #include "KnownUnitEntry.h"
 
@@ -10,6 +9,7 @@
 #include <Util\SharedStructure.h>
 
 #include <BWAPITypes\UnitState.h>
+#include <BWAPITypes\StaticGameData.h>
 
 namespace Bridge
 {
@@ -26,7 +26,7 @@ namespace Bridge
     typedef Util::SharedStack KnownUnitEventStack;
     KnownUnitEventStack knownUnitEvents;
 
-    typedef Util::SharedStructure<StaticGameData> StaticGameDataStructure;
+    typedef Util::SharedStructure<BWAPI::StaticGameData> StaticGameDataStructure;
     StaticGameDataStructure staticData;
 
     typedef Util::SharedStack CommandStack;

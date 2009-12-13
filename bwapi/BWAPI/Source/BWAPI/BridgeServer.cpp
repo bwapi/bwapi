@@ -31,7 +31,7 @@ namespace BWAPI
     //-------------------------- ----------------------------------------------------------------
   //public:
     //-------------------------- PUBLIC DATA ----------------------------------------------------
-    Bridge::StaticGameData* sharedStaticData = NULL;
+    BWAPI::StaticGameData* sharedStaticData = NULL;
     //-------------------------- INIT -----------------------------------------------------------
     bool initConnectionServer()
     {

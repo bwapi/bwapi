@@ -14,6 +14,12 @@ namespace Util
 
       Point();
       Point(L x, L y);
+      template<typename T>
+        Point(Point<T> point)
+          : x((L)point.x)
+          , y((L)point.y)
+        {
+        }
       bool operator == (const Point<L>& b) const;
       bool operator != (const Point<L>& b) const;
       bool operator  < (const Point<L>& b) const;

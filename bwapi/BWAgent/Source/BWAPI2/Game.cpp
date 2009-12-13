@@ -270,101 +270,179 @@ namespace BWAPI2
     Player*  enemy()
     {
     }
+    //--------------------------------------------------- GAME SPEED -------------------------------------------
+    void  setLocalSpeed(int speed)
+    {
+    }
+    */
     //----------------------------------------------------- DRAW -----------------------------------------------
+    /* TODO: reform
+    void addShape(Shape* s)
+    {
+      // Adds a shape to the draw queue 
+      shapes.push_back(s);
+    }
     void  drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
+      // Draws a box 
+      if (!inScreen(ctype,left,top,right,bottom)) return;
+      addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
     }
     void  drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
+      // Draws a box in relation to the map 
+      if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
+      addShape(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
     }
     void  drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
+      // Draws a box in relation to the mouse 
+      if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
+      addShape(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
     }
     void  drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
+      // Draws a box in relation to the screen 
+      if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
+      addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
     }
 
     void  drawDot(int ctype, int x, int y, Color color)
     {
+      if (!inScreen(ctype,x,y)) return;
+      addShape(new ShapeDot(ctype, x, y, color.getID()));
     }
     void  drawDotMap(int x, int y, Color color)
     {
+      if (!inScreen(BWAPI::CoordinateType::Map,x,y)) return;
+      addShape(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color.getID()));
     }
     void  drawDotMouse(int x, int y, Color color)
     {
+      if (!inScreen(BWAPI::CoordinateType::Mouse,x,y)) return;
+      addShape(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color.getID()));
     }
     void  drawDotScreen(int x, int y, Color color)
     {
+      if (!inScreen(BWAPI::CoordinateType::Screen,x,y)) return;
+      addShape(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
     }
 
     void  drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
     {
+      if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
+      addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
     }
     void  drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Map,x-radius,y-radius,x+radius,y+radius)) return;
+      addShape(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color.getID(), isSolid));
     }
     void  drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Mouse,x-radius,y-radius,x+radius,y+radius)) return;
+      addShape(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color.getID(), isSolid));
     }
     void  drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Screen,x-radius,y-radius,x+radius,y+radius)) return;
+      addShape(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
     }
 
     void  drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
+      if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
+      addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
     }
     void  drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Map,x-xrad,y-yrad,x+xrad,y+yrad)) return;
+      addShape(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color.getID(), isSolid));
     }
     void  drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Mouse,x-xrad,y-yrad,x+xrad,y+yrad)) return;
+      addShape(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color.getID(), isSolid));
     }
     void  drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Screen,x-xrad,y-yrad,x+xrad,y+yrad)) return;
+      addShape(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
     }
 
     void  drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
     {
+      if (!inScreen(ctype,x1,y1,x2,y2)) return;
+      addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
     }
     void  drawLineMap(int x1, int y1, int x2, int y2, Color color)
     {
+      if (!inScreen(BWAPI::CoordinateType::Map,x1,y1,x2,y2)) return;
+      addShape(new ShapeLine(BWAPI::CoordinateType::Map, x1, y1, x2, y2, color.getID()));
     }
     void  drawLineMouse(int x1, int y1, int x2, int y2, Color color)
     {
+      if (!inScreen(BWAPI::CoordinateType::Mouse,x1,y1,x2,y2)) return;
+      addShape(new ShapeLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color.getID()));
     }
     void  drawLineScreen(int x1, int y1, int x2, int y2, Color color)
     {
+      if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
+      addShape(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
     }
 
     void  drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
+      if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
+      addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
     }
     void  drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy)) return;
+      addShape(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
     }
     void  drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy)) return;
+      addShape(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
     }
     void  drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
+      if (!inScreen(BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy)) return;
+      addShape(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
     }
 
     void  drawText(int ctype, int x, int y, const char* text, ...)
     {
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+      va_end(ap);
+      addShape(new ShapeText(ctype,x,y,std::string(buffer)));
     }
     void  drawTextMap(int x, int y, const char* text, ...)
     {
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+      va_end(ap);
+      addShape(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer)));
     }
     void  drawTextMouse(int x, int y, const char* text, ...)
     {
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+      va_end(ap);
+      addShape(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer)));
     }
     void  drawTextScreen(int x, int y, const char* text, ...)
     {
-    }
-
-    //--------------------------------------------------- GAME SPEED -------------------------------------------
-    void  setLocalSpeed(int speed)
-    {
+      va_list ap;
+      va_start(ap, text);
+      vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+      va_end(ap);
+      addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
     }
     */
   };

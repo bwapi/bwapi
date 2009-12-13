@@ -6,15 +6,17 @@
  *******/
 
 #include <Util\Types.h>
+#include <Bridge\SharedStuff.h>
 
-#include <Bridge\KnownUnitEntry.h>
+namespace Bridge { struct KnownUnitEntry; };
 
 namespace BWAPI
 {
   struct Unit
   {
-    bool                    exists;
-    u16                     bwId;
-    Bridge::KnownUnitEntry* knownUnit;
+    bool                                      exists;
+    bool                                      isDying;
+    Bridge::KnownUnitEntry*                   knownUnit;
+    Bridge::SharedStuff::KnownUnitSet::Index  knownUnitIndex; // needed for removing from .knownUnits
   };
 }
