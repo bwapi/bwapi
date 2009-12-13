@@ -25,7 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="&quot;$(SolutionDir)\Interface Packer\clearOutput.cmd&quot;&#x0D;&#x0A;&quot;$(SolutionDir)\Interface Packer\pack_BWAPI1.cmd&quot;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
