@@ -984,7 +984,10 @@ namespace BWAPI
               {
                 // unit perished
                 if(mirror.knownUnit)
-                  BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+                {
+                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex);
+                  mirror.knownUnit = NULL;
+                }
                 continue;
               }
 
@@ -995,7 +998,10 @@ namespace BWAPI
                 // the unit is not dying anymore? It's a new one
                 // remove previous.
                 if(mirror.knownUnit)
-                  BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+                {
+                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex);
+                  mirror.knownUnit = NULL;
+                }
               }
 
               // check the new knownability of this unit
@@ -1010,14 +1016,14 @@ namespace BWAPI
                   // unit becomes known
 
                   // reserve a KnownUnitEntry and store it's address so it gets filled
-                  mirror.knownUnit = &BridgeServer::sharedStuff.knownUnits.insertEmpty(&mirror.knownUnitIndex);
+                  BridgeServer::addKnownUnit(&mirror.knownUnit, &mirror.knownUnitIndex);
                 }
                 else
                 {
                   // unit becomes not known
 
                   // release KnownUnit address
-                  BridgeServer::sharedStuff.knownUnits.remove(mirror.knownUnitIndex);
+                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex);
                   mirror.knownUnit = NULL;
                 }
               }
@@ -1027,11 +1033,11 @@ namespace BWAPI
                 // transfer recent data about this particular BW unit
                 Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
 
-                // TODO: implement compile-time checked clearance limit
+                // TODO: implement clearance limit
                 knownUnit.position = bwUnit.position;
 
                 /* TODO: find according BW::Unit members
-                knownUnit.state.id                    = (int)(&knownUnit);
+                knownUnit.state.id                    = (int)&knownUnit;
                 knownUnit.state.player                = bwUnit.getPlayer()->getID();
                 knownUnit.state.type                  = bwUnit.getType().getID();
                 knownUnit.state.hitPoints             = bwUnit.getHitPoints();

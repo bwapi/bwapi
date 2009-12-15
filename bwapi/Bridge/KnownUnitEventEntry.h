@@ -8,12 +8,12 @@
 
 namespace Bridge
 {
-  struct KnownUnitAdded
+  struct KnownUnitAddEventEntry
   {
-    SharedStuff::KnownUnitEntry::Index unit;
+    SharedStuff::KnownUnitSet::Index unitIndex;
   };
-  struct KnownUnitRemoved
+  struct KnownUnitRemoveEventEntry
   {
-    SharedStuff::KnownUnitEntry::Index unit;
+    SharedStuff::KnownUnitSet::Index unitIndex;
   };
 }

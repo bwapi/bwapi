@@ -2,6 +2,7 @@
 
 #include <Bridge\Constants.h>
 #include <Bridge\PipeMessage.h>
+#include <Bridge\KnownUnitEventEntry.h>
 
 #include <Util\Version.h>
 #include <Util\Strings.h>
@@ -355,12 +356,15 @@ namespace BWAPI
         break;
       }
 
+      // just returned from frame invokation
       // clear frame-to-frame buffers
       sharedStuff.userInput.clear();
+      sharedStuff.knownUnitAddEvents.clear();
+      sharedStuff.knownUnitRemoveEvents.clear();
 
       return true;
     }
-    //------------------------------ ON SEND TEXT ------------------------------------------------
+    //------------------------------ PUSH SEND TEXT ----------------------------------------------
     bool pushSendText(const char *text)
     {
       // check prerequisites
@@ -374,6 +378,49 @@ namespace BWAPI
       int stringLength = ::strlen(text) + 1; // including terminal NULL
       userInputEntry.append(Util::MemoryFrame((char*)text, stringLength));
       sharedStuff.userInput.insert(userInputEntry.getMemory());
+
+      return true;
+    }
+    //------------------------------ ADD KNOWN UNIT ----------------------------------------------
+    bool addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit, Bridge::SharedStuff::KnownUnitSet::Index *out_index)
+    {
+      // check prerequisites
+      if(!stateSharedMemoryInitialized)
+      {
+        lastError = std::string(__FUNCTION__)+ ": shared memory not initialized";
+        return false;
+      }
+
+      // insert new known unit to set
+      Bridge::SharedStuff::KnownUnitSet::Index index;
+      *out_pKnownUnit = &sharedStuff.knownUnits.insertEmpty(&index);
+      if(out_index)
+        *out_index = index;
+
+      // push known unit event
+      Bridge::KnownUnitAddEventEntry entry;
+      entry.unitIndex = index;
+      sharedStuff.knownUnitAddEvents.insert(Util::MemoryFrame::from(entry));
+
+      return true;
+    }
+    //------------------------------ REMOVE KNOWN UNIT -------------------------------------------
+    bool removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index)
+    {
+      // check prerequisites
+      if(!stateSharedMemoryInitialized)
+      {
+        lastError = std::string(__FUNCTION__)+ ": shared memory not initialized";
+        return false;
+      }
+
+      // remove known unit from set
+      sharedStuff.knownUnits.remove(index);
+
+      // push known unit event
+      Bridge::KnownUnitRemoveEventEntry entry;
+      entry.unitIndex = index;
+      sharedStuff.knownUnitRemoveEvents.insert(Util::MemoryFrame::from(entry));
 
       return true;
     }

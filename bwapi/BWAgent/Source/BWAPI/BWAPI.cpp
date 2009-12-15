@@ -6,6 +6,7 @@
 #include <Util\HandleFactory.h>
 
 #include <Bridge\SharedStuff.h>
+#include <Bridge\KnownUnitEventEntry.h>
 
 // singleton base class
 namespace BWAPI
@@ -108,6 +109,7 @@ namespace BWAPI
     pos->x -= BridgeClient::sharedStaticData->screenX;
     pos->y -= BridgeClient::sharedStaticData->screenY;
   }
+  //----------------------------------- -----------------------------------------------------------
   //----------------------------------- ALL UNITS ITERATION ---------------------------------------
   struct AllUnitsHandle
   {
@@ -135,6 +137,78 @@ namespace BWAPI
   BWAPI_FUNCTION void BWAPI_CALL BWAllUnitsClose(HANDLE h)
   {
     allUnitsHandleFactory.release((AllUnitsHandle*)h);
+  }
+  //----------------------------------- -----------------------------------------------------------
+  //----------------------------------- UNIT EVENTS ITERATION -------------------------------------
+  struct UnitAddEventsHandle
+  {
+    Bridge::SharedStuff::KnownUnitAddEventStack::Index index;
+  };
+  Util::HandleFactory<UnitAddEventsHandle> unitAddEventsHandleFactory;
+  //----------------------------------- UNIT EVENTS BEGIN -----------------------------------------
+  BWAPI_FUNCTION HANDLE BWAPI_CALL BWUnitAddEventsBegin()
+  {
+    UnitAddEventsHandle *handle = unitAddEventsHandleFactory.create();
+    handle->index = BridgeClient::sharedStuff.knownUnitAddEvents.begin();
+    return handle;
+  }
+  //----------------------------------- UNIT EVENTS NEXT ------------------------------------------
+  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWUnitAddEventsNext(HANDLE h)
+  {
+    UnitAddEventsHandle &handle = *(UnitAddEventsHandle*)h;
+    if(!handle.index.isValid())
+      return NULL;
+
+    // get stack entry
+    Util::MemoryFrame mem = BridgeClient::sharedStuff.knownUnitAddEvents.get(handle.index);
+
+    // next index, save into handle
+    handle.index = BridgeClient::sharedStuff.knownUnitAddEvents.getNext(handle.index);
+
+    // retrieve the added unit slot reference
+    BWAPI::UnitState &retval = BridgeClient::sharedStuff.knownUnits.get(mem.getAs<Bridge::KnownUnitAddEventEntry>().unitIndex);
+    return &retval;
+  }
+  //----------------------------------- UNIT EVENTS CLOSE -----------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWUnitAddEventsClose(HANDLE h)
+  {
+    unitAddEventsHandleFactory.release((UnitAddEventsHandle*)h);
+  }
+  //----------------------------------- -----------------------------------------------------------
+  //----------------------------------- UNIT EVENTS ITERATION -------------------------------------
+  struct UnitRemoveEventsHandle
+  {
+    Bridge::SharedStuff::KnownUnitRemoveEventStack::Index index;
+  };
+  Util::HandleFactory<UnitRemoveEventsHandle> unitRemoveEventsHandleFactory;
+  //----------------------------------- UNIT EVENTS BEGIN -----------------------------------------
+  BWAPI_FUNCTION HANDLE BWAPI_CALL BWUnitRemoveEventsBegin()
+  {
+    UnitRemoveEventsHandle *handle = unitRemoveEventsHandleFactory.create();
+    handle->index = BridgeClient::sharedStuff.knownUnitRemoveEvents.begin();
+    return handle;
+  }
+  //----------------------------------- UNIT EVENTS NEXT ------------------------------------------
+  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h)
+  {
+    UnitRemoveEventsHandle &handle = *(UnitRemoveEventsHandle*)h;
+    if(!handle.index.isValid())
+      return NULL;
+
+    // get stack entry
+    Util::MemoryFrame mem = BridgeClient::sharedStuff.knownUnitRemoveEvents.get(handle.index);
+
+    // next index, save into handle
+    handle.index = BridgeClient::sharedStuff.knownUnitRemoveEvents.getNext(handle.index);
+
+    // retrieve the removed unit slot reference
+    BWAPI::UnitState &retval = BridgeClient::sharedStuff.knownUnits.get(mem.getAs<Bridge::KnownUnitRemoveEventEntry>().unitIndex);
+    return &retval;
+  }
+  //----------------------------------- UNIT EVENTS CLOSE -----------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWUnitRemoveEventsClose(HANDLE h)
+  {
+    unitRemoveEventsHandleFactory.release((UnitRemoveEventsHandle*)h);
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------
   BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError()
