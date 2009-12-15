@@ -31,7 +31,11 @@ namespace BWAPI
     extern bool updateRemoteSharedMemory();
     extern bool invokeOnFrame();
     extern bool invokeOnStartMatch(bool fromBeginning);
+
     extern bool pushSendText(const char *text);
+    extern bool addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit, Bridge::SharedStuff::KnownUnitSet::Index *out_index);
+    extern bool removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index);
+
     extern bool isAgentConnected();               // true when pipe connection works
     extern bool isBridgeInitialized();            // true once initBridge called
     extern bool isSharedMemoryInitialized();      // true once memory allocated

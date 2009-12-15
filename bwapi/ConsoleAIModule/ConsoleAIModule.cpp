@@ -44,11 +44,35 @@ void BWAPI_CALL onMatchFrame()
     count++;
   }
   BWAllUnitsClose(h);
-
   sprintf(buffer, "unit count: %d", count);
   BWDrawText(10, 10, buffer);
-  sprintf(buffer, "handle: %d", (int)h);
-  BWDrawText(10, 18, buffer);
+
+  count = 0;
+  h = BWUnitAddEventsBegin();
+  for(;;)
+  {
+    unit = BWUnitAddEventsNext(h);
+    if(!unit)
+      break;
+    count++;
+  }
+  BWUnitAddEventsClose(h);
+  if(count)
+    printf("%d units added\n", count);
+
+  count = 0;
+  h = BWUnitRemoveEventsBegin();
+  for(;;)
+  {
+    unit = BWUnitRemoveEventsNext(h);
+    if(!unit)
+      break;
+    count++;
+  }
+  BWUnitRemoveEventsClose(h);
+  if(count)
+    printf("%d units removed\n", count);
+
 }
 
 int _tmain(int argc, _TCHAR* argv[])
