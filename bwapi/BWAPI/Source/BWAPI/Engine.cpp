@@ -1588,7 +1588,6 @@ namespace BWAPI
     bool gluMessageBox(char* message, int type)
     {
       bool rval = false;
-      int temp;
       switch(type)
       {
       case MB_OKCANCEL:
