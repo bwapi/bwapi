@@ -230,7 +230,7 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
-  static u32            BWFXN_DrawBox                             = 0x004E1D20;
+  static int (__stdcall* BWFXN_DrawMinimapBox)(s16 x, s16 y, u16 w, u16 h) = (int(__stdcall*)(s16,s16,u16,u16))0x004E1D20;
   static u32            BWFXN_PrintXY                             = 0x004200D0;
   static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
   static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
@@ -460,7 +460,6 @@ namespace BW
   //-------------------------------------------- UNIT BUILD TIME ---------------------------------------------
   static unitsDat_u16_type* BWDATA_BuildTime = (unitsDat_u16_type*) unitsDat[42].address;
 
-
   //---------------------------------------------- GROUP FLAGS -----------------------------------------------
   struct PrototypeGroupFlags_type
   {
@@ -479,7 +478,6 @@ namespace BW
   static unitsDat_u16_type* BWDATA_BuildScore = (unitsDat_u16_type*) unitsDat[49].address;
   //------------------------------------------- UNIT DESTROY SCORE -------------------------------------------
   static unitsDat_u16_type* BWDATA_DestroyScore = (unitsDat_u16_type*) unitsDat[50].address;
-
 
   //--------------------------------------------- BROODWAR ONLY ----------------------------------------------
   static unitsDat_u16_type* BWDATA_BroodwarOnly = (unitsDat_u16_type*) unitsDat[52].address;
@@ -575,7 +573,6 @@ namespace BW
   static weaponsDat_u8_type* BWDATA_WeaponXOffset = (weaponsDat_u8_type*) weaponsDat[20].address;
   //-------------------------------------------- WEAPON Y OFFSET ---------------------------------------------
   static weaponsDat_u8_type* BWDATA_WeaponYOffset = (weaponsDat_u8_type*) weaponsDat[21].address;
-
 
 
   //------------------------------------------- TECH MINERAL COST --------------------------------------------

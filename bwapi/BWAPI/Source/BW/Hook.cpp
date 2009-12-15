@@ -130,6 +130,7 @@ namespace BW
     text[0] = 0;
     __asm jmp [BW::BWFXN_SendPublicCallBack]
   }
+
   void __declspec(naked) SendSingleHook()
   {
     static char* text;
@@ -145,6 +146,7 @@ namespace BW
 
     __asm jmp BWFXN_SendTextCallBack
   }
+
   void __declspec(naked) SendLobbyHook()
   {
     static char* text;
@@ -161,12 +163,11 @@ namespace BW
       mov registers.ebp, ebp
       mov text, edi
     }
+
+    /* This is supposed to have a call to onSendText */
     __asm
     {
       call [BW::BWFXN_SendLobbyCallTarget]
-    }
-    __asm
-    {
       mov eax, registers.eax
       mov ebx, registers.ebx
       mov ecx, registers.ecx
@@ -243,8 +244,6 @@ namespace BW
       jmp [BW::BWFXN_DrawHighBack]
     }
   }
-
-
 
   //-------------------------------------------- ISSUE NEW COMMAND ---------------------------------------------
   void __declspec(naked) IssueNewCommand()
@@ -355,14 +354,14 @@ namespace BW
   //----------------------------------- DRAW FUNCTIONS -------------------------------------
   void drawBox(int _x, int _y, int _w, int _h, int color)
   {
-    static int x;
-    static int y;
-    static int w;
-    static int h;
-    x = _x;
-    y = _y;
-    w = _w;
-    h = _h;
+    static s16 x;
+    static s16 y;
+    static u16 w;
+    static u16 h;
+    x = (s16)_x;
+    y = (s16)_y;
+    w = (u16)_w;
+    h = (u16)_h;
     if (x + w <= 0 || y + h <= 0 || x >= 639 || y >= 479)
       return;
     if (x + w > 639) w = 639 - x;
@@ -371,19 +370,15 @@ namespace BW
     if (y < 0) {h += y; y = 0;}
 
     *BW::BWDATA_DrawColor = (u8)color;
-
+/*
     __asm
     {
       mov eax, drawRegisters.eax
       mov ebx, drawRegisters.ebx
       mov ecx, drawRegisters.ecx
       mov edx, drawRegisters.edx
-      push h
-      push w
-      push y
-      push x
-      call [BW::BWFXN_DrawBox]
-    }
+    }*/
+    BW::BWFXN_DrawMinimapBox(x, y, w, h);
   }
 
   void drawText(int _x, int _y, const char* ptext)
