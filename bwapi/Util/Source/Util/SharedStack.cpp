@@ -16,13 +16,11 @@ namespace Util
     this->ownedBlocks.clear();
   }
   //----------------------- ALLOCATE -----------------------------------
-  bool SharedStack::init(int blockSize, bool exportReadOnly)
+  void SharedStack::init(int blockSize, bool exportReadOnly)
   {
     this->nextNewBlockSize = blockSize;
     this->exportReadOnly = exportReadOnly;
-    if(!this->_createNewPageBlock())
-      return false;
-    return true;
+    this->_createNewPageBlock();
   }
   //----------------------- INSERT BYTES -------------------------------
   SharedStack::Index SharedStack::insertBytes(int byteCount)
@@ -47,13 +45,10 @@ namespace Util
     {
       // maybe storee is just too fat!
       if(byteCount + sizeof(EntryHead)*2 > (unsigned)this->nextNewBlockSize)
-      {
-        return Index::invalid;
-      }
+        throw GeneralException(__FUNCTION__ ": pushed memory is too huge");
 
       // create new block
-      if(!this->_createNewPageBlock())
-        return Index::invalid;
+      this->_createNewPageBlock();
 
       // return this newly created, last, block
       b = this->ownedBlocks.size()-1;
@@ -146,17 +141,15 @@ namespace Util
     return true;
   }
   //----------------------- IMPORT NEXT ------------------------------
-  bool SharedStack::importNextUpdate(const Export &in)
+  void SharedStack::importNextUpdate(const Export &in)
   {
     // import the new SharedMemory
     Block block;
     block.memory = new SharedMemory();
-    if(!block.memory->import(in))
-      return false;
+    block.memory->import(in);
+
     block.size = block.memory->getMemory().size();
     this->ownedBlocks.push_back(block);
-
-    return true;
   }
   //----------------------- BEGIN --------------------------------------
   SharedStack::Index SharedStack::begin() const
@@ -216,24 +209,19 @@ namespace Util
   }
   //----------------------- --------------------------------------------
   //----------------------- CREATE NEW PAGE BLOCK ----------------------
-  bool SharedStack::_createNewPageBlock()
+  void SharedStack::_createNewPageBlock()
   {
     // create new Block with SharedMemory in it
     Block newBlock;
     newBlock.size = this->nextNewBlockSize;
     newBlock.head = 0;
     newBlock.memory = new SharedMemory();
-    if(!newBlock.memory->create(this->nextNewBlockSize))
-    {
-      return false;
-    }
+    newBlock.memory->create(this->nextNewBlockSize);
     this->ownedBlocks.push_back(newBlock);
 
     // next block gets created bigger
     // self-compensating approach during memory drainage
     this->nextNewBlockSize = (int)(this->nextNewBlockSize * 1.75);
-
-    return true;
   }
   //----------------------- --------------------------------------------
   //----------------------- INDEX IS VALID -----------------------------

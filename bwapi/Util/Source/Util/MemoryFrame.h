@@ -54,12 +54,22 @@ namespace Util
     template<typename T>
       T& readAs()
       {
+        if(!this->isFitFor<T>())
+          throw GeneralException(__FUNCTION__ ": memory too small");
         T& retval = getAs<T>();
         skip<T>();
         return retval;
       }
     template<typename T>
-      bool readTo(T &destination)
+      void readTo(T &destination)
+      {
+        if(!this->tryReadTo(destination))
+        {
+          throw GeneralException(__FUNCTION__ ": memory too small");
+        }
+      }
+    template<typename T>
+      bool tryReadTo(T &destination) throw()
       {
         if(!this->isFitFor<T>())
           return false;

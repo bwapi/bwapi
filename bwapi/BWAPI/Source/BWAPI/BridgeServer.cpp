@@ -6,6 +6,7 @@
 
 #include <Util\Version.h>
 #include <Util\Strings.h>
+#include <Util\TypedPacketSwitch.h>
 
 namespace BWAPI
 {
@@ -37,92 +38,68 @@ namespace BWAPI
     bool initConnectionServer()
     {
       resetError();
-      if(!sharedStuff.pipe.create(Bridge::globalPipeName))
-      {
-        lastError = "Could not create pipe server";
-        stateIsInitialized = false;
-        return false;
-      }
+      sharedStuff.pipe.create(Bridge::globalPipeName);
       stateIsInitialized = true;
       return true;
     }
     //-------------------------- CHECK INCOMING CONNECTIONS -------------------------------------
-    bool acceptIncomingConnections()
+    void acceptIncomingConnections()
     {
+      resetError();
+      if(stateConnectionEstablished)
+        return;
+
       // check for incoming pipe connections
-      if(!stateConnectionEstablished && sharedStuff.pipe.pollIncomingConnection())
+      if(!sharedStuff.pipe.pollIncomingConnection())
+        return;
+
+      // receive handshake
+      Bridge::PipeMessage::AgentHandshake handshake;
       {
-        // receive handshake
-        Bridge::PipeMessage::AgentHandshake handshake;
-        {
-          Util::Buffer data;
-          if(!sharedStuff.pipe.receive(data))
-          {
-            lastError = "Could not receive pipe";
-            return false;
-          }
-          if(!data.getMemory().readTo(handshake))
-          {
-            lastError = "Packet corrupt";
-            return false;
-          }
-        }
-
-        // audit agent
-        bool accept = true;
-        if(handshake.agentVersion != SVN_REV)
-        {
-          accept = false;
-          lastError = "Wrong agent version, rejected";
-        }
-        if(!sharedStuff.remoteProcess.acquire(handshake.agentProcessId, true))
-        {
-          accept = false;
-          lastError = "Could not open agent's process, rejected";
-        }
-
-        // send back response
-        Bridge::PipeMessage::ServerHandshake handshake2;
-        handshake2.accepted = accept;
-        handshake2.serverProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
-        handshake2.serverVersion = SVN_REV;
-        if(!sharedStuff.pipe.sendRawStructure(handshake2))
-        {
-          lastError = "Could not send pipe";
-          return false;
-        }
-
-        // agent screw'd it, beat it
-        if(!accept)
-        {
-          return false;
-        }
-
-        // wait for response acknoledgement
-        Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
-        {
-          Util::Buffer data;
-          if(!sharedStuff.pipe.receive(data))
-          {
-            lastError = "Could not receive pipe";
-            return false;
-          }
-          if(!data.getMemory().readTo(ack))
-          {
-            lastError = "Packet corrupt";
-            return false;
-          }
-        }
-        if(!ack.accepted)
-        {
-          lastError = "Agent has rejected response (could not open process handle?)";
-          return false;
-        }
-
-        stateConnectionEstablished = true;
-        return true;
+        Util::Buffer data;
+        sharedStuff.pipe.receive(data);
+        data.getMemory().readTo(handshake);
       }
-      return true;
+
+      // audit agent
+      bool accept = true;
+      if(handshake.agentVersion != SVN_REV)
+      {
+        accept = false;
+        lastError = "Wrong agent version, rejected";
+      }
+      if(!sharedStuff.remoteProcess.acquire(handshake.agentProcessId, true))
+      {
+        accept = false;
+        lastError = "Could not open agent's process, rejected";
+      }
+
+      // send back response
+      Bridge::PipeMessage::ServerHandshake handshake2;
+      handshake2.accepted = accept;
+      handshake2.serverProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
+      handshake2.serverVersion = SVN_REV;
+      sharedStuff.pipe.sendRawStructure(handshake2);
+
+      // agent screw'd it, beat it
+      if(!accept)
+      {
+        throw GeneralException(lastError);
+      }
+
+      // wait for response acknoledgement
+      Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
+      {
+        Util::Buffer data;
+        sharedStuff.pipe.receive(data);
+        data.getMemory().readTo(ack);
+      }
+      if(!ack.accepted)
+      {
+        throw GeneralException("Agent has rejected response (could not open process handle?)");
+      }
+
+      stateConnectionEstablished = true;
     }
     //-------------------------- DISCONNECT -----------------------------------------------------
     void disconnect()
@@ -147,34 +124,14 @@ namespace BWAPI
       stateSharedMemoryInitialized = false;
 
       // create and publish static data
-      if(!sharedStuff.staticData.create())
-      {
-        lastError = std::string(__FUNCTION__)+ ": staticData creating failed";
-        return false;
-      }
+      sharedStuff.staticData.create();
       sharedStaticData = &sharedStuff.staticData.get();
 
       // init dynamic objects
-      if(!sharedStuff.userInput.init(1000, true))
-      {
-        lastError = std::string(__FUNCTION__)+ ": userInput creation failed";
-        return false;
-      }
-      if(!sharedStuff.knownUnits.init(100, true))
-      {
-        lastError = std::string(__FUNCTION__)+ ": knownUnits creation failed";
-        return false;
-      }
-      if(!sharedStuff.knownUnitAddEvents.init(1000, true))
-      {
-        lastError = std::string(__FUNCTION__)+ ": knownUnitAddEvents creation failed";
-        return false;
-      }
-      if(!sharedStuff.knownUnitRemoveEvents.init(1000, true))
-      {
-        lastError = std::string(__FUNCTION__)+ ": knownUnitRemoveEvents creation failed";
-        return false;
-      }
+      sharedStuff.userInput.init(1000, true);
+      sharedStuff.knownUnits.init(100, true);
+      sharedStuff.knownUnitAddEvents.init(1000, true);
+      sharedStuff.knownUnitRemoveEvents.init(1000, true);
 
       stateSharedMemoryInitialized = true;
       return true;
@@ -187,13 +144,12 @@ namespace BWAPI
       return true;
     }
     //-------------------------- INVOKE ON START MATCH ------------------------------------------
-    bool invokeOnStartMatch(bool fromBeginning)
+    void invokeOnStartMatch(bool fromBeginning)
     {
       // check prerequisites
       if(!stateConnectionEstablished)
       {
-        lastError = std::string(__FUNCTION__)+ ": connection not established";
-        return false;
+        throw GeneralException(__FUNCTION__ ": connection not established");
       }
       resetError();
 
@@ -205,58 +161,68 @@ namespace BWAPI
         startMatchEvent.fromBeginning = fromBeginning;
 
         startMatchEvent.staticGameDataExport = sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
-        if(!startMatchEvent.staticGameDataExport.isValid())
-        {
-          lastError = std::string(__FUNCTION__)+ ": staticData export failed";
-          return false;
-        }
 
         // pushlish the shared memory location
-        if(!sharedStuff.pipe.sendRawStructure(startMatchEvent))
-        {
-          lastError = std::string(__FUNCTION__)+ ": error sending packet";
-          return false;
-        }
+        sharedStuff.pipe.sendRawStructure(startMatchEvent);
       }
 
       // wait untill event is done
       Util::Buffer buffer;
-      if(!sharedStuff.pipe.receive(buffer))
-      {
-        lastError = std::string(__FUNCTION__)+ ": error receiving completion event";
-        return false;
-      }
+      sharedStuff.pipe.receive(buffer);
 
       // audit completion
       Util::MemoryFrame packet = buffer.getMemory();
       int packetType = packet.getAs<int>();
       if(packetType != Bridge::PipeMessage::AgentMatchInitDone::_typeId)
       {
-        lastError = std::string(__FUNCTION__)+ ": received unexpected packet type " + Util::Strings::intToString(packetType);
-        return false;
+        throw GeneralException(Util::Strings::ssprintf(__FUNCTION__ ": received unexpected packet type '%d'", packetType));
       }
 
       Bridge::PipeMessage::AgentMatchInitDone initMatchDone;
-      if(!packet.readTo(initMatchDone))
-      {
-        lastError = std::string(__FUNCTION__)+ ": received packet too small";
-        return false;
-      }
+      packet.readTo(initMatchDone);
 
       initMatchDone;  // yet no data to read
 
       stateSharedMemoryInitialized = true;
+    }
+    //-------------------------- UPDATE PACKET HANDLERS -----------------------------------------
+    bool handleUpdateCommands(Bridge::PipeMessage::AgentUpdateCommands& packet)
+    {
+      sharedStuff.commands.importNextUpdate(packet.exp);
       return true;
     }
-    //-------------------------- INVOKE ON FRAME ------------------------------------------------
-    bool invokeOnFrame()
+    bool handleUpdateSendText(Bridge::PipeMessage::AgentUpdateSendText& packet)
     {
+      sharedStuff.sendText.importNextUpdate(packet.exp);
+      return true;
+    }
+    bool handleUpdateDrawShapes(Bridge::PipeMessage::AgentUpdateDrawShapes& packet)
+    {
+      sharedStuff.drawShapes.importNextUpdate(packet.exp);
+      return true;
+    }
+    //-------------------------- NEXT FRAME COMPLETION PACKET HANDLER ---------------------------
+    bool handleFrameNextDone(Bridge::PipeMessage::AgentFrameNextDone& packet)
+    {
+      return false;
+    }
+    //-------------------------- INVOKE ON FRAME ------------------------------------------------
+    void invokeOnFrame()
+    {
+      // packet handlers have bool (wait for next packet) as return type
+      static Util::TypedPacketSwitch<bool> packetSwitch;
+      if(!packetSwitch.getHandlerCount())
+      {
+        // init packet switch
+        packetSwitch.addHandler(handleUpdateCommands);
+        packetSwitch.addHandler(handleUpdateSendText);
+        packetSwitch.addHandler(handleUpdateDrawShapes);
+        packetSwitch.addHandler(handleFrameNextDone);
+      }
+
       // check prerequisites
       if(!stateConnectionEstablished)
-      {
-        lastError = std::string(__FUNCTION__)+ ": no connection established";
-        return false;
-      }
+        throw GeneralException(__FUNCTION__ ": no connection");
 
       // send next frame invocation packet
       Bridge::PipeMessage::ServerFrameNext nextFrame;
@@ -264,96 +230,15 @@ namespace BWAPI
       sharedStuff.pipe.sendRawStructure(nextFrame);
 
       // wait untill completion packet received
-      for(;;)
+      bool waitForNextPacket = true;
+      while(waitForNextPacket)
       {
         // receive completion notification
         Util::Buffer buffer;
-        if(!sharedStuff.pipe.receive(buffer))
-        {
-          lastError = std::string(__FUNCTION__)+ ": receive completion packet failed";
-          return false;
-        }
+        sharedStuff.pipe.receive(buffer);
 
         // get packet type
-        Util::MemoryFrame bufferFrame = buffer.getMemory();
-        int packetType = bufferFrame.getAs<int>();
-
-        // it way be commands update export packet
-        if(packetType == Bridge::PipeMessage::AgentUpdateCommands::_typeId)
-        {
-          Bridge::PipeMessage::AgentUpdateCommands packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small AgentUpdateCommands packet.";
-            return false;
-          }
-          if(!sharedStuff.commands.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import commands update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // it way be sendText update export packet
-        if(packetType == Bridge::PipeMessage::AgentUpdateSendText::_typeId)
-        {
-          Bridge::PipeMessage::AgentUpdateSendText packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small AgentUpdateSendText packet.";
-            return false;
-          }
-          if(!sharedStuff.sendText.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import sendText update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // it way be drawShapes update export packet
-        if(packetType == Bridge::PipeMessage::AgentUpdateDrawShapes::_typeId)
-        {
-          Bridge::PipeMessage::AgentUpdateDrawShapes packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small AgentUpdateDrawShapes packet.";
-            return false;
-          }
-          if(!sharedStuff.drawShapes.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import drawShapes update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // if it's not the completion packet
-        if(packetType != Bridge::PipeMessage::AgentFrameNextDone::_typeId)
-        {
-          lastError = std::string(__FUNCTION__)+ ": unexpected packet type " + Util::Strings::intToString(packetType);
-          return false;
-        }
-
-        // try parse as completion packet
-        Bridge::PipeMessage::AgentFrameNextDone completion;
-        if(!bufferFrame.readTo(completion))
-        {
-          lastError = std::string(__FUNCTION__)+ ": completion packet too small";
-          return false;
-        }
-
-        completion; // yet no data here
-
-        // sucessfully invoked
-        break;
+        waitForNextPacket = packetSwitch.handlePacket(buffer.getMemory());
       }
 
       // just returned from frame invokation
@@ -361,8 +246,6 @@ namespace BWAPI
       sharedStuff.userInput.clear();
       sharedStuff.knownUnitAddEvents.clear();
       sharedStuff.knownUnitRemoveEvents.clear();
-
-      return true;
     }
     //------------------------------ PUSH SEND TEXT ----------------------------------------------
     bool pushSendText(const char *text)

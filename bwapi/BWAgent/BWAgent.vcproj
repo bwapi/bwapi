@@ -306,6 +306,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\TypedPacketSwitch.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\Version.h"
 				>
 			</File>

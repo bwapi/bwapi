@@ -44,31 +44,39 @@ namespace BWAPI
     BWSendTextCallback onSendText)
   {
     resetError();
-    while(true)
+    try
     {
-      if(!BridgeClient::waitForEvent())
+      while(true)
       {
-        lastError = __FUNCTION__ ": " + BridgeClient::getLastError();
-        return false;
-      }
+        if(!BridgeClient::waitForEvent())
+        {
+          lastError = __FUNCTION__ ": " + BridgeClient::getLastError();
+          return false;
+        }
 
-      // react upon bridge state
-      BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
-      switch(rpcState)
-      {
-      case BridgeClient::OnInitMatch:
+        // react upon bridge state
+        BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
+        switch(rpcState)
         {
-          if(onMatchStart)onMatchStart(BridgeClient::isMatchStartFromBeginning);
-        }break;
-      case BridgeClient::OnFrame:
-        {
-          for each(const std::string &input in BridgeClient::getUserInputStrings())
+        case BridgeClient::OnInitMatch:
           {
-            if(onSendText)onSendText(input.c_str());
-          }
-          onMatchFrame();
-        }break;
+            if(onMatchStart)onMatchStart(BridgeClient::isMatchStartFromBeginning);
+          }break;
+        case BridgeClient::OnFrame:
+          {
+            for each(const std::string &input in BridgeClient::getUserInputStrings())
+            {
+              if(onSendText)onSendText(input.c_str());
+            }
+            onMatchFrame();
+          }break;
+        }
       }
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return false;
     }
     return true;
   }

@@ -48,14 +48,14 @@ namespace Util
     {
     }
     //----------------------- CREATE ----------------------------------------------------
-    bool create()
+    void create()
     {
-      return smem.create(sizeof(T));
+      smem.create(sizeof(T));
     }
     //----------------------- IMPORT ----------------------------------------------------
-    bool import(Export source)
+    void import(Export source)
     {
-      return smem.import(source.smemExport);
+      smem.import(source.smemExport);
     }
     //----------------------- RELEASE ---------------------------------------------------
     void release()

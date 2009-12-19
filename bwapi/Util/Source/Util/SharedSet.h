@@ -113,13 +113,9 @@ namespace Util
       newBlock.count = 1;
       newBlock.head = 1;
       newBlock.memory = new SharedMemory();
-      if(!newBlock.memory->create(this->nextNewBlockSize * sizeof(Entry)))
-      {
-        // TODO: throw
-        __debugbreak();
-        //return Index::Invalid;
-      }
+      newBlock.memory->create(this->nextNewBlockSize * sizeof(Entry));
       this->ownedBlocks.push_back(newBlock);
+
       this->nextNewBlockSize = (int)(this->nextNewBlockSize * 1.5);
 
       // clean the new entries
@@ -163,7 +159,7 @@ namespace Util
       }
     }
     //----------------------- IS VALID INDEX ---------------------------
-    bool isIndexValid(const Index &index)
+    bool isIndexInRange(const Index &index)
     {
       if(index.blockIndex < 0 || index.blockIndex >= (int)this->ownedBlocks.size())
         return false;
@@ -224,17 +220,16 @@ namespace Util
       return true;
     }
     //----------------------- IMPORT NEXT ------------------------------
-    bool importNextUpdate(const Export &in)
+    void importNextUpdate(const Export &in)
     {
       // import the new SharedMemory
       Block block;
       block.memory = new SharedMemory();
-      if(!block.memory->import(in))
-        return false;
+      block.memory->import(in);
       block.size = block.memory->getMemory().size() / sizeof(Entry);
       this->ownedBlocks.push_back(block);
 
-      return true;
+      return;
     }
     //----------------------- BEGIN ------------------------------------
     Index begin()
@@ -242,7 +237,7 @@ namespace Util
       if(ownedBlocks.size() <= 0)
         return Index::Invalid;
       Index retval = {0, 0};
-      if(isIndexValid(retval))
+      if(isIndexInRange(retval))
         return retval;
       return getNext(retval);
     }

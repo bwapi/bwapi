@@ -23,14 +23,14 @@ namespace BWAPI
     extern BWAPI::StaticGameData* sharedStaticData;
 
     extern bool initConnectionServer();
-    extern bool acceptIncomingConnections();
+    extern void acceptIncomingConnections();
     extern void disconnect();
     extern bool createSharedMemory();
     extern bool exportSharedMemory();
     extern bool releaseSharedMemory();
     extern bool updateRemoteSharedMemory();
-    extern bool invokeOnFrame();
-    extern bool invokeOnStartMatch(bool fromBeginning);
+    extern void invokeOnFrame();
+    extern void invokeOnStartMatch(bool fromBeginning);
 
     extern bool pushSendText(const char *text);
     extern bool addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit, Bridge::SharedStuff::KnownUnitSet::Index *out_index);

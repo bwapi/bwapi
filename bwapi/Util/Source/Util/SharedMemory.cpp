@@ -16,7 +16,7 @@ namespace Util
   }
 
   //----------------------- CREATE -------------------------------------
-  bool SharedMemory::create(int size)
+  void SharedMemory::create(int size)
   {
     this->mappingObjectHandle = ::CreateFileMapping(
       INVALID_HANDLE_VALUE,   // use page file for bakup
@@ -26,9 +26,7 @@ namespace Util
       size,                   // Lo size
       NULL);                  // Unnamed
     if(this->mappingObjectHandle == NULL)
-    {
-      return false;
-    }
+      throw GeneralException(__FUNCTION__ ": fail create file mapping");
 
     this->bufferBase = ::MapViewOfFile(
       this->mappingObjectHandle,
@@ -39,15 +37,13 @@ namespace Util
     if(this->bufferBase == NULL)
     {
       CloseHandle(this->mappingObjectHandle);
-      return false;
+      throw GeneralException(__FUNCTION__ ": fail create view");
     }
 
     this->bufferSize = size;
-
-    return true;
   }
   //----------------------- IMPORT -------------------------------------
-  bool SharedMemory::import(Export source)
+  void SharedMemory::import(Export source)
   {
     this->bufferBase = ::MapViewOfFile(
       source.targetProcessMappingObjectHandle,
@@ -56,13 +52,9 @@ namespace Util
       0,                      // Lo offset
       source.bufferSize);     // size
     if(this->bufferBase == NULL)
-    {
-      return false;
-    }
+      throw GeneralException(__FUNCTION__ ": failed MapViewOfFile");
 
     this->bufferSize = source.bufferSize;
-
-    return true;
   }
   //----------------------- BOUNDARY -----------------------------------
   MemoryFrame SharedMemory::getMemory() const
@@ -84,7 +76,7 @@ namespace Util
       readOnly ? PAGE_READONLY : DUPLICATE_SAME_ACCESS);
     if(!success)
     {
-      return Export();
+      throw GeneralException(__FUNCTION__ ": failed export SharedMemory");
     }
     Export exportObject;
     exportObject.bufferSize = this->bufferSize;

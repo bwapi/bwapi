@@ -36,14 +36,14 @@ namespace Util
     SharedStack();
     ~SharedStack();
     //----------------------- METHODS ----------------------------------
-    bool init(int blockSize, bool exportReadOnly);
+    void init(int blockSize, bool exportReadOnly);
     Index insert(const Util::MemoryFrame &storee);
     Index insertBytes(int byteCount);
     void clear();
     void release();   // forces to release all memory blocks. Not exportable
     bool isUpdateExportNeeded() const;
     bool exportNextUpdate(Export &out, RemoteProcess &targetProcess);
-    bool importNextUpdate(const Export &in);
+    void importNextUpdate(const Export &in);
     //----------------------- ITERATION --------------------------------
     Index begin() const;
     Index getNext(Index index) const;
@@ -73,6 +73,6 @@ namespace Util
     std::vector<Block> ownedBlocks;
 
     // helpers
-    bool _createNewPageBlock();
+    void _createNewPageBlock();
   };
 }

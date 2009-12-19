@@ -88,7 +88,7 @@ int _tmain(int argc, _TCHAR* argv[])
   printf("connected\n");
   if(!BWTakeover(onMatchFrame, onMatchStart, onUnitAdd, onUnitRemove, onSendText))
   {
-    printf(BWGetLastError());
+    printf("%s\n", BWGetLastError());
   }
   system("pause");
   return 0;
