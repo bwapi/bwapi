@@ -9,6 +9,7 @@
 #include <Util\Pipe.h>
 #include <Util\SharedMemory.h>
 #include <Util\SharedSet.h>
+#include <Util\TypedPacketSwitch.h>
 
 namespace BWAPI
 {
@@ -59,27 +60,16 @@ namespace BWAPI
         Bridge::PipeMessage::AgentHandshake handshake;
         handshake.agentVersion = SVN_REV;
         handshake.agentProcessId = ::GetCurrentProcessId();
-        if(!sharedStuff.pipe.sendRawStructure(handshake))
-        {
-          lastError = __FUNCTION__ ": Could not send per pipe";
-          return false;
-        }
+        sharedStuff.pipe.sendRawStructure(handshake);
       }
 
       // receive handshake
       {
         Util::Buffer data;
-        if(!sharedStuff.pipe.receive(data))
-        {
-          lastError = __FUNCTION__ ": Could not read pipe";
-          return false;
-        }
+        sharedStuff.pipe.receive(data);
+
         Bridge::PipeMessage::ServerHandshake handshake;
-        if(!data.getMemory().readTo(handshake))
-        {
-          lastError = __FUNCTION__ ": Handshake failure";
-          return false;
-        }
+        data.getMemory().readTo(handshake);
         if(!handshake.accepted)
         {
           if(handshake.serverVersion != SVN_REV)
@@ -104,11 +94,7 @@ namespace BWAPI
       {
         Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
         ack.accepted = true;
-        if(!sharedStuff.pipe.sendRawStructure(ack))
-        {
-          lastError = __FUNCTION__ ": Sending AgentHandshakeAcknoledge failed";
-          return false;
-        }
+        sharedStuff.pipe.sendRawStructure(ack);
       }
 
       // connected
@@ -149,11 +135,7 @@ namespace BWAPI
         }
 
         // send update export
-        if(!sharedStuff.pipe.sendRawStructure(packet))
-        {
-          lastError = __FUNCTION__ ": sending commands update export packet failed";
-          return false;
-        }
+        sharedStuff.pipe.sendRawStructure(packet);
       }
 
       // export sendText updates
@@ -168,11 +150,7 @@ namespace BWAPI
         }
 
         // send update export
-        if(!sharedStuff.pipe.sendRawStructure(packet))
-        {
-          lastError = __FUNCTION__ ": sending sendText update export packet failed";
-          return false;
-        }
+        sharedStuff.pipe.sendRawStructure(packet);
       }
 
       // export drawShapes updates
@@ -187,27 +165,96 @@ namespace BWAPI
         }
 
         // send update export
-        if(!sharedStuff.pipe.sendRawStructure(packet))
-        {
-          lastError = __FUNCTION__ ": sending drawShapes update export packet failed";
-          return false;
-        }
+        sharedStuff.pipe.sendRawStructure(packet);
       }
 
       return true;
     }
+    //----------------------------------------- UPDATE PACKET HANDLERS ------------------------------------------
+    bool handleUpdateUserInput(Bridge::PipeMessage::ServerUpdateUserInput& packet)
+    {
+      sharedStuff.userInput.importNextUpdate(packet.exp);
+      return true;
+    }
+    bool handleUpdateKnownUnits(Bridge::PipeMessage::ServerUpdateKnownUnits& packet)
+    {
+      sharedStuff.knownUnits.importNextUpdate(packet.exp);
+      return true;
+    }
+    bool handleUpdateKnownUnitAddEvents(Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents& packet)
+    {
+      sharedStuff.knownUnitAddEvents.importNextUpdate(packet.exp);
+      return true;
+    }
+    bool handleUpdateKnownUnitRemoveEvents(Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents& packet)
+    {
+      sharedStuff.knownUnitRemoveEvents.importNextUpdate(packet.exp);
+      return true;
+    }
+    //----------------------------------------- MATCH INIT PACKET HANDLER ---------------------------------------
+    bool handleMatchInit(Bridge::PipeMessage::ServerMatchInit& packet)
+    {
+      // save options
+      isMatchStartFromBeginning = packet.fromBeginning;
+
+      // release everything, just to be sure
+      sharedStuff.staticData.release();
+      sharedStuff.commands.release();
+      sharedStuff.userInput.release();
+      sharedStuff.knownUnits.release();
+      sharedStuff.knownUnitAddEvents.release();
+      sharedStuff.knownUnitRemoveEvents.release();
+
+      // first import static data. It's all combined into staticData
+      sharedStuff.staticData.import(packet.staticGameDataExport);
+      sharedStaticData = &sharedStuff.staticData.get();
+
+      // init agent-side dynamic memory
+      sharedStuff.commands.init(1000, true);
+      sharedStuff.sendText.init(2000, true);
+      sharedStuff.drawShapes.init(3000, true);
+
+      rpcState = OnInitMatch;
+
+      // do not wait for next packet
+      return false;
+    }
+    //----------------------------------------- NEXT FRAME PACKET HANDLER ---------------------------------------
+    bool handleFrameNext(Bridge::PipeMessage::ServerFrameNext& packet)
+    {
+      // clear all frame-by-frame buffers
+      sharedStuff.sendText.clear();
+      sharedStuff.drawShapes.clear();
+
+      rpcState = OnFrame;
+
+      // do not wait for next packet
+      return false;
+    }
     //----------------------------------------- WAIT FOR EVENT --------------------------------------------------
     bool waitForEvent()
     {
+      // packet handlers have bool (wait for next packet) as return type
+      static Util::TypedPacketSwitch<bool> packetSwitch;
+      if(!packetSwitch.getHandlerCount())
+      {
+        // init packet switch
+        packetSwitch.addHandler(handleUpdateUserInput);
+        packetSwitch.addHandler(handleUpdateKnownUnits);
+        packetSwitch.addHandler(handleUpdateKnownUnitAddEvents);
+        packetSwitch.addHandler(handleUpdateKnownUnitRemoveEvents);
+        packetSwitch.addHandler(handleMatchInit);
+        packetSwitch.addHandler(handleFrameNext);
+      }
+
+      // error handling
       resetError();
 
       // send readyness packet
-      bool success = false;
       switch(rpcState)
       {
       case Intermediate:
         {
-          success = true;
         }break;
       case OnFrame:
         {
@@ -217,182 +264,26 @@ namespace BWAPI
 
           // return RPC
           Bridge::PipeMessage::AgentFrameNextDone done;
-          success = sharedStuff.pipe.sendRawStructure(done);
+          sharedStuff.pipe.sendRawStructure(done);
         }break;
       case OnInitMatch:
         {
           // return RPC
           Bridge::PipeMessage::AgentMatchInitDone done;
-          success = sharedStuff.pipe.sendRawStructure(done);
+          sharedStuff.pipe.sendRawStructure(done);
           sharedMemoryInitialized = true;
         }break;
       }
-      if(!success)
-      {
-        lastError = __FUNCTION__ ": error pipe send.";
-        return false;
-      }
 
       // wait and receive something
-      while(true)
+      bool waitForNextPacket = true;
+      while(waitForNextPacket)
       {
         Util::Buffer buffer;
-        if(!sharedStuff.pipe.receive(buffer))
-        {
-          lastError = __FUNCTION__ ": error pipe receive.";
-          int lastWinError = (int)::GetLastError();
-          return false;
-        }
+        sharedStuff.pipe.receive(buffer);
 
-        // examine received packet
-        Util::MemoryFrame bufferFrame = buffer.getMemory();
-        int packetType = bufferFrame.getAs<int>();
-
-        // update userInput
-        if(packetType == Bridge::PipeMessage::ServerUpdateUserInput::_typeId)
-        {
-          Bridge::PipeMessage::ServerUpdateUserInput packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small ServerUpdateUserInput packet.";
-            return false;
-          }
-          if(!sharedStuff.userInput.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import userInput update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // update knownUnits
-        if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnits::_typeId)
-        {
-          Bridge::PipeMessage::ServerUpdateKnownUnits packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnits packet.";
-            return false;
-          }
-          if(!sharedStuff.knownUnits.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import knownUnits update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // update knownUnitAddEvents
-        if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents::_typeId)
-        {
-          Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnitAddEvents packet.";
-            return false;
-          }
-          if(!sharedStuff.knownUnitAddEvents.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import knownUnitAddEvents update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // update knownUnitRemoveEvents
-          if(packetType == Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents::_typeId)
-        {
-          Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small ServerUpdateKnownUnitRemoveEvents packet.";
-            return false;
-          }
-          if(!sharedStuff.knownUnitRemoveEvents.importNextUpdate(packet.exp))
-          {
-            lastError = __FUNCTION__ ": could not import knownUnitRemoveEvents update.";
-            return false;
-          }
-
-          // wait for next packet
-          continue;
-        }
-
-        // explicit events
-        if(packetType == Bridge::PipeMessage::ServerMatchInit::_typeId)
-        {
-          // onInitMatch state
-          Bridge::PipeMessage::ServerMatchInit packet;
-          if(!bufferFrame.readTo(packet))
-          {
-            lastError = __FUNCTION__ ": too small ServerMatchInit packet.";
-            return false;
-          }
-
-          // save options
-          isMatchStartFromBeginning = packet.fromBeginning;
-
-          // release everything, just to be sure
-          sharedStuff.staticData.release();
-          sharedStuff.commands.release();
-          sharedStuff.userInput.release();
-          sharedStuff.knownUnits.release();
-          sharedStuff.knownUnitAddEvents.release();
-          sharedStuff.knownUnitRemoveEvents.release();
-
-          // first import static data. It's all combined into staticData
-          if (!sharedStuff.staticData.import(packet.staticGameDataExport))
-          {
-            lastError = __FUNCTION__ ": staticGameData failed importing.";
-            return false;
-          }
-          sharedStaticData = &sharedStuff.staticData.get();
-
-          // init agent-side dynamic memory
-          if(!sharedStuff.commands.init(1000, true))
-          {
-            lastError = __FUNCTION__ ": commands failed initializing.";
-            return false;
-          }
-          if(!sharedStuff.sendText.init(2000, true))
-          {
-            lastError = __FUNCTION__ ": sendText failed initializing.";
-            return false;
-          }
-          if(!sharedStuff.drawShapes.init(3000, true))
-          {
-            lastError = __FUNCTION__ ": drawShapes failed initializing.";
-            return false;
-          }
-
-          rpcState = OnInitMatch;
-          // return
-          break;
-        }
-
-        if(packetType == Bridge::PipeMessage::ServerFrameNext::_typeId)
-        {
-          // onFrame state
-
-          // clear all frame-by-frame buffers
-          sharedStuff.sendText.clear();
-          sharedStuff.drawShapes.clear();
-
-          rpcState = OnFrame;
-          // return
-          break;
-        }
-
-        // None catched
-        lastError = __FUNCTION__ ": unknown packet type ";
-        lastError += Util::Strings::intToString(packetType);
-        return false;
+        // handle received packet. throws unhandled packets automatically
+        waitForNextPacket = packetSwitch.handlePacket(buffer.getMemory());
       }
 
       return true;

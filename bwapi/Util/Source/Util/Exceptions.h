@@ -7,7 +7,7 @@ class MultiString;
  */
 class GeneralException
 {
-  private :
+  private:
     /**
      * Represents the property key of the exception message, but in some special
      *   cases, the messageKey can contain the message itself
@@ -17,6 +17,8 @@ class GeneralException
     /** Creates exception with the specified message */
     GeneralException(const std::string &messageKey);
     const std::string getMessage(void);
+
+    void append(const std::string&);
 };
 
 /**

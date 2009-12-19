@@ -9,6 +9,12 @@ const std::string GeneralException::getMessage(void)
 {
   return this->message;
 }
+//----------------------------------------------- APPEND -----------------------------------------------------
+void GeneralException::append(const std::string& str)
+{
+  this->message += "<";
+  this->message += str;
+}
 //----------------------------------------------- CONSTRUCTOR ------------------------------------------------
 FileException::FileException(const std::string &message) : GeneralException(message)
 {

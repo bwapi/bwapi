@@ -10,11 +10,13 @@ namespace Util { class Pipe; }
 #define PIPE_SYSTEM_BUFFER_SIZE 4096
 
 #include "Buffer.h"
+#include "Exceptions.h"
 #include "RemoteProcess.h"
 #include "RemoteProcessId.h"
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 #include <string>
+
 
 namespace Util
 {
@@ -24,20 +26,20 @@ namespace Util
     Pipe();
     ~Pipe();
 
-    bool create(std::string globalPipeName);    // create a server pipe (server)
-    bool connect(std::string globalPipeName);   // connect to a server pipe (client)
-    bool waitIncomingConnection();              // blocks, serverside (server)
+    void create(std::string globalPipeName);    // create a server pipe (server)
+    bool connect(std::string globalPipeName) throw();   // connect to a server pipe (client)
+    void waitIncomingConnection();              // blocks, serverside (server)
     void disconnect();                          // disconnect and reuse
     void discard();                             // disconnect and remove
 
-    bool send(const MemoryFrame &in);           // blocks only if sent tooo much
+    void send(const MemoryFrame &in);           // blocks only if sent tooo much
     template<typename T>
-      bool sendRawStructure(const T &data)
+      void sendRawStructure(const T &data)
       {
-        return send(MemoryFrame::from(data));
+        send(MemoryFrame::from(data));
       }
-    bool receive(Buffer &out);                  // blocks if no message available
-    bool waitTillFlushed() const;               // blocks
+    void receive(Buffer &out);                  // blocks if no message available
+    void waitTillFlushed() const;               // blocks
 
     bool pollIncomingConnection();              // does not block. returns true and inits connection when incoming
     bool isError() const;
@@ -46,21 +48,19 @@ namespace Util
     bool isMessageIncoming() const;
 //    RemoteProcessId getClientProcessId() const;
 
-    template<typename T> bool receiveOnlyAs(T &dest)
+    template<typename T> void receiveOnlyAs(T &dest)
     {
       // receive
       Util::Buffer buffer;
-      if(!this->receive(buffer))
-        return false;
+      this->receive(buffer);
       Util::MemoryFrame mem = buffer.getMemory();
 
       // check size
       if(mem.size() != sizeof(T))
-        return false;
+        throw GeneralException(__FUNCTION__ ": wrong packet size");
       
       // read data
-      if(!mem.readTo<T>(dest))
-        return false;
+      mem.readTo<T>(dest);
       return true;
     }
 
@@ -69,8 +69,8 @@ namespace Util
     bool connected;
     bool listening;
 
-    bool _listen();
-    bool _setMode(bool blocking = true);
+    void _listen();
+    void _setMode(bool blocking = true);
     static void _fixPipeName(std::string&);
   };
 }

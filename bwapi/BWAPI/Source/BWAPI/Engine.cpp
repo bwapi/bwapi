@@ -754,7 +754,7 @@ namespace BWAPI
       */
     }
     //------------------------------------------------- UPDATE -------------------------------------------------
-    void update(GameState nextState)
+    void _update(GameState nextState)
     {
       // prerequisites
       if(nextState == Startup)
@@ -885,10 +885,14 @@ namespace BWAPI
           {
             //
             // invoke onStartGame()
-            if(!BridgeServer::invokeOnStartMatch(lastState != InMatch))
+            try
+            {
+              BridgeServer::invokeOnStartMatch(lastState != InMatch);
+            }
+            catch(GeneralException &exception)
             {
               BridgeServer::disconnect();
-              BW::printf("disconnected, failed starting match: %s\n", BridgeServer::getLastError().c_str());
+              BW::printf("disconnected. %s\n", exception.getMessage());
             }
           }
         }
@@ -1114,11 +1118,7 @@ namespace BWAPI
         }
 
         // call OnFrame RPC
-        if(!BridgeServer::invokeOnFrame())
-        {
-          BridgeServer::disconnect();
-          BW::printf("disconnected: %s\n", BridgeServer::getLastError().c_str());
-        }
+        BridgeServer::invokeOnFrame();
 
         // process sendTexts
         {
@@ -1150,11 +1150,7 @@ namespace BWAPI
       if(BridgeServer::isBridgeInitialized()
         &&!BridgeServer::isAgentConnected())
       {
-        if(!BridgeServer::acceptIncomingConnections())
-        {
-          BW::printf("problem accepting connections: %s", BridgeServer::getLastError().c_str());
-          BridgeServer::disconnect();
-        }
+        BridgeServer::acceptIncomingConnections();
         if(BridgeServer::isAgentConnected())
         {
           BW::printf("connected");
@@ -1166,6 +1162,21 @@ namespace BWAPI
       if(gameState == InMatch)
       {
         frameCount++;
+      }
+    }
+    //---------------------------------------------- UPDATE EVENT HANDLER --------------------------------------
+    void update(GameState nextState)
+    {
+      bool wasConnected = BridgeServer::isAgentConnected();
+      try
+      {
+        _update(nextState);
+      }
+      catch(GeneralException &exception)
+      {
+        BridgeServer::disconnect();
+        if(wasConnected)
+          BW::printf("disconnected: %s\n", exception.getMessage().c_str());
       }
     }
     //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -1658,63 +1669,55 @@ namespace BWAPI
       if(type == Bridge::DrawShape::Text::_typeId)
       {
         Bridge::DrawShape::Text text;
-        if(!shapePacket.readTo(text) || !shapePacket.size())
+        shapePacket.readTo(text);
+        if(!shapePacket.size())
         {
           // packet too small
-          return;
+          throw GeneralException(__FUNCTION__ ": text shape packet too small for text");
         }
         if(shapePacket.endAs<char>()[-1] != 0)
         {
           // not null terminated
-          return;
+          throw GeneralException(__FUNCTION__ ": text shape packet text not null terminated");
         }
         BW::drawText(text.pos.x, text.pos.y, shapePacket.beginAs<char>());
       }
       if(type == Bridge::DrawShape::Line::_typeId)
       {
         Bridge::DrawShape::Line line;
-        if(!shapePacket.readTo(line))
-        {
-          // packet too small
-          return;
-        }
+        shapePacket.readTo(line);
         drawLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
       }
       if(type == Bridge::DrawShape::Rectangle::_typeId)
       {
         Bridge::DrawShape::Rectangle rect;
-        if(!shapePacket.readTo(rect))
-        {
-          // packet too small
-          return;
-        }
+        shapePacket.readTo(rect);
         drawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color, rect.isSolid);
       }
       if(type == Bridge::DrawShape::Circle::_typeId)
       {
         Bridge::DrawShape::Circle circle;
-        if(!shapePacket.readTo(circle))
-        {
-          // packet too small
-          return;
-        }
+        shapePacket.readTo(circle);
         drawCircle(circle.center.x, circle.center.y, circle.radius, circle.color, circle.isSolid);
       }
       if(type == Bridge::DrawShape::Dot::_typeId)
       {
         Bridge::DrawShape::Dot dot;
-        if(!shapePacket.readTo(dot))
-        {
-          // packet too small
-          return;
-        }
+        shapePacket.readTo(dot);
         BW::drawDot(dot.pos.x, dot.pos.y, dot.color);
       }
     }
     void onMatchDrawHigh()
     {
-      Tracer::onDraw();
-      BridgeServer::enumAllDrawShapes(eachDrawShape);
+      // hooks may not throw
+      try
+      {
+        Tracer::onDraw();
+        BridgeServer::enumAllDrawShapes(eachDrawShape);
+      }
+      catch(...)
+      {
+      }
     }
     //---------------------------------------- -----------------------------------------------------------------
     void executeUnitCommand(UnitCommand& c)

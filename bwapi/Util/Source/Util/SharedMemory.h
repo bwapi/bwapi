@@ -22,6 +22,7 @@ namespace Util
 }
 
 #include "MemoryFrame.h"
+#include "Exceptions.h"
 #include "RemoteProcess.h"
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
@@ -54,8 +55,8 @@ namespace Util
     SharedMemory();
     ~SharedMemory();
 
-    bool create(int size);                      // allocates memory
-    bool import(Export source);     // connects to shared memory
+    void create(int size);                      // allocates memory
+    void import(Export source);     // connects to shared memory
     void release();                             // releases memory
     Export exportToProcess(RemoteProcess &target, bool readOnly) const;
 

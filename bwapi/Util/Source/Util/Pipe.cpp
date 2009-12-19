@@ -1,4 +1,5 @@
 #include "Pipe.h"
+#include "Strings.h"
 #include <WinBase.h>
 #include <windows.h>
 
@@ -20,7 +21,7 @@ namespace Util
     this->discard();
   }
   //----------------------- CREATE -------------------------------------
-  bool Pipe::create(std::string globalPipeName)
+  void Pipe::create(std::string globalPipeName)
   {
     discard();  // just in case
 
@@ -43,21 +44,24 @@ namespace Util
       NULL);                    // no inheritance
     if(this->pipeObjectHandle == INVALID_HANDLE_VALUE)
     {
-      return false;
+      throw GeneralException(__FUNCTION__ ": fail CreateNamedPipeA");
     }
 
     this->connected = false;
-    if(!this->_listen())
+    try
+    {
+      this->_listen();
+    }
+    catch(...)
     {
       ::CloseHandle(this->pipeObjectHandle);
-      return false;
     }
 
     // next state already set by _listen()
-    return true;
+    return;
   }
   //----------------------- CONNECT ------------------------------------
-  bool Pipe::connect(std::string globalPipeName)
+  bool Pipe::connect(std::string globalPipeName) throw()
   {
     discard();    // just in case
 
@@ -89,11 +93,7 @@ namespace Util
 
     // With CreateFileA, the pipe is initially in the stream mode
     // needed to be set the correct mode before I/O
-    bool success = this->_setMode();
-    if (!success) 
-    {
-      return false;
-    }
+    this->_setMode();
 
     // connected successfully
     this->connected = true;
@@ -122,38 +122,45 @@ namespace Util
     this->listening = false;
   }
   //----------------------- POLL FOR INCOMING CONNECTION ---------------
-  bool Pipe::pollIncomingConnection()
+  bool Pipe::pollIncomingConnection() throw()
   {
-    if(this->connected)
+    try
     {
-      return true;
-    }
-    if(!this->listening)
-      return false;     // isError() case
+      if(this->connected)
+      {
+        return true;
+      }
+      if(!this->listening)
+        return false;     // isError() case
 
-    // only if listening
-    // => already in non-blocking mode
+      // were listening
+      // => already in non-blocking mode
 
-    // poll connection state
-    BOOL listening = ::ConnectNamedPipe(this->pipeObjectHandle, NULL);
-    if(listening || GetLastError() == ERROR_PIPE_LISTENING)
-    {
-      // still listening
+      // poll connection state
+      BOOL listening = ::ConnectNamedPipe(this->pipeObjectHandle, NULL);
+      if(listening || GetLastError() == ERROR_PIPE_LISTENING)
+      {
+        // still listening
+        return false;
+      }
+      if(::GetLastError() == ERROR_PIPE_CONNECTED)
+      {
+        // pipe finally connected
+        this->connected = true;
+        this->listening = false;
+        // for I/O, pipe must be in blocking mode
+        this->_setMode(true);
+        return true;
+      }
+      // neither listening nor connected
+      this->connected = false;
+      this->listening = false;
       return false;
     }
-    if(::GetLastError() == ERROR_PIPE_CONNECTED)
+    catch(...)
     {
-      // pipe finally connected
-      this->connected = true;
-      this->listening = false;
-      // for I/O, pipe must be in blocking mode
-      this->_setMode(true);
-      return true;
+      return false;
     }
-    // neither listening nor connected
-    this->connected = false;
-    this->listening = false;
-    return false;
   }
   //----------------------- IS ERROR -----------------------------------
   bool Pipe::isError() const
@@ -189,10 +196,11 @@ namespace Util
     return availableByteCount > 0;
   }
   //----------------------- WAIT INCOMING CONNECTION -------------------
-  bool Pipe::waitIncomingConnection()
+  void Pipe::waitIncomingConnection()
   {
     // to wait, switch to blocking mode
     this->_setMode(true);
+
     BOOL success = ::ConnectNamedPipe(this->pipeObjectHandle, NULL);
     if(!success)
     {
@@ -201,22 +209,21 @@ namespace Util
         // returned but not connected
         this->connected = false;
         this->listening = false;
-        return false;
+        throw GeneralException(__FUNCTION__ ": fail ConnectNamedPipe");
       }
       // pipe was already connected
     }
     this->connected = true;
     this->listening = false;
-    return true;
   }
   //----------------------- SEND ---------------------------------------
-  bool Pipe::send(const MemoryFrame &memory)
+  void Pipe::send(const MemoryFrame &memory)
   {
-/*    if(memory.isEmpty())
+    if(memory.isEmpty())
     {
       // sending NULL packets might produce ambiguous results
-      return false;
-    }*/
+      throw GeneralException(__FUNCTION__ ": do not send empty packets");
+    }
     DWORD writtenByteCount;
     BOOL success = ::WriteFile(
       this->pipeObjectHandle,
@@ -226,19 +233,13 @@ namespace Util
       NULL);
 
     if(!success)
-    {
-      return false;
-    }
+      throw GeneralException(__FUNCTION__ ": fail WriteFile");
 
     if(writtenByteCount != memory.size())
-    {
-      return false;
-    }
-
-    return true;
+      throw GeneralException(__FUNCTION__ ": wrong written byte count");
   }
   //----------------------- RECEIVE ------------------------------------
-  bool Pipe::receive(Buffer &out)
+  void Pipe::receive(Buffer &out)
   {
     // wait for a message
     {
@@ -257,13 +258,15 @@ namespace Util
       if(success)
       {
         // the provisoric DWORD was enough
-        return true;
+        return;
       }
     }
 
     if(::GetLastError() != ERROR_MORE_DATA)
     {
-      return false;
+      if(::GetLastError() == 109)
+        throw GeneralException(__FUNCTION__ ": fail receiving, pipe is closed");
+      throw GeneralException(Strings::ssprintf(__FUNCTION__ ": fail ReadFile, code '%d'", ::GetLastError()));
     }
 
     // allocate the right space
@@ -280,7 +283,7 @@ namespace Util
         &availableByteLeft);
 
       if(!success)
-        return false;
+        throw GeneralException(Strings::ssprintf(__FUNCTION__ ": fail PeekNamedPipe, code '%d'", ::GetLastError()));
 
       out.setSize(out.size() + availableByteLeft);
     }
@@ -299,23 +302,23 @@ namespace Util
         NULL);
 
       if(!success)
-        return false;
+        throw GeneralException(Strings::ssprintf(__FUNCTION__ ": fail second ReadFile, code '%d'", ::GetLastError()));
 
       if(receivedByteCount != dest.size())
-        return false;
+        throw GeneralException(__FUNCTION__ ": wrong received byte count");
     }
 
-    return true;
+    return;
   }
   //----------------------- WAIT TILL FLUSHED --------------------------
-  bool Pipe::waitTillFlushed() const
+  void Pipe::waitTillFlushed() const
   {
     BOOL success = ::FlushFileBuffers(this->pipeObjectHandle);
     if(!success)
     {
-      return false;
+      throw GeneralException(__FUNCTION__ ": fail FlushFileBuffers");
     }
-    return true;
+    return;
   }
   //----------------------- CLIENT PROCESS ID --------------------------
 /*  RemoteProcessId Pipe::getClientProcessId() const
@@ -336,7 +339,7 @@ namespace Util
     pipeName = "\\\\.\\pipe\\" + pipeName;
   }
   //----------------------- LISTEN -------------------------------------
-  bool Pipe::_listen()
+  void Pipe::_listen()
   {
     // while listening, use nonblocking mode to enable polling
     this->_setMode(false);
@@ -347,7 +350,7 @@ namespace Util
       // listening
       this->connected = false;
       this->listening = true;
-      return true;
+      return;
     }
     if(GetLastError() == ERROR_PIPE_CONNECTED)
     {
@@ -357,15 +360,15 @@ namespace Util
       this->listening = false;
       // for I/O, pipe must be in blocking mode
       this->_setMode(true);
-      return true;
+      return;
     }
     // neither listening nor connected
     this->connected = false;
     this->listening = false;
-    return false;
+    throw GeneralException(__FUNCTION__ ": fail ConnectNamedPipe");
   }
   //----------------------- SET BLOCKING MODE --------------------------
-  bool Pipe::_setMode(bool blocking)
+  void Pipe::_setMode(bool blocking)
   {
     DWORD dwMode = PIPE_READMODE_MESSAGE | ( blocking ? PIPE_WAIT : PIPE_NOWAIT ); 
     BOOL success = ::SetNamedPipeHandleState( 
@@ -374,10 +377,9 @@ namespace Util
       NULL,                     // don't set maximum bytes 
       NULL);                    // don't set maximum time 
     if (!success) 
-    {
-      return false;
-    }
-    return true;
+      throw GeneralException(__FUNCTION__ ": failed SetNamedPipeHandleState");
+
+    return;
   }
   //----------------------- --------------------------------------------
 }
