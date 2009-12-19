@@ -1164,8 +1164,8 @@ namespace BWAPI
         frameCount++;
       }
     }
-    //---------------------------------------------- UPDATE EVENT HANDLER --------------------------------------
-    void update(GameState nextState)
+    //---------------------------------------------- UPDATE EXCEPTION HANDLER ----------------------------------
+    void update(GameState nextState) throw()
     {
       bool wasConnected = BridgeServer::isAgentConnected();
       try
@@ -1175,8 +1175,13 @@ namespace BWAPI
       catch(GeneralException &exception)
       {
         BridgeServer::disconnect();
-        if(wasConnected)
-          BW::printf("disconnected: %s\n", exception.getMessage().c_str());
+        if(BW::isInGame())
+        {
+          if(wasConnected)
+            BW::printf("disconnected: %s\n", exception.getMessage().c_str());
+          else
+            BW::printf("exception: %s\n", exception.getMessage().c_str());
+        }
       }
     }
     //---------------------------------------------- ON MENU FRAME ---------------------------------------------
