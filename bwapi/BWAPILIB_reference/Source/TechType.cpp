@@ -218,7 +218,7 @@ namespace BWAPI
   {
     return techTypeData[this->id].name;
   }
-  std::string TechType::getRace() const
+  Race TechType::getRace() const
   {
     return techTypeData[this->id].race;
   }
