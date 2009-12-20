@@ -28,7 +28,7 @@ namespace BWAPI
     extern std::deque<std::string> getUserInputStrings();
 
     extern bool isConnected();
-    extern bool pushSendText(bool send, char *string);
+    extern bool pushSendText(bool send, const char *string);
 
     // draw stack
     extern bool pushDrawText(int x, int y, const char*);

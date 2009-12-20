@@ -311,14 +311,14 @@ namespace BWAPI
       return sharedMemoryInitialized;
     }
     //----------------------------------------- PUSH SEND TEXT --------------------------------------------------
-    bool pushSendText(bool send, char *string)
+    bool pushSendText(bool send, const char *string)
     {
       // check prerequisites
       if(!connectionEstablished || !sharedMemoryInitialized)
         return false;
 
       // push next packet
-      Util::MemoryFrame textmem = Util::MemoryFrame(string, strlen(string)+1);
+      Util::MemoryFrame textmem = Util::MemoryFrame((char*)string, strlen(string)+1);
       Bridge::SharedStuff::SendTextStack::Index index = sharedStuff.sendText.insertBytes(sizeof(bool) + textmem.size());
       if(!index.isValid())
         return false;
