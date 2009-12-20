@@ -348,23 +348,26 @@ namespace BWAPI
 
     if (type.isResourceDepot())
     {
-      foreach (BWAPI::Unit* m, getMinerals())
+      foreach (BWAPI::Unit* m, getStaticMinerals())
       {
-        if (m->getTilePosition().x()>position.x()-5 &&
-            m->getTilePosition().y()>position.y()-4 &&
-            m->getTilePosition().x()<position.x()+7 &&
-            m->getTilePosition().y()<position.y()+6)
+        if (isVisible(m->getInitialTilePosition()) ||
+            isVisible(m->getInitialTilePosition().x()+1,m->getInitialTilePosition().y()))
+          if (!m->isVisible())
+            continue; // tile position is visible, but mineral is not => mineral does not exist
+        if (m->getInitialTilePosition().x()>position.x()-5 &&
+            m->getInitialTilePosition().y()>position.y()-4 &&
+            m->getInitialTilePosition().x()<position.x()+7 &&
+            m->getInitialTilePosition().y()<position.y()+6)
         {
           return false;
         }
       }
-
-      foreach (BWAPI::Unit* g, getGeysers())
+      foreach (BWAPI::Unit* g, getStaticGeysers())
       {
-        if (g->getTilePosition().x()>position.x()-7 &&
-            g->getTilePosition().y()>position.y()-5 &&
-            g->getTilePosition().x()<position.x()+7 &&
-            g->getTilePosition().y()<position.y()+6)
+        if (g->getInitialTilePosition().x()>position.x()-7 &&
+            g->getInitialTilePosition().y()>position.y()-5 &&
+            g->getInitialTilePosition().x()<position.x()+7 &&
+            g->getInitialTilePosition().y()<position.y()+6)
         {
           return false;
         }

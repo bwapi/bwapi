@@ -542,6 +542,7 @@ namespace BWAPI
   bool UnitImpl::isTraining() const
   {
     if (!this->attemptAccess()) return false;
+    if (!this->getBWType().canProduce()) return false;
     return !this->hasEmptyBuildQueue();
   }
   //---------------------------------------------- IS UNDER STORM --------------------------------------------

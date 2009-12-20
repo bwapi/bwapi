@@ -118,7 +118,7 @@ namespace BWAPI
       techTypeData[Recall.getID()].set("Recall",150,150,150,&(UnitTypes::Protoss_Arbiter_Tribunal),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_Arbiter));
       techTypeData[Stasis_Field.getID()].set("Stasis Field",150,150,100,&(UnitTypes::Protoss_Arbiter_Tribunal),Races::Protoss,&(WeaponTypes::Stasis_Field),&(UnitTypes::Protoss_Arbiter));
       techTypeData[Archon_Warp.getID()].set("Archon Warp",0,0,0,&(UnitTypes::None),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_High_Templar));
-      techTypeData[Restoration.getID()].set("Restoration",100,100,50,&(UnitTypes::None),Races::Terran,&(WeaponTypes::Restoration),&(UnitTypes::Terran_Medic));
+      techTypeData[Restoration.getID()].set("Restoration",100,100,50,&(UnitTypes::Terran_Academy),Races::Terran,&(WeaponTypes::Restoration),&(UnitTypes::Terran_Medic));
       techTypeData[Disruption_Web.getID()].set("Disruption Web",200,200,125,&(UnitTypes::Protoss_Fleet_Beacon),Races::Protoss,&(WeaponTypes::Disruption_Web),&(UnitTypes::Protoss_Corsair));
       techTypeData[Mind_Control.getID()].set("Mind Control",200,200,150,&(UnitTypes::Protoss_Templar_Archives),Races::Protoss,&(WeaponTypes::Mind_Control),&(UnitTypes::Protoss_Dark_Archon));
       techTypeData[Dark_Archon_Meld.getID()].set("Dark Archon Meld",0,0,0,&(UnitTypes::None),Races::Protoss,&(WeaponTypes::None),&(UnitTypes::Protoss_Dark_Templar));
@@ -217,6 +217,10 @@ namespace BWAPI
   std::string TechType::getName() const
   {
     return techTypeData[this->id].name;
+  }
+  Race TechType::getRace() const
+  {
+    return techTypeData[this->id].race;
   }
   int TechType::mineralPrice() const
   {
