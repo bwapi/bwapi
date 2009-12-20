@@ -265,14 +265,11 @@ namespace BWAPI
       return true;
     }
     //------------------------------ ADD KNOWN UNIT ----------------------------------------------
-    bool addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit, Bridge::SharedStuff::KnownUnitSet::Index *out_index)
+    void addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit, Bridge::SharedStuff::KnownUnitSet::Index *out_index, BWAPI::UnitAddEventTypeId reason)
     {
       // check prerequisites
       if(!stateSharedMemoryInitialized)
-      {
-        lastError = std::string(__FUNCTION__)+ ": shared memory not initialized";
-        return false;
-      }
+        throw GeneralException(__FUNCTION__ ": shared memory not initialized");
 
       // insert new known unit to set
       Bridge::SharedStuff::KnownUnitSet::Index index;
@@ -282,30 +279,25 @@ namespace BWAPI
 
       // push known unit event
       Bridge::KnownUnitAddEventEntry entry;
-      entry.unitIndex = index;
+      entry.data.unitId = sharedStuff.knownUnits.getLinearByIndex(index);
+      entry.data.type = reason;
       sharedStuff.knownUnitAddEvents.insert(Util::MemoryFrame::from(entry));
-
-      return true;
     }
     //------------------------------ REMOVE KNOWN UNIT -------------------------------------------
-    bool removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index)
+    void removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index, BWAPI::UnitRemoveEventTypeId reason)
     {
       // check prerequisites
       if(!stateSharedMemoryInitialized)
-      {
-        lastError = std::string(__FUNCTION__)+ ": shared memory not initialized";
-        return false;
-      }
+        throw GeneralException(__FUNCTION__ ": shared memory not initialized");
 
       // remove known unit from set
       sharedStuff.knownUnits.remove(index);
 
       // push known unit event
       Bridge::KnownUnitRemoveEventEntry entry;
-      entry.unitIndex = index;
+      entry.data.unitId = sharedStuff.knownUnits.getLinearByIndex(index);
+      entry.data.type = reason;
       sharedStuff.knownUnitRemoveEvents.insert(Util::MemoryFrame::from(entry));
-
-      return true;
     }
     //-------------------------- GET SEND TEXT ENTRIES ------------------------------------------
     std::deque<Bridge::SendTextEntry*> getSendTextEntries()

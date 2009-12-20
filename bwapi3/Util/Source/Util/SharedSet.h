@@ -168,12 +168,47 @@ namespace Util
         return false;
       return true;
     }
-    //----------------------- OPERATOR [] ------------------------------
+    //----------------------- GET --------------------------------------
     T& get(Index pointee)
     {
       Entry &targetEntry = getEntryByIndex(pointee);
 
       return targetEntry.strucure;
+    }
+    //----------------------- GET BY LINEAR ----------------------------
+    T& getByLinear(int linear)
+    {
+      Entry &targetEntry = getEntryByIndex(getIndexByLinear(linear));
+      return targetEntry.strucure;
+    }
+    //----------------------- GET INDEX BY LINEAR ----------------------
+    Index getIndexByLinear(int linear)
+    {
+      // TODO: add vector for fast lookup optimization
+      if(linear == -1)
+        throw GeneralException("Linear must not be genative");
+      Index index = {0, 0};
+      int baseIndex = 0;
+      while(linear >= ownedBlocks[index.blockIndex].size + baseIndex)
+      {
+        baseIndex += ownedBlocks[index.blockIndex].size;
+        index.blockIndex++;
+        if(index.blockIndex >= (int)ownedBlocks.size())
+          throw GeneralException("Linear index out of bound");
+      }
+      index.blockEntryIndex = linear - baseIndex;
+      return index;
+    }
+    //----------------------- GET LINEAR BY INDEX ----------------------
+    int getLinearByIndex(Index index)
+    {
+      // TODO: add baseIndex to Block structure for optimization
+      int baseLinear = 0;
+      for(int i = 0; i < index.blockIndex; i++)
+      {
+        baseLinear += ownedBlocks[i].size;
+      }
+      return baseLinear + index.blockEntryIndex;
     }
     //----------------------- CLEAR ------------------------------------
     void clear()
@@ -265,7 +300,7 @@ namespace Util
     {
       Util::SharedMemory* memory;
       int size;   // measured in Entry count
-      int count;
+      int count;  // count of used slots
       int head;   // lowest bound of free slots
     };
     struct Entry

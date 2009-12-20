@@ -2,6 +2,7 @@
 #include "BWAPIInterface.h"
 
 #include <BWAPITypes\UnitState.h>
+#include <BWAPITypes\UnitEvent.h>
 #include <BWAPITypes\StaticGameData.h>
 
 #include <windows.h>
@@ -39,20 +40,23 @@ BWAPI_FUNCTION void BWAPI_CALL BWDrawCircle(int x, int y, int r, int color, int 
 BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int color);
 BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color);
 
-// unit array enumeration
-BWAPI_FUNCTION HANDLE             BWAPI_CALL BWAllUnitsBegin();
-BWAPI_FUNCTION BWAPI::UnitState*  BWAPI_CALL BWAllUnitsNext(HANDLE h);
-BWAPI_FUNCTION void               BWAPI_CALL BWAllUnitsClose(HANDLE h);
+// unit getter
+BWAPI_FUNCTION BWAPI::UnitState*  BWAPI_CALL BWGetUnit(int unitId);
+
+// unit array enumeration. returns -1 when ended
+BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();
+BWAPI_FUNCTION int    BWAPI_CALL BWAllUnitsNext(HANDLE h);
+BWAPI_FUNCTION void   BWAPI_CALL BWAllUnitsClose(HANDLE h);
 
 // unit add event enumeration
-BWAPI_FUNCTION HANDLE             BWAPI_CALL BWUnitAddEventsBegin();
-BWAPI_FUNCTION BWAPI::UnitState*  BWAPI_CALL BWUnitAddEventsNext(HANDLE h);
-BWAPI_FUNCTION void               BWAPI_CALL BWUnitAddEventsClose(HANDLE h);
+BWAPI_FUNCTION HANDLE               BWAPI_CALL BWUnitAddEventsBegin();
+BWAPI_FUNCTION BWAPI::UnitAddEvent* BWAPI_CALL BWUnitAddEventsNext(HANDLE h);
+BWAPI_FUNCTION void                 BWAPI_CALL BWUnitAddEventsClose(HANDLE h);
 
 // unit remove event enumeration
-BWAPI_FUNCTION HANDLE             BWAPI_CALL BWUnitRemoveEventsBegin();
-BWAPI_FUNCTION BWAPI::UnitState*  BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h);
-BWAPI_FUNCTION void               BWAPI_CALL BWUnitRemoveEventsClose(HANDLE h);
+BWAPI_FUNCTION HANDLE                   BWAPI_CALL BWUnitRemoveEventsBegin();
+BWAPI_FUNCTION BWAPI::UnitRemoveEvent*  BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h);
+BWAPI_FUNCTION void                     BWAPI_CALL BWUnitRemoveEventsClose(HANDLE h);
 
 // returns last operation's error string.
 BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError();
