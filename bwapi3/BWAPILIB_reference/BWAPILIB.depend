@@ -1,0 +1,151 @@
+# depslib dependency file v1.0
+1245201647 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\aimodule.cpp
+	<BWAPI/AIModule.h>
+
+1245201650 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\bwapi.cpp
+	<BWAPI.h>
+
+1245201653 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\order.cpp
+	<string>
+	<map>
+	<set>
+	<BWAPI/Order.h>
+
+1245201657 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\playertype.cpp
+	<string>
+	<map>
+	<set>
+	<BWAPI/PlayerType.h>
+
+1244934482 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\position.cpp
+	<BWAPI/Constants.h>
+	<BWAPI/TilePosition.h>
+	<BWAPI/Position.h>
+	<math.h>
+
+1245201660 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\race.cpp
+	<string>
+	<map>
+	<set>
+	<BWAPI/Race.h>
+
+1244920583 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\techtype.cpp
+	<string>
+	<map>
+	<set>
+	<BWAPI/TechType.h>
+	<BWAPI/Race.h>
+	<BWAPI/UnitType.h>
+
+1244936171 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\tileposition.cpp
+	<BWAPI/Constants.h>
+	<BWAPI/TilePosition.h>
+	<BWAPI/Position.h>
+
+1245201663 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\unittype.cpp
+	<string>
+	<map>
+	<set>
+	<BWAPI/UnitType.h>
+	<BWAPI/TechType.h>
+	<BWAPI/Race.h>
+
+1245201668 source:t:\code\bwai\bwapi_new\bwapi\bwapilib\source\upgradetype.cpp
+	<string>
+	<map>
+	<set>
+	<BWAPI/UpgradeType.h>
+	<BWAPI/Race.h>
+	<BWAPI/UnitType.h>
+
+1244934633 t:\code\bwai\bwapi_new\bwapi\include\bwapi\aimodule.h
+	<string>
+
+1245202205 t:\code\bwai\bwapi_new\bwapi\include\bwapi.h
+	<BWAPI/AIModule.h>
+	<BWAPI/Constants.h>
+	<BWAPI/Flag.h>
+	<BWAPI/Force.h>
+	<BWAPI/Game.h>
+	<BWAPI/Latency.h>
+	<BWAPI/Order.h>
+	<BWAPI/Player.h>
+	<BWAPI/Position.h>
+	<BWAPI/Race.h>
+	<BWAPI/TechType.h>
+	<BWAPI/TilePosition.h>
+	<BWAPI/Unit.h>
+	<BWAPI/UnitType.h>
+	<BWAPI/UpgradeType.h>
+
+1245202186 t:\code\bwai\bwapi_new\bwapi\include\bwapi\constants.h
+
+1245202189 t:\code\bwai\bwapi_new\bwapi\include\bwapi\flag.h
+
+1244764727 t:\code\bwai\bwapi_new\bwapi\include\bwapi\force.h
+	<set>
+	<string>
+
+1245104258 t:\code\bwai\bwapi_new\bwapi\include\bwapi\game.h
+	<list>
+	<map>
+	<set>
+	<BWAPI/Flag.h>
+	<BWAPI/Race.h>
+	<BWAPI/Order.h>
+	<BWAPI/Latency.h>
+	<BWAPI/TilePosition.h>
+
+1244764727 t:\code\bwai\bwapi_new\bwapi\include\bwapi\race.h
+	<string>
+	<set>
+
+1245202192 t:\code\bwai\bwapi_new\bwapi\include\bwapi\order.h
+	<string>
+	<set>
+
+1245202172 t:\code\bwai\bwapi_new\bwapi\include\bwapi\latency.h
+
+1245017016 t:\code\bwai\bwapi_new\bwapi\include\bwapi\tileposition.h
+
+1245015297 t:\code\bwai\bwapi_new\bwapi\include\bwapi\player.h
+	<set>
+	<string>
+	<BWAPI/TilePosition.h>
+	<BWAPI/Race.h>
+	<BWAPI/TechType.h>
+	<BWAPI/UpgradeType.h>
+	<BWAPI/PlayerType.h>
+	<BWAPI/UnitType.h>
+
+1245202195 t:\code\bwai\bwapi_new\bwapi\include\bwapi\techtype.h
+	<string>
+	<set>
+	<BWAPI/Race.h>
+
+1245202198 t:\code\bwai\bwapi_new\bwapi\include\bwapi\upgradetype.h
+	<string>
+	<set>
+	<BWAPI/Race.h>
+
+1244764727 t:\code\bwai\bwapi_new\bwapi\include\bwapi\playertype.h
+	<string>
+	<set>
+
+1245202201 t:\code\bwai\bwapi_new\bwapi\include\bwapi\unittype.h
+	<string>
+	<map>
+	<set>
+	<BWAPI/Race.h>
+
+1244934439 t:\code\bwai\bwapi_new\bwapi\include\bwapi\position.h
+
+1245016120 t:\code\bwai\bwapi_new\bwapi\include\bwapi\unit.h
+	<list>
+	<BWAPI/Order.h>
+	<BWAPI/TechType.h>
+	<BWAPI/UpgradeType.h>
+	<BWAPI/UnitType.h>
+	<BWAPI/Position.h>
+	<BWAPI/TilePosition.h>
+

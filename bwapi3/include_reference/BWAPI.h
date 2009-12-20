@@ -1,0 +1,27 @@
+#include <BWAPI/AIModule.h>
+#include <BWAPI/AttackType.h>
+#include <BWAPI/Color.h>
+#include <BWAPI/Constants.h>
+#include <BWAPI/CoordinateType.h>
+#include <BWAPI/DamageType.h>
+#include <BWAPI/Error.h>
+#include <BWAPI/ExplosionType.h>
+#include <BWAPI/Flag.h>
+#include <BWAPI/Force.h>
+#include <BWAPI/Latency.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/Player.h>
+#include <BWAPI/Position.h>
+#include <BWAPI/Race.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/TilePosition.h>
+#include <BWAPI/Unit.h>
+#include <BWAPI/UnitSizeType.h>
+#include <BWAPI/UnitType.h>
+#include <BWAPI/UpgradeType.h>
+#include <BWAPI/WeaponType.h>
+
+namespace BWAPI
+{
+  void BWAPI_init();
+}

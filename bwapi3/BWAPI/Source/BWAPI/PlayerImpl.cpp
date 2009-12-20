@@ -1,0 +1,415 @@
+#include "PlayerImpl.h"
+#include "Engine.h"
+#include "UnitImpl.h"
+
+#include <string>
+#include <Util/Bitmask.h>
+
+#include <BW/Offsets.h>
+#include <BW/UnitID.h>
+
+namespace BWAPI
+{
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  PlayerImpl::PlayerImpl(u8 id)
+      : id(id), leftTheGame(false)
+  {
+  }
+  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
+  PlayerImpl::~PlayerImpl()
+  {
+  }
+  //------------------------------------------------- GET ID -------------------------------------------------
+  int PlayerImpl::getID() const
+  {
+    Engine::setLastError(Errors::None);
+    return this->id;
+  }
+  //------------------------------------------------ GET NAME ------------------------------------------------
+  std::string PlayerImpl::getName() const
+  {
+    Engine::setLastError(Errors::None);
+    if (this->getID() == 11)
+    {
+      return std::string("Neutral");
+    }
+    return std::string(BW::BWDATA_Players->player[this->getID()].name);
+  }
+  //----------------------------------------------- GET UNITS ------------------------------------------------
+  const std::set<Unit*>& PlayerImpl::getUnits() const
+  {
+    Engine::setLastError(Errors::None);
+    return this->units;
+  }
+  //------------------------------------------------ GET RACE ------------------------------------------------
+  BWAPI::Race PlayerImpl::getRace() const
+  {
+    Engine::setLastError(Errors::None);
+    return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].race));
+  }
+  //----------------------------------------------- PLAYER TYPE ----------------------------------------------
+  BWAPI::PlayerType PlayerImpl::playerType() const
+  {
+    Engine::setLastError(Errors::None);
+    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].type));
+  }
+  //----------------------------------------------- GET FORCE ------------------------------------------------
+  Force* PlayerImpl::getForce() const
+  {
+    Engine::setLastError(Errors::None);
+    return (Force*)this->force;
+  }
+  //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
+  bool PlayerImpl::isAlly(Player* player) const
+  {
+    Engine::setLastError(Errors::None);
+    if (player==NULL) return false;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
+  }
+  //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
+  bool PlayerImpl::isEnemy(Player* player) const
+  {
+    Engine::setLastError(Errors::None);
+    if (player==NULL) return false;
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] == 0;
+  }
+  //----------------------------------------------- IS NEUTRAL -----------------------------------------------
+  bool PlayerImpl::isNeutral() const
+  {
+    Engine::setLastError(Errors::None);
+    return this->getID() == 11;
+  }
+  //------------------------------------------- GET START POSITION -------------------------------------------
+  TilePosition PlayerImpl::getStartLocation() const
+  {
+    /* error checking */
+    Engine::setLastError(Errors::None);
+    if (this->isNeutral())
+      return TilePositions::None;
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return TilePositions::Unknown;
+    }
+    /* return the start location as a tile position */
+    return BWAPI::TilePosition((int)((BW::BWDATA_startPositions[this->getID()].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
+                               (int)((BW::BWDATA_startPositions[this->getID()].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
+  }
+  //------------------------------------------------ MINERALS ------------------------------------------------
+  int PlayerImpl::minerals() const
+  {
+    /* error handling */
+    Engine::setLastError(Errors::None);
+    if (this->isNeutral())
+      return 0;
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    /* return the local mineral count */
+    return this->mineralsLocal;
+  }
+  //-------------------------------------------------- GAS ---------------------------------------------------
+  int PlayerImpl::gas() const
+  {
+    Engine::setLastError(Errors::None);
+    if (this->isNeutral())
+      return 0;
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->gasLocal;
+  }
+  //------------------------------------------ CUMULATIVE MINERALS -------------------------------------------
+  int PlayerImpl::cumulativeMinerals() const
+  {
+    Engine::setLastError(Errors::None);
+    if (this->isNeutral())
+      return 0;
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return BW::BWDATA_PlayerResources->cumulativeMinerals.player[this->getID()];
+  }
+  //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
+  int PlayerImpl::cumulativeGas() const
+  {
+    Engine::setLastError(Errors::None);
+    if (this->isNeutral())
+      return 0;
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return BW::BWDATA_PlayerResources->cumulativeGas.player[this->getID()];
+  }
+  //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
+  int PlayerImpl::supplyTotal() const
+  {
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    s32 ret = this->suppliesAvailableLocal[getRace().getID()];
+    return ret < getSuppliesMaxSync((u8)getRace().getID()) ? ret : getSuppliesMaxSync((u8)getRace().getID());
+  }
+  //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
+  int PlayerImpl::supplyUsed() const
+  {
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->suppliesUsedLocal[getRace().getID()];
+  }
+  //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
+  int PlayerImpl::supplyTotal(Race race) const
+  {
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    s32 ret = this->suppliesAvailableLocal[race.getID()];
+    return ret < getSuppliesMaxSync((u8)race.getID()) ? ret : getSuppliesMaxSync((u8)race.getID());
+  }
+  //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
+  int PlayerImpl::supplyUsed(Race race) const
+  {
+    Engine::setLastError(Errors::None);
+    if (!Engine::_isReplay() && Engine::self()->isEnemy((Player*)this) && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->suppliesUsedLocal[race.getID()];
+  }
+  //--------------------------------------------- GET ALL UNITS ----------------------------------------------
+  s32 PlayerImpl::allUnitCount(UnitType unit) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType((u16)unit.getID())) + this->toMake[unit.getID()];
+  }
+  //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
+  s32 PlayerImpl::completedUnitCount(UnitType unit) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType((u16)unit.getID()));
+  }
+  //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
+  s32 PlayerImpl::incompleteUnitCount(UnitType unit) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->allUnitCount(unit) - this->completedUnitCount(unit) + toMake[unit.getID()];
+  }
+  //----------------------------------------------- GET DEATHS -----------------------------------------------
+  s32 PlayerImpl::deadUnitCount(UnitType unit) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType((u16)unit.getID()));
+  }
+  //----------------------------------------------- GET KILLS ------------------------------------------------
+  s32 PlayerImpl::killedUnitCount(UnitType unit) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType((u16)unit.getID()));
+  }
+  //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
+  bool PlayerImpl::isResearching(BWAPI::TechType tech) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return false;
+    }
+    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID() * 6);
+    return techs->getBit(1 << tech.getID());
+  }
+  //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
+  bool PlayerImpl::hasResearched(BWAPI::TechType tech) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return false;
+    }
+    if (*tech.whatResearches()==UnitTypes::None)
+    {
+      return true;
+    }
+    if (tech.getID() < 0x18)
+      return *((u8*)(BW::BWDATA_TechResearchSC + this->getID() * 0x18 + tech.getID())) == 1;
+    else
+      return *((u8*)(BW::BWDATA_TechResearchBW + this->getID() * 0x14 + tech.getID() - 0x18)) == 1;
+  }
+  //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
+  bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return false;
+    }
+    return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
+  }
+  //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
+  int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
+  {
+    Engine::setLastError(Errors::None);
+    if (this!=Engine::self() && !Engine::isFlagEnabled(Flag::CompleteMapInformation))
+    {
+      Engine::setLastError(Errors::Access_Denied);
+      return 0;
+    }
+    if (upgrade.getID() < 46)
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID() * 46 + upgrade.getID())));
+    else
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID() * 15 + upgrade.getID() - 46)));
+  }
+
+
+  //---------------------------------------------- GET MINERALS ----------------------------------------------
+  s32 PlayerImpl::getMineralsSync() const
+  {
+    return BW::BWDATA_PlayerResources->minerals.player[this->getID()];
+  }
+  //------------------------------------------------ GET GAS -------------------------------------------------
+  s32 PlayerImpl::getGasSync() const
+  {
+    return BW::BWDATA_PlayerResources->gas.player[this->getID()];
+  }
+  //--------------------------------------------- SELECTED UNIT ----------------------------------------------
+  BW::Unit** PlayerImpl::selectedUnit()
+  {
+    return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID() * 48);
+  }
+  //------------------------------------------------- UPDATE -------------------------------------------------
+  void PlayerImpl::update()
+  {
+    this->mineralsLocal = this->getMineralsSync();
+    this->gasLocal = this->getGasSync();
+    for (u8 i = 0; i < BW::RACE_COUNT; i++)
+    {
+      this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync(i);
+      this->suppliesUsedLocal[i] = this->getSuppliesUsedSync(i);
+    }
+    if (BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::HumanDefeated ||
+        BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::Computer ||
+        (BW::BWDATA_Players->player[this->getID()].type == BW::PlayerType::Neutral && !this->isNeutral()))
+    {
+      this->leftTheGame = true;
+    }
+    for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
+      this->toMake[j] = 0;
+  }
+  //---------------------------------------------- SPEND LOCAL -----------------------------------------------
+  void  PlayerImpl::spend(s32 minerals, s32 gas)
+  {
+    this->mineralsLocal -= minerals;
+    this->gasLocal -= gas;
+  }
+  //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
+  s32 PlayerImpl::getSuppliesAvailableSync(u8 race) const
+  {
+    s32 ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
+    return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
+  }
+  //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
+  s32 PlayerImpl::getSuppliesUsedSync(u8 race) const
+  {
+    return BW::BWDATA_Supplies->race[race].used.player[this->getID()];
+  }
+  //--------------------------------------------- GET SUPPLY MAX ---------------------------------------------
+  s32 PlayerImpl::getSuppliesMaxSync(u8 race) const
+  {
+    return BW::BWDATA_Supplies->race[race].max.player[this->getID()];
+  }
+  //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
+  void PlayerImpl::useSupplies(u8 supplies, u8 race)
+  {
+    this->suppliesUsedLocal[race] += supplies;
+  }
+  //------------------------------------------------ GET ALLIANCE --------------------------------------------
+  u8 PlayerImpl::getAlliance(u8 opposingID)
+  {
+    return BW::BWDATA_Alliance->alliance[this->getID()].player[opposingID];
+  }
+  //----------------------------------------------- GET FORCE ------------------------------------------------
+  u8 PlayerImpl::getForce()
+  {
+    return BW::BWDATA_Players->player[this->getID()].force;
+  }
+  //----------------------------------------------- GET FIRST ------------------------------------------------
+  UnitImpl* PlayerImpl::getFirst()
+  {
+    return UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_UnitNodeTable_PlayerFirstUnit[getID()]);
+  }
+  //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
+  s32 PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const
+  {
+    if(unit.getID() < BW::UnitID::None)
+      return counts.unit[unit.getID()].player[this->getID()];
+    return 0;
+  }
+  //------------------------------------------- PLAN TO MAKE -------------------------------------------------
+  void PlayerImpl::planToMake(BW::UnitType unit)
+  {
+    this->toMake[unit.getID()]++;
+  }
+  //------------------------------------------- GET FORCE NAME -----------------------------------------------
+  char* PlayerImpl::getForceName() const
+  {
+    return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  void PlayerImpl::onGameEnd()
+  {
+    this->units.clear();
+    this->leftTheGame=false;
+  }
+  //---------------------------------------------- LEFT GAME -------------------------------------------------
+  bool PlayerImpl::leftGame() const
+  {
+    return this->leftTheGame;
+  }
+  //----------------------------------------------------------------------------------------------------------
+};
