@@ -373,13 +373,9 @@ void __declspec(naked) onDrawHigh()
     mov espSave, esp
   }
 #endif
-  if(WAIT_OBJECT_0 == ::WaitForSingleObject(BWAPI::BroodwarImpl.hcachedShapesMutex, INFINITE))
-  {
-    for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.cachedShapes.size(); shape_i++)
-      BWAPI::BroodwarImpl.cachedShapes[shape_i]->draw();
+  for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.shapes.size(); shape_i++)
+    BWAPI::BroodwarImpl.shapes[shape_i]->draw();
 
-    ::ReleaseMutex(BWAPI::BroodwarImpl.hcachedShapesMutex);
-  }
 #ifdef __MINGW32__
   __asm__("mov %eax, _eaxSave\n"
       "mov %ebx, _ebxSave\n"

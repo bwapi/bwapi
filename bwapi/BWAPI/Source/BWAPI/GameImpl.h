@@ -213,8 +213,6 @@ namespace BWAPI
 
       void addShape(Shape* s);
       std::vector<Shape*> shapes;
-      std::vector<Shape*> cachedShapes;
-      HANDLE hcachedShapesMutex;
       /** Unknown unitID's */
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;
