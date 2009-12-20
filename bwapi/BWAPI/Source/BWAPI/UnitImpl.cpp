@@ -769,7 +769,16 @@ namespace BWAPI
   UnitType UnitImpl::getBuildType() const
   {
     if (!this->attemptAccessInside()) return UnitTypes::None;
-    if (this->hasEmptyBuildQueue()) return UnitTypes::None;
+    if (this->getOrder()==Orders::ZergBuildSelf ||
+        this->getOrder()==Orders::BuildSelf1 ||
+        this->getOrder()==Orders::BuildSelf2)
+        return this->getType();
+    if (this->getOrder()==Orders::ConstructingBuilding)
+      return this->getBuildUnit()->getType();
+    if (this->hasEmptyBuildQueue())
+    {
+      return UnitTypes::None;
+    }
     if (this->isIdle()) return UnitTypes::None;
     if (this->getOrder()==Orders::BuildTerran ||
         this->getOrder()==Orders::BuildProtoss1 ||
