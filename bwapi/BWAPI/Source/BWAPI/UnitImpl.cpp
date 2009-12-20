@@ -257,6 +257,17 @@ namespace BWAPI
       return this->buildUnit != NULL || this->getType().getRace() != Races::Terran;
     return false;
   }
+  //------------------------------------------- IS BEING GATHERED --------------------------------------------
+  bool UnitImpl::isBeingGathered() const
+  {
+    if (!this->attemptAccess())
+      return false;
+    
+    if (!this->getType().isResourceContainer())
+      return false;
+
+    return this->getRawDataLocal()->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
+  }
   //--------------------------------------------- IS BEING HEALED --------------------------------------------
   bool UnitImpl::isBeingHealed() const
   {
@@ -369,9 +380,9 @@ namespace BWAPI
         return false;
       if (((BWAPI::UnitImpl*)this->getTarget())->_getPlayer()!=this->_getPlayer())
         return false;
-      if (!this->getTarget()->isCompleted())
+      if (!this->getTarget()->isCompleted() && !this->getTarget()->getType().isResourceDepot())
         return false;
-      if (this->getTarget()->getType().isRefinery())
+      if (this->getTarget()->getType().isRefinery() || this->getTarget()->getType().isResourceDepot())
         return true;
     }
     if (this->getOrderTarget()!=NULL)
@@ -380,9 +391,9 @@ namespace BWAPI
         return false;
       if (((BWAPI::UnitImpl*)this->getOrderTarget())->_getPlayer()!=this->_getPlayer())
         return false;
-      if (!this->getOrderTarget()->isCompleted())
+      if (!this->getOrderTarget()->isCompleted() && !this->getOrderTarget()->getType().isResourceDepot())
         return false;
-      if (this->getOrderTarget()->getType().isRefinery())
+      if (this->getOrderTarget()->getType().isRefinery() || this->getOrderTarget()->getType().isResourceDepot())
         return true;
     }
     return false;
@@ -596,17 +607,6 @@ namespace BWAPI
       return true;
 
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
-  }
-  //-------------------------------------------- IS BEING MINED ----------------------------------------------
-  bool UnitImpl::isBeingGathered() const
-  {
-    if (!this->attemptAccess())
-      return false;
-    
-    if (!this->getType().isResourceContainer())
-      return false;
-
-    return this->getRawDataLocal()->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
