@@ -184,12 +184,34 @@ void __declspec(naked) onSendSingle()
 #else
   __asm
   {
+    
+    mov eaxSave, eax
+    mov ebxSave, ebx
+    mov ecxSave, ecx
+    mov edxSave, edx
+    mov esiSave, esi
+    mov ediSave, edi
+    mov espSave, esp
+    mov ebpSave, ebp
     mov text, edx
   }
-  if (BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
+  if (text[0] != 0)
   {
     msg=text;
     BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+  }
+  text[0]='\0';
+  __asm
+  {
+    mov eax, eaxSave
+    mov ebx, ebxSave
+    mov ecx, ecxSave
+    mov edx, edxSave
+    mov esi, esiSave
+    mov edi, ediSave
+    mov esp, espSave
+    mov ebp, ebpSave
+    call [BW::BWFXN_SendTextCallTarget]
   }
   __asm jmp [BW::BWFXN_SendTextCallBack]
 #endif
