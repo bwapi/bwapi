@@ -32,12 +32,12 @@ void BWAPI_CALL onMatchFrame()
 
   int count = 0;
   HANDLE h = BWAllUnitsBegin();
-  BWAPI::UnitState *unit;
   for(;;)
   {
-    unit = BWAllUnitsNext(h);
-    if(!unit)
+    int unitId = BWAllUnitsNext(h);
+    if(unitId == -1)
       break;
+    BWAPI::UnitState *unit = BWGetUnit(unitId);
     BWAPI::Position pos(unit->position);
     BWPositionMapToScreen(&pos);
     BWDrawCircle(pos.x, pos.y, 10, green, false);
@@ -51,8 +51,8 @@ void BWAPI_CALL onMatchFrame()
   h = BWUnitAddEventsBegin();
   for(;;)
   {
-    unit = BWUnitAddEventsNext(h);
-    if(!unit)
+    BWAPI::UnitAddEvent *e = BWUnitAddEventsNext(h);
+    if(!e)
       break;
     count++;
   }
@@ -64,8 +64,8 @@ void BWAPI_CALL onMatchFrame()
   h = BWUnitRemoveEventsBegin();
   for(;;)
   {
-    unit = BWUnitRemoveEventsNext(h);
-    if(!unit)
+    BWAPI::UnitRemoveEvent *e = BWUnitRemoveEventsNext(h);
+    if(!e)
       break;
     count++;
   }

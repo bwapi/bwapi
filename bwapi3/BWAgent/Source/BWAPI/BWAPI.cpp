@@ -117,6 +117,20 @@ namespace BWAPI
     pos->x -= BridgeClient::sharedStaticData->screenX;
     pos->y -= BridgeClient::sharedStaticData->screenY;
   }
+  //----------------------------------- GET UNIT --------------------------------------------------
+  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWGetUnit(int unitId)
+  {
+    resetError();
+    try
+    {
+      return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId);
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
   //----------------------------------- -----------------------------------------------------------
   //----------------------------------- ALL UNITS ITERATION ---------------------------------------
   struct AllUnitsHandle
@@ -132,14 +146,14 @@ namespace BWAPI
     return handle;
   }
   //----------------------------------- ALL UNITS NEXT --------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWAllUnitsNext(HANDLE h)
+  BWAPI_FUNCTION int BWAPI_CALL BWAllUnitsNext(HANDLE h)
   {
     AllUnitsHandle &handle = *(AllUnitsHandle*)h;
     if(!handle.index.isValid())
-      return NULL;
-    BWAPI::UnitState &retval = BridgeClient::sharedStuff.knownUnits.get(handle.index);
+      return -1;
+    int retval = BridgeClient::sharedStuff.knownUnits.getLinearByIndex(handle.index);
     handle.index = BridgeClient::sharedStuff.knownUnits.getNext(handle.index);
-    return &retval;
+    return retval;
   }
   //----------------------------------- ALL UNITS CLOSE -------------------------------------------
   BWAPI_FUNCTION void BWAPI_CALL BWAllUnitsClose(HANDLE h)
@@ -161,7 +175,7 @@ namespace BWAPI
     return handle;
   }
   //----------------------------------- UNIT EVENTS NEXT ------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWUnitAddEventsNext(HANDLE h)
+  BWAPI_FUNCTION BWAPI::UnitAddEvent* BWAPI_CALL BWUnitAddEventsNext(HANDLE h)
   {
     UnitAddEventsHandle &handle = *(UnitAddEventsHandle*)h;
     if(!handle.index.isValid())
@@ -174,7 +188,7 @@ namespace BWAPI
     handle.index = BridgeClient::sharedStuff.knownUnitAddEvents.getNext(handle.index);
 
     // retrieve the added unit slot reference
-    BWAPI::UnitState &retval = BridgeClient::sharedStuff.knownUnits.get(mem.getAs<Bridge::KnownUnitAddEventEntry>().unitIndex);
+    BWAPI::UnitAddEvent &retval = mem.getAs<Bridge::KnownUnitAddEventEntry>().data;
     return &retval;
   }
   //----------------------------------- UNIT EVENTS CLOSE -----------------------------------------
@@ -197,7 +211,7 @@ namespace BWAPI
     return handle;
   }
   //----------------------------------- UNIT EVENTS NEXT ------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h)
+  BWAPI_FUNCTION BWAPI::UnitRemoveEvent* BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h)
   {
     UnitRemoveEventsHandle &handle = *(UnitRemoveEventsHandle*)h;
     if(!handle.index.isValid())
@@ -210,7 +224,7 @@ namespace BWAPI
     handle.index = BridgeClient::sharedStuff.knownUnitRemoveEvents.getNext(handle.index);
 
     // retrieve the removed unit slot reference
-    BWAPI::UnitState &retval = BridgeClient::sharedStuff.knownUnits.get(mem.getAs<Bridge::KnownUnitRemoveEventEntry>().unitIndex);
+    BWAPI::UnitRemoveEvent &retval = mem.getAs<Bridge::KnownUnitRemoveEventEntry>().data;
     return &retval;
   }
   //----------------------------------- UNIT EVENTS CLOSE -----------------------------------------

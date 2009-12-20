@@ -483,6 +483,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\UnitEvent.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\UnitState.h"
 					>
 				</File>

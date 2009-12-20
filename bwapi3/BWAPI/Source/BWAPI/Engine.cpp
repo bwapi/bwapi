@@ -989,7 +989,7 @@ namespace BWAPI
                 // unit perished
                 if(mirror.knownUnit)
                 {
-                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex);
+                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
                   mirror.knownUnit = NULL;
                 }
                 continue;
@@ -1003,7 +1003,7 @@ namespace BWAPI
                 // remove previous.
                 if(mirror.knownUnit)
                 {
-                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex);
+                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
                   mirror.knownUnit = NULL;
                 }
               }
@@ -1020,14 +1020,14 @@ namespace BWAPI
                   // unit becomes known
 
                   // reserve a KnownUnitEntry and store it's address so it gets filled
-                  BridgeServer::addKnownUnit(&mirror.knownUnit, &mirror.knownUnitIndex);
+                  BridgeServer::addKnownUnit(&mirror.knownUnit, &mirror.knownUnitIndex, UnitAddEventTypeIds::Created);
                 }
                 else
                 {
                   // unit becomes not known
 
                   // release KnownUnit address
-                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex);
+                  BridgeServer::removeKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
                   mirror.knownUnit = NULL;
                 }
               }

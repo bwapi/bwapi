@@ -5,15 +5,16 @@
  *********/
 
 #include "SharedStuff.h"
+#include <BWAPITypes\UnitEvent.h>
 
 namespace Bridge
 {
   struct KnownUnitAddEventEntry
   {
-    SharedStuff::KnownUnitSet::Index unitIndex;
+    BWAPI::UnitAddEvent data;
   };
   struct KnownUnitRemoveEventEntry
   {
-    SharedStuff::KnownUnitSet::Index unitIndex;
+    BWAPI::UnitRemoveEvent data;
   };
 }
