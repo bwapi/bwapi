@@ -720,6 +720,12 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 {
   delete Util::Logger::globalLog;
   GetPrivateProfileStringA("paths", "log_path", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+  
+  logging=false;
+  char logging_str[MAX_PATH];
+  GetPrivateProfileStringA("config", "logging", "NULL", logging_str, MAX_PATH, "bwapi-data\\bwapi.ini");
+  if (std::string(logging_str)=="on")
+    logging=true;
   if (_strcmpi(logPath, "NULL") == 0)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
@@ -727,9 +733,15 @@ DWORD WINAPI CTRT_Thread(LPVOID)
     fclose(f);
   }
 
-  Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
-  Util::Logger::globalLog->log("BWAPI initialisation started");
-
+  if (logging)
+  {
+    Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
+    Util::Logger::globalLog->log("BWAPI initialisation started");
+  }
+  else
+  {
+    Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
+  }
   JmpCallPatch((void*)&nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
   JmpCallPatch((void*)&menuFrameHook,  BW::BWFXN_NextMenuFrame,   0);
   JmpCallPatch((void*)&onGameEnd,      BW::BWFXN_GameEnd,         0);
