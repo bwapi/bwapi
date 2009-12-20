@@ -765,6 +765,23 @@ namespace BWAPI
       return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
     return (Unit*)this->buildUnit;
   }
+  //--------------------------------------------- GET BUILD TYPE ---------------------------------------------
+  UnitType UnitImpl::getBuildType() const
+  {
+    if (!this->attemptAccessInside()) return UnitTypes::None;
+    if (this->hasEmptyBuildQueue()) return UnitTypes::None;
+    if (this->isIdle()) return UnitTypes::None;
+    if (this->getOrder()==Orders::BuildTerran ||
+        this->getOrder()==Orders::BuildProtoss1 ||
+        this->getOrder()==Orders::Morph1 ||
+        this->getOrder()==Orders::DroneLand ||
+        this->getOrder()==Orders::ZergBuildSelf)
+    {
+      int i = this->getBuildQueueSlot() % 5;
+      return BWAPI::UnitType(this->getBuildQueue()[i].id);
+    }
+    return UnitTypes::None;
+  }
   //----------------------------------------------- GET CHILD ------------------------------------------------
   Unit* UnitImpl::getChild() const
   {

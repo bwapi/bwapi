@@ -57,6 +57,7 @@ namespace BWAPI
       virtual int getOrderTimer() const = 0;
       virtual Order getSecondaryOrder() const = 0;
       virtual Unit* getBuildUnit() const = 0;
+      virtual UnitType getBuildType() const = 0;
       virtual int getRemainingBuildTime() const = 0;
       virtual int getRemainingTrainTime() const = 0;
       virtual Unit* getChild() const = 0;
