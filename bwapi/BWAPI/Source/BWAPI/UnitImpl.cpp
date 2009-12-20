@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <limits>
+#include <sstream>
 
 #include <Util/Logger.h>
 #include <Util/Foreach.h>
@@ -2293,53 +2294,57 @@ namespace BWAPI
       return this->canAccessInside();
     }
   }
-  char position[100];
-  char indexName[50];
-  char targetIndex[50];
-  char orderTargetIndex[50];
-  char owner[100];
-  char unitName[100];
-  char orderName[100];
-  char connectedUnit[100];
-  char message[400];
   //----------------------------------------------------------------------------------------------------------
   std::string UnitImpl::getName() const
   {
-    sprintf_s(position, 100, "Position = (%d,%d)", this->getPosition().x(),
-              this->getPosition().y());
+    std::ostringstream message;
+        
+        // Type
+        message << "(" << this->getType().getName() << ")";
 
-    sprintf_s(indexName, 50, "[%d]", this->getIndex());
+        // Order
+        message << " (" << this->getOrder().getName() << ")";
 
+        // Id
+        message << " [" << this->getIndex() << "]";
+
+        // Position
+        message << " Position = (" << this->getPosition().x() << "," << this->getPosition().y() << ")";
+          
+        // Target
     if (this->getTarget() == NULL)
-      strcpy_s(targetIndex, 50, "Target:[NULL]");
+    {
+      message << " Target:[NULL]";
+    }
     else
-      sprintf_s(targetIndex, 50, "Target:[%d](%s)", (int)this->getTarget(), this->getTarget()->getType().getName().c_str());
+    {
+      message << " Target:[" << (int)this->getTarget() << "](" << this->getTarget()->getType().getName() << ")";
+    }
 
+        // Order Target
     if (this->getOrderTarget() == NULL)
-      strcpy_s(orderTargetIndex, 50, "OrderTarget:[NULL]");
+        {
+      message << " OrderTarget:[NULL]";
+    }
     else
-      sprintf_s(orderTargetIndex, 50, "OrderTarget:[%d](%s)", (int)(this->getOrderTarget()), this->getOrderTarget()->getType().getName().c_str());
+    {
+    message << " OrderTarget:[" <<(int)(this->getOrderTarget()) << "](" << this->getOrderTarget()->getType().getName() << ")";
+    }
 
-    sprintf_s(owner, 100, "Player = (%s)", this->getPlayer()->getName().c_str());
+        // Player
+    message << " Player = (" << this->getPlayer()->getName() << ")";
 
-    sprintf_s(unitName, 100, "(%s)", this->getType().getName().c_str());
-
+        // Child Unit
     if (this->getChild() == NULL)
-      sprintf_s(connectedUnit, 100, "(childUnit1 = NULL)");
+    {
+      message << " (childUnit1 = NULL)";
+    }
     else
-      sprintf_s(connectedUnit, 100, "(childUnit1 = %s)", this->getChild()->getType().getName().c_str());
+    {
+      message << " (childUnit1 = " << this->getChild()->getType().getName() << ")";
+    }
 
-    sprintf_s(orderName, 100, "(%s)", this->getOrder().getName().c_str());
-    sprintf_s(message, 400, "%s %s %s %s %s %s %s %s", unitName,
-              orderName,
-              indexName,
-              position,
-              targetIndex,
-              orderTargetIndex,
-              owner,
-              connectedUnit);
-
-    return std::string(message);
+        return message.str();
   }
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
