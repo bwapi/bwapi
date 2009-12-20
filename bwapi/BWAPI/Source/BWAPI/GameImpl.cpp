@@ -63,7 +63,6 @@ namespace BWAPI
       , enabled(true)
       , client(NULL)
       , startedClient(false)
-      , hcachedShapesMutex(::CreateMutex(NULL, FALSE, _T("cachedShapesVector")))
       , inUpdate(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
@@ -757,14 +756,8 @@ namespace BWAPI
 
       this->updateUnits();
 
-      if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
-      {
-        for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
-          delete this->cachedShapes[i];
-
-        this->cachedShapes = this->shapes;
-        ::ReleaseMutex(hcachedShapesMutex);
-      }
+      for (unsigned int i = 0; i < this->shapes.size(); i++)
+        delete this->shapes[i];
       this->shapes.clear();
 
       this->inUpdate = false;
@@ -819,6 +812,7 @@ namespace BWAPI
       this->lockFlags();
     }
     this->client->onFrame();
+
     for(std::list< std::string >::iterator i=this->interceptedMessages.begin();i!=this->interceptedMessages.end();i++)
     {
       bool send=!BroodwarImpl.onSendText(i->c_str());
@@ -1233,14 +1227,6 @@ namespace BWAPI
       delete d;
 
     this->deadUnits.clear();
-    if (WAIT_OBJECT_0 == ::WaitForSingleObject(hcachedShapesMutex, INFINITE))
-    {
-      for (unsigned int i = 0; i < this->cachedShapes.size(); i++)
-        delete this->cachedShapes[i];
-
-      this->cachedShapes.clear();
-      ::ReleaseMutex(hcachedShapesMutex);
-    }
 
     for (unsigned int i = 0; i < this->shapes.size(); i++)
       delete this->shapes[i];
