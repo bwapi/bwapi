@@ -253,8 +253,13 @@ namespace BWAPI
   bool UnitImpl::isBeingConstructed() const
   {
     if (!this->attemptAccess()) return false;
-    if (!this->isCompleted() && this->getType().isBuilding())
-      return this->buildUnit != NULL || this->getType().getRace() != Races::Terran;
+    if (!this->isCompleted())
+    {
+      if (this->getType().isBuilding())
+        return this->buildUnit != NULL || this->getType().getRace() != Races::Terran;
+      if (this->_getType()==UnitTypes::Zerg_Egg || this->_getType()==UnitTypes::Zerg_Lurker_Egg || this->_getType()==UnitTypes::Zerg_Cocoon)
+        return true;
+    }
     return false;
   }
   //------------------------------------------- IS BEING GATHERED --------------------------------------------
@@ -2359,8 +2364,10 @@ namespace BWAPI
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   int UnitImpl::getRemainingBuildTime() const
   {
+    
     return this->getRawDataLocal()->remainingBuildTime;
   }
+  //---------------------------------------- GET REMAINING TRAIN TIME ----------------------------------------
   int UnitImpl::getRemainingTrainTime() const
   {
     if (this->getRawDataLocal()->currentBuildUnit)
