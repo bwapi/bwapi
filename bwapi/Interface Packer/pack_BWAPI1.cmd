@@ -1,1 +1,0 @@
-@"..\debug\interface packer.exe" "BWAPI1.ini"
