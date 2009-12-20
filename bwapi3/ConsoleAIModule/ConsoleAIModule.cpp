@@ -58,7 +58,10 @@ void BWAPI_CALL onMatchFrame()
   }
   BWUnitAddEventsClose(h);
   if(count)
-    printf("%d units added\n", count);
+  {
+    sprintf(buffer, "%d units added\n", count);
+    BWPrintText(buffer);
+  }
 
   count = 0;
   h = BWUnitRemoveEventsBegin();
@@ -71,7 +74,10 @@ void BWAPI_CALL onMatchFrame()
   }
   BWUnitRemoveEventsClose(h);
   if(count)
-    printf("%d units removed\n", count);
+  {
+    sprintf(buffer, "%d units removed\n", count);
+    BWPrintText(buffer);
+  }
 
 }
 

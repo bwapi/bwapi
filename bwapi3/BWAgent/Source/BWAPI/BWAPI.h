@@ -33,6 +33,10 @@ BWAPI_FUNCTION bool BWAPI_CALL BWTakeover(
 BWAPI_FUNCTION BWAPI::StaticGameData* BWAPI_CALL BWGetStaticGameData();
 BWAPI_FUNCTION void                   BWAPI_CALL BWPositionMapToScreen(BWAPI::Position* pos);
 
+// text operations
+BWAPI_FUNCTION bool BWAPI_CALL BWPrintText(const char* text);
+BWAPI_FUNCTION bool BWAPI_CALL BWSendText(const char* text);
+
 // draw operations
 BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text);
 BWAPI_FUNCTION void BWAPI_CALL BWDrawRectangle(int x, int y, int w, int h, int color, int solid);

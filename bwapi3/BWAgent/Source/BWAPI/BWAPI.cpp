@@ -81,6 +81,16 @@ namespace BWAPI
     return true;
   }
   //----------------------------------- DRAW TEXT -------------------------------------------------
+  BWAPI_FUNCTION bool BWAPI_CALL BWPrintText(const char* text)
+  {
+    return BridgeClient::pushSendText(false, text);
+  }
+  //----------------------------------- DRAW TEXT -------------------------------------------------
+  BWAPI_FUNCTION bool BWAPI_CALL BWSendText(const char* text)
+  {
+    return BridgeClient::pushSendText(true, text);
+  }
+  //----------------------------------- DRAW TEXT -------------------------------------------------
   BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text)
   {
     BridgeClient::pushDrawText(x, y, text);
