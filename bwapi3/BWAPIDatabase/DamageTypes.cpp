@@ -1,4 +1,4 @@
-#include "DamageType.h"
+#include "DamageTypes.h"
 
 #include <string>
 #include <map>
@@ -34,21 +34,20 @@ namespace BWAPI
       damageTypeSet.insert(DamageTypeIds::Ignore_Armor);
       damageTypeSet.insert(DamageTypeIds::None);
 
-      for(std::set<DamageType>::iterator i = damageTypeSet.begin(); i != damageTypeSet.end(); i++)
+      for(std::set<DamageTypeId>::iterator i = damageTypeSet.begin(); i != damageTypeSet.end(); i++)
       {
         damageTypeMap.insert(std::make_pair(std::string(damageType[*i].name), *i));
       }
     }
   }
 
-  DamageTypeId DamageTypes::getIdByName(const std::string& name)
+  namespace DamageTypes
   {
-    std::map<std::string, DamageTypeId>::iterator i = damageTypeMap.find(name);
-    if (i == damageTypeMap.end()) return DamageTypeIds::None;
-    return (*i).second;
-  }
-  std::set<DamageType>& DamageTypes::allDamageTypes()
-  {
-    return damageTypeSet;
+    DamageTypeId getIdByName(const std::string& name)
+    {
+      std::map<std::string, DamageTypeId>::iterator i = damageTypeMap.find(name);
+      if (i == damageTypeMap.end()) return DamageTypeIds::None;
+      return (*i).second;
+    }
   }
 }

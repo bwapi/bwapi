@@ -223,6 +223,22 @@
 				Name="Database"
 				>
 				<File
+					RelativePath="..\BWAPIDatabase\DamageTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\DamageTypes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\ExplosionTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\ExplosionTypes.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPIDatabase\Races.cpp"
 					>
 				</File>
@@ -252,6 +268,14 @@
 				</File>
 				<File
 					RelativePath="..\BWAPIDatabase\UnitTypes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\UpgradeTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\UpgradeTypes.h"
 					>
 				</File>
 				<File
@@ -323,6 +347,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\ExplosionType.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\Flag.h"
 					>
 				</File>
@@ -371,11 +399,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\UpgradeType.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\WalkPosition.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\BWAPITypes\WalkPosition.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\WeaponType.h"
 					>
 				</File>
 			</Filter>

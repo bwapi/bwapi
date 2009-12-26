@@ -9,6 +9,13 @@
 #include <Bridge\KnownUnitEventEntry.h>
 
 #include <BWAPIDatabase\UnitTypes.h>
+#include <BWAPIDatabase\TechTypes.h>
+#include <BWAPIDatabase\UpgradeTypes.h>
+#include <BWAPIDatabase\WeaponTypes.h>
+#include <BWAPIDatabase\DamageTypes.h>
+#include <BWAPIDatabase\ExplosionTypes.h>
+#include <BWAPIDatabase\Races.h>
+#include <BWAPIDatabase\UnitSizeTypes.h>
 
 // singleton base class
 namespace BWAPI
@@ -61,6 +68,13 @@ namespace BWAPI
           {
             // init database
             UnitTypes::init();
+            TechTypes::init();
+            UpgradeTypes::init();
+            WeaponTypes::init();
+            DamageTypes::init();
+            ExplosionTypes::init();
+            Races::init();
+            UnitSizeTypes::init();
 
             if(onMatchStart)onMatchStart(BridgeClient::isMatchStartFromBeginning);
           }break;

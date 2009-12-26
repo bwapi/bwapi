@@ -6,84 +6,81 @@
 
 namespace BWAPI
 {
-  ExplosionType explosionTypeName[26];
-  std::map<std::string, ExplosionType> explosionTypeMap;
-  std::set< ExplosionType > explosionTypeSet;
+  ExplosionTypeInternal explosionTypeData[ExplosionTypeIds::count];
+  std::map<std::string, ExplosionTypeId> explosionTypeMap;
+  std::set< ExplosionTypeId > explosionTypeSet;
+
+  void fillExplosionType(ExplosionTypeId id, const char* name)
+  {
+    ExplosionTypeInternal &target = explosionTypeData[id];
+    target.name = name;
+  }
 
   namespace ExplosionTypes
   {
     void init()
     {
-      explosionTypeName[None.getID()] = "None";
-      explosionTypeName[Normal.getID()] = "Normal";
-      explosionTypeName[Radial_Splash.getID()] = "Radial Splash";
-      explosionTypeName[Enemy_Splash.getID()] = "Enemy Splash";
-      explosionTypeName[Lockdown.getID()] = "Lockdown";
-      explosionTypeName[Nuclear_Missile.getID()] = "Nuclear Missile";
-      explosionTypeName[Parasite.getID()] = "Parasite";
-      explosionTypeName[Broodlings.getID()] = "Broodlings";
-      explosionTypeName[EMP_Shockwave.getID()] = "EMP Shockwave";
-      explosionTypeName[Irradiate.getID()] = "Irradiate";
-      explosionTypeName[Ensnare.getID()] = "Ensnare";
-      explosionTypeName[Plague.getID()] = "Plague";
-      explosionTypeName[Stasis_Field.getID()] = "Stasis Field";
-      explosionTypeName[Dark_Swarm.getID()] = "Dark Swarm";
-      explosionTypeName[Consume.getID()] = "Consume";
-      explosionTypeName[Yamato_Gun.getID()] = "Yamato Gun";
-      explosionTypeName[Restoration.getID()] = "Restoration";
-      explosionTypeName[Disruption_Web.getID()] = "Disruption Web";
-      explosionTypeName[Corrosive_Acid.getID()] = "Corrosive Acid";
-      explosionTypeName[Mind_Control.getID()] = "Mind Control";
-      explosionTypeName[Feedback.getID()] = "Feedback";
-      explosionTypeName[Optical_Flare.getID()] = "Optical Flare";
-      explosionTypeName[Maelstrom.getID()] = "Maelstrom";
-      explosionTypeName[Air_Splash.getID()] = "Air Splash";
-      explosionTypeName[Unknown.getID()] = "Unknown";
+      fillExplosionType(ExplosionTypeIds::None, "None");
+      fillExplosionType(ExplosionTypeIds::Normal, "Normal");
+      fillExplosionType(ExplosionTypeIds::Radial_Splash, "Radial Splash");
+      fillExplosionType(ExplosionTypeIds::Enemy_Splash, "Enemy Splash");
+      fillExplosionType(ExplosionTypeIds::Lockdown, "Lockdown");
+      fillExplosionType(ExplosionTypeIds::Nuclear_Missile, "Nuclear Missile");
+      fillExplosionType(ExplosionTypeIds::Parasite, "Parasite");
+      fillExplosionType(ExplosionTypeIds::Broodlings, "Broodlings");
+      fillExplosionType(ExplosionTypeIds::EMP_Shockwave, "EMP Shockwave");
+      fillExplosionType(ExplosionTypeIds::Irradiate, "Irradiate");
+      fillExplosionType(ExplosionTypeIds::Ensnare, "Ensnare");
+      fillExplosionType(ExplosionTypeIds::Plague, "Plague");
+      fillExplosionType(ExplosionTypeIds::Stasis_Field, "Stasis Field");
+      fillExplosionType(ExplosionTypeIds::Dark_Swarm, "Dark Swarm");
+      fillExplosionType(ExplosionTypeIds::Consume, "Consume");
+      fillExplosionType(ExplosionTypeIds::Yamato_Gun, "Yamato Gun");
+      fillExplosionType(ExplosionTypeIds::Restoration, "Restoration");
+      fillExplosionType(ExplosionTypeIds::Disruption_Web, "Disruption Web");
+      fillExplosionType(ExplosionTypeIds::Corrosive_Acid, "Corrosive Acid");
+      fillExplosionType(ExplosionTypeIds::Mind_Control, "Mind Control");
+      fillExplosionType(ExplosionTypeIds::Feedback, "Feedback");
+      fillExplosionType(ExplosionTypeIds::Optical_Flare, "Optical Flare");
+      fillExplosionType(ExplosionTypeIds::Maelstrom, "Maelstrom");
+      fillExplosionType(ExplosionTypeIds::Air_Splash, "Air Splash");
 
-      explosionTypeSet.insert(None);
-      explosionTypeSet.insert(Normal);
-      explosionTypeSet.insert(Radial_Splash);
-      explosionTypeSet.insert(Enemy_Splash);
-      explosionTypeSet.insert(Lockdown);
-      explosionTypeSet.insert(Nuclear_Missile);
-      explosionTypeSet.insert(Parasite);
-      explosionTypeSet.insert(Broodlings);
-      explosionTypeSet.insert(EMP_Shockwave);
-      explosionTypeSet.insert(Irradiate);
-      explosionTypeSet.insert(Ensnare);
-      explosionTypeSet.insert(Plague);
-      explosionTypeSet.insert(Stasis_Field);
-      explosionTypeSet.insert(Dark_Swarm);
-      explosionTypeSet.insert(Consume);
-      explosionTypeSet.insert(Yamato_Gun);
-      explosionTypeSet.insert(Restoration);
-      explosionTypeSet.insert(Disruption_Web);
-      explosionTypeSet.insert(Corrosive_Acid);
-      explosionTypeSet.insert(Mind_Control);
-      explosionTypeSet.insert(Feedback);
-      explosionTypeSet.insert(Optical_Flare);
-      explosionTypeSet.insert(Maelstrom);
-      explosionTypeSet.insert(Air_Splash);
-      explosionTypeSet.insert(Unknown);
+      explosionTypeSet.insert(ExplosionTypeIds::None);
+      explosionTypeSet.insert(ExplosionTypeIds::Normal);
+      explosionTypeSet.insert(ExplosionTypeIds::Radial_Splash);
+      explosionTypeSet.insert(ExplosionTypeIds::Enemy_Splash);
+      explosionTypeSet.insert(ExplosionTypeIds::Lockdown);
+      explosionTypeSet.insert(ExplosionTypeIds::Nuclear_Missile);
+      explosionTypeSet.insert(ExplosionTypeIds::Parasite);
+      explosionTypeSet.insert(ExplosionTypeIds::Broodlings);
+      explosionTypeSet.insert(ExplosionTypeIds::EMP_Shockwave);
+      explosionTypeSet.insert(ExplosionTypeIds::Irradiate);
+      explosionTypeSet.insert(ExplosionTypeIds::Ensnare);
+      explosionTypeSet.insert(ExplosionTypeIds::Plague);
+      explosionTypeSet.insert(ExplosionTypeIds::Stasis_Field);
+      explosionTypeSet.insert(ExplosionTypeIds::Dark_Swarm);
+      explosionTypeSet.insert(ExplosionTypeIds::Consume);
+      explosionTypeSet.insert(ExplosionTypeIds::Yamato_Gun);
+      explosionTypeSet.insert(ExplosionTypeIds::Restoration);
+      explosionTypeSet.insert(ExplosionTypeIds::Disruption_Web);
+      explosionTypeSet.insert(ExplosionTypeIds::Corrosive_Acid);
+      explosionTypeSet.insert(ExplosionTypeIds::Mind_Control);
+      explosionTypeSet.insert(ExplosionTypeIds::Feedback);
+      explosionTypeSet.insert(ExplosionTypeIds::Optical_Flare);
+      explosionTypeSet.insert(ExplosionTypeIds::Maelstrom);
+      explosionTypeSet.insert(ExplosionTypeIds::Air_Splash);
 
-      for(std::set<ExplosionType>::iterator i = explosionTypeSet.begin(); i != explosionTypeSet.end(); i++)
+      for(std::set<ExplosionTypeId>::iterator i = explosionTypeSet.begin(); i != explosionTypeSet.end(); i++)
       {
-        explosionTypeMap.insert(std::make_pair((*i).getName(), *i));
+        explosionTypeMap.insert(std::make_pair(std::string(explosionTypeData[*i].name), *i));
       }
     }
-  }
 
-  namespace ExplosionTypes
-  {
-    ExplosionType getIdByName(std::string& name)
+    ExplosionTypeId getIdByName(const std::string& name)
     {
-      std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
-      if (i == explosionTypeMap.end()) return ExplosionTypes::Unknown;
+      std::map<std::string, ExplosionTypeId>::iterator i = explosionTypeMap.find(name);
+      if (i == explosionTypeMap.end()) return ExplosionTypeIds::None;
       return (*i).second;
-    }
-    std::set<ExplosionType>& allExplosionTypes()
-    {
-      return explosionTypeSet;
     }
   }
 }
