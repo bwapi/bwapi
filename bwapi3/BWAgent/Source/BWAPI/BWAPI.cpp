@@ -16,6 +16,7 @@
 #include <BWAPIDatabase\ExplosionTypes.h>
 #include <BWAPIDatabase\Races.h>
 #include <BWAPIDatabase\UnitSizeTypes.h>
+#include <BWAPIDatabase\PlayerTypes.h>
 
 // singleton base class
 namespace BWAPI
@@ -270,13 +271,12 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET PLAYER TYPE -------------------------------------------
-  /*
-  BWAPI_FUNCTION BWAPI::PlayerType* BWAPI_CALL BWGetPlayerType(BWAPI::UnitPlayerTypeId id)
+  BWAPI_FUNCTION BWAPI::PlayerType* BWAPI_CALL BWGetPlayerType(BWAPI::PlayerTypeId id)
   {
     resetError();
     try
     {
-      return &BWAPI::playerTypeData[unitId];
+      return &BWAPI::PlayerTypes::playerTypeData[id];
     }
     catch(GeneralException &exception)
     {
@@ -284,7 +284,6 @@ namespace BWAPI
       return NULL;
     }
   }
-  */
   //----------------------------------- -----------------------------------------------------------
   //----------------------------------- ALL UNITS ITERATION ---------------------------------------
   struct AllUnitsHandle

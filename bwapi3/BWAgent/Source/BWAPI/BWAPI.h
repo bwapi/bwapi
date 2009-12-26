@@ -23,6 +23,8 @@
 #include <BWAPITypes\RaceId.h>
 #include <BWAPITypes\UnitSizeType.h>
 #include <BWAPITypes\UnitSizeTypeId.h>
+#include <BWAPITypes\PlayerType.h>
+#include <BWAPITypes\PlayerTypeId.h>
 
 #include <windows.h>
 #include <string>
@@ -73,7 +75,7 @@ BWAPI_FUNCTION BWAPI::DamageType*     BWAPI_CALL BWGetDamageType(BWAPI::DamageTy
 BWAPI_FUNCTION BWAPI::ExplosionType*  BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId id);
 BWAPI_FUNCTION BWAPI::Race*           BWAPI_CALL BWGetRace(BWAPI::RaceId id);
 BWAPI_FUNCTION BWAPI::UnitSizeType*   BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId id);
-//BWAPI_FUNCTION BWAPI::PlayerType*     BWAPI_CALL BWGetPlayerType(BWAPI::UnitPlayerTypeId id);
+BWAPI_FUNCTION BWAPI::PlayerType*     BWAPI_CALL BWGetPlayerType(BWAPI::PlayerTypeId id);
 
 // unit array enumeration. returns -1 when ended
 BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();

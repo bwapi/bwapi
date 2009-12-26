@@ -52,6 +52,7 @@ void BWAPI_CALL onMatchFrame()
     BWAPI::ExplosionType *groundExplosion = BWGetExplosionType(groundWeapon->explosionType);
     BWAPI::UpgradeType *armorUpgrade = BWGetUpgradeType(unitType->armorUpgrade);
     BWAPI::TechType *requiredTech = BWGetTechType(unitType->requiredTech);
+//    BWAPI::PlayerType *self = BWGetPlayerType(data->self);
 
     sprintf(buffer, "type: %s", unitType->name);
     BWDrawText(pos.x, y+=8, buffer);

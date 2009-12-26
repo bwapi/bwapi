@@ -239,6 +239,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPIDatabase\PlayerTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\PlayerTypes.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPIDatabase\Races.cpp"
 					>
 				</File>
@@ -299,6 +307,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\PlayerTypeId.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\RaceId.h"
 					>
 				</File>
@@ -356,6 +368,10 @@
 				</File>
 				<File
 					RelativePath="..\BWAPITypes\Latency.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\PlayerType.h"
 					>
 				</File>
 				<File
