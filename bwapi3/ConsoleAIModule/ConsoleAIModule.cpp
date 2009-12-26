@@ -40,7 +40,12 @@ void BWAPI_CALL onMatchFrame()
     BWAPI::UnitState *unit = BWGetUnit(unitId);
     BWAPI::Position pos(unit->position);
     BWPositionMapToScreen(&pos);
-    BWDrawCircle(pos.x, pos.y, 10, green, false);
+    BWDrawCircle(pos.x, pos.y, 5, green, false);
+
+    BWAPI::UnitType *unitType = BWGetUnitType(unit->type);
+    sprintf(buffer, "type: %s", unitType->name);
+    BWDrawText(pos.x, pos.y, buffer);
+
     count++;
   }
   BWAllUnitsClose(h);

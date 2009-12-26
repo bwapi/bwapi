@@ -8,6 +8,8 @@
 #include <Bridge\SharedStuff.h>
 #include <Bridge\KnownUnitEventEntry.h>
 
+#include <BWAPIDatabase\UnitTypes.h>
+
 // singleton base class
 namespace BWAPI
 {
@@ -49,10 +51,7 @@ namespace BWAPI
       while(true)
       {
         if(!BridgeClient::waitForEvent())
-        {
-          lastError = __FUNCTION__ ": " + BridgeClient::getLastError();
-          return false;
-        }
+          throw GeneralException(__FUNCTION__ ": " + BridgeClient::getLastError());
 
         // react upon bridge state
         BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
@@ -60,6 +59,9 @@ namespace BWAPI
         {
         case BridgeClient::OnInitMatch:
           {
+            // init database
+            UnitTypes::init();
+
             if(onMatchStart)onMatchStart(BridgeClient::isMatchStartFromBeginning);
           }break;
         case BridgeClient::OnFrame:
@@ -134,6 +136,20 @@ namespace BWAPI
     try
     {
       return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId);
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET UNIT TYPE ---------------------------------------------
+  BWAPI_FUNCTION BWAPI::UnitType* BWAPI_CALL BWGetUnitType(int unitId)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::unitTypeData[unitId];
     }
     catch(GeneralException &exception)
     {

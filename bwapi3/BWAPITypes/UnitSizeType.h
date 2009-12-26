@@ -5,11 +5,6 @@ namespace BWAPI
 {
   struct UnitSizeType
   {
-    // STUB
-  };
-  /* TODO: make a POD
-  struct UnitSizeType
-  {
     public:
       UnitSizeType();
       UnitSizeType(int id);
@@ -23,17 +18,4 @@ namespace BWAPI
     private:
       int id;
   };
-  namespace UnitSizeTypes
-  {
-    UnitSizeType getUnitSizeType(std::string& name);
-    std::set<UnitSizeType>& allUnitSizeTypes();
-    void init();
-    extern const UnitSizeType Independent;
-    extern const UnitSizeType Small;
-    extern const UnitSizeType Medium;
-    extern const UnitSizeType Large;
-    extern const UnitSizeType None;
-    extern const UnitSizeType Unknown;
-  }
-  */
 }

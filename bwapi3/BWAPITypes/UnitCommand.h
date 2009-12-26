@@ -2,6 +2,10 @@
 
 #include "UnitCommandTypeID.h"
 
+#include <BWAPITypes\TechTypeId.h>
+#include <BWAPITypes\UpgradeTypeId.h>
+#include <BWAPITypes\UnitTypeId.h>
+
 /**
  * UnitOrder contains a single whole order
  */
@@ -17,7 +21,9 @@ namespace BWAPI
     int targetIndex;    //target unit ID, if applicable
     union   // depending on command type
     {
-      int special; //tech type, upgrade type, or unit type, 
+      TechTypeId tech;
+      UpgradeTypeId upgrade;
+      UnitTypeId unit;
     };
   };
 }

@@ -1038,12 +1038,12 @@ namespace BWAPI
                 Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
 
                 // TODO: implement clearance limit
-                knownUnit.position = bwUnit.position;
+                knownUnit.position                    = bwUnit.position;
+                knownUnit.type                        = (UnitTypeId)bwUnit.unitID.id;
 
                 /* TODO: find according BW::Unit members
                 knownUnit.state.id                    = (int)&knownUnit;
                 knownUnit.state.player                = bwUnit.getPlayer()->getID();
-                knownUnit.state.type                  = bwUnit.getType().getID();
                 knownUnit.state.hitPoints             = bwUnit.getHitPoints();
                 knownUnit.state.shields               = bwUnit.getShields();
                 knownUnit.state.energy                = bwUnit.getEnergy();

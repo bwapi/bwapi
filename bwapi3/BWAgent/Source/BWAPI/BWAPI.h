@@ -5,6 +5,9 @@
 #include <BWAPITypes\UnitEvent.h>
 #include <BWAPITypes\StaticGameData.h>
 
+#include <BWAPITypes\UnitType.h>
+#include <BWAPITypes\UnitTypeId.h>
+
 #include <windows.h>
 #include <string>
 
@@ -44,8 +47,9 @@ BWAPI_FUNCTION void BWAPI_CALL BWDrawCircle(int x, int y, int r, int color, int 
 BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int color);
 BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color);
 
-// unit getter
+// information queries
 BWAPI_FUNCTION BWAPI::UnitState*  BWAPI_CALL BWGetUnit(int unitId);
+BWAPI_FUNCTION BWAPI::UnitType*   BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId type);
 
 // unit array enumeration. returns -1 when ended
 BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();

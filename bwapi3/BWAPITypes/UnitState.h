@@ -1,6 +1,7 @@
 #pragma once
 
 #include <BWAPITypes\Position.h>
+#include <BWAPITypes\UnitTypeId.h>
 
 namespace BWAPI
 {
@@ -27,7 +28,7 @@ namespace BWAPI
     bool isAccelerating;
     bool isMoving;
     bool isIdle;
-    int type;
+    UnitTypeId type;
     int removeTimer;
     int id;
     bool isStartingAttack;

@@ -165,9 +165,9 @@ namespace BWAgent
     template<typename T>
       const T &getRespectClearance(T BWAPI::UnitState::*var) const
       {
-        static T null = 0;
+        static T null;
         if(!this->knownUnit)
-          return null; // TODO: set last error
+          return (T)null; // TODO: set last error
         // TODO: check if clearance level clears
         return this->knownUnit->*var;
       }
