@@ -1,23 +1,19 @@
 #include "DamageTypes.h"
 
-#include <string>
-#include <map>
-#include <set>
-
 namespace BWAPI
 {
-  DamageType damageType[DamageTypeIds::count];
-  std::map<std::string, DamageTypeId> damageTypeMap;
-  std::set< DamageTypeId > damageTypeSet;
-
-  void fillDamageType(DamageTypeId id, const char* name)
-  {
-    DamageType &target = damageType[id];
-    target.name = name;
-  }
-
   namespace DamageTypes
   {
+    DamageType damageTypeData[DamageTypeIds::count];
+    std::map<std::string, DamageTypeId> damageTypeMap;
+    std::set< DamageTypeId > damageTypeSet;
+
+    void fillDamageType(DamageTypeId id, const char* name)
+    {
+      DamageType &target = damageTypeData[id];
+      target.name = name;
+    }
+
     void init()
     {
       fillDamageType(DamageTypeIds::Independent, "Independent");
@@ -36,7 +32,7 @@ namespace BWAPI
 
       for(std::set<DamageTypeId>::iterator i = damageTypeSet.begin(); i != damageTypeSet.end(); i++)
       {
-        damageTypeMap.insert(std::make_pair(std::string(damageType[*i].name), *i));
+        damageTypeMap.insert(std::make_pair(std::string(damageTypeData[*i].name), *i));
       }
     }
   }

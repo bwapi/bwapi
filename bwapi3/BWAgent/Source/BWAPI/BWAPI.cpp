@@ -158,12 +158,12 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitType* BWAPI_CALL BWGetUnitType(int unitId)
+  BWAPI_FUNCTION BWAPI::UnitType* BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId id)
   {
     resetError();
     try
     {
-      return &BWAPI::unitTypeData[unitId];
+      return &BWAPI::UnitTypes::unitTypeData[id];
     }
     catch(GeneralException &exception)
     {
@@ -171,6 +171,120 @@ namespace BWAPI
       return NULL;
     }
   }
+  //----------------------------------- GET TECH TYPE ---------------------------------------------
+  BWAPI_FUNCTION BWAPI::TechType* BWAPI_CALL BWGetTechType(BWAPI::TechTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::TechTypes::techTypeData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET UPGRADE TYPE ------------------------------------------
+  BWAPI_FUNCTION BWAPI::UpgradeType* BWAPI_CALL BWGetUpgradeType(BWAPI::UpgradeTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::upgradeTypeData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET WEAPON TYPE -------------------------------------------
+  BWAPI_FUNCTION BWAPI::WeaponType* BWAPI_CALL BWGetWeaponType(BWAPI::WeaponTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::WeaponTypes::weaponTypeData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET DAMAGE TYPE -------------------------------------------
+  BWAPI_FUNCTION BWAPI::DamageType* BWAPI_CALL BWGetDamageType(BWAPI::DamageTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::DamageTypes::damageTypeData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET EXPLOSION TYPE ----------------------------------------
+  BWAPI_FUNCTION BWAPI::ExplosionType* BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::ExplosionTypes::explosionTypeData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET RACE --------------------------------------------------
+  BWAPI_FUNCTION BWAPI::Race* BWAPI_CALL BWGetRace(BWAPI::RaceId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::Races::raceData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET UNIT SIZE TYPE ----------------------------------------
+  BWAPI_FUNCTION BWAPI::UnitSizeType* BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::UnitSizeTypes::unitSizeTypeData[id];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  //----------------------------------- GET PLAYER TYPE -------------------------------------------
+  /*
+  BWAPI_FUNCTION BWAPI::PlayerType* BWAPI_CALL BWGetPlayerType(BWAPI::UnitPlayerTypeId id)
+  {
+    resetError();
+    try
+    {
+      return &BWAPI::playerTypeData[unitId];
+    }
+    catch(GeneralException &exception)
+    {
+      lastError = exception.getMessage();
+      return NULL;
+    }
+  }
+  */
   //----------------------------------- -----------------------------------------------------------
   //----------------------------------- ALL UNITS ITERATION ---------------------------------------
   struct AllUnitsHandle

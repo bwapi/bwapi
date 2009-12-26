@@ -8,48 +8,41 @@
 
 namespace BWAPI
 {
-  class TechTypeInternal : public TechType
-  {
-  public:
-    std::set<UnitTypeId> whatUses;
-    bool valid;
-  };
-
-  TechTypeInternal techTypeData[TechTypeIds::count];
-  std::map<std::string, TechTypeId> techTypeMap;
-  std::set< TechTypeId > techTypeSet;
-
-  void fillTechType(TechTypeId id, const char* name, int mineralPrice, int gasPrice, int energyUsed, int/*UnitTypeId*/ whatResearches, RaceId race, int/*WeaponTypeId*/ weapon, int/*UnitTypeId*/ whatUses1, int /*UnitTypeId*/ whatUses2=NULL, int /*UnitTypeId*/ whatUses3=NULL, int /*UnitType*/ whatUses4=NULL)
-  {
-    TechTypeInternal &target = techTypeData[id];
-    target.name=name;
-    target.mineralPrice=mineralPrice;
-    target.gasPrice=gasPrice;
-    target.energyUsed=energyUsed;
-    target.whatResearches=(UnitTypeId)whatResearches;
-    target.race=(RaceId)race;
-    target.weapon=(WeaponTypeId)weapon;
-    if (whatUses1!=NULL && whatUses1 != UnitTypeIds::None)
-    {
-      target.whatUses.insert((UnitTypeId)whatUses1);
-    }
-    if (whatUses2!=NULL && whatUses2!= UnitTypeIds::None)
-    {
-      target.whatUses.insert((UnitTypeId)whatUses2);
-    }
-    if (whatUses3!=NULL && whatUses3!= UnitTypeIds::None)
-    {
-      target.whatUses.insert((UnitTypeId)whatUses3);
-    }
-    if (whatUses4!=NULL && whatUses4!= UnitTypeIds::None)
-    {
-      target.whatUses.insert((UnitTypeId)whatUses4);
-    }
-    target.valid = true;
-  }
-
   namespace TechTypes
   {
+
+    TechTypeInternal techTypeData[TechTypeIds::count];
+    std::map<std::string, TechTypeId> techTypeMap;
+    std::set< TechTypeId > techTypeSet;
+
+    void fillTechType(TechTypeId id, const char* name, int mineralPrice, int gasPrice, int energyUsed, int/*UnitTypeId*/ whatResearches, RaceId race, int/*WeaponTypeId*/ weapon, int/*UnitTypeId*/ whatUses1, int /*UnitTypeId*/ whatUses2=NULL, int /*UnitTypeId*/ whatUses3=NULL, int /*UnitType*/ whatUses4=NULL)
+    {
+      TechTypeInternal &target = techTypeData[id];
+      target.name=name;
+      target.mineralPrice=mineralPrice;
+      target.gasPrice=gasPrice;
+      target.energyUsed=energyUsed;
+      target.whatResearches=(UnitTypeId)whatResearches;
+      target.race=(RaceId)race;
+      target.weapon=(WeaponTypeId)weapon;
+      if (whatUses1!=NULL && whatUses1 != UnitTypeIds::None)
+      {
+        target.whatUses.insert((UnitTypeId)whatUses1);
+      }
+      if (whatUses2!=NULL && whatUses2!= UnitTypeIds::None)
+      {
+        target.whatUses.insert((UnitTypeId)whatUses2);
+      }
+      if (whatUses3!=NULL && whatUses3!= UnitTypeIds::None)
+      {
+        target.whatUses.insert((UnitTypeId)whatUses3);
+      }
+      if (whatUses4!=NULL && whatUses4!= UnitTypeIds::None)
+      {
+        target.whatUses.insert((UnitTypeId)whatUses4);
+      }
+      target.valid = true;
+    }
 
     void init()
     {

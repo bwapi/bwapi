@@ -1,26 +1,25 @@
 #include "Races.h"
 
-#include <string>
-#include <map>
-#include <set>
 #include <BWAPITypes\UnitTypeId.h>
 
 namespace BWAPI
 {
-  void fillRace(Race &race, const char* name, UnitTypeId worker, UnitTypeId center, UnitTypeId refinery, UnitTypeId transport, UnitTypeId supplyProvider)
-  {
-    race.name = name;
-    race.worker = worker;
-    race.center = center;
-    race.refinery = refinery;
-    race.transport = transport;
-    race.supplyProvider = supplyProvider;
-  }
-  Race raceData[RaceIds::count];
-  std::map<std::string, RaceId> raceMap;
-  std::set< RaceId > raceSet;
   namespace Races
   {
+    void fillRace(Race &race, const char* name, UnitTypeId worker, UnitTypeId center, UnitTypeId refinery, UnitTypeId transport, UnitTypeId supplyProvider)
+    {
+      race.name = name;
+      race.worker = worker;
+      race.center = center;
+      race.refinery = refinery;
+      race.transport = transport;
+      race.supplyProvider = supplyProvider;
+    }
+
+    Race raceData[RaceIds::count];
+    std::map<std::string, RaceId> raceMap;
+    std::set< RaceId > raceSet;
+
     void init()
     {
       fillRace(raceData[RaceIds::Zerg], "Zerg", UnitTypeIds::Zerg_Drone, UnitTypeIds::Zerg_Hatchery, UnitTypeIds::Zerg_Extractor, UnitTypeIds::Zerg_Overlord, UnitTypeIds::Zerg_Overlord);
@@ -37,10 +36,6 @@ namespace BWAPI
       {
         raceMap.insert(std::make_pair(std::string(raceData[*i].name), *i));
       }
-    }
-    Race &getRace(RaceId raceId)
-    {
-      return raceData[raceId];
     }
   }
 }

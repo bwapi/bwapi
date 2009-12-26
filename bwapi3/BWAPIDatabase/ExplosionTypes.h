@@ -9,16 +9,18 @@
 
 namespace BWAPI
 {
-  class ExplosionTypeInternal : public ExplosionType
-  {
-  public:
-  };
-  extern ExplosionTypeInternal explosionTypeName[ExplosionTypeIds::count];
-  extern std::map<std::string, ExplosionTypeId> explosionTypeMap;
-  extern std::set< ExplosionTypeId > explosionTypeSet;
   namespace ExplosionTypes
   {
-    ExplosionType getExplosionType(std::string& name);
+    class ExplosionTypeInternal : public ExplosionType
+    {
+    public:
+    };
+
+    extern ExplosionTypeInternal explosionTypeData[ExplosionTypeIds::count];
+    extern std::map<std::string, ExplosionTypeId> explosionTypeMap;
+    extern std::set< ExplosionTypeId > explosionTypeSet;
+
+    ExplosionTypeId getIdByName(const std::string& name);
     void init();
   }
 }

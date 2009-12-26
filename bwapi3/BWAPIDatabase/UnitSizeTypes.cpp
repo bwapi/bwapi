@@ -1,22 +1,28 @@
-#include <string>
-#include <map>
-#include <set>
+#include "UnitSizeTypes.h"
+
 #include <BWAPITypes/UnitSizeTypeId.h>
 
 namespace BWAPI
 {
-  std::string unitSizeTypeName[UnitSizeTypeIds::count];
-  std::map<std::string, UnitSizeTypeId> unitSizeTypeMap;
-  std::set< UnitSizeTypeId > unitSizeTypeSet;
   namespace UnitSizeTypes
   {
+    UnitSizeType unitSizeTypeData[UnitSizeTypeIds::count];
+    std::map<std::string, UnitSizeTypeId> unitSizeTypeMap;
+    std::set< UnitSizeTypeId > unitSizeTypeSet;
+
+    void fillUnitSizeType(UnitSizeTypeId id, const char* name)
+    {
+      UnitSizeType &target = unitSizeTypeData[id];
+      target.name = name;
+    }
+
     void init()
     {
-      unitSizeTypeName[UnitSizeTypeIds::Independent] = "Independent";
-      unitSizeTypeName[UnitSizeTypeIds::Small] = "Small";
-      unitSizeTypeName[UnitSizeTypeIds::Medium] = "Medium";
-      unitSizeTypeName[UnitSizeTypeIds::Large] = "Large";
-      unitSizeTypeName[UnitSizeTypeIds::None] = "None";
+      fillUnitSizeType(UnitSizeTypeIds::Independent, "Independent");
+      fillUnitSizeType(UnitSizeTypeIds::Small, "Small");
+      fillUnitSizeType(UnitSizeTypeIds::Medium, "Medium");
+      fillUnitSizeType(UnitSizeTypeIds::Large, "Large");
+      fillUnitSizeType(UnitSizeTypeIds::None, "None");
 
       unitSizeTypeSet.insert(UnitSizeTypeIds::Independent);
       unitSizeTypeSet.insert(UnitSizeTypeIds::Small);
@@ -26,21 +32,14 @@ namespace BWAPI
 
       for(std::set<UnitSizeTypeId>::iterator i = unitSizeTypeSet.begin(); i != unitSizeTypeSet.end(); i++)
       {
-        unitSizeTypeMap.insert(std::make_pair(unitSizeTypeName[*i], *i));
+        unitSizeTypeMap.insert(std::make_pair(std::string(unitSizeTypeData[*i].name), *i));
       }
     }
-  }
-  namespace UnitSizeTypes
-  {
-    UnitSizeTypeId getIdByName(std::string& name)
+    UnitSizeTypeId getIdByName(const std::string& name)
     {
       std::map<std::string, UnitSizeTypeId>::iterator i = unitSizeTypeMap.find(name);
       if (i == unitSizeTypeMap.end()) return UnitSizeTypeIds::None;
       return (*i).second;
-    }
-    std::set<UnitSizeTypeId>& allUnitSizeTypes()
-    {
-      return unitSizeTypeSet;
     }
   }
 }
