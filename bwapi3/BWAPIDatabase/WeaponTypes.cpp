@@ -1,6 +1,5 @@
-#include <string>
-#include <map>
-#include <set>
+#include "WeaponTypes.h"
+
 #include <BWAPITypes\WeaponType.h>
 #include <BWAPITypes\WeaponTypeId.h>
 #include <BWAPITypes\UnitTypeId.h>
@@ -11,42 +10,42 @@
 
 namespace BWAPI
 {
-  WeaponType weaponTypeData[WeaponTypeIds::count];
-  std::map<std::string, WeaponTypeId> weaponTypeMap;
-  std::set< WeaponTypeId > weaponTypeSet;
-  std::set< WeaponTypeId > specialWeaponTypeSet;
-  std::set< WeaponTypeId > normalWeaponTypeSet;
-  void fillWeaponType(WeaponTypeId id, const char* name, TechTypeId techType, int damageAmount, int damageBonus, int damageCooldown, int damageFactor, UpgradeTypeId upgradeType, DamageTypeId damageType, ExplosionTypeId explosionType, int minRange, int maxRange, int innerSplashRadius, int medianSplashRadius, int outerSplashRadius, bool targetsAir, bool targetsGround, bool targetsMechanical, bool targetsOrganic, bool targetsNonBuilding, bool targetsNonRobotic, bool targetsTerrain, bool targetsOrgOrMech, bool targetsOwn, UnitTypeId whatUses)
-  {
-    WeaponType &target = weaponTypeData[id];
-    target.name = name;
-    target.techType = techType;
-    target.damageAmount = damageAmount;
-    target.damageBonus = damageBonus;
-    target.damageCooldown = damageCooldown;
-    target.damageFactor = damageFactor;
-    target.upgradeType = upgradeType;
-    target.damageType = damageType;
-    target.explosionType = explosionType;
-    target.minRange = minRange;
-    target.maxRange = maxRange;
-    target.innerSplashRadius = innerSplashRadius;
-    target.medianSplashRadius = medianSplashRadius;
-    target.outerSplashRadius = outerSplashRadius;
-    target.targetsAir = targetsAir;
-    target.targetsGround = targetsGround;
-    target.targetsMechanical = targetsMechanical;
-    target.targetsOrganic = targetsOrganic;
-    target.targetsNonBuilding = targetsNonBuilding;
-    target.targetsNonRobotic = targetsNonRobotic;
-    target.targetsTerrain = targetsTerrain;
-    target.targetsOrgOrMech = targetsOrgOrMech;
-    target.targetsOwn = targetsOwn;
-    target.whatUses = whatUses;
-    target.valid = true;
-  }
   namespace WeaponTypes
   {
+    WeaponTypeInternal weaponTypeData[WeaponTypeIds::count];
+    std::map<std::string, WeaponTypeId> weaponTypeMap;
+    std::set< WeaponTypeId > weaponTypeSet;
+    std::set< WeaponTypeId > specialWeaponTypeSet;
+    std::set< WeaponTypeId > normalWeaponTypeSet;
+    void fillWeaponType(WeaponTypeId id, const char* name, TechTypeId techType, int damageAmount, int damageBonus, int damageCooldown, int damageFactor, UpgradeTypeId upgradeType, DamageTypeId damageType, ExplosionTypeId explosionType, int minRange, int maxRange, int innerSplashRadius, int medianSplashRadius, int outerSplashRadius, bool targetsAir, bool targetsGround, bool targetsMechanical, bool targetsOrganic, bool targetsNonBuilding, bool targetsNonRobotic, bool targetsTerrain, bool targetsOrgOrMech, bool targetsOwn, UnitTypeId whatUses)
+    {
+      WeaponType &target = weaponTypeData[id];
+      target.name = name;
+      target.techType = techType;
+      target.damageAmount = damageAmount;
+      target.damageBonus = damageBonus;
+      target.damageCooldown = damageCooldown;
+      target.damageFactor = damageFactor;
+      target.upgradeType = upgradeType;
+      target.damageType = damageType;
+      target.explosionType = explosionType;
+      target.minRange = minRange;
+      target.maxRange = maxRange;
+      target.innerSplashRadius = innerSplashRadius;
+      target.medianSplashRadius = medianSplashRadius;
+      target.outerSplashRadius = outerSplashRadius;
+      target.targetsAir = targetsAir;
+      target.targetsGround = targetsGround;
+      target.targetsMechanical = targetsMechanical;
+      target.targetsOrganic = targetsOrganic;
+      target.targetsNonBuilding = targetsNonBuilding;
+      target.targetsNonRobotic = targetsNonRobotic;
+      target.targetsTerrain = targetsTerrain;
+      target.targetsOrgOrMech = targetsOrgOrMech;
+      target.targetsOwn = targetsOwn;
+      target.whatUses = whatUses;
+      target.valid = true;
+    }
     void init()
     {
       fillWeaponType(WeaponTypeIds::Gauss_Rifle, "Gauss Rifle", TechTypeIds::None, 6, 1, 15, 1, UpgradeTypeIds::Terran_Infantry_Weapons, DamageTypeIds::Normal, ExplosionTypeIds::Normal, 0, 128, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, UnitTypeIds::Terran_Marine);

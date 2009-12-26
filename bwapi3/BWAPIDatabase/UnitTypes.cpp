@@ -15,118 +15,118 @@
 
 namespace BWAPI
 {
-  UnitTypeInternal unitTypeData[UnitTypeIds::count];
-  std::map<std::string, UnitTypeId> unitTypeMap;
-  std::set< UnitTypeId > unitTypeSet;
-
-  void fillUnitType(UnitTypeId id, const char* name, const char* subLabel, RaceId race, UnitTypeId whatBuilds, int whatBuildsAmt, int requiredUnit1, int requiredUnit1Amt, int requiredUnit2, int requiredUnit2Amt, int requiredUnit3, int requiredUnit3Amt, TechTypeId requiredTech, int ability1, int ability2, int ability3, int ability4, UpgradeTypeId armorUpgrade, int maxHitPoints, int maxShields, int maxEnergy, int armor, int mineralPrice, int gasPrice, int buildTime, int supplyRequired, int supplyProvided, int spaceRequired, int spaceProvided, int buildScore, int destroyScore, UnitSizeTypeId unitSizeType, int tileWidth, int tileHeight, int dimensionLeft, int dimensionUp, int dimensionRight, int dimensionDown,  int seekRange, int sightRange, WeaponTypeId groundWeapon, int maxGroundHits, WeaponTypeId airWeapon, int maxAirHits, double topSpeed, int acceleration, int haltDistance, int turnRadius, bool canProduce, bool canAttack, bool canMove, bool isFlyer, bool regeneratesHP, bool isSpellcaster,  bool hasPermanentCloak, bool isInvincible, bool isOrganic, bool isMechanical, bool isRobotic, bool isDetector, bool isResourceContainer, bool isResourceDepot, bool isWorker, bool requiresPsi, bool requiresCreep, bool isTwoUnitsInOneEgg, bool isBurrowable, bool isCloakable, bool isBuilding, bool isAddon, bool isFlyingBuilding, bool isNeutral, bool isRefinery)
-  {
-    UnitTypeInternal &target = unitTypeData[id];
-    target.name = name;
-    target.subLabel = subLabel;
-    target.race = race;
-
-    target.whatBuilds.unit = whatBuilds;
-    target.whatBuilds.count = whatBuildsAmt;
-
-    if ((UnitTypeId)requiredUnit1 != UnitTypeIds::None)
-    {
-      target.requiredUnits.insert(std::make_pair((UnitTypeId)requiredUnit1, requiredUnit1Amt));
-    }
-    if ((UnitTypeId)requiredUnit2 != UnitTypeIds::None)
-    {
-      target.requiredUnits.insert(std::make_pair((UnitTypeId)requiredUnit2, requiredUnit2Amt));
-    }
-    if ((UnitTypeId)requiredUnit3 != UnitTypeIds::None)
-    {
-      target.requiredUnits.insert(std::make_pair((UnitTypeId)requiredUnit3, requiredUnit3Amt));
-    }
-    target.requiredTech = requiredTech;
-    if ((TechTypeId)ability1 != TechTypeIds::None)
-    {
-      target.abilities.insert((TechTypeId)ability1);
-    }
-    if ((TechTypeId)ability2 != TechTypeIds::None)
-    {
-      target.abilities.insert((TechTypeId)ability2);
-    }
-    if ((TechTypeId)ability3 != TechTypeIds::None)
-    {
-      target.abilities.insert((TechTypeId)ability3);
-    }
-    if ((TechTypeId)ability4 != TechTypeIds::None)
-    {
-      target.abilities.insert((TechTypeId)ability4);
-    }
-    target.armorUpgrade = armorUpgrade;
-
-    target.maxHitPoints = maxHitPoints;
-    target.maxShields = maxShields;
-    target.maxEnergy = maxEnergy;
-    target.armor = armor;
-
-    target.mineralPrice = mineralPrice;
-    target.gasPrice = gasPrice;
-    target.buildTime = buildTime;
-
-    target.supplyRequired = supplyRequired;
-    target.supplyProvided = supplyProvided;
-    target.spaceRequired = spaceRequired;
-    target.spaceProvided = spaceProvided;
-    target.buildScore = buildScore;
-    target.destroyScore = destroyScore;
-
-    target.unitSizeType = unitSizeType;
-    target.tileWidth = tileWidth;
-    target.tileHeight = tileHeight;
-    target.dimensionLeft = dimensionLeft;
-    target.dimensionUp = dimensionUp;
-    target.dimensionRight = dimensionRight;
-    target.dimensionDown = dimensionDown;
-
-    target.seekRange = seekRange;
-    target.sightRange = sightRange;
-    target.groundWeapon = groundWeapon;
-    target.maxGroundHits = maxGroundHits;
-    target.airWeapon = airWeapon;
-    target.maxAirHits = maxAirHits;
-
-    target.topSpeed = topSpeed;
-    target.acceleration = acceleration;
-    target.haltDistance = haltDistance;
-    target.turnRadius = turnRadius;
-
-    target.canProduce = canProduce;
-    target.canAttack = canAttack;
-    target.canMove = canMove;
-
-    target.isFlyer = isFlyer;
-    target.regeneratesHP = regeneratesHP;
-    target.isSpellcaster = isSpellcaster;
-    target.hasPermanentCloak = hasPermanentCloak;
-    target.isInvincible = isInvincible;
-    target.isOrganic = isOrganic;
-    target.isMechanical = isMechanical;
-    target.isRobotic = isRobotic;
-    target.isDetector = isDetector;
-    target.isResourceContainer = isResourceContainer;
-    target.isResourceDepot = isResourceDepot;
-    target.isWorker = isWorker;
-    target.requiresPsi = requiresPsi;
-    target.requiresCreep = requiresCreep;
-    target.isTwoUnitsInOneEgg = isTwoUnitsInOneEgg;
-    target.isBurrowable = isBurrowable;
-    target.isCloakable = isCloakable;
-    target.isBuilding = isBuilding;
-    target.isAddon = isAddon;
-    target.isFlyingBuilding = isFlyingBuilding;
-    target.isNeutral = isNeutral;
-    target.isRefinery = isRefinery;
-
-    target.valid = true;
-  }
   namespace UnitTypes
   {
+    UnitTypeInternal unitTypeData[UnitTypeIds::count];
+    std::map<std::string, UnitTypeId> unitTypeMap;
+    std::set< UnitTypeId > unitTypeSet;
+
+    void fillUnitType(UnitTypeId id, const char* name, const char* subLabel, RaceId race, UnitTypeId whatBuilds, int whatBuildsAmt, int requiredUnit1, int requiredUnit1Amt, int requiredUnit2, int requiredUnit2Amt, int requiredUnit3, int requiredUnit3Amt, TechTypeId requiredTech, int ability1, int ability2, int ability3, int ability4, UpgradeTypeId armorUpgrade, int maxHitPoints, int maxShields, int maxEnergy, int armor, int mineralPrice, int gasPrice, int buildTime, int supplyRequired, int supplyProvided, int spaceRequired, int spaceProvided, int buildScore, int destroyScore, UnitSizeTypeId unitSizeType, int tileWidth, int tileHeight, int dimensionLeft, int dimensionUp, int dimensionRight, int dimensionDown,  int seekRange, int sightRange, WeaponTypeId groundWeapon, int maxGroundHits, WeaponTypeId airWeapon, int maxAirHits, double topSpeed, int acceleration, int haltDistance, int turnRadius, bool canProduce, bool canAttack, bool canMove, bool isFlyer, bool regeneratesHP, bool isSpellcaster,  bool hasPermanentCloak, bool isInvincible, bool isOrganic, bool isMechanical, bool isRobotic, bool isDetector, bool isResourceContainer, bool isResourceDepot, bool isWorker, bool requiresPsi, bool requiresCreep, bool isTwoUnitsInOneEgg, bool isBurrowable, bool isCloakable, bool isBuilding, bool isAddon, bool isFlyingBuilding, bool isNeutral, bool isRefinery)
+    {
+      UnitTypeInternal &target = unitTypeData[id];
+      target.name = name;
+      target.subLabel = subLabel;
+      target.race = race;
+
+      target.whatBuilds.unit = whatBuilds;
+      target.whatBuilds.count = whatBuildsAmt;
+
+      if ((UnitTypeId)requiredUnit1 != UnitTypeIds::None)
+      {
+        target.requiredUnits.insert(std::make_pair((UnitTypeId)requiredUnit1, requiredUnit1Amt));
+      }
+      if ((UnitTypeId)requiredUnit2 != UnitTypeIds::None)
+      {
+        target.requiredUnits.insert(std::make_pair((UnitTypeId)requiredUnit2, requiredUnit2Amt));
+      }
+      if ((UnitTypeId)requiredUnit3 != UnitTypeIds::None)
+      {
+        target.requiredUnits.insert(std::make_pair((UnitTypeId)requiredUnit3, requiredUnit3Amt));
+      }
+      target.requiredTech = requiredTech;
+      if ((TechTypeId)ability1 != TechTypeIds::None)
+      {
+        target.abilities.insert((TechTypeId)ability1);
+      }
+      if ((TechTypeId)ability2 != TechTypeIds::None)
+      {
+        target.abilities.insert((TechTypeId)ability2);
+      }
+      if ((TechTypeId)ability3 != TechTypeIds::None)
+      {
+        target.abilities.insert((TechTypeId)ability3);
+      }
+      if ((TechTypeId)ability4 != TechTypeIds::None)
+      {
+        target.abilities.insert((TechTypeId)ability4);
+      }
+      target.armorUpgrade = armorUpgrade;
+
+      target.maxHitPoints = maxHitPoints;
+      target.maxShields = maxShields;
+      target.maxEnergy = maxEnergy;
+      target.armor = armor;
+
+      target.mineralPrice = mineralPrice;
+      target.gasPrice = gasPrice;
+      target.buildTime = buildTime;
+
+      target.supplyRequired = supplyRequired;
+      target.supplyProvided = supplyProvided;
+      target.spaceRequired = spaceRequired;
+      target.spaceProvided = spaceProvided;
+      target.buildScore = buildScore;
+      target.destroyScore = destroyScore;
+
+      target.unitSizeType = unitSizeType;
+      target.tileWidth = tileWidth;
+      target.tileHeight = tileHeight;
+      target.dimensionLeft = dimensionLeft;
+      target.dimensionUp = dimensionUp;
+      target.dimensionRight = dimensionRight;
+      target.dimensionDown = dimensionDown;
+
+      target.seekRange = seekRange;
+      target.sightRange = sightRange;
+      target.groundWeapon = groundWeapon;
+      target.maxGroundHits = maxGroundHits;
+      target.airWeapon = airWeapon;
+      target.maxAirHits = maxAirHits;
+
+      target.topSpeed = topSpeed;
+      target.acceleration = acceleration;
+      target.haltDistance = haltDistance;
+      target.turnRadius = turnRadius;
+
+      target.canProduce = canProduce;
+      target.canAttack = canAttack;
+      target.canMove = canMove;
+
+      target.isFlyer = isFlyer;
+      target.regeneratesHP = regeneratesHP;
+      target.isSpellcaster = isSpellcaster;
+      target.hasPermanentCloak = hasPermanentCloak;
+      target.isInvincible = isInvincible;
+      target.isOrganic = isOrganic;
+      target.isMechanical = isMechanical;
+      target.isRobotic = isRobotic;
+      target.isDetector = isDetector;
+      target.isResourceContainer = isResourceContainer;
+      target.isResourceDepot = isResourceDepot;
+      target.isWorker = isWorker;
+      target.requiresPsi = requiresPsi;
+      target.requiresCreep = requiresCreep;
+      target.isTwoUnitsInOneEgg = isTwoUnitsInOneEgg;
+      target.isBurrowable = isBurrowable;
+      target.isCloakable = isCloakable;
+      target.isBuilding = isBuilding;
+      target.isAddon = isAddon;
+      target.isFlyingBuilding = isFlyingBuilding;
+      target.isNeutral = isNeutral;
+      target.isRefinery = isRefinery;
+
+      target.valid = true;
+    }
     void init()
     {
       static bool runOnce = false;
@@ -413,10 +413,6 @@ namespace BWAPI
       std::map<std::string, UnitTypeId>::iterator i = unitTypeMap.find(name);
       if (i == unitTypeMap.end()) return UnitTypeIds::None;
       return (*i).second;
-    }
-    std::set<UnitTypeId>& allUnitTypes()
-    {
-      return unitTypeSet;
     }
   }
 }

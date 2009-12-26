@@ -65,14 +65,15 @@ BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color);
 
 // information queries
 BWAPI_FUNCTION BWAPI::UnitState*      BWAPI_CALL BWGetUnit(int unitId);
-BWAPI_FUNCTION BWAPI::UnitType*       BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId type);
-BWAPI_FUNCTION BWAPI::TechType*       BWAPI_CALL BWGetTechType(BWAPI::TechTypeId type);
-BWAPI_FUNCTION BWAPI::UpgradeType*    BWAPI_CALL BWGetUpgradeType(BWAPI::UpgradeTypeId type);
-BWAPI_FUNCTION BWAPI::WeaponType*     BWAPI_CALL BWGetWeaponType(BWAPI::WeaponTypeId type);
-BWAPI_FUNCTION BWAPI::DamageType*     BWAPI_CALL BWGetDamageType(BWAPI::DamageTypeId type);
-BWAPI_FUNCTION BWAPI::ExplosionType*  BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId type);
-BWAPI_FUNCTION BWAPI::Race*           BWAPI_CALL BWGetRace(BWAPI::RaceId type);
-BWAPI_FUNCTION BWAPI::UnitSizeType*   BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId type);
+BWAPI_FUNCTION BWAPI::UnitType*       BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId id);
+BWAPI_FUNCTION BWAPI::TechType*       BWAPI_CALL BWGetTechType(BWAPI::TechTypeId id);
+BWAPI_FUNCTION BWAPI::UpgradeType*    BWAPI_CALL BWGetUpgradeType(BWAPI::UpgradeTypeId id);
+BWAPI_FUNCTION BWAPI::WeaponType*     BWAPI_CALL BWGetWeaponType(BWAPI::WeaponTypeId id);
+BWAPI_FUNCTION BWAPI::DamageType*     BWAPI_CALL BWGetDamageType(BWAPI::DamageTypeId id);
+BWAPI_FUNCTION BWAPI::ExplosionType*  BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId id);
+BWAPI_FUNCTION BWAPI::Race*           BWAPI_CALL BWGetRace(BWAPI::RaceId id);
+BWAPI_FUNCTION BWAPI::UnitSizeType*   BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId id);
+//BWAPI_FUNCTION BWAPI::PlayerType*     BWAPI_CALL BWGetPlayerType(BWAPI::UnitPlayerTypeId id);
 
 // unit array enumeration. returns -1 when ended
 BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();

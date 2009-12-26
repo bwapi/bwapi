@@ -6,18 +6,18 @@
 
 namespace BWAPI
 {
-  ExplosionTypeInternal explosionTypeData[ExplosionTypeIds::count];
-  std::map<std::string, ExplosionTypeId> explosionTypeMap;
-  std::set< ExplosionTypeId > explosionTypeSet;
-
-  void fillExplosionType(ExplosionTypeId id, const char* name)
-  {
-    ExplosionTypeInternal &target = explosionTypeData[id];
-    target.name = name;
-  }
-
   namespace ExplosionTypes
   {
+    ExplosionTypeInternal explosionTypeData[ExplosionTypeIds::count];
+    std::map<std::string, ExplosionTypeId> explosionTypeMap;
+    std::set< ExplosionTypeId > explosionTypeSet;
+
+    void fillExplosionType(ExplosionTypeId id, const char* name)
+    {
+      ExplosionTypeInternal &target = explosionTypeData[id];
+      target.name = name;
+    }
+
     void init()
     {
       fillExplosionType(ExplosionTypeIds::None, "None");

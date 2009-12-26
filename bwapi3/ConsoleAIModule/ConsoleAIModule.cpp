@@ -42,9 +42,33 @@ void BWAPI_CALL onMatchFrame()
     BWPositionMapToScreen(&pos);
     BWDrawCircle(pos.x, pos.y, 5, green, false);
 
+    int y = pos.y - 8;
+
     BWAPI::UnitType *unitType = BWGetUnitType(unit->type);
+    BWAPI::Race *race = BWGetRace(unitType->race);
+    BWAPI::UnitSizeType *sizeType = BWGetUnitSizeType(unitType->unitSizeType);
+    BWAPI::WeaponType *groundWeapon = BWGetWeaponType(unitType->groundWeapon);
+    BWAPI::DamageType *groundDamage = BWGetDamageType(groundWeapon->damageType);
+    BWAPI::ExplosionType *groundExplosion = BWGetExplosionType(groundWeapon->explosionType);
+    BWAPI::UpgradeType *armorUpgrade = BWGetUpgradeType(unitType->armorUpgrade);
+    BWAPI::TechType *requiredTech = BWGetTechType(unitType->requiredTech);
+
     sprintf(buffer, "type: %s", unitType->name);
-    BWDrawText(pos.x, pos.y, buffer);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "race: %s", race->name);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "size type: %s", sizeType->name);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "weapon: %s", groundWeapon->name);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "damage: %s", groundDamage->name);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "explosion: %s", groundExplosion->name);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "armor upgr: %s", armorUpgrade->name);
+    BWDrawText(pos.x, y+=8, buffer);
+    sprintf(buffer, "requir. tech: %s", requiredTech->name);
+    BWDrawText(pos.x, y+=8, buffer);
 
     count++;
   }
