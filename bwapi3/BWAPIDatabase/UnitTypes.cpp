@@ -129,6 +129,11 @@ namespace BWAPI
   {
     void init()
     {
+      static bool runOnce = false;
+      if(runOnce)
+        return;
+      runOnce = true;
+
       fillUnitType(UnitTypeIds::Terran_Marine, "Terran Marine", "Private", RaceIds::Terran, UnitTypeIds::Terran_Barracks, 1, UnitTypeIds::Terran_Barracks, 1, NULL, 0, NULL, 0, TechTypeIds::None, TechTypeIds::Stim_Packs, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, UpgradeTypeIds::Terran_Infantry_Armor, 40, 0, 0, 0, 50, 0, 360, 2, 0, 1, 0, 50, 100, UnitSizeTypeIds::Small, 1, 1, 8, 9, 8, 10, 128, 224, WeaponTypeIds::Gauss_Rifle, 1, WeaponTypeIds::Gauss_Rifle, 1, 4, 1, 1, 40, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       fillUnitType(UnitTypeIds::Terran_Ghost, "Terran Ghost", "Specialist", RaceIds::Terran, UnitTypeIds::Terran_Barracks, 1, UnitTypeIds::Terran_Barracks, 1, UnitTypeIds::Terran_Academy, 1, UnitTypeIds::Terran_Covert_Ops, 1, TechTypeIds::None, TechTypeIds::Lockdown, TechTypeIds::Personnel_Cloaking, TechTypeIds::Nuclear_Strike, TechTypeIds::None, UpgradeTypeIds::Terran_Infantry_Armor, 45, 0, 200, 0, 25, 75, 750, 2, 0, 1, 0, 175, 350, UnitSizeTypeIds::Small, 1, 1, 7, 10, 7, 11, 224, 288, WeaponTypeIds::C_10_Canister_Rifle, 1, WeaponTypeIds::C_10_Canister_Rifle, 1, 4, 1, 1, 40, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0);
       fillUnitType(UnitTypeIds::Terran_Vulture, "Terran Vulture", "Sergeant", RaceIds::Terran, UnitTypeIds::Terran_Factory, 1, UnitTypeIds::Terran_Factory, 1, NULL, 0, NULL, 0, TechTypeIds::None, TechTypeIds::Spider_Mines, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, UpgradeTypeIds::Terran_Vehicle_Plating, 80, 0, 0, 0, 75, 0, 450, 4, 0, 2, 0, 75, 150, UnitSizeTypeIds::Medium, 1, 1, 16, 16, 15, 15, 160, 256, WeaponTypeIds::Fragmentation_Grenade, 1, WeaponTypeIds::None, 0, 6.4, 100, 14569, 40, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -258,15 +263,14 @@ namespace BWAPI
       fillUnitType(UnitTypeIds::Spell_Dark_Swarm, "Spell Dark Swarm", "", RaceIds::Zerg, UnitTypeIds::None, 0, NULL, 0, NULL, 0, NULL, 0, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, UpgradeTypeIds::None, 800, 0, 0, 0, 250, 200, 2400, 0, 0, 255, 0, 0, 0, UnitSizeTypeIds::Independent, 5, 5, 80, 80, 79, 79, 0, 256, WeaponTypeIds::None, 0, WeaponTypeIds::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
       fillUnitType(UnitTypeIds::None, "None", "", RaceIds::None, UnitTypeIds::None, 0, NULL, 0, NULL, 0, NULL, 0, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, TechTypeIds::None, UpgradeTypeIds::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypeIds::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypeIds::None, 0, WeaponTypeIds::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-      /* what is whatUses?
-      for (std::set<UpgradeTypeId>::iterator i=UpgradeTypes::allUpgradeTypes().begin();i!=UpgradeTypes::allUpgradeTypes().end();i++)
+      for (std::set<UpgradeTypeId>::iterator i=upgradeTypeSet.begin();i!=upgradeTypeSet.end();i++)
       {
-        for each (UnitTypeId ut in i->whatUses())
+        for each (UnitTypeId ut in upgradeTypeData[*i].whatUses)
         {
-          unitTypeData[ut].upgrades.insert(&(*i));
+          unitTypeData[ut].upgrades.insert(*i);
         }
       }
-      */
+
       unitTypeSet.insert(UnitTypeIds::Terran_Marine);
       unitTypeSet.insert(UnitTypeIds::Terran_Ghost);
       unitTypeSet.insert(UnitTypeIds::Terran_Vulture);

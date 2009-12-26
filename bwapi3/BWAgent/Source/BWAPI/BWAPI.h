@@ -7,6 +7,22 @@
 
 #include <BWAPITypes\UnitType.h>
 #include <BWAPITypes\UnitTypeId.h>
+#include <BWAPITypes\UnitType.h>
+#include <BWAPITypes\UnitTypeId.h>
+#include <BWAPITypes\TechType.h>
+#include <BWAPITypes\TechTypeId.h>
+#include <BWAPITypes\UpgradeType.h>
+#include <BWAPITypes\UpgradeTypeId.h>
+#include <BWAPITypes\WeaponType.h>
+#include <BWAPITypes\WeaponTypeId.h>
+#include <BWAPITypes\DamageType.h>
+#include <BWAPITypes\DamageTypeId.h>
+#include <BWAPITypes\ExplosionType.h>
+#include <BWAPITypes\ExplosionTypeId.h>
+#include <BWAPITypes\Race.h>
+#include <BWAPITypes\RaceId.h>
+#include <BWAPITypes\UnitSizeType.h>
+#include <BWAPITypes\UnitSizeTypeId.h>
 
 #include <windows.h>
 #include <string>
@@ -48,8 +64,15 @@ BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int colo
 BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color);
 
 // information queries
-BWAPI_FUNCTION BWAPI::UnitState*  BWAPI_CALL BWGetUnit(int unitId);
-BWAPI_FUNCTION BWAPI::UnitType*   BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId type);
+BWAPI_FUNCTION BWAPI::UnitState*      BWAPI_CALL BWGetUnit(int unitId);
+BWAPI_FUNCTION BWAPI::UnitType*       BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId type);
+BWAPI_FUNCTION BWAPI::TechType*       BWAPI_CALL BWGetTechType(BWAPI::TechTypeId type);
+BWAPI_FUNCTION BWAPI::UpgradeType*    BWAPI_CALL BWGetUpgradeType(BWAPI::UpgradeTypeId type);
+BWAPI_FUNCTION BWAPI::WeaponType*     BWAPI_CALL BWGetWeaponType(BWAPI::WeaponTypeId type);
+BWAPI_FUNCTION BWAPI::DamageType*     BWAPI_CALL BWGetDamageType(BWAPI::DamageTypeId type);
+BWAPI_FUNCTION BWAPI::ExplosionType*  BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId type);
+BWAPI_FUNCTION BWAPI::Race*           BWAPI_CALL BWGetRace(BWAPI::RaceId type);
+BWAPI_FUNCTION BWAPI::UnitSizeType*   BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId type);
 
 // unit array enumeration. returns -1 when ended
 BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();

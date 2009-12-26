@@ -30,7 +30,7 @@ namespace BWAPI
       Optical_Flare = 21,
       Maelstrom = 22,
       Air_Splash = 24,
-      count
+      count = 26
     };
   }
   typedef ExplosionTypeIds::Enum ExplosionTypeId;
