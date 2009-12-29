@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UnitCommandTypeID.h"
+#include "UnitCommandTypeId.h"
 
 #include <BWAPITypes\TechTypeId.h>
 #include <BWAPITypes\UpgradeTypeId.h>
@@ -14,16 +14,17 @@ namespace BWAPI
 {
   struct UnitCommand
   {
-    UnitCommandTypeID commandId;
+    UnitCommandTypeId commandId;
     int unitIndex;
     int x;              //x position or tile position, depending on order type
     int y;              //y position or tile position, depending on order type
-    int targetIndex;    //target unit ID, if applicable
+    int targetIndex;    //target unit linear index, if applicable
     union   // depending on command type
     {
+      int extra;
       TechTypeId tech;
       UpgradeTypeId upgrade;
-      UnitTypeId unit;
+      UnitTypeId unitType;
     };
   };
 }

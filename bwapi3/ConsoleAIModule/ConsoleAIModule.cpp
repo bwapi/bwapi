@@ -37,6 +37,7 @@ void BWAPI_CALL onMatchFrame()
     int unitId = BWAllUnitsNext(h);
     if(unitId == -1)
       break;
+
     BWAPI::UnitState *unit = BWGetUnit(unitId);
     BWAPI::Position pos(unit->position);
     BWPositionMapToScreen(&pos);
@@ -58,18 +59,9 @@ void BWAPI_CALL onMatchFrame()
     BWDrawText(pos.x, y+=8, buffer);
     sprintf(buffer, "race: %s", race->name);
     BWDrawText(pos.x, y+=8, buffer);
-    sprintf(buffer, "size type: %s", sizeType->name);
-    BWDrawText(pos.x, y+=8, buffer);
-    sprintf(buffer, "weapon: %s", groundWeapon->name);
-    BWDrawText(pos.x, y+=8, buffer);
-    sprintf(buffer, "damage: %s", groundDamage->name);
-    BWDrawText(pos.x, y+=8, buffer);
-    sprintf(buffer, "explosion: %s", groundExplosion->name);
-    BWDrawText(pos.x, y+=8, buffer);
-    sprintf(buffer, "armor upgr: %s", armorUpgrade->name);
-    BWDrawText(pos.x, y+=8, buffer);
-    sprintf(buffer, "requir. tech: %s", requiredTech->name);
-    BWDrawText(pos.x, y+=8, buffer);
+
+    if(unit->type == BWAPI::UnitTypeIds::Terran_SCV)
+      BWOrderStop(unitId);
 
     count++;
   }

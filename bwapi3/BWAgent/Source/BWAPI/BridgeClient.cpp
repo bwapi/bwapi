@@ -225,6 +225,7 @@ namespace BWAPI
       // clear all frame-by-frame buffers
       sharedStuff.sendText.clear();
       sharedStuff.drawShapes.clear();
+      sharedStuff.commands.clear();
 
       rpcState = OnFrame;
 

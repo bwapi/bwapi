@@ -17,13 +17,14 @@
 #include <math.h>
 #include <fstream>
 
-#include <Util/Version.h>
-#include <Util/FileLogger.h>
-#include <Util/Exceptions.h>
-#include <Util/Strings.h>
-#include <Util/Foreach.h>
-#include <Util/Gnu.h>
+#include <Util\Version.h>
+#include <Util\FileLogger.h>
+#include <Util\Exceptions.h>
+#include <Util\Strings.h>
+#include <Util\Foreach.h>
+#include <Util\Gnu.h>
 #include <Util\FlagArray.h>
+#include <Util\LookupTable.h>
 
 #include <BW/Broodwar.h>
 #include <BW/Hook.h>
@@ -41,17 +42,15 @@
 #include <BW/CheatType.h>
 #include <BW/RaceID.h>
 
-#include <BWAPI/Command.h>
-#include <BWAPI/CommandCancelTrain.h>
-#include <BWAPI/ScreenLogger.h>
-
-#include <BWAPITypes/UnitCommand.h>
-#include <BWAPITypes/BuildPosition.h>
-#include <BWAPITypes/WalkPosition.h>
-#include <BWAPITypes/Position.h>
-#include <BWAPITypes/UnitType.h>
-#include <BWAPITypes/Latency.h>
-#include <BWAPITypes/Flag.h>
+#include <BWAPITypes\BuildPosition.h>
+#include <BWAPITypes\WalkPosition.h>
+#include <BWAPITypes\Position.h>
+#include <BWAPITypes\UnitType.h>
+#include <BWAPITypes\Latency.h>
+#include <BWAPITypes\Flag.h>
+#include <BWAPITypes\UnitCommandTypeId.h>
+#include <BWAPITypes\UnitCommand.h>
+#include <BWAPITypes\UnitState.h>
 
 #include <Bridge/PipeMessage.h>
 #include <Bridge/SharedStuff.h>
@@ -78,14 +77,14 @@ namespace BWAPI
     int frameCount;
     std::set<BW::UnitType> unitTypes;
     std::set<BW::Position> startLocations;
-    int savedSelectionStates[13];
+    BW::Unit* savedSelectionStates[13];
 
     // reflects needed states from last frame to detect add and remove events.
     // is index correlated with BW::getUnitArray();
-    BWAPI::Unit unitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
+    BWAPI::Unit bwUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
 
     // index correlated with the unit array mirror. Used for performance optimisation
-    Util::FlagArray unitArrayMirrorFlags;
+    Util::FlagArray bwUnitArrayMirrorFlags;
 
     // BWAPI state
     bool flags[Flags::count];
@@ -98,13 +97,14 @@ namespace BWAPI
     //------------------------------- -------------------------------------------------
     void init();
     void refreshSelectionStates();
-    void loadSelected();
     bool parseText(const char* text);
     void setLocalSpeed(int speed);
 
+    void simulateUnitCommand(const BWAPI::UnitCommand &simulatedCommand, BWAPI::UnitState &stateToAlter);
+    void executeUnitCommand(const BWAPI::UnitCommand& command);
+
     /* reference, what does not get transferred to Engine, will get removed
     void refresh();
-    void loadSelected();
     void printEx(s32 pID, const char* text, ...);
 
     std::list<std::string > interceptedMessages;
@@ -187,7 +187,7 @@ namespace BWAPI
         /* TODO: reform
         // iterate through units and create UnitImpl for each
         for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-          unitArrayMirror[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
+          bwUnitArrayMirror[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                       &unitArrayCopyLocal->unit[i],
                                       (u16)i);
         */
@@ -653,6 +653,20 @@ namespace BWAPI
       return staticNeutralUnits;
     }
     */
+    //--------------------------------------------- SAVE SELECTED ----------------------------------------------
+    void saveSelected()
+    {
+      memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
+      savedSelectionStates[12] = NULL;
+    }
+    //--------------------------------------------- LOAD SELECTED ----------------------------------------------
+    void loadSelected()
+    {
+      int unitCount = 0;
+      while (savedSelectionStates[unitCount] != NULL)
+        unitCount++;
+      BW::selectUnits(unitCount, savedSelectionStates);
+    }
     //------------------------------------------------- ON DLL LOAD --------------------------------------------
     void onDllLoad()
     {
@@ -785,24 +799,6 @@ namespace BWAPI
         }
       }
 
-      /* TODO: find out where (moved?), when and if to call these
-      {
-        BWAPI::Races::init();
-        BWAPI::DamageTypes::init();
-        BWAPI::ExplosionTypes::init();
-        BWAPI::Command::init();
-        BWAPI::TechTypes::init();
-        BWAPI::PlayerTypes::init();
-        BWAPI::UpgradeTypes::init();
-        BWAPI::WeaponTypes::init();
-        BWAPI::UnitSizeTypes::init();
-        BWAPI::UnitTypes::init();
-        BWAPI::AttackTypes::init();
-        BWAPI::Errors::init();
-        BWAPI::Colors::init();
-      }
-      */
-
       //--------------------------------------------------------------------------------------
       // enable user input as long as no agent is in charge
       if(lastState != InMatch
@@ -829,16 +825,16 @@ namespace BWAPI
           // mark all array as unused
           for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
           {
-            unitArrayMirror[i].isInChain = false;
-            unitArrayMirror[i].wasInChain = false;
-            unitArrayMirror[i].isDying = false;
-            unitArrayMirror[i].knownUnit = NULL;
+            bwUnitArrayMirror[i].isInChain = false;
+            bwUnitArrayMirror[i].wasInChain = false;
+            bwUnitArrayMirror[i].isDying = false;
+            bwUnitArrayMirror[i].knownUnit = NULL;
           }
         }
 
         // init flag array
-        unitArrayMirrorFlags.setSize(BW::UNIT_ARRAY_MAX_LENGTH);
-        unitArrayMirrorFlags.setAllFlags(false);
+        bwUnitArrayMirrorFlags.setSize(BW::UNIT_ARRAY_MAX_LENGTH);
+        bwUnitArrayMirrorFlags.setAllFlags(false);
       }
 
       //--------------------------------------------------------------------------------------
@@ -929,10 +925,10 @@ namespace BWAPI
           for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
           {
             int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
-            Unit &mirror = unitArrayMirror[linear];
+            Unit &mirror = bwUnitArrayMirror[linear];
 
             mirror.isInChain = true;
-            unitArrayMirrorFlags.setFlag(linear, true); // mark slot for processing
+            bwUnitArrayMirrorFlags.setFlag(linear, true); // mark slot for processing
 
             // not interesting if this unit existed before
             if(mirror.wasInChain)
@@ -947,12 +943,12 @@ namespace BWAPI
           for(int w = -1;;)
           {
             // find all non-zero words
-            w = unitArrayMirrorFlags.findNextWord(w+1);
+            w = bwUnitArrayMirrorFlags.findNextWord(w+1);
             if(w == -1)
               break;  // reached end
 
             // check each unit reflection that corresponds to a set flag
-            int word = unitArrayMirrorFlags.getWord(w);
+            int word = bwUnitArrayMirrorFlags.getWord(w);
             int baseIndex = w * Util::FlagArray::flagsInWord;
             for(int f = 0; f < Util::FlagArray::flagsInWord; f++)
             {
@@ -963,17 +959,19 @@ namespace BWAPI
               // get corresponding BW::Unit and mirror
               int linear = baseIndex + f;
               BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[linear];
-              Unit &mirror = unitArrayMirror[linear];
+              Unit &mirror = bwUnitArrayMirror[linear];
 
               // process the chain states
-              bool wasInChain = mirror.wasInChain;
+              bool wasInChain = mirror.wasInChain;  // we need these values for this iteration
               bool isInChain = mirror.isInChain;
-              mirror.wasInChain = isInChain;
+              mirror.wasInChain = isInChain;        // init the values for next iteration
               mirror.isInChain = false;
+
+              // remove flag when unit gets removed
               if(!isInChain)
               {
                 // slot not used anymore
-                unitArrayMirrorFlags.setFlag(linear, false);
+                bwUnitArrayMirrorFlags.setFlag(linear, false);
               }
 
               // if flag was set but slot is not used
@@ -1134,14 +1132,77 @@ namespace BWAPI
 
         // process issued commands
         {
-          /* TODO: implement when command stack works
-          Bridge::CommandDataStructure &commandData = *BridgeServer::sharedCommandData;
-          for(int i=0;i<commandData.lastFreeCommandSlot;i++)
+          struct LatencyCommandEntry
           {
-            Engine::executeUnitCommand(commandData.commandQueue[i]);
+            bool valid;
+            int startFrame;
+            BWAPI::UnitCommand command;
+          };
+          static std::deque<LatencyCommandEntry> latencyCommandQueue;
+
+          // execute and recruit new commands into our latency simulation queue
+          {
+            saveSelected();
+
+            Bridge::SharedStuff::CommandStack &recruits = BWAPI::BridgeServer::sharedStuff.commands;
+            for(Bridge::SharedStuff::CommandStack::Index i = recruits.begin();
+                i.isValid();
+                i = recruits.getNext(i))
+            {
+              BWAPI::UnitCommand& command = recruits.get(i).getAs<UnitCommand>();
+
+              // TODO: validate command before executing it
+              executeUnitCommand(command);
+
+              LatencyCommandEntry entry;
+              entry.valid = true;
+              entry.startFrame = frameCount;
+              entry.command = command;
+              latencyCommandQueue.push_back(entry);
+            }
+
+            loadSelected();
           }
-          commandData.lastFreeCommandSlot = 0;
-          */
+
+          // Remove commands that are too old
+          {
+            int ageLimit = BW::getLatency();
+
+            for(std::deque<LatencyCommandEntry>::iterator it;
+              latencyCommandQueue.begin() != latencyCommandQueue.end();
+              )
+            {
+              it = latencyCommandQueue.begin();
+
+              // check current entry
+              LatencyCommandEntry &entry = (*it);
+              int age = (frameCount - entry.startFrame);
+              if(age < ageLimit)
+                // from here on these entries are fresh enough
+                break;
+              // remove this outdated entry
+              latencyCommandQueue.erase(it);
+            }
+          }
+
+          // run simulation on the rest
+          {
+            std::deque<LatencyCommandEntry>::iterator it = latencyCommandQueue.begin();
+            for(; it != latencyCommandQueue.end(); it++)
+            {
+              // check current entry
+              LatencyCommandEntry &entry = (*it);
+
+              // skip invalidated entries (removing them costs too much)
+              if(!entry.valid)
+                continue;
+
+              // simulate this command
+              // TODO: find second parameter
+              Bridge::KnownUnitEntry &unitEntry = BridgeServer::sharedStuff.knownUnits.getByLinear(entry.command.unitIndex);
+              simulateUnitCommand(entry.command, unitEntry);
+            }
+          }
         }
       }
 
@@ -1285,27 +1346,17 @@ namespace BWAPI
       }
 
       update(InMatch);
-      loadSelected();
     }
     //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
     void refreshSelectionStates()
     {
       /* TODO: reform
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArrayMirror[i]->setSelected(false);
+        bwUnitArrayMirror[i]->setSelected(false);
 
       saveSelected();
       for (int i = 0; savedSelectionStates[i] != NULL; i++)
         BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
-      */
-    }
-    //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
-    void addToCommandBuffer(Command* command)
-    {
-      /* TODO: reform
-      command->execute();
-      commandBuffer[commandBuffer.size() - 1].push_back(command);
-      commandLog->log("(%4d) %s", frameCount, command->describe().c_str());
       */
     }
     //----------------------------------------------- PARSE TEXT -----------------------------------------------
@@ -1420,17 +1471,17 @@ namespace BWAPI
 
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
-        unitArrayMirror[i]->userSelected=false;
-        unitArrayMirror[i]->buildUnit=NULL;
-        unitArrayMirror[i]->alive=false;
-        unitArrayMirror[i]->dead=false;
-        unitArrayMirror[i]->savedPlayer=NULL;
-        unitArrayMirror[i]->savedUnitType=NULL;
-        unitArrayMirror[i]->staticInformation=false;
-        unitArrayMirror[i]->lastVisible=false;
-        unitArrayMirror[i]->lastType=UnitTypes::Unknown;
-        unitArrayMirror[i]->lastPlayer=NULL;
-        unitArrayMirror[i]->nukeDetected=false;
+        bwUnitArrayMirror[i]->userSelected=false;
+        bwUnitArrayMirror[i]->buildUnit=NULL;
+        bwUnitArrayMirror[i]->alive=false;
+        bwUnitArrayMirror[i]->dead=false;
+        bwUnitArrayMirror[i]->savedPlayer=NULL;
+        bwUnitArrayMirror[i]->savedUnitType=NULL;
+        bwUnitArrayMirror[i]->staticInformation=false;
+        bwUnitArrayMirror[i]->lastVisible=false;
+        bwUnitArrayMirror[i]->lastType=UnitTypes::Unknown;
+        bwUnitArrayMirror[i]->lastPlayer=NULL;
+        bwUnitArrayMirror[i]->nukeDetected=false;
       }
       cheatFlags=0;
       */
@@ -1438,7 +1489,8 @@ namespace BWAPI
     //----------------------------------------------------------------------------------------------------------
     void refresh()
     {
-      /* Unusued TODO: what does unused mean? what does this even do? decide move to BW:: or remove
+      /* Unusued
+          TODO: find out what "Unused" mean? what does this function do? decide whether move to BW:: or remove
       #ifdef __GNUC__
         __asm__("call [BW::BWFXN_Refresh]");
       #else
@@ -1446,64 +1498,10 @@ namespace BWAPI
       #endif
       */
     }
-    //--------------------------------------------- SAVE SELECTED ----------------------------------------------
-    void saveSelected()
-    {
-      /* TODO: reform
-      memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
-      savedSelectionStates[12] = NULL;
-      int i = 0;
-      selectedUnitSet.clear();
-      while (savedSelectionStates[i] != NULL)
-      {
-        selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i]));
-        i++;
-      }
-      */
-    }
-    //--------------------------------------------- LOAD SELECTED ----------------------------------------------
-    void loadSelected()
-    {
-      /* TODO: reform
-      int unitCount = 0;
-      while (savedSelectionStates[unitCount] != NULL)
-        unitCount++;
-      BW::selectUnits(unitCount, savedSelectionStates);
-      */
-    }
-    //------------------------------------------ GET SELECTED UNITS --------------------------------------------
-    std::set<BWAPI::Unit*>& getSelectedUnits()
-    {
-      /* TODO: reform
-      if (isFlagEnabled(Flag::UserInput) == false)
-      {
-        setLastError(Errors::Access_Denied);
-        return emptySet;
-      }
-      return selectedUnitSet;
-      */
-      static std::set<BWAPI::Unit*> stat; // STUB
-      return stat;
-    }
     //--------------------------------------------- ON UNIT DEATH ---------------------------------------------
     void onUnitDeath(BW::Unit* unit)
     {
-      /* TODO: reform
-      static std::set<int> invalidIndices;
-      // index as seen in Starcraft
-      u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
-      if (index > BW::UNIT_ARRAY_MAX_LENGTH)
-      {
-        if (invalidIndices.find(index) == invalidIndices.end())
-        {
-          newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x", index, unit);
-          invalidIndices.insert(index);
-        }
-        return;
-      }
-      BWAPI::UnitImpl* deadUnit = unitArray[index];
-      onUnitDeath(deadUnit);
-      */
+      // Unused hook
     }
     //--------------------------------------------------- GAME SPEED -------------------------------------------
     void  setLocalSpeed(int speed)
@@ -1725,147 +1723,89 @@ namespace BWAPI
       }
     }
     //---------------------------------------- -----------------------------------------------------------------
-    void executeUnitCommand(UnitCommand& c)
+    void simulateUnitStop(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
     {
-      /* TODO: reform
-      Unit* u=(Unit*)c.unitID;
-      Position targetPosition(c.x,c.y);
-      TilePosition targetTilePosition(c.x,c.y);
-      Unit* targetUnit=(Unit*)c.targetID;
-
-      if (!u) return;
-
-      switch(c.commandID)
-      {
-      case CommandID::AttackPosition:
-        u->attackMove(targetPosition);
-        break;
-      case CommandID::AttackUnit:
-        if (targetUnit==NULL) break;
-        u->attackUnit(targetUnit);
-        break;
-      case CommandID::RightClickPosition:
-        u->rightClick(targetPosition);
-        break;
-      case CommandID::RightClickUnit:
-        if (targetUnit==NULL) break;
-        u->rightClick(targetUnit);
-        break;
-      case CommandID::Train:
-        u->train(UnitType(c.specialID));
-        break;
-      case CommandID::Build:
-        u->build(targetTilePosition,UnitType(c.specialID));
-        break;
-      case CommandID::BuildAddon:
-        u->buildAddon(UnitType(c.specialID));
-        break;
-      case CommandID::Research:
-        u->research(TechType(c.specialID));
-        break;
-      case CommandID::Upgrade:
-        u->upgrade(UpgradeType(c.specialID));
-        break;
-      case CommandID::Stop:
-        u->stop();
-        break;
-      case CommandID::HoldPosition:
-        u->holdPosition();
-        break;
-      case CommandID::Patrol:
-        u->patrol(targetPosition);
-        break;
-      case CommandID::Follow:
-        if (targetUnit==NULL) break;
-        u->follow(targetUnit);
-        break;
-      case CommandID::SetRallyPosition:
-        u->setRallyPosition(targetPosition);
-        break;
-      case CommandID::SetRallyUnit:
-        if (targetUnit==NULL) break;
-        u->setRallyUnit(targetUnit);
-        break;
-      case CommandID::Repair:
-        if (targetUnit==NULL) break;
-        u->repair(targetUnit);
-        break;
-      case CommandID::Morph:
-        u->morph(UnitType(c.specialID));
-        break;
-      case CommandID::Burrow:
-        u->burrow();
-        break;
-      case CommandID::Unburrow:
-        u->unburrow();
-        break;
-      case CommandID::Siege:
-        u->siege();
-        break;
-      case CommandID::Unsiege:
-        u->unsiege();
-        break;
-      case CommandID::Cloak:
-        u->cloak();
-        break;
-      case CommandID::Decloak:
-        u->decloak();
-        break;
-      case CommandID::Lift:
-        u->lift();
-        break;
-      case CommandID::Land:
-        u->land(targetTilePosition);
-        break;
-      case CommandID::Load:
-        if (targetUnit==NULL) return;
-        u->load(targetUnit);
-        break;
-      case CommandID::Unload:
-        if (targetUnit==NULL) return;
-        u->unload(targetUnit);
-        break;
-      case CommandID::UnloadAll:
-        u->unloadAll();
-        break;
-      case CommandID::CancelConstruction:
-        u->cancelConstruction();
-        break;
-      case CommandID::HaltConstruction:
-        u->haltConstruction();
-        break;
-      case CommandID::CancelMorph:
-        u->cancelMorph();
-        break;
-      case CommandID::CancelTrain:
-        u->cancelTrain();
-        break;
-      case CommandID::CancelTrainSlot:
-        u->cancelTrain(c.specialID);
-        break;
-      case CommandID::CancelAddon:
-        u->cancelAddon();
-        break;
-      case CommandID::CancelResearch:
-        u->cancelResearch();
-        break;
-      case CommandID::CancelUpgrade:
-        u->cancelUpgrade();
-        break;
-      case CommandID::UseTech:
-        u->useTech(TechType(c.specialID));
-        break;
-      case CommandID::UseTechPosition:
-        u->useTech(TechType(c.specialID),targetPosition);
-        break;
-      case CommandID::UseTechUnit:
-        if (targetUnit==NULL) break;
-        u->useTech(TechType(c.specialID),targetUnit);
-        break;
-      default:
-        break;
-      }
-      */
+      // TODO: add alternation of state
     }
+
+    void simulateUnknownUnitCommand(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
+    {
+      throw GeneralException("Unknown command " + Util::Strings::intToString(command.commandId));
+    }
+
+    void simulateUnitCommand(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
+    {
+      typedef void(*SIMULATOR)(const BWAPI::UnitCommand&, BWAPI::UnitState&);
+      static Util::LookupTable<SIMULATOR> simulators;
+      static bool isSimulatorsTableInitialized = false;
+
+      // initialize lookup table
+      if(!isSimulatorsTableInitialized)
+      {
+        simulators.setDefaultValue(&simulateUnknownUnitCommand);
+        simulators.setValue(UnitCommandTypeIds::Stop, &simulateUnitStop);
+        isSimulatorsTableInitialized = true;
+      }
+
+      // get command simulator function and call it
+      SIMULATOR simulator = simulators.lookUp(command.commandId);
+      simulator(command, state);
+    }
+    //---------------------------------------- -----------------------------------------------------------------
+    void executeSelectOrder(int bwUnitIndex)
+    {
+      BW::Unit* select;
+      select = &BW::BWDATA_UnitNodeTable->unit[bwUnitIndex];
+      BW::selectUnits(1, &select);
+    }
+
+    void executeUnitStop(int bwUnitIndex, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Stop(0));
+    }
+
+    void executeUnknownUnitCommand(int bwUnitIndex, const BWAPI::UnitCommand& command)
+    {
+      throw GeneralException("Unknown command " + Util::Strings::intToString(command.commandId));
+    }
+
+    void executeUnitCommand(const BWAPI::UnitCommand& command)
+    {
+      typedef void(*SIMULATOR)(int unitId, const BWAPI::UnitCommand&);
+      static Util::LookupTable<SIMULATOR> simulators;
+      static bool isSimulatorsTableInitialized = false;
+
+      // initialize lookup table
+      if(!isSimulatorsTableInitialized)
+      {
+        simulators.setDefaultValue(&executeUnknownUnitCommand);
+        simulators.setValue(UnitCommandTypeIds::Stop, &executeUnitStop);
+        isSimulatorsTableInitialized = true;
+      }
+
+      // get command simulator function
+      SIMULATOR simulator = simulators.lookUp(command.commandId);
+
+      // find out the unitId.
+      // TODO: add a knownunit mirror, lookup the bwunit index in the reflected knownunit entry
+      // but for now just search the bwunit mirror for a reference to this knownunit
+      int bwUnitIndex = -1;
+      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      {
+        if(!bwUnitArrayMirror[i].wasInChain)
+          continue;
+        if(BridgeServer::sharedStuff.knownUnits.getLinearByIndex(bwUnitArrayMirror[i].knownUnitIndex) == command.unitIndex)
+        {
+          bwUnitIndex = i;
+          break;
+        }
+      }
+      if(bwUnitIndex == -1)
+        return; // the unit does not exist anymore;
+
+      simulator(bwUnitIndex, command);
+    }
+    //---------------------------------------- -----------------------------------------------------------------
   }
 };
