@@ -1,12 +1,11 @@
 #pragma once
 /**
- * UnitCommand contains a whole single command
- *
+ *  Used in UnitCommand
  */
 
 namespace BWAPI
 {
-  namespace UnitCommandTypeIDs
+  namespace UnitCommandTypeIds
   {
     enum Enum
     {
@@ -50,8 +49,9 @@ namespace BWAPI
       CancelUpgrade,
       UseTech,
       UseTechPosition,
-      UseTechUnit
+      UseTechUnit,
+      count
     };
   }
-  typedef UnitCommandTypeIDs::Enum UnitCommandTypeID;
+  typedef UnitCommandTypeIds::Enum UnitCommandTypeId;
 }

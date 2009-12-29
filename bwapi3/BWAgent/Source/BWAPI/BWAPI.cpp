@@ -385,6 +385,22 @@ namespace BWAPI
   {
     unitRemoveEventsHandleFactory.release((UnitRemoveEventsHandle*)h);
   }
+  //----------------------------------- INSERT ORDER ----------------------------------------------
+  BWAPI::UnitCommand& insertOrder()
+  {
+    static BWAPI::UnitCommand safeSpot;
+    Bridge::SharedStuff::CommandStack::Index i = BridgeClient::sharedStuff.commands.insertBytes(sizeof(BWAPI::UnitCommand));
+    if(!i.isValid())
+      return safeSpot;
+    return BridgeClient::sharedStuff.commands.get(i).getAs<BWAPI::UnitCommand>();
+  }
+  //----------------------------------- STOP ORDER ------------------------------------------------
+  BWAPI_FUNCTION void BWAPI_CALL BWOrderStop(int unitId)
+  {
+    BWAPI::UnitCommand &order = insertOrder();
+    order.commandId = UnitCommandTypeIds::Stop;
+    order.unitIndex = unitId;
+  }
   //----------------------------------- GET LAST ERROR --------------------------------------------
   BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError()
   {
