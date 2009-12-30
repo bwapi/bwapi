@@ -3,6 +3,7 @@
 #include <Bridge\PipeMessage.h>
 #include <Bridge\Constants.h>
 #include <Bridge\DrawShape.h>
+#include <Bridge\EventEntry.h>
 #include <Util\Version.h>
 #include <Util\Strings.h>
 #include <Util\RemoteProcess.h>
@@ -17,6 +18,7 @@ namespace BWAPI
   namespace BridgeClient
   {
   //private:
+
     Bridge::SharedStuff sharedStuff;
 
     // Bridge Client state
@@ -35,6 +37,10 @@ namespace BWAPI
     //----------------------------------------- PUBLIC DATA -----------------------------------------------------
     // public access to shared memory
     BWAPI::StaticGameData* sharedStaticData;
+
+    // events
+    std::vector<UnitAddEvent*> knownUnitAddEvents;
+    std::vector<UnitRemoveEvent*> knownUnitRemoveEvents;
 
     // additional data for RPC states
     bool isMatchStartFromBeginning = false;
@@ -170,7 +176,18 @@ namespace BWAPI
 
       return true;
     }
-    //----------------------------------------- UPDATE PACKET HANDLERS ------------------------------------------
+    //----------------------------------------- EVENT ENTRY HANDLERS --------------------------------------------
+    int sortEventKnownUnitAdd(Bridge::EventEntry::KnownUnitAdd& packet)
+    {
+      knownUnitAddEvents.push_back(&packet.data);
+      return 0;
+    }
+    int sortEventKnownUnitRemove(Bridge::EventEntry::KnownUnitRemove& packet)
+    {
+      knownUnitRemoveEvents.push_back(&packet.data);
+      return 0;
+    }
+    //----------------------------------------- PIPE PACKET HANDLERS --------------------------------------------
     bool handleUpdateUserInput(Bridge::PipeMessage::ServerUpdateUserInput& packet)
     {
       sharedStuff.userInput.importNextUpdate(packet.exp);
@@ -181,17 +198,11 @@ namespace BWAPI
       sharedStuff.knownUnits.importNextUpdate(packet.exp);
       return true;
     }
-    bool handleUpdateKnownUnitAddEvents(Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents& packet)
+    bool handleUpdateEvents(Bridge::PipeMessage::ServerUpdateEvents& packet)
     {
-      sharedStuff.knownUnitAddEvents.importNextUpdate(packet.exp);
+      sharedStuff.events.importNextUpdate(packet.exp);
       return true;
     }
-    bool handleUpdateKnownUnitRemoveEvents(Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents& packet)
-    {
-      sharedStuff.knownUnitRemoveEvents.importNextUpdate(packet.exp);
-      return true;
-    }
-    //----------------------------------------- MATCH INIT PACKET HANDLER ---------------------------------------
     bool handleMatchInit(Bridge::PipeMessage::ServerMatchInit& packet)
     {
       // save options
@@ -202,8 +213,7 @@ namespace BWAPI
       sharedStuff.commands.release();
       sharedStuff.userInput.release();
       sharedStuff.knownUnits.release();
-      sharedStuff.knownUnitAddEvents.release();
-      sharedStuff.knownUnitRemoveEvents.release();
+      sharedStuff.events.release();
 
       // first import static data. It's all combined into staticData
       sharedStuff.staticData.import(packet.staticGameDataExport);
@@ -219,13 +229,41 @@ namespace BWAPI
       // do not wait for next packet
       return false;
     }
-    //----------------------------------------- NEXT FRAME PACKET HANDLER ---------------------------------------
     bool handleFrameNext(Bridge::PipeMessage::ServerFrameNext& packet)
     {
-      // clear all frame-by-frame buffers
+      // clear all outgoing frame-by-frame buffers
       sharedStuff.sendText.clear();
       sharedStuff.drawShapes.clear();
       sharedStuff.commands.clear();
+
+      // sort incoming frame by frame buffers
+      {
+        // callback based sorting, int return value ignored
+        static Util::TypedPacketSwitch<int> packetSwitch;
+        if(!packetSwitch.getHandlerCount())
+        {
+          // init packet switch
+          packetSwitch.addHandler(sortEventKnownUnitAdd);
+          packetSwitch.addHandler(sortEventKnownUnitRemove);
+        }
+
+        // prepare arrays
+        knownUnitAddEvents.clear();
+        knownUnitRemoveEvents.clear();
+
+        // fill arrays with references to event data
+        for(Bridge::SharedStuff::EventStack::Index index = sharedStuff.events.begin();
+            index.isValid();
+            index = sharedStuff.events.getNext(index))
+        {
+          // put event into the right array (sort)
+          packetSwitch.handlePacket(sharedStuff.events.get(index));
+        }
+
+        // add terminating NULL pointers
+        knownUnitAddEvents.push_back(NULL);
+        knownUnitRemoveEvents.push_back(NULL);
+      }
 
       rpcState = OnFrame;
 
@@ -242,8 +280,7 @@ namespace BWAPI
         // init packet switch
         packetSwitch.addHandler(handleUpdateUserInput);
         packetSwitch.addHandler(handleUpdateKnownUnits);
-        packetSwitch.addHandler(handleUpdateKnownUnitAddEvents);
-        packetSwitch.addHandler(handleUpdateKnownUnitRemoveEvents);
+        packetSwitch.addHandler(handleUpdateEvents);
         packetSwitch.addHandler(handleMatchInit);
         packetSwitch.addHandler(handleFrameNext);
       }

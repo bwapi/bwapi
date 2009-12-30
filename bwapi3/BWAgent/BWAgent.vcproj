@@ -180,7 +180,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\KnownUnitEventEntry.h"
+				RelativePath="..\Bridge\EventEntry.h"
 				>
 			</File>
 			<File

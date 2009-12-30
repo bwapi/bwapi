@@ -1720,7 +1720,7 @@ namespace BWAPI
       {
       }
     }
-    //---------------------------------------- -----------------------------------------------------------------
+    //---------------------------------------- ORDER SIMULATION ------------------------------------------------
     void simulateUnitStop(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
     {
       // TODO: add alternation of state
@@ -1749,7 +1749,7 @@ namespace BWAPI
       SIMULATOR simulator = simulators.lookUp(command.commandId);
       simulator(command, state);
     }
-    //---------------------------------------- -----------------------------------------------------------------
+    //---------------------------------------- ORDER EXECUTION -------------------------------------------------
     void executeSelectOrder(int bwUnitIndex)
     {
       BW::Unit* select;

@@ -2,7 +2,7 @@
 
 #include <Bridge\Constants.h>
 #include <Bridge\PipeMessage.h>
-#include <Bridge\KnownUnitEventEntry.h>
+#include <Bridge\EventEntry.h>
 
 #include <Util\Version.h>
 #include <Util\Strings.h>
@@ -130,8 +130,7 @@ namespace BWAPI
       // init dynamic objects
       sharedStuff.userInput.init(1000, true);
       sharedStuff.knownUnits.init(100, true);
-      sharedStuff.knownUnitAddEvents.init(1000, true);
-      sharedStuff.knownUnitRemoveEvents.init(1000, true);
+      sharedStuff.events.init(2000, true);
 
       stateSharedMemoryInitialized = true;
       return true;
@@ -244,8 +243,7 @@ namespace BWAPI
       // just returned from frame invokation
       // clear frame-to-frame buffers
       sharedStuff.userInput.clear();
-      sharedStuff.knownUnitAddEvents.clear();
-      sharedStuff.knownUnitRemoveEvents.clear();
+      sharedStuff.events.clear();
     }
     //------------------------------ PUSH SEND TEXT ----------------------------------------------
     bool pushSendText(const char *text)
@@ -278,10 +276,10 @@ namespace BWAPI
         *out_index = index;
 
       // push known unit event
-      Bridge::KnownUnitAddEventEntry entry;
+      Bridge::EventEntry::KnownUnitAdd entry;
       entry.data.unitId = sharedStuff.knownUnits.getLinearByIndex(index);
       entry.data.type = reason;
-      sharedStuff.knownUnitAddEvents.insert(Util::MemoryFrame::from(entry));
+      sharedStuff.events.insert(Util::MemoryFrame::from(entry));
     }
     //------------------------------ REMOVE KNOWN UNIT -------------------------------------------
     void removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index, BWAPI::UnitRemoveEventTypeId reason)
@@ -294,10 +292,10 @@ namespace BWAPI
       sharedStuff.knownUnits.remove(index);
 
       // push known unit event
-      Bridge::KnownUnitRemoveEventEntry entry;
+      Bridge::EventEntry::KnownUnitRemove entry;
       entry.data.unitId = sharedStuff.knownUnits.getLinearByIndex(index);
       entry.data.type = reason;
-      sharedStuff.knownUnitRemoveEvents.insert(Util::MemoryFrame::from(entry));
+      sharedStuff.events.insert(Util::MemoryFrame::from(entry));
     }
     //-------------------------- GET SEND TEXT ENTRIES ------------------------------------------
     std::deque<Bridge::SendTextEntry*> getSendTextEntries()
@@ -344,14 +342,14 @@ namespace BWAPI
         sharedStuff.pipe.sendRawStructure(packet);
       }
 
-      // export knownUnitAddEvents updates
-      while(sharedStuff.knownUnitAddEvents.isUpdateExportNeeded())
+      // export events updates
+      while(sharedStuff.events.isUpdateExportNeeded())
       {
         // create export package
-        Bridge::PipeMessage::ServerUpdateKnownUnitAddEvents packet;
-        if(!sharedStuff.knownUnitAddEvents.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        Bridge::PipeMessage::ServerUpdateEvents packet;
+        if(!sharedStuff.events.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
-          lastError = std::string(__FUNCTION__)+ ": exporting knownUnitAddEvents update failed";
+          lastError = std::string(__FUNCTION__)+ ": exporting events update failed";
           return false;
         }
 
@@ -359,20 +357,6 @@ namespace BWAPI
         sharedStuff.pipe.sendRawStructure(packet);
       }
 
-      // export knownUnitRemoveEvents updates
-      while(sharedStuff.knownUnitRemoveEvents.isUpdateExportNeeded())
-      {
-        // create export package
-        Bridge::PipeMessage::ServerUpdateKnownUnitRemoveEvents packet;
-        if(!sharedStuff.knownUnitRemoveEvents.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
-        {
-          lastError = std::string(__FUNCTION__)+ ": exporting knownUnitRemoveEvents update failed";
-          return false;
-        }
-
-        // send update export
-        sharedStuff.pipe.sendRawStructure(packet);
-      }
       return true;
     }
     //-------------------------- GET ALL DRAW SHAPES --------------------------------------------
