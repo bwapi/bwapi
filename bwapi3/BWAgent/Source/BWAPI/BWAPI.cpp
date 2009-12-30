@@ -7,6 +7,7 @@
 
 #include <Bridge\SharedStuff.h>
 #include <Bridge\EventEntry.h>
+#include <Bridge\CommandEntry.h>
 
 #include <BWAPIDatabase\UnitTypes.h>
 #include <BWAPIDatabase\TechTypes.h>
@@ -150,7 +151,7 @@ namespace BWAPI
     resetError();
     try
     {
-      return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId);
+      return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId).state;
     }
     catch(GeneralException &exception)
     {
@@ -325,11 +326,14 @@ namespace BWAPI
   //----------------------------------- INSERT ORDER ----------------------------------------------
   BWAPI::UnitCommand& insertOrder()
   {
+    Bridge::CommandEntry::UnitOrder entry;
+    Bridge::SharedStuff::CommandStack::Index i = BridgeClient::sharedStuff.commands.insert(Util::MemoryFrame::from(entry));
+
     static BWAPI::UnitCommand safeSpot;
-    Bridge::SharedStuff::CommandStack::Index i = BridgeClient::sharedStuff.commands.insertBytes(sizeof(BWAPI::UnitCommand));
     if(!i.isValid())
       return safeSpot;
-    return BridgeClient::sharedStuff.commands.get(i).getAs<BWAPI::UnitCommand>();
+
+    return BridgeClient::sharedStuff.commands.get(i).getAs<Bridge::CommandEntry::UnitOrder>().unitCommand;
   }
   //----------------------------------- STOP ORDER ------------------------------------------------
   BWAPI_FUNCTION void BWAPI_CALL BWOrderStop(int unitId)

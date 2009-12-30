@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Bridge\SendTextEntry.h>
 #include <Bridge\SharedStuff.h>
 #include <Bridge\DrawShape.h>
+#include <Bridge\CommandEntry.h>
 
 #include <BWAPITypes\StaticGameData.h>
 #include <BWAPITypes\UnitEvent.h>
@@ -22,6 +22,9 @@ namespace BWAPI
   //public:
     extern Bridge::SharedStuff sharedStuff;
     extern BWAPI::StaticGameData* sharedStaticData;
+
+    extern std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
+    extern std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
 
     extern bool initConnectionServer();
     extern void acceptIncomingConnections();
@@ -47,7 +50,5 @@ namespace BWAPI
 
     typedef void (*DrawShapeCallback)(Util::MemoryFrame packet);
     extern void enumAllDrawShapes(DrawShapeCallback);
-
-    extern std::deque<Bridge::SendTextEntry*> getSendTextEntries();
   }
 }

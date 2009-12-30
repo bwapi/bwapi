@@ -44,6 +44,24 @@ namespace Util
           throw;
         }
       }
+    template<typename TYPED_PACKET>
+      static RETTYPE reinterpretMemoryAsPacketWithDynamicData(void *functor, MemoryFrame& mem)
+      {
+        typedef RETTYPE (*HandlerFunc)(TYPED_PACKET&, MemoryFrame);
+        HandlerFunc handler = *(HandlerFunc)functor;
+
+        try
+        {
+          // call handler
+          TYPED_PACKET &packet = mem.readAs<TYPED_PACKET>();
+          return (*handler)(packet, mem);
+        }
+        catch(GeneralException &exception)
+        {
+          exception.append(Strings::ssprintf("handling '%d' packet", TYPED_PACKET::_typeId));
+          throw;
+        }
+      }
     //--------------------------- --------------------------------------------------
   public:
     //--------------------------- CONTRUCTION --------------------------------------
@@ -60,6 +78,15 @@ namespace Util
         HandlerEntry entry;
         entry.functor = (void*)handlerFunction;
         entry.reinterpreter = &reinterpretMemoryAsPacket<TYPED_PACKET>;
+        handlers[TYPED_PACKET::_typeId] = entry;
+        return;
+      }
+    template<typename TYPED_PACKET>
+      void addHandler(RETTYPE (*handlerFunction)(TYPED_PACKET&, MemoryFrame))
+      {
+        HandlerEntry entry;
+        entry.functor = (void*)handlerFunction;
+        entry.reinterpreter = &reinterpretMemoryAsPacketWithDynamicData<TYPED_PACKET>;
         handlers[TYPED_PACKET::_typeId] = entry;
         return;
       }

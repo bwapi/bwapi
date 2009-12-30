@@ -4,6 +4,7 @@
 #include <Bridge\Constants.h>
 #include <Bridge\DrawShape.h>
 #include <Bridge\EventEntry.h>
+#include <Bridge\CommandEntry.h>
 #include <Util\Version.h>
 #include <Util\Strings.h>
 #include <Util\RemoteProcess.h>
@@ -113,7 +114,8 @@ namespace BWAPI
     {
       if(sharedMemoryInitialized)
       {
-        sharedStuff.sendText.release();
+        sharedStuff.commands.release();
+        sharedStuff.drawShapes.release();
       }
       sharedStuff.pipe.disconnect();
       connectionEstablished = true;
@@ -137,21 +139,6 @@ namespace BWAPI
         if(!sharedStuff.commands.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
           lastError = __FUNCTION__ ": exporting commands update failed";
-          return false;
-        }
-
-        // send update export
-        sharedStuff.pipe.sendRawStructure(packet);
-      }
-
-      // export sendText updates
-      while(sharedStuff.sendText.isUpdateExportNeeded())
-      {
-        // create export package
-        Bridge::PipeMessage::AgentUpdateSendText packet;
-        if(!sharedStuff.sendText.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
-        {
-          lastError = __FUNCTION__ ": exporting sendText update failed";
           return false;
         }
 
@@ -220,9 +207,8 @@ namespace BWAPI
       sharedStaticData = &sharedStuff.staticData.get();
 
       // init agent-side dynamic memory
-      sharedStuff.commands.init(1000, true);
-      sharedStuff.sendText.init(2000, true);
-      sharedStuff.drawShapes.init(3000, true);
+      sharedStuff.commands.init(4000, true);
+      sharedStuff.drawShapes.init(4000, true);
 
       rpcState = OnInitMatch;
 
@@ -232,7 +218,6 @@ namespace BWAPI
     bool handleFrameNext(Bridge::PipeMessage::ServerFrameNext& packet)
     {
       // clear all outgoing frame-by-frame buffers
-      sharedStuff.sendText.clear();
       sharedStuff.drawShapes.clear();
       sharedStuff.commands.clear();
 
@@ -355,14 +340,20 @@ namespace BWAPI
       if(!connectionEstablished || !sharedMemoryInitialized)
         return false;
 
-      // push next packet
-      Util::MemoryFrame textmem = Util::MemoryFrame((char*)string, strlen(string)+1);
-      Bridge::SharedStuff::SendTextStack::Index index = sharedStuff.sendText.insertBytes(sizeof(bool) + textmem.size());
+      // repare data
+      Util::MemoryFrame textMemory = Util::MemoryFrame((char*)string, strlen(string)+1);
+      Bridge::CommandEntry::SendText head;
+      head.printOnly = !send;
+
+      // add a new empty packet
+      Bridge::SharedStuff::CommandStack::Index index = sharedStuff.commands.insertBytes(sizeof(head) + textMemory.size());
       if(!index.isValid())
         return false;
-      Util::MemoryFrame targetmem = sharedStuff.sendText.get(index);
-      targetmem.writeAs<bool>(send);
-      targetmem.write(textmem);
+      Util::MemoryFrame targetMemory = sharedStuff.commands.get(index);
+
+      // write packet with data
+      targetMemory.writeAs(head);
+      targetMemory.write(textMemory);
       return true;
     }
     //----------------------------------------- -----------------------------------------------------------------
