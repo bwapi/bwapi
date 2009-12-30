@@ -9,10 +9,23 @@
 #include <DLLMain.h>
 
 #include <Util/StaticArray.h>
+#include <Util/Exceptions.h>
 
 namespace BW
 {
 //public:
+  int selfPlayerId;
+  //----------------------------------- ON MATCH INIT -------------------------------------
+  void onMatchInit()
+  {
+    selfPlayerId = -1;
+    // find the current player by name
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+      if (strcmp(BW::BWDATA_CurrentPlayerName, BW::BWDATA_Players->player[i].name) == 0)
+        selfPlayerId = i;
+    if(selfPlayerId == -1)
+      throw GeneralException("self player not found");
+  }
   //----------------------------------- IN REPLAY -----------------------------------------
   bool isInReplay()
   {
@@ -223,8 +236,7 @@ namespace BW
       }
       else
       {
-        // TODO: fix. currently this blocks normal text output
-        //printEx(self player id, buffer);
+        printEx(selfPlayerId, buffer.data);
       }
       return;
     }

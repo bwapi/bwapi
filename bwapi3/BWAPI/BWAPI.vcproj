@@ -495,6 +495,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\Force.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\PlayerId.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\StaticGameData.h"
 					>
 				</File>
@@ -629,6 +637,10 @@
 			</File>
 			<File
 				RelativePath="..\Util\Source\Util\Gnu.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\LimitedArray.h"
 				>
 			</File>
 			<File

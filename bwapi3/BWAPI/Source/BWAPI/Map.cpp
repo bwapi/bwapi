@@ -10,8 +10,6 @@ namespace BWAPI
   namespace Map
   {
 //private:
-    int selfPlayerId;
-
     static BW::TileID getTile(int x, int y);
     static u8 getTileVariation(BW::TileID);
     Util::BitMask<u16> getMiniTile(int x, int y);
@@ -68,7 +66,7 @@ namespace BWAPI
       u32 value =  (*Map::fogOfWar)[y][x];
       if (BW::isInReplay())
         return (value & 255) != 255;
-      return !(value & (1 << selfPlayerId));
+      return !(value & (1 << BW::selfPlayerId));
     }
     //--------------------------------------------- HAS EXPLORED -----------------------------------------------
     bool isExplored(int x, int y)
@@ -79,7 +77,7 @@ namespace BWAPI
       value = value >> 8;
       if (BW::isInReplay())
         return (value & 255) != 255;
-      return !(value & (1 << selfPlayerId));
+      return !(value & (1 << BW::selfPlayerId));
     }
     //----------------------------------------------- HAS CREEP ------------------------------------------------
     bool hasCreep(int x, int y)
