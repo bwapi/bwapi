@@ -367,7 +367,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\Force.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\Latency.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\PlayerId.h"
 					>
 				</File>
 				<File

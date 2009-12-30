@@ -6,7 +6,9 @@
 
 namespace BW
 {
+  extern int selfPlayerId;
 //public:
+  extern void onMatchInit();
   extern bool isInReplay();
   extern bool isInGame();
   extern bool isMultiplayer();

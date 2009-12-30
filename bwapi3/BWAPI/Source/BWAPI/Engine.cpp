@@ -814,6 +814,9 @@ namespace BWAPI
       if(lastState != InMatch
         && nextState == InMatch)
       {
+        // init BW's interface
+        BW::onMatchInit();
+
         // reset frame count
         frameCount = 0;
 
