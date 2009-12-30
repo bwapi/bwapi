@@ -800,15 +800,6 @@ namespace BWAPI
       }
 
       //--------------------------------------------------------------------------------------
-      // enable user input as long as no agent is in charge
-      if(lastState != InMatch
-        && nextState == InMatch)
-//        &&!BridgeServer::isAgentConnected())  // temp
-      {
-        Engine::enableFlag(Flags::UserInput);
-      }
-
-      //--------------------------------------------------------------------------------------
       // equivalent to onStartGame()
       // do what has to be done once each match start
       if(lastState != InMatch
@@ -816,6 +807,10 @@ namespace BWAPI
       {
         // init BW's interface
         BW::onMatchInit();
+
+        // enable user input as long as no agent is in charge
+        //if(!BridgeServer::isAgentConnected()) TODO: uncomment
+          Engine::enableFlag(Flags::UserInput);
 
         // reset frame count
         frameCount = 0;
