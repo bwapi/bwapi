@@ -6,7 +6,7 @@
 #include <Util\HandleFactory.h>
 
 #include <Bridge\SharedStuff.h>
-#include <Bridge\KnownUnitEventEntry.h>
+#include <Bridge\EventEntry.h>
 
 #include <BWAPIDatabase\UnitTypes.h>
 #include <BWAPIDatabase\TechTypes.h>
@@ -314,76 +314,13 @@ namespace BWAPI
     allUnitsHandleFactory.release((AllUnitsHandle*)h);
   }
   //----------------------------------- -----------------------------------------------------------
-  //----------------------------------- UNIT EVENTS ITERATION -------------------------------------
-  struct UnitAddEventsHandle
+  BWAPI_FUNCTION BWAPI::UnitAddEvent**     BWAPI_CALL BWGetUnitsAdded()
   {
-    Bridge::SharedStuff::KnownUnitAddEventStack::Index index;
-  };
-  Util::HandleFactory<UnitAddEventsHandle> unitAddEventsHandleFactory;
-  //----------------------------------- UNIT EVENTS BEGIN -----------------------------------------
-  BWAPI_FUNCTION HANDLE BWAPI_CALL BWUnitAddEventsBegin()
-  {
-    UnitAddEventsHandle *handle = unitAddEventsHandleFactory.create();
-    handle->index = BridgeClient::sharedStuff.knownUnitAddEvents.begin();
-    return handle;
+    return &BridgeClient::knownUnitAddEvents[0];
   }
-  //----------------------------------- UNIT EVENTS NEXT ------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitAddEvent* BWAPI_CALL BWUnitAddEventsNext(HANDLE h)
+  BWAPI_FUNCTION BWAPI::UnitRemoveEvent**  BWAPI_CALL BWGetUnitsRemoved()
   {
-    UnitAddEventsHandle &handle = *(UnitAddEventsHandle*)h;
-    if(!handle.index.isValid())
-      return NULL;
-
-    // get stack entry
-    Util::MemoryFrame mem = BridgeClient::sharedStuff.knownUnitAddEvents.get(handle.index);
-
-    // next index, save into handle
-    handle.index = BridgeClient::sharedStuff.knownUnitAddEvents.getNext(handle.index);
-
-    // retrieve the added unit slot reference
-    BWAPI::UnitAddEvent &retval = mem.getAs<Bridge::KnownUnitAddEventEntry>().data;
-    return &retval;
-  }
-  //----------------------------------- UNIT EVENTS CLOSE -----------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWUnitAddEventsClose(HANDLE h)
-  {
-    unitAddEventsHandleFactory.release((UnitAddEventsHandle*)h);
-  }
-  //----------------------------------- -----------------------------------------------------------
-  //----------------------------------- UNIT EVENTS ITERATION -------------------------------------
-  struct UnitRemoveEventsHandle
-  {
-    Bridge::SharedStuff::KnownUnitRemoveEventStack::Index index;
-  };
-  Util::HandleFactory<UnitRemoveEventsHandle> unitRemoveEventsHandleFactory;
-  //----------------------------------- UNIT EVENTS BEGIN -----------------------------------------
-  BWAPI_FUNCTION HANDLE BWAPI_CALL BWUnitRemoveEventsBegin()
-  {
-    UnitRemoveEventsHandle *handle = unitRemoveEventsHandleFactory.create();
-    handle->index = BridgeClient::sharedStuff.knownUnitRemoveEvents.begin();
-    return handle;
-  }
-  //----------------------------------- UNIT EVENTS NEXT ------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitRemoveEvent* BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h)
-  {
-    UnitRemoveEventsHandle &handle = *(UnitRemoveEventsHandle*)h;
-    if(!handle.index.isValid())
-      return NULL;
-
-    // get stack entry
-    Util::MemoryFrame mem = BridgeClient::sharedStuff.knownUnitRemoveEvents.get(handle.index);
-
-    // next index, save into handle
-    handle.index = BridgeClient::sharedStuff.knownUnitRemoveEvents.getNext(handle.index);
-
-    // retrieve the removed unit slot reference
-    BWAPI::UnitRemoveEvent &retval = mem.getAs<Bridge::KnownUnitRemoveEventEntry>().data;
-    return &retval;
-  }
-  //----------------------------------- UNIT EVENTS CLOSE -----------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWUnitRemoveEventsClose(HANDLE h)
-  {
-    unitRemoveEventsHandleFactory.release((UnitRemoveEventsHandle*)h);
+    return &BridgeClient::knownUnitRemoveEvents[0];
   }
   //----------------------------------- INSERT ORDER ----------------------------------------------
   BWAPI::UnitCommand& insertOrder()

@@ -23,14 +23,11 @@ namespace Bridge
     typedef Util::SharedSet<KnownUnitEntry> KnownUnitSet;
     KnownUnitSet knownUnits;
 
-    typedef Util::SharedStack KnownUnitAddEventStack;
-    KnownUnitAddEventStack knownUnitAddEvents;
-
-    typedef Util::SharedStack KnownUnitRemoveEventStack;
-    KnownUnitRemoveEventStack knownUnitRemoveEvents;
-
     typedef Util::SharedStructure<BWAPI::StaticGameData> StaticGameDataStructure;
     StaticGameDataStructure staticData;
+
+    typedef Util::SharedStack EventStack;
+    EventStack events;
 
     typedef Util::SharedStack CommandStack;
     CommandStack commands;

@@ -12,6 +12,8 @@
 #include "PlayerType.h"
 #include "RaceID.h"
 #include "Sprite.h"
+#include "Bullet.h"
+#include "BulletArray.h"
 
 /**
  * Broodwar content access tools. The namespace contains:
@@ -187,6 +189,11 @@ namespace BW
   static UnitArray*     BWDATA_UnitNodeTable                    = (UnitArray*)   0x0059CCA8;  // 1.16.1
   static u32*           BWDATA_UnitNodeTable_UsedNodeCount      = (u32*)         0x006283F0;  // 1.16.1
   const  u32            UNIT_ARRAY_MAX_LENGTH                   = 1700;
+
+  static BulletArray*   BWDATA_BulletNodeTable                  = (BulletArray*)  0x0064B2E8;
+  static u32*           BWDATA_BulletNodeChain_Count            = (u32*)          0x0064DEBC;
+  static Bullet**       BWDATA_BulletNodeChain_First            = (Bullet**)      0x0064DEAC;
+  static Bullet**       BWDATA_BulletNodeChain_Last             = (Bullet**)      0x0064DEC4;
 
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect)  = (void (_stdcall*) (int, BW::Unit * *))             0x004C0860;

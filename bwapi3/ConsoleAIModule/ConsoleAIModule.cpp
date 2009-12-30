@@ -70,15 +70,10 @@ void BWAPI_CALL onMatchFrame()
   BWDrawText(10, 10, buffer);
 
   count = 0;
-  h = BWUnitAddEventsBegin();
-  for(;;)
+  for(BWAPI::UnitAddEvent** e = BWGetUnitsAdded(); *e != NULL; e++)
   {
-    BWAPI::UnitAddEvent *e = BWUnitAddEventsNext(h);
-    if(!e)
-      break;
     count++;
   }
-  BWUnitAddEventsClose(h);
   if(count)
   {
     sprintf(buffer, "%d units added\n", count);
@@ -86,15 +81,10 @@ void BWAPI_CALL onMatchFrame()
   }
 
   count = 0;
-  h = BWUnitRemoveEventsBegin();
-  for(;;)
+  for(BWAPI::UnitRemoveEvent** e = BWGetUnitsRemoved(); *e != NULL; e++)
   {
-    BWAPI::UnitRemoveEvent *e = BWUnitRemoveEventsNext(h);
-    if(!e)
-      break;
     count++;
   }
-  BWUnitRemoveEventsClose(h);
   if(count)
   {
     sprintf(buffer, "%d units removed\n", count);

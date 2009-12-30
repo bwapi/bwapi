@@ -82,15 +82,9 @@ BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();
 BWAPI_FUNCTION int    BWAPI_CALL BWAllUnitsNext(HANDLE h);
 BWAPI_FUNCTION void   BWAPI_CALL BWAllUnitsClose(HANDLE h);
 
-// unit add event enumeration
-BWAPI_FUNCTION HANDLE               BWAPI_CALL BWUnitAddEventsBegin();
-BWAPI_FUNCTION BWAPI::UnitAddEvent* BWAPI_CALL BWUnitAddEventsNext(HANDLE h);
-BWAPI_FUNCTION void                 BWAPI_CALL BWUnitAddEventsClose(HANDLE h);
-
-// unit remove event enumeration
-BWAPI_FUNCTION HANDLE                   BWAPI_CALL BWUnitRemoveEventsBegin();
-BWAPI_FUNCTION BWAPI::UnitRemoveEvent*  BWAPI_CALL BWUnitRemoveEventsNext(HANDLE h);
-BWAPI_FUNCTION void                     BWAPI_CALL BWUnitRemoveEventsClose(HANDLE h);
+// events
+BWAPI_FUNCTION BWAPI::UnitAddEvent**    BWAPI_CALL BWGetUnitsAdded();
+BWAPI_FUNCTION BWAPI::UnitRemoveEvent** BWAPI_CALL BWGetUnitsRemoved();
 
 // unit commands
 BWAPI_FUNCTION void BWAPI_CALL BWOrderAttackPosition(int unitId, int x, int y);
