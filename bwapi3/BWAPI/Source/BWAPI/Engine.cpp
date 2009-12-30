@@ -1034,8 +1034,8 @@ namespace BWAPI
                 Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
 
                 // TODO: implement clearance limit
-                knownUnit.position                    = bwUnit.position;
-                knownUnit.type                        = (UnitTypeId)bwUnit.unitID.id;
+                knownUnit.state.position              = bwUnit.position;
+                knownUnit.state.type                  = (UnitTypeId)bwUnit.unitID.id;
 
                 /* TODO: find according BW::Unit members
                 knownUnit.state.id                    = (int)&knownUnit;
@@ -1118,13 +1118,12 @@ namespace BWAPI
 
         // process sendTexts
         {
-          std::deque<Bridge::SendTextEntry*> sendTexts = BridgeServer::getSendTextEntries();
-          for each(Bridge::SendTextEntry* entry in sendTexts)
+          for each(Bridge::CommandEntry::SendText *entry in BridgeServer::sendTextEntries)
           {
-            if(entry->send)
-              BW::sendText(entry->str);
+            if(entry->printOnly)
+              BW::printf(entry->text);
             else
-              BW::printf(entry->str);
+              BW::sendText(entry->text);
           }
         }
 
@@ -1138,16 +1137,13 @@ namespace BWAPI
           };
           static std::deque<LatencyCommandEntry> latencyCommandQueue;
 
-          // execute and recruit new commands into our latency simulation queue
+          // execute and recruit new commands into the latency simulation queue
           {
             saveSelected();
 
-            Bridge::SharedStuff::CommandStack &recruits = BWAPI::BridgeServer::sharedStuff.commands;
-            for(Bridge::SharedStuff::CommandStack::Index i = recruits.begin();
-                i.isValid();
-                i = recruits.getNext(i))
+            for each(Bridge::CommandEntry::UnitOrder* order in BridgeServer::orderEntries)
             {
-              BWAPI::UnitCommand& command = recruits.get(i).getAs<UnitCommand>();
+              BWAPI::UnitCommand& command = order->unitCommand;
 
               // TODO: validate command before executing it
               executeUnitCommand(command);
@@ -1196,9 +1192,9 @@ namespace BWAPI
                 continue;
 
               // simulate this command
-              // TODO: find second parameter
+              // TODO: verify unitIndex
               Bridge::KnownUnitEntry &unitEntry = BridgeServer::sharedStuff.knownUnits.getByLinear(entry.command.unitIndex);
-              simulateUnitCommand(entry.command, unitEntry);
+              simulateUnitCommand(entry.command, unitEntry.state);
             }
           }
         }

@@ -264,7 +264,8 @@ namespace Util
 
     if(::GetLastError() != ERROR_MORE_DATA)
     {
-      if(::GetLastError() == 109)
+      if( ::GetLastError() == ERROR_BROKEN_PIPE ||
+          ::GetLastError() == ERROR_PIPE_NOT_CONNECTED)
         throw GeneralException(__FUNCTION__ ": fail receiving, pipe is closed");
       throw GeneralException(Strings::ssprintf(__FUNCTION__ ": fail ReadFile, code '%d'", ::GetLastError()));
     }

@@ -260,7 +260,7 @@ namespace BWAgent
   {
     if(!this->knownUnit)
       return false;
-    return this->knownUnit->clearanceLevel > BWAPI::ClearanceLevels::Noticed;
+    return this->knownUnit->state.clearanceLevel > BWAPI::ClearanceLevels::Noticed;
   }
   bool Unit::attackUnit(Unit* target)
   {

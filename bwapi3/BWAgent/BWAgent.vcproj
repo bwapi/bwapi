@@ -172,7 +172,15 @@
 			Name="Bridge"
 			>
 			<File
+				RelativePath="..\Bridge\CommandEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Bridge\Constants.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\Constants.h"
 				>
 			</File>
 			<File
@@ -184,7 +192,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Bridge\KnownUnitEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Bridge\PipeMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\SharedStuff.h"
 				>
 			</File>
 		</Filter>

@@ -69,10 +69,6 @@ namespace Bridge
     {
       Bridge::SharedStuff::CommandStack::Export exp;
     };
-    struct AgentUpdateSendText : Util::TypeHead<UNIQUE_ID>
-    {
-      Bridge::SharedStuff::SendTextStack::Export exp;
-    };
     struct AgentUpdateDrawShapes : Util::TypeHead<UNIQUE_ID>
     {
       Bridge::SharedStuff::DrawShapeStack::Export exp;

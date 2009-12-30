@@ -1,5 +1,4 @@
 #pragma once
-#include "SendTextEvent.h"
 #include "KnownUnitEntry.h"
 
 #include <Util\Pipe.h>
@@ -20,24 +19,28 @@ namespace Bridge
     Util::RemoteProcess remoteProcess;
 
     // shared memories
+
+    // TODO: merge with static structure
     typedef Util::SharedSet<KnownUnitEntry> KnownUnitSet;
     KnownUnitSet knownUnits;
 
+    // all limited-size data
     typedef Util::SharedStructure<BWAPI::StaticGameData> StaticGameDataStructure;
     StaticGameDataStructure staticData;
 
+    // every Server->Client message goes through here
     typedef Util::SharedStack EventStack;
     EventStack events;
 
+    // every Client->Server message goes through here
     typedef Util::SharedStack CommandStack;
     CommandStack commands;
 
+    // TODO: merge into static structure
     typedef Util::SharedStack UserInputStack;
     UserInputStack userInput;
 
-    typedef Util::SharedStack SendTextStack;
-    SendTextStack sendText;
-
+    // shapes need special performance attention and are stored separately.
     typedef Util::SharedStack DrawShapeStack;
     DrawShapeStack drawShapes;
   };

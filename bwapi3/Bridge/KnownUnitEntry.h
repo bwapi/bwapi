@@ -13,9 +13,8 @@
 
 namespace Bridge
 {
-  // inheritance because the published pointer will be cast to UnitState
-  struct KnownUnitEntry : BWAPI::UnitState
+  struct KnownUnitEntry
   {
-    // TODO: add issued commands or other not unit state related properties
+    BWAPI::UnitState state;
   };
 }

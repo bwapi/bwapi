@@ -17,6 +17,7 @@ void BWAPI_CALL onUnitRemove(BWAPI::UnitState *)
 
 void BWAPI_CALL onSendText(const char* text)
 {
+  BWSendText(text);
 }
 
 void BWAPI_CALL onMatchStart(bool fromBeginning)

@@ -564,6 +564,10 @@
 			Name="Bridge"
 			>
 			<File
+				RelativePath="..\Bridge\CommandEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Bridge\Constants.cpp"
 				>
 			</File>
@@ -572,11 +576,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Bridge\DrawShape.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Bridge\EventEntry.h"
 				>
 			</File>
 			<File
+				RelativePath="..\Bridge\KnownUnitEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Bridge\PipeMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Bridge\SharedStuff.h"
 				>
 			</File>
 		</Filter>
@@ -717,10 +733,6 @@
 			</File>
 			<File
 				RelativePath="..\Util\Source\Util\SharedStack.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Bridge\SharedStuff.h"
 				>
 			</File>
 			<File
