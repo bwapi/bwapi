@@ -224,7 +224,7 @@ namespace BW
     {
       static DWORD activeCheatFlags = 0;
       // TODO: separate cheat enabling and text printing
-      BW::CheatFlag cheatID = BW::getCheatFlag(text);
+      BW::CheatFlag cheatID = BW::getCheatFlag(buffer.data);
       if (cheatID!=BW::CheatFlags::None)
       {
         activeCheatFlags ^= cheatID;
