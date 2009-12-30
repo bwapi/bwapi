@@ -654,30 +654,32 @@ namespace BWAPI
     const Unit* i=this;
     const Unit* j=target;
     double result = 0;
-    if (i->getPosition().y() - i->getType().dimensionUp() <= j->getPosition().y() + j->getType().dimensionDown())
-      if (i->getPosition().y() + i->getType().dimensionDown() >= j->getPosition().y() - j->getType().dimensionUp())
+    if (i->getPosition().y() - i->getType().dimensionUp() <= j->getPosition().y() + j->getType().dimensionDown() &&
+        i->getPosition().y() + i->getType().dimensionDown() >= j->getPosition().y() - j->getType().dimensionUp())
+    {
         if (i->getPosition().x() > j->getPosition().x())
           result = i->getPosition().x() - i->getType().dimensionLeft()  - j->getPosition().x() - j->getType().dimensionRight();
         else
           result = j->getPosition().x() - j->getType().dimensionRight() - i->getPosition().x() - i->getType().dimensionLeft();
-
-    if (i->getPosition().x() - i->getType().dimensionLeft() <= j->getPosition().x() + j->getType().dimensionRight())
-      if (i->getPosition().x() + i->getType().dimensionRight() >= j->getPosition().x() - j->getType().dimensionLeft())
+    }
+    else if (i->getPosition().x() - i->getType().dimensionLeft() <= j->getPosition().x() + j->getType().dimensionRight() && 
+             i->getPosition().x() + i->getType().dimensionRight() >= j->getPosition().x() - j->getType().dimensionLeft())
+    {
         if (i->getPosition().y() > j->getPosition().y())
           result = i->getPosition().y() - i->getType().dimensionUp()   - j->getPosition().y() - j->getType().dimensionDown();
         else
           result = j->getPosition().y() - j->getType().dimensionDown() - i->getPosition().y() - i->getType().dimensionUp();
-
-    if (i->getPosition().x() > j->getPosition().x())
+    }
+    else if (i->getPosition().x() > j->getPosition().x())
     {
       if (i->getPosition().y() > j->getPosition().y())
         result = BWAPI::Position(i->getPosition().x() - i->getType().dimensionLeft(),
-                                 i->getPosition().y() - i->getType().dimensionUp()).getDistance(
+                                 i->getPosition().y() - i->getType().dimensionUp()).getApproxDistance(
                  BWAPI::Position(j->getPosition().x() + j->getType().dimensionRight(),
                                  j->getPosition().y() + j->getType().dimensionDown()));
       else
         result = BWAPI::Position(i->getPosition().x() - i->getType().dimensionLeft(),
-                                 i->getPosition().y() + i->getType().dimensionDown()).getDistance(
+                                 i->getPosition().y() + i->getType().dimensionDown()).getApproxDistance(
                  BWAPI::Position(j->getPosition().x() + j->getType().dimensionRight(),
                                  j->getPosition().y() - j->getType().dimensionUp()));
     }
@@ -685,12 +687,12 @@ namespace BWAPI
     {
       if (i->getPosition().y() > j->getPosition().y())
         result = BWAPI::Position(i->getPosition().x() + i->getType().dimensionRight(),
-                                 i->getPosition().y() - i->getType().dimensionUp()).getDistance(
+                                 i->getPosition().y() - i->getType().dimensionUp()).getApproxDistance(
                  BWAPI::Position(j->getPosition().x() - j->getType().dimensionLeft(),
                                  j->getPosition().y() + j->getType().dimensionDown()));
       else
         result = BWAPI::Position(i->getPosition().x() + i->getType().dimensionRight(),
-                                 i->getPosition().y() + i->getType().dimensionDown()).getDistance(
+                                 i->getPosition().y() + i->getType().dimensionDown()).getApproxDistance(
                  BWAPI::Position(j->getPosition().x() - j->getType().dimensionLeft(),
                                  j->getPosition().y() - j->getType().dimensionUp()));
     }
@@ -2390,12 +2392,17 @@ namespace BWAPI
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   int UnitImpl::getRemainingBuildTime() const
   {
-    
+    if (!this->attemptAccessInside()) return 0;
     return this->getRawDataLocal()->remainingBuildTime;
   }
   //---------------------------------------- GET REMAINING TRAIN TIME ----------------------------------------
   int UnitImpl::getRemainingTrainTime() const
   {
+    if (!this->attemptAccessInside()) return 0;
+    /*
+    if (this->getType()==UnitTypes::Zerg_Hatchery || this->getType()==UnitTypes::Zerg_Lair || this->getType()==UnitTypes::Zerg_Hive)
+      return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer;
+      */
     if (this->getRawDataLocal()->currentBuildUnit)
       return this->getRawDataLocal()->currentBuildUnit->remainingBuildTime;
     return 0;

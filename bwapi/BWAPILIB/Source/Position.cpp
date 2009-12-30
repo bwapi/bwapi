@@ -78,6 +78,21 @@ namespace BWAPI
     return ((*this) - position).getLength();
   }
   //----------------------------------------------------------------------------------------------------------
+  double Position::getApproxDistance(const Position& position) const
+  {
+    double min=abs(this->x()-position.x());
+    double max=abs(this->y()-position.y());
+    if (max<min)
+    {
+      double temp=min;
+      min=max;
+      max=temp;
+    }
+    if (min<max*0.25)
+      return max;
+    return min*0.4+max*0.9;
+  }
+  //----------------------------------------------------------------------------------------------------------
   double Position::getLength() const
   {
     double x = this->x();
