@@ -2416,7 +2416,7 @@ namespace BWAPI
     if (!this->attemptAccessInside()) return 0;
     if (this->getType()==UnitTypes::Zerg_Hatchery || this->getType()==UnitTypes::Zerg_Lair || this->getType()==UnitTypes::Zerg_Hive)
     {
-      if (this->larva.size()>=3)
+      if (this->larva.size()>=3 || (!this->isCompleted() && this->getBuildType()==UnitTypes::Zerg_Hatchery))
         return 0;
       return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer*9+((this->getRawDataLocal()->unknownOrderTimer_0x085+8)%9);
     }
