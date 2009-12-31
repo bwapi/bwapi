@@ -158,7 +158,7 @@ namespace BWAPI
   int UnitImpl::getDefenseMatrixPoints() const
   {
     if (!this->attemptAccess()) return 0;
-    return this->getRawDataLocal()->defenseMatrixDamage;
+    return this->getRawDataLocal()->defenseMatrixDamage/256;
   }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
   int UnitImpl::getDefenseMatrixTimer() const
