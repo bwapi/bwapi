@@ -138,25 +138,12 @@ namespace BWAPI
 
       virtual bool  attackMove(Position position);
       virtual bool  attackUnit(Unit* target);
-      /**
-       * Order this unit to right click on the specified location. Note that
-       * right click on location will always result in move.
-       */
       virtual bool  rightClick(Position position);
-      /**
-       * Orders this unit to right click on the specified unit. Note that right
-       * click on unit can result in lot of commands (attack, gather, follow,
-       * set rally point)
-       */
       virtual bool  rightClick(Unit* target);
-      /** Orders this unit to train (construct) the specified unit. */
       virtual bool  train(UnitType type);
-      /** Orders to build the specified building. */
       virtual bool  build(TilePosition position, UnitType type);
       virtual bool  buildAddon(UnitType type);
-      /** Orders to build the research the specified tech. */
       virtual bool  research(TechType tech);
-      /** Orders to build the upgrade the specified upgrade. */
       virtual bool  upgrade(UpgradeType upgrade);
       virtual bool  stop();
       virtual bool  holdPosition();
@@ -165,6 +152,7 @@ namespace BWAPI
       virtual bool  setRallyPosition(Position target);
       virtual bool  setRallyUnit(Unit* target);
       virtual bool  repair(Unit* target);
+      virtual bool  returnCargo();
       virtual bool  morph(UnitType type);
       virtual bool  burrow();
       virtual bool  unburrow();
