@@ -235,6 +235,7 @@ namespace BWAPI
       std::set<BWAPI::Unit*> minerals;
       std::set<BWAPI::Unit*> geysers;
       std::set<BWAPI::Unit*> neutralUnits;
+      std::set<BWAPI::UnitImpl*> unitsToBeAdded;
       std::list<BWAPI::UnitImpl*> myPylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
 
