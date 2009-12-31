@@ -696,7 +696,11 @@ namespace BWAPI
 
       std::list<UnitImpl*> unitList;
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      {
         this->getUnit(i)->buildUnit = NULL;
+        this->getUnit(i)->larva.clear();
+      }
+        
 
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
         unitList.push_back(i);
@@ -726,6 +730,8 @@ namespace BWAPI
           i->buildUnit = j;
           j->buildUnit = i;
         }
+        if (i->getHatchery()!=NULL)
+          ((UnitImpl*)i->getHatchery())->larva.insert((Unit*)i);
         if (i->getType()==UnitTypes::Terran_Nuclear_Missile && i->nukeDetected == false && i->getRawDataLocal()->connectedUnit->unitID==BW::UnitID::Terran_Ghost)
         {
           i->nukeDetected=true;

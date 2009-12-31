@@ -995,6 +995,21 @@ namespace BWAPI
     }
     return NULL;
   }
+  //---------------------------------------------- GET HATCHERY ----------------------------------------------
+  Unit* UnitImpl::getHatchery() const
+  {
+    if (!this->attemptAccess()) return NULL;
+    if (this->getType()==UnitTypes::Zerg_Larva)
+      return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit);
+    return NULL;
+  }
+  //----------------------------------------------- GET LARVA ------------------------------------------------
+  std::set<Unit*> UnitImpl::getLarva() const
+  {
+    std::set<Unit*> nothing;
+    if (!this->attemptAccess()) return nothing;
+    return this->larva;
+  }
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
   bool UnitImpl::hasEmptyBuildQueue() const
   {
@@ -2399,10 +2414,12 @@ namespace BWAPI
   int UnitImpl::getRemainingTrainTime() const
   {
     if (!this->attemptAccessInside()) return 0;
-    /*
     if (this->getType()==UnitTypes::Zerg_Hatchery || this->getType()==UnitTypes::Zerg_Lair || this->getType()==UnitTypes::Zerg_Hive)
-      return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer;
-      */
+    {
+      if (this->larva.size()>=3)
+        return 0;
+      return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer*9+((this->getRawDataLocal()->unknownOrderTimer_0x085+8)%9);
+    }
     if (this->getRawDataLocal()->currentBuildUnit)
       return this->getRawDataLocal()->currentBuildUnit->remainingBuildTime;
     return 0;
