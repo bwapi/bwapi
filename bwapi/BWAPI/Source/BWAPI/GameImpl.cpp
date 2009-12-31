@@ -864,7 +864,8 @@ namespace BWAPI
     }
     this->interceptedMessages.clear();
     this->loadSelected();
-    this->frameCount++;
+    if (!this->isPaused())
+      this->frameCount++;
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()

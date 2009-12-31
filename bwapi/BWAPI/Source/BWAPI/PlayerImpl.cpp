@@ -414,7 +414,10 @@ namespace BWAPI
   bool PlayerImpl::isDefeated() const
   {
     if (this->getID()>=8) return false;
-    return BW::BWDATA_PlayerVictory->player[this->getID()]==2;
+    return BW::BWDATA_PlayerVictory->player[this->getID()]==1 ||
+           BW::BWDATA_PlayerVictory->player[this->getID()]==2 ||
+           BW::BWDATA_PlayerVictory->player[this->getID()]==4 ||
+           BW::BWDATA_PlayerVictory->player[this->getID()]==6;
   }
   //---------------------------------------------- LEFT GAME -------------------------------------------------
   bool PlayerImpl::leftGame() const
