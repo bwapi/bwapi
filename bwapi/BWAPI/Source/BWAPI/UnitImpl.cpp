@@ -44,6 +44,7 @@
 #include "CommandCancelAddon.h"
 #include "CommandFollow.h"
 #include "CommandSetRally.h"
+#include "CommandReturnCargo.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -559,6 +560,8 @@ namespace BWAPI
   bool UnitImpl::isTraining() const
   {
     if (!this->attemptAccess()) return false;
+    if (this->getType()==UnitTypes::Terran_Nuclear_Silo && this->getRawDataLocal()->secondaryOrderID==BW::OrderID::Train)
+      return true;
     if (!this->getBWType().canProduce()) return false;
     return !this->hasEmptyBuildQueue();
   }
@@ -872,6 +875,11 @@ namespace BWAPI
   {
     std::list<UnitType > trainList;
     if (!this->attemptAccessInside()) return trainList;
+    if (this->getType()==UnitTypes::Terran_Nuclear_Silo && this->getRawDataLocal()->secondaryOrderID==BW::OrderID::Train)
+    {
+      trainList.push_back(UnitTypes::Terran_Nuclear_Missile);
+      return trainList;
+    }
     if (this->hasEmptyBuildQueue()) return trainList;
     int i = this->getBuildQueueSlot() % 5;
     int starti = i;
@@ -1410,6 +1418,31 @@ namespace BWAPI
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Repair1), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new CommandRepair(this, (UnitImpl*)target));
+    return true;
+  }
+  //--------------------------------------------- RETURN CARGO -----------------------------------------------
+  bool UnitImpl::returnCargo()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    if (!this->attemptAccess()) return false;
+    if (this->getPlayer() != Broodwar->self())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
+      return false;
+    }
+    if (!this->getType().isWorker())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (!this->isCarryingGas() && !this->isCarryingMinerals())
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReturnCargo(0), sizeof(BW::Orders::ReturnCargo));
+    BroodwarImpl.addToCommandBuffer(new CommandReturnCargo(this));
     return true;
   }
   //-------------------------------------------------- MORPH -------------------------------------------------
