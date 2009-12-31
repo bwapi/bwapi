@@ -89,6 +89,8 @@ namespace BWAPI
       virtual Position  getRallyPosition() const;
       virtual Unit*  getRallyUnit() const;
       virtual Unit*  getAddon() const;
+      virtual Unit* getHatchery() const;
+      virtual std::set<Unit*> getLarva() const;
       virtual int  getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual bool  exists() const;
@@ -258,6 +260,7 @@ namespace BWAPI
       bool startingAttack;
       int lastAirWeaponCooldown;
       int lastGroundWeaponCooldown;
+      std::set<Unit*> larva;
     private:
 
       /** Orders to select this unit (previous selection will be lost. */
