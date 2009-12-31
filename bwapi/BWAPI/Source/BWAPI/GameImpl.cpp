@@ -712,14 +712,15 @@ namespace BWAPI
         Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
       }
 */
-
+      this->unitsToBeAdded.clear();
+      std::list<Position> detectedNukes;
       foreach (UnitImpl* i, unitList)
       {
         if (this->units.find(i) == this->units.end())
         {
           i->alive=true;
           this->units.insert(i);
-          this->onAddUnit(i);
+          this->unitsToBeAdded.insert(i);
         }
       }
       foreach (UnitImpl* i, units)
@@ -740,9 +741,9 @@ namespace BWAPI
           if (this->client)
           {
             if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->isVisible(target.x()/32,target.y()/32))
-              this->client->onNukeDetect(target);
+              detectedNukes.push_back(target);
             else
-              this->client->onNukeDetect(Positions::Unknown);
+              detectedNukes.push_back(Positions::Unknown);
           }
         }
       }
@@ -761,6 +762,10 @@ namespace BWAPI
           this->commandBuffer[i][j]->execute();
 
       this->updateUnits();
+      for(std::list<Position>::iterator i=detectedNukes.begin();i!=detectedNukes.end();i++)
+      {
+        this->client->onNukeDetect(*i);
+      }
 
       for (unsigned int i = 0; i < this->shapes.size(); i++)
         delete this->shapes[i];
@@ -1215,6 +1220,7 @@ namespace BWAPI
     this->geysers.clear();
     this->neutralUnits.clear();
     this->myPylons.clear();
+    this->unitsToBeAdded.clear();
 
     this->staticMinerals.clear();
     this->staticGeysers.clear();
@@ -1592,6 +1598,9 @@ namespace BWAPI
         }
       }
     }
+    foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
+      if (this->client)
+        this->client->onUnitCreate(i);
 
     /* Pass all renegade units to the AI client */
     foreach (BWAPI::UnitImpl* i, renegadeUnits)
