@@ -406,6 +406,16 @@ namespace BWAPI
     this->units.clear();
     this->leftTheGame=false;
   }
+  bool PlayerImpl::isVictorious() const
+  {
+    if (this->getID()>=8) return false;
+    return BW::BWDATA_PlayerVictory->player[this->getID()]==3;
+  }
+  bool PlayerImpl::isDefeated() const
+  {
+    if (this->getID()>=8) return false;
+    return BW::BWDATA_PlayerVictory->player[this->getID()]==2;
+  }
   //---------------------------------------------- LEFT GAME -------------------------------------------------
   bool PlayerImpl::leftGame() const
   {

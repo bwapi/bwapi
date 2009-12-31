@@ -46,6 +46,8 @@ namespace BWAPI
       virtual bool  isEnemy(Player* player) const;
       virtual bool  isNeutral() const;
       virtual TilePosition  getStartLocation() const;
+      virtual bool isVictorious() const;
+      virtual bool isDefeated() const;
       virtual bool leftGame() const;
 
       virtual int  minerals() const;

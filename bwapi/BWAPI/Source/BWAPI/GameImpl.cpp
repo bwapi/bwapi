@@ -64,6 +64,7 @@ namespace BWAPI
       , client(NULL)
       , startedClient(false)
       , inUpdate(false)
+      , calledOnEnd(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -679,6 +680,37 @@ namespace BWAPI
       
       if (!this->enabled)
         return;
+      if (this->client!=NULL && this->calledOnEnd==false)
+      {
+        if (this->BWAPIPlayer!=NULL)
+        {
+          if (this->BWAPIPlayer->isVictorious())
+          {
+            this->client->onEnd(true);
+            this->calledOnEnd=true;
+          }
+          if (this->BWAPIPlayer->isDefeated())
+          {
+            this->client->onEnd(false);
+            this->calledOnEnd=true;
+          }
+        }
+        else
+        {
+          bool allDone=true;
+          foreach(Player* p, this->playerSet)
+          {
+            if (p->getID()>=8) continue;
+            if (!p->isDefeated() && !p->isVictorious() && !p->leftGame())
+              allDone=false;
+          }
+          if (allDone)
+          {
+            this->client->onEnd(false);
+            this->calledOnEnd=true;
+          }
+        }
+      }
 
       memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       refreshSelectionStates();
@@ -1057,6 +1089,7 @@ namespace BWAPI
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
+    this->calledOnEnd = false;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1197,18 +1230,22 @@ namespace BWAPI
     this->setOnStartCalled(false);
     if (this->client != NULL)
     {
-      bool win=true;
-      if (this->_isReplay())
-        win=false;
-      else
+      if (this->calledOnEnd==false)
       {
-        for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+        bool win=true;
+        if (this->_isReplay())
+          win=false;
+        else
         {
-          if (self()->isEnemy(i->_getPlayer()))
-            win=false;
+          for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+          {
+            if (self()->isEnemy(i->_getPlayer()))
+              win=false;
+          }
         }
+        this->client->onEnd(win);
+        this->calledOnEnd=true;
       }
-      this->client->onEnd(win);
       delete this->client;
       this->client=NULL;
     }
@@ -1266,6 +1303,7 @@ namespace BWAPI
       unitArray[i]->nukeDetected=false;
     }
     this->cheatFlags=0;
+    this->calledOnEnd=false;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void  GameImpl::startGame()
