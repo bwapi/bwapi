@@ -268,9 +268,9 @@ namespace BW
 
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 
-  static u32            BWFXN_KillUnit                            = 0x004EC504;
-  static u32            BWFXN_KillUnitBack                        = BWFXN_KillUnit + 5;
-  static u32            BWFXN_KillUnitTarget                      = 0x00479480;
+  static u32            BWFXN_DestroyUnit                         = 0x0048AAC0;
+  static u32            BWFXN_DestroyUnitBack                     = BWFXN_DestroyUnit + 5;
+  static u32            BWFXN_DestroyUnitSomeOffset               = 0x0064DEC4;
 
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
   static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;

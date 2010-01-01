@@ -186,8 +186,8 @@ namespace BWAPI
       void onGameEnd();
       bool onSendText(const char* text);
       bool parseText(const char* text);
-      void onUnitDeath(BWAPI::UnitImpl* unit);
-      void onUnitDeath(BW::Unit* unit);
+      void onUnitDestroy(BWAPI::UnitImpl* unit);
+      void onUnitDestroy(BW::Unit* unit);
       void onAddUnit(BWAPI::Unit* unit);
       bool inScreen(int ctype, int x, int y);
       bool inScreen(int ctype, int x1, int y1, int x2, int y2);

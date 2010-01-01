@@ -1447,7 +1447,7 @@ namespace BWAPI
     return selectedUnitSet;
   }
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-  void GameImpl::onUnitDeath(BWAPI::UnitImpl* unit)
+  void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
   {
     /* Called when a unit dies(death animation), not when it is removed */
     int index = unit->getIndex();
@@ -1470,8 +1470,13 @@ namespace BWAPI
 
         /* notify the client that the units in the transport died */
         std::list<Unit*> loadedList = unit->getLoadedUnits();
-		    foreach(Unit* loaded, loadedList)
-			    this->onUnitDeath((UnitImpl*)loaded);
+
+        //units in terran bunker survive
+        if (unit->getType()!=UnitTypes::Terran_Bunker)
+        {
+  		    foreach(Unit* loaded, loadedList)
+	  		    this->onUnitDestroy((UnitImpl*)loaded);
+        }
 
         this->client->onUnitDestroy(unit);
 
@@ -1483,7 +1488,7 @@ namespace BWAPI
 
     unit->die();
   }
-  void GameImpl::onUnitDeath(BW::Unit* unit)
+  void GameImpl::onUnitDestroy(BW::Unit* unit)
   {
     /* index as seen in Starcraft */
     u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
@@ -1497,7 +1502,7 @@ namespace BWAPI
       return;
     }
     BWAPI::UnitImpl* deadUnit = unitArray[index];
-    this->onUnitDeath(deadUnit);
+    this->onUnitDestroy(deadUnit);
   }
   //---------------------------------------------- ON ADD UNIT -----------------------------------------------
   void GameImpl::onAddUnit(BWAPI::Unit* unit)
