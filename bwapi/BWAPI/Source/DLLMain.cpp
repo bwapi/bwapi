@@ -23,12 +23,13 @@ DWORD removedUnit;
 //bool launchedStart = false;
 DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 DWORD d_eaxSave, d_ebxSave, d_ecxSave, d_edxSave, d_esiSave, d_ediSave, d_espSave, d_ebpSave;
+DWORD m_eaxSave, m_ebxSave, m_ecxSave, m_edxSave, m_esiSave, m_ediSave, m_espSave, m_ebpSave;
+char key;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onUnitDestroy()
 {
   __asm
   {
-    mov eax, [BW::BWFXN_DestroyUnitSomeOffset]
     mov d_eaxSave, eax
     mov d_ebxSave, ebx
     mov d_ecxSave, ecx
@@ -49,10 +50,111 @@ void __declspec(naked) onUnitDestroy()
     mov edi, d_ediSave
     mov esp, d_espSave
     mov ebp, d_ebpSave
+    mov eax, [BW::BWFXN_DestroyUnitSomeOffset]
     jmp [BW::BWFXN_DestroyUnitBack]
   }
 }
-
+void __declspec(naked) onMouseButtonDown()
+{
+  __asm
+  {
+    mov m_eaxSave, eax
+    mov m_ebxSave, ebx
+    mov m_ecxSave, ecx
+    mov m_edxSave, edx
+    mov m_esiSave, esi
+    mov m_ediSave, edi
+    mov m_espSave, esp
+    mov m_ebpSave, ebp
+  }
+  if (m_eaxSave==0x2)
+    BWAPI::BroodwarImpl.mouseState[0]=true;
+  else if (m_eaxSave==0x8)
+    BWAPI::BroodwarImpl.mouseState[1]=true;
+  else if (m_eaxSave==0x20)
+    BWAPI::BroodwarImpl.mouseState[2]=true;
+  __asm
+  {
+    mov eax, m_eaxSave
+    mov ebx, m_ebxSave
+    mov ecx, m_ecxSave
+    mov edx, m_edxSave
+    mov esi, m_esiSave
+    mov edi, m_ediSave
+    mov esp, m_espSave
+    mov ebp, m_ebpSave
+    mov cl, al
+    push ebx
+    mov ebx, [BW::BWDATA_Game_ButtonSomething]
+    jmp [BW::BWFXN_Game_ButtonDownBack]
+  }
+}
+void __declspec(naked) onMouseButtonUp()
+{
+  __asm
+  {
+    mov m_eaxSave, eax
+    mov m_ebxSave, ebx
+    mov m_ecxSave, ecx
+    mov m_edxSave, edx
+    mov m_esiSave, esi
+    mov m_ediSave, edi
+    mov m_espSave, esp
+    mov m_ebpSave, ebp
+  }
+  if (m_eaxSave==0x2)
+    BWAPI::BroodwarImpl.mouseState[0]=false;
+  else if (m_eaxSave==0x8)
+    BWAPI::BroodwarImpl.mouseState[1]=false;
+  else if (m_eaxSave==0x20)
+    BWAPI::BroodwarImpl.mouseState[2]=false;
+  __asm
+  {
+    mov eax, m_eaxSave
+    mov ebx, m_ebxSave
+    mov ecx, m_ecxSave
+    mov edx, m_edxSave
+    mov esi, m_esiSave
+    mov edi, m_ediSave
+    mov esp, m_espSave
+    mov ebp, m_ebpSave
+    mov edx, [BW::BWDATA_Game_ButtonSomething]
+    jmp [BW::BWFXN_Game_ButtonUpBack]
+  }
+}
+void __declspec(naked) onKeyState()
+{
+  __asm
+  {
+    mov m_eaxSave, eax
+    mov m_ebxSave, ebx
+    mov m_ecxSave, ecx
+    mov m_edxSave, edx
+    mov m_esiSave, esi
+    mov m_ediSave, edi
+    mov m_espSave, esp
+    mov m_ebpSave, ebp
+  }
+  if (m_eaxSave==0)
+  {
+    key=(char)m_esiSave;
+    BWAPI::BroodwarImpl.keyPress[key]=true;
+  }
+    
+  __asm
+  {
+    mov eax, m_eaxSave
+    mov ebx, m_ebxSave
+    mov ecx, m_ecxSave
+    mov edx, m_edxSave
+    mov esi, m_esiSave
+    mov edi, m_ediSave
+    mov esp, m_espSave
+    mov ebp, m_ebpSave
+    mov eax, [BW::BWDATA_Game_KeyStateSomething]
+    jmp [BW::BWFXN_Game_KeyStateBack]
+  }
+}
 //----------------------------------------------- ON GAME END ------------------------------------------------
 void __declspec(naked) onGameEnd()
 {
@@ -771,16 +873,19 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   {
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
   }
-  JmpCallPatch((void*)&nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
-  JmpCallPatch((void*)&menuFrameHook,  BW::BWFXN_NextMenuFrame,   0);
-  JmpCallPatch((void*)&onGameEnd,      BW::BWFXN_GameEnd,         0);
-  JmpCallPatch((void*)&onUnitDestroy,  BW::BWFXN_DestroyUnit,     0);
-  JmpCallPatch((void*)&onSendText,     BW::BWFXN_SendPublicCall,  0);
-  JmpCallPatch((void*)&onSendSingle,   BW::BWFXN_SendTextCall,    0);
-  JmpCallPatch((void*)&onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
-  JmpCallPatch((void*)&onDrawHigh,     BW::BWFXN_DrawHigh,        0);
-  JmpCallPatch((void*)&onRefresh,      BW::BWFXN_Refresh,         0);
-  JmpCallPatch((void*)&onIssueCommand, BW::BWFXN_OldIssueCommand, 4);
+  JmpCallPatch((void*)&nextFrameHook,     BW::BWFXN_NextLogicFrame,  0);
+  JmpCallPatch((void*)&menuFrameHook,     BW::BWFXN_NextMenuFrame,   0);
+  JmpCallPatch((void*)&onGameEnd,         BW::BWFXN_GameEnd,         0);
+  JmpCallPatch((void*)&onUnitDestroy,     BW::BWFXN_DestroyUnit,     0);
+  JmpCallPatch((void*)&onSendText,        BW::BWFXN_SendPublicCall,  0);
+  JmpCallPatch((void*)&onSendSingle,      BW::BWFXN_SendTextCall,    0);
+  JmpCallPatch((void*)&onSendLobby,       BW::BWFXN_SendLobbyCall,   0);
+  JmpCallPatch((void*)&onDrawHigh,        BW::BWFXN_DrawHigh,        0);
+  JmpCallPatch((void*)&onRefresh,         BW::BWFXN_Refresh,         0);
+  JmpCallPatch((void*)&onIssueCommand,    BW::BWFXN_OldIssueCommand, 4);
+  JmpCallPatch((void*)&onMouseButtonDown, BW::BWFXN_Game_ButtonDown, 4);
+  JmpCallPatch((void*)&onMouseButtonUp,   BW::BWFXN_Game_ButtonUp,   1);
+  JmpCallPatch((void*)&onKeyState,        BW::BWFXN_Game_KeyState,   0);
 
   WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
   WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&zero, 1); // menu in

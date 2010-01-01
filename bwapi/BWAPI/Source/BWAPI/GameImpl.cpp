@@ -854,6 +854,11 @@ namespace BWAPI
       this->startedClient = true;
       this->lockFlags();
     }
+    for(int i=0;i<256;i++)
+    {
+      savedKeyPress[i]=keyPress[i];
+      keyPress[i]=false;
+    }
     this->client->onFrame();
 
     for(std::list< std::string >::iterator i=this->interceptedMessages.begin();i!=this->interceptedMessages.end();i++)
@@ -1091,6 +1096,14 @@ namespace BWAPI
     this->BWAPIPlayer = NULL;
     this->opponent = NULL;
     this->calledOnEnd = false;
+    for(int i=0;i<256;i++)
+    {
+      keyPress[i]=false;
+      savedKeyPress[i]=false;
+    }
+    mouseState[0]=false;
+    mouseState[1]=false;
+    mouseState[2]=false;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1229,6 +1242,15 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
+    for(int i=0;i<256;i++)
+    {
+      keyPress[i]=false;
+      savedKeyPress[i]=false;
+    }
+    mouseState[0]=false;
+    mouseState[1]=false;
+    mouseState[2]=false;
+
     if (this->client != NULL)
     {
       if (this->calledOnEnd==false)
@@ -1378,6 +1400,41 @@ namespace BWAPI
       return BWAPI::Positions::Unknown;
     }
     return BWAPI::Position(*(BW::BWDATA_MouseX),*(BW::BWDATA_MouseY));
+  }
+  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
+  bool GameImpl::getMouseState(MouseButton button)
+  {
+    return getMouseState((int)button);
+  }
+  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
+  bool GameImpl::getMouseState(int button)
+  {
+    this->setLastError(Errors::None);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
+    {
+      this->setLastError(Errors::Access_Denied);
+      return false;
+    }
+    if (button<0 || button>=3) return false;
+    return mouseState[button];
+    
+  }
+  //---------------------------------------------- GET KEY STATE ---------------------------------------------
+  bool GameImpl::getKeyState(Key key)
+  {
+    return getKeyState((int)key);
+  }
+  //---------------------------------------------- GET KEY STATE ---------------------------------------------
+  bool GameImpl::getKeyState(int key)
+  {
+    this->setLastError(Errors::None);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
+    {
+      this->setLastError(Errors::Access_Denied);
+      return false;
+    }
+    if (key<0 || key>=255) return false;
+    return savedKeyPress[key];
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX()
