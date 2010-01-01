@@ -1307,28 +1307,28 @@ namespace BWAPI
     this->calledOnEnd=false;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
-  void  GameImpl::startGame()
+  void GameImpl::startGame()
   {
     /* Starts the game as a lobby host */
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
-  void  GameImpl::pauseGame()
+  void GameImpl::pauseGame()
   {
     /* Pauses the game */
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
-  void  GameImpl::resumeGame()
+  void GameImpl::resumeGame()
   {
     /* Resumes the game */
     this->setLastError(Errors::None);
     this->IssueCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
-  void  GameImpl::leaveGame()
+  void GameImpl::leaveGame()
   {
     /* Leaves the current game. Moves directly to the post-game score screen */
     this->setLastError(Errors::None);
@@ -1336,7 +1336,7 @@ namespace BWAPI
     *BW::BWDATA_GamePosition = 6;
   }
   //--------------------------------------------- RESTART GAME -----------------------------------------------
-  void  GameImpl::restartGame()
+  void GameImpl::restartGame()
   {
     /* Restarts the current match 
        Does not work on Battle.net */
@@ -1345,7 +1345,7 @@ namespace BWAPI
     *BW::BWDATA_GamePosition = 5;
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
-  int  GameImpl::getMouseX()
+  int GameImpl::getMouseX()
   {
     /* Retrieves the mouse's X coordinate */
     this->setLastError(Errors::None);
@@ -1357,7 +1357,7 @@ namespace BWAPI
     return *(BW::BWDATA_MouseX);
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-  int  GameImpl::getMouseY()
+  int GameImpl::getMouseY()
   {
     /* Retrieves the mouse's Y coordinate */
     this->setLastError(Errors::None);
@@ -1368,8 +1368,19 @@ namespace BWAPI
     }
     return *(BW::BWDATA_MouseY);
   }
+  //------------------------------------------- GET MOUSE POSITION -------------------------------------------
+  BWAPI::Position GameImpl::getMousePosition()
+  {
+    this->setLastError(Errors::None);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
+    {
+      this->setLastError(Errors::Access_Denied);
+      return BWAPI::Positions::Unknown;
+    }
+    return BWAPI::Position(*(BW::BWDATA_MouseX),*(BW::BWDATA_MouseY));
+  }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
-  int  GameImpl::getScreenX()
+  int GameImpl::getScreenX()
   {
     /* Retrieves the screen's X coordinate in relation to the map */
     this->setLastError(Errors::None);
@@ -1381,7 +1392,7 @@ namespace BWAPI
     return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-  int  GameImpl::getScreenY()
+  int GameImpl::getScreenY()
   {
     /* Retrieves the screen's Y coordinate in relation to the map */
     this->setLastError(Errors::None);
@@ -1392,13 +1403,45 @@ namespace BWAPI
     }
     return *(BW::BWDATA_ScreenY);
   }
+  //------------------------------------------- GET SCREEN POSITION ------------------------------------------
+  BWAPI::Position GameImpl::getScreenPosition()
+  {
+    this->setLastError(Errors::None);
+    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
+    {
+      this->setLastError(Errors::Access_Denied);
+      return BWAPI::Positions::Unknown;
+    }
+    return BWAPI::Position(*(BW::BWDATA_ScreenX),*(BW::BWDATA_ScreenY));
+  }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
     /* Sets the screen's position in relation to the map */
     this->setLastError(Errors::None);
-    *(BW::BWDATA_ScreenX) = x;
-    *(BW::BWDATA_ScreenY) = y;
+    __asm
+    {
+      mov eax, x
+      mov ecx, y
+      call [BW::BWFXN_MoveScreen]
+    }
+  }
+  //------------------------------------------- SET SCREEN POSITION ------------------------------------------
+  void GameImpl::setScreenPosition(BWAPI::Position p)
+  {
+    setScreenPosition(p.x(),p.y());
+  }
+  //---------------------------------------------- PING MINIMAP ----------------------------------------------
+  void GameImpl::pingMinimap(int x, int y)
+  {
+    this->setLastError(Errors::None);
+    IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)x,(u16)y)), sizeof(BW::Orders::MinimapPing));
+  }
+  //---------------------------------------------- PING MINIMAP ----------------------------------------------
+  void GameImpl::pingMinimap(BWAPI::Position p)
+  {
+    this->setLastError(Errors::None);
+    IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
   }
   //----------------------------------------------------------------------------------------------------------
   void GameImpl::refresh()

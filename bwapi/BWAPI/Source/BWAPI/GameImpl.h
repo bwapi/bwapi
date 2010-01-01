@@ -61,12 +61,18 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticGeysers();
       virtual std::set< Unit* >& getStaticNeutralUnits();
 
-      virtual int  getLatency();
-      virtual int  getFrameCount();
-      virtual int  getMouseX();
-      virtual int  getMouseY();
-      virtual int  getScreenX();
-      virtual int  getScreenY();
+      virtual int getLatency();
+      virtual int getFrameCount();
+      virtual int getMouseX();
+      virtual int getMouseY();
+      virtual BWAPI::Position getMousePosition();
+      virtual int getScreenX();
+      virtual int getScreenY();
+      virtual BWAPI::Position getScreenPosition();
+      virtual void setScreenPosition(int x, int y);
+      virtual void setScreenPosition(BWAPI::Position p);
+      virtual void pingMinimap(int x, int y);
+      virtual void pingMinimap(BWAPI::Position p);
 
       virtual bool  isFlagEnabled(int flag);
       virtual void  enableFlag(int flag);
@@ -172,7 +178,6 @@ namespace BWAPI
       void update(); /**< Updates unitArrayCopy according to bw memory */
       void onMenuFrame();
       PlayerImpl* players[12];
-      void setScreenPosition(int x, int y);
       /**
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
