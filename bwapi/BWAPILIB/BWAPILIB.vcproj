@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\Input.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Order.h"
 				>
 			</File>

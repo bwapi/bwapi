@@ -66,6 +66,10 @@ namespace BWAPI
       virtual int getMouseX();
       virtual int getMouseY();
       virtual BWAPI::Position getMousePosition();
+      virtual bool getMouseState(MouseButton button);
+      virtual bool getMouseState(int button);
+      virtual bool getKeyState(Key key);
+      bool getKeyState(int key);
       virtual int getScreenX();
       virtual int getScreenY();
       virtual BWAPI::Position getScreenPosition();
@@ -224,6 +228,9 @@ namespace BWAPI
       bool flagsLocked;
       bool inUpdate;
       std::list<std::string > interceptedMessages;
+      bool mouseState[3];
+      bool keyPress[256];
+      bool savedKeyPress[256];
     private :
       HMODULE hMod;
       void saveSelected();

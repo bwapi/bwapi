@@ -201,6 +201,14 @@ namespace BW
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   static u32            BWFXN_MoveScreen                          = 0x0049C440;
+  static u32            BWDATA_Game_ButtonSomething               = 0x006CDDC0;
+  static u32            BWFXN_Game_ButtonDown                     = 0x004D19C6;
+  static u32            BWFXN_Game_ButtonDownBack                 = BWFXN_Game_ButtonDown + 9;
+  static u32            BWFXN_Game_ButtonUp                       = 0x004D1946;
+  static u32            BWFXN_Game_ButtonUpBack                   = BWFXN_Game_ButtonUp + 6;
+  static u32            BWFXN_Game_KeyState                       = 0x004D1810;
+  static u32            BWFXN_Game_KeyStateBack                   = BWFXN_Game_KeyState + 5;
+  static u32            BWDATA_Game_KeyStateSomething             = 0x00596A28;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
