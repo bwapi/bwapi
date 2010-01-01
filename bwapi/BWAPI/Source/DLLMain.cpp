@@ -22,24 +22,35 @@ DWORD onCancelTrain_ecx;
 DWORD removedUnit;
 //bool launchedStart = false;
 DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
+DWORD d_eaxSave, d_ebxSave, d_ecxSave, d_edxSave, d_esiSave, d_ediSave, d_espSave, d_ebpSave;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-void __declspec(naked) onUnitDeath()
+void __declspec(naked) onUnitDestroy()
 {
-#ifdef __MINGW32__
-  __asm__("mov _removedUnit, %esi\n"
-      "call [BW::BWFXN_KillUnitTarget]"
-     );
-  BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
-  __asm__("jmp [BW::BWFXN_KillUnitBack]");
-#else
   __asm
   {
-    mov removedUnit, esi
-    call [BW::BWFXN_KillUnitTarget]
+    mov eax, [BW::BWFXN_DestroyUnitSomeOffset]
+    mov d_eaxSave, eax
+    mov d_ebxSave, ebx
+    mov d_ecxSave, ecx
+    mov d_edxSave, edx
+    mov d_esiSave, esi
+    mov d_ediSave, edi
+    mov d_espSave, esp
+    mov d_ebpSave, ebp
   }
-  BWAPI::BroodwarImpl.onUnitDeath((BW::Unit*) removedUnit);
-  __asm jmp [BW::BWFXN_KillUnitBack]
-#endif
+  BWAPI::BroodwarImpl.onUnitDestroy((BW::Unit*)d_esiSave);
+  __asm
+  {
+    mov eax, d_eaxSave
+    mov ebx, d_ebxSave
+    mov ecx, d_ecxSave
+    mov edx, d_edxSave
+    mov esi, d_esiSave
+    mov edi, d_ediSave
+    mov esp, d_espSave
+    mov ebp, d_ebpSave
+    jmp [BW::BWFXN_DestroyUnitBack]
+  }
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
@@ -763,7 +774,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   JmpCallPatch((void*)&nextFrameHook,  BW::BWFXN_NextLogicFrame,  0);
   JmpCallPatch((void*)&menuFrameHook,  BW::BWFXN_NextMenuFrame,   0);
   JmpCallPatch((void*)&onGameEnd,      BW::BWFXN_GameEnd,         0);
-  JmpCallPatch((void*)&onUnitDeath,    BW::BWFXN_KillUnit,        0);
+  JmpCallPatch((void*)&onUnitDestroy,  BW::BWFXN_DestroyUnit,     0);
   JmpCallPatch((void*)&onSendText,     BW::BWFXN_SendPublicCall,  0);
   JmpCallPatch((void*)&onSendSingle,   BW::BWFXN_SendTextCall,    0);
   JmpCallPatch((void*)&onSendLobby,    BW::BWFXN_SendLobbyCall,   0);
