@@ -1744,7 +1744,8 @@ namespace BWAPI
     }
     foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
       if (this->client)
-        this->client->onUnitCreate(i);
+        if (i->canAccess())
+          this->client->onUnitCreate(i);
 
     /* Pass all renegade units to the AI client */
     foreach (BWAPI::UnitImpl* i, renegadeUnits)
