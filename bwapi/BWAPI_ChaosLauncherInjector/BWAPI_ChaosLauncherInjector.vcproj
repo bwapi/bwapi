@@ -48,7 +48,7 @@
 				OmitFramePointers="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				StructMemberAlignment="1"
 				BufferSecurityCheck="false"
 				FloatingPointModel="2"
