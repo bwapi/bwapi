@@ -15,6 +15,7 @@ namespace BWAPI
   class Unit
   {
     public:
+      virtual int getID() const = 0;
       virtual Player* getPlayer() const = 0;
       virtual UnitType getType() const = 0;
       virtual UnitType getInitialType() const = 0;

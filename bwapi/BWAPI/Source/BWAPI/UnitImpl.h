@@ -30,6 +30,7 @@ namespace BWAPI
   {
     public:
 
+      virtual int getID() const;
       virtual Player*  getPlayer() const;
       virtual UnitType  getType() const;
       virtual UnitType  getInitialType() const;
