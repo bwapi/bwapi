@@ -36,7 +36,7 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
   char newDescription[512];
-  sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
+  sprintf_s(newDescription, 512, "Injects BWDriver.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
   
   strcpy(name, "BWAPI Injector (1.16.1)");
   strcpy(description, newDescription);
@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   }
 
   std::string dllFileName(envBuffer);
-  dllFileName.append("\\BWAPI.dll");
+  dllFileName.append("\\BWDriver.dll");
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   if (loadLibAddress == NULL)

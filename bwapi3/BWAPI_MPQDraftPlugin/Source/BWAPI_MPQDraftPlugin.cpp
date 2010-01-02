@@ -77,7 +77,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
         result = GetCurrentDirectory(ENV_BUFFER_SIZE, envBuffer);
       assert(result != 0);
 
-      char* dllFileName = strcat(envBuffer, "\\BWAPI.dll\0");
+      char* dllFileName = strcat(envBuffer, "\\BWDriver.dll\0");
       HANDLE hProcess = GetCurrentProcess();
 
       LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
