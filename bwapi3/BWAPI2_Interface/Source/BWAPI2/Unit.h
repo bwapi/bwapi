@@ -9,15 +9,16 @@
 #include "TilePosition.h"
 
 #include <list>
-
+#include "BWAPI\all.h"
 namespace BWAPI2
 {
   class Player;
   class Unit
   {
   private:
+    BWAPI::UnitState* self;
   public:
-    Unit::Unit();
+    Unit::Unit(int id);
     BWAPI2_EXPORT int getID() const;
     BWAPI2_EXPORT Player* getPlayer() const;
     BWAPI2_EXPORT UnitType getType() const;

@@ -17,6 +17,18 @@ namespace BWAPI2
       // STUB
       return std::set< Unit* >();
     }*/
+    Force* getForce(int forceId)
+    {
+      return NULL;//Todo: implement Force allocation and retrieval
+    }
+    Player* getPlayer(int playerId)
+    {
+      return NULL;//Todo: implement Player allocation and retrieval
+    }
+    Unit* getUnit(int unitId)
+    {
+      return NULL;//Todo: implement Unit allocation and retrieval
+    }
     //---------------------------------------------- GET LATENCY -----------------------------------------------
     int getLatency()
     {

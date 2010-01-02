@@ -3,32 +3,33 @@
 #include <Util\Version.h>
 
 #include "BWAPI\all.h"
-
+#include "Game.h"
 #include <string>
 
 namespace BWAPI2
 {
 //  void pushCommand(BWAPI::CommandID commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
-  Unit::Unit()
+  Unit::Unit(int id)
   {
+    this->self=BWAPI::GetUnit(id);
   }
-  /*
   int Unit::getID() const
   {
-    return getRespectClearance(&BWAPI::UnitState::id);
+    return self->id;
   }
-  int Unit::getPlayer() const
+  Player* Unit::getPlayer() const
   {
-    return getRespectClearance(&BWAPI::UnitState::player);
+    return Game::getPlayer(self->player);
   }
-  int Unit::getType() const
+  UnitType Unit::getType() const
   {
-    return getRespectClearance(&BWAPI::UnitState::type);
+    return UnitType(self->type);
   }
   int Unit::getHitPoints() const
   {
-    return getRespectClearance(&BWAPI::UnitState::hitPoints);
+    return self->hitPoints;
   }
+  /*
   int Unit::getShields() const
   {
     return getRespectClearance(&BWAPI::UnitState::shields);

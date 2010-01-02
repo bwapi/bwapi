@@ -373,10 +373,6 @@
 			RelativePath=".\Source\dllmain.cpp"
 			>
 		</File>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
