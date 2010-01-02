@@ -1,4 +1,7 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+
 namespace BWAPI
 {
   namespace Flag

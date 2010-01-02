@@ -185,6 +185,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAPI2\BWAPI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\BWAPI2\BWAPI.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI2\BWAPI2.cpp"
 				>
 			</File>
@@ -362,26 +370,8 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\dllmain.cpp"
+			RelativePath=".\Source\dllmain.cpp"
 			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					UsePrecompiledHeader="0"
-					CompileAsManaged="0"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					UsePrecompiledHeader="0"
-					CompileAsManaged="0"
-				/>
-			</FileConfiguration>
 		</File>
 		<File
 			RelativePath=".\ReadMe.txt"

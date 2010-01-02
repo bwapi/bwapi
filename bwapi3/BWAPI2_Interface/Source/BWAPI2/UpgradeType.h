@@ -1,7 +1,10 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+#include "Race.h"
+
 #include <string>
 #include <set>
-#include "Race.h"
 namespace BWAPI2
 {
   class UnitType;
@@ -35,57 +38,57 @@ namespace BWAPI2
     UpgradeType getUpgradeType(std::string& name);
     std::set<UpgradeType>& allUpgradeTypes();
     void init();
-    extern const UpgradeType Terran_Infantry_Armor;
-    extern const UpgradeType Terran_Vehicle_Plating;
-    extern const UpgradeType Terran_Ship_Plating;
-    extern const UpgradeType Zerg_Carapace;
-    extern const UpgradeType Zerg_Flyer_Carapace;
-    extern const UpgradeType Protoss_Armor;
-    extern const UpgradeType Protoss_Plating;
-    extern const UpgradeType Terran_Infantry_Weapons;
-    extern const UpgradeType Terran_Vehicle_Weapons;
-    extern const UpgradeType Terran_Ship_Weapons;
-    extern const UpgradeType Zerg_Melee_Attacks;
-    extern const UpgradeType Zerg_Missile_Attacks;
-    extern const UpgradeType Zerg_Flyer_Attacks;
-    extern const UpgradeType Protoss_Ground_Weapons;
-    extern const UpgradeType Protoss_Air_Weapons;
-    extern const UpgradeType Protoss_Plasma_Shields;
-    extern const UpgradeType U_238_Shells;
-    extern const UpgradeType Ion_Thrusters;
-    extern const UpgradeType Titan_Reactor;
-    extern const UpgradeType Ocular_Implants;
-    extern const UpgradeType Moebius_Reactor;
-    extern const UpgradeType Apollo_Reactor;
-    extern const UpgradeType Colossus_Reactor;
-    extern const UpgradeType Ventral_Sacs;
-    extern const UpgradeType Antennae;
-    extern const UpgradeType Pneumatized_Carapace;
-    extern const UpgradeType Metabolic_Boost;
-    extern const UpgradeType Adrenal_Glands;
-    extern const UpgradeType Muscular_Augments;
-    extern const UpgradeType Grooved_Spines;
-    extern const UpgradeType Gamete_Meiosis;
-    extern const UpgradeType Metasynaptic_Node;
-    extern const UpgradeType Singularity_Charge;
-    extern const UpgradeType Leg_Enhancements;
-    extern const UpgradeType Scarab_Damage;
-    extern const UpgradeType Reaver_Capacity;
-    extern const UpgradeType Gravitic_Drive;
-    extern const UpgradeType Sensor_Array;
-    extern const UpgradeType Gravitic_Boosters;
-    extern const UpgradeType Khaydarin_Amulet;
-    extern const UpgradeType Apial_Sensors;
-    extern const UpgradeType Gravitic_Thrusters;
-    extern const UpgradeType Carrier_Capacity;
-    extern const UpgradeType Khaydarin_Core;
-    extern const UpgradeType Argus_Jewel;
-    extern const UpgradeType Argus_Talisman;
-    extern const UpgradeType Caduceus_Reactor;
-    extern const UpgradeType Chitinous_Plating;
-    extern const UpgradeType Anabolic_Synthesis;
-    extern const UpgradeType Charon_Booster;
-    extern const UpgradeType None;
-    extern const UpgradeType Unknown;
+    BWAPI2_EXPORT extern const UpgradeType Terran_Infantry_Armor;
+    BWAPI2_EXPORT extern const UpgradeType Terran_Vehicle_Plating;
+    BWAPI2_EXPORT extern const UpgradeType Terran_Ship_Plating;
+    BWAPI2_EXPORT extern const UpgradeType Zerg_Carapace;
+    BWAPI2_EXPORT extern const UpgradeType Zerg_Flyer_Carapace;
+    BWAPI2_EXPORT extern const UpgradeType Protoss_Armor;
+    BWAPI2_EXPORT extern const UpgradeType Protoss_Plating;
+    BWAPI2_EXPORT extern const UpgradeType Terran_Infantry_Weapons;
+    BWAPI2_EXPORT extern const UpgradeType Terran_Vehicle_Weapons;
+    BWAPI2_EXPORT extern const UpgradeType Terran_Ship_Weapons;
+    BWAPI2_EXPORT extern const UpgradeType Zerg_Melee_Attacks;
+    BWAPI2_EXPORT extern const UpgradeType Zerg_Missile_Attacks;
+    BWAPI2_EXPORT extern const UpgradeType Zerg_Flyer_Attacks;
+    BWAPI2_EXPORT extern const UpgradeType Protoss_Ground_Weapons;
+    BWAPI2_EXPORT extern const UpgradeType Protoss_Air_Weapons;
+    BWAPI2_EXPORT extern const UpgradeType Protoss_Plasma_Shields;
+    BWAPI2_EXPORT extern const UpgradeType U_238_Shells;
+    BWAPI2_EXPORT extern const UpgradeType Ion_Thrusters;
+    BWAPI2_EXPORT extern const UpgradeType Titan_Reactor;
+    BWAPI2_EXPORT extern const UpgradeType Ocular_Implants;
+    BWAPI2_EXPORT extern const UpgradeType Moebius_Reactor;
+    BWAPI2_EXPORT extern const UpgradeType Apollo_Reactor;
+    BWAPI2_EXPORT extern const UpgradeType Colossus_Reactor;
+    BWAPI2_EXPORT extern const UpgradeType Ventral_Sacs;
+    BWAPI2_EXPORT extern const UpgradeType Antennae;
+    BWAPI2_EXPORT extern const UpgradeType Pneumatized_Carapace;
+    BWAPI2_EXPORT extern const UpgradeType Metabolic_Boost;
+    BWAPI2_EXPORT extern const UpgradeType Adrenal_Glands;
+    BWAPI2_EXPORT extern const UpgradeType Muscular_Augments;
+    BWAPI2_EXPORT extern const UpgradeType Grooved_Spines;
+    BWAPI2_EXPORT extern const UpgradeType Gamete_Meiosis;
+    BWAPI2_EXPORT extern const UpgradeType Metasynaptic_Node;
+    BWAPI2_EXPORT extern const UpgradeType Singularity_Charge;
+    BWAPI2_EXPORT extern const UpgradeType Leg_Enhancements;
+    BWAPI2_EXPORT extern const UpgradeType Scarab_Damage;
+    BWAPI2_EXPORT extern const UpgradeType Reaver_Capacity;
+    BWAPI2_EXPORT extern const UpgradeType Gravitic_Drive;
+    BWAPI2_EXPORT extern const UpgradeType Sensor_Array;
+    BWAPI2_EXPORT extern const UpgradeType Gravitic_Boosters;
+    BWAPI2_EXPORT extern const UpgradeType Khaydarin_Amulet;
+    BWAPI2_EXPORT extern const UpgradeType Apial_Sensors;
+    BWAPI2_EXPORT extern const UpgradeType Gravitic_Thrusters;
+    BWAPI2_EXPORT extern const UpgradeType Carrier_Capacity;
+    BWAPI2_EXPORT extern const UpgradeType Khaydarin_Core;
+    BWAPI2_EXPORT extern const UpgradeType Argus_Jewel;
+    BWAPI2_EXPORT extern const UpgradeType Argus_Talisman;
+    BWAPI2_EXPORT extern const UpgradeType Caduceus_Reactor;
+    BWAPI2_EXPORT extern const UpgradeType Chitinous_Plating;
+    BWAPI2_EXPORT extern const UpgradeType Anabolic_Synthesis;
+    BWAPI2_EXPORT extern const UpgradeType Charon_Booster;
+    BWAPI2_EXPORT extern const UpgradeType None;
+    BWAPI2_EXPORT extern const UpgradeType Unknown;
   }
 }

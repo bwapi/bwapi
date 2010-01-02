@@ -1,11 +1,6 @@
 #pragma once
 
 #include "BWAPI2Interface.h"
-
-#include <list>
-#include <map>
-#include <set>
-
 #include "Color.h"
 #include "CoordinateType.h"
 #include "Error.h"
@@ -18,6 +13,11 @@
 #include "TechType.h"
 #include "UpgradeType.h"
 #include "Input.h"
+
+#include <list>
+#include <map>
+#include <set>
+
 namespace BWAPI2
 {
   class Force;

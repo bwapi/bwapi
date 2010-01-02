@@ -64,20 +64,6 @@ namespace BWAPI2
       {
       case BWAPI::CallTypeIds::OnMatchStart:
         {
-          BWAPI2::Races::init();
-          BWAPI2::DamageTypes::init();
-          BWAPI2::ExplosionTypes::init();
-          BWAPI2::Orders::init();
-          BWAPI2::TechTypes::init();
-          BWAPI2::PlayerTypes::init();
-          BWAPI2::UpgradeTypes::init();
-          BWAPI2::WeaponTypes::init();
-          BWAPI2::UnitSizeTypes::init();
-          BWAPI2::UnitTypes::init();
-          BWAPI2::AttackTypes::init();
-          BWAPI2::Errors::init();
-          BWAPI2::Colors::init();
-
           aiModule.onStart();
         }break;
       case BWAPI::CallTypeIds::OnFrame:

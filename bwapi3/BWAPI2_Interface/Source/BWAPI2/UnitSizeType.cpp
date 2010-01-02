@@ -11,12 +11,12 @@ namespace BWAPI2
   std::set< UnitSizeType > unitSizeTypeSet;
   namespace UnitSizeTypes
   {
-    const UnitSizeType Independent(0);
-    const UnitSizeType Small(1);
-    const UnitSizeType Medium(2);
-    const UnitSizeType Large(3);
-    const UnitSizeType None(4);
-    const UnitSizeType Unknown(5);
+    BWAPI2_EXPORT const UnitSizeType Independent(0);
+    BWAPI2_EXPORT const UnitSizeType Small(1);
+    BWAPI2_EXPORT const UnitSizeType Medium(2);
+    BWAPI2_EXPORT const UnitSizeType Large(3);
+    BWAPI2_EXPORT const UnitSizeType None(4);
+    BWAPI2_EXPORT const UnitSizeType Unknown(5);
     void init()
     {
       unitSizeTypeName[Independent.getID()] = "Independent";

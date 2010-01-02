@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BWAPI2Interface.h"
+
 namespace BWAPI2
 {
   class TilePosition;
@@ -29,9 +31,9 @@ namespace BWAPI2
   };
   namespace Positions
   {
-    extern const Position Invalid;
-    extern const Position None;
-    extern const Position Unknown;
+    BWAPI2_EXPORT extern const Position Invalid;
+    BWAPI2_EXPORT extern const Position None;
+    BWAPI2_EXPORT extern const Position Unknown;
   }
 };
 

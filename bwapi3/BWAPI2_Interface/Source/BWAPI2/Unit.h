@@ -1,7 +1,5 @@
 #pragma once
 
-#include <list>
-
 #include "BWAPI2Interface.h"
 #include "Order.h"
 #include "TechType.h"
@@ -9,6 +7,8 @@
 #include "UnitType.h"
 #include "Position.h"
 #include "TilePosition.h"
+
+#include <list>
 
 namespace BWAPI2
 {

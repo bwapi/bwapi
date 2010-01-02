@@ -1,15 +1,16 @@
-#include <string>
-#include <map>
-#include <set>
-
-#include <Util/Foreach.h>
-
 #include "UnitType.h"
+#include "BWAPI2Interface.h"
 #include "WeaponType.h"
 #include "UnitSizeType.h"
 #include "TechType.h"
 #include "UpgradeType.h"
 #include "Race.h"
+
+#include <Util/Foreach.h>
+
+#include <string>
+#include <map>
+#include <set>
 
 
 namespace BWAPI2
@@ -205,135 +206,135 @@ namespace BWAPI2
   std::set< UnitType > unitTypeSet;
   namespace UnitTypes
   {
-    const UnitType Terran_Marine(0);
-    const UnitType Terran_Ghost(1);
-    const UnitType Terran_Vulture(2);
-    const UnitType Terran_Goliath(3);
-    const UnitType Terran_Siege_Tank_Tank_Mode(5);
-    const UnitType Terran_SCV(7);
-    const UnitType Terran_Wraith(8);
-    const UnitType Terran_Science_Vessel(9);
-    const UnitType Terran_Dropship(11);
-    const UnitType Terran_Battlecruiser(12);
-    const UnitType Terran_Vulture_Spider_Mine(13);
-    const UnitType Terran_Nuclear_Missile(14);
-    const UnitType Terran_Siege_Tank_Siege_Mode(30);
-    const UnitType Terran_Firebat(32);
-    const UnitType Spell_Scanner_Sweep(33);
-    const UnitType Terran_Medic(34);
-    const UnitType Zerg_Larva(35);
-    const UnitType Zerg_Egg(36);
-    const UnitType Zerg_Zergling(37);
-    const UnitType Zerg_Hydralisk(38);
-    const UnitType Zerg_Ultralisk(39);
-    const UnitType Zerg_Broodling(40);
-    const UnitType Zerg_Drone(41);
-    const UnitType Zerg_Overlord(42);
-    const UnitType Zerg_Mutalisk(43);
-    const UnitType Zerg_Guardian(44);
-    const UnitType Zerg_Queen(45);
-    const UnitType Zerg_Defiler(46);
-    const UnitType Zerg_Scourge(47);
-    const UnitType Zerg_Infested_Terran(50);
-    const UnitType Terran_Valkyrie(58);
-    const UnitType Zerg_Cocoon(59);
-    const UnitType Protoss_Corsair(60);
-    const UnitType Protoss_Dark_Templar(61);
-    const UnitType Zerg_Devourer(62);
-    const UnitType Protoss_Dark_Archon(63);
-    const UnitType Protoss_Probe(64);
-    const UnitType Protoss_Zealot(65);
-    const UnitType Protoss_Dragoon(66);
-    const UnitType Protoss_High_Templar(67);
-    const UnitType Protoss_Archon(68);
-    const UnitType Protoss_Shuttle(69);
-    const UnitType Protoss_Scout(70);
-    const UnitType Protoss_Arbiter(71);
-    const UnitType Protoss_Carrier(72);
-    const UnitType Protoss_Interceptor(73);
-    const UnitType Protoss_Reaver(83);
-    const UnitType Protoss_Observer(84);
-    const UnitType Protoss_Scarab(85);
-    const UnitType Critter_Rhynadon(89);
-    const UnitType Critter_Bengalaas(90);
-    const UnitType Critter_Scantid(93);
-    const UnitType Critter_Kakaru(94);
-    const UnitType Critter_Ragnasaur(95);
-    const UnitType Critter_Ursadon(96);
-    const UnitType Zerg_Lurker_Egg(97);
-    const UnitType Zerg_Lurker(103);
-    const UnitType Spell_Disruption_Web(105);
-    const UnitType Terran_Command_Center(106);
-    const UnitType Terran_Comsat_Station(107);
-    const UnitType Terran_Nuclear_Silo(108);
-    const UnitType Terran_Supply_Depot(109);
-    const UnitType Terran_Refinery(110);
-    const UnitType Terran_Barracks(111);
-    const UnitType Terran_Academy(112);
-    const UnitType Terran_Factory(113);
-    const UnitType Terran_Starport(114);
-    const UnitType Terran_Control_Tower(115);
-    const UnitType Terran_Science_Facility(116);
-    const UnitType Terran_Covert_Ops(117);
-    const UnitType Terran_Physics_Lab(118);
-    const UnitType Terran_Machine_Shop(120);
-    const UnitType Terran_Engineering_Bay(122);
-    const UnitType Terran_Armory(123);
-    const UnitType Terran_Missile_Turret(124);
-    const UnitType Terran_Bunker(125);
-    const UnitType Special_Crashed_Norad_II(126);
-    const UnitType Special_Ion_Cannon(127);
-    const UnitType Zerg_Infested_Command_Center(130);
-    const UnitType Zerg_Hatchery(131);
-    const UnitType Zerg_Lair(132);
-    const UnitType Zerg_Hive(133);
-    const UnitType Zerg_Nydus_Canal(134);
-    const UnitType Zerg_Hydralisk_Den(135);
-    const UnitType Zerg_Defiler_Mound(136);
-    const UnitType Zerg_Greater_Spire(137);
-    const UnitType Zerg_Queens_Nest(138);
-    const UnitType Zerg_Evolution_Chamber(139);
-    const UnitType Zerg_Ultralisk_Cavern(140);
-    const UnitType Zerg_Spire(141);
-    const UnitType Zerg_Spawning_Pool(142);
-    const UnitType Zerg_Creep_Colony(143);
-    const UnitType Zerg_Spore_Colony(144);
-    const UnitType Zerg_Sunken_Colony(146);
-    const UnitType Special_Overmind_With_Shell(147);
-    const UnitType Special_Overmind(148);
-    const UnitType Zerg_Extractor(149);
-    const UnitType Special_Mature_Chrysalis(150);
-    const UnitType Special_Cerebrate(151);
-    const UnitType Special_Cerebrate_Daggoth(152);
-    const UnitType Protoss_Nexus(154);
-    const UnitType Protoss_Robotics_Facility(155);
-    const UnitType Protoss_Pylon(156);
-    const UnitType Protoss_Assimilator(157);
-    const UnitType Protoss_Observatory(159);
-    const UnitType Protoss_Gateway(160);
-    const UnitType Protoss_Photon_Cannon(162);
-    const UnitType Protoss_Citadel_of_Adun(163);
-    const UnitType Protoss_Cybernetics_Core(164);
-    const UnitType Protoss_Templar_Archives(165);
-    const UnitType Protoss_Forge(166);
-    const UnitType Protoss_Stargate(167);
-    const UnitType Special_Stasis_Cell_Prison(168);
-    const UnitType Protoss_Fleet_Beacon(169);
-    const UnitType Protoss_Arbiter_Tribunal(170);
-    const UnitType Protoss_Robotics_Support_Bay(171);
-    const UnitType Protoss_Shield_Battery(172);
-    const UnitType Special_Khaydarin_Crystal_Form(173);
-    const UnitType Special_Protoss_Temple(174);
-    const UnitType Special_XelNaga_Temple(175);
-    const UnitType Resource_Mineral_Field(176);
-    const UnitType Resource_Vespene_Geyser(188);
-    const UnitType Special_Warp_Gate(189);
-    const UnitType Special_Psi_Disrupter(190);
-    const UnitType Special_Power_Generator(200);
-    const UnitType Special_Overmind_Cocoon(201);
-    const UnitType Spell_Dark_Swarm(202);
-    const UnitType None(228);
-    const UnitType Unknown(229);
+    BWAPI2_EXPORT const UnitType Terran_Marine(0);
+    BWAPI2_EXPORT const UnitType Terran_Ghost(1);
+    BWAPI2_EXPORT const UnitType Terran_Vulture(2);
+    BWAPI2_EXPORT const UnitType Terran_Goliath(3);
+    BWAPI2_EXPORT const UnitType Terran_Siege_Tank_Tank_Mode(5);
+    BWAPI2_EXPORT const UnitType Terran_SCV(7);
+    BWAPI2_EXPORT const UnitType Terran_Wraith(8);
+    BWAPI2_EXPORT const UnitType Terran_Science_Vessel(9);
+    BWAPI2_EXPORT const UnitType Terran_Dropship(11);
+    BWAPI2_EXPORT const UnitType Terran_Battlecruiser(12);
+    BWAPI2_EXPORT const UnitType Terran_Vulture_Spider_Mine(13);
+    BWAPI2_EXPORT const UnitType Terran_Nuclear_Missile(14);
+    BWAPI2_EXPORT const UnitType Terran_Siege_Tank_Siege_Mode(30);
+    BWAPI2_EXPORT const UnitType Terran_Firebat(32);
+    BWAPI2_EXPORT const UnitType Spell_Scanner_Sweep(33);
+    BWAPI2_EXPORT const UnitType Terran_Medic(34);
+    BWAPI2_EXPORT const UnitType Zerg_Larva(35);
+    BWAPI2_EXPORT const UnitType Zerg_Egg(36);
+    BWAPI2_EXPORT const UnitType Zerg_Zergling(37);
+    BWAPI2_EXPORT const UnitType Zerg_Hydralisk(38);
+    BWAPI2_EXPORT const UnitType Zerg_Ultralisk(39);
+    BWAPI2_EXPORT const UnitType Zerg_Broodling(40);
+    BWAPI2_EXPORT const UnitType Zerg_Drone(41);
+    BWAPI2_EXPORT const UnitType Zerg_Overlord(42);
+    BWAPI2_EXPORT const UnitType Zerg_Mutalisk(43);
+    BWAPI2_EXPORT const UnitType Zerg_Guardian(44);
+    BWAPI2_EXPORT const UnitType Zerg_Queen(45);
+    BWAPI2_EXPORT const UnitType Zerg_Defiler(46);
+    BWAPI2_EXPORT const UnitType Zerg_Scourge(47);
+    BWAPI2_EXPORT const UnitType Zerg_Infested_Terran(50);
+    BWAPI2_EXPORT const UnitType Terran_Valkyrie(58);
+    BWAPI2_EXPORT const UnitType Zerg_Cocoon(59);
+    BWAPI2_EXPORT const UnitType Protoss_Corsair(60);
+    BWAPI2_EXPORT const UnitType Protoss_Dark_Templar(61);
+    BWAPI2_EXPORT const UnitType Zerg_Devourer(62);
+    BWAPI2_EXPORT const UnitType Protoss_Dark_Archon(63);
+    BWAPI2_EXPORT const UnitType Protoss_Probe(64);
+    BWAPI2_EXPORT const UnitType Protoss_Zealot(65);
+    BWAPI2_EXPORT const UnitType Protoss_Dragoon(66);
+    BWAPI2_EXPORT const UnitType Protoss_High_Templar(67);
+    BWAPI2_EXPORT const UnitType Protoss_Archon(68);
+    BWAPI2_EXPORT const UnitType Protoss_Shuttle(69);
+    BWAPI2_EXPORT const UnitType Protoss_Scout(70);
+    BWAPI2_EXPORT const UnitType Protoss_Arbiter(71);
+    BWAPI2_EXPORT const UnitType Protoss_Carrier(72);
+    BWAPI2_EXPORT const UnitType Protoss_Interceptor(73);
+    BWAPI2_EXPORT const UnitType Protoss_Reaver(83);
+    BWAPI2_EXPORT const UnitType Protoss_Observer(84);
+    BWAPI2_EXPORT const UnitType Protoss_Scarab(85);
+    BWAPI2_EXPORT const UnitType Critter_Rhynadon(89);
+    BWAPI2_EXPORT const UnitType Critter_Bengalaas(90);
+    BWAPI2_EXPORT const UnitType Critter_Scantid(93);
+    BWAPI2_EXPORT const UnitType Critter_Kakaru(94);
+    BWAPI2_EXPORT const UnitType Critter_Ragnasaur(95);
+    BWAPI2_EXPORT const UnitType Critter_Ursadon(96);
+    BWAPI2_EXPORT const UnitType Zerg_Lurker_Egg(97);
+    BWAPI2_EXPORT const UnitType Zerg_Lurker(103);
+    BWAPI2_EXPORT const UnitType Spell_Disruption_Web(105);
+    BWAPI2_EXPORT const UnitType Terran_Command_Center(106);
+    BWAPI2_EXPORT const UnitType Terran_Comsat_Station(107);
+    BWAPI2_EXPORT const UnitType Terran_Nuclear_Silo(108);
+    BWAPI2_EXPORT const UnitType Terran_Supply_Depot(109);
+    BWAPI2_EXPORT const UnitType Terran_Refinery(110);
+    BWAPI2_EXPORT const UnitType Terran_Barracks(111);
+    BWAPI2_EXPORT const UnitType Terran_Academy(112);
+    BWAPI2_EXPORT const UnitType Terran_Factory(113);
+    BWAPI2_EXPORT const UnitType Terran_Starport(114);
+    BWAPI2_EXPORT const UnitType Terran_Control_Tower(115);
+    BWAPI2_EXPORT const UnitType Terran_Science_Facility(116);
+    BWAPI2_EXPORT const UnitType Terran_Covert_Ops(117);
+    BWAPI2_EXPORT const UnitType Terran_Physics_Lab(118);
+    BWAPI2_EXPORT const UnitType Terran_Machine_Shop(120);
+    BWAPI2_EXPORT const UnitType Terran_Engineering_Bay(122);
+    BWAPI2_EXPORT const UnitType Terran_Armory(123);
+    BWAPI2_EXPORT const UnitType Terran_Missile_Turret(124);
+    BWAPI2_EXPORT const UnitType Terran_Bunker(125);
+    BWAPI2_EXPORT const UnitType Special_Crashed_Norad_II(126);
+    BWAPI2_EXPORT const UnitType Special_Ion_Cannon(127);
+    BWAPI2_EXPORT const UnitType Zerg_Infested_Command_Center(130);
+    BWAPI2_EXPORT const UnitType Zerg_Hatchery(131);
+    BWAPI2_EXPORT const UnitType Zerg_Lair(132);
+    BWAPI2_EXPORT const UnitType Zerg_Hive(133);
+    BWAPI2_EXPORT const UnitType Zerg_Nydus_Canal(134);
+    BWAPI2_EXPORT const UnitType Zerg_Hydralisk_Den(135);
+    BWAPI2_EXPORT const UnitType Zerg_Defiler_Mound(136);
+    BWAPI2_EXPORT const UnitType Zerg_Greater_Spire(137);
+    BWAPI2_EXPORT const UnitType Zerg_Queens_Nest(138);
+    BWAPI2_EXPORT const UnitType Zerg_Evolution_Chamber(139);
+    BWAPI2_EXPORT const UnitType Zerg_Ultralisk_Cavern(140);
+    BWAPI2_EXPORT const UnitType Zerg_Spire(141);
+    BWAPI2_EXPORT const UnitType Zerg_Spawning_Pool(142);
+    BWAPI2_EXPORT const UnitType Zerg_Creep_Colony(143);
+    BWAPI2_EXPORT const UnitType Zerg_Spore_Colony(144);
+    BWAPI2_EXPORT const UnitType Zerg_Sunken_Colony(146);
+    BWAPI2_EXPORT const UnitType Special_Overmind_With_Shell(147);
+    BWAPI2_EXPORT const UnitType Special_Overmind(148);
+    BWAPI2_EXPORT const UnitType Zerg_Extractor(149);
+    BWAPI2_EXPORT const UnitType Special_Mature_Chrysalis(150);
+    BWAPI2_EXPORT const UnitType Special_Cerebrate(151);
+    BWAPI2_EXPORT const UnitType Special_Cerebrate_Daggoth(152);
+    BWAPI2_EXPORT const UnitType Protoss_Nexus(154);
+    BWAPI2_EXPORT const UnitType Protoss_Robotics_Facility(155);
+    BWAPI2_EXPORT const UnitType Protoss_Pylon(156);
+    BWAPI2_EXPORT const UnitType Protoss_Assimilator(157);
+    BWAPI2_EXPORT const UnitType Protoss_Observatory(159);
+    BWAPI2_EXPORT const UnitType Protoss_Gateway(160);
+    BWAPI2_EXPORT const UnitType Protoss_Photon_Cannon(162);
+    BWAPI2_EXPORT const UnitType Protoss_Citadel_of_Adun(163);
+    BWAPI2_EXPORT const UnitType Protoss_Cybernetics_Core(164);
+    BWAPI2_EXPORT const UnitType Protoss_Templar_Archives(165);
+    BWAPI2_EXPORT const UnitType Protoss_Forge(166);
+    BWAPI2_EXPORT const UnitType Protoss_Stargate(167);
+    BWAPI2_EXPORT const UnitType Special_Stasis_Cell_Prison(168);
+    BWAPI2_EXPORT const UnitType Protoss_Fleet_Beacon(169);
+    BWAPI2_EXPORT const UnitType Protoss_Arbiter_Tribunal(170);
+    BWAPI2_EXPORT const UnitType Protoss_Robotics_Support_Bay(171);
+    BWAPI2_EXPORT const UnitType Protoss_Shield_Battery(172);
+    BWAPI2_EXPORT const UnitType Special_Khaydarin_Crystal_Form(173);
+    BWAPI2_EXPORT const UnitType Special_Protoss_Temple(174);
+    BWAPI2_EXPORT const UnitType Special_XelNaga_Temple(175);
+    BWAPI2_EXPORT const UnitType Resource_Mineral_Field(176);
+    BWAPI2_EXPORT const UnitType Resource_Vespene_Geyser(188);
+    BWAPI2_EXPORT const UnitType Special_Warp_Gate(189);
+    BWAPI2_EXPORT const UnitType Special_Psi_Disrupter(190);
+    BWAPI2_EXPORT const UnitType Special_Power_Generator(200);
+    BWAPI2_EXPORT const UnitType Special_Overmind_Cocoon(201);
+    BWAPI2_EXPORT const UnitType Spell_Dark_Swarm(202);
+    BWAPI2_EXPORT const UnitType None(228);
+    BWAPI2_EXPORT const UnitType Unknown(229);
     void init()
     {
       unitTypeData[Terran_Marine.getID()].set("Terran Marine", "Private", Races::Terran, &(Terran_Barracks), 1, &(Terran_Barracks), 1, NULL, 0, NULL, 0, &(TechTypes::None), &(TechTypes::Stim_Packs), &(TechTypes::None), &(TechTypes::None), &(TechTypes::None), &(UpgradeTypes::Terran_Infantry_Armor), 40, 0, 0, 0, 50, 0, 360, 2, 0, 1, 0, 50, 100, &(UnitSizeTypes::Small), 1, 1, 8, 9, 8, 10, 128, 224, &(WeaponTypes::Gauss_Rifle), 1, &(WeaponTypes::Gauss_Rifle), 1, 4, 1, 1, 40, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
