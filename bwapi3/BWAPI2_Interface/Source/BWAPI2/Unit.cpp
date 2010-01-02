@@ -2,14 +2,17 @@
 
 #include <Util\Version.h>
 
+#include "BWAPI\all.h"
+
 #include <string>
 
-namespace BWAgent
+namespace BWAPI2
 {
 //  void pushCommand(BWAPI::CommandID commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
   Unit::Unit()
   {
   }
+  /*
   int Unit::getID() const
   {
     return getRespectClearance(&BWAPI::UnitState::id);

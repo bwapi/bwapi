@@ -12,7 +12,7 @@ namespace BWAPI
   {
     struct BuildRequisite
     {
-      UnitTypeId unit;
+      UnitTypeId unitType;
       int count;
     };
 

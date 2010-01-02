@@ -5,12 +5,12 @@
 #include "Player.h"
 #include "Force.h"
 
-#include <Util\LimitedArray.h>
+#include <Util\StaticVector.h>
 
 namespace BWAPI
 {
-  typedef Util::LimitedArray<Player, 12> PlayerArray;
-  typedef Util::LimitedArray<Force, 4> ForceArray;
+  typedef Util::StaticVector<Player, 12> PlayerArray;
+  typedef Util::StaticVector<Force, 4> ForceArray;
 
   struct StaticGameData
   {
