@@ -68,7 +68,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not find ChaosDir or current directory.\n");
-    MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK);
+    MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK | MB_ICONERROR);
     fclose(f);
   }
 
@@ -80,7 +80,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not get loadLibAddress.\n");
-    MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK);
+    MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK | MB_ICONERROR);
     fclose(f);
   }
 
@@ -89,7 +89,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not get pathAddress.\n");
-    MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK);
+    MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK | MB_ICONERROR);
     fclose(f);
   }
 
@@ -99,7 +99,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not Write proc memory.\n");
-    MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK);
+    MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK | MB_ICONERROR);
     fclose(f);
   }
 
@@ -108,7 +108,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not Create remote thread.\n");
-    MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
+    MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK | MB_ICONERROR);
     fclose(f);
   }
 
@@ -120,7 +120,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not get hLibModule.\n");
-    MessageBoxA(NULL, "Could not get hLibModule.\n", "Error", MB_OK);
+    MessageBoxA(NULL, "Could not load BWDriver.dll.\n-Does it exist?\n-Is it open by another app (for writing)?\n", "Error", MB_OK | MB_ICONERROR);
     fclose(f);
   }
 
