@@ -44,8 +44,8 @@ namespace BWAPI
 
 
   // static data
-  BWAPI_FUNCTION BWAPI::StaticGameData* GetStaticGameData();
-  BWAPI_FUNCTION void                   PositionMapToScreen(BWAPI::Position* pos);
+  BWAPI_FUNCTION const BWAPI::StaticGameData* GetStaticGameData();
+  BWAPI_FUNCTION void                         PositionMapToScreen(BWAPI::Position* pos);
 
   // text operations
   BWAPI_FUNCTION bool PrintText(const char* text);
@@ -59,16 +59,16 @@ namespace BWAPI
   BWAPI_FUNCTION void DrawDot(int x, int y, int color);
 
   // information queries
-  BWAPI_FUNCTION BWAPI::UnitState*      GetUnit(int unitId);
-  BWAPI_FUNCTION BWAPI::UnitType*       GetUnitType(BWAPI::UnitTypeId id);
-  BWAPI_FUNCTION BWAPI::TechType*       GetTechType(BWAPI::TechTypeId id);
-  BWAPI_FUNCTION BWAPI::UpgradeType*    GetUpgradeType(BWAPI::UpgradeTypeId id);
-  BWAPI_FUNCTION BWAPI::WeaponType*     GetWeaponType(BWAPI::WeaponTypeId id);
-  BWAPI_FUNCTION BWAPI::DamageType*     GetDamageType(BWAPI::DamageTypeId id);
-  BWAPI_FUNCTION BWAPI::ExplosionType*  GetExplosionType(BWAPI::ExplosionTypeId id);
-  BWAPI_FUNCTION BWAPI::Race*           GetRace(BWAPI::RaceId id);
-  BWAPI_FUNCTION BWAPI::UnitSizeType*   GetUnitSizeType(BWAPI::UnitSizeTypeId id);
-  BWAPI_FUNCTION BWAPI::PlayerType*     GetPlayerType(BWAPI::PlayerTypeId id);
+  BWAPI_FUNCTION const BWAPI::UnitState*      GetUnit(int unitId);
+  BWAPI_FUNCTION const BWAPI::UnitType*       GetUnitType(BWAPI::UnitTypeId id);
+  BWAPI_FUNCTION const BWAPI::TechType*       GetTechType(BWAPI::TechTypeId id);
+  BWAPI_FUNCTION const BWAPI::UpgradeType*    GetUpgradeType(BWAPI::UpgradeTypeId id);
+  BWAPI_FUNCTION const BWAPI::WeaponType*     GetWeaponType(BWAPI::WeaponTypeId id);
+  BWAPI_FUNCTION const BWAPI::DamageType*     GetDamageType(BWAPI::DamageTypeId id);
+  BWAPI_FUNCTION const BWAPI::ExplosionType*  GetExplosionType(BWAPI::ExplosionTypeId id);
+  BWAPI_FUNCTION const BWAPI::Race*           GetRace(BWAPI::RaceId id);
+  BWAPI_FUNCTION const BWAPI::UnitSizeType*   GetUnitSizeType(BWAPI::UnitSizeTypeId id);
+  BWAPI_FUNCTION const BWAPI::PlayerType*     GetPlayerType(BWAPI::PlayerTypeId id);
 
   // unit array enumeration. returns -1 when ended
   BWAPI_FUNCTION HANDLE AllUnitsBegin();
@@ -76,8 +76,8 @@ namespace BWAPI
   BWAPI_FUNCTION void   AllUnitsClose(HANDLE h);
 
   // events
-  BWAPI_FUNCTION BWAPI::UnitAddEvent**    GetUnitsAdded();
-  BWAPI_FUNCTION BWAPI::UnitRemoveEvent** GetUnitsRemoved();
+  BWAPI_FUNCTION const BWAPI::UnitAddEvent**    GetUnitsAdded();
+  BWAPI_FUNCTION const BWAPI::UnitRemoveEvent** GetUnitsRemoved();
 
   // unit commands
   BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y);

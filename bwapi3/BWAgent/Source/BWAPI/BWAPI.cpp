@@ -102,7 +102,7 @@ namespace BWAPI
     BridgeClient::pushDrawDot(x, y, color);
   }
   //----------------------------------- GET STATIC DATA -------------------------------------------
-  BWAPI_FUNCTION BWAPI::StaticGameData* GetStaticGameData()
+  BWAPI_FUNCTION const BWAPI::StaticGameData* GetStaticGameData()
   {
     BWAPI::StaticGameData *retval = BridgeClient::sharedStaticData;
     return retval;
@@ -114,52 +114,52 @@ namespace BWAPI
     pos->y -= BridgeClient::sharedStaticData->screenY;
   }
   //----------------------------------- GET UNIT --------------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitState* GetUnit(int unitId)
+  BWAPI_FUNCTION const BWAPI::UnitState* GetUnit(int unitId)
   {
     return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId).state;
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitType* GetUnitType(BWAPI::UnitTypeId id)
+  BWAPI_FUNCTION const BWAPI::UnitType* GetUnitType(BWAPI::UnitTypeId id)
   {
     return &BWAPI::UnitTypes::unitTypeData[id];
   }
   //----------------------------------- GET TECH TYPE ---------------------------------------------
-  BWAPI_FUNCTION BWAPI::TechType* GetTechType(BWAPI::TechTypeId id)
+  BWAPI_FUNCTION const BWAPI::TechType* GetTechType(BWAPI::TechTypeId id)
   {
     return &BWAPI::TechTypes::techTypeData[id];
   }
   //----------------------------------- GET UPGRADE TYPE ------------------------------------------
-  BWAPI_FUNCTION BWAPI::UpgradeType* GetUpgradeType(BWAPI::UpgradeTypeId id)
+  BWAPI_FUNCTION const BWAPI::UpgradeType* GetUpgradeType(BWAPI::UpgradeTypeId id)
   {
     return &BWAPI::upgradeTypeData[id];
   }
   //----------------------------------- GET WEAPON TYPE -------------------------------------------
-  BWAPI_FUNCTION BWAPI::WeaponType* GetWeaponType(BWAPI::WeaponTypeId id)
+  BWAPI_FUNCTION const BWAPI::WeaponType* GetWeaponType(BWAPI::WeaponTypeId id)
   {
     return &BWAPI::WeaponTypes::weaponTypeData[id];
   }
   //----------------------------------- GET DAMAGE TYPE -------------------------------------------
-  BWAPI_FUNCTION BWAPI::DamageType* GetDamageType(BWAPI::DamageTypeId id)
+  BWAPI_FUNCTION const BWAPI::DamageType* GetDamageType(BWAPI::DamageTypeId id)
   {
     return &BWAPI::DamageTypes::damageTypeData[id];
   }
   //----------------------------------- GET EXPLOSION TYPE ----------------------------------------
-  BWAPI_FUNCTION BWAPI::ExplosionType* GetExplosionType(BWAPI::ExplosionTypeId id)
+  BWAPI_FUNCTION const BWAPI::ExplosionType* GetExplosionType(BWAPI::ExplosionTypeId id)
   {
     return &BWAPI::ExplosionTypes::explosionTypeData[id];
   }
   //----------------------------------- GET RACE --------------------------------------------------
-  BWAPI_FUNCTION BWAPI::Race* GetRace(BWAPI::RaceId id)
+  BWAPI_FUNCTION const BWAPI::Race* GetRace(BWAPI::RaceId id)
   {
       return &BWAPI::Races::raceData[id];
   }
   //----------------------------------- GET UNIT SIZE TYPE ----------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitSizeType* GetUnitSizeType(BWAPI::UnitSizeTypeId id)
+  BWAPI_FUNCTION const BWAPI::UnitSizeType* GetUnitSizeType(BWAPI::UnitSizeTypeId id)
   {
     return &BWAPI::UnitSizeTypes::unitSizeTypeData[id];
   }
   //----------------------------------- GET PLAYER TYPE -------------------------------------------
-  BWAPI_FUNCTION BWAPI::PlayerType* GetPlayerType(BWAPI::PlayerTypeId id)
+  BWAPI_FUNCTION const BWAPI::PlayerType* GetPlayerType(BWAPI::PlayerTypeId id)
   {
     return &BWAPI::PlayerTypes::playerTypeData[id];
   }
@@ -193,11 +193,11 @@ namespace BWAPI
     allUnitsHandleFactory.release((AllUnitsHandle*)h);
   }
   //----------------------------------- -----------------------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitAddEvent** GetUnitsAdded()
+  BWAPI_FUNCTION const BWAPI::UnitAddEvent** GetUnitsAdded()
   {
     return &BridgeClient::knownUnitAddEvents[0];
   }
-  BWAPI_FUNCTION BWAPI::UnitRemoveEvent**  GetUnitsRemoved()
+  BWAPI_FUNCTION const BWAPI::UnitRemoveEvent**  GetUnitsRemoved()
   {
     return &BridgeClient::knownUnitRemoveEvents[0];
   }

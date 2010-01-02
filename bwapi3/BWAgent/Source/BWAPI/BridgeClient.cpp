@@ -40,8 +40,8 @@ namespace BWAPI
     BWAPI::StaticGameData* sharedStaticData;
 
     // events
-    std::vector<UnitAddEvent*> knownUnitAddEvents;
-    std::vector<UnitRemoveEvent*> knownUnitRemoveEvents;
+    std::vector<const UnitAddEvent*> knownUnitAddEvents;
+    std::vector<const UnitRemoveEvent*> knownUnitRemoveEvents;
 
     // additional data for RPC states
     bool isMatchStartFromBeginning = false;
