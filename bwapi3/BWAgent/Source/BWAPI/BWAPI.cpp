@@ -23,12 +23,6 @@ namespace BWAPI
 {
 //private:
 
-  std::string lastError;
-  void resetError()
-  {
-    lastError = "no error";
-  }
-
 //public:
   //----------------------------------- GET VERSION -----------------------------------------------
   BWAPI_FUNCTION int GetVersion()
@@ -36,21 +30,13 @@ namespace BWAPI
     return SVN_REV;
   }
   //----------------------------------- CONNECT ---------------------------------------------------
-  BWAPI_FUNCTION bool Connect()
+  BWAPI_FUNCTION bool Connect() throw()
   {
-    resetError();
-    if(!BridgeClient::connect())
-    {
-      lastError = "could not connect: " + BridgeClient::getLastError();
-      return 0;
-    }
-    return 1;
+    return BridgeClient::connect();
   }
   //----------------------------------- WAIT FOR EVENT --------------------------------------------
   BWAPI_FUNCTION CallTypeId WaitForEvent()
   {
-    resetError();
-
     while(true)
     {
       if(!BridgeClient::waitForEvent())
@@ -130,142 +116,52 @@ namespace BWAPI
   //----------------------------------- GET UNIT --------------------------------------------------
   BWAPI_FUNCTION BWAPI::UnitState* GetUnit(int unitId)
   {
-    resetError();
-    try
-    {
-      return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId).state;
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId).state;
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
   BWAPI_FUNCTION BWAPI::UnitType* GetUnitType(BWAPI::UnitTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::UnitTypes::unitTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::UnitTypes::unitTypeData[id];
   }
   //----------------------------------- GET TECH TYPE ---------------------------------------------
   BWAPI_FUNCTION BWAPI::TechType* GetTechType(BWAPI::TechTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::TechTypes::techTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::TechTypes::techTypeData[id];
   }
   //----------------------------------- GET UPGRADE TYPE ------------------------------------------
   BWAPI_FUNCTION BWAPI::UpgradeType* GetUpgradeType(BWAPI::UpgradeTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::upgradeTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::upgradeTypeData[id];
   }
   //----------------------------------- GET WEAPON TYPE -------------------------------------------
   BWAPI_FUNCTION BWAPI::WeaponType* GetWeaponType(BWAPI::WeaponTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::WeaponTypes::weaponTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::WeaponTypes::weaponTypeData[id];
   }
   //----------------------------------- GET DAMAGE TYPE -------------------------------------------
   BWAPI_FUNCTION BWAPI::DamageType* GetDamageType(BWAPI::DamageTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::DamageTypes::damageTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::DamageTypes::damageTypeData[id];
   }
   //----------------------------------- GET EXPLOSION TYPE ----------------------------------------
   BWAPI_FUNCTION BWAPI::ExplosionType* GetExplosionType(BWAPI::ExplosionTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::ExplosionTypes::explosionTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::ExplosionTypes::explosionTypeData[id];
   }
   //----------------------------------- GET RACE --------------------------------------------------
   BWAPI_FUNCTION BWAPI::Race* GetRace(BWAPI::RaceId id)
   {
-    resetError();
-    try
-    {
       return &BWAPI::Races::raceData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
   }
   //----------------------------------- GET UNIT SIZE TYPE ----------------------------------------
   BWAPI_FUNCTION BWAPI::UnitSizeType* GetUnitSizeType(BWAPI::UnitSizeTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::UnitSizeTypes::unitSizeTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::UnitSizeTypes::unitSizeTypeData[id];
   }
   //----------------------------------- GET PLAYER TYPE -------------------------------------------
   BWAPI_FUNCTION BWAPI::PlayerType* GetPlayerType(BWAPI::PlayerTypeId id)
   {
-    resetError();
-    try
-    {
-      return &BWAPI::PlayerTypes::playerTypeData[id];
-    }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return NULL;
-    }
+    return &BWAPI::PlayerTypes::playerTypeData[id];
   }
   //----------------------------------- -----------------------------------------------------------
   //----------------------------------- ALL UNITS ITERATION ---------------------------------------
@@ -323,11 +219,6 @@ namespace BWAPI
     BWAPI::UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Stop;
     order.unitIndex = unitId;
-  }
-  //----------------------------------- GET LAST ERROR --------------------------------------------
-  BWAPI_FUNCTION const char* GetLastError()
-  {
-    return lastError.c_str();
   }
   //----------------------------------- -----------------------------------------------------------
 }
