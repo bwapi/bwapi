@@ -19,7 +19,6 @@
 #include <BWAPIDatabase\UnitSizeTypes.h>
 #include <BWAPIDatabase\PlayerTypes.h>
 
-// singleton base class
 namespace BWAPI
 {
 //private:
@@ -32,12 +31,12 @@ namespace BWAPI
 
 //public:
   //----------------------------------- GET VERSION -----------------------------------------------
-  BWAPI_FUNCTION int BWAPI_CALL BWGetVersion()
+  BWAPI_FUNCTION int GetVersion()
   {
     return SVN_REV;
   }
   //----------------------------------- CONNECT ---------------------------------------------------
-  BWAPI_FUNCTION bool BWAPI_CALL BWConnect()
+  BWAPI_FUNCTION bool Connect()
   {
     resetError();
     if(!BridgeClient::connect())
@@ -47,106 +46,89 @@ namespace BWAPI
     }
     return 1;
   }
-  //----------------------------------- TAKE OVER -------------------------------------------------
-  BWAPI_FUNCTION bool BWAPI_CALL BWTakeover(BWMatchFrameCallback onMatchFrame,
-    BWMatchStartCallback onMatchStart,
-    BWUnitAddCallback onUnitAdd,
-    BWUnitRemoveCallback onUnitRemove,
-    BWSendTextCallback onSendText)
+  //----------------------------------- WAIT FOR EVENT --------------------------------------------
+  BWAPI_FUNCTION CallTypeId WaitForEvent()
   {
     resetError();
-    try
+
+    while(true)
     {
-      while(true)
+      if(!BridgeClient::waitForEvent())
+        throw GeneralException(__FUNCTION__ ": " + BridgeClient::getLastError());
+
+      // react upon bridge state
+      BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
+
+      switch(rpcState)
       {
-        if(!BridgeClient::waitForEvent())
-          throw GeneralException(__FUNCTION__ ": " + BridgeClient::getLastError());
-
-        // react upon bridge state
-        BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
-        switch(rpcState)
+      case BridgeClient::OnInitMatch:
         {
-        case BridgeClient::OnInitMatch:
-          {
-            // init database
-            UnitTypes::init();
-            TechTypes::init();
-            UpgradeTypes::init();
-            WeaponTypes::init();
-            DamageTypes::init();
-            ExplosionTypes::init();
-            Races::init();
-            UnitSizeTypes::init();
+          // init database
+          UnitTypes::init();
+          TechTypes::init();
+          UpgradeTypes::init();
+          WeaponTypes::init();
+          DamageTypes::init();
+          ExplosionTypes::init();
+          Races::init();
+          UnitSizeTypes::init();
 
-            if(onMatchStart)onMatchStart(BridgeClient::isMatchStartFromBeginning);
-          }break;
-        case BridgeClient::OnFrame:
-          {
-            for each(const std::string &input in BridgeClient::getUserInputStrings())
-            {
-              if(onSendText)onSendText(input.c_str());
-            }
-            onMatchFrame();
-          }break;
-        }
+        }return CallTypeIds::OnMatchStart;
+      case BridgeClient::OnFrame:
+        {
+        }return CallTypeIds::OnFrame;
       }
     }
-    catch(GeneralException &exception)
-    {
-      lastError = exception.getMessage();
-      return false;
-    }
-    return true;
   }
   //----------------------------------- DRAW TEXT -------------------------------------------------
-  BWAPI_FUNCTION bool BWAPI_CALL BWPrintText(const char* text)
+  BWAPI_FUNCTION bool PrintText(const char* text)
   {
     return BridgeClient::pushSendText(false, text);
   }
   //----------------------------------- DRAW TEXT -------------------------------------------------
-  BWAPI_FUNCTION bool BWAPI_CALL BWSendText(const char* text)
+  BWAPI_FUNCTION bool SendText(const char* text)
   {
     return BridgeClient::pushSendText(true, text);
   }
   //----------------------------------- DRAW TEXT -------------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text)
+  BWAPI_FUNCTION void DrawText(int x, int y, const char* text)
   {
     BridgeClient::pushDrawText(x, y, text);
   }
   //----------------------------------- DRAW RECTANGLE --------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWDrawRectangle(int x, int y, int w, int h, int color, int solid)
+  BWAPI_FUNCTION void DrawRectangle(int x, int y, int w, int h, int color, int solid)
   {
     BridgeClient::pushDrawRectangle(x, y, w, h, color, !!solid);
   }
   //----------------------------------- DRAW CIRCLE -----------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWDrawCircle(int x, int y, int r, int color, int solid)
+  BWAPI_FUNCTION void DrawCircle(int x, int y, int r, int color, int solid)
   {
     BridgeClient::pushDrawCircle(x, y, r, color, !!solid);
   }
   //----------------------------------- DRAW LINE -------------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int color)
+  BWAPI_FUNCTION void DrawLine(int x, int y, int x2, int y2, int color)
   {
     BridgeClient::pushDrawLine(x, y, x2, y2, color);
   }
   //----------------------------------- DRAW DOT --------------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color)
+  BWAPI_FUNCTION void DrawDot(int x, int y, int color)
   {
     BridgeClient::pushDrawDot(x, y, color);
   }
   //----------------------------------- GET STATIC DATA -------------------------------------------
-  BWAPI_FUNCTION BWAPI::StaticGameData* BWAPI_CALL BWGetStaticGameData()
+  BWAPI_FUNCTION BWAPI::StaticGameData* GetStaticGameData()
   {
     BWAPI::StaticGameData *retval = BridgeClient::sharedStaticData;
     return retval;
   }
   //----------------------------------- POSITION MAP TO SCREEN ------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWPositionMapToScreen(BWAPI::Position* pos)
+  BWAPI_FUNCTION void PositionMapToScreen(BWAPI::Position* pos)
   {
     pos->x -= BridgeClient::sharedStaticData->screenX;
     pos->y -= BridgeClient::sharedStaticData->screenY;
   }
   //----------------------------------- GET UNIT --------------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitState* BWAPI_CALL BWGetUnit(int unitId)
+  BWAPI_FUNCTION BWAPI::UnitState* GetUnit(int unitId)
   {
     resetError();
     try
@@ -160,7 +142,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitType* BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId id)
+  BWAPI_FUNCTION BWAPI::UnitType* GetUnitType(BWAPI::UnitTypeId id)
   {
     resetError();
     try
@@ -174,7 +156,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET TECH TYPE ---------------------------------------------
-  BWAPI_FUNCTION BWAPI::TechType* BWAPI_CALL BWGetTechType(BWAPI::TechTypeId id)
+  BWAPI_FUNCTION BWAPI::TechType* GetTechType(BWAPI::TechTypeId id)
   {
     resetError();
     try
@@ -188,7 +170,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET UPGRADE TYPE ------------------------------------------
-  BWAPI_FUNCTION BWAPI::UpgradeType* BWAPI_CALL BWGetUpgradeType(BWAPI::UpgradeTypeId id)
+  BWAPI_FUNCTION BWAPI::UpgradeType* GetUpgradeType(BWAPI::UpgradeTypeId id)
   {
     resetError();
     try
@@ -202,7 +184,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET WEAPON TYPE -------------------------------------------
-  BWAPI_FUNCTION BWAPI::WeaponType* BWAPI_CALL BWGetWeaponType(BWAPI::WeaponTypeId id)
+  BWAPI_FUNCTION BWAPI::WeaponType* GetWeaponType(BWAPI::WeaponTypeId id)
   {
     resetError();
     try
@@ -216,7 +198,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET DAMAGE TYPE -------------------------------------------
-  BWAPI_FUNCTION BWAPI::DamageType* BWAPI_CALL BWGetDamageType(BWAPI::DamageTypeId id)
+  BWAPI_FUNCTION BWAPI::DamageType* GetDamageType(BWAPI::DamageTypeId id)
   {
     resetError();
     try
@@ -230,7 +212,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET EXPLOSION TYPE ----------------------------------------
-  BWAPI_FUNCTION BWAPI::ExplosionType* BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId id)
+  BWAPI_FUNCTION BWAPI::ExplosionType* GetExplosionType(BWAPI::ExplosionTypeId id)
   {
     resetError();
     try
@@ -244,7 +226,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET RACE --------------------------------------------------
-  BWAPI_FUNCTION BWAPI::Race* BWAPI_CALL BWGetRace(BWAPI::RaceId id)
+  BWAPI_FUNCTION BWAPI::Race* GetRace(BWAPI::RaceId id)
   {
     resetError();
     try
@@ -258,7 +240,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET UNIT SIZE TYPE ----------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitSizeType* BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId id)
+  BWAPI_FUNCTION BWAPI::UnitSizeType* GetUnitSizeType(BWAPI::UnitSizeTypeId id)
   {
     resetError();
     try
@@ -272,7 +254,7 @@ namespace BWAPI
     }
   }
   //----------------------------------- GET PLAYER TYPE -------------------------------------------
-  BWAPI_FUNCTION BWAPI::PlayerType* BWAPI_CALL BWGetPlayerType(BWAPI::PlayerTypeId id)
+  BWAPI_FUNCTION BWAPI::PlayerType* GetPlayerType(BWAPI::PlayerTypeId id)
   {
     resetError();
     try
@@ -293,14 +275,14 @@ namespace BWAPI
   };
   Util::HandleFactory<AllUnitsHandle> allUnitsHandleFactory;
   //----------------------------------- ALL UNITS BEGIN -------------------------------------------
-  BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin()
+  BWAPI_FUNCTION HANDLE AllUnitsBegin()
   {
     AllUnitsHandle *handle = allUnitsHandleFactory.create();
     handle->index = BridgeClient::sharedStuff.knownUnits.begin();
     return handle;
   }
   //----------------------------------- ALL UNITS NEXT --------------------------------------------
-  BWAPI_FUNCTION int BWAPI_CALL BWAllUnitsNext(HANDLE h)
+  BWAPI_FUNCTION int AllUnitsNext(HANDLE h)
   {
     AllUnitsHandle &handle = *(AllUnitsHandle*)h;
     if(!handle.index.isValid())
@@ -310,16 +292,16 @@ namespace BWAPI
     return retval;
   }
   //----------------------------------- ALL UNITS CLOSE -------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWAllUnitsClose(HANDLE h)
+  BWAPI_FUNCTION void AllUnitsClose(HANDLE h)
   {
     allUnitsHandleFactory.release((AllUnitsHandle*)h);
   }
   //----------------------------------- -----------------------------------------------------------
-  BWAPI_FUNCTION BWAPI::UnitAddEvent**     BWAPI_CALL BWGetUnitsAdded()
+  BWAPI_FUNCTION BWAPI::UnitAddEvent** GetUnitsAdded()
   {
     return &BridgeClient::knownUnitAddEvents[0];
   }
-  BWAPI_FUNCTION BWAPI::UnitRemoveEvent**  BWAPI_CALL BWGetUnitsRemoved()
+  BWAPI_FUNCTION BWAPI::UnitRemoveEvent**  GetUnitsRemoved()
   {
     return &BridgeClient::knownUnitRemoveEvents[0];
   }
@@ -336,14 +318,14 @@ namespace BWAPI
     return BridgeClient::sharedStuff.commands.get(i).getAs<Bridge::CommandEntry::UnitOrder>().unitCommand;
   }
   //----------------------------------- STOP ORDER ------------------------------------------------
-  BWAPI_FUNCTION void BWAPI_CALL BWOrderStop(int unitId)
+  BWAPI_FUNCTION void OrderStop(int unitId)
   {
     BWAPI::UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Stop;
     order.unitIndex = unitId;
   }
   //----------------------------------- GET LAST ERROR --------------------------------------------
-  BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError()
+  BWAPI_FUNCTION const char* GetLastError()
   {
     return lastError.c_str();
   }

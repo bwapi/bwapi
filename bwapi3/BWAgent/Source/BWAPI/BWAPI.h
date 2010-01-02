@@ -25,108 +25,99 @@
 #include <BWAPITypes\UnitSizeTypeId.h>
 #include <BWAPITypes\PlayerType.h>
 #include <BWAPITypes\PlayerTypeId.h>
+#include <BWAPITypes\CallTypeId.h>
 
 #include <windows.h>
 #include <string>
 
-// return BWAgent.dll revision number
-BWAPI_FUNCTION int BWAPI_CALL BWGetVersion();
+namespace BWAPI
+{
+  // return BWAgent.dll revision number
+  BWAPI_FUNCTION int GetVersion();
 
-// returns zero if failed
-BWAPI_FUNCTION bool BWAPI_CALL BWConnect();
+  // returns zero if failed
+  BWAPI_FUNCTION bool Connect();
 
-// TODO: remove BWTakeover. Instead provide BWWaitForRpc()
-// blocks. returns only if Disconnect() called from a callback
-// returns false immediately or during run if error occurred
-typedef void (BWAPI_CALL *BWMatchFrameCallback)();
-typedef void (BWAPI_CALL *BWMatchStartCallback)(bool fromBeginning);
-typedef void (BWAPI_CALL *BWUnitAddCallback)(BWAPI::UnitState*);
-typedef void (BWAPI_CALL *BWUnitRemoveCallback)(BWAPI::UnitState*);
-typedef void (BWAPI_CALL *BWSendTextCallback)(const char*);
-BWAPI_FUNCTION bool BWAPI_CALL BWTakeover(
-  BWMatchFrameCallback,
-  BWMatchStartCallback,
-  BWUnitAddCallback,
-  BWUnitRemoveCallback,
-  BWSendTextCallback);
+  // returns when usually a callback is called
 
-// static data
-BWAPI_FUNCTION BWAPI::StaticGameData* BWAPI_CALL BWGetStaticGameData();
-BWAPI_FUNCTION void                   BWAPI_CALL BWPositionMapToScreen(BWAPI::Position* pos);
+  BWAPI_FUNCTION CallTypeId WaitForEvent();
 
-// text operations
-BWAPI_FUNCTION bool BWAPI_CALL BWPrintText(const char* text);
-BWAPI_FUNCTION bool BWAPI_CALL BWSendText(const char* text);
 
-// draw operations
-BWAPI_FUNCTION void BWAPI_CALL BWDrawText(int x, int y, const char* text);
-BWAPI_FUNCTION void BWAPI_CALL BWDrawRectangle(int x, int y, int w, int h, int color, int solid);
-BWAPI_FUNCTION void BWAPI_CALL BWDrawCircle(int x, int y, int r, int color, int solid);
-BWAPI_FUNCTION void BWAPI_CALL BWDrawLine(int x, int y, int x2, int y2, int color);
-BWAPI_FUNCTION void BWAPI_CALL BWDrawDot(int x, int y, int color);
+  // static data
+  BWAPI_FUNCTION BWAPI::StaticGameData* GetStaticGameData();
+  BWAPI_FUNCTION void                   PositionMapToScreen(BWAPI::Position* pos);
 
-// information queries
-BWAPI_FUNCTION BWAPI::UnitState*      BWAPI_CALL BWGetUnit(int unitId);
-BWAPI_FUNCTION BWAPI::UnitType*       BWAPI_CALL BWGetUnitType(BWAPI::UnitTypeId id);
-BWAPI_FUNCTION BWAPI::TechType*       BWAPI_CALL BWGetTechType(BWAPI::TechTypeId id);
-BWAPI_FUNCTION BWAPI::UpgradeType*    BWAPI_CALL BWGetUpgradeType(BWAPI::UpgradeTypeId id);
-BWAPI_FUNCTION BWAPI::WeaponType*     BWAPI_CALL BWGetWeaponType(BWAPI::WeaponTypeId id);
-BWAPI_FUNCTION BWAPI::DamageType*     BWAPI_CALL BWGetDamageType(BWAPI::DamageTypeId id);
-BWAPI_FUNCTION BWAPI::ExplosionType*  BWAPI_CALL BWGetExplosionType(BWAPI::ExplosionTypeId id);
-BWAPI_FUNCTION BWAPI::Race*           BWAPI_CALL BWGetRace(BWAPI::RaceId id);
-BWAPI_FUNCTION BWAPI::UnitSizeType*   BWAPI_CALL BWGetUnitSizeType(BWAPI::UnitSizeTypeId id);
-BWAPI_FUNCTION BWAPI::PlayerType*     BWAPI_CALL BWGetPlayerType(BWAPI::PlayerTypeId id);
+  // text operations
+  BWAPI_FUNCTION bool PrintText(const char* text);
+  BWAPI_FUNCTION bool SendText(const char* text);
 
-// unit array enumeration. returns -1 when ended
-BWAPI_FUNCTION HANDLE BWAPI_CALL BWAllUnitsBegin();
-BWAPI_FUNCTION int    BWAPI_CALL BWAllUnitsNext(HANDLE h);
-BWAPI_FUNCTION void   BWAPI_CALL BWAllUnitsClose(HANDLE h);
+  // draw operations
+  BWAPI_FUNCTION void DrawText(int x, int y, const char* text);
+  BWAPI_FUNCTION void DrawRectangle(int x, int y, int w, int h, int color, int solid);
+  BWAPI_FUNCTION void DrawCircle(int x, int y, int r, int color, int solid);
+  BWAPI_FUNCTION void DrawLine(int x, int y, int x2, int y2, int color);
+  BWAPI_FUNCTION void DrawDot(int x, int y, int color);
 
-// events
-BWAPI_FUNCTION BWAPI::UnitAddEvent**    BWAPI_CALL BWGetUnitsAdded();
-BWAPI_FUNCTION BWAPI::UnitRemoveEvent** BWAPI_CALL BWGetUnitsRemoved();
+  // information queries
+  BWAPI_FUNCTION BWAPI::UnitState*      GetUnit(int unitId);
+  BWAPI_FUNCTION BWAPI::UnitType*       GetUnitType(BWAPI::UnitTypeId id);
+  BWAPI_FUNCTION BWAPI::TechType*       GetTechType(BWAPI::TechTypeId id);
+  BWAPI_FUNCTION BWAPI::UpgradeType*    GetUpgradeType(BWAPI::UpgradeTypeId id);
+  BWAPI_FUNCTION BWAPI::WeaponType*     GetWeaponType(BWAPI::WeaponTypeId id);
+  BWAPI_FUNCTION BWAPI::DamageType*     GetDamageType(BWAPI::DamageTypeId id);
+  BWAPI_FUNCTION BWAPI::ExplosionType*  GetExplosionType(BWAPI::ExplosionTypeId id);
+  BWAPI_FUNCTION BWAPI::Race*           GetRace(BWAPI::RaceId id);
+  BWAPI_FUNCTION BWAPI::UnitSizeType*   GetUnitSizeType(BWAPI::UnitSizeTypeId id);
+  BWAPI_FUNCTION BWAPI::PlayerType*     GetPlayerType(BWAPI::PlayerTypeId id);
 
-// unit commands
-BWAPI_FUNCTION void BWAPI_CALL BWOrderAttackPosition(int unitId, int x, int y);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderAttackUnit(int unitId, int targetUnitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderRightClickPosition(int unitId, int x, int y);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderRightClickUnit(int unitId, int targetUnitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderTrain(int unitId, BWAPI::UnitTypeId what);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderBuild(int unitId, BWAPI::UnitTypeId what);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderBuildAddon(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderResearch(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUpgrade(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderStop(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderHoldPosition(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderPatrol(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderFollow(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderSetRallyPosition(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderSetRallyUnit(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderRepair(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderMorph(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderBurrow(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUnburrow(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderSiege(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUnsiege(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCloak(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderDecloak(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderLift(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderLand(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderLoad(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUnload(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUnloadAll(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUnloadAllPosition(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelConstruction(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderHaltConstruction(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelMorph(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelTrain(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelTrainSlot(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelAddon(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelResearch(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderCancelUpgrade(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUseTech(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUseTechPosition(int unitId);
-BWAPI_FUNCTION void BWAPI_CALL BWOrderUseTechUnit(int unitId);
+  // unit array enumeration. returns -1 when ended
+  BWAPI_FUNCTION HANDLE AllUnitsBegin();
+  BWAPI_FUNCTION int    AllUnitsNext(HANDLE h);
+  BWAPI_FUNCTION void   AllUnitsClose(HANDLE h);
 
-// returns last operation's error string.
-BWAPI_FUNCTION const char* BWAPI_CALL BWGetLastError();
+  // events
+  BWAPI_FUNCTION BWAPI::UnitAddEvent**    GetUnitsAdded();
+  BWAPI_FUNCTION BWAPI::UnitRemoveEvent** GetUnitsRemoved();
+
+  // unit commands
+  BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y);
+  BWAPI_FUNCTION void OrderAttackUnit(int unitId, int targetUnitId);
+  BWAPI_FUNCTION void OrderRightClickPosition(int unitId, int x, int y);
+  BWAPI_FUNCTION void OrderRightClickUnit(int unitId, int targetUnitId);
+  BWAPI_FUNCTION void OrderTrain(int unitId, BWAPI::UnitTypeId what);
+  BWAPI_FUNCTION void OrderBuild(int unitId, BWAPI::UnitTypeId what);
+  BWAPI_FUNCTION void OrderBuildAddon(int unitId);
+  BWAPI_FUNCTION void OrderResearch(int unitId);
+  BWAPI_FUNCTION void OrderUpgrade(int unitId);
+  BWAPI_FUNCTION void OrderStop(int unitId);
+  BWAPI_FUNCTION void OrderHoldPosition(int unitId);
+  BWAPI_FUNCTION void OrderPatrol(int unitId);
+  BWAPI_FUNCTION void OrderFollow(int unitId);
+  BWAPI_FUNCTION void OrderSetRallyPosition(int unitId);
+  BWAPI_FUNCTION void OrderSetRallyUnit(int unitId);
+  BWAPI_FUNCTION void OrderRepair(int unitId);
+  BWAPI_FUNCTION void OrderMorph(int unitId);
+  BWAPI_FUNCTION void OrderBurrow(int unitId);
+  BWAPI_FUNCTION void OrderUnburrow(int unitId);
+  BWAPI_FUNCTION void OrderSiege(int unitId);
+  BWAPI_FUNCTION void OrderUnsiege(int unitId);
+  BWAPI_FUNCTION void OrderCloak(int unitId);
+  BWAPI_FUNCTION void OrderDecloak(int unitId);
+  BWAPI_FUNCTION void OrderLift(int unitId);
+  BWAPI_FUNCTION void OrderLand(int unitId);
+  BWAPI_FUNCTION void OrderLoad(int unitId);
+  BWAPI_FUNCTION void OrderUnload(int unitId);
+  BWAPI_FUNCTION void OrderUnloadAll(int unitId);
+  BWAPI_FUNCTION void OrderUnloadAllPosition(int unitId);
+  BWAPI_FUNCTION void OrderCancelConstruction(int unitId);
+  BWAPI_FUNCTION void OrderHaltConstruction(int unitId);
+  BWAPI_FUNCTION void OrderCancelMorph(int unitId);
+  BWAPI_FUNCTION void OrderCancelTrain(int unitId);
+  BWAPI_FUNCTION void OrderCancelTrainSlot(int unitId);
+  BWAPI_FUNCTION void OrderCancelAddon(int unitId);
+  BWAPI_FUNCTION void OrderCancelResearch(int unitId);
+  BWAPI_FUNCTION void OrderCancelUpgrade(int unitId);
+  BWAPI_FUNCTION void OrderUseTech(int unitId);
+  BWAPI_FUNCTION void OrderUseTechPosition(int unitId);
+  BWAPI_FUNCTION void OrderUseTechUnit(int unitId);
+}

@@ -28,7 +28,7 @@ namespace BWAPI
       target.subLabel = subLabel;
       target.race = race;
 
-      target.whatBuilds.unit = whatBuilds;
+      target.whatBuilds.unitType = whatBuilds;
       target.whatBuilds.count = whatBuildsAmt;
 
       if ((UnitTypeId)requiredUnit1 != UnitTypeIds::None)

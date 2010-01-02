@@ -4,18 +4,30 @@
  *  A structure with a static array and a count, assuming the first count entries are valid
  */
 
-#include "StaticArray.h"
 #include "Types.h"
 
 namespace Util
 {
   template<typename T, int SIZE>
-  struct LimitedArray
+  struct StaticVector
   {
     typedef T ElementType;
     static const int size = SIZE;
 
     u32 count;
     T data[SIZE];
+
+    // make this an std compliant container
+    typedef T* iterator;
+
+    T* begin()
+    {
+      return &data[0];
+    }
+
+    T* end()
+    {
+      return &data[count];
+    }
   };
 }
