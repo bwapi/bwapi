@@ -507,6 +507,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\Player.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\PlayerId.h"
 					>
 				</File>

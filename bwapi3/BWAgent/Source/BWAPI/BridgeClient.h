@@ -19,8 +19,8 @@ namespace BWAPI
     extern Bridge::SharedStuff sharedStuff;
 
     // events
-    extern std::vector<UnitAddEvent*> knownUnitAddEvents;
-    extern std::vector<UnitRemoveEvent*> knownUnitRemoveEvents;
+    extern std::vector<const UnitAddEvent*> knownUnitAddEvents;
+    extern std::vector<const UnitRemoveEvent*> knownUnitRemoveEvents;
 
     // additonal RPC state data
     extern bool isMatchStartFromBeginning;
