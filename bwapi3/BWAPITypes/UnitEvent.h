@@ -3,6 +3,8 @@
  *  AddEvent and RemoveEvent parameters
  */
 
+#include "UnitId.h"
+
 namespace BWAPI
 {
   namespace UnitAddEventTypeIds
@@ -18,7 +20,7 @@ namespace BWAPI
   typedef UnitAddEventTypeIds::Enum UnitAddEventTypeId;
   struct UnitAddEvent
   {
-    int unitId;
+    UnitId unitId;
     UnitAddEventTypeId type;
   };
 
@@ -34,7 +36,7 @@ namespace BWAPI
   typedef UnitRemoveEventTypeIds::Enum UnitRemoveEventTypeId;
   struct UnitRemoveEvent
   {
-    int unitId;
+    UnitId unitId;
     UnitRemoveEventTypeId type;
   };
 }

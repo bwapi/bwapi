@@ -22,8 +22,9 @@
 namespace BWAPI
 {
 //private:
-
 //public:
+  //----------------------------------- STATIC DATA -----------------------------------------------
+  BWAPI::StaticGameData gameData;
   //----------------------------------- GET VERSION -----------------------------------------------
   BWAPI_FUNCTION int GetVersion()
   {
@@ -114,9 +115,14 @@ namespace BWAPI
     pos->y -= BridgeClient::sharedStaticData->screenY;
   }
   //----------------------------------- GET UNIT --------------------------------------------------
-  BWAPI_FUNCTION const BWAPI::UnitState* GetUnit(int unitId)
+  BWAPI_FUNCTION const BWAPI::UnitState* GetUnit(UnitId unitId)
   {
     return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId).state;
+  }
+  //----------------------------------- GET UNIT TYPE ---------------------------------------------
+  BWAPI_FUNCTION const BWAPI::Player* GetPlayer(PlayerId playerId)
+  {
+    return &gameData.players.at(playerId);
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
   BWAPI_FUNCTION const BWAPI::UnitType* GetUnitType(BWAPI::UnitTypeId id)

@@ -435,6 +435,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\UnitId.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\UnitSizeType.h"
 					>
 				</File>
@@ -546,6 +550,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\StaticVector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\Strings.cpp"
 				>
 			</File>
@@ -574,6 +582,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\svnrev.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
