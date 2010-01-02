@@ -26,6 +26,7 @@ namespace BWAPI
       SetRallyPosition,
       SetRallyUnit,
       Repair,
+      ReturnCargo,
       Morph,
       Burrow,
       Unburrow,

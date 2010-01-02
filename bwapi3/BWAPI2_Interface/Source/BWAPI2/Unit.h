@@ -16,7 +16,8 @@ namespace BWAPI2
   class Unit
   {
   private:
-    BWAPI::UnitState* self;
+    const BWAPI::UnitState* self;
+    int id;
   public:
     Unit::Unit(int id);
     BWAPI2_EXPORT int getID() const;
