@@ -37,6 +37,10 @@ namespace BWAPI2
       BWAPI2_EXPORT std::set< Unit* >& getStaticGeysers();
       BWAPI2_EXPORT std::set< Unit* >& getStaticNeutralUnits();
 
+      BWAPI2_EXPORT Force* getForce(int forceId);
+      BWAPI2_EXPORT Player* getPlayer(int playerId);
+      BWAPI2_EXPORT Unit* getUnit(int unitId);
+
       BWAPI2_EXPORT int getLatency();
       BWAPI2_EXPORT int getFrameCount();
       BWAPI2_EXPORT int getMouseX();
