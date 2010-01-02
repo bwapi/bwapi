@@ -91,6 +91,40 @@ bool fileExists(std::string filename)
 {
   return GetFileAttributesA(filename.c_str()) != INVALID_FILE_ATTRIBUTES;
 }
+//----------------------------- STRIP FILE PATH ----------------------------------------------------------
+std::string stripFilePath(std::string filePath)
+{
+  // removes a folder if it is succeeded by a .. dive
+  unsigned int diver = filePath.find("\\..\\");
+  if(diver == std::string::npos)
+    diver = filePath.find("\\../");
+  if(diver == std::string::npos)
+    diver = filePath.find("/..\\");
+  if(diver == std::string::npos)
+    diver = filePath.find("/../");
+
+  // if there is a /../ string
+  if(diver != std::string::npos)
+  {
+    // find the corresponding folder
+    unsigned int boat = filePath.substr(0, diver).find_last_of("\\");
+
+    if(boat == std::string::npos)
+      boat = filePath.substr(0, diver).find_last_of("/");
+
+    if(boat == std::string::npos)
+      boat = 0; // if there is no slash, the folder is the first one in path
+    else
+      boat++; // point to first char in folder name
+
+    // the folder may not be another dive, 2 dives do not cancel each other out
+    if(filePath.substr(boat, diver-boat) == "..")
+      return filePath;
+
+    return stripFilePath(filePath.substr(0, boat) + filePath.substr(diver+4));
+  }
+  return filePath;
+}
 //----------------------------- GET FILE NAME FROM PATH --------------------------------------------------
 std::string fileNameFromPath(std::string filePath)
 {
@@ -119,24 +153,49 @@ std::string fileDirectoryFromPath(std::string filePath)
 //----------------------------- GET FILE PREFIX FROM PATH ------------------------------------------------
 std::string filePrefixFromPath(std::string filePath)
 {
-  std::string fileDirectory = fileDirectoryFromPath(filePath);
-  std::string prefix = "a";
-  int id = 0;
-  for(unsigned int i = 0; i < fileDirectory.size(); i++)
+  if(false)
   {
-    id += fileDirectory[i];
+    // verbose variant, but debuggable!
+    std::string fileDirectory = fileDirectoryFromPath(filePath);
+    std::string prefix = "";
+    for(unsigned int i = 0; i < fileDirectory.size(); i++)
+    {
+      char c = fileDirectory[i];
+      if(c == '\\' || c == '/')
+        c = '_';
+      if(c == '.')
+        c = 'o';
+      prefix += c;
+    }
+    return prefix + "_";
   }
-  char buffer[100];
-  _itoa_s(id, buffer, 100, 30);
-  prefix += std::string(buffer);
-  return prefix;
+  else
+  {
+    // compact variant
+    std::string fileDirectory = fileDirectoryFromPath(filePath);
+    std::string prefix = "a";
+    int id = 0;
+    for(unsigned int i = 0; i < fileDirectory.size(); i++)
+    {
+      char c = fileDirectory[i];
+      if(c == '/' || c == '/')
+        c = '\\';
+      if(c >= 'A' && c <= 'Z')
+        c += 'a' - 'A';
+      id += fileDirectory[i];
+    }
+    char buffer[100];
+    _itoa_s(id, buffer, 100, 30);
+    prefix += std::string(buffer);
+    return prefix;
+  }
 }
 //----------------------------- FIND FILE PATH -----------------------------------------------------------
 std::string findFilePath(std::string fileName, std::string additionalIncludePath = "")
 {
   if(additionalIncludePath.size())
   {
-    std::string fullPath = additionalIncludePath + "\\" + fileName;
+    std::string fullPath = stripFilePath(additionalIncludePath + "\\" + fileName);
     if(fileExists(fullPath))
     {
       return fullPath;
@@ -144,7 +203,7 @@ std::string findFilePath(std::string fileName, std::string additionalIncludePath
   }
   for each(std::string includePath in includePaths)
   {
-    std::string fullPath = includePath + "\\" + fileName;
+    std::string fullPath = stripFilePath(includePath + "\\" + fileName);
     if(fileExists(fullPath))
     {
       return fullPath;
@@ -189,8 +248,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   filter.insert("class");
   filter.insert("public");
   filter.insert("namespace");
-  filter.insert("BWAPI2_FUNCTION");
-  filter.insert("BWAPI2_METHOD");
+  filter.insert("BWAPI2_EXPORT");
   for(;;)
   {
     std::string line = reader.readLine();
