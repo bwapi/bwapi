@@ -1,8 +1,11 @@
 #pragma once
 
+#include "BWAPI2Interface.h"
+#include "Race.h"
+
 #include <string>
 #include <set>
-#include "Race.h"
+
 namespace BWAPI2
 {
   class UnitType;
@@ -34,41 +37,41 @@ namespace BWAPI2
     TechType getTechType(std::string& name);
     std::set<TechType>& allTechTypes();
     void init();
-    extern const TechType Stim_Packs;
-    extern const TechType Lockdown;
-    extern const TechType EMP_Shockwave;
-    extern const TechType Spider_Mines;
-    extern const TechType Scanner_Sweep;
-    extern const TechType Tank_Siege_Mode;
-    extern const TechType Defensive_Matrix;
-    extern const TechType Irradiate;
-    extern const TechType Yamato_Gun;
-    extern const TechType Cloaking_Field;
-    extern const TechType Personnel_Cloaking;
-    extern const TechType Burrowing;
-    extern const TechType Infestation;
-    extern const TechType Spawn_Broodlings;
-    extern const TechType Dark_Swarm;
-    extern const TechType Plague;
-    extern const TechType Consume;
-    extern const TechType Ensnare;
-    extern const TechType Parasite;
-    extern const TechType Psionic_Storm;
-    extern const TechType Hallucination;
-    extern const TechType Recall;
-    extern const TechType Stasis_Field;
-    extern const TechType Archon_Warp;
-    extern const TechType Restoration;
-    extern const TechType Disruption_Web;
-    extern const TechType Mind_Control;
-    extern const TechType Dark_Archon_Meld;
-    extern const TechType Feedback;
-    extern const TechType Optical_Flare;
-    extern const TechType Maelstrom;
-    extern const TechType Lurker_Aspect;
-    extern const TechType Healing;
-    extern const TechType None;
-    extern const TechType Unknown;
-    extern const TechType Nuclear_Strike;
+    BWAPI2_EXPORT extern const TechType Stim_Packs;
+    BWAPI2_EXPORT extern const TechType Lockdown;
+    BWAPI2_EXPORT extern const TechType EMP_Shockwave;
+    BWAPI2_EXPORT extern const TechType Spider_Mines;
+    BWAPI2_EXPORT extern const TechType Scanner_Sweep;
+    BWAPI2_EXPORT extern const TechType Tank_Siege_Mode;
+    BWAPI2_EXPORT extern const TechType Defensive_Matrix;
+    BWAPI2_EXPORT extern const TechType Irradiate;
+    BWAPI2_EXPORT extern const TechType Yamato_Gun;
+    BWAPI2_EXPORT extern const TechType Cloaking_Field;
+    BWAPI2_EXPORT extern const TechType Personnel_Cloaking;
+    BWAPI2_EXPORT extern const TechType Burrowing;
+    BWAPI2_EXPORT extern const TechType Infestation;
+    BWAPI2_EXPORT extern const TechType Spawn_Broodlings;
+    BWAPI2_EXPORT extern const TechType Dark_Swarm;
+    BWAPI2_EXPORT extern const TechType Plague;
+    BWAPI2_EXPORT extern const TechType Consume;
+    BWAPI2_EXPORT extern const TechType Ensnare;
+    BWAPI2_EXPORT extern const TechType Parasite;
+    BWAPI2_EXPORT extern const TechType Psionic_Storm;
+    BWAPI2_EXPORT extern const TechType Hallucination;
+    BWAPI2_EXPORT extern const TechType Recall;
+    BWAPI2_EXPORT extern const TechType Stasis_Field;
+    BWAPI2_EXPORT extern const TechType Archon_Warp;
+    BWAPI2_EXPORT extern const TechType Restoration;
+    BWAPI2_EXPORT extern const TechType Disruption_Web;
+    BWAPI2_EXPORT extern const TechType Mind_Control;
+    BWAPI2_EXPORT extern const TechType Dark_Archon_Meld;
+    BWAPI2_EXPORT extern const TechType Feedback;
+    BWAPI2_EXPORT extern const TechType Optical_Flare;
+    BWAPI2_EXPORT extern const TechType Maelstrom;
+    BWAPI2_EXPORT extern const TechType Lurker_Aspect;
+    BWAPI2_EXPORT extern const TechType Healing;
+    BWAPI2_EXPORT extern const TechType None;
+    BWAPI2_EXPORT extern const TechType Unknown;
+    BWAPI2_EXPORT extern const TechType Nuclear_Strike;
   };
 }

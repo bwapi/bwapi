@@ -12,13 +12,13 @@ namespace BWAPI2
   std::set< DamageType > damageTypeSet;
   namespace DamageTypes
   {
-    const DamageType Independent(0);
-    const DamageType Explosive(1);
-    const DamageType Concussive(2);
-    const DamageType Normal(3);
-    const DamageType Ignore_Armor(4);
-    const DamageType None(5);
-    const DamageType Unknown(6);
+    BWAPI2_EXPORT const DamageType Independent(0);
+    BWAPI2_EXPORT const DamageType Explosive(1);
+    BWAPI2_EXPORT const DamageType Concussive(2);
+    BWAPI2_EXPORT const DamageType Normal(3);
+    BWAPI2_EXPORT const DamageType Ignore_Armor(4);
+    BWAPI2_EXPORT const DamageType None(5);
+    BWAPI2_EXPORT const DamageType Unknown(6);
     void init()
     {
       damageTypeName[Independent.getID()] = "Independent";

@@ -11,31 +11,31 @@ namespace BWAPI2
   std::set< ExplosionType > explosionTypeSet;
   namespace ExplosionTypes
   {
-    const ExplosionType None(0);
-    const ExplosionType Normal(1);
-    const ExplosionType Radial_Splash(2);
-    const ExplosionType Enemy_Splash(3);
-    const ExplosionType Lockdown(4);
-    const ExplosionType Nuclear_Missile(5);
-    const ExplosionType Parasite(6);
-    const ExplosionType Broodlings(7);
-    const ExplosionType EMP_Shockwave(8);
-    const ExplosionType Irradiate(9);
-    const ExplosionType Ensnare(10);
-    const ExplosionType Plague(11);
-    const ExplosionType Stasis_Field(12);
-    const ExplosionType Dark_Swarm(13);
-    const ExplosionType Consume(14);
-    const ExplosionType Yamato_Gun(15);
-    const ExplosionType Restoration(16);
-    const ExplosionType Disruption_Web(17);
-    const ExplosionType Corrosive_Acid(18);
-    const ExplosionType Mind_Control(19);
-    const ExplosionType Feedback(20);
-    const ExplosionType Optical_Flare(21);
-    const ExplosionType Maelstrom(22);
-    const ExplosionType Air_Splash(24);
-    const ExplosionType Unknown(25);
+    BWAPI2_EXPORT const ExplosionType None(0);
+    BWAPI2_EXPORT const ExplosionType Normal(1);
+    BWAPI2_EXPORT const ExplosionType Radial_Splash(2);
+    BWAPI2_EXPORT const ExplosionType Enemy_Splash(3);
+    BWAPI2_EXPORT const ExplosionType Lockdown(4);
+    BWAPI2_EXPORT const ExplosionType Nuclear_Missile(5);
+    BWAPI2_EXPORT const ExplosionType Parasite(6);
+    BWAPI2_EXPORT const ExplosionType Broodlings(7);
+    BWAPI2_EXPORT const ExplosionType EMP_Shockwave(8);
+    BWAPI2_EXPORT const ExplosionType Irradiate(9);
+    BWAPI2_EXPORT const ExplosionType Ensnare(10);
+    BWAPI2_EXPORT const ExplosionType Plague(11);
+    BWAPI2_EXPORT const ExplosionType Stasis_Field(12);
+    BWAPI2_EXPORT const ExplosionType Dark_Swarm(13);
+    BWAPI2_EXPORT const ExplosionType Consume(14);
+    BWAPI2_EXPORT const ExplosionType Yamato_Gun(15);
+    BWAPI2_EXPORT const ExplosionType Restoration(16);
+    BWAPI2_EXPORT const ExplosionType Disruption_Web(17);
+    BWAPI2_EXPORT const ExplosionType Corrosive_Acid(18);
+    BWAPI2_EXPORT const ExplosionType Mind_Control(19);
+    BWAPI2_EXPORT const ExplosionType Feedback(20);
+    BWAPI2_EXPORT const ExplosionType Optical_Flare(21);
+    BWAPI2_EXPORT const ExplosionType Maelstrom(22);
+    BWAPI2_EXPORT const ExplosionType Air_Splash(24);
+    BWAPI2_EXPORT const ExplosionType Unknown(25);
     void init()
     {
       explosionTypeName[None.getID()] = "None";

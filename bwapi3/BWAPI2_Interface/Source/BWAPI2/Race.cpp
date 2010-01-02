@@ -34,13 +34,13 @@ namespace BWAPI2
   std::set< Race > raceSet;
   namespace Races
   {
-    const Race Zerg(0);
-    const Race Terran(1);
-    const Race Protoss(2);
-    const Race Random(3);
-    const Race Other(4);
-    const Race None(5);
-    const Race Unknown(6);
+    BWAPI2_EXPORT const Race Zerg(0);
+    BWAPI2_EXPORT const Race Terran(1);
+    BWAPI2_EXPORT const Race Protoss(2);
+    BWAPI2_EXPORT const Race Random(3);
+    BWAPI2_EXPORT const Race Other(4);
+    BWAPI2_EXPORT const Race None(5);
+    BWAPI2_EXPORT const Race Unknown(6);
     void init()
     {
       raceData[Zerg.getID()].set("Zerg", &(UnitTypes::Zerg_Drone), &(UnitTypes::Zerg_Hatchery), &(UnitTypes::Zerg_Extractor), &(UnitTypes::Zerg_Overlord), &(UnitTypes::Zerg_Overlord));

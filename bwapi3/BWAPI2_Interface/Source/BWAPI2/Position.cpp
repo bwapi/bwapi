@@ -8,9 +8,9 @@ namespace BWAPI2
 {
   namespace Positions
   {
-    const Position Invalid(100000, 100000);
-    const Position None(100000, 100001);
-    const Position Unknown(100000, 100002);
+    BWAPI2_EXPORT const Position Invalid(100000, 100000);
+    BWAPI2_EXPORT const Position None(100000, 100001);
+    BWAPI2_EXPORT const Position Unknown(100000, 100002);
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Position::Position()

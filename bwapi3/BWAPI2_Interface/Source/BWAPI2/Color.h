@@ -1,6 +1,10 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+
 #include <string>
 #include <set>
+
 namespace BWAPI2
 {
   class Color
@@ -24,15 +28,15 @@ namespace BWAPI2
   namespace Colors
   {
     void init();
-    extern const Color Red;
-    extern const Color Green;
-    extern const Color Blue;
-    extern const Color Yellow;
-    extern const Color Cyan;
-    extern const Color Purple;
-    extern const Color Orange;
-    extern const Color Black;
-    extern const Color White;
-    extern const Color Grey;
+    BWAPI2_EXPORT extern const Color Red;
+    BWAPI2_EXPORT extern const Color Green;
+    BWAPI2_EXPORT extern const Color Blue;
+    BWAPI2_EXPORT extern const Color Yellow;
+    BWAPI2_EXPORT extern const Color Cyan;
+    BWAPI2_EXPORT extern const Color Purple;
+    BWAPI2_EXPORT extern const Color Orange;
+    BWAPI2_EXPORT extern const Color Black;
+    BWAPI2_EXPORT extern const Color White;
+    BWAPI2_EXPORT extern const Color Grey;
   }
 }

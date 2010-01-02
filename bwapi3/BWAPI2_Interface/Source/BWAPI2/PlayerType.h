@@ -1,6 +1,10 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+
 #include <string>
 #include <set>
+
 namespace BWAPI2
 {
   class PlayerType
@@ -23,17 +27,17 @@ namespace BWAPI2
     PlayerType getPlayerType(std::string& name);
     std::set<PlayerType>& allPlayerTypes();
     void init();
-    extern const PlayerType NotUsed;
-    extern const PlayerType Computer;
-    extern const PlayerType Human;
-    extern const PlayerType Rescuable;
-    extern const PlayerType ComputerSlot;
-    extern const PlayerType OpenSlot;
-    extern const PlayerType Neutral;
-    extern const PlayerType ClosedSlot;
-    extern const PlayerType HumanDefeated;
-    extern const PlayerType ComputerDefeated;
-    extern const PlayerType None;
-    extern const PlayerType Unknown;
+    BWAPI2_EXPORT extern const PlayerType NotUsed;
+    BWAPI2_EXPORT extern const PlayerType Computer;
+    BWAPI2_EXPORT extern const PlayerType Human;
+    BWAPI2_EXPORT extern const PlayerType Rescuable;
+    BWAPI2_EXPORT extern const PlayerType ComputerSlot;
+    BWAPI2_EXPORT extern const PlayerType OpenSlot;
+    BWAPI2_EXPORT extern const PlayerType Neutral;
+    BWAPI2_EXPORT extern const PlayerType ClosedSlot;
+    BWAPI2_EXPORT extern const PlayerType HumanDefeated;
+    BWAPI2_EXPORT extern const PlayerType ComputerDefeated;
+    BWAPI2_EXPORT extern const PlayerType None;
+    BWAPI2_EXPORT extern const PlayerType Unknown;
   }
 }

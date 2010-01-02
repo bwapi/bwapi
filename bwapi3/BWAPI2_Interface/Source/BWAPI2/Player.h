@@ -1,13 +1,14 @@
 #pragma once
+#include "BWAPI2Interface.h"
+#include "TilePosition.h"
+#include "Race.h"
+#include "TechType.h"
+#include "UpgradeType.h"
+#include "PlayerType.h"
+#include "UnitType.h"
+
 #include <set>
 #include <string>
-
-#include <BWAPI/TilePosition.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/PlayerType.h>
-#include <BWAPI/UnitType.h>
 
 namespace BWAPI
 {

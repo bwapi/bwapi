@@ -1,6 +1,10 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+
 #include <string>
 #include <set>
+
 namespace BWAPI2
 {
   class DamageType
@@ -23,12 +27,12 @@ namespace BWAPI2
     DamageType getDamageType(std::string& name);
     std::set<DamageType>& allDamageTypes();
     void init();
-    extern const DamageType Independent;
-    extern const DamageType Explosive;
-    extern const DamageType Concussive;
-    extern const DamageType Normal;
-    extern const DamageType Ignore_Armor;
-    extern const DamageType None;
-    extern const DamageType Unknown;
+    BWAPI2_EXPORT extern const DamageType Independent;
+    BWAPI2_EXPORT extern const DamageType Explosive;
+    BWAPI2_EXPORT extern const DamageType Concussive;
+    BWAPI2_EXPORT extern const DamageType Normal;
+    BWAPI2_EXPORT extern const DamageType Ignore_Armor;
+    BWAPI2_EXPORT extern const DamageType None;
+    BWAPI2_EXPORT extern const DamageType Unknown;
   }
 }

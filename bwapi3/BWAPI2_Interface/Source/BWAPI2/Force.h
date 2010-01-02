@@ -1,4 +1,6 @@
 #pragma once
+#include "BWAPI2Interface.h"
+
 #include <set>
 #include <string>
 

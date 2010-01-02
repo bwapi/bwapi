@@ -1,6 +1,9 @@
 #pragma once
+#include "BWAPI2Interface.h"
+
 #include <string>
 #include <set>
+
 namespace BWAPI2
 {
   class UnitSizeType
@@ -23,11 +26,11 @@ namespace BWAPI2
     UnitSizeType getUnitSizeType(std::string& name);
     std::set<UnitSizeType>& allUnitSizeTypes();
     void init();
-    extern const UnitSizeType Independent;
-    extern const UnitSizeType Small;
-    extern const UnitSizeType Medium;
-    extern const UnitSizeType Large;
-    extern const UnitSizeType None;
-    extern const UnitSizeType Unknown;
+    BWAPI2_EXPORT extern const UnitSizeType Independent;
+    BWAPI2_EXPORT extern const UnitSizeType Small;
+    BWAPI2_EXPORT extern const UnitSizeType Medium;
+    BWAPI2_EXPORT extern const UnitSizeType Large;
+    BWAPI2_EXPORT extern const UnitSizeType None;
+    BWAPI2_EXPORT extern const UnitSizeType Unknown;
   }
 }

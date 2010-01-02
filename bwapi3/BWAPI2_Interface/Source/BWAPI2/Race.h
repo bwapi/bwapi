@@ -1,6 +1,10 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+
 #include <string>
 #include <set>
+
 namespace BWAPI2
 {
   class UnitType;
@@ -29,12 +33,12 @@ namespace BWAPI2
     Race getRace(std::string& name);
     std::set<Race>& allRaces();
     void init();
-    extern const Race Zerg;
-    extern const Race Terran;
-    extern const Race Protoss;
-    extern const Race Random;
-    extern const Race Other;
-    extern const Race None;
-    extern const Race Unknown;
+    BWAPI2_EXPORT extern const Race Zerg;
+    BWAPI2_EXPORT extern const Race Terran;
+    BWAPI2_EXPORT extern const Race Protoss;
+    BWAPI2_EXPORT extern const Race Random;
+    BWAPI2_EXPORT extern const Race Other;
+    BWAPI2_EXPORT extern const Race None;
+    BWAPI2_EXPORT extern const Race Unknown;
   }
 }

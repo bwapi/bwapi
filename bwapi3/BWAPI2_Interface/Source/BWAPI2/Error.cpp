@@ -11,28 +11,28 @@ namespace BWAPI2
   std::set< Error > errorSet;
   namespace Errors
   {
-    const Error Connection_Failure(21);
-    const Error Unit_Does_Not_Exist(0);
-    const Error Unit_Not_Visible(1);
-    const Error Unit_Not_Owned(2);
-    const Error Unit_Busy(3);
-    const Error Incompatible_UnitType(4);
-    const Error Incompatible_TechType(5);
-    const Error Already_Researched(6);
-    const Error Fully_Upgraded(7);
-    const Error Insufficient_Minerals(8);
-    const Error Insufficient_Gas(9);
-    const Error Insufficient_Supply(10);
-    const Error Insufficient_Energy(11);
-    const Error Insufficient_Tech(12);
-    const Error Insufficient_Ammo(13);
-    const Error Insufficient_Space(14);
-    const Error Unbuildable_Location(15);
-    const Error Out_Of_Range(16);
-    const Error Unable_To_Hit(17);
-    const Error Access_Denied(18);
-    const Error None(19);
-    const Error Unknown(20);
+    BWAPI2_EXPORT const Error Connection_Failure(21);
+    BWAPI2_EXPORT const Error Unit_Does_Not_Exist(0);
+    BWAPI2_EXPORT const Error Unit_Not_Visible(1);
+    BWAPI2_EXPORT const Error Unit_Not_Owned(2);
+    BWAPI2_EXPORT const Error Unit_Busy(3);
+    BWAPI2_EXPORT const Error Incompatible_UnitType(4);
+    BWAPI2_EXPORT const Error Incompatible_TechType(5);
+    BWAPI2_EXPORT const Error Already_Researched(6);
+    BWAPI2_EXPORT const Error Fully_Upgraded(7);
+    BWAPI2_EXPORT const Error Insufficient_Minerals(8);
+    BWAPI2_EXPORT const Error Insufficient_Gas(9);
+    BWAPI2_EXPORT const Error Insufficient_Supply(10);
+    BWAPI2_EXPORT const Error Insufficient_Energy(11);
+    BWAPI2_EXPORT const Error Insufficient_Tech(12);
+    BWAPI2_EXPORT const Error Insufficient_Ammo(13);
+    BWAPI2_EXPORT const Error Insufficient_Space(14);
+    BWAPI2_EXPORT const Error Unbuildable_Location(15);
+    BWAPI2_EXPORT const Error Out_Of_Range(16);
+    BWAPI2_EXPORT const Error Unable_To_Hit(17);
+    BWAPI2_EXPORT const Error Access_Denied(18);
+    BWAPI2_EXPORT const Error None(19);
+    BWAPI2_EXPORT const Error Unknown(20);
     void init()
     {
       errorName[Connection_Failure.getID()] = "Connection Failure";

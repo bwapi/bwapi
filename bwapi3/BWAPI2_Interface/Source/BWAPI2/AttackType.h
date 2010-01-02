@@ -1,6 +1,10 @@
 #pragma once
+
+#include "BWAPI2Interface.h"
+
 #include <string>
 #include <set>
+
 namespace BWAPI2
 {
   class AttackType
@@ -23,41 +27,41 @@ namespace BWAPI2
     AttackType getAttackType(std::string& name);
     std::set<AttackType>& allAttackTypes();
     void init();
-    extern const AttackType Melee;
-    extern const AttackType Fusion_Cutter_Hit;
-    extern const AttackType Gauss_Rifle_Hit;
-    extern const AttackType C_10_Canister_Rifle_Hit;
-    extern const AttackType Gemini_Missiles;
-    extern const AttackType Fragmentation_Grenade;
-    extern const AttackType Longbolt_Missile;
-    extern const AttackType ATS_ATA_Laser_Battery;
-    extern const AttackType Burst_Lasers;
-    extern const AttackType Arclite_Shock_Cannon_Hit;
-    extern const AttackType EMP_Missile;
-    extern const AttackType Dual_Photon_Blasters_Hit;
-    extern const AttackType Particle_Beam_Hit;
-    extern const AttackType Anti_Matter_Missile;
-    extern const AttackType Pulse_Cannon;
-    extern const AttackType Psionic_Shockwave_Hit;
-    extern const AttackType Psionic_Storm;
-    extern const AttackType Yamato_Gun;
-    extern const AttackType Phase_Disruptor;
-    extern const AttackType STA_STS_Cannon_Overlay;
-    extern const AttackType Sunken_Colony_Tentacle;
-    extern const AttackType Acid_Spore;
-    extern const AttackType Glave_Wurm;
-    extern const AttackType Seeker_Spores;
-    extern const AttackType Queen_Spell_Carrier;
-    extern const AttackType Plague_Cloud;
-    extern const AttackType Consume;
-    extern const AttackType Needle_Spine_Hit;
-    extern const AttackType Invisible;
-    extern const AttackType Optical_Flare_Grenade;
-    extern const AttackType Halo_Rockets;
-    extern const AttackType Subterranean_Spines;
-    extern const AttackType Corrosive_Acid_Shot;
-    extern const AttackType Neutron_Flare;
-    extern const AttackType None;
-    extern const AttackType Unknown;
+    BWAPI2_EXPORT extern const AttackType Melee;
+    BWAPI2_EXPORT extern const AttackType Fusion_Cutter_Hit;
+    BWAPI2_EXPORT extern const AttackType Gauss_Rifle_Hit;
+    BWAPI2_EXPORT extern const AttackType C_10_Canister_Rifle_Hit;
+    BWAPI2_EXPORT extern const AttackType Gemini_Missiles;
+    BWAPI2_EXPORT extern const AttackType Fragmentation_Grenade;
+    BWAPI2_EXPORT extern const AttackType Longbolt_Missile;
+    BWAPI2_EXPORT extern const AttackType ATS_ATA_Laser_Battery;
+    BWAPI2_EXPORT extern const AttackType Burst_Lasers;
+    BWAPI2_EXPORT extern const AttackType Arclite_Shock_Cannon_Hit;
+    BWAPI2_EXPORT extern const AttackType EMP_Missile;
+    BWAPI2_EXPORT extern const AttackType Dual_Photon_Blasters_Hit;
+    BWAPI2_EXPORT extern const AttackType Particle_Beam_Hit;
+    BWAPI2_EXPORT extern const AttackType Anti_Matter_Missile;
+    BWAPI2_EXPORT extern const AttackType Pulse_Cannon;
+    BWAPI2_EXPORT extern const AttackType Psionic_Shockwave_Hit;
+    BWAPI2_EXPORT extern const AttackType Psionic_Storm;
+    BWAPI2_EXPORT extern const AttackType Yamato_Gun;
+    BWAPI2_EXPORT extern const AttackType Phase_Disruptor;
+    BWAPI2_EXPORT extern const AttackType STA_STS_Cannon_Overlay;
+    BWAPI2_EXPORT extern const AttackType Sunken_Colony_Tentacle;
+    BWAPI2_EXPORT extern const AttackType Acid_Spore;
+    BWAPI2_EXPORT extern const AttackType Glave_Wurm;
+    BWAPI2_EXPORT extern const AttackType Seeker_Spores;
+    BWAPI2_EXPORT extern const AttackType Queen_Spell_Carrier;
+    BWAPI2_EXPORT extern const AttackType Plague_Cloud;
+    BWAPI2_EXPORT extern const AttackType Consume;
+    BWAPI2_EXPORT extern const AttackType Needle_Spine_Hit;
+    BWAPI2_EXPORT extern const AttackType Invisible;
+    BWAPI2_EXPORT extern const AttackType Optical_Flare_Grenade;
+    BWAPI2_EXPORT extern const AttackType Halo_Rockets;
+    BWAPI2_EXPORT extern const AttackType Subterranean_Spines;
+    BWAPI2_EXPORT extern const AttackType Corrosive_Acid_Shot;
+    BWAPI2_EXPORT extern const AttackType Neutron_Flare;
+    BWAPI2_EXPORT extern const AttackType None;
+    BWAPI2_EXPORT extern const AttackType Unknown;
   };
 }
