@@ -239,6 +239,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   std::set<std::string> filter;
   bool strip = false;
   bool ignore = false;
+  bool inPrivate = false;
   filter.insert("#"); // line beginnings that withstand stripping
   filter.insert("{");
   filter.insert("}");
@@ -329,6 +330,19 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
     // filter strip
     if(strip)
     {
+      if(line == "#include <BWAPI\\all.h>")
+        continue;
+      if(line == "#include \"BWAPI\\all.h\"")
+        continue;
+
+      if(line.find("private:") != -1)
+        inPrivate = true;
+      if(line.find("public:") != -1)
+        inPrivate = false;
+
+      if(inPrivate)
+        continue;
+
       if(firstNonSpace != -1)
       {
         // find match with any filter string
