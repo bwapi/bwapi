@@ -673,6 +673,7 @@ namespace BWAPI
       // stop!!!
       // please reconsider, this thread is not the starcraft thread. hardly foreseeable future bugs can
       // be avoided altogether by moving initialisation code to update()
+      // throw something here to unload the dll and signal dll initialisation as failed
     }
     //--------------------------------------------- ON MATCH START ---------------------------------------------
     void onMatchStart()

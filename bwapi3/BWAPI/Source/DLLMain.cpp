@@ -20,10 +20,17 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   {
     case DLL_PROCESS_ATTACH:
     {
-      BWAPI::Engine::onDllLoad();
-      // DLLMain is limited, but I think memory transactions will be allowed
-      //CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
-      BW::installHooks();
+      try
+      {
+        BWAPI::Engine::onDllLoad();
+        // DLLMain is limited, but I think memory transactions will be allowed
+        //CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
+        BW::installHooks();
+      }
+      catch(...)
+      {
+        return false;
+      }
       return true;
     }
   }
