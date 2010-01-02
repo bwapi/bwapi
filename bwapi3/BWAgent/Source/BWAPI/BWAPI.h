@@ -36,7 +36,7 @@ namespace BWAPI
   BWAPI_FUNCTION int GetVersion();
 
   // returns zero if failed
-  BWAPI_FUNCTION bool Connect();
+  BWAPI_FUNCTION bool Connect() throw();
 
   // returns when usually a callback is called
 
