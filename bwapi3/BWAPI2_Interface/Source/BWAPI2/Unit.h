@@ -1,6 +1,9 @@
 #pragma once
 
 #include "BWAPI2Interface.h"
+
+IP_STRIP
+
 #include "Order.h"
 #include "TechType.h"
 #include "UpgradeType.h"
@@ -9,7 +12,7 @@
 #include "TilePosition.h"
 
 #include <list>
-#include "BWAPI\all.h"
+#include <BWAPI\all.h>
 namespace BWAPI2
 {
   class Player;

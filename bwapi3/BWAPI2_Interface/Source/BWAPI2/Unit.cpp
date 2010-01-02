@@ -2,7 +2,7 @@
 
 #include <Util\Version.h>
 
-#include "BWAPI\all.h"
+#include <BWAPI\all.h>
 #include "Game.h"
 #include <string>
 

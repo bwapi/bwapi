@@ -1,7 +1,10 @@
 #pragma once
 
 /**
- *  A structure with a static array and a count, assuming the first count entries are valid
+ *  An array of entries with busy flags. Can be used:
+ *  - as a set with integer keys below SIZE
+ *  - as a slot array allocator / chunk memory manager
+ *
  */
 
 #include "Types.h"
@@ -9,7 +12,7 @@
 namespace Util
 {
   template<typename T, int SIZE>
-  struct StaticVector
+  struct StaticSet
   {
     typedef T ElementType;
     static const int size = SIZE;
@@ -32,7 +35,7 @@ namespace Util
 
     T& at(int index)
     {
-      if(index < 0 || index > (int)count)
+      if(index < 0 || index > count)
         throw GeneralException("index out of bound");
       return data[index];
     }
