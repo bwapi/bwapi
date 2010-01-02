@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="BWAPI"
+	Name="BWDriver"
 	ProjectGUID="{001204EC-33B7-427D-AF9B-68F222C97349}"
 	RootNamespace="BW"
 	Keyword="Win32Proj"
