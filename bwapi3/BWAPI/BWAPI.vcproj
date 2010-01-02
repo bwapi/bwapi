@@ -740,15 +740,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\StaticVector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\Strings.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Util\Source\Util\Strings.h"
-				>
-			</File>
-			<File
-				RelativePath="..\svnrev.h"
 				>
 			</File>
 			<File
@@ -774,6 +774,10 @@
 		</File>
 		<File
 			RelativePath=".\source\StaticAssert.h"
+			>
+		</File>
+		<File
+			RelativePath="..\svnrev.h"
 			>
 		</File>
 	</Files>

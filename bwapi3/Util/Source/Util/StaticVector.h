@@ -29,5 +29,12 @@ namespace Util
     {
       return &data[count];
     }
+
+    T& at(int index)
+    {
+      if(index < 0 || index > count)
+        throw GeneralException("index out of bound");
+      return data[index];
+    }
   };
 }

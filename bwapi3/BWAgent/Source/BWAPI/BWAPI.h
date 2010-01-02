@@ -35,17 +35,12 @@ namespace BWAPI
   // return BWAgent.dll revision number
   BWAPI_FUNCTION int GetVersion();
 
-  // returns zero if failed
+  // returns zero instead throwing, if failed
   BWAPI_FUNCTION bool Connect() throw();
 
-  // returns when usually a callback is called
-
+  // returns when a callback would have been called.
+  // returns the callback type
   BWAPI_FUNCTION CallTypeId WaitForEvent();
-
-
-  // static data
-  BWAPI_FUNCTION const BWAPI::StaticGameData* GetStaticGameData();
-  BWAPI_FUNCTION void                         PositionMapToScreen(BWAPI::Position* pos);
 
   // text operations
   BWAPI_FUNCTION bool PrintText(const char* text);
@@ -59,16 +54,22 @@ namespace BWAPI
   BWAPI_FUNCTION void DrawDot(int x, int y, int color);
 
   // information queries
-  BWAPI_FUNCTION const BWAPI::UnitState*      GetUnit(int unitId);
-  BWAPI_FUNCTION const BWAPI::UnitType*       GetUnitType(BWAPI::UnitTypeId id);
-  BWAPI_FUNCTION const BWAPI::TechType*       GetTechType(BWAPI::TechTypeId id);
-  BWAPI_FUNCTION const BWAPI::UpgradeType*    GetUpgradeType(BWAPI::UpgradeTypeId id);
-  BWAPI_FUNCTION const BWAPI::WeaponType*     GetWeaponType(BWAPI::WeaponTypeId id);
-  BWAPI_FUNCTION const BWAPI::DamageType*     GetDamageType(BWAPI::DamageTypeId id);
-  BWAPI_FUNCTION const BWAPI::ExplosionType*  GetExplosionType(BWAPI::ExplosionTypeId id);
-  BWAPI_FUNCTION const BWAPI::Race*           GetRace(BWAPI::RaceId id);
-  BWAPI_FUNCTION const BWAPI::UnitSizeType*   GetUnitSizeType(BWAPI::UnitSizeTypeId id);
-  BWAPI_FUNCTION const BWAPI::PlayerType*     GetPlayerType(BWAPI::PlayerTypeId id);
+  BWAPI_FUNCTION const StaticGameData* GetStaticGameData();
+
+  // access directly through static data. Use this if error checking is needed
+  BWAPI_FUNCTION const UnitState*      GetUnit(UnitId unitId);
+  BWAPI_FUNCTION const Player*         GetPlayer(PlayerId playerId);
+
+  // database related
+  BWAPI_FUNCTION const UnitType*       GetUnitType(UnitTypeId id);
+  BWAPI_FUNCTION const TechType*       GetTechType(TechTypeId id);
+  BWAPI_FUNCTION const UpgradeType*    GetUpgradeType(UpgradeTypeId id);
+  BWAPI_FUNCTION const WeaponType*     GetWeaponType(WeaponTypeId id);
+  BWAPI_FUNCTION const DamageType*     GetDamageType(DamageTypeId id);
+  BWAPI_FUNCTION const ExplosionType*  GetExplosionType(ExplosionTypeId id);
+  BWAPI_FUNCTION const Race*           GetRace(RaceId id);
+  BWAPI_FUNCTION const UnitSizeType*   GetUnitSizeType(UnitSizeTypeId id);
+  BWAPI_FUNCTION const PlayerType*     GetPlayerType(PlayerTypeId id);
 
   // unit array enumeration. returns -1 when ended
   BWAPI_FUNCTION HANDLE AllUnitsBegin();
@@ -76,16 +77,16 @@ namespace BWAPI
   BWAPI_FUNCTION void   AllUnitsClose(HANDLE h);
 
   // events
-  BWAPI_FUNCTION const BWAPI::UnitAddEvent**    GetUnitsAdded();
-  BWAPI_FUNCTION const BWAPI::UnitRemoveEvent** GetUnitsRemoved();
+  BWAPI_FUNCTION const UnitAddEvent**    GetUnitsAdded();
+  BWAPI_FUNCTION const UnitRemoveEvent** GetUnitsRemoved();
 
   // unit commands
   BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y);
   BWAPI_FUNCTION void OrderAttackUnit(int unitId, int targetUnitId);
   BWAPI_FUNCTION void OrderRightClickPosition(int unitId, int x, int y);
   BWAPI_FUNCTION void OrderRightClickUnit(int unitId, int targetUnitId);
-  BWAPI_FUNCTION void OrderTrain(int unitId, BWAPI::UnitTypeId what);
-  BWAPI_FUNCTION void OrderBuild(int unitId, BWAPI::UnitTypeId what);
+  BWAPI_FUNCTION void OrderTrain(int unitId, UnitTypeId what);
+  BWAPI_FUNCTION void OrderBuild(int unitId, UnitTypeId what);
   BWAPI_FUNCTION void OrderBuildAddon(int unitId);
   BWAPI_FUNCTION void OrderResearch(int unitId);
   BWAPI_FUNCTION void OrderUpgrade(int unitId);
