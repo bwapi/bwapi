@@ -214,7 +214,12 @@ namespace BWAPI
     if (!this->attemptAccess()) return 0;
     return this->getRawDataLocal()->removeTimer;
   }
-  //----------------------------------------------- GET OWNER ------------------------------------------------
+  //------------------------------------------------- GET ID -------------------------------------------------
+  int UnitImpl::getID() const
+  {
+    return (int)this;
+  }
+  //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
     // if we have no special access, return neutral player

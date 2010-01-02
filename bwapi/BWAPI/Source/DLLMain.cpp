@@ -25,6 +25,8 @@ DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 DWORD d_eaxSave, d_ebxSave, d_ecxSave, d_edxSave, d_esiSave, d_ediSave, d_espSave, d_ebpSave;
 DWORD m_eaxSave, m_ebxSave, m_ecxSave, m_edxSave, m_esiSave, m_ediSave, m_espSave, m_ebpSave;
 char key;
+int tempvalue;
+u8 tempbyte;
 //--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
 void __declspec(naked) onUnitDestroy()
 {
@@ -40,6 +42,7 @@ void __declspec(naked) onUnitDestroy()
     mov d_ebpSave, ebp
   }
   BWAPI::BroodwarImpl.onUnitDestroy((BW::Unit*)d_esiSave);
+  tempvalue=*BW::BWFXN_DestroyUnitSomeOffset;
   __asm
   {
     mov eax, d_eaxSave
@@ -50,7 +53,7 @@ void __declspec(naked) onUnitDestroy()
     mov edi, d_ediSave
     mov esp, d_espSave
     mov ebp, d_ebpSave
-    mov eax, [BW::BWFXN_DestroyUnitSomeOffset]
+    mov eax, [tempvalue]
     jmp [BW::BWFXN_DestroyUnitBack]
   }
 }
@@ -58,6 +61,9 @@ void __declspec(naked) onMouseButtonDown()
 {
   __asm
   {
+    push ebp
+    mov ebp, esp
+    sub esp, 0x14
     mov m_eaxSave, eax
     mov m_ebxSave, ebx
     mov m_ecxSave, ecx
@@ -83,9 +89,6 @@ void __declspec(naked) onMouseButtonDown()
     mov edi, m_ediSave
     mov esp, m_espSave
     mov ebp, m_ebpSave
-    mov cl, al
-    push ebx
-    mov ebx, [BW::BWDATA_Game_ButtonSomething]
     jmp [BW::BWFXN_Game_ButtonDownBack]
   }
 }
@@ -93,6 +96,9 @@ void __declspec(naked) onMouseButtonUp()
 {
   __asm
   {
+    push ebp
+    mov ebp, esp
+    sub esp, 0x14
     mov m_eaxSave, eax
     mov m_ebxSave, ebx
     mov m_ecxSave, ecx
@@ -118,7 +124,6 @@ void __declspec(naked) onMouseButtonUp()
     mov edi, m_ediSave
     mov esp, m_espSave
     mov ebp, m_ebpSave
-    mov edx, [BW::BWDATA_Game_ButtonSomething]
     jmp [BW::BWFXN_Game_ButtonUpBack]
   }
 }
@@ -140,7 +145,7 @@ void __declspec(naked) onKeyState()
     key=(char)m_esiSave;
     BWAPI::BroodwarImpl.keyPress[key]=true;
   }
-    
+  tempbyte=*BW::BWDATA_Game_KeyStateSomething;
   __asm
   {
     mov eax, m_eaxSave
@@ -151,7 +156,7 @@ void __declspec(naked) onKeyState()
     mov edi, m_ediSave
     mov esp, m_espSave
     mov ebp, m_ebpSave
-    mov eax, [BW::BWDATA_Game_KeyStateSomething]
+    mov al, [tempbyte]
     jmp [BW::BWFXN_Game_KeyStateBack]
   }
 }
@@ -628,7 +633,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   }
   if (_x<0 || _y<0 || _x>640 || _y>400) return;
   int temp = 0;
-  /* @todo: this looks retarded, and probably not all of it is necessary */
+
   DWORD temp_ptr = (DWORD)&temp;
   *BW::BWDATA_PrintXY_Unknown1 = 0x21;
   *BW::BWDATA_PrintXY_Unknown2 = 0x00D8;
@@ -883,7 +888,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   JmpCallPatch((void*)&onDrawHigh,        BW::BWFXN_DrawHigh,        0);
   JmpCallPatch((void*)&onRefresh,         BW::BWFXN_Refresh,         0);
   JmpCallPatch((void*)&onIssueCommand,    BW::BWFXN_OldIssueCommand, 4);
-  JmpCallPatch((void*)&onMouseButtonDown, BW::BWFXN_Game_ButtonDown, 4);
+  JmpCallPatch((void*)&onMouseButtonDown, BW::BWFXN_Game_ButtonDown, 1);
   JmpCallPatch((void*)&onMouseButtonUp,   BW::BWFXN_Game_ButtonUp,   1);
   JmpCallPatch((void*)&onKeyState,        BW::BWFXN_Game_KeyState,   0);
 
