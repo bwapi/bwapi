@@ -8,6 +8,10 @@
 
 namespace BWAPI2
 {
+  Force::Force(int id)
+  {
+    this->id=id;
+  }
   std::string Force::getName() const
   {
     return std::string("");//Todo: implement

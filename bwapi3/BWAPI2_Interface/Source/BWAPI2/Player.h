@@ -24,10 +24,13 @@ namespace BWAPI2
   class Force;
   class Player
   {
-  public :
+  private:
+    int id;
+  public:
+    Player(int id);
     BWAPI2_EXPORT int getID() const;
     BWAPI2_EXPORT std::string getName() const;
-    BWAPI2_EXPORT const std::set<Unit*>& getUnits() const;
+    BWAPI2_EXPORT std::set<Unit*>& getUnits() const;
     BWAPI2_EXPORT Race getRace() const;
     BWAPI2_EXPORT PlayerType playerType() const;
     BWAPI2_EXPORT Force* getForce() const;
