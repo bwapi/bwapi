@@ -14,7 +14,7 @@ namespace BWAPI2
   BWAPI2_EXPORT int getVersion();
 
   // returns zero if failed
-  BWAPI2_EXPORT int connect();
+  BWAPI2_EXPORT bool connect();
 
   // blocks. returns only if decideToDisconnect() called from a callback
   // returns false immediately or during run if error occurred

@@ -120,7 +120,7 @@ namespace Util
 
     bool inline isInRange(int index) const
     {
-      return index >= 0 && index < (int)count;
+      return index >= 0 && index < (int)size;
     }
 
     //---- set functions --------------------------------------------

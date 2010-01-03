@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <math.h>
 #include <fstream>
+#include <stdexcept>
 
 #include <Util\Version.h>
 #include <Util\FileLogger.h>
@@ -1236,6 +1237,17 @@ namespace BWAPI
             BW::printf("disconnected: %s\n", exception.getMessage().c_str());
           else
             BW::printf("exception: %s\n", exception.getMessage().c_str());
+        }
+      }
+      catch(std::exception &exception)
+      {
+        BridgeServer::disconnect();
+        if(BW::isInGame())
+        {
+          if(wasConnected)
+            BW::printf("disconnected: %s\n", exception.what());
+          else
+            BW::printf("exception: %s\n", exception.what());
         }
       }
     }

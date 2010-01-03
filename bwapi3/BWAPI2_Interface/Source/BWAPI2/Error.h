@@ -2,6 +2,8 @@
 
 #include "BWAPI2Interface.h"
 
+IP_STRIP
+
 #include <string>
 #include <set>
 
@@ -10,18 +12,18 @@ namespace BWAPI2
   class UnitType;
   class Error
   {
-    public:
-      Error();
-      Error(int id);
-      Error(const Error& other);
-      Error& operator=(const Error& other);
-      bool operator==(const Error& other) const;
-      bool operator!=(const Error& other) const;
-      bool operator<(const Error& other) const;
-      int getID() const;
-      std::string toString() const;
     private:
       int id;
+    public:
+      BWAPI2_EXPORT Error();
+      BWAPI2_EXPORT Error(int id);
+      BWAPI2_EXPORT Error(const Error& other);
+      BWAPI2_EXPORT Error& operator=(const Error& other);
+      BWAPI2_EXPORT bool operator==(const Error& other) const;
+      BWAPI2_EXPORT bool operator!=(const Error& other) const;
+      BWAPI2_EXPORT bool operator<(const Error& other) const;
+      BWAPI2_EXPORT int getID() const;
+      BWAPI2_EXPORT std::string toString() const;
   };
   namespace Errors
   {
