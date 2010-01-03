@@ -22,7 +22,7 @@ namespace BWAPI2
     const BWAPI::UnitState* self;
     int id;
   public:
-    Unit::Unit(int id);
+    Unit(int id);
     BWAPI2_EXPORT int getID() const;
     BWAPI2_EXPORT Player* getPlayer() const;
     BWAPI2_EXPORT UnitType getType() const;

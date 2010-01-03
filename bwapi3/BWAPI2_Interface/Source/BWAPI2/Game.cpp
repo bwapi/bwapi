@@ -25,10 +25,12 @@ namespace BWAPI2
     std::set<Unit*> staticGeysers;
     std::set<Unit*> staticNeutralUnits;
     std::set<Unit*> selectedUnits;
+    std::set<Unit*> pylons;
     std::set< TilePosition > startLocations;
     std::map<int,Force*> forceMap;
     std::map<int,Player*> playerMap;
     std::map<int,Unit*> unitMap;
+    std::map<const Player*, std::set<Unit*> > playerUnits;
     const int BUFFER_SIZE=1024;
     char buffer[BUFFER_SIZE];
     const BWAPI::StaticGameData* sgd;
@@ -64,6 +66,11 @@ namespace BWAPI2
     void onFrame()
     {
       allUnits.clear();
+      neutralUnits.clear();
+      minerals.clear();
+      geysers.clear();
+      pylons.clear();
+      playerUnits.clear();
       HANDLE h=BWAPI::AllUnitsBegin();
       int unitId=BWAPI::AllUnitsNext(h);
       while(unitId!=-1)
@@ -71,11 +78,29 @@ namespace BWAPI2
         if (unitMap.find(unitId)==unitMap.end())
           unitMap[unitId]=new Unit(unitId);
 
-        allUnits.insert(getUnit(unitId));
-
+        Unit* u=getUnit(unitId);
+        allUnits.insert(u);
+        playerUnits[u->getPlayer()].insert(u);
+        if (u->getPlayer()->isNeutral())
+        {
+          neutralUnits.insert(u);
+          if (u->getType()==UnitTypes::Resource_Mineral_Field)
+            minerals.insert(u);
+          else if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
+            geysers.insert(u);
+        }
+        else
+        {
+          if (u->getType()==UnitTypes::Protoss_Pylon)
+            pylons.insert(u);
+        }
         unitId=BWAPI::AllUnitsNext(h);
       }
       BWAPI::AllUnitsClose(h);
+    }
+    std::set<Unit*>& getPlayerUnits(const Player* player)
+    {
+      return playerUnits[player];
     }
     //public:
     //------------------------------------------------- GET FORCES ---------------------------------------------

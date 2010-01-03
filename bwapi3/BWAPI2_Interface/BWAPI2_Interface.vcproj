@@ -289,6 +289,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAPI2\Player.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI2\Player.h"
 				>
 			</File>
