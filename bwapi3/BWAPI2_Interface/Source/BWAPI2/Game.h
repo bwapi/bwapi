@@ -25,6 +25,9 @@ namespace BWAPI2
   class Unit;
   namespace Game
   {
+    //private :
+      void onStart();
+      void update();
     //public :
       BWAPI2_EXPORT std::set< Force* >& getForces();
       BWAPI2_EXPORT std::set< Player* >& getPlayers();

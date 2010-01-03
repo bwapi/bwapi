@@ -23,12 +23,41 @@ namespace BWAPI2
     std::set<Unit*> staticGeysers;
     std::set<Unit*> staticNeutralUnits;
     std::set<Unit*> selectedUnits;
+    std::set<Position> startLocations;
     std::map<int,Force*> forceMap;
     std::map<int,Player*> playerMap;
     std::map<int,Unit*> unitMap;
+    std::map<BWAPI::UnitState*,Unit> units;
     const int BUFFER_SIZE=1024;
     char buffer[BUFFER_SIZE];
+    const BWAPI::StaticGameData* sgd;
+    void onStart()
+    {
+      sgd=BWAPI::GetStaticGameData();
+      startLocations.clear();
+      for(int i=0;i<sgd->startLocations.size;i++)
+      {
+        BWAPI::Position p(sgd->startLocations.data[i]);
+        BWAPI2::Position p2(p.x,p.y);
+        startLocations.insert(p2);
+      }
+    }
+    void update()
+    {
+      allUnits.clear();
+      HANDLE h=BWAPI::AllUnitsBegin();
+      int unitId=BWAPI::AllUnitsNext(h);
+      while(unitId!=-1)
+      {
+        if (unitMap.find(unitId)==unitMap.end())
+          unitMap[unitId]=new Unit(unitId);
 
+        allUnits.insert(getUnit(unitId));
+
+        unitId=BWAPI::AllUnitsNext(h);
+      }
+      BWAPI::AllUnitsClose(h);
+    }
     //public:
     //------------------------------------------------- GET FORCES ---------------------------------------------
     std::set< Force* >& getForces()
@@ -93,27 +122,27 @@ namespace BWAPI2
     //---------------------------------------------- GET LATENCY -----------------------------------------------
     int getLatency()
     {
-      return BWAPI::GetStaticGameData()->getLatency;
+      return sgd->getLatency;
     }
     //--------------------------------------------- GET FRAME COUNT --------------------------------------------
     int getFrameCount()
     {
-      return BWAPI::GetStaticGameData()->frameCount;
+      return sgd->frameCount;
     }
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
     int getMouseX()
     {
-      return BWAPI::GetStaticGameData()->mouseX;
+      return sgd->mouseX;
     }
     //---------------------------------------------- GET MOUSE Y -----------------------------------------------
     int getMouseY()
     {
-      return BWAPI::GetStaticGameData()->mouseY;
+      return sgd->mouseY;
     }
     //-------------------------------------------- GET MOUSE POSITION ------------------------------------------
     Position getMousePosition()
     {
-      return Position(BWAPI::GetStaticGameData()->mouseX,BWAPI::GetStaticGameData()->mouseY);
+      return Position(sgd->mouseX,sgd->mouseY);
     }
     //---------------------------------------------- GET MOUSE STATE -------------------------------------------
     bool getMouseState(MouseButton button)
@@ -123,7 +152,7 @@ namespace BWAPI2
     //---------------------------------------------- GET MOUSE STATE -------------------------------------------
     bool getMouseState(int button)
     {
-      return false;//BWAPI::GetStaticGameData()->mouseState[button];
+      return false;//sgd->mouseState[button];
     }
     //----------------------------------------------- GET KEY STATE --------------------------------------------
     bool getKeyState(Key key)
@@ -133,22 +162,22 @@ namespace BWAPI2
     //----------------------------------------------- GET KEY STATE --------------------------------------------
     bool getKeyState(int key)
     {
-      return false;//BWAPI::GetStaticGameData()->keyState[key];
+      return false;//sgd->keyState[key];
     }
     //---------------------------------------------- GET SCREEN X ----------------------------------------------
     int getScreenX()
     {
-      return BWAPI::GetStaticGameData()->screenX;
+      return sgd->screenX;
     }
     //---------------------------------------------- GET SCREEN Y ----------------------------------------------
     int getScreenY()
     {
-      return BWAPI::GetStaticGameData()->screenY;
+      return sgd->screenY;
     }
     //-------------------------------------------- GET SCREEN POSITION -----------------------------------------
     Position getScreenPosition()
     {
-      return Position(BWAPI::GetStaticGameData()->screenX,BWAPI::GetStaticGameData()->screenY);
+      return Position(sgd->screenX,sgd->screenY);
     }
     //-------------------------------------------- SET SCREEN POSITION -----------------------------------------
     void setScreenPosition(int x, int y)
@@ -172,7 +201,7 @@ namespace BWAPI2
     }
     bool isFlagEnabled(int flag)
     {
-      return false;//BWAPI::GetStaticGameData()->isFlagEnabled(flag);
+      return false;//sgd->isFlagEnabled(flag);
     }
     void enableFlag(int flag)
     {
@@ -185,86 +214,86 @@ namespace BWAPI2
     //----------------------------------------------- MAP WIDTH ------------------------------------------------
     int mapWidth()
     {
-      return BWAPI::GetStaticGameData()->mapWidth;
+      return sgd->mapWidth;
     }
     //----------------------------------------------- MAP HEIGHT -----------------------------------------------
     int mapHeight()
     {
-      return BWAPI::GetStaticGameData()->mapHeight;
+      return sgd->mapHeight;
     }
     //---------------------------------------------- MAP FILENAME ----------------------------------------------
     std::string mapFilename()
     {
-      return std::string(BWAPI::GetStaticGameData()->mapFilename);
+      return std::string(sgd->mapFilename);
     }
     //------------------------------------------------ MAP NAME ------------------------------------------------
     std::string mapName()
     {
-      return std::string(BWAPI::GetStaticGameData()->mapName);
+      return std::string(sgd->mapName);
     }
     //----------------------------------------------- GET MAP HASH ---------------------------------------------
     int getMapHash()
     {
-      return BWAPI::GetStaticGameData()->mapHash;
+      return sgd->mapHash;
     }
 
     //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
     int getGroundHeight(int x, int y)
     {
-      if (x<0 || y<0 || x>=BWAPI::GetStaticGameData()->mapWidth*4 || y>=BWAPI::GetStaticGameData()->mapHeight*4)
+      if (x<0 || y<0 || x>=sgd->mapWidth*4 || y>=sgd->mapHeight*4)
         return 0;
-      return BWAPI::GetStaticGameData()->getGroundHeight[x][y];
+      return sgd->getGroundHeight[x][y];
     }
     //---------------------------------------------- IS WALKABLE -----------------------------------------------
     bool isWalkable(int x, int y)
     {
-      if (x<0 || y<0 || x>=BWAPI::GetStaticGameData()->mapWidth*4 || y>=BWAPI::GetStaticGameData()->mapHeight*4)
+      if (x<0 || y<0 || x>=sgd->mapWidth*4 || y>=sgd->mapHeight*4)
         return 0;
-      return BWAPI::GetStaticGameData()->isWalkable[x][y];
+      return sgd->isWalkable[x][y];
     }
     //--------------------------------------------- IS BUILDABLE -----------------------------------------------
     bool isBuildable(int x, int y)
     {
-      if (x<0 || y<0 || x>=BWAPI::GetStaticGameData()->mapWidth || y>=BWAPI::GetStaticGameData()->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
         return 0;
-      return BWAPI::GetStaticGameData()->isBuildable[x][y];
+      return sgd->isBuildable[x][y];
     }
     //---------------------------------------------- IS VISIBLE ------------------------------------------------
     bool isVisible(int x, int y)
     {
-      if (x<0 || y<0 || x>=BWAPI::GetStaticGameData()->mapWidth || y>=BWAPI::GetStaticGameData()->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
         return 0;
-      return BWAPI::GetStaticGameData()->isVisible[x][y];
+      return sgd->isVisible[x][y];
     }
     //---------------------------------------------- IS EXPLORED -----------------------------------------------
     bool isExplored(int x, int y)
     {
-      if (x<0 || y<0 || x>=BWAPI::GetStaticGameData()->mapWidth || y>=BWAPI::GetStaticGameData()->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
         return 0;
-      return BWAPI::GetStaticGameData()->isExplored[x][y];
+      return sgd->isExplored[x][y];
     }
     //----------------------------------------------- HAS CREEP ------------------------------------------------
     bool hasCreep(int x, int y)
     {
-      if (x<0 || y<0 || x>=BWAPI::GetStaticGameData()->mapWidth || y>=BWAPI::GetStaticGameData()->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
         return 0;
-      return BWAPI::GetStaticGameData()->hasCreep[x][y];
+      return sgd->hasCreep[x][y];
     }
 
     //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
     bool isMultiplayer()
     {
-      return BWAPI::GetStaticGameData()->isMultiplayer;
+      return sgd->isMultiplayer;
     }
     //----------------------------------------------- IS REPLAY ------------------------------------------------
     bool isReplay()
     {
-      return BWAPI::GetStaticGameData()->isReplay;
+      return sgd->isReplay;
     }
     //----------------------------------------------- IS PAUSED ------------------------------------------------
     bool isPaused()
     {
-      return BWAPI::GetStaticGameData()->isPaused;
+      return sgd->isPaused;
     }
     //------------------------------------------------ PRINTF --------------------------------------------------
     void printf(const char* text, ...)
@@ -387,13 +416,13 @@ namespace BWAPI2
     //----------------------------------------------------- SELF -----------------------------------------------
     Player*  self()
     {
-      //return getPlayer(BWAPI::GetStaticGameData()->self);
+      //return getPlayer(sgd->self);
       return NULL;
     }
     //----------------------------------------------------- ENEMY ----------------------------------------------
     Player*  enemy()
     {
-      //return getPlayer(BWAPI::GetStaticGameData()->enemy);
+      //return getPlayer(sgd->enemy);
       return NULL;
     }
     //----------------------------------------------------- DRAW -----------------------------------------------
