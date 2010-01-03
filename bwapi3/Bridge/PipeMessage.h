@@ -57,10 +57,6 @@ namespace Bridge
     {
       Bridge::SharedStuff::UserInputStack::Export exp;
     };
-    struct ServerUpdateKnownUnits : Util::TypeHead<UNIQUE_ID>
-    {
-      Bridge::SharedStuff::KnownUnitSet::Export exp;
-    };
     struct ServerUpdateEvents : Util::TypeHead<UNIQUE_ID>
     {
       Bridge::SharedStuff::EventStack::Export exp;

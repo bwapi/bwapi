@@ -180,11 +180,6 @@ namespace BWAPI
       sharedStuff.userInput.importNextUpdate(packet.exp);
       return true;
     }
-    bool handleUpdateKnownUnits(Bridge::PipeMessage::ServerUpdateKnownUnits& packet)
-    {
-      sharedStuff.knownUnits.importNextUpdate(packet.exp);
-      return true;
-    }
     bool handleUpdateEvents(Bridge::PipeMessage::ServerUpdateEvents& packet)
     {
       sharedStuff.events.importNextUpdate(packet.exp);
@@ -199,7 +194,6 @@ namespace BWAPI
       sharedStuff.staticData.release();
       sharedStuff.commands.release();
       sharedStuff.userInput.release();
-      sharedStuff.knownUnits.release();
       sharedStuff.events.release();
 
       // first import static data. It's all combined into staticData
@@ -264,7 +258,6 @@ namespace BWAPI
       {
         // init packet switch
         packetSwitch.addHandler(handleUpdateUserInput);
-        packetSwitch.addHandler(handleUpdateKnownUnits);
         packetSwitch.addHandler(handleUpdateEvents);
         packetSwitch.addHandler(handleMatchInit);
         packetSwitch.addHandler(handleFrameNext);

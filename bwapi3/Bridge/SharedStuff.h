@@ -1,5 +1,4 @@
 #pragma once
-#include "KnownUnitEntry.h"
 
 #include <Util\Pipe.h>
 #include <Util\RemoteProcess.h>
@@ -19,10 +18,6 @@ namespace Bridge
     Util::RemoteProcess remoteProcess;
 
     // shared memories
-
-    // TODO: merge with static structure
-    typedef Util::SharedSet<KnownUnitEntry> KnownUnitSet;
-    KnownUnitSet knownUnits;
 
     // all limited-size data
     typedef Util::SharedStructure<BWAPI::StaticGameData> StaticGameDataStructure;

@@ -14,10 +14,15 @@ namespace BWAPI
 {
   struct Unit
   {
-    bool                                      isInChain;
-    bool                                      wasInChain;
-    bool                                      isDying;
-    Bridge::KnownUnitEntry*                   knownUnit;
-    Bridge::SharedStuff::KnownUnitSet::Index  knownUnitIndex; // needed for removing from .knownUnits
+    // isInChain is true when this slot is detected to be an element of BroodWars
+    // UnitNodeChain in memory. wasInChain is the previus frame's isInChain
+    bool            isInChain;
+    bool            wasInChain;
+    // is true several frames before the unit gets removed from the chain
+    bool            isDying;
+
+    // if this unit is known, this is it's personal KnownUnit entry
+    KnownUnit* knownUnit;       // saving, to not to have to recompute
+    int        knownUnitIndex;  // needed for removing from units
   };
 }
