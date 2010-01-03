@@ -1,56 +1,63 @@
 #pragma once
 #include "BWAPI2Interface.h"
+
+IP_STRIP
+
+#include "Order.h"
+#include "TechType.h"
+#include "UpgradeType.h"
+#include "UnitType.h"
+#include "Position.h"
 #include "TilePosition.h"
 #include "Race.h"
 #include "TechType.h"
 #include "UpgradeType.h"
 #include "PlayerType.h"
-#include "UnitType.h"
 
 #include <set>
 #include <string>
+#include <BWAPI\all.h>
 
-namespace BWAPI
+namespace BWAPI2
 {
   class Unit;
   class Force;
   class Player
   {
-    public :
-      virtual int getID() const = 0;
-      virtual std::string getName() const = 0;
-      virtual const std::set<Unit*>& getUnits() const = 0;
-      virtual Race getRace() const = 0;
-      virtual PlayerType playerType() const = 0;
-      virtual Force* getForce() const = 0;
-      virtual bool isAlly(Player* player) const = 0;
-      virtual bool isEnemy(Player* player) const = 0;
-      virtual bool isNeutral() const = 0;
-      virtual TilePosition getStartLocation() const = 0;
-      virtual bool isVictorious() const = 0;
-      virtual bool isDefeated() const = 0;
-      virtual bool leftGame() const = 0;
+  public :
+    BWAPI2_EXPORT int getID() const;
+    BWAPI2_EXPORT std::string getName() const;
+    BWAPI2_EXPORT const std::set<Unit*>& getUnits() const;
+    BWAPI2_EXPORT Race getRace() const;
+    BWAPI2_EXPORT PlayerType playerType() const;
+    BWAPI2_EXPORT Force* getForce() const;
+    BWAPI2_EXPORT bool isAlly(Player* player) const;
+    BWAPI2_EXPORT bool isEnemy(Player* player) const;
+    BWAPI2_EXPORT bool isNeutral() const;
+    BWAPI2_EXPORT TilePosition getStartLocation() const;
+    BWAPI2_EXPORT bool isVictorious() const;
+    BWAPI2_EXPORT bool isDefeated() const;
+    BWAPI2_EXPORT bool leftGame() const;
 
-      virtual int minerals() const = 0;
-      virtual int gas() const = 0;
-      virtual int cumulativeMinerals() const = 0;
-      virtual int cumulativeGas() const = 0;
+    BWAPI2_EXPORT int minerals() const;
+    BWAPI2_EXPORT int gas() const;
+    BWAPI2_EXPORT int cumulativeMinerals() const;
+    BWAPI2_EXPORT int cumulativeGas() const;
 
-      virtual int supplyTotal() const = 0;
-      virtual int supplyUsed() const = 0;
-      virtual int supplyTotal(Race race) const = 0;
-      virtual int supplyUsed(Race race) const = 0;
+    BWAPI2_EXPORT int supplyTotal() const;
+    BWAPI2_EXPORT int supplyUsed() const;
+    BWAPI2_EXPORT int supplyTotal(Race race) const;
+    BWAPI2_EXPORT int supplyUsed(Race race) const;
 
-      virtual int allUnitCount(UnitType unit) const = 0;
-      virtual int completedUnitCount(UnitType unit) const = 0;
-      virtual int incompleteUnitCount(UnitType unit) const = 0;
-      virtual int deadUnitCount(UnitType unit) const = 0;
-      virtual int killedUnitCount(UnitType unit) const = 0;
+    BWAPI2_EXPORT int allUnitCount(UnitType unit) const;
+    BWAPI2_EXPORT int completedUnitCount(UnitType unit) const;
+    BWAPI2_EXPORT int incompleteUnitCount(UnitType unit) const;
+    BWAPI2_EXPORT int deadUnitCount(UnitType unit) const;
+    BWAPI2_EXPORT int killedUnitCount(UnitType unit) const;
 
-      virtual int  getUpgradeLevel(UpgradeType upgrade) const = 0;
-      virtual bool hasResearched(TechType tech) const = 0;
-      virtual bool isResearching(TechType tech) const = 0;
-      virtual bool isUpgrading(UpgradeType upgrade) const = 0;
-
+    BWAPI2_EXPORT int  getUpgradeLevel(UpgradeType upgrade) const;
+    BWAPI2_EXPORT bool hasResearched(TechType tech) const;
+    BWAPI2_EXPORT bool isResearching(TechType tech) const;
+    BWAPI2_EXPORT bool isUpgrading(UpgradeType upgrade) const;
   };
 };

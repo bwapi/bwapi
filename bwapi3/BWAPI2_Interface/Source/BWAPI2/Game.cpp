@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "Force.h"
+#include "Player.h"
 #include "Unit.h"
 
 #include <Util\Version.h>
@@ -23,7 +25,7 @@ namespace BWAPI2
     std::set<Unit*> staticGeysers;
     std::set<Unit*> staticNeutralUnits;
     std::set<Unit*> selectedUnits;
-    std::set<Position> startLocations;
+    std::set< TilePosition > startLocations;
     std::map<int,Force*> forceMap;
     std::map<int,Player*> playerMap;
     std::map<int,Unit*> unitMap;
@@ -35,17 +37,28 @@ namespace BWAPI2
     {
       sgd=BWAPI::GetStaticGameData();
       startLocations.clear();
+      for(std::map<int,Force*>::iterator i=forceMap.begin();i!=forceMap.end();i++)
+      {
+        delete i->second;
+      }
+      for(std::map<int,Player*>::iterator i=playerMap.begin();i!=playerMap.end();i++)
+      {
+        delete i->second;
+      }
       for(std::map<int,Unit*>::iterator i=unitMap.begin();i!=unitMap.end();i++)
       {
         delete i->second;
       }
+      forceMap.clear();
+      playerMap.clear();
       unitMap.clear();
       for(int i=0;i<sgd->startLocations.size;i++)
       {
         BWAPI::Position p(sgd->startLocations.data[i]);
-        BWAPI2::Position p2(p.x,p.y);
+        BWAPI2::TilePosition p2(p.x,p.y);
         startLocations.insert(p2);
       }
+
     }
     //------------------------------------------------- ON FRAME -----------------------------------------------
     void onFrame()
@@ -372,12 +385,12 @@ namespace BWAPI2
     {
       //Todo: implement here
     }
+    */
     //--------------------------------------------- GET START LOCATIONS ----------------------------------------
     std::set< TilePosition >& getStartLocations()
     {
-      
+      return startLocations;
     }
-    */
 
     //---------------------------------------------- CHANGE RACE -----------------------------------------------
     void  changeRace(BWAPI::Race race)
