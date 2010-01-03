@@ -27,7 +27,7 @@ namespace BWAPI2
   {
     //private :
       void onStart();
-      void update();
+      void onFrame();
     //public :
       BWAPI2_EXPORT std::set< Force* >& getForces();
       BWAPI2_EXPORT std::set< Player* >& getPlayers();
