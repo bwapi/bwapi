@@ -6,11 +6,14 @@
 #include "Force.h"
 
 #include <Util\StaticVector.h>
+#include <Util\StaticSet.h>
 
 namespace BWAPI
 {
   typedef Util::StaticVector<Player, 12> PlayerArray;
   typedef Util::StaticVector<Force, 4> ForceArray;
+  typedef Util::StaticSet<UnitState, 1700> UnitArray;
+  typedef Util::StaticVector<Position, 8> StartLocationArray;
 
   struct StaticGameData
   {
@@ -38,5 +41,7 @@ namespace BWAPI
     int unitCount;
     PlayerArray players;
     ForceArray forces;
+    UnitArray units;
+    StartLocationArray startLocations;
   };
 }
