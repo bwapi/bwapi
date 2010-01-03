@@ -192,10 +192,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Bridge\KnownUnitEntry.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Bridge\PipeMessage.h"
 				>
 			</File>
@@ -391,15 +387,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\KnownUnit.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\Latency.h"
 					>
 				</File>
 				<File
 					RelativePath="..\BWAPITypes\Player.h"
-					>
-				</File>
-				<File
-					RelativePath="..\BWAPITypes\PlayerId.h"
 					>
 				</File>
 				<File
@@ -432,10 +428,6 @@
 				</File>
 				<File
 					RelativePath="..\BWAPITypes\UnitCommandTypeID.h"
-					>
-				</File>
-				<File
-					RelativePath="..\BWAPITypes\UnitId.h"
 					>
 				</File>
 				<File

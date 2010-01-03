@@ -33,7 +33,7 @@ namespace BWAPI
     //-------------------------- ----------------------------------------------------------------
   //public:
     //-------------------------- PUBLIC DATA ----------------------------------------------------
-    BWAPI::StaticGameData* sharedStaticData = NULL;
+    BWAPI::StaticGameData* gameData = NULL;
 
     std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
     std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
@@ -128,11 +128,10 @@ namespace BWAPI
 
       // create and publish static data
       sharedStuff.staticData.create();
-      sharedStaticData = &sharedStuff.staticData.get();
+      gameData = &sharedStuff.staticData.get();
 
       // init dynamic objects
       sharedStuff.userInput.init(1000, true);
-      sharedStuff.knownUnits.init(100, true);
       sharedStuff.events.init(2000, true);
 
       stateSharedMemoryInitialized = true;
@@ -299,37 +298,39 @@ namespace BWAPI
       return true;
     }
     //------------------------------ ADD KNOWN UNIT ----------------------------------------------
-    void addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit, Bridge::SharedStuff::KnownUnitSet::Index *out_index, BWAPI::UnitAddEventTypeId reason)
+    int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason)
     {
       // check prerequisites
       if(!stateSharedMemoryInitialized)
         throw GeneralException(__FUNCTION__ ": shared memory not initialized");
 
       // insert new known unit to set
-      Bridge::SharedStuff::KnownUnitSet::Index index;
-      *out_pKnownUnit = &sharedStuff.knownUnits.insertEmpty(&index);
-      if(out_index)
-        *out_index = index;
+      int index = gameData->units.findEmptySlot();
+      KnownUnit *knownUnit = &gameData->units.allocate(index);
+      if(out_pKnownUnit)
+        *out_pKnownUnit = knownUnit;
 
       // push known unit event
       Bridge::EventEntry::KnownUnitAdd entry;
-      entry.data.unitId = sharedStuff.knownUnits.getLinearByIndex(index);
+      entry.data.unitId = index;
       entry.data.type = reason;
       sharedStuff.events.insert(Util::MemoryFrame::from(entry));
+
+      return index;
     }
     //------------------------------ REMOVE KNOWN UNIT -------------------------------------------
-    void removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index, BWAPI::UnitRemoveEventTypeId reason)
+    void removeKnownUnit(int index, UnitRemoveEventTypeId reason)
     {
       // check prerequisites
       if(!stateSharedMemoryInitialized)
         throw GeneralException(__FUNCTION__ ": shared memory not initialized");
 
       // remove known unit from set
-      sharedStuff.knownUnits.remove(index);
+      gameData->units.free(index);
 
       // push known unit event
       Bridge::EventEntry::KnownUnitRemove entry;
-      entry.data.unitId = sharedStuff.knownUnits.getLinearByIndex(index);
+      entry.data.unitId = index;
       entry.data.type = reason;
       sharedStuff.events.insert(Util::MemoryFrame::from(entry));
     }
@@ -344,21 +345,6 @@ namespace BWAPI
         if(!sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
         {
           lastError = std::string(__FUNCTION__)+ ": exporting userInput update failed";
-          return false;
-        }
-
-        // send update export
-        sharedStuff.pipe.sendRawStructure(packet);
-      }
-
-      // export knownUnits updates
-      while(sharedStuff.knownUnits.isUpdateExportNeeded())
-      {
-        // create export package
-        Bridge::PipeMessage::ServerUpdateKnownUnits packet;
-        if(!sharedStuff.knownUnits.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
-        {
-          lastError = std::string(__FUNCTION__)+ ": exporting knownUnits update failed";
           return false;
         }
 

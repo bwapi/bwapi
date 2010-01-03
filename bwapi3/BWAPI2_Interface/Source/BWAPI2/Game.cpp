@@ -71,9 +71,8 @@ namespace BWAPI2
       geysers.clear();
       pylons.clear();
       playerUnits.clear();
-      HANDLE h=BWAPI::AllUnitsBegin();
-      int unitId=BWAPI::AllUnitsNext(h);
-      while(unitId!=-1)
+
+      for each(int unitId in sgd->units)
       {
         if (unitMap.find(unitId)==unitMap.end())
           unitMap[unitId]=new Unit(unitId);
@@ -94,9 +93,7 @@ namespace BWAPI2
           if (u->getType()==UnitTypes::Protoss_Pylon)
             pylons.insert(u);
         }
-        unitId=BWAPI::AllUnitsNext(h);
       }
-      BWAPI::AllUnitsClose(h);
     }
     std::set<Unit*>& getPlayerUnits(const Player* player)
     {

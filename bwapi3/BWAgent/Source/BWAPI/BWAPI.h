@@ -71,15 +71,6 @@ namespace BWAPI
   BWAPI_FUNCTION const UnitSizeType*   GetUnitSizeType(UnitSizeTypeId id);
   BWAPI_FUNCTION const PlayerType*     GetPlayerType(PlayerTypeId id);
 
-  // unit array enumeration. returns -1 when ended
-  BWAPI_FUNCTION HANDLE AllUnitsBegin();
-  BWAPI_FUNCTION int    AllUnitsNext(HANDLE h);
-  BWAPI_FUNCTION void   AllUnitsClose(HANDLE h);
-
-  // events
-  BWAPI_FUNCTION const UnitAddEvent**    GetUnitsAdded();
-  BWAPI_FUNCTION const UnitRemoveEvent** GetUnitsRemoved();
-
   // unit commands
   BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y);
   BWAPI_FUNCTION void OrderAttackUnit(int unitId, int targetUnitId);

@@ -21,7 +21,7 @@ namespace BWAPI
   {
   //public:
     extern Bridge::SharedStuff sharedStuff;
-    extern BWAPI::StaticGameData* sharedStaticData;
+    extern StaticGameData* gameData;
 
     extern std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
     extern std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
@@ -37,11 +37,10 @@ namespace BWAPI
     extern void invokeOnStartMatch(bool fromBeginning);
 
     extern bool pushSendText(const char *text);
-    extern void addKnownUnit(Bridge::KnownUnitEntry **out_pKnownUnit,
-      Bridge::SharedStuff::KnownUnitSet::Index *out_index,
-      BWAPI::UnitAddEventTypeId reason);
-    extern void removeKnownUnit(Bridge::SharedStuff::KnownUnitSet::Index index,
-      BWAPI::UnitRemoveEventTypeId reason);
+
+    // returns the index of the new unit
+    extern int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason);
+    extern void removeKnownUnit(int index, UnitRemoveEventTypeId reason);
 
     extern bool isAgentConnected();               // true when pipe connection works
     extern bool isBridgeInitialized();            // true once initBridge called

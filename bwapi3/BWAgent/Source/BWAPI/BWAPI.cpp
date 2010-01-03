@@ -24,7 +24,7 @@ namespace BWAPI
 //private:
 //public:
   //----------------------------------- STATIC DATA -----------------------------------------------
-  BWAPI::StaticGameData gameData;
+  StaticGameData gameData;
   //----------------------------------- GET VERSION -----------------------------------------------
   BWAPI_FUNCTION int GetVersion()
   {
@@ -113,11 +113,15 @@ namespace BWAPI
   {
     pos->x -= BridgeClient::sharedStaticData->screenX;
     pos->y -= BridgeClient::sharedStaticData->screenY;
+    for each(Position pos in gameData.startLocations)
+    {
+      pos;
+    }
   }
   //----------------------------------- GET UNIT --------------------------------------------------
   BWAPI_FUNCTION const BWAPI::UnitState* GetUnit(UnitId unitId)
   {
-    return &BridgeClient::sharedStuff.knownUnits.getByLinear(unitId).state;
+    return &gameData.units.at(unitId).state;
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
   BWAPI_FUNCTION const BWAPI::Player* GetPlayer(PlayerId playerId)
@@ -170,43 +174,6 @@ namespace BWAPI
     return &BWAPI::PlayerTypes::playerTypeData[id];
   }
   //----------------------------------- -----------------------------------------------------------
-  //----------------------------------- ALL UNITS ITERATION ---------------------------------------
-  struct AllUnitsHandle
-  {
-    Bridge::SharedStuff::KnownUnitSet::Index index;
-  };
-  Util::HandleFactory<AllUnitsHandle> allUnitsHandleFactory;
-  //----------------------------------- ALL UNITS BEGIN -------------------------------------------
-  BWAPI_FUNCTION HANDLE AllUnitsBegin()
-  {
-    AllUnitsHandle *handle = allUnitsHandleFactory.create();
-    handle->index = BridgeClient::sharedStuff.knownUnits.begin();
-    return handle;
-  }
-  //----------------------------------- ALL UNITS NEXT --------------------------------------------
-  BWAPI_FUNCTION int AllUnitsNext(HANDLE h)
-  {
-    AllUnitsHandle &handle = *(AllUnitsHandle*)h;
-    if(!handle.index.isValid())
-      return -1;
-    int retval = BridgeClient::sharedStuff.knownUnits.getLinearByIndex(handle.index);
-    handle.index = BridgeClient::sharedStuff.knownUnits.getNext(handle.index);
-    return retval;
-  }
-  //----------------------------------- ALL UNITS CLOSE -------------------------------------------
-  BWAPI_FUNCTION void AllUnitsClose(HANDLE h)
-  {
-    allUnitsHandleFactory.release((AllUnitsHandle*)h);
-  }
-  //----------------------------------- -----------------------------------------------------------
-  BWAPI_FUNCTION const BWAPI::UnitAddEvent** GetUnitsAdded()
-  {
-    return &BridgeClient::knownUnitAddEvents[0];
-  }
-  BWAPI_FUNCTION const BWAPI::UnitRemoveEvent**  GetUnitsRemoved()
-  {
-    return &BridgeClient::knownUnitRemoveEvents[0];
-  }
   //----------------------------------- INSERT ORDER ----------------------------------------------
   BWAPI::UnitCommand& insertOrder()
   {

@@ -852,7 +852,7 @@ namespace BWAPI
         // fill the const part of static data, for the rest of the match
         if(BridgeServer::isSharedMemoryInitialized())
         {
-          BWAPI::StaticGameData &staticData = *BridgeServer::sharedStaticData;
+          BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
 
           for (int x=0;x<Map::getWidth()*4;x++)
             for (int y=0;y<Map::getHeight()*4;y++)
@@ -901,7 +901,7 @@ namespace BWAPI
       {
         // fill buffers with recent world state data
         {
-          BWAPI::StaticGameData &staticData = *BridgeServer::sharedStaticData;
+          BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
           staticData.getLatency     = BW::getLatency();
           staticData.frameCount     = frameCount;
           staticData.mouseX         = BW::getMouseX();
@@ -1017,7 +1017,7 @@ namespace BWAPI
                   // unit becomes known
 
                   // reserve a KnownUnitEntry and store it's address so it gets filled
-                  BridgeServer::addKnownUnit(&mirror.knownUnit, &mirror.knownUnitIndex, UnitAddEventTypeIds::Created);
+                  mirror.knownUnitIndex = BridgeServer::addKnownUnit(&mirror.knownUnit, UnitAddEventTypeIds::Created);
                 }
                 else
                 {
@@ -1032,7 +1032,7 @@ namespace BWAPI
               if(isKnown)
               {
                 // transfer recent data about this particular BW unit
-                Bridge::KnownUnitEntry &knownUnit = *mirror.knownUnit;
+                KnownUnit &knownUnit = *mirror.knownUnit;
 
                 // TODO: implement clearance limit
                 knownUnit.state.position              = bwUnit.position;
@@ -1193,8 +1193,7 @@ namespace BWAPI
                 continue;
 
               // simulate this command
-              // TODO: verify unitIndex
-              Bridge::KnownUnitEntry &unitEntry = BridgeServer::sharedStuff.knownUnits.getByLinear(entry.command.unitIndex);
+              KnownUnit &unitEntry = BridgeServer::gameData->units.at(entry.command.unitIndex);
               simulateUnitCommand(entry.command, unitEntry.state);
             }
           }
@@ -1790,7 +1789,7 @@ namespace BWAPI
       {
         if(!bwUnitArrayMirror[i].wasInChain)
           continue;
-        if(BridgeServer::sharedStuff.knownUnits.getLinearByIndex(bwUnitArrayMirror[i].knownUnitIndex) == command.unitIndex)
+        if(bwUnitArrayMirror[i].knownUnitIndex == command.unitIndex)
         {
           bwUnitIndex = i;
           break;
