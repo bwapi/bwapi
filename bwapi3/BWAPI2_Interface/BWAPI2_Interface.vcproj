@@ -249,6 +249,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAPI2\Force.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI2\Force.h"
 				>
 			</File>
