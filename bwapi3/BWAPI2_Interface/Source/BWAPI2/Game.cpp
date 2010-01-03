@@ -27,14 +27,19 @@ namespace BWAPI2
     std::map<int,Force*> forceMap;
     std::map<int,Player*> playerMap;
     std::map<int,Unit*> unitMap;
-    std::map<BWAPI::UnitState*,Unit> units;
     const int BUFFER_SIZE=1024;
     char buffer[BUFFER_SIZE];
     const BWAPI::StaticGameData* sgd;
+    //------------------------------------------------- ON START -----------------------------------------------
     void onStart()
     {
       sgd=BWAPI::GetStaticGameData();
       startLocations.clear();
+      for(std::map<int,Unit*>::iterator i=unitMap.begin();i!=unitMap.end();i++)
+      {
+        delete i->second;
+      }
+      unitMap.clear();
       for(int i=0;i<sgd->startLocations.size;i++)
       {
         BWAPI::Position p(sgd->startLocations.data[i]);
@@ -42,7 +47,8 @@ namespace BWAPI2
         startLocations.insert(p2);
       }
     }
-    void update()
+    //------------------------------------------------- ON FRAME -----------------------------------------------
+    void onFrame()
     {
       allUnits.clear();
       HANDLE h=BWAPI::AllUnitsBegin();
