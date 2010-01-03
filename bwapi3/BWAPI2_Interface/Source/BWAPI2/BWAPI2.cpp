@@ -37,12 +37,12 @@ namespace BWAPI2
     return SVN_REV;
   }
   //----------------------------------- CONNECT ---------------------------------------------------
-  BWAPI2_EXPORT int connect()
+  BWAPI2_EXPORT bool connect()
   {
     resetError();
     try
     {
-      BWAPI::Connect();
+      return BWAPI::Connect();
     }
     catch(GeneralException &)
     {
@@ -57,22 +57,28 @@ namespace BWAPI2
     resetError();
     try
     {
-      BWAPI::CallTypeId purpose = BWAPI::WaitForEvent();
-
-      // react upon bridge state
-      switch(purpose)
+      for(;;)
       {
-      case BWAPI::CallTypeIds::OnMatchStart:
+        BWAPI::CallTypeId purpose = BWAPI::WaitForEvent();
+
+        // react upon bridge state
+        switch(purpose)
         {
-          aiModule.onStart();
-        }break;
-      case BWAPI::CallTypeIds::OnFrame:
-        {
-          // TODO: implement
-          //BWAPI::GetUserInput()
-          //aiModule.onSendText(input);
-          aiModule.onFrame();
-        }break;
+        case BWAPI::CallTypeIds::OnMatchStart:
+          {
+            aiModule.onStart();
+          }break;
+        case BWAPI::CallTypeIds::OnFrame:
+          {
+            // TODO: implement
+            //BWAPI::GetUserInput()
+            //aiModule.onSendText(input);
+            aiModule.onFrame();
+          }break;
+        case BWAPI::CallTypeIds::OnDisconnect:
+          {
+          }return true;
+        }
       }
     }
     catch(GeneralException &)

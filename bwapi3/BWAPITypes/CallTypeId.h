@@ -10,6 +10,7 @@ namespace BWAPI
   {
     enum Enum
     {
+      OnDisconnect,
       OnFrame,
       OnMatchStart
     };
