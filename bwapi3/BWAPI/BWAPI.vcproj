@@ -740,6 +740,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\StaticSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Util\Source\Util\StaticString.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\StaticVector.h"
 				>
 			</File>
