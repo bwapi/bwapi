@@ -86,7 +86,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				CommandLine="&quot;all.cmd&quot;"
 			/>
 		</Configuration>
 		<Configuration
