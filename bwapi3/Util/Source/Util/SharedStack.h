@@ -42,7 +42,7 @@ namespace Util
     void clear();
     void release();   // forces to release all memory blocks. Not exportable
     bool isUpdateExportNeeded() const;
-    bool exportNextUpdate(Export &out, RemoteProcess &targetProcess);
+    void exportNextUpdate(Export &out, RemoteProcess &targetProcess);
     void importNextUpdate(const Export &in);
     //----------------------- ITERATION --------------------------------
     Index begin() const;

@@ -379,6 +379,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath="..\Interface Packer\BWAPI2.ini"
+			>
+		</File>
+		<File
 			RelativePath=".\Source\dllmain.cpp"
 			>
 		</File>

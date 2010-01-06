@@ -20,7 +20,7 @@ namespace Util
 
     bool acquire(RemoteProcessId, bool moreAccess = false);
     int exportOwnHandle();
-    bool importHandle(int handle);
+    void importHandle(int handle);
     void release();
     HANDLE getHandle();
     bool isValid();

@@ -15,21 +15,10 @@ namespace BWAPI
   {
   //private:
     //-------------------------- PRIVATE VARIABLES ----------------------------------------------
-    bool stateSharedMemoryInitialized = false;
     bool stateConnectionEstablished = false;
     bool stateIsInitialized = false;
     Bridge::SharedStuff sharedStuff;
 
-    //error handling
-    std::string lastError;
-    void resetError()
-    {
-      lastError = "no bridge error";
-    }
-    const std::string &getLastError()
-    {
-      return lastError;
-    }
     //-------------------------- ----------------------------------------------------------------
   //public:
     //-------------------------- PUBLIC DATA ----------------------------------------------------
@@ -38,17 +27,17 @@ namespace BWAPI
     std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
     std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
     //-------------------------- INIT -----------------------------------------------------------
-    bool initConnectionServer()
+    void initConnectionServer()
     {
-      resetError();
       sharedStuff.pipe.create(Bridge::globalPipeName);
       stateIsInitialized = true;
-      return true;
     }
-    //-------------------------- CHECK INCOMING CONNECTIONS -------------------------------------
+    //-------------------------- ACCEPT INCOMING CONNECTIONS ------------------------------------
     void acceptIncomingConnections()
     {
-      resetError();
+      // prerequisites
+      if(!stateIsInitialized)
+        return;
       if(stateConnectionEstablished)
         return;
 
@@ -56,93 +45,83 @@ namespace BWAPI
       if(!sharedStuff.pipe.pollIncomingConnection())
         return;
 
-      // receive handshake
-      Bridge::PipeMessage::AgentHandshake handshake;
+      // create static data
+      {
+        sharedStuff.staticData.create();
+        gameData = &sharedStuff.staticData.get();
+      }
+
+      // send handshake
+      {
+        Bridge::PipeMessage::ServerHandshake handshake;
+        handshake.serverVersion = SVN_REV;
+        sharedStuff.pipe.sendRawStructure(handshake);
+      }
+
+      // receive agent's handshake
+      Bridge::PipeMessage::AgentHandshake handshake2;
       {
         Util::Buffer data;
         sharedStuff.pipe.receive(data);
-        data.getMemory().readTo(handshake);
+        data.getMemory().readTo(handshake2);
       }
 
-      // audit agent
-      bool accept = true;
-      if(handshake.agentVersion != SVN_REV)
+      // acquire agent's process handle
+      if(!sharedStuff.remoteProcess.acquire(handshake2.agentProcessId, true))
       {
-        accept = false;
-        lastError = "Wrong agent version, rejected";
+        throw GeneralException("Could not open agent's process, rejected");
       }
-      if(!sharedStuff.remoteProcess.acquire(handshake.agentProcessId, true))
+
       {
-        accept = false;
-        lastError = "Could not open agent's process, rejected";
+        Bridge::PipeMessage::ServerSharedMemoryInit init;
+
+        // send a handle to this process, so the agent can share it's handles
+        init.serverProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
+
+        // synchronise the static data structure
+        init.staticGameDataExport = sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
+
+        sharedStuff.pipe.sendRawStructure(init);
       }
 
-      // send back response
-      Bridge::PipeMessage::ServerHandshake handshake2;
-      handshake2.accepted = accept;
-      handshake2.serverProcessHandle = sharedStuff.remoteProcess.exportOwnHandle();
-      handshake2.serverVersion = SVN_REV;
-      sharedStuff.pipe.sendRawStructure(handshake2);
-
-      // agent screw'd it, beat it
-      if(!accept)
-      {
-        throw GeneralException(lastError);
-      }
-
-      // wait for response acknoledgement
-      Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
+      // wait for init response
+      Bridge::PipeMessage::AgentSharedMemoryInit init2;
       {
         Util::Buffer data;
         sharedStuff.pipe.receive(data);
-        data.getMemory().readTo(ack);
-      }
-      if(!ack.accepted)
-      {
-        throw GeneralException("Agent has rejected response (could not open process handle?)");
+        data.getMemory().readTo(init2);
       }
 
+      // initialize the dynamic shared memory
+      try
+      {
+        // reset dynamic objects
+        sharedStuff.userInput.init(1000, true);
+        sharedStuff.events.init(4000, true);
+        sharedStuff.commands.release();
+
+      }
+      catch(GeneralException &e)
+      {
+        e.append("init shared memory");
+        throw;
+      }
+
+      // agent successfully attached
       stateConnectionEstablished = true;
+      return;
     }
     //-------------------------- DISCONNECT -----------------------------------------------------
     void disconnect()
     {
-      if(stateSharedMemoryInitialized)
-      {
-        releaseSharedMemory();
-      }
+      if(!stateConnectionEstablished)
+        return;
+
+
+      // TODO: release shared memory here
+
       sharedStuff.pipe.disconnect();
       stateConnectionEstablished = false;
-    }
-    //-------------------------- CREATE SHARED MEMORY -------------------------------------------
-    bool createSharedMemory()
-    {
-      // check prerequisites
-      if(!stateConnectionEstablished)
-      {
-        lastError = std::string(__FUNCTION__)+": connection not established";
-        return false;
-      }
-      resetError();
-      stateSharedMemoryInitialized = false;
-
-      // create and publish static data
-      sharedStuff.staticData.create();
-      gameData = &sharedStuff.staticData.get();
-
-      // init dynamic objects
-      sharedStuff.userInput.init(1000, true);
-      sharedStuff.events.init(2000, true);
-
-      stateSharedMemoryInitialized = true;
-      return true;
-    }
-
-    //-------------------------- STOP MATCH -----------------------------------------------------
-    bool releaseSharedMemory()
-    {
-      stateSharedMemoryInitialized = false;
-      return true;
     }
     //-------------------------- INVOKE ON START MATCH ------------------------------------------
     void invokeOnStartMatch(bool fromBeginning)
@@ -152,7 +131,6 @@ namespace BWAPI
       {
         throw GeneralException(__FUNCTION__ ": connection not established");
       }
-      resetError();
 
       // send onStartMatch event
       {
@@ -160,8 +138,6 @@ namespace BWAPI
         Bridge::PipeMessage::ServerMatchInit startMatchEvent;
 
         startMatchEvent.fromBeginning = fromBeginning;
-
-        startMatchEvent.staticGameDataExport = sharedStuff.staticData.exportToProcess(sharedStuff.remoteProcess, true);
 
         // pushlish the shared memory location
         sharedStuff.pipe.sendRawStructure(startMatchEvent);
@@ -183,8 +159,6 @@ namespace BWAPI
       packet.readTo(initMatchDone);
 
       initMatchDone;  // yet no data to read
-
-      stateSharedMemoryInitialized = true;
     }
     //-------------------------- UPDATE PACKET HANDLERS -----------------------------------------
     bool handleUpdateCommands(Bridge::PipeMessage::AgentUpdateCommands& packet)
@@ -281,28 +255,23 @@ namespace BWAPI
       sharedStuff.events.clear();
     }
     //------------------------------ PUSH SEND TEXT ----------------------------------------------
-    bool pushSendText(const char *text)
+    void pushSendText(const char *text)
     {
       // check prerequisites
-      if(!stateSharedMemoryInitialized)
-      {
-        lastError = std::string(__FUNCTION__)+ ": shared memory not initialized";
-        return false;
-      }
+      if(!stateConnectionEstablished)
+        throw GeneralException(__FUNCTION__ ": connection required");
 
       Util::Buffer userInputEntry;
       int stringLength = ::strlen(text) + 1; // including terminal NULL
       userInputEntry.append(Util::MemoryFrame((char*)text, stringLength));
       sharedStuff.userInput.insert(userInputEntry.getMemory());
-
-      return true;
     }
     //------------------------------ ADD KNOWN UNIT ----------------------------------------------
     int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason)
     {
       // check prerequisites
-      if(!stateSharedMemoryInitialized)
-        throw GeneralException(__FUNCTION__ ": shared memory not initialized");
+      if(!stateConnectionEstablished)
+        throw GeneralException(__FUNCTION__ ": connection required");
 
       // insert new known unit to set
       int index = gameData->units.findEmptySlot();
@@ -322,7 +291,7 @@ namespace BWAPI
     void removeKnownUnit(int index, UnitRemoveEventTypeId reason)
     {
       // check prerequisites
-      if(!stateSharedMemoryInitialized)
+      if(!stateConnectionEstablished)
         throw GeneralException(__FUNCTION__ ": shared memory not initialized");
 
       // remove known unit from set
@@ -335,17 +304,21 @@ namespace BWAPI
       sharedStuff.events.insert(Util::MemoryFrame::from(entry));
     }
     //-------------------------- UPDATE REMOTE SHARED MEMORY ------------------------------------
-    bool updateRemoteSharedMemory()
+    void updateRemoteSharedMemory()
     {
       // export userInput updates
       while(sharedStuff.userInput.isUpdateExportNeeded())
       {
         // create export package
         Bridge::PipeMessage::ServerUpdateUserInput packet;
-        if(!sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        try
         {
-          lastError = std::string(__FUNCTION__)+ ": exporting userInput update failed";
-          return false;
+          sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess);
+        }
+        catch(GeneralException &e)
+        {
+          e.append(__FUNCTION__ " exporting userInput update");
+          throw;
         }
 
         // send update export
@@ -357,17 +330,19 @@ namespace BWAPI
       {
         // create export package
         Bridge::PipeMessage::ServerUpdateEvents packet;
-        if(!sharedStuff.events.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        try
         {
-          lastError = std::string(__FUNCTION__)+ ": exporting events update failed";
-          return false;
+          sharedStuff.events.exportNextUpdate(packet.exp, sharedStuff.remoteProcess);
+        }
+        catch(GeneralException &e)
+        {
+          e.append(__FUNCTION__ " exporting events update");
+          throw;
         }
 
         // send update export
         sharedStuff.pipe.sendRawStructure(packet);
       }
-
-      return true;
     }
     //-------------------------- GET ALL DRAW SHAPES --------------------------------------------
     void enumAllDrawShapes(DrawShapeCallback enumCallback)
@@ -393,11 +368,6 @@ namespace BWAPI
     bool isBridgeInitialized()
     {
       return stateIsInitialized;
-    }
-    //-------------------------- IS SHARED MEMORY INITIALIZED -----------------------------------
-    bool isSharedMemoryInitialized()
-    {
-      return stateSharedMemoryInitialized;
     }
     //-------------------------- ----------------------------------------------------------------
   }

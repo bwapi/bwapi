@@ -15,7 +15,7 @@ namespace BWAPI
   namespace BridgeClient
   {
   //public:
-    extern BWAPI::StaticGameData* sharedStaticData;
+    extern BWAPI::StaticGameData* gameData;
     extern Bridge::SharedStuff sharedStuff;
 
     // events
@@ -29,7 +29,7 @@ namespace BWAPI
     extern std::string getLastError();
     extern bool connect();
     extern void disconnect();
-    extern bool waitForEvent();
+    extern void waitForEvent();
 
     extern std::deque<std::string> getUserInputStrings();
 

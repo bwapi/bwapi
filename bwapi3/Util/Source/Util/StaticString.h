@@ -15,13 +15,13 @@ namespace Util
 
     char buffer[bufferSize];
 
-    // convenience functions
-    char* operator(char*)()
+    // limit obiding functions
+    operator char*()
     {
       return buffer;
     }
 
-    const char* operator(const char*)() const
+    operator const char*() const
     {
       return buffer;
     }
@@ -35,5 +35,5 @@ namespace Util
     {
       set(source.c_str());
     }
-  }
+  };
 }

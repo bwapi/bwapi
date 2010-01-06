@@ -583,6 +583,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath="..\Interface Packer\BWAPI1.ini"
+			>
+		</File>
+		<File
 			RelativePath="..\svnrev.h"
 			>
 		</File>

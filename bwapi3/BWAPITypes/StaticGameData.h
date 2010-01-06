@@ -8,6 +8,7 @@
 
 #include <Util\StaticVector.h>
 #include <Util\StaticSet.h>
+#include <Util\StaticString.h>
 
 namespace BWAPI
 {
@@ -26,9 +27,9 @@ namespace BWAPI
     int screenY;
     int mapWidth;
     int mapHeight;
-    char mapFilename[260];//size based on broodwar memory
-    char mapName[32];     //size based on broodwar memory
-    char userInput[256];  // size based on experiments. 78 in bw, 119 in mp chat room, 255 in bnet
+    Util::StaticString<260> mapFilename;  //size based on broodwar memory
+    Util::StaticString<32>  mapName;      //size based on broodwar memory
+    Util::StaticString<256> userInput;    // size based on experiments. 78 in bw, 119 in mp chat room, 255 in bnet
     int mapHash;
     int getGroundHeight[1024][1024];
     bool isWalkable[1024][1024]; 
