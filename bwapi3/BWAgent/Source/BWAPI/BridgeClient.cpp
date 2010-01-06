@@ -27,17 +27,10 @@ namespace BWAPI
     bool sharedMemoryInitialized = false;
     RpcState rpcState = Intermediate;
 
-    // error handling
-    std::string lastError;
-    void resetError()
-    {
-      lastError = "no error";
-    }
-
   //public:
     //----------------------------------------- PUBLIC DATA -----------------------------------------------------
     // public access to shared memory
-    BWAPI::StaticGameData* sharedStaticData;
+    BWAPI::StaticGameData* gameData;
 
     // events
     std::vector<const UnitAddEvent*> knownUnitAddEvents;
@@ -48,26 +41,13 @@ namespace BWAPI
     //----------------------------------------- CONNECT ---------------------------------------------------------
     bool connect()
     {
-      resetError();
       if(connectionEstablished)
-      {
-        lastError = __FUNCTION__ ": Already connected";
-        return true;
-      }
+        throw GeneralException(__FUNCTION__ ": Already connected");
 
       // try to connect
       if(!sharedStuff.pipe.connect(Bridge::globalPipeName))
       {
-        lastError = __FUNCTION__ ": Could not establish pipe connection. Check whether:\n - Broodwar is lauched with BWAPI\n - Another bot is already connected";
         return false;
-      }
-
-      // send handshake packet
-      {
-        Bridge::PipeMessage::AgentHandshake handshake;
-        handshake.agentVersion = SVN_REV;
-        handshake.agentProcessId = ::GetCurrentProcessId();
-        sharedStuff.pipe.sendRawStructure(handshake);
       }
 
       // receive handshake
@@ -77,31 +57,67 @@ namespace BWAPI
 
         Bridge::PipeMessage::ServerHandshake handshake;
         data.getMemory().readTo(handshake);
-        if(!handshake.accepted)
+
+        // check if this agent is same version
+        if(handshake.serverVersion != SVN_REV)
         {
-          if(handshake.serverVersion != SVN_REV)
-          {
-            lastError = __FUNCTION__ ": BWAPI.dll(";
-            lastError += handshake.serverVersion;
-            lastError += ") and BWAgent.dll(" SVN_REV_STR ") version mismatch";
-            return false;
-          }
-          lastError = __FUNCTION__ ": BWAPI rejected the connection";
-          return false;
-        }
-        // try access the process for handle duplication
-        if(!sharedStuff.remoteProcess.importHandle(handshake.serverProcessHandle))
-        {
-          lastError = __FUNCTION__ ": imported faulty process handle";
-          return false;
+          sharedStuff.pipe.disconnect();
+          throw GeneralException(__FUNCTION__ ": BWAPI.dll("
+            + Util::Strings::intToString(handshake.serverVersion)
+            + ") and BWAgent.dll(" SVN_REV_STR ") version mismatch");
         }
       }
 
-      // acknoledge handshake
+      // handshake successfull
+
+      try
       {
-        Bridge::PipeMessage::AgentHandshakeAcknoledge ack;
-        ack.accepted = true;
-        sharedStuff.pipe.sendRawStructure(ack);
+        // release everything, just to be sure
+        sharedStuff.staticData.release();
+        sharedStuff.commands.release();
+        sharedStuff.userInput.release();
+        sharedStuff.events.release();
+
+        // init agent-side dynamic memory
+        sharedStuff.commands.init(4000, true);
+        sharedStuff.drawShapes.init(4000, true);
+
+        // send handshake packet (this handshake is part of the protocoll)
+        {
+          Bridge::PipeMessage::AgentHandshake handshake;
+
+          // transmit process id
+          handshake.agentProcessId = ::GetCurrentProcessId();
+          sharedStuff.pipe.sendRawStructure(handshake);
+        }
+
+        // receive the initialisation packet
+        {
+          Util::Buffer data;
+          sharedStuff.pipe.receive(data);
+
+          Bridge::PipeMessage::ServerSharedMemoryInit init;
+          data.getMemory().readTo(init);
+
+          // import static data
+          sharedStuff.staticData.import(init.staticGameDataExport);
+          gameData = &sharedStuff.staticData.get();
+
+          // store the process handle for shared memory handle duplication
+          sharedStuff.remoteProcess.importHandle(init.serverProcessHandle);
+        }
+
+        // send the initialisation packet
+        {
+          Bridge::PipeMessage::AgentSharedMemoryInit init;
+          sharedStuff.pipe.sendRawStructure(init);
+        }
+      }
+      catch(GeneralException &e)
+      {
+        sharedStuff.pipe.disconnect();
+        e.append("while attaching");
+        throw;
       }
 
       // connected
@@ -127,19 +143,22 @@ namespace BWAPI
     }
 
     //----------------------------------------- UPDATE REMOTE SHARED MEMORY -------------------------------------
-    bool updateRemoteSharedMemory()
+    void updateRemoteSharedMemory()
     {
-      resetError();
       // TODO: DRY this code
       // export commands updates
       while(sharedStuff.commands.isUpdateExportNeeded())
       {
         // create export package
         Bridge::PipeMessage::AgentUpdateCommands packet;
-        if(!sharedStuff.commands.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        try
         {
-          lastError = __FUNCTION__ ": exporting commands update failed";
-          return false;
+          sharedStuff.commands.exportNextUpdate(packet.exp, sharedStuff.remoteProcess);
+        }
+        catch(GeneralException &e)
+        {
+          e.append(__FUNCTION__ " exporting commands update");
+          throw;
         }
 
         // send update export
@@ -151,17 +170,19 @@ namespace BWAPI
       {
         // create export package
         Bridge::PipeMessage::AgentUpdateDrawShapes packet;
-        if(!sharedStuff.drawShapes.exportNextUpdate(packet.exp, sharedStuff.remoteProcess))
+        try
         {
-          lastError = __FUNCTION__ ": exporting drawShapes update failed";
-          return false;
+          sharedStuff.drawShapes.exportNextUpdate(packet.exp, sharedStuff.remoteProcess);
+        }
+        catch(GeneralException &e)
+        {
+          e.append(__FUNCTION__ " exporting drawShapes update");
+          throw;
         }
 
         // send update export
         sharedStuff.pipe.sendRawStructure(packet);
       }
-
-      return true;
     }
     //----------------------------------------- EVENT ENTRY HANDLERS --------------------------------------------
     int sortEventKnownUnitAdd(Bridge::EventEntry::KnownUnitAdd& packet)
@@ -189,20 +210,6 @@ namespace BWAPI
     {
       // save options
       isMatchStartFromBeginning = packet.fromBeginning;
-
-      // release everything, just to be sure
-      sharedStuff.staticData.release();
-      sharedStuff.commands.release();
-      sharedStuff.userInput.release();
-      sharedStuff.events.release();
-
-      // first import static data. It's all combined into staticData
-      sharedStuff.staticData.import(packet.staticGameDataExport);
-      sharedStaticData = &sharedStuff.staticData.get();
-
-      // init agent-side dynamic memory
-      sharedStuff.commands.init(4000, true);
-      sharedStuff.drawShapes.init(4000, true);
 
       rpcState = OnInitMatch;
 
@@ -250,7 +257,7 @@ namespace BWAPI
       return false;
     }
     //----------------------------------------- WAIT FOR EVENT --------------------------------------------------
-    bool waitForEvent()
+    void waitForEvent()
     {
       // packet handlers have bool (wait for next packet) as return type
       static Util::TypedPacketSwitch<bool> packetSwitch;
@@ -263,9 +270,6 @@ namespace BWAPI
         packetSwitch.addHandler(handleFrameNext);
       }
 
-      // error handling
-      resetError();
-
       // send readyness packet
       switch(rpcState)
       {
@@ -275,8 +279,7 @@ namespace BWAPI
       case OnFrame:
         {
           // update remote dynamic memory
-          if(!updateRemoteSharedMemory())
-            return false;
+          updateRemoteSharedMemory();
 
           // return RPC
           Bridge::PipeMessage::AgentFrameNextDone done;
@@ -302,7 +305,6 @@ namespace BWAPI
         waitForNextPacket = packetSwitch.handlePacket(buffer.getMemory());
       }
 
-      return true;
     }
     //----------------------------------------- GET USER INPUT STRINGS ------------------------------------------
     std::deque<std::string> getUserInputStrings()
@@ -412,11 +414,6 @@ namespace BWAPI
       packet.pos.y = y;
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
-    }
-    //----------------------------------------- GET LAST ERROR --------------------------------------------------
-    std::string getLastError()
-    {
-      return lastError;
     }
     //----------------------------------------- -----------------------------------------------------------------
   }

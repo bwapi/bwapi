@@ -40,8 +40,7 @@ namespace BWAPI
   {
     while(true)
     {
-      if(!BridgeClient::waitForEvent())
-        throw GeneralException(__FUNCTION__ ": " + BridgeClient::getLastError());
+      BridgeClient::waitForEvent();
 
       // react upon bridge state
       BridgeClient::RpcState rpcState = BridgeClient::getCurrentRpc();
@@ -105,14 +104,16 @@ namespace BWAPI
   //----------------------------------- GET STATIC DATA -------------------------------------------
   BWAPI_FUNCTION const BWAPI::StaticGameData* GetStaticGameData()
   {
-    BWAPI::StaticGameData *retval = BridgeClient::sharedStaticData;
+    if(!BridgeClient::isConnected())
+      throw GeneralException("GetStaticGameData requires connection");
+    BWAPI::StaticGameData *retval = BridgeClient::gameData;
     return retval;
   }
   //----------------------------------- POSITION MAP TO SCREEN ------------------------------------
   BWAPI_FUNCTION void PositionMapToScreen(BWAPI::Position* pos)
   {
-    pos->x -= BridgeClient::sharedStaticData->screenX;
-    pos->y -= BridgeClient::sharedStaticData->screenY;
+    pos->x -= BridgeClient::gameData->screenX;
+    pos->y -= BridgeClient::gameData->screenY;
     for each(Position pos in gameData.startLocations)
     {
       pos;

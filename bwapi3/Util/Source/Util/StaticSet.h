@@ -7,7 +7,7 @@
  *
  */
 
-#include "Types.h"
+#include <Util\Types.h>
 
 #include <stdexcept>
 
@@ -63,27 +63,38 @@ namespace Util
     {
       friend struct StaticSet;
     private:
-      const_iterator(const Slot *data, int index, int validIndex, int validCount)
+      const_iterator(const Slot *data, int index, int validCount)
         : data(data)
+        , validLeft(validCount)
         , index(index)
-        , validIndex(validIndex)
-        , validCount(validCount)
-      {}
+      {
+        if(validLeft != -1 && index == -1)
+        {
+          // this is a begin iterator
+          // find the first valid slot
+          operator++();
+        }
+      }
 
-      int validIndex;
-      int validCount;
       int index;
+      int validLeft;
       const Slot *data;
     public:
       void operator++()
       {
-        if(validIndex >= validCount)
-          throw std::out_of_range("iterator ++'ed past range");
+        if(validLeft < 0)
+          throw std::out_of_range("iterator ++'ed past end");
+        if(validLeft == 0)
+        {
+          validLeft = -1;
+          return;
+        }
         do
         {
           index++;
+          _ASSERT(index < SIZE);  // validIndex did not handle correctly
         }while(!data[index].valid);
-        validIndex++;
+        validLeft--;
       }
       Indexed<const T&> operator*() const
       {
@@ -91,7 +102,7 @@ namespace Util
       }
       bool operator==(const const_iterator &b) const
       {
-        return validIndex == b.validIndex;
+        return validLeft == b.validLeft;
       }
       bool operator!=(const const_iterator &b) const
       {
@@ -101,12 +112,12 @@ namespace Util
 
     const_iterator begin() const
     {
-      return const_iterator(data, 0, 0, count);
+      return const_iterator(data, -1, count);
     }
 
     const_iterator end() const
     {
-      return const_iterator(data, size, count, count);
+      return const_iterator(data, size, -1);
     }
 
     //---- general functions ----------------------------------------

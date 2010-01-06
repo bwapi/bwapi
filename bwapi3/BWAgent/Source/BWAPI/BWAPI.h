@@ -27,8 +27,10 @@
 #include <BWAPITypes\PlayerTypeId.h>
 #include <BWAPITypes\CallTypeId.h>
 
-#include <windows.h>
 #include <string>
+
+#include <windows.h>
+#undef DrawText
 
 namespace BWAPI
 {

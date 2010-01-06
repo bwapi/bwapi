@@ -30,7 +30,7 @@ namespace Util
     bool connect(std::string globalPipeName) throw();   // connect to a server pipe (client)
     void waitIncomingConnection();              // blocks, serverside (server)
     void disconnect();                          // disconnect and reuse
-    void discard();                             // disconnect and remove
+    void discard()  throw();                    // disconnect and remove
 
     void send(const MemoryFrame &in);           // blocks only if sent tooo much
     template<typename T>
@@ -66,6 +66,7 @@ namespace Util
 
   private:
     HANDLE pipeObjectHandle;
+    bool isServer;
     bool connected;
     bool listening;
 

@@ -26,17 +26,16 @@ namespace BWAPI
     extern std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
     extern std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
 
-    extern bool initConnectionServer();
+    extern void initConnectionServer();
     extern void acceptIncomingConnections();
     extern void disconnect();
-    extern bool createSharedMemory();
     extern bool exportSharedMemory();
     extern bool releaseSharedMemory();
-    extern bool updateRemoteSharedMemory();
+    extern void updateRemoteSharedMemory();
     extern void invokeOnFrame();
     extern void invokeOnStartMatch(bool fromBeginning);
 
-    extern bool pushSendText(const char *text);
+    extern void pushSendText(const char *text);
 
     // returns the index of the new unit
     extern int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason);
@@ -44,8 +43,6 @@ namespace BWAPI
 
     extern bool isAgentConnected();               // true when pipe connection works
     extern bool isBridgeInitialized();            // true once initBridge called
-    extern bool isSharedMemoryInitialized();      // true once memory allocated
-    extern const std::string &getLastError();
 
     typedef void (*DrawShapeCallback)(Util::MemoryFrame packet);
     extern void enumAllDrawShapes(DrawShapeCallback);

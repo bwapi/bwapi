@@ -12,7 +12,8 @@ namespace Util
   Pipe::Pipe()
     : pipeObjectHandle(INVALID_HANDLE_VALUE)
     , connected(false)
-    , listening(false)  // yes, it's initialized in the error state
+    , listening(false)
+    , isServer(false)
   {
   }
 
@@ -54,7 +55,8 @@ namespace Util
     }
     catch(...)
     {
-      ::CloseHandle(this->pipeObjectHandle);
+      discard();
+      throw;
     }
 
     // next state already set by _listen()
@@ -111,7 +113,7 @@ namespace Util
     _listen();
   }
   //----------------------- DISCARD ------------------------------------
-  void Pipe::discard()
+  void Pipe::discard() throw()
   {
     if(this->pipeObjectHandle != INVALID_HANDLE_VALUE)
     {

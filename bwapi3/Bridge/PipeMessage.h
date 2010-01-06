@@ -16,36 +16,38 @@ namespace Bridge
 #define UNIQUE_ID __LINE__
     //------------------------------------------------
     // Sent once at the beginning as identification
-    // Do not change! To keep backwards compability
+    // Do not change! To keep backwards compatibility
     // Does not even include TypeHead
     //------------------------------------------------
-    struct AgentHandshake
-    {
-      int agentVersion;
-      Util::RemoteProcessId agentProcessId;
-    };
     struct ServerHandshake
     {
-      bool accepted;
+      // protocoll version is defined by the server version
+      // agent, if unconfortable, simply detaches
       int serverVersion;
+    };
+    //------------------------------------------------
+    // the initalisation
+    //------------------------------------------------
+    struct AgentHandshake : Util::TypeHead<UNIQUE_ID>
+    {
+      Util::RemoteProcessId agentProcessId;
+    };
+    struct ServerSharedMemoryInit : Util::TypeHead<UNIQUE_ID>
+    {
+      Bridge::SharedStuff::StaticGameDataStructure::Export staticGameDataExport;
       int serverProcessHandle;
     };
-    struct AgentHandshakeAcknoledge
+    struct AgentSharedMemoryInit : Util::TypeHead<UNIQUE_ID>
     {
-      bool accepted;
     };
     //------------------------------------------------
     // Sent at the beginning of a Match to pass control.
     // During this controll time, Agents has access to
     // all neutral units
-    //
-    // Also exports static shared memory
     //------------------------------------------------
     struct ServerMatchInit : Util::TypeHead<UNIQUE_ID>
     {
       bool fromBeginning;
-
-      Bridge::SharedStuff::StaticGameDataStructure::Export staticGameDataExport;
     };
     struct AgentMatchInitDone : Util::TypeHead<UNIQUE_ID>
     {
@@ -82,7 +84,6 @@ namespace Bridge
     };
     //------------------------------------------------
     // Notifies of the current game being over
-    // Requests all Shared objects to be released
     //------------------------------------------------
     struct ServerMatchEnd : Util::TypeHead<UNIQUE_ID>
     {

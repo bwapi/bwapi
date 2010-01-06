@@ -62,10 +62,9 @@ namespace Util
     return retval;
   }
   //----------------------- IMPORT HANDLE ------------------------------
-  bool RemoteProcess::importHandle(int handle)
+  void RemoteProcess::importHandle(int handle)
   {
     this->processHandle = (HANDLE)handle;
-    return !!handle;
   }
   //----------------------- IS VALID -----------------------------------
   bool RemoteProcess::isValid()

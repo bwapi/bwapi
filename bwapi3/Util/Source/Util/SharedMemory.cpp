@@ -112,10 +112,5 @@ namespace Util
     : targetProcessMappingObjectHandle(INVALID_HANDLE_VALUE)
   {
   }
-  //----------------------- IS VALID -----------------------------------
-  bool SharedMemory::Export::isValid() const
-  {
-    return this->targetProcessMappingObjectHandle != INVALID_HANDLE_VALUE;
-  }
   //----------------------- --------------------------------------------
 }

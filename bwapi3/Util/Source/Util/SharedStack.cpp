@@ -130,15 +130,12 @@ namespace Util
     return (unsigned)this->exportedBlocks < this->ownedBlocks.size();
   }
   //----------------------- EXPORT NEXT ------------------------------
-  bool SharedStack::exportNextUpdate(Export &out, RemoteProcess &targetProcess)
+  void SharedStack::exportNextUpdate(Export &out, RemoteProcess &targetProcess)
   {
     if(this->exportedBlocks >= (int)this->ownedBlocks.size())
-      return false;
+      throw GeneralException("nothing more to export");
     out = this->ownedBlocks[this->exportedBlocks].memory->exportToProcess(targetProcess, this->exportReadOnly);
-    if(!out.isValid())
-      return false;
     this->exportedBlocks++;
-    return true;
   }
   //----------------------- IMPORT NEXT ------------------------------
   void SharedStack::importNextUpdate(const Export &in)
