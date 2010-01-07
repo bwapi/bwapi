@@ -13,8 +13,9 @@
 
 namespace BWAPI
 {
-  struct KnownUnit
+  struct KnownUnit : BWAPI::UnitState
   {
-    BWAPI::UnitState state;
+    // this structure resides in read only memory, so there is
+    // probably nothing else that can be put here besides state
   };
 }

@@ -86,7 +86,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="&quot;all.cmd&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -371,6 +371,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\DynamicGameData.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\Error.h"
 					>
 				</File>
@@ -428,6 +432,10 @@
 				</File>
 				<File
 					RelativePath="..\BWAPITypes\UnitCommandTypeID.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\UnitEvent.h"
 					>
 				</File>
 				<File
@@ -585,6 +593,15 @@
 		<File
 			RelativePath="..\Interface Packer\BWAPI1.ini"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="&quot;all.cmd&quot;"
+					Outputs="include"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\svnrev.h"

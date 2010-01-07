@@ -23,8 +23,6 @@ namespace BWAPI
 {
 //private:
 //public:
-  //----------------------------------- STATIC DATA -----------------------------------------------
-  StaticGameData gameData;
   //----------------------------------- GET VERSION -----------------------------------------------
   BWAPI_FUNCTION int GetVersion()
   {
@@ -102,86 +100,84 @@ namespace BWAPI
     BridgeClient::pushDrawDot(x, y, color);
   }
   //----------------------------------- GET STATIC DATA -------------------------------------------
-  BWAPI_FUNCTION const BWAPI::StaticGameData* GetStaticGameData()
+  BWAPI_FUNCTION const StaticGameData* GetStaticGameData()
   {
     if(!BridgeClient::isConnected())
       throw GeneralException("GetStaticGameData requires connection");
-    BWAPI::StaticGameData *retval = BridgeClient::gameData;
+    StaticGameData *retval = BridgeClient::gameData;
     return retval;
   }
-  //----------------------------------- POSITION MAP TO SCREEN ------------------------------------
-  BWAPI_FUNCTION void PositionMapToScreen(BWAPI::Position* pos)
+  //----------------------------------- GET DYNAMIC EVENT CONTAINERS ------------------------------
+  BWAPI_FUNCTION const DynamicGameData* GetDynamicGameData()
   {
-    pos->x -= BridgeClient::gameData->screenX;
-    pos->y -= BridgeClient::gameData->screenY;
-    for each(Position pos in gameData.startLocations)
-    {
-      pos;
-    }
+    if(!BridgeClient::isConnected())
+      throw GeneralException("GetDynamicGameData requires connection");
+    DynamicGameData *retval = &BridgeClient::dynamicData;
+    return retval;
   }
   //----------------------------------- GET UNIT --------------------------------------------------
-  BWAPI_FUNCTION const BWAPI::UnitState* GetUnit(UnitId unitId)
+  BWAPI_FUNCTION const UnitState* GetUnit(UnitId unitId)
   {
-    return &gameData.units.at(unitId).state;
+    return &BridgeClient::gameData->units.at(unitId);
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
-  BWAPI_FUNCTION const BWAPI::Player* GetPlayer(PlayerId playerId)
+  BWAPI_FUNCTION const Player* GetPlayer(PlayerId playerId)
   {
-    return &gameData.players.at(playerId);
+    return &BridgeClient::gameData->players.at(playerId);
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
-  BWAPI_FUNCTION const BWAPI::UnitType* GetUnitType(BWAPI::UnitTypeId id)
+  BWAPI_FUNCTION const UnitType* GetUnitType(UnitTypeId id)
   {
-    return &BWAPI::UnitTypes::unitTypeData[id];
+    return &UnitTypes::unitTypeData[id];
   }
   //----------------------------------- GET TECH TYPE ---------------------------------------------
-  BWAPI_FUNCTION const BWAPI::TechType* GetTechType(BWAPI::TechTypeId id)
+  BWAPI_FUNCTION const TechType* GetTechType(TechTypeId id)
   {
-    return &BWAPI::TechTypes::techTypeData[id];
+    return &TechTypes::techTypeData[id];
   }
   //----------------------------------- GET UPGRADE TYPE ------------------------------------------
-  BWAPI_FUNCTION const BWAPI::UpgradeType* GetUpgradeType(BWAPI::UpgradeTypeId id)
+  BWAPI_FUNCTION const UpgradeType* GetUpgradeType(UpgradeTypeId id)
   {
-    return &BWAPI::upgradeTypeData[id];
+    return &upgradeTypeData[id];
   }
   //----------------------------------- GET WEAPON TYPE -------------------------------------------
-  BWAPI_FUNCTION const BWAPI::WeaponType* GetWeaponType(BWAPI::WeaponTypeId id)
+  BWAPI_FUNCTION const WeaponType* GetWeaponType(WeaponTypeId id)
   {
-    return &BWAPI::WeaponTypes::weaponTypeData[id];
+    return &WeaponTypes::weaponTypeData[id];
   }
   //----------------------------------- GET DAMAGE TYPE -------------------------------------------
-  BWAPI_FUNCTION const BWAPI::DamageType* GetDamageType(BWAPI::DamageTypeId id)
+  BWAPI_FUNCTION const DamageType* GetDamageType(DamageTypeId id)
   {
-    return &BWAPI::DamageTypes::damageTypeData[id];
+    return &DamageTypes::damageTypeData[id];
   }
   //----------------------------------- GET EXPLOSION TYPE ----------------------------------------
-  BWAPI_FUNCTION const BWAPI::ExplosionType* GetExplosionType(BWAPI::ExplosionTypeId id)
+  BWAPI_FUNCTION const ExplosionType* GetExplosionType(ExplosionTypeId id)
   {
-    return &BWAPI::ExplosionTypes::explosionTypeData[id];
+    return &ExplosionTypes::explosionTypeData[id];
   }
   //----------------------------------- GET RACE --------------------------------------------------
-  BWAPI_FUNCTION const BWAPI::Race* GetRace(BWAPI::RaceId id)
+  BWAPI_FUNCTION const Race* GetRace(RaceId id)
   {
-      return &BWAPI::Races::raceData[id];
+      return &Races::raceData[id];
   }
   //----------------------------------- GET UNIT SIZE TYPE ----------------------------------------
-  BWAPI_FUNCTION const BWAPI::UnitSizeType* GetUnitSizeType(BWAPI::UnitSizeTypeId id)
+  BWAPI_FUNCTION const UnitSizeType* GetUnitSizeType(UnitSizeTypeId id)
   {
-    return &BWAPI::UnitSizeTypes::unitSizeTypeData[id];
+    return &UnitSizeTypes::unitSizeTypeData[id];
   }
   //----------------------------------- GET PLAYER TYPE -------------------------------------------
-  BWAPI_FUNCTION const BWAPI::PlayerType* GetPlayerType(BWAPI::PlayerTypeId id)
+  BWAPI_FUNCTION const PlayerType* GetPlayerType(PlayerTypeId id)
   {
-    return &BWAPI::PlayerTypes::playerTypeData[id];
+    return &PlayerTypes::playerTypeData[id];
   }
   //----------------------------------- -----------------------------------------------------------
   //----------------------------------- INSERT ORDER ----------------------------------------------
-  BWAPI::UnitCommand& insertOrder()
+  UnitCommand& insertOrder()
   {
     Bridge::CommandEntry::UnitOrder entry;
     Bridge::SharedStuff::CommandStack::Index i = BridgeClient::sharedStuff.commands.insert(Util::MemoryFrame::from(entry));
 
-    static BWAPI::UnitCommand safeSpot;
+    static UnitCommand safeSpot;
     if(!i.isValid())
       return safeSpot;
 
@@ -190,7 +186,7 @@ namespace BWAPI
   //----------------------------------- ATTACK POSITION ORDER -------------------------------------
   BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::AttackPosition;
     order.unitIndex = unitId;
     order.x = x;
@@ -199,7 +195,7 @@ namespace BWAPI
   //----------------------------------- ATTACK UNIT ORDER -----------------------------------------
   BWAPI_FUNCTION void OrderAttackUnit(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::AttackUnit;
     order.unitIndex = unitId;
     order.targetIndex = targetUnitId;
@@ -207,7 +203,7 @@ namespace BWAPI
   //----------------------------------- RIGHT CLICK POSITION ORDER --------------------------------
   BWAPI_FUNCTION void OrderRightClickPosition(int unitId, int x, int y)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::RightClickPosition;
     order.unitIndex = unitId;
     order.x = x;
@@ -216,47 +212,47 @@ namespace BWAPI
   //----------------------------------- RIGHT CLICK UNIT ORDER ------------------------------------
   BWAPI_FUNCTION void OrderRightClickUnit(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::RightClickUnit;
     order.unitIndex = unitId;
     order.targetIndex = targetUnitId;
   }
   //----------------------------------- TRAIN ORDER -----------------------------------------------
-  BWAPI_FUNCTION void OrderTrain(int unitId, BWAPI::UnitTypeId what)
+  BWAPI_FUNCTION void OrderTrain(int unitId, UnitTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Train;
     order.unitIndex = unitId;
     order.unitType = what;
   }
   //----------------------------------- BUILD ORDER -----------------------------------------------
-  BWAPI_FUNCTION void OrderBuild(int unitId, BWAPI::UnitTypeId what)
+  BWAPI_FUNCTION void OrderBuild(int unitId, UnitTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Build;
     order.unitIndex = unitId;
     order.unitType = what;
   }
   //----------------------------------- BUILD ADDON ORDER -----------------------------------------
-  BWAPI_FUNCTION void OrderBuildAddon(int unitId, BWAPI::UnitTypeId what)
+  BWAPI_FUNCTION void OrderBuildAddon(int unitId, UnitTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::BuildAddon;
     order.unitIndex = unitId;
     order.unitType = what;
   }
   //----------------------------------- RESEARCH ORDER --------------------------------------------
-  BWAPI_FUNCTION void OrderResearch(int unitId, BWAPI::TechTypeId what)
+  BWAPI_FUNCTION void OrderResearch(int unitId, TechTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Research;
     order.unitIndex = unitId;
     order.tech = what;
   }
   //----------------------------------- UPGRADE ORDER ---------------------------------------------
-  BWAPI_FUNCTION void OrderUpgrade(int unitId, BWAPI::UpgradeTypeId what)
+  BWAPI_FUNCTION void OrderUpgrade(int unitId, UpgradeTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Upgrade;
     order.unitIndex = unitId;
     order.upgrade = what;
@@ -264,49 +260,49 @@ namespace BWAPI
   //----------------------------------- STOP ORDER ------------------------------------------------
   BWAPI_FUNCTION void OrderStop(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Stop;
     order.unitIndex = unitId;
   }
   //----------------------------------- HOLD POSITION ORDER ---------------------------------------
   BWAPI_FUNCTION void OrderHoldPosition(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::HoldPosition;
     order.unitIndex = unitId;
   }
   //----------------------------------- PATROL ORDER ----------------------------------------------
   BWAPI_FUNCTION void OrderPatrol(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Patrol;
     order.unitIndex = unitId;
   }
   //----------------------------------- FOLLOW ORDER ----------------------------------------------
   BWAPI_FUNCTION void OrderFollow(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Follow;
     order.unitIndex = unitId;
   }
   //----------------------------------- SET RALLY POSITION ORDER ----------------------------------
   BWAPI_FUNCTION void OrderSetRallyPosition(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::SetRallyPosition;
     order.unitIndex = unitId;
   }
   //----------------------------------- SET RALLY UNIT ORDER --------------------------------------
   BWAPI_FUNCTION void OrderSetRallyUnit(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::SetRallyUnit;
     order.unitIndex = unitId;
   }
   //----------------------------------- REPAIR ORDER ----------------------------------------------
   BWAPI_FUNCTION void OrderRepair(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Repair;
     order.unitIndex = unitId;
     order.targetIndex = targetUnitId;
@@ -314,14 +310,14 @@ namespace BWAPI
   //----------------------------------- RETURN CARGO ORDER ----------------------------------------
   BWAPI_FUNCTION void OrderReturnCargo(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::ReturnCargo;
     order.unitIndex = unitId;
   }
   //----------------------------------- MORPH ORDER -----------------------------------------------
-  BWAPI_FUNCTION void OrderMorph(int unitId, BWAPI::UnitTypeId what)
+  BWAPI_FUNCTION void OrderMorph(int unitId, UnitTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Morph;
     order.unitIndex = unitId;
     order.unitType = what;
@@ -329,63 +325,63 @@ namespace BWAPI
   //----------------------------------- BURROW ORDER ----------------------------------------------
   BWAPI_FUNCTION void OrderBurrow(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Burrow;
     order.unitIndex = unitId;
   }
   //----------------------------------- UNBURROW ORDER --------------------------------------------
   BWAPI_FUNCTION void OrderUnburrow(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Unburrow;
     order.unitIndex = unitId;
   }
   //----------------------------------- SIEGE ORDER -----------------------------------------------
   BWAPI_FUNCTION void OrderSiege(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Siege;
     order.unitIndex = unitId;
   }
   //----------------------------------- UNSIEGE ORDER ---------------------------------------------
   BWAPI_FUNCTION void OrderUnsiege(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Unsiege;
     order.unitIndex = unitId;
   }
   //----------------------------------- CLOAK ORDER -----------------------------------------------
   BWAPI_FUNCTION void OrderCloak(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Cloak;
     order.unitIndex = unitId;
   }
   //----------------------------------- DECLOAK ORDER ---------------------------------------------
   BWAPI_FUNCTION void OrderDecloak(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Decloak;
     order.unitIndex = unitId;
   }
   //----------------------------------- LIFT ORDER ------------------------------------------------
   BWAPI_FUNCTION void OrderLift(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Lift;
     order.unitIndex = unitId;
   }
   //----------------------------------- LAND ORDER ------------------------------------------------
   BWAPI_FUNCTION void OrderLand(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Land;
     order.unitIndex = unitId;
   }
   //----------------------------------- LOAD ORDER ------------------------------------------------
   BWAPI_FUNCTION void OrderLoad(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Load;
     order.unitIndex = unitId;
     order.targetIndex = targetUnitId;
@@ -393,7 +389,7 @@ namespace BWAPI
   //----------------------------------- UNLOAD ORDER ----------------------------------------------
   BWAPI_FUNCTION void OrderUnload(int unitId, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Unload;
     order.unitIndex = unitId;
     order.targetIndex = targetUnitId;
@@ -401,49 +397,49 @@ namespace BWAPI
   //----------------------------------- UNLOAD ALL ORDER ------------------------------------------
   BWAPI_FUNCTION void OrderUnloadAll(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UnloadAll;
     order.unitIndex = unitId;
   }
   //----------------------------------- UNLOAD ALL POSITION ORDER ---------------------------------
   BWAPI_FUNCTION void OrderUnloadAllPosition(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UnloadAllPosition;
     order.unitIndex = unitId;
   }
   //----------------------------------- CANCEL CONSTRUCTION ORDER ---------------------------------
   BWAPI_FUNCTION void OrderCancelConstruction(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelConstruction;
     order.unitIndex = unitId;
   }
   //----------------------------------- HALT CONSTRUCTION ORDER -----------------------------------
   BWAPI_FUNCTION void OrderHaltConstruction(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::HaltConstruction;
     order.unitIndex = unitId;
   }
   //----------------------------------- CANCEL MORPH ORDER ----------------------------------------
   BWAPI_FUNCTION void OrderCancelMorph(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelMorph;
     order.unitIndex = unitId;
   }
   //----------------------------------- CANCEL TRAIN ORDER ----------------------------------------
   BWAPI_FUNCTION void OrderCancelTrain(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelTrain;
     order.unitIndex = unitId;
   }
   //----------------------------------- CANCEL TRAIN SLOT ORDER -----------------------------------
   BWAPI_FUNCTION void OrderCancelTrainSlot(int unitId, int slotId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelTrainSlot;
     order.unitIndex = unitId;
     order.extra = slotId;
@@ -451,43 +447,43 @@ namespace BWAPI
   //----------------------------------- CANCEL ADDON ORDER ----------------------------------------
   BWAPI_FUNCTION void OrderCancelAddon(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelAddon;
     order.unitIndex = unitId;
   }
   //----------------------------------- CANCEL RESEARCH ORDER -------------------------------------
   BWAPI_FUNCTION void OrderCancelResearch(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelResearch;
     order.unitIndex = unitId;
   }
   //----------------------------------- CANCEL UPGRADE ORDER --------------------------------------
   BWAPI_FUNCTION void OrderCancelUpgrade(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::CancelUpgrade;
     order.unitIndex = unitId;
   }
   //----------------------------------- USE TECH ORDER --------------------------------------------
   BWAPI_FUNCTION void OrderUseTech(int unitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UseTech;
     order.unitIndex = unitId;
 
   }
   //----------------------------------- USE TECH POSITION ORDER -----------------------------------
-  BWAPI_FUNCTION void OrderUseTechPosition(int unitId, BWAPI::TechTypeId what)
+  BWAPI_FUNCTION void OrderUseTechPosition(int unitId, TechTypeId what)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UseTechPosition;
     order.unitIndex = unitId;
   }
   //----------------------------------- USE TECH UNIT ORDER ---------------------------------------
-  BWAPI_FUNCTION void OrderUseTechUnit(int unitId, BWAPI::TechTypeId what, int targetUnitId)
+  BWAPI_FUNCTION void OrderUseTechUnit(int unitId, TechTypeId what, int targetUnitId)
   {
-    BWAPI::UnitCommand &order = insertOrder();
+    UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UseTechUnit;
     order.unitIndex = unitId;
     order.targetIndex = targetUnitId;

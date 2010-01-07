@@ -530,8 +530,8 @@ namespace BWAPI
                 KnownUnit &knownUnit = *mirror.knownUnit;
 
                 // TODO: implement clearance limit
-                knownUnit.state.position              = bwUnit.position;
-                knownUnit.state.type                  = (UnitTypeId)bwUnit.unitID.id;
+                knownUnit.position              = bwUnit.position;
+                knownUnit.type                  = (UnitTypeId)bwUnit.unitID.id;
 
                 /* TODO: find according BW::Unit members
                 knownUnit.state.id                    = (int)&knownUnit;
@@ -685,7 +685,7 @@ namespace BWAPI
 
               // simulate this command
               KnownUnit &unitEntry = BridgeServer::gameData->units.at(entry.command.unitIndex);
-              simulateUnitCommand(entry.command, unitEntry.state);
+              simulateUnitCommand(entry.command, unitEntry);
             }
           }
         }

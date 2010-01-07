@@ -31,10 +31,7 @@ namespace BWAPI
     //----------------------------------------- PUBLIC DATA -----------------------------------------------------
     // public access to shared memory
     BWAPI::StaticGameData* gameData;
-
-    // events
-    std::vector<const UnitAddEvent*> knownUnitAddEvents;
-    std::vector<const UnitRemoveEvent*> knownUnitRemoveEvents;
+    BWAPI::DynamicGameData dynamicData;
 
     // additional data for RPC states
     bool isMatchStartFromBeginning = false;
@@ -187,12 +184,12 @@ namespace BWAPI
     //----------------------------------------- EVENT ENTRY HANDLERS --------------------------------------------
     int sortEventKnownUnitAdd(Bridge::EventEntry::KnownUnitAdd& packet)
     {
-      knownUnitAddEvents.push_back(&packet.data);
+      dynamicData.unitAddEvents.push_back(&packet.data);
       return 0;
     }
     int sortEventKnownUnitRemove(Bridge::EventEntry::KnownUnitRemove& packet)
     {
-      knownUnitRemoveEvents.push_back(&packet.data);
+      dynamicData.unitRemoveEvents.push_back(&packet.data);
       return 0;
     }
     //----------------------------------------- PIPE PACKET HANDLERS --------------------------------------------
@@ -234,8 +231,8 @@ namespace BWAPI
         }
 
         // prepare arrays
-        knownUnitAddEvents.clear();
-        knownUnitRemoveEvents.clear();
+        dynamicData.unitAddEvents.clear();
+        dynamicData.unitRemoveEvents.clear();
 
         // fill arrays with references to event data
         for(Bridge::SharedStuff::EventStack::Index index = sharedStuff.events.begin();
@@ -245,10 +242,6 @@ namespace BWAPI
           // put event into the right array (sort)
           packetSwitch.handlePacket(sharedStuff.events.get(index));
         }
-
-        // add terminating NULL pointers
-        knownUnitAddEvents.push_back(NULL);
-        knownUnitRemoveEvents.push_back(NULL);
       }
 
       rpcState = OnFrame;
