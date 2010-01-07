@@ -24,6 +24,7 @@ int _tmain(int argc, _TCHAR* argv[])
     }
     printf("connected\n");
 
+    char buff[100];
     gd = GetStaticGameData();
 
     CallTypeId call = WaitForEvent();
@@ -34,11 +35,17 @@ int _tmain(int argc, _TCHAR* argv[])
       {
         if(kunit.item.type == UnitTypeIds::Terran_SCV)
           OrderStop(kunit.index);
+
+
+        Position pos = kunit.item.position;
+        pos -= gd->screenPosition;
+        sprintf(buff, "HP: %d", kunit.item.hitPoints);
+        DrawText(pos, buff);
+
         count++;
       }
-      char buff[100];
       itoa(count, buff, 10);
-      DrawText(10, 10, buff);
+      DrawText(Position(10, 10), buff);
 
       const DynamicGameData *dd = GetDynamicGameData();
 

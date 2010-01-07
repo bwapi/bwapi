@@ -246,10 +246,8 @@ namespace BWAPI
         BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
         staticData.getLatency     = BW::getLatency();
         staticData.frameCount     = frameCount;
-        staticData.mouseX         = BW::getMouseX();
-        staticData.mouseY         = BW::getMouseY();
-        staticData.screenX        = BW::getScreenX();
-        staticData.screenY        = BW::getScreenY();
+        staticData.mousePosition  = Position(BW::getMouseX(), BW::getMouseY());
+        staticData.screenPosition = Position(BW::getScreenX(), BW::getScreenY());
         for (int x=0;x<Map::getWidth();x++)
         {
           for (int y=0;y<Map::getHeight();y++)
@@ -648,8 +646,7 @@ namespace BWAPI
 
       staticData.mapName.set(Map::getName());
 
-      staticData.mapWidth      = Map::getWidth();
-      staticData.mapHeight     = Map::getHeight();
+      staticData.mapSize       = BuildPosition(Map::getWidth(), Map::getHeight());
       staticData.mapHash       = Map::getMapHash();
       staticData.isMultiplayer = BW::isMultiplayer();
       staticData.isReplay      = BW::isInReplay();
