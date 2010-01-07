@@ -21,6 +21,8 @@ namespace BW
   extern int getScreenY();
   extern Position getScreenPos();
   extern int getLatency();
+  extern void setLocalSpeed(int speed);
+  extern void resetLocalSpeed();
 
   extern void setScreenPosition(int x, int y);
   extern void startGame();
