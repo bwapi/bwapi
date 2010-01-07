@@ -5,6 +5,8 @@
 #include "UnitState.h"
 #include "Player.h"
 #include "Force.h"
+#include "Position.h"
+#include "BuildPosition.h"
 
 #include <Util\StaticVector.h>
 #include <Util\StaticSet.h>
@@ -21,12 +23,9 @@ namespace BWAPI
   {
     int frameCount;
     int getLatency;
-    int mouseX;
-    int mouseY;
-    int screenX;
-    int screenY;
-    int mapWidth;
-    int mapHeight;
+    Position mousePosition;
+    Position screenPosition;
+    BuildPosition mapSize;
     Util::StaticString<260> mapFilename;  //size based on broodwar memory
     Util::StaticString<32>  mapName;      //size based on broodwar memory
     Util::StaticString<256> userInput;    // size based on experiments. 78 in bw, 119 in mp chat room, 255 in bnet

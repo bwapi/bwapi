@@ -75,29 +75,29 @@ namespace BWAPI
     return BridgeClient::pushSendText(true, text);
   }
   //----------------------------------- DRAW TEXT -------------------------------------------------
-  BWAPI_FUNCTION void DrawText(int x, int y, const char* text)
+  BWAPI_FUNCTION void DrawText(Position pos, const char* text)
   {
-    BridgeClient::pushDrawText(x, y, text);
+    BridgeClient::pushDrawText(pos.x, pos.y, text);
   }
   //----------------------------------- DRAW RECTANGLE --------------------------------------------
-  BWAPI_FUNCTION void DrawRectangle(int x, int y, int w, int h, int color, int solid)
+  BWAPI_FUNCTION void DrawRectangle(Position pos, Position size, int color, int solid)
   {
-    BridgeClient::pushDrawRectangle(x, y, w, h, color, !!solid);
+    BridgeClient::pushDrawRectangle(pos.x, pos.y, size.x, size.y, color, !!solid);
   }
   //----------------------------------- DRAW CIRCLE -----------------------------------------------
-  BWAPI_FUNCTION void DrawCircle(int x, int y, int r, int color, int solid)
+  BWAPI_FUNCTION void DrawCircle(Position pos, int r, int color, int solid)
   {
-    BridgeClient::pushDrawCircle(x, y, r, color, !!solid);
+    BridgeClient::pushDrawCircle(pos.x, pos.y, r, color, !!solid);
   }
   //----------------------------------- DRAW LINE -------------------------------------------------
-  BWAPI_FUNCTION void DrawLine(int x, int y, int x2, int y2, int color)
+  BWAPI_FUNCTION void DrawLine(Position pos, Position pos2, int color)
   {
-    BridgeClient::pushDrawLine(x, y, x2, y2, color);
+    BridgeClient::pushDrawLine(pos.x, pos.y, pos2.x, pos2.y, color);
   }
   //----------------------------------- DRAW DOT --------------------------------------------------
-  BWAPI_FUNCTION void DrawDot(int x, int y, int color)
+  BWAPI_FUNCTION void DrawDot(Position pos, int color)
   {
-    BridgeClient::pushDrawDot(x, y, color);
+    BridgeClient::pushDrawDot(pos.x, pos.y, color);
   }
   //----------------------------------- GET STATIC DATA -------------------------------------------
   BWAPI_FUNCTION const StaticGameData* GetStaticGameData()
