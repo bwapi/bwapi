@@ -5,9 +5,8 @@
 #include <BWAPITypes\UnitEvent.h>
 #include <BWAPITypes\StaticGameData.h>
 #include <BWAPITypes\DynamicGameData.h>
+#include <BWAPITypes\CallTypeId.h>
 
-#include <BWAPITypes\UnitType.h>
-#include <BWAPITypes\UnitTypeId.h>
 #include <BWAPITypes\UnitType.h>
 #include <BWAPITypes\UnitTypeId.h>
 #include <BWAPITypes\TechType.h>
@@ -26,7 +25,6 @@
 #include <BWAPITypes\UnitSizeTypeId.h>
 #include <BWAPITypes\PlayerType.h>
 #include <BWAPITypes\PlayerTypeId.h>
-#include <BWAPITypes\CallTypeId.h>
 
 #include <string>
 

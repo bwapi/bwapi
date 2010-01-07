@@ -38,10 +38,12 @@
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/UnitType.h>
+#include <BW/UnitTypeID.h>
 #include <BW/GameType.h>
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
 #include <BW/RaceID.h>
+#include <BW\OrderID.h>
 
 #include <BWAPITypes\BuildPosition.h>
 #include <BWAPITypes\WalkPosition.h>
@@ -53,9 +55,39 @@
 #include <BWAPITypes\UnitCommand.h>
 #include <BWAPITypes\UnitState.h>
 
+#include <BWAPITypes\UnitType.h>
+#include <BWAPITypes\UnitTypeId.h>
+#include <BWAPITypes\TechType.h>
+#include <BWAPITypes\TechTypeId.h>
+#include <BWAPITypes\UpgradeType.h>
+#include <BWAPITypes\UpgradeTypeId.h>
+#include <BWAPITypes\WeaponType.h>
+#include <BWAPITypes\WeaponTypeId.h>
+#include <BWAPITypes\DamageType.h>
+#include <BWAPITypes\DamageTypeId.h>
+#include <BWAPITypes\ExplosionType.h>
+#include <BWAPITypes\ExplosionTypeId.h>
+#include <BWAPITypes\Race.h>
+#include <BWAPITypes\RaceId.h>
+#include <BWAPITypes\UnitSizeType.h>
+#include <BWAPITypes\UnitSizeTypeId.h>
+#include <BWAPITypes\PlayerType.h>
+#include <BWAPITypes\PlayerTypeId.h>
+#include <BWAPIDatabase\UnitTypes.h>
+
 #include <Bridge/PipeMessage.h>
 #include <Bridge/SharedStuff.h>
 #include <Bridge/Constants.h>
+
+#include <BWAPIDatabase\UnitTypes.h>
+#include <BWAPIDatabase\TechTypes.h>
+#include <BWAPIDatabase\UpgradeTypes.h>
+#include <BWAPIDatabase\WeaponTypes.h>
+#include <BWAPIDatabase\DamageTypes.h>
+#include <BWAPIDatabase\ExplosionTypes.h>
+#include <BWAPIDatabase\Races.h>
+#include <BWAPIDatabase\UnitSizeTypes.h>
+#include <BWAPIDatabase\PlayerTypes.h>
 
 #include <Tracer\Tracer.h>
 
@@ -77,8 +109,6 @@ namespace BWAPI
 
     // match state TODO: move some things to ::Map
     int frameCount;
-    std::set<BW::UnitType> unitTypes;
-    std::set<BW::Position> startLocations;
     BW::Unit* savedSelectionStates[13];
 
     // reflects needed states from last frame to detect add and remove events.
@@ -115,8 +145,10 @@ namespace BWAPI
         newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
 
         // iterate through unit types and create UnitType for each
+        /*
         for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
           unitTypes.insert(BW::UnitType((u16)i));
+        */
       }
       catch (GeneralException& exception)
       {
@@ -345,73 +377,151 @@ namespace BWAPI
               KnownUnit &knownUnit = *mirror.knownUnit;
 
               // TODO: implement clearance limit
-              knownUnit.position              = bwUnit.position;
-              knownUnit.type                  = (UnitTypeId)bwUnit.unitID.id;
+              ClearanceLevel clearance;
+              UnitTypeId type = (UnitTypeId)bwUnit.unitID.id;
+              UnitType& typeData = UnitTypes::unitTypeData[type];
 
-              /* TODO: find according BW::Unit members
-              knownUnit.id                    = (int)&knownUnit;
-              knownUnit.player                = bwUnit.getPlayer()->getID();
-              knownUnit.hitPoints             = bwUnit.getHitPoints();
-              knownUnit.shields               = bwUnit.getShields();
-              knownUnit.energy                = bwUnit.getEnergy();
-              knownUnit.resources             = bwUnit.getResources();
-              knownUnit.killCount             = bwUnit.getKillCount();
-              knownUnit.groundWeaponCooldown  = bwUnit.getGroundWeaponCooldown();
-              knownUnit.airWeaponCooldown     = bwUnit.getAirWeaponCooldown();
-              knownUnit.spellCooldown         = bwUnit.getSpellCooldown();
-              knownUnit.defenseMatrixPoints   = bwUnit.getDefenseMatrixPoints();
+              knownUnit.position                = bwUnit.position;
+              knownUnit.type                    = type;
 
-              knownUnit.defenseMatrixTimer    = bwUnit.getDefenseMatrixTimer();
-              knownUnit.ensnareTimer          = bwUnit.getEnsnareTimer();
-              knownUnit.irradiateTimer        = bwUnit.getIrradiateTimer();
-              knownUnit.lockdownTimer         = bwUnit.getLockdownTimer();
-              knownUnit.maelstromTimer        = bwUnit.getMaelstromTimer();
-              knownUnit.plagueTimer           = bwUnit.getPlagueTimer();
-              knownUnit.removeTimer           = bwUnit.getRemoveTimer();
-              knownUnit.stasisTimer           = bwUnit.getStasisTimer();
-              knownUnit.stimTimer             = bwUnit.getStimTimer();
+//              knownUnit.id                      = (int)&knownUnit;
+              knownUnit.player                  = bwUnit.playerID;
+              knownUnit.hitPoints               = bwUnit.healthPoints/256;
+              knownUnit.shields                 = bwUnit.shieldPoints/256;
+              knownUnit.energy                  = bwUnit.energy/256;
+              if  (type == BW::UnitTypeIDs::Resource_MineralPatch1
+                || type == BW::UnitTypeIDs::Resource_MineralPatch2
+                || type == BW::UnitTypeIDs::Resource_MineralPatch3
+                || type == BW::UnitTypeIDs::Resource_VespeneGeyser
+                || type == BW::UnitTypeIDs::Terran_Refinery
+                || type == BW::UnitTypeIDs::Protoss_Assimilator
+                || type == BW::UnitTypeIDs::Zerg_Extractor)
+                knownUnit.resources             = bwUnit.unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+              knownUnit.killCount               = bwUnit.killCount;
+              knownUnit.groundWeaponCooldown    = bwUnit.groundWeaponCooldown;
+              knownUnit.airWeaponCooldown       = bwUnit.airWeaponCooldown;
+              knownUnit.spellCooldown           = bwUnit.spellCooldown;
+              knownUnit.defenseMatrixPoints     = bwUnit.defenseMatrixDamage/256;
 
-              knownUnit.isAccelerating        = bwUnit.isAccelerating();
-              knownUnit.isBeingConstructed    = bwUnit.isBeingConstructed();
-              knownUnit.isBeingGathered       = bwUnit.isBeingGathered();
-              knownUnit.isBeingHealed         = bwUnit.isBeingHealed();
-              knownUnit.isBlind               = bwUnit.isBlind();
-              knownUnit.isBraking             = bwUnit.isBraking();
-              knownUnit.isBurrowed            = bwUnit.isBurrowed();
-              knownUnit.isCarryingGas         = bwUnit.isCarryingGas();
-              knownUnit.isCarryingMinerals    = bwUnit.isCarryingMinerals();
-              knownUnit.isCloaked             = bwUnit.isCloaked();
-              knownUnit.isCompleted           = bwUnit.isCompleted();
-              knownUnit.isConstructing        = bwUnit.isConstructing();
-              knownUnit.isDefenseMatrixed     = bwUnit.isDefenseMatrixed();
-              knownUnit.isEnsnared            = bwUnit.isEnsnared();
-              knownUnit.isFollowing           = bwUnit.isFollowing();
-              knownUnit.isGatheringGas        = bwUnit.isGatheringGas();
-              knownUnit.isGatheringMinerals   = bwUnit.isGatheringMinerals();
-              knownUnit.isHallucination       = bwUnit.isHallucination();
-              knownUnit.isIdle                = bwUnit.isIdle();            // rusty: regarding SCV's not reporting that their idle.. I was calling worker->build() on both of them, and giving them the same location of the geyser
-              knownUnit.isIrradiated          = bwUnit.isIrradiated();
-              knownUnit.isLifted              = bwUnit.isLifted();
-              knownUnit.isLoaded              = bwUnit.isLoaded();
-              knownUnit.isLockedDown          = bwUnit.isLockedDown();
-              knownUnit.isMaelstrommed        = bwUnit.isMaelstrommed();
-              knownUnit.isMorphing            = bwUnit.isMorphing();
-              knownUnit.isMoving              = bwUnit.isMoving();
-              knownUnit.isParasited           = bwUnit.isParasited();
-              knownUnit.isPatrolling          = bwUnit.isPatrolling();
-              knownUnit.isPlagued             = bwUnit.isPlagued();
-              knownUnit.isRepairing           = bwUnit.isRepairing();
-              knownUnit.isResearching         = bwUnit.isResearching();
-              knownUnit.isSelected            = bwUnit.isSelected();
-              knownUnit.isSieged              = bwUnit.isSieged();
-              knownUnit.isStartingAttack      = bwUnit.isStartingAttack();
-              knownUnit.isStasised            = bwUnit.isStasised();
-              knownUnit.isStimmed             = bwUnit.isStimmed();
-              knownUnit.isTraining            = bwUnit.isTraining();
-              knownUnit.isUnderStorm          = bwUnit.isUnderStorm();
-              knownUnit.isUnpowered           = bwUnit.isUnpowered();
-              knownUnit.isUpgrading           = bwUnit.isUpgrading();
-              */
+              knownUnit.defenseMatrixTimer      = bwUnit.defenseMatrixTimer;
+              knownUnit.ensnareTimer            = bwUnit.ensnareTimer;
+              knownUnit.irradiateTimer          = bwUnit.irradiateTimer;
+              knownUnit.lockdownTimer           = bwUnit.lockdownTimer;
+              knownUnit.maelstromTimer          = bwUnit.maelstromTimer;
+              knownUnit.plagueTimer             = bwUnit.plagueTimer;
+              knownUnit.removeTimer             = bwUnit.removeTimer;
+              knownUnit.stasisTimer             = bwUnit.stasisTimer;
+              knownUnit.stimTimer               = bwUnit.stimTimer;
+
+              bool isCompleted                  = bwUnit.status.getBit<BW::StatusFlags::Completed>();
+              knownUnit.isCompleted             = isCompleted;
+              knownUnit.isAccelerating          = bwUnit.movementFlags.getBit<BW::MovementFlags::Accelerating>();
+              if(!isCompleted)
+              {
+                if(typeData.isBuilding)
+                  knownUnit.isBeingConstructed  = bwUnit.currentBuildUnit != NULL || typeData.race != RaceIds::Terran;
+                else
+                if(type == UnitTypeIds::Zerg_Egg
+                || type == UnitTypeIds::Zerg_Lurker_Egg
+                || type == UnitTypeIds::Zerg_Cocoon)
+                  knownUnit.isBeingConstructed  = true;
+              }
+              if(typeData.isResourceContainer)
+                knownUnit.isBeingGathered       = bwUnit.unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
+              else
+                knownUnit.isBeingGathered       = false;
+              knownUnit.isBeingHealed           = bwUnit.isBeingHealed != 0;
+              knownUnit.isBlind                 = bwUnit.isBlind != 0;
+              knownUnit.isBraking               = bwUnit.movementFlags.getBit<BW::MovementFlags::Braking>();
+              knownUnit.isBurrowed              = bwUnit.status.getBit<BW::StatusFlags::Burrowed>();
+              if(!typeData.isWorker)
+              {
+                knownUnit.isCarryingGas         = bwUnit.resourceType == 1;
+                knownUnit.isCarryingMinerals    = bwUnit.resourceType == 2;
+                knownUnit.isGatheringGas        = false;  // TODO: copy these, warning they;re big ones
+                knownUnit.isGatheringMinerals   = false;
+              }
+              else
+              {
+                knownUnit.isCarryingGas         = false;
+                knownUnit.isCarryingMinerals    = false;
+                knownUnit.isGatheringGas        = false;
+                knownUnit.isGatheringMinerals   = false;
+              }
+              knownUnit.isCloaked               = bwUnit.status.getBit<BW::StatusFlags::Cloaked>();
+
+              BW::OrderID orderId = bwUnit.orderID;
+              knownUnit.isConstructing          =  orderId == BW::OrderIDs::ConstructingBuilding
+                                                || orderId == BW::OrderIDs::BuildTerran
+                                                || orderId == BW::OrderIDs::DroneBuild
+                                                || orderId == BW::OrderIDs::DroneStartBuild
+                                                || orderId == BW::OrderIDs::DroneLand
+                                                || orderId == BW::OrderIDs::BuildProtoss1
+                                                || orderId == BW::OrderIDs::BuildProtoss2;
+
+              knownUnit.isDefenseMatrixed       = bwUnit.defenseMatrixTimer > 0;
+              knownUnit.isEnsnared              = bwUnit.ensnareTimer > 0;
+              knownUnit.isFollowing             = orderId == BW::OrderIDs::Follow;
+
+              knownUnit.isHallucination         = bwUnit.status.getBit<BW::StatusFlags::IsHallucination>();
+              bool isResearching                = orderId == BW::OrderIDs::ResearchTech;
+              knownUnit.isResearching           = isResearching;
+              bool hasEmptyBuildQueue           =  bwUnit.buildQueueSlot < 5
+                                                && bwUnit.buildQueue[bwUnit.buildQueueSlot] == BW::UnitTypeIDs::None;
+              bool isTraining                   = (  type == UnitTypeIds::Terran_Nuclear_Silo
+                                                  && bwUnit.secondaryOrderID == BW::OrderIDs::Train)
+                                                || ( typeData.canProduce
+                                                  && !hasEmptyBuildQueue);
+              knownUnit.isTraining              = isTraining;
+              bool isUpgrading                  = orderId == BW::OrderIDs::Upgrade;
+              knownUnit.isUpgrading             = isUpgrading;
+              if (isTraining || isResearching || isUpgrading)
+                knownUnit.isIdle                = false;
+              else
+                knownUnit.isIdle                =  orderId == BW::OrderIDs::PlayerGuard
+                                                || orderId == BW::OrderIDs::Guard
+                                                || orderId == BW::OrderIDs::Stop
+                                                || orderId == BW::OrderIDs::Pickup1
+                                                || orderId == BW::OrderIDs::Nothing2
+                                                || orderId == BW::OrderIDs::Medic
+                                                || orderId == BW::OrderIDs::Carrier
+                                                || orderId == BW::OrderIDs::Critter
+                                                || orderId == BW::OrderIDs::NukeTrain
+                                                || orderId == BW::OrderIDs::Larva;
+              knownUnit.isIrradiated            = bwUnit.irradiateTimer > 0;
+              knownUnit.isLifted                = bwUnit.status.getBit<BW::StatusFlags::InAir>() && typeData.isBuilding;
+              knownUnit.isLoaded                =  bwUnit.status.getBit<BW::StatusFlags::InTransport>()
+                                                || bwUnit.status.getBit<BW::StatusFlags::InBuilding>()
+                                                ||
+                                                ( //if
+                                                    (type == UnitTypeIds::Protoss_Interceptor
+                                                  || type == UnitTypeIds::Protoss_Scarab)
+                                                  &&
+                                                  (
+                                                    bwUnit.childUnitUnion3.inHanger != 0
+                                                  )
+                                                );
+              knownUnit.isLockedDown            = bwUnit.lockdownTimer > 0;
+              knownUnit.isMaelstrommed          = bwUnit.maelstromTimer > 0;
+              knownUnit.isMorphing              =  orderId == BW::OrderIDs::Morph1
+                                                || orderId == BW::OrderIDs::Morph2
+                                                || orderId == BW::OrderIDs::ZergBuildSelf;
+              knownUnit.isMoving                = bwUnit.movementFlags.getBit<BW::MovementFlags::Moving>();
+              knownUnit.isParasited             = bwUnit.parasiteFlags.value != 0;
+              knownUnit.isPatrolling            = orderId == BW::OrderIDs::Patrol;
+              knownUnit.isPlagued               = bwUnit.plagueTimer > 0;
+              knownUnit.isRepairing             =  orderId == BW::OrderIDs::Repair1
+                                                || orderId == BW::OrderIDs::Repair2;
+             if(flags[Flags::CompleteMapInformation])
+                knownUnit.isSelected            = false;  // TODO: implement this into the bw unit mirror
+              knownUnit.isSieged                = type == UnitTypeIds::Terran_Siege_Tank_Siege_Mode;
+              knownUnit.isStasised              = bwUnit.stasisTimer > 0;
+              knownUnit.isStimmed               = bwUnit.stimTimer > 0;
+
+              knownUnit.isUnderStorm            = bwUnit.isUnderStorm != 0;
+              knownUnit.isUnpowered             =  typeData.race == RaceIds::Protoss
+                                                && typeData.isBuilding
+                                                && bwUnit.status.getBit<BW::StatusFlags::DoodadStatesThing>();
             } //if(isKnown)
           } //foreach flag
         } //foeach flagarray word
@@ -561,6 +671,16 @@ namespace BWAPI
     {
       // init BW's interface
       BW::onMatchInit();
+
+      // init database
+      UnitTypes::init();
+      TechTypes::init();
+      UpgradeTypes::init();
+      WeaponTypes::init();
+      DamageTypes::init();
+      ExplosionTypes::init();
+      Races::init();
+      UnitSizeTypes::init();
 
       // enable user input as long as no agent is in charge
       //if(!BridgeServer::isAgentConnected()) TODO: uncomment

@@ -31,7 +31,6 @@ namespace BWAPI
     UnitTypeId type;
     int removeTimer;
     int id;
-    bool isStartingAttack;
     bool isUnderStorm;
   };
   struct UnitStateDetected : UnitStateNoticed
