@@ -147,6 +147,32 @@ namespace BW
         return BW::Latencies::LanLow;
     }
   }
+  //--------------------------------- GAME SPEED ------------------------------------------
+  void resetLocalSpeed()
+  {
+    BW::BWDATA_GameSpeedModifiers[0] = 501;
+    BW::BWDATA_GameSpeedModifiers[1] = 333;
+    BW::BWDATA_GameSpeedModifiers[2] = 249;
+    BW::BWDATA_GameSpeedModifiers[3] = 201;
+    BW::BWDATA_GameSpeedModifiers[4] = 168;
+    BW::BWDATA_GameSpeedModifiers[5] = 144;
+    BW::BWDATA_GameSpeedModifiers[6] = 126;
+  }
+  void setLocalSpeed(int speed)
+  {
+    // Sets the frame rate of the client
+    if (speed < 0)
+    {
+      // Reset the speed if it is negative
+      resetLocalSpeed();
+    }
+    else
+    {
+      // Set all speeds if it is positive
+      for (int i = 0; i < 7; i++)
+        BW::BWDATA_GameSpeedModifiers[i] = speed;
+    }
+  }
   //------------------------------------ CHANGE SLOT ---------------------------------------
   void changeSlot(BW::SlotID slot, BW::SlotStateID slotState)
   {

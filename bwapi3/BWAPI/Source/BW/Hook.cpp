@@ -352,6 +352,13 @@ namespace BW
   }
 
   //----------------------------------- DRAW FUNCTIONS -------------------------------------
+  bool inScreen(int x, int y)
+  {
+    return x >= 0
+      && y >= 0
+      && x < 640
+      && y < 480;
+  }
   void drawBox(int _x, int _y, int _w, int _h, int color)
   {
     static s16 x;

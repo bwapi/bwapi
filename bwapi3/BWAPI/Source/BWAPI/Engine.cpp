@@ -99,7 +99,6 @@ namespace BWAPI
     //------------------------------- -------------------------------------------------
     void init();
     bool parseText(const char* text);
-    void setLocalSpeed(int speed);
 
     void simulateUnitCommand(const BWAPI::UnitCommand &simulatedCommand, BWAPI::UnitState &stateToAlter);
     void executeUnitCommand(const BWAPI::UnitCommand& command);
@@ -127,7 +126,7 @@ namespace BWAPI
       }
     }
     //----------------------------------------------- ENABLE FLAG ----------------------------------------------
-    void  enableFlag(int flag)
+    void enableFlag(int flag)
     {
       // Enable the specified flag
       if (flag >= Flags::count)
@@ -818,9 +817,9 @@ namespace BWAPI
       else if (parsed[0] == "/speed")
       {
         if (parsed[1] != "")
-          setLocalSpeed(atoi(parsed[1].c_str()));
+          BW::setLocalSpeed(atoi(parsed[1].c_str()));
         else
-          setLocalSpeed(-1);
+          BW::resetLocalSpeed();
         return true;
       }
       else if (parsed[0] == "/restart")
@@ -849,107 +848,6 @@ namespace BWAPI
         __asm call BW::BWFXN_Refresh
       #endif
       */
-    }
-    //--------------------------------------------------- GAME SPEED -------------------------------------------
-    void  setLocalSpeed(int speed)
-    {
-      // Sets the frame rate of the client
-      if (speed < 0)
-      {
-        // Reset the speed if it is negative
-        BW::BWDATA_GameSpeedModifiers[0] = 501;
-        BW::BWDATA_GameSpeedModifiers[1] = 333;
-        BW::BWDATA_GameSpeedModifiers[2] = 249;
-        BW::BWDATA_GameSpeedModifiers[3] = 201;
-        BW::BWDATA_GameSpeedModifiers[4] = 168;
-        BW::BWDATA_GameSpeedModifiers[5] = 144;
-        BW::BWDATA_GameSpeedModifiers[6] = 126;
-      }
-      else
-      {
-        // Set all speeds if it is positive
-        for (int i = 0; i < 7; i++)
-          BW::BWDATA_GameSpeedModifiers[i] = speed;
-      }
-    }
-
-    bool inScreen(int ctype, int x, int y)
-    {
-      int screen_x1 = x;
-      int screen_y1 = y;
-      if (ctype == 2)
-      {
-        screen_x1 -= *(BW::BWDATA_ScreenX);
-        screen_y1 -= *(BW::BWDATA_ScreenY);
-      }
-      else if (ctype == 3)
-      {
-        screen_x1 += *(BW::BWDATA_MouseX);
-        screen_y1 += *(BW::BWDATA_MouseY);
-      }
-      if (screen_x1 < 0   || screen_y1 < 0 ||
-          screen_x1 >= 640 || screen_y1 >= 480) return false;
-      return true;
-    }
-
-    bool inScreen(int ctype, int x1, int y1, int x2, int y2)
-    {
-      int screen_x1 = x1;
-      int screen_y1 = y1;
-      int screen_x2 = x2;
-      int screen_y2 = y2;
-      if (ctype == 2)
-      {
-        screen_x1 -= *(BW::BWDATA_ScreenX);
-        screen_y1 -= *(BW::BWDATA_ScreenY);
-        screen_x2 -= *(BW::BWDATA_ScreenX);
-        screen_y2 -= *(BW::BWDATA_ScreenY);
-      }
-      else if (ctype == 3)
-      {
-        screen_x1 += *(BW::BWDATA_MouseX);
-        screen_y1 += *(BW::BWDATA_MouseY);
-        screen_x2 += *(BW::BWDATA_MouseX);
-        screen_y2 += *(BW::BWDATA_MouseY);
-      }
-      if ((screen_x1 < 0 && screen_x2 < 0) ||
-          (screen_y1 < 0 && screen_y2 < 0) ||
-          (screen_x1 >= 640 && screen_x2 >= 640) ||
-          (screen_y1 >= 480 && screen_y2 >= 480)) return false;
-      return true;
-    }
-
-    bool inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3)
-    {
-      int screen_x1 = x1;
-      int screen_y1 = y1;
-      int screen_x2 = x2;
-      int screen_y2 = y2;
-      int screen_x3 = x3;
-      int screen_y3 = y3;
-      if (ctype == 2)
-      {
-        screen_x1 -= *(BW::BWDATA_ScreenX);
-        screen_y1 -= *(BW::BWDATA_ScreenY);
-        screen_x2 -= *(BW::BWDATA_ScreenX);
-        screen_y2 -= *(BW::BWDATA_ScreenY);
-        screen_x3 -= *(BW::BWDATA_ScreenX);
-        screen_y3 -= *(BW::BWDATA_ScreenY);
-      }
-      else if (ctype == 3)
-      {
-        screen_x1 += *(BW::BWDATA_MouseX);
-        screen_y1 += *(BW::BWDATA_MouseY);
-        screen_x2 += *(BW::BWDATA_MouseX);
-        screen_y2 += *(BW::BWDATA_MouseY);
-        screen_x3 += *(BW::BWDATA_MouseX);
-        screen_y3 += *(BW::BWDATA_MouseY);
-      }
-      if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
-          (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-          (screen_x1 >= 640 && screen_x2 >= 640 && screen_x3 >= 640) ||
-          (screen_y1 >= 480 && screen_y2 >= 480 && screen_y3 >= 480)) return false;
-      return true;
     }
     //---------------------------------------- ORDER SIMULATION ------------------------------------------------
     void simulateUnitStop(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
@@ -1001,20 +899,20 @@ namespace BWAPI
 
     void executeUnitCommand(const BWAPI::UnitCommand& command)
     {
-      typedef void(*SIMULATOR)(int unitId, const BWAPI::UnitCommand&);
-      static Util::LookupTable<SIMULATOR> simulators;
-      static bool isSimulatorsTableInitialized = false;
+      typedef void(*EXECUTOR)(int unitId, const BWAPI::UnitCommand&);
+      static Util::LookupTable<EXECUTOR> executors;
+      static bool isExecutorsTableInitialized = false;
 
       // initialize lookup table
-      if(!isSimulatorsTableInitialized)
+      if(!isExecutorsTableInitialized)
       {
-        simulators.setDefaultValue(&executeUnknownUnitCommand);
-        simulators.setValue(UnitCommandTypeIds::Stop, &executeUnitStop);
-        isSimulatorsTableInitialized = true;
+        executors.setDefaultValue(&executeUnknownUnitCommand);
+        executors.setValue(UnitCommandTypeIds::Stop, &executeUnitStop);
+        isExecutorsTableInitialized = true;
       }
 
       // get command simulator function
-      SIMULATOR simulator = simulators.lookUp(command.commandId);
+      EXECUTOR executor = executors.lookUp(command.commandId);
 
       // find out the unitId.
       // TODO: add a knownunit mirror, lookup the bwunit index in the reflected knownunit entry
@@ -1033,7 +931,7 @@ namespace BWAPI
       if(bwUnitIndex == -1)
         return; // the unit does not exist anymore;
 
-      simulator(bwUnitIndex, command);
+      executor(bwUnitIndex, command);
     }
     //---------------------------------------- -----------------------------------------------------------------
   }
