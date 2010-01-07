@@ -26,9 +26,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
     gd = GetStaticGameData();
 
-    for(;;)
+    CallTypeId call = WaitForEvent();
+    while(call != CallTypeIds::OnDisconnect)
     {
-      WaitForEvent();
       int count = 0;
       for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
       {
@@ -56,6 +56,7 @@ int _tmain(int argc, _TCHAR* argv[])
         sprintf(buff, "units removed: %d", size);
         PrintText(buff);
       }
+      call = WaitForEvent();
     }
   }
   catch(...)

@@ -31,10 +31,6 @@ namespace Bridge
     typedef Util::SharedStack CommandStack;
     CommandStack commands;
 
-    // TODO: merge into static structure
-    typedef Util::SharedStack UserInputStack;
-    UserInputStack userInput;
-
     // shapes need special performance attention and are stored separately.
     typedef Util::SharedStack DrawShapeStack;
     DrawShapeStack drawShapes;

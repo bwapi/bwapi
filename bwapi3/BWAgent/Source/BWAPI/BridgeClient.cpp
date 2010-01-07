@@ -72,7 +72,6 @@ namespace BWAPI
         // release everything, just to be sure
         sharedStuff.staticData.release();
         sharedStuff.commands.release();
-        sharedStuff.userInput.release();
         sharedStuff.events.release();
 
         // init agent-side dynamic memory
@@ -193,11 +192,6 @@ namespace BWAPI
       return 0;
     }
     //----------------------------------------- PIPE PACKET HANDLERS --------------------------------------------
-    bool handleUpdateUserInput(Bridge::PipeMessage::ServerUpdateUserInput& packet)
-    {
-      sharedStuff.userInput.importNextUpdate(packet.exp);
-      return true;
-    }
     bool handleUpdateEvents(Bridge::PipeMessage::ServerUpdateEvents& packet)
     {
       sharedStuff.events.importNextUpdate(packet.exp);
@@ -257,7 +251,6 @@ namespace BWAPI
       if(!packetSwitch.getHandlerCount())
       {
         // init packet switch
-        packetSwitch.addHandler(handleUpdateUserInput);
         packetSwitch.addHandler(handleUpdateEvents);
         packetSwitch.addHandler(handleMatchInit);
         packetSwitch.addHandler(handleFrameNext);
@@ -298,18 +291,6 @@ namespace BWAPI
         waitForNextPacket = packetSwitch.handlePacket(buffer.getMemory());
       }
 
-    }
-    //----------------------------------------- GET USER INPUT STRINGS ------------------------------------------
-    std::deque<std::string> getUserInputStrings()
-    {
-      std::deque<std::string> retval;
-      Bridge::SharedStuff::UserInputStack::Index i = sharedStuff.userInput.begin();
-      while(i.isValid())
-      {
-        retval.push_back(std::string(sharedStuff.userInput.get(i).beginAs<char>()));
-        i = sharedStuff.userInput.getNext(i);
-      }
-      return retval;
     }
     //----------------------------------------- IS CONNECTED ----------------------------------------------------
     bool isConnected()

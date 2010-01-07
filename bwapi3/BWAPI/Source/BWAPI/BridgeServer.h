@@ -35,8 +35,6 @@ namespace BWAPI
     extern void invokeOnFrame();
     extern void invokeOnStartMatch(bool fromBeginning);
 
-    extern void pushSendText(const char *text);
-
     // returns the index of the new unit
     extern int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason);
     extern void removeKnownUnit(int index, UnitRemoveEventTypeId reason);

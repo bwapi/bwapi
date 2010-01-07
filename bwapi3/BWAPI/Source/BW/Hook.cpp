@@ -48,14 +48,14 @@ namespace BW
       call [BW::BWFXN_KillUnitTarget]
     }
   //  printThreadId("onUnitDeath");
-    BWAPI::Engine::onUnitDeath((BW::Unit*) removedUnit);
+    BWAPI::Engine::_onUnitKilled((BW::Unit*) removedUnit);
     __asm jmp [BW::BWFXN_KillUnitBack]
   }
 
   //----------------------------------------------- ON MATCH END -----------------------------------------------
   void __declspec(naked) MatchEndHook()
   {
-    BWAPI::Engine::onMatchEnd();
+    BWAPI::Engine::_onMatchEnd();
     __asm
     {
       call [BW::BWFXN_GameEndTarget]
@@ -72,7 +72,7 @@ namespace BW
       mov frameHookEax, eax
     }
   //  printThreadId("nextFrameHook");
-    BWAPI::Engine::onMatchFrame();
+    BWAPI::Engine::_onMatchFrame();
     __asm
     {
       mov eax, frameHookEax
@@ -99,7 +99,7 @@ namespace BW
       mov registers.ebp, ebp
     }
   //  printThreadId("menuFrameHook");
-    BWAPI::Engine::onMenuFrame();
+    BWAPI::Engine::_onMenuFrame();
     __asm
     {
       mov eax, registers.eax
@@ -125,7 +125,7 @@ namespace BW
   //  printThreadId("onSendText");
     if (!BW::isSingleplayer() && text[0] != 0)
     {
-      BWAPI::Engine::onMessageIntercepted(text);
+      BWAPI::Engine::_onMessageIntercepted(text);
     }
     text[0] = 0;
     __asm jmp [BW::BWFXN_SendPublicCallBack]
@@ -141,7 +141,7 @@ namespace BW
   //  printThreadId("onSendSingle");
     if (BW::isSingleplayer() && text[0] != 0)
     {
-      BWAPI::Engine::onMessageIntercepted(text);
+      BWAPI::Engine::_onMessageIntercepted(text);
     }
 
     __asm jmp BWFXN_SendTextCallBack
@@ -230,7 +230,7 @@ namespace BW
       mov drawRegisters.esp, esp
     }
   //  printThreadId("onDrawHigh");
-    BWAPI::Engine::onMatchDrawHigh();
+    BWAPI::Engine::_onMatchDrawHigh();
     __asm
     {
       mov eax, drawRegisters.eax
@@ -421,6 +421,45 @@ namespace BW
       mov edx, iSize
     }
     IssueNewCommand();
+  }
+  //------------------------------------ POP UPS -------------------------------------------
+  bool gluMessageBox(char* message, int type)
+  {
+    bool rval = false;
+    switch(type)
+    {
+    case MB_OKCANCEL:
+      __asm
+      {
+        mov eax, message
+        call BW::BWFXN_gluPOKCancel_MBox
+        mov rval, al
+      }
+      break;
+    default:  // MB_OK
+      __asm
+      {
+        mov eax, message
+          call BW::BWFXN_gluPOK_MBox
+      }
+      return false;
+    }
+    return rval;
+  }
+
+  bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
+  {
+    bool rval;
+    __asm
+    {
+      push restricted
+      push destsize
+      push dest
+      push message
+      call [BW::BWFXN_gluPEdit_MBox]
+      mov  rval, al
+    }
+    return rval;
   }
   //------------------------------------------------ JMP PATCH -------------------------------------------------
   void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
