@@ -29,8 +29,6 @@ namespace BWAPI
     extern void disconnect();
     extern void waitForEvent();
 
-    extern std::deque<std::string> getUserInputStrings();
-
     extern bool isConnected();
     extern bool pushSendText(bool send, const char *string);
 

@@ -55,10 +55,6 @@ namespace Bridge
     //------------------------------------------------
     // Update packets. One for each update export page,
     //------------------------------------------------
-    struct ServerUpdateUserInput : Util::TypeHead<UNIQUE_ID>
-    {
-      Bridge::SharedStuff::UserInputStack::Export exp;
-    };
     struct ServerUpdateEvents : Util::TypeHead<UNIQUE_ID>
     {
       Bridge::SharedStuff::EventStack::Export exp;

@@ -22,7 +22,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     {
       try
       {
-        BWAPI::Engine::onDllLoad();
+        BWAPI::Engine::_onDllLoad();
         // though DLLMain is limited, memory transactions are not a crime
         BW::installHooks();
       }

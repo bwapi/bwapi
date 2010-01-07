@@ -96,7 +96,6 @@ namespace BWAPI
       try
       {
         // reset dynamic objects
-        sharedStuff.userInput.init(1000, true);
         sharedStuff.events.init(4000, true);
         sharedStuff.commands.release();
 
@@ -121,6 +120,8 @@ namespace BWAPI
       // TODO: release shared memory here
 
       sharedStuff.pipe.disconnect();
+      sharedStuff.events.release();
+      sharedStuff.commands.release();
       stateConnectionEstablished = false;
     }
     //-------------------------- INVOKE ON START MATCH ------------------------------------------
@@ -251,20 +252,7 @@ namespace BWAPI
 
       // just returned from frame invokation
       // clear frame-to-frame buffers
-      sharedStuff.userInput.clear();
       sharedStuff.events.clear();
-    }
-    //------------------------------ PUSH SEND TEXT ----------------------------------------------
-    void pushSendText(const char *text)
-    {
-      // check prerequisites
-      if(!stateConnectionEstablished)
-        throw GeneralException(__FUNCTION__ ": connection required");
-
-      Util::Buffer userInputEntry;
-      int stringLength = ::strlen(text) + 1; // including terminal NULL
-      userInputEntry.append(Util::MemoryFrame((char*)text, stringLength));
-      sharedStuff.userInput.insert(userInputEntry.getMemory());
     }
     //------------------------------ ADD KNOWN UNIT ----------------------------------------------
     int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason)
@@ -306,25 +294,6 @@ namespace BWAPI
     //-------------------------- UPDATE REMOTE SHARED MEMORY ------------------------------------
     void updateRemoteSharedMemory()
     {
-      // export userInput updates
-      while(sharedStuff.userInput.isUpdateExportNeeded())
-      {
-        // create export package
-        Bridge::PipeMessage::ServerUpdateUserInput packet;
-        try
-        {
-          sharedStuff.userInput.exportNextUpdate(packet.exp, sharedStuff.remoteProcess);
-        }
-        catch(GeneralException &e)
-        {
-          e.append(__FUNCTION__ " exporting userInput update");
-          throw;
-        }
-
-        // send update export
-        sharedStuff.pipe.sendRawStructure(packet);
-      }
-
       // export events updates
       while(sharedStuff.events.isUpdateExportNeeded())
       {

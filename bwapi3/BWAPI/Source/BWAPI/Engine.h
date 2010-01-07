@@ -10,13 +10,13 @@ namespace BWAPI
 {
   namespace Engine
   {
-    // hooks
-    extern void onMatchFrame();
-    extern void onMenuFrame();
-    extern void onMatchEnd();
-    extern void onUnitDeath(BW::Unit* unit);
-    extern void onDllLoad();
-    extern void onMessageIntercepted(const char* text);
-    extern void onMatchDrawHigh();
+    // hooks.
+    extern void _onMatchFrame() throw();
+    extern void _onMenuFrame() throw();
+    extern void _onMatchEnd() throw();
+    extern void _onUnitKilled(BW::Unit* unit) throw();
+    extern void _onDllLoad() throw();
+    extern void _onMessageIntercepted(const char* text) throw();
+    extern void _onMatchDrawHigh() throw();
   };
 };
