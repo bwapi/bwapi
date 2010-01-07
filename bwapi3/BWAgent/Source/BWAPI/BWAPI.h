@@ -4,6 +4,7 @@
 #include <BWAPITypes\UnitState.h>
 #include <BWAPITypes\UnitEvent.h>
 #include <BWAPITypes\StaticGameData.h>
+#include <BWAPITypes\DynamicGameData.h>
 
 #include <BWAPITypes\UnitType.h>
 #include <BWAPITypes\UnitTypeId.h>
@@ -56,22 +57,23 @@ namespace BWAPI
   BWAPI_FUNCTION void DrawDot(int x, int y, int color);
 
   // information queries
-  BWAPI_FUNCTION const StaticGameData* GetStaticGameData();
+  BWAPI_FUNCTION const StaticGameData*  GetStaticGameData();
+  BWAPI_FUNCTION const DynamicGameData* GetDynamicGameData();
 
   // access directly through static data. Use this if error checking is needed
-  BWAPI_FUNCTION const UnitState*      GetUnit(UnitId unitId);
-  BWAPI_FUNCTION const Player*         GetPlayer(PlayerId playerId);
+  BWAPI_FUNCTION const UnitState*       GetUnit(UnitId unitId);
+  BWAPI_FUNCTION const Player*          GetPlayer(PlayerId playerId);
 
   // database related
-  BWAPI_FUNCTION const UnitType*       GetUnitType(UnitTypeId id);
-  BWAPI_FUNCTION const TechType*       GetTechType(TechTypeId id);
-  BWAPI_FUNCTION const UpgradeType*    GetUpgradeType(UpgradeTypeId id);
-  BWAPI_FUNCTION const WeaponType*     GetWeaponType(WeaponTypeId id);
-  BWAPI_FUNCTION const DamageType*     GetDamageType(DamageTypeId id);
-  BWAPI_FUNCTION const ExplosionType*  GetExplosionType(ExplosionTypeId id);
-  BWAPI_FUNCTION const Race*           GetRace(RaceId id);
-  BWAPI_FUNCTION const UnitSizeType*   GetUnitSizeType(UnitSizeTypeId id);
-  BWAPI_FUNCTION const PlayerType*     GetPlayerType(PlayerTypeId id);
+  BWAPI_FUNCTION const UnitType*        GetUnitType(UnitTypeId id);
+  BWAPI_FUNCTION const TechType*        GetTechType(TechTypeId id);
+  BWAPI_FUNCTION const UpgradeType*     GetUpgradeType(UpgradeTypeId id);
+  BWAPI_FUNCTION const WeaponType*      GetWeaponType(WeaponTypeId id);
+  BWAPI_FUNCTION const DamageType*      GetDamageType(DamageTypeId id);
+  BWAPI_FUNCTION const ExplosionType*   GetExplosionType(ExplosionTypeId id);
+  BWAPI_FUNCTION const Race*            GetRace(RaceId id);
+  BWAPI_FUNCTION const UnitSizeType*    GetUnitSizeType(UnitSizeTypeId id);
+  BWAPI_FUNCTION const PlayerType*      GetPlayerType(PlayerTypeId id);
 
   // unit commands
   BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y);

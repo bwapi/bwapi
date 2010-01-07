@@ -464,10 +464,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\BWAPITypes\KnownUnit.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\BWAPI\Map.cpp"
 				>
 			</File>
@@ -508,6 +504,10 @@
 				</File>
 				<File
 					RelativePath="..\BWAPITypes\Force.h"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPITypes\KnownUnit.h"
 					>
 				</File>
 				<File

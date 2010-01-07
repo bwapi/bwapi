@@ -2,6 +2,7 @@
 
 #include <Bridge\SharedStuff.h>
 #include <BWAPITypes\StaticGameData.h>
+#include <BWAPITypes\DynamicGameData.h>
 #include <BWAPITypes\UnitEvent.h>
 
 #include <Util\MemoryFrame.h>
@@ -16,11 +17,8 @@ namespace BWAPI
   {
   //public:
     extern BWAPI::StaticGameData* gameData;
+    extern BWAPI::DynamicGameData dynamicData;
     extern Bridge::SharedStuff sharedStuff;
-
-    // events
-    extern std::vector<const UnitAddEvent*> knownUnitAddEvents;
-    extern std::vector<const UnitRemoveEvent*> knownUnitRemoveEvents;
 
     // additonal RPC state data
     extern bool isMatchStartFromBeginning;
