@@ -34,5 +34,6 @@ namespace Bridge
     // shapes need special performance attention and are stored separately.
     typedef Util::SharedStack DrawShapeStack;
     DrawShapeStack drawShapes;
+
   };
 }

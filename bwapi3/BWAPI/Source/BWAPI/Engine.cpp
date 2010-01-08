@@ -629,6 +629,13 @@ namespace BWAPI
     //----------------------------------- SHARE MATCH START ----------------------------------------------------
     void shareMatchStart(bool fromStart)
     {
+      // reset shared memory areas
+      BridgeServer::sharedStuff.events.clear();
+      BridgeServer::gameData->units.clear();
+      BridgeServer::gameData->forces.clear();
+      BridgeServer::gameData->players.clear();
+      BridgeServer::gameData->startLocations.clear();
+
       // fill the const part of static data, for the rest of the match
       BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
 
@@ -812,6 +819,14 @@ namespace BWAPI
       // count frames
       frameCount++;
     }
+    //---------------------------------------- ON MATCH END ----------------------------------------------------
+    void onMatchEnd()
+    {
+      // we're not technically in match anymore.
+      // This is needed to reinit a match when restarting a game, since then
+      // onMenuFrame is not called
+      gameState = InMenu;
+    }
     //---------------------------------------- ON MESSAGE INTERCEPTED ------------------------------------------
     void onMessageIntercepted(const char* text)
     {
@@ -888,6 +903,7 @@ namespace BWAPI
     }
     void _onMatchEnd() throw()
     {
+      callAndHandleExceptions(onMatchEnd);
     }
     void _onUnitKilled(BW::Unit* unit) throw()
     {

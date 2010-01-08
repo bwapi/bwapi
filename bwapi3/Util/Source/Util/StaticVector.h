@@ -36,5 +36,33 @@ namespace Util
         throw GeneralException("index out of bound");
       return data[index];
     }
+
+    const T& at(int index) const
+    {
+      if(index < 0 || index > (int)count)
+        throw GeneralException("index out of bound");
+      return data[index];
+    }
+
+    void clear()
+    {
+      count = 0;
+    }
+
+    void push_back(const T& item)
+    {
+      if(count >= size)
+        throw GeneralException("pushed past bound");
+      data[count] = item;
+      count++;
+    }
+
+    const T& pop_back()
+    {
+      if(count <= 0)
+        throw GeneralException("popped empty StaticVector");
+      count--;
+      return data[count];
+    }
   };
 }
