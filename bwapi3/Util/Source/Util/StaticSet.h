@@ -121,7 +121,7 @@ namespace Util
     }
 
     //---- general functions ----------------------------------------
-    void reset()
+    void clear()
     {
       for(int i = 0;i < size; i++)
         data[i].valid = false;
