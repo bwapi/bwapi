@@ -1,11 +1,13 @@
 #pragma once
 
 #include <Util\Point.h>
-
-namespace BW { struct Position; }
+#include <Util\Types.h>
 
 namespace BWAPI
 {
+  typedef Util::Point<s32> Position;
+
+  /*
   struct WalkPosition;
   struct BuildPosition;
   struct Position : Util::Point<int>
@@ -14,13 +16,13 @@ namespace BWAPI
 
     Position();
     Position(int x, int y);
-    Position(const WalkPosition &convertFrom);
-    Position(const BuildPosition &convertFrom);
+    explicit Position(Util::Point<int> a);
+    Position operator + (const Position& b) const;
+    // TODO: wrap all other Point functionalities
+    
 
-    template<typename T>
-      Position(Util::Point<T> point)
-        : Point(point)
-      {
-      }
+    WalkPosition toWalkTiles();
+    BuildPosition toBuildTiles();
   };
+  */
 };

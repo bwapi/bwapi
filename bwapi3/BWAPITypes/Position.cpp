@@ -4,6 +4,7 @@
 
 namespace BWAPI
 {
+  /*
   Position Position::Invalid(Util::Point<int>::Invalid);
   //----------------------------- CONSTRUCTOR ----------------------------------
   Position::Position()
@@ -16,14 +17,25 @@ namespace BWAPI
   {
   }
   //------------------------------ CONVERSION ----------------------------------
-  Position::Position(const WalkPosition &convertFrom)
-    : Point(convertFrom.x*8, convertFrom.y*8)
+  explicit Position::Position(Util::Point<int> a)
+    : Point(a)
   {
+  }
+  //------------------------------ POINT WRAPPER -------------------------------
+  Position operator + (const Position& b) const
+  {
+    return Position(Point::operator +(b));
   }
   //------------------------------ CONVERSION ----------------------------------
-  Position::Position(const BuildPosition &convertFrom)
-    : Point(convertFrom.x*32, convertFrom.y*32)
+  WalkPosition Position::toWalkTiles()
   {
+    return WalkPosition(x/8, y/8);
+  }
+  //------------------------------ CONVERSION ----------------------------------
+  BuildPosition Position::toBuildTiles()
+  {
+    return BuildPosition(x/32, y/32);
   }
   //------------------------------ ---------------------------------------------
+  */
 };

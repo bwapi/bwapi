@@ -20,12 +20,12 @@ namespace Util
     // make this an std compliant container
     typedef T* iterator;
 
-    T* begin()
+    const T* begin() const
     {
       return &data[0];
     }
 
-    T* end()
+    const T* end() const
     {
       return &data[count];
     }

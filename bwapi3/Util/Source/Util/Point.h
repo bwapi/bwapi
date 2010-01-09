@@ -25,6 +25,10 @@ namespace Util
       bool operator  < (const Point<L>& b) const;
       Point<L> operator + (const Point<L>& b) const;
       Point<L> operator - (const Point<L>& b) const;
+      Point<L> operator * (int b) const;
+      Point<L> operator / (int b) const;
+      Point<L> operator * (double b) const;
+      Point<L> operator / (double b) const;
       Point<L>& operator += (const Point<L>& b);
       Point<L>& operator -= (const Point<L>& b);
       void exchange(Point<L>& b);
@@ -79,6 +83,27 @@ namespace Util
   Point<L> Point<L>::operator-(const Point<L>& point) const
   {
     return Point(this->x - point.x, this->y - point.y);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  template<typename L>
+  Point<L> Point<L>::operator * (int b) const
+  {
+    return Point(this->x * b, this->y * b);
+  }
+  template<typename L>
+  Point<L> Point<L>::operator / (int b) const
+  {
+    return Point(this->x / b, this->y / b);
+  }
+  template<typename L>
+  Point<L> Point<L>::operator * (double b) const
+  {
+    return Point(this->x * b, this->y * b);
+  }
+  template<typename L>
+  Point<L> Point<L>::operator / (double b) const
+  {
+    return Point(this->x / b, this->y / b);
   }
   //----------------------------------------------------------------------------------------------------------
   template<typename L>

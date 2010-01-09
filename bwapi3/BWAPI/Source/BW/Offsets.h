@@ -9,7 +9,7 @@
 #include "WeaponTargetFlags.h"
 #include "MiniTileFlags.h"
 #include "GroupFlags.h"
-#include "PlayerType.h"
+#include "PlayerTypeId.h"
 #include "RaceID.h"
 #include "Sprite.h"
 #include "Bullet.h"
@@ -62,12 +62,17 @@ namespace BW
     /** Direct mapping of player info in bw memory */
     struct PlayerInfo
     {
-      u32  id;
-      u32  actions; // unused; FF FF FF FF if not a human player
-      u8   type;
-      u8   race;
-      u8   force;
-      char name[25];
+      u32           id;
+      u32           actions; // unused; FF FF FF FF if not a human player
+      PlayerTypeId  type;
+      u8            race;
+      u8            force;
+      char          name[25];
+
+      bool isValid() const
+      {
+        return name[0] != 0;
+      }
     };
     PlayerInfo  player[PLAYER_COUNT];
   };

@@ -4,6 +4,7 @@
 
 namespace BWAPI
 {
+  /*
   WalkPosition WalkPosition::Invalid(Util::Point<int>::Invalid);
   //----------------------------- CONSTRUCTOR ----------------------------------
   WalkPosition::WalkPosition()
@@ -16,14 +17,15 @@ namespace BWAPI
   {
   }
   //------------------------------ CONVERSION ----------------------------------
-  WalkPosition::WalkPosition(const Position &convertFrom)
-    : Point(convertFrom.x/8, convertFrom.y/8)
+  Position WalkPosition::toPixels()
   {
+    return Position(x*8, y*8);
   }
   //------------------------------ CONVERSION ----------------------------------
-  WalkPosition::WalkPosition(const BuildPosition &convertFrom)
-    : Point(convertFrom.x*4, convertFrom.y*4)
+  BuildPosition WalkPosition::toBuildTiles()
   {
+    return BuildPosition(x/4, y/4);
   }
   //------------------------------ ---------------------------------------------
+  */
 };
