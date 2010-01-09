@@ -101,6 +101,15 @@ namespace BWAPI
   {
     BridgeClient::pushDrawCircle(pos, r, color, !!solid);
   }
+  //----------------------------------- DRAW ELLIPSE ----------------------------------------------
+  BWAPI_FUNCTION void drawEllipse         (Position pos, int w, int h, int color, bool solid)
+  {
+    BridgeClient::pushDrawEllipse(pos - BridgeClient::gameData->screenPosition, w, h, color, !!solid);
+  }
+  BWAPI_FUNCTION void drawEllipseScreen   (Position pos, int w, int h, int color, bool solid)
+  {
+    BridgeClient::pushDrawEllipse(pos, w, h, color, !!solid);
+  }
   //----------------------------------- DRAW LINE -------------------------------------------------
   BWAPI_FUNCTION void drawLine(Position pos, Position pos2, int color)
   {
