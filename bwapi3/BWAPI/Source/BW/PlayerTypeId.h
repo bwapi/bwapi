@@ -1,13 +1,16 @@
 #pragma once
+
+#include <Util\Types.h>
+
 namespace BW
 {
   /** Direct mapping of bw's player type */
-  namespace PlayerType
+  namespace PlayerTypeIds
   {
   /*  Notes: I think this is ID & 0x07
              Defeated or inactive is ID & 0x08
   */
-  enum Enum
+    enum Enum : u8
     {
       NotUsed          = 0,
       Computer         = 1,
@@ -23,4 +26,5 @@ namespace BW
       ComputerDefeated = 11  /**< Left */
     };
   }
+  typedef PlayerTypeIds::Enum PlayerTypeId;
 };

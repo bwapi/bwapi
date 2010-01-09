@@ -14,10 +14,10 @@
 
 namespace BWAPI
 {
-  typedef Util::StaticVector<Player, 12> PlayerArray;
+  typedef Util::StaticSet<Player, 12> PlayerArray;
   typedef Util::StaticVector<Force, 4> ForceArray;
   typedef Util::StaticSet<KnownUnit, 1700> KnownUnitArray;
-  typedef Util::StaticVector<Position, 8> StartLocationArray;
+  typedef Util::StaticVector<BuildPosition, 8> StartLocationArray;
 
   struct StaticGameData
   {

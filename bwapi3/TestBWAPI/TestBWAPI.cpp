@@ -44,7 +44,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
         count++;
       }
-      itoa(count, buff, 10);
+      itoa(gd->startLocations.count, buff, 10);
       DrawText(Position(10, 10), buff);
 
       const DynamicGameData *dd = GetDynamicGameData();
@@ -63,6 +63,12 @@ int _tmain(int argc, _TCHAR* argv[])
         sprintf(buff, "units removed: %d", size);
         PrintText(buff);
       }
+
+      for each(BuildPosition startLocation in gd->startLocations)
+      {
+        DrawCircle(startLocation * 32 - gd->screenPosition, 5, 61, false);
+      }
+
       call = WaitForEvent();
     }
   }

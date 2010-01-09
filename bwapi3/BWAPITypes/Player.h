@@ -2,6 +2,8 @@
 
 #include "ForceId.h"
 
+#include <Util\StaticString.h>
+
 namespace BWAPI
 {
   struct Player
@@ -9,6 +11,6 @@ namespace BWAPI
     ForceId force;
     s32 minerals;
     s32 gas;
-    char name[25];  // size as BW memory
+    Util::StaticString<25> name;  // size as BW memory
   };
 }

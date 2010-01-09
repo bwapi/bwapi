@@ -379,7 +379,7 @@ namespace BWAPI
               UnitTypeId type = (UnitTypeId)bwUnit.unitID.id;
               UnitType& typeData = UnitTypes::unitTypeData[type];
 
-              knownUnit.position                = bwUnit.position;
+              knownUnit.position                = Position(bwUnit.position);
               knownUnit.type                    = type;
 
 //              knownUnit.id                      = (int)&knownUnit;
@@ -639,6 +639,7 @@ namespace BWAPI
       // fill the const part of static data, for the rest of the match
       BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
 
+      // fill the map data
       for (int x=0;x<Map::getWidth()*4;x++)
         for (int y=0;y<Map::getHeight()*4;y++)
         {
@@ -655,11 +656,68 @@ namespace BWAPI
 
       staticData.mapSize       = BuildPosition(Map::getWidth(), Map::getHeight());
       staticData.mapHash       = Map::getMapHash();
+
+      // get the start locations
+      {
+        BW::Positions* posptr = BW::BWDATA_startPositions;
+        while (posptr->x != 0 || posptr->y != 0)
+        {
+          BridgeServer::gameData->startLocations.push_back(Position(
+            posptr->x - BW::TILE_SIZE*2,
+            posptr->y - (int)(BW::TILE_SIZE*1.5)) / 32);
+          posptr++;
+        }
+      }
+
+      // find all players
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+      {
+        BW::Players::PlayerInfo &bwPlayer = BW::BWDATA_Players->player[i];
+
+        // is this a valid player slot?
+        if(bwPlayer.type != BW::PlayerTypeIds::Human
+          && bwPlayer.type != BW::PlayerTypeIds::Computer
+          && bwPlayer.type != BW::PlayerTypeIds::Neutral)
+        continue;
+
+        // transfer data
+        Player &player = BridgeServer::gameData->players.allocate(i);
+        player.force = bwPlayer.force;
+        player.name.set(bwPlayer.name);
+      }
+
+      /*
+      // find all players, find all forces
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+        if (players[i] != NULL && players[i]->getName().length() > 0)
+        {
+          BW::BWDATA_ForceNames[BW::BWDATA_Players->player[].force].name
+          force_names.insert(std::string(players[i]->getForceName()));
+        }
+
+      // create ForceImpl for force names
+      foreach (std::string i, force_names)
+      {
+        ForceImpl* newforce = new ForceImpl(i);
+        forces.insert((Force*)newforce);
+        force_name_to_forceimpl.insert(std::make_pair(i, newforce));
+      }
+
+      // create ForceImpl for players
+      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+        if (players[i] != NULL && players[i]->getName().length() > 0)
+        {
+          ForceImpl* force = force_name_to_forceimpl.find(std::string(players[i]->getForceName()))->second;
+          force->players.insert(players[i]);
+          players[i]->force = force;
+        }
+      */
+
+      // some other const data
       staticData.isMultiplayer = BW::isMultiplayer();
       staticData.isReplay      = BW::isInReplay();
 
-      // manage onStartGame RPC
-      // invoke onStartGame()
+      // invoke onStartGame RPC
       try
       {
         BridgeServer::invokeOnStartMatch(fromStart);
@@ -712,57 +770,9 @@ namespace BWAPI
       bwUnitArrayMirrorFlags.setSize(BW::UNIT_ARRAY_MAX_LENGTH);
       bwUnitArrayMirrorFlags.setAllFlags(false);
 
-      /* TODO: reform
-      // initialize the variables
-      frameCount = 0;
-      BWAPIPlayer = NULL;
-      opponent = NULL;
-
       // set all the flags to the default of disabled
       for (int i = 0; i < Flags::count; i++)
         flags[i] = false;
-      flagsLocked = false;
-
-      // get the start locations
-      BW::Positions* posptr = BW::BWDATA_startPositions;
-      startLocations.clear();
-      playerSet.clear();
-      forces.clear();
-      while (posptr->x != 0 || posptr->y != 0)
-      {
-        startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2)          / BW::TILE_SIZE),
-                                                  (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
-        posptr++;
-      }
-
-      // get force names
-      std::set<std::string> force_names;
-      std::map<std::string, ForceImpl*> force_name_to_forceimpl;
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
-        if (players[i] != NULL && players[i]->getName().length() > 0)
-        {
-          force_names.insert(std::string(players[i]->getForceName()));
-          playerSet.insert(players[i]);
-        }
-
-      // create ForceImpl for force names
-      foreach (std::string i, force_names)
-      {
-        ForceImpl* newforce = new ForceImpl(i);
-        forces.insert((Force*)newforce);
-        force_name_to_forceimpl.insert(std::make_pair(i, newforce));
-      }
-
-      // create ForceImpl for players
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
-        if (players[i] != NULL && players[i]->getName().length() > 0)
-        {
-          ForceImpl* force = force_name_to_forceimpl.find(std::string(players[i]->getForceName()))->second;
-          force->players.insert(players[i]);
-          players[i]->force = force;
-        }
-      unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
-      */
 
       // init shared memory, in case agent is cinnected during the first match frame
       if(BridgeServer::isAgentConnected())

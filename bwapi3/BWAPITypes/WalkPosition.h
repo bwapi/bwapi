@@ -1,11 +1,13 @@
 #pragma once
 
 #include <Util\Point.h>
-
-namespace BW { struct WalkPosition; }
+#include <Util\Types.h>
 
 namespace BWAPI
 {
+  typedef Util::Point<s32> WalkPosition;
+
+  /*
   struct Position;
   struct BuildPosition;
   struct WalkPosition : Util::Point<int>
@@ -14,8 +16,10 @@ namespace BWAPI
 
     WalkPosition();
     WalkPosition(int x, int y);
-    WalkPosition(const Position &convertFrom);
-    WalkPosition(const BuildPosition &convertFrom);
+    // TODO: wrap all Point functionalities
+
+    Position toPixels();
+    BuildPosition toBuildTiles();
   
     template<typename T>
       WalkPosition(Util::Point<T> point)
@@ -23,4 +27,5 @@ namespace BWAPI
       {
       }
   };
+  */
 };

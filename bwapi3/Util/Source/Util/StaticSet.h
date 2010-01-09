@@ -217,8 +217,7 @@ namespace Util
         throw std::bad_alloc("StaticSet ran out of slots");
       for(;;)
       {
-        if(head == size)
-          throw std::logic_error("StaticSet count or head failure"); // either count or head have wrong values
+        _ASSERT(head < size); // either count or head have wrong values
         if(!data[head].valid)
           break;
         head++;
