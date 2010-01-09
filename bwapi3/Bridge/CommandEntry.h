@@ -25,6 +25,31 @@ namespace Bridge
     {
       BWAPI::UnitCommand unitCommand;
     };
+
+    struct StartGame : Util::TypeHead<UNIQUE_ID>
+    {
+    };
+
+    struct PauseGame : Util::TypeHead<UNIQUE_ID>
+    {
+    };
+
+    struct LeaveGame : Util::TypeHead<UNIQUE_ID>
+    {
+    };
+
+    struct ResumeGame : Util::TypeHead<UNIQUE_ID>
+    {
+    };
+
+    struct RestartGame : Util::TypeHead<UNIQUE_ID>
+    {
+    };
+
+    struct SetLocalSpeed : Util::TypeHead<UNIQUE_ID>
+    {
+      u32 speed;
+    };
 #undef UNIQUE_ID
 #pragma pack(pop)
   }

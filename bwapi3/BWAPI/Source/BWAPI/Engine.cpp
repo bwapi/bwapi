@@ -26,6 +26,7 @@
 #include <Util\Gnu.h>
 #include <Util\FlagArray.h>
 #include <Util\LookupTable.h>
+#include <Util\TypedPacketSwitch.h>
 
 #include <BW/Broodwar.h>
 #include <BW/Hook.h>
@@ -43,6 +44,7 @@
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
 #include <BW/RaceID.h>
+#include <BW\OrderID.h>
 #include <BW\OrderID.h>
 
 #include <BWAPITypes\BuildPosition.h>
@@ -193,50 +195,58 @@ namespace BWAPI
         unitCount++;
       BW::selectUnits(unitCount, savedSelectionStates);
     }
-    //---------------------------------------- EACH DRAW SHAPE -------------------------------------------------
-    void eachDrawShape(Util::MemoryFrame shapePacket)
+    //-------------------------- COMMAND ENTRY HANDLERS -----------------------------------------
+    int handleCommandSendText(Bridge::CommandEntry::SendText& packet, Util::MemoryFrame dynamicData)
     {
-      int type = shapePacket.getAs<int>();
-      if(type == Bridge::DrawShape::Text::_typeId)
-      {
-        Bridge::DrawShape::Text text;
-        shapePacket.readTo(text);
-        if(!shapePacket.size())
-        {
-          // packet too small
-          throw GeneralException(__FUNCTION__ ": text shape packet too small for text");
-        }
-        if(shapePacket.endAs<char>()[-1] != 0)
-        {
-          // not null terminated
-          throw GeneralException(__FUNCTION__ ": text shape packet text not null terminated");
-        }
-        BW::drawText(text.pos.x, text.pos.y, shapePacket.beginAs<char>());
-      }
-      if(type == Bridge::DrawShape::Line::_typeId)
-      {
-        Bridge::DrawShape::Line line;
-        shapePacket.readTo(line);
-        drawLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
-      }
-      if(type == Bridge::DrawShape::Rectangle::_typeId)
-      {
-        Bridge::DrawShape::Rectangle rect;
-        shapePacket.readTo(rect);
-        drawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color, rect.isSolid);
-      }
-      if(type == Bridge::DrawShape::Circle::_typeId)
-      {
-        Bridge::DrawShape::Circle circle;
-        shapePacket.readTo(circle);
-        drawCircle(circle.center.x, circle.center.y, circle.radius, circle.color, circle.isSolid);
-      }
-      if(type == Bridge::DrawShape::Dot::_typeId)
-      {
-        Bridge::DrawShape::Dot dot;
-        shapePacket.readTo(dot);
-        BW::drawDot(dot.pos.x, dot.pos.y, dot.color);
-      }
+      // check for correctness of received c string
+      if(dynamicData.endAs<char>()[-1] != 0)
+        throw GeneralException("received CommandEntry::SendText's text data is not null terminated");
+
+      if(packet.printOnly)
+        BW::printf(packet.text);
+      else
+        BW::sendText(packet.text);
+
+      return true;
+    }
+    int handleCommandStartGame(Bridge::CommandEntry::StartGame& packet)
+    {
+      BW::issueCommand(BW::Command::StartGame());
+      return false;
+    }
+    int handleCommandPauseGame(Bridge::CommandEntry::PauseGame& packet)
+    {
+      BW::issueCommand(BW::Command::PauseGame());
+      return false;
+    }
+    int handleCommandResumeGame(Bridge::CommandEntry::ResumeGame& packet)
+    {
+      BW::issueCommand(BW::Command::ResumeGame());
+      return false;
+    }
+    int handleCommandLeaveGame(Bridge::CommandEntry::LeaveGame& packet)
+    {
+      *BW::BWDATA_GameState = 0;
+      *BW::BWDATA_GamePosition = 6;
+      return false;
+    }
+    int handleCommandRestartGame(Bridge::CommandEntry::RestartGame& packet)
+    {
+      *BW::BWDATA_GameState = 0;
+      *BW::BWDATA_GamePosition = 5;
+      return false;
+    }
+    int handleCommandSetLocalSpeed(Bridge::CommandEntry::SetLocalSpeed& packet)
+    {
+      BW::setLocalSpeed(packet.speed);
+      return true;
+    }
+    std::vector<Bridge::CommandEntry::UnitOrder*> commandOrderEntries;
+    int handleCommandOrderUnit(Bridge::CommandEntry::UnitOrder& packet)
+    {
+      // for later processing in tighter loops
+      commandOrderEntries.push_back(&packet);
+      return true;
     }
     //----------------------------------- SHARE MATCH FRAME ----------------------------------------------------
     void shareMatchFrame()
@@ -531,18 +541,37 @@ namespace BWAPI
       // call OnFrame RPC
       BridgeServer::invokeOnFrame();
 
-      // process sendTexts
+      // iterate over commands that were issued this frame
+      // sort them into the correspondant command entry arrays
       {
-        for each(Bridge::CommandEntry::SendText *entry in BridgeServer::sendTextEntries)
+        // callback based handling, bool indicates whether to proceed
+        static Util::TypedPacketSwitch<int> packetSwitch;
+        if(!packetSwitch.getHandlerCount())
         {
-          if(entry->printOnly)
-            BW::printf(entry->text);
-          else
-            BW::sendText(entry->text);
+          // init packet switch
+          packetSwitch.addHandler(handleCommandSendText);
+          packetSwitch.addHandler(handleCommandStartGame);
+          packetSwitch.addHandler(handleCommandPauseGame);
+          packetSwitch.addHandler(handleCommandLeaveGame);
+          packetSwitch.addHandler(handleCommandResumeGame);
+          packetSwitch.addHandler(handleCommandRestartGame);
+          packetSwitch.addHandler(handleCommandSetLocalSpeed);
+          packetSwitch.addHandler(handleCommandOrderUnit);
+        }
+        // clear containers to receive next batch
+        commandOrderEntries.clear();
+
+        for(Bridge::SharedStuff::CommandStack::Index index = BridgeServer::sharedStuff.commands.begin();
+            index.isValid();
+            index = BridgeServer::sharedStuff.commands.getNext(index))
+        {
+          bool proceed = packetSwitch.handlePacket(BridgeServer::sharedStuff.commands.get(index));
+          if(!proceed)
+            break;
         }
       }
 
-      // process issued commands
+      // process issued unit commands
       {
         struct LatencyCommandEntry
         {
@@ -556,7 +585,7 @@ namespace BWAPI
         {
           saveSelected();
 
-          for each(Bridge::CommandEntry::UnitOrder* order in BridgeServer::orderEntries)
+          for each(Bridge::CommandEntry::UnitOrder* order in commandOrderEntries)
           {
             BWAPI::UnitCommand& command = order->unitCommand;
 
@@ -832,6 +861,51 @@ namespace BWAPI
       else
       {
         BW::sendText("%s", text);
+      }
+    }
+    //---------------------------------------- EACH DRAW SHAPE -------------------------------------------------
+    void eachDrawShape(Util::MemoryFrame shapePacket)
+    {
+      int type = shapePacket.getAs<int>();
+      if(type == Bridge::DrawShape::Text::_typeId)
+      {
+        Bridge::DrawShape::Text text;
+        shapePacket.readTo(text);
+        if(!shapePacket.size())
+        {
+          // packet too small
+          throw GeneralException(__FUNCTION__ ": text shape packet too small for text");
+        }
+        if(shapePacket.endAs<char>()[-1] != 0)
+        {
+          // not null terminated
+          throw GeneralException(__FUNCTION__ ": text shape packet text not null terminated");
+        }
+        BW::drawText(text.pos.x, text.pos.y, shapePacket.beginAs<char>());
+      }
+      if(type == Bridge::DrawShape::Line::_typeId)
+      {
+        Bridge::DrawShape::Line line;
+        shapePacket.readTo(line);
+        drawLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
+      }
+      if(type == Bridge::DrawShape::Rectangle::_typeId)
+      {
+        Bridge::DrawShape::Rectangle rect;
+        shapePacket.readTo(rect);
+        drawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color, rect.isSolid);
+      }
+      if(type == Bridge::DrawShape::Circle::_typeId)
+      {
+        Bridge::DrawShape::Circle circle;
+        shapePacket.readTo(circle);
+        drawCircle(circle.center.x, circle.center.y, circle.radius, circle.color, circle.isSolid);
+      }
+      if(type == Bridge::DrawShape::Dot::_typeId)
+      {
+        Bridge::DrawShape::Dot dot;
+        shapePacket.readTo(dot);
+        BW::drawDot(dot.pos.x, dot.pos.y, dot.color);
       }
     }
     //---------------------------------------- ON MATCH DRAW HIGH ----------------------------------------------

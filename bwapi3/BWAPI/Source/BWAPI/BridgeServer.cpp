@@ -23,9 +23,6 @@ namespace BWAPI
   //public:
     //-------------------------- PUBLIC DATA ----------------------------------------------------
     BWAPI::StaticGameData* gameData = NULL;
-
-    std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
-    std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
     //-------------------------- INIT -----------------------------------------------------------
     void initConnectionServer()
     {
@@ -174,47 +171,9 @@ namespace BWAPI
       sharedStuff.drawShapes.importNextUpdate(packet.exp);
       return true;
     }
-    //-------------------------- COMMAND ENTRY HANDLERS -----------------------------------------
-    int sortCommandSendText(Bridge::CommandEntry::SendText& packet, Util::MemoryFrame dynamicData)
-    {
-      // check for correctness of received c string
-      if(dynamicData.endAs<char>()[-1] != 0)
-        throw GeneralException("received CommandEntry::SendText's text data is not null terminated");
-
-      sendTextEntries.push_back(&packet);
-      return 0;
-    }
-    int sortCommandOrderUnit(Bridge::CommandEntry::UnitOrder& packet)
-    {
-      orderEntries.push_back(&packet);
-      return 0;
-    }
     //-------------------------- NEXT FRAME COMPLETION PACKET HANDLER ---------------------------
     bool handleFrameNextDone(Bridge::PipeMessage::AgentFrameNextDone& packet)
     {
-      // iterate over commands that were issued this frame
-      // sort them into the correspondant command entry arrays
-      {
-        // callback based sorting, int return value ignored
-        static Util::TypedPacketSwitch<int> packetSwitch;
-        if(!packetSwitch.getHandlerCount())
-        {
-          // init packet switch
-          packetSwitch.addHandler(sortCommandSendText);
-          packetSwitch.addHandler(sortCommandOrderUnit);
-        }
-
-        // prepare arrays
-        sendTextEntries.clear();
-        orderEntries.clear();
-
-        for(Bridge::SharedStuff::CommandStack::Index index = sharedStuff.commands.begin();
-            index.isValid();
-            index = sharedStuff.commands.getNext(index))
-        {
-          packetSwitch.handlePacket(sharedStuff.commands.get(index));
-        }
-      }
 
       return false;
     }

@@ -23,9 +23,6 @@ namespace BWAPI
     extern Bridge::SharedStuff sharedStuff;
     extern StaticGameData* gameData;
 
-    extern std::deque<Bridge::CommandEntry::SendText*> sendTextEntries;
-    extern std::deque<Bridge::CommandEntry::UnitOrder*> orderEntries;
-
     extern void initConnectionServer();
     extern void acceptIncomingConnections();
     extern void disconnect();

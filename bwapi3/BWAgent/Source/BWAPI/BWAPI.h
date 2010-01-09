@@ -43,22 +43,7 @@ namespace BWAPI
   // returns the callback type
   BWAPI_FUNCTION CallTypeId WaitForEvent();
 
-  // text operations
-  BWAPI_FUNCTION bool PrintText(const char* text);
-  BWAPI_FUNCTION bool SendText(const char* text);
-
-  // draw operations
-  BWAPI_FUNCTION void DrawTextScreen      (Position pos, const char* text);
-  BWAPI_FUNCTION void DrawText            (Position pos, const char* text);
-  BWAPI_FUNCTION void DrawRectangleScreen (Position pos, Position size, int color, bool solid);
-  BWAPI_FUNCTION void DrawRectangle       (Position pos, Position size, int color, bool solid);
-  BWAPI_FUNCTION void DrawCircleScreen    (Position pos, int r, int color, bool solid);
-  BWAPI_FUNCTION void DrawCircle          (Position pos, int r, int color, bool solid);
-  BWAPI_FUNCTION void DrawLineScreen      (Position pos, Position pos2, int color);
-  BWAPI_FUNCTION void DrawLine            (Position pos, Position pos2, int color);
-  BWAPI_FUNCTION void DrawDotScreen       (Position pos, int color);
-  BWAPI_FUNCTION void DrawDot             (Position pos, int color);
-
+  //----------------------------------- DATA QUERY --------------------------------------
   // information queries
   BWAPI_FUNCTION const StaticGameData*  GetStaticGameData();
   BWAPI_FUNCTION const DynamicGameData* GetDynamicGameData();
@@ -77,6 +62,31 @@ namespace BWAPI
   BWAPI_FUNCTION const Race*            GetRace(RaceId id);
   BWAPI_FUNCTION const UnitSizeType*    GetUnitSizeType(UnitSizeTypeId id);
   BWAPI_FUNCTION const PlayerType*      GetPlayerType(PlayerTypeId id);
+
+  //----------------------------------- OPERATIONS --------------------------------------
+  // text operations
+  BWAPI_FUNCTION bool PrintText(const char* text);
+  BWAPI_FUNCTION bool SendText(const char* text);
+
+  // draw operations
+  BWAPI_FUNCTION void DrawTextScreen      (Position pos, const char* text);
+  BWAPI_FUNCTION void DrawText            (Position pos, const char* text);
+  BWAPI_FUNCTION void DrawRectangleScreen (Position pos, Position size, int color, bool solid);
+  BWAPI_FUNCTION void DrawRectangle       (Position pos, Position size, int color, bool solid);
+  BWAPI_FUNCTION void DrawCircleScreen    (Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void DrawCircle          (Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void DrawLineScreen      (Position pos, Position pos2, int color);
+  BWAPI_FUNCTION void DrawLine            (Position pos, Position pos2, int color);
+  BWAPI_FUNCTION void DrawDotScreen       (Position pos, int color);
+  BWAPI_FUNCTION void DrawDot             (Position pos, int color);
+
+  // commands
+  BWAPI_FUNCTION void StartGame();
+  BWAPI_FUNCTION void PauseGame();
+  BWAPI_FUNCTION void LeaveGame();
+  BWAPI_FUNCTION void ResumeGame();
+  BWAPI_FUNCTION void RestartGame();
+  BWAPI_FUNCTION void SetLocalSpeed(int speed);
 
   // unit commands
   BWAPI_FUNCTION void OrderAttackPosition(int unitId, int x, int y);
