@@ -674,7 +674,6 @@ namespace BWAPI
       {
         Force &force = BridgeServer::gameData->forces.push_back();
         force.name.set(BW::BWDATA_ForceNames[i].name);
-        force.players.clear();
       }
 
       // find all players
@@ -693,9 +692,6 @@ namespace BWAPI
         player.force = bwPlayer.force;
         player.type = (PlayerTypeId)bwPlayer.type;
         player.name.set(bwPlayer.name);
-
-        // backreference players in forces
-        BridgeServer::gameData->forces.at(bwPlayer.force).players.push_back((PlayerId)i);
       }
 
       // some other const data

@@ -10,6 +10,5 @@ namespace BWAPI
   struct Force
   {
     Util::StaticString<32> name;
-    Util::StaticVector<PlayerId, 8> players;
   };
 }
