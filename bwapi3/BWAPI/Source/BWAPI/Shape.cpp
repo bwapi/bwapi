@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Shape.h"
+
 #include <BW/Hook.h>
 #include <math.h>
 
@@ -143,6 +145,111 @@ namespace BWAPI
         BW::drawDot(x - yi, y + xi, color);
         BW::drawDot(x + yi, y - xi, color);
         BW::drawDot(x - yi, y - xi, color);
+      }
+    }
+  }
+
+#define incx() x++, dxt += d2xt, t += dxt
+#define incy() y--, dyt += d2yt, t += dyt
+
+  void drawEllipse(int posx, int posy, int xrad, int yrad, int color, bool isSolid)
+  {
+    if (isSolid)
+    {
+      int x = 0, y = yrad;
+      unsigned int width = 1;
+      long a2 = (long)xrad * (int)xrad, b2 = (long)yrad * yrad;
+      long crit1 = -(a2 / 4 + xrad % 2 + b2);
+      long crit2 = -(b2 / 4 + yrad % 2 + a2);
+      long crit3 = -(b2 / 4 + yrad % 2);
+      long t = -a2 * y;
+      long dxt = 2 * b2 * x, dyt = -2 * a2 * y;
+      long d2xt = 2 * b2, d2yt = 2 * a2;
+
+      while (y >= 0 && x <= xrad)
+      {
+        if (t + b2*x <= crit1 ||
+          t + a2*y <= crit3)
+        {
+          incx();
+          width += 2;
+        }
+        else if (t - a2*y > crit2)
+        {
+          BW::drawBox(posx - x, posy - y, width, 1, color);
+          if (y != 0)
+	          BW::drawBox(posx - x, posy + y, width, 1, color);
+          incy();
+        }
+        else
+        {
+          BW::drawBox(posx - x, posy - y, width, 1, color);
+          if (y != 0)
+	          BW::drawBox(posx - x, posy + y, width, 1, color);
+          incx();
+          incy();
+          width += 2;
+        }
+      }
+      if (yrad == 0)
+        BW::drawBox(posx - xrad, posy, 2*xrad + 1, 1, color);
+    }
+    else
+    {
+      int x = xrad;
+      int y = 0;
+      int twoAsquare = 2 * xrad * xrad;
+      int twoBsquare = 2 * yrad * yrad;
+      int xchange = yrad * yrad * (1 - 2 * xrad);
+      int ychange = xrad * xrad;
+      int ellipseerror = 0;
+      int stoppingX = twoBsquare * xrad;
+      int stoppingY = 0;
+
+      while (stoppingX >= stoppingY)
+      {
+        BW::drawDot(posx + x, posy + y, color);
+        BW::drawDot(posx - x, posy + y, color);
+        BW::drawDot(posx - x, posy - y, color);
+        BW::drawDot(posx + x, posy - y, color);
+
+        y++;
+        stoppingY += twoAsquare;
+        ellipseerror += ychange;
+        ychange += twoAsquare;
+        if ((2*  ellipseerror + xchange) > 0)
+        {
+          x--;
+          stoppingX -= twoBsquare;
+          ellipseerror += xchange;
+          xchange += twoBsquare;
+        }
+      }
+      x = 0;
+      y = yrad;
+      xchange = yrad * yrad;
+      ychange = xrad * xrad * (1 - 2 * yrad);
+      ellipseerror = 0;
+      stoppingX = 0;
+      stoppingY = twoAsquare * yrad;
+      while (stoppingX <= stoppingY)
+      {
+        BW::drawDot(posx + x, posy + y, color);
+        BW::drawDot(posx - x, posy + y, color);
+        BW::drawDot(posx - x, posy - y, color);
+        BW::drawDot(posx + x, posy - y, color);
+
+        x++;
+        stoppingX += twoBsquare;
+        ellipseerror += xchange;
+        xchange += twoBsquare;
+        if ((2*  ellipseerror + ychange) > 0)
+        {
+          y--;
+          stoppingY -= twoAsquare;
+          ellipseerror += ychange;
+          ychange += twoAsquare;
+        }
       }
     }
   }

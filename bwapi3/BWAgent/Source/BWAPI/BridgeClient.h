@@ -36,6 +36,7 @@ namespace BWAPI
     extern bool pushDrawText(Position pos, const char*);
     extern bool pushDrawRectangle(Position pos, Position size, int color, bool solid);
     extern bool pushDrawCircle(Position center, int r, int color, bool solid);
+    extern bool pushDrawEllipse(Position center, int w, int h, int color, bool solid);
     extern bool pushDrawLine(Position pos, Position pos2, int color);
     extern bool pushDrawDot(Position pos, int color);
 

@@ -76,6 +76,8 @@ namespace BWAPI
   BWAPI_FUNCTION void drawRectangle       (Position pos, Position size, int color, bool solid);
   BWAPI_FUNCTION void drawCircleScreen    (Position pos, int r, int color, bool solid);
   BWAPI_FUNCTION void drawCircle          (Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void drawEllipseScreen   (Position pos, int w, int h, int color, bool solid);
+  BWAPI_FUNCTION void drawEllipse         (Position pos, int w, int h, int color, bool solid);
   BWAPI_FUNCTION void drawLineScreen      (Position pos, Position pos2, int color);
   BWAPI_FUNCTION void drawLine            (Position pos, Position pos2, int color);
   BWAPI_FUNCTION void drawDotScreen       (Position pos, int color);

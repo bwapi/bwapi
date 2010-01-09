@@ -1,5 +1,5 @@
 #pragma once
-#include <BW\Position.h>
+#include <BWAPITypes\Position.h>
 #include <Util\TypeHead.h>
 
 namespace Bridge
@@ -13,6 +13,15 @@ namespace Bridge
       BWAPI::Position from;
       BWAPI::Position to;
       int color;
+    };
+
+    struct Ellipse : Util::TypeHead<UNIQUE_ID>
+    {
+      BWAPI::Position pos;
+      int sizex;
+      int sizey;
+      int color;
+      bool isSolid;
     };
 
     struct Circle : Util::TypeHead<UNIQUE_ID>

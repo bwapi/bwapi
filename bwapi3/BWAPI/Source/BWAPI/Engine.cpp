@@ -914,6 +914,12 @@ namespace BWAPI
         shapePacket.readTo(circle);
         drawCircle(circle.center.x, circle.center.y, circle.radius, circle.color, circle.isSolid);
       }
+      if(type == Bridge::DrawShape::Ellipse::_typeId)
+      {
+        Bridge::DrawShape::Ellipse ellipse;
+        shapePacket.readTo(ellipse);
+        drawEllipse(ellipse.pos.x, ellipse.pos.y, ellipse.sizex, ellipse.sizey, ellipse.color, ellipse.isSolid);
+      }
       if(type == Bridge::DrawShape::Dot::_typeId)
       {
         Bridge::DrawShape::Dot dot;

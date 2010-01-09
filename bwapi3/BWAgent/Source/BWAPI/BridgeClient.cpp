@@ -367,6 +367,16 @@ namespace BWAPI
       packet.isSolid = solid;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
+    bool pushDrawEllipse(Position center, int w, int h, int color, bool solid)
+    {
+      Bridge::DrawShape::Ellipse packet;
+      packet.pos = center;
+      packet.sizex = w;
+      packet.sizey = h;
+      packet.color = color;
+      packet.isSolid = solid;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet));
+    }
     bool pushDrawLine(Position from, Position to, int color)
     {
       Bridge::DrawShape::Line packet;

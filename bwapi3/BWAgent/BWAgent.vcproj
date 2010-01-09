@@ -399,6 +399,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\Map.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\Player.h"
 					>
 				</File>
@@ -510,6 +514,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Util\Source\Util\Rectangle.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Util\Source\Util\RemoteProcess.cpp"
 				>
 			</File>
@@ -598,7 +606,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="&quot;all.cmd&quot;"
+					CommandLine="&quot;all.cmd&quot;&#x0D;&#x0A;"
 					Outputs="include"
 				/>
 			</FileConfiguration>
