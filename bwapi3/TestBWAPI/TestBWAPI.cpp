@@ -104,6 +104,8 @@ int _tmain(int argc, _TCHAR* argv[])
         forceId++;
       }
 
+      SetLocalSpeed(5);
+
       call = WaitForEvent();
     }
   }

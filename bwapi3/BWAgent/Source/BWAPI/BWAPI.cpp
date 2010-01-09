@@ -191,6 +191,39 @@ namespace BWAPI
     return &PlayerTypes::playerTypeData[id];
   }
   //----------------------------------- -----------------------------------------------------------
+  //----------------------------------- INSERT COMMAND --------------------------------------------
+  template<typename T>
+    void pushCommand(const T& cmd)
+    {
+      Bridge::SharedStuff::CommandStack::Index i = BridgeClient::sharedStuff.commands.insert(Util::MemoryFrame::from(cmd));
+    }
+  //----------------------------------- COMMANDS --------------------------------------------------
+  BWAPI_FUNCTION void StartGame()
+  {
+    pushCommand(Bridge::CommandEntry::StartGame());
+  }
+  BWAPI_FUNCTION void PauseGame()
+  {
+    pushCommand(Bridge::CommandEntry::PauseGame());
+  }
+  BWAPI_FUNCTION void LeaveGame()
+  {
+    pushCommand(Bridge::CommandEntry::LeaveGame());
+  }
+  BWAPI_FUNCTION void ResumeGame()
+  {
+    pushCommand(Bridge::CommandEntry::ResumeGame());
+  }
+  BWAPI_FUNCTION void RestartGame()
+  {
+    pushCommand(Bridge::CommandEntry::RestartGame());
+  }
+  BWAPI_FUNCTION void SetLocalSpeed(int speed)
+  {
+    Bridge::CommandEntry::SetLocalSpeed cmd;
+    cmd.speed = speed;
+    pushCommand(cmd);
+  }
   //----------------------------------- INSERT ORDER ----------------------------------------------
   UnitCommand& insertOrder()
   {
