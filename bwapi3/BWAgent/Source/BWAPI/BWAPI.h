@@ -48,11 +48,16 @@ namespace BWAPI
   BWAPI_FUNCTION bool SendText(const char* text);
 
   // draw operations
-  BWAPI_FUNCTION void DrawText(Position pos, const char* text);
-  BWAPI_FUNCTION void DrawRectangle(Position pos, Position size, int color, int solid);
-  BWAPI_FUNCTION void DrawCircle(Position pos, int r, int color, int solid);
-  BWAPI_FUNCTION void DrawLine(Position pos, Position pos2, int color);
-  BWAPI_FUNCTION void DrawDot(Position pos, int color);
+  BWAPI_FUNCTION void DrawTextScreen      (Position pos, const char* text);
+  BWAPI_FUNCTION void DrawText            (Position pos, const char* text);
+  BWAPI_FUNCTION void DrawRectangleScreen (Position pos, Position size, int color, bool solid);
+  BWAPI_FUNCTION void DrawRectangle       (Position pos, Position size, int color, bool solid);
+  BWAPI_FUNCTION void DrawCircleScreen    (Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void DrawCircle          (Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void DrawLineScreen      (Position pos, Position pos2, int color);
+  BWAPI_FUNCTION void DrawLine            (Position pos, Position pos2, int color);
+  BWAPI_FUNCTION void DrawDotScreen       (Position pos, int color);
+  BWAPI_FUNCTION void DrawDot             (Position pos, int color);
 
   // information queries
   BWAPI_FUNCTION const StaticGameData*  GetStaticGameData();

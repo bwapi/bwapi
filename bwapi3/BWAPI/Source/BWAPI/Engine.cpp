@@ -677,12 +677,13 @@ namespace BWAPI
         // is this a valid player slot?
         if(bwPlayer.type != BW::PlayerTypeIds::Human
           && bwPlayer.type != BW::PlayerTypeIds::Computer
-          && bwPlayer.type != BW::PlayerTypeIds::Neutral)
+          && i != 11)
         continue;
 
         // transfer data
         Player &player = BridgeServer::gameData->players.allocate(i);
         player.force = bwPlayer.force;
+        player.type = (PlayerTypeId)bwPlayer.type;
         player.name.set(bwPlayer.name);
       }
 
@@ -774,7 +775,7 @@ namespace BWAPI
       for (int i = 0; i < Flags::count; i++)
         flags[i] = false;
 
-      // init shared memory, in case agent is cinnected during the first match frame
+      // init shared memory, if agent is connected during the first match frame
       if(BridgeServer::isAgentConnected())
         shareMatchStart(true);
     }
@@ -857,7 +858,8 @@ namespace BWAPI
     void onMatchDrawHigh() throw()
     {
       Tracer::onDraw();
-      BridgeServer::enumAllDrawShapes(eachDrawShape);
+      if(BridgeServer::isAgentConnected())
+        BridgeServer::enumAllDrawShapes(eachDrawShape);
     }
     //---------------------------------------------- GLOBAL EXCEPTION HANDLER ----------------------------------
     void onException(const char* text)
