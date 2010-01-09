@@ -86,12 +86,19 @@ int _tmain(int argc, _TCHAR* argv[])
       }
 
       ShoutBox sb(Position(10, 18));
-      sprintf(buff, "%d", gd->players.count);
+      sprintf(buff, "%d", gd->forces.count);
       DrawTextScreen(sb.getNext(), buff);
-      for each(Util::Indexed<const Player&> player in gd->players)
+      int i = 0;
+      for each(const Force& force in gd->forces)
       {
-        sprintf(buff, "player %d: %d", player.index, player.item.type);
+        sprintf(buff, "force %d: %s", i++, force.name.buffer);
         DrawTextScreen(sb.getNext(), buff);
+        for each(PlayerId player in force.players)
+        {
+          const Player &playerData = gd->players[player];
+          sprintf(buff, "-player %d: %s", player, playerData.name.buffer);
+          DrawTextScreen(sb.getNext(), buff);
+        }
       }
 
       call = WaitForEvent();
