@@ -669,6 +669,14 @@ namespace BWAPI
         }
       }
 
+      // init all 4 forces
+      for(int i = 0; i < 4; i++)
+      {
+        Force &force = BridgeServer::gameData->forces.push_back();
+        force.name.set(BW::BWDATA_ForceNames[i].name);
+        force.players.clear();
+      }
+
       // find all players
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
       {
@@ -685,34 +693,10 @@ namespace BWAPI
         player.force = bwPlayer.force;
         player.type = (PlayerTypeId)bwPlayer.type;
         player.name.set(bwPlayer.name);
+
+        // backreference players in forces
+        BridgeServer::gameData->forces.at(bwPlayer.force).players.push_back((PlayerId)i);
       }
-
-      /*
-      // find all players, find all forces
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
-        if (players[i] != NULL && players[i]->getName().length() > 0)
-        {
-          BW::BWDATA_ForceNames[BW::BWDATA_Players->player[].force].name
-          force_names.insert(std::string(players[i]->getForceName()));
-        }
-
-      // create ForceImpl for force names
-      foreach (std::string i, force_names)
-      {
-        ForceImpl* newforce = new ForceImpl(i);
-        forces.insert((Force*)newforce);
-        force_name_to_forceimpl.insert(std::make_pair(i, newforce));
-      }
-
-      // create ForceImpl for players
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
-        if (players[i] != NULL && players[i]->getName().length() > 0)
-        {
-          ForceImpl* force = force_name_to_forceimpl.find(std::string(players[i]->getForceName()))->second;
-          force->players.insert(players[i]);
-          players[i]->force = force;
-        }
-      */
 
       // some other const data
       staticData.isMultiplayer = BW::isMultiplayer();

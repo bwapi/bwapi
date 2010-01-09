@@ -57,6 +57,15 @@ namespace Util
       count++;
     }
 
+    T& push_back()
+    {
+      if(count >= size)
+        throw GeneralException("pushed past bound");
+      T& retval = data[count];
+      count++;
+      return retval;
+    }
+
     const T& pop_back()
     {
       if(count <= 0)
