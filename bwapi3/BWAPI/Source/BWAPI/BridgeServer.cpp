@@ -122,6 +122,8 @@ namespace BWAPI
       sharedStuff.pipe.disconnect();
       sharedStuff.events.release();
       sharedStuff.commands.release();
+      sharedStuff.drawShapes.release();
+      sharedStuff.staticData.release();
       stateConnectionEstablished = false;
     }
     //-------------------------- INVOKE ON START MATCH ------------------------------------------

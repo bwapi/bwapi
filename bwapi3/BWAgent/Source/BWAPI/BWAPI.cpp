@@ -77,27 +77,47 @@ namespace BWAPI
   //----------------------------------- DRAW TEXT -------------------------------------------------
   BWAPI_FUNCTION void DrawText(Position pos, const char* text)
   {
-    BridgeClient::pushDrawText(pos.x, pos.y, text);
+    BridgeClient::pushDrawText(pos - BridgeClient::gameData->screenPosition, text);
+  }
+  BWAPI_FUNCTION void DrawTextScreen(Position pos, const char* text)
+  {
+    BridgeClient::pushDrawText(pos, text);
   }
   //----------------------------------- DRAW RECTANGLE --------------------------------------------
   BWAPI_FUNCTION void DrawRectangle(Position pos, Position size, int color, int solid)
   {
-    BridgeClient::pushDrawRectangle(pos.x, pos.y, size.x, size.y, color, !!solid);
+    BridgeClient::pushDrawRectangle(pos - BridgeClient::gameData->screenPosition, size - BridgeClient::gameData->screenPosition, color, !!solid);
+  }
+  BWAPI_FUNCTION void DrawRectangleScreen(Position pos, Position size, int color, int solid)
+  {
+    BridgeClient::pushDrawRectangle(pos, size, color, !!solid);
   }
   //----------------------------------- DRAW CIRCLE -----------------------------------------------
-  BWAPI_FUNCTION void DrawCircle(Position pos, int r, int color, int solid)
+  BWAPI_FUNCTION void DrawCircle(Position pos, int r, int color, bool solid)
   {
-    BridgeClient::pushDrawCircle(pos.x, pos.y, r, color, !!solid);
+    BridgeClient::pushDrawCircle(pos - BridgeClient::gameData->screenPosition, r, color, !!solid);
+  }
+  BWAPI_FUNCTION void DrawCircleScreen(Position pos, int r, int color, bool solid)
+  {
+    BridgeClient::pushDrawCircle(pos, r, color, !!solid);
   }
   //----------------------------------- DRAW LINE -------------------------------------------------
   BWAPI_FUNCTION void DrawLine(Position pos, Position pos2, int color)
   {
-    BridgeClient::pushDrawLine(pos.x, pos.y, pos2.x, pos2.y, color);
+    BridgeClient::pushDrawLine(pos - BridgeClient::gameData->screenPosition, pos2 - BridgeClient::gameData->screenPosition, color);
+  }
+  BWAPI_FUNCTION void DrawLineScreen(Position pos, Position pos2, int color)
+  {
+    BridgeClient::pushDrawLine(pos, pos2, color);
   }
   //----------------------------------- DRAW DOT --------------------------------------------------
   BWAPI_FUNCTION void DrawDot(Position pos, int color)
   {
-    BridgeClient::pushDrawDot(pos.x, pos.y, color);
+    BridgeClient::pushDrawDot(pos - BridgeClient::gameData->screenPosition, color);
+  }
+  BWAPI_FUNCTION void DrawDotScreen(Position pos, int color)
+  {
+    BridgeClient::pushDrawDot(pos, color);
   }
   //----------------------------------- GET STATIC DATA -------------------------------------------
   BWAPI_FUNCTION const StaticGameData* GetStaticGameData()

@@ -9,6 +9,23 @@
 
 using namespace BWAPI;
 
+class ShoutBox
+{
+private:
+  Position pos;
+public:
+  ShoutBox(Position startpos)
+  {
+    pos = startpos;
+  }
+  Position getNext()
+  {
+    Position retval = pos;
+    pos += Position(0, 8);
+    return retval;
+  }
+};
+
 int _tmain(int argc, _TCHAR* argv[])
 {
   try
@@ -38,14 +55,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
         Position pos = kunit.item.position;
-        pos -= gd->screenPosition;
-        sprintf(buff, "HP: %d", kunit.item.hitPoints);
+        sprintf(buff, "acc: %d", kunit.item.isAccelerating);
         DrawText(pos, buff);
 
         count++;
       }
-      itoa(gd->startLocations.count, buff, 10);
-      DrawText(Position(10, 10), buff);
+      itoa(gd->units.count, buff, 10);
+      DrawTextScreen(Position(10, 10), buff);
 
       const DynamicGameData *dd = GetDynamicGameData();
 
@@ -66,7 +82,16 @@ int _tmain(int argc, _TCHAR* argv[])
 
       for each(BuildPosition startLocation in gd->startLocations)
       {
-        DrawCircle(startLocation * 32 - gd->screenPosition, 5, 61, false);
+        DrawCircle(startLocation * 32, 5, 61, false);
+      }
+
+      ShoutBox sb(Position(10, 18));
+      sprintf(buff, "%d", gd->players.count);
+      DrawTextScreen(sb.getNext(), buff);
+      for each(Util::Indexed<const Player&> player in gd->players)
+      {
+        sprintf(buff, "player %d: %d", player.index, player.item.type);
+        DrawTextScreen(sb.getNext(), buff);
       }
 
       call = WaitForEvent();

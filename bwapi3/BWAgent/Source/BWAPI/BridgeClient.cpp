@@ -343,49 +343,42 @@ namespace BWAPI
       return true;
     }
     // TODO: change to pre-allocation
-    bool pushDrawText(int x, int y, const char* text)
+    bool pushDrawText(Position pos, const char* text)
     {
       Bridge::DrawShape::Text packet;
-      packet.pos.x = x;
-      packet.pos.y = y;
+      packet.pos = pos;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet), Util::MemoryFrame((void*)text, strlen(text)+1));
     }
-    bool pushDrawRectangle(int x, int y, int w, int h, int color, bool solid)
+    bool pushDrawRectangle(Position pos, Position size, int color, bool solid)
     {
       Bridge::DrawShape::Rectangle packet;
-      packet.pos.x = x;
-      packet.pos.y = y;
-      packet.size.x = x;
-      packet.size.y = y;
+      packet.pos = pos;
+      packet.size = size;
       packet.color = color;
       packet.isSolid = solid;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawCircle(int x, int y, int r, int color, bool solid)
+    bool pushDrawCircle(Position center, int r, int color, bool solid)
     {
       Bridge::DrawShape::Circle packet;
-      packet.center.x = x;
-      packet.center.y = y;
+      packet.center = center;
       packet.radius = r;
       packet.color = color;
       packet.isSolid = solid;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawLine(int x, int y, int x2, int y2, int color)
+    bool pushDrawLine(Position from, Position to, int color)
     {
       Bridge::DrawShape::Line packet;
-      packet.from.x = x;
-      packet.from.y = y;
-      packet.to.x = x2;
-      packet.to.y = y2;
+      packet.from = from;
+      packet.to = to;
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawDot(int x, int y, int color)
+    bool pushDrawDot(Position pos, int color)
     {
       Bridge::DrawShape::Dot packet;
-      packet.pos.x = x;
-      packet.pos.y = y;
+      packet.pos = pos;
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
