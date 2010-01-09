@@ -1,14 +1,14 @@
 #pragma once
 namespace BWAPI
 {
-  typedef int Flag;
   namespace Flags
   {
-    enum Enum
+    enum Enum : u32
     {
       CompleteMapInformation = 0,
       UserInput              = 1,
     };
     static const int count   = 2;
   }
+  typedef Flags::Enum Flag;
 }
