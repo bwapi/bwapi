@@ -50,6 +50,16 @@ namespace Bridge
     {
       u32 speed;
     };
+
+    struct PingMinimap : Util::TypeHead<UNIQUE_ID>
+    {
+      BWAPI::Position pos;
+    };
+
+    struct EnableFlag : Util::TypeHead<UNIQUE_ID>
+    {
+      int flag;
+    };
 #undef UNIQUE_ID
 #pragma pack(pop)
   }

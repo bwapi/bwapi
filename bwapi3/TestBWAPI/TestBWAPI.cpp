@@ -26,15 +26,25 @@ public:
   }
 };
 
+void testAction(Position pos)
+{
+  static int done = 0;
+  if(done++ == 500)
+  {
+    pingMinimap(pos);
+    done = 0;
+  }
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
   try
   {
     const StaticGameData *gd;
-    if(!Connect())
+    if(!connect())
     {
       printf("trying to connect...\n");
-      while(!Connect())
+      while(!connect())
       {
         Sleep(1000);
       }
@@ -42,71 +52,70 @@ int _tmain(int argc, _TCHAR* argv[])
     printf("connected\n");
 
     char buff[100];
-    gd = GetStaticGameData();
+    gd = getStaticGameData();
 
-    CallTypeId call = WaitForEvent();
+    CallTypeId call = waitForEvent();
     while(call != CallTypeIds::OnDisconnect)
     {
       int count = 0;
       for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
       {
         if(kunit.item.type == UnitTypeIds::Terran_SCV)
-          OrderStop(kunit.index);
-
+        {
+          testAction(kunit.item.position);
+        }
 
         Position pos = kunit.item.position;
         sprintf(buff, "acc: %d", kunit.item.isAccelerating);
-        DrawText(pos, buff);
+        drawText(pos, buff);
 
         count++;
       }
       itoa(gd->units.count, buff, 10);
-      DrawTextScreen(Position(10, 10), buff);
+      drawTextScreen(Position(10, 10), buff);
 
-      const DynamicGameData *dd = GetDynamicGameData();
+      const DynamicGameData *dd = getDynamicGameData();
 
       int size;
       size = dd->unitAddEvents.size();
       if(size)
       {
         sprintf(buff, "units added: %d", size);
-        PrintText(buff);
+        printText(buff);
       }
 
       size = dd->unitRemoveEvents.size();
       if(size)
       {
         sprintf(buff, "units removed: %d", size);
-        PrintText(buff);
+        printText(buff);
       }
 
       for each(BuildPosition startLocation in gd->startLocations)
       {
-        DrawCircle(startLocation * 32, 5, 61, false);
+        drawCircle(startLocation * 32, 5, 61, false);
       }
 
       ShoutBox sb(Position(10, 18));
       sprintf(buff, "Force count: %d", gd->forces.count);
-      DrawTextScreen(sb.getNext(), buff);
+      drawTextScreen(sb.getNext(), buff);
       int forceId = 0;
       for each(const Force& force in gd->forces)
       {
         sprintf(buff, "force %d: %s", forceId, force.name.buffer);
-        DrawTextScreen(sb.getNext(), buff);
+        drawTextScreen(sb.getNext(), buff);
         for each(PlayerId player in gd->players)
         {
           const Player &playerData = gd->players[player];
           if(playerData.force != forceId)
             continue;
           sprintf(buff, "-player %d: %s", player, playerData.name.buffer);
-          DrawTextScreen(sb.getNext(), buff);
+          drawTextScreen(sb.getNext(), buff);
         }
         forceId++;
       }
 
-      SetLocalSpeed(5);
-
-      call = WaitForEvent();
+      call = waitForEvent();
     }
   }
   catch(...)

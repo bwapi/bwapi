@@ -241,6 +241,16 @@ namespace BWAPI
       BW::setLocalSpeed(packet.speed);
       return true;
     }
+    int handleCommandEnableFlag(Bridge::CommandEntry::EnableFlag& packet)
+    {
+      enableFlag(packet.flag);
+      return true;
+    }
+    int handleCommandPingMinimap(Bridge::CommandEntry::PingMinimap& packet)
+    {
+      BW::issueCommand(BW::Command::MinimapPing(packet.pos));
+      return true;
+    }
     std::vector<Bridge::CommandEntry::UnitOrder*> commandOrderEntries;
     int handleCommandOrderUnit(Bridge::CommandEntry::UnitOrder& packet)
     {
@@ -556,6 +566,9 @@ namespace BWAPI
           packetSwitch.addHandler(handleCommandResumeGame);
           packetSwitch.addHandler(handleCommandRestartGame);
           packetSwitch.addHandler(handleCommandSetLocalSpeed);
+          packetSwitch.addHandler(handleCommandEnableFlag);
+          packetSwitch.addHandler(handleCommandPingMinimap);
+
           packetSwitch.addHandler(handleCommandOrderUnit);
         }
         // clear containers to receive next batch
