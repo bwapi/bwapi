@@ -263,7 +263,7 @@ namespace BWAPI
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::AttackPosition;
     order.unitIndex = unitId;
-    order.pos = pos;
+    order.position = pos;
   }
   //----------------------------------- ATTACK UNIT ORDER -----------------------------------------
   BWAPI_FUNCTION void orderAttackUnit(UnitId unitId, UnitId targetUnitId)
@@ -279,7 +279,7 @@ namespace BWAPI
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::RightClickPosition;
     order.unitIndex = unitId;
-    order.pos = pos;
+    order.position = pos;
   }
   //----------------------------------- RIGHT CLICK UNIT ORDER ------------------------------------
   BWAPI_FUNCTION void orderRightClickUnit(UnitId unitId, UnitId targetUnitId)
