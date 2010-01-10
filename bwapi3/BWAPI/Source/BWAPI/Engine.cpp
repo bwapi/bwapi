@@ -1180,7 +1180,7 @@ namespace BWAPI
     }
     void executeUnitBuildAddon(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
-      if(!bwUnit.unitID.isAddon())
+      if (!bwUnit.unitID.isAddon())
         return;
       executeUnitBuild(bwUnitIndex, bwUnit, command);
     }
@@ -1245,42 +1245,166 @@ namespace BWAPI
     {
       executeSelectOrder(bwUnitIndex);
       BW::UnitType rawtype((u16)command.unitType);
-      if(bwUnit.unitID.isBuilding())
+      if (bwUnit.unitID.isBuilding())
         BW::issueCommand(BW::Command::BuildingMorph(rawtype));
       else
         BW::issueCommand(BW::Command::UnitMorph(rawtype));
     }
     void executeUnitBurrow(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
-      if(!bwUnit.status.getBit<BW::StatusFlags::Burrowed>())
+      if (!bwUnit.status.getBit<BW::StatusFlags::Burrowed>())
       {
         executeSelectOrder(bwUnitIndex);
         BW::issueCommand(BW::Command::Burrow());
       }
     }
+    void executeUnitUnburrow(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (bwUnit.status.getBit<BW::StatusFlags::Burrowed>())
+      {
+        executeSelectOrder(bwUnitIndex);
+        BW::issueCommand(BW::Command::Unburrow());
+      }
+    }
+    void executeUnitSiege(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (bwUnit.unitID == BW::UnitTypeIDs::Terran_SiegeTankTankMode)
+      {
+        executeSelectOrder(bwUnitIndex);
+        BW::issueCommand(BW::Command::Siege());
+      }
+    }
+    void executeUnitUnsiege(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (bwUnit.unitID == BW::UnitTypeIDs::Terran_SiegeTankSiegeMode)
+      {
+        executeSelectOrder(bwUnitIndex);
+        BW::issueCommand(BW::Command::Unsiege());
+      }
+    }
+    void executeUnitCloak(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (!bwUnit.status.getBit<BW::StatusFlags::Cloaked>())
+      {
+        executeSelectOrder(bwUnitIndex);
+        BW::issueCommand(BW::Command::Cloak());
+      }
+    }
+    void executeUnitDecloak(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (bwUnit.status.getBit<BW::StatusFlags::Cloaked>())
+      {
+        executeSelectOrder(bwUnitIndex);
+        BW::issueCommand(BW::Command::Decloak());
+      }
+    }
+    void executeUnitLift(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (bwUnit.unitID.isBuilding())
+      {
+        if (!bwUnit.status.getBit<BW::StatusFlags::InAir>())
+        {
+          executeSelectOrder(bwUnitIndex);
+          BW::issueCommand(BW::Command::Lift());
+        }
+      }
+    }
+    void executeUnitLand(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if (bwUnit.unitID.isBuilding())
+      {
+        if (bwUnit.status.getBit<BW::StatusFlags::InAir>())
+        {
+          executeSelectOrder(bwUnitIndex);
+          BW::issueCommand(BW::Command::Land(command.position,bwUnit.unitID));
+        }
+      }
+    }
+    void executeUnitLoad(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      /* TODO: figure out how to get target unit type from command.targetIndex (for the last else if)
+      executeSelectOrder(bwUnitIndex);
+      if (bwUnit.unitID == BW::UnitTypeIDs::Terran_Bunker)
+        BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex),BW::OrderIDs::Pickup3));
+      else if (bwUnit.unitID == BW::UnitTypeIDs::Terran_Dropship ||
+               bwUnit.unitID == BW::UnitTypeIDs::Protoss_Shuttle ||
+               bwUnit.unitID == BW::UnitTypeIDs::Zerg_Overlord)
+        BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex),BW::OrderIDs::Pickup2));
+      else if (command.targetIndex??unitID == BW::UnitTypeIDs::Terran_Bunker ||
+               command.targetIndex??unitID == BW::UnitTypeIDs::Terran_Dropship ||
+               command.targetIndex??unitID == BW::UnitTypeIDs::Protoss_Shuttle ||
+               command.targetIndex??unitID == BW::UnitTypeIDs::Zerg_Overlord)
+        BW::issueCommand(BW::Command::RightClick(findBwIndexByKnownUnitIndex(command.targetIndex)));
+      */
+    }
+    void executeUnitUnload(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::UnloadUnit(findBwIndexByKnownUnitIndex(command.targetIndex)));
+    }
+    void executeUnitUnloadAll(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::UnloadAll());
+    }
+    void executeUnitUnloadAllPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(command.position,BW::OrderIDs::MoveUnload));
+    }
+    void executeUnitCancelConstruction(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::CancelConstruction());
+    }
+    void executeUnitHaltConstruction(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Stop(0));
+    }
+    void executeUnitCancelMorph(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      if (bwUnit.unitID.isBuilding())
+        BW::issueCommand(BW::Command::CancelConstruction());
+      else
+        BW::issueCommand(BW::Command::CancelUnitMorph());
+    }
+    void executeUnitCancelTrain(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::CancelTrainLast());
+    }
+    void executeUnitCancelTrainSlot(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::CancelTrain(command.extra));
+    }
+    void executeUnitCancelAddon(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::CancelAddon());
+    }
+    void executeUnitCancelResearch(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::CancelResearch());
+    }
+    void executeUnitCancelUpgrade(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::CancelUpgrade());
+    }
 /*
-  BWAPI_FUNCTION void orderUnburrow(int unitId);
-  BWAPI_FUNCTION void orderSiege(int unitId);
-  BWAPI_FUNCTION void orderUnsiege(int unitId);
-  BWAPI_FUNCTION void orderCloak(int unitId);
-  BWAPI_FUNCTION void orderDecloak(int unitId);
-  BWAPI_FUNCTION void orderLift(int unitId);
-  BWAPI_FUNCTION void orderLand(int unitId);
-  BWAPI_FUNCTION void orderLoad(int unitId, int targetUnitId);
-  BWAPI_FUNCTION void orderUnload(int unitId, int targetUnitId);
-  BWAPI_FUNCTION void orderUnloadAll(int unitId);
-  BWAPI_FUNCTION void orderUnloadAllPosition(int unitId);
-  BWAPI_FUNCTION void orderCancelConstruction(int unitId);
-  BWAPI_FUNCTION void orderHaltConstruction(int unitId);
-  BWAPI_FUNCTION void orderCancelMorph(int unitId);
-  BWAPI_FUNCTION void orderCancelTrain(int unitId);
-  BWAPI_FUNCTION void orderCancelTrainSlot(int unitId, int slotId);
-  BWAPI_FUNCTION void orderCancelAddon(int unitId);
-  BWAPI_FUNCTION void orderCancelResearch(int unitId);
-  BWAPI_FUNCTION void orderCancelUpgrade(int unitId);
-  BWAPI_FUNCTION void orderUseTech(int unitId);
-  BWAPI_FUNCTION void orderUseTechPosition(int unitId, BWAPI::TechTypeId what);
-  BWAPI_FUNCTION void orderUseTechUnit(int unitId, BWAPI::TechTypeId what, int targetUnitId);
+    void executeUnitUseTech(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+    }
+    void executeUnitUseTechPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+    }
+    void executeUnitUseTechUnit(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+    }
 */
     void executeUnknownUnitCommand(int bwUnitIndex, const BW::Unit&, const BWAPI::UnitCommand& command)
     {
