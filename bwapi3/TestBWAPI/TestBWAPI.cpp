@@ -112,14 +112,13 @@ int _tmain(int argc, _TCHAR* argv[])
         printText(buff);
       }
 
-      for each(BuildPosition startLocation in gd->startLocations)
-      {
-        drawCircle(startLocation * 32, 5, 61, true);
-      }
-
       ShoutBox sb(Position(10, 18));
 
-      drawTriangleScreen(Position(10, 10), Position(40, 10), Position(10, 40), 61, false);
+      for each(const Player& player in gd->players)
+      {
+        sprintf(buff, "player \"%s\": %d minerals, %d gas", player.name.buffer, player.minerals, player.gas);
+        drawTextScreen(sb.getNext(), buff);
+      }
 
       call = waitForEvent();
     }

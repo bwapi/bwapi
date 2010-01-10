@@ -13,6 +13,8 @@ namespace BWAPI
     PlayerTypeId type;
     s32 minerals;
     s32 gas;
+    s32 cumulativeMinerals;
+    s32 cumulativeGas;
     Util::StaticString<25> name;  // size as BW memory
   };
 }
