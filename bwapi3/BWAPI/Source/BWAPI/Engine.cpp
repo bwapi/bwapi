@@ -264,21 +264,46 @@ namespace BWAPI
       // fill buffers with recent world state data
       {
         BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
-        staticData.getLatency     = BW::getLatency();
-        staticData.frameCount     = frameCount;
-        staticData.mousePosition  = Position(BW::getMouseX(), BW::getMouseY());
-        staticData.screenPosition = Position(BW::getScreenX(), BW::getScreenY());
-        for (int x=0;x<Map::getWidth();x++)
+
+        // match data
         {
-          for (int y=0;y<Map::getHeight();y++)
+          staticData.getLatency     = BW::getLatency();
+          staticData.frameCount     = frameCount;
+          staticData.isPaused       = BW::isPaused();
+        }
+
+        // user input data
+        {
+          staticData.mousePosition  = Position(BW::getMouseX(), BW::getMouseY());
+          staticData.screenPosition = Position(BW::getScreenX(), BW::getScreenY());
+          for (int x=0;x<Map::getWidth();x++)
           {
-            staticData.isVisible[x][y] = Map::visible(x,y);
-            staticData.isExplored[x][y] = Map::isExplored(x,y);
-            staticData.hasCreep[x][y] = Map::hasCreep(x,y);
+            for (int y=0;y<Map::getHeight();y++)
+            {
+              staticData.isVisible[x][y] = Map::visible(x,y);
+              staticData.isExplored[x][y] = Map::isExplored(x,y);
+              staticData.hasCreep[x][y] = Map::hasCreep(x,y);
+            }
           }
         }
-        staticData.isPaused      = BW::isPaused();
-        staticData.unitCount=0;
+
+        // fresh player data
+        {
+          for each(int playerId in staticData.players)
+          {
+            // players container is index correlated with bw's playerids
+            int bwPlayerId = playerId;
+            Player& player = staticData.players[playerId];
+            if(playerId == BW::selfPlayerId
+              || BW::isInReplay() || flags[Flags::CompleteMapInformation])
+            {
+              player.minerals           = BW::BWDATA_PlayerResources->minerals.player[bwPlayerId];
+              player.gas                = BW::BWDATA_PlayerResources->gas.player[bwPlayerId];
+              player.cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[bwPlayerId];
+              player.cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[bwPlayerId];
+            }
+          }
+        }
 
         // traverse all game unit chains
         for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
@@ -298,7 +323,7 @@ namespace BWAPI
           mirror.knownUnit = NULL;
         }
 
-        // flag based search
+        // flag based search, examine all bw units of interest
         for(int w = -1;;)
         {
           // find all non-zero words

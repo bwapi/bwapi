@@ -39,7 +39,6 @@ namespace BWAPI
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
-    int unitCount;
     PlayerArray players;
     ForceArray forces;
     KnownUnitArray units;
