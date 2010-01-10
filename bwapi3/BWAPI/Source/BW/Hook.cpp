@@ -182,9 +182,8 @@ namespace BW
 
   //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 
-  void __declspec(naked) RefreshHook()
+  void __declspec(naked) RefreshScreenRegionHook()
   {
-    // Fix name. When exactly does this hook get called?
     static SavedHookRegisters registers;
     __asm
     {
@@ -213,6 +212,7 @@ namespace BW
       jmp [BW::BWFXN_RefreshBack]
     }
   }
+
 
   static SavedHookRegisters drawRegisters;
   void __declspec(naked) MatchDrawHighHook()
@@ -262,7 +262,7 @@ namespace BW
   void __declspec(naked) IssueCommandHook()
   {
     static u32 commandIDptr;
-    static u8 commandID;
+    static int commandID;
     static SavedHookRegisters registers;
     __asm
     {
@@ -277,50 +277,7 @@ namespace BW
       mov commandIDptr, ecx;
     }
     commandID = *(u8*)commandIDptr;
-
-    /* TODO: copy, redirect into Engine, process there
-    //decide if we should let the command go through
-    if ( BWAPI::Engine::isFlagEnabled(BWAPI::Flag::UserInput)
-         || !BWAPI::Engine::isOnStartCalled()
-         //If user input is disabled, only allow the following commands to go through:
-         // TODO: make enum
-         || commandID == 0x00 // Game Chat
-         || commandID == 0x05 // Keep Alive
-         || commandID == 0x06 // Save Game
-         || commandID == 0x07 // Load Game
-         || commandID == 0x08 // Restart Game
-         || commandID == 0x09 // Select
-         || commandID == 0x0A // Shift Select
-         || commandID == 0x10 // Pause Game
-         || commandID == 0x11 // Resume Game
-         || commandID == 0x37 // Game Hash
-         || commandID == 0x3C // Start Game
-         || commandID == 0x3D // Map Download %
-         || commandID == 0x3E // Game Slot Modification
-         || commandID == 0x3F // Unknown
-         || commandID == 0x40 // Join Game
-         || commandID == 0x41 // Race Change
-         || commandID == 0x42 // Melee Force Change
-         || commandID == 0x43 // UMS   Force Change
-         || commandID == 0x44 // Slot Change
-         || commandID == 0x45 // Swap Players
-         || commandID == 0x48 // Game Init (Random Seed)
-         || commandID == 0x49 // Info Request
-         || commandID == 0x4A // Force Data Transfer
-         || commandID == 0x4B // Force Name Transfer
-         || commandID == 0x4C // Lobby Chat
-         || commandID == 0x4E // Boot Player
-         || commandID == 0x4F // Map Transfer
-         || commandID == 0x54 // Mission Briefing Start
-         || commandID == 0x55 // Set Latency
-         || commandID == 0x56 // Change Replay Speed
-         || commandID == 0x57 // Leave Game
-         || commandID == 0x58 // Minimap Ping
-         || commandID == 0x5B // Make Game Public
-         || commandID == 0x5C // Replay Game Chat
-       )
-     */
-    if(true)
+    if(BWAPI::Engine::_onIssueCommand(commandID))
     {
       __asm
       {
@@ -513,16 +470,16 @@ namespace BW
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
     Util::Logger::globalLog->log("BWAPI initialisation started");
 
-    JmpCallPatch((void*)&NextFrameHook,     BW::BWFXN_NextLogicFrame,  0);
-    JmpCallPatch((void*)&MenuFrameHook,     BW::BWFXN_NextMenuFrame,   0);
-    JmpCallPatch((void*)&MatchEndHook,      BW::BWFXN_GameEnd,         0);
-    JmpCallPatch((void*)&UnitDeathHook,     BW::BWFXN_KillUnit,        0);
-    JmpCallPatch((void*)&SendTextHook,      BW::BWFXN_SendPublicCall,  0);
-    JmpCallPatch((void*)&SendSingleHook,    BW::BWFXN_SendTextCall,    0);
-    JmpCallPatch((void*)&SendLobbyHook,     BW::BWFXN_SendLobbyCall,   0);
-    JmpCallPatch((void*)&MatchDrawHighHook, BW::BWFXN_DrawHigh,        0);
-    JmpCallPatch((void*)&RefreshHook,       BW::BWFXN_Refresh,         0);
-    JmpCallPatch((void*)&IssueCommandHook,  BW::BWFXN_OldIssueCommand, 4);
+    JmpCallPatch((void*)&NextFrameHook,           BW::BWFXN_NextLogicFrame,  0);
+    JmpCallPatch((void*)&MenuFrameHook,           BW::BWFXN_NextMenuFrame,   0);
+    JmpCallPatch((void*)&MatchEndHook,            BW::BWFXN_GameEnd,         0);
+    JmpCallPatch((void*)&UnitDeathHook,           BW::BWFXN_KillUnit,        0);
+    JmpCallPatch((void*)&SendTextHook,            BW::BWFXN_SendPublicCall,  0);
+    JmpCallPatch((void*)&SendSingleHook,          BW::BWFXN_SendTextCall,    0);
+    JmpCallPatch((void*)&SendLobbyHook,           BW::BWFXN_SendLobbyCall,   0);
+    JmpCallPatch((void*)&MatchDrawHighHook,       BW::BWFXN_DrawHigh,        0);
+    JmpCallPatch((void*)&RefreshScreenRegionHook, BW::BWFXN_Refresh,         0);
+    JmpCallPatch((void*)&IssueCommandHook,        BW::BWFXN_OldIssueCommand, 4);
 
     static const char zero = 0;
     static const char one  = 1;

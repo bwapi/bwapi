@@ -18,5 +18,6 @@ namespace BWAPI
     extern void _onDllLoad() throw();
     extern void _onMessageIntercepted(const char* text) throw();
     extern void _onMatchDrawHigh() throw();
+    extern bool _onIssueCommand(int commandID) throw();
   };
 };

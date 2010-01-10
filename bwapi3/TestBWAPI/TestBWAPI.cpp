@@ -32,6 +32,7 @@ void testAction(UnitId unit)
   if(done++ == 500)
   {
     const StaticGameData *gd = getStaticGameData();
+    /*
     for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
     {
       if(kunit.item.type == UnitTypeIds::Terran_SCV)
@@ -40,6 +41,7 @@ void testAction(UnitId unit)
         drawCircle(kunit.item.position, 5, 61, false);
       }
     }
+    */
     done = 0;
   }
 }
@@ -62,7 +64,18 @@ int _tmain(int argc, _TCHAR* argv[])
     char buff[100];
     gd = getStaticGameData();
 
-    CallTypeId call = waitForEvent();
+    CallTypeId call;
+    do
+    {
+      call = waitForEvent();
+    }
+    while(call != CallTypeIds::OnMatchStart);
+    call = waitForEvent();
+
+    // on start code here
+    enableFlag(Flags::UserInput);
+
+    call = waitForEvent();
     while(call != CallTypeIds::OnDisconnect)
     {
       int count = 0;
