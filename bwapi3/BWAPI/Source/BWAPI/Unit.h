@@ -6,7 +6,10 @@
  *******/
 
 #include <Util\Types.h>
+
 #include <Bridge\SharedStuff.h>
+
+#include <BWAPITypes\UnitId.h>
 
 namespace Bridge { struct KnownUnitEntry; };
 
@@ -23,6 +26,6 @@ namespace BWAPI
 
     // if this unit is known, this is it's personal KnownUnit entry
     KnownUnit* knownUnit;       // saving, to not to have to recompute
-    int        knownUnitIndex;  // needed for removing from units
+    UnitId     knownUnitIndex;  // needed for removing from units
   };
 }
