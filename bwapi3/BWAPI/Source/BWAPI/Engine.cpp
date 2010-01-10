@@ -367,7 +367,8 @@ namespace BWAPI
 
             // check the new knownability of this unit
             // TODO: extend knowability criteria
-            bool isKnown = Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
+            bool isVisible = flags[Flags::CompleteMapInformation] || Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
+            bool isKnown = isVisible;
 
             // if knownability changed
             if(!!mirror.knownUnit != isKnown)
@@ -768,7 +769,7 @@ namespace BWAPI
       UnitSizeTypes::init();
 
       // enable user input as long as no agent is in charge
-      //if(!BridgeServer::isAgentConnected()) TODO: uncomment
+      if(!BridgeServer::isAgentConnected())
         Engine::enableFlag(Flags::UserInput);
 
       // reset frame count
@@ -1002,13 +1003,57 @@ namespace BWAPI
     {
       callAndHandleExceptions(onMatchDrawHigh);
     }
+    bool _onIssueCommand(int commandID) throw()
+    {
+      //decide if we should let the command go through
+      if ( flags[BWAPI::Flags::UserInput]
+        || !BW::isInGame() || BW::isInReplay()
+        //If user input is disabled, only allow the following commands to go through:
+        || commandID == 0x00 // Game Chat
+        || commandID == 0x05 // Keep Alive
+        || commandID == 0x06 // Save Game
+        || commandID == 0x07 // Load Game
+        || commandID == 0x08 // Restart Game
+        || commandID == 0x09 // Select         example: BW::Command::SelectSingle::_typeId
+        || commandID == 0x0A // Shift Select
+        || commandID == 0x10 // Pause Game
+        || commandID == 0x11 // Resume Game
+        || commandID == 0x37 // Game Hash
+        || commandID == 0x3C // Start Game
+        || commandID == 0x3D // Map Download %
+        || commandID == 0x3E // Game Slot Modification
+        || commandID == 0x3F // Unknown
+        || commandID == 0x40 // Join Game
+        || commandID == 0x41 // Race Change
+        || commandID == 0x42 // Melee Force Change
+        || commandID == 0x43 // UMS   Force Change
+        || commandID == 0x44 // Slot Change
+        || commandID == 0x45 // Swap Players
+        || commandID == 0x48 // Game Init (Random Seed)
+        || commandID == 0x49 // Info Request
+        || commandID == 0x4A // Force Data Transfer
+        || commandID == 0x4B // Force Name Transfer
+        || commandID == 0x4C // Lobby Chat
+        || commandID == 0x4E // Boot Player
+        || commandID == 0x4F // Map Transfer
+        || commandID == 0x54 // Mission Briefing Start
+        || commandID == 0x55 // Set Latency
+        || commandID == 0x56 // Change Replay Speed
+        || commandID == 0x57 // Leave Game
+        || commandID == 0x58 // Minimap Ping
+        || commandID == 0x5B // Make Game Public
+        || commandID == 0x5C // Replay Game Chat
+        )
+        return true;
+      return false;
+    }
     //------------------------------------------------- ON DLL LOAD --------------------------------------------
     void _onDllLoad() throw()
     {
       // stop!!!
       // please reconsider, this thread is not the starcraft thread. hardly foreseeable future bugs can
       // be avoided altogether by moving initialisation code to update()
-      // throw something here to unload the dll and signal dll initialisation as failed
+      // throw anything here to unload the dll and signal dll initialisation as failed
     }
     //----------------------------------------------- PARSE TEXT -----------------------------------------------
     bool parseText(const char* text)
@@ -1054,18 +1099,6 @@ namespace BWAPI
         return true;
       }
       return false;
-    }
-    //----------------------------------------------------------------------------------------------------------
-    void refresh()
-    {
-      /* Unusued
-          TODO: find out what "Unused" mean? what does this function do? decide whether move to BW:: or remove
-      #ifdef __GNUC__
-        __asm__("call [BW::BWFXN_Refresh]");
-      #else
-        __asm call BW::BWFXN_Refresh
-      #endif
-      */
     }
     //---------------------------------------- ORDER SIMULATION ------------------------------------------------
     void simulateUnitStop(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
