@@ -26,12 +26,20 @@ public:
   }
 };
 
-void testAction(Position pos)
+void testAction(UnitId unit)
 {
   static int done = 0;
   if(done++ == 500)
   {
-    pingMinimap(pos);
+    const StaticGameData *gd = getStaticGameData();
+    for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
+    {
+      if(kunit.item.type == UnitTypeIds::Terran_SCV)
+      {
+        orderAttackUnit(unit, kunit.index);
+        drawCircle(kunit.item.position, 5, 61, false);
+      }
+    }
     done = 0;
   }
 }
@@ -60,9 +68,9 @@ int _tmain(int argc, _TCHAR* argv[])
       int count = 0;
       for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
       {
-        if(kunit.item.type == UnitTypeIds::Terran_SCV)
+        if(kunit.item.type == UnitTypeIds::Protoss_High_Templar)
         {
-          testAction(kunit.item.position);
+          testAction(kunit.index);
         }
 
         Position pos = kunit.item.position;
@@ -97,23 +105,6 @@ int _tmain(int argc, _TCHAR* argv[])
       }
 
       ShoutBox sb(Position(10, 18));
-      sprintf(buff, "Force count: %d", gd->forces.count);
-      drawTextScreen(sb.getNext(), buff);
-      int forceId = 0;
-      for each(const Force& force in gd->forces)
-      {
-        sprintf(buff, "force %d: %s", forceId, force.name.buffer);
-        drawTextScreen(sb.getNext(), buff);
-        for each(PlayerId player in gd->players)
-        {
-          const Player &playerData = gd->players[player];
-          if(playerData.force != forceId)
-            continue;
-          sprintf(buff, "-player %d: %s", player, playerData.name.buffer);
-          drawTextScreen(sb.getNext(), buff);
-        }
-        forceId++;
-      }
 
       call = waitForEvent();
     }

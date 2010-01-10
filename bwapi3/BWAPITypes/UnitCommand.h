@@ -16,9 +16,8 @@ namespace BWAPI
   {
     UnitCommandTypeId commandId;
     int unitIndex;
-    int x;              //x position or tile position, depending on order type
-    int y;              //y position or tile position, depending on order type
-    int targetIndex;    //target unit linear index, if applicable
+    Util::Point<s32> position;  //position or tile position, depending on order type
+    int targetIndex;            //target unit linear index, if applicable
     union   // depending on command type
     {
       int extra;

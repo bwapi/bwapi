@@ -16,7 +16,7 @@ namespace BW
 
     PositionUnitID();
     PositionUnitID(const BW::Position& target);
-    PositionUnitID(const BW::UnitID& target);
+    PositionUnitID(BW::UnitID target);
   };
 }
 

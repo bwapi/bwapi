@@ -13,7 +13,7 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  PositionUnitID::PositionUnitID(const BW::UnitID& target)
+  PositionUnitID::PositionUnitID(BW::UnitID target)
       : unitId(target)
   {
     BW::Unit* unit = & BW::BWDATA_UnitNodeTable->unit[target.getIndex()];

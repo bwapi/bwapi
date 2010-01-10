@@ -367,7 +367,7 @@ namespace BWAPI
 
             // check the new knownability of this unit
             // TODO: extend knowability criteria
-            bool isKnown = Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
+            bool isKnown = true; //Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
 
             // if knownability changed
             if(!!mirror.knownUnit != isKnown)
@@ -1072,14 +1072,14 @@ namespace BWAPI
     {
       // TODO: add alternation of state
     }
-
     void simulateUnknownUnitCommand(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
     {
-      throw GeneralException("Unknown command " + Util::Strings::intToString(command.commandId));
+      throw GeneralException("Simulating unknown unit order " + Util::Strings::intToString(command.commandId));
     }
-
     void simulateUnitCommand(const BWAPI::UnitCommand& command, BWAPI::UnitState& state)
     {
+      // TODO: add order latency-time simulation
+      /*
       typedef void(*SIMULATOR)(const BWAPI::UnitCommand&, BWAPI::UnitState&);
       static Util::LookupTable<SIMULATOR> simulators;
       static bool isSimulatorsTableInitialized = false;
@@ -1095,6 +1095,7 @@ namespace BWAPI
       // get command simulator function and call it
       SIMULATOR simulator = simulators.lookUp(command.commandId);
       simulator(command, state);
+      */
     }
     //---------------------------------------- ORDER EXECUTION -------------------------------------------------
     void executeSelectOrder(int bwUnitIndex)
@@ -1103,21 +1104,191 @@ namespace BWAPI
       select = &BW::BWDATA_UnitNodeTable->unit[bwUnitIndex];
       BW::selectUnits(1, &select);
     }
-
-    void executeUnitStop(int bwUnitIndex, const BWAPI::UnitCommand& command)
+    int findBwIndexByKnownUnitIndex(UnitId index)
+    {
+      // TODO: add a knownunit mirror, lookup the bwunit index in the reflected knownunit entry
+      // then remove this temporary-solution function
+      // but for now just search the bwunit mirror for a reference to this knownunit
+      int bwUnitIndex = -1;
+      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      {
+        if(!bwUnitArrayMirror[i].wasInChain)
+          continue;
+        if(bwUnitArrayMirror[i].knownUnitIndex == index)
+        {
+          bwUnitIndex = i;
+          break;
+        }
+      }
+      return bwUnitIndex;
+    }
+    void executeUnitAttackPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
       executeSelectOrder(bwUnitIndex);
-      BW::issueCommand(BW::Command::Stop(0));
+      BW::issueCommand(BW::Command::Attack(command.position, BW::OrderIDs::AttackMove));
     }
-
-    void executeUnknownUnitCommand(int bwUnitIndex, const BWAPI::UnitCommand& command)
+    void executeUnitAttackUnit(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
-      throw GeneralException("Unknown command " + Util::Strings::intToString(command.commandId));
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::AttackUnit));
     }
-
+    void executeUnitRightClickPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::RightClick(command.position));
+    }
+    void executeUnitRightClickUnit(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::RightClick(findBwIndexByKnownUnitIndex(command.targetIndex)));
+    }
+    void executeUnitTrain(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      BW::UnitType type((u16)command.unitType);
+      executeSelectOrder(bwUnitIndex);
+      if (bwUnit.unitID == BW::UnitTypeIDs::Zerg_Larva ||
+          bwUnit.unitID == BW::UnitTypeIDs::Zerg_Mutalisk ||
+          bwUnit.unitID == BW::UnitTypeIDs::Zerg_Hydralisk)
+      {
+        BW::issueCommand(BW::Command::UnitMorph(type));
+      }
+      else if (bwUnit.unitID == BW::UnitTypeIDs::Zerg_Hatchery ||
+               bwUnit.unitID == BW::UnitTypeIDs::Zerg_Lair ||
+               bwUnit.unitID == BW::UnitTypeIDs::Zerg_Spire ||
+               bwUnit.unitID == BW::UnitTypeIDs::Zerg_CreepColony)
+      {
+        BW::issueCommand(BW::Command::BuildingMorph(type));
+      }
+      else if (bwUnit.unitID == BW::UnitTypeIDs::Protoss_Carrier ||
+               bwUnit.unitID == BW::UnitTypeIDs::Protoss_Reaver)
+      {
+        BW::issueCommand(BW::Command::TrainFighter());
+      }
+      else
+      {
+        BW::issueCommand(BW::Command::TrainUnit(type));
+      }
+    }
+    void executeUnitBuild(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      BW::UnitType type((u16)command.unitType);
+      executeSelectOrder(bwUnitIndex);
+      if (bwUnit.unitID.isAddon())
+        BW::issueCommand(BW::Command::MakeAddon(command.position, type));
+      else
+        BW::issueCommand(BW::Command::MakeBuilding(command.position, type));
+    }
+    void executeUnitBuildAddon(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if(!bwUnit.unitID.isAddon())
+        return;
+      executeUnitBuild(bwUnitIndex, bwUnit, command);
+    }
+    void executeUnitResearch(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      u8 techenum = (u8)command.tech;
+      BW::issueCommand(BW::Command::Invent(BW::TechType(techenum)));
+    }
+    void executeUnitUpgrade(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      u8 upgradeenum = (u8)command.upgrade;
+      BW::issueCommand(BW::Command::Upgrade(BW::UpgradeType(upgradeenum)));
+    }
+    void executeUnitStop(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      if (bwUnit.unitID == BW::UnitTypeIDs::Protoss_Reaver)
+        BW::issueCommand(BW::Command::ReaverStop());
+      else if (bwUnit.unitID == BW::UnitTypeIDs::Protoss_Carrier)
+        BW::issueCommand(BW::Command::CarrierStop());
+      else
+        BW::issueCommand(BW::Command::Stop(0));
+    }
+    void executeUnitHoldPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::HoldPosition(0));
+    }
+    void executeUnitPatrol(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::Patrol));
+    }
+    void executeUnitFollow(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::Follow));
+    }
+    void executeUnitSetRallyPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(command.position, BW::OrderIDs::RallyPoint2));
+    }
+    void executeUnitSetRallyUnit(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::RallyPoint1));
+    }
+    void executeUnitRepair(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::Repair1));
+    }
+    void executeUnitReturnCargo(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::issueCommand(BW::Command::ReturnCargo(0));
+    }
+    void executeUnitMorph(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      executeSelectOrder(bwUnitIndex);
+      BW::UnitType rawtype((u16)command.unitType);
+      if(bwUnit.unitID.isBuilding())
+        BW::issueCommand(BW::Command::BuildingMorph(rawtype));
+      else
+        BW::issueCommand(BW::Command::UnitMorph(rawtype));
+    }
+    void executeUnitBurrow(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
+    {
+      if(!bwUnit.status.getBit<BW::StatusFlags::Burrowed>())
+      {
+        executeSelectOrder(bwUnitIndex);
+        BW::issueCommand(BW::Command::Burrow());
+      }
+    }
+/*
+  BWAPI_FUNCTION void orderUnburrow(int unitId);
+  BWAPI_FUNCTION void orderSiege(int unitId);
+  BWAPI_FUNCTION void orderUnsiege(int unitId);
+  BWAPI_FUNCTION void orderCloak(int unitId);
+  BWAPI_FUNCTION void orderDecloak(int unitId);
+  BWAPI_FUNCTION void orderLift(int unitId);
+  BWAPI_FUNCTION void orderLand(int unitId);
+  BWAPI_FUNCTION void orderLoad(int unitId, int targetUnitId);
+  BWAPI_FUNCTION void orderUnload(int unitId, int targetUnitId);
+  BWAPI_FUNCTION void orderUnloadAll(int unitId);
+  BWAPI_FUNCTION void orderUnloadAllPosition(int unitId);
+  BWAPI_FUNCTION void orderCancelConstruction(int unitId);
+  BWAPI_FUNCTION void orderHaltConstruction(int unitId);
+  BWAPI_FUNCTION void orderCancelMorph(int unitId);
+  BWAPI_FUNCTION void orderCancelTrain(int unitId);
+  BWAPI_FUNCTION void orderCancelTrainSlot(int unitId, int slotId);
+  BWAPI_FUNCTION void orderCancelAddon(int unitId);
+  BWAPI_FUNCTION void orderCancelResearch(int unitId);
+  BWAPI_FUNCTION void orderCancelUpgrade(int unitId);
+  BWAPI_FUNCTION void orderUseTech(int unitId);
+  BWAPI_FUNCTION void orderUseTechPosition(int unitId, BWAPI::TechTypeId what);
+  BWAPI_FUNCTION void orderUseTechUnit(int unitId, BWAPI::TechTypeId what, int targetUnitId);
+*/
+    void executeUnknownUnitCommand(int bwUnitIndex, const BW::Unit&, const BWAPI::UnitCommand& command)
+    {
+      throw GeneralException("Executing unknown unit command " + Util::Strings::intToString(command.commandId));
+    }
     void executeUnitCommand(const BWAPI::UnitCommand& command)
     {
-      typedef void(*EXECUTOR)(int unitId, const BWAPI::UnitCommand&);
+      typedef void(*EXECUTOR)(int unitId, const BW::Unit& bwUnit, const BWAPI::UnitCommand&);
       static Util::LookupTable<EXECUTOR> executors;
       static bool isExecutorsTableInitialized = false;
 
@@ -1125,7 +1296,10 @@ namespace BWAPI
       if(!isExecutorsTableInitialized)
       {
         executors.setDefaultValue(&executeUnknownUnitCommand);
-        executors.setValue(UnitCommandTypeIds::Stop, &executeUnitStop);
+        executors.setValue(UnitCommandTypeIds::AttackPosition,    &executeUnitAttackPosition);
+        executors.setValue(UnitCommandTypeIds::AttackUnit,        &executeUnitAttackUnit);
+        executors.setValue(UnitCommandTypeIds::Stop,              &executeUnitStop);
+        executors.setValue(UnitCommandTypeIds::Burrow,            &executeUnitBurrow);
         isExecutorsTableInitialized = true;
       }
 
@@ -1133,23 +1307,17 @@ namespace BWAPI
       EXECUTOR executor = executors.lookUp(command.commandId);
 
       // find out the unitId.
-      // TODO: add a knownunit mirror, lookup the bwunit index in the reflected knownunit entry
-      // but for now just search the bwunit mirror for a reference to this knownunit
-      int bwUnitIndex = -1;
-      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      {
-        if(!bwUnitArrayMirror[i].wasInChain)
-          continue;
-        if(bwUnitArrayMirror[i].knownUnitIndex == command.unitIndex)
-        {
-          bwUnitIndex = i;
-          break;
-        }
-      }
+      int bwUnitIndex = findBwIndexByKnownUnitIndex(command.unitIndex);
       if(bwUnitIndex == -1)
         return; // the unit does not exist anymore;
 
-      executor(bwUnitIndex, command);
+      const BW::Unit& bwUnit = BW::BWDATA_UnitNodeTable->unit[bwUnitIndex];
+
+      bool isUnitOwnedBySelf = bwUnit.playerID == BW::selfPlayerId;
+      if(!isUnitOwnedBySelf)
+        return;
+
+      executor(bwUnitIndex, bwUnit, command);
     }
     //---------------------------------------- -----------------------------------------------------------------
   }
