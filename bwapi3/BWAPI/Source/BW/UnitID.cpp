@@ -8,12 +8,12 @@ namespace BW
   }
   //--------------------------------- CONSTRUCTOR -----------------------------------------
   UnitID::UnitID(int fromIndex)
-    : id((u16)fromIndex + (1 << 11) + 1)
+    : bwId((u16)fromIndex + (1 << 11) + 1)
   {
   }
   //--------------------------------- GET INDEX -------------------------------------------
   int UnitID::getIndex() const
   {
-    return (id & 0x7FF) - 1;
+    return (bwId & 0x7FF) - 1;
   }
 }

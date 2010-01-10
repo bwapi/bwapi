@@ -1,6 +1,6 @@
 #pragma once
 /***********************************************************************
- *  The BWAPI::Unit struct is a proxy of the BW::Unit struct, with
+ *  The UnitMirror struct is a proxy of the BW::Unit struct, with
  *  additional data for lifetime detection
  *
  *******/
@@ -15,7 +15,7 @@ namespace Bridge { struct KnownUnitEntry; };
 
 namespace BWAPI
 {
-  struct Unit
+  struct UnitMirror
   {
     // isInChain is true when this slot is detected to be an element of BroodWars
     // UnitNodeChain in memory. wasInChain is the previus frame's isInChain

@@ -29,19 +29,17 @@ public:
 void testAction(UnitId unit)
 {
   static int done = 0;
-  if(done++ == 500)
+  if(done++ == 100)
   {
     const StaticGameData *gd = getStaticGameData();
-    /*
     for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
     {
-      if(kunit.item.type == UnitTypeIds::Terran_SCV)
+      if(kunit.item.type == UnitTypeIds::Zerg_Zergling)
       {
         orderAttackUnit(unit, kunit.index);
         drawCircle(kunit.item.position, 5, 61, false);
       }
     }
-    */
     done = 0;
   }
 }
@@ -81,7 +79,7 @@ int _tmain(int argc, _TCHAR* argv[])
       int count = 0;
       for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
       {
-        if(kunit.item.type == UnitTypeIds::Protoss_High_Templar)
+        if(kunit.item.type == UnitTypeIds::Terran_Siege_Tank_Tank_Mode)
         {
           testAction(kunit.index);
         }

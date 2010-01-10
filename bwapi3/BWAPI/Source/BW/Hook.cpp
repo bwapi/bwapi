@@ -1,6 +1,7 @@
 #include "Hook.h"
 #include "Offsets.h"
 #include "Broodwar.h"
+#include "Command.h"
 
 // quick fix of callbacks with a this circular dependency
 // Hook and Engine are singleton, so this actually works fine
@@ -259,6 +260,12 @@ namespace BW
     }
   }
   //--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
+  void inspectCommand(BW::Command::Attack* cmdStruct, int size)
+  {
+      __debugbreak();
+      int sizeb = sizeof(BW::Command::Attack);
+  }
+
   void __declspec(naked) IssueCommandHook()
   {
     static u32 commandIDptr;
@@ -277,6 +284,12 @@ namespace BW
       mov commandIDptr, ecx;
     }
     commandID = *(u8*)commandIDptr;
+    /* DEBUG uncomment this when you want to catch and view a command that was issued in game by the UI
+    if(commandID == 0x15)
+    {
+      inspectCommand((BW::Command::Attack*)registers.ecx, registers.edx);
+    }
+    //*/
     if(BWAPI::Engine::_onIssueCommand(commandID))
     {
       __asm

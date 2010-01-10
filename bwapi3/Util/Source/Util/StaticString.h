@@ -16,17 +16,12 @@ namespace Util
     char buffer[bufferSize];
 
     // limit obiding functions
-    char* c_str()
-    {
-      return buffer;
-    }
-
     const char* c_str() const
     {
       return buffer;
     }
 
-    operator char*() const
+    operator const char*() const
     {
       return buffer;
     }
