@@ -392,6 +392,16 @@ namespace BWAPI
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
+    bool pushDrawTriangle(Position posa, Position posb, Position posc, int color, bool solid)
+    {
+      Bridge::DrawShape::Triangle packet;
+      packet.posa = posa;
+      packet.posb = posb;
+      packet.posc = posc;
+      packet.color = color;
+      packet.isSolid = solid;
+      return pushDrawShapePacket(Util::MemoryFrame::from(packet));
+    }
     //----------------------------------------- -----------------------------------------------------------------
   }
 }

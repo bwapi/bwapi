@@ -39,6 +39,7 @@ namespace BWAPI
     extern bool pushDrawEllipse(Position center, int w, int h, int color, bool solid);
     extern bool pushDrawLine(Position pos, Position pos2, int color);
     extern bool pushDrawDot(Position pos, int color);
+    extern bool pushDrawTriangle(Position posa, Position posb, Position posc, int color, bool solid);
 
     // state
     enum RpcState : int

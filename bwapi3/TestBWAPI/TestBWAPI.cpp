@@ -119,6 +119,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
       ShoutBox sb(Position(10, 18));
 
+      drawTriangleScreen(Position(10, 10), Position(40, 10), Position(10, 40), 61, false);
+
       call = waitForEvent();
     }
   }
