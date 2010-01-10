@@ -128,6 +128,21 @@ namespace BWAPI
   {
     BridgeClient::pushDrawDot(pos, color);
   }
+  //----------------------------------- DRAW TRIANGLE ---------------------------------------------
+  BWAPI_FUNCTION void drawTriangle(Position posa, Position posb, Position posc, int color, bool solid)
+  {
+    BridgeClient::pushDrawTriangle(posa - BridgeClient::gameData->screenPosition,
+      posb - BridgeClient::gameData->screenPosition,
+      posc - BridgeClient::gameData->screenPosition,
+      color, solid);
+  }
+  BWAPI_FUNCTION void drawTriangleScreen(Position posa, Position posb, Position posc, int color, bool solid)
+  {
+    BridgeClient::pushDrawTriangle(posa,
+      posb,
+      posc,
+      color, solid);
+  }
   //----------------------------------- GET STATIC DATA -------------------------------------------
   BWAPI_FUNCTION const StaticGameData* getStaticGameData()
   {

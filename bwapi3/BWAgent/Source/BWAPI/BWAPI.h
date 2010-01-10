@@ -82,6 +82,8 @@ namespace BWAPI
   BWAPI_FUNCTION void drawLine            (Position pos, Position pos2, int color);
   BWAPI_FUNCTION void drawDotScreen       (Position pos, int color);
   BWAPI_FUNCTION void drawDot             (Position pos, int color);
+  BWAPI_FUNCTION void drawTriangleScreen  (Position posa, Position posb, Position posc, int color, bool solid);
+  BWAPI_FUNCTION void drawTriangle        (Position posa, Position posb, Position posc, int color, bool solid);
 
   // commands
   BWAPI_FUNCTION void startGame();

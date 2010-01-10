@@ -927,6 +927,12 @@ namespace BWAPI
         shapePacket.readTo(dot);
         BW::drawDot(dot.pos.x, dot.pos.y, dot.color);
       }
+      if(type == Bridge::DrawShape::Triangle::_typeId)
+      {
+        Bridge::DrawShape::Triangle triangle;
+        shapePacket.readTo(triangle);
+        drawTriangle(triangle.posa.x, triangle.posa.y, triangle.posb.x, triangle.posb.y, triangle.posc.x, triangle.posc.y, triangle.color, triangle.isSolid);
+      }
     }
     //---------------------------------------- ON MATCH DRAW HIGH ----------------------------------------------
     void onMatchDrawHigh() throw()

@@ -50,6 +50,15 @@ namespace Bridge
     {
       BWAPI::Position pos;
     };
+
+    struct Triangle : Util::TypeHead<UNIQUE_ID>
+    {
+      BWAPI::Position posa;
+      BWAPI::Position posb;
+      BWAPI::Position posc;
+      int color;
+      bool isSolid;
+    };
 #undef UNIQUE_ID
 #pragma pack(pop)
   }
