@@ -1556,10 +1556,47 @@ namespace BWAPI
       if(!isExecutorsTableInitialized)
       {
         executors.setDefaultValue(&executeUnknownUnitCommand);
-        executors.setValue(UnitCommandTypeIds::AttackPosition,    &executeUnitAttackPosition);
-        executors.setValue(UnitCommandTypeIds::AttackUnit,        &executeUnitAttackUnit);
-        executors.setValue(UnitCommandTypeIds::Stop,              &executeUnitStop);
-        executors.setValue(UnitCommandTypeIds::Burrow,            &executeUnitBurrow);
+        executors.setValue(UnitCommandTypeIds::AttackPosition,      &executeUnitAttackPosition);
+        executors.setValue(UnitCommandTypeIds::AttackUnit,          &executeUnitAttackUnit);
+        executors.setValue(UnitCommandTypeIds::RightClickPosition,  &executeUnitRightClickPosition);
+        executors.setValue(UnitCommandTypeIds::RightClickUnit,      &executeUnitRightClickUnit);
+        executors.setValue(UnitCommandTypeIds::Train,               &executeUnitTrain);
+        executors.setValue(UnitCommandTypeIds::Build,               &executeUnitBuild);
+        executors.setValue(UnitCommandTypeIds::BuildAddon,          &executeUnitBuildAddon);
+        executors.setValue(UnitCommandTypeIds::Research,            &executeUnitResearch);
+        executors.setValue(UnitCommandTypeIds::Upgrade,             &executeUnitUpgrade);
+        executors.setValue(UnitCommandTypeIds::Stop,                &executeUnitStop);
+        executors.setValue(UnitCommandTypeIds::HoldPosition,        &executeUnitHoldPosition);
+        executors.setValue(UnitCommandTypeIds::Patrol,              &executeUnitPatrol);
+        executors.setValue(UnitCommandTypeIds::Follow,              &executeUnitFollow);
+        executors.setValue(UnitCommandTypeIds::SetRallyPosition,    &executeUnitSetRallyPosition);
+        executors.setValue(UnitCommandTypeIds::SetRallyUnit,        &executeUnitSetRallyUnit);
+        executors.setValue(UnitCommandTypeIds::Repair,              &executeUnitRepair);
+        executors.setValue(UnitCommandTypeIds::ReturnCargo,         &executeUnitReturnCargo);
+        executors.setValue(UnitCommandTypeIds::Morph,               &executeUnitMorph);
+        executors.setValue(UnitCommandTypeIds::Burrow,              &executeUnitBurrow);
+        executors.setValue(UnitCommandTypeIds::Unburrow,            &executeUnitUnburrow);
+        executors.setValue(UnitCommandTypeIds::Siege,               &executeUnitSiege);
+        executors.setValue(UnitCommandTypeIds::Unsiege,             &executeUnitUnsiege);
+        executors.setValue(UnitCommandTypeIds::Cloak,               &executeUnitCloak);
+        executors.setValue(UnitCommandTypeIds::Decloak,             &executeUnitDecloak);
+        executors.setValue(UnitCommandTypeIds::Lift,                &executeUnitLift);
+        executors.setValue(UnitCommandTypeIds::Land,                &executeUnitLand);
+        executors.setValue(UnitCommandTypeIds::Load,                &executeUnitLoad);
+        executors.setValue(UnitCommandTypeIds::Unload,              &executeUnitUnload);
+        executors.setValue(UnitCommandTypeIds::UnloadAll,           &executeUnitUnloadAll);
+        executors.setValue(UnitCommandTypeIds::UnloadAllPosition,   &executeUnitUnloadAllPosition);
+        executors.setValue(UnitCommandTypeIds::CancelConstruction,  &executeUnitCancelConstruction);
+        executors.setValue(UnitCommandTypeIds::HaltConstruction,    &executeUnitHaltConstruction);
+        executors.setValue(UnitCommandTypeIds::CancelMorph,         &executeUnitCancelMorph);
+        executors.setValue(UnitCommandTypeIds::CancelTrain,         &executeUnitCancelTrain);
+        executors.setValue(UnitCommandTypeIds::CancelTrainSlot,     &executeUnitCancelTrainSlot);
+        executors.setValue(UnitCommandTypeIds::CancelAddon,         &executeUnitCancelAddon);
+        executors.setValue(UnitCommandTypeIds::CancelResearch,      &executeUnitCancelResearch);
+        executors.setValue(UnitCommandTypeIds::CancelUpgrade,       &executeUnitCancelUpgrade);
+        executors.setValue(UnitCommandTypeIds::UseTech,             &executeUnitUseTech);
+        executors.setValue(UnitCommandTypeIds::UseTechPosition,     &executeUnitUseTechPosition);
+        executors.setValue(UnitCommandTypeIds::UseTechUnit,         &executeUnitUseTechUnit);
         isExecutorsTableInitialized = true;
       }
 
