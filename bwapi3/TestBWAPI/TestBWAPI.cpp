@@ -114,7 +114,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
       for each(BuildPosition startLocation in gd->startLocations)
       {
-        drawCircle(startLocation * 32, 5, 61, false);
+        drawCircle(startLocation * 32, 5, 61, true);
       }
 
       ShoutBox sb(Position(10, 18));

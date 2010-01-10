@@ -7,6 +7,13 @@
 
 namespace BWAPI
 {
+  static void inline swap(int& a0, int& a1)
+  {
+    int tmpx = a0;
+    a0 = a1;
+    a1 = tmpx;
+  }
+
   void drawLine(int x1, int y1, int x2, int y2, int color)
   {
     int Dx = x2 - x1;
@@ -14,8 +21,8 @@ namespace BWAPI
     int steep = (abs(Dy) >= abs(Dx));
     if (steep)
     {
-      int tmp = x1; x1 = y1; y1 = tmp;
-      tmp = x2; x2 = y2; y2 = tmp;
+      swap(x1, y1);
+      swap(x2, y2);
       // recompute Dx, Dy after swap
       Dx = x2 - x1;
       Dy = y2 - y1;
@@ -64,6 +71,51 @@ namespace BWAPI
     }
   }
 
+  static int inline rnd(float x)
+  {
+    return (x >= 0 ? ((int)( x + 0.5 )) : 0) ;
+  }
+
+  void drawTriangle(int ax, int ay, int bx, int by, int cx, int cy, int color, bool isSolid)
+  {
+    if(isSolid)
+    {
+      if(ay > by) { swap(ax, bx); swap(ay, by); }
+      if(ay > cy) { swap(ax, cx); swap(ay, cy); }
+      if(by > cy) { swap(bx, cx); swap(by, cy); }
+
+      float dx1, dx2, dx3;
+      if (by - ay > 0) dx1 = (float)(bx - ax) / (by - ay); else dx1 = (float)bx - ax;
+      if (cy - ay > 0) dx2 = (float)(cx - ax) / (cy - ay); else dx2 = 0;
+      if (cy - by > 0) dx3 = (float)(cx - bx) / (cy - by); else dx3 = 0;
+
+      float lx = (float)ax, rx = lx;
+      int ly = ay, ry = ly;
+      if(dx1 > dx2)
+      {
+        for(; ly <= by; ly++, ry++, lx += dx2, rx += dx1)
+          BW::drawScanLine(rnd(lx), ly, rnd(rx - lx), color);
+        rx = (float)bx; ry = by;
+        for(; ly <= cy; ly++, ry++, lx += dx2, rx += dx3)
+          BW::drawScanLine(rnd(lx), ly, rnd(rx - lx), color);
+      }
+      else
+      {
+        for(; ly <= by; ly++, ry++, lx += dx1, rx += dx2)
+          BW::drawScanLine(rnd(lx), ly, rnd(rx - lx), color);
+        lx = (float)bx; ly = by;
+        for(; ly <= cy; ly++, ry++, lx += dx3, rx += dx2)
+          BW::drawScanLine(rnd(lx), ly, rnd(rx - lx), color);
+      }
+    }
+    else
+    {
+      drawLine(ax, ay, bx, by, color);
+      drawLine(ax, ay, cx, cy, color);
+      drawLine(bx, by, cx, cy, color);
+    }
+  }
+
   void drawRectangle(int left, int top, int width, int height, int color, bool isSolid)
   {
     if (isSolid)
@@ -94,7 +146,7 @@ namespace BWAPI
 
       BW::drawDot(x, (int)(y + radius), color);
       BW::drawDot(x, (int)(y - radius), color);
-      BW::drawBox((int)(x - radius), y, (int)(radius*2), 1, color);
+      BW::drawScanLine((int)(x - radius), y, (int)(radius*2), color);
 
       while(xi < yi)
       {
@@ -107,10 +159,10 @@ namespace BWAPI
         xi++;
         ddF_x += 2;
         f += ddF_x;
-        BW::drawBox(x - xi, y - yi, xi*2 + 1, 1, color);
-        BW::drawBox(x - xi, y + yi, xi*2 + 1, 1, color);
-        BW::drawBox(x - yi, y - xi, yi*2 + 1, 1, color);
-        BW::drawBox(x - yi, y + xi, yi*2 + 1, 1, color);
+        BW::drawScanLine(x - xi, y - yi, xi*2 + 1, color);
+        BW::drawScanLine(x - xi, y + yi, xi*2 + 1, color);
+        BW::drawScanLine(x - yi, y - xi, yi*2 + 1, color);
+        BW::drawScanLine(x - yi, y + xi, yi*2 + 1, color);
       }
     }
     else
@@ -176,23 +228,23 @@ namespace BWAPI
         }
         else if (t - a2*y > crit2)
         {
-          BW::drawBox(posx - x, posy - y, width, 1, color);
+          BW::drawScanLine(posx - x, posy - y, width, color);
           if (y != 0)
-	          BW::drawBox(posx - x, posy + y, width, 1, color);
+	          BW::drawScanLine(posx - x, posy + y, width, color);
           incy();
         }
         else
         {
-          BW::drawBox(posx - x, posy - y, width, 1, color);
+          BW::drawScanLine(posx - x, posy - y, width, color);
           if (y != 0)
-	          BW::drawBox(posx - x, posy + y, width, 1, color);
+	          BW::drawScanLine(posx - x, posy + y, width, color);
           incx();
           incy();
           width += 2;
         }
       }
       if (yrad == 0)
-        BW::drawBox(posx - xrad, posy, 2*xrad + 1, 1, color);
+        BW::drawScanLine(posx - xrad, posy, 2*xrad + 1, color);
     }
     else
     {
