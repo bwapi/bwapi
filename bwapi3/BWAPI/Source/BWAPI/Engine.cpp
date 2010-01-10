@@ -258,6 +258,13 @@ namespace BWAPI
       commandOrderEntries.push_back(&packet);
       return true;
     }
+    //----------------------------------- SHARE CLEAR FRAME BY FRAME BUFFERS -----------------------------------
+    void shareClearFrameByFrameBuffers()
+    {
+      // any data that gets accumulated over the frame and presented to the AI has
+      // to be cleaned out, so the accumulation in the next frame can begin.
+      BridgeServer::gameData->userInput.set("");
+    }
     //----------------------------------- SHARE MATCH FRAME ----------------------------------------------------
     void shareMatchFrame()
     {
@@ -591,6 +598,9 @@ namespace BWAPI
       // call OnFrame RPC
       BridgeServer::invokeOnFrame();
 
+      // frame by frame data lifetime expired now
+      shareClearFrameByFrameBuffers();
+
       // iterate over commands that were issued this frame
       // sort them into the correspondant command entry arrays
       {
@@ -778,6 +788,9 @@ namespace BWAPI
       // some other const data
       staticData.isMultiplayer = BW::isMultiplayer();
       staticData.isReplay      = BW::isInReplay();
+
+      // clear frame by frame data, since this is the first frame
+      shareClearFrameByFrameBuffers();
 
       // invoke onStartGame RPC
       try
