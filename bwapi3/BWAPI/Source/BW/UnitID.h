@@ -19,7 +19,7 @@ namespace BW
    */
   struct UnitID
   {
-    u16 id; //< Unit index pointer stored in the way bw understands it
+    u16 bwId; //< Unit index pointer stored in the way bw understands it
 
     UnitID();
     UnitID(int fromIndex);

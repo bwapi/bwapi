@@ -68,7 +68,7 @@ namespace BW
     /*0x048*/ u16                                 flingyAcceleration;
     /*0x04A*/ _UNKNOWN                            _6[2];
     /*0x04C*/ u8                                  playerID;             /**< Specification of owner of this unit. */
-    /*0x04D*/ u8                                  orderID;              /**< Specification of type of order currently given. */
+    /*0x04D*/ BW::OrderID                         orderID;              /**< Specification of type of order currently given. */
     /*0x04E*/ Util::BitMask<u8>                   orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
     /*0x04F*/ u8                                  orderSignal;          /**< @todo Unknown */
     /*0x050*/ _UNKNOWN                            _7[4];

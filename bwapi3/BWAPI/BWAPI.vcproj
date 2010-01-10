@@ -464,6 +464,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAPI\KnownUnitMirror.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAPI\Map.cpp"
 				>
 			</File>
@@ -489,6 +493,10 @@
 			</File>
 			<File
 				RelativePath="..\BWAPITypes\test.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\BWAPI\UnitMirror.h"
 				>
 			</File>
 			<Filter

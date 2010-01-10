@@ -1,7 +1,8 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
 #include "Engine.h"
-#include "Unit.h"   // BWAPI Unit
+#include "UnitMirror.h"
+#include "KnownUnitMirror.h"
 #include "Map.h"
 #include "BridgeServer.h"
 #include "Shape.h"
@@ -28,22 +29,22 @@
 #include <Util\LookupTable.h>
 #include <Util\TypedPacketSwitch.h>
 
-#include <BW/Broodwar.h>
-#include <BW/Hook.h>
-#include <BW/Unit.h>
-#include <BW/UnitArray.h>
-#include <BW/Offsets.h>
-#include <BW/UnitID.h>
-#include <BW/Command.h>
-#include <BW/Latency.h>
-#include <BW/TileType.h>
-#include <BW/TileSet.h>
-#include <BW/UnitType.h>
-#include <BW/UnitTypeID.h>
-#include <BW/GameType.h>
-#include <BW/WeaponType.h>
-#include <BW/CheatType.h>
-#include <BW/RaceID.h>
+#include <BW\Broodwar.h>
+#include <BW\Hook.h>
+#include <BW\Unit.h>
+#include <BW\UnitArray.h>
+#include <BW\Offsets.h>
+#include <BW\UnitID.h>
+#include <BW\Command.h>
+#include <BW\Latency.h>
+#include <BW\TileType.h>
+#include <BW\TileSet.h>
+#include <BW\UnitType.h>
+#include <BW\UnitTypeID.h>
+#include <BW\GameType.h>
+#include <BW\WeaponType.h>
+#include <BW\CheatType.h>
+#include <BW\RaceID.h>
 #include <BW\OrderID.h>
 #include <BW\OrderID.h>
 
@@ -56,7 +57,6 @@
 #include <BWAPITypes\UnitCommandTypeId.h>
 #include <BWAPITypes\UnitCommand.h>
 #include <BWAPITypes\UnitState.h>
-
 #include <BWAPITypes\UnitType.h>
 #include <BWAPITypes\UnitTypeId.h>
 #include <BWAPITypes\TechType.h>
@@ -75,11 +75,10 @@
 #include <BWAPITypes\UnitSizeTypeId.h>
 #include <BWAPITypes\PlayerType.h>
 #include <BWAPITypes\PlayerTypeId.h>
-#include <BWAPIDatabase\UnitTypes.h>
 
-#include <Bridge/PipeMessage.h>
-#include <Bridge/SharedStuff.h>
-#include <Bridge/Constants.h>
+#include <Bridge\PipeMessage.h>
+#include <Bridge\SharedStuff.h>
+#include <Bridge\Constants.h>
 
 #include <BWAPIDatabase\UnitTypes.h>
 #include <BWAPIDatabase\TechTypes.h>
@@ -115,10 +114,16 @@ namespace BWAPI
 
     // reflects needed states from last frame to detect add and remove events.
     // is index correlated with BW::getUnitArray();
-    BWAPI::Unit bwUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
+    UnitMirror bwUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
 
     // index correlated with the unit array mirror. Used for performance optimisation
+    // a set flag sinalls that this unit slot is in use
     Util::FlagArray bwUnitArrayMirrorFlags;
+
+    // index correlated with the known unit array as found in StaticGameData.
+    // holds private data that the AI needn't to know about
+    // hold when the known unit is invalid
+    KnownUnitMirror knownUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
 
     // BWAPI state
     bool flags[Flags::count];
@@ -258,6 +263,29 @@ namespace BWAPI
       commandOrderEntries.push_back(&packet);
       return true;
     }
+    //------------------------------ ADD KNOWN UNIT ----------------------------------------------
+    int shareAddKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason, int bwUnitId)
+    {
+      // check prerequisites
+      _ASSERT(stateConnectionEstablished);
+
+      // insert new known unit into the shared set
+      int index = BridgeServer::addKnownUnit(out_pKnownUnit, reason);
+
+      // init the mirror (index correlated)
+      knownUnitArrayMirror[index].bwUnitId = bwUnitId;
+
+      return index;
+    }
+    //------------------------------ REMOVE KNOWN UNIT -------------------------------------------
+    void shareRemoveKnownUnit(int knownUnitId, UnitRemoveEventTypeId reason)
+    {
+      // remove the known unit from shared memory
+      BridgeServer::removeKnownUnit(knownUnitId, reason);
+
+      // mark the backreferenced bwUnitId as invalid
+      knownUnitArrayMirror[knownUnitId].bwUnitId = -1;
+    }
     //----------------------------------- SHARE CLEAR FRAME BY FRAME BUFFERS -----------------------------------
     void shareClearFrameByFrameBuffers()
     {
@@ -330,7 +358,7 @@ namespace BWAPI
         for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
         {
           int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
-          Unit &mirror = bwUnitArrayMirror[linear];
+          UnitMirror &mirror = bwUnitArrayMirror[linear];
 
           mirror.isInChain = true;
           bwUnitArrayMirrorFlags.setFlag(linear, true); // mark slot for processing
@@ -362,9 +390,9 @@ namespace BWAPI
             // flag is set => this unit slot is used.
 
             // get corresponding BW::Unit and mirror
-            int linear = baseIndex + f;
-            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[linear];
-            Unit &mirror = bwUnitArrayMirror[linear];
+            int bwUnitId = baseIndex + f;
+            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[bwUnitId];
+            UnitMirror &mirror = bwUnitArrayMirror[bwUnitId];
 
             // process the chain states
             bool wasInChain = mirror.wasInChain;  // we need these values for this iteration
@@ -376,7 +404,7 @@ namespace BWAPI
             if(!isInChain)
             {
               // slot not used anymore
-              bwUnitArrayMirrorFlags.setFlag(linear, false);
+              bwUnitArrayMirrorFlags.setFlag(bwUnitId, false);
             }
 
             // if flag was set but slot is not used
@@ -392,7 +420,7 @@ namespace BWAPI
               // unit perished
               if(mirror.knownUnit)
               {
-                BridgeServer::removeKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
+                shareRemoveKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
                 mirror.knownUnit = NULL;
               }
               continue;
@@ -406,7 +434,7 @@ namespace BWAPI
               // remove previous.
               if(mirror.knownUnit)
               {
-                BridgeServer::removeKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
+                shareRemoveKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
                 mirror.knownUnit = NULL;
               }
             }
@@ -424,14 +452,14 @@ namespace BWAPI
                 // unit becomes known
 
                 // reserve a KnownUnitEntry and store it's address so it gets filled
-                mirror.knownUnitIndex = BridgeServer::addKnownUnit(&mirror.knownUnit, UnitAddEventTypeIds::Created);
+                mirror.knownUnitIndex = shareAddKnownUnit(&mirror.knownUnit, UnitAddEventTypeIds::Created, bwUnitId);
               }
               else
               {
                 // unit becomes not known
 
                 // release KnownUnit address
-                BridgeServer::removeKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
+                shareRemoveKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
                 mirror.knownUnit = NULL;
               }
             }
@@ -679,12 +707,12 @@ namespace BWAPI
             LatencyCommandEntry &entry = (*it);
             int age = (frameCount - entry.startFrame);
             if(age < ageLimit)
-              // from here on these entries are fresh enough
               break;
             // remove this outdated entry
             latencyCommandQueue.erase(it);
           }
         }
+        // from here on these entries are fresh enough
 
         // run simulation on the rest
         {
@@ -721,8 +749,12 @@ namespace BWAPI
     //----------------------------------- SHARE MATCH START ----------------------------------------------------
     void shareMatchStart(bool fromStart)
     {
-      // reset known unit container
+      // reset known unit container and its mirror
       BridgeServer::gameData->units.clear();
+      for each(KnownUnitMirror &mirror in knownUnitArrayMirror)
+      {
+        mirror.bwUnitId = -1;
+      }
 
       // fill the const part of static data, for the rest of the match
       BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
@@ -1194,25 +1226,17 @@ namespace BWAPI
       select = &BW::BWDATA_UnitNodeTable->unit[bwUnitIndex];
       BW::selectUnits(1, &select);
     }
-    int findBwIndexByKnownUnitIndex(UnitId index)
+    int findBwIndexByKnownUnitIndex(UnitId knownUnitId)
     {
-      // TODO: add a knownunit mirror, lookup the bwunit index in the reflected knownunit entry
-      // then remove this temporary-solution function
-      // but for now just search the bwunit mirror for a reference to this knownunit
-      int bwUnitIndex = -1;
-      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      {
-        if(!bwUnitArrayMirror[i].wasInChain)
-          continue;
-        if(bwUnitArrayMirror[i].knownUnitIndex == index)
-        {
-          bwUnitIndex = i;
-          break;
-        }
-      }
-      if(bwUnitIndex == -1)
+      // lookup the bwunit index in the reflected knownunit entry
+      int bwUnitId = knownUnitArrayMirror[knownUnitId].bwUnitId;
+      if(bwUnitId == -1)
         throw GeneralException("Executing order on not existing unit id");
-      return bwUnitIndex;
+
+      // do a check
+      _ASSERT(knownUnitId == bwUnitArrayMirror[bwUnitIndex].knownUnitIndex);
+
+      return bwUnitId;
     }
     void executeUnitAttackPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
@@ -1222,7 +1246,7 @@ namespace BWAPI
     void executeUnitAttackUnit(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
       executeSelectOrder(bwUnitIndex);
-      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::AttackUnit));
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), BW::OrderIDs::Attack1));
     }
     void executeUnitRightClickPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {

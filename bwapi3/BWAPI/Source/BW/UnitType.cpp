@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include <Util/Logger.h>
-#include <BWAPI/Unit.h>
 
 #include "Unit.h"
 #include "WeaponID.h"

@@ -219,8 +219,7 @@ namespace BWAPI
     int addKnownUnit(KnownUnit **out_pKnownUnit, UnitAddEventTypeId reason)
     {
       // check prerequisites
-      if(!stateConnectionEstablished)
-        throw GeneralException(__FUNCTION__ ": connection required");
+      _ASSERT(stateConnectionEstablished);
 
       // insert new known unit to set
       int index = gameData->units.findEmptySlot();
@@ -240,8 +239,7 @@ namespace BWAPI
     void removeKnownUnit(int index, UnitRemoveEventTypeId reason)
     {
       // check prerequisites
-      if(!stateConnectionEstablished)
-        throw GeneralException(__FUNCTION__ ": shared memory not initialized");
+      _ASSERT(stateConnectionEstablished);
 
       // remove known unit from set
       gameData->units.free(index);
