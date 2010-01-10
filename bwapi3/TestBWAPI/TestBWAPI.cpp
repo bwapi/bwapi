@@ -120,6 +120,11 @@ int _tmain(int argc, _TCHAR* argv[])
         drawTextScreen(sb.getNext(), buff);
       }
 
+      if(!gd->userInput.isEmpty())
+      {
+        sendText(gd->userInput.c_str());
+      }
+
       call = waitForEvent();
     }
   }

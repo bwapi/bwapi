@@ -16,12 +16,17 @@ namespace Util
     char buffer[bufferSize];
 
     // limit obiding functions
-    operator char*()
+    char* c_str()
     {
       return buffer;
     }
 
-    operator const char*() const
+    const char* c_str() const
+    {
+      return buffer;
+    }
+
+    operator char*() const
     {
       return buffer;
     }
@@ -34,6 +39,11 @@ namespace Util
     void set(const std::string &source)
     {
       set(source.c_str());
+    }
+
+    bool isEmpty() const
+    {
+      return buffer[0] == 0;
     }
   };
 }
