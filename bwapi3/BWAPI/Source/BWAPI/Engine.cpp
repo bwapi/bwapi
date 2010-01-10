@@ -294,18 +294,32 @@ namespace BWAPI
             // players container is index correlated with bw's playerids
             int bwPlayerId = playerId;
             Player& player = staticData.players[playerId];
+
             if(playerId == BW::selfPlayerId
               || BW::isInReplay() || flags[Flags::CompleteMapInformation])
             {
-              player.minerals           = BW::BWDATA_PlayerResources->minerals.player[bwPlayerId];
-              player.gas                = BW::BWDATA_PlayerResources->gas.player[bwPlayerId];
+              player.minerals           = BW::BWDATA_PlayerResources->minerals          .player[bwPlayerId];
+              player.gas                = BW::BWDATA_PlayerResources->gas               .player[bwPlayerId];
               player.cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[bwPlayerId];
-              player.cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[bwPlayerId];
+              player.cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas     .player[bwPlayerId];
+              // for all 3 races
+              for(int r = 0; r < 3; r++)
+              {
+                player.suppliesAvailable[r] = BW::BWDATA_Supplies->race[r].available.player[bwPlayerId];
+                player.suppliesUsed[r]      = BW::BWDATA_Supplies->race[r].used     .player[bwPlayerId];
+              }
+              // for all other players
+              for each(int otherPlayerId in staticData.players)
+              {
+                int bwOtherPlayerId = otherPlayerId;
+                player.attitudes[otherPlayerId].ally = BW::BWDATA_Alliance->alliance[bwPlayerId].player[bwOtherPlayerId] != 0;
+              }
             }
           }
         }
 
-        // traverse all game unit chains
+        // TODO: traverse ALL game unit chains after forking to separate file
+        // traverse the visible game unit chain
         for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
         {
           int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
@@ -697,12 +711,8 @@ namespace BWAPI
     //----------------------------------- SHARE MATCH START ----------------------------------------------------
     void shareMatchStart(bool fromStart)
     {
-      // reset shared memory areas
-      BridgeServer::sharedStuff.events.clear();
+      // reset known unit container
       BridgeServer::gameData->units.clear();
-      BridgeServer::gameData->forces.clear();
-      BridgeServer::gameData->players.clear();
-      BridgeServer::gameData->startLocations.clear();
 
       // fill the const part of static data, for the rest of the match
       BWAPI::StaticGameData &staticData = *BridgeServer::gameData;
@@ -727,6 +737,8 @@ namespace BWAPI
 
       // get the start locations
       {
+        BridgeServer::gameData->startLocations.clear();
+
         BW::Positions* posptr = BW::BWDATA_startPositions;
         while (posptr->x != 0 || posptr->y != 0)
         {
@@ -738,28 +750,29 @@ namespace BWAPI
       }
 
       // init all 4 forces
+//      BridgeServer::gameData->forces.clear();
       for(int i = 0; i < 4; i++)
       {
-        Force &force = BridgeServer::gameData->forces.push_back();
+        Force &force = BridgeServer::gameData->forces[i];
         force.name.set(BW::BWDATA_ForceNames[i].name);
       }
 
       // find all players
+      BridgeServer::gameData->players.clear();
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
       {
         BW::Players::PlayerInfo &bwPlayer = BW::BWDATA_Players->player[i];
 
         // is this a valid player slot?
-        if(bwPlayer.type != BW::PlayerTypeIds::Human
-          && bwPlayer.type != BW::PlayerTypeIds::Computer
-          && i != 11)
-        continue;
+        if(!bwPlayer.isValid())
+          continue;
 
         // transfer data
         Player &player = BridgeServer::gameData->players.allocate(i);
         player.force = bwPlayer.force;
         player.type = (PlayerTypeId)bwPlayer.type;
         player.name.set(bwPlayer.name);
+        player.race = (RaceId)bwPlayer.race;
       }
 
       // some other const data
