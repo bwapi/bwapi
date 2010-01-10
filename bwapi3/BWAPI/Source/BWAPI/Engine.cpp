@@ -367,7 +367,7 @@ namespace BWAPI
 
             // check the new knownability of this unit
             // TODO: extend knowability criteria
-            bool isKnown = true; //Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
+            bool isKnown = Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
 
             // if knownability changed
             if(!!mirror.knownUnit != isKnown)
@@ -1120,6 +1120,8 @@ namespace BWAPI
           break;
         }
       }
+      if(bwUnitIndex == -1)
+        throw GeneralException("Executing order on not existing unit id");
       return bwUnitIndex;
     }
     void executeUnitAttackPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
@@ -1322,20 +1324,22 @@ namespace BWAPI
     }
     void executeUnitLoad(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
-      /* TODO: figure out how to get target unit type from command.targetIndex (for the last else if)
       executeSelectOrder(bwUnitIndex);
+
+      int bwTargetUnitIndex = findBwIndexByKnownUnitIndex(command.targetIndex);
+      const BW::Unit& bwTargetUnit = BW::BWDATA_UnitNodeTable->unit[bwTargetUnitIndex];
+
       if (bwUnit.unitID == BW::UnitTypeIDs::Terran_Bunker)
-        BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex),BW::OrderIDs::Pickup3));
+        BW::issueCommand(BW::Command::Attack(bwTargetUnitIndex, BW::OrderIDs::Pickup3));
       else if (bwUnit.unitID == BW::UnitTypeIDs::Terran_Dropship ||
                bwUnit.unitID == BW::UnitTypeIDs::Protoss_Shuttle ||
                bwUnit.unitID == BW::UnitTypeIDs::Zerg_Overlord)
-        BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex),BW::OrderIDs::Pickup2));
-      else if (command.targetIndex??unitID == BW::UnitTypeIDs::Terran_Bunker ||
-               command.targetIndex??unitID == BW::UnitTypeIDs::Terran_Dropship ||
-               command.targetIndex??unitID == BW::UnitTypeIDs::Protoss_Shuttle ||
-               command.targetIndex??unitID == BW::UnitTypeIDs::Zerg_Overlord)
-        BW::issueCommand(BW::Command::RightClick(findBwIndexByKnownUnitIndex(command.targetIndex)));
-      */
+        BW::issueCommand(BW::Command::Attack(bwTargetUnitIndex, BW::OrderIDs::Pickup2));
+      else if (bwTargetUnit.unitID == BW::UnitTypeIDs::Terran_Bunker ||
+               bwTargetUnit.unitID == BW::UnitTypeIDs::Terran_Dropship ||
+               bwTargetUnit.unitID == BW::UnitTypeIDs::Protoss_Shuttle ||
+               bwTargetUnit.unitID == BW::UnitTypeIDs::Zerg_Overlord)
+        BW::issueCommand(BW::Command::RightClick(bwTargetUnitIndex));
     }
     void executeUnitUnload(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
@@ -1395,17 +1399,149 @@ namespace BWAPI
       executeSelectOrder(bwUnitIndex);
       BW::issueCommand(BW::Command::CancelUpgrade());
     }
-/*
     void executeUnitUseTech(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
+      executeSelectOrder(bwUnitIndex);
+      switch (command.tech)
+      {
+      case BW::TechIDs::Stimpacks:
+        BW::issueCommand(BW::Command::UseStimPack());
+        break;
+      case BW::TechIDs::TankSiegeMode:
+        if (bwUnit.unitID == BW::UnitTypeIDs::Terran_SiegeTankSiegeMode)
+          executeUnitUnsiege(bwUnitIndex, bwUnit, command);
+        else
+          executeUnitSiege(bwUnitIndex, bwUnit, command);
+        break;
+      case BW::TechIDs::PersonnelCloaking:
+      case BW::TechIDs::CloakingField:
+        if(bwUnit.status.getBit<BW::StatusFlags::Cloaked>())
+          executeUnitDecloak(bwUnitIndex, bwUnit, command);
+        else
+          executeUnitCloak(bwUnitIndex, bwUnit, command);
+        break;
+      case BW::TechIDs::Burrowing:
+        if(bwUnit.status.getBit<BW::StatusFlags::Burrowed>())
+          executeUnitUnburrow(bwUnitIndex, bwUnit, command);
+        else
+          executeUnitBurrow(bwUnitIndex, bwUnit, command);
+        break;
+      case BW::TechIDs::ArchonWarp:
+        BW::issueCommand(BW::Command::MergeArchon());
+        break;
+      case BW::TechIDs::DarkArchonMeld:
+        BW::issueCommand(BW::Command::MergeDarkArchon());
+        break;
+      default:
+        return;
+      }
     }
     void executeUnitUseTechPosition(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
+      executeSelectOrder(bwUnitIndex);
+
+      BW::OrderID attackSubOrder;
+
+      switch (command.tech)
+      {
+      case BW::TechIDs::DarkSwarm:
+        attackSubOrder = BW::OrderIDs::DarkSwarm;
+        break;
+      case BW::TechIDs::DisruptionWeb:
+        attackSubOrder = BW::OrderIDs::CastDisruptionWeb;
+        break;
+      case BW::TechIDs::EMPShockwave:
+        attackSubOrder = BW::OrderIDs::EmpShockwave;
+        break;
+      case BW::TechIDs::Ensnare:
+        attackSubOrder = BW::OrderIDs::Ensnare;
+        break;
+      case BW::TechIDs::Maelstorm:
+        attackSubOrder = BW::OrderIDs::CastMaelstrom;
+        break;
+      case BW::TechIDs::NuclearStrike:
+        attackSubOrder = BW::OrderIDs::NukePaint;
+        break;
+      case BW::TechIDs::Plague:
+        attackSubOrder = BW::OrderIDs::Plague;
+        break;
+      case BW::TechIDs::PsionicStorm:
+        attackSubOrder = BW::OrderIDs::PsiStorm;
+        break;
+      case BW::TechIDs::Recall:
+        attackSubOrder = BW::OrderIDs::Teleport;
+        break;
+      case BW::TechIDs::ScannerSweep:
+        attackSubOrder = BW::OrderIDs::PlaceScanner;
+        break;
+      case BW::TechIDs::SpiderMines:
+        attackSubOrder = BW::OrderIDs::PlaceMine;
+        break;
+      case BW::TechIDs::StasisField:
+        attackSubOrder = BW::OrderIDs::StasisField;
+        break;
+      default:
+        return;
+      }
+
+      BW::issueCommand(BW::Command::Attack(command.position, attackSubOrder));
     }
     void executeUnitUseTechUnit(int bwUnitIndex, const BW::Unit& bwUnit, const BWAPI::UnitCommand& command)
     {
+      executeSelectOrder(bwUnitIndex);
+
+      BW::OrderID attackSubOrder;
+
+      switch (command.tech)
+      {
+      case BW::TechIDs::Consume:
+        attackSubOrder = BW::OrderIDs::Consume;
+        break;
+      case BW::TechIDs::DefensiveMatrix:
+        attackSubOrder = BW::OrderIDs::DefensiveMatrix;
+        break;
+      case BW::TechIDs::Feedback:
+        attackSubOrder = BW::OrderIDs::CastFeedback;
+        break;
+      case BW::TechIDs::Hallucination:
+        attackSubOrder = BW::OrderIDs::Hallucination1;
+        break;
+      case BW::TechIDs::Healing:
+        attackSubOrder = BW::OrderIDs::MedicHeal1;
+        break;
+      case BW::TechIDs::Infestation:
+        attackSubOrder = BW::OrderIDs::InfestMine2;
+        break;
+      case BW::TechIDs::Irradiate:
+        attackSubOrder = BW::OrderIDs::Irradiate;
+        break;
+      case BW::TechIDs::Lockdown:
+        attackSubOrder = BW::OrderIDs::MagnaPulse;
+        break;
+      case BW::TechIDs::MindControl:
+        attackSubOrder = BW::OrderIDs::CastMindControl;
+        break;
+      case BW::TechIDs::OpticalFlare:
+        attackSubOrder = BW::OrderIDs::CastOpticalFlare;
+        break;
+      case BW::TechIDs::Parasite:
+        attackSubOrder = BW::OrderIDs::CastParasite;
+        break;
+      case BW::TechIDs::Restoration:
+        attackSubOrder = BW::OrderIDs::Restoration;
+        break;
+      case BW::TechIDs::SpawnBroodlings:
+        attackSubOrder = BW::OrderIDs::SummonBroodlings;
+        break;
+      case BW::TechIDs::YamatoGun:
+        attackSubOrder = BW::OrderIDs::FireYamatoGun1;
+        break;
+      default:
+        return;
+      }
+
+      BW::issueCommand(BW::Command::Attack(findBwIndexByKnownUnitIndex(command.targetIndex), attackSubOrder));
     }
-*/
     void executeUnknownUnitCommand(int bwUnitIndex, const BW::Unit&, const BWAPI::UnitCommand& command)
     {
       throw GeneralException("Executing unknown unit command " + Util::Strings::intToString(command.commandId));
@@ -1432,8 +1568,6 @@ namespace BWAPI
 
       // find out the unitId.
       int bwUnitIndex = findBwIndexByKnownUnitIndex(command.unitIndex);
-      if(bwUnitIndex == -1)
-        return; // the unit does not exist anymore;
 
       const BW::Unit& bwUnit = BW::BWDATA_UnitNodeTable->unit[bwUnitIndex];
 
