@@ -15,7 +15,7 @@
 namespace BWAPI
 {
   typedef Util::StaticSet<Player, 12> PlayerArray;
-  typedef Util::StaticVector<Force, 4> ForceArray;
+  typedef Force ForceArray[4];
   typedef Util::StaticSet<KnownUnit, 1700> KnownUnitArray;
   typedef Util::StaticVector<BuildPosition, 8> StartLocationArray;
 

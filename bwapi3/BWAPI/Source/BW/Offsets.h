@@ -71,7 +71,7 @@ namespace BW
 
       bool isValid() const
       {
-        return name[0] != 0;
+        return name[0] != 0 || id == 11;
       }
     };
     PlayerInfo  player[PLAYER_COUNT];
