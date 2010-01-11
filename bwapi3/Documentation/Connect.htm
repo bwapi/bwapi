@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="Keyword" value="Connect" />
+</object>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<link rel="stylesheet" type="text/css" href="default.css" />
+<title>BWAPI::Connect</title>
+</head>
+
+<body>
+<script src="header.js" type="text/javascript"></script>
+<div class="content">
+  <h1>BWAPI::Connect function</h1>
+  <p>
+    Attaches to a Starcraft process with BWAPI plugin loaded.
+  </p>
+  <pre>
+bool Connect();
+  </pre>
+
+  <h2>Parameters</h2>
+  <p>
+    None.
+  </p>
+
+  <h2>Return Value</h2>
+  <p>
+    Immediately returns false if no Starcraft process with loaded BWAPI plugin is running. Returns true after connected successfully.
+  </p>
+
+  <h2>Remarks</h2>
+  <p>
+    The same agent process cannot attach to two different Starcraft processes at a time.
+  </p>
+  <p>
+    Exceptions are NOT thrown when no running Starcraft process is found on the current machine. Because this situation is an expected one, it is signalled through the return value. Exceptions could however be thrown during the actual connection process to Starcraft.
+  </p>
+  <h2>Example Code</h2>
+  <pre>
+if(!Connect())
+{
+  printf("Waiting for Starcraft to startup.\n");
+  while(!Connect())
+  {
+    // retry every second
+    Sleep(1000);
+  }
+}
+printf("Connected.\n");
+  </pre>
+</div>
+</body>
+</html>
