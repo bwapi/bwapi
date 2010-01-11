@@ -10,13 +10,18 @@
 		<param name="Local" value="InputFile2.htm">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Reference">
+		<param name="Name" value="BWAPI">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Connect">
-			<param name="Local" value="Connect.htm">
+			<param name="Name" value="Functions">
 			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Connect">
+				<param name="Local" value="BWAPI\Connect.htm">
+				</OBJECT>
+		</UL>
 	</UL>
 </UL>
 </BODY></HTML>
