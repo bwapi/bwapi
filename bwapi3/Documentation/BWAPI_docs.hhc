@@ -7,7 +7,7 @@
 <UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="About">
-		<param name="Local" value="InputFile2.htm">
+		<param name="Local" value="About.htm">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="BWAPI">
@@ -18,8 +18,12 @@
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="Connect">
+				<param name="Name" value="connect">
 				<param name="Local" value="BWAPI\Connect.htm">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="getVersion">
+				<param name="Local" value="BWAPI/getVersion.htm">
 				</OBJECT>
 		</UL>
 	</UL>

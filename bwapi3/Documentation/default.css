@@ -7,12 +7,10 @@ body {
 a {
   color: #09c;
   text-decoration: none;
-  font-weight: 600;
-  font-family: verdana, arial, helvetica, sans-serif;
 }
 a:link {color:#09c;}
 a:visited {color:#07a;}
-a:hover {background-color:#eee;}
+a:hover {background-color:#ddd}
 
 div.header {
   margin: 0px 0px 0px 0px;
