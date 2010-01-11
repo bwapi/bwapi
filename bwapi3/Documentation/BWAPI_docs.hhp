@@ -3,14 +3,15 @@ Auto Index=Yes
 Compatibility=1.1 or later
 Compiled file=BWAPI_docs.chm
 Contents file=BWAPI_docs.hhc
-Default topic=BWAPI\Connect.htm
+Default topic=About.htm
 Display compile progress=No
 Language=0x409 Englisch (USA)
 
 
 [FILES]
-BWAPI\Connect.htm
-InputFile2.htm
+BWAPI\connect.htm
+BWAPI\getVersion.htm
+About.htm
 
 [INFOTYPES]
 
