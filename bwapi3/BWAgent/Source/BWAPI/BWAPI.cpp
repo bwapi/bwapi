@@ -45,21 +45,20 @@ namespace BWAPI
 
       switch(rpcState)
       {
-      case BridgeClient::OnInitMatch:
-        {
-          // init database
-          UnitTypes::init();
-          TechTypes::init();
-          UpgradeTypes::init();
-          WeaponTypes::init();
-          DamageTypes::init();
-          ExplosionTypes::init();
-          Races::init();
-          UnitSizeTypes::init();
-
-        }return CallTypeIds::OnMatchStart;
       case BridgeClient::OnFrame:
         {
+          if(BridgeClient::gameData->isOnMatchStart)
+          {
+            // init database
+            UnitTypes::init();
+            TechTypes::init();
+            UpgradeTypes::init();
+            WeaponTypes::init();
+            DamageTypes::init();
+            ExplosionTypes::init();
+            Races::init();
+            UnitSizeTypes::init();
+          }
         }return CallTypeIds::OnFrame;
       }
     }

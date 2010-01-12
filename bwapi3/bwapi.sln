@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWDriver", "BWAPI\BWAPI.vcproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_ChaosLauncherInjector", "BWAPI_ChaosLauncherInjector\BWAPI_ChaosLauncherInjector.vcproj", "{E872FA31-C3AC-4331-AD60-315768E44ACA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_MPQDraftPlugin", "BWAPI_MPQDraftPlugin\BWAPI_MPQDraftPlugin.vcproj", "{ADF97657-6539-47DB-A09C-1E2BCB394516}"
@@ -28,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestBWAPI2", "TestBWAPI2\Te
 		{4261C888-3357-480F-8F35-722439520522} = {4261C888-3357-480F-8F35-722439520522}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWDriver", "BWDriver\BWDriver.vcproj", "{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug only BWAPI1|Win32 = Debug only BWAPI1|Win32
@@ -35,12 +35,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug only BWAPI1|Win32.ActiveCfg = Debug|Win32
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug only BWAPI1|Win32.Build.0 = Debug|Win32
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug|Win32.ActiveCfg = Debug|Win32
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug|Win32.Build.0 = Debug|Win32
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Release|Win32.ActiveCfg = Release|Win32
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Release|Win32.Build.0 = Release|Win32
 		{E872FA31-C3AC-4331-AD60-315768E44ACA}.Debug only BWAPI1|Win32.ActiveCfg = Release|Win32
 		{E872FA31-C3AC-4331-AD60-315768E44ACA}.Debug only BWAPI1|Win32.Build.0 = Release|Win32
 		{E872FA31-C3AC-4331-AD60-315768E44ACA}.Debug|Win32.ActiveCfg = Release|Win32
@@ -81,6 +75,12 @@ Global
 		{A05327D3-5D6F-42DD-9578-04E9FA421D35}.Debug|Win32.Build.0 = Debug|Win32
 		{A05327D3-5D6F-42DD-9578-04E9FA421D35}.Release|Win32.ActiveCfg = Release|Win32
 		{A05327D3-5D6F-42DD-9578-04E9FA421D35}.Release|Win32.Build.0 = Release|Win32
+		{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}.Debug only BWAPI1|Win32.ActiveCfg = Debug|Win32
+		{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}.Debug only BWAPI1|Win32.Build.0 = Debug|Win32
+		{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}.Debug|Win32.Build.0 = Debug|Win32
+		{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}.Release|Win32.ActiveCfg = Release|Win32
+		{67B2C4C5-35D6-46EB-A6F2-8724DE05943A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

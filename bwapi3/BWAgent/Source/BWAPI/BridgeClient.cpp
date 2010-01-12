@@ -24,7 +24,6 @@ namespace BWAPI
 
     // Bridge Client state
     bool connectionEstablished = false;
-    bool sharedMemoryInitialized = false;
     RpcState rpcState = Intermediate;
 
   //public:
@@ -124,7 +123,7 @@ namespace BWAPI
     //----------------------------------------- DISCONNECT ------------------------------------------------------
     void disconnect()
     {
-      if(sharedMemoryInitialized)
+      if(connectionEstablished)
       {
         sharedStuff.commands.release();
         sharedStuff.drawShapes.release();
@@ -197,16 +196,6 @@ namespace BWAPI
       sharedStuff.events.importNextUpdate(packet.exp);
       return true;
     }
-    bool handleMatchInit(Bridge::PipeMessage::ServerMatchInit& packet)
-    {
-      // save options
-      isMatchStartFromBeginning = packet.fromBeginning;
-
-      rpcState = OnInitMatch;
-
-      // do not wait for next packet
-      return false;
-    }
     bool handleFrameNext(Bridge::PipeMessage::ServerFrameNext& packet)
     {
       // clear all outgoing frame-by-frame buffers
@@ -228,12 +217,12 @@ namespace BWAPI
         dynamicData.unitAddEvents.clear();
         dynamicData.unitRemoveEvents.clear();
 
-        // fill arrays with references to event data
+        // fill arrays with references to event data (the actual sorting)
         for(Bridge::SharedStuff::EventStack::Index index = sharedStuff.events.begin();
             index.isValid();
             index = sharedStuff.events.getNext(index))
         {
-          // put event into the right array (sort)
+          // put event into the right array
           packetSwitch.handlePacket(sharedStuff.events.get(index));
         }
       }
@@ -252,11 +241,10 @@ namespace BWAPI
       {
         // init packet switch
         packetSwitch.addHandler(handleUpdateEvents);
-        packetSwitch.addHandler(handleMatchInit);
         packetSwitch.addHandler(handleFrameNext);
       }
 
-      // send readyness packet
+      // send readyness packet to complete previous waitForEvent call
       switch(rpcState)
       {
       case Intermediate:
@@ -270,13 +258,6 @@ namespace BWAPI
           // return RPC
           Bridge::PipeMessage::AgentFrameNextDone done;
           sharedStuff.pipe.sendRawStructure(done);
-        }break;
-      case OnInitMatch:
-        {
-          // return RPC
-          Bridge::PipeMessage::AgentMatchInitDone done;
-          sharedStuff.pipe.sendRawStructure(done);
-          sharedMemoryInitialized = true;
         }break;
       }
 
@@ -297,16 +278,11 @@ namespace BWAPI
     {
       return connectionEstablished;
     }
-    //----------------------------------------- IS SHARED MEMORY INITIALIZED ------------------------------------
-    bool isSharedMemoryInitialized()
-    {
-      return sharedMemoryInitialized;
-    }
     //----------------------------------------- PUSH SEND TEXT --------------------------------------------------
     bool pushSendText(bool send, const char *string)
     {
       // check prerequisites
-      if(!connectionEstablished || !sharedMemoryInitialized)
+      if(!connectionEstablished)
         return false;
 
       // repare data
@@ -329,7 +305,7 @@ namespace BWAPI
     bool pushDrawShapePacket(Util::MemoryFrame packet, Util::MemoryFrame text = Util::MemoryFrame())
     {
       // check prerequisites
-      if(!connectionEstablished || !sharedMemoryInitialized)
+      if(!connectionEstablished)
         return false;
 
       // push next packet

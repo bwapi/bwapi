@@ -45,7 +45,6 @@ namespace BWAPI
     enum RpcState : int
     {
       Intermediate,
-      OnInitMatch,
       OnFrame,
     };
     extern RpcState getCurrentRpc();

@@ -43,5 +43,7 @@ namespace BWAPI
     ForceArray forces;
     KnownUnitArray units;
     StartLocationArray startLocations;
+    bool isOnMatchStart;
+    bool isFromBeginning;
   };
 }
