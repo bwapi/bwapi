@@ -63,17 +63,12 @@ int _tmain(int argc, _TCHAR* argv[])
     gd = getStaticGameData();
 
     CallTypeId call;
-    do
-    {
-      call = waitForEvent();
-    }
-    while(call != CallTypeIds::OnMatchStart);
+
     call = waitForEvent();
 
     // on start code here
     enableFlag(Flags::UserInput);
 
-    call = waitForEvent();
     while(call != CallTypeIds::OnDisconnect)
     {
       int count = 0;

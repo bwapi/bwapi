@@ -19,6 +19,7 @@ div.header {
   background-color: #BBEEBB;
   font: 10px Verdana;
   color: #000000;
+  white-space: nowrap;
 }
 
 div.content {
@@ -37,6 +38,7 @@ div.content h1 {
   font-size: 16px;
   font-weight: bold;
   color: #000000;
+  white-space: nowrap;
 }
 
 div.content h2 {
@@ -45,6 +47,7 @@ div.content h2 {
   font-size: 11px;
   font-weight: bold;
   color: #000000;
+  white-space: nowrap;
 }
 
 div.content p {

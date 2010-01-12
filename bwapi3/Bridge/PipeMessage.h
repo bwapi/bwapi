@@ -41,18 +41,6 @@ namespace Bridge
     {
     };
     //------------------------------------------------
-    // Sent at the beginning of a Match to pass control.
-    // During this controll time, Agents has access to
-    // all neutral units
-    //------------------------------------------------
-    struct ServerMatchInit : Util::TypeHead<UNIQUE_ID>
-    {
-      bool fromBeginning;
-    };
-    struct AgentMatchInitDone : Util::TypeHead<UNIQUE_ID>
-    {
-    };
-    //------------------------------------------------
     // Update packets. One for each update export page,
     //------------------------------------------------
     struct ServerUpdateEvents : Util::TypeHead<UNIQUE_ID>
