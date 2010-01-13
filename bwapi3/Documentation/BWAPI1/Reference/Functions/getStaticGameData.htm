@@ -1,0 +1,43 @@
+<html>
+
+<head>
+<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="Keyword" value="getStaticGameData" />
+</object>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<link rel="stylesheet" type="text/css" href="default.css" />
+<title>BWAPI::getStaticGameData</title>
+</head>
+
+<body>
+<script src="/../header.js" type="text/javascript"></script>
+<div class="content">
+  <h1>getStaticGameData function</h1>
+  <p>
+    Retrieves the StaticGameData structure.
+  </p>
+  <pre>
+StaticGameData *getStaticGameData();
+  </pre>
+
+  <h2>Parameters</h2>
+  <p>
+    None.
+  </p>
+
+  <h2>Return Value</h2>
+  <p>
+    Returns a pointer to the <a href="../Structures/StaticGameData.htm">StaticGameData</a> structure.
+  </p>
+
+  <h2>Remarks</h2>
+  <p>
+    A connection is needed to retrieve this pointer. If you call getStaticGameData without having established a connection, an exception will be thrown.
+  </p>
+  <p>
+    The location of the StaticGameData structure does not change during an established connection. You may want to save this pointer once after a successful connection and use the saved pointer, instead calling getStaticGameData over and over again.
+  </p>
+</div>
+</body>
+</html>
