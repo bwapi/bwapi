@@ -6,25 +6,33 @@
 </HEAD><BODY>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="About">
-		<param name="Local" value="About.htm">
+		<param name="Name" value="BWAPI Project">
+		<param name="Local" value="BWAPIProject.htm">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="BWAPI">
+		<param name="Name" value="BWAPI1">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Functions">
+			<param name="Name" value="Refence">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="connect">
-				<param name="Local" value="BWAPI\Connect.htm">
+				<param name="Name" value="Structures">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="getVersion">
-				<param name="Local" value="BWAPI/getVersion.htm">
+				<param name="Name" value="Functions">
 				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="connect">
+					<param name="Local" value="BWAPI\Connect.htm">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="getVersion">
+					<param name="Local" value="BWAPI/getVersion.htm">
+					</OBJECT>
+			</UL>
 		</UL>
 	</UL>
 </UL>
