@@ -14,23 +14,42 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="User's Guide">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Control">
+				<param name="Local" value="BWAPI1\User's Guide\Control.htm">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Refence">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Structures">
 				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="StaticGameData">
+					<param name="Local" value="BWAPI1\Reference\Structures\StaticGameData.htm">
+					</OBJECT>
+			</UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Functions">
 				</OBJECT>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="connect">
-					<param name="Local" value="BWAPI\Connect.htm">
+					<param name="Local" value="BWAPI1/Reference/Functions/Connect.htm">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="getStaticGameData">
+					<param name="Local" value="BWAPI1\Reference\Functions\getStaticGameData.htm">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getVersion">
-					<param name="Local" value="BWAPI/getVersion.htm">
+					<param name="Local" value="BWAPI1/Reference/Functions/getVersion.htm">
 					</OBJECT>
 			</UL>
 		</UL>
