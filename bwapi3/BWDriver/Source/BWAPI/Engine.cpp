@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "UnitMirror.h"
 #include "KnownUnitMirror.h"
+#include "UnitChainId.h"
 #include "Map.h"
 #include "BridgeServer.h"
 #include "Shape.h"
@@ -115,10 +116,6 @@ namespace BWAPI
     // reflects needed states from last frame to detect add and remove events.
     // is index correlated with BW::getUnitArray();
     UnitMirror bwUnitArrayMirror[BW::UNIT_ARRAY_MAX_LENGTH];
-
-    // index correlated with the unit array mirror. Used for performance optimisation
-    // a set flag sinalls that this unit slot is in use
-    Util::FlagArray bwUnitArrayMirrorFlags;
 
     // index correlated with the known unit array as found in StaticGameData.
     // holds private data that the AI needn't to know about
@@ -290,6 +287,246 @@ namespace BWAPI
       // to be cleaned out, so the accumulation in the next frame can begin.
       BridgeServer::gameData->userInput.set("");
     }
+    //----------------------------------- SHARE EACH BW UNIT ---------------------------------------------------
+    bool shareEachBwUnit(BW::Unit &bwUnit, UnitChainId currentChain, bool isOnMatchStart)
+    {
+      // get corresponding index and mirror
+      int bwUnitIndex = BW::BWDATA_UnitNodeTable->getIndexByUnit(&bwUnit); // get linear index
+      UnitMirror &bwUnitMirror = bwUnitArrayMirror[bwUnitIndex];
+
+      // process the chain states
+      UnitChainId lastChain = bwUnitMirror.chain;     // we need these values for this iteration
+      bwUnitMirror.chain = currentChain;              // init the value for next iteration
+
+      // classify slot state
+      bool isUsed = currentChain != UnitChainIds::Unused;
+      bool wasUsed = lastChain != UnitChainIds::Unused;
+
+      // if this slot is not used, it is not longer interesting
+      if(!isUsed)
+      {
+        if(wasUsed)
+        {
+          // unit perished. If it had a known Unit associated with it, remove the
+          // known unit too
+          if(bwUnitMirror.knownUnit)
+          {
+            shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
+            bwUnitMirror.knownUnit = NULL;
+          }
+          return true;
+        }
+        // this is a !wasUsed chain in a NotUsed Chain
+        // the resturn value indicate that "we didn;t even touch it"
+        return false;
+      }
+
+      // ASSUMPTION: the slot is being used
+      _ASSERT(isUsed);
+
+      if(!wasUsed)
+      {
+        // unit did not exist before. init the reflection for this unit
+        bwUnitMirror.isDying = false;
+        bwUnitMirror.isNoticed = false;
+        bwUnitMirror.knownUnit = NULL;
+      }
+
+      // TODO: find out if the unit is dying. not urgent tho, only for a one in a million case
+      // isDying should be identified as true the last frame(s) before it is being removed
+      bool isDying = false; // change this false;
+      bool wasDying = bwUnitMirror.isDying;
+      bwUnitMirror.isDying = isDying;
+      if(!isDying && wasDying)
+      {
+        // the unit is not dying anymore? It's a new one
+        // remove known unit if associated, tell its dead.
+        if(bwUnitMirror.knownUnit)
+        {
+          shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
+          bwUnitMirror.knownUnit = NULL;
+        }
+      }
+
+      // check the new knownability of this unit
+      bool isVisible = isOnMatchStart || flags[Flags::CompleteMapInformation];
+      if(!isVisible)
+      {
+        Position buildPosition = bwUnit.position / 32;
+        isVisible = Map::visible(buildPosition.x, buildPosition.y);
+      }
+      bool isKnown = isVisible;
+
+      // if knownability changed
+      if(!!bwUnitMirror.knownUnit != isKnown)
+      {
+        if(isKnown) // unit becomes known
+        {
+          // reserve a KnownUnitEntry and store it's address so it gets filled
+          bwUnitMirror.knownUnitIndex = shareAddKnownUnit(&bwUnitMirror.knownUnit, UnitAddEventTypeIds::Created, bwUnitIndex);
+        }
+        else // unit becomes not known
+        {
+          // release KnownUnit address
+          shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
+          bwUnitMirror.knownUnit = NULL;
+        }
+      }
+
+      if(isKnown)
+      {
+        // transfer recent data about this particular BW unit
+        KnownUnit &knownUnit = *bwUnitMirror.knownUnit;
+
+        // TODO: implement clearance limit
+        ClearanceLevel clearance;
+        UnitTypeId type = (UnitTypeId)bwUnit.unitID.id;
+        UnitType& typeData = UnitTypes::unitTypeData[type];
+
+        knownUnit.position                = Position(bwUnit.position);
+        knownUnit.type                    = type;
+
+  //              knownUnit.id                      = (int)&knownUnit;
+        knownUnit.player                  = bwUnit.playerID;
+        knownUnit.hitPoints               = bwUnit.healthPoints/256;
+        knownUnit.shields                 = bwUnit.shieldPoints/256;
+        knownUnit.energy                  = bwUnit.energy/256;
+        if  (type == BW::UnitTypeIDs::Resource_MineralPatch1
+          || type == BW::UnitTypeIDs::Resource_MineralPatch2
+          || type == BW::UnitTypeIDs::Resource_MineralPatch3
+          || type == BW::UnitTypeIDs::Resource_VespeneGeyser
+          || type == BW::UnitTypeIDs::Terran_Refinery
+          || type == BW::UnitTypeIDs::Protoss_Assimilator
+          || type == BW::UnitTypeIDs::Zerg_Extractor)
+          knownUnit.resources             = bwUnit.unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+        knownUnit.killCount               = bwUnit.killCount;
+        knownUnit.groundWeaponCooldown    = bwUnit.groundWeaponCooldown;
+        knownUnit.airWeaponCooldown       = bwUnit.airWeaponCooldown;
+        knownUnit.spellCooldown           = bwUnit.spellCooldown;
+        knownUnit.defenseMatrixPoints     = bwUnit.defenseMatrixDamage/256;
+
+        knownUnit.defenseMatrixTimer      = bwUnit.defenseMatrixTimer;
+        knownUnit.ensnareTimer            = bwUnit.ensnareTimer;
+        knownUnit.irradiateTimer          = bwUnit.irradiateTimer;
+        knownUnit.lockdownTimer           = bwUnit.lockdownTimer;
+        knownUnit.maelstromTimer          = bwUnit.maelstromTimer;
+        knownUnit.plagueTimer             = bwUnit.plagueTimer;
+        knownUnit.removeTimer             = bwUnit.removeTimer;
+        knownUnit.stasisTimer             = bwUnit.stasisTimer;
+        knownUnit.stimTimer               = bwUnit.stimTimer;
+
+        bool isCompleted                  = bwUnit.status.getBit<BW::StatusFlags::Completed>();
+        knownUnit.isCompleted             = isCompleted;
+        knownUnit.isAccelerating          = bwUnit.movementFlags.getBit<BW::MovementFlags::Accelerating>();
+        if(!isCompleted)
+        {
+          if(typeData.isBuilding)
+            knownUnit.isBeingConstructed  = bwUnit.currentBuildUnit != NULL || typeData.race != RaceIds::Terran;
+          else
+          if(type == UnitTypeIds::Zerg_Egg
+          || type == UnitTypeIds::Zerg_Lurker_Egg
+          || type == UnitTypeIds::Zerg_Cocoon)
+            knownUnit.isBeingConstructed  = true;
+        }
+        if(typeData.isResourceContainer)
+          knownUnit.isBeingGathered       = bwUnit.unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
+        else
+          knownUnit.isBeingGathered       = false;
+        knownUnit.isBeingHealed           = bwUnit.isBeingHealed != 0;
+        knownUnit.isBlind                 = bwUnit.isBlind != 0;
+        knownUnit.isBraking               = bwUnit.movementFlags.getBit<BW::MovementFlags::Braking>();
+        knownUnit.isBurrowed              = bwUnit.status.getBit<BW::StatusFlags::Burrowed>();
+        if(!typeData.isWorker)
+        {
+          knownUnit.isCarryingGas         = bwUnit.resourceType == 1;
+          knownUnit.isCarryingMinerals    = bwUnit.resourceType == 2;
+          knownUnit.isGatheringGas        = false;  // TODO: copy these, warning they;re big ones
+          knownUnit.isGatheringMinerals   = false;
+        }
+        else
+        {
+          knownUnit.isCarryingGas         = false;
+          knownUnit.isCarryingMinerals    = false;
+          knownUnit.isGatheringGas        = false;
+          knownUnit.isGatheringMinerals   = false;
+        }
+        knownUnit.isCloaked               = bwUnit.status.getBit<BW::StatusFlags::Cloaked>();
+
+        BW::OrderID orderId = bwUnit.orderID;
+        knownUnit.isConstructing          =  orderId == BW::OrderIDs::ConstructingBuilding
+                                          || orderId == BW::OrderIDs::BuildTerran
+                                          || orderId == BW::OrderIDs::DroneBuild
+                                          || orderId == BW::OrderIDs::DroneStartBuild
+                                          || orderId == BW::OrderIDs::DroneLand
+                                          || orderId == BW::OrderIDs::BuildProtoss1
+                                          || orderId == BW::OrderIDs::BuildProtoss2;
+
+        knownUnit.isDefenseMatrixed       = bwUnit.defenseMatrixTimer > 0;
+        knownUnit.isEnsnared              = bwUnit.ensnareTimer > 0;
+        knownUnit.isFollowing             = orderId == BW::OrderIDs::Follow;
+
+        knownUnit.isHallucination         = bwUnit.status.getBit<BW::StatusFlags::IsHallucination>();
+        bool isResearching                = orderId == BW::OrderIDs::ResearchTech;
+        knownUnit.isResearching           = isResearching;
+        bool hasEmptyBuildQueue           =  bwUnit.buildQueueSlot < 5
+                                          && bwUnit.buildQueue[bwUnit.buildQueueSlot] == BW::UnitTypeIDs::None;
+        bool isTraining                   = (  type == UnitTypeIds::Terran_Nuclear_Silo
+                                            && bwUnit.secondaryOrderID == BW::OrderIDs::Train)
+                                          || ( typeData.canProduce
+                                            && !hasEmptyBuildQueue);
+        knownUnit.isTraining              = isTraining;
+        bool isUpgrading                  = orderId == BW::OrderIDs::Upgrade;
+        knownUnit.isUpgrading             = isUpgrading;
+        if (isTraining || isResearching || isUpgrading)
+          knownUnit.isIdle                = false;
+        else
+          knownUnit.isIdle                =  orderId == BW::OrderIDs::PlayerGuard
+                                          || orderId == BW::OrderIDs::Guard
+                                          || orderId == BW::OrderIDs::Stop
+                                          || orderId == BW::OrderIDs::Pickup1
+                                          || orderId == BW::OrderIDs::Nothing2
+                                          || orderId == BW::OrderIDs::Medic
+                                          || orderId == BW::OrderIDs::Carrier
+                                          || orderId == BW::OrderIDs::Critter
+                                          || orderId == BW::OrderIDs::NukeTrain
+                                          || orderId == BW::OrderIDs::Larva;
+        knownUnit.isIrradiated            = bwUnit.irradiateTimer > 0;
+        knownUnit.isLifted                = bwUnit.status.getBit<BW::StatusFlags::InAir>() && typeData.isBuilding;
+        knownUnit.isLoaded                =  bwUnit.status.getBit<BW::StatusFlags::InTransport>()
+                                          || bwUnit.status.getBit<BW::StatusFlags::InBuilding>()
+                                          ||
+                                          ( //if
+                                              (type == UnitTypeIds::Protoss_Interceptor
+                                            || type == UnitTypeIds::Protoss_Scarab)
+                                            &&
+                                            (
+                                              bwUnit.childUnitUnion3.inHanger != 0
+                                            )
+                                          );
+        knownUnit.isLockedDown            = bwUnit.lockdownTimer > 0;
+        knownUnit.isMaelstrommed          = bwUnit.maelstromTimer > 0;
+        knownUnit.isMorphing              =  orderId == BW::OrderIDs::Morph1
+                                          || orderId == BW::OrderIDs::Morph2
+                                          || orderId == BW::OrderIDs::ZergBuildSelf;
+        knownUnit.isMoving                = bwUnit.movementFlags.getBit<BW::MovementFlags::Moving>();
+        knownUnit.isParasited             = bwUnit.parasiteFlags.value != 0;
+        knownUnit.isPatrolling            = orderId == BW::OrderIDs::Patrol;
+        knownUnit.isPlagued               = bwUnit.plagueTimer > 0;
+        knownUnit.isRepairing             =  orderId == BW::OrderIDs::Repair1
+                                          || orderId == BW::OrderIDs::Repair2;
+       if(flags[Flags::CompleteMapInformation])
+          knownUnit.isSelected            = false;  // TODO: implement this into the bw unit mirror
+        knownUnit.isSieged                = type == UnitTypeIds::Terran_Siege_Tank_Siege_Mode;
+        knownUnit.isStasised              = bwUnit.stasisTimer > 0;
+        knownUnit.isStimmed               = bwUnit.stimTimer > 0;
+
+        knownUnit.isUnderStorm            = bwUnit.isUnderStorm != 0;
+        knownUnit.isUnpowered             =  typeData.race == RaceIds::Protoss
+                                          && typeData.isBuilding
+                                          && bwUnit.status.getBit<BW::StatusFlags::DoodadStatesThing>();
+      } //if(isKnown)
+      return true;
+    }
     //----------------------------------- SHARE MATCH FRAME ----------------------------------------------------
     void shareMatchFrame(bool isOnMatchStart)
     {
@@ -312,310 +549,59 @@ namespace BWAPI
           {
             for (int y=0;y<Map::getHeight();y++)
             {
-              staticData.isVisible[x][y] = Map::visible(x,y);
-              staticData.isExplored[x][y] = Map::isExplored(x,y);
-              staticData.hasCreep[x][y] = Map::hasCreep(x,y);
+              staticData.isVisible[x][y] = Map::visible(x, y);
+              staticData.isExplored[x][y] = Map::isExplored(x, y);
+              staticData.hasCreep[x][y] = Map::hasCreep(x, y);
             }
           }
         }
 
         // fresh player data
+        for each(int playerId in staticData.players)
         {
-          for each(int playerId in staticData.players)
-          {
-            // players container is index correlated with bw's playerids
-            int bwPlayerId = playerId;
-            Player& player = staticData.players[playerId];
+          // players container is index correlated with bw's playerids
+          int bwPlayerId = playerId;
+          Player& player = staticData.players[playerId];
 
-            if(playerId == BW::selfPlayerId
-              || BW::isInReplay() || flags[Flags::CompleteMapInformation])
+          if(playerId == BW::selfPlayerId
+            || BW::isInReplay() || flags[Flags::CompleteMapInformation])
+          {
+            player.minerals           = BW::BWDATA_PlayerResources->minerals          .player[bwPlayerId];
+            player.gas                = BW::BWDATA_PlayerResources->gas               .player[bwPlayerId];
+            player.cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[bwPlayerId];
+            player.cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas     .player[bwPlayerId];
+            // for all 3 races
+            for(int r = 0; r < 3; r++)
             {
-              player.minerals           = BW::BWDATA_PlayerResources->minerals          .player[bwPlayerId];
-              player.gas                = BW::BWDATA_PlayerResources->gas               .player[bwPlayerId];
-              player.cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[bwPlayerId];
-              player.cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas     .player[bwPlayerId];
-              // for all 3 races
-              for(int r = 0; r < 3; r++)
-              {
-                player.suppliesAvailable[r] = BW::BWDATA_Supplies->race[r].available.player[bwPlayerId];
-                player.suppliesUsed[r]      = BW::BWDATA_Supplies->race[r].used     .player[bwPlayerId];
-              }
-              // for all other players
-              for each(int otherPlayerId in staticData.players)
-              {
-                int bwOtherPlayerId = otherPlayerId;
-                player.attitudes[otherPlayerId].ally = BW::BWDATA_Alliance->alliance[bwPlayerId].player[bwOtherPlayerId] != 0;
-              }
+              player.suppliesAvailable[r] = BW::BWDATA_Supplies->race[r].available.player[bwPlayerId];
+              player.suppliesUsed[r]      = BW::BWDATA_Supplies->race[r].used     .player[bwPlayerId];
+            }
+            // for all other players
+            for each(int otherPlayerId in staticData.players)
+            {
+              int bwOtherPlayerId = otherPlayerId;
+              player.attitudes[otherPlayerId].ally = BW::BWDATA_Alliance->alliance[bwPlayerId].player[bwOtherPlayerId] != 0;
             }
           }
         }
 
-        // TODO: traverse ALL game unit chains after forking to separate file
-        // traverse the visible game unit chain
+        // traverse all broodwar's unit chains
+        for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_UnusedUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
+        {
+          shareEachBwUnit(*bwUnit, UnitChainIds::Unused, isOnMatchStart);
+        }
         for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_VisibleUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
         {
-          int linear = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit); // get linear index
-          UnitMirror &mirror = bwUnitArrayMirror[linear];
-
-          mirror.isInChain = true;
-          bwUnitArrayMirrorFlags.setFlag(linear, true); // mark slot for processing
-
-          // not interesting if this unit existed before
-          if(mirror.wasInChain)
-            continue;
-
-          // unit did not exist before. init the reflection for this unit
-          mirror.isDying = false;
-          mirror.knownUnit = NULL;
+          shareEachBwUnit(*bwUnit, UnitChainIds::Visible, isOnMatchStart);
         }
-
-        // flag based search, examine all bw units of interest
-        for(int w = -1;;)
+        for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_ScannerSweep_First; bwUnit; bwUnit = bwUnit->nextUnit)
         {
-          // find all non-zero words
-          w = bwUnitArrayMirrorFlags.findNextWord(w+1);
-          if(w == -1)
-            break;  // reached end
-
-          // check each unit reflection that corresponds to a set flag
-          int word = bwUnitArrayMirrorFlags.getWord(w);
-          int baseIndex = w * Util::FlagArray::flagsInWord;
-          for(int f = 0; f < Util::FlagArray::flagsInWord; f++)
-          {
-            if(!(word & (1 << f)))
-              continue;
-            // flag is set => this unit slot is used.
-
-            // get corresponding BW::Unit and mirror
-            int bwUnitId = baseIndex + f;
-            BW::Unit &bwUnit = BW::BWDATA_UnitNodeTable->unit[bwUnitId];
-            UnitMirror &mirror = bwUnitArrayMirror[bwUnitId];
-
-            // process the chain states
-            bool wasInChain = mirror.wasInChain;  // we need these values for this iteration
-            bool isInChain = mirror.isInChain;
-            mirror.wasInChain = isInChain;        // init the values for next iteration
-            mirror.isInChain = false;
-
-            // remove flag when unit gets removed
-            if(!isInChain)
-            {
-              // slot not used anymore
-              bwUnitArrayMirrorFlags.setFlag(bwUnitId, false);
-            }
-
-            // if flag was set but slot is not used
-            if(!isInChain && !wasInChain)
-            {
-              // optimization not working, debug me!
-              __debugbreak();
-              continue;
-            }
-
-            if(!isInChain && wasInChain)
-            {
-              // unit perished
-              if(mirror.knownUnit)
-              {
-                shareRemoveKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
-                mirror.knownUnit = NULL;
-              }
-              continue;
-            }
-
-            // TODO: find out if the unit is dying. not urgent tho
-            bool isDying = false;
-            if(!isDying && mirror.isDying)
-            {
-              // the unit is not dying anymore? It's a new one
-              // remove previous.
-              if(mirror.knownUnit)
-              {
-                shareRemoveKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
-                mirror.knownUnit = NULL;
-              }
-            }
-
-            // check the new knownability of this unit
-            // TODO: extend knowability criteria
-            bool isVisible = isOnMatchStart || flags[Flags::CompleteMapInformation]
-              || Map::visible(bwUnit.position.x/32, bwUnit.position.y/32);
-            bool isKnown = isVisible;
-
-            // if knownability changed
-            if(!!mirror.knownUnit != isKnown)
-            {
-              if(isKnown)
-              {
-                // unit becomes known
-
-                // reserve a KnownUnitEntry and store it's address so it gets filled
-                mirror.knownUnitIndex = shareAddKnownUnit(&mirror.knownUnit, UnitAddEventTypeIds::Created, bwUnitId);
-              }
-              else
-              {
-                // unit becomes not known
-
-                // release KnownUnit address
-                shareRemoveKnownUnit(mirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
-                mirror.knownUnit = NULL;
-              }
-            }
-
-            if(isKnown)
-            {
-              // transfer recent data about this particular BW unit
-              KnownUnit &knownUnit = *mirror.knownUnit;
-
-              // TODO: implement clearance limit
-              ClearanceLevel clearance;
-              UnitTypeId type = (UnitTypeId)bwUnit.unitID.id;
-              UnitType& typeData = UnitTypes::unitTypeData[type];
-
-              knownUnit.position                = Position(bwUnit.position);
-              knownUnit.type                    = type;
-
-//              knownUnit.id                      = (int)&knownUnit;
-              knownUnit.player                  = bwUnit.playerID;
-              knownUnit.hitPoints               = bwUnit.healthPoints/256;
-              knownUnit.shields                 = bwUnit.shieldPoints/256;
-              knownUnit.energy                  = bwUnit.energy/256;
-              if  (type == BW::UnitTypeIDs::Resource_MineralPatch1
-                || type == BW::UnitTypeIDs::Resource_MineralPatch2
-                || type == BW::UnitTypeIDs::Resource_MineralPatch3
-                || type == BW::UnitTypeIDs::Resource_VespeneGeyser
-                || type == BW::UnitTypeIDs::Terran_Refinery
-                || type == BW::UnitTypeIDs::Protoss_Assimilator
-                || type == BW::UnitTypeIDs::Zerg_Extractor)
-                knownUnit.resources             = bwUnit.unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
-              knownUnit.killCount               = bwUnit.killCount;
-              knownUnit.groundWeaponCooldown    = bwUnit.groundWeaponCooldown;
-              knownUnit.airWeaponCooldown       = bwUnit.airWeaponCooldown;
-              knownUnit.spellCooldown           = bwUnit.spellCooldown;
-              knownUnit.defenseMatrixPoints     = bwUnit.defenseMatrixDamage/256;
-
-              knownUnit.defenseMatrixTimer      = bwUnit.defenseMatrixTimer;
-              knownUnit.ensnareTimer            = bwUnit.ensnareTimer;
-              knownUnit.irradiateTimer          = bwUnit.irradiateTimer;
-              knownUnit.lockdownTimer           = bwUnit.lockdownTimer;
-              knownUnit.maelstromTimer          = bwUnit.maelstromTimer;
-              knownUnit.plagueTimer             = bwUnit.plagueTimer;
-              knownUnit.removeTimer             = bwUnit.removeTimer;
-              knownUnit.stasisTimer             = bwUnit.stasisTimer;
-              knownUnit.stimTimer               = bwUnit.stimTimer;
-
-              bool isCompleted                  = bwUnit.status.getBit<BW::StatusFlags::Completed>();
-              knownUnit.isCompleted             = isCompleted;
-              knownUnit.isAccelerating          = bwUnit.movementFlags.getBit<BW::MovementFlags::Accelerating>();
-              if(!isCompleted)
-              {
-                if(typeData.isBuilding)
-                  knownUnit.isBeingConstructed  = bwUnit.currentBuildUnit != NULL || typeData.race != RaceIds::Terran;
-                else
-                if(type == UnitTypeIds::Zerg_Egg
-                || type == UnitTypeIds::Zerg_Lurker_Egg
-                || type == UnitTypeIds::Zerg_Cocoon)
-                  knownUnit.isBeingConstructed  = true;
-              }
-              if(typeData.isResourceContainer)
-                knownUnit.isBeingGathered       = bwUnit.unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
-              else
-                knownUnit.isBeingGathered       = false;
-              knownUnit.isBeingHealed           = bwUnit.isBeingHealed != 0;
-              knownUnit.isBlind                 = bwUnit.isBlind != 0;
-              knownUnit.isBraking               = bwUnit.movementFlags.getBit<BW::MovementFlags::Braking>();
-              knownUnit.isBurrowed              = bwUnit.status.getBit<BW::StatusFlags::Burrowed>();
-              if(!typeData.isWorker)
-              {
-                knownUnit.isCarryingGas         = bwUnit.resourceType == 1;
-                knownUnit.isCarryingMinerals    = bwUnit.resourceType == 2;
-                knownUnit.isGatheringGas        = false;  // TODO: copy these, warning they;re big ones
-                knownUnit.isGatheringMinerals   = false;
-              }
-              else
-              {
-                knownUnit.isCarryingGas         = false;
-                knownUnit.isCarryingMinerals    = false;
-                knownUnit.isGatheringGas        = false;
-                knownUnit.isGatheringMinerals   = false;
-              }
-              knownUnit.isCloaked               = bwUnit.status.getBit<BW::StatusFlags::Cloaked>();
-
-              BW::OrderID orderId = bwUnit.orderID;
-              knownUnit.isConstructing          =  orderId == BW::OrderIDs::ConstructingBuilding
-                                                || orderId == BW::OrderIDs::BuildTerran
-                                                || orderId == BW::OrderIDs::DroneBuild
-                                                || orderId == BW::OrderIDs::DroneStartBuild
-                                                || orderId == BW::OrderIDs::DroneLand
-                                                || orderId == BW::OrderIDs::BuildProtoss1
-                                                || orderId == BW::OrderIDs::BuildProtoss2;
-
-              knownUnit.isDefenseMatrixed       = bwUnit.defenseMatrixTimer > 0;
-              knownUnit.isEnsnared              = bwUnit.ensnareTimer > 0;
-              knownUnit.isFollowing             = orderId == BW::OrderIDs::Follow;
-
-              knownUnit.isHallucination         = bwUnit.status.getBit<BW::StatusFlags::IsHallucination>();
-              bool isResearching                = orderId == BW::OrderIDs::ResearchTech;
-              knownUnit.isResearching           = isResearching;
-              bool hasEmptyBuildQueue           =  bwUnit.buildQueueSlot < 5
-                                                && bwUnit.buildQueue[bwUnit.buildQueueSlot] == BW::UnitTypeIDs::None;
-              bool isTraining                   = (  type == UnitTypeIds::Terran_Nuclear_Silo
-                                                  && bwUnit.secondaryOrderID == BW::OrderIDs::Train)
-                                                || ( typeData.canProduce
-                                                  && !hasEmptyBuildQueue);
-              knownUnit.isTraining              = isTraining;
-              bool isUpgrading                  = orderId == BW::OrderIDs::Upgrade;
-              knownUnit.isUpgrading             = isUpgrading;
-              if (isTraining || isResearching || isUpgrading)
-                knownUnit.isIdle                = false;
-              else
-                knownUnit.isIdle                =  orderId == BW::OrderIDs::PlayerGuard
-                                                || orderId == BW::OrderIDs::Guard
-                                                || orderId == BW::OrderIDs::Stop
-                                                || orderId == BW::OrderIDs::Pickup1
-                                                || orderId == BW::OrderIDs::Nothing2
-                                                || orderId == BW::OrderIDs::Medic
-                                                || orderId == BW::OrderIDs::Carrier
-                                                || orderId == BW::OrderIDs::Critter
-                                                || orderId == BW::OrderIDs::NukeTrain
-                                                || orderId == BW::OrderIDs::Larva;
-              knownUnit.isIrradiated            = bwUnit.irradiateTimer > 0;
-              knownUnit.isLifted                = bwUnit.status.getBit<BW::StatusFlags::InAir>() && typeData.isBuilding;
-              knownUnit.isLoaded                =  bwUnit.status.getBit<BW::StatusFlags::InTransport>()
-                                                || bwUnit.status.getBit<BW::StatusFlags::InBuilding>()
-                                                ||
-                                                ( //if
-                                                    (type == UnitTypeIds::Protoss_Interceptor
-                                                  || type == UnitTypeIds::Protoss_Scarab)
-                                                  &&
-                                                  (
-                                                    bwUnit.childUnitUnion3.inHanger != 0
-                                                  )
-                                                );
-              knownUnit.isLockedDown            = bwUnit.lockdownTimer > 0;
-              knownUnit.isMaelstrommed          = bwUnit.maelstromTimer > 0;
-              knownUnit.isMorphing              =  orderId == BW::OrderIDs::Morph1
-                                                || orderId == BW::OrderIDs::Morph2
-                                                || orderId == BW::OrderIDs::ZergBuildSelf;
-              knownUnit.isMoving                = bwUnit.movementFlags.getBit<BW::MovementFlags::Moving>();
-              knownUnit.isParasited             = bwUnit.parasiteFlags.value != 0;
-              knownUnit.isPatrolling            = orderId == BW::OrderIDs::Patrol;
-              knownUnit.isPlagued               = bwUnit.plagueTimer > 0;
-              knownUnit.isRepairing             =  orderId == BW::OrderIDs::Repair1
-                                                || orderId == BW::OrderIDs::Repair2;
-             if(flags[Flags::CompleteMapInformation])
-                knownUnit.isSelected            = false;  // TODO: implement this into the bw unit mirror
-              knownUnit.isSieged                = type == UnitTypeIds::Terran_Siege_Tank_Siege_Mode;
-              knownUnit.isStasised              = bwUnit.stasisTimer > 0;
-              knownUnit.isStimmed               = bwUnit.stimTimer > 0;
-
-              knownUnit.isUnderStorm            = bwUnit.isUnderStorm != 0;
-              knownUnit.isUnpowered             =  typeData.race == RaceIds::Protoss
-                                                && typeData.isBuilding
-                                                && bwUnit.status.getBit<BW::StatusFlags::DoodadStatesThing>();
-            } //if(isKnown)
-          } //foreach flag
-        } //foeach flagarray word
+          shareEachBwUnit(*bwUnit, UnitChainIds::ScannerSweep, isOnMatchStart);
+        }
+        for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_HiddenUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
+        {
+          shareEachBwUnit(*bwUnit, UnitChainIds::Hidden, isOnMatchStart);
+        }
       } //fill buffers with recend world state data
 
       // update remote shared memry
@@ -765,12 +751,12 @@ namespace BWAPI
       for (int x=0;x<Map::getWidth()*4;x++)
         for (int y=0;y<Map::getHeight()*4;y++)
         {
-          staticData.getGroundHeight[x][y] = Map::groundHeight(x,y);
-          staticData.isWalkable[x][y] = Map::walkable(x,y);
+          staticData.getGroundHeight[x][y] = Map::groundHeight(x, y);
+          staticData.isWalkable[x][y] = Map::walkable(x, y);
         }
       for (int x=0;x<Map::getWidth();x++)
         for (int y=0;y<Map::getHeight();y++)
-          staticData.isBuildable[x][y] = Map::buildable(x,y);
+          staticData.isBuildable[x][y] = Map::buildable(x, y);
 
       staticData.mapFilename.set(Map::getFileName());
 
@@ -861,16 +847,14 @@ namespace BWAPI
         // mark all array as unused
         for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         {
-          bwUnitArrayMirror[i].isInChain = false;
-          bwUnitArrayMirror[i].wasInChain = false;
-          bwUnitArrayMirror[i].isDying = false;
-          bwUnitArrayMirror[i].knownUnit = NULL;
+          UnitMirror& mirror = bwUnitArrayMirror[i];
+          mirror.chain          = UnitChainIds::Unused;
+          mirror.isDying        = false;
+          mirror.isNoticed      = false;
+          mirror.knownUnit      = NULL;
+          mirror.knownUnitIndex = -1;
         }
       }
-
-      // init bw unit placement flag array
-      bwUnitArrayMirrorFlags.setSize(BW::UNIT_ARRAY_MAX_LENGTH);
-      bwUnitArrayMirrorFlags.setAllFlags(false);
 
       // init shared memory, if agent is connected during the first match frame
       if(BridgeServer::isAgentConnected())

@@ -1,9 +1,11 @@
 #pragma once
 /***********************************************************************
- *  The UnitMirror struct is a proxy of the BW::Unit struct, with
- *  additional data for lifetime detection
+ *  The UnitMirror struct is a local proxy for the BW::Unit struct, with
+ *  variables for lifetime detection
  *
  *******/
+
+#include "UnitChainId.h"
 
 #include <Util\Types.h>
 
@@ -11,21 +13,25 @@
 
 #include <BWAPITypes\UnitId.h>
 
-namespace Bridge { struct KnownUnitEntry; };
-
 namespace BWAPI
 {
   struct UnitMirror
   {
-    // isInChain is true when this slot is detected to be an element of BroodWars
-    // UnitNodeChain in memory. wasInChain is the previus frame's isInChain
-    bool            isInChain;
-    bool            wasInChain;
+    // chain holds the chain in which this unit slot was found to
+    // detect chain changes
+    UnitChainId chain;
+
     // is true several frames before the unit gets removed from the chain
-    bool            isDying;
+    bool        isDying;
+
+    // is true then the unit is visible or cloaked but was been spotted
+    bool        isNoticed;
+
+    // position is needed to detect changes, for noticing the unit (isNoticed).
+    Position    position;
 
     // if this unit is known, this is it's personal KnownUnit entry
-    KnownUnit* knownUnit;       // saving, to not to have to recompute
-    UnitId     knownUnitIndex;  // needed for removing from units
+    KnownUnit*  knownUnit;       // saving, to not to have to recompute
+    UnitId      knownUnitIndex;  // needed for removing from units
   };
 }
