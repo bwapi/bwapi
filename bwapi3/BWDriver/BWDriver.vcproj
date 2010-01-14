@@ -671,6 +671,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAPI\UnitChainId.h"
+				>
+			</File>
+			<File
 				RelativePath="Source\BWAPI\UnitMirror.h"
 				>
 			</File>
