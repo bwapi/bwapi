@@ -71,19 +71,19 @@ namespace BWAPI
 
   // draw operations
   BWAPI_FUNCTION void drawTextScreen      (Position pos, const char* text);
-  BWAPI_FUNCTION void drawText            (Position pos, const char* text);
+  BWAPI_FUNCTION void drawTextMap         (Position pos, const char* text);
   BWAPI_FUNCTION void drawRectangleScreen (Position pos, Position size, int color, bool solid);
-  BWAPI_FUNCTION void drawRectangle       (Position pos, Position size, int color, bool solid);
+  BWAPI_FUNCTION void drawRectangleMap    (Position pos, Position size, int color, bool solid);
   BWAPI_FUNCTION void drawCircleScreen    (Position pos, int r, int color, bool solid);
-  BWAPI_FUNCTION void drawCircle          (Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void drawCircleMap       (Position pos, int r, int color, bool solid);
   BWAPI_FUNCTION void drawEllipseScreen   (Position pos, int w, int h, int color, bool solid);
-  BWAPI_FUNCTION void drawEllipse         (Position pos, int w, int h, int color, bool solid);
+  BWAPI_FUNCTION void drawEllipseMap      (Position pos, int w, int h, int color, bool solid);
   BWAPI_FUNCTION void drawLineScreen      (Position pos, Position pos2, int color);
-  BWAPI_FUNCTION void drawLine            (Position pos, Position pos2, int color);
+  BWAPI_FUNCTION void drawLineMap         (Position pos, Position pos2, int color);
   BWAPI_FUNCTION void drawDotScreen       (Position pos, int color);
-  BWAPI_FUNCTION void drawDot             (Position pos, int color);
+  BWAPI_FUNCTION void drawDotMap          (Position pos, int color);
   BWAPI_FUNCTION void drawTriangleScreen  (Position posa, Position posb, Position posc, int color, bool solid);
-  BWAPI_FUNCTION void drawTriangle        (Position posa, Position posb, Position posc, int color, bool solid);
+  BWAPI_FUNCTION void drawTriangleMap     (Position posa, Position posb, Position posc, int color, bool solid);
 
   // commands
   BWAPI_FUNCTION void startGame();

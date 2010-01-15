@@ -74,7 +74,7 @@ namespace BWAPI
     return BridgeClient::pushSendText(true, text);
   }
   //----------------------------------- DRAW TEXT -------------------------------------------------
-  BWAPI_FUNCTION void drawText(Position pos, const char* text)
+  BWAPI_FUNCTION void drawTextMap(Position pos, const char* text)
   {
     BridgeClient::pushDrawText(pos - BridgeClient::gameData->screenPosition, text);
   }
@@ -83,7 +83,7 @@ namespace BWAPI
     BridgeClient::pushDrawText(pos, text);
   }
   //----------------------------------- DRAW RECTANGLE --------------------------------------------
-  BWAPI_FUNCTION void drawRectangle(Position pos, Position size, int color, int solid)
+  BWAPI_FUNCTION void drawRectangleMap(Position pos, Position size, int color, int solid)
   {
     BridgeClient::pushDrawRectangle(pos - BridgeClient::gameData->screenPosition, size - BridgeClient::gameData->screenPosition, color, !!solid);
   }
@@ -92,7 +92,7 @@ namespace BWAPI
     BridgeClient::pushDrawRectangle(pos, size, color, !!solid);
   }
   //----------------------------------- DRAW CIRCLE -----------------------------------------------
-  BWAPI_FUNCTION void drawCircle(Position pos, int r, int color, bool solid)
+  BWAPI_FUNCTION void drawCircleMap(Position pos, int r, int color, bool solid)
   {
     BridgeClient::pushDrawCircle(pos - BridgeClient::gameData->screenPosition, r, color, !!solid);
   }
@@ -101,16 +101,16 @@ namespace BWAPI
     BridgeClient::pushDrawCircle(pos, r, color, !!solid);
   }
   //----------------------------------- DRAW ELLIPSE ----------------------------------------------
-  BWAPI_FUNCTION void drawEllipse         (Position pos, int w, int h, int color, bool solid)
+  BWAPI_FUNCTION void drawEllipseMap(Position pos, int w, int h, int color, bool solid)
   {
     BridgeClient::pushDrawEllipse(pos - BridgeClient::gameData->screenPosition, w, h, color, !!solid);
   }
-  BWAPI_FUNCTION void drawEllipseScreen   (Position pos, int w, int h, int color, bool solid)
+  BWAPI_FUNCTION void drawEllipseScreen(Position pos, int w, int h, int color, bool solid)
   {
     BridgeClient::pushDrawEllipse(pos, w, h, color, !!solid);
   }
   //----------------------------------- DRAW LINE -------------------------------------------------
-  BWAPI_FUNCTION void drawLine(Position pos, Position pos2, int color)
+  BWAPI_FUNCTION void drawLineMap(Position pos, Position pos2, int color)
   {
     BridgeClient::pushDrawLine(pos - BridgeClient::gameData->screenPosition, pos2 - BridgeClient::gameData->screenPosition, color);
   }
@@ -119,7 +119,7 @@ namespace BWAPI
     BridgeClient::pushDrawLine(pos, pos2, color);
   }
   //----------------------------------- DRAW DOT --------------------------------------------------
-  BWAPI_FUNCTION void drawDot(Position pos, int color)
+  BWAPI_FUNCTION void drawDotMap(Position pos, int color)
   {
     BridgeClient::pushDrawDot(pos - BridgeClient::gameData->screenPosition, color);
   }
@@ -128,7 +128,7 @@ namespace BWAPI
     BridgeClient::pushDrawDot(pos, color);
   }
   //----------------------------------- DRAW TRIANGLE ---------------------------------------------
-  BWAPI_FUNCTION void drawTriangle(Position posa, Position posb, Position posc, int color, bool solid)
+  BWAPI_FUNCTION void drawTriangleMap(Position posa, Position posb, Position posc, int color, bool solid)
   {
     BridgeClient::pushDrawTriangle(posa - BridgeClient::gameData->screenPosition,
       posb - BridgeClient::gameData->screenPosition,
