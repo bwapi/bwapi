@@ -25,6 +25,7 @@ public:
     return retval;
   }
 };
+char* clearanceNames[] = {"None", "Noticed", "Visible", "Full"};
 
 void testAction(UnitId unit)
 {
@@ -80,7 +81,7 @@ int _tmain(int argc, _TCHAR* argv[])
         }
 
         Position pos = kunit.item.position;
-        sprintf(buff, "acc: %d", kunit.item.isAccelerating);
+        sprintf(buff, "%s", clearanceNames[kunit.item.clearanceLevel]);
         drawText(pos, buff);
 
         count++;
