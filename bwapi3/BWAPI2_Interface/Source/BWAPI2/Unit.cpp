@@ -11,7 +11,7 @@ namespace BWAPI2
 //  void pushCommand(BWAPI::CommandID commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
   Unit::Unit(int id)
   {
-    this->self=BWAPI::GetUnit(id);
+    this->self=BWAPI::getUnit(id);
     this->id;
   }
   int Unit::getID() const
@@ -232,7 +232,7 @@ namespace BWAPI2
   }
   bool Unit::isStartingAttack() const
   {
-    return self->isStartingAttack;
+    return false;//FIX FIX FIX self->isStartingAttack;
   }
   bool Unit::isStasised() const
   {
@@ -264,127 +264,127 @@ namespace BWAPI2
   }
   bool Unit::attackUnit(Unit* target)
   {
-    BWAPI::OrderAttackUnit(this->id,target->id);
+    BWAPI::orderAttackUnit(this->id,target->id);
     return true;
   }
   bool Unit::rightClick(Unit* target)
   {
-    BWAPI::OrderRightClickUnit(this->id,target->id);
+    BWAPI::orderRightClickUnit(this->id,target->id);
     return true;
   }
   bool Unit::stop()
   {
-    BWAPI::OrderStop(this->id);
+    BWAPI::orderStop(this->id);
     return true;
   }
   bool Unit::holdPosition()
   {
-    BWAPI::OrderHoldPosition(this->id);
+    BWAPI::orderHoldPosition(this->id);
     return true;
   }
   bool Unit::follow(Unit* target)
   {
-    BWAPI::OrderFollow(this->id,target->id);
+    BWAPI::orderFollow(this->id,target->id);
     return true;
   }
   bool Unit::setRallyUnit(Unit* target)
   {
-    BWAPI::OrderSetRallyUnit(this->id,target->id);
+    BWAPI::orderSetRallyUnit(this->id,target->id);
     return true;
   }
   bool Unit::repair(Unit* target)
   {
-    BWAPI::OrderRepair(this->id,target->id);
+    BWAPI::orderRepair(this->id,target->id);
     return true;
   }
   bool Unit::burrow()
   {
-    BWAPI::OrderBurrow(this->id);
+    BWAPI::orderBurrow(this->id);
     return true;
   }
   bool Unit::unburrow()
   {
-    BWAPI::OrderUnburrow(this->id);
+    BWAPI::orderUnburrow(this->id);
     return true;
   }
   bool Unit::siege()
   {
-    BWAPI::OrderSiege(this->id);
+    BWAPI::orderSiege(this->id);
     return true;
   }
   bool Unit::unsiege()
   {
-    BWAPI::OrderUnsiege(this->id);
+    BWAPI::orderUnsiege(this->id);
     return true;
   }
   bool Unit::cloak()
   {
-    BWAPI::OrderCloak(this->id);
+    BWAPI::orderCloak(this->id);
     return true;
   }
   bool Unit::decloak()
   {
-    BWAPI::OrderDecloak(this->id);
+    BWAPI::orderDecloak(this->id);
     return true;
   }
   bool Unit::lift()
   {
-    BWAPI::OrderLift(this->id);
+    BWAPI::orderLift(this->id);
     return true;
   }
   bool Unit::load(Unit* target)
   {
-    BWAPI::OrderLoad(this->id,target->id);
+    BWAPI::orderLoad(this->id,target->id);
     return true;
   }
   bool Unit::unload(Unit* target)
   {
-    BWAPI::OrderUnload(this->id,target->id);
+    BWAPI::orderUnload(this->id,target->id);
     return true;
   }
   bool Unit::unloadAll()
   {
-    BWAPI::OrderUnloadAll(this->id);
+    BWAPI::orderUnloadAll(this->id);
     return true;
   }
   bool Unit::cancelConstruction()
   {
-    BWAPI::OrderCancelConstruction(this->id);
+    BWAPI::orderCancelConstruction(this->id);
     return true;
   }
   bool Unit::haltConstruction()
   {
-    BWAPI::OrderHaltConstruction(this->id);
+    BWAPI::orderHaltConstruction(this->id);
     return true;
   }
   bool Unit::cancelMorph()
   {
-    BWAPI::OrderCancelMorph(this->id);
+    BWAPI::orderCancelMorph(this->id);
     return true;
   }
   bool Unit::cancelTrain()
   {
-    BWAPI::OrderCancelTrain(this->id);
+    BWAPI::orderCancelTrain(this->id);
     return true;
   }
   bool Unit::cancelTrain(int slot)
   {
-    BWAPI::OrderCancelTrainSlot(this->id,slot);
+    BWAPI::orderCancelTrainSlot(this->id,slot);
     return true;
   }
   bool Unit::cancelAddon()
   {
-    BWAPI::OrderCancelAddon(this->id);
+    BWAPI::orderCancelAddon(this->id);
     return true;
   }
   bool Unit::cancelResearch()
   {
-    BWAPI::OrderCancelResearch(this->id);
+    BWAPI::orderCancelResearch(this->id);
     return true;
   }
   bool Unit::cancelUpgrade()
   {
-    BWAPI::OrderCancelUpgrade(this->id);
+    BWAPI::orderCancelUpgrade(this->id);
     return true;
   }
 

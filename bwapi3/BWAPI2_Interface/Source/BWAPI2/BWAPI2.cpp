@@ -42,7 +42,7 @@ namespace BWAPI2
     resetError();
     try
     {
-      return BWAPI::Connect();
+      return BWAPI::connect();
     }
     catch(GeneralException &)
     {
@@ -59,7 +59,7 @@ namespace BWAPI2
     {
       for(;;)
       {
-        BWAPI::CallTypeId purpose = BWAPI::WaitForEvent();
+        BWAPI::CallTypeId purpose = BWAPI::waitForEvent();
 
         // react upon bridge state
         switch(purpose)
