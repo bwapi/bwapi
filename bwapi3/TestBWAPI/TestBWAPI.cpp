@@ -73,16 +73,16 @@ int _tmain(int argc, _TCHAR* argv[])
     while(call != CallTypeIds::OnDisconnect)
     {
       int count = 0;
-      for each(Util::Indexed<const KnownUnit&> kunit in gd->units)
+      for each(UnitId unitId in gd->selectedUnits)
       {
-        if(kunit.item.type == UnitTypeIds::Terran_Siege_Tank_Tank_Mode)
-        {
-          testAction(kunit.index);
-        }
+        const UnitState& unit = gd->units[unitId];
 
-        Position pos = kunit.item.position;
-        sprintf(buff, "%s", clearanceNames[kunit.item.clearanceLevel]);
+        Position pos = unit.position;
+        sprintf(buff, "action: %d", unit.action.type);
         drawTextMap(pos, buff);
+
+        drawLineMap(unit.action.targetPosition, unit.position, 61);
+        drawLineMap(unit.movePosition, unit.position, 128);
 
         count++;
       }

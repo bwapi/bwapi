@@ -233,7 +233,7 @@ namespace BW
   static u32            BWFXN_SendLobbyCallBack                   = BWFXN_SendLobbyCall + 5;
   static u32            BWFXN_SendLobbyCallTarget                 = 0x004707D0;
 
-  static Unit*          BWDATA_CurrentPlayerSelectionGroup        = (Unit*) 0x00597208;
+  static Unit**         BWDATA_CurrentPlayerSelectionGroup        = (Unit**) 0x00597208;
 
   static u32            BWFXN_GameEnd                             = 0x004EE983;
   static u32            BWFXN_GameEndBack                         = BWFXN_GameEnd + 5;

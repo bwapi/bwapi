@@ -7,6 +7,7 @@
 #include "Force.h"
 #include "Position.h"
 #include "BuildPosition.h"
+#include "UnitId.h"
 
 #include <Util\StaticVector.h>
 #include <Util\StaticSet.h>
@@ -22,9 +23,16 @@ namespace BWAPI
   struct StaticGameData
   {
     int frameCount;
-    int getLatency;
+
+    // BWAPI event related
+    bool isOnMatchStart;
+    bool isFromBeginning;
+
+    // user input
     Position mousePosition;
     Position screenPosition;
+
+    // map
     BuildPosition mapSize;
     Util::StaticString<260> mapFilename;  //size based on broodwar memory
     Util::StaticString<32>  mapName;      //size based on broodwar memory
@@ -36,15 +44,25 @@ namespace BWAPI
     bool isVisible[256][256];
     bool isExplored[256][256];
     bool hasCreep[256][256];
+
+    // match mode
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
+    int getLatency;
+
+    // players
     PlayerArray players;
     PlayerId self;
+
+    // forces
     ForceArray forces;
+
+    // units
     KnownUnitArray units;
+    Util::StaticVector<UnitId, 12> selectedUnits;
+
+    // start locations
     StartLocationArray startLocations;
-    bool isOnMatchStart;
-    bool isFromBeginning;
   };
 }
