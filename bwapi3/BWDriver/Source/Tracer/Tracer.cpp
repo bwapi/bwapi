@@ -3,6 +3,8 @@
 
 #include <Util\Strings.h>
 
+#include <set>
+
 namespace BWAPI
 {
   namespace Tracer

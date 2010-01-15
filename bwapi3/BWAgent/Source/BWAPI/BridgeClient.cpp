@@ -319,33 +319,37 @@ namespace BWAPI
       return true;
     }
     // TODO: change to pre-allocation
-    bool pushDrawText(Position pos, const char* text)
+    bool pushDrawText(CoordinateBase base, Position pos, const char* text)
     {
       Bridge::DrawShape::Text packet;
+      packet.base = base;
       packet.pos = pos;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet), Util::MemoryFrame((void*)text, strlen(text)+1));
     }
-    bool pushDrawRectangle(Position pos, Position size, int color, bool solid)
+    bool pushDrawRectangle(CoordinateBase base, Position pos, Position size, int color, bool solid)
     {
       Bridge::DrawShape::Rectangle packet;
+      packet.base = base;
       packet.pos = pos;
       packet.size = size;
       packet.color = color;
       packet.isSolid = solid;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawCircle(Position center, int r, int color, bool solid)
+    bool pushDrawCircle(CoordinateBase base, Position center, int r, int color, bool solid)
     {
       Bridge::DrawShape::Circle packet;
+      packet.base = base;
       packet.center = center;
       packet.radius = r;
       packet.color = color;
       packet.isSolid = solid;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawEllipse(Position center, int w, int h, int color, bool solid)
+    bool pushDrawEllipse(CoordinateBase base, Position center, int w, int h, int color, bool solid)
     {
       Bridge::DrawShape::Ellipse packet;
+      packet.base = base;
       packet.pos = center;
       packet.sizex = w;
       packet.sizey = h;
@@ -353,24 +357,27 @@ namespace BWAPI
       packet.isSolid = solid;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawLine(Position from, Position to, int color)
+    bool pushDrawLine(CoordinateBase base, Position from, Position to, int color)
     {
       Bridge::DrawShape::Line packet;
+      packet.base = base;
       packet.from = from;
       packet.to = to;
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawDot(Position pos, int color)
+    bool pushDrawDot(CoordinateBase base, Position pos, int color)
     {
       Bridge::DrawShape::Dot packet;
+      packet.base = base;
       packet.pos = pos;
       packet.color = color;
       return pushDrawShapePacket(Util::MemoryFrame::from(packet));
     }
-    bool pushDrawTriangle(Position posa, Position posb, Position posc, int color, bool solid)
+    bool pushDrawTriangle(CoordinateBase base, Position posa, Position posb, Position posc, int color, bool solid)
     {
       Bridge::DrawShape::Triangle packet;
+      packet.base = base;
       packet.posa = posa;
       packet.posb = posb;
       packet.posc = posc;

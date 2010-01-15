@@ -26,6 +26,7 @@
 #include <BWAPITypes\UnitSizeTypeId.h>
 #include <BWAPITypes\PlayerType.h>
 #include <BWAPITypes\PlayerTypeId.h>
+#include <BWAPITypes\CoordinateBase.h>
 
 #include <string>
 
@@ -70,20 +71,63 @@ namespace BWAPI
   BWAPI_FUNCTION bool sendText(const char* text);
 
   // draw operations
-  BWAPI_FUNCTION void drawTextScreen      (Position pos, const char* text);
-  BWAPI_FUNCTION void drawTextMap         (Position pos, const char* text);
-  BWAPI_FUNCTION void drawRectangleScreen (Position pos, Position size, int color, bool solid);
-  BWAPI_FUNCTION void drawRectangleMap    (Position pos, Position size, int color, bool solid);
-  BWAPI_FUNCTION void drawCircleScreen    (Position pos, int r, int color, bool solid);
-  BWAPI_FUNCTION void drawCircleMap       (Position pos, int r, int color, bool solid);
-  BWAPI_FUNCTION void drawEllipseScreen   (Position pos, int w, int h, int color, bool solid);
-  BWAPI_FUNCTION void drawEllipseMap      (Position pos, int w, int h, int color, bool solid);
-  BWAPI_FUNCTION void drawLineScreen      (Position pos, Position pos2, int color);
-  BWAPI_FUNCTION void drawLineMap         (Position pos, Position pos2, int color);
-  BWAPI_FUNCTION void drawDotScreen       (Position pos, int color);
-  BWAPI_FUNCTION void drawDotMap          (Position pos, int color);
-  BWAPI_FUNCTION void drawTriangleScreen  (Position posa, Position posb, Position posc, int color, bool solid);
-  BWAPI_FUNCTION void drawTriangleMap     (Position posa, Position posb, Position posc, int color, bool solid);
+  BWAPI_FUNCTION void drawText          (CoordinateBase base, Position pos, const char* text);
+  BWAPI_FUNCTION void drawRectangle     (CoordinateBase base, Position pos, Position size, int color, bool solid);
+  BWAPI_FUNCTION void drawCircle        (CoordinateBase base, Position pos, int r, int color, bool solid);
+  BWAPI_FUNCTION void drawEllipse       (CoordinateBase base, Position pos, int w, int h, int color, bool solid);
+  BWAPI_FUNCTION void drawLine          (CoordinateBase base, Position pos, Position pos2, int color);
+  BWAPI_FUNCTION void drawDot           (CoordinateBase base, Position pos, int color);
+  BWAPI_FUNCTION void drawTriangle      (CoordinateBase base, Position posa, Position posb, Position posc, int color, bool solid);
+
+  // macroed draw operations
+  static void inline drawTextMap        (Position pos, const char* text)
+  {drawText(CoordinateBases::Map, pos, text);}
+  static void inline drawTextScreen     (Position pos, const char* text)
+  {drawText(CoordinateBases::Screen, pos, text);}
+  static void inline drawTextMouse      (Position pos, const char* text)
+  {drawText(CoordinateBases::Mouse, pos, text);}
+
+  static void inline drawRectangleMap   (Position pos, Position size, int color, bool solid)
+  {drawRectangle(CoordinateBases::Map, pos, size, color, solid);}
+  static void inline drawRectangleScreen(Position pos, Position size, int color, bool solid)
+  {drawRectangle(CoordinateBases::Screen, pos, size, color, solid);}
+  static void inline drawRectangleMouse (Position pos, Position size, int color, bool solid)
+  {drawRectangle(CoordinateBases::Mouse, pos, size, color, solid);}
+
+  static void inline drawCircleMap      (Position pos, int r, int color, bool solid)
+  {drawCircle(CoordinateBases::Map, pos, r, color, solid);}
+  static void inline drawCircleScreen   (Position pos, int r, int color, bool solid)
+  {drawCircle(CoordinateBases::Screen, pos, r, color, solid);}
+  static void inline drawCircleMouse    (Position pos, int r, int color, bool solid)
+  {drawCircle(CoordinateBases::Mouse, pos, r, color, solid);}
+
+  static void inline drawEllipseMap     (Position pos, int w, int h, int color, bool solid)
+  {drawEllipse(CoordinateBases::Map, pos, w, h, color, solid);}
+  static void inline drawEllipseScreen  (Position pos, int w, int h, int color, bool solid)
+  {drawEllipse(CoordinateBases::Screen, pos, w, h, color, solid);}
+  static void inline drawEllipseMouse   (Position pos, int w, int h, int color, bool solid)
+  {drawEllipse(CoordinateBases::Mouse, pos, w, h, color, solid);}
+
+  static void inline drawLineMap        (Position pos, Position pos2, int color)
+  {drawLine(CoordinateBases::Map, pos, pos2, color);}
+  static void inline drawLineScreen     (Position pos, Position pos2, int color)
+  {drawLine(CoordinateBases::Screen, pos, pos2, color);}
+  static void inline drawLineMouse      (Position pos, Position pos2, int color)
+  {drawLine(CoordinateBases::Mouse, pos, pos2, color);}
+
+  static void inline drawDotMap         (Position pos, int color)
+  {drawDot(CoordinateBases::Map, pos, color);}
+  static void inline drawDotScreen      (Position pos, int color)
+  {drawDot(CoordinateBases::Screen, pos, color);}
+  static void inline drawDotMouse       (Position pos, int color)
+  {drawDot(CoordinateBases::Mouse, pos, color);}
+
+  static void inline drawTriangleMap    (Position posa, Position posb, Position posc, int color, bool solid)
+  {drawTriangle(CoordinateBases::Map, posa, posb, posc, color, solid);}
+  static void inline drawTriangleScreen (Position posa, Position posb, Position posc, int color, bool solid)
+  {drawTriangle(CoordinateBases::Screen, posa, posb, posc, color, solid);}
+  static void inline drawTriangleMouse  (Position posa, Position posb, Position posc, int color, bool solid)
+  {drawTriangle(CoordinateBases::Mouse, posa, posb, posc, color, solid);}
 
   // commands
   BWAPI_FUNCTION void startGame();
@@ -94,6 +138,7 @@ namespace BWAPI
   BWAPI_FUNCTION void setLocalSpeed(int speed);
   BWAPI_FUNCTION void pingMinimap(Position pos);
   BWAPI_FUNCTION void enableFlag(Flag flag);
+  BWAPI_FUNCTION void setScreenPosition(Position pos);
 
   // unit commands
   BWAPI_FUNCTION void orderAttackPosition(UnitId unitId, Position pos);

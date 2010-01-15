@@ -17,6 +17,7 @@ namespace BW
   extern bool isPaused();
   extern int getMouseX();
   extern int getMouseY();
+  extern Position getMousePos();
   extern int getScreenX();
   extern int getScreenY();
   extern Position getScreenPos();
@@ -24,7 +25,7 @@ namespace BW
   extern void setLocalSpeed(int speed);
   extern void resetLocalSpeed();
 
-  extern void setScreenPosition(int x, int y);
+  extern void setScreenPosition(Position pos);
   extern void startGame();
   extern void pauseGame();
   extern void resumeGame();
