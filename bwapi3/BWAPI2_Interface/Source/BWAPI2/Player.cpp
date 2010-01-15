@@ -18,7 +18,7 @@ namespace BWAPI2
   }
   std::string Player::getName() const
   {
-    return std::string(BWAPI::GetStaticGameData()->players.data[id].name);
+    return std::string(BWAPI::getPlayer(id)->name);
   }
   std::set<Unit*>& Player::getUnits() const
   {
@@ -34,7 +34,7 @@ namespace BWAPI2
   }
   Force* Player::getForce() const
   {
-    return Game::getForce(BWAPI::GetStaticGameData()->players.data[id].force);
+    return Game::getForce(BWAPI::getStaticGameData()->players[id].force);
   }
   bool Player::isAlly(Player* player) const
   {
@@ -66,11 +66,11 @@ namespace BWAPI2
   }
   int Player::minerals() const
   {
-    return BWAPI::GetStaticGameData()->players.data[id].minerals;
+    return BWAPI::getStaticGameData()->players[id].minerals;
   }
   int Player::gas() const
   {
-    return BWAPI::GetStaticGameData()->players.data[id].gas;
+    return BWAPI::getStaticGameData()->players[id].gas;
   }
   int Player::cumulativeMinerals() const
   {

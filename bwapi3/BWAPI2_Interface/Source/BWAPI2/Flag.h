@@ -2,7 +2,7 @@
 
 #include "BWAPI2Interface.h"
 
-namespace BWAPI
+namespace BWAPI2
 {
   namespace Flag
   {

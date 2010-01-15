@@ -37,7 +37,7 @@ namespace BWAPI2
     //------------------------------------------------- ON START -----------------------------------------------
     void onStart()
     {
-      sgd=BWAPI::GetStaticGameData();
+      sgd=BWAPI::getStaticGameData();
       startLocations.clear();
       for(std::map<int,Force*>::iterator i=forceMap.begin();i!=forceMap.end();i++)
       {
@@ -173,17 +173,17 @@ namespace BWAPI2
     //---------------------------------------------- GET MOUSE X -----------------------------------------------
     int getMouseX()
     {
-      return sgd->mouseX;
+      return sgd->mousePosition.x;
     }
     //---------------------------------------------- GET MOUSE Y -----------------------------------------------
     int getMouseY()
     {
-      return sgd->mouseY;
+      return sgd->mousePosition.y;
     }
     //-------------------------------------------- GET MOUSE POSITION ------------------------------------------
     Position getMousePosition()
     {
-      return Position(sgd->mouseX,sgd->mouseY);
+      return Position(sgd->mousePosition.x,sgd->mousePosition.y);
     }
     //---------------------------------------------- GET MOUSE STATE -------------------------------------------
     bool getMouseState(MouseButton button)
@@ -208,17 +208,17 @@ namespace BWAPI2
     //---------------------------------------------- GET SCREEN X ----------------------------------------------
     int getScreenX()
     {
-      return sgd->screenX;
+      return sgd->screenPosition.x;
     }
     //---------------------------------------------- GET SCREEN Y ----------------------------------------------
     int getScreenY()
     {
-      return sgd->screenY;
+      return sgd->screenPosition.y;
     }
     //-------------------------------------------- GET SCREEN POSITION -----------------------------------------
     Position getScreenPosition()
     {
-      return Position(sgd->screenX,sgd->screenY);
+      return Position(sgd->screenPosition.x,sgd->screenPosition.y);
     }
     //-------------------------------------------- SET SCREEN POSITION -----------------------------------------
     void setScreenPosition(int x, int y)
@@ -255,12 +255,12 @@ namespace BWAPI2
     //----------------------------------------------- MAP WIDTH ------------------------------------------------
     int mapWidth()
     {
-      return sgd->mapWidth;
+      return sgd->mapSize.x;
     }
     //----------------------------------------------- MAP HEIGHT -----------------------------------------------
     int mapHeight()
     {
-      return sgd->mapHeight;
+      return sgd->mapSize.y;
     }
     //---------------------------------------------- MAP FILENAME ----------------------------------------------
     std::string mapFilename()
@@ -281,42 +281,42 @@ namespace BWAPI2
     //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
     int getGroundHeight(int x, int y)
     {
-      if (x<0 || y<0 || x>=sgd->mapWidth*4 || y>=sgd->mapHeight*4)
+      if (x<0 || y<0 || x>=sgd->mapSize.x*4 || y>=sgd->mapSize.y*4)
         return 0;
       return sgd->getGroundHeight[x][y];
     }
     //---------------------------------------------- IS WALKABLE -----------------------------------------------
     bool isWalkable(int x, int y)
     {
-      if (x<0 || y<0 || x>=sgd->mapWidth*4 || y>=sgd->mapHeight*4)
+      if (x<0 || y<0 || x>=sgd->mapSize.x*4 || y>=sgd->mapSize.y*4)
         return 0;
       return sgd->isWalkable[x][y];
     }
     //--------------------------------------------- IS BUILDABLE -----------------------------------------------
     bool isBuildable(int x, int y)
     {
-      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapSize.x || y>=sgd->mapSize.y)
         return 0;
       return sgd->isBuildable[x][y];
     }
     //---------------------------------------------- IS VISIBLE ------------------------------------------------
     bool isVisible(int x, int y)
     {
-      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapSize.x || y>=sgd->mapSize.y)
         return 0;
       return sgd->isVisible[x][y];
     }
     //---------------------------------------------- IS EXPLORED -----------------------------------------------
     bool isExplored(int x, int y)
     {
-      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapSize.x || y>=sgd->mapSize.y)
         return 0;
       return sgd->isExplored[x][y];
     }
     //----------------------------------------------- HAS CREEP ------------------------------------------------
     bool hasCreep(int x, int y)
     {
-      if (x<0 || y<0 || x>=sgd->mapWidth || y>=sgd->mapHeight)
+      if (x<0 || y<0 || x>=sgd->mapSize.x || y>=sgd->mapSize.y)
         return 0;
       return sgd->hasCreep[x][y];
     }
@@ -343,7 +343,7 @@ namespace BWAPI2
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      BWAPI::PrintText(buffer);
+      //BWAPI::PrintText(buffer);
       return;
     }
     //------------------------------------------------ SEND TEXT -----------------------------------------------
@@ -353,7 +353,7 @@ namespace BWAPI2
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      BWAPI::SendText(buffer);
+      //BWAPI::SendText(buffer);
       return;
     }
     //------------------------------------------------ BUILDABLE -----------------------------------------------
@@ -473,7 +473,7 @@ namespace BWAPI2
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      BWAPI::DrawText(x,y,buffer);
+      //BWAPI::DrawText(x,y,buffer);
     }
     void drawTextMap(int x, int y, const char* text, ...)
     {
@@ -481,7 +481,7 @@ namespace BWAPI2
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      BWAPI::DrawText(x,y,buffer);
+      //BWAPI::DrawText(x,y,buffer);
     }
     void drawTextMouse(int x, int y, const char* text, ...)
     {
@@ -489,7 +489,7 @@ namespace BWAPI2
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      BWAPI::DrawText(x,y,buffer);
+      //BWAPI::DrawText(x,y,buffer);
     }
     void drawTextScreen(int x, int y, const char* text, ...)
     {
@@ -497,24 +497,24 @@ namespace BWAPI2
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      BWAPI::DrawText(x,y,buffer);
+      //BWAPI::DrawText(x,y,buffer);
     }
 
     void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
+      //BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
     }
     void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
+      //BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
     }
     void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
+      //BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
     }
     void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
+      //BWAPI::DrawRectangle(left,top,right-left,bottom-top,color.getID(),isSolid);
     }
 
     void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
@@ -536,19 +536,19 @@ namespace BWAPI2
 
     void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
     {
-      BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
+      //BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
     }
     void drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
     {
-      BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
+      //BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
     }
     void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
     {
-      BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
+      //BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
     }
     void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
     {
-      BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
+      //BWAPI::DrawCircle(x,y,radius,color.getID(),isSolid);
     }
 
     void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
@@ -570,35 +570,35 @@ namespace BWAPI2
 
     void drawDot(int ctype, int x, int y, Color color)
     {
-      BWAPI::DrawDot(x,y,color.getID());
+      //BWAPI::DrawDot(x,y,color.getID());
     }
     void drawDotMap(int x, int y, Color color)
     {
-      BWAPI::DrawDot(x,y,color.getID());
+      //BWAPI::DrawDot(x,y,color.getID());
     }
     void drawDotMouse(int x, int y, Color color)
     {
-      BWAPI::DrawDot(x,y,color.getID());
+      //BWAPI::DrawDot(x,y,color.getID());
     }
     void drawDotScreen(int x, int y, Color color)
     {
-      BWAPI::DrawDot(x,y,color.getID());
+      //BWAPI::DrawDot(x,y,color.getID());
     }
     void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
     {
-      BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
+      //BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
     }
     void drawLineMap(int x1, int y1, int x2, int y2, Color color)
     {
-      BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
+      //BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
     }
     void drawLineMouse(int x1, int y1, int x2, int y2, Color color)
     {
-      BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
+      //BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
     }
     void drawLineScreen(int x1, int y1, int x2, int y2, Color color)
     {
-      BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
+      //BWAPI::DrawLine(x1,y1,x2,y2,color.getID());
     }
   };
 };
