@@ -83,13 +83,13 @@ namespace BWAPI
     BridgeClient::pushDrawText(pos, text);
   }
   //----------------------------------- DRAW RECTANGLE --------------------------------------------
-  BWAPI_FUNCTION void drawRectangleMap(Position pos, Position size, int color, int solid)
+  BWAPI_FUNCTION void drawRectangleMap(Position pos, Position size, int color, bool solid)
   {
-    BridgeClient::pushDrawRectangle(pos - BridgeClient::gameData->screenPosition, size - BridgeClient::gameData->screenPosition, color, !!solid);
+    BridgeClient::pushDrawRectangle(pos - BridgeClient::gameData->screenPosition, size - BridgeClient::gameData->screenPosition, color, solid);
   }
-  BWAPI_FUNCTION void drawRectangleScreen(Position pos, Position size, int color, int solid)
+  BWAPI_FUNCTION void drawRectangleScreen(Position pos, Position size, int color, bool solid)
   {
-    BridgeClient::pushDrawRectangle(pos, size, color, !!solid);
+    BridgeClient::pushDrawRectangle(pos, size, color, solid);
   }
   //----------------------------------- DRAW CIRCLE -----------------------------------------------
   BWAPI_FUNCTION void drawCircleMap(Position pos, int r, int color, bool solid)
