@@ -40,6 +40,7 @@ namespace BWAPI
     bool isReplay;
     bool isPaused;
     PlayerArray players;
+    PlayerId self;
     ForceArray forces;
     KnownUnitArray units;
     StartLocationArray startLocations;

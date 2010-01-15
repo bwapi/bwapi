@@ -68,6 +68,11 @@ namespace BW
     // Retrieves the mouse's Y coordinate
     return *(BW::BWDATA_MouseY);
   }
+  //----------------------------------- GET MOUSE POS -------------------------------------
+  Position getMousePos()
+  {
+    return Position(*(BW::BWDATA_MouseX), *(BW::BWDATA_MouseY));
+  }
   //----------------------------------- GET SCREEN X --------------------------------------
   int getScreenX()
   {
@@ -86,11 +91,17 @@ namespace BW
     return Position(*(BW::BWDATA_ScreenX), *(BW::BWDATA_ScreenY));
   }
   //-------------------------------- SET SCREEN POSITION ----------------------------------
-  void setScreenPosition(int x, int y)
+  void setScreenPosition(Position pos)
   {
+    int x = pos.x;
+    int y = pos.y;
     // Sets the screen's position in relation to the map
-    *(BW::BWDATA_ScreenX) = x;
-    *(BW::BWDATA_ScreenY) = y;
+    __asm
+    {
+      mov eax, x
+      mov ecx, y
+      call [BW::BWFXN_MoveScreen]
+    }
   }
   //------------------------------------ START GAME ---------------------------------------
   void startGame()

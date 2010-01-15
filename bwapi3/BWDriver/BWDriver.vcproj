@@ -690,6 +690,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPITypes\CoordinateBase.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPITypes\DamageType.h"
 					>
 				</File>

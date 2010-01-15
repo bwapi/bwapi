@@ -60,6 +60,11 @@ namespace Bridge
     {
       int flag;
     };
+
+    struct SetScreenPosition : Util::TypeHead<UNIQUE_ID>
+    {
+      BWAPI::Position pos;
+    };
 #undef UNIQUE_ID
 #pragma pack(pop)
   }

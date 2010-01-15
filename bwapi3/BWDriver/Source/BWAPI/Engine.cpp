@@ -250,6 +250,11 @@ namespace BWAPI
       BW::issueCommand(BW::Command::MinimapPing(packet.pos));
       return true;
     }
+    int handleCommandSetScreenPosition(Bridge::CommandEntry::SetScreenPosition& packet)
+    {
+      BW::setScreenPosition(packet.pos);
+      return true;
+    }
     std::vector<Bridge::CommandEntry::UnitOrder*> commandOrderEntries;
     int handleCommandOrderUnit(Bridge::CommandEntry::UnitOrder& packet)
     {
@@ -704,6 +709,7 @@ namespace BWAPI
           packetSwitch.addHandler(handleCommandSetLocalSpeed);
           packetSwitch.addHandler(handleCommandEnableFlag);
           packetSwitch.addHandler(handleCommandPingMinimap);
+          packetSwitch.addHandler(handleCommandSetScreenPosition);
 
           packetSwitch.addHandler(handleCommandOrderUnit);
         }
@@ -862,7 +868,8 @@ namespace BWAPI
       }
 
       // find all players
-      BridgeServer::gameData->players.clear();
+      staticData.self = BW::selfPlayerId;
+      staticData.players.clear();
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
       {
         BW::Players::PlayerInfo &bwPlayer = BW::BWDATA_Players->player[i];
@@ -1015,6 +1022,19 @@ namespace BWAPI
       }
     }
     //---------------------------------------- EACH DRAW SHAPE -------------------------------------------------
+    Position inline translateFromBase(Position pos, CoordinateBase base)
+    {
+      switch(base)
+      {
+      case CoordinateBases::Map:
+        return pos - BW::getScreenPos();
+      case CoordinateBases::Screen:
+        return pos;
+      case CoordinateBases::Mouse:
+        return pos + BW::getMousePos();
+      }
+      throw GeneralException("invalid coordinate base specfied");
+    }
     void eachDrawShape(Util::MemoryFrame shapePacket)
     {
       int type = shapePacket.getAs<int>();
@@ -1032,43 +1052,53 @@ namespace BWAPI
           // not null terminated
           throw GeneralException(__FUNCTION__ ": text shape packet text not null terminated");
         }
-        BW::drawText(text.pos.x, text.pos.y, shapePacket.beginAs<char>());
+        Position pos = translateFromBase(text.pos, text.base);
+        BW::drawText(pos.x, pos.y, shapePacket.beginAs<char>());
       }
       if(type == Bridge::DrawShape::Line::_typeId)
       {
         Bridge::DrawShape::Line line;
         shapePacket.readTo(line);
-        drawLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
+        Position from = translateFromBase(line.from, line.base);
+        Position to = translateFromBase(line.to, line.base);
+        drawLine(from.x, from.y, to.x, to.y, line.color);
       }
       if(type == Bridge::DrawShape::Rectangle::_typeId)
       {
         Bridge::DrawShape::Rectangle rect;
         shapePacket.readTo(rect);
-        drawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, rect.color, rect.isSolid);
+        Position pos = translateFromBase(rect.pos, rect.base);
+        drawRectangle(pos.x, pos.y, rect.size.x, rect.size.y, rect.color, rect.isSolid);
       }
       if(type == Bridge::DrawShape::Circle::_typeId)
       {
         Bridge::DrawShape::Circle circle;
         shapePacket.readTo(circle);
-        drawCircle(circle.center.x, circle.center.y, circle.radius, circle.color, circle.isSolid);
+        Position center = translateFromBase(circle.center, circle.base);
+        drawCircle(center.x, center.y, circle.radius, circle.color, circle.isSolid);
       }
       if(type == Bridge::DrawShape::Ellipse::_typeId)
       {
         Bridge::DrawShape::Ellipse ellipse;
         shapePacket.readTo(ellipse);
-        drawEllipse(ellipse.pos.x, ellipse.pos.y, ellipse.sizex, ellipse.sizey, ellipse.color, ellipse.isSolid);
+        Position pos = translateFromBase(ellipse.pos, ellipse.base);
+        drawEllipse(pos.x, pos.y, ellipse.sizex, ellipse.sizey, ellipse.color, ellipse.isSolid);
       }
       if(type == Bridge::DrawShape::Dot::_typeId)
       {
         Bridge::DrawShape::Dot dot;
         shapePacket.readTo(dot);
-        BW::drawDot(dot.pos.x, dot.pos.y, dot.color);
+        Position pos = translateFromBase(dot.pos, dot.base);
+        BW::drawDot(pos.x, pos.y, dot.color);
       }
       if(type == Bridge::DrawShape::Triangle::_typeId)
       {
         Bridge::DrawShape::Triangle triangle;
         shapePacket.readTo(triangle);
-        drawTriangle(triangle.posa.x, triangle.posa.y, triangle.posb.x, triangle.posb.y, triangle.posc.x, triangle.posc.y, triangle.color, triangle.isSolid);
+        Position posa = translateFromBase(triangle.posa, triangle.base);
+        Position posb = translateFromBase(triangle.posb, triangle.base);
+        Position posc = translateFromBase(triangle.posc, triangle.base);
+        drawTriangle(posa.x, posa.y, posb.x, posb.y, posc.x, posc.y, triangle.color, triangle.isSolid);
       }
     }
     //---------------------------------------- ON MATCH DRAW HIGH ----------------------------------------------

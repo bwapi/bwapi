@@ -4,6 +4,7 @@
 #include <BWAPITypes\StaticGameData.h>
 #include <BWAPITypes\DynamicGameData.h>
 #include <BWAPITypes\UnitEvent.h>
+#include <BWAPITypes\CoordinateBase.h>
 
 #include <Util\MemoryFrame.h>
 
@@ -33,13 +34,13 @@ namespace BWAPI
     extern bool pushSendText(bool send, const char *string);
 
     // draw stack
-    extern bool pushDrawText(Position pos, const char*);
-    extern bool pushDrawRectangle(Position pos, Position size, int color, bool solid);
-    extern bool pushDrawCircle(Position center, int r, int color, bool solid);
-    extern bool pushDrawEllipse(Position center, int w, int h, int color, bool solid);
-    extern bool pushDrawLine(Position pos, Position pos2, int color);
-    extern bool pushDrawDot(Position pos, int color);
-    extern bool pushDrawTriangle(Position posa, Position posb, Position posc, int color, bool solid);
+    extern bool pushDrawText(CoordinateBase base, Position pos, const char*);
+    extern bool pushDrawRectangle(CoordinateBase base, Position pos, Position size, int color, bool solid);
+    extern bool pushDrawCircle(CoordinateBase base, Position center, int r, int color, bool solid);
+    extern bool pushDrawEllipse(CoordinateBase base, Position center, int w, int h, int color, bool solid);
+    extern bool pushDrawLine(CoordinateBase base, Position pos, Position pos2, int color);
+    extern bool pushDrawDot(CoordinateBase base, Position pos, int color);
+    extern bool pushDrawTriangle(CoordinateBase base, Position posa, Position posb, Position posc, int color, bool solid);
 
     // state
     enum RpcState : int

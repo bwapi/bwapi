@@ -216,6 +216,7 @@ namespace BW
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
+  static u32            BWFXN_MoveScreen                          = 0x0049C440;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayerName                  = (char*) 0x0057EE9C;            // 1.16.1

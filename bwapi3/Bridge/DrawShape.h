@@ -1,5 +1,6 @@
 #pragma once
 #include <BWAPITypes\Position.h>
+#include <BWAPITypes\CoordinateBase.h>
 #include <Util\TypeHead.h>
 
 namespace Bridge
@@ -10,6 +11,7 @@ namespace Bridge
 #define UNIQUE_ID __LINE__
     struct Line : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position from;
       BWAPI::Position to;
       int color;
@@ -17,6 +19,7 @@ namespace Bridge
 
     struct Ellipse : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position pos;
       int sizex;
       int sizey;
@@ -26,6 +29,7 @@ namespace Bridge
 
     struct Circle : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position center;
       double radius;
       int color;
@@ -34,6 +38,7 @@ namespace Bridge
 
     struct Rectangle : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position pos;
       BWAPI::Position size;
       int color;
@@ -42,17 +47,20 @@ namespace Bridge
 
     struct Dot : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position pos;
       int color;
     };
 
     struct Text : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position pos;
     };
 
     struct Triangle : Util::TypeHead<UNIQUE_ID>
     {
+      BWAPI::CoordinateBase base;
       BWAPI::Position posa;
       BWAPI::Position posb;
       BWAPI::Position posc;
