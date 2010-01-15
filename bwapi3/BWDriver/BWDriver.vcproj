@@ -802,6 +802,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\BWAPIDatabase\OrderTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\BWAPIDatabase\OrderTypes.h"
+					>
+				</File>
+				<File
 					RelativePath="..\BWAPIDatabase\PlayerTypes.cpp"
 					>
 				</File>

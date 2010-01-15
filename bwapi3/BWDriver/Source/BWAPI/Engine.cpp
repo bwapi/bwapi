@@ -318,6 +318,7 @@ namespace BWAPI
           {
             shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
             bwUnitMirror.knownUnit = NULL;
+            bwUnitMirror.knownUnitIndex = -1;
           }
           return true;
         }
@@ -335,6 +336,7 @@ namespace BWAPI
         bwUnitMirror.isDying = false;
         bwUnitMirror.isNoticed = false;
         bwUnitMirror.knownUnit = NULL;
+        bwUnitMirror.knownUnitIndex = -1;
         bwUnitMirror.position = bwUnit.position;
       }
 
@@ -351,6 +353,7 @@ namespace BWAPI
         {
           shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
           bwUnitMirror.knownUnit = NULL;
+          bwUnitMirror.knownUnitIndex = -1;
           bwUnitMirror.position = bwUnit.position;
         }
       }
@@ -447,6 +450,7 @@ namespace BWAPI
           // release KnownUnit address
           shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
           bwUnitMirror.knownUnit = NULL;
+          bwUnitMirror.knownUnitIndex = -1;
         }
       }
 
@@ -464,6 +468,17 @@ namespace BWAPI
 
         knownUnit.position                = Position(bwUnit.position);
         knownUnit.type                    = type;
+        knownUnit.velocity                = Util::Point<double>(bwUnit.current_speedX, bwUnit.current_speedY) / 256.0;
+        {
+          int d = bwUnit.currentDirection;
+          // turn so zero faces  east
+          d -= 64;
+          if (d < 0) d += 256;
+          // convert to radians
+          double a = (double)d*3.14159265358979323846/128.0;
+          // store
+          knownUnit.angle                 = a;
+        }
 
   //              knownUnit.id                      = (int)&knownUnit;
         knownUnit.player                  = bwUnit.playerID;
@@ -542,7 +557,6 @@ namespace BWAPI
 
         knownUnit.isDefenseMatrixed       = bwUnit.defenseMatrixTimer > 0;
         knownUnit.isEnsnared              = bwUnit.ensnareTimer > 0;
-        knownUnit.isFollowing             = orderId == BW::OrderIDs::Follow;
 
         knownUnit.isHallucination         = bwUnit.status.getBit<BW::StatusFlags::IsHallucination>();
         bool isResearching                = orderId == BW::OrderIDs::ResearchTech;
@@ -589,7 +603,6 @@ namespace BWAPI
                                           || orderId == BW::OrderIDs::ZergBuildSelf;
         knownUnit.isMoving                = bwUnit.movementFlags.getBit<BW::MovementFlags::Moving>();
         knownUnit.isParasited             = bwUnit.parasiteFlags.value != 0;
-        knownUnit.isPatrolling            = orderId == BW::OrderIDs::Patrol;
         knownUnit.isPlagued               = bwUnit.plagueTimer > 0;
         knownUnit.isRepairing             =  orderId == BW::OrderIDs::Repair1
                                           || orderId == BW::OrderIDs::Repair2;
@@ -603,6 +616,33 @@ namespace BWAPI
         knownUnit.isUnpowered             =  typeData.race == RaceIds::Protoss
                                           && typeData.isBuilding
                                           && bwUnit.status.getBit<BW::StatusFlags::DoodadStatesThing>();
+
+        // fill action
+        {
+          BW::Unit* bwTargetUnit          = bwUnit.orderTargetUnit;
+          if(bwTargetUnit)
+          {
+            int targetUnitIndex           = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwTargetUnit);
+            knownUnit.order.targetUnit    = bwUnitArrayMirror[targetUnitIndex].knownUnitIndex;
+          }
+          else
+            knownUnit.order.targetUnit    = -1;
+          knownUnit.order.targetPosition  = bwUnit.orderTargetPos;
+          knownUnit.order.type            = (OrderTypeId)bwUnit.orderID;
+        }
+        {
+          BW::Unit* bwTargetUnit          = bwUnit.targetUnit;
+          if(bwTargetUnit)
+          {
+            int targetUnitIndex           = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwTargetUnit);
+            knownUnit.movementTargetUnit  = bwUnitArrayMirror[targetUnitIndex].knownUnitIndex;
+          }
+          else
+            knownUnit.movementTargetUnit  = -1;
+        }
+        knownUnit.movementTargetPosition  = bwUnit.moveToPos;
+        knownUnit.movementNextWaypoint    = bwUnit.nextWaypoint;
+
       } //if(isKnown)
       return true;
     }
@@ -680,6 +720,18 @@ namespace BWAPI
         for(BW::Unit *bwUnit = *BW::BWDATA_UnitNodeChain_HiddenUnit_First; bwUnit; bwUnit = bwUnit->nextUnit)
         {
           shareEachBwUnit(*bwUnit, UnitChainIds::Hidden, isOnMatchStart);
+        }
+
+        // save selection group
+        staticData.selectedUnits.clear();
+        for(BW::Unit** bwUnitRunner = BW::BWDATA_CurrentPlayerSelectionGroup; *bwUnitRunner; bwUnitRunner++)
+        {
+          int bwUnitIndex = BW::BWDATA_UnitNodeTable->getIndexByUnit(*bwUnitRunner);
+          UnitId knownUnitIndex = bwUnitArrayMirror[bwUnitIndex].knownUnitIndex;
+          // if no known unit associated
+          if(knownUnitIndex == -1)
+            continue;
+          staticData.selectedUnits.push_back(knownUnitIndex);
         }
       } //fill buffers with recend world state data
 

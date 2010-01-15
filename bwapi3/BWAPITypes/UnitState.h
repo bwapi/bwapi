@@ -1,7 +1,11 @@
 #pragma once
 
-#include <BWAPITypes\Position.h>
-#include <BWAPITypes\UnitTypeId.h>
+#include "Position.h"
+#include "UnitTypeId.h"
+#include "UnitId.h"
+#include "PlayerId.h"
+#include "Order.h"
+#include "Target.h"
 
 namespace BWAPI
 {
@@ -20,24 +24,31 @@ namespace BWAPI
   // Unit's state we know about, depending on clearance level
   struct UnitStateNoticed
   {
-    // in the root object
+    // basic data
     ClearanceLevel clearanceLevel;
-    //replace with position object later
+    int id;
+    int removeTimer;
+    
+    // position is noticable
     Position position;
     bool isAccelerating;
     bool isMoving;
     bool isIdle;
-    UnitTypeId type;
-    int removeTimer;
-    int id;
+    double angle;
+    Util::Point<double> velocity;
+
+    // position related stuff is noticable too
     bool isUnderStorm;
+
+    // a human can well guess the type
+    UnitTypeId type;
 
     // debug value
     int debug;
   };
-  struct UnitStateDetected : UnitStateNoticed
+  struct UnitStateVisible : UnitStateNoticed
   {
-    int player;
+    PlayerId player;
     int hitPoints;
     int shields;
     int energy;
@@ -79,20 +90,13 @@ namespace BWAPI
     int airWeaponCooldown;
     int spellCooldown;
   };
-  struct UnitStateVisible : UnitStateDetected
-  {
-    // i found no states that are accessible when visible
-    // but are not accessible when detected. if this keeps up,
-    // remove detected, weld things, and let agent use
-    // isCloaked to see if it's just visible or detected
-  };
   struct UnitStateFull : UnitStateVisible
   {
     // you could only possibly see this if you own it
     bool isHallucination;
     bool isLoaded;
 
-    // you can't see timer from enemy units, can you?
+    // timers
     int defenseMatrixTimer;
     int ensnareTimer;
     int irradiateTimer;
@@ -103,9 +107,15 @@ namespace BWAPI
     int stimTimer;
     int defenseMatrixPoints;
 
-    // orders you can only get from your own units
-    bool isFollowing;
-    bool isPatrolling;
+    // unit's order
+    Order order;
+
+    // Broodwar's unit movement engine
+    UnitId movementTargetUnit;
+    Position movementTargetPosition;
+
+    // this is Broodwar pathfinding system's next target shortstep.
+    Position movementNextWaypoint;
   };
   typedef UnitStateFull UnitState;      // all states unified
 
