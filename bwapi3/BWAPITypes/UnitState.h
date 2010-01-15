@@ -11,11 +11,10 @@ namespace BWAPI
   {
     enum
     {
-      None = 0, // should not be used. unit gets removed
-      Noticed = 1,
-      Detected = 2,
-      Visible = 3,
-      Full = 4  // highest clearance level
+      None = 0,     // never appearsto the AI, unit gets removed
+      Noticed = 1,  // unit is cloacked but shimering
+      Visible = 2,  // unit is visible/detected
+      Full = 3      // unit belongs to you
     };
   }
   // Unit's state we know about, depending on clearance level
@@ -32,6 +31,9 @@ namespace BWAPI
     int removeTimer;
     int id;
     bool isUnderStorm;
+
+    // debug value
+    int debug;
   };
   struct UnitStateDetected : UnitStateNoticed
   {

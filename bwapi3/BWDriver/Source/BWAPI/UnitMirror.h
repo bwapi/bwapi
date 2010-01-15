@@ -7,6 +7,8 @@
 
 #include "UnitChainId.h"
 
+#include <BW\Position.h>
+
 #include <Util\Types.h>
 
 #include <Bridge\SharedStuff.h>
@@ -22,16 +24,16 @@ namespace BWAPI
     UnitChainId chain;
 
     // is true several frames before the unit gets removed from the chain
-    bool        isDying;
+    bool          isDying;
 
     // is true then the unit is visible or cloaked but was been spotted
-    bool        isNoticed;
+    bool          isNoticed;
 
     // position is needed to detect changes, for noticing the unit (isNoticed).
-    Position    position;
+    BW::Position  position;
 
     // if this unit is known, this is it's personal KnownUnit entry
-    KnownUnit*  knownUnit;       // saving, to not to have to recompute
-    UnitId      knownUnitIndex;  // needed for removing from units
+    KnownUnit*    knownUnit;       // saving, to not to have to recompute
+    UnitId        knownUnitIndex;  // needed for removing from units
   };
 }

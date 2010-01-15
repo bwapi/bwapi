@@ -330,6 +330,7 @@ namespace BWAPI
         bwUnitMirror.isDying = false;
         bwUnitMirror.isNoticed = false;
         bwUnitMirror.knownUnit = NULL;
+        bwUnitMirror.position = bwUnit.position;
       }
 
       // TODO: find out if the unit is dying. not urgent tho, only for a one in a million case
@@ -345,17 +346,88 @@ namespace BWAPI
         {
           shareRemoveKnownUnit(bwUnitMirror.knownUnitIndex, UnitRemoveEventTypeIds::Died);
           bwUnitMirror.knownUnit = NULL;
+          bwUnitMirror.position = bwUnit.position;
         }
       }
 
-      // check the new knownability of this unit
-      bool isVisible = isOnMatchStart || flags[Flags::CompleteMapInformation];
-      if(!isVisible)
+      // calculate clearance level
+      ClearanceLevel clearance = ClearanceLevels::None;
+
+      // the unit is fully accessible if it's yours
+      do
       {
-        Position buildPosition = bwUnit.position / 32;
-        isVisible = Map::visible(buildPosition.x, buildPosition.y);
-      }
-      bool isKnown = isVisible;
+        if(bwUnit.playerID == BW::selfPlayerId)
+        {
+          clearance = ClearanceLevels::Full;
+          break;
+        }
+
+        // unit does not belong to you
+
+        // visibility overrides
+        bool isInVisibleArea = isOnMatchStart || flags[Flags::CompleteMapInformation];
+
+        if(!isInVisibleArea)
+        {
+          // visibility of the unit
+          BW::Position buildPosition = bwUnit.position / 32;
+          isInVisibleArea = Map::visible(buildPosition.x, buildPosition.y);
+        }
+
+        // handle noticed state
+        if(isInVisibleArea)
+        {
+          // notice the unit if it moves
+          if(bwUnitMirror.position != bwUnit.position)
+            bwUnitMirror.isNoticed = true;
+        }
+        else
+        {
+          bwUnitMirror.isNoticed = false;
+        }
+
+        // only known if its in the visible area
+        if(!isInVisibleArea)
+          break;
+
+        bool isCloacked = bwUnit.status.getBit<BW::StatusFlags::Cloaked>();
+
+        if(!isCloacked)
+        {
+          clearance = ClearanceLevels::Visible;
+          break;
+        }
+
+        bool isDetected = false;
+        if(bwUnit.sprite)
+        {
+          if(BW::isInReplay())
+            isDetected = bwUnit.sprite->visibilityFlags > 0;
+          else
+            // TODO: find a isDetected expression that works, this one just returns if the unit is in visible area
+            isDetected = !!(bwUnit.sprite->visibilityFlags & (1 << BW::selfPlayerId));
+        }
+
+        if(isDetected)
+        {
+          // visible if it's detected
+          clearance = ClearanceLevels::Visible;
+          break;
+        }
+        
+        if(bwUnitMirror.isNoticed)
+        {
+          // can be noticed if not already detected
+          clearance = ClearanceLevels::Noticed;
+          break;
+        }
+      } while(false);
+
+      // handle noticed state
+      bwUnitMirror.position = bwUnit.position;
+
+      // classify clarance level
+      bool isKnown = clearance != ClearanceLevels::None;
 
       // if knownability changed
       if(!!bwUnitMirror.knownUnit != isKnown)
@@ -379,9 +451,11 @@ namespace BWAPI
         KnownUnit &knownUnit = *bwUnitMirror.knownUnit;
 
         // TODO: implement clearance limit
-        ClearanceLevel clearance;
         UnitTypeId type = (UnitTypeId)bwUnit.unitID.id;
         UnitType& typeData = UnitTypes::unitTypeData[type];
+
+        knownUnit.clearanceLevel          = clearance;
+        knownUnit.debug                   = bwUnit.sprite->visibilityFlags;
 
         knownUnit.position                = Position(bwUnit.position);
         knownUnit.type                    = type;
@@ -1077,7 +1151,7 @@ namespace BWAPI
     bool _onIssueCommand(int commandID) throw()
     {
       //decide if we should let the command go through
-      if ( BridgeServer::isAgentConnected() || flags[Flags::UserInput]
+      if ( !BridgeServer::isAgentConnected() || flags[Flags::UserInput]
         || !BW::isInGame() || BW::isInReplay()
         //If user input is disabled, only allow the following commands to go through:
         || commandID == 0x00 // Game Chat
