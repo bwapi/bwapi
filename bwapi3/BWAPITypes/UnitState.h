@@ -7,6 +7,8 @@
 #include "Order.h"
 #include "Target.h"
 
+#include <Util\StaticVector.h>
+
 namespace BWAPI
 {
   // access for a unit the agent has knowledge of
@@ -86,6 +88,8 @@ namespace BWAPI
     bool isUnpowered;
     bool isUpgrading;
 
+    UnitId buildUnit;   // bidirectional
+
     int groundWeaponCooldown;
     int airWeaponCooldown;
     int spellCooldown;
@@ -95,6 +99,14 @@ namespace BWAPI
     // you could only possibly see this if you own it
     bool isHallucination;
     bool isLoaded;
+
+    // connected units
+    union
+    {
+      UnitId  hatchery;
+      UnitId  nuclearMissile;
+      UnitId  ghost;
+    };
 
     // timers
     int defenseMatrixTimer;
@@ -107,14 +119,16 @@ namespace BWAPI
     int stimTimer;
     int defenseMatrixPoints;
 
-    // unit's order
+    // unit's orders
     Order order;
+
+    Util::StaticVector<UnitId, 5> trainingQueue;
 
     // Broodwar's unit movement engine
     UnitId movementTargetUnit;
     Position movementTargetPosition;
 
-    // this is Broodwar pathfinding system's next target shortstep.
+    // this is Broodwar pathfinding system's next shortstep.
     Position movementNextWaypoint;
   };
   typedef UnitStateFull UnitState;      // all states unified

@@ -643,6 +643,33 @@ namespace BWAPI
         knownUnit.movementTargetPosition  = bwUnit.moveToPos;
         knownUnit.movementNextWaypoint    = bwUnit.nextWaypoint;
 
+        {
+          BW::Unit* bwBuildUnit           = bwUnit.currentBuildUnit;
+          if(bwBuildUnit)
+          {
+            int buildUnitIndex            = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwBuildUnit);
+            knownUnit.buildUnit           = bwUnitArrayMirror[buildUnitIndex].knownUnitIndex;
+          }
+          else
+            knownUnit.buildUnit           = -1;
+        }
+
+        // fill training queue
+        {
+          knownUnit.trainingQueue.clear();
+          int index = bwUnit.buildQueueSlot;
+          int count = 0;
+          while(count < 5)
+          {
+            BW::UnitType unitType = bwUnit.buildQueue[index];
+            if(unitType.id == BW::UnitTypeIDs::None)
+              break;
+            knownUnit.trainingQueue.push_back((UnitTypeId)unitType.id);
+            index = (index + 1) % 5;
+            count++;
+          }
+        }
+
       } //if(isKnown)
       return true;
     }
