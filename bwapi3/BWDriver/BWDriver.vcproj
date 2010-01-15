@@ -863,6 +863,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\Tracer\Drawing.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Tracer\Drawing.h"
+				>
+			</File>
+			<File
 				RelativePath="Source\Tracer\FrameTimer.cpp"
 				>
 			</File>
