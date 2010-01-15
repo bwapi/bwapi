@@ -21,6 +21,7 @@ namespace BWAPI2
   private:
     const BWAPI::UnitState* self;
     int id;
+    bool alive;
   public:
     Unit(int id);
     BWAPI2_EXPORT int getID() const;

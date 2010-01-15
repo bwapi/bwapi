@@ -1,5 +1,5 @@
 #include "Unit.h"
-
+#include "Constants.h"
 #include <Util\Version.h>
 
 #include <BWAPI\all.h>
@@ -12,7 +12,8 @@ namespace BWAPI2
   Unit::Unit(int id)
   {
     this->self=BWAPI::getUnit(id);
-    this->id;
+    this->id=id;
+    this->alive=true;
   }
   int Unit::getID() const
   {
@@ -97,6 +98,243 @@ namespace BWAPI2
   int Unit::getStimTimer() const
   {
     return self->stimTimer;
+  }
+  Position Unit::getPosition() const
+  {
+    return Position(self->position.x,self->position.y);
+  }
+  Position Unit::getInitialPosition() const
+  {
+    return Position(0,0);//FIX FIX FIX
+  }
+  TilePosition Unit::getTilePosition() const
+  {
+    return TilePosition(Position(this->getPosition().x() - this->getType().tileWidth() * TILE_SIZE / 2,
+                                 this->getPosition().y() - this->getType().tileHeight() * TILE_SIZE / 2));
+  }
+  TilePosition Unit::getInitialTilePosition() const
+  {
+    return TilePosition(0,0);//FIX FIX FIX
+  }
+  double Unit::getDistance(Unit* target) const
+  {
+    if (this == target)
+      return 0;
+    const Unit* i=this;
+    const Unit* j=target;
+    double result = 0;
+    if (i->getPosition().y() - i->getType().dimensionUp() <= j->getPosition().y() + j->getType().dimensionDown() &&
+        i->getPosition().y() + i->getType().dimensionDown() >= j->getPosition().y() - j->getType().dimensionUp())
+    {
+        if (i->getPosition().x() > j->getPosition().x())
+          result = i->getPosition().x() - i->getType().dimensionLeft()  - j->getPosition().x() - j->getType().dimensionRight();
+        else
+          result = j->getPosition().x() - j->getType().dimensionRight() - i->getPosition().x() - i->getType().dimensionLeft();
+    }
+    else if (i->getPosition().x() - i->getType().dimensionLeft() <= j->getPosition().x() + j->getType().dimensionRight() && 
+             i->getPosition().x() + i->getType().dimensionRight() >= j->getPosition().x() - j->getType().dimensionLeft())
+    {
+        if (i->getPosition().y() > j->getPosition().y())
+          result = i->getPosition().y() - i->getType().dimensionUp()   - j->getPosition().y() - j->getType().dimensionDown();
+        else
+          result = j->getPosition().y() - j->getType().dimensionDown() - i->getPosition().y() - i->getType().dimensionUp();
+    }
+    else if (i->getPosition().x() > j->getPosition().x())
+    {
+      if (i->getPosition().y() > j->getPosition().y())
+        result = Position(i->getPosition().x() - i->getType().dimensionLeft(),
+                          i->getPosition().y() - i->getType().dimensionUp()).getApproxDistance(
+                 Position(j->getPosition().x() + j->getType().dimensionRight(),
+                          j->getPosition().y() + j->getType().dimensionDown()));
+      else
+        result = Position(i->getPosition().x() - i->getType().dimensionLeft(),
+                          i->getPosition().y() + i->getType().dimensionDown()).getApproxDistance(
+                 Position(j->getPosition().x() + j->getType().dimensionRight(),
+                          j->getPosition().y() - j->getType().dimensionUp()));
+    }
+    else
+    {
+      if (i->getPosition().y() > j->getPosition().y())
+        result = Position(i->getPosition().x() + i->getType().dimensionRight(),
+                          i->getPosition().y() - i->getType().dimensionUp()).getApproxDistance(
+                 Position(j->getPosition().x() - j->getType().dimensionLeft(),
+                          j->getPosition().y() + j->getType().dimensionDown()));
+      else
+        result = Position(i->getPosition().x() + i->getType().dimensionRight(),
+                          i->getPosition().y() + i->getType().dimensionDown()).getApproxDistance(
+                 Position(j->getPosition().x() - j->getType().dimensionLeft(),
+                          j->getPosition().y() - j->getType().dimensionUp()));
+    }
+    if (result > 0)
+      return result;
+    return 0;
+  }
+  double Unit::getDistance(Position target) const
+  {
+    double result = 0;
+    if (getPosition().y() - getType().dimensionUp() <= target.y())
+      if (getPosition().y() + getType().dimensionDown() >= target.y())
+        if (getPosition().x() > target.x())
+          result = getPosition().x() - getType().dimensionLeft()  - target.x();
+        else
+          result = target.x() - getPosition().x() - getType().dimensionLeft();
+
+    if (getPosition().x() - getType().dimensionLeft() <= target.x())
+      if (getPosition().x() + getType().dimensionRight() >= target.x())
+        if (getPosition().y() > target.y())
+          result = getPosition().y() - getType().dimensionUp()   - target.y();
+        else
+          result = target.y() - getPosition().y() - getType().dimensionUp();
+
+    if (this->getPosition().x() > target.x())
+    {
+      if (this->getPosition().y() > target.y())
+        result = Position(getPosition().x() - getType().dimensionLeft(),
+                          getPosition().y() - getType().dimensionUp()).getDistance(target);
+      else
+        result = Position(getPosition().x() - getType().dimensionLeft(),
+                          getPosition().y() + getType().dimensionDown()).getDistance(target);
+    }
+    else
+    {
+      if (this->getPosition().y() > target.y())
+        result = Position(getPosition().x() + getType().dimensionRight(),
+                          getPosition().y() - getType().dimensionUp()).getDistance(target);
+      else
+        result = Position(getPosition().x() + getType().dimensionRight(),
+                          getPosition().y() + getType().dimensionDown()).getDistance(target);
+    }
+    if (result > 0)
+      return result;
+    return 0;
+  }
+  double Unit::getAngle() const
+  {
+    return 0;//FIX FIX FIX self->angle;
+  }
+  double Unit::getVelocityX() const
+  {
+    return 0;//FIX FIX FIX self->velocity.x;
+  }
+  double Unit::getVelocityY() const
+  {
+    return 0;//FIX FIX FIX self->velocity.y;
+  }
+  Unit* Unit::getTarget() const
+  {
+    return NULL;//FIX FIX FIX Game::getUnit(self->target);
+  }
+  Position Unit::getTargetPosition() const
+  {
+    return Positions::None;//FIX FIX FIX Position(self->targetPosition.x,self->targetPosition.y);
+  }
+  Order Unit::getOrder() const
+  {
+    return Orders::None;//FIX FIX FIX Order(self->order);
+  }
+  Unit* Unit::getOrderTarget() const
+  {
+    return NULL;//FIX FIX FIX Game::getUnit(self->orderTarget);
+  }
+  int Unit::getOrderTimer() const
+  {
+    return 0;//FIX FIX FIX self->orderTimer;
+  }
+  Order Unit::getSecondaryOrder() const
+  {
+    return Orders::None;//FIX FIX FIX Order(self->secondaryOrder);
+  }
+  Unit* Unit::getBuildUnit() const
+  {
+    return NULL;//FIX FIX FIX Game::getUnit(self->buildUnit);
+  }
+  UnitType Unit::getBuildType() const
+  {
+    return UnitTypes::None;//FIX FIX FIX UnitType(self->buildType);
+  }
+  int Unit::getRemainingBuildTime() const
+  {
+    return 0;//FIX FIX FIX self->remainingBuildTime;
+  }
+  int Unit::getRemainingTrainTime() const
+  {
+    return 0;//FIX FIX FIX self->remainingTrainTime;
+  }
+  Unit* Unit::getChild() const
+  {
+    return NULL;//FIX FIX FIX self->child;
+  }
+  std::list<UnitType > Unit::getTrainingQueue() const
+  {
+    std::list<UnitType > trainingQueue;
+    return trainingQueue;//FIX FIX FIX
+  }
+  Unit* Unit::getTransport() const
+  {
+    return NULL;//FIX FIX FIX
+  }
+  std::list<Unit*> Unit::getLoadedUnits() const
+  {
+    std::list<Unit*> loadedUnits;
+    return loadedUnits;//FIX FIX FIX
+  }
+  int Unit::getInterceptorCount() const
+  {
+    return 0;//FIX FIX FIX
+  }
+  int Unit::getScarabCount() const
+  {
+    return 0;//FIX FIX FIX
+  }
+  int Unit::getSpiderMineCount() const
+  {
+    return 0;//FIX FIX FIX
+  }
+  TechType Unit::getTech() const
+  {
+    return TechTypes::None;//FIX FIX FIX
+  }
+  UpgradeType Unit::getUpgrade() const
+  {
+    return UpgradeTypes::None;//FIX FIX FIX
+  }
+  int Unit::getRemainingResearchTime() const
+  {
+    return 0;//FIX FIX FIX
+  }
+  int Unit::getRemainingUpgradeTime() const
+  {
+    return 0;//FIX FIX FIX
+  }
+  Position Unit::getRallyPosition() const
+  {
+    return Positions::None;//FIX FIX FIX
+  }
+  Unit* Unit::getRallyUnit() const
+  {
+    return NULL;//FIX FIX FIX
+  }
+  Unit* Unit::getAddon() const
+  {
+    return NULL;//FIX FIX FIX
+  }
+  Unit* Unit::getHatchery() const
+  {
+    return NULL;//FIX FIX FIX
+  }
+  std::set<Unit*> Unit::getLarva() const
+  {
+    std::set<Unit*> larva;
+    return larva;//FIX FIX FIX
+  }
+  int Unit::getUpgradeLevel(UpgradeType upgrade) const
+  {
+    return 0;//FIX FIX FIX
+  }
+
+  bool Unit::exists() const
+  {
+    return alive;
   }
   bool Unit::isAccelerating() const
   {

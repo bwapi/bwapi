@@ -38,7 +38,7 @@ void testAction(UnitId unit)
       if(kunit.item.type == UnitTypeIds::Zerg_Zergling)
       {
         orderAttackUnit(unit, kunit.index);
-        drawCircle(kunit.item.position, 5, 61, false);
+        drawCircleMap(kunit.item.position, 5, 61, false);
       }
     }
     done = 0;
@@ -82,7 +82,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
         Position pos = kunit.item.position;
         sprintf(buff, "%s", clearanceNames[kunit.item.clearanceLevel]);
-        drawText(pos, buff);
+        drawTextMap(pos, buff);
 
         count++;
       }
