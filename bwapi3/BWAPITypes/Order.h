@@ -11,5 +11,6 @@ namespace BWAPI
     OrderTypeId type;
     UnitId targetUnit;
     Position targetPosition;
+    int timer;
   };
 }

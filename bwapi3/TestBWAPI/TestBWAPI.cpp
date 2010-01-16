@@ -77,14 +77,13 @@ int _tmain(int argc, _TCHAR* argv[])
       {
         const UnitState& unit = gd->units[unitId];
 
-#ifdef want_syntax_errors
         Position pos = unit.position;
-        sprintf(buff, "action: %d", unit.action.type);
+        sprintf(buff, "action: %d", unit.order.type);
+        sprintf(buff, "loaded: %d", unit.loadedUnits.data[0]);
         drawTextMap(pos, buff);
 
-        drawLineMap(unit.action.targetPosition, unit.position, 61);
-        drawLineMap(unit.movePosition, unit.position, 128);
-#endif
+//        drawLineMap(unit.order.targetPosition, unit.position, 61);
+//        drawLineMap(unit.movePosition, unit.position, 128);
         count++;
       }
       itoa(gd->units.count, buff, 10);

@@ -24,6 +24,7 @@ namespace BW
     UnitID();
     UnitID(int fromIndex);
     int getIndex() const;
+    bool isNull() const;
   };
 };
 #pragma pack()

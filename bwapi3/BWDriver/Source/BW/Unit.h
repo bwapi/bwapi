@@ -109,7 +109,7 @@ namespace BW
     /*0x0AA*/ _UNKNOWN                            _17[2];
     /*0x0AC*/ u16                                 remainingBuildTime; /**< Remaining bulding time */
     /*0x0AE*/ _UNKNOWN                            _18[2];
-    /*0x0B0*/ u16                                 loadedUnitIndex[8];
+    /*0x0B0*/ BW::UnitID                          loadedUnitIndex[8];
     /** Child unit information (structure depends on unitID */
     /*0x0C0*/ union ChildInfoUnion_type
     {
@@ -218,8 +218,8 @@ namespace BW
       /** If the unit is rally type @todo investigate*/
       struct Rally_type
       {
-        /* BW::Position rallyPos; */
-        u16 rallyX, rallyY;
+        u16 rallyPosX;
+        u16 rallyPosY;
         BW::Unit* rallyUnit;
       } rally;
       /** If the unit is psi provider @todo investigate */
