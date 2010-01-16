@@ -8,10 +8,10 @@ namespace BWAPI
 {
   namespace Tracer
   {
-    extern void pushLine(Position from, Position to, int color);
-    extern void pushText(Position pos, std::string str);
-    extern void pushMapLine(Position from, Position to, int color);
-    extern void pushMapText(Position pos, std::string str);
+    extern void pushLineScreen(Position from, Position to, int color);
+    extern void pushLineMap   (Position from, Position to, int color);
+    extern void pushTextScreen(Position pos, const char* str, ...);
+    extern void pushTextMap   (Position pos, const char* str, ...);
     extern void removeShapes();
     extern void drawShapes();
   }
