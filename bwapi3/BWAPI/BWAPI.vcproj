@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="BWAgent"
+	Name="BWAPI"
 	ProjectGUID="{65AE3EC2-0FFC-46A4-8B84-BB144D29B04A}"
 	RootNamespace="BWAgent"
 	Keyword="Win32Proj"

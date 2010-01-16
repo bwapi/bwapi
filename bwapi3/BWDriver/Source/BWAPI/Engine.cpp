@@ -649,6 +649,7 @@ namespace BWAPI
           {
             int buildUnitIndex            = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwBuildUnit);
             knownUnit.buildUnit           = bwUnitArrayMirror[buildUnitIndex].knownUnitIndex;
+            knownUnit.trainTimer          = bwBuildUnit->remainingBuildTime;
           }
           else
             knownUnit.buildUnit           = -1;
@@ -669,7 +670,6 @@ namespace BWAPI
             count++;
           }
         }
-
       } //if(isKnown)
       return true;
     }
