@@ -6,6 +6,8 @@
 #include "PlayerId.h"
 #include "Order.h"
 #include "Target.h"
+#include "TechTypeId.h"
+#include "UpgradeTypeId.h"
 
 #include <Util\StaticVector.h>
 
@@ -89,6 +91,7 @@ namespace BWAPI
     bool isUpgrading;
 
     UnitId buildUnit;   // bidirectional
+    UnitId addon;       // Could be bidirectional
 
     int groundWeaponCooldown;
     int airWeaponCooldown;
@@ -108,6 +111,14 @@ namespace BWAPI
       UnitId  nuclearMissile;
       UnitId  ghost;
     };
+    Util::StaticVector<UnitId, 8> loadedUnits;
+    int interceptorInHangarCount;
+    int interceptorOutOfHangarCount;
+    UnitId transport;
+
+    // container
+    int scarabCount;
+    int spiderMineCount;
 
     // timers
     int defenseMatrixTimer;
@@ -119,10 +130,18 @@ namespace BWAPI
     int stasisTimer;
     int stimTimer;
     int trainTimer;
-
+    union
+    {
+      int researchTimer;
+      int upgradeTimer;
+    };
     // unit's orders
     Order order;
     Util::StaticVector<UnitId, 5> trainingQueue;
+    Position rallyPosition;
+    UnitId rallyUnit;
+    TechTypeId tech;
+    UpgradeTypeId upgrade;
 
     // Broodwar's unit movement engine
     UnitId movementTargetUnit;

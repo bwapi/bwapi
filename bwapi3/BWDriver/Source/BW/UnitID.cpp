@@ -16,4 +16,9 @@ namespace BW
   {
     return (bwId & 0x7FF) - 1;
   }
+  //--------------------------------- IS NULL ---------------------------------------------
+  bool UnitID::isNull() const
+  {
+    return bwId == 0;
+  }
 }

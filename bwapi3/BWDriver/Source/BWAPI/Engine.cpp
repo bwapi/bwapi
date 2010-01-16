@@ -585,7 +585,7 @@ namespace BWAPI
                                           || orderId == BW::OrderIDs::Larva;
         knownUnit.isIrradiated            = bwUnit.irradiateTimer > 0;
         knownUnit.isLifted                = bwUnit.status.getBit<BW::StatusFlags::InAir>() && typeData.isBuilding;
-        knownUnit.isLoaded                =  bwUnit.status.getBit<BW::StatusFlags::InTransport>()
+        bool isLoaded                     =  bwUnit.status.getBit<BW::StatusFlags::InTransport>()
                                           || bwUnit.status.getBit<BW::StatusFlags::InBuilding>()
                                           ||
                                           ( //if
@@ -596,6 +596,7 @@ namespace BWAPI
                                               bwUnit.childUnitUnion3.inHanger != 0
                                             )
                                           );
+        knownUnit.isLoaded                = isLoaded;
         knownUnit.isLockedDown            = bwUnit.lockdownTimer > 0;
         knownUnit.isMaelstrommed          = bwUnit.maelstromTimer > 0;
         knownUnit.isMorphing              =  orderId == BW::OrderIDs::Morph1
@@ -617,7 +618,7 @@ namespace BWAPI
                                           && typeData.isBuilding
                                           && bwUnit.status.getBit<BW::StatusFlags::DoodadStatesThing>();
 
-        // fill action
+        // fill order
         {
           BW::Unit* bwTargetUnit          = bwUnit.orderTargetUnit;
           if(bwTargetUnit)
@@ -629,6 +630,7 @@ namespace BWAPI
             knownUnit.order.targetUnit    = -1;
           knownUnit.order.targetPosition  = bwUnit.orderTargetPos;
           knownUnit.order.type            = (OrderTypeId)bwUnit.orderID;
+          knownUnit.order.timer           = bwUnit.mainOrderTimer;
         }
         {
           BW::Unit* bwTargetUnit          = bwUnit.targetUnit;
@@ -652,7 +654,87 @@ namespace BWAPI
             knownUnit.trainTimer          = bwBuildUnit->remainingBuildTime;
           }
           else
+          {
             knownUnit.buildUnit           = -1;
+            knownUnit.trainTimer          = 0;
+          }
+        }
+
+        // container union
+        knownUnit.scarabCount             = (type == UnitTypeIds::Protoss_Reaver)
+                                          ? (bwUnit.childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount)
+                                          : (0);
+        knownUnit.spiderMineCount         = (type == UnitTypeIds::Terran_Vulture)
+                                          ? (bwUnit.childInfoUnion.vultureBikeMines.spiderMineCount)
+                                          : (0);
+
+        if(type != UnitTypeIds::Protoss_Carrier)
+        {
+          knownUnit.interceptorInHangarCount = 0;
+          knownUnit.interceptorOutOfHangarCount = 0;
+        }
+        else
+        {
+          knownUnit.interceptorInHangarCount = bwUnit.childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.interceptorCountInHangar;
+          knownUnit.interceptorOutOfHangarCount = bwUnit.childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.interceptorCountOutOfHangar;
+        }
+
+        knownUnit.researchTimer           = (isResearching || isUpgrading)
+                                            ?(bwUnit.childUnitUnion1.unitIsBuilding.upgradeResearchTime)
+                                            :(0);
+        //knownUnit.upgradeTimer;
+
+        knownUnit.tech                    = (TechTypeId)bwUnit.childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
+        knownUnit.upgrade                 = (UpgradeTypeId)bwUnit.childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
+
+        // addon
+        knownUnit.addon                   = -1;
+        if (typeData.isBuilding)
+        {
+          if (bwUnit.currentBuildUnit != NULL)
+          {
+            if(bwUnit.currentBuildUnit->unitID.isAddon())
+            {
+              int bwAddonUnitIndex        = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.currentBuildUnit);
+              knownUnit.addon             = bwUnitArrayMirror[bwAddonUnitIndex].knownUnitIndex;
+            }
+          }
+          else if (bwUnit.childInfoUnion.childUnit1 != NULL)
+          {
+            int bwAddonUnitIndex          = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.childInfoUnion.childUnit1);
+            knownUnit.addon               = bwUnitArrayMirror[bwAddonUnitIndex].knownUnitIndex;
+          }
+        }
+
+        // transport
+        if(isLoaded)
+        {
+          if (type == UnitTypeIds::Protoss_Interceptor || type == UnitTypeIds::Protoss_Scarab)
+          {
+            int bwTransportUnitIndex      = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.childInfoUnion.parentUnit);
+            knownUnit.transport           = bwUnitArrayMirror[bwTransportUnitIndex].knownUnitIndex;
+          }
+          else
+          {
+            int bwTransportUnitIndex      = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.connectedUnit);
+            knownUnit.transport           = bwUnitArrayMirror[bwTransportUnitIndex].knownUnitIndex;
+          }
+        }
+        else
+          knownUnit.transport             = -1;
+
+        // rally
+        if(typeData.canProduce)
+        {
+          knownUnit.rallyPosition         = Position(bwUnit.rallyPsiProviderUnion.rally.rallyPosX, bwUnit.rallyPsiProviderUnion.rally.rallyPosY);
+          BW::Unit* bwRallyUnit           = bwUnit.rallyPsiProviderUnion.rally.rallyUnit;
+          if(bwRallyUnit)
+          {
+            int rallyUnitIndex            = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwRallyUnit);
+            knownUnit.rallyUnit           = bwUnitArrayMirror[rallyUnitIndex].knownUnitIndex;
+          }
+          else
+            knownUnit.rallyUnit           = -1;
         }
 
         // fill training queue
@@ -669,6 +751,20 @@ namespace BWAPI
             index = (index + 1) % 5;
             count++;
           }
+        }
+
+        // fill loaded units
+        knownUnit.loadedUnits.clear();
+        BW::UnitID *loadedUnits = bwUnit.loadedUnitIndex;
+        for(int i = 0; i < 8; i++)
+        {
+          if (loadedUnits[i].isNull())
+            continue;
+          int bwLoadedUnitIndex = loadedUnits[i].getIndex();
+          UnitId knownLoadedUnit = bwUnitArrayMirror[bwLoadedUnitIndex].knownUnitIndex;
+          if(knownLoadedUnit == -1)
+            continue;
+          knownUnit.loadedUnits.push_back(knownLoadedUnit);
         }
       } //if(isKnown)
       return true;

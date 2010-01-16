@@ -156,7 +156,6 @@ namespace BW
 
   static Counts* BWDATA_Counts             = (Counts*) 0x00582324;    // 1.16.1
   static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
-  static u32     BWDATA_LoadedUnits        = 0x004F4B58;
 
   /* Speed Hacks */
   static u32     BWDATA_MenuLoadHack       =       0x004DE392;
