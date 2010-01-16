@@ -249,7 +249,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   filter.insert("class");
   filter.insert("public");
   filter.insert("namespace");
-  filter.insert("BWAPI2_EXPORT");
+  filter.insert("BWSL_EXPORT");
   for(;;)
   {
     std::string line = reader.readLine();
@@ -359,7 +359,7 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
         }
         if(!match)
           continue; // ignore the line
-        if(matchString == "BWAPI2_METHOD" || matchString == "virtual")
+        if(matchString == "BWSL_METHOD" || matchString == "virtual")
         {
           // make virtual functions pure
           std::string pureEnd = ") = 0;";

@@ -1,0 +1,1 @@
+@"..\debug\interface packer.exe" "BWSL.ini"

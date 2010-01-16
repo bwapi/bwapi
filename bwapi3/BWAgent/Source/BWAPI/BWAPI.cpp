@@ -79,7 +79,7 @@ namespace BWAPI
     BridgeClient::pushDrawText(base, pos, text);
   }
   //----------------------------------- DRAW RECTANGLE --------------------------------------------
-  BWAPI_FUNCTION void drawRectangle(CoordinateBase base, Position pos, Position size, int color, int solid)
+  BWAPI_FUNCTION void drawRectangle(CoordinateBase base, Position pos, Position size, int color, bool solid)
   {
     BridgeClient::pushDrawRectangle(base, pos, size, color, !!solid);
   }
