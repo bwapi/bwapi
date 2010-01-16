@@ -96,9 +96,10 @@ namespace BWAPI
   };
   struct UnitStateFull : UnitStateVisible
   {
-    // you could only possibly see this if you own it
+    // strategic private data
     bool isHallucination;
     bool isLoaded;
+    int defenseMatrixPoints;
 
     // connected units
     union
@@ -117,11 +118,10 @@ namespace BWAPI
     int plagueTimer;
     int stasisTimer;
     int stimTimer;
-    int defenseMatrixPoints;
+    int trainTimer;
 
     // unit's orders
     Order order;
-
     Util::StaticVector<UnitId, 5> trainingQueue;
 
     // Broodwar's unit movement engine
