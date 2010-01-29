@@ -24,7 +24,7 @@ namespace BW
       WarAintWhatItUsedToBe  = 1 << 14,
       FoodForThought         = 1 << 17,
       WhatsMineIsMine        = 1 << 18,
-      BreateDeep             = 1 << 19,
+      BreatheDeep            = 1 << 19,
       NoGlues                = 1 << 29,
       None                   = 1 << 31
     };

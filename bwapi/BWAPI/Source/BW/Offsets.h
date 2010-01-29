@@ -199,6 +199,8 @@ namespace BW
   static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
 
+  static BOOL (__stdcall *SNetSendMessage)(unsigned int playerID, char *data, size_t databytes) = NULL;
+
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   static u32            BWFXN_MoveScreen                          = 0x0049C440;
   static u32            BWFXN_Game_ButtonDown                     = 0x004D19C0;
