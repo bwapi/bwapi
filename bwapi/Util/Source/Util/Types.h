@@ -13,6 +13,7 @@ typedef unsigned char   BYTE;
 typedef unsigned short  WORD;
 typedef unsigned long   DWORD;
 typedef void*           PVOID;
+typedef int             BOOL;
 
 #ifdef NULL
 #undef NULL

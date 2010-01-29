@@ -1016,14 +1016,14 @@ namespace BWAPI
 
     if (inGame() && _isSinglePlayer())
     {
-      BW::CheatFlags::Enum cheatID=BW::getCheatFlag(text);
-      if (cheatID!=BW::CheatFlags::None)
+      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(text);
+      if (cheatID != BW::CheatFlags::None)
       {
         this->cheatFlags ^= cheatID;
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
-        if (cheatID==BW::CheatFlags::ShowMeTheMoney ||
-            cheatID==BW::CheatFlags::BreateDeep ||
-            cheatID==BW::CheatFlags::WhatsMineIsMine)
+        if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
+            cheatID == BW::CheatFlags::BreatheDeep ||
+            cheatID == BW::CheatFlags::WhatsMineIsMine)
           this->cheatFlags ^= cheatID;
       }
       else

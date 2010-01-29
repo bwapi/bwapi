@@ -185,7 +185,6 @@ namespace BW
   {
     return BW::BWDATA_DestroyScore->unitType[this->getID()];
   }
-
   //-------------------------------------------------- SIZE --------------------------------------------------
   u8 UnitType::size() const
   {
@@ -221,7 +220,6 @@ namespace BW
   {
     return BW::BWDATA_UnitDimensions->units[this->getID()].down;
   }
-
   //----------------------------------------------- SEEK RANGE -----------------------------------------------
   u8 UnitType::seekRange() const
   {
@@ -262,7 +260,6 @@ namespace BW
   {
     return BW::BWDATA_MaxAirHits->unitType[this->getID()];
   }
-
   //----------------------------------------------- TOP SPEED ------------------------------------------------
   u32 UnitType::topSpeed() const
   {
@@ -283,7 +280,6 @@ namespace BW
   {
     return BW::BWDATA_FlingyTurnRadius->flingyType[this->graphics()];
   }
-
   //---------------------------------------------- CAN PRODUCE -----------------------------------------------
   bool UnitType::canProduce() const
   {
@@ -765,86 +761,86 @@ namespace BW
       switch (i)
       {
           // Terran Basic Buildings
-        case BW::UnitID::Terran_CommandCenter :
-        case BW::UnitID::Terran_SupplyDepot   :
-        case BW::UnitID::Terran_Refinery      :
-        case BW::UnitID::Terran_Barracks :
+        case BW::UnitID::Terran_CommandCenter  :
+        case BW::UnitID::Terran_SupplyDepot    :
+        case BW::UnitID::Terran_Refinery       :
+        case BW::UnitID::Terran_Barracks       :
         case BW::UnitID::Terran_EngineeringBay :
-        case BW::UnitID::Terran_Academy :
-        case BW::UnitID::Terran_Bunker  :
-        case BW::UnitID::Terran_MissileTurret :
+        case BW::UnitID::Terran_Academy        :
+        case BW::UnitID::Terran_Bunker         :
+        case BW::UnitID::Terran_MissileTurret  :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV), 1);
           break;
 
           // Terran Advanced Buildings
-        case BW::UnitID::Terran_Factory :
-        case BW::UnitID::Terran_Armory   :
-        case BW::UnitID::Terran_Starport :
+        case BW::UnitID::Terran_Factory         :
+        case BW::UnitID::Terran_Armory          :
+        case BW::UnitID::Terran_Starport        :
         case BW::UnitID::Terran_ScienceFacility :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV), 1);
           break;
 
           // Terran Add-ons
         case BW::UnitID::Terran_ComsatStation :
-        case BW::UnitID::Terran_NuclearSilo :
+        case BW::UnitID::Terran_NuclearSilo   :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter), 1);
           break;
-        case BW::UnitID::Terran_MachineShop :
+        case BW::UnitID::Terran_MachineShop   :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory), 1);
           break;
-        case BW::UnitID::Terran_ControlTower :
+        case BW::UnitID::Terran_ControlTower  :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport), 1);
           break;
-        case BW::UnitID::Terran_PhysicsLab :
-        case BW::UnitID::Terran_CovertOps  :
+        case BW::UnitID::Terran_PhysicsLab    :
+        case BW::UnitID::Terran_CovertOps     :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_ScienceFacility), 1);
           break;
 
           // Terran Units
-        case BW::UnitID::Terran_SCV :
+        case BW::UnitID::Terran_SCV           :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_CommandCenter), 1);
           break;
-        case BW::UnitID::Terran_Marine :
+        case BW::UnitID::Terran_Marine  :
         case BW::UnitID::Terran_Firebat :
         case BW::UnitID::Terran_Medic   :
-        case BW::UnitID::Terran_Ghost :
+        case BW::UnitID::Terran_Ghost   :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_Barracks), 1);
           break;
-        case BW::UnitID::Terran_Vulture :
+        case BW::UnitID::Terran_Vulture            :
         case BW::UnitID::Terran_SiegeTankSiegeMode :
         case BW::UnitID::Terran_SiegeTankTankMode  :
-        case BW::UnitID::Terran_Goliath :
+        case BW::UnitID::Terran_Goliath            :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_Factory), 1);
           break;
-        case BW::UnitID::Terran_Wraith :
-        case BW::UnitID::Terran_Dropship :
+        case BW::UnitID::Terran_Wraith        :
+        case BW::UnitID::Terran_Dropship      :
         case BW::UnitID::Terran_Battlecruiser :
         case BW::UnitID::Terran_ScienceVessel :
-        case BW::UnitID::Terran_Valkyrie :
+        case BW::UnitID::Terran_Valkyrie      :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport), 1);
           break;
 
           // Protoss Basic Buildings
-        case BW::UnitID::Protoss_Nexus       :
-        case BW::UnitID::Protoss_Pylon       :
-        case BW::UnitID::Protoss_Assimilator :
-        case BW::UnitID::Protoss_Gateway :
-        case BW::UnitID::Protoss_Forge   :
+        case BW::UnitID::Protoss_Nexus           :
+        case BW::UnitID::Protoss_Pylon           :
+        case BW::UnitID::Protoss_Assimilator     :
+        case BW::UnitID::Protoss_Gateway         :
+        case BW::UnitID::Protoss_Forge           :
         case BW::UnitID::Protoss_CyberneticsCore :
         case BW::UnitID::Protoss_ShieldBattery   :
-        case BW::UnitID::Protoss_PhotonCannon :
+        case BW::UnitID::Protoss_PhotonCannon    :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe), 1);
           break;
 
           // Protoss Advanced Buildings
-        case BW::UnitID::Protoss_RoboticsFacility :
-        case BW::UnitID::Protoss_Stargate         :
-        case BW::UnitID::Protoss_CitadelOfAdun    :
+        case BW::UnitID::Protoss_RoboticsFacility   :
+        case BW::UnitID::Protoss_Stargate           :
+        case BW::UnitID::Protoss_CitadelOfAdun      :
         case BW::UnitID::Protoss_Observatory        :
         case BW::UnitID::Protoss_RoboticsSupportBay :
-        case BW::UnitID::Protoss_FleetBeacon :
-        case BW::UnitID::Protoss_TemplarArchives :
-        case BW::UnitID::Protoss_ArbiterTribunal :
+        case BW::UnitID::Protoss_FleetBeacon        :
+        case BW::UnitID::Protoss_TemplarArchives    :
+        case BW::UnitID::Protoss_ArbiterTribunal    :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe), 1);
           break;
 
@@ -852,24 +848,24 @@ namespace BW
         case BW::UnitID::Protoss_Probe :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_Nexus), 1);
           break;
-        case BW::UnitID::Protoss_Zealot :
-        case BW::UnitID::Protoss_Dragoon :
+        case BW::UnitID::Protoss_Zealot      :
+        case BW::UnitID::Protoss_Dragoon     :
         case BW::UnitID::Protoss_HighTemplar :
         case BW::UnitID::Protoss_DarkTemplar :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_Gateway), 1);
           break;
-        case BW::UnitID::Protoss_Archon :
+        case BW::UnitID::Protoss_Archon     :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_HighTemplar), 2);
           break;
         case BW::UnitID::Protoss_DarkArchon :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_DarkTemplar), 2);
           break;
-        case BW::UnitID::Protoss_Shuttle :
-        case BW::UnitID::Protoss_Reaver :
-        case BW::UnitID::Protoss_Observer :
+        case BW::UnitID::Protoss_Shuttle    :
+        case BW::UnitID::Protoss_Reaver     :
+        case BW::UnitID::Protoss_Observer   :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_RoboticsFacility), 1);
           break;
-        case BW::UnitID::Protoss_Scout :
+        case BW::UnitID::Protoss_Scout   :
         case BW::UnitID::Protoss_Corsair :
         case BW::UnitID::Protoss_Carrier :
         case BW::UnitID::Protoss_Arbiter :
@@ -877,18 +873,18 @@ namespace BW
           break;
 
           // Zerg Basic Buildings
-        case BW::UnitID::Zerg_Hatchery    :
-        case BW::UnitID::Zerg_CreepColony :
-        case BW::UnitID::Zerg_Extractor   :
+        case BW::UnitID::Zerg_Hatchery         :
+        case BW::UnitID::Zerg_CreepColony      :
+        case BW::UnitID::Zerg_Extractor        :
         case BW::UnitID::Zerg_SpawningPool     :
         case BW::UnitID::Zerg_EvolutionChamber :
-        case BW::UnitID::Zerg_HydraliskDen :
+        case BW::UnitID::Zerg_HydraliskDen     :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone), 1);
           break;
 
           // Zerg Advanced Buildings
-        case BW::UnitID::Zerg_Spire      :
-        case BW::UnitID::Zerg_QueensNest :
+        case BW::UnitID::Zerg_Spire           :
+        case BW::UnitID::Zerg_QueensNest      :
         case BW::UnitID::Zerg_DefilerMound    :
         case BW::UnitID::Zerg_NydusCanal      :
         case BW::UnitID::Zerg_UltraliskCavern :
@@ -903,7 +899,7 @@ namespace BW
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_Lair), 1);
           break;
         case BW::UnitID::Zerg_SunkenColony :
-        case BW::UnitID::Zerg_SporeColony :
+        case BW::UnitID::Zerg_SporeColony  :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_CreepColony), 1);
           break;
         case BW::UnitID::Zerg_GreaterSpire :
@@ -917,14 +913,14 @@ namespace BW
         case BW::UnitID::Zerg_Egg :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_Larva), 1);
           break;
-        case BW::UnitID::Zerg_Drone    :
-        case BW::UnitID::Zerg_Overlord :
-        case BW::UnitID::Zerg_Zergling :
+        case BW::UnitID::Zerg_Drone     :
+        case BW::UnitID::Zerg_Overlord  :
+        case BW::UnitID::Zerg_Zergling  :
         case BW::UnitID::Zerg_Hydralisk :
-        case BW::UnitID::Zerg_Scourge  :
-        case BW::UnitID::Zerg_Mutalisk :
-        case BW::UnitID::Zerg_Queen :
-        case BW::UnitID::Zerg_Defiler :
+        case BW::UnitID::Zerg_Scourge   :
+        case BW::UnitID::Zerg_Mutalisk  :
+        case BW::UnitID::Zerg_Queen     :
+        case BW::UnitID::Zerg_Defiler   :
         case BW::UnitID::Zerg_Ultralisk :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_Egg), 1);
           break;

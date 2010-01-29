@@ -672,7 +672,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
 #endif
 }
 
-//------------------------------------------------ JMP PATCH -------------------------------------------------
+//------------------------------------------------ MEM PATCH -------------------------------------------------
 void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
 {
   DWORD OldProt = 0;
@@ -701,6 +701,78 @@ void WriteMem(void* pDest, void* pSource, int nSize)
   memcpy_s(pDest, nSize, pSource, nSize);
   VirtualProtect(pDest, nSize, OldProt, &OldProt);
 }
+
+bool PatchImport(char* sourceModule, char* importModule, LPCSTR function, void* patchFunction)
+{
+  if (function == NULL)
+    return false;
+
+  char *tempModuleName = NULL;
+  if (sourceModule != NULL)
+    tempModuleName = sourceModule;
+
+  HMODULE tempModule = GetModuleHandleA(tempModuleName);
+  if (tempModule == NULL)
+    return false;
+
+  IMAGE_DOS_HEADER *mzhead = (IMAGE_DOS_HEADER*)tempModule;
+  if (mzhead->e_magic != IMAGE_DOS_SIGNATURE)
+    return false;
+
+  IMAGE_NT_HEADERS32 *pehead = (IMAGE_NT_HEADERS32*)(mzhead->e_lfanew + (u32)tempModule);
+  if (pehead->Signature != IMAGE_NT_SIGNATURE)
+    return false;
+
+  IMAGE_IMPORT_DESCRIPTOR *imports = (IMAGE_IMPORT_DESCRIPTOR*)(pehead->OptionalHeader.DataDirectory[1].VirtualAddress + (u32)tempModule);
+  if (imports == NULL)
+    return false;
+
+  IMAGE_THUNK_DATA32* importOrigin = NULL;
+  for (u32 i = 0; imports[i].Name != 0; i++)
+  {
+    if (lstrcmpiA((char*)(imports[i].Name + (u32)tempModule), importModule) == 0)
+    {
+      importOrigin = (IMAGE_THUNK_DATA32*)(imports[i].OriginalFirstThunk + (u32)tempModule);
+      break;
+    }
+  }
+  if (importOrigin == NULL)
+    return false;
+
+  DWORD* importFunction = NULL;
+  for (u32 i = 0; imports[i].Name != 0; i++)
+  {
+    if (lstrcmpiA((char*)(imports[i].Name + (u32)tempModule), importModule) == 0)
+    {
+      importFunction = (DWORD*)(imports[i].FirstThunk + (u32)tempModule);
+      break;
+    }
+  }
+  if (importFunction == NULL)
+    return false;
+
+  for (u32 i = 0; importOrigin[i].u1.Ordinal != 0; i++)
+  {
+    if (IMAGE_SNAP_BY_ORDINAL32(importOrigin[i].u1.Ordinal) && (DWORD)function < 0xFFFF)
+    {
+      if (IMAGE_ORDINAL32(importOrigin[i].u1.Ordinal) == IMAGE_ORDINAL32((DWORD)function))
+      {
+        WriteMem(&importFunction[i], &patchFunction, 4);
+        return true;
+      }
+    }
+    else
+    {
+      if (lstrcmpiA(function, (char*)&(((PIMAGE_IMPORT_BY_NAME)importOrigin[i].u1.AddressOfData)->Name)) == 0)
+      {
+        WriteMem(&importFunction[i], &patchFunction, 4);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
 void __declspec(naked) NewIssueCommand()
 {
@@ -850,6 +922,12 @@ void __declspec(naked) onIssueCommand()
 #endif
 }
 
+BOOL __stdcall _SNetSendMessage(unsigned int playerID, char *data, size_t databytes)
+{
+
+  return 0;
+}
+
 const char zero = 0;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
@@ -857,11 +935,12 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   delete Util::Logger::globalLog;
   GetPrivateProfileStringA("paths", "log_path", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
   
-  logging=false;
+  logging = false;
   char logging_str[MAX_PATH];
   GetPrivateProfileStringA("config", "logging", "NULL", logging_str, MAX_PATH, "bwapi-data\\bwapi.ini");
-  if (std::string(logging_str)=="on")
-    logging=true;
+  if (std::string(logging_str) == "on")
+    logging = true;
+
   if (_strcmpi(logPath, "NULL") == 0)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
@@ -898,6 +977,10 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   WriteMem( (void*)BW::BWDATA_MultiplayerHack,   (void*)&zero, 1); // Battle.net Server Select
   WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&zero, 1); // Battle.net Server Select
   WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&zero, 1); // Start without an opponent
+
+  //*(FARPROC*)&BW::SNetSendMessage = GetProcAddress(GetModuleHandleA("storm.dll"), (LPCSTR)127);
+  //PatchImport(NULL, "storm.dll", (LPCSTR)127, &_SNetSendMessage)
+
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
