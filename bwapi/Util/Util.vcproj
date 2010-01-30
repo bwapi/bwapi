@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
-				RuntimeLibrary="3"
+				RuntimeLibrary="2"
 				WarningLevel="3"
 				DebugInformationFormat="0"
 				DisableSpecificWarnings="4748"
