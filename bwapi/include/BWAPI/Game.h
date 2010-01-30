@@ -40,8 +40,8 @@ namespace BWAPI
       virtual int getMouseX() = 0;
       virtual int getMouseY() = 0;
       virtual BWAPI::Position getMousePosition() = 0;
-      virtual bool getMouseState(MouseButton button) = 0;
-      virtual bool getMouseState(int button) = 0;
+      //virtual bool getMouseState(MouseButton button) = 0;
+      //virtual bool getMouseState(int button) = 0;
       virtual bool getKeyState(Key key) = 0;
       virtual bool getKeyState(int key) = 0;
       virtual int getScreenX() = 0;

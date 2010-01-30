@@ -11,7 +11,6 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/Race.h>
 
-
 namespace BWAPI
 {
   bool initializingUnitType = true;

@@ -18,6 +18,7 @@ namespace BWAPI { class AIModule; }
 #include <map>
 #include <set>
 #include <windows.h>
+#include <winuser.h>
 
 #include <Util/RectangleArray.h>
 #include <Util/Types.h>
@@ -66,8 +67,8 @@ namespace BWAPI
       virtual int getMouseX();
       virtual int getMouseY();
       virtual BWAPI::Position getMousePosition();
-      virtual bool getMouseState(MouseButton button);
-      virtual bool getMouseState(int button);
+      //virtual bool getMouseState(MouseButton button);
+      //virtual bool getMouseState(int button);
       virtual bool getKeyState(Key key);
       bool getKeyState(int key);
       virtual int getScreenX();
