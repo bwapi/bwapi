@@ -199,21 +199,14 @@ namespace BW
   static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
 
+  static int (__stdcall *SStrCopy)(char *dest, const char *source, size_t size) = NULL;
+
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
-  static u32            BWFXN_SendTextCall                        = 0x004F335D;
-  static u32            BWFXN_SendTextCallBack                    = BWFXN_SendTextCall + 5;
-  static u32            BWFXN_SendTextCallTarget                  = 0x0041008E;
-
-  static u32            BWFXN_SendPublicCall                      = 0x004F32B7;
-  static u32            BWFXN_SendPublicCallBack                  = BWFXN_SendPublicCall + 5;
   static u32            BWFXN_SendPublicCallTarget                = 0x004C2420;
-
-  static u32            BWFXN_SendLobbyCall                       = 0x004B98DE;
-  static u32            BWFXN_SendLobbyCallBack                   = BWFXN_SendLobbyCall + 5;
   static u32            BWFXN_SendLobbyCallTarget                 = 0x004707D0;
 
   static Unit*          BWDATA_CurrentPlayerSelectionGroup        = (Unit*) 0x00597208;

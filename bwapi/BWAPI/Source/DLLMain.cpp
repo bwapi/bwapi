@@ -118,96 +118,20 @@ void __declspec(naked)  menuFrameHook()
 }
 
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
-char* text;
-bool sendToBW;
-std::string msg;
-void __declspec(naked) onSendText()
+int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 {
-  __asm
+  if (size == 0x7FFFFFFF)
   {
-    mov text, esi
+    /* onSend Game */
+    BWAPI::BroodwarImpl.interceptedMessages.push_back(std::string(source));
+    dest[0] = 0;
+    return 0;
   }
-  if (!BWAPI::BroodwarImpl._isSinglePlayer() && text[0] != 0)
+  else if (size == 120)
   {
-    msg=text;
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
+    /* onSend Lobby */
   }
-  text[0] = 0;
-  __asm jmp [BW::BWFXN_SendPublicCallBack]
-}
-void __declspec(naked) onSendSingle()
-{
-  __asm
-  {
-    
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-    mov ebpSave, ebp
-    mov text, edx
-  }
-  if (text[0] != 0)
-  {
-    msg=text;
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(msg);
-  }
-  text[0]='\0';
-  __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    call [BW::BWFXN_SendTextCallTarget]
-  }
-  __asm jmp [BW::BWFXN_SendTextCallBack]
-}
-void __declspec(naked) onSendLobby()
-{
-  __asm
-  {
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-    mov ebpSave, ebp
-    mov text, edi
-  }
-  __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    call [BW::BWFXN_SendLobbyCallTarget]
-  }
-  __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    jmp [BW::BWFXN_SendLobbyCallBack]
-  }
+  return BW::SStrCopy(dest, source, size);
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
@@ -627,9 +551,6 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   JmpCallPatch((void*)&menuFrameHook,     BW::BWFXN_NextMenuFrame,   0);
   JmpCallPatch((void*)&onGameEnd,         BW::BWFXN_GameEnd,         0);
   JmpCallPatch((void*)&onUnitDestroy,     BW::BWFXN_DestroyUnit,     0);
-  JmpCallPatch((void*)&onSendText,        BW::BWFXN_SendPublicCall,  0);
-  JmpCallPatch((void*)&onSendSingle,      BW::BWFXN_SendTextCall,    0);
-  JmpCallPatch((void*)&onSendLobby,       BW::BWFXN_SendLobbyCall,   0);
   JmpCallPatch((void*)&onDrawHigh,        BW::BWFXN_DrawHigh,        0);
   JmpCallPatch((void*)&onRefresh,         BW::BWFXN_Refresh,         0);
   JmpCallPatch((void*)&onIssueCommand,    BW::BWFXN_OldIssueCommand, 4);
@@ -643,6 +564,8 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&zero, 1); // Battle.net Server Select
   WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&zero, 1); // Start without an opponent
 
+  *(FARPROC*)&BW::SStrCopy = GetProcAddress(GetModuleHandleA("storm.dll"), (LPCSTR)501);
+  PatchImport(NULL, "storm.dll", (LPCSTR)501, &_SStrCopy);
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

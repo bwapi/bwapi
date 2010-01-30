@@ -1211,6 +1211,10 @@ namespace BWAPI
       sendText("Testing sendText");
       return true;
     }
+    else if (parsed[0] == "test")
+    {
+      return true;
+    }
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
