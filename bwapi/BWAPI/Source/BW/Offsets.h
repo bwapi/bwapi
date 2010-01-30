@@ -169,7 +169,7 @@ namespace BW
   /* Native message boxes */
   static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
   static u32     BWFXN_gluPOKCancel_MBox   = 0x004B73B0;
-  static u32     BWFXN_gluPEdit_MBox       = 0x004B6E50;
+  static char (__stdcall* BWFXN_gluPEdit_MBox)(char *text, char *dest, size_t size, char *restricted) = (char(__stdcall*)(char*,char*,size_t,char*))0x004B6E50;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
@@ -199,17 +199,7 @@ namespace BW
   static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
 
-  static BOOL (__stdcall *SNetSendMessage)(unsigned int playerID, char *data, size_t databytes) = NULL;
-
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
-  static u32            BWFXN_MoveScreen                          = 0x0049C440;
-  static u32            BWFXN_Game_ButtonDown                     = 0x004D19C0;
-  static u32            BWFXN_Game_ButtonDownBack                 = BWFXN_Game_ButtonDown + 6;
-  static u32            BWFXN_Game_ButtonUp                       = 0x004D1940;
-  static u32            BWFXN_Game_ButtonUpBack                   = BWFXN_Game_ButtonUp + 6;
-  static u32            BWFXN_Game_KeyState                       = 0x004D1810;
-  static u32            BWFXN_Game_KeyStateBack                   = BWFXN_Game_KeyState + 5;
-  static u8*            BWDATA_Game_KeyStateSomething             = (u8*) 0x00596A28;
 
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
@@ -296,13 +286,16 @@ namespace BW
   static u32            BWDATA_TechResearchBW                     = 0x0058F140;
   static u32            BWDATA_PlayerSelection                    = 0x006284E0;
 
-  static u32            BWDATA_Mouse                              = 0x006CDDC4;
-  static u32*           BWDATA_MouseX                             = (u32*)  BWDATA_Mouse;
-  static u32*           BWDATA_MouseY                             = (u32*) (BWDATA_Mouse + 4);
+  static void (__cdecl *BWFXN_UpdateScreenPosition)()             = (void(__cdecl*)())0x0049BFD0;
+  static u32*           BWDATA_MoveToX                            = (u32*)0x0062848C;
+  static u32*           BWDATA_MoveToY                            = (u32*)0x006284A8;
+  
+  static u32            BWDATA_MoveToTile                         = 0x0057F1D0;
+  static u16*           BWDATA_MoveToTileX                        = (u16*)(BWDATA_MoveToTile);
+  static u16*           BWDATA_MoveToTileY                        = (u16*)(BWDATA_MoveToTile + 2);
 
-  static u32            BWDATA_Screen                             = 0x00628448;
-  static u32*           BWDATA_ScreenX                            = (u32*)  BWDATA_Screen;
-  static u32*           BWDATA_ScreenY                            = (u32*) (BWDATA_Screen + 40);
+  static u32*           BWDATA_ScreenX                            = (u32*)0x00628448;
+  static u32*           BWDATA_ScreenY                            = (u32*)0x00628470;
 
   static char*          BWDATA_CurrentMapFileName                 = (char*)       0x0057FD3C;
   static char*          BWDATA_CurrentMapName                     = (char*)       0x0057FE40;

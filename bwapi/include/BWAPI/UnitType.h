@@ -4,6 +4,7 @@
 #include <set>
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitSizeType.h>
+
 namespace BWAPI
 {
   class TechType;

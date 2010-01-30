@@ -861,11 +861,11 @@ namespace BWAPI
     }
     this->client->onFrame();
 
-    for(std::list< std::string >::iterator i=this->interceptedMessages.begin();i!=this->interceptedMessages.end();i++)
+    foreach(std::string i, interceptedMessages)
     {
-      bool send=!BroodwarImpl.onSendText(i->c_str());
+      bool send =! BroodwarImpl.onSendText(i.c_str());
       if (send)
-        BroodwarImpl.sendText(i->c_str());
+        BroodwarImpl.sendText(i.c_str());
     }
     this->interceptedMessages.clear();
     this->loadSelected();
@@ -930,7 +930,7 @@ namespace BWAPI
   {
     return *(BW::BWDATA_InReplay) != 0;
   }
-  const int BUFFER_SIZE = 2048;
+  const int BUFFER_SIZE = 1024;
   char buffer[BUFFER_SIZE];
 
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
@@ -944,15 +944,6 @@ namespace BWAPI
     char* txtout = buffer;
     if (inGame() || _isReplay())
     {
-#ifdef __MINGW32__
-      __asm__("pushad\n"
-              "push 0\n"
-              "mov %eax, _pID\n"
-              "push _txtout\n"
-              "call dword ptr [BW::BWFXN_PrintText]\n"
-              "popad"
-             );
-#else
       __asm
       {
         pushad
@@ -962,7 +953,6 @@ namespace BWAPI
         call dword ptr [BW::BWFXN_PrintText]
         popad
       }
-#endif
     }
     else
       printf(txtout); // until lobby print private text is found
@@ -983,13 +973,6 @@ namespace BWAPI
 
     char* txtout = buffer;
     if (!inGame())
-#ifdef __MINGW32__
-      __asm__("pushad\n"
-              "mov %edi, _txtout\n"
-              "call [BW::BWFXN_SendLobbyCallTarget]\n"
-              "popad"
-             );
-#else
       __asm
       {
         pushad
@@ -997,7 +980,6 @@ namespace BWAPI
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
-#endif
   }
 
   void  GameImpl::sendText(const char* text, ...)
@@ -1036,20 +1018,6 @@ namespace BWAPI
     if (inGame())
     {
       memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
-#ifdef __MINGW32__
-      __asm__("pushad\n"
-              "mov %esi, _txtout\n"
-              "call [BW::BWFXN_SendPublicCallTarget]\n"
-              "popad"
-             );
-    }
-    else
-      __asm__("pushad\n"
-              "mov %edi, _txtout\n"
-              "call [BW::BWFXN_SendLobbyCallTarget]\n"
-              "popad"
-             );
-#else
       __asm
       {
         pushad
@@ -1067,7 +1035,6 @@ namespace BWAPI
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
-#endif
   }
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
@@ -1236,41 +1203,49 @@ namespace BWAPI
       restartGame();
       return true;
     }
+    else if (parsed[0] == "/test")
+    {
+      setScreenPosition(128, 128);
+      printf("Testing printf");
+      printEx(-1, "Testing printEx");
+      sendText("Testing sendText");
+      return true;
+    }
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
-    for(int i=0;i<256;i++)
+    for(int i = 0; i < 256; i++)
     {
-      keyPress[i]=false;
-      savedKeyPress[i]=false;
+      keyPress[i]      = false;
+      savedKeyPress[i] = false;
     }
-    mouseState[0]=false;
-    mouseState[1]=false;
-    mouseState[2]=false;
+    mouseState[0] = false;
+    mouseState[1] = false;
+    mouseState[2] = false;
 
     if (this->client != NULL)
     {
-      if (this->calledOnEnd==false)
+      if (this->calledOnEnd == false)
       {
-        bool win=true;
+        bool win = true;
         if (this->_isReplay())
-          win=false;
+          win = false;
         else
         {
           for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
           {
             if (self()->isEnemy(i->_getPlayer()))
-              win=false;
+              win = false;
           }
         }
         this->client->onEnd(win);
-        this->calledOnEnd=true;
+        this->calledOnEnd = true;
       }
       delete this->client;
-      this->client=NULL;
+      this->client = NULL;
     }
     this->units.clear();
     this->forces.clear();
@@ -1313,20 +1288,20 @@ namespace BWAPI
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
-      unitArray[i]->userSelected=false;
-      unitArray[i]->buildUnit=NULL;
-      unitArray[i]->alive=false;
-      unitArray[i]->dead=false;
-      unitArray[i]->savedPlayer=NULL;
-      unitArray[i]->savedUnitType=NULL;
-      unitArray[i]->staticInformation=false;
-      unitArray[i]->lastVisible=false;
-      unitArray[i]->lastType=UnitTypes::Unknown;
-      unitArray[i]->lastPlayer=NULL;
-      unitArray[i]->nukeDetected=false;
+      unitArray[i]->userSelected      = false;
+      unitArray[i]->buildUnit         = NULL;
+      unitArray[i]->alive             = false;
+      unitArray[i]->dead              = false;
+      unitArray[i]->savedPlayer       = NULL;
+      unitArray[i]->savedUnitType     = NULL;
+      unitArray[i]->staticInformation = false;
+      unitArray[i]->lastVisible       = false;
+      unitArray[i]->lastType          = UnitTypes::Unknown;
+      unitArray[i]->lastPlayer        = NULL;
+      unitArray[i]->nukeDetected      = false;
     }
-    this->cheatFlags=0;
-    this->calledOnEnd=false;
+    this->cheatFlags  = 0;
+    this->calledOnEnd = false;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
@@ -1354,7 +1329,7 @@ namespace BWAPI
   {
     /* Leaves the current game. Moves directly to the post-game score screen */
     this->setLastError(Errors::None);
-    *BW::BWDATA_GameState = 0;
+    *BW::BWDATA_GameState    = 0;
     *BW::BWDATA_GamePosition = 6;
   }
   //--------------------------------------------- RESTART GAME -----------------------------------------------
@@ -1363,7 +1338,7 @@ namespace BWAPI
     /* Restarts the current match 
        Does not work on Battle.net */
     this->setLastError(Errors::None);
-    *BW::BWDATA_GameState = 0;
+    *BW::BWDATA_GameState    = 0;
     *BW::BWDATA_GamePosition = 5;
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
@@ -1376,7 +1351,9 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return 0;
     }
-    return *(BW::BWDATA_MouseX);
+    LPPOINT cursorPoint = NULL;
+    GetCursorPos(cursorPoint);
+    return cursorPoint->x;
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY()
@@ -1388,7 +1365,9 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return 0;
     }
-    return *(BW::BWDATA_MouseY);
+    LPPOINT cursorPoint = NULL;
+    GetCursorPos(cursorPoint);
+    return cursorPoint->y;
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
@@ -1399,9 +1378,11 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return BWAPI::Positions::Unknown;
     }
-    return BWAPI::Position(*(BW::BWDATA_MouseX),*(BW::BWDATA_MouseY));
+    LPPOINT cursorPoint = NULL;
+    GetCursorPos(cursorPoint);
+    return BWAPI::Position(cursorPoint->x, cursorPoint->y);
   }
-  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
+/*  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button)
   {
     return getMouseState((int)button);
@@ -1418,7 +1399,7 @@ namespace BWAPI
     if (button<0 || button>=3) return false;
     return mouseState[button];
     
-  }
+  }*/
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(Key key)
   {
@@ -1433,8 +1414,10 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return false;
     }
-    if (key<0 || key>=255) return false;
-    return savedKeyPress[key];
+    if (key < 0 || key >= 255)
+      return false;
+
+    return GetKeyState(key) != 0;
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX()
@@ -1474,14 +1457,15 @@ namespace BWAPI
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
-    /* Sets the screen's position in relation to the map */
+    /* Sets the screen's position relative to the map */
     this->setLastError(Errors::None);
-    __asm
-    {
-      mov eax, x
-      mov ecx, y
-      call [BW::BWFXN_MoveScreen]
-    }
+    x &= 0xFFFFFFF8;
+    y &= 0xFFFFFFF8;
+    *BW::BWDATA_MoveToX = x;
+    *BW::BWDATA_MoveToTileX = (u16)(x >> 5);
+    *BW::BWDATA_MoveToY = y;
+    *BW::BWDATA_MoveToTileY = (u16)(y >> 5);
+    BW::BWFXN_UpdateScreenPosition();
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(BWAPI::Position p)
@@ -1503,11 +1487,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   void GameImpl::refresh()
   {
-#ifdef __MINGW32__
-    __asm__("call BW::BWFXN_Refresh");
-#else
     __asm call BW::BWFXN_Refresh
-#endif
   }
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
@@ -1551,7 +1531,8 @@ namespace BWAPI
   {
     /* Called when a unit dies(death animation), not when it is removed */
     int index = unit->getIndex();
-    if (!unit->alive) return;
+    if (!unit->alive)
+      return;
     this->units.erase(unit);
     deadUnits.push_back(unit);
     unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
@@ -2068,8 +2049,10 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      screen_x1 += *(BW::BWDATA_MouseX);
-      screen_y1 += *(BW::BWDATA_MouseY);
+      LPPOINT cursorPoint = NULL;
+      GetCursorPos(cursorPoint);
+      screen_x1 += cursorPoint->x;
+      screen_y1 += cursorPoint->y;
     }
     if (screen_x1 < 0   || screen_y1 < 0 ||
         screen_x1 > 640 || screen_y1 > 480) return false;
@@ -2091,10 +2074,12 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      screen_x1 += *(BW::BWDATA_MouseX);
-      screen_y1 += *(BW::BWDATA_MouseY);
-      screen_x2 += *(BW::BWDATA_MouseX);
-      screen_y2 += *(BW::BWDATA_MouseY);
+      LPPOINT cursorPoint = NULL;
+      GetCursorPos(cursorPoint);
+      screen_x1 += cursorPoint->x;
+      screen_y1 += cursorPoint->y;
+      screen_x2 += cursorPoint->x;
+      screen_y2 += cursorPoint->y;
     }
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
@@ -2122,12 +2107,14 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      screen_x1 += *(BW::BWDATA_MouseX);
-      screen_y1 += *(BW::BWDATA_MouseY);
-      screen_x2 += *(BW::BWDATA_MouseX);
-      screen_y2 += *(BW::BWDATA_MouseY);
-      screen_x3 += *(BW::BWDATA_MouseX);
-      screen_y3 += *(BW::BWDATA_MouseY);
+      LPPOINT cursorPoint = NULL;
+      GetCursorPos(cursorPoint);
+      screen_x1 += cursorPoint->x;
+      screen_y1 += cursorPoint->y;
+      screen_x2 += cursorPoint->x;
+      screen_y2 += cursorPoint->y;
+      screen_x3 += cursorPoint->x;
+      screen_y3 += cursorPoint->y;
     }
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
@@ -2142,17 +2129,6 @@ namespace BWAPI
     switch(type)
     {
     case MB_OKCANCEL:
-#ifdef __MINGW32__
-      __asm__("mov %eax, _message\n"
-              "call BW::BWFXN_gluPOKCancel_MBox\n"
-              "mov rval, %al"
-             );
-      break;
-    default:  // MB_OK
-      __asm__("mov %eax, _message\n"
-              "call BW::BWFXN_gluPOK_MBox"
-             );
-#else
       __asm
       {
         mov eax, message
@@ -2164,9 +2140,8 @@ namespace BWAPI
       __asm
       {
         mov eax, message
-          call BW::BWFXN_gluPOK_MBox
+        call BW::BWFXN_gluPOK_MBox
       }
-#endif
       return false;
     }
     return rval;
@@ -2174,26 +2149,6 @@ namespace BWAPI
 
   bool GameImpl::gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
   {
-    bool rval;
-#ifdef __MINGW32__
-    __asm__("push _restricted\n"
-            "push _destsize\n"
-            "push _dest\n"
-            "push _message\n"
-            "call BW::BWFXN_gluPEdit_MBox\n"
-            "mov  _rval, %al"
-           );
-#else
-    __asm
-    {
-      push restricted
-      push destsize
-      push dest
-      push message
-      call BW::BWFXN_gluPEdit_MBox
-      mov  rval, al
-    }
-#endif
-    return rval;
+    return BW::BWFXN_gluPEdit_MBox(message, dest, destsize, restricted) != 0;
   }
 };
