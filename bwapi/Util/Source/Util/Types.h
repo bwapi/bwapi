@@ -14,6 +14,7 @@ typedef unsigned short  WORD;
 typedef unsigned long   DWORD;
 typedef void*           PVOID;
 typedef int             BOOL;
+typedef void*           HANDLE;
 
 #ifdef NULL
 #undef NULL

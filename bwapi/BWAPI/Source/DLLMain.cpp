@@ -18,71 +18,30 @@
 #include "BWAPI.h"
 #include "BWAPI/DLLMain.h"
 #include "BWAPI/Shape.h"
-DWORD onCancelTrain_edx;
-DWORD onCancelTrain_ecx;
-DWORD removedUnit;
-//bool launchedStart = false;
+
+#include "NewHackUtil.h"
+
 DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
-DWORD d_eaxSave, d_ebxSave, d_ecxSave, d_edxSave, d_esiSave, d_ediSave, d_espSave, d_ebpSave;
-DWORD m_eaxSave, m_ebxSave, m_ecxSave, m_edxSave, m_esiSave, m_ediSave, m_espSave, m_ebpSave;
-char key;
-int tempvalue;
-u8 tempbyte;
-//--------------------------------------------- ON COMMAND ORDER ---------------------------------------------
-void __declspec(naked) onUnitDestroy()
+
+//--------------------------------------------- ON UNIT DEATH ------------------------------------------------
+void __fastcall _clearUnitTarget(BW::Unit *deadUnit)
 {
-  __asm
-  {
-    mov d_eaxSave, eax
-    mov d_ebxSave, ebx
-    mov d_ecxSave, ecx
-    mov d_edxSave, edx
-    mov d_esiSave, esi
-    mov d_ediSave, edi
-    mov d_espSave, esp
-    mov d_ebpSave, ebp
-  }
-  BWAPI::BroodwarImpl.onUnitDestroy((BW::Unit*)d_esiSave);
-  tempvalue=*BW::BWFXN_DestroyUnitSomeOffset;
-  __asm
-  {
-    mov eax, d_eaxSave
-    mov ebx, d_ebxSave
-    mov ecx, d_ecxSave
-    mov edx, d_edxSave
-    mov esi, d_esiSave
-    mov edi, d_ediSave
-    mov esp, d_espSave
-    mov ebp, d_ebpSave
-    mov eax, [tempvalue]
-    jmp [BW::BWFXN_DestroyUnitBack]
-  }
+  BWAPI::BroodwarImpl.onUnitDestroy(deadUnit);
+  BW::BWFXN_clearUnitTarget(deadUnit);
 }
+
 //----------------------------------------------- ON GAME END ------------------------------------------------
-void __declspec(naked) onGameEnd()
+BOOL __stdcall _SCodeDelete(HANDLE *handle)
 {
   BWAPI::BroodwarImpl.onGameEnd();
-  __asm
-  {
-    call [BW::BWFXN_GameEndTarget]
-    jmp [BW::BWFXN_GameEndBack]
-  }
+  return BW::SCodeDelete(handle);
 }
-DWORD frameHookEax;
+
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
-void __declspec(naked)  nextFrameHook()
+int __cdecl nextFrameHook()
 {
-  __asm
-  {
-    call [BW::BWFXN_NextLogicFrameTarget]
-    mov frameHookEax, eax
-  }
   BWAPI::BroodwarImpl.update();
-  __asm
-  {
-    mov eax, frameHookEax
-    jmp [BW::BWFXN_NextLogicFrameBack]
-  }
+  return *BW::BWDATA_NextLogicFrameData;
 }
 
 //--------------------------------------------- MENU FRAME HOOK ----------------------------------------------
@@ -298,107 +257,6 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   }
 }
 
-//------------------------------------------------ MEM PATCH -------------------------------------------------
-void JmpCallPatch(void* pDest, int pSrc, int nNops = 0)
-{
-  DWORD OldProt = 0;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-  unsigned char jmp = 0xE9;
-  memcpy((LPVOID)pSrc, &jmp, 1);
-  DWORD address = (DWORD)pDest - (DWORD)pSrc - 5;
-  memcpy((LPVOID)(pSrc + 1), &address, 4);
-  for (int i = 0; i < nNops; ++i)
-    *(BYTE*)((DWORD)pSrc + 5 + i) = 0x90;
-  VirtualProtect((LPVOID)pSrc, 5 + nNops, OldProt, &OldProt);
-}
-
-void WriteNops(void* pDest, int nNops)
-{
-  DWORD OldProt = 0;
-  VirtualProtect(pDest, nNops, PAGE_EXECUTE_READWRITE, &OldProt);
-  memset(pDest, 0x90, nNops);
-  VirtualProtect(pDest, nNops, OldProt, &OldProt);
-}
-
-void WriteMem(void* pDest, void* pSource, int nSize)
-{
-  DWORD OldProt = 0;
-  VirtualProtect(pDest, nSize, PAGE_EXECUTE_READWRITE, &OldProt);
-  memcpy_s(pDest, nSize, pSource, nSize);
-  VirtualProtect(pDest, nSize, OldProt, &OldProt);
-}
-
-bool PatchImport(char* sourceModule, char* importModule, LPCSTR function, void* patchFunction)
-{
-  if (function == NULL)
-    return false;
-
-  char *tempModuleName = NULL;
-  if (sourceModule != NULL)
-    tempModuleName = sourceModule;
-
-  HMODULE tempModule = GetModuleHandleA(tempModuleName);
-  if (tempModule == NULL)
-    return false;
-
-  IMAGE_DOS_HEADER *mzhead = (IMAGE_DOS_HEADER*)tempModule;
-  if (mzhead->e_magic != IMAGE_DOS_SIGNATURE)
-    return false;
-
-  IMAGE_NT_HEADERS32 *pehead = (IMAGE_NT_HEADERS32*)(mzhead->e_lfanew + (u32)tempModule);
-  if (pehead->Signature != IMAGE_NT_SIGNATURE)
-    return false;
-
-  IMAGE_IMPORT_DESCRIPTOR *imports = (IMAGE_IMPORT_DESCRIPTOR*)(pehead->OptionalHeader.DataDirectory[1].VirtualAddress + (u32)tempModule);
-  if (imports == NULL)
-    return false;
-
-  IMAGE_THUNK_DATA32* importOrigin = NULL;
-  for (u32 i = 0; imports[i].Name != 0; i++)
-  {
-    if (lstrcmpiA((char*)(imports[i].Name + (u32)tempModule), importModule) == 0)
-    {
-      importOrigin = (IMAGE_THUNK_DATA32*)(imports[i].OriginalFirstThunk + (u32)tempModule);
-      break;
-    }
-  }
-  if (importOrigin == NULL)
-    return false;
-
-  DWORD* importFunction = NULL;
-  for (u32 i = 0; imports[i].Name != 0; i++)
-  {
-    if (lstrcmpiA((char*)(imports[i].Name + (u32)tempModule), importModule) == 0)
-    {
-      importFunction = (DWORD*)(imports[i].FirstThunk + (u32)tempModule);
-      break;
-    }
-  }
-  if (importFunction == NULL)
-    return false;
-
-  for (u32 i = 0; importOrigin[i].u1.Ordinal != 0; i++)
-  {
-    if (IMAGE_SNAP_BY_ORDINAL32(importOrigin[i].u1.Ordinal) && (DWORD)function < 0xFFFF)
-    {
-      if (IMAGE_ORDINAL32(importOrigin[i].u1.Ordinal) == IMAGE_ORDINAL32((DWORD)function))
-      {
-        WriteMem(&importFunction[i], &patchFunction, 4);
-        return true;
-      }
-    }
-    else
-    {
-      if (lstrcmpiA(function, (char*)&(((PIMAGE_IMPORT_BY_NAME)importOrigin[i].u1.AddressOfData)->Name)) == 0)
-      {
-        WriteMem(&importFunction[i], &patchFunction, 4);
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
 void __declspec(naked) NewIssueCommand()
 {
@@ -486,6 +344,7 @@ void __declspec(naked) onIssueCommand()
     __asm retn
   }
   else
+  {
     __asm
     {
       mov eax, eaxSave
@@ -498,9 +357,9 @@ void __declspec(naked) onIssueCommand()
       mov ebp, ebpSave
       retn
     }
+  }
 }
 
-const char zero = 0;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -529,25 +388,27 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   {
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
   }
-  JmpCallPatch((void*)&nextFrameHook,     BW::BWFXN_NextLogicFrame,  0);
-  JmpCallPatch((void*)&menuFrameHook,     BW::BWFXN_NextMenuFrame,   0);
-  JmpCallPatch((void*)&onGameEnd,         BW::BWFXN_GameEnd,         0);
-  JmpCallPatch((void*)&onUnitDestroy,     BW::BWFXN_DestroyUnit,     0);
-  JmpCallPatch((void*)&onDrawHigh,        BW::BWFXN_DrawHigh,        0);
-  JmpCallPatch((void*)&onRefresh,         BW::BWFXN_Refresh,         0);
-  JmpCallPatch((void*)&onIssueCommand,    BW::BWFXN_OldIssueCommand, 4);
-//  JmpCallPatch((void*)&onMouseButtonDown, BW::BWFXN_Game_ButtonDown, 1);
-//  JmpCallPatch((void*)&onMouseButtonUp,   BW::BWFXN_Game_ButtonUp,   1);
+  HackUtil::CallPatch(BW::BWFXN_NextLogicFrame,  &nextFrameHook);
+  HackUtil::JmpPatch(BW::BWFXN_NextMenuFrame,    &menuFrameHook);
+  //HackUtil::JmpPatch(BW::BWFXN_DestroyUnit,     &onUnitDestroy);
+  HackUtil::CallPatch(BW::BWFXN_DestroyUnitHook, &_clearUnitTarget);
+  HackUtil::JmpPatch(BW::BWFXN_DrawHigh,         &onDrawHigh);
+  HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
+  HackUtil::JmpPatch(BW::BWFXN_OldIssueCommand,  &onIssueCommand);
 
-  WriteNops((void*)BW::BWDATA_MenuLoadHack, 11); // menu load
-  WriteMem( (void*)BW::BWDATA_MenuInHack,        (void*)&zero, 1); // menu in
-  WriteMem( (void*)BW::BWDATA_MenuOutHack,       (void*)&zero, 1); // menu out
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack,   (void*)&zero, 1); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_MultiplayerHack2,  (void*)&zero, 1); // Battle.net Server Select
-  WriteMem( (void*)BW::BWDATA_OpponentStartHack, (void*)&zero, 1); // Start without an opponent
+  char zero = 0;
+  HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // menu load
+  HackUtil::WriteMem(BW::BWDATA_MenuInHack, &zero, 1);         // menu in
+  HackUtil::WriteMem(BW::BWDATA_MenuOutHack, &zero, 1);        // menu out
+  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack, &zero, 1);    // Battle.net Server Select
+  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // Battle.net Server Select
+  HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
 
-  *(FARPROC*)&BW::SStrCopy = GetProcAddress(GetModuleHandleA("storm.dll"), (LPCSTR)501);
-  PatchImport(NULL, "storm.dll", (LPCSTR)501, &_SStrCopy);
+  *(FARPROC*)&BW::SStrCopy = HackUtil::GetImport("storm.dll", 501);
+  HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
+
+  *(FARPROC*)&BW::SCodeDelete = HackUtil::GetImport("storm.dll", 332);
+  HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

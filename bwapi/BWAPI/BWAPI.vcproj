@@ -857,6 +857,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Source\NewHackUtil.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\NewHackUtil.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\StaticAssert.h"
 			>
 		</File>

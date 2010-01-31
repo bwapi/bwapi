@@ -1289,7 +1289,6 @@ namespace BWAPI
         this->players[i]->onGameEnd();
     this->setLocalSpeed(-1);
 
-
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       unitArray[i]->userSelected      = false;
