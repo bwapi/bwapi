@@ -202,7 +202,6 @@ namespace BW
   static int (__stdcall *SStrCopy)(char *dest, const char *source, size_t size) = NULL;
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
-
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
@@ -219,7 +218,8 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
-  static u32            BWFXN_DrawBox                             = 0x004E1D20;
+  static void (__stdcall *BWFXN_DrawBox)(s16 x, s16 y, u16 w, u16 h) = (void(__stdcall*)(s16,s16,u16,u16))0x004E1D20;
+  //static u32            BWFXN_DrawBox                             = 0x004E1D20;
   static u32            BWFXN_PrintXY                             = 0x004200D0;
   static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
   static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
