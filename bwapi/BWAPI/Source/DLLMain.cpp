@@ -223,18 +223,9 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
 
-  __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    push h
-    push w
-    push y
-    push x
-    call [BW::BWFXN_DrawBox]
-  }
+  //__asm mov ebx, ebxSave
+
+  BW::BWFXN_DrawBox((s16)x, (s16)y, (u16)w, (u16)h);
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
@@ -259,18 +250,9 @@ void drawDot(int _x, int _y, int color, int ctype)
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
 
-  __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    push h
-    push w
-    push y
-    push x
-    call [BW::BWFXN_DrawBox]
-  }
+  //__asm mov ebx, ebxSave
+
+  BW::BWFXN_DrawBox((s16)x, (s16)y, (u16)w, (u16)h);
 }
 
 void drawText(int _x, int _y, const char* ptext, int ctype)
