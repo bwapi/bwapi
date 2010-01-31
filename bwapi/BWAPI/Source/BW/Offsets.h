@@ -210,9 +210,7 @@ namespace BW
 
   static Unit*          BWDATA_CurrentPlayerSelectionGroup        = (Unit*) 0x00597208;
 
-  static u32            BWFXN_GameEnd                             = 0x004EE983;
-  static u32            BWFXN_GameEndBack                         = BWFXN_GameEnd + 5;
-  static u32            BWFXN_GameEndTarget                       = 0x00416D90;
+  static BOOL (__stdcall *SCodeDelete)(HANDLE handle)            = NULL;
 
   static u32            BWFXN_NextFrameHelperFunction             = 0x004D98BD;
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;
@@ -261,13 +259,11 @@ namespace BW
 
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 
-  static u32            BWFXN_DestroyUnit                         = 0x0048AAC0;
-  static u32            BWFXN_DestroyUnitBack                     = BWFXN_DestroyUnit + 5;
-  static u32*           BWFXN_DestroyUnitSomeOffset               = (u32*) 0x0064DEC4;
+  static void (__fastcall *BWFXN_clearUnitTarget)(BW::Unit *deadUnit) = (void(__fastcall*)(BW::Unit*))0x0048AAC0;
+  static u32            BWFXN_DestroyUnitHook                     = 0x004E6397;
 
+  static int*           BWDATA_NextLogicFrameData                 = (int*)0x006509C4;
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
-  static u32            BWFXN_NextLogicFrameBack                  = BWFXN_NextLogicFrame + 5;
-  static u32            BWFXN_NextLogicFrameTarget                = 0x00488780;
 
   static u32            BWFXN_NextMenuFrame                       = 0x0041A0D3;
   static u32            BWFXN_NextMenuFrameBack                   = BWFXN_NextMenuFrame + 5;
