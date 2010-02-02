@@ -20,13 +20,22 @@ namespace BWAPI
     s32 cumulativeGas;
     s32 suppliesAvailable[3];
     s32 suppliesUsed[3];
+
+    s32 allUnitCount[228];
+    s32 completedUnitCount[228];
+    s32 deadUnitCount[228];
+    s32 killedUnitCount[228];
+
+    s32 upgradeLevel[66];
+    bool isUpgrading[66];
+    bool hasResearched[44];
+    bool isResearching[44];
+
     Util::StaticString<25> name;  // size as BW memory
 
-    struct Attitude
-    {
-      bool ally;
-    };
-    Attitude attitudes[12];       // index correlated with players
+    bool alliance[12];       // index correlated with players
+    bool isVictorious;
+    bool isDefeated;
 
     // helper functions
     int inline getOwnRaceAvailableSupplies() const

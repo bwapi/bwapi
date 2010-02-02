@@ -11,6 +11,7 @@ namespace BWSL
   Player::Player(int id)
   {
     this->id=id;
+    this->self=&(BWAPI::getStaticGameData()->players[id]);
   }
   int Player::getID() const
   {
@@ -26,23 +27,25 @@ namespace BWSL
   }
   Race Player::getRace() const
   {
-    return Races::None;//Race(BWAPI::GetStaticGameData()->players.data[id].race);
+    return Race(self->race);
   }
   PlayerType Player::playerType() const
   {
-    return PlayerType(0);//PlayerType(BWAPI::GetStaticGameData()->players.data[id].type);
+    return PlayerType(self->type);
   }
   Force* Player::getForce() const
   {
-    return Game::getForce(BWAPI::getStaticGameData()->players[id].force);
+    return Game::getForce(self->force);
   }
   bool Player::isAlly(Player* player) const
   {
-    return false;//BWAPI::GetStaticGameData()->players.data[id].isAlly[player->id];
+    if (this->isNeutral() || player->isNeutral()) return false;
+    return self->alliance[player->id];
   }
   bool Player::isEnemy(Player* player) const
   {
-    return false;//BWAPI::GetStaticGameData()->players.data[id].isEnemy[player->id];
+    if (this->isNeutral() || player->isNeutral()) return false;
+    return !this->isAlly(player);
   }
   bool Player::isNeutral() const
   {
@@ -54,11 +57,11 @@ namespace BWSL
   }
   bool Player::isVictorious() const
   {
-    return false;//BWAPI::GetStaticGameData()->players.data[id].isVictorious;
+    return self->isVictorious;
   }
   bool Player::isDefeated() const
   {
-    return false;//BWAPI::GetStaticGameData()->players.data[id].isDefeated;
+    return self->isDefeated;
   }
   bool Player::leftGame() const
   {
@@ -66,70 +69,70 @@ namespace BWSL
   }
   int Player::minerals() const
   {
-    return BWAPI::getStaticGameData()->players[id].minerals;
+    return self->minerals;
   }
   int Player::gas() const
   {
-    return BWAPI::getStaticGameData()->players[id].gas;
+    return self->gas;
   }
   int Player::cumulativeMinerals() const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].cumulativeMinerals;
+    return self->cumulativeMinerals;
   }
   int Player::cumulativeGas() const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].cumulativeGas;
+    return self->cumulativeGas;
   }
   int Player::supplyTotal() const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].supplyTotal[getRace().getID()];
+    return self->suppliesAvailable[self->race];
   }
   int Player::supplyUsed() const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].supplyUsed[getRace().getID()];
+    return self->suppliesUsed[self->race];
   }
   int Player::supplyTotal(Race race) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].supplyTotal[race.getID()];
+    return self->suppliesAvailable[race.getID()];
   }
   int Player::supplyUsed(Race race) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].supplyUsed[race.getID()];
+    return self->suppliesUsed[race.getID()];
   }
   int Player::allUnitCount(UnitType unit) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].allUnitCount[unit.getID()];
+    return self->allUnitCount[unit.getID()];
   }
   int Player::completedUnitCount(UnitType unit) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].completedUnitCount[unit.getID()];
+    return self->completedUnitCount[unit.getID()];
   }
   int Player::incompleteUnitCount(UnitType unit) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].incompleteUnitCount[unit.getID()];
+    return self->allUnitCount[unit.getID()]-self->completedUnitCount[unit.getID()];
   }
   int Player::deadUnitCount(UnitType unit) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].deadUnitCount[unit.getID()];
+    return self->deadUnitCount[unit.getID()];
   }
   int Player::killedUnitCount(UnitType unit) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].killedUnitCount[unit.getID()];
+    return self->killedUnitCount[unit.getID()];
   }
   int Player::getUpgradeLevel(UpgradeType upgrade) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].upgradeLevel[upgrade.getID()];
+    return self->upgradeLevel[upgrade.getID()];
   }
   bool Player::hasResearched(TechType tech) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].hasResearched[tech.getID()];
+    return self->hasResearched[tech.getID()];
   }
   bool Player::isResearching(TechType tech) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].isResearching[tech.getID()];
+    return self->isResearching[tech.getID()];
   }
   bool Player::isUpgrading(UpgradeType upgrade) const
   {
-    return 0;//BWAPI::GetStaticGameData()->players.data[id].isUpgrading[upgrade.getID()];
+    return self->isUpgrading[upgrade.getID()];
   }
 }

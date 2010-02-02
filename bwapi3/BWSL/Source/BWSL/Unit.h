@@ -23,6 +23,12 @@ namespace BWSL
     int id;
     bool alive;
   public:
+    bool startingAttack;
+    int lastGroundWeaponCooldown;
+    int lastAirWeaponCooldown;
+    std::set<Unit*> larva;
+
+
     Unit(int id);
     BWSL_EXPORT int getID() const;
     BWSL_EXPORT Player* getPlayer() const;
@@ -91,6 +97,7 @@ namespace BWSL
     BWSL_EXPORT bool exists() const;
     BWSL_EXPORT bool isAccelerating() const;
     BWSL_EXPORT bool isBeingConstructed() const;
+    BWSL_EXPORT bool isBeingGathered() const;
     BWSL_EXPORT bool isBeingHealed() const;
     BWSL_EXPORT bool isBlind() const;
     BWSL_EXPORT bool isBraking() const;
@@ -129,7 +136,6 @@ namespace BWSL
     BWSL_EXPORT bool isUnpowered() const;
     BWSL_EXPORT bool isUpgrading() const;
     BWSL_EXPORT bool isVisible() const;
-    BWSL_EXPORT bool isBeingGathered() const;
 
     BWSL_EXPORT bool attackMove(Position position);
     BWSL_EXPORT bool attackUnit(Unit* target);
