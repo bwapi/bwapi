@@ -557,6 +557,7 @@ namespace BWAPI
 
         knownUnit.isDefenseMatrixed       = bwUnit.defenseMatrixTimer > 0;
         knownUnit.isEnsnared              = bwUnit.ensnareTimer > 0;
+        knownUnit.isFollowing             = orderId == BW::OrderID::Follow;
 
         knownUnit.isHallucination         = bwUnit.status.getBit<BW::StatusFlags::IsHallucination>();
         bool isResearching                = orderId == BW::OrderIDs::ResearchTech;
@@ -604,6 +605,7 @@ namespace BWAPI
                                           || orderId == BW::OrderIDs::ZergBuildSelf;
         knownUnit.isMoving                = bwUnit.movementFlags.getBit<BW::MovementFlags::Moving>();
         knownUnit.isParasited             = bwUnit.parasiteFlags.value != 0;
+        knownUnit.isPatrolling            = orderId == BW::OrderID::Patrol;
         knownUnit.isPlagued               = bwUnit.plagueTimer > 0;
         knownUnit.isRepairing             =  orderId == BW::OrderIDs::Repair1
                                           || orderId == BW::OrderIDs::Repair2;
@@ -705,6 +707,8 @@ namespace BWAPI
             knownUnit.addon               = bwUnitArrayMirror[bwAddonUnitIndex].knownUnitIndex;
           }
         }
+        int bwChildUnitIndex        = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.childInfoUnion.childUnit1);
+        knownUnit.child             = bwUnitArrayMirror[bwChildUnitIndex].knownUnitIndex;
 
         // transport
         if(isLoaded)
@@ -818,11 +822,41 @@ namespace BWAPI
               player.suppliesAvailable[r] = BW::BWDATA_Supplies->race[r].available.player[bwPlayerId];
               player.suppliesUsed[r]      = BW::BWDATA_Supplies->race[r].used     .player[bwPlayerId];
             }
+            for(int i=0;i<BW::UNIT_TYPE_COUNT;i++)
+            {
+              player.allUnitCount[i]=BW::BWDATA_Counts->all.unit[i].player[bwPlayerId];
+              player.completedUnitCount[i]=BW::BWDATA_Counts->completed.unit[i].player[bwPlayerId];
+              player.deadUnitCount[i]=BW::BWDATA_Counts->dead.unit[i].player[bwPlayerId];
+              player.killedUnitCount[i]=BW::BWDATA_Counts->killed.unit[i].player[bwPlayerId];
+            }
+
+            for(int i=0;i<BW::TECH_TYPE_COUNT;i++)
+            {
+              Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + bwPlayerId * 6);
+              player.isResearching[i]=techs->getBit(1 << i);
+              if (i < 0x18)
+                player.hasResearched[i]=(*((u8*)(BW::BWDATA_TechResearchSC + bwPlayerId * 0x18 + i)) == 1);
+              else
+                player.hasResearched[i]=(*((u8*)(BW::BWDATA_TechResearchBW + bwPlayerId * 0x14 + i - 0x18)) == 1);
+            }
+            for(int i=0;i<BW::UPGRADE_TYPE_COUNT;i++)
+            {
+              player.isUpgrading[i]= (BW::BWDATA_UpgradeProgress->player[bwPlayerId].getBit(1 << i));
+              if (i < 46)
+                player.upgradeLevel[i]= (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + bwPlayerId * 46 + i)));
+              else
+                player.upgradeLevel[i]= (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + bwPlayerId * 15 + i - 46)));
+            }
+            player.isVictorious = (bwPlayerId<8 &&  BW::BWDATA_PlayerVictory->player[bwPlayerId]==3);
+            player.isDefeated   = (bwPlayerId<8 && (BW::BWDATA_PlayerVictory->player[bwPlayerId]==1 ||
+                                                    BW::BWDATA_PlayerVictory->player[bwPlayerId]==2 ||
+                                                    BW::BWDATA_PlayerVictory->player[bwPlayerId]==4 ||
+                                                    BW::BWDATA_PlayerVictory->player[bwPlayerId]==6));
             // for all other players
             for each(int otherPlayerId in staticData.players)
             {
               int bwOtherPlayerId = otherPlayerId;
-              player.attitudes[otherPlayerId].ally = BW::BWDATA_Alliance->alliance[bwPlayerId].player[bwOtherPlayerId] != 0;
+              player.alliance[otherPlayerId] = BW::BWDATA_Alliance->alliance[bwPlayerId].player[bwOtherPlayerId] != 0;
             }
           }
         }

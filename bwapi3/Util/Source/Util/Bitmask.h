@@ -12,12 +12,10 @@ namespace Util
   {
     Type value;
     //------------------------------------------------ GET BIT -------------------------------------------------
-    /* uncomment when you actually need dynamic masks
     bool getBit(Type mask) const
     {
       return (value & mask) != 0;
     }
-    */
     //------------------------------------------------ GET CONST BIT -------------------------------------------
     template <int mask>
       bool getBit() const

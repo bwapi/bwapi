@@ -71,6 +71,7 @@ namespace BWAPI
     bool isConstructing;
     bool isDefenseMatrixed;
     bool isEnsnared;
+    bool isFollowing;
     bool isGatheringGas;
     bool isGatheringMinerals;
     bool isIrradiated;
@@ -79,6 +80,7 @@ namespace BWAPI
     bool isMaelstrommed;
     bool isMorphing;
     bool isParasited;
+    bool isPatrolling;
     bool isPlagued;
     bool isRepairing;
     bool isResearching;
@@ -92,6 +94,7 @@ namespace BWAPI
 
     UnitId buildUnit;   // bidirectional
     UnitId addon;       // Could be bidirectional
+    UnitId child;
 
     int groundWeaponCooldown;
     int airWeaponCooldown;

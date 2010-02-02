@@ -37,10 +37,15 @@ namespace BWSL
     bool flagEnabled[2];
     const BWAPI::StaticGameData* sgd;
     Error lastError;
+    void saveInitialState()
+    {
+      //TODO: Implement
+    }
     //------------------------------------------------- ON START -----------------------------------------------
     void onStart()
     {
       sgd=BWAPI::getStaticGameData();
+      saveInitialState();
       startLocations.clear();
       for(std::map<int,Force*>::iterator i=forceMap.begin();i!=forceMap.end();i++)
       {
@@ -82,9 +87,17 @@ namespace BWSL
       {
         if (unitMap.find(unitId)==unitMap.end())
           unitMap[unitId]=new Unit(unitId);
-
         Unit* u=getUnit(unitId);
-
+        u->larva.clear();
+      }
+      for each(int unitId in sgd->units)
+      {
+        Unit* u=getUnit(unitId);
+        if (u->getHatchery()!=NULL)
+          u->getHatchery()->larva.insert(u);
+        u->startingAttack           = (u->getAirWeaponCooldown() > u->lastAirWeaponCooldown) || (u->getGroundWeaponCooldown() > u->lastGroundWeaponCooldown);
+        u->lastAirWeaponCooldown    = u->getAirWeaponCooldown();
+        u->lastGroundWeaponCooldown = u->getGroundWeaponCooldown();
         int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / BWSL::TILE_SIZE;
         int endX   = (u->getPosition().x() + u->getType().dimensionRight() + BWSL::TILE_SIZE - 1) / BWSL::TILE_SIZE; // Division - round up
         int startY = (u->getPosition().y() - u->getType().dimensionUp()) / BWSL::TILE_SIZE;

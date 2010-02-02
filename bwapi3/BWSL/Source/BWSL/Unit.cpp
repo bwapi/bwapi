@@ -1,11 +1,13 @@
 #include "Unit.h"
+#include "Player.h"
 #include "Constants.h"
 #include <Util\Version.h>
+#include <Util\Foreach.h>
 
 #include <BWAPI\all.h>
 #include "Game.h"
 #include <string>
-
+#include "Order.h"
 namespace BWSL
 {
 //  void pushCommand(BWAPI::CommandID commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
@@ -210,27 +212,27 @@ namespace BWSL
   }
   double Unit::getAngle() const
   {
-    return 0;//FIX FIX FIX self->angle;
+    return self->angle;
   }
   double Unit::getVelocityX() const
   {
-    return 0;//FIX FIX FIX self->velocity.x;
+    return self->velocity.x;
   }
   double Unit::getVelocityY() const
   {
-    return 0;//FIX FIX FIX self->velocity.y;
+    return self->velocity.y;
   }
   Unit* Unit::getTarget() const
   {
-    return NULL;//FIX FIX FIX Game::getUnit(self->target);
+    return Game::getUnit(self->movementTargetUnit);
   }
   Position Unit::getTargetPosition() const
   {
-    return Positions::None;//FIX FIX FIX Position(self->targetPosition.x,self->targetPosition.y);
+    return Position(self->movementTargetPosition.x,self->movementTargetPosition.y);
   }
   Order Unit::getOrder() const
   {
-    return Orders::None;//FIX FIX FIX Order(self->order);
+    return BWSL::Order(self->order.type);
   }
   Unit* Unit::getOrderTarget() const
   {
@@ -242,94 +244,107 @@ namespace BWSL
   }
   Order Unit::getSecondaryOrder() const
   {
-    return Orders::None;//FIX FIX FIX Order(self->secondaryOrder);
+    return 0;//FIX FIX FIX Order(self->secondaryOrder);
   }
   Unit* Unit::getBuildUnit() const
   {
-    return NULL;//FIX FIX FIX Game::getUnit(self->buildUnit);
+    return Game::getUnit(self->buildUnit);
   }
   UnitType Unit::getBuildType() const
   {
-    return UnitTypes::None;//FIX FIX FIX UnitType(self->buildType);
+    return UnitTypes::None;//UnitType(self->buildType);
   }
   int Unit::getRemainingBuildTime() const
   {
-    return 0;//FIX FIX FIX self->remainingBuildTime;
+    return 0;//self->remainingBuildTime;
   }
   int Unit::getRemainingTrainTime() const
   {
-    return 0;//FIX FIX FIX self->remainingTrainTime;
+    return self->trainTimer;
   }
   Unit* Unit::getChild() const
   {
-    return NULL;//FIX FIX FIX self->child;
+    return Game::getUnit(self->child);
   }
   std::list<UnitType > Unit::getTrainingQueue() const
   {
     std::list<UnitType > trainingQueue;
-    return trainingQueue;//FIX FIX FIX
+    for (int i=0;i<self->trainingQueue.size;i++)
+    {
+      trainingQueue.push_back(self->trainingQueue.data[i]);
+    }
+    return trainingQueue;
   }
   Unit* Unit::getTransport() const
   {
-    return NULL;//FIX FIX FIX
+    return Game::getUnit(self->transport);
   }
   std::list<Unit*> Unit::getLoadedUnits() const
   {
     std::list<Unit*> loadedUnits;
-    return loadedUnits;//FIX FIX FIX
+    for (int i=0;i<self->loadedUnits.size;i++)
+    {
+      loadedUnits.push_back(Game::getUnit(self->loadedUnits.data[i]));
+    }
+    return loadedUnits;
   }
   int Unit::getInterceptorCount() const
   {
-    return 0;//FIX FIX FIX
+    return self->interceptorInHangarCount+self->interceptorOutOfHangarCount;
   }
   int Unit::getScarabCount() const
   {
-    return 0;//FIX FIX FIX
+    return self->scarabCount;
   }
   int Unit::getSpiderMineCount() const
   {
-    return 0;//FIX FIX FIX
+    return self->spiderMineCount;
   }
   TechType Unit::getTech() const
   {
-    return TechTypes::None;//FIX FIX FIX
+    return TechType(self->tech);
   }
   UpgradeType Unit::getUpgrade() const
   {
-    return UpgradeTypes::None;//FIX FIX FIX
+    return UpgradeType(self->tech);
   }
   int Unit::getRemainingResearchTime() const
   {
-    return 0;//FIX FIX FIX
+    return self->researchTimer;
   }
   int Unit::getRemainingUpgradeTime() const
   {
-    return 0;//FIX FIX FIX
+    return self->upgradeTimer;
   }
   Position Unit::getRallyPosition() const
   {
-    return Positions::None;//FIX FIX FIX
+    return Position(self->rallyPosition.x,self->rallyPosition.y);
   }
   Unit* Unit::getRallyUnit() const
   {
-    return NULL;//FIX FIX FIX
+    return Game::getUnit(self->rallyUnit);
   }
   Unit* Unit::getAddon() const
   {
-    return NULL;//FIX FIX FIX
+    return Game::getUnit(self->addon);
   }
   Unit* Unit::getHatchery() const
   {
-    return NULL;//FIX FIX FIX
+    return Game::getUnit(self->hatchery);
   }
   std::set<Unit*> Unit::getLarva() const
   {
-    std::set<Unit*> larva;
-    return larva;//FIX FIX FIX
+    return this->larva;
   }
   int Unit::getUpgradeLevel(UpgradeType upgrade) const
   {
-    return 0;//FIX FIX FIX
+    if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
+    foreach (const UnitType* u, upgrade.whatUses())
+    {
+      if (*u==this->getType())
+        return this->getPlayer()->getUpgradeLevel(upgrade);
+    }
+    return 0;
   }
 
   bool Unit::exists() const
@@ -394,7 +409,7 @@ namespace BWSL
   }
   bool Unit::isFollowing() const
   {
-    return false;//self->isFollowing;
+    return self->isFollowing;
   }
   bool Unit::isGatheringGas() const
   {
@@ -446,7 +461,7 @@ namespace BWSL
   }
   bool Unit::isPatrolling() const
   {
-    return false;//self->isPatrolling;
+    return self->isPatrolling;
   }
   bool Unit::isPlagued() const
   {
@@ -470,7 +485,7 @@ namespace BWSL
   }
   bool Unit::isStartingAttack() const
   {
-    return false;//FIX FIX FIX self->isStartingAttack;
+    return this->startingAttack;
   }
   bool Unit::isStasised() const
   {

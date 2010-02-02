@@ -26,6 +26,7 @@ namespace BWSL
   {
   private:
     int id;
+    const BWAPI::Player* self;
   public:
     Player(int id);
     BWSL_EXPORT int getID() const;

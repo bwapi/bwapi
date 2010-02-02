@@ -54,6 +54,11 @@ namespace BW
     PlayerResource cumulativeMinerals;
   };
   static PlayerResources* BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0;
+  struct PlayerVictory
+  {
+    u8 player[8];
+  };
+  static PlayerVictory* BWDATA_PlayerVictory               = (PlayerVictory*) 0x00650974;
 
   //----------------------------------------------- NAMES TYPE -----------------------------------------------
   /** Direct mapping of players info in bw memory */
