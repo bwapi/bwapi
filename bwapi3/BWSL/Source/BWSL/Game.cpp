@@ -68,6 +68,16 @@ namespace BWSL
         BWSL::TilePosition p2(p.x,p.y);
         startLocations.insert(p2);
       }
+      for each(int playerId in sgd->players)
+      {
+        if (playerMap.find(playerId)==playerMap.end())
+          playerMap[playerId]=new Player(playerId);
+      }
+      for(int forceId=0;forceId<4;forceId++)
+      {
+        if (forceMap.find(forceId)==forceMap.end())
+          forceMap[forceId]=new Force(forceId);
+      }
 
     }
     //------------------------------------------------- ON FRAME -----------------------------------------------
