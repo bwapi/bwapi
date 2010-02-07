@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="TestBWAPI2"
+	Name="TestBWSL"
 	ProjectGUID="{A05327D3-5D6F-42DD-9578-04E9FA421D35}"
 	RootNamespace="TestBWAPI2"
 	Keyword="Win32Proj"
