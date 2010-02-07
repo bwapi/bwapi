@@ -16,9 +16,13 @@ public:
   void onStart()
   {
     printf("match started\n");
+    Game::enableFlag(Flag::UserInput);
   }
   void onEnd(bool isWinner){};
-  void onFrame(){};
+  void onFrame()
+  {
+    printf("frame: %d\n",Game::getFrameCount());
+  }
   bool onSendText(std::string text)
   {
     printf("text intercepted: %s\n", text.c_str());

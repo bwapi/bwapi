@@ -707,8 +707,12 @@ namespace BWAPI
             knownUnit.addon               = bwUnitArrayMirror[bwAddonUnitIndex].knownUnitIndex;
           }
         }
-        int bwChildUnitIndex        = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.childInfoUnion.childUnit1);
-        knownUnit.child             = bwUnitArrayMirror[bwChildUnitIndex].knownUnitIndex;
+        knownUnit.child                   = -1;
+        if (bwUnit.childInfoUnion.childUnit1 != NULL)
+        {
+          int bwChildUnitIndex            = BW::BWDATA_UnitNodeTable->getIndexByUnit(bwUnit.childInfoUnion.childUnit1);
+          knownUnit.child                 = bwUnitArrayMirror[bwChildUnitIndex].knownUnitIndex;
+        }
 
         // transport
         if(isLoaded)

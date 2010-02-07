@@ -13,6 +13,7 @@
 #include "UnitType.h"
 #include "AttackType.h"
 #include "Color.h"
+#include "Game.h"
 
 #include <BWAPI\all.h>
 
@@ -64,15 +65,17 @@ namespace BWSL
         // react upon bridge state
         switch(purpose)
         {
-        case BWAPI::CallTypeIds::OnMatchStart:
-          {
-            aiModule.onStart();
-          }break;
         case BWAPI::CallTypeIds::OnFrame:
           {
+            if (BWAPI::getStaticGameData()->isOnMatchStart)
+            {
+              Game::onStart();
+              aiModule.onStart();
+            }
             // TODO: implement
             //BWAPI::GetUserInput()
             //aiModule.onSendText(input);
+            Game::onFrame();
             aiModule.onFrame();
           }break;
         case BWAPI::CallTypeIds::OnDisconnect:
