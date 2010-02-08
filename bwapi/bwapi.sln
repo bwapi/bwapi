@@ -12,8 +12,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Util", "Util\Util.vcproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIB", "BWAPILIB\BWAPILIB.vcproj", "{843656FD-9BFD-47BF-8460-7BFE9710EA2C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_MPQDraftPlugin", "BWAPI_MPQDraftPlugin\BWAPI_MPQDraftPlugin.vcproj", "{ADF97657-6539-47DB-A09C-1E2BCB394516}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -36,10 +34,6 @@ Global
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Debug|Win32.Build.0 = Release|Win32
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Release|Win32.ActiveCfg = Release|Win32
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Release|Win32.Build.0 = Release|Win32
-		{ADF97657-6539-47DB-A09C-1E2BCB394516}.Debug|Win32.ActiveCfg = Release|Win32
-		{ADF97657-6539-47DB-A09C-1E2BCB394516}.Debug|Win32.Build.0 = Release|Win32
-		{ADF97657-6539-47DB-A09C-1E2BCB394516}.Release|Win32.ActiveCfg = Release|Win32
-		{ADF97657-6539-47DB-A09C-1E2BCB394516}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

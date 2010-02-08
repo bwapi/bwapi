@@ -45,35 +45,10 @@ int __cdecl nextFrameHook()
 }
 
 //--------------------------------------------- MENU FRAME HOOK ----------------------------------------------
-DWORD menu_eaxSave, menu_ebxSave, menu_ecxSave, menu_edxSave, menu_esiSave, menu_ediSave, menu_espSave, menu_ebpSave;
-void __declspec(naked)  menuFrameHook()
+void __stdcall menuFrameHook(int flag)
 {
-  //not sure if all these registers need to be saved, but just to be safe.
-  __asm
-  {
-    call [BW::BWFXN_NextMenuFrameTarget]
-    mov menu_eaxSave, eax
-    mov menu_ebxSave, ebx
-    mov menu_ecxSave, ecx
-    mov menu_edxSave, edx
-    mov menu_esiSave, esi
-    mov menu_ediSave, edi
-    mov menu_espSave, esp
-    mov menu_ebpSave, ebp
-  }
   BWAPI::BroodwarImpl.onMenuFrame();
-  __asm
-  {
-    mov eax, menu_eaxSave
-    mov ebx, menu_ebxSave
-    mov ecx, menu_ecxSave
-    mov edx, menu_edxSave
-    mov esi, menu_esiSave
-    mov edi, menu_ediSave
-    mov esp, menu_espSave
-    mov ebp, menu_ebpSave
-    jmp [BW::BWFXN_NextMenuFrameBack]
-  }
+  BW::BWFXN_videoLoop(flag);
 }
 
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
@@ -182,8 +157,6 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
 
-  //__asm mov ebx, ebxSave
-
   BW::BWFXN_DrawBox((s16)x, (s16)y, (u16)w, (u16)h);
 }
 
@@ -208,8 +181,6 @@ void drawDot(int _x, int _y, int color, int ctype)
   }
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
-
-  //__asm mov ebx, ebxSave
 
   BW::BWFXN_DrawBox((s16)x, (s16)y, (u16)w, (u16)h);
 }
@@ -389,8 +360,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
   }
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame,  &nextFrameHook);
-  HackUtil::JmpPatch(BW::BWFXN_NextMenuFrame,    &menuFrameHook);
-  //HackUtil::JmpPatch(BW::BWFXN_DestroyUnit,     &onUnitDestroy);
+  HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,   &menuFrameHook);
   HackUtil::CallPatch(BW::BWFXN_DestroyUnitHook, &_clearUnitTarget);
   HackUtil::JmpPatch(BW::BWFXN_DrawHigh,         &onDrawHigh);
   HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
