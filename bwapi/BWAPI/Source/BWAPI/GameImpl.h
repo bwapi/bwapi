@@ -116,6 +116,7 @@ namespace BWAPI
        */
       virtual void  printf(const char* text, ...);
       virtual void  sendText(const char* text, ...);
+      virtual void  printEx(s32 pID, const char* text, ...);
 
       /**
        * Changes race in the pre-game lobby.
@@ -210,10 +211,7 @@ namespace BWAPI
       bool _isReplay() const;
       void setLastError(BWAPI::Error e);
 
-      /** @todo Doesn't work */
-      void refresh();
       void loadSelected();
-      void printEx(s32 pID, const char* text, ...);
 
       UnitImpl* getFirst();
       std::set<UnitImpl*> units;

@@ -265,9 +265,8 @@ namespace BW
   static int*           BWDATA_NextLogicFrameData                 = (int*)0x006509C4;
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
 
+  static void (__stdcall *BWFXN_videoLoop)(int flag)              = (void(__stdcall*)(int))0x004D1BF0;
   static u32            BWFXN_NextMenuFrame                       = 0x0041A0D3;
-  static u32            BWFXN_NextMenuFrameBack                   = BWFXN_NextMenuFrame + 5;
-  static u32            BWFXN_NextMenuFrameTarget                 = 0x004D1BF0;
 
   static u32            BWDATA_UpgradeLevelSC                     = 0x0058D2B0;
   static u32            BWDATA_UpgradeLevelBW                     = 0x0058F32C;

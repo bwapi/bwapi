@@ -656,17 +656,11 @@ namespace BWAPI
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
   {
-#ifdef __MINGW32__
-    __asm__("mov %ecx, _pbBuffer\n"
-            "mov %edx, _iSize"
-           );
-#else
     __asm
     {
       mov ecx, pbBuffer
       mov edx, iSize
     }
-#endif
     NewIssueCommand();
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
@@ -955,7 +949,7 @@ namespace BWAPI
       }
     }
     else
-      printf(txtout); // until lobby print private text is found
+      sendText(txtout); // until lobby print private text is found
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
   void  GameImpl::printf(const char* text, ...)
@@ -967,19 +961,12 @@ namespace BWAPI
 
     if (_isReplay() || inGame())
     {
-      printEx(8, buffer);
+      printEx(8, "%s", buffer);
       return;
     }
 
-    char* txtout = buffer;
     if (!inGame())
-      __asm
-      {
-        pushad
-        mov edi, txtout
-        call [BW::BWFXN_SendLobbyCallTarget]
-        popad
-      }
+      printEx(8, "%s", buffer);
   }
 
   void  GameImpl::sendText(const char* text, ...)
@@ -992,7 +979,7 @@ namespace BWAPI
 
     if (_isReplay())
     {
-      printEx(8, buffer);
+      printEx(8, "%s", buffer);
       return;
     }
 
@@ -1010,7 +997,7 @@ namespace BWAPI
       }
       else
       {
-        printEx(this->BWAPIPlayer->getID(), buffer);
+        printEx(this->BWAPIPlayer->getID(), "%s", buffer);
       }
       return;
     }
@@ -1486,11 +1473,6 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
-  }
-  //----------------------------------------------------------------------------------------------------------
-  void GameImpl::refresh()
-  {
-    __asm call BW::BWFXN_Refresh
   }
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
