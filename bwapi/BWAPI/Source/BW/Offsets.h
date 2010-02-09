@@ -268,6 +268,8 @@ namespace BW
   static void (__stdcall *BWFXN_videoLoop)(int flag)              = (void(__stdcall*)(int))0x004D1BF0;
   static u32            BWFXN_NextMenuFrame                       = 0x0041A0D3;
 
+  static u32            BWDATA_SaveGameFile                       = 0x00685148;
+
   static u32            BWDATA_UpgradeLevelSC                     = 0x0058D2B0;
   static u32            BWDATA_UpgradeLevelBW                     = 0x0058F32C;
   static u32            BWDATA_TechResearchSC                     = 0x0058CF44;

@@ -230,6 +230,8 @@ namespace BWAPI
       bool mouseState[3];
       bool keyPress[256];
       bool savedKeyPress[256];
+      void onSaveGame(char *name);
+
     private :
       HMODULE hMod;
       void saveSelected();
