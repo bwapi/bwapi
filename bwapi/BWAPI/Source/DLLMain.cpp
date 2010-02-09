@@ -54,16 +54,27 @@ void __stdcall menuFrameHook(int flag)
 //---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
 int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 {
-  if (size == 0x7FFFFFFF)
+  if (strlen(source) > 0)
   {
-    /* onSend Game */
-    BWAPI::BroodwarImpl.interceptedMessages.push_back(std::string(source));
-    dest[0] = 0;
-    return 0;
-  }
-  else if (size == 120)
-  {
-    /* onSend Lobby */
+    if (size == 0x7FFFFFFF)
+    {
+      if ((u32)dest == BW::BWDATA_SaveGameFile)
+      {
+        /* onSaveGame */
+        BWAPI::BroodwarImpl.onSaveGame((char*)source);
+      }
+      else
+      {
+        /* onSend Game */
+        BWAPI::BroodwarImpl.interceptedMessages.push_back(std::string(source));
+        dest[0] = 0;
+        return 0;
+      }
+    }
+    else if (size == 120)
+    {
+      /* onSend Lobby */
+    }
   }
   return BW::SStrCopy(dest, source, size);
 }

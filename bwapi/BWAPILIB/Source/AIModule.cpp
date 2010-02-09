@@ -44,4 +44,7 @@ namespace BWAPI
   void AIModule::onUnitRenegade(BWAPI::Unit* unit)
   {
   }
+  void AIModule::onSaveGame(std::string gameName)
+  {
+  }
 }

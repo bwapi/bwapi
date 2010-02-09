@@ -674,34 +674,34 @@ namespace BWAPI
       
       if (!this->enabled)
         return;
-      if (this->client!=NULL && this->calledOnEnd==false)
+      if (this->client != NULL && this->calledOnEnd == false)
       {
-        if (this->BWAPIPlayer!=NULL)
+        if (this->BWAPIPlayer != NULL)
         {
           if (this->BWAPIPlayer->isVictorious())
           {
             this->client->onEnd(true);
-            this->calledOnEnd=true;
+            this->calledOnEnd = true;
           }
           if (this->BWAPIPlayer->isDefeated())
           {
             this->client->onEnd(false);
-            this->calledOnEnd=true;
+            this->calledOnEnd = true;
           }
         }
         else
         {
-          bool allDone=true;
+          bool allDone = true;
           foreach(Player* p, this->playerSet)
           {
-            if (p->getID()>=8) continue;
+            if (p->getID() >= 8) continue;
             if (!p->isDefeated() && !p->isVictorious() && !p->leftGame())
               allDone=false;
           }
           if (allDone)
           {
             this->client->onEnd(false);
-            this->calledOnEnd=true;
+            this->calledOnEnd = true;
           }
         }
       }
@@ -788,10 +788,8 @@ namespace BWAPI
           this->commandBuffer[i][j]->execute();
 
       this->updateUnits();
-      for(std::list<Position>::iterator i=detectedNukes.begin();i!=detectedNukes.end();i++)
-      {
-        this->client->onNukeDetect(*i);
-      }
+      foreach(Position i, detectedNukes)
+        this->client->onNukeDetect(i);
 
       for (unsigned int i = 0; i < this->shapes.size(); i++)
         delete this->shapes[i];
@@ -848,16 +846,16 @@ namespace BWAPI
       this->startedClient = true;
       this->lockFlags();
     }
-    for(int i=0;i<256;i++)
+    for(int i = 0; i < 256; i++)
     {
-      savedKeyPress[i]=keyPress[i];
-      keyPress[i]=false;
+      savedKeyPress[i] = keyPress[i];
+      keyPress[i]      = false;
     }
     this->client->onFrame();
 
     foreach(std::string i, interceptedMessages)
     {
-      bool send =! BroodwarImpl.onSendText(i.c_str());
+      bool send = !BroodwarImpl.onSendText(i.c_str());
       if (send)
         BroodwarImpl.sendText(i.c_str());
     }
@@ -1045,19 +1043,19 @@ namespace BWAPI
   void GameImpl::onGameStart()
   {
     /* initialize the variables */
-    this->frameCount = 0;
+    this->frameCount  = 0;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
-    this->opponent = NULL;
+    this->opponent    = NULL;
     this->calledOnEnd = false;
-    for(int i=0;i<256;i++)
+    for(int i = 0; i < 256; i++)
     {
-      keyPress[i]=false;
-      savedKeyPress[i]=false;
+      keyPress[i]      = false;
+      savedKeyPress[i] = false;
     }
-    mouseState[0]=false;
-    mouseState[1]=false;
-    mouseState[2]=false;
+    mouseState[0] = false;
+    mouseState[1] = false;
+    mouseState[2] = false;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1188,18 +1186,6 @@ namespace BWAPI
     else if (parsed[0] == "/restart")
     {
       restartGame();
-      return true;
-    }
-    else if (parsed[0] == "/test")
-    {
-      setScreenPosition(128, 128);
-      printf("Testing printf");
-      printEx(-1, "Testing printEx");
-      sendText("Testing sendText");
-      return true;
-    }
-    else if (parsed[0] == "test")
-    {
       return true;
     }
     return false;
@@ -2108,6 +2094,7 @@ namespace BWAPI
     return true;
   }
 
+  //--------------------------------------------------- MESSAGE BOXES ----------------------------------------
   bool GameImpl::gluMessageBox(char* message, int type)
   {
     bool rval = false;
@@ -2135,5 +2122,12 @@ namespace BWAPI
   bool GameImpl::gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
   {
     return BW::BWFXN_gluPEdit_MBox(message, dest, destsize, restricted) != 0;
+  }
+
+//--------------------------------------------------- ON SAVE ------------------------------------------------
+  void GameImpl::onSaveGame(char *name)
+  {
+    if (this->client != NULL)
+      this->client->onSaveGame(std::string(name));
   }
 };

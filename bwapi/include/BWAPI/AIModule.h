@@ -23,5 +23,7 @@ namespace BWAPI
       virtual void onUnitShow(Unit* unit);
       virtual void onUnitHide(Unit* unit);
       virtual void onUnitRenegade(Unit* unit);
+
+      virtual void onSaveGame(std::string gameName);
   };
 }
