@@ -22,7 +22,8 @@ public:
   void onFrame() 
   {
     Game::printf("frame: %d\n",Game::getFrameCount());
-    Game::drawCircleScreen(Game::getMousePosition().x(),Game::getMousePosition().y(),20,Colors::Blue,true);
+    if (Game::isPaused())
+      Game::drawCircleScreen(Game::getMousePosition().x(),Game::getMousePosition().y(),20,Colors::Blue,true);
   }
   bool onSendText(std::string text)
   {

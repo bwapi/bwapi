@@ -770,7 +770,7 @@ namespace BWSL
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      //BWAPI::drawText(BWAPI::Position(x,y),buffer);
+      BWAPI::drawText((BWAPI::CoordinateBase)ctype,BWAPI::Position(x,y),buffer);
     }
     void drawTextMap(int x, int y, const char* text, ...)
     {
@@ -786,7 +786,7 @@ namespace BWSL
       va_start(ap, text);
       vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
       va_end(ap);
-      //BWAPI::drawTextMouse(BWAPI::Position(x,y),buffer);
+      BWAPI::drawTextMouse(BWAPI::Position(x,y),buffer);
     }
     void drawTextScreen(int x, int y, const char* text, ...)
     {
@@ -799,7 +799,7 @@ namespace BWSL
 
     void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      //BWAPI::drawRectangle(BWAPI::Position(left,top),BWAPI::Position(right-left,bottom-top),color.getID(),isSolid);
+      BWAPI::drawRectangle((BWAPI::CoordinateBase)ctype,BWAPI::Position(left,top),BWAPI::Position(right-left,bottom-top),color.getID(),isSolid);
     }
     void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
@@ -807,7 +807,7 @@ namespace BWSL
     }
     void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-      //BWAPI::drawRectangleMouse(BWAPI::Position(left,top),BWAPI::Position(right-left,bottom-top),color.getID(),isSolid);
+      BWAPI::drawRectangleMouse(BWAPI::Position(left,top),BWAPI::Position(right-left,bottom-top),color.getID(),isSolid);
     }
     void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
@@ -816,7 +816,7 @@ namespace BWSL
 
     void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
-      //BWAPI::drawTriangle(BWAPI::Position(ax,ay),BWAPI::Position(bx,by),BWAPI::Position(cx,cy),color.getID(),isSolid);
+      BWAPI::drawTriangle((BWAPI::CoordinateBase)ctype,BWAPI::Position(ax,ay),BWAPI::Position(bx,by),BWAPI::Position(cx,cy),color.getID(),isSolid);
     }
     void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
@@ -824,7 +824,7 @@ namespace BWSL
     }
     void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
-      //BWAPI::drawTriangleMouse(BWAPI::Position(ax,ay),BWAPI::Position(bx,by),BWAPI::Position(cx,cy),color.getID(),isSolid);
+      BWAPI::drawTriangleMouse(BWAPI::Position(ax,ay),BWAPI::Position(bx,by),BWAPI::Position(cx,cy),color.getID(),isSolid);
     }
     void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
@@ -833,7 +833,7 @@ namespace BWSL
 
     void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
     {
-      //BWAPI::drawCircle(BWAPI::Position(x,y),radius,color.getID(),isSolid);
+      BWAPI::drawCircle((BWAPI::CoordinateBase)ctype,BWAPI::Position(x,y),radius,color.getID(),isSolid);
     }
     void drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
     {
@@ -841,7 +841,7 @@ namespace BWSL
     }
     void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
     {
-      //BWAPI::drawCircleMouse(BWAPI::Position(x,y),radius,color.getID(),isSolid);
+      BWAPI::drawCircleMouse(BWAPI::Position(x,y),radius,color.getID(),isSolid);
     }
     void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
     {
@@ -850,7 +850,7 @@ namespace BWSL
 
     void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
-      //BWAPI::DrawEllipse(BWAPI::Position(x,y),xrad,yrad,color.getID(),isSolid);
+      BWAPI::drawEllipse((BWAPI::CoordinateBase)ctype,BWAPI::Position(x,y),xrad,yrad,color.getID(),isSolid);
     }
     void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
@@ -858,7 +858,7 @@ namespace BWSL
     }
     void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
-      //BWAPI::drawEllipseMouse(BWAPI::Position(x,y),xrad,yrad,color.getID(),isSolid);
+      BWAPI::drawEllipseMouse(BWAPI::Position(x,y),xrad,yrad,color.getID(),isSolid);
     }
     void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
@@ -867,7 +867,7 @@ namespace BWSL
 
     void drawDot(int ctype, int x, int y, Color color)
     {
-      //BWAPI::drawDot(BWAPI::Position(x,y),color.getID());
+      BWAPI::drawDot((BWAPI::CoordinateBase)ctype,BWAPI::Position(x,y),color.getID());
     }
     void drawDotMap(int x, int y, Color color)
     {
@@ -875,7 +875,7 @@ namespace BWSL
     }
     void drawDotMouse(int x, int y, Color color)
     {
-      //BWAPI::drawDotMouse(BWAPI::Position(x,y),color.getID());
+      BWAPI::drawDotMouse(BWAPI::Position(x,y),color.getID());
     }
     void drawDotScreen(int x, int y, Color color)
     {
@@ -883,7 +883,7 @@ namespace BWSL
     }
     void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
     {
-      //BWAPI::drawLine(BWAPI::Position(x1,y1),BWAPI::Position(x2,y2),color.getID());
+      BWAPI::drawLine((BWAPI::CoordinateBase)ctype,BWAPI::Position(x1,y1),BWAPI::Position(x2,y2),color.getID());
     }
     void drawLineMap(int x1, int y1, int x2, int y2, Color color)
     {
@@ -891,7 +891,7 @@ namespace BWSL
     }
     void drawLineMouse(int x1, int y1, int x2, int y2, Color color)
     {
-      //BWAPI::drawLineMouse(BWAPI::Position(x1,y1),BWAPI::Position(x2,y2),color.getID());
+      BWAPI::drawLineMouse(BWAPI::Position(x1,y1),BWAPI::Position(x2,y2),color.getID());
     }
     void drawLineScreen(int x1, int y1, int x2, int y2, Color color)
     {
