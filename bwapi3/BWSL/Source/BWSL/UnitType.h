@@ -100,8 +100,8 @@ namespace BWSL
   };
   namespace UnitTypes
   {
-    UnitType getUnitType(std::string& name);
-    std::set<UnitType>& allUnitTypes();
+    BWSL_EXPORT UnitType getUnitType(std::string& name);
+    BWSL_EXPORT std::set<UnitType>& allUnitTypes();
     void init();
     BWSL_EXPORT extern const UnitType Terran_Marine;
     BWSL_EXPORT extern const UnitType Terran_Ghost;

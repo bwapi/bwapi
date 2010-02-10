@@ -10,25 +10,25 @@ IP_STRIP
 namespace BWSL
 {
   class UnitType;
-  class Error
+  class BWSL_EXPORT Error
   {
     private:
       int id;
     public:
-      BWSL_EXPORT Error();
-      BWSL_EXPORT Error(int id);
-      BWSL_EXPORT Error(const Error& other);
-      BWSL_EXPORT Error& operator=(const Error& other);
-      BWSL_EXPORT bool operator==(const Error& other) const;
-      BWSL_EXPORT bool operator!=(const Error& other) const;
-      BWSL_EXPORT bool operator<(const Error& other) const;
-      BWSL_EXPORT int getID() const;
-      BWSL_EXPORT std::string toString() const;
+      Error();
+      Error(int id);
+      Error(const Error& other);
+      Error& operator=(const Error& other);
+      bool operator==(const Error& other) const;
+      bool operator!=(const Error& other) const;
+      bool operator<(const Error& other) const;
+      int getID() const;
+      std::string toString() const;
   };
   namespace Errors
   {
-    Error getError(std::string& name);
-    std::set<Error>& allErrors();
+    BWSL_EXPORT Error getError(std::string& name);
+    BWSL_EXPORT std::set<Error>& allErrors();
     void init();
     BWSL_EXPORT extern const Error Connection_Failure;
     BWSL_EXPORT extern const Error Unit_Does_Not_Exist;

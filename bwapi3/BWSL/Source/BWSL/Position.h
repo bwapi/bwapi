@@ -5,26 +5,26 @@
 namespace BWSL
 {
   class TilePosition;
-  class Position
+  class BWSL_EXPORT Position
   {
     public :
       Position();
       Position(const TilePosition& position);
       Position(int x, int y);
-      BWSL_EXPORT bool operator == (const Position& position) const;
-      BWSL_EXPORT bool operator != (const Position& position) const;
-      BWSL_EXPORT bool operator  < (const Position& position) const;
-      BWSL_EXPORT Position operator+(const Position& position) const;
-      BWSL_EXPORT Position operator-(const Position& position) const;
-      BWSL_EXPORT Position& operator+=(const Position& position);
-      BWSL_EXPORT Position& operator-=(const Position& position);
-      BWSL_EXPORT double getDistance(const Position& position) const;
-      BWSL_EXPORT double getApproxDistance(const Position& position) const;
-      BWSL_EXPORT double getLength() const;
-      BWSL_EXPORT int& x();
-      BWSL_EXPORT int& y();
-      BWSL_EXPORT int x() const;
-      BWSL_EXPORT int y() const;
+      bool operator == (const Position& position) const;
+      bool operator != (const Position& position) const;
+      bool operator  < (const Position& position) const;
+      Position operator+(const Position& position) const;
+      Position operator-(const Position& position) const;
+      Position& operator+=(const Position& position);
+      Position& operator-=(const Position& position);
+      double getDistance(const Position& position) const;
+      double getApproxDistance(const Position& position) const;
+      double getLength() const;
+      int& x();
+      int& y();
+      int x() const;
+      int y() const;
     private :
       int _x;
       int _y;
