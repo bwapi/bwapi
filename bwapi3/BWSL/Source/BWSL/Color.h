@@ -2,9 +2,6 @@
 
 #include "BWSLInterface.h"
 
-#include <string>
-#include <set>
-
 namespace BWSL
 {
   class Color
