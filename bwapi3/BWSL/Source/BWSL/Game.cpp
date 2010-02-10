@@ -261,12 +261,12 @@ namespace BWSL
     //-------------------------------------------- SET SCREEN POSITION -----------------------------------------
     void setScreenPosition(int x, int y)
     {
-      //BWAPI::setScreenPosition(x,y);
+      BWAPI::setScreenPosition(BWAPI::Position(x,y));
     }
     //-------------------------------------------- SET SCREEN POSITION -----------------------------------------
     void setScreenPosition(Position p)
     {
-      //BWAPI::setScreenPosition(p.x(),p.y());
+      BWAPI::setScreenPosition(BWAPI::Position(p.x(),p.y()));
     }
     //----------------------------------------------- PING MINIMAP ---------------------------------------------
     void pingMinimap(int x, int y)
