@@ -8,7 +8,6 @@
 #include <string>
 
 using namespace BWSL;
-
 class ConsoleAIModule : public AIModule
 {
 public:
@@ -22,8 +21,6 @@ public:
   void onFrame() 
   {
     Game::printf("frame: %d\n",Game::getFrameCount());
-    if (Game::isPaused())
-      Game::drawCircleScreen(Game::getMousePosition().x(),Game::getMousePosition().y(),20,Colors::Blue,true);
   }
   bool onSendText(std::string text)
   {

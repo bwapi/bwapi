@@ -65,6 +65,7 @@ namespace BWSL
       BWSL_EXPORT bool isFlagEnabled(int flag);
       BWSL_EXPORT void enableFlag(int flag);
       BWSL_EXPORT std::set<Unit*>& unitsOnTile(int x, int y);
+      BWSL_EXPORT Error getLastError();
 
       BWSL_EXPORT int mapWidth();
       BWSL_EXPORT int mapHeight();
