@@ -6,9 +6,9 @@ namespace BWAPI
   {
     enum Enum
     {
-      Map = 1,
-      Screen,
-      Mouse
+      Screen = 1,
+      Map    = 2,
+      Mouse  = 3,
     };
   }
   typedef CoordinateBases::Enum CoordinateBase;
