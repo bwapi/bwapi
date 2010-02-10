@@ -8,7 +8,7 @@
 namespace BWSL
 {
   class UnitType;
-  class Race
+  class BWSL_EXPORT Race
   {
     public:
       Race();
@@ -30,8 +30,8 @@ namespace BWSL
   };
   namespace Races
   {
-    Race getRace(std::string& name);
-    std::set<Race>& allRaces();
+    BWSL_EXPORT Race getRace(std::string& name);
+    BWSL_EXPORT std::set<Race>& allRaces();
     void init();
     BWSL_EXPORT extern const Race Zerg;
     BWSL_EXPORT extern const Race Terran;

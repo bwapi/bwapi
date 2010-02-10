@@ -5,26 +5,26 @@
 namespace BWSL
 {
   class Position;
-  class TilePosition
+  class BWSL_EXPORT TilePosition
   {
     public :
       TilePosition();
       TilePosition(const Position& position);
       TilePosition(int x, int y);
-      BWSL_EXPORT bool operator == (const TilePosition& TilePosition) const;
-      BWSL_EXPORT bool operator != (const TilePosition& TilePosition) const;
-      BWSL_EXPORT bool operator  < (const TilePosition& TilePosition) const;
-      BWSL_EXPORT TilePosition operator+(const TilePosition& position) const;
-      BWSL_EXPORT TilePosition operator-(const TilePosition& position) const;
-      BWSL_EXPORT TilePosition& operator+=(const TilePosition& position);
-      BWSL_EXPORT TilePosition& operator-=(const TilePosition& position);
-      BWSL_EXPORT double getDistance(const TilePosition& position) const;
-      BWSL_EXPORT double getLength() const;
-      BWSL_EXPORT bool isValid() const;
-      BWSL_EXPORT int& x();
-      BWSL_EXPORT int& y();
-      BWSL_EXPORT int x() const;
-      BWSL_EXPORT int y() const;
+      bool operator == (const TilePosition& TilePosition) const;
+      bool operator != (const TilePosition& TilePosition) const;
+      bool operator  < (const TilePosition& TilePosition) const;
+      TilePosition operator+(const TilePosition& position) const;
+      TilePosition operator-(const TilePosition& position) const;
+      TilePosition& operator+=(const TilePosition& position);
+      TilePosition& operator-=(const TilePosition& position);
+      double getDistance(const TilePosition& position) const;
+      double getLength() const;
+      bool isValid() const;
+      int& x();
+      int& y();
+      int x() const;
+      int y() const;
     private :
       int _x;
       int _y;

@@ -10,7 +10,7 @@ namespace BWSL
 {
   class UnitType;
   class WeaponType;
-  class TechType
+  class BWSL_EXPORT TechType
   {
     public:
       TechType();
@@ -34,8 +34,8 @@ namespace BWSL
   };
   namespace TechTypes
   {
-    TechType getTechType(std::string& name);
-    std::set<TechType>& allTechTypes();
+    BWSL_EXPORT TechType getTechType(std::string& name);
+    BWSL_EXPORT std::set<TechType>& allTechTypes();
     void init();
     BWSL_EXPORT extern const TechType Stim_Packs;
     BWSL_EXPORT extern const TechType Lockdown;

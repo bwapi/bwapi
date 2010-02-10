@@ -7,7 +7,7 @@
 
 namespace BWSL
 {
-  class Color
+  class BWSL_EXPORT Color
   {
     public:
       Color();
