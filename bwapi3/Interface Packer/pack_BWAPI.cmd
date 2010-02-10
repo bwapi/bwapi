@@ -1,1 +1,1 @@
-@"..\debug\interface packer.exe" "BWAPI1.ini"
+@"..\debug\interface packer.exe" "BWAPI.ini"

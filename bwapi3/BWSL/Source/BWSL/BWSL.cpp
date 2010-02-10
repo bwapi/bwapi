@@ -72,6 +72,11 @@ namespace BWSL
               Game::onStart();
               aiModule.onStart();
             }
+            if (!BWAPI::getStaticGameData()->userInput.isEmpty())
+            {
+              std::string text(BWAPI::getStaticGameData()->userInput.c_str());
+              aiModule.onSendText(text);
+            }
             // TODO: implement
             //BWAPI::GetUserInput()
             //aiModule.onSendText(input);
@@ -81,6 +86,7 @@ namespace BWSL
         case BWAPI::CallTypeIds::OnDisconnect:
           {
           }return true;
+        
         }
       }
     }

@@ -19,24 +19,48 @@ public:
     Game::enableFlag(Flag::UserInput);
   }
   void onEnd(bool isWinner){};
-  void onFrame()
+  void onFrame() 
   {
-    printf("frame: %d\n",Game::getFrameCount());
+    Game::printf("frame: %d\n",Game::getFrameCount());
   }
   bool onSendText(std::string text)
   {
-    printf("text intercepted: %s\n", text.c_str());
+    Game::sendText("You typed: '%s'\n", text.c_str());
     return true;
   }
-  void onPlayerLeft(Player* player){};
-  void onNukeDetect(Position target){};
+  void onPlayerLeft(Player* player)
+  {
+    //printf("onPlayerLeft: %s (%d)",player->getName().c_str(),player->getID());
+  }
+  void onNukeDetect(Position target)
+  {
+    printf("onNukeDetect: (%d,%d)",target.x(),target.y());
+  }
 
-  void onUnitCreate(Unit* unit){};
-  void onUnitDestroy(Unit* unit){};
-  void onUnitMorph(Unit* unit){};
-  void onUnitShow(Unit* unit){};
-  void onUnitHide(Unit* unit){};
-  void onUnitRenegade(Unit* unit){};
+  void onUnitCreate(Unit* unit)
+  {
+    printf("onUnitCreate: %x",unit);
+  }
+  void onUnitDestroy(Unit* unit)
+  {
+    printf("onUnitDestroy: %x",unit);
+  }
+  void onUnitMorph(Unit* unit)
+  {
+    printf("onUnitMorph: %x",unit);
+  }
+  void onUnitShow(Unit* unit)
+  {
+    printf("onUnitShow: %x",unit);
+  }
+  void onUnitHide(Unit* unit)
+  {
+    printf("onUnitHide: %x",unit);
+  }
+  void onUnitRenegade(Unit* unit)
+  {
+    printf("onUnitRenegade: %x",unit);
+  }
 };
 
 int _tmain(int argc, _TCHAR* argv[])

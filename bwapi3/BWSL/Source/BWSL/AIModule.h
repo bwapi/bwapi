@@ -4,6 +4,9 @@
  */
 
 #include "BWSLInterface.h"
+
+IP_STRIP
+
 #include "Position.h"
 
 #include <string>
