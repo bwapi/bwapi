@@ -22,6 +22,7 @@ public:
   void onFrame() 
   {
     Game::printf("frame: %d\n",Game::getFrameCount());
+    printf("(%d,%d)\n",Game::getMouseX(),Game::getMouseY());
   }
   bool onSendText(std::string text)
   {
@@ -34,7 +35,7 @@ public:
   }
   void onNukeDetect(Position target)
   {
-    printf("onNukeDetect: (%d,%d)",target.x(),target.y());
+    //printf("onNukeDetect: (%d,%d)",target.x(),target.y());
   }
 
   void onUnitCreate(Unit* unit)
