@@ -364,7 +364,7 @@ namespace BWAPI
       // the unit is fully accessible if it's yours
       do
       {
-        if(bwUnit.playerID == BW::selfPlayerId)
+        if(BW::isInReplay() || bwUnit.playerID == BW::selfPlayerId)
         {
           clearance = ClearanceLevels::Full;
           break;
@@ -814,8 +814,9 @@ namespace BWAPI
           Player& player = staticData.players[playerId];
           player.startLocation = Position::Invalid;
 
-          if(BW::BWDATA_Alliance->alliance[BW::selfPlayerId].player[bwPlayerId] != 0
-            || BW::isInReplay() || flags[Flags::CompleteMapInformation])
+          if(BW::isInReplay()
+             || BW::BWDATA_Alliance->alliance[BW::selfPlayerId].player[bwPlayerId] != 0
+             || flags[Flags::CompleteMapInformation])
           {
             player.minerals           = BW::BWDATA_PlayerResources->minerals          .player[bwPlayerId];
             player.gas                = BW::BWDATA_PlayerResources->gas               .player[bwPlayerId];
@@ -1092,7 +1093,8 @@ namespace BWAPI
         BW::Players::PlayerInfo &bwPlayer = BW::BWDATA_Players->player[i];
 
         // is this a valid player slot?
-        if(!bwPlayer.isValid())
+        // The id of player 11 is 0 in replays, so we must check for neutral here
+        if(!bwPlayer.isValid() && i!=11)
           continue;
 
         // transfer data

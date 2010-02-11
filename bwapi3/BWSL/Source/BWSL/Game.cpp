@@ -69,7 +69,7 @@ namespace BWSL
         BWSL::TilePosition p2(p.x,p.y);
         startLocations.insert(p2);
       }
-      for each(int playerId in sgd->players)
+      foreach(int playerId, sgd->players)
       {
         if (playerMap.find(playerId)==playerMap.end())
         {
@@ -78,10 +78,13 @@ namespace BWSL
         }
       }
       theEnemy = NULL;
-      foreach(Player* p, players)
+      if (self()!=NULL)
       {
-        if (self()->isEnemy(p))
-          theEnemy=p;
+        foreach(Player* p, players)
+        {
+          if (self()->isEnemy(p))
+            theEnemy=p;
+        }
       }
       for(int forceId=0;forceId<4;forceId++)
       {

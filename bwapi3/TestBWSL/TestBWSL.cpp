@@ -26,8 +26,8 @@ public:
   void onEnd(bool isWinner){};
   void onFrame() 
   {
-    printf("%d,%d\n",Game::enemy()->getStartLocation().x(),Game::enemy()->getStartLocation().y());
-    Game::drawBoxMap(Game::enemy()->getStartLocation().x()*32,Game::enemy()->getStartLocation().y()*32,Game::enemy()->getStartLocation().x()*32+4*32,Game::enemy()->getStartLocation().y()*32+3*32,Colors::Red,false);
+    //printf("%d,%d\n",Game::enemy()->getStartLocation().x(),Game::enemy()->getStartLocation().y());
+    //Game::drawBoxMap(Game::enemy()->getStartLocation().x()*32,Game::enemy()->getStartLocation().y()*32,Game::enemy()->getStartLocation().x()*32+4*32,Game::enemy()->getStartLocation().y()*32+3*32,Colors::Red,false);
   }
   bool onSendText(std::string text)
   {
