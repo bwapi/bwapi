@@ -23,8 +23,6 @@ namespace BW
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
       if (strcmp(BW::BWDATA_CurrentPlayerName, BW::BWDATA_Players->player[i].name) == 0)
         selfPlayerId = i;
-    if(selfPlayerId == -1)
-      throw GeneralException("self player not found");
   }
   //----------------------------------- IN REPLAY -----------------------------------------
   bool isInReplay()
