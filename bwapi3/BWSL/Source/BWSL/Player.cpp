@@ -10,8 +10,18 @@ namespace BWSL
 {
   Player::Player(int id)
   {
-    this->id=id;
-    this->self=&(BWAPI::getStaticGameData()->players[id]);
+    this->id = id;
+    this->self = &(BWAPI::getStaticGameData()->players[id]);
+    this->leftTheGame = false;
+  }
+  void Player::update()
+  {
+    if (playerType() == PlayerTypes::HumanDefeated ||
+        playerType() == PlayerTypes::Computer ||
+       (playerType() == PlayerTypes::Neutral && !this->isNeutral()))
+    {
+      leftTheGame = true;
+    }
   }
   int Player::getID() const
   {
@@ -19,6 +29,8 @@ namespace BWSL
   }
   std::string Player::getName() const
   {
+    if (id==11)
+      return "Neutral";
     return std::string(BWAPI::getPlayer(id)->name);
   }
   std::set<Unit*>& Player::getUnits() const
@@ -27,6 +39,8 @@ namespace BWSL
   }
   Race Player::getRace() const
   {
+    if (id==11)
+      return Races::None;
     return Race(self->race);
   }
   PlayerType Player::playerType() const
@@ -65,7 +79,7 @@ namespace BWSL
   }
   bool Player::leftGame() const
   {
-    return false;//BWAPI::GetStaticGameData()->players.data[id].leftGame;
+    return leftTheGame;
   }
   int Player::minerals() const
   {

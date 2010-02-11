@@ -2,8 +2,6 @@
 
 #include "BWSLInterface.h"
 
-IP_STRIP
-
 #include <string>
 #include <set>
 
