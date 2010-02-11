@@ -36,6 +36,7 @@ namespace BWSL
     char buffer[BUFFER_SIZE];
     bool flagEnabled[2];
     const BWAPI::StaticGameData* sgd;
+    Player* theEnemy;
     Error lastError;
     void saveInitialState()
     {
@@ -75,6 +76,12 @@ namespace BWSL
           playerMap[playerId]=new Player(playerId);
           players.insert(playerMap[playerId]);
         }
+      }
+      theEnemy = NULL;
+      foreach(Player* p, players)
+      {
+        if (self()->isEnemy(p))
+          theEnemy=p;
       }
       for(int forceId=0;forceId<4;forceId++)
       {
@@ -196,17 +203,26 @@ namespace BWSL
     //----------------------------------------------- GET FORCE ------------------------------------------------
     Force* getForce(int forceId)
     {
-      return forceMap[forceId];
+      std::map<int,Force*>::iterator i=forceMap.find(forceId);
+      if (i==forceMap.end())
+        return NULL;
+      return i->second;
     }
     //----------------------------------------------- GET PLAYER -----------------------------------------------
     Player* getPlayer(int playerId)
     {
-      return playerMap[playerId];
+      std::map<int,Player*>::iterator i=playerMap.find(playerId);
+      if (i==playerMap.end())
+        return NULL;
+      return i->second;
     }
     //----------------------------------------------- GET UNIT -------------------------------------------------
     Unit* getUnit(int unitId)
     {
-      return unitMap[unitId];
+      std::map<int,Unit*>::iterator i=unitMap.find(unitId);
+      if (i==unitMap.end())
+        return NULL;
+      return i->second;
     }
     //---------------------------------------------- GET LATENCY -----------------------------------------------
     int getLatency()
@@ -774,8 +790,7 @@ namespace BWSL
     //----------------------------------------------------- ENEMY ----------------------------------------------
     Player*  enemy()
     {
-      //return getPlayer(sgd->enemy);
-      return NULL;
+      return theEnemy;
     }
     //----------------------------------------------------- DRAW -----------------------------------------------
     void drawText(int ctype, int x, int y, const char* text, ...)
