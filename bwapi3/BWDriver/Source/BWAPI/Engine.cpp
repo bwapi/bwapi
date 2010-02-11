@@ -856,6 +856,13 @@ namespace BWAPI
                                                     BW::BWDATA_PlayerVictory->player[bwPlayerId]==2 ||
                                                     BW::BWDATA_PlayerVictory->player[bwPlayerId]==4 ||
                                                     BW::BWDATA_PlayerVictory->player[bwPlayerId]==6));
+            player.startLocation = BWAPI::Position(100000, 100001);
+            if (!BW::isInReplay() && BW::BWDATA_Alliance->alliance[BW::selfPlayerId].player[bwPlayerId]==0 && !flags[Flag::CompleteMapInformation])
+              player.startLocation = BWAPI::Position(100000, 100002);
+            else
+              player.startLocation = BWAPI::Position(BW::BWDATA_startPositions[bwPlayerId].x,BW::BWDATA_startPositions[bwPlayerId].y);
+          }
+    {
             // for all other players
             for each(int otherPlayerId in staticData.players)
             {

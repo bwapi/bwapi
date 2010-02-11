@@ -3,6 +3,7 @@
 #include "RaceId.h"
 #include "ForceId.h"
 #include "PlayerTypeId.h"
+#include "Position.h"
 
 #include <Util\StaticString.h>
 #include <Util\StaticSet.h>
@@ -36,6 +37,7 @@ namespace BWAPI
     bool alliance[12];       // index correlated with players
     bool isVictorious;
     bool isDefeated;
+    Position startLocation;
 
     // helper functions
     int inline getOwnRaceAvailableSupplies() const

@@ -25,7 +25,8 @@ public:
   void onEnd(bool isWinner){};
   void onFrame() 
   {
-    printf("m=%d, g=%d\n",Game::self()->minerals(),Game::self()->gas());
+    printf("%d,%d\n",Game::self()->getStartLocation().x(),Game::self()->getStartLocation().y());
+    Game::drawBoxMap(Game::self()->getStartLocation().x()*32,Game::self()->getStartLocation().y()*32,Game::self()->getStartLocation().x()*32+4*32,Game::self()->getStartLocation().y()*32+3*32,Colors::Red,false);
   }
   bool onSendText(std::string text)
   {
