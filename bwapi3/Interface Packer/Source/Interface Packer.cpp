@@ -252,6 +252,18 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   filter.insert("BWSL_EXPORT");
   for(;;)
   {
+    if(reader.isEof())
+    {
+      if(inPrivate)
+      {
+        printf("----------------------------------------------\n");
+        printf("WARNING probably unwanted stripping behaviour.\n");
+        printf("missing 'public:' after 'private:' in '%s'.\n", sourceFilePath.c_str());
+        printf("----------------------------------------------\n");
+      }
+      break;
+    }
+
     std::string line = reader.readLine();
     unsigned int firstNonSpace = line.find_first_not_of(' ');
 
@@ -279,6 +291,14 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
     }
     if(ignore)
       continue;
+
+    if(strip)
+    {
+      if(line == "#include <BWAPI\\all.h>")
+        continue;
+      if(line == "#include \"BWAPI\\all.h\"")
+        continue;
+    }
 
     // fix include statements to local paths
     if(line.substr(0, 8) == "#include")
@@ -330,11 +350,6 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
     // filter strip
     if(strip)
     {
-      if(line == "#include <BWAPI\\all.h>")
-        continue;
-      if(line == "#include \"BWAPI\\all.h\"")
-        continue;
-
       if(line.find("private:") != -1)
         inPrivate = true;
       if(line.find("public:") != -1)
@@ -388,8 +403,6 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
 
     writer.writeLine(line);
     // eof
-    if(reader.isEof())
-      break;
   }
 //  printf("%s: %s => %s\n", strip ? "strip" : "transit", sourceFilePath.c_str(), destFilePath.c_str());
 }
