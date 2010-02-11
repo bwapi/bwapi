@@ -16,11 +16,16 @@ public:
   {
     printf("match started\n");
     Game::enableFlag(Flag::UserInput);
+    std::set<Player*> players = Game::getPlayers();
+    foreach(Player* player,players)
+    {
+      printf("%d: %s [%s]\n",player->getID(),player->getName().c_str(),player->getRace().getName().c_str());
+    }
   }
   void onEnd(bool isWinner){};
   void onFrame() 
   {
-    Game::printf("frame: %d\n",Game::getFrameCount());
+    printf("m=%d, g=%d\n",Game::self()->minerals(),Game::self()->gas());
   }
   bool onSendText(std::string text)
   {

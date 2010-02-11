@@ -27,7 +27,9 @@ namespace BWSL
   private:
     int id;
     const BWAPI::Player* self;
+    bool leftTheGame;
   public:
+    void update();
     Player(int id);
     BWSL_EXPORT int getID() const;
     BWSL_EXPORT std::string getName() const;

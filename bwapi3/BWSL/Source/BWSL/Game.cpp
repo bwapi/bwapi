@@ -71,12 +71,18 @@ namespace BWSL
       for each(int playerId in sgd->players)
       {
         if (playerMap.find(playerId)==playerMap.end())
+        {
           playerMap[playerId]=new Player(playerId);
+          players.insert(playerMap[playerId]);
+        }
       }
       for(int forceId=0;forceId<4;forceId++)
       {
         if (forceMap.find(forceId)==forceMap.end())
+        {
           forceMap[forceId]=new Force(forceId);
+          forces.insert(forceMap[forceId]);
+        }
       }
 
     }
@@ -89,18 +95,22 @@ namespace BWSL
       geysers.clear();
       pylons.clear();
       playerUnits.clear();
+      foreach(Player* player,players)
+      {
+        player->update();
+      }
       for (int y = 0; y < sgd->mapSize.y; y++)
         for (int x = 0; x < sgd->mapSize.x; x++)
           unitsOnTileData[x][y].clear();
 
-      for each(int unitId in sgd->units)
+      foreach(int unitId,sgd->units)
       {
         if (unitMap.find(unitId)==unitMap.end())
           unitMap[unitId]=new Unit(unitId);
         Unit* u=getUnit(unitId);
         u->larva.clear();
       }
-      for each(int unitId in sgd->units)
+      foreach(int unitId,sgd->units)
       {
         Unit* u=getUnit(unitId);
         if (u->getHatchery()!=NULL)
