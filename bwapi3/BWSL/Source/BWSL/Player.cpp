@@ -67,15 +67,15 @@ namespace BWSL
   }
   TilePosition Player::getStartLocation() const
   {
-    Position p(self->startLocation.x,self->startLocation.y);
-    if (p==Positions::None)
-      return TilePositions::None;
-    if (p==Positions::Unknown)
-      return TilePositions::Unknown;
-    if (p==Positions::Invalid)
-      return TilePositions::Invalid;
-    return TilePosition((int)((p.x() - BWSL::TILE_SIZE * 2) / BWSL::TILE_SIZE),
-                               (int)((p.y() - (int)(BWSL::TILE_SIZE * 1.5)) / BWSL::TILE_SIZE));
+    if (self->startLocation == BWAPI::Position::Invalid)
+    {
+      if (isNeutral())
+        return TilePositions::None;
+      else
+        return TilePositions::Unknown;
+    }
+    return TilePosition((int)((self->startLocation.x - BWSL::TILE_SIZE * 2) / BWSL::TILE_SIZE),
+                               (int)((self->startLocation.y - (int)(BWSL::TILE_SIZE * 1.5)) / BWSL::TILE_SIZE));
   }
   bool Player::isVictorious() const
   {
