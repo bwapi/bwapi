@@ -22,6 +22,7 @@
 
 #define EXIT(...)       \
 {                       \
+  printf("fatal: ");    \
   printf(__VA_ARGS__);  \
   printf("\n");         \
   system("pause");      \
@@ -33,9 +34,14 @@ std::string collectorName;
 std::set<std::string> targetFiles;   // files to transit
 std::set<std::string> includePaths;
 std::set<std::string> processedFiles;
+std::set<std::string> stripLines;
+std::set<std::string> unchangedIncludes;
 
 std::set<std::string> missingFiles;
 //----------------------------- READ INI FILE ------------------------------------------------------------
+/**
+ * parses the ini file and fills the containers with data
+ */
 void readIniFile(std::string iniFileName)
 {
   Util::FileLineReader reader;
@@ -55,9 +61,35 @@ void readIniFile(std::string iniFileName)
   collectorName = reader.readLine();
 
   line = reader.readLine();
-  if(line != ":include directories")
-    EXIT("':include directories' expected");
+  if(line != ":strip lines")
+    EXIT("':strip lines' expected");
 
+  while(!reader.isEof())
+  {
+    line = reader.readLine();
+    if(line[0] == ':')
+    {
+      if(line != ":unchanged includes")
+        EXIT("':unchanged includes' expected at line %d", reader.getLineNumber());
+      break;
+    }
+    if(line.size() == 0)
+      continue;
+    stripLines.insert(line);
+  }
+  while(!reader.isEof())
+  {
+    line = reader.readLine();
+    if(line[0] == ':')
+    {
+      if(line != ":include directories")
+        EXIT("':include directories' expected at line %d", reader.getLineNumber());
+      break;
+    }
+    if(line.size() == 0)
+      continue;
+    unchangedIncludes.insert(line);
+  }
   while(!reader.isEof())
   {
     line = reader.readLine();
@@ -87,11 +119,21 @@ void readIniFile(std::string iniFileName)
   }
 }
 //----------------------------- FILE EXISTS --------------------------------------------------------------
+/**
+ * returns true if the file exists
+ */
 bool fileExists(std::string filename)
 {
   return GetFileAttributesA(filename.c_str()) != INVALID_FILE_ATTRIBUTES;
 }
 //----------------------------- STRIP FILE PATH ----------------------------------------------------------
+/**
+ * When concatinating multiple or complex file paths, the resulting path often has redundant folder
+ * information. E.g.:
+ * ..\Forlder1\..\Folder2\file.cpp
+ * In this case Folder 1 is redundant because it is followed by the .. directive.
+ * This functions removes all redundant path information.
+ */
 std::string stripFilePath(std::string filePath)
 {
   // removes a folder if it is succeeded by a .. dive
@@ -126,6 +168,9 @@ std::string stripFilePath(std::string filePath)
   return filePath;
 }
 //----------------------------- GET FILE NAME FROM PATH --------------------------------------------------
+/**
+ * returns the filename substring of the path
+ */
 std::string fileNameFromPath(std::string filePath)
 {
   for(int head = filePath.size()-1; head >= 0; head--)
@@ -139,6 +184,9 @@ std::string fileNameFromPath(std::string filePath)
   return filePath;  // no slashes found => all is file name
 }
 //----------------------------- GET FILE DIRECTORY FROM PATH ---------------------------------------------
+/**
+ * returns the substring of everything up to the filename
+ */
 std::string fileDirectoryFromPath(std::string filePath)
 {
   for(int head = filePath.size()-1; head >= 0; head--)
@@ -151,6 +199,10 @@ std::string fileDirectoryFromPath(std::string filePath)
   return "";  // no slashes found => no directory
 }
 //----------------------------- GET FILE PREFIX FROM PATH ------------------------------------------------
+/**
+ * Generates a string from a directory path. The string does not contain any special characters and
+ * can be used in filenames
+ */
 std::string filePrefixFromPath(std::string filePath)
 {
   if(false)
@@ -191,6 +243,11 @@ std::string filePrefixFromPath(std::string filePath)
   }
 }
 //----------------------------- FIND FILE PATH -----------------------------------------------------------
+/**
+ * searches for the file with fileName in all includePaths
+ * returns the full path of the file if found
+ * returns empty string if file not found
+ */
 std::string findFilePath(std::string fileName, std::string additionalIncludePath = "")
 {
   if(additionalIncludePath.size())
@@ -252,14 +309,13 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
   filter.insert("BWSL_EXPORT");
   for(;;)
   {
+    // end of file break condition
     if(reader.isEof())
     {
-      if(inPrivate)
+      if(inPrivate) // strip == true is implicit
       {
-        printf("----------------------------------------------\n");
-        printf("WARNING probably unwanted stripping behaviour.\n");
+        printf("WARNING probably unwanted stripping behaviour:\n");
         printf("missing 'public:' after 'private:' in '%s'.\n", sourceFilePath.c_str());
-        printf("----------------------------------------------\n");
       }
       break;
     }
@@ -294,9 +350,8 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
 
     if(strip)
     {
-      if(line == "#include <BWAPI\\all.h>")
-        continue;
-      if(line == "#include \"BWAPI\\all.h\"")
+      // when stripping, these selective lines of code will be ignored in all files
+      if(stripLines.find(line) != stripLines.end())
         continue;
     }
 
@@ -319,31 +374,35 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
         // extract relative file name
         std::string includeeRelativeFileName = line.substr(from+1, to-(from+1));
 
-        // find the file
-        std::string includeeFilePath = findFilePath(includeeRelativeFileName, fileDirectory);
-
-        // extract the file name
-        std::string includeeFileName = fileNameFromPath(includeeFilePath);
-
-        std::string includeePrefix;
-        if(includeeFilePath == "") // if not found, leave it as is
+        // check whether this is an include to leave unchanged
+        if(unchangedIncludes.find(includeeRelativeFileName) == unchangedIncludes.end())
         {
-          if(missingFiles.find(includeeRelativeFileName) == missingFiles.end())
+          // find the file
+          std::string includeeFilePath = findFilePath(includeeRelativeFileName, fileDirectory);
+
+          // extract the file name
+          std::string includeeFileName = fileNameFromPath(includeeFilePath);
+
+          std::string includeePrefix;
+          if(includeeFilePath == "") // if not found, leave it as is
           {
-            printf("missing include: '%s' in '%s'\n", includeeRelativeFileName.c_str(), sourceFilePath.c_str());
-            missingFiles.insert(includeeRelativeFileName);
+            if(missingFiles.find(includeeRelativeFileName) == missingFiles.end())
+            {
+              printf("missing include: '%s' in '%s'\n", includeeRelativeFileName.c_str(), sourceFilePath.c_str());
+              missingFiles.insert(includeeRelativeFileName);
+            }
+            includeePrefix = "";
+            includeeFileName = includeeRelativeFileName;
           }
-          includeePrefix = "";
-          includeeFileName = includeeRelativeFileName;
-        }
-        else
-        {
-          // generate included file prefix
-          includeePrefix = filePrefixFromPath(includeeFilePath);
-        }
+          else
+          {
+            // generate included file prefix
+            includeePrefix = filePrefixFromPath(includeeFilePath);
+          }
 
-        // splice folders out of the path
-        line = line.substr(0, from) + "\"" + includeePrefix + includeeFileName + "\"" + line.substr(to+1, line.size()-(to+1));
+          // splice folders out of the path
+          line = line.substr(0, from) + "\"" + includeePrefix + includeeFileName + "\"" + line.substr(to+1, line.size()-(to+1));
+        }
       }
     }
 
@@ -402,9 +461,9 @@ void processFile(std::string sourceFilePath, std::string destFilePath)
     }
 
     writer.writeLine(line);
-    // eof
   }
-//  printf("%s: %s => %s\n", strip ? "strip" : "transit", sourceFilePath.c_str(), destFilePath.c_str());
+//  uncomment to see what files are being processed
+//  printf("%s => %s\n", sourceFilePath.c_str(), destFilePath.c_str());
 }
 //----------------------------- COPY FILES ---------------------------------------------------------------
 void copyFiles()
@@ -440,6 +499,7 @@ void generateAllX(std::string extension)
 //----------------------------- MAIN ---------------------------------------------------------------------
 int _tmain(int argc, char* argv[])
 {
+  printf("----------------------------------------------------------------------\n");
   char* initFileName = argv[1];
   if(!initFileName || initFileName[0] == 0)
     return 1;
@@ -453,6 +513,8 @@ int _tmain(int argc, char* argv[])
   copyFiles();
   generateAllX("h");
   generateAllX("cpp");
+  printf("----------------------------------------------------------------------\n");
+  printf("Interface Packer finished.\n");
   system("pause");
   return 0;
 }
