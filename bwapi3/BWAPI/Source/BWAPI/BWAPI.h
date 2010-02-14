@@ -146,15 +146,15 @@ namespace BWAPI
   BWAPI_FUNCTION void orderRightClickPosition(UnitId unitId, Position pos);
   BWAPI_FUNCTION void orderRightClickUnit(UnitId unitId, UnitId targetUnitId);
   BWAPI_FUNCTION void orderTrain(UnitId unitId, UnitTypeId what);
-  BWAPI_FUNCTION void orderBuild(UnitId unitId, UnitTypeId what);
+  BWAPI_FUNCTION void orderBuild(UnitId unitId, Position pos, UnitTypeId what);
   BWAPI_FUNCTION void orderBuildAddon(UnitId unitId, BWAPI::UnitTypeId what);
   BWAPI_FUNCTION void orderResearch(UnitId unitId, BWAPI::TechTypeId what);
   BWAPI_FUNCTION void orderUpgrade(UnitId unitId, BWAPI::UpgradeTypeId what);
   BWAPI_FUNCTION void orderStop(UnitId unitId);
   BWAPI_FUNCTION void orderHoldPosition(UnitId unitId);
-  BWAPI_FUNCTION void orderPatrol(UnitId unitId);
+  BWAPI_FUNCTION void orderPatrol(UnitId unitId, Position pos);
   BWAPI_FUNCTION void orderFollow(UnitId unitId, UnitId targetUnitId);
-  BWAPI_FUNCTION void orderSetRallyPosition(UnitId unitId);
+  BWAPI_FUNCTION void orderSetRallyPosition(UnitId unitId, Position pos);
   BWAPI_FUNCTION void orderSetRallyUnit(UnitId unitId, UnitId targetUnitId);
   BWAPI_FUNCTION void orderRepair(UnitId unitId, UnitId targetUnitId);
   BWAPI_FUNCTION void orderReturnCargo(UnitId unitId);
@@ -166,11 +166,11 @@ namespace BWAPI
   BWAPI_FUNCTION void orderCloak(UnitId unitId);
   BWAPI_FUNCTION void orderDecloak(UnitId unitId);
   BWAPI_FUNCTION void orderLift(UnitId unitId);
-  BWAPI_FUNCTION void orderLand(UnitId unitId);
+  BWAPI_FUNCTION void orderLand(UnitId unitId, Position pos);
   BWAPI_FUNCTION void orderLoad(UnitId unitId, UnitId targetUnitId);
   BWAPI_FUNCTION void orderUnload(UnitId unitId, UnitId targetUnitId);
   BWAPI_FUNCTION void orderUnloadAll(UnitId unitId);
-  BWAPI_FUNCTION void orderUnloadAllPosition(UnitId unitId);
+  BWAPI_FUNCTION void orderUnloadAllPosition(UnitId unitId, Position pos);
   BWAPI_FUNCTION void orderCancelConstruction(UnitId unitId);
   BWAPI_FUNCTION void orderHaltConstruction(UnitId unitId);
   BWAPI_FUNCTION void orderCancelMorph(UnitId unitId);
@@ -179,7 +179,7 @@ namespace BWAPI
   BWAPI_FUNCTION void orderCancelAddon(UnitId unitId);
   BWAPI_FUNCTION void orderCancelResearch(UnitId unitId);
   BWAPI_FUNCTION void orderCancelUpgrade(UnitId unitId);
-  BWAPI_FUNCTION void orderUseTech(UnitId unitId);
-  BWAPI_FUNCTION void orderUseTechPosition(UnitId unitId, BWAPI::TechTypeId what);
+  BWAPI_FUNCTION void orderUseTech(UnitId unitId, BWAPI::TechTypeId what);
+  BWAPI_FUNCTION void orderUseTechPosition(UnitId unitId, BWAPI::TechTypeId what, Position pos);
   BWAPI_FUNCTION void orderUseTechUnit(UnitId unitId, BWAPI::TechTypeId what, UnitId targetUnitId);
 }
