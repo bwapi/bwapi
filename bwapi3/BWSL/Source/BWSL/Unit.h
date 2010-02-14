@@ -22,11 +22,16 @@ namespace BWSL
     const BWAPI::UnitState* self;
     int id;
     bool alive;
+    UnitType initialType;
+    int initialResources;
+    int initialHitPoints;
+    Position initialPosition;
   public:
     bool startingAttack;
     int lastGroundWeaponCooldown;
     int lastAirWeaponCooldown;
     std::set<Unit*> larva;
+    void saveInitialState();
 
 
     Unit(int id);
