@@ -142,18 +142,18 @@ namespace BWSL
     BWSL_EXPORT bool isUpgrading() const;
     BWSL_EXPORT bool isVisible() const;
 
-    BWSL_EXPORT bool attackMove(Position position);
+    BWSL_EXPORT bool attackMove(Position target);
     BWSL_EXPORT bool attackUnit(Unit* target);
-    BWSL_EXPORT bool rightClick(Position position);
+    BWSL_EXPORT bool rightClick(Position target);
     BWSL_EXPORT bool rightClick(Unit* target);
     BWSL_EXPORT bool train(UnitType type);
-    BWSL_EXPORT bool build(TilePosition position, UnitType type);
+    BWSL_EXPORT bool build(TilePosition target, UnitType type);
     BWSL_EXPORT bool buildAddon(UnitType type);
     BWSL_EXPORT bool research(TechType tech);
     BWSL_EXPORT bool upgrade(UpgradeType upgrade);
     BWSL_EXPORT bool stop();
     BWSL_EXPORT bool holdPosition();
-    BWSL_EXPORT bool patrol(Position position);
+    BWSL_EXPORT bool patrol(Position target);
     BWSL_EXPORT bool follow(Unit* target);
     BWSL_EXPORT bool setRallyPosition(Position target);
     BWSL_EXPORT bool setRallyUnit(Unit* target);
@@ -167,11 +167,11 @@ namespace BWSL
     BWSL_EXPORT bool cloak();
     BWSL_EXPORT bool decloak();
     BWSL_EXPORT bool lift();
-    BWSL_EXPORT bool land(TilePosition position);
+    BWSL_EXPORT bool land(TilePosition target);
     BWSL_EXPORT bool load(Unit* target);
     BWSL_EXPORT bool unload(Unit* target);
     BWSL_EXPORT bool unloadAll();
-    BWSL_EXPORT bool unloadAll(Position position);
+    BWSL_EXPORT bool unloadAll(Position target);
     BWSL_EXPORT bool cancelConstruction();
     BWSL_EXPORT bool haltConstruction();
     BWSL_EXPORT bool cancelMorph();
@@ -181,7 +181,7 @@ namespace BWSL
     BWSL_EXPORT bool cancelResearch();
     BWSL_EXPORT bool cancelUpgrade();
     BWSL_EXPORT bool useTech(TechType tech);
-    BWSL_EXPORT bool useTech(TechType tech, Position position);
+    BWSL_EXPORT bool useTech(TechType tech, Position target);
     BWSL_EXPORT bool useTech(TechType tech, Unit* target);
   };
 }

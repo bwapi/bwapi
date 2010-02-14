@@ -284,12 +284,13 @@ namespace BWAPI
     order.unitType = what;
   }
   //----------------------------------- BUILD ORDER -----------------------------------------------
-  BWAPI_FUNCTION void orderBuild(UnitId unitId, UnitTypeId what)
+  BWAPI_FUNCTION void orderBuild(UnitId unitId, Position pos, UnitTypeId what)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Build;
     order.unitIndex = unitId;
     order.unitType = what;
+    order.position = pos;
   }
   //----------------------------------- BUILD ADDON ORDER -----------------------------------------
   BWAPI_FUNCTION void orderBuildAddon(UnitId unitId, UnitTypeId what)
@@ -330,11 +331,12 @@ namespace BWAPI
     order.unitIndex = unitId;
   }
   //----------------------------------- PATROL ORDER ----------------------------------------------
-  BWAPI_FUNCTION void orderPatrol(UnitId unitId)
+  BWAPI_FUNCTION void orderPatrol(UnitId unitId, Position pos)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Patrol;
     order.unitIndex = unitId;
+    order.position = pos;
   }
   //----------------------------------- FOLLOW ORDER ----------------------------------------------
   BWAPI_FUNCTION void orderFollow(UnitId unitId, UnitId targetUnitId)
@@ -344,11 +346,12 @@ namespace BWAPI
     order.unitIndex = unitId;
   }
   //----------------------------------- SET RALLY POSITION ORDER ----------------------------------
-  BWAPI_FUNCTION void orderSetRallyPosition(UnitId unitId)
+  BWAPI_FUNCTION void orderSetRallyPosition(UnitId unitId, Position pos)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::SetRallyPosition;
     order.unitIndex = unitId;
+    order.position = pos;
   }
   //----------------------------------- SET RALLY UNIT ORDER --------------------------------------
   BWAPI_FUNCTION void orderSetRallyUnit(UnitId unitId, UnitId targetUnitId)
@@ -430,11 +433,12 @@ namespace BWAPI
     order.unitIndex = unitId;
   }
   //----------------------------------- LAND ORDER ------------------------------------------------
-  BWAPI_FUNCTION void orderLand(UnitId unitId)
+  BWAPI_FUNCTION void orderLand(UnitId unitId, Position pos)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::Land;
     order.unitIndex = unitId;
+    order.position = pos;
   }
   //----------------------------------- LOAD ORDER ------------------------------------------------
   BWAPI_FUNCTION void orderLoad(UnitId unitId, UnitId targetUnitId)
@@ -460,11 +464,12 @@ namespace BWAPI
     order.unitIndex = unitId;
   }
   //----------------------------------- UNLOAD ALL POSITION ORDER ---------------------------------
-  BWAPI_FUNCTION void orderUnloadAllPosition(UnitId unitId)
+  BWAPI_FUNCTION void orderUnloadAllPosition(UnitId unitId, Position pos)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UnloadAllPosition;
     order.unitIndex = unitId;
+    order.position = pos;
   }
   //----------------------------------- CANCEL CONSTRUCTION ORDER ---------------------------------
   BWAPI_FUNCTION void orderCancelConstruction(UnitId unitId)
@@ -524,19 +529,22 @@ namespace BWAPI
     order.unitIndex = unitId;
   }
   //----------------------------------- USE TECH ORDER --------------------------------------------
-  BWAPI_FUNCTION void orderUseTech(UnitId unitId)
+  BWAPI_FUNCTION void orderUseTech(UnitId unitId, TechTypeId what)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UseTech;
     order.unitIndex = unitId;
+    order.tech = what;
 
   }
   //----------------------------------- USE TECH POSITION ORDER -----------------------------------
-  BWAPI_FUNCTION void orderUseTechPosition(UnitId unitId, TechTypeId what)
+  BWAPI_FUNCTION void orderUseTechPosition(UnitId unitId, TechTypeId what, Position pos)
   {
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UseTechPosition;
     order.unitIndex = unitId;
+    order.tech = what;
+    order.position = pos;
   }
   //----------------------------------- USE TECH UNIT ORDER ---------------------------------------
   BWAPI_FUNCTION void orderUseTechUnit(UnitId unitId, TechTypeId what, UnitId targetUnitId)
@@ -544,6 +552,7 @@ namespace BWAPI
     UnitCommand &order = insertOrder();
     order.commandId = UnitCommandTypeIds::UseTechUnit;
     order.unitIndex = unitId;
+    order.tech = what;
     order.targetIndex = targetUnitId;
   }
   //----------------------------------- -----------------------------------------------------------

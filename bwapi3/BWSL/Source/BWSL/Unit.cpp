@@ -10,7 +10,6 @@
 #include "Order.h"
 namespace BWSL
 {
-//  void pushCommand(BWAPI::CommandID commandID, int unitID, int x=0, int y=0, int targetID=0, int specialID=0);
   Unit::Unit(int id)
   {
     this->self=BWAPI::getUnit(id);
@@ -539,14 +538,49 @@ namespace BWSL
   {
     return self->clearanceLevel>=3;
   }
+  bool Unit::attackMove(Position target)
+  {
+    BWAPI::orderAttackPosition(this->id,BWAPI::Position(target.x(),target.y()));
+    return true;
+  }
   bool Unit::attackUnit(Unit* target)
   {
     BWAPI::orderAttackUnit(this->id,target->id);
     return true;
   }
+  bool Unit::rightClick(Position target)
+  {
+    BWAPI::orderRightClickPosition(this->id,BWAPI::Position(target.x(),target.y()));
+    return true;
+  }
   bool Unit::rightClick(Unit* target)
   {
     BWAPI::orderRightClickUnit(this->id,target->id);
+    return true;
+  }
+  bool Unit::train(UnitType type)
+  {
+    BWAPI::orderTrain(this->id,(BWAPI::UnitTypeId)type.getID());
+    return true;
+  }
+  bool Unit::build(TilePosition target, UnitType type)
+  {
+    BWAPI::orderBuild(this->id,BWAPI::Position(target.x(),target.y()),(BWAPI::UnitTypeId)type.getID());
+    return true;
+  }
+  bool Unit::buildAddon(UnitType type)
+  {
+    BWAPI::orderBuildAddon(this->id,(BWAPI::UnitTypeId)type.getID());
+    return true;
+  }
+  bool Unit::research(TechType tech)
+  {
+    BWAPI::orderResearch(this->id,(BWAPI::TechTypeId)tech.getID());
+    return true;
+  }
+  bool Unit::upgrade(UpgradeType upgrade)
+  {
+    BWAPI::orderUpgrade(this->id,(BWAPI::UpgradeTypeId)upgrade.getID());
     return true;
   }
   bool Unit::stop()
@@ -559,9 +593,19 @@ namespace BWSL
     BWAPI::orderHoldPosition(this->id);
     return true;
   }
+  bool Unit::patrol(Position target)
+  {
+    BWAPI::orderPatrol(this->id,BWAPI::Position(target.x(),target.y()));
+    return true;
+  }
   bool Unit::follow(Unit* target)
   {
     BWAPI::orderFollow(this->id,target->id);
+    return true;
+  }
+  bool Unit::setRallyPosition(Position target)
+  {
+    BWAPI::orderSetRallyPosition(this->id,BWAPI::Position(target.x(),target.y()));
     return true;
   }
   bool Unit::setRallyUnit(Unit* target)
@@ -572,6 +616,16 @@ namespace BWSL
   bool Unit::repair(Unit* target)
   {
     BWAPI::orderRepair(this->id,target->id);
+    return true;
+  }
+  bool Unit::returnCargo()
+  {
+    BWAPI::orderReturnCargo(this->id);
+    return true;
+  }
+  bool Unit::morph(UnitType type)
+  {
+    BWAPI::orderMorph(this->id,(BWAPI::UnitTypeId)type.getID());
     return true;
   }
   bool Unit::burrow()
@@ -609,6 +663,11 @@ namespace BWSL
     BWAPI::orderLift(this->id);
     return true;
   }
+  bool Unit::land(TilePosition target)
+  {
+    BWAPI::orderLand(this->id,BWAPI::Position(target.x(),target.y()));
+    return true;
+  }
   bool Unit::load(Unit* target)
   {
     BWAPI::orderLoad(this->id,target->id);
@@ -622,6 +681,11 @@ namespace BWSL
   bool Unit::unloadAll()
   {
     BWAPI::orderUnloadAll(this->id);
+    return true;
+  }
+  bool Unit::unloadAll(Position target)
+  {
+    BWAPI::orderUnloadAllPosition(this->id,BWAPI::Position(target.x(),target.y()));
     return true;
   }
   bool Unit::cancelConstruction()
@@ -664,18 +728,19 @@ namespace BWSL
     BWAPI::orderCancelUpgrade(this->id);
     return true;
   }
-
-  /*
-  void pushCommand(BWAPI::UnitCommandTypeID commandID, int unitID, int x, int y, int targetID, int specialID)
+  bool Unit::useTech(TechType tech)
   {
-    BWAPI::UnitCommand* c = &(BridgeClient::sharedCommandData->commandQueue[BridgeClient::sharedCommandData->lastFreeCommandSlot]);
-    c->commandID=commandID;
-    c->unitID=unitID;
-    c->x=x;
-    c->y=y;
-    c->targetID=targetID;
-    c->specialID=specialID;
-    BridgeClient::sharedCommandData->lastFreeCommandSlot++;
+    BWAPI::orderUseTech(this->id,(BWAPI::TechTypeId)tech.getID());
+    return true;
   }
-  */
+  bool Unit::useTech(TechType tech,Position target)
+  {
+    BWAPI::orderUseTechPosition(this->id,(BWAPI::TechTypeId)tech.getID(),BWAPI::Position(target.x(),target.y()));
+    return true;
+  }
+  bool Unit::useTech(TechType tech,Unit* target)
+  {
+    BWAPI::orderUseTechUnit(this->id,(BWAPI::TechTypeId)tech.getID(),target->id);
+    return true;
+  }
 }
