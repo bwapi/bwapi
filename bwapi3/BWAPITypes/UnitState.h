@@ -96,6 +96,8 @@ namespace BWAPI
     UnitId addon;       // Could be bidirectional
     UnitId child;
 
+    int buildTimer;
+
     int groundWeaponCooldown;
     int airWeaponCooldown;
     int spellCooldown;
@@ -140,6 +142,7 @@ namespace BWAPI
     };
     // unit's orders
     Order order;
+    Order secondaryOrder;
     Util::StaticVector<UnitId, 5> trainingQueue;
     Position rallyPosition;
     UnitId rallyUnit;

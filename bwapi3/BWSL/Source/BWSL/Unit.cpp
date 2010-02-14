@@ -259,15 +259,15 @@ namespace BWSL
   }
   Unit* Unit::getOrderTarget() const
   {
-    return NULL;//FIX FIX FIX Game::getUnit(self->orderTarget);
+    return Game::getUnit(self->order.targetUnit);
   }
   int Unit::getOrderTimer() const
   {
-    return 0;//FIX FIX FIX self->orderTimer;
+    return self->order.timer;
   }
   Order Unit::getSecondaryOrder() const
   {
-    return 0;//FIX FIX FIX Order(self->secondaryOrder);
+    return BWSL::Order(self->secondaryOrder.type);
   }
   Unit* Unit::getBuildUnit() const
   {
@@ -275,11 +275,27 @@ namespace BWSL
   }
   UnitType Unit::getBuildType() const
   {
-    return UnitTypes::None;//UnitType(self->buildType);
+    if (this->getOrder()==Orders::ZergBuildSelf ||
+        this->getOrder()==Orders::BuildSelf1 ||
+        this->getOrder()==Orders::BuildSelf2)
+        return this->getType();
+    if (this->getOrder()==Orders::ConstructingBuilding)
+      return this->getBuildUnit()->getType();
+    if (this->getTrainingQueue().size()==0 || this->isIdle())
+      return UnitTypes::None;
+    if (this->getOrder()==Orders::BuildTerran ||
+        this->getOrder()==Orders::BuildProtoss1 ||
+        this->getOrder()==Orders::Morph1 ||
+        this->getOrder()==Orders::DroneLand ||
+        this->getOrder()==Orders::ZergBuildSelf)
+    {
+      return UnitType(self->trainingQueue.data[0]);
+    }
+    return UnitTypes::None;
   }
   int Unit::getRemainingBuildTime() const
   {
-    return 0;//self->remainingBuildTime;
+    return self->buildTimer;
   }
   int Unit::getRemainingTrainTime() const
   {
