@@ -40,13 +40,18 @@ namespace BWSL
     Error lastError;
     void saveInitialState()
     {
-      //TODO: Implement
+      staticMinerals = minerals;
+      staticGeysers = geysers;
+      staticNeutralUnits = neutralUnits;
+      foreach(Unit* u, allUnits)
+      {
+        u->saveInitialState();
+      }
     }
     //------------------------------------------------- ON START -----------------------------------------------
     void onStart()
     {
       sgd=BWAPI::getStaticGameData();
-      saveInitialState();
       startLocations.clear();
       for(std::map<int,Force*>::iterator i=forceMap.begin();i!=forceMap.end();i++)
       {
@@ -94,7 +99,8 @@ namespace BWSL
           forces.insert(forceMap[forceId]);
         }
       }
-
+      onFrame();
+      saveInitialState();
     }
     //------------------------------------------------- ON FRAME -----------------------------------------------
     void onFrame()

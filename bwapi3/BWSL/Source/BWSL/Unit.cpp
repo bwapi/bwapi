@@ -16,6 +16,17 @@ namespace BWSL
     this->self=BWAPI::getUnit(id);
     this->id=id;
     this->alive=true;
+    this->initialType=UnitTypes::Unknown;
+    this->initialResources=0;
+    this->initialHitPoints=0;
+    this->initialPosition=Positions::Unknown;
+  }
+  void Unit::saveInitialState()
+  {
+    this->initialType=getType();
+    this->initialResources=getResources();
+    this->initialHitPoints=getHitPoints();
+    this->initialPosition=getPosition();
   }
   int Unit::getID() const
   {
@@ -29,9 +40,17 @@ namespace BWSL
   {
     return UnitType(self->type);
   }
+  UnitType Unit::getInitialType() const
+  {
+    return this->initialType;
+  }
   int Unit::getHitPoints() const
   {
     return self->hitPoints;
+  }
+  int Unit::getInitialHitPoints() const
+  {
+    return this->initialHitPoints;
   }
   int Unit::getShields() const
   {
@@ -44,6 +63,10 @@ namespace BWSL
   int Unit::getResources() const
   {
     return self->resources;
+  }
+  int Unit::getInitialResources() const
+  {
+    return this->initialResources;
   }
   int Unit::getKillCount() const
   {
@@ -107,7 +130,7 @@ namespace BWSL
   }
   Position Unit::getInitialPosition() const
   {
-    return Position(0,0);//FIX FIX FIX
+    return this->initialPosition;
   }
   TilePosition Unit::getTilePosition() const
   {
@@ -116,7 +139,8 @@ namespace BWSL
   }
   TilePosition Unit::getInitialTilePosition() const
   {
-    return TilePosition(0,0);//FIX FIX FIX
+    return TilePosition(Position(this->initialPosition.x() - this->initialType.tileWidth() * TILE_SIZE / 2,
+                                 this->initialPosition.y() - this->initialType.tileHeight() * TILE_SIZE / 2));
   }
   double Unit::getDistance(Unit* target) const
   {
