@@ -633,6 +633,7 @@ namespace BWAPI
           knownUnit.order.targetPosition  = bwUnit.orderTargetPos;
           knownUnit.order.type            = (OrderTypeId)bwUnit.orderID;
           knownUnit.order.timer           = bwUnit.mainOrderTimer;
+          knownUnit.secondaryOrder.type   = (OrderTypeId)bwUnit.secondaryOrderID;
         }
         {
           BW::Unit* bwTargetUnit          = bwUnit.targetUnit;
@@ -661,6 +662,7 @@ namespace BWAPI
             knownUnit.trainTimer          = 0;
           }
         }
+        knownUnit.buildTimer              = bwUnit.remainingBuildTime;
 
         // container union
         knownUnit.scarabCount             = (type == UnitTypeIds::Protoss_Reaver)
