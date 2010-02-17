@@ -14,11 +14,10 @@ namespace BWSL
   }
   std::string Force::getName() const
   {
-    return std::string("");//Todo: implement
+    return BWAPI::getForce(id)->name.c_str();
   }
   std::set<Player*> Force::getPlayers() const
   {
-    std::set<Player*> empty;
-    return empty;//Todo: implement
+    return players;
   }
 }

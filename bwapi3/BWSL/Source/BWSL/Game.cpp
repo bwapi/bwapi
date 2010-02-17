@@ -99,6 +99,10 @@ namespace BWSL
           forces.insert(forceMap[forceId]);
         }
       }
+      foreach(Player* p, players)
+      {
+        p->getForce()->players.insert(p);
+      }
       onFrame();
       saveInitialState();
     }
