@@ -218,6 +218,12 @@ namespace BWAPI
     cmd.speed = speed;
     pushCommand(cmd);
   }
+  BWAPI_FUNCTION void changeRace(int raceId)
+  {
+    Bridge::CommandEntry::ChangeRace cmd;
+    cmd.race = raceId;
+    pushCommand(cmd);
+  }
   BWAPI_FUNCTION void pingMinimap(Position pos)
   {
     Bridge::CommandEntry::PingMinimap cmd;

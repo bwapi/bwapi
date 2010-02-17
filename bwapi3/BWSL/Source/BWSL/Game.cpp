@@ -484,7 +484,9 @@ namespace BWSL
     //---------------------------------------------- CAN BUILD HERE --------------------------------------------
     bool canBuildHere(Unit* builder, TilePosition position, UnitType type)
     {
+      /* Error checking */
       lastError = Errors::Unbuildable_Location;
+
       if (position.x()<0) return false;
       if (position.y()<0) return false;
       int width=type.tileWidth();
@@ -587,6 +589,7 @@ namespace BWSL
     //------------------------------------------------- CAN MAKE -----------------------------------------------
     bool canMake(Unit* builder, UnitType type)
     {
+      /* Error checking */
       lastError = Errors::None;
       if (self() == NULL)
       {
@@ -703,16 +706,86 @@ namespace BWSL
       return true;
     }
     //----------------------------------------------- CAN RESEARCH ---------------------------------------------
-    bool  canResearch(Unit* unit, TechType type)
+    bool canResearch(Unit* unit, TechType type)
     {
-      //Todo: implement here
-      return false;
+      /* Error checking */
+      lastError = Errors::None;
+      if (self() == NULL)
+      {
+        lastError = Errors::Unit_Not_Owned;
+        return false;
+      }
+
+      if (unit != NULL)
+      {
+        if (unit->getPlayer()!=self())
+        {
+          lastError = Errors::Unit_Not_Owned;
+          return false;
+        }
+        if (unit->getType() != *(type.whatResearches()))
+        {
+          lastError = Errors::Incompatible_UnitType;
+          return false;
+        }
+      }
+      if (self()->hasResearched(type))
+      {
+        lastError = Errors::Already_Researched;
+        return false;
+      }
+      if (self()->minerals() < type.mineralPrice())
+      {
+        lastError = Errors::Insufficient_Minerals;
+        return false;
+      }
+      if (self()->gas() < type.gasPrice())
+      {
+        lastError = Errors::Insufficient_Gas;
+        return false;
+      }
+      return true;
     }
     //----------------------------------------------- CAN UPGRADE ----------------------------------------------
-    bool  canUpgrade(Unit* unit, UpgradeType type)
+    bool canUpgrade(Unit* unit, UpgradeType type)
     {
-      //Todo: implement here
-      return false;
+      /* Error checking */
+      lastError = Errors::None;
+      if (self() == NULL)
+      {
+        lastError = Errors::Unit_Not_Owned;
+        return false;
+      }
+
+      if (unit != NULL)
+      {
+        if (unit->getPlayer()!=self())
+        {
+          lastError = Errors::Unit_Not_Owned;
+          return false;
+        }
+        if (unit->getType() != *(type.whatUpgrades()))
+        {
+          lastError = Errors::Incompatible_UnitType;
+          return false;
+        }
+      }
+      if (self()->getUpgradeLevel(type)>=type.maxRepeats())
+      {
+        lastError = Errors::Fully_Upgraded;
+        return false;
+      }
+      if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->getUpgradeLevel(type)))
+      {
+        lastError = Errors::Insufficient_Minerals;
+        return false;
+      }
+      if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->getUpgradeLevel(type)))
+      {
+        lastError = Errors::Insufficient_Gas;
+        return false;
+      }
+      return true;
     }
     //--------------------------------------------- GET START LOCATIONS ----------------------------------------
     std::set< TilePosition >& getStartLocations()
@@ -756,9 +829,9 @@ namespace BWSL
       return;
     }
     //---------------------------------------------- CHANGE RACE -----------------------------------------------
-    void  changeRace(BWAPI::Race race)
+    void changeRace(Race race)
     {
-      //BWAPI::changeRace(race.getID());
+      BWAPI::changeRace(race.getID());
     }
     //----------------------------------------------- START GAME -----------------------------------------------
     void  startGame()

@@ -51,6 +51,10 @@ namespace Bridge
       u32 speed;
     };
 
+    struct ChangeRace : Util::TypeHead<UNIQUE_ID>
+    {
+      u32 race;
+    };
     struct PingMinimap : Util::TypeHead<UNIQUE_ID>
     {
       BWAPI::Position pos;
