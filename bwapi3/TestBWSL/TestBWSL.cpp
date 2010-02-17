@@ -26,6 +26,13 @@ public:
   void onEnd(bool isWinner){};
   void onFrame() 
   {
+    std::set<Unit*> units = Game::getSelectedUnits();
+    foreach(Unit* u, units)
+    {
+      int x=u->getPosition().x();
+      int y=u->getPosition().y();
+      Game::drawCircleMap(x,y,20,Colors::Green,false);
+    }
     //printf("%d,%d\n",Game::enemy()->getStartLocation().x(),Game::enemy()->getStartLocation().y());
     //Game::drawBoxMap(Game::enemy()->getStartLocation().x()*32,Game::enemy()->getStartLocation().y()*32,Game::enemy()->getStartLocation().x()*32+4*32,Game::enemy()->getStartLocation().y()*32+3*32,Colors::Red,false);
   }
