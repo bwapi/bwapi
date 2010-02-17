@@ -25,6 +25,8 @@ namespace BW
   extern void setLocalSpeed(int speed);
   extern void resetLocalSpeed();
 
+  extern void changeRace(int raceId);
+
   extern void setScreenPosition(Position pos);
   extern void startGame();
   extern void pauseGame();

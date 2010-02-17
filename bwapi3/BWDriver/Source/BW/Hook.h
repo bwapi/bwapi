@@ -29,6 +29,8 @@ namespace BW
   };
   static const ScreenBufferData** const screenBufferData = (const ScreenBufferData**)0x006CF4A8;
 
+  // extreemely efficient code, especially when optimisation turned on.
+  // code derived from starcraft assembly
   static void inline drawDot(int x, int y, int color)
   {
 //    drawBox(x, y, 1, 1, color);
@@ -36,6 +38,8 @@ namespace BW
     if(x >= 0 && x < 640 && y >= 0 && y < 480)
       (*screenBufferData)->buffer[y*640 + x] = color;
   }
+  // efficient scanline code used by BWAPI's drawing functions,
+  // based on drawDot, but more efficient, especially with optimisation on
   static void inline drawScanLine(int x, int y, int width, int color)
   {
     if(x+width >= 0 && x < 640 && y >= 0 && y < 480)
@@ -52,7 +56,6 @@ namespace BW
       memset(&((*screenBufferData)->buffer[y*640 + x]), color, width);
     }
   }
-  extern void changeRace(int raceId);
   extern void printEx(s32 pID, const char* text, ...);
   extern void sendText(const char* text, ...);
   extern void printf(const char* text, ...);
