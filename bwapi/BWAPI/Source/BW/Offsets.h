@@ -342,6 +342,10 @@ namespace BW
   {
     u32 unitType[UNIT_TYPE_COUNT];
   };
+  struct unitsDat_s32_type
+  {
+    s32 unitType[UNIT_TYPE_COUNT];
+  };
 
 
   //---------------------------------------------- UNIT GRAPHICS ---------------------------------------------
@@ -361,19 +365,7 @@ namespace BW
   //-------------------------------------------- UNIT MAX SHIELDS --------------------------------------------
   static unitsDat_u16_type* BWDATA_MaxShieldPoints = (unitsDat_u16_type*) unitsDat[7].address;
   //---------------------------------------------- UNIT MAX HP -----------------------------------------------
-  /** Direct mapping of unit unit type (Max Health Points)/(Not Attackable)/(Requirable) specification. */
-  struct MaxHealthPoints_NotAttackable_Repairable_type
-  {
-    /** mapping of the Max Health Points)/(Not Attackable)/(Requirable) for single unit type. */
-    struct MaxHealthPoints_NotAttackable_Repairable_Internal_type
-    {
-      u16 maxHealthPoints;
-      u8 notAttackable;
-      u8 repairable;
-    };
-    MaxHealthPoints_NotAttackable_Repairable_Internal_type raw[UNIT_TYPE_COUNT];
-  };
-  static MaxHealthPoints_NotAttackable_Repairable_type* BWDATA_MaxHealthPoints_NotAttackable_Repairable = (MaxHealthPoints_NotAttackable_Repairable_type*) unitsDat[8].address;
+  static unitsDat_s32_type* BWDATA_MaxHitPoints = (unitsDat_s32_type*) unitsDat[8].address;
   //--------------------------------------------- ELEVATION ----------------------------------------------
   static unitsDat_u8_type* BWDATA_Elevation = (unitsDat_u8_type*) unitsDat[9].address;
 

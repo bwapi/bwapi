@@ -14,7 +14,7 @@ namespace BW
     public :
       PositionUnitTarget(const Position& position);
       PositionUnitTarget(const UnitTarget& target);
-      BW::Position position;
+      BW::Position   position;
       BW::UnitTarget target;
   };
 }

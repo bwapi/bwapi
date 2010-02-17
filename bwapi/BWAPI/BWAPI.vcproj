@@ -275,6 +275,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\BW\OrderTypes.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Position.cpp"
 					>
 				</File>
@@ -560,10 +564,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\Map.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BW\OrderTypes.cpp"
 					>
 				</File>
 				<File

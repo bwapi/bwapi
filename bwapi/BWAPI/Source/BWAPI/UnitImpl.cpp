@@ -81,13 +81,14 @@ namespace BWAPI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::getHitPoints() const
   {
-    if (!this->attemptAccess()) return 0;
+    if (!this->attemptAccess())
+      return 0;
     return this->_getHitPoints();
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::_getHitPoints() const
   {
-    return this->getRawDataLocal()->healthPoints/256;
+    return this->getRawDataLocal()->hitPoints / 256;
   }
   //---------------------------------------------- GET SHIELDS -----------------------------------------------
   int UnitImpl::getShields() const
@@ -2065,7 +2066,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (tech==TechTypes::Spider_Mines && this->getSpiderMineCount()<=0)
+    if (tech == TechTypes::Spider_Mines && this->getSpiderMineCount()<=0)
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
       return false;
@@ -2119,7 +2120,8 @@ namespace BWAPI
   bool UnitImpl::useTech(TechType tech, Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!this->attemptAccess()) return false;
+    if (!this->attemptAccess())
+      return false;
     if (this->getPlayer() != Broodwar->self())
     {
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
@@ -2130,7 +2132,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
     }
-    if (this->getEnergy()<tech.energyUsed())
+    if (this->getEnergy() < tech.energyUsed())
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
@@ -2189,6 +2191,14 @@ namespace BWAPI
         break;
       case BW::TechID::YamatoGun:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::FireYamatoGun1), sizeof(BW::Orders::Attack));
+        break;
+      case BW::TechID::ArchonWarp:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ShiftSelectSingle((UnitImpl*)target), sizeof(BW::Orders::ShiftSelectSingle));
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
+        break;
+      case BW::TechID::DarkArchonMeld:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ShiftSelectSingle((UnitImpl*)target), sizeof(BW::Orders::ShiftSelectSingle));
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
         break;
       default:
         BroodwarImpl.setLastError(Errors::Incompatible_TechType);

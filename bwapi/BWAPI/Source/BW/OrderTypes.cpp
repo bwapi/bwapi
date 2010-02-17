@@ -58,6 +58,13 @@ namespace BW
         , alwaysZero(0x0)
     {
     }
+    //----------------------------------- SHIFT SELECT SINGLE CONSTRUCTOR ------------------------------------
+    ShiftSelectSingle::ShiftSelectSingle(BWAPI::UnitImpl* select)
+        : always0x0A(0x0A)
+        , always0x01(0x01)
+        , target(select)
+    {
+    }
     //-------------------------------------- SELECT SINGLE CONSTRUCTOR ---------------------------------------
     SelectSingle::SelectSingle(BWAPI::UnitImpl* select)
         : always0x09(0x09)

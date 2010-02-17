@@ -30,10 +30,11 @@ namespace BWAPI
   {
     public:
 
-      virtual int getID() const;
+      virtual int      getID() const;
       virtual Player*  getPlayer() const;
-      virtual UnitType  getType() const;
-      virtual UnitType  getInitialType() const;
+      virtual UnitType getType() const;
+      virtual UnitType getInitialType() const;
+
       virtual int  getHitPoints() const;
       virtual int  getInitialHitPoints() const;
       virtual int  getShields() const;
@@ -45,7 +46,6 @@ namespace BWAPI
       virtual int  getAirWeaponCooldown() const;
       virtual int  getSpellCooldown() const;
       virtual int  getDefenseMatrixPoints() const;
-
       virtual int  getDefenseMatrixTimer() const;
       virtual int  getEnsnareTimer() const;
       virtual int  getIrradiateTimer() const;
@@ -56,43 +56,50 @@ namespace BWAPI
       virtual int  getStasisTimer() const;
       virtual int  getStimTimer() const;
 
-      virtual Position  getPosition() const;
-      virtual Position  getInitialPosition() const;
+      virtual Position      getPosition() const;
+      virtual Position      getInitialPosition() const;
       virtual TilePosition  getTilePosition() const;
       virtual TilePosition  getInitialTilePosition() const;
+
       virtual double getDistance(Unit* target) const;
       virtual double getDistance(Position target) const;
       virtual double getAngle() const;
       virtual double getVelocityX() const;
       virtual double getVelocityY() const;
 
-      virtual Unit*  getTarget() const;
+      virtual Unit*     getTarget() const;
       virtual Position  getTargetPosition() const;
-      virtual Order  getOrder() const;
-      virtual Unit*  getOrderTarget() const;
-      virtual int  getOrderTimer() const;
-      virtual Order  getSecondaryOrder() const;
-      virtual Unit*  getBuildUnit() const;
-      virtual UnitType getBuildType() const;
-      virtual int  getRemainingBuildTime() const;
-      virtual int  getRemainingTrainTime() const;
-      virtual Unit*  getChild() const;
+      virtual Order     getOrder() const;
+      virtual Unit*     getOrderTarget() const;
+      virtual int       getOrderTimer() const;
+      virtual Order     getSecondaryOrder() const;
+      virtual Unit*     getBuildUnit() const;
+      virtual UnitType  getBuildType() const;
+      virtual int       getRemainingBuildTime() const;
+      virtual int       getRemainingTrainTime() const;
+      virtual Unit*     getChild() const;
+
       virtual std::list<UnitType >  getTrainingQueue() const;
+
       virtual Unit*  getTransport() const;
+
       virtual std::list<Unit*>  getLoadedUnits() const;
-      virtual int  getInterceptorCount() const;
-      virtual int  getScarabCount() const;
-      virtual int  getSpiderMineCount() const;
-      virtual TechType  getTech() const;
-      virtual UpgradeType  getUpgrade() const;
-      virtual int  getRemainingResearchTime() const;
-      virtual int  getRemainingUpgradeTime() const;
-      virtual Position  getRallyPosition() const;
-      virtual Unit*  getRallyUnit() const;
-      virtual Unit*  getAddon() const;
-      virtual Unit* getHatchery() const;
+
+      virtual int         getInterceptorCount() const;
+      virtual int         getScarabCount() const;
+      virtual int         getSpiderMineCount() const;
+      virtual TechType    getTech() const;
+      virtual UpgradeType getUpgrade() const;
+      virtual int         getRemainingResearchTime() const;
+      virtual int         getRemainingUpgradeTime() const;
+      virtual Position    getRallyPosition() const;
+      virtual Unit*       getRallyUnit() const;
+      virtual Unit*       getAddon() const;
+      virtual Unit*       getHatchery() const;
+
       virtual std::set<Unit*> getLarva() const;
-      virtual int  getUpgradeLevel(UpgradeType upgrade) const;
+
+      virtual int   getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual bool  exists() const;
       virtual bool  isAccelerating() const;
@@ -178,7 +185,6 @@ namespace BWAPI
       virtual bool  useTech(TechType tech);
       virtual bool  useTech(TechType tech, Position position);
       virtual bool  useTech(TechType tech, Unit* target);
-
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
