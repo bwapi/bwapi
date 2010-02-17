@@ -14,6 +14,7 @@ namespace BWSL
   private:
     int id;
   public:
+    std::set<Player*> players;
     Force(int id);
     BWSL_EXPORT std::string getName() const;
     BWSL_EXPORT std::set<Player*> getPlayers() const;

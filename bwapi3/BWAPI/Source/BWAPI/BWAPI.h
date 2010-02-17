@@ -53,6 +53,7 @@ namespace BWAPI
   // access directly through static data. Use this if error checking is needed
   BWAPI_FUNCTION const UnitState*       getUnit(UnitId unitId);
   BWAPI_FUNCTION const Player*          getPlayer(PlayerId playerId);
+  BWAPI_FUNCTION const Force*           getForce(ForceId forceId);
 
   // database related
   BWAPI_FUNCTION const UnitType*        getUnitType(UnitTypeId id);

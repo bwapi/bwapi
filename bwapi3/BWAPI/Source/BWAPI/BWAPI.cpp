@@ -129,10 +129,15 @@ namespace BWAPI
   {
     return &BridgeClient::gameData->units.at(unitId);
   }
-  //----------------------------------- GET UNIT TYPE ---------------------------------------------
+  //----------------------------------- GET PLAYER ------------------------------------------------
   BWAPI_FUNCTION const Player* getPlayer(PlayerId playerId)
   {
     return &BridgeClient::gameData->players.at(playerId);
+  }
+  //----------------------------------- GET FORCE -------------------------------------------------
+  BWAPI_FUNCTION const Force* getForce(ForceId forceId)
+  {
+    return &BridgeClient::gameData->forces[forceId];
   }
   //----------------------------------- GET UNIT TYPE ---------------------------------------------
   BWAPI_FUNCTION const UnitType* getUnitType(UnitTypeId id)
