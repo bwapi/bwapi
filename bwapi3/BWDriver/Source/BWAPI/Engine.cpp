@@ -465,7 +465,9 @@ namespace BWAPI
         KnownUnit &knownUnit = *bwUnitMirror.knownUnit;
 
         // TODO: implement clearance limit
-        UnitTypeId type = (UnitTypeId)bwUnit.unitID.id;
+        int unitTypeInt=bwUnit.unitID.id;
+        if (unitTypeInt==0xB1 || unitTypeInt==0xB2) unitTypeInt=0xB0;
+        UnitTypeId type = (UnitTypeId)unitTypeInt;
         UnitType& typeData = UnitTypes::unitTypeData[type];
 
         knownUnit.clearanceLevel          = clearance;
