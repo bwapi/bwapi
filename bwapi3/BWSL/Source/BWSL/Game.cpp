@@ -162,6 +162,11 @@ namespace BWSL
             pylons.insert(u);
         }
       }
+      selectedUnits.clear();
+      foreach(BWAPI::UnitId uid,sgd->selectedUnits)
+      {
+        selectedUnits.insert(getUnit(uid));
+      }
     }
     std::set<Unit*>& getPlayerUnits(const Player* player)
     {
