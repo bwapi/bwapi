@@ -7,7 +7,7 @@
 
 namespace BWSL
 {
-  class PlayerType
+  class BWSL_EXPORT PlayerType
   {
     public:
       PlayerType();

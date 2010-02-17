@@ -8,7 +8,7 @@
 namespace BWSL
 {
   class UnitType;
-  class UpgradeType
+  class BWSL_EXPORT UpgradeType
   {
     public:
       UpgradeType();

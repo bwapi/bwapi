@@ -10,7 +10,7 @@ namespace BWSL
   class UpgradeType;
   class DamageType;
   class ExplosionType;
-  class WeaponType
+  class BWSL_EXPORT WeaponType
   {
     public:
       WeaponType();

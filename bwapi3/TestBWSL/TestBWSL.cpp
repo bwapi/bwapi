@@ -19,18 +19,19 @@ public:
     std::set<Player*> players = Game::getPlayers();
     foreach(Player* player,players)
     {
-      printf("%d: %s [%s]\n",player->getID(),player->getName().c_str(),player->getRace().getName().c_str());
+      printf("%d: %s [%s] %s\n",player->getID(),player->getName().c_str(),player->getRace().getName().c_str(),player->playerType().getName().c_str());
     }
   }
   void onEnd(bool isWinner){};
   void onFrame() 
   {
-    std::set<Unit*> units = Game::getNeutralUnits();
+    std::set<Unit*> units = Game::getSelectedUnits();
     foreach(Unit* u, units)
     {
       int x=u->getPosition().x();
       int y=u->getPosition().y();
       Game::drawCircleMap(x,y,20,Colors::Green,false);
+      Game::drawTextMap(x,y,u->getType().getName().c_str());
     }
     //printf("%d,%d\n",Game::enemy()->getStartLocation().x(),Game::enemy()->getStartLocation().y());
     //Game::drawBoxMap(Game::enemy()->getStartLocation().x()*32,Game::enemy()->getStartLocation().y()*32,Game::enemy()->getStartLocation().x()*32+4*32,Game::enemy()->getStartLocation().y()*32+3*32,Colors::Red,false);

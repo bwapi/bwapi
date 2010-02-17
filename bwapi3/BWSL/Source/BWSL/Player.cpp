@@ -45,6 +45,8 @@ namespace BWSL
   }
   PlayerType Player::playerType() const
   {
+    if (id==11)
+      return PlayerTypes::Neutral;
     return PlayerType(self->type);
   }
   Force* Player::getForce() const

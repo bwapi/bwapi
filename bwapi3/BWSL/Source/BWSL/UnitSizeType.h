@@ -6,7 +6,7 @@
 
 namespace BWSL
 {
-  class UnitSizeType
+  class BWSL_EXPORT UnitSizeType
   {
     public:
       UnitSizeType();
