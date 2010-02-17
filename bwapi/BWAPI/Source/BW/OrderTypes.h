@@ -51,6 +51,18 @@ namespace BW
         u8 always0xe4;
         u16 alwaysZero;
     };
+    /** Selection addition in bw, single unit version. */
+    class ShiftSelectSingle
+    {
+      public :
+        ShiftSelectSingle(BWAPI::UnitImpl* select);
+        /** 0x0A = Shift-Select command-code in bw */
+        u8 always0x0A;
+        /** 0x01 = 1 unit selection */
+        u8 always0x01;
+        /** The unit to select bw index */
+        UnitTarget target;
+    };
     /** Selection command in bw, single unit version. */
     class SelectSingle
     {

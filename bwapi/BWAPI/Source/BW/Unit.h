@@ -35,7 +35,7 @@ namespace BW
                                                                           *   it to iterate units.
                                                                           *   @see BW#BWXFN_UnitNodeTable_FirstElement
                                                                           **/
-    /*0x008*/ u32                                 healthPoints;          /**< Health points of unit, note that the displayed value
+    /*0x008*/ s32                                 hitPoints;             /**< Hit points of unit, note that the displayed value
                                                                           *   in broodwar is ceil(healthPoints/256)
                                                                           */
     /*0x00C*/ BW::CSprite*                        sprite;
@@ -54,7 +54,7 @@ namespace BW
                                                                    *   the direction they are facing faster than then can change the direction they are moving.
                                                                    */
     /*0x024*/ u16                                 flingyID;
-    /*0x026*/ _UNKNOWN                            _4[1];
+    /*0x026*/ _UNKNOWN                            unknown_0x026;
     /*0x027*/ u8                                  flingyMovementType;
     /*0x028*/ BW::Position                        position;             /**< Current position of the unit */
     /*0x02C*/ u32                                 xHalt;                /**< @todo Unknown */
@@ -66,12 +66,13 @@ namespace BW
     /*0x044*/ s32                                 current_speedY;
 
     /*0x048*/ u16                                 flingyAcceleration;
-    /*0x04A*/ _UNKNOWN                            _6[2];
+    /*0x04A*/ u16                                 unknown_0x04A;
     /*0x04C*/ u8                                  playerID;             /**< Specification of owner of this unit. */
     /*0x04D*/ u8                                  orderID;              /**< Specification of type of order currently given. */
     /*0x04E*/ Util::BitMask<u8>                   orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
     /*0x04F*/ u8                                  orderSignal;          /**< @todo Unknown */
-    /*0x050*/ _UNKNOWN                            _7[4];
+    /*0x050*/ BW::UnitType                        orderUnitID;
+    /*0x052*/ u16                                 unused_0x052;
     /*0x054*/ u8                                  mainOrderTimer;       /**< @todo Unknown */
     /*0x055*/ u8                                  groundWeaponCooldown;
     /*0x056*/ u8                                  airWeaponCooldown;
@@ -80,35 +81,33 @@ namespace BW
     /*0x05C*/ BW::Unit*                           orderTargetUnit;
     /*0x060*/ u32                                 shieldPoints;         /**< Bw shows this value/256 */
     /*0x064*/ BW::UnitType                        unitID;               /**< Specifies the type of unit. */
-    /*0x066*/ _UNKNOWN                            _9[2];
+    /*0x066*/ u16                                 unknown_0x066;
     /*0x068*/ BW::Unit*                           previousPlayerUnit;
     /*0x06C*/ BW::Unit*                           nextPlayerUnit;
     /*0x070*/ BW::Unit*                           subUnit;
     /*0x074*/ BW::Order*                          orderQueueHead;
     /*0x078*/ BW::Order*                          orderQueueTail;
-    /*0x07C*/ _UNKNOWN                            _10[4];
+    /*0x07C*/ u32                                 unknown_0x07C;
     /*0x080*/ BW::Unit*                           connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
     /*0x084*/ u8                                  orderQueueCount;         /**< @todo Verify */
     /*0x085*/ u8                                  unknownOrderTimer_0x085; /**< @todo Unknown */
-    /*0x086*/ _UNKNOWN                            _11[2];
+    /*0x086*/ u16                                 unknown_0x086;
     /*0x088*/ u16                                 displayedUnitID;
-    /*0x08A*/ _UNKNOWN                            _12[4];
+    /*0x08A*/ u32                                 unknown_0x08A;
     /*0x08E*/ u8                                  rankIncrease;       /**< @todo Unknown */
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
-    /*0x090*/ _UNKNOWN                            _13[3];
-    /*0x093*/ u8                                  unknownState_0x93;  /**< @todo Unknown */
+    /*0x090*/ u32                                 stateFlags;         /**< @todo Unknown */
     /*0x094*/ u16                                 currentButtonSet; // The u16 is a guess, used to be u8
-    /*0x095*/ _UNKNOWN                            _14[2];
+    /*0x095*/ u16                                 unknown_0x095;
     /*0x098*/ BW::UnitType                        buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
     /*0x0A5*/ u8                                  targetOrderSpecial; /**< A byte used to determine the target ID for the unit */
     /*0x0A6*/ u8                                  secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
-    /*0x0A7*/ _UNKNOWN                            _16[1];
-    /*0x0A8*/ u16                                 hpGainDuringRepair; /**< @todo Verify */
-    /*0x0AA*/ _UNKNOWN                            _17[2];
+    /*0x0A7*/ u8                                  unknown_0x0A7;
+    /*0x0A8*/ u32                                 hpGainDuringRepair; /**< @todo Verify */
     /*0x0AC*/ u16                                 remainingBuildTime; /**< Remaining bulding time */
-    /*0x0AE*/ _UNKNOWN                            _18[2];
+    /*0x0AE*/ u16                                 unknown_0x0AE;
     /*0x0B0*/ u16                                 loadedUnitIndex[8];
     /** Child unit information (structure depends on unitID */
     /*0x0C0*/ union ChildInfoUnion_type
@@ -129,6 +128,7 @@ namespace BW
       BW::Unit* childUnit1;
       BW::Unit* parentUnit;
     } childInfoUnion;            /**< @todo Verify */
+
     /** Additional unit info depending on unit type */
     /*0x0C4*/ union ChildUnitUnion1_type
     {
@@ -142,6 +142,7 @@ namespace BW
       /** If the unit is Scarab/Interceptor - Next Unit in Parent Hangar */
       BW::Unit* nextUnitInParentHangar;
     } childUnitUnion1;                /**< @todo Verify */
+
     /** Additional unit info depending on unit type */
     /*0x0C8*/ union ChildUnitUnion2_type
     {
@@ -149,14 +150,14 @@ namespace BW
       struct UnitIsNotScarabInterceptor_type
       {
         /** If the unit is Reaver */
-        union ScarabInfo
+        union ScarabInfo                // 0x0C8
         {
           u8 scarabCount;
           u8 interceptorCountInHangar;
           u8 techID;
         } subChildUnitUnion1;
         /** If the unit is carrier */
-        union InterceptorInfo
+        union InterceptorInfo           // 0x0C9
         {
           u8 interceptorCountOutOfHangar;
           u8 upgradeID;
@@ -165,11 +166,14 @@ namespace BW
         u8 larvaSpawnTimer;
         /** If the unit is terran building, it contains timer of building landing */
         u8 isLanding;
+
+
       } unitIsNotScarabInterceptor;
 
       /* If this unit is Scarab/Interceptor, it is pointer to Previous in Parent's Hangar */
       BW::Unit* prevUnitInParentHangar;
     } childUnitUnion2;                  /**< @todo Verify */
+
     /** Additional unit info it's value meaning is different for interceptor/scarab - creep unit or repairing scv @todo verify*/
     /*0x0CC*/ union ChildUnitUnion3_type
     {
@@ -191,7 +195,7 @@ namespace BW
         struct ResourceUnitUnionSub_type
         {
           u16 resourceContained;
-          u8  resourceIsScript;
+          u8  resourceIscript;
           u8  isBeingGathered;
         } resourceUnitUnionSub;
       } unitUnion1Sub;
@@ -200,17 +204,20 @@ namespace BW
       /** Nuke dot, but of what, the ghost? @todo investigate*/
       BW::CSprite* nukeDot;
     } unitUnion1;                     /**< @todo Verify */
-    /*0x0D4*/ _UNKNOWN _19[8];
+
+    /*0x0D4*/ BW::Unit                          *unknown_0x0D4;
+    /*0x0D8*/ BW::Unit                          *unknown_0x0D8;
     /*0x0DC*/ Util::BitMask<u32>                status;
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */
     /*0x0E1*/ u8                                wireframeRandomizer;/**< @todo Unknown */
     /*0x0E2*/ u8                                secondaryOrderState;/**< @todo Unknown */
     /*0x0E3*/ u8                                unknownCounterDown_0x0E3; /**< @todo Unknown */
-    /*0x0E4*/ _UNKNOWN                          _20[8];
+    /*0x0E4*/ u32                               visibilityStatus;
+    /*0x0E8*/ u32                               unknown_0x0E8;
     /*0x0EC*/ BW::Unit*                         currentBuildUnit;   /**< @todo Unknown */
-    /*0x0F0*/ _UNKNOWN                          _21[8];
+    /*0x0F0*/ _UNKNOWN                          unknown_0x0F0[8];
     /**
-     * Additional unit data it's meaning depends if it is Unit that can have rally point or is psi provider (what about main?)
+     * Additional unit data; its meaning depends if it is a Unit that can have rally point or is psi provider
      * @todo investigate
      */
     /*0x0F8*/ union RallyPsiProviderUnion_type
@@ -230,7 +237,8 @@ namespace BW
       };
     } rallyPsiProviderUnion;                        /**< @todo Verify */
     /*0x100*/ u32                                 pathUnknown_0x100;  /**< @todo Unknown */
-    /*0x104*/ _UNKNOWN                            _22[3];
+    /*0x104*/ u16                                 unknown_0x104;
+    /*0x106*/ u8                                  unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;      /**< @todo Verify - seems like it isn't working */
     /*0x108*/ BW::Position                        contours1Unknown;   /**< @todo Unknown */
     /*0x10C*/ BW::Position                        contours2Unknown;   /**< @todo Unknown */
@@ -250,18 +258,22 @@ namespace BW
     /*0x122*/ u8                                  cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
-    /*0x125*/ _UNKNOWN                            _23[1];
-    /*0x126*/ u8                                  acidSporeTime[9];   /**< @todo Verify */
-    /*0x12F*/ u16                                 offsetIndex3by3;    /**< @todo Unknown */
-    /*0x131*/ _UNKNOWN                            _24[6];
-    /*0x137*/ u16                                 airStrength;        /**< @todo Verify (1 if has no air weapon but has a ground) */
-    /*0x139*/ u16                                 groundStrength;     /**< @todo Verify (1 if has no ground weapon but has an air) */
-    /*0x13B*/ _UNKNOWN                            _25[16];
-    /*0x14B*/ u8                                  repulseUnknown1;    /**< @todo Unknown */
-    /*0x14C*/ u8                                  repulseUnknown2;    /**< @todo Unknown */
-    /*0x14D*/ u8                                  driftPosX;          /**< @todo Unknown (mapsizex/1.5 max) */
-    /*0x14E*/ u8                                  driftPosY;          /**< @todo Unknown (mapsizex/1.5 max) */
-    /*0x14F*/ _UNKNOWN                            _26[1];
+    /*0x125*/ u8                                  unused_0x125;
+    /*0x126*/ u8                                  acidSporeCount;   /**< @todo Verify */
+    /*0x127*/ u8                                  acidSporeTime[9];
+    /*0x130*/ u16                                 offsetIndex3by3;    /**< @todo Unknown */
+    /*0x132*/ u16                                 unused_0x132;
+    /*0x134*/ u32                                 isAIControlled;
+    /*0x138*/ u16                                 airStrength;        /**< @todo Verify (1 if has no air weapon but has a ground) */
+    /*0x13A*/ u16                                 groundStrength;     /**< @todo Verify (1 if has no ground weapon but has an air) */
+    /*0x13C*/ u32                                 unknown_0x13C;
+    /*0x13C*/ u32                                 unknown_0x140;
+    /*0x13C*/ u32                                 unknown_0x144;
+    /*0x13C*/ u32                                 unknown_0x148;
+    /*0x14C*/ u8                                  repulseUnknown1;    /**< @todo Unknown */
+    /*0x14D*/ u8                                  repulseUnknown2;    /**< @todo Unknown */
+    /*0x14E*/ u8                                  driftPosX;          /**< @todo Unknown (mapsizex/1.5 max) */
+    /*0x14F*/ u8                                  driftPosY;          /**< @todo Unknown (mapsizex/1.5 max) */
   };
 #pragma pack()
   /** Direct maping of the UnitNodeTable in bw memory. */

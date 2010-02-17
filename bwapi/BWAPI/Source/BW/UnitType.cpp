@@ -111,9 +111,9 @@ namespace BW
     return BW::BWDATA_UnitUpgrade->unitType[this->getID()];
   }
   //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
-  u16 UnitType::maxHitPoints() const
+  s32 UnitType::maxHitPoints() const
   {
-    return BW::BWDATA_MaxHealthPoints_NotAttackable_Repairable->raw[this->getID()].maxHealthPoints;
+    return BW::BWDATA_MaxHitPoints->unitType[this->getID()] / 256;
   }
   //----------------------------------------------- MAX SHIELDS ----------------------------------------------
   u16 UnitType::maxShields() const
