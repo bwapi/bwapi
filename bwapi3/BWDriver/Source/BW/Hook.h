@@ -52,7 +52,7 @@ namespace BW
       memset(&((*screenBufferData)->buffer[y*640 + x]), color, width);
     }
   }
-
+  extern void changeRace(int raceId);
   extern void printEx(s32 pID, const char* text, ...);
   extern void sendText(const char* text, ...);
   extern void printf(const char* text, ...);

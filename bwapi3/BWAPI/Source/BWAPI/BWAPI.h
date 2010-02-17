@@ -137,6 +137,7 @@ namespace BWAPI
   BWAPI_FUNCTION void resumeGame();
   BWAPI_FUNCTION void restartGame();
   BWAPI_FUNCTION void setLocalSpeed(int speed);
+  BWAPI_FUNCTION void changeRace(int raceId);
   BWAPI_FUNCTION void pingMinimap(Position pos);
   BWAPI_FUNCTION void enableFlag(Flag flag);
   BWAPI_FUNCTION void setScreenPosition(Position pos);

@@ -221,6 +221,11 @@ namespace BWAPI
       BW::setLocalSpeed(packet.speed);
       return true;
     }
+    int handleCommandSetChangeRace(Bridge::CommandEntry::ChangeRace& packet)
+    {
+      BW::changeRace(packet.race);
+      return true;
+    }
     int handleCommandEnableFlag(Bridge::CommandEntry::EnableFlag& packet)
     {
       int flag = packet.flag;

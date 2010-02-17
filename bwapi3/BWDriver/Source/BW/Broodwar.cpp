@@ -187,6 +187,11 @@ namespace BW
   {
     issueCommand(BW::Command::ChangeSlot(slot, slotState));
   }
+  //------------------------------------ CHANGE RACE ---------------------------------------
+  void changeRace(int raceId)
+  {
+    issueCommand(BW::Command::ChangeRace((SlotID)(selfPlayerId),(RaceID)raceId));
+  }
   //--------------------------------- PRINT WITH PLAYER ID ---------------------------------
   void printEx(int pID, const char* text, ...)
   {
