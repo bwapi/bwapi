@@ -16,7 +16,6 @@ public:
   {
     printf("match started\n");
     Game::enableFlag(Flag::UserInput);
-    Game::enableFlag(Flag::CompleteMapInformation);
     std::set<Player*> players = Game::getPlayers();
     foreach(Player* player,players)
     {
@@ -26,7 +25,7 @@ public:
   void onEnd(bool isWinner){};
   void onFrame() 
   {
-    std::set<Unit*> units = Game::getSelectedUnits();
+    std::set<Unit*> units = Game::getNeutralUnits();
     foreach(Unit* u, units)
     {
       int x=u->getPosition().x();
