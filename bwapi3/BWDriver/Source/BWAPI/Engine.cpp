@@ -221,7 +221,7 @@ namespace BWAPI
       BW::setLocalSpeed(packet.speed);
       return true;
     }
-    int handleCommandSetChangeRace(Bridge::CommandEntry::ChangeRace& packet)
+    int handleCommandChangeRace(Bridge::CommandEntry::ChangeRace& packet)
     {
       BW::changeRace(packet.race);
       return true;
@@ -934,6 +934,7 @@ namespace BWAPI
           packetSwitch.addHandler(handleCommandResumeGame);
           packetSwitch.addHandler(handleCommandRestartGame);
           packetSwitch.addHandler(handleCommandSetLocalSpeed);
+          packetSwitch.addHandler(handleCommandChangeRace);
           packetSwitch.addHandler(handleCommandEnableFlag);
           packetSwitch.addHandler(handleCommandPingMinimap);
           packetSwitch.addHandler(handleCommandSetScreenPosition);
