@@ -1484,7 +1484,9 @@ namespace BWAPI
     int unitCount = 0;
     while (savedSelectionStates[unitCount] != NULL)
       unitCount++;
-    BW::selectUnits(unitCount, savedSelectionStates);
+
+    if (unitCount > 0 || !getSelectedUnits().empty())
+      BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
