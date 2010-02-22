@@ -1485,7 +1485,7 @@ namespace BWAPI
     while (savedSelectionStates[unitCount] != NULL)
       unitCount++;
 
-    if (unitCount > 0 || !getSelectedUnits().empty())
+    if (unitCount > 0)
       BW::selectUnits(unitCount, savedSelectionStates);
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
