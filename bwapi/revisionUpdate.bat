@@ -1,8 +1,15 @@
 @echo off
-if not exist svnrev.h (
 SubWCRev.exe . svnrev_template.h svnrev.h
-pause
+if ERRORLEVEL 1 (
+rem failure
+echo ----------------------------
+echo  SubWCRev.exe failed 
+if not exist svnrev.h (
+echo  creating a stub svnrev.h
+call generateStub
 ) else (
-echo svnrev.h already exists, nothing to do here
-pause
+echo  leaving svnrev.h untouched
 )
+echo ----------------------------
+)
+pause
