@@ -23,7 +23,7 @@ namespace BWAPI
     }
     PlayerImpl* p = static_cast<PlayerImpl*>(this->executors[0]->getPlayer());
     p->spend(this->toMorph.mineralPrice(), this->toMorph.gasPrice());
-    p->useSupplies(toMorph.supplyRequired(), toMorph.getRace());
+    p->useSupplies(toMorph.supplyRequired(), toMorph._getRace());
     p->planToMake(toMorph);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

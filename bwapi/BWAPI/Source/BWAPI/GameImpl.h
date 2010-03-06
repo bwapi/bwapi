@@ -116,7 +116,7 @@ namespace BWAPI
        */
       virtual void  printf(const char* text, ...);
       virtual void  sendText(const char* text, ...);
-      virtual void  printEx(s32 pID, const char* text, ...);
+      virtual void  printEx(int pID, const char* text, ...);
 
       /**
        * Changes race in the pre-game lobby.
