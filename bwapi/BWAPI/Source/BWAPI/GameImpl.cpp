@@ -926,7 +926,7 @@ namespace BWAPI
   char buffer[BUFFER_SIZE];
 
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-  void GameImpl::printEx(s32 pID, const char* text, ...)
+  void GameImpl::printEx(int pID, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);

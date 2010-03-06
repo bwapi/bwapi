@@ -19,24 +19,39 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  UnitType::UnitType(const u16& id)
+  UnitType::UnitType(int id)
       : id(id)
   {
   }
-  //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator ==(const u16& id) const
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  UnitType::UnitType(const UnitType& type)
+      : id(type.id)
   {
-    return id == this->id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator !=(const u16& id) const
+  bool UnitType::operator ==(int id) const
   {
-    return id != this->id;
+    return this->id == id;
+  }
+  //---------------------------------------------- OPERATOR != -----------------------------------------------
+  bool UnitType::operator !=(int id) const
+  {
+    return this->id != id;
+  }
+  //---------------------------------------------- OPERATOR < ------------------------------------------------
+  bool UnitType::operator <(int id) const
+  {
+    return this->id < id;
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
   bool UnitType::operator ==(const UnitType& type) const
   {
     return this->id == type.id;
+  }
+  //---------------------------------------------- OPERATOR != -----------------------------------------------
+  bool UnitType::operator !=(const UnitType& type) const
+  {
+    return this->id != type.id;
   }
   //---------------------------------------------- OPERATOR < ------------------------------------------------
   bool UnitType::operator <(const UnitType& type) const
@@ -44,12 +59,12 @@ namespace BW
     return this->id < type.id;
   }
   //------------------------------------------------- GET ID -------------------------------------------------
-  u16 UnitType::getID() const
+  int UnitType::getID() const
   {
     return this->id;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
-  const char* UnitType::getName() const
+  const char* UnitType::_getName() const
   {
     if (this->getID() == BW::UnitID::None)
       return "None";
@@ -58,8 +73,12 @@ namespace BW
     else
       return "Invalid";
   }
+  std::string UnitType::getName() const
+  {
+    return std::string(this->_getName());
+  }
   //---------------------------------------------- GET SUB LABEL ---------------------------------------------
-  const char* UnitType::getSubLabel() const
+  const char* UnitType::_getSubLabel() const
   {
     if (this->getID() == BW::UnitID::None)
       return "None";
@@ -75,8 +94,12 @@ namespace BW
     else
       return "Invalid";
   }
+  std::string UnitType::getSubLabel() const
+  {
+    return std::string(this->_getSubLabel());
+  }
   //------------------------------------------------ GET RACE ------------------------------------------------
-  u8 UnitType::getRace() const
+  u8 UnitType::_getRace() const
   {
     if (this->isZerg())
       return BW::Race::Zerg;
@@ -88,17 +111,17 @@ namespace BW
       return BW::Race::Other;
   }
   //---------------------------------------------- WHAT BUILDS -----------------------------------------------
-  std::pair<BW::UnitType, int> UnitType::whatBuilds() const
+  std::pair<BW::UnitType, int> UnitType::_whatBuilds() const
   {
     return whatBuildsData[this->getID()];
   }
   //--------------------------------------------- REQUIRED UNITS ---------------------------------------------
-  const std::map< BW::UnitType, int >& UnitType::requiredUnits() const
+  const std::map< BW::UnitType, int >& UnitType::_requiredUnits() const
   {
     return requiredUnitsData[this->id];
   }
   //--------------------------------------------- REQUIRED TECH ----------------------------------------------
-  u8 UnitType::requiredTech() const
+  u8 UnitType::_requiredTech() const
   {
     if (this->getID() == BW::UnitID::Zerg_Lurker)
       return BW::TechID::LurkerAspect;
@@ -106,177 +129,168 @@ namespace BW
   }
 
   //--------------------------------------------- ARMOR UPGRADE ----------------------------------------------
-  u8 UnitType::armorUpgrade() const
+  u8 UnitType::_armorUpgrade() const
   {
     return BW::BWDATA_UnitUpgrade->unitType[this->getID()];
   }
   //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
-  s32 UnitType::maxHitPoints() const
+  int UnitType::maxHitPoints() const
   {
     return BW::BWDATA_MaxHitPoints->unitType[this->getID()] / 256;
   }
   //----------------------------------------------- MAX SHIELDS ----------------------------------------------
-  u16 UnitType::maxShields() const
+  int UnitType::maxShields() const
   {
     if (BW::BWDATA_ShieldsEnabled->unitType[this->getID()] != 0)
-    {
       return BW::BWDATA_MaxShieldPoints->unitType[this->getID()];
-    }
     return 0;
   }
   //------------------------------------------------ MAX ENERGY ----------------------------------------------
-  u16 UnitType::maxEnergy() const
+  int UnitType::maxEnergy() const
   {
     if (this->isSpellcaster())
-    {
       return 200;
-    }
     return 0;
   }
   //------------------------------------------------ MAX ARMOR -----------------------------------------------
-  u8 UnitType::armor() const
+  int UnitType::armor() const
   {
     return BW::BWDATA_Armor->unitType[this->getID()];
   }
 
   //--------------------------------------------- MINERAL PRICE ----------------------------------------------
-  u16 UnitType::mineralPrice() const
+  int UnitType::mineralPrice() const
   {
     return BW::BWDATA_MineralPrices->unitType[this->getID()];
   }
   //----------------------------------------------- GAS PRICE ------------------------------------------------
-  u16 UnitType::gasPrice() const
+  int UnitType::gasPrice() const
   {
     return BW::BWDATA_GasPrices->unitType[this->getID()];
   }
   //----------------------------------------------- BUILD TIME -----------------------------------------------
-  u16 UnitType::buildTime() const
+  int UnitType::buildTime() const
   {
     return BW::BWDATA_BuildTime->unitType[this->getID()];
   }
-
   //--------------------------------------------- SUPPLY REQUIRED --------------------------------------------
-  u8 UnitType::supplyRequired() const
+  int UnitType::supplyRequired() const
   {
     return BW::BWDATA_SupplyRequired->unitType[this->getID()];
   }
   //--------------------------------------------- SUPPLY PROVIDED --------------------------------------------
-  u8 UnitType::supplyProvided() const
+  int UnitType::supplyProvided() const
   {
     return BW::BWDATA_SupplyProvided->unitType[this->getID()];
   }
   //--------------------------------------------- SPACE REQUIRED ---------------------------------------------
-  u8 UnitType::spaceRequired() const
+  int UnitType::spaceRequired() const
   {
     return BW::BWDATA_SpaceRequired->unitType[this->getID()];
   }
   //--------------------------------------------- SPACE PROVIDED ---------------------------------------------
-  u8 UnitType::spaceProvided() const
+  int UnitType::spaceProvided() const
   {
     return BW::BWDATA_SpaceProvided->unitType[this->getID()];
   }
   //----------------------------------------------- BUILD SCORE ----------------------------------------------
-  u16 UnitType::buildScore() const
+  int UnitType::buildScore() const
   {
     return BW::BWDATA_BuildScore->unitType[this->getID()];
   }
   //---------------------------------------------- DESTROY SCORE ---------------------------------------------
-  u16 UnitType::destroyScore() const
+  int UnitType::destroyScore() const
   {
     return BW::BWDATA_DestroyScore->unitType[this->getID()];
   }
   //-------------------------------------------------- SIZE --------------------------------------------------
-  u8 UnitType::size() const
+  u8 UnitType::_size() const
   {
     return BW::BWDATA_UnitSize->unitType[this->getID()];
   }
   //----------------------------------------------- TILE WIDTH -----------------------------------------------
-  u16 UnitType::tileWidth() const
+  int UnitType::tileWidth() const
   {
     return (this->dimensionLeft() + this->dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
   }
   //---------------------------------------------- TILE HEIGHT -----------------------------------------------
-  u16 UnitType::tileHeight() const
+  int UnitType::tileHeight() const
   {
     return (this->dimensionUp() + this->dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
   }
   //--------------------------------------------- DIMENSION LEFT ---------------------------------------------
-  u16 UnitType::dimensionLeft() const
+  int UnitType::dimensionLeft() const
   {
     return BW::BWDATA_UnitDimensions->units[this->getID()].left;
   }
   //---------------------------------------------- DIMENSION UP ----------------------------------------------
-  u16 UnitType::dimensionUp() const
+  int UnitType::dimensionUp() const
   {
     return BW::BWDATA_UnitDimensions->units[this->getID()].up;
   }
   //-------------------------------------------- DIMENSION RIGHT ---------------------------------------------
-  u16 UnitType::dimensionRight() const
+  int UnitType::dimensionRight() const
   {
     return BW::BWDATA_UnitDimensions->units[this->getID()].right;
   }
   //--------------------------------------------- DIMENSION DOWN ---------------------------------------------
-  u16 UnitType::dimensionDown() const
+  int UnitType::dimensionDown() const
   {
     return BW::BWDATA_UnitDimensions->units[this->getID()].down;
   }
   //----------------------------------------------- SEEK RANGE -----------------------------------------------
-  u8 UnitType::seekRange() const
+  int UnitType::seekRange() const
   {
     return BW::BWDATA_UnitSeekRange->unitType[this->getID()];
   }
   //----------------------------------------------- SIGHT RANGE ----------------------------------------------
-  u8 UnitType::sightRange() const
+  int UnitType::sightRange() const
   {
     return BW::BWDATA_UnitSightRange->unitType[this->getID()];
   }
   //--------------------------------------------- GROUND WEAPON ----------------------------------------------
-  u8 UnitType::groundWeapon() const
+  u8 UnitType::_groundWeapon() const
   {
     u8 w = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
     if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
-    {
       w = BW::BWDATA_UnitGroundWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
-    }
     return w;
   }
   //-------------------------------------------- MAX GROUND HITS ---------------------------------------------
-  u8 UnitType::maxGroundHits() const
+  int UnitType::maxGroundHits() const
   {
     return BW::BWDATA_MaxGroundHits->unitType[this->getID()];
   }
   //---------------------------------------------- AIR WEAPON ------------------------------------------------
-  u8 UnitType::airWeapon() const
+  u8 UnitType::_airWeapon() const
   {
     u8 w = BW::BWDATA_UnitAirWeapon->unitType[this->getID()];
     if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
-    {
       w = BW::BWDATA_UnitAirWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
-    }
     return w;
   }
   //--------------------------------------------- MAX AIR HITS -----------------------------------------------
-  u8 UnitType::maxAirHits() const
+  int UnitType::maxAirHits() const
   {
     return BW::BWDATA_MaxAirHits->unitType[this->getID()];
   }
   //----------------------------------------------- TOP SPEED ------------------------------------------------
-  u32 UnitType::topSpeed() const
+  u32 UnitType::_topSpeed() const
   {
     return BW::BWDATA_FlingyTopSpeed->flingyType[this->graphics()];
   }
   //---------------------------------------------- ACCELERATION ----------------------------------------------
-  u16 UnitType::acceleration() const
+  int UnitType::acceleration() const
   {
     return BW::BWDATA_FlingyAcceleration->flingyType[this->graphics()];
   }
   //---------------------------------------------- HALT DISTANCE ---------------------------------------------
-  u32 UnitType::haltDistance() const
+  int UnitType::haltDistance() const
   {
     return BW::BWDATA_FlingyHaltDistance->flingyType[this->graphics()];
   }
   //---------------------------------------------- TURN RADIUS -----------------------------------------------
-  u8 UnitType::turnRadius() const
+  int UnitType::turnRadius() const
   {
     return BW::BWDATA_FlingyTurnRadius->flingyType[this->graphics()];
   }
@@ -289,7 +303,7 @@ namespace BW
   bool UnitType::canAttack() const
   {
     return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Attack)
-           && (this->groundWeapon() != BW::WeaponID::None || this->airWeapon() != BW::WeaponID::None);
+           && (this->_groundWeapon() != BW::WeaponID::None || this->_airWeapon() != BW::WeaponID::None);
   }
   //------------------------------------------------ CAN MOVE ------------------------------------------------
   bool UnitType::canMove() const
@@ -354,9 +368,9 @@ namespace BW
   //---------------------------------------------- IS REFINERY -----------------------------------------------
   bool UnitType::isRefinery() const
   {
-    return (this->getID()==BW::UnitID::Terran_Refinery ||
-            this->getID()==BW::UnitID::Protoss_Assimilator ||
-            this->getID()==BW::UnitID::Zerg_Extractor);
+    return (this->getID() == BW::UnitID::Terran_Refinery ||
+            this->getID() == BW::UnitID::Protoss_Assimilator ||
+            this->getID() == BW::UnitID::Zerg_Extractor);
   }
   //----------------------------------------------- IS WORKER ------------------------------------------------
   bool UnitType::isWorker() const
@@ -408,7 +422,6 @@ namespace BW
   {
     return this->getGroupFlags().getBit(BW::GroupFlags::Neutral);
   }
-
   //------------------------------------------------ GRAPHICS ------------------------------------------------
   u8 UnitType::graphics() const
   {
@@ -439,17 +452,15 @@ namespace BW
   {
     return this->id < BW::UNIT_TYPE_COUNT;
   }
-
   //---------------------------------------------- INITIALIZE ------------------------------------------------
   void UnitType::initialize()
   {
     for(int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
-    {
       whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::None), 0);
-    }
+
     for(int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
     {
-      switch (i)
+      switch (i)  // For unit Requirement data
       {
           // Terran Basic Buildings
         case BW::UnitID::Terran_CommandCenter :
@@ -758,22 +769,17 @@ namespace BW
           break;
       }
 
-      switch (i)
+      switch (i) // for what builds data
       {
-          // Terran Basic Buildings
-        case BW::UnitID::Terran_CommandCenter  :
-        case BW::UnitID::Terran_SupplyDepot    :
-        case BW::UnitID::Terran_Refinery       :
-        case BW::UnitID::Terran_Barracks       :
-        case BW::UnitID::Terran_EngineeringBay :
-        case BW::UnitID::Terran_Academy        :
-        case BW::UnitID::Terran_Bunker         :
-        case BW::UnitID::Terran_MissileTurret  :
-          whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_SCV), 1);
-          break;
-
-          // Terran Advanced Buildings
-        case BW::UnitID::Terran_Factory         :
+        case BW::UnitID::Terran_CommandCenter   : // Terran Basic Buildings
+        case BW::UnitID::Terran_SupplyDepot     :
+        case BW::UnitID::Terran_Refinery        :
+        case BW::UnitID::Terran_Barracks        :
+        case BW::UnitID::Terran_EngineeringBay  :
+        case BW::UnitID::Terran_Academy         :
+        case BW::UnitID::Terran_Bunker          :
+        case BW::UnitID::Terran_MissileTurret   :
+        case BW::UnitID::Terran_Factory         : // Terran Advanced Buildings
         case BW::UnitID::Terran_Armory          :
         case BW::UnitID::Terran_Starport        :
         case BW::UnitID::Terran_ScienceFacility :
@@ -820,20 +826,15 @@ namespace BW
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Terran_Starport), 1);
           break;
 
-          // Protoss Basic Buildings
-        case BW::UnitID::Protoss_Nexus           :
-        case BW::UnitID::Protoss_Pylon           :
-        case BW::UnitID::Protoss_Assimilator     :
-        case BW::UnitID::Protoss_Gateway         :
-        case BW::UnitID::Protoss_Forge           :
-        case BW::UnitID::Protoss_CyberneticsCore :
-        case BW::UnitID::Protoss_ShieldBattery   :
-        case BW::UnitID::Protoss_PhotonCannon    :
-          whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_Probe), 1);
-          break;
-
-          // Protoss Advanced Buildings
-        case BW::UnitID::Protoss_RoboticsFacility   :
+        case BW::UnitID::Protoss_Nexus              : // Protoss Basic Buildings
+        case BW::UnitID::Protoss_Pylon              :
+        case BW::UnitID::Protoss_Assimilator        :
+        case BW::UnitID::Protoss_Gateway            :
+        case BW::UnitID::Protoss_Forge              :
+        case BW::UnitID::Protoss_CyberneticsCore    :
+        case BW::UnitID::Protoss_ShieldBattery      :
+        case BW::UnitID::Protoss_PhotonCannon       :
+        case BW::UnitID::Protoss_RoboticsFacility   : // Protoss Advanced Buildings
         case BW::UnitID::Protoss_Stargate           :
         case BW::UnitID::Protoss_CitadelOfAdun      :
         case BW::UnitID::Protoss_Observatory        :
@@ -872,22 +873,17 @@ namespace BW
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Protoss_Stargate), 1);
           break;
 
-          // Zerg Basic Buildings
-        case BW::UnitID::Zerg_Hatchery         :
+        case BW::UnitID::Zerg_Hatchery         : // Zerg Basic Buildings
         case BW::UnitID::Zerg_CreepColony      :
         case BW::UnitID::Zerg_Extractor        :
         case BW::UnitID::Zerg_SpawningPool     :
         case BW::UnitID::Zerg_EvolutionChamber :
         case BW::UnitID::Zerg_HydraliskDen     :
-          whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone), 1);
-          break;
-
-          // Zerg Advanced Buildings
-        case BW::UnitID::Zerg_Spire           :
-        case BW::UnitID::Zerg_QueensNest      :
-        case BW::UnitID::Zerg_DefilerMound    :
-        case BW::UnitID::Zerg_NydusCanal      :
-        case BW::UnitID::Zerg_UltraliskCavern :
+        case BW::UnitID::Zerg_Spire            : // Zerg Advanced Buildings
+        case BW::UnitID::Zerg_QueensNest       :
+        case BW::UnitID::Zerg_DefilerMound     :
+        case BW::UnitID::Zerg_NydusCanal       :
+        case BW::UnitID::Zerg_UltraliskCavern  :
           whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::Zerg_Drone), 1);
           break;
 

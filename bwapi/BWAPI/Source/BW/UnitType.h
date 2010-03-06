@@ -34,96 +34,98 @@ namespace BW
   {
     public :
       UnitType(); /**< Default constructor orderId will be BW::OrderID::None. */
-      UnitType(const u16& id); /**< Conversion constructor */
-      bool operator == (const u16& id) const;
-      bool operator != (const u16& id) const;
+      UnitType(int id); /**< Conversion constructor */
+      UnitType(const UnitType& type);
+      bool operator == (int id) const;
+      bool operator != (int id) const;
+      bool operator  < (int id) const;
       bool operator == (const UnitType& type) const;
+      bool operator != (const UnitType& type) const;
       bool operator  < (const UnitType& type) const;
 
-      u16         getID() const;
-      const char* getName() const;
-      const char* getSubLabel() const;
-      u8          getRace() const;
+      int         getID() const;
+      std::string getName() const;
+      std::string getSubLabel() const;
 
-      std::pair<BW::UnitType, int>         whatBuilds() const;
-      const std::map< BW::UnitType, int >& requiredUnits() const;
-      u8                                   requiredTech() const;
-      u8                                   armorUpgrade() const;
+      int maxHitPoints() const;
+      int maxShields() const;
+      int maxEnergy() const;
+      int armor() const;
 
-      s32                  maxHitPoints() const;
-      u16                  maxShields() const;
-      u16                  maxEnergy() const;
-      u8                   armor() const;
+      int mineralPrice() const;
+      int gasPrice() const;
+      int buildTime() const;
 
-      u16                  mineralPrice() const;
-      u16                  gasPrice() const;
-      u16                  buildTime() const;
+      int supplyRequired() const;
+      int supplyProvided() const;
+      int spaceRequired() const;
+      int spaceProvided() const;
+      int buildScore() const;
+      int destroyScore() const;
 
-      u8                   supplyRequired() const;
-      u8                   supplyProvided() const;
-      u8                   spaceRequired() const;
-      u8                   spaceProvided() const;
-      u16                  buildScore() const;
-      u16                  destroyScore() const;
+      int tileWidth() const;
+      int tileHeight() const;
+      int dimensionLeft() const;
+      int dimensionUp() const;
+      int dimensionRight() const;
+      int dimensionDown() const;
 
-      u8                   size() const;
-      u16                  tileWidth() const;
-      u16                  tileHeight() const;
-      u16                  dimensionLeft() const;
-      u16                  dimensionUp() const;
-      u16                  dimensionRight() const;
-      u16                  dimensionDown() const;
+      int seekRange() const;
+      int sightRange() const;
+      int maxGroundHits() const;
+      int maxAirHits() const;
+      
+      int acceleration() const;
+      int haltDistance() const;
+      int turnRadius() const;
 
-      u8                   seekRange() const;
-      u8                   sightRange() const;
-      u8                   groundWeapon() const;
-      u8                   maxGroundHits() const;
-      u8                   airWeapon() const;
-      u8                   maxAirHits() const;
+      bool canProduce() const;
+      bool canAttack() const;
+      bool canMove() const;
 
-      u32                  topSpeed() const;
-      u16                  acceleration() const;
-      u32                  haltDistance() const;
-      u8                   turnRadius() const;
+      bool isFlyer() const;
+      bool regeneratesHP() const;
+      bool isSpellcaster() const;
+      bool hasPermanentCloak() const;
+      bool isInvincible() const;
+      bool isOrganic() const;
+      bool isMechanical() const;
+      bool isRobotic() const;
+      bool isDetector() const;
+      bool isResourceContainer() const;
+      bool isResourceDepot() const;
+      bool isRefinery() const;
+      bool isWorker() const;
+      bool requiresPsi() const;
+      bool requiresCreep() const;
+      bool isTwoUnitsInOneEgg() const;
+      bool isBurrowable() const;
+      bool isCloakable() const;
+      bool isBuilding() const;
+      bool isAddon() const;
+      bool isFlyingBuilding() const;
+      bool isNeutral() const;
 
-      bool                 canProduce() const;
-      bool                 canAttack() const;
-      bool                 canMove() const; /**< I use some internal heuristic that every unit from [men]  group
-                                            * can move, @todo verify (or load some value specially for that)
-                                            * Note that there will have to be special canMove function for
-                                            * BWAPI::Unit that will take unit instance specific things
-                                            * like Not borrowed, not statised, not mealstormed, not under construction.
-                                            */
-      bool                 isFlyer() const;
-      bool                 regeneratesHP() const;
-      bool                 isSpellcaster() const;
-      bool                 hasPermanentCloak() const;
-      bool                 isInvincible() const;
-      bool                 isOrganic() const;
-      bool                 isMechanical() const;
-      bool                 isRobotic() const;
-      bool                 isDetector() const;
-      bool                 isResourceContainer() const;
-      bool                 isResourceDepot() const;
-      bool                 isRefinery() const;
-      bool                 isWorker() const;
-      bool                 requiresPsi() const;
-      bool                 requiresCreep() const;
-      bool                 isTwoUnitsInOneEgg() const;
-      bool                 isBurrowable() const;
-      bool                 isCloakable() const;
-      bool                 isBuilding() const;
-      bool                 isAddon() const;
-      bool                 isFlyingBuilding() const;
-      bool                 isNeutral() const;
+      std::pair<BW::UnitType, int>         _whatBuilds() const;
+      const std::map< BW::UnitType, int >& _requiredUnits() const;
 
-      u8                   graphics() const;
-      bool                 isNeutralAccesories() const;
-      bool                 isZerg() const;
-      bool                 isTerran() const;
-      bool                 isProtoss() const;
-      bool                 isValid() const;
-      u16                  id;
+      const char* _getName() const;
+      const char* _getSubLabel() const;
+
+      u8   _getRace() const;
+      u8   _requiredTech() const;
+      u8   _armorUpgrade() const;
+      u8   _size() const;
+      u8   _groundWeapon() const;
+      u8   _airWeapon() const;
+      u32  _topSpeed() const;
+      u8   graphics() const;
+      bool isNeutralAccesories() const;
+      bool isZerg() const;
+      bool isTerran() const;
+      bool isProtoss() const;
+      bool isValid() const;
+      int  id;
       static void initialize();
     private :
       Util::BitMask<u32> getFlags() const;

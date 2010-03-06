@@ -39,7 +39,7 @@ namespace BWAPI
     this->executors[0]->getRawDataLocal()->buildQueueSlot = (u8)slotToAffect;
     PlayerImpl* p = static_cast<PlayerImpl*>(this->executors[0]->getPlayer());
     p->spend(this->toTrain.mineralPrice(), this->toTrain.gasPrice());
-    p->useSupplies(toTrain.supplyRequired(), toTrain.getRace());
+    p->useSupplies(toTrain.supplyRequired(), toTrain._getRace());
     p->planToMake(toTrain);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

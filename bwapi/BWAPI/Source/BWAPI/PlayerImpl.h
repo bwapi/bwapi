@@ -87,7 +87,7 @@ namespace BWAPI
       ForceImpl* force;
 
       /** Modifies the local version of resources according to the specification - @ref localData */
-      void spend(s32 minerals, s32 gas);
+      void spend(int minerals, int gas);
 
       /** Gets the bw mapping of synchronised version of selected unit for current player */
       BW::Unit** selectedUnit();
@@ -106,13 +106,13 @@ namespace BWAPI
        *             in that case there would be undefined behaviour.
        * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesFree(u8 race);
+      int getSuppliesFree(u8 race);
       /**
        * Order to use (reserve) certain amount of supplies in the local version - @ref localData
        * @param supplies Amount of supplies to reserve.
        * @param race Race we want to affect.
        */
-      void useSupplies(u8 supplies, u8 race);
+      void useSupplies(int supplies, u8 race);
       void onGameEnd();
       std::set<Unit*> units;
       bool leftTheGame;
@@ -123,35 +123,34 @@ namespace BWAPI
        *             in that case there would be undefined behaviour.
        * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesAvailableSync(u8 race) const;
+      int getSuppliesAvailableSync(u8 race) const;
       /**
        * Gets synchronised version of used supplies for the given race
        * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
        *             in that case there would be undefined behaviour.
        * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesUsedSync(u8 race) const;
+      int getSuppliesUsedSync(u8 race) const;
       /**
        * Gets synchronised version of max supplies for the given race
        * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
        *             in that case there would be undefined behaviour.
        * @return Count of maximum supplies for the given race (2 times bigger than the value u see in bw)
        */
-      s32 getSuppliesMaxSync(u8 race) const;
+      int getSuppliesMaxSync(u8 race) const;
 
       /** Gets synchronised version of minerals for the current player. */
-      s32 getMineralsSync() const;
+      int getMineralsSync() const;
       /** Gets synchronised version of gas for the current player. */
-      s32 getGasSync() const;
+      int getGasSync() const;
 
       u8 id;  /**< Order of the player, is used to load player's information from the memory */
-      s32 mineralsLocal, gasLocal;  /**< Storage of local versions resources. */
+      int mineralsLocal, gasLocal;  /**< Storage of local versions resources. */
 
-      s32 toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts
+      int toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts
                                       * of units */
-      s32 suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
-      s32 suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
-      s32 evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const;
-
+      int suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
+      int suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
+      int evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const;
   };
 };

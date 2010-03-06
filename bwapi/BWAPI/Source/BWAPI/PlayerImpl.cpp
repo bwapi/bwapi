@@ -158,7 +158,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    s32 ret = this->suppliesAvailableLocal[getRace().getID()];
+    int ret = this->suppliesAvailableLocal[getRace().getID()];
     return ret < getSuppliesMaxSync((u8)getRace().getID()) ? ret : getSuppliesMaxSync((u8)getRace().getID());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
@@ -181,7 +181,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    s32 ret = this->suppliesAvailableLocal[race.getID()];
+    int ret = this->suppliesAvailableLocal[race.getID()];
     return ret < getSuppliesMaxSync((u8)race.getID()) ? ret : getSuppliesMaxSync((u8)race.getID());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
@@ -196,7 +196,7 @@ namespace BWAPI
     return this->suppliesUsedLocal[race.getID()];
   }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
-  s32 PlayerImpl::allUnitCount(UnitType unit) const
+  int PlayerImpl::allUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -207,7 +207,7 @@ namespace BWAPI
     return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType((u16)unit.getID())) + this->toMake[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
-  s32 PlayerImpl::completedUnitCount(UnitType unit) const
+  int PlayerImpl::completedUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -218,7 +218,7 @@ namespace BWAPI
     return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType((u16)unit.getID()));
   }
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
-  s32 PlayerImpl::incompleteUnitCount(UnitType unit) const
+  int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -229,7 +229,7 @@ namespace BWAPI
     return this->allUnitCount(unit) - this->completedUnitCount(unit) + toMake[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
-  s32 PlayerImpl::deadUnitCount(UnitType unit) const
+  int PlayerImpl::deadUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -240,7 +240,7 @@ namespace BWAPI
     return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType((u16)unit.getID()));
   }
   //----------------------------------------------- GET KILLS ------------------------------------------------
-  s32 PlayerImpl::killedUnitCount(UnitType unit) const
+  int PlayerImpl::killedUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
@@ -308,12 +308,12 @@ namespace BWAPI
 
 
   //---------------------------------------------- GET MINERALS ----------------------------------------------
-  s32 PlayerImpl::getMineralsSync() const
+  int PlayerImpl::getMineralsSync() const
   {
     return BW::BWDATA_PlayerResources->minerals.player[this->getID()];
   }
   //------------------------------------------------ GET GAS -------------------------------------------------
-  s32 PlayerImpl::getGasSync() const
+  int PlayerImpl::getGasSync() const
   {
     return BW::BWDATA_PlayerResources->gas.player[this->getID()];
   }
@@ -342,29 +342,29 @@ namespace BWAPI
       this->toMake[j] = 0;
   }
   //---------------------------------------------- SPEND LOCAL -----------------------------------------------
-  void  PlayerImpl::spend(s32 minerals, s32 gas)
+  void  PlayerImpl::spend(int minerals, int gas)
   {
     this->mineralsLocal -= minerals;
     this->gasLocal -= gas;
   }
   //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
-  s32 PlayerImpl::getSuppliesAvailableSync(u8 race) const
+  int PlayerImpl::getSuppliesAvailableSync(u8 race) const
   {
-    s32 ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
+    int ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
     return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
   }
   //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
-  s32 PlayerImpl::getSuppliesUsedSync(u8 race) const
+  int PlayerImpl::getSuppliesUsedSync(u8 race) const
   {
     return BW::BWDATA_Supplies->race[race].used.player[this->getID()];
   }
   //--------------------------------------------- GET SUPPLY MAX ---------------------------------------------
-  s32 PlayerImpl::getSuppliesMaxSync(u8 race) const
+  int PlayerImpl::getSuppliesMaxSync(u8 race) const
   {
     return BW::BWDATA_Supplies->race[race].max.player[this->getID()];
   }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
-  void PlayerImpl::useSupplies(u8 supplies, u8 race)
+  void PlayerImpl::useSupplies(int supplies, u8 race)
   {
     this->suppliesUsedLocal[race] += supplies;
   }
@@ -384,7 +384,7 @@ namespace BWAPI
     return UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_UnitNodeTable_PlayerFirstUnit[getID()]);
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
-  s32 PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const
+  int PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const
   {
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[this->getID()];

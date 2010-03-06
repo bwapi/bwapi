@@ -89,7 +89,7 @@ namespace BW
         , position(position)
         , type(type)
     {
-      switch (type.getRace())
+      switch (type._getRace())
       {
         case BW::Race::Zerg : raceDependant = 0x19; break;
         case BW::Race::Terran : raceDependant = 0x1e; break;
