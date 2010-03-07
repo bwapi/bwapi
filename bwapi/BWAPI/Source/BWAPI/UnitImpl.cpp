@@ -594,7 +594,10 @@ namespace BWAPI
   bool UnitImpl::isAttacking() const
   {
     checkAccessBool();
-    return this->animState == BW::Image::Anims::GndAttkRpt || this->animState == BW::Image::Anims::AirAttkRpt;
+    return (this->animState == BW::Image::Anims::GndAttkRpt  ||
+            this->animState == BW::Image::Anims::AirAttkRpt  || 
+            this->animState == BW::Image::Anims::GndAttkInit ||
+            this->animState == BW::Image::Anims::AirAttkInit);
   }
   //------------------------------------------- IS STOPPING ATTACK -------------------------------------------
   bool UnitImpl::isStoppingAttack() const

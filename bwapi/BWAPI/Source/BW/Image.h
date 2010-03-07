@@ -35,7 +35,7 @@ namespace BW
       void    *renderFunction2;
       CSprite *spriteOwner;
 
-      void __thiscall _PlayIscript(int header, int unk1, int unk2);
+      void __thiscall _PlayIscript(char *header, int unk1, int unk2);
     };
 
     namespace Anims

@@ -337,12 +337,12 @@ void __declspec(naked) onIssueCommand()
   }
 }
 //------------------------------------------------ ON ISCRIPT ------------------------------------------------
-void __thiscall BW::Image::CImage::_PlayIscript(int header, int unk1, int unk2)
+void __thiscall BW::Image::CImage::_PlayIscript(char *header, int unk1, int unk2)
 {
   if (this == this->spriteOwner->mainGraphic)   // ignore unwanted graphics
     BWAPI::BroodwarImpl.iscriptParser(this->spriteOwner, this->anim);
 
-  BW::BWFXN_PlayIscript(header, unk1, unk2);  // call the original function
+  BW::BWFXN_PlayIscript(this, header, unk1, unk2);
 }
 
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
@@ -373,19 +373,27 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   {
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
   }
+
+  /* Funny workaround for the lack of type casting */
+  char temptest[32];
+  void *pPlayIscript;
+  sprintf_s(temptest, 32, "%08X", &BW::Image::CImage::_PlayIscript);
+  sscanf_s(temptest, "%08X", &pPlayIscript);
+
+  /* Perform code patching */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame,  &nextFrameHook);
   HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,   &menuFrameHook);
-  //HackUtil::CallPatch(BW::BWFXN_IscriptHook,     &BW::Image::CImage::_PlayIscript );
+  HackUtil::CallPatch(BW::BWFXN_IscriptHook,     pPlayIscript);
   HackUtil::JmpPatch(BW::BWFXN_DrawHigh,         &onDrawHigh);
   HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
   HackUtil::JmpPatch(BW::BWFXN_OldIssueCommand,  &onIssueCommand);
 
   char zero = 0;
-  HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // menu load
-  HackUtil::WriteMem(BW::BWDATA_MenuInHack, &zero, 1);         // menu in
-  HackUtil::WriteMem(BW::BWDATA_MenuOutHack, &zero, 1);        // menu out
-  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack, &zero, 1);    // Battle.net Server Select
-  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // Battle.net Server Select
+  HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // main menu load timer
+  HackUtil::WriteMem(BW::BWDATA_MenuInHack, &zero, 1);         // menu in speed
+  HackUtil::WriteMem(BW::BWDATA_MenuOutHack, &zero, 1);        // menu out speed
+  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack, &zero, 1);    // BNET Server menu in speed
+  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // BNET Server menu out speed
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
 
   *(FARPROC*)&BW::SStrCopy = HackUtil::GetImport("storm.dll", 501);
