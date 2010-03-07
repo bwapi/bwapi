@@ -884,21 +884,21 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
-    int menu=*BW::BWDATA_NextMenu;
-    if (autoMenuGameType==0) return;
-    if (menu==0) //main menu
+    int menu = *BW::BWDATA_NextMenu;
+    if (autoMenuGameType == 0) return;
+    if (menu == 0) //main menu
     {
-      if (autoMenuGameType==1 || autoMenuGameType==2)
+      if (autoMenuGameType == 1 || autoMenuGameType == 2)
         this->pressKey('S');
-      if (autoMenuGameType==3 || autoMenuGameType==4)
+      if (autoMenuGameType == 3 || autoMenuGameType == 4)
         this->pressKey('M');
       this->pressKey('E');
     }
-    if (menu==5) //registry screen
+    if (menu == 5) //registry screen
     {
       this->pressKey('O');
     }
-    if (menu==2) //multiplayer select connection screen
+    if (menu == 2) //multiplayer select connection screen
     {
       this->pressKey(VK_DOWN);
       this->pressKey(VK_DOWN);
@@ -906,27 +906,32 @@ namespace BWAPI
       this->pressKey(VK_DOWN);
       this->pressKey('O');
     }
-    if (menu==22) //single player play custom / load replay selection screen
+    if (menu == 22) //single player play custom / load replay selection screen
     {
-      if (autoMenuGameType==1)
+      if (autoMenuGameType == 1)
         this->pressKey('U');
-      if (autoMenuGameType==2)
+      if (autoMenuGameType == 2)
         this->pressKey('R');
     }
-    if (menu==11) //create single/multi player game screen
+    if (menu == 11) //create single/multi player game screen
     {
       //first select map, game type, speed, (and if single player, also race and opponents)
-      this->pressKey('O');
+      if (autoMenuGameType == 1) //single player create game screen
+      {
+      }
+      else //multiplayer create game screen
+      {
+      }
     }
-    if (menu==10) //lan games lobby
+    if (menu == 10) //lan games lobby
     {
-      if (autoMenuGameType==3)
+      if (autoMenuGameType == 3)
         this->pressKey('G');
     }
-    if (menu==3) //multiplayer game ready screen
+    if (menu == 3) //multiplayer game ready screen
     {
     }
-    if (menu==12) //select replay screen
+    if (menu == 12) //select replay screen
     {
     }
   }
@@ -1084,17 +1089,38 @@ namespace BWAPI
   }
   void GameImpl::pressKey(int key)
   {
-    INPUT *keyp = new INPUT;
-    keyp->type = INPUT_KEYBOARD;
-    keyp->ki.wVk = (WORD)key;
-    keyp->ki.dwFlags = 0;
-    keyp->ki.time = 0;
-    keyp->ki.wScan = 0;
+    INPUT *keyp          = new INPUT;
+    keyp->type           = INPUT_KEYBOARD;
+    keyp->ki.wVk         = (WORD)key;
+    keyp->ki.dwFlags     = 0;
+    keyp->ki.time        = 0;
+    keyp->ki.wScan       = 0;
     keyp->ki.dwExtraInfo = 0;
     SendInput(1,keyp,sizeof(INPUT));
     keyp->ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1,keyp,sizeof(INPUT));
   }
+  void GameImpl::mouseDown(int x, int y)
+  {
+    INPUT *i          = new INPUT;
+    i->type           = INPUT_MOUSE;
+    i->mi.dx          = x;
+    i->mi.dy          = y;
+    i->mi.dwFlags     = MOUSEEVENTF_LEFTDOWN;
+    i->mi.dwExtraInfo = 0;
+    SendInput(1,i,sizeof(INPUT));
+  }
+  void GameImpl::mouseUp(int x, int y)
+  {
+    INPUT *i          = new INPUT;
+    i->type           = INPUT_MOUSE;
+    i->mi.dx          = x;
+    i->mi.dy          = y;
+    i->mi.dwFlags     = MOUSEEVENTF_LEFTUP;
+    i->mi.dwExtraInfo = 0;
+    SendInput(1,i,sizeof(INPUT));
+  }
+
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {

@@ -190,6 +190,8 @@ namespace BWAPI
        * @param slotID Order of the slot (0 based)
        */
       void pressKey(int key);
+      void mouseDown(int x, int y);
+      void mouseUp(int x, int y);
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
       void setOnStartCalled(bool onStartCalled);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
