@@ -65,6 +65,7 @@ namespace BWAPI
       , startedClient(false)
       , inUpdate(false)
       , calledOnEnd(false)
+      , autoMenuGameType(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -84,6 +85,10 @@ namespace BWAPI
         this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
         this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
       }
+      char menu_str[MAX_PATH];
+      GetPrivateProfileStringA("config", "menu", "NULL", menu_str, MAX_PATH, "bwapi-data\\bwapi.ini");
+      this->autoMenuGameType=Util::Strings::stringToInt(std::string(menu_str));
+
 
       unitArrayCopyLocal = new BW::UnitArray;
 
@@ -879,7 +884,51 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
-   // Util::Logger::globalLog->logCritical("Inside menu! :D");
+    int menu=*BW::BWDATA_NextMenu;
+    if (autoMenuGameType==0) return;
+    if (menu==0) //main menu
+    {
+      if (autoMenuGameType==1 || autoMenuGameType==2)
+        this->pressKey('S');
+      if (autoMenuGameType==3 || autoMenuGameType==4)
+        this->pressKey('M');
+      this->pressKey('E');
+    }
+    if (menu==5) //registry screen
+    {
+      this->pressKey('O');
+    }
+    if (menu==2) //multiplayer select connection screen
+    {
+      this->pressKey(VK_DOWN);
+      this->pressKey(VK_DOWN);
+      this->pressKey(VK_DOWN);
+      this->pressKey(VK_DOWN);
+      this->pressKey('O');
+    }
+    if (menu==22) //single player play custom / load replay selection screen
+    {
+      if (autoMenuGameType==1)
+        this->pressKey('U');
+      if (autoMenuGameType==2)
+        this->pressKey('R');
+    }
+    if (menu==11) //create single/multi player game screen
+    {
+      //first select map, game type, speed, (and if single player, also race and opponents)
+      this->pressKey('O');
+    }
+    if (menu==10) //lan games lobby
+    {
+      if (autoMenuGameType==3)
+        this->pressKey('G');
+    }
+    if (menu==3) //multiplayer game ready screen
+    {
+    }
+    if (menu==12) //select replay screen
+    {
+    }
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
@@ -1032,6 +1081,19 @@ namespace BWAPI
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
+  }
+  void GameImpl::pressKey(int key)
+  {
+    INPUT *keyp = new INPUT;
+    keyp->type = INPUT_KEYBOARD;
+    keyp->ki.wVk = (WORD)key;
+    keyp->ki.dwFlags = 0;
+    keyp->ki.time = 0;
+    keyp->ki.wScan = 0;
+    keyp->ki.dwExtraInfo = 0;
+    SendInput(1,keyp,sizeof(INPUT));
+    keyp->ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1,keyp,sizeof(INPUT));
   }
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
