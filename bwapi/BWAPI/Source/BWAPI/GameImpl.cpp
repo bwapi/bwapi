@@ -310,6 +310,8 @@ namespace BWAPI
       {
         if (g->getTilePosition() == position)
         {
+          if (g->isVisible() && g->getType()!=UnitTypes::Resource_Vespene_Geyser)
+            return false;
           this->setLastError(Errors::None);
           return true;
         }
