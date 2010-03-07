@@ -34,16 +34,16 @@ namespace BW
   {
     public :
       UnitType(); /**< Default constructor orderId will be BW::OrderID::None. */
-      UnitType(int id); /**< Conversion constructor */
+      UnitType(const u16& id); /**< Conversion constructor */
       UnitType(const UnitType& type);
-      bool operator == (int id) const;
-      bool operator != (int id) const;
-      bool operator  < (int id) const;
+      bool operator == (const u16& id) const;
+      bool operator != (const u16& id) const;
+      bool operator  < (const u16& id) const;
       bool operator == (const UnitType& type) const;
       bool operator != (const UnitType& type) const;
       bool operator  < (const UnitType& type) const;
 
-      int         getID() const;
+      u16         getID() const;
       std::string getName() const;
       std::string getSubLabel() const;
 
@@ -125,7 +125,7 @@ namespace BW
       bool isTerran() const;
       bool isProtoss() const;
       bool isValid() const;
-      int  id;
+      u16  id;
       static void initialize();
     private :
       Util::BitMask<u32> getFlags() const;
