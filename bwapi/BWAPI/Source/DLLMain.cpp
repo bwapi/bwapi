@@ -398,11 +398,10 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   switch (ul_reason_for_call)
   {
     case DLL_PROCESS_ATTACH:
-    {
       BWAPI::BWAPI_init();
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
       return true;
-    }
+      break;
   }
   return true;
 }

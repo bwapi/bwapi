@@ -19,7 +19,7 @@ namespace BW
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  UnitType::UnitType(int id)
+  UnitType::UnitType(const u16& id)
       : id(id)
   {
   }
@@ -29,17 +29,17 @@ namespace BW
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool UnitType::operator ==(int id) const
+  bool UnitType::operator ==(const u16& id) const
   {
     return this->id == id;
   }
   //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool UnitType::operator !=(int id) const
+  bool UnitType::operator !=(const u16& id) const
   {
     return this->id != id;
   }
   //---------------------------------------------- OPERATOR < ------------------------------------------------
-  bool UnitType::operator <(int id) const
+  bool UnitType::operator <(const u16& id) const
   {
     return this->id < id;
   }
@@ -59,8 +59,11 @@ namespace BW
     return this->id < type.id;
   }
   //------------------------------------------------- GET ID -------------------------------------------------
-  int UnitType::getID() const
+  u16 UnitType::getID() const
   {
+    if (!this->isValid())
+      return 0;
+
     return this->id;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
@@ -118,7 +121,7 @@ namespace BW
   //--------------------------------------------- REQUIRED UNITS ---------------------------------------------
   const std::map< BW::UnitType, int >& UnitType::_requiredUnits() const
   {
-    return requiredUnitsData[this->id];
+    return requiredUnitsData[this->getID()];
   }
   //--------------------------------------------- REQUIRED TECH ----------------------------------------------
   u8 UnitType::_requiredTech() const
@@ -157,7 +160,6 @@ namespace BW
   {
     return BW::BWDATA_Armor->unitType[this->getID()];
   }
-
   //--------------------------------------------- MINERAL PRICE ----------------------------------------------
   int UnitType::mineralPrice() const
   {
@@ -302,7 +304,7 @@ namespace BW
   //----------------------------------------------- CAN ATTACK -----------------------------------------------
   bool UnitType::canAttack() const
   {
-    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Attack)
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Attack)
            && (this->_groundWeapon() != BW::WeaponID::None || this->_airWeapon() != BW::WeaponID::None);
   }
   //------------------------------------------------ CAN MOVE ------------------------------------------------
@@ -375,7 +377,7 @@ namespace BW
   //----------------------------------------------- IS WORKER ------------------------------------------------
   bool UnitType::isWorker() const
   {
-    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()].getBit(BW::UnitPrototypeFlags::Worker);
+    return this->getFlags().getBit(BW::UnitPrototypeFlags::Worker);
   }
   //---------------------------------------------- REQUIRES PSI ----------------------------------------------
   bool UnitType::requiresPsi() const
@@ -450,6 +452,9 @@ namespace BW
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool UnitType::isValid() const
   {
+    if (this->id >= BW::UNIT_TYPE_COUNT)
+      Util::Logger::globalLog->log("ERROR: Bad unit type %d (0x%X)", this->id, (u32)this->id);
+
     return this->id < BW::UNIT_TYPE_COUNT;
   }
   //---------------------------------------------- INITIALIZE ------------------------------------------------

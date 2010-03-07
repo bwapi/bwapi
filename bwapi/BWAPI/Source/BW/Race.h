@@ -10,7 +10,7 @@ namespace BW
   /** Maps bw definition of race. */
   namespace Race
   {
-    enum Enum : u8
+    enum Enum
     {
       Zerg    = 0,
       Terran  = 1,
