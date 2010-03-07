@@ -288,6 +288,8 @@ namespace BW
   static u16*           BWDATA_MoveToTileX                        = (u16*)(BWDATA_MoveToTile);
   static u16*           BWDATA_MoveToTileY                        = (u16*)(BWDATA_MoveToTile + 2);
 
+  static u32*           BWDATA_MouseX                             = (u32*)0x006CDDC4;
+  static u32*           BWDATA_MouseY                             = (u32*)0x006CDDC8;
   static u32*           BWDATA_ScreenX                            = (u32*)0x00628448;
   static u32*           BWDATA_ScreenY                            = (u32*)0x00628470;
 

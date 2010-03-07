@@ -1339,9 +1339,7 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return 0;
     }
-    LPPOINT cursorPoint = NULL;
-    GetCursorPos(cursorPoint);
-    return cursorPoint->x;
+    return *(BW::BWDATA_MouseX);
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY()
@@ -1353,9 +1351,7 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return 0;
     }
-    LPPOINT cursorPoint = NULL;
-    GetCursorPos(cursorPoint);
-    return cursorPoint->y;
+    return *(BW::BWDATA_MouseY);
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
@@ -1366,9 +1362,7 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return BWAPI::Positions::Unknown;
     }
-    LPPOINT cursorPoint = NULL;
-    GetCursorPos(cursorPoint);
-    return BWAPI::Position(cursorPoint->x, cursorPoint->y);
+    return BWAPI::Position(*(BW::BWDATA_MouseX),*(BW::BWDATA_MouseY));
   }
 /*  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button)
@@ -2030,10 +2024,8 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      LPPOINT cursorPoint = NULL;
-      GetCursorPos(cursorPoint);
-      screen_x1 += cursorPoint->x;
-      screen_y1 += cursorPoint->y;
+      screen_x1 += *(BW::BWDATA_MouseX);
+      screen_y1 += *(BW::BWDATA_MouseY);
     }
     if (screen_x1 < 0   || screen_y1 < 0 ||
         screen_x1 > 640 || screen_y1 > 480) return false;
@@ -2055,12 +2047,10 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      LPPOINT cursorPoint = NULL;
-      GetCursorPos(cursorPoint);
-      screen_x1 += cursorPoint->x;
-      screen_y1 += cursorPoint->y;
-      screen_x2 += cursorPoint->x;
-      screen_y2 += cursorPoint->y;
+      screen_x1 += *(BW::BWDATA_MouseX);
+      screen_y1 += *(BW::BWDATA_MouseY);
+      screen_x2 += *(BW::BWDATA_MouseX);
+      screen_y2 += *(BW::BWDATA_MouseY);
     }
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
@@ -2088,14 +2078,12 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      LPPOINT cursorPoint = NULL;
-      GetCursorPos(cursorPoint);
-      screen_x1 += cursorPoint->x;
-      screen_y1 += cursorPoint->y;
-      screen_x2 += cursorPoint->x;
-      screen_y2 += cursorPoint->y;
-      screen_x3 += cursorPoint->x;
-      screen_y3 += cursorPoint->y;
+      screen_x1 += *(BW::BWDATA_MouseX);
+      screen_y1 += *(BW::BWDATA_MouseY);
+      screen_x2 += *(BW::BWDATA_MouseX);
+      screen_y2 += *(BW::BWDATA_MouseY);
+      screen_x3 += *(BW::BWDATA_MouseX);
+      screen_y3 += *(BW::BWDATA_MouseY);
     }
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
