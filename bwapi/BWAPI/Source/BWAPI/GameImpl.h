@@ -189,6 +189,7 @@ namespace BWAPI
        * @param slot Desired state of the slot (Open/Closed/Computer)
        * @param slotID Order of the slot (0 based)
        */
+      void pressKey(int key);
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
       void setOnStartCalled(bool onStartCalled);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
@@ -279,6 +280,7 @@ namespace BWAPI
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
       bool calledOnEnd;
+      int autoMenuGameType;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
