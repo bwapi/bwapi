@@ -1,6 +1,7 @@
 #pragma once
 #pragma pack(1)
 
+#include <windows.h>
 #include <Util/Bitmask.h>
 #include <Util/Types.h>
 #include "../StaticAssert.h"
@@ -167,9 +168,9 @@ namespace BW
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
 
   /* Native message boxes */
-  static u32     BWFXN_gluPOK_MBox         = 0x004B7180;
-  static u32     BWFXN_gluPOKCancel_MBox   = 0x004B73B0;
-  static char (__stdcall* BWFXN_gluPEdit_MBox)(char *text, char *dest, size_t size, char *restricted) = (char(__stdcall*)(char*,char*,size_t,char*))0x004B6E50;
+  static bool (__cdecl *BWFXN_gluPOK_MBox)() = (bool(__cdecl*)())0x004B7180;
+  static bool (__cdecl *BWFXN_gluPOKCancel_MBox)() = (bool(__cdecl*)())0x004B73B0;
+  static bool (__stdcall *BWFXN_gluPEdit_MBox)(char *text, char *dest, size_t size, char *restricted) = (bool(__stdcall*)(char*,char*,size_t,char*))0x004B6E50;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
@@ -262,10 +263,6 @@ namespace BW
   static void (__thiscall *BWFXN_PlayIscript)(int header, int unk1, int unk2) = (void(__thiscall*)(int,int,int))0x004D74C0;
   static u32            BWFXN_IscriptHook                         = 0x004D84F3;
 
-  /* defuct */
-    static void (__fastcall *BWFXN_clearUnitTarget)(BW::Unit *deadUnit) = (void(__fastcall*)(BW::Unit*))0x0048AAC0;
-    static u32            BWFXN_DestroyUnitHook                     = 0x004E6397;
-
   static int*           BWDATA_NextLogicFrameData                 = (int*)0x006509C4;
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
 
@@ -288,8 +285,7 @@ namespace BW
   static u16*           BWDATA_MoveToTileX                        = (u16*)(BWDATA_MoveToTile);
   static u16*           BWDATA_MoveToTileY                        = (u16*)(BWDATA_MoveToTile + 2);
 
-  static u32*           BWDATA_MouseX                             = (u32*)0x006CDDC4;
-  static u32*           BWDATA_MouseY                             = (u32*)0x006CDDC8;
+  static POINT          *BWDATA_Mouse                             = (POINT*)0x006CDDC4;
   static u32*           BWDATA_ScreenX                            = (u32*)0x00628448;
   static u32*           BWDATA_ScreenY                            = (u32*)0x00628470;
 

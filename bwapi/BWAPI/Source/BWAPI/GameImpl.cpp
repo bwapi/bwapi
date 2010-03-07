@@ -85,11 +85,7 @@ namespace BWAPI
         this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
         this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
       }
-      char menu_str[MAX_PATH];
-      GetPrivateProfileStringA("config", "menu", "NULL", menu_str, MAX_PATH, "bwapi-data\\bwapi.ini");
-      this->autoMenuGameType=Util::Strings::stringToInt(std::string(menu_str));
-
-
+      this->autoMenuGameType = GetPrivateProfileIntA("config", "menu", 0, "bwapi-data\\bwapi.ini");
       unitArrayCopyLocal = new BW::UnitArray;
 
       /* iterate through players and create PlayerImpl for each */
@@ -108,8 +104,8 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error", "a+");
-      fprintf(f, "Exception caught inside Game constructor: %s", exception.getMessage().c_str());
+      FILE*f = fopen("bwapi-error.txt", "a+");
+      fprintf(f, "Exception caught inside Game constructor: %s\n", exception.getMessage().c_str());
       fclose(f);
     }
   }
@@ -759,7 +755,7 @@ namespace BWAPI
       {
         if (this->units.find(i) == this->units.end())
         {
-          i->alive=true;
+          i->alive = true;
           this->units.insert(i);
           this->unitsToBeAdded.insert(i);
         }
@@ -1175,7 +1171,7 @@ namespace BWAPI
     {
       /* find the current player by name */
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
+        if (this->players[i] != NULL && strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
           this->BWAPIPlayer = this->players[i];
 
       /* error if player not found */
@@ -1364,6 +1360,8 @@ namespace BWAPI
 
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
+      if (unitArray[i] == NULL)
+        continue;
       unitArray[i]->userSelected      = false;
       unitArray[i]->buildUnit         = NULL;
       unitArray[i]->alive             = false;
@@ -1427,7 +1425,7 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return 0;
     }
-    return *(BW::BWDATA_MouseX);
+    return BW::BWDATA_Mouse->x;
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY()
@@ -1439,7 +1437,7 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return 0;
     }
-    return *(BW::BWDATA_MouseY);
+    return BW::BWDATA_Mouse->y;
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
@@ -1450,7 +1448,7 @@ namespace BWAPI
       this->setLastError(Errors::Access_Denied);
       return BWAPI::Positions::Unknown;
     }
-    return BWAPI::Position(*(BW::BWDATA_MouseX),*(BW::BWDATA_MouseY));
+    return BWAPI::Position(BW::BWDATA_Mouse->x, BW::BWDATA_Mouse->y);
   }
 /*  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button)
@@ -1589,77 +1587,6 @@ namespace BWAPI
     }
     return selectedUnitSet;
   }
-  //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-  void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
-  {
-    /* Called when a unit dies(death animation), not when it is removed */
-    int index = unit->getIndex();
-    if (!unit->alive)
-      return;
-    this->units.erase(unit);
-    deadUnits.push_back(unit);
-    unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
-                                    &unitArrayCopyLocal->unit[index],
-                                    (u16)index);
-
-    if (this->client != NULL)
-    {
-      bool isInUpdate = this->inUpdate;
-      this->inUpdate = false;
-      if (unit != NULL && unit->canAccessSpecial())
-      {
-        unit->makeVisible = true;
-        if (unit->lastVisible)
-          this->client->onUnitHide(unit);
-
-        /* notify the client that the units in the transport died */
-        std::list<Unit*> loadedList = unit->getLoadedUnits();
-
-        //units in terran bunker survive
-        if (unit->getType()!=UnitTypes::Terran_Bunker)
-        {
-  		    foreach(Unit* loaded, loadedList)
-	  		    this->onUnitDestroy((UnitImpl*)loaded);
-        }
-
-        this->client->onUnitDestroy(unit);
-
-        unit->makeVisible = false;
-      }
-
-      this->inUpdate = isInUpdate;
-    }
-
-    unit->die();
-  }
-  void GameImpl::onUnitDestroy(BW::Unit* unit)
-  {
-    /* index as seen in Starcraft */
-    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
-    if (index > BW::UNIT_ARRAY_MAX_LENGTH)
-    {
-      if (this->invalidIndices.find(index) == this->invalidIndices.end())
-      {
-        this->newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x", index, unit);
-        this->invalidIndices.insert(index);
-      }
-      return;
-    }
-    BWAPI::UnitImpl* deadUnit = unitArray[index];
-    this->onUnitDestroy(deadUnit);
-  }
-  //---------------------------------------------- ON ADD UNIT -----------------------------------------------
-  void GameImpl::onAddUnit(BWAPI::Unit* unit)
-  {
-    if (this->client != NULL)
-    {
-      this->inUpdate = false;
-      if (unit != NULL && ((UnitImpl*)unit)->canAccess())
-        this->client->onUnitCreate(unit);
-
-      this->inUpdate = true;
-    }
-  }
   //----------------------------------------------- GET FIRST ------------------------------------------------
   UnitImpl* GameImpl::getFirst()
   {
@@ -1729,11 +1656,11 @@ namespace BWAPI
         if (i->_getPlayer()->isNeutral())
         {
           this->neutralUnits.insert(i);
-          if (i->_getType()==UnitTypes::Resource_Mineral_Field)
+          if (i->_getType() == UnitTypes::Resource_Mineral_Field)
             this->minerals.insert(i);
           else
           {
-            if (i->_getType()==UnitTypes::Resource_Vespene_Geyser)
+            if (i->_getType() == UnitTypes::Resource_Vespene_Geyser)
               this->geysers.insert(i);
           }
         }
@@ -1748,9 +1675,6 @@ namespace BWAPI
         if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
           renegadeUnits.push_back(i);
       }
-      i->startingAttack           = i->getAirWeaponCooldown() > i->lastAirWeaponCooldown || i->getGroundWeaponCooldown() > i->lastGroundWeaponCooldown;
-      i->lastAirWeaponCooldown    = i->getAirWeaponCooldown();
-      i->lastGroundWeaponCooldown = i->getGroundWeaponCooldown();
       i->lastType                 = i->_getType();
       i->lastPlayer               = i->_getPlayer();
 
@@ -1810,11 +1734,13 @@ namespace BWAPI
       if (this->client)
       {
         i->makeVisible = true;
-        this->client->onUnitHide(i);
+        if (i->getRawDataLocal()->orderID != BW::OrderID::Die)
+          this->client->onUnitHide(i);
+        else
+          this->client->onUnitDestroy(i);
         i->makeVisible = false;
       }
     }
-
     this->inUpdate = true;
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
@@ -2112,8 +2038,8 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      screen_x1 += *(BW::BWDATA_MouseX);
-      screen_y1 += *(BW::BWDATA_MouseY);
+      screen_x1 += BW::BWDATA_Mouse->x;
+      screen_y1 += BW::BWDATA_Mouse->y;
     }
     if (screen_x1 < 0   || screen_y1 < 0 ||
         screen_x1 > 640 || screen_y1 > 480) return false;
@@ -2135,10 +2061,10 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      screen_x1 += *(BW::BWDATA_MouseX);
-      screen_y1 += *(BW::BWDATA_MouseY);
-      screen_x2 += *(BW::BWDATA_MouseX);
-      screen_y2 += *(BW::BWDATA_MouseY);
+      screen_x1 += BW::BWDATA_Mouse->x;
+      screen_y1 += BW::BWDATA_Mouse->y;
+      screen_x2 += BW::BWDATA_Mouse->x;
+      screen_y2 += BW::BWDATA_Mouse->y;
     }
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
@@ -2166,12 +2092,12 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
-      screen_x1 += *(BW::BWDATA_MouseX);
-      screen_y1 += *(BW::BWDATA_MouseY);
-      screen_x2 += *(BW::BWDATA_MouseX);
-      screen_y2 += *(BW::BWDATA_MouseY);
-      screen_x3 += *(BW::BWDATA_MouseX);
-      screen_y3 += *(BW::BWDATA_MouseY);
+      screen_x1 += BW::BWDATA_Mouse->x;
+      screen_y1 += BW::BWDATA_Mouse->y;
+      screen_x2 += BW::BWDATA_Mouse->x;
+      screen_y2 += BW::BWDATA_Mouse->y;
+      screen_x3 += BW::BWDATA_Mouse->x;
+      screen_y3 += BW::BWDATA_Mouse->y;
     }
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
@@ -2179,41 +2105,53 @@ namespace BWAPI
         (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480)) return false;
     return true;
   }
-
-  //--------------------------------------------------- MESSAGE BOXES ----------------------------------------
-  bool GameImpl::gluMessageBox(char* message, int type)
+  char *GameImpl::dummyMessage(char *message)
   {
-    bool rval = false;
+    /* This function is only to move a char* to register EAX */
+    return message;
+  }
+  //--------------------------------------------------- MESSAGE BOXES ----------------------------------------
+  bool GameImpl::gluMessageBox(char *message, int type)
+  {
     switch(type)
     {
     case MB_OKCANCEL:
-      __asm
-      {
-        mov eax, message
-        call BW::BWFXN_gluPOKCancel_MBox
-        mov rval, al
-      }
-      break;
+      dummyMessage(message);  // moves the message to EAX
+      return BW::BWFXN_gluPOKCancel_MBox(); // message is a parameter passed in EAX
     default:  // MB_OK
-      __asm
-      {
-        mov eax, message
-        call BW::BWFXN_gluPOK_MBox
-      }
-      return false;
+      dummyMessage(message);  // moves the message to EAX
+      BW::BWFXN_gluPOK_MBox();   // message is a parameter passed in EAX
     }
-    return rval;
+    return false;
   }
 
   bool GameImpl::gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
   {
-    return BW::BWFXN_gluPEdit_MBox(message, dest, destsize, restricted) != 0;
+    return BW::BWFXN_gluPEdit_MBox(message, dest, destsize, restricted);
   }
 
 //--------------------------------------------------- ON SAVE ------------------------------------------------
   void GameImpl::onSaveGame(char *name)
   {
+    /* called when the game is being saved */
     if (this->client != NULL)
-      this->client->onSaveGame(std::string(name));
+      this->client->onSaveGame(std::string(name));  // calls the client callback
   }
+//--------------------------------------------------- ISCRIPT ------------------------------------------------
+  BWAPI::UnitImpl *GameImpl::spriteToUnit(BW::CSprite *sprite)
+  {
+    /* Retrieves a sprite's parent unit */
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
+      if (BW::BWDATA_UnitNodeTable->unit[i].sprite == sprite) // compare unit with sprite we're looking for
+        return unitArray[i];
+    return NULL;
+  }
+
+  void GameImpl::iscriptParser(BW::CSprite *sprite, u8 anim)
+  {
+      BWAPI::UnitImpl *unit = spriteToUnit(sprite); // get sprite's parent unit
+      if (unit != NULL)   // make sure the unit exists
+        unit->animState = anim; // associate the animation directly with the unit
+  }
+
 };

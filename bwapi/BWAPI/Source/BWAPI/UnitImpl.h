@@ -142,6 +142,8 @@ namespace BWAPI
       virtual bool  isSelected() const;
       virtual bool  isSieged() const;
       virtual bool  isStartingAttack() const;
+      virtual bool  isAttacking() const;
+      virtual bool  isStoppingAttack() const;
       virtual bool  isStasised() const;
       virtual bool  isStimmed() const;
       virtual bool  isTraining() const;
@@ -259,9 +261,8 @@ namespace BWAPI
       UnitType lastType;
       Player* lastPlayer;
       bool nukeDetected;
-      bool startingAttack;
-      int lastAirWeaponCooldown;
-      int lastGroundWeaponCooldown;
+      int animState;
+
       std::set<Unit*> larva;
     private:
 
