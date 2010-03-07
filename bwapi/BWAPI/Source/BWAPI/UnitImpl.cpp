@@ -612,6 +612,9 @@ namespace BWAPI
     if (!this->getBWType().canProduce())
       return false;
 
+    if (this->getType().getRace()==Races::Zerg && this->getType().isResourceDepot())
+      return false;
+
     return !this->hasEmptyBuildQueue();
   }
   //---------------------------------------------- IS UNDER STORM --------------------------------------------
