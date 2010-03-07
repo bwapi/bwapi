@@ -260,7 +260,7 @@ namespace BW
 
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 
-  static void (__thiscall *BWFXN_PlayIscript)(int header, int unk1, int unk2) = (void(__thiscall*)(int,int,int))0x004D74C0;
+  static void(__thiscall *BWFXN_PlayIscript)(Image::CImage *_this, char *header,int unk1,int unk2)    = (void(__thiscall*)(Image::CImage*,char*,int,int))0x004D74C0;
   static u32            BWFXN_IscriptHook                         = 0x004D84F3;
 
   static int*           BWDATA_NextLogicFrameData                 = (int*)0x006509C4;

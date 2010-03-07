@@ -807,7 +807,6 @@ namespace BWAPI
       for (unsigned int i = 0; i < this->shapes.size(); i++)
         delete this->shapes[i];
       this->shapes.clear();
-
       this->inUpdate = false;
     }
     catch (GeneralException& exception)
@@ -2149,9 +2148,9 @@ namespace BWAPI
 
   void GameImpl::iscriptParser(BW::CSprite *sprite, u8 anim)
   {
-      BWAPI::UnitImpl *unit = spriteToUnit(sprite); // get sprite's parent unit
-      if (unit != NULL)   // make sure the unit exists
-        unit->animState = anim; // associate the animation directly with the unit
+    BWAPI::UnitImpl *unit = spriteToUnit(sprite); // get sprite's parent unit
+    if (unit != NULL)   // make sure the unit exists
+      unit->animState = anim; // associate the animation directly with the unit
   }
 
 };

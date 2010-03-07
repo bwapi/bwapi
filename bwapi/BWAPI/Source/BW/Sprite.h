@@ -20,8 +20,8 @@ namespace BW
     u8       selectionTimer;
     u32      index;
     Position position;
-    Image::CImage   *underlay;
     Image::CImage   *mainGraphic;
+    Image::CImage   *underlay;
     Image::CImage   *overlay;
   };
 };
