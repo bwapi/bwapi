@@ -12,6 +12,7 @@
 #include <Util/Gnu.h>
 
 #include "BW/Offsets.h"
+#include "BW/Image.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/UnitImpl.h"
 #include "BWAPI/PlayerImpl.h"
@@ -340,6 +341,78 @@ void __declspec(naked) onIssueCommand()
       retn
     }
   }
+}
+//------------------------------------------------ ON ISCRIPT ------------------------------------------------
+void __thiscall BW::Image::CImage::_PlayIscript(int header, int unk1, int unk2)
+{
+  switch(this->anim)
+  {
+  case BW::Image::Anims::Init:
+    // Unit was created :)
+    break;
+  case BW::Image::Anims::Death:
+    // Unit has died :(
+    break;
+  case BW::Image::Anims::GndAttkInit:
+  case BW::Image::Anims::AirAttkInit:
+    // Starting attack
+    break;
+  case BW::Image::Anims::GndAttkRpt:
+  case BW::Image::Anims::AirAttkRpt:
+    // Attacking
+    break;
+  case BW::Image::Anims::CastSpell:
+    // Casting a spell?
+    break;
+  case BW::Image::Anims::GndAttkToIdle:
+  case BW::Image::Anims::AirAttkToIdle:
+    // Stopping attack
+    break;
+  case BW::Image::Anims::Walking:
+    // Moving
+    break;
+  case BW::Image::Anims::WalkingToIdle:
+    // Returning to idle
+    break;
+  case BW::Image::Anims::SpecialState1:
+  case BW::Image::Anims::SpecialState2:
+    // special stuff (spells etc)
+    break;
+  case BW::Image::Anims::AlmostBuilt:
+    // Terran half-built
+    break;
+  case BW::Image::Anims::Built:
+    // Completed building
+    break;
+  case BW::Image::Anims::Landing:
+    // Building landing
+    break;
+  case BW::Image::Anims::LiftOff:
+    // Building lifting off
+    break;
+  case BW::Image::Anims::IsWorking:
+    // Building is training/Researching/Upgrading
+    break;
+  case BW::Image::Anims::WorkingToIdle:
+    // Building has stopped training/Researching/Upgrading
+    break;
+  case BW::Image::Anims::WarpIn:
+    // Building is warping in
+    break;
+  case BW::Image::Anims::Disable:
+    // Unit is Disabled
+    break;
+  case BW::Image::Anims::Burrow:
+    // Unit is burrowing
+    break;
+  case BW::Image::Anims::UnBurrow:
+    // Unit is unburrowing
+    break;
+  case BW::Image::Anims::Enable:
+    // Unit is Enabled
+    break;
+  }
+  BW::BWFXN_PlayIscript(header, unk1, unk2);
 }
 
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------

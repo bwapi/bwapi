@@ -259,8 +259,12 @@ namespace BW
 
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 
-  static void (__fastcall *BWFXN_clearUnitTarget)(BW::Unit *deadUnit) = (void(__fastcall*)(BW::Unit*))0x0048AAC0;
-  static u32            BWFXN_DestroyUnitHook                     = 0x004E6397;
+  static void (__thiscall *BWFXN_PlayIscript)(int header, int unk1, int unk2) = (void(__thiscall*)(int,int,int))0x004D74C0;
+  static u32            BWFXN_IscriptHook                         = 0x004D84F3;
+
+  /* defuct */
+    static void (__fastcall *BWFXN_clearUnitTarget)(BW::Unit *deadUnit) = (void(__fastcall*)(BW::Unit*))0x0048AAC0;
+    static u32            BWFXN_DestroyUnitHook                     = 0x004E6397;
 
   static int*           BWDATA_NextLogicFrameData                 = (int*)0x006509C4;
   static u32            BWFXN_NextLogicFrame                      = 0x004D974E;
