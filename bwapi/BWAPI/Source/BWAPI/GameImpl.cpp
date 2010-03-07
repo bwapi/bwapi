@@ -232,7 +232,9 @@ namespace BWAPI
   {
     /* Check if the specified coordinates have power */
     this->setLastError(Errors::None);
-    if (!(tileWidth == 2 && tileHeight == 2) && !(tileWidth == 3 && tileHeight == 2) && !(tileWidth == 4 && tileHeight == 3))
+    if (!(tileWidth == 2 && tileHeight == 2) &&
+        !(tileWidth == 3 && tileHeight == 2) &&
+        !(tileWidth == 4 && tileHeight == 3))
     {
       return false;
     }
@@ -285,16 +287,22 @@ namespace BWAPI
   bool  GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
     this->setLastError(Errors::Unbuildable_Location);
-    if (position.x()<0) return false;
-    if (position.y()<0) return false;
-    int width=type.tileWidth();
-    int height=type.tileHeight();
-    if (position.x()+width>this->mapWidth()) return false;
-    if (position.y()+height>=this->mapHeight()) return false;
-    if (position.y()+height==this->mapHeight()-1)
+    if (position.x() < 0)
+      return false;
+    if (position.y() < 0)
+      return false;
+    int width  = type.tileWidth();
+    int height = type.tileHeight();
+    if (position.x() + width > this->mapWidth())
+      return false;
+    if (position.y() + height >= this->mapHeight())
+      return false;
+    if (position.y() + height == this->mapHeight() - 1)
     {
-      if (position.x()<5) return false;
-      if (position.x()+width>this->mapWidth()-5) return false;
+      if (position.x() < 5)
+        return false;
+      if (position.x() + width > this->mapWidth() - 5)
+        return false;
     }
     if (type.isRefinery())
     {
@@ -333,14 +341,14 @@ namespace BWAPI
       if (!type.isResourceDepot())
         for(int x = position.x(); x < position.x() + width; x++)
           for(int y = position.y(); y < position.y() + height; y++)
-            if (!BWAPI::Broodwar->hasCreep(x,y))
+            if (!BWAPI::Broodwar->hasCreep(x, y))
               return false;
     }
     else
     {
       for(int x = position.x(); x < position.x() + width; x++)
         for(int y = position.y(); y < position.y() + height; y++)
-          if (BWAPI::Broodwar->hasCreep(x,y))
+          if (BWAPI::Broodwar->hasCreep(x, y))
             return false;
     }
 
@@ -359,23 +367,23 @@ namespace BWAPI
       foreach (BWAPI::Unit* m, getStaticMinerals())
       {
         if (isVisible(m->getInitialTilePosition()) ||
-            isVisible(m->getInitialTilePosition().x()+1,m->getInitialTilePosition().y()))
+            isVisible(m->getInitialTilePosition().x() + 1, m->getInitialTilePosition().y()))
           if (!m->isVisible())
             continue; // tile position is visible, but mineral is not => mineral does not exist
-        if (m->getInitialTilePosition().x()>position.x()-5 &&
-            m->getInitialTilePosition().y()>position.y()-4 &&
-            m->getInitialTilePosition().x()<position.x()+7 &&
-            m->getInitialTilePosition().y()<position.y()+6)
+        if (m->getInitialTilePosition().x() > position.x() - 5 &&
+            m->getInitialTilePosition().y() > position.y() - 4 &&
+            m->getInitialTilePosition().x() < position.x() + 7 &&
+            m->getInitialTilePosition().y() < position.y() + 6)
         {
           return false;
         }
       }
       foreach (BWAPI::Unit* g, getStaticGeysers())
       {
-        if (g->getInitialTilePosition().x()>position.x()-7 &&
-            g->getInitialTilePosition().y()>position.y()-5 &&
-            g->getInitialTilePosition().x()<position.x()+7 &&
-            g->getInitialTilePosition().y()<position.y()+6)
+        if (g->getInitialTilePosition().x() > position.x() - 7 &&
+            g->getInitialTilePosition().y() > position.y() - 5 &&
+            g->getInitialTilePosition().x() < position.x() + 7 &&
+            g->getInitialTilePosition().y() < position.y() + 6)
         {
           return false;
         }
@@ -757,16 +765,18 @@ namespace BWAPI
           i->buildUnit = j;
           j->buildUnit = i;
         }
-        if (i->getHatchery()!=NULL)
+        if (i->getHatchery() != NULL)
           ((UnitImpl*)i->getHatchery())->larva.insert((Unit*)i);
-        if (i->getType()==UnitTypes::Terran_Nuclear_Missile && i->nukeDetected == false && i->getRawDataLocal()->connectedUnit->unitID==BW::UnitID::Terran_Ghost)
+        if (i->getType() == UnitTypes::Terran_Nuclear_Missile &&
+            i->nukeDetected == false &&
+            i->getRawDataLocal()->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
         {
-          i->nukeDetected=true;
-          BW::Position bwtarget=i->getRawDataLocal()->orderTargetPos;
-          Position target(bwtarget.x,bwtarget.y);
+          i->nukeDetected = true;
+          BW::Position bwtarget = i->getRawDataLocal()->orderTargetPos;
+          Position target(bwtarget.x, bwtarget.y);
           if (this->client)
           {
-            if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->isVisible(target.x()/32,target.y()/32))
+            if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->isVisible(target.x() / 32, target.y() / 32))
               detectedNukes.push_back(target);
             else
               detectedNukes.push_back(Positions::Unknown);
@@ -1468,15 +1478,11 @@ namespace BWAPI
   //--------------------------------------------- SAVE SELECTED ----------------------------------------------
   void GameImpl::saveSelected()
   {
-    memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4*12);
+    memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4 * 12);
     savedSelectionStates[12] = NULL;
-    int i = 0;
     selectedUnitSet.clear();
-    while (savedSelectionStates[i] != NULL)
-    {
+    for (int i = 0; savedSelectionStates[i] != NULL; i++)
       selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i]));
-      i++;
-    }
   }
   //--------------------------------------------- LOAD SELECTED ----------------------------------------------
   void GameImpl::loadSelected()

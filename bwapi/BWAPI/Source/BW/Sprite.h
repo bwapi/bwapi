@@ -1,5 +1,6 @@
 #pragma once
 #include "Position.h"
+#include "Image.h"
 namespace BW
 {
   struct CSprite
@@ -15,9 +16,9 @@ namespace BW
     u8       selectionTimer;
     u32      index;
     Position position;
-    u32      CImage_underlay;
-    u32      CImage_mainGraphic;
-    u32      CImage_overlay;
+    BW::Image::CImage   *underlay;
+    BW::Image::CImage   *mainGraphic;
+    BW::Image::CImage   *overlay;
   };
 };
 

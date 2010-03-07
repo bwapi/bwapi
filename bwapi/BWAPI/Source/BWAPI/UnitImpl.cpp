@@ -2553,53 +2553,36 @@ namespace BWAPI
   std::string UnitImpl::getName() const
   {
     std::ostringstream message;
-        
-        // Type
-        message << "(" << this->getType().getName() << ")";
+    // Type
+    message << "(" << this->getType().getName() << ")";
+    // Order
+    message << " (" << this->getOrder().getName() << ")";
+    // Id
+    message << " [" << this->getIndex() << "]";
+    // Position
+    message << " Position = (" << this->getPosition().x() << "," << this->getPosition().y() << ")";
 
-        // Order
-        message << " (" << this->getOrder().getName() << ")";
-
-        // Id
-        message << " [" << this->getIndex() << "]";
-
-        // Position
-        message << " Position = (" << this->getPosition().x() << "," << this->getPosition().y() << ")";
-          
-        // Target
+    // Target
     if (this->getTarget() == NULL)
-    {
       message << " Target:[NULL]";
-    }
     else
-    {
       message << " Target:[" << (int)this->getTarget() << "](" << this->getTarget()->getType().getName() << ")";
-    }
 
-        // Order Target
+    // Order Target
     if (this->getOrderTarget() == NULL)
-        {
       message << " OrderTarget:[NULL]";
-    }
     else
-    {
-    message << " OrderTarget:[" <<(int)(this->getOrderTarget()) << "](" << this->getOrderTarget()->getType().getName() << ")";
-    }
+      message << " OrderTarget:[" <<(int)(this->getOrderTarget()) << "](" << this->getOrderTarget()->getType().getName() << ")";
 
-        // Player
+    // Player
     message << " Player = (" << this->getPlayer()->getName() << ")";
 
-        // Child Unit
+    // Child Unit
     if (this->getChild() == NULL)
-    {
       message << " (childUnit1 = NULL)";
-    }
     else
-    {
       message << " (childUnit1 = " << this->getChild()->getType().getName() << ")";
-    }
-
-        return message.str();
+    return message.str();
   }
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
@@ -2682,4 +2665,5 @@ namespace BWAPI
       return this->staticHitPoints;
     return 0;
   }
+
 };
