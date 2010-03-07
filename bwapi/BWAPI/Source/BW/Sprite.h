@@ -1,12 +1,16 @@
 #pragma once
+#pragma pack(1)
 #include "Position.h"
 #include "Image.h"
+
+namespace BW { struct Image::CImage; };
+
 namespace BW
 {
   struct CSprite
   {
-    CSprite* prev;
-    CSprite* next;
+    CSprite  *prev;
+    CSprite  *next;
     u16      spriteID;
     u8       color;
     u8       unknown1;
@@ -16,9 +20,9 @@ namespace BW
     u8       selectionTimer;
     u32      index;
     Position position;
-    BW::Image::CImage   *underlay;
-    BW::Image::CImage   *mainGraphic;
-    BW::Image::CImage   *overlay;
+    Image::CImage   *underlay;
+    Image::CImage   *mainGraphic;
+    Image::CImage   *overlay;
   };
 };
-
+#pragma pack()

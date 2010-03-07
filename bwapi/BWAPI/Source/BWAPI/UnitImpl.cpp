@@ -72,6 +72,7 @@ namespace BWAPI
       , lastType(UnitTypes::Unknown)
       , lastPlayer(NULL)
       , nukeDetected(false)
+      , animState(0)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -587,7 +588,19 @@ namespace BWAPI
   bool UnitImpl::isStartingAttack() const
   {
     checkAccessBool();
-    return this->startingAttack;
+    return this->animState == BW::Image::Anims::GndAttkInit || this->animState == BW::Image::Anims::AirAttkInit;
+  }
+  //----------------------------------------------- IS ATTACKING ---------------------------------------------
+  bool UnitImpl::isAttacking() const
+  {
+    checkAccessBool();
+    return this->animState == BW::Image::Anims::GndAttkRpt || this->animState == BW::Image::Anims::AirAttkRpt;
+  }
+  //------------------------------------------- IS STOPPING ATTACK -------------------------------------------
+  bool UnitImpl::isStoppingAttack() const
+  {
+    checkAccessBool();
+    return this->animState == BW::Image::Anims::GndAttkToIdle || this->animState == BW::Image::Anims::AirAttkToIdle;
   }
   //----------------------------------------------- IS STASISED ----------------------------------------------
   bool UnitImpl::isStasised() const

@@ -1,5 +1,9 @@
 #pragma once
+#pragma pack(1)
 #include "Sprite.h"
+
+namespace BW { struct CSprite; };
+
 namespace BW
 {
   namespace Image
@@ -29,7 +33,7 @@ namespace BW
       void    *coloringData;
       void    *renderFunction1;
       void    *renderFunction2;
-      int     *spriteOwner;
+      CSprite *spriteOwner;
 
       void __thiscall _PlayIscript(int header, int unk1, int unk2);
     };
@@ -68,6 +72,7 @@ namespace BW
         Enable        = 0x1B
       };
     };
+
   };
 };
-
+#pragma pack()
