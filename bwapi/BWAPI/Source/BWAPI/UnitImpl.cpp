@@ -360,9 +360,11 @@ namespace BWAPI
            tOrderID == BW::OrderID::DroneLand ||
            tOrderID == BW::OrderID::BuildProtoss1 ||
            tOrderID == BW::OrderID::BuildProtoss2 ||
-           tOrderID == BW::OrderID::BuildSelf1 ||
-           tOrderID == BW::OrderID::BuildSelf2 ||
-           tOrderID == BW::OrderID::Build5;
+           tOrderID == BW::OrderID::TerranBuildSelf ||
+           tOrderID == BW::OrderID::ProtossBuildSelf ||
+           tOrderID == BW::OrderID::ZergBuildSelf ||
+           tOrderID == BW::OrderID::BuildNydusExit ||
+           tOrderID == BW::OrderID::BuildAddon;
   }
   //------------------------------------------- IS DEFENSE MATRIXED ------------------------------------------
   bool UnitImpl::isDefenseMatrixed() const
@@ -472,11 +474,15 @@ namespace BWAPI
     return (tOrderID == BW::OrderID::PlayerGuard ||
             tOrderID == BW::OrderID::Guard ||
             tOrderID == BW::OrderID::Stop ||
-            tOrderID == BW::OrderID::Pickup1 ||
-            tOrderID == BW::OrderID::Nothing2 ||
+            tOrderID == BW::OrderID::PickupIdle ||
+            tOrderID == BW::OrderID::Nothing ||
             tOrderID == BW::OrderID::Medic ||
             tOrderID == BW::OrderID::Carrier ||
+            tOrderID == BW::OrderID::Reaver ||
             tOrderID == BW::OrderID::Critter ||
+            tOrderID == BW::OrderID::Neutral ||
+            tOrderID == BW::OrderID::TowerGuard ||
+            tOrderID == BW::OrderID::Burrowed ||
             tOrderID == BW::OrderID::NukeTrain ||
             tOrderID == BW::OrderID::Larva);
   }
@@ -524,9 +530,11 @@ namespace BWAPI
   bool UnitImpl::isMorphing() const
   {
     checkAccessBool();
-    return this->getBWOrder() == BW::OrderID::Morph1 ||
-           this->getBWOrder() == BW::OrderID::Morph2 ||
-           this->getBWOrder() == BW::OrderID::ZergBuildSelf;
+    u8 tOrderID = this->getBWOrder();
+    return tOrderID == BW::OrderID::ZergBirth ||
+           tOrderID == BW::OrderID::ZergBuildingMorph ||
+           tOrderID == BW::OrderID::ZergUnitMorph ||
+           tOrderID == BW::OrderID::ZergBuildSelf;
   }
   //------------------------------------------------ IS MOVING -----------------------------------------------
   bool UnitImpl::isMoving() const
@@ -949,7 +957,7 @@ namespace BWAPI
   u8 UnitImpl::getBWOrder() const
   {
     if (!this->_exists())
-      return BW::OrderID::Nothing2;
+      return BW::OrderID::Nothing;
     return this->getRawDataLocal()->orderID;
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
@@ -1437,24 +1445,24 @@ namespace BWAPI
     {
       case BW::UnitID::Protoss_Carrier:
       case BW::UnitID::Protoss_Hero_Gantrithor:
-        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition1;
+        this->getRawDataLocal()->orderID = BW::OrderID::CarrierHoldPosition;
         break;
       case BW::UnitID::Zerg_Queen:
       case BW::UnitID::Zerg_Hero_Matriarch:
-        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition3;
+        this->getRawDataLocal()->orderID = BW::OrderID::QueenHoldPosition;
         break;
       case BW::UnitID::Zerg_InfestedTerran:
       case BW::UnitID::Zerg_Scourge:
-        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition4;
+        this->getRawDataLocal()->orderID = BW::OrderID::SuicideHoldPosition;
         break;
       case BW::UnitID::Terran_Medic:
         this->getRawDataLocal()->orderID = BW::OrderID::MedicHoldPosition;
         break;
       case BW::UnitID::Protoss_Reaver:
-        this->getRawDataLocal()->orderID = BW::OrderID::ReaverHold;
+        this->getRawDataLocal()->orderID = BW::OrderID::ReaverHoldPosition;
         break;
       default:
-        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition2;
+        this->getRawDataLocal()->orderID = BW::OrderID::HoldPosition;
     }
     BroodwarImpl.addToCommandBuffer(new CommandHoldPosition(this));
     return true;
@@ -1521,7 +1529,7 @@ namespace BWAPI
       return false;
     }
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::RallyPoint2), sizeof(BW::Orders::Attack));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::RallyPointTile), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, BW::Position((u16)target.x(), (u16)target.y())));
     return true;
   }
@@ -1547,7 +1555,7 @@ namespace BWAPI
       return false;
     }
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPoint1), sizeof(BW::Orders::Attack));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPointUnit), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, (UnitImpl*)target));
     return true;
   }
@@ -1898,12 +1906,12 @@ namespace BWAPI
     bool loaded = false;
     if (this->getType() == UnitTypes::Terran_Bunker)
     {
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup3), sizeof(BW::Orders::Attack));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::PickupBunker), sizeof(BW::Orders::Attack));
       loaded = true;
     }
     else if (this->getType() == UnitTypes::Terran_Dropship || this->getType() == UnitTypes::Protoss_Shuttle || this->getType() == UnitTypes::Zerg_Overlord)
     {
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Pickup2), sizeof(BW::Orders::Attack));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::PickupTransport), sizeof(BW::Orders::Attack));
       loaded = true;
     }
     else if (target->getType() == UnitTypes::Terran_Bunker || target->getType() == UnitTypes::Terran_Dropship || target->getType() == UnitTypes::Protoss_Shuttle || target->getType() == UnitTypes::Zerg_Overlord)

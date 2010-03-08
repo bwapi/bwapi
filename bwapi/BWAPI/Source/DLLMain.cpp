@@ -24,7 +24,6 @@
 #include "NewHackUtil.h"
 
 DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
-
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SCodeDelete(HANDLE *handle)
 {

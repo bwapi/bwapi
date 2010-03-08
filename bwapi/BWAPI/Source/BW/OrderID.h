@@ -45,9 +45,9 @@ namespace BW
                                       * Default Requirements: Unit is able to move. Allow on hallucinated units. */
       InfestMine1            = 0x0F, /**< Ran when a unit is being infested.
                                       * Default Requirements: Unit must be Terran Command Center. */
-      Nothing1               = 0x10, /**< Unknown
+      UnusedNothing          = 0x10, /**< Unknown
                                       * Default Requirements: Unused. */
-      Powerup1               = 0x11, /**< Unknown. Speculated to be a Powerup being built order.
+      UnusedPowerup          = 0x11, /**< Unknown. Speculated to be a Powerup being built order.
                                       * Default Requirements: Unused. */
       TowerGuard             = 0x12, /**< Building tower guard.
                                       * Default Requirements: Unit must be either Photon Cannon, Missile Turret, Sunken Colony, or Spore Colony. */
@@ -59,7 +59,7 @@ namespace BW
                                       * Default Requirements: Unit is able to move. Allow on hallucinated units. */
       TurretAttack           = 0x16, /**< Mobile Unit Turret attack.
                                       * Default Requirements: Must be subunit. Allow on hallucinated units. */
-      Nothing2               = 0x17, /**< Do nothing, next order.
+      Nothing                = 0x17, /**< Do nothing, next order.
                                       * Default Requirements: Allow on hallucinated units. */
       Nothing3               = 0x18, /**< Unknown, used when a unit is changing state between siege <-> normal.
                                       * Default Requirements: Unused. */
@@ -91,31 +91,31 @@ namespace BW
                                       * Default Requirements: Unused. */
       Train                  = 0x26, /**< Training Unit.
                                       * Default Requirements: Unused. */
-      RallyPoint1            = 0x27, /**< Rally to Visible Unit. Causes units to follow the selected unit.
+      RallyPointUnit         = 0x27, /**< Rally to Visible Unit. Causes units to follow the selected unit.
                                       * Default Requirements: Unit is able to set Rally Point. */
-      RallyPoint2            = 0x28, /**< Rally to tile.
+      RallyPointTile         = 0x28, /**< Rally to tile.
                                       * Default Requirements: Unit is able to set Rally Point. */
       ZergBirth              = 0x29, /**< Unit is being born.
                                       * Default Requirements: Unit must be Zerg Egg or Zerg Cocoon. */
-      Morph1                 = 0x2A, /**< Unit Morph
+      ZergUnitMorph          = 0x2A, /**< Unit Morph
                                       * Default Requirements: Unused. */
-      Morph2                 = 0x2B, /**< Building Morph
+      ZergBuildingMorph      = 0x2B, /**< Building Morph
                                       * Default Requirements: Unused */
-      BuildSelf1             = 0x2C, /**< Terran Building, Is being built.
+      TerranBuildSelf        = 0x2C, /**< Terran Building, Is being built.
                                       * Default Requirements: Unused */
       ZergBuildSelf          = 0x2D, /**< Zerg Building build order.
                                       * Default Requirements: Unused. */
-      Build5                 = 0x2E, /**< Nydus canal exit build order.
+      BuildNydusExit         = 0x2E, /**< Nydus canal exit build order.
                                       * Default Requirements: Unit must be Zerg Nydus Canal and must not have exit. */
-      Enternyduscanal        = 0x2F, /**< Enter/transport through nydus canal
+      EnterNydusCanal        = 0x2F, /**< Enter/transport through nydus canal
                                       * Default Requirements: Unused. */
-      BuildSelf2             = 0x30, /**< Protoss Building being built order.
+      ProtossBuildSelf       = 0x30, /**< Protoss Building being built order.
                                       * Default Requirements: Unused. */
       Follow                 = 0x31, /**< Move to/with unit or building. Causes units to load into transports or enter nydus canal or recharge shields.
                                       * Default Requirements: Unit is able to move. Allow on hallucinated units. */
       Carrier                = 0x32, /**< Idle command for the carrier.
                                       * Default Requirements: Unit must be Carrier/Gantrithor. Allow on hallucinated units. */
-      CarrierIgnore1         = 0x33, /**< Carrier move command. Ignores enemies
+      ReaverCarrierMove      = 0x33, /**< Carrier move command. Ignores enemies
                                       * Default Requirements: Unit must be Carrier/Gantrithor or Reaver/Warbringer. Allow on hallucinated units. */
       CarrierStop            = 0x34, /**< Carrier stop command. Runs idle.
                                       * Default Requirements: Unit must be Carrier/Gantrithor. Allow on hallucinated units. */
@@ -127,7 +127,7 @@ namespace BW
                                       * Default Requirements: Unit must be Carrier/Gantrithor or Reaver/Warbringer. Allow on hallucinated units. */
       CarrierFight           = 0x38, /**< Carrier Attack Unit.
                                       * Default Requirements: Unit must be Carrier/Gantrithor. Allow on hallucinated units. */
-      HoldPosition1          = 0x39, /**< Carrier Hold Position.
+      CarrierHoldPosition    = 0x39, /**< Carrier Hold Position.
                                       * Default Requirements: Unit must be Carrier/Gantrithor. Allow on hallucinated units. */
       Reaver                 = 0x3A, /**< Reaver Idle order.
                                       * Default Requirements: Unit must be Reaver/Warbringer. Allow on hallucinated units. */
@@ -137,7 +137,7 @@ namespace BW
                                       * Default Requirements: Unit must be Reaver/Warbringer. Allow on hallucinated units. */
       ReaverFight            = 0x3D, /**< Reaver attack unit.
                                       * Default Requirements: Unit must be Reaver/Warbringer. Allow on hallucinated units. */
-      ReaverHold             = 0x3E, /**< Reaver hold position.
+      ReaverHoldPosition     = 0x3E, /**< Reaver hold position.
                                       * Default Requirements: Unit must be Reaver/Warbringer. Allow on hallucinated units. */
       TrainFighter           = 0x3F, /**< Training subunit(scarab, interceptor). Causes all interceptors within a carrier to be healed when not attacking.
                                       * Default Requirements: Unused. */
@@ -145,9 +145,9 @@ namespace BW
                                       * Default Requirements: Unit must be Protoss Interceptor. Allow on hallucinated units. */
       StrafeUnit2            = 0x41, /**< Scarab move and attack.
                                       * Default Requirements: Unit must be Protoss Scarab. */
-      RechargeShields1       = 0x42, /**< Unit recharge shields.
+      RechargeShieldsUnit    = 0x42, /**< Unit recharge shields.
                                       * Default Requirements: Unused. */
-      Rechargeshields2       = 0x43, /**< Shield Battery, recharge shield cast on unit or ground. Unit runs recharge shields 1, shield battery runs shield battery. If cast on ground, recharges all units within rechargeable radius.
+      RechargeshieldsBattery = 0x43, /**< Shield Battery, recharge shield cast on unit or ground. Unit runs recharge shields 1, shield battery runs shield battery. If cast on ground, recharges all units within rechargeable radius.
                                       * Default Requirements: Unit must be Protoss Shield Battery. */
       ShieldBattery          = 0x44, /**< Shield Battery, is recharging.
                                       * Default Requirements: Unused. */
@@ -157,11 +157,11 @@ namespace BW
                                       * Default Requirements: Unit must be Zerg Drone. */
       BuildingLand           = 0x47, /**< Building land order.
                                       * Default Requirements: Unit must be a building(can lift off) that is lifted off. */
-      BuildingLiftoff        = 0x48, /**< Begin Building Liftoff
+      BuildingLiftOff        = 0x48, /**< Begin Building Liftoff
                                       * Default Requirements: Unit must be a building(can lift off) that is on the ground. */
-      DroneLiftoff           = 0x49, /**< Begin Drone liftoff
+      DroneLiftOff           = 0x49, /**< Begin Drone liftoff
                                       * Default Requirements: Unit must be Zerg Drone. */
-      Liftoff                = 0x4A, /**< Unit is lifting off.
+      LiftingOff             = 0x4A, /**< Unit is lifting off.
                                       * Default Requirements: Unit must be a building(can lift off). */
       ResearchTech           = 0x4B, /**< Building researching tech.
                                       * Default Requirements: Unused. */
@@ -195,19 +195,19 @@ namespace BW
                                       * Default Requirements: Unused. */
       ReturnMinerals         = 0x5A, /**< Return resources /B Has minerals.
                                       * Default Requirements: Unit must be a Worker (has harvest orders). */
-      Harvest5               = 0x5B, /**< Harvest Interrupt /B recharge shields.
+      Interrupted            = 0x5B, /**< Harvest Interrupt /B recharge shields.
                                       * Default Requirements: Unused. */
       EnterTransport         = 0x5C, /**< Move/enter a transport.
                                       * Default Requirements: Allow on Hallucinated Units. */
-      Pickup1                = 0x5D, /**< Transport Idle command.
+      PickupIdle             = 0x5D, /**< Transport Idle command.
                                       * Default Requirements: Unit must be Transport(Can carry units) or Zerg Overlord. */
-      Pickup2                = 0x5E, /**< Mobile Transport unit pickup.
+      PickupTransport        = 0x5E, /**< Mobile Transport unit pickup.
                                       * Default Requirements: Unit must be Transport(Can carry units). */
-      Pickup3                = 0x5F, /**< Building pickup.
+      PickupBunker           = 0x5F, /**< Building pickup.
                                       * Default Requirements: Unit must be Terran Bunker. */
       Pickup4                = 0x60, /**< Unknown /B AI pickup?
                                       * Default Requirements: Unused. */
-      Powerup2               = 0x61, /**< Idle for powerups.
+      PowerupIdle               = 0x61, /**< Idle for powerups.
                                       * Default Requirements: Unit must be a powerup. */
       SiegeMode              = 0x62, /**< Switch to Siege mode.
                                       * Default Requirements: Unused. */
@@ -227,9 +227,9 @@ namespace BW
                                       * Default Requirements: Unused. */
       CompletingArchonsummon = 0x6A, /**< Archon build self order.
                                       * Default Requirements: Unused. */
-      HoldPosition2          = 0x6B, /**< Attacking Unit hold position.
+      HoldPosition           = 0x6B, /**< Attacking Unit hold position.
                                       * Default Requirements: Unit is able to Hold Position. Allow on hallucinated units. */
-      HoldPosition3          = 0x6C, /**< Queen Hold position.
+      QueenHoldPosition      = 0x6C, /**< Queen Hold position.
                                       * Default Requirements: Unit must be Zerg Queen/Matriarch. */
       Cloak                  = 0x6D, /**< Cloak Unit.
                                       * Default Requirements: Unused. */
@@ -285,7 +285,7 @@ namespace BW
                                       * Default Requirements: Unit must be Zerg infested Terran. Allow on Hallucinated units. */
       SapLocation            = 0x87, /**< Suicide Attack tile.
                                       * Default Requirements: Unit must be Zerg infested Terran. Allow on Hallucinated units. */
-      HoldPosition4          = 0x88, /**< Suicide Hold Position.
+      SuicideHoldPosition    = 0x88, /**< Suicide Hold Position.
                                       * Default Requirements: Unit must be Zerg Infested Terran or Zerg Scourge. Allow on Hallucinated units. */
       Teleport               = 0x89, /**< Recall(units within range of target pos).
                                       * Default Requirements: Unused. */

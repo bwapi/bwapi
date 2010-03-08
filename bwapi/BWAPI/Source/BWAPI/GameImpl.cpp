@@ -1586,6 +1586,45 @@ namespace BWAPI
     }
     return selectedUnitSet;
   }
+  //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
+  void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
+  {
+    printf("Unit died. :(");
+    /* Called when a unit dies(death animation), not when it is removed */
+    int index = unit->getIndex();
+    if (!unit->alive)
+      return;
+    this->units.erase(unit);
+    deadUnits.push_back(unit);
+    unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
+                                    &unitArrayCopyLocal->unit[index],
+                                    (u16)index);
+    if (this->client != NULL)
+    {
+      bool isInUpdate = this->inUpdate;
+      this->inUpdate = false;
+      if (unit != NULL && unit->canAccessSpecial())
+      {
+        unit->makeVisible = true;
+        if (unit->lastVisible)
+          this->client->onUnitHide(unit);
+
+        /* notify the client that the units in the transport died */
+        std::list<Unit*> loadedList = unit->getLoadedUnits();
+
+        //units in terran bunker survive
+        if (unit->getType() != UnitTypes::Terran_Bunker)
+        {
+  		    foreach(Unit* loaded, loadedList)
+	  		    this->onUnitDestroy((UnitImpl*)loaded);
+        }
+        this->client->onUnitDestroy(unit);
+        unit->makeVisible = false;
+      }
+      this->inUpdate = isInUpdate;
+    }
+    unit->die();
+  }
   //----------------------------------------------- GET FIRST ------------------------------------------------
   UnitImpl* GameImpl::getFirst()
   {
@@ -1733,10 +1772,8 @@ namespace BWAPI
       if (this->client)
       {
         i->makeVisible = true;
-        if (i->getRawDataLocal()->orderID != BW::OrderID::Die)
+        //if (i->getRawDataLocal()->orderID != BW::OrderID::Die)
           this->client->onUnitHide(i);
-        else
-          this->client->onUnitDestroy(i);
         i->makeVisible = false;
       }
     }
@@ -2150,7 +2187,15 @@ namespace BWAPI
   {
     BWAPI::UnitImpl *unit = spriteToUnit(sprite); // get sprite's parent unit
     if (unit != NULL)   // make sure the unit exists
+    {
       unit->animState = anim; // associate the animation directly with the unit
+
+      /* New onUnitDestroy hook. Triggered when the unit's animation changes.
+      For example: unit plays death animation, we can check its order to see if it's really dying
+      and call the old onUnitDestroy. */
+      if (unit->getOrder().getID() == BW::OrderID::Die)
+        this->onUnitDestroy(unit);
+    }
   }
 
 };
