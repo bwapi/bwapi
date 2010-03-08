@@ -20,24 +20,24 @@ namespace BWAPI
         {
           case BW::UnitID::Protoss_Carrier:
           case BW::UnitID::Protoss_Hero_Gantrithor:
-            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::HoldPosition1;
+            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::CarrierHoldPosition;
             break;
           case BW::UnitID::Zerg_Queen:
           case BW::UnitID::Zerg_Hero_Matriarch:
-            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::HoldPosition3;
+            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::QueenHoldPosition;
             break;
           case BW::UnitID::Zerg_InfestedTerran:
           case BW::UnitID::Zerg_Scourge:
-            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::HoldPosition4;
+            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::SuicideHoldPosition;
             break;
           case BW::UnitID::Terran_Medic:
             this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::MedicHoldPosition;
             break;
           case BW::UnitID::Protoss_Reaver:
-            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::ReaverHold;
+            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::ReaverHoldPosition;
             break;
           default:
-            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::HoldPosition2;
+            this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::HoldPosition;
         }
       }
     }
