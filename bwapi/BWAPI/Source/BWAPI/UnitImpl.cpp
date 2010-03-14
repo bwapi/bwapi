@@ -2198,12 +2198,6 @@ namespace BWAPI
         else
           this->burrow();
         break;
-      case BW::TechID::ArchonWarp:
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
-        break;
-      case BW::TechID::DarkArchonMeld:
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
-        break;
       default:
         BroodwarImpl.setLastError(Errors::Incompatible_TechType);
         return false;
