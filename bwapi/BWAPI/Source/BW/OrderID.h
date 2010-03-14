@@ -147,7 +147,7 @@ namespace BW
                                       * Default Requirements: Unit must be Protoss Scarab. */
       RechargeShieldsUnit    = 0x42, /**< Unit recharge shields.
                                       * Default Requirements: Unused. */
-      RechargeshieldsBattery = 0x43, /**< Shield Battery, recharge shield cast on unit or ground. Unit runs recharge shields 1, shield battery runs shield battery. If cast on ground, recharges all units within rechargeable radius.
+      RechargeShieldsBattery = 0x43, /**< Shield Battery, recharge shield cast on unit or ground. Unit runs recharge shields 1, shield battery runs shield battery. If cast on ground, recharges all units within rechargeable radius.
                                       * Default Requirements: Unit must be Protoss Shield Battery. */
       ShieldBattery          = 0x44, /**< Shield Battery, is recharging.
                                       * Default Requirements: Unused. */

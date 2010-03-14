@@ -863,8 +863,8 @@ namespace BWAPI
       return UnitTypes::None;
 
     if (this->getOrder() == Orders::ZergBuildSelf ||
-        this->getOrder() == Orders::BuildSelf1 ||
-        this->getOrder() == Orders::BuildSelf2)
+        this->getOrder() == Orders::TerranBuildSelf ||
+        this->getOrder() == Orders::ProtossBuildSelf)
         return this->getType();
 
     if (this->getOrder() == Orders::ConstructingBuilding)
@@ -878,7 +878,7 @@ namespace BWAPI
 
     if (this->getOrder() == Orders::BuildTerran ||
         this->getOrder() == Orders::BuildProtoss1 ||
-        this->getOrder() == Orders::Morph1 ||
+        this->getOrder() == Orders::ZergUnitMorph ||
         this->getOrder() == Orders::DroneLand ||
         this->getOrder() == Orders::ZergBuildSelf)
     {
