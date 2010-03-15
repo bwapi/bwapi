@@ -67,8 +67,8 @@ namespace BWAPI
       virtual int getMouseX();
       virtual int getMouseY();
       virtual BWAPI::Position getMousePosition();
-      //virtual bool getMouseState(MouseButton button);
-      //virtual bool getMouseState(int button);
+      virtual bool getMouseState(MouseButton button);
+      virtual bool getMouseState(int button);
       virtual bool getKeyState(Key key);
       bool getKeyState(int key);
       virtual int getScreenX();
@@ -116,7 +116,7 @@ namespace BWAPI
        */
       virtual void  printf(const char* text, ...);
       virtual void  sendText(const char* text, ...);
-      virtual void  printEx(int pID, const char* text, ...);
+      void  printEx(int pID, const char* text, ...);
 
       /**
        * Changes race in the pre-game lobby.

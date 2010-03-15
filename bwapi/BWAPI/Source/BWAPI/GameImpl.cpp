@@ -1449,7 +1449,7 @@ namespace BWAPI
     }
     return BWAPI::Position(BW::BWDATA_Mouse->x, BW::BWDATA_Mouse->y);
   }
-/*  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
+  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button)
   {
     return getMouseState((int)button);
@@ -1464,9 +1464,25 @@ namespace BWAPI
       return false;
     }
     if (button<0 || button>=3) return false;
-    return mouseState[button];
+    SHORT ButtonDown = 0;
+    switch (button)
+    {
+      case BWAPI::M_LEFT:
+        ButtonDown = GetKeyState(VK_LBUTTON);
+        break;
+      case BWAPI::M_MIDDLE:
+        ButtonDown = GetKeyState(VK_MBUTTON);
+        break;
+      case BWAPI::M_RIGHT:
+        ButtonDown = GetKeyState(VK_RBUTTON);
+        break;
+      default:
+        break;
+    }
+    bool pressed = (ButtonDown & 128) > 0;
+    return pressed;
     
-  }*/
+  }
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(Key key)
   {
@@ -1484,7 +1500,7 @@ namespace BWAPI
     if (key < 0 || key >= 255)
       return false;
 
-    return GetKeyState(key) != 0;
+    return (GetKeyState(key) & 128) > 0;
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX()
