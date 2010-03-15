@@ -150,10 +150,8 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   }
   else if (ctype == 3)
   {
-    LPPOINT cursorPoint = NULL;
-    GetCursorPos(cursorPoint);
-    x += cursorPoint->x;
-    y += cursorPoint->y;
+    x += BW::BWDATA_Mouse->x;
+    y += BW::BWDATA_Mouse->y;
   }
   if (x + w <= 0 || y + h <= 0 || x >= 639 || y >= 479)
     return;
@@ -179,10 +177,8 @@ void drawDot(int _x, int _y, int color, int ctype)
   }
   else if (ctype == 3)
   {
-    LPPOINT cursorPoint = NULL;
-    GetCursorPos(cursorPoint);
-    x += cursorPoint->x;
-    y += cursorPoint->y;
+    x += BW::BWDATA_Mouse->x;
+    y += BW::BWDATA_Mouse->y;
   }
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
@@ -199,10 +195,8 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   }
   else if (ctype == 3)
   {
-    LPPOINT cursorPoint = NULL;
-    GetCursorPos(cursorPoint);
-    _x += cursorPoint->x;
-    _y += cursorPoint->y;
+    _x += BW::BWDATA_Mouse->x;
+    _y += BW::BWDATA_Mouse->y;
   }
   if (_x<0 || _y<0 || _x>640 || _y>400) return;
   int temp = 0;
