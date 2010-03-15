@@ -15,24 +15,52 @@ namespace BWAPI
       bool operator==(const UpgradeType& other) const;
       bool operator!=(const UpgradeType& other) const;
       bool operator<(const UpgradeType& other) const;
+
+      /** Returns the unique ID for this upgrade type. */
       int getID() const;
+
+      /** Returns the name for the upgrade type. */
       std::string getName() const;
+
+      /** Returns the race the upgrade is for. For example, UpgradeTypes::Terran_Infantry_Armor.getRace()
+       * will return Races::Terran. */
       Race getRace() const;
+
+      /** Returns the mineral price for the first upgrade. */
       int mineralPriceBase() const;
+
+      /** Returns the amount that the mineral price increases for each additional upgrade. */
       int mineralPriceFactor() const;
+
+      /** Returns the vespene gas price for the first upgrade. */
       int gasPriceBase() const;
+
+      /** Returns the amount that the vespene gas price increases for each additional upgrade. */
       int gasPriceFactor() const;
+
+      // TODO: add doc
       int upgradeTimeBase() const;
+
+      // TODO: add doc
       int upgradeTimeFactor() const;
+
+      /** Returns the maximum number of times the upgrade can be researched. */
       int maxRepeats() const;
+
+      /** Returns the type of unit that researches the upgrade. */
       const UnitType* whatUpgrades() const;
+
+      /** Returns the set of units that are affected by this upgrade. */
       const std::set<const UnitType*>& whatUses() const;
     private:
       int id;
   };
   namespace UpgradeTypes
   {
+    /** Given a string, this will return the upgrade type. */
     UpgradeType getUpgradeType(std::string& name);
+
+    /** Returns the set of all the UpgradeTypes. */
     std::set<UpgradeType>& allUpgradeTypes();
     void init();
     extern const UpgradeType Terran_Infantry_Armor;

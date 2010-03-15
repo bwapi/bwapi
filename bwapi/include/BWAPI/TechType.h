@@ -17,21 +17,46 @@ namespace BWAPI
       bool operator==(const TechType& other) const;
       bool operator!=(const TechType& other) const;
       bool operator<(const TechType& other) const;
+      /** Returns the unique ID for this tech type. */
       int getID() const;
+
+      /** Returns the name of the tech type. */
       std::string getName() const;
+
+      /** Returns the race that uses the TechType. For example, TechTypes::Scanner_Sweep?.getRace() will
+       * return Races::Terran. */
       Race getRace() const;
+
+      /** Returns the mineral cost of the tech type. */
       int mineralPrice() const;
+
+      /** Returns the vespene gas price of the tech type. */
       int gasPrice() const;
+
+      /** Returns the amount of energy used each time this tech type is used. */
       int energyUsed() const;
+
+      /** Returns the type of unit that researches this tech type. If this tech type is available for free
+       * (does not need to be researched), then this method will return UnitTypes::None. */
       const UnitType* whatResearches() const;
+
+      /** Returns the corresponding weapon for this tech type, or TechTypes::None if no corresponding weapon
+       * exists. For example, TechTypes::Dark_Swarm.getWeapon() will return a pointer to
+       * WeaponTypes::Dark_Swarm. */
       const WeaponType* getWeapon() const;
+
+      /** Returns the set of units that can use this tech type. Usually this will just be a set of one unit
+       * type, however in some cases, such as TechTypes::Burrowing, several unit types will be returned. */
       const std::set<const UnitType*>& whatUses() const;
     private:
       int id;
   };
   namespace TechTypes
   {
+    /** Given a string, this will return the tech type. */
     TechType getTechType(std::string& name);
+
+    /** Returns the set of all the TechTypes. */
     std::set<TechType>& allTechTypes();
     void init();
     extern const TechType Stim_Packs;

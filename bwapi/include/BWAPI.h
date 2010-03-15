@@ -13,6 +13,7 @@
 #include <BWAPI/Latency.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/Player.h>
+#include <BWAPI/PlayerType.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/TechType.h>
@@ -25,5 +26,22 @@
 
 namespace BWAPI
 {
+  /** You have to call this from your AIModule Dllmain function.
+   *
+   * \code
+   * BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+   * {
+   *   switch (ul_reason_for_call)
+   *   {
+   *     case DLL_PROCESS_ATTACH:
+   *       BWAPI::BWAPI_init();
+   *       break;
+   *     case DLL_PROCESS_DETACH:
+   *       break;
+   *   }
+   *
+   *   return TRUE;
+   * }
+   * \endcode */
   void BWAPI_init();
 }

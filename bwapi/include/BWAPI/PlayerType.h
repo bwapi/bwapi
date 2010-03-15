@@ -13,14 +13,23 @@ namespace BWAPI
       bool operator==(const PlayerType& other) const;
       bool operator!=(const PlayerType& other) const;
       bool operator<(const PlayerType& other) const;
+
+      /** Returns the unique ID for this player type. */
       int getID() const;
+
+      /** Returns the name of the player type. For example PlayerTypes::Computer.getName() will return an
+       * std::string object containing "Computer". */
       std::string getName() const;
     private:
       int id;
   };
   namespace PlayerTypes
   {
+    /** Given the name of a player type, this function will return the playertype. For example:
+     *  PlayerTypes::getPlayerType("Human") will return PlayerTypes::Human. */
     PlayerType getPlayerType(std::string& name);
+
+    /** Returns the set of all the PlayerTypes. */
     std::set<PlayerType>& allPlayerTypes();
     void init();
     extern const PlayerType NotUsed;
