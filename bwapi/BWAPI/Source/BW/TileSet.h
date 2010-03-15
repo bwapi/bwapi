@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Offsets.h"
 namespace BW
 {

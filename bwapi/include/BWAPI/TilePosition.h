@@ -3,6 +3,8 @@
 namespace BWAPI
 {
   class Position;
+
+  // TODO: Add doxygen documentation
   class TilePosition
   {
     public :

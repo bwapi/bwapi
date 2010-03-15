@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <set>
+
 namespace BWAPI
 {
   class AttackType
@@ -13,14 +14,22 @@ namespace BWAPI
       bool operator==(const AttackType& other) const;
       bool operator!=(const AttackType& other) const;
       bool operator<(const AttackType& other) const;
+
+      /** Returns the unique ID for this attack type. */
       int getID() const;
+
+      /** Returns the name of this attack type. */
       std::string getName() const;
     private:
       int id;
   };
+
   namespace AttackTypes
   {
+    /** Given the name of an attack type, getAttackType() will return the corresponding AttackType object. */
     AttackType getAttackType(std::string& name);
+
+    /** Returns the set of all the AttackTypes. */
     std::set<AttackType>& allAttackTypes();
     void init();
     extern const AttackType Melee;

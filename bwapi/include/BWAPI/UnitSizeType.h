@@ -13,14 +13,23 @@ namespace BWAPI
       bool operator==(const UnitSizeType& other) const;
       bool operator!=(const UnitSizeType& other) const;
       bool operator<(const UnitSizeType& other) const;
+
+      /** Returns a unique ID for this UnitSizeType. */
       int getID() const;
+
+      /** Returns the string corresponding to the UnitSizeType object. For example,
+       * UnitSizeTypes::Medium.getName() returns std::string("Medium")*/
       std::string getName() const;
     private:
       int id;
   };
   namespace UnitSizeTypes
   {
+    /** Given a string, this function returns the size time it refers to. For example,
+     * UnitSizeTypes::getUnitSizeType("Small") returns UnitSizeTypes?::Small. */
     UnitSizeType getUnitSizeType(std::string& name);
+
+    /** Returns the set of all the sizes, which are listed below: */
     std::set<UnitSizeType>& allUnitSizeTypes();
     void init();
     extern const UnitSizeType Independent;

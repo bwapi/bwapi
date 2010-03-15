@@ -13,15 +13,23 @@ namespace BWAPI
       bool operator==(const ExplosionType& other) const;
       bool operator!=(const ExplosionType& other) const;
       bool operator<(const ExplosionType& other) const;
+
+      /** Returns a unique ID for this explosion type. */
       int getID() const;
+
+      /** Returns the name of this explosion type. */
       std::string getName() const;
     private:
       int id;
   };
   namespace ExplosionTypes
   {
+    /** Given a name of an explosion type, this will return the corresponding ExplosionType  object. */
     ExplosionType getExplosionType(std::string& name);
+
+    /** Returns the set of all ExplosionTypes. */
     std::set<ExplosionType>& allExplosionTypes();
+
     void init();
     extern const ExplosionType None;
     extern const ExplosionType Normal;

@@ -3,6 +3,11 @@
 #include <set>
 namespace BWAPI
 {
+  /** To get detailed information about what a unit is doing, you can use the Unit::getOrder method, which
+   * will return an Order object. Note that a single command, like gather minerals, can consist of several
+   * orders ( MoveToMinerals, HarvestMinerals2, MiningMinerals, ReturnMinerals, etc) which will indicate what
+   * state the unit is in while executing the command. For information about how to issue commands to units,
+   * go to Unit. */
   class Order
   {
     public:
@@ -13,15 +18,23 @@ namespace BWAPI
       bool operator==(const Order& other) const;
       bool operator!=(const Order& other) const;
       bool operator<(const Order& other) const;
+
+      /** Returns the unique ID for this order. */
       int getID() const;
+
+      /** Returns the name of this order. */
       std::string getName() const;
     private:
       int id;
   };
   namespace Orders
   {
+    /** Given the name of an order, getOrder() will return the corresponding order object. */
     Order getOrder(std::string& name);
+
+    /** Returns the set of all the Orders. */
     std::set<Order>& allOrders();
+
     void init();
     extern const Order Die;
     extern const Order Stop;
