@@ -3,12 +3,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(BWAPIv2_cmake)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
-#SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
-#SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
-#SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 
 #-------------------------------------------------------------------------------------------------------------
-OPTION(FAST_BUILD "Include all source files into one big and compile that (this can be faster)" OFF)
+OPTION(BWAPI_FAST_BUILD "Include all source files into one big and compile that (this can be faster)" OFF)
 
 #-------------------------------------------------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ FIND_PATH(STARCRAFT_ROOT_DIR StarCraft.exe
   "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Blizzard Entertainment\\Starcraft;InstallPath]"
   "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Blizzard Entertainment\\Starcraft;InstallPath]"
   $ENV{ProgramFiles}/Starcraft
-  C:/Starcraft
+  $ENV{SystemDrive}/Starcraft
   $ENV{UserProfile}/Starcraft
 )
 
@@ -65,5 +65,5 @@ GET_TARGET_PROPERTY(BWAPI_ChaosLauncherInjector_OUTPUT BWAPI_ChaosLauncherInject
 ADD_CUSTOM_TARGET(install_clauncher 
   COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_OUTPUT}" "$ENV{ChaosDir}"
   COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_ChaosLauncherInjector_OUTPUT}" "$ENV{ChaosDir}"
-  DEPENDS BWAPI BWAPI_ChaosLauncherInjector
+  DEPENDS BWAPI_cmake BWAPI_ChaosLauncherInjector_cmake
 )
