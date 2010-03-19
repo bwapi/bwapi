@@ -74,3 +74,12 @@ ADD_CUSTOM_TARGET(install_clauncher
   COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_ChaosLauncherInjector_OUTPUT}" "$ENV{ChaosDir}"
   DEPENDS BWAPI_cmake BWAPI_ChaosLauncherInjector_cmake
 )
+
+# allows choosing whether to install after building  
+OPTION(BWAPI_INSTALL_AFTER_BUILD "run install_clauncher after building" TRUE)
+
+IF (BWAPI_INSTALL_AFTER_BUILD)
+  SET_TARGET_PROPERTIES(install_clauncher PROPERTIES EXCLUDE_FROM_ALL FALSE)
+ELSE()
+  SET_TARGET_PROPERTIES(install_clauncher PROPERTIES EXCLUDE_FROM_ALL TRUE)
+ENDIF()
