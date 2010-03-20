@@ -83,3 +83,14 @@ IF (BWAPI_INSTALL_AFTER_BUILD)
 ELSE()
   SET_TARGET_PROPERTIES(install_clauncher PROPERTIES EXCLUDE_FROM_ALL TRUE)
 ENDIF()
+
+#-------------------------------------------------------------------------------------------------------------
+# Export
+
+EXPORT(PACKAGE BWAPI)
+EXPORT(TARGETS BWAPILIB_cmake FILE bwapi-targets.cmake)
+
+CONFIGURE_FILE(
+  bwapi-config.in.cmake
+  bwapi-config.cmake  
+  IMMEDIATE @ONLY)
