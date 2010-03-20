@@ -80,12 +80,12 @@ namespace BWAPI
        * disabled. */
       virtual BWAPI::Position getMousePosition() = 0;
 
-      /* Returns true if the specified mouse button is pressed. Returns false if Flag::UserInput is
+      /** Returns true if the specified mouse button is pressed. Returns false if Flag::UserInput is
        * disabled. */
-      virtual bool getMouseState(int button) = 0;
-
-	  /** \copydoc getMouseState(int) */
       virtual bool getMouseState(MouseButton button) = 0;
+
+      /** \copydoc getMouseState(MouseButton) */
+      virtual bool getMouseState(int button) = 0;
 
       /** Returns true if the specified key is pressed. Returns false if Flag::UserInput is disabled.
        * Unfortunately this does not read the raw keyboard input yet - when you hold down a key, the
