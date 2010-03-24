@@ -1541,6 +1541,9 @@ namespace BWAPI
   void GameImpl::setScreenPosition(int x, int y)
   {
     /* Sets the screen's position relative to the map */
+    if (x < 0 || y < 0)
+      return;
+
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;
     y &= 0xFFFFFFF8;
