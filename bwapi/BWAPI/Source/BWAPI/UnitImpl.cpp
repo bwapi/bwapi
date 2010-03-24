@@ -607,12 +607,6 @@ namespace BWAPI
             this->animState == BW::Image::Anims::GndAttkInit ||
             this->animState == BW::Image::Anims::AirAttkInit);
   }
-  //------------------------------------------- IS STOPPING ATTACK -------------------------------------------
-  bool UnitImpl::isStoppingAttack() const
-  {
-    checkAccessBool();
-    return this->animState == BW::Image::Anims::GndAttkToIdle || this->animState == BW::Image::Anims::AirAttkToIdle;
-  }
   //----------------------------------------------- IS STASISED ----------------------------------------------
   bool UnitImpl::isStasised() const
   {

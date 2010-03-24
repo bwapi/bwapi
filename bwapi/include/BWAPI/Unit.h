@@ -404,9 +404,6 @@ namespace BWAPI
       // TODO: add doc
       virtual bool isAttacking() const = 0;
 
-      // TODO: add doc
-      virtual bool isStoppingAttack() const = 0;
-
       /** Returns true if the unit has been stasised by a Protoss Arbiter.
        * \see Unit::getStasisTimer. */
       virtual bool isStasised() const = 0;
