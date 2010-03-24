@@ -143,7 +143,6 @@ namespace BWAPI
       virtual bool  isSieged() const;
       virtual bool  isStartingAttack() const;
       virtual bool  isAttacking() const;
-      virtual bool  isStoppingAttack() const;
       virtual bool  isStasised() const;
       virtual bool  isStimmed() const;
       virtual bool  isTraining() const;

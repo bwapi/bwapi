@@ -1729,8 +1729,8 @@ namespace BWAPI
         if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
           renegadeUnits.push_back(i);
       }
-      i->lastType                 = i->_getType();
-      i->lastPlayer               = i->_getPlayer();
+      i->lastType   = i->_getType();
+      i->lastPlayer = i->_getPlayer();
 
       if (!i->lastVisible && i->isVisible())
       {
