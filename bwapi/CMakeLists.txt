@@ -70,8 +70,8 @@ GET_TARGET_PROPERTY(BWAPI_OUTPUT BWAPI_cmake LOCATION)
 GET_TARGET_PROPERTY(BWAPI_ChaosLauncherInjector_OUTPUT BWAPI_ChaosLauncherInjector_cmake LOCATION)
 
 ADD_CUSTOM_TARGET(install_clauncher 
-  COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_OUTPUT}" "$ENV{ChaosDir}"
-  COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_ChaosLauncherInjector_OUTPUT}" "$ENV{ChaosDir}"
+  COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_OUTPUT}" "${CHAOS_DIR}"
+  COMMAND ${CMAKE_COMMAND} -E copy "${BWAPI_ChaosLauncherInjector_OUTPUT}" "${CHAOS_DIR}"
   DEPENDS BWAPI_cmake BWAPI_ChaosLauncherInjector_cmake
 )
 
