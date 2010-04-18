@@ -5,7 +5,7 @@ SET(BWAPI_BINARY_DIR "@BWAPIv2_cmake_BINARY_DIR@")
 
 INCLUDE(${BWAPI_BINARY_DIR}/bwapi-targets.cmake)
 
-SET(BWAPI_INCLUDE_DIR ${BWAPI_SOURCE_DIR}/include) 
+SET(BWAPI_INCLUDE_DIR "${BWAPI_SOURCE_DIR}/include") 
 SET(BWAPI_LIBRARY BWAPILIB_cmake)
 
 # per recommandation
