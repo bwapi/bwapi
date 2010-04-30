@@ -40,6 +40,7 @@ namespace BWAPI { class AIModule; }
 #include "Shape.h"
 #include "ShapeBox.h"
 #include "ShapeLine.h"
+#include "Server.h"
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
@@ -98,7 +99,6 @@ namespace BWAPI
       virtual bool hasCreep(int x, int y);
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
 
-
       virtual bool isBuildable(TilePosition position);
       virtual bool isVisible(TilePosition position);
       virtual bool isExplored(TilePosition position);
@@ -139,6 +139,7 @@ namespace BWAPI
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
       virtual Player*  self();
       virtual Player*  enemy();
+
 
       virtual void drawText(int ctype, int x, int y, const char* text, ...);
       virtual void drawTextMap(int x, int y, const char* text, ...);
@@ -283,6 +284,7 @@ namespace BWAPI
       u32 cheatFlags;
       bool calledOnEnd;
       int autoMenuGameType;
+      Server server;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
