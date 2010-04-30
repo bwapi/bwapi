@@ -10,6 +10,7 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
+#include <BWAPI/UnitCommand.h>
 #include <BW/TilePosition.h>
 #include <BW/OrderID.h>
 
@@ -152,6 +153,7 @@ namespace BWAPI
       virtual bool  isVisible() const;
       virtual bool  isBeingGathered() const;
 
+      virtual bool  issueCommand(UnitCommand command);
       virtual bool  attackMove(Position position);
       virtual bool  attackUnit(Unit* target);
       virtual bool  rightClick(Position position);

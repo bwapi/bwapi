@@ -1158,6 +1158,100 @@ namespace BWAPI
       return false;
     return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
+  //-------------------------------------------- ORDER Issue Command -----------------------------------------
+  bool UnitImpl::issueCommand(UnitCommand command)
+  {
+    //call the appropriate command function based on the command type
+    switch(command.type)
+    {
+      case UnitCommandType::AttackPosition:
+        return attackMove(Position(command.x,command.y));
+      case UnitCommandType::AttackUnit:
+        return attackUnit(command.target);
+      case UnitCommandType::RightClickPosition:
+        return rightClick(Position(command.x,command.y));
+      case UnitCommandType::RightClickUnit:
+        return rightClick(command.target);
+      case UnitCommandType::Train:
+        return train(UnitType(command.extra));
+      case UnitCommandType::Build:
+        return build(TilePosition(command.x,command.y),UnitType(command.extra));
+      case UnitCommandType::BuildAddon:
+        return buildAddon(UnitType(command.extra));
+      case UnitCommandType::Research:
+        return research(TechType(command.extra));
+      case UnitCommandType::Upgrade:
+        return upgrade(UpgradeType(command.extra));
+      case UnitCommandType::Stop:
+        return stop();
+      case UnitCommandType::HoldPosition:
+        return holdPosition();
+      case UnitCommandType::Patrol:
+        return patrol(Position(command.x,command.y));
+      case UnitCommandType::Follow:
+        return follow(command.target);
+      case UnitCommandType::SetRallyPosition:
+        return setRallyPosition(Position(command.x,command.y));
+      case UnitCommandType::SetRallyUnit:
+        return setRallyUnit(command.target);
+      case UnitCommandType::Repair:
+        return repair(command.target);
+      case UnitCommandType::ReturnCargo:
+        return returnCargo();
+      case UnitCommandType::Morph:
+        return morph(UnitType(command.extra));
+      case UnitCommandType::Burrow:
+        return burrow();
+      case UnitCommandType::Unburrow:
+        return unburrow();
+      case UnitCommandType::Siege:
+        return siege();
+      case UnitCommandType::Unsiege:
+        return unsiege();
+      case UnitCommandType::Cloak:
+        return cloak();
+      case UnitCommandType::Decloak:
+        return decloak();
+      case UnitCommandType::Lift:
+        return lift();
+      case UnitCommandType::Land:
+        return land(TilePosition(command.x,command.y));
+      case UnitCommandType::Load:
+        return load(command.target);
+      case UnitCommandType::Unload:
+        return unload(command.target);
+      case UnitCommandType::UnloadAll:
+        return unloadAll();
+      case UnitCommandType::UnloadAllPosition:
+        return unloadAll(Position(command.x,command.y));
+      case UnitCommandType::CancelConstruction:
+        return cancelConstruction();
+      case UnitCommandType::HaltConstruction:
+        return haltConstruction();
+      case UnitCommandType::CancelMorph:
+        return cancelMorph();
+      case UnitCommandType::CancelTrain:
+        return cancelTrain();
+      case UnitCommandType::CancelTrainSlot:
+        return cancelTrain(command.extra);
+      case UnitCommandType::CancelAddon:
+        return cancelAddon();
+      case UnitCommandType::CancelResearch:
+        return cancelResearch();
+      case UnitCommandType::CancelUpgrade:
+        return cancelUpgrade();
+      case UnitCommandType::UseTech:
+        return useTech(TechType(command.extra));
+      case UnitCommandType::UseTechPosition:
+        return useTech(TechType(command.extra),Position(command.x,command.y));
+      case UnitCommandType::UseTechUnit:
+        return useTech(TechType(command.extra),command.target);
+      default:
+        break;
+    }
+    BroodwarImpl.setLastError(Errors::Unknown);
+    return false;
+  }
   //------------------------------------------- ORDER Attack Location ----------------------------------------
   bool UnitImpl::attackMove(Position position)
   {
