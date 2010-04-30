@@ -679,6 +679,7 @@ namespace BWAPI
   {
     try
     {
+      this->server.update();
       this->inUpdate = true;
       if (!this->isOnStartCalled())
         this->onGameStart();
@@ -879,6 +880,7 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
+    this->server.update();
     int menu = *BW::BWDATA_NextMenu;
     if (autoMenuGameType == 0) return;
     if (menu == 0) //main menu

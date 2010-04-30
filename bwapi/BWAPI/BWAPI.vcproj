@@ -578,6 +578,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\Server.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\ShapeBox.cpp"
 					>
 				</File>
@@ -767,6 +771,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\ScreenLogger.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\Server.h"
 					>
 				</File>
 				<File
