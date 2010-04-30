@@ -8,6 +8,7 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/TilePosition.h>
+#include <BWAPI/UnitCommand.h>
 
 namespace BWAPI
 {
@@ -434,6 +435,9 @@ namespace BWAPI
 
       /** Returns true if the unit is a mineral patch or refinery that is being gathered. */
       virtual bool isBeingGathered() const = 0;
+
+      /** Takes any unit command and calls the corresponding order that will execute it */
+      virtual bool issueCommand(UnitCommand command) = 0;
 
       /** Orders the unit to attack move to the specified location. */
       virtual bool attackMove(Position position) = 0;

@@ -831,6 +831,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\Event.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\EventType.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\Force.h"
 				>
 			</File>
@@ -848,6 +856,14 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Unit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\UnitCommand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\UnitCommandType.h"
 				>
 			</File>
 		</Filter>
