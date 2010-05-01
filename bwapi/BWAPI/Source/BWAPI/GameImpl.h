@@ -114,31 +114,32 @@ namespace BWAPI
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      virtual void  printf(const char* text, ...);
-      virtual void  sendText(const char* text, ...);
-      void  printEx(int pID, const char* text, ...);
+      virtual void printf(const char* text, ...);
+      virtual void sendText(const char* text, ...);
+      void printEx(int pID, const char* text, ...);
 
       /**
        * Changes race in the pre-game lobby.
        * @param race Desired race of the slot (Zerg/Protoss/Terran/Random)
        */
-      virtual void  changeRace(BWAPI::Race race);
-      virtual bool  isMultiplayer();
-      virtual bool  isPaused();
-      virtual bool  isReplay();
+      virtual void changeRace(BWAPI::Race race);
+      virtual bool isInGame();
+      virtual bool isMultiplayer();
+      virtual bool isPaused();
+      virtual bool isReplay();
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
        */
-      virtual void  startGame();
-      virtual void  pauseGame();
-      virtual void  resumeGame();
-      virtual void  leaveGame();
-      virtual void  restartGame();
-      virtual void  setLocalSpeed(int speed = -1);
+      virtual void startGame();
+      virtual void pauseGame();
+      virtual void resumeGame();
+      virtual void leaveGame();
+      virtual void restartGame();
+      virtual void setLocalSpeed(int speed = -1);
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
-      virtual Player*  self();
-      virtual Player*  enemy();
+      virtual Player* self();
+      virtual Player* enemy();
 
 
       virtual void drawText(int ctype, int x, int y, const char* text, ...);
@@ -209,7 +210,7 @@ namespace BWAPI
       void lockFlags();
       bool enabled;
       bool isOnStartCalled() const;
-      bool inGame() const;
+      bool _isInGame() const;
       bool _isSinglePlayer() const;
       bool _isReplay() const;
       void setLastError(BWAPI::Error e);

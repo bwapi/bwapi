@@ -11,6 +11,7 @@ namespace BWAPI
     void update();
     private:
     void checkForConnections();
+    void initializeSharedMemory();
     void updateSharedMemory();
     void callOnFrame();
     void processCommands();
