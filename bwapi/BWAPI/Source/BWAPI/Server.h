@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include <SharedStructures/GameData.h>
+#include <SharedStructures/Event.h>
 #include <BWAPI.h>
 #include <vector>
 #include <map>
@@ -11,7 +12,11 @@ namespace BWAPI
     public:
     Server();
     ~Server();
+    void onMatchStart();
+    void onMatchEnd();
     void update();
+    int addEvent(BWAPI::Event e);
+    int addString(const char* text);
     private:
     void checkForConnections();
     void initializeSharedMemory();
@@ -23,7 +28,7 @@ namespace BWAPI
     HANDLE mapFileHandle;
     BWAPIC::GameData* data;
     bool connected;
-
+    bool inMatch;
     std::vector<Force*> forceVector;
     std::map<Force*, int> forceLookup;
     int getForceID(Force* force);

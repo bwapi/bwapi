@@ -7,10 +7,7 @@ namespace BWAPIC
   struct Event
   {
     BWAPI::EventType::Enum type;
-    int x;
-    int y;
-    int unitID;
-    int playerID;
-    bool isWinner;
+    int v1;
+    int v2;
   };
 }

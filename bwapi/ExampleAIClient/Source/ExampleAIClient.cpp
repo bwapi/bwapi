@@ -24,21 +24,24 @@ int main(int argc, const char* argv[])
 
   while(true)
   {
-    bool first=true;
-    while(true)
+    while (!Broodwar->isInGame())
     {
-      if (first)
+      printf("waiting to enter match\n");
+      BWAPI::BWAPIClient.update();
+      if (!BWAPI::BWAPIClient.isConnected())
       {
-        printf("in game!");
-        first=false;
+        printf("Reconnecting...\n");
+        reconnect();
       }
-      if (Broodwar->isInGame())
+    }
+    printf("starting match!");
+    while(Broodwar->isInGame())
+    {
+      std::set<Unit*> allUnits = Broodwar->getAllUnits();
+      for(std::set<Unit*>::iterator u=allUnits.begin();u!=allUnits.end();u++)
       {
-        Broodwar->printf("hello world! %d", Broodwar->getFrameCount());
-        Broodwar->drawBox(CoordinateType::Screen,60,60,200,200,Colors::Green,true);
+        Broodwar->drawCircleMap((*u)->getPosition().x(),(*u)->getPosition().y(),30,Colors::Green,false);
       }
-      else
-        printf("not in game\n");
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {

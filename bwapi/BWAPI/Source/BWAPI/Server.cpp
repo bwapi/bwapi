@@ -31,6 +31,7 @@ namespace BWAPI
     data = (BWAPIC::GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
     initializeSharedMemory();
     connected=false;
+    inMatch=false;
   }
   Server::~Server()
   {
@@ -49,6 +50,43 @@ namespace BWAPI
       checkForConnections();
     }
   }
+  int Server::addString(const char* text)
+  {
+    strncpy(data->strings[data->stringCount],text,256);
+    return data->stringCount++;
+  }
+  int Server::addEvent(BWAPI::Event e)
+  {
+    BWAPIC::Event* e2=&(data->events[data->eventCount]);
+    data->eventCount++;
+    int id=data->eventCount;
+    e2->type=e.type;
+    e2->v1=0;
+    e2->v2=0;
+    if (e.type==BWAPI::EventType::MatchEnd)
+      e2->v1=e.isWinner;
+    if (e.type==BWAPI::EventType::SendText || e.type==BWAPI::EventType::SaveGame)
+    {
+      int str=addString(e.text.c_str());
+      e2->v1=str;
+    }
+    if (e.type==BWAPI::EventType::PlayerLeft)
+      e2->v1=getPlayerID(e.player);
+    if (e.type==BWAPI::EventType::NukeDetect)
+    {
+      e2->v1=e.position.x();
+      e2->v2=e.position.y();
+    }
+    if (e.type==BWAPI::EventType::UnitCreate ||
+        e.type==BWAPI::EventType::UnitDestroy ||
+        e.type==BWAPI::EventType::UnitMorph ||
+        e.type==BWAPI::EventType::UnitShow ||
+        e.type==BWAPI::EventType::UnitHide ||
+        e.type==BWAPI::EventType::UnitRenegade)
+      e2->v1=getUnitID(e.unit);
+    return id;
+  }
+
   void Server::setWaitForResponse(bool wait)
   {
     DWORD dwMode = PIPE_READMODE_MESSAGE;
@@ -79,12 +117,31 @@ namespace BWAPI
     strncpy(data->mapFilename,"",260);
     strncpy(data->mapName,"",32);
   }
+  void Server::onMatchStart()
+  {
+    inMatch=true;
+    addEvent(Event::MatchStart());
+    for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
+    {
+      addEvent(Event::UnitCreate(*i));
+      addEvent(Event::UnitShow(*i));
+    }
+  }
+  void Server::onMatchEnd()
+  {
+    inMatch=false;
+    addEvent(Event::MatchEnd());
+  }
   void Server::updateSharedMemory()
   {
     data->frameCount =Broodwar->getFrameCount();
     data->mouseX     =Broodwar->getMouseX();
     data->mouseY     =Broodwar->getMouseY();
     data->isInGame   =Broodwar->isInGame();
+    if (!Broodwar->isInGame() && inMatch)
+      onMatchEnd();
+    if (Broodwar->isInGame() && !inMatch)
+      onMatchStart();
     if (Broodwar->isInGame())
     {
       data->screenX      = Broodwar->getScreenX();
@@ -156,6 +213,7 @@ namespace BWAPI
 
   int Server::getForceID(Force* force)
   {
+    if (force==NULL) return -1;
     if (forceLookup.find(force)==forceLookup.end())
     {
       forceLookup[force]=forceVector.size();
@@ -166,6 +224,7 @@ namespace BWAPI
 
   int Server::getPlayerID(Player* player)
   {
+    if (player==NULL) return -1;
     if (playerLookup.find(player)==playerLookup.end())
     {
       playerLookup[player]=playerVector.size();
@@ -176,6 +235,7 @@ namespace BWAPI
 
   int Server::getUnitID(Unit* unit)
   {
+    if (unit==NULL) return -1;
     if (unitLookup.find(unit)==unitLookup.end())
     {
       unitLookup[unit]=unitVector.size();
@@ -198,6 +258,7 @@ namespace BWAPI
         DisconnectNamedPipe(pipeObjectHandle);
         connected=false;
         setWaitForResponse(false);
+        data->eventCount = 0;
         break;
       }
     }
@@ -309,5 +370,6 @@ namespace BWAPI
     data->unitCommandCount = 0;
     data->shapeCount       = 0;
     data->stringCount      = 0;
+    addEvent(Event::MatchFrame());
   }
 }
