@@ -129,8 +129,61 @@ namespace BWAPI
       data->isReplay      = Broodwar->isReplay();
       data->isPaused      = Broodwar->isPaused();
       data->latency       = Broodwar->getLatency();
+
+      for(std::set<Force*>::iterator i=Broodwar->getForces().begin();i!=Broodwar->getForces().end();i++)
+      {
+        int id=getForceID(*i);
+        strncpy(data->forces[id].name,(*i)->getName().c_str(),32);
+      }
+      for(std::set<Player*>::iterator i=Broodwar->getPlayers().begin();i!=Broodwar->getPlayers().end();i++)
+      {
+        int id=getPlayerID(*i);
+        strncpy(data->players[id].name,(*i)->getName().c_str(),32);
+        data->players[id].gas=(*i)->gas();
+        data->players[id].minerals=(*i)->minerals();
+        data->players[id].cumulativeGas=(*i)->cumulativeGas();
+        data->players[id].cumulativeMinerals=(*i)->cumulativeMinerals();
+      }
+      for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
+      {
+        int id=getUnitID(*i);
+        data->units[id].hitPoints=(*i)->getHitPoints();
+        data->units[id].positionX=(*i)->getPosition().x();
+        data->units[id].positionY=(*i)->getPosition().y();
+      }
     }
   }
+
+  int Server::getForceID(Force* force)
+  {
+    if (forceLookup.find(force)==forceLookup.end())
+    {
+      forceLookup[force]=forceVector.size();
+      forceVector.push_back(force);
+    }
+    return forceLookup[force];
+  }
+
+  int Server::getPlayerID(Player* player)
+  {
+    if (playerLookup.find(player)==playerLookup.end())
+    {
+      playerLookup[player]=playerVector.size();
+      playerVector.push_back(player);
+    }
+    return playerLookup[player];
+  }
+
+  int Server::getUnitID(Unit* unit)
+  {
+    if (unitLookup.find(unit)==unitLookup.end())
+    {
+      unitLookup[unit]=unitVector.size();
+      unitVector.push_back(unit);
+    }
+    return unitLookup[unit];
+  }
+
   void Server::callOnFrame()
   { 
     DWORD writtenByteCount;
@@ -208,13 +261,49 @@ namespace BWAPI
         break;
       }
     }
-    for(int i=0;i<data->unitCommandCount;i++)
+    if (Broodwar->isInGame())
     {
-      //run data->unitCommands[i]
-    }
-    for(int i=0;i<data->shapeCount;i++)
-    {
-      //draw data->shapes[i]
+      for(int i=0;i<data->unitCommandCount;i++)
+      {
+        if (data->unitCommands[i].unitIndex<0 || data->unitCommands[i].unitIndex>=unitVector.size()) continue;
+        Unit* unit=unitVector[data->unitCommands[i].unitIndex];
+        Unit* target=NULL;
+        if (data->unitCommands[i].targetIndex>=0 && data->unitCommands[i].targetIndex<unitVector.size())
+        {
+          target=unitVector[data->unitCommands[i].targetIndex];
+        }
+        unit->issueCommand(UnitCommand(data->unitCommands[i].type,target,data->unitCommands[i].x,data->unitCommands[i].y,data->unitCommands[i].extra));
+      }
+      for(int i=0;i<data->shapeCount;i++)
+      {
+        BWAPIC::ShapeType::Enum s=data->shapes[i].type;
+        switch (s)
+        {
+          case BWAPIC::ShapeType::Text:
+            Broodwar->drawText(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->strings[data->shapes[i].extra1]);
+          break;
+          case BWAPIC::ShapeType::Box:
+            Broodwar->drawBox(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].x2,data->shapes[i].y2,Color(data->shapes[i].color),data->shapes[i].isSolid);
+          break;
+          case BWAPIC::ShapeType::Triangle:
+            Broodwar->drawTriangle(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].x2,data->shapes[i].y2,data->shapes[i].extra1,data->shapes[i].extra2,Color(data->shapes[i].color),data->shapes[i].isSolid);
+          break;
+          case BWAPIC::ShapeType::Circle:
+            Broodwar->drawCircle(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].extra1,Color(data->shapes[i].color),data->shapes[i].isSolid);
+          break;
+          case BWAPIC::ShapeType::Ellipse:
+            Broodwar->drawEllipse(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].extra1,data->shapes[i].extra2,Color(data->shapes[i].color),data->shapes[i].isSolid);
+          break;
+          case BWAPIC::ShapeType::Dot:
+            Broodwar->drawDot(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,Color(data->shapes[i].color));
+          break;
+          case BWAPIC::ShapeType::Line:
+            Broodwar->drawLine(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].x2,data->shapes[i].y2,Color(data->shapes[i].color));
+          break;
+          default:
+          break;
+        }
+      }
     }
     data->commandCount     = 0;
     data->unitCommandCount = 0;

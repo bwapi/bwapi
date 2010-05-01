@@ -679,7 +679,6 @@ namespace BWAPI
   {
     try
     {
-      this->server.update();
       this->inUpdate = true;
       if (!this->isOnStartCalled())
         this->onGameStart();
@@ -865,6 +864,7 @@ namespace BWAPI
       keyPress[i]      = false;
     }
     this->client->onFrame();
+    this->server.update();
 
     foreach(std::string i, interceptedMessages)
     {
