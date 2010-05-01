@@ -1,8 +1,6 @@
 #pragma once
-#pragma once
 #include <windows.h>
 #include <SharedStructures\GameData.h>
-#include <SharedStructures\SharedStuff.h>
 #include "GameImpl.h"
 #include "ForceImpl.h"
 #include "PlayerImpl.h"

@@ -232,10 +232,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\SharedStuff.h"
-				>
-			</File>
-			<File
 				RelativePath="..\SharedStructures\UnitCommand.h"
 				>
 			</File>

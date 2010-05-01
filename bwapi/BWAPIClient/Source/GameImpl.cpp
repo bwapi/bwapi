@@ -3,7 +3,6 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
-#include <SharedStructures\SharedStuff.h>
 
 #include <Util\Foreach.h>
 #include <string>

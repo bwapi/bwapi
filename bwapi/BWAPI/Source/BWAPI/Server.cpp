@@ -71,6 +71,11 @@ namespace BWAPI
   void Server::initializeSharedMemory()
   {
     //called once when Starcraft starts. Not at the start of every match.
+    data->eventCount       = 0;
+    data->commandCount     = 0;
+    data->unitCommandCount = 0;
+    data->shapeCount       = 0;
+    data->stringCount      = 0;
     strncpy(data->mapFilename,"",260);
     strncpy(data->mapName,"",32);
   }
@@ -82,15 +87,23 @@ namespace BWAPI
     data->isInGame   =Broodwar->isInGame();
     if (Broodwar->isInGame())
     {
-      data->screenX    =Broodwar->getScreenX();
-      data->screenY    =Broodwar->getScreenY();
-      //figure out what needs to be loaded once later
-      data->mapWidth   =Broodwar->mapWidth();
-      data->mapHeight  =Broodwar->mapHeight();
-
+      data->screenX      = Broodwar->getScreenX();
+      data->screenY      = Broodwar->getScreenY();
+      data->mapWidth     = Broodwar->mapWidth();
+      data->mapHeight    = Broodwar->mapHeight();
+      data->mapHash      = Broodwar->getMapHash();
+      data->playerCount  = Broodwar->getPlayers().size();
+      data->startLocationCount = Broodwar->getStartLocations().size();
+      int i=0;
+      for(std::set< TilePosition >::iterator t=Broodwar->getStartLocations().begin();t!=Broodwar->getStartLocations().end();t++)
+      {
+        data->startLocationsX[i]=(*t).x();
+        data->startLocationsY[i]=(*t).y();
+        i++;
+      }
+      //figure out what needs to be loaded only once later
       strncpy(data->mapFilename,Broodwar->mapFilename().c_str(),260);
       strncpy(data->mapName,Broodwar->mapName().c_str(),32);
-      data->mapHash=Broodwar->getMapHash();
       //worry about optimization later
       for(int x=0;x<Broodwar->mapWidth()*4;x++)
       {
@@ -112,10 +125,10 @@ namespace BWAPI
         }
       }
       */
-      data->isMultiplayer=Broodwar->isMultiplayer();
-      data->isReplay     =Broodwar->isReplay();
-      data->isPaused     =Broodwar->isPaused();
-      data->latency      =Broodwar->getLatency();
+      data->isMultiplayer = Broodwar->isMultiplayer();
+      data->isReplay      = Broodwar->isReplay();
+      data->isPaused      = Broodwar->isPaused();
+      data->latency       = Broodwar->getLatency();
     }
   }
   void Server::callOnFrame()
@@ -138,5 +151,74 @@ namespace BWAPI
   }
   void Server::processCommands()
   {
+    for(int i=0;i<data->commandCount;i++)
+    {
+      BWAPIC::CommandType::Enum c=data->commands[i].type;
+      int v1=data->commands[i].value1;
+      int v2=data->commands[i].value2;
+      switch (c)
+      {
+        case BWAPIC::CommandType::SetScreenPosition:
+          if (Broodwar->isInGame())
+            Broodwar->setScreenPosition(v1,v2);
+        break;
+        case BWAPIC::CommandType::PingMinimap:
+          if (Broodwar->isInGame())
+            Broodwar->pingMinimap(v1,v2);
+        break;
+        case BWAPIC::CommandType::EnableFlag:
+          if (Broodwar->isInGame())
+            Broodwar->enableFlag(v1);
+        break;
+        case BWAPIC::CommandType::Printf:
+          if (Broodwar->isInGame())
+            Broodwar->printf(data->strings[v1]);
+        break;
+        case BWAPIC::CommandType::SendText:
+          if (Broodwar->isInGame())
+            Broodwar->sendText(data->strings[v1]);
+        break;
+        case BWAPIC::CommandType::ChangeRace:
+          Broodwar->changeRace(Race(v1));
+        break;
+        case BWAPIC::CommandType::StartGame:
+          Broodwar->startGame();
+        break;
+        case BWAPIC::CommandType::PauseGame:
+          if (Broodwar->isInGame())
+            Broodwar->pauseGame();
+        break;
+        case BWAPIC::CommandType::ResumeGame:
+          if (Broodwar->isInGame())
+            Broodwar->resumeGame();
+        break;
+        case BWAPIC::CommandType::LeaveGame:
+          if (Broodwar->isInGame())
+            Broodwar->leaveGame();
+        break;
+        case BWAPIC::CommandType::RestartGame:
+          if (Broodwar->isInGame())
+            Broodwar->restartGame();
+        break;
+        case BWAPIC::CommandType::SetLocalSpeed:
+          if (Broodwar->isInGame())
+            Broodwar->setLocalSpeed(v1);
+        break;
+        default:
+        break;
+      }
+    }
+    for(int i=0;i<data->unitCommandCount;i++)
+    {
+      //run data->unitCommands[i]
+    }
+    for(int i=0;i<data->shapeCount;i++)
+    {
+      //draw data->shapes[i]
+    }
+    data->commandCount     = 0;
+    data->unitCommandCount = 0;
+    data->shapeCount       = 0;
+    data->stringCount      = 0;
   }
 }
