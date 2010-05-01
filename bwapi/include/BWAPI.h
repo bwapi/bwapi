@@ -5,6 +5,8 @@
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/DamageType.h>
 #include <BWAPI/Error.h>
+#include <BWAPI/Event.h>
+#include <BWAPI/EventType.h>
 #include <BWAPI/ExplosionType.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Force.h>
@@ -19,6 +21,8 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/TilePosition.h>
 #include <BWAPI/Unit.h>
+#include <BWAPI/UnitCommand.h>
+#include <BWAPI/UnitCommandType.h>
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>

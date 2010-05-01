@@ -11,6 +11,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include <vector>
 
 namespace BWAPI
 {
@@ -30,7 +31,7 @@ namespace BWAPI
       std::set<Unit*> unitsOnTileData[256][256];
       std::set<Force*> forces;
       std::set<Player*> players;
-      std::set<Unit*> allUnits;
+      std::set<Unit*> accessibleUnits;
       std::set<Unit*> minerals;
       std::set<Unit*> geysers;
       std::set<Unit*> neutralUnits;
@@ -40,9 +41,10 @@ namespace BWAPI
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
       std::set< TilePosition > startLocations;
-      std::map<int, Force*> forceMap;
-      std::map<int, Player*> playerMap;
-      std::map<int, Unit*> unitMap;
+      std::set<Unit*> notDestroyedUnits;//allUnits that may still be alive
+      std::vector<Force*> forceVector;
+      std::vector<Player*> playerVector;
+      std::vector<Unit*> unitVector;
       std::map<const Player*, std::set<Unit*> > playerUnits;
       bool flagEnabled[2];
       Player* theEnemy;
@@ -51,8 +53,8 @@ namespace BWAPI
     public :
       int addUnitCommand(BWAPIC::UnitCommand& c);
       GameImpl(BWAPIC::GameData* data);
-      void onStart();
-      void onFrame();
+      void onMatchStart();
+      void onMatchFrame();
       std::set<Unit*>& getPlayerUnits(const Player* player);
 
       Force* getForce(int forceID);

@@ -48,45 +48,39 @@ namespace BWAPI
     staticMinerals = minerals;
     staticGeysers = geysers;
     staticNeutralUnits = neutralUnits;
-    foreach(Unit* u, allUnits)
+    foreach(Unit* u, accessibleUnits)
     {
       ((UnitImpl*)u)->saveInitialState();
     }
   }
   //------------------------------------------------- ON START -----------------------------------------------
-  void GameImpl::onStart()
+  void GameImpl::onMatchStart()
   {
     startLocations.clear();
-    for(std::map<int,Force*>::iterator i=forceMap.begin();i!=forceMap.end();i++)
-    {
-      delete i->second;
-    }
-    for(std::map<int,Player*>::iterator i=playerMap.begin();i!=playerMap.end();i++)
-    {
-      delete i->second;
-    }
-    for(std::map<int,Unit*>::iterator i=unitMap.begin();i!=unitMap.end();i++)
-    {
-      delete i->second;
-    }
-    forceMap.clear();
-    playerMap.clear();
-    unitMap.clear();
+    for(int i=0;i<forceVector.size();i++)
+      delete forceVector[i];
+    for(int i=0;i<playerVector.size();i++)
+      delete playerVector[i];
+    for(int i=0;i<unitVector.size();i++)
+      delete unitVector[i];
+    forceVector.clear();
+    playerVector.clear();
+    unitVector.clear();
     for(int i=0;i<data->startLocationCount;i++)
-    {
       startLocations.insert(BWAPI::TilePosition(data->startLocationsX[i],data->startLocationsY[i]));
-    }
+
     for(int i=0;i<12;i++)
-    {
-      if (data->players[i].exists==true)
-      {
-        if (playerMap.find(i)==playerMap.end())
-        {
-          playerMap[i]=new PlayerImpl(i);
-          players.insert(playerMap[i]);
-        }
-      }
-    }
+      playerVector.push_back(new PlayerImpl(i));
+    for(int i=0;i<4;i++)
+      forceVector.push_back(new ForceImpl(i));
+    for(int i=0;i<10000;i++)
+      unitVector.push_back(new UnitImpl(i));
+
+    for(int i=0;i<data->forceCount;i++)
+      forces.insert(forceVector[i]);
+    for(int i=0;i<data->playerCount;i++)
+      players.insert(playerVector[i]);
+
     theEnemy = NULL;
     if (self()!=NULL)
     {
@@ -96,19 +90,11 @@ namespace BWAPI
           theEnemy=p;
       }
     }
-    for(int forceId=0;forceId<4;forceId++)
-    {
-      if (forceMap.find(forceId)==forceMap.end())
-      {
-        forceMap[forceId]=new ForceImpl(forceId);
-        forces.insert(forceMap[forceId]);
-      }
-    }
-    onFrame();
     saveInitialState();
+    onMatchFrame();
   }
   //------------------------------------------------- ON FRAME -----------------------------------------------
-  void GameImpl::onFrame()
+  void GameImpl::onMatchFrame()
   {
     neutralUnits.clear();
     minerals.clear();
@@ -122,28 +108,36 @@ namespace BWAPI
     for (int y = 0; y < data->mapHeight; y++)
       for (int x = 0; x < data->mapWidth; x++)
         unitsOnTileData[x][y].clear();
-
     for(int e=0; e<data->eventCount; e++)
     {
-      int id=data->events[e].unitID;
-      if (data->events[e].type==EventType::UnitDiscover)
+      int id=data->events[e].v1;
+      if (data->events[e].type == EventType::UnitCreate)
       {
-        unitMap[id]=new UnitImpl(id);
-        allUnits.insert(unitMap[id]);
+        ::printf("unit create event %d\n",id);
+        notDestroyedUnits.insert(unitVector[id]);
+        accessibleUnits.insert(unitVector[id]);
+      }
+      else if (data->events[e].type == EventType::UnitShow)
+      {
+        ::printf("unit show event %d\n",id);
+        notDestroyedUnits.insert(unitVector[id]);
+        accessibleUnits.insert(unitVector[id]);
       }
       else if (data->events[e].type==EventType::UnitDestroy)
       {
-        allUnits.erase(unitMap[id]);
+        notDestroyedUnits.erase(unitVector[id]);
+        accessibleUnits.erase(unitVector[id]);
+      }
+      else if (data->events[e].type==EventType::UnitHide)
+      {
+        accessibleUnits.erase(unitVector[id]);
       }
     }
-    foreach(Unit* u, allUnits)
+    foreach(Unit* u, accessibleUnits)
     {
       ((UnitImpl*)u)->larva.clear();
       if (u->getHatchery()!=NULL)
         ((UnitImpl*)u->getHatchery())->larva.insert(u);
-      ((UnitImpl*)u)->startingAttack           = (u->getAirWeaponCooldown() > ((UnitImpl*)u)->lastAirWeaponCooldown) || (u->getGroundWeaponCooldown() > ((UnitImpl*)u)->lastGroundWeaponCooldown);
-      ((UnitImpl*)u)->lastAirWeaponCooldown    = u->getAirWeaponCooldown();
-      ((UnitImpl*)u)->lastGroundWeaponCooldown = u->getGroundWeaponCooldown();
       int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / BWAPI::TILE_SIZE;
       int endX   = (u->getPosition().x() + u->getType().dimensionRight() + BWAPI::TILE_SIZE - 1) / BWAPI::TILE_SIZE; // Division - round up
       int startY = (u->getPosition().y() - u->getType().dimensionUp()) / BWAPI::TILE_SIZE;
@@ -186,7 +180,7 @@ namespace BWAPI
   //------------------------------------------------- GET ALL UNITS ------------------------------------------
   std::set< Unit* >& GameImpl::getAllUnits()
   {
-    return allUnits;
+    return accessibleUnits;
   }
   //------------------------------------------------- GET MINERALS -------------------------------------------
   std::set< Unit* >& GameImpl::getMinerals()
@@ -221,26 +215,20 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)
   {
-    std::map<int,Force*>::iterator i=forceMap.find(forceId);
-    if (i==forceMap.end())
-      return NULL;
-    return i->second;
+    if (forceId<0 || forceId>4) return NULL;
+    return forceVector[forceId];
   }
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* GameImpl::getPlayer(int playerId)
   {
-    std::map<int,Player*>::iterator i=playerMap.find(playerId);
-    if (i==playerMap.end())
-      return NULL;
-    return i->second;
+    if (playerId<0 || playerId>12) return NULL;
+    return playerVector[playerId];
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
   Unit* GameImpl::getUnit(int unitId)
   {
-    std::map<int,Unit*>::iterator i=unitMap.find(unitId);
-    if (i==unitMap.end())
-      return NULL;
-    return i->second;
+    if (unitId<0 || unitId>4) return NULL;
+    return unitVector[unitId];
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   int GameImpl::getLatency()
