@@ -2,7 +2,6 @@
 #include <BWAPI.h>
 #include <SharedStructures\GameData.h>
 #include "BWAPIClient.h"
-#include <SharedStructures\SharedStuff.h>
 #include <SharedStructures\Shape.h>
 #include <SharedStructures\Command.h>
 #include <SharedStructures\UnitCommand.h>

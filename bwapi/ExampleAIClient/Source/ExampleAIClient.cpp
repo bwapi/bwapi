@@ -32,7 +32,10 @@ int main(int argc, const char* argv[])
         printf("in game!");
         first=false;
       }
-      printf("update: %s\n", BWAPI::Broodwar->mapFilename().c_str());
+      if (Broodwar->isInGame())
+        Broodwar->printf("hello world! %d", Broodwar->getFrameCount());
+      else
+        printf("not in game\n");
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {

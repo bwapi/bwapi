@@ -15,6 +15,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPIClient", "BWAPIClient\BWAPIClient.vcproj", "{C99ABF61-6716-4FC0-AA77-9A136EA61680}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIClient", "ExampleAIClient\ExampleAIClient.vcproj", "{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680} = {C99ABF61-6716-4FC0-AA77-9A136EA61680}
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
