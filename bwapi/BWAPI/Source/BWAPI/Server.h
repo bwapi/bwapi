@@ -12,8 +12,6 @@ namespace BWAPI
     public:
     Server();
     ~Server();
-    void onMatchStart();
-    void onMatchEnd();
     void update();
     int addEvent(BWAPI::Event e);
     int addString(const char* text);
@@ -28,7 +26,6 @@ namespace BWAPI
     HANDLE mapFileHandle;
     BWAPIC::GameData* data;
     bool connected;
-    bool inMatch;
     std::vector<Force*> forceVector;
     std::map<Force*, int> forceLookup;
     int getForceID(Force* force);

@@ -24,9 +24,9 @@ int main(int argc, const char* argv[])
 
   while(true)
   {
+    printf("waiting to enter match\n");
     while (!Broodwar->isInGame())
     {
-      printf("waiting to enter match\n");
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {

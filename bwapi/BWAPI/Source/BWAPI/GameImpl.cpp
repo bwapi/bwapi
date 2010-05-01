@@ -64,6 +64,7 @@ namespace BWAPI
       , client(NULL)
       , startedClient(false)
       , inUpdate(false)
+      , inGame(false)
       , calledOnEnd(false)
       , autoMenuGameType(0)
   {
@@ -677,6 +678,7 @@ namespace BWAPI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
+    this->inGame=true;
     try
     {
       this->inUpdate = true;
@@ -692,11 +694,13 @@ namespace BWAPI
           if (this->BWAPIPlayer->isVictorious())
           {
             this->client->onEnd(true);
+            events.push_back(Event::MatchEnd(true));
             this->calledOnEnd = true;
           }
           if (this->BWAPIPlayer->isDefeated())
           {
             this->client->onEnd(false);
+            events.push_back(Event::MatchEnd(false));
             this->calledOnEnd = true;
           }
         }
@@ -712,6 +716,7 @@ namespace BWAPI
           if (allDone)
           {
             this->client->onEnd(false);
+            events.push_back(Event::MatchEnd(false));
             this->calledOnEnd = true;
           }
         }
@@ -727,7 +732,10 @@ namespace BWAPI
         if (!prevLeftGame && this->players[i]->leftGame())
         {
           if (this->client!=NULL)
+          {
             this->client->onPlayerLeft((Player*)this->players[i]);
+            events.push_back(Event::PlayerLeft((Player*)this->players[i]));
+          }
         }
       }
 
@@ -802,7 +810,10 @@ namespace BWAPI
 
       this->updateUnits();
       foreach(Position i, detectedNukes)
+      {
         this->client->onNukeDetect(i);
+        events.push_back(Event::NukeDetect(i));
+      }
 
       for (unsigned int i = 0; i < this->shapes.size(); i++)
         delete this->shapes[i];
@@ -855,6 +866,7 @@ namespace BWAPI
         sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
       }
       this->client->onStart();
+      events.push_back(Event::MatchStart());
       this->startedClient = true;
       this->lockFlags();
     }
@@ -864,6 +876,7 @@ namespace BWAPI
       keyPress[i]      = false;
     }
     this->client->onFrame();
+    events.push_back(Event::MatchFrame());
     this->server.update();
 
     foreach(std::string i, interceptedMessages)
@@ -880,6 +893,8 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
+    this->inGame=false;
+    events.push_back(Event::MenuFrame());
     this->server.update();
     int menu = *BW::BWDATA_NextMenu;
     if (autoMenuGameType == 0) return;
@@ -967,7 +982,7 @@ namespace BWAPI
   bool GameImpl::isInGame()
   {
     this->setLastError(Errors::None);
-    return *(BW::BWDATA_InGame) != 0;
+    return this->inGame;
   }
   //------------------------------------------------ IS IN GAME ----------------------------------------------
   bool GameImpl::_isInGame() const
@@ -1252,7 +1267,11 @@ namespace BWAPI
     else
     {
       if (this->client != NULL)
+      {
+        events.push_back(Event::SendText(std::string(text)));
         return !this->client->onSendText(std::string(text));
+      }
+
     }
     return false;
   }
@@ -1322,6 +1341,7 @@ namespace BWAPI
           }
         }
         this->client->onEnd(win);
+        events.push_back(Event::MatchEnd(win));
         this->calledOnEnd = true;
       }
       delete this->client;
@@ -1634,7 +1654,10 @@ namespace BWAPI
       {
         unit->makeVisible = true;
         if (unit->lastVisible)
+        {
           this->client->onUnitHide(unit);
+          events.push_back(Event::UnitHide(unit));
+        }
 
         /* notify the client that the units in the transport died */
         std::list<Unit*> loadedList = unit->getLoadedUnits();
@@ -1646,6 +1669,7 @@ namespace BWAPI
 	  		    this->onUnitDestroy((UnitImpl*)loaded);
         }
         this->client->onUnitDestroy(unit);
+        events.push_back(Event::UnitDestroy(unit));
         unit->makeVisible = false;
       }
       this->inUpdate = isInUpdate;
@@ -1778,21 +1802,33 @@ namespace BWAPI
     foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
       if (this->client)
         if (i->canAccess())
+        {
           this->client->onUnitCreate(i);
+          events.push_back(Event::UnitCreate(i));
+        }
 
     /* Pass all renegade units to the AI client */
     foreach (BWAPI::UnitImpl* i, renegadeUnits)
       if (this->client)
+      {
         this->client->onUnitRenegade(i);
+        events.push_back(Event::UnitRenegade(i));
+      }
 
     /* Pass all morphing units to the AI client */
     foreach (BWAPI::UnitImpl* i, morphUnits)
       if (this->client)
+      {
         this->client->onUnitMorph(i);
+        events.push_back(Event::UnitMorph(i));
+      }
 
     foreach (BWAPI::UnitImpl* i, showUnits)
       if (this->client)
+      {
         this->client->onUnitShow(i);
+        events.push_back(Event::UnitShow(i));
+      }
 
     foreach (BWAPI::UnitImpl* i, hideUnits)
     {
@@ -1800,7 +1836,8 @@ namespace BWAPI
       {
         i->makeVisible = true;
         //if (i->getRawDataLocal()->orderID != BW::OrderID::Die)
-          this->client->onUnitHide(i);
+        this->client->onUnitHide(i);
+        events.push_back(Event::UnitHide(i));
         i->makeVisible = false;
       }
     }
@@ -2198,7 +2235,10 @@ namespace BWAPI
   {
     /* called when the game is being saved */
     if (this->client != NULL)
+    {
       this->client->onSaveGame(std::string(name));  // calls the client callback
+      events.push_back(Event::SaveGame(std::string(name)));
+    }
   }
 //--------------------------------------------------- ISCRIPT ------------------------------------------------
   BWAPI::UnitImpl *GameImpl::spriteToUnit(BW::CSprite *sprite)

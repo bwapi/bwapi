@@ -839,10 +839,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\BWAPI\EventType.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\BWAPI\Force.h"
 				>
 			</File>

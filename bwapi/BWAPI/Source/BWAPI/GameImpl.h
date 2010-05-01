@@ -237,6 +237,7 @@ namespace BWAPI
       void onSaveGame(char *name);
       BWAPI::UnitImpl *spriteToUnit(BW::CSprite *sprite);
       void iscriptParser(BW::CSprite *sprite, u8 anim);
+      std::list<Event> events;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -286,6 +287,7 @@ namespace BWAPI
       bool calledOnEnd;
       int autoMenuGameType;
       Server server;
+      bool inGame;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

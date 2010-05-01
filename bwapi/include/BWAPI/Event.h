@@ -10,9 +10,10 @@ namespace BWAPI
   class Event
   {
     public:
+      Event();
       static Event Disconnect();
       static Event MatchStart();
-      static Event MatchEnd();
+      static Event MatchEnd(bool isWinner);
       static Event MatchFrame();
       static Event MenuFrame();
       static Event SendText(std::string text);
