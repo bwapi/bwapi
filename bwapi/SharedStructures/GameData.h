@@ -29,7 +29,10 @@ namespace BWAPIC
     int mapHeight;
     char mapFilename[260];  //size based on broodwar memory
     char mapName[32];      //size based on broodwar memory
+
+    //userInput?
     char userInput[256];    // size based on experiments. 78 in bw, 119 in mp chat room, 255 in bnet
+
     int mapHash;
     int getGroundHeight[1024][1024];
     bool isWalkable[1024][1024]; 
@@ -39,10 +42,10 @@ namespace BWAPIC
     bool hasCreep[256][256];
 
     // match mode
+    bool isInGame;
     bool isMultiplayer;
     bool isReplay;
     bool isPaused;
-    bool isInGame;
     int latency;
 
     // players

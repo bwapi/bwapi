@@ -230,6 +230,9 @@ namespace BWAPI
        * function cannot be used at this time. */
       virtual void changeRace(Race race) = 0;
 
+      /** Returns true if Broodwar is in a game. Returns false for lobby and menu screens */
+      virtual bool isInGame() = 0;
+
       /** Returns true if Broodwar is in a multiplayer game. Returns false for single player games and
        * replays. */
       virtual bool isMultiplayer() = 0;

@@ -782,6 +782,11 @@ namespace BWAPI
   {
     return this->startLocations;
   }
+  //----------------------------------------------- IS IN GAME -----------------------------------------------
+  bool GameImpl::isInGame()
+  {
+    return data->isInGame;
+  }
   //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
   bool GameImpl::isMultiplayer()
   {

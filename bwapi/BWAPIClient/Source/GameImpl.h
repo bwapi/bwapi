@@ -119,14 +119,14 @@ namespace BWAPI
       virtual bool canUpgrade(Unit* unit, UpgradeType type);
       virtual std::set< TilePosition >& getStartLocations();
 
-      virtual void  printf(const char* text, ...);
-      virtual void  sendText(const char* text, ...);
-      void  printEx(int pID, const char* text, ...);
+      virtual void printf(const char* text, ...);
+      virtual void sendText(const char* text, ...);
 
-      virtual void  changeRace(BWAPI::Race race);
-      virtual bool  isMultiplayer();
-      virtual bool  isPaused();
-      virtual bool  isReplay();
+      virtual void changeRace(BWAPI::Race race);
+      virtual bool isInGame();
+      virtual bool isMultiplayer();
+      virtual bool isPaused();
+      virtual bool isReplay();
 
       virtual void  startGame();
       virtual void  pauseGame();

@@ -963,8 +963,14 @@ namespace BWAPI
   {
     this->onStartCalled = onStartCalled;
   }
-  //------------------------------------------------ IN GAME -------------------------------------------------
-  bool GameImpl::inGame() const
+  //------------------------------------------------ IS IN GAME ----------------------------------------------
+  bool GameImpl::isInGame()
+  {
+    this->setLastError(Errors::None);
+    return *(BW::BWDATA_InGame) != 0;
+  }
+  //------------------------------------------------ IS IN GAME ----------------------------------------------
+  bool GameImpl::_isInGame() const
   {
     return *(BW::BWDATA_InGame) != 0;
   }
@@ -997,7 +1003,7 @@ namespace BWAPI
     va_end(ap);
 
     char* txtout = buffer;
-    if (inGame() || _isReplay())
+    if (_isInGame() || _isReplay())
     {
       __asm
       {
@@ -1020,13 +1026,13 @@ namespace BWAPI
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
 
-    if (_isReplay() || inGame())
+    if (_isReplay() || _isInGame())
     {
       printEx(8, "%s", buffer);
       return;
     }
 
-    if (!inGame())
+    if (!_isInGame())
       printEx(8, "%s", buffer);
   }
 
@@ -1044,7 +1050,7 @@ namespace BWAPI
       return;
     }
 
-    if (inGame() && _isSinglePlayer())
+    if (_isInGame() && _isSinglePlayer())
     {
       BW::CheatFlags::Enum cheatID = BW::getCheatFlag(text);
       if (cheatID != BW::CheatFlags::None)
@@ -1063,7 +1069,7 @@ namespace BWAPI
       return;
     }
 
-    if (inGame())
+    if (_isInGame())
     {
       memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
       __asm
