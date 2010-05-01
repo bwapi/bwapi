@@ -9,7 +9,7 @@ namespace BWAPI
   PlayerImpl::PlayerImpl(int id)
   {
     this->id = id;
-    this->self = &(BWAPI::Client::gameData->players[id]);
+    this->self = &(BWAPI::BWAPIClient.data->players[id]);
     this->leftTheGame = false;
   }
   void PlayerImpl::update()
@@ -49,7 +49,7 @@ namespace BWAPI
   }
   Force* PlayerImpl::getForce() const
   {
-    return BroodwarImpl.getForce(self->force);
+    return ((GameImpl*)Broodwar)->getForce(self->force);
   }
   bool PlayerImpl::isAlly(Player* player) const
   {

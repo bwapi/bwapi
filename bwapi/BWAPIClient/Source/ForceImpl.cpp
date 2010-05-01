@@ -8,12 +8,12 @@ namespace BWAPI
 {
   ForceImpl::ForceImpl(int id)
   {
-    this->self=&(BWAPI::Client::gameData->forces[id]);
+    this->self=&(BWAPI::BWAPIClient.data->forces[id]);
     for(int i=0;i<12;i++)
     {
-      if (BWAPI::Client::gameData->players[i].force==id)
+      if (BWAPI::BWAPIClient.data->players[i].force==id)
       {
-        this->players.insert(BWAPI::BroodwarImpl.getPlayer(i));
+        this->players.insert(((GameImpl*)Broodwar)->getPlayer(i));
       }
     }
   }

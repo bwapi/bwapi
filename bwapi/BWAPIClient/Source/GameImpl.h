@@ -51,7 +51,7 @@ namespace BWAPI
 
     public :
       int addUnitCommand(BWAPIC::UnitCommand& c);
-      GameImpl();
+      GameImpl(BWAPIC::GameData* data);
       void onStart();
       void onFrame();
       std::set<Unit*>& getPlayerUnits(const Player* player);
@@ -173,5 +173,4 @@ namespace BWAPI
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
   };
-  extern GameImpl BroodwarImpl;
 }
