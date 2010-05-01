@@ -1,5 +1,6 @@
 #pragma once
 
+#include <BWAPI\Event.h>
 #include <BWAPI\EventType.h>
 
 namespace BWAPIC

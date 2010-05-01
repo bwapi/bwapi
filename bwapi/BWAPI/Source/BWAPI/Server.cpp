@@ -1,5 +1,6 @@
 #include "Server.h"
 #include <Util/Logger.h>
+#include "GameImpl.h"
 #include <SharedStructures/GameData.h>
 namespace BWAPI
 {
@@ -31,7 +32,6 @@ namespace BWAPI
     data = (BWAPIC::GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
     initializeSharedMemory();
     connected=false;
-    inMatch=false;
   }
   Server::~Server()
   {
@@ -117,31 +117,18 @@ namespace BWAPI
     strncpy(data->mapFilename,"",260);
     strncpy(data->mapName,"",32);
   }
-  void Server::onMatchStart()
-  {
-    inMatch=true;
-    addEvent(Event::MatchStart());
-    for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
-    {
-      addEvent(Event::UnitCreate(*i));
-      addEvent(Event::UnitShow(*i));
-    }
-  }
-  void Server::onMatchEnd()
-  {
-    inMatch=false;
-    addEvent(Event::MatchEnd());
-  }
   void Server::updateSharedMemory()
   {
-    data->frameCount =Broodwar->getFrameCount();
-    data->mouseX     =Broodwar->getMouseX();
-    data->mouseY     =Broodwar->getMouseY();
-    data->isInGame   =Broodwar->isInGame();
-    if (!Broodwar->isInGame() && inMatch)
-      onMatchEnd();
-    if (Broodwar->isInGame() && !inMatch)
-      onMatchStart();
+    data->frameCount = Broodwar->getFrameCount();
+    data->mouseX     = Broodwar->getMouseX();
+    data->mouseY     = Broodwar->getMouseY();
+    data->isInGame   = Broodwar->isInGame();
+    data->eventCount = 0;
+    for(std::list<Event>::iterator e=((GameImpl*)Broodwar)->events.begin();e!=((GameImpl*)Broodwar)->events.end();e++)
+    {
+      addEvent(*e);
+    }
+    ((GameImpl*)Broodwar)->events.clear();
     if (Broodwar->isInGame())
     {
       data->screenX      = Broodwar->getScreenX();
@@ -370,6 +357,5 @@ namespace BWAPI
     data->unitCommandCount = 0;
     data->shapeCount       = 0;
     data->stringCount      = 0;
-    addEvent(Event::MatchFrame());
   }
 }

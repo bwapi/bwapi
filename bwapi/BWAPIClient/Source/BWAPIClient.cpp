@@ -69,16 +69,29 @@ namespace BWAPI
         return;
       }
     }
-    for(int e=0; e<data->eventCount; e++)
+    for(int i=0; i<data->eventCount; i++)
     {
-      int id=data->events[e].v1;
+      Event e=((GameImpl*)BWAPI::Broodwar)->makeEvent(data->events[i]);
 
-      if (data->events[e].type == EventType::MatchStart)
+      if (e.type == EventType::MatchStart)
       {
         printf("MatchStart\n");
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
       }
+      if (e.type == EventType::MatchEnd)
+      {
+        printf("MatchEnd(%d)\n",e.isWinner);
+      }
+      if (e.type == EventType::MatchFrame)
+      {
+        printf("MatchFrame\n");
+        ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
+      }
+      if (e.type == EventType::MenuFrame)
+      {
+        printf("MenuFrame\n");
+        //((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
+      }
     }
-    ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
   }
 }

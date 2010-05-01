@@ -43,6 +43,28 @@ namespace BWAPI
     data->unitCommands[data->unitCommandCount]=c;
     return data->unitCommandCount++;
   }
+  Event GameImpl::makeEvent(BWAPIC::Event e)
+  {
+    Event e2;
+    e2.type=e.type;
+    if (e.type==EventType::MatchEnd)
+      e2.isWinner=e.v1;
+    if (e.type==EventType::NukeDetect)
+      e2.position=Position(e.v1,e.v2);
+    if (e.type==EventType::PlayerLeft)
+      e2.player=getPlayer(e.v1);
+    if (e.type==EventType::SaveGame || e.type==EventType::SendText)
+      e2.text=data->strings[e.v1];
+    if (e.type==EventType::UnitCreate ||
+        e.type==EventType::UnitDestroy ||
+        e.type==EventType::UnitShow ||
+        e.type==EventType::UnitHide ||
+        e.type==EventType::UnitRenegade ||
+        e.type==EventType::UnitMorph)
+      e2.unit=getUnit(e.v1);
+    return e2;
+
+  }
   void GameImpl::saveInitialState()
   {
     staticMinerals = minerals;

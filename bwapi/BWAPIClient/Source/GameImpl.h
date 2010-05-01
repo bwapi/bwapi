@@ -51,6 +51,7 @@ namespace BWAPI
       Error lastError;
 
     public :
+      Event makeEvent(BWAPIC::Event e);
       int addUnitCommand(BWAPIC::UnitCommand& c);
       GameImpl(BWAPIC::GameData* data);
       void onMatchStart();

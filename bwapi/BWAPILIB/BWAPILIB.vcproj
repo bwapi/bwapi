@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\EventType.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\ExplosionType.h"
 				>
 			</File>

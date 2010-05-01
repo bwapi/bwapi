@@ -1,10 +1,14 @@
 #include <BWAPI/Event.h>
 namespace BWAPI
 {
+  Event::Event() : type(EventType::None), position(Positions::None), text(""), unit(NULL), player(NULL), isWinner(false)
+  {
+  }
   Event Event::Disconnect()
   {
     Event e;
     e.type=EventType::Disconnect;
+
     return e;
   }
   Event Event::MatchStart()
@@ -13,10 +17,11 @@ namespace BWAPI
     e.type=EventType::MatchStart;
     return e;
   }
-  Event Event::MatchEnd()
+  Event Event::MatchEnd(bool isWinner)
   {
     Event e;
     e.type=EventType::MatchEnd;
+    e.isWinner=isWinner;
     return e;
   }
   Event Event::MatchFrame()

@@ -19,8 +19,8 @@ namespace BWAPI
       UnitShow,
       UnitHide,
       UnitRenegade,
-      SaveGame
+      SaveGame,
+      None
     };
   }
-  static const int EVENT_TYPE_COUNT  =  13;
 }
