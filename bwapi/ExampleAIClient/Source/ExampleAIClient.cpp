@@ -33,7 +33,10 @@ int main(int argc, const char* argv[])
         first=false;
       }
       if (Broodwar->isInGame())
+      {
         Broodwar->printf("hello world! %d", Broodwar->getFrameCount());
+        Broodwar->drawBox(CoordinateType::Screen,60,60,200,200,Colors::Green,true);
+      }
       else
         printf("not in game\n");
       BWAPI::BWAPIClient.update();
