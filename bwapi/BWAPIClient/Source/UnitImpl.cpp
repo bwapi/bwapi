@@ -11,7 +11,7 @@ namespace BWAPI
 {
   UnitImpl::UnitImpl(int id)
   {
-    this->self=&(BWAPI::Client::gameData->units[id]);
+    this->self=&(BWAPI::BWAPIClient.data->units[id]);
     this->id=id;
     this->alive=true;
     this->initialType=UnitTypes::Unknown;
@@ -32,7 +32,7 @@ namespace BWAPI
   }
   Player* UnitImpl::getPlayer() const
   {
-    return BroodwarImpl.getPlayer(self->player);
+    return ((GameImpl*)Broodwar)->getPlayer(self->player);
   }
   UnitType UnitImpl::getType() const
   {
@@ -246,7 +246,7 @@ namespace BWAPI
   }
   Unit* UnitImpl::getTarget() const
   {
-    return BroodwarImpl.getUnit(self->target);
+    return ((GameImpl*)Broodwar)->getUnit(self->target);
   }
   Position UnitImpl::getTargetPosition() const
   {
@@ -258,7 +258,7 @@ namespace BWAPI
   }
   Unit* UnitImpl::getOrderTarget() const
   {
-    return BroodwarImpl.getUnit(self->orderTarget);
+    return ((GameImpl*)Broodwar)->getUnit(self->orderTarget);
   }
   int UnitImpl::getOrderTimer() const
   {
@@ -270,7 +270,7 @@ namespace BWAPI
   }
   Unit* UnitImpl::getBuildUnit() const
   {
-    return BroodwarImpl.getUnit(self->buildUnit);
+    return ((GameImpl*)Broodwar)->getUnit(self->buildUnit);
   }
   UnitType UnitImpl::getBuildType() const
   {
@@ -286,7 +286,7 @@ namespace BWAPI
   }
   Unit* UnitImpl::getChild() const
   {
-    return BroodwarImpl.getUnit(self->child);
+    return ((GameImpl*)Broodwar)->getUnit(self->child);
   }
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
@@ -299,14 +299,14 @@ namespace BWAPI
   }
   Unit* UnitImpl::getTransport() const
   {
-    return BroodwarImpl.getUnit(self->transport);
+    return ((GameImpl*)Broodwar)->getUnit(self->transport);
   }
   std::list<Unit*> UnitImpl::getLoadedUnits() const
   {
     std::list<Unit*> loadedUnits;
     for (int i=0;i<self->loadedUnitCount;i++)
     {
-      loadedUnits.push_back(BroodwarImpl.getUnit(self->loadedUnits[i]));
+      loadedUnits.push_back(((GameImpl*)Broodwar)->getUnit(self->loadedUnits[i]));
     }
     return loadedUnits;
   }
@@ -344,15 +344,15 @@ namespace BWAPI
   }
   Unit* UnitImpl::getRallyUnit() const
   {
-    return BroodwarImpl.getUnit(self->rallyUnit);
+    return ((GameImpl*)Broodwar)->getUnit(self->rallyUnit);
   }
   Unit* UnitImpl::getAddon() const
   {
-    return BroodwarImpl.getUnit(self->addon);
+    return ((GameImpl*)Broodwar)->getUnit(self->addon);
   }
   Unit* UnitImpl::getHatchery() const
   {
-    return BroodwarImpl.getUnit(self->hatchery);
+    return ((GameImpl*)Broodwar)->getUnit(self->hatchery);
   }
   std::set<Unit*> UnitImpl::getLarva() const
   {
@@ -550,7 +550,7 @@ namespace BWAPI
     c.x=command.x;
     c.y=command.y;
     c.extra=command.extra;
-    BroodwarImpl.addUnitCommand(c);
+    ((GameImpl*)Broodwar)->addUnitCommand(c);
     return true;
   }
   bool UnitImpl::attackMove(Position target)

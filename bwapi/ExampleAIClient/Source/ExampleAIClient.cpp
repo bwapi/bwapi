@@ -18,8 +18,10 @@ void reconnect()
 }
 int main(int argc, const char* argv[])
 {
+  BWAPI::BWAPI_init();
   printf("Connecting...");
   reconnect();
+
   while(true)
   {
     bool first=true;
@@ -30,7 +32,7 @@ int main(int argc, const char* argv[])
         printf("in game!");
         first=false;
       }
-      printf("update\n");
+      printf("update: %d\n", BWAPI::Broodwar->getFrameCount());
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {

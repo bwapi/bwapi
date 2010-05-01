@@ -13,10 +13,10 @@ namespace BWAPI
   const int BUFFER_SIZE=1024;
   char buffer[BUFFER_SIZE];
 
-  Game* Broodwar;
-  GameImpl::GameImpl()
+  Game* Broodwar = NULL;
+  GameImpl::GameImpl(BWAPIC::GameData* data)
   {
-    BWAPI::Broodwar=&BroodwarImpl;
+    this->data=data;
   }
   int GameImpl::addShape(BWAPIC::Shape &s)
   {
@@ -57,7 +57,6 @@ namespace BWAPI
   //------------------------------------------------- ON START -----------------------------------------------
   void GameImpl::onStart()
   {
-    data=BWAPI::Client::gameData;
     startLocations.clear();
     for(std::map<int,Force*>::iterator i=forceMap.begin();i!=forceMap.end();i++)
     {
@@ -1004,5 +1003,4 @@ namespace BWAPI
   {
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Screen,x1,y1,x2,y2,0,0,color.getID(),false));
   }
-  GameImpl BroodwarImpl;
 };

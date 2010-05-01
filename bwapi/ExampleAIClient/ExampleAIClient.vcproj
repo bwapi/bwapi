@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\BWAPIClient.lib"
+				AdditionalDependencies="$(OutDir)\BWAPIClient.lib  $(OutDir)\BWAPI.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
