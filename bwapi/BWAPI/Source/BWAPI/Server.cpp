@@ -126,8 +126,69 @@ namespace BWAPI
   }
   void Server::onMatchStart()
   {
-    data->forceCount = forceVector.size();
-    data->playerCount = playerVector.size();
+    data->self          = getPlayerID(Broodwar->self());
+    data->isMultiplayer = Broodwar->isMultiplayer();
+    data->isReplay      = Broodwar->isReplay();
+
+    //load static map data
+    for(int x=0;x<Broodwar->mapWidth()*4;x++)
+      for(int y=0;y<Broodwar->mapHeight()*4;y++)
+      {
+        data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x,y);
+        data->isWalkable[x][y]      = Broodwar->isWalkable(x,y);
+      }
+
+    for(int x=0;x<Broodwar->mapWidth();x++)
+      for(int y=0;y<Broodwar->mapHeight();y++)
+        data->isBuildable[x][y] = Broodwar->isBuildable(x,y);
+
+    data->mapWidth       = Broodwar->mapWidth();
+    data->mapHeight      = Broodwar->mapHeight();
+    strncpy(data->mapFilename,Broodwar->mapFilename().c_str(),260);
+    strncpy(data->mapName,Broodwar->mapName().c_str(),32);
+    data->mapHash        = Broodwar->getMapHash();
+
+    data->startLocationCount = Broodwar->getStartLocations().size();
+    int i=0;
+    for(std::set< TilePosition >::iterator t=Broodwar->getStartLocations().begin();t!=Broodwar->getStartLocations().end();t++)
+    {
+      data->startLocationsX[i] = (*t).x();
+      data->startLocationsY[i] = (*t).y();
+      i++;
+    }
+    //static force data
+    for(std::set<Force*>::iterator i=Broodwar->getForces().begin();i!=Broodwar->getForces().end();i++)
+    {
+      int id=getForceID(*i);
+      strncpy(data->forces[id].name,(*i)->getName().c_str(),32);
+    }
+    //static player data
+    for(std::set<Player*>::iterator i=Broodwar->getPlayers().begin();i!=Broodwar->getPlayers().end();i++)
+    {
+      int id=getPlayerID(*i);
+      BWAPIC::PlayerData* p=&(data->players[id]);
+
+      strncpy(p->name,(*i)->getName().c_str(),32);
+      p->race  = (*i)->getRace().getID();
+      p->type  = (*i)->playerType().getID();
+      p->force = getForceID((*i)->getForce());
+      for(int j=0;j<12;j++)
+      {
+        p->isAlly[j]  = false;
+        p->isEnemy[j] = false;
+      }
+      for(std::set<Player*>::iterator j=Broodwar->getPlayers().begin();j!=Broodwar->getPlayers().end();j++)
+      {
+        p->isAlly[getPlayerID(*j)]  = (*i)->isAlly(*j);
+        p->isEnemy[getPlayerID(*j)] = (*i)->isEnemy(*j);
+      }
+      p->isNeutral          = (*i)->isNeutral();
+      p->startLocationX     = (*i)->getStartLocation().x();
+      p->startLocationY     = (*i)->getStartLocation().y();
+    }
+
+    data->forceCount       = forceVector.size();
+    data->playerCount      = playerVector.size();
     data->initialUnitCount = unitVector.size();
   }
   void Server::clearAll()
@@ -165,82 +226,48 @@ namespace BWAPI
 
     ((GameImpl*)Broodwar)->events.clear();
 
-
     data->frameCount = Broodwar->getFrameCount();
     data->mouseX     = Broodwar->getMouseX();
     data->mouseY     = Broodwar->getMouseY();
     data->isInGame   = Broodwar->isInGame();
     if (Broodwar->isInGame())
     {
-      data->screenX      = Broodwar->getScreenX();
-      data->screenY      = Broodwar->getScreenY();
-      data->mapWidth     = Broodwar->mapWidth();
-      data->mapHeight    = Broodwar->mapHeight();
-      data->mapHash      = Broodwar->getMapHash();
-      data->startLocationCount = Broodwar->getStartLocations().size();
+      data->latency           = Broodwar->getLatency();
+      for(int i=0;i<3;i++)
+        data->mouseState[i]   = Broodwar->getMouseState(i);
+      for(int i=0;i<256;i++)
+        data->keyState[i]     = Broodwar->getKeyState(i);
+      data->screenX           = Broodwar->getScreenX();
+      data->screenY           = Broodwar->getScreenY();
+      data->flags[0]          = Broodwar->isFlagEnabled(0);
+      data->flags[1]          = Broodwar->isFlagEnabled(1);
+      data->isPaused          = Broodwar->isPaused();
+      data->selectedUnitCount = Broodwar->getSelectedUnits().size();
       int i=0;
-      for(std::set< TilePosition >::iterator t=Broodwar->getStartLocations().begin();t!=Broodwar->getStartLocations().end();t++)
+      for(std::set< Unit* >::iterator t=Broodwar->getSelectedUnits().begin();t!=Broodwar->getSelectedUnits().end();t++)
       {
-        data->startLocationsX[i]=(*t).x();
-        data->startLocationsY[i]=(*t).y();
+        data->selectedUnits[i] = getUnitID(*t);
         i++;
       }
-      //figure out what needs to be loaded only once later
-      strncpy(data->mapFilename,Broodwar->mapFilename().c_str(),260);
-      strncpy(data->mapName,Broodwar->mapName().c_str(),32);
-      //worry about optimization later
-      for(int x=0;x<Broodwar->mapWidth()*4;x++)
-      {
-        for(int y=0;y<Broodwar->mapHeight()*4;y++)
-        {
-          data->getGroundHeight[x][y]=Broodwar->getGroundHeight(x,y);
-          data->isWalkable[x][y]=Broodwar->isWalkable(x,y);
-        }
-      }
-      /*
+
+      //dynamic map data
       for(int x=0;x<Broodwar->mapWidth();x++)
       {
         for(int y=0;y<Broodwar->mapHeight();y++)
         {
-          data->isBuildable[x][y]=Broodwar->isBuildable(x,y);
-          data->isVisible[x][y]  =Broodwar->isVisible(x,y);
-          data->isExplored[x][y] =Broodwar->isExplored(x,y);
-          data->hasCreep[x][y]   =Broodwar->hasCreep(x,y);
+          data->isVisible[x][y]  = Broodwar->isVisible(x,y);
+          data->isExplored[x][y] = Broodwar->isExplored(x,y);
+          data->hasCreep[x][y]   = Broodwar->hasCreep(x,y);
         }
       }
-      */
-      data->isMultiplayer = Broodwar->isMultiplayer();
-      data->isReplay      = Broodwar->isReplay();
-      data->isPaused      = Broodwar->isPaused();
-      data->latency       = Broodwar->getLatency();
+      //(no dynamic force data)
 
-      for(std::set<Force*>::iterator i=Broodwar->getForces().begin();i!=Broodwar->getForces().end();i++)
-      {
-        int id=getForceID(*i);
-        strncpy(data->forces[id].name,(*i)->getName().c_str(),32);
-      }
+      //dynamic player data
       for(std::set<Player*>::iterator i=Broodwar->getPlayers().begin();i!=Broodwar->getPlayers().end();i++)
       {
-        int id=getPlayerID(*i);
-        BWAPIC::PlayerData* p=&(data->players[id]);
+        int id                = getPlayerID(*i);
+        BWAPIC::PlayerData* p = &(data->players[id]);
 
-        strncpy(p->name,(*i)->getName().c_str(),32);
-        p->race  = (*i)->getRace().getID();
-        p->type  = (*i)->playerType().getID();
-        p->force = getForceID((*i)->getForce());
-        for(int j=0;j<12;j++)
-        {
-          p->isAlly[j]  = false;
-          p->isEnemy[j] = false;
-        }
-        for(std::set<Player*>::iterator j=Broodwar->getPlayers().begin();j!=Broodwar->getPlayers().end();j++)
-        {
-          p->isAlly[getPlayerID(*j)]  = (*i)->isAlly(*j);
-          p->isEnemy[getPlayerID(*j)] = (*i)->isEnemy(*j);
-        }
-        p->isNeutral          = (*i)->isNeutral();
-        p->startLocationX     = (*i)->getStartLocation().x();
-        p->startLocationY     = (*i)->getStartLocation().y();
         p->isVictorious       = (*i)->isVictorious();
         p->isDefeated         = (*i)->isDefeated();
         p->leftGame           = (*i)->leftGame();
@@ -271,10 +298,12 @@ namespace BWAPI
           p->isResearching[j] = (*i)->isResearching(TechType(j));
         }
       }
+
+      //dynamic unit data
       for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
       {
-        int id=getUnitID(*i);
-        BWAPIC::UnitData* u=&(data->units[id]);
+        int id              = getUnitID(*i);
+        BWAPIC::UnitData* u = &(data->units[id]);
         u->player               = getPlayerID((*i)->getPlayer());
         u->type                 = (*i)->getType().getID();
         u->hitPoints            = (*i)->getHitPoints();
@@ -304,7 +333,47 @@ namespace BWAPI
         u->velocityX = (*i)->getVelocityX();
         u->velocityY = (*i)->getVelocityY();
 
-        /* TODO: Add getUpgradeLevel  - getLarva */
+        u->target                = getUnitID((*i)->getTarget());
+        u->targetPositionX       = (*i)->getTargetPosition().x();
+        u->targetPositionY       = (*i)->getTargetPosition().y();
+        u->order                 = (*i)->getOrder().getID();
+        u->orderTarget           = getUnitID((*i)->getOrderTarget());
+        u->orderTimer            = (*i)->getOrderTimer();
+        u->secondaryOrder        = (*i)->getSecondaryOrder().getID();
+        u->buildUnit             = getUnitID((*i)->getBuildUnit());
+        u->buildType             = (*i)->getBuildType().getID();
+        u->remainingBuildTime    = (*i)->getRemainingBuildTime();
+        u->remainingTrainTime    = (*i)->getRemainingTrainTime();
+        u->child                 = getUnitID((*i)->getChild());
+        std::list<UnitType>   tq = (*i)->getTrainingQueue();
+        u->trainingQueueCount    = tq.size();
+        int k=0;
+        for(std::list<UnitType>::iterator j=tq.begin();j!=tq.end();j++)
+        {
+          u->trainingQueue[k]    = (*j).getID();
+          k++;
+        }
+        u->transport             = getUnitID((*i)->getTransport());
+        std::list<Unit*>      lu = (*i)->getLoadedUnits();
+        u->loadedUnitCount       = lu.size();
+        k=0;
+        for(std::list<Unit*>::iterator j=lu.begin();j!=lu.end();j++)
+        {
+          u->loadedUnits[k]      = getUnitID(*j);
+          k++;
+        }
+        u->interceptorCount      = (*i)->getInterceptorCount();
+        u->scarabCount           = (*i)->getScarabCount();
+        u->spiderMineCount       = (*i)->getSpiderMineCount();
+        u->tech                  = (*i)->getTech().getID();
+        u->upgrade               = (*i)->getUpgrade().getID();
+        u->remainingResearchTime = (*i)->getRemainingResearchTime();
+        u->remainingUpgradeTime  = (*i)->getRemainingUpgradeTime();
+        u->rallyPositionX        = (*i)->getRallyPosition().x();
+        u->rallyPositionY        = (*i)->getRallyPosition().y();
+        u->rallyUnit             = getUnitID((*i)->getRallyUnit());
+        u->addon                 = getUnitID((*i)->getAddon());
+        u->hatchery              = getUnitID((*i)->getHatchery());
 
         //optimize is_ functions later
         u->exists              = (*i)->exists();

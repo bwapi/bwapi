@@ -272,12 +272,18 @@ namespace BWAPI
       /** Returns true if the unit is currently accelerating. */
       virtual bool isAccelerating() const = 0;
 
+      // TODO: add doc
+      virtual bool isAttacking() const = 0;
+
       /** Returns true if the unit is being constructed. Always true for incomplete Protoss and Zerg
        * buildings, and true for incomplete Terran buildings that have an SCV constructing them. If the SCV
        * halts construction, isBeingConstructed will return false.
        *
        * \see Unit::build, Unit::cancelConstruction, Unit::haltConstruction, Unit::isConstructing. */
       virtual bool isBeingConstructed() const = 0;
+
+      /** Returns true if the unit is a mineral patch or refinery that is being gathered. */
+      virtual bool isBeingGathered() const = 0;
 
       /** Returns true if the unit is currently being healed by a Terran Medic. */
       virtual bool isBeingHealed() const = 0;
@@ -402,9 +408,6 @@ namespace BWAPI
        * \see Unit::attackUnit, Unit::getGroundWeaponCooldown, Unit::getAirWeaponCooldown. */
       virtual bool isStartingAttack() const = 0;
 
-      // TODO: add doc
-      virtual bool isAttacking() const = 0;
-
       /** Returns true if the unit has been stasised by a Protoss Arbiter.
        * \see Unit::getStasisTimer. */
       virtual bool isStasised() const = 0;
@@ -432,9 +435,6 @@ namespace BWAPI
        * units hidden by the fog of war will be accessible, but isVisible will still return false.
        * \see Unit::exists. */
       virtual bool isVisible() const = 0;
-
-      /** Returns true if the unit is a mineral patch or refinery that is being gathered. */
-      virtual bool isBeingGathered() const = 0;
 
       /** Takes any unit command and calls the corresponding order that will execute it */
       virtual bool issueCommand(UnitCommand command) = 0;

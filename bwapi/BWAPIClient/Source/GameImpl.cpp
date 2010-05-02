@@ -183,11 +183,10 @@ namespace BWAPI
         accessibleUnits.erase(&unitVector[id]);
       }
     }
+    std::set<Unit*> larva;
     foreach(Unit* u, accessibleUnits)
     {
       ((UnitImpl*)u)->larva.clear();
-      if (u->getHatchery()!=NULL)
-        ((UnitImpl*)u->getHatchery())->larva.insert(u);
       int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / BWAPI::TILE_SIZE;
       int endX   = (u->getPosition().x() + u->getType().dimensionRight() + BWAPI::TILE_SIZE - 1) / BWAPI::TILE_SIZE; // Division - round up
       int startY = (u->getPosition().y() - u->getType().dimensionUp()) / BWAPI::TILE_SIZE;
@@ -208,13 +207,20 @@ namespace BWAPI
       {
         if (u->getType()==UnitTypes::Protoss_Pylon)
           pylons.insert(u);
+        if (u->getType()==UnitTypes::Zerg_Larva)
+          larva.insert(u);
+      }
+      foreach(Unit* u, larva)
+      {
+        if (u->getHatchery()!=NULL)
+          ((UnitImpl*)u->getHatchery())->larva.insert(u);
       }
     }
 
     selectedUnits.clear();
     for(int i=0;i<data->selectedUnitCount;i++)
     {
-      Unit* u=getUnit(i);
+      Unit* u=getUnit(data->selectedUnits[i]);
       if (u!=NULL)
         selectedUnits.insert(u);
     }
@@ -818,26 +824,6 @@ namespace BWAPI
   {
     return this->startLocations;
   }
-  //----------------------------------------------- IS IN GAME -----------------------------------------------
-  bool GameImpl::isInGame()
-  {
-    return data->isInGame;
-  }
-  //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
-  bool GameImpl::isMultiplayer()
-  {
-    return data->isMultiplayer;
-  }
-  //----------------------------------------------- IS REPLAY ------------------------------------------------
-  bool GameImpl::isReplay()
-  {
-    return data->isReplay;
-  }
-  //----------------------------------------------- IS PAUSED ------------------------------------------------
-  bool GameImpl::isPaused()
-  {
-    return data->isPaused;
-  }
   //------------------------------------------------ PRINTF --------------------------------------------------
   void GameImpl::printf(const char* text, ...)
   {
@@ -863,6 +849,26 @@ namespace BWAPI
   void GameImpl::changeRace(Race race)
   {
     addCommand(BWAPIC::Command(BWAPIC::CommandType::ChangeRace));
+  }
+  //----------------------------------------------- IS IN GAME -----------------------------------------------
+  bool GameImpl::isInGame()
+  {
+    return data->isInGame;
+  }
+  //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
+  bool GameImpl::isMultiplayer()
+  {
+    return data->isMultiplayer;
+  }
+  //----------------------------------------------- IS PAUSED ------------------------------------------------
+  bool GameImpl::isPaused()
+  {
+    return data->isPaused;
+  }
+  //----------------------------------------------- IS REPLAY ------------------------------------------------
+  bool GameImpl::isReplay()
+  {
+    return data->isReplay;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
