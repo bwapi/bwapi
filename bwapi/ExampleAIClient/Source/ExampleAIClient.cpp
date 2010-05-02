@@ -40,7 +40,8 @@ int main(int argc, const char* argv[])
       std::set<Unit*> allUnits = Broodwar->getAllUnits();
       for(std::set<Unit*>::iterator u=allUnits.begin();u!=allUnits.end();u++)
       {
-        Broodwar->drawCircleMap((*u)->getPosition().x(),(*u)->getPosition().y(),30,Colors::Green,false);
+        if ((*u)->isMoving())
+          Broodwar->drawCircleMap((*u)->getPosition().x(),(*u)->getPosition().y(),30,Colors::Green,false);
       }
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())

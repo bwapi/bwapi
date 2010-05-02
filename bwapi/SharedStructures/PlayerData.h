@@ -24,15 +24,15 @@ namespace BWAPIC
     int supplyTotal[3];
     int supplyUsed[3];
 
-    int allUnitCount[228];
-    int completedUnitCount[228];
-    int deadUnitCount[228];
-    int killedUnitCount[228];
+    int allUnitCount[230];
+    int completedUnitCount[230];
+    int deadUnitCount[230];
+    int killedUnitCount[230];
 
-    int upgradeLevel[66];
-    bool hasResearched[44];
-    bool isResearching[44];
-    bool isUpgrading[66];
+    int  upgradeLevel[63];
+    bool hasResearched[47];
+    bool isResearching[47];
+    bool isUpgrading[63];
 
 
   };

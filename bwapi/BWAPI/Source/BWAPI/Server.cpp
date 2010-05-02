@@ -222,21 +222,135 @@ namespace BWAPI
       for(std::set<Player*>::iterator i=Broodwar->getPlayers().begin();i!=Broodwar->getPlayers().end();i++)
       {
         int id=getPlayerID(*i);
-        strncpy(data->players[id].name,(*i)->getName().c_str(),32);
-        data->players[id].gas=(*i)->gas();
-        data->players[id].minerals=(*i)->minerals();
-        data->players[id].cumulativeGas=(*i)->cumulativeGas();
-        data->players[id].cumulativeMinerals=(*i)->cumulativeMinerals();
-        data->players[id].force=getForceID((*i)->getForce());
+        BWAPIC::PlayerData* p=&(data->players[id]);
+
+        strncpy(p->name,(*i)->getName().c_str(),32);
+        p->race  = (*i)->getRace().getID();
+        p->type  = (*i)->playerType().getID();
+        p->force = getForceID((*i)->getForce());
+        for(int j=0;j<12;j++)
+        {
+          p->isAlly[j]  = false;
+          p->isEnemy[j] = false;
+        }
+        for(std::set<Player*>::iterator j=Broodwar->getPlayers().begin();j!=Broodwar->getPlayers().end();j++)
+        {
+          p->isAlly[getPlayerID(*j)]  = (*i)->isAlly(*j);
+          p->isEnemy[getPlayerID(*j)] = (*i)->isEnemy(*j);
+        }
+        p->isNeutral          = (*i)->isNeutral();
+        p->startLocationX     = (*i)->getStartLocation().x();
+        p->startLocationY     = (*i)->getStartLocation().y();
+        p->isVictorious       = (*i)->isVictorious();
+        p->isDefeated         = (*i)->isDefeated();
+        p->leftGame           = (*i)->leftGame();
+        p->minerals           = (*i)->minerals();
+        p->gas                = (*i)->gas();
+        p->cumulativeMinerals = (*i)->cumulativeMinerals();
+        p->cumulativeGas      = (*i)->cumulativeGas();
+        for(int j=0;j<3;j++)
+        {
+          p->supplyTotal[j]   = (*i)->supplyTotal(Race(0));
+          p->supplyUsed[j]    = (*i)->supplyUsed(Race(0));
+        }
+        for(int j=0;j<228;j++)
+        {
+          p->allUnitCount[j]       = (*i)->allUnitCount(UnitType(j));
+          p->completedUnitCount[j] = (*i)->completedUnitCount(UnitType(j));
+          p->deadUnitCount[j]      = (*i)->deadUnitCount(UnitType(j));
+          p->killedUnitCount[j]    = (*i)->killedUnitCount(UnitType(j));
+        }
+        for(int j=0;j<63;j++)
+        {
+          p->upgradeLevel[j] = (*i)->getUpgradeLevel(UpgradeType(j));
+          p->isUpgrading[j]  = (*i)->isUpgrading(UpgradeType(j));
+        }
+        for(int j=0;j<47;j++)
+        {
+          p->hasResearched[j] = (*i)->hasResearched(TechType(j));
+          p->isResearching[j] = (*i)->isResearching(TechType(j));
+        }
       }
       for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
       {
         int id=getUnitID(*i);
-        data->units[id].hitPoints=(*i)->getHitPoints();
-        data->units[id].positionX=(*i)->getPosition().x();
-        data->units[id].positionY=(*i)->getPosition().y();
-        data->units[id].player=getPlayerID((*i)->getPlayer());
-        data->units[id].type=(*i)->getType().getID();
+        BWAPIC::UnitData* u=&(data->units[id]);
+        u->player               = getPlayerID((*i)->getPlayer());
+        u->type                 = (*i)->getType().getID();
+        u->hitPoints            = (*i)->getHitPoints();
+        u->shields              = (*i)->getShields();
+        u->energy               = (*i)->getEnergy();
+        u->resources            = (*i)->getResources();
+        u->killCount            = (*i)->getKillCount();
+        u->groundWeaponCooldown = (*i)->getGroundWeaponCooldown();
+        u->airWeaponCooldown    = (*i)->getAirWeaponCooldown();
+        u->spellCooldown        = (*i)->getSpellCooldown();
+        u->defenseMatrixPoints  = (*i)->getDefenseMatrixPoints();
+
+        u->defenseMatrixTimer = (*i)->getDefenseMatrixTimer();
+        u->ensnareTimer       = (*i)->getEnsnareTimer();
+        u->irradiateTimer     = (*i)->getIrradiateTimer();
+        u->lockdownTimer      = (*i)->getLockdownTimer();
+        u->maelstromTimer     = (*i)->getMaelstromTimer();
+        u->plagueTimer        = (*i)->getPlagueTimer();
+        u->removeTimer        = (*i)->getRemoveTimer();
+        u->stasisTimer        = (*i)->getStasisTimer();
+        u->stimTimer          = (*i)->getStimTimer();
+
+
+        u->positionX = (*i)->getPosition().x();
+        u->positionY = (*i)->getPosition().y();
+        u->angle     = (*i)->getAngle();
+        u->velocityX = (*i)->getVelocityX();
+        u->velocityY = (*i)->getVelocityY();
+
+        /* TODO: Add getUpgradeLevel  - getLarva */
+
+        //optimize is_ functions later
+        u->exists              = (*i)->exists();
+        u->isAccelerating      = (*i)->isAccelerating();
+        u->isAttacking         = (*i)->isAttacking();
+        u->isBeingConstructed  = (*i)->isBeingConstructed();
+        u->isBeingGathered     = (*i)->isBeingGathered();
+        u->isBeingHealed       = (*i)->isBeingHealed();
+        u->isBlind             = (*i)->isBlind();
+        u->isBraking           = (*i)->isBraking();
+        u->isBurrowed          = (*i)->isBurrowed();
+        u->isCarryingGas       = (*i)->isCarryingGas();
+        u->isCarryingMinerals  = (*i)->isCarryingMinerals();
+        u->isCloaked           = (*i)->isCloaked();
+        u->isCompleted         = (*i)->isCompleted();
+        u->isConstructing      = (*i)->isConstructing();
+        u->isDefenseMatrixed   = (*i)->isDefenseMatrixed();
+        u->isEnsnared          = (*i)->isEnsnared();
+        u->isFollowing         = (*i)->isFollowing();
+        u->isGatheringGas      = (*i)->isGatheringGas();
+        u->isGatheringMinerals = (*i)->isGatheringMinerals();
+        u->isHallucination     = (*i)->isHallucination();
+        u->isIdle              = (*i)->isIdle();
+        u->isIrradiated        = (*i)->isIrradiated();
+        u->isLifted            = (*i)->isLifted();
+        u->isLoaded            = (*i)->isLoaded();
+        u->isLockedDown        = (*i)->isLockedDown();
+        u->isMaelstrommed      = (*i)->isMaelstrommed();
+        u->isMorphing          = (*i)->isMorphing();
+        u->isMoving            = (*i)->isMoving();
+        u->isParasited         = (*i)->isParasited();
+        u->isPatrolling        = (*i)->isPatrolling();
+        u->isPlagued           = (*i)->isPlagued();
+        u->isRepairing         = (*i)->isRepairing();
+        u->isResearching       = (*i)->isResearching();
+        u->isSelected          = (*i)->isSelected();
+        u->isSieged            = (*i)->isSieged();
+        u->isStartingAttack    = (*i)->isStartingAttack();
+        u->isStasised          = (*i)->isStasised();
+        u->isStimmed           = (*i)->isStimmed();
+        u->isTraining          = (*i)->isTraining();
+        u->isUnderStorm        = (*i)->isUnderStorm();
+        u->isUnpowered         = (*i)->isUnpowered();
+        u->isUpgrading         = (*i)->isUpgrading();
+        u->isVisible           = (*i)->isVisible();
+
       }
     }
     if (matchStarting)
