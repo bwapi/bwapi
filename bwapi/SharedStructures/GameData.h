@@ -12,28 +12,39 @@ namespace BWAPIC
 {
   struct GameData
   {
-    int frameCount;
+    //forces
+    int forceCount;
+    ForceData forces[4];
 
-    // BWAPI event related
-    bool isOnMatchStart;
-    bool isFromBeginning;
+    //players
+    int playerCount;
+    PlayerData players[12];
+
+    //units
+    int initialUnitCount;
+    UnitData units[10000];
+
+    int latency;
+    int frameCount;
 
     // user input
     int mouseX;
     int mouseY;
+    bool mouseState[3];
+    bool keyState[256];
     int screenX;
     int screenY;
+
+    bool flags[2];
 
     // map
     int mapWidth;
     int mapHeight;
     char mapFilename[260];  //size based on broodwar memory
     char mapName[32];      //size based on broodwar memory
-
-    //userInput?
-    char userInput[256];    // size based on experiments. 78 in bw, 119 in mp chat room, 255 in bnet
-
     int mapHash;
+
+    //tile data
     int getGroundHeight[1024][1024];
     bool isWalkable[1024][1024]; 
     bool isBuildable[256][256];
@@ -41,30 +52,33 @@ namespace BWAPIC
     bool isExplored[256][256];
     bool hasCreep[256][256];
 
-    // match mode
-    bool isInGame;
-    bool isMultiplayer;
-    bool isReplay;
-    bool isPaused;
-    int latency;
-
-    // players
-    int self;
-
-    int selectedUnitCount;
-    int selectedUnits[12];
-
     // start locations
     int startLocationCount;
     int startLocationsX[8];
     int startLocationsY[8];
 
+    // match mode
+    bool isInGame;
+    bool isMultiplayer;
+    bool isPaused;
+    bool isReplay;
+
+    //selected units
+    int selectedUnitCount;
+    int selectedUnits[12];
+
+    // players
+    int self;
+
+    //events from server to client
     int eventCount;
     Event events[1000];
 
+    //strings (used in events, shapes, and commands)
     int stringCount;
     char strings[1000][256];
 
+    //shapes, commands, unitCommands, from client to server
     int shapeCount;
     Shape shapes[10000];
 
@@ -74,15 +88,5 @@ namespace BWAPIC
     int unitCommandCount;
     UnitCommand unitCommands[10000];
 
-    int forceCount;
-    ForceData forces[4];
-
-    int playerCount;
-    PlayerData players[12];
-
-    UnitData units[10000];
-
-    bool mouseState[3];
-    bool keyState[256];
   };
 }

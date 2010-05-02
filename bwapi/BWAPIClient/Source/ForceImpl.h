@@ -14,8 +14,6 @@ namespace BWAPI
     private:
       const BWAPIC::ForceData* self;
       int id;
-      std::set<Player*> players;
-      bool alive;
     public:
       ForceImpl(int id);
       virtual std::string getName() const;

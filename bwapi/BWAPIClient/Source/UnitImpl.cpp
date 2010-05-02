@@ -13,11 +13,15 @@ namespace BWAPI
   {
     this->self=&(BWAPI::BWAPIClient.data->units[id]);
     this->id=id;
-    this->alive=true;
-    this->initialType=UnitTypes::Unknown;
-    this->initialResources=0;
-    this->initialHitPoints=0;
-    this->initialPosition=Positions::Unknown;
+    clear();
+  }
+  void UnitImpl::clear()
+  {
+    initialType=UnitTypes::None;
+    initialResources=0;
+    initialHitPoints=0;
+    initialPosition=Positions::None;
+    larva.clear();
   }
   void UnitImpl::saveInitialState()
   {
@@ -371,7 +375,7 @@ namespace BWAPI
 
   bool UnitImpl::exists() const
   {
-    return alive;
+    return self->exists;
   }
   bool UnitImpl::isAccelerating() const
   {

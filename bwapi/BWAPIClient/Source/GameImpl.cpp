@@ -16,6 +16,12 @@ namespace BWAPI
   GameImpl::GameImpl(BWAPIC::GameData* data)
   {
     this->data=data;
+    for(int i=0;i<4;i++)
+      forceVector.push_back(ForceImpl(i));
+    for(int i=0;i<12;i++)
+      playerVector.push_back(PlayerImpl(i));
+    for(int i=0;i<10000;i++)
+      unitVector.push_back(UnitImpl(i));
   }
   int GameImpl::addShape(BWAPIC::Shape &s)
   {
@@ -65,94 +71,116 @@ namespace BWAPI
     return e2;
 
   }
-  void GameImpl::saveInitialState()
+  void GameImpl::clearAll()
   {
-    staticMinerals = minerals;
-    staticGeysers = geysers;
-    staticNeutralUnits = neutralUnits;
-    foreach(Unit* u, accessibleUnits)
-    {
-      ((UnitImpl*)u)->saveInitialState();
-    }
+    //clear everything
+    startLocations.clear();
+    forces.clear();
+    players.clear();
+    notDestroyedUnits.clear();
+    accessibleUnits.clear();
+    minerals.clear();
+    geysers.clear();
+    neutralUnits.clear();
+    staticMinerals.clear();
+    staticGeysers.clear();
+    staticNeutralUnits.clear();
+    selectedUnits.clear();
+    pylons.clear();
+    thePlayer = NULL;
+    theEnemy = NULL;
+
+    //clear unitsOnTileData
+    for(int x=0;x<256;x++)
+      for(int y=0;y<256;y++)
+        unitsOnTileData[x][y].clear();
+
+    //clear unit data
+    for(int i=0;i<10000;i++)
+      unitVector[i].clear();
+
+    //clear player data
+    for(int i=0;i<12;i++)
+      playerVector[i].units.clear();
+
   }
-  //------------------------------------------------- ON START -----------------------------------------------
+  //------------------------------------------------- ON MATCH START -----------------------------------------
   void GameImpl::onMatchStart()
   {
-    startLocations.clear();
-    for(int i=0;i<forceVector.size();i++)
-      delete forceVector[i];
-    for(int i=0;i<playerVector.size();i++)
-      delete playerVector[i];
-    for(int i=0;i<unitVector.size();i++)
-      delete unitVector[i];
-    forceVector.clear();
-    playerVector.clear();
-    unitVector.clear();
+    clearAll();
+
+    //load forces, players, and initial units from shared memory
+    for(int i=0;i<data->forceCount;i++)
+      forces.insert(&forceVector[i]);
+    for(int i=0;i<data->playerCount;i++)
+      players.insert(&playerVector[i]);
+    for(int i=0;i<data->initialUnitCount;i++)
+    {
+      accessibleUnits.insert(&unitVector[i]);
+      notDestroyedUnits.insert(&unitVector[i]);
+      //save the initial state of each initial unit
+      unitVector[i].saveInitialState();
+    }
+
+    //load start locations from shared memory
     for(int i=0;i<data->startLocationCount;i++)
       startLocations.insert(BWAPI::TilePosition(data->startLocationsX[i],data->startLocationsY[i]));
 
-    for(int i=0;i<12;i++)
-      playerVector.push_back(new PlayerImpl(i));
-    for(int i=0;i<4;i++)
-      forceVector.push_back(new ForceImpl(i));
-    for(int i=0;i<10000;i++)
-      unitVector.push_back(new UnitImpl(i));
-
-    for(int i=0;i<data->forceCount;i++)
-      forces.insert(forceVector[i]);
-    for(int i=0;i<data->playerCount;i++)
-      players.insert(playerVector[i]);
-
-    theEnemy = NULL;
-    if (self()!=NULL)
+    thePlayer = getPlayer(data->self);
+    if (thePlayer!=NULL)
     {
       foreach(Player* p, players)
       {
-        if (self()->isEnemy(p))
+        if (thePlayer->isEnemy(p))
           theEnemy=p;
       }
     }
-    saveInitialState();
     onMatchFrame();
+    staticMinerals = minerals;
+    staticGeysers = geysers;
+    staticNeutralUnits = neutralUnits;
   }
-  //------------------------------------------------- ON FRAME -----------------------------------------------
+  //------------------------------------------------- ON MATCH END -------------------------------------------
+  void GameImpl::onMatchEnd()
+  {
+    clearAll();
+  }
+  //------------------------------------------------- ON MATCH FRAME -----------------------------------------
   void GameImpl::onMatchFrame()
   {
     neutralUnits.clear();
     minerals.clear();
     geysers.clear();
     pylons.clear();
-    playerUnits.clear();
-    foreach(Player* player,players)
-    {
-      ((PlayerImpl*)player)->update();
-    }
     for (int y = 0; y < data->mapHeight; y++)
       for (int x = 0; x < data->mapWidth; x++)
         unitsOnTileData[x][y].clear();
+    for(int i=0;i<12;i++)
+      playerVector[i].clear();
+
     for(int e=0; e<data->eventCount; e++)
     {
       int id=data->events[e].v1;
       if (data->events[e].type == EventType::UnitCreate)
       {
         ::printf("unit create event %d\n",id);
-        notDestroyedUnits.insert(unitVector[id]);
-        accessibleUnits.insert(unitVector[id]);
+        notDestroyedUnits.insert(&unitVector[id]);
+        accessibleUnits.insert(&unitVector[id]);
       }
       else if (data->events[e].type == EventType::UnitShow)
       {
         ::printf("unit show event %d\n",id);
-        notDestroyedUnits.insert(unitVector[id]);
-        accessibleUnits.insert(unitVector[id]);
+        notDestroyedUnits.insert(&unitVector[id]);
+        accessibleUnits.insert(&unitVector[id]);
       }
       else if (data->events[e].type==EventType::UnitDestroy)
       {
-        notDestroyedUnits.erase(unitVector[id]);
-        accessibleUnits.erase(unitVector[id]);
+        notDestroyedUnits.erase(&unitVector[id]);
+        accessibleUnits.erase(&unitVector[id]);
       }
       else if (data->events[e].type==EventType::UnitHide)
       {
-        accessibleUnits.erase(unitVector[id]);
+        accessibleUnits.erase(&unitVector[id]);
       }
     }
     foreach(Unit* u, accessibleUnits)
@@ -167,7 +195,7 @@ namespace BWAPI
       for (int x = startX; x < endX; x++)
         for (int y = startY; y < endY; y++)
           unitsOnTileData[x][y].insert(u);
-      playerUnits[u->getPlayer()].insert(u);
+      ((PlayerImpl*)u->getPlayer())->units.insert(u);
       if (u->getPlayer()->isNeutral())
       {
         neutralUnits.insert(u);
@@ -186,7 +214,9 @@ namespace BWAPI
     selectedUnits.clear();
     for(int i=0;i<data->selectedUnitCount;i++)
     {
-      selectedUnits.insert(getUnit(i));
+      Unit* u=getUnit(i);
+      if (u!=NULL)
+        selectedUnits.insert(u);
     }
   }
   //------------------------------------------------- GET FORCES ---------------------------------------------
@@ -237,20 +267,20 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)
   {
-    if (forceId<0 || forceId>4) return NULL;
-    return forceVector[forceId];
+    if (forceId<0 || forceId>=forceVector.size()) return NULL;
+    return &forceVector[forceId];
   }
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* GameImpl::getPlayer(int playerId)
   {
-    if (playerId<0 || playerId>12) return NULL;
-    return playerVector[playerId];
+    if (playerId<0 || playerId>=playerVector.size()) return NULL;
+    return &playerVector[playerId];
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
   Unit* GameImpl::getUnit(int unitId)
   {
-    if (unitId<0 || unitId>4) return NULL;
-    return unitVector[unitId];
+    if (unitId<0 || unitId>=unitVector.size()) return NULL;
+    return &unitVector[unitId];
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   int GameImpl::getLatency()
@@ -336,17 +366,14 @@ namespace BWAPI
   bool GameImpl::isFlagEnabled(int flag)
   {
     if (flag<0 || flag>=2) return false;
-    return flagEnabled[flag];
+    return data->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
   void GameImpl::enableFlag(int flag)
   {
     if (flag<0 || flag>=2) return;
-    if (flagEnabled[flag]==false)
-    {
+    if (data->flags[flag]==false)
       addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag,flag));
-      flagEnabled[flag]=true;
-    }
   }
   //----------------------------------------------- UNITS ON TILE --------------------------------------------
   std::set<Unit*>& GameImpl::unitsOnTile(int x, int y)
@@ -875,7 +902,7 @@ namespace BWAPI
   //----------------------------------------------------- SELF -----------------------------------------------
   Player* GameImpl::self()
   {
-    return getPlayer(data->self);
+    return thePlayer;
   }
   //----------------------------------------------------- ENEMY ----------------------------------------------
   Player* GameImpl::enemy()

@@ -9,13 +9,7 @@ namespace BWAPI
   ForceImpl::ForceImpl(int id)
   {
     this->self=&(BWAPI::BWAPIClient.data->forces[id]);
-    for(int i=0;i<12;i++)
-    {
-      if (BWAPI::BWAPIClient.data->players[i].force==id)
-      {
-        this->players.insert(((GameImpl*)Broodwar)->getPlayer(i));
-      }
-    }
+    this->id=id;
   }
   std::string ForceImpl::getName() const
   {
@@ -23,6 +17,10 @@ namespace BWAPI
   }
   std::set<Player*> ForceImpl::getPlayers() const
   {
-    return this->players;
+    std::set<Player*> players;
+    for(int i=0;i<12;i++)
+      if (BWAPI::BWAPIClient.data->players[i].force==id)
+        players.insert(((GameImpl*)Broodwar)->getPlayer(i));
+    return players;
   }
 }
