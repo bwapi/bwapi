@@ -21,7 +21,6 @@ int main(int argc, const char* argv[])
   BWAPI::BWAPI_init();
   printf("Connecting...");
   reconnect();
-
   while(true)
   {
     printf("waiting to enter match\n");
@@ -37,11 +36,23 @@ int main(int argc, const char* argv[])
     printf("starting match!");
     while(Broodwar->isInGame())
     {
-      std::set<Unit*> allUnits = Broodwar->getAllUnits();
-      for(std::set<Unit*>::iterator u=allUnits.begin();u!=allUnits.end();u++)
+      std::set<Unit*> myUnits = Broodwar->self()->getUnits();
+      for(std::set<Unit*>::iterator u=Broodwar->getSelectedUnits().begin();u!=Broodwar->getSelectedUnits().end();u++)
       {
-        if ((*u)->isMoving())
-          Broodwar->drawCircleMap((*u)->getPosition().x(),(*u)->getPosition().y(),30,Colors::Green,false);
+        int x=(*u)->getPosition().x();
+        int y=(*u)->getPosition().y();
+        Broodwar->drawCircleMap(x,y,20,Colors::Blue,false);
+      }
+      for(std::set<Unit*>::iterator u=myUnits.begin();u!=myUnits.end();u++)
+      {
+        std::list<UnitType> tq=(*u)->getTrainingQueue();
+        int x=(*u)->getPosition().x();
+        int y=(*u)->getPosition().y();
+        for(std::list<UnitType>::iterator j=tq.begin();j!=tq.end();j++)
+        {
+          Broodwar->drawTextMap(x,y,"%s",(*j).getName().c_str());
+          y+=16;
+        }
       }
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
