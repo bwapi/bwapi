@@ -12,18 +12,14 @@ namespace BWAPI
     private:
       const BWAPIC::UnitData* self;
       int id;
-      bool alive;
       UnitType initialType;
       int initialResources;
       int initialHitPoints;
       Position initialPosition;
     public:
-      bool startingAttack;
-      int lastGroundWeaponCooldown;
-      int lastAirWeaponCooldown;
       std::set<Unit*> larva;
+      void clear();
       void saveInitialState();
-
 
       UnitImpl(int id);
       int getID() const;

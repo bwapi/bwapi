@@ -25,13 +25,18 @@ namespace BWAPI
       int addString(const char* text);
       int addText(BWAPIC::Shape &s, const char* text);
       int addCommand(BWAPIC::Command &c);
-      void saveInitialState();
+      void clearAll();
 
       BWAPIC::GameData* data;
-      std::set<Unit*> unitsOnTileData[256][256];
+      std::vector<ForceImpl> forceVector;
+      std::vector<PlayerImpl> playerVector;
+      std::vector<UnitImpl> unitVector;
+
       std::set<Force*> forces;
       std::set<Player*> players;
-      std::set<Unit*> accessibleUnits;
+      std::set<Unit*> notDestroyedUnits;//allUnits that may still be alive
+      std::set<Unit*> accessibleUnits;//all units that are accessible (and definitely alive)
+      //notDestroyedUnits - accessibleUnits = all units that may or may not be alive (status unknown)
       std::set<Unit*> minerals;
       std::set<Unit*> geysers;
       std::set<Unit*> neutralUnits;
@@ -40,13 +45,11 @@ namespace BWAPI
       std::set<Unit*> staticNeutralUnits;
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
+      std::set<Unit*> unitsOnTileData[256][256];
+
       std::set< TilePosition > startLocations;
-      std::set<Unit*> notDestroyedUnits;//allUnits that may still be alive
-      std::vector<Force*> forceVector;
-      std::vector<Player*> playerVector;
-      std::vector<Unit*> unitVector;
-      std::map<const Player*, std::set<Unit*> > playerUnits;
       bool flagEnabled[2];
+      Player* thePlayer;
       Player* theEnemy;
       Error lastError;
 
@@ -55,6 +58,7 @@ namespace BWAPI
       int addUnitCommand(BWAPIC::UnitCommand& c);
       GameImpl(BWAPIC::GameData* data);
       void onMatchStart();
+      void onMatchEnd();
       void onMatchFrame();
       std::set<Unit*>& getPlayerUnits(const Player* player);
 

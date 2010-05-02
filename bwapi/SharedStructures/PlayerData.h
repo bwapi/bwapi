@@ -4,16 +4,25 @@ namespace BWAPIC
 {
   struct PlayerData
   {
-    bool exists;
-    int force;
-    int type;
+    char name[25];  // size as BW memory
     int race;
+    int type;
+    int force;
+    bool isAlly[12];       // index correlated with players
+    bool isEnemy[12];       // index correlated with players
+    bool isNeutral;
+    int startLocationX;
+    int startLocationY;
+    bool isVictorious;
+    bool isDefeated;
+    bool leftGame;
+
     int minerals;
     int gas;
     int cumulativeMinerals;
     int cumulativeGas;
-    int suppliesAvailable[3];
-    int suppliesUsed[3];
+    int supplyTotal[3];
+    int supplyUsed[3];
 
     int allUnitCount[228];
     int completedUnitCount[228];
@@ -21,16 +30,10 @@ namespace BWAPIC
     int killedUnitCount[228];
 
     int upgradeLevel[66];
-    bool isUpgrading[66];
     bool hasResearched[44];
     bool isResearching[44];
+    bool isUpgrading[66];
 
-    char name[25];  // size as BW memory
 
-    bool alliance[12];       // index correlated with players
-    bool isVictorious;
-    bool isDefeated;
-    int startLocationX;
-    int startLocationY;
   };
 }

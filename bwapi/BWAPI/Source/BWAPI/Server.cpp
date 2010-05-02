@@ -47,8 +47,14 @@ namespace BWAPI
     }
     else
     {
+      data->eventCount = 0;
+      ((GameImpl*)Broodwar)->events.clear();
       checkForConnections();
     }
+    data->commandCount     = 0;
+    data->unitCommandCount = 0;
+    data->shapeCount       = 0;
+    data->stringCount      = 0;
   }
   int Server::addString(const char* text)
   {
@@ -114,21 +120,56 @@ namespace BWAPI
     data->unitCommandCount = 0;
     data->shapeCount       = 0;
     data->stringCount      = 0;
+    clearAll();
     strncpy(data->mapFilename,"",260);
     strncpy(data->mapName,"",32);
   }
+  void Server::onMatchStart()
+  {
+    data->forceCount = forceVector.size();
+    data->playerCount = playerVector.size();
+    data->initialUnitCount = unitVector.size();
+  }
+  void Server::clearAll()
+  {
+    //clear force info
+    data->forceCount=0;
+    forceVector.clear();
+    forceLookup.clear();
+
+    //clear player info
+    data->playerCount=0;
+    playerVector.clear();
+    playerLookup.clear();
+
+    //clear unit info
+    data->initialUnitCount=0;
+    unitVector.clear();
+    unitLookup.clear();
+  }
+
   void Server::updateSharedMemory()
   {
+    data->eventCount = 0;
+    bool matchStarting = false;
+    for(std::list<Event>::iterator e=((GameImpl*)Broodwar)->events.begin();e!=((GameImpl*)Broodwar)->events.end();e++)
+    {
+      addEvent(*e);
+      if (e->type == EventType::MatchStart)
+      {
+        matchStarting = true;
+      }
+    }
+    if (matchStarting)
+      clearAll();
+
+    ((GameImpl*)Broodwar)->events.clear();
+
+
     data->frameCount = Broodwar->getFrameCount();
     data->mouseX     = Broodwar->getMouseX();
     data->mouseY     = Broodwar->getMouseY();
     data->isInGame   = Broodwar->isInGame();
-    data->eventCount = 0;
-    for(std::list<Event>::iterator e=((GameImpl*)Broodwar)->events.begin();e!=((GameImpl*)Broodwar)->events.end();e++)
-    {
-      addEvent(*e);
-    }
-    ((GameImpl*)Broodwar)->events.clear();
     if (Broodwar->isInGame())
     {
       data->screenX      = Broodwar->getScreenX();
@@ -136,7 +177,6 @@ namespace BWAPI
       data->mapWidth     = Broodwar->mapWidth();
       data->mapHeight    = Broodwar->mapHeight();
       data->mapHash      = Broodwar->getMapHash();
-      data->playerCount  = Broodwar->getPlayers().size();
       data->startLocationCount = Broodwar->getStartLocations().size();
       int i=0;
       for(std::set< TilePosition >::iterator t=Broodwar->getStartLocations().begin();t!=Broodwar->getStartLocations().end();t++)
@@ -187,6 +227,7 @@ namespace BWAPI
         data->players[id].minerals=(*i)->minerals();
         data->players[id].cumulativeGas=(*i)->cumulativeGas();
         data->players[id].cumulativeMinerals=(*i)->cumulativeMinerals();
+        data->players[id].force=getForceID((*i)->getForce());
       }
       for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
       {
@@ -194,8 +235,12 @@ namespace BWAPI
         data->units[id].hitPoints=(*i)->getHitPoints();
         data->units[id].positionX=(*i)->getPosition().x();
         data->units[id].positionY=(*i)->getPosition().y();
+        data->units[id].player=getPlayerID((*i)->getPlayer());
+        data->units[id].type=(*i)->getType().getID();
       }
     }
+    if (matchStarting)
+      Server::onMatchStart();
   }
 
   int Server::getForceID(Force* force)
@@ -245,7 +290,6 @@ namespace BWAPI
         DisconnectNamedPipe(pipeObjectHandle);
         connected=false;
         setWaitForResponse(false);
-        data->eventCount = 0;
         break;
       }
     }
@@ -353,9 +397,5 @@ namespace BWAPI
         }
       }
     }
-    data->commandCount     = 0;
-    data->unitCommandCount = 0;
-    data->shapeCount       = 0;
-    data->stringCount      = 0;
   }
 }

@@ -16,6 +16,8 @@ namespace BWAPI
     int addEvent(BWAPI::Event e);
     int addString(const char* text);
     private:
+    void clearAll();
+    void onMatchStart();
     void checkForConnections();
     void initializeSharedMemory();
     void updateSharedMemory();

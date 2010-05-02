@@ -8,18 +8,13 @@ namespace BWAPI
 {
   PlayerImpl::PlayerImpl(int id)
   {
-    this->id = id;
     this->self = &(BWAPI::BWAPIClient.data->players[id]);
-    this->leftTheGame = false;
+    this->id = id;
+    clear();
   }
-  void PlayerImpl::update()
+  void PlayerImpl::clear()
   {
-    if (playerType() == PlayerTypes::HumanDefeated ||
-        playerType() == PlayerTypes::Computer ||
-       (playerType() == PlayerTypes::Neutral && !this->isNeutral()))
-    {
-      leftTheGame = true;
-    }
+    units.clear();
   }
   int PlayerImpl::getID() const
   {
@@ -27,8 +22,6 @@ namespace BWAPI
   }
   std::string PlayerImpl::getName() const
   {
-    if (id==11)
-      return "Neutral";
     return std::string(self->name);
   }
   const std::set<Unit*>& PlayerImpl::getUnits() const
@@ -37,14 +30,10 @@ namespace BWAPI
   }
   Race PlayerImpl::getRace() const
   {
-    if (id==11)
-      return Races::None;
     return Race(self->race);
   }
   PlayerType PlayerImpl::playerType() const
   {
-    if (id==11)
-      return PlayerTypes::Neutral;
     return PlayerType(self->type);
   }
   Force* PlayerImpl::getForce() const
@@ -53,22 +42,18 @@ namespace BWAPI
   }
   bool PlayerImpl::isAlly(Player* player) const
   {
-    if (this->isNeutral() || player->isNeutral()) return false;
-    return self->alliance[player->getID()];
+    return self->isAlly[player->getID()];
   }
   bool PlayerImpl::isEnemy(Player* player) const
   {
-    if (this->isNeutral() || player->isNeutral()) return false;
-    return !this->isAlly(player);
+    return self->isEnemy[player->getID()];
   }
   bool PlayerImpl::isNeutral() const
   {
-    return id == 11;
+    return self->isNeutral;
   }
   TilePosition PlayerImpl::getStartLocation() const
   {
-    if (isNeutral())
-      return TilePositions::None;
     return TilePosition(self->startLocationX,self->startLocationY);
   }
   bool PlayerImpl::isVictorious() const
@@ -81,7 +66,7 @@ namespace BWAPI
   }
   bool PlayerImpl::leftGame() const
   {
-    return leftTheGame;
+    return self->leftGame;
   }
   int PlayerImpl::minerals() const
   {
@@ -101,19 +86,19 @@ namespace BWAPI
   }
   int PlayerImpl::supplyTotal() const
   {
-    return self->suppliesAvailable[self->race];
+    return self->supplyTotal[self->race];
   }
   int PlayerImpl::supplyUsed() const
   {
-    return self->suppliesUsed[self->race];
+    return self->supplyUsed[self->race];
   }
   int PlayerImpl::supplyTotal(Race race) const
   {
-    return self->suppliesAvailable[race.getID()];
+    return self->supplyTotal[race.getID()];
   }
   int PlayerImpl::supplyUsed(Race race) const
   {
-    return self->suppliesUsed[race.getID()];
+    return self->supplyUsed[race.getID()];
   }
   int PlayerImpl::allUnitCount(UnitType unit) const
   {

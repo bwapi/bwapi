@@ -55,7 +55,6 @@ namespace BWAPI
   }
   void Client::update()
   {
-    data->eventCount = 0;
     DWORD writtenByteCount;
     int code=4;
     WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
@@ -81,6 +80,7 @@ namespace BWAPI
       if (e.type == EventType::MatchEnd)
       {
         printf("MatchEnd(%d)\n",e.isWinner);
+        ((GameImpl*)BWAPI::Broodwar)->onMatchEnd();
       }
       if (e.type == EventType::MatchFrame)
       {

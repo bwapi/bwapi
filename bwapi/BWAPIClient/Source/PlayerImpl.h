@@ -13,11 +13,9 @@ namespace BWAPI
     private:
       const BWAPIC::PlayerData* self;
       int id;
-      bool alive;
-      bool leftTheGame;
     public:
       std::set<Unit*> units;
-      void update();
+      void clear();
       PlayerImpl(int id);
       virtual int getID() const;
       virtual std::string getName() const;
