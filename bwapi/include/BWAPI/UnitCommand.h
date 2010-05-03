@@ -8,7 +8,7 @@ namespace BWAPI
   class UnitCommand
   {
     public:
-      UnitCommand(UnitCommandType::Enum type, Unit* target, int x, int y, int extra) : type(type), target(target), x(x), y(y), extra(extra) {}
+      UnitCommand(UnitCommandType::Enum _type, Unit* _target, int _x, int _y, int _extra) : type(_type), target(_target), x(_x), y(_y), extra(_extra) {}
       UnitCommandType::Enum type;
       Unit* target;
       int x;

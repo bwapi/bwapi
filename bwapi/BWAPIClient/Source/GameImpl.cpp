@@ -87,6 +87,7 @@ namespace BWAPI
     staticNeutralUnits.clear();
     selectedUnits.clear();
     pylons.clear();
+    events.clear();
     thePlayer = NULL;
     theEnemy = NULL;
 
@@ -152,6 +153,7 @@ namespace BWAPI
     minerals.clear();
     geysers.clear();
     pylons.clear();
+    events.clear();
     for (int y = 0; y < data->mapHeight; y++)
       for (int x = 0; x < data->mapWidth; x++)
         unitsOnTileData[x][y].clear();
@@ -160,6 +162,7 @@ namespace BWAPI
 
     for(int e=0; e<data->eventCount; e++)
     {
+      events.push_back(this->makeEvent(data->events[e]));
       int id=data->events[e].v1;
       if (data->events[e].type == EventType::UnitCreate)
       {
@@ -269,6 +272,11 @@ namespace BWAPI
   std::set< Unit* >& GameImpl::getStaticNeutralUnits()
   {
     return staticNeutralUnits;
+  }
+  //------------------------------------------------ GET EVENTS ----------------------------------------------
+  std::list< Event >& GameImpl::getEvents()
+  {
+    return events;
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)

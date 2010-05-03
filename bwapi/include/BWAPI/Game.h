@@ -7,6 +7,7 @@
 #include <BWAPI/Color.h>
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Error.h>
+#include <BWAPI/Event.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
@@ -58,6 +59,9 @@ namespace BWAPI
 
       /** Returns the set of all neutral units (including mined out and other inaccessible ones). */
       virtual std::set< Unit* >& getStaticNeutralUnits() = 0;
+
+      /** Returns the list of events */
+      virtual std::list< Event >& getEvents() = 0;
 
       /** Returns the amount of latency the current game has. Currently only returns Latency::SinglePlayer,
        * Latency::LanLow, Latency::LanMedium, or Latency::LanHigh. */
