@@ -550,7 +550,10 @@ namespace BWAPI
     BWAPIC::UnitCommand c;
     c.type=command.type;
     c.unitIndex=this->id;
-    c.targetIndex=command.target->getID();
+    if (command.target!=NULL)
+      c.targetIndex=command.target->getID();
+    else
+      c.targetIndex=-1;
     c.x=command.x;
     c.y=command.y;
     c.extra=command.extra;

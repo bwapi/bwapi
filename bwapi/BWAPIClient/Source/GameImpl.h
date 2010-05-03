@@ -48,6 +48,7 @@ namespace BWAPI
       std::set<Unit*> unitsOnTileData[256][256];
 
       std::set< TilePosition > startLocations;
+      std::list< Event > events;
       bool flagEnabled[2];
       Player* thePlayer;
       Player* theEnemy;
@@ -76,6 +77,8 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticMinerals();
       virtual std::set< Unit* >& getStaticGeysers();
       virtual std::set< Unit* >& getStaticNeutralUnits();
+
+      virtual std::list< Event>& getEvents();
 
       virtual int getLatency();
       virtual int getFrameCount();

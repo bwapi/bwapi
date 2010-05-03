@@ -665,6 +665,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return this->staticNeutralUnits;
   }
+  //---------------------------------------------- GET EVENTS ------------------------------------------------
+  std::list< Event >& GameImpl::getEvents()
+  {
+    this->setLastError(Errors::None);
+    return this->events;
+  }
+
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
   {

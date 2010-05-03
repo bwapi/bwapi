@@ -63,6 +63,8 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticGeysers();
       virtual std::set< Unit* >& getStaticNeutralUnits();
 
+      virtual std::list< Event >& getEvents();
+
       virtual int getLatency();
       virtual int getFrameCount();
       virtual int getMouseX();
