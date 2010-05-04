@@ -62,7 +62,7 @@ namespace BWAPIC
     int addon;
     int hatchery;
     int larva;
-
+    
     bool exists;
     bool isAccelerating;
     bool isAttacking;
@@ -77,34 +77,34 @@ namespace BWAPIC
     bool isCloaked;
     bool isCompleted;
     bool isConstructing;
-    bool isDefenseMatrixed;
-    bool isEnsnared;
-    bool isFollowing;
+    //bool isDefenseMatrixed; defenseMatrixTimer > 0
+    //bool isEnsnared; ensnareTimer > 0
+    //bool isFollowing; order == Orders::Follow.getID()
     bool isGatheringGas;
     bool isGatheringMinerals;
     bool isHallucination;
     bool isIdle;
-    bool isIrradiated;
+    //bool isIrradiated; irradiateTimer > 0
     bool isLifted;
     bool isLoaded;
-    bool isLockedDown;
-    bool isMaelstrommed;
+    //bool isLockedDown; lockdownTimer > 0
+    //bool isMaelstrommed; maelstromTimer > 0
     bool isMorphing;
     bool isMoving;
     bool isParasited;
-    bool isPatrolling;
-    bool isPlagued;
-    bool isRepairing;
-    bool isResearching;
+    //bool isPatrolling; order == Orders::Patrol.getID()
+    //bool isPlagued; plagueTimer > 0
+    //bool isRepairing; order == Orders::Repair1.getID() || order == Orders::Repair2.getID()
+    //bool isResearching; order == Orders::ResearchTech.getID()
     bool isSelected;
-    bool isSieged;
+    //bool isSieged; type == UnitTypes::Terran_Siege_Tank_Siege_Mode
     bool isStartingAttack;
-    bool isStasised;
-    bool isStimmed;
+    //bool isStasised; stasisTimer > 0
+    //bool isStimmed; stimTimer > 0
     bool isTraining;
     bool isUnderStorm;
     bool isUnpowered;
-    bool isUpgrading;
+    //bool isUpgrading; order == Orders::Upgrade.getID()
     bool isVisible;
   };
 }

@@ -431,15 +431,15 @@ namespace BWAPI
   }
   bool UnitImpl::isDefenseMatrixed() const
   {
-    return self->isDefenseMatrixed;
+    return self->defenseMatrixTimer > 0;
   }
   bool UnitImpl::isEnsnared() const
   {
-    return self->isEnsnared;
+    return self->ensnareTimer > 0;
   }
   bool UnitImpl::isFollowing() const
   {
-    return self->isFollowing;
+    return self->order == Orders::Follow.getID();
   }
   bool UnitImpl::isGatheringGas() const
   {
@@ -459,7 +459,7 @@ namespace BWAPI
   }
   bool UnitImpl::isIrradiated() const
   {
-    return self->isIrradiated;
+    return self->irradiateTimer > 0;
   }
   bool UnitImpl::isLifted() const
   {
@@ -471,11 +471,11 @@ namespace BWAPI
   }
   bool UnitImpl::isLockedDown() const
   {
-    return self->isLockedDown;
+    return self->lockdownTimer > 0;
   }
   bool UnitImpl::isMaelstrommed() const
   {
-    return self->isMaelstrommed;
+    return self->maelstromTimer > 0;
   }
   bool UnitImpl::isMorphing() const
   {
@@ -491,19 +491,19 @@ namespace BWAPI
   }
   bool UnitImpl::isPatrolling() const
   {
-    return self->isPatrolling;
+    return self->order == Orders::Patrol.getID();
   }
   bool UnitImpl::isPlagued() const
   {
-    return self->isPlagued;
+    return self->plagueTimer > 0;
   }
   bool UnitImpl::isRepairing() const
   {
-    return self->isRepairing;
+    return self->order == Orders::Repair1.getID() || self->order == Orders::Repair2.getID();
   }
   bool UnitImpl::isResearching() const
   {
-    return self->isResearching;
+    return self->order == Orders::ResearchTech.getID();
   }
   bool UnitImpl::isSelected() const
   {
@@ -511,7 +511,7 @@ namespace BWAPI
   }
   bool UnitImpl::isSieged() const
   {
-    return self->isSieged;
+    return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode.getID();
   }
   bool UnitImpl::isStartingAttack() const
   {
@@ -519,11 +519,11 @@ namespace BWAPI
   }
   bool UnitImpl::isStasised() const
   {
-    return self->isStasised;
+    return self->stasisTimer > 0;
   }
   bool UnitImpl::isStimmed() const
   {
-    return self->isStimmed;
+    return self->stimTimer > 0;
   }
   bool UnitImpl::isTraining() const
   {
@@ -539,7 +539,7 @@ namespace BWAPI
   }
   bool UnitImpl::isUpgrading() const
   {
-    return self->isUpgrading;
+    return self->order == Orders::Upgrade.getID();
   }
   bool UnitImpl::isVisible() const
   {
