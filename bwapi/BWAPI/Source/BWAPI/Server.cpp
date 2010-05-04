@@ -390,34 +390,20 @@ namespace BWAPI
         u->isCloaked           = (*i)->isCloaked();
         u->isCompleted         = (*i)->isCompleted();
         u->isConstructing      = (*i)->isConstructing();
-        u->isDefenseMatrixed   = (*i)->isDefenseMatrixed();
-        u->isEnsnared          = (*i)->isEnsnared();
-        u->isFollowing         = (*i)->isFollowing();
         u->isGatheringGas      = (*i)->isGatheringGas();
         u->isGatheringMinerals = (*i)->isGatheringMinerals();
         u->isHallucination     = (*i)->isHallucination();
         u->isIdle              = (*i)->isIdle();
-        u->isIrradiated        = (*i)->isIrradiated();
         u->isLifted            = (*i)->isLifted();
         u->isLoaded            = (*i)->isLoaded();
-        u->isLockedDown        = (*i)->isLockedDown();
-        u->isMaelstrommed      = (*i)->isMaelstrommed();
         u->isMorphing          = (*i)->isMorphing();
         u->isMoving            = (*i)->isMoving();
         u->isParasited         = (*i)->isParasited();
-        u->isPatrolling        = (*i)->isPatrolling();
-        u->isPlagued           = (*i)->isPlagued();
-        u->isRepairing         = (*i)->isRepairing();
-        u->isResearching       = (*i)->isResearching();
         u->isSelected          = (*i)->isSelected();
-        u->isSieged            = (*i)->isSieged();
         u->isStartingAttack    = (*i)->isStartingAttack();
-        u->isStasised          = (*i)->isStasised();
-        u->isStimmed           = (*i)->isStimmed();
         u->isTraining          = (*i)->isTraining();
         u->isUnderStorm        = (*i)->isUnderStorm();
         u->isUnpowered         = (*i)->isUnpowered();
-        u->isUpgrading         = (*i)->isUpgrading();
         u->isVisible           = (*i)->isVisible();
 
       }
