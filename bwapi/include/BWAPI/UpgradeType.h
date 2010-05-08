@@ -48,10 +48,10 @@ namespace BWAPI
       int maxRepeats() const;
 
       /** Returns the type of unit that researches the upgrade. */
-      const UnitType* whatUpgrades() const;
+      UnitType whatUpgrades() const;
 
       /** Returns the set of units that are affected by this upgrade. */
-      const std::set<const UnitType*>& whatUses() const;
+      const std::set<UnitType>& whatUses() const;
     private:
       int id;
   };

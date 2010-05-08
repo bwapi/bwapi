@@ -43,29 +43,29 @@ namespace BWAPI
        *
        * Example: UnitTypes::Terran_Marine.whatBuilds() will return an std::pair, where the first component
        * is UnitTypes::Terran_Barracks. */
-      const std::pair< const UnitType*, int > whatBuilds() const;
+      const std::pair< UnitType, int > whatBuilds() const;
 
       /** Returns the units the player is required to have before it can train or build the given unit type.
        *
        * Example: UnitTypes::Terran_Battlecruiser.requiredUnits() will return a map of three keys:
        * UnitTypes::Terran_Starport, UnitTypes::Terran_Control_Tower, and UnitTypes::Terran_Physics_Lab. */
-      const std::map< const UnitType*, int >& requiredUnits() const;
+      const std::map< UnitType, int >& requiredUnits() const;
 
       /** Included in the API for completeness, since the only units that actually needs tech to be trained
        * are the Zerg_Lurker and Zerg_Lurker_Egg. The tech type needed is TechTypes::Lurker_Aspect. */
-      const TechType* requiredTech() const;
+      TechType requiredTech() const;
 
       /** Returns the set of tech types this unit can use, provided the tech types have been researched and
        * the unit has enough energy. */
-      const std::set< const TechType* >& abilities() const;
+      const std::set< TechType >& abilities() const;
 
       /** Returns the set of upgrade types that can affect this unit. */
-      const std::set< const UpgradeType* >& upgrades() const;
+      const std::set< UpgradeType >& upgrades() const;
 
       /** Returns the upgrade that increase's the unit's armor, or UpgradeTypes::None if no upgrade
        * increase's this unit's armor. For example UnitTypes::Terran_Marine.armorUpgrade() will return a
        * pointer to UpgradeTypes::Terran_Infantry_Armor. */
-      const UpgradeType* armorUpgrade() const;
+      UpgradeType armorUpgrade() const;
 
       /** Returns the maximum amount of hit points the unit type can have. */
       int maxHitPoints() const;
@@ -141,13 +141,13 @@ namespace BWAPI
       int sightRange() const;
 
       /** Returns the unit's ground weapon. */
-      const WeaponType* groundWeapon() const;
+      WeaponType groundWeapon() const;
 
       // TODO: add doc
       int maxGroundHits() const;
 
       /** Returns the unit's air weapon. */
-      const WeaponType* airWeapon() const;
+      WeaponType airWeapon() const;
 
       // TODO: add doc
       int maxAirHits() const;

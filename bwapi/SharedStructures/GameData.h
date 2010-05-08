@@ -12,6 +12,7 @@ namespace BWAPIC
 {
   struct GameData
   {
+    GameData();
     //forces
     int forceCount;
     ForceData forces[4];

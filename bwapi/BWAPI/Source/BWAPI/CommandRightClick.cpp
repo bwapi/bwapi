@@ -36,7 +36,7 @@ namespace BWAPI
 
         else if (this->executors[i]->getType().isWorker() &&
                  targetUnit->getType().getRace()==Races::Terran &&
-                 *targetUnit->getType().whatBuilds().first==this->executors[i]->getType() &&
+                 targetUnit->getType().whatBuilds().first==this->executors[i]->getType() &&
                  !targetUnit->isCompleted())
         {
           executors[i]->getRawDataLocal()->orderID = BW::OrderID::ConstructingBuilding;

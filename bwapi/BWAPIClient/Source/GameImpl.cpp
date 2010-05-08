@@ -54,7 +54,7 @@ namespace BWAPI
     Event e2;
     e2.type=e.type;
     if (e.type==EventType::MatchEnd)
-      e2.isWinner=e.v1;
+      e2.isWinner=(e.v1 != 0);
     if (e.type==EventType::NukeDetect)
       e2.position=Position(e.v1,e.v2);
     if (e.type==EventType::PlayerLeft)
@@ -281,19 +281,19 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)
   {
-    if (forceId<0 || forceId>=forceVector.size()) return NULL;
+    if (forceId<0 || forceId>=(int)forceVector.size()) return NULL;
     return &forceVector[forceId];
   }
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* GameImpl::getPlayer(int playerId)
   {
-    if (playerId<0 || playerId>=playerVector.size()) return NULL;
+    if (playerId<0 || playerId>=(int)playerVector.size()) return NULL;
     return &playerVector[playerId];
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
   Unit* GameImpl::getUnit(int unitId)
   {
-    if (unitId<0 || unitId>=unitVector.size()) return NULL;
+    if (unitId<0 || unitId>=(int)unitVector.size()) return NULL;
     return &unitVector[unitId];
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
@@ -658,7 +658,7 @@ namespace BWAPI
         return false;
       }
       /* Check if this unit can actually build the unit type */
-      if (builder->getType() != *(type.whatBuilds().first))
+      if (builder->getType() != type.whatBuilds().first)
       {
         lastError = Errors::Incompatible_UnitType;
         return false;
@@ -702,28 +702,28 @@ namespace BWAPI
     }
     /* Check if player has enough supplies */
     if (type.supplyRequired() > 0)
-      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first->supplyRequired())
+      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first.supplyRequired())
       {
         lastError = Errors::Insufficient_Supply;
         return false;
       }
     UnitType addon = UnitTypes::None;
-    for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
-      if (i->first->isAddon())
-        addon=*i->first;
-    for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
+    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
+      if (i->first.isAddon())
+        addon=i->first;
+    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
     {
       bool pass = false;
-      if (self()->completedUnitCount(*(i->first)) >= i->second)
+      if (self()->completedUnitCount(i->first) >= i->second)
         pass = true;
-      if (*i->first == UnitTypes::Zerg_Hatchery)
+      if (i->first == UnitTypes::Zerg_Hatchery)
       {
         if (self()->completedUnitCount(UnitTypes::Zerg_Lair) >= i->second)
           pass = true;
         if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       }
-      if (*i->first == UnitTypes::Zerg_Lair)
+      if (i->first == UnitTypes::Zerg_Lair)
         if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       if (pass == false)
@@ -732,8 +732,8 @@ namespace BWAPI
         return false;
       }
     }
-    if (*type.requiredTech() != TechTypes::None)
-      if (!self()->hasResearched(*(type.requiredTech())))
+    if (type.requiredTech() != TechTypes::None)
+      if (!self()->hasResearched(type.requiredTech()))
       {
         lastError = Errors::Insufficient_Tech;
         return false;
@@ -764,7 +764,7 @@ namespace BWAPI
         lastError = Errors::Unit_Not_Owned;
         return false;
       }
-      if (unit->getType() != *(type.whatResearches()))
+      if (unit->getType() != type.whatResearches())
       {
         lastError = Errors::Incompatible_UnitType;
         return false;
@@ -804,7 +804,7 @@ namespace BWAPI
         lastError = Errors::Unit_Not_Owned;
         return false;
       }
-      if (unit->getType() != *(type.whatUpgrades()))
+      if (unit->getType() != type.whatUpgrades())
       {
         lastError = Errors::Incompatible_UnitType;
         return false;

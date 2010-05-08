@@ -26,10 +26,10 @@ namespace BWAPI
 
       /** Returns the tech type that must be researched before this weapon can be used, or TechTypes::None if
        * no tech type is required. */
-      const TechType* getTech() const;
+      TechType getTech() const;
 
       /** Returns the unit that can use this weapon. */
-      const UnitType* whatUses() const;
+      UnitType whatUses() const;
 
       /** Returns the amount of damage that this weapon deals per attack. */
       int damageAmount() const;
@@ -45,13 +45,13 @@ namespace BWAPI
       int damageFactor() const;
 
       /** Returns the upgrade type that can be upgraded to increase the attack damage. */
-      const UpgradeType* upgradeType() const;
+      UpgradeType upgradeType() const;
 
       /** Returns the type of damage that this weapon uses (i.e. concussive, normal, explosive, etc). */
-      const DamageType* damageType() const;
+      DamageType damageType() const;
 
       /** Returns the type of explosion that this weapon uses. */
-      const ExplosionType* explosionType() const;
+      ExplosionType explosionType() const;
 
       /** Returns the minimum attack range of the weapon, measured in pixels, 0 for most things except
        * WeaponTypes::Arclite_Shock_Cannon (the weapon of the Terran Siege Tank in Siege Mode). */

@@ -10,7 +10,7 @@ namespace BWAPI
   class RaceInternal
   {
     public:
-      void set(const char* name, const UnitType* worker, const UnitType* center, const UnitType* refinery, const UnitType* transport, const UnitType* supplyProvider)
+      void set(const char* name, UnitType worker, UnitType center, UnitType refinery, UnitType transport, UnitType supplyProvider)
       {
         if (initializingRace)
         {
@@ -23,11 +23,11 @@ namespace BWAPI
         }
       }
       std::string name;
-      const UnitType* worker;
-      const UnitType* center;
-      const UnitType* refinery;
-      const UnitType* transport;
-      const UnitType* supplyProvider;
+      UnitType worker;
+      UnitType center;
+      UnitType refinery;
+      UnitType transport;
+      UnitType supplyProvider;
   };
   RaceInternal raceData[7];
   std::map<std::string, Race> raceMap;
@@ -43,13 +43,13 @@ namespace BWAPI
     const Race Unknown(6);
     void init()
     {
-      raceData[Zerg.getID()].set("Zerg", &(UnitTypes::Zerg_Drone), &(UnitTypes::Zerg_Hatchery), &(UnitTypes::Zerg_Extractor), &(UnitTypes::Zerg_Overlord), &(UnitTypes::Zerg_Overlord));
-      raceData[Terran.getID()].set("Terran", &(UnitTypes::Terran_SCV), &(UnitTypes::Terran_Command_Center), &(UnitTypes::Terran_Refinery), &(UnitTypes::Terran_Dropship), &(UnitTypes::Terran_Supply_Depot));
-      raceData[Protoss.getID()].set("Protoss", &(UnitTypes::Protoss_Probe), &(UnitTypes::Protoss_Nexus), &(UnitTypes::Protoss_Assimilator), &(UnitTypes::Protoss_Shuttle), &(UnitTypes::Protoss_Pylon));
-      raceData[Random.getID()].set("Random", &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown));
-      raceData[Other.getID()].set("Other", &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown));
-      raceData[None.getID()].set("None", &(UnitTypes::None), &(UnitTypes::None), &(UnitTypes::None), &(UnitTypes::None), &(UnitTypes::None));
-      raceData[Unknown.getID()].set("Unknown", &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown), &(UnitTypes::Unknown));
+      raceData[Zerg.getID()].set("Zerg", UnitTypes::Zerg_Drone, UnitTypes::Zerg_Hatchery, UnitTypes::Zerg_Extractor, UnitTypes::Zerg_Overlord, UnitTypes::Zerg_Overlord);
+      raceData[Terran.getID()].set("Terran", UnitTypes::Terran_SCV, UnitTypes::Terran_Command_Center, UnitTypes::Terran_Refinery, UnitTypes::Terran_Dropship, UnitTypes::Terran_Supply_Depot);
+      raceData[Protoss.getID()].set("Protoss", UnitTypes::Protoss_Probe, UnitTypes::Protoss_Nexus, UnitTypes::Protoss_Assimilator, UnitTypes::Protoss_Shuttle, UnitTypes::Protoss_Pylon);
+      raceData[Random.getID()].set("Random", UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown);
+      raceData[Other.getID()].set("Other", UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown);
+      raceData[None.getID()].set("None", UnitTypes::None, UnitTypes::None, UnitTypes::None, UnitTypes::None, UnitTypes::None);
+      raceData[Unknown.getID()].set("Unknown", UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown, UnitTypes::Unknown);
 
       raceSet.insert(Zerg);
       raceSet.insert(Terran);
@@ -110,23 +110,23 @@ namespace BWAPI
     return raceData[this->id].name;
   }
 
-  const UnitType* Race::getWorker() const
+  UnitType Race::getWorker() const
   {
     return raceData[this->id].worker;
   }
-  const UnitType* Race::getCenter() const
+  UnitType Race::getCenter() const
   {
     return raceData[this->id].center;
   }
-  const UnitType* Race::getRefinery() const
+  UnitType Race::getRefinery() const
   {
     return raceData[this->id].refinery;
   }
-  const UnitType* Race::getTransport() const
+  UnitType Race::getTransport() const
   {
     return raceData[this->id].transport;
   }
-  const UnitType* Race::getSupplyProvider() const
+  UnitType Race::getSupplyProvider() const
   {
     return raceData[this->id].supplyProvider;
   }
