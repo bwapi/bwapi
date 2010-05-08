@@ -38,16 +38,16 @@ namespace BWAPI
 
       /** Returns the type of unit that researches this tech type. If this tech type is available for free
        * (does not need to be researched), then this method will return UnitTypes::None. */
-      const UnitType* whatResearches() const;
+      UnitType whatResearches() const;
 
       /** Returns the corresponding weapon for this tech type, or TechTypes::None if no corresponding weapon
        * exists. For example, TechTypes::Dark_Swarm.getWeapon() will return a pointer to
        * WeaponTypes::Dark_Swarm. */
-      const WeaponType* getWeapon() const;
+      WeaponType getWeapon() const;
 
       /** Returns the set of units that can use this tech type. Usually this will just be a set of one unit
        * type, however in some cases, such as TechTypes::Burrowing, several unit types will be returned. */
-      const std::set<const UnitType*>& whatUses() const;
+      const std::set<UnitType>& whatUses() const;
     private:
       int id;
   };

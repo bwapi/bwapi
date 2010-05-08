@@ -526,10 +526,10 @@ namespace BWAPI
     {
       for(int i=0;i<data->unitCommandCount;i++)
       {
-        if (data->unitCommands[i].unitIndex<0 || data->unitCommands[i].unitIndex>=unitVector.size()) continue;
+        if (data->unitCommands[i].unitIndex<0 || data->unitCommands[i].unitIndex>=(int)unitVector.size()) continue;
         Unit* unit=unitVector[data->unitCommands[i].unitIndex];
         Unit* target=NULL;
-        if (data->unitCommands[i].targetIndex>=0 && data->unitCommands[i].targetIndex<unitVector.size())
+        if (data->unitCommands[i].targetIndex>=0 && data->unitCommands[i].targetIndex<(int)unitVector.size())
         {
           target=unitVector[data->unitCommands[i].targetIndex];
         }

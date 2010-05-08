@@ -417,7 +417,7 @@ namespace BWAPI
       }
 
       /* Check if this unit can actually build the unit type */
-      if (builder->getType() != *(type.whatBuilds().first))
+      if (builder->getType() != type.whatBuilds().first)
       {
         this->setLastError(Errors::Incompatible_UnitType);
         return false;
@@ -466,30 +466,30 @@ namespace BWAPI
     
     /* Check if player has enough supplies */
     if (type.supplyRequired() > 0)
-      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first->supplyRequired())
+      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first.supplyRequired())
       {
         this->setLastError(Errors::Insufficient_Supply);
         return false;
       }
 
     UnitType addon = UnitTypes::None;
-    for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
-      if (i->first->isAddon())
-        addon=*i->first;
+    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
+      if (i->first.isAddon())
+        addon=i->first;
 
-    for(std::map<const UnitType*, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
+    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
     {
       bool pass = false;
-      if (self()->completedUnitCount(*(i->first)) >= i->second)
+      if (self()->completedUnitCount(i->first) >= i->second)
         pass = true;
-      if (*i->first == UnitTypes::Zerg_Hatchery)
+      if (i->first == UnitTypes::Zerg_Hatchery)
       {
         if (self()->completedUnitCount(UnitTypes::Zerg_Lair) >= i->second)
           pass = true;
         if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       }
-      if (*i->first == UnitTypes::Zerg_Lair)
+      if (i->first == UnitTypes::Zerg_Lair)
         if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
       if (pass == false)
@@ -499,8 +499,8 @@ namespace BWAPI
       }
     }
 
-    if (*type.requiredTech() != TechTypes::None)
-      if (!self()->hasResearched(*(type.requiredTech())))
+    if (type.requiredTech() != TechTypes::None)
+      if (!self()->hasResearched(type.requiredTech()))
       {
         this->setLastError(Errors::Insufficient_Tech);
         return false;
@@ -533,7 +533,7 @@ namespace BWAPI
         this->setLastError(Errors::Unit_Not_Owned);
         return false;
       }
-      if (unit->getType() != *(type.whatResearches()))
+      if (unit->getType() != type.whatResearches())
       {
         this->setLastError(Errors::Incompatible_UnitType);
         return false;
@@ -573,7 +573,7 @@ namespace BWAPI
         this->setLastError(Errors::Unit_Not_Owned);
         return false;
       }
-      if (unit->getType() != *(type.whatUpgrades()))
+      if (unit->getType() != type.whatUpgrades())
       {
         this->setLastError(Errors::Incompatible_UnitType);
         return false;

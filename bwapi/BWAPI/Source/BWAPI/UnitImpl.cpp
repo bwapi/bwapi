@@ -923,11 +923,8 @@ namespace BWAPI
     if (this->_getPlayer()->getUpgradeLevel(upgrade) == 0)
       return 0;
 
-    foreach (const UnitType* u, upgrade.whatUses())
-    {
-      if (*u == this->_getType())
-        return this->_getPlayer()->getUpgradeLevel(upgrade);
-    }
+    if (upgrade.whatUses().find(this->_getType()) != upgrade.whatUses().end())
+      return this->_getPlayer()->getUpgradeLevel(upgrade);
     return 0;
   }
   //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
@@ -1284,19 +1281,19 @@ namespace BWAPI
       return false;
     }
 
-    const WeaponType* weapon = this->getType().groundWeapon();
+    WeaponType weapon = this->getType().groundWeapon();
     if (target->isLifted() || target->getType().isFlyer())
       weapon=this->getType().airWeapon();
 
-    if (*weapon == WeaponTypes::None)
+    if (weapon == WeaponTypes::None)
     {
       BroodwarImpl.setLastError(Errors::Unable_To_Hit);
       return false;
     }
     if (!this->getType().canMove())
     {
-      if (this->getDistance(target)>weapon->maxRange() ||
-          this->getDistance(target)<weapon->minRange())
+      if (this->getDistance(target)>weapon.maxRange() ||
+          this->getDistance(target)<weapon.minRange())
       {
         BroodwarImpl.setLastError(Errors::Out_Of_Range);
         return false;
@@ -1340,19 +1337,19 @@ namespace BWAPI
     }
     if (!target->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(target->getPlayer()))
     {
-      const WeaponType* weapon = this->getType().groundWeapon();
+      WeaponType weapon = this->getType().groundWeapon();
       if (target->isLifted() || target->getType().isFlyer())
         weapon=this->getType().airWeapon();
 
-      if (*weapon == WeaponTypes::None)
+      if (weapon == WeaponTypes::None)
       {
         BroodwarImpl.setLastError(Errors::Unable_To_Hit);
         return false;
       }
       if (!this->getType().canMove())
       {
-        if (this->getDistance(target)>weapon->maxRange() ||
-            this->getDistance(target)<weapon->minRange())
+        if (this->getDistance(target)>weapon.maxRange() ||
+            this->getDistance(target)<weapon.minRange())
         {
           BroodwarImpl.setLastError(Errors::Out_Of_Range);
           return false;
@@ -2251,12 +2248,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    bool found = false;
-    foreach (const UnitType* i, tech.whatUses())
-      if (*i == this->getType())
-        found = true;
-
-    if (!found)
+    if (tech.whatUses().find(this->getType())==tech.whatUses().end())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
@@ -2312,12 +2304,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    bool found=false;
-    foreach (const UnitType* i, tech.whatUses())
-      if (*i == this->getType())
-        found = true;
-
-    if (!found)
+    if (tech.whatUses().find(this->getType())==tech.whatUses().end())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
@@ -2392,12 +2379,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    bool found = false;
-    foreach (const UnitType* i, tech.whatUses())
-      if (*i == this->getType())
-        found = true;
-
-    if (!found)
+    if (tech.whatUses().find(this->getType())==tech.whatUses().end())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;

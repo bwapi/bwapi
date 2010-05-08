@@ -271,7 +271,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return false;
     }
-    if (*tech.whatResearches()==UnitTypes::None)
+    if (tech.whatResearches()==UnitTypes::None)
     {
       return true;
     }

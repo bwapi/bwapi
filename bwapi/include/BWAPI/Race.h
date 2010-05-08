@@ -24,25 +24,25 @@ namespace BWAPI
 
       /** Returns the worker unit type for the given race. For example Races::Protoss.getWorker() will return
        * a pointer to UnitTypes::Protoss_Probe. */
-      const UnitType* getWorker() const;
+      UnitType getWorker() const;
 
       /** Returns the center unit type for the given race. For example Races::Terran.getCenter() will return a
        * pointer to UnitTypes::Terran_Command_Center. While there are three center types for Zerg
        * (Hatchery, Lair, and Hive), Races::Zerg.getCenter() will only return a pointer to
        * UnitTypes::Zerg_Hatchery, since it is the unit type needed to make a new center. */
-      const UnitType* getCenter() const;
+      UnitType getCenter() const;
 
       /** Returns the refinery unit type for the given race. For example: Races::Zerg.getRefinery() will
        * return a pointer to UnitTypes::Zerg_Extractor?. */
-      const UnitType* getRefinery() const;
+      UnitType getRefinery() const;
 
       /** Returns the transport unit type for the given race. For example: Races::Protoss.getTransport() will
        * return a pointer to UnitTypes::Protoss_Shuttle. */
-      const UnitType* getTransport() const;
+      UnitType getTransport() const;
 
       /** Returns the main supply provider unit type for the given race. For example:
        * Races::Terran.getSupplyProvider() will return a pointer to UnitTypes::Terran_Supply_Depot?. */
-      const UnitType* getSupplyProvider() const;
+      UnitType getSupplyProvider() const;
     private:
       int id;
   };

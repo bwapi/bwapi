@@ -365,11 +365,8 @@ namespace BWAPI
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
-    foreach (const UnitType* u, upgrade.whatUses())
-    {
-      if (*u==this->getType())
-        return this->getPlayer()->getUpgradeLevel(upgrade);
-    }
+    if (upgrade.whatUses().find(this->getType()) != upgrade.whatUses().end())
+      return this->getPlayer()->getUpgradeLevel(upgrade);
     return 0;
   }
 

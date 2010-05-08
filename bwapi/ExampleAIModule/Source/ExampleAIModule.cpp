@@ -46,7 +46,7 @@ void ExampleAIModule::onStart()
         //if this is a center, tell it to build the appropiate type of worker
         if ((*i)->getType().getRace()!=Races::Zerg)
         {
-          (*i)->train(*Broodwar->self()->getRace().getWorker());
+          (*i)->train(Broodwar->self()->getRace().getWorker());
         }
         else //if we are Zerg, we need to select a larva and morph it into a drone
         {
