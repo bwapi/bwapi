@@ -2464,10 +2464,10 @@ namespace BWAPI
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {
-    BW::Unit * * select = new BW::Unit * [1];
+    BW::Unit* select[2];
     select[0] = this->getOriginalRawData();
-    BW::selectUnits(1, select);
-    delete [] select;
+    select[1] = NULL; //in case some piece of starcraft code assumes this array is null-terminated.
+    BW::selectUnits(1, (BW::Unit**)(&select));
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::getType() const
