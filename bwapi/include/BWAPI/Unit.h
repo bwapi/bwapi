@@ -435,6 +435,7 @@ namespace BWAPI
        * units hidden by the fog of war will be accessible, but isVisible will still return false.
        * \see Unit::exists. */
       virtual bool isVisible() const = 0;
+	  virtual bool isVisible(Player* player) const = 0;
 
       /** Takes any unit command and calls the corresponding order that will execute it */
       virtual bool issueCommand(UnitCommand command) = 0;

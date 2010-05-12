@@ -129,6 +129,7 @@ namespace BWAPI
       bool isUnpowered() const;
       bool isUpgrading() const;
       bool isVisible() const;
+      bool isVisible(Player* player) const;
 
       bool issueCommand(UnitCommand command);
       bool attackMove(Position target);

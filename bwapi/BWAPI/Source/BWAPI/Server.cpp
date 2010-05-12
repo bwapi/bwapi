@@ -404,8 +404,11 @@ namespace BWAPI
         u->isTraining          = (*i)->isTraining();
         u->isUnderStorm        = (*i)->isUnderStorm();
         u->isUnpowered         = (*i)->isUnpowered();
-        u->isVisible           = (*i)->isVisible();
-
+        for(std::set<Player*>::iterator j=Broodwar->getPlayers().begin();j!=Broodwar->getPlayers().end();j++)
+        {
+          int playerid = getPlayerID(*j);
+          u->isVisible[playerid] = (*i)->isVisible(*j);
+        }
       }
     }
     if (matchStarting)

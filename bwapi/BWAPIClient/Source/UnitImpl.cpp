@@ -540,7 +540,11 @@ namespace BWAPI
   }
   bool UnitImpl::isVisible() const
   {
-    return self->isVisible;
+    return self->isVisible[self->player];
+  }
+  bool UnitImpl::isVisible(Player* player) const
+  {
+    return self->isVisible[player->getID()];
   }
   bool UnitImpl::issueCommand(UnitCommand command)
   {

@@ -105,6 +105,6 @@ namespace BWAPIC
     bool isUnderStorm;
     bool isUnpowered;
     //bool isUpgrading; order == Orders::Upgrade.getID()
-    bool isVisible;
+    bool isVisible[9];
   };
 }
