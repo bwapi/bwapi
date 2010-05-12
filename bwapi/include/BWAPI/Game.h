@@ -299,34 +299,34 @@ namespace BWAPI
       virtual void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
       virtual void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
 
-      /** Draws a circle on the screen, with the given color. If isSolid is true, a solid circle is drawn,
-       * otherwise just the outline of a circle will be drawn. */
+      /** Draws a triangle on the screen. If isSolid is true, a solid triangle is drawn, otherwise just the
+       * outline of the triangle will be drawn. */
       virtual void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
       virtual void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
       virtual void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
       virtual void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
 
-      /** Draws an ellipse on the screen, with the given color. If isSolid is true, a solid ellipse is drawn,
-       * otherwise just the outline of an ellipse will be drawn. */
+      /** Draws a circle on the screen, with the given color. If isSolid is true, a solid circle is drawn,
+       * otherwise just the outline of a circle will be drawn. */
       virtual void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid = false) = 0;
       virtual void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false) = 0;
       virtual void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid = false) = 0;
       virtual void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid = false) = 0;
 
-      /** Draws a dot on the screen at the given position with the given color. */
+      /** Draws an ellipse on the screen, with the given color. If isSolid is true, a solid ellipse is drawn,
+       * otherwise just the outline of an ellipse will be drawn. */
       virtual void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
       virtual void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
       virtual void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
       virtual void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
 
-      /** Draws a line on the screen from (x1,y1) to (x2,y2) with the given color. */
+      /** Draws a dot on the screen at the given position with the given color. */
       virtual void drawDot(int ctype, int x, int y, Color color) = 0;
       virtual void drawDotMap(int x, int y, Color color) = 0;
       virtual void drawDotMouse(int x, int y, Color color) = 0;
       virtual void drawDotScreen(int x, int y, Color color) = 0;
 
-      /** Draws a triangle on the screen. If isSolid is true, a solid triangle is drawn, otherwise just the
-       * outline of the triangle will be drawn. */
+      /** Draws a line on the screen from (x1,y1) to (x2,y2) with the given color. */
       virtual void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color) = 0;
       virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color) = 0;
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color) = 0;
