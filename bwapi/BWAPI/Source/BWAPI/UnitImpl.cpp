@@ -1382,7 +1382,7 @@ namespace BWAPI
 
     BW::UnitType type((u16)type1.getID());
     this->orderSelect();
-    int tUnitType = this->getType().getID();
+    int tUnitType = this->_getType().getID();
     BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
     if (tUnitType == BW::UnitID::Zerg_Larva ||
         tUnitType == BW::UnitID::Zerg_Mutalisk ||
@@ -1501,7 +1501,7 @@ namespace BWAPI
       return false;
     }
     this->orderSelect();
-    int tUnitType = this->getType().getID();
+    int tUnitType = this->_getType().getID();
     if (tUnitType == BW::UnitID::Protoss_Reaver ||
         tUnitType == BW::UnitID::Protoss_Hero_Warbringer)
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::Stop));

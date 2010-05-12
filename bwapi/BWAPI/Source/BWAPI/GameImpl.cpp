@@ -1643,7 +1643,6 @@ namespace BWAPI
   //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
   void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
   {
-    printf("Unit died. :(");
     /* Called when a unit dies(death animation), not when it is removed */
     int index = unit->getIndex();
     if (!unit->alive)
