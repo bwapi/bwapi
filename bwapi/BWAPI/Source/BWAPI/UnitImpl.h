@@ -111,8 +111,10 @@ namespace BWAPI
 
       virtual bool  exists() const;
       virtual bool  isAccelerating() const;
+      virtual bool  isAttacking() const;
       virtual bool  isBeingConstructed() const;
       virtual bool  isBeingHealed() const;
+      virtual bool  isBeingGathered() const;
       virtual bool  isBlind() const;
       virtual bool  isBraking() const;
       virtual bool  isBurrowed() const;
@@ -143,7 +145,6 @@ namespace BWAPI
       virtual bool  isSelected() const;
       virtual bool  isSieged() const;
       virtual bool  isStartingAttack() const;
-      virtual bool  isAttacking() const;
       virtual bool  isStasised() const;
       virtual bool  isStimmed() const;
       virtual bool  isTraining() const;
@@ -151,7 +152,7 @@ namespace BWAPI
       virtual bool  isUnpowered() const;
       virtual bool  isUpgrading() const;
       virtual bool  isVisible() const;
-      virtual bool  isBeingGathered() const;
+	  virtual bool  isVisible(Player* player) const;
 
       virtual bool  issueCommand(UnitCommand command);
       virtual bool  attackMove(Position position);

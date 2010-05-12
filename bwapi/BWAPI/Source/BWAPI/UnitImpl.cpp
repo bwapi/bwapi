@@ -685,6 +685,29 @@ namespace BWAPI
 
     return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
+  bool UnitImpl::isVisible(Player* player) const
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    if (!this->_exists())
+    {
+      if (this->savedPlayer == BroodwarImpl.self())
+        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+      return false;
+    }
+    if (this->getRawDataLocal()->sprite == NULL)
+      return false;
+
+    //this function is only available when Broodwar is in a replay or the complete map information flag is enabled.
+    if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+      return false;
+
+    int playerid=player->getID();
+
+    if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
+      return this->getRawDataLocal()->sprite->visibilityFlags > 0;
+
+    return (this->getRawDataLocal()->sprite->visibilityFlags & (1 << playerid)) != 0;
+  }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
   {
