@@ -701,8 +701,10 @@ namespace BWAPI
     if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return false;
 
-    int playerid=player->getID();
+    if (this->getPlayer() == player)
+      return true;
 
+    int playerid=player->getID();
     if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
       return this->getRawDataLocal()->sprite->visibilityFlags > 0;
 
