@@ -1,7 +1,7 @@
 #pragma once
 #include <windows.h>
-#include <SharedStructures/GameData.h>
-#include <SharedStructures/Event.h>
+#include <BWAPI/Client/GameData.h>
+#include <BWAPI/Client/Event.h>
 #include <BWAPI.h>
 #include <vector>
 #include <map>

@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIModule", "ExampleA
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestAIModule", "TestAIModule\TestAIModule.vcproj", "{982561B2-A7D0-44E9-BD3D-0FD117E3F882}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -69,6 +71,10 @@ Global
 		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Debug|Win32.Build.0 = Debug|Win32
 		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|Win32.ActiveCfg = Release|Win32
 		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|Win32.Build.0 = Release|Win32
+		{982561B2-A7D0-44E9-BD3D-0FD117E3F882}.Debug|Win32.ActiveCfg = Debug|Win32
+		{982561B2-A7D0-44E9-BD3D-0FD117E3F882}.Debug|Win32.Build.0 = Debug|Win32
+		{982561B2-A7D0-44E9-BD3D-0FD117E3F882}.Release|Win32.ActiveCfg = Release|Win32
+		{982561B2-A7D0-44E9-BD3D-0FD117E3F882}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
