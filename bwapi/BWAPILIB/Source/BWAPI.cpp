@@ -10,6 +10,7 @@ void BWAPI::BWAPI_init()
   BWAPI::UpgradeTypes::init();
   BWAPI::WeaponTypes::init();
   BWAPI::UnitSizeTypes::init();
+  BWAPI::UnitCommandTypes::init();
   BWAPI::UnitTypes::init();
   BWAPI::AttackTypes::init();
   BWAPI::Errors::init();

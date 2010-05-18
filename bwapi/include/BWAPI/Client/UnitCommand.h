@@ -10,7 +10,7 @@ namespace BWAPIC
 {
   struct UnitCommand
   {
-    BWAPI::UnitCommandType::Enum type;
+    BWAPI::UnitCommandType type;
     int unitIndex;
     int targetIndex;
     int x;

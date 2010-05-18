@@ -1184,89 +1184,89 @@ namespace BWAPI
   bool UnitImpl::issueCommand(UnitCommand command)
   {
     //call the appropriate command function based on the command type
-    switch(command.type)
+    switch(command.type.getID())
     {
-      case UnitCommandType::AttackPosition:
+      case 0:
         return attackMove(Position(command.x,command.y));
-      case UnitCommandType::AttackUnit:
+      case 1:
         return attackUnit(command.target);
-      case UnitCommandType::RightClickPosition:
+      case 2:
         return rightClick(Position(command.x,command.y));
-      case UnitCommandType::RightClickUnit:
+      case 3:
         return rightClick(command.target);
-      case UnitCommandType::Train:
+      case 4:
         return train(UnitType(command.extra));
-      case UnitCommandType::Build:
+      case 5:
         return build(TilePosition(command.x,command.y),UnitType(command.extra));
-      case UnitCommandType::BuildAddon:
+      case 6:
         return buildAddon(UnitType(command.extra));
-      case UnitCommandType::Research:
+      case 7:
         return research(TechType(command.extra));
-      case UnitCommandType::Upgrade:
+      case 8:
         return upgrade(UpgradeType(command.extra));
-      case UnitCommandType::Stop:
+      case 9:
         return stop();
-      case UnitCommandType::HoldPosition:
+      case 10:
         return holdPosition();
-      case UnitCommandType::Patrol:
+      case 11:
         return patrol(Position(command.x,command.y));
-      case UnitCommandType::Follow:
+      case 12:
         return follow(command.target);
-      case UnitCommandType::SetRallyPosition:
+      case 13:
         return setRallyPosition(Position(command.x,command.y));
-      case UnitCommandType::SetRallyUnit:
+      case 14:
         return setRallyUnit(command.target);
-      case UnitCommandType::Repair:
+      case 15:
         return repair(command.target);
-      case UnitCommandType::ReturnCargo:
+      case 16:
         return returnCargo();
-      case UnitCommandType::Morph:
+      case 17:
         return morph(UnitType(command.extra));
-      case UnitCommandType::Burrow:
+      case 18:
         return burrow();
-      case UnitCommandType::Unburrow:
+      case 19:
         return unburrow();
-      case UnitCommandType::Siege:
+      case 20:
         return siege();
-      case UnitCommandType::Unsiege:
+      case 21:
         return unsiege();
-      case UnitCommandType::Cloak:
+      case 22:
         return cloak();
-      case UnitCommandType::Decloak:
+      case 23:
         return decloak();
-      case UnitCommandType::Lift:
+      case 24:
         return lift();
-      case UnitCommandType::Land:
+      case 25:
         return land(TilePosition(command.x,command.y));
-      case UnitCommandType::Load:
+      case 26:
         return load(command.target);
-      case UnitCommandType::Unload:
+      case 27:
         return unload(command.target);
-      case UnitCommandType::UnloadAll:
+      case 28:
         return unloadAll();
-      case UnitCommandType::UnloadAllPosition:
+      case 29:
         return unloadAll(Position(command.x,command.y));
-      case UnitCommandType::CancelConstruction:
+      case 30:
         return cancelConstruction();
-      case UnitCommandType::HaltConstruction:
+      case 31:
         return haltConstruction();
-      case UnitCommandType::CancelMorph:
+      case 32:
         return cancelMorph();
-      case UnitCommandType::CancelTrain:
+      case 33:
         return cancelTrain();
-      case UnitCommandType::CancelTrainSlot:
+      case 34:
         return cancelTrain(command.extra);
-      case UnitCommandType::CancelAddon:
+      case 35:
         return cancelAddon();
-      case UnitCommandType::CancelResearch:
+      case 36:
         return cancelResearch();
-      case UnitCommandType::CancelUpgrade:
+      case 37:
         return cancelUpgrade();
-      case UnitCommandType::UseTech:
+      case 38:
         return useTech(TechType(command.extra));
-      case UnitCommandType::UseTechPosition:
+      case 39:
         return useTech(TechType(command.extra),Position(command.x,command.y));
-      case UnitCommandType::UseTechUnit:
+      case 40:
         return useTech(TechType(command.extra),command.target);
       default:
         break;

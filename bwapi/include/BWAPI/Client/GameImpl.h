@@ -1,10 +1,10 @@
 #pragma once
 #include <BWAPI.h>
-#include <SharedStructures\GameData.h>
-#include "BWAPIClient.h"
-#include <SharedStructures\Shape.h>
-#include <SharedStructures\Command.h>
-#include <SharedStructures\UnitCommand.h>
+#include "GameData.h"
+#include "Client.h"
+#include "Shape.h"
+#include "Command.h"
+#include "UnitCommand.h"
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"

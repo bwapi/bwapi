@@ -25,8 +25,8 @@ namespace BWAPI
   };
   namespace UnitSizeTypes
   {
-    /** Given a string, this function returns the size time it refers to. For example,
-     * UnitSizeTypes::getUnitSizeType("Small") returns UnitSizeTypes?::Small. */
+    /** Given a string, this function returns the size type it refers to. For example,
+     * UnitSizeTypes::getUnitSizeType("Small") returns UnitSizeTypes::Small. */
     UnitSizeType getUnitSizeType(std::string& name);
 
     /** Returns the set of all the sizes, which are listed below: */
