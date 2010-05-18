@@ -2,12 +2,13 @@
 using namespace BWAPI;
 void TestAIModule::onStart()
 {
+  test_func=0;
   Broodwar->sendText("Hello world!");
   Broodwar->printf("The map is %s, a %d player map",Broodwar->mapName().c_str(),Broodwar->getStartLocations().size());
   // Enable some cheat flags
   Broodwar->enableFlag(Flag::UserInput);
   // Uncomment to enable complete map information
-  //Broodwar->enableFlag(Flag::CompleteMapInformation);
+  Broodwar->enableFlag(Flag::CompleteMapInformation);
 
 
   if (Broodwar->isReplay())
@@ -70,6 +71,55 @@ void TestAIModule::onEnd(bool isWinner)
 }
 void TestAIModule::onFrame()
 {
+  if (Broodwar->getKeyState(BWAPI::K_0)) test_func=0;
+  if (Broodwar->getKeyState(BWAPI::K_1)) test_func=1;
+  if (Broodwar->getKeyState(BWAPI::K_2)) test_func=2;
+  if (Broodwar->getKeyState(BWAPI::K_3)) test_func=3;
+  if (Broodwar->getKeyState(BWAPI::K_4)) test_func=4;
+  if (Broodwar->getKeyState(BWAPI::K_5)) test_func=5;
+  if (Broodwar->getKeyState(BWAPI::K_6)) test_func=6;
+  if (Broodwar->getKeyState(BWAPI::K_7)) test_func=7;
+  if (Broodwar->getKeyState(BWAPI::K_8)) test_func=8;
+  if (Broodwar->getKeyState(BWAPI::K_9)) test_func=9;
+  Broodwar->drawTextScreen(0,0,"isInGame=%d",Broodwar->isInGame());
+  std::set<Unit*> units = Broodwar->getAllUnits();
+  for each(Unit* u in units)
+  {
+    int x=u->getPosition().x();
+    int y=u->getPosition().y();
+    switch(test_func)
+    {
+    case 1:
+      Broodwar->drawTextMap(x,y,"%d",u->getGroundWeaponCooldown());
+      break;
+    case 2:
+      Broodwar->drawTextMap(x,y,"%d",u->getAirWeaponCooldown());
+      break;
+    case 3:
+      Broodwar->drawTextMap(x,y,"%d",u->isConstructing());
+      break;
+    case 4:
+      Broodwar->drawTextMap(x,y,"%d",u->isIdle());
+      break;
+    case 5:
+      Broodwar->drawTextMap(x,y,"%d",u->isMorphing());
+      break;
+    case 6:
+      Broodwar->drawTextMap(x,y,"%d",u->isStartingAttack());
+      break;
+    case 7:
+      Broodwar->drawTextMap(x,y,"%d",u->isTraining());
+      break;
+    case 8:
+      Broodwar->drawTextMap(x,y,"%d",u->isAttacking());
+      break;
+    case 9:
+      Broodwar->drawTextMap(x,y,"%d",u->isVisible(Broodwar->enemy()));
+      break;
+    default:
+      break;
+    }
+  }
   if (Broodwar->isReplay())
     return;
 
@@ -163,7 +213,7 @@ bool TestAIModule::onSendText(std::string text)
 void TestAIModule::drawStats()
 {
   std::set<Unit*> myUnits = Broodwar->self()->getUnits();
-  Broodwar->drawTextScreen(5,0,"I have %d units:",myUnits.size());
+  Broodwar->drawTextScreen(5,16,"I have %d units:",myUnits.size());
   std::map<UnitType, int> unitTypeCounts;
   for(std::set<Unit*>::iterator i=myUnits.begin();i!=myUnits.end();i++)
   {
@@ -173,7 +223,7 @@ void TestAIModule::drawStats()
     }
     unitTypeCounts.find((*i)->getType())->second++;
   }
-  int line=1;
+  int line=2;
   for(std::map<UnitType,int>::iterator i=unitTypeCounts.begin();i!=unitTypeCounts.end();i++)
   {
     Broodwar->drawTextScreen(5,16*line,"- %d %ss",(*i).second, (*i).first.getName().c_str());

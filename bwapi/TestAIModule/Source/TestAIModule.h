@@ -19,4 +19,5 @@ public:
   void drawStats();
   void showPlayers();
   void showForces();
+  int test_func;
 };

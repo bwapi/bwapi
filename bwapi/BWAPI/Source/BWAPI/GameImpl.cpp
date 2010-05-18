@@ -1770,6 +1770,11 @@ namespace BWAPI
         if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
           renegadeUnits.push_back(i);
       }
+
+      i->startingAttack           = i->getAirWeaponCooldown() > i->lastAirWeaponCooldown || i->getGroundWeaponCooldown() > i->lastGroundWeaponCooldown;
+      i->lastAirWeaponCooldown    = i->getAirWeaponCooldown();
+      i->lastGroundWeaponCooldown = i->getGroundWeaponCooldown();
+
       i->lastType   = i->_getType();
       i->lastPlayer = i->_getPlayer();
 
@@ -2250,10 +2255,25 @@ namespace BWAPI
   BWAPI::UnitImpl *GameImpl::spriteToUnit(BW::CSprite *sprite)
   {
     /* Retrieves a sprite's parent unit */
+    BWAPI::UnitImpl* unit=NULL;
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
       if (BW::BWDATA_UnitNodeTable->unit[i].sprite == sprite) // compare unit with sprite we're looking for
-        return unitArray[i];
-    return NULL;
+        unit=unitArray[i];
+    
+    if (unit != NULL)
+    { //this block doesn't work for some reason
+      if (unit->getBWType() == BW::UnitID::Terran_SiegeTankSiegeTurret ||
+          unit->getBWType() == BW::UnitID::Terran_TankTurretTankMode ||
+          unit->getBWType() == BW::UnitID::Terran_GoliathTurret ||
+          unit->getBWType() == BW::UnitID::Terran_Hero_EdmundDukeSTurret ||
+          unit->getBWType() == BW::UnitID::Terran_Hero_EdmundDukeTTurret ||
+          unit->getBWType() == BW::UnitID::Terran_Hero_AlanTurret)
+      {
+        u16 unitID = (u16)( ((u32)unit->getOriginalRawData()->connectedUnit - (u32)BW::BWDATA_UnitNodeTable) / 336 + 1);
+        unit = unitArray[unitID];
+      }
+    }
+    return unit;
   }
 
   void GameImpl::iscriptParser(BW::CSprite *sprite, u8 anim)
