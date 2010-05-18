@@ -122,6 +122,17 @@ namespace BWAPI
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
         this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8);
+    int y = BWAPI::Map::getHeight()-1;
+    for(unsigned int x = 0; x < BWAPI::Map::getWidth();x++)
+    {
+      this->buildability[x][y] = false;
+    }
+    y--;
+    for(int x = 0; x < 5; x++)
+    {
+      this->buildability[x][y] = false;
+      this->buildability[BWAPI::Map::getWidth() - x - 1][y] = false;
+    }
   }
   //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()
@@ -129,6 +140,26 @@ namespace BWAPI
     for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
       for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
         this->walkability[x][y] = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Walkable);
+    int y = BWAPI::Map::getHeight()*4-1;
+    for(unsigned int x = 0; x < BWAPI::Map::getWidth()*4;x++)
+    {
+      this->walkability[x][y] = false;
+      this->walkability[x][y-1] = false;
+      this->walkability[x][y-2] = false;
+      this->walkability[x][y-3] = false;
+    }
+    y-=4;
+    for(int x = 0; x < 20; x++)
+    {
+      this->walkability[x][y] = false;
+      this->walkability[x][y-1] = false;
+      this->walkability[x][y-2] = false;
+      this->walkability[x][y-3] = false;
+      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y] = false;
+      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-1] = false;
+      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-2] = false;
+      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-3] = false;
+    }
   }
   //--------------------------------------------- GET MINITILE -----------------------------------------------
   Util::BitMask<u16> Map::getMiniTile(int x, int y) const

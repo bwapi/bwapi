@@ -299,13 +299,6 @@ namespace BWAPI
       return false;
     if (position.y() + height >= this->mapHeight())
       return false;
-    if (position.y() + height == this->mapHeight() - 1)
-    {
-      if (position.x() < 5)
-        return false;
-      if (position.x() + width > this->mapWidth() - 5)
-        return false;
-    }
     if (type.isRefinery())
     {
       foreach (Unit* g, getGeysers())
@@ -877,11 +870,6 @@ namespace BWAPI
       this->startedClient = true;
       this->lockFlags();
     }
-    for(int i = 0; i < 256; i++)
-    {
-      savedKeyPress[i] = keyPress[i];
-      keyPress[i]      = false;
-    }
     this->client->onFrame();
     events.push_back(Event::MatchFrame());
     this->server.update();
@@ -1173,14 +1161,6 @@ namespace BWAPI
     this->BWAPIPlayer = NULL;
     this->opponent    = NULL;
     this->calledOnEnd = false;
-    for(int i = 0; i < 256; i++)
-    {
-      keyPress[i]      = false;
-      savedKeyPress[i] = false;
-    }
-    mouseState[0] = false;
-    mouseState[1] = false;
-    mouseState[2] = false;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1323,14 +1303,6 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
-    for(int i = 0; i < 256; i++)
-    {
-      keyPress[i]      = false;
-      savedKeyPress[i] = false;
-    }
-    mouseState[0] = false;
-    mouseState[1] = false;
-    mouseState[2] = false;
 
     if (this->client != NULL)
     {

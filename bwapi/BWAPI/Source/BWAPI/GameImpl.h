@@ -233,9 +233,6 @@ namespace BWAPI
       bool flagsLocked;
       bool inUpdate;
       std::list<std::string > interceptedMessages;
-      bool mouseState[3];
-      bool keyPress[256];
-      bool savedKeyPress[256];
       void onSaveGame(char *name);
       BWAPI::UnitImpl *spriteToUnit(BW::CSprite *sprite);
       void iscriptParser(BW::CSprite *sprite, u8 anim);
