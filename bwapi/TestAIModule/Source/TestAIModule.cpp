@@ -71,6 +71,16 @@ void TestAIModule::onEnd(bool isWinner)
 }
 void TestAIModule::onFrame()
 {
+  for(int x=0;x<Broodwar->mapWidth()*4;x++)
+  {
+    for(int y=0;y<Broodwar->mapHeight()*4;y++)
+    {
+      if (Broodwar->isWalkable(x,y))
+        Broodwar->drawLineMap(x*8+4,y*8+4,x*8+8,y*8-12,Colors::Green);
+      else
+        Broodwar->drawLineMap(x*8+4,y*8+4,x*8+8,y*8-12,Colors::Red);
+    }
+  }
   if (Broodwar->getKeyState(BWAPI::K_0)) test_func=0;
   if (Broodwar->getKeyState(BWAPI::K_1)) test_func=1;
   if (Broodwar->getKeyState(BWAPI::K_2)) test_func=2;
@@ -83,6 +93,17 @@ void TestAIModule::onFrame()
   if (Broodwar->getKeyState(BWAPI::K_9)) test_func=9;
   Broodwar->drawTextScreen(0,0,"isInGame=%d",Broodwar->isInGame());
   std::set<Unit*> units = Broodwar->getAllUnits();
+  if (test_func==1)
+  {
+    int mx=Broodwar->getMouseX()+Broodwar->getScreenX();
+    int my=Broodwar->getMouseY()+Broodwar->getScreenY();
+    mx=mx/BWAPI::TILE_SIZE;
+    my=my/BWAPI::TILE_SIZE;
+    if (Broodwar->canBuildHere(NULL,TilePosition(mx,my),UnitTypes::Terran_Refinery))
+      Broodwar->drawBoxMap(mx*32,my*32,mx*32+4*32,my*32+2*32,Colors::Green,false);
+    else
+      Broodwar->drawBoxMap(mx*32,my*32,mx*32+4*32,my*32+2*32,Colors::Red,false);
+  }
   for each(Unit* u in units)
   {
     int x=u->getPosition().x();
@@ -181,6 +202,11 @@ void TestAIModule::onUnitRenegade(BWAPI::Unit* unit)
   if (!Broodwar->isReplay())
     Broodwar->sendText("A %s [%x] is now owned by %s",unit->getType().getName().c_str(),unit,unit->getPlayer()->getName().c_str());
 }
+
+void TestAIModule::onSaveGame(std::string gameName)
+{
+  Broodwar->printf("onSaveGame %s",gameName.c_str());
+}
 void TestAIModule::onPlayerLeft(BWAPI::Player* player)
 {
   Broodwar->sendText("%s left the game.",player->getName().c_str());
@@ -203,6 +229,37 @@ bool TestAIModule::onSendText(std::string text)
   {
     showForces();
     return false;
+  } else if (text=="/merge")
+  {
+    std::set<Unit*> units=Broodwar->getSelectedUnits();
+    Unit* a=NULL;
+    Unit* b=NULL;
+    for each(Unit* u in units)
+    {
+      if (u->getType()==UnitTypes::Protoss_High_Templar || u->getType()==UnitTypes::Protoss_Dark_Templar)
+      {
+        if (a==NULL)
+          a=u;
+        else
+        {
+          if (b==NULL && u->getType()==a->getType())
+            b=u;
+        }
+      }
+    }
+    if (a!=NULL && b!=NULL)
+    {
+      if (a->getType()==UnitTypes::Protoss_High_Templar)
+      {
+        Broodwar->printf("calling a->useTech(TechTypes::Archon_Warp,b)");
+        a->useTech(TechTypes::Archon_Warp,b);
+      }
+      else
+      {
+        Broodwar->printf("calling a->useTech(TechTypes::Dark_Archon_Meld,b)");
+        a->useTech(TechTypes::Dark_Archon_Meld,b);
+      }
+    }
   } else
   {
     Broodwar->printf("You typed '%s'!",text.c_str());
