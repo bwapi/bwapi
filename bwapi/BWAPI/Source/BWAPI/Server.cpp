@@ -1,7 +1,7 @@
 #include "Server.h"
 #include <Util/Logger.h>
 #include "GameImpl.h"
-#include <SharedStructures/GameData.h>
+#include <BWAPI/Client/GameData.h>
 namespace BWAPI
 {
   #define PIPE_TIMEOUT 2000
