@@ -73,6 +73,9 @@ namespace BWAPI
       , lastPlayer(NULL)
       , nukeDetected(false)
       , animState(0)
+      , lastGroundWeaponCooldown(0)
+      , lastAirWeaponCooldown(0)
+      , startingAttack(false)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -594,6 +597,12 @@ namespace BWAPI
   }
   //------------------------------------------- IS STARTING ATTACK -------------------------------------------
   bool UnitImpl::isStartingAttack() const
+  {
+    checkAccessBool();
+    return startingAttack;
+  }
+  //-------------------------------------- IS STARTING ATTACK SEQUENCE ---------------------------------------
+  bool UnitImpl::isStartingAttackSequence() const
   {
     checkAccessBool();
     return this->animState == BW::Image::Anims::GndAttkInit || this->animState == BW::Image::Anims::AirAttkInit;
