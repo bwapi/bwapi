@@ -563,207 +563,207 @@ namespace BWAPI
   }
   bool UnitImpl::attackMove(Position target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::AttackPosition,NULL,target.x(),target.y(),0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Attack_Position,NULL,target.x(),target.y(),0));
     return true;
   }
   bool UnitImpl::attackUnit(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::AttackUnit,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Attack_Unit,target,0,0,0));
     return true;
   }
   bool UnitImpl::rightClick(Position target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::RightClickPosition,NULL,target.x(),target.y(),0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Right_Click_Position,NULL,target.x(),target.y(),0));
     return true;
   }
   bool UnitImpl::rightClick(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::RightClickUnit,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Right_Click_Unit,target,0,0,0));
     return true;
   }
   bool UnitImpl::train(UnitType type)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Train,NULL,0,0,type.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Train,NULL,0,0,type.getID()));
     return true;
   }
   bool UnitImpl::build(TilePosition target, UnitType type)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Build,NULL,target.x(),target.y(),type.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Build,NULL,target.x(),target.y(),type.getID()));
     return true;
   }
   bool UnitImpl::buildAddon(UnitType type)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::BuildAddon,NULL,0,0,type.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Build_Addon,NULL,0,0,type.getID()));
     return true;
   }
   bool UnitImpl::research(TechType tech)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Research,NULL,0,0,tech.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Research,NULL,0,0,tech.getID()));
     return true;
   }
   bool UnitImpl::upgrade(UpgradeType upgrade)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Upgrade,NULL,0,0,upgrade.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Upgrade,NULL,0,0,upgrade.getID()));
     return true;
   }
   bool UnitImpl::stop()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Stop,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Stop,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::holdPosition()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::HoldPosition,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Hold_Position,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::patrol(Position target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Patrol,NULL,target.x(),target.y(),0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Patrol,NULL,target.x(),target.y(),0));
     return true;
   }
   bool UnitImpl::follow(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Follow,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Follow,target,0,0,0));
     return true;
   }
   bool UnitImpl::setRallyPosition(Position target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::SetRallyPosition,0,target.x(),target.y(),0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Set_Rally_Position,0,target.x(),target.y(),0));
     return true;
   }
   bool UnitImpl::setRallyUnit(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::SetRallyUnit,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Set_Rally_Unit,target,0,0,0));
     return true;
   }
   bool UnitImpl::repair(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Repair,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Repair,target,0,0,0));
     return true;
   }
   bool UnitImpl::returnCargo()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::ReturnCargo,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Return_Cargo,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::morph(UnitType type)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Morph,NULL,0,0,type.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Morph,NULL,0,0,type.getID()));
     return true;
   }
   bool UnitImpl::burrow()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Burrow,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Burrow,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::unburrow()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Unburrow,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Unburrow,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::siege()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Siege,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Siege,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::unsiege()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Unsiege,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Unsiege,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::cloak()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Cloak,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cloak,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::decloak()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Decloak,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Decloak,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::lift()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Lift,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Lift,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::land(TilePosition target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Land,NULL,target.x(),target.y(),0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Land,NULL,target.x(),target.y(),0));
     return true;
   }
   bool UnitImpl::load(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Load,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Load,target,0,0,0));
     return true;
   }
   bool UnitImpl::unload(Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::Unload,target,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Unload,target,0,0,0));
     return true;
   }
   bool UnitImpl::unloadAll()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::UnloadAll,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Unload_All,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::unloadAll(Position target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::UnloadAllPosition,NULL,target.x(),target.y(),0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Unload_All_Position,NULL,target.x(),target.y(),0));
     return true;
   }
   bool UnitImpl::cancelConstruction()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelConstruction,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Construction,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::haltConstruction()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::HaltConstruction,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Halt_Construction,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::cancelMorph()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelMorph,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Morph,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::cancelTrain()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelTrain,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Train,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::cancelTrain(int slot)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelTrainSlot,NULL,0,0,slot));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Train_Slot,NULL,0,0,slot));
     return true;
   }
   bool UnitImpl::cancelAddon()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelAddon,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Addon,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::cancelResearch()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelResearch,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Research,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::cancelUpgrade()
   {
-    this->issueCommand(UnitCommand(UnitCommandType::CancelUpgrade,NULL,0,0,0));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Cancel_Upgrade,NULL,0,0,0));
     return true;
   }
   bool UnitImpl::useTech(TechType tech)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::UseTech,NULL,0,0,tech.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Use_Tech,NULL,0,0,tech.getID()));
     return true;
   }
   bool UnitImpl::useTech(TechType tech,Position target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::UseTechPosition,NULL,target.x(),target.y(),tech.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Use_Tech_Position,NULL,target.x(),target.y(),tech.getID()));
     return true;
   }
   bool UnitImpl::useTech(TechType tech,Unit* target)
   {
-    this->issueCommand(UnitCommand(UnitCommandType::UseTechUnit,target,0,0,tech.getID()));
+    this->issueCommand(UnitCommand(UnitCommandTypes::Use_Tech_Unit,target,0,0,tech.getID()));
     return true;
   }
 }

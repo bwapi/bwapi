@@ -104,7 +104,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..;../include;../Util/Source"
+				AdditionalIncludeDirectories="..;../include;../Util/Source;../include/BWAPI/Client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -150,7 +150,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Source\BWAPIClient.cpp"
+				RelativePath=".\Source\Client.cpp"
 				>
 			</File>
 			<File
@@ -176,67 +176,63 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Source\BWAPIClient.h"
+				RelativePath="..\include\BWAPI\Client\Client.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\ForceImpl.h"
+				RelativePath="..\include\BWAPI\Client\Command.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\GameImpl.h"
+				RelativePath="..\include\BWAPI\Client\CommandType.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\PlayerImpl.h"
+				RelativePath="..\include\BWAPI\Client\Event.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\UnitImpl.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="SharedStructures"
-			>
-			<File
-				RelativePath="..\SharedStructures\Command.h"
+				RelativePath="..\include\BWAPI\Client\ForceData.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\CommandType.h"
+				RelativePath="..\include\BWAPI\Client\ForceImpl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\Event.h"
+				RelativePath="..\include\BWAPI\Client\GameData.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\ForceData.h"
+				RelativePath="..\include\BWAPI\Client\GameImpl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\GameData.h"
+				RelativePath="..\include\BWAPI\Client\PlayerData.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\PlayerData.h"
+				RelativePath="..\include\BWAPI\Client\PlayerImpl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\Shape.h"
+				RelativePath="..\include\BWAPI\Client\Shape.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\ShapeType.h"
+				RelativePath="..\include\BWAPI\Client\ShapeType.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\UnitCommand.h"
+				RelativePath="..\include\BWAPI\Client\UnitCommand.h"
 				>
 			</File>
 			<File
-				RelativePath="..\SharedStructures\UnitData.h"
+				RelativePath="..\include\BWAPI\Client\UnitData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\Client\UnitImpl.h"
 				>
 			</File>
 		</Filter>

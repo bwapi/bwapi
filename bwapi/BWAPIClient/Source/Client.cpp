@@ -1,4 +1,4 @@
-#include "BWAPIClient.h"
+#include "Client.h"
 
 namespace BWAPI
 {

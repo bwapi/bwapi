@@ -1,5 +1,5 @@
 #include <BWAPI.h>
-#include "BWAPIClient.h"
+#include "Client.h"
 #include "GameImpl.h"
 #include "ForceImpl.h"
 #include "PlayerImpl.h"

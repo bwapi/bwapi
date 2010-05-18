@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <BWAPIClient\Source\BWAPIClient.h>
+#include <BWAPI\Client.h>
 #include <BWAPI.h>
 
 #include <windows.h>

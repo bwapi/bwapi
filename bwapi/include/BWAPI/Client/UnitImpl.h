@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include <SharedStructures\UnitData.h>
+#include "UnitData.h"
 #include <set>
 #include <string>
 

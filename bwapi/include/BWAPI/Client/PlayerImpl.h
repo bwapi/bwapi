@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include <SharedStructures\PlayerData.h>
+#include "PlayerData.h"
 #include <set>
 #include <string>
 

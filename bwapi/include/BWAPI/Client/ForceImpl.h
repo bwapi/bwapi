@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include <SharedStructures\ForceData.h>
+#include "ForceData.h"
 #include <set>
 #include <string>
 
