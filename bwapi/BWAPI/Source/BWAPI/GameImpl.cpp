@@ -1586,6 +1586,9 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)
   {
+    this->setLastError(Errors::None);
+    if (this->isFlagEnabled(Flag::CompleteMapInformation) == false)
+      return NULL;
     int i = (unitIndex & 0x7FF);
     if ( i < 1700 && this->unitArray[i]->canAccess() )
       return this->unitArray[i];
