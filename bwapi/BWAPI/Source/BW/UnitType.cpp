@@ -261,7 +261,10 @@ namespace BW
   //-------------------------------------------- MAX GROUND HITS ---------------------------------------------
   int UnitType::maxGroundHits() const
   {
-    return BW::BWDATA_MaxGroundHits->unitType[this->getID()];
+    int h=BW::BWDATA_MaxGroundHits->unitType[this->getID()];
+    if (h == 0 && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
+      h = BW::BWDATA_MaxGroundHits->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
+    return h;
   }
   //---------------------------------------------- AIR WEAPON ------------------------------------------------
   u8 UnitType::_airWeapon() const
@@ -274,7 +277,10 @@ namespace BW
   //--------------------------------------------- MAX AIR HITS -----------------------------------------------
   int UnitType::maxAirHits() const
   {
-    return BW::BWDATA_MaxAirHits->unitType[this->getID()];
+    int h=BW::BWDATA_MaxAirHits->unitType[this->getID()];
+    if (h == 0 && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
+      h = BW::BWDATA_MaxAirHits->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
+    return h;
   }
   //----------------------------------------------- TOP SPEED ------------------------------------------------
   u32 UnitType::_topSpeed() const
