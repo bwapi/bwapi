@@ -17,7 +17,7 @@ namespace BW
       TerranVehiclePlating  = 0x01,
       TerranShipPlating     = 0x02,
       ZergCarapace          = 0x03,
-      ZergFlyerCaparace     = 0x04,
+      ZergFlyerCarapace     = 0x04,
       ProtossArmor          = 0x05,
       ProtossPlating        = 0x06,
       TerranInfantryWeapons = 0x07,

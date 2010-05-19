@@ -199,36 +199,39 @@ namespace BWAPI
       /** \copydoc hasPower(int, int, int, int) */
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight) = 0;
 
+      /** Returns a pointer to a Unit given an index. */
+      virtual Unit *indexToUnit(short unitIndex) = 0;
+
       /** Returns true if the given unit type can be built at the given build tile position. Note the tile
        * position specifies the top left tile of the building. If builder is not null, the unit will be
        * discarded when determining whether or not any ground units are blocking the build location. */
-      virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type) = 0;
+      virtual bool canBuildHere(Unit *builder, TilePosition position, UnitType type) = 0;
 
       /** Returns true if the AI player has enough resources, supply, tech, and required units in order to
        * make the given unit type. If builder is not null, canMake will return true only if the builder unit
        * can build the given unit type. */
-      virtual bool canMake(Unit* builder, UnitType type) = 0;
+      virtual bool canMake(Unit *builder, UnitType type) = 0;
 
       /** Returns true if the AI player has enough resources required to research the given tech type. If unit
        * is not null, canResearch will return true only if the given unit can research the given tech type. */
-      virtual bool canResearch(Unit* unit, TechType type) = 0;
+      virtual bool canResearch(Unit *unit, TechType type) = 0;
 
       /** Returns true if the AI player has enough resources required to upgrade the given upgrade type. If
        * unit is not null, canUpgrade will return true only if the given unit can upgrade the given upgrade
        * type. */
-      virtual bool canUpgrade(Unit* unit, UpgradeType type) = 0;
+      virtual bool canUpgrade(Unit *unit, UpgradeType type) = 0;
 
       /** Returns the set of starting locations for the given map. To determine the starting location for the
        * players in the current match, see Player::getStartLocation. */
       virtual std::set< TilePosition >& getStartLocations() = 0;
 
       /** Prints text on the screen. Text is not sent to other players in multiplayer games. */
-      virtual void printf(const char* text, ...) = 0;
+      virtual void printf(const char *text, ...) = 0;
 
       /** Sends text to other players - as if it were entered in chat. In single player games and replays,
        * this will just print the text on the screen. If the game is a single player match and not a replay,
        * then this function can be used to execute cheat codes, i.e. Broodwar->sendText("show me the money"). */
-      virtual void sendText(const char* text, ...) = 0;
+      virtual void sendText(const char *text, ...) = 0;
 
       /** Used to change the race while in a lobby. Note that there is no onLobbyEnter callback yet, so this
        * function cannot be used at this time. */

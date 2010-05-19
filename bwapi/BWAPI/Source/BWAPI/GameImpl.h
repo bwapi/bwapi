@@ -183,6 +183,8 @@ namespace BWAPI
       virtual bool gluMessageBox(char* message, int type);
       virtual bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
 
+      virtual Unit *indexToUnit(short unitIndex);
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();

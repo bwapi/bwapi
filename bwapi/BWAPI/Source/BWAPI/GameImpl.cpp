@@ -1580,7 +1580,16 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
   {
-    return this->unitArray[index];
+    int i = (index & 0x7FF);
+    return this->unitArray[i];
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Unit *GameImpl::indexToUnit(short unitIndex)
+  {
+    int i = (unitIndex & 0x7FF);
+    if ( i < 1700 && this->unitArray[i]->canAccess() )
+      return this->unitArray[i];
+    return NULL;
   }
   //--------------------------------------------- SAVE SELECTED ----------------------------------------------
   void GameImpl::saveSelected()
