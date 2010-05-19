@@ -63,6 +63,9 @@ namespace BWAPI
       /** Returns the list of events */
       virtual std::list< Event >& getEvents() = 0;
 
+      /** Returns a pointer to a Unit given an index. */
+      virtual Unit *indexToUnit(int unitIndex) = 0;
+
       /** Returns the amount of latency the current game has. Currently only returns Latency::SinglePlayer,
        * Latency::LanLow, Latency::LanMedium, or Latency::LanHigh. */
       virtual int getLatency() = 0;
@@ -198,9 +201,6 @@ namespace BWAPI
       virtual bool hasCreep(TilePosition position) = 0;
       /** \copydoc hasPower(int, int, int, int) */
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight) = 0;
-
-      /** Returns a pointer to a Unit given an index. */
-      virtual Unit *indexToUnit(short unitIndex) = 0;
 
       /** Returns true if the given unit type can be built at the given build tile position. Note the tile
        * position specifies the top left tile of the building. If builder is not null, the unit will be

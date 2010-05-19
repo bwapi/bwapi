@@ -64,6 +64,7 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticNeutralUnits();
 
       virtual std::list< Event >& getEvents();
+      virtual Unit* indexToUnit(int unitIndex);
 
       virtual int getLatency();
       virtual int getFrameCount();
@@ -182,8 +183,6 @@ namespace BWAPI
       char *dummyMessage(char *message);
       virtual bool gluMessageBox(char* message, int type);
       virtual bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
-
-      virtual Unit *indexToUnit(short unitIndex);
 
       //Internal BWAPI commands:
       GameImpl();

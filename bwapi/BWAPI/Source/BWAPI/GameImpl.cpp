@@ -1584,7 +1584,7 @@ namespace BWAPI
     return this->unitArray[i];
   }
   //----------------------------------------------------------------------------------------------------------
-  Unit *GameImpl::indexToUnit(short unitIndex)
+  Unit* GameImpl::indexToUnit(int unitIndex)
   {
     int i = (unitIndex & 0x7FF);
     if ( i < 1700 && this->unitArray[i]->canAccess() )
