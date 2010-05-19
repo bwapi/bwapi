@@ -100,6 +100,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			UseOfMFC="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -129,7 +130,7 @@
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
@@ -148,6 +149,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
+				AdditionalDependencies="User32.lib"
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""

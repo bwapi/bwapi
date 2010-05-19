@@ -137,25 +137,25 @@ namespace BWAPI
   //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()
   {
-    for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight()*4); y++)
-      for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth()*4); x++)
+    for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight() * 4); y++)
+      for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth() * 4); x++)
         this->walkability[x][y] = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Walkable);
-    int y = BWAPI::Map::getHeight()*4-1;
-    for(unsigned int x = 0; x < BWAPI::Map::getWidth()*4;x++)
+    int y = BWAPI::Map::getHeight() * 4 - 1;
+    for(unsigned int x = 0; x < (unsigned int)(BWAPI::Map::getWidth() * 4); x++)
     {
-      this->walkability[x][y] = false;
+      this->walkability[x][y]   = false;
       this->walkability[x][y-1] = false;
       this->walkability[x][y-2] = false;
       this->walkability[x][y-3] = false;
     }
-    y-=4;
+    y -= 4;
     for(int x = 0; x < 20; x++)
     {
-      this->walkability[x][y] = false;
+      this->walkability[x][y]   = false;
       this->walkability[x][y-1] = false;
       this->walkability[x][y-2] = false;
       this->walkability[x][y-3] = false;
-      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y] = false;
+      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y]   = false;
       this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-1] = false;
       this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-2] = false;
       this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-3] = false;
