@@ -8,7 +8,7 @@ void TestAIModule::onStart()
   // Enable some cheat flags
   Broodwar->enableFlag(Flag::UserInput);
   // Uncomment to enable complete map information
-  Broodwar->enableFlag(Flag::CompleteMapInformation);
+  //Broodwar->enableFlag(Flag::CompleteMapInformation);
 
 
   if (Broodwar->isReplay())
@@ -71,16 +71,6 @@ void TestAIModule::onEnd(bool isWinner)
 }
 void TestAIModule::onFrame()
 {
-  for(int x=0;x<Broodwar->mapWidth()*4;x++)
-  {
-    for(int y=0;y<Broodwar->mapHeight()*4;y++)
-    {
-      if (Broodwar->isWalkable(x,y))
-        Broodwar->drawLineMap(x*8+4,y*8+4,x*8+8,y*8-12,Colors::Green);
-      else
-        Broodwar->drawLineMap(x*8+4,y*8+4,x*8+8,y*8-12,Colors::Red);
-    }
-  }
   if (Broodwar->getKeyState(BWAPI::K_0)) test_func=0;
   if (Broodwar->getKeyState(BWAPI::K_1)) test_func=1;
   if (Broodwar->getKeyState(BWAPI::K_2)) test_func=2;
