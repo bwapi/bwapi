@@ -25,6 +25,9 @@ namespace BWAPIC
     int initialUnitCount;
     UnitData units[10000];
 
+    //unit table
+    int unitArray[1700];
+
     int latency;
     int frameCount;
 

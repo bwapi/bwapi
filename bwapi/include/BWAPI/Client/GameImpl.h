@@ -79,6 +79,7 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticNeutralUnits();
 
       virtual std::list< Event>& getEvents();
+      virtual Unit *indexToUnit(int unitIndex);
 
       virtual int getLatency();
       virtual int getFrameCount();

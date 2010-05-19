@@ -410,6 +410,8 @@ namespace BWAPI
           u->isVisible[playerid] = (*i)->isVisible(*j);
         }
       }
+      for(int i=0;i<1700;i++)
+        data->unitArray[i] = getUnitID(Broodwar->indexToUnit(i));
     }
     if (matchStarting)
       Server::onMatchStart();
