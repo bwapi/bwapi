@@ -212,6 +212,7 @@ namespace BWAPI
       inline bool attemptAccessSpecial() const;
       inline bool attemptAccessInside() const;
       inline bool _exists() const;
+      bool _isGlobalVisible() const;
       bool died() const;
       Player* _getPlayer() const;
       UnitType _getType() const;
@@ -261,6 +262,7 @@ namespace BWAPI
       BWAPI::UnitType savedUnitType;
       bool lastVisible;
       bool makeVisible;
+      bool lastGlobalVisible;
       UnitType lastType;
       Player* lastPlayer;
       bool nukeDetected;

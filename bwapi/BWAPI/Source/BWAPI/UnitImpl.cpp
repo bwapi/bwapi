@@ -669,6 +669,20 @@ namespace BWAPI
   {
     return this->getBWOrder() == BW::OrderID::Upgrade;
   }
+  //-------------------------------------------- IS GLOBAL VISIBLE -------------------------------------------
+  bool UnitImpl::_isGlobalVisible() const
+  {
+    if (!this->_exists())
+      return false;
+
+    if (this->getRawDataLocal() == NULL)
+      return false;
+
+    if (this->getRawDataLocal()->sprite == NULL)
+      return false;
+
+    return this->getRawDataLocal()->sprite->visibilityFlags > 0;
+  }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
   {

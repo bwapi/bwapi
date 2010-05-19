@@ -1616,11 +1616,11 @@ namespace BWAPI
   void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
   {
     /* Called when a unit dies(death animation), not when it is removed */
-    int index = unit->getIndex();
     if (!unit->alive)
       return;
     this->units.erase(unit);
     deadUnits.push_back(unit);
+    int index = unit->getIndex();
     unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
                                     &unitArrayCopyLocal->unit[index],
                                     (u16)index);
@@ -1700,6 +1700,7 @@ namespace BWAPI
     std::list<BWAPI::UnitImpl*> showUnits;
     std::list<BWAPI::UnitImpl*> hideUnits;
     std::list<BWAPI::UnitImpl*> renegadeUnits;
+    std::list< std::pair<BWAPI::UnitImpl*, bool> > dyingUnits;
 
     foreach (Player* i, playerSet)
       ((PlayerImpl*)i)->units.clear();
@@ -1750,6 +1751,19 @@ namespace BWAPI
       i->lastType   = i->_getType();
       i->lastPlayer = i->_getPlayer();
 
+      if (i->lastGlobalVisible && !i->_isGlobalVisible())
+      {
+        i->lastGlobalVisible = false;
+        if (i->getOrder().getID() == BW::OrderID::Die)
+        {
+          std::pair<UnitImpl*, bool> p(i,i->lastVisible);
+          dyingUnits.push_back(p);
+        }
+      }
+      else
+      {
+        i->lastGlobalVisible = true;
+      }
       if (!i->lastVisible && i->isVisible())
       {
         i->lastVisible = true;
@@ -1782,8 +1796,19 @@ namespace BWAPI
         }
       }
     }
+
+    //here we have all dying units, not just the ones visible to the AI client
+    for each(std::pair<BWAPI::UnitImpl*, bool> i in dyingUnits)
+    {
+      //set lastVisible if the unit was visible to the AI client just before death.
+      //This will cause onUnitDestroy to also call onUnitHide before onUnitDestroy.
+      if (i.second)
+        i.first->lastVisible = true;
+      this->onUnitDestroy(i.first); //GameImpl::onUnitDestroy will decide what unit destroy messages to pass along to the AI client
+    }
+
     foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
-      if (this->client)
+      if (this->client && i->_exists())
         if (i->canAccess())
         {
           this->client->onUnitCreate(i);
@@ -1792,7 +1817,7 @@ namespace BWAPI
 
     /* Pass all renegade units to the AI client */
     foreach (BWAPI::UnitImpl* i, renegadeUnits)
-      if (this->client)
+      if (this->client && i->_exists())
       {
         this->client->onUnitRenegade(i);
         events.push_back(Event::UnitRenegade(i));
@@ -1800,30 +1825,29 @@ namespace BWAPI
 
     /* Pass all morphing units to the AI client */
     foreach (BWAPI::UnitImpl* i, morphUnits)
-      if (this->client)
+      if (this->client && i->_exists())
       {
         this->client->onUnitMorph(i);
         events.push_back(Event::UnitMorph(i));
       }
 
+    /* Pass all showing units to the AI client */
     foreach (BWAPI::UnitImpl* i, showUnits)
-      if (this->client)
+      if (this->client && i->_exists())
       {
         this->client->onUnitShow(i);
         events.push_back(Event::UnitShow(i));
       }
 
+    /* Pass all hiding units to the AI client */
     foreach (BWAPI::UnitImpl* i, hideUnits)
-    {
-      if (this->client)
+      if (this->client && i->_exists())
       {
         i->makeVisible = true;
-        //if (i->getRawDataLocal()->orderID != BW::OrderID::Die)
         this->client->onUnitHide(i);
         events.push_back(Event::UnitHide(i));
         i->makeVisible = false;
       }
-    }
     this->inUpdate = true;
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
