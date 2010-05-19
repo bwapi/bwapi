@@ -109,7 +109,7 @@ namespace BW
       case BW::UpgradeID::ZergMissileAttacks    :
       case BW::UpgradeID::ZergCarapace          : return BW::UnitID::Zerg_EvolutionChamber;
       case BW::UpgradeID::ZergFlyerAttacks      :
-      case BW::UpgradeID::ZergFlyerCaparace     : return BW::UnitID::Zerg_Spire;
+      case BW::UpgradeID::ZergFlyerCarapace     : return BW::UnitID::Zerg_Spire;
       case BW::UpgradeID::PneumatizedCarapace   :
       case BW::UpgradeID::Antennae              :
       case BW::UpgradeID::VentralSacs           : return BW::UnitID::Zerg_Lair;
