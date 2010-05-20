@@ -74,23 +74,15 @@ namespace BWAPI
 
       if (e.type == EventType::MatchStart)
       {
-        printf("MatchStart\n");
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
       }
       if (e.type == EventType::MatchEnd)
       {
-        printf("MatchEnd(%d)\n",e.isWinner);
         ((GameImpl*)BWAPI::Broodwar)->onMatchEnd();
       }
       if (e.type == EventType::MatchFrame)
       {
-        printf("MatchFrame\n");
         ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
-      }
-      if (e.type == EventType::MenuFrame)
-      {
-        printf("MenuFrame\n");
-        //((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
       }
     }
   }

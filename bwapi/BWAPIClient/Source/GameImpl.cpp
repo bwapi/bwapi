@@ -166,13 +166,11 @@ namespace BWAPI
       int id=data->events[e].v1;
       if (data->events[e].type == EventType::UnitCreate)
       {
-        ::printf("unit create event %d\n",id);
         notDestroyedUnits.insert(&unitVector[id]);
         accessibleUnits.insert(&unitVector[id]);
       }
       else if (data->events[e].type == EventType::UnitShow)
       {
-        ::printf("unit show event %d\n",id);
         notDestroyedUnits.insert(&unitVector[id]);
         accessibleUnits.insert(&unitVector[id]);
       }
