@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="2"
 			WholeProgramOptimization="0"
 			>
@@ -45,7 +45,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../include;../Util/Source;../TinyXml/Source;../BWAPI/Source"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="false"
 				WarningLevel="4"
