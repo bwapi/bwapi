@@ -2267,22 +2267,7 @@ namespace BWAPI
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
       if (BW::BWDATA_UnitNodeTable->unit[i].sprite == sprite) // compare unit with sprite we're looking for
         unit=unitArray[i];
-    
-    if (unit != NULL)
-    { //this block doesn't work for some reason
-      /*
-      if (unit->getBWType() == BW::UnitID::Terran_SiegeTankSiegeTurret ||
-          unit->getBWType() == BW::UnitID::Terran_TankTurretTankMode ||
-          unit->getBWType() == BW::UnitID::Terran_GoliathTurret ||
-          unit->getBWType() == BW::UnitID::Terran_Hero_EdmundDukeSTurret ||
-          unit->getBWType() == BW::UnitID::Terran_Hero_EdmundDukeTTurret ||
-          unit->getBWType() == BW::UnitID::Terran_Hero_AlanTurret)
-      {
-        u16 unitID = (u16)( ((u32)unit->getOriginalRawData()->connectedUnit - (u32)BW::BWDATA_UnitNodeTable) / 336 + 1);
-        unit = unitArray[unitID];
-      }
-      */
-    }
+
     return unit;
   }
 
