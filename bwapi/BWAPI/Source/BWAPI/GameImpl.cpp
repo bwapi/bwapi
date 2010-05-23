@@ -2270,6 +2270,7 @@ namespace BWAPI
     
     if (unit != NULL)
     { //this block doesn't work for some reason
+      /*
       if (unit->getBWType() == BW::UnitID::Terran_SiegeTankSiegeTurret ||
           unit->getBWType() == BW::UnitID::Terran_TankTurretTankMode ||
           unit->getBWType() == BW::UnitID::Terran_GoliathTurret ||
@@ -2280,6 +2281,7 @@ namespace BWAPI
         u16 unitID = (u16)( ((u32)unit->getOriginalRawData()->connectedUnit - (u32)BW::BWDATA_UnitNodeTable) / 336 + 1);
         unit = unitArray[unitID];
       }
+      */
     }
     return unit;
   }
