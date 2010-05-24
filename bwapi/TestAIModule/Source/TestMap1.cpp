@@ -221,7 +221,7 @@ void TestMap1::onStart()
   BWAssert(Broodwar->self()->gas()==0);
   BWAssert(Broodwar->self()->cumulativeMinerals()==50);
   BWAssert(Broodwar->self()->cumulativeGas()==0);
-  BWAssert(Broodwar->self()->supplyTotal()==60);
+  BWAssert(Broodwar->self()->supplyTotal()==120);
   BWAssert(Broodwar->self()->supplyUsed()==0);
 
   BWAssert(Broodwar->enemy()->getRace()==Races::Protoss);
