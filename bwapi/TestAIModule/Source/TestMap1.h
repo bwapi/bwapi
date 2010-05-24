@@ -1,7 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-
-class TestAIModule : public BWAPI::AIModule
+class TestMap1 : public BWAPI::AIModule
 {
 public:
   virtual void onStart();
@@ -17,8 +16,4 @@ public:
   virtual void onUnitHide(BWAPI::Unit* unit);
   virtual void onUnitRenegade(BWAPI::Unit* unit);
   virtual void onSaveGame(std::string gameName);
-  void drawStats();
-  void showPlayers();
-  void showForces();
-  int test_func;
 };
