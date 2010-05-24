@@ -6,7 +6,7 @@
 
 #include <BWAPI.h>
 
-#include "TestAIModule.h"
+#include "TestMap1.h"
 namespace BWAPI { Game* Broodwar; }
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
@@ -30,5 +30,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
  extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule(BWAPI::Game* game)
 {
   BWAPI::Broodwar=game;
-  return new TestAIModule();
+  if (game->mapFilename()=="testmap1.scm")
+    return new TestMap1();
+  return new BWAPI::AIModule();
 }

@@ -63,14 +63,14 @@ namespace BWAPI
   bool PlayerImpl::isAlly(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (player==NULL) return false;
+    if (player==NULL || this->isNeutral() || player->isNeutral()) return false;
     return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (player==NULL) return false;
+    if (player==NULL || this->isNeutral() || player->isNeutral()) return false;
     return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] == 0;
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
@@ -199,6 +199,7 @@ namespace BWAPI
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
@@ -210,6 +211,7 @@ namespace BWAPI
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
@@ -221,6 +223,7 @@ namespace BWAPI
   int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
@@ -232,6 +235,7 @@ namespace BWAPI
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
@@ -243,6 +247,7 @@ namespace BWAPI
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
     BroodwarImpl.setLastError(Errors::None);
+    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
     if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
@@ -333,7 +338,6 @@ namespace BWAPI
       this->suppliesUsedLocal[i] = this->getSuppliesUsedSync(i);
     }
     if (BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::HumanDefeated ||
-        BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::Computer ||
         (BW::BWDATA_Players->player[this->getID()].type == BW::PlayerType::Neutral && !this->isNeutral()))
     {
       this->leftTheGame = true;

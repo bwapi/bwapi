@@ -178,7 +178,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\TestAIModule.cpp"
+				RelativePath=".\Source\TestMap1.cpp"
 				>
 			</File>
 		</Filter>
@@ -188,7 +188,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Source\TestAIModule.h"
+				RelativePath=".\Source\BWAssert.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TestMap1.h"
 				>
 			</File>
 		</Filter>
