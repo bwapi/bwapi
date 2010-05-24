@@ -263,14 +263,112 @@ void TestMap1::onStart()
 
   Broodwar->sendText("show me the money");
   Broodwar->sendText("operation cwal");
-  Broodwar->printf("Assert success count: %d",assert_success_count);
-  Broodwar->printf("Assert failed count: %d",assert_fail_count);
+  Broodwar->setLocalSpeed(0);
 }
 void TestMap1::onEnd(bool isWinner)
 {
 }
 void TestMap1::onFrame()
 {
+  Broodwar->drawTextScreen(0,0,"Assert success count: %d",assert_success_count);
+  Broodwar->drawTextScreen(0,20,"Assert failed count: %d",assert_fail_count);
+  int frame=Broodwar->getFrameCount();
+  if (frame==100)
+  {
+    BWAssert(Broodwar->isInGame()==true);
+    BWAssert(Broodwar->isMultiplayer()==false);
+    BWAssert(Broodwar->isPaused()==false);
+    BWAssert(Broodwar->isReplay()==false);
+    BWAssert(Broodwar->self()->minerals()==10050);
+    BWAssert(Broodwar->self()->gas()==10000);
+    BWAssert(Broodwar->self()->cumulativeMinerals()==50);
+    BWAssert(Broodwar->self()->cumulativeGas()==0);
+    for each(Unit* u in Broodwar->self()->getUnits())
+    {
+      if (u->getType().isFlyingBuilding())
+      {
+        u->lift();
+      }
+    }
+  }
+  else if (frame==200)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+    {
+      if (u->getType()==UnitTypes::Terran_Command_Center ||
+          u->getType()==UnitTypes::Terran_Barracks ||
+          u->getType()==UnitTypes::Terran_Engineering_Bay ||
+          u->getType()==UnitTypes::Terran_Factory ||
+          u->getType()==UnitTypes::Terran_Starport ||
+          u->getType()==UnitTypes::Terran_Science_Facility)
+      {
+        BWAssert(u->isLifted()==true);
+        u->land(TilePosition(u->getTilePosition().x(),u->getTilePosition().y()+2));
+      }
+      else
+      {
+        BWAssert(u->isLifted()==false);
+      }
+    }
+  }
+  else if (frame==300)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+    {
+      BWAssert(u->isLifted()==false);
+      BWAssert(u->isTraining()==false);
+      if (u->getType()==UnitTypes::Terran_Command_Center)
+        u->train(UnitTypes::Terran_SCV);
+      if (u->getType()==UnitTypes::Terran_Barracks)
+        u->train(UnitTypes::Terran_Marine);
+      if (u->getType()==UnitTypes::Terran_Factory)
+        u->train(UnitTypes::Terran_Vulture);
+      if (u->getType()==UnitTypes::Terran_Starport)
+        u->train(UnitTypes::Terran_Wraith);
+    }
+  }
+  else if (frame==320)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+    {
+      BWAssert(u->isLifted()==false);
+      if (u->getType()==UnitTypes::Terran_Command_Center ||
+          u->getType()==UnitTypes::Terran_Barracks ||
+          u->getType()==UnitTypes::Terran_Factory ||
+          u->getType()==UnitTypes::Terran_Starport)
+      {
+        BWAssert(u->isTraining()==true);
+        BWAssert(u->isIdle()==false);
+        BWAssert(u->getTrainingQueue().size()==1);
+      }
+      else
+      {
+        BWAssert(u->isTraining()==false);
+        BWAssert(u->isIdle()==true);
+        BWAssert(u->getTrainingQueue().size()==0);
+      }
+    }
+  }
+  else if (frame==400)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+    {
+      BWAssert(u->isTraining()==false);
+      BWAssert(u->isIdle()==true);
+      BWAssert(u->getTrainingQueue().size()==0);
+    }
+    BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_SCV)==2);
+    BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Marine)==1);
+    BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Vulture)==1);
+    BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Wraith)==1);
+    BWAssert(Broodwar->self()->supplyUsed()==14);
+    BWAssert(Broodwar->self()->minerals()==9675);
+    BWAssert(Broodwar->self()->gas()==9900);
+  }
+  else if (frame==1000)
+  {
+    Broodwar->setLocalSpeed(-1);
+  }
 }
 bool TestMap1::onSendText(std::string text)
 {
