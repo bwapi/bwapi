@@ -204,6 +204,8 @@ namespace BWAPI
       void addToCommandBuffer(Command* command);
       void onGameStart();
       void onGameEnd();
+      int  stormIdToPlayerId(int dwStormId);
+      int  playerIdToStormId(int dwPlayerId);
       bool onSendText(const char* text);
       void onReceiveText(int playerId, std::string text);
       bool parseText(const char* text);
@@ -234,7 +236,7 @@ namespace BWAPI
       std::set<int> invalidIndices;
       bool flagsLocked;
       bool inUpdate;
-      std::list<std::string > interceptedMessages;
+      std::list<std::string > sentMessages;
       void onSaveGame(char *name);
       BWAPI::UnitImpl *spriteToUnit(BW::CSprite *sprite);
       void iscriptParser(BW::CSprite *sprite, u8 anim);

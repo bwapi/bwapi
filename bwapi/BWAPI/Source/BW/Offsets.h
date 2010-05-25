@@ -67,12 +67,12 @@ namespace BW
     /** Direct mapping of player info in bw memory */
     struct PlayerInfo
     {
-      u32  id;
-      u32  actions; // unused; FF FF FF FF if not a human player
-      u8   type;
-      u8   race;
-      u8   force;
-      char name[25];
+      u32  dwPlayerID;
+      u32  dwStormId;
+      u8   nType;
+      u8   nRace;
+      u8   nTeam;
+      char szName[25];
     };
     PlayerInfo  player[PLAYER_COUNT];
   };
@@ -240,7 +240,7 @@ namespace BW
     GLUE_GENERIC            // guess
   */
 
-  static BOOL (__stdcall *SNetReceiveMessage)(int *senderplayerid, u8 *data, int *databytes) = NULL;
+  static BOOL (__stdcall *SNetReceiveMessage)(int *senderplayerid, u8 **data, int *databytes) = NULL;
   static BOOL (__stdcall *SCodeDelete)(HANDLE handle)                                         = NULL;
   static int  (__stdcall *SStrCopy)(char *dest, const char *source, size_t size)              = NULL;
 

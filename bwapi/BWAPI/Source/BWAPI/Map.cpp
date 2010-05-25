@@ -85,9 +85,9 @@ namespace BWAPI
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
   {
-    if ((unsigned int)x>=walkability.getWidth() || (unsigned int)y>=walkability.getHeight())
-      return false;
-    int mid = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Middle);
+    if ((unsigned int)x >= walkability.getWidth() || (unsigned int)y >= walkability.getHeight())
+      return 0;
+    int mid  = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Middle);
     int high = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::High);
     return mid + high * 2;
   }
