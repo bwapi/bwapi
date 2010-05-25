@@ -45,7 +45,7 @@ void __stdcall menuFrameHook(int flag)
   BW::BWFXN_videoLoop(flag);
 }
 
-//---------------------------------------------- SEND TEXT HOOKS ---------------------------------------------
+//------------------------------------------------- SEND TEXT ------------------------------------------------
 int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 {
   if (strlen(source) > 0)
@@ -71,6 +71,14 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
     }
   }
   return BW::SStrCopy(dest, source, size);
+}
+
+//----------------------------------------------- RECEIVE TEXT -----------------------------------------------
+void __stdcall _SNetReceiveMessage(int *senderplayerid, u8 *data, int *databytes)
+{
+  BW::SNetReceiveMessage(senderplayerid, data, databytes);
+  if ( *databytes > 2 && data[0] == 0)
+    BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&data[2]) );
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
@@ -394,6 +402,9 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 
   *(FARPROC*)&BW::SCodeDelete = HackUtil::GetImport("storm.dll", 332);
   HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);
+
+  *(FARPROC*)&BW::SNetReceiveMessage = HackUtil::GetImport("storm.dll", 121);
+  HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

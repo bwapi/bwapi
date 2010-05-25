@@ -240,7 +240,9 @@ namespace BW
     GLUE_GENERIC            // guess
   */
 
-  static int (__stdcall *SStrCopy)(char *dest, const char *source, size_t size) = NULL;
+  static BOOL (__stdcall *SNetReceiveMessage)(int *senderplayerid, u8 *data, int *databytes) = NULL;
+  static BOOL (__stdcall *SCodeDelete)(HANDLE handle)                                         = NULL;
+  static int  (__stdcall *SStrCopy)(char *dest, const char *source, size_t size)              = NULL;
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
@@ -250,8 +252,6 @@ namespace BW
   static u32            BWFXN_SendLobbyCallTarget                 = 0x004707D0;
 
   static Unit*          BWDATA_CurrentPlayerSelectionGroup        = (Unit*) 0x00597208;
-
-  static BOOL (__stdcall *SCodeDelete)(HANDLE handle)            = NULL;
 
   static u32            BWFXN_NextFrameHelperFunction             = 0x004D98BD;
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;

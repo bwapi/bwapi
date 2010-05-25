@@ -36,6 +36,9 @@ namespace BWAPI
       /** BWAPI calls this when a player leaves the game. */
       virtual void onPlayerLeft(Player* player);
 
+      /** BWAPI calls this when another player sends a message. */
+      virtual void onReceiveText(Player* player, std::string text);
+
       /** BWAPI calls this when a nuclear launch has been detected. If the target position is visible, or if
        * Complete Map Information is enabled, the target position will also be provided. If Complete Map
        * Information is disabled and the target position is not visible, target will be set to

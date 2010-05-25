@@ -205,6 +205,7 @@ namespace BWAPI
       void onGameStart();
       void onGameEnd();
       bool onSendText(const char* text);
+      void onReceiveText(int playerId, std::string text);
       bool parseText(const char* text);
       void onUnitDestroy(BWAPI::UnitImpl* unit);
       bool inScreen(int ctype, int x, int y);
