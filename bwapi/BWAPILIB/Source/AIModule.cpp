@@ -20,6 +20,9 @@ namespace BWAPI
   {
     return true;
   }
+  void AIModule::onReceiveText(Player* player, std::string text)
+  {
+  }
   void AIModule::onPlayerLeft(Player *player)
   {
   }

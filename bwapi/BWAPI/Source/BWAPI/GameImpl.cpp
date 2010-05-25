@@ -1262,6 +1262,12 @@ namespace BWAPI
     }
     return false;
   }
+  //---------------------------------------------- ON RECV TEXT ----------------------------------------------
+  void GameImpl::onReceiveText(int playerId, std::string text)
+  {
+    if ( this->client != NULL && playerId < 8 && playerId != this->BWAPIPlayer->getID())
+      this->client->onReceiveText(this->players[playerId], text);
+  }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)
   {
