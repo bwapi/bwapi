@@ -262,7 +262,6 @@ namespace BWAPI
       BWAPI::UnitType savedUnitType;
       bool lastVisible;
       bool makeVisible;
-      bool lastGlobalVisible;
       UnitType lastType;
       Player* lastPlayer;
       bool nukeDetected;
