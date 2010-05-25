@@ -86,6 +86,8 @@ namespace BWAPI
       u8 getForce();
       ForceImpl* force;
 
+      int PlayerImpl::_getUpgradeLevel(u8 id);
+
       /** Modifies the local version of resources according to the specification - @ref localData */
       void spend(int minerals, int gas);
 

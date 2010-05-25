@@ -310,6 +310,16 @@ namespace BWAPI
     else
       return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID() * 15 + upgrade.getID() - 46)));
   }
+  int PlayerImpl::_getUpgradeLevel(u8 id)
+  {
+    if (id >= BW::UPGRADE_TYPE_COUNT)
+      return 0;
+
+    if (id < 46)
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID() * 46 + id)));
+    else
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID() * 15 + id - 46)));
+  }
 
 
   //---------------------------------------------- GET MINERALS ----------------------------------------------

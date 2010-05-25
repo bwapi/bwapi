@@ -38,10 +38,11 @@ namespace BWAPI
   {
     public:
 
-      virtual int      getID() const;
-      virtual Player*  getPlayer() const;
-      virtual UnitType getType() const;
-      virtual UnitType getInitialType() const;
+      virtual int       getID() const;
+      virtual Player*   getPlayer() const;
+      virtual UnitType  getType() const;
+      virtual int       getTypeId() const;
+      virtual UnitType  getInitialType() const;
 
       virtual int  getHitPoints() const;
       virtual int  getInitialHitPoints() const;
@@ -153,7 +154,7 @@ namespace BWAPI
       virtual bool  isUnpowered() const;
       virtual bool  isUpgrading() const;
       virtual bool  isVisible() const;
-	  virtual bool  isVisible(Player* player) const;
+      virtual bool  isVisible(Player* player) const;
 
       virtual bool  issueCommand(UnitCommand command);
       virtual bool  attackMove(Position position);
@@ -197,6 +198,13 @@ namespace BWAPI
       virtual bool  useTech(TechType tech);
       virtual bool  useTech(TechType tech, Position position);
       virtual bool  useTech(TechType tech, Unit* target);
+      
+      // Unit Type commands
+      virtual std::string getName() const;
+      virtual int getRaceId() const;
+      virtual int maxHitPoints() const;
+      virtual int maxShields() const;
+      virtual int maxEnergy() const;
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
@@ -237,7 +245,6 @@ namespace BWAPI
       u8  getBWOrder() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
-      std::string getName() const;
       UnitImpl* getNext() const;
       /** Gets #bwOriginalUnit */
       BW::Unit* getOriginalRawData() const;
