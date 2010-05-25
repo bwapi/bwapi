@@ -202,3 +202,11 @@ void ExampleAIModule::showForces()
     }
   }
 }
+void ExampleAIModule::onReceiveText(BWAPI::Player* player, std::string text)
+{
+
+}
+void ExampleAIModule::onSaveGame(std::string gameName)
+{
+
+}
