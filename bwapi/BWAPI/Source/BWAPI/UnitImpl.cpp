@@ -2590,8 +2590,6 @@ namespace BWAPI
       if (BroodwarImpl.inUpdate == true)
         return true;
 
-      if (this->getRawDataLocal()->orderID == BW::OrderID::Die)
-        return true;
     }
     return false;
   }
