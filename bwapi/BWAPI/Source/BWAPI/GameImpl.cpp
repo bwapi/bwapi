@@ -1721,6 +1721,12 @@ namespace BWAPI
     {
       if (i->canAccess())
       {
+        if ((i->_getType().isInvincible()==false && i->getHitPoints()<=0) || i->getOrder().getID() == BW::OrderID::Die)
+        {
+          std::pair<UnitImpl*, bool> p(i,i->lastVisible);
+          dyingUnits.push_back(p);
+          continue;
+        }
         int startX = (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
         int endX   = (i->_getPosition().x() + i->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
         int startY = (i->_getPosition().y() - i->_getType().dimensionUp()) / BW::TILE_SIZE;
@@ -1762,20 +1768,6 @@ namespace BWAPI
 
       i->lastType   = i->_getType();
       i->lastPlayer = i->_getPlayer();
-
-      if (i->lastGlobalVisible && !i->_isGlobalVisible())
-      {
-        i->lastGlobalVisible = false;
-        if (i->getOrder().getID() == BW::OrderID::Die)
-        {
-          std::pair<UnitImpl*, bool> p(i,i->lastVisible);
-          dyingUnits.push_back(p);
-        }
-      }
-      else
-      {
-        i->lastGlobalVisible = true;
-      }
       if (!i->lastVisible && i->isVisible())
       {
         i->lastVisible = true;
@@ -1817,6 +1809,7 @@ namespace BWAPI
       if (i.second)
         i.first->lastVisible = true;
       this->onUnitDestroy(i.first); //GameImpl::onUnitDestroy will decide what unit destroy messages to pass along to the AI client
+      i.first->lastVisible = false;
     }
 
     foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
