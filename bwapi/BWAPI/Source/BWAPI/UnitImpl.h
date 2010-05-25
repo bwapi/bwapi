@@ -41,7 +41,6 @@ namespace BWAPI
       virtual int       getID() const;
       virtual Player*   getPlayer() const;
       virtual UnitType  getType() const;
-      virtual int       getTypeId() const;
       virtual UnitType  getInitialType() const;
 
       virtual int  getHitPoints() const;
@@ -201,7 +200,6 @@ namespace BWAPI
       
       // Unit Type commands
       virtual std::string getName() const;
-      virtual int getRaceId() const;
       virtual int maxHitPoints() const;
       virtual int maxShields() const;
       virtual int maxEnergy() const;

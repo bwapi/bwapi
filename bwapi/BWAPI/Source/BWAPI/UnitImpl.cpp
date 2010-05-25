@@ -2492,14 +2492,6 @@ namespace BWAPI
       return UnitTypes::Unknown;
     return this->_getType();
   }
-  int UnitImpl::getTypeId() const
-  {
-    if (!this->attemptAccessSpecial())
-      return BW::UnitID::None;
-    if (!this->_exists())
-      return this->savedUnitType.getID();
-    return this->getRawDataLocal()->unitID.id;
-  }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::_getType() const
   {
@@ -2690,12 +2682,6 @@ namespace BWAPI
       return std::string("Unknown");
     return this->getOriginalRawData()->unitID.getName();
   }
-  int UnitImpl::getRaceId() const
-  {
-    if (!this->attemptAccess())
-      return BW::Race::None;
-    return this->getOriginalRawData()->unitID._getRace();
-  }
   int UnitImpl::maxHitPoints() const
   {
     checkAccessInt();
@@ -2709,7 +2695,7 @@ namespace BWAPI
   int UnitImpl::maxEnergy() const
   {
     checkAccessInt();
-    int unitId = this->getTypeId();
+    int unitId = this->getType().getID();
     int energy = this->getOriginalRawData()->unitID.maxEnergy();
     switch(unitId)
     {
