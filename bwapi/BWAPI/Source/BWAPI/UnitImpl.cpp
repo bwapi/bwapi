@@ -2492,6 +2492,14 @@ namespace BWAPI
       return UnitTypes::Unknown;
     return this->_getType();
   }
+  int UnitImpl::getTypeId() const
+  {
+    if (!this->attemptAccessSpecial())
+      return BW::UnitID::None;
+    if (!this->_exists())
+      return this->savedUnitType.getID();
+    return this->getRawDataLocal()->unitID.id;
+  }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::_getType() const
   {
@@ -2678,38 +2686,81 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string UnitImpl::getName() const
   {
-    std::ostringstream message;
-    // Type
-    message << "(" << this->getType().getName() << ")";
-    // Order
-    message << " (" << this->getOrder().getName() << ")";
-    // Id
-    message << " [" << this->getIndex() << "]";
-    // Position
-    message << " Position = (" << this->getPosition().x() << "," << this->getPosition().y() << ")";
-
-    // Target
-    if (this->getTarget() == NULL)
-      message << " Target:[NULL]";
-    else
-      message << " Target:[" << (int)this->getTarget() << "](" << this->getTarget()->getType().getName() << ")";
-
-    // Order Target
-    if (this->getOrderTarget() == NULL)
-      message << " OrderTarget:[NULL]";
-    else
-      message << " OrderTarget:[" <<(int)(this->getOrderTarget()) << "](" << this->getOrderTarget()->getType().getName() << ")";
-
-    // Player
-    message << " Player = (" << this->getPlayer()->getName() << ")";
-
-    // Child Unit
-    if (this->getChild() == NULL)
-      message << " (childUnit1 = NULL)";
-    else
-      message << " (childUnit1 = " << this->getChild()->getType().getName() << ")";
-    return message.str();
+    if (!this->attemptAccess())
+      return std::string("Unknown");
+    return this->getOriginalRawData()->unitID.getName();
   }
+  int UnitImpl::getRaceId() const
+  {
+    if (!this->attemptAccess())
+      return BW::Race::None;
+    return this->getOriginalRawData()->unitID._getRace();
+  }
+  int UnitImpl::maxHitPoints() const
+  {
+    checkAccessInt();
+    return this->getOriginalRawData()->unitID.maxHitPoints();
+  }
+  int UnitImpl::maxShields() const
+  {
+    checkAccessInt();
+    return this->getOriginalRawData()->unitID.maxShields();
+  }
+  int UnitImpl::maxEnergy() const
+  {
+    checkAccessInt();
+    int unitId = this->getTypeId();
+    int energy = this->getOriginalRawData()->unitID.maxEnergy();
+    switch(unitId)
+    {
+    case BW::UnitID::Protoss_Arbiter:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Khaydarin_Core) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Protoss_Corsair:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Argus_Jewel) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Protoss_DarkArchon:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Argus_Talisman) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Protoss_HighTemplar:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Khaydarin_Amulet) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Terran_Ghost:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Moebius_Reactor) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Terran_Battlecruiser:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Colossus_Reactor) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Terran_ScienceVessel:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Titan_Reactor) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Terran_Wraith:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Apollo_Reactor) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Terran_Medic:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Caduceus_Reactor) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Zerg_Defiler:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Metasynaptic_Node) > 0)
+        energy += 50;
+      break;
+    case BW::UnitID::Zerg_Queen:
+      if (this->getPlayer()->getUpgradeLevel(BWAPI::UpgradeTypes::Gamete_Meiosis) > 0)
+        energy += 50;
+      break;
+    }
+    return energy;
+  }
+
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
   {

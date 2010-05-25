@@ -152,7 +152,11 @@ namespace BW
   int UnitType::maxEnergy() const
   {
     if (this->isSpellcaster())
+    {
+      if (this->getFlags().getBit(BW::UnitPrototypeFlags::Hero) )
+        return 250;
       return 200;
+    }
     return 0;
   }
   //------------------------------------------------ MAX ARMOR -----------------------------------------------

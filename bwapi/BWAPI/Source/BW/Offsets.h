@@ -27,7 +27,7 @@ namespace BW
   static const u8  RACE_COUNT            =   3;
   static const u8  UNIT_TYPE_COUNT       = 228;
   static const u8  TECH_TYPE_COUNT       =  44;
-  static const u8  UPGRADE_TYPE_COUNT    =  66;
+  static const u8  UPGRADE_TYPE_COUNT    =  61;
   static const u8  WEAPON_TYPE_COUNT     = 130;
   static const u8  DAMAGE_TYPE_COUNT     =   5;
   static const u8  EXPLOSION_TYPE_COUNT  =  25;
