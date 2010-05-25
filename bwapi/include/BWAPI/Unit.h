@@ -50,8 +50,6 @@ namespace BWAPI
       /** Returns the current type of the unit. */
       virtual UnitType getType() const = 0;
 
-      virtual int getTypeId() const = 0;
-
       /** Returns the initial type of the unit or Unknown if it wasn't a neutral unit at the beginning of the
        * game. */
       virtual UnitType getInitialType() const = 0;
@@ -612,7 +610,6 @@ namespace BWAPI
 
       // Unit Type commands
       virtual std::string getName() const = 0;
-      virtual int getRaceId() const = 0;
       virtual int maxHitPoints() const = 0;
       virtual int maxShields() const = 0;
       virtual int maxEnergy() const = 0;
