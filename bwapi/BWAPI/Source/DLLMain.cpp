@@ -50,7 +50,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 {
   if (strlen(source) > 0)
   {
-    if (size == 0x7FFFFFFF)
+    if (size == 0x7FFFFFFF && *BW::BWDATA_gwGameMode == 3)
     {
       if ((u32)dest == BW::BWDATA_SaveGameFile)
       {
