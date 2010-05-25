@@ -204,9 +204,9 @@ void ExampleAIModule::showForces()
 }
 void ExampleAIModule::onReceiveText(BWAPI::Player* player, std::string text)
 {
-
+  Broodwar->sendText("%s said \"%s\"", player->getName().c_str(), text.c_str());
 }
 void ExampleAIModule::onSaveGame(std::string gameName)
 {
-
+  Broodwar->printf("The game was saved to \"%s\".", gameName.c_str());
 }
