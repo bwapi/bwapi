@@ -74,11 +74,12 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 }
 
 //----------------------------------------------- RECEIVE TEXT -----------------------------------------------
-void __stdcall _SNetReceiveMessage(int *senderplayerid, u8 *data, int *databytes)
+BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 *data, int *databytes)
 {
-  BW::SNetReceiveMessage(senderplayerid, data, databytes);
-  if ( *databytes > 2 && data[0] == 0)
+  BOOL rval = BW::SNetReceiveMessage(senderplayerid, data, databytes);
+  if ( senderplayerid && *senderplayerid < 8 && databytes && *databytes > 2 && data && data[0] == 0)
     BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&data[2]) );
+  return rval;
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
