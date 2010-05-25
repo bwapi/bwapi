@@ -60,7 +60,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
       else
       {
         /* onSend Game */
-        BWAPI::BroodwarImpl.interceptedMessages.push_back(std::string(source));
+        BWAPI::BroodwarImpl.sentMessages.push_back(std::string(source));
         dest[0] = 0;
         return 0;
       }
@@ -74,11 +74,12 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 }
 
 //----------------------------------------------- RECEIVE TEXT -----------------------------------------------
-BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 *data, int *databytes)
+BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databytes)
 {
   BOOL rval = BW::SNetReceiveMessage(senderplayerid, data, databytes);
-  if ( senderplayerid && *senderplayerid < 8 && databytes && *databytes > 2 && data && data[0] == 0)
-    BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&data[2]) );
+  if ( rval && *databytes > 2 && (*data)[0] == 0)
+    BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
+
   return rval;
 }
 

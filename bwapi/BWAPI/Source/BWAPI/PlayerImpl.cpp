@@ -33,7 +33,7 @@ namespace BWAPI
     {
       return std::string("Neutral");
     }
-    return std::string(BW::BWDATA_Players->player[this->getID()].name);
+    return std::string(BW::BWDATA_Players->player[this->getID()].szName);
   }
   //----------------------------------------------- GET UNITS ------------------------------------------------
   const std::set<Unit*>& PlayerImpl::getUnits() const
@@ -45,13 +45,13 @@ namespace BWAPI
   BWAPI::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].race));
+    return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].nRace));
   }
   //----------------------------------------------- PLAYER TYPE ----------------------------------------------
   BWAPI::PlayerType PlayerImpl::playerType() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].type));
+    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].nType));
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* PlayerImpl::getForce() const
@@ -337,8 +337,8 @@ namespace BWAPI
       this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync(i);
       this->suppliesUsedLocal[i] = this->getSuppliesUsedSync(i);
     }
-    if (BW::BWDATA_Players->player[this->getID()].type  == BW::PlayerType::HumanDefeated ||
-        (BW::BWDATA_Players->player[this->getID()].type == BW::PlayerType::Neutral && !this->isNeutral()))
+    if (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::HumanDefeated ||
+        (BW::BWDATA_Players->player[this->getID()].nType == BW::PlayerType::Neutral && !this->isNeutral()))
     {
       this->leftTheGame = true;
     }
@@ -380,7 +380,7 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   u8 PlayerImpl::getForce()
   {
-    return BW::BWDATA_Players->player[this->getID()].force;
+    return BW::BWDATA_Players->player[this->getID()].nTeam;
   }
   //----------------------------------------------- GET FIRST ------------------------------------------------
   UnitImpl* PlayerImpl::getFirst()
@@ -402,7 +402,7 @@ namespace BWAPI
   //------------------------------------------- GET FORCE NAME -----------------------------------------------
   char* PlayerImpl::getForceName() const
   {
-    return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[this->getID()].force].name;
+    return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[this->getID()].nTeam].name;
   }
   //----------------------------------------------------------------------------------------------------------
   void PlayerImpl::onGameEnd()

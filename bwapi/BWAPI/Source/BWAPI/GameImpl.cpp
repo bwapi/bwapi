@@ -874,13 +874,15 @@ namespace BWAPI
     events.push_back(Event::MatchFrame());
     this->server.update();
 
-    foreach(std::string i, interceptedMessages)
+    foreach(std::string i, sentMessages)
     {
       bool send = !BroodwarImpl.onSendText(i.c_str());
       if (send)
         BroodwarImpl.sendText(i.c_str());
     }
-    this->interceptedMessages.clear();
+    this->sentMessages.clear();
+    
+
     this->loadSelected();
     if (!this->isPaused())
       this->frameCount++;
@@ -1244,7 +1246,22 @@ namespace BWAPI
       }
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
   }
-
+  //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
+  int GameImpl::stormIdToPlayerId(int dwStormId)
+  {
+    /* Get Player ID */
+    for (int i = 0; i < BW::PLAYER_COUNT; i++)
+    {
+      if ( BW::BWDATA_Players->player[i].dwStormId == (u32)dwStormId )
+        return i;
+    }
+    return -1;
+  }
+  int GameImpl::playerIdToStormId(int dwPlayerId)
+  {
+    /* Get storm ID */
+    return BW::BWDATA_Players->player[dwPlayerId].dwStormId;
+  }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   bool GameImpl::onSendText(const char* text)
   {
@@ -1258,15 +1275,16 @@ namespace BWAPI
         events.push_back(Event::SendText(std::string(text)));
         return !this->client->onSendText(std::string(text));
       }
-
     }
     return false;
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
   void GameImpl::onReceiveText(int playerId, std::string text)
   {
-    if ( this->client != NULL && playerId != this->BWAPIPlayer->getID())
-      this->client->onReceiveText(this->players[playerId], text);
+    /* Do onReceiveText */
+    int realId = stormIdToPlayerId(playerId);
+    if ( this->client != NULL && realId != -1 && realId != this->BWAPIPlayer->getID())
+      this->client->onReceiveText(this->players[realId], text);
   }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)
