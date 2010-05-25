@@ -891,7 +891,7 @@ namespace BWAPI
     this->inGame=false;
     events.push_back(Event::MenuFrame());
     this->server.update();
-    int menu = *BW::BWDATA_NextMenu;
+    int menu = *BW::BWDATA_glGluesMode;
     if (autoMenuGameType == 0) return;
     if (menu == 0) //main menu
     {
