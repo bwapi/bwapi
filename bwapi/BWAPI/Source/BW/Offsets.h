@@ -193,6 +193,7 @@ namespace BW
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
   static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
+  static u8*            BWDATA_IsBattleNet                        = (u8*)   0x006D5ED0;
   static u8*            BWDATA_IsNotPaused                        = (u8*)   0x0051CE6C;
   static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
 
@@ -329,6 +330,7 @@ namespace BW
   static u32*           BWDATA_ScreenX                            = (u32*)0x00628448;
   static u32*           BWDATA_ScreenY                            = (u32*)0x00628470;
 
+  static char*          BWDATA_menuFileName                       = (char*)       0x002605C4;
   static char*          BWDATA_CurrentMapFileName                 = (char*)       0x0057FD3C;
   static char*          BWDATA_CurrentMapName                     = (char*)       0x0057FE40;
   static u16*           BWDATA_TechLabelIndex                     = (u16*)        techdataDat[7].address;

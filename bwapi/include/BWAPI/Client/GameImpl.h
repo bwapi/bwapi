@@ -135,6 +135,7 @@ namespace BWAPI
       virtual void changeRace(BWAPI::Race race);
       virtual bool isInGame();
       virtual bool isMultiplayer();
+      virtual bool isBattleNet();
       virtual bool isPaused();
       virtual bool isReplay();
 

@@ -927,6 +927,9 @@ namespace BWAPI
       //first select map, game type, speed, (and if single player, also race and opponents)
       if (autoMenuGameType == 1) //single player create game screen
       {
+        //trying to set map, doesn't work yet
+        //strcpy(BW::BWDATA_menuFileName,"C:\\Program Files (x86)\\Chaoslauncher\\Starcraft\\maps\\BroodWar\\(2)Baby Steps.scm");
+        //this->pressKey('O');
       }
       else //multiplayer create game screen
       {
@@ -959,6 +962,17 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     return (*BW::BWDATA_IsMultiplayer != 0);
+  }
+  //--------------------------------------------- IS BATTLE NET ----------------------------------------------
+  bool GameImpl::isBattleNet()
+  {
+    this->setLastError(Errors::None);
+    return (*BW::BWDATA_IsBattleNet != 0);
+  }
+  //--------------------------------------------- IS BATTLE NET ----------------------------------------------
+  bool GameImpl::_isBattleNet()
+  {
+    return (*BW::BWDATA_IsBattleNet != 0);
   }
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
   bool GameImpl::_isSinglePlayer() const
@@ -1705,17 +1719,33 @@ namespace BWAPI
     if (_isSinglePlayer())
       return BWAPI::Latency::SinglePlayer;
 
-    /* Lame options checking */
-    switch(*BW::BWDATA_Latency)
+    if (_isBattleNet())
     {
-      case 0:
-        return BWAPI::Latency::LanLow;
-      case 1:
-        return BWAPI::Latency::LanMedium;
-      case 2:
-        return BWAPI::Latency::LanHigh;
-      default:
-        return BWAPI::Latency::LanLow;
+      switch(*BW::BWDATA_Latency)
+      {
+        case 0:
+          return BWAPI::Latency::BattlenetLow;
+        case 1:
+          return BWAPI::Latency::BattlenetMedium;
+        case 2:
+          return BWAPI::Latency::BattlenetHigh;
+        default:
+          return BWAPI::Latency::BattlenetLow;
+      }
+    }
+    else
+    {
+      switch(*BW::BWDATA_Latency)
+      {
+        case 0:
+          return BWAPI::Latency::LanLow;
+        case 1:
+          return BWAPI::Latency::LanMedium;
+        case 2:
+          return BWAPI::Latency::LanHigh;
+        default:
+          return BWAPI::Latency::LanLow;
+      }
     }
   }
   //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------

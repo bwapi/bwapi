@@ -872,6 +872,11 @@ namespace BWAPI
   bool GameImpl::isMultiplayer()
   {
     return data->isMultiplayer;
+  }  
+  //--------------------------------------------- IS BATTLE NET ----------------------------------------------
+  bool GameImpl::isBattleNet()
+  {
+    return data->isBattleNet;
   }
   //----------------------------------------------- IS PAUSED ------------------------------------------------
   bool GameImpl::isPaused()

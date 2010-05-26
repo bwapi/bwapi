@@ -128,6 +128,7 @@ namespace BWAPI
   {
     data->self          = getPlayerID(Broodwar->self());
     data->isMultiplayer = Broodwar->isMultiplayer();
+    data->isBattleNet   = Broodwar->isBattleNet();
     data->isReplay      = Broodwar->isReplay();
 
     //load static map data
