@@ -64,6 +64,7 @@ namespace BWAPIC
     // match mode
     bool isInGame;
     bool isMultiplayer;
+    bool isBattleNet;
     bool isPaused;
     bool isReplay;
 

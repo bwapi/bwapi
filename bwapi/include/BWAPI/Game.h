@@ -244,6 +244,10 @@ namespace BWAPI
        * replays. */
       virtual bool isMultiplayer() = 0;
 
+      /** Returns true if Broodwar is in a BNet multiplayer game.
+      */
+      virtual bool isBattleNet() = 0;
+
       /** Returns true if Broodwar is paused. If the game is paused, Game::getFrameCount will continue to
        * increase and AIModule::onFrame will still be called while paused. */
       virtual bool isPaused() = 0;

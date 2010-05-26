@@ -128,6 +128,7 @@ namespace BWAPI
       virtual void changeRace(BWAPI::Race race);
       virtual bool isInGame();
       virtual bool isMultiplayer();
+      virtual bool isBattleNet();
       virtual bool isPaused();
       virtual bool isReplay();
       /**
@@ -218,6 +219,7 @@ namespace BWAPI
       bool isOnStartCalled() const;
       bool _isInGame() const;
       bool _isSinglePlayer() const;
+      bool _isBattleNet();
       bool _isReplay() const;
       void setLastError(BWAPI::Error e);
 
