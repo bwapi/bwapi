@@ -23,13 +23,17 @@ namespace BWAPI
 
       UnitImpl(int id);
       int getID() const;
+      std::string getName() const;
       Player* getPlayer() const;
       UnitType getType() const;
       UnitType getInitialType() const;
       int getHitPoints() const;
+      int maxHitPoints() const;
       int getInitialHitPoints() const;
       int getShields() const;
+      int maxShields() const;
       int getEnergy() const;
+      int maxEnergy() const;
       int getResources() const;
       int getInitialResources() const;
       int getKillCount() const;
