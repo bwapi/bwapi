@@ -34,6 +34,10 @@ namespace BWAPI
   {
     return id;
   }
+  std::string UnitImpl::getName() const
+  {
+    return "";//todo: implement
+  }
   Player* UnitImpl::getPlayer() const
   {
     return ((GameImpl*)Broodwar)->getPlayer(self->player);
@@ -50,6 +54,10 @@ namespace BWAPI
   {
     return self->hitPoints;
   }
+  int UnitImpl::maxHitPoints() const
+  {
+    return 0;//todo: implement
+  }
   int UnitImpl::getInitialHitPoints() const
   {
     return this->initialHitPoints;
@@ -58,9 +66,17 @@ namespace BWAPI
   {
     return self->shields;
   }
+  int UnitImpl::maxShields() const
+  {
+    return 0;//todo: implement
+  }
   int UnitImpl::getEnergy() const
   {
     return self->energy;
+  }
+  int UnitImpl::maxEnergy() const
+  {
+    return 0;//todo: implement
   }
   int UnitImpl::getResources() const
   {
