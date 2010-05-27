@@ -2,7 +2,6 @@
 #include <windows.h>
 #include <string>
 #include <assert.h>
-#include <shellapi.h>
 #include "../../svnrev.h"
 
 #define BWLAPI 4
@@ -16,6 +15,20 @@ struct ExchangeData
   BOOL bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
   BOOL bConfigDialog;                 //Is Configurable
 };
+
+void BWAPIError(const char *format, ...)
+{
+  char buffer[MAX_PATH];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(buffer, MAX_PATH, MAX_PATH, format, ap);
+  va_end(ap);
+
+  FILE* f = fopen("bwapi-error.txt", "a+");
+  fprintf(f, "%s\n", buffer);
+  fclose(f);
+  MessageBoxA(NULL, buffer, "Error", MB_OK);
+}
 
 BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
 {
@@ -47,7 +60,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-  if (ShellExecuteA(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL) == 0)
+  if (!ShellExecuteA(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL))
     return false;
   return true;
 }
@@ -60,69 +73,36 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE, DWORD)
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 {
   char envBuffer[ENV_BUFFER_SIZE];
-  DWORD result = GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
-  if (result == 0)
-    result = GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer);
-  
-  if (result == 0)
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not find ChaosDir or current directory.\n");
-    MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK);
-    fclose(f);
-  }
+  if ( !GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE) )
+    if ( !GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer) )
+      BWAPIError("Could not find ChaosDir or current directory.");
 
   std::string dllFileName(envBuffer);
   dllFileName.append("\\BWAPI.dll");
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
-  if (loadLibAddress == NULL)
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not get loadLibAddress.\n");
-    MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK);
-    fclose(f);
-  }
+  if ( !loadLibAddress )
+    BWAPIError("Could not get Proc Address for LoadLibraryA.");
 
   void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
-  if (pathAddress == NULL)
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not get pathAddress.\n");
-    MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK);
-    fclose(f);
-  }
+  if ( !pathAddress )
+    BWAPIError("Could not allocate memory for DLL path.");
 
   SIZE_T bytesWritten;
   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
   if (success == FALSE || bytesWritten != dllFileName.size() + 1)
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not Write proc memory.\n");
-    MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK);
-    fclose(f);
-  }
+    BWAPIError("Unable to write process memory.");
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
-  if (hThread == NULL)
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not Create remote thread.\n");
-    MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
-    fclose(f);
-  }
+  if ( !hThread )
+    BWAPIError("Unable to create remote thread.");
 
   WaitForSingleObject(hThread, INFINITE);
 
   DWORD hLibModule = NULL; // Base address of the loaded module
   GetExitCodeThread(hThread, &hLibModule);
-  if (hLibModule == NULL)
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not get hLibModule.\n");
-    MessageBoxA(NULL, "Could not get hLibModule.\n", "Error", MB_OK);
-    fclose(f);
-  }
+  if ( !hLibModule )
+    BWAPIError("Could not get hLibModule.");
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);
