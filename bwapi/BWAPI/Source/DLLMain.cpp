@@ -357,7 +357,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   logging = false;
   char logging_str[MAX_PATH];
   GetPrivateProfileStringA("config", "logging", "NULL", logging_str, MAX_PATH, "bwapi-data\\bwapi.ini");
-  if (std::string(logging_str) == "on")
+  if (std::string(logging_str) == "on" || std::string(logging_str) == "ON")
     logging = true;
 
   if (_strcmpi(logPath, "NULL") == 0)

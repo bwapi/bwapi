@@ -290,7 +290,7 @@ namespace BWAPI
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
       bool calledOnEnd;
-      int autoMenuGameType;
+      std::string autoMenuMode;
       std::string autoMenuMapPath;
       std::string autoMenuMapName;
       Server server;
