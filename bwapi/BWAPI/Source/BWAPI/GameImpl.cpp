@@ -87,6 +87,25 @@ namespace BWAPI
         this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
       }
       this->autoMenuGameType = GetPrivateProfileIntA("config", "menu", 0, "bwapi-data\\bwapi.ini");
+      if (this->autoMenuGameType!=0)
+      {
+        char mapPathAndName[MAX_PATH];
+        GetPrivateProfileStringA("config", "map", "NULL", mapPathAndName, MAX_PATH, "bwapi-data\\bwapi.ini");
+
+        //split path into path and filename
+        char* mapPathAndNameI=mapPathAndName;
+        char* mapPathAndNameLastSlash=mapPathAndName;
+        while(mapPathAndNameI[0]!='\0')
+        {
+          if (mapPathAndNameI[0]=='\\' || mapPathAndNameI[0]=='/')
+            mapPathAndNameLastSlash=mapPathAndNameI+1;
+          mapPathAndNameI++;
+        }
+        autoMenuMapName=std::string(mapPathAndNameLastSlash);
+        mapPathAndNameLastSlash[0]='\0';
+        autoMenuMapPath=std::string(mapPathAndName);
+      }
+
       unitArrayCopyLocal = new BW::UnitArray;
 
       /* iterate through players and create PlayerImpl for each */
@@ -919,8 +938,8 @@ namespace BWAPI
     {
       if (autoMenuGameType == 1)
       {
-        strcpy(BW::BWDATA_menuMapRelativePath,"maps\\");
-        strcpy(BW::BWDATA_menuMapFileName,"(2)Boxer.scm");
+        strcpy(BW::BWDATA_menuMapRelativePath,autoMenuMapPath.c_str());
+        strcpy(BW::BWDATA_menuMapFileName,autoMenuMapName.c_str());
         this->pressKey('U'); //go to create game screen
       }
       if (autoMenuGameType == 2)
