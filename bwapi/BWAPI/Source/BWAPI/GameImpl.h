@@ -291,6 +291,8 @@ namespace BWAPI
       u32 cheatFlags;
       bool calledOnEnd;
       int autoMenuGameType;
+      std::string autoMenuMapPath;
+      std::string autoMenuMapName;
       Server server;
       bool inGame;
   };
