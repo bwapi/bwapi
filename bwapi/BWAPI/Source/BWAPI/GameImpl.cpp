@@ -66,7 +66,6 @@ namespace BWAPI
       , inUpdate(false)
       , inGame(false)
       , calledOnEnd(false)
-      , autoMenuGameType(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -86,15 +85,17 @@ namespace BWAPI
         this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
         this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
       }
-      this->autoMenuGameType = GetPrivateProfileIntA("config", "menu", 0, "bwapi-data\\bwapi.ini");
-      if (this->autoMenuGameType!=0)
+      char buffer[MAX_PATH];
+      GetPrivateProfileStringA("config", "auto_menu", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+      this->autoMenuMode = std::string(buffer);
+
+      if (autoMenuMode!="OFF" && autoMenuMode!="off" && autoMenuMode!="")
       {
-        char mapPathAndName[MAX_PATH];
-        GetPrivateProfileStringA("config", "map", "NULL", mapPathAndName, MAX_PATH, "bwapi-data\\bwapi.ini");
+        GetPrivateProfileStringA("config", "map", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
 
         //split path into path and filename
-        char* mapPathAndNameI=mapPathAndName;
-        char* mapPathAndNameLastSlash=mapPathAndName;
+        char* mapPathAndNameI=buffer;
+        char* mapPathAndNameLastSlash=buffer;
         while(mapPathAndNameI[0]!='\0')
         {
           if (mapPathAndNameI[0]=='\\' || mapPathAndNameI[0]=='/')
@@ -103,7 +104,7 @@ namespace BWAPI
         }
         autoMenuMapName=std::string(mapPathAndNameLastSlash);
         mapPathAndNameLastSlash[0]='\0';
-        autoMenuMapPath=std::string(mapPathAndName);
+        autoMenuMapPath=std::string(buffer);
       }
 
       unitArrayCopyLocal = new BW::UnitArray;
@@ -913,42 +914,25 @@ namespace BWAPI
     events.push_back(Event::MenuFrame());
     this->server.update();
     int menu = *BW::BWDATA_glGluesMode;
-    if (autoMenuGameType == 0) return;
-    if (menu == 0) //main menu
+
+    if (autoMenuMode == "SINGLE_PLAYER")
     {
-      if (autoMenuGameType == 1 || autoMenuGameType == 2)
+      if (menu == 0) //main menu
+      {
         this->pressKey('S');
-      if (autoMenuGameType == 3 || autoMenuGameType == 4)
-        this->pressKey('M');
-      this->pressKey('E');
-    }
-    if (menu == 5) //registry screen
-    {
-      this->pressKey('O');
-    }
-    if (menu == 2) //multiplayer select connection screen
-    {
-      this->pressKey(VK_DOWN);
-      this->pressKey(VK_DOWN);
-      this->pressKey(VK_DOWN);
-      this->pressKey(VK_DOWN);
-      this->pressKey('O');
-    }
-    if (menu == 22) //single player play custom / load replay selection screen
-    {
-      if (autoMenuGameType == 1)
+        this->pressKey('E');
+      }
+      if (menu == 5) //registry screen
+      {
+        this->pressKey('O');
+      }
+      if (menu == 22) //single player play custom / load replay selection screen
       {
         strcpy(BW::BWDATA_menuMapRelativePath,autoMenuMapPath.c_str());
         strcpy(BW::BWDATA_menuMapFileName,autoMenuMapName.c_str());
-        this->pressKey('U'); //go to create game screen
+        this->pressKey('U');
       }
-      if (autoMenuGameType == 2)
-        this->pressKey('R'); //go to select replay screen
-    }
-    if (menu == 11) //create single/multi player game screen
-    {
-      //first select map, game type, speed, (and if single player, also race and opponents)
-      if (autoMenuGameType == 1) //single player create game screen
+      if (menu == 11) //create single/multi player game screen
       {
         //the first time we enter the create game screen, it won't set the map correctly
         //so we need to cancel out and re-enter
@@ -957,20 +941,70 @@ namespace BWAPI
         else
           this->pressKey('O');
       }
-      else //multiplayer create game screen
+    }
+    else if (autoMenuMode == "LAN_UDP")
+    {
+      if (menu == 0) //main menu
       {
+        this->pressKey('M');
+        this->pressKey('E');
+      }
+      if (menu == 2) //multiplayer select connection screen
+      {
+        this->pressKey(VK_DOWN);
+        this->pressKey(VK_DOWN);
+        this->pressKey(VK_DOWN);
+        this->pressKey(VK_DOWN);
+        this->pressKey('O');
+      }
+      if (menu == 5) //registry screen
+      {
+        this->pressKey('O');
+      }
+      if (autoMenuMapName.length()>0)
+      {
+        if (menu == 10) //lan games lobby
+        {
+          strcpy(BW::BWDATA_menuMapRelativePath,autoMenuMapPath.c_str());
+          strcpy(BW::BWDATA_menuMapFileName,autoMenuMapName.c_str());
+          this->pressKey('G');
+        }
+        if (menu == 11) //create single/multi player game screen
+        {
+          //the first time we enter the create game screen, it won't set the map correctly
+          //so we need to cancel out and re-enter
+          if (*BW::BWDATA_menuStuff!=0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
+            this->pressKey('C');
+          else
+            this->pressKey('O');
+        }
+        if (menu == 3) //multiplayer game ready screen
+        {
+        }
+      }
+      else // wait for other computer to make game
+      {
+        if (menu == 10) //lan games lobby
+        {
+          // wait for other computer to make game
+          this->pressKey('O');
+        }
+        if (menu == 3) //multiplayer game ready screen
+        {
+        }
       }
     }
-    if (menu == 10) //lan games lobby
+    else if (autoMenuMode == "BATTLE_NET")
     {
-      if (autoMenuGameType == 3)
-        this->pressKey('G');
-    }
-    if (menu == 3) //multiplayer game ready screen
-    {
-    }
-    if (menu == 12) //select replay screen
-    {
+      if (menu == 0) //main menu
+      {
+        this->pressKey('M');
+        this->pressKey('E');
+      }
+      if (menu == 2) //multiplayer select connection screen
+      {
+        this->pressKey('O');
+      }
     }
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
