@@ -918,18 +918,25 @@ namespace BWAPI
     if (menu == 22) //single player play custom / load replay selection screen
     {
       if (autoMenuGameType == 1)
-        this->pressKey('U');
+      {
+        strcpy(BW::BWDATA_menuMapRelativePath,"maps\\");
+        strcpy(BW::BWDATA_menuMapFileName,"(2)Boxer.scm");
+        this->pressKey('U'); //go to create game screen
+      }
       if (autoMenuGameType == 2)
-        this->pressKey('R');
+        this->pressKey('R'); //go to select replay screen
     }
     if (menu == 11) //create single/multi player game screen
     {
       //first select map, game type, speed, (and if single player, also race and opponents)
       if (autoMenuGameType == 1) //single player create game screen
       {
-        //trying to set map, doesn't work yet
-        //strcpy(BW::BWDATA_menuFileName,"C:\\Program Files (x86)\\Chaoslauncher\\Starcraft\\maps\\BroodWar\\(2)Baby Steps.scm");
-        //this->pressKey('O');
+        //the first time we enter the create game screen, it won't set the map correctly
+        //so we need to cancel out and re-enter
+        if (*BW::BWDATA_menuStuff!=0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
+          this->pressKey('C');
+        else
+          this->pressKey('O');
       }
       else //multiplayer create game screen
       {

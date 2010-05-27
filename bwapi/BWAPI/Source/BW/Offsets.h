@@ -330,7 +330,9 @@ namespace BW
   static u32*           BWDATA_ScreenX                            = (u32*)0x00628448;
   static u32*           BWDATA_ScreenY                            = (u32*)0x00628470;
 
-  static char*          BWDATA_menuFileName                       = (char*)       0x002605C4;
+  static char*          BWDATA_menuMapFileName                    = (char*)       0x0059BC88;
+  static char*          BWDATA_menuMapRelativePath                = (char*)       0x0059B850;
+  static u32*           BWDATA_menuStuff                          = (u32*)        0x0057EEE4;
   static char*          BWDATA_CurrentMapFileName                 = (char*)       0x0057FD3C;
   static char*          BWDATA_CurrentMapName                     = (char*)       0x0057FE40;
   static u16*           BWDATA_TechLabelIndex                     = (u16*)        techdataDat[7].address;
