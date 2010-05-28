@@ -7,6 +7,7 @@
 #include <string>
 #include <algorithm>
 #include <stdio.h>
+#include <Wincrypt.h>
 
 #include <Util/FileLogger.h>
 #include <Util/Gnu.h>
@@ -348,6 +349,13 @@ void __thiscall BW::Image::CImage::_PlayIscript(char *header, int unk1, int unk2
   BW::BWFXN_PlayIscript(this, header, unk1, unk2);
 }
 
+BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
+{
+  if ( dwReturnVal )
+    *dwReturnVal = 5;
+  return TRUE;
+}
+
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -390,6 +398,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::JmpPatch(BW::BWFXN_DrawHigh,         &onDrawHigh);
   HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
   HackUtil::JmpPatch(BW::BWFXN_OldIssueCommand,  &onIssueCommand);
+  HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
 
   char zero = 0;
   HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // main menu load timer
