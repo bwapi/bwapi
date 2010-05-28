@@ -38,6 +38,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestAIModule", "TestAIModul
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_MPQDraftInjector", "BWAPI_MPQDraftInjector\BWAPI_MPQDraftInjector.vcproj", "{6DA11918-29FC-402B-864B-08C2BA1566C5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_SNPModule", "BWAPI_SNPModule\BWAPI_SNPModule.vcproj", "{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -84,6 +86,10 @@ Global
 		{6DA11918-29FC-402B-864B-08C2BA1566C5}.Debug|Win32.Build.0 = Debug|Win32
 		{6DA11918-29FC-402B-864B-08C2BA1566C5}.Release|Win32.ActiveCfg = Release|Win32
 		{6DA11918-29FC-402B-864B-08C2BA1566C5}.Release|Win32.Build.0 = Release|Win32
+		{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}.Debug|Win32.Build.0 = Debug|Win32
+		{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}.Release|Win32.ActiveCfg = Release|Win32
+		{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

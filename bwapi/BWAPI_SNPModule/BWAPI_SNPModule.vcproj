@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="BWAPI_MPQDraftInjector"
-	ProjectGUID="{6DA11918-29FC-402B-864B-08C2BA1566C5}"
-	RootNamespace="BWAPI_MPQDraftInjector"
+	Name="BWAPI_SNPModule"
+	ProjectGUID="{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}"
+	RootNamespace="BWAPI_SNPModule"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BWAPI_MPQDRAFTINJECTOR_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BWAPI_SNPMODULE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -115,12 +115,11 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI_MPQDRAFTINJECTOR_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI_SNPMODULE_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="4"
-				DisableSpecificWarnings="4100; 4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -134,9 +133,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(OutDir)\$(ProjectName).qdp"
+				OutputFile="$(IntDir)\$(ProjectName).dll"
 				LinkIncremental="1"
-				ModuleDefinitionFile="source\QDPlugin.def"
+				ModuleDefinitionFile="source\SNPModule.def"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -166,6 +165,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(OutDir)\$(ProjectName).snp&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -177,11 +177,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\MPQDraftPlugin.h"
-			>
-		</File>
-		<File
-			RelativePath=".\source\QDPlugin.def"
+			RelativePath=".\source\SNPModule.def"
 			>
 		</File>
 	</Files>

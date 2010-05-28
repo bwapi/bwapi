@@ -81,10 +81,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
     {
       //Weird shit, i doubt you'll use it
       if (!nummodules)
-      {
         return false;
-        mBox("NumModules null?");
-      }
       *nummodules = 0;
       return true;
     }
