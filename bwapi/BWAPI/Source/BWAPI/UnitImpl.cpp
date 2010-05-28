@@ -91,7 +91,7 @@ namespace BWAPI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::_getHitPoints() const
   {
-    return this->getRawDataLocal()->hitPoints / 256;
+    return (int)ceil(this->getRawDataLocal()->hitPoints / 256.0);
   }
   //---------------------------------------------- GET SHIELDS -----------------------------------------------
   int UnitImpl::getShields() const
@@ -99,7 +99,7 @@ namespace BWAPI
     checkAccessInt();
     if (this->getBWType().maxShields()>0)
     {
-      return this->getRawDataLocal()->shieldPoints/256;
+      return (int)ceil(this->getRawDataLocal()->shieldPoints/256.0);
     }
     return 0;
   }
@@ -109,7 +109,7 @@ namespace BWAPI
     checkAccessInt();
     if (this->getBWType().isSpellcaster())
     {
-      return this->getRawDataLocal()->energy/256;
+      return (int)ceil(this->getRawDataLocal()->energy/256.0);
     }
     return 0;
   }
