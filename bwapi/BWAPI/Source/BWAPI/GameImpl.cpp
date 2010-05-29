@@ -940,7 +940,8 @@ namespace BWAPI
           this->pressKey('C');
         else
         {
-          this->changeRace(Races::Terran);
+          this->_changeRace(0,Races::Terran);
+          this->_changeRace(1,Races::Zerg);
 //          this->pressKey('O');
         }
       }
@@ -1222,14 +1223,19 @@ namespace BWAPI
   void  GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
+    this->_changeRace(this->BWAPIPlayer->getID(),race);
+  }
+  //---------------------------------------------- CHANGE RACE -----------------------------------------------
+  void  GameImpl::_changeRace(int slot, BWAPI::Race race)
+  {
     if (autoMenuMode == "SINGLE_PLAYER")
     {
-      (*BW::BWDATA_BINDialog)->player1Race1 = race.getID();
-      (*BW::BWDATA_BINDialog)->player1Race2 = race.getID();
+      (*BW::BWDATA_BINDialog)->players[slot].raceField1 = race.getID();
+      (*BW::BWDATA_BINDialog)->players[slot].raceField2 = race.getID();
     }
     else
     {
-      IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
+      IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
     }
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
