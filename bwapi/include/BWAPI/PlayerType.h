@@ -32,17 +32,16 @@ namespace BWAPI
     /** Returns the set of all the PlayerTypes. */
     std::set<PlayerType>& allPlayerTypes();
     void init();
-    extern const PlayerType NotUsed;
-    extern const PlayerType Computer;
-    extern const PlayerType Human;
-    extern const PlayerType Rescuable;
-    extern const PlayerType ComputerSlot;
-    extern const PlayerType OpenSlot;
-    extern const PlayerType Neutral;
-    extern const PlayerType ClosedSlot;
-    extern const PlayerType HumanDefeated;
-    extern const PlayerType ComputerDefeated;
     extern const PlayerType None;
+    extern const PlayerType Computer;
+    extern const PlayerType Player;
+    extern const PlayerType RescuePassive;
+    extern const PlayerType EitherPreferComputer;
+    extern const PlayerType EitherPreferHuman;
+    extern const PlayerType Neutral;
+    extern const PlayerType Closed;
+    extern const PlayerType PlayerLeft;
+    extern const PlayerType ComputerLeft;
     extern const PlayerType Unknown;
   }
 }
