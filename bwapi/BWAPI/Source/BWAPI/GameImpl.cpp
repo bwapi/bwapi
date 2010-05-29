@@ -954,14 +954,7 @@ namespace BWAPI
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
-          {
-            if (gt==GameTypes::Melee)
-              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex(0);//Melee
-            if (gt==GameTypes::Free_For_All)
-              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex(1);//Free For All
-            if (gt==GameTypes::Use_Map_Settings)
-              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex(2);//Use Map Settings
-          }
+            (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedByValue((BYTE)(gt.getID()));
 
           this->pressKey('O');
         }
@@ -1014,7 +1007,7 @@ namespace BWAPI
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex((BYTE)(gt.getID()));
+              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedByValue((BYTE)(gt.getID()));
             this->pressKey('O');
           }
         }
@@ -1272,7 +1265,7 @@ namespace BWAPI
   {
     BW::dialog *slotCtrl = (*BW::BWDATA_BINDialog)->FindIndex((short)(28+slot));  // 28 is the CtrlID of the first slot
     if ( slotCtrl )
-      slotCtrl->setSelectedByValue(race.getID());
+      slotCtrl->setSelectedIndex(race.getID());
 
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
