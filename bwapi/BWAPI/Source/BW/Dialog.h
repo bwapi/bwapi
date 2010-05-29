@@ -127,6 +127,11 @@ namespace BW
         dialog  *pScrlBar;    // 0x36
         char    **ppStrs;     // 0x3A   // official
         BYTE    *pbStrFlags;  // 0x3E   // official
+          /*
+            0x00  = uses simple values for pdwData
+            0x03  = for maps; makes pdwData contain map name, path, other info
+            0x10  = Adds an option button to the entry
+          */
         DWORD   *pdwData;     // 0x42   // official
         BYTE    bStrs;        // 0x46   // official
         BYTE    unknown_0x47;
@@ -160,10 +165,12 @@ namespace BW
     bool isOption();
     bool isChecked(); // checkbox & option button
 
-    bool isList();
-    BYTE getSelectedIndex();
-    void setSelectedIndex(BYTE bIndex);
-    char *getSelectedString();
+    bool  isList();
+    BYTE  getSelectedIndex();
+    DWORD getSelectedValue();
+    void  setSelectedIndex(BYTE bIndex);
+    void  setSelectedByValue(DWORD dwValue);
+    char  *getSelectedString();
   };
 #pragma pack()
 };
