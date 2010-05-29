@@ -216,7 +216,7 @@ void TestMap1::onStart()
     BWAssert(neutral->getUpgradeLevel(u)==0);
   }
   BWAssert(Broodwar->self()->getRace()==Races::Terran);
-  BWAssert(Broodwar->self()->playerType()==PlayerTypes::Human);
+  BWAssert(Broodwar->self()->playerType()==PlayerTypes::Player);
   BWAssert(Broodwar->self()->minerals()==50);
   BWAssert(Broodwar->self()->gas()==0);
   BWAssert(Broodwar->self()->cumulativeMinerals()==50);

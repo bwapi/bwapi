@@ -15,4 +15,5 @@ void BWAPI::BWAPI_init()
   BWAPI::AttackTypes::init();
   BWAPI::Errors::init();
   BWAPI::Colors::init();
+  BWAPI::GameTypes::init();
 }

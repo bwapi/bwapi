@@ -6,48 +6,45 @@
 namespace BWAPI
 {
   bool initializingPlayerType = true;
-  std::string playerTypeName[14];
+  std::string playerTypeName[13];
   std::map<std::string, PlayerType> playerTypeMap;
   std::set< PlayerType > playerTypeSet;
   namespace PlayerTypes
   {
-    const PlayerType NotUsed(0);
+    const PlayerType None(0);
     const PlayerType Computer(1);
-    const PlayerType Human(2);
-    const PlayerType Rescuable(3);
-    const PlayerType ComputerSlot(5);
-    const PlayerType OpenSlot(6);
+    const PlayerType Player(2);
+    const PlayerType RescuePassive(3);
+    const PlayerType EitherPreferComputer(5);
+    const PlayerType EitherPreferHuman(6);
     const PlayerType Neutral(7);
-    const PlayerType ClosedSlot(8);
-    const PlayerType HumanDefeated(10);
-    const PlayerType ComputerDefeated(11);
-    const PlayerType None(12);
-    const PlayerType Unknown(13);
+    const PlayerType Closed(8);
+    const PlayerType PlayerLeft(10);
+    const PlayerType ComputerLeft(11);
+    const PlayerType Unknown(12);
     void init()
     {
-      playerTypeName[NotUsed.getID()] = "NotUsed";
-      playerTypeName[Computer.getID()] = "Computer";
-      playerTypeName[Human.getID()] = "Human";
-      playerTypeName[Rescuable.getID()] = "Rescuable";
-      playerTypeName[ComputerSlot.getID()] = "ComputerSlot";
-      playerTypeName[OpenSlot.getID()] = "OpenSlot";
-      playerTypeName[Neutral.getID()] = "Neutral";
-      playerTypeName[ClosedSlot.getID()] = "ClosedSlot";
-      playerTypeName[HumanDefeated.getID()] = "HumanDefeated";
-      playerTypeName[ComputerDefeated.getID()] = "ComputerDefeated";
       playerTypeName[None.getID()] = "None";
+      playerTypeName[Computer.getID()] = "Computer";
+      playerTypeName[Player.getID()] = "Player";
+      playerTypeName[RescuePassive.getID()] = "RescuePassive";
+      playerTypeName[EitherPreferComputer.getID()] = "EitherPreferComputer";
+      playerTypeName[EitherPreferHuman.getID()] = "EitherPreferHuman";
+      playerTypeName[Neutral.getID()] = "Neutral";
+      playerTypeName[Closed.getID()] = "Closed";
+      playerTypeName[PlayerLeft.getID()] = "PlayerLeft";
+      playerTypeName[ComputerLeft.getID()] = "ComputerLeft";
       playerTypeName[Unknown.getID()] = "Unknown";
-      playerTypeSet.insert(NotUsed);
-      playerTypeSet.insert(Computer);
-      playerTypeSet.insert(Human);
-      playerTypeSet.insert(Rescuable);
-      playerTypeSet.insert(ComputerSlot);
-      playerTypeSet.insert(OpenSlot);
-      playerTypeSet.insert(Neutral);
-      playerTypeSet.insert(ClosedSlot);
-      playerTypeSet.insert(HumanDefeated);
-      playerTypeSet.insert(ComputerDefeated);
       playerTypeSet.insert(None);
+      playerTypeSet.insert(Computer);
+      playerTypeSet.insert(Player);
+      playerTypeSet.insert(RescuePassive);
+      playerTypeSet.insert(EitherPreferComputer);
+      playerTypeSet.insert(EitherPreferHuman);
+      playerTypeSet.insert(Neutral);
+      playerTypeSet.insert(Closed);
+      playerTypeSet.insert(PlayerLeft);
+      playerTypeSet.insert(ComputerLeft);
       playerTypeSet.insert(Unknown);
       for(std::set<PlayerType>::iterator i = playerTypeSet.begin(); i != playerTypeSet.end(); i++)
       {
@@ -65,7 +62,7 @@ namespace BWAPI
     this->id = id;
     if (!initializingPlayerType)
     {
-      if (id < 0 || id >= 14 || playerTypeName[id].length() == 0)
+      if (id < 0 || id >= 13 || playerTypeName[id].length() == 0)
       {
         this->id = PlayerTypes::Unknown.id;
       }
