@@ -194,6 +194,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\Source\BW\BINDialog.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\CheatType.h"
 					>
 				</File>
