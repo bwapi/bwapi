@@ -135,7 +135,7 @@
 				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				DisableSpecificWarnings="4238;"
+				DisableSpecificWarnings="4238; 4100;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -194,11 +194,11 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\Source\BW\BINDialog.h"
+					RelativePath=".\Source\BW\CheatType.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BW\CheatType.h"
+					RelativePath=".\Source\BW\Dialog.h"
 					>
 				</File>
 				<File
@@ -279,6 +279,10 @@
 				>
 				<File
 					RelativePath=".\Source\BW\CheatType.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\Dialog.cpp"
 					>
 				</File>
 				<File

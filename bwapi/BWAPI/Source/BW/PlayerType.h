@@ -9,18 +9,18 @@ namespace BW
   */
   enum Enum
     {
-      NotUsed          = 0,
-      Computer         = 1,
-      Human            = 2,
-      Rescuable        = 3,
-      Unknown0         = 4,
-      ComputerSlot     = 5,
-      OpenSlot         = 6,
-      Neutral          = 7,
-      ClosedSlot       = 8,
-      Unknown1         = 9,
-      HumanDefeated    = 10, /**< Left */
-      ComputerDefeated = 11  /**< Left */
+      None                  = 0,
+      Computer              = 1,
+      Player                = 2,
+      RescuePassive         = 3,
+      Unknown4              = 4,
+      EitherPreferComputer  = 5,
+      EitherPreferHuman     = 6,
+      Neutral               = 7,
+      Closed                = 8,
+      Observer              = 9,  // no longer used
+      PlayerLeft            = 10, /**< Left */
+      ComputerLeft          = 11  /**< Left */
     };
   }
 };
