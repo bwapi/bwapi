@@ -128,8 +128,8 @@ namespace BW
       {
         if ( this->u.list.pbStrFlags[i] == 0 && this->u.list.pdwData[i] == dwValue)
         {
-          this->u.list.bCurrStr       = i;
-          this->u.list.bSelectedIndex = i;
+          this->u.list.bCurrStr       = (BYTE)i;
+          this->u.list.bSelectedIndex = (BYTE)i;
         }
       }
     } // check

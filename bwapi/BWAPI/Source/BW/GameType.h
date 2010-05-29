@@ -8,7 +8,7 @@ namespace BW
     {
       Melee      = 2,
       FFA        = 3,
-      1v1        = 4,
+      OneOnOne   = 4,
       CTF        = 5,
       Greed      = 6,
       Slaughter  = 7,

@@ -913,6 +913,8 @@ namespace BWAPI
     }
     GetPrivateProfileStringA("config", "race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuRace = std::string(buffer);
+    GetPrivateProfileStringA("config", "game_type", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    autoMenuGameType = std::string(buffer);
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
@@ -947,8 +949,20 @@ namespace BWAPI
         else
         {
           Race r=Races::getRace(this->autoMenuRace);
-          if (r!=Races::Unknown)
+          if (r!=Races::Unknown && r!=Races::None)
             this->_changeRace(0,r);
+
+          GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+          if (gt != GameTypes::None && gt != GameTypes::Unknown)
+          {
+            if (gt==GameTypes::Melee)
+              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex(0);//Melee
+            if (gt==GameTypes::Free_For_All)
+              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex(1);//Free For All
+            if (gt==GameTypes::Use_Map_Settings)
+              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex(2);//Use Map Settings
+          }
+
           this->pressKey('O');
         }
       }
@@ -997,7 +1011,12 @@ namespace BWAPI
           if (*BW::BWDATA_menuStuff!=0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
             this->pressKey('C');
           else
+          {
+            GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+            if (gt != GameTypes::None && gt != GameTypes::Unknown)
+              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedIndex((BYTE)(gt.getID()));
             this->pressKey('O');
+          }
         }
         if (menu == 3) //multiplayer game ready screen
         {
