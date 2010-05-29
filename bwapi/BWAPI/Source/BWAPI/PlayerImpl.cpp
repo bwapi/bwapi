@@ -348,7 +348,8 @@ namespace BWAPI
       this->suppliesUsedLocal[i] = this->getSuppliesUsedSync(i);
     }
     if (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::HumanDefeated ||
-        (BW::BWDATA_Players->player[this->getID()].nType == BW::PlayerType::Neutral && !this->isNeutral()))
+        BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::ComputerDefeated ||
+       (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::Neutral && !this->isNeutral()))
     {
       this->leftTheGame = true;
     }

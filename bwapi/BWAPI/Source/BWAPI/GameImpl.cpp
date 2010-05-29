@@ -951,6 +951,16 @@ namespace BWAPI
           this->pressKey('O');
         }
       }
+      if (menu == 15) //replay screen
+      {
+        this->pressKey('O');
+      }
+      if (menu == 18) //defeat screen
+      {
+      }
+      if (menu == 19) //victory screen
+      {
+      }
     }
     else if (autoMenuMode == "LAN_UDP")
     {
