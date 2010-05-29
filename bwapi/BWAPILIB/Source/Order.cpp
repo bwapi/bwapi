@@ -588,7 +588,13 @@ namespace BWAPI
       orderSet.insert(Unknown);
       for(std::set<Order>::iterator i = orderSet.begin(); i != orderSet.end(); i++)
       {
-        orderMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        orderMap.insert(std::make_pair(name, *i));
       }
       initializingOrder = false;
     }
@@ -640,6 +646,11 @@ namespace BWAPI
   }
   Order Orders::getOrder(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, Order>::iterator i = orderMap.find(name);
     if (i == orderMap.end()) return Orders::Unknown;
     return (*i).second;

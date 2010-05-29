@@ -92,7 +92,13 @@ namespace BWAPI
 
       for(std::set<ExplosionType>::iterator i = explosionTypeSet.begin(); i != explosionTypeSet.end(); i++)
       {
-        explosionTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        explosionTypeMap.insert(std::make_pair(name, *i));
       }
       initializingExplosionType = false;
     }
@@ -144,6 +150,11 @@ namespace BWAPI
 
   ExplosionType ExplosionTypes::getExplosionType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
     if (i == explosionTypeMap.end()) return ExplosionTypes::Unknown;
     return (*i).second;

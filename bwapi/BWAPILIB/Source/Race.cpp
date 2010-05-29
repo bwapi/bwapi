@@ -60,7 +60,13 @@ namespace BWAPI
 
       for(std::set<Race>::iterator i = raceSet.begin(); i != raceSet.end(); i++)
       {
-        raceMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        raceMap.insert(std::make_pair(name, *i));
       }
       initializingRace = false;
     }
@@ -132,6 +138,11 @@ namespace BWAPI
   }
   Race Races::getRace(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, Race>::iterator i = raceMap.find(name);
     if (i == raceMap.end()) return Races::Unknown;
     return (*i).second;

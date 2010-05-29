@@ -146,7 +146,13 @@ namespace BWAPI
 
       for(std::set<UnitCommandType>::iterator i = unitCommandTypeSet.begin(); i != unitCommandTypeSet.end(); i++)
       {
-        unitCommandTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        unitCommandTypeMap.insert(std::make_pair(name, *i));
       }
       initializingUnitCommandType = false;
     }
@@ -198,6 +204,11 @@ namespace BWAPI
 
   UnitCommandType UnitCommandTypes::getUnitCommandType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, UnitCommandType>::iterator i = unitCommandTypeMap.find(name);
     if (i == unitCommandTypeMap.end()) return UnitCommandTypes::Unknown;
     return (*i).second;

@@ -35,7 +35,13 @@ namespace BWAPI
 
       for(std::set<UnitSizeType>::iterator i = unitSizeTypeSet.begin(); i != unitSizeTypeSet.end(); i++)
       {
-        unitSizeTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        unitSizeTypeMap.insert(std::make_pair(name, *i));
       }
       initializingUnitSizeType = false;
     }
@@ -87,6 +93,11 @@ namespace BWAPI
 
   UnitSizeType UnitSizeTypes::getUnitSizeType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, UnitSizeType>::iterator i = unitSizeTypeMap.find(name);
     if (i == unitSizeTypeMap.end()) return UnitSizeTypes::Unknown;
     return (*i).second;
