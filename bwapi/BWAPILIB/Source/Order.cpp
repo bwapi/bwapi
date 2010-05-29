@@ -589,7 +589,7 @@ namespace BWAPI
       for(std::set<Order>::iterator i = orderSet.begin(); i != orderSet.end(); i++)
       {
         std::string name=(*i).getName();
-        for(int j=0;j<name.length();j++)
+        for(int j=0;j<(int)name.length();j++)
         {
           if (name[j]==' ') name[j]='_';
           if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
@@ -646,7 +646,7 @@ namespace BWAPI
   }
   Order Orders::getOrder(std::string& name)
   {
-    for(int j=0;j<name.length();j++)
+    for(int j=0;j<(int)name.length();j++)
     {
       if (name[j]==' ') name[j]='_';
       if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
