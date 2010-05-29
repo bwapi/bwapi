@@ -85,29 +85,7 @@ namespace BWAPI
         this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
         this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
       }
-      char buffer[MAX_PATH];
-      GetPrivateProfileStringA("config", "auto_menu", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
-      this->autoMenuMode = std::string(buffer);
-
-      if (autoMenuMode!="OFF" && autoMenuMode!="off" && autoMenuMode!="")
-      {
-        GetPrivateProfileStringA("config", "map", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
-
-        //split path into path and filename
-        char* mapPathAndNameI=buffer;
-        char* mapPathAndNameLastSlash=buffer;
-        while(mapPathAndNameI[0]!='\0')
-        {
-          if (mapPathAndNameI[0]=='\\' || mapPathAndNameI[0]=='/')
-            mapPathAndNameLastSlash=mapPathAndNameI+1;
-          mapPathAndNameI++;
-        }
-        autoMenuMapName=std::string(mapPathAndNameLastSlash);
-        mapPathAndNameLastSlash[0]='\0';
-        autoMenuMapPath=std::string(buffer);
-      }
-      GetPrivateProfileStringA("config", "race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
-      autoMenuRace = std::string(buffer);
+      loadAutoMenuData();
 
       unitArrayCopyLocal = new BW::UnitArray;
 
@@ -909,6 +887,32 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
   }
+  void GameImpl::loadAutoMenuData()
+  {
+    char buffer[MAX_PATH];
+    GetPrivateProfileStringA("config", "auto_menu", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    this->autoMenuMode = std::string(buffer);
+
+    if (autoMenuMode!="OFF" && autoMenuMode!="off" && autoMenuMode!="")
+    {
+      GetPrivateProfileStringA("config", "map", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+
+      //split path into path and filename
+      char* mapPathAndNameI=buffer;
+      char* mapPathAndNameLastSlash=buffer;
+      while(mapPathAndNameI[0]!='\0')
+      {
+        if (mapPathAndNameI[0]=='\\' || mapPathAndNameI[0]=='/')
+          mapPathAndNameLastSlash=mapPathAndNameI+1;
+        mapPathAndNameI++;
+      }
+      autoMenuMapName=std::string(mapPathAndNameLastSlash);
+      mapPathAndNameLastSlash[0]='\0';
+      autoMenuMapPath=std::string(buffer);
+    }
+    GetPrivateProfileStringA("config", "race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    autoMenuRace = std::string(buffer);
+  }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
@@ -916,7 +920,6 @@ namespace BWAPI
     events.push_back(Event::MenuFrame());
     this->server.update();
     int menu = *BW::BWDATA_glGluesMode;
-
     if (autoMenuMode == "SINGLE_PLAYER")
     {
       if (menu == 0) //main menu
@@ -1500,6 +1503,7 @@ namespace BWAPI
     }
     this->cheatFlags  = 0;
     this->calledOnEnd = false;
+    this->loadAutoMenuData();
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()
