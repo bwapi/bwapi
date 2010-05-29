@@ -7,7 +7,8 @@ namespace BW
   enum Enum
     {
       Melee      = 2,
-      FFA        = 4,
+      FFA        = 3,
+      1v1        = 4,
       CTF        = 5,
       Greed      = 6,
       Slaughter  = 7,
@@ -17,7 +18,8 @@ namespace BW
       Team_Melee = 11,
       Team_FFA   = 12,
       Team_CTF   = 13,
-      TvB        = 15
+      TvB        = 15,
+      PGL        = 32
     };
   }
 };
