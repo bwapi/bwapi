@@ -13,6 +13,7 @@
 #include "PlayerType.h"
 #include "Race.h"
 #include "Sprite.h"
+#include "BINDialog.h"
 
 /**
  * Broodwar content access tools. The namespace contains:
@@ -166,6 +167,7 @@ namespace BW
   static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
+  static BINDialog**   BWDATA_BINDialog     = (BINDialog**) 0x006D5E34;
 
   /* Native message boxes */
   static bool (__cdecl *BWFXN_gluPOK_MBox)() = (bool(__cdecl*)())0x004B7180;

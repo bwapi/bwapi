@@ -939,7 +939,10 @@ namespace BWAPI
         if (*BW::BWDATA_menuStuff!=0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
           this->pressKey('C');
         else
-          this->pressKey('O');
+        {
+          this->changeRace(Races::Terran);
+//          this->pressKey('O');
+        }
       }
     }
     else if (autoMenuMode == "LAN_UDP")
@@ -1219,7 +1222,15 @@ namespace BWAPI
   void  GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
-    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
+    if (autoMenuMode == "SINGLE_PLAYER")
+    {
+      (*BW::BWDATA_BINDialog)->player1Race1 = race.getID();
+      (*BW::BWDATA_BINDialog)->player1Race2 = race.getID();
+    }
+    else
+    {
+      IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)this->BWAPIPlayer->getID()), 3);
+    }
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
