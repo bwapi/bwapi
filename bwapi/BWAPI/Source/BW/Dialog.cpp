@@ -100,19 +100,44 @@ namespace BW
       return this->u.list.bSelectedIndex;
     return 0;
   }
+  DWORD dialog::getSelectedValue()
+  {
+    if ( this 
+        && this->isList() 
+        && this->u.list.pdwData 
+        && this->u.list.pbStrFlags 
+        && this->u.list.bSelectedIndex < this->u.list.bStrs 
+        && this->u.list.pbStrFlags[this->u.list.bSelectedIndex] == 0)
+      return this->u.list.pdwData[this->u.list.bSelectedIndex];
+    return 0;
+  }
 // ------------------- SET SELECTED ------------------
   void dialog::setSelectedIndex(BYTE bIndex)
   {
-    if ( this && this->isList() )
+    if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
-      this->u.list.bCurrStr = bIndex;
+      this->u.list.bCurrStr       = bIndex;
       this->u.list.bSelectedIndex = bIndex;
     }
+  }
+  void dialog::setSelectedByValue(DWORD dwValue)
+  {
+    if ( this && this->isList() && this->u.list.pbStrFlags && this->u.list.pdwData)
+    {
+      for (int i = 0; i < this->u.list.bStrs; i++)
+      {
+        if ( this->u.list.pbStrFlags[i] == 0 && this->u.list.pdwData[i] == dwValue)
+        {
+          this->u.list.bCurrStr       = i;
+          this->u.list.bSelectedIndex = i;
+        }
+      }
+    } // check
   }
 // ------------------ GET SELECTED STR ---------------
   char *dialog::getSelectedString()
   {
-    if ( this && this->isList() )
+    if ( this && this->isList() && this->u.list.ppStrs )
       return this->u.list.ppStrs[this->u.list.bCurrStr];
     return "";
   }
