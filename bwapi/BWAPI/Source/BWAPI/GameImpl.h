@@ -221,6 +221,7 @@ namespace BWAPI
       bool _isSinglePlayer() const;
       bool _isBattleNet();
       bool _isReplay() const;
+      void _changeRace(int slot, BWAPI::Race race);
       void setLastError(BWAPI::Error e);
 
       void loadSelected();

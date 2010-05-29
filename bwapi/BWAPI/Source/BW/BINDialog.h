@@ -77,9 +77,14 @@ namespace BW
     } asdf; //0x32
     */
     u8 _unknown3[2575]; //0x4D
-    u8 player1Race1;
-    u8 _unknown4[5];
-    u8 player1Race2;
+    struct BINPlayer //0xA5C
+    {
+      u8 raceField1; //0xA5C
+      u8 _unknown4[5]; //0xA5D
+      u8 raceField2; //0xA62
+      u8 _unknown5[79]; //0xA63
+    } players[8];
+    //0xD0C (=0xA5C+86*8)
   };
 #pragma pack()
 };
