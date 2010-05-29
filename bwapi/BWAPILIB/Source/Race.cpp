@@ -61,7 +61,7 @@ namespace BWAPI
       for(std::set<Race>::iterator i = raceSet.begin(); i != raceSet.end(); i++)
       {
         std::string name=(*i).getName();
-        for(int j=0;j<name.length();j++)
+        for(int j=0;j<(int)name.length();j++)
         {
           if (name[j]==' ') name[j]='_';
           if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
@@ -138,7 +138,7 @@ namespace BWAPI
   }
   Race Races::getRace(std::string& name)
   {
-    for(int j=0;j<name.length();j++)
+    for(int j=0;j<(int)name.length();j++)
     {
       if (name[j]==' ') name[j]='_';
       if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';

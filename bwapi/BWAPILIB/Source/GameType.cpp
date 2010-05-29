@@ -58,7 +58,7 @@ namespace BWAPI
       for(std::set<GameType>::iterator i = gameTypeSet.begin(); i != gameTypeSet.end(); i++)
       {
         std::string name=(*i).getName();
-        for(int j=0;j<name.length();j++)
+        for(int j=0;j<(int)name.length();j++)
         {
           if (name[j]==' ') name[j]='_';
           if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
@@ -114,7 +114,7 @@ namespace BWAPI
   }
   GameType GameTypes::getGameType(std::string& name)
   {
-    for(int j=0;j<name.length();j++)
+    for(int j=0;j<(int)name.length();j++)
     {
       if (name[j]==' ') name[j]='_';
       if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';

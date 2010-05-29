@@ -171,7 +171,7 @@ namespace BWAPI
       for(std::set<TechType>::iterator i = techTypeSet.begin(); i != techTypeSet.end(); i++)
       {
         std::string name=(*i).getName();
-        for(int j=0;j<name.length();j++)
+        for(int j=0;j<(int)name.length();j++)
         {
           if (name[j]==' ') name[j]='_';
           if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
@@ -255,7 +255,7 @@ namespace BWAPI
   }
   TechType TechTypes::getTechType(std::string& name)
   {
-    for(int j=0;j<name.length();j++)
+    for(int j=0;j<(int)name.length();j++)
     {
       if (name[j]==' ') name[j]='_';
       if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
