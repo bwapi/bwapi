@@ -39,6 +39,7 @@
 #include <BW/GameType.h>
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
+#include <BW/Dialog.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -1250,8 +1251,14 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
-    (*BW::BWDATA_BINDialog)->players[slot].raceField1 = race.getID();
-    (*BW::BWDATA_BINDialog)->players[slot].raceField2 = race.getID();
+    BYTE racenum = (BYTE)race.getID();
+    if ( racenum == BW::Race::Random )
+      racenum = 3;
+
+    BW::dialog *slotCtrl = (*BW::BWDATA_BINDialog)->FindIndex((short)(28+slot));  // 28 is the CtrlID of the first slot
+    if ( slotCtrl )
+      slotCtrl->setSelectedIndex(racenum);
+
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
@@ -1302,8 +1309,8 @@ namespace BWAPI
       /* find the opponent player */
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
-             this->players[i]->playerType() == BW::PlayerType::Human ||
-             this->players[i]->playerType() == BW::PlayerType::ComputerSlot) &&
+             this->players[i]->playerType() == BW::PlayerType::Player ||
+             this->players[i]->playerType() == BW::PlayerType::EitherPreferComputer) &&
             this->opponent == NULL &&
             this->BWAPIPlayer->isEnemy(this->players[i]))
           this->opponent = this->players[i];
