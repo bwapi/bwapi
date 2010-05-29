@@ -120,6 +120,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="4"
+				DisableSpecificWarnings="4100; 4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -172,6 +173,22 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Source Files"
+			>
+			<File
+				RelativePath=".\source\LocalPC.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			>
+			<File
+				RelativePath=".\source\LocalPC.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>

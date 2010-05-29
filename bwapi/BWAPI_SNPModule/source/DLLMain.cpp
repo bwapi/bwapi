@@ -1,6 +1,7 @@
 #include <windows.h>
-
 #include "../../svnrev.h"
+
+#include "LocalPC.h"
 
 HINSTANCE ghInstance;
 
@@ -21,7 +22,7 @@ struct netFunctions
 {
   DWORD dwSize;
   void  *fxn_0;
-  void  *fxn_1;
+  BOOL  (__stdcall *Cleanup)();
   void  *fxn_2;
   void  *fxn_3;
   void  *fxn_4;
@@ -57,15 +58,15 @@ struct netStruct
   caps          Caps;
   netFunctions  NetFxns;
 } networks[] = {
-  { "Local PC", 'LOCL', "BWAPI 1.16.1 \n\nConnect multiple instances of Starcraft together on the same PC.",
+  { "Local PC", 'LOCL', "BWAPI 1.16.1 r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
     { sizeof(caps), 0x20000000, 0x200, 0x10, 0x100, 100000, 50, 8, 2},
-    { sizeof(netFunctions), NULL, NULL, NULL, NULL, 
+    { sizeof(netFunctions), &fxn1, &Cleanup, &fxn3, &fxn4, 
+      &fxn5, &fxn6, &fxn7, &fxn8, 
+      &fxn9, &fxn10, &fxn11, &fxn12, 
+      &fxn13, &fxn14, &fxn15, &CreateGame, 
+      &LeaveGame, &fxn18, &fxn19, NULL, 
       NULL, NULL, NULL, NULL, 
-      NULL, NULL, NULL, NULL, 
-      NULL, NULL, NULL, NULL, 
-      NULL, NULL, NULL, NULL, 
-      NULL, NULL, NULL, NULL, 
-      NULL, NULL, NULL}
+      NULL, NULL, &BeginTextMessage}
   }
 };
 
