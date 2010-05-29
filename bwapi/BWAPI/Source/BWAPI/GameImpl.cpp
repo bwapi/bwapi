@@ -106,6 +106,8 @@ namespace BWAPI
         mapPathAndNameLastSlash[0]='\0';
         autoMenuMapPath=std::string(buffer);
       }
+      GetPrivateProfileStringA("config", "race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+      autoMenuRace = std::string(buffer);
 
       unitArrayCopyLocal = new BW::UnitArray;
 
@@ -940,9 +942,10 @@ namespace BWAPI
           this->pressKey('C');
         else
         {
-          this->_changeRace(0,Races::Terran);
-          this->_changeRace(1,Races::Zerg);
-//          this->pressKey('O');
+          Race r=Races::getRace(this->autoMenuRace);
+          if (r!=Races::Unknown)
+            this->_changeRace(0,r);
+          this->pressKey('O');
         }
       }
     }
@@ -984,6 +987,9 @@ namespace BWAPI
         }
         if (menu == 3) //multiplayer game ready screen
         {
+          Race r=Races::getRace(this->autoMenuRace);
+          if (r!=Races::Unknown)
+            this->_changeRace(0,r);
         }
       }
       else // wait for other computer to make game
@@ -995,6 +1001,9 @@ namespace BWAPI
         }
         if (menu == 3) //multiplayer game ready screen
         {
+          Race r=Races::getRace(this->autoMenuRace);
+          if (r!=Races::Unknown)
+            this->_changeRace(0,r);//maybe this should be index 1?
         }
       }
     }
@@ -1228,15 +1237,9 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
-    if (autoMenuMode == "SINGLE_PLAYER")
-    {
-      (*BW::BWDATA_BINDialog)->players[slot].raceField1 = race.getID();
-      (*BW::BWDATA_BINDialog)->players[slot].raceField2 = race.getID();
-    }
-    else
-    {
-      IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
-    }
+    (*BW::BWDATA_BINDialog)->players[slot].raceField1 = race.getID();
+    (*BW::BWDATA_BINDialog)->players[slot].raceField2 = race.getID();
+    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
