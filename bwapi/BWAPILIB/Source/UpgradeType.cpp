@@ -315,7 +315,13 @@ namespace BWAPI
 
       for(std::set<UpgradeType>::iterator i = upgradeTypeSet.begin(); i != upgradeTypeSet.end(); i++)
       {
-        upgradeTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        upgradeTypeMap.insert(std::make_pair(name, *i));
       }
       initializingUpgradeType = false;
     }
@@ -406,6 +412,11 @@ namespace BWAPI
   }
   UpgradeType UpgradeTypes::getUpgradeType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, UpgradeType>::iterator i = upgradeTypeMap.find(name);
     if (i == upgradeTypeMap.end()) return UpgradeTypes::Unknown;
     return (*i).second;

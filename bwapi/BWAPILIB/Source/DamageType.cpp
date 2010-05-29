@@ -38,7 +38,13 @@ namespace BWAPI
 
       for(std::set<DamageType>::iterator i = damageTypeSet.begin(); i != damageTypeSet.end(); i++)
       {
-        damageTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        damageTypeMap.insert(std::make_pair(name, *i));
       }
       initializingDamageType = false;
     }
@@ -90,6 +96,11 @@ namespace BWAPI
 
   DamageType DamageTypes::getDamageType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, DamageType>::iterator i = damageTypeMap.find(name);
     if (i == damageTypeMap.end()) return DamageTypes::Unknown;
     return (*i).second;

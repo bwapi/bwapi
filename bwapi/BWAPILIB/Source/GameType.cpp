@@ -57,7 +57,13 @@ namespace BWAPI
       gameTypeSet.insert(Unknown);
       for(std::set<GameType>::iterator i = gameTypeSet.begin(); i != gameTypeSet.end(); i++)
       {
-        gameTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        gameTypeMap.insert(std::make_pair(name, *i));
       }
       initializingGameType = false;
     }
@@ -108,6 +114,11 @@ namespace BWAPI
   }
   GameType GameTypes::getGameType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, GameType>::iterator i = gameTypeMap.find(name);
     if (i == gameTypeMap.end()) return GameTypes::Unknown;
     return (*i).second;

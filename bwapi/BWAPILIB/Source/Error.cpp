@@ -78,7 +78,13 @@ namespace BWAPI
       errorSet.insert(Unknown);
       for(std::set<Error>::iterator i = errorSet.begin(); i != errorSet.end(); i++)
       {
-        errorMap.insert(std::make_pair((*i).toString(), *i));
+        std::string name=(*i).toString();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        errorMap.insert(std::make_pair(name, *i));
       }
       initializingError = false;
     }
@@ -130,6 +136,11 @@ namespace BWAPI
   }
   Error Errors::getError(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, Error>::iterator i = errorMap.find(name);
     if (i == errorMap.end()) return Errors::Unknown;
     return (*i).second;

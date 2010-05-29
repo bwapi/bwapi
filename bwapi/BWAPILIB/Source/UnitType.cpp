@@ -604,7 +604,13 @@ namespace BWAPI
 
       for(std::set<UnitType>::iterator i = unitTypeSet.begin(); i != unitTypeSet.end(); i++)
       {
-        unitTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        unitTypeMap.insert(std::make_pair(name, *i));
       }
       initializingUnitType = false;
     }
@@ -916,6 +922,11 @@ namespace BWAPI
 
   UnitType UnitTypes::getUnitType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, UnitType>::iterator i = unitTypeMap.find(name);
     if (i == unitTypeMap.end()) return UnitTypes::Unknown;
     return (*i).second;

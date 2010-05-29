@@ -123,7 +123,13 @@ namespace BWAPI
       attackTypeSet.insert(Unknown);
       for(std::set<AttackType>::iterator i = attackTypeSet.begin(); i != attackTypeSet.end(); i++)
       {
-        attackTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        attackTypeMap.insert(std::make_pair(name, *i));
       }
       initializingAttackType = false;
     }
@@ -175,6 +181,11 @@ namespace BWAPI
   }
   AttackType AttackTypes::getAttackType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, AttackType>::iterator i = attackTypeMap.find(name);
     if (i == attackTypeMap.end()) return AttackTypes::Unknown;
     return (*i).second;

@@ -337,7 +337,13 @@ namespace BWAPI
       weaponTypeSet.insert(Unknown);
       for(std::set<WeaponType>::iterator i = weaponTypeSet.begin(); i != weaponTypeSet.end(); i++)
       {
-        weaponTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        weaponTypeMap.insert(std::make_pair(name, *i));
       }
       initializingWeaponType = false;
     }
@@ -480,6 +486,11 @@ namespace BWAPI
   }
   WeaponType WeaponTypes::getWeaponType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, WeaponType>::iterator i = weaponTypeMap.find(name);
     if (i == weaponTypeMap.end()) return WeaponTypes::Unknown;
     return (*i).second;

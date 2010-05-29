@@ -48,7 +48,13 @@ namespace BWAPI
       playerTypeSet.insert(Unknown);
       for(std::set<PlayerType>::iterator i = playerTypeSet.begin(); i != playerTypeSet.end(); i++)
       {
-        playerTypeMap.insert(std::make_pair((*i).getName(), *i));
+        std::string name=(*i).getName();
+        for(int j=0;j<name.length();j++)
+        {
+          if (name[j]==' ') name[j]='_';
+          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+        }
+        playerTypeMap.insert(std::make_pair(name, *i));
       }
       initializingPlayerType = false;
     }
@@ -99,6 +105,11 @@ namespace BWAPI
   }
   PlayerType PlayerTypes::getPlayerType(std::string& name)
   {
+    for(int j=0;j<name.length();j++)
+    {
+      if (name[j]==' ') name[j]='_';
+      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+    }
     std::map<std::string, PlayerType>::iterator i = playerTypeMap.find(name);
     if (i == playerTypeMap.end()) return PlayerTypes::Unknown;
     return (*i).second;
