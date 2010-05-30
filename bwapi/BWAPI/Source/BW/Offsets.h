@@ -248,7 +248,7 @@ namespace BW
   static int  (__stdcall *SStrCopy)(char *dest, const char *source, size_t size)              = NULL;
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
-  static u16*           BWDATA_SendTextRequired                   = (u16*)  0x0057F1DA;
+  static u16*           BWDATA_SendTextFilter                     = (u16*)  0x0057F1DA;
   static char*          BWDATA_CurrentPlayer                      = (char*) 0x0057EE9C;            // 1.16.1
 
   static u32            BWFXN_SendPublicCallTarget                = 0x004C2420;

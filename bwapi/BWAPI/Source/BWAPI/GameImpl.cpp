@@ -1161,7 +1161,16 @@ namespace BWAPI
       printEx(8, "%s", buffer);
   }
 
-  void  GameImpl::sendText(const char* text, ...)
+  void  GameImpl::sendText(const char *text, ...)
+  {
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_end(ap);
+    sendTextEx(0, 0, "%s", buffer);
+  }
+  // 0 = to all, 1 = to allies, 2 = to specified
+  void  GameImpl::sendTextEx(u8 txfilter, u8 plfilter, const char *text, ...)
   {
     va_list ap;
     va_start(ap, text);
@@ -1196,7 +1205,18 @@ namespace BWAPI
 
     if (_isInGame())
     {
-      memset(BW::BWDATA_SendTextRequired, 0xFF, 2);
+      switch (txfilter)
+      {
+      case 0:
+        memset(BW::BWDATA_SendTextFilter, 0xFF, 2);
+        break;
+      case 1:
+
+        break;
+      default:
+
+        break;
+      }
       __asm
       {
         pushad
@@ -1204,7 +1224,6 @@ namespace BWAPI
         call [BW::BWFXN_SendPublicCallTarget]
         popad
       }
-
     }
     else
       __asm
@@ -1215,6 +1234,7 @@ namespace BWAPI
         popad
       }
   }
+
   void GameImpl::pressKey(int key)
   {
     INPUT *keyp          = new INPUT;
