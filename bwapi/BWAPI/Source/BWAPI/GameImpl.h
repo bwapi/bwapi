@@ -119,6 +119,7 @@ namespace BWAPI
        */
       virtual void printf(const char* text, ...);
       virtual void sendText(const char* text, ...);
+      void sendTextEx(u8 txfilter, u8 plfilter, const char *text, ...);
       void printEx(int pID, const char* text, ...);
 
       /**
