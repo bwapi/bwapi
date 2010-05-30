@@ -2,39 +2,39 @@
 
 char buffer[1024];
 
-BOOL __stdcall fxn1(int a1, int a2, int a3)
+bool __stdcall fxn0(int a1, int a2, int a3)
 {
-  MessageBoxA(NULL, "Fxn1", "Fxn1", MB_OK);
+  MessageBoxA(NULL, "Fxn0", "Fxn0", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall Cleanup()
+bool __stdcall Cleanup()
 {
   MessageBoxA(NULL, "Cleanup", "Cleanup", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn3(int a1, int a2, int a3)
+bool __stdcall fxn2(int a1, int a2, int a3)
+{
+  MessageBoxA(NULL, "Fxn2", "Fxn2", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn3(int a1, int a2, int a3)
 {
   MessageBoxA(NULL, "Fxn3", "Fxn3", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn4(int a1, int a2, int a3)
+bool __stdcall fxn4(int a1, int a2, int a3, int a4)
 {
   MessageBoxA(NULL, "Fxn4", "Fxn4", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn5(int a1, int a2, int a3, int a4)
+bool __stdcall fxn5(int a1, int a2, int a3, int a4)
 {
   MessageBoxA(NULL, "Fxn5", "Fxn5", MB_OK);
-  return TRUE;
-}
-
-BOOL __stdcall fxn6(int a1, int a2, int a3, int a4)
-{
-  MessageBoxA(NULL, "Fxn6", "Fxn6", MB_OK);
   return TRUE;
 }
 
@@ -95,60 +95,59 @@ struct module
   char  *pszPatchMpq;
 };
 
-BOOL __stdcall fxn7(version *a1, PSTRUCT a2, bncallbacks *a3, module *a4, DWORD a5)
+bool __stdcall InitializeModule(version *a1, PSTRUCT a2, bncallbacks *a3, module *a4, DWORD a5)
 {
   sprintf(buffer, "fxn7(%p, %p, %p, %p, %X)", a1, a2, a3, a4, a5);
   MessageBoxA(NULL, buffer, "Fxn7", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn8(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, module *a5)
+bool __stdcall fxn7(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, module *a5)
 {
-  sprintf(buffer, "fxn8(0x%p, %p, %p, %p, %p)", a1, a2, a3, a4, a5);
-  MessageBoxA(NULL, buffer, "Fxn8", MB_OK);
+  sprintf(buffer, "fxn7(0x%p, %p, %p, %p, %p)", a1, a2, a3, a4, a5);
+  MessageBoxA(NULL, buffer, "Fxn7", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn9(DWORD *a1)
+bool __stdcall fxn8(DWORD *a1)
 {
-  sprintf(buffer, "fxn9(0x%p)", *a1);
-  MessageBoxA(NULL, buffer, "Fxn9", MB_OK);
+  *a1 = 0;
   return TRUE;
 }
 
-BOOL __stdcall fxn10(int a1, int a2, int a3)
+bool __stdcall fxn9(int a1, int a2, int a3)
+{
+  //MessageBoxA(NULL, "Fxn9", "Fxn9", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn10(int a1, int a2, int a3)
 {
   //MessageBoxA(NULL, "Fxn10", "Fxn10", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn11(int a1, int a2, int a3)
+bool __stdcall fxn11(int a1, int a2, int a3)
 {
   //MessageBoxA(NULL, "Fxn11", "Fxn11", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn12(int a1, int a2, int a3)
+bool __stdcall fxn12(int a1, int a2, int a3, int a4, int a5, int a6)
 {
-  //MessageBoxA(NULL, "Fxn12", "Fxn12", MB_OK);
+  MessageBoxA(NULL, "Fxn12", "Fxn12", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn13(int a1, int a2, int a3, int a4, int a5, int a6)
+bool __stdcall fxn13(int a1, int a2, int a3, int a4)
 {
   MessageBoxA(NULL, "Fxn13", "Fxn13", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn14(int a1, int a2, int a3, int a4)
+bool __stdcall fxn14(int a1, int a2, int a3, int a4, int a5)
 {
   MessageBoxA(NULL, "Fxn14", "Fxn14", MB_OK);
-  return TRUE;
-}
-
-BOOL __stdcall fxn15(int a1, int a2, int a3, int a4, int a5)
-{
-  MessageBoxA(NULL, "Fxn15", "Fxn15", MB_OK);
   return TRUE;
 }
 
@@ -169,7 +168,7 @@ struct unka9
   DWORD dwSlots;
 };
 
-BOOL __stdcall CreateGame(char *pszGameName, char *pszGamePassword, char *pszGameStats, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, unka9 *a9, int a10)
+bool __stdcall CreateGame(char *pszGameName, char *pszGamePassword, char *pszGameStats, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, unka9 *a9, int a10)
 {
   sprintf(buffer, "CreateGame(\"%s\", \"%s\", "
                 "\n\"%s\",\n 0x%X, %d, [type: %d; subtype: %d], "
@@ -185,30 +184,66 @@ BOOL __stdcall CreateGame(char *pszGameName, char *pszGamePassword, char *pszGam
   return TRUE;
 }
 
-BOOL __stdcall LeaveGame()
+bool __stdcall LeaveGame()
 {
   MessageBoxA(NULL, "LeaveGame", "LeaveGame", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn18()
+bool __stdcall InitializeUser()
 {
-  MessageBoxA(NULL, "Fxn18", "Fxn18", MB_OK);
   return TRUE;
 }
 
-BOOL __stdcall fxn19(int a1, int a2)
+bool __stdcall fxn18(int a1, int a2)
 {
-  //MessageBoxA(NULL, "Fxn19", "Fxn19", MB_OK);
+  //MessageBoxA(NULL, "Fxn18", "Fxn18", MB_OK);
   return TRUE;
 }
 
-char wtf[] = "HOOLABALOOZA";
-BOOL __stdcall BeginTextMessage(char *pszMessage, DWORD dwMessageSize)
+bool __stdcall fxn19(char *pszName, DWORD dwNameSize, char *pszStats, DWORD dwStatSize)
 {
-  sprintf(buffer, "BeginTextMessage(%s, %d)", pszMessage, dwMessageSize);
-  pszMessage = wtf;
-  //MessageBoxA(NULL, buffer, "BeginTextMessage", MB_OK);
-  return FALSE;
+  MessageBoxA(NULL, "fxn19", "fxn19", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn20(int a1, int a2, int a3, int a4, int a5, int a6)
+{
+  MessageBoxA(NULL, "fxn20", "fxn20", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn21(int a1, int a2, int a3, int a4)
+{
+  MessageBoxA(NULL, "fxn21", "fxn21", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn22(char *pszMessage, DWORD dwSize)
+{
+  MessageBoxA(NULL, "fxn22", "fxn22", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn23(int a1, int a2, int a3)
+{
+  MessageBoxA(NULL, "fxn23", "fxn23", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall fxn24(int a1)
+{
+  MessageBoxA(NULL, "fxn24", "fxn24", MB_OK);
+  return TRUE;
+}
+
+bool __stdcall LeagueLogout(char *pszName)
+{
+  return TRUE;
+}
+
+bool __stdcall GetLeagueName(char *pszDest, DWORD dwSize)
+{
+  return TRUE;
 }
 
