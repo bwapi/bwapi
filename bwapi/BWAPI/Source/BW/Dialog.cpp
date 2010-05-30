@@ -3,6 +3,91 @@
 namespace BW
 {
 // -------------------------------------------------- GLOBAL -------------------------------------------------
+  // ----------------- CONSTRUCTORS ------------------
+  dialog::dialog(WORD ctrlType, short index, WORD width, WORD height)
+  {
+    if ( ctrlType > 14)
+      ctrlType = 9;
+
+    rct.Xmin      = 100;
+    rct.Ymin      = 100;
+    rct.Xmax      = rct.Xmin + width;
+    rct.Ymax      = rct.Ymin + height;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
+
+    pszText       = "";
+    lFlags        = CTRL_VISIBLE;
+
+    wIndex        = index;
+    wCtrlType     = ctrlType;
+
+    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
+    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+  }
+  dialog::dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height)
+  {
+    if ( ctrlType > 14)
+      ctrlType = 9;
+
+    rct.Xmin      = top;
+    rct.Ymin      = left;
+    rct.Xmax      = rct.Xmin + width;
+    rct.Ymax      = rct.Ymin + height;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
+
+    pszText       = "";
+    lFlags        = CTRL_VISIBLE;
+
+    wIndex        = index;
+    wCtrlType     = ctrlType;
+
+    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
+    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+  }
+  dialog::dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height)
+  {
+    if ( ctrlType > 14)
+      ctrlType = 9;
+
+    rct.Xmin      = 100;
+    rct.Ymin      = 100;
+    rct.Xmax      = rct.Xmin + width;
+    rct.Ymax      = rct.Ymin + height;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
+
+    pszText       = (char*)text;
+    lFlags        = CTRL_VISIBLE;
+
+    wIndex        = index;
+    wCtrlType     = ctrlType;
+
+    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
+    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+  }
+  dialog::dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height)
+  {
+    if ( ctrlType > 14)
+      ctrlType = 9;
+
+    rct.Xmin      = top;
+    rct.Ymin      = left;
+    rct.Xmax      = rct.Xmin + width;
+    rct.Ymax      = rct.Ymin + height;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
+
+    pszText       = (char*)text;
+    lFlags        = CTRL_VISIBLE;
+
+    wIndex        = index;
+    wCtrlType     = ctrlType;
+
+    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
+    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+  }
   // --------------------- FIND ----------------------
   dialog *dialog::FindIndex(short wIndex)
   {
@@ -25,6 +110,38 @@ namespace BW
       return pCurrDlg;
 
     return NULL;
+  }
+  // --------------------- ADD -----------------------
+  void dialog::add(dialog *dlg)
+  {
+    if ( !this || !dlg)
+      return;
+
+    dialog *parent = this;
+    if ( !parent->isDialog() )
+      parent = parent->parent();
+
+    if ( dlg->isDialog() )
+    {
+      while ( parent->pNext )
+        parent = parent->pNext;
+      parent->pNext = dlg;
+    }
+    else
+    {
+      dlg->u.ctrl.pDlg = parent;
+      if ( !parent->child() )
+      {
+        parent->u.dlg.pFirstChild = dlg;
+      }
+      else
+      {
+        dialog *child = parent->child();
+        while ( child->pNext )
+          child = child->pNext;
+        child->pNext = dlg;
+      }
+    }
   }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
