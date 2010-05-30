@@ -2,6 +2,8 @@
 #include <Util/Types.h>
 #include <windows.h>
 
+#include "offsets.h"
+
 #define CTRL_VISIBLE        0x00000008
 #define CTRL_DLG_ACTIVE     0x40000000
 #define CTRL_LBOX_NORECALC  0x80000000
@@ -71,10 +73,11 @@ namespace BW
       
       struct _dlg            // official
       {
+        DWORD   dwUnk_0x32;
         bitmap  dstBits;      // 0x36  // official 
         DWORD   dwUnk_0x3E;
-        DWORD   dwUnk_0x42;
-        dialog  *pFirstChild; // 0x46   // official
+        dialog  *pFirstChild;  // 0x42  // official
+        DWORD   dwUnk_0x46;
         void    *pModalFcn;   // 0x4A   // official
       } dlg;
       
@@ -84,8 +87,7 @@ namespace BW
         rect    responseRct;    // 0x36
         WORD    wHighlight;     // 0x3E
         WORD    wUnknown_0x40;
-        WORD    wUnknown_0x42;
-        WORD    wUnknown_0x44;
+        void    *pSmk;          // 0x42
         rect    textRct;        // 0x46
         WORD    wAlignment;    // 0x4E
       } btn;
@@ -150,7 +152,13 @@ namespace BW
 
   public:
     // global functions
+    dialog(WORD ctrlType, short index, WORD width, WORD height);
+    dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height);
+    dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height);
+    dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height);
+
     dialog  *FindIndex(short wIndex);
+    void    add(dialog *dlg);
 
     // dialog-specific functions
     bool    isDialog();

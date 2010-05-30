@@ -1285,7 +1285,7 @@ namespace BWAPI
   {
     BW::dialog *slotCtrl = (*BW::BWDATA_BINDialog)->FindIndex((short)(28+slot));  // 28 is the CtrlID of the first slot
     if ( slotCtrl )
-      slotCtrl->setSelectedIndex(race.getID());
+      slotCtrl->setSelectedByValue(race.getID());
 
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }

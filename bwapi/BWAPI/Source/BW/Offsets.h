@@ -40,6 +40,7 @@ namespace BW
   struct UnitArray;
   class TileType;
   class DoodatType;
+  class dialog;
   //-------------------------------------------- PLAYER RESOURCES --------------------------------------------
   /** Direct mapping of players resource amount in the bw memory */
   struct PlayerResources
@@ -173,6 +174,9 @@ namespace BW
   static bool (__cdecl *BWFXN_gluPOK_MBox)() = (bool(__cdecl*)())0x004B7180;
   static bool (__cdecl *BWFXN_gluPOKCancel_MBox)() = (bool(__cdecl*)())0x004B73B0;
   static bool (__stdcall *BWFXN_gluPEdit_MBox)(char *text, char *dest, size_t size, char *restricted) = (bool(__stdcall*)(char*,char*,size_t,char*))0x004B6E50;
+
+  static void **BWDATA_GenericDlgInteractFxns = (void**)0x005014AC;
+  static void **BWDATA_GenericDlgUpdateFxns   = (void**)0x00501504;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
