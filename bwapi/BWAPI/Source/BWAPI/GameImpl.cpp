@@ -1465,7 +1465,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/dlgtest")
     {
-      BW::dialog *myDlg  = new BW::dialog(BW::ctrls::cDLG, 0, "TestDialog", 100, 100, 300, 200);
+      BW::dialog *myDlg  = new BW::dialog(BW::ctrls::cDLG, 0, "TestDialog", 100, 100, 300, 200, &BW::testInteract);
       BW::dialog *myCtrl = new BW::dialog(BW::ctrls::cLSTATIC, -10, "Hello world!!!", 100, 100, 100, 32);
       myDlg->add(myCtrl);
       (*BW::BWDATA_ScreenDialog)->add(myDlg);

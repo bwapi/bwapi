@@ -11,8 +11,6 @@
 
 namespace BW
 {
-#pragma pack(1)
-
   namespace ctrls
   {
     enum Enum
@@ -36,10 +34,29 @@ namespace BW
     };
   };
 
+  struct pt
+  {
+    WORD  x;
+    WORD  y;
+  };
+
+  struct dlgEvent
+  {
+    DWORD dwUser;
+    DWORD dwUnk_0x04;
+    WORD  wVirtKey;
+    WORD  wUnk_0x0A;
+    WORD  wNo;
+    WORD  wUnk_0x0E;
+    WORD  wUnk_0x10;
+    pt    cursor;
+    DWORD dwUnk_0x16;
+  };
+
   struct bitmap
   {
-    u16   wid;
-    u16   ht;
+    WORD  wid;
+    WORD  ht;
     void  *data;
   };
   
@@ -50,7 +67,8 @@ namespace BW
     short Xmax;
     short Ymax;
   };
-  
+
+#pragma pack(1)
   class dialog   // BIN Dialog
   {
   private:
@@ -154,10 +172,8 @@ namespace BW
 
   public:
     // global functions
-    dialog(WORD ctrlType, short index, WORD width, WORD height);
     dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height);
-    dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height);
-    dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height);
+    dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, void (__fastcall *pfUpdate)(dialog*,int,int,rect*) = NULL);
     ~dialog();
 
     dialog  *FindIndex(short wIndex);
@@ -166,6 +182,7 @@ namespace BW
     // dialog-specific functions
     bool    isDialog();
     dialog  *child();
+    dialog  *findDialogByName(const char *pszName);
 
     // control-specific functions
     dialog *parent();
@@ -173,9 +190,11 @@ namespace BW
 
     short getIndex();
 
+    // checkbox & option button
     bool isOption();
-    bool isChecked(); // checkbox & option button
+    bool isChecked();
 
+    // listbox & combobox
     bool  isList();
     BYTE  getSelectedIndex();
     DWORD getSelectedValue();
@@ -184,4 +203,6 @@ namespace BW
     char  *getSelectedString();
   };
 #pragma pack()
+
+  bool __fastcall testInteract(dialog *dlg, dlgEvent *evt);
 };

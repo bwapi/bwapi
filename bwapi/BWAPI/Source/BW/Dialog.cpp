@@ -2,42 +2,76 @@
 
 namespace BW
 {
+
+  bool __fastcall testInteract(dialog *dlg, dlgEvent *evt)
+  {
+    char out[512];
+    switch (evt->wNo)
+    {
+    case 0:
+      // Key down
+      break;
+    case 1:
+      // Key repeat
+      break;
+    case 2:
+      // Key Modifier?? Key up?
+      break;
+    case 3:
+      // Mouse update/Move
+      break;
+    case 4:
+      // Left Button down
+      break;
+    case 5:
+      // Left Button up
+      break;
+    case 6:
+      // Left Button Something (usually paired with down
+      break;
+    case 7:
+      // Right Button Down
+      break;
+    case 8:
+      // Right Button Up
+      break;
+    case 9:
+      // Right Button Something (usually paired with down)
+      break;
+    case 10:
+      // Middle Button Down
+      break;
+    case 11:
+      // Middle Button Up
+      break;
+    case 12:
+      // Middle Button Something (usually paired with down)
+      break;
+    case 13:
+      // unknown; Loop? Always?
+      break;
+    case 14:
+      // Control (used for when a control has been pressed)
+      break;
+    case 15:
+      // User Key press
+      break;
+    case 17:
+      // Mouse wheel Scroll up
+      break;
+    case 18:
+      // Mouse wheel Scroll down
+      break;
+    default:
+      sprintf_s(out, 512, "Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);
+      MessageBoxA(NULL, out, "!", MB_OK);
+      break;
+    }
+    return false;
+  }
+
 // -------------------------------------------------- GLOBAL -------------------------------------------------
   // ----------------- CONSTRUCTORS ------------------
-  dialog::dialog(WORD ctrlType, short index, WORD width, WORD height)
-  {
-    if ( ctrlType > ctrls::max)
-      ctrlType = ctrls::cLSTATIC;
-
-    memset(this, 0, sizeof(dialog));
-    rct.Xmin      = 100;
-    rct.Ymin      = 100;
-    rct.Xmax      = rct.Xmin + width - 1;
-    rct.Ymax      = rct.Ymin + height - 1;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
-
-    pszText       = "";
-    if ( ctrlType == ctrls::cDLG )
-      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
-    else
-      lFlags        = CTRL_VISIBLE;
-
-    wIndex        = index;
-    wCtrlType     = ctrlType;
-
-    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
-    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
-
-    if ( ctrlType == ctrls::cDLG )
-    {
-      srcBits.data       = malloc(width*height);
-      memset(srcBits.data, 0x29, width*height);
-      u.dlg.dstBits.wid  = width;
-      u.dlg.dstBits.ht   = height;
-      u.dlg.dstBits.data = malloc(width*height);
-    }
-  }
   dialog::dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height)
   {
     if ( ctrlType > ctrls::max)
@@ -55,7 +89,7 @@ namespace BW
     if ( ctrlType == ctrls::cDLG )
       lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
     else
-      lFlags        = CTRL_VISIBLE;
+      lFlags      = CTRL_VISIBLE;
 
     wIndex        = index;
     wCtrlType     = ctrlType;
@@ -72,64 +106,37 @@ namespace BW
       u.dlg.dstBits.data = malloc(width*height);
     }
   }
-  dialog::dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height)
+  dialog::dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*), void (__fastcall *pfUpdate)(dialog*,int,int,rect*))
   {
     if ( ctrlType > ctrls::max)
       ctrlType = ctrls::cLSTATIC;
 
     memset(this, 0, sizeof(dialog));
-    rct.Xmin      = 100;
-    rct.Ymin      = 100;
-    rct.Xmax      = rct.Xmin + width - 1;
-    rct.Ymax      = rct.Ymin + height - 1;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
+    rct.Xmin        = top;
+    rct.Ymin        = left;
+    rct.Xmax        = rct.Xmin + width - 1;
+    rct.Ymax        = rct.Ymin + height - 1;
+    srcBits.wid     = width;
+    srcBits.ht      = height;
 
-    pszText       = (char*)text;
+    pszText         = (char*)text;
     if ( ctrlType == ctrls::cDLG )
-      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+      lFlags        = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
     else
       lFlags        = CTRL_VISIBLE;
 
-    wIndex        = index;
-    wCtrlType     = ctrlType;
+    wIndex          = index;
+    wCtrlType       = ctrlType;
 
-    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
-    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
-
-    if ( ctrlType == ctrls::cDLG )
-    {
-      srcBits.data       = malloc(width*height);
-      memset(srcBits.data, 0x29, width*height);
-      u.dlg.dstBits.wid  = width;
-      u.dlg.dstBits.ht   = height;
-      u.dlg.dstBits.data = malloc(width*height);
-    }
-  }
-  dialog::dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height)
-  {
-    if ( ctrlType > ctrls::max)
-      ctrlType = ctrls::cLSTATIC;
-
-    memset(this, 0, sizeof(dialog));
-    rct.Xmin      = top;
-    rct.Ymin      = left;
-    rct.Xmax      = rct.Xmin + width - 1;
-    rct.Ymax      = rct.Ymin + height - 1;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
-
-    pszText       = (char*)text;
-    if ( ctrlType == ctrls::cDLG )
-      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+    if ( pfInteract )
+      pfcnInteract  = pfInteract;
     else
-      lFlags        = CTRL_VISIBLE;
+      pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
 
-    wIndex        = index;
-    wCtrlType     = ctrlType;
-
-    pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
-    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+    if ( pfUpdate )
+      pfcnUpdate    = pfUpdate;
+    else
+      pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
 
     if ( ctrlType == ctrls::cDLG )
     {
@@ -241,7 +248,24 @@ namespace BW
       return this->u.dlg.pFirstChild;
     return NULL;
   }
-
+  // ------------------ FIND BY NAME -----------------
+  dialog *dialog::findDialogByName(const char *pszName)
+  {
+    if ( this )
+    {
+      dialog *parent = this;
+      if ( !parent->isDialog() )
+        parent = parent->parent();
+      
+      while ( parent )
+      {
+        if (parent->pszText && strcmpi(parent->pszText, pszName) == 0 )
+          return parent;
+        parent = parent->next();
+      }
+    }
+    return NULL;
+  }
 // -------------------------------------------------- CONTROL ------------------------------------------------
   // -------------------- PARENT ---------------------
   dialog *dialog::parent()
