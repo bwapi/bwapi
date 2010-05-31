@@ -297,6 +297,7 @@ namespace BWAPI
       std::string autoMenuMapPath;
       std::string autoMenuMapName;
       std::string autoMenuRace;
+      std::string autoMenuEnemyRace;
       std::string autoMenuGameType;
       Server server;
       bool inGame;

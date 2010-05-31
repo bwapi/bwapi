@@ -913,6 +913,8 @@ namespace BWAPI
     }
     GetPrivateProfileStringA("config", "race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuRace = std::string(buffer);
+    GetPrivateProfileStringA("config", "enemy_race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    autoMenuEnemyRace = std::string(buffer);
     GetPrivateProfileStringA("config", "game_type", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuGameType = std::string(buffer);
   }
@@ -951,6 +953,9 @@ namespace BWAPI
           Race r=Races::getRace(this->autoMenuRace);
           if (r!=Races::Unknown && r!=Races::None)
             this->_changeRace(0,r);
+          Race er=Races::getRace(this->autoMenuEnemyRace);
+          if (er!=Races::Unknown && er!=Races::None)
+            this->_changeRace(1,er);
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
@@ -1186,7 +1191,7 @@ namespace BWAPI
 
     if (_isInGame() && _isSinglePlayer())
     {
-      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(text);
+      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(buffer);
       if (cheatID != BW::CheatFlags::None)
       {
         this->cheatFlags ^= cheatID;
