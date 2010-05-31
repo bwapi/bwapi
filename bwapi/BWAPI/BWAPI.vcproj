@@ -152,7 +152,6 @@
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
-				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

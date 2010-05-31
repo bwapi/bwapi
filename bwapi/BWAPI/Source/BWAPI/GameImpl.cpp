@@ -954,7 +954,7 @@ namespace BWAPI
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
-            (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedByValue((BYTE)(gt.getID()));
+            (*BW::BWDATA_ScreenDialog)->FindIndex(17)->setSelectedByValue(gt.getID());
 
           this->pressKey('O');
         }
@@ -1007,7 +1007,7 @@ namespace BWAPI
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              (*BW::BWDATA_BINDialog)->FindIndex((short)(17))->setSelectedByValue((BYTE)(gt.getID()));
+              (*BW::BWDATA_ScreenDialog)->FindIndex(17)->setSelectedByValue(gt.getID());
             this->pressKey('O');
           }
         }
@@ -1283,7 +1283,7 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
-    BW::dialog *slotCtrl = (*BW::BWDATA_BINDialog)->FindIndex((short)(28+slot));  // 28 is the CtrlID of the first slot
+    BW::dialog *slotCtrl = (*BW::BWDATA_ScreenDialog)->FindIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
     if ( slotCtrl )
       slotCtrl->setSelectedByValue(race.getID());
 
@@ -1461,6 +1461,14 @@ namespace BWAPI
     else if (parsed[0] == "/restart")
     {
       restartGame();
+      return true;
+    }
+    else if (parsed[0] == "/dlgtest")
+    {
+      BW::dialog *myDlg  = new BW::dialog(BW::ctrls::cDLG, 0, "TestDialog", 100, 100, 300, 200);
+      BW::dialog *myCtrl = new BW::dialog(BW::ctrls::cLSTATIC, -10, "Hello world!!!", 100, 100, 100, 32);
+      myDlg->add(myCtrl);
+      (*BW::BWDATA_ScreenDialog)->add(myDlg);
       return true;
     }
     return false;

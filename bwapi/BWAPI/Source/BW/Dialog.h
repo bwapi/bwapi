@@ -30,7 +30,8 @@ namespace BW
       cCSTATIC            = 11,
       cLIST               = 12,
       cCOMBO              = 13,
-      cFLCBTN             = 14
+      cFLCBTN             = 14,
+      max                 = cFLCBTN
     };
   };
 
