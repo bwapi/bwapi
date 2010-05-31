@@ -12,13 +12,16 @@ namespace BW
     memset(this, 0, sizeof(dialog));
     rct.Xmin      = 100;
     rct.Ymin      = 100;
-    rct.Xmax      = rct.Xmin + width;
-    rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width + 1;
-    srcBits.ht    = height + 1;
+    rct.Xmax      = rct.Xmin + width - 1;
+    rct.Ymax      = rct.Ymin + height - 1;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
 
     pszText       = "";
-    lFlags        = CTRL_VISIBLE;
+    if ( ctrlType == ctrls::cDLG )
+      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+    else
+      lFlags        = CTRL_VISIBLE;
 
     wIndex        = index;
     wCtrlType     = ctrlType;
@@ -28,9 +31,11 @@ namespace BW
 
     if ( ctrlType == ctrls::cDLG )
     {
-      u.dlg.dstBits.wid  = width + 1;
-      u.dlg.dstBits.ht   = height + 1;
-      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+      srcBits.data       = malloc(width*height);
+      memset(srcBits.data, 0x29, width*height);
+      u.dlg.dstBits.wid  = width;
+      u.dlg.dstBits.ht   = height;
+      u.dlg.dstBits.data = malloc(width*height);
     }
   }
   dialog::dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height)
@@ -41,13 +46,16 @@ namespace BW
     memset(this, 0, sizeof(dialog));
     rct.Xmin      = top;
     rct.Ymin      = left;
-    rct.Xmax      = rct.Xmin + width;
-    rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width + 1;
-    srcBits.ht    = height + 1;
+    rct.Xmax      = rct.Xmin + width - 1;
+    rct.Ymax      = rct.Ymin + height - 1;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
 
     pszText       = "";
-    lFlags        = CTRL_VISIBLE;
+    if ( ctrlType == ctrls::cDLG )
+      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+    else
+      lFlags        = CTRL_VISIBLE;
 
     wIndex        = index;
     wCtrlType     = ctrlType;
@@ -57,9 +65,11 @@ namespace BW
 
     if ( ctrlType == ctrls::cDLG )
     {
-      u.dlg.dstBits.wid  = width + 1;
-      u.dlg.dstBits.ht   = height + 1;
-      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+      srcBits.data       = malloc(width*height);
+      memset(srcBits.data, 0x29, width*height);
+      u.dlg.dstBits.wid  = width;
+      u.dlg.dstBits.ht   = height;
+      u.dlg.dstBits.data = malloc(width*height);
     }
   }
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height)
@@ -70,13 +80,16 @@ namespace BW
     memset(this, 0, sizeof(dialog));
     rct.Xmin      = 100;
     rct.Ymin      = 100;
-    rct.Xmax      = rct.Xmin + width;
-    rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width + 1;
-    srcBits.ht    = height + 1;
+    rct.Xmax      = rct.Xmin + width - 1;
+    rct.Ymax      = rct.Ymin + height - 1;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
 
     pszText       = (char*)text;
-    lFlags        = CTRL_VISIBLE;
+    if ( ctrlType == ctrls::cDLG )
+      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+    else
+      lFlags        = CTRL_VISIBLE;
 
     wIndex        = index;
     wCtrlType     = ctrlType;
@@ -86,9 +99,11 @@ namespace BW
 
     if ( ctrlType == ctrls::cDLG )
     {
-      u.dlg.dstBits.wid  = width + 1;
-      u.dlg.dstBits.ht   = height + 1;
-      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+      srcBits.data       = malloc(width*height);
+      memset(srcBits.data, 0x29, width*height);
+      u.dlg.dstBits.wid  = width;
+      u.dlg.dstBits.ht   = height;
+      u.dlg.dstBits.data = malloc(width*height);
     }
   }
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height)
@@ -99,13 +114,16 @@ namespace BW
     memset(this, 0, sizeof(dialog));
     rct.Xmin      = top;
     rct.Ymin      = left;
-    rct.Xmax      = rct.Xmin + width;
-    rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width + 1;
-    srcBits.ht    = height + 1;
+    rct.Xmax      = rct.Xmin + width - 1;
+    rct.Ymax      = rct.Ymin + height - 1;
+    srcBits.wid   = width;
+    srcBits.ht    = height;
 
     pszText       = (char*)text;
-    lFlags        = CTRL_VISIBLE;
+    if ( ctrlType == ctrls::cDLG )
+      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+    else
+      lFlags        = CTRL_VISIBLE;
 
     wIndex        = index;
     wCtrlType     = ctrlType;
@@ -115,9 +133,42 @@ namespace BW
 
     if ( ctrlType == ctrls::cDLG )
     {
-      u.dlg.dstBits.wid  = width + 1;
-      u.dlg.dstBits.ht   = height + 1;
-      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+      srcBits.data       = malloc(width*height);
+      memset(srcBits.data, 0x29, width*height);
+      u.dlg.dstBits.wid  = width;
+      u.dlg.dstBits.ht   = height;
+      u.dlg.dstBits.data = malloc(width*height);
+    }
+  }
+  // ------------------ DESTRUCTOR -------------------
+  dialog::~dialog()
+  {
+    if ( this->wCtrlType == ctrls::cDLG )
+    {
+      dialog *child = this->child();
+      while ( child )
+      {
+        dialog *nextChild = child->next();
+        delete child;
+        child = nextChild;
+      }
+      free(this->u.dlg.dstBits.data);
+    }
+    else
+    {
+      dialog *previous = this->parent()->child();
+      if ( previous == this )
+      {
+        this->parent()->u.dlg.pFirstChild = this->pNext;
+      }
+      else
+      {
+        while ( previous->pNext && previous->pNext != this)
+          previous = previous->next();
+
+        if ( previous->pNext == this )
+          previous->pNext = this->pNext;
+      }
     }
   }
   // --------------------- FIND ----------------------

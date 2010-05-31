@@ -5,6 +5,7 @@
 #include "offsets.h"
 
 #define CTRL_VISIBLE        0x00000008
+#define CTRL_DLG_NOREDRAW   0x10000000
 #define CTRL_DLG_ACTIVE     0x40000000
 #define CTRL_LBOX_NORECALC  0x80000000
 
@@ -157,6 +158,7 @@ namespace BW
     dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height);
     dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height);
     dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height);
+    ~dialog();
 
     dialog  *FindIndex(short wIndex);
     void    add(dialog *dlg);
