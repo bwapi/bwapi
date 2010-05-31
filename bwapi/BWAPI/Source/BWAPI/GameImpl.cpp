@@ -1034,7 +1034,7 @@ namespace BWAPI
         {
           Race r=Races::getRace(this->autoMenuRace);
           if (r!=Races::Unknown)
-            this->_changeRace(0,r);//maybe this should be index 1?
+            this->_changeRace(1,r);
         }
       }
     }
