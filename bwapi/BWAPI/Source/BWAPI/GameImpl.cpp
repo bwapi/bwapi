@@ -915,6 +915,8 @@ namespace BWAPI
     autoMenuRace = std::string(buffer);
     GetPrivateProfileStringA("config", "enemy_race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuEnemyRace = std::string(buffer);
+    GetPrivateProfileStringA("config", "enemy_count", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    autoMenuEnemyCount = std::string(buffer);
     GetPrivateProfileStringA("config", "game_type", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuGameType = std::string(buffer);
   }
@@ -950,12 +952,25 @@ namespace BWAPI
           this->pressKey('C');
         else
         {
+          int enemyCount = atoi(this->autoMenuEnemyCount.c_str());
+          if (enemyCount<1) enemyCount=1;
+          if (enemyCount>7) enemyCount=7;
           Race r=Races::getRace(this->autoMenuRace);
           if (r!=Races::Unknown && r!=Races::None)
             this->_changeRace(0,r);
           Race er=Races::getRace(this->autoMenuEnemyRace);
           if (er!=Races::Unknown && er!=Races::None)
-            this->_changeRace(1,er);
+          {
+            for(int i=0;i<enemyCount;i++)
+            {
+              this->_changeRace(i+1,er);
+            }
+          }
+          //close remaining slots
+          for(int i=enemyCount;i<7;i++)
+          {
+            (*BW::BWDATA_ScreenDialog)->FindIndex((short)(21+i))->setSelectedIndex(0);
+          }
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
