@@ -64,9 +64,9 @@ struct netStruct
       &fxn4, &fxn5, &InitializeModule, &fxn7,
       &fxn8, &fxn9, &fxn10, &fxn11,
       &fxn12, &fxn13, &fxn14, &CreateGame,
-      &LeaveGame, &InitializeUser, &fxn18, &fxn19,
-      &fxn20, &fxn21, &fxn22, &fxn23,
-      &fxn24, &LeagueLogout, &GetLeagueName}
+      &LeaveGame, &InitializeUser, &fxn18, NULL,
+      NULL, NULL, NULL, NULL,
+      NULL, NULL, NULL}
   }
 };
 
