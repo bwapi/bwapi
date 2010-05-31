@@ -6,15 +6,16 @@ namespace BW
   // ----------------- CONSTRUCTORS ------------------
   dialog::dialog(WORD ctrlType, short index, WORD width, WORD height)
   {
-    if ( ctrlType > 14)
-      ctrlType = 9;
+    if ( ctrlType > ctrls::max)
+      ctrlType = ctrls::cLSTATIC;
 
+    memset(this, 0, sizeof(dialog));
     rct.Xmin      = 100;
     rct.Ymin      = 100;
     rct.Xmax      = rct.Xmin + width;
     rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
+    srcBits.wid   = width + 1;
+    srcBits.ht    = height + 1;
 
     pszText       = "";
     lFlags        = CTRL_VISIBLE;
@@ -24,18 +25,26 @@ namespace BW
 
     pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
     pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+
+    if ( ctrlType == ctrls::cDLG )
+    {
+      u.dlg.dstBits.wid  = width + 1;
+      u.dlg.dstBits.ht   = height + 1;
+      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+    }
   }
   dialog::dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height)
   {
-    if ( ctrlType > 14)
-      ctrlType = 9;
+    if ( ctrlType > ctrls::max)
+      ctrlType = ctrls::cLSTATIC;
 
+    memset(this, 0, sizeof(dialog));
     rct.Xmin      = top;
     rct.Ymin      = left;
     rct.Xmax      = rct.Xmin + width;
     rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
+    srcBits.wid   = width + 1;
+    srcBits.ht    = height + 1;
 
     pszText       = "";
     lFlags        = CTRL_VISIBLE;
@@ -45,18 +54,26 @@ namespace BW
 
     pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
     pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+
+    if ( ctrlType == ctrls::cDLG )
+    {
+      u.dlg.dstBits.wid  = width + 1;
+      u.dlg.dstBits.ht   = height + 1;
+      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+    }
   }
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD width, WORD height)
   {
-    if ( ctrlType > 14)
-      ctrlType = 9;
+    if ( ctrlType > ctrls::max)
+      ctrlType = ctrls::cLSTATIC;
 
+    memset(this, 0, sizeof(dialog));
     rct.Xmin      = 100;
     rct.Ymin      = 100;
     rct.Xmax      = rct.Xmin + width;
     rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
+    srcBits.wid   = width + 1;
+    srcBits.ht    = height + 1;
 
     pszText       = (char*)text;
     lFlags        = CTRL_VISIBLE;
@@ -66,18 +83,26 @@ namespace BW
 
     pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
     pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+
+    if ( ctrlType == ctrls::cDLG )
+    {
+      u.dlg.dstBits.wid  = width + 1;
+      u.dlg.dstBits.ht   = height + 1;
+      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+    }
   }
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height)
   {
-    if ( ctrlType > 14)
-      ctrlType = 9;
+    if ( ctrlType > ctrls::max)
+      ctrlType = ctrls::cLSTATIC;
 
+    memset(this, 0, sizeof(dialog));
     rct.Xmin      = top;
     rct.Ymin      = left;
     rct.Xmax      = rct.Xmin + width;
     rct.Ymax      = rct.Ymin + height;
-    srcBits.wid   = width;
-    srcBits.ht    = height;
+    srcBits.wid   = width + 1;
+    srcBits.ht    = height + 1;
 
     pszText       = (char*)text;
     lFlags        = CTRL_VISIBLE;
@@ -87,6 +112,13 @@ namespace BW
 
     pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
     pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
+
+    if ( ctrlType == ctrls::cDLG )
+    {
+      u.dlg.dstBits.wid  = width + 1;
+      u.dlg.dstBits.ht   = height + 1;
+      u.dlg.dstBits.data = malloc((width+1)*(height+1));
+    }
   }
   // --------------------- FIND ----------------------
   dialog *dialog::FindIndex(short wIndex)

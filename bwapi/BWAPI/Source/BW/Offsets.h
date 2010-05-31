@@ -168,7 +168,7 @@ namespace BW
   static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
-  static dialog**   BWDATA_BINDialog       = (dialog**)0x006D5E34;
+  static dialog** BWDATA_ScreenDialog      = (dialog**)0x006D5E34;
 
   /* Native message boxes */
   static bool (__cdecl *BWFXN_gluPOK_MBox)() = (bool(__cdecl*)())0x004B7180;
