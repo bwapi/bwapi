@@ -157,7 +157,7 @@ namespace BW
   static AttackType **BWDATA_AttackNodeTable_LastElement  = (AttackType**)0x64DEC4;
 
   static Counts* BWDATA_Counts             = (Counts*) 0x00582324;    // 1.16.1
-  static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
+  //static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
   static u32     BWDATA_LoadedUnits        = 0x004F4B58;
 
   /* Speed Hacks */
@@ -169,11 +169,6 @@ namespace BW
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
   static dialog** BWDATA_ScreenDialog      = (dialog**)0x006D5E34;
-
-  /* Native message boxes */
-  static bool (__cdecl *BWFXN_gluPOK_MBox)() = (bool(__cdecl*)())0x004B7180;
-  static bool (__cdecl *BWFXN_gluPOKCancel_MBox)() = (bool(__cdecl*)())0x004B73B0;
-  static bool (__stdcall *BWFXN_gluPEdit_MBox)(char *text, char *dest, size_t size, char *restricted) = (bool(__stdcall*)(char*,char*,size_t,char*))0x004B6E50;
 
   static void **BWDATA_GenericDlgInteractFxns = (void**)0x005014AC;
   static void **BWDATA_GenericDlgUpdateFxns   = (void**)0x00501504;
@@ -201,7 +196,6 @@ namespace BW
   static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
   static u8*            BWDATA_IsBattleNet                        = (u8*)   0x006D5ED0;
   static u8*            BWDATA_IsNotPaused                        = (u8*)   0x0051CE6C;
-  static void (_stdcall* changeMenu)()              = (void (_stdcall*)())  0x004DCFA0;
 
   static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;

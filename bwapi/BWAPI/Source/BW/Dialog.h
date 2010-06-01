@@ -202,6 +202,5 @@ namespace BW
     char  *getSelectedString();
   };
 #pragma pack()
-
   bool __fastcall testInteract(dialog *dlg, dlgEvent *evt);
 };

@@ -2,7 +2,6 @@
 
 namespace BW
 {
-
   bool __fastcall testInteract(dialog *dlg, dlgEvent *evt)
   {
     char out[512];
@@ -67,7 +66,7 @@ namespace BW
       MessageBoxA(NULL, out, "!", MB_OK);
       break;
     }
-    return false;
+    return true;
   }
 
 // -------------------------------------------------- GLOBAL -------------------------------------------------
@@ -152,6 +151,13 @@ namespace BW
   {
     if ( this->wCtrlType == ctrls::cDLG )
     {
+      dialog *prevDialog = (*BW::BWDATA_ScreenDialog);
+      while ( prevDialog && prevDialog->pNext != NULL && prevDialog->pNext != this)
+        prevDialog = prevDialog->pNext;
+      
+      if ( prevDialog->pNext == this )
+        prevDialog->pNext = this->next();
+
       dialog *child = this->child();
       while ( child )
       {
