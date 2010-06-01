@@ -101,15 +101,15 @@ namespace BWAPI
     }
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
-    fogOfWar = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_MapFogOfWar);
-    zergCreep = new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), *BW::BWDATA_ZergCreepArray);
+    fogOfWar = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), BW::BWDATA_MapFogOfWar);
+    zergCreep = new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ZergCreepArray);
     setBuildability();
     setWalkability();
   }
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    return *(*BW::BWDATA_MapTileArray + x + y * Map::getWidth());
+    return *(BW::BWDATA_MapTileArray + x + y * Map::getWidth());
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
@@ -170,7 +170,7 @@ namespace BWAPI
     int my = y % 4;
     BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
-    return (*BW::BWDATA_MiniTileFlags)->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
+    return BW::BWDATA_MiniTileFlags->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------
   int Map::getMapHash()
