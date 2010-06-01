@@ -146,7 +146,6 @@ namespace BWAPI
       virtual Player* self();
       virtual Player* enemy();
 
-
       virtual void drawText(int ctype, int x, int y, const char* text, ...);
       virtual void drawTextMap(int x, int y, const char* text, ...);
       virtual void drawTextMouse(int x, int y, const char* text, ...);
@@ -181,10 +180,6 @@ namespace BWAPI
       virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
-
-      char *dummyMessage(char *message);
-      virtual bool gluMessageBox(char* message, int type);
-      virtual bool gluEditBox(char* message, char* dest, size_t destsize, char* restricted);
 
       //Internal BWAPI commands:
       GameImpl();

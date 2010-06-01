@@ -2425,31 +2425,6 @@ namespace BWAPI
         (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480)) return false;
     return true;
   }
-  char *GameImpl::dummyMessage(char *message)
-  {
-    /* This function is only to move a char* to register EAX */
-    return message;
-  }
-  //--------------------------------------------------- MESSAGE BOXES ----------------------------------------
-  bool GameImpl::gluMessageBox(char *message, int type)
-  {
-    switch(type)
-    {
-    case MB_OKCANCEL:
-      dummyMessage(message);  // moves the message to EAX
-      return BW::BWFXN_gluPOKCancel_MBox(); // message is a parameter passed in EAX
-    default:  // MB_OK
-      dummyMessage(message);  // moves the message to EAX
-      BW::BWFXN_gluPOK_MBox();   // message is a parameter passed in EAX
-    }
-    return false;
-  }
-
-  bool GameImpl::gluEditBox(char* message, char* dest, size_t destsize, char* restricted)
-  {
-    return BW::BWFXN_gluPEdit_MBox(message, dest, destsize, restricted);
-  }
-
 //--------------------------------------------------- ON SAVE ------------------------------------------------
   void GameImpl::onSaveGame(char *name)
   {
