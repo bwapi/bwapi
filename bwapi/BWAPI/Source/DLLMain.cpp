@@ -356,6 +356,24 @@ BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
   return TRUE;
 }
 
+std::string lastFile;
+BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile)
+{
+  lastFile = szFileName;
+  return BW::SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
+}
+
+void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defaultValue)
+{
+  void *rval = BW::SMemAlloc(amount, logfilename, logline, defaultValue);
+  if ( lastFile == "rez\\stat_txt.tbl" )
+  {
+    BW::BWDATA_StringTableOff = (char*)rval;
+    lastFile = "";
+  }
+
+  return rval;
+}
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -416,6 +434,12 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 
   *(FARPROC*)&BW::SNetReceiveMessage = HackUtil::GetImport("storm.dll", 121);
   HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
+
+  *(FARPROC*)&BW::SMemAlloc = HackUtil::GetImport("storm.dll", 401);
+  HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
+
+  *(FARPROC*)&BW::SFileOpenFileEx = HackUtil::GetImport("storm.dll", 268);
+  HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

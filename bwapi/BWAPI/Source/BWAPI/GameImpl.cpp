@@ -923,47 +923,45 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
-    this->inGame=false;
+    this->inGame = false;
     events.push_back(Event::MenuFrame());
     this->server.update();
     int menu = *BW::BWDATA_glGluesMode;
     if (autoMenuMode == "SINGLE_PLAYER")
     {
-      if (menu == 0) //main menu
+      switch ( menu )
       {
+      case 0: //main menu
         this->pressKey('S');
         this->pressKey('E');
-      }
-      if (menu == 5) //registry screen
-      {
+        break;
+      case 5: //registry screen
         this->pressKey('O');
-      }
-      if (menu == 22) //single player play custom / load replay selection screen
-      {
-        strcpy(BW::BWDATA_menuMapRelativePath,autoMenuMapPath.c_str());
-        strcpy(BW::BWDATA_menuMapFileName,autoMenuMapName.c_str());
+        break;
+      case 22:  //single player play custom / load replay selection screen
+        strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
+        strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
         this->pressKey('U');
-      }
-      if (menu == 11) //create single/multi player game screen
-      {
+        break;
+      case 11: //create single/multi player game screen
         //the first time we enter the create game screen, it won't set the map correctly
         //so we need to cancel out and re-enter
-        if (*BW::BWDATA_menuStuff!=0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
+        if (*BW::BWDATA_menuStuff != 0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
           this->pressKey('C');
         else
         {
           int enemyCount = atoi(this->autoMenuEnemyCount.c_str());
-          if (enemyCount<1) enemyCount=1;
-          if (enemyCount>7) enemyCount=7;
-          Race r=Races::getRace(this->autoMenuRace);
-          if (r!=Races::Unknown && r!=Races::None)
-            this->_changeRace(0,r);
-          Race er=Races::getRace(this->autoMenuEnemyRace);
-          if (er!=Races::Unknown && er!=Races::None)
+          if (enemyCount < 1) enemyCount = 1;
+          if (enemyCount > 7) enemyCount = 7;
+          Race r = Races::getRace(this->autoMenuRace);
+          if (r != Races::Unknown && r != Races::None)
+            this->_changeRace(0, r);
+          Race er = Races::getRace(this->autoMenuEnemyRace);
+          if (er != Races::Unknown && er != Races::None)
           {
-            for(int i=0;i<enemyCount;i++)
+            for(int i = 0; i < enemyCount; i++)
             {
-              this->_changeRace(i+1,er);
+              this->_changeRace(i + 1, er);
             }
           }
           //close remaining slots
@@ -978,50 +976,49 @@ namespace BWAPI
 
           this->pressKey('O');
         }
-      }
-      if (menu == 15) //replay screen
-      {
+        break;
+      case 15: //replay screen
         this->pressKey('O');
-      }
-      if (menu == 18) //defeat screen
-      {
-      }
-      if (menu == 19) //victory screen
-      {
+        break;
+      case 18: //defeat screen
+        break;
+      case 19: //victory screen
+        break;
       }
     }
     else if (autoMenuMode == "LAN_UDP")
     {
-      if (menu == 0) //main menu
+      switch ( menu )
       {
+      case 0: //main menu
         this->pressKey('M');
         this->pressKey('E');
-      }
-      if (menu == 2) //multiplayer select connection screen
-      {
+        break;
+      case 2:
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey('O');
-      }
-      if (menu == 5) //registry screen
-      {
+        break;
+      case 5: //registry screen
         this->pressKey('O');
+        break;
       }
-      if (autoMenuMapName.length()>0)
+
+      if (autoMenuMapName.length() > 0)
       {
-        if (menu == 10) //lan games lobby
+        switch ( menu )
         {
-          strcpy(BW::BWDATA_menuMapRelativePath,autoMenuMapPath.c_str());
-          strcpy(BW::BWDATA_menuMapFileName,autoMenuMapName.c_str());
+        case 10: //lan games lobby
+          strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
+          strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
           this->pressKey('G');
-        }
-        if (menu == 11) //create single/multi player game screen
-        {
+          break;
+        case 11: //create single/multi player game screen
           //the first time we enter the create game screen, it won't set the map correctly
           //so we need to cancel out and re-enter
-          if (*BW::BWDATA_menuStuff!=0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
+          if (*BW::BWDATA_menuStuff != 0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
             this->pressKey('C');
           else
           {
@@ -1030,39 +1027,39 @@ namespace BWAPI
               (*BW::BWDATA_ScreenDialog)->FindIndex(17)->setSelectedByValue(gt.getID());
             this->pressKey('O');
           }
-        }
-        if (menu == 3) //multiplayer game ready screen
-        {
-          Race r=Races::getRace(this->autoMenuRace);
-          if (r!=Races::Unknown)
-            this->_changeRace(0,r);
+          break;
+        case 3:
+          Race r = Races::getRace(this->autoMenuRace);
+          if (r != Races::Unknown)
+            this->_changeRace(0, r);
+          break;
         }
       }
       else // wait for other computer to make game
       {
-        if (menu == 10) //lan games lobby
+        switch ( menu )
         {
-          // wait for other computer to make game
+        case 10: //lan games lobby
           this->pressKey('O');
-        }
-        if (menu == 3) //multiplayer game ready screen
-        {
-          Race r=Races::getRace(this->autoMenuRace);
-          if (r!=Races::Unknown)
-            this->_changeRace(1,r);
+          break;
+        case 3: //multiplayer game ready screen
+          Race r = Races::getRace(this->autoMenuRace);
+          if (r != Races::Unknown)
+            this->_changeRace(1, r);
         }
       }
     }
     else if (autoMenuMode == "BATTLE_NET")
     {
-      if (menu == 0) //main menu
+      switch ( menu )
       {
+      case 0: //main menu
         this->pressKey('M');
         this->pressKey('E');
-      }
-      if (menu == 2) //multiplayer select connection screen
-      {
+        break;
+      case 2: //multiplayer select connection screen
         this->pressKey('O');
+        break;
       }
     }
   }

@@ -27,10 +27,11 @@ namespace BW
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* UpgradeType::getName() const
   {
-    if (this->getID() == BW::UpgradeID::None)
+    int uId = this->getID();
+    if (uId == BW::UpgradeID::None)
       return "None";
-    else if (this->getID() < 60)
-      return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_UpgradeLabelIndex[this->getID()]]);
+    else if (uId < 61)
+      return BW::GetStatString(BW::BWDATA_UpgradeLabelIndex[uId]);
     else
       return "Invalid";
   }

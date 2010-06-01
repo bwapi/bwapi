@@ -247,9 +247,11 @@ namespace BW
     GLUE_GENERIC            // guess
   */
 
-  static BOOL (__stdcall *SNetReceiveMessage)(int *senderplayerid, u8 **data, int *databytes) = NULL;
-  static BOOL (__stdcall *SCodeDelete)(HANDLE handle)                                         = NULL;
-  static int  (__stdcall *SStrCopy)(char *dest, const char *source, size_t size)              = NULL;
+  extern BOOL (__stdcall *SNetReceiveMessage)(int *senderplayerid, u8 **data, int *databytes);
+  extern BOOL (__stdcall *SCodeDelete)(HANDLE handle);
+  extern int  (__stdcall *SStrCopy)(char *dest, const char *source, size_t size);
+  extern void* (__stdcall *SMemAlloc)(int amount, char *logfilename, int logline, int defaultValue);
+  extern BOOL (__stdcall *SFileOpenFileEx)(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   static u16*           BWDATA_SendTextFilter                     = (u16*)  0x0057F1DA;
@@ -351,9 +353,9 @@ namespace BW
   static u16*           BWDATA_UpgradeTimeCostBase                = (u16*)        upgradesDat[4].address;
   static u16*           BWDATA_UpgradeTimeCostFactor              = (u16*)        upgradesDat[5].address;
   static u8*            BWDATA_UpgradeRace                        = (u8*)         upgradesDat[9].address;
-  static u32            BWDATA_StringTableOff                     =               0x006D1238;
-  static u16**          BWDATA_StringTableIndex                   = (u16**)       BWDATA_StringTableOff;
-  static char**         BWDATA_StringTable                        = (char**)      BWDATA_StringTableOff;
+
+  const char *GetStatString(int index);
+  extern char *BWDATA_StringTableOff;
   static u32**          BWDATA_MapFogOfWar                        = (u32**)       0x006D1260;
 
   struct UpgradeProgress

@@ -32,10 +32,11 @@ namespace BW
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* TechType::getName() const
   {
-    if (this->getID() == BW::TechID::None)
+    int tId = this->getID();
+    if (tId == BW::TechID::None)
       return "None";
-    else if (this->getID() < 44)
-      return (*BW::BWDATA_StringTable + (*BW::BWDATA_StringTableIndex)[BW::BWDATA_TechLabelIndex[this->getID()]]);
+    else if (tId < 44)
+      return BW::GetStatString(BWDATA_TechLabelIndex[tId]);
     else
       return "Invalid";
   }

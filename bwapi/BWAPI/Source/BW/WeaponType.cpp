@@ -38,12 +38,12 @@ namespace BW
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* WeaponType::getName() const
   {
-    if (this->getID() == BW::WeaponID::None)
+    int wId = this->getID();
+    if (wId == BW::WeaponID::None)
       return "None";
-    else if (this->getID() < BW::WEAPON_TYPE_COUNT)
+    else if (wId < BW::WEAPON_TYPE_COUNT)
     {
-      u16 stringNum = BW::BWDATA_WeaponLabel->weaponType[this->getID()];
-      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + stringNum * 2)) + *((u32*)BW::BWDATA_StringTableOff));
+      return BW::GetStatString(BW::BWDATA_WeaponLabel->weaponType[wId]);
     }
     else
       return "Invalid";

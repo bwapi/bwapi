@@ -135,7 +135,7 @@
 				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				DisableSpecificWarnings="4238; 4100;"
+				DisableSpecificWarnings="4238; 4100; 4996;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -282,6 +282,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BW\Dialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\Internal.cpp"
 					>
 				</File>
 				<File
