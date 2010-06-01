@@ -233,19 +233,11 @@ namespace BW
       }
     }
   }
-// -------------------------------------------------- DIALOG -------------------------------------------------
-  // --------------------- IS DLG --------------------
-  bool dialog::isDialog()
+  // --------------------- NEXT ----------------------
+  dialog *dialog::next()
   {
-    if ( this && this->wCtrlType == ctrls::cDLG )
-      return true;
-    return false;
-  }
-  // --------------------- CHILD ---------------------
-  dialog *dialog::child()
-  {
-    if (this && this->isDialog() && this->u.dlg.pFirstChild )
-      return this->u.dlg.pFirstChild;
+    if ( this && this->pNext )
+      return this->pNext;
     return NULL;
   }
   // ------------------ FIND BY NAME -----------------
@@ -266,19 +258,27 @@ namespace BW
     }
     return NULL;
   }
+// -------------------------------------------------- DIALOG -------------------------------------------------
+  // --------------------- IS DLG --------------------
+  bool dialog::isDialog()
+  {
+    if ( this && this->wCtrlType == ctrls::cDLG )
+      return true;
+    return false;
+  }
+  // --------------------- CHILD ---------------------
+  dialog *dialog::child()
+  {
+    if (this && this->isDialog() && this->u.dlg.pFirstChild )
+      return this->u.dlg.pFirstChild;
+    return NULL;
+  }
 // -------------------------------------------------- CONTROL ------------------------------------------------
   // -------------------- PARENT ---------------------
   dialog *dialog::parent()
   {
     if ( this && !this->isDialog() && this->u.ctrl.pDlg )
       return this->u.ctrl.pDlg;
-    return NULL;
-  }
-  // --------------------- NEXT ----------------------
-  dialog *dialog::next()
-  {
-    if ( this && this->pNext )
-      return this->pNext;
     return NULL;
   }
   // --------------------- INDEX ---------------------

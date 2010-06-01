@@ -177,17 +177,16 @@ namespace BW
     ~dialog();
 
     dialog  *FindIndex(short wIndex);
+    dialog  *findDialogByName(const char *pszName);
     void    add(dialog *dlg);
+    dialog *next();
 
     // dialog-specific functions
     bool    isDialog();
     dialog  *child();
-    dialog  *findDialogByName(const char *pszName);
 
     // control-specific functions
     dialog *parent();
-    dialog *next();
-
     short getIndex();
 
     // checkbox & option button

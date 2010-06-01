@@ -219,7 +219,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   *BW::BWDATA_PrintXY_PositionX2 = 640;
   *BW::BWDATA_PrintXY_PositionX = _x;
   *BW::BWDATA_PrintXY_PositionY = _y;
-  *BW::BWDATA_PrintXY_Current_Font = *BW::BWDATA_Font10_Handle;
+  *BW::BWDATA_PrintXY_Current_Font = BW::BWDATA_FontBase[1];
   BW::BWDATA_PrintXY_Font->tFontData = BW::BWDATA_FontData;
   BW::BWDATA_PrintXY_Font->tFontUnknown = 0x00000001;
   BW::BWDATA_PrintXY_Font->x1 = 0x00D8;
@@ -371,6 +371,28 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
     BW::BWDATA_StringTableOff = (char*)rval;
     lastFile = "";
   }
+
+  if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
+    BW::BWDATA_MapFogOfWar = (u32*)rval;
+
+  if ( lastFile.find(".vf4") != std::string::npos )
+  {
+    BW::BWDATA_MiniTileFlags = (BW::MiniTileMaps_type*)rval;
+    lastFile = "";
+  }
+
+  if ( strcmpi(logfilename, "Starcraft\\SWAR\\MapComn\\creep.cpp") == 0 && logline == 420 )
+    BW::BWDATA_ZergCreepArray = (u16*)rval;
+
+  if ( lastFile.find(".cv5") != std::string::npos )
+  {
+    BW::BWDATA_TileSet    = (BW::TileType*)rval;
+    BW::BWDATA_DoodatSet  = (BW::DoodatType*)rval;
+    lastFile = "";
+  }
+
+  if ( amount == 0x20000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 603 )
+    BW::BWDATA_MapTileArray = (u16*)rval;
 
   return rval;
 }

@@ -180,11 +180,11 @@ namespace BW
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
-  static TileID**       BWDATA_ZergCreepArray             = (TileID**)     0x005993A8;
-  static TileID**       BWDATA_MapTileArray               = (TileID**)     0x005993C4;
-  static u32            BWDATA_TileStuffPointer           =                0x006D5EC8;
-  static TileType**     BWDATA_TileSet                    = (TileType**)   BWDATA_TileStuffPointer;  // 1.16.1      /**< Index  0-1023 */
-  static DoodatType**   BWDATA_DoodatSet                  = (DoodatType**) BWDATA_TileStuffPointer;  // 1.16.1   /**< Index 1024 + */
+  extern TileID     *BWDATA_ZergCreepArray;
+  extern TileID     *BWDATA_MapTileArray;
+  extern TileType   *BWDATA_TileSet;
+  extern DoodatType *BWDATA_DoodatSet;
+
   static u16*           BWDATA_MapSizeX                   = (u16*)         0x0057F1D4;               // 1.16.1
   static u16*           BWDATA_MapSizeY                   = ((u16*)        BWDATA_MapSizeX) + 1;
   static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
@@ -271,7 +271,7 @@ namespace BW
   static u32            BWFXN_PrintXY                             = 0x004200D0;
   static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
   static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
-  static u32*           BWDATA_PrintXY_Current_Font               = (u32*) 0x006D5DDC;
+  static void**         BWDATA_PrintXY_Current_Font               = (void**) 0x006D5DDC;
   static u32*           BWDATA_PrintXY_PositionX2                 = (u32*) 0x006CE0CC;
 
   struct fontMemStruct
@@ -290,13 +290,7 @@ namespace BW
   static u16*           BWDATA_PrintXY_Unknown3                   = (u16*) 0x006CE0CE;
 
   static u32            BWDATA_FontData                           = 0x006CE028;
-
-  static u32            BWDATA_FontBase                           = 0x006CE0F4;
-  static u32*           BWDATA_Font8_Handle                       = (u32*) BWDATA_FontBase;
-  static u32*           BWDATA_Font10_Handle                      = (u32*) BWDATA_FontBase + 1;
-  static u32*           BWDATA_Font16_Handle                      = (u32*) BWDATA_FontBase + 2;
-  static u32*           BWDATA_Font16x_Handle                     = (u32*) BWDATA_FontBase + 3;
-
+  static void**         BWDATA_FontBase                           = (void**)0x006CE0F4;
   static u8*            BWDATA_DrawColor                          = (u8*) 0x006CF4AC;
 
   static u32            BWFXN_Refresh                             = 0x0041E26B;
@@ -355,8 +349,9 @@ namespace BW
   static u8*            BWDATA_UpgradeRace                        = (u8*)         upgradesDat[9].address;
 
   const char *GetStatString(int index);
+
   extern char *BWDATA_StringTableOff;
-  static u32**          BWDATA_MapFogOfWar                        = (u32**)       0x006D1260;
+  extern u32  *BWDATA_MapFogOfWar;
 
   struct UpgradeProgress
   {
@@ -644,6 +639,6 @@ namespace BW
     MiniTileFlagArray tile[tileTypeCount];
   };
 
-  static MiniTileMaps_type** BWDATA_MiniTileFlags   = (MiniTileMaps_type**)   0x005993D0;
+  extern MiniTileMaps_type* BWDATA_MiniTileFlags;
 };
 #pragma pack()
