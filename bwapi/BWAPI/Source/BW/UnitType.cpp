@@ -69,10 +69,11 @@ namespace BW
   //------------------------------------------------ GET NAME ------------------------------------------------
   const char* UnitType::_getName() const
   {
-    if (this->getID() == BW::UnitID::None)
+    int uId = this->getID();
+    if (uId == BW::UnitID::None)
       return "None";
-    else if (this->getID() < BW::UNIT_TYPE_COUNT)
-      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + this->getID() * 2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
+    else if (uId < BW::UNIT_TYPE_COUNT)
+      return BW::GetStatString(uId);
     else
       return "Invalid";
   }
@@ -92,7 +93,7 @@ namespace BW
       {
         return "";
       }
-      return (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff + (label + 1302) * 2)) + *((u32*)BW::BWDATA_StringTableOff));
+      return BW::GetStatString(label + 1302);
     }
     else
       return "Invalid";
