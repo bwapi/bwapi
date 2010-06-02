@@ -1,3 +1,6 @@
+#pragma once
+
+#include "BWAPI/Bullet.h"
 
 #include <Util/Types.h>
 #include <BWAPI/Position.h>
@@ -10,12 +13,12 @@ namespace BWAPI
    * Interface for broodwar bullets, can be used to obtain any information
    * about bullets and spells
    */
-  class BulletImpl
+  class BulletImpl : public Bullet
   {
     public:
-      BWAPI::BulletType getType() const;
-      BWAPI::Position getPosition() const;
-      int getRemoveTimer() const;
+      virtual BWAPI::BulletType getType() const;
+      virtual BWAPI::Position getPosition() const;
+      virtual int getRemoveTimer() const;
 
       BulletImpl(BW::Bullet* originalBullet, u16 index);
       ~BulletImpl();
