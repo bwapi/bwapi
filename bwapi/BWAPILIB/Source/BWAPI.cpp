@@ -12,7 +12,7 @@ void BWAPI::BWAPI_init()
   BWAPI::UnitSizeTypes::init();
   BWAPI::UnitCommandTypes::init();
   BWAPI::UnitTypes::init();
-  BWAPI::AttackTypes::init();
+  BWAPI::BulletTypes::init();
   BWAPI::Errors::init();
   BWAPI::Colors::init();
   BWAPI::GameTypes::init();

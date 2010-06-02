@@ -12,10 +12,10 @@ namespace BWAPI
   {
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::AttackType BulletImpl::getType() const
+  BWAPI::BulletType BulletImpl::getType() const
   {
-    if (!_exists()) return BWAPI::AttackTypes::None;
-    return BWAPI::AttackType(this->bwOriginalBullet->type);
+    if (!_exists()) return BWAPI::BulletTypes::None;
+    return BWAPI::BulletType(this->bwOriginalBullet->type);
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   BWAPI::Position BulletImpl::getPosition() const
