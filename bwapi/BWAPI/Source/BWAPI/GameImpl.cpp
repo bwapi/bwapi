@@ -21,6 +21,7 @@
 #include <BWAPI/ForceImpl.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/UnitImpl.h>
+#include <BWAPI/BulletImpl.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/CommandCancelTrain.h>
 #include <BWAPI/Map.h>
@@ -29,6 +30,7 @@
 #include <BWAPI.h>
 
 #include <BW/Unit.h>
+#include <BW/Bullet.h>
 #include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
@@ -99,6 +101,12 @@ namespace BWAPI
         unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                     &unitArrayCopyLocal->unit[i],
                                     (u16)i);
+
+      /* iterate through bullets and create BulletImpl for each */
+      for (int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; i++)
+        bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable->bullet[i],
+                                        (u16)i);
+
 
       /* iterate through unit types and create UnitType for each */
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
@@ -751,13 +759,6 @@ namespace BWAPI
       for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
         unitList.push_back(i);
 
-/*
-      for(BW::AttackType *curritem = *BW::BWDATA_AttackNodeTable_FirstElement ; curritem; curritem = curritem->next)
-      {
-        Broodwar->drawTextMap(curritem->pos_x, curritem->pos_y, "%s frames: %d", AttackType(curritem->type).getName().c_str(), curritem->time_left>>8);
-        Broodwar->drawCircle(BWAPI::CoordinateType::Map, curritem->pos_x, curritem->pos_y, 4, BWAPI::Colors::White, false);
-      }
-*/
       this->unitsToBeAdded.clear();
       std::list<Position> detectedNukes;
       foreach (UnitImpl* i, unitList)
@@ -874,6 +875,19 @@ namespace BWAPI
     this->client->onFrame();
     events.push_back(Event::MatchFrame());
     this->server.update();
+
+
+    //remove this loop once BulletImpl is working.
+    for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; i++)
+    {
+      BulletImpl* b = this->getBullet(i);
+      Position p = b->getPosition();
+      if (b->_exists())
+      {
+        Broodwar->printf("%d %d",p.x(),p.y());
+        Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
+      }
+    }
 
     foreach(std::string i, sentMessages)
     {
@@ -1769,11 +1783,17 @@ namespace BWAPI
     this->setLastError(Errors::None);
     IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
   }
-  //----------------------------------------------------------------------------------------------------------
+  //------------------------------------------------ GET UNIT ------------------------------------------------
   UnitImpl* GameImpl::getUnit(int index)
   {
     int i = (index & 0x7FF);
     return this->unitArray[i];
+  }
+  //----------------------------------------------- GET BULLET -----------------------------------------------
+  BulletImpl* GameImpl::getBullet(int index)
+  {
+    int i = (index & 0x7FF);
+    return this->bulletArray[i];
   }
   //----------------------------------------------------------------------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)

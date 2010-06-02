@@ -193,6 +193,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\Source\BW\Bullet.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\CheatType.h"
 					>
 				</File>
@@ -433,6 +437,10 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\Source\BWAPI\BulletImpl.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BWAPI\Command.cpp"
 					>
 				</File>
@@ -628,6 +636,10 @@
 			<Filter
 				Name="Header files"
 				>
+				<File
+					RelativePath=".\Source\BWAPI\BulletImpl.h"
+					>
+				</File>
 				<File
 					RelativePath=".\source\BWAPI\Command.h"
 					>

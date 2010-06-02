@@ -3,10 +3,14 @@
 namespace Util  { class Logger; }
 namespace BW    { struct UnitArray; }
 namespace BW    { struct Unit; }
+namespace BW    { struct BulletArray; }
+namespace BW    { struct Bullet; }
 namespace BWAPI { class Player; }
 namespace BWAPI { class PlayerImpl; }
 namespace BWAPI { class Unit; }
 namespace BWAPI { class UnitImpl; }
+namespace BWAPI { class Bullet; }
+namespace BWAPI { class BulletImpl; }
 namespace BWAPI { class Command; }
 namespace BWAPI { class AIModule; }
 
@@ -226,6 +230,7 @@ namespace BWAPI
       UnitImpl* getFirst();
       std::set<UnitImpl*> units;
       UnitImpl* getUnit(int index);
+      BulletImpl* getBullet(int index);
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
 
@@ -270,6 +275,7 @@ namespace BWAPI
       bool onStartCalled;
       BW::UnitArray* unitArrayCopyLocal;
       UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
+      BulletImpl* bulletArray[BW::BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
       /** All commands ordered from BWAPI */
       Util::Logger* commandLog;

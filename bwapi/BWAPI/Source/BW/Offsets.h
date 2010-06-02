@@ -38,6 +38,8 @@ namespace BW
 
   struct Unit;
   struct UnitArray;
+  struct Bullet;
+  struct BulletArray;
   class TileType;
   class DoodatType;
   class dialog;
@@ -136,25 +138,11 @@ namespace BW
     UnitStats dead;
   };
 
-
-  struct AttackType
-  {
-	  AttackType *next;
-	  AttackType *previous;
-	  int __unknown00[7];
-	  unsigned short type;	// if this is 0x9D, this is a psi storm
-	  unsigned short __unknown01;
-	  unsigned short pos_x;
-	  unsigned short pos_y;
-	  int pos4_x;	// (pos4_x >> 4) == pos_x
-	  int pos4_y;
-	  int __unknown02[11];
-	  int time_left;  // use time_left>>8 for frames
-  };
-
 //  static int *listcount = (int*)0x64DEBC;
-  static AttackType **BWDATA_AttackNodeTable_FirstElement = (AttackType**)0x64DEAC;
-  static AttackType **BWDATA_AttackNodeTable_LastElement  = (AttackType**)0x64DEC4;
+  static Bullet**       BWDATA_BulletNodeTable_FirstElement = (Bullet**)     0x0064DEAC;
+  static Bullet**       BWDATA_BulletNodeTable_LastElement  = (Bullet**)     0x0064DEC4;
+  static BulletArray*   BWDATA_BulletNodeTable              = (BulletArray*) 0x0064B2E8;
+  const  u32            BULLET_ARRAY_MAX_LENGTH             = 100;
 
   static Counts* BWDATA_Counts             = (Counts*) 0x00582324;    // 1.16.1
   //static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
