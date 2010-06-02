@@ -7,7 +7,7 @@ namespace BW    { struct Bullet; };
 namespace BWAPI
 {
   /**
-   * Interface for broodwar bullete, can be used to obtain any information
+   * Interface for broodwar bullets, can be used to obtain any information
    * about bullets and spells
    */
   class BulletImpl
@@ -15,6 +15,7 @@ namespace BWAPI
     public:
       BWAPI::AttackType getType() const;
       BWAPI::Position getPosition() const;
+      int getRemoveTimer() const;
 
       BulletImpl(BW::Bullet* originalBullet, u16 index);
       ~BulletImpl();
