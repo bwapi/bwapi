@@ -49,7 +49,6 @@
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
-#include <BW/UnitType.h>
 
 namespace BWAPI
 {
