@@ -878,13 +878,14 @@ namespace BWAPI
 
 
     //remove this loop once BulletImpl is working.
+
     for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; i++)
     {
       BulletImpl* b = this->getBullet(i);
       Position p = b->getPosition();
       if (b->_exists())
       {
-        Broodwar->printf("%d %d",p.x(),p.y());
+        Broodwar->drawTextMap(p.x(),p.y(), "%s frames: %d", b->getType().getName().c_str(), b->getRemoveTimer()>>8);
         Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
       }
     }
@@ -902,6 +903,7 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
   }
+  //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
   void GameImpl::loadAutoMenuData()
   {
     char buffer[MAX_PATH];
@@ -1792,7 +1794,8 @@ namespace BWAPI
   //----------------------------------------------- GET BULLET -----------------------------------------------
   BulletImpl* GameImpl::getBullet(int index)
   {
-    int i = (index & 0x7FF);
+    int i = (index & 0xFF);
+    if (i>=BW::BULLET_ARRAY_MAX_LENGTH) i=BW::BULLET_ARRAY_MAX_LENGTH-1;
     return this->bulletArray[i];
   }
   //----------------------------------------------------------------------------------------------------------
