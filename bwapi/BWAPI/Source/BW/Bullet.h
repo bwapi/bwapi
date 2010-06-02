@@ -23,6 +23,7 @@ namespace BW
 	  /*0x34*/ s32          __unknown02[11];
 	  /*0x60*/ s32          time_left; // use time_left>>8 for frames
     /*0x64*/ BW::Unit*    owner;
+    /*0x68*/ u32          __unknown03[2];
   };
 #pragma pack()
   /** Direct maping of the UnitNodeTable in bw memory. */
