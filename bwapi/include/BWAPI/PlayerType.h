@@ -27,7 +27,7 @@ namespace BWAPI
   {
     /** Given the name of a player type, this function will return the playertype. For example:
      *  PlayerTypes::getPlayerType("Human") will return PlayerTypes::Human. */
-    PlayerType getPlayerType(std::string& name);
+    PlayerType getPlayerType(std::string name);
 
     /** Returns the set of all the PlayerTypes. */
     std::set<PlayerType>& allPlayerTypes();

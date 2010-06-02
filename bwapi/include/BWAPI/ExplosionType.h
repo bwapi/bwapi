@@ -25,7 +25,7 @@ namespace BWAPI
   namespace ExplosionTypes
   {
     /** Given a name of an explosion type, this will return the corresponding ExplosionType  object. */
-    ExplosionType getExplosionType(std::string& name);
+    ExplosionType getExplosionType(std::string name);
 
     /** Returns the set of all ExplosionTypes. */
     std::set<ExplosionType>& allExplosionTypes();

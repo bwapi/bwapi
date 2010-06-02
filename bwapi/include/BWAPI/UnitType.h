@@ -263,7 +263,7 @@ namespace BWAPI
 
     /** Given the name of a unit type, this function will return the unit type.
      * For example, UnitTypes::getUnitType("Terran Marine") will return UnitTypes::Terran_Marine. */
-    UnitType getUnitType(std::string& name);
+    UnitType getUnitType(std::string name);
 
     /** Returns the set of all the UnitTypes. */
     std::set<UnitType>& allUnitTypes();

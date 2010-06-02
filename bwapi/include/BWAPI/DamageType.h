@@ -27,7 +27,7 @@ namespace BWAPI
   {
     /** Given the name of a damage type, this will return a corresponding DamageType object. For example,
      * DamageTypes::getDamageType("Concussive") will return DamageTypes::Concussive. */
-    DamageType getDamageType(std::string& name);
+    DamageType getDamageType(std::string name);
 
     /** Returns the set of all the DamageTypes. */
     std::set<DamageType>& allDamageTypes();

@@ -50,7 +50,7 @@ namespace BWAPI
   {
     /** Given the name of a race, this function will return the race type. For example:
      * Races::getRace("Zerg") will return Races::Zerg. */
-    Race getRace(std::string& name);
+    Race getRace(std::string name);
 
     /** Returns the set of all the races, which are listed below. */
     std::set<Race>& allRaces();

@@ -27,7 +27,7 @@ namespace BWAPI
   {
     /** Given the name of a game type, this function will return the GameType. For example:
      *  GameTypes::getGameType("Free For All") will return GameTypes::Free_For_All. */
-    GameType getGameType(std::string& name);
+    GameType getGameType(std::string name);
 
     /** Returns the set of all the GameTypes. */
     std::set<GameType>& allGameTypes();

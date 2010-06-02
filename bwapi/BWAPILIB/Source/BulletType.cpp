@@ -179,7 +179,7 @@ namespace BWAPI
   {
     return bulletTypeName[this->id];
   }
-  BulletType BulletTypes::getBulletType(std::string& name)
+  BulletType BulletTypes::getBulletType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

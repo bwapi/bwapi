@@ -27,7 +27,7 @@ namespace BWAPI
   {
     /** Given a string, this function returns the command type it refers to. For example,
      * UnitCommandTypes::getUnitCommandType("Attack Position") returns UnitCommandTypes::Attack_Position. */
-    UnitCommandType getUnitCommandType(std::string& name);
+    UnitCommandType getUnitCommandType(std::string name);
 
     /** Returns the set of all the sizes, which are listed below: */
     std::set<UnitCommandType>& allUnitCommandTypes();

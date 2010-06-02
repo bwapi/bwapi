@@ -484,7 +484,7 @@ namespace BWAPI
   {
     return weaponTypeData[this->id].targetsOwn;
   }
-  WeaponType WeaponTypes::getWeaponType(std::string& name)
+  WeaponType WeaponTypes::getWeaponType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

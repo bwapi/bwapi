@@ -202,7 +202,7 @@ namespace BWAPI
     return unitCommandTypeName[this->id];
   }
 
-  UnitCommandType UnitCommandTypes::getUnitCommandType(std::string& name)
+  UnitCommandType UnitCommandTypes::getUnitCommandType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {
