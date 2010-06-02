@@ -1,4 +1,5 @@
 #include <BWAPI/AIModule.h>
+#include <BWAPI/Bullet.h>
 #include <BWAPI/BulletType.h>
 #include <BWAPI/Color.h>
 #include <BWAPI/Constants.h>

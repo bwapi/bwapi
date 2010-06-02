@@ -850,6 +850,10 @@
 			Name="Interface"
 			>
 			<File
+				RelativePath="..\include\BWAPI\Bullet.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI.h"
 				>
 			</File>
