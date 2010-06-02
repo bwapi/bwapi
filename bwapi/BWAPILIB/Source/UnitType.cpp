@@ -920,7 +920,7 @@ namespace BWAPI
     return unitTypeData[this->id].isNeutral;
   }
 
-  UnitType UnitTypes::getUnitType(std::string& name)
+  UnitType UnitTypes::getUnitType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

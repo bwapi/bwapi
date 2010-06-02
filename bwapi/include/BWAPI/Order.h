@@ -30,7 +30,7 @@ namespace BWAPI
   namespace Orders
   {
     /** Given the name of an order, getOrder() will return the corresponding order object. */
-    Order getOrder(std::string& name);
+    Order getOrder(std::string name);
 
     /** Returns the set of all the Orders. */
     std::set<Order>& allOrders();

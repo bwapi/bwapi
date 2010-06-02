@@ -54,7 +54,7 @@ namespace BWAPI
   namespace TechTypes
   {
     /** Given a string, this will return the tech type. */
-    TechType getTechType(std::string& name);
+    TechType getTechType(std::string name);
 
     /** Returns the set of all the TechTypes. */
     std::set<TechType>& allTechTypes();

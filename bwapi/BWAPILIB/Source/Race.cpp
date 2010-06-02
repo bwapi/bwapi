@@ -136,7 +136,7 @@ namespace BWAPI
   {
     return raceData[this->id].supplyProvider;
   }
-  Race Races::getRace(std::string& name)
+  Race Races::getRace(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

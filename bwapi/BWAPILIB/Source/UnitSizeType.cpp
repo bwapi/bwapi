@@ -91,7 +91,7 @@ namespace BWAPI
     return unitSizeTypeName[this->id];
   }
 
-  UnitSizeType UnitSizeTypes::getUnitSizeType(std::string& name)
+  UnitSizeType UnitSizeTypes::getUnitSizeType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

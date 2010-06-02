@@ -118,7 +118,7 @@ namespace BWAPI
   {
     return gameTypeName[this->id];
   }
-  GameType GameTypes::getGameType(std::string& name)
+  GameType GameTypes::getGameType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

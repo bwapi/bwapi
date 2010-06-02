@@ -644,7 +644,7 @@ namespace BWAPI
   {
     return orderName[this->id];
   }
-  Order Orders::getOrder(std::string& name)
+  Order Orders::getOrder(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

@@ -148,7 +148,7 @@ namespace BWAPI
     return explosionTypeName[this->id];
   }
 
-  ExplosionType ExplosionTypes::getExplosionType(std::string& name)
+  ExplosionType ExplosionTypes::getExplosionType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

@@ -27,7 +27,7 @@ namespace BWAPI
   namespace BulletTypes
   {
     /** Given the name of an bullet type, getBulletType() will return the corresponding BulletType object. */
-    BulletType getBulletType(std::string& name);
+    BulletType getBulletType(std::string name);
 
     /** Returns the set of all the BulletTypes. */
     std::set<BulletType>& allBulletTypes();

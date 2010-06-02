@@ -253,7 +253,7 @@ namespace BWAPI
   {
     return techTypeData[this->id].whatUses;
   }
-  TechType TechTypes::getTechType(std::string& name)
+  TechType TechTypes::getTechType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

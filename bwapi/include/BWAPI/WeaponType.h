@@ -88,7 +88,7 @@ namespace BWAPI
   namespace WeaponTypes
   {
     /** Given the name of a weapon, this will return the corresponding weapon type object. */
-    WeaponType getWeaponType(std::string& name);
+    WeaponType getWeaponType(std::string name);
 
     /** Returns the set of all the WeaponTypes. */
     std::set<WeaponType>& allWeaponTypes();

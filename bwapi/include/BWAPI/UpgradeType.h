@@ -58,7 +58,7 @@ namespace BWAPI
   namespace UpgradeTypes
   {
     /** Given a string, this will return the upgrade type. */
-    UpgradeType getUpgradeType(std::string& name);
+    UpgradeType getUpgradeType(std::string name);
 
     /** Returns the set of all the UpgradeTypes. */
     std::set<UpgradeType>& allUpgradeTypes();

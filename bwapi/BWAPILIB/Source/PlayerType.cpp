@@ -103,7 +103,7 @@ namespace BWAPI
   {
     return playerTypeName[this->id];
   }
-  PlayerType PlayerTypes::getPlayerType(std::string& name)
+  PlayerType PlayerTypes::getPlayerType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

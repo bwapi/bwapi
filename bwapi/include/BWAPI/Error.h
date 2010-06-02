@@ -30,7 +30,7 @@ namespace BWAPI
   {
     /** Given the name of an error, this function will return the error code. For example:
      * Errors::getError("Unbuildable Location") will return Errors::Unbuildable_Location?. */
-    Error getError(std::string& name);
+    Error getError(std::string name);
 
     /** The set of all the error codes. */
     std::set<Error>& allErrors();

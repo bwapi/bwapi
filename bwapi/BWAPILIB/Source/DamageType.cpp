@@ -94,7 +94,7 @@ namespace BWAPI
     return damageTypeName[this->id];
   }
 
-  DamageType DamageTypes::getDamageType(std::string& name)
+  DamageType DamageTypes::getDamageType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

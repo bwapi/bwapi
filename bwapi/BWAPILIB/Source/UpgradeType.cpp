@@ -410,7 +410,7 @@ namespace BWAPI
   {
     return upgradeTypeData[this->id].maxRepeats;
   }
-  UpgradeType UpgradeTypes::getUpgradeType(std::string& name)
+  UpgradeType UpgradeTypes::getUpgradeType(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {

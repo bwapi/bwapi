@@ -27,7 +27,7 @@ namespace BWAPI
   {
     /** Given a string, this function returns the size type it refers to. For example,
      * UnitSizeTypes::getUnitSizeType("Small") returns UnitSizeTypes::Small. */
-    UnitSizeType getUnitSizeType(std::string& name);
+    UnitSizeType getUnitSizeType(std::string name);
 
     /** Returns the set of all the sizes, which are listed below: */
     std::set<UnitSizeType>& allUnitSizeTypes();

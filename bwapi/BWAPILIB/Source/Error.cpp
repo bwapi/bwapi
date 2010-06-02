@@ -134,7 +134,7 @@ namespace BWAPI
   {
     return errorName[this->id];
   }
-  Error Errors::getError(std::string& name)
+  Error Errors::getError(std::string name)
   {
     for(int j=0;j<(int)name.length();j++)
     {
