@@ -1,7 +1,7 @@
 
 #include <Util/Types.h>
 #include <BWAPI/Position.h>
-#include <BWAPI/AttackType.h>
+#include <BWAPI/BulletType.h>
 namespace BW    { struct Bullet; };
 
 namespace BWAPI
@@ -13,7 +13,7 @@ namespace BWAPI
   class BulletImpl
   {
     public:
-      BWAPI::AttackType getType() const;
+      BWAPI::BulletType getType() const;
       BWAPI::Position getPosition() const;
       int getRemoveTimer() const;
 

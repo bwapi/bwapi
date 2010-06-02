@@ -96,7 +96,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\AttackType.cpp"
+				RelativePath=".\Source\BulletType.cpp"
 				>
 			</File>
 			<File
@@ -182,7 +182,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\BWAPI\AttackType.h"
+				RelativePath="..\include\BWAPI\BulletType.h"
 				>
 			</File>
 			<File
