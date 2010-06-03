@@ -24,6 +24,7 @@ namespace BWAPI
       ~BulletImpl();
       void setExists(bool exists);
       bool _exists() const;
+      BW::Bullet* getRawData() const;
       static BulletImpl* BWBulletToBWAPIBullet(BW::Bullet* bullet);
     private:
       BW::Bullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
