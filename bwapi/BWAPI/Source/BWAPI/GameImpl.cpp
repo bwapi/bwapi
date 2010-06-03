@@ -888,7 +888,7 @@ namespace BWAPI
     {
       Position p = b->getPosition();
       BW::Bullet* b1= ((BulletImpl*)b)->getRawData();
-      Broodwar->drawTextMap(p.x(),p.y(), "[%x][%x]", b1->unknown_0x26, b1->unknown_0x20);
+      Broodwar->drawTextMap(p.x(),p.y(), "[%x]", UnitImpl::BWUnitToBWAPIUnit(b1->owner)->isVisible());
       //Broodwar->drawTextMap(p.x(),p.y(), "%s frames: %d", b->getType().getName().c_str(), b->getRemoveTimer()>>8);
       Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
     }
@@ -2100,7 +2100,8 @@ namespace BWAPI
     {
       BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
       b->setExists(true);
-      this->bullets.insert(b);
+      if (b->exists())
+        this->bullets.insert(b);
     }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
