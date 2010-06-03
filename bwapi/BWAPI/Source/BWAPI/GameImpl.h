@@ -281,6 +281,7 @@ namespace BWAPI
       Util::Logger* commandLog;
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnits();
+      void updateBullets();
       /**
        * Specifies if some order was given, so the loadSelect function will have
        * to be called.
