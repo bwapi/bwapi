@@ -2573,23 +2573,22 @@ namespace BWAPI
   */
   bool UnitImpl::canAccess() const
   {
-    if (this->isVisible())
+    if (!this->_exists())  return false;
+    if (this->isVisible()) return true;
+
+    //if we get here, the unit exists but is not visible
+
+    if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
 
-    if (this->_exists())
-    {
-      if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    /* neutral units visible during AIModule::onStart */
+    if (BroodwarImpl.flagsLocked == false)
+      if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories())
         return true;
 
-      /* neutral units visible during AIModule::onStart */
-      if (BroodwarImpl.flagsLocked == false)
-        if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories())
-          return true;
+    if (BroodwarImpl.inUpdate == true)
+      return true;
 
-      if (BroodwarImpl.inUpdate == true)
-        return true;
-
-    }
     return false;
   }
 
@@ -2597,11 +2596,7 @@ namespace BWAPI
   //always returns true for units owned by self, even dead units
   bool UnitImpl::canAccessSpecial() const
   {
-    if (canAccess())
-      return true;
-    if (this->savedPlayer == BroodwarImpl.self())
-      return true;
-    return false;
+    return (this->savedPlayer == BroodwarImpl.self() || canAccess());
   }
 
   //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)
@@ -2611,6 +2606,9 @@ namespace BWAPI
       return false;
     if (this->_getPlayer() == BroodwarImpl.self())
       return true;
+
+    //If we get here, canAccess()==true but unit is not owned by self.
+    //Return value depends on state of complete map info flag
     return BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
   }
 
