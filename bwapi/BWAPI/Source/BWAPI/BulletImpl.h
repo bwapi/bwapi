@@ -22,10 +22,12 @@ namespace BWAPI
 
       BulletImpl(BW::Bullet* originalBullet, u16 index);
       ~BulletImpl();
+      void setExists(bool exists);
       bool _exists() const;
-      //static BulletImpl* BWBulletToBWAPIBullet(BW::Bullet* bullet);
+      static BulletImpl* BWBulletToBWAPIBullet(BW::Bullet* bullet);
     private:
       BW::Bullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
       u16 index;
+      bool __exists;
   };
 };

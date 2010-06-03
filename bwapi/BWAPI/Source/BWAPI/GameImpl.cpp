@@ -811,6 +811,7 @@ namespace BWAPI
           this->commandBuffer[i][j]->execute();
 
       this->updateUnits();
+      this->updateBullets();
       foreach(Position i, detectedNukes)
       {
         this->client->onNukeDetect(i);
@@ -1794,8 +1795,7 @@ namespace BWAPI
   //----------------------------------------------- GET BULLET -----------------------------------------------
   BulletImpl* GameImpl::getBullet(int index)
   {
-    int i = (index & 0xFF);
-    if (i>=BW::BULLET_ARRAY_MAX_LENGTH) i=BW::BULLET_ARRAY_MAX_LENGTH-1;
+    int i = (index & 0x7F);
     return this->bulletArray[i];
   }
   //----------------------------------------------------------------------------------------------------------
@@ -2085,6 +2085,18 @@ namespace BWAPI
         i->makeVisible = false;
       }
     this->inUpdate = true;
+  }
+  void GameImpl::updateBullets()
+  {
+    for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
+    {
+      this->bulletArray[i]->setExists(false);
+    }
+    for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement ; curritem; curritem = curritem->nextBullet)
+    {
+      BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
+      b->setExists(true);
+    }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int  GameImpl::getFrameCount()
