@@ -667,6 +667,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return this->staticNeutralUnits;
   }
+  //---------------------------------------------- GET BULLETS -----------------------------------------------
+  std::set< Bullet* >& GameImpl::getBullets()
+  {
+    this->setLastError(Errors::None);
+    return this->bullets;
+  }
+
   //---------------------------------------------- GET EVENTS ------------------------------------------------
   std::list< Event >& GameImpl::getEvents()
   {
@@ -876,19 +883,14 @@ namespace BWAPI
     this->client->onFrame();
     events.push_back(Event::MatchFrame());
     this->server.update();
-
-
     //remove this loop once BulletImpl is working.
-
-    for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; i++)
+    for each(Bullet* b in bullets)
     {
-      BulletImpl* b = this->getBullet(i);
       Position p = b->getPosition();
-      if (b->_exists())
-      {
-        Broodwar->drawTextMap(p.x(),p.y(), "%s frames: %d", b->getType().getName().c_str(), b->getRemoveTimer()>>8);
-        Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
-      }
+      BW::Bullet* b1= ((BulletImpl*)b)->getRawData();
+      Broodwar->drawTextMap(p.x(),p.y(), "[%x][%x]", b1->unknown_0x26, b1->unknown_0x20);
+      //Broodwar->drawTextMap(p.x(),p.y(), "%s frames: %d", b->getType().getName().c_str(), b->getRemoveTimer()>>8);
+      Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
     }
 
     foreach(std::string i, sentMessages)
@@ -1925,7 +1927,7 @@ namespace BWAPI
       }
     }
   }
-  //------------------------------------------ UPDATE UNITS ON TILE ------------------------------------------
+  //---------------------------------------------- UPDATE UNITS ----------------------------------------------
   void GameImpl::updateUnits()
   {
     this->inUpdate = false;
@@ -2086,16 +2088,19 @@ namespace BWAPI
       }
     this->inUpdate = true;
   }
+  //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
   void GameImpl::updateBullets()
   {
     for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
     {
       this->bulletArray[i]->setExists(false);
     }
+    this->bullets.clear();
     for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement ; curritem; curritem = curritem->nextBullet)
     {
       BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
       b->setExists(true);
+      this->bullets.insert(b);
     }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------

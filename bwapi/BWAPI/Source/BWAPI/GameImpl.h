@@ -57,15 +57,16 @@ namespace BWAPI
   {
     public :
       virtual std::set< Force* >&  getForces();
-      virtual std::set< Player* >&  getPlayers();
-      virtual std::set< Unit* >&  getAllUnits();
-      virtual std::set< Unit* >&  getMinerals();
-      virtual std::set< Unit* >&  getGeysers();
-      virtual std::set< Unit* >&  getNeutralUnits();
-
-      virtual std::set< Unit* >& getStaticMinerals();
-      virtual std::set< Unit* >& getStaticGeysers();
-      virtual std::set< Unit* >& getStaticNeutralUnits();
+      virtual std::set< Player* >& getPlayers();
+      virtual std::set< Unit* >&   getAllUnits();
+      virtual std::set< Unit* >&   getMinerals();
+      virtual std::set< Unit* >&   getGeysers();
+      virtual std::set< Unit* >&   getNeutralUnits();
+ 
+      virtual std::set< Unit* >&   getStaticMinerals();
+      virtual std::set< Unit* >&   getStaticGeysers();
+      virtual std::set< Unit* >&   getStaticNeutralUnits();
+      virtual std::set< Bullet* >& getBullets();
 
       virtual std::list< Event >& getEvents();
       virtual Unit* indexToUnit(int unitIndex);
@@ -262,6 +263,7 @@ namespace BWAPI
       std::set<BWAPI::Unit*> minerals;
       std::set<BWAPI::Unit*> geysers;
       std::set<BWAPI::Unit*> neutralUnits;
+      std::set<BWAPI::Bullet*> bullets;
       std::set<BWAPI::UnitImpl*> unitsToBeAdded;
       std::list<BWAPI::UnitImpl*> myPylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;

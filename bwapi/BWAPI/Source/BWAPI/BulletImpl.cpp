@@ -42,6 +42,11 @@ namespace BWAPI
     if (this->bwOriginalBullet == NULL) return false;
     return __exists;
   }
+  //---------------------------------------------- GET RAW DATA ----------------------------------------------
+  BW::Bullet* BulletImpl::getRawData() const
+  {
+    return this->bwOriginalBullet;
+  }
   //---------------------------------------- BW BULLET TO BWAPI BULLET ---------------------------------------
   BulletImpl* BulletImpl::BWBulletToBWAPIBullet(BW::Bullet* bullet)
   {
