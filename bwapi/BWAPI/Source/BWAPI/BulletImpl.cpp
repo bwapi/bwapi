@@ -2,6 +2,7 @@
 #include <BW/Bullet.h>
 #include <BW/Offsets.h>
 #include "BWAPI/GameImpl.h"
+#include "BWAPI/UnitImpl.h"
 
 namespace BWAPI
 {
@@ -16,31 +17,70 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::BulletType BulletImpl::getType() const
   {
-    if (!_exists()) return BWAPI::BulletTypes::None;
+    if (!exists()) return BWAPI::BulletTypes::None;
     return BWAPI::BulletType(this->bwOriginalBullet->type);
+  }
+  //------------------------------------------------ GET OWNER -----------------------------------------------
+  BWAPI::Unit* BulletImpl::getOwner() const
+  {
+    if (!exists()) return NULL;
+    return (BWAPI::Unit*)_getOwner();
+  }
+  //------------------------------------------------ GET OWNER -----------------------------------------------
+  BWAPI::UnitImpl* BulletImpl::_getOwner() const
+  {
+    return UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->owner);
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   BWAPI::Position BulletImpl::getPosition() const
   {
-    if (!_exists()) return BWAPI::Positions::None;
+    if (!exists()) return BWAPI::Positions::None;
     return BWAPI::Position(this->bwOriginalBullet->pos_x, this->bwOriginalBullet->pos_y);
   }
   //-------------------------------------------- GET REMOVE TIMER --------------------------------------------
   int BulletImpl::getRemoveTimer() const
   {
-    if (!_exists()) return 0;
+    if (!exists()) return 0;
     return this->bwOriginalBullet->time_left;
   }
-  //----------------------------------------------- SET EXISTS -----------------------------------------------
-  void BulletImpl::setExists(bool exists)
+  //------------------------------------------------- EXISTS -------------------------------------------------
+  bool BulletImpl::exists() const
   {
-    __exists = exists;
+    if (!_exists()) return false; //if it really doesn't exist, return false
+    if (isVisible()) return true; //if we can see it, return true
+
+    //if we get here, the bullet exists but the player can't see it, so we either return true of false
+    //depending on the CompleteMapInformation cheat flag
+    return (BroodwarImpl._isReplay() || BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation));
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool BulletImpl::_exists() const
   {
     if (this->bwOriginalBullet == NULL) return false;
     return __exists;
+  }
+  //----------------------------------------------- IS VISIBLE -----------------------------------------------
+  bool BulletImpl::isVisible() const
+  {
+    if (!_exists()) return false; //if it really doesn't exist, return false
+    Unit* unit = _getOwner();
+    if (unit == NULL) return false;
+    //bullet is visible only if the owner is visible (at least until a better method is found)
+    return unit->isVisible();
+  }
+  //----------------------------------------------- IS VISIBLE -----------------------------------------------
+  bool BulletImpl::isVisible(BWAPI::Player* player) const
+  {
+    if (!_exists()) return false; //if it really doesn't exist, return false
+    Unit* unit = _getOwner();
+    if (unit == NULL) return false;
+    //bullet is visible only if the owner is visible to the given player (at least until a better method is found)
+    return unit->isVisible(player);
+  }
+  //----------------------------------------------- SET EXISTS -----------------------------------------------
+  void BulletImpl::setExists(bool exists)
+  {
+    __exists = exists;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
   BW::Bullet* BulletImpl::getRawData() const
