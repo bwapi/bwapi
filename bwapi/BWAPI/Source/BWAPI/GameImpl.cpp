@@ -983,7 +983,7 @@ namespace BWAPI
           //close remaining slots
           for(int i = enemyCount; i < 7; i++)
           {
-            (*BW::BWDATA_ScreenDialog)->FindIndex((short)(21 + i))->setSelectedByValue(BW::PlayerType::Closed);
+            (*BW::BWDATA_ScreenDialog)->FindIndex((short)(21 + i))->setSelectedIndex(0);
           }
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
