@@ -184,10 +184,12 @@ namespace BWAPI
         accessibleUnits.erase(&unitVector[id]);
       }
     }
-    std::set<Unit*> larva;
     foreach(Unit* u, accessibleUnits)
     {
       ((UnitImpl*)u)->larva.clear();
+    }
+    foreach(Unit* u, accessibleUnits)
+    {
       int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / BWAPI::TILE_SIZE;
       int endX   = (u->getPosition().x() + u->getType().dimensionRight() + BWAPI::TILE_SIZE - 1) / BWAPI::TILE_SIZE; // Division - round up
       int startY = (u->getPosition().y() - u->getType().dimensionUp()) / BWAPI::TILE_SIZE;
@@ -209,12 +211,10 @@ namespace BWAPI
         if (u->getType()==UnitTypes::Protoss_Pylon)
           pylons.insert(u);
         if (u->getType()==UnitTypes::Zerg_Larva)
-          larva.insert(u);
-      }
-      foreach(Unit* u, larva)
-      {
-        if (u->getHatchery()!=NULL)
-          ((UnitImpl*)u->getHatchery())->larva.insert(u);
+        {
+          if (u->getHatchery()!=NULL)
+            ((UnitImpl*)u->getHatchery())->larva.insert(u);
+        }
       }
     }
 
