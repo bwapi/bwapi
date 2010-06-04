@@ -3,6 +3,7 @@
 #include <Util/Bitmask.h>
 #include <Util/Types.h>
 #include "../StaticAssert.h"
+#include <BW/Position.h>
 
 #include <BW/Offsets.h>
 
@@ -25,8 +26,7 @@ namespace BW
     /*0x23*/ u8           unknown_0x23; //usually holds 0x09 for probes, 0x0b for dragoons
     /*0x24*/ u16          type;
     /*0x26*/ u16          unknown_0x26; //0x0200 for probes, 0x0100 for dragoons
-    /*0x28*/ u16          pos_x;
-    /*0x2A*/ u16          pos_y;
+    /*0x28*/ BW::Position position;
     /*0x2C*/ s32          pos4_x; // (pos4_x >> 4) == pos_x
     /*0x30*/ s32          pos4_y;
     /*0x34*/ s32          unknown_0x34[3]; //each holds 0x000012c0 for lurker attacks, 0x0000 for a lot of other things

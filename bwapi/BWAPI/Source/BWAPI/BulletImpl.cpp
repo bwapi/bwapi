@@ -35,7 +35,7 @@ namespace BWAPI
   BWAPI::Position BulletImpl::getPosition() const
   {
     if (!exists()) return BWAPI::Positions::None;
-    return BWAPI::Position(this->bwOriginalBullet->pos_x, this->bwOriginalBullet->pos_y);
+    return BWAPI::Position(this->bwOriginalBullet->position.x, this->bwOriginalBullet->position.y);
   }
   //-------------------------------------------- GET REMOVE TIMER --------------------------------------------
   int BulletImpl::getRemoveTimer() const
