@@ -149,38 +149,41 @@ namespace BW
   // ------------------ DESTRUCTOR -------------------
   dialog::~dialog()
   {
-    if ( this->wCtrlType == ctrls::cDLG )
+    if ( this )
     {
-      dialog *prevDialog = (*BW::BWDATA_ScreenDialog);
-      while ( prevDialog && prevDialog->pNext != NULL && prevDialog->pNext != this)
-        prevDialog = prevDialog->pNext;
-      
-      if ( prevDialog->pNext == this )
-        prevDialog->pNext = this->next();
+      if ( this->wCtrlType == ctrls::cDLG )
+      {
+        dialog *prevDialog = (*BW::BWDATA_ScreenDialog);
+        while ( prevDialog && prevDialog->pNext != NULL && prevDialog->pNext != this)
+          prevDialog = prevDialog->pNext;
+        
+        if ( prevDialog->pNext == this )
+          prevDialog->pNext = this->next();
 
-      dialog *child = this->child();
-      while ( child )
-      {
-        dialog *nextChild = child->next();
-        delete child;
-        child = nextChild;
-      }
-      free(this->u.dlg.dstBits.data);
-    }
-    else
-    {
-      dialog *previous = this->parent()->child();
-      if ( previous == this )
-      {
-        this->parent()->u.dlg.pFirstChild = this->pNext;
+        dialog *child = this->child();
+        while ( child )
+        {
+          dialog *nextChild = child->next();
+          delete child;
+          child = nextChild;
+        }
+        free(this->u.dlg.dstBits.data);
       }
       else
       {
-        while ( previous->pNext && previous->pNext != this)
-          previous = previous->next();
+        dialog *previous = this->parent()->child();
+        if ( previous == this )
+        {
+          this->parent()->u.dlg.pFirstChild = this->pNext;
+        }
+        else
+        {
+          while ( previous->pNext && previous->pNext != this)
+            previous = previous->next();
 
-        if ( previous->pNext == this )
-          previous->pNext = this->pNext;
+          if ( previous->pNext == this )
+            previous->pNext = this->pNext;
+        }
       }
     }
   }

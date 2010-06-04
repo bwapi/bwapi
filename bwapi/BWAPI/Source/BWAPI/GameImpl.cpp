@@ -69,6 +69,7 @@ namespace BWAPI
       , inUpdate(false)
       , inGame(false)
       , calledOnEnd(false)
+      , hasDialog(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -1501,10 +1502,14 @@ namespace BWAPI
     }
     else if (parsed[0] == "/dlgtest")
     {
-      BW::dialog *myDlg  = new BW::dialog(BW::ctrls::cDLG, 0, "TestDialog", 100, 100, 300, 200, &BW::testInteract);
-      BW::dialog *myCtrl = new BW::dialog(BW::ctrls::cLSTATIC, -10, "Hello world!!!", 100, 100, 100, 32);
-      myDlg->add(myCtrl);
-      (*BW::BWDATA_ScreenDialog)->add(myDlg);
+      if ( !hasDialog )
+      {
+        myDlg  = new BW::dialog(BW::ctrls::cDLG, 0, "TestDialog", 100, 100, 300, 200, &BW::testInteract);
+        BW::dialog *myCtrl = new BW::dialog(BW::ctrls::cLSTATIC, -10, "Hello world!!!", 100, 100, 100, 32);
+        myDlg->add(myCtrl);
+        (*BW::BWDATA_ScreenDialog)->add(myDlg);
+        hasDialog = true;
+      }
       return true;
     }
     return false;
@@ -1513,6 +1518,12 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
+
+    if ( hasDialog )
+    {
+      delete myDlg;
+      hasDialog = false;
+    }
 
     if (this->client != NULL)
     {
