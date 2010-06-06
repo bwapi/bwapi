@@ -143,6 +143,9 @@ namespace BWAPI
   int UnitImpl::getGroundWeaponCooldown() const
   {
     checkAccessInt();
+    if (this->getBWType()==BW::UnitID::Protoss_Reaver)
+      return this->getRawDataLocal()->mainOrderTimer;
+
     if (this->getRawDataLocal()->subUnit != NULL)
       return this->getRawDataLocal()->subUnit->groundWeaponCooldown;
 
