@@ -888,10 +888,8 @@ namespace BWAPI
     for each(Bullet* b in bullets)
     {
       Position p = b->getPosition();
-      BW::Bullet* b1= ((BulletImpl*)b)->getRawData();
-      Broodwar->drawTextMap(p.x(),p.y(), "%f %f", b->getVelocityX(), b->getVelocityY());
-      Broodwar->drawLineMap(p.x(),p.y(),p.x()+b->getVelocityX(),p.y()+b->getVelocityY(),Colors::Red);
-      //Broodwar->drawTextMap(p.x(),p.y(), "%s frames: %d", b->getType().getName().c_str(), b->getRemoveTimer()>>8);
+      Broodwar->drawTextMap(p.x(),p.y(), "%f",b->getAngle());
+      Broodwar->drawLineMap(p.x(),p.y(),p.x()+(int)b->getVelocityX(),p.y()+(int)b->getVelocityY(),Colors::Red);
       Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
     }
 

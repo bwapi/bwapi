@@ -37,6 +37,17 @@ namespace BWAPI
     if (!exists()) return BWAPI::Positions::None;
     return BWAPI::Position(this->bwOriginalBullet->position.x, this->bwOriginalBullet->position.y);
   }
+  //----------------------------------------------- GET ANGLE ------------------------------------------------
+  double BulletImpl::getAngle() const
+  {
+    if (!exists()) return 0;
+    int d = this->bwOriginalBullet->currentDirection;
+    d -= 64;
+    if (d < 0)
+      d += 256;
+    double a = (double)d * 3.14159265358979323846 / 128.0;
+    return a;
+  }
   //--------------------------------------------- GET VELOCITY X ---------------------------------------------
   double BulletImpl::getVelocityX() const
   {
