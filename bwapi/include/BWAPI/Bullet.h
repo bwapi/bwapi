@@ -13,6 +13,7 @@ namespace BWAPI
       virtual BWAPI::BulletType getType() const = 0;
       virtual BWAPI::Unit* getOwner() const = 0;
       virtual BWAPI::Position getPosition() const = 0;
+      virtual double getAngle() const = 0;
       virtual double getVelocityX() const = 0;
       virtual double getVelocityY() const = 0;
       virtual int getRemoveTimer() const = 0;
