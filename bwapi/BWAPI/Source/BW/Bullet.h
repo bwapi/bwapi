@@ -30,8 +30,9 @@ namespace BW
     /*0x2C*/ s32          pos4_x; // (pos4_x >> 4) == pos_x
     /*0x30*/ s32          pos4_y;
     /*0x34*/ s32          unknown_0x34[3]; //each holds 0x000012c0 for lurker attacks, 0x0000 for a lot of other things
-    /*0x40*/ s32          unknown_0x40; //varies with direction and distance of lurker attack
-    /*0x44*/ s32          unknown_0x44[7];
+    /*0x40*/ s32          current_speedX;
+    /*0x44*/ s32          current_speedY;
+    /*0x48*/ s32          unknown_0x48[6];
     /*0x60*/ s32          time_left; // use time_left>>8 for frames
     /*0x64*/ BW::Unit*    owner;
     /*0x68*/ u32          unknown_0x68; //usually holds 0x00000000

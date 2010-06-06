@@ -889,7 +889,8 @@ namespace BWAPI
     {
       Position p = b->getPosition();
       BW::Bullet* b1= ((BulletImpl*)b)->getRawData();
-      Broodwar->drawTextMap(p.x(),p.y(), "[%x]", UnitImpl::BWUnitToBWAPIUnit(b1->owner)->isVisible());
+      Broodwar->drawTextMap(p.x(),p.y(), "%f %f", b->getVelocityX(), b->getVelocityY());
+      Broodwar->drawLineMap(p.x(),p.y(),p.x()+b->getVelocityX(),p.y()+b->getVelocityY(),Colors::Red);
       //Broodwar->drawTextMap(p.x(),p.y(), "%s frames: %d", b->getType().getName().c_str(), b->getRemoveTimer()>>8);
       Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
     }

@@ -37,11 +37,23 @@ namespace BWAPI
     if (!exists()) return BWAPI::Positions::None;
     return BWAPI::Position(this->bwOriginalBullet->position.x, this->bwOriginalBullet->position.y);
   }
+  //--------------------------------------------- GET VELOCITY X ---------------------------------------------
+  double BulletImpl::getVelocityX() const
+  {
+    if (!exists()) return 0;
+    return (double)this->bwOriginalBullet->current_speedX / 256.0;
+  }
+  //--------------------------------------------- GET VELOCITY Y ---------------------------------------------
+  double BulletImpl::getVelocityY() const
+  {
+    if (!exists()) return 0;
+    return (double)this->bwOriginalBullet->current_speedY / 256.0;
+  }
   //-------------------------------------------- GET REMOVE TIMER --------------------------------------------
   int BulletImpl::getRemoveTimer() const
   {
     if (!exists()) return 0;
-    return this->bwOriginalBullet->time_left;
+    return this->bwOriginalBullet->time_left >> 8;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool BulletImpl::exists() const
