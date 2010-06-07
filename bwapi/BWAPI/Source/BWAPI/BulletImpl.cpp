@@ -21,15 +21,15 @@ namespace BWAPI
     return BWAPI::BulletType(this->bwOriginalBullet->type);
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
-  BWAPI::Unit* BulletImpl::getOwner() const
+  BWAPI::Unit* BulletImpl::getSource() const
   {
     if (!exists()) return NULL;
-    return (BWAPI::Unit*)_getOwner();
+    return (BWAPI::Unit*)_getSource();
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
-  BWAPI::UnitImpl* BulletImpl::_getOwner() const
+  BWAPI::UnitImpl* BulletImpl::_getSource() const
   {
-    return UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->owner);
+    return UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->sourceUnit);
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   BWAPI::Position BulletImpl::getPosition() const
@@ -60,6 +60,22 @@ namespace BWAPI
     if (!exists()) return 0;
     return (double)this->bwOriginalBullet->current_speedY / 256.0;
   }
+  //------------------------------------------------ GET TARGET ----------------------------------------------
+  BWAPI::Unit* BulletImpl::getTarget() const
+  {
+    if (!exists())
+      return NULL;
+    BWAPI::Unit* target = UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->targetUnit);
+    if (target==NULL || !target->exists())
+      return NULL;
+    return UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->targetUnit);
+  }
+  //-------------------------------------------- GET TARGET POSITION -----------------------------------------
+  BWAPI::Position BulletImpl::getTargetPosition() const
+  {
+    if (!exists()) return BWAPI::Positions::None;
+    return BWAPI::Position(this->bwOriginalBullet->targetPosition.x, this->bwOriginalBullet->targetPosition.y);
+  }
   //-------------------------------------------- GET REMOVE TIMER --------------------------------------------
   int BulletImpl::getRemoveTimer() const
   {
@@ -86,7 +102,7 @@ namespace BWAPI
   bool BulletImpl::isVisible() const
   {
     if (!_exists()) return false; //if it really doesn't exist, return false
-    Unit* unit = _getOwner();
+    Unit* unit = _getSource();
     if (unit == NULL) return false;
     //bullet is visible only if the owner is visible (at least until a better method is found)
     return unit->isVisible();
@@ -95,7 +111,7 @@ namespace BWAPI
   bool BulletImpl::isVisible(BWAPI::Player* player) const
   {
     if (!_exists()) return false; //if it really doesn't exist, return false
-    Unit* unit = _getOwner();
+    Unit* unit = _getSource();
     if (unit == NULL) return false;
     //bullet is visible only if the owner is visible to the given player (at least until a better method is found)
     return unit->isVisible(player);

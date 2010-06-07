@@ -18,11 +18,13 @@ namespace BWAPI
   {
     public:
       virtual BWAPI::BulletType getType() const;
-      virtual BWAPI::Unit*      getOwner() const;
+      virtual BWAPI::Unit*      getSource() const;
       virtual BWAPI::Position   getPosition() const;
       virtual double            getAngle() const;
       virtual double            getVelocityX() const;
       virtual double            getVelocityY() const;
+      virtual BWAPI::Unit*      getTarget() const;
+      virtual BWAPI::Position   getTargetPosition() const;
       virtual int               getRemoveTimer() const;
       virtual bool              exists() const;
       virtual bool              isVisible() const;
@@ -31,7 +33,7 @@ namespace BWAPI
       BulletImpl(BW::Bullet* originalBullet, u16 index);
       ~BulletImpl();
 
-      BWAPI::UnitImpl*  _getOwner() const;
+      BWAPI::UnitImpl*  _getSource() const;
       bool              _exists() const;
 
       void        setExists(bool exists);
