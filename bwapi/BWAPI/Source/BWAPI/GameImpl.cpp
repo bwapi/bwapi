@@ -888,8 +888,6 @@ namespace BWAPI
     for each(Bullet* b in bullets)
     {
       Position p = b->getPosition();
-      BW::Bullet* b2 = ((BulletImpl*)b)->getRawData();
-//      Broodwar->drawTextMap(p.x(),p.y(), "%f",b->getAngle());
       if (b->getSource()!=NULL)
       {
         Position p2 = b->getSource()->getPosition();
