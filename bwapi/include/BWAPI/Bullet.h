@@ -11,11 +11,13 @@ namespace BWAPI
   {
     public:
       virtual BWAPI::BulletType getType() const = 0;
-      virtual BWAPI::Unit* getOwner() const = 0;
+      virtual BWAPI::Unit* getSource() const = 0;
       virtual BWAPI::Position getPosition() const = 0;
       virtual double getAngle() const = 0;
       virtual double getVelocityX() const = 0;
       virtual double getVelocityY() const = 0;
+      virtual BWAPI::Unit* getTarget() const = 0;
+      virtual BWAPI::Position getTargetPosition() const = 0;
       virtual int getRemoveTimer() const = 0;
       virtual bool exists() const = 0;
       virtual bool isVisible() const = 0;
