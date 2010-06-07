@@ -884,22 +884,6 @@ namespace BWAPI
     this->client->onFrame();
     events.push_back(Event::MatchFrame());
     this->server.update();
-    //remove this loop once BulletImpl is working.
-    for each(Bullet* b in bullets)
-    {
-      Position p = b->getPosition();
-      if (b->getSource()!=NULL)
-      {
-        Position p2 = b->getSource()->getPosition();
-        Broodwar->drawLineMap(p.x(),p.y(),p2.x(),p2.y(),Colors::Blue);
-      }
-      if (b->getTarget()!=NULL)
-      {
-        Position p2 = b->getTarget()->getPosition();
-        Broodwar->drawLineMap(p.x(),p.y(),p2.x(),p2.y(),Colors::Red);
-      }
-      Broodwar->drawCircleMap(p.x(),p.y(),4,Colors::White);
-    }
 
     foreach(std::string i, sentMessages)
     {
@@ -1349,6 +1333,7 @@ namespace BWAPI
     this->BWAPIPlayer = NULL;
     this->opponent    = NULL;
     this->calledOnEnd = false;
+    this->bulletCount = 0;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1609,6 +1594,7 @@ namespace BWAPI
       unitArray[i]->nukeDetected      = false;
     }
     this->cheatFlags  = 0;
+    this->bulletCount = 0;
     this->calledOnEnd = false;
     this->loadAutoMenuData();
   }
@@ -2120,6 +2106,10 @@ namespace BWAPI
       b->setExists(true);
       if (b->exists())
         this->bullets.insert(b);
+    }
+    for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
+    {
+      this->bulletArray[i]->saveExists();
     }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------

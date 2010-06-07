@@ -10,6 +10,8 @@ namespace BWAPI
   class Bullet
   {
     public:
+      virtual int getID() const = 0;
+      virtual Player* getPlayer() const = 0;
       virtual BWAPI::BulletType getType() const = 0;
       virtual BWAPI::Unit* getSource() const = 0;
       virtual BWAPI::Position getPosition() const = 0;
