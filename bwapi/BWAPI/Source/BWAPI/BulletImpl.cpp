@@ -14,6 +14,21 @@ namespace BWAPI
       , __exists(false)
   {
   }
+  //------------------------------------------------- GET ID -------------------------------------------------
+  int BulletImpl::getID() const
+  {
+    if (!exists()) return -1;
+    return id;
+  }
+  //------------------------------------------------ GET PLAYER ----------------------------------------------
+  BWAPI::Player* BulletImpl::getPlayer() const
+  {
+    if (!exists()) return NULL;
+    UnitImpl* source  = _getSource();
+    if (source == NULL || !source->_exists())
+      return NULL;
+    return source->getPlayer();
+  }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::BulletType BulletImpl::getType() const
   {
@@ -24,7 +39,10 @@ namespace BWAPI
   BWAPI::Unit* BulletImpl::getSource() const
   {
     if (!exists()) return NULL;
-    return (BWAPI::Unit*)_getSource();
+    Unit* source = _getSource();;
+    if (source == NULL || !source->exists())
+      return NULL;
+    return source;
   }
   //------------------------------------------------ GET OWNER -----------------------------------------------
   BWAPI::UnitImpl* BulletImpl::_getSource() const
@@ -65,10 +83,10 @@ namespace BWAPI
   {
     if (!exists())
       return NULL;
-    BWAPI::Unit* target = UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->targetUnit);
+    Unit* target = UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->targetUnit);
     if (target==NULL || !target->exists())
       return NULL;
-    return UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->targetUnit);
+    return target;
   }
   //-------------------------------------------- GET TARGET POSITION -----------------------------------------
   BWAPI::Position BulletImpl::getTargetPosition() const
@@ -120,6 +138,16 @@ namespace BWAPI
   void BulletImpl::setExists(bool exists)
   {
     __exists = exists;
+  }
+  //---------------------------------------------- SAVE EXISTS -----------------------------------------------
+  void BulletImpl::saveExists()
+  {
+    if (lastExists==false && __exists==true)
+    {
+      id = BroodwarImpl.bulletCount;
+      BroodwarImpl.bulletCount++;
+    }
+    lastExists = __exists;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
   BW::Bullet* BulletImpl::getRawData() const

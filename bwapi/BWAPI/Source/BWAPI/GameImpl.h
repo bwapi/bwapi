@@ -247,6 +247,7 @@ namespace BWAPI
       BWAPI::UnitImpl *spriteToUnit(BW::CSprite *sprite);
       void iscriptParser(BW::CSprite *sprite, u8 anim);
       std::list<Event> events;
+      int bulletCount;
     private :
       HMODULE hMod;
       void saveSelected();

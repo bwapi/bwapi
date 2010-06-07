@@ -17,6 +17,8 @@ namespace BWAPI
   class BulletImpl : public Bullet
   {
     public:
+      virtual int               getID() const;
+      virtual Player*           getPlayer() const;
       virtual BWAPI::BulletType getType() const;
       virtual BWAPI::Unit*      getSource() const;
       virtual BWAPI::Position   getPosition() const;
@@ -38,11 +40,14 @@ namespace BWAPI
 
       void        setExists(bool exists);
       BW::Bullet* getRawData() const;
+      void        saveExists();
 
       static BulletImpl* BWBulletToBWAPIBullet(BW::Bullet* bullet);
     private:
       BW::Bullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
       u16 index;
+      int id;
       bool __exists;
+      bool lastExists;
   };
 };
