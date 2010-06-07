@@ -49,7 +49,7 @@ namespace BW
     /*0x6C*/ u32          unknown_0x6C; //some sort of cyclic burst counter (used by valkyries, goliath air attack)
   };
 #pragma pack()
-  /** Direct maping of the UnitNodeTable in bw memory. */
+  /** Direct maping of the BulletNodeTable in bw memory. */
   struct BulletArray
   {
     Bullet bullet[BULLET_ARRAY_MAX_LENGTH];
