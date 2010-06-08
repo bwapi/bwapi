@@ -85,8 +85,8 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
+/* @todo: remove all draw hooks */
 int i, i2, h, w, x, y, c, l;
-
 void __declspec(naked) onRefresh()
 {
   __asm
@@ -349,6 +349,7 @@ void __thiscall BW::Image::CImage::_PlayIscript(char *header, int unk1, int unk2
   BW::BWFXN_PlayIscript(this, header, unk1, unk2);
 }
 
+//------------------------------------------------ STORM HOOKS -----------------------------------------------
 BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
 {
   if ( dwReturnVal )
@@ -396,6 +397,8 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
 
   return rval;
 }
+//---------------------------------------------- WINAPI HOOKS ------------------------------------------------
+
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
