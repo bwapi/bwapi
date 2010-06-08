@@ -3,6 +3,7 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
+#include "BulletImpl.h"
 
 #include <Util\Foreach.h>
 #include <string>
@@ -22,6 +23,8 @@ namespace BWAPI
       playerVector.push_back(PlayerImpl(i));
     for(int i=0;i<10000;i++)
       unitVector.push_back(UnitImpl(i));
+    for(int i=0;i<100;i++)
+      bulletVector.push_back(BulletImpl(i));
   }
   int GameImpl::addShape(BWAPIC::Shape &s)
   {
@@ -77,6 +80,7 @@ namespace BWAPI
     startLocations.clear();
     forces.clear();
     players.clear();
+    bullets.clear();
     notDestroyedUnits.clear();
     accessibleUnits.clear();
     minerals.clear();
@@ -154,6 +158,14 @@ namespace BWAPI
     geysers.clear();
     pylons.clear();
     events.clear();
+    bullets.clear();
+    for(int i=0;i<100;i++)
+    {
+      if (bulletVector[i].exists())
+      {
+        bullets.insert(&bulletVector[i]);
+      }
+    }
     for (int y = 0; y < data->mapHeight; y++)
       for (int x = 0; x < data->mapWidth; x++)
         unitsOnTileData[x][y].clear();
@@ -270,6 +282,11 @@ namespace BWAPI
   std::set< Unit* >& GameImpl::getStaticNeutralUnits()
   {
     return staticNeutralUnits;
+  }
+  //------------------------------------------------ GET BULLETS ---------------------------------------------
+  std::set< Bullet* >& GameImpl::getBullets()
+  {
+    return bullets;
   }
   //------------------------------------------------ GET EVENTS ----------------------------------------------
   std::list< Event >& GameImpl::getEvents()
