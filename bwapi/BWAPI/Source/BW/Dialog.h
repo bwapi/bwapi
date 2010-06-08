@@ -4,8 +4,35 @@
 
 #include "offsets.h"
 
+#define CTRL_DISABLED       0x00000002
+#define CTRL_ACTIVE         0x00000004
 #define CTRL_VISIBLE        0x00000008
+#define CTRL_EVENTS         0x00000010
+
+#define CTRL_BTN_CANCEL     0x00000040
+#define CTRL_BTN_NO_SOUND   0x00000080
+#define CTRL_BTN_VIRT_HOTKEY 0x00000100
+#define CTRL_BTN_HOTKEY     0x00000200
+#define CTRL_FONT_SMALLEST  0x00000400
+#define CTRL_FONT_LARGE     0x00000800
+
+#define CTRL_TRANSPARENT    0x00002000
+#define CTRL_FONT_LARGEST   0x00004000
+
+#define CTRL_FONT_SMALL     0x00010000
+#define CTRL_PLAIN          0x00020000
+#define CTRL_TRANSLUCENT    0x00040000
+#define CTRL_BTN_DEFAULT    0x00080000
+#define CTRL_TOP            0x00100000
+#define CTRL_HALIGN_LEFT    0x00200000
+#define CTRL_HALIGN_RIGHT   0x00400000
+#define CTRL_HALIGN_CENTER  0x00800000
+#define CTRL_VALIGN_TOP     0x01000000
+#define CTRL_VALIGN_MIDDLE  0x02000000
+#define CTRL_VALIGN_BOTTOM  0x04000000
+
 #define CTRL_DLG_NOREDRAW   0x10000000
+#define CTRL_ALTERNATE      0x20000000
 #define CTRL_DLG_ACTIVE     0x40000000
 #define CTRL_LBOX_NORECALC  0x80000000
 
@@ -47,17 +74,21 @@ namespace BW
     WORD  wVirtKey;
     WORD  wUnk_0x0A;
     WORD  wNo;
-    WORD  wUnk_0x0E;
-    WORD  wUnk_0x10;
     pt    cursor;
-    DWORD dwUnk_0x16;
+    WORD  wUnk_0x12;
+  };
+
+  struct dlgFullEvent
+  {
+    DWORD dwSize;
+    dlgEvent evt;
   };
 
   struct bitmap
   {
     WORD  wid;
     WORD  ht;
-    void  *data;
+    BYTE  *data;
   };
   
   struct rect
@@ -71,7 +102,7 @@ namespace BW
 #pragma pack(1)
   class dialog   // BIN Dialog
   {
-  private:
+  public:
     dialog  *pNext;         // 0x00
     rect    rct;            // 0x04   // official name
     bitmap  srcBits;        // 0x0C   // official
@@ -82,8 +113,8 @@ namespace BW
     WORD    wCtrlType;      // 0x22   // official name
     WORD    wUnk_0x24;
     LONG    lUser;          // 0x26   // official name
-    void    *pfcnInteract;  // 0x2A
-    void    *pfcnUpdate;    // 0x2E
+    bool (__fastcall *pfcnInteract)(dialog*,dlgEvent*);  // 0x2A
+    void (__fastcall *pfcnUpdate)(dialog*,int,int,rect*);    // 0x2E
     union _u                 // 0x32   // official
     {
       struct _ctrl           // official
@@ -95,7 +126,7 @@ namespace BW
       {
         DWORD   dwUnk_0x32;
         bitmap  dstBits;      // 0x36  // official 
-        DWORD   dwUnk_0x3E;
+        dialog  *pUnk_0x3E;
         dialog  *pFirstChild;  // 0x42  // official
         DWORD   dwUnk_0x46;
         void    *pModalFcn;   // 0x4A   // official
@@ -170,7 +201,6 @@ namespace BW
       } list;
     } u;
 
-  public:
     // global functions
     dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height);
     dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, void (__fastcall *pfUpdate)(dialog*,int,int,rect*) = NULL);
@@ -179,7 +209,10 @@ namespace BW
     dialog  *FindIndex(short wIndex);
     dialog  *findDialogByName(const char *pszName);
     void    add(dialog *dlg);
-    dialog *next();
+    dialog  *next();
+
+    void    setFlag(DWORD dwFlag);
+    void    clearFlag(DWORD dwFlag);
 
     // dialog-specific functions
     bool    isDialog();
@@ -202,5 +235,5 @@ namespace BW
     char  *getSelectedString();
   };
 #pragma pack()
-  bool __fastcall testInteract(dialog *dlg, dlgEvent *evt);
+  dialog *CreateDialogWindow(const char *text, WORD top, WORD left, WORD width, WORD height);
 };

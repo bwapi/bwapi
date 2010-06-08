@@ -2,9 +2,10 @@
 
 namespace BW
 {
-  bool __fastcall testInteract(dialog *dlg, dlgEvent *evt)
+  bool __fastcall WindowInteract(dialog *dlg, dlgEvent *evt)
   {
     char out[512];
+    pt   *mouseOffset = (pt*)&dlg->lUser;
     switch (evt->wNo)
     {
     case 0:
@@ -18,12 +19,29 @@ namespace BW
       break;
     case 3:
       // Mouse update/Move
+      if ( dlg->wUnk_0x24 )
+      {
+        dlg->rct.Xmin = evt->cursor.x - mouseOffset->x;
+        dlg->rct.Xmax = dlg->rct.Xmin + dlg->srcBits.wid - 1;
+        dlg->rct.Ymin = evt->cursor.y - mouseOffset->y;
+        dlg->rct.Ymax = dlg->rct.Ymin + dlg->srcBits.ht - 1;
+      }
       break;
     case 4:
       // Left Button down
+      if ( evt->cursor.x >= dlg->rct.Xmin &&
+         evt->cursor.x <= dlg->rct.Xmax &&
+         evt->cursor.y >= dlg->rct.Ymin &&
+         evt->cursor.y <= dlg->rct.Ymin + 12 )
+      {
+        mouseOffset->x = evt->cursor.x - dlg->rct.Xmin;
+        mouseOffset->y = evt->cursor.y - dlg->rct.Ymin;
+        dlg->wUnk_0x24 = 1;
+      }
       break;
     case 5:
       // Left Button up
+      dlg->wUnk_0x24 = 0;
       break;
     case 6:
       // Left Button Something (usually paired with down
@@ -50,7 +68,7 @@ namespace BW
       // unknown; Loop? Always?
       break;
     case 14:
-      // Control (used for when a control has been pressed)
+      // Init/Control (used for when a control has been pressed)
       break;
     case 15:
       // User Key press
@@ -66,7 +84,72 @@ namespace BW
       MessageBoxA(NULL, out, "!", MB_OK);
       break;
     }
-    return true;
+    return false;
+  }
+
+  // ------------------ CREATE DLG WINDOW ------------
+  dialog *CreateDialogWindow(const char *text, WORD top, WORD left, WORD width, WORD height)
+  {
+    dialog *dlg = new dialog(ctrls::cDLG, 0, text, top, left, width, height, &WindowInteract);
+    BYTE *data  = dlg->srcBits.data;
+    // Title bar
+    // first line
+    memset(data, 0x00, 3);
+    memset(&data[3], 0x2A, width - 6);
+    memset(&data[width - 3], 0x00, 3);
+
+    // second line
+    data[width] = 0;
+    memset(&data[width + 1], 0x2A, 2);
+    memset(&data[width + 3], 0x2C, width - 6);
+    memset(&data[width*2 - 3], 0x2A, 2);
+    data[width*2 - 1] = 0;
+
+    // third line
+    data[width*2] = 0;
+    data[width*2 + 1] = 0x2A;
+    memset(&data[width*2 + 2], 0x2C, width - 4);
+    data[width*3 - 2] = 0x2A;
+    data[width*3 - 1] = 0;
+
+    for (int i = 3; i < 12; i++)
+    {
+      data[width*i] = 0x2A;
+      memset(&data[width*i + 1], 0x2C, width - 2);
+      data[width*(i+1) - 1] = 0x2A;
+    }
+
+    // dialog
+    for (int i = 12; i < height - 3; i++)
+    {
+      data[width*i] = 0x2A;
+      memset(&data[width*i + 1], 0x29, width - 2);
+      data[width*(i+1) - 1] = 0x2A;
+    }
+
+    // third-last line
+    data[width*height - width*3] = 0;
+    data[width*height - width*3 + 1] = 0x2A;
+    memset(&data[width*height - width*3 + 2], 0x29, width - 4);
+    data[width*height - width*2 - 2] = 0x2A;
+    data[width*height - width*2 - 1] = 0;
+
+    // second-last line
+    data[width*height - width*2] = 0;
+    memset(&data[width*height - width*2 + 1], 0x2A, 2);
+    memset(&data[width*height - width*2 + 3], 0x29, width - 6);
+    memset(&data[width*height - width - 3], 0x2A, 2);
+    data[width*height - width - 1] = 0;
+
+    // last line
+    memset(&data[width*height - width], 0x00, 3);
+    memset(&data[width*height - width + 3], 0x2A, width - 6);
+    memset(&data[width*height - 3], 0x00, 3);
+
+    dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 48, 12);
+    title->setFlag(CTRL_FONT_SMALLEST);
+    dlg->add(title);
+    return dlg;
   }
 
 // -------------------------------------------------- GLOBAL -------------------------------------------------
@@ -98,11 +181,11 @@ namespace BW
 
     if ( ctrlType == ctrls::cDLG )
     {
-      srcBits.data       = malloc(width*height);
+      srcBits.data        = (BYTE*)malloc(width*height);
       memset(srcBits.data, 0x29, width*height);
-      u.dlg.dstBits.wid  = width;
-      u.dlg.dstBits.ht   = height;
-      u.dlg.dstBits.data = malloc(width*height);
+      u.dlg.dstBits.wid   = width;
+      u.dlg.dstBits.ht    = height;
+      u.dlg.dstBits.data  = (BYTE*)malloc(width*height);
     }
   }
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*), void (__fastcall *pfUpdate)(dialog*,int,int,rect*))
@@ -120,7 +203,7 @@ namespace BW
 
     pszText         = (char*)text;
     if ( ctrlType == ctrls::cDLG )
-      lFlags        = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
+      lFlags        = CTRL_VISIBLE | CTRL_TRANSLUCENT | CTRL_DLG_NOREDRAW;
     else
       lFlags        = CTRL_VISIBLE;
 
@@ -139,11 +222,11 @@ namespace BW
 
     if ( ctrlType == ctrls::cDLG )
     {
-      srcBits.data       = malloc(width*height);
+      srcBits.data        = (BYTE*)malloc(width*height);
       memset(srcBits.data, 0x29, width*height);
-      u.dlg.dstBits.wid  = width;
-      u.dlg.dstBits.ht   = height;
-      u.dlg.dstBits.data = malloc(width*height);
+      u.dlg.dstBits.wid   = width;
+      u.dlg.dstBits.ht    = height;
+      u.dlg.dstBits.data  = (BYTE*)malloc(width*height);
     }
   }
   // ------------------ DESTRUCTOR -------------------
@@ -266,6 +349,15 @@ namespace BW
       }
     }
     return NULL;
+  }
+  // --------------------- FLAGS ---------------------
+  void dialog::setFlag(DWORD dwFlag)
+  {
+    this->lFlags |= dwFlag;
+  }
+  void dialog::clearFlag(DWORD dwFlag)
+  {
+    this->lFlags &= ~dwFlag;
   }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
