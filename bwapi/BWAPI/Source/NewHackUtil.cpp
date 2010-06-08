@@ -111,7 +111,7 @@ namespace HackUtil
       }
       else
       {
-        if (lstrcmpiA(name, (char*)&(((PIMAGE_IMPORT_BY_NAME)importOrigin[i].u1.AddressOfData)->Name)) == 0)
+        if (strcmpi(name, (const char*)((PIMAGE_IMPORT_BY_NAME)((u32)importOrigin[i].u1.AddressOfData + (u32)tempModule))->Name) == 0)
         {
           WriteMem(&importFunction[i], &patchFunction, 4);
           return true;
