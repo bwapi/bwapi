@@ -12,6 +12,7 @@ namespace BWAPI
       : bwOriginalBullet(originalBullet)
       , index(index)
       , __exists(false)
+      , lastExists(false)
   {
   }
   //------------------------------------------------- GET ID -------------------------------------------------
@@ -98,7 +99,7 @@ namespace BWAPI
   int BulletImpl::getRemoveTimer() const
   {
     if (!exists()) return 0;
-    return this->bwOriginalBullet->time_left >> 8;
+    return this->bwOriginalBullet->max_time;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool BulletImpl::exists() const
@@ -120,19 +121,37 @@ namespace BWAPI
   bool BulletImpl::isVisible() const
   {
     if (!_exists()) return false; //if it really doesn't exist, return false
-    Unit* unit = _getSource();
-    if (unit == NULL) return false;
-    //bullet is visible only if the owner is visible (at least until a better method is found)
-    return unit->isVisible();
+
+    if (this->bwOriginalBullet->sprite == NULL)
+      return false;
+
+    if (BroodwarImpl._isReplay())
+      return this->bwOriginalBullet->sprite->visibilityFlags > 0;
+
+    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible(BWAPI::Player* player) const
   {
     if (!_exists()) return false; //if it really doesn't exist, return false
-    Unit* unit = _getSource();
-    if (unit == NULL) return false;
-    //bullet is visible only if the owner is visible to the given player (at least until a better method is found)
-    return unit->isVisible(player);
+
+    if (this->bwOriginalBullet->sprite == NULL)
+      return false;
+
+    if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+      return false;
+
+    if (this->getPlayer() == player)
+      return true;
+
+    if (player == NULL)
+      return false;
+
+    int playerid=player->getID();
+    if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
+      return this->bwOriginalBullet->sprite->visibilityFlags > 0;
+
+    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << playerid)) != 0;
   }
   //----------------------------------------------- SET EXISTS -----------------------------------------------
   void BulletImpl::setExists(bool exists)
