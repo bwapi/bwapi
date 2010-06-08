@@ -8,6 +8,7 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
+#include "BulletImpl.h"
 #include <list>
 #include <map>
 #include <set>
@@ -31,6 +32,7 @@ namespace BWAPI
       std::vector<ForceImpl> forceVector;
       std::vector<PlayerImpl> playerVector;
       std::vector<UnitImpl> unitVector;
+      std::vector<BulletImpl> bulletVector;
 
       std::set<Force*> forces;
       std::set<Player*> players;
@@ -43,6 +45,7 @@ namespace BWAPI
       std::set<Unit*> staticMinerals;
       std::set<Unit*> staticGeysers;
       std::set<Unit*> staticNeutralUnits;
+      std::set<Bullet*> bullets;
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
       std::set<Unit*> unitsOnTileData[256][256];
@@ -77,6 +80,7 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticMinerals();
       virtual std::set< Unit* >& getStaticGeysers();
       virtual std::set< Unit* >& getStaticNeutralUnits();
+      virtual std::set< Bullet* >& getBullets();
 
       virtual std::list< Event>& getEvents();
       virtual Unit *indexToUnit(int unitIndex);
