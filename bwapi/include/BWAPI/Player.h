@@ -34,7 +34,7 @@ namespace BWAPI
       virtual Race getRace() const = 0;
 
       /** Returns the type of the player. */
-      virtual PlayerType playerType() const = 0;
+      virtual PlayerType getType() const = 0;
 
       /** Returns the force the player is on. */
       virtual Force* getForce() const = 0;

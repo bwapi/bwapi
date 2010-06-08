@@ -1365,9 +1365,9 @@ namespace BWAPI
 
       /* find the opponent player */
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        if ((this->players[i]->playerType() == BW::PlayerType::Computer ||
-             this->players[i]->playerType() == BW::PlayerType::Player ||
-             this->players[i]->playerType() == BW::PlayerType::EitherPreferComputer) &&
+        if ((this->players[i]->getType() == BW::PlayerType::Computer ||
+             this->players[i]->getType() == BW::PlayerType::Player ||
+             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
             this->opponent == NULL &&
             this->BWAPIPlayer->isEnemy(this->players[i]))
           this->opponent = this->players[i];

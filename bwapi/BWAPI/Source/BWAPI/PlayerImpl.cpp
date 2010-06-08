@@ -48,7 +48,7 @@ namespace BWAPI
     return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].nRace));
   }
   //----------------------------------------------- PLAYER TYPE ----------------------------------------------
-  BWAPI::PlayerType PlayerImpl::playerType() const
+  BWAPI::PlayerType PlayerImpl::getType() const
   {
     BroodwarImpl.setLastError(Errors::None);
     return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].nType));
