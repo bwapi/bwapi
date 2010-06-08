@@ -43,6 +43,9 @@ namespace BW
   class TileType;
   class DoodatType;
   class dialog;
+  struct dlgEvent;
+  struct rect;
+  struct bitmap;
   //-------------------------------------------- PLAYER RESOURCES --------------------------------------------
   /** Direct mapping of players resource amount in the bw memory */
   struct PlayerResources
@@ -158,8 +161,8 @@ namespace BW
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
   static dialog** BWDATA_ScreenDialog      = (dialog**)0x006D5E34;
 
-  static void **BWDATA_GenericDlgInteractFxns = (void**)0x005014AC;
-  static void **BWDATA_GenericDlgUpdateFxns   = (void**)0x00501504;
+  static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))0x005014AC;
+  static void (__fastcall **BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;

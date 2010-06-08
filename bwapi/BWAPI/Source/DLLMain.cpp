@@ -398,7 +398,20 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
   return rval;
 }
 //---------------------------------------------- WINAPI HOOKS ------------------------------------------------
-
+/*
+// this was just a test
+DWORD dwTicks;
+LRESULT (CALLBACK* hSWndProc)(HWND, UINT, WPARAM, LPARAM);
+LRESULT APIENTRY BWAPIWndHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+  if ( GetTickCount() > dwTicks + 5000 )
+  {
+    dwTicks = GetTickCount();
+    MessageBoxA(NULL, "Check-up", "!", MB_OK);
+  }
+  return hSWndProc(hWnd, uMsg, wParam, lParam);
+}
+*/
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -465,6 +478,11 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 
   *(FARPROC*)&BW::SFileOpenFileEx = HackUtil::GetImport("storm.dll", 268);
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
+/* 
+  // this won't work for Battle.net window
+  HWND hSWnd = FindWindow("SWarClass", NULL);
+  *(LONG*)&hSWndProc = GetWindowLongA(hSWnd, GWLP_WNDPROC);
+  SetWindowLongA(hSWnd, GWLP_WNDPROC, (LONG)&BWAPIWndHook);*/
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
