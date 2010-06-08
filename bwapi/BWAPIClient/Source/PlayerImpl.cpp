@@ -32,7 +32,7 @@ namespace BWAPI
   {
     return Race(self->race);
   }
-  PlayerType PlayerImpl::playerType() const
+  PlayerType PlayerImpl::getType() const
   {
     return PlayerType(self->type);
   }

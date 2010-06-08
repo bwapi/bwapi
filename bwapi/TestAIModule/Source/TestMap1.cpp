@@ -216,7 +216,7 @@ void TestMap1::onStart()
     BWAssert(neutral->getUpgradeLevel(u)==0);
   }
   BWAssert(Broodwar->self()->getRace()==Races::Terran);
-  BWAssert(Broodwar->self()->playerType()==PlayerTypes::Player);
+  BWAssert(Broodwar->self()->getType()==PlayerTypes::Player);
   BWAssert(Broodwar->self()->minerals()==50);
   BWAssert(Broodwar->self()->gas()==0);
   BWAssert(Broodwar->self()->cumulativeMinerals()==50);
@@ -225,7 +225,7 @@ void TestMap1::onStart()
   BWAssert(Broodwar->self()->supplyUsed()==0);
 
   BWAssert(Broodwar->enemy()->getRace()==Races::Protoss);
-  BWAssert(Broodwar->enemy()->playerType()==PlayerTypes::Computer);
+  BWAssert(Broodwar->enemy()->getType()==PlayerTypes::Computer);
   BWAssert(Broodwar->enemy()->minerals()==0);
   BWAssert(Broodwar->enemy()->gas()==0);
   BWAssert(Broodwar->enemy()->cumulativeMinerals()==0);

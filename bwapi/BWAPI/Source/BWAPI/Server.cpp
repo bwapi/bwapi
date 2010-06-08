@@ -171,7 +171,7 @@ namespace BWAPI
 
       strncpy(p->name,(*i)->getName().c_str(),32);
       p->race  = (*i)->getRace().getID();
-      p->type  = (*i)->playerType().getID();
+      p->type  = (*i)->getType().getID();
       p->force = getForceID((*i)->getForce());
       for(int j=0;j<12;j++)
       {
