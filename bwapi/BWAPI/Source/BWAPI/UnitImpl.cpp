@@ -715,6 +715,9 @@ namespace BWAPI
     if (this->getPlayer() == player)
       return true;
 
+    if (player == NULL)
+      return false;
+
     int playerid=player->getID();
     if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
       return this->getRawDataLocal()->sprite->visibilityFlags > 0;
