@@ -43,6 +43,14 @@ namespace BWAPI
     e.text=text;
     return e;
   }
+  Event Event::ReceiveText(Player* player, std::string text)
+  {
+    Event e;
+    e.type=EventType::ReceiveText;
+    e.player=player;
+    e.text=text;
+    return e;
+  }
   Event Event::PlayerLeft(Player* player)
   {
     Event e;
