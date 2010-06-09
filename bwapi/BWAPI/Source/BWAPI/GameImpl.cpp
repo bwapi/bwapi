@@ -1906,6 +1906,8 @@ namespace BWAPI
   GameType GameImpl::getGameType()
   {
     this->setLastError(Errors::None);
+    if (isReplay())
+      return GameTypes::None;
     return GameType(*BW::BWDATA_gameType);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
