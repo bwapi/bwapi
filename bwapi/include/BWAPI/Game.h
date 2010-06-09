@@ -9,6 +9,7 @@
 #include <BWAPI/Error.h>
 #include <BWAPI/Event.h>
 #include <BWAPI/Flag.h>
+#include <BWAPI/GameType.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/Latency.h>
@@ -71,6 +72,9 @@ namespace BWAPI
 
       /** Returns a pointer to a Unit given an index. */
       virtual Unit *indexToUnit(int unitIndex) = 0;
+
+      /** Returns the game type */
+      virtual GameType getGameType() = 0;
 
       /** Returns the amount of latency the current game has. Currently only returns Latency::SinglePlayer,
        * Latency::LanLow, Latency::LanMedium, or Latency::LanHigh. */

@@ -148,7 +148,7 @@ namespace BW
   const  u32            BULLET_ARRAY_MAX_LENGTH             = 100;
 
   static Counts* BWDATA_Counts             = (Counts*) 0x00582324;    // 1.16.1
-  //static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
+  static u8*     BWDATA_gameType           = (u8*)     0x00596820;    // 1.16.1
   static u32     BWDATA_LoadedUnits        = 0x004F4B58;
 
   /* Speed Hacks */

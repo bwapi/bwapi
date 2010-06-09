@@ -71,6 +71,7 @@ namespace BWAPI
       virtual std::list< Event >& getEvents();
       virtual Unit* indexToUnit(int unitIndex);
 
+      virtual GameType getGameType();
       virtual int getLatency();
       virtual int getFrameCount();
       virtual int getMouseX();
