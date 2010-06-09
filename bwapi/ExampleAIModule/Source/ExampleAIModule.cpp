@@ -169,7 +169,7 @@ bool ExampleAIModule::onSendText(std::string text)
 
 void ExampleAIModule::onReceiveText(BWAPI::Player* player, std::string text)
 {
-  Broodwar->sendText("%s said '%s'", player->getName().c_str(), text.c_str());
+  Broodwar->printf("%s said '%s'", player->getName().c_str(), text.c_str());
 }
 
 void ExampleAIModule::onPlayerLeft(BWAPI::Player* player)
