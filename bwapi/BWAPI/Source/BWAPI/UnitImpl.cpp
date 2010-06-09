@@ -2681,9 +2681,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   std::string UnitImpl::getName() const
   {
-    if (!this->attemptAccess())
-      return std::string("Unknown");
-    return this->getOriginalRawData()->unitID.getName();
+    return this->getType().getName();
   }
   int UnitImpl::maxHitPoints() const
   {
