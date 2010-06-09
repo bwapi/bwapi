@@ -11,6 +11,7 @@ namespace BWAPI
       MatchFrame,
       MenuFrame,
       SendText,
+      ReceiveText,
       PlayerLeft,
       NukeDetect,
       UnitCreate,

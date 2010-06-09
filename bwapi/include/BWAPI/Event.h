@@ -17,6 +17,7 @@ namespace BWAPI
       static Event MatchFrame();
       static Event MenuFrame();
       static Event SendText(std::string text);
+      static Event ReceiveText(Player* player, std::string text);
       static Event PlayerLeft(Player* player);
       static Event NukeDetect(Position target);
       static Event UnitCreate(Unit* unit);

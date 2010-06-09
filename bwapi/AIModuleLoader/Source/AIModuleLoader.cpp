@@ -79,6 +79,9 @@ int main(int argc, const char* argv[])
           case EventType::SendText:
             client->onSendText(e->text);
           break;
+          case EventType::ReceiveText:
+            client->onReceiveText(e->player, e->text);
+          break;
           case EventType::PlayerLeft:
             client->onPlayerLeft(e->player);
           break;

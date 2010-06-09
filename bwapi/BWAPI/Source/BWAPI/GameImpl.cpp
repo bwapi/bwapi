@@ -1455,7 +1455,10 @@ namespace BWAPI
     /* Do onReceiveText */
     int realId = stormIdToPlayerId(playerId);
     if ( this->client != NULL && realId != -1 && realId != this->BWAPIPlayer->getID())
+    {
+      events.push_back(Event::ReceiveText(this->players[realId], text));
       this->client->onReceiveText(this->players[realId], text);
+    }
   }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)

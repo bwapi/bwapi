@@ -71,18 +71,29 @@ namespace BWAPI
     e2->v2=0;
     if (e.type==BWAPI::EventType::MatchEnd)
       e2->v1=e.isWinner;
+
     if (e.type==BWAPI::EventType::SendText || e.type==BWAPI::EventType::SaveGame)
     {
       int str=addString(e.text.c_str());
       e2->v1=str;
     }
+
     if (e.type==BWAPI::EventType::PlayerLeft)
       e2->v1=getPlayerID(e.player);
+
+    if (e.type==BWAPI::EventType::ReceiveText)
+    {
+      e2->v1=getPlayerID(e.player);
+      int str=addString(e.text.c_str());
+      e2->v2=str;
+    }
+
     if (e.type==BWAPI::EventType::NukeDetect)
     {
       e2->v1=e.position.x();
       e2->v2=e.position.y();
     }
+
     if (e.type==BWAPI::EventType::UnitCreate ||
         e.type==BWAPI::EventType::UnitDestroy ||
         e.type==BWAPI::EventType::UnitMorph ||
