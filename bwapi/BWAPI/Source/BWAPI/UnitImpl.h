@@ -197,12 +197,6 @@ namespace BWAPI
       virtual bool  useTech(TechType tech);
       virtual bool  useTech(TechType tech, Position position);
       virtual bool  useTech(TechType tech, Unit* target);
-      
-      // Unit Type commands
-      virtual std::string getName() const;
-      virtual int maxHitPoints() const;
-      virtual int maxShields() const;
-      virtual int maxEnergy() const;
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
@@ -222,6 +216,7 @@ namespace BWAPI
       bool died() const;
       Player* _getPlayer() const;
       UnitType _getType() const;
+      std::string getName() const;
       Position _getPosition() const;
       TilePosition _getTilePosition() const;
       int _getResources() const;

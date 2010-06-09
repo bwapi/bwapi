@@ -68,9 +68,11 @@ namespace BWAPI
       virtual int  killedUnitCount(UnitType unit) const;
 
       virtual int  getUpgradeLevel(UpgradeType upgrade) const;
-      virtual bool  hasResearched(TechType tech) const;
-      virtual bool  isResearching(TechType tech) const;
-      virtual bool  isUpgrading(UpgradeType upgrade) const;
+      virtual bool hasResearched(TechType tech) const;
+      virtual bool isResearching(TechType tech) const;
+      virtual bool isUpgrading(UpgradeType upgrade) const;
+
+      virtual int maxEnergy(UnitType unit) const;
 
       //Internal BWAPI commands:
 

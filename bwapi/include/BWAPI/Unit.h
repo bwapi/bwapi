@@ -44,9 +44,6 @@ namespace BWAPI
        * has a unique address. */
       virtual int getID() const = 0;
 
-      // Unit Type commands
-      virtual std::string getName() const = 0;
-
       /** Returns a pointer to the player that owns this unit. */
       virtual Player* getPlayer() const = 0;
 
@@ -60,8 +57,6 @@ namespace BWAPI
       /** Returns the unit's current amount of hit points. */
       virtual int getHitPoints() const = 0;
 
-      virtual int maxHitPoints() const = 0;
-
       /** Returns the unit's initial amount of hit points, or 0 if it wasn't a neutral unit at the beginning
        * of the game. */
       virtual int getInitialHitPoints() const = 0;
@@ -69,12 +64,8 @@ namespace BWAPI
       /** Returns the unit's current amount of shields. */
       virtual int getShields() const = 0;
 
-      virtual int maxShields() const = 0;
-
       /** Returns the unit's current amount of energy. */
       virtual int getEnergy() const = 0;
-
-      virtual int maxEnergy() const = 0;
 
       /** Returns the unit's current amount of containing resources. Useful for determining how much minerals
        * are left in a mineral patch, or how much gas is left in a geyser

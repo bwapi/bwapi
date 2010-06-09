@@ -120,5 +120,8 @@ namespace BWAPI
       /** Returns true if the player is upgrading the given upgrade. To order a unit to upgrade a given
        * upgrade type, see Unit::upgrade. */
       virtual bool isUpgrading(UpgradeType upgrade) const = 0;
+
+      /** Returns the max energy of the given unit type, taking into account upgrades */
+      virtual int maxEnergy(UnitType unit) const = 0;
   };
 };

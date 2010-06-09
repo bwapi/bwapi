@@ -51,5 +51,7 @@ namespace BWAPI
       virtual bool hasResearched(TechType tech) const;
       virtual bool isResearching(TechType tech) const;
       virtual bool isUpgrading(UpgradeType upgrade) const;
+
+      virtual int maxEnergy(UnitType unit) const;
   };
 };

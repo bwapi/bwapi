@@ -34,10 +34,6 @@ namespace BWAPI
   {
     return id;
   }
-  std::string UnitImpl::getName() const
-  {
-    return getType().getName();
-  }
   Player* UnitImpl::getPlayer() const
   {
     return ((GameImpl*)Broodwar)->getPlayer(self->player);
@@ -54,10 +50,6 @@ namespace BWAPI
   {
     return self->hitPoints;
   }
-  int UnitImpl::maxHitPoints() const
-  {
-    return getType().maxHitPoints();
-  }
   int UnitImpl::getInitialHitPoints() const
   {
     return this->initialHitPoints;
@@ -66,33 +58,9 @@ namespace BWAPI
   {
     return self->shields;
   }
-  int UnitImpl::maxShields() const
-  {
-    return getType().maxShields();
-  }
   int UnitImpl::getEnergy() const
   {
     return self->energy;
-  }
-  int UnitImpl::maxEnergy() const
-  {
-    UnitType type = getType();
-    int energy = type.maxEnergy();
-    Player* player = getPlayer();
-    if (player == NULL) return energy;
-    if ((type == UnitTypes::Protoss_Arbiter       && player->getUpgradeLevel(UpgradeTypes::Khaydarin_Core)>0) ||
-        (type == UnitTypes::Protoss_Corsair       && player->getUpgradeLevel(UpgradeTypes::Argus_Jewel)>0) ||
-        (type == UnitTypes::Protoss_Dark_Archon   && player->getUpgradeLevel(UpgradeTypes::Argus_Talisman)>0) ||
-        (type == UnitTypes::Protoss_High_Templar  && player->getUpgradeLevel(UpgradeTypes::Khaydarin_Amulet)>0) ||
-        (type == UnitTypes::Terran_Ghost          && player->getUpgradeLevel(UpgradeTypes::Moebius_Reactor)>0) ||
-        (type == UnitTypes::Terran_Battlecruiser  && player->getUpgradeLevel(UpgradeTypes::Colossus_Reactor)>0) ||
-        (type == UnitTypes::Terran_Science_Vessel && player->getUpgradeLevel(UpgradeTypes::Titan_Reactor)>0) ||
-        (type == UnitTypes::Terran_Wraith         && player->getUpgradeLevel(UpgradeTypes::Apollo_Reactor)>0) ||
-        (type == UnitTypes::Terran_Medic          && player->getUpgradeLevel(UpgradeTypes::Caduceus_Reactor)>0) ||
-        (type == UnitTypes::Zerg_Defiler          && player->getUpgradeLevel(UpgradeTypes::Metasynaptic_Node)>0) ||
-        (type == UnitTypes::Zerg_Queen            && player->getUpgradeLevel(UpgradeTypes::Gamete_Meiosis)>0))
-      energy+=50;
-    return energy;
   }
   int UnitImpl::getResources() const
   {
