@@ -248,6 +248,7 @@ namespace BWAPI
     data->isInGame   = Broodwar->isInGame();
     if (Broodwar->isInGame())
     {
+      data->gameType          = Broodwar->getGameType().getID();
       data->latency           = Broodwar->getLatency();
       for(int i=0;i<3;i++)
         data->mouseState[i]   = Broodwar->getMouseState(i);

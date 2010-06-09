@@ -1902,6 +1902,12 @@ namespace BWAPI
   {
     return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
+  //--------------------------------------------- GET GAME TYPE ----------------------------------------------
+  GameType GameImpl::getGameType()
+  {
+    this->setLastError(Errors::None);
+    return GameType(*BW::BWDATA_gameType);
+  }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   int GameImpl::getLatency()
   {

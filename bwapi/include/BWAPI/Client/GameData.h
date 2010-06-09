@@ -32,6 +32,7 @@ namespace BWAPIC
     //bullets
     BulletData bullets[100];
 
+    int gameType;
     int latency;
     int frameCount;
 

@@ -323,6 +323,11 @@ namespace BWAPI
     if (unitId<0 || unitId>=(int)unitVector.size()) return NULL;
     return &unitVector[unitId];
   }
+  //--------------------------------------------- GET GAME TYPE ----------------------------------------------
+  GameType GameImpl::getGameType()
+  {
+    return GameType(data->gameType);
+  }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   int GameImpl::getLatency()
   {
