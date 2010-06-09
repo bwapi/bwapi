@@ -830,6 +830,15 @@ namespace BWAPI
         delete this->shapes[i];
       this->shapes.clear();
       this->inUpdate = false;
+
+      foreach(std::string i, sentMessages)
+      {
+        bool send = !BroodwarImpl.onSendText(i.c_str());
+        if (send)
+          BroodwarImpl.sendText(i.c_str());
+      }
+      this->sentMessages.clear();
+
     }
     catch (GeneralException& exception)
     {
@@ -841,57 +850,57 @@ namespace BWAPI
     if (this->startedClient == false)
     {
       sendText("BWAPI revision %s is now live.", SVN_REV_STR);
-
-      TCHAR szDllPath[MAX_PATH];
-      GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
-      if (_strcmpi(szDllPath, "NULL") == 0)
+      if (server.isConnected())
       {
-        sendText("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
-        FILE* f = fopen("bwapi-error.txt", "a+");
-        fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
-        fclose(f);
-      }
-
-      Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
-      hMod = LoadLibrary(szDllPath);
-      if (hMod == NULL)
-      {
-        Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
+        Util::Logger::globalLog->logCritical("Client connected, not loading AI module.");
         this->client = new AIModule();
-        this->enableFlag(Flag::UserInput);
-        this->enableFlag(Flag::CompleteMapInformation);
-        this->lockFlags();
-        sendText("Error: Failed to load the AI Module");
+        sendText("BWAPI: Connected to AI Client process");
       }
       else
       {
-        Util::Logger::globalLog->logCritical("Loaded AI Module");
-        Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
+        TCHAR szDllPath[MAX_PATH];
+        GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+        if (_strcmpi(szDllPath, "NULL") == 0)
+        {
+          sendText("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
+          FILE* f = fopen("bwapi-error.txt", "a+");
+          fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
+          fclose(f);
+        }
 
-        typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
-        Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
+        Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
+        hMod = LoadLibrary(szDllPath);
+        if (hMod == NULL)
+        {
+          Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
+          this->client = new AIModule();
+          Broodwar->enableFlag(Flag::CompleteMapInformation);
+          Broodwar->enableFlag(Flag::UserInput);
+          sendText("Error: Failed to load the AI Module");
+        }
+        else
+        {
+          Util::Logger::globalLog->logCritical("Loaded AI Module");
+          Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
 
-        PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
-        this->client = newAIModule(this);
-        Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-        sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
+          typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
+          Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
+
+          PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
+          this->client = newAIModule(this);
+          Util::Logger::globalLog->logCritical("Created an Object of AIModule");
+          sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
+        }
       }
-      this->client->onStart();
       events.push_back(Event::MatchStart());
+      this->client->onStart();
       this->startedClient = true;
-      this->lockFlags();
     }
-    this->client->onFrame();
+
     events.push_back(Event::MatchFrame());
     this->server.update();
 
-    foreach(std::string i, sentMessages)
-    {
-      bool send = !BroodwarImpl.onSendText(i.c_str());
-      if (send)
-        BroodwarImpl.sendText(i.c_str());
-    }
-    this->sentMessages.clear();
+    this->client->onFrame();
     
 
     this->loadSelected();
@@ -1338,7 +1347,6 @@ namespace BWAPI
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
       this->flags[i] = false;
-    this->flagsLocked = false;
 
     /* load the map data */
     map.load();
@@ -1347,7 +1355,6 @@ namespace BWAPI
     {
       for (int i = 0; i < FLAG_COUNT; i++)
         this->flags[i] = true;
-      this->flagsLocked = false;
     }
     else
     {
@@ -2163,7 +2170,7 @@ namespace BWAPI
 
     /* Error checking */
     this->setLastError(Errors::None);
-    if (this->flagsLocked == true)
+    if (this->frameCount > 0)
     {
       this->sendText("Flags can only be enabled at the start of a game.");
       return;
@@ -2186,12 +2193,6 @@ namespace BWAPI
       this->sendText("Enabled Flag UserInput");
       break;
     }
-  }
-  //-------------------------------------------------- LOCK FLAGS --------------------------------------------
-  void GameImpl::lockFlags()
-  {
-    /* Prevent BWAPI flags from being modified */
-    this->flagsLocked = true;
   }
   //----------------------------------------------------- SELF -----------------------------------------------
   Player*  GameImpl::self()

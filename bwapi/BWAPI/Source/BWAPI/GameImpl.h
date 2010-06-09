@@ -240,7 +240,6 @@ namespace BWAPI
       /** Unknown unitID's */
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;
-      bool flagsLocked;
       bool inUpdate;
       std::list<std::string > sentMessages;
       void onSaveGame(char *name);

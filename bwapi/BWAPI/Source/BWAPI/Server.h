@@ -13,6 +13,7 @@ namespace BWAPI
     Server();
     ~Server();
     void update();
+    bool isConnected();
     int addEvent(BWAPI::Event e);
     int addString(const char* text);
     private:
