@@ -2588,7 +2588,7 @@ namespace BWAPI
       return true;
 
     /* neutral units visible during AIModule::onStart */
-    if (BroodwarImpl.flagsLocked == false)
+    if (Broodwar->getFrameCount()==0)
       if (this->getBWType().isNeutral() || this->getBWType().isNeutralAccesories())
         return true;
 

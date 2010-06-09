@@ -56,6 +56,10 @@ namespace BWAPI
     data->shapeCount       = 0;
     data->stringCount      = 0;
   }
+  bool Server::isConnected()
+  {
+    return connected;
+  }
   int Server::addString(const char* text)
   {
     strncpy(data->strings[data->stringCount],text,256);
