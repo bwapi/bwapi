@@ -20,8 +20,8 @@ void ExampleAIModule::onStart()
   analyzed=false;
   analysis_just_finished=false;
   */
-  show_bullets = false;
-  show_visibility_data = false;
+  show_bullets=false;
+  show_visibility_data=false;
 
   if (Broodwar->isReplay())
   {
@@ -74,6 +74,7 @@ void ExampleAIModule::onStart()
     }
   }
 }
+
 void ExampleAIModule::onEnd(bool isWinner)
 {
   if (isWinner)
@@ -81,6 +82,7 @@ void ExampleAIModule::onEnd(bool isWinner)
     //log win to file
   }
 }
+
 void ExampleAIModule::onFrame()
 {
   if (show_visibility_data)
