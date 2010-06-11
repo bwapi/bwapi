@@ -181,9 +181,11 @@ namespace BW
         char    **ppStrs;     // 0x3A   // official
         BYTE    *pbStrFlags;  // 0x3E   // official
           /*
-            0x00  = uses simple values for pdwData
-            0x03  = for maps; makes pdwData contain map name, path, other info
-            0x10  = Adds an option button to the entry
+            &0x0F specifies the colour of the entry (Standard colours unless noted)
+              0x01  = Use previous (Uses the colour of the entry BEFORE the previous one)
+              0x09 - 0x0D  = Use last (Uses the colour of the previous entry)
+            &0xF0 specifies additional properties
+              0x10  = Gives entry an option button
           */
         DWORD   *pdwData;     // 0x42   // official
         BYTE    bStrs;        // 0x46   // official
@@ -230,10 +232,41 @@ namespace BW
     bool  isList();
     BYTE  getSelectedIndex();
     DWORD getSelectedValue();
-    void  setSelectedIndex(BYTE bIndex);
-    void  setSelectedByValue(DWORD dwValue);
     char  *getSelectedString();
+
+    bool  setSelectedIndex(BYTE bIndex);
+    bool  setSelectedByValue(DWORD dwValue);
+    bool  setSelectedByString(char *pszString);
+
   };
 #pragma pack()
   dialog *CreateDialogWindow(const char *text, WORD top, WORD left, WORD width, WORD height);
 };
+
+/*
+List entry: Format for lists (map list for example)
+            pointed to by list.pdwData
+
+  char  szListEntry[65];
+  char  szName[32];
+  char  szDescription[316];
+  char  szHumanSlots[35];
+  char  szComputerSlots[35];
+  char  szPlayers[35];
+  char  szDimensions[35];
+  char  szTileset[35];
+  DWORD dwUnk1;
+  DWORD dwUnk2;
+  DWORD dwUnk3;
+  DWORD dwUnk4;
+  DWORD dwUnk5;
+  char  szFullPath[261];
+  char  szFileName[261];
+  WORD  wWidth;
+  WORD  wHeight;
+  WORD  wTileset; // or numPlayers? guess
+  BYTE  bReserved; // players reserved? guess
+  BYTE  bPlayers;
+  BYTE  bComputers; // for UMS
+  BYTE  bHumans; // guess
+*/
