@@ -149,6 +149,10 @@ namespace BW
     dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 48, 12);
     title->setFlag(CTRL_FONT_SMALLEST);
     dlg->add(title);
+
+    dialog *close = new dialog(ctrls::cBUTTON, -254, "\x1Bx", 8, 8, 120, 64);
+    close->setFlag(CTRL_FONT_SMALLEST | CTRL_ALTERNATE);
+    dlg->add(close);
     return dlg;
   }
 
@@ -168,10 +172,15 @@ namespace BW
     srcBits.ht    = height;
 
     pszText       = "";
+    lFlags        = CTRL_VISIBLE;
     if ( ctrlType == ctrls::cDLG )
-      lFlags      = CTRL_VISIBLE | CTRL_DLG_NOREDRAW;
-    else
-      lFlags      = CTRL_VISIBLE;
+      lFlags      |= CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
+
+    if ( ctrlType == ctrls::cBUTTON || ctrlType == ctrls::cDFLTBTN )
+    {
+      lFlags      |= 0x20001A18; //CTRL_EVENTS; // | CTRL_ALTERNATE
+      wUnk_0x24   = 112;
+    }
 
     wIndex        = index;
     wCtrlType     = ctrlType;
@@ -202,10 +211,15 @@ namespace BW
     srcBits.ht      = height;
 
     pszText         = (char*)text;
+    lFlags        = CTRL_VISIBLE;
     if ( ctrlType == ctrls::cDLG )
-      lFlags        = CTRL_VISIBLE | CTRL_TRANSLUCENT | CTRL_DLG_NOREDRAW;
-    else
-      lFlags        = CTRL_VISIBLE;
+      lFlags      |= CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
+
+    if ( ctrlType == ctrls::cBUTTON || ctrlType == ctrls::cDFLTBTN )
+    {
+      lFlags      |= CTRL_EVENTS;
+      wUnk_0x24   = 112;
+    }
 
     wIndex          = index;
     wCtrlType       = ctrlType;
@@ -433,9 +447,7 @@ namespace BW
     if ( this 
         && this->isList() 
         && this->u.list.pdwData 
-        && this->u.list.pbStrFlags 
-        && this->u.list.bSelectedIndex < this->u.list.bStrs 
-        && this->u.list.pbStrFlags[this->u.list.bSelectedIndex] == 0)
+        && this->u.list.bSelectedIndex < this->u.list.bStrs)
       return this->u.list.pdwData[this->u.list.bSelectedIndex];
     return 0;
   }
@@ -456,13 +468,13 @@ namespace BW
     }
     return false;
   }
-  void dialog::setSelectedByValue(DWORD dwValue)
+  bool dialog::setSelectedByValue(DWORD dwValue)
   {
-    if ( this && this->isList() && this->u.list.pbStrFlags && this->u.list.pdwData)
+    if ( this && this->isList() && this->u.list.pdwData)
     {
       for (int i = 0; i < this->u.list.bStrs; i++)
       {
-        if ( this->u.list.pbStrFlags[i] == 0 && this->u.list.pdwData[i] == dwValue)
+        if ( this->u.list.pdwData[i] == dwValue)
         {
           this->u.list.bCurrStr       = (BYTE)i;
           this->u.list.bSelectedIndex = (BYTE)i;
@@ -472,7 +484,7 @@ namespace BW
     } // check
     return false;
   }
-  void dialog::setSelectedByString(char *pszString)
+  bool dialog::setSelectedByString(char *pszString)
   {
     // verify that this is the correct control
     if ( this && this->isList() )

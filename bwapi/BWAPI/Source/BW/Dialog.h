@@ -15,7 +15,7 @@
 #define CTRL_BTN_HOTKEY     0x00000200
 #define CTRL_FONT_SMALLEST  0x00000400
 #define CTRL_FONT_LARGE     0x00000800
-
+//                            0x00001000 // button uses this
 #define CTRL_TRANSPARENT    0x00002000
 #define CTRL_FONT_LARGEST   0x00004000
 
@@ -128,7 +128,7 @@ namespace BW
         bitmap  dstBits;      // 0x36  // official 
         dialog  *pUnk_0x3E;
         dialog  *pFirstChild;  // 0x42  // official
-        DWORD   dwUnk_0x46;
+        dialog  *dwUnk_0x46;
         void    *pModalFcn;   // 0x4A   // official
       } dlg;
       
