@@ -108,10 +108,27 @@ namespace BW
     bitmap  srcBits;        // 0x0C   // official
     char    *pszText;       // 0x14   // official name
     LONG    lFlags;         // 0x18   // official name
-    DWORD   dwUnk_0x1C;
+    WORD    wUnk_0x1C;
+    WORD    wUnk_0x1E;
     short   wIndex;         // 0x20   // official name
     WORD    wCtrlType;      // 0x22   // official name
-    WORD    wUnk_0x24;
+    WORD    wGraphic;       // 0x24
+    /*
+      Values for wGraphic (as a button)
+      12  An X (non-standard)
+      88  A double-line (non-standard)
+      96  A grey/red bullet (non-standard)
+      100 Grey Left menu button
+      103 Left menu button
+      106 Highlighted Left menu button
+      109 Grey Center menu button
+      112 Center menu button
+      115 Highlighted Center menu button
+      118 Grey Right menu button
+      121 Right menu button
+      124 Highlighted Right menu button
+
+    */
     LONG    lUser;          // 0x26   // official name
     bool (__fastcall *pfcnInteract)(dialog*,dlgEvent*);  // 0x2A
     void (__fastcall *pfcnUpdate)(dialog*,int,int,rect*);    // 0x2E
@@ -204,8 +221,7 @@ namespace BW
     } u;
 
     // global functions
-    dialog(WORD ctrlType, short index, WORD top, WORD left, WORD width, WORD height);
-    dialog(WORD ctrlType, short index, const char *text, WORD top, WORD left, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, void (__fastcall *pfUpdate)(dialog*,int,int,rect*) = NULL);
+    dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 28, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, WORD wGraphicIndex = 0);
     ~dialog();
 
     dialog  *FindIndex(short wIndex);
@@ -240,7 +256,7 @@ namespace BW
 
   };
 #pragma pack()
-  dialog *CreateDialogWindow(const char *text, WORD top, WORD left, WORD width, WORD height);
+  dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
 };
 
 /*
