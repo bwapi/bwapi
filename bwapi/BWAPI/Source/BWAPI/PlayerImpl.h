@@ -73,6 +73,12 @@ namespace BWAPI
       virtual bool isUpgrading(UpgradeType upgrade) const;
 
       virtual int maxEnergy(UnitType unit) const;
+      double topSpeed(UnitType unit) const;
+      int groundWeaponMaxRange(UnitType unit) const;
+      int airWeaponMaxRange(UnitType unit) const;
+      int sightRange(UnitType unit) const;
+      int groundWeaponDamageCooldown(UnitType unit) const;
+      int armor(UnitType unit) const;
 
       //Internal BWAPI commands:
 

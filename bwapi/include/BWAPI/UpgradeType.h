@@ -68,8 +68,8 @@ namespace BWAPI
     extern const UpgradeType Terran_Ship_Plating;
     extern const UpgradeType Zerg_Carapace;
     extern const UpgradeType Zerg_Flyer_Carapace;
-    extern const UpgradeType Protoss_Armor;
-    extern const UpgradeType Protoss_Plating;
+    extern const UpgradeType Protoss_Ground_Armor;
+    extern const UpgradeType Protoss_Air_Armor;
     extern const UpgradeType Terran_Infantry_Weapons;
     extern const UpgradeType Terran_Vehicle_Weapons;
     extern const UpgradeType Terran_Ship_Weapons;
@@ -112,7 +112,7 @@ namespace BWAPI
     extern const UpgradeType Caduceus_Reactor;
     extern const UpgradeType Chitinous_Plating;
     extern const UpgradeType Anabolic_Synthesis;
-    extern const UpgradeType Charon_Booster;
+    extern const UpgradeType Charon_Boosters;
     extern const UpgradeType None;
     extern const UpgradeType Unknown;
   }
