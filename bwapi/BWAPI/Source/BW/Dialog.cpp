@@ -353,11 +353,13 @@ namespace BW
   // --------------------- FLAGS ---------------------
   void dialog::setFlag(DWORD dwFlag)
   {
-    this->lFlags |= dwFlag;
+    if ( this )
+      this->lFlags |= dwFlag;
   }
   void dialog::clearFlag(DWORD dwFlag)
   {
-    this->lFlags &= ~dwFlag;
+    if ( this )
+      this->lFlags &= ~dwFlag;
   }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
@@ -407,6 +409,7 @@ namespace BW
       return this->u.optn.bEnabled != 0;
     return false;
   }
+// -------------------------------------------- LISTBOX & COMBOBOX -------------------------------------------
 // ----------------------- IS LIST -------------------
   bool dialog::isList()
   {
@@ -436,14 +439,22 @@ namespace BW
       return this->u.list.pdwData[this->u.list.bSelectedIndex];
     return 0;
   }
+  char *dialog::getSelectedString()
+  {
+    if ( this && this->isList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
+      return this->u.list.ppStrs[this->u.list.bCurrStr];
+    return "";
+  }
 // ------------------- SET SELECTED ------------------
-  void dialog::setSelectedIndex(BYTE bIndex)
+  bool dialog::setSelectedIndex(BYTE bIndex)
   {
     if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
       this->u.list.bCurrStr       = bIndex;
       this->u.list.bSelectedIndex = bIndex;
+      return true;
     }
+    return false;
   }
   void dialog::setSelectedByValue(DWORD dwValue)
   {
@@ -455,16 +466,35 @@ namespace BW
         {
           this->u.list.bCurrStr       = (BYTE)i;
           this->u.list.bSelectedIndex = (BYTE)i;
+          return true;
         }
       }
     } // check
+    return false;
   }
-// ------------------ GET SELECTED STR ---------------
-  char *dialog::getSelectedString()
+  void dialog::setSelectedByString(char *pszString)
   {
-    if ( this && this->isList() && this->u.list.ppStrs )
-      return this->u.list.ppStrs[this->u.list.bCurrStr];
-    return "";
+    // verify that this is the correct control
+    if ( this && this->isList() )
+    {
+      // Iterate through each entry
+      for (int i = 0; i < this->u.list.bStrs; i++)
+      {
+        // Verify pointer validity
+        if ( this->u.list.ppStrs && this->u.list.ppStrs[i] )
+        {
+          // compare the string to the one we're looking for
+          if ( strcmpi(this->u.list.ppStrs[i], pszString) == 0 )
+          {
+            // set the selected entry
+            this->u.list.bCurrStr       = (BYTE)i;
+            this->u.list.bSelectedIndex = (BYTE)i;
+            return true;
+          }
+        } // pointer validate
+      } // iterator
+    }
+    return false;
   }
 
 };
