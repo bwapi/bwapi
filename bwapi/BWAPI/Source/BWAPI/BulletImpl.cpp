@@ -128,6 +128,9 @@ namespace BWAPI
     if (BroodwarImpl._isReplay())
       return this->bwOriginalBullet->sprite->visibilityFlags > 0;
 
+    //temporary until we figure out a better way to get visibility of lurker bullets
+    if (_getSource()!=NULL && _getSource()->isVisible()) return true;
+
     return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
@@ -146,6 +149,9 @@ namespace BWAPI
 
     if (player == NULL)
       return false;
+
+    //temporary until we figure out a better way to get visibility of lurker bullets
+    if (_getSource()!=NULL && _getSource()->isVisible(player)) return true;
 
     int playerid=player->getID();
     if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
