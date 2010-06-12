@@ -32,6 +32,7 @@
 #define CTRL_VALIGN_BOTTOM  0x04000000
 
 #define CTRL_DLG_NOREDRAW   0x10000000
+#define CTRL_REVERSE        0x10000000
 #define CTRL_ALTERNATE      0x20000000
 #define CTRL_DLG_ACTIVE     0x40000000
 #define CTRL_LBOX_NORECALC  0x80000000
@@ -114,19 +115,18 @@ namespace BW
     WORD    wCtrlType;      // 0x22   // official name
     WORD    wGraphic;       // 0x24
     /*
-      Values for wGraphic (as a button)
-      12  An X (non-standard)
-      88  A double-line (non-standard)
-      96  A grey/red bullet (non-standard)
-      100 Grey Left menu button
-      103 Left menu button
-      106 Highlighted Left menu button
-      109 Grey Center menu button
-      112 Center menu button
-      115 Highlighted Center menu button
-      118 Grey Right menu button
-      121 Right menu button
-      124 Highlighted Right menu button
+      CHECKBOX
+        0 - 2  Show/Hide minimap button
+      BUTTON
+        100 Grey Left menu button
+        103 Left menu button
+        106 Highlighted Left menu button
+        109 Grey Center menu button
+        112 Center menu button
+        115 Highlighted Center menu button
+        118 Grey Right menu button
+        121 Right menu button
+        124 Highlighted Right menu button
 
     */
     LONG    lUser;          // 0x26   // official name
@@ -142,11 +142,11 @@ namespace BW
       struct _dlg            // official
       {
         DWORD   dwUnk_0x32;
-        bitmap  dstBits;      // 0x36  // official 
-        dialog  *pUnk_0x3E;
-        dialog  *pFirstChild;  // 0x42  // official
+        bitmap  dstBits;          // 0x36  // official 
+        dialog  *pActiveElement;  // 0x3E
+        dialog  *pFirstChild;     // 0x42  // official
         dialog  *dwUnk_0x46;
-        void    *pModalFcn;   // 0x4A   // official
+        void    *pModalFcn;       // 0x4A   // official
       } dlg;
       
       struct _btn
@@ -221,39 +221,46 @@ namespace BW
     } u;
 
     // global functions
-    dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 28, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, WORD wGraphicIndex = 0);
+    dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 28, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, short wGraphicIndex = -1);
     ~dialog();
 
-    dialog  *FindIndex(short wIndex);
-    dialog  *findDialogByName(const char *pszName);
-    void    add(dialog *dlg);
-    dialog  *next();
+    dialog  *FindIndex(short wIndex); // Searches for a control that matches the specified index
+    dialog  *findDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
+    bool    add(dialog *dlg);         // Adds a dialog or control to the list
+    dialog  *next();                  // Retrieves the next dialog or control in the list
 
-    void    setFlag(DWORD dwFlag);
-    void    clearFlag(DWORD dwFlag);
+    bool    setFlag(DWORD dwFlag);    // Sets a flag or set of flags for the control or dialog
+    bool    clearFlag(DWORD dwFlag);  // Clears a flag or set of flags for the control or dialog
+    bool    setText(char *pszStr);    // Sets the text of a control, or name of a dialog
+    char    *getText();               // Retrieves the text of a control, or name of a dialog
+
+    BW::bitmap  *GetSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 
     // dialog-specific functions
-    bool    isDialog();
-    dialog  *child();
+    bool        isDialog();           // Returns true if the control type is a dialog
+    dialog      *child();             // Retrieves the child control from the parent dialog
+    BW::bitmap  *GetDestBuffer();     // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
 
     // control-specific functions
-    dialog *parent();
-    short getIndex();
+    dialog *parent();     // Retrieves a control's parent dialog
+    short getIndex();     // Retrieves the index of a control
+
+    // button-specific
+    bool isButton();      // Returns true if the control type is a button
 
     // checkbox & option button
-    bool isOption();
-    bool isChecked();
+    bool isOption();      // Returns true if the control type is a checkbox or radio button
+    bool isChecked();     // Returns true if the control (checkbox/radio) is selected
 
     // listbox & combobox
-    bool  isList();
-    BYTE  getSelectedIndex();
-    DWORD getSelectedValue();
-    char  *getSelectedString();
+    bool  isList();               // Returns true if the control type is a listbox or combobox
+    BYTE  getSelectedIndex();     // Returns the index of the selected element
+    DWORD getSelectedValue();     // Returns the value of the selected element
+    char  *getSelectedString();   // Returns the name of the selected element
 
-    bool  setSelectedIndex(BYTE bIndex);
-    bool  setSelectedByValue(DWORD dwValue);
-    bool  setSelectedByString(char *pszString);
-
+    bool  setSelectedIndex(BYTE bIndex);        // Sets the selected index
+    bool  setSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
+    bool  setSelectedByString(char *pszString); // Sets the selected index based on its name
   };
 #pragma pack()
   dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
