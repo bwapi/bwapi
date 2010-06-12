@@ -1502,13 +1502,11 @@ namespace BWAPI
       restartGame();
       return true;
     }
-    else if (parsed[0] == "/dlgtest")
+    else if (parsed[0] == "/dlg")
     {
       if ( !hasDialog )
       {
         myDlg  = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
-        BW::dialog *myCtrl = new BW::dialog(BW::ctrls::cLSTATIC, -10, "Hello world!!!", 100, 100, 100, 32);
-        myDlg->add(myCtrl);
         (*BW::BWDATA_ScreenDialog)->add(myDlg);
         hasDialog = true;
       }
