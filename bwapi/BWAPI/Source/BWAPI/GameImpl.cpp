@@ -172,6 +172,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return this->map.groundHeight(x, y);
   }
+  //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
+  int  GameImpl::getGroundHeight(TilePosition position)
+  {
+    /* Return the ground height */
+    this->setLastError(Errors::None);
+    return this->map.groundHeight(position.x(), position.y());
+  }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool  GameImpl::isBuildable(int x, int y)
   {

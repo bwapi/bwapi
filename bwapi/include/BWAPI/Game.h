@@ -172,7 +172,7 @@ namespace BWAPI
       /** Returns a unique identifier for the given map data that does not depend on the file name. */
       virtual int getMapHash() = 0;
 
-      /** Returns the ground height of the given walk tile. 0 = normal, 1 = high ground. */
+      /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground.  2 = very high ground. */
       virtual int  getGroundHeight(int x, int y) = 0;
 
       /** Returns true if the specified walk tile is walkable. The values of x and y are in walk tile
@@ -200,6 +200,9 @@ namespace BWAPI
 
       /** Returns true if the given build location is powered by a nearby friendly pylon. */
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) = 0;
+
+      /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground. 2 = very high ground. */
+      virtual int  getGroundHeight(TilePosition position) = 0;
 
       /** \copydoc isBuildable(int, int) */
       virtual bool isBuildable(TilePosition position) = 0;
