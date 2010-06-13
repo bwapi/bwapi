@@ -459,7 +459,7 @@ namespace BWAPI
   //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
   int GameImpl::getGroundHeight(int x, int y)
   {
-    if (x<0 || y<0 || x>=data->mapWidth*4 || y>=data->mapHeight*4)
+    if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
       return 0;
     return data->getGroundHeight[x][y];
   }
@@ -545,6 +545,11 @@ namespace BWAPI
       }
     }
     return false;
+  }
+  //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
+  int GameImpl::getGroundHeight(TilePosition position)
+  {
+    return getGroundHeight(position.x(),position.y());
   }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool GameImpl::isBuildable(TilePosition position)

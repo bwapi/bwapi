@@ -85,11 +85,16 @@ namespace BWAPI
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
   {
-    if ((unsigned int)x >= walkability.getWidth() || (unsigned int)y >= walkability.getHeight())
+    if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return 0;
-    int mid  = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Middle);
-    int high = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::High);
-    return mid + high * 2;
+    int value =  (*this->fogOfWar)[y][x];
+    value = value >> 16;
+    int h=0;
+    if ((value & (0x200))!=0)
+      h=1;
+    if ((value & (0x400))!=0)
+      h=2;
+    return h;
   }
   //-------------------------------------------------- LOAD --------------------------------------------------
   void Map::load()
