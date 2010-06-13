@@ -251,47 +251,57 @@ namespace BW
     ~dialog();
 
     dialog  *FindIndex(short wIndex); // Searches for a control that matches the specified index
-    dialog  *findDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
-    dialog  *next();                  // Retrieves the next dialog or control in the list
+    dialog  *FindDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
+    dialog  *Next();                  // Retrieves the next dialog or control in the list
 
-    bool    setFlag(DWORD dwFlag);    // Sets a flag or set of flags for the control or dialog
-    bool    clearFlag(DWORD dwFlag);  // Clears a flag or set of flags for the control or dialog
-    bool    setText(char *pszStr);    // Sets the text of a control, or name of a dialog
-    char    *getText();               // Retrieves the text of a control, or name of a dialog
+    bool    SetFlag(DWORD dwFlag);    // Sets a flag or set of flags for the control or dialog
+    bool    ClearFlag(DWORD dwFlag);  // Clears a flag or set of flags for the control or dialog
+    bool    HasFlag(DWORD dwFlag);    // Returns true if the dialog or control has all of the specified flags enabled
+    bool    SetText(char *pszStr);    // Sets the text of a control, or name of a dialog
+    char    *GetText();               // Retrieves the text of a control, or name of a dialog
 
     BW::bitmap  *GetSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 
+    bool        Enable();     // Enables the dialog or control
+    bool        Disable();    // Disables the dialog or control
+    bool        IsDisabled(); // Returns true if the dialog or control is disabled
+    bool        Show();       // Shows the dialog or control
+    bool        Hide();       // Hides the dialog or control
+    bool        IsVisible();  // Returns true if the dialog or control is visible
+
     // event-specific functions
-    bool Event(WORD wEvtNum, DWORD dwUser = 0); // Calls a dialog or control's interact function by generating event info using these parameters
+    bool Event(WORD wEvtNum, DWORD dwUser = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
     bool DefaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
 
     // dialog-specific functions
-    bool        isDialog();           // Returns true if the control type is a dialog
-    dialog      *child();             // Retrieves the child control from the parent dialog
-    BW::bitmap  *GetDestBuffer();     // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
-    bool        AddControl(dialog *ctrl);  // Adds a control to this dialog
-    bool        Initialize();         // Performs the dialog's initialization and adds it to the list
+    bool        IsDialog();               // Returns true if the control type is a dialog
+    dialog      *Child();                 // Retrieves the child control from the parent dialog
+    BW::bitmap  *GetDestBuffer();         // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
+    bool        AddControl(dialog *ctrl); // Adds a control to this dialog
+    bool        Initialize();             // Performs the dialog's initialization and adds it to the list
 
     // control-specific functions
-    dialog *parent();     // Retrieves a control's parent dialog
-    short getIndex();     // Retrieves the index of a control
+    dialog *Parent();                     // Retrieves a control's parent dialog
+    short GetIndex();                     // Retrieves the index of a control
+    bool  SetFontFlags(DWORD dwFontFlag); // Sets the font size and horizontal/vertical alignment using one of the CTRL_FONT_, CTRL_HALIGN_, and CTRL_VALIGN flags, and clears the rest to avoid collisions
+    bool  ClearFontFlags();               // Clears all font formatting flags
 
     // button-specific
-    bool isButton();      // Returns true if the control type is a button
+    bool IsButton();      // Returns true if the control type is a button
 
     // checkbox & option button
-    bool isOption();      // Returns true if the control type is a checkbox or radio button
-    bool isChecked();     // Returns true if the control (checkbox/radio) is selected
+    bool IsOption();      // Returns true if the control type is a checkbox or radio button
+    bool IsChecked();     // Returns true if the control (checkbox/radio) is selected
 
     // listbox & combobox
-    bool  isList();               // Returns true if the control type is a listbox or combobox
-    BYTE  getSelectedIndex();     // Returns the index of the selected element
-    DWORD getSelectedValue();     // Returns the value of the selected element
-    char  *getSelectedString();   // Returns the name of the selected element
+    bool  IsList();               // Returns true if the control type is a listbox or combobox
+    BYTE  GetSelectedIndex();     // Returns the index of the selected element
+    DWORD GetSelectedValue();     // Returns the value of the selected element
+    char  *GetSelectedString();   // Returns the name of the selected element
 
-    bool  setSelectedIndex(BYTE bIndex);        // Sets the selected index
-    bool  setSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
-    bool  setSelectedByString(char *pszString); // Sets the selected index based on its name
+    bool  SetSelectedIndex(BYTE bIndex);        // Sets the selected index
+    bool  SetSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
+    bool  SetSelectedByString(char *pszString); // Sets the selected index based on its name
 
     bool  AddListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
   };

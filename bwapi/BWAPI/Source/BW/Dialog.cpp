@@ -1,48 +1,48 @@
 #include "Dialog.h"
 
-BYTE gbTinyBtnGfx[12][12] = {
-  { 0x2C, 0x2C, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x2C, 0x2C },
-  { 0x2C, 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B, 0x2C },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B },
-  { 0x2C, 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B, 0x2C },
-  { 0x2C, 0x2C, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x2C, 0x2C }
-};
-
-BYTE gbTinyBtnGfxOver[12][12] = {
-  { 0x2C, 0x2C, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0x2C, 0x2C },
-  { 0x2C, 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5, 0x2C },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5 },
-  { 0x2C, 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5, 0x2C },
-  { 0x2C, 0x2C, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0x2C, 0x2C }
-};
-
-BYTE gbTinyBtnGfxAct[12][12] = {
-  { 0x2C, 0x2C, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0x2C, 0x2C },
-  { 0x2C, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0x2C },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7 },
-  { 0x2C, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0x2C },
-  { 0x2C, 0x2C, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0x2C, 0x2C }
+BYTE gbTinyBtnGfx[3][12*12] = {
+  {
+    0x00, 0x00, 0x00, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x7B, 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B, 0x7B, 0x00, 0x00,
+    0x00, 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B, 0x00,
+    0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B,
+    0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B,
+    0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B,
+    0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B,
+    0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B,
+    0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B,
+    0x00, 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B, 0x00,
+    0x00, 0x00, 0x7B, 0x7B, 0x2B, 0x2B, 0x2B, 0x2B, 0x7B, 0x7B, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x00, 0x00, 0x00
+  },
+  {
+    0x00, 0x00, 0x00, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0xA5, 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5, 0xA5, 0x00, 0x00,
+    0x00, 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5, 0x00,
+    0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5,
+    0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5,
+    0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5,
+    0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5,
+    0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5,
+    0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5,
+    0x00, 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5, 0x00,
+    0x00, 0x00, 0xA5, 0xA5, 0x2B, 0x2B, 0x2B, 0x2B, 0xA5, 0xA5, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0x00, 0x00, 0x00
+  },
+  {
+    0x00, 0x00, 0x00, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0xC7, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0xC7, 0x00, 0x00,
+    0x00, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0x00,
+    0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7,
+    0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7,
+    0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7,
+    0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7,
+    0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7,
+    0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7,
+    0x00, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0x00,
+    0x00, 0x00, 0xC7, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0xC7, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0x00, 0x00, 0x00
+  }
 };
 
 namespace BW
@@ -138,11 +138,11 @@ namespace BW
     {
     case 2:
     case 5: // Left Button up
-      dlg->srcBits.data = (BYTE*)gbTinyBtnGfx;
+      dlg->srcBits.data = gbTinyBtnGfx[0];
       break;
     case 4:
     case 6: // Left Button down
-      dlg->srcBits.data = (BYTE*)gbTinyBtnGfxAct;
+      dlg->srcBits.data = gbTinyBtnGfx[2];
       break;
     case 14: // Control (used for when a control has been pressed)
       switch(evt->dwUser)
@@ -151,29 +151,28 @@ namespace BW
         switch (dlg->wIndex)
         {
         case 255: // minimize
-          if ( dlg->wUnk_0x1E )
+          if ( (WORD)dlg->lUser )
           {
-            dlg->parent()->srcBits.ht = (WORD)dlg->lUser;
-            dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
-            dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
-            dlg->wUnk_0x1E = 0;
+            dlg->Parent()->srcBits.ht = (WORD)dlg->lUser;
+            dlg->Parent()->rct.Ymax = dlg->Parent()->rct.Ymin + dlg->Parent()->srcBits.ht - 1;
+            dlg->Parent()->u.dlg.dstBits.ht = dlg->Parent()->srcBits.ht;
+            dlg->lUser = 0;
           }
           else
           {
-            dlg->lUser = dlg->parent()->srcBits.ht;
-            dlg->parent()->srcBits.ht = 13;
-            dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
-            dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
-            dlg->wUnk_0x1E = 1;
+            dlg->lUser = dlg->Parent()->srcBits.ht;
+            dlg->Parent()->srcBits.ht = 13;
+            dlg->Parent()->rct.Ymax = dlg->Parent()->rct.Ymin + dlg->Parent()->srcBits.ht - 1;
+            dlg->Parent()->u.dlg.dstBits.ht = dlg->Parent()->srcBits.ht;
           }
           break;
         }
         break;
       case 3: // hotkey
-        dlg->srcBits.data = (BYTE*)gbTinyBtnGfxAct;
+        dlg->srcBits.data = gbTinyBtnGfx[2];
         break;
       case 4: // mouseOver
-        dlg->srcBits.data = (BYTE*)gbTinyBtnGfxOver;
+        dlg->srcBits.data = gbTinyBtnGfx[1];
         break;
       case 5:
       case 6: // Select Previous/Next
@@ -218,7 +217,7 @@ namespace BW
           dlg->rct.Ymax -= dlg->rct.Ymax - 360;
         }
       }
-      i = dlg->child();
+      i = dlg->Child();
       while( i )
       {
         if ( !(evt->cursor.x >= (dlg->rct.Xmin + i->rct.Xmin) &&
@@ -231,11 +230,11 @@ namespace BW
           {
             case 255: // minimize
             case -2: // close
-              i->srcBits.data = (BYTE*)gbTinyBtnGfx;
+              i->srcBits.data = gbTinyBtnGfx[0];
               break;
           }
         }
-        i = i->next();
+        i = i->Next();
       }
       break;
     case 4: // Left Button down
@@ -269,19 +268,17 @@ namespace BW
     }
 
     dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 27, 12);
-    title->setFlag(CTRL_FONT_SMALLEST);
+    title->SetFontFlags(CTRL_FONT_SMALLEST);
     dlg->AddControl(title);
 
     dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", width - 26, 1, 12, 12, &TinyButtonInteract);
-    minimize->clearFlag(CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE);
-    minimize->setFlag(CTRL_FONT_SMALLEST);
-    minimize->srcBits.data  = (BYTE*)gbTinyBtnGfx;
+    minimize->SetFontFlags(CTRL_FONT_SMALLEST);
+    minimize->srcBits.data = gbTinyBtnGfx[0];
     dlg->AddControl(minimize);
 
     dialog *close = new dialog(ctrls::cBUTTON, -2, " X", width - 13, 1, 12, 12, &TinyButtonInteract);
-    close->clearFlag(CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE);
-    close->setFlag(CTRL_FONT_SMALLEST);
-    close->srcBits.data  = (BYTE*)gbTinyBtnGfx;
+    close->SetFontFlags(CTRL_FONT_SMALLEST);
+    close->srcBits.data = gbTinyBtnGfx[0];
     dlg->AddControl(close);
 
     return dlg;
@@ -341,7 +338,7 @@ namespace BW
     switch ( ctrlType )
     {
     case ctrls::cDLG:
-      lFlags        |= CTRL_DLG_ACTIVE | CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
+      lFlags        |= CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
       srcBits.data  = (BYTE*)malloc(width*height);
       data = srcBits.data;
       if ( data )
@@ -399,7 +396,7 @@ namespace BW
     case ctrls::cBUTTON:
     case ctrls::cDFLTBTN:
     case ctrls::cFLCBTN:
-      lFlags   |= CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE;
+      lFlags   |= CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE | CTRL_TRANSLUCENT;
       wGraphic = 112;
     case ctrls::cCHKBOX:
     case ctrls::cOPTION:
@@ -429,26 +426,50 @@ namespace BW
       return NULL;
 
     dialog *pCurrDlg;
-    if ( this->isDialog() )
+    if ( this->IsDialog() )
       pCurrDlg = this;
     else
-      pCurrDlg = this->parent();
+      pCurrDlg = this->Parent();
 
     if ( pCurrDlg )
-      pCurrDlg = pCurrDlg->child();
+      pCurrDlg = pCurrDlg->Child();
 
-    while (pCurrDlg != NULL && pCurrDlg->getIndex() != wIndex)
-      pCurrDlg = pCurrDlg->next();
+    while (pCurrDlg != NULL && pCurrDlg->GetIndex() != wIndex)
+      pCurrDlg = pCurrDlg->Next();
     
-    if ( pCurrDlg->getIndex() == wIndex )
+    if ( pCurrDlg->GetIndex() == wIndex )
       return pCurrDlg;
 
     return NULL;
   }
   // --------------------- ADD -----------------------
+  bool dialog::AddControl(dialog *ctrl)
+  {
+    if ( !this || !ctrl || ctrl->IsDialog())
+      return false;
+
+    dialog *parent = this;
+    if ( !parent->IsDialog() )
+      parent = parent->Parent();
+
+    ctrl->u.ctrl.pDlg = parent;
+    if ( !parent->Child() )
+    {
+      parent->u.dlg.pFirstChild = ctrl;
+    }
+    else
+    {
+      dialog *child = parent->Child();
+      while ( child->pNext )
+        child = child->pNext;
+      child->pNext = ctrl;
+    }
+    return true;
+  }
+// ------------------ INITIALIZE ---------------------
   bool dialog::Initialize()
   {
-    if ( this && this->isDialog() )
+    if ( this && this->IsDialog() )
     {
       this->Event(14, 7);
       this->Event(14, 10);
@@ -457,56 +478,33 @@ namespace BW
     }
     return false;
   }
-  bool dialog::AddControl(dialog *ctrl)
-  {
-    if ( !this || !ctrl || ctrl->isDialog())
-      return false;
-
-    dialog *parent = this;
-    if ( !parent->isDialog() )
-      parent = parent->parent();
-
-    ctrl->u.ctrl.pDlg = parent;
-    if ( !parent->child() )
-    {
-      parent->u.dlg.pFirstChild = ctrl;
-    }
-    else
-    {
-      dialog *child = parent->child();
-      while ( child->pNext )
-        child = child->pNext;
-      child->pNext = ctrl;
-    }
-    return true;
-  }
   // --------------------- NEXT ----------------------
-  dialog *dialog::next()
+  dialog *dialog::Next()
   {
     if ( this && this->pNext )
       return this->pNext;
     return NULL;
   }
   // ------------------ FIND BY NAME -----------------
-  dialog *dialog::findDialogByName(const char *pszName)
+  dialog *dialog::FindDialogByName(const char *pszName)
   {
     if ( this )
     {
       dialog *parent = this;
-      if ( !parent->isDialog() )
-        parent = parent->parent();
+      if ( !parent->IsDialog() )
+        parent = parent->Parent();
       
       while ( parent )
       {
         if (parent->pszText && strcmpi(parent->pszText, pszName) == 0 )
           return parent;
-        parent = parent->next();
+        parent = parent->Next();
       }
     }
     return NULL;
   }
-  // --------------------- FLAGS ---------------------
-  bool dialog::setFlag(DWORD dwFlag)
+  // ------------------- SET FLAG --------------------
+  bool dialog::SetFlag(DWORD dwFlag)
   {
     if ( this )
     {
@@ -515,7 +513,8 @@ namespace BW
     }
     return false;
   }
-  bool dialog::clearFlag(DWORD dwFlag)
+  // ------------------ CLEAR FLAG -------------------
+  bool dialog::ClearFlag(DWORD dwFlag)
   {
     if ( this )
     {
@@ -524,8 +523,15 @@ namespace BW
     }
     return false;
   }
+  // ------------------- HAS FLAG --------------------
+  bool dialog::HasFlag(DWORD dwFlag)
+  {
+    if ( this && (this->lFlags & dwFlag) == dwFlag)
+      return true;
+    return false;
+  }
   // ------------------- SET TEXT --------------------
-  bool dialog::setText(char *pszStr)
+  bool dialog::SetText(char *pszStr)
   {
     if ( this && pszStr && this->wCtrlType != ctrls::cEDIT )
     {
@@ -535,7 +541,7 @@ namespace BW
     return false;
   }
   // ------------------- GET TEXT --------------------
-  char *dialog::getText()
+  char *dialog::GetText()
   {
     if ( this && this->pszText )
       return this->pszText;
@@ -548,21 +554,77 @@ namespace BW
       return &this->srcBits;
     return NULL;
   }
-// -------------------------------------------------- EVENT --------------------------------------------------
+// -------------------- ENABLE -----------------------
+  bool dialog::Enable()
+  {
+    if ( this )
+    {
+      this->ClearFlag(CTRL_DISABLED);
+      return true;
+    }
+    return false;
+  }
+// -------------------- DISABLE -----------------------
+  bool dialog::Disable()
+  {
+    if ( this )
+    {
+      this->SetFlag(CTRL_DISABLED);
+      return true;
+    }
+    return false;
+  }
+// ------------------ IS DISABLED --------------------
+  bool dialog::IsDisabled()
+  {
+    if ( this && this->HasFlag(CTRL_DISABLED) )
+      return true;
+    return false;
+  }
+// --------------------- SHOW ------------------------
+  bool dialog::Show()
+  {
+    if ( this )
+    {
+      this->SetFlag(CTRL_VISIBLE);
+      return true;
+    }
+    return false;
+  }
+// --------------------- HIDE ------------------------
+  bool dialog::Hide()
+  {
+    if ( this )
+    {
+      this->ClearFlag(CTRL_VISIBLE);
+      return true;
+    }
+    return false;
+  }
+// ------------------ IS VISIBLE ---------------------
+  bool dialog::IsVisible()
+  {
+    if ( this && this->HasFlag(CTRL_VISIBLE) )
+      return true;
+    return false;
+  }
+// -------------------------------------------------- EVENTS -------------------------------------------------
   // --------------------- EVENT ---------------------
-  bool dialog::Event(WORD wEvtNum, DWORD dwUser)
+  bool dialog::Event(WORD wEvtNum, DWORD dwUser, WORD wVirtKey)
   {
     if ( this )
     {
       dlgEvent evt;
       evt.cursor.x  = (WORD)BW::BWDATA_Mouse->x;
       evt.cursor.y  = (WORD)BW::BWDATA_Mouse->y;
+      evt.wVirtKey  = wVirtKey;
       evt.wNo       = wEvtNum;
       evt.dwUser    = dwUser;
       return this->pfcnInteract(this, &evt);
     }
     return false;
   }
+  // ----------------- DEFAULT INTERACT --------------
   bool dialog::DefaultInteract(BW::dlgEvent *pEvent)
   {
     if ( this && pEvent && this->wCtrlType < ctrls::max )
@@ -571,44 +633,100 @@ namespace BW
   }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
-  bool dialog::isDialog()
+  bool dialog::IsDialog()
   {
     if ( this && this->wCtrlType == ctrls::cDLG )
       return true;
     return false;
   }
   // --------------------- CHILD ---------------------
-  dialog *dialog::child()
+  dialog *dialog::Child()
   {
-    if (this && this->isDialog() && this->u.dlg.pFirstChild )
+    if (this && this->IsDialog() && this->u.dlg.pFirstChild )
       return this->u.dlg.pFirstChild;
     return NULL;
   }
   // ------------------ DST BUFFER -------------------
   BW::bitmap *dialog::GetDestBuffer()
   {
-    if ( this && this->isDialog() )
+    if ( this && this->IsDialog() )
       return &this->u.dlg.dstBits;
     return NULL;
   }
 // -------------------------------------------------- CONTROL ------------------------------------------------
   // -------------------- PARENT ---------------------
-  dialog *dialog::parent()
+  dialog *dialog::Parent()
   {
-    if ( this && !this->isDialog() && this->u.ctrl.pDlg )
+    if ( this && !this->IsDialog() && this->u.ctrl.pDlg )
       return this->u.ctrl.pDlg;
     return NULL;
   }
   // --------------------- INDEX ---------------------
-  short dialog::getIndex()
+  short dialog::GetIndex()
   {
     if ( this )
       return this->wIndex;
     return 0;
   }
+  // ---------------- SET FONT FLAG ------------------
+  bool dialog::SetFontFlags(DWORD dwFontFlag)
+  {
+    if ( this )
+    {
+      DWORD size    = dwFontFlag & (CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+      DWORD halign  = dwFontFlag & (CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+      DWORD valign  = dwFontFlag & (CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+      bool success = false;
+
+      // set size
+      if (size == CTRL_FONT_SMALLEST ||
+          size == CTRL_FONT_SMALL ||
+          size == CTRL_FONT_LARGE ||
+          size == CTRL_FONT_LARGEST)
+      {
+        this->ClearFlag(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+        this->SetFlag(size);
+        success = true;
+      }
+
+      // set horizontal alignment
+      if (halign == CTRL_HALIGN_LEFT ||
+          halign == CTRL_HALIGN_RIGHT ||
+          halign == CTRL_HALIGN_CENTER)
+      {
+        this->ClearFlag(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+        this->SetFlag(halign);
+        success = true;
+      }
+
+      // set vertical alignment
+      if (valign == CTRL_VALIGN_TOP ||
+          valign == CTRL_VALIGN_MIDDLE ||
+          valign == CTRL_VALIGN_BOTTOM)
+      {
+        this->ClearFlag(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+        this->SetFlag(valign);
+        success = true;
+      }
+      return success;
+    }
+    return false;
+  }
+  // ------------- CLEAR FONT FLAGS ------------------
+  bool dialog::ClearFontFlags()
+  {
+    if ( this )
+    {
+      this->ClearFlag(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+      this->ClearFlag(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+      this->ClearFlag(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+      return true;
+    }
+    return false;
+  }
 // -------------------------------------------- BUTTON -------------------------------------------------------
   // ------------------- IS BUTTON -------------------
-  bool dialog::isButton()
+  bool dialog::IsButton()
   {
     if ( this )
     {
@@ -620,7 +738,7 @@ namespace BW
   }
 // -------------------------------------------- CHECKBOX & OPTION --------------------------------------------
   // ------------------- IS CHECKBOX -----------------
-  bool dialog::isOption()
+  bool dialog::IsOption()
   {
     if ( this )
     {
@@ -631,15 +749,15 @@ namespace BW
     return false;
   }
   // --------------------- CHECKED -------------------
-  bool dialog::isChecked()
+  bool dialog::IsChecked()
   {
-    if ( this && this->isOption() )
+    if ( this && this->IsOption() )
       return this->u.optn.bEnabled != 0;
     return false;
   }
 // -------------------------------------------- LISTBOX & COMBOBOX -------------------------------------------
 // ----------------------- IS LIST -------------------
-  bool dialog::isList()
+  bool dialog::IsList()
   {
     if ( this )
     {
@@ -650,31 +768,31 @@ namespace BW
     return false;
   }
 // ------------------- GET SELECTED ------------------
-  BYTE dialog::getSelectedIndex()
+  BYTE dialog::GetSelectedIndex()
   {
-    if ( this && this->isList() )
+    if ( this && this->IsList() )
       return this->u.list.bSelectedIndex;
     return 0;
   }
-  DWORD dialog::getSelectedValue()
+  DWORD dialog::GetSelectedValue()
   {
     if ( this 
-        && this->isList() 
+        && this->IsList() 
         && this->u.list.pdwData 
         && this->u.list.bSelectedIndex < this->u.list.bStrs)
       return this->u.list.pdwData[this->u.list.bSelectedIndex];
     return 0;
   }
-  char *dialog::getSelectedString()
+  char *dialog::GetSelectedString()
   {
-    if ( this && this->isList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
+    if ( this && this->IsList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
       return this->u.list.ppStrs[this->u.list.bCurrStr];
     return "";
   }
 // ------------------- SET SELECTED ------------------
-  bool dialog::setSelectedIndex(BYTE bIndex)
+  bool dialog::SetSelectedIndex(BYTE bIndex)
   {
-    if ( this && this->isList() && bIndex < this->u.list.bStrs )
+    if ( this && this->IsList() && bIndex < this->u.list.bStrs )
     {
       this->u.list.bCurrStr       = bIndex;
       this->u.list.bSelectedIndex = bIndex;
@@ -682,9 +800,9 @@ namespace BW
     }
     return false;
   }
-  bool dialog::setSelectedByValue(DWORD dwValue)
+  bool dialog::SetSelectedByValue(DWORD dwValue)
   {
-    if ( this && this->isList() && this->u.list.pdwData)
+    if ( this && this->IsList() && this->u.list.pdwData)
     {
       for (int i = 0; i < this->u.list.bStrs; i++)
       {
@@ -698,10 +816,10 @@ namespace BW
     } // check
     return false;
   }
-  bool dialog::setSelectedByString(char *pszString)
+  bool dialog::SetSelectedByString(char *pszString)
   {
     // verify that this is the correct control
-    if ( this && this->isList() )
+    if ( this && this->IsList() )
     {
       // Iterate through each entry
       for (int i = 0; i < this->u.list.bStrs; i++)
@@ -725,7 +843,7 @@ namespace BW
   // ------------------- ADD ENTRY -------------------
   bool dialog::AddListEntry(char *pszString, DWORD dwValue, BYTE bFlags)
   {
-    if ( this && this->isList() && this->u.list.pbStrFlags && this->u.list.pdwData && this->u.list.ppStrs )
+    if ( this && this->IsList() && this->u.list.pbStrFlags && this->u.list.pdwData && this->u.list.ppStrs )
     {
       BYTE count = this->u.list.bStrs;
       if ( count < 255 )

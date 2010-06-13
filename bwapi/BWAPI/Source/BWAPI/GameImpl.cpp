@@ -987,12 +987,12 @@ namespace BWAPI
           //close remaining slots
           for(int i = enemyCount; i < 7; i++)
           {
-            (*BW::BWDATA_ScreenDialog)->FindIndex((short)(21 + i))->setSelectedIndex(0);
+            (*BW::BWDATA_ScreenDialog)->FindIndex((short)(21 + i))->SetSelectedIndex(0);
           }
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
-            (*BW::BWDATA_ScreenDialog)->FindIndex(17)->setSelectedByValue(gt.getID());
+            (*BW::BWDATA_ScreenDialog)->FindIndex(17)->SetSelectedByValue(gt.getID());
 
           this->pressKey('O');
         }
@@ -1044,7 +1044,7 @@ namespace BWAPI
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              (*BW::BWDATA_ScreenDialog)->FindIndex(17)->setSelectedByValue(gt.getID());
+              (*BW::BWDATA_ScreenDialog)->FindIndex(17)->SetSelectedByValue(gt.getID());
             this->pressKey('O');
           }
           break;
@@ -1322,7 +1322,7 @@ namespace BWAPI
   {
     BW::dialog *slotCtrl = (*BW::BWDATA_ScreenDialog)->FindIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
     if ( slotCtrl )
-      slotCtrl->setSelectedByValue(race.getID());
+      slotCtrl->SetSelectedByValue(race.getID());
 
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
