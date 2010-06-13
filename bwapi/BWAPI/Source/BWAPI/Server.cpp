@@ -150,13 +150,15 @@ namespace BWAPI
     for(int x=0;x<Broodwar->mapWidth()*4;x++)
       for(int y=0;y<Broodwar->mapHeight()*4;y++)
       {
-        data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x,y);
         data->isWalkable[x][y]      = Broodwar->isWalkable(x,y);
       }
 
     for(int x=0;x<Broodwar->mapWidth();x++)
       for(int y=0;y<Broodwar->mapHeight();y++)
+      {
         data->isBuildable[x][y] = Broodwar->isBuildable(x,y);
+        data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x,y);
+      }
 
     data->mapWidth       = Broodwar->mapWidth();
     data->mapHeight      = Broodwar->mapHeight();
