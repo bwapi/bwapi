@@ -254,11 +254,11 @@ namespace BW
     dialog  *FindDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
     dialog  *Next();                  // Retrieves the next dialog or control in the list
 
-    bool    SetFlag(DWORD dwFlag);    // Sets a flag or set of flags for the control or dialog
-    bool    ClearFlag(DWORD dwFlag);  // Clears a flag or set of flags for the control or dialog
-    bool    HasFlag(DWORD dwFlag);    // Returns true if the dialog or control has all of the specified flags enabled
-    bool    SetText(char *pszStr);    // Sets the text of a control, or name of a dialog
-    char    *GetText();               // Retrieves the text of a control, or name of a dialog
+    bool    SetFlags(DWORD dwFlags);    // Sets a flag or set of flags for the control or dialog
+    bool    ClearFlags(DWORD dwFlags);  // Clears a flag or set of flags for the control or dialog
+    bool    HasFlags(DWORD dwFlags);    // Returns true if the dialog or control has all of the specified flags enabled
+    bool    SetText(char *pszStr);      // Sets the text of a control, or name of a dialog
+    char    *GetText();                 // Retrieves the text of a control, or name of a dialog
 
     BW::bitmap  *GetSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 
@@ -283,7 +283,6 @@ namespace BW
     // control-specific functions
     dialog *Parent();                     // Retrieves a control's parent dialog
     short GetIndex();                     // Retrieves the index of a control
-    bool  SetFontFlags(DWORD dwFontFlag); // Sets the font size and horizontal/vertical alignment using one of the CTRL_FONT_, CTRL_HALIGN_, and CTRL_VALIGN flags, and clears the rest to avoid collisions
     bool  ClearFontFlags();               // Clears all font formatting flags
 
     // button-specific
