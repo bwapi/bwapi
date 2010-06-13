@@ -168,12 +168,10 @@ namespace BW
           break;
         }
         break;
-      case 3: // hotkey
-        dlg->srcBits.data = gbTinyBtnGfx[2];
-        break;
       case 4: // mouseOver
         dlg->srcBits.data = gbTinyBtnGfx[1];
         break;
+      case 3: // hotkey
       case 5:
       case 6: // Select Previous/Next
         return false;
@@ -268,16 +266,16 @@ namespace BW
     }
 
     dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 27, 12);
-    title->SetFontFlags(CTRL_FONT_SMALLEST);
+    title->SetFlags(CTRL_FONT_SMALLEST);
     dlg->AddControl(title);
 
     dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", width - 26, 1, 12, 12, &TinyButtonInteract);
-    minimize->SetFontFlags(CTRL_FONT_SMALLEST);
+    minimize->SetFlags(CTRL_FONT_SMALLEST);
     minimize->srcBits.data = gbTinyBtnGfx[0];
     dlg->AddControl(minimize);
 
     dialog *close = new dialog(ctrls::cBUTTON, -2, " X", width - 13, 1, 12, 12, &TinyButtonInteract);
-    close->SetFontFlags(CTRL_FONT_SMALLEST);
+    close->SetFlags(CTRL_FONT_SMALLEST);
     close->srcBits.data = gbTinyBtnGfx[0];
     dlg->AddControl(close);
 
@@ -504,17 +502,57 @@ namespace BW
     return NULL;
   }
   // ------------------- SET FLAG --------------------
-  bool dialog::SetFlag(DWORD dwFlag)
+  bool dialog::SetFlags(DWORD dwFlag)
   {
     if ( this )
     {
-      this->lFlags |= dwFlag;
+      if ( !this->IsDialog() )
+      {
+        DWORD size    = dwFlag & (CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+        DWORD halign  = dwFlag & (CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+        DWORD valign  = dwFlag & (CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+        DWORD remains = dwFlag & ~(size | halign | valign);
+
+        // set size
+        if (size == CTRL_FONT_SMALLEST ||
+            size == CTRL_FONT_SMALL ||
+            size == CTRL_FONT_LARGE ||
+            size == CTRL_FONT_LARGEST)
+        {
+          this->ClearFlags(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+          this->lFlags |= size;
+        }
+
+        // set horizontal alignment
+        if (halign == CTRL_HALIGN_LEFT ||
+            halign == CTRL_HALIGN_RIGHT ||
+            halign == CTRL_HALIGN_CENTER)
+        {
+          this->ClearFlags(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+          this->lFlags |= halign;
+        }
+
+        // set vertical alignment
+        if (valign == CTRL_VALIGN_TOP ||
+            valign == CTRL_VALIGN_MIDDLE ||
+            valign == CTRL_VALIGN_BOTTOM)
+        {
+          this->ClearFlags(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+          this->lFlags |= valign;
+        }
+
+        this->lFlags |= remains;
+      }
+      else
+      {
+        this->lFlags |= dwFlag;
+      }
       return true;
     }
     return false;
   }
   // ------------------ CLEAR FLAG -------------------
-  bool dialog::ClearFlag(DWORD dwFlag)
+  bool dialog::ClearFlags(DWORD dwFlag)
   {
     if ( this )
     {
@@ -524,7 +562,7 @@ namespace BW
     return false;
   }
   // ------------------- HAS FLAG --------------------
-  bool dialog::HasFlag(DWORD dwFlag)
+  bool dialog::HasFlags(DWORD dwFlag)
   {
     if ( this && (this->lFlags & dwFlag) == dwFlag)
       return true;
@@ -559,7 +597,7 @@ namespace BW
   {
     if ( this )
     {
-      this->ClearFlag(CTRL_DISABLED);
+      this->ClearFlags(CTRL_DISABLED);
       return true;
     }
     return false;
@@ -569,7 +607,7 @@ namespace BW
   {
     if ( this )
     {
-      this->SetFlag(CTRL_DISABLED);
+      this->SetFlags(CTRL_DISABLED);
       return true;
     }
     return false;
@@ -577,7 +615,7 @@ namespace BW
 // ------------------ IS DISABLED --------------------
   bool dialog::IsDisabled()
   {
-    if ( this && this->HasFlag(CTRL_DISABLED) )
+    if ( this && this->HasFlags(CTRL_DISABLED) )
       return true;
     return false;
   }
@@ -586,7 +624,7 @@ namespace BW
   {
     if ( this )
     {
-      this->SetFlag(CTRL_VISIBLE);
+      this->SetFlags(CTRL_VISIBLE);
       return true;
     }
     return false;
@@ -596,7 +634,7 @@ namespace BW
   {
     if ( this )
     {
-      this->ClearFlag(CTRL_VISIBLE);
+      this->ClearFlags(CTRL_VISIBLE);
       return true;
     }
     return false;
@@ -604,7 +642,7 @@ namespace BW
 // ------------------ IS VISIBLE ---------------------
   bool dialog::IsVisible()
   {
-    if ( this && this->HasFlag(CTRL_VISIBLE) )
+    if ( this && this->HasFlags(CTRL_VISIBLE) )
       return true;
     return false;
   }
@@ -668,58 +706,14 @@ namespace BW
       return this->wIndex;
     return 0;
   }
-  // ---------------- SET FONT FLAG ------------------
-  bool dialog::SetFontFlags(DWORD dwFontFlag)
-  {
-    if ( this )
-    {
-      DWORD size    = dwFontFlag & (CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
-      DWORD halign  = dwFontFlag & (CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
-      DWORD valign  = dwFontFlag & (CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
-      bool success = false;
-
-      // set size
-      if (size == CTRL_FONT_SMALLEST ||
-          size == CTRL_FONT_SMALL ||
-          size == CTRL_FONT_LARGE ||
-          size == CTRL_FONT_LARGEST)
-      {
-        this->ClearFlag(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
-        this->SetFlag(size);
-        success = true;
-      }
-
-      // set horizontal alignment
-      if (halign == CTRL_HALIGN_LEFT ||
-          halign == CTRL_HALIGN_RIGHT ||
-          halign == CTRL_HALIGN_CENTER)
-      {
-        this->ClearFlag(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
-        this->SetFlag(halign);
-        success = true;
-      }
-
-      // set vertical alignment
-      if (valign == CTRL_VALIGN_TOP ||
-          valign == CTRL_VALIGN_MIDDLE ||
-          valign == CTRL_VALIGN_BOTTOM)
-      {
-        this->ClearFlag(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
-        this->SetFlag(valign);
-        success = true;
-      }
-      return success;
-    }
-    return false;
-  }
   // ------------- CLEAR FONT FLAGS ------------------
   bool dialog::ClearFontFlags()
   {
     if ( this )
     {
-      this->ClearFlag(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
-      this->ClearFlag(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
-      this->ClearFlag(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+      this->ClearFlags(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+      this->ClearFlags(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+      this->ClearFlags(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
       return true;
     }
     return false;
