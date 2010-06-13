@@ -310,7 +310,6 @@ namespace BWAPI
       bool inGame;
 
       BW::dialog *myDlg;
-      bool hasDialog;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

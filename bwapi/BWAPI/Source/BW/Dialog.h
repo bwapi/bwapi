@@ -71,18 +71,13 @@ namespace BW
   struct dlgEvent
   {
     DWORD dwUser;
-    DWORD dwUnk_0x04;
+    WORD  wUnk_0x04;
+    WORD  wUnk_0x06;
     WORD  wVirtKey;
     WORD  wUnk_0x0A;
     WORD  wNo;
     pt    cursor;
     WORD  wUnk_0x12;
-  };
-
-  struct dlgFullEvent
-  {
-    DWORD dwSize;
-    dlgEvent evt;
   };
 
   struct bitmap
@@ -230,19 +225,19 @@ namespace BW
             &0xF0 specifies additional properties
               0x10  = Gives entry an option button
           */
-        DWORD   *pdwData;     // 0x42   // official
-        BYTE    bStrs;        // 0x46   // official
+        DWORD   *pdwData;         // 0x42   // official
+        BYTE    bStrs;            // 0x46   // official
         BYTE    unknown_0x47;
-        BYTE    bCurrStr;   // 0x48   // official
-        BYTE    bSpacing;   // 0x49
-        BYTE    bItemsPerPage;
+        BYTE    bCurrStr;         // 0x48   // official
+        BYTE    bSpacing;         // 0x49
+        BYTE    bItemsPerPage;    // 0x4A
         BYTE    bUnknown_0x4B;
         BYTE    bDirection;       // 0x4C
-        BYTE    bOpenFlags;       // 0x4D
+        BYTE    bOffset;          // 0x4D
         BYTE    bSelectedIndex;   // 0x4E
         BYTE    bUnknown_0x4F;
-        WORD    wVerticalOffset;    // 0x4A
-        void    *pDrawItemFcn;      // 0x4C
+        WORD    wVerticalOffset;  // 0x4A
+        void    *pDrawItemFcn;    // 0x4C
       } list;
     } u;
 
@@ -250,59 +245,60 @@ namespace BW
     dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 0, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL);
     ~dialog();
 
-    dialog  *FindIndex(short wIndex); // Searches for a control that matches the specified index
-    dialog  *FindDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
-    dialog  *Next();                  // Retrieves the next dialog or control in the list
+    dialog  *findIndex(short wIndex); // Searches for a control that matches the specified index
+    dialog  *findDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
+    dialog  *next();                  // Retrieves the next dialog or control in the list
 
-    bool    SetFlags(DWORD dwFlags);    // Sets a flag or set of flags for the control or dialog
-    bool    ClearFlags(DWORD dwFlags);  // Clears a flag or set of flags for the control or dialog
-    bool    HasFlags(DWORD dwFlags);    // Returns true if the dialog or control has all of the specified flags enabled
-    bool    SetText(char *pszStr);      // Sets the text of a control, or name of a dialog
-    char    *GetText();                 // Retrieves the text of a control, or name of a dialog
+    bool    setFlags(DWORD dwFlags);    // Sets a flag or set of flags for the control or dialog
+    bool    clearFlags(DWORD dwFlags);  // Clears a flag or set of flags for the control or dialog
+    bool    hasFlags(DWORD dwFlags);    // Returns true if the dialog or control has all of the specified flags enabled
+    bool    setText(char *pszStr);      // Sets the text of a control, or name of a dialog
+    char    *getText();                 // Retrieves the text of a control, or name of a dialog
 
-    BW::bitmap  *GetSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
+    BW::bitmap  *getSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 
-    bool        Enable();     // Enables the dialog or control
-    bool        Disable();    // Disables the dialog or control
-    bool        IsDisabled(); // Returns true if the dialog or control is disabled
-    bool        Show();       // Shows the dialog or control
-    bool        Hide();       // Hides the dialog or control
-    bool        IsVisible();  // Returns true if the dialog or control is visible
+    bool        enable();     // Enables the dialog or control
+    bool        disable();    // Disables the dialog or control
+    bool        isDisabled(); // Returns true if the dialog or control is disabled
+    bool        show();       // Shows the dialog or control
+    bool        hide();       // Hides the dialog or control
+    bool        isVisible();  // Returns true if the dialog or control is visible
 
     // event-specific functions
-    bool Event(WORD wEvtNum, DWORD dwUser = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
-    bool DefaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
+    bool doEvent(WORD wEvtNum, DWORD dwUser = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
+    bool defaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
 
     // dialog-specific functions
-    bool        IsDialog();               // Returns true if the control type is a dialog
-    dialog      *Child();                 // Retrieves the child control from the parent dialog
-    BW::bitmap  *GetDestBuffer();         // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
-    bool        AddControl(dialog *ctrl); // Adds a control to this dialog
-    bool        Initialize();             // Performs the dialog's initialization and adds it to the list
+    bool        isDialog();               // Returns true if the control type is a dialog
+    dialog      *child();                 // Retrieves the child control from the parent dialog
+    BW::bitmap  *getDestBuffer();         // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
+    bool        addControl(dialog *ctrl); // Adds a control to this dialog
+    bool        initialize();             // Performs the dialog's initialization and adds it to the list
 
     // control-specific functions
-    dialog *Parent();                     // Retrieves a control's parent dialog
-    short GetIndex();                     // Retrieves the index of a control
-    bool  ClearFontFlags();               // Clears all font formatting flags
+    dialog  *parent();                      // Retrieves a control's parent dialog
+    short   getIndex();                     // Retrieves the index of a control
+    bool    clearFontFlags();               // Clears all font formatting flags
 
     // button-specific
-    bool IsButton();      // Returns true if the control type is a button
+    bool isButton();      // Returns true if the control type is a button
 
     // checkbox & option button
-    bool IsOption();      // Returns true if the control type is a checkbox or radio button
-    bool IsChecked();     // Returns true if the control (checkbox/radio) is selected
+    bool isOption();      // Returns true if the control type is a checkbox or radio button
+    bool isChecked();     // Returns true if the control (checkbox/radio) is selected
 
     // listbox & combobox
-    bool  IsList();               // Returns true if the control type is a listbox or combobox
-    BYTE  GetSelectedIndex();     // Returns the index of the selected element
-    DWORD GetSelectedValue();     // Returns the value of the selected element
-    char  *GetSelectedString();   // Returns the name of the selected element
+    bool  isList();               // Returns true if the control type is a listbox or combobox
+    BYTE  getSelectedIndex();     // Returns the index of the selected element
+    DWORD getSelectedValue();     // Returns the value of the selected element
+    char  *getSelectedString();   // Returns the name of the selected element
 
-    bool  SetSelectedIndex(BYTE bIndex);        // Sets the selected index
-    bool  SetSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
-    bool  SetSelectedByString(char *pszString); // Sets the selected index based on its name
+    bool  setSelectedIndex(BYTE bIndex);        // Sets the selected index
+    bool  setSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
+    bool  setSelectedByString(char *pszString); // Sets the selected index based on its name
 
-    bool  AddListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
+    bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
+    bool  removeListEntry(BYTE bIndex = 0);
   };
 #pragma pack()
   dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
