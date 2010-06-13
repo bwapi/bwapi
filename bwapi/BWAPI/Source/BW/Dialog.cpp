@@ -719,6 +719,7 @@ namespace BW
   {
     if ( this )
     {
+      this->doEvent(14, 13);
       this->setFlags(CTRL_VISIBLE);
       return true;
     }
@@ -729,6 +730,7 @@ namespace BW
   {
     if ( this )
     {
+      this->doEvent(14, 14);
       this->clearFlags(CTRL_VISIBLE);
       return true;
     }
@@ -943,6 +945,8 @@ namespace BW
         this->u.list.pdwData[count]    = dwValue;
         this->u.list.ppStrs[count]     = pszString;
         this->u.list.bStrs++;
+        if ( this->u.list.pScrlBar && this->u.list.bStrs > this->u.list.bItemsPerPage )
+          this->u.list.pScrlBar->show();
         return true;
       }
     }
@@ -967,6 +971,9 @@ namespace BW
             this->u.list.bCurrStr--;
           if ( this->u.list.bOffset + this->u.list.bItemsPerPage > this->u.list.bStrs && this->u.list.bStrs > this->u.list.bItemsPerPage - 1 )
             this->u.list.bOffset--;
+
+          if ( this->u.list.pScrlBar && this->u.list.bStrs <= this->u.list.bItemsPerPage )
+            this->u.list.pScrlBar->hide();
         }
         else
         {

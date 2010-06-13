@@ -198,7 +198,7 @@ namespace BW
       struct _scroll   // official
       {
         dialog  *pDlg;      // 0x32   // official
-        void  *pfcnUnknown_0x36;
+        void  *pfcnScrollerUpdate;  // 0x36
         WORD  nCurPos;    // 0x3A
         WORD  nMin;       // 0x3C   // official
         WORD  nMax;       // 0x3E   // official

@@ -20,12 +20,12 @@ namespace BWAPI
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
   {
-    return *BW::BWDATA_MapSizeX;
+    return BW::BWDATA_MapSize->x;
   }
   //----------------------------------------------- GET HEIGHT -----------------------------------------------
   u16 Map::getHeight()
   {
-    return *BW::BWDATA_MapSizeY;
+    return BW::BWDATA_MapSize->y;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()

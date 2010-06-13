@@ -171,16 +171,14 @@ namespace BW
   extern TileType   *BWDATA_TileSet;
   extern DoodatType *BWDATA_DoodatSet;
 
-  static u16*           BWDATA_MapSizeX                   = (u16*)         0x0057F1D4;               // 1.16.1
-  static u16*           BWDATA_MapSizeY                   = ((u16*)        BWDATA_MapSizeX) + 1;
+  static Positions      *BWDATA_MapSize                   = (Positions*)   0x0057F1D4;
   static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
   static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CCA8;
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1700;
 
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
-  static void (_stdcall* selectUnits)(int count, BW::Unit**  unitsToSelect)  = (void (_stdcall*) (int, BW::Unit * *))             0x004C0860;
-  static void (_stdcall* selectUnitsHelperSTD)(int, BW::Unit** , bool, bool) = (void (_stdcall*) (int, BW::Unit * *, bool, bool)) 0x0049AFF0;
+  static void (_stdcall* selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
   static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
   static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
   static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
@@ -251,13 +249,10 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
 
-  static void (__stdcall *BWFXN_DrawBox)(s16 x, s16 y, u16 w, u16 h) = (void(__stdcall*)(s16,s16,u16,u16))0x004E1D20;
-  //static u32            BWFXN_DrawBox                             = 0x004E1D20;
   static u32            BWFXN_PrintXY                             = 0x004200D0;
   static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
   static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
   static void**         BWDATA_PrintXY_Current_Font               = (void**) 0x006D5DDC;
-  static u32*           BWDATA_PrintXY_PositionX2                 = (u32*) 0x006CE0CC;
 
   struct fontMemStruct
   {
@@ -270,13 +265,10 @@ namespace BW
   };
 
   static fontMemStruct* BWDATA_PrintXY_Font                       = (fontMemStruct*) 0x006CE0C0;
-  static u8*            BWDATA_PrintXY_Unknown1                   = (u8*)  0x006CE110;
-  static u16*           BWDATA_PrintXY_Unknown2                   = (u16*) 0x006CE0C8;
-  static u16*           BWDATA_PrintXY_Unknown3                   = (u16*) 0x006CE0CE;
+  static u8*            BWDATA_PrintXY_Size                       = (u8*)  0x006CE110;
 
   static u32            BWDATA_FontData                           = 0x006CE028;
   static void**         BWDATA_FontBase                           = (void**)0x006CE0F4;
-  static u8*            BWDATA_DrawColor                          = (u8*) 0x006CF4AC;
 
   static u32            BWFXN_Refresh                             = 0x0041E26B;
   static u32            BWFXN_RefreshTarget                       = 0x0041E0D0;
@@ -308,10 +300,7 @@ namespace BW
   static void (__cdecl *BWFXN_UpdateScreenPosition)()             = (void(__cdecl*)())0x0049BFD0;
   static u32*           BWDATA_MoveToX                            = (u32*)0x0062848C;
   static u32*           BWDATA_MoveToY                            = (u32*)0x006284A8;
-  
-  static u32            BWDATA_MoveToTile                         = 0x0057F1D0;
-  static u16*           BWDATA_MoveToTileX                        = (u16*)(BWDATA_MoveToTile);
-  static u16*           BWDATA_MoveToTileY                        = (u16*)(BWDATA_MoveToTile + 2);
+  static Positions      *BWDATA_MoveToTile                        = (Positions*)0x0057F1D0;
 
   static POINT          *BWDATA_Mouse                             = (POINT*)0x006CDDC4;
   static u32*           BWDATA_ScreenX                            = (u32*)0x00628448;
