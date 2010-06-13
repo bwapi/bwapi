@@ -701,7 +701,7 @@ namespace BWAPI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
-    this->inGame=true;
+    this->inGame = true;
     try
     {
       this->inUpdate = true;
@@ -860,7 +860,7 @@ namespace BWAPI
       {
         Util::Logger::globalLog->logCritical("Client connected, not loading AI module.");
         this->client = new AIModule();
-        sendText("BWAPI: Connected to AI Client process");
+        printf("BWAPI: Connected to AI Client process");
       }
       else
       {
@@ -868,7 +868,7 @@ namespace BWAPI
         GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
         if (_strcmpi(szDllPath, "NULL") == 0)
         {
-          sendText("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
+          printf("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
           FILE* f = fopen("bwapi-error.txt", "a+");
           fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
           fclose(f);
@@ -882,7 +882,7 @@ namespace BWAPI
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
-          sendText("Error: Failed to load the AI Module");
+          printf("Error: Failed to load the AI Module");
         }
         else
         {
@@ -895,7 +895,7 @@ namespace BWAPI
           PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
           this->client = newAIModule(this);
           Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-          sendText("BWAPI: Loaded the AI Module: %s", szDllPath);
+          printf("BWAPI: Loaded the AI Module: %s", szDllPath);
         }
       }
       events.push_back(Event::MatchStart());
@@ -905,9 +905,7 @@ namespace BWAPI
 
     events.push_back(Event::MatchFrame());
     this->server.update();
-
     this->client->onFrame();
-    
 
     this->loadSelected();
     if (!this->isPaused())
@@ -1429,6 +1427,9 @@ namespace BWAPI
         this->players[i]->force = force;
       }
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+
+    canvas = BW::CreateCanvas("Canvas");
+    canvas->initialize();
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)
@@ -1535,30 +1536,6 @@ namespace BWAPI
         test->addListEntry("Test10");
       }
       return true;
-    }
-    else if ( parsed[0] == "/canvas" )
-    {
-      if ( !canvas )
-      {
-        canvas = BW::CreateCanvas("Canvas");
-        canvas->initialize();
-
-        BYTE *data = canvas->getSourceBuffer()->data;
-        for (int y = 0; y < 480; y += 32)
-        {
-          for (int x = 0; x < 640; x++)
-          {
-            data[y*640 + x] = 0x6F;
-          }
-        }
-        for (int x = 0; x < 640; x += 32)
-        {
-          for (int y = 0; y < 480; y++)
-          {
-            data[y*640 + x] = 0x6F;
-          }
-        }
-      }
     }
     return false;
   }
@@ -1831,9 +1808,9 @@ namespace BWAPI
     x &= 0xFFFFFFF8;
     y &= 0xFFFFFFF8;
     *BW::BWDATA_MoveToX = x;
-    *BW::BWDATA_MoveToTileX = (u16)(x >> 5);
+    BW::BWDATA_MoveToTile->x = (u16)(x >> 5);
     *BW::BWDATA_MoveToY = y;
-    *BW::BWDATA_MoveToTileY = (u16)(y >> 5);
+    BW::BWDATA_MoveToTile->y = (u16)(y >> 5);
     BW::BWFXN_UpdateScreenPosition();
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------

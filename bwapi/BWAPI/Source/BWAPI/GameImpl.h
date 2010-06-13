@@ -249,6 +249,7 @@ namespace BWAPI
       void iscriptParser(BW::CSprite *sprite, u8 anim);
       std::list<Event> events;
       int bulletCount;
+      BW::dialog *canvas;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -310,7 +311,6 @@ namespace BWAPI
       bool inGame;
 
       BW::dialog *myDlg;
-      BW::dialog *canvas;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

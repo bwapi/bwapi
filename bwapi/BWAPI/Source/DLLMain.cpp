@@ -130,6 +130,12 @@ void __declspec(naked) onDrawHigh()
     mov ediSave, edi
     mov espSave, esp
   }
+  if ( BWAPI::BroodwarImpl.canvas )
+  {
+    u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
+    if ( data )
+      memset(data, 0, 640*480);
+  }
   for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.shapes.size(); shape_i++)
     BWAPI::BroodwarImpl.shapes[shape_i]->draw();
 
@@ -149,7 +155,6 @@ void __declspec(naked) onDrawHigh()
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
-  *BW::BWDATA_DrawColor = (u8)color;
   x = _x;
   y = _y;
   w = _w;
@@ -170,17 +175,23 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   if (y + h > 479) h = 479 - y;
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
-
-  BW::BWFXN_DrawBox((s16)x, (s16)y, (u16)w, (u16)h);
+  
+  if ( BWAPI::BroodwarImpl.canvas )
+  {
+    u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
+    if ( data )
+    {
+      for ( int iy = y; iy < y + h; iy++ )
+        for ( int ix = x; ix < x + w; ix++ )
+          data[iy*640 + ix] = (u8)color;
+    }
+  }
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
 {
-  *BW::BWDATA_DrawColor = (u8)color;
   x = _x;
   y = _y;
-  w = 1;
-  h = 1;
   if (ctype == 2)
   {
     x -= *(BW::BWDATA_ScreenX);
@@ -194,7 +205,12 @@ void drawDot(int _x, int _y, int color, int ctype)
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
 
-  BW::BWFXN_DrawBox((s16)x, (s16)y, (u16)w, (u16)h);
+  if ( BWAPI::BroodwarImpl.canvas )
+  {
+    u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
+    if ( data )
+      data[y*640 + x] = (u8)color;
+  }
 }
 
 void drawText(int _x, int _y, const char* ptext, int ctype)
@@ -213,19 +229,17 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
   int temp = 0;
 
   DWORD temp_ptr = (DWORD)&temp;
-  *BW::BWDATA_PrintXY_Unknown1 = 0x21;
-  *BW::BWDATA_PrintXY_Unknown2 = 0x00D8;
-  *BW::BWDATA_PrintXY_Unknown3 = 0x0013;
-  *BW::BWDATA_PrintXY_PositionX2 = 640;
+  *BW::BWDATA_PrintXY_Size      = 33;
   *BW::BWDATA_PrintXY_PositionX = _x;
   *BW::BWDATA_PrintXY_PositionY = _y;
-  *BW::BWDATA_PrintXY_Current_Font = BW::BWDATA_FontBase[1];
-  BW::BWDATA_PrintXY_Font->tFontData = BW::BWDATA_FontData;
-  BW::BWDATA_PrintXY_Font->tFontUnknown = 0x00000001;
-  BW::BWDATA_PrintXY_Font->x1 = 0x00D8;
-  BW::BWDATA_PrintXY_Font->y1 = 0x0000;
-  BW::BWDATA_PrintXY_Font->x2 = 0x0280;
-  BW::BWDATA_PrintXY_Font->y2 = 0x0000;
+
+  *BW::BWDATA_PrintXY_Current_Font        = BW::BWDATA_FontBase[1];
+  BW::BWDATA_PrintXY_Font[0].tFontData    = BW::BWDATA_FontData;
+  BW::BWDATA_PrintXY_Font[0].tFontUnknown = 0x00000001;
+  BW::BWDATA_PrintXY_Font[0].x1           = 216;
+  BW::BWDATA_PrintXY_Font[0].y1           = 0x0000;
+  BW::BWDATA_PrintXY_Font[0].x2           = 640;
+  BW::BWDATA_PrintXY_Font[0].y2           = 0x0000;
   __asm
   {
     mov eax, ptext
