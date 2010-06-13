@@ -252,6 +252,27 @@ namespace BW
     }
     return dlg->defaultInteract(evt);
   }
+  // ------------------ CANVAS INTERACT --------------
+  bool __fastcall CanvasInteract(dialog *dlg, dlgEvent *evt)
+  {
+    switch (evt->wNo)
+    {
+    case 14: // Control (used for when a control has been pressed)
+      switch(evt->dwUser)
+      {
+      case 3: // Press Hotkey
+      case 4: // MouseOver
+      case 5: // Select Previous
+      case 6: // Select Next
+      case 9: // MouseEnter
+        return false;
+      }
+      break;
+    /*default:
+      return false;*/
+    }
+    return dlg->defaultInteract(evt);
+  }
   // ------------------ CREATE DLG WINDOW ------------
   dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height)
   {
@@ -281,7 +302,22 @@ namespace BW
 
     return dlg;
   }
+  // ------------------ CREATE CANVAS ----------------
+  dialog *CreateCanvas(const char *name)
+  {
+    dialog *dlg = new dialog(ctrls::cDLG, 0, name, 0, 0, 640, 480, &CanvasInteract);
+    BYTE *data = dlg->srcBits.data;
+    if ( data )
+      memset(data, 0, 640*480);
 
+    dlg->clearFlags(CTRL_TRANSLUCENT);
+    dlg->setFlags(CTRL_TRANSPARENT);
+
+    dialog *child = new dialog(ctrls::cLSTATIC, 1, "", 0, 0, 0);
+    dlg->addControl(child);
+
+    return dlg;
+  }
 // -------------------------------------------------- GLOBAL -------------------------------------------------
   // ----------------- CONSTRUCTORS ------------------
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
@@ -417,7 +453,11 @@ namespace BW
     {
       if ( this->isDialog() )
       {
-        this->doEvent(14, 2);
+        if ( this->isListed() )
+          this->doEvent(14, 2);
+
+        if ( this->u.dlg.dstBits.data )
+          free(this->u.dlg.dstBits.data);
       }
       else if ( this->parent() )
       {
@@ -426,9 +466,6 @@ namespace BW
 
         if ( this->parent()->u.dlg.pMouseElement == this )
           this->parent()->u.dlg.pMouseElement = NULL;
-
-        if ( this->srcBits.data )
-          free(this->srcBits.data);
 
         if ( this->isList() )
         {
@@ -509,7 +546,7 @@ namespace BW
     }
     return true;
   }
-// ------------------ INITIALIZE ---------------------
+  // ------------------ INITIALIZE -------------------
   bool dialog::initialize()
   {
     if ( this && this->isDialog() )
@@ -518,6 +555,19 @@ namespace BW
       this->doEvent(14, 10);
       this->doEvent(14, 0);
       return true;
+    }
+    return false;
+  }
+  // ------------------ IS LISTED --------------------
+  bool dialog::isListed()
+  {
+    if ( this )
+    {
+      for ( dialog *i = *BW::BWDATA_ScreenDialog; i; i = i->next() )
+      {
+        if ( this == i )
+          return true;
+      }
     }
     return false;
   }
