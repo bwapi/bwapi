@@ -1513,7 +1513,7 @@ namespace BWAPI
       if ( !myDlg )
       {
         // Create the dialog window
-        myDlg  = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
+        myDlg = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
 
         // Add additional controls to the window
         BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 8, 30, 200, 100);
@@ -1536,17 +1536,46 @@ namespace BWAPI
       }
       return true;
     }
+    else if ( parsed[0] == "/canvas" )
+    {
+      if ( !canvas )
+      {
+        canvas = BW::CreateCanvas("Canvas");
+        canvas->initialize();
+
+        BYTE *data = canvas->getSourceBuffer()->data;
+        for (int y = 0; y < 480; y += 32)
+        {
+          for (int x = 0; x < 640; x++)
+          {
+            data[y*640 + x] = 0x6F;
+          }
+        }
+        for (int x = 0; x < 640; x += 32)
+        {
+          for (int y = 0; y < 480; y++)
+          {
+            data[y*640 + x] = 0x6F;
+          }
+        }
+      }
+    }
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
-
+    
     if ( myDlg )
     {
       delete myDlg;
       myDlg = NULL;
+    }
+    if ( canvas )
+    {
+      delete canvas;
+      canvas = NULL;
     }
 
     if (this->client != NULL)

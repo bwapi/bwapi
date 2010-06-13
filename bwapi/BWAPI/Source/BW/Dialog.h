@@ -274,6 +274,7 @@ namespace BW
     BW::bitmap  *getDestBuffer();         // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
     bool        addControl(dialog *ctrl); // Adds a control to this dialog
     bool        initialize();             // Performs the dialog's initialization and adds it to the list
+    bool        isListed();               // Checks to see if this dialog is initialized/listed
 
     // control-specific functions
     dialog  *parent();                      // Retrieves a control's parent dialog
@@ -301,7 +302,8 @@ namespace BW
     bool  removeListEntry(BYTE bIndex = 0);
   };
 #pragma pack()
-  dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
+  dialog  *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
+  dialog  *CreateCanvas(const char *name);
 };
 
 /*
