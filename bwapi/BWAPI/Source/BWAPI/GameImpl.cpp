@@ -1506,9 +1506,30 @@ namespace BWAPI
     {
       if ( !hasDialog )
       {
+        // Create the dialog window
         myDlg  = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
-        (*BW::BWDATA_ScreenDialog)->add(myDlg);
+
+        // Add additional controls to the window
+        BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 8, 30, 200, 100);
+        myDlg->AddControl(test);
+
+        // Initialize the dialog
+        myDlg->Initialize();
+    
+        // Add entries to the combo/list box
+        test->AddListEntry("Test");
+        test->AddListEntry("Test2");
+
         hasDialog = true;
+      }
+      return true;
+    }
+    else if (parsed[0] == "/dlgkill")
+    {
+      if ( hasDialog )
+      {
+        delete myDlg;
+        hasDialog = false;
       }
       return true;
     }
@@ -1521,7 +1542,8 @@ namespace BWAPI
 
     if ( hasDialog )
     {
-      delete myDlg;
+      //delete myDlg;
+      //myDlg->Event(14, 1);
       hasDialog = false;
     }
 

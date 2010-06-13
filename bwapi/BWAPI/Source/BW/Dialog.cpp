@@ -53,87 +53,64 @@ namespace BW
     char out[512];
     switch (evt->wNo)
     {
-    case 0:
-      // Key down
+    case 0: // Key down
       break;
-    case 1:
-      // Key repeat
+    case 1: // Key repeat
       break;
-    case 2:
-      // Key Modifier?? Key up?
+    case 2: // Key Modifier?? Key up?
       break;
-    case 3:
-      // Mouse update/Move
+    case 3: // Mouse update/Move
       break;
-    case 4:
-      // Left Button down
+    case 4: // Left Button down
       break;
-    case 5:
-      // Left Button up
+    case 5: // Left Button up
       break;
-    case 6:
-      // Left Button double click
+    case 6: // Left Button double click
       break;
-    case 7:
-      // Right Button Down
+    case 7: // Right Button Down
       break;
-    case 8:
-      // Right Button Up
+    case 8: // Right Button Up
       break;
-    case 9:
-      // Right Button double click
+    case 9: // Right Button double click
       break;
-    case 10:
-      // Middle Button Down
+    case 10: // Middle Button Down
       break;
-    case 11:
-      // Middle Button Up
+    case 11: // Middle Button Up
       break;
-    case 12:
-      // Middle Button double click
+    case 12: // Middle Button double click
       break;
-    case 13:
-      // unknown; Loop? Always? Dialog only?
+    case 13: // unknown; Loop? Always? Dialog only?
       break;
-    case 14:
-      // Control (used for when a control has been pressed)
+    case 14: // Control (used for when a control has been pressed)
       switch(evt->dwUser)
       {
-      case 0:
-        // Initialize
+      case 0: // Initialize
         break;
-      case 1:
-        // Kill
+      case 1: // Kill
         break;
-      case 2:
-        // Activate
+      case 2: // Activate
         break;
-      case 3:
-        // Press Hotkey
+      case 3: // Press Hotkey
         break;
-      case 4:
-        // MouseOver
+      case 4: // MouseOver
         break;
-      case 5:
-        // Select Previous
+      case 5: // Select Previous
         break;
-      case 6:
-        // Select Next
+      case 6: // Select Next
         break;
-      case 7:
-        // Initialize dialog
+      case 7: // Initialize dialog
         break;
-      case 9:
-        // MouseEnter
+      case 8: // Unk Init control
         break;
-      case 10:
-        // Initialize children
+      case 9: // MouseEnter
         break;
-      case 13:
-        // Show
+      case 10: // Initialize children
         break;
-      case 14:
-        // Hide
+      case 11: // Unknown Init control
+        break;
+      case 13: // Show
+        break;
+      case 14: // Hide
         break;
       default:
         sprintf_s(out, 512, "Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);
@@ -141,51 +118,36 @@ namespace BW
         break;
       }
       break;
-    case 15:
-      // User Key press
+    case 15: // User Key press
       break;
-    case 17:
-      // Mouse wheel Scroll up
+    case 17: // Mouse wheel Scroll up
       break;
-    case 18:
-      // Mouse wheel Scroll down
+    case 18: // Mouse wheel Scroll down
       break;
     default:
       sprintf_s(out, 512, "Unknown Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);
       MessageBoxA(NULL, out, "!", MB_OK);
       break;
     }
-    if ( dlg->wCtrlType < ctrls::max )
-      return BWDATA_GenericDlgInteractFxns[dlg->wCtrlType](dlg, evt);
-    return false;
+    return dlg->DefaultInteract(evt);
   }
   // ------------------ BUTTON INTERACT --------------
-  bool __fastcall ButtonInteract(dialog *dlg, dlgEvent *evt)
+  bool __fastcall TinyButtonInteract(dialog *dlg, dlgEvent *evt)
   {
     switch (evt->wNo)
     {
-    case 4:
-    case 6:
-      // Left Button down
-      switch ( dlg->wIndex )
-      {
-      case 255: // minimize
-      case -2:  // close
-        dlg->srcBits.data = (BYTE*)gbTinyBtnGfxAct;
-        break;
-      }
-      break;
     case 2:
-    case 5:
-      // Left Button up
+    case 5: // Left Button up
       dlg->srcBits.data = (BYTE*)gbTinyBtnGfx;
       break;
-    case 14:
-      // Control (used for when a control has been pressed)
+    case 4:
+    case 6: // Left Button down
+      dlg->srcBits.data = (BYTE*)gbTinyBtnGfxAct;
+      break;
+    case 14: // Control (used for when a control has been pressed)
       switch(evt->dwUser)
       {
-      case 2:
-        // Activate
+      case 2: // Activate
         switch (dlg->wIndex)
         {
         case 255: // minimize
@@ -204,56 +166,31 @@ namespace BW
             dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
             dlg->wUnk_0x1E = 1;
           }
-          case -2: // close
-            dlg->srcBits.data = (BYTE*)gbTinyBtnGfxOver;
-            break;
-        }
-        break;
-      case 3:
-        // hotkey
-        switch ( dlg->wIndex )
-        {
-        case 255: // minimize
-        case -2:  // close
-          dlg->srcBits.data = (BYTE*)gbTinyBtnGfxAct;
           break;
         }
         break;
-      case 4:
-        // mouseOver
-        switch( dlg->wIndex )
-        {
-          case 255: // minimize
-          case -2: // close
-            dlg->srcBits.data = (BYTE*)gbTinyBtnGfxOver;
-            break;
-        }
-      case 5:
-      case 6:
-        // Select Previous/Next
-        switch (dlg->wIndex)
-        {
-        case 255: // minimize
-        case -2: // close
-          return true;
-        }
+      case 3: // hotkey
+        dlg->srcBits.data = (BYTE*)gbTinyBtnGfxAct;
         break;
+      case 4: // mouseOver
+        dlg->srcBits.data = (BYTE*)gbTinyBtnGfxOver;
+        break;
+      case 5:
+      case 6: // Select Previous/Next
+        return false;
       }
       break;
     }
-    if ( dlg->wCtrlType < ctrls::max )
-      return BWDATA_GenericDlgInteractFxns[dlg->wCtrlType](dlg, evt);
-    return false;
+    return dlg->DefaultInteract(evt);
   }
   // ------------------ WINDOW INTERACT --------------
   bool __fastcall WindowInteract(dialog *dlg, dlgEvent *evt)
   {
-    pt   *mouseOffset = (pt*)&dlg->lUser;
+    pt *mouseOffset = (pt*)&dlg->lUser;
     dialog *i;
     switch (evt->wNo)
     {
-    case 3:
-      // Mouse update/Move
+    case 3: // Mouse update/Move
       if ( dlg->wUnk_0x1E )
       {
         dlg->rct.Xmin = evt->cursor.x - mouseOffset->x;
@@ -301,8 +238,7 @@ namespace BW
         i = i->next();
       }
       break;
-    case 4:
-      // Left Button down
+    case 4: // Left Button down
       if ( evt->cursor.x >= dlg->rct.Xmin &&
          evt->cursor.x <= dlg->rct.Xmax - 27 &&
          evt->cursor.y >= dlg->rct.Ymin &&
@@ -313,14 +249,11 @@ namespace BW
         dlg->wUnk_0x1E = 1;
       }
       break;
-    case 5:
-      // Left Button up
+    case 5: // Left Button up
       dlg->wUnk_0x1E = 0;
       break;
     }
-    if ( dlg->wCtrlType < ctrls::max )
-      return BWDATA_GenericDlgInteractFxns[dlg->wCtrlType](dlg, evt);
-    return false;
+    return dlg->DefaultInteract(evt);
   }
   // ------------------ CREATE DLG WINDOW ------------
   dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height)
@@ -337,67 +270,78 @@ namespace BW
 
     dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 27, 12);
     title->setFlag(CTRL_FONT_SMALLEST);
-    dlg->add(title);
+    dlg->AddControl(title);
 
-    dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", width - 26, 1, 12, 12, &ButtonInteract);
-    minimize->clearFlag(CTRL_BTN_HOTKEY | CTRL_ALTERNATE | CTRL_FONT_LARGE);
+    dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", width - 26, 1, 12, 12, &TinyButtonInteract);
+    minimize->clearFlag(CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE);
     minimize->setFlag(CTRL_FONT_SMALLEST);
-    minimize->wGraphic      = 0;
     minimize->srcBits.data  = (BYTE*)gbTinyBtnGfx;
-    dlg->add(minimize);
+    dlg->AddControl(minimize);
 
-    dialog *close = new dialog(ctrls::cBUTTON, -2, " X", width - 13, 1, 12, 12, &ButtonInteract);
-    close->clearFlag(CTRL_BTN_HOTKEY | CTRL_ALTERNATE | CTRL_FONT_LARGE);
+    dialog *close = new dialog(ctrls::cBUTTON, -2, " X", width - 13, 1, 12, 12, &TinyButtonInteract);
+    close->clearFlag(CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE);
     close->setFlag(CTRL_FONT_SMALLEST);
-    close->wGraphic      = 0;
     close->srcBits.data  = (BYTE*)gbTinyBtnGfx;
-    dlg->add(close);
-/*
-    dlg->add(new dialog(ctrls::cCHKBOX, 1, "test1", 12, 18, 112, 28, NULL, 0));
-    dlg->add(new dialog(ctrls::cCHKBOX, 2, "test2", 12, 48, 112, 28, NULL, 1));
-    dlg->add(new dialog(ctrls::cCHKBOX, 3, "test3", 12, 78, 112, 28, NULL, 2));
-    dlg->add(new dialog(ctrls::cCHKBOX, 4, "test4", 12, 108, 112, 28, NULL, 3));
-    dlg->add(new dialog(ctrls::cCHKBOX, 5, "test5", 12, 138, 112, 28, NULL, 4));
-*/
+    dlg->AddControl(close);
+
     return dlg;
   }
 
 // -------------------------------------------------- GLOBAL -------------------------------------------------
   // ----------------- CONSTRUCTORS ------------------
-  dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*), short wGraphicIndex)
+  dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
   {
     if ( ctrlType > ctrls::max)
       ctrlType = ctrls::cLSTATIC;
 
     memset(this, 0, sizeof(dialog));
-    rct.Xmin        = left;
-    rct.Ymin        = top;
-    rct.Xmax        = rct.Xmin + width - 1;
-    rct.Ymax        = rct.Ymin + height - 1;
-    srcBits.wid     = width;
-    srcBits.ht      = height;
 
-    pszText         = (char*)text;
-    lFlags        = CTRL_VISIBLE;
+    // Set default height
+    if ( height == 0 )
+    {
+      switch ( ctrlType )
+      {
+      case ctrls::cBUTTON:
+      case ctrls::cDFLTBTN:
+        height = 28;
+        break;
+      case ctrls::cCHKBOX:
+      case ctrls::cOPTION:
+        height = 20;
+        break;
+      case ctrls::cEDIT:
+        height = 16;
+        break;
+      }
+    }
 
+    // Set size properties
+    rct.Xmin    = left;
+    rct.Ymin    = top;
+    rct.Xmax    = rct.Xmin + width - 1;
+    rct.Ymax    = rct.Ymin + height - 1;
+    srcBits.wid = width;
+    srcBits.ht  = height;
+
+    // Set misc properties
+    pszText     = (char*)text;
+    lFlags      = CTRL_VISIBLE;
     wIndex      = index;
     wCtrlType   = ctrlType;
 
-    if ( wGraphicIndex >= 0 )
-      wGraphic    = (WORD)wGraphicIndex;
-
+    // Set callback functions
+    pfcnUpdate  = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
     if ( pfInteract )
-      pfcnInteract  = pfInteract;
+      pfcnInteract = pfInteract;
     else
-      pfcnInteract  = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
+      pfcnInteract = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
 
-    pfcnUpdate    = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];
-
+    // Set control type-specific options
     BYTE *data;
     switch ( ctrlType )
     {
     case ctrls::cDLG:
-      lFlags        |= CTRL_TRANSLUCENT | CTRL_DLG_NOREDRAW;
+      lFlags        |= CTRL_DLG_ACTIVE | CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
       srcBits.data  = (BYTE*)malloc(width*height);
       data = srcBits.data;
       if ( data )
@@ -447,7 +391,7 @@ namespace BW
         memset(&data[width*height - width + 3], 0x2A, width - 6);
         memset(&data[width*height - 3], 0x00, 3);
       }
-
+      // Allocate destination buffer
       u.dlg.dstBits.wid   = width;
       u.dlg.dstBits.ht    = height;
       u.dlg.dstBits.data  = (BYTE*)malloc(width*height);
@@ -455,24 +399,19 @@ namespace BW
     case ctrls::cBUTTON:
     case ctrls::cDFLTBTN:
     case ctrls::cFLCBTN:
-      if ( wGraphicIndex == -1 )
-        wGraphic = 112;
-
-      lFlags                  |= CTRL_EVENTS | CTRL_BTN_HOTKEY | CTRL_ALTERNATE;
-      u.btn.responseRct.Xmin  = rct.Xmin;
-      u.btn.responseRct.Ymin  = rct.Ymin;
-      u.btn.responseRct.Xmax  = rct.Xmax;
-      u.btn.responseRct.Ymax  = rct.Ymax;
-      u.btn.textRct.Xmin      = rct.Xmin;
-      u.btn.textRct.Ymin      = rct.Ymin;
-      u.btn.textRct.Xmax      = rct.Xmax;
-      u.btn.textRct.Ymax      = rct.Ymax;
-      break;
+      lFlags   |= CTRL_USELOCALGRAPHIC | CTRL_FONT_LARGE;
+      wGraphic = 112;
     case ctrls::cCHKBOX:
-      if ( wGraphicIndex == -1 )
-        wGraphic = 0;
-
-      lFlags                  |= CTRL_EVENTS;
+    case ctrls::cOPTION:
+    case ctrls::cHSCROLL:
+    case ctrls::cVSCROLL:
+      lFlags |= CTRL_EVENTS;
+      break;
+    case ctrls::cLIST:
+    case ctrls::cCOMBO:
+      lFlags |= CTRL_TRANSPARENT;
+    case ctrls::cEDIT:
+      lFlags |= CTRL_EVENTS | CTRL_BTN_NO_SOUND;
       break;
     }
   }
@@ -480,42 +419,8 @@ namespace BW
   dialog::~dialog()
   {
     if ( this )
-    {
-      if ( this->wCtrlType == ctrls::cDLG )
-      {
-        dialog *prevDialog = (*BW::BWDATA_ScreenDialog);
-        while ( prevDialog && prevDialog->pNext != NULL && prevDialog->pNext != this)
-          prevDialog = prevDialog->pNext;
-        
-        if ( prevDialog->pNext == this )
-          prevDialog->pNext = this->next();
-
-        dialog *child = this->child();
-        while ( child )
-        {
-          dialog *nextChild = child->next();
-          delete child;
-          child = nextChild;
-        }
-        free(this->u.dlg.dstBits.data);
-      }
-      else
-      {
-        dialog *previous = this->parent()->child();
-        if ( previous == this )
-        {
-          this->parent()->u.dlg.pFirstChild = this->pNext;
-        }
-        else
-        {
-          while ( previous->pNext && previous->pNext != this)
-            previous = previous->next();
-
-          if ( previous->pNext == this )
-            previous->pNext = this->pNext;
-        }
-      }
-    }
+      this->Event(14, 1);
+    MessageBoxA(NULL, "Watch Out!", "!", MB_OK);
   }
   // --------------------- FIND ----------------------
   dialog *dialog::FindIndex(short wIndex)
@@ -541,35 +446,37 @@ namespace BW
     return NULL;
   }
   // --------------------- ADD -----------------------
-  bool dialog::add(dialog *dlg)
+  bool dialog::Initialize()
   {
-    if ( !this || !dlg)
+    if ( this && this->isDialog() )
+    {
+      this->Event(14, 7);
+      this->Event(14, 10);
+      this->Event(14, 0);
+      return true;
+    }
+    return false;
+  }
+  bool dialog::AddControl(dialog *ctrl)
+  {
+    if ( !this || !ctrl || ctrl->isDialog())
       return false;
 
     dialog *parent = this;
     if ( !parent->isDialog() )
       parent = parent->parent();
 
-    if ( dlg->isDialog() )
+    ctrl->u.ctrl.pDlg = parent;
+    if ( !parent->child() )
     {
-      while ( parent->pNext )
-        parent = parent->pNext;
-      parent->pNext = dlg;
+      parent->u.dlg.pFirstChild = ctrl;
     }
     else
     {
-      dlg->u.ctrl.pDlg = parent;
-      if ( !parent->child() )
-      {
-        parent->u.dlg.pFirstChild = dlg;
-      }
-      else
-      {
-        dialog *child = parent->child();
-        while ( child->pNext )
-          child = child->pNext;
-        child->pNext = dlg;
-      }
+      dialog *child = parent->child();
+      while ( child->pNext )
+        child = child->pNext;
+      child->pNext = ctrl;
     }
     return true;
   }
@@ -620,7 +527,7 @@ namespace BW
   // ------------------- SET TEXT --------------------
   bool dialog::setText(char *pszStr)
   {
-    if ( this && pszStr )
+    if ( this && pszStr && this->wCtrlType != ctrls::cEDIT )
     {
       this->pszText = pszStr;
       return true;
@@ -640,6 +547,27 @@ namespace BW
     if ( this )
       return &this->srcBits;
     return NULL;
+  }
+// -------------------------------------------------- EVENT --------------------------------------------------
+  // --------------------- EVENT ---------------------
+  bool dialog::Event(WORD wEvtNum, DWORD dwUser)
+  {
+    if ( this )
+    {
+      dlgEvent evt;
+      evt.cursor.x  = (WORD)BW::BWDATA_Mouse->x;
+      evt.cursor.y  = (WORD)BW::BWDATA_Mouse->y;
+      evt.wNo       = wEvtNum;
+      evt.dwUser    = dwUser;
+      return this->pfcnInteract(this, &evt);
+    }
+    return false;
+  }
+  bool dialog::DefaultInteract(BW::dlgEvent *pEvent)
+  {
+    if ( this && pEvent && this->wCtrlType < ctrls::max )
+      return BWDATA_GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
+    return false;
   }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
@@ -794,5 +722,21 @@ namespace BW
     }
     return false;
   }
-
+  // ------------------- ADD ENTRY -------------------
+  bool dialog::AddListEntry(char *pszString, DWORD dwValue, BYTE bFlags)
+  {
+    if ( this && this->isList() && this->u.list.pbStrFlags && this->u.list.pdwData && this->u.list.ppStrs )
+    {
+      BYTE count = this->u.list.bStrs;
+      if ( count < 255 )
+      {
+        this->u.list.pbStrFlags[count] = bFlags;
+        this->u.list.pdwData[count]    = dwValue;
+        this->u.list.ppStrs[count]     = pszString;
+        this->u.list.bStrs++;
+        return true;
+      }
+    }
+    return false;
+  }
 };

@@ -4,38 +4,38 @@
 
 #include "offsets.h"
 
-#define CTRL_DISABLED       0x00000002
-#define CTRL_ACTIVE         0x00000004
-#define CTRL_VISIBLE        0x00000008
-#define CTRL_EVENTS         0x00000010
+#define CTRL_DISABLED         0x00000002
+#define CTRL_ACTIVE           0x00000004
+#define CTRL_VISIBLE          0x00000008
+#define CTRL_EVENTS           0x00000010
 
-#define CTRL_BTN_CANCEL     0x00000040
-#define CTRL_BTN_NO_SOUND   0x00000080
-#define CTRL_BTN_VIRT_HOTKEY 0x00000100
-#define CTRL_BTN_HOTKEY     0x00000200
-#define CTRL_FONT_SMALLEST  0x00000400
-#define CTRL_FONT_LARGE     0x00000800
-//                            0x00001000 // button uses this
-#define CTRL_TRANSPARENT    0x00002000
-#define CTRL_FONT_LARGEST   0x00004000
+#define CTRL_BTN_CANCEL       0x00000040
+#define CTRL_BTN_NO_SOUND     0x00000080
+#define CTRL_BTN_VIRT_HOTKEY  0x00000100
+#define CTRL_BTN_HOTKEY       0x00000200
+#define CTRL_FONT_SMALLEST    0x00000400
+#define CTRL_FONT_LARGE       0x00000800
+//                              0x00001000 // button & option button uses this
+#define CTRL_TRANSPARENT      0x00002000
+#define CTRL_FONT_LARGEST     0x00004000
 
-#define CTRL_FONT_SMALL     0x00010000
-#define CTRL_PLAIN          0x00020000
-#define CTRL_TRANSLUCENT    0x00040000
-#define CTRL_BTN_DEFAULT    0x00080000
-#define CTRL_TOP            0x00100000
-#define CTRL_HALIGN_LEFT    0x00200000
-#define CTRL_HALIGN_RIGHT   0x00400000
-#define CTRL_HALIGN_CENTER  0x00800000
-#define CTRL_VALIGN_TOP     0x01000000
-#define CTRL_VALIGN_MIDDLE  0x02000000
-#define CTRL_VALIGN_BOTTOM  0x04000000
+#define CTRL_FONT_SMALL       0x00010000
+#define CTRL_PLAIN            0x00020000
+#define CTRL_TRANSLUCENT      0x00040000
+#define CTRL_BTN_DEFAULT      0x00080000
+#define CTRL_TOP              0x00100000
+#define CTRL_HALIGN_LEFT      0x00200000
+#define CTRL_HALIGN_RIGHT     0x00400000
+#define CTRL_HALIGN_CENTER    0x00800000
+#define CTRL_VALIGN_TOP       0x01000000
+#define CTRL_VALIGN_MIDDLE    0x02000000
+#define CTRL_VALIGN_BOTTOM    0x04000000
 
-#define CTRL_DLG_NOREDRAW   0x10000000
-#define CTRL_REVERSE        0x10000000
-#define CTRL_ALTERNATE      0x20000000
-#define CTRL_DLG_ACTIVE     0x40000000
-#define CTRL_LBOX_NORECALC  0x80000000
+#define CTRL_DLG_NOREDRAW     0x10000000
+#define CTRL_REVERSE          0x10000000
+#define CTRL_USELOCALGRAPHIC  0x20000000
+#define CTRL_DLG_ACTIVE       0x40000000
+#define CTRL_LBOX_NORECALC    0x80000000
 
 namespace BW
 {
@@ -116,7 +116,29 @@ namespace BW
     WORD    wGraphic;       // 0x24
     /*
       CHECKBOX
-        0 - 2  Show/Hide minimap button
+        0-2 Show/Hide minimap button
+        5   Disabled bullet
+        6   Standard bullet
+        7   Active bullet
+        10  Disabled checkbox
+        11  Standard checkbox
+        12  Active checkbox
+        82  Disabled alliance
+        83  Standard Alliance
+        85  Disabled Skull
+        86  Standard Skull (changes to bird when checked)
+        87  Active Skull
+        98  Grey bullet thingy
+        129 Disabled Messaging
+        130 Standard Messaging
+        131 Active Messaging
+        136 White box + white Xmark
+        139 Disabled Vision
+        140 Standard Vision
+        141 Active Vision
+        142 Weird glowy bullet 1
+        143 Weird glowy bullet 2
+
       BUTTON
         100 Grey Left menu button
         103 Left menu button
@@ -145,7 +167,7 @@ namespace BW
         bitmap  dstBits;          // 0x36  // official 
         dialog  *pActiveElement;  // 0x3E
         dialog  *pFirstChild;     // 0x42  // official
-        dialog  *dwUnk_0x46;
+        dialog  *pMouseElement;
         void    *pModalFcn;       // 0x4A   // official
       } dlg;
       
@@ -168,10 +190,14 @@ namespace BW
       
       struct _edit
       {
-        dialog  *pDlg;      // 0x32   // official
-        DWORD dwColor;      // 0x36
-        DWORD dwUnk_0x3A;
-        DWORD dwCurPos;     // 0x3E
+        dialog  *pDlg;            // 0x32   // official
+        BYTE    bColor;           // 0x36
+        BYTE    bScrollPosition;  // 0x37
+        BYTE    bLeftMargin;      // 0x38
+        BYTE    bTopMargin;       // 0x39
+        WORD    wUnk_0x3A;        // 0x3A
+        WORD    wUnk_0x3C;
+        BYTE    bCursorPos;       // 0x3E
       } edit;
       
       struct _scroll   // official
@@ -221,12 +247,11 @@ namespace BW
     } u;
 
     // global functions
-    dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 28, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL, short wGraphicIndex = -1);
+    dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 0, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL);
     ~dialog();
 
     dialog  *FindIndex(short wIndex); // Searches for a control that matches the specified index
     dialog  *findDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
-    bool    add(dialog *dlg);         // Adds a dialog or control to the list
     dialog  *next();                  // Retrieves the next dialog or control in the list
 
     bool    setFlag(DWORD dwFlag);    // Sets a flag or set of flags for the control or dialog
@@ -236,10 +261,16 @@ namespace BW
 
     BW::bitmap  *GetSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 
+    // event-specific functions
+    bool Event(WORD wEvtNum, DWORD dwUser = 0); // Calls a dialog or control's interact function by generating event info using these parameters
+    bool DefaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
+
     // dialog-specific functions
     bool        isDialog();           // Returns true if the control type is a dialog
     dialog      *child();             // Retrieves the child control from the parent dialog
     BW::bitmap  *GetDestBuffer();     // Retrieves a pointer to a bitmap structure for reading or writing to the dialog's destination buffer
+    bool        AddControl(dialog *ctrl);  // Adds a control to this dialog
+    bool        Initialize();         // Performs the dialog's initialization and adds it to the list
 
     // control-specific functions
     dialog *parent();     // Retrieves a control's parent dialog
@@ -261,6 +292,8 @@ namespace BW
     bool  setSelectedIndex(BYTE bIndex);        // Sets the selected index
     bool  setSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
     bool  setSelectedByString(char *pszString); // Sets the selected index based on its name
+
+    bool  AddListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
   };
 #pragma pack()
   dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
