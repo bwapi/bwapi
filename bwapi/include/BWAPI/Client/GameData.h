@@ -54,7 +54,7 @@ namespace BWAPIC
     int mapHash;
 
     //tile data
-    int getGroundHeight[1024][1024];
+    int getGroundHeight[256][256];
     bool isWalkable[1024][1024]; 
     bool isBuildable[256][256];
     bool isVisible[256][256];
