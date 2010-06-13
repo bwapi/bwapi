@@ -69,7 +69,6 @@ namespace BWAPI
       , inUpdate(false)
       , inGame(false)
       , calledOnEnd(false)
-      , hasDialog(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -994,12 +993,12 @@ namespace BWAPI
           //close remaining slots
           for(int i = enemyCount; i < 7; i++)
           {
-            (*BW::BWDATA_ScreenDialog)->FindIndex((short)(21 + i))->SetSelectedIndex(0);
+            (*BW::BWDATA_ScreenDialog)->findIndex((short)(21 + i))->setSelectedIndex(0);
           }
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
-            (*BW::BWDATA_ScreenDialog)->FindIndex(17)->SetSelectedByValue(gt.getID());
+            (*BW::BWDATA_ScreenDialog)->findIndex(17)->setSelectedByValue(gt.getID());
 
           this->pressKey('O');
         }
@@ -1051,7 +1050,7 @@ namespace BWAPI
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              (*BW::BWDATA_ScreenDialog)->FindIndex(17)->SetSelectedByValue(gt.getID());
+              (*BW::BWDATA_ScreenDialog)->findIndex(17)->setSelectedByValue(gt.getID());
             this->pressKey('O');
           }
           break;
@@ -1327,9 +1326,9 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
-    BW::dialog *slotCtrl = (*BW::BWDATA_ScreenDialog)->FindIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
+    BW::dialog *slotCtrl = (*BW::BWDATA_ScreenDialog)->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
     if ( slotCtrl )
-      slotCtrl->SetSelectedByValue(race.getID());
+      slotCtrl->setSelectedByValue(race.getID());
 
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
@@ -1511,32 +1510,29 @@ namespace BWAPI
     }
     else if (parsed[0] == "/dlg")
     {
-      if ( !hasDialog )
+      if ( !myDlg )
       {
         // Create the dialog window
         myDlg  = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
 
         // Add additional controls to the window
         BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 8, 30, 200, 100);
-        myDlg->AddControl(test);
+        myDlg->addControl(test);
 
         // Initialize the dialog
-        myDlg->Initialize();
+        myDlg->initialize();
     
         // Add entries to the combo/list box
-        test->AddListEntry("Test");
-        test->AddListEntry("Test2");
-
-        hasDialog = true;
-      }
-      return true;
-    }
-    else if (parsed[0] == "/dlgkill")
-    {
-      if ( hasDialog )
-      {
-        delete myDlg;
-        hasDialog = false;
+        test->addListEntry("Test");
+        test->addListEntry("Test2");
+        test->addListEntry("Test3");
+        test->addListEntry("Test4");
+        test->addListEntry("Test5");
+        test->addListEntry("Test6");
+        test->addListEntry("Test7");
+        test->addListEntry("Test8");
+        test->addListEntry("Test9");
+        test->addListEntry("Test10");
       }
       return true;
     }
@@ -1547,11 +1543,10 @@ namespace BWAPI
   {
     this->setOnStartCalled(false);
 
-    if ( hasDialog )
+    if ( myDlg )
     {
-      //delete myDlg;
-      //myDlg->Event(14, 1);
-      hasDialog = false;
+      delete myDlg;
+      myDlg = NULL;
     }
 
     if (this->client != NULL)

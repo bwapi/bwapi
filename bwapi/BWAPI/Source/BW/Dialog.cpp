@@ -106,7 +106,7 @@ namespace BW
         break;
       case 10: // Initialize children
         break;
-      case 11: // Unknown Init control
+      case 11: // Update control
         break;
       case 13: // Show
         break;
@@ -129,7 +129,7 @@ namespace BW
       MessageBoxA(NULL, out, "!", MB_OK);
       break;
     }
-    return dlg->DefaultInteract(evt);
+    return dlg->defaultInteract(evt);
   }
   // ------------------ BUTTON INTERACT --------------
   bool __fastcall TinyButtonInteract(dialog *dlg, dlgEvent *evt)
@@ -153,17 +153,17 @@ namespace BW
         case 255: // minimize
           if ( (WORD)dlg->lUser )
           {
-            dlg->Parent()->srcBits.ht = (WORD)dlg->lUser;
-            dlg->Parent()->rct.Ymax = dlg->Parent()->rct.Ymin + dlg->Parent()->srcBits.ht - 1;
-            dlg->Parent()->u.dlg.dstBits.ht = dlg->Parent()->srcBits.ht;
+            dlg->parent()->srcBits.ht = (WORD)dlg->lUser;
+            dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
+            dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
             dlg->lUser = 0;
           }
           else
           {
-            dlg->lUser = dlg->Parent()->srcBits.ht;
-            dlg->Parent()->srcBits.ht = 13;
-            dlg->Parent()->rct.Ymax = dlg->Parent()->rct.Ymin + dlg->Parent()->srcBits.ht - 1;
-            dlg->Parent()->u.dlg.dstBits.ht = dlg->Parent()->srcBits.ht;
+            dlg->lUser = dlg->parent()->srcBits.ht;
+            dlg->parent()->srcBits.ht = 13;
+            dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
+            dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
           }
           break;
         }
@@ -178,7 +178,7 @@ namespace BW
       }
       break;
     }
-    return dlg->DefaultInteract(evt);
+    return dlg->defaultInteract(evt);
   }
   // ------------------ WINDOW INTERACT --------------
   bool __fastcall WindowInteract(dialog *dlg, dlgEvent *evt)
@@ -215,7 +215,7 @@ namespace BW
           dlg->rct.Ymax -= dlg->rct.Ymax - 360;
         }
       }
-      i = dlg->Child();
+      i = dlg->child();
       while( i )
       {
         if ( !(evt->cursor.x >= (dlg->rct.Xmin + i->rct.Xmin) &&
@@ -232,7 +232,7 @@ namespace BW
               break;
           }
         }
-        i = i->Next();
+        i = i->next();
       }
       break;
     case 4: // Left Button down
@@ -250,7 +250,7 @@ namespace BW
       dlg->wUnk_0x1E = 0;
       break;
     }
-    return dlg->DefaultInteract(evt);
+    return dlg->defaultInteract(evt);
   }
   // ------------------ CREATE DLG WINDOW ------------
   dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height)
@@ -266,18 +266,18 @@ namespace BW
     }
 
     dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 27, 12);
-    title->SetFlags(CTRL_FONT_SMALLEST);
-    dlg->AddControl(title);
+    title->setFlags(CTRL_FONT_SMALLEST);
+    dlg->addControl(title);
 
     dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", width - 26, 1, 12, 12, &TinyButtonInteract);
-    minimize->SetFlags(CTRL_FONT_SMALLEST);
+    minimize->setFlags(CTRL_FONT_SMALLEST);
     minimize->srcBits.data = gbTinyBtnGfx[0];
-    dlg->AddControl(minimize);
+    dlg->addControl(minimize);
 
     dialog *close = new dialog(ctrls::cBUTTON, -2, " X", width - 13, 1, 12, 12, &TinyButtonInteract);
-    close->SetFlags(CTRL_FONT_SMALLEST);
+    close->setFlags(CTRL_FONT_SMALLEST);
     close->srcBits.data = gbTinyBtnGfx[0];
-    dlg->AddControl(close);
+    dlg->addControl(close);
 
     return dlg;
   }
@@ -414,50 +414,95 @@ namespace BW
   dialog::~dialog()
   {
     if ( this )
-      this->Event(14, 1);
-    MessageBoxA(NULL, "Watch Out!", "!", MB_OK);
+    {
+      if ( this->isDialog() )
+      {
+        this->doEvent(14, 2);
+      }
+      else if ( this->parent() )
+      {
+        if ( this->parent()->u.dlg.pActiveElement == this )
+          this->parent()->u.dlg.pActiveElement = NULL;
+
+        if ( this->parent()->u.dlg.pMouseElement == this )
+          this->parent()->u.dlg.pMouseElement = NULL;
+
+        if ( this->srcBits.data )
+          free(this->srcBits.data);
+
+        if ( this->isList() )
+        {
+          if ( this->u.list.pbStrFlags )
+            free(this->u.list.pbStrFlags);
+          if ( this->u.list.pdwData )
+            free(this->u.list.pdwData);
+          if ( this->u.list.ppStrs )
+            free(this->u.list.ppStrs);
+        }
+
+        if ( this->wCtrlType == ctrls::cEDIT && this->pszText )
+          free(this->pszText);
+
+        if ( this->parent()->u.dlg.pFirstChild == this )
+        {
+          this->parent()->u.dlg.pFirstChild = this->next();
+          return;
+        }
+
+        dialog *i = this->parent()->child();
+        do
+        {
+          if ( i->pNext == this )
+          {
+            i->pNext = this->next();
+            return;
+          }
+          i = i->next();
+        } while (i);
+      }
+    }
   }
   // --------------------- FIND ----------------------
-  dialog *dialog::FindIndex(short wIndex)
+  dialog *dialog::findIndex(short wIndex)
   {
     if ( !this )
       return NULL;
 
     dialog *pCurrDlg;
-    if ( this->IsDialog() )
+    if ( this->isDialog() )
       pCurrDlg = this;
     else
-      pCurrDlg = this->Parent();
+      pCurrDlg = this->parent();
 
     if ( pCurrDlg )
-      pCurrDlg = pCurrDlg->Child();
+      pCurrDlg = pCurrDlg->child();
 
-    while (pCurrDlg != NULL && pCurrDlg->GetIndex() != wIndex)
-      pCurrDlg = pCurrDlg->Next();
+    while (pCurrDlg != NULL && pCurrDlg->getIndex() != wIndex)
+      pCurrDlg = pCurrDlg->next();
     
-    if ( pCurrDlg->GetIndex() == wIndex )
+    if ( pCurrDlg->getIndex() == wIndex )
       return pCurrDlg;
 
     return NULL;
   }
   // --------------------- ADD -----------------------
-  bool dialog::AddControl(dialog *ctrl)
+  bool dialog::addControl(dialog *ctrl)
   {
-    if ( !this || !ctrl || ctrl->IsDialog())
+    if ( !this || !ctrl || ctrl->isDialog())
       return false;
 
     dialog *parent = this;
-    if ( !parent->IsDialog() )
-      parent = parent->Parent();
+    if ( !parent->isDialog() )
+      parent = parent->parent();
 
     ctrl->u.ctrl.pDlg = parent;
-    if ( !parent->Child() )
+    if ( !parent->child() )
     {
       parent->u.dlg.pFirstChild = ctrl;
     }
     else
     {
-      dialog *child = parent->Child();
+      dialog *child = parent->child();
       while ( child->pNext )
         child = child->pNext;
       child->pNext = ctrl;
@@ -465,48 +510,48 @@ namespace BW
     return true;
   }
 // ------------------ INITIALIZE ---------------------
-  bool dialog::Initialize()
+  bool dialog::initialize()
   {
-    if ( this && this->IsDialog() )
+    if ( this && this->isDialog() )
     {
-      this->Event(14, 7);
-      this->Event(14, 10);
-      this->Event(14, 0);
+      this->doEvent(14, 7);
+      this->doEvent(14, 10);
+      this->doEvent(14, 0);
       return true;
     }
     return false;
   }
   // --------------------- NEXT ----------------------
-  dialog *dialog::Next()
+  dialog *dialog::next()
   {
     if ( this && this->pNext )
       return this->pNext;
     return NULL;
   }
   // ------------------ FIND BY NAME -----------------
-  dialog *dialog::FindDialogByName(const char *pszName)
+  dialog *dialog::findDialogByName(const char *pszName)
   {
     if ( this )
     {
       dialog *parent = this;
-      if ( !parent->IsDialog() )
-        parent = parent->Parent();
+      if ( !parent->isDialog() )
+        parent = parent->parent();
       
       while ( parent )
       {
         if (parent->pszText && strcmpi(parent->pszText, pszName) == 0 )
           return parent;
-        parent = parent->Next();
+        parent = parent->next();
       }
     }
     return NULL;
   }
   // ------------------- SET FLAG --------------------
-  bool dialog::SetFlags(DWORD dwFlag)
+  bool dialog::setFlags(DWORD dwFlag)
   {
     if ( this )
     {
-      if ( !this->IsDialog() )
+      if ( !this->isDialog() )
       {
         DWORD size    = dwFlag & (CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
         DWORD halign  = dwFlag & (CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
@@ -519,7 +564,7 @@ namespace BW
             size == CTRL_FONT_LARGE ||
             size == CTRL_FONT_LARGEST)
         {
-          this->ClearFlags(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+          this->clearFlags(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
           this->lFlags |= size;
         }
 
@@ -528,7 +573,7 @@ namespace BW
             halign == CTRL_HALIGN_RIGHT ||
             halign == CTRL_HALIGN_CENTER)
         {
-          this->ClearFlags(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+          this->clearFlags(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
           this->lFlags |= halign;
         }
 
@@ -537,7 +582,7 @@ namespace BW
             valign == CTRL_VALIGN_MIDDLE ||
             valign == CTRL_VALIGN_BOTTOM)
         {
-          this->ClearFlags(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+          this->clearFlags(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
           this->lFlags |= valign;
         }
 
@@ -552,7 +597,7 @@ namespace BW
     return false;
   }
   // ------------------ CLEAR FLAG -------------------
-  bool dialog::ClearFlags(DWORD dwFlag)
+  bool dialog::clearFlags(DWORD dwFlag)
   {
     if ( this )
     {
@@ -562,14 +607,14 @@ namespace BW
     return false;
   }
   // ------------------- HAS FLAG --------------------
-  bool dialog::HasFlags(DWORD dwFlag)
+  bool dialog::hasFlags(DWORD dwFlag)
   {
     if ( this && (this->lFlags & dwFlag) == dwFlag)
       return true;
     return false;
   }
   // ------------------- SET TEXT --------------------
-  bool dialog::SetText(char *pszStr)
+  bool dialog::setText(char *pszStr)
   {
     if ( this && pszStr && this->wCtrlType != ctrls::cEDIT )
     {
@@ -579,78 +624,78 @@ namespace BW
     return false;
   }
   // ------------------- GET TEXT --------------------
-  char *dialog::GetText()
+  char *dialog::getText()
   {
     if ( this && this->pszText )
       return this->pszText;
     return "";
   }
   // ------------------ SRC BUFFER -------------------
-  BW::bitmap *dialog::GetSourceBuffer()
+  BW::bitmap *dialog::getSourceBuffer()
   {
     if ( this )
       return &this->srcBits;
     return NULL;
   }
 // -------------------- ENABLE -----------------------
-  bool dialog::Enable()
+  bool dialog::enable()
   {
     if ( this )
     {
-      this->ClearFlags(CTRL_DISABLED);
+      this->clearFlags(CTRL_DISABLED);
       return true;
     }
     return false;
   }
 // -------------------- DISABLE -----------------------
-  bool dialog::Disable()
+  bool dialog::disable()
   {
     if ( this )
     {
-      this->SetFlags(CTRL_DISABLED);
+      this->setFlags(CTRL_DISABLED);
       return true;
     }
     return false;
   }
 // ------------------ IS DISABLED --------------------
-  bool dialog::IsDisabled()
+  bool dialog::isDisabled()
   {
-    if ( this && this->HasFlags(CTRL_DISABLED) )
+    if ( this && this->hasFlags(CTRL_DISABLED) )
       return true;
     return false;
   }
 // --------------------- SHOW ------------------------
-  bool dialog::Show()
+  bool dialog::show()
   {
     if ( this )
     {
-      this->SetFlags(CTRL_VISIBLE);
+      this->setFlags(CTRL_VISIBLE);
       return true;
     }
     return false;
   }
 // --------------------- HIDE ------------------------
-  bool dialog::Hide()
+  bool dialog::hide()
   {
     if ( this )
     {
-      this->ClearFlags(CTRL_VISIBLE);
+      this->clearFlags(CTRL_VISIBLE);
       return true;
     }
     return false;
   }
 // ------------------ IS VISIBLE ---------------------
-  bool dialog::IsVisible()
+  bool dialog::isVisible()
   {
-    if ( this && this->HasFlags(CTRL_VISIBLE) )
+    if ( this && this->hasFlags(CTRL_VISIBLE) )
       return true;
     return false;
   }
 // -------------------------------------------------- EVENTS -------------------------------------------------
   // --------------------- EVENT ---------------------
-  bool dialog::Event(WORD wEvtNum, DWORD dwUser, WORD wVirtKey)
+  bool dialog::doEvent(WORD wEvtNum, DWORD dwUser, WORD wVirtKey)
   {
-    if ( this )
+    if ( this && this->pfcnInteract )
     {
       dlgEvent evt;
       evt.cursor.x  = (WORD)BW::BWDATA_Mouse->x;
@@ -663,7 +708,7 @@ namespace BW
     return false;
   }
   // ----------------- DEFAULT INTERACT --------------
-  bool dialog::DefaultInteract(BW::dlgEvent *pEvent)
+  bool dialog::defaultInteract(BW::dlgEvent *pEvent)
   {
     if ( this && pEvent && this->wCtrlType < ctrls::max )
       return BWDATA_GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
@@ -671,56 +716,56 @@ namespace BW
   }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
-  bool dialog::IsDialog()
+  bool dialog::isDialog()
   {
     if ( this && this->wCtrlType == ctrls::cDLG )
       return true;
     return false;
   }
   // --------------------- CHILD ---------------------
-  dialog *dialog::Child()
+  dialog *dialog::child()
   {
-    if (this && this->IsDialog() && this->u.dlg.pFirstChild )
+    if (this && this->isDialog() && this->u.dlg.pFirstChild )
       return this->u.dlg.pFirstChild;
     return NULL;
   }
   // ------------------ DST BUFFER -------------------
-  BW::bitmap *dialog::GetDestBuffer()
+  BW::bitmap *dialog::getDestBuffer()
   {
-    if ( this && this->IsDialog() )
+    if ( this && this->isDialog() )
       return &this->u.dlg.dstBits;
     return NULL;
   }
 // -------------------------------------------------- CONTROL ------------------------------------------------
   // -------------------- PARENT ---------------------
-  dialog *dialog::Parent()
+  dialog *dialog::parent()
   {
-    if ( this && !this->IsDialog() && this->u.ctrl.pDlg )
+    if ( this && !this->isDialog() && this->u.ctrl.pDlg )
       return this->u.ctrl.pDlg;
     return NULL;
   }
   // --------------------- INDEX ---------------------
-  short dialog::GetIndex()
+  short dialog::getIndex()
   {
     if ( this )
       return this->wIndex;
     return 0;
   }
   // ------------- CLEAR FONT FLAGS ------------------
-  bool dialog::ClearFontFlags()
+  bool dialog::clearFontFlags()
   {
     if ( this )
     {
-      this->ClearFlags(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
-      this->ClearFlags(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
-      this->ClearFlags(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+      this->clearFlags(CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+      this->clearFlags(CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+      this->clearFlags(CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
       return true;
     }
     return false;
   }
 // -------------------------------------------- BUTTON -------------------------------------------------------
   // ------------------- IS BUTTON -------------------
-  bool dialog::IsButton()
+  bool dialog::isButton()
   {
     if ( this )
     {
@@ -732,7 +777,7 @@ namespace BW
   }
 // -------------------------------------------- CHECKBOX & OPTION --------------------------------------------
   // ------------------- IS CHECKBOX -----------------
-  bool dialog::IsOption()
+  bool dialog::isOption()
   {
     if ( this )
     {
@@ -743,15 +788,15 @@ namespace BW
     return false;
   }
   // --------------------- CHECKED -------------------
-  bool dialog::IsChecked()
+  bool dialog::isChecked()
   {
-    if ( this && this->IsOption() )
+    if ( this && this->isOption() )
       return this->u.optn.bEnabled != 0;
     return false;
   }
 // -------------------------------------------- LISTBOX & COMBOBOX -------------------------------------------
 // ----------------------- IS LIST -------------------
-  bool dialog::IsList()
+  bool dialog::isList()
   {
     if ( this )
     {
@@ -762,31 +807,31 @@ namespace BW
     return false;
   }
 // ------------------- GET SELECTED ------------------
-  BYTE dialog::GetSelectedIndex()
+  BYTE dialog::getSelectedIndex()
   {
-    if ( this && this->IsList() )
+    if ( this && this->isList() )
       return this->u.list.bSelectedIndex;
     return 0;
   }
-  DWORD dialog::GetSelectedValue()
+  DWORD dialog::getSelectedValue()
   {
     if ( this 
-        && this->IsList() 
+        && this->isList() 
         && this->u.list.pdwData 
         && this->u.list.bSelectedIndex < this->u.list.bStrs)
       return this->u.list.pdwData[this->u.list.bSelectedIndex];
     return 0;
   }
-  char *dialog::GetSelectedString()
+  char *dialog::getSelectedString()
   {
-    if ( this && this->IsList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
+    if ( this && this->isList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
       return this->u.list.ppStrs[this->u.list.bCurrStr];
     return "";
   }
-// ------------------- SET SELECTED ------------------
-  bool dialog::SetSelectedIndex(BYTE bIndex)
+// -------------- SET SELECTED INDEX -----------------
+  bool dialog::setSelectedIndex(BYTE bIndex)
   {
-    if ( this && this->IsList() && bIndex < this->u.list.bStrs )
+    if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
       this->u.list.bCurrStr       = bIndex;
       this->u.list.bSelectedIndex = bIndex;
@@ -794,9 +839,10 @@ namespace BW
     }
     return false;
   }
-  bool dialog::SetSelectedByValue(DWORD dwValue)
+// -------------- SET SELECTED BY VALUE --------------
+  bool dialog::setSelectedByValue(DWORD dwValue)
   {
-    if ( this && this->IsList() && this->u.list.pdwData)
+    if ( this && this->isList() && this->u.list.pdwData)
     {
       for (int i = 0; i < this->u.list.bStrs; i++)
       {
@@ -810,10 +856,11 @@ namespace BW
     } // check
     return false;
   }
-  bool dialog::SetSelectedByString(char *pszString)
+// -------------- SET SELECTED BY STRING -------------
+  bool dialog::setSelectedByString(char *pszString)
   {
     // verify that this is the correct control
-    if ( this && this->IsList() )
+    if ( this && this->isList() )
     {
       // Iterate through each entry
       for (int i = 0; i < this->u.list.bStrs; i++)
@@ -835,9 +882,9 @@ namespace BW
     return false;
   }
   // ------------------- ADD ENTRY -------------------
-  bool dialog::AddListEntry(char *pszString, DWORD dwValue, BYTE bFlags)
+  bool dialog::addListEntry(char *pszString, DWORD dwValue, BYTE bFlags)
   {
-    if ( this && this->IsList() && this->u.list.pbStrFlags && this->u.list.pdwData && this->u.list.ppStrs )
+    if ( this && this->isList() && this->u.list.pbStrFlags && this->u.list.pdwData && this->u.list.ppStrs )
     {
       BYTE count = this->u.list.bStrs;
       if ( count < 255 )
@@ -848,6 +895,37 @@ namespace BW
         this->u.list.bStrs++;
         return true;
       }
+    }
+    return false;
+  }
+  // ----------------- REMOVE ENTRY ------------------
+  bool dialog::removeListEntry(BYTE bIndex)
+  {
+    if ( this && this->isList() && bIndex < this->u.list.bStrs )
+    {
+      for ( int i = bIndex; i < this->u.list.bStrs; i++ )
+      {
+        if ( i == this->u.list.bStrs - 1 )
+        {
+          this->u.list.pbStrFlags[i]  = 0;
+          this->u.list.pdwData[i]     = 0;
+          this->u.list.ppStrs[i]      = NULL;
+          this->u.list.bStrs--;
+          if ( this->u.list.bSelectedIndex >= bIndex )
+            this->u.list.bSelectedIndex--;
+          if ( this->u.list.bCurrStr >= bIndex )
+            this->u.list.bCurrStr--;
+          if ( this->u.list.bOffset + this->u.list.bItemsPerPage > this->u.list.bStrs && this->u.list.bStrs > this->u.list.bItemsPerPage - 1 )
+            this->u.list.bOffset--;
+        }
+        else
+        {
+          this->u.list.pbStrFlags[i]  = this->u.list.pbStrFlags[i+1];
+          this->u.list.pdwData[i]     = this->u.list.pdwData[i+1];
+          this->u.list.ppStrs[i]      = this->u.list.ppStrs[i+1];
+        }
+      }
+      return true;
     }
     return false;
   }
