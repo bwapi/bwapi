@@ -1,5 +1,4 @@
 #pragma once
-#include <Util/Types.h>
 #include <windows.h>
 
 #include "offsets.h"
@@ -148,7 +147,9 @@ namespace BW
     */
     LONG    lUser;          // 0x26   // official name
     bool (__fastcall *pfcnInteract)(dialog*,dlgEvent*);  // 0x2A
+    // bool __fastcall pfcnInteract(dialog *dlg, dlgEvent *evt);
     void (__fastcall *pfcnUpdate)(dialog*,int,int,rect*);    // 0x2E
+    // void __fastcall pfcnUpdate(dialog *dlg, int x, int y, rect *dest);
     union _u                 // 0x32   // official
     {
       struct _ctrl           // official
@@ -246,7 +247,7 @@ namespace BW
     ~dialog();
 
     dialog  *findIndex(short wIndex); // Searches for a control that matches the specified index
-    dialog  *findDialogByName(const char *pszName); // Searches for a dialog that matches the name specified
+    dialog  *findDialog(const char *pszName); // Searches for a dialog that matches the name specified
     dialog  *next();                  // Retrieves the next dialog or control in the list
 
     bool    setFlags(DWORD dwFlags);    // Sets a flag or set of flags for the control or dialog
@@ -302,8 +303,9 @@ namespace BW
     bool  removeListEntry(BYTE bIndex = 0);
   };
 #pragma pack()
-  dialog  *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height);
-  dialog  *CreateCanvas(const char *name);
+  dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight);
+  dialog  *CreateCanvas(const char *pszName);
+  dialog  *FindDialogGlobal(const char pszName);
 };
 
 /*
