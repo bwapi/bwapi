@@ -991,12 +991,12 @@ namespace BWAPI
           //close remaining slots
           for(int i = enemyCount; i < 7; i++)
           {
-            (*BW::BWDATA_ScreenDialog)->findIndex((short)(21 + i))->setSelectedIndex(0);
+            (*BW::BWDATA_DialogList)->findIndex((short)(21 + i))->setSelectedIndex(0);
           }
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
-            (*BW::BWDATA_ScreenDialog)->findIndex(17)->setSelectedByValue(gt.getID());
+            (*BW::BWDATA_DialogList)->findIndex(17)->setSelectedByValue(gt.getID());
 
           this->pressKey('O');
         }
@@ -1048,7 +1048,7 @@ namespace BWAPI
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              (*BW::BWDATA_ScreenDialog)->findIndex(17)->setSelectedByValue(gt.getID());
+              (*BW::BWDATA_DialogList)->findIndex(17)->setSelectedByValue(gt.getID());
             this->pressKey('O');
           }
           break;
@@ -1324,7 +1324,7 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
-    BW::dialog *slotCtrl = (*BW::BWDATA_ScreenDialog)->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
+    BW::dialog *slotCtrl = (*BW::BWDATA_DialogList)->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
     if ( slotCtrl )
       slotCtrl->setSelectedByValue(race.getID());
 

@@ -268,34 +268,32 @@ namespace BW
         return false;
       }
       break;
-    /*default:
-      return false;*/
     }
     return dlg->defaultInteract(evt);
   }
   // ------------------ CREATE DLG WINDOW ------------
-  dialog *CreateDialogWindow(const char *text, WORD left, WORD top, WORD width, WORD height)
+  dialog *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight)
   {
-    dialog *dlg = new dialog(ctrls::cDLG, 0, text, left, top, width, height, &WindowInteract);
+    dialog *dlg = new dialog(ctrls::cDLG, 0, pszText, wLeft, wTop, wWidth, wHeight, &WindowInteract);
     BYTE *data  = dlg->srcBits.data;
     if ( data )
     {
-      memset(&data[width + 3], 0x2C, width - 6);
-      memset(&data[width*2 + 2], 0x2C, width - 4);
+      memset(&data[wWidth + 3], 0x2C, wWidth - 6);
+      memset(&data[wWidth*2 + 2], 0x2C, wWidth - 4);
       for (int i = 3; i < 12; i++)
-        memset(&data[width*i + 1], 0x2C, width - 2);
+        memset(&data[wWidth*i + 1], 0x2C, wWidth - 2);
     }
 
-    dialog *title = new dialog(ctrls::cLSTATIC, -255, text, 8, 1, width - 27, 12);
+    dialog *title = new dialog(ctrls::cLSTATIC, -255, pszText, 8, 1, wWidth - 27, 12);
     title->setFlags(CTRL_FONT_SMALLEST);
     dlg->addControl(title);
 
-    dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", width - 26, 1, 12, 12, &TinyButtonInteract);
+    dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", wWidth - 26, 1, 12, 12, &TinyButtonInteract);
     minimize->setFlags(CTRL_FONT_SMALLEST);
     minimize->srcBits.data = gbTinyBtnGfx[0];
     dlg->addControl(minimize);
 
-    dialog *close = new dialog(ctrls::cBUTTON, -2, " X", width - 13, 1, 12, 12, &TinyButtonInteract);
+    dialog *close = new dialog(ctrls::cBUTTON, -2, " X", wWidth - 13, 1, 12, 12, &TinyButtonInteract);
     close->setFlags(CTRL_FONT_SMALLEST);
     close->srcBits.data = gbTinyBtnGfx[0];
     dlg->addControl(close);
@@ -303,9 +301,9 @@ namespace BW
     return dlg;
   }
   // ------------------ CREATE CANVAS ----------------
-  dialog *CreateCanvas(const char *name)
+  dialog *CreateCanvas(const char *pszName)
   {
-    dialog *dlg = new dialog(ctrls::cDLG, 0, name, 0, 0, 640, 480, &CanvasInteract);
+    dialog *dlg = new dialog(ctrls::cDLG, 0, pszName, 0, 0, 640, 480, &CanvasInteract);
     BYTE *data = dlg->srcBits.data;
     if ( data )
       memset(data, 0, 640*480);
@@ -317,6 +315,13 @@ namespace BW
     dlg->addControl(child);
 
     return dlg;
+  }
+  // ------------------ FIND GLOBAL ------------------
+  dialog *FindDialogGlobal(const char *pszName)
+  {
+    if ( (*BW::BWDATA_DialogList) && pszName )
+      return (*BW::BWDATA_DialogList)->findDialog(pszName);
+    return NULL;
   }
 // -------------------------------------------------- GLOBAL -------------------------------------------------
   // ----------------- CONSTRUCTORS ------------------
@@ -563,7 +568,7 @@ namespace BW
   {
     if ( this )
     {
-      for ( dialog *i = *BW::BWDATA_ScreenDialog; i; i = i->next() )
+      for ( dialog *i = *BW::BWDATA_DialogList; i; i = i->next() )
       {
         if ( this == i )
           return true;
@@ -579,7 +584,7 @@ namespace BW
     return NULL;
   }
   // ------------------ FIND BY NAME -----------------
-  dialog *dialog::findDialogByName(const char *pszName)
+  dialog *dialog::findDialog(const char *pszName)
   {
     if ( this )
     {
