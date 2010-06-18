@@ -951,27 +951,34 @@ namespace BWAPI
     events.push_back(Event::MenuFrame());
     this->server.update();
     int menu = *BW::BWDATA_glGluesMode;
+    BW::dialog *tempDlg;
     if (autoMenuMode == "SINGLE_PLAYER")
     {
       switch ( menu )
       {
       case 0: //main menu
-        this->pressKey('S');
-        this->pressKey('E');
+        this->pressKey('S'); // emulating button activation here will activate the button even after selecting "expansion" and cause a crash
+        tempDlg = BW::FindDialogGlobal("Delete");
+        if ( tempDlg )
+          tempDlg->findIndex(7)->activate();
         break;
       case 5: //registry screen
-        this->pressKey('O');
+        BW::FindDialogGlobal("Login")->findIndex(4)->activate();
+        //this->pressKey('O');
         break;
       case 22:  //single player play custom / load replay selection screen
         strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
         strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
-        this->pressKey('U');
+        //this->pressKey('U');
+        BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate();
         break;
       case 11: //create single/multi player game screen
         //the first time we enter the create game screen, it won't set the map correctly
         //so we need to cancel out and re-enter
-        if (*BW::BWDATA_menuStuff != 0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
+        tempDlg = BW::FindDialogGlobal("Create");
+        if ( *BW::BWDATA_menuStuff != -1 ) //Starcraft sets this to -1 after the first time we enter the create game screen
           this->pressKey('C');
+          //tempDlg->findIndex(13)->doEvent(14, 2);    // This is too efficient and will cause whatever trick being used to fail (infinite loop)
         else
         {
           int enemyCount = atoi(this->autoMenuEnemyCount.c_str());
@@ -984,25 +991,22 @@ namespace BWAPI
           if (er != Races::Unknown && er != Races::None)
           {
             for(int i = 0; i < enemyCount; i++)
-            {
               this->_changeRace(i + 1, er);
-            }
           }
           //close remaining slots
           for(int i = enemyCount; i < 7; i++)
-          {
-            (*BW::BWDATA_DialogList)->findIndex((short)(21 + i))->setSelectedIndex(0);
-          }
+            tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
 
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
-            (*BW::BWDATA_DialogList)->findIndex(17)->setSelectedByValue(gt.getID());
-
-          this->pressKey('O');
+            tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
+          tempDlg->findIndex(12)->activate();
+          //this->pressKey('O');
         }
         break;
       case 15: //replay screen
-        this->pressKey('O');
+        BW::FindDialogGlobal("Create")->findIndex(12)->activate();
+        //this->pressKey('O');
         break;
       case 18: //defeat screen
         break;
@@ -1015,18 +1019,24 @@ namespace BWAPI
       switch ( menu )
       {
       case 0: //main menu
-        this->pressKey('M');
-        this->pressKey('E');
+        this->pressKey('M'); // emulating button activation here will activate the button even after selecting "expansion" and cause a crash
+        tempDlg = BW::FindDialogGlobal("Delete");
+        if ( tempDlg )
+          tempDlg->findIndex(7)->activate();
         break;
       case 2:
+        //tempDlg = BW::FindDialogGlobal("ConnSel");
+        //tempDlg->findIndex(5)->setSelectedByString("Local Area Network (UDP)"); // This doesn't work yet
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
+        this->pressKey(VK_DOWN); // move 5 because of the custom SNP, doesn't affect people without it
         this->pressKey('O');
         break;
       case 5: //registry screen
-        this->pressKey('O');
+        BW::FindDialogGlobal("Login")->findIndex(4)->activate();
+        //this->pressKey('O');
         break;
       }
 
@@ -1037,19 +1047,22 @@ namespace BWAPI
         case 10: //lan games lobby
           strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
           strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
-          this->pressKey('G');
+          BW::FindDialogGlobal("GameSel")->findIndex(15)->activate();
+          //this->pressKey('G');
           break;
         case 11: //create single/multi player game screen
           //the first time we enter the create game screen, it won't set the map correctly
           //so we need to cancel out and re-enter
-          if (*BW::BWDATA_menuStuff != 0xFFFFFFFF) //Starcraft sets this to 0xFFFFFFFF after the first time we enter the create game screen
+          tempDlg = BW::FindDialogGlobal("Create");
+          if (*BW::BWDATA_menuStuff != -1) // Starcraft sets this to -1 after the first time we enter the create game screen
             this->pressKey('C');
           else
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              (*BW::BWDATA_DialogList)->findIndex(17)->setSelectedByValue(gt.getID());
+              tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
             this->pressKey('O');
+            //tempDlg->findIndex(12)->activate(); // This is too aggressive and causes the dialog to very slowly phase out because of re-activation
           }
           break;
         case 3:
@@ -1064,7 +1077,8 @@ namespace BWAPI
         switch ( menu )
         {
         case 10: //lan games lobby
-          this->pressKey('O');
+          //this->pressKey('O');
+          BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();
           break;
         case 3: //multiplayer game ready screen
           Race r = Races::getRace(this->autoMenuRace);
@@ -1078,11 +1092,14 @@ namespace BWAPI
       switch ( menu )
       {
       case 0: //main menu
-        this->pressKey('M');
-        this->pressKey('E');
+        this->pressKey('M'); // emulating button activation here will activate the button even after selecting "expansion" and cause a crash
+        tempDlg = BW::FindDialogGlobal("Delete");
+        if ( tempDlg )
+          tempDlg->findIndex(7)->activate();
         break;
       case 2: //multiplayer select connection screen
-        this->pressKey('O');
+        //this->pressKey('O');
+        BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
         break;
       }
     }
@@ -1324,10 +1341,13 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
-    BW::dialog *slotCtrl = (*BW::BWDATA_DialogList)->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
-    if ( slotCtrl )
-      slotCtrl->setSelectedByValue(race.getID());
-
+    BW::dialog *custom = BW::FindDialogGlobal("Create");
+    if ( custom )
+    {
+      BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
+      if ( slotCtrl )
+        slotCtrl->setSelectedByValue(race.getID());
+    }
     IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
