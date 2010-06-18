@@ -704,10 +704,10 @@ namespace BWAPI
     this->inGame = true;
 
     if ( myDlg )
-      myDlg->doEvent(14, 0);
+      myDlg->update();
     
     if ( canvas )
-      canvas->doEvent(14, 0);
+      canvas->update();
 
     actMainMenu = false;
     actRegistry = false;
@@ -1042,21 +1042,15 @@ namespace BWAPI
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
             tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
-          if ( !actCreate )
+
+          this->pressKey('O');
+          /*if ( !actCreate )
           {
             actCreate = true;
             tempDlg->findIndex(12)->activate();
-          }
+          }*/
         }
         break;
-//replay screen???wtf
-      /*case 15: 
-        if ( !actCreate )
-        {
-          actCreate = true;
-          BW::FindDialogGlobal("Create")->findIndex(12)->activate();
-        }
-        break;*/
 // Score screen
       case 14: 
       case 15:
@@ -1165,11 +1159,13 @@ namespace BWAPI
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
               tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
-            if ( !actCreate )
+
+            this->pressKey('O');
+            /*if ( !actCreate )
             {
               actCreate = true;
               tempDlg->findIndex(12)->activate();
-            }
+            }*/
           }
           break;
 // in lobby
