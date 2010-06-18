@@ -910,6 +910,12 @@ namespace BWAPI
     this->loadSelected();
     if (!this->isPaused())
       this->frameCount++;
+
+    if ( myDlg )
+      myDlg->doEvent(14, 0);
+    
+    if ( canvas )
+      canvas->doEvent(14, 0);
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
   void GameImpl::loadAutoMenuData()
@@ -956,30 +962,50 @@ namespace BWAPI
     {
       switch ( menu )
       {
-      case 0: //main menu
-        this->pressKey('S'); // emulating button activation here will activate the button even after selecting "expansion" and cause a crash
+//main menu
+      case 0: 
+        if ( !actMainMenu )
+        {
+          actMainMenu = true;
+          BW::FindDialogGlobal("MainMenu")->findIndex(3)->activate();
+        }
         tempDlg = BW::FindDialogGlobal("Delete");
         if ( tempDlg )
           tempDlg->findIndex(7)->activate();
+
+        actRegistry = false;
         break;
-      case 5: //registry screen
+//registry screen
+      case 5: 
+        actMainMenu = false;
         tempDlg = BW::FindDialogGlobal("gluPEdit");
         if ( tempDlg )
         {
           tempDlg->findIndex(4)->setText("BWAPI");
           tempDlg->findIndex(1)->activate();
         }
-        else
+        else if ( !actRegistry )
+        {
+          actRegistry = true;
           BW::FindDialogGlobal("Login")->findIndex(4)->activate();
-        //this->pressKey('O');
+        }
+        actRaceSel = false;
         break;
-      case 22:  //single player play custom / load replay selection screen
+//single player play custom / load replay selection screen
+      case 22:
+        actRegistry = false;
         strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
         strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
-        //this->pressKey('U');
-        BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate();
+        if ( !actRaceSel )
+        {
+          actRaceSel = true;
+          BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate();
+        }
+        actCreate = false;
         break;
-      case 11: //create single/multi player game screen
+//create single/multi player game screen
+      case 11: 
+        actRaceSel = false;
         //the first time we enter the create game screen, it won't set the map correctly
         //so we need to cancel out and re-enter
         tempDlg = BW::FindDialogGlobal("Create");
@@ -1007,17 +1033,28 @@ namespace BWAPI
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
             tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
-          tempDlg->findIndex(12)->activate();
-          //this->pressKey('O');
+          if ( !actCreate )
+          {
+            actCreate = true;
+            tempDlg->findIndex(12)->activate();
+          }
         }
         break;
-      case 15: //replay screen
-        BW::FindDialogGlobal("Create")->findIndex(12)->activate();
-        //this->pressKey('O');
+//replay screen
+      case 15: 
+        if ( !actCreate )
+        {
+          actCreate = true;
+          BW::FindDialogGlobal("Create")->findIndex(12)->activate();
+        }
         break;
-      case 18: //defeat screen
+//defeat screen
+      case 18: 
+        actCreate = false;
         break;
-      case 19: //victory screen
+//victory screen
+      case 19: 
+        actCreate = false;
         break;
       }
     }
@@ -1025,13 +1062,23 @@ namespace BWAPI
     {
       switch ( menu )
       {
-      case 0: //main menu
-        this->pressKey('M'); // emulating button activation here will activate the button even after selecting "expansion" and cause a crash
+//main menu
+      case 0: 
+        if ( !actMainMenu )
+        {
+          actMainMenu = true;
+          BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate();
+        }
         tempDlg = BW::FindDialogGlobal("Delete");
         if ( tempDlg )
           tempDlg->findIndex(7)->activate();
+
+        actConnSel = false;
         break;
+// Select connection
       case 2:
+        actMainMenu = false;
+
         //tempDlg = BW::FindDialogGlobal("ConnSel");
         //tempDlg->findIndex(5)->setSelectedByString("Local Area Network (UDP)"); // This doesn't work yet
         this->pressKey(VK_DOWN);
@@ -1040,17 +1087,23 @@ namespace BWAPI
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN); // move 5 because of the custom SNP, doesn't affect people without it
         this->pressKey('O');
+        actRegistry = false;
         break;
-      case 5: //registry screen
+//registry screen
+      case 5: 
+        actConnSel = false;
         tempDlg = BW::FindDialogGlobal("gluPEdit");
         if ( tempDlg )
         {
           tempDlg->findIndex(4)->setText("BWAPI");
           tempDlg->findIndex(1)->activate();
         }
-        else
+        else if ( !actRegistry )
+        {
+          actRegistry = true;
           BW::FindDialogGlobal("Login")->findIndex(4)->activate();
-        //this->pressKey('O');
+        }
+        actGameSel = false;
         break;
       }
 
@@ -1058,13 +1111,21 @@ namespace BWAPI
       {
         switch ( menu )
         {
-        case 10: //lan games lobby
+//lan games lobby
+        case 10: 
+          actRegistry = false;
           strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
           strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
-          BW::FindDialogGlobal("GameSel")->findIndex(15)->activate();
-          //this->pressKey('G');
+          if ( !actGameSel )
+          {
+            actGameSel = true;
+            BW::FindDialogGlobal("GameSel")->findIndex(15)->activate();
+          }
+          actCreate = false;
           break;
-        case 11: //create single/multi player game screen
+//create single/multi player game screen
+        case 11: 
+          actGameSel = false;
           //the first time we enter the create game screen, it won't set the map correctly
           //so we need to cancel out and re-enter
           tempDlg = BW::FindDialogGlobal("Create");
@@ -1075,11 +1136,16 @@ namespace BWAPI
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
               tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
-            this->pressKey('O');
-            //tempDlg->findIndex(12)->activate(); // This is too aggressive and causes the dialog to very slowly phase out because of re-activation
+            if ( !actCreate )
+            {
+              actCreate = true;
+              tempDlg->findIndex(12)->activate();
+            }
           }
           break;
+// in lobby
         case 3:
+          actCreate = false;
           Race r = Races::getRace(this->autoMenuRace);
           if (r != Races::Unknown)
             this->_changeRace(0, r);
@@ -1090,11 +1156,14 @@ namespace BWAPI
       {
         switch ( menu )
         {
-        case 10: //lan games lobby
+//lan games lobby
+        case 10: 
+          actRegistry = false;
           this->pressKey('O');
-          //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();
+          //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();  // might bug
           break;
-        case 3: //multiplayer game ready screen
+//multiplayer game ready screen
+        case 3: 
           Race r = Races::getRace(this->autoMenuRace);
           if (r != Races::Unknown)
             this->_changeRace(1, r);
@@ -1105,15 +1174,26 @@ namespace BWAPI
     {
       switch ( menu )
       {
-      case 0: //main menu
-        this->pressKey('M'); // emulating button activation here will activate the button even after selecting "expansion" and cause a crash
+//main menu
+      case 0: 
+        if ( !actMainMenu )
+        {
+          actMainMenu = true;
+          BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate();
+        }
         tempDlg = BW::FindDialogGlobal("Delete");
         if ( tempDlg )
           tempDlg->findIndex(7)->activate();
+        actConnSel = false;
         break;
-      case 2: //multiplayer select connection screen
-        //this->pressKey('O');
-        BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
+//multiplayer select connection screen
+      case 2: 
+        actMainMenu = false;
+        if ( !actConnSel )
+        {
+          actConnSel = true;
+          BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
+        }
         break;
       }
     }
@@ -1571,6 +1651,30 @@ namespace BWAPI
       }
       return true;
     }
+/*    else if ( parsed[0] == "/add" )
+    {
+      if ( myDlg )
+        myDlg->findIndex(1)->addListEntry("TEST");
+      return true;
+    }
+    else if ( parsed[0] == "/rem" )
+    {
+      if ( myDlg )
+        myDlg->findIndex(1)->removeListEntry();
+      return true;
+    }
+    else if ( parsed[0] == "/clear" )
+    {
+      if ( myDlg )
+        myDlg->findIndex(1)->clearList();
+      return true;
+    }
+    else if ( parsed[0] == "/sel" )
+    {
+      if ( myDlg )
+        myDlg->findIndex(1)->setSelectedIndex(10);
+      return true;
+    }*/
     return false;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------

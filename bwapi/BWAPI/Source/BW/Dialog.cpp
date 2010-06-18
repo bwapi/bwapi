@@ -98,7 +98,7 @@ namespace BW
         break;
       case 6: // Select Next
         break;
-      case 7: // Initialize dialog
+      case 7: // Initialize dialog? Loop? Update?
         break;
       case 8: // Unk Init control
         break;
@@ -106,7 +106,7 @@ namespace BW
         break;
       case 10: // Initialize children
         break;
-      case 11: // Update control
+      case 11: // Select Index
         break;
       case 13: // Show
         break;
@@ -654,16 +654,17 @@ namespace BW
   }
 // -------------------------------------------------- EVENTS -------------------------------------------------
   // --------------------- EVENT ---------------------
-  bool dialog::doEvent(WORD wEvtNum, DWORD dwUser, WORD wVirtKey)
+  bool dialog::doEvent(WORD wEvtNum, DWORD dwUser, WORD wSelect, WORD wVirtKey)
   {
     if ( this && this->pfcnInteract )
     {
       dlgEvent evt;
-      evt.cursor.x  = (WORD)BW::BWDATA_Mouse->x;
-      evt.cursor.y  = (WORD)BW::BWDATA_Mouse->y;
-      evt.wVirtKey  = wVirtKey;
-      evt.wNo       = wEvtNum;
-      evt.dwUser    = dwUser;
+      evt.cursor.x    = (WORD)BW::BWDATA_Mouse->x;
+      evt.cursor.y    = (WORD)BW::BWDATA_Mouse->y;
+      evt.wVirtKey    = wVirtKey;
+      evt.wSelection  = wSelect;
+      evt.wNo         = wEvtNum;
+      evt.dwUser      = dwUser;
       return this->pfcnInteract(this, &evt);
     }
     return false;
@@ -947,8 +948,8 @@ namespace BW
   {
     if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
-      this->u.list.bCurrStr       = bIndex;
-      this->u.list.bSelectedIndex = bIndex;
+      this->doEvent(14, 11, bIndex);
+      this->u.list.pScrlBar->doEvent(14, 11, bIndex);
       return true;
     }
     return false;
@@ -962,8 +963,8 @@ namespace BW
       {
         if ( this->u.list.pdwData[i] == dwValue)
         {
-          this->u.list.bCurrStr       = (BYTE)i;
-          this->u.list.bSelectedIndex = (BYTE)i;
+          this->doEvent(14, 11, (WORD)i);
+          this->u.list.pScrlBar->doEvent(14, 11, (WORD)i);
           return true;
         }
       }
@@ -986,8 +987,8 @@ namespace BW
           if ( strcmpi(this->u.list.ppStrs[i], pszString) == 0 )
           {
             // set the selected entry
-            this->u.list.bCurrStr       = (BYTE)i;
-            this->u.list.bSelectedIndex = (BYTE)i;
+            this->doEvent(14, 11, (WORD)i);
+            this->u.list.pScrlBar->doEvent(14, 11, (WORD)i);
             return true;
           }
         } // pointer validate
@@ -1008,7 +1009,10 @@ namespace BW
         this->u.list.ppStrs[count]     = pszString;
         this->u.list.bStrs++;
         if ( this->u.list.pScrlBar && this->u.list.bStrs > this->u.list.bItemsPerPage )
+        {
           this->u.list.pScrlBar->show();
+          this->u.list.pScrlBar->u.scroll.nMax++;
+        }
         return true;
       }
     }
@@ -1021,6 +1025,9 @@ namespace BW
     {
       for ( int i = bIndex; i < this->u.list.bStrs; i++ )
       {
+        if ( this->u.list.pScrlBar )
+          this->u.list.pScrlBar->u.scroll.nMax--;
+
         if ( i == this->u.list.bStrs - 1 )
         {
           this->u.list.pbStrFlags[i]  = 0;
@@ -1036,6 +1043,8 @@ namespace BW
 
           if ( this->u.list.pScrlBar && this->u.list.bStrs <= this->u.list.bItemsPerPage )
             this->u.list.pScrlBar->hide();
+
+          this->doEvent(14, 11, this->getSelectedIndex());
         }
         else
         {
@@ -1053,11 +1062,23 @@ namespace BW
   {
     if ( this && this->isList() )
     {
-      for ( int i = 0; i < 255; i++ )
+      for ( int i = 255; i >= 0; i-- )
         this->removeListEntry((BYTE)i);
+      dialog *scroll = this->u.list.pScrlBar;
+      if ( scroll )
+      {
+        scroll->u.scroll.nMax = scroll->u.scroll.nMin;
+        scroll->hide();
+      }
       return true;
     }
     return false;
   }
-
+  // -------------- GET LIST COUNT -------------------
+  BYTE dialog::getListCount()
+  {
+    if ( this && this->isList() )
+      return this->u.list.bStrs;
+    return 0;
+  }
 };

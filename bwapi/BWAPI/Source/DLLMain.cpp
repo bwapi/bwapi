@@ -87,7 +87,7 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 /* @todo: remove all draw hooks */
 int i, i2, h, w, x, y, c, l;
-void __declspec(naked) onRefresh()
+/*void __declspec(naked) onRefresh()
 {
   __asm
   {
@@ -115,7 +115,7 @@ void __declspec(naked) onRefresh()
     call [BW::BWFXN_RefreshTarget]
     jmp [BW::BWFXN_RefreshBack]
   }
-}
+}*/
 
 unsigned int shape_i;
 void __declspec(naked) onDrawHigh()
@@ -466,7 +466,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,   &menuFrameHook);
   HackUtil::CallPatch(BW::BWFXN_IscriptHook,     pPlayIscript);
   HackUtil::JmpPatch(BW::BWFXN_DrawHigh,         &onDrawHigh);
-  HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
+  //HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
   HackUtil::JmpPatch(BW::BWFXN_OldIssueCommand,  &onIssueCommand);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
 

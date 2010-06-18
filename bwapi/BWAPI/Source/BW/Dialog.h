@@ -70,7 +70,7 @@ namespace BW
   struct dlgEvent
   {
     DWORD dwUser;
-    WORD  wUnk_0x04;
+    WORD  wSelection;
     WORD  wUnk_0x06;
     WORD  wVirtKey;
     WORD  wUnk_0x0A;
@@ -266,7 +266,7 @@ namespace BW
     bool        isVisible();  // Returns true if the dialog or control is visible
 
     // event-specific functions
-    bool doEvent(WORD wEvtNum, DWORD dwUser = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
+    bool doEvent(WORD wEvtNum, DWORD dwUser = 0, WORD wSelect = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
     bool defaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
     bool activate();
 
@@ -306,6 +306,7 @@ namespace BW
     bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
     bool  removeListEntry(BYTE bIndex = 0);
     bool  clearList();
+    BYTE  getListCount();
   };
 #pragma pack()
   dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight);
