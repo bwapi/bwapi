@@ -268,6 +268,7 @@ namespace BW
     // event-specific functions
     bool doEvent(WORD wEvtNum, DWORD dwUser = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
     bool defaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
+    bool activate();
 
     // dialog-specific functions
     bool        isDialog();               // Returns true if the control type is a dialog
@@ -276,6 +277,9 @@ namespace BW
     bool        addControl(dialog *ctrl); // Adds a control to this dialog
     bool        initialize();             // Performs the dialog's initialization and adds it to the list
     bool        isListed();               // Checks to see if this dialog is initialized/listed
+    bool        applyDialogBackground();  // Applies the standard transparent dialog background (like game menu)
+    bool        applyWindowBackground();  // Applies the custom window background for the window dialog
+    bool        applyBlankBackground();   // Applies a completely invisible background
 
     // control-specific functions
     dialog  *parent();                      // Retrieves a control's parent dialog
@@ -301,11 +305,12 @@ namespace BW
 
     bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
     bool  removeListEntry(BYTE bIndex = 0);
+    bool  clearList();
   };
 #pragma pack()
   dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight);
   dialog  *CreateCanvas(const char *pszName);
-  dialog  *FindDialogGlobal(const char pszName);
+  dialog  *FindDialogGlobal(const char *pszName);
 };
 
 /*

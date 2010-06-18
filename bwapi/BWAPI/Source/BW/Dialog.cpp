@@ -274,25 +274,22 @@ namespace BW
   // ------------------ CREATE DLG WINDOW ------------
   dialog *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight)
   {
+    // Create dialog
     dialog *dlg = new dialog(ctrls::cDLG, 0, pszText, wLeft, wTop, wWidth, wHeight, &WindowInteract);
-    BYTE *data  = dlg->srcBits.data;
-    if ( data )
-    {
-      memset(&data[wWidth + 3], 0x2C, wWidth - 6);
-      memset(&data[wWidth*2 + 2], 0x2C, wWidth - 4);
-      for (int i = 3; i < 12; i++)
-        memset(&data[wWidth*i + 1], 0x2C, wWidth - 2);
-    }
+    dlg->applyWindowBackground();
 
+    // Create title text
     dialog *title = new dialog(ctrls::cLSTATIC, -255, pszText, 8, 1, wWidth - 27, 12);
     title->setFlags(CTRL_FONT_SMALLEST);
     dlg->addControl(title);
 
+    // Create minimize button
     dialog *minimize = new dialog(ctrls::cBUTTON, 255, " _", wWidth - 26, 1, 12, 12, &TinyButtonInteract);
     minimize->setFlags(CTRL_FONT_SMALLEST);
     minimize->srcBits.data = gbTinyBtnGfx[0];
     dlg->addControl(minimize);
 
+    // Create close button
     dialog *close = new dialog(ctrls::cBUTTON, -2, " X", wWidth - 13, 1, 12, 12, &TinyButtonInteract);
     close->setFlags(CTRL_FONT_SMALLEST);
     close->srcBits.data = gbTinyBtnGfx[0];
@@ -304,9 +301,7 @@ namespace BW
   dialog *CreateCanvas(const char *pszName)
   {
     dialog *dlg = new dialog(ctrls::cDLG, 0, pszName, 0, 0, 640, 480, &CanvasInteract);
-    BYTE *data = dlg->srcBits.data;
-    if ( data )
-      memset(data, 0, 640*480);
+    dlg->applyBlankBackground();
 
     dlg->clearFlags(CTRL_TRANSLUCENT);
     dlg->setFlags(CTRL_TRANSPARENT);
@@ -373,60 +368,12 @@ namespace BW
       pfcnInteract = BW::BWDATA_GenericDlgInteractFxns[wCtrlType];
 
     // Set control type-specific options
-    BYTE *data;
     switch ( ctrlType )
     {
     case ctrls::cDLG:
-      lFlags        |= CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
-      srcBits.data  = (BYTE*)malloc(width*height);
-      data = srcBits.data;
-      if ( data )
-      {
-        // first line
-        memset(data, 0x00, 3);
-        memset(&data[3], 0x2A, width - 6);
-        memset(&data[width - 3], 0x00, 3);
+      lFlags          |= CTRL_DLG_NOREDRAW | CTRL_TRANSLUCENT;
+      this->applyDialogBackground();
 
-        // second line
-        data[width] = 0;
-        memset(&data[width + 1], 0x2A, 2);
-        memset(&data[width + 3], 0x29, width - 6);
-        memset(&data[width*2 - 3], 0x2A, 2);
-        data[width*2 - 1] = 0;
-
-        // third line
-        data[width*2] = 0;
-        data[width*2 + 1] = 0x2A;
-        memset(&data[width*2 + 2], 0x29, width - 4);
-        data[width*3 - 2] = 0x2A;
-        data[width*3 - 1] = 0;
-
-        for (int i = 3; i < height - 3; i++)
-        {
-          data[width*i] = 0x2A;
-          memset(&data[width*i + 1], 0x29, width - 2);
-          data[width*(i+1) - 1] = 0x2A;
-        }
-
-        // third-last line
-        data[width*height - width*3] = 0;
-        data[width*height - width*3 + 1] = 0x2A;
-        memset(&data[width*height - width*3 + 2], 0x29, width - 4);
-        data[width*height - width*2 - 2] = 0x2A;
-        data[width*height - width*2 - 1] = 0;
-
-        // second-last line
-        data[width*height - width*2] = 0;
-        memset(&data[width*height - width*2 + 1], 0x2A, 2);
-        memset(&data[width*height - width*2 + 3], 0x29, width - 6);
-        memset(&data[width*height - width - 3], 0x2A, 2);
-        data[width*height - width - 1] = 0;
-
-        // last line
-        memset(&data[width*height - width], 0x00, 3);
-        memset(&data[width*height - width + 3], 0x2A, width - 6);
-        memset(&data[width*height - 3], 0x00, 3);
-      }
       // Allocate destination buffer
       u.dlg.dstBits.wid   = width;
       u.dlg.dstBits.ht    = height;
@@ -448,6 +395,9 @@ namespace BW
       lFlags |= CTRL_TRANSPARENT;
     case ctrls::cEDIT:
       lFlags |= CTRL_EVENTS | CTRL_BTN_NO_SOUND;
+      break;
+    case ctrls::cIMAGE:
+      this->applyDialogBackground();
       break;
     }
   }
@@ -527,62 +477,6 @@ namespace BW
 
     return NULL;
   }
-  // --------------------- ADD -----------------------
-  bool dialog::addControl(dialog *ctrl)
-  {
-    if ( !this || !ctrl || ctrl->isDialog())
-      return false;
-
-    dialog *parent = this;
-    if ( !parent->isDialog() )
-      parent = parent->parent();
-
-    ctrl->u.ctrl.pDlg = parent;
-    if ( !parent->child() )
-    {
-      parent->u.dlg.pFirstChild = ctrl;
-    }
-    else
-    {
-      dialog *child = parent->child();
-      while ( child->pNext )
-        child = child->pNext;
-      child->pNext = ctrl;
-    }
-    return true;
-  }
-  // ------------------ INITIALIZE -------------------
-  bool dialog::initialize()
-  {
-    if ( this && this->isDialog() )
-    {
-      this->doEvent(14, 7);
-      this->doEvent(14, 10);
-      this->doEvent(14, 0);
-      return true;
-    }
-    return false;
-  }
-  // ------------------ IS LISTED --------------------
-  bool dialog::isListed()
-  {
-    if ( this )
-    {
-      for ( dialog *i = *BW::BWDATA_DialogList; i; i = i->next() )
-      {
-        if ( this == i )
-          return true;
-      }
-    }
-    return false;
-  }
-  // --------------------- NEXT ----------------------
-  dialog *dialog::next()
-  {
-    if ( this && this->pNext )
-      return this->pNext;
-    return NULL;
-  }
   // ------------------ FIND BY NAME -----------------
   dialog *dialog::findDialog(const char *pszName)
   {
@@ -599,6 +493,13 @@ namespace BW
         parent = parent->next();
       }
     }
+    return NULL;
+  }
+  // --------------------- NEXT ----------------------
+  dialog *dialog::next()
+  {
+    if ( this && this->pNext )
+      return this->pNext;
     return NULL;
   }
   // ------------------- SET FLAG --------------------
@@ -771,6 +672,13 @@ namespace BW
       return BWDATA_GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
     return false;
   }
+  // -------------------- ACTIVATE -------------------
+  bool dialog::activate()
+  {
+    if ( this )
+      return this->doEvent(14, 2);
+    return false;
+  }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
   bool dialog::isDialog()
@@ -792,6 +700,150 @@ namespace BW
     if ( this && this->isDialog() )
       return &this->u.dlg.dstBits;
     return NULL;
+  }
+  // --------------------- ADD -----------------------
+  bool dialog::addControl(dialog *ctrl)
+  {
+    if ( !this || !ctrl || ctrl->isDialog())
+      return false;
+
+    dialog *parent = this;
+    if ( !parent->isDialog() )
+      parent = parent->parent();
+
+    ctrl->u.ctrl.pDlg = parent;
+    if ( !parent->child() )
+    {
+      parent->u.dlg.pFirstChild = ctrl;
+    }
+    else
+    {
+      dialog *child = parent->child();
+      while ( child->pNext )
+        child = child->pNext;
+      child->pNext = ctrl;
+    }
+    return true;
+  }
+  // ------------------ INITIALIZE -------------------
+  bool dialog::initialize()
+  {
+    if ( this && this->isDialog() )
+    {
+      this->doEvent(14, 7);
+      this->doEvent(14, 10);
+      this->doEvent(14, 0);
+      return true;
+    }
+    return false;
+  }
+  // ------------------ IS LISTED --------------------
+  bool dialog::isListed()
+  {
+    if ( this )
+    {
+      for ( dialog *i = *BW::BWDATA_DialogList; i; i = i->next() )
+      {
+        if ( this == i )
+          return true;
+      }
+    }
+    return false;
+  }
+  // --------- APPLY DEFAULT BACKGROUND --------------
+  bool dialog::applyDialogBackground()
+  {
+    if ( this )
+    {
+      if ( this->applyBlankBackground() && this->srcBits.data )
+      {
+        // localize the variables
+        BYTE *data  = this->srcBits.data;
+        WORD width  = this->srcBits.wid;
+        WORD height = this->srcBits.ht;
+
+        // first line
+        memset(&data[3], 0x2A, width - 6);
+
+        // second line
+        memset(&data[width + 1], 0x2A, 2);
+        memset(&data[width + 3], 0x29, width - 6);
+        memset(&data[width*2 - 3], 0x2A, 2);
+
+        // third line
+        data[width*2 + 1] = 0x2A;
+        memset(&data[width*2 + 2], 0x29, width - 4);
+        data[width*3 - 2] = 0x2A;
+
+        // body
+        for (int i = 3; i < height - 3; i++)
+        {
+          data[width*i] = 0x2A;
+          memset(&data[width*i + 1], 0x29, width - 2);
+          data[width*(i+1) - 1] = 0x2A;
+        }
+
+        // third-last line
+        data[width*height - width*3 + 1] = 0x2A;
+        memset(&data[width*height - width*3 + 2], 0x29, width - 4);
+        data[width*height - width*2 - 2] = 0x2A;
+
+        // second-last line
+        memset(&data[width*height - width*2 + 1], 0x2A, 2);
+        memset(&data[width*height - width*2 + 3], 0x29, width - 6);
+        memset(&data[width*height - width - 3], 0x2A, 2);
+
+        // last line
+        memset(&data[width*height - width + 3], 0x2A, width - 6);
+        return true;
+      }
+    }
+    return false;
+  }
+  // --------- APPLY WINDOW BACKGROUND ---------------
+  bool dialog::applyWindowBackground()
+  {
+    if ( this )
+    {
+      if ( this->applyDialogBackground() && this->srcBits.data )
+      {
+        // localize the variables
+        BYTE *data  = this->srcBits.data;
+        WORD width  = this->srcBits.wid;
+
+        // Create title bar
+        memset(&data[width + 3], 0x2C, width - 6);
+        memset(&data[width*2 + 2], 0x2C, width - 4);
+        for (int i = 3; i < 12; i++)
+          memset(&data[width*i + 1], 0x2C, width - 2);
+        return true;
+      }
+    }
+    return false;
+  }
+  // ----------- APPLY BLANK BACKGROUND --------------
+  bool dialog::applyBlankBackground()
+  {
+    if ( this )
+    {
+      // localize the size
+      WORD width  = srcBits.wid;
+      WORD height = srcBits.ht;
+      
+      // create the buffer if not already
+      if ( !this->srcBits.data )
+        srcBits.data    = (BYTE*)malloc(width*height);
+
+      // localize the buffer pointer
+      BYTE *data  = srcBits.data;
+      if ( data )
+      {
+        // set the data
+        memset(data, 0, width * height);
+        return true;
+      }
+    }
+    return false;
   }
 // -------------------------------------------------- CONTROL ------------------------------------------------
   // -------------------- PARENT ---------------------
@@ -852,7 +904,7 @@ namespace BW
     return false;
   }
 // -------------------------------------------- LISTBOX & COMBOBOX -------------------------------------------
-// ----------------------- IS LIST -------------------
+  // ----------------------- IS LIST -----------------
   bool dialog::isList()
   {
     if ( this )
@@ -863,13 +915,14 @@ namespace BW
     }
     return false;
   }
-// ------------------- GET SELECTED ------------------
+  // --------------- GET SELECTED INDEX --------------
   BYTE dialog::getSelectedIndex()
   {
     if ( this && this->isList() )
       return this->u.list.bSelectedIndex;
     return 0;
   }
+  // --------------- GET SELECTED VALUE --------------
   DWORD dialog::getSelectedValue()
   {
     if ( this 
@@ -879,6 +932,7 @@ namespace BW
       return this->u.list.pdwData[this->u.list.bSelectedIndex];
     return 0;
   }
+  // --------------- GET SELECTED STRING -------------
   char *dialog::getSelectedString()
   {
     if ( this && this->isList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
@@ -991,4 +1045,16 @@ namespace BW
     }
     return false;
   }
+  // ----------------- CLEAR LIST --------------------
+  bool dialog::clearList()
+  {
+    if ( this && this->isList() )
+    {
+      for ( int i = 0; i < 255; i++ )
+        this->removeListEntry((BYTE)i);
+      return true;
+    }
+    return false;
+  }
+
 };
