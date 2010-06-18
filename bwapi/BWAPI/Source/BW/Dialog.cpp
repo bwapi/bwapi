@@ -84,7 +84,7 @@ namespace BW
     case 14: // Control (used for when a control has been pressed)
       switch(evt->dwUser)
       {
-      case 0: // Initialize
+      case 0: // Update
         break;
       case 1: // Kill
         break;
@@ -106,7 +106,7 @@ namespace BW
         break;
       case 10: // Initialize children
         break;
-      case 11: // Select Index
+      case 11: // Set Selected Index
         break;
       case 13: // Show
         break;
@@ -683,6 +683,13 @@ namespace BW
       return this->doEvent(14, 2);
     return false;
   }
+  // --------------------- UPDATE --------------------
+  bool dialog::update()
+  {
+    if ( this )
+      return this->doEvent(14, 0);
+    return false;
+  }
 // -------------------------------------------------- DIALOG -------------------------------------------------
   // --------------------- IS DLG --------------------
   bool dialog::isDialog()
@@ -736,7 +743,7 @@ namespace BW
     {
       this->doEvent(14, 7);
       this->doEvent(14, 10);
-      this->doEvent(14, 0);
+      this->doEvent(14, 0); // update
       return true;
     }
     return false;
