@@ -116,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../include"
+				AdditionalIncludeDirectories="../include; ../Util/Source/Util"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EXAMPLEAIMODULE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -135,7 +135,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\BWAPI.lib"
+				AdditionalDependencies="$(OutDir)\BWAPI.lib $(OutDir)\Util.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -175,11 +175,31 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Source\BuildingPlacer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\BuildTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Dll.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\Source\TerranTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\TestMap1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TestModule.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TrainTest.cpp"
 				>
 			</File>
 		</Filter>
@@ -189,11 +209,35 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Source\BuildingPlacer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\BuildTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAssert.h"
 				>
 			</File>
 			<File
+				RelativePath=".\Source\TerranTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TestCase.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\TestMap1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TestModule.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TrainTest.h"
 				>
 			</File>
 		</Filter>

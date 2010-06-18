@@ -23,6 +23,7 @@ namespace BWAPI
   {
     if (!this->executors[0]->_exists()) return;
     if (this->executors[0]->isCompleted())
+    {
       switch (this->executors[0]->getType().getID())
       {
         case BW::UnitID::Zerg_Drone    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneBuild; break;
@@ -33,6 +34,14 @@ namespace BWAPI
         case BW::UnitID::Terran_Starport :
         case BW::UnitID::Terran_ScienceFacility : this->executors[0]->getRawDataLocal()->secondaryOrderID = BW::OrderID::BuildAddon; break;
       }
+      int slotToAffect = this->executors[0]->getBuildQueueSlot();
+      if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
+        slotToAffect  = (slotToAffect + 1) % 5;
+
+      executors[0]->getBuildQueue()[slotToAffect] = this->toBuild.getID();
+      this->executors[0]->getRawDataLocal()->buildQueueSlot = (u8)slotToAffect;
+    }
+
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandBuild::getType()

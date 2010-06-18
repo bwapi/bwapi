@@ -13,6 +13,19 @@ extern int assert_fail_count;
     assert_success_count++;\
   }\
 }
+#define BWAssertF(C,FailBlock)\
+{\
+  if (!(C))\
+  {\
+    Broodwar->printf("Assertion failed in file %s on line %d",__FILE__,__LINE__);\
+    assert_fail_count++;\
+    {FailBlock}\
+  }\
+  else\
+  {\
+    assert_success_count++;\
+  }\
+}
 #define BWAssertErr(C,E)\
 {\
   if (!(C))\

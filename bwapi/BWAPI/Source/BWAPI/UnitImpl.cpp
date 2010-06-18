@@ -358,6 +358,7 @@ namespace BWAPI
   {
     checkAccessBool();
     u8 tOrderID = this->getBWOrder();
+    Order order = this->getSecondaryOrder();
     return tOrderID == BW::OrderID::ConstructingBuilding || 
            tOrderID == BW::OrderID::BuildTerran ||
            tOrderID == BW::OrderID::DroneBuild ||
@@ -369,7 +370,8 @@ namespace BWAPI
            tOrderID == BW::OrderID::ProtossBuildSelf ||
            tOrderID == BW::OrderID::ZergBuildSelf ||
            tOrderID == BW::OrderID::BuildNydusExit ||
-           tOrderID == BW::OrderID::BuildAddon;
+           tOrderID == BW::OrderID::BuildAddon ||
+           order == Orders::BuildAddon;
   }
   //------------------------------------------- IS DEFENSE MATRIXED ------------------------------------------
   bool UnitImpl::isDefenseMatrixed() const
@@ -472,7 +474,7 @@ namespace BWAPI
   bool UnitImpl::isIdle() const
   {
     checkAccessBool();
-    if (this->isTraining() || this->_isResearching() || this->_isUpgrading())
+    if (this->isTraining() || this->_isResearching() || this->_isUpgrading() || this->isConstructing())
       return false;
 
     u8 tOrderID = this->getBWOrder();
@@ -913,7 +915,8 @@ namespace BWAPI
         this->getOrder() == Orders::BuildProtoss1 ||
         this->getOrder() == Orders::ZergUnitMorph ||
         this->getOrder() == Orders::DroneLand ||
-        this->getOrder() == Orders::ZergBuildSelf)
+        this->getOrder() == Orders::ZergBuildSelf ||
+        this->getSecondaryOrder() == Orders::BuildAddon)
     {
       int i = this->getBuildQueueSlot() % 5;
       return BWAPI::UnitType(this->getBuildQueue()[i].id);
