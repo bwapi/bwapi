@@ -317,6 +317,7 @@ namespace BWAPI
       bool actGameSel;
       bool actRaceSel;
       bool actEnd;
+      bool actBriefing;
 
       BW::dialog *myDlg;
   };

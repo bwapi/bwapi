@@ -716,6 +716,7 @@ namespace BWAPI
     actGameSel  = false;
     actRaceSel  = false;
     actEnd      = false;
+    actBriefing = false;
 
     try
     {
@@ -1065,6 +1066,17 @@ namespace BWAPI
           actEnd = true;
         }
         break;
+// Mission Briefings
+      case 7:
+      case 8:
+      case 9:
+        if ( !actBriefing )
+        {
+          BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
+          BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
+          actBriefing = true;
+        }
+        break;
       }
     }
     else if (autoMenuMode == "LAN_UDP")
@@ -1126,6 +1138,17 @@ namespace BWAPI
         {
           BW::FindDialogGlobal("End")->findIndex(7)->activate();
           actEnd = true;
+        }
+        break;
+// Mission Briefings
+      case 7:
+      case 8:
+      case 9:
+        if ( !actBriefing )
+        {
+          BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
+          BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
+          actBriefing = true;
         }
         break;
       }
@@ -1220,6 +1243,7 @@ namespace BWAPI
           BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
         }
         break;
+// Score screen
       case 14: 
       case 15:
       case 16:
@@ -1231,6 +1255,17 @@ namespace BWAPI
         {
           BW::FindDialogGlobal("End")->findIndex(7)->activate();
           actEnd = true;
+        }
+        break;
+// Mission Briefings
+      case 7:
+      case 8:
+      case 9:
+        if ( !actBriefing )
+        {
+          BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
+          BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
+          actBriefing = true;
         }
         break;
       }

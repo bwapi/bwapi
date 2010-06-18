@@ -1015,10 +1015,12 @@ namespace BW
         this->u.list.pdwData[count]    = dwValue;
         this->u.list.ppStrs[count]     = pszString;
         this->u.list.bStrs++;
-        if ( this->u.list.pScrlBar && this->u.list.bStrs > this->u.list.bItemsPerPage )
+        dialog *scroll = this->u.list.pScrlBar;
+        if ( scroll && this->u.list.bStrs > this->u.list.bItemsPerPage )
         {
-          this->u.list.pScrlBar->show();
-          this->u.list.pScrlBar->u.scroll.nMax++;
+          scroll->u.scroll.nMax++;
+          scroll->show();
+          scroll->update();
         }
         return true;
       }
@@ -1032,7 +1034,8 @@ namespace BW
     {
       for ( int i = bIndex; i < this->u.list.bStrs; i++ )
       {
-        if ( this->u.list.pScrlBar )
+        dialog *scroll = this->u.list.pScrlBar;
+        if ( scroll && scroll->u.scroll.nMax > scroll->u.scroll.nMin )
           this->u.list.pScrlBar->u.scroll.nMax--;
 
         if ( i == this->u.list.bStrs - 1 )
@@ -1048,8 +1051,11 @@ namespace BW
           if ( this->u.list.bOffset + this->u.list.bItemsPerPage > this->u.list.bStrs && this->u.list.bStrs > this->u.list.bItemsPerPage - 1 )
             this->u.list.bOffset--;
 
-          if ( this->u.list.pScrlBar && this->u.list.bStrs <= this->u.list.bItemsPerPage )
-            this->u.list.pScrlBar->hide();
+          if ( scroll && this->u.list.bStrs <= this->u.list.bItemsPerPage )
+          {
+            scroll->hide();
+            scroll->update();
+          }
 
           this->doEvent(14, 11, this->getSelectedIndex());
         }
@@ -1076,6 +1082,7 @@ namespace BW
       {
         scroll->u.scroll.nMax = scroll->u.scroll.nMin;
         scroll->hide();
+        scroll->update();
       }
       return true;
     }
