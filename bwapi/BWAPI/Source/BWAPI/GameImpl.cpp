@@ -702,6 +702,21 @@ namespace BWAPI
   void GameImpl::update()
   {
     this->inGame = true;
+
+    if ( myDlg )
+      myDlg->doEvent(14, 0);
+    
+    if ( canvas )
+      canvas->doEvent(14, 0);
+
+    actMainMenu = false;
+    actRegistry = false;
+    actCreate   = false;
+    actConnSel  = false;
+    actGameSel  = false;
+    actRaceSel  = false;
+    actEnd      = false;
+
     try
     {
       this->inUpdate = true;
@@ -910,12 +925,6 @@ namespace BWAPI
     this->loadSelected();
     if (!this->isPaused())
       this->frameCount++;
-
-    if ( myDlg )
-      myDlg->doEvent(14, 0);
-    
-    if ( canvas )
-      canvas->doEvent(14, 0);
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
   void GameImpl::loadAutoMenuData()
@@ -1040,21 +1049,27 @@ namespace BWAPI
           }
         }
         break;
-//replay screen
-      case 15: 
+//replay screen???wtf
+      /*case 15: 
         if ( !actCreate )
         {
           actCreate = true;
           BW::FindDialogGlobal("Create")->findIndex(12)->activate();
         }
-        break;
-//defeat screen
-      case 18: 
+        break;*/
+// Score screen
+      case 14: 
+      case 15:
+      case 16:
+      case 17:
+      case 18:
+      case 19:
         actCreate = false;
-        break;
-//victory screen
-      case 19: 
-        actCreate = false;
+        if ( !actEnd )
+        {
+          BW::FindDialogGlobal("End")->findIndex(7)->activate();
+          actEnd = true;
+        }
         break;
       }
     }
@@ -1104,6 +1119,20 @@ namespace BWAPI
           BW::FindDialogGlobal("Login")->findIndex(4)->activate();
         }
         actGameSel = false;
+        break;
+// Score screen
+      case 14: 
+      case 15:
+      case 16:
+      case 17:
+      case 18:
+      case 19:
+        actCreate = false;
+        if ( !actEnd )
+        {
+          BW::FindDialogGlobal("End")->findIndex(7)->activate();
+          actEnd = true;
+        }
         break;
       }
 
@@ -1193,6 +1222,19 @@ namespace BWAPI
         {
           actConnSel = true;
           BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
+        }
+        break;
+      case 14: 
+      case 15:
+      case 16:
+      case 17:
+      case 18:
+      case 19:
+        actCreate = false;
+        if ( !actEnd )
+        {
+          BW::FindDialogGlobal("End")->findIndex(7)->activate();
+          actEnd = true;
         }
         break;
       }
