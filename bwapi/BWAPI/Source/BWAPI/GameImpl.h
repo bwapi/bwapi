@@ -310,6 +310,13 @@ namespace BWAPI
       Server server;
       bool inGame;
 
+      bool actMainMenu;
+      bool actRegistry;
+      bool actCreate;
+      bool actConnSel;
+      bool actGameSel;
+      bool actRaceSel;
+
       BW::dialog *myDlg;
   };
   /**

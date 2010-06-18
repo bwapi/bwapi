@@ -159,7 +159,7 @@ namespace BW
   static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
-  static dialog** BWDATA_DialogList      = (dialog**)0x006D5E34;
+  static dialog  **BWDATA_DialogList       = (dialog**)0x006D5E34;
 
   static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))0x005014AC;
   static void (__fastcall **BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
@@ -269,11 +269,11 @@ namespace BW
 
   static u32            BWDATA_FontData                           = 0x006CE028;
   static void**         BWDATA_FontBase                           = (void**)0x006CE0F4;
-
+/*
   static u32            BWFXN_Refresh                             = 0x0041E26B;
   static u32            BWFXN_RefreshTarget                       = 0x0041E0D0;
   static u32            BWFXN_RefreshBack                         = BWFXN_Refresh + 5;
-
+*/
   static u32            BWFXN_DrawHigh                            = 0x004BD614;
   static u32            BWFXN_DrawHighBack                        = BWFXN_DrawHigh + 5;
   static u32            BWFXN_DrawHighTarget                      = 0x0048CF60;
