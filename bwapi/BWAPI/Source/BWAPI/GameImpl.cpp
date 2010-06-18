@@ -963,7 +963,14 @@ namespace BWAPI
           tempDlg->findIndex(7)->activate();
         break;
       case 5: //registry screen
-        BW::FindDialogGlobal("Login")->findIndex(4)->activate();
+        tempDlg = BW::FindDialogGlobal("gluPEdit");
+        if ( tempDlg )
+        {
+          tempDlg->findIndex(4)->setText("BWAPI");
+          tempDlg->findIndex(1)->activate();
+        }
+        else
+          BW::FindDialogGlobal("Login")->findIndex(4)->activate();
         //this->pressKey('O');
         break;
       case 22:  //single player play custom / load replay selection screen
@@ -1035,7 +1042,14 @@ namespace BWAPI
         this->pressKey('O');
         break;
       case 5: //registry screen
-        BW::FindDialogGlobal("Login")->findIndex(4)->activate();
+        tempDlg = BW::FindDialogGlobal("gluPEdit");
+        if ( tempDlg )
+        {
+          tempDlg->findIndex(4)->setText("BWAPI");
+          tempDlg->findIndex(1)->activate();
+        }
+        else
+          BW::FindDialogGlobal("Login")->findIndex(4)->activate();
         //this->pressKey('O');
         break;
       }
@@ -1077,8 +1091,8 @@ namespace BWAPI
         switch ( menu )
         {
         case 10: //lan games lobby
-          //this->pressKey('O');
-          BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();
+          this->pressKey('O');
+          //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();
           break;
         case 3: //multiplayer game ready screen
           Race r = Races::getRace(this->autoMenuRace);

@@ -572,9 +572,12 @@ namespace BW
   // ------------------- SET TEXT --------------------
   bool dialog::setText(char *pszStr)
   {
-    if ( this && pszStr && this->wCtrlType != ctrls::cEDIT )
+    if ( this && pszStr )
     {
-      this->pszText = pszStr;
+      if ( this->wCtrlType == ctrls::cEDIT && this->pszText)
+        strcpy_s(this->pszText, 255, pszStr);
+      else
+        this->pszText = pszStr;
       return true;
     }
     return false;
