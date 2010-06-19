@@ -132,9 +132,9 @@ void __declspec(naked) onDrawHigh()
   }
   if ( BWAPI::BroodwarImpl.canvas )
   {
-    u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
-    if ( data )
-      memset(data, 0, 640*480);
+    //u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
+    //if ( data )
+    //  memset(data, 0, 640*480);
   }
   for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.shapes.size(); shape_i++)
     BWAPI::BroodwarImpl.shapes[shape_i]->draw();

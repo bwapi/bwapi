@@ -46,6 +46,7 @@ namespace BW
   struct dlgEvent;
   struct rect;
   struct bitmap;
+  struct fntHead;
   //-------------------------------------------- PLAYER RESOURCES --------------------------------------------
   /** Direct mapping of players resource amount in the bw memory */
   struct PlayerResources
@@ -264,11 +265,11 @@ namespace BW
     u16 y2;
   };
 
-  static fontMemStruct* BWDATA_PrintXY_Font                       = (fontMemStruct*) 0x006CE0C0;
-  static u8*            BWDATA_PrintXY_Size                       = (u8*)  0x006CE110;
+  static fontMemStruct  *BWDATA_PrintXY_Font                      = (fontMemStruct*) 0x006CE0C0;
+  static u8             *BWDATA_PrintXY_Size                      = (u8*)            0x006CE110;
 
-  static u32            BWDATA_FontData                           = 0x006CE028;
-  static void**         BWDATA_FontBase                           = (void**)0x006CE0F4;
+  static u32            BWDATA_FontData                           =             0x006CE028;
+  static fntHead        **BWDATA_FontBase                         = (fntHead**) 0x006CE0F4;
 /*
   static u32            BWFXN_Refresh                             = 0x0041E26B;
   static u32            BWFXN_RefreshTarget                       = 0x0041E0D0;

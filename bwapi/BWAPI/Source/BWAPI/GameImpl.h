@@ -250,6 +250,7 @@ namespace BWAPI
       std::list<Event> events;
       int bulletCount;
       BW::dialog *canvas;
+      BW::dialog *myDlg;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -318,8 +319,6 @@ namespace BWAPI
       bool actRaceSel;
       bool actEnd;
       bool actBriefing;
-
-      BW::dialog *myDlg;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
