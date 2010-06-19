@@ -160,10 +160,12 @@ namespace BW
   static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
   static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
-  static dialog  **BWDATA_DialogList       = (dialog**)0x006D5E34;
 
-  static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))0x005014AC;
+  /* Dialog and drawing offsets */
+  static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;
   static void (__fastcall **BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
+  static dialog           **BWDATA_DialogList                                   = (dialog**)  0x006D5E34;
+  static fntHead          **BWDATA_FontBase                                     = (fntHead**) 0x006CE0F4;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
@@ -180,12 +182,12 @@ namespace BW
 
   static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
-  static u32            BWFXN_OldIssueCommand                     =         0x00485BD0;
-  static u32*           BWDATA_InGame                             = (u32*)  0x006556E0;
-  static u32*           BWDATA_InReplay                           = (u32*)  0x006D0F14;
-  static u8*            BWDATA_IsMultiplayer                      = (u8*)   0x0065fbf0;
-  static u8*            BWDATA_IsBattleNet                        = (u8*)   0x006D5ED0;
-  static u8*            BWDATA_IsNotPaused                        = (u8*)   0x0051CE6C;
+  static u32            BWFXN_OldIssueCommand                     =        0x00485BD0;
+  static u32*           BWDATA_InGame                             = (u32*) 0x006556E0;
+  static u32*           BWDATA_InReplay                           = (u32*) 0x006D0F14;
+  static u8*            BWDATA_IsMultiplayer                      = (u8*)  0x0065fbf0;
+  static u8*            BWDATA_IsBattleNet                        = (u8*)  0x006D5ED0;
+  static u8*            BWDATA_IsNotPaused                        = (u8*)  0x0051CE6C;
 
   static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
   static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
@@ -249,35 +251,6 @@ namespace BW
   static u32            BWFXN_NextFrameHelperFunction             = 0x004D98BD;
   static u32            BWFXN_NextFrameHelperFunctionBack         = BWFXN_NextFrameHelperFunction + 5;
   static u32            BWFXN_NextFrameHelperFunctionTarget       = 0x004D14D0;
-
-  static u32            BWFXN_PrintXY                             = 0x004200D0;
-  static u32*           BWDATA_PrintXY_PositionX                  = (u32*) 0x006CE108;
-  static u32*           BWDATA_PrintXY_PositionY                  = (u32*) 0x006CE0E0;
-  static void**         BWDATA_PrintXY_Current_Font               = (void**) 0x006D5DDC;
-
-  struct fontMemStruct
-  {
-    u32 tFontData;
-    u32 tFontUnknown;
-    u16 x1;
-    u16 y1;
-    u16 x2;
-    u16 y2;
-  };
-
-  static fontMemStruct  *BWDATA_PrintXY_Font                      = (fontMemStruct*) 0x006CE0C0;
-  static u8             *BWDATA_PrintXY_Size                      = (u8*)            0x006CE110;
-
-  static u32            BWDATA_FontData                           =             0x006CE028;
-  static fntHead        **BWDATA_FontBase                         = (fntHead**) 0x006CE0F4;
-/*
-  static u32            BWFXN_Refresh                             = 0x0041E26B;
-  static u32            BWFXN_RefreshTarget                       = 0x0041E0D0;
-  static u32            BWFXN_RefreshBack                         = BWFXN_Refresh + 5;
-*/
-  static u32            BWFXN_DrawHigh                            = 0x004BD614;
-  static u32            BWFXN_DrawHighBack                        = BWFXN_DrawHigh + 5;
-  static u32            BWFXN_DrawHighTarget                      = 0x0048CF60;
 
   static u32            BWFXN_NewIssueCommand                     = 0x00485BD9;
 

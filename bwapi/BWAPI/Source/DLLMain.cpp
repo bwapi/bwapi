@@ -85,80 +85,12 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
-/* @todo: remove all draw hooks */
-int i, i2, h, w, x, y, c, l;
-/*void __declspec(naked) onRefresh()
-{
-  __asm
-  {
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-    mov ebpSave, ebp
-    push 640
-    xor eax, eax
-    mov edx, 480
-    xor ecx, ecx
-    call [BW::BWFXN_RefreshTarget]
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    mov ebp, ebpSave
-    call [BW::BWFXN_RefreshTarget]
-    jmp [BW::BWFXN_RefreshBack]
-  }
-}*/
-
-unsigned int shape_i;
-void __declspec(naked) onDrawHigh()
-{
-  __asm
-  {
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-  }
-  if ( BWAPI::BroodwarImpl.canvas )
-  {
-    //u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
-    //if ( data )
-    //  memset(data, 0, 640*480);
-  }
-  for(shape_i = 0; shape_i < BWAPI::BroodwarImpl.shapes.size(); shape_i++)
-    BWAPI::BroodwarImpl.shapes[shape_i]->draw();
-
-  __asm
-  {
-    mov eax, eaxSave
-    mov ebx, ebxSave
-    mov ecx, ecxSave
-    mov edx, edxSave
-    mov esi, esiSave
-    mov edi, ediSave
-    mov esp, espSave
-    call [BW::BWFXN_DrawHighTarget]
-    jmp [BW::BWFXN_DrawHighBack]
-  }
-}
-
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
-  x = _x;
-  y = _y;
-  w = _w;
-  h = _h;
+  int x = _x;
+  int y = _y;
+  int w = _w;
+  int h = _h;
   if (ctype == 2)
   {
     x -= *(BW::BWDATA_ScreenX);
@@ -190,8 +122,8 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 
 void drawDot(int _x, int _y, int color, int ctype)
 {
-  x = _x;
-  y = _y;
+  int x = _x;
+  int y = _y;
   if (ctype == 2)
   {
     x -= *(BW::BWDATA_ScreenX);
@@ -225,31 +157,10 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
     _x += BW::BWDATA_Mouse->x;
     _y += BW::BWDATA_Mouse->y;
   }
-  if (_x<0 || _y<0 || _x>640 || _y>400) return;
-  int temp = 0;
+  if (_x < 0 || _y < 0 || _x > 640 || _y > 400)
+    return;
 
-  DWORD temp_ptr = (DWORD)&temp;
-  *BW::BWDATA_PrintXY_Size      = 33;
-  *BW::BWDATA_PrintXY_PositionX = _x;
-  *BW::BWDATA_PrintXY_PositionY = _y;
-
-  *BW::BWDATA_PrintXY_Current_Font        = BW::BWDATA_FontBase[1];
-  BW::BWDATA_PrintXY_Font[0].tFontData    = BW::BWDATA_FontData;
-  BW::BWDATA_PrintXY_Font[0].tFontUnknown = 0x00000001;
-  BW::BWDATA_PrintXY_Font[0].x1           = 216;
-  BW::BWDATA_PrintXY_Font[0].y1           = 0x0000;
-  BW::BWDATA_PrintXY_Font[0].x2           = 640;
-  BW::BWDATA_PrintXY_Font[0].y2           = 0x0000;
-  __asm
-  {
-    mov eax, ptext
-    mov ebx, 0x00000000
-    mov ecx, 0x0000000D
-    mov esi, 0x000000e8
-    mov edi, ptext
-    push temp_ptr
-    call [BW::BWFXN_PrintXY]
-  }
+  BW::BlitText(ptext, BWAPI::BroodwarImpl.canvas->getSourceBuffer(), (u16)_x, (u16)_y, 1);
 }
 
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
@@ -411,21 +322,6 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
 
   return rval;
 }
-//---------------------------------------------- WINAPI HOOKS ------------------------------------------------
-/*
-// this was just a test
-DWORD dwTicks;
-LRESULT (CALLBACK* hSWndProc)(HWND, UINT, WPARAM, LPARAM);
-LRESULT APIENTRY BWAPIWndHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-  if ( GetTickCount() > dwTicks + 5000 )
-  {
-    dwTicks = GetTickCount();
-    MessageBoxA(NULL, "Check-up", "!", MB_OK);
-  }
-  return hSWndProc(hWnd, uMsg, wParam, lParam);
-}
-*/
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -465,8 +361,6 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame,  &nextFrameHook);
   HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,   &menuFrameHook);
   HackUtil::CallPatch(BW::BWFXN_IscriptHook,     pPlayIscript);
-  HackUtil::JmpPatch(BW::BWFXN_DrawHigh,         &onDrawHigh);
-  //HackUtil::JmpPatch(BW::BWFXN_Refresh,          &onRefresh);
   HackUtil::JmpPatch(BW::BWFXN_OldIssueCommand,  &onIssueCommand);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
 
