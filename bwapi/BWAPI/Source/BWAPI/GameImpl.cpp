@@ -707,7 +707,16 @@ namespace BWAPI
       myDlg->update();
     
     if ( canvas )
+    {
+      u8 *data = canvas->getSourceBuffer()->data;
+      if ( data )
+        memset(data, 0, 640*480);
+
+      for( int i = 0; i < (int)shapes.size(); i++ )
+        shapes[i]->draw();
+
       canvas->update();
+    }
 
     actMainMenu = false;
     actRegistry = false;
@@ -1724,11 +1733,6 @@ namespace BWAPI
       }
       return true;
     }
-    else if ( parsed[0] == "/chr" )
-    {
-      BW::BlitText("\x2" "1" "\x3" "2" "\x4" "3" "\x1" "4" "\x5" "5" "\x6" "6" "\x7" "7" "\x8" "8" "\x9" "9" "\xA" "0" "\xD" "a" "\xE" "s" "\xF" "dfghjkl", canvas->getSourceBuffer(), 40,  40, 3);
-      return true;
-    }
 /*    else if ( parsed[0] == "/add" )
     {
       if ( myDlg )
@@ -1759,7 +1763,7 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     this->setOnStartCalled(false);
-    
+
     if ( myDlg )
     {
       delete myDlg;

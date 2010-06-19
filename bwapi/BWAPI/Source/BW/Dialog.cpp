@@ -73,6 +73,11 @@ BYTE bFontColors[24][8] = {
   { 0x8A, 0x80, 0x34, 0x31, 0x2E, 0x8A, 0x8A, 0x8A }
 };
 
+BYTE bColorTable[] = { 
+   0,  0,  0,  1,  2,  3,  4,  5,  8,  0,  0,  0,  0,  0,  9, 10, 
+  11, 12,  0,  0,  0, 13, 14, 15, 16, 17,  0, 18, 19, 20, 21, 23
+};
+
 namespace BW
 {
   // ------------------ TEMPLATE ---------------------
@@ -356,15 +361,47 @@ namespace BW
       return (*BW::BWDATA_DialogList)->findDialog(pszName);
     return NULL;
   }
-  // --------------- BLIT CHARACTER ------------------
-  bool BlitText(char *pszString, bitmap *dst, WORD x, WORD y, BYTE size)
+  // ----------------- GET LENGTH --------------------
+  DWORD GetTextWidth(const char *pszString, BYTE bSize)
   {
     // verify valid size index
-    if ( size >= 4 )
+    if ( bSize > 3 )
       return false;
 
     // localize pointer
-    fntHead *font = BWDATA_FontBase[size];
+    fntHead *font = BWDATA_FontBase[bSize];
+    if ( !font )
+      return false;
+
+    // Retrieve size
+    DWORD dwSize = 0;
+    for ( int i = 0; pszString[i] != 0; i++ )
+    {
+      // must be valid character
+      if ( (BYTE)pszString[i] < 33 )
+        continue;
+      if ( (BYTE)pszString[i] > font->high || (BYTE)pszString[i] < font->low)
+        continue;
+
+      // localize character pointer
+      fntChr *chr = font->chrs[pszString[i] - font->low];
+      if ( chr == (fntChr*)font )
+        continue;
+
+      // increase the size
+      dwSize += chr->w;
+    }
+    return dwSize;
+  }
+  // ----------------- BLIT TEXT ---------------------
+  bool BlitText(const char *pszString, bitmap *dst, WORD x, WORD y, BYTE bSize)
+  {
+    // verify valid size index
+    if ( bSize > 3 )
+      return false;
+
+    // localize pointer
+    fntHead *font = BWDATA_FontBase[bSize];
     if ( !font )
       return false;
 
@@ -379,38 +416,10 @@ namespace BW
         color = lastColor;
         continue;
       }
-      else if ( pszString[c] < 33 )
+      else if ( (BYTE)pszString[c] < 33 )
       {
         switch ( pszString[c] )
         {
-        case 2:
-          lastColor = color;
-          color = 0;
-          continue;
-        case 3:
-          lastColor = color;
-          color = 1;
-          continue;
-        case 4:
-          lastColor = color;
-          color = 2;
-          continue;
-        case 5:
-          lastColor = color;
-          color = 3;
-          continue;
-        case 6:
-          lastColor = color;
-          color = 4;
-          continue;
-        case 7:
-          lastColor = color;
-          color = 5;
-          continue;
-        case 8:
-          lastColor = color;
-          color = 8;
-          continue;
         case 9:
           Xoffset += font->Xmax * 2;
           continue;
@@ -420,83 +429,31 @@ namespace BW
           Xoffset += dst->wid * font->Ymax;
           continue;
         case 11:
+        case 20:
           color = -1;
           continue;
         case 12:
           break;
         case 13:
-          continue;
-        case 14:
-          lastColor = color;
-          color = 9;
-          continue;
-        case 15:
-          lastColor = color;
-          color = 10;
-          continue;
-        case 16:
-          lastColor = color;
-          color = 11;
-          continue;
-        case 17:
-          lastColor = color;
-          color = 12;
-          continue;
-        case 18:
-        case 19:
-          continue;
-        case 20:
-          color = -1;
-          continue;
-        case 21:
-          lastColor = color;
-          color = 13;
-          continue;
-        case 22:
-          lastColor = color;
-          color = 14;
-          continue;
-        case 23:
-          lastColor = color;
-          color = 15;
-          continue;
-        case 24:
-          lastColor = color;
-          color = 16;
-          continue;
-        case 25:
-          lastColor = color;
-          color = 17;
-          continue;
         case 26:
           continue;
-        case 27:
-          lastColor = color;
-          color = 18;
+        case 18:
+          Xoffset += dst->wid - GetTextWidth(pszString, bSize);
           continue;
-        case 28:
-          lastColor = color;
-          color = 19;
-          continue;
-        case 29:
-          lastColor = color;
-          color = 20;
-          continue;
-        case 30:
-          lastColor = color;
-          color = 21;
-          continue;
-        case 31:
-          lastColor = color;
-          color = 23;
+        case 19:
+          Xoffset += dst->wid / 2 - GetTextWidth(pszString, bSize) / 2;
           continue;
         case 32:
           Xoffset += font->Xmax >> 1;
           continue;
+        default:
+          lastColor = color;
+          color     = bColorTable[pszString[c]];
+          continue;
         }
       }
 
-      if ( pszString[c] > font->high || pszString[c] < font->low)
+      if ( (BYTE)pszString[c] > font->high || (BYTE)pszString[c] < font->low)
         continue;
 
       // localize character pointer
@@ -949,7 +906,7 @@ namespace BW
     {
       this->doEvent(14, 7);
       this->doEvent(14, 10);
-      this->doEvent(14, 0); // update
+      this->update();
       return true;
     }
     return false;
