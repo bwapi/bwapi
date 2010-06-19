@@ -1,4 +1,5 @@
 #include "Dialog.h"
+#include "../BWAPI/GameImpl.h"
 
 BYTE gbTinyBtnGfx[3][12*12] = {
   {
@@ -43,6 +44,33 @@ BYTE gbTinyBtnGfx[3][12*12] = {
     0x00, 0x00, 0xC7, 0xC7, 0x2B, 0x2B, 0x2B, 0x2B, 0xC7, 0xC7, 0x00, 0x00,
     0x00, 0x00, 0x00, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0xC7, 0x00, 0x00, 0x00
   }
+};
+
+BYTE bFontColors[24][8] = {
+  { 0xC0, 0x9B, 0x9A, 0x95, 0x43, 0x00, 0x00, 0x28 }, 
+  { 0x56, 0xA7, 0x6D, 0x65, 0x5C, 0x00, 0x00, 0x8A }, 
+  { 0x41, 0xFF, 0x53, 0x97, 0x47, 0x00, 0x00, 0x8A }, 
+  { 0x40, 0x96, 0x49, 0x90, 0x42, 0x00, 0x00, 0x8A }, 
+  { 0xA8, 0xAE, 0x17, 0x5E, 0xAA, 0x00, 0x00, 0x8A }, 
+  { 0xB5, 0x75, 0xBA, 0xB9, 0xB7, 0x00, 0x00, 0x8A }, 
+  { 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08 }, 
+  { 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08 }, 
+  { 0x8A, 0x6F, 0x17, 0x5E, 0xAA, 0x8A, 0x8A, 0x8A }, 
+  { 0x28, 0xA5, 0xA2, 0x2D, 0xA0, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x9F, 0x9E, 0x9D, 0xB7, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0xA4, 0xA3, 0xA1, 0x0E, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x9C, 0x1C, 0x1A, 0x13, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x13, 0x12, 0x11, 0x57, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x54, 0x51, 0x4E, 0x4A, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x87, 0xA6, 0x81, 0x93, 0x8A, 0x8A, 0x8A }, 
+  { 0xB5, 0xB9, 0xB8, 0xB7, 0xB6, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x88, 0x84, 0x81, 0x60, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x86, 0x72, 0x70, 0x69, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x33, 0x7C, 0x7A, 0xA0, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x4D, 0x26, 0x23, 0x22, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x9A, 0x97, 0x95, 0x91, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x88, 0x84, 0x81, 0x60, 0x8A, 0x8A, 0x8A }, 
+  { 0x8A, 0x80, 0x34, 0x31, 0x2E, 0x8A, 0x8A, 0x8A }
 };
 
 namespace BW
@@ -249,6 +277,16 @@ namespace BW
     case 5: // Left Button up
       dlg->wUnk_0x1E = 0;
       break;
+    case 14: // user
+      switch ( evt->dwUser )
+      {
+      case 2:
+        dlg->defaultInteract(evt);
+        delete dlg;
+        if ( strcmpi(dlg->getText(), "Test Dialog") == 0)
+          BWAPI::BroodwarImpl.myDlg = NULL;
+      }
+      break;
     }
     return dlg->defaultInteract(evt);
   }
@@ -317,6 +355,171 @@ namespace BW
     if ( (*BW::BWDATA_DialogList) && pszName )
       return (*BW::BWDATA_DialogList)->findDialog(pszName);
     return NULL;
+  }
+  // --------------- BLIT CHARACTER ------------------
+  bool BlitText(char *pszString, bitmap *dst, WORD x, WORD y, BYTE size)
+  {
+    // verify valid size index
+    if ( size >= 4 )
+      return false;
+
+    // localize pointer
+    fntHead *font = BWDATA_FontBase[size];
+    if ( !font )
+      return false;
+
+    char lastColor = 0;
+    char color     = 0;
+    int  Xoffset   = 0;
+    for ( int c = 0; pszString[c] != 0; c++ )
+    {
+      // make sure char is valid
+      if ( pszString[c] == 1 )
+      {
+        color = lastColor;
+        continue;
+      }
+      else if ( pszString[c] < 33 )
+      {
+        switch ( pszString[c] )
+        {
+        case 2:
+          lastColor = color;
+          color = 0;
+          continue;
+        case 3:
+          lastColor = color;
+          color = 1;
+          continue;
+        case 4:
+          lastColor = color;
+          color = 2;
+          continue;
+        case 5:
+          lastColor = color;
+          color = 3;
+          continue;
+        case 6:
+          lastColor = color;
+          color = 4;
+          continue;
+        case 7:
+          lastColor = color;
+          color = 5;
+          continue;
+        case 8:
+          lastColor = color;
+          color = 8;
+          continue;
+        case 9:
+          Xoffset += font->Xmax * 2;
+          continue;
+        case 10:
+          Xoffset += x;
+          Xoffset -= (Xoffset % (dst->wid));
+          Xoffset += dst->wid * font->Ymax;
+          continue;
+        case 11:
+          color = -1;
+          continue;
+        case 12:
+          break;
+        case 13:
+          continue;
+        case 14:
+          lastColor = color;
+          color = 9;
+          continue;
+        case 15:
+          lastColor = color;
+          color = 10;
+          continue;
+        case 16:
+          lastColor = color;
+          color = 11;
+          continue;
+        case 17:
+          lastColor = color;
+          color = 12;
+          continue;
+        case 18:
+        case 19:
+          continue;
+        case 20:
+          color = -1;
+          continue;
+        case 21:
+          lastColor = color;
+          color = 13;
+          continue;
+        case 22:
+          lastColor = color;
+          color = 14;
+          continue;
+        case 23:
+          lastColor = color;
+          color = 15;
+          continue;
+        case 24:
+          lastColor = color;
+          color = 16;
+          continue;
+        case 25:
+          lastColor = color;
+          color = 17;
+          continue;
+        case 26:
+          continue;
+        case 27:
+          lastColor = color;
+          color = 18;
+          continue;
+        case 28:
+          lastColor = color;
+          color = 19;
+          continue;
+        case 29:
+          lastColor = color;
+          color = 20;
+          continue;
+        case 30:
+          lastColor = color;
+          color = 21;
+          continue;
+        case 31:
+          lastColor = color;
+          color = 23;
+          continue;
+        case 32:
+          Xoffset += font->Xmax >> 1;
+          continue;
+        }
+      }
+
+      if ( pszString[c] > font->high || pszString[c] < font->low)
+        continue;
+
+      // localize character pointer
+      fntChr *chr = font->chrs[pszString[c] - font->low];
+      if ( chr == (fntChr*)font )
+        continue;
+
+      // begin drawing process
+      int pos = 0;
+      for ( int i = 0; pos < chr->h * chr->w; i++ )
+      {
+        pos += chr->data[i] >> 3;
+        int dstY = chr->y + pos/chr->w;
+        int dstX = chr->x + pos%chr->w;
+        int offs = y * dst->wid + x;
+        int final = offs + (dstY * dst->wid) + dstX + Xoffset;
+        if ( final < dst->wid * dst->ht && color < 24)
+          dst->data[final] = bFontColors[color][chr->data[i] & 0x07];
+        pos++;
+      }
+      Xoffset += chr->w;
+    }
+    return true;
   }
 // -------------------------------------------------- GLOBAL -------------------------------------------------
   // ----------------- CONSTRUCTORS ------------------
@@ -409,19 +612,13 @@ namespace BW
       if ( this->isDialog() )
       {
         if ( this->isListed() )
-          this->doEvent(14, 2);
+          this->activate();
 
         if ( this->u.dlg.dstBits.data )
           free(this->u.dlg.dstBits.data);
       }
-      else if ( this->parent() )
+      else
       {
-        if ( this->parent()->u.dlg.pActiveElement == this )
-          this->parent()->u.dlg.pActiveElement = NULL;
-
-        if ( this->parent()->u.dlg.pMouseElement == this )
-          this->parent()->u.dlg.pMouseElement = NULL;
-
         if ( this->isList() )
         {
           if ( this->u.list.pbStrFlags )
@@ -435,24 +632,33 @@ namespace BW
         if ( this->wCtrlType == ctrls::cEDIT && this->pszText )
           free(this->pszText);
 
-        if ( this->parent()->u.dlg.pFirstChild == this )
+        if ( this->parent() )
         {
-          this->parent()->u.dlg.pFirstChild = this->next();
-          return;
-        }
+          if ( this->parent()->u.dlg.pActiveElement == this )
+            this->parent()->u.dlg.pActiveElement = NULL;
 
-        dialog *i = this->parent()->child();
-        do
-        {
-          if ( i->pNext == this )
+          if ( this->parent()->u.dlg.pMouseElement == this )
+            this->parent()->u.dlg.pMouseElement = NULL;
+
+          if ( this->parent()->u.dlg.pFirstChild == this )
           {
-            i->pNext = this->next();
+            this->parent()->u.dlg.pFirstChild = this->next();
             return;
           }
-          i = i->next();
-        } while (i);
-      }
-    }
+
+          dialog *i = this->parent()->child();
+          do
+          {
+            if ( i->pNext == this )
+            {
+              i->pNext = this->next();
+              return;
+            }
+            i = i->next();
+          } while (i);
+        } // if parent
+      } // if control
+    } // if this
   }
   // --------------------- FIND ----------------------
   dialog *dialog::findIndex(short wIndex)

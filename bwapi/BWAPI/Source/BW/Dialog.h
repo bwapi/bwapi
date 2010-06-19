@@ -94,6 +94,19 @@ namespace BW
     short Ymax;
   };
 
+  struct fntChr
+  {
+    BYTE w, h, x, y;
+    BYTE data[1];
+  };
+
+  struct fntHead
+  {
+    DWORD   magic;
+    BYTE    low, high, Xmax, Ymax;
+    fntChr  *chrs[1];
+  };
+
 #pragma pack(1)
   class dialog   // BIN Dialog
   {
@@ -313,6 +326,7 @@ namespace BW
   dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight);
   dialog  *CreateCanvas(const char *pszName);
   dialog  *FindDialogGlobal(const char *pszName);
+  bool    BlitText(char *pszString, bitmap *dst, WORD x, WORD y, BYTE size);
 };
 
 /*
