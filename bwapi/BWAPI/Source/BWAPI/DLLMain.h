@@ -4,6 +4,6 @@
 void NewIssueCommand();
 void drawDot(int _x, int _y, int color, int ctype);
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype);
-void drawText(int _x, int _y, const char* ptext, int ctype);
+void drawText(int _x, int _y, const char* ptext, int ctype, char size);
 static char logPath[MAX_PATH];
 static bool logging;

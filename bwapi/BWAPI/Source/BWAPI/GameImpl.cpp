@@ -1544,6 +1544,7 @@ namespace BWAPI
   {
     /* initialize the variables */
     this->frameCount  = 0;
+    this->textSize    = 1;
     this->setOnStartCalled(true);
     this->BWAPIPlayer = NULL;
     this->opponent    = NULL;
@@ -2476,6 +2477,7 @@ namespace BWAPI
     /* Adds a shape to the draw queue */
     this->shapes.push_back(s);
   }
+  //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void  GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box */
@@ -2500,7 +2502,7 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
     addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
   }
-
+  //--------------------------------------------------- DRAW DOT ---------------------------------------------
   void  GameImpl::drawDot(int ctype, int x, int y, Color color)
   {
     if (!inScreen(ctype,x,y)) return;
@@ -2521,7 +2523,7 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,x,y)) return;
     addShape(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
   }
-
+  //------------------------------------------------- DRAW CIRCLE --------------------------------------------
   void  GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
@@ -2542,7 +2544,7 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,x-radius,y-radius,x+radius,y+radius)) return;
     addShape(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
   }
-
+  //------------------------------------------------- DRAW ELIPSE --------------------------------------------
   void  GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
@@ -2563,7 +2565,7 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,x-xrad,y-yrad,x+xrad,y+yrad)) return;
     addShape(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
   }
-
+  //-------------------------------------------------- DRAW LINE ---------------------------------------------
   void  GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(ctype,x1,y1,x2,y2)) return;
@@ -2584,7 +2586,7 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
     addShape(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
   }
-
+  //------------------------------------------------ DRAW TRIANGLE -------------------------------------------
   void  GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
@@ -2605,14 +2607,20 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy)) return;
     addShape(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
-
+  //-------------------------------------------------- DRAW TEXT ---------------------------------------------
+  void  GameImpl::setTextSize(int size)
+  {
+    if ( size < 0 || size > 3 )
+      textSize = 1;
+    textSize = size;
+  }
   void  GameImpl::drawText(int ctype, int x, int y, const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(ctype,x,y,std::string(buffer)));
+    addShape(new ShapeText(ctype,x,y,std::string(buffer),(char)textSize));
   }
   void  GameImpl::drawTextMap(int x, int y, const char* text, ...)
   {
@@ -2620,7 +2628,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer)));
+    addShape(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer),(char)textSize));
   }
   void  GameImpl::drawTextMouse(int x, int y, const char* text, ...)
   {
@@ -2628,7 +2636,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer)));
+    addShape(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer),(char)textSize));
   }
   void  GameImpl::drawTextScreen(int x, int y, const char* text, ...)
   {
@@ -2636,9 +2644,8 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer)));
+    addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer),(char)textSize));
   }
-
   //--------------------------------------------------- GAME SPEED -------------------------------------------
   void  GameImpl::setLocalSpeed(int speed)
   {

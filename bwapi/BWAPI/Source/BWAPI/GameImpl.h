@@ -153,6 +153,7 @@ namespace BWAPI
       virtual Player* self();
       virtual Player* enemy();
 
+      virtual void setTextSize(int size = 1);
       virtual void drawText(int ctype, int x, int y, const char* text, ...);
       virtual void drawTextMap(int x, int y, const char* text, ...);
       virtual void drawTextMouse(int x, int y, const char* text, ...);
@@ -319,6 +320,8 @@ namespace BWAPI
       bool actRaceSel;
       bool actEnd;
       bool actBriefing;
+
+      int  textSize;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
