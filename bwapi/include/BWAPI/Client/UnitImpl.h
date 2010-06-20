@@ -85,6 +85,7 @@ namespace BWAPI
       Unit* getHatchery() const;
       std::set<Unit*> getLarva() const;
       int getUpgradeLevel(UpgradeType upgrade) const;
+      bool hasNuke() const;
 
       bool exists() const;
       bool isAccelerating() const;

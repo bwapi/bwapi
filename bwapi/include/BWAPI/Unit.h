@@ -258,6 +258,9 @@ namespace BWAPI
        * affected by this upgrade. */
       virtual int getUpgradeLevel(UpgradeType upgrade) const = 0;
 
+      /* Returns true if the Nuclear Missile Silo has a nuke */
+      virtual bool hasNuke() const = 0;
+
       /**
        * 3 cases to consider:
        *

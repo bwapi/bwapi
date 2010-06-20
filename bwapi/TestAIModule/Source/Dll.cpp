@@ -8,6 +8,8 @@
 
 #include "TestMap1.h"
 #include "TerranTest.h"
+#include "ProtossTest.h"
+#include "ZergTest.h"
 namespace BWAPI { Game* Broodwar; }
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
@@ -35,5 +37,9 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return new TestMap1();
   if (game->mapFilename()=="TerranTest.scm")
     return new TerranTest();
+  if (game->mapFilename()=="ProtossTest.scm")
+    return new ProtossTest();
+  if (game->mapFilename()=="ZergTest.scm")
+    return new ZergTest();
   return new BWAPI::AIModule();
 }

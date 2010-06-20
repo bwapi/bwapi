@@ -22,7 +22,11 @@ namespace BWAPI
     if (!this->executors[0]->_exists()) return;
     if (toTrain == BW::UnitID::Terran_NuclearMissile)
     {
-      this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::NukeTrain;
+      this->executors[0]->getRawDataLocal()->secondaryOrderID = BW::OrderID::Train;
+
+      //a hack to disambiguate between nuke silo lag compensation and nuke about to complete
+      //used in UnitImpl::getRemainingTrainTime
+      this->executors[0]->getRawDataLocal()->driftPosX = 1; 
       return;
     }
     int slotToAffect = this->executors[0]->getBuildQueueSlot();

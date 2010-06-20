@@ -205,7 +205,7 @@ namespace BW
       BW::CSprite* nukeDot;
     } unitUnion1;                     /**< @todo Verify */
 
-    /*0x0D4*/ BW::Unit                          *unknown_0x0D4;
+    /*0x0D4*/ u32                               hasNuke;
     /*0x0D8*/ BW::Unit                          *unknown_0x0D8;
     /*0x0DC*/ Util::BitMask<u32>                status;
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */

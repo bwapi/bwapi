@@ -369,7 +369,10 @@ namespace BWAPI
       return this->getPlayer()->getUpgradeLevel(upgrade);
     return 0;
   }
-
+  bool UnitImpl::hasNuke() const
+  {
+    return self->hasNuke;
+  }
   bool UnitImpl::exists() const
   {
     return self->exists;
