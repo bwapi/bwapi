@@ -6,12 +6,13 @@ namespace BWAPI
   class ShapeText : public Shape
   {
   public :
-    ShapeText(int ctype, int x, int y, std::string text);
+    ShapeText(int ctype, int x, int y, std::string text, char size);
     virtual void draw();
   private :
-    int ctype;
-    int x;
-    int y;
+    char  size;
+    int   ctype;
+    int   x;
+    int   y;
     std::string text;
   };
 };

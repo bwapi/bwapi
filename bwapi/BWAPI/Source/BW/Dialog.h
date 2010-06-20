@@ -281,8 +281,8 @@ namespace BW
     // event-specific functions
     bool doEvent(WORD wEvtNum, DWORD dwUser = 0, WORD wSelect = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
     bool defaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
-    bool activate();
-    bool update();
+    bool activate();        // Activates a control or destroys a dialog
+    bool update();          // Updates a control or dialog, refreshing it on the screen
 
     // dialog-specific functions
     bool        isDialog();               // Returns true if the control type is a dialog
@@ -317,18 +317,18 @@ namespace BW
     bool  setSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
     bool  setSelectedByString(char *pszString); // Sets the selected index based on its name
 
-    bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);
-    bool  removeListEntry(BYTE bIndex = 0);
-    bool  clearList();
-    BYTE  getListCount();
+    bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);  // Adds an entry to a listbox or combobox
+    bool  removeListEntry(BYTE bIndex = 0);   // Removes an entry from a listbox or combobox
+    bool  clearList();                        // Removes all entries from a listbox or combobox
+    BYTE  getListCount();                     // Retrieves the number of elements in a listbox or combobox
   };
 #pragma pack()
-  dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight);
-  dialog  *CreateCanvas(const char *pszName);
-  dialog  *FindDialogGlobal(const char *pszName);
-  int     GetTextWidth(const char *pszString, BYTE bSize);
-  int     GetTextHeight(const char *pszString, BYTE bSize);
-  bool    BlitText(const char *pszString, bitmap *dst, int x, int y, BYTE bSize);
+  dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight); // Creates a custom window dialog
+  dialog  *CreateCanvas(const char *pszName);       // Creates an invisible dialog the size of the screen used for drawing purposes
+  dialog  *FindDialogGlobal(const char *pszName);   // Finds a dialog in Starcraft's global list of dialogs
+  int     GetTextWidth(const char *pszString, BYTE bSize);  // Retrieves the width of the text string
+  int     GetTextHeight(const char *pszString, BYTE bSize); // Retrieves the height of the text string
+  bool    BlitText(const char *pszString, bitmap *dst, int x, int y, BYTE bSize); // Draws a string of text to a destination bitmap buffer
 };
 
 /*

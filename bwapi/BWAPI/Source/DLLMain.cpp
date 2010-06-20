@@ -145,7 +145,7 @@ void drawDot(int _x, int _y, int color, int ctype)
   }
 }
 
-void drawText(int _x, int _y, const char* ptext, int ctype)
+void drawText(int _x, int _y, const char* ptext, int ctype, char size)
 {
   if (ctype == 2)
   {
@@ -157,10 +157,10 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
     _x += BW::BWDATA_Mouse->x;
     _y += BW::BWDATA_Mouse->y;
   }
-  if (_x + BW::GetTextWidth(ptext, 1) < 0 || _y + BW::GetTextHeight(ptext, 1) < 0 || _x > 640 || _y > 400)
+  if (_x + BW::GetTextWidth(ptext, size) < 0 || _y + BW::GetTextHeight(ptext, size) < 0 || _x > 640 || _y > 400)
     return;
 
-  BW::BlitText(ptext, BWAPI::BroodwarImpl.canvas->getSourceBuffer(), _x, _y, 1);
+  BW::BlitText(ptext, BWAPI::BroodwarImpl.canvas->getSourceBuffer(), _x, _y, size);
 }
 
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------

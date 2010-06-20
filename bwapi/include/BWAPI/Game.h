@@ -314,6 +314,7 @@ namespace BWAPI
 
       /** Draws a box on the screen, with the given color. If isSolid is true, the entire box will be
        * rendered, otherwise just the outline will be drawn. */
+      virtual void setTextSize(int size = 1) = 0;
       virtual void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
       virtual void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
       virtual void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
