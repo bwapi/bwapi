@@ -157,10 +157,10 @@ void drawText(int _x, int _y, const char* ptext, int ctype)
     _x += BW::BWDATA_Mouse->x;
     _y += BW::BWDATA_Mouse->y;
   }
-  if (_x < 0 || _y < 0 || _x > 640 || _y > 400)
+  if (_x + BW::GetTextWidth(ptext, 1) < 0 || _y + BW::GetTextHeight(ptext, 1) < 0 || _x > 640 || _y > 400)
     return;
 
-  BW::BlitText(ptext, BWAPI::BroodwarImpl.canvas->getSourceBuffer(), (u16)_x, (u16)_y, 1);
+  BW::BlitText(ptext, BWAPI::BroodwarImpl.canvas->getSourceBuffer(), _x, _y, 1);
 }
 
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
