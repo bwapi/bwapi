@@ -109,6 +109,8 @@ namespace BWAPI
 
       virtual int   getUpgradeLevel(UpgradeType upgrade) const;
 
+      virtual bool  hasNuke() const;
+
       virtual bool  exists() const;
       virtual bool  isAccelerating() const;
       virtual bool  isAttacking() const;

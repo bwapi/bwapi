@@ -19,6 +19,8 @@ class BuildTest : public TestCase
     int startTrainFrame;
     int nextUpdateFrame;
     int finishFrame;
+    BWAPI::TilePosition buildLocation;
     BWAPI::Unit* builder;
     BWAPI::Unit* building;
+    bool finishingBuilding;
 };

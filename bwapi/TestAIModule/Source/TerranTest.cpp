@@ -12,6 +12,7 @@ void TerranTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
+  this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Refinery));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Engineering_Bay));
@@ -43,4 +44,6 @@ void TerranTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Terran_Science_Vessel));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Battlecruiser));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Valkyrie));
+
+  this->addTestCase(new TrainTest(UnitTypes::Terran_Nuclear_Missile));
 }

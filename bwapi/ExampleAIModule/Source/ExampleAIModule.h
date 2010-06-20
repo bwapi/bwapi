@@ -28,11 +28,13 @@ public:
   virtual void onUnitRenegade(BWAPI::Unit* unit);
   virtual void onSaveGame(std::string gameName);
   void drawStats(); //not part of BWAPI::AIModule
+  void drawUnits();
   void drawBullets();
   void drawVisibilityData();
   //void drawTerrainData();
   void showPlayers();
   void showForces();
   bool show_bullets;
+  bool show_units;
   bool show_visibility_data;
 };

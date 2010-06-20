@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\ProtossTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\TerranTest.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\TrainTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\ZergTest.cpp"
 				>
 			</File>
 		</Filter>
@@ -221,6 +229,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\ProtossTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\TerranTest.h"
 				>
 			</File>
@@ -238,6 +250,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\TrainTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\ZergTest.h"
 				>
 			</File>
 		</Filter>

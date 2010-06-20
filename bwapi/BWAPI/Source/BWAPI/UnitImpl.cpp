@@ -371,7 +371,8 @@ namespace BWAPI
            tOrderID == BW::OrderID::ZergBuildSelf ||
            tOrderID == BW::OrderID::BuildNydusExit ||
            tOrderID == BW::OrderID::BuildAddon ||
-           order == Orders::BuildAddon;
+           order == Orders::BuildAddon ||
+           (this->isCompleted()==false && this->getBuildUnit()!=NULL);
   }
   //------------------------------------------- IS DEFENSE MATRIXED ------------------------------------------
   bool UnitImpl::isDefenseMatrixed() const
@@ -640,7 +641,7 @@ namespace BWAPI
         this->getRawDataLocal()->secondaryOrderID == BW::OrderID::Train)
       return true;
 
-    if (!this->getBWType().canProduce())
+    if (!this->getType().canProduce())
       return false;
 
     if (this->getType().getRace()==Races::Zerg && this->getType().isResourceDepot())
@@ -969,6 +970,15 @@ namespace BWAPI
       return this->_getPlayer()->getUpgradeLevel(upgrade);
     return 0;
   }
+  //------------------------------------------------ HAS NUKE ------------------------------------------------
+  bool UnitImpl::hasNuke() const
+  {
+    if (!this->attemptAccessInside())
+      return false;
+    if (this->getType()!=UnitTypes::Terran_Nuclear_Silo) //not sure if this check is needed, but just to be safe
+      return false;
+    return this->getRawDataLocal()->hasNuke!=0;
+  }
   //------------------------------------------- GET RAW DATA LOCAL -------------------------------------------
   BW::Unit* UnitImpl::getRawDataLocal() const
   {
@@ -1007,9 +1017,10 @@ namespace BWAPI
     if (!this->attemptAccessInside())
       return trainList;
 
-    if (this->getType() == UnitTypes::Terran_Nuclear_Silo && this->getRawDataLocal()->secondaryOrderID == BW::OrderID::Train)
+    if (this->getType() == UnitTypes::Terran_Nuclear_Silo)
     {
-      trainList.push_back(UnitTypes::Terran_Nuclear_Missile);
+      if (this->getRawDataLocal()->secondaryOrderID == BW::OrderID::Train)
+        trainList.push_back(UnitTypes::Terran_Nuclear_Missile);
       return trainList;
     }
     if (this->hasEmptyBuildQueue())
@@ -2720,6 +2731,13 @@ namespace BWAPI
     }
     if (this->getRawDataLocal()->currentBuildUnit)
       return this->getRawDataLocal()->currentBuildUnit->remainingBuildTime;
+    else
+    {
+      if (this->getType()==UnitTypes::Terran_Nuclear_Silo && this->getRawDataLocal()->driftPosX!=1)
+        return 0;
+      if (this->isTraining())
+        return this->getTrainingQueue().begin()->buildTime();
+    }
     return 0;
   }
   //----------------------------------------------- GET INDEX ------------------------------------------------

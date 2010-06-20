@@ -811,9 +811,15 @@ namespace BWAPI
       }
       foreach (UnitImpl* i, units)
       {
-        if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getBWOrder() == BW::OrderID::ConstructingBuilding)
+        if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getOrder() == Orders::ConstructingBuilding)
         {
           UnitImpl* j = (UnitImpl*)(i->_getOrderTarget());
+          i->buildUnit = j;
+          j->buildUnit = i;
+        }
+        else if (i->getAddon()!=NULL && i->getAddon()->isCompleted()==false)
+        {
+          UnitImpl* j = (UnitImpl*)i->getAddon();
           i->buildUnit = j;
           j->buildUnit = i;
         }

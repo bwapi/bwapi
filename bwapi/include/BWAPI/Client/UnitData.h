@@ -62,6 +62,7 @@ namespace BWAPIC
     int addon;
     int hatchery;
     int larva;
+    bool hasNuke;
     
     bool exists;
     bool isAccelerating;

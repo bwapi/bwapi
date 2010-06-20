@@ -20,6 +20,7 @@ void ExampleAIModule::onStart()
   analyzed=false;
   analysis_just_finished=false;
   */
+  show_units=false;
   show_bullets=false;
   show_visibility_data=false;
 
@@ -88,6 +89,9 @@ void ExampleAIModule::onFrame()
   if (show_visibility_data)
     drawVisibilityData();
 
+  if (show_units)
+    drawUnits();
+
   if (show_bullets)
     drawBullets();
 
@@ -138,7 +142,10 @@ void ExampleAIModule::onFrame()
 
 bool ExampleAIModule::onSendText(std::string text)
 {
-  if (text=="/show bullets")
+  if (text=="/show units")
+  {
+    show_units = !show_units;
+  } else if (text=="/show bullets")
   {
     show_bullets = !show_bullets;
   } else if (text=="/show players")
@@ -287,6 +294,16 @@ void ExampleAIModule::drawStats()
   {
     Broodwar->drawTextScreen(5,16*line,"- %d %ss",(*i).second, (*i).first.getName().c_str());
     line++;
+  }
+}
+
+void ExampleAIModule::drawUnits()
+{
+  std::set<Unit*> units = Broodwar->getAllUnits();
+  for(std::set<Unit*>::iterator i=units.begin();i!=units.end();i++)
+  {
+    Position p=(*i)->getPosition();
+    Broodwar->drawCircleMap(p.x(),p.y(),30,Colors::Green,false);
   }
 }
 

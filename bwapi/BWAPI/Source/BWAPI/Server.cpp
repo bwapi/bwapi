@@ -393,6 +393,7 @@ namespace BWAPI
         u->rallyUnit             = getUnitID((*i)->getRallyUnit());
         u->addon                 = getUnitID((*i)->getAddon());
         u->hatchery              = getUnitID((*i)->getHatchery());
+        u->hasNuke               = (*i)->hasNuke();
 
         //optimize is_ functions later
         u->exists              = (*i)->exists();
