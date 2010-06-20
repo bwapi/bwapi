@@ -158,7 +158,8 @@ namespace BW
   static u32     BWDATA_MenuOutHack        =           0x004DD162;
   static u32     BWDATA_MultiplayerHack    =           0x004DD5A2;
   static u32     BWDATA_MultiplayerHack2   =           0x004DD5C9;
-  static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124F4;
+  static u32*    BWDATA_GameSpeedModifiers = (u32*)    0x005124D8;
+  static u32     OriginalSpeedModifiers[7] =           { 167, 111, 83, 67, 56, 48, 42};
   static u32     BWDATA_OpponentStartHack  =           0x004B995D;
 
   /* Dialog and drawing offsets */
