@@ -361,25 +361,33 @@ namespace BW
       return (*BW::BWDATA_DialogList)->findDialog(pszName);
     return NULL;
   }
-  // ----------------- GET LENGTH --------------------
-  DWORD GetTextWidth(const char *pszString, BYTE bSize)
+  // ----------------- GET WIDTH ---------------------
+  int GetTextWidth(const char *pszString, BYTE bSize)
   {
     // verify valid size index
     if ( bSize > 3 )
-      return false;
+      return 0;
 
     // localize pointer
     fntHead *font = BWDATA_FontBase[bSize];
     if ( !font )
-      return false;
+      return 0;
 
     // Retrieve size
-    DWORD dwSize = 0;
+    int dwSize = 0;
     for ( int i = 0; pszString[i] != 0; i++ )
     {
-      // must be valid character
-      if ( (BYTE)pszString[i] < 33 )
+      switch ( pszString[i] )
+      {
+      case 9:
+        dwSize += font->Xmax * 2;
         continue;
+      case 32:
+        dwSize += font->Xmax >> 1;
+        continue;
+      }
+
+      // must be valid character
       if ( (BYTE)pszString[i] > font->high || (BYTE)pszString[i] < font->low)
         continue;
 
@@ -393,8 +401,33 @@ namespace BW
     }
     return dwSize;
   }
+  // ----------------- GET WIDTH ---------------------
+  int GetTextHeight(const char *pszString, BYTE bSize)
+  {
+    // verify valid size index
+    if ( bSize > 3 )
+      return 0;
+
+    // localize pointer
+    fntHead *font = BWDATA_FontBase[bSize];
+    if ( !font )
+      return 0;
+
+    // Retrieve size
+    int dwSize = font->Ymax;
+    for ( int i = 0; pszString[i] != 0; i++ )
+    {
+      switch ( pszString[i] )
+      {
+      case 10:
+        dwSize += font->Ymax;
+        break;
+      }
+    }
+    return dwSize;
+  }
   // ----------------- BLIT TEXT ---------------------
-  bool BlitText(const char *pszString, bitmap *dst, WORD x, WORD y, BYTE bSize)
+  bool BlitText(const char *pszString, bitmap *dst, int x, int y, BYTE bSize)
   {
     // verify valid size index
     if ( bSize > 3 )
@@ -408,6 +441,7 @@ namespace BW
     char lastColor = 0;
     char color     = 0;
     int  Xoffset   = 0;
+    int  Yoffset   = 0;
     for ( int c = 0; pszString[c] != 0; c++ )
     {
       // make sure char is valid
@@ -426,7 +460,7 @@ namespace BW
         case 10:
           Xoffset += x;
           Xoffset -= (Xoffset % (dst->wid));
-          Xoffset += dst->wid * font->Ymax;
+          Yoffset += font->Ymax;
           continue;
         case 11:
         case 20:
@@ -438,10 +472,10 @@ namespace BW
         case 26:
           continue;
         case 18:
-          Xoffset += dst->wid - GetTextWidth(pszString, bSize);
+          Xoffset += dst->wid - GetTextWidth(pszString, bSize) - x;
           continue;
         case 19:
-          Xoffset += dst->wid / 2 - GetTextWidth(pszString, bSize) / 2;
+          Xoffset += dst->wid / 2 - GetTextWidth(pszString, bSize) / 2 - x;
           continue;
         case 32:
           Xoffset += font->Xmax >> 1;
@@ -468,9 +502,9 @@ namespace BW
         pos += chr->data[i] >> 3;
         int dstY = chr->y + pos/chr->w;
         int dstX = chr->x + pos%chr->w;
-        int offs = y * dst->wid + x;
+        int offs = y * dst->wid + x + Yoffset * dst->wid;
         int final = offs + (dstY * dst->wid) + dstX + Xoffset;
-        if ( final < dst->wid * dst->ht && color < 24)
+        if ( final > 0 && final < dst->wid * dst->ht && color < 24 && (dstX + x + Xoffset) > 0 && (dstX + x + Xoffset) < dst->wid && (dstY + y + Yoffset) > 0 && (dstY + y + Yoffset) < dst->ht )
           dst->data[final] = bFontColors[color][chr->data[i] & 0x07];
         pos++;
       }

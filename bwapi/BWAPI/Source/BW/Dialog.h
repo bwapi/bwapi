@@ -326,8 +326,9 @@ namespace BW
   dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight);
   dialog  *CreateCanvas(const char *pszName);
   dialog  *FindDialogGlobal(const char *pszName);
-  DWORD   GetTextWidth(const char *pszString, BYTE bSize);
-  bool    BlitText(const char *pszString, bitmap *dst, WORD x, WORD y, BYTE bSize);
+  int     GetTextWidth(const char *pszString, BYTE bSize);
+  int     GetTextHeight(const char *pszString, BYTE bSize);
+  bool    BlitText(const char *pszString, bitmap *dst, int x, int y, BYTE bSize);
 };
 
 /*
