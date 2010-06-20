@@ -1077,8 +1077,8 @@ namespace BWAPI
         actCreate = false;
         if ( !actEnd )
         {
-          BW::FindDialogGlobal("End")->findIndex(7)->activate();
           actEnd = true;
+          BW::FindDialogGlobal("End")->findIndex(7)->activate();
         }
         break;
 // Mission Briefings
@@ -1087,9 +1087,9 @@ namespace BWAPI
       case 9:
         if ( !actBriefing )
         {
+          actBriefing = true;
           BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
           BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
-          actBriefing = true;
         }
         break;
       }
@@ -1151,8 +1151,8 @@ namespace BWAPI
         actCreate = false;
         if ( !actEnd )
         {
-          BW::FindDialogGlobal("End")->findIndex(7)->activate();
           actEnd = true;
+          BW::FindDialogGlobal("End")->findIndex(7)->activate();
         }
         break;
 // Mission Briefings
@@ -1161,9 +1161,9 @@ namespace BWAPI
       case 9:
         if ( !actBriefing )
         {
+          actBriefing = true;
           BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
           BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
-          actBriefing = true;
         }
         break;
       }
@@ -1268,8 +1268,8 @@ namespace BWAPI
         actCreate = false;
         if ( !actEnd )
         {
-          BW::FindDialogGlobal("End")->findIndex(7)->activate();
           actEnd = true;
+          BW::FindDialogGlobal("End")->findIndex(7)->activate();
         }
         break;
 // Mission Briefings
@@ -1278,9 +1278,9 @@ namespace BWAPI
       case 9:
         if ( !actBriefing )
         {
+          actBriefing = true;
           BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
           BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
-          actBriefing = true;
         }
         break;
       }
@@ -2653,19 +2653,20 @@ namespace BWAPI
     if (speed < 0)
     {
       /* Reset the speed if it is negative */
-      BW::BWDATA_GameSpeedModifiers[0] = 501;
-      BW::BWDATA_GameSpeedModifiers[1] = 333;
-      BW::BWDATA_GameSpeedModifiers[2] = 249;
-      BW::BWDATA_GameSpeedModifiers[3] = 201;
-      BW::BWDATA_GameSpeedModifiers[4] = 168;
-      BW::BWDATA_GameSpeedModifiers[5] = 144;
-      BW::BWDATA_GameSpeedModifiers[6] = 126;
+      for ( int i = 0; i < 7; i++ )
+      {
+        BW::BWDATA_GameSpeedModifiers[i]    = BW::OriginalSpeedModifiers[i];
+        BW::BWDATA_GameSpeedModifiers[i+7]  = BW::OriginalSpeedModifiers[i] * 3;
+      }
     }
     else
     {
       /* Set all speeds if it is positive */
       for (int i = 0; i < 7; i++)
-        BW::BWDATA_GameSpeedModifiers[i] = speed;
+      {
+        BW::BWDATA_GameSpeedModifiers[i]    = speed;
+        BW::BWDATA_GameSpeedModifiers[i+7]  = speed * 3;
+      }
     }
   }
 
