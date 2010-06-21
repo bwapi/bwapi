@@ -169,6 +169,9 @@ namespace BWAPI
       /** Returns the name/title of the current map. */
       virtual std::string mapName() = 0;
 
+      /** Returns the Frames Per Second (FPS) that the game is currently running at */
+      virtual int getFPS() = 0;
+
       /** Returns a unique identifier for the given map data that does not depend on the file name. */
       virtual int getMapHash() = 0;
 

@@ -94,7 +94,7 @@ namespace BW
     /*0x086*/ u16                                 unknown_0x086;
     /*0x088*/ u16                                 displayedUnitID;
     /*0x08A*/ u32                                 unknown_0x08A;
-    /*0x08E*/ u8                                  rankIncrease;       /**< @todo Unknown */
+    /*0x08E*/ u8                                  rankIncrease;       /**< Adds this value to the unit's base rank */
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
     /*0x090*/ u32                                 stateFlags;         /**< @todo Unknown */
     /*0x094*/ u16                                 currentButtonSet; // The u16 is a guess, used to be u8
