@@ -74,6 +74,8 @@ namespace BWAPI
       virtual GameType getGameType();
       virtual int getLatency();
       virtual int getFrameCount();
+      virtual int getFPS();
+      virtual double getAverageFPS();
       virtual int getMouseX();
       virtual int getMouseY();
       virtual BWAPI::Position getMousePosition();
@@ -98,8 +100,6 @@ namespace BWAPI
       virtual int   mapHeight();
       virtual std::string  mapFilename();
       virtual std::string  mapName();
-      virtual int   getFPSi();
-      virtual float getFPSf();
       virtual int   getMapHash();
 
       virtual int  getGroundHeight(int x, int y);
@@ -323,10 +323,10 @@ namespace BWAPI
       bool actEnd;
       bool actBriefing;
 
-      DWORD lastTickCount;
-      int   accumulatedFrames;
-      int   lastFrameCount;
-      float fps;
+      DWORD  lastTickCount;
+      int    accumulatedFrames;
+      int    fps;
+      double averageFPS;
 
       int  textSize;
   };

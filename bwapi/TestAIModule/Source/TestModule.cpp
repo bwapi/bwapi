@@ -18,8 +18,9 @@ void TestModule::onFrame()
 {
   if (Broodwar->isPaused()) return;
   if (Broodwar->getFrameCount()==0) return;
-  Broodwar->drawTextScreen(0,0,"Assert success count: %d",assert_success_count);
-  Broodwar->drawTextScreen(0,20,"Assert failed count: %d",assert_fail_count);
+  Broodwar->drawTextScreen(0,0,"FPS: %d",Broodwar->getFPS());
+  Broodwar->drawTextScreen(0,20,"Assert success count: %d",assert_success_count);
+  Broodwar->drawTextScreen(0,40,"Assert failed count: %d",assert_fail_count);
   for each(Unit* u in Broodwar->self()->getUnits())
   {
     Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"%s",u->getOrder().getName().c_str());

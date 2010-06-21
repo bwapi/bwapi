@@ -86,8 +86,8 @@ namespace BWAPI
       virtual int getFrameCount() = 0;
 
       /** Returns the Frames Per Second (FPS) that the game is currently running at */
-      virtual int   getFPSi() = 0;
-      virtual float getFPSf() = 0;
+      virtual int getFPS() = 0;
+      virtual double getAverageFPS() = 0;
 
       /** Returns the horizontal coordinate of the mouse on the screen. Returns 0 if Flag::UserInput? is
        * disabled. */
