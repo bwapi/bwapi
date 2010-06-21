@@ -165,15 +165,16 @@ namespace BWAPI
     return Map::getName();
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
-  int GameImpl::getFPSi()
+  int GameImpl::getFPS()
   {
-    /* Retrieve the Frames Per Second as an integer */
-    return lastFrameCount;
-  }
-  float GameImpl::getFPSf()
-  {
-    /* Retrieve the Frames Per Second as a float */
+    /* Retrieve the Frames Per Second */
     return fps;
+  }
+  //-------------------------------------------- GET Average FPS ---------------------------------------------
+  double GameImpl::getAverageFPS()
+  {
+    /* Retrieve the moving average Frames Per Second */
+    return averageFPS;
   }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int  GameImpl::getGroundHeight(int x, int y)
@@ -723,9 +724,6 @@ namespace BWAPI
       if ( data )
         memset(data, 0, 640*480);
 
-      setTextSize(3);
-      drawTextScreen(300, 10, "\x06 %.4f FPS", fps);
-
       for( int i = 0; i < (int)shapes.size(); i++ )
         shapes[i]->draw();
 
@@ -734,10 +732,10 @@ namespace BWAPI
 
     accumulatedFrames++;
     DWORD currentTickCount = GetTickCount();
-    if ( currentTickCount > lastTickCount + 1000 )
+    if ( currentTickCount >= lastTickCount + 1000 )
     {
-      lastFrameCount    = accumulatedFrames;
-      fps = (float)lastFrameCount / (float)(currentTickCount - lastTickCount) * 1000;
+      fps               = accumulatedFrames;
+      averageFPS        = averageFPS*0.7+fps*0.3;
       lastTickCount     = currentTickCount;
       accumulatedFrames = 0;
     }
@@ -2634,8 +2632,8 @@ namespace BWAPI
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void  GameImpl::setTextSize(int size)
   {
-    if ( size < 0 || size > 3 )
-      textSize = 1;
+    if ( size < 1 || size > 3 )
+      size = 1;
     textSize = size;
   }
   void  GameImpl::drawText(int ctype, int x, int y, const char* text, ...)

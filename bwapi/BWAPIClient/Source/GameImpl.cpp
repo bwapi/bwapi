@@ -343,6 +343,11 @@ namespace BWAPI
   {
     return data->fps;
   }
+  //------------------------------------------------ GET FPS -------------------------------------------------
+  double GameImpl::getAverageFPS()
+  {
+    return data->averageFPS;
+  }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX()
   {

@@ -89,6 +89,7 @@ namespace BWAPI
       virtual int getLatency();
       virtual int getFrameCount();
       virtual int getFPS();
+      virtual double getAverageFPS();
       virtual int getMouseX();
       virtual int getMouseY();
       virtual BWAPI::Position getMousePosition();

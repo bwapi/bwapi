@@ -36,6 +36,7 @@ namespace BWAPIC
     int latency;
     int frameCount;
     int fps;
+    double averageFPS;
 
     // user input
     int mouseX;
