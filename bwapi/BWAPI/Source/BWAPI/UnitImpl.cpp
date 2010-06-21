@@ -274,16 +274,13 @@ namespace BWAPI
   bool UnitImpl::isBeingConstructed() const
   {
     checkAccessBool();
-    if (!this->isCompleted())
-    {
-      if (this->getType().isBuilding())
-        return this->buildUnit != NULL || this->getType().getRace() != Races::Terran;
-      if (this->_getType() == UnitTypes::Zerg_Egg ||
-          this->_getType() == UnitTypes::Zerg_Lurker_Egg ||
-          this->_getType() == UnitTypes::Zerg_Cocoon)
-        return true;
-    }
-    return false;
+    if (this->isMorphing())
+      return true;//all morphing units/buildings are being constructed
+    if (this->isCompleted())
+      return false; //no completed non-morphing units are being constructed
+    if (this->getType().getRace()!=Races::Terran)
+      return true;//all incomplete non-terran units are being constructed
+    return this->buildUnit != NULL;//incomplete terran units are being constructed only if they have a unit building them
   }
   //------------------------------------------- IS BEING GATHERED --------------------------------------------
   bool UnitImpl::isBeingGathered() const
@@ -359,6 +356,7 @@ namespace BWAPI
     checkAccessBool();
     u8 tOrderID = this->getBWOrder();
     Order order = this->getSecondaryOrder();
+    if (isMorphing()) return true;
     return tOrderID == BW::OrderID::ConstructingBuilding || 
            tOrderID == BW::OrderID::BuildTerran ||
            tOrderID == BW::OrderID::DroneBuild ||
@@ -475,7 +473,7 @@ namespace BWAPI
   bool UnitImpl::isIdle() const
   {
     checkAccessBool();
-    if (this->isTraining() || this->_isResearching() || this->_isUpgrading() || this->isConstructing())
+    if (this->isTraining() || this->isConstructing() || this->isMorphing() || this->_isResearching() || this->_isUpgrading())
       return false;
 
     u8 tOrderID = this->getBWOrder();
@@ -898,11 +896,17 @@ namespace BWAPI
     if (!this->attemptAccessInside())
       return UnitTypes::None;
 
-    if (this->getOrder() == Orders::ZergBuildSelf ||
-        this->getOrder() == Orders::TerranBuildSelf ||
+    if (this->getOrder() == Orders::TerranBuildSelf ||
         this->getOrder() == Orders::ProtossBuildSelf)
         return this->getType();
-
+    if (this->getOrder() == Orders::ZergBuildSelf)
+    {
+      int i = this->getBuildQueueSlot() % 5;
+      UnitType type=BWAPI::UnitType(this->getBuildQueue()[i].id);
+      if (type!=UnitTypes::None)
+        return type;
+      return this->getType();
+    }
     if (this->getOrder() == Orders::ConstructingBuilding)
       return this->getBuildUnit()->getType();
 
@@ -915,6 +919,7 @@ namespace BWAPI
     if (this->getOrder() == Orders::BuildTerran ||
         this->getOrder() == Orders::BuildProtoss1 ||
         this->getOrder() == Orders::ZergUnitMorph ||
+        this->getOrder() == Orders::ZergBuildingMorph ||
         this->getOrder() == Orders::DroneLand ||
         this->getOrder() == Orders::ZergBuildSelf ||
         this->getSecondaryOrder() == Orders::BuildAddon)
@@ -2711,6 +2716,8 @@ namespace BWAPI
   int UnitImpl::getRemainingBuildTime() const
   {
     if (!this->attemptAccessInside())
+      return 0;
+    if (isMorphing() && getBuildType()==UnitTypes::None)
       return 0;
     return this->getRawDataLocal()->remainingBuildTime;
   }

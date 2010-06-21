@@ -26,7 +26,7 @@ namespace BWAPI
     {
       switch (this->executors[0]->getType().getID())
       {
-        case BW::UnitID::Zerg_Drone    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneBuild; break;
+        case BW::UnitID::Zerg_Drone    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::DroneLand; break;
         case BW::UnitID::Protoss_Probe : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildProtoss1; break;
         case BW::UnitID::Terran_SCV    : this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::BuildTerran; break;
         case BW::UnitID::Terran_CommandCenter :

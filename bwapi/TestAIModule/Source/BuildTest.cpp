@@ -46,11 +46,18 @@ void BuildTest::start()
     buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,1);
     if (unitType==UnitTypes::Protoss_Pylon)
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
+    if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
+      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
     builder->build(buildLocation,unitType);
   }
   BWAssertF(builder->isIdle()==false,{fail=true;return;});
   BWAssertF(builder->isConstructing()==true,{fail=true;return;});
-  BWAssertF(builder->getBuildType()==unitType,{fail=true;return;});
+  BWAssertF(builder->getBuildType()==unitType,
+  {
+    Broodwar->printf("Error: %s != %s",builder->getBuildType().getName().c_str(),unitType.getName().c_str());
+    fail=true;
+    return;
+  });
 
   nextUpdateFrame = Broodwar->getFrameCount();
   previousUnitCount = Broodwar->self()->completedUnitCount(unitType);
@@ -68,6 +75,25 @@ void BuildTest::update()
   BWAssert(thisFrame==nextUpdateFrame);
   BWAssertF(builder!=NULL,{fail=true;return;});
   nextUpdateFrame++;
+  if (unitType==UnitTypes::Zerg_Extractor && builder->exists()==false)
+  {
+    std::set<Unit*> buildingsOnTile;
+    std::set<Unit*> unitsOnTile = Broodwar->unitsOnTile(buildLocation.x(),buildLocation.y());
+    for each(Unit* u in unitsOnTile)
+    {
+      if (u->getType()==unitType)
+      {
+        buildingsOnTile.insert(u);
+      }
+    }
+    if (buildingsOnTile.empty()==false)
+    {
+      if (unitType==UnitTypes::Zerg_Extractor)
+        builder=*buildingsOnTile.begin();
+    }
+    BWAssertF(builder!=NULL,{fail=true;return;});
+  }
+  BWAssertF(builder->exists(),{fail=true;return;});
   Broodwar->setScreenPosition(builder->getPosition().x()-320,builder->getPosition().y()-240);
 
   if (finishingBuilding==true)
@@ -81,20 +107,47 @@ void BuildTest::update()
     }
     else
     {
-      if (thisFrame==finishFrame+1 && unitType.isAddon()==false && builder->getType().getRace()==Races::Terran)
+      if (thisFrame==finishFrame+1 && unitType.isAddon()==false && builder->getType().getRace()!=Races::Protoss)
       {
         BWAssertF(builder->isIdle()==false,{fail=true;return;});
       }
       else
       {
-        BWAssertF(builder->isIdle()==true,{fail=true;return;});
+        if (thisFrame<finishFrame+8 && builder->getType().getRace()==Races::Zerg)
+        {
+          BWAssertF(builder->isIdle()==false,{fail=true;return;});
+        }
+        else
+        {
+          BWAssertF(builder->isIdle()==true,{fail=true;return;});
+        }
       }
     }
-    BWAssertF(builder->isConstructing()==false,{fail=true;return;});
-    BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
+    if (thisFrame<finishFrame+8 && builder->getType().getRace()==Races::Zerg)
+    {
+      if (unitType==UnitTypes::Zerg_Extractor)
+      {
+        BWAssertF(builder->isConstructing()==false,{fail=true;return;});
+        BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
+        BWAssertF(building->isCompleted()==false,{fail=true;return;});
+        BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
+      }
+      else
+      {
+        BWAssertF(builder->isConstructing()==true,{fail=true;return;});
+        BWAssertF(builder->getBuildType()==unitType,{fail=true;return;});
+        BWAssertF(building->isCompleted()==false,{fail=true;return;});
+        BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
+      }
+    }
+    else
+    {
+      BWAssertF(builder->isConstructing()==false,{fail=true;return;});
+      BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
+      BWAssertF(building->isCompleted()==true,{fail=true;return;});
+      BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
+    }
     BWAssertF(building!=NULL,{fail=true;return;});
-    BWAssertF(building->isCompleted()==true,{fail=true;return;});
-    BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
     if (thisFrame>finishFrame+30)
     {
       running = false;
@@ -114,7 +167,11 @@ void BuildTest::update()
     }
   }
   if (building==NULL && buildingsOnTile.empty()==false)
+  {
     building = *buildingsOnTile.begin();
+    if (unitType==UnitTypes::Zerg_Extractor)
+      builder=building;
+  }
 
   if (startTrainFrame == -1 && building!=NULL)
   {
@@ -131,6 +188,10 @@ void BuildTest::update()
     correctRemainingBuildTime = startTrainFrame+unitType.buildTime()-thisFrame+1;
     if (builder->getType().getRace()==Races::Protoss)
       correctRemainingBuildTime--;
+    if (builder->getType().getRace()==Races::Zerg)
+      correctRemainingBuildTime--;
+    if (builder->getType()==UnitTypes::Zerg_Extractor)
+      correctRemainingBuildTime--;
     if (correctRemainingBuildTime<0) correctRemainingBuildTime=0;
     if (correctRemainingBuildTime>unitType.buildTime()) correctRemainingBuildTime=unitType.buildTime();
   }
@@ -146,6 +207,10 @@ void BuildTest::update()
       correctIsConstructing = (building==NULL) || thisFrame<startTrainFrame+2;
     else
       correctIsConstructing = (building==NULL) || thisFrame<startTrainFrame+1;
+  }
+  if (builder->getType().getRace()==Races::Zerg)
+  {
+    correctIsConstructing = true;
   }
   BWAssertF(builder->isConstructing() == correctIsConstructing,{Broodwar->printf("%d %d",builder->isConstructing() , correctIsConstructing);});
   BWAssertF(builder->isIdle() != builder->isConstructing(),{Broodwar->printf("%d %d",builder->isIdle() , !builder->isConstructing());});
