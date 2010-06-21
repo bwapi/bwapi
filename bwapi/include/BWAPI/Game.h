@@ -85,6 +85,9 @@ namespace BWAPI
        * On Fastest, there are about 23.8 - 24 frames per second. */
       virtual int getFrameCount() = 0;
 
+      /** Returns the Frames Per Second (FPS) that the game is currently running at */
+      virtual int getFPS() = 0;
+
       /** Returns the horizontal coordinate of the mouse on the screen. Returns 0 if Flag::UserInput? is
        * disabled. */
       virtual int getMouseX() = 0;
@@ -168,9 +171,6 @@ namespace BWAPI
 
       /** Returns the name/title of the current map. */
       virtual std::string mapName() = 0;
-
-      /** Returns the Frames Per Second (FPS) that the game is currently running at */
-      virtual int getFPS() = 0;
 
       /** Returns a unique identifier for the given map data that does not depend on the file name. */
       virtual int getMapHash() = 0;
@@ -306,8 +306,7 @@ namespace BWAPI
        * return NULL. */
       virtual Player* enemy() = 0;
 
-      // TODO: group methods
-
+      virtual void setTextSize(int size = 1) = 0;
       /** Draws text on the screen at the given position. Text can be drawn in different colors by using the
        * following control characters: TODO: add image from wiki.*/
       virtual void drawText(int ctype, int x, int y, const char* text, ...) = 0;
@@ -317,7 +316,6 @@ namespace BWAPI
 
       /** Draws a box on the screen, with the given color. If isSolid is true, the entire box will be
        * rendered, otherwise just the outline will be drawn. */
-      virtual void setTextSize(int size = 1) = 0;
       virtual void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
       virtual void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
       virtual void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;

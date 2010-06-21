@@ -245,6 +245,7 @@ namespace BWAPI
     ((GameImpl*)Broodwar)->events.clear();
 
     data->frameCount = Broodwar->getFrameCount();
+    data->fps        = Broodwar->getFPS();
     data->mouseX     = Broodwar->getMouseX();
     data->mouseY     = Broodwar->getMouseY();
     data->isInGame   = Broodwar->isInGame();
@@ -572,6 +573,10 @@ namespace BWAPI
         case BWAPIC::CommandType::SetLocalSpeed:
           if (Broodwar->isInGame())
             Broodwar->setLocalSpeed(v1);
+        break;
+        case BWAPIC::CommandType::SetTextSize:
+          if (Broodwar->isInGame())
+            Broodwar->setTextSize(v1);
         break;
         default:
         break;

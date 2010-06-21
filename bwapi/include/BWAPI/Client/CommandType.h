@@ -21,7 +21,8 @@ namespace BWAPIC
       ResumeGame,
       LeaveGame,
       RestartGame,
-      SetLocalSpeed
+      SetLocalSpeed,
+      SetTextSize
     };
   }
 }
