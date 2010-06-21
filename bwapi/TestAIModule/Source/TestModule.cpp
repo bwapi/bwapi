@@ -20,6 +20,10 @@ void TestModule::onFrame()
   if (Broodwar->getFrameCount()==0) return;
   Broodwar->drawTextScreen(0,0,"Assert success count: %d",assert_success_count);
   Broodwar->drawTextScreen(0,20,"Assert failed count: %d",assert_fail_count);
+  for each(Unit* u in Broodwar->self()->getUnits())
+  {
+    Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"%s",u->getOrder().getName().c_str());
+  }
   runTestCases();
 }
 

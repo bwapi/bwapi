@@ -35,15 +35,15 @@ void TrainTest::start()
   BWAssertF(producer->getTrainingQueue().empty()==true,{fail=true;return;});
 
   producer->train(unitType);
+
   BWAssertF(producer->isTraining()==true,{fail=true;return;});
+  BWAssertF(producer->getTrainingQueue().size()==1,{fail=true;return;});
+  BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
 
   startTrainFrame = Broodwar->getFrameCount();
   nextUpdateFrame = startTrainFrame;
   previousUnitCount = Broodwar->self()->completedUnitCount(unitType);
 
-  BWAssertF(producer->isTraining()==true,{fail=true;return;});
-  BWAssertF(producer->getTrainingQueue().size()==1,{fail=true;return;});
-  BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
 }
 void TrainTest::update()
 {
