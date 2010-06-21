@@ -164,6 +164,12 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return Map::getName();
   }
+  //------------------------------------------------ GET FPS -------------------------------------------------
+  int GameImpl::getFPS()
+  {
+    /* Retrieve the Frames Per Second */
+    return lastFrameCount;
+  }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int  GameImpl::getGroundHeight(int x, int y)
   {
@@ -716,6 +722,15 @@ namespace BWAPI
         shapes[i]->draw();
 
       canvas->update();
+    }
+
+    accumulatedFrames++;
+    DWORD currentTickCount = GetTickCount();
+    if ( currentTickCount > lastTickCount + 1000 )
+    {
+      lastTickCount     = currentTickCount;
+      lastFrameCount    = accumulatedFrames;
+      accumulatedFrames = 0;
     }
 
     actMainMenu = false;

@@ -98,6 +98,7 @@ namespace BWAPI
       virtual int  mapHeight();
       virtual std::string  mapFilename();
       virtual std::string  mapName();
+      virtual int getFPS();
       virtual int getMapHash();
 
       virtual int  getGroundHeight(int x, int y);
@@ -320,6 +321,10 @@ namespace BWAPI
       bool actRaceSel;
       bool actEnd;
       bool actBriefing;
+
+      DWORD lastTickCount;
+      int   accumulatedFrames;
+      int   lastFrameCount;
 
       int  textSize;
   };
