@@ -94,12 +94,13 @@ namespace BWAPI
       virtual std::set<Unit*>& unitsOnTile(int x, int y);
       virtual Error  getLastError() const;
 
-      virtual int  mapWidth();
-      virtual int  mapHeight();
+      virtual int   mapWidth();
+      virtual int   mapHeight();
       virtual std::string  mapFilename();
       virtual std::string  mapName();
-      virtual int getFPS();
-      virtual int getMapHash();
+      virtual int   getFPSi();
+      virtual float getFPSf();
+      virtual int   getMapHash();
 
       virtual int  getGroundHeight(int x, int y);
       virtual bool isWalkable(int x, int y);
@@ -325,6 +326,7 @@ namespace BWAPI
       DWORD lastTickCount;
       int   accumulatedFrames;
       int   lastFrameCount;
+      float fps;
 
       int  textSize;
   };

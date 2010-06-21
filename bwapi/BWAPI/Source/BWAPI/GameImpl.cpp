@@ -165,10 +165,15 @@ namespace BWAPI
     return Map::getName();
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
-  int GameImpl::getFPS()
+  int GameImpl::getFPSi()
   {
-    /* Retrieve the Frames Per Second */
+    /* Retrieve the Frames Per Second as an integer */
     return lastFrameCount;
+  }
+  float GameImpl::getFPSf()
+  {
+    /* Retrieve the Frames Per Second as a float */
+    return fps;
   }
   //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
   int  GameImpl::getGroundHeight(int x, int y)
@@ -718,6 +723,9 @@ namespace BWAPI
       if ( data )
         memset(data, 0, 640*480);
 
+      setTextSize(3);
+      drawTextScreen(300, 10, "\x06 %.4f FPS", fps);
+
       for( int i = 0; i < (int)shapes.size(); i++ )
         shapes[i]->draw();
 
@@ -728,8 +736,9 @@ namespace BWAPI
     DWORD currentTickCount = GetTickCount();
     if ( currentTickCount > lastTickCount + 1000 )
     {
-      lastTickCount     = currentTickCount;
       lastFrameCount    = accumulatedFrames;
+      fps = (float)lastFrameCount / (float)(currentTickCount - lastTickCount) * 1000;
+      lastTickCount     = currentTickCount;
       accumulatedFrames = 0;
     }
 
