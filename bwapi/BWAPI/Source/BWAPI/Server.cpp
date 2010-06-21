@@ -245,7 +245,7 @@ namespace BWAPI
     ((GameImpl*)Broodwar)->events.clear();
 
     data->frameCount = Broodwar->getFrameCount();
-    data->fps        = Broodwar->getFPS();
+    data->fps        = Broodwar->getFPSi();
     data->mouseX     = Broodwar->getMouseX();
     data->mouseY     = Broodwar->getMouseY();
     data->isInGame   = Broodwar->isInGame();
