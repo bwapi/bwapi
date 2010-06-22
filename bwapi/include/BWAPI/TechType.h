@@ -33,6 +33,9 @@ namespace BWAPI
       /** Returns the vespene gas price of the tech type. */
       int gasPrice() const;
 
+      /** Returns the number of frames needed to research the tech type. */
+      int researchTime() const;
+
       /** Returns the amount of energy used each time this tech type is used. */
       int energyUsed() const;
 

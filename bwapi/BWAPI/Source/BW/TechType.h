@@ -28,6 +28,7 @@ namespace BW
       bool isValid() const;
       u16 getMineralPrice();
       u16 getGasPrice();
+      u16 getResearchTime();
       u16 getEnergyPrice();
       /** Our internal way to determine what building should be used to invent certain tech. */
       UnitType whereToInvent();

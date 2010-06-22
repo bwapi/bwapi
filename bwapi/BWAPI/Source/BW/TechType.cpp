@@ -64,6 +64,11 @@ namespace BW
   {
     return BW::BWDATA_TechGasCost->tech[this->getID()];
   }
+  //-------------------------------------------- GET RESEARCH TIME -------------------------------------------
+  u16 TechType::getResearchTime()
+  {
+    return BW::BWDATA_TechResearchTime->tech[this->getID()];
+  }
   //-------------------------------------------- GET ENERGY PRICE --------------------------------------------
   u16 TechType::getEnergyPrice()
   {
