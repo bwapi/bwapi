@@ -575,6 +575,7 @@ namespace BW
   };
   static TechCost* BWDATA_TechMineralCost = (TechCost*) techdataDat[0].address;
   static TechCost* BWDATA_TechGasCost = (TechCost*) techdataDat[1].address;
+  static TechCost* BWDATA_TechResearchTime = (TechCost*) techdataDat[2].address;
   static TechCost* BWDATA_TechEnergyCost = (TechCost*) techdataDat[3].address;
   //------------------------------------------------ MAPPING -------------------------------------------------
   const u16 tileTypeCount = 65535;

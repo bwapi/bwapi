@@ -38,10 +38,10 @@ namespace BWAPI
       /** Returns the amount that the vespene gas price increases for each additional upgrade. */
       int gasPriceFactor() const;
 
-      // TODO: add doc
+      /** Returns the number of frames needed to research the first upgrade. */
       int upgradeTimeBase() const;
 
-      // TODO: add doc
+      /** Returns the number of frames that the upgrade time increases for each additional upgrade. */
       int upgradeTimeFactor() const;
 
       /** Returns the maximum number of times the upgrade can be researched. */
