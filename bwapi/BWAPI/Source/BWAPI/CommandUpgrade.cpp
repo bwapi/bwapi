@@ -23,8 +23,9 @@ namespace BWAPI
     if (!this->executors[0]->_exists()) return;
     if (this->executors[0]->isCompleted())
     {
-      this->executors.front()->getRawDataLocal()->orderID = BW::OrderID::Upgrade;
-      this->executors.front()->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID = upgrade.getID();
+      this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::Upgrade;
+      this->executors[0]->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID = upgrade.getID();
+      this->executors[0]->getRawDataLocal()->childUnitUnion1.unitIsBuilding.upgradeResearchTime = upgrade.timeCostBase()+upgrade.timeCostFactor()*this->executors[0]->getPlayer()->getUpgradeLevel(upgrade.getID());
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

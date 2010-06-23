@@ -66,6 +66,12 @@ namespace BWAPI
     /** Returned if you try to upgrade something that is already fully upgraded. */
     extern const Error Fully_Upgraded;
 
+    /** Returned if you try to research something that is already being researched. */
+    extern const Error Currently_Researching;
+
+    /** Returned if you try to upgrade something that is already being upgraded. */
+    extern const Error Currently_Upgrading;
+
     /** Returned if you try to train or build something without enough minerals. */
     extern const Error Insufficient_Minerals;
 

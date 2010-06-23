@@ -1,12 +1,15 @@
 #include "TerranTest.h"
 #include "TrainTest.h"
 #include "BuildTest.h"
+#include "ResearchTest.h"
+#include "UpgradeTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
 {
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
+  Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
@@ -46,4 +49,39 @@ void TerranTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Terran_Valkyrie));
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_Nuclear_Missile));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
+  this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
+  this->addTestCase(new ResearchTest(TechTypes::Restoration));
+  this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Ion_Thrusters));
+  this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
+  this->addTestCase(new ResearchTest(TechTypes::Tank_Siege_Mode));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Charon_Boosters));
+
+  this->addTestCase(new ResearchTest(TechTypes::Cloaking_Field));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Apollo_Reactor));
+
+  this->addTestCase(new ResearchTest(TechTypes::EMP_Shockwave));
+  this->addTestCase(new ResearchTest(TechTypes::Irradiate));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Titan_Reactor));
+
+  this->addTestCase(new ResearchTest(TechTypes::Lockdown));
+  this->addTestCase(new ResearchTest(TechTypes::Personnel_Cloaking));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Ocular_Implants));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Moebius_Reactor));
+  this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Colossus_Reactor));
+
+  for(int l=0;l<3;l++)
+  {
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Infantry_Weapons));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Infantry_Armor));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Vehicle_Weapons));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Ship_Weapons));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Vehicle_Plating));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Ship_Plating));
+  }
 }
