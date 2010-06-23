@@ -560,6 +560,11 @@ namespace BWAPI
         return false;
       }
     }
+    if (self()->isResearching(type))
+    {
+      this->setLastError(Errors::Currently_Researching);
+      return false;
+    }
     if (self()->hasResearched(type))
     {
       this->setLastError(Errors::Already_Researched);
@@ -599,6 +604,11 @@ namespace BWAPI
         this->setLastError(Errors::Incompatible_UnitType);
         return false;
       }
+    }
+    if (self()->isUpgrading(type))
+    {
+      this->setLastError(Errors::Currently_Upgrading);
+      return false;
     }
     if (self()->getUpgradeLevel(type)>=type.maxRepeats())
     {

@@ -1,12 +1,15 @@
 #include "ProtossTest.h"
 #include "TrainTest.h"
 #include "BuildTest.h"
+#include "ResearchTest.h"
+#include "UpgradeTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
 {
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
+  Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
@@ -54,4 +57,41 @@ void ProtossTest::onStart()
   
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Singularity_Charge));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Leg_Enhancements));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Scarab_Damage));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Reaver_Capacity));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Drive));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Apial_Sensors));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Thrusters));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Carrier_Capacity));
+  this->addTestCase(new ResearchTest(TechTypes::Disruption_Web));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Argus_Jewel));
+
+  this->addTestCase(new ResearchTest(TechTypes::Psionic_Storm));
+  this->addTestCase(new ResearchTest(TechTypes::Hallucination));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Khaydarin_Amulet));
+  this->addTestCase(new ResearchTest(TechTypes::Mind_Control));
+  this->addTestCase(new ResearchTest(TechTypes::Maelstrom));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Argus_Talisman));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Boosters));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Sensor_Array));
+
+  this->addTestCase(new ResearchTest(TechTypes::Recall));
+  this->addTestCase(new ResearchTest(TechTypes::Stasis_Field));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Khaydarin_Core));
+  for(int l=0;l<3;l++)
+  {
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Ground_Weapons));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Ground_Armor));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Plasma_Shields));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Air_Weapons));
+    this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Air_Armor));
+  }
+
 }

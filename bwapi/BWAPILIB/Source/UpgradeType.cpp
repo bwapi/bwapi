@@ -145,7 +145,7 @@ namespace BWAPI
       upgradeTypeData[Sensor_Array.getID()].set("Sensor Array", 150, 0, 150, 0, 2000, 0, UnitTypes::Protoss_Observatory, Races::Protoss, UnitTypes::Protoss_Observer, 1);
       upgradeTypeData[Gravitic_Boosters.getID()].set("Gravitic Boosters", 150, 0, 150, 0, 2000, 0, UnitTypes::Protoss_Observatory, Races::Protoss, UnitTypes::Protoss_Observer, 1);
       upgradeTypeData[Khaydarin_Amulet.getID()].set("Khaydarin Amulet", 150, 0, 150, 0, 2500, 0, UnitTypes::Protoss_Templar_Archives, Races::Protoss, UnitTypes::Protoss_High_Templar, 1);
-      upgradeTypeData[Apial_Sensors.getID()].set("Apial Sensors", 100, 0, 100, 0, 2500, 0, UnitTypes::Protoss_Templar_Archives, Races::Protoss, UnitTypes::Protoss_Scout, 1);
+      upgradeTypeData[Apial_Sensors.getID()].set("Apial Sensors", 100, 0, 100, 0, 2500, 0, UnitTypes::Protoss_Fleet_Beacon, Races::Protoss, UnitTypes::Protoss_Scout, 1);
       upgradeTypeData[Gravitic_Thrusters.getID()].set("Gravitic Thrusters", 200, 0, 200, 0, 2500, 0, UnitTypes::Protoss_Fleet_Beacon, Races::Protoss, UnitTypes::Protoss_Scout, 1);
       upgradeTypeData[Carrier_Capacity.getID()].set("Carrier Capacity", 100, 0, 100, 0, 1500, 0, UnitTypes::Protoss_Fleet_Beacon, Races::Protoss, UnitTypes::Protoss_Carrier, 1);
       upgradeTypeData[Khaydarin_Core.getID()].set("Khaydarin Core", 150, 0, 150, 0, 2500, 0, UnitTypes::Protoss_Arbiter_Tribunal, Races::Protoss, UnitTypes::Protoss_Arbiter, 1);
