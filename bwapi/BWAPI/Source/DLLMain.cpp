@@ -322,6 +322,8 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
 
   return rval;
 }
+/*
+// Speeeeed
 DWORD dwInitialTickCount;
 DWORD WINAPI _GetTickCount()
 {
@@ -334,10 +336,11 @@ void WINAPI _Sleep(DWORD dwMilliseconds)
 {
   return;
 }
+*/
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
-  dwInitialTickCount = GetTickCount();
+  //dwInitialTickCount = GetTickCount();
 
   delete Util::Logger::globalLog;
   GetPrivateProfileStringA("paths", "log_path", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
@@ -401,11 +404,14 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   *(FARPROC*)&BW::SFileOpenFileEx = HackUtil::GetImport("storm.dll", 268);
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
 
+  /*
+  // Speeeeed
   HackUtil::PatchImport("Kernel32.dll", "GetTickCount", &_GetTickCount);
   HackUtil::PatchImport("Kernel32.dll", "Sleep", &_Sleep);
 
   HackUtil::PatchImport("storm.dll", "Kernel32.dll", "GetTickCount", &_GetTickCount);
   HackUtil::PatchImport("storm.dll", "Kernel32.dll", "Sleep", &_Sleep);
+  */
 /* 
   // this won't work for Battle.net window
   HWND hSWnd = FindWindow("SWarClass", NULL);

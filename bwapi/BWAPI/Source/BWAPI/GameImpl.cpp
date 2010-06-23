@@ -740,6 +740,12 @@ namespace BWAPI
       canvas->update();
     }
 
+    BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
+    if ( !endDialog )
+      endDialog = BW::FindDialogGlobal("WMission");
+    if ( endDialog )
+      endDialog->findIndex(-2)->activate();
+
     accumulatedFrames++;
     DWORD currentTickCount = GetTickCount();
     if ( currentTickCount >= lastTickCount + 1000 )
