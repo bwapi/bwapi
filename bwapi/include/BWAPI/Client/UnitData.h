@@ -19,7 +19,7 @@ namespace BWAPIC
     int resources;
 
     int killCount;
-    int interceptorCount;
+    //int interceptorCount; connectedUnits.size()
     int scarabCount;
     int spiderMineCount;
     int groundWeaponCooldown;

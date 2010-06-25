@@ -338,7 +338,6 @@ namespace BWAPI
         u->resources        = (*i)->getResources();
 
         u->killCount            = (*i)->getKillCount();
-        u->interceptorCount     = (*i)->getInterceptorCount();
         u->scarabCount          = (*i)->getScarabCount();
         u->spiderMineCount      = (*i)->getSpiderMineCount();
         u->groundWeaponCooldown = (*i)->getGroundWeaponCooldown();

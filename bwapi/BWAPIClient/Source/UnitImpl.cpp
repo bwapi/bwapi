@@ -205,7 +205,9 @@ namespace BWAPI
   }
   int UnitImpl::getInterceptorCount() const
   {
-    return self->interceptorCount;
+    if (this->getType()!=UnitTypes::Protoss_Carrier)
+      return 0;
+    return this->connectedUnits.size();
   }
   int UnitImpl::getScarabCount() const
   {
