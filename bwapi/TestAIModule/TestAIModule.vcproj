@@ -188,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\InterceptorTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\MorphTest.cpp"
 				>
 			</File>
@@ -243,6 +247,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\BWAssert.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\InterceptorTest.h"
 				>
 			</File>
 			<File

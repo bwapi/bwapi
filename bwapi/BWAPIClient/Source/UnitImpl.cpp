@@ -21,7 +21,7 @@ namespace BWAPI
     initialResources=0;
     initialHitPoints=0;
     initialPosition=Positions::None;
-    larva.clear();
+    connectedUnits.clear();
   }
   void UnitImpl::saveInitialState()
   {
@@ -42,17 +42,30 @@ namespace BWAPI
   {
     return UnitType(self->type);
   }
-  UnitType UnitImpl::getInitialType() const
+  Position UnitImpl::getPosition() const
   {
-    return this->initialType;
+    return Position(self->positionX,self->positionY);
+  }
+  TilePosition UnitImpl::getTilePosition() const
+  {
+    return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
+                                 self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
+  }
+  double UnitImpl::getAngle() const
+  {
+    return self->angle;
+  }
+  double UnitImpl::getVelocityX() const
+  {
+    return self->velocityX;
+  }
+  double UnitImpl::getVelocityY() const
+  {
+    return self->velocityY;
   }
   int UnitImpl::getHitPoints() const
   {
     return self->hitPoints;
-  }
-  int UnitImpl::getInitialHitPoints() const
-  {
-    return this->initialHitPoints;
   }
   int UnitImpl::getShields() const
   {
@@ -65,84 +78,6 @@ namespace BWAPI
   int UnitImpl::getResources() const
   {
     return self->resources;
-  }
-  int UnitImpl::getInitialResources() const
-  {
-    return this->initialResources;
-  }
-  int UnitImpl::getKillCount() const
-  {
-    return self->killCount;
-  }
-  int UnitImpl::getGroundWeaponCooldown() const
-  {
-    return self->groundWeaponCooldown;
-  }
-  int UnitImpl::getAirWeaponCooldown() const
-  {
-    return self->airWeaponCooldown;
-  }
-  int UnitImpl::getSpellCooldown() const
-  {
-    return self->spellCooldown;
-  }
-  int UnitImpl::getDefenseMatrixPoints() const
-  {
-    return self->defenseMatrixPoints;
-  }
-  int UnitImpl::getDefenseMatrixTimer() const
-  {
-    return self->defenseMatrixTimer;
-  }
-  int UnitImpl::getEnsnareTimer() const
-  {
-    return self->ensnareTimer;
-  }
-  int UnitImpl::getIrradiateTimer() const
-  {
-    return self->irradiateTimer;
-  }
-  int UnitImpl::getLockdownTimer() const
-  {
-    return self->lockdownTimer;
-  }
-  int UnitImpl::getMaelstromTimer() const
-  {
-    return self->maelstromTimer;
-  }
-  int UnitImpl::getPlagueTimer() const
-  {
-    return self->plagueTimer;
-  }
-  int UnitImpl::getRemoveTimer() const
-  {
-    return self->removeTimer;
-  }
-  int UnitImpl::getStasisTimer() const
-  {
-    return self->stasisTimer;
-  }
-  int UnitImpl::getStimTimer() const
-  {
-    return self->stimTimer;
-  }
-  Position UnitImpl::getPosition() const
-  {
-    return Position(self->positionX,self->positionY);
-  }
-  Position UnitImpl::getInitialPosition() const
-  {
-    return this->initialPosition;
-  }
-  TilePosition UnitImpl::getTilePosition() const
-  {
-    return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
-                                 self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
-  }
-  TilePosition UnitImpl::getInitialTilePosition() const
-  {
-    return TilePosition(Position(this->initialPosition.x() - this->initialType.tileWidth() * TILE_SIZE / 2,
-                                 this->initialPosition.y() - this->initialType.tileHeight() * TILE_SIZE / 2));
   }
   double UnitImpl::getDistance(Unit* target) const
   {
@@ -236,17 +171,146 @@ namespace BWAPI
       return result;
     return 0;
   }
-  double UnitImpl::getAngle() const
+  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    return self->angle;
+    if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
+    if (upgrade.whatUses().find(this->getType()) != upgrade.whatUses().end())
+      return this->getPlayer()->getUpgradeLevel(upgrade);
+    return 0;
   }
-  double UnitImpl::getVelocityX() const
+  UnitType UnitImpl::getInitialType() const
   {
-    return self->velocityX;
+    return this->initialType;
   }
-  double UnitImpl::getVelocityY() const
+  Position UnitImpl::getInitialPosition() const
   {
-    return self->velocityY;
+    return this->initialPosition;
+  }
+  TilePosition UnitImpl::getInitialTilePosition() const
+  {
+    return TilePosition(Position(this->initialPosition.x() - this->initialType.tileWidth() * TILE_SIZE / 2,
+                                 this->initialPosition.y() - this->initialType.tileHeight() * TILE_SIZE / 2));
+  }
+  int UnitImpl::getInitialHitPoints() const
+  {
+    return this->initialHitPoints;
+  }
+  int UnitImpl::getInitialResources() const
+  {
+    return this->initialResources;
+  }
+  int UnitImpl::getKillCount() const
+  {
+    return self->killCount;
+  }
+  int UnitImpl::getInterceptorCount() const
+  {
+    return self->interceptorCount;
+  }
+  int UnitImpl::getScarabCount() const
+  {
+    return self->scarabCount;
+  }
+  int UnitImpl::getSpiderMineCount() const
+  {
+    return self->spiderMineCount;
+  }
+  int UnitImpl::getGroundWeaponCooldown() const
+  {
+    return self->groundWeaponCooldown;
+  }
+  int UnitImpl::getAirWeaponCooldown() const
+  {
+    return self->airWeaponCooldown;
+  }
+  int UnitImpl::getSpellCooldown() const
+  {
+    return self->spellCooldown;
+  }
+  int UnitImpl::getDefenseMatrixPoints() const
+  {
+    return self->defenseMatrixPoints;
+  }
+  int UnitImpl::getDefenseMatrixTimer() const
+  {
+    return self->defenseMatrixTimer;
+  }
+  int UnitImpl::getEnsnareTimer() const
+  {
+    return self->ensnareTimer;
+  }
+  int UnitImpl::getIrradiateTimer() const
+  {
+    return self->irradiateTimer;
+  }
+  int UnitImpl::getLockdownTimer() const
+  {
+    return self->lockdownTimer;
+  }
+  int UnitImpl::getMaelstromTimer() const
+  {
+    return self->maelstromTimer;
+  }
+  int UnitImpl::getPlagueTimer() const
+  {
+    return self->plagueTimer;
+  }
+  int UnitImpl::getRemoveTimer() const
+  {
+    return self->removeTimer;
+  }
+  int UnitImpl::getStasisTimer() const
+  {
+    return self->stasisTimer;
+  }
+  int UnitImpl::getStimTimer() const
+  {
+    return self->stimTimer;
+  }
+  int UnitImpl::getOrderTimer() const
+  {
+    return self->orderTimer;
+  }
+  UnitType UnitImpl::getBuildType() const
+  {
+    return UnitType(self->buildType);
+  }
+  std::list<UnitType > UnitImpl::getTrainingQueue() const
+  {
+    std::list<UnitType > trainingQueue;
+    for (int i=0;i<self->trainingQueueCount;i++)
+    {
+      trainingQueue.push_back(self->trainingQueue[i]);
+    }
+    return trainingQueue;
+  }
+  TechType UnitImpl::getTech() const
+  {
+    return TechType(self->tech);
+  }
+  UpgradeType UnitImpl::getUpgrade() const
+  {
+    return UpgradeType(self->tech);
+  }
+  int UnitImpl::getRemainingBuildTime() const
+  {
+    return self->remainingBuildTime;
+  }
+  int UnitImpl::getRemainingTrainTime() const
+  {
+    return self->remainingTrainTime;
+  }
+  int UnitImpl::getRemainingResearchTime() const
+  {
+    return self->remainingResearchTime;
+  }
+  int UnitImpl::getRemainingUpgradeTime() const
+  {
+    return self->remainingUpgradeTime;
+  }
+  Unit* UnitImpl::getBuildUnit() const
+  {
+    return ((GameImpl*)Broodwar)->getUnit(self->buildUnit);
   }
   Unit* UnitImpl::getTarget() const
   {
@@ -264,83 +328,13 @@ namespace BWAPI
   {
     return ((GameImpl*)Broodwar)->getUnit(self->orderTarget);
   }
-  int UnitImpl::getOrderTimer() const
-  {
-    return self->orderTimer;
-  }
   Order UnitImpl::getSecondaryOrder() const
   {
     return BWAPI::Order(self->secondaryOrder);
   }
-  Unit* UnitImpl::getBuildUnit() const
-  {
-    return ((GameImpl*)Broodwar)->getUnit(self->buildUnit);
-  }
-  UnitType UnitImpl::getBuildType() const
-  {
-    return UnitType(self->buildType);
-  }
-  int UnitImpl::getRemainingBuildTime() const
-  {
-    return self->remainingBuildTime;
-  }
-  int UnitImpl::getRemainingTrainTime() const
-  {
-    return self->remainingTrainTime;
-  }
   Unit* UnitImpl::getChild() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->child);
-  }
-  std::list<UnitType > UnitImpl::getTrainingQueue() const
-  {
-    std::list<UnitType > trainingQueue;
-    for (int i=0;i<self->trainingQueueCount;i++)
-    {
-      trainingQueue.push_back(self->trainingQueue[i]);
-    }
-    return trainingQueue;
-  }
-  Unit* UnitImpl::getTransport() const
-  {
-    return ((GameImpl*)Broodwar)->getUnit(self->transport);
-  }
-  std::list<Unit*> UnitImpl::getLoadedUnits() const
-  {
-    std::list<Unit*> loadedUnits;
-    for (int i=0;i<self->loadedUnitCount;i++)
-    {
-      loadedUnits.push_back(((GameImpl*)Broodwar)->getUnit(self->loadedUnits[i]));
-    }
-    return loadedUnits;
-  }
-  int UnitImpl::getInterceptorCount() const
-  {
-    return self->interceptorCount;
-  }
-  int UnitImpl::getScarabCount() const
-  {
-    return self->scarabCount;
-  }
-  int UnitImpl::getSpiderMineCount() const
-  {
-    return self->spiderMineCount;
-  }
-  TechType UnitImpl::getTech() const
-  {
-    return TechType(self->tech);
-  }
-  UpgradeType UnitImpl::getUpgrade() const
-  {
-    return UpgradeType(self->tech);
-  }
-  int UnitImpl::getRemainingResearchTime() const
-  {
-    return self->remainingResearchTime;
-  }
-  int UnitImpl::getRemainingUpgradeTime() const
-  {
-    return self->remainingUpgradeTime;
   }
   Position UnitImpl::getRallyPosition() const
   {
@@ -354,28 +348,49 @@ namespace BWAPI
   {
     return ((GameImpl*)Broodwar)->getUnit(self->addon);
   }
+  Unit* UnitImpl::getNydusExit() const
+  {
+    return ((GameImpl*)Broodwar)->getUnit(self->nydusExit);
+  }
+  Unit* UnitImpl::getTransport() const
+  {
+    return ((GameImpl*)Broodwar)->getUnit(self->transport);
+  }
+  std::set<Unit*> UnitImpl::getLoadedUnits() const
+  {
+    return loadedUnits;
+  }
+  Unit* UnitImpl::getCarrier() const
+  {
+    return ((GameImpl*)Broodwar)->getUnit(self->carrier);
+  }
+  std::set<Unit*> UnitImpl::getInterceptors() const
+  {
+    std::set<Unit*> nothing;
+    if (getType()!=UnitTypes::Protoss_Carrier)
+      return nothing;
+    return this->connectedUnits;
+  }
   Unit* UnitImpl::getHatchery() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->hatchery);
   }
   std::set<Unit*> UnitImpl::getLarva() const
   {
-    return this->larva;
-  }
-  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
-  {
-    if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
-    if (upgrade.whatUses().find(this->getType()) != upgrade.whatUses().end())
-      return this->getPlayer()->getUpgradeLevel(upgrade);
-    return 0;
-  }
-  bool UnitImpl::hasNuke() const
-  {
-    return self->hasNuke;
+    std::set<Unit*> nothing;
+    if (getType()!=UnitTypes::Zerg_Hatchery &&
+        getType()!=UnitTypes::Zerg_Lair &&
+        getType()!=UnitTypes::Zerg_Hive)
+        return nothing;
+    return this->connectedUnits;
   }
   bool UnitImpl::exists() const
   {
     return self->exists;
+  }
+  bool UnitImpl::hasNuke() const
+  {
+    return self->hasNuke;
   }
   bool UnitImpl::isAccelerating() const
   {
@@ -467,7 +482,7 @@ namespace BWAPI
   }
   bool UnitImpl::isLoaded() const
   {
-    return self->isLoaded;
+    return self->transport != -1;
   }
   bool UnitImpl::isLockedDown() const
   {

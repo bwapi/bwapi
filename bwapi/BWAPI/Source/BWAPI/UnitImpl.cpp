@@ -512,14 +512,7 @@ namespace BWAPI
     if (!this->attemptAccessInside())
       return false;
 
-    if (this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport) ||
-        this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding))
-      return true;
-
-    if (this->getType() == UnitTypes::Protoss_Interceptor ||
-        this->getType() == UnitTypes::Protoss_Scarab)
-      return (this->getRawDataLocal()->childUnitUnion3.inHanger!=0);
-    return false;
+    return (_getTransport()!=NULL);
   }
   //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
   bool UnitImpl::isLockedDown() const
@@ -744,6 +737,8 @@ namespace BWAPI
   {
     if (!this->_exists())
       return BWAPI::Positions::Unknown;
+    if (_getTransport()!=NULL)
+      return ((UnitImpl*)_getTransport())->_getPosition();
     return BWAPI::Position(this->getRawDataLocal()->position.x, this->getRawDataLocal()->position.y);
   }
   //------------------------------------------- GET TILE POSITION --------------------------------------------
@@ -1048,32 +1043,76 @@ namespace BWAPI
   {
     if (!this->attemptAccessInside())
       return NULL;
-
-    if (!this->isLoaded())
+    return _getTransport();
+  }
+  //-------------------------------------------- GET TRANSPORT -----------------------------------------------
+  Unit* UnitImpl::_getTransport() const
+  {
+    if (!this->_exists())
       return NULL;
 
-    if (this->getType() == UnitTypes::Protoss_Carrier || this->getType() == UnitTypes::Protoss_Reaver)
-      return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.parentUnit));
-    return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit));
+    if (this->_getType() == UnitTypes::Protoss_Interceptor ||
+        this->_getType() == UnitTypes::Protoss_Scarab ||
+        this->_getType() == UnitTypes::Terran_Vulture_Spider_Mine)
+    {
+      if (this->getRawDataLocal()->childUnitUnion3.inHanger==0 ||
+          this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport) ||
+          this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding))
+        return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.parentUnit));
+    }
+ 
+    if (this->getRawDataLocal()->status.getBit(BW::StatusFlags::InTransport) ||
+        this->getRawDataLocal()->status.getBit(BW::StatusFlags::InBuilding))
+      return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit));
+
+    return NULL;
   }
   //------------------------------------------- GET LOADED UNITS ---------------------------------------------
-  std::list<Unit*> UnitImpl::getLoadedUnits() const
+  std::set<Unit*> UnitImpl::getLoadedUnits() const
   {
-    std::list<Unit*> unitList;
+    std::set<Unit*> nothing;
     if (!this->attemptAccessInside())
-      return unitList;
-
-    for(int i = 0; i < 8; i++)
-    {
-      if (this->getRawDataLocal()->loadedUnitIndex[i] != 0)
-      {
-        BW::Unit* bwunit = (BW::Unit*)(BW::BWDATA_LoadedUnits + this->getRawDataLocal()->loadedUnitIndex[i] * BW::UNIT_SIZE_IN_BYTES);
-        UnitImpl* unit = BWUnitToBWAPIUnit(bwunit);
-        if (unit != NULL)
-          unitList.push_back((Unit*)unit);
-      }
-    }
-    return unitList;
+      return nothing;
+    return loadedUnits;
+  }
+  //--------------------------------------------- GET CARRIER ------------------------------------------------
+  Unit* UnitImpl::getCarrier() const
+  {
+    checkAccessPointer();
+    if (this->getType() != UnitTypes::Protoss_Interceptor)
+      return NULL;
+    return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.parentUnit));
+//    return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit));
+  }
+  //------------------------------------------- GET INTERCEPTORS ---------------------------------------------
+  std::set<Unit*> UnitImpl::getInterceptors() const
+  {
+    std::set<Unit*> nothing;
+    if (!this->attemptAccessInside())
+      return nothing;
+    if (this->getType() != UnitTypes::Protoss_Carrier)
+      return nothing;
+    return this->connectedUnits;
+  }
+  //---------------------------------------------- GET HATCHERY ----------------------------------------------
+  Unit* UnitImpl::getHatchery() const
+  {
+    checkAccessPointer();
+    if (this->getType()==UnitTypes::Zerg_Larva)
+      return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit);
+    return NULL;
+  }
+  //----------------------------------------------- GET LARVA ------------------------------------------------
+  std::set<Unit*> UnitImpl::getLarva() const
+  {
+    std::set<Unit*> nothing;
+    if (!this->attemptAccess())
+      return nothing;
+    if (this->getType() != UnitTypes::Zerg_Hatchery &&
+        this->getType() != UnitTypes::Zerg_Lair &&
+        this->getType() != UnitTypes::Zerg_Hive)
+      return nothing;
+    return this->connectedUnits;
   }
   //----------------------------------------- GET INTERCEPTOR COUNT ------------------------------------------
   int UnitImpl::getInterceptorCount() const
@@ -1170,31 +1209,28 @@ namespace BWAPI
     checkAccessPointer();
     if (this->getType().isBuilding())
     {
-      if (this->getRawDataLocal()->currentBuildUnit != NULL)
-      {
-        if (UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit)->getBWType().isAddon())
-          return  (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
-      }
-      if (this->getRawDataLocal()->childInfoUnion.childUnit1 != NULL)
-        return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
+      Unit* addon = UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
+      if (addon != NULL && addon->getType().isAddon())
+        return addon;
+      addon = (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
+      if (addon!=NULL && addon->exists() && addon->getType().isAddon())
+        return addon;
     }
     return NULL;
   }
-  //---------------------------------------------- GET HATCHERY ----------------------------------------------
-  Unit* UnitImpl::getHatchery() const
+  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
+  Unit* UnitImpl::getNydusExit() const
   {
     checkAccessPointer();
-    if (this->getType()==UnitTypes::Zerg_Larva)
-      return (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->connectedUnit);
+    if (getType()!=UnitTypes::Zerg_Nydus_Canal)
+      return NULL;
+    Unit* nydus = UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->currentBuildUnit);
+    if (nydus != NULL && nydus->getType()==UnitTypes::Zerg_Nydus_Canal)
+      return nydus;
+    nydus = (Unit*)UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->childInfoUnion.childUnit1);
+    if (nydus != NULL && nydus->getType()==UnitTypes::Zerg_Nydus_Canal)
+      return nydus;
     return NULL;
-  }
-  //----------------------------------------------- GET LARVA ------------------------------------------------
-  std::set<Unit*> UnitImpl::getLarva() const
-  {
-    std::set<Unit*> nothing;
-    if (!this->attemptAccess())
-      return nothing;
-    return this->larva;
   }
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
   bool UnitImpl::hasEmptyBuildQueue() const
@@ -2732,7 +2768,7 @@ namespace BWAPI
         this->getType() == UnitTypes::Zerg_Lair     ||
         this->getType() == UnitTypes::Zerg_Hive)
     {
-      if (this->larva.size() >= 3)
+      if (this->connectedUnits.size() >= 3)
         return 0;
       if (!this->isCompleted() && this->getBuildType() == UnitTypes::Zerg_Hatchery)
         return this->getRemainingBuildTime();
