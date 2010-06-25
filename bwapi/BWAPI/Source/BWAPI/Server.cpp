@@ -325,13 +325,22 @@ namespace BWAPI
       {
         int id              = getUnitID(*i);
         BWAPIC::UnitData* u = &(data->units[id]);
-        u->player               = getPlayerID((*i)->getPlayer());
-        u->type                 = (*i)->getType().getID();
-        u->hitPoints            = (*i)->getHitPoints();
-        u->shields              = (*i)->getShields();
-        u->energy               = (*i)->getEnergy();
-        u->resources            = (*i)->getResources();
+        u->player           = getPlayerID((*i)->getPlayer());
+        u->type             = (*i)->getType().getID();
+        u->positionX        = (*i)->getPosition().x();
+        u->positionY        = (*i)->getPosition().y();
+        u->angle            = (*i)->getAngle();
+        u->velocityX        = (*i)->getVelocityX();
+        u->velocityY        = (*i)->getVelocityY();
+        u->hitPoints        = (*i)->getHitPoints();
+        u->shields          = (*i)->getShields();
+        u->energy           = (*i)->getEnergy();
+        u->resources        = (*i)->getResources();
+
         u->killCount            = (*i)->getKillCount();
+        u->interceptorCount     = (*i)->getInterceptorCount();
+        u->scarabCount          = (*i)->getScarabCount();
+        u->spiderMineCount      = (*i)->getSpiderMineCount();
         u->groundWeaponCooldown = (*i)->getGroundWeaponCooldown();
         u->airWeaponCooldown    = (*i)->getAirWeaponCooldown();
         u->spellCooldown        = (*i)->getSpellCooldown();
@@ -346,26 +355,9 @@ namespace BWAPI
         u->removeTimer        = (*i)->getRemoveTimer();
         u->stasisTimer        = (*i)->getStasisTimer();
         u->stimTimer          = (*i)->getStimTimer();
+        u->orderTimer         = (*i)->getOrderTimer();
 
-
-        u->positionX = (*i)->getPosition().x();
-        u->positionY = (*i)->getPosition().y();
-        u->angle     = (*i)->getAngle();
-        u->velocityX = (*i)->getVelocityX();
-        u->velocityY = (*i)->getVelocityY();
-
-        u->target                = getUnitID((*i)->getTarget());
-        u->targetPositionX       = (*i)->getTargetPosition().x();
-        u->targetPositionY       = (*i)->getTargetPosition().y();
-        u->order                 = (*i)->getOrder().getID();
-        u->orderTarget           = getUnitID((*i)->getOrderTarget());
-        u->orderTimer            = (*i)->getOrderTimer();
-        u->secondaryOrder        = (*i)->getSecondaryOrder().getID();
-        u->buildUnit             = getUnitID((*i)->getBuildUnit());
         u->buildType             = (*i)->getBuildType().getID();
-        u->remainingBuildTime    = (*i)->getRemainingBuildTime();
-        u->remainingTrainTime    = (*i)->getRemainingTrainTime();
-        u->child                 = getUnitID((*i)->getChild());
         std::list<UnitType>   tq = (*i)->getTrainingQueue();
         u->trainingQueueCount    = tq.size();
         int k=0;
@@ -374,31 +366,34 @@ namespace BWAPI
           u->trainingQueue[k]    = (*j).getID();
           k++;
         }
-        u->transport             = getUnitID((*i)->getTransport());
-        std::list<Unit*>      lu = (*i)->getLoadedUnits();
-        u->loadedUnitCount       = lu.size();
-        k=0;
-        for(std::list<Unit*>::iterator j=lu.begin();j!=lu.end();j++)
-        {
-          u->loadedUnits[k]      = getUnitID(*j);
-          k++;
-        }
-        u->interceptorCount      = (*i)->getInterceptorCount();
-        u->scarabCount           = (*i)->getScarabCount();
-        u->spiderMineCount       = (*i)->getSpiderMineCount();
         u->tech                  = (*i)->getTech().getID();
         u->upgrade               = (*i)->getUpgrade().getID();
+        u->remainingBuildTime    = (*i)->getRemainingBuildTime();
+        u->remainingTrainTime    = (*i)->getRemainingTrainTime();
         u->remainingResearchTime = (*i)->getRemainingResearchTime();
         u->remainingUpgradeTime  = (*i)->getRemainingUpgradeTime();
+        u->buildUnit             = getUnitID((*i)->getBuildUnit());
+
+        u->target                = getUnitID((*i)->getTarget());
+        u->targetPositionX       = (*i)->getTargetPosition().x();
+        u->targetPositionY       = (*i)->getTargetPosition().y();
+        u->order                 = (*i)->getOrder().getID();
+        u->orderTarget           = getUnitID((*i)->getOrderTarget());
+        u->secondaryOrder        = (*i)->getSecondaryOrder().getID();
+        u->child                 = getUnitID((*i)->getChild());
         u->rallyPositionX        = (*i)->getRallyPosition().x();
         u->rallyPositionY        = (*i)->getRallyPosition().y();
         u->rallyUnit             = getUnitID((*i)->getRallyUnit());
         u->addon                 = getUnitID((*i)->getAddon());
+        u->nydusExit             = getUnitID((*i)->getNydusExit());
+
+        u->transport             = getUnitID((*i)->getTransport());
+        u->carrier               = getUnitID((*i)->getCarrier());
         u->hatchery              = getUnitID((*i)->getHatchery());
-        u->hasNuke               = (*i)->hasNuke();
 
         //optimize is_ functions later
         u->exists              = (*i)->exists();
+        u->hasNuke             = (*i)->hasNuke();
         u->isAccelerating      = (*i)->isAccelerating();
         u->isAttacking         = (*i)->isAttacking();
         u->isBeingConstructed  = (*i)->isBeingConstructed();
@@ -417,7 +412,6 @@ namespace BWAPI
         u->isHallucination     = (*i)->isHallucination();
         u->isIdle              = (*i)->isIdle();
         u->isLifted            = (*i)->isLifted();
-        u->isLoaded            = (*i)->isLoaded();
         u->isMorphing          = (*i)->isMorphing();
         u->isMoving            = (*i)->isMoving();
         u->isParasited         = (*i)->isParasited();

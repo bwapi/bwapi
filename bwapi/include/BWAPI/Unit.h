@@ -50,16 +50,25 @@ namespace BWAPI
       /** Returns the current type of the unit. */
       virtual UnitType getType() const = 0;
 
-      /** Returns the initial type of the unit or Unknown if it wasn't a neutral unit at the beginning of the
-       * game. */
-      virtual UnitType getInitialType() const = 0;
+      /** Returns the position of the unit on the map. */
+      virtual Position getPosition() const = 0;
+
+      /** Returns the build tile position of the unit on the map. Useful if the unit is a building. The tile
+       * position is of the top left corner of the building. */
+      virtual TilePosition getTilePosition() const = 0;
+
+      /** Returns the direction the unit is facing, measured in radians. An angle of 0 means the unit is
+       * facing east. */
+      virtual double getAngle() const = 0;
+
+      /** Returns the x component of the unit's velocity, measured in pixels per frame. */
+      virtual double getVelocityX() const = 0;
+
+      /** Returns the y component of the unit's velocity, measured in pixels per frame. */
+      virtual double getVelocityY() const = 0;
 
       /** Returns the unit's current amount of hit points. */
       virtual int getHitPoints() const = 0;
-
-      /** Returns the unit's initial amount of hit points, or 0 if it wasn't a neutral unit at the beginning
-       * of the game. */
-      virtual int getInitialHitPoints() const = 0;
 
       /** Returns the unit's current amount of shields. */
       virtual int getShields() const = 0;
@@ -72,12 +81,48 @@ namespace BWAPI
        * (can also be called on a refinery/assimilator/extractor). */
       virtual int getResources() const = 0;
 
+      /** Returns the edge-to-edge distance between the current unit and the target unit. */
+      virtual double getDistance(Unit* target) const = 0;
+
+      /** Returns the distance from the edge of the current unit to the target position. */
+      virtual double getDistance(Position target) const = 0;
+
+      /** Returns the player's current upgrade level for the given upgrade, if the unit is affected by this
+       * upgrade.*/
+      virtual int getUpgradeLevel(UpgradeType upgrade) const = 0;
+
+      /** Returns the initial type of the unit or Unknown if it wasn't a neutral unit at the beginning of the
+       * game. */
+      virtual UnitType getInitialType() const = 0;
+
+      /** Returns the initial position of the unit on the map, or Positions::Unknown if the unit wasn't a
+       * neutral unit at the beginning of the game. */
+      virtual Position getInitialPosition() const = 0;
+
+      /** Returns the initial build tile position of the unit on the map, or TilePositions::Unknown if the
+       * unit wasn't a neutral unit at the beginning of the game. The tile position is of the top left corner
+       * of the building. */
+      virtual TilePosition getInitialTilePosition() const = 0;
+
+      /** Returns the unit's initial amount of hit points, or 0 if it wasn't a neutral unit at the beginning
+       * of the game. */
+      virtual int getInitialHitPoints() const = 0;
+
       /** Returns the unit's initial amount of containing resources, or 0 if the unit wasn't a neutral unit
        * at the beginning of the game. */
       virtual int getInitialResources() const = 0;
 
       /** Returns the unit's current kill count. */
       virtual int getKillCount() const = 0;
+
+      /** Returns the number of interceptors the Protoss Carrier has. */
+      virtual int getInterceptorCount() const = 0;
+
+      /** Returns the number of scarabs in the Protoss Reaver. */
+      virtual int getScarabCount() const = 0;
+
+      /** Returns the number of spider mines in the Terran Vulture. */
+      virtual int getSpiderMineCount() const = 0;
 
       /** Returns unit's ground weapon cooldown. It is 0 if the unit is ready to attack. */
       virtual int getGroundWeaponCooldown() const = 0;
@@ -121,37 +166,49 @@ namespace BWAPI
       /** Returns the time until the stimpack wears off. 0 -> No stimpack boost present. */
       virtual int getStimTimer() const = 0;
 
-      /** Returns the position of the unit on the map. */
-      virtual Position getPosition() const = 0;
+      // TODO: add doc
+      virtual int getOrderTimer() const = 0;
 
-      /** Returns the initial position of the unit on the map, or Positions::Unknown if the unit wasn't a
-       * neutral unit at the beginning of the game. */
-      virtual Position getInitialPosition() const = 0;
+      /** Returns the building type a worker is about to construct. If the unit is a morphing Zerg unit or an
+       * incomplete building, this returns the UnitType the unit is about to become upon completion.*/
+      virtual UnitType getBuildType() const = 0;
 
-      /** Returns the build tile position of the unit on the map. Useful if the unit is a building. The tile
-       * position is of the top left corner of the building. */
-      virtual TilePosition getTilePosition() const = 0;
+     /** Returns the list of units queued up to be trained.
+       * \see Unit::train, Unit::cancelTrain, Unit::isTraining. */
+      virtual std::list<UnitType > getTrainingQueue() const = 0;
 
-      /** Returns the initial build tile position of the unit on the map, or TilePositions::Unknown if the
-       * unit wasn't a neutral unit at the beginning of the game. The tile position is of the top left corner
-       * of the building. */
-      virtual TilePosition getInitialTilePosition() const = 0;
+      /** Returns the tech that the unit is currently researching. If the unit is not researching anything,
+       * TechTypes::None is returned.
+       * \see Unit::research, Unit::cancelResearch, Unit::isResearching, Unit::getRemainingResearchTime. */
+      virtual TechType getTech() const = 0;
 
-      /** Returns the edge-to-edge distance between the current unit and the target unit. */
-      virtual double getDistance(Unit* target) const = 0;
+      /** Returns the upgrade that the unit is currently upgrading. If the unit is not upgrading anything,
+       * UpgradeTypes::None is returned.
+       * \see Unit::upgrade, Unit::cancelUpgrade, Unit::isUpgrading, Unit::getRemainingUpgradeTime. */
+      virtual UpgradeType getUpgrade() const = 0;
 
-      /** Returns the distance from the edge of the current unit to the target position. */
-      virtual double getDistance(Position target) const = 0;
+      /** Returns the remaining build time of a unit/building that is being constructed. */
+      virtual int getRemainingBuildTime() const = 0;
 
-      /** Returns the direction the unit is facing, measured in radians. An angle of 0 means the unit is
-       * facing east. */
-      virtual double getAngle() const = 0;
+      /** Returns the remaining time of the unit that is currently being trained. If the unit is a Hatchery,
+       * Lair, or Hive, this returns the amount of time until the next larva spawns, or 0 if the unit already
+       * has 3 larva. */
+      virtual int getRemainingTrainTime() const = 0;
 
-      /** Returns the x component of the unit's velocity, measured in pixels per frame. */
-      virtual double getVelocityX() const = 0;
+      /** Returns the amount of time until the unit is done researching its current tech. If the unit is not
+       * researching anything, 0 is returned.
+       * \see Unit::research, Unit::cancelResearch, Unit::isResearching, Unit::getTech. */
+      virtual int getRemainingResearchTime() const = 0;
 
-      /** Returns the y component of the unit's velocity, measured in pixels per frame. */
-      virtual double getVelocityY() const = 0;
+      /** Returns the amount of time until the unit is done upgrading its current upgrade. If the unit is not
+       * upgrading anything, 0 is returned.
+       * \see Unit::upgrade, Unit::cancelUpgrade, Unit::isUpgrading, Unit::getUpgrade. */
+      virtual int getRemainingUpgradeTime() const = 0;
+
+      /** If the unit is an SCV that is constructing a building, this will return the building it is
+       * constructing. If the unit is a Terran building that is being constructed, this will return the SCV
+       * that is constructing it. */
+      virtual Unit* getBuildUnit() const = 0;
 
       /** Generally returns the appropriate target unit after issuing an order that accepts a target unit
        * (i.e. attack, repair, gather, follow, etc.). To check for a target that has been acquired
@@ -169,68 +226,10 @@ namespace BWAPI
        * an enemy probe comes in range of your marine, the marine will start attacking it, and getOrderTarget
        * will be set in this case, but not getTarget. */
       virtual Unit* getOrderTarget() const = 0;
-      virtual int getOrderTimer() const = 0;
       virtual Order getSecondaryOrder() const = 0;
-
-      /** If the unit is an SCV that is constructing a building, this will return the building it is
-       * constructing. If the unit is a Terran building that is being constructed, this will return the SCV
-       * that is constructing it. */
-      virtual Unit* getBuildUnit() const = 0;
-
-      /** Returns the building type a worker is about to construct. If the unit is a morphing Zerg unit or an
-       * incomplete building, this returns the UnitType the unit is about to become upon completion.*/
-      virtual UnitType getBuildType() const = 0;
-
-      /** Returns the remaining build time of a unit/building that is being constructed. */
-      virtual int getRemainingBuildTime() const = 0;
-
-      /** Returns the remaining time of the unit that is currently being trained. If the unit is a Hatchery,
-       * Lair, or Hive, this returns the amount of time until the next larva spawns, or 0 if the unit already
-       * has 3 larva. */
-      virtual int getRemainingTrainTime() const = 0;
 
       // TODO: add doc
       virtual Unit* getChild() const = 0;
-
-      /** Returns the list of units queued up to be trained.
-       * \see Unit::train, Unit::cancelTrain, Unit::isTraining. */
-      virtual std::list<UnitType > getTrainingQueue() const = 0;
-
-      /** Returns the dropship, shuttle, overlord, or bunker that is this unit is loaded in to. */
-      virtual Unit* getTransport() const = 0;
-
-      /** Returns a list of the units loaded into a Terran Bunker, Terran Dropship, Protoss Shuttle, or Zerg
-       * Overlord. */
-      virtual std::list<Unit*> getLoadedUnits() const = 0;
-
-      /** Returns the number of interceptors the Protoss Carrier has. */
-      virtual int getInterceptorCount() const = 0;
-
-      /** Returns the number of scarabs in the Protoss Reaver. */
-      virtual int getScarabCount() const = 0;
-
-      /** Returns the number of spider mines in the Terran Vulture. */
-      virtual int getSpiderMineCount() const = 0;
-
-      /** Returns the tech that the unit is currently researching. If the unit is not researching anything,
-       * TechTypes::None is returned.
-       * \see Unit::research, Unit::cancelResearch, Unit::isResearching, Unit::getRemainingResearchTime. */
-      virtual TechType getTech() const = 0;
-
-      /** Returns the upgrade that the unit is currently upgrading. If the unit is not upgrading anything,
-       * UpgradeTypes::None is returned.
-       * \see Unit::upgrade, Unit::cancelUpgrade, Unit::isUpgrading, Unit::getRemainingUpgradeTime. */
-      virtual UpgradeType getUpgrade() const = 0;
-
-      /** Returns the amount of time until the unit is done researching its current tech. If the unit is not
-       * researching anything, 0 is returned.
-       * \see Unit::research, Unit::cancelResearch, Unit::isResearching, Unit::getTech. */
-      virtual int getRemainingResearchTime() const = 0;
-
-      /** Returns the amount of time until the unit is done upgrading its current upgrade. If the unit is not
-       * upgrading anything, 0 is returned.
-       * \see Unit::upgrade, Unit::cancelUpgrade, Unit::isUpgrading, Unit::getUpgrade. */
-      virtual int getRemainingUpgradeTime() const = 0;
 
       /** Returns the position the building is rallied to. If the building does not produce units,
        * Positions::None is returned.
@@ -245,6 +244,25 @@ namespace BWAPI
       /** Returns the add-on of this unit, or NULL if the unit doesn't have an add-on. */
       virtual Unit* getAddon() const = 0;
 
+      /** Returns the corresponding connected nydus canal of this unit, or NULL if the unit does not have a
+       * connected nydus canal. */
+      virtual Unit* getNydusExit() const = 0;
+
+      /** Returns the dropship, shuttle, overlord, or bunker that is this unit is loaded in to. */
+      virtual Unit* getTransport() const = 0;
+
+      /** Returns a list of the units loaded into a Terran Bunker, Terran Dropship, Protoss Shuttle, or Zerg
+       * Overlord. */
+      virtual std::set<Unit*> getLoadedUnits() const = 0;
+
+      /** For Protoss Interceptors, this returns the Carrier unit this Interceptor is controlled by. For all
+       * other unit types this function returns NULL. */
+      virtual Unit* getCarrier() const = 0;
+
+      /** Returns the set of interceptors controlled by this unit. If the unit has no interceptors, or is not
+       * a Carrier, this function returns an empty set. */
+      virtual std::set<Unit*> getInterceptors() const = 0;
+
       /** For Zerg Larva, this returns the Hatchery, Lair, or Hive unit this Larva was spawned from. For all
        * other unit types this function returns NULL. */
       virtual Unit* getHatchery() const = 0;
@@ -253,13 +271,6 @@ namespace BWAPI
        * or Hive, this function returns an empty set. Equivalent to clicking "Select Larva" from the Starcraft
        * GUI. */
       virtual std::set<Unit*> getLarva() const = 0;
-
-      /** Returns true if the owner of this player has upgraded the given upgrade type, and this unit is
-       * affected by this upgrade. */
-      virtual int getUpgradeLevel(UpgradeType upgrade) const = 0;
-
-      /* Returns true if the Nuclear Missile Silo has a nuke */
-      virtual bool hasNuke() const = 0;
 
       /**
        * 3 cases to consider:
@@ -271,6 +282,9 @@ namespace BWAPI
        * \see Unit::isVisible.
        * */
       virtual bool exists() const = 0;
+
+      /* Returns true if the Nuclear Missile Silo has a nuke */
+      virtual bool hasNuke() const = 0;
 
       /** Returns true if the unit is currently accelerating. */
       virtual bool isAccelerating() const = 0;

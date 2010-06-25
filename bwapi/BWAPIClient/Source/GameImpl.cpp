@@ -203,7 +203,8 @@ namespace BWAPI
     }
     foreach(Unit* u, accessibleUnits)
     {
-      ((UnitImpl*)u)->larva.clear();
+      ((UnitImpl*)u)->connectedUnits.clear();
+      ((UnitImpl*)u)->loadedUnits.clear();
     }
     foreach(Unit* u, accessibleUnits)
     {
@@ -230,8 +231,15 @@ namespace BWAPI
         if (u->getType()==UnitTypes::Zerg_Larva)
         {
           if (u->getHatchery()!=NULL)
-            ((UnitImpl*)u->getHatchery())->larva.insert(u);
+            ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);
         }
+        if (u->getType()==UnitTypes::Protoss_Interceptor)
+        {
+          if (u->getCarrier()!=NULL)
+            ((UnitImpl*)u->getCarrier())->connectedUnits.insert(u);
+        }
+        if (u->getTransport()!=NULL)
+            ((UnitImpl*)u->getTransport())->loadedUnits.insert(u);
       }
     }
 

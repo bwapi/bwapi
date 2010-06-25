@@ -86,6 +86,8 @@ void ExampleAIModule::onEnd(bool isWinner)
 
 void ExampleAIModule::onFrame()
 {
+  Broodwar->drawTextScreen(200,0,"FPS: %d",Broodwar->getFPS());
+  Broodwar->drawTextScreen(200,20,"Average FPS: %f",Broodwar->getAverageFPS());
   if (show_visibility_data)
     drawVisibilityData();
 

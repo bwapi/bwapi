@@ -8,11 +8,20 @@ namespace BWAPIC
     int id;
     int player;
     int type;
+    int positionX;
+    int positionY;
+    double angle;
+    double velocityX;
+    double velocityY;
     int hitPoints;
     int shields;
     int energy;
     int resources;
+
     int killCount;
+    int interceptorCount;
+    int scarabCount;
+    int spiderMineCount;
     int groundWeaponCooldown;
     int airWeaponCooldown;
     int spellCooldown;
@@ -27,44 +36,38 @@ namespace BWAPIC
     int removeTimer;
     int stasisTimer;
     int stimTimer;
-    int positionX;
-    int positionY;
-    double angle;
-    double velocityX;
-    double velocityY;
+    int orderTimer;
+
+    int buildType;
+    int trainingQueueCount;
+    int trainingQueue[5];
+    int tech;
+    int upgrade;
+    int remainingBuildTime;
+    int remainingTrainTime;
+    int remainingResearchTime;
+    int remainingUpgradeTime;
+    int buildUnit;
+
     int target;
     int targetPositionX;
     int targetPositionY;
     int order;
     int orderTarget;
-    int orderTimer;
     int secondaryOrder;
-    int buildUnit;
-    int buildType;
-    int remainingBuildTime;
-    int remainingTrainTime;
     int child;
-    int trainingQueueCount;
-    int trainingQueue[5];
-    int transport;
-    int loadedUnitCount;
-    int loadedUnits[8];
-    int interceptorCount;
-    int scarabCount;
-    int spiderMineCount;
-    int tech;
-    int upgrade;
-    int remainingResearchTime;
-    int remainingUpgradeTime;
     int rallyPositionX;
     int rallyPositionY;
     int rallyUnit;
     int addon;
+    int nydusExit;
+
+    int transport;
+    int carrier;
     int hatchery;
-    int larva;
-    bool hasNuke;
     
     bool exists;
+    bool hasNuke;
     bool isAccelerating;
     bool isAttacking;
     bool isBeingConstructed;
@@ -87,7 +90,7 @@ namespace BWAPIC
     bool isIdle;
     //bool isIrradiated; irradiateTimer > 0
     bool isLifted;
-    bool isLoaded;
+    //bool isLoaded; transport != -1
     //bool isLockedDown; lockdownTimer > 0
     //bool isMaelstrommed; maelstromTimer > 0
     bool isMorphing;

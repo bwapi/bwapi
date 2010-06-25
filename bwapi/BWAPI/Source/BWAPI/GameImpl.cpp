@@ -829,7 +829,8 @@ namespace BWAPI
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
         this->getUnit(i)->buildUnit = NULL;
-        this->getUnit(i)->larva.clear();
+        this->getUnit(i)->connectedUnits.clear();
+        this->getUnit(i)->loadedUnits.clear();
       }
         
 
@@ -861,8 +862,15 @@ namespace BWAPI
           i->buildUnit = j;
           j->buildUnit = i;
         }
+        if (i->getTransport()!=NULL)
+          ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
+
         if (i->getHatchery() != NULL)
-          ((UnitImpl*)i->getHatchery())->larva.insert((Unit*)i);
+          ((UnitImpl*)i->getHatchery())->connectedUnits.insert((Unit*)i);
+
+        if (i->getCarrier() != NULL)
+          ((UnitImpl*)i->getCarrier())->connectedUnits.insert((Unit*)i);
+
         if (i->getType() == UnitTypes::Terran_Nuclear_Missile &&
             i->nukeDetected == false &&
             i->getRawDataLocal()->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
@@ -2173,12 +2181,12 @@ namespace BWAPI
         }
 
         /* notify the client that the units in the transport died */
-        std::list<Unit*> loadedList = unit->getLoadedUnits();
+        std::set<Unit*> loadedSet = unit->getLoadedUnits();
 
         //units in terran bunker survive
         if (unit->getType() != UnitTypes::Terran_Bunker)
         {
-  		    foreach(Unit* loaded, loadedList)
+  		    foreach(Unit* loaded, loadedSet)
 	  		    this->onUnitDestroy((UnitImpl*)loaded);
         }
         this->client->onUnitDestroy(unit);
