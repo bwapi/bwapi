@@ -49,9 +49,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::MorphUnit;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandMorphUnit::describe()
-  {
-    return this->executors[0]->getName() + " is morphing into (" + this->toMorph.getName() + ")";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

@@ -579,6 +579,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandUseTech.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\ForceImpl.cpp"
 					>
 				</File>
@@ -776,6 +780,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\CommandUpgrade.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandUseTech.h"
 					>
 				</File>
 				<File

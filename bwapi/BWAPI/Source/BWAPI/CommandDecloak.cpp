@@ -11,24 +11,13 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandDecloak::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists()) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Decloak;
-      }
-    }
+    if (!executors[0]->_exists()) return;
+    executors[0]->getRawDataLocal()->orderID = BW::OrderID::Decloak;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandDecloak::getType()
   {
     return BWAPI::CommandTypes::Decloak;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  std::string CommandDecloak::describe()
-  {
-    return this->executors[0]->getName() + " decloaked";
   }
   //----------------------------------------------------------------------------------------------------------
 };

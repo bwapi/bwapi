@@ -1,5 +1,6 @@
 #include "CommandCloak.h"
 #include "UnitImpl.h"
+#include <BWAPI/TechType.h>
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -11,24 +12,17 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCloak::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists()) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Cloak;
-      }
-    }
+    if (!executors[0]->_exists()) return;
+    executors[0]->getRawDataLocal()->orderID = BW::OrderID::Cloak;
+    if (executors[0]->getRawDataLocal()->unitID==BW::UnitID::Terran_Ghost)
+      executors[0]->getRawDataLocal()->energy-=(u16)(BWAPI::TechTypes::Personnel_Cloaking.energyUsed()*256);
+    else
+      executors[0]->getRawDataLocal()->energy-=(u16)(BWAPI::TechTypes::Cloaking_Field.energyUsed()*256);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandCloak::getType()
   {
     return BWAPI::CommandTypes::Cloak;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  std::string CommandCloak::describe()
-  {
-    return this->executors[0]->getName() + " cloaked";
   }
   //----------------------------------------------------------------------------------------------------------
 };

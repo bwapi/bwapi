@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 MorphTest::MorphTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                             running(false),
-                                                             fail(false),
-                                                             producer(NULL),
-                                                             startTrainFrame(-1),
-                                                             nextUpdateFrame(-1),
-                                                             finishingMorph(false)
+                                                 running(false),
+                                                 fail(false),
+                                                 producer(NULL),
+                                                 startTrainFrame(-1),
+                                                 nextUpdateFrame(-1),
+                                                 finishingMorph(false)
 {
   producerType = unitType.whatBuilds().first;
   BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});

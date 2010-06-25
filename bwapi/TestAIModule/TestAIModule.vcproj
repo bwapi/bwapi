@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\UseTechTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\ZergTest.cpp"
 				>
 			</File>
@@ -275,6 +279,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\UpgradeTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\UseTechTest.h"
 				>
 			</File>
 			<File

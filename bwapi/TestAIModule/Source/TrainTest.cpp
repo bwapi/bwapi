@@ -3,11 +3,11 @@
 using namespace std;
 using namespace BWAPI;
 TrainTest::TrainTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                             running(false),
-                                                             fail(false),
-                                                             producer(NULL),
-                                                             startTrainFrame(-1),
-                                                             nextUpdateFrame(-1)
+                                                 running(false),
+                                                 fail(false),
+                                                 producer(NULL),
+                                                 startTrainFrame(-1),
+                                                 nextUpdateFrame(-1)
 {
   producerType = unitType.whatBuilds().first;
   BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});

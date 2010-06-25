@@ -16,7 +16,6 @@ namespace BWAPI
       CommandLoad(UnitImpl* executor, UnitImpl* target);
       virtual void execute();
       int getType();
-      std::string describe();
     private :
       UnitImpl* target;
   };

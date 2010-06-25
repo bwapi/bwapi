@@ -5,14 +5,14 @@ using namespace std;
 using namespace BWAPI;
 BuildingPlacer* placer=NULL;
 BuildTest::BuildTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                             running(false),
-                                                             fail(false),
-                                                             builder(NULL),
-                                                             building(NULL),
-                                                             startTrainFrame(-1),
-                                                             nextUpdateFrame(-1),
-                                                             finishFrame(-1),
-                                                             finishingBuilding(false)
+                                                 running(false),
+                                                 fail(false),
+                                                 builder(NULL),
+                                                 building(NULL),
+                                                 startTrainFrame(-1),
+                                                 nextUpdateFrame(-1),
+                                                 finishFrame(-1),
+                                                 finishingBuilding(false)
 {
   builderType = unitType.whatBuilds().first;
   BWAssertF(builderType!=UnitTypes::None,{fail=true;return;});

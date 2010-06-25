@@ -19,7 +19,6 @@ namespace BWAPI
       ~CommandUpgrade();
       virtual void execute();
       int getType();
-      std::string describe();
     private :
       BW::UpgradeType upgrade;
   };

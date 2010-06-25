@@ -45,13 +45,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::SetRally;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandSetRally::describe()
-  {
-    if (this->targetUnit)
-    {
-      return this->executors[0]->getName() + " set rally to unit";
-    }
-    return this->executors[0]->getName() + " set rally to position";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

@@ -23,9 +23,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::CancelAddon;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandCancelAddon::describe()
-  {
-    return this->executors[0]->getName() + " cancelled addon";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

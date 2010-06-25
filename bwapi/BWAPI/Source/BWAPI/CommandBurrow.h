@@ -15,7 +15,5 @@ namespace BWAPI
       CommandBurrow(UnitImpl* executor);
       virtual void execute();
       int getType();
-      std::string describe();
-    private :
   };
 };

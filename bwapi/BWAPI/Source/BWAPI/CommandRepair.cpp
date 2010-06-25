@@ -28,10 +28,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::Repair;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandRepair::describe()
-  {
-    bool building = this->target->getType().isBuilding() || this->target->getType().isAddon();
-    return this->executors[0]->getName() + " is repairing " + (building ? "Building" : "Unit");
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

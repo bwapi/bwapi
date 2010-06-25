@@ -11,21 +11,13 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandSiege::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists()) continue;
-      this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::SiegeMode;
-    }
+    if (!this->executors[0]->_exists()) return;
+    this->executors[0]->getRawDataLocal()->orderID = BW::OrderID::SiegeMode;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandSiege::getType()
   {
     return BWAPI::CommandTypes::Siege;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  std::string CommandSiege::describe()
-  {
-    return this->executors[0]->getName() + " sieged";
   }
   //----------------------------------------------------------------------------------------------------------
 };
