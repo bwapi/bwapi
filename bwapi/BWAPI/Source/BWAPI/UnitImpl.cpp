@@ -45,6 +45,7 @@
 #include "CommandFollow.h"
 #include "CommandSetRally.h"
 #include "CommandReturnCargo.h"
+#include "CommandUseTech.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -2316,6 +2317,7 @@ namespace BWAPI
     {
       case BW::TechID::Stimpacks:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
+        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech));
         break;
       case BW::TechID::TankSiegeMode:
         if (this->isSieged())

@@ -39,9 +39,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::UnloadAll;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandUnloadAll::describe()
-  {
-    return this->executors[0]->getName() + " unloaded all units";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

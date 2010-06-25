@@ -23,9 +23,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::CancelUpgrade;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandCancelUpgrade::describe()
-  {
-    return this->executors[0]->getName() + " cancelled upgrade";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

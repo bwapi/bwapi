@@ -29,9 +29,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::Stop;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandReturnCargo::describe()
-  {
-    return this->executors[0]->getName() + " returned cargo";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

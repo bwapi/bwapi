@@ -29,9 +29,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::AttackUnit;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandAttackUnit::describe()
-  {
-    return this->executors[0]->getName() + " attacked unit";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

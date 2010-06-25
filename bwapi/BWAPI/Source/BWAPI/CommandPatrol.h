@@ -16,7 +16,6 @@ namespace BWAPI
       CommandPatrol(UnitImpl* executor, const BW::Position& targetPosition);
       virtual void execute();
       int getType();
-      std::string describe();
     private :
       BW::Position targetPosition;
   };

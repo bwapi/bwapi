@@ -23,9 +23,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::CancelResearch;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandCancelConstruction::describe()
-  {
-    return this->executors[0]->getName() + " cancelled construction";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

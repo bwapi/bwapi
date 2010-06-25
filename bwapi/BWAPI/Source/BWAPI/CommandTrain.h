@@ -24,7 +24,6 @@ namespace BWAPI
       ~CommandTrain();
       virtual void execute();
       int getType();
-      std::string describe();
     private :
       BW::UnitType toTrain;
   };

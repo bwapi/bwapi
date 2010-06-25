@@ -38,6 +38,7 @@ namespace BWAPI
       CancelMorph,
       Follow,
       SetRally,
+      UseTech
     };
   }
 };

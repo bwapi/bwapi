@@ -3,15 +3,27 @@
 #include "BuildTest.h"
 #include "ResearchTest.h"
 #include "UpgradeTest.h"
+#include "UseTechTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
 {
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
+  Broodwar->enableFlag(Flag::UserInput);
   Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
+
   Broodwar->setLocalSpeed(0);
+  this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
+  this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
+  this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
+  this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
+  this->addTestCase(new TrainTest(UnitTypes::Terran_Marine));
+  this->addTestCase(new UseTechTest(TechTypes::Stim_Packs));
+  return;
+
+
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));

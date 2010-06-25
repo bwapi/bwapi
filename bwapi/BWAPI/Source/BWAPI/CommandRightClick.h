@@ -22,7 +22,6 @@ namespace BWAPI
       CommandRightClick(UnitImpl* executor, UnitImpl* targetUnit);
       virtual void execute();
       int getType();
-      std::string describe();
     private :
       UnitImpl* targetUnit;
       BW::Position targetPosition;

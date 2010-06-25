@@ -48,9 +48,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::HoldPosition;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandHoldPosition::describe()
-  {
-    return this->executors[0]->getName() + " held position";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

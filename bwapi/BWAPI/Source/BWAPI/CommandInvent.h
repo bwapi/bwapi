@@ -19,7 +19,6 @@ namespace BWAPI
       ~CommandInvent();
       virtual void execute();
       int getType();
-      std::string describe();
     private :
       BW::TechType tech;
   };

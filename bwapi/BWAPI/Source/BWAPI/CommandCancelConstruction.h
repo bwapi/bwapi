@@ -14,6 +14,5 @@ namespace BWAPI
       CommandCancelConstruction(UnitImpl* building);
       int getType();
       virtual void execute();
-      std::string describe();
   };
 };

@@ -49,9 +49,4 @@ namespace BWAPI
     return CommandTypes::Build;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandBuild::describe()
-  {
-    return this->executors[0]->getName() + " will construct (" + toBuild.getName() + ")";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

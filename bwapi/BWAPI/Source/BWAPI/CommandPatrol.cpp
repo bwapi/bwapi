@@ -27,9 +27,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::Patrol;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandPatrol::describe()
-  {
-    return this->executors[0]->getName() + " patroled to location";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

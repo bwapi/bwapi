@@ -12,6 +12,7 @@ namespace Util
   {
     public :
       bool getBit(Type bit) const;
+      void setBit(Type bit, bool val);
     Type value;
   };
   //------------------------------------------------ GET BIT -------------------------------------------------
@@ -19,5 +20,14 @@ namespace Util
   bool BitMask<Type>::getBit(Type bit) const
   {
     return (value & bit) != 0;
+  }
+  //------------------------------------------------ SET BIT -------------------------------------------------
+  template <class Type>
+  void BitMask<Type>::setBit(Type bit, bool val)
+  {
+    if (val)
+      value |= bit;
+    else
+      value &= ~bit;
   }
 }

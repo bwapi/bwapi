@@ -1575,7 +1575,6 @@ namespace BWAPI
   {
     command->execute();
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
-    this->commandLog->log("(%4d) %s", this->frameCount, command->describe().c_str());
   }
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()

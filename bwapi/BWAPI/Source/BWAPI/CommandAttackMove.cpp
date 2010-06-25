@@ -28,9 +28,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::AttackMove;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandAttackMove::describe()
-  {
-    return this->executors[0]->getName() + " attacked location";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

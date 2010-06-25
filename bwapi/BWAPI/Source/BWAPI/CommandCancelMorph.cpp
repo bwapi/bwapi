@@ -23,9 +23,4 @@ namespace BWAPI
     return BWAPI::CommandTypes::CancelMorph;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandCancelMorph::describe()
-  {
-    return this->executors[0]->getName() + " cancelled morph";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };

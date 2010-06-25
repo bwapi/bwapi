@@ -34,9 +34,4 @@ namespace BWAPI
     return CommandTypes::Upgrade;
   }
   //----------------------------------------------------------------------------------------------------------
-  std::string CommandUpgrade::describe()
-  {
-    return this->executors[0]->getName() + " will upgrade (" + upgrade.getName() + ")";
-  }
-  //----------------------------------------------------------------------------------------------------------
 };
