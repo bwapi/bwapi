@@ -1120,9 +1120,7 @@ namespace BWAPI
     checkAccessInt();
     if (this->getType() != UnitTypes::Protoss_Carrier)
       return 0;
-
-    return this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.interceptorCountInHangar
-          +this->getRawDataLocal()->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.interceptorCountOutOfHangar;
+    return this->connectedUnits.size();
   }
   //-------------------------------------------- GET SCARAB COUNT --------------------------------------------
   int UnitImpl::getScarabCount() const
