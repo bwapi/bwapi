@@ -19,7 +19,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandTrain::execute()
   {
-    if (!this->executors[0]->_exists()) return;
+    if (!this->executors[0]->_exists) return;
     if (toTrain == BW::UnitID::Terran_NuclearMissile)
     {
       this->executors[0]->getRawDataLocal()->secondaryOrderID = BW::OrderID::Train;

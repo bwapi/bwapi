@@ -21,7 +21,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandUseTech::execute()
   {
-    if (!executors[0]->_exists()) return;
+    if (!executors[0]->_exists) return;
     switch(tech.getID())
     {
       case BW::TechID::Stimpacks:

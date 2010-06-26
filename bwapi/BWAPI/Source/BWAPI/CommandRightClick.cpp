@@ -23,8 +23,8 @@ namespace BWAPI
   {
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
-      if (!this->executors[i]->_exists()) continue;
-      if (targetUnit != NULL && targetUnit->_exists())
+      if (!this->executors[i]->_exists) continue;
+      if (targetUnit != NULL && targetUnit->_exists)
       {
         if (this->executors[i]->getType().isWorker() &&
             targetUnit->getType()==UnitTypes::Resource_Mineral_Field)

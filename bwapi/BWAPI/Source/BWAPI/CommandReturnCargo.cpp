@@ -13,7 +13,7 @@ namespace BWAPI
   {
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
-      if (!this->executors[i]->_exists()) continue;
+      if (!this->executors[i]->_exists) continue;
       if ((this->executors[i]->getType().canMove()))
       {
         if (this->executors[i]->isCarryingGas())

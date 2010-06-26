@@ -638,6 +638,10 @@
 					RelativePath=".\Source\BWAPI\UnitImpl.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Source\BWAPI\UnitUpdate.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header files"

@@ -62,7 +62,7 @@ namespace BWAPI
       , index(index)
       , userSelected(false)
       , buildUnit(NULL)
-      , alive(false) //alive is true while the unit exists
+      , _exists(false) //_exists is true while the unit exists
       , dead(false) //dead only set to true once the unit has died
       , savedPlayer(NULL)
       , savedUnitType(UnitTypes::None)
@@ -76,11 +76,18 @@ namespace BWAPI
       , lastGroundWeaponCooldown(0)
       , lastAirWeaponCooldown(0)
       , startingAttack(false)
+      , id((int)this)
   {
+    self = &data;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   UnitImpl::~UnitImpl()
   {
+  }
+  //------------------------------------------------- GET ID -------------------------------------------------
+  int UnitImpl::getID() const
+  {
+    return id;
   }
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::getHitPoints() const
@@ -227,11 +234,6 @@ namespace BWAPI
     checkAccessInt();
     return this->getRawDataLocal()->removeTimer;
   }
-  //------------------------------------------------- GET ID -------------------------------------------------
-  int UnitImpl::getID() const
-  {
-    return (int)this;
-  }
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
@@ -245,7 +247,7 @@ namespace BWAPI
   //----------------------------------------------- GET OWNER ------------------------------------------------
   Player* UnitImpl::_getPlayer() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return this->savedPlayer;
     return (Player*)BroodwarImpl.players[this->getRawDataLocal()->playerID];
   }
@@ -257,13 +259,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (!canAccessSpecial())
       return false;
-    return this->alive; //return _exists();
-  }
-  //-------------------------------------------------- DIED --------------------------------------------------
-  //returns true if the unit once exists and now does not exist
-  bool UnitImpl::died() const
-  {
-    return this->dead;
+    return this->_exists; //return _exists();
   }
   //--------------------------------------------- IS ACCELERATING --------------------------------------------
   bool UnitImpl::isAccelerating() const
@@ -347,7 +343,7 @@ namespace BWAPI
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool UnitImpl::_isCompleted() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return false;
     return this->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
   }
@@ -670,7 +666,7 @@ namespace BWAPI
   bool UnitImpl::isVisible() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!this->_exists())
+    if (!this->_exists)
     {
       if (this->savedPlayer == BroodwarImpl.self())
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
@@ -694,7 +690,7 @@ namespace BWAPI
   bool UnitImpl::isVisible(Player* player) const
   {
     BroodwarImpl.setLastError(Errors::None);
-    if (!this->_exists())
+    if (!this->_exists)
     {
       if (this->savedPlayer == BroodwarImpl.self())
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
@@ -707,7 +703,7 @@ namespace BWAPI
     if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return false;
 
-    if (this->getPlayer() == player)
+    if (this->_getPlayer() == player)
       return true;
 
     if (player == NULL)
@@ -722,7 +718,7 @@ namespace BWAPI
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return;
     this->userSelected = selectedState;
   }
@@ -735,7 +731,7 @@ namespace BWAPI
   //---------------------------------------------- GET POSITION ----------------------------------------------
   Position UnitImpl::_getPosition() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return BWAPI::Positions::Unknown;
     if (_getTransport()!=NULL)
       return ((UnitImpl*)_getTransport())->_getPosition();
@@ -750,7 +746,7 @@ namespace BWAPI
   //------------------------------------------- GET TILE POSITION --------------------------------------------
   TilePosition UnitImpl::_getTilePosition() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return BWAPI::TilePositions::Unknown;
     return TilePosition(Position(this->_getPosition().x() - this->_getType().tileWidth() * BW::TILE_SIZE / 2,
                                  this->_getPosition().y() - this->_getType().tileHeight() * BW::TILE_SIZE / 2));
@@ -874,7 +870,7 @@ namespace BWAPI
   //-------------------------------------------- GET ORDER TARGET --------------------------------------------
   Unit* UnitImpl::_getOrderTarget() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return NULL;
     return UnitImpl::BWUnitToBWAPIUnit(this->getRawDataLocal()->orderTargetUnit);
   }
@@ -1000,7 +996,7 @@ namespace BWAPI
   //------------------------------------------------ GET ORDER -----------------------------------------------
   u8 UnitImpl::getBWOrder() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return BW::OrderID::Nothing;
     return this->getRawDataLocal()->orderID;
   }
@@ -1048,7 +1044,7 @@ namespace BWAPI
   //-------------------------------------------- GET TRANSPORT -----------------------------------------------
   Unit* UnitImpl::_getTransport() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return NULL;
 
     if (this->_getType() == UnitTypes::Protoss_Interceptor ||
@@ -1233,20 +1229,13 @@ namespace BWAPI
   //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
   bool UnitImpl::hasEmptyBuildQueue() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return true;
 
     if (this->getBuildQueueSlot() < 5)
       return this->getBuildQueue()[this->getBuildQueueSlot()] == BW::UnitID::None;
     else
       return false;
-  }
-  //----------------------------------------- HAS FULL QUEUE LOCAL -------------------------------------------
-  bool UnitImpl::hasFullBuildQueue() const
-  {
-    if (!this->_exists())
-      return false;
-    return this->getBuildQueue()[(this->getBuildQueueSlot() + 1) % 5] != BW::UnitID::None;
   }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
@@ -2555,7 +2544,7 @@ namespace BWAPI
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BWAPI::UnitType UnitImpl::_getType() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return this->savedUnitType;
 
     if ( this->getRawDataLocal()->unitID.id == BW::UnitID::Resource_MineralPatch1
@@ -2572,7 +2561,7 @@ namespace BWAPI
   //------------------------------------------------ GET BW TYPE ---------------------------------------------
   BW::UnitType UnitImpl::getBWType() const
   {
-    if (!this->_exists())
+    if (!this->_exists)
       return BW::UnitType(BW::UnitID::None);
     return this->getRawDataLocal()->unitID;
   }
@@ -2608,7 +2597,7 @@ namespace BWAPI
   void UnitImpl::die()
   {
     //if the unit already does exist, don't kill it again
-    if (!this->alive)
+    if (!this->_exists)
       return;
 
     //save player and unit type
@@ -2620,7 +2609,7 @@ namespace BWAPI
     this->bwOriginalUnit = NULL;
     this->index          = 0xFFFF;
     this->userSelected   = false;
-    this->alive          = false;
+    this->_exists        = false;
     this->dead           = true;
     this->lastType       = UnitTypes::Unknown;
     this->lastPlayer     = NULL;
@@ -2634,7 +2623,7 @@ namespace BWAPI
   */
   bool UnitImpl::canAccess() const
   {
-    if (!this->_exists())  return false;
+    if (!this->_exists)  return false;
     if (this->isVisible()) return true;
 
     //if we get here, the unit exists but is not visible
@@ -2681,7 +2670,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::None);
       if (this->canAccess())
         return true;
-      if (!this->_exists() && this->savedPlayer == BroodwarImpl.self())
+      if (!this->_exists && this->savedPlayer == BroodwarImpl.self())
       {
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
         return false;
@@ -2720,7 +2709,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::None);
       if (this->canAccessInside())
         return true;
-      if (!this->_exists() && this->savedPlayer == BroodwarImpl.self())
+      if (!this->_exists && this->savedPlayer == BroodwarImpl.self())
       {
         BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
         return false;
