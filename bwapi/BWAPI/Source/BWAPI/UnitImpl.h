@@ -210,26 +210,23 @@ namespace BWAPI
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
       void die();
       inline bool canAccess() const;
-      inline bool canAccessSpecial() const;
+      bool canAccessSpecial() const;
       inline bool canAccessInside() const;
       inline bool attemptAccess() const;
       inline bool attemptAccessSpecial() const;
       inline bool attemptAccessInside() const;
       bool _exists;
-      Player* _getPlayer() const;
-      UnitType _getType() const;
+      Player* _getPlayer;
+      UnitType _getType;
       std::string getName() const;
-      Position _getPosition() const;
-      TilePosition _getTilePosition() const;
+      Position _getPosition;
       int _getResources() const;
       int _getHitPoints() const;
       Unit* _getOrderTarget() const;
       bool _isCompleted() const;
       bool _isResearching() const;
       bool _isUpgrading() const;
-      Unit* _getTransport() const;
-
-      BW::UnitType getBWType() const;
+      Unit* _getTransport;
 
       /**
        * Gets index of the unit in the unit array. Note that the index is same
@@ -285,7 +282,6 @@ namespace BWAPI
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       UnitType staticType;
       BWAPI::Position staticPosition;
-      BWAPI::TilePosition staticTilePosition;
       int staticResources;
       int staticHitPoints;
   };

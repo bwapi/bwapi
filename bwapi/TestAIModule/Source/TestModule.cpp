@@ -23,6 +23,7 @@ void TestModule::onFrame()
   Broodwar->drawTextScreen(0,40,"Assert failed count: %d",assert_fail_count);
   for each(Unit* u in Broodwar->self()->getUnits())
   {
+    Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()-16,"%s",u->getType().getName().c_str());
     Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"%s",u->getOrder().getName().c_str());
   }
   runTestCases();

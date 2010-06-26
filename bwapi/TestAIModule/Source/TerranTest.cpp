@@ -15,6 +15,7 @@ void TerranTest::onStart()
   Broodwar->sendText("show me the money");
 
   Broodwar->setLocalSpeed(0);
+  /*
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
@@ -22,6 +23,7 @@ void TerranTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Terran_Marine));
   this->addTestCase(new UseTechTest(TechTypes::Stim_Packs));
   return;
+  */
 
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));

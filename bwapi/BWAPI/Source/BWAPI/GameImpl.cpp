@@ -1864,7 +1864,7 @@ namespace BWAPI
         { 
           for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
           {
-            if (self()->isEnemy(i->_getPlayer()) && i->_getType().isBuilding())
+            if (self()->isEnemy(i->_getPlayer) && i->_getType.isBuilding())
               win = false;
           }
         }
@@ -2297,44 +2297,44 @@ namespace BWAPI
     {
       if (i->canAccess())
       {
-        if ((i->_getType().isInvincible()==false && i->getHitPoints()<=0) || i->getOrder().getID() == BW::OrderID::Die)
+        if ((i->_getType.isInvincible()==false && i->getHitPoints()<=0) || i->getOrder().getID() == BW::OrderID::Die)
         {
           std::pair<UnitImpl*, bool> p(i,i->lastVisible);
           dyingUnits.push_back(p);
           continue;
         }
-        int startX = (i->_getPosition().x() - i->_getType().dimensionLeft()) / BW::TILE_SIZE;
-        int endX   = (i->_getPosition().x() + i->_getType().dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-        int startY = (i->_getPosition().y() - i->_getType().dimensionUp()) / BW::TILE_SIZE;
-        int endY   = (i->_getPosition().y() + i->_getType().dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+        int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
+        int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+        int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
+        int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
             this->unitsOnTileData[x][y].insert(i);
 
-        ((PlayerImpl*)(i->_getPlayer()))->units.insert(i);
+        ((PlayerImpl*)(i->_getPlayer))->units.insert(i);
 
         this->allUnits.insert(i);
 
-        if (i->_getPlayer()->isNeutral())
+        if (i->_getPlayer->isNeutral())
         {
           this->neutralUnits.insert(i);
-          if (i->_getType() == UnitTypes::Resource_Mineral_Field)
+          if (i->_getType == UnitTypes::Resource_Mineral_Field)
             this->minerals.insert(i);
           else
           {
-            if (i->_getType() == UnitTypes::Resource_Vespene_Geyser)
+            if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
               this->geysers.insert(i);
           }
         }
         else
         {
-          if (i->_getPlayer() == (Player*)this->BWAPIPlayer && i->_getType() == UnitTypes::Protoss_Pylon && i->_isCompleted())
+          if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted())
             this->myPylons.push_back(i);
         }
-        if (i->lastType != i->_getType() && i->lastType != UnitTypes::Unknown && i->_getType() != UnitTypes::Unknown)
+        if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
           morphUnits.push_back(i);
 
-        if (i->lastPlayer != i->_getPlayer() && i->lastPlayer != NULL && i->_getPlayer() != NULL)
+        if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
           renegadeUnits.push_back(i);
       }
 
@@ -2342,8 +2342,8 @@ namespace BWAPI
       i->lastAirWeaponCooldown    = i->getAirWeaponCooldown();
       i->lastGroundWeaponCooldown = i->getGroundWeaponCooldown();
 
-      i->lastType   = i->_getType();
-      i->lastPlayer = i->_getPlayer();
+      i->lastType   = i->_getType;
+      i->lastPlayer = i->_getPlayer;
       if (!i->lastVisible && i->isVisible())
       {
         i->lastVisible = true;
@@ -2362,15 +2362,15 @@ namespace BWAPI
     {
       foreach (UnitImpl* i, units)
       {
-        if (i->_getPlayer()->isNeutral())
+        if (i->_getPlayer->isNeutral())
         {
           i->saveInitialInformation();
           this->staticNeutralUnits.insert(i);
-          if (i->_getType() == UnitTypes::Resource_Mineral_Field)
+          if (i->_getType == UnitTypes::Resource_Mineral_Field)
             this->staticMinerals.insert(i);
           else
           {
-            if (i->_getType() == UnitTypes::Resource_Vespene_Geyser)
+            if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
               this->staticGeysers.insert(i);
           }
         }
