@@ -1,6 +1,7 @@
 #include "Server.h"
 #include <Util/Logger.h>
 #include "GameImpl.h"
+#include "UnitImpl.h"
 #include <BWAPI/Client/GameData.h>
 namespace BWAPI
 {
@@ -325,17 +326,18 @@ namespace BWAPI
       {
         int id              = getUnitID(*i);
         BWAPIC::UnitData* u = &(data->units[id]);
-        u->player           = getPlayerID((*i)->getPlayer());
-        u->type             = (*i)->getType().getID();
-        u->positionX        = (*i)->getPosition().x();
-        u->positionY        = (*i)->getPosition().y();
-        u->angle            = (*i)->getAngle();
-        u->velocityX        = (*i)->getVelocityX();
-        u->velocityY        = (*i)->getVelocityY();
-        u->hitPoints        = (*i)->getHitPoints();
-        u->shields          = (*i)->getShields();
-        u->energy           = (*i)->getEnergy();
-        u->resources        = (*i)->getResources();
+        BWAPIC::UnitData* u2= ((UnitImpl*)(*i))->self;
+        u->player           = u2->player;
+        u->type             = u2->type;
+        u->positionX        = u2->positionX;
+        u->positionY        = u2->positionY;
+        u->angle            = u2->angle;
+        u->velocityX        = u2->velocityX;
+        u->velocityY        = u2->velocityY;
+        u->hitPoints        = u2->hitPoints;
+        u->shields          = u2->shields;
+        u->energy           = u2->energy;
+        u->resources        = u2->resources;
 
         u->killCount            = (*i)->getKillCount();
         u->scarabCount          = (*i)->getScarabCount();

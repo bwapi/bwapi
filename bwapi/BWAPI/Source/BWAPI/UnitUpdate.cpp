@@ -28,8 +28,6 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //_getPlayer
       _getPlayer = (Player*)BroodwarImpl.players[getRawDataLocal->playerID];
-
-
       //------------------------------------------------------------------------------------------------------
       //isVisible
       for(int i=0;i<9;i++)
@@ -60,7 +58,6 @@ namespace BWAPI
         self->isVisible[selfPlayerID] = true;
       else
         self->isVisible[selfPlayerID] = (getRawDataLocal->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
-
       //------------------------------------------------------------------------------------------------------
       //_getType
       if ( getRawDataLocal->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
@@ -73,7 +70,6 @@ namespace BWAPI
       {
         _getType = UnitType(getRawDataLocal->unitID.id);
       }
-
       //------------------------------------------------------------------------------------------------------
       //_getTransport
       if (_getType == UnitTypes::Protoss_Interceptor ||
@@ -90,14 +86,25 @@ namespace BWAPI
         _getTransport = (Unit*)(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->connectedUnit));
       else
         _getTransport = NULL;
-
       //------------------------------------------------------------------------------------------------------
       //_getPosition
       if (_getTransport!=NULL)
         _getPosition = Position(((UnitImpl*)_getTransport)->getRawDataLocal->position.x,((UnitImpl*)_getTransport)->getRawDataLocal->position.y);
       else
         _getPosition = Position(getRawDataLocal->position.x, getRawDataLocal->position.y);
-
+      //------------------------------------------------------------------------------------------------------
+      //_getHitPoints
+      _getHitPoints = (int)ceil(getRawDataLocal->hitPoints / 256.0);
+      //------------------------------------------------------------------------------------------------------
+      //_getResources
+      if (_getType != UnitTypes::Resource_Mineral_Field &&
+          _getType != UnitTypes::Resource_Vespene_Geyser &&
+          _getType != UnitTypes::Terran_Refinery &&
+          _getType != UnitTypes::Protoss_Assimilator &&
+          _getType != UnitTypes::Zerg_Extractor)
+        _getResources = 0;
+      else
+        _getResources = getRawDataLocal->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
     }
     else
     {
@@ -117,6 +124,12 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //_getPosition
       _getPosition = Positions::Unknown;
+      //------------------------------------------------------------------------------------------------------
+      //_getHitPoints
+      _getHitPoints = 0;
+      //------------------------------------------------------------------------------------------------------
+      //_getResources
+      _getResources = 0;
     }
     if (canAccess())
     {
@@ -124,6 +137,37 @@ namespace BWAPI
       //getPosition
       self->positionX = _getPosition.x();
       self->positionY = _getPosition.y();
+      //------------------------------------------------------------------------------------------------------
+      //getAngle
+      int d = getRawDataLocal->currentDirection;
+      d -= 64;
+      if (d < 0)
+        d += 256;
+      self->angle = (double)d * 3.14159265358979323846 / 128.0;
+      //------------------------------------------------------------------------------------------------------
+      //getVelocityX
+      self->velocityX = (double)getRawDataLocal->current_speedX / 256.0;
+      //------------------------------------------------------------------------------------------------------
+      //getVelocityY
+      self->velocityY = (double)getRawDataLocal->current_speedY / 256.0;
+      //------------------------------------------------------------------------------------------------------
+      //getHitPoints
+      self->hitPoints = _getHitPoints;
+      //------------------------------------------------------------------------------------------------------
+      //getShields
+      if (this->_getType.maxShields()>0)
+        self->shields = (int)ceil(getRawDataLocal->shieldPoints/256.0);
+      else
+        self->shields = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getEnergy
+      if (this->_getType.isSpellcaster())
+        self->energy = (int)ceil(getRawDataLocal->energy/256.0);
+      else
+        self->energy = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getResources
+      self->resources = _getResources;
     }
     else
     {
@@ -131,6 +175,27 @@ namespace BWAPI
       //getPosition
       self->positionX = BWAPI::Positions::Unknown.x();
       self->positionX = BWAPI::Positions::Unknown.y();
+      //------------------------------------------------------------------------------------------------------
+      //getAngle
+      self->angle = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getVelocityX
+      self->velocityX = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getVelocityY
+      self->velocityY = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getHitPoints
+      self->hitPoints = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getShields
+      self->shields = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getEnergy
+      self->energy = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getResources
+      self->resources = 0;
     }
 
     if (canAccessSpecial())
