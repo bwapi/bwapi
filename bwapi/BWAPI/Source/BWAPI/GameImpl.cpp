@@ -832,10 +832,30 @@ namespace BWAPI
         this->getUnit(i)->connectedUnits.clear();
         this->getUnit(i)->loadedUnits.clear();
       }
-        
-
-      for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+      std::set<BWAPI::UnitImpl*> dyingUnits = units;
+      for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
+      {
         unitList.push_back(i);
+        dyingUnits.erase(i);
+      }
+      for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
+      {
+        if (i->_getType()==UnitTypes::Unknown) continue;//skip subunits if they are in this list
+        if (i->isCompleted()==false) continue;
+        unitList.push_back(i);
+        dyingUnits.erase(i);
+      }
+      for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); i!=NULL ; i = i->getNext())
+      {
+        unitList.push_back(i);
+        dyingUnits.erase(i);
+      }
+      for each(UnitImpl* u in dyingUnits)
+      {
+        //Broodwar->printf("unit %x died",u);
+        onUnitDestroy(u);
+        units.erase(u);
+      }
 
       this->unitsToBeAdded.clear();
       std::list<Position> detectedNukes;
@@ -1835,10 +1855,10 @@ namespace BWAPI
         if (this->_isReplay())
           win = false;
         else
-        {
-          for (UnitImpl* i = this->getFirst(); i != NULL; i = i->getNext())
+        { 
+          for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
           {
-            if (self()->isEnemy(i->_getPlayer()))
+            if (self()->isEnemy(i->_getPlayer()) && i->_getType().isBuilding())
               win = false;
           }
         }
@@ -2196,11 +2216,6 @@ namespace BWAPI
       this->inUpdate = isInUpdate;
     }
     unit->die();
-  }
-  //----------------------------------------------- GET FIRST ------------------------------------------------
-  UnitImpl* GameImpl::getFirst()
-  {
-    return UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeTable_FirstElement);
   }
   //--------------------------------------------- GET GAME TYPE ----------------------------------------------
   GameType GameImpl::getGameType()
