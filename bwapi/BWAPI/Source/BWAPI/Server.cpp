@@ -474,7 +474,7 @@ namespace BWAPI
   }
   Force* Server::getForce(int id)
   {
-    if (forceVector.size()<=id)
+    if ((int)forceVector.size()<=id)
       return NULL;
     return forceVector[id];
   }
@@ -491,7 +491,7 @@ namespace BWAPI
   }
   Player* Server::getPlayer(int id)
   {
-    if (playerVector.size()<=id)
+    if ((int)playerVector.size()<=id)
       return NULL;
     return playerVector[id];
   }
@@ -508,7 +508,7 @@ namespace BWAPI
   }
   Unit* Server::getUnit(int id)
   {
-    if (unitVector.size()<=id)
+    if ((int)unitVector.size()<=id)
       return NULL;
     return unitVector[id];
   }

@@ -16,7 +16,7 @@ namespace BWAPI
       if (!this->executors[i]->_exists) continue;
       if ((this->executors[i]->getType().canMove()))
       {
-        switch (this->executors[i]->getBWType().getID())
+        switch (this->executors[i]->getType().getID())
         {
           case BW::UnitID::Protoss_Carrier:
           case BW::UnitID::Protoss_Hero_Gantrithor:
