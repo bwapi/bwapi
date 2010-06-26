@@ -119,7 +119,7 @@ namespace BWAPI
   int UnitImpl::getGroundWeaponCooldown() const
   {
     checkAccessInt();
-    if (this->_getType==BW::UnitID::Protoss_Reaver)
+    if (_getType==UnitTypes::Protoss_Reaver)
       return getRawDataLocal->mainOrderTimer;
 
     if (getRawDataLocal->subUnit != NULL)
@@ -598,7 +598,7 @@ namespace BWAPI
   bool UnitImpl::isUnpowered() const
   {
     checkAccessBool();
-    if (_getType.getRace() == BW::Race::Protoss && _getType.isBuilding())
+    if (_getType.getRace() == Races::Protoss && _getType.isBuilding())
       return getRawDataLocal->status.getBit(BW::StatusFlags::DoodadStatesThing);
     return false;
   }
