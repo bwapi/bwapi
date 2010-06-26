@@ -32,8 +32,8 @@ namespace BWAPI
       //isVisible
       for(int i=0;i<9;i++)
       {
-        Player* player = BroodwarImpl.server.getPlayer(i);
         if (i==selfPlayerID) continue;
+        Player* player = BroodwarImpl.server.getPlayer(i);
         if (getRawDataLocal->sprite == NULL)
           self->isVisible[i]=false;
              //this function is only available when Broodwar is in a replay or the complete map information flag is enabled.
@@ -43,10 +43,10 @@ namespace BWAPI
           self->isVisible[i]=true;
         else if (player == NULL)
           self->isVisible[i]=false;
-        else if (player->isNeutral())
+        else if (player->getID()==11)
           self->isVisible[i]=getRawDataLocal->sprite->visibilityFlags > 0;
         else
-          self->isVisible[i]=(getRawDataLocal->sprite->visibilityFlags & (1 << i)) != 0;
+          self->isVisible[i]=(getRawDataLocal->sprite->visibilityFlags & (1 << player->getID())) != 0;
       }
       if (getRawDataLocal->sprite == NULL)
         self->isVisible[selfPlayerID] = false;
