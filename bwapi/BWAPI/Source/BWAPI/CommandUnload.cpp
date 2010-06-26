@@ -15,8 +15,8 @@ namespace BWAPI
     for (unsigned int i = 0; i < this->executors.size(); i++)
     {
       if (!this->executors[i]->_exists) continue;
-      this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Unload;
-      this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
+      this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Unload;
+      this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

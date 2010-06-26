@@ -17,9 +17,9 @@ namespace BWAPI
       if ((this->executors[i]->getType().canMove()))
       {
         if (this->executors[i]->isCarryingGas())
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::ReturnGas;
+          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ReturnGas;
         else
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::ReturnMinerals;
+          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ReturnMinerals;
       }
     }
   }

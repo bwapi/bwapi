@@ -28,18 +28,18 @@ namespace BWAPI
       {
         if (this->executors[i]->getType().isWorker() &&
             targetUnit->getType()==UnitTypes::Resource_Mineral_Field)
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToMinerals;
+          executors[i]->getRawDataLocal->orderID = BW::OrderID::MoveToMinerals;
 
         else if (this->executors[i]->getType().isWorker() &&
                  targetUnit->getType().isRefinery())
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveToGas;
+          executors[i]->getRawDataLocal->orderID = BW::OrderID::MoveToGas;
 
         else if (this->executors[i]->getType().isWorker() &&
                  targetUnit->getType().getRace()==Races::Terran &&
                  targetUnit->getType().whatBuilds().first==this->executors[i]->getType() &&
                  !targetUnit->isCompleted())
         {
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::ConstructingBuilding;
+          executors[i]->getRawDataLocal->orderID = BW::OrderID::ConstructingBuilding;
           executors[i]->buildUnit=targetUnit;
           targetUnit->buildUnit=executors[i];
         }
@@ -47,12 +47,12 @@ namespace BWAPI
         else if ((this->executors[i]->getType().canAttack()) &&
                  targetUnit->getPlayer() != executors[i]->getPlayer() &&
                  !targetUnit->getType().isNeutral())
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::AttackUnit;
+          executors[i]->getRawDataLocal->orderID = BW::OrderID::AttackUnit;
 
         else if ((this->executors[i]->getType().canMove()))
-          executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
+          executors[i]->getRawDataLocal->orderID = BW::OrderID::Move;
 
-        executors[i]->getRawDataLocal()->targetUnit = targetUnit->getOriginalRawData();
+        executors[i]->getRawDataLocal->targetUnit = targetUnit->getOriginalRawData();
       }
       else // targetUnit == NULL -> targetPosition is relevant
       {
@@ -60,7 +60,7 @@ namespace BWAPI
         {
           if ((this->executors[i]->getType().canMove()))
           {
-            executors[i]->getRawDataLocal()->orderID = BW::OrderID::Move;
+            executors[i]->getRawDataLocal->orderID = BW::OrderID::Move;
           }
         }
       }
