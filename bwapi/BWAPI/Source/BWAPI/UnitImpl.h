@@ -220,8 +220,8 @@ namespace BWAPI
       UnitType _getType;
       std::string getName() const;
       Position _getPosition;
-      int _getResources() const;
-      int _getHitPoints() const;
+      int _getResources;
+      int _getHitPoints;
       Unit* _getOrderTarget() const;
       bool _isCompleted() const;
       bool _isResearching() const;

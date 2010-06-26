@@ -92,52 +92,22 @@ namespace BWAPI
   //------------------------------------------- GET HEALTH POINTS --------------------------------------------
   int UnitImpl::getHitPoints() const
   {
-    checkAccessInt();
-    return this->_getHitPoints();
-  }
-  //------------------------------------------- GET HEALTH POINTS --------------------------------------------
-  int UnitImpl::_getHitPoints() const
-  {
-    return (int)ceil(getRawDataLocal->hitPoints / 256.0);
+    return self->hitPoints;
   }
   //---------------------------------------------- GET SHIELDS -----------------------------------------------
   int UnitImpl::getShields() const
   {
-    checkAccessInt();
-    if (this->_getType.maxShields()>0)
-    {
-      return (int)ceil(getRawDataLocal->shieldPoints/256.0);
-    }
-    return 0;
+    return self->shields;
   }
   //------------------------------------------- GET ENERGY POINTS --------------------------------------------
   int UnitImpl::getEnergy() const
   {
-    checkAccessInt();
-    if (this->_getType.isSpellcaster())
-    {
-      return (int)ceil(getRawDataLocal->energy/256.0);
-    }
-    return 0;
+    return self->energy;
   }
   //----------------------------------------------- RESOURCES ------------------------------------------------
   int UnitImpl::getResources() const
   {
-    checkAccessInt();
-    return this->_getResources();
-  }
-  //----------------------------------------------- RESOURCES ------------------------------------------------
-  int UnitImpl::_getResources() const
-  {
-    if (this->_getType != UnitTypes::Resource_Mineral_Field &&
-        this->_getType != UnitTypes::Resource_Vespene_Geyser &&
-        this->_getType != UnitTypes::Terran_Refinery &&
-        this->_getType != UnitTypes::Protoss_Assimilator &&
-        this->_getType != UnitTypes::Zerg_Extractor)
-    {
-      return 0;
-    }
-    return getRawDataLocal->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+    return self->resources;
   }
   //-------------------------------------------- GET KILL COUNT ----------------------------------------------
   int UnitImpl::getKillCount() const
@@ -856,25 +826,17 @@ namespace BWAPI
   //---------------------------------------------- GET DIRECTION ---------------------------------------------
   double UnitImpl::getAngle() const
   {
-    checkAccessInt();
-    int d = getRawDataLocal->currentDirection;
-    d -= 64;
-    if (d < 0)
-      d += 256;
-    double a = (double)d * 3.14159265358979323846 / 128.0;
-    return a;
+    return self->angle;
   }
   //---------------------------------------------- GET VELOCITY X --------------------------------------------
   double UnitImpl::getVelocityX() const
   {
-    checkAccessInt();
-    return (double)getRawDataLocal->current_speedX / 256.0;//scale to pixels per frame
+    return self->velocityX;
   }
   //---------------------------------------------- GET VELOCITY Y --------------------------------------------
   double UnitImpl::getVelocityY() const
   {
-    checkAccessInt();
-    return (double)getRawDataLocal->current_speedY / 256.0;//scale to pixels per frame
+    return self->velocityY;
   }
   //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
@@ -2648,8 +2610,8 @@ namespace BWAPI
     this->staticInformation  = true;
     this->staticType         = this->_getType;
     this->staticPosition     = this->_getPosition;
-    this->staticResources    = this->_getResources();
-    this->staticHitPoints    = this->_getHitPoints();
+    this->staticResources    = this->_getResources;
+    this->staticHitPoints    = this->_getHitPoints;
   }
   UnitType UnitImpl::getInitialType() const
   {
