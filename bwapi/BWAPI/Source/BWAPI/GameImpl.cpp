@@ -841,7 +841,7 @@ namespace BWAPI
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
       {
         if (i->_getType()==UnitTypes::Unknown) continue;//skip subunits if they are in this list
-        if (i->isCompleted()==false) continue;
+        if (!i->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed)) continue;
         if (i->_getType()==UnitTypes::Protoss_Scarab ||
             i->_getType()==UnitTypes::Terran_Vulture_Spider_Mine) continue;
         unitList.push_back(i);
