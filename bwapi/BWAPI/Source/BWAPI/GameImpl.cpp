@@ -842,6 +842,8 @@ namespace BWAPI
       {
         if (i->_getType()==UnitTypes::Unknown) continue;//skip subunits if they are in this list
         if (i->isCompleted()==false) continue;
+        if (i->_getType()==UnitTypes::Protoss_Scarab ||
+            i->_getType()==UnitTypes::Terran_Vulture_Spider_Mine) continue;
         unitList.push_back(i);
         dyingUnits.erase(i);
       }
@@ -2204,7 +2206,7 @@ namespace BWAPI
         std::set<Unit*> loadedSet = unit->getLoadedUnits();
 
         //units in terran bunker survive
-        if (unit->getType() != UnitTypes::Terran_Bunker)
+        if (unit->getType().isFlyer())
         {
   		    foreach(Unit* loaded, loadedSet)
 	  		    this->onUnitDestroy((UnitImpl*)loaded);
