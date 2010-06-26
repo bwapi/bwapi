@@ -665,55 +665,12 @@ namespace BWAPI
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!_exists)
-    {
-      if (this->savedPlayer == BroodwarImpl.self())
-        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-      return false;
-    }
-
-    if (getRawDataLocal->sprite == NULL)
-      return false;
-
-    if (BroodwarImpl._isReplay())
-      return getRawDataLocal->sprite->visibilityFlags > 0;
-
-    if (_getPlayer() == BWAPI::BroodwarImpl.self())
-      return true;
-
-    if (makeVisible)
-      return true;
-
-    return (getRawDataLocal->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
+    return self->isVisible[BroodwarImpl.server.getPlayerID(Broodwar->self())];
   }
   bool UnitImpl::isVisible(Player* player) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!this->_exists)
-    {
-      if (this->savedPlayer == BroodwarImpl.self())
-        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-      return false;
-    }
-    if (getRawDataLocal->sprite == NULL)
-      return false;
-
-    //this function is only available when Broodwar is in a replay or the complete map information flag is enabled.
-    if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-      return false;
-
-    if (_getPlayer() == player)
-      return true;
-
-    if (player == NULL)
-      return false;
-
-    int playerid=player->getID();
-    if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
-      return getRawDataLocal->sprite->visibilityFlags > 0;
-
-    return (getRawDataLocal->sprite->visibilityFlags & (1 << playerid)) != 0;
+    if (player==NULL) return false;
+    return self->isVisible[BroodwarImpl.server.getPlayerID(player)];
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)

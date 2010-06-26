@@ -472,6 +472,12 @@ namespace BWAPI
     }
     return forceLookup[force];
   }
+  Force* Server::getForce(int id)
+  {
+    if (forceVector.size()<=id)
+      return NULL;
+    return forceVector[id];
+  }
 
   int Server::getPlayerID(Player* player)
   {
@@ -483,6 +489,12 @@ namespace BWAPI
     }
     return playerLookup[player];
   }
+  Player* Server::getPlayer(int id)
+  {
+    if (playerVector.size()<=id)
+      return NULL;
+    return playerVector[id];
+  }
 
   int Server::getUnitID(Unit* unit)
   {
@@ -493,6 +505,12 @@ namespace BWAPI
       unitVector.push_back(unit);
     }
     return unitLookup[unit];
+  }
+  Unit* Server::getUnit(int id)
+  {
+    if (unitVector.size()<=id)
+      return NULL;
+    return unitVector[id];
   }
 
   void Server::callOnFrame()
