@@ -233,7 +233,6 @@ namespace BWAPI
 
       void loadSelected();
 
-      UnitImpl* getFirst();
       std::set<UnitImpl*> units;
       UnitImpl* getUnit(int index);
       BulletImpl* getBullet(int index);

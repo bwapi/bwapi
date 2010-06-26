@@ -11,6 +11,7 @@
 #include "ProtossTest.h"
 #include "ZergTest.h"
 #include "InterceptorTest.h"
+#include "ExistenceTest.h"
 namespace BWAPI { Game* Broodwar; }
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
@@ -44,5 +45,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return new ZergTest();
   if (game->mapFilename()=="InterceptorTest.scm")
     return new InterceptorTest();
+  if (game->mapFilename()=="ExistenceTest.scx")
+    return new ExistenceTest();
   return new BWAPI::AIModule();
 }

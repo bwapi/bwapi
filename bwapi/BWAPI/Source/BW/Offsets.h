@@ -176,7 +176,10 @@ namespace BW
   extern DoodatType *BWDATA_DoodatSet;
 
   static Positions      *BWDATA_MapSize                   = (Positions*)   0x0057F1D4;
-  static Unit**         BWDATA_UnitNodeTable_FirstElement = (Unit**)       0x00628430;               // @TODO: Verify; old: 0x00628410;
+  static Unit**         BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**) 0x00628430;
+  static Unit**         BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**) 0x006283EC;
+  static Unit**         BWDATA_UnitNodeList_ScannerSweep_First = (Unit**) 0x006283F4;
+  static Unit**         BWDATA_UnitNodeList_UnusedUnit_First   = (Unit**) 0x00628438;
   static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
   static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CCA8;
   const  u32            UNIT_ARRAY_MAX_LENGTH             = 1700;
