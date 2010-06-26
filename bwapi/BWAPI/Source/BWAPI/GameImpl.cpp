@@ -840,10 +840,12 @@ namespace BWAPI
       }
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
       {
-        if (i->_getType()==UnitTypes::Unknown) continue;//skip subunits if they are in this list
-        if (!i->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed)) continue;
-        if (i->_getType()==UnitTypes::Protoss_Scarab ||
-            i->_getType()==UnitTypes::Terran_Vulture_Spider_Mine) continue;
+        UnitType _getType = BWAPI::UnitType(i->getRawDataLocal()->unitID.id);
+        bool _isCompleted = i->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
+        if (_getType==UnitTypes::Unknown) continue;//skip subunits if they are in this list
+        if (!_isCompleted) continue;
+        if (_getType==UnitTypes::Protoss_Scarab ||
+            _getType==UnitTypes::Terran_Vulture_Spider_Mine) continue;
         unitList.push_back(i);
         dyingUnits.erase(i);
       }
@@ -863,9 +865,10 @@ namespace BWAPI
       std::list<Position> detectedNukes;
       foreach (UnitImpl* i, unitList)
       {
+        i->_exists = true;
+        i->updateUnitData();
         if (this->units.find(i) == this->units.end())
         {
-          i->alive = true;
           this->units.insert(i);
           this->unitsToBeAdded.insert(i);
         }
@@ -1915,7 +1918,7 @@ namespace BWAPI
         continue;
       unitArray[i]->userSelected      = false;
       unitArray[i]->buildUnit         = NULL;
-      unitArray[i]->alive             = false;
+      unitArray[i]->_exists           = false;
       unitArray[i]->dead              = false;
       unitArray[i]->savedPlayer       = NULL;
       unitArray[i]->savedUnitType     = NULL;
@@ -2181,7 +2184,7 @@ namespace BWAPI
   void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
   {
     /* Called when a unit dies(death animation), not when it is removed */
-    if (!unit->alive)
+    if (!unit->_exists)
       return;
     this->units.erase(unit);
     deadUnits.push_back(unit);
@@ -2385,7 +2388,7 @@ namespace BWAPI
     }
 
     foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
-      if (this->client && i->_exists())
+      if (this->client && i->_exists)
         if (i->canAccess())
         {
           this->client->onUnitCreate(i);
@@ -2394,7 +2397,7 @@ namespace BWAPI
 
     /* Pass all renegade units to the AI client */
     foreach (BWAPI::UnitImpl* i, renegadeUnits)
-      if (this->client && i->_exists())
+      if (this->client && i->_exists)
       {
         this->client->onUnitRenegade(i);
         events.push_back(Event::UnitRenegade(i));
@@ -2402,7 +2405,7 @@ namespace BWAPI
 
     /* Pass all morphing units to the AI client */
     foreach (BWAPI::UnitImpl* i, morphUnits)
-      if (this->client && i->_exists())
+      if (this->client && i->_exists)
       {
         this->client->onUnitMorph(i);
         events.push_back(Event::UnitMorph(i));
@@ -2410,7 +2413,7 @@ namespace BWAPI
 
     /* Pass all showing units to the AI client */
     foreach (BWAPI::UnitImpl* i, showUnits)
-      if (this->client && i->_exists())
+      if (this->client && i->_exists)
       {
         this->client->onUnitShow(i);
         events.push_back(Event::UnitShow(i));
@@ -2418,7 +2421,7 @@ namespace BWAPI
 
     /* Pass all hiding units to the AI client */
     foreach (BWAPI::UnitImpl* i, hideUnits)
-      if (this->client && i->_exists())
+      if (this->client && i->_exists)
       {
         i->makeVisible = true;
         this->client->onUnitHide(i);

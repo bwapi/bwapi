@@ -11,7 +11,7 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandUnburrow::execute()
   {
-    if (!executors[0]->_exists()) return;
+    if (!executors[0]->_exists) return;
     executors[0]->getRawDataLocal()->orderID = BW::OrderID::Unburrow;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

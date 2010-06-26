@@ -13,6 +13,7 @@
 #include <BWAPI/UnitCommand.h>
 #include <BW/TilePosition.h>
 #include <BW/OrderID.h>
+#include <BWAPI/Client/UnitData.h>
 
 #define checkAccessBool() if (!this->attemptAccess()) return false
 #define checkAccessInt() if (!this->attemptAccess()) return 0
@@ -214,9 +215,7 @@ namespace BWAPI
       inline bool attemptAccess() const;
       inline bool attemptAccessSpecial() const;
       inline bool attemptAccessInside() const;
-      inline bool _exists() const;
-      bool _isGlobalVisible() const;
-      bool died() const;
+      bool _exists;
       Player* _getPlayer() const;
       UnitType _getType() const;
       std::string getName() const;
@@ -252,13 +251,13 @@ namespace BWAPI
       BW::UnitType* getBuildQueue() const;
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue() const;
-      /** Returns if the unit has full building queue */
-      bool hasFullBuildQueue() const;
 
       void saveInitialInformation();
+      void updateUnitData();
+      BWAPIC::UnitData data;
+      BWAPIC::UnitData* self;
 
       UnitImpl* buildUnit;
-      bool alive;
       bool dead;
       bool userSelected;
       bool staticInformation;
@@ -273,6 +272,7 @@ namespace BWAPI
       int lastGroundWeaponCooldown;
       int lastAirWeaponCooldown;
       bool startingAttack;
+      int id;
 
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
@@ -290,12 +290,5 @@ namespace BWAPI
       int staticResources;
       int staticHitPoints;
   };
-  
-  //------------------------------------------------- EXISTS -------------------------------------------------
-  //returns true if the unit exists
-  bool UnitImpl::_exists() const
-  {
-    return this->alive;
-  }
 };
 
