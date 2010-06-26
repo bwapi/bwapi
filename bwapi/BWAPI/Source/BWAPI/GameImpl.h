@@ -253,6 +253,7 @@ namespace BWAPI
       int bulletCount;
       BW::dialog *canvas;
       BW::dialog *myDlg;
+      Server server;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -310,7 +311,6 @@ namespace BWAPI
       std::string autoMenuEnemyRace;
       std::string autoMenuEnemyCount;
       std::string autoMenuGameType;
-      Server server;
       bool inGame;
 
       bool actMainMenu;

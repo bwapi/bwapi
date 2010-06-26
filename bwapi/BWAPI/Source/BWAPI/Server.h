@@ -16,6 +16,12 @@ namespace BWAPI
     bool isConnected();
     int addEvent(BWAPI::Event e);
     int addString(const char* text);
+    int getForceID(Force* force);
+    Force* getForce(int id);
+    int getPlayerID(Player* player);
+    Player* getPlayer(int id);
+    int getUnitID(Unit* unit);
+    Unit* getUnit(int id);
     private:
     void clearAll();
     void onMatchStart();
@@ -31,14 +37,11 @@ namespace BWAPI
     bool connected;
     std::vector<Force*> forceVector;
     std::map<Force*, int> forceLookup;
-    int getForceID(Force* force);
 
     std::vector<Player*> playerVector;
     std::map<Player*, int> playerLookup;
-    int getPlayerID(Player* player);
 
     std::vector<Unit*> unitVector;
     std::map<Unit*, int> unitLookup;
-    int getUnitID(Unit* unit);
   };
 }
