@@ -27,14 +27,14 @@ namespace BWAPI
         if (!this->executors[i]->_exists) continue;
         if (this->targetUnit != NULL && this->targetUnit->_exists)
         {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::RallyPointUnit;
-          this->executors[i]->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyUnit = this->targetUnit->getOriginalRawData();
+          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::RallyPointUnit;
+          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyUnit = this->targetUnit->getOriginalRawData();
         }
         else
         {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::RallyPointTile;
-          this->executors[i]->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyX = this->targetPosition.x;
-          this->executors[i]->getRawDataLocal()->rallyPsiProviderUnion.rally.rallyY = this->targetPosition.y;
+          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::RallyPointTile;
+          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyX = this->targetPosition.x;
+          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyY = this->targetPosition.y;
         }
       }
     }

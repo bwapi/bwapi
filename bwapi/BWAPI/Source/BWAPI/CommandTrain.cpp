@@ -22,11 +22,11 @@ namespace BWAPI
     if (!this->executors[0]->_exists) return;
     if (toTrain == BW::UnitID::Terran_NuclearMissile)
     {
-      this->executors[0]->getRawDataLocal()->secondaryOrderID = BW::OrderID::Train;
+      this->executors[0]->getRawDataLocal->secondaryOrderID = BW::OrderID::Train;
 
       //a hack to disambiguate between nuke silo lag compensation and nuke about to complete
       //used in UnitImpl::getRemainingTrainTime
-      this->executors[0]->getRawDataLocal()->driftPosX = 1; 
+      this->executors[0]->getRawDataLocal->driftPosX = 1; 
       return;
     }
     int slotToAffect = this->executors[0]->getBuildQueueSlot();
@@ -40,7 +40,7 @@ namespace BWAPI
     }
 
     executors[0]->getBuildQueue()[slotToAffect] = this->toTrain.getID();
-    this->executors[0]->getRawDataLocal()->buildQueueSlot = (u8)slotToAffect;
+    executors[0]->getRawDataLocal->buildQueueSlot = (u8)slotToAffect;
     PlayerImpl* p = static_cast<PlayerImpl*>(this->executors[0]->getPlayer());
     p->spend(this->toTrain.mineralPrice(), this->toTrain.gasPrice());
     p->useSupplies(toTrain.supplyRequired(), toTrain._getRace());

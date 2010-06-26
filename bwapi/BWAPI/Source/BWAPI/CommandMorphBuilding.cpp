@@ -18,7 +18,7 @@ namespace BWAPI
       if (!this->executors[i]->_exists)
         continue;
 
-      this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::ZergBuildingMorph;
+      this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ZergBuildingMorph;
     }
     int slotToAffect = this->executors[0]->getBuildQueueSlot();
     if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
@@ -31,9 +31,9 @@ namespace BWAPI
     }
 
     executors[0]->getBuildQueue()[slotToAffect] = this->toMorph.getID();
-    this->executors[0]->getRawDataLocal()->buildQueueSlot = (u8)slotToAffect;
+    executors[0]->getRawDataLocal->buildQueueSlot = (u8)slotToAffect;
     PlayerImpl* p = static_cast<PlayerImpl*>(this->executors[0]->getPlayer());
-    executors[0]->getRawDataLocal()->remainingBuildTime = (u16)this->toMorph.buildTime();
+    executors[0]->getRawDataLocal->remainingBuildTime = (u16)this->toMorph.buildTime();
     p->spend(this->toMorph.mineralPrice(), this->toMorph.gasPrice());
     p->useSupplies(toMorph.supplyRequired(), toMorph._getRace());
     p->planToMake(toMorph);

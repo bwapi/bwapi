@@ -245,7 +245,7 @@ namespace BWAPI
       /** Gets #bwOriginalUnit */
       BW::Unit* getOriginalRawData() const;
       /** Gets #bwUnitLocal */
-      BW::Unit* getRawDataLocal() const;
+      BW::Unit* getRawDataLocal;
       u8 getBuildQueueSlot() const;
       /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType* getBuildQueue() const;
@@ -281,7 +281,6 @@ namespace BWAPI
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
 
-      BW::Unit* bwUnitLocal; /**< Pointer to our local (precomputed) version of unit data table  @ref localData. */
       BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       UnitType staticType;

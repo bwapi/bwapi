@@ -17,8 +17,8 @@ namespace BWAPI
       if (!this->executors[i]->_exists) continue;
       if ((this->executors[i]->getType().canMove()))
       {
-        this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Follow;
-        this->executors[i]->getRawDataLocal()->targetUnit = this->target->getOriginalRawData();
+        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Follow;
+        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
       }
     }
   }

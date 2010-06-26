@@ -840,8 +840,9 @@ namespace BWAPI
       }
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
       {
-        UnitType _getType = BWAPI::UnitType(i->getRawDataLocal()->unitID.id);
-        bool _isCompleted = i->getRawDataLocal()->status.getBit(BW::StatusFlags::Completed);
+        UnitType _getType = BWAPI::UnitType(i->getRawDataLocal->unitID.id);
+        bool _isCompleted = i->getRawDataLocal->status.getBit(BW::StatusFlags::Completed);
+
         if (_getType==UnitTypes::Unknown) continue;//skip subunits if they are in this list
         if (!_isCompleted) continue;
         if (_getType==UnitTypes::Protoss_Scarab ||
@@ -898,10 +899,10 @@ namespace BWAPI
 
         if (i->getType() == UnitTypes::Terran_Nuclear_Missile &&
             i->nukeDetected == false &&
-            i->getRawDataLocal()->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
+            i->getRawDataLocal->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
         {
           i->nukeDetected = true;
-          BW::Position bwtarget = i->getRawDataLocal()->orderTargetPos;
+          BW::Position bwtarget = i->getRawDataLocal->orderTargetPos;
           Position target(bwtarget.x, bwtarget.y);
           if (this->client)
           {

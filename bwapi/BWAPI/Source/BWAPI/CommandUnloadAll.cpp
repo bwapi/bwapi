@@ -23,12 +23,12 @@ namespace BWAPI
       {
         if (this->executors[i]->getType() == UnitTypes::Terran_Bunker)
         {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::Unload;
+          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Unload;
         }
         else
         {
-          this->executors[i]->getRawDataLocal()->orderID = BW::OrderID::MoveUnload;
-          this->executors[i]->getRawDataLocal()->position = this->targetPosition;
+          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::MoveUnload;
+          this->executors[i]->getRawDataLocal->position = this->targetPosition;
         }
       }
     }
