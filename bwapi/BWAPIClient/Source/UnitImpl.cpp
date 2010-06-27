@@ -219,7 +219,7 @@ namespace BWAPI
   //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
-    if (this->getType()!=UnitTypes::Protoss_Carrier)
+    if (this->getType() != UnitTypes::Protoss_Carrier)
       return 0;
     return this->connectedUnits.size();
   }
@@ -354,7 +354,7 @@ namespace BWAPI
   }
   Order UnitImpl::getOrder() const
   {
-    return BWAPI::Order(self->order);
+    return Order(self->order);
   }
   Unit* UnitImpl::getOrderTarget() const
   {
@@ -362,7 +362,7 @@ namespace BWAPI
   }
   Order UnitImpl::getSecondaryOrder() const
   {
-    return BWAPI::Order(self->secondaryOrder);
+    return Order(self->secondaryOrder);
   }
   Unit* UnitImpl::getChild() const
   {

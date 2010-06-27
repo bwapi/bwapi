@@ -21,27 +21,20 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandBuild::execute()
   {
-    if (!this->executors[0]->_exists) return;
-    if (this->executors[0]->isCompleted())
+    if (!executors[0]->_exists) return;
+    switch (executors[0]->getType().getID())
     {
-      switch (this->executors[0]->getType().getID())
-      {
-        case BW::UnitID::Zerg_Drone    : this->executors[0]->getRawDataLocal->orderID = BW::OrderID::DroneLand; break;
-        case BW::UnitID::Protoss_Probe : this->executors[0]->getRawDataLocal->orderID = BW::OrderID::BuildProtoss1; break;
-        case BW::UnitID::Terran_SCV    : this->executors[0]->getRawDataLocal->orderID = BW::OrderID::BuildTerran; break;
-        case BW::UnitID::Terran_CommandCenter :
-        case BW::UnitID::Terran_Factory :
-        case BW::UnitID::Terran_Starport :
-        case BW::UnitID::Terran_ScienceFacility : this->executors[0]->getRawDataLocal->secondaryOrderID = BW::OrderID::BuildAddon; break;
-      }
-      int slotToAffect = this->executors[0]->getBuildQueueSlot();
-      if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
-        slotToAffect  = (slotToAffect + 1) % 5;
-
-      executors[0]->getBuildQueue()[slotToAffect] = this->toBuild.getID();
-      this->executors[0]->getRawDataLocal->buildQueueSlot = (u8)slotToAffect;
+      case BW::UnitID::Zerg_Drone    : executors[0]->self->order = BW::OrderID::DroneLand; break;
+      case BW::UnitID::Protoss_Probe : executors[0]->self->order = BW::OrderID::BuildProtoss1; break;
+      case BW::UnitID::Terran_SCV    : executors[0]->self->order = BW::OrderID::BuildTerran; break;
+      case BW::UnitID::Terran_CommandCenter :
+      case BW::UnitID::Terran_Factory :
+      case BW::UnitID::Terran_Starport :
+      case BW::UnitID::Terran_ScienceFacility : executors[0]->self->secondaryOrder = BW::OrderID::BuildAddon; break;
     }
-
+    executors[0]->self->isConstructing = true;
+    executors[0]->self->isIdle         = false;
+    executors[0]->self->buildType      = toBuild.getID();
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandBuild::getType()

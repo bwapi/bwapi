@@ -19,7 +19,7 @@ namespace BWAPI
       if ((this->executors[i]->getType().canAttack()))
       {
         this->executors[i]->getRawDataLocal->orderID = BW::OrderID::AttackUnit;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
+        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
       }
     }
   }

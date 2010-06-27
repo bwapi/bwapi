@@ -18,14 +18,14 @@ namespace BWAPI
       if (this->executors[i]->getType() == UnitTypes::Terran_Bunker)
       {
         this->executors[i]->getRawDataLocal->orderID = BW::OrderID::PickupBunker;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
+        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
       }
       else if (this->executors[i]->getType() == UnitTypes::Terran_Dropship
                || this->executors[i]->getType() == UnitTypes::Protoss_Shuttle
                || this->executors[i]->getType() == UnitTypes::Zerg_Overlord)
       {
         this->executors[i]->getRawDataLocal->orderID = BW::OrderID::PickupTransport;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
+        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
       }
       else if (this->target->getType() == UnitTypes::Terran_Bunker
                || this->target->getType() == UnitTypes::Terran_Dropship
@@ -33,7 +33,7 @@ namespace BWAPI
                || this->target->getType() == UnitTypes::Zerg_Overlord)
       {
         executors[i]->getRawDataLocal->orderID = BW::OrderID::EnterTransport;
-        executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
+        executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
       }
     }
   }

@@ -20,13 +20,14 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandUpgrade::execute()
   {
-    if (!this->executors[0]->_exists) return;
-    if (this->executors[0]->isCompleted())
-    {
-      this->executors[0]->getRawDataLocal->orderID = BW::OrderID::Upgrade;
-      this->executors[0]->getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID = upgrade.getID();
-      this->executors[0]->getRawDataLocal->childUnitUnion1.unitIsBuilding.upgradeResearchTime = (u16)(upgrade.timeCostBase()+upgrade.timeCostFactor()*this->executors[0]->getPlayer()->getUpgradeLevel(upgrade.getID()));
-    }
+    if (!executors[0]->_exists) return;
+    executors[0]->self->order = BW::OrderID::Upgrade;
+    executors[0]->self->upgrade = upgrade.getID();
+    executors[0]->self->isIdle = false;
+    int level = this->executors[0]->getPlayer()->getUpgradeLevel(upgrade.getID());
+    executors[0]->self->remainingUpgradeTime = upgrade.timeCostBase()+upgrade.timeCostFactor()*level;
+    PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
+    p->spend(upgrade.mineralCostBase()+upgrade.mineralCostFactor()*level, upgrade.gasCostBase()+upgrade.gasCostFactor()*level);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandUpgrade::getType()

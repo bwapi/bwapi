@@ -57,11 +57,10 @@ namespace BWAPI
   UnitImpl::UnitImpl(BW::Unit* originalUnit,
                      BW::Unit* unitLocal,
                      u16 index)
-      : bwOriginalUnit(originalUnit)
+      : getOriginalRawData(originalUnit)
       , getRawDataLocal(unitLocal)
       , index(index)
       , userSelected(false)
-      , buildUnit(NULL)
       , _exists(false) //_exists is true while the unit exists
       , dead(false) //dead only set to true once the unit has died
       , savedPlayer(NULL)
@@ -252,13 +251,13 @@ namespace BWAPI
   bool UnitImpl::isBeingConstructed() const
   {
     checkAccessBool();
-    if (isMorphing())
+    if (self->isMorphing)
       return true;//all morphing units/buildings are being constructed
-    if (isCompleted())
+    if (self->isCompleted)
       return false; //no completed non-morphing units are being constructed
-    if (getType().getRace()!=Races::Terran)
+    if (_getType.getRace()!=Races::Terran)
       return true;//all incomplete non-terran units are being constructed
-    return this->buildUnit != NULL;//incomplete terran units are being constructed only if they have a unit building them
+    return this->self->buildUnit != -1;//incomplete terran units are being constructed only if they have a unit building them
   }
   //------------------------------------------- IS BEING GATHERED --------------------------------------------
   bool UnitImpl::isBeingGathered() const
@@ -318,37 +317,12 @@ namespace BWAPI
   //---------------------------------------------- IS COMPLETED ----------------------------------------------
   bool UnitImpl::isCompleted() const
   {
-    checkAccessBool();
-    return this->_isCompleted();
-  }
-  //---------------------------------------------- IS COMPLETED ----------------------------------------------
-  bool UnitImpl::_isCompleted() const
-  {
-    if (!_exists)
-      return false;
-    return getRawDataLocal->status.getBit(BW::StatusFlags::Completed);
+    return self->isCompleted;
   }
   //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
   bool UnitImpl::isConstructing() const
   {
-    checkAccessBool();
-    u8 tOrderID = getBWOrder();
-    Order order = getSecondaryOrder();
-    if (isMorphing()) return true;
-    return tOrderID == BW::OrderID::ConstructingBuilding || 
-           tOrderID == BW::OrderID::BuildTerran ||
-           tOrderID == BW::OrderID::DroneBuild ||
-           tOrderID == BW::OrderID::DroneStartBuild ||
-           tOrderID == BW::OrderID::DroneLand ||
-           tOrderID == BW::OrderID::BuildProtoss1 ||
-           tOrderID == BW::OrderID::BuildProtoss2 ||
-           tOrderID == BW::OrderID::TerranBuildSelf ||
-           tOrderID == BW::OrderID::ProtossBuildSelf ||
-           tOrderID == BW::OrderID::ZergBuildSelf ||
-           tOrderID == BW::OrderID::BuildNydusExit ||
-           tOrderID == BW::OrderID::BuildAddon ||
-           order == Orders::BuildAddon ||
-           (this->isCompleted()==false && this->getBuildUnit()!=NULL);
+    return self->isConstructing;
   }
   //------------------------------------------- IS DEFENSE MATRIXED ------------------------------------------
   bool UnitImpl::isDefenseMatrixed() const
@@ -366,7 +340,7 @@ namespace BWAPI
   bool UnitImpl::isFollowing() const
   {
     checkAccessBool();
-    return getBWOrder() == BW::OrderID::Follow;
+    return self->order == BW::OrderID::Follow;
   }
   //-------------------------------------------- IS GATHERING GAS --------------------------------------------
   bool UnitImpl::isGatheringGas() const
@@ -378,7 +352,7 @@ namespace BWAPI
     if (!getRawDataLocal->status.getBit(BW::StatusFlags::IsGathering))
       return false;
 
-    u8 tOrderID = getBWOrder();
+    int tOrderID = self->order;
     if (tOrderID != BW::OrderID::MoveToGas  &&
         tOrderID != BW::OrderID::WaitForGas &&
         tOrderID != BW::OrderID::HarvestGas &&
@@ -428,7 +402,7 @@ namespace BWAPI
     if (!getRawDataLocal->status.getBit(BW::StatusFlags::IsGathering))
       return false;
 
-    u8 tOrderID = getBWOrder();
+    int tOrderID = self->order;
     if (tOrderID != BW::OrderID::MoveToMinerals &&
         tOrderID != BW::OrderID::WaitForMinerals &&
         tOrderID != BW::OrderID::MiningMinerals &&
@@ -450,25 +424,7 @@ namespace BWAPI
   //---------------------------------------------- IS IDLE ---------------------------------------------------
   bool UnitImpl::isIdle() const
   {
-    checkAccessBool();
-    if (isTraining() || isConstructing() || isMorphing() || _isResearching() || _isUpgrading())
-      return false;
-
-    u8 tOrderID = getBWOrder();
-    return (tOrderID == BW::OrderID::PlayerGuard ||
-            tOrderID == BW::OrderID::Guard ||
-            tOrderID == BW::OrderID::Stop ||
-            tOrderID == BW::OrderID::PickupIdle ||
-            tOrderID == BW::OrderID::Nothing ||
-            tOrderID == BW::OrderID::Medic ||
-            tOrderID == BW::OrderID::Carrier ||
-            tOrderID == BW::OrderID::Reaver ||
-            tOrderID == BW::OrderID::Critter ||
-            tOrderID == BW::OrderID::Neutral ||
-            tOrderID == BW::OrderID::TowerGuard ||
-            tOrderID == BW::OrderID::Burrowed ||
-            tOrderID == BW::OrderID::NukeTrain ||
-            tOrderID == BW::OrderID::Larva);
+    return self->isIdle;
   }
   //---------------------------------------------- IS IRRADIATED ---------------------------------------------
   bool UnitImpl::isIrradiated() const
@@ -506,12 +462,7 @@ namespace BWAPI
   //----------------------------------------------- IS MORPHING ----------------------------------------------
   bool UnitImpl::isMorphing() const
   {
-    checkAccessBool();
-    u8 tOrderID = getBWOrder();
-    return tOrderID == BW::OrderID::ZergBirth ||
-           tOrderID == BW::OrderID::ZergBuildingMorph ||
-           tOrderID == BW::OrderID::ZergUnitMorph ||
-           tOrderID == BW::OrderID::ZergBuildSelf;
+    return self->isMorphing;
   }
   //------------------------------------------------ IS MOVING -----------------------------------------------
   bool UnitImpl::isMoving() const
@@ -529,7 +480,7 @@ namespace BWAPI
   bool UnitImpl::isPatrolling() const
   {
     checkAccessBool();
-    return getBWOrder() == BW::OrderID::Patrol;
+    return self->order == BW::OrderID::Patrol;
   }
   //----------------------------------------------- IS PLAGUED -----------------------------------------------
   bool UnitImpl::isPlagued() const
@@ -541,19 +492,12 @@ namespace BWAPI
   bool UnitImpl::isRepairing() const
   {
     checkAccessBool();
-    return this->getBWOrder() == BW::OrderID::Repair1 || this->getBWOrder() == BW::OrderID::Repair2;
+    return self->order == BW::OrderID::Repair1 || self->order == BW::OrderID::Repair2;
   }
   //---------------------------------------------- IS RESEARCHING --------------------------------------------
   bool UnitImpl::isResearching() const
   {
-    if (!this->attemptAccessInside())
-      return false;
-
-    return _isResearching();
-  }
-  bool UnitImpl::_isResearching() const
-  {
-    return this->getBWOrder() == BW::OrderID::ResearchTech;
+    return self->order == BW::OrderID::ResearchTech;
   }
   //---------------------------------------------- IS SELECTED -----------------------------------------------
   bool UnitImpl::isSelected() const
@@ -605,18 +549,7 @@ namespace BWAPI
   //---------------------------------------------- IS TRAINING -----------------------------------------------
   bool UnitImpl::isTraining() const
   {
-    checkAccessBool();
-    if (getType() == UnitTypes::Terran_Nuclear_Silo &&
-        getRawDataLocal->secondaryOrderID == BW::OrderID::Train)
-      return true;
-
-    if (!getType().canProduce())
-      return false;
-
-    if (getType().getRace()==Races::Zerg && getType().isResourceDepot())
-      return false;
-
-    return !hasEmptyBuildQueue();
+    return self->isTraining;
   }
   //---------------------------------------------- IS UNDER STORM --------------------------------------------
   bool UnitImpl::isUnderStorm() const
@@ -635,13 +568,7 @@ namespace BWAPI
   //----------------------------------------------- IS UPGRADING ---------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
-    if (!attemptAccessInside())
-      return false;
-    return _isUpgrading();
-  }
-  bool UnitImpl::_isUpgrading() const
-  {
-    return this->getBWOrder() == BW::OrderID::Upgrade;
+    return self->order == BW::OrderID::Upgrade;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool UnitImpl::isVisible() const
@@ -786,49 +713,12 @@ namespace BWAPI
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
-    checkAccessPointer();
-    if (getRawDataLocal->currentBuildUnit)
-      return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->currentBuildUnit);
-    return (Unit*)buildUnit;
+    return BroodwarImpl.server.getUnit(self->buildUnit);
   }
   //--------------------------------------------- GET BUILD TYPE ---------------------------------------------
   UnitType UnitImpl::getBuildType() const
   {
-    if (!attemptAccessInside())
-      return UnitTypes::None;
-
-    if (getOrder() == Orders::TerranBuildSelf ||
-        getOrder() == Orders::ProtossBuildSelf)
-        return getType();
-    if (getOrder() == Orders::ZergBuildSelf)
-    {
-      int i = getBuildQueueSlot() % 5;
-      UnitType type=BWAPI::UnitType(getBuildQueue()[i].id);
-      if (type!=UnitTypes::None)
-        return type;
-      return getType();
-    }
-    if (getOrder() == Orders::ConstructingBuilding)
-      return getBuildUnit()->getType();
-
-    if (hasEmptyBuildQueue())
-      return UnitTypes::None;
-
-    if (isIdle())
-      return UnitTypes::None;
-
-    if (getOrder() == Orders::BuildTerran ||
-        getOrder() == Orders::BuildProtoss1 ||
-        getOrder() == Orders::ZergUnitMorph ||
-        getOrder() == Orders::ZergBuildingMorph ||
-        getOrder() == Orders::DroneLand ||
-        getOrder() == Orders::ZergBuildSelf ||
-        getSecondaryOrder() == Orders::BuildAddon)
-    {
-      int i = getBuildQueueSlot() % 5;
-      return BWAPI::UnitType(getBuildQueue()[i].id);
-    }
-    return UnitTypes::None;
+    return UnitType(self->buildType);
   }
   //----------------------------------------------- GET CHILD ------------------------------------------------
   Unit* UnitImpl::getChild() const
@@ -862,58 +752,25 @@ namespace BWAPI
       return false;
     return getRawDataLocal->hasNuke!=0;
   }
-  //----------------------------------------- GET ORIGINAL RAW DATA ------------------------------------------
-  BW::Unit* UnitImpl::getOriginalRawData() const
-  {
-    return this->bwOriginalUnit;
-  }
   //------------------------------------------------ GET ORDER -----------------------------------------------
   Order UnitImpl::getOrder() const
   {
-    if (!attemptAccess())
-      return BWAPI::Orders::None;
-    return BWAPI::Order(getRawDataLocal->orderID);
-  }
-  //------------------------------------------------ GET ORDER -----------------------------------------------
-  u8 UnitImpl::getBWOrder() const
-  {
-    if (!_exists)
-      return BW::OrderID::Nothing;
-    return getRawDataLocal->orderID;
+    return Order(self->order);
   }
   //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
   Order UnitImpl::getSecondaryOrder() const
   {
-    if (!attemptAccess())
-      return BWAPI::Orders::None;
-    return BWAPI::Order(getRawDataLocal->secondaryOrderID);
+    return Order(self->secondaryOrder);
   }
   //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
-    std::list<UnitType > trainList;
-    if (!attemptAccessInside())
-      return trainList;
-
-    if (getType() == UnitTypes::Terran_Nuclear_Silo)
+    std::list<UnitType > trainingQueue;
+    for (int i=0;i<self->trainingQueueCount;i++)
     {
-      if (getRawDataLocal->secondaryOrderID == BW::OrderID::Train)
-        trainList.push_back(UnitTypes::Terran_Nuclear_Missile);
-      return trainList;
+      trainingQueue.push_back(self->trainingQueue[i]);
     }
-    if (hasEmptyBuildQueue())
-      return trainList;
-
-    int i = getBuildQueueSlot() % 5;
-    int starti = i;
-    trainList.push_front(BWAPI::UnitType(getBuildQueue()[i].id));
-    i = (i + 1) % 5;
-    while(getBuildQueue()[i] != BW::UnitID::None && i != starti)
-    {
-      trainList.push_back(BWAPI::UnitType(getBuildQueue()[i].id));
-      i = (i + 1) % 5;
-    }
-    return trainList;
+    return trainingQueue;
   }
   //-------------------------------------------- GET TRANSPORT -----------------------------------------------
   Unit* UnitImpl::getTransport() const
@@ -971,38 +828,22 @@ namespace BWAPI
   //----------------------------------------------- GET TECH -------------------------------------------------
   TechType UnitImpl::getTech() const
   {
-    if (!this->attemptAccessInside())
-      return TechTypes::None;
-
-    int techID = getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
-    return TechType(techID);
+    return TechType(self->tech);
   }
   //---------------------------------------------- GET UPGRADE -----------------------------------------------
   UpgradeType UnitImpl::getUpgrade() const
   {
-    if (!this->attemptAccessInside())
-      return UpgradeTypes::None;
-
-    int upgradeID = getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
-    return UpgradeType(upgradeID);
+    return UpgradeType(self->upgrade);
   }
   //-------------------------------------- GET REMAINING RESEARCH TIME ---------------------------------------
   int UnitImpl::getRemainingResearchTime() const
   {
-    if (!this->attemptAccessInside())
-      return 0;
-    if (this->_isResearching())
-      return getRawDataLocal->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
-    return 0;
+    return self->remainingResearchTime;
   }
   //-------------------------------------- GET REMAINING UPGRADE TIME ----------------------------------------
   int UnitImpl::getRemainingUpgradeTime() const
   {
-    if (!this->attemptAccessInside())
-      return 0;
-    if (this->_isUpgrading())
-      return getRawDataLocal->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
-    return 0;
+    return self->remainingUpgradeTime;
   }
   //------------------------------------------ GET RALLY POSITION --------------------------------------------
   Position UnitImpl::getRallyPosition() const
@@ -1053,17 +894,6 @@ namespace BWAPI
     if (nydus != NULL && nydus->getType()==UnitTypes::Zerg_Nydus_Canal)
       return nydus;
     return NULL;
-  }
-  //----------------------------------------- HAS EMPTY QUEUE LOCAL ------------------------------------------
-  bool UnitImpl::hasEmptyBuildQueue() const
-  {
-    if (!_exists)
-      return true;
-
-    if (getBuildQueueSlot() < 5)
-      return this->getBuildQueue()[getBuildQueueSlot()] == BW::UnitID::None;
-    else
-      return false;
   }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
@@ -2111,7 +1941,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (this->_isResearching())
+    if (self->order == BW::OrderID::ResearchTech)
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
@@ -2129,7 +1959,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
       return false;
     }
-    if (this->_isUpgrading())
+    if (self->order == BW::OrderID::Upgrade)
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
@@ -2357,19 +2187,9 @@ namespace BWAPI
   void UnitImpl::orderSelect()
   {
     BW::Unit* select[2];
-    select[0] = this->getOriginalRawData();
+    select[0] = this->getOriginalRawData;
     select[1] = NULL; //in case some piece of starcraft code assumes this array is null-terminated.
     BW::selectUnits(1, (BW::Unit**)(&select));
-  }
-  //-------------------------------------------- GET QUEUE LOCAL  --------------------------------------------
-  BW::UnitType* UnitImpl::getBuildQueue() const
-  {
-    return getRawDataLocal->buildQueue;
-  }
-  //------------------------------------------ GET QUEUE SLOT LOCAL ------------------------------------------
-  u8 UnitImpl::getBuildQueueSlot() const
-  {
-    return getOriginalRawData()->buildQueueSlot;
   }
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::Unit* unit)
@@ -2401,15 +2221,15 @@ namespace BWAPI
     this->savedUnitType  = this->_getType;
 
     //set pointers to null so we don't read information from unit table anymore
-    this->getRawDataLocal= NULL;
-    this->bwOriginalUnit = NULL;
-    this->index          = 0xFFFF;
-    this->userSelected   = false;
-    this->_exists        = false;
-    this->dead           = true;
-    this->lastType       = UnitTypes::Unknown;
-    this->lastPlayer     = NULL;
-    this->nukeDetected   = false;
+    this->getRawDataLocal    = NULL;
+    this->getOriginalRawData = NULL;
+    this->index              = 0xFFFF;
+    this->userSelected       = false;
+    this->_exists            = false;
+    this->dead               = true;
+    this->lastType           = UnitTypes::Unknown;
+    this->lastPlayer         = NULL;
+    this->nukeDetected       = false;
   }
 
   /* canAccess returns true if the AI module is allowed to access the unit.
@@ -2531,37 +2351,12 @@ namespace BWAPI
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   int UnitImpl::getRemainingBuildTime() const
   {
-    if (!attemptAccessInside())
-      return 0;
-    if (isMorphing() && getBuildType()==UnitTypes::None)
-      return 0;
-    return getRawDataLocal->remainingBuildTime;
+    return self->remainingBuildTime;
   }
   //---------------------------------------- GET REMAINING TRAIN TIME ----------------------------------------
   int UnitImpl::getRemainingTrainTime() const
   {
-    if (!this->attemptAccessInside())
-      return 0;
-    if (this->getType() == UnitTypes::Zerg_Hatchery ||
-        this->getType() == UnitTypes::Zerg_Lair     ||
-        this->getType() == UnitTypes::Zerg_Hive)
-    {
-      if (this->connectedUnits.size() >= 3)
-        return 0;
-      if (!this->isCompleted() && this->getBuildType() == UnitTypes::Zerg_Hatchery)
-        return this->getRemainingBuildTime();
-      return getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer * 9 + ((getRawDataLocal->unknownOrderTimer_0x085 + 8) % 9);
-    }
-    if (this->getRawDataLocal->currentBuildUnit)
-      return getRawDataLocal->currentBuildUnit->remainingBuildTime;
-    else
-    {
-      if (this->getType()==UnitTypes::Terran_Nuclear_Silo && getRawDataLocal->driftPosX!=1)
-        return 0;
-      if (this->isTraining())
-        return this->getTrainingQueue().begin()->buildTime();
-    }
-    return 0;
+    return self->remainingTrainTime;
   }
   //----------------------------------------------- GET INDEX ------------------------------------------------
   u16 UnitImpl::getIndex() const

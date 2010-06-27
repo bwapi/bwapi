@@ -223,9 +223,7 @@ namespace BWAPI
       int _getResources;
       int _getHitPoints;
       Unit* _getOrderTarget() const;
-      bool _isCompleted() const;
-      bool _isResearching() const;
-      bool _isUpgrading() const;
+      bool _isCompleted;
       Unit* _getTransport;
 
       /**
@@ -235,26 +233,24 @@ namespace BWAPI
        * @return 0-based index of the unit in the unit array.
        */
       u16 getIndex() const;
-      u8  getBWOrder() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
       UnitImpl* getNext() const;
       /** Gets #bwOriginalUnit */
-      BW::Unit* getOriginalRawData() const;
+      BW::Unit* getOriginalRawData;
       /** Gets #bwUnitLocal */
       BW::Unit* getRawDataLocal;
-      u8 getBuildQueueSlot() const;
+      u8 getBuildQueueSlot;
       /** Gets #bwUnit->BW#Unit#buildQueue */
-      BW::UnitType* getBuildQueue() const;
+      BW::UnitType* getBuildQueue;
       /** Returns if the unit has empty building queue */
-      bool hasEmptyBuildQueue() const;
+      bool hasEmptyBuildQueue;
 
       void saveInitialInformation();
       void updateUnitData();
       BWAPIC::UnitData data;
       BWAPIC::UnitData* self;
 
-      UnitImpl* buildUnit;
       bool dead;
       bool userSelected;
       bool staticInformation;
@@ -278,7 +274,6 @@ namespace BWAPI
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
 
-      BW::Unit* bwOriginalUnit; /**< Pointer to broodwar unit data table. */
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       UnitType staticType;
       BWAPI::Position staticPosition;
