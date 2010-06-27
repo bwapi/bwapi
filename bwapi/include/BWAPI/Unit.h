@@ -152,6 +152,9 @@ namespace BWAPI
       /** Returns the time until the maelstrom wears off. 0 -> No maelstrom present. */
       virtual int getMaelstromTimer() const = 0;
 
+      // TODO: add doc
+      virtual int getOrderTimer() const = 0;
+
       /** Returns the time until the plague wears off. 0 -> No plague present. */
       virtual int getPlagueTimer() const = 0;
 
@@ -165,9 +168,6 @@ namespace BWAPI
 
       /** Returns the time until the stimpack wears off. 0 -> No stimpack boost present. */
       virtual int getStimTimer() const = 0;
-
-      // TODO: add doc
-      virtual int getOrderTimer() const = 0;
 
       /** Returns the building type a worker is about to construct. If the unit is a morphing Zerg unit or an
        * incomplete building, this returns the UnitType the unit is about to become upon completion.*/

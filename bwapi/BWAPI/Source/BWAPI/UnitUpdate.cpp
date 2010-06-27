@@ -168,6 +168,29 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getResources
       self->resources = _getResources;
+      //------------------------------------------------------------------------------------------------------
+      //getKillCount
+      self->killCount = getRawDataLocal->killCount;
+      //------------------------------------------------------------------------------------------------------
+      //getGroundWeaponCooldown
+      if (_getType==UnitTypes::Protoss_Reaver)
+        self->groundWeaponCooldown = getRawDataLocal->mainOrderTimer;
+      else if (getRawDataLocal->subUnit != NULL)
+        self->groundWeaponCooldown = getRawDataLocal->subUnit->groundWeaponCooldown;
+      else
+        self->groundWeaponCooldown = getRawDataLocal->groundWeaponCooldown;
+      //------------------------------------------------------------------------------------------------------
+      //getAirWeaponCooldown
+      if (getRawDataLocal->subUnit != NULL)
+        self->airWeaponCooldown = getRawDataLocal->subUnit->airWeaponCooldown;
+      else
+        self->airWeaponCooldown = getRawDataLocal->airWeaponCooldown;
+      //------------------------------------------------------------------------------------------------------
+      //getSpellCooldown
+      self->spellCooldown = getRawDataLocal->spellCooldown;
+      //------------------------------------------------------------------------------------------------------
+      //getDefenseMatrixPoints
+      self->defenseMatrixPoints = getRawDataLocal->defenseMatrixDamage/256;
     }
     else
     {
@@ -196,8 +219,22 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getResources
       self->resources = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getKillCount
+      self->killCount = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getGroundWeaponCooldown
+      self->groundWeaponCooldown = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getAirWeaponCooldown
+      self->airWeaponCooldown = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getSpellCooldown
+      self->spellCooldown = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getDefenseMatrixPoints
+      self->defenseMatrixPoints = 0;
     }
-
     if (canAccessSpecial())
     {
       self->exists = _exists;
@@ -209,6 +246,30 @@ namespace BWAPI
       self->exists = false;
       self->player = BroodwarImpl.server.getPlayerID((Player*)BroodwarImpl.players[11]);
       self->type   = UnitTypes::Unknown.getID();
+    }
+    if (canAccessInside())
+    {
+      //------------------------------------------------------------------------------------------------------
+      //getScarabCount
+      if (_getType==UnitTypes::Protoss_Reaver)
+        self->scarabCount = getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
+      else
+        self->scarabCount = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getSpiderMineCount
+      if (_getType == UnitTypes::Terran_Vulture)
+        self->spiderMineCount = getRawDataLocal->childInfoUnion.vultureBikeMines.spiderMineCount;
+      else
+        self->spiderMineCount = 0;
+    }
+    else
+    {
+      //------------------------------------------------------------------------------------------------------
+      //getScarabCount
+      self->scarabCount = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getSpiderMineCount
+      self->spiderMineCount = 0;
     }
   }
 }

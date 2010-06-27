@@ -148,41 +148,44 @@ namespace BWAPI
   //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int UnitImpl::getKillCount() const
   {
-    checkAccessInt();
-    return getRawDataLocal->killCount;
+    return self->killCount;
   }
-  //----------------------------------------- GROUND WEAPON COOLDOWN -----------------------------------------
+  //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
+  int UnitImpl::getInterceptorCount() const
+  {
+    if (this->getType() != UnitTypes::Protoss_Carrier)
+      return 0;
+    return this->connectedUnits.size();
+  }
+  //--------------------------------------------- GET SCARAB COUNT -------------------------------------------
+  int UnitImpl::getScarabCount() const
+  {
+    return self->scarabCount;
+  }
+  //--------------------------------------------- GET SPIDER MINE COUNT --------------------------------------
+  int UnitImpl::getSpiderMineCount() const
+  {
+    return self->spiderMineCount;
+  }
+  //--------------------------------------------- GROUND WEAPON COOLDOWN -------------------------------------
   int UnitImpl::getGroundWeaponCooldown() const
   {
-    checkAccessInt();
-    if (_getType==UnitTypes::Protoss_Reaver)
-      return getRawDataLocal->mainOrderTimer;
-
-    if (getRawDataLocal->subUnit != NULL)
-      return getRawDataLocal->subUnit->groundWeaponCooldown;
-
-    return getRawDataLocal->groundWeaponCooldown;
+    return self->groundWeaponCooldown;
   }
-  //------------------------------------------ AIR WEAPON COOLDOWN -------------------------------------------
+  //--------------------------------------------- AIR WEAPON COOLDOWN ----------------------------------------
   int UnitImpl::getAirWeaponCooldown() const
   {
-    checkAccessInt();
-    if (getRawDataLocal->subUnit != NULL)
-      return getRawDataLocal->subUnit->airWeaponCooldown;
-
-    return getRawDataLocal->airWeaponCooldown;
+    return self->airWeaponCooldown;
   }
   //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
   int UnitImpl::getSpellCooldown() const
   {
-    checkAccessInt();
-    return getRawDataLocal->spellCooldown;
+    return self->spellCooldown;
   }
-  //------------------------------------------ DEFENSE MATRIX POINTS -----------------------------------------
+  //--------------------------------------------- DEFENSE MATRIX POINTS --------------------------------------
   int UnitImpl::getDefenseMatrixPoints() const
   {
-    checkAccessInt();
-    return getRawDataLocal->defenseMatrixDamage/256;
+    return self->defenseMatrixPoints;
   }
   //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
   int UnitImpl::getDefenseMatrixTimer() const
@@ -968,36 +971,6 @@ namespace BWAPI
         this->getType() != UnitTypes::Zerg_Hive)
       return nothing;
     return this->connectedUnits;
-  }
-  //----------------------------------------- GET INTERCEPTOR COUNT ------------------------------------------
-  int UnitImpl::getInterceptorCount() const
-  {
-    checkAccessInt();
-    if (this->getType() != UnitTypes::Protoss_Carrier)
-      return 0;
-    return this->connectedUnits.size();
-  }
-  //-------------------------------------------- GET SCARAB COUNT --------------------------------------------
-  int UnitImpl::getScarabCount() const
-  {
-    if (!this->attemptAccessInside())
-      return 0;
-
-    if (this->getType()!=UnitTypes::Protoss_Reaver)
-      return 0;
-
-    return getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
-  }
-  //------------------------------------------ GET SPIDER MINE COUNT -----------------------------------------
-  int UnitImpl::getSpiderMineCount() const
-  {
-    if (!this->attemptAccessInside())
-      return 0;
-
-    if (this->getType() != UnitTypes::Terran_Vulture)
-      return 0;
-
-    return getRawDataLocal->childInfoUnion.vultureBikeMines.spiderMineCount;
   }
   //----------------------------------------------- GET TECH -------------------------------------------------
   TechType UnitImpl::getTech() const

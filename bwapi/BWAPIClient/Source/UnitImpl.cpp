@@ -211,36 +211,44 @@ namespace BWAPI
   {
     return this->initialResources;
   }
+  //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int UnitImpl::getKillCount() const
   {
     return self->killCount;
   }
+  //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
     if (this->getType()!=UnitTypes::Protoss_Carrier)
       return 0;
     return this->connectedUnits.size();
   }
+  //--------------------------------------------- GET SCARAB COUNT -------------------------------------------
   int UnitImpl::getScarabCount() const
   {
     return self->scarabCount;
   }
+  //--------------------------------------------- GET SPIDER MINE COUNT --------------------------------------
   int UnitImpl::getSpiderMineCount() const
   {
     return self->spiderMineCount;
   }
+  //--------------------------------------------- GROUND WEAPON COOLDOWN -------------------------------------
   int UnitImpl::getGroundWeaponCooldown() const
   {
     return self->groundWeaponCooldown;
   }
+  //--------------------------------------------- AIR WEAPON COOLDOWN ----------------------------------------
   int UnitImpl::getAirWeaponCooldown() const
   {
     return self->airWeaponCooldown;
   }
+  //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
   int UnitImpl::getSpellCooldown() const
   {
     return self->spellCooldown;
   }
+  //--------------------------------------------- DEFENSE MATRIX POINTS --------------------------------------
   int UnitImpl::getDefenseMatrixPoints() const
   {
     return self->defenseMatrixPoints;
@@ -265,6 +273,10 @@ namespace BWAPI
   {
     return self->maelstromTimer;
   }
+  int UnitImpl::getOrderTimer() const
+  {
+    return self->orderTimer;
+  }
   int UnitImpl::getPlagueTimer() const
   {
     return self->plagueTimer;
@@ -280,10 +292,6 @@ namespace BWAPI
   int UnitImpl::getStimTimer() const
   {
     return self->stimTimer;
-  }
-  int UnitImpl::getOrderTimer() const
-  {
-    return self->orderTimer;
   }
   UnitType UnitImpl::getBuildType() const
   {
