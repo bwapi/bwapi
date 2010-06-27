@@ -60,11 +60,11 @@ namespace BWAPI
       virtual int getIrradiateTimer() const;
       virtual int getLockdownTimer() const;
       virtual int getMaelstromTimer() const;
+      virtual int getOrderTimer() const;
       virtual int getPlagueTimer() const;
       virtual int getRemoveTimer() const;
       virtual int getStasisTimer() const;
       virtual int getStimTimer() const;
-      virtual int getOrderTimer() const;
 
       virtual UnitType            getBuildType() const;
       virtual std::list<UnitType> getTrainingQueue() const;

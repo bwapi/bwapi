@@ -32,11 +32,11 @@ namespace BWAPIC
     int irradiateTimer;
     int lockdownTimer;
     int maelstromTimer;
+    int orderTimer;
     int plagueTimer;
     int removeTimer;
     int stasisTimer;
     int stimTimer;
-    int orderTimer;
 
     int buildType;
     int trainingQueueCount;

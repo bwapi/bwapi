@@ -339,13 +339,13 @@ namespace BWAPI
         u->energy           = u2->energy;
         u->resources        = u2->resources;
 
-        u->killCount            = (*i)->getKillCount();
-        u->scarabCount          = (*i)->getScarabCount();
-        u->spiderMineCount      = (*i)->getSpiderMineCount();
-        u->groundWeaponCooldown = (*i)->getGroundWeaponCooldown();
-        u->airWeaponCooldown    = (*i)->getAirWeaponCooldown();
-        u->spellCooldown        = (*i)->getSpellCooldown();
-        u->defenseMatrixPoints  = (*i)->getDefenseMatrixPoints();
+        u->killCount            = u2->killCount;
+        u->scarabCount          = u2->scarabCount;
+        u->spiderMineCount      = u2->spiderMineCount;
+        u->groundWeaponCooldown = u2->groundWeaponCooldown;
+        u->airWeaponCooldown    = u2->airWeaponCooldown;
+        u->spellCooldown        = u2->spellCooldown;
+        u->defenseMatrixPoints  = u2->defenseMatrixPoints;
 
         u->defenseMatrixTimer = (*i)->getDefenseMatrixTimer();
         u->ensnareTimer       = (*i)->getEnsnareTimer();
