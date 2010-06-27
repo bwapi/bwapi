@@ -28,7 +28,7 @@ namespace BWAPI
         if (this->targetUnit != NULL && this->targetUnit->_exists)
         {
           this->executors[i]->getRawDataLocal->orderID = BW::OrderID::RallyPointUnit;
-          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyUnit = this->targetUnit->getOriginalRawData();
+          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyUnit = this->targetUnit->getOriginalRawData;
         }
         else
         {

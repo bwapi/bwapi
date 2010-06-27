@@ -18,7 +18,7 @@ namespace BWAPI
       if ((this->executors[i]->getType().canMove()))
       {
         this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Repair1;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData();
+        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
       }
     }
   }

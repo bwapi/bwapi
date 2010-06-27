@@ -828,7 +828,6 @@ namespace BWAPI
       std::list<UnitImpl*> unitList;
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
-        this->getUnit(i)->buildUnit = NULL;
         this->getUnit(i)->connectedUnits.clear();
         this->getUnit(i)->loadedUnits.clear();
       }
@@ -876,23 +875,37 @@ namespace BWAPI
       }
       foreach (UnitImpl* i, units)
       {
-        if (i->_getOrderTarget() != NULL && i->_getOrderTarget()->exists() && i->getOrder() == Orders::ConstructingBuilding)
+        UnitImpl* orderTargetUnit = (UnitImpl*)i->_getOrderTarget();
+        if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
         {
-          UnitImpl* j = (UnitImpl*)(i->_getOrderTarget());
-          i->buildUnit = j;
-          j->buildUnit = i;
+          UnitImpl* j = orderTargetUnit;
+          i->self->buildUnit = server.getUnitID((Unit*)j);
+          i->self->isConstructing = true;
+          i->self->isIdle = false;
+          j->self->buildUnit = server.getUnitID((Unit*)i);
+          j->self->isConstructing = true;
+          j->self->isIdle = false;
         }
         else if (i->getAddon()!=NULL && i->getAddon()->isCompleted()==false)
         {
           UnitImpl* j = (UnitImpl*)i->getAddon();
-          i->buildUnit = j;
-          j->buildUnit = i;
+          i->self->buildUnit = server.getUnitID((Unit*)j);
+          i->self->isConstructing = true;
+          i->self->isIdle = false;
+          j->self->buildUnit = server.getUnitID((Unit*)i);
+          j->self->isConstructing = true;
+          j->self->isIdle = false;
         }
         if (i->getTransport()!=NULL)
           ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
 
         if (i->getHatchery() != NULL)
-          ((UnitImpl*)i->getHatchery())->connectedUnits.insert((Unit*)i);
+        {
+          UnitImpl* hatchery = (UnitImpl*)i->getHatchery();
+          hatchery->connectedUnits.insert((Unit*)i);
+          if (hatchery->connectedUnits.size()>=3)
+            hatchery->self->remainingTrainTime = 0;
+        }
 
         if (i->getCarrier() != NULL)
           ((UnitImpl*)i->getCarrier())->connectedUnits.insert((Unit*)i);
@@ -1918,7 +1931,6 @@ namespace BWAPI
       if (unitArray[i] == NULL)
         continue;
       unitArray[i]->userSelected      = false;
-      unitArray[i]->buildUnit         = NULL;
       unitArray[i]->_exists           = false;
       unitArray[i]->dead              = false;
       unitArray[i]->savedPlayer       = NULL;
@@ -2328,7 +2340,7 @@ namespace BWAPI
         }
         else
         {
-          if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted())
+          if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted)
             this->myPylons.push_back(i);
         }
         if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)

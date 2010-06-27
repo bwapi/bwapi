@@ -26,28 +26,28 @@ namespace BWAPI
     if (!this->executors[0]->_exists) return;
     if (slot < 0)
     {
-      int i = this->executors[0]->getBuildQueueSlot() % 5;
+      int i = this->executors[0]->getBuildQueueSlot % 5;
       int starti = i;
-      while(this->executors[0]->getBuildQueue()[(i+1)%5] != BW::UnitID::None && (i + 1) % 5 != starti)
+      while(this->executors[0]->getBuildQueue[(i+1)%5] != BW::UnitID::None && (i + 1) % 5 != starti)
       {
         i = (i + 1) % 5;
       }
-      this->executors[0]->getBuildQueue()[i] = BW::UnitID::None;
+      this->executors[0]->getBuildQueue[i] = BW::UnitID::None;
     }
     else
     {
-      int i = this->executors[0]->getBuildQueueSlot() % 5;
+      int i = this->executors[0]->getBuildQueueSlot % 5;
       int starti = i;
       for(int j = 0; j < slot; j++)
       {
         i = (i + 1) % 5;
       }
-      while(this->executors[0]->getBuildQueue()[(i+1)%5] != BW::UnitID::None && (i + 1) % 5 != starti)
+      while(this->executors[0]->getBuildQueue[(i+1)%5] != BW::UnitID::None && (i + 1) % 5 != starti)
       {
-        this->executors[0]->getBuildQueue()[i] = this->executors[0]->getBuildQueue()[(i+1)%5];
+        this->executors[0]->getBuildQueue[i] = this->executors[0]->getBuildQueue[(i+1)%5];
         i = (i + 1) % 5;
       }
-      this->executors[0]->getBuildQueue()[i] = BW::UnitID::None;
+      this->executors[0]->getBuildQueue[i] = BW::UnitID::None;
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

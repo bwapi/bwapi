@@ -11,14 +11,9 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandStop::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Stop;
-      }
-    }
+    if (!executors[0]->_exists) return;
+    executors[0]->self->order = BW::OrderID::Stop;
+    executors[0]->self->isIdle = true;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandStop::getType()

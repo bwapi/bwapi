@@ -39,6 +39,7 @@ void TrainTest::start()
   BWAssertF(producer->isTraining()==true,{fail=true;return;});
   BWAssertF(producer->getTrainingQueue().size()==1,{fail=true;return;});
   BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
+  BWAssertF(producer->getRemainingTrainTime() == unitType.buildTime());
 
   startTrainFrame = Broodwar->getFrameCount();
   nextUpdateFrame = startTrainFrame;

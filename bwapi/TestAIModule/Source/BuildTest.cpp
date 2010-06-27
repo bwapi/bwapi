@@ -116,7 +116,14 @@ void BuildTest::update()
       {
         if (thisFrame<finishFrame+8 && builder->getType().getRace()==Races::Zerg)
         {
-          BWAssertF(builder->isIdle()==false,{fail=true;return;});
+          if (unitType == UnitTypes::Zerg_Extractor)
+          {
+            BWAssertF(builder->isIdle()==true,{fail=true;return;});
+          }
+          else
+          {
+            BWAssertF(builder->isIdle()==false,{fail=true;return;});
+          }
         }
         else
         {
@@ -126,20 +133,10 @@ void BuildTest::update()
     }
     if (thisFrame<finishFrame+8 && builder->getType().getRace()==Races::Zerg)
     {
-      if (unitType==UnitTypes::Zerg_Extractor)
-      {
-        BWAssertF(builder->isConstructing()==false,{fail=true;return;});
-        BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
-        BWAssertF(building->isCompleted()==false,{fail=true;return;});
-        BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
-      }
-      else
-      {
-        BWAssertF(builder->isConstructing()==true,{fail=true;return;});
-        BWAssertF(builder->getBuildType()==unitType,{fail=true;return;});
-        BWAssertF(building->isCompleted()==false,{fail=true;return;});
-        BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
-      }
+      BWAssertF(builder->isConstructing()==true,{fail=true;return;});
+      BWAssertF(builder->getBuildType()==unitType,{fail=true;return;});
+      BWAssertF(building->isCompleted()==false,{fail=true;return;});
+      BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
     }
     else
     {
@@ -216,7 +213,12 @@ void BuildTest::update()
   BWAssertF(builder->isConstructing() == correctIsConstructing,{Broodwar->printf("%d %d",builder->isConstructing() , correctIsConstructing);});
   BWAssertF(builder->isIdle() != builder->isConstructing(),{Broodwar->printf("%d %d",builder->isIdle() , !builder->isConstructing());});
   if (building!=NULL)
-  {
+  {  
+    if (builder->getType().getRace()==Races::Terran)
+    {
+      BWAssert(builder->getBuildUnit()==building);
+      BWAssert(building->getBuildUnit()==builder);
+    }
     BWAssertF(building->getRemainingBuildTime()==correctRemainingBuildTime,{Broodwar->printf("%d %d",building->getRemainingBuildTime(),correctRemainingBuildTime);});
     BWAssert(building->isCompleted()==false);
     BWAssert(building->isConstructing()==true);

@@ -1,5 +1,6 @@
 #include "CommandRightClick.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -40,8 +41,8 @@ namespace BWAPI
                  !targetUnit->isCompleted())
         {
           executors[i]->getRawDataLocal->orderID = BW::OrderID::ConstructingBuilding;
-          executors[i]->buildUnit=targetUnit;
-          targetUnit->buildUnit=executors[i];
+          executors[i]->self->buildUnit=BroodwarImpl.server.getUnitID(targetUnit);
+          targetUnit->self->buildUnit=BroodwarImpl.server.getUnitID(executors[i]);
         }
 
         else if ((this->executors[i]->getType().canAttack()) &&
@@ -52,7 +53,7 @@ namespace BWAPI
         else if ((this->executors[i]->getType().canMove()))
           executors[i]->getRawDataLocal->orderID = BW::OrderID::Move;
 
-        executors[i]->getRawDataLocal->targetUnit = targetUnit->getOriginalRawData();
+        executors[i]->getRawDataLocal->targetUnit = targetUnit->getOriginalRawData;
       }
       else // targetUnit == NULL -> targetPosition is relevant
       {

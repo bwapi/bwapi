@@ -105,6 +105,21 @@ namespace BWAPI
         _getResources = 0;
       else
         _getResources = getRawDataLocal->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildQueueSlot
+      getBuildQueueSlot = getOriginalRawData->buildQueueSlot;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildQueue
+      getBuildQueue = (BW::UnitType*)getRawDataLocal->buildQueue;
+      //------------------------------------------------------------------------------------------------------
+      //hasEmptyBuildQueue
+      if (getBuildQueueSlot < 5)
+        hasEmptyBuildQueue = (getBuildQueue[getBuildQueueSlot] == BW::UnitID::None);
+      else
+        hasEmptyBuildQueue = false;
+      //------------------------------------------------------------------------------------------------------
+      //_isCompleted
+      _isCompleted = getRawDataLocal->status.getBit(BW::StatusFlags::Completed);
     }
     else
     {
@@ -130,6 +145,18 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //_getResources
       _getResources = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildQueueSlot
+      getBuildQueueSlot = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildQueue
+      getBuildQueue = NULL;
+      //------------------------------------------------------------------------------------------------------
+      //hasEmptyBuildQueue
+      hasEmptyBuildQueue = true;
+      //------------------------------------------------------------------------------------------------------
+      //_isCompleted
+      _isCompleted = false;
     }
     if (canAccess())
     {
@@ -221,6 +248,78 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getStimTimer
       self->stimTimer = getRawDataLocal->stimTimer;
+      //------------------------------------------------------------------------------------------------------
+      //getOrder
+      self->order = getRawDataLocal->orderID;
+      //------------------------------------------------------------------------------------------------------
+      //getSecondaryOrder
+      self->secondaryOrder = getRawDataLocal->secondaryOrderID;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildUnit
+      if (getRawDataLocal->currentBuildUnit)
+        self->buildUnit = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->currentBuildUnit));
+      else
+        self->buildUnit = -1;
+      //------------------------------------------------------------------------------------------------------
+      //isTraining
+      if (_getType == UnitTypes::Terran_Nuclear_Silo &&
+          getRawDataLocal->secondaryOrderID == BW::OrderID::Train)
+        self->isTraining = true;
+      else if (!_getType.canProduce())
+        self->isTraining = false;
+      else if (_getType.getRace()==Races::Zerg && _getType.isResourceDepot())
+        self->isTraining = false;
+      else
+        self->isTraining = !hasEmptyBuildQueue;
+      //------------------------------------------------------------------------------------------------------
+      //isMorphing
+      self->isMorphing = self->order == BW::OrderID::ZergBirth ||
+                         self->order == BW::OrderID::ZergBuildingMorph ||
+                         self->order == BW::OrderID::ZergUnitMorph ||
+                         self->order == BW::OrderID::ZergBuildSelf;
+      //------------------------------------------------------------------------------------------------------
+      //isCompleted
+      self->isCompleted = _isCompleted;
+      //------------------------------------------------------------------------------------------------------
+      //isConstructing
+      self->isConstructing = self->isMorphing ||
+              (self->order == BW::OrderID::ConstructingBuilding) || 
+              (self->order == BW::OrderID::BuildTerran) ||
+              (self->order == BW::OrderID::DroneBuild) ||
+              (self->order == BW::OrderID::DroneStartBuild) ||
+              (self->order == BW::OrderID::DroneLand) ||
+              (self->order == BW::OrderID::BuildProtoss1) ||
+              (self->order == BW::OrderID::BuildProtoss2) ||
+              (self->order == BW::OrderID::TerranBuildSelf) ||
+              (self->order == BW::OrderID::ProtossBuildSelf) ||
+              (self->order == BW::OrderID::ZergBuildSelf) ||
+              (self->order == BW::OrderID::BuildNydusExit) ||
+              (self->order == BW::OrderID::BuildAddon) ||
+              (self->secondaryOrder == BW::OrderID::BuildAddon) ||
+              (self->isCompleted==false && self->buildUnit != -1);
+      //------------------------------------------------------------------------------------------------------
+      //isIdle
+      if (self->isTraining ||
+          self->isConstructing ||
+          self->isMorphing ||
+         (self->order == BW::OrderID::ResearchTech) ||
+         (self->order == BW::OrderID::Upgrade))
+        self->isIdle = false;
+      else
+        self->isIdle = (self->order == BW::OrderID::PlayerGuard) ||
+                       (self->order == BW::OrderID::Guard) ||
+                       (self->order == BW::OrderID::Stop) ||
+                       (self->order == BW::OrderID::PickupIdle) ||
+                       (self->order == BW::OrderID::Nothing) ||
+                       (self->order == BW::OrderID::Medic) ||
+                       (self->order == BW::OrderID::Carrier) ||
+                       (self->order == BW::OrderID::Reaver) ||
+                       (self->order == BW::OrderID::Critter) ||
+                       (self->order == BW::OrderID::Neutral) ||
+                       (self->order == BW::OrderID::TowerGuard) ||
+                       (self->order == BW::OrderID::Burrowed) ||
+                       (self->order == BW::OrderID::NukeTrain) ||
+                       (self->order == BW::OrderID::Larva);
     }
     else
     {
@@ -294,6 +393,30 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getStimTimer
       self->stimTimer = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getOrder
+      self->order = Orders::None.getID();
+      //------------------------------------------------------------------------------------------------------
+      //getSecondaryOrder
+      self->secondaryOrder = Orders::None.getID();
+      //------------------------------------------------------------------------------------------------------
+      //getBuildUnit
+      self->buildUnit = -1;
+      //------------------------------------------------------------------------------------------------------
+      //isTraining
+      self->isTraining = false;
+      //------------------------------------------------------------------------------------------------------
+      //isMorphing
+      self->isMorphing = false;
+      //------------------------------------------------------------------------------------------------------
+      //isCompleted
+      self->isCompleted = false;
+     //------------------------------------------------------------------------------------------------------
+      //isConstructing
+      self->isConstructing = false;
+      //------------------------------------------------------------------------------------------------------
+      //isIdle
+      self->isIdle = false;
     }
     if (canAccessSpecial())
     {
@@ -321,6 +444,103 @@ namespace BWAPI
         self->spiderMineCount = getRawDataLocal->childInfoUnion.vultureBikeMines.spiderMineCount;
       else
         self->spiderMineCount = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildType
+      if (self->order == BW::OrderID::TerranBuildSelf ||
+          self->order == BW::OrderID::ProtossBuildSelf)
+        self->buildType = self->type;
+      else if (self->order == BW::OrderID::ZergBuildSelf)
+      {
+        int i = getBuildQueueSlot % 5;
+        int type = getBuildQueue[i].id;
+        if (type != UnitTypes::None.getID())
+          self->buildType = type;
+        else
+          self->buildType = self->type;
+      }
+      else if (self->order == BW::OrderID::ConstructingBuilding && self->buildUnit!=-1)
+        self->buildType = ((UnitImpl*)getBuildUnit())->getRawDataLocal->unitID.id;
+      else if (hasEmptyBuildQueue || self->isIdle)
+        self->buildType = UnitTypes::None.getID();
+      else if (self->order == BW::OrderID::BuildTerran ||
+          self->order == BW::OrderID::BuildProtoss1 ||
+          self->order == BW::OrderID::ZergUnitMorph ||
+          self->order == BW::OrderID::ZergBuildingMorph ||
+          self->order == BW::OrderID::DroneLand ||
+          self->order == BW::OrderID::ZergBuildSelf ||
+          self->secondaryOrder == BW::OrderID::BuildAddon)
+      {
+        self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].id;
+      }
+      else
+        self->buildType = UnitTypes::None.getID();
+      //------------------------------------------------------------------------------------------------------
+      //getTrainingQueue
+      if (_getType == UnitTypes::Terran_Nuclear_Silo)
+      {
+        if (getRawDataLocal->secondaryOrderID == BW::OrderID::Train)
+        {
+          self->trainingQueue[0] = UnitTypes::Terran_Nuclear_Missile.getID();
+          self->trainingQueueCount = 1;
+        }
+        else
+          self->trainingQueueCount = 0;
+      }
+      else if (hasEmptyBuildQueue)
+        self->trainingQueueCount = 0;
+      else
+      {
+        self->trainingQueueCount = 0;
+        int i = getBuildQueueSlot % 5;
+        self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
+        self->trainingQueueCount++;
+        i = (i + 1) % 5;
+        while(getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5)
+        {
+          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
+          self->trainingQueueCount++;
+          i = (i + 1) % 5;
+        }
+      }
+      //------------------------------------------------------------------------------------------------------
+      //getTech
+      self->tech = getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
+      //------------------------------------------------------------------------------------------------------
+      //getUpgrade
+      self->upgrade = getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingBuildTime
+      if (self->isMorphing && self->buildType==UnitTypes::None.getID())
+        self->remainingBuildTime = 0;
+      else
+        self->remainingBuildTime = getRawDataLocal->remainingBuildTime;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingTrainTime
+      if (_getType == UnitTypes::Zerg_Hatchery ||
+          _getType == UnitTypes::Zerg_Lair     ||
+          _getType == UnitTypes::Zerg_Hive)
+      {
+        if (!self->isCompleted && self->buildType == UnitTypes::Zerg_Hatchery.getID())
+          self->remainingTrainTime = self->remainingBuildTime;
+        else
+          self->remainingTrainTime = getRawDataLocal->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer * 9 + ((getRawDataLocal->unknownOrderTimer_0x085 + 8) % 9);
+      }
+      else if (getRawDataLocal->currentBuildUnit != NULL)
+        self->remainingTrainTime = getRawDataLocal->currentBuildUnit->remainingBuildTime;
+      else
+        self->remainingTrainTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingResearchTime
+      if (self->order == BW::OrderID::ResearchTech)
+        self->remainingResearchTime = getRawDataLocal->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
+      else
+        self->remainingResearchTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingUpgradeTime
+      if (self->order == BW::OrderID::Upgrade)
+        self->remainingUpgradeTime = getRawDataLocal->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
+      else
+        self->remainingUpgradeTime = 0;
     }
     else
     {
@@ -330,6 +550,30 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getSpiderMineCount
       self->spiderMineCount = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getBuildType
+      self->buildType = UnitTypes::None.getID();
+      //------------------------------------------------------------------------------------------------------
+      //getTrainingQueue
+      self->trainingQueueCount = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getTech
+      self->tech = TechTypes::None.getID();
+      //------------------------------------------------------------------------------------------------------
+      //getUpgrade
+      self->upgrade = UpgradeTypes::None.getID();
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingBuildTime
+      self->remainingBuildTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingTrainTime
+      self->remainingTrainTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingResearchTime
+      self->remainingResearchTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRemainingUpgradeTime
+      self->remainingUpgradeTime = 0;
     }
   }
 }

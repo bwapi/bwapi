@@ -13,35 +13,24 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandMorphUnit::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists)
-        continue;
-      this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ZergUnitMorph;
-    }
-    int slotToAffect = this->executors[0]->getBuildQueueSlot();
-    if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
-      slotToAffect  = (slotToAffect + 1) % 5;
-
-    if (this->executors[0]->getBuildQueue()[slotToAffect] != BW::UnitID::None)
-    {
-      this->failed = true;
-      return;
-    }
-
-    executors[0]->getBuildQueue()[slotToAffect] = this->toMorph.getID();
-    this->executors[0]->getRawDataLocal->buildQueueSlot = (u8)slotToAffect;
-    PlayerImpl* p = static_cast<PlayerImpl*>(this->executors[0]->getPlayer());
-    executors[0]->getRawDataLocal->remainingBuildTime = (u16)this->toMorph.buildTime();
-    if (toMorph==BW::UnitID::Zerg_Lurker)
-      executors[0]->getRawDataLocal->unitID = BW::UnitID::Zerg_LurkerEgg;
-    else if (toMorph==BW::UnitID::Zerg_Devourer || toMorph==BW::UnitID::Zerg_Guardian)
-      executors[0]->getRawDataLocal->unitID = BW::UnitID::Zerg_Cocoon;
-    else
-      executors[0]->getRawDataLocal->unitID = BW::UnitID::Zerg_Egg;
-    p->spend(this->toMorph.mineralPrice(), this->toMorph.gasPrice());
+    if (!executors[0]->_exists) return;
+    executors[0]->self->order = BW::OrderID::ZergUnitMorph;
+    executors[0]->self->buildType = toMorph.getID();
+    executors[0]->self->remainingBuildTime = toMorph.buildTime();
+    executors[0]->self->isMorphing = true;
+    executors[0]->self->isConstructing = true;
+    executors[0]->self->isIdle = false;
+    PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
+    p->spend(toMorph.mineralPrice(), toMorph.gasPrice());
     p->useSupplies(toMorph.supplyRequired(), toMorph._getRace());
     p->planToMake(toMorph);
+    if (toMorph==BW::UnitID::Zerg_Lurker)
+      executors[0]->self->type = BW::UnitID::Zerg_LurkerEgg;
+    else if (toMorph==BW::UnitID::Zerg_Devourer || toMorph==BW::UnitID::Zerg_Guardian)
+      executors[0]->self->type = BW::UnitID::Zerg_Cocoon;
+    else
+      executors[0]->self->type = BW::UnitID::Zerg_Egg;
+
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandMorphUnit::getType()
