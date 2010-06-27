@@ -347,16 +347,16 @@ namespace BWAPI
         u->spellCooldown        = u2->spellCooldown;
         u->defenseMatrixPoints  = u2->defenseMatrixPoints;
 
-        u->defenseMatrixTimer = (*i)->getDefenseMatrixTimer();
-        u->ensnareTimer       = (*i)->getEnsnareTimer();
-        u->irradiateTimer     = (*i)->getIrradiateTimer();
-        u->lockdownTimer      = (*i)->getLockdownTimer();
-        u->maelstromTimer     = (*i)->getMaelstromTimer();
-        u->plagueTimer        = (*i)->getPlagueTimer();
-        u->removeTimer        = (*i)->getRemoveTimer();
-        u->stasisTimer        = (*i)->getStasisTimer();
-        u->stimTimer          = (*i)->getStimTimer();
-        u->orderTimer         = (*i)->getOrderTimer();
+        u->defenseMatrixTimer = u2->defenseMatrixTimer;
+        u->ensnareTimer       = u2->ensnareTimer;
+        u->irradiateTimer     = u2->irradiateTimer;
+        u->lockdownTimer      = u2->lockdownTimer;
+        u->maelstromTimer     = u2->maelstromTimer;
+        u->orderTimer         = u2->orderTimer;
+        u->plagueTimer        = u2->plagueTimer;
+        u->removeTimer        = u2->removeTimer;
+        u->stasisTimer        = u2->stasisTimer;
+        u->stimTimer          = u2->stimTimer;
 
         u->buildType             = (*i)->getBuildType().getID();
         std::list<UnitType>   tq = (*i)->getTrainingQueue();
