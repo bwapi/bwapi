@@ -167,79 +167,75 @@ namespace BWAPI
   {
     return self->spiderMineCount;
   }
-  //--------------------------------------------- GROUND WEAPON COOLDOWN -------------------------------------
+  //--------------------------------------------- GET GROUND WEAPON COOLDOWN ---------------------------------
   int UnitImpl::getGroundWeaponCooldown() const
   {
     return self->groundWeaponCooldown;
   }
-  //--------------------------------------------- AIR WEAPON COOLDOWN ----------------------------------------
+  //--------------------------------------------- GET AIR WEAPON COOLDOWN ------------------------------------
   int UnitImpl::getAirWeaponCooldown() const
   {
     return self->airWeaponCooldown;
   }
-  //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
+  //--------------------------------------------- GET SPELL COOLDOWN -----------------------------------------
   int UnitImpl::getSpellCooldown() const
   {
     return self->spellCooldown;
   }
-  //--------------------------------------------- DEFENSE MATRIX POINTS --------------------------------------
+  //--------------------------------------------- GET DEFENSE MATRIX POINTS ----------------------------------
   int UnitImpl::getDefenseMatrixPoints() const
   {
     return self->defenseMatrixPoints;
   }
-  //------------------------------------------ DEFENSE MATRIX TIMER ------------------------------------------
+  //--------------------------------------------- GET DEFENSE MATRIX TIMER -----------------------------------
   int UnitImpl::getDefenseMatrixTimer() const
   {
-    checkAccessInt();
-    return getRawDataLocal->defenseMatrixTimer;
+    return self->defenseMatrixTimer;
   }
-  //----------------------------------------------- STIM TIMER -----------------------------------------------
-  int UnitImpl::getStimTimer() const
-  {
-    checkAccessInt();
-    return getRawDataLocal->stimTimer;
-  }
-  //---------------------------------------------- ENSNARE TIMER ---------------------------------------------
+  //--------------------------------------------- GET ENSNARE TIMER ------------------------------------------
   int UnitImpl::getEnsnareTimer() const
   {
-    checkAccessInt();
-    return getRawDataLocal->ensnareTimer;
+    return self->ensnareTimer;
   }
-  //--------------------------------------------- LOCKDOWN TIMER ---------------------------------------------
-  int UnitImpl::getLockdownTimer() const
-  {
-    checkAccessInt();
-    return getRawDataLocal->lockdownTimer;
-  }
-  //--------------------------------------------- IRRADIATE TIMER --------------------------------------------
+  //--------------------------------------------- GET IRRADIATE TIMER ----------------------------------------
   int UnitImpl::getIrradiateTimer() const
   {
-    checkAccessInt();
-    return getRawDataLocal->irradiateTimer;
+    return self->irradiateTimer;
   }
-  //---------------------------------------------- STASIS TIMER ----------------------------------------------
-  int UnitImpl::getStasisTimer() const
+  //--------------------------------------------- GET LOCKDOWN TIMER -----------------------------------------
+  int UnitImpl::getLockdownTimer() const
   {
-    checkAccessInt();
-    return getRawDataLocal->stasisTimer;
+    return self->lockdownTimer;
   }
-  //---------------------------------------------- PLAGUE TIMER ----------------------------------------------
-  int UnitImpl::getPlagueTimer() const
-  {
-    checkAccessInt();
-    return getRawDataLocal->plagueTimer;
-  }
-  //--------------------------------------------- MAELSTROM TIMER --------------------------------------------
+  //--------------------------------------------- GET MAELSTROM TIMER ----------------------------------------
   int UnitImpl::getMaelstromTimer() const
   {
-    checkAccessInt();
-    return getRawDataLocal->maelstromTimer;
+    return self->maelstromTimer;
   }
-  //---------------------------------------------- REMOVE TIMER ----------------------------------------------
+  //--------------------------------------------- GET ORDER TIMER --------------------------------------------
+  int UnitImpl::getOrderTimer() const
+  {
+    return self->orderTimer;
+  }
+  //--------------------------------------------- GET PLAGUE TIMER -------------------------------------------
+  int UnitImpl::getPlagueTimer() const
+  {
+    return self->plagueTimer;
+  }
+  //--------------------------------------------- GET REMOVE TIMER -------------------------------------------
   int UnitImpl::getRemoveTimer() const
   {
-    checkAccessInt();
-    return getRawDataLocal->removeTimer;
+    return self->removeTimer;
+  }
+  //--------------------------------------------- GET STASIS TIMER -------------------------------------------
+  int UnitImpl::getStasisTimer() const
+  {
+    return self->stasisTimer;
+  }
+  //--------------------------------------------- GET STIM TIMER ---------------------------------------------
+  int UnitImpl::getStimTimer() const
+  {
+    return self->stimTimer;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool UnitImpl::exists() const
@@ -2531,11 +2527,6 @@ namespace BWAPI
   UnitImpl* UnitImpl::getNext() const
   {
     return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->nextUnit);
-  }
-  //-------------------------------------------- GET ORDER TIMER ---------------------------------------------
-  int UnitImpl::getOrderTimer() const
-  {
-    return getRawDataLocal->mainOrderTimer;
   }
   //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
   int UnitImpl::getRemainingBuildTime() const

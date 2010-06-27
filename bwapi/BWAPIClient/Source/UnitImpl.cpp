@@ -233,62 +233,72 @@ namespace BWAPI
   {
     return self->spiderMineCount;
   }
-  //--------------------------------------------- GROUND WEAPON COOLDOWN -------------------------------------
+  //--------------------------------------------- GET GROUND WEAPON COOLDOWN ---------------------------------
   int UnitImpl::getGroundWeaponCooldown() const
   {
     return self->groundWeaponCooldown;
   }
-  //--------------------------------------------- AIR WEAPON COOLDOWN ----------------------------------------
+  //--------------------------------------------- GET AIR WEAPON COOLDOWN ------------------------------------
   int UnitImpl::getAirWeaponCooldown() const
   {
     return self->airWeaponCooldown;
   }
-  //--------------------------------------------- SPELL COOLDOWN ---------------------------------------------
+  //--------------------------------------------- GET SPELL COOLDOWN -----------------------------------------
   int UnitImpl::getSpellCooldown() const
   {
     return self->spellCooldown;
   }
-  //--------------------------------------------- DEFENSE MATRIX POINTS --------------------------------------
+  //--------------------------------------------- GET DEFENSE MATRIX POINTS ----------------------------------
   int UnitImpl::getDefenseMatrixPoints() const
   {
     return self->defenseMatrixPoints;
   }
+  //--------------------------------------------- GET DEFENSE MATRIX TIMER -----------------------------------
   int UnitImpl::getDefenseMatrixTimer() const
   {
     return self->defenseMatrixTimer;
   }
+  //--------------------------------------------- GET ENSNARE TIMER ------------------------------------------
   int UnitImpl::getEnsnareTimer() const
   {
     return self->ensnareTimer;
   }
+  //--------------------------------------------- GET IRRADIATE TIMER ----------------------------------------
   int UnitImpl::getIrradiateTimer() const
   {
     return self->irradiateTimer;
   }
+  //--------------------------------------------- GET LOCKDOWN TIMER -----------------------------------------
   int UnitImpl::getLockdownTimer() const
   {
     return self->lockdownTimer;
   }
+  //--------------------------------------------- GET MAELSTROM TIMER ----------------------------------------
   int UnitImpl::getMaelstromTimer() const
   {
     return self->maelstromTimer;
   }
+  //--------------------------------------------- GET ORDER TIMER --------------------------------------------
   int UnitImpl::getOrderTimer() const
   {
     return self->orderTimer;
   }
+  //--------------------------------------------- GET PLAGUE TIMER -------------------------------------------
   int UnitImpl::getPlagueTimer() const
   {
     return self->plagueTimer;
   }
+  //--------------------------------------------- GET REMOVE TIMER -------------------------------------------
   int UnitImpl::getRemoveTimer() const
   {
     return self->removeTimer;
   }
+  //--------------------------------------------- GET STASIS TIMER -------------------------------------------
   int UnitImpl::getStasisTimer() const
   {
     return self->stasisTimer;
   }
+  //--------------------------------------------- GET STIM TIMER ---------------------------------------------
   int UnitImpl::getStimTimer() const
   {
     return self->stimTimer;
