@@ -53,7 +53,7 @@
 
 namespace BWAPI
 {
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   UnitImpl::UnitImpl(BW::Unit* originalUnit,
                      BW::Unit* unitLocal,
                      u16 index)
@@ -80,36 +80,72 @@ namespace BWAPI
     self = &data;
     id = (int)this;
   }
-  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
+  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   UnitImpl::~UnitImpl()
   {
   }
-  //------------------------------------------------- GET ID -------------------------------------------------
+  //--------------------------------------------- GET ID -----------------------------------------------------
   int UnitImpl::getID() const
   {
     return id;
   }
-  //------------------------------------------- GET HEALTH POINTS --------------------------------------------
+  //--------------------------------------------- GET PLAYER -------------------------------------------------
+  Player* UnitImpl::getPlayer() const
+  {
+    return BroodwarImpl.server.getPlayer(self->player);
+  }
+  //--------------------------------------------- GET TYPE ---------------------------------------------------
+  UnitType UnitImpl::getType() const
+  {
+    return UnitType(self->type);
+  }
+  //--------------------------------------------- GET POSITION -----------------------------------------------
+  Position UnitImpl::getPosition() const
+  {
+    return Position(self->positionX,self->positionY);
+  }
+  //--------------------------------------------- GET TILE POSITION ------------------------------------------
+  TilePosition UnitImpl::getTilePosition() const
+  {
+    return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
+                                 self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
+  }
+  //--------------------------------------------- GET ANGLE --------------------------------------------------
+  double UnitImpl::getAngle() const
+  {
+    return self->angle;
+  }
+  //--------------------------------------------- GET VELOCITY X ---------------------------------------------
+  double UnitImpl::getVelocityX() const
+  {
+    return self->velocityX;
+  }
+  //--------------------------------------------- GET VELOCITY Y ---------------------------------------------
+  double UnitImpl::getVelocityY() const
+  {
+    return self->velocityY;
+  }
+  //--------------------------------------------- GET HIT POINTS ---------------------------------------------
   int UnitImpl::getHitPoints() const
   {
     return self->hitPoints;
   }
-  //---------------------------------------------- GET SHIELDS -----------------------------------------------
+  //--------------------------------------------- GET SHIELDS ------------------------------------------------
   int UnitImpl::getShields() const
   {
     return self->shields;
   }
-  //------------------------------------------- GET ENERGY POINTS --------------------------------------------
+  //--------------------------------------------- GET ENERGY -------------------------------------------------
   int UnitImpl::getEnergy() const
   {
     return self->energy;
   }
-  //----------------------------------------------- RESOURCES ------------------------------------------------
+  //--------------------------------------------- GET RESOURCES ----------------------------------------------
   int UnitImpl::getResources() const
   {
     return self->resources;
   }
-  //-------------------------------------------- GET KILL COUNT ----------------------------------------------
+  //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int UnitImpl::getKillCount() const
   {
     checkAccessInt();
@@ -201,11 +237,6 @@ namespace BWAPI
   {
     checkAccessInt();
     return getRawDataLocal->removeTimer;
-  }
-  //----------------------------------------------- GET PLAYER -----------------------------------------------
-  Player* UnitImpl::getPlayer() const
-  {
-    return BroodwarImpl.server.getPlayer(self->player);
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool UnitImpl::exists() const
@@ -630,17 +661,6 @@ namespace BWAPI
       return;
     this->userSelected = selectedState;
   }
-  //---------------------------------------------- GET POSITION ----------------------------------------------
-  Position UnitImpl::getPosition() const
-  {
-    return Position(self->positionX,self->positionY);
-  }
-  //------------------------------------------- GET TILE POSITION --------------------------------------------
-  TilePosition UnitImpl::getTilePosition() const
-  {
-    return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
-                                 self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
-  }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
   {
@@ -822,21 +842,6 @@ namespace BWAPI
   {
     checkAccessPosition();
     return BWAPI::Position(getRawDataLocal->moveToPos.x, getRawDataLocal->moveToPos.y);
-  }
-  //---------------------------------------------- GET DIRECTION ---------------------------------------------
-  double UnitImpl::getAngle() const
-  {
-    return self->angle;
-  }
-  //---------------------------------------------- GET VELOCITY X --------------------------------------------
-  double UnitImpl::getVelocityX() const
-  {
-    return self->velocityX;
-  }
-  //---------------------------------------------- GET VELOCITY Y --------------------------------------------
-  double UnitImpl::getVelocityY() const
-  {
-    return self->velocityY;
   }
   //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
@@ -2386,11 +2391,6 @@ namespace BWAPI
     select[0] = this->getOriginalRawData();
     select[1] = NULL; //in case some piece of starcraft code assumes this array is null-terminated.
     BW::selectUnits(1, (BW::Unit**)(&select));
-  }
-  //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::UnitType UnitImpl::getType() const
-  {
-    return UnitType(self->type);
   }
   //-------------------------------------------- GET QUEUE LOCAL  --------------------------------------------
   BW::UnitType* UnitImpl::getBuildQueue() const

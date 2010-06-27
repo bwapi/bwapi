@@ -30,51 +30,63 @@ namespace BWAPI
     this->initialHitPoints=getHitPoints();
     this->initialPosition=getPosition();
   }
+  //--------------------------------------------- GET ID -----------------------------------------------------
   int UnitImpl::getID() const
   {
     return id;
   }
+  //--------------------------------------------- GET PLAYER -------------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
     return ((GameImpl*)Broodwar)->getPlayer(self->player);
   }
+  //--------------------------------------------- GET TYPE ---------------------------------------------------
   UnitType UnitImpl::getType() const
   {
     return UnitType(self->type);
   }
+  //--------------------------------------------- GET POSITION -----------------------------------------------
   Position UnitImpl::getPosition() const
   {
     return Position(self->positionX,self->positionY);
   }
+  //--------------------------------------------- GET TILE POSITION ------------------------------------------
   TilePosition UnitImpl::getTilePosition() const
   {
     return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
                                  self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
   }
+  //--------------------------------------------- GET ANGLE --------------------------------------------------
   double UnitImpl::getAngle() const
   {
     return self->angle;
   }
+  //--------------------------------------------- GET VELOCITY X ---------------------------------------------
   double UnitImpl::getVelocityX() const
   {
     return self->velocityX;
   }
+  //--------------------------------------------- GET VELOCITY Y ---------------------------------------------
   double UnitImpl::getVelocityY() const
   {
     return self->velocityY;
   }
+  //--------------------------------------------- GET HIT POINTS ---------------------------------------------
   int UnitImpl::getHitPoints() const
   {
     return self->hitPoints;
   }
+  //--------------------------------------------- GET SHIELDS ------------------------------------------------
   int UnitImpl::getShields() const
   {
     return self->shields;
   }
+  //--------------------------------------------- GET ENERGY -------------------------------------------------
   int UnitImpl::getEnergy() const
   {
     return self->energy;
   }
+  //--------------------------------------------- GET RESOURCES ----------------------------------------------
   int UnitImpl::getResources() const
   {
     return self->resources;
