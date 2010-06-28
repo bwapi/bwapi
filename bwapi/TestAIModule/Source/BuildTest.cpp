@@ -218,7 +218,9 @@ void BuildTest::update()
     {
       BWAssert(builder->getBuildUnit()==building);
       BWAssert(building->getBuildUnit()==builder);
+      BWAssert(builder->getBuildType()==building->getType());
     }
+    BWAssert(building->getBuildType()==building->getType());
     BWAssertF(building->getRemainingBuildTime()==correctRemainingBuildTime,{Broodwar->printf("%d %d",building->getRemainingBuildTime(),correctRemainingBuildTime);});
     BWAssert(building->isCompleted()==false);
     BWAssert(building->isConstructing()==true);
