@@ -70,22 +70,24 @@ namespace BWAPIC
     bool hasNuke;
     bool isAccelerating;
     bool isAttacking;
-    bool isBeingConstructed;
+    //bool isBeingConstructed;
     bool isBeingGathered;
     bool isBeingHealed;
     bool isBlind;
     bool isBraking;
     bool isBurrowed;
-    bool isCarryingGas;
-    bool isCarryingMinerals;
+    int carryResourceType;
+    //bool isCarryingGas; carryingResourceType == 1
+    //bool isCarryingMinerals; carryingResourceType == 2
     bool isCloaked;
     bool isCompleted;
     bool isConstructing;
     //bool isDefenseMatrixed; defenseMatrixTimer > 0
     //bool isEnsnared; ensnareTimer > 0
     //bool isFollowing; order == Orders::Follow.getID()
-    bool isGatheringGas;
-    bool isGatheringMinerals;
+    bool isGathering;
+    //bool isGatheringGas;
+    //bool isGatheringMinerals;
     bool isHallucination;
     bool isIdle;
     //bool isIrradiated; irradiateTimer > 0

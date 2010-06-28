@@ -439,182 +439,285 @@ namespace BWAPI
         return nothing;
     return connectedUnits;
   }
+  //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
   {
     return self->exists;
   }
+  //--------------------------------------------- HAS NUKE ---------------------------------------------------
   bool UnitImpl::hasNuke() const
   {
     return self->hasNuke;
   }
+  //--------------------------------------------- IS ACCELERATING --------------------------------------------
   bool UnitImpl::isAccelerating() const
   {
     return self->isAccelerating;
   }
+  //--------------------------------------------- IS ATTACKING -----------------------------------------------
   bool UnitImpl::isAttacking() const
   {
     return self->isAttacking;
   }
+  //--------------------------------------------- IS BEING CONSTRUCTED ---------------------------------------
   bool UnitImpl::isBeingConstructed() const
   {
-    return self->isBeingConstructed;
+    if (self->isMorphing)
+      return true;
+    if (self->isCompleted)
+      return false;
+    if (getType().getRace()!=Races::Terran)
+      return true;
+    return self->buildUnit != -1;
   }
+  //--------------------------------------------- IS BEING GATHERED ------------------------------------------
   bool UnitImpl::isBeingGathered() const
   {
     return self->isBeingGathered;
   }
+  //--------------------------------------------- IS BEING HEALED --------------------------------------------
   bool UnitImpl::isBeingHealed() const
   {
     return self->isBeingHealed;
   }
+  //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const
   {
     return self->isBlind;
   }
+  //--------------------------------------------- IS BRAKING -------------------------------------------------
   bool UnitImpl::isBraking() const
   {
     return self->isBraking;
   }
+  //--------------------------------------------- IS BURROWED ------------------------------------------------
   bool UnitImpl::isBurrowed() const
   {
     return self->isBurrowed;
   }
+  //--------------------------------------------- IS CARRYING GAS --------------------------------------------
   bool UnitImpl::isCarryingGas() const
   {
-    return self->isCarryingGas;
+    return self->carryResourceType == 1;
   }
+  //--------------------------------------------- IS CARRYING MINERALS ---------------------------------------
   bool UnitImpl::isCarryingMinerals() const
   {
-    return self->isCarryingMinerals;
+    return self->carryResourceType == 2;
   }
+  //--------------------------------------------- IS CLOAKED -------------------------------------------------
   bool UnitImpl::isCloaked() const
   {
     return self->isCloaked;
   }
+  //--------------------------------------------- IS COMPLETED -----------------------------------------------
   bool UnitImpl::isCompleted() const
   {
     return self->isCompleted;
   }
+  //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
   bool UnitImpl::isConstructing() const
   {
     return self->isConstructing;
   }
+  //--------------------------------------------- IS DEFENSE MATRIXED ----------------------------------------
   bool UnitImpl::isDefenseMatrixed() const
   {
     return self->defenseMatrixTimer > 0;
   }
+  //--------------------------------------------- IS ENSNARED ------------------------------------------------
   bool UnitImpl::isEnsnared() const
   {
     return self->ensnareTimer > 0;
   }
+  //--------------------------------------------- IS FOLLOWING -----------------------------------------------
   bool UnitImpl::isFollowing() const
   {
     return self->order == Orders::Follow.getID();
   }
+  //--------------------------------------------- IS GATHERING GAS -------------------------------------------
   bool UnitImpl::isGatheringGas() const
   {
-    return self->isGatheringGas;
+    if (!self->isGathering)
+      return false;
+
+    if (self->order != Orders::MoveToGas.getID()  &&
+        self->order != Orders::WaitForGas.getID() &&
+        self->order != Orders::HarvestGas.getID() &&
+        self->order != Orders::ReturnGas.getID()  &&
+        self->order != Orders::ResetCollision2.getID())
+      return false;
+
+    if (self->order == Orders::ResetCollision2.getID())
+      return self->carryResourceType == 1;
+
+    //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
+    if (self->order != Orders::MoveToGas.getID())
+      return true;
+
+    //if BWOrder is MoveToGas, we need to do some additional checks to make sure the unit is really gathering
+    if (self->target != -1)
+    {
+      if (getTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
+        return false;
+      if (getTarget()->getPlayer() != getPlayer())
+        return false;
+      if (!getTarget()->isCompleted() && !getTarget()->getType().isResourceDepot())
+        return false;
+      if (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot())
+        return true;
+    }
+    if (getOrderTarget() != NULL)
+    {
+      if (getOrderTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
+        return false;
+      if (getOrderTarget()->getPlayer() != getPlayer())
+        return false;
+      if (!this->getOrderTarget()->isCompleted() && !getOrderTarget()->getType().isResourceDepot())
+        return false;
+      if (this->getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot())
+        return true;
+    }
+    return false;
   }
+  //--------------------------------------------- IS GATHERING MINERALS --------------------------------------
   bool UnitImpl::isGatheringMinerals() const
   {
-    return self->isGatheringMinerals;
+    if (!self->isGathering)
+      return false;
+
+    if (self->order != Orders::MoveToMinerals.getID() &&
+        self->order != Orders::WaitForMinerals.getID() &&
+        self->order != Orders::MiningMinerals.getID() &&
+        self->order != Orders::ReturnMinerals.getID() &&
+        self->order != Orders::ResetCollision2.getID())
+      return false;
+
+    if (self->order == Orders::ResetCollision2.getID())
+      return self->carryResourceType == 2;
+    return true;
   }
+  //--------------------------------------------- IS HALLUCINATION -------------------------------------------
   bool UnitImpl::isHallucination() const
   {
     return self->isHallucination;
   }
+  //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
   {
     return self->isIdle;
   }
+  //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
   {
     return self->irradiateTimer > 0;
   }
+  //--------------------------------------------- IS LIFTED --------------------------------------------------
   bool UnitImpl::isLifted() const
   {
     return self->isLifted;
   }
+  //--------------------------------------------- IS LOADED --------------------------------------------------
   bool UnitImpl::isLoaded() const
   {
     return self->transport != -1;
   }
+  //--------------------------------------------- IS LOCKED DOWN ---------------------------------------------
   bool UnitImpl::isLockedDown() const
   {
     return self->lockdownTimer > 0;
   }
+  //--------------------------------------------- IS MAELSTROMMED --------------------------------------------
   bool UnitImpl::isMaelstrommed() const
   {
     return self->maelstromTimer > 0;
   }
+  //--------------------------------------------- IS MORPHING ------------------------------------------------
   bool UnitImpl::isMorphing() const
   {
     return self->isMorphing;
   }
+  //--------------------------------------------- IS MOVING --------------------------------------------------
   bool UnitImpl::isMoving() const
   {
     return self->isMoving;
   }
+  //--------------------------------------------- IS PARASITED -----------------------------------------------
   bool UnitImpl::isParasited() const
   {
     return self->isParasited;
   }
+  //--------------------------------------------- IS PATROLLING ----------------------------------------------
   bool UnitImpl::isPatrolling() const
   {
     return self->order == Orders::Patrol.getID();
   }
+  //--------------------------------------------- IS PLAGUED -------------------------------------------------
   bool UnitImpl::isPlagued() const
   {
     return self->plagueTimer > 0;
   }
+  //--------------------------------------------- IS REPAIRING -----------------------------------------------
   bool UnitImpl::isRepairing() const
   {
     return self->order == Orders::Repair1.getID() || self->order == Orders::Repair2.getID();
   }
+  //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool UnitImpl::isResearching() const
   {
     return self->order == Orders::ResearchTech.getID();
   }
+  //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSelected() const
   {
     return self->isSelected;
   }
+  //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSieged() const
   {
     return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode.getID();
   }
+  //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
   {
     return self->isStartingAttack;
   }
+  //--------------------------------------------- IS STASISED ------------------------------------------------
   bool UnitImpl::isStasised() const
   {
     return self->stasisTimer > 0;
   }
+  //--------------------------------------------- IS STIMMED -------------------------------------------------
   bool UnitImpl::isStimmed() const
   {
     return self->stimTimer > 0;
   }
+  //--------------------------------------------- IS TRAINING ------------------------------------------------
   bool UnitImpl::isTraining() const
   {
     return self->isTraining;
   }
+  //--------------------------------------------- IS UNDER STORM ---------------------------------------------
   bool UnitImpl::isUnderStorm() const
   {
     return self->isUnderStorm;
   }
+  //--------------------------------------------- IS UNPOWERED -----------------------------------------------
   bool UnitImpl::isUnpowered() const
   {
     return self->isUnpowered;
   }
+  //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
     return self->order == Orders::Upgrade.getID();
   }
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const
   {
     return self->isVisible[Broodwar->self()->getID()];
   }
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible(Player* player) const
   {
     if (player==NULL) return false;
