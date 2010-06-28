@@ -222,7 +222,6 @@ namespace BWAPI
       Position _getPosition;
       int _getResources;
       int _getHitPoints;
-      Unit* _getOrderTarget() const;
       bool _isCompleted;
       Unit* _getTransport;
 

@@ -80,6 +80,8 @@ namespace BWAPI
             getRawDataLocal->status.getBit(BW::StatusFlags::InTransport) ||
             getRawDataLocal->status.getBit(BW::StatusFlags::InBuilding))
           _getTransport = (Unit*)(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.parentUnit));
+        else
+          _getTransport = NULL;
       }
       else if (getRawDataLocal->status.getBit(BW::StatusFlags::InTransport) ||
                getRawDataLocal->status.getBit(BW::StatusFlags::InBuilding))
@@ -320,6 +322,55 @@ namespace BWAPI
                        (self->order == BW::OrderID::Burrowed) ||
                        (self->order == BW::OrderID::NukeTrain) ||
                        (self->order == BW::OrderID::Larva);
+      //------------------------------------------------------------------------------------------------------
+      //getTarget
+      self->target = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->targetUnit));
+      //------------------------------------------------------------------------------------------------------
+      //getTargetPosition
+      self->targetPositionX = getRawDataLocal->moveToPos.x;
+      self->targetPositionY = getRawDataLocal->moveToPos.y;
+      //------------------------------------------------------------------------------------------------------
+      //getOrderTarget
+      self->orderTarget = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->orderTargetUnit));
+      //------------------------------------------------------------------------------------------------------
+      //getChild
+      self->child = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.childUnit1));
+      //------------------------------------------------------------------------------------------------------
+      //getAddon
+      if (_getType.isBuilding())
+      {
+        UnitImpl* addon = UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->currentBuildUnit);
+        if (addon != NULL && addon->_exists && UnitType(addon->getRawDataLocal->unitID.id).isAddon())
+          self->addon = BroodwarImpl.server.getUnitID(addon);
+        else
+        {
+          addon = UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.childUnit1);
+          if (addon!=NULL && addon->_exists && UnitType(addon->getRawDataLocal->unitID.id).isAddon())
+            self->addon = BroodwarImpl.server.getUnitID(addon);
+          else
+            self->addon = -1;
+        }
+      }
+      else
+        self->addon = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getNydusExit
+      if (_getType!=UnitTypes::Zerg_Nydus_Canal)
+        self->nydusExit = -1;
+      else
+      {
+        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->currentBuildUnit);
+        if (nydus != NULL && nydus->_exists && nydus->getRawDataLocal->unitID.id==BW::UnitID::Zerg_NydusCanal)
+          self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
+        else
+        {
+          nydus = UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.childUnit1);
+          if (nydus != NULL && nydus->_exists && nydus->getRawDataLocal->unitID.id==BW::UnitID::Zerg_NydusCanal)
+            self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
+          else
+            self->nydusExit = -1;
+        }
+      }
     }
     else
     {
@@ -417,6 +468,25 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //isIdle
       self->isIdle = false;
+      //------------------------------------------------------------------------------------------------------
+      //getTarget
+      self->target = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getTargetPosition
+      self->targetPositionX = Positions::Unknown.x();
+      self->targetPositionY = Positions::Unknown.y();
+      //------------------------------------------------------------------------------------------------------
+      //getOrderTarget
+      self->orderTarget = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getChild
+      self->child = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getAddon
+      self->addon = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getNydusExit
+      self->nydusExit = -1;
     }
     if (canAccessSpecial())
     {
@@ -491,7 +561,6 @@ namespace BWAPI
       else
       {
         self->trainingQueueCount = 0;
-        int i = getBuildQueueSlot % 5;
         for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
         {
           self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
@@ -537,6 +606,39 @@ namespace BWAPI
         self->remainingUpgradeTime = getRawDataLocal->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
       else
         self->remainingUpgradeTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRallyPosition
+      if (this->_getType.canProduce())
+      {
+        self->rallyPositionX = getRawDataLocal->rallyPsiProviderUnion.rally.rallyX;
+        self->rallyPositionY = getRawDataLocal->rallyPsiProviderUnion.rally.rallyY;
+      }
+      else
+      {
+        self->rallyPositionX = Positions::None.x();
+        self->rallyPositionY = Positions::None.y();
+      }
+      //------------------------------------------------------------------------------------------------------
+      //getRallyUnit
+      if (this->_getType.canProduce())
+        self->rallyUnit = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->rallyPsiProviderUnion.rally.rallyUnit));
+      else
+        self->rallyUnit = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getTransport
+      self->transport = BroodwarImpl.server.getUnitID(_getTransport);
+      //------------------------------------------------------------------------------------------------------
+      //getCarrier
+      if (_getType != UnitTypes::Protoss_Interceptor)
+        self->carrier = -1;
+      else
+        self->carrier = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.parentUnit)));
+      //------------------------------------------------------------------------------------------------------
+      //getHatchery
+      if (_getType != UnitTypes::Zerg_Larva)
+        self->hatchery = -1;
+      else
+        self->hatchery = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->connectedUnit)));
     }
     else
     {
@@ -570,6 +672,22 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getRemainingUpgradeTime
       self->remainingUpgradeTime = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getRallyPosition
+      self->rallyPositionX = Positions::None.x();
+      self->rallyPositionY = Positions::None.y();
+      //------------------------------------------------------------------------------------------------------
+      //getRallyUnit
+      self->rallyUnit = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getTransport
+      self->transport = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getCarrier
+      self->carrier = -1;
+      //------------------------------------------------------------------------------------------------------
+      //getHatchery
+      self->hatchery = -1;
     }
   }
 }

@@ -351,77 +351,93 @@ namespace BWAPI
   {
     return ((GameImpl*)Broodwar)->getUnit(self->buildUnit);
   }
+  //--------------------------------------------- GET TARGET -------------------------------------------------
   Unit* UnitImpl::getTarget() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->target);
   }
+  //--------------------------------------------- GET TARGET POSITION ----------------------------------------
   Position UnitImpl::getTargetPosition() const
   {
     return Position(self->targetPositionX,self->targetPositionY);
   }
+  //--------------------------------------------- GET ORDER --------------------------------------------------
   Order UnitImpl::getOrder() const
   {
     return Order(self->order);
   }
+  //--------------------------------------------- GET ORDER TARGET -------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->orderTarget);
   }
+  //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
   Order UnitImpl::getSecondaryOrder() const
   {
     return Order(self->secondaryOrder);
   }
+  //--------------------------------------------- GET CHILD --------------------------------------------------
   Unit* UnitImpl::getChild() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->child);
   }
+  //--------------------------------------------- GET RALLY POSITION -----------------------------------------
   Position UnitImpl::getRallyPosition() const
   {
     return Position(self->rallyPositionX,self->rallyPositionY);
   }
+  //--------------------------------------------- GET RALLY UNIT ---------------------------------------------
   Unit* UnitImpl::getRallyUnit() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->rallyUnit);
   }
+  //--------------------------------------------- GET ADDON --------------------------------------------------
   Unit* UnitImpl::getAddon() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->addon);
   }
+  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
   Unit* UnitImpl::getNydusExit() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->nydusExit);
   }
+  //--------------------------------------------- GET TRANSPORT ----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->transport);
   }
+  //--------------------------------------------- GET LOADED UNITS -------------------------------------------
   std::set<Unit*> UnitImpl::getLoadedUnits() const
   {
     return loadedUnits;
   }
+  //--------------------------------------------- GET CARRIER ------------------------------------------------
   Unit* UnitImpl::getCarrier() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->carrier);
   }
+  //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
   std::set<Unit*> UnitImpl::getInterceptors() const
   {
     std::set<Unit*> nothing;
-    if (getType()!=UnitTypes::Protoss_Carrier)
+    if (getType() != UnitTypes::Protoss_Carrier)
       return nothing;
-    return this->connectedUnits;
+    return connectedUnits;
   }
+  //--------------------------------------------- GET HATCHERY -----------------------------------------------
   Unit* UnitImpl::getHatchery() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->hatchery);
   }
+  //--------------------------------------------- GET LARVA --------------------------------------------------
   std::set<Unit*> UnitImpl::getLarva() const
   {
     std::set<Unit*> nothing;
-    if (getType()!=UnitTypes::Zerg_Hatchery &&
-        getType()!=UnitTypes::Zerg_Lair &&
-        getType()!=UnitTypes::Zerg_Hive)
+    if (getType() != UnitTypes::Zerg_Hatchery &&
+        getType() != UnitTypes::Zerg_Lair &&
+        getType() != UnitTypes::Zerg_Hive)
         return nothing;
-    return this->connectedUnits;
+    return connectedUnits;
   }
   bool UnitImpl::exists() const
   {
