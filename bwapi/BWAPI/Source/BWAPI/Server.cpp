@@ -358,39 +358,34 @@ namespace BWAPI
         u->stasisTimer        = u2->stasisTimer;
         u->stimTimer          = u2->stimTimer;
 
-        u->buildType             = (*i)->getBuildType().getID();
-        std::list<UnitType>   tq = (*i)->getTrainingQueue();
-        u->trainingQueueCount    = tq.size();
-        int k=0;
-        for(std::list<UnitType>::iterator j=tq.begin();j!=tq.end();j++)
-        {
-          u->trainingQueue[k]    = (*j).getID();
-          k++;
-        }
-        u->tech                  = (*i)->getTech().getID();
-        u->upgrade               = (*i)->getUpgrade().getID();
-        u->remainingBuildTime    = (*i)->getRemainingBuildTime();
-        u->remainingTrainTime    = (*i)->getRemainingTrainTime();
-        u->remainingResearchTime = (*i)->getRemainingResearchTime();
-        u->remainingUpgradeTime  = (*i)->getRemainingUpgradeTime();
-        u->buildUnit             = getUnitID((*i)->getBuildUnit());
+        u->buildType             = u2->buildType;
+        u->trainingQueueCount    = u2->trainingQueueCount;
+        for(int s=0;s<5;s++)
+          u->trainingQueue[s]    = u2->trainingQueue[s];
+        u->tech                  = u2->tech;
+        u->upgrade               = u2->upgrade;
+        u->remainingBuildTime    = u2->remainingBuildTime;
+        u->remainingTrainTime    = u2->remainingTrainTime;
+        u->remainingResearchTime = u2->remainingResearchTime;
+        u->remainingUpgradeTime  = u2->remainingUpgradeTime;
+        u->buildUnit             = u2->buildUnit;
 
-        u->target                = getUnitID((*i)->getTarget());
-        u->targetPositionX       = (*i)->getTargetPosition().x();
-        u->targetPositionY       = (*i)->getTargetPosition().y();
-        u->order                 = (*i)->getOrder().getID();
-        u->orderTarget           = getUnitID((*i)->getOrderTarget());
-        u->secondaryOrder        = (*i)->getSecondaryOrder().getID();
-        u->child                 = getUnitID((*i)->getChild());
-        u->rallyPositionX        = (*i)->getRallyPosition().x();
-        u->rallyPositionY        = (*i)->getRallyPosition().y();
-        u->rallyUnit             = getUnitID((*i)->getRallyUnit());
-        u->addon                 = getUnitID((*i)->getAddon());
-        u->nydusExit             = getUnitID((*i)->getNydusExit());
+        u->target                = u2->target;
+        u->targetPositionX       = u2->targetPositionX;
+        u->targetPositionY       = u2->targetPositionY;
+        u->order                 = u2->order;
+        u->orderTarget           = u2->orderTarget;
+        u->secondaryOrder        = u2->secondaryOrder;
+        u->child                 = u2->child;
+        u->rallyPositionX        = u2->rallyPositionX;
+        u->rallyPositionY        = u2->rallyPositionY;
+        u->rallyUnit             = u2->rallyUnit;
+        u->addon                 = u2->addon;
+        u->nydusExit             = u2->nydusExit;
 
-        u->transport             = getUnitID((*i)->getTransport());
-        u->carrier               = getUnitID((*i)->getCarrier());
-        u->hatchery              = getUnitID((*i)->getHatchery());
+        u->transport             = u2->transport;
+        u->carrier               = u2->carrier;
+        u->hatchery              = u2->hatchery;
 
         //optimize is_ functions later
         u->exists              = (*i)->exists();
