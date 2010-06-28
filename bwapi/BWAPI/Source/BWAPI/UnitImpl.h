@@ -209,12 +209,10 @@ namespace BWAPI
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
       void die();
-      inline bool canAccess() const;
+      bool canAccess() const;
       bool canAccessSpecial() const;
-      inline bool canAccessInside() const;
-      inline bool attemptAccess() const;
-      inline bool attemptAccessSpecial() const;
-      inline bool attemptAccessInside() const;
+      bool canAccessInside() const;
+      bool attemptAccess() const;
       bool _exists;
       Player* _getPlayer;
       UnitType _getType;

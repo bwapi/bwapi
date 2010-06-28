@@ -387,40 +387,32 @@ namespace BWAPI
         u->carrier               = u2->carrier;
         u->hatchery              = u2->hatchery;
 
-        //optimize is_ functions later
-        u->exists              = (*i)->exists();
-        u->hasNuke             = (*i)->hasNuke();
-        u->isAccelerating      = (*i)->isAccelerating();
-        u->isAttacking         = (*i)->isAttacking();
-        u->isBeingConstructed  = (*i)->isBeingConstructed();
-        u->isBeingGathered     = (*i)->isBeingGathered();
-        u->isBeingHealed       = (*i)->isBeingHealed();
-        u->isBlind             = (*i)->isBlind();
-        u->isBraking           = (*i)->isBraking();
-        u->isBurrowed          = (*i)->isBurrowed();
-        u->isCarryingGas       = (*i)->isCarryingGas();
-        u->isCarryingMinerals  = (*i)->isCarryingMinerals();
-        u->isCloaked           = (*i)->isCloaked();
-        u->isCompleted         = (*i)->isCompleted();
-        u->isConstructing      = (*i)->isConstructing();
-        u->isGatheringGas      = (*i)->isGatheringGas();
-        u->isGatheringMinerals = (*i)->isGatheringMinerals();
-        u->isHallucination     = (*i)->isHallucination();
-        u->isIdle              = (*i)->isIdle();
-        u->isLifted            = (*i)->isLifted();
-        u->isMorphing          = (*i)->isMorphing();
-        u->isMoving            = (*i)->isMoving();
-        u->isParasited         = (*i)->isParasited();
-        u->isSelected          = (*i)->isSelected();
-        u->isStartingAttack    = (*i)->isStartingAttack();
-        u->isTraining          = (*i)->isTraining();
-        u->isUnderStorm        = (*i)->isUnderStorm();
-        u->isUnpowered         = (*i)->isUnpowered();
-        for(std::set<Player*>::iterator j=Broodwar->getPlayers().begin();j!=Broodwar->getPlayers().end();j++)
-        {
-          int playerid = getPlayerID(*j);
-          u->isVisible[playerid] = (*i)->isVisible(*j);
-        }
+        u->exists              = u2->exists;
+        u->hasNuke             = u2->hasNuke;
+        u->isAccelerating      = u2->isAccelerating;
+        u->isAttacking         = u2->isAttacking;
+        u->isBeingGathered     = u2->isBeingGathered;
+        u->isBeingHealed       = u2->isBeingHealed;
+        u->isBlind             = u2->isBlind;
+        u->isBraking           = u2->isBraking;
+        u->isBurrowed          = u2->isBurrowed;
+        u->carryResourceType   = u2->carryResourceType;
+        u->isCloaked           = u2->isCloaked;
+        u->isCompleted         = u2->isCompleted;
+        u->isConstructing      = u2->isConstructing;
+        u->isHallucination     = u2->isHallucination;
+        u->isIdle              = u2->isIdle;
+        u->isLifted            = u2->isLifted;
+        u->isMorphing          = u2->isMorphing;
+        u->isMoving            = u2->isMoving;
+        u->isParasited         = u2->isParasited;
+        u->isSelected          = u2->isSelected;
+        u->isStartingAttack    = u2->isStartingAttack;
+        u->isTraining          = u2->isTraining;
+        u->isUnderStorm        = u2->isUnderStorm;
+        u->isUnpowered         = u2->isUnpowered;
+        for(int s=0;s<9;s++)
+          u->isVisible[s]      = u2->isVisible[s];
       }
 
       for(int i=0;i<1700;i++)

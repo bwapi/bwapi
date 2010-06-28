@@ -371,6 +371,66 @@ namespace BWAPI
             self->nydusExit = -1;
         }
       }
+      //------------------------------------------------------------------------------------------------------
+      //isAccelerating
+      self->isAccelerating = getRawDataLocal->movementFlags.getBit(BW::MovementFlags::Accelerating);
+      //------------------------------------------------------------------------------------------------------
+      //isAttacking
+      self->isAttacking = (animState == BW::Image::Anims::GndAttkRpt  ||
+                           animState == BW::Image::Anims::AirAttkRpt  || 
+                           animState == BW::Image::Anims::GndAttkInit ||
+                           animState == BW::Image::Anims::AirAttkInit);
+      //------------------------------------------------------------------------------------------------------
+      //isBeingGathered
+      self->isBeingGathered = _getType.isResourceContainer() && getRawDataLocal->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
+      //------------------------------------------------------------------------------------------------------
+      //isBeingHealed
+      self->isBeingHealed = getRawDataLocal->isBeingHealed != 0;
+      //------------------------------------------------------------------------------------------------------
+      //isBlind
+      self->isBlind = getRawDataLocal->isBlind != 0;
+      //------------------------------------------------------------------------------------------------------
+      //isBraking
+      self->isBraking = getRawDataLocal->movementFlags.getBit(BW::MovementFlags::Braking);
+      //------------------------------------------------------------------------------------------------------
+      //isBurrowed
+      self->isBurrowed = getRawDataLocal->status.getBit(BW::StatusFlags::Burrowed);
+      //------------------------------------------------------------------------------------------------------
+      //isCarryingGas
+      //isCarryingMinerals
+      if (_getType.isWorker())
+        self->carryResourceType = getRawDataLocal->resourceType;
+      else
+        self->carryResourceType = 0;
+      //------------------------------------------------------------------------------------------------------
+      //isCloaked
+      self->isCloaked = getRawDataLocal->status.getBit(BW::StatusFlags::Cloaked);
+      //------------------------------------------------------------------------------------------------------
+      //isGatheringGas
+      //isGatheringMinerals
+      self->isGathering = _getType.isWorker() && getRawDataLocal->status.getBit(BW::StatusFlags::IsGathering);
+      //------------------------------------------------------------------------------------------------------
+      //isLifted
+      self->isLifted = getRawDataLocal->status.getBit(BW::StatusFlags::InAir) &&
+                       getRawDataLocal->unitID.isBuilding();
+      //------------------------------------------------------------------------------------------------------
+      //isMoving
+      self->isMoving = getRawDataLocal->movementFlags.getBit(BW::MovementFlags::Moving);
+      //------------------------------------------------------------------------------------------------------
+      //isParasited
+      self->isParasited = getRawDataLocal->parasiteFlags.value != 0;
+      //------------------------------------------------------------------------------------------------------
+      //isSelected
+      self->isSelected = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected;
+      //------------------------------------------------------------------------------------------------------
+      //isStartingAttack
+      self->isStartingAttack = startingAttack;
+      //------------------------------------------------------------------------------------------------------
+      //isUnderStorm
+      self->isUnderStorm = getRawDataLocal->isUnderStorm != 0;
+      //------------------------------------------------------------------------------------------------------
+      //isUnpowered
+      self->isUnpowered = _getType.getRace() == Races::Protoss && _getType.isBuilding() && getRawDataLocal->status.getBit(BW::StatusFlags::DoodadStatesThing);
     }
     else
     {
@@ -487,6 +547,56 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getNydusExit
       self->nydusExit = -1;
+      //------------------------------------------------------------------------------------------------------
+      //isAccelerating
+      self->isAccelerating = false;
+      //------------------------------------------------------------------------------------------------------
+      //isAttacking
+      self->isAttacking = false;
+      //------------------------------------------------------------------------------------------------------
+      //isBeingGathered
+      self->isBeingGathered = false;
+      //------------------------------------------------------------------------------------------------------
+      //isBeingHealed
+      self->isBeingHealed = false;
+      //------------------------------------------------------------------------------------------------------
+      //isBlind
+      self->isBlind = false;
+      //------------------------------------------------------------------------------------------------------
+      //isBraking
+      self->isBraking = false;
+      //------------------------------------------------------------------------------------------------------
+      //isBurrowed
+      self->isBurrowed = false;
+      //------------------------------------------------------------------------------------------------------
+      //isCarryingGas
+      //isCarryingMinerals
+      self->carryResourceType = 0;
+      //------------------------------------------------------------------------------------------------------
+      //isCloaked
+      self->isCloaked = false;
+      //------------------------------------------------------------------------------------------------------
+      //isLifted
+      self->isLifted = false;
+      //------------------------------------------------------------------------------------------------------
+      //isMoving
+      self->isMoving = false;
+      //------------------------------------------------------------------------------------------------------
+      //isParasited
+      self->isParasited = false;
+      //------------------------------------------------------------------------------------------------------
+      //isSelected
+      self->isSelected = false;
+      //------------------------------------------------------------------------------------------------------
+      //isStartingAttack
+      self->isStartingAttack = false;
+      //------------------------------------------------------------------------------------------------------
+      //isUnderStorm
+      self->isUnderStorm = false;
+      //------------------------------------------------------------------------------------------------------
+      //isUnpowered
+      self->isUnpowered = false;
+
     }
     if (canAccessSpecial())
     {
@@ -639,6 +749,15 @@ namespace BWAPI
         self->hatchery = -1;
       else
         self->hatchery = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->connectedUnit)));
+      //------------------------------------------------------------------------------------------------------
+      //hasNuke
+      if (_getType!=UnitTypes::Terran_Nuclear_Silo) //not sure if this check is needed, but just to be safe
+        self->hasNuke = false;
+      else
+        self->hasNuke = (getRawDataLocal->hasNuke!=0);
+      //------------------------------------------------------------------------------------------------------
+      //isHallucination
+      self->isHallucination = getRawDataLocal->status.getBit(BW::StatusFlags::IsHallucination);
     }
     else
     {
@@ -688,6 +807,12 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getHatchery
       self->hatchery = -1;
+      //------------------------------------------------------------------------------------------------------
+      //hasNuke
+      self->hasNuke = false;
+      //------------------------------------------------------------------------------------------------------
+      //isHallucination
+      self->isHallucination = false;
     }
   }
 }

@@ -372,85 +372,78 @@ namespace BWAPI
       return nothing;
     return connectedUnits;
   }
-  //------------------------------------------------- EXISTS -------------------------------------------------
+  //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
   {
     return self->exists;
   }
+  //--------------------------------------------- HAS NUKE ---------------------------------------------------
+  bool UnitImpl::hasNuke() const
+  {
+    return self->hasNuke;
+  }
   //--------------------------------------------- IS ACCELERATING --------------------------------------------
   bool UnitImpl::isAccelerating() const
   {
-    checkAccessBool();
-    return getRawDataLocal->movementFlags.getBit(BW::MovementFlags::Accelerating);
+    return self->isAccelerating;
   }
-  //-------------------------------------------- IS BEING CONSTRUCTED ----------------------------------------
+  //--------------------------------------------- IS ATTACKING -----------------------------------------------
+  bool UnitImpl::isAttacking() const
+  {
+    return self->isAttacking;
+  }
+  //--------------------------------------------- IS BEING CONSTRUCTED ---------------------------------------
   bool UnitImpl::isBeingConstructed() const
   {
-    checkAccessBool();
     if (self->isMorphing)
-      return true;//all morphing units/buildings are being constructed
+      return true;
     if (self->isCompleted)
-      return false; //no completed non-morphing units are being constructed
-    if (_getType.getRace()!=Races::Terran)
-      return true;//all incomplete non-terran units are being constructed
-    return this->self->buildUnit != -1;//incomplete terran units are being constructed only if they have a unit building them
+      return false;
+    if (getType().getRace()!=Races::Terran)
+      return true;
+    return self->buildUnit != -1;
   }
-  //------------------------------------------- IS BEING GATHERED --------------------------------------------
+  //--------------------------------------------- IS BEING GATHERED ------------------------------------------
   bool UnitImpl::isBeingGathered() const
   {
-    checkAccessBool();
-    if (!getType().isResourceContainer())
-      return false;
-
-    return getRawDataLocal->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
+    return self->isBeingGathered;
   }
   //--------------------------------------------- IS BEING HEALED --------------------------------------------
   bool UnitImpl::isBeingHealed() const
   {
-    checkAccessBool();
-    return getRawDataLocal->isBeingHealed != 0;
+    return self->isBeingHealed;
   }
-  //------------------------------------------------ IS BLIND ------------------------------------------------
+  //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const
   {
-    checkAccessBool();
-    return getRawDataLocal->isBlind != 0;
+    return self->isBlind;
   }
-  //----------------------------------------------- IS BRAKING -----------------------------------------------
+  //--------------------------------------------- IS BRAKING -------------------------------------------------
   bool UnitImpl::isBraking() const
   {
-    checkAccessBool();
-    return getRawDataLocal->movementFlags.getBit(BW::MovementFlags::Braking);
+    return self->isBraking;
   }
-  //----------------------------------------------- IS BURROWED ----------------------------------------------
+  //--------------------------------------------- IS BURROWED ------------------------------------------------
   bool UnitImpl::isBurrowed() const
   {
-    checkAccessBool();
-    return getRawDataLocal->status.getBit(BW::StatusFlags::Burrowed);
+    return self->isBurrowed;
   }
   //--------------------------------------------- IS CARRYING GAS --------------------------------------------
   bool UnitImpl::isCarryingGas() const
   {
-    checkAccessBool();
-    if (!this->getType().isWorker())
-      return false;
-    return getRawDataLocal->resourceType == 1;
+    return self->carryResourceType == 1;
   }
-  //------------------------------------------- IS CARRYING MINERALS -----------------------------------------
+  //--------------------------------------------- IS CARRYING MINERALS ---------------------------------------
   bool UnitImpl::isCarryingMinerals() const
   {
-    checkAccessBool();
-    if (!this->getType().isWorker())
-      return false;
-    return getRawDataLocal->resourceType == 2;
+    return self->carryResourceType == 2;
   }
-  //------------------------------------------------ IS CLOAKED ----------------------------------------------
+  //--------------------------------------------- IS CLOAKED -------------------------------------------------
   bool UnitImpl::isCloaked() const
   {
-    checkAccessBool();
-    return getRawDataLocal->status.getBit(BW::StatusFlags::Cloaked);
+    return self->isCloaked;
   }
-  //---------------------------------------------- IS COMPLETED ----------------------------------------------
+  //--------------------------------------------- IS COMPLETED -----------------------------------------------
   bool UnitImpl::isCompleted() const
   {
     return self->isCompleted;
@@ -460,55 +453,47 @@ namespace BWAPI
   {
     return self->isConstructing;
   }
-  //------------------------------------------- IS DEFENSE MATRIXED ------------------------------------------
+  //--------------------------------------------- IS DEFENSE MATRIXED ----------------------------------------
   bool UnitImpl::isDefenseMatrixed() const
   {
-    checkAccessBool();
-    return getRawDataLocal->defenseMatrixTimer > 0;
+    return self->defenseMatrixTimer > 0;
   }
-  //----------------------------------------------- IS ENSNARED ----------------------------------------------
+  //--------------------------------------------- IS ENSNARED ------------------------------------------------
   bool UnitImpl::isEnsnared() const
   {
-    checkAccessBool();
-    return getRawDataLocal->ensnareTimer > 0;
+    return self->ensnareTimer > 0;
   }
-  //---------------------------------------------- IS FOLLOWING ----------------------------------------------
+  //--------------------------------------------- IS FOLLOWING -----------------------------------------------
   bool UnitImpl::isFollowing() const
   {
-    checkAccessBool();
-    return self->order == BW::OrderID::Follow;
+    return self->order == Orders::Follow.getID();
   }
-  //-------------------------------------------- IS GATHERING GAS --------------------------------------------
+  //--------------------------------------------- IS GATHERING GAS -------------------------------------------
   bool UnitImpl::isGatheringGas() const
   {
-    checkAccessBool();
-    if (!_getType.isWorker())
+    if (!self->isGathering)
       return false;
 
-    if (!getRawDataLocal->status.getBit(BW::StatusFlags::IsGathering))
+    if (self->order != Orders::MoveToGas.getID()  &&
+        self->order != Orders::WaitForGas.getID() &&
+        self->order != Orders::HarvestGas.getID() &&
+        self->order != Orders::ReturnGas.getID()  &&
+        self->order != Orders::ResetCollision2.getID())
       return false;
 
-    int tOrderID = self->order;
-    if (tOrderID != BW::OrderID::MoveToGas  &&
-        tOrderID != BW::OrderID::WaitForGas &&
-        tOrderID != BW::OrderID::HarvestGas &&
-        tOrderID != BW::OrderID::ReturnGas  &&
-        tOrderID != BW::OrderID::ResetCollision2)
-      return false;
-
-    if (tOrderID == BW::OrderID::ResetCollision2)
-      return this->isCarryingGas();
+    if (self->order == Orders::ResetCollision2.getID())
+      return self->carryResourceType == 1;
 
     //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
-    if (tOrderID != BW::OrderID::MoveToGas)
+    if (self->order != Orders::MoveToGas.getID())
       return true;
 
     //if BWOrder is MoveToGas, we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() != NULL)
+    if (self->target != -1)
     {
       if (getTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
         return false;
-      if (((BWAPI::UnitImpl*)getTarget())->_getPlayer != _getPlayer)
+      if (getTarget()->getPlayer() != getPlayer())
         return false;
       if (!getTarget()->isCompleted() && !getTarget()->getType().isResourceDepot())
         return false;
@@ -519,7 +504,7 @@ namespace BWAPI
     {
       if (getOrderTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
         return false;
-      if (((BWAPI::UnitImpl*)getOrderTarget())->_getPlayer != _getPlayer)
+      if (getOrderTarget()->getPlayer() != getPlayer())
         return false;
       if (!this->getOrderTarget()->isCompleted() && !getOrderTarget()->getType().isResourceDepot())
         return false;
@@ -528,190 +513,154 @@ namespace BWAPI
     }
     return false;
   }
-  //----------------------------------------- IS GATHERING MINERALS ------------------------------------------
+  //--------------------------------------------- IS GATHERING MINERALS --------------------------------------
   bool UnitImpl::isGatheringMinerals() const
   {
-    checkAccessBool();
-    if (!_getType.isWorker())
+    if (!self->isGathering)
       return false;
 
-    if (!getRawDataLocal->status.getBit(BW::StatusFlags::IsGathering))
+    if (self->order != Orders::MoveToMinerals.getID() &&
+        self->order != Orders::WaitForMinerals.getID() &&
+        self->order != Orders::MiningMinerals.getID() &&
+        self->order != Orders::ReturnMinerals.getID() &&
+        self->order != Orders::ResetCollision2.getID())
       return false;
 
-    int tOrderID = self->order;
-    if (tOrderID != BW::OrderID::MoveToMinerals &&
-        tOrderID != BW::OrderID::WaitForMinerals &&
-        tOrderID != BW::OrderID::MiningMinerals &&
-        tOrderID != BW::OrderID::ReturnMinerals &&
-        tOrderID != BW::OrderID::ResetCollision2)
-      return false;
-
-    if (tOrderID == BW::OrderID::ResetCollision2)
-      return isCarryingMinerals();
+    if (self->order == Orders::ResetCollision2.getID())
+      return self->carryResourceType == 2;
     return true;
   }
-  //-------------------------------------------- IS HALLUCINATION --------------------------------------------
+  //--------------------------------------------- IS HALLUCINATION -------------------------------------------
   bool UnitImpl::isHallucination() const
   {
-    if (!attemptAccessInside())
-      return false;
-    return getRawDataLocal->status.getBit(BW::StatusFlags::IsHallucination);
+    return self->isHallucination;
   }
-  //---------------------------------------------- IS IDLE ---------------------------------------------------
+  //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
   {
     return self->isIdle;
   }
-  //---------------------------------------------- IS IRRADIATED ---------------------------------------------
+  //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
   {
-    checkAccessBool();
-    return getRawDataLocal->irradiateTimer > 0;
+    return self->irradiateTimer > 0;
   }
-  //------------------------------------------------ IS LIFTED -----------------------------------------------
+  //--------------------------------------------- IS LIFTED --------------------------------------------------
   bool UnitImpl::isLifted() const
   {
-    checkAccessBool();
-    return getRawDataLocal->status.getBit(BW::StatusFlags::InAir) &&
-           getRawDataLocal->unitID.isBuilding();
+    return self->isLifted;
   }
-  //------------------------------------------------ IS LOADED -----------------------------------------------
+  //--------------------------------------------- IS LOADED --------------------------------------------------
   bool UnitImpl::isLoaded() const
   {
     return self->transport != -1;
   }
-  //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
+  //--------------------------------------------- IS LOCKED DOWN ---------------------------------------------
   bool UnitImpl::isLockedDown() const
   {
-    checkAccessBool();
-    return getLockdownTimer() > 0;
+    return self->lockdownTimer > 0;
   }
-  //---------------------------------------------- IS MAELSTROMED --------------------------------------------
+  //--------------------------------------------- IS MAELSTROMMED --------------------------------------------
   bool UnitImpl::isMaelstrommed() const
   {
-    checkAccessBool();
-    return getRawDataLocal->maelstromTimer > 0;
+    return self->maelstromTimer > 0;
   }
-  //----------------------------------------------- IS MORPHING ----------------------------------------------
+  //--------------------------------------------- IS MORPHING ------------------------------------------------
   bool UnitImpl::isMorphing() const
   {
     return self->isMorphing;
   }
-  //------------------------------------------------ IS MOVING -----------------------------------------------
+  //--------------------------------------------- IS MOVING --------------------------------------------------
   bool UnitImpl::isMoving() const
   {
-    checkAccessBool();
-    return getRawDataLocal->movementFlags.getBit(BW::MovementFlags::Moving);
+    return self->isMoving;
   }
-  //----------------------------------------------- IS PARASITED ---------------------------------------------
+  //--------------------------------------------- IS PARASITED -----------------------------------------------
   bool UnitImpl::isParasited() const
   {
-    checkAccessBool();
-    return getRawDataLocal->parasiteFlags.value != 0;
+    return self->isParasited;
   }
-  //---------------------------------------------- IS PATROLLING ---------------------------------------------
+  //--------------------------------------------- IS PATROLLING ----------------------------------------------
   bool UnitImpl::isPatrolling() const
   {
-    checkAccessBool();
-    return self->order == BW::OrderID::Patrol;
+    return self->order == Orders::Patrol.getID();
   }
-  //----------------------------------------------- IS PLAGUED -----------------------------------------------
+  //--------------------------------------------- IS PLAGUED -------------------------------------------------
   bool UnitImpl::isPlagued() const
   {
-    checkAccessBool();
-    return getRawDataLocal->plagueTimer > 0;
+    return self->plagueTimer > 0;
   }
-  //----------------------------------------------- IS REPAIRING ---------------------------------------------
+  //--------------------------------------------- IS REPAIRING -----------------------------------------------
   bool UnitImpl::isRepairing() const
   {
-    checkAccessBool();
-    return self->order == BW::OrderID::Repair1 || self->order == BW::OrderID::Repair2;
+    return self->order == Orders::Repair1.getID() || self->order == Orders::Repair2.getID();
   }
-  //---------------------------------------------- IS RESEARCHING --------------------------------------------
+  //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool UnitImpl::isResearching() const
   {
-    return self->order == BW::OrderID::ResearchTech;
+    return self->order == Orders::ResearchTech.getID();
   }
-  //---------------------------------------------- IS SELECTED -----------------------------------------------
+  //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSelected() const
   {
-    checkAccessBool();
-    if (BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return false;
-    return this->userSelected;
+    return self->isSelected;
   }
-  //---------------------------------------------- IS SELECTED -----------------------------------------------
+  //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSieged() const
   {
-    checkAccessBool();
-    return this->_getType == UnitTypes::Terran_Siege_Tank_Siege_Mode;
+    return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode.getID();
   }
-  //------------------------------------------- IS STARTING ATTACK -------------------------------------------
+  //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
   {
-    checkAccessBool();
-    return startingAttack;
+    return self->isStartingAttack;
   }
-  //-------------------------------------- IS STARTING ATTACK SEQUENCE ---------------------------------------
-  bool UnitImpl::isStartingAttackSequence() const
-  {
-    checkAccessBool();
-    return this->animState == BW::Image::Anims::GndAttkInit || this->animState == BW::Image::Anims::AirAttkInit;
-  }
-  //----------------------------------------------- IS ATTACKING ---------------------------------------------
-  bool UnitImpl::isAttacking() const
-  {
-    checkAccessBool();
-    return (this->animState == BW::Image::Anims::GndAttkRpt  ||
-            this->animState == BW::Image::Anims::AirAttkRpt  || 
-            this->animState == BW::Image::Anims::GndAttkInit ||
-            this->animState == BW::Image::Anims::AirAttkInit);
-  }
-  //----------------------------------------------- IS STASISED ----------------------------------------------
+  //--------------------------------------------- IS STASISED ------------------------------------------------
   bool UnitImpl::isStasised() const
   {
-    checkAccessBool();
-    return getStasisTimer() > 0;
+    return self->stasisTimer > 0;
   }
-  //----------------------------------------------- IS STIMMED -----------------------------------------------
+  //--------------------------------------------- IS STIMMED -------------------------------------------------
   bool UnitImpl::isStimmed() const
   {
-    checkAccessBool();
-    return getStimTimer() > 0;
+    return self->stimTimer > 0;
   }
-  //---------------------------------------------- IS TRAINING -----------------------------------------------
+  //--------------------------------------------- IS TRAINING ------------------------------------------------
   bool UnitImpl::isTraining() const
   {
     return self->isTraining;
   }
-  //---------------------------------------------- IS UNDER STORM --------------------------------------------
+  //--------------------------------------------- IS UNDER STORM ---------------------------------------------
   bool UnitImpl::isUnderStorm() const
   {
-    checkAccessBool();
-    return getRawDataLocal->isUnderStorm != 0;
+    return self->isUnderStorm;
   }
-  //------------------------------------------------ IS UNPOWERED --------------------------------------------
+  //--------------------------------------------- IS UNPOWERED -----------------------------------------------
   bool UnitImpl::isUnpowered() const
   {
-    checkAccessBool();
-    if (_getType.getRace() == Races::Protoss && _getType.isBuilding())
-      return getRawDataLocal->status.getBit(BW::StatusFlags::DoodadStatesThing);
-    return false;
+    return self->isUnpowered;
   }
-  //----------------------------------------------- IS UPGRADING ---------------------------------------------
+  //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
-    return self->order == BW::OrderID::Upgrade;
+    return self->order == Orders::Upgrade.getID();
   }
-  //----------------------------------------------- IS VISIBLE -----------------------------------------------
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const
   {
     return self->isVisible[BroodwarImpl.server.getPlayerID(Broodwar->self())];
   }
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible(Player* player) const
   {
     if (player==NULL) return false;
     return self->isVisible[BroodwarImpl.server.getPlayerID(player)];
+  }
+  //--------------------------------------------- IS STARTING ATTACK SEQUENCE --------------------------------
+  bool UnitImpl::isStartingAttackSequence() const
+  {
+    checkAccessBool();
+    return this->animState == BW::Image::Anims::GndAttkInit || this->animState == BW::Image::Anims::AirAttkInit;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -834,15 +783,6 @@ namespace BWAPI
     if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
       return this->_getPlayer->getUpgradeLevel(upgrade);
     return 0;
-  }
-  //------------------------------------------------ HAS NUKE ------------------------------------------------
-  bool UnitImpl::hasNuke() const
-  {
-    if (!attemptAccessInside())
-      return false;
-    if (getType()!=UnitTypes::Terran_Nuclear_Silo) //not sure if this check is needed, but just to be safe
-      return false;
-    return getRawDataLocal->hasNuke!=0;
   }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
@@ -2249,44 +2189,6 @@ namespace BWAPI
     }
   }
 
-  // calls canAccessSpecial, setting error codes as needed
-  bool UnitImpl::attemptAccessSpecial() const
-  {
-    if (!BroodwarImpl.inUpdate)
-    {
-      BroodwarImpl.setLastError(Errors::None);
-      if (this->canAccessSpecial())
-        return true;
-      BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-      return false;
-    }
-    else
-    {
-      return this->canAccessSpecial();
-    }
-  }
-
-  // calls canAccessSpecial, setting error codes as needed
-  bool UnitImpl::attemptAccessInside() const
-  {
-    if (!BroodwarImpl.inUpdate)
-    {
-      BroodwarImpl.setLastError(Errors::None);
-      if (this->canAccessInside())
-        return true;
-      if (!this->_exists && this->savedPlayer == BroodwarImpl.self())
-      {
-        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-        return false;
-      }
-      BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-      return false;
-    }
-    else
-    {
-      return this->canAccessInside();
-    }
-  }
   //----------------------------------------------------------------------------------------------------------
   std::string UnitImpl::getName() const
   {
