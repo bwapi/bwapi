@@ -236,6 +236,54 @@ namespace BWAPI
   {
     return self->stimTimer;
   }
+  //--------------------------------------------- GET BUILD TYPE ---------------------------------------------
+  UnitType UnitImpl::getBuildType() const
+  {
+    return UnitType(self->buildType);
+  }
+  //--------------------------------------------- GET TRAINING QUEUE -----------------------------------------
+  std::list<UnitType > UnitImpl::getTrainingQueue() const
+  {
+    std::list<UnitType > trainingQueue;
+    for (int i=0;i<self->trainingQueueCount;i++)
+      trainingQueue.push_back(self->trainingQueue[i]);
+    return trainingQueue;
+  }
+  //--------------------------------------------- GET TECH ---------------------------------------------------
+  TechType UnitImpl::getTech() const
+  {
+    return TechType(self->tech);
+  }
+  //--------------------------------------------- GET UPGRADE ------------------------------------------------
+  UpgradeType UnitImpl::getUpgrade() const
+  {
+    return UpgradeType(self->upgrade);
+  }
+  //--------------------------------------------- GET REMAINING BUILD TIME -----------------------------------
+  int UnitImpl::getRemainingBuildTime() const
+  {
+    return self->remainingBuildTime;
+  }
+  //--------------------------------------------- GET REMAINING TRAIN TIME -----------------------------------
+  int UnitImpl::getRemainingTrainTime() const
+  {
+    return self->remainingTrainTime;
+  }
+  //--------------------------------------------- GET REMAINING RESEARCH TIME --------------------------------
+  int UnitImpl::getRemainingResearchTime() const
+  {
+    return self->remainingResearchTime;
+  }
+  //--------------------------------------------- GET REMAINING UPGRADE TIME ---------------------------------
+  int UnitImpl::getRemainingUpgradeTime() const
+  {
+    return self->remainingUpgradeTime;
+  }
+  //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
+  Unit* UnitImpl::getBuildUnit() const
+  {
+    return BroodwarImpl.server.getUnit(self->buildUnit);
+  }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool UnitImpl::exists() const
   {
@@ -710,16 +758,6 @@ namespace BWAPI
       return NULL;
     return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->orderTargetUnit);
   }
-  //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* UnitImpl::getBuildUnit() const
-  {
-    return BroodwarImpl.server.getUnit(self->buildUnit);
-  }
-  //--------------------------------------------- GET BUILD TYPE ---------------------------------------------
-  UnitType UnitImpl::getBuildType() const
-  {
-    return UnitType(self->buildType);
-  }
   //----------------------------------------------- GET CHILD ------------------------------------------------
   Unit* UnitImpl::getChild() const
   {
@@ -761,16 +799,6 @@ namespace BWAPI
   Order UnitImpl::getSecondaryOrder() const
   {
     return Order(self->secondaryOrder);
-  }
-  //------------------------------------------ GET TRAINING QUEUE --------------------------------------------
-  std::list<UnitType > UnitImpl::getTrainingQueue() const
-  {
-    std::list<UnitType > trainingQueue;
-    for (int i=0;i<self->trainingQueueCount;i++)
-    {
-      trainingQueue.push_back(self->trainingQueue[i]);
-    }
-    return trainingQueue;
   }
   //-------------------------------------------- GET TRANSPORT -----------------------------------------------
   Unit* UnitImpl::getTransport() const
@@ -824,26 +852,6 @@ namespace BWAPI
         this->getType() != UnitTypes::Zerg_Hive)
       return nothing;
     return this->connectedUnits;
-  }
-  //----------------------------------------------- GET TECH -------------------------------------------------
-  TechType UnitImpl::getTech() const
-  {
-    return TechType(self->tech);
-  }
-  //---------------------------------------------- GET UPGRADE -----------------------------------------------
-  UpgradeType UnitImpl::getUpgrade() const
-  {
-    return UpgradeType(self->upgrade);
-  }
-  //-------------------------------------- GET REMAINING RESEARCH TIME ---------------------------------------
-  int UnitImpl::getRemainingResearchTime() const
-  {
-    return self->remainingResearchTime;
-  }
-  //-------------------------------------- GET REMAINING UPGRADE TIME ----------------------------------------
-  int UnitImpl::getRemainingUpgradeTime() const
-  {
-    return self->remainingUpgradeTime;
   }
   //------------------------------------------ GET RALLY POSITION --------------------------------------------
   Position UnitImpl::getRallyPosition() const
@@ -2347,16 +2355,6 @@ namespace BWAPI
   UnitImpl* UnitImpl::getNext() const
   {
     return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->nextUnit);
-  }
-  //---------------------------------------- GET REMAINING BUILD TIME ----------------------------------------
-  int UnitImpl::getRemainingBuildTime() const
-  {
-    return self->remainingBuildTime;
-  }
-  //---------------------------------------- GET REMAINING TRAIN TIME ----------------------------------------
-  int UnitImpl::getRemainingTrainTime() const
-  {
-    return self->remainingTrainTime;
   }
   //----------------------------------------------- GET INDEX ------------------------------------------------
   u16 UnitImpl::getIndex() const
