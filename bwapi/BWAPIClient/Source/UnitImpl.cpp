@@ -303,43 +303,50 @@ namespace BWAPI
   {
     return self->stimTimer;
   }
+  //--------------------------------------------- GET BUILD TYPE ---------------------------------------------
   UnitType UnitImpl::getBuildType() const
   {
     return UnitType(self->buildType);
   }
+  //--------------------------------------------- GET TRAINING QUEUE -----------------------------------------
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
     std::list<UnitType > trainingQueue;
     for (int i=0;i<self->trainingQueueCount;i++)
-    {
       trainingQueue.push_back(self->trainingQueue[i]);
-    }
     return trainingQueue;
   }
+  //--------------------------------------------- GET TECH ---------------------------------------------------
   TechType UnitImpl::getTech() const
   {
     return TechType(self->tech);
   }
+  //--------------------------------------------- GET UPGRADE ------------------------------------------------
   UpgradeType UnitImpl::getUpgrade() const
   {
     return UpgradeType(self->tech);
   }
+  //--------------------------------------------- GET REMAINING BUILD TIME -----------------------------------
   int UnitImpl::getRemainingBuildTime() const
   {
     return self->remainingBuildTime;
   }
+  //--------------------------------------------- GET REMAINING TRAIN TIME -----------------------------------
   int UnitImpl::getRemainingTrainTime() const
   {
     return self->remainingTrainTime;
   }
+  //--------------------------------------------- GET REMAINING RESEARCH TIME --------------------------------
   int UnitImpl::getRemainingResearchTime() const
   {
     return self->remainingResearchTime;
   }
+  //--------------------------------------------- GET REMAINING UPGRADE TIME ---------------------------------
   int UnitImpl::getRemainingUpgradeTime() const
   {
     return self->remainingUpgradeTime;
   }
+  //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
     return ((GameImpl*)Broodwar)->getUnit(self->buildUnit);
