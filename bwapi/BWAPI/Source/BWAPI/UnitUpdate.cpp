@@ -411,7 +411,7 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //isCompleted
       self->isCompleted = false;
-     //------------------------------------------------------------------------------------------------------
+      //------------------------------------------------------------------------------------------------------
       //isConstructing
       self->isConstructing = false;
       //------------------------------------------------------------------------------------------------------
@@ -463,12 +463,12 @@ namespace BWAPI
       else if (hasEmptyBuildQueue || self->isIdle)
         self->buildType = UnitTypes::None.getID();
       else if (self->order == BW::OrderID::BuildTerran ||
-          self->order == BW::OrderID::BuildProtoss1 ||
-          self->order == BW::OrderID::ZergUnitMorph ||
-          self->order == BW::OrderID::ZergBuildingMorph ||
-          self->order == BW::OrderID::DroneLand ||
-          self->order == BW::OrderID::ZergBuildSelf ||
-          self->secondaryOrder == BW::OrderID::BuildAddon)
+               self->order == BW::OrderID::BuildProtoss1 ||
+               self->order == BW::OrderID::ZergUnitMorph ||
+               self->order == BW::OrderID::ZergBuildingMorph ||
+               self->order == BW::OrderID::DroneLand ||
+               self->order == BW::OrderID::ZergBuildSelf ||
+               self->secondaryOrder == BW::OrderID::BuildAddon)
       {
         self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].id;
       }
@@ -492,14 +492,10 @@ namespace BWAPI
       {
         self->trainingQueueCount = 0;
         int i = getBuildQueueSlot % 5;
-        self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
-        self->trainingQueueCount++;
-        i = (i + 1) % 5;
-        while(getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5)
+        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
         {
           self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
           self->trainingQueueCount++;
-          i = (i + 1) % 5;
         }
       }
       //------------------------------------------------------------------------------------------------------

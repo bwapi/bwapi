@@ -882,9 +882,11 @@ namespace BWAPI
           i->self->buildUnit = server.getUnitID((Unit*)j);
           i->self->isConstructing = true;
           i->self->isIdle = false;
+          i->self->buildType = j->self->type;
           j->self->buildUnit = server.getUnitID((Unit*)i);
           j->self->isConstructing = true;
           j->self->isIdle = false;
+          j->self->buildType = j->self->type;
         }
         else if (i->getAddon()!=NULL && i->getAddon()->isCompleted()==false)
         {
@@ -892,9 +894,11 @@ namespace BWAPI
           i->self->buildUnit = server.getUnitID((Unit*)j);
           i->self->isConstructing = true;
           i->self->isIdle = false;
+          i->self->buildType = j->self->type;
           j->self->buildUnit = server.getUnitID((Unit*)i);
           j->self->isConstructing = true;
           j->self->isIdle = false;
+          j->self->buildType = j->self->type;
         }
         if (i->getTransport()!=NULL)
           ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
