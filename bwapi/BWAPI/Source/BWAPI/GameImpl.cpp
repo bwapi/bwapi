@@ -866,6 +866,11 @@ namespace BWAPI
       foreach (UnitImpl* i, unitList)
       {
         i->_exists = true;
+        i->connectedUnits.clear();
+        i->loadedUnits.clear();
+      }
+      foreach (UnitImpl* i, unitList)
+      {
         i->updateUnitData();
         if (this->units.find(i) == this->units.end())
         {
@@ -875,7 +880,8 @@ namespace BWAPI
       }
       foreach (UnitImpl* i, units)
       {
-        UnitImpl* orderTargetUnit = (UnitImpl*)i->_getOrderTarget();
+        if (i->exists()==false) continue;
+        UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getRawDataLocal->orderTargetUnit);
         if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
         {
           UnitImpl* j = orderTargetUnit;

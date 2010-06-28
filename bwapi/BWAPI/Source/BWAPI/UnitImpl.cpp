@@ -284,6 +284,94 @@ namespace BWAPI
   {
     return BroodwarImpl.server.getUnit(self->buildUnit);
   }
+  //--------------------------------------------- GET TARGET -------------------------------------------------
+  Unit* UnitImpl::getTarget() const
+  {
+    return BroodwarImpl.server.getUnit(self->target);
+  }
+  //--------------------------------------------- GET TARGET POSITION ----------------------------------------
+  Position UnitImpl::getTargetPosition() const
+  {
+    return Position(self->targetPositionX,self->targetPositionY);
+  }
+  //--------------------------------------------- GET ORDER --------------------------------------------------
+  Order UnitImpl::getOrder() const
+  {
+    return Order(self->order);
+  }
+  //--------------------------------------------- GET ORDER TARGET -------------------------------------------
+  Unit* UnitImpl::getOrderTarget() const
+  {
+    return BroodwarImpl.server.getUnit(self->orderTarget);
+  }
+  //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
+  Order UnitImpl::getSecondaryOrder() const
+  {
+    return Order(self->secondaryOrder);
+  }
+  //--------------------------------------------- GET CHILD --------------------------------------------------
+  Unit* UnitImpl::getChild() const
+  {
+    return BroodwarImpl.server.getUnit(self->child);
+  }
+  //--------------------------------------------- GET RALLY POSITION -----------------------------------------
+  Position UnitImpl::getRallyPosition() const
+  {
+    return Position(self->rallyPositionX,self->rallyPositionY);
+  }
+  //--------------------------------------------- GET RALLY UNIT ---------------------------------------------
+  Unit* UnitImpl::getRallyUnit() const
+  {
+    return BroodwarImpl.server.getUnit(self->rallyUnit);
+  }
+  //--------------------------------------------- GET ADDON --------------------------------------------------
+  Unit* UnitImpl::getAddon() const
+  {
+    return BroodwarImpl.server.getUnit(self->addon);
+  }
+  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
+  Unit* UnitImpl::getNydusExit() const
+  {
+    return BroodwarImpl.server.getUnit(self->nydusExit);
+  }
+  //--------------------------------------------- GET TRANSPORT ----------------------------------------------
+  Unit* UnitImpl::getTransport() const
+  {
+    return BroodwarImpl.server.getUnit(self->transport);
+  }
+  //--------------------------------------------- GET LOADED UNITS -------------------------------------------
+  std::set<Unit*> UnitImpl::getLoadedUnits() const
+  {
+    return loadedUnits;
+  }
+  //--------------------------------------------- GET CARRIER ------------------------------------------------
+  Unit* UnitImpl::getCarrier() const
+  {
+    return BroodwarImpl.server.getUnit(self->carrier);
+  }
+  //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
+  std::set<Unit*> UnitImpl::getInterceptors() const
+  {
+    std::set<Unit*> nothing;
+    if (getType() != UnitTypes::Protoss_Carrier)
+      return nothing;
+    return connectedUnits;
+  }
+  //--------------------------------------------- GET HATCHERY -----------------------------------------------
+  Unit* UnitImpl::getHatchery() const
+  {
+    return BroodwarImpl.server.getUnit(self->hatchery);
+  }
+  //--------------------------------------------- GET LARVA --------------------------------------------------
+  std::set<Unit*> UnitImpl::getLarva() const
+  {
+    std::set<Unit*> nothing;
+    if (getType() != UnitTypes::Zerg_Hatchery &&
+        getType() != UnitTypes::Zerg_Lair &&
+        getType() != UnitTypes::Zerg_Hive)
+      return nothing;
+    return connectedUnits;
+  }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool UnitImpl::exists() const
   {
@@ -490,10 +578,7 @@ namespace BWAPI
   //------------------------------------------------ IS LOADED -----------------------------------------------
   bool UnitImpl::isLoaded() const
   {
-    if (!attemptAccessInside())
-      return false;
-
-    return _getTransport!=NULL;
+    return self->transport != -1;
   }
   //---------------------------------------------- IS LOCKED DOWN --------------------------------------------
   bool UnitImpl::isLockedDown() const
@@ -739,37 +824,6 @@ namespace BWAPI
       return result;
     return 0;
   }
-  //----------------------------------------------- GET TARGET -----------------------------------------------
-  Unit* UnitImpl::getTarget() const
-  {
-    checkAccessPointer();
-    return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->targetUnit);
-  }
-  //-------------------------------------------- GET ORDER TARGET --------------------------------------------
-  Unit* UnitImpl::getOrderTarget() const
-  {
-    checkAccessPointer();
-    return this->_getOrderTarget();
-  }
-  //-------------------------------------------- GET ORDER TARGET --------------------------------------------
-  Unit* UnitImpl::_getOrderTarget() const
-  {
-    if (!_exists)
-      return NULL;
-    return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->orderTargetUnit);
-  }
-  //----------------------------------------------- GET CHILD ------------------------------------------------
-  Unit* UnitImpl::getChild() const
-  {
-    checkAccessPointer();
-    return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.childUnit1);
-  }
-  //------------------------------------------ GET TARGET POSITION -------------------------------------------
-  Position UnitImpl::getTargetPosition() const
-  {
-    checkAccessPosition();
-    return BWAPI::Position(getRawDataLocal->moveToPos.x, getRawDataLocal->moveToPos.y);
-  }
   //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
@@ -789,119 +843,6 @@ namespace BWAPI
     if (getType()!=UnitTypes::Terran_Nuclear_Silo) //not sure if this check is needed, but just to be safe
       return false;
     return getRawDataLocal->hasNuke!=0;
-  }
-  //------------------------------------------------ GET ORDER -----------------------------------------------
-  Order UnitImpl::getOrder() const
-  {
-    return Order(self->order);
-  }
-  //----------------------------------------- GET SECONDARY ORDER ID -----------------------------------------
-  Order UnitImpl::getSecondaryOrder() const
-  {
-    return Order(self->secondaryOrder);
-  }
-  //-------------------------------------------- GET TRANSPORT -----------------------------------------------
-  Unit* UnitImpl::getTransport() const
-  {
-    if (!this->attemptAccessInside())
-      return NULL;
-    return _getTransport;
-  }
-  //------------------------------------------- GET LOADED UNITS ---------------------------------------------
-  std::set<Unit*> UnitImpl::getLoadedUnits() const
-  {
-    std::set<Unit*> nothing;
-    if (!attemptAccessInside())
-      return nothing;
-    return loadedUnits;
-  }
-  //--------------------------------------------- GET CARRIER ------------------------------------------------
-  Unit* UnitImpl::getCarrier() const
-  {
-    checkAccessPointer();
-    if (getType() != UnitTypes::Protoss_Interceptor)
-      return NULL;
-    return (Unit*)(UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.parentUnit));
-  }
-  //------------------------------------------- GET INTERCEPTORS ---------------------------------------------
-  std::set<Unit*> UnitImpl::getInterceptors() const
-  {
-    std::set<Unit*> nothing;
-    if (!attemptAccessInside())
-      return nothing;
-    if (getType() != UnitTypes::Protoss_Carrier)
-      return nothing;
-    return this->connectedUnits;
-  }
-  //---------------------------------------------- GET HATCHERY ----------------------------------------------
-  Unit* UnitImpl::getHatchery() const
-  {
-    checkAccessPointer();
-    if (getType()==UnitTypes::Zerg_Larva)
-      return (Unit*)UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->connectedUnit);
-    return NULL;
-  }
-  //----------------------------------------------- GET LARVA ------------------------------------------------
-  std::set<Unit*> UnitImpl::getLarva() const
-  {
-    std::set<Unit*> nothing;
-    if (!this->attemptAccess())
-      return nothing;
-    if (this->getType() != UnitTypes::Zerg_Hatchery &&
-        this->getType() != UnitTypes::Zerg_Lair &&
-        this->getType() != UnitTypes::Zerg_Hive)
-      return nothing;
-    return this->connectedUnits;
-  }
-  //------------------------------------------ GET RALLY POSITION --------------------------------------------
-  Position UnitImpl::getRallyPosition() const
-  {
-    if (!this->attemptAccessInside())
-      return BWAPI::Positions::None;
-
-    if (this->_getType.canProduce())
-      return Position(getRawDataLocal->rallyPsiProviderUnion.rally.rallyX,
-                      getRawDataLocal->rallyPsiProviderUnion.rally.rallyY);
-    return Positions::None;
-  }
-  //-------------------------------------------- GET RALLY UNIT ----------------------------------------------
-  Unit* UnitImpl::getRallyUnit() const
-  {
-    if (!this->attemptAccessInside())
-      return NULL;
-
-    if (this->_getType.canProduce())
-      return (Unit*)UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->rallyPsiProviderUnion.rally.rallyUnit);
-    return NULL;
-  }
-  //----------------------------------------------- GET ADDON ------------------------------------------------
-  Unit* UnitImpl::getAddon() const
-  {
-    checkAccessPointer();
-    if (this->getType().isBuilding())
-    {
-      Unit* addon = UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->currentBuildUnit);
-      if (addon != NULL && addon->getType().isAddon())
-        return addon;
-      addon = (Unit*)UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.childUnit1);
-      if (addon!=NULL && addon->exists() && addon->getType().isAddon())
-        return addon;
-    }
-    return NULL;
-  }
-  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
-  Unit* UnitImpl::getNydusExit() const
-  {
-    checkAccessPointer();
-    if (getType()!=UnitTypes::Zerg_Nydus_Canal)
-      return NULL;
-    Unit* nydus = UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->currentBuildUnit);
-    if (nydus != NULL && nydus->getType()==UnitTypes::Zerg_Nydus_Canal)
-      return nydus;
-    nydus = (Unit*)UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->childInfoUnion.childUnit1);
-    if (nydus != NULL && nydus->getType()==UnitTypes::Zerg_Nydus_Canal)
-      return nydus;
-    return NULL;
   }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
