@@ -3,12 +3,14 @@
 #include "BuildTest.h"
 #include "ResearchTest.h"
 #include "UpgradeTest.h"
+#include "UseTechTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
 {
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
+  Broodwar->enableFlag(Flag::CompleteMapInformation);
   Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
@@ -45,6 +47,8 @@ void ProtossTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
+  this->addTestCase(new UseTechTest(TechTypes::Archon_Warp));
+  this->addTestCase(new UseTechTest(TechTypes::Dark_Archon_Meld));
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Reaver));
@@ -58,32 +62,36 @@ void ProtossTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
 
+  this->addTestCase(new ResearchTest(TechTypes::Disruption_Web));
+  this->addTestCase(new ResearchTest(TechTypes::Psionic_Storm));
+  this->addTestCase(new ResearchTest(TechTypes::Hallucination));
+  this->addTestCase(new ResearchTest(TechTypes::Mind_Control));
+  this->addTestCase(new ResearchTest(TechTypes::Maelstrom));
+  this->addTestCase(new ResearchTest(TechTypes::Recall));
+  this->addTestCase(new ResearchTest(TechTypes::Stasis_Field));
+
+  this->addTestCase(new UseTechTest(TechTypes::Psionic_Storm));
+  this->addTestCase(new UseTechTest(TechTypes::Mind_Control));
+  this->addTestCase(new UseTechTest(TechTypes::Stasis_Field));
+  this->addTestCase(new UseTechTest(TechTypes::Disruption_Web));
+  this->addTestCase(new UseTechTest(TechTypes::Hallucination));
+  this->addTestCase(new UseTechTest(TechTypes::Maelstrom));
+  this->addTestCase(new UseTechTest(TechTypes::Recall));
+  this->addTestCase(new UseTechTest(TechTypes::Feedback));
+
   this->addTestCase(new UpgradeTest(UpgradeTypes::Singularity_Charge));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Leg_Enhancements));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Scarab_Damage));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Reaver_Capacity));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Drive));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Apial_Sensors));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Thrusters));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Carrier_Capacity));
-  this->addTestCase(new ResearchTest(TechTypes::Disruption_Web));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Argus_Jewel));
-
-  this->addTestCase(new ResearchTest(TechTypes::Psionic_Storm));
-  this->addTestCase(new ResearchTest(TechTypes::Hallucination));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Khaydarin_Amulet));
-  this->addTestCase(new ResearchTest(TechTypes::Mind_Control));
-  this->addTestCase(new ResearchTest(TechTypes::Maelstrom));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Argus_Talisman));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Boosters));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Sensor_Array));
-
-  this->addTestCase(new ResearchTest(TechTypes::Recall));
-  this->addTestCase(new ResearchTest(TechTypes::Stasis_Field));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Khaydarin_Core));
   for(int l=0;l<3;l++)
   {
