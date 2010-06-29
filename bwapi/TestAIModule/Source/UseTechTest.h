@@ -9,8 +9,10 @@ class UseTechTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning(); 
+    virtual bool isRunning();
   private:
+    void checkPosition();
+    void useTech();
     bool running;
     bool fail;
     BWAPI::TechType techType;
@@ -18,4 +20,10 @@ class UseTechTest : public TestCase
     int startFrame;
     int nextFrame;
     BWAPI::Unit* user;
+    BWAPI::Position targetPosition;
+    BWAPI::Unit* targetUnit;
+    bool isInPosition;
+    bool usedTech;
+    bool testSucceeded;
+    BWAPI::Position startPosition;
 };

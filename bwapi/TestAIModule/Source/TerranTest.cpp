@@ -10,22 +10,11 @@ void TerranTest::onStart()
 {
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
-  Broodwar->enableFlag(Flag::UserInput);
+  Broodwar->enableFlag(Flag::CompleteMapInformation);
   Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
 
   Broodwar->setLocalSpeed(0);
-  /*
-  this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
-  this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
-  this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
-  this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
-  this->addTestCase(new TrainTest(UnitTypes::Terran_Marine));
-  this->addTestCase(new UseTechTest(TechTypes::Stim_Packs));
-  return;
-  */
-
-
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
@@ -64,29 +53,40 @@ void TerranTest::onStart()
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_Nuclear_Missile));
 
-  this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
+  this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
+  this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
+  this->addTestCase(new ResearchTest(TechTypes::EMP_Shockwave));
+  this->addTestCase(new ResearchTest(TechTypes::Lockdown));
+  this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
+  this->addTestCase(new UseTechTest(TechTypes::Scanner_Sweep));
+  this->addTestCase(new UseTechTest(TechTypes::Stim_Packs));
+  this->addTestCase(new UseTechTest(TechTypes::Optical_Flare));
+  this->addTestCase(new UseTechTest(TechTypes::Spider_Mines));
+  this->addTestCase(new UseTechTest(TechTypes::EMP_Shockwave));
+  this->addTestCase(new UseTechTest(TechTypes::Lockdown));
+  this->addTestCase(new UseTechTest(TechTypes::Yamato_Gun));
+  /*
+  //this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Restoration));
   this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
-  this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
-
-  this->addTestCase(new UpgradeTest(UpgradeTypes::Ion_Thrusters));
-  this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
+  //this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
   this->addTestCase(new ResearchTest(TechTypes::Tank_Siege_Mode));
-  this->addTestCase(new UpgradeTest(UpgradeTypes::Charon_Boosters));
-
   this->addTestCase(new ResearchTest(TechTypes::Cloaking_Field));
-  this->addTestCase(new UpgradeTest(UpgradeTypes::Apollo_Reactor));
-
-  this->addTestCase(new ResearchTest(TechTypes::EMP_Shockwave));
+  //this->addTestCase(new ResearchTest(TechTypes::EMP_Shockwave));
   this->addTestCase(new ResearchTest(TechTypes::Irradiate));
-  this->addTestCase(new UpgradeTest(UpgradeTypes::Titan_Reactor));
-
-  this->addTestCase(new ResearchTest(TechTypes::Lockdown));
+  //this->addTestCase(new ResearchTest(TechTypes::Lockdown));
   this->addTestCase(new ResearchTest(TechTypes::Personnel_Cloaking));
+  //this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
+
+  this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Ion_Thrusters));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Charon_Boosters));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Apollo_Reactor));
+  this->addTestCase(new UpgradeTest(UpgradeTypes::Titan_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ocular_Implants));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Moebius_Reactor));
-  this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Colossus_Reactor));
 
   for(int l=0;l<3;l++)
@@ -98,4 +98,5 @@ void TerranTest::onStart()
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Vehicle_Plating));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Ship_Plating));
   }
+  */
 }

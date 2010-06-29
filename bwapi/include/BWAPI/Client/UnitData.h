@@ -19,7 +19,6 @@ namespace BWAPIC
     int resources;
 
     int killCount;
-    //int interceptorCount; == connectedUnits.size()
     int scarabCount;
     int spiderMineCount;
     int groundWeaponCooldown;
@@ -70,47 +69,27 @@ namespace BWAPIC
     bool hasNuke;
     bool isAccelerating;
     bool isAttacking;
-    //bool isBeingConstructed;
     bool isBeingGathered;
     bool isBeingHealed;
     bool isBlind;
     bool isBraking;
     bool isBurrowed;
     int carryResourceType;
-    //bool isCarryingGas; carryingResourceType == 1
-    //bool isCarryingMinerals; carryingResourceType == 2
     bool isCloaked;
     bool isCompleted;
     bool isConstructing;
-    //bool isDefenseMatrixed; defenseMatrixTimer > 0
-    //bool isEnsnared; ensnareTimer > 0
-    //bool isFollowing; order == Orders::Follow.getID()
     bool isGathering;
-    //bool isGatheringGas;
-    //bool isGatheringMinerals;
     bool isHallucination;
     bool isIdle;
-    //bool isIrradiated; irradiateTimer > 0
     bool isLifted;
-    //bool isLoaded; transport != -1
-    //bool isLockedDown; lockdownTimer > 0
-    //bool isMaelstrommed; maelstromTimer > 0
     bool isMorphing;
     bool isMoving;
     bool isParasited;
-    //bool isPatrolling; order == Orders::Patrol.getID()
-    //bool isPlagued; plagueTimer > 0
-    //bool isRepairing; order == Orders::Repair1.getID() || order == Orders::Repair2.getID()
-    //bool isResearching; order == Orders::ResearchTech.getID()
     bool isSelected;
-    //bool isSieged; type == UnitTypes::Terran_Siege_Tank_Siege_Mode
     bool isStartingAttack;
-    //bool isStasised; stasisTimer > 0
-    //bool isStimmed; stimTimer > 0
     bool isTraining;
     bool isUnderStorm;
     bool isUnpowered;
-    //bool isUpgrading; order == Orders::Upgrade.getID()
     bool isVisible[9];
   };
 }
