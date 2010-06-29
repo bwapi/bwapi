@@ -31,7 +31,7 @@ void UseTechTest::start()
 
   startPosition = user->getPosition();
   Broodwar->printf("Testing %s...",techType.getName().c_str());
-  BWAssertF(user->getEnergy()>=techType.energyUsed(),{fail=true;return;});
+  BWAssertF(user->getEnergy()>=techType.energyUsed(),{Broodwar->printf("Error: Not enough energy!");fail=true;return;});
 
   if (techType==TechTypes::Scanner_Sweep)
   {
@@ -136,6 +136,101 @@ void UseTechTest::start()
     BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
     BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
   }
+  else if (techType==TechTypes::Archon_Warp)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Protoss_High_Templar && u!=user)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Dark_Archon_Meld)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Protoss_Dark_Templar && u!=user)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Disruption_Web)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Zerg_Hydralisk)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Psionic_Storm)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Zerg_Ultralisk)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Hallucination)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Protoss_Zealot)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Mind_Control)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Marine)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Maelstrom)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Zerg_Mutalisk)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Recall)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Protoss_Dragoon)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+    isInPosition = true;
+  }
+  else if (techType==TechTypes::Stasis_Field)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Feedback)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Ghost)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  if (targetUnit!=NULL)
+  {
+    targetType=targetUnit->getType();
+  }
   BWAssertF(user!=NULL,{fail=true;return;});
   if (!isInPosition)
   {
@@ -162,14 +257,16 @@ void UseTechTest::checkPosition()
 }
 void UseTechTest::useTech()
 {
-  int energy = user->getEnergy();
+  bool used=false;
   if (targetPosition != Positions::None)
-    user->useTech(techType,targetPosition);
+    used=user->useTech(techType,targetPosition);
   else if (targetUnit != NULL)
-    user->useTech(techType,targetUnit);
+    used=user->useTech(techType,targetUnit);
   else
-    user->useTech(techType);
-  BWAssert(user->getEnergy() == energy-techType.energyUsed());
+    used=user->useTech(techType);
+  if (used==false)
+    Broodwar->printf("Error: %s",Broodwar->getLastError().toString().c_str());
+
   usedTech = true;
   startFrame = Broodwar->getFrameCount();
 }
@@ -184,6 +281,8 @@ void UseTechTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
+  if (user->exists()==false)
+    user=targetUnit;
   Broodwar->setScreenPosition(user->getPosition().x()-320,user->getPosition().y()-240);
   BWAssertF(user!=NULL,{fail=true;return;});
   if (!isInPosition)
@@ -271,6 +370,62 @@ void UseTechTest::update()
       if (targetUnit->getHitPoints()<targetUnit->getType().maxHitPoints()*0.7)
         testSucceeded = true;
     }
+  }
+  else if (techType==TechTypes::Archon_Warp)
+  {
+    if ((user->exists()       && user->getType()      ==UnitTypes::Protoss_Archon) ||
+        (targetUnit->exists() && targetUnit->getType()==UnitTypes::Protoss_Archon))
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Dark_Archon_Meld)
+  {
+    if ((user->exists()       && user->getType()      ==UnitTypes::Protoss_Dark_Archon) ||
+        (targetUnit->exists() && targetUnit->getType()==UnitTypes::Protoss_Dark_Archon))
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Disruption_Web)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Spell_Disruption_Web)
+        testSucceeded = true;
+  }
+  else if (techType==TechTypes::Psionic_Storm)
+  {
+    if (targetUnit->isUnderStorm())
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Hallucination)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Protoss_Zealot && u->isHallucination())
+        testSucceeded = true;
+    
+  }
+  else if (techType==TechTypes::Mind_Control)
+  {
+    if (targetUnit->getPlayer()==Broodwar->self())
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Maelstrom)
+  {
+    if (targetUnit->isMaelstrommed() && targetUnit->getMaelstromTimer()>0)
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Recall)
+  {
+    if (targetUnit->getDistance(user)<200)
+      testSucceeded = true;      
+  }
+  else if (techType==TechTypes::Stasis_Field)
+  {
+    if (targetUnit->isStasised() && targetUnit->getStasisTimer()>0)
+      testSucceeded = true;  
+  }
+  else if (techType==TechTypes::Feedback)
+  {
+    if (targetUnit->exists()==false)
+      testSucceeded = true;
+
   }
   if (thisFrame == startFrame+800)
   {

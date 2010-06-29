@@ -22,11 +22,11 @@ namespace BWAPI
   void CommandUseTech::execute()
   {
     if (!executors[0]->_exists) return;
-    executors[0]->self->energy-=tech.energyUsed();
     switch(tech.getID())
     {
       case BW::TechID::Stimpacks:
         executors[0]->self->hitPoints-=10;
+        executors[0]->self->energy-=tech.energyUsed();
         break;
       case BW::TechID::DarkSwarm:
         executors[0]->self->order=BW::OrderID::DarkSwarm;
@@ -80,9 +80,8 @@ namespace BWAPI
         break;
       case BW::TechID::StasisField:
         executors[0]->self->order=BW::OrderID::StasisField;
-        executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
-        executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
-        executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
+        executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
+        executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::Consume:
         executors[0]->self->order=BW::OrderID::Consume;

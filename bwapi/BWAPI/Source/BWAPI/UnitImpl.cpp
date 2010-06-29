@@ -1962,10 +1962,6 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::Ensnare), sizeof(BW::Orders::Attack));
         BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
         break;
-      case BW::TechID::Maelstorm:
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::CastMaelstrom), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
-        break;
       case BW::TechID::NuclearStrike:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::NukePaint), sizeof(BW::Orders::Attack));
         BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
@@ -2060,6 +2056,10 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MagnaPulse), sizeof(BW::Orders::Attack));
         BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
         break;
+      case BW::TechID::Maelstorm:
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastMaelstrom), sizeof(BW::Orders::Attack));
+        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        break;
       case BW::TechID::MindControl:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastMindControl), sizeof(BW::Orders::Attack));
         BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
@@ -2147,6 +2147,7 @@ namespace BWAPI
     this->lastType           = UnitTypes::Unknown;
     this->lastPlayer         = NULL;
     this->nukeDetected       = false;
+    this->updateUnitData();
   }
 
   /* canAccess returns true if the AI module is allowed to access the unit.

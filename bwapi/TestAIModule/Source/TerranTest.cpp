@@ -76,7 +76,6 @@ void TerranTest::onStart()
   this->addTestCase(new UseTechTest(TechTypes::Yamato_Gun));
   this->addTestCase(new UseTechTest(TechTypes::Irradiate));
   this->addTestCase(new UseTechTest(TechTypes::Nuclear_Strike));
-  /*
 
   this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
@@ -87,7 +86,6 @@ void TerranTest::onStart()
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ocular_Implants));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Moebius_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Colossus_Reactor));
-
   for(int l=0;l<3;l++)
   {
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Infantry_Weapons));
@@ -97,5 +95,4 @@ void TerranTest::onStart()
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Vehicle_Plating));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Ship_Plating));
   }
-  */
 }

@@ -26,4 +26,5 @@ class UseTechTest : public TestCase
     bool usedTech;
     bool testSucceeded;
     BWAPI::Position startPosition;
+    BWAPI::UnitType targetType;
 };
