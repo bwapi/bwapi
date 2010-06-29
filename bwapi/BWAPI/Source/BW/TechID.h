@@ -57,7 +57,8 @@ namespace BW
       UnusedTech42      = 0x2A, // (unused)
       UnusedTech43      = 0x2B, // (unused)
       None              = 0x2C,
-      NuclearStrike     = 0x2D
+      Unknown           = 0x2D,
+      NuclearStrike     = 0x2E
     };
   }
 };

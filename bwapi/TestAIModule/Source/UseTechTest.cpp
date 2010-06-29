@@ -18,7 +18,6 @@ UseTechTest::UseTechTest(BWAPI::TechType techType) : techType(techType),
   BWAssertF(userType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(userType!=UnitTypes::Unknown,{fail=true;return;});
 }
-int maxTimer = 0;
 void UseTechTest::start()
 {
   if (fail) return;
@@ -31,14 +30,57 @@ void UseTechTest::start()
       user = u;
 
   startPosition = user->getPosition();
+  Broodwar->printf("Testing %s...",techType.getName().c_str());
+  BWAssertF(user->getEnergy()>=techType.energyUsed(),{fail=true;return;});
 
-  if (techType==TechTypes::Optical_Flare)
+  if (techType==TechTypes::Scanner_Sweep)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Zerg_Hatchery)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Stim_Packs)
+  {
+    //no target unit/position
+  }
+  else if (techType==TechTypes::Optical_Flare)
   {
     for each(Unit* u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Firebat)
       {
         targetUnit = u;
       }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Restoration)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->isBlind())
+      {
+        targetUnit = u;
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Spider_Mines)
+  {
+    targetUnit = user;
+    targetPosition = user->getPosition();
+    isInPosition = true;
+  }
+  else if (techType==TechTypes::Defensive_Matrix)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Marine)
+      {
+        targetUnit = u;
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::EMP_Shockwave)
   {
@@ -48,8 +90,18 @@ void UseTechTest::start()
         targetUnit = u;
         targetPosition = u->getPosition();
       }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
     BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
     BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Irradiate)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Zerg_Mutalisk)
+      {
+        targetUnit = u;
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Lockdown)
   {
@@ -58,29 +110,6 @@ void UseTechTest::start()
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
-  else if (techType==TechTypes::Spider_Mines)
-  {
-    targetUnit = user;
-    targetPosition = user->getPosition();
-    isInPosition;
-  }
-  else if (techType==TechTypes::Scanner_Sweep)
-  {
-    for each(Unit* u in Broodwar->getAllUnits())
-      if (u->getType()==UnitTypes::Zerg_Hatchery)
-      {
-        targetUnit = u;
-        targetPosition = u->getPosition();
-      }
-  }
-  else if (techType==TechTypes::Defensive_Matrix)
-  {
-    for each(Unit* u in Broodwar->getAllUnits())
-      if (u->getType()==UnitTypes::Terran_Marine)
-      {
-        targetUnit = u;
-      }
-  }
   else if (techType==TechTypes::Yamato_Gun)
   {
     for each(Unit* u in Broodwar->getAllUnits())
@@ -88,19 +117,40 @@ void UseTechTest::start()
       {
         targetUnit = u;
       }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Nuclear_Strike)
+  {
+    bool hasNuke = false;
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Terran_Nuclear_Silo && u->hasNuke())
+        hasNuke = true;
+    BWAssertF(hasNuke == true,{Broodwar->printf("Error: No nuke!");fail=true;return;});
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Protoss_Nexus)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
   }
   BWAssertF(user!=NULL,{fail=true;return;});
-  if (targetUnit != NULL && user->getType().canMove())
-    user->rightClick(targetUnit->getPosition());
-  else
-    isInPosition = true;
+  if (!isInPosition)
+  {
+    if (targetUnit != NULL && user->getType().canMove())
+      user->rightClick(targetUnit->getPosition());
+    else
+      isInPosition = true;
+  }
   nextFrame = Broodwar->getFrameCount();
 }
 void UseTechTest::checkPosition()
 {
   if (targetUnit != NULL)
   {
-    if (user->getDistance(targetUnit->getPosition())<32*5)
+    if (user->getDistance(targetUnit->getPosition())<32*4)
     {
       isInPosition = true;
     }
@@ -145,27 +195,29 @@ void UseTechTest::update()
   if (!usedTech)
     useTech();
 
-  if (techType==TechTypes::Stim_Packs)
+  if (techType==TechTypes::Scanner_Sweep)
+  {
+    if (Broodwar->isVisible(targetPosition.x()/32,targetPosition.y()/32))
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Stim_Packs)
   {
     if (user->isStimmed() && user->getStimTimer()>0 && user->getHitPoints()==user->getType().maxHitPoints()-10)
       testSucceeded = true;
   }
   else if (techType==TechTypes::Optical_Flare)
   {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
     if (targetUnit->isBlind())
       testSucceeded = true;
 
   }
-  else if (techType==TechTypes::EMP_Shockwave)
+  else if (techType==TechTypes::Restoration)
   {
-    if (targetUnit->getShields()==0)
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    if (targetUnit->isBlind()==false)
       testSucceeded = true;
 
-  }
-  else if (techType==TechTypes::Lockdown)
-  {
-    if (targetUnit->isLockedDown() && targetUnit->getLockdownTimer()>0)
-      testSucceeded = true;
   }
   else if (techType==TechTypes::Spider_Mines)
   {
@@ -176,22 +228,58 @@ void UseTechTest::update()
     if (spiderMineFound && user->getSpiderMineCount() == 2)
       testSucceeded = true;
   }
-  else if (techType==TechTypes::Scanner_Sweep)
-  {
-    if (Broodwar->isVisible(targetPosition.x()/32,targetPosition.y()/32))
-      testSucceeded = true;
-  }
   else if (techType==TechTypes::Defensive_Matrix)
   {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
     if (targetUnit->isDefenseMatrixed() && targetUnit->getDefenseMatrixTimer()>0)
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::EMP_Shockwave)
+  {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    if (targetUnit->getShields()==0)
+      testSucceeded = true;
+
+  }
+  else if (techType==TechTypes::Irradiate)
+  {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    if (targetUnit->isIrradiated() && targetUnit->getIrradiateTimer()>0)
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Lockdown)
+  {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    if (targetUnit->isLockedDown() && targetUnit->getLockdownTimer()>0)
       testSucceeded = true;
   }
   else if (techType==TechTypes::Yamato_Gun)
   {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
     if (targetUnit->getHitPoints()<targetUnit->getType().maxHitPoints())
       testSucceeded = true;
   }
-  int lastFrame = startFrame+300;
+  else if (techType==TechTypes::Nuclear_Strike)
+  {
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    bool hasNuke = false;
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->hasNuke())
+        hasNuke = true;
+    if (hasNuke==false)
+    {
+      if (targetUnit->getHitPoints()<targetUnit->getType().maxHitPoints()*0.7)
+        testSucceeded = true;
+    }
+  }
+  if (thisFrame == startFrame+800)
+  {
+    if (testSucceeded)
+      Broodwar->printf("Used tech %s",techType.getName().c_str());
+    else
+      Broodwar->printf("Error: Unable to use tech %s",techType.getName().c_str());
+  }
+  int lastFrame = startFrame+1000;
   if (thisFrame>lastFrame) //terminate condition
   {
     running = false;
@@ -203,10 +291,6 @@ void UseTechTest::stop()
 {
   if (fail == true) return;
   BWAssert(testSucceeded == true);
-  if (testSucceeded)
-    Broodwar->printf("Used tech %s",techType.getName().c_str());
-  else
-    Broodwar->printf("Error: Unable to use tech %s",techType.getName().c_str());
 }
 
 bool UseTechTest::isRunning()
