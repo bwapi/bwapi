@@ -22,15 +22,14 @@ namespace BWAPI
   void CommandUseTech::execute()
   {
     if (!executors[0]->_exists) return;
+    executors[0]->self->energy-=tech.energyUsed();
     switch(tech.getID())
     {
       case BW::TechID::Stimpacks:
-        executors[0]->getRawDataLocal->hitPoints-=10*256;
-        executors[0]->getRawDataLocal->stimTimer=38;
-        executors[0]->getRawDataLocal->energy-=(u16)(tech.energyUsed()*256);
+        executors[0]->self->hitPoints-=10;
         break;
       case BW::TechID::DarkSwarm:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::DarkSwarm;
+        executors[0]->self->order=BW::OrderID::DarkSwarm;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
@@ -39,12 +38,12 @@ namespace BWAPI
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::EMPShockwave:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::EmpShockwave;
+        executors[0]->self->order=BW::OrderID::EmpShockwave;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::Ensnare:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Ensnare;
+        executors[0]->self->order=BW::OrderID::Ensnare;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
@@ -57,12 +56,12 @@ namespace BWAPI
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::Plague:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Plague;
+        executors[0]->self->order=BW::OrderID::Plague;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::PsionicStorm:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::PsiStorm;
+        executors[0]->self->order=BW::OrderID::PsiStorm;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
@@ -71,7 +70,7 @@ namespace BWAPI
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::ScannerSweep:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Scanner;
+        executors[0]->self->order=BW::OrderID::Scanner;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetPosition.x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
@@ -80,19 +79,19 @@ namespace BWAPI
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetPosition.y();
         break;
       case BW::TechID::StasisField:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::StasisField;
+        executors[0]->self->order=BW::OrderID::StasisField;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::Consume:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Consume;
+        executors[0]->self->order=BW::OrderID::Consume;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::DefensiveMatrix:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::DefensiveMatrix;
+        executors[0]->self->order=BW::OrderID::DefensiveMatrix;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
@@ -103,25 +102,25 @@ namespace BWAPI
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::Hallucination:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Hallucination1;
+        executors[0]->self->order=BW::OrderID::Hallucination1;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::Healing:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::HealMove;
+        executors[0]->self->order=BW::OrderID::HealMove;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::Infestation:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::InfestMine1;
+        executors[0]->self->order=BW::OrderID::InfestMine1;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::Irradiate:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Irradiate;
+        executors[0]->self->order=BW::OrderID::Irradiate;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
@@ -147,7 +146,7 @@ namespace BWAPI
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();
         break;
       case BW::TechID::Restoration:
-        executors[0]->getRawDataLocal->orderID=BW::OrderID::Restoration;
+        executors[0]->self->order=BW::OrderID::Restoration;
         executors[0]->getRawDataLocal->orderTargetUnit=targetUnit->getOriginalRawData;
         executors[0]->getRawDataLocal->orderTargetPos.x=(u16)targetUnit->getPosition().x();
         executors[0]->getRawDataLocal->orderTargetPos.y=(u16)targetUnit->getPosition().y();

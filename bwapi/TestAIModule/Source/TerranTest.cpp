@@ -55,29 +55,28 @@ void TerranTest::onStart()
 
   this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
+  this->addTestCase(new ResearchTest(TechTypes::Restoration));
   this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
+  this->addTestCase(new ResearchTest(TechTypes::Tank_Siege_Mode));
+  this->addTestCase(new ResearchTest(TechTypes::Cloaking_Field));
   this->addTestCase(new ResearchTest(TechTypes::EMP_Shockwave));
+  this->addTestCase(new ResearchTest(TechTypes::Irradiate));
   this->addTestCase(new ResearchTest(TechTypes::Lockdown));
+  this->addTestCase(new ResearchTest(TechTypes::Personnel_Cloaking));
   this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
+
   this->addTestCase(new UseTechTest(TechTypes::Scanner_Sweep));
   this->addTestCase(new UseTechTest(TechTypes::Stim_Packs));
   this->addTestCase(new UseTechTest(TechTypes::Optical_Flare));
+  this->addTestCase(new UseTechTest(TechTypes::Defensive_Matrix));
+  this->addTestCase(new UseTechTest(TechTypes::Restoration));
   this->addTestCase(new UseTechTest(TechTypes::Spider_Mines));
   this->addTestCase(new UseTechTest(TechTypes::EMP_Shockwave));
   this->addTestCase(new UseTechTest(TechTypes::Lockdown));
   this->addTestCase(new UseTechTest(TechTypes::Yamato_Gun));
+  this->addTestCase(new UseTechTest(TechTypes::Irradiate));
+  this->addTestCase(new UseTechTest(TechTypes::Nuclear_Strike));
   /*
-  //this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
-  this->addTestCase(new ResearchTest(TechTypes::Restoration));
-  this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
-  //this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
-  this->addTestCase(new ResearchTest(TechTypes::Tank_Siege_Mode));
-  this->addTestCase(new ResearchTest(TechTypes::Cloaking_Field));
-  //this->addTestCase(new ResearchTest(TechTypes::EMP_Shockwave));
-  this->addTestCase(new ResearchTest(TechTypes::Irradiate));
-  //this->addTestCase(new ResearchTest(TechTypes::Lockdown));
-  this->addTestCase(new ResearchTest(TechTypes::Personnel_Cloaking));
-  //this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
 
   this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
