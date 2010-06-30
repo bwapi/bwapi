@@ -227,6 +227,70 @@ void UseTechTest::start()
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
+  else if (techType==TechTypes::Consume)
+  {
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Zerg_Zergling)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Dark_Swarm)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Protoss_Nexus)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Ensnare)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Ghost)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Infestation)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Command_Center)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Parasite)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_SCV)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Plague)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Terran_Marine)
+      {
+        targetUnit = u;
+        targetPosition = u->getPosition();
+      }
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::None,{fail=true;return;});
+    BWAssertF(targetPosition!=Positions::Unknown,{fail=true;return;});
+  }
+  else if (techType==TechTypes::Spawn_Broodlings)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Protoss_Dragoon)
+        targetUnit = u;
+    BWAssertF(targetUnit!=NULL,{fail=true;return;});
+  }
   if (targetUnit!=NULL)
   {
     targetType=targetUnit->getType();
@@ -426,6 +490,43 @@ void UseTechTest::update()
     if (targetUnit->exists()==false)
       testSucceeded = true;
 
+  }
+  else if (techType==TechTypes::Consume)
+  {
+    if (targetUnit->exists()==false)
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Dark_Swarm)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Spell_Dark_Swarm)
+        testSucceeded = true;
+  }
+  else if (techType==TechTypes::Ensnare)
+  {
+    if (targetUnit->isEnsnared() && targetUnit->getEnsnareTimer()>0)
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Infestation)
+  {
+    if (targetUnit->getPlayer()==Broodwar->self())
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Parasite)
+  {
+    if (targetUnit->isParasited())
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Plague)
+  {
+    if (targetUnit->isPlagued() && targetUnit->getPlagueTimer()>0)
+      testSucceeded = true;
+  }
+  else if (techType==TechTypes::Spawn_Broodlings)
+  {
+    for each(Unit* u in Broodwar->getAllUnits())
+      if (u->getType()==UnitTypes::Zerg_Broodling)
+        testSucceeded = true;
   }
   if (thisFrame == startFrame+800)
   {

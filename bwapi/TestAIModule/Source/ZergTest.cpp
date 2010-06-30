@@ -1,14 +1,17 @@
 #include "ZergTest.h"
 #include "MorphTest.h"
 #include "BuildTest.h"
+#include "TrainTest.h"
 #include "ResearchTest.h"
 #include "UpgradeTest.h"
+#include "UseTechTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
 {
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
+  Broodwar->enableFlag(Flag::CompleteMapInformation);
   Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
@@ -72,27 +75,32 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Devourer));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Guardian));
 
+  this->addTestCase(new UseTechTest(TechTypes::Parasite));
+  this->addTestCase(new ResearchTest(TechTypes::Lurker_Aspect));
+  this->addTestCase(new MorphTest(UnitTypes::Zerg_Lurker));
+  this->addTestCase(new ResearchTest(TechTypes::Consume));
+  this->addTestCase(new UseTechTest(TechTypes::Consume));
+  this->addTestCase(new ResearchTest(TechTypes::Spawn_Broodlings));
+  this->addTestCase(new UseTechTest(TechTypes::Spawn_Broodlings));
+  this->addTestCase(new UseTechTest(TechTypes::Dark_Swarm));
+  this->addTestCase(new ResearchTest(TechTypes::Ensnare));
+  this->addTestCase(new UseTechTest(TechTypes::Ensnare));
+  this->addTestCase(new ResearchTest(TechTypes::Plague));
+  this->addTestCase(new UseTechTest(TechTypes::Plague));
   this->addTestCase(new ResearchTest(TechTypes::Burrowing));
+  this->addTestCase(new UseTechTest(TechTypes::Infestation));
+  this->addTestCase(new TrainTest(UnitTypes::Zerg_Infested_Terran));
+
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Antennae));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Pneumatized_Carapace));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Metabolic_Boost));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Adrenal_Glands));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Muscular_Augments));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Grooved_Spines));
-  this->addTestCase(new ResearchTest(TechTypes::Lurker_Aspect));
-
-  this->addTestCase(new ResearchTest(TechTypes::Spawn_Broodlings));
-  this->addTestCase(new ResearchTest(TechTypes::Ensnare));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Gamete_Meiosis));
-
   this->addTestCase(new UpgradeTest(UpgradeTypes::Anabolic_Synthesis));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Chitinous_Plating));
-
-  this->addTestCase(new ResearchTest(TechTypes::Plague));
-  this->addTestCase(new ResearchTest(TechTypes::Consume));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Metasynaptic_Node));
   for(int l=0;l<3;l++)
   {
