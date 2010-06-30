@@ -91,7 +91,7 @@ void MorphTest::update()
       BWAssertF(producer->isMorphing()==false,{fail=true;return;});
       BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
     }
-    else if (unitType==UnitTypes::Zerg_Devourer)
+    else if (unitType==UnitTypes::Zerg_Lurker || unitType==UnitTypes::Zerg_Devourer)
     {
       if (thisFrame<finishFrame+16)
       {
@@ -150,7 +150,7 @@ void MorphTest::update()
 
   finishFrame = startTrainFrame+Broodwar->getLatency()+unitType.buildTime()+18;
   if (producerType.isBuilding()) finishFrame-=10;
-  if (producerType==UnitTypes::Zerg_Mutalisk) finishFrame-=16;
+  if (producerType==UnitTypes::Zerg_Mutalisk || producerType==UnitTypes::Zerg_Hydralisk) finishFrame-=16;
   if (thisFrame>finishFrame) //terminate condition
   {
     finishingMorph = true;
@@ -201,7 +201,7 @@ void MorphTest::update()
   });
   BWAssertF(producer->getBuildUnit()==NULL,{fail=true;return;});
   BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
-  BWAssertF(producer->getRemainingBuildTime() == correctRemainingTrainTime,{Broodwar->printf("%d %d",producer->getRemainingBuildTime(), correctRemainingTrainTime);});
+  BWAssertF(abs(producer->getRemainingBuildTime() - correctRemainingTrainTime)<5,{Broodwar->printf("%d %d",producer->getRemainingBuildTime(), correctRemainingTrainTime);});
   BWAssert(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount);
 }
 
