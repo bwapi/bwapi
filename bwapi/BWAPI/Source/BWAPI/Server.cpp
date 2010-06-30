@@ -273,15 +273,7 @@ namespace BWAPI
       }
 
       //dynamic map data
-      for(int x=0;x<Broodwar->mapWidth();x++)
-      {
-        for(int y=0;y<Broodwar->mapHeight();y++)
-        {
-          data->isVisible[x][y]  = Broodwar->isVisible(x,y);
-          data->isExplored[x][y] = Broodwar->isExplored(x,y);
-          data->hasCreep[x][y]   = Broodwar->hasCreep(x,y);
-        }
-      }
+      BroodwarImpl.copyMapToSharedMemory();
       //(no dynamic force data)
 
       //dynamic player data

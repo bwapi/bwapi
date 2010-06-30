@@ -40,6 +40,42 @@ namespace BWAPI
     std::string mapName(BW::BWDATA_CurrentMapName);
     return mapName;
   }
+  void Map::copyToSharedMemory()
+  {
+    int w=buildability.getWidth();
+    int h=buildability.getHeight();
+    BWAPIC::GameData* data = BroodwarImpl.server.data;
+    bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
+    if (BroodwarImpl._isReplay())
+    {
+      for(int x=0;x<w;x++)
+      {
+        for(int y=0;y<h;y++)
+        {
+          int tileData=(*fogOfWar)[y][x];
+          data->isVisible[x][y] = (tileData & 255) != 255;
+          data->isExplored[x][y] = ((tileData >> 8) & 255) != 255;
+          data->hasCreep[x][y] = (*zergCreep)[y][x] != 0;
+        }
+      }
+    }
+    else
+    {
+      int playerID=BroodwarImpl.BWAPIPlayer->getID();
+      int playerFlag=1 << playerID;
+      for(int x=0;x<w;x++)
+      {
+        for(int y=0;y<h;y++)
+        {
+          int tileData=(*fogOfWar)[y][x];
+          data->isVisible[x][y] =  !(tileData & playerFlag);
+          data->isExplored[x][y] =  !((tileData >> 8) & playerFlag);
+          bool canAccess = data->isVisible[x][y] || completeMapInfo;
+          data->hasCreep[x][y] = canAccess && (*zergCreep)[y][x] != 0;
+        }
+      }
+    }
+  }
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool Map::buildable(int x, int y) const
   {

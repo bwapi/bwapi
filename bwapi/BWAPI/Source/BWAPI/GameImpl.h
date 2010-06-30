@@ -232,6 +232,7 @@ namespace BWAPI
       void setLastError(BWAPI::Error e);
 
       void loadSelected();
+      void copyMapToSharedMemory();
 
       std::set<UnitImpl*> units;
       UnitImpl* getUnit(int index);

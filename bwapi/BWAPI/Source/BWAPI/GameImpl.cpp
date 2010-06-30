@@ -2194,6 +2194,11 @@ namespace BWAPI
     if (unitCount > 0)
       BW::selectUnits(unitCount, savedSelectionStates);
   }
+  //------------------------------------------ copy Map To Shared Memory -------------------------------------
+  void GameImpl::copyMapToSharedMemory()
+  {
+    map.copyToSharedMemory();
+  }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
   {

@@ -38,6 +38,7 @@ namespace BWAPI
 
       /** Returns a value that represents the map's terrain. */
       static int getMapHash();
+      void copyToSharedMemory();
 
     private :
       static BW::TileID getTile(int x, int y);
