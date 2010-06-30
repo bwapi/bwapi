@@ -22,6 +22,7 @@ namespace BWAPI
     Player* getPlayer(int id);
     int getUnitID(Unit* unit);
     Unit* getUnit(int id);
+    BWAPIC::GameData* data;
     private:
     void clearAll();
     void onMatchStart();
@@ -33,7 +34,6 @@ namespace BWAPI
     void setWaitForResponse(bool wait);
     HANDLE pipeObjectHandle;
     HANDLE mapFileHandle;
-    BWAPIC::GameData* data;
     bool connected;
     std::vector<Force*> forceVector;
     std::map<Force*, int> forceLookup;
