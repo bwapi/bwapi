@@ -1,5 +1,6 @@
 #include "CommandAttackUnit.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -12,16 +13,11 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandAttackUnit::execute()
   {
-    if (this->target==NULL || !this->target->_exists) return;
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      if ((this->executors[i]->getType().canAttack()))
-      {
-        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::AttackUnit;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
-      }
-    }
+    if (target==NULL || !target->_exists) return;
+    if (!executors[0]->_exists) return;
+    if (!executors[0]->getType().canAttack()) return;
+    executors[0]->self->order = BW::OrderID::AttackUnit;
+    executors[0]->self->target = BroodwarImpl.server.getUnitID(target);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandAttackUnit::getType()

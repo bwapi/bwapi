@@ -22,49 +22,36 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandRightClick::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
+    if (!executors[0]->_exists) return;
+    if (targetUnit != NULL && targetUnit->_exists)
     {
-      if (!this->executors[i]->_exists) continue;
-      if (targetUnit != NULL && targetUnit->_exists)
+      executors[0]->self->target = BroodwarImpl.server.getUnitID(targetUnit);
+      if (executors[0]->getType().isWorker() &&
+          targetUnit->getType()==UnitTypes::Resource_Mineral_Field)
+        executors[0]->self->order = BW::OrderID::MoveToMinerals;
+      else if (executors[0]->getType().isWorker() &&
+               targetUnit->getType().isRefinery())
+        executors[0]->self->order = BW::OrderID::MoveToGas;
+      else if (executors[0]->getType().isWorker() &&
+               targetUnit->getType().getRace()==Races::Terran &&
+               targetUnit->getType().whatBuilds().first==executors[0]->getType() &&
+               !targetUnit->isCompleted())
       {
-        if (this->executors[i]->getType().isWorker() &&
-            targetUnit->getType()==UnitTypes::Resource_Mineral_Field)
-          executors[i]->getRawDataLocal->orderID = BW::OrderID::MoveToMinerals;
-
-        else if (this->executors[i]->getType().isWorker() &&
-                 targetUnit->getType().isRefinery())
-          executors[i]->getRawDataLocal->orderID = BW::OrderID::MoveToGas;
-
-        else if (this->executors[i]->getType().isWorker() &&
-                 targetUnit->getType().getRace()==Races::Terran &&
-                 targetUnit->getType().whatBuilds().first==this->executors[i]->getType() &&
-                 !targetUnit->isCompleted())
-        {
-          executors[i]->getRawDataLocal->orderID = BW::OrderID::ConstructingBuilding;
-          executors[i]->self->buildUnit=BroodwarImpl.server.getUnitID(targetUnit);
-          targetUnit->self->buildUnit=BroodwarImpl.server.getUnitID(executors[i]);
-        }
-
-        else if ((this->executors[i]->getType().canAttack()) &&
-                 targetUnit->getPlayer() != executors[i]->getPlayer() &&
-                 !targetUnit->getType().isNeutral())
-          executors[i]->getRawDataLocal->orderID = BW::OrderID::AttackUnit;
-
-        else if ((this->executors[i]->getType().canMove()))
-          executors[i]->getRawDataLocal->orderID = BW::OrderID::Move;
-
-        executors[i]->getRawDataLocal->targetUnit = targetUnit->getOriginalRawData;
+        executors[0]->self->order = BW::OrderID::ConstructingBuilding;
+        executors[0]->self->buildUnit = BroodwarImpl.server.getUnitID(targetUnit);
+        targetUnit->self->buildUnit = BroodwarImpl.server.getUnitID(executors[0]);
       }
-      else // targetUnit == NULL -> targetPosition is relevant
-      {
-        if (this->isPosition)
-        {
-          if ((this->executors[i]->getType().canMove()))
-          {
-            executors[i]->getRawDataLocal->orderID = BW::OrderID::Move;
-          }
-        }
-      }
+      else if ((executors[0]->getType().canAttack()) &&
+               targetUnit->getPlayer() != executors[0]->getPlayer() &&
+               !targetUnit->getType().isNeutral())
+        executors[0]->self->order = BW::OrderID::AttackUnit;
+      else if ((this->executors[0]->getType().canMove()))
+        executors[0]->self->order = BW::OrderID::Follow;
+    }
+    else // targetUnit == NULL -> targetPosition is relevant
+    {
+      if (isPosition && executors[0]->getType().canMove())
+        executors[0]->self->order = BW::OrderID::Move;
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

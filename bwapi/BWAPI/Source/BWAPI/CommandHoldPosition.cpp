@@ -11,35 +11,30 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandHoldPosition::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
+    if (!executors[0]->_exists) return;
+    if (!executors[0]->getType().canMove()) return;
+    switch (executors[0]->getType().getID())
     {
-      if (!this->executors[i]->_exists) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        switch (this->executors[i]->getType().getID())
-        {
-          case BW::UnitID::Protoss_Carrier:
-          case BW::UnitID::Protoss_Hero_Gantrithor:
-            this->executors[i]->getRawDataLocal->orderID = BW::OrderID::CarrierHoldPosition;
-            break;
-          case BW::UnitID::Zerg_Queen:
-          case BW::UnitID::Zerg_Hero_Matriarch:
-            this->executors[i]->getRawDataLocal->orderID = BW::OrderID::QueenHoldPosition;
-            break;
-          case BW::UnitID::Zerg_InfestedTerran:
-          case BW::UnitID::Zerg_Scourge:
-            this->executors[i]->getRawDataLocal->orderID = BW::OrderID::SuicideHoldPosition;
-            break;
-          case BW::UnitID::Terran_Medic:
-            this->executors[i]->getRawDataLocal->orderID = BW::OrderID::MedicHoldPosition;
-            break;
-          case BW::UnitID::Protoss_Reaver:
-            this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ReaverHoldPosition;
-            break;
-          default:
-            this->executors[i]->getRawDataLocal->orderID = BW::OrderID::HoldPosition;
-        }
-      }
+      case BW::UnitID::Protoss_Carrier:
+      case BW::UnitID::Protoss_Hero_Gantrithor:
+        executors[0]->self->order = BW::OrderID::CarrierHoldPosition;
+        break;
+      case BW::UnitID::Zerg_Queen:
+      case BW::UnitID::Zerg_Hero_Matriarch:
+        executors[0]->self->order = BW::OrderID::QueenHoldPosition;
+        break;
+      case BW::UnitID::Zerg_InfestedTerran:
+      case BW::UnitID::Zerg_Scourge:
+        executors[0]->self->order = BW::OrderID::SuicideHoldPosition;
+        break;
+      case BW::UnitID::Terran_Medic:
+        executors[0]->self->order = BW::OrderID::MedicHoldPosition;
+        break;
+      case BW::UnitID::Protoss_Reaver:
+        executors[0]->self->order = BW::OrderID::ReaverHoldPosition;
+        break;
+      default:
+        executors[0]->self->order = BW::OrderID::HoldPosition;
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

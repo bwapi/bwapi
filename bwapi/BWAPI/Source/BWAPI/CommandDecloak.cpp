@@ -12,7 +12,7 @@ namespace BWAPI
   void CommandDecloak::execute()
   {
     if (!executors[0]->_exists) return;
-    executors[0]->getRawDataLocal->orderID = BW::OrderID::Decloak;
+    executors[0]->self->order = BW::OrderID::Decloak;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandDecloak::getType()

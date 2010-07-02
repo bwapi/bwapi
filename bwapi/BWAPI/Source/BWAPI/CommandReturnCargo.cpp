@@ -11,17 +11,13 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandReturnCargo::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        if (this->executors[i]->isCarryingGas())
-          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ReturnGas;
-        else
-          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::ReturnMinerals;
-      }
-    }
+    if (!executors[0]->_exists) return;
+    if (!executors[0]->getType().canMove()) return;
+    if (executors[0]->isCarryingGas())
+      executors[0]->self->order = BW::OrderID::ReturnGas;
+    else
+      executors[0]->self->order = BW::OrderID::ReturnMinerals;
+    executors[0]->self->isIdle = false;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandReturnCargo::getType()

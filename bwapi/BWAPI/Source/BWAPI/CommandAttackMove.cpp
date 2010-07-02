@@ -12,15 +12,11 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandAttackMove::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::AttackMove;
-        this->executors[i]->getRawDataLocal->moveToPos = this->targetPosition;
-      }
-    }
+    if (!executors[0]->_exists) return;
+    if (!executors[0]->getType().canMove()) return;
+    executors[0]->self->order  = BW::OrderID::AttackMove;
+    executors[0]->self->targetPositionX = targetPosition.x;
+    executors[0]->self->targetPositionY = targetPosition.y;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandAttackMove::getType()
