@@ -12,7 +12,7 @@ namespace BWAPI
   void CommandSiege::execute()
   {
     if (!executors[0]->_exists) return;
-    executors[0]->getRawDataLocal->orderID = BW::OrderID::SiegeMode;
+    executors[0]->self->order = BW::OrderID::SiegeMode;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandSiege::getType()

@@ -1,5 +1,6 @@
 #include "CommandSetRally.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -20,23 +21,18 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandSetRally::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
+    if (!executors[0]->_exists) return;
+    if (!executors[0]->getType().canProduce()) return;
+    if (targetUnit != NULL && targetUnit->_exists)
     {
-      if ((this->executors[i]->getType().canProduce()))
-      {
-        if (!this->executors[i]->_exists) continue;
-        if (this->targetUnit != NULL && this->targetUnit->_exists)
-        {
-          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::RallyPointUnit;
-          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyUnit = this->targetUnit->getOriginalRawData;
-        }
-        else
-        {
-          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::RallyPointTile;
-          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyX = this->targetPosition.x;
-          this->executors[i]->getRawDataLocal->rallyPsiProviderUnion.rally.rallyY = this->targetPosition.y;
-        }
-      }
+      executors[0]->self->order = BW::OrderID::RallyPointUnit;
+      executors[0]->self->rallyUnit = BroodwarImpl.server.getUnitID(targetUnit);
+    }
+    else
+    {
+      executors[0]->self->order = BW::OrderID::RallyPointTile;
+      executors[0]->self->rallyPositionX = targetPosition.x;
+      executors[0]->self->rallyPositionY = targetPosition.y;
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

@@ -17,20 +17,16 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandUnloadAll::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
+    if (!executors[0]->_exists) return;
+    if (executors[0]->getType() == UnitTypes::Terran_Bunker)
     {
-      if ((this->executors[i]->getType().canMove()))
-      {
-        if (this->executors[i]->getType() == UnitTypes::Terran_Bunker)
-        {
-          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Unload;
-        }
-        else
-        {
-          this->executors[i]->getRawDataLocal->orderID = BW::OrderID::MoveUnload;
-          this->executors[i]->getRawDataLocal->position = this->targetPosition;
-        }
-      }
+      executors[0]->self->order = BW::OrderID::Unload;
+    }
+    else
+    {
+      executors[0]->self->order = BW::OrderID::MoveUnload;
+      executors[0]->self->targetPositionX = targetPosition.x;
+      executors[0]->self->targetPositionY = targetPosition.y;
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------

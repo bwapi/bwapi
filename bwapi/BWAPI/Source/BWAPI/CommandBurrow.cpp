@@ -12,7 +12,7 @@ namespace BWAPI
   void CommandBurrow::execute()
   {
     if (!executors[0]->_exists) return;
-    executors[0]->getRawDataLocal->orderID = BW::OrderID::Burrow;
+    executors[0]->self->order = BW::OrderID::Burrow;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandBurrow::getType()

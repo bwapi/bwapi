@@ -12,7 +12,7 @@ namespace BWAPI
   void CommandUnsiege::execute()
   {
     if (!executors[0]->_exists) return;
-    executors[0]->getRawDataLocal->orderID = BW::OrderID::TankMode;
+    executors[0]->self->order = BW::OrderID::TankMode;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandUnsiege::getType()

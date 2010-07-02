@@ -11,11 +11,8 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelAddon::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Nothing;
-    }
+    if (!executors[0]->_exists) return;
+    executors[0]->self->order = BW::OrderID::Nothing;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandCancelAddon::getType()

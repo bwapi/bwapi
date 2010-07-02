@@ -7,7 +7,7 @@ namespace BWAPI
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelTrain::CommandCancelTrain(UnitImpl* building)
       : Command(building)
-      , slot(-2)
+      , slot(-1)
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -23,32 +23,15 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelTrain::execute()
   {
-    if (!this->executors[0]->_exists) return;
-    if (slot < 0)
+    if (!executors[0]->_exists) return;
+    if (slot >= 0)
     {
-      int i = this->executors[0]->getBuildQueueSlot % 5;
-      int starti = i;
-      while(this->executors[0]->getBuildQueue[(i+1)%5] != BW::UnitID::None && (i + 1) % 5 != starti)
-      {
-        i = (i + 1) % 5;
-      }
-      this->executors[0]->getBuildQueue[i] = BW::UnitID::None;
+      for(int i=slot;i<4;i++)
+        executors[0]->self->trainingQueue[i]=executors[0]->self->trainingQueue[i+1];
     }
-    else
-    {
-      int i = this->executors[0]->getBuildQueueSlot % 5;
-      int starti = i;
-      for(int j = 0; j < slot; j++)
-      {
-        i = (i + 1) % 5;
-      }
-      while(this->executors[0]->getBuildQueue[(i+1)%5] != BW::UnitID::None && (i + 1) % 5 != starti)
-      {
-        this->executors[0]->getBuildQueue[i] = this->executors[0]->getBuildQueue[(i+1)%5];
-        i = (i + 1) % 5;
-      }
-      this->executors[0]->getBuildQueue[i] = BW::UnitID::None;
-    }
+    executors[0]->self->trainingQueueCount--;
+    if (executors[0]->self->trainingQueueCount<0)
+      executors[0]->self->trainingQueueCount=0;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandCancelTrain::getType()

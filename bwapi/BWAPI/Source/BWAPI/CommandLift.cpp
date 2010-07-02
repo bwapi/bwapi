@@ -11,11 +11,9 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandLift::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      this->executors[i]->getRawDataLocal->orderID = BW::OrderID::BuildingLiftOff;
-    }
+    if (!executors[0]->_exists) return;
+    executors[0]->self->order = BW::OrderID::BuildingLiftOff;
+    executors[0]->self->isIdle = false;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandLift::getType()

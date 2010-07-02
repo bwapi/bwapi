@@ -1,5 +1,6 @@
 #include "CommandLoad.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -12,30 +13,28 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandLoad::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
+    if (!executors[0]->_exists) return;
+    if (executors[0]->getType() == UnitTypes::Terran_Bunker)
     {
-      if (!this->executors[i]->_exists) continue;
-      if (this->executors[i]->getType() == UnitTypes::Terran_Bunker)
-      {
-        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::PickupBunker;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
-      }
-      else if (this->executors[i]->getType() == UnitTypes::Terran_Dropship
-               || this->executors[i]->getType() == UnitTypes::Protoss_Shuttle
-               || this->executors[i]->getType() == UnitTypes::Zerg_Overlord)
-      {
-        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::PickupTransport;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
-      }
-      else if (this->target->getType() == UnitTypes::Terran_Bunker
-               || this->target->getType() == UnitTypes::Terran_Dropship
-               || this->target->getType() == UnitTypes::Protoss_Shuttle
-               || this->target->getType() == UnitTypes::Zerg_Overlord)
-      {
-        executors[i]->getRawDataLocal->orderID = BW::OrderID::EnterTransport;
-        executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
-      }
+      executors[0]->self->order = BW::OrderID::PickupBunker;
+      executors[0]->self->target = BroodwarImpl.server.getUnitID(target);
     }
+    else if (executors[0]->getType() == UnitTypes::Terran_Dropship
+          || executors[0]->getType() == UnitTypes::Protoss_Shuttle
+          || executors[0]->getType() == UnitTypes::Zerg_Overlord)
+    {
+      executors[0]->self->order = BW::OrderID::PickupTransport;
+      executors[0]->self->target = BroodwarImpl.server.getUnitID(target);
+    }
+    else if (target->getType() == UnitTypes::Terran_Bunker
+          || target->getType() == UnitTypes::Terran_Dropship
+          || target->getType() == UnitTypes::Protoss_Shuttle
+          || target->getType() == UnitTypes::Zerg_Overlord)
+    {
+      executors[0]->self->order = BW::OrderID::EnterTransport;
+      executors[0]->self->target = BroodwarImpl.server.getUnitID(target);
+    }
+    executors[0]->self->isIdle = false;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandLoad::getType()

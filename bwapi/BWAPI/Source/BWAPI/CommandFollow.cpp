@@ -1,5 +1,6 @@
 #include "CommandFollow.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -12,15 +13,11 @@ namespace BWAPI
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandFollow::execute()
   {
-    for (unsigned int i = 0; i < this->executors.size(); i++)
-    {
-      if (!this->executors[i]->_exists) continue;
-      if ((this->executors[i]->getType().canMove()))
-      {
-        this->executors[i]->getRawDataLocal->orderID = BW::OrderID::Follow;
-        this->executors[i]->getRawDataLocal->targetUnit = this->target->getOriginalRawData;
-      }
-    }
+    if (!executors[0]->_exists) return;
+    if (!executors[0]->getType().canMove()) return;
+    executors[0]->self->order = BW::OrderID::Follow;
+    executors[0]->self->target = BroodwarImpl.server.getUnitID(target);
+    executors[0]->self->isIdle = false;
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandFollow::getType()
