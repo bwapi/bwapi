@@ -204,7 +204,6 @@ namespace BWAPI
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
-               BW::Unit* unitLocal,
                u16 index);
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
@@ -236,7 +235,6 @@ namespace BWAPI
       /** Gets #bwOriginalUnit */
       BW::Unit* getOriginalRawData;
       /** Gets #bwUnitLocal */
-      BW::Unit* getRawDataLocal;
       u8 getBuildQueueSlot;
       /** Gets #bwUnit->BW#Unit#buildQueue */
       BW::UnitType* getBuildQueue;

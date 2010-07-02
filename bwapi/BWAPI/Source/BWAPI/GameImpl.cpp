@@ -90,7 +90,6 @@ namespace BWAPI
       }
       loadAutoMenuData();
 
-      unitArrayCopyLocal = new BW::UnitArray;
 
       /* iterate through players and create PlayerImpl for each */
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -99,7 +98,6 @@ namespace BWAPI
       /* iterate through units and create UnitImpl for each */
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
-                                    &unitArrayCopyLocal->unit[i],
                                     (u16)i);
 
       /* iterate through bullets and create BulletImpl for each */
@@ -122,7 +120,6 @@ namespace BWAPI
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
   {
-    delete unitArrayCopyLocal;
 
     /* destroy all UnitImpl */
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
@@ -808,7 +805,6 @@ namespace BWAPI
         }
       }
 
-      memcpy(this->unitArrayCopyLocal, BW::BWDATA_UnitNodeTable, sizeof(BW::UnitArray));
       refreshSelectionStates();
 
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
@@ -839,8 +835,8 @@ namespace BWAPI
       }
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
       {
-        UnitType _getType = BWAPI::UnitType(i->getRawDataLocal->unitID.id);
-        bool _isCompleted = i->getRawDataLocal->status.getBit(BW::StatusFlags::Completed);
+        UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
+        bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
 
         if (_getType==UnitTypes::Unknown) continue;//skip subunits if they are in this list
         if (!_isCompleted) continue;
@@ -881,7 +877,7 @@ namespace BWAPI
       foreach (UnitImpl* i, units)
       {
         if (i->exists()==false) continue;
-        UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getRawDataLocal->orderTargetUnit);
+        UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
         if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
         {
           UnitImpl* j = orderTargetUnit;
@@ -922,10 +918,10 @@ namespace BWAPI
 
         if (i->getType() == UnitTypes::Terran_Nuclear_Missile &&
             i->nukeDetected == false &&
-            i->getRawDataLocal->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
+            i->getOriginalRawData->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
         {
           i->nukeDetected = true;
-          BW::Position bwtarget = i->getRawDataLocal->orderTargetPos;
+          BW::Position bwtarget = i->getOriginalRawData->orderTargetPos;
           Position target(bwtarget.x, bwtarget.y);
           if (this->client)
           {
@@ -2220,7 +2216,6 @@ namespace BWAPI
     deadUnits.push_back(unit);
     int index = unit->getIndex();
     unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
-                                    &unitArrayCopyLocal->unit[index],
                                     (u16)index);
     if (this->client != NULL)
     {
