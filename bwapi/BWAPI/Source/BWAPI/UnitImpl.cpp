@@ -55,10 +55,8 @@ namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   UnitImpl::UnitImpl(BW::Unit* originalUnit,
-                     BW::Unit* unitLocal,
                      u16 index)
       : getOriginalRawData(originalUnit)
-      , getRawDataLocal(unitLocal)
       , index(index)
       , userSelected(false)
       , _exists(false) //_exists is true while the unit exists
@@ -1154,29 +1152,6 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
-    switch (this->_getType.getID())
-    {
-      case BW::UnitID::Protoss_Carrier:
-      case BW::UnitID::Protoss_Hero_Gantrithor:
-        getRawDataLocal->orderID = BW::OrderID::CarrierHoldPosition;
-        break;
-      case BW::UnitID::Zerg_Queen:
-      case BW::UnitID::Zerg_Hero_Matriarch:
-        getRawDataLocal->orderID = BW::OrderID::QueenHoldPosition;
-        break;
-      case BW::UnitID::Zerg_InfestedTerran:
-      case BW::UnitID::Zerg_Scourge:
-        getRawDataLocal->orderID = BW::OrderID::SuicideHoldPosition;
-        break;
-      case BW::UnitID::Terran_Medic:
-        getRawDataLocal->orderID = BW::OrderID::MedicHoldPosition;
-        break;
-      case BW::UnitID::Protoss_Reaver:
-        getRawDataLocal->orderID = BW::OrderID::ReaverHoldPosition;
-        break;
-      default:
-        getRawDataLocal->orderID = BW::OrderID::HoldPosition;
-    }
     BroodwarImpl.addToCommandBuffer(new CommandHoldPosition(this));
     return true;
   }
@@ -2138,7 +2113,6 @@ namespace BWAPI
     this->savedUnitType  = this->_getType;
 
     //set pointers to null so we don't read information from unit table anymore
-    this->getRawDataLocal    = NULL;
     this->getOriginalRawData = NULL;
     this->index              = 0xFFFF;
     this->userSelected       = false;
@@ -2226,7 +2200,7 @@ namespace BWAPI
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
   {
-    return UnitImpl::BWUnitToBWAPIUnit(getRawDataLocal->nextUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->nextUnit);
   }
   //----------------------------------------------- GET INDEX ------------------------------------------------
   u16 UnitImpl::getIndex() const

@@ -283,7 +283,6 @@ namespace BWAPI
       /** Count of game-frames passed from game start. */
       int frameCount;
       bool onStartCalled;
-      BW::UnitArray* unitArrayCopyLocal;
       UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       BulletImpl* bulletArray[BW::BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
