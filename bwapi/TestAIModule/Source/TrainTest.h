@@ -19,4 +19,7 @@ class TrainTest : public TestCase
     int startTrainFrame;
     int nextUpdateFrame;
     BWAPI::Unit* producer;
+    int correctMineralCount;
+    int correctGasCount;
+    int correctSupplyUsedCount;
 };

@@ -39,6 +39,8 @@ void ResearchTest::start()
   BWAssertF(researcher->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
   BWAssertF(researcher->getRemainingResearchTime()==0,{fail=true;return;});
   BWAssertF(Broodwar->self()->hasResearched(techType)==false,{fail=true;return;});
+  correctMineralCount = Broodwar->self()->minerals() - techType.mineralPrice();
+  correctGasCount = Broodwar->self()->gas() - techType.gasPrice();
 
   researcher->research(techType);
 
@@ -56,6 +58,8 @@ void ResearchTest::start()
     return;
   });
   BWAssertF(Broodwar->self()->hasResearched(techType)==false,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
 
   startResearchFrame = Broodwar->getFrameCount();
   nextUpdateFrame = startResearchFrame;
@@ -95,6 +99,8 @@ void ResearchTest::update()
   BWAssertF(researcher->getTech()==techType,{fail=true;return;});
   BWAssertF(researcher->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
   BWAssertF(Broodwar->self()->hasResearched(techType)==false,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
 }
 
 void ResearchTest::stop()
@@ -110,6 +116,8 @@ void ResearchTest::stop()
   BWAssertF(researcher->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
   BWAssertF(researcher->getRemainingResearchTime()==0,{fail=true;return;});
   BWAssertF(Broodwar->self()->hasResearched(techType)==true,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
 }
 
 bool ResearchTest::isRunning()

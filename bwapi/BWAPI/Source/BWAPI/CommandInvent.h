@@ -21,5 +21,6 @@ namespace BWAPI
       int getType();
     private :
       BW::TechType tech;
+      int startFrame;
   };
 };

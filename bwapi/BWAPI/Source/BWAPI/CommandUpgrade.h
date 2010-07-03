@@ -21,5 +21,6 @@ namespace BWAPI
       int getType();
     private :
       BW::UpgradeType upgrade;
+      int startFrame;
   };
 };

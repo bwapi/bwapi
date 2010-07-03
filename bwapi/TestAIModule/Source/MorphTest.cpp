@@ -40,6 +40,12 @@ void MorphTest::start()
   BWAssertF(producer->getBuildUnit()==NULL,{fail=true;return;});
   BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
   BWAssertF(producer->getRemainingBuildTime()==0,{fail=true;return;});
+  correctMineralCount = Broodwar->self()->minerals() - unitType.mineralPrice();
+  correctGasCount = Broodwar->self()->gas() - unitType.gasPrice();
+  if (unitType.isTwoUnitsInOneEgg())
+    correctSupplyUsedCount = Broodwar->self()->supplyUsed() + unitType.supplyRequired()*2 - producerType.supplyRequired();
+  else
+    correctSupplyUsedCount = Broodwar->self()->supplyUsed() + unitType.supplyRequired() - producerType.supplyRequired();
 
   producer->morph(unitType);
 
@@ -53,6 +59,9 @@ void MorphTest::start()
   BWAssertF(producer->getBuildUnit()==NULL,{fail=true;return;});
   BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
   BWAssertF(producer->getRemainingBuildTime()==unitType.buildTime(),{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
 
   startTrainFrame = Broodwar->getFrameCount();
   nextUpdateFrame = startTrainFrame;
@@ -202,6 +211,9 @@ void MorphTest::update()
   BWAssertF(producer->getBuildUnit()==NULL,{fail=true;return;});
   BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
   BWAssertF(abs(producer->getRemainingBuildTime() - correctRemainingTrainTime)<5,{Broodwar->printf("%d %d",producer->getRemainingBuildTime(), correctRemainingTrainTime);});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
   BWAssert(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount);
 }
 
@@ -220,6 +232,9 @@ void MorphTest::stop()
   BWAssertF(producer->getBuildUnit()==NULL,{fail=true;return;});
   BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
   BWAssertF(producer->getRemainingBuildTime()==0,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
   if (unitType.isTwoUnitsInOneEgg())
   {
     BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+2,{fail=true;return;});

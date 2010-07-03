@@ -19,4 +19,6 @@ class UpgradeTest : public TestCase
     int startUpgradeFrame;
     int nextUpdateFrame;
     BWAPI::Unit* upgrader;
+    int correctMineralCount;
+    int correctGasCount;
 };

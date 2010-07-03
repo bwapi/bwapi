@@ -1,5 +1,6 @@
 #include "CommandMorphUnit.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
@@ -9,6 +10,7 @@ namespace BWAPI
       : Command(executor)
       , toMorph(toMorph)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandMorphUnit::execute()
@@ -21,9 +23,16 @@ namespace BWAPI
     executors[0]->self->isConstructing = true;
     executors[0]->self->isIdle = false;
     PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
-    p->spend(toMorph.mineralPrice(), toMorph.gasPrice());
-    p->useSupplies(toMorph.supplyRequired(), toMorph._getRace());
-    p->planToMake(toMorph);
+    if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+    {
+      p->spend(toMorph.mineralPrice(), toMorph.gasPrice());
+      p->planToMake(toMorph);
+    }
+    if (toMorph.isTwoUnitsInOneEgg())
+      p->useSupplies(toMorph.supplyRequired()*2-UnitType(toMorph.getID()).whatBuilds().first.supplyRequired(), toMorph._getRace());
+    else
+      p->useSupplies(toMorph.supplyRequired()-UnitType(toMorph.getID()).whatBuilds().first.supplyRequired(), toMorph._getRace());
+
     if (toMorph==BW::UnitID::Zerg_Lurker)
       executors[0]->self->type = BW::UnitID::Zerg_LurkerEgg;
     else if (toMorph==BW::UnitID::Zerg_Devourer || toMorph==BW::UnitID::Zerg_Guardian)

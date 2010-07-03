@@ -1,5 +1,6 @@
 #include "CommandTrain.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -11,6 +12,7 @@ namespace BWAPI
       : Command(building)
       , toTrain(toTrain)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandTrain::~CommandTrain()
@@ -20,17 +22,20 @@ namespace BWAPI
   void CommandTrain::execute()
   {
     if (!executors[0]->_exists) return;
-    executors[0]->self->trainingQueue[executors[0]->self->trainingQueueCount] = toTrain.getID();
-    executors[0]->self->trainingQueueCount++;
+    PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
+    if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+    {
+      executors[0]->self->trainingQueue[executors[0]->self->trainingQueueCount] = toTrain.getID();
+      executors[0]->self->trainingQueueCount++;
+      p->spend(toTrain.mineralPrice(), toTrain.gasPrice());
+      p->planToMake(toTrain);
+    }
     executors[0]->self->remainingTrainTime = UnitType(toTrain.getID()).buildTime();
     executors[0]->self->isTraining = true;
     executors[0]->self->isIdle = false;
     if (toTrain == BW::UnitID::Terran_NuclearMissile)
       this->executors[0]->self->secondaryOrder = BW::OrderID::Train;
-    PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
-    p->spend(toTrain.mineralPrice(), toTrain.gasPrice());
     p->useSupplies(toTrain.supplyRequired(), toTrain._getRace());
-    p->planToMake(toTrain);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandTrain::getType()

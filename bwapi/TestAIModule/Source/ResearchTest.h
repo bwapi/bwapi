@@ -18,4 +18,6 @@ class ResearchTest : public TestCase
     int startResearchFrame;
     int nextUpdateFrame;
     BWAPI::Unit* researcher;
+    int correctMineralCount;
+    int correctGasCount;
 };
