@@ -12,8 +12,6 @@ namespace BWAPI
     private :
       UnitCommand command;
       int startFrame;
-      int deltaMinerals;
-      int deltaGas;
-      int deltaSupplyUsed[3];
+      int savedExtra;
   };
 };

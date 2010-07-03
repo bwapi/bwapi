@@ -145,6 +145,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Morph;
+    c.extra = type.getID();
     return c;
   }
   UnitCommand UnitCommand::burrow(Unit* unit)
@@ -284,6 +285,7 @@ namespace BWAPI
   {
     UnitCommand c;
     c.unit = unit;
+    c.type = UnitCommandTypes::Cancel_Research;
     return c;
   }
   UnitCommand UnitCommand::cancelUpgrade(Unit* unit)

@@ -491,7 +491,7 @@ namespace BWAPI
     return 0;
   }
   //------------------------------------------- PLAN TO MAKE -------------------------------------------------
-  void PlayerImpl::planToMake(BW::UnitType unit)
+  void PlayerImpl::planToMake(UnitType unit)
   {
     this->toMake[unit.getID()]++;
   }

@@ -108,7 +108,7 @@ namespace BWAPI
       void update();
       UnitImpl* getFirst();
 
-      void planToMake(BW::UnitType unit);
+      void planToMake(BWAPI::UnitType unit);
       /**
        * Gets local version of free supplies for the given race - @ref localData
        * Note that free supplies are Avialable - Used.

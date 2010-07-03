@@ -23,7 +23,6 @@
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/BulletImpl.h>
 #include <BWAPI/Command.h>
-#include <BWAPI/CommandCancelTrain.h>
 #include <BWAPI/Map.h>
 #include <BWAPI/ScreenLogger.h>
 #include <BWAPI/Flag.h>
