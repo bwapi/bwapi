@@ -447,22 +447,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandAttackMove.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackUnit.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandBuild.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandBurrow.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\CommandCancelAddon.cpp"
 					>
 				</File>
@@ -656,22 +640,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\Command.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackMove.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandAttackUnit.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandBuild.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandBurrow.h"
 					>
 				</File>
 				<File
