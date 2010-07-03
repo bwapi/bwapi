@@ -23,5 +23,6 @@ namespace BWAPI
       virtual void execute();
     private:
       int slot;
+      int startFrame;
   };
 };

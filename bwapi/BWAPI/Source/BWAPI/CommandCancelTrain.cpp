@@ -1,5 +1,6 @@
 #include "CommandCancelTrain.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
@@ -9,12 +10,14 @@ namespace BWAPI
       : Command(building)
       , slot(-1)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   CommandCancelTrain::CommandCancelTrain(UnitImpl* building, int slot)
       : Command(building)
       , slot(slot)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandCancelTrain::~CommandCancelTrain()

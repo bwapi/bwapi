@@ -1,5 +1,6 @@
 #pragma once
 #include "Command.h"
+#include <BWAPI/TechType.h>
 namespace BWAPI { class UnitImpl; }
 namespace BWAPI
 {
@@ -14,5 +15,7 @@ namespace BWAPI
       CommandCancelResearch(UnitImpl* building);
       int getType();
       virtual void execute();
+      int startFrame;
+      TechType techType;
   };
 };

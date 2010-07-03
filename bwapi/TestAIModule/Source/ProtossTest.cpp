@@ -4,6 +4,8 @@
 #include "ResearchTest.h"
 #include "UpgradeTest.h"
 #include "UseTechTest.h"
+#include "CancelResearchTest.h"
+#include "CancelUpgradeTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -62,6 +64,7 @@ void ProtossTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
 
+  this->addTestCase(new CancelResearchTest(TechTypes::Disruption_Web));
   this->addTestCase(new ResearchTest(TechTypes::Disruption_Web));
   this->addTestCase(new ResearchTest(TechTypes::Psionic_Storm));
   this->addTestCase(new ResearchTest(TechTypes::Hallucination));
@@ -79,6 +82,7 @@ void ProtossTest::onStart()
   this->addTestCase(new UseTechTest(TechTypes::Recall));
   this->addTestCase(new UseTechTest(TechTypes::Feedback));
 
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Singularity_Charge));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Singularity_Charge));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Leg_Enhancements));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Scarab_Damage));

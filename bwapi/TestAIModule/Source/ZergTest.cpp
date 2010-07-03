@@ -5,6 +5,9 @@
 #include "ResearchTest.h"
 #include "UpgradeTest.h"
 #include "UseTechTest.h"
+#include "CancelMorphTest.h"
+#include "CancelResearchTest.h"
+#include "CancelUpgradeTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -15,6 +18,7 @@ void ZergTest::onStart()
   Broodwar->sendText("show me the money");
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hatchery));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
@@ -58,11 +62,13 @@ void ZergTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Defiler_Mound));
 
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Zergling));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Zergling));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Hydralisk));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Hydralisk));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Hydralisk));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Mutalisk));
@@ -72,10 +78,13 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Queen));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Ultralisk));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Defiler));
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Devourer));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Devourer));
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Guardian));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Guardian));
 
   this->addTestCase(new UseTechTest(TechTypes::Parasite));
+  this->addTestCase(new CancelResearchTest(TechTypes::Lurker_Aspect));
   this->addTestCase(new ResearchTest(TechTypes::Lurker_Aspect));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Lurker));
   this->addTestCase(new ResearchTest(TechTypes::Consume));
@@ -91,6 +100,7 @@ void ZergTest::onStart()
   this->addTestCase(new UseTechTest(TechTypes::Infestation));
   this->addTestCase(new TrainTest(UnitTypes::Zerg_Infested_Terran));
 
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Antennae));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Pneumatized_Carapace));

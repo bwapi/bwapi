@@ -679,10 +679,16 @@ namespace BWAPI
       }
       //------------------------------------------------------------------------------------------------------
       //getTech
-      self->tech = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
+      if (self->order == BW::OrderID::ResearchTech)
+        self->tech = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
+      else
+        self->tech = TechTypes::None.getID();
       //------------------------------------------------------------------------------------------------------
       //getUpgrade
-      self->upgrade = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
+      if (self->order == BW::OrderID::Upgrade)
+        self->upgrade = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
+      else
+        self->upgrade = UpgradeTypes::None.getID();
       //------------------------------------------------------------------------------------------------------
       //getRemainingBuildTime
       if (self->isMorphing && self->buildType==UnitTypes::None.getID())
