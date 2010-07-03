@@ -12,30 +12,8 @@
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
-#include "CommandTrain.h"
 #include "CommandGeneral.h"
-#include "CommandPatrol.h"
-#include "CommandHoldPosition.h"
-#include "CommandStop.h"
 #include "CommandRightClick.h"
-#include "CommandInvent.h"
-#include "CommandUpgrade.h"
-#include "CommandRepair.h"
-#include "CommandMorphUnit.h"
-#include "CommandMorphBuilding.h"
-#include "CommandUnburrow.h"
-#include "CommandCloak.h"
-#include "CommandDecloak.h"
-#include "CommandSiege.h"
-#include "CommandUnsiege.h"
-#include "CommandLift.h"
-#include "CommandLand.h"
-#include "CommandLoad.h"
-#include "CommandUnload.h"
-#include "CommandUnloadAll.h"
-#include "CommandFollow.h"
-#include "CommandSetRally.h"
-#include "CommandReturnCargo.h"
 #include "CommandUseTech.h"
 
 #include <BW/UnitType.h>
@@ -1001,7 +979,7 @@ namespace BWAPI
     BW::UnitType type((u16)type1.getID());
     this->orderSelect();
     int tUnitType = this->_getType.getID();
-    BroodwarImpl.addToCommandBuffer(new CommandTrain(this, type));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::train(this,type1)));
     if (tUnitType == BW::UnitID::Zerg_Larva ||
         tUnitType == BW::UnitID::Zerg_Mutalisk ||
         tUnitType == BW::UnitID::Zerg_Hydralisk)
@@ -1086,7 +1064,7 @@ namespace BWAPI
     this->orderSelect();
     u8 techenum = (u8)tech.getID();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
-    BroodwarImpl.addToCommandBuffer(new CommandInvent(this, BW::TechType(techenum)));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::research(this,tech)));
     return true;
   }
   //------------------------------------------------- UPGRADE ------------------------------------------------
@@ -1105,7 +1083,7 @@ namespace BWAPI
     this->orderSelect();
     u8 upgradeenum = (u8)upgrade.getID();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade));
-    BroodwarImpl.addToCommandBuffer(new CommandUpgrade(this, BW::UpgradeType(upgradeenum)));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::upgrade(this,upgrade)));
     return true;
   }
   //-------------------------------------------------- STOP --------------------------------------------------
@@ -1128,7 +1106,7 @@ namespace BWAPI
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::Stop));
     else
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
-    BroodwarImpl.addToCommandBuffer(new CommandStop(this));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::stop(this)));
     return true;
   }
   //---------------------------------------------- HOLD POSITION ---------------------------------------------
@@ -1143,7 +1121,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
-    BroodwarImpl.addToCommandBuffer(new CommandHoldPosition(this));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::holdPosition(this)));
     return true;
   }
   //-------------------------------------------------- PATROL ------------------------------------------------
@@ -1163,7 +1141,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandPatrol(this, BW::Position((u16)position.x(), (u16)position.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::patrol(this,position)));
     return true;
   }
   //-------------------------------------------------- FOLLOW ------------------------------------------------
@@ -1189,7 +1167,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Follow), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandFollow(this, (UnitImpl*)target));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::follow(this,target)));
     return true;
   }
   //------------------------------------------------- SET RALLY ----------------------------------------------
@@ -1209,7 +1187,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::RallyPointTile), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, BW::Position((u16)target.x(), (u16)target.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::setRallyPosition(this,target)));
     return true;
   }
   //------------------------------------------------- SET RALLY ----------------------------------------------
@@ -1235,7 +1213,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPointUnit), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandSetRally(this, (UnitImpl*)target));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::setRallyUnit(this,target)));
     return true;
   }
   //-------------------------------------------------- REPAIR ------------------------------------------------
@@ -1261,7 +1239,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Repair1), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandRepair(this, (UnitImpl*)target));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::repair(this,target)));
     return true;
   }
   //--------------------------------------------- RETURN CARGO -----------------------------------------------
@@ -1286,7 +1264,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReturnCargo(0), sizeof(BW::Orders::ReturnCargo));
-    BroodwarImpl.addToCommandBuffer(new CommandReturnCargo(this));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::returnCargo(this)));
     return true;
   }
   //-------------------------------------------------- MORPH -------------------------------------------------
@@ -1311,15 +1289,10 @@ namespace BWAPI
     this->orderSelect();
     BW::UnitType rawtype((u16)type.getID());
     if(type.isBuilding())
-    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::BuildingMorph(rawtype), sizeof(BW::Orders::BuildingMorph));
-      BroodwarImpl.addToCommandBuffer(new CommandMorphBuilding(this, rawtype));
-    }
     else
-    {
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
-      BroodwarImpl.addToCommandBuffer(new CommandMorphUnit(this, rawtype));
-    }
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::morph(this,type)));
     return true;
   }
   //-------------------------------------------------- BURROW ------------------------------------------------
@@ -1376,7 +1349,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
-      BroodwarImpl.addToCommandBuffer(new CommandUnburrow(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::unburrow(this)));
     }
     return true;
   }
@@ -1406,7 +1379,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
-      BroodwarImpl.addToCommandBuffer(new CommandSiege(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::siege(this)));
     }
     return true;
   }
@@ -1436,7 +1409,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
-      BroodwarImpl.addToCommandBuffer(new CommandUnsiege(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::unsiege(this)));
     }
     return true;
   }
@@ -1485,7 +1458,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
-      BroodwarImpl.addToCommandBuffer(new CommandCloak(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cloak(this)));
     }
     return true;
   }
@@ -1515,7 +1488,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
-      BroodwarImpl.addToCommandBuffer(new CommandDecloak(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::decloak(this)));
     }
     return true;
   }
@@ -1538,7 +1511,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Lift(), sizeof(BW::Orders::Lift));
-      BroodwarImpl.addToCommandBuffer(new CommandLift(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::lift(this)));
     }
     return true;
   }
@@ -1561,7 +1534,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)position.x(), (u16)position.y()), BW::UnitType((u16)this->_getType.getID())), sizeof(BW::Orders::Land));
-      BroodwarImpl.addToCommandBuffer(new CommandLand(this, BW::TilePosition((u16)position.x(), (u16)position.y())));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::land(this,position)));
     }
     return true;
   }
@@ -1600,7 +1573,7 @@ namespace BWAPI
     }
     if (loaded)
     {
-      BroodwarImpl.addToCommandBuffer(new CommandLoad(this, (UnitImpl*)target));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::load(this,target)));
       return true;
     }
     //if neither this unit nor the target unit is a bunker, dropship, shuttle, or overlord, return false.
@@ -1625,7 +1598,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadUnit((UnitImpl*)target), sizeof(BW::Orders::UnloadUnit));
-    BroodwarImpl.addToCommandBuffer(new CommandUnload(this, (UnitImpl*)target));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::unload(this,target)));
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
@@ -1649,7 +1622,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
-    BroodwarImpl.addToCommandBuffer(new CommandUnloadAll(this));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::unloadAll(this)));
     return true;
   }
   //------------------------------------------------- UNLOADALL ----------------------------------------------
@@ -1672,7 +1645,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandUnloadAll(this, BW::Position((u16)position.x(), (u16)position.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::unloadAll(this,position)));
     return true;
   }
   //-------------------------------------------- CANCEL CONSTRUCTION -----------------------------------------
@@ -1711,7 +1684,10 @@ namespace BWAPI
     }
     if (this->getOrder() != Orders::ConstructingBuilding)
       return false;
-    return this->stop();
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::haltConstruction(this)));
+    return true;
   }
   //----------------------------------------------- CANCEL MORPH ---------------------------------------------
   bool UnitImpl::cancelMorph()

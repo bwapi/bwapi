@@ -447,99 +447,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandCloak.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandDecloak.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandFollow.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\CommandGeneral.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandHoldPosition.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandInvent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLand.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLift.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLoad.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphBuilding.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphUnit.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandPatrol.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandRepair.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandReturnCargo.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\CommandRightClick.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSetRally.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSiege.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandStop.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandTrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnburrow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnload.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnloadAll.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnsiege.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUpgrade.cpp"
 					>
 				</File>
 				<File
@@ -619,99 +531,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandCloak.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandDecloak.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandFollow.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\CommandGeneral.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandHoldPosition.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandInvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLand.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLift.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandLoad.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphBuilding.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandMorphUnit.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandPatrol.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandRepair.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandReturnCargo.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BWAPI\CommandRightClick.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSetRally.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandSiege.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandStop.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandTrain.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnburrow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnload.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnloadAll.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUnsiege.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandUpgrade.h"
 					>
 				</File>
 				<File
