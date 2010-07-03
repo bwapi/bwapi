@@ -4,6 +4,8 @@
 #include "ResearchTest.h"
 #include "UpgradeTest.h"
 #include "UseTechTest.h"
+#include "CancelResearchTest.h"
+#include "CancelUpgradeTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -53,6 +55,7 @@ void TerranTest::onStart()
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_Nuclear_Missile));
 
+  this->addTestCase(new CancelResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
   this->addTestCase(new ResearchTest(TechTypes::Restoration));
@@ -77,6 +80,7 @@ void TerranTest::onStart()
   this->addTestCase(new UseTechTest(TechTypes::Irradiate));
   this->addTestCase(new UseTechTest(TechTypes::Nuclear_Strike));
 
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ion_Thrusters));

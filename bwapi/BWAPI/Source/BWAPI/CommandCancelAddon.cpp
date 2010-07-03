@@ -1,5 +1,6 @@
 #include "CommandCancelAddon.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -7,6 +8,7 @@ namespace BWAPI
   CommandCancelAddon::CommandCancelAddon(UnitImpl* executor)
       : Command(executor)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelAddon::execute()

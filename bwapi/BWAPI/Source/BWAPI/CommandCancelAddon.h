@@ -14,5 +14,6 @@ namespace BWAPI
       CommandCancelAddon(UnitImpl* building);
       int getType();
       virtual void execute();
+      int startFrame;
   };
 };

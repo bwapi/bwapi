@@ -184,6 +184,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\CancelMorphTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\CancelResearchTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\CancelUpgradeTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Dll.cpp"
 				>
 			</File>
@@ -251,6 +263,18 @@
 			</File>
 			<File
 				RelativePath=".\Source\BWAssert.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\CancelMorphTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\CancelResearchTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\CancelUpgradeTest.h"
 				>
 			</File>
 			<File

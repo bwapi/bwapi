@@ -1,5 +1,6 @@
 #include "CommandCancelConstruction.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
 {
@@ -7,6 +8,7 @@ namespace BWAPI
   CommandCancelConstruction::CommandCancelConstruction(UnitImpl* executor)
       : Command(executor)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandCancelConstruction::execute()
