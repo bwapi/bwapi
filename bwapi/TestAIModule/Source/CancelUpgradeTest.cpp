@@ -92,55 +92,6 @@ void CancelUpgradeTest::update()
 
 void CancelUpgradeTest::stop()
 {
-  if (running == false) return;
-  if (fail)
-  {
-    running = false;
-    return;
-  }
-  int thisFrame = Broodwar->getFrameCount();
-  BWAssert(thisFrame==nextFrame);
-  nextFrame++;
-  BWAssertF(upgrader!=NULL,{fail=true;return;});
-  if (thisFrame<startFrame+200)
-  {
-    BWAssertF(upgrader->getBuildType()==UnitTypes::None,{fail=true;return;});
-    BWAssertF(upgrader->isMorphing()==false,{fail=true;return;});
-    BWAssertF(upgrader->isConstructing()==false,{fail=true;return;});
-    BWAssertF(upgrader->isTraining()==false,{fail=true;return;});
-    BWAssertF(upgrader->isResearching()==false,{fail=true;return;});
-    BWAssertF(upgrader->isUpgrading()==true,{fail=true;return;});
-    BWAssertF(upgrader->getTech()==TechTypes::None,{fail=true;return;});
-    BWAssertF(upgrader->getUpgrade()==upgradeType,{fail=true;return;});
-    BWAssertF(upgrader->isIdle()==false,{fail=true;return;});
-  }
-  if (thisFrame==startFrame+200)
-  {
-    upgrader->cancelUpgrade();
-  }
-  if (thisFrame>=startFrame+200)
-  {
-    BWAssertF(upgrader->getBuildType()==UnitTypes::None,{fail=true;return;});
-    BWAssertF(upgrader->isMorphing()==false,{fail=true;return;});
-    BWAssertF(upgrader->isConstructing()==false,{fail=true;return;});
-    BWAssertF(upgrader->isTraining()==false,{fail=true;return;});
-    BWAssertF(upgrader->isResearching()==false,{fail=true;return;});
-    BWAssertF(upgrader->isUpgrading()==false,{fail=true;return;});
-    BWAssertF(upgrader->getTech()==TechTypes::None,{fail=true;return;});
-    BWAssertF(upgrader->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
-    BWAssertF(upgrader->isIdle()==true,{fail=true;return;});
-    BWAssertF(upgrader->getRemainingBuildTime()==0,{fail=true;return;});
-    BWAssertF(upgrader->getRemainingTrainTime()==0,{fail=true;return;});
-    BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;return;});
-    BWAssertF(upgrader->getRemainingUpgradeTime()==0,{fail=true;return;});
-    BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->gas()==correctGasCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{fail=true;return;});
-  }
-  if (thisFrame>=startFrame+400)
-  {
-    running = false;
-  }
 }
 
 bool CancelUpgradeTest::isRunning()
