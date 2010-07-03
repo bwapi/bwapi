@@ -447,30 +447,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\CommandCancelAddon.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelConstruction.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelMorph.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelResearch.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandCancelTrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelUpgrade.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\CommandCloak.cpp"
 					>
 				</File>
@@ -640,30 +616,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BWAPI\Command.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelAddon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelConstruction.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelMorph.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelResearch.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BWAPI\CommandCancelTrain.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandCancelUpgrade.h"
 					>
 				</File>
 				<File

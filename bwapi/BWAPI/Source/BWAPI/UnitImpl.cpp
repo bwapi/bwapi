@@ -33,12 +33,6 @@
 #include "CommandLoad.h"
 #include "CommandUnload.h"
 #include "CommandUnloadAll.h"
-#include "CommandCancelResearch.h"
-#include "CommandCancelUpgrade.h"
-#include "CommandCancelConstruction.h"
-#include "CommandCancelTrain.h"
-#include "CommandCancelMorph.h"
-#include "CommandCancelAddon.h"
 #include "CommandFollow.h"
 #include "CommandSetRally.h"
 #include "CommandReturnCargo.h"
@@ -1702,7 +1696,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
-    BroodwarImpl.addToCommandBuffer(new CommandCancelConstruction(this));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelConstruction(this)));
     return true;
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
@@ -1737,7 +1731,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
-      BroodwarImpl.addToCommandBuffer(new CommandCancelMorph(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelMorph(this)));
     }
     return true;
   }
@@ -1755,7 +1749,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrainLast(), sizeof(BW::Orders::CancelTrainLast));
-      BroodwarImpl.addToCommandBuffer(new CommandCancelTrain(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelTrain(this)));
     }
     return true;
   }
@@ -1773,7 +1767,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrain((u8)slot), sizeof(BW::Orders::CancelTrain));
-      BroodwarImpl.addToCommandBuffer(new CommandCancelTrain(this, slot));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelTrain(this,slot)));
     }
     return true;
   }
@@ -1789,7 +1783,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
-    BroodwarImpl.addToCommandBuffer(new CommandCancelAddon(this));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelAddon(this)));
     return true;
   }
   //---------------------------------------------- CANCEL RESEARCH -------------------------------------------
@@ -1806,7 +1800,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
-      BroodwarImpl.addToCommandBuffer(new CommandCancelResearch(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelResearch(this)));
     }
     return true;
   }
@@ -1824,7 +1818,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
-      BroodwarImpl.addToCommandBuffer(new CommandCancelUpgrade(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::cancelUpgrade(this)));
     }
     return true;
   }
