@@ -21,4 +21,7 @@ class MorphTest : public TestCase
     BWAPI::Unit* producer;
     bool finishingMorph;
     int finishFrame;
+    int correctMineralCount;
+    int correctGasCount;
+    int correctSupplyUsedCount;
 };

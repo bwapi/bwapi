@@ -19,5 +19,6 @@ namespace BWAPI
       int getType();
     private :
       BW::UnitType toMorph;
+      int startFrame;
   };
 };

@@ -3,6 +3,7 @@
 #include <Util/Logger.h>
 
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
@@ -12,6 +13,7 @@ namespace BWAPI
       : Command(building)
       , tech(tech)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandInvent::~CommandInvent()
@@ -26,7 +28,8 @@ namespace BWAPI
     executors[0]->self->isIdle = false;
     executors[0]->self->remainingResearchTime = tech.getResearchTime();
     PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
-    p->spend(tech.getMineralPrice(),tech.getGasPrice());
+    if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      p->spend(tech.getMineralPrice(),tech.getGasPrice());
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandInvent::getType()

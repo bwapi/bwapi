@@ -1,5 +1,6 @@
 #include "CommandMorphBuilding.h"
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
@@ -9,6 +10,7 @@ namespace BWAPI
       : Command(executor)
       , toMorph(toMorph)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //------------------------------------------------ EXECUTE -------------------------------------------------
   void CommandMorphBuilding::execute()
@@ -22,8 +24,8 @@ namespace BWAPI
     executors[0]->self->isIdle = false;
     PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
     p->spend(toMorph.mineralPrice(), toMorph.gasPrice());
-    p->useSupplies(toMorph.supplyRequired(), toMorph._getRace());
     p->planToMake(toMorph);
+    p->useSupplies(toMorph.supplyRequired(), toMorph._getRace());
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandMorphBuilding::getType()

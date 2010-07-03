@@ -3,6 +3,7 @@
 #include <Util/Logger.h>
 
 #include "UnitImpl.h"
+#include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <BW/Unit.h>
 namespace BWAPI
@@ -12,6 +13,7 @@ namespace BWAPI
       : Command(building)
       , upgrade(upgrade)
   {
+    startFrame = Broodwar->getFrameCount();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   CommandUpgrade::~CommandUpgrade()
@@ -27,7 +29,8 @@ namespace BWAPI
     int level = this->executors[0]->getPlayer()->getUpgradeLevel(upgrade.getID());
     executors[0]->self->remainingUpgradeTime = upgrade.timeCostBase()+upgrade.timeCostFactor()*level;
     PlayerImpl* p = static_cast<PlayerImpl*>(executors[0]->getPlayer());
-    p->spend(upgrade.mineralCostBase()+upgrade.mineralCostFactor()*level, upgrade.gasCostBase()+upgrade.gasCostFactor()*level);
+    if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      p->spend(upgrade.mineralCostBase()+upgrade.mineralCostFactor()*level, upgrade.gasCostBase()+upgrade.gasCostFactor()*level);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   int CommandUpgrade::getType()

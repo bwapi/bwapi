@@ -40,6 +40,8 @@ void UpgradeTest::start()
   BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;return;});
   BWAssertF(upgrader->getRemainingUpgradeTime()==0,{fail=true;return;});
   previousUpgradeLevel = Broodwar->self()->getUpgradeLevel(upgradeType);
+  correctMineralCount = Broodwar->self()->minerals() - (upgradeType.mineralPriceBase()+upgradeType.mineralPriceFactor()*previousUpgradeLevel);
+  correctGasCount = Broodwar->self()->gas() - (upgradeType.gasPriceBase()+upgradeType.gasPriceFactor()*previousUpgradeLevel);
 
   upgrader->upgrade(upgradeType);
 
@@ -53,6 +55,8 @@ void UpgradeTest::start()
   BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;return;});
   BWAssertF(upgrader->getRemainingUpgradeTime()==upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*previousUpgradeLevel,{fail=true;return;});
   BWAssertF(Broodwar->self()->getUpgradeLevel(upgradeType)==previousUpgradeLevel,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
 
   startUpgradeFrame = Broodwar->getFrameCount();
   nextUpdateFrame = startUpgradeFrame;
@@ -92,6 +96,8 @@ void UpgradeTest::update()
   BWAssertF(upgrader->getUpgrade()==upgradeType,{fail=true;return;});
   BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;return;});
   BWAssertF(Broodwar->self()->getUpgradeLevel(upgradeType)==previousUpgradeLevel,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
 }
 
 void UpgradeTest::stop()
@@ -108,6 +114,8 @@ void UpgradeTest::stop()
   BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;return;});
   BWAssertF(upgrader->getRemainingUpgradeTime()==0,{fail=true;return;});
   BWAssertF(Broodwar->self()->getUpgradeLevel(upgradeType)==previousUpgradeLevel+1,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
 }
 
 bool UpgradeTest::isRunning()

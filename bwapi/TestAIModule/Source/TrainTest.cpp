@@ -29,17 +29,29 @@ void TrainTest::start()
     }
   }
   BWAssertF(producer!=NULL,{fail=true;return;});
+
+  BWAssertF(producer->isTraining()==false,{fail=true;return;});
+  BWAssertF(producer->isConstructing()==false,{fail=true;return;});
   BWAssertF(producer->isIdle()==true,{fail=true;return;});
   BWAssertF(producer->isLifted()==false,{fail=true;return;});
-  BWAssertF(producer->isTraining()==false,{fail=true;return;});
   BWAssertF(producer->getTrainingQueue().empty()==true,{fail=true;return;});
+  BWAssertF(producer->getRemainingTrainTime() == 0,{fail=true;return;});
+  correctMineralCount = Broodwar->self()->minerals() - unitType.mineralPrice();
+  correctGasCount = Broodwar->self()->gas() - unitType.gasPrice();
+  correctSupplyUsedCount = Broodwar->self()->supplyUsed() + unitType.supplyRequired();
 
   producer->train(unitType);
 
   BWAssertF(producer->isTraining()==true,{fail=true;return;});
+  BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+  BWAssertF(producer->isIdle()==false,{fail=true;return;});
+  BWAssertF(producer->isLifted()==false,{fail=true;return;});
   BWAssertF(producer->getTrainingQueue().size()==1,{fail=true;return;});
   BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
-  BWAssertF(producer->getRemainingTrainTime() == unitType.buildTime());
+  BWAssertF(producer->getRemainingTrainTime() == unitType.buildTime(),{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
 
   startTrainFrame = Broodwar->getFrameCount();
   nextUpdateFrame = startTrainFrame;
@@ -73,16 +85,30 @@ void TrainTest::update()
     running = false;
     return;
   }
-  BWAssert(producer->isTraining()==true);
-  BWAssert(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount);
+  BWAssertF(producer->isTraining()==true,{fail=true;return;});
+  BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+  BWAssertF(producer->isIdle()==false,{fail=true;return;});
+  BWAssertF(producer->isLifted()==false,{fail=true;return;});
+  BWAssertF(producer->getTrainingQueue().size()==1,{Broodwar->printf("tq size = %d, %s",producer->getTrainingQueue().size(),(*producer->getTrainingQueue().begin()).getName().c_str());fail=true;return;});
+  BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
 }
 
 void TrainTest::stop()
 {
   if (fail == true) return;
   BWAssertF(producer!=NULL,{fail=true;return;});
+  BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+  BWAssertF(producer->isIdle()==true,{fail=true;return;});
+  BWAssertF(producer->isLifted()==false,{fail=true;return;});
   BWAssertF(producer->isTraining()==false,{fail=true;return;});
   BWAssertF(producer->getTrainingQueue().empty()==true,{fail=true;return;});
+  BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
 }
 

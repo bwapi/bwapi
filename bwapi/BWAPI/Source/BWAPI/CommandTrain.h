@@ -26,5 +26,6 @@ namespace BWAPI
       int getType();
     private :
       BW::UnitType toTrain;
+      int startFrame;
   };
 };
