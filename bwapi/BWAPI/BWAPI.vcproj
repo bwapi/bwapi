@@ -499,6 +499,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandGeneral.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandHoldPosition.cpp"
 					>
 				</File>
@@ -707,6 +711,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\CommandGeneral.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\CommandHoldPosition.h"
 					>
 				</File>
@@ -897,10 +905,6 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Unit.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\UnitCommand.h"
 				>
 			</File>
 		</Filter>

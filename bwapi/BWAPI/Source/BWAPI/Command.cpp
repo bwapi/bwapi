@@ -2,6 +2,10 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  Command::Command()
+  {
+  }
+  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Command::Command(const std::vector<UnitImpl*>& executors)
       : executors(executors)
   {
