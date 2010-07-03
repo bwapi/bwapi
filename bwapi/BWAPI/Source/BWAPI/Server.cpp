@@ -501,7 +501,7 @@ namespace BWAPI
         {
           target=unitVector[data->unitCommands[i].targetIndex];
         }
-        unit->issueCommand(UnitCommand(data->unitCommands[i].type,target,data->unitCommands[i].x,data->unitCommands[i].y,data->unitCommands[i].extra));
+        unit->issueCommand(UnitCommand(unit,data->unitCommands[i].type,target,data->unitCommands[i].x,data->unitCommands[i].y,data->unitCommands[i].extra));
       }
       for(int i=0;i<data->shapeCount;i++)
       {

@@ -13,9 +13,7 @@
 #include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
 #include "CommandTrain.h"
-#include "CommandBuild.h"
-#include "CommandAttackMove.h"
-#include "CommandAttackUnit.h"
+#include "CommandGeneral.h"
 #include "CommandPatrol.h"
 #include "CommandHoldPosition.h"
 #include "CommandStop.h"
@@ -25,7 +23,6 @@
 #include "CommandRepair.h"
 #include "CommandMorphUnit.h"
 #include "CommandMorphBuilding.h"
-#include "CommandBurrow.h"
 #include "CommandUnburrow.h"
 #include "CommandCloak.h"
 #include "CommandDecloak.h"
@@ -888,7 +885,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandAttackMove(this, BW::Position((u16)position.x(), (u16)position.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::attackMove(this,position)));
     return true;
   }
   //--------------------------------------------- ORDER Attack Unit ------------------------------------------
@@ -928,7 +925,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::AttackUnit), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new CommandAttackUnit(this, (UnitImpl*)target));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::attackUnit(this,target)));
     return true;
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
@@ -1064,7 +1061,7 @@ namespace BWAPI
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeBuilding));
     else
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeAddon));
-    BroodwarImpl.addToCommandBuffer(new CommandBuild(this, type, BW::TilePosition((u16)position.x(), (u16)position.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::build(this,position,type1)));
     return true;
   }
   //----------------------------------------------- BUILD ADDON ----------------------------------------------
@@ -1356,7 +1353,7 @@ namespace BWAPI
     {
       this->orderSelect();
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
-      BroodwarImpl.addToCommandBuffer(new CommandBurrow(this));
+      BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::burrow(this)));
     }
     return true;
   }

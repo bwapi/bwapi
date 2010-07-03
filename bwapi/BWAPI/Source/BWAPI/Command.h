@@ -14,6 +14,7 @@ namespace BWAPI
   class Command
   {
     public :
+      Command();
       /**
        * Makes it's own copy of executor list.
        * @param executors Executors of the command (Every command has some

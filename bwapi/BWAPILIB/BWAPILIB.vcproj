@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UnitCommand.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\UnitCommandType.cpp"
 				>
 			</File>
@@ -312,6 +316,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\TilePosition.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\UnitCommand.h"
 				>
 			</File>
 			<File
