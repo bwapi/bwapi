@@ -443,11 +443,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Command.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandGeneral.cpp"
+					RelativePath=".\Source\BWAPI\Command.cpp"
 					>
 				</File>
 				<File
@@ -519,11 +515,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BWAPI\Command.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BWAPI\CommandGeneral.h"
+					RelativePath=".\Source\BWAPI\Command.h"
 					>
 				</File>
 				<File
