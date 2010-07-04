@@ -423,7 +423,7 @@ namespace BWAPI
     return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID() * 48);
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
-  void PlayerImpl::update()
+  void PlayerImpl::updateData()
   {
     this->mineralsLocal = this->getMineralsSync();
     this->gasLocal = this->getGasSync();

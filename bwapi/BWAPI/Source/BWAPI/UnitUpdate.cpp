@@ -19,7 +19,7 @@
 #include "Server.h"
 namespace BWAPI
 {
-  void UnitImpl::updateUnitData()
+  void UnitImpl::updateData()
   {
     id = (int)this;
     int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
