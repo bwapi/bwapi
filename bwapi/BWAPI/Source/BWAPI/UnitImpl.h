@@ -16,11 +16,6 @@
 #include <BWAPI/Client/UnitData.h>
 
 #define checkAccessBool() if (!this->attemptAccess()) return false
-#define checkAccessInt() if (!this->attemptAccess()) return 0
-#define checkAccessPosition() if (!this->attemptAccess()) return BWAPI::Positions::Unknown
-#define checkAccessTilePosition() if (!this->attemptAccess()) return BWAPI::TilePositions::Unknown
-#define checkAccessDouble() if (!this->attemptAccess()) return std::numeric_limits<double>::infinity()
-#define checkAccessPointer() if (!this->attemptAccess()) return NULL
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };
@@ -242,7 +237,7 @@ namespace BWAPI
       bool hasEmptyBuildQueue;
 
       void saveInitialInformation();
-      void updateUnitData();
+      void updateData();
       BWAPIC::UnitData data;
       BWAPIC::UnitData* self;
 

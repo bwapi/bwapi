@@ -809,7 +809,7 @@ namespace BWAPI
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
       {
         bool prevLeftGame=this->players[i]->leftGame();
-        this->players[i]->update();
+        this->players[i]->updateData();
         if (!prevLeftGame && this->players[i]->leftGame())
         {
           if (this->client!=NULL)
@@ -866,7 +866,7 @@ namespace BWAPI
       }
       foreach (UnitImpl* i, unitList)
       {
-        i->updateUnitData();
+        i->updateData();
         if (this->units.find(i) == this->units.end())
         {
           this->units.insert(i);

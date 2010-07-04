@@ -10,7 +10,7 @@ namespace BW { struct Unit; };
 #include <BWAPI/UnitType.h>
 #include "UnitImpl.h"
 #include "ForceImpl.h"
-
+#include <BWAPI/Client/PlayerData.h>
 #include <list>
 #include <set>
 #include <string>
@@ -105,7 +105,10 @@ namespace BWAPI
        * Updates localData according to bw values. (Should be called every frame before local data updates are
        * performed
        */
-      void update();
+      void updateData();
+      BWAPIC::PlayerData data;
+      BWAPIC::PlayerData* self;
+
       UnitImpl* getFirst();
 
       void planToMake(BWAPI::UnitType unit);

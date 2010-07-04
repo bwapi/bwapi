@@ -13,8 +13,6 @@
 #include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
 #include "CommandGeneral.h"
-#include "CommandRightClick.h"
-#include "CommandUseTech.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -639,7 +637,7 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
   {
-    checkAccessDouble();
+    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
     if (!((UnitImpl*)target)->attemptAccess())
       return std::numeric_limits<double>::infinity();
 
@@ -698,7 +696,7 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Position target) const
   {
-    checkAccessDouble();
+    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
     double result = 0;
     if (getPosition().y() - getType().dimensionUp() <= target.y() &&
         getPosition().y() + getType().dimensionDown() >= target.y())
@@ -743,7 +741,7 @@ namespace BWAPI
   //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    checkAccessInt();
+    if (!this->attemptAccess()) return 0;
     if (_getPlayer->getUpgradeLevel(upgrade) == 0)
       return 0;
 
@@ -912,7 +910,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position((u16)position.x(), (u16)position.y())), sizeof(BW::Orders::RightClick));
-    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, BW::Position((u16)position.x(), (u16)position.y())));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::rightClick(this,position)));
     return true;
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
@@ -954,7 +952,7 @@ namespace BWAPI
     }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick));
-    BroodwarImpl.addToCommandBuffer(new CommandRightClick(this, (UnitImpl*)target));
+    BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::rightClick(this,target)));
     return true;
   }
   //----------------------------------------------- TRAIN UNIT -----------------------------------------------
@@ -1828,7 +1826,7 @@ namespace BWAPI
     {
       case BW::TechID::Stimpacks:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech)));
         break;
       case BW::TechID::TankSiegeMode:
         if (this->isSieged())
@@ -1890,47 +1888,47 @@ namespace BWAPI
     {
       case BW::TechID::DarkSwarm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::DarkSwarm), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::DisruptionWeb:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::CastDisruptionWeb), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::EMPShockwave:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::EmpShockwave), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::Ensnare:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::Ensnare), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::NuclearStrike:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::NukePaint), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::Plague:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::Plague), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::PsionicStorm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::PsiStorm), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::Recall:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::Teleport), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::ScannerSweep:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::PlaceScanner), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::SpiderMines:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::PlaceMine), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       case BW::TechID::StasisField:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::StasisField), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,position));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,position)));
         break;
       default:
         BroodwarImpl.setLastError(Errors::Incompatible_TechType);
@@ -1968,73 +1966,73 @@ namespace BWAPI
     {
       case BW::TechID::Consume:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Consume), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::DefensiveMatrix:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::DefensiveMatrix), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Feedback:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastFeedback), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Hallucination:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Hallucination1), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Healing:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MedicHeal1), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Infestation:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::InfestMine2), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Irradiate:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Irradiate), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Lockdown:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::MagnaPulse), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Maelstorm:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastMaelstrom), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::MindControl:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastMindControl), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::OpticalFlare:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastOpticalFlare), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Parasite:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CastParasite), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::Restoration:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Restoration), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::SpawnBroodlings:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::SummonBroodlings), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::YamatoGun:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::FireYamatoGun1), sizeof(BW::Orders::Attack));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::ArchonWarp:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ShiftSelectSingle((UnitImpl*)target), sizeof(BW::Orders::ShiftSelectSingle));
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       case BW::TechID::DarkArchonMeld:
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ShiftSelectSingle((UnitImpl*)target), sizeof(BW::Orders::ShiftSelectSingle));
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
-        BroodwarImpl.addToCommandBuffer(new CommandUseTech(this,tech,(UnitImpl*)target));
+        BroodwarImpl.addToCommandBuffer(new CommandGeneral(UnitCommand::useTech(this,tech,target)));
         break;
       default:
         BroodwarImpl.setLastError(Errors::Incompatible_TechType);
@@ -2088,7 +2086,7 @@ namespace BWAPI
     this->lastType           = UnitTypes::Unknown;
     this->lastPlayer         = NULL;
     this->nukeDetected       = false;
-    this->updateUnitData();
+    this->updateData();
   }
 
   /* canAccess returns true if the AI module is allowed to access the unit.

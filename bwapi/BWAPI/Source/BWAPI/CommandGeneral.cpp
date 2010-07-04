@@ -337,18 +337,50 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Right_Click_Position)
     {
       if (!unit->self->exists) return;
+      if (unit->getType().canMove())
+        unit->self->order = Orders::Move.getID();
     }
     else if (command.type == UnitCommandTypes::Right_Click_Unit)
     {
       if (!unit->self->exists) return;
+      unit->self->target = BroodwarImpl.server.getUnitID(target);
+      unit->self->isIdle = false;
+      unit->self->isMoving = true;
+      if (unit->getType().isWorker() && target->getType()==UnitTypes::Resource_Mineral_Field)
+        unit->self->order = Orders::MoveToMinerals.getID();
+      else if (unit->getType().isWorker() && target->getType().isRefinery())
+        unit->self->order = Orders::MoveToGas.getID();
+      else if (unit->getType().isWorker() &&
+               target->getType().getRace()==Races::Terran &&
+               target->getType().whatBuilds().first==unit->getType() &&
+               !target->isCompleted())
+      {
+        unit->self->order = Orders::ConstructingBuilding.getID();
+        unit->self->buildUnit = BroodwarImpl.server.getUnitID(target);
+        target->self->buildUnit = BroodwarImpl.server.getUnitID(unit);
+        unit->self->isConstructing = true;
+        target->self->isConstructing = true;
+      }
+      else if (unit->getType().canAttack() && target->getPlayer() != unit->getPlayer() && !target->getType().isNeutral())
+        unit->self->order = Orders::AttackUnit.getID();
+      else if (unit->getType().canMove())
+        unit->self->order = Orders::Follow.getID();
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Position)
     {
       if (!unit->self->exists) return;
+      if (!unit->getType().canProduce()) return;
+      unit->self->order = Orders::RallyPointTile.getID();
+      unit->self->rallyPositionX = position.x();
+      unit->self->rallyPositionY = position.y();
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Unit)
     {
       if (!unit->self->exists) return;
+      if (!unit->getType().canProduce()) return;
+      if (target == NULL || !target->self->exists) return;
+      unit->self->order = Orders::RallyPointUnit.getID();
+      unit->self->rallyUnit = BroodwarImpl.server.getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Siege)
     {
@@ -438,14 +470,199 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Use_Tech)
     {
       if (!unit->self->exists) return;
+      if (techType == TechTypes::Stim_Packs)
+      {
+        unit->self->hitPoints -= 10;
+        unit->self->stimTimer = 17;
+      }
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Position)
     {
       if (!unit->self->exists) return;
+      if (techType==TechTypes::Dark_Swarm)
+      {
+        unit->self->order = Orders::DarkSwarm.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Disruption_Web)
+      {
+        unit->self->order = Orders::CastDisruptionWeb.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::EMP_Shockwave)
+      {
+        unit->self->order = Orders::EmpShockwave.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Ensnare)
+      {
+        unit->self->order = Orders::Ensnare.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Maelstrom)
+      {
+        unit->self->order = Orders::CastMaelstrom.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Nuclear_Strike)
+      {
+        unit->self->order = Orders::NukePaint.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Plague)
+      {
+        unit->self->order = Orders::Plague.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Psionic_Storm)
+      {
+        unit->self->order = Orders::PsiStorm.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Recall)
+      {
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Scanner_Sweep)
+      {
+        unit->self->order = Orders::Scanner.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Spider_Mines)
+      {
+        unit->self->order = Orders::PlaceMine.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
+      else if (techType==TechTypes::Stasis_Field)
+      {
+        unit->self->order = Orders::StasisField.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+      }
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Unit)
     {
       if (!unit->self->exists) return;
+      if (techType==TechTypes::Consume)
+      {
+        unit->self->order = Orders::Consume.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Defensive_Matrix)
+      {
+        unit->self->order = Orders::DefensiveMatrix.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Feedback)
+      {
+        unit->self->order = Orders::CastFeedback.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Hallucination)
+      {
+        unit->self->order = Orders::Hallucination1.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Healing)
+      {
+        unit->self->order = Orders::HealMove.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Infestation)
+      {
+        unit->self->order = Orders::InfestMine1.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Irradiate)
+      {
+        unit->self->order = Orders::Irradiate.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Lockdown)
+      {
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Mind_Control)
+      {
+        unit->self->order = Orders::CastMindControl.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Optical_Flare)
+      {
+        unit->self->order = Orders::CastOpticalFlare.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Parasite)
+      {
+        unit->self->order = Orders::CastParasite.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Restoration)
+      {
+        unit->self->order = Orders::Restoration.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Spawn_Broodlings)
+      {
+        unit->self->order = Orders::SummonBroodlings.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Yamato_Gun)
+      {
+        unit->self->order = Orders::FireYamatoGun1.getID();
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Archon_Warp)
+      {
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
+      else if (techType==TechTypes::Dark_Archon_Meld)
+      {
+        unit->self->orderTarget = BroodwarImpl.server.getUnitID(target);
+        unit->self->targetPositionX = target->getPosition().x();
+        unit->self->targetPositionY = target->getPosition().y();
+      }
     }
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
