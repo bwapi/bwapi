@@ -791,7 +791,7 @@ namespace BWAPI
           bool allDone = true;
           foreach(Player* p, this->playerSet)
           {
-            if (p->getID() >= 8) continue;
+            if (((PlayerImpl*)p)->getIndex() >= 8) continue;
             if (!p->isDefeated() && !p->isVictorious() && !p->leftGame())
               allDone=false;
           }
@@ -823,8 +823,8 @@ namespace BWAPI
       std::list<UnitImpl*> unitList;
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       {
-        this->getUnit(i)->connectedUnits.clear();
-        this->getUnit(i)->loadedUnits.clear();
+        this->getUnitFromIndex(i)->connectedUnits.clear();
+        this->getUnitFromIndex(i)->loadedUnits.clear();
       }
       std::set<BWAPI::UnitImpl*> dyingUnits = units;
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
@@ -1528,7 +1528,7 @@ namespace BWAPI
       }
       else
       {
-        printEx(this->BWAPIPlayer->getID(), "%s", buffer);
+        printEx(this->BWAPIPlayer->getIndex(), "%s", buffer);
       }
       return;
     }
@@ -1608,7 +1608,7 @@ namespace BWAPI
   void  GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
-    this->_changeRace(this->BWAPIPlayer->getID(),race);
+    this->_changeRace(this->BWAPIPlayer->getIndex(),race);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
@@ -1760,7 +1760,7 @@ namespace BWAPI
   {
     /* Do onReceiveText */
     int realId = stormIdToPlayerId(playerId);
-    if ( this->client != NULL && realId != -1 && realId != this->BWAPIPlayer->getID())
+    if ( this->client != NULL && realId != -1 && realId != this->BWAPIPlayer->getIndex())
     {
       events.push_back(Event::ReceiveText(this->players[realId], text));
       this->client->onReceiveText(this->players[realId], text);
@@ -2147,17 +2147,32 @@ namespace BWAPI
     this->setLastError(Errors::None);
     IssueCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
   }
-  //------------------------------------------------ GET UNIT ------------------------------------------------
-  UnitImpl* GameImpl::getUnit(int index)
+  //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
+  UnitImpl* GameImpl::getUnitFromIndex(int index)
   {
     int i = (index & 0x7FF);
     return this->unitArray[i];
   }
-  //----------------------------------------------- GET BULLET -----------------------------------------------
-  BulletImpl* GameImpl::getBullet(int index)
+  //----------------------------------------------- GET BULLET FROM INDEX ------------------------------------
+  BulletImpl* GameImpl::getBulletFromIndex(int index)
   {
     int i = (index & 0x7F);
     return this->bulletArray[i];
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Force* GameImpl::getForce(int forceID)
+  {
+    return server.getForce(forceID);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Player* GameImpl::getPlayer(int playerID)
+  {
+    return server.getPlayer(playerID);
+  }
+  //----------------------------------------------------------------------------------------------------------
+  Unit* GameImpl::getUnit(int unitID)
+  {
+    return server.getUnit(unitID);
   }
   //----------------------------------------------------------------------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)

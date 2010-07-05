@@ -306,13 +306,6 @@ namespace BWAPI
   {
     return events;
   }
-  //----------------------------------------------- INDEX TO UNIT --------------------------------------------
-  Unit* GameImpl::indexToUnit(int unitIndex)
-  {
-    if (unitIndex<0 || unitIndex>=1700)
-      return NULL;
-    return getUnit(data->unitArray[unitIndex]);
-  }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)
   {
@@ -330,6 +323,13 @@ namespace BWAPI
   {
     if (unitId<0 || unitId>=(int)unitVector.size()) return NULL;
     return &unitVector[unitId];
+  }
+  //----------------------------------------------- INDEX TO UNIT --------------------------------------------
+  Unit* GameImpl::indexToUnit(int unitIndex)
+  {
+    if (unitIndex<0 || unitIndex>=1700)
+      return NULL;
+    return getUnit(data->unitArray[unitIndex]);
   }
   //--------------------------------------------- GET GAME TYPE ----------------------------------------------
   GameType GameImpl::getGameType()

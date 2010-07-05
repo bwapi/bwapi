@@ -66,9 +66,13 @@ namespace BWAPI
       virtual std::set< Unit* >&   getStaticMinerals();
       virtual std::set< Unit* >&   getStaticGeysers();
       virtual std::set< Unit* >&   getStaticNeutralUnits();
-      virtual std::set< Bullet* >& getBullets();
 
+      virtual std::set< Bullet* >& getBullets();
       virtual std::list< Event >& getEvents();
+
+      virtual Force* getForce(int forceID);
+      virtual Player* getPlayer(int playerID);
+      virtual Unit* getUnit(int unitID);
       virtual Unit* indexToUnit(int unitIndex);
 
       virtual GameType getGameType();
@@ -235,8 +239,8 @@ namespace BWAPI
       void copyMapToSharedMemory();
 
       std::set<UnitImpl*> units;
-      UnitImpl* getUnit(int index);
-      BulletImpl* getBullet(int index);
+      UnitImpl* getUnitFromIndex(int index);
+      BulletImpl* getBulletFromIndex(int index);
       PlayerImpl* BWAPIPlayer;
       PlayerImpl* opponent;
 

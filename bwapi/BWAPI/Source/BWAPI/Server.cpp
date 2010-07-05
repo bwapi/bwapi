@@ -329,7 +329,7 @@ namespace BWAPI
       for(int id=0;id<100;id++)
       {
         BWAPIC::BulletData* b = &(data->bullets[id]);
-        Bullet* b2 = (Bullet*)BroodwarImpl.getBullet(id);
+        Bullet* b2 = (Bullet*)BroodwarImpl.getBulletFromIndex(id);
         b->exists = b2->exists();
         if (b->exists)
         {

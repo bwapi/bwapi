@@ -11,9 +11,10 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  PlayerImpl::PlayerImpl(u8 id)
-      : id(id), leftTheGame(false)
+  PlayerImpl::PlayerImpl(u8 index)
+      : index(index), leftTheGame(false)
   {
+    id = BroodwarImpl.server.getPlayerID(this);
     self=&data;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -25,12 +26,17 @@ namespace BWAPI
   {
     return id;
   }
+  //------------------------------------------------- GET Index -------------------------------------------------
+  int PlayerImpl::getIndex() const
+  {
+    return index;
+  }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string PlayerImpl::getName() const
   {
-    if (id == 11)
+    if (index == 11)
       return std::string("Neutral");
-    return std::string(BW::BWDATA_Players->player[id].szName);
+    return std::string(BW::BWDATA_Players->player[index].szName);
   }
   //----------------------------------------------- GET UNITS ------------------------------------------------
   const std::set<Unit*>& PlayerImpl::getUnits() const
@@ -40,12 +46,12 @@ namespace BWAPI
   //------------------------------------------------ GET RACE ------------------------------------------------
   BWAPI::Race PlayerImpl::getRace() const
   {
-    return BWAPI::Race((int)(BW::BWDATA_Players->player[id].nRace));
+    return BWAPI::Race((int)(BW::BWDATA_Players->player[index].nRace));
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
   BWAPI::PlayerType PlayerImpl::getType() const
   {
-    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[id].nType));
+    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[index].nType));
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* PlayerImpl::getForce() const
@@ -56,18 +62,18 @@ namespace BWAPI
   bool PlayerImpl::isAlly(Player* player) const
   {
     if (player==NULL || isNeutral() || player->isNeutral()) return false;
-    return BW::BWDATA_Alliance->alliance[id].player[((PlayerImpl*)player)->getID()] != 0;
+    return BW::BWDATA_Alliance->alliance[index].player[((PlayerImpl*)player)->getIndex()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
     if (player==NULL || this->isNeutral() || player->isNeutral()) return false;
-    return BW::BWDATA_Alliance->alliance[id].player[((PlayerImpl*)player)->getID()] == 0;
+    return BW::BWDATA_Alliance->alliance[index].player[((PlayerImpl*)player)->getIndex()] == 0;
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool PlayerImpl::isNeutral() const
   {
-    return id == 11;
+    return index == 11;
   }
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
@@ -82,8 +88,8 @@ namespace BWAPI
       return TilePositions::Unknown;
     }
     /* return the start location as a tile position */
-    return BWAPI::TilePosition((int)((BW::BWDATA_startPositions[this->getID()].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
-                               (int)((BW::BWDATA_startPositions[this->getID()].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
+    return BWAPI::TilePosition((int)((BW::BWDATA_startPositions[index].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
+                               (int)((BW::BWDATA_startPositions[index].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
   }
   //------------------------------------------------ MINERALS ------------------------------------------------
   int PlayerImpl::minerals() const
@@ -194,7 +200,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return false;
     }
-    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + this->getID() * 6);
+    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + index * 6);
     return techs->getBit(1 << tech.getID());
   }
   //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
@@ -211,9 +217,9 @@ namespace BWAPI
       return true;
     }
     if (tech.getID() < 0x18)
-      return *((u8*)(BW::BWDATA_TechResearchSC + this->getID() * 0x18 + tech.getID())) == 1;
+      return *((u8*)(BW::BWDATA_TechResearchSC + index * 0x18 + tech.getID())) == 1;
     else
-      return *((u8*)(BW::BWDATA_TechResearchBW + this->getID() * 0x14 + tech.getID() - 0x18)) == 1;
+      return *((u8*)(BW::BWDATA_TechResearchBW + index * 0x14 + tech.getID() - 0x18)) == 1;
   }
   //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
   bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
@@ -224,7 +230,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return false;
     }
-    return BW::BWDATA_UpgradeProgress->player[this->getID()].getBit(1 << upgrade.getID());
+    return BW::BWDATA_UpgradeProgress->player[index].getBit(1 << upgrade.getID());
   }
   //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
@@ -236,9 +242,9 @@ namespace BWAPI
       return 0;
     }
     if (upgrade.getID() < 46)
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID() * 46 + upgrade.getID())));
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + index * 46 + upgrade.getID())));
     else
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID() * 15 + upgrade.getID() - 46)));
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + index * 15 + upgrade.getID() - 46)));
   }
   int PlayerImpl::_getUpgradeLevel(u8 id)
   {
@@ -246,9 +252,9 @@ namespace BWAPI
       return 0;
 
     if (id < 46)
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + this->getID() * 46 + id)));
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + index * 46 + id)));
     else
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + this->getID() * 15 + id - 46)));
+      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + index * 15 + id - 46)));
   }
   //---------------------------------------------- MAX ENERGY ------------------------------------------------
   int PlayerImpl::maxEnergy(UnitType unit) const
@@ -340,7 +346,7 @@ namespace BWAPI
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
   BW::Unit** PlayerImpl::selectedUnit()
   {
-    return (BW::Unit**)(BW::BWDATA_PlayerSelection + this->getID() * 48);
+    return (BW::Unit**)(BW::BWDATA_PlayerSelection + index * 48);
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void PlayerImpl::updateData()
@@ -354,10 +360,10 @@ namespace BWAPI
     }
     else
     {
-      self->minerals           = BW::BWDATA_PlayerResources->minerals.player[id];
-      self->gas                = BW::BWDATA_PlayerResources->gas.player[id];
-      self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[id];
-      self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[id];
+      self->minerals           = BW::BWDATA_PlayerResources->minerals.player[index];
+      self->gas                = BW::BWDATA_PlayerResources->gas.player[index];
+      self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[index];
+      self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[index];
     }
     if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
@@ -371,15 +377,15 @@ namespace BWAPI
     {
       for (u8 i = 0; i < 3; i++)
       {
-        self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].available.player[id];
-        if (self->supplyTotal[i] > BW::BWDATA_Supplies->race[i].max.player[id])
-          self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].max.player[id];
-        self->supplyUsed[i] = BW::BWDATA_Supplies->race[i].used.player[id];
+        self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].available.player[index];
+        if (self->supplyTotal[i] > BW::BWDATA_Supplies->race[i].max.player[index])
+          self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].max.player[index];
+        self->supplyUsed[i] = BW::BWDATA_Supplies->race[i].used.player[index];
       }
     }
-    if (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::PlayerLeft ||
-        BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::ComputerLeft ||
-       (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::Neutral && !this->isNeutral()))
+    if (BW::BWDATA_Players->player[index].nType  == BW::PlayerType::PlayerLeft ||
+        BW::BWDATA_Players->player[index].nType  == BW::PlayerType::ComputerLeft ||
+       (BW::BWDATA_Players->player[index].nType  == BW::PlayerType::Neutral && !isNeutral()))
     {
       this->leftTheGame = true;
     }
@@ -400,18 +406,18 @@ namespace BWAPI
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
   u8 PlayerImpl::getAlliance(u8 opposingID)
   {
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[opposingID];
+    return BW::BWDATA_Alliance->alliance[index].player[opposingID];
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   u8 PlayerImpl::getForce()
   {
-    return BW::BWDATA_Players->player[this->getID()].nTeam;
+    return BW::BWDATA_Players->player[index].nTeam;
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
   int PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const
   {
     if(unit.getID() < BW::UnitID::None)
-      return counts.unit[unit.getID()].player[this->getID()];
+      return counts.unit[unit.getID()].player[index];
     return 0;
   }
   //------------------------------------------- PLAN TO MAKE -------------------------------------------------
@@ -422,7 +428,7 @@ namespace BWAPI
   //------------------------------------------- GET FORCE NAME -----------------------------------------------
   char* PlayerImpl::getForceName() const
   {
-    return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[this->getID()].nTeam].name;
+    return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[index].nTeam].name;
   }
   //----------------------------------------------------------------------------------------------------------
   void PlayerImpl::onGameEnd()
@@ -432,16 +438,16 @@ namespace BWAPI
   }
   bool PlayerImpl::isVictorious() const
   {
-    if (this->getID()>=8) return false;
-    return BW::BWDATA_PlayerVictory->player[this->getID()]==3;
+    if (index>=8) return false;
+    return BW::BWDATA_PlayerVictory->player[index]==3;
   }
   bool PlayerImpl::isDefeated() const
   {
-    if (this->getID()>=8) return false;
-    return BW::BWDATA_PlayerVictory->player[this->getID()]==1 ||
-           BW::BWDATA_PlayerVictory->player[this->getID()]==2 ||
-           BW::BWDATA_PlayerVictory->player[this->getID()]==4 ||
-           BW::BWDATA_PlayerVictory->player[this->getID()]==6;
+    if (index>=8) return false;
+    return BW::BWDATA_PlayerVictory->player[index]==1 ||
+           BW::BWDATA_PlayerVictory->player[index]==2 ||
+           BW::BWDATA_PlayerVictory->player[index]==4 ||
+           BW::BWDATA_PlayerVictory->player[index]==6;
   }
   //---------------------------------------------- LEFT GAME -------------------------------------------------
   bool PlayerImpl::leftGame() const
