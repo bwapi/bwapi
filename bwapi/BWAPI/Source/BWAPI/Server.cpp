@@ -1,6 +1,7 @@
 #include "Server.h"
 #include <Util/Logger.h>
 #include "GameImpl.h"
+#include "PlayerImpl.h"
 #include "UnitImpl.h"
 #include <BWAPI/Client/GameData.h>
 namespace BWAPI
@@ -281,18 +282,19 @@ namespace BWAPI
       {
         int id                = getPlayerID(*i);
         BWAPIC::PlayerData* p = &(data->players[id]);
+        BWAPIC::PlayerData* p2 = ((PlayerImpl*)(*i))->self;
 
         p->isVictorious       = (*i)->isVictorious();
         p->isDefeated         = (*i)->isDefeated();
         p->leftGame           = (*i)->leftGame();
-        p->minerals           = (*i)->minerals();
-        p->gas                = (*i)->gas();
-        p->cumulativeMinerals = (*i)->cumulativeMinerals();
-        p->cumulativeGas      = (*i)->cumulativeGas();
+        p->minerals           = p2->minerals;
+        p->gas                = p2->gas;
+        p->cumulativeMinerals = p2->cumulativeMinerals;
+        p->cumulativeGas      = p2->cumulativeGas;
         for(int j=0;j<3;j++)
         {
-          p->supplyTotal[j]   = (*i)->supplyTotal(Race(0));
-          p->supplyUsed[j]    = (*i)->supplyUsed(Race(0));
+          p->supplyTotal[j]   = p2->supplyTotal[j];
+          p->supplyUsed[j]    = p2->supplyUsed[j];
         }
         for(int j=0;j<228;j++)
         {
@@ -316,10 +318,7 @@ namespace BWAPI
       //dynamic unit data
       for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
       {
-        int id              = getUnitID(*i);
-        BWAPIC::UnitData* u = &(data->units[id]);
-        BWAPIC::UnitData* u2= ((UnitImpl*)(*i))->self;
-        *u = *u2;
+        data->units[(*i)->getID()] = ((UnitImpl*)(*i))->data;
       }
 
       for(int i=0;i<1700;i++)

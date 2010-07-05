@@ -11,6 +11,9 @@ namespace BWAPI
   class Force
   {
     public :
+      /** Returns a unique ID for the force. */
+      virtual int getID() const = 0;
+
       /** Returns the name of the force. */
       virtual std::string getName() const = 0;
 
