@@ -14,6 +14,7 @@ namespace BWAPI
   PlayerImpl::PlayerImpl(u8 id)
       : id(id), leftTheGame(false)
   {
+    self=&data;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   PlayerImpl::~PlayerImpl()
@@ -22,62 +23,51 @@ namespace BWAPI
   //------------------------------------------------- GET ID -------------------------------------------------
   int PlayerImpl::getID() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    return this->id;
+    return id;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string PlayerImpl::getName() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this->getID() == 11)
-    {
+    if (id == 11)
       return std::string("Neutral");
-    }
-    return std::string(BW::BWDATA_Players->player[this->getID()].szName);
+    return std::string(BW::BWDATA_Players->player[id].szName);
   }
   //----------------------------------------------- GET UNITS ------------------------------------------------
   const std::set<Unit*>& PlayerImpl::getUnits() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    return this->units;
+    return units;
   }
   //------------------------------------------------ GET RACE ------------------------------------------------
   BWAPI::Race PlayerImpl::getRace() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    return BWAPI::Race((int)(BW::BWDATA_Players->player[this->getID()].nRace));
+    return BWAPI::Race((int)(BW::BWDATA_Players->player[id].nRace));
   }
-  //----------------------------------------------- PLAYER TYPE ----------------------------------------------
+  //--------------------------------------------- GET TYPE ---------------------------------------------------
   BWAPI::PlayerType PlayerImpl::getType() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[this->getID()].nType));
+    return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[id].nType));
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* PlayerImpl::getForce() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    return (Force*)this->force;
+    return (Force*)force;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlly(Player* player) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (player==NULL || this->isNeutral() || player->isNeutral()) return false;
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] != 0;
+    if (player==NULL || isNeutral() || player->isNeutral()) return false;
+    return BW::BWDATA_Alliance->alliance[id].player[((PlayerImpl*)player)->getID()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
-    BroodwarImpl.setLastError(Errors::None);
     if (player==NULL || this->isNeutral() || player->isNeutral()) return false;
-    return BW::BWDATA_Alliance->alliance[this->getID()].player[((PlayerImpl*)player)->getID()] == 0;
+    return BW::BWDATA_Alliance->alliance[id].player[((PlayerImpl*)player)->getID()] == 0;
   }
   //----------------------------------------------- IS NEUTRAL -----------------------------------------------
   bool PlayerImpl::isNeutral() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    return this->getID() == 11;
+    return id == 11;
   }
   //------------------------------------------- GET START POSITION -------------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
@@ -98,56 +88,22 @@ namespace BWAPI
   //------------------------------------------------ MINERALS ------------------------------------------------
   int PlayerImpl::minerals() const
   {
-    /* error handling */
-    BroodwarImpl.setLastError(Errors::None);
-    if (this->isNeutral())
-      return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    /* return the local mineral count */
-    return this->mineralsLocal;
+    return self->minerals;
   }
   //-------------------------------------------------- GAS ---------------------------------------------------
   int PlayerImpl::gas() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this->isNeutral())
-      return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return this->gasLocal;
+    return self->gas;
   }
   //------------------------------------------ CUMULATIVE MINERALS -------------------------------------------
   int PlayerImpl::cumulativeMinerals() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this->isNeutral())
-      return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return BW::BWDATA_PlayerResources->cumulativeMinerals.player[this->getID()];
+    return self->cumulativeMinerals;
   }
   //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
   int PlayerImpl::cumulativeGas() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this->isNeutral())
-      return 0;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return BW::BWDATA_PlayerResources->cumulativeGas.player[this->getID()];
+    return self->cumulativeGas;
   }
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   int PlayerImpl::supplyTotal() const
@@ -158,7 +114,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    int ret = this->suppliesAvailableLocal[getRace().getID()];
+    int ret = self->supplyTotal[getRace().getID()];
     return ret < getSuppliesMaxSync((u8)getRace().getID()) ? ret : getSuppliesMaxSync((u8)getRace().getID());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
@@ -170,7 +126,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    return this->suppliesUsedLocal[getRace().getID()];
+    return self->supplyUsed[getRace().getID()];
   }
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
@@ -181,7 +137,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    int ret = this->suppliesAvailableLocal[race.getID()];
+    int ret = self->supplyTotal[race.getID()];
     return ret < getSuppliesMaxSync((u8)race.getID()) ? ret : getSuppliesMaxSync((u8)race.getID());
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
@@ -193,7 +149,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return 0;
     }
-    return this->suppliesUsedLocal[race.getID()];
+    return self->supplyUsed[race.getID()];
   }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
@@ -424,13 +380,25 @@ namespace BWAPI
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void PlayerImpl::updateData()
-  {
-    this->mineralsLocal = this->getMineralsSync();
-    this->gasLocal = this->getGasSync();
-    for (u8 i = 0; i < BW::RACE_COUNT; i++)
+  { 
+    if (this->isNeutral() || (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)))
     {
-      this->suppliesAvailableLocal[i] = this->getSuppliesAvailableSync(i);
-      this->suppliesUsedLocal[i] = this->getSuppliesUsedSync(i);
+      self->minerals = 0;
+      self->gas      = 0;
+      self->cumulativeMinerals = 0;
+      self->cumulativeGas      = 0;
+    }
+    else
+    {
+      self->minerals = getMineralsSync();
+      self->gas      = getGasSync();
+      self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[id];
+      self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[id];
+    }
+    for (u8 i = 0; i < 3; i++)
+    {
+      self->supplyTotal[i] = this->getSuppliesAvailableSync(i);
+      self->supplyUsed[i] = this->getSuppliesUsedSync(i);
     }
     if (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::PlayerLeft ||
         BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::ComputerLeft ||
@@ -444,8 +412,8 @@ namespace BWAPI
   //---------------------------------------------- SPEND LOCAL -----------------------------------------------
   void  PlayerImpl::spend(int minerals, int gas)
   {
-    this->mineralsLocal -= minerals;
-    this->gasLocal -= gas;
+    self->minerals -= minerals;
+    self->gas      -= gas;
   }
   //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
   int PlayerImpl::getSuppliesAvailableSync(u8 race) const
@@ -466,7 +434,7 @@ namespace BWAPI
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
   void PlayerImpl::useSupplies(int supplies, u8 race)
   {
-    this->suppliesUsedLocal[race] += supplies;
+    self->supplyUsed[race] += supplies;
   }
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
   u8 PlayerImpl::getAlliance(u8 opposingID)

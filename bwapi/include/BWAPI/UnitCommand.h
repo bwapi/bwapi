@@ -14,7 +14,7 @@ namespace BWAPI
   {
     public:
       UnitCommand() : target(NULL), x(0), y(0), extra(0) {type=UnitCommandTypes::None;}
-      UnitCommand(Unit* source, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra) : type(_type), target(_target), x(_x), y(_y), extra(_extra) {}
+      UnitCommand(Unit* source, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra) : unit(source), type(_type), target(_target), x(_x), y(_y), extra(_extra) {}
 
       static UnitCommand attackMove(Unit* unit, Position position);
       static UnitCommand attackUnit(Unit* unit, Unit* target);

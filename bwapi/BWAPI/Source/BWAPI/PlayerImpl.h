@@ -158,12 +158,9 @@ namespace BWAPI
       int getGasSync() const;
 
       u8 id;  /**< Order of the player, is used to load player's information from the memory */
-      int mineralsLocal, gasLocal;  /**< Storage of local versions resources. */
 
       int toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts
                                       * of units */
-      int suppliesAvailableLocal[BW::RACE_COUNT]; /**< Storage of local versions of Available supplies. */
-      int suppliesUsedLocal[BW::RACE_COUNT]; /**< Storage of local versions of used supplies. */
       int evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const;
   };
 };
