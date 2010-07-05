@@ -109,17 +109,8 @@ namespace BWAPI
       BWAPIC::PlayerData data;
       BWAPIC::PlayerData* self;
 
-      UnitImpl* getFirst();
-
       void planToMake(BWAPI::UnitType unit);
-      /**
-       * Gets local version of free supplies for the given race - @ref localData
-       * Note that free supplies are Avialable - Used.
-       * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
-       *             in that case there would be undefined behaviour.
-       * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
-       */
-      int getSuppliesFree(u8 race);
+
       /**
        * Order to use (reserve) certain amount of supplies in the local version - @ref localData
        * @param supplies Amount of supplies to reserve.
@@ -130,32 +121,6 @@ namespace BWAPI
       std::set<Unit*> units;
       bool leftTheGame;
     private :
-      /**
-       * Gets synchronised version of available supplies for the given race.
-       * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
-       *             in that case there would be undefined behaviour.
-       * @return Count of available supplies for the given race (2 times bigger than the value u see in bw)
-       */
-      int getSuppliesAvailableSync(u8 race) const;
-      /**
-       * Gets synchronised version of used supplies for the given race
-       * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
-       *             in that case there would be undefined behaviour.
-       * @return Count of used supplies for the given race (2 times bigger than the value u see in bw)
-       */
-      int getSuppliesUsedSync(u8 race) const;
-      /**
-       * Gets synchronised version of max supplies for the given race
-       * @param race Race we ask for - note that the only passable race is zerg-toss-terran not other or random
-       *             in that case there would be undefined behaviour.
-       * @return Count of maximum supplies for the given race (2 times bigger than the value u see in bw)
-       */
-      int getSuppliesMaxSync(u8 race) const;
-
-      /** Gets synchronised version of minerals for the current player. */
-      int getMineralsSync() const;
-      /** Gets synchronised version of gas for the current player. */
-      int getGasSync() const;
 
       u8 id;  /**< Order of the player, is used to load player's information from the memory */
 
