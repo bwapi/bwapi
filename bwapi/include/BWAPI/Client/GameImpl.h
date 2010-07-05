@@ -66,10 +66,6 @@ namespace BWAPI
       void onMatchFrame();
       std::set<Unit*>& getPlayerUnits(const Player* player);
 
-      Force* getForce(int forceID);
-      Player* getPlayer(int playerID);
-      Unit* getUnit(int unitID);
-
       virtual std::set< Force* >& getForces();
       virtual std::set< Player* >& getPlayers();
       virtual std::set< Unit* >& getAllUnits();
@@ -80,10 +76,14 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticMinerals();
       virtual std::set< Unit* >& getStaticGeysers();
       virtual std::set< Unit* >& getStaticNeutralUnits();
-      virtual std::set< Bullet* >& getBullets();
 
+      virtual std::set< Bullet* >& getBullets();
       virtual std::list< Event>& getEvents();
-      virtual Unit *indexToUnit(int unitIndex);
+
+      virtual Force* getForce(int forceID);
+      virtual Player* getPlayer(int playerID);
+      virtual Unit* getUnit(int unitID);
+      virtual Unit* indexToUnit(int unitIndex);
 
       virtual GameType getGameType();
       virtual int getLatency();

@@ -38,7 +38,7 @@ namespace BWAPI
   //--------------------------------------------- GET PLAYER -------------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
-    return ((GameImpl*)Broodwar)->getPlayer(self->player);
+    return Broodwar->getPlayer(self->player);
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
   UnitType UnitImpl::getType() const
@@ -349,12 +349,12 @@ namespace BWAPI
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->buildUnit);
+    return Broodwar->getUnit(self->buildUnit);
   }
   //--------------------------------------------- GET TARGET -------------------------------------------------
   Unit* UnitImpl::getTarget() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->target);
+    return Broodwar->getUnit(self->target);
   }
   //--------------------------------------------- GET TARGET POSITION ----------------------------------------
   Position UnitImpl::getTargetPosition() const
@@ -369,7 +369,7 @@ namespace BWAPI
   //--------------------------------------------- GET ORDER TARGET -------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->orderTarget);
+    return Broodwar->getUnit(self->orderTarget);
   }
   //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
   Order UnitImpl::getSecondaryOrder() const
@@ -379,7 +379,7 @@ namespace BWAPI
   //--------------------------------------------- GET CHILD --------------------------------------------------
   Unit* UnitImpl::getChild() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->child);
+    return Broodwar->getUnit(self->child);
   }
   //--------------------------------------------- GET RALLY POSITION -----------------------------------------
   Position UnitImpl::getRallyPosition() const
@@ -389,22 +389,22 @@ namespace BWAPI
   //--------------------------------------------- GET RALLY UNIT ---------------------------------------------
   Unit* UnitImpl::getRallyUnit() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->rallyUnit);
+    return Broodwar->getUnit(self->rallyUnit);
   }
   //--------------------------------------------- GET ADDON --------------------------------------------------
   Unit* UnitImpl::getAddon() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->addon);
+    return Broodwar->getUnit(self->addon);
   }
   //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
   Unit* UnitImpl::getNydusExit() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->nydusExit);
+    return Broodwar->getUnit(self->nydusExit);
   }
   //--------------------------------------------- GET TRANSPORT ----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->transport);
+    return Broodwar->getUnit(self->transport);
   }
   //--------------------------------------------- GET LOADED UNITS -------------------------------------------
   std::set<Unit*> UnitImpl::getLoadedUnits() const
@@ -414,7 +414,7 @@ namespace BWAPI
   //--------------------------------------------- GET CARRIER ------------------------------------------------
   Unit* UnitImpl::getCarrier() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->carrier);
+    return Broodwar->getUnit(self->carrier);
   }
   //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
   std::set<Unit*> UnitImpl::getInterceptors() const
@@ -427,7 +427,7 @@ namespace BWAPI
   //--------------------------------------------- GET HATCHERY -----------------------------------------------
   Unit* UnitImpl::getHatchery() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->hatchery);
+    return Broodwar->getUnit(self->hatchery);
   }
   //--------------------------------------------- GET LARVA --------------------------------------------------
   std::set<Unit*> UnitImpl::getLarva() const

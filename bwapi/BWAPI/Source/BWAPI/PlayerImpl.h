@@ -86,8 +86,9 @@ namespace BWAPI
        * Constructs new player
        * @param id 0-based Index of the player (11 for resources as it is player 12)
        */
-      PlayerImpl(u8 id);
+      PlayerImpl(u8 index);
       ~PlayerImpl();
+      int getIndex() const;
       /** Gets 0-based index of the player. (11 for neutral) */
       char* getForceName() const;
       u8 getAlliance(u8 opposingID);
@@ -122,7 +123,8 @@ namespace BWAPI
       bool leftTheGame;
     private :
 
-      u8 id;  /**< Order of the player, is used to load player's information from the memory */
+      int id;
+      u8 index;  /**< Order of the player, is used to load player's information from the memory */
 
       int toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts
                                       * of units */

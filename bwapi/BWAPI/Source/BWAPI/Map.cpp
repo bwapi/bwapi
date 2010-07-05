@@ -61,8 +61,8 @@ namespace BWAPI
     }
     else
     {
-      int playerID=BroodwarImpl.BWAPIPlayer->getID();
-      int playerFlag=1 << playerID;
+      int playerIndex=BroodwarImpl.BWAPIPlayer->getIndex();
+      int playerFlag=1 << playerIndex;
       for(int x=0;x<w;x++)
       {
         for(int y=0;y<h;y++)
@@ -98,7 +98,7 @@ namespace BWAPI
     u32 value =  (*this->fogOfWar)[y][x];
     if (BroodwarImpl._isReplay())
       return (value & 255) != 255;
-    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
+    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
   }
   //--------------------------------------------- HAS EXPLORED -----------------------------------------------
   bool Map::isExplored(int x, int y) const
@@ -109,7 +109,7 @@ namespace BWAPI
     value = value >> 8;
     if (BroodwarImpl._isReplay())
       return (value & 255) != 255;
-    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getID()));
+    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
   }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const

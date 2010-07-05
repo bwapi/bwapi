@@ -11,6 +11,7 @@
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
+#include "BWAPI/PlayerImpl.h"
 #include <BWAPI/WeaponType.h>
 
 #include <BW/UnitType.h>
@@ -33,31 +34,34 @@ namespace BWAPI
       for(int i=0;i<9;i++)
       {
         if (i==selfPlayerID) continue;
-        Player* player = BroodwarImpl.server.getPlayer(i);
+        PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
         if (getOriginalRawData->sprite == NULL)
           self->isVisible[i]=false;
              //this function is only available when Broodwar is in a replay or the complete map information flag is enabled.
         else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
           self->isVisible[i]=false;
-        else if (_getPlayer == player)
+        else if (_getPlayer == (Player*)player)
           self->isVisible[i]=true;
         else if (player == NULL)
           self->isVisible[i]=false;
-        else if (player->getID()==11)
+        else if (player->isNeutral())
           self->isVisible[i]=getOriginalRawData->sprite->visibilityFlags > 0;
         else
-          self->isVisible[i]=(getOriginalRawData->sprite->visibilityFlags & (1 << player->getID())) != 0;
+          self->isVisible[i]=(getOriginalRawData->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
       }
-      if (getOriginalRawData->sprite == NULL)
-        self->isVisible[selfPlayerID] = false;
-      else if (BroodwarImpl._isReplay())
-        self->isVisible[selfPlayerID] = getOriginalRawData->sprite->visibilityFlags > 0;
-      else if (_getPlayer == BWAPI::BroodwarImpl.self())
-        self->isVisible[selfPlayerID] = true;
-      else if (makeVisible)
-        self->isVisible[selfPlayerID] = true;
-      else
-        self->isVisible[selfPlayerID] = (getOriginalRawData->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
+      if (selfPlayerID>-1)
+      {
+        if (getOriginalRawData->sprite == NULL)
+          self->isVisible[selfPlayerID] = false;
+        else if (BroodwarImpl._isReplay())
+          self->isVisible[selfPlayerID] = getOriginalRawData->sprite->visibilityFlags > 0;
+        else if (_getPlayer == BWAPI::BroodwarImpl.self())
+          self->isVisible[selfPlayerID] = true;
+        else if (makeVisible)
+          self->isVisible[selfPlayerID] = true;
+        else
+          self->isVisible[selfPlayerID] = (getOriginalRawData->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+      }
       //------------------------------------------------------------------------------------------------------
       //_getType
       if ( getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||

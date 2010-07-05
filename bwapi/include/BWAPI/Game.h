@@ -70,8 +70,17 @@ namespace BWAPI
       /** Returns the list of events */
       virtual std::list< Event >& getEvents() = 0;
 
+      /** Returns the force with the given ID, or NULL if no force has the given ID */
+      virtual Force* getForce(int forceID) = 0;
+
+      /** Returns the player with the given ID, or NULL if no player has the given ID */
+      virtual Player* getPlayer(int playerID) = 0;
+
+      /** Returns the unit with the given ID, or NULL if no unit has the given ID */
+      virtual Unit* getUnit(int unitID) = 0;
+
       /** Returns a pointer to a Unit given an index. */
-      virtual Unit *indexToUnit(int unitIndex) = 0;
+      virtual Unit* indexToUnit(int unitIndex) = 0;
 
       /** Returns the game type */
       virtual GameType getGameType() = 0;

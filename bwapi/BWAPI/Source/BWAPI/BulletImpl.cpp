@@ -2,6 +2,7 @@
 #include <BW/Bullet.h>
 #include <BW/Offsets.h>
 #include "BWAPI/GameImpl.h"
+#include "BWAPI/PlayerImpl.h"
 #include "BWAPI/UnitImpl.h"
 
 namespace BWAPI
@@ -131,7 +132,7 @@ namespace BWAPI
     //temporary until we figure out a better way to get visibility of lurker bullets
     if (_getSource()!=NULL && _getSource()->isVisible()) return true;
 
-    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << Broodwar->self()->getID())) != 0;
+    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible(BWAPI::Player* player) const
@@ -153,11 +154,11 @@ namespace BWAPI
     //temporary until we figure out a better way to get visibility of lurker bullets
     if (_getSource()!=NULL && _getSource()->isVisible(player)) return true;
 
-    int playerid=player->getID();
-    if (playerid<0 || playerid>8) //probably the neutral player so just return true if any player can see it
+    int playerIndex=((PlayerImpl*)player)->getIndex();
+    if (playerIndex<0 || playerIndex>8) //probably the neutral player so just return true if any player can see it
       return this->bwOriginalBullet->sprite->visibilityFlags > 0;
 
-    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << playerid)) != 0;
+    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << playerIndex)) != 0;
   }
   //----------------------------------------------- SET EXISTS -----------------------------------------------
   void BulletImpl::setExists(bool exists)
@@ -188,6 +189,6 @@ namespace BWAPI
     u16 index = (u16)( ((u32)bullet - (u32)BW::BWDATA_BulletNodeTable) / 112) & 0x7F;
     if (index > BW::BULLET_ARRAY_MAX_LENGTH)
       return NULL;
-    return BroodwarImpl.getBullet(index);
+    return BroodwarImpl.getBulletFromIndex(index);
   }
 }

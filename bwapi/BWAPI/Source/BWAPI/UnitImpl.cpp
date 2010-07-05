@@ -42,7 +42,7 @@ namespace BWAPI
       , startingAttack(false)
   {
     self = &data;
-    id = (int)this;
+    id = BroodwarImpl.server.getUnitID(this);
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   UnitImpl::~UnitImpl()
@@ -56,7 +56,7 @@ namespace BWAPI
   //--------------------------------------------- GET PLAYER -------------------------------------------------
   Player* UnitImpl::getPlayer() const
   {
-    return BroodwarImpl.server.getPlayer(self->player);
+    return Broodwar->getPlayer(self->player);
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
   UnitType UnitImpl::getType() const
@@ -247,12 +247,12 @@ namespace BWAPI
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
   Unit* UnitImpl::getBuildUnit() const
   {
-    return BroodwarImpl.server.getUnit(self->buildUnit);
+    return Broodwar->getUnit(self->buildUnit);
   }
   //--------------------------------------------- GET TARGET -------------------------------------------------
   Unit* UnitImpl::getTarget() const
   {
-    return BroodwarImpl.server.getUnit(self->target);
+    return Broodwar->getUnit(self->target);
   }
   //--------------------------------------------- GET TARGET POSITION ----------------------------------------
   Position UnitImpl::getTargetPosition() const
@@ -267,7 +267,7 @@ namespace BWAPI
   //--------------------------------------------- GET ORDER TARGET -------------------------------------------
   Unit* UnitImpl::getOrderTarget() const
   {
-    return BroodwarImpl.server.getUnit(self->orderTarget);
+    return Broodwar->getUnit(self->orderTarget);
   }
   //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
   Order UnitImpl::getSecondaryOrder() const
@@ -277,7 +277,7 @@ namespace BWAPI
   //--------------------------------------------- GET CHILD --------------------------------------------------
   Unit* UnitImpl::getChild() const
   {
-    return BroodwarImpl.server.getUnit(self->child);
+    return Broodwar->getUnit(self->child);
   }
   //--------------------------------------------- GET RALLY POSITION -----------------------------------------
   Position UnitImpl::getRallyPosition() const
@@ -287,22 +287,22 @@ namespace BWAPI
   //--------------------------------------------- GET RALLY UNIT ---------------------------------------------
   Unit* UnitImpl::getRallyUnit() const
   {
-    return BroodwarImpl.server.getUnit(self->rallyUnit);
+    return Broodwar->getUnit(self->rallyUnit);
   }
   //--------------------------------------------- GET ADDON --------------------------------------------------
   Unit* UnitImpl::getAddon() const
   {
-    return BroodwarImpl.server.getUnit(self->addon);
+    return Broodwar->getUnit(self->addon);
   }
   //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
   Unit* UnitImpl::getNydusExit() const
   {
-    return BroodwarImpl.server.getUnit(self->nydusExit);
+    return Broodwar->getUnit(self->nydusExit);
   }
   //--------------------------------------------- GET TRANSPORT ----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {
-    return BroodwarImpl.server.getUnit(self->transport);
+    return Broodwar->getUnit(self->transport);
   }
   //--------------------------------------------- GET LOADED UNITS -------------------------------------------
   std::set<Unit*> UnitImpl::getLoadedUnits() const
@@ -312,7 +312,7 @@ namespace BWAPI
   //--------------------------------------------- GET CARRIER ------------------------------------------------
   Unit* UnitImpl::getCarrier() const
   {
-    return BroodwarImpl.server.getUnit(self->carrier);
+    return Broodwar->getUnit(self->carrier);
   }
   //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
   std::set<Unit*> UnitImpl::getInterceptors() const
@@ -325,7 +325,7 @@ namespace BWAPI
   //--------------------------------------------- GET HATCHERY -----------------------------------------------
   Unit* UnitImpl::getHatchery() const
   {
-    return BroodwarImpl.server.getUnit(self->hatchery);
+    return Broodwar->getUnit(self->hatchery);
   }
   //--------------------------------------------- GET LARVA --------------------------------------------------
   std::set<Unit*> UnitImpl::getLarva() const
@@ -613,13 +613,13 @@ namespace BWAPI
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const
   {
-    return self->isVisible[BroodwarImpl.server.getPlayerID(Broodwar->self())];
+    return self->isVisible[Broodwar->self()->getID()];
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible(Player* player) const
   {
     if (player==NULL) return false;
-    return self->isVisible[BroodwarImpl.server.getPlayerID(player)];
+    return self->isVisible[player->getID()];
   }
   //--------------------------------------------- IS STARTING ATTACK SEQUENCE --------------------------------
   bool UnitImpl::isStartingAttackSequence() const
@@ -2064,7 +2064,7 @@ namespace BWAPI
       }
       return NULL;
     }
-    return BroodwarImpl.getUnit(index);
+    return BroodwarImpl.getUnitFromIndex(index);
   }
 
   void UnitImpl::die()
