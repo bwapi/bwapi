@@ -108,47 +108,21 @@ namespace BWAPI
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   int PlayerImpl::supplyTotal() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    int ret = self->supplyTotal[getRace().getID()];
-    return ret < getSuppliesMaxSync((u8)getRace().getID()) ? ret : getSuppliesMaxSync((u8)getRace().getID());
+    return self->supplyTotal[getRace().getID()];
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   int PlayerImpl::supplyUsed() const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
     return self->supplyUsed[getRace().getID()];
   }
   //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    int ret = self->supplyTotal[race.getID()];
-    return ret < getSuppliesMaxSync((u8)race.getID()) ? ret : getSuppliesMaxSync((u8)race.getID());
+    return self->supplyTotal[race.getID()];
   }
   //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
     return self->supplyUsed[race.getID()];
   }
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
@@ -363,16 +337,6 @@ namespace BWAPI
       armor += 2;
     return armor;
   }
-  //---------------------------------------------- GET MINERALS ----------------------------------------------
-  int PlayerImpl::getMineralsSync() const
-  {
-    return BW::BWDATA_PlayerResources->minerals.player[this->getID()];
-  }
-  //------------------------------------------------ GET GAS -------------------------------------------------
-  int PlayerImpl::getGasSync() const
-  {
-    return BW::BWDATA_PlayerResources->gas.player[this->getID()];
-  }
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
   BW::Unit** PlayerImpl::selectedUnit()
   {
@@ -390,15 +354,28 @@ namespace BWAPI
     }
     else
     {
-      self->minerals = getMineralsSync();
-      self->gas      = getGasSync();
+      self->minerals           = BW::BWDATA_PlayerResources->minerals.player[id];
+      self->gas                = BW::BWDATA_PlayerResources->gas.player[id];
       self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[id];
       self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[id];
     }
-    for (u8 i = 0; i < 3; i++)
+    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
-      self->supplyTotal[i] = this->getSuppliesAvailableSync(i);
-      self->supplyUsed[i] = this->getSuppliesUsedSync(i);
+      for (u8 i = 0; i < 3; i++)
+      {
+        self->supplyTotal[i] = 0;
+        self->supplyUsed[i] = 0;
+      }
+    }
+    else
+    {
+      for (u8 i = 0; i < 3; i++)
+      {
+        self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].available.player[id];
+        if (self->supplyTotal[i] > BW::BWDATA_Supplies->race[i].max.player[id])
+          self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].max.player[id];
+        self->supplyUsed[i] = BW::BWDATA_Supplies->race[i].used.player[id];
+      }
     }
     if (BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::PlayerLeft ||
         BW::BWDATA_Players->player[this->getID()].nType  == BW::PlayerType::ComputerLeft ||
@@ -415,22 +392,6 @@ namespace BWAPI
     self->minerals -= minerals;
     self->gas      -= gas;
   }
-  //------------------------------------------ GET SUPPLY AVAILABLE ------------------------------------------
-  int PlayerImpl::getSuppliesAvailableSync(u8 race) const
-  {
-    int ret = BW::BWDATA_Supplies->race[race].available.player[this->getID()];
-    return ret < getSuppliesMaxSync(race) ? ret : getSuppliesMaxSync(race);
-  }
-  //-------------------------------------------- GET SUPPLY USED ---------------------------------------------
-  int PlayerImpl::getSuppliesUsedSync(u8 race) const
-  {
-    return BW::BWDATA_Supplies->race[race].used.player[this->getID()];
-  }
-  //--------------------------------------------- GET SUPPLY MAX ---------------------------------------------
-  int PlayerImpl::getSuppliesMaxSync(u8 race) const
-  {
-    return BW::BWDATA_Supplies->race[race].max.player[this->getID()];
-  }
   //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
   void PlayerImpl::useSupplies(int supplies, u8 race)
   {
@@ -445,11 +406,6 @@ namespace BWAPI
   u8 PlayerImpl::getForce()
   {
     return BW::BWDATA_Players->player[this->getID()].nTeam;
-  }
-  //----------------------------------------------- GET FIRST ------------------------------------------------
-  UnitImpl* PlayerImpl::getFirst()
-  {
-    return UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_UnitNodeTable_PlayerFirstUnit[getID()]);
   }
   //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
   int PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const
