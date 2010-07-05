@@ -11,6 +11,10 @@ namespace BWAPI
     this->self=&(BWAPI::BWAPIClient.data->forces[id]);
     this->id=id;
   }
+  int ForceImpl::getID() const
+  {
+    return id;
+  }
   std::string ForceImpl::getName() const
   {
     return std::string(this->self->name);
