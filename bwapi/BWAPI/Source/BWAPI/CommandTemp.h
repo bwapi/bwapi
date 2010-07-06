@@ -1,4 +1,4 @@
-#include "Command.h"
+#pragma once
 #include <BWAPI/Game.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/TilePosition.h>
@@ -8,23 +8,34 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/UnitCommandType.h>
-#include <BWAPI/Client/UnitImpl.h>
-#include <BWAPI/Client/PlayerImpl.h>
 namespace BWAPI
 {
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Command::Command(UnitCommand command) : command(command)
+  template <class UnitImpl, class PlayerImpl>
+  class CommandTemp
+  {
+    public :
+      CommandTemp(UnitCommand command);
+      void execute();
+    private :
+      int getUnitID(Unit* unit);
+      UnitCommand command;
+      int startFrame;
+      int savedExtra;
+  };
+  template <class UnitImpl, class PlayerImpl>
+  CommandTemp<UnitImpl, PlayerImpl>::CommandTemp(UnitCommand command) : command(command)
   {
     startFrame = Broodwar->getFrameCount();
     savedExtra = -1;
   }
-  int getUnitID(Unit* unit)
+  template <class UnitImpl, class PlayerImpl>
+  int CommandTemp<UnitImpl, PlayerImpl>::getUnitID(Unit* unit)
   {
     if (unit==NULL) return -1;
     return unit->getID();
   }
-  //------------------------------------------------ EXECUTE -------------------------------------------------
-  void Command::execute()
+  template <class UnitImpl, class PlayerImpl>
+  void CommandTemp<UnitImpl, PlayerImpl>::execute()
   {
     UnitImpl* unit   = (UnitImpl*)command.unit;
     UnitImpl* target = (UnitImpl*)command.target;
@@ -684,4 +695,6 @@ namespace BWAPI
       }
     }
   }
+
+
 };

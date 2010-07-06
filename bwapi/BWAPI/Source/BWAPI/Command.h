@@ -1,15 +1,13 @@
 #pragma once
-#include <BWAPI/UnitCommand.h>
+#include "UnitImpl.h"
+#include "PlayerImpl.h"
+#include "CommandTemp.h"
+
 namespace BWAPI
 {
-  class Command
+  class Command : public CommandTemp<BWAPI::UnitImpl,BWAPI::PlayerImpl>
   {
-    public :
-      Command(UnitCommand command);
-      void execute();
-    private :
-      UnitCommand command;
-      int startFrame;
-      int savedExtra;
+    public:
+      Command(UnitCommand command) : CommandTemp<BWAPI::UnitImpl,BWAPI::PlayerImpl>(command) {}
   };
-};
+}
