@@ -319,7 +319,12 @@ namespace BWAPI
         data->units[(*i)->getID()] = ((UnitImpl*)(*i))->data;
 
       for(int i=0;i<1700;i++)
-        data->unitArray[i] = getUnitID(Broodwar->indexToUnit(i));
+      {
+        Unit* u=Broodwar->indexToUnit(i);
+        int id=-1;
+        if (u!=NULL) id=u->getID();
+        data->unitArray[i] = id;
+      }
 
       //dynamic bullet data
       for(int id=0;id<100;id++)

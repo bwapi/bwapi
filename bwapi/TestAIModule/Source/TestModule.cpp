@@ -29,7 +29,10 @@ void TestModule::onFrame()
   }
   runTestCases();
 }
-
+void TestModule::onUnitDestroy(Unit* unit)
+{
+  Broodwar->printf("A %s [%x] has been destroyed",unit->getType().getName().c_str(),unit);
+}
 void TestModule::runTestCases()
 {
   if (currentTestCase==NULL && testCases.empty()==false)
