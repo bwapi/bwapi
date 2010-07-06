@@ -198,8 +198,22 @@ namespace BWAPI
       }
       else if (data->events[e].type==EventType::UnitHide)
       {
-        accessibleUnits.erase(&unitVector[id]);
+        if (Broodwar->isFlagEnabled(Flag::CompleteMapInformation)==false)
+          accessibleUnits.erase(&unitVector[id]);
       }
+    }
+    if (getFrameCount()==1 && isFlagEnabled(Flag::CompleteMapInformation)==true)
+    {
+      for(int i=0;i<1700;i++)
+      {
+        int id = data->unitArray[i];
+        if (id>=0 && data->units[id].exists)
+        {
+          notDestroyedUnits.insert(&unitVector[id]);
+          accessibleUnits.insert(&unitVector[id]);
+        }
+      }
+
     }
     foreach(Unit* u, accessibleUnits)
     {
