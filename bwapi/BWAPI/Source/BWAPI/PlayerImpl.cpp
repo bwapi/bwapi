@@ -16,6 +16,11 @@ namespace BWAPI
   {
     id = -1;
     self=&data;
+    for(int i=55;i<63;i++)
+    {
+      self->upgradeLevel[i] = 0;
+      self->isUpgrading[i]  = 0;
+    }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   PlayerImpl::~PlayerImpl()
@@ -196,70 +201,25 @@ namespace BWAPI
     }
     return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType((u16)unit.getID()));
   }
-  //------------------------------------------ RESEARCH IN PROGRESS ------------------------------------------
-  bool PlayerImpl::isResearching(BWAPI::TechType tech) const
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return false;
-    }
-    Util::BitMask<u64>* techs = (Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + index * 6);
-    return techs->getBit(1 << tech.getID());
-  }
-  //-------------------------------------------- TECH RESEARCHED ---------------------------------------------
-  bool PlayerImpl::hasResearched(BWAPI::TechType tech) const
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return false;
-    }
-    if (tech.whatResearches()==UnitTypes::None)
-    {
-      return true;
-    }
-    if (tech.getID() < 0x18)
-      return *((u8*)(BW::BWDATA_TechResearchSC + index * 0x18 + tech.getID())) == 1;
-    else
-      return *((u8*)(BW::BWDATA_TechResearchBW + index * 0x14 + tech.getID() - 0x18)) == 1;
-  }
-  //------------------------------------------ UPGRADE IN PROGRESS -------------------------------------------
-  bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return false;
-    }
-    return BW::BWDATA_UpgradeProgress->player[index].getBit(1 << upgrade.getID());
-  }
-  //--------------------------------------------- UPGRADE LEVEL ----------------------------------------------
+  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    if (upgrade.getID() < 46)
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + index * 46 + upgrade.getID())));
-    else
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + index * 15 + upgrade.getID() - 46)));
+    return self->upgradeLevel[upgrade.getID()];
   }
-  int PlayerImpl::_getUpgradeLevel(u8 id)
+  //--------------------------------------------- HAS RESEARCHED ---------------------------------------------
+  bool PlayerImpl::hasResearched(TechType tech) const
   {
-    if (id >= BW::UPGRADE_TYPE_COUNT)
-      return 0;
-
-    if (id < 46)
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + index * 46 + id)));
-    else
-      return (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + index * 15 + id - 46)));
+    return self->hasResearched[tech.getID()];
+  }
+  //--------------------------------------------- iS RESEARCHING ---------------------------------------------
+  bool PlayerImpl::isResearching(TechType tech) const
+  {
+    return self->isResearching[tech.getID()];
+  }
+  //--------------------------------------------- IS UPGRADING -----------------------------------------------
+  bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
+  {
+    return self->isUpgrading[upgrade.getID()];
   }
   //---------------------------------------------- MAX ENERGY ------------------------------------------------
   int PlayerImpl::maxEnergy(UnitType unit) const
@@ -362,6 +322,14 @@ namespace BWAPI
       self->gas      = 0;
       self->cumulativeMinerals = 0;
       self->cumulativeGas      = 0;
+      for(int i=0;i<55;i++)
+        self->upgradeLevel[i]  = 0;
+      for(int i=0;i<47;i++)
+        self->hasResearched[i] = 0;
+      for(int i=0;i<55;i++)
+        self->isUpgrading[i]   = 0;
+      for(int i=0;i<47;i++)
+        self->isResearching[i] = 0;
     }
     else
     {
@@ -369,6 +337,28 @@ namespace BWAPI
       self->gas                = BW::BWDATA_PlayerResources->gas.player[index];
       self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals.player[index];
       self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas.player[index];
+      for(int i=0;i<46;i++)
+        self->upgradeLevel[i] = (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + index * 46 + i)));
+      for(int i=46;i<55;i++)
+        self->upgradeLevel[i] = (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + index * 15 + i - 46)));
+      for(int i=0;i<24;i++)
+      {
+        if (TechType(i).whatResearches()==UnitTypes::None)
+          self->hasResearched[i] = true;
+        else
+          self->hasResearched[i] = (*((u8*)(BW::BWDATA_TechResearchSC + index * 0x18 + i)) == 1);
+      }
+      for(int i=24;i<47;i++)
+      {
+        if (TechType(i).whatResearches()==UnitTypes::None)
+          self->hasResearched[i] = true;
+        else
+          self->hasResearched[i] = (*((u8*)(BW::BWDATA_TechResearchBW + index * 0x14 + i - 0x18)) == 1);
+      }
+      for(int i=0;i<55;i++)
+        self->isUpgrading[i]   = BW::BWDATA_UpgradeProgress->player[index].getBit(1 << i);
+      for(int i=0;i<47;i++)
+        self->isResearching[i] = ((Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + index * 6))->getBit(1 << i);
     }
     if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {

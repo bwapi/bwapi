@@ -349,6 +349,7 @@ namespace BWAPI
         p->self->minerals -= techType.mineralPrice();
         p->self->gas      -= techType.gasPrice();
       }
+      p->self->isResearching[techType.getID()] = true;
     }
     else if (command.type == UnitCommandTypes::Return_Cargo)
     {
@@ -496,6 +497,7 @@ namespace BWAPI
         p->self->minerals -= upgradeType.mineralPriceBase() + upgradeType.mineralPriceFactor()*level;
         p->self->gas      -= upgradeType.gasPriceBase()     + upgradeType.gasPriceFactor()*level;
       }
+      p->self->isUpgrading[upgradeType.getID()] = true;
     }
     else if (command.type == UnitCommandTypes::Use_Tech)
     {
