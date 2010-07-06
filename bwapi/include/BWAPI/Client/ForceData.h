@@ -1,6 +1,6 @@
 #pragma once
 
-namespace BWAPIC
+namespace BWAPI
 {
   struct ForceData
   {

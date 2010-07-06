@@ -11,7 +11,7 @@ namespace BWAPI
   class BulletImpl : public Bullet
   {
     private:
-      const BWAPIC::BulletData* self;
+      const BulletData* self;
       int index;
     public:
 

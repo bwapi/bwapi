@@ -22,7 +22,7 @@ namespace BWAPI
     Player* getPlayer(int id);
     int getUnitID(Unit* unit);
     Unit* getUnit(int id);
-    BWAPIC::GameData* data;
+    GameData* data;
     private:
     void clearAll();
     void onMatchStart();

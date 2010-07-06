@@ -723,6 +723,11 @@ namespace BWAPI
     if (player==NULL) return false;
     return self->isVisible[player->getID()];
   }
+  //--------------------------------------------- GET DATA ---------------------------------------------------
+  UnitData* UnitImpl::getData()
+  {
+    return self;
+  }
   bool UnitImpl::issueCommand(UnitCommand command)
   {
     BWAPIC::UnitCommand c;

@@ -27,11 +27,11 @@ namespace BWAPI
     c.WriteTotalTimeoutMultiplier = 100;
     c.WriteTotalTimeoutConstant = 2000;
     SetCommTimeouts(pipeObjectHandle,&c);
-    int size=sizeof(BWAPIC::GameData);
+    int size=sizeof(GameData);
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
     if (mapFileHandle == INVALID_HANDLE_VALUE)
       Util::Logger::globalLog->log("Error: unable to make shared memory");
-    data = (BWAPIC::GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
+    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
     initializeSharedMemory();
     connected=false;
   }
@@ -186,7 +186,7 @@ namespace BWAPI
     for(std::set<Player*>::iterator i=Broodwar->getPlayers().begin();i!=Broodwar->getPlayers().end();i++)
     {
       int id=getPlayerID(*i);
-      BWAPIC::PlayerData* p=&(data->players[id]);
+      PlayerData* p=&(data->players[id]);
 
       strncpy(p->name,(*i)->getName().c_str(),32);
       p->race  = (*i)->getRace().getID();
@@ -281,8 +281,8 @@ namespace BWAPI
       for(std::set<Player*>::iterator i=Broodwar->getPlayers().begin();i!=Broodwar->getPlayers().end();i++)
       {
         int id                = getPlayerID(*i);
-        BWAPIC::PlayerData* p = &(data->players[id]);
-        BWAPIC::PlayerData* p2 = ((PlayerImpl*)(*i))->self;
+        PlayerData* p = &(data->players[id]);
+        PlayerData* p2 = ((PlayerImpl*)(*i))->self;
 
         p->isVictorious       = (*i)->isVictorious();
         p->isDefeated         = (*i)->isDefeated();
@@ -327,7 +327,7 @@ namespace BWAPI
       //dynamic bullet data
       for(int id=0;id<100;id++)
       {
-        BWAPIC::BulletData* b = &(data->bullets[id]);
+        BulletData* b = &(data->bullets[id]);
         Bullet* b2 = (Bullet*)BroodwarImpl.getBulletFromIndex(id);
         b->exists = b2->exists();
         if (b->exists)

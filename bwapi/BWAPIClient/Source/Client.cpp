@@ -37,7 +37,7 @@ namespace BWAPI
     mapFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_shared_memory");
     if (mapFileHandle == INVALID_HANDLE_VALUE)
       return false;
-    data = (BWAPIC::GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(BWAPIC::GameData));
+    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameData));
     if (BWAPI::Broodwar!=NULL)
       delete (GameImpl*)BWAPI::Broodwar;
     BWAPI::Broodwar = new GameImpl(data);

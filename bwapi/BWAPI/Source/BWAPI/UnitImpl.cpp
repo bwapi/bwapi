@@ -749,6 +749,11 @@ namespace BWAPI
       return this->_getPlayer->getUpgradeLevel(upgrade);
     return 0;
   }
+  //--------------------------------------------- GET DATA ---------------------------------------------------
+  UnitData* UnitImpl::getData()
+  {
+    return self;
+  }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
   {

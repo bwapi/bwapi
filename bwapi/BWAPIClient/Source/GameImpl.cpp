@@ -14,7 +14,7 @@ namespace BWAPI
   char buffer[BUFFER_SIZE];
 
   Game* Broodwar = NULL;
-  GameImpl::GameImpl(BWAPIC::GameData* data)
+  GameImpl::GameImpl(GameData* data)
   {
     this->data=data;
     for(int i=0;i<4;i++)

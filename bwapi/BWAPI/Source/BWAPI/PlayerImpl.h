@@ -73,6 +73,9 @@ namespace BWAPI
       virtual bool isUpgrading(UpgradeType upgrade) const;
 
       virtual int maxEnergy(UnitType unit) const;
+
+      virtual PlayerData* getData();
+
       double topSpeed(UnitType unit) const;
       int groundWeaponMaxRange(UnitType unit) const;
       int airWeaponMaxRange(UnitType unit) const;
@@ -97,9 +100,6 @@ namespace BWAPI
 
       int PlayerImpl::_getUpgradeLevel(u8 id);
 
-      /** Modifies the local version of resources according to the specification - @ref localData */
-      void spend(int minerals, int gas);
-
       /** Gets the bw mapping of synchronised version of selected unit for current player */
       BW::Unit** selectedUnit();
       /**
@@ -107,17 +107,8 @@ namespace BWAPI
        * performed
        */
       void updateData();
-      BWAPIC::PlayerData data;
-      BWAPIC::PlayerData* self;
-
-      void planToMake(BWAPI::UnitType unit);
-
-      /**
-       * Order to use (reserve) certain amount of supplies in the local version - @ref localData
-       * @param supplies Amount of supplies to reserve.
-       * @param race Race we want to affect.
-       */
-      void useSupplies(int supplies, u8 race);
+      PlayerData data;
+      PlayerData* self;
       void onGameEnd();
       std::set<Unit*> units;
       bool leftTheGame;

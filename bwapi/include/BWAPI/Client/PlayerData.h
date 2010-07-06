@@ -1,18 +1,18 @@
 #pragma once
 
-namespace BWAPIC
+namespace BWAPI
 {
   struct PlayerData
   {
-    char name[25];  // size as BW memory
-    int race;
-    int type;
-    int force;
-    bool isAlly[12];       // index correlated with players
-    bool isEnemy[12];       // index correlated with players
+    char name[25];
+    int  race;
+    int  type;
+    int  force;
+    bool isAlly[12];
+    bool isEnemy[12];
     bool isNeutral;
-    int startLocationX;
-    int startLocationY;
+    int  startLocationX;
+    int  startLocationY;
     bool isVictorious;
     bool isDefeated;
     bool leftGame;
