@@ -304,13 +304,13 @@ namespace BWAPI
         }
         for(int j=0;j<63;j++)
         {
-          p->upgradeLevel[j] = (*i)->getUpgradeLevel(UpgradeType(j));
-          p->isUpgrading[j]  = (*i)->isUpgrading(UpgradeType(j));
+          p->upgradeLevel[j] = p2->upgradeLevel[j];
+          p->isUpgrading[j]  = p2->isUpgrading[j];
         }
         for(int j=0;j<47;j++)
         {
-          p->hasResearched[j] = (*i)->hasResearched(TechType(j));
-          p->isResearching[j] = (*i)->isResearching(TechType(j));
+          p->hasResearched[j] = p2->hasResearched[j];
+          p->isResearching[j] = p2->isResearching[j];
         }
       }
 

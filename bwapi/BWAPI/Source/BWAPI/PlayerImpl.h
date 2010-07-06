@@ -97,7 +97,6 @@ namespace BWAPI
       void setID(int newID);
       ForceImpl* force;
 
-      int PlayerImpl::_getUpgradeLevel(u8 id);
 
       /** Gets the bw mapping of synchronised version of selected unit for current player */
       BW::Unit** selectedUnit();
