@@ -443,10 +443,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BWAPI\Command.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BWAPI\ForceImpl.cpp"
 					>
 				</File>
@@ -516,6 +512,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\Command.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\CommandTemp.h"
 					>
 				</File>
 				<File
