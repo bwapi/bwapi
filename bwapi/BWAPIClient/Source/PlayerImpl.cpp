@@ -153,4 +153,8 @@ namespace BWAPI
       energy+=50;
     return energy;
   }
+  PlayerData* PlayerImpl::getData()
+  {
+    return self;
+  }
 }

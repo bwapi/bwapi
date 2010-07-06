@@ -274,6 +274,10 @@ namespace BWAPI
       energy += 50;
     return energy;
   }
+  PlayerData* PlayerImpl::getData()
+  {
+    return self;
+  }
   //---------------------------------------------- TOP SPEED -------------------------------------------------
   double PlayerImpl::topSpeed(UnitType unit) const
   {
@@ -392,17 +396,6 @@ namespace BWAPI
     for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
       this->toMake[j] = 0;
   }
-  //---------------------------------------------- SPEND LOCAL -----------------------------------------------
-  void  PlayerImpl::spend(int minerals, int gas)
-  {
-    self->minerals -= minerals;
-    self->gas      -= gas;
-  }
-  //--------------------------------------- USE SUPPLIES PROTOSS LOCAL ---------------------------------------
-  void PlayerImpl::useSupplies(int supplies, u8 race)
-  {
-    self->supplyUsed[race] += supplies;
-  }
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
   u8 PlayerImpl::getAlliance(u8 opposingID)
   {
@@ -419,11 +412,6 @@ namespace BWAPI
     if(unit.getID() < BW::UnitID::None)
       return counts.unit[unit.getID()].player[index];
     return 0;
-  }
-  //------------------------------------------- PLAN TO MAKE -------------------------------------------------
-  void PlayerImpl::planToMake(UnitType unit)
-  {
-    this->toMake[unit.getID()]++;
   }
   //------------------------------------------- GET FORCE NAME -----------------------------------------------
   char* PlayerImpl::getForceName() const

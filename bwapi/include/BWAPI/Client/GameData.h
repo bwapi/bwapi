@@ -9,7 +9,7 @@
 #include "Command.h"
 #include "Shape.h"
 
-namespace BWAPIC
+namespace BWAPI
 {
   struct GameData
   {
@@ -84,7 +84,7 @@ namespace BWAPIC
 
     //events from server to client
     int eventCount;
-    Event events[1000];
+    BWAPIC::Event events[1000];
 
     //strings (used in events, shapes, and commands)
     int stringCount;
@@ -92,13 +92,13 @@ namespace BWAPIC
 
     //shapes, commands, unitCommands, from client to server
     int shapeCount;
-    Shape shapes[10000];
+    BWAPIC::Shape shapes[10000];
 
     int commandCount;
-    Command commands[10000];
+    BWAPIC::Command commands[10000];
 
     int unitCommandCount;
-    UnitCommand unitCommands[10000];
+    BWAPIC::UnitCommand unitCommands[10000];
 
   };
 }

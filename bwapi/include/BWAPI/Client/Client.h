@@ -14,7 +14,7 @@ namespace BWAPI
     public:
     Client();
     ~Client();
-    BWAPIC::GameData* data;
+    GameData* data;
     bool isConnected();
     bool connect();
     void disconnect();

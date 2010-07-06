@@ -44,7 +44,7 @@ namespace BWAPI
   {
     int w=buildability.getWidth();
     int h=buildability.getHeight();
-    BWAPIC::GameData* data = BroodwarImpl.server.data;
+    GameData* data = BroodwarImpl.server.data;
     bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
     if (BroodwarImpl._isReplay())
     {

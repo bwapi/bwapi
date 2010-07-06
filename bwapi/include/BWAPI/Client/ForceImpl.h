@@ -12,7 +12,7 @@ namespace BWAPI
   class ForceImpl : public Force
   {
     private:
-      const BWAPIC::ForceData* self;
+      const ForceData* self;
       int id;
     public:
       ForceImpl(int id);

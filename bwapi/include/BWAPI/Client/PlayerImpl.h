@@ -11,7 +11,7 @@ namespace BWAPI
   class PlayerImpl : public Player
   {
     private:
-      const BWAPIC::PlayerData* self;
+      PlayerData* self;
       int id;
     public:
       std::set<Unit*> units;
@@ -53,5 +53,6 @@ namespace BWAPI
       virtual bool isUpgrading(UpgradeType upgrade) const;
 
       virtual int maxEnergy(UnitType unit) const;
+      virtual PlayerData* getData();
   };
 };

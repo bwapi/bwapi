@@ -1,5 +1,4 @@
 #pragma once
-#include "Command.h"
 #include <BWAPI/UnitCommand.h>
 namespace BWAPI
 {

@@ -10,7 +10,7 @@ namespace BWAPI
   class UnitImpl : public Unit
   {
     private:
-      const BWAPIC::UnitData* self;
+      UnitData* self;
       int id;
       UnitType initialType;
       int initialResources;
@@ -142,7 +142,9 @@ namespace BWAPI
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;
 
+      virtual UnitData* getData();
       virtual bool issueCommand(UnitCommand command);
+
       virtual bool attackMove(Position position);
       virtual bool attackUnit(Unit* target);
       virtual bool rightClick(Position position);

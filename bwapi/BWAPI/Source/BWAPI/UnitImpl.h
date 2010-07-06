@@ -154,7 +154,9 @@ namespace BWAPI
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;
 
+      virtual UnitData* getData();
       virtual bool issueCommand(UnitCommand command);
+
       virtual bool attackMove(Position position);
       virtual bool attackUnit(Unit* target);
       virtual bool rightClick(Position position);
@@ -238,8 +240,8 @@ namespace BWAPI
 
       void saveInitialInformation();
       void updateData();
-      BWAPIC::UnitData data;
-      BWAPIC::UnitData* self;
+      UnitData data;
+      UnitData* self;
 
       bool dead;
       bool userSelected;
