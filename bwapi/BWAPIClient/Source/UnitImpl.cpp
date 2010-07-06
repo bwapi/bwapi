@@ -3,7 +3,7 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
-
+#include "Command.h"
 #include <Util\Foreach.h>
 
 #include <string>
@@ -324,7 +324,7 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE ------------------------------------------------
   UpgradeType UnitImpl::getUpgrade() const
   {
-    return UpgradeType(self->tech);
+    return UpgradeType(self->upgrade);
   }
   //--------------------------------------------- GET REMAINING BUILD TIME -----------------------------------
   int UnitImpl::getRemainingBuildTime() const
@@ -723,11 +723,6 @@ namespace BWAPI
     if (player==NULL) return false;
     return self->isVisible[player->getID()];
   }
-  //--------------------------------------------- GET DATA ---------------------------------------------------
-  UnitData* UnitImpl::getData()
-  {
-    return self;
-  }
   bool UnitImpl::issueCommand(UnitCommand command)
   {
     BWAPIC::UnitCommand c;
@@ -740,6 +735,7 @@ namespace BWAPI
     c.x=command.x;
     c.y=command.y;
     c.extra=command.extra;
+    Command(command).execute();
     ((GameImpl*)Broodwar)->addUnitCommand(c);
     return true;
   }

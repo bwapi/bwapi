@@ -25,6 +25,7 @@ void TestModule::onFrame()
   {
     Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()-16,"%s",u->getType().getName().c_str());
     Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"%s",u->getOrder().getName().c_str());
+    Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()+16,"ID: %d",u->getID());
   }
   runTestCases();
 }

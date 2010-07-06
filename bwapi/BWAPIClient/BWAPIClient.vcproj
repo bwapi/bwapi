@@ -160,6 +160,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\Command.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\ForceImpl.cpp"
 				>
 			</File>
@@ -195,6 +199,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Client\Command.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Command.h"
 				>
 			</File>
 			<File

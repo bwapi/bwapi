@@ -123,8 +123,5 @@ namespace BWAPI
 
       /** Returns the max energy of the given unit type, taking into account upgrades */
       virtual int maxEnergy(UnitType unit) const = 0;
-
-      /** Returns a pointer to the Player's internal PlayerData struct */
-      virtual PlayerData* getData() = 0;
   };
 };

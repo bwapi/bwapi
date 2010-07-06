@@ -8,8 +8,8 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/UnitCommandType.h>
-#include "UnitImpl.h"
-#include "PlayerImpl.h"
+#include <BWAPI/Client/UnitImpl.h>
+#include <BWAPI/Client/PlayerImpl.h>
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------

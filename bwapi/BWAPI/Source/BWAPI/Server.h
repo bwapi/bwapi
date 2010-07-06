@@ -23,8 +23,8 @@ namespace BWAPI
     int getUnitID(Unit* unit);
     Unit* getUnit(int id);
     GameData* data;
-    private:
     void clearAll();
+    private:
     void onMatchStart();
     void checkForConnections();
     void initializeSharedMemory();

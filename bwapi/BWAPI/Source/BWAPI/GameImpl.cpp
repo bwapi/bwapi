@@ -68,6 +68,7 @@ namespace BWAPI
       , inUpdate(false)
       , inGame(false)
       , calledOnEnd(false)
+      , frameCount(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -861,6 +862,8 @@ namespace BWAPI
       foreach (UnitImpl* i, unitList)
       {
         i->_exists = true;
+        if (i->getID()==-1)
+          i->setID(server.getUnitID(i));
         i->connectedUnits.clear();
         i->loadedUnits.clear();
       }
@@ -1695,9 +1698,12 @@ namespace BWAPI
     /* get force names */
     std::set<std::string> force_names;
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
+    this->server.clearAll();
+
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
+        players[i]->setID(server.getPlayerID(players[i]));
         force_names.insert(std::string(this->players[i]->getForceName()));
         this->playerSet.insert(this->players[i]);
       }
@@ -1712,12 +1718,14 @@ namespace BWAPI
 
     /* create ForceImpl for players */
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
+    {
       if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
       {
         ForceImpl* force = force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
         force->players.insert(this->players[i]);
         this->players[i]->force = force;
       }
+    }
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
 
     canvas = BW::CreateCanvas("Canvas");
@@ -1945,11 +1953,13 @@ namespace BWAPI
       unitArray[i]->lastType          = UnitTypes::Unknown;
       unitArray[i]->lastPlayer        = NULL;
       unitArray[i]->nukeDetected      = false;
+      unitArray[i]->setID(-1);
     }
     this->cheatFlags  = 0;
     this->bulletCount = 0;
     this->calledOnEnd = false;
     this->loadAutoMenuData();
+    this->server.clearAll();
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()

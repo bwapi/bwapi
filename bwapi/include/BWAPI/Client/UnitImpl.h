@@ -10,13 +10,13 @@ namespace BWAPI
   class UnitImpl : public Unit
   {
     private:
-      UnitData* self;
       int id;
       UnitType initialType;
       int initialResources;
       int initialHitPoints;
       Position initialPosition;
     public:
+      UnitData* self;
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
       void clear();
@@ -142,7 +142,6 @@ namespace BWAPI
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;
 
-      virtual UnitData* getData();
       virtual bool issueCommand(UnitCommand command);
 
       virtual bool attackMove(Position position);

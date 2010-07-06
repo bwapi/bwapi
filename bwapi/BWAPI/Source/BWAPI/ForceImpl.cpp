@@ -5,7 +5,11 @@ namespace BWAPI
   ForceImpl::ForceImpl(std::string name)
   {
     this->name = name;
-    this->id = BroodwarImpl.server.getForceID(this); 
+    this->id = -1;
+  }
+  void ForceImpl::setID(int newID)
+  {
+    id = newID;
   }
   int ForceImpl::getID() const
   {

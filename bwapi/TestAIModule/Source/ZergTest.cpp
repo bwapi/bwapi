@@ -19,6 +19,7 @@ void ZergTest::onStart()
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Drone));
+  return;
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hatchery));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
