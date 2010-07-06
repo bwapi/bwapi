@@ -42,11 +42,16 @@ namespace BWAPI
       , startingAttack(false)
   {
     self = &data;
-    id = BroodwarImpl.server.getUnitID(this);
+    id = -1;
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   UnitImpl::~UnitImpl()
   {
+  }
+  //--------------------------------------------- REVOKE ID --------------------------------------------------
+  void UnitImpl::setID(int newID)
+  {
+    id = newID;
   }
   //--------------------------------------------- GET ID -----------------------------------------------------
   int UnitImpl::getID() const
@@ -749,11 +754,6 @@ namespace BWAPI
       return this->_getPlayer->getUpgradeLevel(upgrade);
     return 0;
   }
-  //--------------------------------------------- GET DATA ---------------------------------------------------
-  UnitData* UnitImpl::getData()
-  {
-    return self;
-  }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
   {
@@ -853,11 +853,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackMove(this,position)));
@@ -868,17 +864,12 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
-
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
 
     WeaponType weapon = this->getType().groundWeapon();
     if (target->isLifted() || target->getType().isFlyer())
@@ -908,11 +899,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
+
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position((u16)position.x(), (u16)position.y())), sizeof(BW::Orders::RightClick));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,position)));
@@ -923,17 +911,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
     if (!target->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(target->getPlayer()))
     {
       WeaponType weapon = this->getType().groundWeapon();
@@ -965,6 +949,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (!Broodwar->canMake(this,type1))
       return false;
 
@@ -1014,6 +999,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (!Broodwar->canMake(this,type1))
       return false;
 
@@ -1044,6 +1030,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (!type1.isAddon())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1056,6 +1043,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (!Broodwar->canResearch(this,tech))
       return false;
     if (this->isLifted() || !this->isIdle() || !this->isCompleted())
@@ -1075,6 +1063,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (!Broodwar->canUpgrade(this,upgrade))
       return false;
     if (this->isLifted() || !this->isIdle() || !this->isCompleted())
@@ -1094,11 +1083,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     this->orderSelect();
     int tUnitType = _getType.getID();
     if (tUnitType == BW::UnitID::Protoss_Reaver ||
@@ -1117,11 +1102,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::holdPosition(this)));
@@ -1132,11 +1113,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType().isBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1152,17 +1129,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
     if (this->getType().isBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1178,11 +1151,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!this->getType().canProduce())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1198,17 +1167,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
     if (!this->getType().canProduce())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1224,17 +1189,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
     if (this->getType() != UnitTypes::Terran_SCV || target->getType().isOrganic())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1250,11 +1211,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!this->getType().isWorker())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1275,6 +1232,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (!Broodwar->canMake(this,type))
       return false;
 
@@ -1303,11 +1261,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!this->getType().isBurrowable())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1332,11 +1286,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
+
     if (!this->getType().isBurrowable())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1361,11 +1312,8 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
+
     if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode &&
         this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
     {
@@ -1391,11 +1339,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode &&
         this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
     {
@@ -1421,11 +1365,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType()!=UnitTypes::Terran_Wraith && this->getType()!=UnitTypes::Terran_Ghost)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1470,11 +1410,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType()!=UnitTypes::Terran_Wraith && this->getType()!=UnitTypes::Terran_Ghost)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1500,11 +1436,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!this->getType().isFlyingBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1523,11 +1455,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!this->getType().isFlyingBuilding())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
@@ -1546,17 +1474,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
     this->orderSelect();
     bool loaded = false;
     if (this->getType() == UnitTypes::Terran_Bunker)
@@ -1588,17 +1512,13 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
+    checkOwnership();
     if (target == NULL)
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UnloadUnit((UnitImpl*)target), sizeof(BW::Orders::UnloadUnit));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unload(this,target)));
@@ -1609,11 +1529,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType() == UnitTypes::Terran_Dropship || this->getType() == UnitTypes::Protoss_Shuttle || this->getType() == UnitTypes::Zerg_Overlord)
     {
       return this->unloadAll(this->getPosition());
@@ -1633,11 +1549,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType() == UnitTypes::Terran_Bunker)
       this->unloadAll();
 
@@ -1656,11 +1568,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
 
     if (this->isCompleted())
       return false;
@@ -1680,11 +1588,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getOrder() != Orders::ConstructingBuilding)
       return false;
     this->orderSelect();
@@ -1697,11 +1601,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->getType().isBuilding())
     {
       return this->cancelConstruction();
@@ -1719,11 +1619,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->isTraining())
     {
       this->orderSelect();
@@ -1737,11 +1633,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (this->isTraining() && (int)(this->getTrainingQueue().size()) > slot)
     {
       this->orderSelect();
@@ -1755,11 +1647,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelAddon(this)));
@@ -1770,11 +1658,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (self->order == BW::OrderID::ResearchTech)
     {
       this->orderSelect();
@@ -1788,11 +1672,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (self->order == BW::OrderID::Upgrade)
     {
       this->orderSelect();
@@ -1806,11 +1686,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!Broodwar->self()->hasResearched(tech))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
@@ -1863,11 +1739,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!Broodwar->self()->hasResearched(tech))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
@@ -1946,11 +1818,7 @@ namespace BWAPI
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
-    if (this->getPlayer() != Broodwar->self())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+    checkOwnership();
     if (!Broodwar->self()->hasResearched(tech))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);

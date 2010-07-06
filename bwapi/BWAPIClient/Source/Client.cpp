@@ -56,9 +56,10 @@ namespace BWAPI
   void Client::update()
   {
     DWORD writtenByteCount;
-    int code=4;
+    int code=-10;
     WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
-    while (code!=3)
+
+    while (code<100 && (Broodwar==NULL || Broodwar->getFrameCount()!=code+100))
     {
       DWORD receivedByteCount;
       BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);

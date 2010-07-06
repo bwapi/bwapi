@@ -74,8 +74,6 @@ namespace BWAPI
 
       virtual int maxEnergy(UnitType unit) const;
 
-      virtual PlayerData* getData();
-
       double topSpeed(UnitType unit) const;
       int groundWeaponMaxRange(UnitType unit) const;
       int airWeaponMaxRange(UnitType unit) const;
@@ -96,6 +94,7 @@ namespace BWAPI
       char* getForceName() const;
       u8 getAlliance(u8 opposingID);
       u8 getForce();
+      void setID(int newID);
       ForceImpl* force;
 
       int PlayerImpl::_getUpgradeLevel(u8 id);

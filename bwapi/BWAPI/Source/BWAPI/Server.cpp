@@ -227,6 +227,7 @@ namespace BWAPI
     data->initialUnitCount=0;
     unitVector.clear();
     unitLookup.clear();
+    
   }
 
   void Server::updateSharedMemory()
@@ -241,8 +242,6 @@ namespace BWAPI
         matchStarting = true;
       }
     }
-    if (matchStarting)
-      clearAll();
 
     ((GameImpl*)Broodwar)->events.clear();
 
@@ -317,9 +316,7 @@ namespace BWAPI
 
       //dynamic unit data
       for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
-      {
         data->units[(*i)->getID()] = ((UnitImpl*)(*i))->data;
-      }
 
       for(int i=0;i<1700;i++)
         data->unitArray[i] = getUnitID(Broodwar->indexToUnit(i));
@@ -362,7 +359,7 @@ namespace BWAPI
     if (force==NULL) return -1;
     if (forceLookup.find(force)==forceLookup.end())
     {
-      forceLookup[force]=forceVector.size();
+      forceLookup[force]=(int)(forceVector.size());
       forceVector.push_back(force);
     }
     return forceLookup[force];
@@ -379,7 +376,7 @@ namespace BWAPI
     if (player==NULL) return -1;
     if (playerLookup.find(player)==playerLookup.end())
     {
-      playerLookup[player]=playerVector.size();
+      playerLookup[player]=(int)(playerVector.size());
       playerVector.push_back(player);
     }
     return playerLookup[player];
@@ -396,7 +393,7 @@ namespace BWAPI
     if (unit==NULL) return -1;
     if (unitLookup.find(unit)==unitLookup.end())
     {
-      unitLookup[unit]=unitVector.size();
+      unitLookup[unit]=(int)(unitVector.size());
       unitVector.push_back(unit);
     }
     return unitLookup[unit];
@@ -411,9 +408,9 @@ namespace BWAPI
   void Server::callOnFrame()
   { 
     DWORD writtenByteCount;
-    int code=3;
+    int code=data->frameCount+100;
     WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
-    while (code!=4)
+    while (code!=-10)
     {
       DWORD receivedByteCount;
       BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);

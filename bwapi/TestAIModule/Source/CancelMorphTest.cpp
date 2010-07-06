@@ -35,6 +35,12 @@ void CancelMorphTest::start()
   correctIncompleteUnitCount = Broodwar->self()->incompleteUnitCount(unitType);
   correctAllUnitCount = Broodwar->self()->allUnitCount(unitType);
   producer->morph(unitType);
+  BWAssertF(producer->getBuildType()==unitType,
+  {
+    Broodwar->printf("%s != %s",producer->getBuildType().getName().c_str(),unitType.getName().c_str());
+    fail=true;
+    return;
+  });
 
   startFrame = Broodwar->getFrameCount();
   nextFrame = startFrame;
@@ -56,7 +62,7 @@ void CancelMorphTest::update()
   {
     BWAssertF(producer->getBuildType()==unitType,
     {
-      Broodwar->printf("%s != %s",producer->getBuildType().getName().c_str(),unitType.getName().c_str());
+      Broodwar->printf("%s != %s, this frame = %d, start frame = %d",producer->getBuildType().getName().c_str(),unitType.getName().c_str(),thisFrame,startFrame);
       fail=true;
       return;
     });

@@ -15,7 +15,15 @@
 #include <BW/OrderID.h>
 #include <BWAPI/Client/UnitData.h>
 
-#define checkAccessBool() if (!this->attemptAccess()) return false
+#define checkAccessBool() if (!attemptAccess()) return false
+#define checkOwnership()\
+{\
+  if (_getPlayer != Broodwar->self())\
+  {\
+    BroodwarImpl.setLastError(Errors::Unit_Not_Owned);\
+    return false;\
+  }\
+}
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };
@@ -154,7 +162,6 @@ namespace BWAPI
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;
 
-      virtual UnitData* getData();
       virtual bool issueCommand(UnitCommand command);
 
       virtual bool attackMove(Position position);
@@ -205,6 +212,7 @@ namespace BWAPI
       ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::Unit* unit);
       void die();
+      void setID(int newID);
       bool canAccess() const;
       bool canAccessSpecial() const;
       bool canAccessInside() const;

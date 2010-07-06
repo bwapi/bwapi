@@ -22,7 +22,6 @@ namespace BWAPI
 {
   void UnitImpl::updateData()
   {
-    id = (int)this;
     int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
     if (_exists)
     {

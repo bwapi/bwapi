@@ -14,12 +14,17 @@ namespace BWAPI
   PlayerImpl::PlayerImpl(u8 index)
       : index(index), leftTheGame(false)
   {
-    id = BroodwarImpl.server.getPlayerID(this);
+    id = -1;
     self=&data;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   PlayerImpl::~PlayerImpl()
   {
+  }
+  //--------------------------------------------- SET ID -----------------------------------------------------
+  void PlayerImpl::setID(int newID)
+  {
+    id = newID;
   }
   //------------------------------------------------- GET ID -------------------------------------------------
   int PlayerImpl::getID() const
@@ -273,10 +278,6 @@ namespace BWAPI
         (unit == UnitTypes::Zerg_Queen            && getUpgradeLevel(UpgradeTypes::Gamete_Meiosis)>0))
       energy += 50;
     return energy;
-  }
-  PlayerData* PlayerImpl::getData()
-  {
-    return self;
   }
   //---------------------------------------------- TOP SPEED -------------------------------------------------
   double PlayerImpl::topSpeed(UnitType unit) const

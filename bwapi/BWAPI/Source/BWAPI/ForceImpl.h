@@ -14,6 +14,7 @@ namespace BWAPI
       virtual std::set<Player*> getPlayers() const;
       std::set<Player*> players;
       std::string name;
+      void setID(int newID);
     private:
       int id;
   };

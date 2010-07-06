@@ -454,9 +454,6 @@ namespace BWAPI
       virtual bool isVisible() const = 0;
       virtual bool isVisible(Player* player) const = 0;
 
-      /** Returns a pointer to the Unit's internal UnitData struct */
-      virtual UnitData* getData() = 0;
-
       /** Takes any unit command and calls the corresponding order that will execute it */
       virtual bool issueCommand(UnitCommand command) = 0;
 
