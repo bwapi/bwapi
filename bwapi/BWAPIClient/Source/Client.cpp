@@ -41,6 +41,13 @@ namespace BWAPI
     if (BWAPI::Broodwar!=NULL)
       delete (GameImpl*)BWAPI::Broodwar;
     BWAPI::Broodwar = new GameImpl(data);
+    //wait for permission from server before we resume execution
+    int code=1;
+    while (code!=2)
+    {
+      DWORD receivedByteCount;
+      BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);
+    }
     return true;
   }
   void Client::disconnect()
@@ -56,10 +63,10 @@ namespace BWAPI
   void Client::update()
   {
     DWORD writtenByteCount;
-    int code=-10;
+    int code=1;
     WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
 
-    while (code<100 && (Broodwar==NULL || Broodwar->getFrameCount()!=code+100))
+    while (code!=2)
     {
       DWORD receivedByteCount;
       BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);

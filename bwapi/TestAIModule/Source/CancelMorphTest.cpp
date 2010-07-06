@@ -55,7 +55,7 @@ void CancelMorphTest::update()
     return;
   }
   int thisFrame = Broodwar->getFrameCount();
-  BWAssert(thisFrame==nextFrame);
+  BWAssertF(thisFrame==nextFrame,{fail=true;return;});
   nextFrame++;
   BWAssertF(producer!=NULL,{fail=true;return;});
   if (thisFrame<startFrame+200)

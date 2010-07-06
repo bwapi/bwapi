@@ -238,9 +238,9 @@ namespace BWAPI
     {
       addEvent(*e);
       if (e->type == EventType::MatchStart)
-      {
         matchStarting = true;
-      }
+      if (e->type == EventType::UnitDestroy || (e->type == EventType::UnitHide && Broodwar->isFlagEnabled(Flag::CompleteMapInformation)==false))
+        data->units[e->unit->getID()] = ((UnitImpl*)e->unit)->data;
     }
 
     ((GameImpl*)Broodwar)->events.clear();
@@ -408,9 +408,9 @@ namespace BWAPI
   void Server::callOnFrame()
   { 
     DWORD writtenByteCount;
-    int code=data->frameCount+100;
+    int code=2;
     WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
-    while (code!=-10)
+    while (code!=1)
     {
       DWORD receivedByteCount;
       BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);
