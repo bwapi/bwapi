@@ -9,6 +9,7 @@
 #include "SiegeTest.h"
 #include "CloakTest.h"
 #include "LiftTest.h"
+#include "RallyTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -22,17 +23,21 @@ void TerranTest::onStart()
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new LiftTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
+  this->addTestCase(new RallyTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Refinery));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
+  this->addTestCase(new RallyTest(UnitTypes::Terran_Barracks));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Engineering_Bay));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Factory));
+  this->addTestCase(new RallyTest(UnitTypes::Terran_Factory));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Starport));
+  this->addTestCase(new RallyTest(UnitTypes::Terran_Starport));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Science_Facility));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Science_Facility));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Armory));

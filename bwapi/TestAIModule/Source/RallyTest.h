@@ -2,10 +2,10 @@
 #include "TestCase.h"
 #include <BWAPI.h>
 
-class BurrowTest : public TestCase
+class RallyTest : public TestCase
 {
   public:
-    BurrowTest(BWAPI::UnitType unitType);
+    RallyTest(BWAPI::UnitType unitType);
     virtual void start();
     virtual void update();
     virtual void stop();
@@ -16,6 +16,7 @@ class BurrowTest : public TestCase
     int startFrame;
     int nextFrame;
     BWAPI::Unit* unit;
+    BWAPI::Unit* rallyUnit;
+    BWAPI::Position rallyPosition;
     BWAPI::UnitType unitType;
-    bool completedBurrow;
 };
