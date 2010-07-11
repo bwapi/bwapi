@@ -403,6 +403,7 @@ namespace BWAPI
       unit->self->order = Orders::RallyPointTile.getID();
       unit->self->rallyPositionX = position.x();
       unit->self->rallyPositionY = position.y();
+      unit->self->rallyUnit = -1;
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Unit)
     {

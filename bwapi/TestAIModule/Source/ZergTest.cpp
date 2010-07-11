@@ -9,6 +9,7 @@
 #include "CancelResearchTest.h"
 #include "CancelUpgradeTest.h"
 #include "BurrowTest.h"
+#include "RallyTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -21,6 +22,7 @@ void ZergTest::onStart()
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new RallyTest(UnitTypes::Zerg_Hatchery));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hatchery));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hatchery));
@@ -42,6 +44,7 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Sunken_Colony));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Spore_Colony));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Lair));
+  this->addTestCase(new RallyTest(UnitTypes::Zerg_Lair));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Lair));
 
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
@@ -52,6 +55,7 @@ void ZergTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Queens_Nest));
 
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Hive));
+  this->addTestCase(new RallyTest(UnitTypes::Zerg_Hive));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Greater_Spire));
 
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
