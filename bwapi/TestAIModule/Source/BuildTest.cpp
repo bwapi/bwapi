@@ -210,8 +210,8 @@ void BuildTest::update()
   {
     correctIsConstructing = true;
   }
-  BWAssertF(builder->isConstructing() == correctIsConstructing,{Broodwar->printf("%d %d",builder->isConstructing() , correctIsConstructing);});
-  BWAssertF(builder->isIdle() != builder->isConstructing(),{Broodwar->printf("%d %d",builder->isIdle() , !builder->isConstructing());});
+  BWAssertF(builder->isConstructing() == correctIsConstructing,{Broodwar->printf("%d %d, %d",builder->isConstructing() , correctIsConstructing, correctRemainingBuildTime);});
+  BWAssertF(builder->isIdle() != builder->isConstructing(),{Broodwar->printf("%d %d, %d",builder->isIdle() , !builder->isConstructing(), correctRemainingBuildTime);});
   if (building!=NULL)
   {  
     if (builder->getType().getRace()==Races::Terran)

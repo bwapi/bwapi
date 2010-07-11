@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BurrowTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\CancelMorphTest.cpp"
 				>
 			</File>
@@ -193,6 +197,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\CancelUpgradeTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\CloakTest.cpp"
 				>
 			</File>
 			<File
@@ -208,6 +216,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\LiftTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\MorphTest.cpp"
 				>
 			</File>
@@ -217,6 +229,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\ResearchTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\SiegeTest.cpp"
 				>
 			</File>
 			<File
@@ -262,6 +278,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BurrowTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\BWAssert.h"
 				>
 			</File>
@@ -278,11 +298,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\CloakTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\ExistenceTest.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Source\InterceptorTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\LiftTest.h"
 				>
 			</File>
 			<File
@@ -295,6 +323,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\ResearchTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\SiegeTest.h"
 				>
 			</File>
 			<File

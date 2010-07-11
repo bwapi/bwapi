@@ -27,4 +27,5 @@ class UseTechTest : public TestCase
     bool testSucceeded;
     BWAPI::Position startPosition;
     BWAPI::UnitType targetType;
+    int currentEnergy;
 };

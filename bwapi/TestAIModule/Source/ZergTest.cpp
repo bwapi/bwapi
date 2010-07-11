@@ -8,6 +8,7 @@
 #include "CancelMorphTest.h"
 #include "CancelResearchTest.h"
 #include "CancelUpgradeTest.h"
+#include "BurrowTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -99,6 +100,13 @@ void ZergTest::onStart()
   this->addTestCase(new ResearchTest(TechTypes::Burrowing));
   this->addTestCase(new UseTechTest(TechTypes::Infestation));
   this->addTestCase(new TrainTest(UnitTypes::Zerg_Infested_Terran));
+
+  
+  this->addTestCase(new BurrowTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new BurrowTest(UnitTypes::Zerg_Zergling));
+  this->addTestCase(new BurrowTest(UnitTypes::Zerg_Hydralisk));
+  this->addTestCase(new BurrowTest(UnitTypes::Zerg_Lurker));
+  this->addTestCase(new BurrowTest(UnitTypes::Zerg_Defiler));
 
   this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ventral_Sacs));

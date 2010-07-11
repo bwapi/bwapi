@@ -1031,12 +1031,25 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
+    if (!Broodwar->canMake(this,type1))
+      return false;
+
     if (!type1.isAddon())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    return this->build(TilePosition(this->getTilePosition().x()+4,this->getTilePosition().y()+1),type1);    
+    if (this->isConstructing() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
+    TilePosition position(getTilePosition().x()+4,getTilePosition().y()+1);
+    BW::UnitType type((u16)type1.getID());
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeAddon));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
+    return true;
   }
   //------------------------------------------------ RESEARCH ------------------------------------------------
   bool UnitImpl::research(TechType tech)
