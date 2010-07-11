@@ -304,6 +304,7 @@ void UseTechTest::start()
       isInPosition = true;
   }
   nextFrame = Broodwar->getFrameCount();
+  currentEnergy = user->getEnergy();
 }
 void UseTechTest::checkPosition()
 {
@@ -345,12 +346,26 @@ void UseTechTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  if (user->exists()==false)
-    user=targetUnit;
-  Broodwar->setScreenPosition(user->getPosition().x()-320,user->getPosition().y()-240);
+  if (user->exists())
+    Broodwar->setScreenPosition(user->getPosition().x()-320,user->getPosition().y()-240);
+  else
+    Broodwar->setScreenPosition(targetUnit->getPosition().x()-320,targetUnit->getPosition().y()-240);
+
   BWAssertF(user!=NULL,{fail=true;return;});
   if (!isInPosition)
     checkPosition();
+
+  if (user->exists())
+  {
+    if (user->getEnergy()!=currentEnergy)
+    {
+      if (user->getEnergy()<currentEnergy)
+        currentEnergy-=techType.energyUsed();
+      else
+        currentEnergy++;
+      BWAssertF(user->getEnergy()==currentEnergy,{fail=true;return;});
+    }
+  }
 
   if (!isInPosition)
     return;
@@ -431,7 +446,7 @@ void UseTechTest::update()
         hasNuke = true;
     if (hasNuke==false)
     {
-      if (targetUnit->getHitPoints()<targetUnit->getType().maxHitPoints()*0.7)
+      if (targetUnit->getHitPoints()<targetUnit->getType().maxHitPoints())
         testSucceeded = true;
     }
   }
@@ -528,7 +543,7 @@ void UseTechTest::update()
       if (u->getType()==UnitTypes::Zerg_Broodling)
         testSucceeded = true;
   }
-  if (thisFrame == startFrame+800)
+  if (thisFrame == startFrame+900)
   {
     if (testSucceeded)
       Broodwar->printf("Used tech %s",techType.getName().c_str());

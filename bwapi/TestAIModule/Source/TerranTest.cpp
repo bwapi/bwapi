@@ -6,6 +6,9 @@
 #include "UseTechTest.h"
 #include "CancelResearchTest.h"
 #include "CancelUpgradeTest.h"
+#include "SiegeTest.h"
+#include "CloakTest.h"
+#include "LiftTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -17,6 +20,7 @@ void TerranTest::onStart()
   Broodwar->sendText("show me the money");
 
   Broodwar->setLocalSpeed(0);
+  this->addTestCase(new LiftTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
@@ -67,6 +71,9 @@ void TerranTest::onStart()
   this->addTestCase(new ResearchTest(TechTypes::Lockdown));
   this->addTestCase(new ResearchTest(TechTypes::Personnel_Cloaking));
   this->addTestCase(new ResearchTest(TechTypes::Yamato_Gun));
+  this->addTestCase(new SiegeTest());
+  this->addTestCase(new CloakTest(UnitTypes::Terran_Ghost));
+  this->addTestCase(new CloakTest(UnitTypes::Terran_Wraith));
 
   this->addTestCase(new UseTechTest(TechTypes::Scanner_Sweep));
   this->addTestCase(new UseTechTest(TechTypes::Stim_Packs));
@@ -80,8 +87,8 @@ void TerranTest::onStart()
   this->addTestCase(new UseTechTest(TechTypes::Irradiate));
   this->addTestCase(new UseTechTest(TechTypes::Nuclear_Strike));
 
-  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Caduceus_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ion_Thrusters));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Charon_Boosters));

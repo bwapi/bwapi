@@ -198,10 +198,13 @@ namespace BWAPI
     {
       if (!unit->self->exists) return;
       unit->self->order = Orders::Cloak.getID();
-      if (unit->self->type==UnitTypes::Terran_Ghost.getID())
-        unit->self->energy -= BWAPI::TechTypes::Personnel_Cloaking.energyUsed();
-      else
-        unit->self->energy -= BWAPI::TechTypes::Cloaking_Field.energyUsed();
+      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      {
+        if (unit->self->type==UnitTypes::Terran_Ghost.getID())
+          unit->self->energy -= BWAPI::TechTypes::Personnel_Cloaking.energyUsed();
+        else
+          unit->self->energy -= BWAPI::TechTypes::Cloaking_Field.energyUsed();
+      }
     }
     else if (command.type == UnitCommandTypes::Decloak)
     {
