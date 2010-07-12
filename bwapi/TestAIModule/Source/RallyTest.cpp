@@ -25,6 +25,7 @@ void RallyTest::start()
     if (u->getType().isWorker())
       rallyUnit = u;
 
+  BWAssertF(rallyUnit!=NULL,{fail=true;return;});
   rallyPosition=rallyUnit->getPosition();
 
   BWAssertF(unit!=NULL,{fail=true;return;});

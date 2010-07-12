@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 BurrowTest::BurrowTest(UnitType unitType) : unitType(unitType),
-                                           running(false),
-                                           fail(false),
-                                           unit(NULL),
-                                           startFrame(-1),
-                                           nextFrame(-1),
-                                           completedBurrow(false)
+                                            running(false),
+                                            fail(false),
+                                            unit(NULL),
+                                            startFrame(-1),
+                                            nextFrame(-1),
+                                            completedBurrow(false)
 {
 
 }

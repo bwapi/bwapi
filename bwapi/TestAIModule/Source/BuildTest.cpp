@@ -154,6 +154,8 @@ void BuildTest::update()
   }
   if (building==NULL && builder->getBuildUnit()!=NULL)
     building = builder->getBuildUnit();
+  if (building==NULL && builder->getAddon()!=NULL)
+    building = builder->getAddon();
 
   std::set<Unit*> buildingsOnTile;
   std::set<Unit*> unitsOnTile = Broodwar->unitsOnTile(buildLocation.x(),buildLocation.y());
@@ -210,8 +212,11 @@ void BuildTest::update()
   {
     correctIsConstructing = true;
   }
-  BWAssertF(builder->isConstructing() == correctIsConstructing,{Broodwar->printf("%d %d, %d",builder->isConstructing() , correctIsConstructing, correctRemainingBuildTime);});
-  BWAssertF(builder->isIdle() != builder->isConstructing(),{Broodwar->printf("%d %d, %d",builder->isIdle() , !builder->isConstructing(), correctRemainingBuildTime);});
+  if (correctRemainingBuildTime>0 || building==NULL)
+  {
+    BWAssertF(builder->isConstructing() == correctIsConstructing,{Broodwar->printf("%d %d, %d",builder->isConstructing() , correctIsConstructing, correctRemainingBuildTime);});
+    BWAssertF(builder->isIdle() != builder->isConstructing(),{Broodwar->printf("%d %d, %d",builder->isIdle() , !builder->isConstructing(), correctRemainingBuildTime);});
+  }
   if (building!=NULL)
   {  
     if (builder->getType().getRace()==Races::Terran)

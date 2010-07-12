@@ -360,6 +360,10 @@ namespace BWAPI
        * \see Unit::getRemoveTimer. */
       virtual bool isHallucination() const = 0;
 
+      /** Returns true if the unit is holding position
+       * \see Unit::holdPosition. */
+      virtual bool isHoldingPosition() const = 0;
+
       /** Returns true if the unit is not doing anything.
        * \see Unit::stop. */
       virtual bool isIdle() const = 0;

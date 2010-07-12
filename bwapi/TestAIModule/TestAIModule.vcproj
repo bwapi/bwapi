@@ -224,6 +224,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\MPHSTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\ProtossTest.cpp"
 				>
 			</File>
@@ -319,6 +323,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\MorphTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MPHSTest.h"
 				>
 			</File>
 			<File

@@ -7,6 +7,7 @@
 #include "CancelResearchTest.h"
 #include "CancelUpgradeTest.h"
 #include "RallyTest.h"
+#include "MPHSTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -18,6 +19,7 @@ void ProtossTest::onStart()
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Nexus));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Nexus));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
@@ -47,24 +49,37 @@ void ProtossTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Arbiter_Tribunal));
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Zealot));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Zealot));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dragoon));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dragoon));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_High_Templar));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new UseTechTest(TechTypes::Archon_Warp));
   this->addTestCase(new UseTechTest(TechTypes::Dark_Archon_Meld));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Archon));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dark_Archon));
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Shuttle));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Reaver));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Reaver));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Observer));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Observer));
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scout));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Scout));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Carrier));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Carrier));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Arbiter));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Arbiter));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Corsair));
+  this->addTestCase(new MPHSTest(UnitTypes::Protoss_Corsair));
   
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
