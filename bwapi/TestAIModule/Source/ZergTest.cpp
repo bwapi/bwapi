@@ -11,6 +11,7 @@
 #include "BurrowTest.h"
 #include "RallyTest.h"
 #include "MPHSTest.h"
+#include "TransportTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -74,7 +75,6 @@ void ZergTest::onStart()
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
-  this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Zergling));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Zergling));
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Zergling));
@@ -128,6 +128,7 @@ void ZergTest::onStart()
 
   this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ventral_Sacs));
+  this->addTestCase(new TransportTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Antennae));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Pneumatized_Carapace));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Metabolic_Boost));
