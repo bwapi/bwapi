@@ -231,6 +231,8 @@ namespace BWAPI
     {
       if (!unit->self->exists) return;
       if (!unit->getType().canMove()) return;
+      unit->self->isMoving = false;
+      unit->self->isIdle = false;
       if (unit->getType()==UnitTypes::Protoss_Carrier)
         unit->self->order = Orders::CarrierHoldPosition.getID();
       else if (unit->getType()==UnitTypes::Zerg_Queen)
@@ -367,8 +369,13 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Right_Click_Position)
     {
       if (!unit->self->exists) return;
-      if (unit->getType().canMove())
-        unit->self->order = Orders::Move.getID();
+      if (unit->getType().canMove()==false) return;
+      unit->self->order = Orders::Move.getID();
+      unit->self->targetPositionX = position.x();
+      unit->self->targetPositionY = position.y();
+      unit->self->isMoving = true;
+      unit->self->isIdle = false;
+
     }
     else if (command.type == UnitCommandTypes::Right_Click_Unit)
     {

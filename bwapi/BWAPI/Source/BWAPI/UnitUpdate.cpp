@@ -418,7 +418,9 @@ namespace BWAPI
                        getOriginalRawData->unitID.isBuilding();
       //------------------------------------------------------------------------------------------------------
       //isMoving
-      self->isMoving = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Moving);
+      self->isMoving = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Moving) ||
+                       getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating) ||
+                       (self->order == Orders::Move.getID());
       //------------------------------------------------------------------------------------------------------
       //isParasited
       self->isParasited = getOriginalRawData->parasiteFlags.value != 0;

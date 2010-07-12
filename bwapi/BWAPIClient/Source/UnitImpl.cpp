@@ -602,6 +602,16 @@ namespace BWAPI
   {
     return self->isHallucination;
   }
+  //--------------------------------------------- IS HOLDING POSITION ----------------------------------------
+  bool UnitImpl::isHoldingPosition() const
+  {
+    return (self->order == Orders::HoldPosition.getID() ||
+            self->order == Orders::CarrierHoldPosition.getID() ||
+            self->order == Orders::QueenHoldPosition.getID() ||
+            self->order == Orders::SuicideHoldPosition.getID() ||
+            self->order == Orders::MedicHoldPosition.getID() ||
+            self->order == Orders::ReaverHoldPosition.getID());
+  }
   //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
   {
