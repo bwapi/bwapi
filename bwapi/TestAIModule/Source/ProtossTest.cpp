@@ -8,6 +8,7 @@
 #include "CancelUpgradeTest.h"
 #include "RallyTest.h"
 #include "MPHSTest.h"
+#include "TransportTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -67,6 +68,8 @@ void ProtossTest::onStart()
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Shuttle));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
+  this->addTestCase(new TransportTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Reaver));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Reaver));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Observer));

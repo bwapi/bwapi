@@ -260,6 +260,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\TransportTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\UpgradeTest.cpp"
 				>
 			</File>
@@ -363,6 +367,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\TrainTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TransportTest.h"
 				>
 			</File>
 			<File

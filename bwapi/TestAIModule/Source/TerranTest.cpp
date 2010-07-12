@@ -11,6 +11,7 @@
 #include "LiftTest.h"
 #include "RallyTest.h"
 #include "MPHSTest.h"
+#include "TransportTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -78,6 +79,8 @@ void TerranTest::onStart()
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_Nuclear_Missile));
 
+  this->addTestCase(new TransportTest(UnitTypes::Terran_Dropship));
+  this->addTestCase(new TransportTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new CancelResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
