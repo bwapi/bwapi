@@ -111,7 +111,7 @@ void MPHSTest::update()
   }
   else if (thisFrame<startFrame+300)
   {
-    BWAssertF(unit->isHoldingPosition()==true,{fail=true;return;});
+    BWAssertF(unit->isHoldingPosition()==true,{Broodwar->printf("order: %s, order2: %s",unit->getOrder().getName().c_str(),unit->getSecondaryOrder().getName().c_str());fail=true;return;});
     if (thisFrame>startFrame+250)
     {
       BWAssertF(unit->isMoving()==false,{fail=true;return;});
