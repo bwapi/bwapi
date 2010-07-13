@@ -79,11 +79,11 @@ namespace BWAPI
       virtual int getIrradiateTimer() const;
       virtual int getLockdownTimer() const;
       virtual int getMaelstromTimer() const;
+      virtual int getOrderTimer() const;
       virtual int getPlagueTimer() const;
       virtual int getRemoveTimer() const;
       virtual int getStasisTimer() const;
       virtual int getStimTimer() const;
-      virtual int getOrderTimer() const;
 
       virtual UnitType            getBuildType() const;
       virtual std::list<UnitType> getTrainingQueue() const;
@@ -108,10 +108,8 @@ namespace BWAPI
 
       virtual Unit*           getTransport() const;
       virtual std::set<Unit*> getLoadedUnits() const;
-
       virtual Unit*           getCarrier() const;
       virtual std::set<Unit*> getInterceptors() const;
-
       virtual Unit*           getHatchery() const;
       virtual std::set<Unit*> getLarva() const;
 
@@ -120,8 +118,8 @@ namespace BWAPI
       virtual bool isAccelerating() const;
       virtual bool isAttacking() const;
       virtual bool isBeingConstructed() const;
-      virtual bool isBeingHealed() const;
       virtual bool isBeingGathered() const;
+      virtual bool isBeingHealed() const;
       virtual bool isBlind() const;
       virtual bool isBraking() const;
       virtual bool isBurrowed() const;

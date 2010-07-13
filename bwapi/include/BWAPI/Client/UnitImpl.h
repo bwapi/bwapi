@@ -89,10 +89,8 @@ namespace BWAPI
 
       virtual Unit*           getTransport() const;
       virtual std::set<Unit*> getLoadedUnits() const;
-
       virtual Unit*           getCarrier() const;
       virtual std::set<Unit*> getInterceptors() const;
-
       virtual Unit*           getHatchery() const;
       virtual std::set<Unit*> getLarva() const;
 
@@ -101,8 +99,8 @@ namespace BWAPI
       virtual bool isAccelerating() const;
       virtual bool isAttacking() const;
       virtual bool isBeingConstructed() const;
-      virtual bool isBeingHealed() const;
       virtual bool isBeingGathered() const;
+      virtual bool isBeingHealed() const;
       virtual bool isBlind() const;
       virtual bool isBraking() const;
       virtual bool isBurrowed() const;

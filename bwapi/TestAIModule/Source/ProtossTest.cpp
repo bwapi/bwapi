@@ -71,6 +71,7 @@ void ProtossTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new TransportTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Reaver));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Reaver));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Observer));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Observer));
@@ -78,14 +79,13 @@ void ProtossTest::onStart()
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scout));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Scout));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Carrier));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Carrier));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Arbiter));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Arbiter));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Corsair));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Corsair));
   
-  this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
-  this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
 
   this->addTestCase(new CancelResearchTest(TechTypes::Disruption_Web));
   this->addTestCase(new ResearchTest(TechTypes::Disruption_Web));

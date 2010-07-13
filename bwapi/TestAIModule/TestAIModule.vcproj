@@ -204,6 +204,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\DefaultTestModule.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\Dll.cpp"
 				>
 			</File>
@@ -311,6 +315,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\CloakTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\DefaultTestModule.h"
 				>
 			</File>
 			<File
