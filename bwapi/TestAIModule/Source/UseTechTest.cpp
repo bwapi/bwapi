@@ -363,7 +363,13 @@ void UseTechTest::update()
         currentEnergy-=techType.energyUsed();
       else
         currentEnergy++;
-      BWAssertF(user->getEnergy()==currentEnergy,{fail=true;return;});
+
+      if (techType!=TechTypes::Archon_Warp && techType!=TechTypes::Dark_Archon_Meld)
+      {
+        BWAssertF(abs(user->getEnergy()-currentEnergy)<5,{Broodwar->printf("%d != %d",user->getEnergy(),currentEnergy);fail=true;return;});
+      }
+
+      currentEnergy=user->getEnergy();
     }
   }
 

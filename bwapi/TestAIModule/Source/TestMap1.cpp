@@ -39,7 +39,7 @@ void TestMap1::onStart()
 {
   assert_success_count=0;
   assert_fail_count=0;
-  BWAssert(Broodwar->mapFilename()=="testmap1.scm");
+  BWAssert(Broodwar->mapFileName()=="testmap1.scm");
   BWAssert(Broodwar->mapWidth()==128);
   BWAssert(Broodwar->mapHeight()==128);
   for(int x=0;x<128;x++)

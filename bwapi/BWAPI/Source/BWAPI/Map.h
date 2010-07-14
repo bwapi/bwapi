@@ -18,6 +18,7 @@ namespace BWAPI
       ~Map();
       /** Gets file name of the currently opened map by broodwar */
       static std::string getFileName();
+      static std::string getPathName();
       static std::string getName();
 
       /** Width of the current map in terms of build tiles */
@@ -37,7 +38,7 @@ namespace BWAPI
       void load();
 
       /** Returns a value that represents the map's terrain. */
-      static int getMapHash();
+      static std::string getMapHash();
       void copyToSharedMemory();
 
     private :

@@ -3,6 +3,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include <vector>
 
 #include <BWAPI/Color.h>
 #include <BWAPI/CoordinateType.h>
@@ -177,13 +178,16 @@ namespace BWAPI
       virtual int mapHeight() = 0;
 
       /** Returns the file name of the current map. */
-      virtual std::string mapFilename() = 0;
+      virtual std::string mapFileName() = 0;
+
+      /** Returns the full path name of the current map. */
+      virtual std::string mapPathName() = 0;
 
       /** Returns the name/title of the current map. */
       virtual std::string mapName() = 0;
 
-      /** Returns a unique identifier for the given map data that does not depend on the file name. */
-      virtual int getMapHash() = 0;
+      /** Returns the SHA-1 hash of the map file. */
+      virtual std::string mapHash() = 0;
 
       /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground.  2 = very high ground. */
       virtual int  getGroundHeight(int x, int y) = 0;

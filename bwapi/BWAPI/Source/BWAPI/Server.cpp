@@ -138,8 +138,14 @@ namespace BWAPI
     data->shapeCount       = 0;
     data->stringCount      = 0;
     clearAll();
-    strncpy(data->mapFilename,"",260);
+    strncpy(data->mapFileName,"",260);
+    strncpy(data->mapPathName,"",260);
     strncpy(data->mapName,"",32);
+    strncpy(data->mapHash,"",40);
+    data->mapFileName[260]='\0';
+    data->mapPathName[260]='\0';
+    data->mapName[32]='\0';
+    data->mapHash[40]='\0';
   }
   void Server::onMatchStart()
   {
@@ -164,9 +170,14 @@ namespace BWAPI
 
     data->mapWidth       = Broodwar->mapWidth();
     data->mapHeight      = Broodwar->mapHeight();
-    strncpy(data->mapFilename,Broodwar->mapFilename().c_str(),260);
+    strncpy(data->mapFileName,Broodwar->mapFileName().c_str(),260);
+    strncpy(data->mapPathName,Broodwar->mapPathName().c_str(),260);
     strncpy(data->mapName,Broodwar->mapName().c_str(),32);
-    data->mapHash        = Broodwar->getMapHash();
+    strncpy(data->mapHash,Broodwar->mapHash().c_str(),40);
+    data->mapFileName[260]='\0';
+    data->mapPathName[260]='\0';
+    data->mapName[32]='\0';
+    data->mapHash[40]='\0';
 
     data->startLocationCount = Broodwar->getStartLocations().size();
     int i=0;
