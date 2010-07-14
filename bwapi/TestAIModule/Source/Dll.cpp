@@ -36,17 +36,17 @@ BOOL APIENTRY DllMain( HANDLE hModule,
  extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule(BWAPI::Game* game)
 {
   BWAPI::Broodwar=game;
-  if (game->mapFilename()=="testmap1.scm")
+  if (game->mapFileName()=="testmap1.scm")
     return new TestMap1();
-  if (game->mapFilename()=="TerranTest.scm")
+  if (game->mapFileName()=="TerranTest.scm")
     return new TerranTest();
-  if (game->mapFilename()=="ProtossTest.scm")
+  if (game->mapFileName()=="ProtossTest.scm")
     return new ProtossTest();
-  if (game->mapFilename()=="ZergTest.scm")
+  if (game->mapFileName()=="ZergTest.scm")
     return new ZergTest();
-  if (game->mapFilename()=="InterceptorTest.scm")
+  if (game->mapFileName()=="InterceptorTest.scm")
     return new InterceptorTest();
-  if (game->mapFilename()=="ExistenceTest.scx")
+  if (game->mapFileName()=="ExistenceTest.scx")
     return new ExistenceTest();
   return new DefaultTestModule();
 }

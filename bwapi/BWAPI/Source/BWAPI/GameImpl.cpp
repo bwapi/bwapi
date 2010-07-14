@@ -137,29 +137,37 @@ namespace BWAPI
   int  GameImpl::mapWidth()
   {
     /* Get the width of the map */
-    this->setLastError(Errors::None);
     return Map::getWidth();
   }
   //----------------------------------------------- MAP HEIGHT -----------------------------------------------
   int  GameImpl::mapHeight()
   {
     /* Get the height of the map */
-    this->setLastError(Errors::None);
     return Map::getHeight();
   }
-  //---------------------------------------------- MAP FILENAME ----------------------------------------------
-  std::string  GameImpl::mapFilename()
+  //---------------------------------------------- MAP FILE NAME ---------------------------------------------
+  std::string  GameImpl::mapFileName()
   {
     /* Get the map file name */
-    this->setLastError(Errors::None);
     return Map::getFileName();
+  }
+  //---------------------------------------------- MAP PATH NAME ---------------------------------------------
+  std::string  GameImpl::mapPathName()
+  {
+    /* Get the map file name */
+    return Map::getPathName();
   }
   //------------------------------------------------ MAP NAME ------------------------------------------------
   std::string  GameImpl::mapName()
   {
     /* Get the name of the map */
-    this->setLastError(Errors::None);
     return Map::getName();
+  }
+  //----------------------------------------------- GET MAP HASH ---------------------------------------------
+  std::string GameImpl::mapHash()
+  {
+    /* Return a hash of the map file */
+    return this->savedMapHash;
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
   int GameImpl::getFPS()
@@ -630,13 +638,6 @@ namespace BWAPI
     /* Return the set of Start Locations */
     this->setLastError(Errors::None);
     return this->startLocations;
-  }
-  //----------------------------------------------- GET MAP HASH ---------------------------------------------
-  int  GameImpl::getMapHash()
-  {
-    /* Return a hash of the map's terrain */
-    this->setLastError(Errors::None);
-    return BWAPI::Map::getMapHash();
   }
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* >& GameImpl::getForces()
@@ -1649,6 +1650,7 @@ namespace BWAPI
 
     /* load the map data */
     map.load();
+    this->savedMapHash = Map::getMapHash();
 
     if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {

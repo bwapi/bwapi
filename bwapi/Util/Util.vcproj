@@ -160,6 +160,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\sha1.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\Strings.cpp"
 					>
 				</File>
@@ -201,6 +205,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\Util\RegionQuadTree.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\sha1.h"
 					>
 				</File>
 				<File

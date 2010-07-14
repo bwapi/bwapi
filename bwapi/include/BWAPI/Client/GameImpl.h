@@ -110,11 +110,12 @@ namespace BWAPI
       virtual std::set<Unit*>& unitsOnTile(int x, int y);
       virtual Error  getLastError() const;
 
-      virtual int  mapWidth();
-      virtual int  mapHeight();
-      virtual std::string  mapFilename();
-      virtual std::string  mapName();
-      virtual int getMapHash();
+      virtual int         mapWidth();
+      virtual int         mapHeight();
+      virtual std::string mapFileName();
+      virtual std::string mapPathName();
+      virtual std::string mapName();
+      virtual std::string mapHash();
 
       virtual int  getGroundHeight(int x, int y);
       virtual bool isWalkable(int x, int y);

@@ -51,9 +51,10 @@ namespace BWAPI
     // map
     int mapWidth;
     int mapHeight;
-    char mapFilename[260];  //size based on broodwar memory
-    char mapName[32];      //size based on broodwar memory
-    int mapHash;
+    char mapFileName[261];  //size based on broodwar memory
+    char mapPathName[261];  //size based on broodwar memory
+    char mapName[33];      //size based on broodwar memory
+    char mapHash[41];
 
     //tile data
     int getGroundHeight[256][256];

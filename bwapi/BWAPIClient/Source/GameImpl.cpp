@@ -473,10 +473,15 @@ namespace BWAPI
   {
     return data->mapHeight;
   }
-  //---------------------------------------------- MAP FILENAME ----------------------------------------------
-  std::string GameImpl::mapFilename()
+  //---------------------------------------------- MAP FILE NAME ---------------------------------------------
+  std::string GameImpl::mapFileName()
   {
-    return std::string(data->mapFilename);
+    return std::string(data->mapFileName);
+  }
+  //---------------------------------------------- MAP PATH NAME ---------------------------------------------
+  std::string GameImpl::mapPathName()
+  {
+    return std::string(data->mapPathName);
   }
   //------------------------------------------------ MAP NAME ------------------------------------------------
   std::string GameImpl::mapName()
@@ -484,9 +489,9 @@ namespace BWAPI
     return std::string(data->mapName);
   }
   //----------------------------------------------- GET MAP HASH ---------------------------------------------
-  int GameImpl::getMapHash()
+  std::string GameImpl::mapHash()
   {
-    return data->mapHash;
+    return std::string(data->mapHash);
   }
   //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
   int GameImpl::getGroundHeight(int x, int y)

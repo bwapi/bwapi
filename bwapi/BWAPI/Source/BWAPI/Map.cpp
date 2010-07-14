@@ -5,7 +5,11 @@
 #include <BW/DoodatType.h>
 #include "GameImpl.h"
 #include "PlayerImpl.h"
+#include <fstream>
+#include <sys/stat.h>
+#include <Util/sha1.h>
 
+using namespace std;
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -26,6 +30,12 @@ namespace BWAPI
   u16 Map::getHeight()
   {
     return BW::BWDATA_MapSize->y;
+  }
+  //---------------------------------------------- GET PATH NAME ---------------------------------------------
+  std::string Map::getPathName()
+  {
+    std::string mapPathName(BW::BWDATA_CurrentMapFileName);
+    return mapPathName;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
@@ -214,18 +224,23 @@ namespace BWAPI
     return BW::BWDATA_MiniTileFlags->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------
-  int Map::getMapHash()
+  std::string Map::getMapHash()
   {
-    int hashval = 0;
+    unsigned char hash[20];
+    char hexstring[41];
+    std::string filename = Map::getPathName();
+    struct stat results;
+    stat(filename.c_str(), &results);
+    int file_byte_size=results.st_size;
 
-    for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
-      for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
-      {
-        hashval += BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->index;
-        hashval *= x + y;
-      }
-
-    return hashval;
+    char* buffer = NULL;
+    buffer = new char[file_byte_size];
+    std::ifstream myFile (filename.c_str(), ios::in | ios::binary);
+    myFile.read(buffer, file_byte_size);
+    sha1::calc(buffer,myFile.gcount(),hash);
+    sha1::toHexString(hash, hexstring);
+    delete [] buffer;
+    return string(hexstring);
   }
   //----------------------------------------------------------------------------------------------------------
 };
