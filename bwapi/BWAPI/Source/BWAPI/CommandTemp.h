@@ -58,7 +58,14 @@ namespace BWAPI
       if (target==NULL || !target->self->exists) return;
       if (!unit->self->exists) return;
       if (!unit->getType().canAttack()) return;
-      unit->self->order = Orders::AttackUnit.getID();
+      if (unit->getType()==UnitTypes::Protoss_Carrier)
+        unit->self->order = Orders::CarrierFight.getID();
+      else if (unit->getType()==UnitTypes::Protoss_Reaver)
+        unit->self->order = Orders::ReaverFight.getID();
+      else if (unit->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode || unit->getType()==UnitTypes::Terran_Goliath)
+        unit->self->order = Orders::StayinRange.getID();
+      else
+        unit->self->order = Orders::AttackUnit.getID();
       unit->self->target = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Build)
@@ -399,7 +406,16 @@ namespace BWAPI
         target->self->isConstructing = true;
       }
       else if (unit->getType().canAttack() && target->getPlayer() != unit->getPlayer() && !target->getType().isNeutral())
-        unit->self->order = Orders::AttackUnit.getID();
+      {
+        if (unit->getType()==UnitTypes::Protoss_Carrier)
+          unit->self->order = Orders::CarrierFight.getID();
+        else if (unit->getType()==UnitTypes::Protoss_Reaver)
+          unit->self->order = Orders::ReaverFight.getID();
+        else if (unit->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode || unit->getType()==UnitTypes::Terran_Goliath)
+          unit->self->order = Orders::StayinRange.getID();
+        else
+          unit->self->order = Orders::AttackUnit.getID();
+      }
       else if (unit->getType().canMove())
         unit->self->order = Orders::Follow.getID();
     }

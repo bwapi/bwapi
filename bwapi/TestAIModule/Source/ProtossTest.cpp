@@ -9,6 +9,8 @@
 #include "RallyTest.h"
 #include "MPHSTest.h"
 #include "TransportTest.h"
+#include "AttackMoveTest.h"
+#include "AttackUnitTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -21,6 +23,8 @@ void ProtossTest::onStart()
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Probe));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Probe));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Nexus));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Nexus));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
@@ -51,19 +55,27 @@ void ProtossTest::onStart()
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Zealot));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Zealot));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Zealot));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Zealot,UnitTypes::Protoss_Gateway));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dragoon));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dragoon));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Dragoon));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Dragoon,UnitTypes::Protoss_Gateway));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_High_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dark_Templar));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Dark_Templar));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Dark_Templar,UnitTypes::Protoss_Gateway));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Dark_Templar));
   this->addTestCase(new UseTechTest(TechTypes::Archon_Warp));
   this->addTestCase(new UseTechTest(TechTypes::Dark_Archon_Meld));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Archon));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Archon));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Archon,UnitTypes::Protoss_Gateway));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dark_Archon));
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Shuttle));
@@ -72,19 +84,35 @@ void ProtossTest::onStart()
   this->addTestCase(new TransportTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Reaver));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Scarab));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Reaver));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Reaver));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Reaver,UnitTypes::Protoss_Robotics_Facility));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Observer));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Observer));
 
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scout));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Scout));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Scout));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Scout,UnitTypes::Protoss_Stargate));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Carrier));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
+  this->addTestCase(new TrainTest(UnitTypes::Protoss_Interceptor));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Carrier));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Carrier));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Carrier,UnitTypes::Protoss_Stargate));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Arbiter));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Arbiter));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Arbiter));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Arbiter,UnitTypes::Protoss_Stargate));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Corsair));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Corsair));
+  this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Corsair));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Corsair,UnitTypes::Protoss_Carrier));
   
 
   this->addTestCase(new CancelResearchTest(TechTypes::Disruption_Web));

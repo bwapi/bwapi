@@ -20,7 +20,10 @@ void TestModule::onFrame()
   if (Broodwar->getFrameCount()==0) return;
   Broodwar->drawTextScreen(0,0,"FPS: %d",Broodwar->getFPS());
   Broodwar->drawTextScreen(0,20,"Assert success count: %d",assert_success_count);
-  Broodwar->drawTextScreen(0,40,"Assert failed count: %d",assert_fail_count);
+  if (assert_fail_count==0)
+    Broodwar->drawTextScreen(0,40,"Assert failed count: %d",assert_fail_count);
+  else
+    Broodwar->drawTextScreen(0,40,"\x08 Assert failed count: %d",assert_fail_count);
   for each(Unit* u in Broodwar->self()->getUnits())
   {
     Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()-16,"%s",u->getType().getName().c_str());
@@ -31,7 +34,10 @@ void TestModule::onFrame()
 }
 void TestModule::onUnitDestroy(Unit* unit)
 {
-  Broodwar->printf("A %s [%x] has been destroyed",unit->getType().getName().c_str(),unit);
+  if (unit!=NULL)
+    Broodwar->printf("A %s [%x] has been destroyed",unit->getType().getName().c_str(),unit);
+  else
+    Broodwar->printf("A %x has been destroyed",unit);
 }
 void TestModule::runTestCases()
 {

@@ -861,6 +861,7 @@ namespace BWAPI
   //------------------------------------------- ORDER Attack Location ----------------------------------------
   bool UnitImpl::attackMove(Position position)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -882,10 +883,16 @@ namespace BWAPI
       return false;
 
     WeaponType weapon = this->getType().groundWeapon();
-    if (target->isLifted() || target->getType().isFlyer())
+    bool targetInAir = (target->isLifted() || target->getType().isFlyer());
+    if (targetInAir)
       weapon=this->getType().airWeapon();
 
-    if (weapon == WeaponTypes::None)
+    bool canAttack = (weapon!=WeaponTypes::None);
+    if (getType()==UnitTypes::Protoss_Reaver && getScarabCount()>0 && !targetInAir)
+      canAttack=true;
+    if (getType()==UnitTypes::Protoss_Carrier && getInterceptorCount()>0)
+      canAttack=true;
+    if (!canAttack)
     {
       BroodwarImpl.setLastError(Errors::Unable_To_Hit);
       return false;
@@ -900,13 +907,25 @@ namespace BWAPI
       }
     }
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::AttackUnit), sizeof(BW::Orders::Attack));
+    if (getType()==UnitTypes::Protoss_Carrier)
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CarrierAttack1), sizeof(BW::Orders::Attack));
+    }
+    else if (getType()==UnitTypes::Protoss_Reaver)
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::ReaverAttack1), sizeof(BW::Orders::Attack));
+    }
+    else
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Attack1), sizeof(BW::Orders::Attack));
+    }
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackUnit(this,target)));
     return true;
   }
   //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
   bool UnitImpl::rightClick(Position position)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1007,6 +1026,7 @@ namespace BWAPI
   //------------------------------------------------- BUILD --------------------------------------------------
   bool UnitImpl::build(TilePosition position, UnitType type1)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1055,6 +1075,7 @@ namespace BWAPI
       return false;
     }
     TilePosition position(getTilePosition().x()+4,getTilePosition().y()+1);
+    position.makeValid();
     BW::UnitType type((u16)type1.getID());
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeAddon));
@@ -1111,10 +1132,10 @@ namespace BWAPI
     int tUnitType = _getType.getID();
     if (tUnitType == BW::UnitID::Protoss_Reaver ||
         tUnitType == BW::UnitID::Protoss_Hero_Warbringer)
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::Stop));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::ReaverStop));
     else if (tUnitType == BW::UnitID::Protoss_Carrier ||
              tUnitType == BW::UnitID::Protoss_Hero_Gantrithor)
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::Stop));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::CarrierStop));
     else
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::stop(this)));
@@ -1134,6 +1155,7 @@ namespace BWAPI
   //-------------------------------------------------- PATROL ------------------------------------------------
   bool UnitImpl::patrol(Position position)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1172,6 +1194,7 @@ namespace BWAPI
   //------------------------------------------------- SET RALLY ----------------------------------------------
   bool UnitImpl::setRallyPosition(Position target)
   {
+    target.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1476,6 +1499,7 @@ namespace BWAPI
   //--------------------------------------------------- LAND -------------------------------------------------
   bool UnitImpl::land(TilePosition position)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1570,6 +1594,7 @@ namespace BWAPI
   //------------------------------------------------- UNLOADALL ----------------------------------------------
   bool UnitImpl::unloadAll(Position position)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1760,6 +1785,7 @@ namespace BWAPI
   //------------------------------------------------- USE TECH -----------------------------------------------
   bool UnitImpl::useTech(TechType tech, Position position)
   {
+    position.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
