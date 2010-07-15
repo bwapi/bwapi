@@ -279,11 +279,6 @@ namespace BWAPI
   {
     return Order(self->secondaryOrder);
   }
-  //--------------------------------------------- GET CHILD --------------------------------------------------
-  Unit* UnitImpl::getChild() const
-  {
-    return Broodwar->getUnit(self->child);
-  }
   //--------------------------------------------- GET RALLY POSITION -----------------------------------------
   Position UnitImpl::getRallyPosition() const
   {
