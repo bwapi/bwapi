@@ -14,6 +14,8 @@
 #include "TransportTest.h"
 #include "AttackMoveTest.h"
 #include "AttackUnitTest.h"
+#include "RepairTest.h"
+#include "FollowTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -30,6 +32,8 @@ void TerranTest::onStart()
   this->addTestCase(new MPHSTest(UnitTypes::Terran_SCV));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_SCV));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center));
+  this->addTestCase(new RepairTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
@@ -68,36 +72,48 @@ void TerranTest::onStart()
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Ghost));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Ghost));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Ghost,UnitTypes::Terran_Barracks));
+  this->addTestCase(new RepairTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Barracks));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Medic));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Medic));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Vulture));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Vulture));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Vulture));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Vulture,UnitTypes::Terran_Factory));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_Marine,UnitTypes::Terran_Vulture));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Siege_Tank_Tank_Mode));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Siege_Tank_Tank_Mode));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Siege_Tank_Tank_Mode));
-  this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Siege_Tank_Tank_Mode,UnitTypes::Terran_Machine_Shop));
+  this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Siege_Tank_Tank_Mode,UnitTypes::Terran_Factory));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_Firebat,UnitTypes::Terran_Siege_Tank_Tank_Mode));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Goliath));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Goliath));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Goliath));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Goliath,UnitTypes::Terran_Factory));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_Ghost,UnitTypes::Terran_Goliath));
+  this->addTestCase(new RepairTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Factory));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Wraith));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Wraith));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Wraith));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Wraith,UnitTypes::Terran_Starport));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_Vulture,UnitTypes::Terran_Wraith));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Dropship));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Dropship));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_Siege_Tank_Tank_Mode,UnitTypes::Terran_Dropship));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Science_Vessel));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Science_Vessel));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_Goliath,UnitTypes::Terran_Science_Vessel));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Battlecruiser));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Battlecruiser));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Battlecruiser));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Battlecruiser,UnitTypes::Terran_Starport));
+  this->addTestCase(new RepairTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Starport));
   this->addTestCase(new TrainTest(UnitTypes::Terran_Valkyrie));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Valkyrie));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_Valkyrie));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_Valkyrie,UnitTypes::Terran_Battlecruiser));
+  this->addTestCase(new RepairTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Battlecruiser));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Marine));
+  this->addTestCase(new FollowTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Armory));
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_Nuclear_Missile));
 
