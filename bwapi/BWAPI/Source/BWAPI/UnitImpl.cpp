@@ -448,10 +448,10 @@ namespace BWAPI
         self->order != Orders::WaitForGas.getID() &&
         self->order != Orders::HarvestGas.getID() &&
         self->order != Orders::ReturnGas.getID()  &&
-        self->order != Orders::ResetCollision2.getID())
+        self->order != Orders::ResetCollision.getID())
       return false;
 
-    if (self->order == Orders::ResetCollision2.getID())
+    if (self->order == Orders::ResetCollision.getID())
       return self->carryResourceType == 1;
 
     //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
@@ -493,10 +493,10 @@ namespace BWAPI
         self->order != Orders::WaitForMinerals.getID() &&
         self->order != Orders::MiningMinerals.getID() &&
         self->order != Orders::ReturnMinerals.getID() &&
-        self->order != Orders::ResetCollision2.getID())
+        self->order != Orders::ResetCollision.getID())
       return false;
 
-    if (self->order == Orders::ResetCollision2.getID())
+    if (self->order == Orders::ResetCollision.getID())
       return self->carryResourceType == 2;
     return true;
   }
