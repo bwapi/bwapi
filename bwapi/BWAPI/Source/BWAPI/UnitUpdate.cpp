@@ -331,9 +331,6 @@ namespace BWAPI
       //getOrderTarget
       self->orderTarget = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->orderTargetUnit));
       //------------------------------------------------------------------------------------------------------
-      //getChild
-      self->child = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.childUnit1));
-      //------------------------------------------------------------------------------------------------------
       //getAddon
       if (_getType.isBuilding())
       {
@@ -538,9 +535,6 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getOrderTarget
       self->orderTarget = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getChild
-      self->child = -1;
       //------------------------------------------------------------------------------------------------------
       //getAddon
       self->addon = -1;

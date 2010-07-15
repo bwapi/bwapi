@@ -228,9 +228,6 @@ namespace BWAPI
       virtual Unit* getOrderTarget() const = 0;
       virtual Order getSecondaryOrder() const = 0;
 
-      // TODO: add doc
-      virtual Unit* getChild() const = 0;
-
       /** Returns the position the building is rallied to. If the building does not produce units,
        * Positions::None is returned.
        * \see Unit::setRallyPosition, Unit::setRallyUnit, Unit::getRallyUnit. */
