@@ -1,6 +1,7 @@
 #include <BWAPI/Constants.h>
 #include <BWAPI/TilePosition.h>
 #include <BWAPI/Position.h>
+#include <BWAPI/Game.h>
 
 #include <math.h>
 
@@ -48,6 +49,11 @@ namespace BWAPI
     return this->x() < TilePosition.x() ||
            (this->x() == TilePosition.x() && this->y() < TilePosition.y());
   }
+  //---------------------------------------------- IS VALID --------------------------------------------------
+  bool TilePosition::isValid() const
+  {
+    return (_x>=0 && _y>=0 && _x<Broodwar->mapWidth() && _y<Broodwar->mapHeight());
+  }
   //----------------------------------------------------------------------------------------------------------
   TilePosition TilePosition::operator+(const TilePosition& position) const
   {
@@ -57,6 +63,15 @@ namespace BWAPI
   TilePosition TilePosition::operator-(const TilePosition& position) const
   {
     return TilePosition(this->x() - position.x(), this->y() - position.y());
+  }
+  //-------------------------------------------- MAKE VALID --------------------------------------------------
+  TilePosition& TilePosition::makeValid()
+  {
+    if (_x>Broodwar->mapWidth()-1) _x=Broodwar->mapWidth()-1;
+    if (_y>Broodwar->mapHeight()-1) _y=Broodwar->mapHeight()-1;
+    if (_x<0) _x=0;
+    if (_y<0) _y=0;
+    return *this;
   }
   //----------------------------------------------------------------------------------------------------------
   TilePosition& TilePosition::operator+=(const TilePosition& position)
@@ -71,11 +86,6 @@ namespace BWAPI
     this->x() -= position.x();
     this->y() -= position.y();
     return *this;
-  }
-  //----------------------------------------------- IS VALID -------------------------------------------------
-  bool TilePosition::isValid() const
-  {
-    return (*this != TilePositions::Invalid && *this != TilePositions::None && *this != TilePositions::Unknown);
   }
   //----------------------------------------------------------------------------------------------------------
   double TilePosition::getDistance(const TilePosition& position) const

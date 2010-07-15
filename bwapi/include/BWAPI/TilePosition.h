@@ -14,13 +14,14 @@ namespace BWAPI
       bool operator == (const TilePosition& TilePosition) const;
       bool operator != (const TilePosition& TilePosition) const;
       bool operator  < (const TilePosition& TilePosition) const;
+      bool isValid() const;
       TilePosition operator+(const TilePosition& position) const;
       TilePosition operator-(const TilePosition& position) const;
+      TilePosition& makeValid();
       TilePosition& operator+=(const TilePosition& position);
       TilePosition& operator-=(const TilePosition& position);
       double getDistance(const TilePosition& position) const;
       double getLength() const;
-      bool isValid() const;
       int& x();
       int& y();
       int x() const;

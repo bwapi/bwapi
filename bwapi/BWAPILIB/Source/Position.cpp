@@ -1,6 +1,7 @@
 #include <BWAPI/Constants.h>
 #include <BWAPI/TilePosition.h>
 #include <BWAPI/Position.h>
+#include <BWAPI/Game.h>
 
 #include <math.h>
 
@@ -48,6 +49,11 @@ namespace BWAPI
     return this->x() < position.x() ||
            (this->x() == position.x() && this->y() < position.y());
   }
+  //---------------------------------------------- IS VALID --------------------------------------------------
+  bool Position::isValid() const
+  {
+    return (_x>=0 && _y>=0 && _x<Broodwar->mapWidth()*32 && _y<Broodwar->mapHeight()*32);
+  }
   //----------------------------------------------------------------------------------------------------------
   Position Position::operator+(const Position& position) const
   {
@@ -57,6 +63,15 @@ namespace BWAPI
   Position Position::operator-(const Position& position) const
   {
     return Position(this->x() - position.x(), this->y() - position.y());
+  }
+  //-------------------------------------------- MAKE VALID --------------------------------------------------
+  Position& Position::makeValid()
+  {
+    if (_x>Broodwar->mapWidth()*32-1) _x=Broodwar->mapWidth()*32-1;
+    if (_y>Broodwar->mapHeight()*32-1) _y=Broodwar->mapHeight()*32-1;
+    if (_x<0) _x=0;
+    if (_y<0) _y=0;
+    return *this;
   }
   //----------------------------------------------------------------------------------------------------------
   Position& Position::operator+=(const Position& position)
