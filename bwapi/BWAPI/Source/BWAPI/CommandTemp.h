@@ -58,25 +58,13 @@ namespace BWAPI
       if (target==NULL || !target->self->exists) return;
       if (!unit->self->exists) return;
       if (!unit->getType().canAttack()) return;
-      if (unit->getType()==UnitTypes::Protoss_Carrier)
-        unit->self->order = Orders::CarrierFight.getID();
-      else if (unit->getType()==UnitTypes::Protoss_Reaver)
-        unit->self->order = Orders::ReaverFight.getID();
-      else if (unit->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode || unit->getType()==UnitTypes::Terran_Goliath)
-        unit->self->order = Orders::StayinRange.getID();
-      else
-        unit->self->order = Orders::AttackUnit.getID();
+      unit->self->order = Orders::AttackUnit.getID();
       unit->self->target = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Build)
     {
       if (!unit->self->exists) return;
-      if (unit->getType() == UnitTypes::Zerg_Drone)
-        unit->self->order = Orders::DroneLand.getID();
-      else if (unit->getType() == UnitTypes::Protoss_Probe)
-        unit->self->order = Orders::BuildProtoss1.getID();
-      else if (unit->getType() == UnitTypes::Terran_SCV)
-        unit->self->order = Orders::BuildTerran.getID();
+      unit->self->order = Orders::PlaceBuilding.getID();
       unit->self->isConstructing = true;
       unit->self->isIdle         = false;
       unit->self->buildType      = command.extra;
@@ -92,7 +80,7 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Burrow)
     {
       if (!unit->self->exists) return;
-      unit->self->order = Orders::Burrow.getID();
+      unit->self->order = Orders::Burrowing.getID();
     }
     else if (command.type == UnitCommandTypes::Cancel_Addon)
     {
@@ -240,18 +228,7 @@ namespace BWAPI
       if (!unit->getType().canMove()) return;
       unit->self->isMoving = false;
       unit->self->isIdle = false;
-      if (unit->getType()==UnitTypes::Protoss_Carrier)
-        unit->self->order = Orders::CarrierHoldPosition.getID();
-      else if (unit->getType()==UnitTypes::Zerg_Queen)
-        unit->self->order = Orders::QueenHoldPosition.getID();
-      else if (unit->getType()==UnitTypes::Zerg_Infested_Terran || unit->getType()==UnitTypes::Zerg_Scourge)
-        unit->self->order = Orders::SuicideHoldPosition.getID();
-      else if (unit->getType()==UnitTypes::Terran_Medic)
-        unit->self->order = Orders::MedicHoldPosition.getID();
-      else if (unit->getType()==UnitTypes::Protoss_Reaver)
-        unit->self->order = Orders::ReaverHoldPosition.getID();
-      else
-        unit->self->order = Orders::HoldPosition.getID();
+      unit->self->order = Orders::HoldPosition.getID();
     }
     else if (command.type == UnitCommandTypes::Land)
     {
@@ -344,7 +321,7 @@ namespace BWAPI
     {
       if (!unit->self->exists) return;
       if (unit->getType()!=UnitTypes::Terran_SCV) return;
-      unit->self->order = Orders::Repair1.getID();
+      unit->self->order = Orders::Repair.getID();
       unit->self->target = getUnitID(target);
       unit->self->isIdle = false;
     }
@@ -407,14 +384,7 @@ namespace BWAPI
       }
       else if (unit->getType().canAttack() && target->getPlayer() != unit->getPlayer() && !target->getType().isNeutral())
       {
-        if (unit->getType()==UnitTypes::Protoss_Carrier)
-          unit->self->order = Orders::CarrierFight.getID();
-        else if (unit->getType()==UnitTypes::Protoss_Reaver)
-          unit->self->order = Orders::ReaverFight.getID();
-        else if (unit->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode || unit->getType()==UnitTypes::Terran_Goliath)
-          unit->self->order = Orders::StayinRange.getID();
-        else
-          unit->self->order = Orders::AttackUnit.getID();
+        unit->self->order = Orders::AttackUnit.getID();
       }
       else if (unit->getType().canMove())
         unit->self->order = Orders::Follow.getID();
@@ -439,7 +409,7 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Siege)
     {
       if (!unit->self->exists) return;
-      unit->self->order = Orders::SiegeMode.getID();
+      unit->self->order = Orders::Sieging.getID();
     }
     else if (command.type == UnitCommandTypes::Stop)
     {
@@ -469,7 +439,7 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Unburrow)
     {
       if (!unit->self->exists) return;
-      unit->self->order = Orders::Unburrow.getID();
+      unit->self->order = Orders::Unburrowing.getID();
     }
     else if (command.type == UnitCommandTypes::Unload)
     {
@@ -508,7 +478,7 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Unsiege)
     {
       if (!unit->self->exists) return;
-      unit->self->order = Orders::TankMode.getID();
+      unit->self->order = Orders::Unsieging.getID();
     }
     else if (command.type == UnitCommandTypes::Upgrade)
     {
@@ -705,7 +675,7 @@ namespace BWAPI
       }
       else if (techType==TechTypes::Yamato_Gun)
       {
-        unit->self->order = Orders::FireYamatoGun1.getID();
+        unit->self->order = Orders::FireYamatoGun.getID();
         unit->self->orderTarget = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();

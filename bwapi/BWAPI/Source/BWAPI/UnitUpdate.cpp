@@ -18,6 +18,7 @@
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
 #include "Server.h"
+#include "BWtoBWAPI.h"
 namespace BWAPI
 {
   void UnitImpl::updateData()
@@ -255,10 +256,10 @@ namespace BWAPI
       self->stimTimer = getOriginalRawData->stimTimer;
       //------------------------------------------------------------------------------------------------------
       //getOrder
-      self->order = getOriginalRawData->orderID;
+      self->order = BWtoBWAPI_Order[getOriginalRawData->orderID];
       //------------------------------------------------------------------------------------------------------
       //getSecondaryOrder
-      self->secondaryOrder = getOriginalRawData->secondaryOrderID;
+      self->secondaryOrder = BWtoBWAPI_Order[getOriginalRawData->secondaryOrderID];
       //------------------------------------------------------------------------------------------------------
       //getBuildUnit
       if (getOriginalRawData->currentBuildUnit)

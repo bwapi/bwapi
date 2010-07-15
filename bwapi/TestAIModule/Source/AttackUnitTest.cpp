@@ -36,14 +36,7 @@ void AttackUnitTest::start()
   startingHPS = target->getHitPoints() + target->getShields();
   BWAssertF(unit->isIdle()==true,{fail=true;return;});
   BWAssertF(unit->attackUnit(target),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
-  BWAssertF(unit->getOrder()==Orders::Attack1 ||
-            unit->getOrder()==Orders::AttackUnit ||
-            unit->getOrder()==Orders::CarrierAttack1 ||
-            unit->getOrder()==Orders::CarrierFight || 
-            unit->getOrder()==Orders::ReaverAttack1 ||
-            unit->getOrder()==Orders::ReaverFight ||
-            unit->getOrder()==Orders::SapUnit ||//Infested Terran
-            unit->getOrder()==Orders::StayinRange,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+  BWAssertF(unit->getOrder()==Orders::AttackUnit,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
   BWAssertF(unit->getTarget()==target,{fail=true;return;});
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
@@ -84,14 +77,7 @@ void AttackUnitTest::update()
   }
   if (reachedDamagePointFrame==-1)
   {
-    BWAssertF(unit->getOrder()==Orders::Attack1 ||
-              unit->getOrder()==Orders::AttackUnit ||
-              unit->getOrder()==Orders::CarrierAttack1 ||
-              unit->getOrder()==Orders::CarrierFight || 
-              unit->getOrder()==Orders::ReaverAttack1 ||
-              unit->getOrder()==Orders::ReaverFight ||
-              unit->getOrder()==Orders::SapUnit ||//Infested Terran
-              unit->getOrder()==Orders::StayinRange,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+    BWAssertF(unit->getOrder()==Orders::AttackUnit,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
     BWAssertF(unit->getTarget()==target || unit->getOrderTarget()==target,{fail=true;return;});
     if ((unit->exists()==false || unit->isStartingAttack() || unit->getScarabCount()<initialScarabCount || (int)unit->getLoadedUnits().size()<unit->getInterceptorCount()) && startingAttackFrame==-1)
     {

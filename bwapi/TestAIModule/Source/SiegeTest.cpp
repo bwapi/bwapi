@@ -26,7 +26,7 @@ void SiegeTest::start()
   BWAssertF(unit->exists(),{fail=true;return;});
   BWAssertF(unit->isSieged()==false,{fail=true;return;});
   unit->siege();
-  BWAssertF(unit->getOrder()==Orders::SiegeMode,{fail=true;return;});
+  BWAssertF(unit->getOrder()==Orders::Sieging,{fail=true;return;});
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
 
@@ -45,13 +45,13 @@ void SiegeTest::update()
   Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
   if (completedSiege==false)
   {
-    if (unit->getOrder()!=Orders::SiegeMode)
+    if (unit->getOrder()!=Orders::Sieging)
     {
       BWAssertF(unit->isSieged()==true,{fail=true;return;});
       BWAssertF(unit->getType()==UnitTypes::Terran_Siege_Tank_Siege_Mode,{fail=true;return;});
       completedSiege=true;
       unit->unsiege();
-      BWAssertF(unit->getOrder()==Orders::TankMode,{fail=true;return;});
+      BWAssertF(unit->getOrder()==Orders::Unsieging,{fail=true;return;});
     }
     else
     {
@@ -61,7 +61,7 @@ void SiegeTest::update()
   }
   else
   {
-    if (unit->getOrder()!=Orders::TankMode)
+    if (unit->getOrder()!=Orders::Unsieging)
     {
       BWAssertF(unit->isSieged()==false,{fail=true;return;});
       BWAssertF(unit->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode,{fail=true;return;});
