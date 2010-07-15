@@ -5,4 +5,5 @@ class DefaultTestModule : public TestModule
 {
   public:
   virtual void onStart();
+  virtual void onFrame();
 };

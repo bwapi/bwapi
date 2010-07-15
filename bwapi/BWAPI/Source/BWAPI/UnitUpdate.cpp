@@ -291,14 +291,8 @@ namespace BWAPI
       self->isConstructing = self->isMorphing ||
               (self->order == BW::OrderID::ConstructingBuilding) || 
               (self->order == BW::OrderID::BuildTerran) ||
-              (self->order == BW::OrderID::DroneBuild) ||
-              (self->order == BW::OrderID::DroneStartBuild) ||
-              (self->order == BW::OrderID::DroneLand) ||
-              (self->order == BW::OrderID::BuildProtoss1) ||
-              (self->order == BW::OrderID::BuildProtoss2) ||
               (self->order == BW::OrderID::TerranBuildSelf) ||
-              (self->order == BW::OrderID::ProtossBuildSelf) ||
-              (self->order == BW::OrderID::ZergBuildSelf) ||
+              (self->order == BW::OrderID::BuildProtoss2) ||
               (self->order == BW::OrderID::BuildNydusExit) ||
               (self->order == BW::OrderID::BuildAddon) ||
               (self->secondaryOrder == BW::OrderID::BuildAddon) ||
