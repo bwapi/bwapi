@@ -443,6 +443,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\BWtoBWAPI.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\ForceImpl.cpp"
 					>
 				</File>
@@ -508,6 +512,10 @@
 				>
 				<File
 					RelativePath=".\Source\BWAPI\BulletImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\BWtoBWAPI.h"
 					>
 				</File>
 				<File

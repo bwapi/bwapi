@@ -27,7 +27,7 @@ void BurrowTest::start()
   BWAssertF(unit->exists(),{fail=true;return;});
   BWAssertF(unit->isBurrowed()==false,{fail=true;return;});
   unit->burrow();
-  BWAssertF(unit->getOrder()==Orders::Burrow,{fail=true;return;});
+  BWAssertF(unit->getOrder()==Orders::Burrowing,{fail=true;return;});
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
 
@@ -47,12 +47,12 @@ void BurrowTest::update()
 
   if (completedBurrow==false)
   {
-    if (unit->getOrder()!=Orders::Burrow && thisFrame>startFrame+60)
+    if (unit->getOrder()!=Orders::Burrowing && thisFrame>startFrame+60)
     {
       BWAssertF(unit->isBurrowed()==true,{fail=true;return;});
       completedBurrow=true;
       unit->unburrow();
-      BWAssertF(unit->getOrder()==Orders::Unburrow,{fail=true;return;});
+      BWAssertF(unit->getOrder()==Orders::Unburrowing,{fail=true;return;});
       startFrame=thisFrame;
     }
     else
@@ -63,7 +63,7 @@ void BurrowTest::update()
   }
   else
   {
-    if (unit->getOrder()!=Orders::Unburrow && thisFrame>startFrame+60)
+    if (unit->getOrder()!=Orders::Unburrowing && thisFrame>startFrame+60)
     {
       BWAssertF(unit->isBurrowed()==false,{fail=true;return;});
       running = false;

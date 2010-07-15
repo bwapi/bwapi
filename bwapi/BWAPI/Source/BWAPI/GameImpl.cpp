@@ -52,6 +52,7 @@
 #include "ShapeLine.h"
 #include "ShapeTriangle.h"
 #include "ShapeText.h"
+#include "BWtoBWAPI.h"
 
 namespace BWAPI
 {
@@ -74,6 +75,7 @@ namespace BWAPI
 
     /* initialize the unit types */
     BW::UnitType::initialize();
+    BWtoBWAPI_init();
 
     try
     {

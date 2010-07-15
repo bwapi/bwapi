@@ -605,12 +605,7 @@ namespace BWAPI
   //--------------------------------------------- IS HOLDING POSITION ----------------------------------------
   bool UnitImpl::isHoldingPosition() const
   {
-    return (self->order == Orders::HoldPosition.getID() ||
-            self->order == Orders::CarrierHoldPosition.getID() ||
-            self->order == Orders::QueenHoldPosition.getID() ||
-            self->order == Orders::SuicideHoldPosition.getID() ||
-            self->order == Orders::MedicHoldPosition.getID() ||
-            self->order == Orders::ReaverHoldPosition.getID());
+    return self->order == Orders::HoldPosition.getID();
   }
   //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
@@ -670,7 +665,7 @@ namespace BWAPI
   //--------------------------------------------- IS REPAIRING -----------------------------------------------
   bool UnitImpl::isRepairing() const
   {
-    return self->order == Orders::Repair1.getID() || self->order == Orders::Repair2.getID();
+    return self->order == Orders::Repair.getID();
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool UnitImpl::isResearching() const
