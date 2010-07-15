@@ -141,7 +141,7 @@ namespace BWAPI
     extern const Order CloakNearbyUnits;
     extern const Order PlaceMine;
     extern const Order RightClickAction;
-    extern const Order Teleport;
+    extern const Order CastRecall;
     extern const Order TeleporttoLocation;
     extern const Order CastScannerSweep;
     extern const Order Scanner;

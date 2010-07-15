@@ -116,7 +116,7 @@ namespace BWAPI
     const Order CloakNearbyUnits(131);
     const Order PlaceMine(132);
     const Order RightClickAction(133);
-    const Order Teleport(137);
+    const Order CastRecall(137);
     const Order TeleporttoLocation(138);
     const Order CastScannerSweep(139);
     const Order Scanner(140);
@@ -274,7 +274,7 @@ namespace BWAPI
       orderName[CloakNearbyUnits.getID()] = "CloakNearbyUnits";
       orderName[PlaceMine.getID()] = "PlaceMine";
       orderName[RightClickAction.getID()] = "RightClickAction";
-      orderName[Teleport.getID()] = "Teleport";
+      orderName[CastRecall.getID()] = "CastRecall";
       orderName[TeleporttoLocation.getID()] = "TeleporttoLocation";
       orderName[CastScannerSweep.getID()] = "CastScannerSweep";
       orderName[Scanner.getID()] = "Scanner";
@@ -430,7 +430,7 @@ namespace BWAPI
       orderSet.insert(CloakNearbyUnits);
       orderSet.insert(PlaceMine);
       orderSet.insert(RightClickAction);
-      orderSet.insert(Teleport);
+      orderSet.insert(CastRecall);
       orderSet.insert(TeleporttoLocation);
       orderSet.insert(CastScannerSweep);
       orderSet.insert(Scanner);
