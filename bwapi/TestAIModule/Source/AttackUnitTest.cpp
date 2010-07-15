@@ -100,7 +100,6 @@ void AttackUnitTest::update()
     if (stopped==false)
     {
       stopped=true;
-      Broodwar->printf("stopping unit");
       BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
     }
     if (thisFrame==reachedDamagePointFrame+50)

@@ -224,6 +224,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\FollowTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\InterceptorTest.cpp"
 				>
 			</File>
@@ -245,6 +249,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\RallyTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\RepairTest.cpp"
 				>
 			</File>
 			<File
@@ -342,6 +350,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\FollowTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\InterceptorTest.h"
 				>
 			</File>
@@ -363,6 +375,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\RallyTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\RepairTest.h"
 				>
 			</File>
 			<File
