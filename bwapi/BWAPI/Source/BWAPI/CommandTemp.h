@@ -558,6 +558,7 @@ namespace BWAPI
       }
       else if (techType==TechTypes::Recall)
       {
+        unit->self->order = Orders::CastRecall.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
@@ -634,6 +635,7 @@ namespace BWAPI
       }
       else if (techType==TechTypes::Lockdown)
       {
+        unit->self->order = Orders::CastLockdown.getID();
         unit->self->orderTarget = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
