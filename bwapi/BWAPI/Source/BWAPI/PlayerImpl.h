@@ -36,19 +36,22 @@ namespace BWAPI
        * Gets the name of the player
        * @return Pointer directly to bw memory where the name is represented.
        */
-      virtual int  getID() const;
-      virtual std::string  getName() const;
-      virtual const std::set<Unit*>& getUnits() const;
-      virtual Race  getRace() const;
+      virtual int         getID() const;
+      virtual std::string getName() const;
+      virtual Race        getRace() const;
       virtual PlayerType  getType() const;
-      virtual Force*  getForce() const;
-      virtual bool  isAlly(Player* player) const;
-      virtual bool  isEnemy(Player* player) const;
-      virtual bool  isNeutral() const;
-      virtual TilePosition  getStartLocation() const;
+      virtual Force*      getForce() const;
+
+      virtual bool isAlly(Player* player) const;
+      virtual bool isEnemy(Player* player) const;
+      virtual bool isNeutral() const;
+
       virtual bool isVictorious() const;
       virtual bool isDefeated() const;
       virtual bool leftGame() const;
+
+      virtual const std::set<Unit*>& getUnits() const;
+      virtual TilePosition  getStartLocation() const;
 
       virtual int  minerals() const;
       virtual int  gas() const;
@@ -92,7 +95,6 @@ namespace BWAPI
       int getIndex() const;
       /** Gets 0-based index of the player. (11 for neutral) */
       char* getForceName() const;
-      u8 getAlliance(u8 opposingID);
       u8 getForce();
       void setID(int newID);
       ForceImpl* force;
