@@ -16,8 +16,8 @@ class TrainTest : public TestCase
     BWAPI::UnitType unitType;
     BWAPI::UnitType producerType;
     int previousUnitCount;
-    int startTrainFrame;
-    int nextUpdateFrame;
+    int startFrame;
+    int nextFrame;
     BWAPI::Unit* producer;
     int correctMineralCount;
     int correctGasCount;

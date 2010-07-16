@@ -6,8 +6,8 @@ TrainTest::TrainTest(BWAPI::UnitType unitType) : unitType(unitType),
                                                  running(false),
                                                  fail(false),
                                                  producer(NULL),
-                                                 startTrainFrame(-1),
-                                                 nextUpdateFrame(-1)
+                                                 startFrame(-1),
+                                                 nextFrame(-1)
 {
   producerType = unitType.whatBuilds().first;
   BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});
@@ -53,8 +53,8 @@ void TrainTest::start()
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
 
-  startTrainFrame = Broodwar->getFrameCount();
-  nextUpdateFrame = startTrainFrame;
+  startFrame = Broodwar->getFrameCount();
+  nextFrame = startFrame;
   previousUnitCount = Broodwar->self()->completedUnitCount(unitType);
 
 }
@@ -67,17 +67,17 @@ void TrainTest::update()
     return;
   }
   int thisFrame = Broodwar->getFrameCount();
-  BWAssert(thisFrame==nextUpdateFrame);
+  BWAssert(thisFrame==nextFrame);
   BWAssertF(producer!=NULL,{fail=true;return;});
-  nextUpdateFrame++;
+  nextFrame++;
   Broodwar->setScreenPosition(producer->getPosition().x()-320,producer->getPosition().y()-240);
-  int correctRemainingTrainTime = startTrainFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
+  int correctRemainingTrainTime = startFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
   if (correctRemainingTrainTime>unitType.buildTime())
     correctRemainingTrainTime=unitType.buildTime();
   if (correctRemainingTrainTime<0)
     correctRemainingTrainTime=0;
   BWAssertF(producer->getRemainingTrainTime() == correctRemainingTrainTime,{Broodwar->printf("%d %d",producer->getRemainingTrainTime(), correctRemainingTrainTime);});
-  int lastFrame = startTrainFrame+Broodwar->getLatency()+unitType.buildTime();
+  int lastFrame = startFrame+Broodwar->getLatency()+unitType.buildTime();
   if (unitType==UnitTypes::Terran_Nuclear_Missile)
     lastFrame++;
   if (thisFrame>lastFrame) //terminate condition

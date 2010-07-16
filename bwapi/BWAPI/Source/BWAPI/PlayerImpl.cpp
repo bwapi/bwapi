@@ -21,6 +21,13 @@ namespace BWAPI
       self->upgradeLevel[i] = 0;
       self->isUpgrading[i]  = 0;
     }
+    for (int i=228; i<230;i++)
+    {
+      self->allUnitCount[i]       = 0;
+      self->completedUnitCount[i] = 0;
+      self->deadUnitCount[i]      = 0;
+      self->killedUnitCount[i]    = 0;
+    }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   PlayerImpl::~PlayerImpl()
@@ -144,62 +151,27 @@ namespace BWAPI
   //--------------------------------------------- GET ALL UNITS ----------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return this->evaluateCounts(BW::BWDATA_Counts->all, BW::UnitType((u16)unit.getID())) + this->toMake[unit.getID()];
+    return self->allUnitCount[unit.getID()];
   }
   //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return this->evaluateCounts(BW::BWDATA_Counts->completed, BW::UnitType((u16)unit.getID()));
+    return self->completedUnitCount[unit.getID()];
   }
   //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
   int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return this->allUnitCount(unit) - this->completedUnitCount(unit) + toMake[unit.getID()];
+    return self->allUnitCount[unit.getID()]-self->completedUnitCount[unit.getID()];
   }
   //----------------------------------------------- GET DEATHS -----------------------------------------------
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return this->evaluateCounts(BW::BWDATA_Counts->dead, BW::UnitType((u16)unit.getID()));
+    return self->deadUnitCount[unit.getID()];
   }
   //----------------------------------------------- GET KILLS ------------------------------------------------
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
-    BroodwarImpl.setLastError(Errors::None);
-    if (unit==UnitTypes::Unknown || unit==UnitTypes::None) return 0;
-    if (this!=BroodwarImpl.self() && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-    {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return 0;
-    }
-    return this->evaluateCounts(BW::BWDATA_Counts->killed, BW::UnitType((u16)unit.getID()));
+    return self->killedUnitCount[unit.getID()];
   }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
@@ -378,14 +350,20 @@ namespace BWAPI
         self->supplyUsed[i] = BW::BWDATA_Supplies->race[i].used.player[index];
       }
     }
+    for(int i=0;i<228;i++)
+    {
+      self->allUnitCount[i]       = BW::BWDATA_Counts->all.unit[i].player[index];
+      self->completedUnitCount[i] = BW::BWDATA_Counts->completed.unit[i].player[index];
+      self->deadUnitCount[i]      = BW::BWDATA_Counts->dead.unit[i].player[index];
+      self->killedUnitCount[i]    = BW::BWDATA_Counts->killed.unit[i].player[index];
+    }
+
     if (BW::BWDATA_Players->player[index].nType  == BW::PlayerType::PlayerLeft ||
         BW::BWDATA_Players->player[index].nType  == BW::PlayerType::ComputerLeft ||
        (BW::BWDATA_Players->player[index].nType  == BW::PlayerType::Neutral && !isNeutral()))
     {
       this->leftTheGame = true;
     }
-    for (u16 j = 0; j < BW::UNIT_TYPE_COUNT; j++)
-      this->toMake[j] = 0;
   }
   //------------------------------------------------ GET ALLIANCE --------------------------------------------
   u8 PlayerImpl::getAlliance(u8 opposingID)
@@ -396,13 +374,6 @@ namespace BWAPI
   u8 PlayerImpl::getForce()
   {
     return BW::BWDATA_Players->player[index].nTeam;
-  }
-  //-------------------------------------------- EVALUATE COUNTS ---------------------------------------------
-  int PlayerImpl::evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const
-  {
-    if(unit.getID() < BW::UnitID::None)
-      return counts.unit[unit.getID()].player[index];
-    return 0;
   }
   //------------------------------------------- GET FORCE NAME -----------------------------------------------
   char* PlayerImpl::getForceName() const
