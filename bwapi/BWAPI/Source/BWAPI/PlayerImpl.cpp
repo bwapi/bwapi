@@ -10,7 +10,7 @@
 
 namespace BWAPI
 {
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
+  //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   PlayerImpl::PlayerImpl(u8 index)
       : index(index), leftTheGame(false)
   {
@@ -29,7 +29,7 @@ namespace BWAPI
       self->killedUnitCount[i]    = 0;
     }
   }
-  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
+  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   PlayerImpl::~PlayerImpl()
   {
   }
@@ -38,29 +38,29 @@ namespace BWAPI
   {
     id = newID;
   }
-  //------------------------------------------------- GET ID -------------------------------------------------
-  int PlayerImpl::getID() const
-  {
-    return id;
-  }
-  //------------------------------------------------- GET Index -------------------------------------------------
+  //--------------------------------------------- GET INDEX --------------------------------------------------
   int PlayerImpl::getIndex() const
   {
     return index;
   }
-  //------------------------------------------------ GET NAME ------------------------------------------------
+  //--------------------------------------------- GET ID -----------------------------------------------------
+  int PlayerImpl::getID() const
+  {
+    return id;
+  }
+  //--------------------------------------------- GET NAME ---------------------------------------------------
   std::string PlayerImpl::getName() const
   {
     if (index == 11)
       return std::string("Neutral");
     return std::string(BW::BWDATA_Players->player[index].szName);
   }
-  //----------------------------------------------- GET UNITS ------------------------------------------------
+  //--------------------------------------------- GET UNITS --------------------------------------------------
   const std::set<Unit*>& PlayerImpl::getUnits() const
   {
     return units;
   }
-  //------------------------------------------------ GET RACE ------------------------------------------------
+  //--------------------------------------------- GET RACE ---------------------------------------------------
   BWAPI::Race PlayerImpl::getRace() const
   {
     return BWAPI::Race((int)(BW::BWDATA_Players->player[index].nRace));
@@ -70,7 +70,7 @@ namespace BWAPI
   {
     return BWAPI::PlayerType((int)(BW::BWDATA_Players->player[index].nType));
   }
-  //----------------------------------------------- GET FORCE ------------------------------------------------
+  //--------------------------------------------- GET FORCE --------------------------------------------------
   Force* PlayerImpl::getForce() const
   {
     return (Force*)force;
@@ -87,12 +87,12 @@ namespace BWAPI
     if (player==NULL || this->isNeutral() || player->isNeutral()) return false;
     return BW::BWDATA_Alliance->alliance[index].player[((PlayerImpl*)player)->getIndex()] == 0;
   }
-  //----------------------------------------------- IS NEUTRAL -----------------------------------------------
+  //--------------------------------------------- IS NEUTRAL -------------------------------------------------
   bool PlayerImpl::isNeutral() const
   {
     return index == 11;
   }
-  //------------------------------------------- GET START POSITION -------------------------------------------
+  //--------------------------------------------- GET START POSITION -----------------------------------------
   TilePosition PlayerImpl::getStartLocation() const
   {
     /* error checking */
@@ -108,17 +108,37 @@ namespace BWAPI
     return BWAPI::TilePosition((int)((BW::BWDATA_startPositions[index].x - BW::TILE_SIZE * 2) / BW::TILE_SIZE),
                                (int)((BW::BWDATA_startPositions[index].y - (int)(BW::TILE_SIZE * 1.5)) / BW::TILE_SIZE));
   }
-  //------------------------------------------------ MINERALS ------------------------------------------------
+  //--------------------------------------------- IS VICTORIOUS ----------------------------------------------
+  bool PlayerImpl::isVictorious() const
+  {
+    if (index>=8) return false;
+    return BW::BWDATA_PlayerVictory->player[index]==3;
+  }
+  //--------------------------------------------- IS DEFEATED ------------------------------------------------
+  bool PlayerImpl::isDefeated() const
+  {
+    if (index>=8) return false;
+    return BW::BWDATA_PlayerVictory->player[index]==1 ||
+           BW::BWDATA_PlayerVictory->player[index]==2 ||
+           BW::BWDATA_PlayerVictory->player[index]==4 ||
+           BW::BWDATA_PlayerVictory->player[index]==6;
+  }
+  //--------------------------------------------- LEFT GAME --------------------------------------------------
+  bool PlayerImpl::leftGame() const
+  {
+    return this->leftTheGame;
+  }
+  //--------------------------------------------- MINERALS ---------------------------------------------------
   int PlayerImpl::minerals() const
   {
     return self->minerals;
   }
-  //-------------------------------------------------- GAS ---------------------------------------------------
+  //--------------------------------------------- GAS --------------------------------------------------------
   int PlayerImpl::gas() const
   {
     return self->gas;
   }
-  //------------------------------------------ CUMULATIVE MINERALS -------------------------------------------
+  //--------------------------------------------- CUMULATIVE MINERALS ----------------------------------------
   int PlayerImpl::cumulativeMinerals() const
   {
     return self->cumulativeMinerals;
@@ -128,47 +148,47 @@ namespace BWAPI
   {
     return self->cumulativeGas;
   }
-  //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
+  //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal() const
   {
     return self->supplyTotal[getRace().getID()];
   }
-  //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
+  //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed() const
   {
     return self->supplyUsed[getRace().getID()];
   }
-  //--------------------------------------- GET SUPPLY AVAILABLE LOCAL ---------------------------------------
+  //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
   {
     return self->supplyTotal[race.getID()];
   }
-  //----------------------------------------- GET SUPPLY USED LOCAL ------------------------------------------
+  //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
   {
     return self->supplyUsed[race.getID()];
   }
-  //--------------------------------------------- GET ALL UNITS ----------------------------------------------
+  //--------------------------------------------- ALL UNIT COUNT ---------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
     return self->allUnitCount[unit.getID()];
   }
-  //------------------------------------------ GET COMPLETED UNITS -------------------------------------------
+  //--------------------------------------------- COMPLETED UNIT COUNT ---------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
     return self->completedUnitCount[unit.getID()];
   }
-  //------------------------------------------ GET INCOMPLETE UNITS ------------------------------------------
+  //--------------------------------------------- INCOMPLETE UNIT COUNT --------------------------------------
   int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
     return self->allUnitCount[unit.getID()]-self->completedUnitCount[unit.getID()];
   }
-  //----------------------------------------------- GET DEATHS -----------------------------------------------
+  //--------------------------------------------- DEAD UNIT COUNT --------------------------------------------
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
     return self->deadUnitCount[unit.getID()];
   }
-  //----------------------------------------------- GET KILLS ------------------------------------------------
+  //--------------------------------------------- KILLED UNIT COUNT ------------------------------------------
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
     return self->killedUnitCount[unit.getID()];
@@ -183,7 +203,7 @@ namespace BWAPI
   {
     return self->hasResearched[tech.getID()];
   }
-  //--------------------------------------------- iS RESEARCHING ---------------------------------------------
+  //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool PlayerImpl::isResearching(TechType tech) const
   {
     return self->isResearching[tech.getID()];
@@ -193,7 +213,7 @@ namespace BWAPI
   {
     return self->isUpgrading[upgrade.getID()];
   }
-  //---------------------------------------------- MAX ENERGY ------------------------------------------------
+  //--------------------------------------------- MAX ENERGY -------------------------------------------------
   int PlayerImpl::maxEnergy(UnitType unit) const
   {
     int energy = unit.maxEnergy();
@@ -211,7 +231,7 @@ namespace BWAPI
       energy += 50;
     return energy;
   }
-  //---------------------------------------------- TOP SPEED -------------------------------------------------
+  //--------------------------------------------- TOP SPEED --------------------------------------------------
   double PlayerImpl::topSpeed(UnitType unit) const
   {
     double speed = unit.topSpeed();
@@ -228,7 +248,7 @@ namespace BWAPI
 
     return speed;
   }
-  //----------------------------------------- GROUND WEAPON MAX RANGE ----------------------------------------
+  //--------------------------------------------- GROUND WEAPON MAX RANGE ------------------------------------
   int PlayerImpl::groundWeaponMaxRange(UnitType unit) const
   {
     int range = unit.groundWeapon().maxRange();
@@ -239,7 +259,7 @@ namespace BWAPI
       range += 2*32;
     return range;
   }
-  //------------------------------------------ AIR WEAPON MAX RANGE ------------------------------------------
+  //--------------------------------------------- AIR WEAPON MAX RANGE ---------------------------------------
   int PlayerImpl::airWeaponMaxRange(UnitType unit) const
   {
     int range = unit.airWeapon().maxRange();
@@ -263,7 +283,7 @@ namespace BWAPI
       range+=2*32;
     return range;
   }
-  //-------------------------------------- GROUND WEAPON DAMAGE COOLDOWN -------------------------------------
+  //--------------------------------------------- GROUND WEAPON DAMAGE COOLDOWN ------------------------------
   int PlayerImpl::groundWeaponDamageCooldown(UnitType unit) const
   {
     int cooldown = unit.groundWeapon().damageCooldown();
@@ -271,7 +291,7 @@ namespace BWAPI
       cooldown -= 0;//?
     return cooldown;
   }
-  //------------------------------------------------ ARMOR ---------------------------------------------------
+  //--------------------------------------------- ARMOR ------------------------------------------------------
   int PlayerImpl::armor(UnitType unit) const
   {
     int armor = unit.armor();
@@ -280,12 +300,7 @@ namespace BWAPI
       armor += 2;
     return armor;
   }
-  //--------------------------------------------- SELECTED UNIT ----------------------------------------------
-  BW::Unit** PlayerImpl::selectedUnit()
-  {
-    return (BW::Unit**)(BW::BWDATA_PlayerSelection + index * 48);
-  }
-  //------------------------------------------------- UPDATE -------------------------------------------------
+  //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
     if (this->isNeutral() || (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)))
@@ -339,6 +354,13 @@ namespace BWAPI
         self->supplyTotal[i] = 0;
         self->supplyUsed[i] = 0;
       }
+      for(int i=0;i<228;i++)
+      {
+        self->allUnitCount[i]       = 0;
+        self->completedUnitCount[i] = 0;
+        self->deadUnitCount[i]      = 0;
+        self->killedUnitCount[i]    = 0;
+      }
     }
     else
     {
@@ -349,13 +371,13 @@ namespace BWAPI
           self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].max.player[index];
         self->supplyUsed[i] = BW::BWDATA_Supplies->race[i].used.player[index];
       }
-    }
-    for(int i=0;i<228;i++)
-    {
-      self->allUnitCount[i]       = BW::BWDATA_Counts->all.unit[i].player[index];
-      self->completedUnitCount[i] = BW::BWDATA_Counts->completed.unit[i].player[index];
-      self->deadUnitCount[i]      = BW::BWDATA_Counts->dead.unit[i].player[index];
-      self->killedUnitCount[i]    = BW::BWDATA_Counts->killed.unit[i].player[index];
+      for(int i=0;i<228;i++)
+      {
+        self->allUnitCount[i]       = BW::BWDATA_Counts->all.unit[i].player[index];
+        self->completedUnitCount[i] = BW::BWDATA_Counts->completed.unit[i].player[index];
+        self->deadUnitCount[i]      = BW::BWDATA_Counts->dead.unit[i].player[index];
+        self->killedUnitCount[i]    = BW::BWDATA_Counts->killed.unit[i].player[index];
+      }
     }
 
     if (BW::BWDATA_Players->player[index].nType  == BW::PlayerType::PlayerLeft ||
@@ -365,44 +387,26 @@ namespace BWAPI
       this->leftTheGame = true;
     }
   }
-  //------------------------------------------------ GET ALLIANCE --------------------------------------------
-  u8 PlayerImpl::getAlliance(u8 opposingID)
-  {
-    return BW::BWDATA_Alliance->alliance[index].player[opposingID];
-  }
-  //----------------------------------------------- GET FORCE ------------------------------------------------
+  //--------------------------------------------- GET FORCE --------------------------------------------------
   u8 PlayerImpl::getForce()
   {
     return BW::BWDATA_Players->player[index].nTeam;
   }
-  //------------------------------------------- GET FORCE NAME -----------------------------------------------
+  //--------------------------------------------- GET FORCE NAME ---------------------------------------------
   char* PlayerImpl::getForceName() const
   {
     return BW::BWDATA_ForceNames[BW::BWDATA_Players->player[index].nTeam].name;
+  }
+  //--------------------------------------------- SELECTED UNIT ----------------------------------------------
+  BW::Unit** PlayerImpl::selectedUnit()
+  {
+    return (BW::Unit**)(BW::BWDATA_PlayerSelection + index * 48);
   }
   //----------------------------------------------------------------------------------------------------------
   void PlayerImpl::onGameEnd()
   {
     this->units.clear();
     this->leftTheGame=false;
-  }
-  bool PlayerImpl::isVictorious() const
-  {
-    if (index>=8) return false;
-    return BW::BWDATA_PlayerVictory->player[index]==3;
-  }
-  bool PlayerImpl::isDefeated() const
-  {
-    if (index>=8) return false;
-    return BW::BWDATA_PlayerVictory->player[index]==1 ||
-           BW::BWDATA_PlayerVictory->player[index]==2 ||
-           BW::BWDATA_PlayerVictory->player[index]==4 ||
-           BW::BWDATA_PlayerVictory->player[index]==6;
-  }
-  //---------------------------------------------- LEFT GAME -------------------------------------------------
-  bool PlayerImpl::leftGame() const
-  {
-    return this->leftTheGame;
   }
   //----------------------------------------------------------------------------------------------------------
 };

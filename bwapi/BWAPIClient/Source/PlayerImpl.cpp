@@ -68,74 +68,92 @@ namespace BWAPI
   {
     return self->leftGame;
   }
+  //--------------------------------------------- MINERALS ---------------------------------------------------
   int PlayerImpl::minerals() const
   {
     return self->minerals;
   }
+  //--------------------------------------------- GAS --------------------------------------------------------
   int PlayerImpl::gas() const
   {
     return self->gas;
   }
+  //--------------------------------------------- CUMULATIVE MINERALS ----------------------------------------
   int PlayerImpl::cumulativeMinerals() const
   {
     return self->cumulativeMinerals;
   }
+  //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
   int PlayerImpl::cumulativeGas() const
   {
     return self->cumulativeGas;
   }
+  //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal() const
   {
     return self->supplyTotal[self->race];
   }
+  //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed() const
   {
     return self->supplyUsed[self->race];
   }
+  //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
   {
     return self->supplyTotal[race.getID()];
   }
+  //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
   {
     return self->supplyUsed[race.getID()];
   }
+  //--------------------------------------------- ALL UNIT COUNT ---------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
     return self->allUnitCount[unit.getID()];
   }
+  //--------------------------------------------- COMPLETED UNIT COUNT ---------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
     return self->completedUnitCount[unit.getID()];
   }
+  //--------------------------------------------- INCOMPLETE UNIT COUNT --------------------------------------
   int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
     return self->allUnitCount[unit.getID()]-self->completedUnitCount[unit.getID()];
   }
+  //--------------------------------------------- DEAD UNIT COUNT --------------------------------------------
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
     return self->deadUnitCount[unit.getID()];
   }
+  //--------------------------------------------- KILLED UNIT COUNT ------------------------------------------
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
     return self->killedUnitCount[unit.getID()];
   }
+  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     return self->upgradeLevel[upgrade.getID()];
   }
+  //--------------------------------------------- HAS RESEARCHED ---------------------------------------------
   bool PlayerImpl::hasResearched(TechType tech) const
   {
     return self->hasResearched[tech.getID()];
   }
+  //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool PlayerImpl::isResearching(TechType tech) const
   {
     return self->isResearching[tech.getID()];
   }
+  //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
   {
     return self->isUpgrading[upgrade.getID()];
   }
+  //--------------------------------------------- MAX ENERGY -------------------------------------------------
   int PlayerImpl::maxEnergy(UnitType unit) const
   {
     int energy = unit.maxEnergy();
