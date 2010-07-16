@@ -1644,12 +1644,11 @@ namespace BWAPI
     {
       return this->cancelConstruction();
     }
-    if (this->isMorphing())
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelMorph(this)));
-    }
+    if (!isMorphing())
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelMorph(this)));
     return true;
   }
   //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
@@ -1658,12 +1657,11 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (this->isTraining())
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrainLast(), sizeof(BW::Orders::CancelTrainLast));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this)));
-    }
+    if (!isTraining())
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrainLast(), sizeof(BW::Orders::CancelTrainLast));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this)));
     return true;
   }
   //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
@@ -1672,12 +1670,11 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (this->isTraining() && (int)(this->getTrainingQueue().size()) > slot)
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrain((u8)slot), sizeof(BW::Orders::CancelTrain));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this,slot)));
-    }
+    if (!isTraining() || (int)(this->getTrainingQueue().size()) <= slot)
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrain((u8)slot), sizeof(BW::Orders::CancelTrain));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this,slot)));
     return true;
   }
   //----------------------------------------------- CANCEL ADDON ---------------------------------------------
@@ -1686,6 +1683,8 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
+    if (getAddon()==NULL || getAddon()->isCompleted())
+      return false;
     this->orderSelect();
     BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelAddon(this)));
@@ -1697,12 +1696,11 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (self->order == BW::OrderID::ResearchTech)
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelResearch(this)));
-    }
+    if (self->order != BW::OrderID::ResearchTech)
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelResearch(this)));
     return true;
   }
   //---------------------------------------------- CANCEL UPGRADE --------------------------------------------
@@ -1711,12 +1709,11 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (self->order == BW::OrderID::Upgrade)
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelUpgrade(this)));
-    }
+    if (self->order != BW::OrderID::Upgrade)
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelUpgrade(this)));
     return true;
   }
   //------------------------------------------------- USE TECH -----------------------------------------------

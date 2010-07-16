@@ -12,6 +12,7 @@
 #include "AttackMoveTest.h"
 #include "AttackUnitTest.h"
 #include "FollowTest.h"
+#include "CancelTrainTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -55,6 +56,8 @@ void ProtossTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Observatory));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Arbiter_Tribunal));
 
+  this->addTestCase(new CancelTrainTest(UnitTypes::Protoss_Zealot,UnitTypes::Protoss_Dragoon,UnitTypes::Protoss_High_Templar));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Protoss_High_Templar,UnitTypes::Protoss_Dark_Templar,UnitTypes::Protoss_Zealot));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Zealot));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Zealot));
   this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Zealot));
@@ -86,6 +89,9 @@ void ProtossTest::onStart()
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Dark_Archon));
   this->addTestCase(new FollowTest(UnitTypes::Protoss_Dark_Archon,UnitTypes::Protoss_Gateway));
 
+  
+  this->addTestCase(new CancelTrainTest(UnitTypes::Protoss_Shuttle,UnitTypes::Protoss_Reaver,UnitTypes::Protoss_Observer));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Protoss_Observer,UnitTypes::Protoss_Shuttle,UnitTypes::Protoss_Reaver));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Shuttle));
   this->addTestCase(new FollowTest(UnitTypes::Protoss_Zealot,UnitTypes::Protoss_Shuttle));
@@ -106,6 +112,8 @@ void ProtossTest::onStart()
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Observer));
   this->addTestCase(new FollowTest(UnitTypes::Protoss_Observer,UnitTypes::Protoss_Zealot));
 
+  this->addTestCase(new CancelTrainTest(UnitTypes::Protoss_Scout,UnitTypes::Protoss_Carrier,UnitTypes::Protoss_Arbiter));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Protoss_Corsair,UnitTypes::Protoss_Scout,UnitTypes::Protoss_Carrier));
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Scout));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Scout));
   this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Scout));

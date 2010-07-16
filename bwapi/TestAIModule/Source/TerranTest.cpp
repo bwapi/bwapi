@@ -16,6 +16,7 @@
 #include "AttackUnitTest.h"
 #include "RepairTest.h"
 #include "FollowTest.h"
+#include "CancelTrainTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -44,21 +45,31 @@ void TerranTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Terran_Engineering_Bay));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Marine,UnitTypes::Terran_Medic,UnitTypes::Terran_Firebat));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Factory));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Factory));
+  this->addTestCase(new BuildTest(UnitTypes::Terran_Machine_Shop));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Starport));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Starport));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Science_Facility));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Science_Facility));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Armory));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Vulture,UnitTypes::Terran_Siege_Tank_Tank_Mode,UnitTypes::Terran_Goliath));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Siege_Tank_Tank_Mode,UnitTypes::Terran_Goliath,UnitTypes::Terran_Vulture));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Goliath,UnitTypes::Terran_Vulture,UnitTypes::Terran_Siege_Tank_Tank_Mode));
 
   this->addTestCase(new BuildTest(UnitTypes::Terran_Comsat_Station));
-  this->addTestCase(new BuildTest(UnitTypes::Terran_Machine_Shop));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Control_Tower));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Physics_Lab));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Covert_Ops));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Nuclear_Silo));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Firebat,UnitTypes::Terran_Marine,UnitTypes::Terran_Ghost));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Wraith,UnitTypes::Terran_Dropship,UnitTypes::Terran_Science_Vessel));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Battlecruiser,UnitTypes::Terran_Valkyrie,UnitTypes::Terran_Science_Vessel));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Battlecruiser,UnitTypes::Terran_Valkyrie,UnitTypes::Terran_Science_Vessel));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Valkyrie,UnitTypes::Terran_Science_Vessel,UnitTypes::Terran_Battlecruiser));
+  this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Science_Vessel,UnitTypes::Terran_Battlecruiser,UnitTypes::Terran_Valkyrie));
 
   this->addTestCase(new TrainTest(UnitTypes::Terran_Marine));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_Marine));

@@ -16,8 +16,8 @@ class BuildTest : public TestCase
     BWAPI::UnitType unitType;
     BWAPI::UnitType builderType;
     int previousUnitCount;
-    int startTrainFrame;
-    int nextUpdateFrame;
+    int startFrame;
+    int nextFrame;
     int finishFrame;
     BWAPI::TilePosition buildLocation;
     BWAPI::Unit* builder;

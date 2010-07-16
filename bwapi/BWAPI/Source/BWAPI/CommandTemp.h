@@ -15,17 +15,15 @@ namespace BWAPI
   {
     public :
       CommandTemp(UnitCommand command);
-      void execute();
+      void execute(int frame);
     private :
       int getUnitID(Unit* unit);
       UnitCommand command;
-      int startFrame;
       int savedExtra;
   };
   template <class UnitImpl, class PlayerImpl>
   CommandTemp<UnitImpl, PlayerImpl>::CommandTemp(UnitCommand command) : command(command)
   {
-    startFrame = Broodwar->getFrameCount();
     savedExtra = -1;
   }
   template <class UnitImpl, class PlayerImpl>
@@ -35,7 +33,7 @@ namespace BWAPI
     return unit->getID();
   }
   template <class UnitImpl, class PlayerImpl>
-  void CommandTemp<UnitImpl, PlayerImpl>::execute()
+  void CommandTemp<UnitImpl, PlayerImpl>::execute(int frame)
   {
     UnitImpl* unit   = (UnitImpl*)command.unit;
     UnitImpl* target = (UnitImpl*)command.target;
@@ -44,6 +42,8 @@ namespace BWAPI
     UnitType unitType(command.extra);
     UpgradeType upgradeType(command.extra);
     TechType techType(command.extra);
+    if (frame>Broodwar->getLatency() && command.type !=UnitCommandTypes::Cancel_Train_Slot)
+      return;
 
     if (command.type == UnitCommandTypes::Attack_Position)
     {
@@ -106,7 +106,7 @@ namespace BWAPI
       unitType = UnitType(savedExtra);
 
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         p->self->minerals+=unitType.mineralPrice();
         p->self->gas+=unitType.gasPrice();
@@ -136,7 +136,7 @@ namespace BWAPI
       unit->self->isIdle = true;
       unit->self->remainingResearchTime = 0;
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         p->self->minerals += techType.mineralPrice();
         p->self->gas      += techType.gasPrice();
@@ -145,29 +145,69 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Cancel_Train)
     {
       if (!unit->self->exists) return;
-      unit->self->trainingQueueCount--;
-      if (unit->self->trainingQueueCount<0)
-        unit->self->trainingQueueCount=0;
+      if (savedExtra==-1)
+        savedExtra = unit->self->trainingQueue[unit->self->trainingQueueCount-1];
+      PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
+      if (frame<Broodwar->getLatency())
+      {
+        unit->self->trainingQueueCount--;
+        if (unit->self->trainingQueueCount<0)
+          unit->self->trainingQueueCount=0;
+        p->self->minerals += UnitType(savedExtra).mineralPrice();
+        p->self->gas += UnitType(savedExtra).gasPrice();
+      }
       if (unit->self->trainingQueueCount==0)
       {
+        p->self->allUnitCount[savedExtra]--;
         unit->self->isTraining = false;
-        unit->self->order = Orders::Nothing.getID();
+        unit->self->remainingTrainTime = 0;
         unit->self->isIdle = true;
+        p->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
       }
     }
     else if (command.type == UnitCommandTypes::Cancel_Train_Slot)
     {
       if (!unit->self->exists) return;
-      for(int i=command.extra;i<4;i++)
-        unit->self->trainingQueue[i]=unit->self->trainingQueue[i+1];
-      unit->self->trainingQueueCount--;
-      if (unit->self->trainingQueueCount<0)
-        unit->self->trainingQueueCount=0;
-      if (unit->self->trainingQueueCount==0)
+      if (frame>Broodwar->getLatency()+2) return;
+      if (savedExtra==-1)
+        savedExtra = unit->self->trainingQueue[command.extra];
+      PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
+      if (frame<Broodwar->getLatency())
       {
-        unit->self->isTraining = false;
-        unit->self->order = Orders::Nothing.getID();
-        unit->self->isIdle = true;
+        for(int i=command.extra;i<4;i++)
+          unit->self->trainingQueue[i]=unit->self->trainingQueue[i+1];
+        unit->self->trainingQueueCount--;
+        if (unit->self->trainingQueueCount<0)
+          unit->self->trainingQueueCount=0;
+        p->self->minerals += UnitType(savedExtra).mineralPrice();
+        p->self->gas += UnitType(savedExtra).gasPrice();
+      }
+      if (command.extra==0)
+      {
+        if (frame<Broodwar->getLatency())
+        {
+          p->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
+        }
+        if (frame<Broodwar->getLatency()+1)
+        {
+          p->self->allUnitCount[savedExtra]--;
+        }
+
+        if (unit->self->trainingQueueCount==0)
+        {
+          unit->self->isTraining = false;
+          unit->self->isIdle = true;
+        }
+        else
+        {
+          unit->self->remainingTrainTime=UnitType(unit->self->trainingQueue[0]).buildTime();
+          p->self->supplyUsed[unit->getType().getRace().getID()] += UnitType(unit->self->trainingQueue[0]).supplyRequired();
+          p->self->allUnitCount[unit->self->trainingQueue[0]]++;
+          if (frame==Broodwar->getLatency())
+          {
+            p->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
+          }
+        }
       }
     }
     else if (command.type == UnitCommandTypes::Cancel_Upgrade)
@@ -183,7 +223,7 @@ namespace BWAPI
       unit->self->isIdle = true;
       unit->self->remainingUpgradeTime = 0;
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         p->self->minerals += upgradeType.mineralPriceBase() + upgradeType.mineralPriceFactor()*level;
         p->self->gas      += upgradeType.gasPriceBase()     + upgradeType.gasPriceFactor()*level;
@@ -193,7 +233,7 @@ namespace BWAPI
     {
       if (!unit->self->exists) return;
       unit->self->order = Orders::Cloak.getID();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         if (unit->self->type==UnitTypes::Terran_Ghost.getID())
           unit->self->energy -= BWAPI::TechTypes::Personnel_Cloaking.energyUsed();
@@ -287,7 +327,7 @@ namespace BWAPI
       {
         unit->self->order = Orders::ZergUnitMorph.getID();
         PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-        if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+        if (frame<Broodwar->getLatency())
         {
           p->self->minerals -= unitType.mineralPrice();
           p->self->gas      -= unitType.gasPrice();
@@ -333,7 +373,7 @@ namespace BWAPI
       unit->self->isIdle = false;
       unit->self->remainingResearchTime = techType.researchTime();
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         p->self->minerals -= techType.mineralPrice();
         p->self->gas      -= techType.gasPrice();
@@ -420,21 +460,26 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Train)
     {
       if (!unit->self->exists) return;
+      if (savedExtra==-1)
+        savedExtra = unit->self->trainingQueueCount;
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         unit->self->trainingQueue[unit->self->trainingQueueCount] = unitType.getID();
         unit->self->trainingQueueCount++;
         p->self->minerals -= unitType.mineralPrice();
         p->self->gas      -= unitType.gasPrice();
-        p->self->allUnitCount[unitType.getID()]++;
       }
-      unit->self->remainingTrainTime = unitType.buildTime();
+      if (savedExtra==0)
+      {
+        p->self->allUnitCount[unitType.getID()]++;
+        unit->self->remainingTrainTime = unitType.buildTime();
+        p->self->supplyUsed[unitType.getRace().getID()] += unitType.supplyRequired();
+      }
       unit->self->isTraining = true;
       unit->self->isIdle = false;
       if (unitType == UnitTypes::Terran_Nuclear_Missile.getID())
         unit->self->secondaryOrder = Orders::Train.getID();
-      p->self->supplyUsed[unitType.getRace().getID()] += unitType.supplyRequired();
     }
     else if (command.type == UnitCommandTypes::Unburrow)
     {
@@ -489,7 +534,7 @@ namespace BWAPI
       int level = unit->getPlayer()->getUpgradeLevel(upgradeType.getID());
       unit->self->remainingUpgradeTime = upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*level;
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
-      if (Broodwar->getFrameCount()-startFrame<Broodwar->getLatency())
+      if (frame<Broodwar->getLatency())
       {
         p->self->minerals -= upgradeType.mineralPriceBase() + upgradeType.mineralPriceFactor()*level;
         p->self->gas      -= upgradeType.gasPriceBase()     + upgradeType.gasPriceFactor()*level;

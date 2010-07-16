@@ -6,8 +6,8 @@ MorphTest::MorphTest(BWAPI::UnitType unitType) : unitType(unitType),
                                                  running(false),
                                                  fail(false),
                                                  producer(NULL),
-                                                 startTrainFrame(-1),
-                                                 nextUpdateFrame(-1),
+                                                 startFrame(-1),
+                                                 nextFrame(-1),
                                                  finishingMorph(false)
 {
   producerType = unitType.whatBuilds().first;
@@ -63,8 +63,8 @@ void MorphTest::start()
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
 
-  startTrainFrame = Broodwar->getFrameCount();
-  nextUpdateFrame = startTrainFrame;
+  startFrame = Broodwar->getFrameCount();
+  nextFrame = startFrame;
   previousUnitCount = Broodwar->self()->completedUnitCount(unitType);
 
 }
@@ -77,12 +77,12 @@ void MorphTest::update()
     return;
   }
   int thisFrame = Broodwar->getFrameCount();
-  BWAssert(thisFrame==nextUpdateFrame);
+  BWAssert(thisFrame==nextFrame);
   BWAssertF(producer!=NULL,{fail=true;return;});
-  nextUpdateFrame++;
+  nextFrame++;
   Broodwar->setScreenPosition(producer->getPosition().x()-320,producer->getPosition().y()-240);
 
-  int correctRemainingTrainTime = startTrainFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
+  int correctRemainingTrainTime = startFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
   if (correctRemainingTrainTime>unitType.buildTime())
     correctRemainingTrainTime=unitType.buildTime();
   if (correctRemainingTrainTime<0)
@@ -152,12 +152,12 @@ void MorphTest::update()
     BWAssertF(producer->getBuildUnit()==NULL,{fail=true;return;});
     BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
     BWAssertF(producer->getRemainingBuildTime()==0,{fail=true;return;});
-    if (thisFrame > startTrainFrame+Broodwar->getLatency()+unitType.buildTime()+32)
+    if (thisFrame > startFrame+Broodwar->getLatency()+unitType.buildTime()+32)
       running = false;
     return;
   }
 
-  finishFrame = startTrainFrame+Broodwar->getLatency()+unitType.buildTime()+18;
+  finishFrame = startFrame+Broodwar->getLatency()+unitType.buildTime()+18;
   if (producerType.isBuilding()) finishFrame-=10;
   if (producerType==UnitTypes::Zerg_Mutalisk || producerType==UnitTypes::Zerg_Hydralisk) finishFrame-=16;
   if (thisFrame>finishFrame) //terminate condition

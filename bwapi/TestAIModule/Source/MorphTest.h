@@ -16,8 +16,8 @@ class MorphTest : public TestCase
     BWAPI::UnitType unitType;
     BWAPI::UnitType producerType;
     int previousUnitCount;
-    int startTrainFrame;
-    int nextUpdateFrame;
+    int startFrame;
+    int nextFrame;
     BWAPI::Unit* producer;
     bool finishingMorph;
     int finishFrame;

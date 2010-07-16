@@ -735,7 +735,7 @@ namespace BWAPI
     c.x=command.x;
     c.y=command.y;
     c.extra=command.extra;
-    Command(command).execute();
+    Command(command).execute(0);
     ((GameImpl*)Broodwar)->addUnitCommand(c);
     return true;
   }

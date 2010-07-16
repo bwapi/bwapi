@@ -9,8 +9,8 @@ BuildTest::BuildTest(BWAPI::UnitType unitType) : unitType(unitType),
                                                  fail(false),
                                                  builder(NULL),
                                                  building(NULL),
-                                                 startTrainFrame(-1),
-                                                 nextUpdateFrame(-1),
+                                                 startFrame(-1),
+                                                 nextFrame(-1),
                                                  finishFrame(-1),
                                                  finishingBuilding(false)
 {
@@ -60,7 +60,7 @@ void BuildTest::start()
     return;
   });
 
-  nextUpdateFrame = Broodwar->getFrameCount();
+  nextFrame = Broodwar->getFrameCount();
   previousUnitCount = Broodwar->self()->completedUnitCount(unitType);
 
 }
@@ -73,9 +73,9 @@ void BuildTest::update()
     return;
   }
   int thisFrame = Broodwar->getFrameCount();
-  BWAssert(thisFrame==nextUpdateFrame);
+  BWAssert(thisFrame==nextFrame);
   BWAssertF(builder!=NULL,{fail=true;return;});
-  nextUpdateFrame++;
+  nextFrame++;
   if (unitType==UnitTypes::Zerg_Extractor && builder->exists()==false)
   {
     std::set<Unit*> buildingsOnTile;
@@ -173,19 +173,19 @@ void BuildTest::update()
       builder=building;
   }
 
-  if (startTrainFrame == -1 && building!=NULL)
+  if (startFrame == -1 && building!=NULL)
   {
-    startTrainFrame = Broodwar->getFrameCount();
+    startFrame = Broodwar->getFrameCount();
     if (unitType.isAddon())
-      startTrainFrame-=2;
+      startFrame-=2;
     if (unitType==UnitTypes::Protoss_Assimilator)
-      startTrainFrame--;
+      startFrame--;
   }
   BWAssert(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount);
   int correctRemainingBuildTime = -1;
   if (building!=NULL)
   {
-    correctRemainingBuildTime = startTrainFrame+unitType.buildTime()-thisFrame+1;
+    correctRemainingBuildTime = startFrame+unitType.buildTime()-thisFrame+1;
     if (builder->getType().getRace()==Races::Protoss)
       correctRemainingBuildTime--;
     if (builder->getType().getRace()==Races::Zerg)
@@ -204,9 +204,9 @@ void BuildTest::update()
   if (builder->getType().getRace()==Races::Protoss)
   {
     if (unitType==UnitTypes::Protoss_Assimilator)
-      correctIsConstructing = (building==NULL) || thisFrame<startTrainFrame+2;
+      correctIsConstructing = (building==NULL) || thisFrame<startFrame+2;
     else
-      correctIsConstructing = (building==NULL) || thisFrame<startTrainFrame+1;
+      correctIsConstructing = (building==NULL) || thisFrame<startFrame+1;
   }
   if (builder->getType().getRace()==Races::Zerg)
   {
@@ -233,7 +233,7 @@ void BuildTest::update()
     BWAssert(building->isBeingConstructed()==true);
     if (building->getType().getRace()==Races::Protoss)
     {
-      if (thisFrame>startTrainFrame+Broodwar->getLatency()+unitType.buildTime() + 67)
+      if (thisFrame>startFrame+Broodwar->getLatency()+unitType.buildTime() + 67)
       {
         finishingBuilding = true;
         finishFrame = thisFrame;

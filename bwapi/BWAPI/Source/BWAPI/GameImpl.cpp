@@ -938,7 +938,7 @@ namespace BWAPI
         }
       }
 
-      while ((int)(this->commandBuffer.size()) > this->getLatency())
+      while ((int)(this->commandBuffer.size()) > this->getLatency()+10)
       {
         for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
           delete this->commandBuffer[0][i];
@@ -949,7 +949,7 @@ namespace BWAPI
       this->commandBuffer.push_back(std::vector<Command *>());
       for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
         for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
-          this->commandBuffer[i][j]->execute();
+          this->commandBuffer[i][j]->execute(this->commandBuffer.size()-1-i);
 
       this->updateUnits();
       this->updateBullets();
@@ -1631,7 +1631,7 @@ namespace BWAPI
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
   {
-    command->execute();
+    command->execute(0);
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
   }
   //--------------------------------------------- ON GAME START ----------------------------------------------

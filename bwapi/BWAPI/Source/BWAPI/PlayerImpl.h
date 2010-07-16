@@ -114,9 +114,5 @@ namespace BWAPI
 
       int id;
       u8 index;  /**< Order of the player, is used to load player's information from the memory */
-
-      int toMake[BW::UNIT_TYPE_COUNT]; /**< Structure usxed to store datea needed to get local version of counts
-                                      * of units */
-      int evaluateCounts(const BW::Counts::UnitStats& counts, BW::UnitType unit) const;
   };
 };

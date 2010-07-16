@@ -26,7 +26,8 @@ void AttackMoveTest::start()
   BWAssertF(unit->exists(),{fail=true;return;});
   BWAssertF(unit->isIdle()==true,{fail=true;return;});
   targetPosition = unit->getPosition();
-  targetPosition.x()+=32*20;
+  targetPosition.x()+=32*30;
+  targetPosition.makeValid();
   BWAssertF(unit->attackMove(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
   BWAssertF(unit->getOrder()==Orders::AttackMove,{fail=true;return;});
   BWAssertF(unit->getTargetPosition()==targetPosition,{fail=true;return;});
