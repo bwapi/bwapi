@@ -9,10 +9,7 @@ class TrainTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning(); 
   private:
-    bool running;
-    bool fail;
     BWAPI::UnitType unitType;
     BWAPI::UnitType producerType;
     int previousUnitCount;

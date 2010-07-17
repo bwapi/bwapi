@@ -3,8 +3,6 @@
 using namespace std;
 using namespace BWAPI;
 AttackUnitTest::AttackUnitTest(UnitType unitType, UnitType targetType) : unitType(unitType),
-                                                                         running(false),
-                                                                         fail(false),
                                                                          unit(NULL),
                                                                          startFrame(-1),
                                                                          nextFrame(-1),
@@ -12,6 +10,8 @@ AttackUnitTest::AttackUnitTest(UnitType unitType, UnitType targetType) : unitTyp
                                                                          target(NULL),
                                                                          startingAttackFrame(-1)
 {
+  running = false;
+  fail = false;
 }
 void AttackUnitTest::start()
 {
@@ -122,9 +122,4 @@ void AttackUnitTest::update()
 
 void AttackUnitTest::stop()
 {
-}
-
-bool AttackUnitTest::isRunning()
-{
-  return running;
 }

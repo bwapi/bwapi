@@ -3,13 +3,13 @@
 using namespace std;
 using namespace BWAPI;
 MorphTest::MorphTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                 running(false),
-                                                 fail(false),
                                                  producer(NULL),
                                                  startFrame(-1),
                                                  nextFrame(-1),
                                                  finishingMorph(false)
 {
+  fail = false;
+  running = false;
   producerType = unitType.whatBuilds().first;
   BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(producerType!=UnitTypes::Unknown,{fail=true;return;});
@@ -243,9 +243,4 @@ void MorphTest::stop()
   {
     BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
   }
-}
-
-bool MorphTest::isRunning()
-{
-  return running;
 }

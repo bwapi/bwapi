@@ -6,12 +6,12 @@ CancelTrainTest::CancelTrainTest(BWAPI::UnitType unitType1, BWAPI::UnitType unit
                                                : unitType1(unitType1),
                                                  unitType2(unitType2),
                                                  unitType3(unitType3),
-                                                 running(false),
-                                                 fail(false),
                                                  producer(NULL),
                                                  startFrame(-1),
                                                  nextFrame(-1)
 {
+  fail = false;
+  running = false;
   producerType = unitType1.whatBuilds().first;
   BWAssertF(producerType==unitType2.whatBuilds().first,{fail=true;return;});
   BWAssertF(producerType==unitType3.whatBuilds().first,{fail=true;return;});
@@ -272,9 +272,4 @@ void CancelTrainTest::stop()
   BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
   BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
   BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
-}
-
-bool CancelTrainTest::isRunning()
-{
-  return running;
 }

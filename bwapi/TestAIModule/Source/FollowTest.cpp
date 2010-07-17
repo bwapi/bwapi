@@ -3,14 +3,14 @@
 using namespace std;
 using namespace BWAPI;
 FollowTest::FollowTest(UnitType unitType, UnitType targetType) : unitType(unitType),
-                                                                 running(false),
-                                                                 fail(false),
                                                                  unit(NULL),
                                                                  startFrame(-1),
                                                                  nextFrame(-1),
                                                                  targetType(targetType),
                                                                  target(NULL)
 {
+  fail = false;
+  running = false;
 }
 void FollowTest::start()
 {
@@ -90,9 +90,4 @@ void FollowTest::update()
 
 void FollowTest::stop()
 {
-}
-
-bool FollowTest::isRunning()
-{
-  return running;
 }

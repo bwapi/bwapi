@@ -3,14 +3,13 @@
 using namespace std;
 using namespace BWAPI;
 BurrowTest::BurrowTest(UnitType unitType) : unitType(unitType),
-                                            running(false),
-                                            fail(false),
                                             unit(NULL),
                                             startFrame(-1),
                                             nextFrame(-1),
                                             completedBurrow(false)
 {
-
+  fail = false;
+  running = false;
 }
 void BurrowTest::start()
 {
@@ -78,9 +77,4 @@ void BurrowTest::update()
 
 void BurrowTest::stop()
 {
-}
-
-bool BurrowTest::isRunning()
-{
-  return running;
 }

@@ -9,10 +9,7 @@ class CancelUpgradeTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning(); 
   private:
-    bool running;
-    bool fail;
     BWAPI::UpgradeType upgradeType;
     BWAPI::UnitType upgraderType;
     int startFrame;

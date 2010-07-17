@@ -3,13 +3,13 @@
 using namespace std;
 using namespace BWAPI;
 AttackMoveTest::AttackMoveTest(UnitType unitType) : unitType(unitType),
-                                                    running(false),
-                                                    fail(false),
                                                     unit(NULL),
                                                     startFrame(-1),
                                                     nextFrame(-1),
                                                     targetPosition(Positions::None)
 {
+  fail = false;
+  running = false;
 }
 void AttackMoveTest::start()
 {
@@ -71,9 +71,4 @@ void AttackMoveTest::update()
 
 void AttackMoveTest::stop()
 {
-}
-
-bool AttackMoveTest::isRunning()
-{
-  return running;
 }

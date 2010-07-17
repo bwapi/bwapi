@@ -3,13 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 RallyTest::RallyTest(UnitType unitType) : unitType(unitType),
-                                          running(false),
-                                          fail(false),
                                           unit(NULL),
                                           startFrame(-1),
                                           nextFrame(-1)
 {
-
+  fail = false;
+  running = false;
 }
 void RallyTest::start()
 {
@@ -75,9 +74,4 @@ void RallyTest::update()
 
 void RallyTest::stop()
 {
-}
-
-bool RallyTest::isRunning()
-{
-  return running;
 }

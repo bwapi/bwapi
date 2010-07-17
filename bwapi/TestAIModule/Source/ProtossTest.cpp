@@ -14,6 +14,7 @@
 #include "FollowTest.h"
 #include "CancelTrainTest.h"
 #include "GatherTest.h"
+#include "CancelConstructionTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -30,10 +31,12 @@ void ProtossTest::onStart()
   this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus));
   this->addTestCase(new FollowTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Nexus));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Protoss_Nexus));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Nexus));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Assimilator));
 
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Protoss_Gateway));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Gateway));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Gateway));
   this->addTestCase(new GatherTest());
@@ -42,10 +45,13 @@ void ProtossTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Cybernetics_Core));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Shield_Battery));
 
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Protoss_Pylon));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
 
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Protoss_Robotics_Facility));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Robotics_Facility));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Robotics_Facility));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Protoss_Stargate));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Stargate));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Stargate));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Citadel_of_Adun));
@@ -144,7 +150,9 @@ void ProtossTest::onStart()
 
   this->addTestCase(new CancelResearchTest(TechTypes::Disruption_Web));
   this->addTestCase(new ResearchTest(TechTypes::Disruption_Web));
+  this->addTestCase(new CancelResearchTest(TechTypes::Psionic_Storm));
   this->addTestCase(new ResearchTest(TechTypes::Psionic_Storm));
+  this->addTestCase(new CancelResearchTest(TechTypes::Hallucination));
   this->addTestCase(new ResearchTest(TechTypes::Hallucination));
   this->addTestCase(new ResearchTest(TechTypes::Mind_Control));
   this->addTestCase(new ResearchTest(TechTypes::Maelstrom));
@@ -162,7 +170,9 @@ void ProtossTest::onStart()
 
   this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Singularity_Charge));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Singularity_Charge));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Leg_Enhancements));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Leg_Enhancements));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Scarab_Damage));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Scarab_Damage));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Reaver_Capacity));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Gravitic_Drive));
@@ -177,6 +187,7 @@ void ProtossTest::onStart()
   this->addTestCase(new UpgradeTest(UpgradeTypes::Khaydarin_Core));
   for(int l=0;l<3;l++)
   {
+    this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Protoss_Ground_Weapons));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Ground_Weapons));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Ground_Armor));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Protoss_Plasma_Shields));

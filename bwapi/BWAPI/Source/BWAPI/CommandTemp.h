@@ -42,7 +42,10 @@ namespace BWAPI
     UnitType unitType(command.extra);
     UpgradeType upgradeType(command.extra);
     TechType techType(command.extra);
-    if (frame>Broodwar->getLatency() && command.type !=UnitCommandTypes::Cancel_Train_Slot)
+    if (frame>Broodwar->getLatency() &&
+        command.type !=UnitCommandTypes::Cancel_Train_Slot &&
+        command.type !=UnitCommandTypes::Cancel_Morph &&
+        command.type !=UnitCommandTypes::Morph)
       return;
 
     if (command.type == UnitCommandTypes::Attack_Move)
@@ -95,34 +98,90 @@ namespace BWAPI
       if (savedExtra==-1)
         savedExtra = unit->self->type;
       unitType = UnitType(savedExtra);
-
+      if (unitType.getRace()==Races::Terran)
+      {
+        UnitImpl* builder = (UnitImpl*)Broodwar->getUnit(unit->self->buildUnit);
+        if (builder!=NULL && builder->exists())
+        {
+          builder->self->buildUnit = -1;
+          builder->self->buildType = UnitTypes::None.getID();
+          builder->self->isConstructing = false;
+          builder->self->order = Orders::ResetCollision.getID();
+        }
+        unit->self->buildUnit = -1;
+      }
+      PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
+      if (frame<Broodwar->getLatency())
+      {
+        p->self->minerals += (int)(unitType.mineralPrice()*0.75);
+        p->self->gas += (int)(unitType.gasPrice()*0.75);
+      }
       if (!unit->self->exists) return;
-      unit->self->order = Orders::Nothing.getID();
+      unit->self->remainingBuildTime = 0;
+      unit->self->isConstructing = false;
+      if (unitType.getRace()==Races::Zerg)
+      {
+        unit->self->type = unitType.whatBuilds().first.getID();
+        unit->self->buildType = UnitTypes::None.getID();
+        unit->self->isMorphing = false;
+        unit->self->isIdle = true;
+        if (frame<Broodwar->getLatency())
+        {
+          p->self->supplyUsed[unitType.getRace().getID()] += unitType.whatBuilds().first.supplyRequired();
+        }
+        if (unitType.whatBuilds().first.isBuilding())
+        {
+          unit->self->order = Orders::Nothing.getID();
+        }
+        else
+        {
+          unit->self->order = Orders::ResetCollision.getID();
+        }
+      }
+      else
+      {
+        unit->self->order = Orders::Die.getID();
+        unit->self->isCompleted = false;
+        unit->self->isIdle = false;
+      }
     }
     else if (command.type == UnitCommandTypes::Cancel_Morph)
     {
       if (savedExtra==-1)
         savedExtra = unit->self->buildType;
       unitType = UnitType(savedExtra);
-
+      if (frame>Broodwar->getLatency()+12) return;
       PlayerImpl* p = (PlayerImpl*)unit->getPlayer();
       if (frame<Broodwar->getLatency())
       {
-        p->self->minerals+=unitType.mineralPrice();
-        p->self->gas+=unitType.gasPrice();
+        if (unitType.whatBuilds().first.isBuilding())
+        {
+          p->self->minerals += (int)(unitType.mineralPrice()*0.75);
+          p->self->gas      += (int)(unitType.gasPrice()*0.75);
+        }
+        else
+        {
+          p->self->minerals += unitType.mineralPrice();
+          p->self->gas      += unitType.gasPrice();
+        }
       }
-      if (unitType.isTwoUnitsInOneEgg())
-        p->self->supplyUsed[Races::Zerg.getID()]-=unitType.supplyRequired()*2-unitType.whatBuilds().first.supplyRequired();
-      else
-        p->self->supplyUsed[Races::Zerg.getID()]-=unitType.supplyRequired()-unitType.whatBuilds().first.supplyRequired();
-
+      if (frame<=Broodwar->getLatency())
+      {
+        if (unitType.isTwoUnitsInOneEgg())
+          p->self->supplyUsed[Races::Zerg.getID()]-=unitType.supplyRequired()*2-unitType.whatBuilds().first.supplyRequired();
+        else
+          p->self->supplyUsed[Races::Zerg.getID()]-=unitType.supplyRequired()-unitType.whatBuilds().first.supplyRequired();
+      }
       unit->self->buildType = UnitTypes::None.getID();
       unit->self->remainingBuildTime = 0;
       unit->self->isMorphing = false;
       unit->self->isConstructing = false;
-      unit->self->order = Orders::Nothing.getID();
-      unit->self->type = unitType.whatBuilds().first.getID();
       unit->self->isIdle = true;
+      unit->self->type = unitType.whatBuilds().first.getID();
+      if (unitType.whatBuilds().first.isBuilding())
+        unit->self->order = Orders::Nothing.getID();
+      else
+        unit->self->order = Orders::PlayerGuard.getID();
     }
     else if (command.type == UnitCommandTypes::Cancel_Research)
     {
@@ -270,9 +329,18 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Halt_Construction)
     {
       if (!unit->self->exists) return;
-      unit->self->order = Orders::PlayerGuard.getID();
+      if (savedExtra==-1)
+        savedExtra = unit->self->buildUnit;
+      if (frame>Broodwar->getLatency()) return;
+      UnitImpl* buildUnit = (UnitImpl*)Broodwar->getUnit(savedExtra);
+      if (buildUnit!=NULL)
+      {
+        buildUnit->self->buildUnit = -1;
+      }
+      unit->self->buildUnit = -1;
+      unit->self->buildType = UnitTypes::None.getID();
+      unit->self->order = Orders::ResetCollision.getID();
       unit->self->isConstructing = false;
-      unit->self->isIdle = true;
     }
     else if (command.type == UnitCommandTypes::Hold_Position)
     {
@@ -322,11 +390,14 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Morph)
     {
       if (!unit->self->exists) return;
+      if (frame>Broodwar->getLatency()+1) return;
       unit->self->isMorphing = true;
       unit->self->isConstructing = true;
       unit->self->isIdle = false;
       unit->self->buildType = unitType.getID();
-      unit->self->remainingBuildTime = unitType.buildTime();
+      if (unit->self->remainingBuildTime<50)
+        unit->self->remainingBuildTime = unitType.buildTime();
+      if (frame>Broodwar->getLatency()) return;
       if (unitType.isBuilding())
       {
         unit->self->order = Orders::ZergBuildingMorph.getID();

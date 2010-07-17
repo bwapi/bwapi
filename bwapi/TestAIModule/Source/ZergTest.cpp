@@ -16,6 +16,7 @@
 #include "AttackUnitTest.h"
 #include "FollowTest.h"
 #include "GatherTest.h"
+#include "CancelConstructionTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -33,6 +34,7 @@ void ZergTest::onStart()
   this->addTestCase(new AttackUnitTest(UnitTypes::Zerg_Drone,UnitTypes::Zerg_Hatchery));
   this->addTestCase(new FollowTest(UnitTypes::Zerg_Drone,UnitTypes::Zerg_Hatchery));
   this->addTestCase(new RallyTest(UnitTypes::Zerg_Hatchery));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Zerg_Hatchery));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hatchery));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hatchery));
@@ -46,6 +48,7 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Extractor));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Zerg_Spawning_Pool));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Spawning_Pool));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new GatherTest());
@@ -53,19 +56,23 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hydralisk_Den));
 
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Sunken_Colony));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Sunken_Colony));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Spore_Colony));
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Lair));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Lair));
   this->addTestCase(new RallyTest(UnitTypes::Zerg_Lair));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Lair));
 
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Zerg_Spire));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Spire));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Spire));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Queens_Nest));
 
+  this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Hive));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Hive));
   this->addTestCase(new RallyTest(UnitTypes::Zerg_Hive));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Greater_Spire));
@@ -78,12 +85,13 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Defiler_Mound));
 
-  this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new FollowTest(UnitTypes::Zerg_Overlord,UnitTypes::Zerg_Hatchery));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Overlord));
+  this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Zergling));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Zergling));
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Zergling));
@@ -138,8 +146,10 @@ void ZergTest::onStart()
   this->addTestCase(new ResearchTest(TechTypes::Lurker_Aspect));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Lurker));
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Lurker));
+  this->addTestCase(new CancelResearchTest(TechTypes::Consume));
   this->addTestCase(new ResearchTest(TechTypes::Consume));
   this->addTestCase(new UseTechTest(TechTypes::Consume));
+  this->addTestCase(new CancelResearchTest(TechTypes::Spawn_Broodlings));
   this->addTestCase(new ResearchTest(TechTypes::Spawn_Broodlings));
   this->addTestCase(new UseTechTest(TechTypes::Spawn_Broodlings));
   this->addTestCase(new UseTechTest(TechTypes::Dark_Swarm));
@@ -164,7 +174,9 @@ void ZergTest::onStart()
   this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ventral_Sacs));
   this->addTestCase(new TransportTest(UnitTypes::Zerg_Overlord));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Antennae));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Antennae));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Pneumatized_Carapace));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Pneumatized_Carapace));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Metabolic_Boost));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Adrenal_Glands));
@@ -176,6 +188,7 @@ void ZergTest::onStart()
   this->addTestCase(new UpgradeTest(UpgradeTypes::Metasynaptic_Node));
   for(int l=0;l<3;l++)
   {
+    this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Zerg_Melee_Attacks));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Zerg_Melee_Attacks));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Zerg_Missile_Attacks));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Zerg_Carapace));

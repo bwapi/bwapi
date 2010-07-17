@@ -10,11 +10,8 @@ class TransportTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning();
   private:
     bool verifyLoadedUnits();
-    bool running;
-    bool fail;
     int startFrame;
     int nextFrame;
     BWAPI::UnitType transportType;

@@ -9,10 +9,7 @@ class CancelTrainTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning(); 
   private:
-    bool running;
-    bool fail;
     bool verifyTrainingQueue();
     BWAPI::UnitType unitType1;
     BWAPI::UnitType unitType2;

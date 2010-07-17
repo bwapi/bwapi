@@ -18,6 +18,7 @@
 #include "FollowTest.h"
 #include "CancelTrainTest.h"
 #include "GatherTest.h"
+#include "CancelConstructionTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -37,18 +38,26 @@ void TerranTest::onStart()
   this->addTestCase(new RepairTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center));
   this->addTestCase(new FollowTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Command_Center));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Command_Center,true));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Command_Center));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Supply_Depot));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Refinery,true));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Refinery));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Refinery));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Barracks));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
-  this->addTestCase(new GatherTest());
   this->addTestCase(new RallyTest(UnitTypes::Terran_Barracks));
+  this->addTestCase(new GatherTest());
   this->addTestCase(new BuildTest(UnitTypes::Terran_Engineering_Bay));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
   this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Marine,UnitTypes::Terran_Medic,UnitTypes::Terran_Firebat));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Bunker));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory,true));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Factory));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Factory));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Machine_Shop));
@@ -134,7 +143,9 @@ void TerranTest::onStart()
   this->addTestCase(new TransportTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new CancelResearchTest(TechTypes::Stim_Packs));
   this->addTestCase(new ResearchTest(TechTypes::Stim_Packs));
+  this->addTestCase(new CancelResearchTest(TechTypes::Optical_Flare));
   this->addTestCase(new ResearchTest(TechTypes::Optical_Flare));
+  this->addTestCase(new CancelResearchTest(TechTypes::Restoration));
   this->addTestCase(new ResearchTest(TechTypes::Restoration));
   this->addTestCase(new ResearchTest(TechTypes::Spider_Mines));
   this->addTestCase(new ResearchTest(TechTypes::Tank_Siege_Mode));
@@ -163,7 +174,9 @@ void TerranTest::onStart()
   this->addTestCase(new UpgradeTest(UpgradeTypes::U_238_Shells));
   this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Caduceus_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Caduceus_Reactor));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Ion_Thrusters));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Ion_Thrusters));
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Charon_Boosters));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Charon_Boosters));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Apollo_Reactor));
   this->addTestCase(new UpgradeTest(UpgradeTypes::Titan_Reactor));
@@ -172,6 +185,7 @@ void TerranTest::onStart()
   this->addTestCase(new UpgradeTest(UpgradeTypes::Colossus_Reactor));
   for(int l=0;l<3;l++)
   {
+  this->addTestCase(new CancelUpgradeTest(UpgradeTypes::Terran_Infantry_Weapons));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Infantry_Weapons));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Infantry_Armor));
     this->addTestCase(new UpgradeTest(UpgradeTypes::Terran_Vehicle_Weapons));
