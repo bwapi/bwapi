@@ -17,6 +17,7 @@
 #include "FollowTest.h"
 #include "GatherTest.h"
 #include "CancelConstructionTest.h"
+#include "RightClickTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -29,6 +30,7 @@ void ZergTest::onStart()
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new RightClickTest(UnitTypes::Zerg_Drone,UnitTypes::Zerg_Hatchery,UnitTypes::Zerg_Hatchery));
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new AttackMoveTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new AttackUnitTest(UnitTypes::Zerg_Drone,UnitTypes::Zerg_Hatchery));

@@ -15,6 +15,7 @@
 #include "CancelTrainTest.h"
 #include "GatherTest.h"
 #include "CancelConstructionTest.h"
+#include "RightClickTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -26,6 +27,7 @@ void ProtossTest::onStart()
   Broodwar->sendText("show me the money");
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
+  this->addTestCase(new RightClickTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus,UnitTypes::Protoss_Nexus));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new AttackMoveTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new AttackUnitTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus));

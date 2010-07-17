@@ -272,6 +272,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\RightClickTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\SiegeTest.cpp"
 				>
 			</File>
@@ -407,6 +411,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\ResearchTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\RightClickTest.h"
 				>
 			</File>
 			<File
