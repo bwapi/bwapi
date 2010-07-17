@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 UpgradeTest::UpgradeTest(BWAPI::UpgradeType upgradeType) : upgradeType(upgradeType),
-                                                           running(false),
-                                                           fail(false),
                                                            upgrader(NULL),
                                                            startUpgradeFrame(-1),
                                                            nextUpdateFrame(-1)
 {
+  fail = false;
+  running = false;
   upgraderType = upgradeType.whatUpgrades();
   BWAssertF(upgraderType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(upgraderType!=UnitTypes::Unknown,{fail=true;return;});
@@ -116,9 +116,4 @@ void UpgradeTest::stop()
   BWAssertF(Broodwar->self()->getUpgradeLevel(upgradeType)==previousUpgradeLevel+1,{fail=true;return;});
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
-}
-
-bool UpgradeTest::isRunning()
-{
-  return running;
 }

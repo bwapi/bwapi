@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 TrainTest::TrainTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                 running(false),
-                                                 fail(false),
                                                  producer(NULL),
                                                  startFrame(-1),
                                                  nextFrame(-1)
 {
+  fail = false;
+  running = false;
   producerType = unitType.whatBuilds().first;
   BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(producerType!=UnitTypes::Unknown,{fail=true;return;});
@@ -110,9 +110,4 @@ void TrainTest::stop()
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
-}
-
-bool TrainTest::isRunning()
-{
-  return running;
 }

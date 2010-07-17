@@ -5,8 +5,6 @@ using namespace std;
 using namespace BWAPI;
 BuildingPlacer* placer=NULL;
 BuildTest::BuildTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                 running(false),
-                                                 fail(false),
                                                  builder(NULL),
                                                  building(NULL),
                                                  startFrame(-1),
@@ -14,6 +12,8 @@ BuildTest::BuildTest(BWAPI::UnitType unitType) : unitType(unitType),
                                                  finishFrame(-1),
                                                  finishingBuilding(false)
 {
+  fail = false;
+  running = false;
   builderType = unitType.whatBuilds().first;
   BWAssertF(builderType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(builderType!=UnitTypes::Unknown,{fail=true;return;});
@@ -252,9 +252,4 @@ void BuildTest::update()
 
 void BuildTest::stop()
 {
-}
-
-bool BuildTest::isRunning()
-{
-  return running;
 }

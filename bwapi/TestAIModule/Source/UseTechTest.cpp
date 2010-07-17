@@ -3,8 +3,6 @@
 using namespace std;
 using namespace BWAPI;
 UseTechTest::UseTechTest(BWAPI::TechType techType) : techType(techType),
-                                                     running(false),
-                                                     fail(false),
                                                      user(NULL),
                                                      startFrame(-1),
                                                      nextFrame(-1),
@@ -14,6 +12,8 @@ UseTechTest::UseTechTest(BWAPI::TechType techType) : techType(techType),
                                                      usedTech(false),
                                                      testSucceeded(false)
 {
+  fail = false;
+  running = false;
   userType = *techType.whatUses().begin();
   BWAssertF(userType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(userType!=UnitTypes::Unknown,{fail=true;return;});
@@ -568,9 +568,4 @@ void UseTechTest::stop()
 {
   if (fail == true) return;
   BWAssert(testSucceeded == true);
-}
-
-bool UseTechTest::isRunning()
-{
-  return running;
 }

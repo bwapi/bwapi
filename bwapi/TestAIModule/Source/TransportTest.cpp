@@ -3,11 +3,11 @@
 using namespace std;
 using namespace BWAPI;
 TransportTest::TransportTest(BWAPI::UnitType unitType) : transportType(unitType),
-                                                         running(false),
-                                                         fail(false),
                                                          transport(NULL),
                                                          currentUnit(NULL)
 {
+  fail = false;
+  running = false;
 }
 void TransportTest::start()
 {
@@ -241,8 +241,4 @@ void TransportTest::update()
 }
 void TransportTest::stop()
 {
-}
-bool TransportTest::isRunning()
-{
-  return running;
 }

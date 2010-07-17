@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 CancelUpgradeTest::CancelUpgradeTest(BWAPI::UpgradeType upgradeType) : upgradeType(upgradeType),
-                                                                       running(false),
-                                                                       fail(false),
                                                                        upgrader(NULL),
                                                                        startFrame(-1),
                                                                        nextFrame(-1)
 {
+  fail = false;
+  running = false;
   upgraderType = upgradeType.whatUpgrades();
   BWAssertF(upgraderType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(upgraderType!=UnitTypes::Unknown,{fail=true;return;});
@@ -48,6 +48,7 @@ void CancelUpgradeTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
+  Broodwar->setScreenPosition(upgrader->getPosition().x()-320,upgrader->getPosition().y()-240);
   BWAssertF(upgrader!=NULL,{fail=true;return;});
   if (thisFrame<startFrame+200)
   {
@@ -92,9 +93,4 @@ void CancelUpgradeTest::update()
 
 void CancelUpgradeTest::stop()
 {
-}
-
-bool CancelUpgradeTest::isRunning()
-{
-  return running;
 }

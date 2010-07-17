@@ -3,14 +3,13 @@
 using namespace std;
 using namespace BWAPI;
 LiftTest::LiftTest(UnitType unitType) : unitType(unitType),
-                                        running(false),
-                                        fail(false),
                                         unit(NULL),
                                         startFrame(-1),
                                         nextFrame(-1),
                                         completedLift(false)
 {
-
+  fail = false;
+  running = false;
 }
 void LiftTest::start()
 {
@@ -84,9 +83,4 @@ void LiftTest::update()
 
 void LiftTest::stop()
 {
-}
-
-bool LiftTest::isRunning()
-{
-  return running;
 }

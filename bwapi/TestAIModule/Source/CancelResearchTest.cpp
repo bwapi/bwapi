@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 CancelResearchTest::CancelResearchTest(BWAPI::TechType techType) : techType(techType),
-                                                                   running(false),
-                                                                   fail(false),
                                                                    researcher(NULL),
                                                                    startFrame(-1),
                                                                    nextFrame(-1)
 {
+  fail = false;
+  running = false;
   researcherType = techType.whatResearches();
   BWAssertF(researcherType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(researcherType!=UnitTypes::Unknown,{fail=true;return;});
@@ -48,6 +48,7 @@ void CancelResearchTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
+  Broodwar->setScreenPosition(researcher->getPosition().x()-320,researcher->getPosition().y()-240);
   BWAssertF(researcher!=NULL,{fail=true;return;});
   if (thisFrame<startFrame+200)
   {
@@ -92,9 +93,4 @@ void CancelResearchTest::update()
 
 void CancelResearchTest::stop()
 {
-}
-
-bool CancelResearchTest::isRunning()
-{
-  return running;
 }

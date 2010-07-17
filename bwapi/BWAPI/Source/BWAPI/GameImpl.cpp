@@ -833,11 +833,13 @@ namespace BWAPI
       std::set<BWAPI::UnitImpl*> dyingUnits = units;
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
       {
+        if (i->getOriginalRawData->orderID == BW::OrderID::Die) continue;
         unitList.push_back(i);
         dyingUnits.erase(i);
       }
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
       {
+        if (i->getOriginalRawData->orderID == BW::OrderID::Die) continue;
         UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
         bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
 
@@ -850,6 +852,7 @@ namespace BWAPI
       }
       for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); i!=NULL ; i = i->getNext())
       {
+        if (i->getOriginalRawData->orderID == BW::OrderID::Die) continue;
         unitList.push_back(i);
         dyingUnits.erase(i);
       }
@@ -938,7 +941,7 @@ namespace BWAPI
         }
       }
 
-      while ((int)(this->commandBuffer.size()) > this->getLatency()+10)
+      while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
       {
         for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
           delete this->commandBuffer[0][i];

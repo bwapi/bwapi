@@ -3,13 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 MPHSTest::MPHSTest(UnitType unitType) : unitType(unitType),
-                                        running(false),
-                                        fail(false),
                                         unit(NULL),
                                         startFrame(-1),
                                         nextFrame(-1)
 {
-
+  fail = false;
+  running = false;
 }
 void MPHSTest::start()
 {
@@ -25,7 +24,7 @@ void MPHSTest::start()
   BWAssertF(unit!=NULL,{fail=true;return;});
   BWAssertF(unit->exists(),{fail=true;return;});
   BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
-  startFrame = Broodwar->getFrameCount();
+  startFrame = Broodwar->getFrameCount()+100;
   nextFrame = Broodwar->getFrameCount();
 
 }
@@ -151,9 +150,4 @@ void MPHSTest::update()
 
 void MPHSTest::stop()
 {
-}
-
-bool MPHSTest::isRunning()
-{
-  return running;
 }

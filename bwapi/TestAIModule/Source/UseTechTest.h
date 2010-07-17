@@ -9,12 +9,9 @@ class UseTechTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning();
   private:
     void checkPosition();
     void useTech();
-    bool running;
-    bool fail;
     BWAPI::TechType techType;
     BWAPI::UnitType userType;
     int startFrame;

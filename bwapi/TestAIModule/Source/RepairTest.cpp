@@ -3,14 +3,14 @@
 using namespace std;
 using namespace BWAPI;
 RepairTest::RepairTest(UnitType unitType, UnitType targetType) : unitType(unitType),
-                                                                 running(false),
-                                                                 fail(false),
                                                                  unit(NULL),
                                                                  startFrame(-1),
                                                                  nextFrame(-1),
                                                                  targetType(targetType),
                                                                  target(NULL)
 {
+  fail = false;
+  running = false;
 }
 void RepairTest::start()
 {
@@ -79,9 +79,4 @@ void RepairTest::update()
 
 void RepairTest::stop()
 {
-}
-
-bool RepairTest::isRunning()
-{
-  return running;
 }

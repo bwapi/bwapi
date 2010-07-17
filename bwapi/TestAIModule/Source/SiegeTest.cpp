@@ -2,14 +2,13 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
-SiegeTest::SiegeTest() : running(false),
-                         fail(false),
-                         unit(NULL),
+SiegeTest::SiegeTest() : unit(NULL),
                          startFrame(-1),
                          nextFrame(-1),
                          completedSiege(false)
 {
-
+  fail = false;
+  running = false;
 }
 void SiegeTest::start()
 {
@@ -77,9 +76,4 @@ void SiegeTest::update()
 
 void SiegeTest::stop()
 {
-}
-
-bool SiegeTest::isRunning()
-{
-  return running;
 }

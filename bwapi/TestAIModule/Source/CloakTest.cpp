@@ -3,14 +3,13 @@
 using namespace std;
 using namespace BWAPI;
 CloakTest::CloakTest(UnitType unitType) : unitType(unitType),
-                                          running(false),
-                                          fail(false),
                                           unit(NULL),
                                           startFrame(-1),
                                           nextFrame(-1),
                                           completedCloak(false)
 {
-
+  fail = false;
+  running = false;
 }
 void CloakTest::start()
 {
@@ -91,9 +90,4 @@ void CloakTest::update()
 
 void CloakTest::stop()
 {
-}
-
-bool CloakTest::isRunning()
-{
-  return running;
 }

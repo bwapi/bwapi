@@ -3,12 +3,12 @@
 using namespace std;
 using namespace BWAPI;
 ResearchTest::ResearchTest(BWAPI::TechType techType) : techType(techType),
-                                                       running(false),
-                                                       fail(false),
                                                        researcher(NULL),
                                                        startResearchFrame(-1),
                                                        nextUpdateFrame(-1)
 {
+  fail = false;
+  running = false;
   researcherType = techType.whatResearches();
   BWAssertF(researcherType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(researcherType!=UnitTypes::Unknown,{fail=true;return;});
@@ -118,9 +118,4 @@ void ResearchTest::stop()
   BWAssertF(Broodwar->self()->hasResearched(techType)==true,{fail=true;return;});
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
-}
-
-bool ResearchTest::isRunning()
-{
-  return running;
 }

@@ -9,10 +9,7 @@ class FollowTest : public TestCase
     virtual void start();
     virtual void update();
     virtual void stop();
-    virtual bool isRunning();
   private:
-    bool running;
-    bool fail;
     int startFrame;
     int nextFrame;
     BWAPI::Unit* unit;

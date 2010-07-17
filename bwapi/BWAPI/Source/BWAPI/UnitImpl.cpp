@@ -957,7 +957,10 @@ namespace BWAPI
     BW::UnitType type((u16)type1.getID());
     this->orderSelect();
     if (!type.isAddon())
+    {
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x()*32+type1.tileWidth()*16, (u16)target.y()*32+type1.tileHeight()*16), BW::OrderID::Move), sizeof(BW::Orders::Attack));
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeBuilding));
+    }
     else
       BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::build(this,target,type1)));
@@ -1737,14 +1740,13 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (this->getType().isBuilding())
-    {
-      return this->cancelConstruction();
-    }
     if (!isMorphing())
       return false;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
+    if (this->getType().isBuilding())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
+    else
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelMorph(this)));
     return true;
   }
