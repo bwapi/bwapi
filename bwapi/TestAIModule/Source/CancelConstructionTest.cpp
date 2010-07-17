@@ -154,13 +154,17 @@ void CancelConstructionTest::update()
     }
     if (thisFrame==startFrame+Broodwar->getLatency()+500)
     {
-      building->cancelConstruction();
+      if (unitType.isAddon())
+        builder->cancelAddon();
+      else
+        building->cancelConstruction();
     }
     if (thisFrame>=startFrame+Broodwar->getLatency()+500)
     {
       BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
+      BWAssertF(builder->isConstructing()==false,{Broodwar->printf("%d",thisFrame-startFrame);});
       BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{Broodwar->printf("%d != %d",Broodwar->self()->minerals(),correctMineralCount);fail=true;return;});
-      BWAssertF(Broodwar->self()->gas()==correctGasCount,{fail=true;return;});
+      BWAssertF(Broodwar->self()->gas()==correctGasCount,{Broodwar->printf("%d: %d != %d, diff = %d",thisFrame-(startFrame+Broodwar->getLatency()+500), Broodwar->self()->gas(),correctGasCount,Broodwar->self()->gas()-correctGasCount);fail=true;return;});
       BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{Broodwar->printf("%d != %d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
     }
     if (thisFrame>startFrame+Broodwar->getLatency()+550)

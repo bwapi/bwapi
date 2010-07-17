@@ -60,6 +60,7 @@ void TerranTest::onStart()
   this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Factory));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Factory));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Machine_Shop));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Machine_Shop));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Starport));
   this->addTestCase(new RallyTest(UnitTypes::Terran_Starport));
@@ -70,8 +71,11 @@ void TerranTest::onStart()
   this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Siege_Tank_Tank_Mode,UnitTypes::Terran_Goliath,UnitTypes::Terran_Vulture));
   this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Goliath,UnitTypes::Terran_Vulture,UnitTypes::Terran_Siege_Tank_Tank_Mode));
 
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Comsat_Station));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Comsat_Station));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Control_Tower));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Control_Tower));
+  this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Physics_Lab));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Physics_Lab));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Covert_Ops));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Nuclear_Silo));

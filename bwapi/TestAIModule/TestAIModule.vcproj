@@ -196,10 +196,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\CancelAddonTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\CancelConstructionTest.cpp"
 				>
 			</File>
@@ -339,10 +335,6 @@
 			</File>
 			<File
 				RelativePath=".\Source\BWAssert.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\CancelAddonTest.h"
 				>
 			</File>
 			<File
