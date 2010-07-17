@@ -19,6 +19,7 @@
 #include "CancelTrainTest.h"
 #include "GatherTest.h"
 #include "CancelConstructionTest.h"
+#include "RightClickTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -32,6 +33,7 @@ void TerranTest::onStart()
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new LiftTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
+  this->addTestCase(new RightClickTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center,UnitTypes::Terran_Command_Center));
   this->addTestCase(new MPHSTest(UnitTypes::Terran_SCV));
   this->addTestCase(new AttackMoveTest(UnitTypes::Terran_SCV));
   this->addTestCase(new AttackUnitTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center));
