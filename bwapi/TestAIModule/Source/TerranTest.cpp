@@ -17,6 +17,7 @@
 #include "RepairTest.h"
 #include "FollowTest.h"
 #include "CancelTrainTest.h"
+#include "GatherTest.h"
 using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
@@ -41,6 +42,7 @@ void TerranTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Terran_Supply_Depot));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Refinery));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Barracks));
+  this->addTestCase(new GatherTest());
   this->addTestCase(new RallyTest(UnitTypes::Terran_Barracks));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Engineering_Bay));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));

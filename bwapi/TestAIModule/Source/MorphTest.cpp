@@ -23,7 +23,7 @@ void MorphTest::start()
   BWAssertF(producerCount>=1,{fail=true;return;});
   for each(Unit* u in Broodwar->self()->getUnits())
   {
-    if (u->getType()==producerType)
+    if (u->getType()==producerType && u->isIdle()==true)
     {
       producer = u;
       break;
@@ -47,7 +47,7 @@ void MorphTest::start()
   else
     correctSupplyUsedCount = Broodwar->self()->supplyUsed() + unitType.supplyRequired() - producerType.supplyRequired();
 
-  producer->morph(unitType);
+  BWAssertF(producer->morph(unitType),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
 
   BWAssertF(producer->isBeingConstructed()==true,{fail=true;return;});
   BWAssertF(producer->isBurrowed()==false,{fail=true;return;});
@@ -200,7 +200,7 @@ void MorphTest::update()
   BWAssertF(producer->isBurrowed()==false,{fail=true;return;});
   BWAssertF(producer->isConstructing()==true,{fail=true;return;});
   BWAssertF(producer->isIdle()==false,{fail=true;return;});
-  BWAssertF(producer->isMorphing()==true,{fail=true;return;});
+  BWAssertF(producer->isMorphing()==true,{Broodwar->printf("%d",thisFrame-startFrame);fail=true;return;});
   BWAssertF(producer->isTraining()==false,{fail=true;return;});
   BWAssertF(producer->getBuildType()==unitType,
   {

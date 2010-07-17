@@ -536,7 +536,9 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::MoveToGas.getID()  &&
+    if (self->order != Orders::Harvest1.getID()   &&
+        self->order != Orders::Harvest2.getID()   &&
+        self->order != Orders::MoveToGas.getID()  &&
         self->order != Orders::WaitForGas.getID() &&
         self->order != Orders::HarvestGas.getID() &&
         self->order != Orders::ReturnGas.getID()  &&
@@ -547,32 +549,26 @@ namespace BWAPI
       return self->carryResourceType == 1;
 
     //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
-    if (self->order != Orders::MoveToGas.getID())
+    if (self->order == Orders::WaitForGas.getID() ||
+        self->order == Orders::HarvestGas.getID() ||
+        self->order == Orders::ReturnGas.getID())
       return true;
 
-    //if BWOrder is MoveToGas, we need to do some additional checks to make sure the unit is really gathering
-    if (self->target != -1)
-    {
-      if (getTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
-        return false;
-      if (getTarget()->getPlayer() != getPlayer())
-        return false;
-      if (!getTarget()->isCompleted() && !getTarget()->getType().isResourceDepot())
-        return false;
-      if (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot())
-        return true;
-    }
-    if (getOrderTarget() != NULL)
-    {
-      if (getOrderTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
-        return false;
-      if (getOrderTarget()->getPlayer() != getPlayer())
-        return false;
-      if (!this->getOrderTarget()->isCompleted() && !getOrderTarget()->getType().isResourceDepot())
-        return false;
-      if (this->getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot())
-        return true;
-    }
+    //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
+    if (getTarget() != NULL &&
+        getTarget()->exists() && 
+        getTarget()->isCompleted() &&
+        getTarget()->getPlayer() == getPlayer() &&
+        getTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
+        (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot()))
+      return true;
+    if (getOrderTarget() != NULL &&
+        getOrderTarget()->exists() && 
+        getOrderTarget()->isCompleted() &&
+        getOrderTarget()->getPlayer() == getPlayer() &&
+        getOrderTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
+        (getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot()))
+      return true;
     return false;
   }
   //--------------------------------------------- IS GATHERING MINERALS --------------------------------------
@@ -581,16 +577,40 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::MoveToMinerals.getID() &&
+    if (self->order != Orders::Harvest1.getID()        &&
+        self->order != Orders::Harvest2.getID()        &&
+        self->order != Orders::MoveToMinerals.getID()  &&
         self->order != Orders::WaitForMinerals.getID() &&
-        self->order != Orders::MiningMinerals.getID() &&
-        self->order != Orders::ReturnMinerals.getID() &&
+        self->order != Orders::MiningMinerals.getID()  &&
+        self->order != Orders::ReturnMinerals.getID()  &&
         self->order != Orders::ResetCollision.getID())
       return false;
 
     if (self->order == Orders::ResetCollision.getID())
       return self->carryResourceType == 2;
-    return true;
+
+    //return true if BWOrder is WaitForMinerals, MiningMinerals, or ReturnMinerals
+    if (self->order == Orders::WaitForMinerals.getID() ||
+        self->order == Orders::MiningMinerals.getID() ||
+        self->order == Orders::ReturnMinerals.getID())
+      return true;
+
+    //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
+    if (getTarget() != NULL &&
+        getTarget()->exists() &&
+        (getTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
+            (getTarget()->isCompleted() &&
+             getTarget()->getPlayer() == getPlayer() &&
+             getTarget()->getType().isResourceDepot())))
+      return true;
+    if (getOrderTarget() != NULL &&
+        getOrderTarget()->exists() &&
+        (getOrderTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
+            (getOrderTarget()->isCompleted() &&
+             getOrderTarget()->getPlayer() == getPlayer() &&
+             getOrderTarget()->getType().isResourceDepot())))
+      return true;
+    return false;
   }
   //--------------------------------------------- IS HALLUCINATION -------------------------------------------
   bool UnitImpl::isHallucination() const
@@ -749,21 +769,6 @@ namespace BWAPI
     this->issueCommand(UnitCommand::attackUnit(this,target));
     return true;
   }
-  bool UnitImpl::rightClick(Position target)
-  {
-    this->issueCommand(UnitCommand::rightClick(this,target));
-    return true;
-  }
-  bool UnitImpl::rightClick(Unit* target)
-  {
-    this->issueCommand(UnitCommand::rightClick(this,target));
-    return true;
-  }
-  bool UnitImpl::train(UnitType type)
-  {
-    this->issueCommand(UnitCommand::train(this,type));
-    return true;
-  }
   bool UnitImpl::build(TilePosition target, UnitType type)
   {
     this->issueCommand(UnitCommand::build(this,target,type));
@@ -772,6 +777,16 @@ namespace BWAPI
   bool UnitImpl::buildAddon(UnitType type)
   {
     this->issueCommand(UnitCommand::buildAddon(this,type));
+    return true;
+  }
+  bool UnitImpl::train(UnitType type)
+  {
+    this->issueCommand(UnitCommand::train(this,type));
+    return true;
+  }
+  bool UnitImpl::morph(UnitType type)
+  {
+    this->issueCommand(UnitCommand::morph(this,type));
     return true;
   }
   bool UnitImpl::research(TechType tech)
@@ -784,26 +799,6 @@ namespace BWAPI
     this->issueCommand(UnitCommand::upgrade(this,upgrade));
     return true;
   }
-  bool UnitImpl::stop()
-  {
-    this->issueCommand(UnitCommand::stop(this));
-    return true;
-  }
-  bool UnitImpl::holdPosition()
-  {
-    this->issueCommand(UnitCommand::holdPosition(this));
-    return true;
-  }
-  bool UnitImpl::patrol(Position target)
-  {
-    this->issueCommand(UnitCommand::patrol(this,target));
-    return true;
-  }
-  bool UnitImpl::follow(Unit* target)
-  {
-    this->issueCommand(UnitCommand::follow(this,target));
-    return true;
-  }
   bool UnitImpl::setRallyPosition(Position target)
   {
     this->issueCommand(UnitCommand::setRallyPosition(this,target));
@@ -814,9 +809,34 @@ namespace BWAPI
     this->issueCommand(UnitCommand::setRallyUnit(this,target));
     return true;
   }
-  bool UnitImpl::repair(Unit* target)
+  bool UnitImpl::move(Position target)
   {
-    this->issueCommand(UnitCommand::repair(this,target));
+    this->issueCommand(UnitCommand::move(this,target));
+    return true;
+  }
+  bool UnitImpl::patrol(Position target)
+  {
+    this->issueCommand(UnitCommand::patrol(this,target));
+    return true;
+  }
+  bool UnitImpl::holdPosition()
+  {
+    this->issueCommand(UnitCommand::holdPosition(this));
+    return true;
+  }
+  bool UnitImpl::stop()
+  {
+    this->issueCommand(UnitCommand::stop(this));
+    return true;
+  }
+  bool UnitImpl::follow(Unit* target)
+  {
+    this->issueCommand(UnitCommand::follow(this,target));
+    return true;
+  }
+  bool UnitImpl::gather(Unit* target)
+  {
+    this->issueCommand(UnitCommand::gather(this,target));
     return true;
   }
   bool UnitImpl::returnCargo()
@@ -824,9 +844,9 @@ namespace BWAPI
     this->issueCommand(UnitCommand::returnCargo(this));
     return true;
   }
-  bool UnitImpl::morph(UnitType type)
+  bool UnitImpl::repair(Unit* target)
   {
-    this->issueCommand(UnitCommand::morph(this,type));
+    this->issueCommand(UnitCommand::repair(this,target));
     return true;
   }
   bool UnitImpl::burrow()
@@ -839,16 +859,6 @@ namespace BWAPI
     this->issueCommand(UnitCommand::unburrow(this));
     return true;
   }
-  bool UnitImpl::siege()
-  {
-    this->issueCommand(UnitCommand::siege(this));
-    return true;
-  }
-  bool UnitImpl::unsiege()
-  {
-    this->issueCommand(UnitCommand::unsiege(this));
-    return true;
-  }
   bool UnitImpl::cloak()
   {
     this->issueCommand(UnitCommand::cloak(this));
@@ -857,6 +867,16 @@ namespace BWAPI
   bool UnitImpl::decloak()
   {
     this->issueCommand(UnitCommand::decloak(this));
+    return true;
+  }
+  bool UnitImpl::siege()
+  {
+    this->issueCommand(UnitCommand::siege(this));
+    return true;
+  }
+  bool UnitImpl::unsiege()
+  {
+    this->issueCommand(UnitCommand::unsiege(this));
     return true;
   }
   bool UnitImpl::lift()
@@ -889,9 +909,14 @@ namespace BWAPI
     this->issueCommand(UnitCommand::unloadAll(this,target));
     return true;
   }
-  bool UnitImpl::cancelConstruction()
+  bool UnitImpl::rightClick(Position target)
   {
-    this->issueCommand(UnitCommand::cancelConstruction(this));
+    this->issueCommand(UnitCommand::rightClick(this,target));
+    return true;
+  }
+  bool UnitImpl::rightClick(Unit* target)
+  {
+    this->issueCommand(UnitCommand::rightClick(this,target));
     return true;
   }
   bool UnitImpl::haltConstruction()
@@ -899,9 +924,14 @@ namespace BWAPI
     this->issueCommand(UnitCommand::haltConstruction(this));
     return true;
   }
-  bool UnitImpl::cancelMorph()
+  bool UnitImpl::cancelConstruction()
   {
-    this->issueCommand(UnitCommand::cancelMorph(this));
+    this->issueCommand(UnitCommand::cancelConstruction(this));
+    return true;
+  }
+  bool UnitImpl::cancelAddon()
+  {
+    this->issueCommand(UnitCommand::cancelAddon(this));
     return true;
   }
   bool UnitImpl::cancelTrain()
@@ -914,9 +944,9 @@ namespace BWAPI
     this->issueCommand(UnitCommand::cancelTrain(this,slot));
     return true;
   }
-  bool UnitImpl::cancelAddon()
+  bool UnitImpl::cancelMorph()
   {
-    this->issueCommand(UnitCommand::cancelAddon(this));
+    this->issueCommand(UnitCommand::cancelMorph(this));
     return true;
   }
   bool UnitImpl::cancelResearch()
@@ -934,12 +964,12 @@ namespace BWAPI
     this->issueCommand(UnitCommand::useTech(this,tech));
     return true;
   }
-  bool UnitImpl::useTech(TechType tech,Position target)
+  bool UnitImpl::useTech(TechType tech, Position target)
   {
     this->issueCommand(UnitCommand::useTech(this,tech,target));
     return true;
   }
-  bool UnitImpl::useTech(TechType tech,Unit* target)
+  bool UnitImpl::useTech(TechType tech, Unit* target)
   {
     this->issueCommand(UnitCommand::useTech(this,tech,target));
     return true;

@@ -45,7 +45,7 @@ namespace BWAPI
     if (frame>Broodwar->getLatency() && command.type !=UnitCommandTypes::Cancel_Train_Slot)
       return;
 
-    if (command.type == UnitCommandTypes::Attack_Position)
+    if (command.type == UnitCommandTypes::Attack_Move)
     {
       if (!unit->self->exists) return;
       if (!unit->getType().canMove()) return;
@@ -255,6 +255,18 @@ namespace BWAPI
       unit->self->isIdle = false;
       unit->self->isMoving = true;
     }
+    else if (command.type == UnitCommandTypes::Gather)
+    {
+      if (!unit->self->exists) return;
+      unit->self->target = getUnitID(target);
+      unit->self->isIdle = false;
+      unit->self->isMoving = true;
+      unit->self->isGathering = true;
+      if (target->getType()==UnitTypes::Resource_Mineral_Field)
+        unit->self->order = Orders::MoveToMinerals.getID();
+      else if (target->getType().isRefinery())
+        unit->self->order = Orders::MoveToGas.getID();
+    }
     else if (command.type == UnitCommandTypes::Halt_Construction)
     {
       if (!unit->self->exists) return;
@@ -310,11 +322,11 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Morph)
     {
       if (!unit->self->exists) return;
-      unit->self->buildType = unitType.getID();
-      unit->self->remainingBuildTime = unitType.buildTime();
       unit->self->isMorphing = true;
       unit->self->isConstructing = true;
       unit->self->isIdle = false;
+      unit->self->buildType = unitType.getID();
+      unit->self->remainingBuildTime = unitType.buildTime();
       if (unitType.isBuilding())
       {
         unit->self->order = Orders::ZergBuildingMorph.getID();
@@ -346,6 +358,16 @@ namespace BWAPI
         else
           unit->self->type = UnitTypes::Zerg_Egg.getID();
       }
+    }
+    else if (command.type == UnitCommandTypes::Move)
+    {
+      if (!unit->self->exists) return;
+      if (unit->getType().canMove()==false) return;
+      unit->self->order = Orders::Move.getID();
+      unit->self->targetPositionX = position.x();
+      unit->self->targetPositionY = position.y();
+      unit->self->isMoving = true;
+      unit->self->isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Patrol)
     {
@@ -388,6 +410,7 @@ namespace BWAPI
         unit->self->order = Orders::ReturnGas.getID();
       else
         unit->self->order = Orders::ReturnMinerals.getID();
+      unit->self->isGathering = true;
       unit->self->isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Right_Click_Position)
@@ -399,7 +422,6 @@ namespace BWAPI
       unit->self->targetPositionY = position.y();
       unit->self->isMoving = true;
       unit->self->isIdle = false;
-
     }
     else if (command.type == UnitCommandTypes::Right_Click_Unit)
     {
@@ -408,9 +430,15 @@ namespace BWAPI
       unit->self->isIdle = false;
       unit->self->isMoving = true;
       if (unit->getType().isWorker() && target->getType()==UnitTypes::Resource_Mineral_Field)
+      {
+        unit->self->isGathering = true;
         unit->self->order = Orders::MoveToMinerals.getID();
+      }
       else if (unit->getType().isWorker() && target->getType().isRefinery())
+      {
+        unit->self->isGathering = true;
         unit->self->order = Orders::MoveToGas.getID();
+      }
       else if (unit->getType().isWorker() &&
                target->getType().getRace()==Races::Terran &&
                target->getType().whatBuilds().first==unit->getType() &&

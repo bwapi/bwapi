@@ -2,10 +2,10 @@
 #include <BW/OrderID.h>
 namespace BWAPI
 {
-  int BWtoBWAPI_Order[189];
+  int BWtoBWAPI_Order[191];
   void BWtoBWAPI_init()
   {
-    for(int i=0;i<189;i++)
+    for(int i=0;i<191;i++)
     {
       BWtoBWAPI_Order[i]=i;
     }

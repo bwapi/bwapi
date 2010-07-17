@@ -13,6 +13,7 @@
 #include "AttackUnitTest.h"
 #include "FollowTest.h"
 #include "CancelTrainTest.h"
+#include "GatherTest.h"
 using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
@@ -35,6 +36,7 @@ void ProtossTest::onStart()
 
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Gateway));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Gateway));
+  this->addTestCase(new GatherTest());
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Forge));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Photon_Cannon));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Cybernetics_Core));

@@ -459,17 +459,19 @@ namespace BWAPI
       virtual bool issueCommand(UnitCommand command) = 0;
 
       /** Orders the unit to attack move to the specified location. */
-      virtual bool attackMove(Position position) = 0;
+      virtual bool attackMove(Position target) = 0;
 
       /** Orders the unit to attack the specified unit. */
       virtual bool attackUnit(Unit* target) = 0;
 
-      /** Works like the right click in the GUI. */
-      virtual bool rightClick(Position position) = 0;
+      /** Orders the unit to build the given unit type at the given position. Note that if the player does not
+       * have enough resources when the unit attempts to place the building down, the order will fail. The
+       * tile position specifies where the top left corner of the building will be placed. */
+      virtual bool build(TilePosition target, UnitType type) = 0;
 
-      /** Works like the right click in the GUI. Right click on a mineral patch to order a worker to mine,
-       * right click on an enemy to attack it. */
-      virtual bool rightClick(Unit* target) = 0;
+      /** Orders the unit to build the given addon. The unit must be a Terran building that can have an addon
+       * and the specified unit type must be an addon unit type. */
+      virtual bool buildAddon(UnitType type) = 0;
 
       /** Orders this unit to add the specified unit type to the training queue. Note that the player must
        * have sufficient resources to train. If you wish to make units from a hatchery, use getLarva to get
@@ -477,14 +479,9 @@ namespace BWAPI
        * command can also be used to make interceptors and scarabs. */
       virtual bool train(UnitType type) = 0;
 
-      /** Orders the unit to build the given unit type at the given position. Note that if the player does not
-       * have enough resources when the unit attempts to place the building down, the order will fail. The
-       * tile position specifies where the top left corner of the building will be placed. */
-      virtual bool build(TilePosition position, UnitType type) = 0;
-
-      /** Orders the unit to build the given addon. The unit must be a Terran building that can have an addon
-       * and the specified unit type must be an addon unit type. */
-      virtual bool buildAddon(UnitType type) = 0;
+      /** Orders the unit to morph into the specified unit type. Returns false if given a wrong type.
+       * \see Unit::cancelMorph, Unit::isMorphing. */
+      virtual bool morph(UnitType type) = 0;
 
       /** Orders the unit to research the given tech type.
        * \see Unit::cancelResearch, Unit::Unit#isResearching, Unit::getRemainingResearchTime, Unit::getTech. */
@@ -494,20 +491,6 @@ namespace BWAPI
        * \see Unit::cancelUpgrade, Unit::Unit#isUpgrading, Unit::getRemainingUpgradeTime, Unit::getUpgrade. */
       virtual bool upgrade(UpgradeType upgrade) = 0;
 
-      /** Orders the unit to stop. */
-      virtual bool stop() = 0;
-
-      /** Orders the unit to hold its position.*/
-      virtual bool holdPosition() = 0;
-
-      /** Orders the unit to patrol between its current position and the specified position.
-       * \see Unit::isPatrolling.  */
-      virtual bool patrol(Position position) = 0;
-
-      /** Orders the unit to follow the specified unit.
-       * \see Unit::isFollowing. */
-      virtual bool follow(Unit* target) = 0;
-
       /** Orders the unit to set its rally position to the specified position.
        * \see Unit::setRallyUnit, Unit::getRallyPosition, Unit::getRallyUnit. */
       virtual bool setRallyPosition(Position target) = 0;
@@ -516,19 +499,37 @@ namespace BWAPI
        * \see Unit::setRallyPosition, Unit::getRallyPosition, Unit::getRallyUnit. */
       virtual bool setRallyUnit(Unit* target) = 0;
 
-      /** Orders the unit to repair the specified unit. Only Terran SCVs can be ordered to repair, and the
-       * target must be a mechanical Terran unit or building.
-       * \see Unit::isRepairing. */
-      virtual bool repair(Unit* target) = 0;
+      /** Orders the unit to move from its current position to the specified position.
+       * \see Unit::isMoving.  */
+      virtual bool move(Position target) = 0;
+
+      /** Orders the unit to patrol between its current position and the specified position.
+       * \see Unit::isPatrolling.  */
+      virtual bool patrol(Position target) = 0;
+
+      /** Orders the unit to hold its position.*/
+      virtual bool holdPosition() = 0;
+
+      /** Orders the unit to stop. */
+      virtual bool stop() = 0;
+
+      /** Orders the unit to follow the specified unit.
+       * \see Unit::isFollowing. */
+      virtual bool follow(Unit* target) = 0;
+
+      /** Orders the unit to gather the specified unit (must be mineral or refinery type).
+       * \see Unit::isGatheringGas, Unit::isGatheringMinerals. */
+      virtual bool gather(Unit* target) = 0;
 
       /** Orders the unit to return its cargo to a nearby resource depot such as a Command Center. Only
        * workers that are carrying minerals or gas can be ordered to return cargo.
        * \see Unit::isCarryingGas, Unit::isCarryingMinerals. */
       virtual bool returnCargo() = 0;
 
-      /** Orders the unit to morph into the specified unit type. Returns false if given a wrong type.
-       * \see Unit::cancelMorph, Unit::isMorphing. */
-      virtual bool morph(UnitType type) = 0;
+      /** Orders the unit to repair the specified unit. Only Terran SCVs can be ordered to repair, and the
+       * target must be a mechanical Terran unit or building.
+       * \see Unit::isRepairing. */
+      virtual bool repair(Unit* target) = 0;
 
       /** Orders the unit to burrow. Either the unit must be a Zerg Lurker, or the unit must be a Zerg ground
        * unit and burrow tech must be researched.
@@ -540,14 +541,6 @@ namespace BWAPI
        * */
       virtual bool unburrow() = 0;
 
-      /** Orders the unit to siege. Note: unit must be a Terran siege tank.
-       * \see Unit::unsiege, Unit::isSieged. */
-      virtual bool siege() = 0;
-
-      /** Orders the unit to unsiege. Note: unit must be a Terran siege tank.
-       * \see: Unit::unsiege, Unit::isSieged. */
-      virtual bool unsiege() = 0;
-
       /** Orders the unit to cloak.
        * \see: Unit::decloak, Unit::isCloaked. */
       virtual bool cloak() = 0;
@@ -556,13 +549,21 @@ namespace BWAPI
        * \see: Unit::cloak, Unit::isCloaked. */
       virtual bool decloak() = 0;
 
+      /** Orders the unit to siege. Note: unit must be a Terran siege tank.
+       * \see Unit::unsiege, Unit::isSieged. */
+      virtual bool siege() = 0;
+
+      /** Orders the unit to unsiege. Note: unit must be a Terran siege tank.
+       * \see: Unit::unsiege, Unit::isSieged. */
+      virtual bool unsiege() = 0;
+
       /** Orders the unit to lift. Note: unit must be a Terran building that can be lifted.
        * \see Unit::land, Unit::isLifted.  */
       virtual bool lift() = 0;
 
       /** Orders the unit to land. Note: unit must be a Terran building that is currently lifted.
        * \see Unit::lift, Unit::isLifted. */
-      virtual bool land(TilePosition position) = 0;
+      virtual bool land(TilePosition target) = 0;
 
       /** Orders the unit to load the target unit.
        * \see Unit::unload, Unit::unloadAll, Unit::getLoadedUnits, Unit:isLoaded. */
@@ -580,20 +581,26 @@ namespace BWAPI
        * Dropship, Protoss Shuttle, or Zerg Overlord. If the unit is a Terran Bunker, the units will be
        * unloaded right outside the bunker, like in the first version of unloadAll.
        * \see Unit::load, Unit::unload, Unit::unloadAll, Unit::getLoadedUnits, Unit:isLoaded. */
-      virtual bool unloadAll(Position position) = 0;
+      virtual bool unloadAll(Position target) = 0;
 
-      /** Orders the building to stop being constructed.
-       * \see Unit::beingConstructed. */
-      virtual bool cancelConstruction() = 0;
+      /** Works like the right click in the GUI. */
+      virtual bool rightClick(Position target) = 0;
+
+      /** Works like the right click in the GUI. Right click on a mineral patch to order a worker to mine,
+       * right click on an enemy to attack it. */
+      virtual bool rightClick(Unit* target) = 0;
 
       /** Orders the SCV to stop constructing the building, and the building is left in a partially complete
        * state until it is canceled, destroyed, or completed.
        * \see Unit::isConstructing. */
       virtual bool haltConstruction() = 0;
 
-      /** Orders the unit to stop morphing.
-       * \see Unit::morph, Unit::isMorphing. */
-      virtual bool cancelMorph() = 0;
+      /** Orders the building to stop being constructed.
+       * \see Unit::beingConstructed. */
+      virtual bool cancelConstruction() = 0;
+
+      /** Orders the unit to stop making the addon. */
+      virtual bool cancelAddon() = 0;
 
       /** Orders the unit to remove the last unit from its training queue.
        * \see Unit::train, Unit::cancelTrain, Unit::isTraining, Unit::getTrainingQueue. */
@@ -603,8 +610,9 @@ namespace BWAPI
        * \see Unit::train, Unit::cancelTrain, Unit::isTraining, Unit::getTrainingQueue. */
       virtual bool cancelTrain(int slot) = 0;
 
-      /** Orders the unit to stop making the addon. */
-      virtual bool cancelAddon() = 0;
+      /** Orders the unit to stop morphing.
+       * \see Unit::morph, Unit::isMorphing. */
+      virtual bool cancelMorph() = 0;
 
       /** Orders the unit to cancel a research in progress.
        * \see Unit::research, Unit::isResearching, Unit::getTech. */
@@ -620,7 +628,7 @@ namespace BWAPI
 
       /** Orders the unit to use a tech requiring a position target (ie Dark Swarm). Returns true if it is a
        * valid tech.*/
-      virtual bool useTech(TechType tech, Position position) = 0;
+      virtual bool useTech(TechType tech, Position target) = 0;
 
       /** Orders the unit to use a tech requiring a unit target (ie Irradiate). Returns true if it is a valid
        * tech.*/
