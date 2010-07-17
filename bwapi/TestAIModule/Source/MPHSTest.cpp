@@ -55,7 +55,7 @@ void MPHSTest::update()
     targetPosition=unit->getPosition();
     targetPosition.y()+=32*30;
     targetPosition.makeValid();
-    BWAssertF(unit->rightClick(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    BWAssertF(unit->move(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
     BWAssertF(unit->getOrder()==Orders::Move,{fail=true;return;});
     BWAssertF(unit->isMoving()==true,{fail=true;return;});
     BWAssertF(unit->isPatrolling()==false,{fail=true;return;});

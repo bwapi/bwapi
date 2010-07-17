@@ -15,6 +15,7 @@
 #include "AttackMoveTest.h"
 #include "AttackUnitTest.h"
 #include "FollowTest.h"
+#include "GatherTest.h"
 using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
@@ -47,6 +48,7 @@ void ZergTest::onStart()
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Spawning_Pool));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
+  this->addTestCase(new GatherTest());
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Evolution_Chamber));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new BuildTest(UnitTypes::Zerg_Hydralisk_Den));

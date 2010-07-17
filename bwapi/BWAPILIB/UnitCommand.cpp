@@ -1,13 +1,13 @@
 #include <BWAPI/UnitCommand.h>
 namespace BWAPI
 {
-  UnitCommand UnitCommand::attackMove(Unit* unit, Position position)
+  UnitCommand UnitCommand::attackMove(Unit* unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Attack_Position;
-    c.x = position.x();
-    c.y = position.y();
+    c.type = UnitCommandTypes::Attack_Move;
+    c.x = target.x();
+    c.y = target.y();
     return c;
   }
   UnitCommand UnitCommand::attackUnit(Unit* unit, Unit* target)
@@ -18,21 +18,22 @@ namespace BWAPI
     c.target = target;
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit* unit, Position position)
+  UnitCommand UnitCommand::build(Unit* unit, TilePosition target, UnitType type)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Right_Click_Position;
-    c.x = position.x();
-    c.y = position.y();
+    c.type = UnitCommandTypes::Build;
+    c.x = target.x();
+    c.y = target.y();
+    c.extra = type.getID();
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::buildAddon(Unit* unit, UnitType type)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Right_Click_Unit;
-    c.target = target;
+    c.type = UnitCommandTypes::Build_Addon;
+    c.extra = type.getID();
     return c;
   }
   UnitCommand UnitCommand::train(Unit* unit, UnitType type)
@@ -43,21 +44,11 @@ namespace BWAPI
     c.extra = type.getID();
     return c;
   }
-  UnitCommand UnitCommand::build(Unit* unit, TilePosition position, UnitType type)
+  UnitCommand UnitCommand::morph(Unit* unit, UnitType type)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Build;
-    c.x = position.x();
-    c.y = position.y();
-    c.extra = type.getID();
-    return c;
-  }
-  UnitCommand UnitCommand::buildAddon(Unit* unit, UnitType type)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Build_Addon;
+    c.type = UnitCommandTypes::Morph;
     c.extra = type.getID();
     return c;
   }
@@ -77,37 +68,6 @@ namespace BWAPI
     c.extra = upgrade.getID();
     return c;
   }
-  UnitCommand UnitCommand::stop(Unit* unit)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Stop;
-    return c;
-  }
-  UnitCommand UnitCommand::holdPosition(Unit* unit)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Hold_Position;
-    return c;
-  }
-  UnitCommand UnitCommand::patrol(Unit* unit, Position position)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Patrol;
-    c.x = position.x();
-    c.y = position.y();
-    return c;
-  }
-  UnitCommand UnitCommand::follow(Unit* unit, Unit* target)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Follow;
-    c.target = target;
-    return c;
-  }
   UnitCommand UnitCommand::setRallyPosition(Unit* unit, Position target)
   {
     UnitCommand c;
@@ -125,11 +85,51 @@ namespace BWAPI
     c.target = target;
     return c;
   }
-  UnitCommand UnitCommand::repair(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::move(Unit* unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Repair;
+    c.type = UnitCommandTypes::Move;
+    c.x = target.x();
+    c.y = target.y();
+    return c;
+  }
+  UnitCommand UnitCommand::patrol(Unit* unit, Position target)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Patrol;
+    c.x = target.x();
+    c.y = target.y();
+    return c;
+  }
+  UnitCommand UnitCommand::holdPosition(Unit* unit)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Hold_Position;
+    return c;
+  }
+  UnitCommand UnitCommand::stop(Unit* unit)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Stop;
+    return c;
+  }
+  UnitCommand UnitCommand::follow(Unit* unit, Unit* target)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Follow;
+    c.target = target;
+    return c;
+  }
+  UnitCommand UnitCommand::gather(Unit* unit, Unit* target)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Gather;
     c.target = target;
     return c;
   }
@@ -140,12 +140,12 @@ namespace BWAPI
     c.type = UnitCommandTypes::Return_Cargo;
     return c;
   }
-  UnitCommand UnitCommand::morph(Unit* unit, UnitType type)
+  UnitCommand UnitCommand::repair(Unit* unit, Unit* target)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Morph;
-    c.extra = type.getID();
+    c.type = UnitCommandTypes::Repair;
+    c.target = target;
     return c;
   }
   UnitCommand UnitCommand::burrow(Unit* unit)
@@ -162,20 +162,6 @@ namespace BWAPI
     c.type = UnitCommandTypes::Unburrow;
     return c;
   }
-  UnitCommand UnitCommand::siege(Unit* unit)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Siege;
-    return c;
-  }
-  UnitCommand UnitCommand::unsiege(Unit* unit)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Unsiege;
-    return c;
-  }
   UnitCommand UnitCommand::cloak(Unit* unit)
   {
     UnitCommand c;
@@ -190,6 +176,20 @@ namespace BWAPI
     c.type = UnitCommandTypes::Decloak;
     return c;
   }
+  UnitCommand UnitCommand::siege(Unit* unit)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Siege;
+    return c;
+  }
+  UnitCommand UnitCommand::unsiege(Unit* unit)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Unsiege;
+    return c;
+  }
   UnitCommand UnitCommand::lift(Unit* unit)
   {
     UnitCommand c;
@@ -197,13 +197,13 @@ namespace BWAPI
     c.type = UnitCommandTypes::Lift;
     return c;
   }
-  UnitCommand UnitCommand::land(Unit* unit, TilePosition position)
+  UnitCommand UnitCommand::land(Unit* unit, TilePosition target)
   {
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Land;
-    c.x = position.x();
-    c.y = position.y();
+    c.x = target.x();
+    c.y = target.y();
     return c;
   }
   UnitCommand UnitCommand::load(Unit* unit, Unit* target)
@@ -229,20 +229,30 @@ namespace BWAPI
     c.type = UnitCommandTypes::Unload_All;
     return c;
   }
-  UnitCommand UnitCommand::unloadAll(Unit* unit, Position position)
+  UnitCommand UnitCommand::unloadAll(Unit* unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Unload_All_Position;
-    c.x = position.x();
-    c.y = position.y();
+    c.x = target.x();
+    c.y = target.y();
     return c;
   }
-  UnitCommand UnitCommand::cancelConstruction(Unit* unit)
+  UnitCommand UnitCommand::rightClick(Unit* unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Cancel_Construction;
+    c.type = UnitCommandTypes::Right_Click_Position;
+    c.x = target.x();
+    c.y = target.y();
+    return c;
+  }
+  UnitCommand UnitCommand::rightClick(Unit* unit, Unit* target)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Right_Click_Unit;
+    c.target = target;
     return c;
   }
   UnitCommand UnitCommand::haltConstruction(Unit* unit)
@@ -252,11 +262,18 @@ namespace BWAPI
     c.type = UnitCommandTypes::Halt_Construction;
     return c;
   }
-  UnitCommand UnitCommand::cancelMorph(Unit* unit)
+  UnitCommand UnitCommand::cancelConstruction(Unit* unit)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Cancel_Morph;
+    c.type = UnitCommandTypes::Cancel_Construction;
+    return c;
+  }
+  UnitCommand UnitCommand::cancelAddon(Unit* unit)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Cancel_Addon;
     return c;
   }
   UnitCommand UnitCommand::cancelTrain(Unit* unit)
@@ -274,11 +291,11 @@ namespace BWAPI
     c.extra = slot;
     return c;
   }
-  UnitCommand UnitCommand::cancelAddon(Unit* unit)
+  UnitCommand UnitCommand::cancelMorph(Unit* unit)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Cancel_Addon;
+    c.type = UnitCommandTypes::Cancel_Morph;
     return c;
   }
   UnitCommand UnitCommand::cancelResearch(Unit* unit)
@@ -303,14 +320,14 @@ namespace BWAPI
     c.extra = tech.getID();
     return c;
   }
-  UnitCommand UnitCommand::useTech(Unit* unit,TechType tech, Position position)
+  UnitCommand UnitCommand::useTech(Unit* unit,TechType tech, Position target)
   {
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Use_Tech_Position;
     c.extra = tech.getID();
-    c.x = position.x();
-    c.y = position.y();
+    c.x = target.x();
+    c.y = target.y();
     return c;
   }
   UnitCommand UnitCommand::useTech(Unit* unit,TechType tech, Unit* target)

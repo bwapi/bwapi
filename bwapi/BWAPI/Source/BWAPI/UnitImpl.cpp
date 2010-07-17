@@ -439,7 +439,9 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::MoveToGas.getID()  &&
+    if (self->order != Orders::Harvest1.getID()   &&
+        self->order != Orders::Harvest2.getID()   &&
+        self->order != Orders::MoveToGas.getID()  &&
         self->order != Orders::WaitForGas.getID() &&
         self->order != Orders::HarvestGas.getID() &&
         self->order != Orders::ReturnGas.getID()  &&
@@ -450,32 +452,26 @@ namespace BWAPI
       return self->carryResourceType == 1;
 
     //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
-    if (self->order != Orders::MoveToGas.getID())
+    if (self->order == Orders::WaitForGas.getID() ||
+        self->order == Orders::HarvestGas.getID() ||
+        self->order == Orders::ReturnGas.getID())
       return true;
 
-    //if BWOrder is MoveToGas, we need to do some additional checks to make sure the unit is really gathering
-    if (self->target != -1)
-    {
-      if (getTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
-        return false;
-      if (getTarget()->getPlayer() != getPlayer())
-        return false;
-      if (!getTarget()->isCompleted() && !getTarget()->getType().isResourceDepot())
-        return false;
-      if (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot())
-        return true;
-    }
-    if (getOrderTarget() != NULL)
-    {
-      if (getOrderTarget()->getType() == UnitTypes::Resource_Vespene_Geyser)
-        return false;
-      if (getOrderTarget()->getPlayer() != getPlayer())
-        return false;
-      if (!this->getOrderTarget()->isCompleted() && !getOrderTarget()->getType().isResourceDepot())
-        return false;
-      if (this->getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot())
-        return true;
-    }
+    //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
+    if (getTarget() != NULL &&
+        getTarget()->exists() && 
+        getTarget()->isCompleted() &&
+        getTarget()->getPlayer() == getPlayer() &&
+        getTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
+        (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot()))
+      return true;
+    if (getOrderTarget() != NULL &&
+        getOrderTarget()->exists() && 
+        getOrderTarget()->isCompleted() &&
+        getOrderTarget()->getPlayer() == getPlayer() &&
+        getOrderTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
+        (getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot()))
+      return true;
     return false;
   }
   //--------------------------------------------- IS GATHERING MINERALS --------------------------------------
@@ -484,16 +480,40 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::MoveToMinerals.getID() &&
+    if (self->order != Orders::Harvest1.getID()        &&
+        self->order != Orders::Harvest2.getID()        &&
+        self->order != Orders::MoveToMinerals.getID()  &&
         self->order != Orders::WaitForMinerals.getID() &&
-        self->order != Orders::MiningMinerals.getID() &&
-        self->order != Orders::ReturnMinerals.getID() &&
+        self->order != Orders::MiningMinerals.getID()  &&
+        self->order != Orders::ReturnMinerals.getID()  &&
         self->order != Orders::ResetCollision.getID())
       return false;
 
     if (self->order == Orders::ResetCollision.getID())
       return self->carryResourceType == 2;
-    return true;
+
+    //return true if BWOrder is WaitForMinerals, MiningMinerals, or ReturnMinerals
+    if (self->order == Orders::WaitForMinerals.getID() ||
+        self->order == Orders::MiningMinerals.getID() ||
+        self->order == Orders::ReturnMinerals.getID())
+      return true;
+
+    //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
+    if (getTarget() != NULL &&
+        getTarget()->exists() &&
+        (getTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
+            (getTarget()->isCompleted() &&
+             getTarget()->getPlayer() == getPlayer() &&
+             getTarget()->getType().isResourceDepot())))
+      return true;
+    if (getOrderTarget() != NULL &&
+        getOrderTarget()->exists() &&
+        (getOrderTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
+            (getOrderTarget()->isCompleted() &&
+             getOrderTarget()->getPlayer() == getPlayer() &&
+             getOrderTarget()->getType().isResourceDepot())))
+      return true;
+    return false;
   }
   //--------------------------------------------- IS HALLUCINATION -------------------------------------------
   bool UnitImpl::isHallucination() const
@@ -758,109 +778,108 @@ namespace BWAPI
   bool UnitImpl::issueCommand(UnitCommand command)
   {
     //call the appropriate command function based on the command type
-    switch(command.type.getID())
-    {
-      case 0:
-        return attackMove(Position(command.x,command.y));
-      case 1:
-        return attackUnit(command.target);
-      case 2:
-        return rightClick(Position(command.x,command.y));
-      case 3:
-        return rightClick(command.target);
-      case 4:
-        return train(UnitType(command.extra));
-      case 5:
+    if      (command.type == UnitCommandTypes::Attack_Move)
+      return attackMove(Position(command.x,command.y));
+    else if (command.type == UnitCommandTypes::Attack_Unit)
+      return attackUnit(command.target);
+    else if (command.type == UnitCommandTypes::Build)
         return build(TilePosition(command.x,command.y),UnitType(command.extra));
-      case 6:
+    else if (command.type == UnitCommandTypes::Build_Addon)
         return buildAddon(UnitType(command.extra));
-      case 7:
-        return research(TechType(command.extra));
-      case 8:
-        return upgrade(UpgradeType(command.extra));
-      case 9:
-        return stop();
-      case 10:
-        return holdPosition();
-      case 11:
-        return patrol(Position(command.x,command.y));
-      case 12:
-        return follow(command.target);
-      case 13:
-        return setRallyPosition(Position(command.x,command.y));
-      case 14:
-        return setRallyUnit(command.target);
-      case 15:
-        return repair(command.target);
-      case 16:
-        return returnCargo();
-      case 17:
+    else if (command.type == UnitCommandTypes::Train)
+        return train(UnitType(command.extra));
+    else if (command.type == UnitCommandTypes::Morph)
         return morph(UnitType(command.extra));
-      case 18:
+    else if (command.type == UnitCommandTypes::Research)
+        return research(TechType(command.extra));
+    else if (command.type == UnitCommandTypes::Upgrade)
+        return upgrade(UpgradeType(command.extra));
+    else if (command.type == UnitCommandTypes::Set_Rally_Position)
+        return setRallyPosition(Position(command.x,command.y));
+    else if (command.type == UnitCommandTypes::Set_Rally_Unit)
+        return setRallyUnit(command.target);
+    else if (command.type == UnitCommandTypes::Move)
+        return move(Position(command.x,command.y));
+    else if (command.type == UnitCommandTypes::Patrol)
+        return patrol(Position(command.x,command.y));
+    else if (command.type == UnitCommandTypes::Hold_Position)
+        return holdPosition();
+    else if (command.type == UnitCommandTypes::Stop)
+        return stop();
+    else if (command.type == UnitCommandTypes::Follow)
+        return follow(command.target);
+    else if (command.type == UnitCommandTypes::Gather)
+        return gather(command.target);
+    else if (command.type == UnitCommandTypes::Return_Cargo)
+        return returnCargo();
+    else if (command.type == UnitCommandTypes::Repair)
+        return repair(command.target);
+    else if (command.type == UnitCommandTypes::Burrow)
         return burrow();
-      case 19:
+    else if (command.type == UnitCommandTypes::Unburrow)
         return unburrow();
-      case 20:
-        return siege();
-      case 21:
-        return unsiege();
-      case 22:
+    else if (command.type == UnitCommandTypes::Cloak)
         return cloak();
-      case 23:
+    else if (command.type == UnitCommandTypes::Decloak)
         return decloak();
-      case 24:
+    else if (command.type == UnitCommandTypes::Siege)
+        return siege();
+    else if (command.type == UnitCommandTypes::Unsiege)
+        return unsiege();
+    else if (command.type == UnitCommandTypes::Lift)
         return lift();
-      case 25:
+    else if (command.type == UnitCommandTypes::Land)
         return land(TilePosition(command.x,command.y));
-      case 26:
+    else if (command.type == UnitCommandTypes::Load)
         return load(command.target);
-      case 27:
+    else if (command.type == UnitCommandTypes::Unload)
         return unload(command.target);
-      case 28:
+    else if (command.type == UnitCommandTypes::Unload_All)
         return unloadAll();
-      case 29:
+    else if (command.type == UnitCommandTypes::Unload_All_Position)
         return unloadAll(Position(command.x,command.y));
-      case 30:
-        return cancelConstruction();
-      case 31:
+    else if (command.type == UnitCommandTypes::Right_Click_Position)
+        return rightClick(Position(command.x,command.y));
+    else if (command.type == UnitCommandTypes::Right_Click_Unit)
+        return rightClick(command.target);
+    else if (command.type == UnitCommandTypes::Halt_Construction)
         return haltConstruction();
-      case 32:
-        return cancelMorph();
-      case 33:
-        return cancelTrain();
-      case 34:
-        return cancelTrain(command.extra);
-      case 35:
+    else if (command.type == UnitCommandTypes::Cancel_Construction)
+        return cancelConstruction();
+    else if (command.type == UnitCommandTypes::Cancel_Addon)
         return cancelAddon();
-      case 36:
+    else if (command.type == UnitCommandTypes::Cancel_Train)
+        return cancelTrain();
+    else if (command.type == UnitCommandTypes::Cancel_Train_Slot)
+        return cancelTrain(command.extra);
+    else if (command.type == UnitCommandTypes::Cancel_Morph)
+        return cancelMorph();
+    else if (command.type == UnitCommandTypes::Cancel_Research)
         return cancelResearch();
-      case 37:
+    else if (command.type == UnitCommandTypes::Cancel_Upgrade)
         return cancelUpgrade();
-      case 38:
+    else if (command.type == UnitCommandTypes::Use_Tech)
         return useTech(TechType(command.extra));
-      case 39:
+    else if (command.type == UnitCommandTypes::Use_Tech_Position)
         return useTech(TechType(command.extra),Position(command.x,command.y));
-      case 40:
+    else if (command.type == UnitCommandTypes::Use_Tech_Unit)
         return useTech(TechType(command.extra),command.target);
-      default:
-        break;
-    }
     BroodwarImpl.setLastError(Errors::Unknown);
     return false;
   }
-  //------------------------------------------- ORDER Attack Location ----------------------------------------
-  bool UnitImpl::attackMove(Position position)
+  //--------------------------------------------- ATTACK MOVE ------------------------------------------------
+  bool UnitImpl::attackMove(Position target)
   {
-    position.makeValid();
+    target.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackMove(this,position)));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackMove(this,target)));
     return true;
   }
-  //--------------------------------------------- ORDER Attack Unit ------------------------------------------
+  //--------------------------------------------- ATTACK UNIT ------------------------------------------------
   bool UnitImpl::attackUnit(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -912,58 +931,66 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackUnit(this,target)));
     return true;
   }
-  //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  bool UnitImpl::rightClick(Position position)
+  //--------------------------------------------- BUILD ------------------------------------------------------
+  bool UnitImpl::build(TilePosition target, UnitType type1)
   {
-    position.makeValid();
+    target.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position((u16)position.x(), (u16)position.y())), sizeof(BW::Orders::RightClick));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,position)));
-    return true;
-  }
-  //------------------------------------------- ORDER RIGHT CLICK --------------------------------------------
-  bool UnitImpl::rightClick(Unit* target)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (target == NULL)
+    if (!Broodwar->canMake(this,type1))
       return false;
 
-    if (!((UnitImpl*)target)->attemptAccess())
-      return false;
-
-    if (!target->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(target->getPlayer()))
+    if (!type1.isBuilding())
     {
-      WeaponType weapon = this->getType().groundWeapon();
-      if (target->isLifted() || target->getType().isFlyer())
-        weapon=this->getType().airWeapon();
-
-      if (weapon == WeaponTypes::None)
-      {
-        BroodwarImpl.setLastError(Errors::Unable_To_Hit);
-        return false;
-      }
-      if (!this->getType().canMove())
-      {
-        if (this->getDistance(target)>weapon.maxRange() ||
-            this->getDistance(target)<weapon.minRange())
-        {
-          BroodwarImpl.setLastError(Errors::Out_Of_Range);
-          return false;
-        }
-      }
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
     }
+    if (this->isConstructing() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
+    if (!type1.isAddon() && !Broodwar->canBuildHere(this,target,type1))
+      return false;
+
+    BW::UnitType type((u16)type1.getID());
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,target)));
+    if (!type.isAddon())
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeBuilding));
+    else
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::build(this,target,type1)));
     return true;
   }
-  //----------------------------------------------- TRAIN UNIT -----------------------------------------------
+  //--------------------------------------------- BUILD ADDON ------------------------------------------------
+  bool UnitImpl::buildAddon(UnitType type1)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!Broodwar->canMake(this,type1))
+      return false;
+
+    if (!type1.isAddon())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (this->isConstructing() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
+    TilePosition target(getTilePosition().x()+4,getTilePosition().y()+1);
+    target.makeValid();
+    BW::UnitType type((u16)type1.getID());
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
+    return true;
+  }
+  //--------------------------------------------- TRAIN ------------------------------------------------------
   bool UnitImpl::train(UnitType type1)
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1013,257 +1040,7 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------------- BUILD --------------------------------------------------
-  bool UnitImpl::build(TilePosition position, UnitType type1)
-  {
-    position.makeValid();
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canMake(this,type1))
-      return false;
-
-    if (!type1.isBuilding())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (this->isConstructing() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-    if (!type1.isAddon() && !Broodwar->canBuildHere(this,position,type1))
-      return false;
-
-    BW::UnitType type((u16)type1.getID());
-    this->orderSelect();
-    if (!type.isAddon())
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeBuilding));
-    else
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeAddon));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::build(this,position,type1)));
-    return true;
-  }
-  //----------------------------------------------- BUILD ADDON ----------------------------------------------
-  bool UnitImpl::buildAddon(UnitType type1)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canMake(this,type1))
-      return false;
-
-    if (!type1.isAddon())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (this->isConstructing() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-    TilePosition position(getTilePosition().x()+4,getTilePosition().y()+1);
-    position.makeValid();
-    BW::UnitType type((u16)type1.getID());
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)position.x(), (u16)position.y()), type), sizeof(BW::Orders::MakeAddon));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
-    return true;
-  }
-  //------------------------------------------------ RESEARCH ------------------------------------------------
-  bool UnitImpl::research(TechType tech)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canResearch(this,tech))
-      return false;
-    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-
-    this->orderSelect();
-    u8 techenum = (u8)tech.getID();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::research(this,tech)));
-    return true;
-  }
-  //------------------------------------------------- UPGRADE ------------------------------------------------
-  bool UnitImpl::upgrade(UpgradeType upgrade)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canUpgrade(this,upgrade))
-      return false;
-    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-
-    this->orderSelect();
-    u8 upgradeenum = (u8)upgrade.getID();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::upgrade(this,upgrade)));
-    return true;
-  }
-  //-------------------------------------------------- STOP --------------------------------------------------
-  bool UnitImpl::stop()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    this->orderSelect();
-    int tUnitType = _getType.getID();
-    if (tUnitType == BW::UnitID::Protoss_Reaver ||
-        tUnitType == BW::UnitID::Protoss_Hero_Warbringer)
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::ReaverStop));
-    else if (tUnitType == BW::UnitID::Protoss_Carrier ||
-             tUnitType == BW::UnitID::Protoss_Hero_Gantrithor)
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::CarrierStop));
-    else
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::stop(this)));
-    return true;
-  }
-  //---------------------------------------------- HOLD POSITION ---------------------------------------------
-  bool UnitImpl::holdPosition()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::holdPosition(this)));
-    return true;
-  }
-  //-------------------------------------------------- PATROL ------------------------------------------------
-  bool UnitImpl::patrol(Position position)
-  {
-    position.makeValid();
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (this->getType().isBuilding())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::patrol(this,position)));
-    return true;
-  }
-  //-------------------------------------------------- FOLLOW ------------------------------------------------
-  bool UnitImpl::follow(Unit* target)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (target == NULL)
-      return false;
-
-    if (!((UnitImpl*)target)->attemptAccess())
-      return false;
-
-    if (this->getType().isBuilding())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Follow), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::follow(this,target)));
-    return true;
-  }
-  //------------------------------------------------- SET RALLY ----------------------------------------------
-  bool UnitImpl::setRallyPosition(Position target)
-  {
-    target.makeValid();
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!this->getType().canProduce())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::RallyPointTile), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::setRallyPosition(this,target)));
-    return true;
-  }
-  //------------------------------------------------- SET RALLY ----------------------------------------------
-  bool UnitImpl::setRallyUnit(Unit* target)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (target == NULL)
-      return false;
-
-    if (!((UnitImpl*)target)->attemptAccess())
-      return false;
-
-    if (!this->getType().canProduce())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPointUnit), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::setRallyUnit(this,target)));
-    return true;
-  }
-  //-------------------------------------------------- REPAIR ------------------------------------------------
-  bool UnitImpl::repair(Unit* target)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (target == NULL)
-      return false;
-
-    if (!((UnitImpl*)target)->attemptAccess())
-      return false;
-
-    if (this->getType() != UnitTypes::Terran_SCV || target->getType().isOrganic())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Repair1), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::repair(this,target)));
-    return true;
-  }
-  //--------------------------------------------- RETURN CARGO -----------------------------------------------
-  bool UnitImpl::returnCargo()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!this->getType().isWorker())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (!this->isCarryingGas() && !this->isCarryingMinerals())
-    {
-      BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
-      return false;
-    }
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReturnCargo(0), sizeof(BW::Orders::ReturnCargo));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::returnCargo(this)));
-    return true;
-  }
-  //-------------------------------------------------- MORPH -------------------------------------------------
+  //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1292,7 +1069,237 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type)));
     return true;
   }
-  //-------------------------------------------------- BURROW ------------------------------------------------
+  //--------------------------------------------- RESEARCH ---------------------------------------------------
+  bool UnitImpl::research(TechType tech)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!Broodwar->canResearch(this,tech))
+      return false;
+    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
+
+    this->orderSelect();
+    u8 techenum = (u8)tech.getID();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Invent(BW::TechType(techenum)), sizeof(BW::Orders::Invent));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::research(this,tech)));
+    return true;
+  }
+  //--------------------------------------------- UPGRADE ----------------------------------------------------
+  bool UnitImpl::upgrade(UpgradeType upgrade)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!Broodwar->canUpgrade(this,upgrade))
+      return false;
+    if (this->isLifted() || !this->isIdle() || !this->isCompleted())
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
+
+    this->orderSelect();
+    u8 upgradeenum = (u8)upgrade.getID();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType(upgradeenum)), sizeof(BW::Orders::Upgrade));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::upgrade(this,upgrade)));
+    return true;
+  }
+  //--------------------------------------------- SET RALLY POSITION -----------------------------------------
+  bool UnitImpl::setRallyPosition(Position target)
+  {
+    target.makeValid();
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!this->getType().canProduce())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::RallyPointTile), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::setRallyPosition(this,target)));
+    return true;
+  }
+  //--------------------------------------------- SET RALLY UNIT ---------------------------------------------
+  bool UnitImpl::setRallyUnit(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (target == NULL)
+      return false;
+
+    if (!((UnitImpl*)target)->attemptAccess())
+      return false;
+
+    if (!this->getType().canProduce())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::RallyPointUnit), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::setRallyUnit(this,target)));
+    return true;
+  }
+  //--------------------------------------------- MOVE -------------------------------------------------------
+  bool UnitImpl::move(Position target)
+  {
+    target.makeValid();
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (this->getType().isBuilding() && !isLifted())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::Move), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::move(this,target)));
+    return true;
+  }
+  //--------------------------------------------- PATROL -----------------------------------------------------
+  bool UnitImpl::patrol(Position target)
+  {
+    target.makeValid();
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (this->getType().isBuilding() && !isLifted())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::patrol(this,target)));
+    return true;
+  }
+  //--------------------------------------------- HOLD POSITION ----------------------------------------------
+  bool UnitImpl::holdPosition()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::holdPosition(this)));
+    return true;
+  }
+  //--------------------------------------------- STOP -------------------------------------------------------
+  bool UnitImpl::stop()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    this->orderSelect();
+    int tUnitType = _getType.getID();
+    if (tUnitType == BW::UnitID::Protoss_Reaver ||
+        tUnitType == BW::UnitID::Protoss_Hero_Warbringer)
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::ReaverStop));
+    else if (tUnitType == BW::UnitID::Protoss_Carrier ||
+             tUnitType == BW::UnitID::Protoss_Hero_Gantrithor)
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::CarrierStop));
+    else
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::stop(this)));
+    return true;
+  }
+  //--------------------------------------------- FOLLOW -----------------------------------------------------
+  bool UnitImpl::follow(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (target == NULL)
+      return false;
+
+    if (!((UnitImpl*)target)->attemptAccess())
+      return false;
+
+    if (this->getType().isBuilding())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Follow), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::follow(this,target)));
+    return true;
+  }
+  //--------------------------------------------- GATHER -----------------------------------------------------
+  bool UnitImpl::gather(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (target == NULL)
+      return false;
+
+    if (!((UnitImpl*)target)->attemptAccess())
+      return false;
+
+    if (this->getType().isWorker()==false || (!target->getType().isRefinery() && target->getType()!=UnitTypes::Resource_Mineral_Field))
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Harvest1), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::gather(this,target)));
+    return true;
+  }
+  //--------------------------------------------- RETURN CARGO -----------------------------------------------
+  bool UnitImpl::returnCargo()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!this->getType().isWorker())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (!this->isCarryingGas() && !this->isCarryingMinerals())
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::ReturnCargo(0), sizeof(BW::Orders::ReturnCargo));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::returnCargo(this)));
+    return true;
+  }
+  //--------------------------------------------- REPAIR -----------------------------------------------------
+  bool UnitImpl::repair(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (target == NULL)
+      return false;
+
+    if (!((UnitImpl*)target)->attemptAccess())
+      return false;
+
+    if (this->getType() != UnitTypes::Terran_SCV || target->getType().isOrganic())
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Repair1), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::repair(this,target)));
+    return true;
+  }
+  //--------------------------------------------- BURROW -----------------------------------------------------
   bool UnitImpl::burrow()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1317,7 +1324,7 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------------- UNBURROW -----------------------------------------------
+  //--------------------------------------------- UNBURROW ---------------------------------------------------
   bool UnitImpl::unburrow()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1343,60 +1350,7 @@ namespace BWAPI
     }
     return true;
   }
-  //-------------------------------------------------- SIEGE -------------------------------------------------
-  bool UnitImpl::siege()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-
-    if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode &&
-        this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (!Broodwar->self()->hasResearched(TechTypes::Tank_Siege_Mode))
-    {
-      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
-      return false;
-    }
-
-    if (!this->isSieged())
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::siege(this)));
-    }
-    return true;
-  }
-  //------------------------------------------------- UNSIEGE ------------------------------------------------
-  bool UnitImpl::unsiege()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode &&
-        this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (!Broodwar->self()->hasResearched(TechTypes::Tank_Siege_Mode))
-    {
-      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
-      return false;
-    }
-
-    if (this->isSieged())
-    {
-      this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unsiege(this)));
-    }
-    return true;
-  }
-  //-------------------------------------------------- CLOAK -------------------------------------------------
+  //--------------------------------------------- CLOAK ------------------------------------------------------
   bool UnitImpl::cloak()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1441,7 +1395,7 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------------- DECLOAK ------------------------------------------------
+  //--------------------------------------------- DECLOAK ----------------------------------------------------
   bool UnitImpl::decloak()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1467,7 +1421,60 @@ namespace BWAPI
     }
     return true;
   }
-  //--------------------------------------------------- LIFT -------------------------------------------------
+  //--------------------------------------------- SIEGE ------------------------------------------------------
+  bool UnitImpl::siege()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+
+    if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode &&
+        this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (!Broodwar->self()->hasResearched(TechTypes::Tank_Siege_Mode))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+
+    if (!this->isSieged())
+    {
+      this->orderSelect();
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::siege(this)));
+    }
+    return true;
+  }
+  //--------------------------------------------- UNSIEGE ----------------------------------------------------
+  bool UnitImpl::unsiege()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (this->getType() != UnitTypes::Terran_Siege_Tank_Tank_Mode &&
+        this->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode)
+    {
+      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      return false;
+    }
+    if (!Broodwar->self()->hasResearched(TechTypes::Tank_Siege_Mode))
+    {
+      BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
+
+    if (this->isSieged())
+    {
+      this->orderSelect();
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unsiege(this)));
+    }
+    return true;
+  }
+  //--------------------------------------------- LIFT -------------------------------------------------------
   bool UnitImpl::lift()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1486,10 +1493,10 @@ namespace BWAPI
     }
     return true;
   }
-  //--------------------------------------------------- LAND -------------------------------------------------
-  bool UnitImpl::land(TilePosition position)
+  //--------------------------------------------- LAND -------------------------------------------------------
+  bool UnitImpl::land(TilePosition target)
   {
-    position.makeValid();
+    target.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1501,12 +1508,12 @@ namespace BWAPI
     if(this->isLifted())
     {
       this->orderSelect();
-      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)position.x(), (u16)position.y()), BW::UnitType((u16)this->_getType.getID())), sizeof(BW::Orders::Land));
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::land(this,position)));
+      BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)target.x(), (u16)target.y()), BW::UnitType((u16)this->self->type)), sizeof(BW::Orders::Land));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::land(this,target)));
     }
     return true;
   }
-  //--------------------------------------------------- LOAD -------------------------------------------------
+  //--------------------------------------------- LOAD -------------------------------------------------------
   bool UnitImpl::load(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1544,7 +1551,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
     return false;
   }
-  //-------------------------------------------------- UNLOAD ------------------------------------------------
+  //--------------------------------------------- UNLOAD -----------------------------------------------------
   bool UnitImpl::unload(Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1561,7 +1568,7 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unload(this,target)));
     return true;
   }
-  //------------------------------------------------- UNLOADALL ----------------------------------------------
+  //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool UnitImpl::unloadAll()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1581,10 +1588,10 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unloadAll(this)));
     return true;
   }
-  //------------------------------------------------- UNLOADALL ----------------------------------------------
-  bool UnitImpl::unloadAll(Position position)
+  //--------------------------------------------- UNLOAD ALL -------------------------------------------------
+  bool UnitImpl::unloadAll(Position target)
   {
-    position.makeValid();
+    target.makeValid();
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
@@ -1597,11 +1604,75 @@ namespace BWAPI
       return false;
     }
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unloadAll(this,position)));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unloadAll(this,target)));
     return true;
   }
-  //-------------------------------------------- CANCEL CONSTRUCTION -----------------------------------------
+  //--------------------------------------------- RIGHT CLICK ------------------------------------------------
+  bool UnitImpl::rightClick(Position target)
+  {
+    target.makeValid();
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick(BW::Position((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::RightClick));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,target)));
+    return true;
+  }
+  //--------------------------------------------- RIGHT CLICK ------------------------------------------------
+  bool UnitImpl::rightClick(Unit* target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (target == NULL)
+      return false;
+
+    if (!((UnitImpl*)target)->attemptAccess())
+      return false;
+
+    if (!target->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(target->getPlayer()))
+    {
+      WeaponType weapon = this->getType().groundWeapon();
+      if (target->isLifted() || target->getType().isFlyer())
+        weapon=this->getType().airWeapon();
+
+      if (weapon == WeaponTypes::None)
+      {
+        BroodwarImpl.setLastError(Errors::Unable_To_Hit);
+        return false;
+      }
+      if (!this->getType().canMove())
+      {
+        if (this->getDistance(target)>weapon.maxRange() ||
+            this->getDistance(target)<weapon.minRange())
+        {
+          BroodwarImpl.setLastError(Errors::Out_Of_Range);
+          return false;
+        }
+      }
+    }
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,target)));
+    return true;
+  }
+  //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
+  bool UnitImpl::haltConstruction()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (this->getOrder() != Orders::ConstructingBuilding)
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::haltConstruction(this)));
+    return true;
+  }
+  //--------------------------------------------- CANCEL CONSTRUCTION ----------------------------------------
   bool UnitImpl::cancelConstruction()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1621,20 +1692,46 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelConstruction(this)));
     return true;
   }
-  //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
-  bool UnitImpl::haltConstruction()
+  //--------------------------------------------- CANCEL ADDON -----------------------------------------------
+  bool UnitImpl::cancelAddon()
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (this->getOrder() != Orders::ConstructingBuilding)
+    if (getAddon()==NULL || getAddon()->isCompleted())
       return false;
     this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::haltConstruction(this)));
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelAddon(this)));
     return true;
   }
-  //----------------------------------------------- CANCEL MORPH ---------------------------------------------
+  //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
+  bool UnitImpl::cancelTrain()
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!isTraining())
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrainLast(), sizeof(BW::Orders::CancelTrainLast));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this)));
+    return true;
+  }
+  //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
+  bool UnitImpl::cancelTrain(int slot)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if (!isTraining() || (int)(this->getTrainingQueue().size()) <= slot)
+      return false;
+    this->orderSelect();
+    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrain((u8)slot), sizeof(BW::Orders::CancelTrain));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this,slot)));
+    return true;
+  }
+  //--------------------------------------------- CANCEL MORPH -----------------------------------------------
   bool UnitImpl::cancelMorph()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1651,46 +1748,7 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelMorph(this)));
     return true;
   }
-  //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
-  bool UnitImpl::cancelTrain()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!isTraining())
-      return false;
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrainLast(), sizeof(BW::Orders::CancelTrainLast));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this)));
-    return true;
-  }
-  //----------------------------------------------- CANCEL TRAIN ---------------------------------------------
-  bool UnitImpl::cancelTrain(int slot)
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!isTraining() || (int)(this->getTrainingQueue().size()) <= slot)
-      return false;
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelTrain((u8)slot), sizeof(BW::Orders::CancelTrain));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this,slot)));
-    return true;
-  }
-  //----------------------------------------------- CANCEL ADDON ---------------------------------------------
-  bool UnitImpl::cancelAddon()
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (getAddon()==NULL || getAddon()->isCompleted())
-      return false;
-    this->orderSelect();
-    BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelAddon(this)));
-    return true;
-  }
-  //---------------------------------------------- CANCEL RESEARCH -------------------------------------------
+  //--------------------------------------------- CANCEL RESEARCH --------------------------------------------
   bool UnitImpl::cancelResearch()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1703,7 +1761,7 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelResearch(this)));
     return true;
   }
-  //---------------------------------------------- CANCEL UPGRADE --------------------------------------------
+  //--------------------------------------------- CANCEL UPGRADE ---------------------------------------------
   bool UnitImpl::cancelUpgrade()
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1716,7 +1774,7 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelUpgrade(this)));
     return true;
   }
-  //------------------------------------------------- USE TECH -----------------------------------------------
+  //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech)
   {
     BroodwarImpl.setLastError(Errors::None);
@@ -1769,7 +1827,7 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------------- USE TECH -----------------------------------------------
+  //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech, Position position)
   {
     position.makeValid();
@@ -1849,7 +1907,7 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------------- USE TECH -----------------------------------------------
+  //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech, Unit* target)
   {
     BroodwarImpl.setLastError(Errors::None);
