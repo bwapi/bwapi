@@ -3,6 +3,7 @@
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
+#include "BulletImpl.h"
 #include <BWAPI/Client/GameData.h>
 namespace BWAPI
 {
@@ -344,32 +345,7 @@ namespace BWAPI
 
       //dynamic bullet data
       for(int id=0;id<100;id++)
-      {
-        BulletData* b = &(data->bullets[id]);
-        Bullet* b2 = (Bullet*)BroodwarImpl.getBulletFromIndex(id);
-        b->exists = b2->exists();
-        if (b->exists)
-        {
-          b->id              = b2->getID();
-          b->player          = getPlayerID(b2->getPlayer());
-          b->type            = b2->getType().getID();
-          b->source          = getUnitID(b2->getSource());
-          b->positionX       = b2->getPosition().x();
-          b->positionY       = b2->getPosition().y();
-          b->angle           = b2->getAngle();
-          b->velocityX       = b2->getVelocityX();
-          b->velocityY       = b2->getVelocityY();
-          b->target          = getUnitID(b2->getTarget());
-          b->targetPositionX = b2->getTargetPosition().x();
-          b->targetPositionY = b2->getTargetPosition().y();
-          b->removeTimer = b2->getRemoveTimer();
-          for(std::set<Player*>::iterator j=Broodwar->getPlayers().begin();j!=Broodwar->getPlayers().end();j++)
-          {
-            int playerid = getPlayerID(*j);
-            b->isVisible[playerid] = b2->isVisible(*j);
-          }
-        }
-      }
+        data->bullets[id] = BroodwarImpl.getBulletFromIndex(id)->data;
     }
     if (matchStarting)
       Server::onMatchStart();

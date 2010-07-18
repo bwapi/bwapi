@@ -15,150 +15,86 @@ namespace BWAPI
       , __exists(false)
       , lastExists(false)
   {
+    self=&data;
   }
   //------------------------------------------------- GET ID -------------------------------------------------
   int BulletImpl::getID() const
   {
-    if (!exists()) return -1;
-    return id;
+    return self->id;
   }
   //------------------------------------------------ GET PLAYER ----------------------------------------------
-  BWAPI::Player* BulletImpl::getPlayer() const
+  Player* BulletImpl::getPlayer() const
   {
-    if (!exists()) return NULL;
-    UnitImpl* source  = _getSource();
-    if (source == NULL || !source->isAlive)
-      return NULL;
-    return source->getPlayer();
+    return Broodwar->getPlayer(self->player);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
-  BWAPI::BulletType BulletImpl::getType() const
+  BulletType BulletImpl::getType() const
   {
-    if (!exists()) return BWAPI::BulletTypes::None;
-    return BWAPI::BulletType(this->bwOriginalBullet->type);
+    return BulletType(self->type);
   }
-  //------------------------------------------------ GET OWNER -----------------------------------------------
-  BWAPI::Unit* BulletImpl::getSource() const
+  //------------------------------------------------ GET SOURCE ----------------------------------------------
+  Unit* BulletImpl::getSource() const
   {
-    if (!exists()) return NULL;
-    Unit* source = _getSource();;
-    if (source == NULL || !source->exists())
-      return NULL;
-    return source;
-  }
-  //------------------------------------------------ GET OWNER -----------------------------------------------
-  BWAPI::UnitImpl* BulletImpl::_getSource() const
-  {
-    return UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->sourceUnit);
+    return Broodwar->getUnit(self->source);
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
-  BWAPI::Position BulletImpl::getPosition() const
+  Position BulletImpl::getPosition() const
   {
-    if (!exists()) return BWAPI::Positions::None;
-    return BWAPI::Position(this->bwOriginalBullet->position.x, this->bwOriginalBullet->position.y);
+    return Position(self->positionX,self->positionY);
   }
   //----------------------------------------------- GET ANGLE ------------------------------------------------
   double BulletImpl::getAngle() const
   {
-    if (!exists()) return 0;
-    int d = this->bwOriginalBullet->currentDirection;
-    d -= 64;
-    if (d < 0)
-      d += 256;
-    double a = (double)d * 3.14159265358979323846 / 128.0;
-    return a;
+    return self->angle;
   }
   //--------------------------------------------- GET VELOCITY X ---------------------------------------------
   double BulletImpl::getVelocityX() const
   {
-    if (!exists()) return 0;
-    return (double)this->bwOriginalBullet->current_speedX / 256.0;
+    return self->velocityX;
   }
   //--------------------------------------------- GET VELOCITY Y ---------------------------------------------
   double BulletImpl::getVelocityY() const
   {
-    if (!exists()) return 0;
-    return (double)this->bwOriginalBullet->current_speedY / 256.0;
+    return self->velocityY;
   }
   //------------------------------------------------ GET TARGET ----------------------------------------------
-  BWAPI::Unit* BulletImpl::getTarget() const
+  Unit* BulletImpl::getTarget() const
   {
-    if (!exists())
-      return NULL;
-    Unit* target = UnitImpl::BWUnitToBWAPIUnit(this->bwOriginalBullet->targetUnit);
-    if (target==NULL || !target->exists())
-      return NULL;
-    return target;
+    return Broodwar->getUnit(self->target);
   }
   //-------------------------------------------- GET TARGET POSITION -----------------------------------------
-  BWAPI::Position BulletImpl::getTargetPosition() const
+  Position BulletImpl::getTargetPosition() const
   {
-    if (!exists()) return BWAPI::Positions::None;
-    return BWAPI::Position(this->bwOriginalBullet->targetPosition.x, this->bwOriginalBullet->targetPosition.y);
+    return Position(self->targetPositionX,self->targetPositionY);
   }
   //-------------------------------------------- GET REMOVE TIMER --------------------------------------------
   int BulletImpl::getRemoveTimer() const
   {
-    if (!exists()) return 0;
-    return this->bwOriginalBullet->max_time;
+    return self->removeTimer;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool BulletImpl::exists() const
   {
-    if (!_exists()) return false; //if it really doesn't exist, return false
-    if (isVisible()) return true; //if we can see it, return true
-
-    //if we get here, the bullet exists but the player can't see it, so we either return true of false
-    //depending on the CompleteMapInformation cheat flag
-    return (BroodwarImpl._isReplay() || BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation));
-  }
-  //------------------------------------------------- EXISTS -------------------------------------------------
-  bool BulletImpl::_exists() const
-  {
-    if (this->bwOriginalBullet == NULL) return false;
-    return __exists;
+    return self->exists;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible() const
   {
-    if (!_exists()) return false; //if it really doesn't exist, return false
-
-    if (this->bwOriginalBullet->sprite == NULL)
+    if (Broodwar->self()==NULL)
+    {
+      for(int i=0;i<9;i++)
+      {
+        if (self->isVisible[i]) return true;
+      }
       return false;
-
-    if (BroodwarImpl._isReplay())
-      return this->bwOriginalBullet->sprite->visibilityFlags > 0;
-
-    //temporary until we figure out a better way to get visibility of lurker bullets
-    if (_getSource()!=NULL && _getSource()->isVisible()) return true;
-
-    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+    }
+    return self->isVisible[Broodwar->self()->getID()];
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible(BWAPI::Player* player) const
   {
-    if (!_exists()) return false; //if it really doesn't exist, return false
-
-    if (this->bwOriginalBullet->sprite == NULL)
-      return false;
-
-    if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-      return false;
-
-    if (this->getPlayer() == player)
-      return true;
-
-    if (player == NULL)
-      return false;
-
-    //temporary until we figure out a better way to get visibility of lurker bullets
-    if (_getSource()!=NULL && _getSource()->isVisible(player)) return true;
-
-    int playerIndex=((PlayerImpl*)player)->getIndex();
-    if (playerIndex<0 || playerIndex>8) //probably the neutral player so just return true if any player can see it
-      return this->bwOriginalBullet->sprite->visibilityFlags > 0;
-
-    return (this->bwOriginalBullet->sprite->visibilityFlags & (1 << playerIndex)) != 0;
+    if (player==NULL) return false;
+    return self->isVisible[player->getID()];
   }
   //----------------------------------------------- SET EXISTS -----------------------------------------------
   void BulletImpl::setExists(bool exists)
@@ -190,5 +126,108 @@ namespace BWAPI
     if (index > BW::BULLET_ARRAY_MAX_LENGTH)
       return NULL;
     return BroodwarImpl.getBulletFromIndex(index);
+  }
+  void BulletImpl::updateData()
+  {
+    UnitImpl* _getSource = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->sourceUnit);
+    Player* _getPlayer = NULL;
+    if (_getSource!=NULL)
+      _getPlayer = _getSource->_getPlayer;
+    int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
+
+    bool _exists = __exists;
+    if (bwOriginalBullet == NULL)
+      _exists = false;
+      
+    if (!_exists)
+      self->exists = false;
+    else if (isVisible())
+      self->exists = true;
+    else
+      self->exists = (BroodwarImpl._isReplay() || BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation));
+    if (self->exists)
+    {
+      self->id = id;
+      UnitImpl* source  = _getSource;
+      if (source == NULL || !source->isAlive)
+        self->player = -1;
+      else
+        self->player = source->getPlayer()->getID();
+      self->type = bwOriginalBullet->type;
+
+      if (source == NULL || !source->exists())
+        self->source = -1;
+      else
+        self->source = source->getID();
+
+      self->positionX = bwOriginalBullet->position.x;
+      self->positionY = bwOriginalBullet->position.y;
+      int d = bwOriginalBullet->currentDirection;
+      d -= 64;
+      if (d < 0)
+        d += 256;
+      self->angle = (double)d * 3.14159265358979323846 / 128.0;
+      self->velocityX = (double)(bwOriginalBullet->current_speedX / 256.0);
+      self->velocityY = (double)(bwOriginalBullet->current_speedY / 256.0);
+
+      Unit* target = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->targetUnit);
+      if (target==NULL || !target->exists())
+        self->target = -1;
+      else
+        self->target = target->getID();
+      self->targetPositionX = bwOriginalBullet->targetPosition.x;
+      self->targetPositionY = bwOriginalBullet->targetPosition.y;
+      self->removeTimer = bwOriginalBullet->max_time;
+    }
+    else
+    {
+      self->id = -1;
+      self->player = -1;
+      self->type = BulletTypes::None.getID();
+      self->source = -1;
+      self->positionX = Positions::None.x();
+      self->positionY = Positions::None.y();
+      self->angle = 0;
+      self->velocityX = 0;
+      self->velocityY = 0;
+      self->target = -1;
+      self->targetPositionX = 0;
+      self->targetPositionY = 0;
+      self->removeTimer = 0;
+    }
+    if (_exists)
+    {
+      for(int i=0;i<9;i++)
+      {
+        if (i==selfPlayerID) continue;
+        PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
+        if (bwOriginalBullet->sprite == NULL || player == NULL)
+          self->isVisible[i]=false;
+        else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+          self->isVisible[i]=false;
+        else if (_getPlayer == player)
+          self->isVisible[i]=true;
+        else if (player->isNeutral())
+          self->isVisible[i]=bwOriginalBullet->sprite->visibilityFlags > 0;
+        else
+          self->isVisible[i]=(bwOriginalBullet->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
+      }
+      if (selfPlayerID>-1)
+      {
+        if (bwOriginalBullet->sprite == NULL)
+          self->isVisible[selfPlayerID] = false;
+        else if (BroodwarImpl._isReplay())
+          self->isVisible[selfPlayerID] = bwOriginalBullet->sprite->visibilityFlags > 0;
+        else if (_getPlayer == BWAPI::BroodwarImpl.self())
+          self->isVisible[selfPlayerID] = true;
+        else
+          self->isVisible[selfPlayerID] = (bwOriginalBullet->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+      }
+    }
+    else
+    {
+      for(int i=0;i<9;i++)
+        self->isVisible[i] = false;
+    }
   }
 }

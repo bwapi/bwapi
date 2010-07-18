@@ -21,7 +21,7 @@ namespace BWAPI
   }
   Player* BulletImpl::getPlayer() const
   {
-    return ((GameImpl*)Broodwar)->getPlayer(self->player);
+    return Broodwar->getPlayer(self->player);
   }
   BulletType BulletImpl::getType() const
   {
@@ -29,7 +29,7 @@ namespace BWAPI
   }
   Unit* BulletImpl::getSource() const
   {
-    return ((GameImpl*)Broodwar)->getUnit(self->source);
+    return Broodwar->getUnit(self->source);
   }
   Position BulletImpl::getPosition() const
   {
@@ -65,10 +65,19 @@ namespace BWAPI
   }
   bool BulletImpl::isVisible() const
   {
-    return self->isVisible[self->player];
+    if (Broodwar->self()==NULL)
+    {
+      for(int i=0;i<9;i++)
+      {
+        if (self->isVisible[i]) return true;
+      }
+      return false;
+    }
+    return self->isVisible[Broodwar->self()->getID()];
   }
   bool BulletImpl::isVisible(Player* player) const
   {
+    if (player==NULL) return false;
     return self->isVisible[player->getID()];
   }
 }
