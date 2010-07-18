@@ -250,145 +250,8 @@ namespace BWAPI
           }
         }
       }
-
-      std::list<UnitImpl*> unitList;
-      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
-      {
-        this->getUnitFromIndex(i)->connectedUnits.clear();
-        this->getUnitFromIndex(i)->loadedUnits.clear();
-      }
-      std::set<BWAPI::UnitImpl*> dyingUnits = units;
-      for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
-      {
-        if (i->getOriginalRawData->orderID == BW::OrderID::Die) continue;
-        unitList.push_back(i);
-        dyingUnits.erase(i);
-      }
-      for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); i!=NULL ; i = i->getNext())
-      {
-        if (i->getOriginalRawData->orderID == BW::OrderID::Die) continue;
-        UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
-        bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
-
-        if (_getType==UnitTypes::Unknown) continue;//skip subunits if they are in this list
-        if (!_isCompleted) continue;
-        if (_getType==UnitTypes::Protoss_Scarab ||
-            _getType==UnitTypes::Terran_Vulture_Spider_Mine) continue;
-        unitList.push_back(i);
-        dyingUnits.erase(i);
-      }
-      for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); i!=NULL ; i = i->getNext())
-      {
-        if (i->getOriginalRawData->orderID == BW::OrderID::Die) continue;
-        unitList.push_back(i);
-        dyingUnits.erase(i);
-      }
-      for each(UnitImpl* u in dyingUnits)
-      {
-        //Broodwar->printf("unit %x died",u);
-        onUnitDestroy(u);
-        units.erase(u);
-      }
-
-      this->unitsToBeAdded.clear();
-      std::list<Position> detectedNukes;
-      foreach (UnitImpl* i, unitList)
-      {
-        i->_exists = true;
-        if (i->getID()==-1)
-          i->setID(server.getUnitID(i));
-        i->connectedUnits.clear();
-        i->loadedUnits.clear();
-      }
-      foreach (UnitImpl* i, unitList)
-      {
-        i->updateData();
-        if (this->units.find(i) == this->units.end())
-        {
-          this->units.insert(i);
-          this->unitsToBeAdded.insert(i);
-        }
-      }
-      foreach (UnitImpl* i, units)
-      {
-        if (i->exists()==false) continue;
-        UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
-        if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
-        {
-          UnitImpl* j = orderTargetUnit;
-          i->self->buildUnit = server.getUnitID((Unit*)j);
-          i->self->isConstructing = true;
-          i->self->isIdle = false;
-          i->self->buildType = j->self->type;
-          j->self->buildUnit = server.getUnitID((Unit*)i);
-          j->self->isConstructing = true;
-          j->self->isIdle = false;
-          j->self->buildType = j->self->type;
-        }
-        else if (i->getAddon()!=NULL && i->getAddon()->isCompleted()==false)
-        {
-          UnitImpl* j = (UnitImpl*)i->getAddon();
-          i->self->buildUnit = server.getUnitID((Unit*)j);
-          i->self->isConstructing = true;
-          i->self->isIdle = false;
-          i->self->buildType = j->self->type;
-          j->self->buildUnit = server.getUnitID((Unit*)i);
-          j->self->isConstructing = true;
-          j->self->isIdle = false;
-          j->self->buildType = j->self->type;
-        }
-        if (i->getTransport()!=NULL)
-          ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
-
-        if (i->getHatchery() != NULL)
-        {
-          UnitImpl* hatchery = (UnitImpl*)i->getHatchery();
-          hatchery->connectedUnits.insert((Unit*)i);
-          if (hatchery->connectedUnits.size()>=3)
-            hatchery->self->remainingTrainTime = 0;
-        }
-
-        if (i->getCarrier() != NULL)
-          ((UnitImpl*)i->getCarrier())->connectedUnits.insert((Unit*)i);
-
-        if (i->getType() == UnitTypes::Terran_Nuclear_Missile &&
-            i->nukeDetected == false &&
-            i->getOriginalRawData->connectedUnit->unitID == BW::UnitID::Terran_Ghost)
-        {
-          i->nukeDetected = true;
-          BW::Position bwtarget = i->getOriginalRawData->orderTargetPos;
-          Position target(bwtarget.x, bwtarget.y);
-          if (this->client)
-          {
-            if (this->isFlagEnabled(Flag::CompleteMapInformation) || this->isVisible(target.x() / 32, target.y() / 32))
-              detectedNukes.push_back(target);
-            else
-              detectedNukes.push_back(Positions::Unknown);
-          }
-        }
-      }
-
-      while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
-      {
-        for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
-          delete this->commandBuffer[0][i];
-
-        this->commandBuffer.erase(this->commandBuffer.begin());
-      }
-
-      this->commandBuffer.push_back(std::vector<Command *>());
-      for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
-        for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
-          this->commandBuffer[i][j]->execute(this->commandBuffer.size()-1-i);
-
       this->updateUnits();
       this->updateBullets();
-      foreach(Position i, detectedNukes)
-      {
-        this->client->onNukeDetect(i);
-        events.push_back(Event::NukeDetect(i));
-      }
-
       for (unsigned int i = 0; i < this->shapes.size(); i++)
         delete this->shapes[i];
       this->shapes.clear();
@@ -461,8 +324,22 @@ namespace BWAPI
     }
 
     events.push_back(Event::MatchFrame());
+    processEvents();
+
     this->server.update();
     this->client->onFrame();
+
+    for each(UnitImpl* u in evadeUnits)
+    {
+      u->updateData();
+    }
+    for each(UnitImpl* u in dyingUnits)
+    {
+      deadUnits.push_back(u);
+      int index = u->getIndex();
+      unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],(u16)index);
+      u->die();
+    }
 
     this->loadSelected();
     if (!this->isPaused())
@@ -1243,19 +1120,32 @@ namespace BWAPI
       delete this->client;
       this->client = NULL;
     }
-    this->units.clear();
-    this->forces.clear();
-    this->playerSet.clear();
-    this->allUnits.clear();
-    this->minerals.clear();
-    this->geysers.clear();
-    this->neutralUnits.clear();
-    this->myPylons.clear();
-    this->unitsToBeAdded.clear();
-
-    this->staticMinerals.clear();
-    this->staticGeysers.clear();
-    this->staticNeutralUnits.clear();
+    newUnits.clear();
+    aliveUnits.clear();
+    dyingUnits.clear();
+    discoverUnits.clear();
+    accessibleUnits.clear();
+    evadeUnits.clear();
+    showUnits.clear();
+    visibleUnits.clear();
+    hideUnits.clear();
+    createUnits.clear();
+    notDestroyedUnits.clear();
+    destroyUnits.clear();
+    selectedUnitSet.clear();
+    emptySet.clear();
+    startLocations.clear();
+    unitTypes.clear();
+    forces.clear();
+    playerSet.clear();
+    minerals.clear();
+    geysers.clear();
+    neutralUnits.clear();
+    bullets.clear();
+    pylons.clear();
+    staticMinerals.clear();
+    staticGeysers.clear();
+    staticNeutralUnits.clear();
 
     this->commandBuffer.clear();
     FreeLibrary(hMod);
@@ -1286,15 +1176,15 @@ namespace BWAPI
       if (unitArray[i] == NULL)
         continue;
       unitArray[i]->userSelected      = false;
-      unitArray[i]->_exists           = false;
-      unitArray[i]->dead              = false;
-      unitArray[i]->savedPlayer       = NULL;
-      unitArray[i]->savedUnitType     = NULL;
+      unitArray[i]->isNew             = false;
+      unitArray[i]->isAlive           = false;
+      unitArray[i]->isDying           = false;
+      unitArray[i]->wasAlive          = false;
+      unitArray[i]->wasAccessible     = false;
+      unitArray[i]->wasVisible        = false;
       unitArray[i]->staticInformation = false;
-      unitArray[i]->lastVisible       = false;
       unitArray[i]->lastType          = UnitTypes::Unknown;
       unitArray[i]->lastPlayer        = NULL;
-      unitArray[i]->nukeDetected      = false;
       unitArray[i]->setID(-1);
     }
     this->cheatFlags  = 0;
@@ -1339,138 +1229,294 @@ namespace BWAPI
   {
     map.copyToSharedMemory();
   }
-  //--------------------------------------------- ON REMOVE UNIT ---------------------------------------------
-  void GameImpl::onUnitDestroy(BWAPI::UnitImpl* unit)
+  bool isAlive(UnitImpl* i, bool isHidden=false)
   {
-    /* Called when a unit dies(death animation), not when it is removed */
-    if (!unit->_exists)
-      return;
-    this->units.erase(unit);
-    deadUnits.push_back(unit);
-    int index = unit->getIndex();
-    unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],
-                                    (u16)index);
-    if (this->client != NULL)
+    if (i->getOriginalRawData->orderID == BW::OrderID::Die) return false;
+    UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
+    int hitpoints = i->getOriginalRawData->hitPoints;
+    int resources = i->getOriginalRawData->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+    if (i->_getType.isInvincible()==false && hitpoints <= 0) return false;
+    if (i->_getType==UnitTypes::Resource_Mineral_Field && resources<=0) return false;
+    if (isHidden)
     {
-      bool isInUpdate = this->inUpdate;
-      this->inUpdate = false;
-      if (unit != NULL && unit->canAccessSpecial())
-      {
-        unit->makeVisible = true;
-        if (unit->lastVisible)
-        {
-          this->client->onUnitHide(unit);
-          events.push_back(Event::UnitHide(unit));
-        }
-
-        /* notify the client that the units in the transport died */
-        std::set<Unit*> loadedSet = unit->getLoadedUnits();
-
-        //units in terran bunker survive
-        if (unit->getType().isFlyer())
-        {
-  		    foreach(Unit* loaded, loadedSet)
-	  		    this->onUnitDestroy((UnitImpl*)loaded);
-        }
-        this->client->onUnitDestroy(unit);
-        events.push_back(Event::UnitDestroy(unit));
-        unit->makeVisible = false;
-      }
-      this->inUpdate = isInUpdate;
+      bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
+      if (_getType==UnitTypes::Unknown) return false;//skip subunits if they are in this list
+      if (!_isCompleted) return false;
+      if (_getType==UnitTypes::Protoss_Scarab ||
+          _getType==UnitTypes::Terran_Vulture_Spider_Mine ||
+          _getType==UnitTypes::Terran_Nuclear_Missile) return false;
     }
-    unit->die();
+    return true;
   }
-  //---------------------------------------------- UPDATE UNITS ----------------------------------------------
-  void GameImpl::updateUnits()
+  //------------------------------------------ Compute Unit Existence ----------------------------------------
+  void GameImpl::computeUnitExistence()
   {
-    this->inUpdate = false;
+    for each(UnitImpl* u in aliveUnits) //all alive units are dying until proven alive
+    {
+      u->wasAlive = true;
+      u->isAlive = false;
+      u->isDying = true;
+      u->isNew = false;
+    }
+    for each(UnitImpl* u in accessibleUnits)
+      u->wasAccessible = true;
+    for each(UnitImpl* u in visibleUnits)
+      u->wasVisible = true;
+
+    dyingUnits = aliveUnits;
+    aliveUnits.clear();
+    newUnits.clear();
+
+    //compute alive, new, and dying units
+    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); u!=NULL ; u = u->getNext())
+    {
+      if (isAlive(u))
+      {
+        u->isAlive = true;
+        u->isDying = false;
+        aliveUnits.insert(u);
+        dyingUnits.erase(u);
+        if (u->wasAlive==false)
+        {
+          u->isNew = true;
+          newUnits.insert(u);
+        }
+      }
+    }
+    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); u!=NULL ; u = u->getNext())
+    {
+      if (isAlive(u,true))
+      {
+        u->isAlive = true;
+        u->isDying = false;
+        aliveUnits.insert(u);
+        dyingUnits.erase(u);
+        if (u->wasAlive==false)
+        {
+          u->isNew = true;
+          newUnits.insert(u);
+        }
+      }
+    }
+    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); u!=NULL ; u = u->getNext())
+    {
+      if (isAlive(u))
+      {
+        u->isAlive = true;
+        u->isDying = false;
+        aliveUnits.insert(u);
+        dyingUnits.erase(u);
+        if (u->wasAlive==false)
+        {
+          u->isNew = true;
+          newUnits.insert(u);
+        }
+      }
+    }
+
+    for each(UnitImpl* u in dyingUnits)
+      u->self->exists = false;
+  }
+  //------------------------------------------ Compute Client Sets -------------------------------------------
+  void GameImpl::computePrimaryUnitSets()
+  {
+    discoverUnits.clear();
+    accessibleUnits.clear();
+    evadeUnits.clear();
+
+    showUnits.clear();
+    visibleUnits.clear();
+    hideUnits.clear();
+
+    createUnits.clear();
+    destroyUnits.clear();
+
+    for each(UnitImpl* u in aliveUnits)
+    {
+      if (u->_isAccessible())
+      {
+        if (u->wasAccessible==false)
+          discoverUnits.insert(u);
+        if (u->wasAlive==false)
+          createUnits.insert(u);
+        accessibleUnits.insert(u);
+        notDestroyedUnits.insert(u);
+      }
+      else
+      {
+        if (u->wasAccessible)
+          evadeUnits.insert(u);
+      }
+      if (u->_isVisible())
+      {
+        if (u->wasVisible==false)
+          showUnits.insert(u);
+        visibleUnits.insert(u);
+      }
+      else
+      {
+        if (u->wasVisible)
+          hideUnits.insert(u);
+      }
+    }
+    for each(UnitImpl* u in dyingUnits)
+    {
+      if (u->wasAccessible)
+      {
+        evadeUnits.insert(u);
+        destroyUnits.insert(u);
+      }
+      if (u->wasVisible)
+        hideUnits.insert(u);
+    }
+  }
+  void GameImpl::computeSecondaryUnitSets()
+  {
+    for each (Player* i in playerSet)
+      ((PlayerImpl*)i)->units.clear();
+
     /* Clear all units on tile data */
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
 
-    /* Clear other stuff */
-    this->allUnits.clear();
-    this->minerals.clear();
-    this->geysers.clear();
-    this->myPylons.clear();
-    std::list<BWAPI::UnitImpl*> morphUnits;
-    std::list<BWAPI::UnitImpl*> showUnits;
-    std::list<BWAPI::UnitImpl*> hideUnits;
-    std::list<BWAPI::UnitImpl*> renegadeUnits;
-    std::list< std::pair<BWAPI::UnitImpl*, bool> > dyingUnits;
+    neutralUnits.clear();
+    minerals.clear();
+    geysers.clear();
+    pylons.clear();
+    morphUnits.clear();
+    renegadeUnits.clear();
 
-    foreach (Player* i, playerSet)
-      ((PlayerImpl*)i)->units.clear();
-
-    foreach (UnitImpl* i, units)
+    for each (UnitImpl* i in accessibleUnits)
     {
-      if (i->canAccess())
+      int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
+      int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+      int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
+      int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+      for (int x = startX; x < endX; x++)
+        for (int y = startY; y < endY; y++)
+          unitsOnTileData[x][y].insert(i);
+      ((PlayerImpl*)i->getPlayer())->units.insert(i);
+      if (i->_getPlayer->isNeutral())
       {
-        if ((i->_getType.isInvincible()==false && i->getHitPoints()<=0) || i->getOrder().getID() == BW::OrderID::Die)
-        {
-          std::pair<UnitImpl*, bool> p(i,i->lastVisible);
-          dyingUnits.push_back(p);
-          continue;
-        }
-        int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
-        int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-        int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
-        int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
-        for (int x = startX; x < endX; x++)
-          for (int y = startY; y < endY; y++)
-            this->unitsOnTileData[x][y].insert(i);
-
-        ((PlayerImpl*)(i->_getPlayer))->units.insert(i);
-
-        this->allUnits.insert(i);
-
-        if (i->_getPlayer->isNeutral())
-        {
-          this->neutralUnits.insert(i);
-          if (i->_getType == UnitTypes::Resource_Mineral_Field)
-            this->minerals.insert(i);
-          else
-          {
-            if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-              this->geysers.insert(i);
-          }
-        }
+        neutralUnits.insert(i);
+        if (i->_getType == UnitTypes::Resource_Mineral_Field)
+          minerals.insert(i);
         else
         {
-          if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted)
-            this->myPylons.push_back(i);
+          if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
+            geysers.insert(i);
         }
-        if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
-          morphUnits.push_back(i);
-
-        if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
-          renegadeUnits.push_back(i);
-      }
-
-      i->startingAttack           = i->getAirWeaponCooldown() > i->lastAirWeaponCooldown || i->getGroundWeaponCooldown() > i->lastGroundWeaponCooldown;
-      i->lastAirWeaponCooldown    = i->getAirWeaponCooldown();
-      i->lastGroundWeaponCooldown = i->getGroundWeaponCooldown();
-
-      i->lastType   = i->_getType;
-      i->lastPlayer = i->_getPlayer;
-      if (!i->lastVisible && i->isVisible())
-      {
-        i->lastVisible = true;
-        showUnits.push_back(i);
       }
       else
       {
-        if (i->lastVisible && !i->isVisible())
-        {
-          i->lastVisible = false;
-          hideUnits.push_back(i);
-        }
+        if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted)
+          pylons.push_back(i);
       }
+      if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
+        morphUnits.insert(i);
+      if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
+        renegadeUnits.insert(i);
     }
+  }
+  void GameImpl::extractUnitData()
+  {
+    for each (UnitImpl* i in aliveUnits)
+    {
+      i->connectedUnits.clear();
+      i->loadedUnits.clear();
+      int airWeaponCooldown = i->getOriginalRawData->airWeaponCooldown;
+      if (i->getOriginalRawData->subUnit != NULL)
+        airWeaponCooldown = i->getOriginalRawData->subUnit->airWeaponCooldown;
+      int groundWeaponCooldown = i->getOriginalRawData->groundWeaponCooldown;
+      if (i->getOriginalRawData->subUnit != NULL)
+        groundWeaponCooldown = i->getOriginalRawData->subUnit->groundWeaponCooldown;
+      if (i->getOriginalRawData->unitID == BW::UnitID::Protoss_Reaver)
+        groundWeaponCooldown = i->getOriginalRawData->mainOrderTimer;
+
+      i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
+      i->lastAirWeaponCooldown    = airWeaponCooldown;
+      i->lastGroundWeaponCooldown = groundWeaponCooldown;
+    }
+
+    for each (UnitImpl* u in accessibleUnits)
+    {
+      if (u->getID()==-1)
+        u->setID(server.getUnitID(u));
+      u->updateData();
+    }
+  }
+  void GameImpl::augmentUnitData()
+  {
+    for each (UnitImpl* i in accessibleUnits)
+    {
+      UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
+      if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
+      {
+        UnitImpl* j = orderTargetUnit;
+        i->self->buildUnit = server.getUnitID((Unit*)j);
+        i->self->isConstructing = true;
+        i->self->isIdle = false;
+        i->self->buildType = j->self->type;
+        j->self->buildUnit = server.getUnitID((Unit*)i);
+        j->self->isConstructing = true;
+        j->self->isIdle = false;
+        j->self->buildType = j->self->type;
+      }
+      else if (i->getAddon()!=NULL && i->getAddon()->isCompleted()==false)
+      {
+        UnitImpl* j = (UnitImpl*)i->getAddon();
+        i->self->buildUnit = server.getUnitID((Unit*)j);
+        i->self->isConstructing = true;
+        i->self->isIdle = false;
+        i->self->buildType = j->self->type;
+        j->self->buildUnit = server.getUnitID((Unit*)i);
+        j->self->isConstructing = true;
+        j->self->isIdle = false;
+        j->self->buildType = j->self->type;
+      }
+      if (i->getTransport()!=NULL)
+        ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
+
+      if (i->getHatchery() != NULL)
+      {
+        UnitImpl* hatchery = (UnitImpl*)i->getHatchery();
+        hatchery->connectedUnits.insert((Unit*)i);
+        if (hatchery->connectedUnits.size()>=3)
+          hatchery->self->remainingTrainTime = 0;
+      }
+      if (i->getCarrier() != NULL)
+        ((UnitImpl*)i->getCarrier())->connectedUnits.insert((Unit*)i);
+
+    }
+  }
+  void GameImpl::applyLatencyCompensation()
+  {
+    //apply latency compensation
+    while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
+    {
+      for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
+        delete this->commandBuffer[0][i];
+      this->commandBuffer.erase(this->commandBuffer.begin());
+    }
+    this->commandBuffer.push_back(std::vector<Command *>());
+    for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
+      for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
+        this->commandBuffer[i][j]->execute(this->commandBuffer.size()-1-i);
+  }
+  //---------------------------------------------- UPDATE UNITS ----------------------------------------------
+  void GameImpl::updateUnits()
+  {
+    computeUnitExistence();
+    computePrimaryUnitSets();
+    extractUnitData();
+    augmentUnitData();
+    applyLatencyCompensation();
+    computeSecondaryUnitSets();
+
     if (this->staticNeutralUnits.empty())
     {
-      foreach (UnitImpl* i, units)
+      foreach (UnitImpl* i, aliveUnits)
       {
         if (i->_getPlayer->isNeutral())
         {
@@ -1486,60 +1532,86 @@ namespace BWAPI
         }
       }
     }
-
-    //here we have all dying units, not just the ones visible to the AI client
-    for each(std::pair<BWAPI::UnitImpl*, bool> i in dyingUnits)
+    //create events
+    for each(UnitImpl* u in newUnits)
+      if (u->getOriginalRawData->unitID==BW::UnitID::Terran_NuclearMissile)
+      {
+        Position p(u->getOriginalRawData->moveToPos.x,u->getOriginalRawData->moveToPos.y);
+        events.push_back(Event::NukeDetect(p));
+      }
+    for each(UnitImpl* u in showUnits)
+      events.push_back(Event::UnitShow(u));
+    for each(UnitImpl* u in hideUnits)
+      events.push_back(Event::UnitHide(u));
+    for each(UnitImpl* u in createUnits)
+      events.push_back(Event::UnitCreate(u));
+    for each(UnitImpl* u in destroyUnits)
+      events.push_back(Event::UnitDestroy(u));
+    for each(UnitImpl* u in morphUnits)
+      events.push_back(Event::UnitMorph(u));
+    for each(UnitImpl* u in renegadeUnits)
+      events.push_back(Event::UnitRenegade(u));
+  }
+  void GameImpl::processEvents()
+  {
+    if (client==NULL) return;
+    for(std::list<Event>::iterator e=events.begin();e!=events.end();e++)
     {
-      //set lastVisible if the unit was visible to the AI client just before death.
-      //This will cause onUnitDestroy to also call onUnitHide before onUnitDestroy.
-      if (i.second)
-        i.first->lastVisible = true;
-      this->onUnitDestroy(i.first); //GameImpl::onUnitDestroy will decide what unit destroy messages to pass along to the AI client
-      i.first->lastVisible = false;
+      EventType::Enum et=e->type;
+      switch (et)
+      {
+        /*
+        case EventType::MatchStart:
+          client->onStart();
+        break;
+        case EventType::MatchEnd:
+          client->onEnd(e->isWinner);
+        break;
+        case EventType::MatchFrame:
+          client->onFrame();
+        break;
+        case EventType::MenuFrame:
+        break;
+        case EventType::SendText:
+          client->onSendText(e->text);
+        break;
+        case EventType::ReceiveText:
+          client->onReceiveText(e->player, e->text);
+        break;
+        case EventType::PlayerLeft:
+          client->onPlayerLeft(e->player);
+        break;
+        */
+        case EventType::NukeDetect:
+          client->onNukeDetect(e->position);
+        break;
+        case EventType::UnitCreate:
+          client->onUnitCreate(e->unit);
+        break;
+        case EventType::UnitDestroy:
+          client->onUnitDestroy(e->unit);
+        break;
+        case EventType::UnitMorph:
+          client->onUnitMorph(e->unit);
+        break;
+        case EventType::UnitShow:
+          client->onUnitShow(e->unit);
+        break;
+        case EventType::UnitHide:
+          client->onUnitHide(e->unit);
+        break;
+        case EventType::UnitRenegade:
+          client->onUnitRenegade(e->unit);
+        break;
+        /*
+        case EventType::SaveGame:
+          client->onSaveGame(e->text);
+        break;
+        */
+        default:
+        break;
+      }
     }
-
-    foreach (BWAPI::UnitImpl* i, unitsToBeAdded)
-      if (this->client && i->_exists)
-        if (i->canAccess())
-        {
-          this->client->onUnitCreate(i);
-          events.push_back(Event::UnitCreate(i));
-        }
-
-    /* Pass all renegade units to the AI client */
-    foreach (BWAPI::UnitImpl* i, renegadeUnits)
-      if (this->client && i->_exists)
-      {
-        this->client->onUnitRenegade(i);
-        events.push_back(Event::UnitRenegade(i));
-      }
-
-    /* Pass all morphing units to the AI client */
-    foreach (BWAPI::UnitImpl* i, morphUnits)
-      if (this->client && i->_exists)
-      {
-        this->client->onUnitMorph(i);
-        events.push_back(Event::UnitMorph(i));
-      }
-
-    /* Pass all showing units to the AI client */
-    foreach (BWAPI::UnitImpl* i, showUnits)
-      if (this->client && i->_exists)
-      {
-        this->client->onUnitShow(i);
-        events.push_back(Event::UnitShow(i));
-      }
-
-    /* Pass all hiding units to the AI client */
-    foreach (BWAPI::UnitImpl* i, hideUnits)
-      if (this->client && i->_exists)
-      {
-        i->makeVisible = true;
-        this->client->onUnitHide(i);
-        events.push_back(Event::UnitHide(i));
-        i->makeVisible = false;
-      }
-    this->inUpdate = true;
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
   void GameImpl::updateBullets()
@@ -1680,11 +1752,6 @@ namespace BWAPI
     {
       unit->animState = anim; // associate the animation directly with the unit
 
-      /* New onUnitDestroy hook. Triggered when the unit's animation changes.
-      For example: unit plays death animation, we can check its order to see if it's really dying
-      and call the old onUnitDestroy. */
-      if (unit->getOrder().getID() == BW::OrderID::Die)
-        this->onUnitDestroy(unit);
     }
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------

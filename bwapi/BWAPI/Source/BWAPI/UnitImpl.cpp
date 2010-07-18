@@ -26,13 +26,13 @@ namespace BWAPI
       : getOriginalRawData(originalUnit)
       , index(index)
       , userSelected(false)
-      , _exists(false) //_exists is true while the unit exists
-      , dead(false) //dead only set to true once the unit has died
-      , savedPlayer(NULL)
-      , savedUnitType(UnitTypes::None)
+      , isNew(false)
+      , isAlive(false)
+      , isDying(false)
+      , wasAlive(false)
+      , wasAccessible(false)
+      , wasVisible(false)
       , staticInformation(false)
-      , lastVisible(false)
-      , makeVisible(false)
       , lastType(UnitTypes::Unknown)
       , lastPlayer(NULL)
       , nukeDetected(false)
@@ -655,9 +655,7 @@ namespace BWAPI
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
   {
-    if (!this->_exists)
-      return;
-    this->userSelected = selectedState;
+    userSelected = selectedState;
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
@@ -2035,24 +2033,19 @@ namespace BWAPI
 
   void UnitImpl::die()
   {
-    //if the unit already does exist, don't kill it again
-    if (!this->_exists)
-      return;
-
-    //save player and unit type
-    this->savedPlayer    = this->_getPlayer;
-    this->savedUnitType  = this->_getType;
-
     //set pointers to null so we don't read information from unit table anymore
-    this->getOriginalRawData = NULL;
-    this->index              = 0xFFFF;
-    this->userSelected       = false;
-    this->_exists            = false;
-    this->dead               = true;
-    this->lastType           = UnitTypes::Unknown;
-    this->lastPlayer         = NULL;
-    this->nukeDetected       = false;
-    this->updateData();
+    getOriginalRawData = NULL;
+    index              = 0xFFFF;
+    userSelected       = false;
+    isNew              = false;
+    isAlive            = false;
+    isDying            = false;
+    wasAlive           = false;
+    wasAccessible      = false;
+    wasVisible         = false;
+    lastType           = UnitTypes::Unknown;
+    lastPlayer         = NULL;
+    updateData();
   }
 
   /* canAccess returns true if the AI module is allowed to access the unit.
@@ -2062,30 +2055,16 @@ namespace BWAPI
   */
   bool UnitImpl::canAccess() const
   {
-    if (!this->_exists)  return false;
+    if (!this->isAlive)  return false;
     if (this->isVisible()) return true;
-
     //if we get here, the unit exists but is not visible
-
     if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
-
     /* neutral units visible during AIModule::onStart */
     if (Broodwar->getFrameCount()==0)
       if (this->_getType.isNeutral())
         return true;
-
-    if (BroodwarImpl.inUpdate == true)
-      return true;
-
     return false;
-  }
-
-  //returns true if canAccess() is true or the unit is owned by self
-  //always returns true for units owned by self, even dead units
-  bool UnitImpl::canAccessSpecial() const
-  {
-    return (this->savedPlayer == BroodwarImpl.self() || canAccess());
   }
 
   //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)
@@ -2109,17 +2088,12 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::None);
       if (this->canAccess())
         return true;
-      if (!this->_exists && this->savedPlayer == BroodwarImpl.self())
-      {
-        BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-        return false;
-      }
       BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
       return false;
     }
     else
     {
-      return this->canAccess();
+      return _isAccessible();
     }
   }
 
@@ -2178,5 +2152,29 @@ namespace BWAPI
       return this->staticHitPoints;
     return 0;
   }
-
+  bool UnitImpl::_isAccessible() const
+  {
+    if (!isAlive) return false;
+    if (_isVisible()) return true;
+    //if we get here, the unit exists but is not visible
+    if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+      return true;
+    /* neutral units visible during AIModule::onStart */
+    if (Broodwar->getFrameCount()==0)
+      if (UnitType(getOriginalRawData->unitID.id).isNeutral())
+        return true;
+    return false;
+  }
+  bool UnitImpl::_isVisible() const
+  {
+    PlayerImpl* p = (PlayerImpl*)BroodwarImpl.players[getOriginalRawData->playerID];
+    if (getOriginalRawData->sprite == NULL)
+      return false;
+    else if (BroodwarImpl._isReplay())
+     return (getOriginalRawData->sprite->visibilityFlags > 0);
+    else if (p == BWAPI::BroodwarImpl.self())
+      return true;
+    else
+      return (getOriginalRawData->sprite->visibilityFlags & (1 << p->getIndex())) != 0;
+  }
 };

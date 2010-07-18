@@ -221,7 +221,6 @@ namespace BWAPI
       bool onSendText(const char* text);
       void onReceiveText(int playerId, std::string text);
       bool parseText(const char* text);
-      void onUnitDestroy(BWAPI::UnitImpl* unit);
       bool inScreen(int ctype, int x, int y);
       bool inScreen(int ctype, int x1, int y1, int x2, int y2);
       bool inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3);
@@ -238,7 +237,6 @@ namespace BWAPI
       void loadSelected();
       void copyMapToSharedMemory();
 
-      std::set<UnitImpl*> units;
       UnitImpl* getUnitFromIndex(int index);
       BulletImpl* getBulletFromIndex(int index);
       PlayerImpl* BWAPIPlayer;
@@ -263,6 +261,26 @@ namespace BWAPI
       HMODULE hMod;
       void saveSelected();
       Map map;
+
+      std::set<BWAPI::UnitImpl*> newUnits; //units entering aliveUnits set on current frame
+      std::set<BWAPI::UnitImpl*> aliveUnits; //units alive on current frame
+      std::set<BWAPI::UnitImpl*> dyingUnits; //units leaving aliveUnits set on current frame
+
+      std::set<BWAPI::UnitImpl*> discoverUnits; //units entering accessibleUnits set on current frame
+      std::set<BWAPI::Unit*> accessibleUnits; //units that are accessible to the client on current frame
+      std::set<BWAPI::UnitImpl*> evadeUnits; //units leaving accessibleUnits set on current frame
+      
+      std::set<BWAPI::UnitImpl*> showUnits; // units entering visibleUnits set on current frame
+      std::set<BWAPI::UnitImpl*> visibleUnits; //units that are visible to the client on current frame
+      std::set<BWAPI::UnitImpl*> hideUnits; //units leaving visibleUnits set on current frame
+
+      std::set<BWAPI::UnitImpl*> createUnits; // intersection of newUnits and accessibleUnits
+      std::set<BWAPI::Unit*> notDestroyedUnits;// all units that have been discovered at some point and have not been destroyed while accessible
+      std::set<BWAPI::UnitImpl*> destroyUnits; // intersection of dyingUnits and accessibleUnits
+
+
+      std::set<BWAPI::UnitImpl*> morphUnits;
+      std::set<BWAPI::UnitImpl*> renegadeUnits;
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
       std::set<TilePosition> startLocations;
@@ -271,13 +289,11 @@ namespace BWAPI
       std::set<BWAPI::Force*> forces;
       std::set<BWAPI::Player*> playerSet;
 
-      std::set<BWAPI::Unit*> allUnits;
       std::set<BWAPI::Unit*> minerals;
       std::set<BWAPI::Unit*> geysers;
       std::set<BWAPI::Unit*> neutralUnits;
       std::set<BWAPI::Bullet*> bullets;
-      std::set<BWAPI::UnitImpl*> unitsToBeAdded;
-      std::list<BWAPI::UnitImpl*> myPylons;
+      std::list<BWAPI::UnitImpl*> pylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
 
       std::set<BWAPI::Unit*> staticMinerals;
@@ -295,6 +311,13 @@ namespace BWAPI
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnits();
       void updateBullets();
+      void computeUnitExistence();
+      void computePrimaryUnitSets();
+      void extractUnitData();
+      void augmentUnitData();
+      void applyLatencyCompensation();
+      void computeSecondaryUnitSets();
+      void processEvents();
       /**
        * Specifies if some order was given, so the loadSelect function will have
        * to be called.

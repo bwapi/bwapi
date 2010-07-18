@@ -214,10 +214,8 @@ namespace BWAPI
       void die();
       void setID(int newID);
       bool canAccess() const;
-      bool canAccessSpecial() const;
       bool canAccessInside() const;
       bool attemptAccess() const;
-      bool _exists;
       Player* _getPlayer;
       UnitType _getType;
       std::string getName() const;
@@ -236,6 +234,8 @@ namespace BWAPI
       u16 getIndex() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
+      bool _isAccessible() const;
+      bool _isVisible() const;
       UnitImpl* getNext() const;
       /** Gets #bwOriginalUnit */
       BW::Unit* getOriginalRawData;
@@ -254,18 +254,21 @@ namespace BWAPI
       bool dead;
       bool userSelected;
       bool staticInformation;
-      BWAPI::Player* savedPlayer;
-      BWAPI::UnitType savedUnitType;
-      bool lastVisible;
-      bool makeVisible;
-      UnitType lastType;
-      Player* lastPlayer;
       bool nukeDetected;
       int animState;
       int lastGroundWeaponCooldown;
       int lastAirWeaponCooldown;
       bool startingAttack;
+      UnitType lastType;
+      Player* lastPlayer;
+      
       int id;
+      bool isNew;
+      bool isAlive;
+      bool isDying;
+      bool wasAlive;
+      bool wasAccessible;
+      bool wasVisible;
 
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
