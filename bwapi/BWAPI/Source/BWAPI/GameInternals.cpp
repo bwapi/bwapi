@@ -1687,5 +1687,32 @@ namespace BWAPI
         this->onUnitDestroy(unit);
     }
   }
+  //---------------------------------------------- ON SEND TEXT ----------------------------------------------
+  bool GameImpl::onSendText(const char* text)
+  {
+    /* prep onSendText */
+    if (this->parseText(text) || !this->isFlagEnabled(BWAPI::Flag::UserInput))
+      return true;
+    else
+    {
+      if (this->client != NULL)
+      {
+        events.push_back(Event::SendText(std::string(text)));
+        return !this->client->onSendText(std::string(text));
+      }
+    }
+    return false;
+  }
+  //---------------------------------------------- ON RECV TEXT ----------------------------------------------
+  void GameImpl::onReceiveText(int playerId, std::string text)
+  {
+    /* Do onReceiveText */
+    int realId = stormIdToPlayerId(playerId);
+    if ( this->client != NULL && realId != -1 && realId != this->BWAPIPlayer->getIndex())
+    {
+      events.push_back(Event::ReceiveText(this->players[realId], text));
+      this->client->onReceiveText(this->players[realId], text);
+    }
+  }
 
 }

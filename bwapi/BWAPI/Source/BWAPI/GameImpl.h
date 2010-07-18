@@ -108,18 +108,17 @@ namespace BWAPI
       virtual std::string mapHash();
 
       virtual int  getGroundHeight(int x, int y);
+      virtual int  getGroundHeight(TilePosition position);
       virtual bool isWalkable(int x, int y);
       virtual bool isBuildable(int x, int y);
-      virtual bool isVisible(int x, int y);
-      virtual bool isExplored(int x, int y);
-      virtual bool hasCreep(int x, int y);
-      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
-
-      virtual int  getGroundHeight(TilePosition position);
       virtual bool isBuildable(TilePosition position);
+      virtual bool isVisible(int x, int y);
       virtual bool isVisible(TilePosition position);
+      virtual bool isExplored(int x, int y);
       virtual bool isExplored(TilePosition position);
+      virtual bool hasCreep(int x, int y);
       virtual bool hasCreep(TilePosition position);
+      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight);
 
       virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type);
@@ -133,8 +132,6 @@ namespace BWAPI
        */
       virtual void printf(const char* text, ...);
       virtual void sendText(const char* text, ...);
-      void sendTextEx(u8 txfilter, u8 plfilter, const char *text, ...);
-      void printEx(int pID, const char* text, ...);
 
       /**
        * Changes race in the pre-game lobby.
@@ -199,6 +196,8 @@ namespace BWAPI
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
+      void sendTextEx(u8 txfilter, u8 plfilter, const char *text, ...);
+      void printEx(int pID, const char* text, ...);
       void update(); /**< Updates unitArrayCopy according to bw memory */
       void loadAutoMenuData();
       void onMenuFrame();
