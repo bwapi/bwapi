@@ -24,7 +24,7 @@ namespace BWAPI
   void UnitImpl::updateData()
   {
     int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
-    if (_exists)
+    if (isAlive)
     {
       //------------------------------------------------------------------------------------------------------
       //_getPlayer
@@ -56,8 +56,6 @@ namespace BWAPI
         else if (BroodwarImpl._isReplay())
           self->isVisible[selfPlayerID] = getOriginalRawData->sprite->visibilityFlags > 0;
         else if (_getPlayer == BWAPI::BroodwarImpl.self())
-          self->isVisible[selfPlayerID] = true;
-        else if (makeVisible)
           self->isVisible[selfPlayerID] = true;
         else
           self->isVisible[selfPlayerID] = (getOriginalRawData->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
@@ -131,14 +129,14 @@ namespace BWAPI
     {
       //------------------------------------------------------------------------------------------------------
       //_getPlayer
-      _getPlayer = savedPlayer;
+      _getPlayer = NULL;
       //------------------------------------------------------------------------------------------------------
       //isVisible
       for(int i=0;i<9;i++)
         self->isVisible[i] = false;
       //------------------------------------------------------------------------------------------------------
       //_getType
-      _getType = savedUnitType;
+      _getType = UnitTypes::Unknown;
       //------------------------------------------------------------------------------------------------------
       //_getTransport
       _getTransport = NULL;
@@ -164,7 +162,7 @@ namespace BWAPI
       //_isCompleted
       _isCompleted = false;
     }
-    if (canAccess())
+    if (_isAccessible())
     {
       //------------------------------------------------------------------------------------------------------
       //getPosition
@@ -341,12 +339,12 @@ namespace BWAPI
       if (_getType.isBuilding())
       {
         UnitImpl* addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->currentBuildUnit);
-        if (addon != NULL && addon->_exists && UnitType(addon->getOriginalRawData->unitID.id).isAddon())
+        if (addon != NULL && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon())
           self->addon = BroodwarImpl.server.getUnitID(addon);
         else
         {
           addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.childUnit1);
-          if (addon!=NULL && addon->_exists && UnitType(addon->getOriginalRawData->unitID.id).isAddon())
+          if (addon!=NULL && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon())
             self->addon = BroodwarImpl.server.getUnitID(addon);
           else
             self->addon = -1;
@@ -361,12 +359,12 @@ namespace BWAPI
       else
       {
         UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->currentBuildUnit);
-        if (nydus != NULL && nydus->_exists && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
+        if (nydus != NULL && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
         else
         {
           nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.childUnit1);
-          if (nydus != NULL && nydus->_exists && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
+          if (nydus != NULL && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
             self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
           else
             self->nydusExit = -1;
@@ -598,9 +596,9 @@ namespace BWAPI
       self->isUnpowered = false;
 
     }
-    if (canAccessSpecial())
+    if (_isAccessible())
     {
-      self->exists = _exists;
+      self->exists = true;
       self->player = BroodwarImpl.server.getPlayerID(_getPlayer);
       self->type   = _getType.getID();
     }

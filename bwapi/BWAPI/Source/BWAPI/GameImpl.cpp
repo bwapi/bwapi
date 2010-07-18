@@ -59,69 +59,57 @@ namespace BWAPI
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* >& GameImpl::getForces()
   {
-    /* Return a set of forces */
-    this->setLastError(Errors::None);
-    return this->forces;
+    return forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
   std::set< Player* >& GameImpl::getPlayers()
   {
-    this->setLastError(Errors::None);
-    return this->playerSet;
+    return playerSet;
   }
   //------------------------------------------------- GET UNITS ----------------------------------------------
   std::set< Unit* >& GameImpl::getAllUnits()
   {
-    this->setLastError(Errors::None);
-    return this->allUnits;
+    return accessibleUnits;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
   std::set< Unit* >& GameImpl::getMinerals()
   {
-    this->setLastError(Errors::None);
-    return this->minerals;
+    return minerals;
   }
   //---------------------------------------------- GET GEYSERS -----------------------------------------------
   std::set< Unit* >& GameImpl::getGeysers()
   {
-    this->setLastError(Errors::None);
-    return this->geysers;
+    return geysers;
   }
   //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
   std::set< Unit* >& GameImpl::getNeutralUnits()
   {
-    this->setLastError(Errors::None);
-    return this->neutralUnits;
+    return neutralUnits;
   }
   //---------------------------------------------- GET MINERALS ----------------------------------------------
   std::set< Unit* >& GameImpl::getStaticMinerals()
   {
-    this->setLastError(Errors::None);
-    return this->staticMinerals;
+    return staticMinerals;
   }
   //---------------------------------------------- GET GEYSERS -----------------------------------------------
   std::set< Unit* >& GameImpl::getStaticGeysers()
   {
-    this->setLastError(Errors::None);
-    return this->staticGeysers;
+    return staticGeysers;
   }
   //------------------------------------------- GET NEUTRAL UNITS --------------------------------------------
   std::set< Unit* >& GameImpl::getStaticNeutralUnits()
   {
-    this->setLastError(Errors::None);
-    return this->staticNeutralUnits;
+    return staticNeutralUnits;
   }
   //---------------------------------------------- GET BULLETS -----------------------------------------------
   std::set< Bullet* >& GameImpl::getBullets()
   {
-    this->setLastError(Errors::None);
-    return this->bullets;
+    return bullets;
   }
   //---------------------------------------------- GET EVENTS ------------------------------------------------
   std::list< Event >& GameImpl::getEvents()
   {
-    this->setLastError(Errors::None);
-    return this->events;
+    return events;
   }
   //----------------------------------------------------------------------------------------------------------
   Force* GameImpl::getForce(int forceID)
@@ -145,7 +133,7 @@ namespace BWAPI
     if (this->isFlagEnabled(Flag::CompleteMapInformation) == false)
       return NULL;
     int i = (unitIndex & 0x7FF);
-    if ( i < 1700 && this->unitArray[i]->canAccess() )
+    if ( i < 1700 && this->unitArray[i]->_isAccessible() )
       return this->unitArray[i];
     return NULL;
   }
@@ -565,7 +553,7 @@ namespace BWAPI
       x++;
     }
     /* Loop through all pylons for the current player */
-    foreach (UnitImpl* i, myPylons)
+    foreach (UnitImpl* i, pylons)
     {
       int px = i->getTilePosition().x();
       int py = i->getTilePosition().y();

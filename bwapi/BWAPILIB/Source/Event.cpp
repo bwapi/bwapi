@@ -65,6 +65,34 @@ namespace BWAPI
     e.position=target;
     return e;
   }
+  Event Event::UnitDiscover(Unit* unit)
+  {
+    Event e;
+    e.type=EventType::UnitDiscover;
+    e.unit=unit;
+    return e;
+  }
+  Event Event::UnitEvade(Unit* unit)
+  {
+    Event e;
+    e.type=EventType::UnitEvade;
+    e.unit=unit;
+    return e;
+  }
+  Event Event::UnitShow(Unit* unit)
+  {
+    Event e;
+    e.type=EventType::UnitShow;
+    e.unit=unit;
+    return e;
+  }
+  Event Event::UnitHide(Unit* unit)
+  {
+    Event e;
+    e.type=EventType::UnitHide;
+    e.unit=unit;
+    return e;
+  }
   Event Event::UnitCreate(Unit* unit)
   {
     Event e;
@@ -83,20 +111,6 @@ namespace BWAPI
   {
     Event e;
     e.type=EventType::UnitMorph;
-    e.unit=unit;
-    return e;
-  }
-  Event Event::UnitShow(Unit* unit)
-  {
-    Event e;
-    e.type=EventType::UnitShow;
-    e.unit=unit;
-    return e;
-  }
-  Event Event::UnitHide(Unit* unit)
-  {
-    Event e;
-    e.type=EventType::UnitHide;
     e.unit=unit;
     return e;
   }

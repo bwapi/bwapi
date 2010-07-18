@@ -27,7 +27,7 @@ namespace BWAPI
   {
     if (!exists()) return NULL;
     UnitImpl* source  = _getSource();
-    if (source == NULL || !source->_exists)
+    if (source == NULL || !source->isAlive)
       return NULL;
     return source->getPlayer();
   }
