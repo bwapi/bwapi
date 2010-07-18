@@ -35,15 +35,12 @@ namespace BWAPI
       {
         if (i==selfPlayerID) continue;
         PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
-        if (getOriginalRawData->sprite == NULL)
+        if (getOriginalRawData->sprite == NULL || player == NULL)
           self->isVisible[i]=false;
-             //this function is only available when Broodwar is in a replay or the complete map information flag is enabled.
         else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
           self->isVisible[i]=false;
         else if (_getPlayer == (Player*)player)
           self->isVisible[i]=true;
-        else if (player == NULL)
-          self->isVisible[i]=false;
         else if (player->isNeutral())
           self->isVisible[i]=getOriginalRawData->sprite->visibilityFlags > 0;
         else

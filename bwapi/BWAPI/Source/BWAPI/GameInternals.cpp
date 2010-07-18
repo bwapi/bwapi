@@ -1611,17 +1611,20 @@ namespace BWAPI
   void GameImpl::updateBullets()
   {
     for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
-    {
       this->bulletArray[i]->setExists(false);
-    }
-    this->bullets.clear();
+    std::set<Bullet*> lastBullets = bullets;
+    bullets.clear();
     for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement ; curritem; curritem = curritem->nextBullet)
     {
       BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
       b->setExists(true);
+      b->updateData();
       if (b->exists())
         this->bullets.insert(b);
+      lastBullets.erase(b);
     }
+    for each(BulletImpl* b in lastBullets)
+      b->updateData();
     for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
     {
       this->bulletArray[i]->saveExists();
