@@ -334,6 +334,8 @@ namespace BWAPI
       double averageFPS;
 
       int  textSize;
+      int BUFFER_SIZE;
+      char buffer[1024];
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
