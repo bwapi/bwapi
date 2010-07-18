@@ -31,7 +31,7 @@ namespace BWAPI
 
       /** If Flag::UserInput is enabled, BWAPI will call this each time a user enters a message into the chat.
        * */
-      virtual bool onSendText(std::string text);
+      virtual void onSendText(std::string text);
 
       /** BWAPI calls this when another player sends a message. */
       virtual void onReceiveText(Player* player, std::string text);

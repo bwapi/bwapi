@@ -234,8 +234,6 @@ namespace BWAPI
       u16 getIndex() const;
       void setSelected(bool selectedState);
       void setLoaded(bool loadedState);
-      bool _isAccessible() const;
-      bool _isVisible() const;
       UnitImpl* getNext() const;
       /** Gets #bwOriginalUnit */
       BW::Unit* getOriginalRawData;
@@ -247,6 +245,7 @@ namespace BWAPI
       bool hasEmptyBuildQueue;
 
       void saveInitialInformation();
+      void updateInternalData();
       void updateData();
       UnitData data;
       UnitData* self;

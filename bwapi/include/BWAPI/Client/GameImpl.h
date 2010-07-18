@@ -60,6 +60,7 @@ namespace BWAPI
     public :
       Event makeEvent(BWAPIC::Event e);
       int addUnitCommand(BWAPIC::UnitCommand& c);
+      bool inGame;
       GameImpl(GameData* data);
       void onMatchStart();
       void onMatchEnd();

@@ -84,14 +84,14 @@ namespace BWAPI
       {
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
       }
-      if (e.type == EventType::MatchEnd)
-      {
-        ((GameImpl*)BWAPI::Broodwar)->onMatchEnd();
-      }
       if (e.type == EventType::MatchFrame)
       {
         ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
       }
+    }
+    if (Broodwar!=NULL && ((GameImpl*)BWAPI::Broodwar)->inGame==true && Broodwar->isInGame()==false)
+    {
+      ((GameImpl*)BWAPI::Broodwar)->onMatchEnd();
     }
   }
 }

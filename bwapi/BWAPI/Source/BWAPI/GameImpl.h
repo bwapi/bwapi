@@ -218,7 +218,7 @@ namespace BWAPI
       void onGameEnd();
       int  stormIdToPlayerId(int dwStormId);
       int  playerIdToStormId(int dwPlayerId);
-      bool onSendText(const char* text);
+      void onSendText(const char* text);
       void onReceiveText(int playerId, std::string text);
       bool parseText(const char* text);
       bool inScreen(int ctype, int x, int y);
@@ -339,6 +339,7 @@ namespace BWAPI
       std::string autoMenuEnemyRace;
       std::string autoMenuEnemyCount;
       std::string autoMenuGameType;
+
       bool inGame;
 
       bool actMainMenu;

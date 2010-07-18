@@ -274,7 +274,7 @@ void __declspec(naked) onIssueCommand()
     }
     else
     {
-
+/*
       BWAPI::BroodwarImpl.printf("command ID %02x:%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x", commandID,*((u8*)commandIDptr+1),
                                                       *((u8*)commandIDptr+2),
                                                       *((u8*)commandIDptr+3),
@@ -285,7 +285,7 @@ void __declspec(naked) onIssueCommand()
                                                       *((u8*)commandIDptr+8),
                                                       *((u8*)commandIDptr+9),
                                                       *((u8*)commandIDptr+10),
-                                                      *((u8*)commandIDptr+11));
+                                                      *((u8*)commandIDptr+11));*/
     }
     __asm
     {

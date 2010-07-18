@@ -6,7 +6,7 @@ public:
   virtual void onStart();
   virtual void onEnd(bool isWinner);
   virtual void onFrame();
-  virtual bool onSendText(std::string text);
+  virtual void onSendText(std::string text);
   virtual void onPlayerLeft(BWAPI::Player* player);
   virtual void onNukeDetect(BWAPI::Position target);
   virtual void onUnitCreate(BWAPI::Unit* unit);

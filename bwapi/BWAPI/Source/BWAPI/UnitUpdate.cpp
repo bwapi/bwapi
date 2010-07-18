@@ -21,7 +21,7 @@
 #include "BWtoBWAPI.h"
 namespace BWAPI
 {
-  void UnitImpl::updateData()
+  void UnitImpl::updateInternalData()
   {
     int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
     if (isAlive)
@@ -162,7 +162,10 @@ namespace BWAPI
       //_isCompleted
       _isCompleted = false;
     }
-    if (_isAccessible())
+  }
+  void UnitImpl::updateData()
+  {
+    if (canAccess())
     {
       //------------------------------------------------------------------------------------------------------
       //getPosition
@@ -596,7 +599,7 @@ namespace BWAPI
       self->isUnpowered = false;
 
     }
-    if (_isAccessible())
+    if (canAccess())
     {
       self->exists = true;
       self->player = BroodwarImpl.server.getPlayerID(_getPlayer);

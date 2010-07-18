@@ -2043,6 +2043,7 @@ namespace BWAPI
     wasAlive           = false;
     wasAccessible      = false;
     wasVisible         = false;
+    nukeDetected       = false;
     lastType           = UnitTypes::Unknown;
     lastPlayer         = NULL;
     updateData();
@@ -2093,7 +2094,7 @@ namespace BWAPI
     }
     else
     {
-      return _isAccessible();
+      return canAccess();
     }
   }
 
@@ -2151,30 +2152,5 @@ namespace BWAPI
     if (this->staticInformation)
       return this->staticHitPoints;
     return 0;
-  }
-  bool UnitImpl::_isAccessible() const
-  {
-    if (!isAlive) return false;
-    if (_isVisible()) return true;
-    //if we get here, the unit exists but is not visible
-    if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-      return true;
-    /* neutral units visible during AIModule::onStart */
-    if (Broodwar->getFrameCount()==0)
-      if (UnitType(getOriginalRawData->unitID.id).isNeutral())
-        return true;
-    return false;
-  }
-  bool UnitImpl::_isVisible() const
-  {
-    PlayerImpl* p = (PlayerImpl*)BroodwarImpl.players[getOriginalRawData->playerID];
-    if (getOriginalRawData->sprite == NULL)
-      return false;
-    else if (BroodwarImpl._isReplay())
-     return (getOriginalRawData->sprite->visibilityFlags > 0);
-    else if (p == BWAPI::BroodwarImpl.self())
-      return true;
-    else
-      return (getOriginalRawData->sprite->visibilityFlags & (1 << p->getIndex())) != 0;
   }
 };
