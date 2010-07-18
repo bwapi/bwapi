@@ -100,7 +100,9 @@ namespace BWAPI
       e2->v2=e.position.y();
     }
 
-    if (e.type==BWAPI::EventType::UnitCreate ||
+    if (e.type==BWAPI::EventType::UnitDiscover ||
+        e.type==BWAPI::EventType::UnitEvade ||
+        e.type==BWAPI::EventType::UnitCreate ||
         e.type==BWAPI::EventType::UnitDestroy ||
         e.type==BWAPI::EventType::UnitMorph ||
         e.type==BWAPI::EventType::UnitShow ||
@@ -250,8 +252,10 @@ namespace BWAPI
       addEvent(*e);
       if (e->type == EventType::MatchStart)
         matchStarting = true;
-      if (e->type == EventType::UnitDestroy || (e->type == EventType::UnitHide && Broodwar->isFlagEnabled(Flag::CompleteMapInformation)==false))
-        data->units[e->unit->getID()] = ((UnitImpl*)e->unit)->data;
+    }
+    for each(UnitImpl* u in BroodwarImpl.lastEvadedUnits)
+    {
+      data->units[u->getID()] = ((UnitImpl*)u)->data;
     }
 
     ((GameImpl*)Broodwar)->events.clear();
@@ -308,10 +312,10 @@ namespace BWAPI
         }
         for(int j=0;j<228;j++)
         {
-          p->allUnitCount[j]       = (*i)->allUnitCount(UnitType(j));
-          p->completedUnitCount[j] = (*i)->completedUnitCount(UnitType(j));
-          p->deadUnitCount[j]      = (*i)->deadUnitCount(UnitType(j));
-          p->killedUnitCount[j]    = (*i)->killedUnitCount(UnitType(j));
+          p->allUnitCount[j]       = p2->allUnitCount[j];
+          p->completedUnitCount[j] = p2->completedUnitCount[j];
+          p->deadUnitCount[j]      = p2->deadUnitCount[j];
+          p->killedUnitCount[j]    = p2->killedUnitCount[j];
         }
         for(int j=0;j<63;j++)
         {
@@ -326,7 +330,8 @@ namespace BWAPI
       }
 
       //dynamic unit data
-      for(std::set<Unit*>::iterator i=Broodwar->getAllUnits().begin();i!=Broodwar->getAllUnits().end();i++)
+      std::set<Unit*>* allUnits = &(Broodwar->getAllUnits());
+      for(std::set<Unit*>::iterator i=allUnits->begin();i!=allUnits->end();i++)
         data->units[(*i)->getID()] = ((UnitImpl*)(*i))->data;
 
       for(int i=0;i<1700;i++)

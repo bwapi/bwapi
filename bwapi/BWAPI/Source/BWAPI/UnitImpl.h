@@ -262,7 +262,6 @@ namespace BWAPI
       Player* lastPlayer;
       
       int id;
-      bool isNew;
       bool isAlive;
       bool isDying;
       bool wasAlive;

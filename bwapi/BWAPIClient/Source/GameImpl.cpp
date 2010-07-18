@@ -161,10 +161,6 @@ namespace BWAPI
   //------------------------------------------------- ON MATCH FRAME -----------------------------------------
   void GameImpl::onMatchFrame()
   {
-    neutralUnits.clear();
-    minerals.clear();
-    geysers.clear();
-    pylons.clear();
     events.clear();
     bullets.clear();
     for(int i=0;i<100;i++)
@@ -177,9 +173,6 @@ namespace BWAPI
     for (int y = 0; y < data->mapHeight; y++)
       for (int x = 0; x < data->mapWidth; x++)
         unitsOnTileData[x][y].clear();
-    for(int i=0;i<12;i++)
-      playerVector[i].clear();
-
     for(int e=0; e<data->eventCount; e++)
     {
       events.push_back(this->makeEvent(data->events[e]));
@@ -187,22 +180,55 @@ namespace BWAPI
       if (data->events[e].type == EventType::UnitCreate)
       {
         notDestroyedUnits.insert(&unitVector[id]);
-        accessibleUnits.insert(&unitVector[id]);
       }
-      else if (data->events[e].type == EventType::UnitShow)
+      else if (data->events[e].type == EventType::UnitDiscover)
       {
-        notDestroyedUnits.insert(&unitVector[id]);
-        accessibleUnits.insert(&unitVector[id]);
+        Unit* u=&unitVector[id];
+        accessibleUnits.insert(u);
+        ((PlayerImpl*)u->getPlayer())->units.insert(u);
+        if (u->getPlayer()->isNeutral())
+        {
+          neutralUnits.insert(u);
+          if (u->getType()==UnitTypes::Resource_Mineral_Field)
+            minerals.insert(u);
+          else if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
+            geysers.insert(u);
+        }
+        else
+        {
+          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+            pylons.insert(u);
+        }
+      }
+      else if (data->events[e].type==EventType::UnitEvade)
+      {
+        Unit* u=&unitVector[id];
+        accessibleUnits.erase(u);
+        ((PlayerImpl*)u->getPlayer())->units.erase(u);
+        if (u->getPlayer()->isNeutral())
+        {
+          neutralUnits.erase(u);
+          if (u->getType()==UnitTypes::Resource_Mineral_Field)
+            minerals.erase(u);
+          else if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
+            geysers.erase(u);
+        }
+        else
+        {
+          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+            pylons.erase(u);
+        }
       }
       else if (data->events[e].type==EventType::UnitDestroy)
       {
         notDestroyedUnits.erase(&unitVector[id]);
-        accessibleUnits.erase(&unitVector[id]);
       }
-      else if (data->events[e].type==EventType::UnitHide)
+      else if (data->events[e].type==EventType::UnitRenegade)
       {
-        if (Broodwar->isFlagEnabled(Flag::CompleteMapInformation)==false)
-          accessibleUnits.erase(&unitVector[id]);
+        Unit* u=&unitVector[id];
+        for each(Player* p in players)
+          ((PlayerImpl*)p)->units.erase(u);
+        ((PlayerImpl*)u->getPlayer())->units.insert(u);
       }
     }
     if (getFrameCount()==1 && isFlagEnabled(Flag::CompleteMapInformation)==true)
@@ -232,34 +258,13 @@ namespace BWAPI
       for (int x = startX; x < endX; x++)
         for (int y = startY; y < endY; y++)
           unitsOnTileData[x][y].insert(u);
-      ((PlayerImpl*)u->getPlayer())->units.insert(u);
-      if (u->getPlayer()->isNeutral())
-      {
-        neutralUnits.insert(u);
-        if (u->getType()==UnitTypes::Resource_Mineral_Field)
-          minerals.insert(u);
-        else if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
-          geysers.insert(u);
-      }
-      else
-      {
-        if (u->getType()==UnitTypes::Protoss_Pylon)
-          pylons.insert(u);
-        if (u->getType()==UnitTypes::Zerg_Larva)
-        {
-          if (u->getHatchery()!=NULL)
-            ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);
-        }
-        if (u->getType()==UnitTypes::Protoss_Interceptor)
-        {
-          if (u->getCarrier()!=NULL)
-            ((UnitImpl*)u->getCarrier())->connectedUnits.insert(u);
-        }
-        if (u->getTransport()!=NULL)
-            ((UnitImpl*)u->getTransport())->loadedUnits.insert(u);
-      }
+      if (u->getType()==UnitTypes::Zerg_Larva && u->getHatchery()!=NULL)
+        ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);
+      if (u->getType()==UnitTypes::Protoss_Interceptor && u->getCarrier()!=NULL)
+        ((UnitImpl*)u->getCarrier())->connectedUnits.insert(u);
+      if (u->getTransport()!=NULL)
+        ((UnitImpl*)u->getTransport())->loadedUnits.insert(u);
     }
-
     selectedUnits.clear();
     for(int i=0;i<data->selectedUnitCount;i++)
     {

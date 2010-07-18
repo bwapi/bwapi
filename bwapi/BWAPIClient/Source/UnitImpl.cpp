@@ -735,6 +735,14 @@ namespace BWAPI
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const
   {
+    if (Broodwar->self()==NULL)
+    {
+      for(int i=0;i<9;i++)
+      {
+        if (self->isVisible[i]) return true;
+      }
+      return false;
+    }
     return self->isVisible[Broodwar->self()->getID()];
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------

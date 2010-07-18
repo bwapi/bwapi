@@ -28,6 +28,12 @@ namespace BWAPI
   void AIModule::onNukeDetect(Position target)
   {
   }
+  void AIModule::onUnitDiscover(BWAPI::Unit* unit)
+  {
+  }
+  void AIModule::onUnitEvade(BWAPI::Unit* unit)
+  {
+  }
   void AIModule::onUnitCreate(BWAPI::Unit* unit)
   {
   }

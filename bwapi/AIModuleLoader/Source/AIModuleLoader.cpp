@@ -88,6 +88,12 @@ int main(int argc, const char* argv[])
           case EventType::NukeDetect:
             client->onNukeDetect(e->position);
           break;
+          case EventType::UnitDiscover:
+            client->onUnitDiscover(e->unit);
+          break;
+          case EventType::UnitEvade:
+            client->onUnitEvade(e->unit);
+          break;
           case EventType::UnitCreate:
             client->onUnitCreate(e->unit);
           break;
