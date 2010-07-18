@@ -25,6 +25,7 @@ namespace BWAPI
       unitVector.push_back(UnitImpl(i));
     for(int i=0;i<100;i++)
       bulletVector.push_back(BulletImpl(i));
+    inGame = false;
   }
   int GameImpl::addShape(BWAPIC::Shape &s)
   {
@@ -82,6 +83,7 @@ namespace BWAPI
   void GameImpl::clearAll()
   {
     //clear everything
+    inGame = false;
     startLocations.clear();
     forces.clear();
     players.clear();
@@ -118,6 +120,7 @@ namespace BWAPI
   void GameImpl::onMatchStart()
   {
     clearAll();
+    inGame = true;
 
     //load forces, players, and initial units from shared memory
     for(int i=0;i<data->forceCount;i++)

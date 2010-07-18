@@ -16,9 +16,8 @@ namespace BWAPI
   void AIModule::onFrame()
   {
   }
-  bool AIModule::onSendText(std::string text)
+  void AIModule::onSendText(std::string text)
   {
-    return true;
   }
   void AIModule::onReceiveText(Player* player, std::string text)
   {

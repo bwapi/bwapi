@@ -49,7 +49,7 @@ int main(int argc, const char* argv[])
         reconnect();
       }
     }
-    printf("starting match!");
+    printf("starting match!\n");
     Broodwar->sendText("Hello world!");
     Broodwar->printf("The map is %s, a %d player map",Broodwar->mapName().c_str(),Broodwar->getStartLocations().size());
     // Enable some cheat flags
@@ -160,7 +160,10 @@ int main(int argc, const char* argv[])
             break;
           case EventType::NukeDetect:
             if (e->position!=Positions::Unknown)
+            {
+              Broodwar->drawCircleMap(e->position.x(),e->position.y(),40,Colors::Red,true);
               Broodwar->printf("Nuclear Launch Detected at (%d,%d)",e->position.x(),e->position.y());
+            }
             else
               Broodwar->printf("Nuclear Launch Detected");
             break;

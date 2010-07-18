@@ -133,7 +133,7 @@ namespace BWAPI
     if (this->isFlagEnabled(Flag::CompleteMapInformation) == false)
       return NULL;
     int i = (unitIndex & 0x7FF);
-    if ( i < 1700 && this->unitArray[i]->_isAccessible() )
+    if ( i < 1700 && this->unitArray[i]->canAccess() )
       return this->unitArray[i];
     return NULL;
   }

@@ -243,11 +243,7 @@ namespace BWAPI
         this->players[i]->updateData();
         if (!prevLeftGame && this->players[i]->leftGame())
         {
-          if (this->client!=NULL)
-          {
-            this->client->onPlayerLeft((Player*)this->players[i]);
-            events.push_back(Event::PlayerLeft((Player*)this->players[i]));
-          }
+          events.push_back(Event::PlayerLeft((Player*)this->players[i]));
         }
       }
       this->updateUnits();
@@ -258,11 +254,7 @@ namespace BWAPI
       this->inUpdate = false;
 
       foreach(std::string i, sentMessages)
-      {
-        bool send = !BroodwarImpl.onSendText(i.c_str());
-        if (send)
-          BroodwarImpl.sendText(i.c_str());
-      }
+        BroodwarImpl.onSendText(i.c_str());
       this->sentMessages.clear();
 
     }
@@ -319,20 +311,15 @@ namespace BWAPI
         }
       }
       events.push_back(Event::MatchStart());
-      this->client->onStart();
       this->startedClient = true;
     }
 
     events.push_back(Event::MatchFrame());
     processEvents();
-
-    this->server.update();
-    this->client->onFrame();
+    server.update();
 
     for each(UnitImpl* u in evadeUnits)
-    {
       u->updateData();
-    }
     for each(UnitImpl* u in dyingUnits)
     {
       deadUnits.push_back(u);
@@ -1183,6 +1170,7 @@ namespace BWAPI
       unitArray[i]->wasAccessible     = false;
       unitArray[i]->wasVisible        = false;
       unitArray[i]->staticInformation = false;
+      unitArray[i]->nukeDetected      = false;
       unitArray[i]->lastType          = UnitTypes::Unknown;
       unitArray[i]->lastPlayer        = NULL;
       unitArray[i]->setID(-1);
@@ -1260,8 +1248,12 @@ namespace BWAPI
     }
     for each(UnitImpl* u in accessibleUnits)
       u->wasAccessible = true;
+    for each(UnitImpl* u in evadeUnits)
+      u->wasAccessible = false;
     for each(UnitImpl* u in visibleUnits)
       u->wasVisible = true;
+    for each(UnitImpl* u in hideUnits)
+      u->wasVisible = false;
 
     dyingUnits = aliveUnits;
     aliveUnits.clear();
@@ -1281,6 +1273,7 @@ namespace BWAPI
           u->isNew = true;
           newUnits.insert(u);
         }
+        u->updateInternalData();
       }
     }
     for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); u!=NULL ; u = u->getNext())
@@ -1296,6 +1289,7 @@ namespace BWAPI
           u->isNew = true;
           newUnits.insert(u);
         }
+        u->updateInternalData();
       }
     }
     for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); u!=NULL ; u = u->getNext())
@@ -1311,6 +1305,7 @@ namespace BWAPI
           u->isNew = true;
           newUnits.insert(u);
         }
+        u->updateInternalData();
       }
     }
 
@@ -1333,7 +1328,7 @@ namespace BWAPI
 
     for each(UnitImpl* u in aliveUnits)
     {
-      if (u->_isAccessible())
+      if (u->canAccess())
       {
         if (u->wasAccessible==false)
           discoverUnits.insert(u);
@@ -1347,7 +1342,7 @@ namespace BWAPI
         if (u->wasAccessible)
           evadeUnits.insert(u);
       }
-      if (u->_isVisible())
+      if (u->isVisible())
       {
         if (u->wasVisible==false)
           showUnits.insert(u);
@@ -1368,55 +1363,6 @@ namespace BWAPI
       }
       if (u->wasVisible)
         hideUnits.insert(u);
-    }
-  }
-  void GameImpl::computeSecondaryUnitSets()
-  {
-    for each (Player* i in playerSet)
-      ((PlayerImpl*)i)->units.clear();
-
-    /* Clear all units on tile data */
-    for (int y = 0; y < Map::getHeight(); y++)
-      for (int x = 0; x < Map::getWidth(); x++)
-        this->unitsOnTileData[x][y].clear();
-
-    neutralUnits.clear();
-    minerals.clear();
-    geysers.clear();
-    pylons.clear();
-    morphUnits.clear();
-    renegadeUnits.clear();
-
-    for each (UnitImpl* i in accessibleUnits)
-    {
-      int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
-      int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-      int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
-      int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
-      for (int x = startX; x < endX; x++)
-        for (int y = startY; y < endY; y++)
-          unitsOnTileData[x][y].insert(i);
-      ((PlayerImpl*)i->getPlayer())->units.insert(i);
-      if (i->_getPlayer->isNeutral())
-      {
-        neutralUnits.insert(i);
-        if (i->_getType == UnitTypes::Resource_Mineral_Field)
-          minerals.insert(i);
-        else
-        {
-          if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-            geysers.insert(i);
-        }
-      }
-      else
-      {
-        if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted)
-          pylons.push_back(i);
-      }
-      if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
-        morphUnits.insert(i);
-      if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
-        renegadeUnits.insert(i);
     }
   }
   void GameImpl::extractUnitData()
@@ -1504,6 +1450,57 @@ namespace BWAPI
       for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
         this->commandBuffer[i][j]->execute(this->commandBuffer.size()-1-i);
   }
+  void GameImpl::computeSecondaryUnitSets()
+  {
+    for each (Player* i in playerSet)
+      ((PlayerImpl*)i)->units.clear();
+
+    /* Clear all units on tile data */
+    for (int y = 0; y < Map::getHeight(); y++)
+      for (int x = 0; x < Map::getWidth(); x++)
+        this->unitsOnTileData[x][y].clear();
+
+    neutralUnits.clear();
+    minerals.clear();
+    geysers.clear();
+    pylons.clear();
+    morphUnits.clear();
+    renegadeUnits.clear();
+
+    for each (UnitImpl* i in accessibleUnits)
+    {
+      int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
+      int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+      int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
+      int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+      for (int x = startX; x < endX; x++)
+        for (int y = startY; y < endY; y++)
+          unitsOnTileData[x][y].insert(i);
+      ((PlayerImpl*)i->getPlayer())->units.insert(i);
+      if (i->_getPlayer->isNeutral())
+      {
+        neutralUnits.insert(i);
+        if (i->_getType == UnitTypes::Resource_Mineral_Field)
+          minerals.insert(i);
+        else
+        {
+          if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
+            geysers.insert(i);
+        }
+      }
+      else
+      {
+        if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted)
+          pylons.push_back(i);
+      }
+      if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
+        morphUnits.insert(i);
+      if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
+        renegadeUnits.insert(i);
+      i->lastPlayer = i->_getPlayer;
+      i->lastType = i->_getType;
+    }
+  }
   //---------------------------------------------- UPDATE UNITS ----------------------------------------------
   void GameImpl::updateUnits()
   {
@@ -1533,24 +1530,33 @@ namespace BWAPI
       }
     }
     //create events
-    for each(UnitImpl* u in newUnits)
-      if (u->getOriginalRawData->unitID==BW::UnitID::Terran_NuclearMissile)
+    for each(UnitImpl* u in aliveUnits)
+    {
+      if (u->getOriginalRawData->unitID == BW::UnitID::Terran_NuclearMissile)
       {
-        Position p(u->getOriginalRawData->moveToPos.x,u->getOriginalRawData->moveToPos.y);
-        events.push_back(Event::NukeDetect(p));
+        if (u->nukeDetected==false)
+        {
+          u->nukeDetected=true;
+          Position target(u->getOriginalRawData->orderTargetPos.x,u->getOriginalRawData->orderTargetPos.y);
+          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
+            events.push_back(Event::NukeDetect(target));
+          else
+            events.push_back(Event::NukeDetect(Positions::Unknown));
+        }
       }
-    for each(UnitImpl* u in showUnits)
-      events.push_back(Event::UnitShow(u));
-    for each(UnitImpl* u in hideUnits)
-      events.push_back(Event::UnitHide(u));
+    }
     for each(UnitImpl* u in createUnits)
       events.push_back(Event::UnitCreate(u));
-    for each(UnitImpl* u in destroyUnits)
-      events.push_back(Event::UnitDestroy(u));
+    for each(UnitImpl* u in showUnits)
+      events.push_back(Event::UnitShow(u));
     for each(UnitImpl* u in morphUnits)
       events.push_back(Event::UnitMorph(u));
     for each(UnitImpl* u in renegadeUnits)
       events.push_back(Event::UnitRenegade(u));
+    for each(UnitImpl* u in hideUnits)
+      events.push_back(Event::UnitHide(u));
+    for each(UnitImpl* u in destroyUnits)
+      events.push_back(Event::UnitDestroy(u));
   }
   void GameImpl::processEvents()
   {
@@ -1560,7 +1566,6 @@ namespace BWAPI
       EventType::Enum et=e->type;
       switch (et)
       {
-        /*
         case EventType::MatchStart:
           client->onStart();
         break;
@@ -1581,7 +1586,6 @@ namespace BWAPI
         case EventType::PlayerLeft:
           client->onPlayerLeft(e->player);
         break;
-        */
         case EventType::NukeDetect:
           client->onNukeDetect(e->position);
         break;
@@ -1603,11 +1607,9 @@ namespace BWAPI
         case EventType::UnitRenegade:
           client->onUnitRenegade(e->unit);
         break;
-        /*
         case EventType::SaveGame:
           client->onSaveGame(e->text);
         break;
-        */
         default:
         break;
       }
@@ -1727,11 +1729,7 @@ namespace BWAPI
   void GameImpl::onSaveGame(char *name)
   {
     /* called when the game is being saved */
-    if (this->client != NULL)
-    {
-      this->client->onSaveGame(std::string(name));  // calls the client callback
-      events.push_back(Event::SaveGame(std::string(name)));
-    }
+    events.push_back(Event::SaveGame(std::string(name)));
   }
 //--------------------------------------------------- ISCRIPT ------------------------------------------------
   BWAPI::UnitImpl *GameImpl::spriteToUnit(BW::CSprite *sprite)
@@ -1755,31 +1753,32 @@ namespace BWAPI
     }
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
-  bool GameImpl::onSendText(const char* text)
+  void GameImpl::onSendText(const char* text)
   {
-    /* prep onSendText */
-    if (this->parseText(text) || !this->isFlagEnabled(BWAPI::Flag::UserInput))
-      return true;
-    else
+    if (_isInGame() && _isSinglePlayer())
     {
-      if (this->client != NULL)
+      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(text);
+      if (cheatID != BW::CheatFlags::None)
       {
-        events.push_back(Event::SendText(std::string(text)));
-        return !this->client->onSendText(std::string(text));
+        this->cheatFlags ^= cheatID;
+        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+        if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
+            cheatID == BW::CheatFlags::BreatheDeep ||
+            cheatID == BW::CheatFlags::WhatsMineIsMine)
+          this->cheatFlags ^= cheatID;
+
       }
     }
-    return false;
+    if (parseText(text)==false && isFlagEnabled(BWAPI::Flag::UserInput))
+      events.push_back(Event::SendText(std::string(text)));
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
   void GameImpl::onReceiveText(int playerId, std::string text)
   {
     /* Do onReceiveText */
     int realId = stormIdToPlayerId(playerId);
-    if ( this->client != NULL && realId != -1 && realId != this->BWAPIPlayer->getIndex())
-    {
+    if (realId != -1 && realId != this->BWAPIPlayer->getIndex() && this->isFlagEnabled(BWAPI::Flag::UserInput))
       events.push_back(Event::ReceiveText(this->players[realId], text));
-      this->client->onReceiveText(this->players[realId], text);
-    }
   }
 
 }

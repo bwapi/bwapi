@@ -370,9 +370,8 @@ void TestMap1::onFrame()
     Broodwar->setLocalSpeed(-1);
   }
 }
-bool TestMap1::onSendText(std::string text)
+void TestMap1::onSendText(std::string text)
 {
-  return false;
 }
 void TestMap1::onPlayerLeft(BWAPI::Player* player)
 {

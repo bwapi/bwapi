@@ -142,7 +142,7 @@ void ExampleAIModule::onFrame()
   */
 }
 
-bool ExampleAIModule::onSendText(std::string text)
+void ExampleAIModule::onSendText(std::string text)
 {
   if (text=="/show units")
   {
@@ -153,11 +153,9 @@ bool ExampleAIModule::onSendText(std::string text)
   } else if (text=="/show players")
   {
     showPlayers();
-    return false;
   } else if (text=="/show forces")
   {
     showForces();
-    return false;
   } else if (text=="/show visibility")
   {
     show_visibility_data=!show_visibility_data;
@@ -173,7 +171,6 @@ bool ExampleAIModule::onSendText(std::string text)
   {
     Broodwar->printf("You typed '%s'!",text.c_str());
   }
-  return true;
 }
 
 void ExampleAIModule::onReceiveText(BWAPI::Player* player, std::string text)
