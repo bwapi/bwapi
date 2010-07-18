@@ -206,14 +206,18 @@ namespace BWAPI
         {
           if (this->BWAPIPlayer->isVictorious())
           {
-            this->client->onEnd(true);
             events.push_back(Event::MatchEnd(true));
+            events.push_back(Event::MatchFrame());
+            processEvents();
+            server.update();
             this->calledOnEnd = true;
           }
           if (this->BWAPIPlayer->isDefeated())
           {
-            this->client->onEnd(false);
             events.push_back(Event::MatchEnd(false));
+            events.push_back(Event::MatchFrame());
+            processEvents();
+            server.update();
             this->calledOnEnd = true;
           }
         }
@@ -228,8 +232,10 @@ namespace BWAPI
           }
           if (allDone)
           {
-            this->client->onEnd(false);
             events.push_back(Event::MatchEnd(false));
+            events.push_back(Event::MatchFrame());
+            processEvents();
+            server.update();
             this->calledOnEnd = true;
           }
         }
@@ -1100,25 +1106,23 @@ namespace BWAPI
               win = false;
           }
         }
-        this->client->onEnd(win);
         events.push_back(Event::MatchEnd(win));
+        events.push_back(Event::MatchFrame());
+        processEvents();
+        server.update();
         this->calledOnEnd = true;
       }
       delete this->client;
       this->client = NULL;
     }
-    newUnits.clear();
     aliveUnits.clear();
     dyingUnits.clear();
     discoverUnits.clear();
     accessibleUnits.clear();
     evadeUnits.clear();
-    showUnits.clear();
+    lastEvadedUnits.clear();
     visibleUnits.clear();
     hideUnits.clear();
-    createUnits.clear();
-    notDestroyedUnits.clear();
-    destroyUnits.clear();
     selectedUnitSet.clear();
     emptySet.clear();
     startLocations.clear();
@@ -1163,7 +1167,6 @@ namespace BWAPI
       if (unitArray[i] == NULL)
         continue;
       unitArray[i]->userSelected      = false;
-      unitArray[i]->isNew             = false;
       unitArray[i]->isAlive           = false;
       unitArray[i]->isDying           = false;
       unitArray[i]->wasAlive          = false;
@@ -1217,7 +1220,7 @@ namespace BWAPI
   {
     map.copyToSharedMemory();
   }
-  bool isAlive(UnitImpl* i, bool isHidden=false)
+  bool inline isAlive(UnitImpl* i, bool isHidden=false)
   {
     if (i->getOriginalRawData->orderID == BW::OrderID::Die) return false;
     UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
@@ -1244,8 +1247,8 @@ namespace BWAPI
       u->wasAlive = true;
       u->isAlive = false;
       u->isDying = true;
-      u->isNew = false;
     }
+    lastEvadedUnits = evadeUnits;
     for each(UnitImpl* u in accessibleUnits)
       u->wasAccessible = true;
     for each(UnitImpl* u in evadeUnits)
@@ -1257,7 +1260,6 @@ namespace BWAPI
 
     dyingUnits = aliveUnits;
     aliveUnits.clear();
-    newUnits.clear();
 
     //compute alive, new, and dying units
     for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); u!=NULL ; u = u->getNext())
@@ -1268,11 +1270,6 @@ namespace BWAPI
         u->isDying = false;
         aliveUnits.insert(u);
         dyingUnits.erase(u);
-        if (u->wasAlive==false)
-        {
-          u->isNew = true;
-          newUnits.insert(u);
-        }
         u->updateInternalData();
       }
     }
@@ -1284,11 +1281,6 @@ namespace BWAPI
         u->isDying = false;
         aliveUnits.insert(u);
         dyingUnits.erase(u);
-        if (u->wasAlive==false)
-        {
-          u->isNew = true;
-          newUnits.insert(u);
-        }
         u->updateInternalData();
       }
     }
@@ -1300,11 +1292,6 @@ namespace BWAPI
         u->isDying = false;
         aliveUnits.insert(u);
         dyingUnits.erase(u);
-        if (u->wasAlive==false)
-        {
-          u->isNew = true;
-          newUnits.insert(u);
-        }
         u->updateInternalData();
       }
     }
@@ -1319,50 +1306,45 @@ namespace BWAPI
     accessibleUnits.clear();
     evadeUnits.clear();
 
-    showUnits.clear();
     visibleUnits.clear();
     hideUnits.clear();
-
-    createUnits.clear();
-    destroyUnits.clear();
 
     for each(UnitImpl* u in aliveUnits)
     {
       if (u->canAccess())
       {
         if (u->wasAccessible==false)
-          discoverUnits.insert(u);
+          discoverUnits.push_back(u);
         if (u->wasAlive==false)
-          createUnits.insert(u);
+          events.push_back(Event::UnitCreate(u));
         accessibleUnits.insert(u);
-        notDestroyedUnits.insert(u);
       }
       else
       {
         if (u->wasAccessible)
-          evadeUnits.insert(u);
+          evadeUnits.push_back(u);
       }
       if (u->isVisible())
       {
         if (u->wasVisible==false)
-          showUnits.insert(u);
-        visibleUnits.insert(u);
+          events.push_back(Event::UnitShow(u));
+        visibleUnits.push_back(u);
       }
       else
       {
         if (u->wasVisible)
-          hideUnits.insert(u);
+          hideUnits.push_back(u);
       }
     }
     for each(UnitImpl* u in dyingUnits)
     {
       if (u->wasAccessible)
       {
-        evadeUnits.insert(u);
-        destroyUnits.insert(u);
+        evadeUnits.push_back(u);
+        events.push_back(Event::UnitDestroy(u));
       }
       if (u->wasVisible)
-        hideUnits.insert(u);
+        hideUnits.push_back(u);
     }
   }
   void GameImpl::extractUnitData()
@@ -1383,13 +1365,24 @@ namespace BWAPI
       i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
       i->lastAirWeaponCooldown    = airWeaponCooldown;
       i->lastGroundWeaponCooldown = groundWeaponCooldown;
-    }
-
-    for each (UnitImpl* u in accessibleUnits)
-    {
-      if (u->getID()==-1)
-        u->setID(server.getUnitID(u));
-      u->updateData();
+      if (i->canAccess())
+      {
+        if (i->getID()==-1)
+          i->setID(server.getUnitID(i));
+        i->updateData();
+      }
+      if (i->getOriginalRawData->unitID == BW::UnitID::Terran_NuclearMissile)
+      {
+        if (i->nukeDetected==false)
+        {
+          i->nukeDetected=true;
+          Position target(i->getOriginalRawData->orderTargetPos.x,i->getOriginalRawData->orderTargetPos.y);
+          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
+            events.push_back(Event::NukeDetect(target));
+          else
+            events.push_back(Event::NukeDetect(Positions::Unknown));
+        }
+      }
     }
   }
   void GameImpl::augmentUnitData()
@@ -1452,21 +1445,53 @@ namespace BWAPI
   }
   void GameImpl::computeSecondaryUnitSets()
   {
-    for each (Player* i in playerSet)
-      ((PlayerImpl*)i)->units.clear();
-
     /* Clear all units on tile data */
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
 
-    neutralUnits.clear();
-    minerals.clear();
-    geysers.clear();
-    pylons.clear();
-    morphUnits.clear();
-    renegadeUnits.clear();
-
+    for each(UnitImpl* u in discoverUnits)
+    {
+      events.push_back(Event::UnitDiscover(u));
+      ((PlayerImpl*)u->getPlayer())->units.insert(u);
+      if (u->getPlayer()->isNeutral())
+      {
+        neutralUnits.insert(u);
+        if (u->getType() == UnitTypes::Resource_Mineral_Field)
+          minerals.insert(u);
+        else
+        {
+          if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+            geysers.insert(u);
+        }
+      }
+      else
+      {
+        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+          pylons.insert(u);
+      }
+    }
+    for each(UnitImpl* u in evadeUnits)
+    {
+      events.push_back(Event::UnitEvade(u));
+      ((PlayerImpl*)u->getPlayer())->units.erase(u);
+      if (u->getPlayer()->isNeutral())
+      {
+        neutralUnits.erase(u);
+        if (u->getType() == UnitTypes::Resource_Mineral_Field)
+          minerals.erase(u);
+        else
+        {
+          if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+            geysers.erase(u);
+        }
+      }
+      else
+      {
+        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+          pylons.erase(u);
+      }
+    }
     for each (UnitImpl* i in accessibleUnits)
     {
       int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
@@ -1476,41 +1501,17 @@ namespace BWAPI
       for (int x = startX; x < endX; x++)
         for (int y = startY; y < endY; y++)
           unitsOnTileData[x][y].insert(i);
-      ((PlayerImpl*)i->getPlayer())->units.insert(i);
-      if (i->_getPlayer->isNeutral())
-      {
-        neutralUnits.insert(i);
-        if (i->_getType == UnitTypes::Resource_Mineral_Field)
-          minerals.insert(i);
-        else
-        {
-          if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-            geysers.insert(i);
-        }
-      }
-      else
-      {
-        if (i->_getPlayer == (Player*)this->BWAPIPlayer && i->_getType == UnitTypes::Protoss_Pylon && i->_isCompleted)
-          pylons.push_back(i);
-      }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
-        morphUnits.insert(i);
+        events.push_back(Event::UnitMorph(i));
       if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
-        renegadeUnits.insert(i);
+      {
+        events.push_back(Event::UnitRenegade(i));
+        ((PlayerImpl*)i->lastPlayer)->units.erase(i);
+        ((PlayerImpl*)i->_getPlayer)->units.insert(i);
+      }
       i->lastPlayer = i->_getPlayer;
       i->lastType = i->_getType;
     }
-  }
-  //---------------------------------------------- UPDATE UNITS ----------------------------------------------
-  void GameImpl::updateUnits()
-  {
-    computeUnitExistence();
-    computePrimaryUnitSets();
-    extractUnitData();
-    augmentUnitData();
-    applyLatencyCompensation();
-    computeSecondaryUnitSets();
-
     if (this->staticNeutralUnits.empty())
     {
       foreach (UnitImpl* i, aliveUnits)
@@ -1529,38 +1530,23 @@ namespace BWAPI
         }
       }
     }
-    //create events
-    for each(UnitImpl* u in aliveUnits)
-    {
-      if (u->getOriginalRawData->unitID == BW::UnitID::Terran_NuclearMissile)
-      {
-        if (u->nukeDetected==false)
-        {
-          u->nukeDetected=true;
-          Position target(u->getOriginalRawData->orderTargetPos.x,u->getOriginalRawData->orderTargetPos.y);
-          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
-            events.push_back(Event::NukeDetect(target));
-          else
-            events.push_back(Event::NukeDetect(Positions::Unknown));
-        }
-      }
-    }
-    for each(UnitImpl* u in createUnits)
-      events.push_back(Event::UnitCreate(u));
-    for each(UnitImpl* u in showUnits)
-      events.push_back(Event::UnitShow(u));
-    for each(UnitImpl* u in morphUnits)
-      events.push_back(Event::UnitMorph(u));
-    for each(UnitImpl* u in renegadeUnits)
-      events.push_back(Event::UnitRenegade(u));
+  }
+  //---------------------------------------------- UPDATE UNITS ----------------------------------------------
+  void GameImpl::updateUnits()
+  {
+    computeUnitExistence();
+    computePrimaryUnitSets();
+    extractUnitData();
+    augmentUnitData();
+    applyLatencyCompensation();
+    computeSecondaryUnitSets();
     for each(UnitImpl* u in hideUnits)
       events.push_back(Event::UnitHide(u));
-    for each(UnitImpl* u in destroyUnits)
-      events.push_back(Event::UnitDestroy(u));
   }
   void GameImpl::processEvents()
   {
     if (client==NULL) return;
+    if (server.isConnected()) return;
     for(std::list<Event>::iterator e=events.begin();e!=events.end();e++)
     {
       EventType::Enum et=e->type;
@@ -1588,6 +1574,12 @@ namespace BWAPI
         break;
         case EventType::NukeDetect:
           client->onNukeDetect(e->position);
+        break;
+        case EventType::UnitDiscover:
+          client->onUnitDiscover(e->unit);
+        break;
+        case EventType::UnitEvade:
+          client->onUnitEvade(e->unit);
         break;
         case EventType::UnitCreate:
           client->onUnitCreate(e->unit);

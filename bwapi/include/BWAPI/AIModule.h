@@ -45,6 +45,12 @@ namespace BWAPI
        * Positions::Unknown. */
       virtual void onNukeDetect(Position target);
 
+      /** BWAPI calls this when a unit becomes accessible. */
+      virtual void onUnitDiscover(Unit* unit);
+
+      /** BWAPI calls this when a unit becomes inaccessible. */
+      virtual void onUnitEvade(Unit* unit);
+
       /** BWAPI calls this when a unit is created. Note that this is NOT called when a unit changes type
        * (such as larva into egg or egg into drone). Building a refinery/assimilator/extractor will not
        * produce an onUnitCreate call since the vespene geyser changes to the unit type of the

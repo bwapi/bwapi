@@ -228,6 +228,7 @@ int main(int argc, const char* argv[])
         drawVisibilityData();
 
       drawStats();
+      Broodwar->drawTextScreen(300,0,"FPS: %f",Broodwar->getAverageFPS());
       /*
       if (analyzed && Broodwar->getFrameCount()%30==0)
       {
@@ -300,7 +301,12 @@ DWORD WINAPI AnalyzeThread()
 */
 void drawStats()
 {
-  std::set<Unit*> myUnits = Broodwar->self()->getUnits();
+  std::set<Unit*> myUnits;
+  if (Broodwar->isReplay())
+    myUnits = Broodwar->getAllUnits();
+  else
+    myUnits = Broodwar->self()->getUnits();
+
   Broodwar->drawTextScreen(5,0,"I have %d units:",myUnits.size());
   std::map<UnitType, int> unitTypeCounts;
   for(std::set<Unit*>::iterator i=myUnits.begin();i!=myUnits.end();i++)

@@ -257,30 +257,23 @@ namespace BWAPI
       BW::dialog *canvas;
       BW::dialog *myDlg;
       Server server;
+      std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
     private :
       HMODULE hMod;
       void saveSelected();
       Map map;
 
-      std::set<BWAPI::UnitImpl*> newUnits; //units entering aliveUnits set on current frame
       std::set<BWAPI::UnitImpl*> aliveUnits; //units alive on current frame
       std::set<BWAPI::UnitImpl*> dyingUnits; //units leaving aliveUnits set on current frame
 
-      std::set<BWAPI::UnitImpl*> discoverUnits; //units entering accessibleUnits set on current frame
+      std::vector<BWAPI::UnitImpl*> discoverUnits; //units entering accessibleUnits set on current frame
       std::set<BWAPI::Unit*> accessibleUnits; //units that are accessible to the client on current frame
-      std::set<BWAPI::UnitImpl*> evadeUnits; //units leaving accessibleUnits set on current frame
+      std::vector<BWAPI::UnitImpl*> evadeUnits; //units leaving accessibleUnits set on current frame
       
-      std::set<BWAPI::UnitImpl*> showUnits; // units entering visibleUnits set on current frame
-      std::set<BWAPI::UnitImpl*> visibleUnits; //units that are visible to the client on current frame
-      std::set<BWAPI::UnitImpl*> hideUnits; //units leaving visibleUnits set on current frame
-
-      std::set<BWAPI::UnitImpl*> createUnits; // intersection of newUnits and accessibleUnits
-      std::set<BWAPI::Unit*> notDestroyedUnits;// all units that have been discovered at some point and have not been destroyed while accessible
-      std::set<BWAPI::UnitImpl*> destroyUnits; // intersection of dyingUnits and accessibleUnits
+      std::vector<BWAPI::UnitImpl*> visibleUnits; //units that are visible to the client on current frame
+      std::vector<BWAPI::UnitImpl*> hideUnits; //units leaving visibleUnits set on current frame
 
 
-      std::set<BWAPI::UnitImpl*> morphUnits;
-      std::set<BWAPI::UnitImpl*> renegadeUnits;
       std::set<BWAPI::Unit*> selectedUnitSet;
       std::set<BWAPI::Unit*> emptySet;
       std::set<TilePosition> startLocations;
@@ -293,7 +286,7 @@ namespace BWAPI
       std::set<BWAPI::Unit*> geysers;
       std::set<BWAPI::Unit*> neutralUnits;
       std::set<BWAPI::Bullet*> bullets;
-      std::list<BWAPI::UnitImpl*> pylons;
+      std::set<BWAPI::UnitImpl*> pylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
 
       std::set<BWAPI::Unit*> staticMinerals;

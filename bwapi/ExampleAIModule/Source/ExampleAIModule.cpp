@@ -277,7 +277,12 @@ DWORD WINAPI AnalyzeThread()
 */
 void ExampleAIModule::drawStats()
 {
-  std::set<Unit*> myUnits = Broodwar->self()->getUnits();
+  std::set<Unit*> myUnits;
+  if (Broodwar->isReplay())
+    myUnits = Broodwar->getAllUnits();
+  else
+    myUnits = Broodwar->self()->getUnits();
+
   Broodwar->drawTextScreen(5,0,"I have %d units:",myUnits.size());
   std::map<UnitType, int> unitTypeCounts;
   for(std::set<Unit*>::iterator i=myUnits.begin();i!=myUnits.end();i++)
