@@ -78,13 +78,13 @@ namespace BWAPI
     }
     for(int i=0; i<data->eventCount; i++)
     {
-      Event e=((GameImpl*)BWAPI::Broodwar)->makeEvent(data->events[i]);
+      EventType::Enum type(data->events[i].type);
 
-      if (e.type == EventType::MatchStart)
+      if (type == EventType::MatchStart)
       {
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
       }
-      if (e.type == EventType::MatchFrame)
+      if (type == EventType::MatchFrame)
       {
         ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
       }
