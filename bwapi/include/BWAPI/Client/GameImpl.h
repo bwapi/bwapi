@@ -36,7 +36,6 @@ namespace BWAPI
 
       std::set<Force*> forces;
       std::set<Player*> players;
-      std::set<Unit*> notDestroyedUnits;//allUnits that may still be alive
       std::set<Unit*> accessibleUnits;//all units that are accessible (and definitely alive)
       //notDestroyedUnits - accessibleUnits = all units that may or may not be alive (status unknown)
       std::set<Unit*> minerals;

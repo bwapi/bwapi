@@ -85,21 +85,21 @@ namespace BWAPI
 
     //events from server to client
     int eventCount;
-    BWAPIC::Event events[1000];
+    BWAPIC::Event events[10000];
 
     //strings (used in events, shapes, and commands)
     int stringCount;
-    char strings[1000][256];
+    char strings[20000][256];
 
     //shapes, commands, unitCommands, from client to server
     int shapeCount;
-    BWAPIC::Shape shapes[10000];
+    BWAPIC::Shape shapes[20000];
 
     int commandCount;
-    BWAPIC::Command commands[10000];
+    BWAPIC::Command commands[20000];
 
     int unitCommandCount;
-    BWAPIC::UnitCommand unitCommands[10000];
+    BWAPIC::UnitCommand unitCommands[20000];
 
   };
 }

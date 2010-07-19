@@ -88,7 +88,6 @@ namespace BWAPI
     forces.clear();
     players.clear();
     bullets.clear();
-    notDestroyedUnits.clear();
     accessibleUnits.clear();
     minerals.clear();
     geysers.clear();
@@ -130,7 +129,6 @@ namespace BWAPI
     for(int i=0;i<data->initialUnitCount;i++)
     {
       accessibleUnits.insert(&unitVector[i]);
-      notDestroyedUnits.insert(&unitVector[i]);
       //save the initial state of each initial unit
       unitVector[i].saveInitialState();
     }
@@ -177,11 +175,7 @@ namespace BWAPI
     {
       events.push_back(this->makeEvent(data->events[e]));
       int id=data->events[e].v1;
-      if (data->events[e].type == EventType::UnitCreate)
-      {
-        notDestroyedUnits.insert(&unitVector[id]);
-      }
-      else if (data->events[e].type == EventType::UnitDiscover)
+      if (data->events[e].type == EventType::UnitDiscover)
       {
         Unit* u=&unitVector[id];
         accessibleUnits.insert(u);
@@ -219,10 +213,6 @@ namespace BWAPI
             pylons.erase(u);
         }
       }
-      else if (data->events[e].type==EventType::UnitDestroy)
-      {
-        notDestroyedUnits.erase(&unitVector[id]);
-      }
       else if (data->events[e].type==EventType::UnitRenegade)
       {
         Unit* u=&unitVector[id];
@@ -244,19 +234,6 @@ namespace BWAPI
           neutralUnits.erase(u);
         }
       }
-    }
-    if (getFrameCount()==1 && isFlagEnabled(Flag::CompleteMapInformation)==true)
-    {
-      for(int i=0;i<1700;i++)
-      {
-        int id = data->unitArray[i];
-        if (id>=0 && data->units[id].exists)
-        {
-          notDestroyedUnits.insert(&unitVector[id]);
-          accessibleUnits.insert(&unitVector[id]);
-        }
-      }
-
     }
     foreach(Unit* u, accessibleUnits)
     {
