@@ -27,7 +27,6 @@ namespace BWAPI
       , index(index)
       , userSelected(false)
       , isAlive(false)
-      , isDying(false)
       , wasAlive(false)
       , wasAccessible(false)
       , wasVisible(false)
@@ -2045,7 +2044,6 @@ namespace BWAPI
     index              = 0xFFFF;
     userSelected       = false;
     isAlive            = false;
-    isDying            = false;
     wasAlive           = false;
     wasAccessible      = false;
     wasVisible         = false;
@@ -2090,25 +2088,13 @@ namespace BWAPI
   // calls canAccess, setting error codes as needed
   bool UnitImpl::attemptAccess() const
   {
-    if (!BroodwarImpl.inUpdate)
-    {
-      BroodwarImpl.setLastError(Errors::None);
-      if (this->canAccess())
-        return true;
-      BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-      return false;
-    }
-    else
-    {
-      return canAccess();
-    }
+    BroodwarImpl.setLastError(Errors::None);
+    if (this->canAccess())
+      return true;
+    BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
+    return false;
   }
 
-  //----------------------------------------------------------------------------------------------------------
-  std::string UnitImpl::getName() const
-  {
-    return this->getType().getName();
-  }
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
   {

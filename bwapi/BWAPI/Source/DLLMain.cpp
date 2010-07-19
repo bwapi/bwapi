@@ -197,7 +197,7 @@ void __declspec(naked) onIssueCommand()
 
   //decide if we should let the command go through
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
-       || !BWAPI::BroodwarImpl.isOnStartCalled()
+       || !BWAPI::BroodwarImpl.onStartCalled
        //If user input is disabled, only allow the following commands to go through:
        || commandID == 0x00 // Game Chat
        || commandID == 0x05 // Keep Alive

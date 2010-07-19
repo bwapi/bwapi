@@ -211,7 +211,6 @@ namespace BWAPI
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
-      void setOnStartCalled(bool onStartCalled);
       void IssueCommand(PBYTE pbBuffer, u32 iSize);
       void addToCommandBuffer(Command* command);
       void onGameStart();
@@ -226,7 +225,6 @@ namespace BWAPI
       bool inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3);
       void lockFlags();
       bool enabled;
-      bool isOnStartCalled() const;
       bool _isInGame() const;
       bool _isSinglePlayer() const;
       bool _isBattleNet();
@@ -258,6 +256,7 @@ namespace BWAPI
       BW::dialog *myDlg;
       Server server;
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
+      bool onStartCalled;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -295,7 +294,6 @@ namespace BWAPI
 
       /** Count of game-frames passed from game start. */
       int frameCount;
-      bool onStartCalled;
       UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
       BulletImpl* bulletArray[BW::BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;

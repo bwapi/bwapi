@@ -195,7 +195,7 @@ namespace BWAPI
     try
     {
       this->inUpdate = true;
-      if (!this->isOnStartCalled())
+      if (!onStartCalled)
         this->onGameStart();
       
       if (!this->enabled)
@@ -702,16 +702,6 @@ namespace BWAPI
   {
     return (*BW::BWDATA_IsMultiplayer == 0);
   }
-  //------------------------------------------- IS ON START CALLED -------------------------------------------
-  bool GameImpl::isOnStartCalled() const
-  {
-    return this->onStartCalled;
-  }
-  //------------------------------------------ SET ON START CALLED -------------------------------------------
-  void GameImpl::setOnStartCalled(bool onStartCalled)
-  {
-    this->onStartCalled = onStartCalled;
-  }
   //------------------------------------------------ IS IN GAME ----------------------------------------------
   bool GameImpl::_isInGame() const
   {
@@ -873,13 +863,13 @@ namespace BWAPI
   void GameImpl::onGameStart()
   {
     /* initialize the variables */
-    this->frameCount  = 0;
-    this->textSize    = 1;
-    this->setOnStartCalled(true);
-    this->BWAPIPlayer = NULL;
-    this->opponent    = NULL;
-    this->calledOnEnd = false;
-    this->bulletCount = 0;
+    frameCount  = 0;
+    textSize    = 1;
+    onStartCalled = true;
+    BWAPIPlayer = NULL;
+    opponent    = NULL;
+    calledOnEnd = false;
+    bulletCount = 0;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1078,7 +1068,7 @@ namespace BWAPI
   //---------------------------------------------- ON GAME END -----------------------------------------------
   void GameImpl::onGameEnd()
   {
-    this->setOnStartCalled(false);
+    onStartCalled = false;
 
     if ( myDlg )
     {
@@ -1168,7 +1158,6 @@ namespace BWAPI
         continue;
       unitArray[i]->userSelected      = false;
       unitArray[i]->isAlive           = false;
-      unitArray[i]->isDying           = false;
       unitArray[i]->wasAlive          = false;
       unitArray[i]->wasAccessible     = false;
       unitArray[i]->wasVisible        = false;
@@ -1246,7 +1235,6 @@ namespace BWAPI
     {
       u->wasAlive = true;
       u->isAlive = false;
-      u->isDying = true;
     }
     lastEvadedUnits = evadeUnits;
     for each(UnitImpl* u in accessibleUnits)
@@ -1267,7 +1255,6 @@ namespace BWAPI
       if (isAlive(u))
       {
         u->isAlive = true;
-        u->isDying = false;
         aliveUnits.insert(u);
         dyingUnits.erase(u);
         u->updateInternalData();
@@ -1278,7 +1265,6 @@ namespace BWAPI
       if (isAlive(u,true))
       {
         u->isAlive = true;
-        u->isDying = false;
         aliveUnits.insert(u);
         dyingUnits.erase(u);
         u->updateInternalData();
@@ -1289,7 +1275,6 @@ namespace BWAPI
       if (isAlive(u))
       {
         u->isAlive = true;
-        u->isDying = false;
         aliveUnits.insert(u);
         dyingUnits.erase(u);
         u->updateInternalData();
@@ -1467,7 +1452,7 @@ namespace BWAPI
       }
       else
       {
-        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
           pylons.insert(u);
       }
     }
@@ -1488,7 +1473,7 @@ namespace BWAPI
       }
       else
       {
-        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
           pylons.erase(u);
       }
     }
@@ -1502,7 +1487,19 @@ namespace BWAPI
         for (int y = startY; y < endY; y++)
           unitsOnTileData[x][y].insert(i);
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
+      {
         events.push_back(Event::UnitMorph(i));
+        if (i->lastType == UnitTypes::Resource_Vespene_Geyser)
+        {
+          neutralUnits.erase(i);
+          geysers.erase(i);
+        }
+        if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
+        {
+          neutralUnits.insert(i);
+          geysers.insert(i);
+        }
+      }
       if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
       {
         events.push_back(Event::UnitRenegade(i));

@@ -555,6 +555,7 @@ namespace BWAPI
     /* Loop through all pylons for the current player */
     foreach (UnitImpl* i, pylons)
     {
+      if (i->isCompleted()==false) continue;
       int px = i->getTilePosition().x();
       int py = i->getTilePosition().y();
       int bx = x - px + 7;
