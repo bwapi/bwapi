@@ -218,7 +218,6 @@ namespace BWAPI
       bool attemptAccess() const;
       Player* _getPlayer;
       UnitType _getType;
-      std::string getName() const;
       Position _getPosition;
       int _getResources;
       int _getHitPoints;
@@ -250,7 +249,6 @@ namespace BWAPI
       UnitData data;
       UnitData* self;
 
-      bool dead;
       bool userSelected;
       bool staticInformation;
       bool nukeDetected;
@@ -260,10 +258,8 @@ namespace BWAPI
       bool startingAttack;
       UnitType lastType;
       Player* lastPlayer;
-      
       int id;
       bool isAlive;
-      bool isDying;
       bool wasAlive;
       bool wasAccessible;
       bool wasVisible;

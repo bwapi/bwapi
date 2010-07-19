@@ -196,7 +196,7 @@ namespace BWAPI
         }
         else
         {
-          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
             pylons.insert(u);
         }
       }
@@ -215,7 +215,7 @@ namespace BWAPI
         }
         else
         {
-          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon && u->isCompleted())
+          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
             pylons.erase(u);
         }
       }
@@ -229,6 +229,20 @@ namespace BWAPI
         for each(Player* p in players)
           ((PlayerImpl*)p)->units.erase(u);
         ((PlayerImpl*)u->getPlayer())->units.insert(u);
+      }
+      else if (data->events[e].type==EventType::UnitMorph)
+      {
+        Unit* u=&unitVector[id];
+        if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
+        {
+          geysers.insert(u);
+          neutralUnits.insert(u);
+        }
+        else if (u->getType().isRefinery())
+        {
+          geysers.erase(u);
+          neutralUnits.erase(u);
+        }
       }
     }
     if (getFrameCount()==1 && isFlagEnabled(Flag::CompleteMapInformation)==true)
@@ -558,6 +572,7 @@ namespace BWAPI
     /* Loop through all pylons for the current player */
     foreach (Unit* i, pylons)
     {
+      if (i->isCompleted()==false) continue;
       int px = i->getTilePosition().x();
       int py = i->getTilePosition().y();
       int bx = x - px + 7;
