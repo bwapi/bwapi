@@ -370,16 +370,12 @@ namespace BWAPI
         self->nydusExit = -1;
       else
       {
-        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->currentBuildUnit);
+        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->unitUnion1.resourceTarget_connectedNydus);
         if (nydus != NULL && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
         else
         {
-          nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.childUnit1);
-          if (nydus != NULL && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
-            self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
-          else
-            self->nydusExit = -1;
+          self->nydusExit = -1;
         }
       }
       //------------------------------------------------------------------------------------------------------
