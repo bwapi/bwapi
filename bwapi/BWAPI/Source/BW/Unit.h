@@ -15,6 +15,7 @@
 
 namespace BW { struct CSprite; };
 namespace BW { struct Order; };
+namespace BW { struct Path; };
 
 namespace BW
 {
@@ -90,7 +91,7 @@ namespace BW
     /*0x07C*/ u32                                 unknown_0x07C;
     /*0x080*/ BW::Unit*                           connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
     /*0x084*/ u8                                  orderQueueCount;         /**< @todo Verify */
-    /*0x085*/ u8                                  unknownOrderTimer_0x085; /**< @todo Unknown */
+    /*0x085*/ u8                                  unknownOrderTimer_0x085; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
     /*0x086*/ u16                                 unknown_0x086;
     /*0x088*/ u16                                 displayedUnitID;
     /*0x08A*/ u32                                 unknown_0x08A;
@@ -236,7 +237,7 @@ namespace BW
         BW::Unit* nextPsiProvider;
       };
     } rallyPsiProviderUnion;                        /**< @todo Verify */
-    /*0x100*/ u32                                 pathUnknown_0x100;  /**< @todo Unknown */
+    /*0x100*/ BW::Path*                           path;  /**< @todo Unknown */
     /*0x104*/ u16                                 unknown_0x104;
     /*0x106*/ u8                                  unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;      /**< @todo Verify - seems like it isn't working */
@@ -255,7 +256,7 @@ namespace BW
     /*0x11C*/ BW::Unit*                           irradiatedBy;       /**< @todo Verify */
     /*0x120*/ u8                                  irradiatePlayerID;  /**< @todo Verify */
     /*0x121*/ Util::BitMask<u8>                   parasiteFlags;
-    /*0x122*/ u8                                  cycleCounter;       /**< @todo Verify (runs updates approx 2 times per sec) */
+    /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
     /*0x125*/ u8                                  unused_0x125;
