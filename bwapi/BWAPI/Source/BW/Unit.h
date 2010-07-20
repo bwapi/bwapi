@@ -98,7 +98,7 @@ namespace BW
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
     /*0x090*/ u32                                 stateFlags;         /**< @todo Unknown */
     /*0x094*/ u16                                 currentButtonSet; // The u16 is a guess, used to be u8
-    /*0x095*/ u16                                 unknown_0x095;
+    /*0x096*/ u16                                 unknown_0x095; //cloaked info
     /*0x098*/ BW::UnitType                        buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
@@ -212,7 +212,7 @@ namespace BW
     /*0x0E1*/ u8                                wireframeRandomizer;/**< @todo Unknown */
     /*0x0E2*/ u8                                secondaryOrderState;/**< @todo Unknown */
     /*0x0E3*/ u8                                unknownCounterDown_0x0E3; /**< @todo Unknown */
-    /*0x0E4*/ u32                               visibilityStatus;
+    /*0x0E4*/ s32                               visibilityStatus;
     /*0x0E8*/ u32                               unknown_0x0E8;
     /*0x0EC*/ BW::Unit*                         currentBuildUnit;   /**< @todo Unknown */
     /*0x0F0*/ _UNKNOWN                          unknown_0x0F0[8];

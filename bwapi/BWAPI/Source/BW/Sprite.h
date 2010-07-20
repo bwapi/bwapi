@@ -12,11 +12,11 @@ namespace BW
     CSprite  *prev;
     CSprite  *next;
     u16      spriteID;
-    u8       color;
-    u8       unknown1;
+    u8       playerID;
+    u8       selectionIndex; //0 <= selectionIndex <= 11. Index in the selection area at bottom of screen.
     u8       visibilityFlags;
     u8       elevationLevel;
-    u8       unknown2;
+    u8       selectionFlags; //lowest bit is selection circle
     u8       selectionTimer;
     u32      index;
     Position position;
