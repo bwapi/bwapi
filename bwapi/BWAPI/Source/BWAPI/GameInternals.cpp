@@ -41,6 +41,7 @@
 #include <BW/WeaponType.h>
 #include <BW/CheatType.h>
 #include <BW/Dialog.h>
+#include <BW/Path.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -323,6 +324,20 @@ namespace BWAPI
     events.push_back(Event::MatchFrame());
     processEvents();
     server.update();
+    for each(UnitImpl* u in aliveUnits)
+    {
+      int x=u->getPosition().x();
+      int y=u->getPosition().y();
+      if (u->getOriginalRawData->path==NULL) continue;
+      for(int i=u->getOriginalRawData->path->stepIndex;i<u->getOriginalRawData->path->stepNumber;i++)
+      {
+        int x2=u->getOriginalRawData->path->steps[i].x;
+        int y2=u->getOriginalRawData->path->steps[i].y;
+        Broodwar->drawLineMap(x,y,x2,y2,Colors::Green);
+        x=x2;
+        y=y2;
+      }
+    }
 
     for each(UnitImpl* u in evadeUnits)
       u->updateData();
