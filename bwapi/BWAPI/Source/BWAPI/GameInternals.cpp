@@ -1213,10 +1213,13 @@ namespace BWAPI
   {
     if (i->getOriginalRawData->orderID == BW::OrderID::Die) return false;
     UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
+    if ( i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
+         i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch2 ||
+         i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch3)
+      _getType = UnitTypes::Resource_Mineral_Field;
     int hitpoints = i->getOriginalRawData->hitPoints;
-    int resources = i->getOriginalRawData->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
     if (i->_getType.isInvincible()==false && hitpoints <= 0) return false;
-    if (i->_getType==UnitTypes::Resource_Mineral_Field && resources<=0) return false;
+    if (i->getOriginalRawData->sprite==NULL) return false;
     if (isHidden)
     {
       bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);

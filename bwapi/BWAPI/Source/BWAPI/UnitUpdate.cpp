@@ -44,7 +44,13 @@ namespace BWAPI
         else if (player->isNeutral())
           self->isVisible[i]=getOriginalRawData->sprite->visibilityFlags > 0;
         else
-          self->isVisible[i]=(getOriginalRawData->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
+        {
+          bool canDetect = !getOriginalRawData->status.getBit(BW::StatusFlags::RequiresDetection) ||
+                           (getOriginalRawData->visibilityStatus == -1) ||
+                           ((getOriginalRawData->visibilityStatus & (1 << player->getIndex())) != 0);
+          bool isVisible = (getOriginalRawData->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
+          self->isVisible[i] = isVisible && canDetect;
+        }
       }
       if (selfPlayerID>-1)
       {
@@ -55,7 +61,13 @@ namespace BWAPI
         else if (_getPlayer == BWAPI::BroodwarImpl.self())
           self->isVisible[selfPlayerID] = true;
         else
-          self->isVisible[selfPlayerID] = (getOriginalRawData->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+        {
+          bool canDetect = !getOriginalRawData->status.getBit(BW::StatusFlags::RequiresDetection) ||
+                           (getOriginalRawData->visibilityStatus == -1) ||
+                           ((getOriginalRawData->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
+          bool isVisible = (getOriginalRawData->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+          self->isVisible[selfPlayerID] = isVisible && canDetect;
+        }
       }
       //------------------------------------------------------------------------------------------------------
       //_getType
