@@ -43,22 +43,24 @@ namespace BW
 {
   struct Path
   {
-    Path  *prev;  // Assuming this?
-    Path  *next;  // Assuming this?
-    u32 unk_08;   // 8
-    u32 lastTime; // 12
-    u32 unitID;   // 16
+    Position start;   // 0
+    Position next;    // 4
+    Position finish;  // 8
+    u32 timeStarted;     // 12
+    u32 unitID;       // 16
     u32 unitUnknown_0x38_0x3C_copy;   /* Starcraft copies field 0x38 of the unit    // 20
                                          if the unit's flingy movement type is 0,
                                          otherwise it will copy field 0x3C
                                       */
-    u8  unkFlag;  // 24   // some flag, noticed this often
-    u8  unk_19;   // 25   // assigned 30 in some random function
-    u16 unk_1A;   // 26
-    u16 unk_1C;   // 28
+    u8  isCalculating;  // 24   // 1 if the path is being calculated and not yet ready
+    u8  unk_19;         // 25   // counts down from 30 and resets
+    u8  unk_1A;         // 26   // unknown flag?
+    u8  pathCount1;     // 27   ?
+    u8  pathCount2;     // 28   ?
+    u8  pathsFollowed;  // 29   or pathIndex?
     u8  stepNumber;     // 30
     u8  stepIndex;      // 31
-    Position steps[20];  // 32    The size of this is at least 20, and could be larger
+    Position steps[24]; // 32   Largest seen was 22, 24 appears to fit
     //unsure of exact size
   };
 

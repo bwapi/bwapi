@@ -322,6 +322,8 @@ namespace BWAPI
     events.push_back(Event::MatchFrame());
     processEvents();
     server.update();
+
+    this->setTextSize(0);
     for each(UnitImpl* u in aliveUnits)
     {
       int x = u->getPosition().x();
@@ -331,18 +333,20 @@ namespace BWAPI
       if ( moveState != UM_Lump )
       {
         char *moveStateDebug = BW::getMoveStateName(moveState);
-        this->setTextSize(0);
         this->drawTextMap(x - BW::GetTextWidth(moveStateDebug, 0) / 2, y + u->getType().dimensionDown(), "\x04" "%s", moveStateDebug);
       }
 
       if (u->getOriginalRawData->path == NULL) continue;
+
+      drawCircleMap(u->getOriginalRawData->path->start.x, u->getOriginalRawData->path->start.y, 4, BWAPI::Colors::Red);
+      drawCircleMap(u->getOriginalRawData->path->next.x, u->getOriginalRawData->path->next.y, 2, BWAPI::Colors::Cyan);
+      drawCircleMap(u->getOriginalRawData->path->finish.x, u->getOriginalRawData->path->finish.y, 5, BWAPI::Colors::Purple);
 
       for(int i = u->getOriginalRawData->path->stepIndex; i < u->getOriginalRawData->path->stepNumber; i++)
       {
         int x2 = u->getOriginalRawData->path->steps[i].x;
         int y2 = u->getOriginalRawData->path->steps[i].y;
         Broodwar->drawLineMap(x, y, x2, y2, Colors::Green);
-        this->setTextSize(0);
         this->drawTextMap(x2, y2, "\x05" "%d", i+1);
         x = x2;
         y = y2;
