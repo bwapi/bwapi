@@ -1512,13 +1512,24 @@ namespace BWAPI
     }
     for each (UnitImpl* i in accessibleUnits)
     {
-      int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
-      int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-      int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
-      int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
-      for (int x = startX; x < endX; x++)
-        for (int y = startY; y < endY; y++)
-          unitsOnTileData[x][y].insert(i);
+      if (i->getType().isBuilding() && i->isLifted()==false)
+      {
+        int tx=i->getTilePosition().x();
+        int ty=i->getTilePosition().y();
+        for(int x=tx;x<tx+i->getType().tileWidth();x++)
+          for(int y=ty;y<ty+i->getType().tileHeight();y++)
+            unitsOnTileData[x][y].insert(i);
+      }
+      else
+      {
+        int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
+        int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
+        int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
+        int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+        for (int x = startX; x < endX; x++)
+          for (int y = startY; y < endY; y++)
+            unitsOnTileData[x][y].insert(i);
+      }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
       {
         events.push_back(Event::UnitMorph(i));
