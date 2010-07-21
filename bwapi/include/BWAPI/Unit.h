@@ -299,9 +299,6 @@ namespace BWAPI
       /** Returns true if the unit is a mineral patch or refinery that is being gathered. */
       virtual bool isBeingGathered() const = 0;
 
-      /** Returns true if the unit is currently being healed by a Terran Medic. */
-      virtual bool isBeingHealed() const = 0;
-
       /** Returns true if the unit is currently blind from a Medic's Optical Flare. */
       virtual bool isBlind() const = 0;
 

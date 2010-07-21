@@ -69,7 +69,6 @@ namespace BWAPI
     bool isAccelerating;
     bool isAttacking;
     bool isBeingGathered;
-    bool isBeingHealed;
     bool isBlind;
     bool isBraking;
     bool isBurrowed;

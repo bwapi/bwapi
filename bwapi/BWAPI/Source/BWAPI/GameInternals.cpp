@@ -342,7 +342,7 @@ namespace BWAPI
       drawCircleMap(u->getOriginalRawData->path->next.x, u->getOriginalRawData->path->next.y, 2, BWAPI::Colors::Cyan);
       drawCircleMap(u->getOriginalRawData->path->finish.x, u->getOriginalRawData->path->finish.y, 5, BWAPI::Colors::Purple);
 
-      for(int i = u->getOriginalRawData->path->stepIndex; i < u->getOriginalRawData->path->stepNumber; i++)
+      for(int i = u->getOriginalRawData->path->cur_segment; i < u->getOriginalRawData->path->num_segments; i++)
       {
         int x2 = u->getOriginalRawData->path->steps[i].x;
         int y2 = u->getOriginalRawData->path->steps[i].y;
@@ -790,7 +790,8 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
         if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
             cheatID == BW::CheatFlags::BreatheDeep ||
-            cheatID == BW::CheatFlags::WhatsMineIsMine)
+            cheatID == BW::CheatFlags::WhatsMineIsMine ||
+            cheatID == BW::CheatFlags::SomethingForNothing)
           this->cheatFlags ^= cheatID;
       }
       else
@@ -1034,6 +1035,25 @@ namespace BWAPI
         setLocalSpeed(atoi(parsed[1].c_str()));
       else
         setLocalSpeed();
+      return true;
+    }
+    else if (parsed[0] == "/cheats")
+    {
+      sendText("power overwhelming");
+      sendText("operation cwal");
+      sendText("the gathering");
+      sendText("medieval man");
+      sendText("black sheep wall");
+      sendText("food for thought");
+      sendText("modify the phase variance");
+      sendText("something for nothing");
+      sendText("something for nothing");
+      sendText("something for nothing");
+      sendText("show me the money");
+      sendText("show me the money");
+      sendText("show me the money");
+      sendText("show me the money");
+      sendText("show me the money");
       return true;
     }
     else if (parsed[0] == "/restart")
@@ -1800,12 +1820,13 @@ namespace BWAPI
         BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
         if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
             cheatID == BW::CheatFlags::BreatheDeep ||
-            cheatID == BW::CheatFlags::WhatsMineIsMine)
+            cheatID == BW::CheatFlags::WhatsMineIsMine ||
+            cheatID == BW::CheatFlags::SomethingForNothing )
           this->cheatFlags ^= cheatID;
 
       }
     }
-    if (parseText(text)==false && isFlagEnabled(BWAPI::Flag::UserInput))
+    if (parseText(text) == false && isFlagEnabled(BWAPI::Flag::UserInput))
       events.push_back(Event::SendText(std::string(text)));
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------

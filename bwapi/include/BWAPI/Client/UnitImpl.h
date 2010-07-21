@@ -99,7 +99,6 @@ namespace BWAPI
       virtual bool isAttacking() const;
       virtual bool isBeingConstructed() const;
       virtual bool isBeingGathered() const;
-      virtual bool isBeingHealed() const;
       virtual bool isBlind() const;
       virtual bool isBraking() const;
       virtual bool isBurrowed() const;
