@@ -371,11 +371,6 @@ namespace BWAPI
   {
     return self->isBeingGathered;
   }
-  //--------------------------------------------- IS BEING HEALED --------------------------------------------
-  bool UnitImpl::isBeingHealed() const
-  {
-    return self->isBeingHealed;
-  }
   //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const
   {
@@ -2098,7 +2093,7 @@ namespace BWAPI
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------
   UnitImpl* UnitImpl::getNext() const
   {
-    return UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->nextUnit);
+    return UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->next);
   }
   //----------------------------------------------- GET INDEX ------------------------------------------------
   u16 UnitImpl::getIndex() const

@@ -2,6 +2,9 @@
 #pragma pack(1)
 #include "Position.h"
 
+/* Defines are official */
+#define SAI_MAX_PATH_POINTS 24
+
 #define UM_Init          0x00
 #define UM_InitSeq       0x01
 #define UM_Lump          0x02
@@ -46,7 +49,7 @@ namespace BW
     Position start;   // 0
     Position next;    // 4
     Position finish;  // 8
-    u32 timeStarted;     // 12
+    u32 timeStarted;  // 12
     u32 unitID;       // 16
     u32 unitUnknown_0x38_0x3C_copy;   /* Starcraft copies field 0x38 of the unit    // 20
                                          if the unit's flingy movement type is 0,
@@ -55,12 +58,12 @@ namespace BW
     u8  isCalculating;  // 24   // 1 if the path is being calculated and not yet ready
     u8  unk_19;         // 25   // counts down from 30 and resets
     u8  unk_1A;         // 26   // unknown flag?
-    u8  pathCount1;     // 27   ?
-    u8  pathCount2;     // 28   ?
-    u8  pathsFollowed;  // 29   or pathIndex?
-    u8  stepNumber;     // 30
-    u8  stepIndex;      // 31
-    Position steps[24]; // 32   Largest seen was 22, 24 appears to fit
+    u8  pathCount;      // 27   dup of num_areas?
+    u8  num_areas;      // 28   Official name
+    u8  cur_area;       // 29
+    u8  num_segments;   // 30   Official name
+    u8  cur_segment;    // 31
+    Position steps[SAI_MAX_PATH_POINTS]; // 32  
     //unsure of exact size
   };
 

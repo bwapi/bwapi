@@ -470,11 +470,6 @@ namespace BWAPI
   {
     return self->isBeingGathered;
   }
-  //--------------------------------------------- IS BEING HEALED --------------------------------------------
-  bool UnitImpl::isBeingHealed() const
-  {
-    return self->isBeingHealed;
-  }
   //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const
   {

@@ -182,7 +182,7 @@ namespace BWAPI
       self->positionY = _getPosition.y();
       //------------------------------------------------------------------------------------------------------
       //getAngle
-      int d = getOriginalRawData->currentDirection;
+      int d = getOriginalRawData->currentDirection1;
       d -= 64;
       if (d < 0)
         d += 256;
@@ -391,9 +391,6 @@ namespace BWAPI
       //isBeingGathered
       self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
       //------------------------------------------------------------------------------------------------------
-      //isBeingHealed
-      self->isBeingHealed = getOriginalRawData->isBeingHealed != 0;
-      //------------------------------------------------------------------------------------------------------
       //isBlind
       self->isBlind = getOriginalRawData->isBlind != 0;
       //------------------------------------------------------------------------------------------------------
@@ -562,9 +559,6 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //isBeingGathered
       self->isBeingGathered = false;
-      //------------------------------------------------------------------------------------------------------
-      //isBeingHealed
-      self->isBeingHealed = false;
       //------------------------------------------------------------------------------------------------------
       //isBlind
       self->isBlind = false;
