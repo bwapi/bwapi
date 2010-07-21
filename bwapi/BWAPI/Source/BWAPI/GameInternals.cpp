@@ -327,20 +327,28 @@ namespace BWAPI
       int x = u->getPosition().x();
       int y = u->getPosition().y();
 
-      char *moveStateDebug = BW::getMoveStateName(u->getOriginalRawData->movementState);
-      this->setTextSize(0);
-      this->drawTextMap(x - BW::GetTextWidth(moveStateDebug, 0) / 2, y + u->getType().dimensionDown(), "\x04" "%s", moveStateDebug);
+      u8  moveState = u->getOriginalRawData->movementState;
+      if ( moveState != UM_Lump )
+      {
+        char *moveStateDebug = BW::getMoveStateName(moveState);
+        this->setTextSize(0);
+        this->drawTextMap(x - BW::GetTextWidth(moveStateDebug, 0) / 2, y + u->getType().dimensionDown(), "\x04" "%s", moveStateDebug);
+      }
 
       if (u->getOriginalRawData->path == NULL) continue;
+
       for(int i = u->getOriginalRawData->path->stepIndex; i < u->getOriginalRawData->path->stepNumber; i++)
       {
         int x2 = u->getOriginalRawData->path->steps[i].x;
         int y2 = u->getOriginalRawData->path->steps[i].y;
         Broodwar->drawLineMap(x, y, x2, y2, Colors::Green);
+        this->setTextSize(0);
+        this->drawTextMap(x2, y2, "\x05" "%d", i+1);
         x = x2;
         y = y2;
       }
     }
+    this->setTextSize();
 
     for each(UnitImpl* u in evadeUnits)
       u->updateData();

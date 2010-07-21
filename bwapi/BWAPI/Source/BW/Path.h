@@ -43,8 +43,8 @@ namespace BW
 {
   struct Path
   {
-    Path  *prev;  // Assuming this
-    Path  *next;  // Assuming this
+    Path  *prev;  // Assuming this?
+    Path  *next;  // Assuming this?
     u32 unk_08;   // 8
     u32 lastTime; // 12
     u32 unitID;   // 16
@@ -58,7 +58,7 @@ namespace BW
     u16 unk_1C;   // 28
     u8  stepNumber;     // 30
     u8  stepIndex;      // 31
-    Position steps[4];  // 32
+    Position steps[20];  // 32    The size of this is at least 20, and could be larger
     //unsure of exact size
   };
 
