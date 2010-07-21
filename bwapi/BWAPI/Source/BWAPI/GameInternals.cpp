@@ -249,9 +249,7 @@ namespace BWAPI
         bool prevLeftGame=this->players[i]->leftGame();
         this->players[i]->updateData();
         if (!prevLeftGame && this->players[i]->leftGame())
-        {
           events.push_back(Event::PlayerLeft((Player*)this->players[i]));
-        }
       }
       this->updateUnits();
       this->updateBullets();
@@ -326,16 +324,21 @@ namespace BWAPI
     server.update();
     for each(UnitImpl* u in aliveUnits)
     {
-      int x=u->getPosition().x();
-      int y=u->getPosition().y();
-      if (u->getOriginalRawData->path==NULL) continue;
-      for(int i=u->getOriginalRawData->path->stepIndex;i<u->getOriginalRawData->path->stepNumber;i++)
+      int x = u->getPosition().x();
+      int y = u->getPosition().y();
+
+      char *moveStateDebug = BW::getMoveStateName(u->getOriginalRawData->movementState);
+      this->setTextSize(0);
+      this->drawTextMap(x - BW::GetTextWidth(moveStateDebug, 0) / 2, y + u->getType().dimensionDown(), "\x04" "%s", moveStateDebug);
+
+      if (u->getOriginalRawData->path == NULL) continue;
+      for(int i = u->getOriginalRawData->path->stepIndex; i < u->getOriginalRawData->path->stepNumber; i++)
       {
-        int x2=u->getOriginalRawData->path->steps[i].x;
-        int y2=u->getOriginalRawData->path->steps[i].y;
-        Broodwar->drawLineMap(x,y,x2,y2,Colors::Green);
-        x=x2;
-        y=y2;
+        int x2 = u->getOriginalRawData->path->steps[i].x;
+        int y2 = u->getOriginalRawData->path->steps[i].y;
+        Broodwar->drawLineMap(x, y, x2, y2, Colors::Green);
+        x = x2;
+        y = y2;
       }
     }
 

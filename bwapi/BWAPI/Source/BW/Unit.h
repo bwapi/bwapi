@@ -61,13 +61,14 @@ namespace BW
     /*0x02C*/ u32                                 xHalt;                /**< @todo Unknown */
     /*0x030*/ u32                                 yHalt;                /**< @todo Unknown */
     /*0x034*/ u32                                 flingySpeed;
-    /*0x038*/ u32                                 unknownSpeed_0x038;   /**< @todo Unknown */
+    /*0x038*/ u32                                 unknownSpeed_0x038;   /**< @todo Unknown, retrieves this value from flingySpeed if movement type is 2 */
     /*0x03C*/ u32                                 unknownSpeed_0x03C;   /**< @todo Unknown */
     /*0x040*/ s32                                 current_speedX;
     /*0x044*/ s32                                 current_speedY;
 
     /*0x048*/ u16                                 flingyAcceleration;
-    /*0x04A*/ u16                                 unknown_0x04A;
+    /*0x04A*/ u8                                  unknown_0x04A;
+    /*0x04B*/ u8                                  unknown_0x04B;    // pathing related, gets this value from Path::unk_1A
     /*0x04C*/ u8                                  playerID;             /**< Specification of owner of this unit. */
     /*0x04D*/ u8                                  orderID;              /**< Specification of type of order currently given. */
     /*0x04E*/ Util::BitMask<u8>                   orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
@@ -99,7 +100,8 @@ namespace BW
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
     /*0x090*/ u32                                 stateFlags;         /**< @todo Unknown */
     /*0x094*/ u16                                 currentButtonSet; // The u16 is a guess, used to be u8
-    /*0x096*/ u16                                 unknown_0x095; //cloaked info
+    /*0x096*/ u8                                  unknown_0x096;    //cloaked info
+    /*0x097*/ u8                                  movementState;    // A value based on conditions related to pathing
     /*0x098*/ BW::UnitType                        buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
@@ -238,7 +240,8 @@ namespace BW
       };
     } rallyPsiProviderUnion;                        /**< @todo Verify */
     /*0x100*/ BW::Path*                           path;  /**< @todo Unknown */
-    /*0x104*/ u16                                 unknown_0x104;
+    /*0x104*/ u8                                  pathingInterval;  // unknown
+    /*0x105*/ u8                                  unk_0x105;
     /*0x106*/ u8                                  unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;      /**< @todo Verify - seems like it isn't working */
     /*0x108*/ BW::Position                        contours1Unknown;   /**< @todo Unknown */
