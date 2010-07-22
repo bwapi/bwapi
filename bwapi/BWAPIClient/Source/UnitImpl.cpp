@@ -470,6 +470,13 @@ namespace BWAPI
   {
     return self->isBeingGathered;
   }
+  //--------------------------------------------- IS BEING HEALED --------------------------------------------
+  bool UnitImpl::isBeingHealed() const
+  {
+    return getType().getRace()==Races::Terran &&
+           self->isCompleted &&
+           self->hitPoints>self->lastHitPoints;
+  }
   //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const
   {
