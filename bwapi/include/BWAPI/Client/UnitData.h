@@ -14,6 +14,7 @@ namespace BWAPI
     double velocityX;
     double velocityY;
     int hitPoints;
+    int lastHitPoints;
     int shields;
     int energy;
     int resources;

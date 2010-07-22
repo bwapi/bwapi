@@ -195,6 +195,10 @@ namespace BWAPI
       self->velocityY = (double)getOriginalRawData->current_speedY / 256.0;
       //------------------------------------------------------------------------------------------------------
       //getHitPoints
+      if (wasAccessible==false)
+        self->lastHitPoints = _getHitPoints;
+      else
+        self->lastHitPoints = self->hitPoints;
       self->hitPoints = _getHitPoints;
       //------------------------------------------------------------------------------------------------------
       //getShields
@@ -455,6 +459,7 @@ namespace BWAPI
       self->velocityY = 0;
       //------------------------------------------------------------------------------------------------------
       //getHitPoints
+      self->lastHitPoints = 0;
       self->hitPoints = 0;
       //------------------------------------------------------------------------------------------------------
       //getShields
