@@ -323,37 +323,6 @@ namespace BWAPI
     processEvents();
     server.update();
 
-    this->setTextSize(0);
-    for each(UnitImpl* u in aliveUnits)
-    {
-      int x = u->getPosition().x();
-      int y = u->getPosition().y();
-
-      u8  moveState = u->getOriginalRawData->movementState;
-      if ( moveState != UM_Lump )
-      {
-        char *moveStateDebug = BW::getMoveStateName(moveState);
-        this->drawTextMap(x - BW::GetTextWidth(moveStateDebug, 0) / 2, y + u->getType().dimensionDown(), "\x04" "%s", moveStateDebug);
-      }
-
-      if (u->getOriginalRawData->path == NULL) continue;
-
-      drawCircleMap(u->getOriginalRawData->path->start.x, u->getOriginalRawData->path->start.y, 4, BWAPI::Colors::Red);
-      drawCircleMap(u->getOriginalRawData->path->next.x, u->getOriginalRawData->path->next.y, 2, BWAPI::Colors::Cyan);
-      drawCircleMap(u->getOriginalRawData->path->finish.x, u->getOriginalRawData->path->finish.y, 5, BWAPI::Colors::Purple);
-
-      for(int i = u->getOriginalRawData->path->cur_segment; i < u->getOriginalRawData->path->num_segments; i++)
-      {
-        int x2 = u->getOriginalRawData->path->steps[i].x;
-        int y2 = u->getOriginalRawData->path->steps[i].y;
-        Broodwar->drawLineMap(x, y, x2, y2, Colors::Green);
-        this->drawTextMap(x2, y2, "\x05" "%d", i+1);
-        x = x2;
-        y = y2;
-      }
-    }
-    this->setTextSize();
-
     for each(UnitImpl* u in evadeUnits)
       u->updateData();
     for each(UnitImpl* u in dyingUnits)
@@ -1834,7 +1803,7 @@ namespace BWAPI
   {
     /* Do onReceiveText */
     int realId = stormIdToPlayerId(playerId);
-    if (realId != -1 && realId != this->BWAPIPlayer->getIndex() && this->isFlagEnabled(BWAPI::Flag::UserInput))
+    if (realId != -1 && (this->BWAPIPlayer == NULL || realId != this->BWAPIPlayer->getIndex()) && this->isFlagEnabled(BWAPI::Flag::UserInput))
       events.push_back(Event::ReceiveText(this->players[realId], text));
   }
 

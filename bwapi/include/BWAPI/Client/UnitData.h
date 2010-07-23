@@ -77,6 +77,7 @@ namespace BWAPI
     bool isCloaked;
     bool isCompleted;
     bool isConstructing;
+    bool isDetected;
     bool isGathering;
     bool isHallucination;
     bool isIdle;

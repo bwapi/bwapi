@@ -522,6 +522,11 @@ namespace BWAPI
   {
     return self->defenseMatrixTimer > 0;
   }
+  //--------------------------------------------- IS DETECTED ------------------------------------------------
+  bool UnitImpl::isDetected() const
+  {
+    return self->isDetected;
+  }
   //--------------------------------------------- IS ENSNARED ------------------------------------------------
   bool UnitImpl::isEnsnared() const
   {

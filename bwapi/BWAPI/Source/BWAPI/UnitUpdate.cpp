@@ -44,30 +44,45 @@ namespace BWAPI
         else if (player->isNeutral())
           self->isVisible[i]=getOriginalRawData->sprite->visibilityFlags > 0;
         else
-        {
-          bool canDetect = !getOriginalRawData->status.getBit(BW::StatusFlags::RequiresDetection) ||
-                           (getOriginalRawData->visibilityStatus == -1) ||
-                           ((getOriginalRawData->visibilityStatus & (1 << player->getIndex())) != 0);
-          bool isVisible = (getOriginalRawData->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
-          self->isVisible[i] = isVisible && canDetect;
-        }
+          self->isVisible[i] = (getOriginalRawData->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
       }
       if (selfPlayerID>-1)
       {
         if (getOriginalRawData->sprite == NULL)
+        {
           self->isVisible[selfPlayerID] = false;
-        else if (BroodwarImpl._isReplay())
-          self->isVisible[selfPlayerID] = getOriginalRawData->sprite->visibilityFlags > 0;
+          self->isDetected = false;
+        }
         else if (_getPlayer == BWAPI::BroodwarImpl.self())
+        {
           self->isVisible[selfPlayerID] = true;
+          self->isDetected = true;
+        }
         else
         {
+          self->isVisible[selfPlayerID] = (getOriginalRawData->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+          if (getOriginalRawData->status.getBit(BW::StatusFlags::RequiresDetection))
+          {
+            self->isVisible[selfPlayerID] &= ((getOriginalRawData->visibilityStatus == -1) ||
+                                             ((getOriginalRawData->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0) ||
+                                               getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Moving) ||
+                                               getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating) ||
+                                               getOriginalRawData->orderID == BW::OrderID::Move ||
+                                               getOriginalRawData->groundWeaponCooldown>0 ||
+                                               getOriginalRawData->airWeaponCooldown>0 ||
+                                              !getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed));
+          }
           bool canDetect = !getOriginalRawData->status.getBit(BW::StatusFlags::RequiresDetection) ||
                            (getOriginalRawData->visibilityStatus == -1) ||
-                           ((getOriginalRawData->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
-          bool isVisible = (getOriginalRawData->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
-          self->isVisible[selfPlayerID] = isVisible && canDetect;
+                          ((getOriginalRawData->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
+          self->isDetected = self->isVisible[selfPlayerID] & canDetect;
         }
+      }
+      else
+      {
+        self->isDetected = false;
+        for(int i=0;i<9;i++)
+          if (self->isVisible[i]) self->isDetected = true;
       }
       //------------------------------------------------------------------------------------------------------
       //_getType
@@ -194,6 +209,92 @@ namespace BWAPI
       //getVelocityY
       self->velocityY = (double)getOriginalRawData->current_speedY / 256.0;
       //------------------------------------------------------------------------------------------------------
+      //getGroundWeaponCooldown
+      if (_getType==UnitTypes::Protoss_Reaver)
+        self->groundWeaponCooldown = getOriginalRawData->mainOrderTimer;
+      else if (getOriginalRawData->subUnit != NULL)
+        self->groundWeaponCooldown = getOriginalRawData->subUnit->groundWeaponCooldown;
+      else
+        self->groundWeaponCooldown = getOriginalRawData->groundWeaponCooldown;
+      //------------------------------------------------------------------------------------------------------
+      //getAirWeaponCooldown
+      if (getOriginalRawData->subUnit != NULL)
+        self->airWeaponCooldown = getOriginalRawData->subUnit->airWeaponCooldown;
+      else
+        self->airWeaponCooldown = getOriginalRawData->airWeaponCooldown;
+      //------------------------------------------------------------------------------------------------------
+      //getSpellCooldown
+      self->spellCooldown = getOriginalRawData->spellCooldown;
+      //------------------------------------------------------------------------------------------------------
+      //isAttacking
+      self->isAttacking = (animState == BW::Image::Anims::GndAttkRpt  ||
+                           animState == BW::Image::Anims::AirAttkRpt  || 
+                           animState == BW::Image::Anims::GndAttkInit ||
+                           animState == BW::Image::Anims::AirAttkInit);
+      //------------------------------------------------------------------------------------------------------
+      //isBurrowed
+      self->isBurrowed = getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed);
+      //------------------------------------------------------------------------------------------------------
+      //isCloaked
+      self->isCloaked = getOriginalRawData->status.getBit(BW::StatusFlags::Cloaked) && !getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed);
+      //------------------------------------------------------------------------------------------------------
+      //isCompleted
+      self->isCompleted = _isCompleted;
+      //------------------------------------------------------------------------------------------------------
+      //isMoving
+      self->isMoving = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Moving) ||
+                       getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating) ||
+                       (self->order == Orders::Move.getID());
+      //------------------------------------------------------------------------------------------------------
+      //isStartingAttack
+      self->isStartingAttack = startingAttack;
+    }
+    else
+    {
+      //------------------------------------------------------------------------------------------------------
+      //getPosition
+      self->positionX = BWAPI::Positions::Unknown.x();
+      self->positionX = BWAPI::Positions::Unknown.y();
+      //------------------------------------------------------------------------------------------------------
+      //getAngle
+      self->angle = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getVelocityX
+      self->velocityX = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getVelocityY
+      self->velocityY = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getGroundWeaponCooldown
+      self->groundWeaponCooldown = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getAirWeaponCooldown
+      self->airWeaponCooldown = 0;
+      //------------------------------------------------------------------------------------------------------
+      //getSpellCooldown
+      self->spellCooldown = 0;
+      //------------------------------------------------------------------------------------------------------
+      //isAttacking
+      self->isAttacking = false;
+      //------------------------------------------------------------------------------------------------------
+      //isBurrowed
+      self->isBurrowed = false;
+      //------------------------------------------------------------------------------------------------------
+      //isCloaked
+      self->isCloaked = false;
+      //------------------------------------------------------------------------------------------------------
+      //isCompleted
+      self->isCompleted = false;
+      //------------------------------------------------------------------------------------------------------
+      //isMoving
+      self->isMoving = false;
+      //------------------------------------------------------------------------------------------------------
+      //isStartingAttack
+      self->isStartingAttack = false;
+    }
+    if (canAccessDetected())
+    {
+      //------------------------------------------------------------------------------------------------------
       //getHitPoints
       if (wasAccessible==false)
         self->lastHitPoints = _getHitPoints;
@@ -218,23 +319,6 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getKillCount
       self->killCount = getOriginalRawData->killCount;
-      //------------------------------------------------------------------------------------------------------
-      //getGroundWeaponCooldown
-      if (_getType==UnitTypes::Protoss_Reaver)
-        self->groundWeaponCooldown = getOriginalRawData->mainOrderTimer;
-      else if (getOriginalRawData->subUnit != NULL)
-        self->groundWeaponCooldown = getOriginalRawData->subUnit->groundWeaponCooldown;
-      else
-        self->groundWeaponCooldown = getOriginalRawData->groundWeaponCooldown;
-      //------------------------------------------------------------------------------------------------------
-      //getAirWeaponCooldown
-      if (getOriginalRawData->subUnit != NULL)
-        self->airWeaponCooldown = getOriginalRawData->subUnit->airWeaponCooldown;
-      else
-        self->airWeaponCooldown = getOriginalRawData->airWeaponCooldown;
-      //------------------------------------------------------------------------------------------------------
-      //getSpellCooldown
-      self->spellCooldown = getOriginalRawData->spellCooldown;
       //------------------------------------------------------------------------------------------------------
       //getDefenseMatrixPoints
       self->defenseMatrixPoints = getOriginalRawData->defenseMatrixDamage/256;
@@ -297,9 +381,6 @@ namespace BWAPI
                          self->order == BW::OrderID::ZergBuildingMorph ||
                          self->order == BW::OrderID::ZergUnitMorph ||
                          self->order == BW::OrderID::ZergBuildSelf;
-      //------------------------------------------------------------------------------------------------------
-      //isCompleted
-      self->isCompleted = _isCompleted;
       //------------------------------------------------------------------------------------------------------
       //isConstructing
       self->isConstructing = self->isMorphing ||
@@ -386,12 +467,6 @@ namespace BWAPI
       //isAccelerating
       self->isAccelerating = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating);
       //------------------------------------------------------------------------------------------------------
-      //isAttacking
-      self->isAttacking = (animState == BW::Image::Anims::GndAttkRpt  ||
-                           animState == BW::Image::Anims::AirAttkRpt  || 
-                           animState == BW::Image::Anims::GndAttkInit ||
-                           animState == BW::Image::Anims::AirAttkInit);
-      //------------------------------------------------------------------------------------------------------
       //isBeingGathered
       self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
       //------------------------------------------------------------------------------------------------------
@@ -401,18 +476,12 @@ namespace BWAPI
       //isBraking
       self->isBraking = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Braking);
       //------------------------------------------------------------------------------------------------------
-      //isBurrowed
-      self->isBurrowed = getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed);
-      //------------------------------------------------------------------------------------------------------
       //isCarryingGas
       //isCarryingMinerals
       if (_getType.isWorker())
         self->carryResourceType = getOriginalRawData->resourceType;
       else
         self->carryResourceType = 0;
-      //------------------------------------------------------------------------------------------------------
-      //isCloaked
-      self->isCloaked = getOriginalRawData->status.getBit(BW::StatusFlags::Cloaked);
       //------------------------------------------------------------------------------------------------------
       //isGatheringGas
       //isGatheringMinerals
@@ -422,19 +491,11 @@ namespace BWAPI
       self->isLifted = getOriginalRawData->status.getBit(BW::StatusFlags::InAir) &&
                        getOriginalRawData->unitID.isBuilding();
       //------------------------------------------------------------------------------------------------------
-      //isMoving
-      self->isMoving = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Moving) ||
-                       getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating) ||
-                       (self->order == Orders::Move.getID());
-      //------------------------------------------------------------------------------------------------------
       //isParasited
       self->isParasited = getOriginalRawData->parasiteFlags.value != 0;
       //------------------------------------------------------------------------------------------------------
       //isSelected
       self->isSelected = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected;
-      //------------------------------------------------------------------------------------------------------
-      //isStartingAttack
-      self->isStartingAttack = startingAttack;
       //------------------------------------------------------------------------------------------------------
       //isUnderStorm
       self->isUnderStorm = getOriginalRawData->isUnderStorm != 0;
@@ -444,19 +505,6 @@ namespace BWAPI
     }
     else
     {
-      //------------------------------------------------------------------------------------------------------
-      //getPosition
-      self->positionX = BWAPI::Positions::Unknown.x();
-      self->positionX = BWAPI::Positions::Unknown.y();
-      //------------------------------------------------------------------------------------------------------
-      //getAngle
-      self->angle = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getVelocityX
-      self->velocityX = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getVelocityY
-      self->velocityY = 0;
       //------------------------------------------------------------------------------------------------------
       //getHitPoints
       self->lastHitPoints = 0;
@@ -473,15 +521,6 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getKillCount
       self->killCount = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getGroundWeaponCooldown
-      self->groundWeaponCooldown = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getAirWeaponCooldown
-      self->airWeaponCooldown = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getSpellCooldown
-      self->spellCooldown = 0;
       //------------------------------------------------------------------------------------------------------
       //getDefenseMatrixPoints
       self->defenseMatrixPoints = 0;
@@ -531,9 +570,6 @@ namespace BWAPI
       //isMorphing
       self->isMorphing = false;
       //------------------------------------------------------------------------------------------------------
-      //isCompleted
-      self->isCompleted = false;
-      //------------------------------------------------------------------------------------------------------
       //isConstructing
       self->isConstructing = false;
       //------------------------------------------------------------------------------------------------------
@@ -559,9 +595,6 @@ namespace BWAPI
       //isAccelerating
       self->isAccelerating = false;
       //------------------------------------------------------------------------------------------------------
-      //isAttacking
-      self->isAttacking = false;
-      //------------------------------------------------------------------------------------------------------
       //isBeingGathered
       self->isBeingGathered = false;
       //------------------------------------------------------------------------------------------------------
@@ -571,30 +604,18 @@ namespace BWAPI
       //isBraking
       self->isBraking = false;
       //------------------------------------------------------------------------------------------------------
-      //isBurrowed
-      self->isBurrowed = false;
-      //------------------------------------------------------------------------------------------------------
       //isCarryingGas
       //isCarryingMinerals
       self->carryResourceType = 0;
       //------------------------------------------------------------------------------------------------------
-      //isCloaked
-      self->isCloaked = false;
-      //------------------------------------------------------------------------------------------------------
       //isLifted
       self->isLifted = false;
-      //------------------------------------------------------------------------------------------------------
-      //isMoving
-      self->isMoving = false;
       //------------------------------------------------------------------------------------------------------
       //isParasited
       self->isParasited = false;
       //------------------------------------------------------------------------------------------------------
       //isSelected
       self->isSelected = false;
-      //------------------------------------------------------------------------------------------------------
-      //isStartingAttack
-      self->isStartingAttack = false;
       //------------------------------------------------------------------------------------------------------
       //isUnderStorm
       self->isUnderStorm = false;
