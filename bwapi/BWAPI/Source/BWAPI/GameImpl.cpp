@@ -129,7 +129,6 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)
   {
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(Flag::CompleteMapInformation) == false)
       return NULL;
     int i = (unitIndex & 0x7FF);
@@ -140,7 +139,6 @@ namespace BWAPI
   //--------------------------------------------- GET GAME TYPE ----------------------------------------------
   GameType GameImpl::getGameType()
   {
-    this->setLastError(Errors::None);
     if (isReplay())
       return GameTypes::None;
     return GameType(*BW::BWDATA_gameType);
@@ -149,9 +147,6 @@ namespace BWAPI
   int GameImpl::getLatency()
   {
     /* Returns the real latency values */
-
-    /* Error checking */
-    this->setLastError(Errors::None);
     if (_isSinglePlayer())
       return BWAPI::Latency::SinglePlayer;
 
@@ -185,57 +180,39 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
-  int  GameImpl::getFrameCount()
+  int GameImpl::getFrameCount()
   {
-    /* Retrieves the number of frames since game start */
-    this->setLastError(Errors::None);
     return this->frameCount;
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
   int GameImpl::getFPS()
   {
-    /* Retrieve the Frames Per Second */
     return fps;
   }
   //-------------------------------------------- GET Average FPS ---------------------------------------------
   double GameImpl::getAverageFPS()
   {
-    /* Retrieve the moving average Frames Per Second */
     return averageFPS;
   }
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX()
   {
-    /* Retrieves the mouse's X coordinate */
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return 0;
-    }
     return BW::BWDATA_Mouse->x;
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY()
   {
-    /* Retrieves the mouse's Y coordinate */
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return 0;
-    }
     return BW::BWDATA_Mouse->y;
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
   {
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return BWAPI::Positions::Unknown;
-    }
     return BWAPI::Position(BW::BWDATA_Mouse->x, BW::BWDATA_Mouse->y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
@@ -246,12 +223,8 @@ namespace BWAPI
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(int button)
   {
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return false;
-    }
     if (button<0 || button>=3) return false;
     SHORT ButtonDown = 0;
     switch (button)
@@ -280,50 +253,31 @@ namespace BWAPI
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(int key)
   {
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return false;
-    }
     if (key < 0 || key >= 255)
       return false;
-
     return (GetKeyState(key) & 128) > 0;
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX()
   {
-    /* Retrieves the screen's X coordinate in relation to the map */
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return 0;
-    }
     return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int GameImpl::getScreenY()
   {
-    /* Retrieves the screen's Y coordinate in relation to the map */
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return 0;
-    }
     return *(BW::BWDATA_ScreenY);
   }
   //------------------------------------------- GET SCREEN POSITION ------------------------------------------
   BWAPI::Position GameImpl::getScreenPosition()
   {
-    this->setLastError(Errors::None);
     if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-    {
-      this->setLastError(Errors::Access_Denied);
       return BWAPI::Positions::Unknown;
-    }
     return BWAPI::Position(*(BW::BWDATA_ScreenX),*(BW::BWDATA_ScreenY));
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
@@ -364,7 +318,6 @@ namespace BWAPI
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool  GameImpl::isFlagEnabled(int flag)
   {
-    /* checks if a BWAPI flag is enabled */
     return this->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
@@ -406,52 +359,44 @@ namespace BWAPI
       return this->emptySet;
 
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x,y))
-    {
       return this->emptySet;
-    }
     return unitsOnTileData[x][y];
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
-  Error  GameImpl::getLastError() const
+  Error GameImpl::getLastError() const
   {
     /* returns the last error encountered in BWAPI */
     return this->lastError;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
-  int  GameImpl::mapWidth()
+  int GameImpl::mapWidth()
   {
-    /* Get the width of the map */
     return Map::getWidth();
   }
   //----------------------------------------------- MAP HEIGHT -----------------------------------------------
-  int  GameImpl::mapHeight()
+  int GameImpl::mapHeight()
   {
-    /* Get the height of the map */
     return Map::getHeight();
   }
   //---------------------------------------------- MAP FILE NAME ---------------------------------------------
-  std::string  GameImpl::mapFileName()
+  std::string GameImpl::mapFileName()
   {
-    /* Get the map file name */
     return Map::getFileName();
   }
   //---------------------------------------------- MAP PATH NAME ---------------------------------------------
-  std::string  GameImpl::mapPathName()
+  std::string GameImpl::mapPathName()
   {
-    /* Get the map file name */
     return Map::getPathName();
   }
   //------------------------------------------------ MAP NAME ------------------------------------------------
-  std::string  GameImpl::mapName()
+  std::string GameImpl::mapName()
   {
-    /* Get the name of the map */
     return Map::getName();
   }
   //----------------------------------------------- GET MAP HASH ---------------------------------------------
   std::string GameImpl::mapHash()
   {
-    /* Return a hash of the map file */
-    return this->savedMapHash;
+    return savedMapHash;
   }
   //--------------------------------------------- IS WALKABLE ------------------------------------------------
   bool GameImpl::isWalkable(int x, int y)
@@ -517,10 +462,9 @@ namespace BWAPI
         !(tileWidth == 3 && tileHeight == 2) &&
         !(tileWidth == 4 && tileHeight == 3))
       return false;
+
     if (tileWidth == 4)
-    {
       x++;
-    }
     /* Loop through all pylons for the current player */
     foreach (UnitImpl* i, pylons)
     {
@@ -880,9 +824,7 @@ namespace BWAPI
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()
   {
-    /* Return the set of Start Locations */
-    this->setLastError(Errors::None);
-    return this->startLocations;
+    return startLocations;
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
   void  GameImpl::printf(const char* text, ...)
@@ -901,7 +843,7 @@ namespace BWAPI
     if (!_isInGame())
       printEx(8, "%s", buffer);
   }
-
+  //--------------------------------------------- SEND TEXT --------------------------------------------------
   void  GameImpl::sendText(const char *text, ...)
   {
     va_list ap;
@@ -920,7 +862,7 @@ namespace BWAPI
   bool GameImpl::isInGame()
   {
     this->setLastError(Errors::None);
-    return this->inGame;
+    return inGame;
   }
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
   bool GameImpl::isMultiplayer()
