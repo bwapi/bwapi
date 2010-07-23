@@ -423,6 +423,11 @@ namespace BWAPI
   {
     return self->defenseMatrixTimer > 0;
   }
+  //--------------------------------------------- IS DETECTED ------------------------------------------------
+  bool UnitImpl::isDetected() const
+  {
+    return self->isDetected;
+  }
   //--------------------------------------------- IS ENSNARED ------------------------------------------------
   bool UnitImpl::isEnsnared() const
   {
@@ -2073,11 +2078,22 @@ namespace BWAPI
         return true;
     return false;
   }
+  bool UnitImpl::canAccessDetected() const
+  {
+    if (!canAccess())
+      return false;
+    if (this->_getPlayer == BroodwarImpl.self())
+      return true;
+    if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+      return true;
+    return self->isDetected;
+
+  }
 
   //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)
   bool UnitImpl::canAccessInside() const
   {
-    if (!canAccess())
+    if (!canAccessDetected())
       return false;
     if (this->_getPlayer == BroodwarImpl.self())
       return true;

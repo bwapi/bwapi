@@ -109,6 +109,7 @@ namespace BWAPI
       virtual bool isCompleted() const;
       virtual bool isConstructing() const;
       virtual bool isDefenseMatrixed() const;
+      virtual bool isDetected() const;
       virtual bool isEnsnared() const;
       virtual bool isFollowing() const;
       virtual bool isGatheringGas() const;

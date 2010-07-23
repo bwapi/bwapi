@@ -152,7 +152,7 @@ namespace BWAPI
       if (source == NULL || !source->isAlive)
         self->player = -1;
       else
-        self->player = source->getPlayer()->getID();
+        self->player = source->_getPlayer->getID();
       self->type = bwOriginalBullet->type;
 
       if (source == NULL || !source->exists())

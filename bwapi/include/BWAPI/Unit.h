@@ -335,6 +335,9 @@ namespace BWAPI
       /** Returns true if the unit has a defense matrix from a Terran Science Vessel. */
       virtual bool isDefenseMatrixed() const = 0;
 
+      /** Returns true if the unit is detected. */
+      virtual bool isDetected() const = 0;
+
       /** Returns true if the unit has been ensnared by a Zerg Queen. */
       virtual bool isEnsnared() const = 0;
 

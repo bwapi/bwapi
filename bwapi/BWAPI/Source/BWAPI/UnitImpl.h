@@ -128,6 +128,7 @@ namespace BWAPI
       virtual bool isCompleted() const;
       virtual bool isConstructing() const;
       virtual bool isDefenseMatrixed() const;
+      virtual bool isDetected() const;
       virtual bool isEnsnared() const;
       virtual bool isFollowing() const;
       virtual bool isGatheringGas() const;
@@ -214,6 +215,7 @@ namespace BWAPI
       void die();
       void setID(int newID);
       bool canAccess() const;
+      bool canAccessDetected() const;
       bool canAccessInside() const;
       bool attemptAccess() const;
       Player* _getPlayer;
