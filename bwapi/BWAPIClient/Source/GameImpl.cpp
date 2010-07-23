@@ -566,10 +566,9 @@ namespace BWAPI
         !(tileWidth == 3 && tileHeight == 2) &&
         !(tileWidth == 4 && tileHeight == 3))
       return false;
+
     if (tileWidth == 4)
-    {
       x++;
-    }
     /* Loop through all pylons for the current player */
     foreach (Unit* i, pylons)
     {
@@ -903,7 +902,7 @@ namespace BWAPI
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()
   {
-    return this->startLocations;
+    return startLocations;
   }
   //------------------------------------------------ PRINTF --------------------------------------------------
   void GameImpl::printf(const char* text, ...)
@@ -916,7 +915,7 @@ namespace BWAPI
     addCommand(BWAPIC::Command(BWAPIC::CommandType::Printf,addString(buffer)));
     return;
   }
-  //------------------------------------------------ SEND TEXT -----------------------------------------------
+  //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char* text, ...)
   {
     va_list ap;
