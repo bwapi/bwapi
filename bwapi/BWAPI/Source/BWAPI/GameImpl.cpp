@@ -365,7 +365,6 @@ namespace BWAPI
   bool  GameImpl::isFlagEnabled(int flag)
   {
     /* checks if a BWAPI flag is enabled */
-    this->setLastError(Errors::None);
     return this->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
@@ -403,13 +402,11 @@ namespace BWAPI
   std::set<Unit*>& GameImpl::unitsOnTile(int x, int y)
   {
     /* Retrieves a set of units that are on the specified tile */
-    this->setLastError(Errors::None);
     if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
       return this->emptySet;
 
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x,y))
     {
-      this->setLastError(Errors::Access_Denied);
       return this->emptySet;
     }
     return unitsOnTileData[x][y];
@@ -456,98 +453,70 @@ namespace BWAPI
     /* Return a hash of the map file */
     return this->savedMapHash;
   }
-  //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
-  int  GameImpl::getGroundHeight(int x, int y)
+  //--------------------------------------------- IS WALKABLE ------------------------------------------------
+  bool GameImpl::isWalkable(int x, int y)
   {
-    /* Return the ground height */
-    this->setLastError(Errors::None);
-    return this->map.groundHeight(x, y);
+    return map.walkable(x, y);
   }
-  //---------------------------------------------- GROUND HEIGHT ---------------------------------------------
-  int  GameImpl::getGroundHeight(TilePosition position)
+  //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
+  int GameImpl::getGroundHeight(int x, int y)
   {
-    /* Return the ground height */
-    this->setLastError(Errors::None);
-    return this->map.groundHeight(position.x(), position.y());
+    return map.groundHeight(x, y);
   }
-  //------------------------------------------------ BUILDABLE -----------------------------------------------
-  bool  GameImpl::isBuildable(int x, int y)
+  //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
+  int GameImpl::getGroundHeight(TilePosition position)
   {
-    /* Check if the specified coordinates are buildable */
-    this->setLastError(Errors::None);
-    return this->map.buildable(x, y);
+    return map.groundHeight(position.x(), position.y());
   }
-  //------------------------------------------------ BUILDABLE -----------------------------------------------
-  bool  GameImpl::isBuildable(TilePosition position)
+  //--------------------------------------------- IS BUILDABLE -----------------------------------------------
+  bool GameImpl::isBuildable(int x, int y)
   {
-    /* Check if the specified coordinates are buildable */
-    this->setLastError(Errors::None);
-    return this->map.buildable(position.x(), position.y());
+    return map.buildable(x, y);
   }
-  //------------------------------------------------ WALKABLE ------------------------------------------------
-  bool  GameImpl::isWalkable(int x, int y)
+  //--------------------------------------------- IS BUILDABLE -----------------------------------------------
+  bool GameImpl::isBuildable(TilePosition position)
   {
-    /* Check if the specified coordinates are walkable */
-    this->setLastError(Errors::None);
-    return this->map.walkable(x, y);
+    return map.buildable(position.x(), position.y());
   }
-  //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool  GameImpl::isVisible(int x, int y)
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
+  bool GameImpl::isVisible(int x, int y)
   {
-    /* Check if the specified coordinates are visible */
-    this->setLastError(Errors::None);
-    return this->map.visible(x, y);
+    return map.visible(x, y);
   }
-  //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool  GameImpl::isVisible(TilePosition position)
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
+  bool GameImpl::isVisible(TilePosition position)
   {
-    /* Check if the specified coordinates are visible */
-    this->setLastError(Errors::None);
-    return this->map.visible(position.x(), position.y());
+    return map.visible(position.x(), position.y());
   }
-  //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool  GameImpl::isExplored(int x, int y)
+  //--------------------------------------------- IS EXPLORED ------------------------------------------------
+  bool GameImpl::isExplored(int x, int y)
   {
-    /* Check if the specified coordinates are visible */
-    this->setLastError(Errors::None);
-    return this->map.isExplored(x, y);
+    return map.isExplored(x, y);
   }
-  //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool  GameImpl::isExplored(TilePosition position)
+  //--------------------------------------------- IS EXPLORED ------------------------------------------------
+  bool GameImpl::isExplored(TilePosition position)
   {
-    /* Check if the specified coordinates are visible */
-    this->setLastError(Errors::None);
-    return this->map.isExplored(position.x(), position.y());
+    return map.isExplored(position.x(), position.y());
   }
-  //------------------------------------------------ HAS CREEP -----------------------------------------------
-  bool  GameImpl::hasCreep(int x, int y)
+  //--------------------------------------------- HAS CREEP --------------------------------------------------
+  bool GameImpl::hasCreep(int x, int y)
   {
-    /* Check if the specified coordinates have creep */
-    this->setLastError(Errors::None);
-    /* Deny this information if you don't have complete map information */
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->isVisible(x, y))
-    {
-      this->setLastError(Errors::Access_Denied);
       return false;
-    }
-    return this->map.hasCreep(x, y);
+    return map.hasCreep(x, y);
   }
-  //------------------------------------------------ HAS CREEP -----------------------------------------------
-  bool  GameImpl::hasCreep(TilePosition position)
+  //--------------------------------------------- HAS CREEP --------------------------------------------------
+  bool GameImpl::hasCreep(TilePosition position)
   {
-    return this->hasCreep(position.x(), position.y());
+    return hasCreep(position.x(), position.y());
   }
-  //------------------------------------------------ HAS POWER -----------------------------------------------
-  bool  GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
+  //--------------------------------------------- HAS POWER --------------------------------------------------
+  bool GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
   {
-    /* Check if the specified coordinates have power */
-    this->setLastError(Errors::None);
     if (!(tileWidth == 2 && tileHeight == 2) &&
         !(tileWidth == 3 && tileHeight == 2) &&
         !(tileWidth == 4 && tileHeight == 3))
-    {
       return false;
-    }
     if (tileWidth == 4)
     {
       x++;
@@ -589,13 +558,13 @@ namespace BWAPI
     }
     return false;
   }
-  //------------------------------------------------ HAS POWER -----------------------------------------------
-  bool  GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight)
+  //--------------------------------------------- HAS POWER --------------------------------------------------
+  bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight)
   {
-    return this->hasPower(position.x(),position.y(),tileWidth,tileHeight);
+    return hasPower(position.x(),position.y(),tileWidth,tileHeight);
   }
-  //---------------------------------------------- CAN BUILD HERE --------------------------------------------
-  bool  GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
+  //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
+  bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
     this->setLastError(Errors::Unbuildable_Location);
     if (position.x() < 0)
@@ -698,7 +667,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return true;
   }
-  //------------------------------------------------- CAN MAKE -----------------------------------------------
+  //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool  GameImpl::canMake(Unit* builder, UnitType type)
   {
     /* Error checking */
@@ -817,7 +786,7 @@ namespace BWAPI
         }
     return true;
   }
-  //----------------------------------------------- CAN RESEARCH ---------------------------------------------
+  //--------------------------------------------- CAN RESEARCH -----------------------------------------------
   bool  GameImpl::canResearch(Unit* unit, TechType type)
   {
     /* Error checking */
