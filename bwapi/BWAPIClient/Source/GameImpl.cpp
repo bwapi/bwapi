@@ -492,19 +492,24 @@ namespace BWAPI
   {
     return std::string(data->mapHash);
   }
-  //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
+  //--------------------------------------------- IS WALKABLE ------------------------------------------------
+  bool GameImpl::isWalkable(int x, int y)
+  {
+    if (x<0 || y<0 || x>=data->mapWidth*4 || y>=data->mapHeight*4)
+      return 0;
+    return data->isWalkable[x][y];
+  }
+  //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
   int GameImpl::getGroundHeight(int x, int y)
   {
     if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
       return 0;
     return data->getGroundHeight[x][y];
   }
-  //---------------------------------------------- IS WALKABLE -----------------------------------------------
-  bool GameImpl::isWalkable(int x, int y)
+  //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
+  int GameImpl::getGroundHeight(TilePosition position)
   {
-    if (x<0 || y<0 || x>=data->mapWidth*4 || y>=data->mapHeight*4)
-      return 0;
-    return data->isWalkable[x][y];
+    return getGroundHeight(position.x(),position.y());
   }
   //--------------------------------------------- IS BUILDABLE -----------------------------------------------
   bool GameImpl::isBuildable(int x, int y)
@@ -513,35 +518,54 @@ namespace BWAPI
       return 0;
     return data->isBuildable[x][y];
   }
-  //---------------------------------------------- IS VISIBLE ------------------------------------------------
+  //--------------------------------------------- IS BUILDABLE -----------------------------------------------
+  bool GameImpl::isBuildable(TilePosition position)
+  {
+    return isBuildable(position.x(),position.y());
+  }
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool GameImpl::isVisible(int x, int y)
   {
     if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
       return 0;
     return data->isVisible[x][y];
   }
-  //---------------------------------------------- IS EXPLORED -----------------------------------------------
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
+  bool GameImpl::isVisible(TilePosition position)
+  {
+    return isVisible(position.x(),position.y());
+  }
+  //--------------------------------------------- IS EXPLORED ------------------------------------------------
   bool GameImpl::isExplored(int x, int y)
   {
     if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
       return 0;
     return data->isExplored[x][y];
   }
-  //----------------------------------------------- HAS CREEP ------------------------------------------------
+  //--------------------------------------------- IS EXPLORED ------------------------------------------------
+  bool GameImpl::isExplored(TilePosition position)
+  {
+    return isExplored(position.x(),position.y());
+  }
+  //--------------------------------------------- HAS CREEP --------------------------------------------------
   bool GameImpl::hasCreep(int x, int y)
   {
     if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
       return 0;
     return data->hasCreep[x][y];
   }
-  //------------------------------------------------ HAS POWER -----------------------------------------------
+  //--------------------------------------------- HAS CREEP --------------------------------------------------
+  bool GameImpl::hasCreep(TilePosition position)
+  {
+    return hasCreep(position.x(),position.y());
+  }
+  //--------------------------------------------- HAS POWER --------------------------------------------------
   bool GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
   {
-    lastError = Errors::None;
-    if (!(tileWidth == 2 && tileHeight == 2) && !(tileWidth == 3 && tileHeight == 2) && !(tileWidth == 4 && tileHeight == 3))
-    {
+    if (!(tileWidth == 2 && tileHeight == 2) &&
+        !(tileWidth == 3 && tileHeight == 2) &&
+        !(tileWidth == 4 && tileHeight == 3))
       return false;
-    }
     if (tileWidth == 4)
     {
       x++;
@@ -583,37 +607,12 @@ namespace BWAPI
     }
     return false;
   }
-  //------------------------------------------- GET GROUND HEIGHT --------------------------------------------
-  int GameImpl::getGroundHeight(TilePosition position)
-  {
-    return getGroundHeight(position.x(),position.y());
-  }
-  //------------------------------------------------ BUILDABLE -----------------------------------------------
-  bool GameImpl::isBuildable(TilePosition position)
-  {
-    return isBuildable(position.x(),position.y());
-  }
-  //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool GameImpl::isVisible(TilePosition position)
-  {
-    return isVisible(position.x(),position.y());
-  }
-  //------------------------------------------------- VISIBLE ------------------------------------------------
-  bool GameImpl::isExplored(TilePosition position)
-  {
-    return isExplored(position.x(),position.y());
-  }
-  //------------------------------------------------ HAS CREEP -----------------------------------------------
-  bool GameImpl::hasCreep(TilePosition position)
-  {
-    return hasCreep(position.x(),position.y());
-  }
-  //------------------------------------------------ HAS POWER -----------------------------------------------
+  //--------------------------------------------- HAS POWER --------------------------------------------------
   bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight)
   {
     return hasPower(position.x(),position.y(),tileWidth,tileHeight);
   }
-  //---------------------------------------------- CAN BUILD HERE --------------------------------------------
+  //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
   bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
     /* Error checking */
@@ -713,7 +712,7 @@ namespace BWAPI
     lastError = Errors::None;
     return true;
   }
-  //------------------------------------------------- CAN MAKE -----------------------------------------------
+  //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool GameImpl::canMake(Unit* builder, UnitType type)
   {
     /* Error checking */
@@ -821,7 +820,7 @@ namespace BWAPI
         }
     return true;
   }
-  //----------------------------------------------- CAN RESEARCH ---------------------------------------------
+  //--------------------------------------------- CAN RESEARCH -----------------------------------------------
   bool GameImpl::canResearch(Unit* unit, TechType type)
   {
     /* Error checking */
@@ -861,7 +860,7 @@ namespace BWAPI
     }
     return true;
   }
-  //----------------------------------------------- CAN UPGRADE ----------------------------------------------
+  //--------------------------------------------- CAN UPGRADE ------------------------------------------------
   bool GameImpl::canUpgrade(Unit* unit, UpgradeType type)
   {
     /* Error checking */

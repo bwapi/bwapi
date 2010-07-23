@@ -107,9 +107,9 @@ namespace BWAPI
       virtual std::string mapName();
       virtual std::string mapHash();
 
+      virtual bool isWalkable(int x, int y);
       virtual int  getGroundHeight(int x, int y);
       virtual int  getGroundHeight(TilePosition position);
-      virtual bool isWalkable(int x, int y);
       virtual bool isBuildable(int x, int y);
       virtual bool isBuildable(TilePosition position);
       virtual bool isVisible(int x, int y);

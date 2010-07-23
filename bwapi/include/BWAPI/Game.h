@@ -189,46 +189,44 @@ namespace BWAPI
       /** Returns the SHA-1 hash of the map file. */
       virtual std::string mapHash() = 0;
 
-      /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground.  2 = very high ground. */
-      virtual int  getGroundHeight(int x, int y) = 0;
-
       /** Returns true if the specified walk tile is walkable. The values of x and y are in walk tile
        * coordinates (different from build tile coordinates). Note that this just uses the static map data.
        * You will also need to make sure no ground units are on the coresponding build tile to see if its
        * currently walkable. To do this, see unitsOnTile. */
       virtual bool isWalkable(int x, int y) = 0;
 
+      /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground.  2 = very high ground. */
+      virtual int  getGroundHeight(int x, int y) = 0;
+      /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground. 2 = very high ground. */
+      virtual int  getGroundHeight(TilePosition position) = 0;
+
       /** Returns true if the specified build tile is buildable. Note that this just uses the static map data.
        * You will also need to make sure no ground units on the tile to see if its currently buildable. To do
        * this, see unitsOnTile. */
       virtual bool isBuildable(int x, int y) = 0;
+      /** \copydoc isBuildable(int, int) */
+      virtual bool isBuildable(TilePosition position) = 0;
 
       /** Returns true if the specified build tile is visible. If the tile is concealed by fog of war, the
        * function will return false. */
       virtual bool isVisible(int x, int y) = 0;
+      /** \copydoc isVisible(int, int) */
+      virtual bool isVisible(TilePosition position) = 0;
 
       /** Returns true if the specified build tile has been explored (i.e. was visible at some point in the
        * match). */
       virtual bool isExplored(int x, int y) = 0;
+      /** \copydoc isExplored(int, int) */
+      virtual bool isExplored(TilePosition position) = 0;
 
       /** Returns true if the specified build tile has zerg creep on it. If the tile is concealed by fog of
        * war, the function will return false. */
       virtual bool hasCreep(int x, int y) = 0;
+      /** \copydoc hasCreep(int, int) */
+      virtual bool hasCreep(TilePosition position) = 0;
 
       /** Returns true if the given build location is powered by a nearby friendly pylon. */
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) = 0;
-
-      /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground. 2 = very high ground. */
-      virtual int  getGroundHeight(TilePosition position) = 0;
-
-      /** \copydoc isBuildable(int, int) */
-      virtual bool isBuildable(TilePosition position) = 0;
-      /** \copydoc isVisible(int, int) */
-      virtual bool isVisible(TilePosition position) = 0;
-      /** \copydoc isExplored(int, int) */
-      virtual bool isExplored(TilePosition position) = 0;
-      /** \copydoc hasCreep(int, int) */
-      virtual bool hasCreep(TilePosition position) = 0;
       /** \copydoc hasPower(int, int, int, int) */
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight) = 0;
 
