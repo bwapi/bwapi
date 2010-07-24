@@ -55,16 +55,15 @@ namespace BW
                                          if the unit's flingy movement type is 0,
                                          otherwise it will copy field 0x3C
                                       */
-    u8  isCalculating;  // 24   // 1 if the path is being calculated and not yet ready
-    u8  unk_19;         // 25   // counts down from 30 and resets
-    u8  unk_1A;         // 26   // unknown flag?
+    u8  isCalculating;  // 24   1 if the path is being calculated and not yet ready
+    u8  pathDelay;      // 25   Delay before a new path is created
+    u8  unk_1A;         // 26   unknown flag?
     u8  pathCount;      // 27   dup of num_areas?
     u8  num_areas;      // 28   Official name
     u8  cur_area;       // 29
     u8  num_segments;   // 30   Official name
     u8  cur_segment;    // 31
     Position steps[SAI_MAX_PATH_POINTS]; // 32  
-    //unsure of exact size
   };
 
   char *getMoveStateName(u8 bMoveState)

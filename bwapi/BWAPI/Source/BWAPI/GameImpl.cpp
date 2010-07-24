@@ -1143,4 +1143,8 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
     addShape(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
   }
+  void *GameImpl::getScreenBuffer()
+  {
+    return BW::BWDATA_GameScreenBuffer->data;
+  }
 };
