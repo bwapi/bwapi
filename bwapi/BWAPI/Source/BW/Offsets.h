@@ -167,6 +167,7 @@ namespace BW
   static void (__fastcall **BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
   static dialog           **BWDATA_DialogList                                   = (dialog**)  0x006D5E34;
   static fntHead          **BWDATA_FontBase                                     = (fntHead**) 0x006CE0F4;
+  static bitmap           *BWDATA_GameScreenBuffer                              = (bitmap*)   0x006CEFF0;
 
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
@@ -175,28 +176,29 @@ namespace BW
   extern TileType   *BWDATA_TileSet;
   extern DoodatType *BWDATA_DoodatSet;
 
-  static Positions      *BWDATA_MapSize                   = (Positions*)   0x0057F1D4;
-  static Unit**         BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**) 0x00628430;
-  static Unit**         BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**) 0x006283EC;
-  static Unit**         BWDATA_UnitNodeList_ScannerSweep_First = (Unit**) 0x006283F4;
-  static Unit**         BWDATA_UnitNodeList_UnusedUnit_First   = (Unit**) 0x00628438;
-  static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
-  static UnitArray*     BWDATA_UnitNodeTable              = (UnitArray*)   0x0059CCA8;
-  const  u32            UNIT_ARRAY_MAX_LENGTH             = 1700;
+  static Positions      *BWDATA_MapSize                         = (Positions*)   0x0057F1D4;
+  static Unit**         BWDATA_UnitNodeList_VisibleUnit_First   = (Unit**) 0x00628430;
+  static Unit**         BWDATA_UnitNodeList_HiddenUnit_First    = (Unit**) 0x006283EC;
+  static Unit**         BWDATA_UnitNodeList_ScannerSweep_First  = (Unit**) 0x006283F4;
+  static Unit**         BWDATA_UnitNodeList_UnusedUnit_First    = (Unit**) 0x00628438;
+  static Unit**         BWDATA_UnitNodeTable_PlayerFirstUnit    = (Unit**)    0x0062843C;               // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
+  static UnitArray*     BWDATA_UnitNodeTable                    = (UnitArray*)   0x0059CCA8;
+  const  u32            UNIT_ARRAY_MAX_LENGTH                   = 1700;
 
-  static u8*            BWDATA_Latency                    = (u8*)          0x006556e4;
+  static u8*            BWDATA_Latency                          = (u8*)          0x006556e4;
   static void (_stdcall* selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
-  static u32            BWFXN_OldIssueCommand                     =        0x00485BD0;
-  static u32*           BWDATA_InGame                             = (u32*) 0x006556E0;
-  static u32*           BWDATA_InReplay                           = (u32*) 0x006D0F14;
-  static u8*            BWDATA_IsMultiplayer                      = (u8*)  0x0065fbf0;
-  static u8*            BWDATA_IsBattleNet                        = (u8*)  0x006D5ED0;
-  static u8*            BWDATA_IsNotPaused                        = (u8*)  0x0051CE6C;
+  
+  static u32            BWFXN_OldIssueCommand =        0x00485BD0;
+  static u32*           BWDATA_InGame         = (u32*) 0x006556E0;
+  static u32*           BWDATA_InReplay       = (u32*) 0x006D0F14;
+  static u8*            BWDATA_IsMultiplayer  = (u8*)  0x0065fbf0;
+  static u8*            BWDATA_IsBattleNet    = (u8*)  0x006D5ED0;
+  static u8*            BWDATA_IsNotPaused    = (u8*)  0x0051CE6C;
 
-  static u8*            BWDATA_GameState                          = (u8*)  0x006D11EC;
-  static u16*           BWDATA_GamePosition                       = (u16*) 0x0051CE90;
+  static u8*            BWDATA_GameState      = (u8*)  0x006D11EC;
+  static u16*           BWDATA_GamePosition   = (u16*) 0x0051CE90;
 
-  static u16*           BWDATA_gwGameMode                         = (u16*) 0x00596904;
+  static u16*           BWDATA_gwGameMode     = (u16*) 0x00596904;
   /*
     GAME_INTRO          = 0,  // guessed
 
@@ -207,7 +209,7 @@ namespace BW
     GAME_EPILOG         = 9,  // guessed
     GAME_CINEMATIC      = 10  // guessed
   */
-  static u32*           BWDATA_glGluesMode                        = (u32*) 0x006D11BC;
+  static u32*           BWDATA_glGluesMode    = (u32*) 0x006D11BC;
   /*
     GLUE_MAIN_MENU,         // guess
     GLUE_SIMULATE,          // guess

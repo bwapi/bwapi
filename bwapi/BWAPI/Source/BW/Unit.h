@@ -105,7 +105,7 @@ namespace BW
     /*0x080*/ BW::Unit                            *connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
     /*0x084*/ u8                                  orderQueueCount;         /**< @todo Verify */
     /*0x085*/ u8                                  unknownOrderTimer_0x085; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
-    /*0x086*/ u16                                 unknown_0x086;
+    /*0x086*/ u16                                 unknown_0x086;  // pathing related
     /*0x088*/ u16                                 displayedUnitID;
     /*0x08A*/ u16                                 unknown_0x08A;
     /*0x08C*/ u8                                  unknown_0x08C;
@@ -289,9 +289,9 @@ namespace BW
     /*0x138*/ u16                                 airStrength;        /**< verified */
     /*0x13A*/ u16                                 groundStrength;     /**< verified */
     /*0x13C*/ u32                                 leftMostUnitOrder;  // Left-to-right order (triggers for example)
-    /*0x13C*/ u32                                 leftMostUnitOrder2; // Left-to-right variant
-    /*0x13C*/ u32                                 topMostUnitOrder;   // Top-to-bottom order
-    /*0x13C*/ u32                                 topMostUnitOrder2;  // Top-to-bottom variant
+    /*0x140*/ u32                                 leftMostUnitOrder2; // Left-to-right variant
+    /*0x144*/ u32                                 topMostUnitOrder;   // Top-to-bottom order
+    /*0x148*/ u32                                 topMostUnitOrder2;  // Top-to-bottom variant
     /*0x14C*/ u8                                  repulseUnknown;     /**< @todo Unknown */
     /*0x14D*/ u8                                  repulseAngle;       // updated only when air unit is being pushed
     /*0x14E*/ u8                                  driftPosX;          /**< (mapsizex/1.5 max) */

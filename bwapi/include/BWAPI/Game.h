@@ -365,6 +365,9 @@ namespace BWAPI
       virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color) = 0;
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color) = 0;
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color) = 0;
+
+      /** Retrieves the screen buffer for the game (excluding the HUD) */
+      virtual void *getScreenBuffer() = 0;
   };
   extern Game* Broodwar;
 }
