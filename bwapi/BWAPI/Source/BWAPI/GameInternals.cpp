@@ -315,7 +315,7 @@ namespace BWAPI
           printf("BWAPI: Loaded the AI Module: %s", szDllPath);
         }
       }
-      events.push_back(Event::MatchStart());
+      events.push_front(Event::MatchStart());
       this->startedClient = true;
     }
 
@@ -1340,18 +1340,24 @@ namespace BWAPI
       else
       {
         if (u->wasVisible)
+        {
           hideUnits.push_back(u);
+          events.push_back(Event::UnitHide(u));
+        }
       }
     }
     for each(UnitImpl* u in dyingUnits)
     {
+      if (u->wasVisible)
+      {
+        hideUnits.push_back(u);
+        events.push_back(Event::UnitHide(u));
+      }
       if (u->wasAccessible)
       {
         evadeUnits.push_back(u);
         events.push_back(Event::UnitDestroy(u));
       }
-      if (u->wasVisible)
-        hideUnits.push_back(u);
     }
   }
   void GameImpl::extractUnitData()
@@ -1570,8 +1576,6 @@ namespace BWAPI
     augmentUnitData();
     applyLatencyCompensation();
     computeSecondaryUnitSets();
-    for each(UnitImpl* u in hideUnits)
-      events.push_back(Event::UnitHide(u));
   }
   void GameImpl::processEvents()
   {
