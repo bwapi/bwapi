@@ -70,10 +70,12 @@ namespace BWAPI
       e2.player=getPlayer(e.v1);
       e2.text=data->strings[e.v2];
     }
-    if (e.type==EventType::UnitCreate ||
-        e.type==EventType::UnitDestroy ||
+    if (e.type==EventType::UnitDiscover ||
+        e.type==EventType::UnitEvade ||
         e.type==EventType::UnitShow ||
         e.type==EventType::UnitHide ||
+        e.type==EventType::UnitCreate ||
+        e.type==EventType::UnitDestroy ||
         e.type==EventType::UnitRenegade ||
         e.type==EventType::UnitMorph)
       e2.unit=getUnit(e.v1);
