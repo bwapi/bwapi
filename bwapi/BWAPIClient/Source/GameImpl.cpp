@@ -1142,4 +1142,8 @@ namespace BWAPI
   {
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Screen,x1,y1,x2,y2,0,0,color.getID(),false));
   }
+  void* GameImpl::getScreenBuffer()
+  {
+    return (void*)NULL;
+  }
 };

@@ -191,6 +191,30 @@ void ExampleAIModule::onNukeDetect(BWAPI::Position target)
     Broodwar->printf("Nuclear Launch Detected");
 }
 
+void ExampleAIModule::onUnitDiscover(BWAPI::Unit* unit)
+{
+  if (!Broodwar->isReplay())
+    Broodwar->sendText("A %s [%x] has been discovered at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
+}
+
+void ExampleAIModule::onUnitEvade(BWAPI::Unit* unit)
+{
+  if (!Broodwar->isReplay())
+    Broodwar->sendText("A %s [%x] was last accessible at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
+}
+
+void ExampleAIModule::onUnitShow(BWAPI::Unit* unit)
+{
+  if (!Broodwar->isReplay())
+    Broodwar->sendText("A %s [%x] has been spotted at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
+}
+
+void ExampleAIModule::onUnitHide(BWAPI::Unit* unit)
+{
+  if (!Broodwar->isReplay())
+    Broodwar->sendText("A %s [%x] was last seen at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
+}
+
 void ExampleAIModule::onUnitCreate(BWAPI::Unit* unit)
 {
   if (!Broodwar->isReplay())
@@ -231,18 +255,6 @@ void ExampleAIModule::onUnitMorph(BWAPI::Unit* unit)
       Broodwar->sendText("%.2d:%.2d: %s morphs a %s",minutes,seconds,unit->getPlayer()->getName().c_str(),unit->getType().getName().c_str());
     }
   }
-}
-
-void ExampleAIModule::onUnitShow(BWAPI::Unit* unit)
-{
-  if (!Broodwar->isReplay())
-    Broodwar->sendText("A %s [%x] has been spotted at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
-}
-
-void ExampleAIModule::onUnitHide(BWAPI::Unit* unit)
-{
-  if (!Broodwar->isReplay())
-    Broodwar->sendText("A %s [%x] was last seen at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
 }
 
 void ExampleAIModule::onUnitRenegade(BWAPI::Unit* unit)

@@ -192,5 +192,7 @@ namespace BWAPI
       virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
+
+      virtual void *getScreenBuffer();
   };
 }
