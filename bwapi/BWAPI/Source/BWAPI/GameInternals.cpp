@@ -1320,42 +1320,46 @@ namespace BWAPI
     {
       if (u->canAccess())
       {
-        if (u->wasAccessible==false)
-          discoverUnits.push_back(u);
         if (u->wasAlive==false)
           events.push_back(Event::UnitCreate(u));
+        if (u->wasAccessible==false)
+        {
+          discoverUnits.push_back(u);
+          events.push_back(Event::UnitDiscover(u));
+        }
+        if (u->isVisible())
+        {
+          if (u->wasVisible==false)
+            events.push_back(Event::UnitShow(u));
+          visibleUnits.push_back(u);
+        }
         accessibleUnits.insert(u);
       }
       else
       {
         if (u->wasAccessible)
+        {
+          if (u->wasVisible)
+          {
+            hideUnits.push_back(u);
+            events.push_back(Event::UnitHide(u));
+          }
           evadeUnits.push_back(u);
+          events.push_back(Event::UnitEvade(u));
+        }
       }
-      if (u->isVisible())
-      {
-        if (u->wasVisible==false)
-          events.push_back(Event::UnitShow(u));
-        visibleUnits.push_back(u);
-      }
-      else
+    }
+    for each(UnitImpl* u in dyingUnits)
+    {
+      if (u->wasAccessible)
       {
         if (u->wasVisible)
         {
           hideUnits.push_back(u);
           events.push_back(Event::UnitHide(u));
         }
-      }
-    }
-    for each(UnitImpl* u in dyingUnits)
-    {
-      if (u->wasVisible)
-      {
-        hideUnits.push_back(u);
-        events.push_back(Event::UnitHide(u));
-      }
-      if (u->wasAccessible)
-      {
         evadeUnits.push_back(u);
+        events.push_back(Event::UnitEvade(u));
         events.push_back(Event::UnitDestroy(u));
       }
     }
@@ -1465,7 +1469,6 @@ namespace BWAPI
 
     for each(UnitImpl* u in discoverUnits)
     {
-      events.push_back(Event::UnitDiscover(u));
       ((PlayerImpl*)u->getPlayer())->units.insert(u);
       if (u->getPlayer()->isNeutral())
       {
@@ -1486,7 +1489,6 @@ namespace BWAPI
     }
     for each(UnitImpl* u in evadeUnits)
     {
-      events.push_back(Event::UnitEvade(u));
       ((PlayerImpl*)u->getPlayer())->units.erase(u);
       if (u->getPlayer()->isNeutral())
       {
