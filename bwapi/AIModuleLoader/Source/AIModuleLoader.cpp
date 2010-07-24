@@ -94,6 +94,12 @@ int main(int argc, const char* argv[])
           case EventType::UnitEvade:
             client->onUnitEvade(e->unit);
           break;
+          case EventType::UnitShow:
+            client->onUnitShow(e->unit);
+          break;
+          case EventType::UnitHide:
+            client->onUnitHide(e->unit);
+          break;
           case EventType::UnitCreate:
             client->onUnitCreate(e->unit);
           break;
@@ -102,12 +108,6 @@ int main(int argc, const char* argv[])
           break;
           case EventType::UnitMorph:
             client->onUnitMorph(e->unit);
-          break;
-          case EventType::UnitShow:
-            client->onUnitShow(e->unit);
-          break;
-          case EventType::UnitHide:
-            client->onUnitHide(e->unit);
           break;
           case EventType::UnitRenegade:
             client->onUnitRenegade(e->unit);
