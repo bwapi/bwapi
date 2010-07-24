@@ -51,6 +51,15 @@ namespace BWAPI
       /** BWAPI calls this when a unit becomes inaccessible. */
       virtual void onUnitEvade(Unit* unit);
 
+      /** BWAPI calls this the instant a previously invisible unit becomes visible. The complete map
+       * information flag has no effect on this callback. */
+      virtual void onUnitShow(Unit* unit);
+
+      /** BWAPI calls this right before a unit becomes invisible, so if you want your non-cheating AI to
+       * remember where it last saw a unit, this callback would be a good place to implement it. The complete
+       * map information flag has no effect on this callback. */
+      virtual void onUnitHide(Unit* unit);
+
       /** BWAPI calls this when a unit is created. Note that this is NOT called when a unit changes type
        * (such as larva into egg or egg into drone). Building a refinery/assimilator/extractor will not
        * produce an onUnitCreate call since the vespene geyser changes to the unit type of the
@@ -70,15 +79,6 @@ namespace BWAPI
        * Terran Siege Tank Tank Mode to Terran Siege Tank Siege Mode. This is not called when the type changes
        * to or from UnitTypes::Unknown (which happens when a unit becomes visible or invisible). */
       virtual void onUnitMorph(Unit* unit);
-
-      /** BWAPI calls this the instant a previously invisible unit becomes visible. The complete map
-       * information flag has no effect on this callback. */
-      virtual void onUnitShow(Unit* unit);
-
-      /** BWAPI calls this right before a unit becomes invisible, so if you want your non-cheating AI to
-       * remember where it last saw a unit, this callback would be a good place to implement it. The complete
-       * map information flag has no effect on this callback. */
-      virtual void onUnitHide(Unit* unit);
 
       /** BWAPI calls this when an accessible unit changes ownership. */
       virtual void onUnitRenegade(Unit* unit);

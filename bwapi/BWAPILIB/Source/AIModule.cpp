@@ -34,6 +34,12 @@ namespace BWAPI
   void AIModule::onUnitEvade(BWAPI::Unit* unit)
   {
   }
+  void AIModule::onUnitShow(BWAPI::Unit* unit)
+  {
+  }
+  void AIModule::onUnitHide(BWAPI::Unit* unit)
+  {
+  }
   void AIModule::onUnitCreate(BWAPI::Unit* unit)
   {
   }
@@ -41,12 +47,6 @@ namespace BWAPI
   {
   }
   void AIModule::onUnitMorph(BWAPI::Unit* unit)
-  {
-  }
-  void AIModule::onUnitShow(BWAPI::Unit* unit)
-  {
-  }
-  void AIModule::onUnitHide(BWAPI::Unit* unit)
   {
   }
   void AIModule::onUnitRenegade(BWAPI::Unit* unit)
