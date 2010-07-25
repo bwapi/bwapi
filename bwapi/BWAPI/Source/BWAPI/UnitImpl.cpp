@@ -2086,6 +2086,10 @@ namespace BWAPI
       return true;
     if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
+    /* neutral units visible during AIModule::onStart */
+    if (Broodwar->getFrameCount()==0)
+      if (this->_getType.isNeutral())
+        return true;
     return self->isDetected;
 
   }
