@@ -152,7 +152,7 @@ void CancelTrainTest::update()
     BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count+1,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
-    if (thisFrame>startFrame+150)
+    if (thisFrame>=startFrame+150)
     {
       BWAssertF(producer->cancelTrain(0),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
       correctTrainingQueue.pop_front();
@@ -175,14 +175,14 @@ void CancelTrainTest::update()
     BWAssertF(producer->isConstructing()==false,{fail=true;return;});
     BWAssertF(producer->isIdle()==false,{fail=true;return;});
     BWAssertF(producer->isLifted()==false,{fail=true;return;});
-    BWAssertF(verifyTrainingQueue(),{fail=true;return;});
+    BWAssertF(verifyTrainingQueue(),{Broodwar->printf("line 178: %d",thisFrame-startFrame-150);fail=true;return;});
     BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{Broodwar->printf("%d != %d",Broodwar->self()->allUnitCount(unitType1),originalAllUnit1Count);fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{fail=true;return;});
+    BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);});
+    BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->allUnitCount(unitType1),originalAllUnit1Count);fail=true;return;});
+    BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->allUnitCount(unitType2),originalAllUnit2Count+1);fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
-    if (thisFrame>startFrame+300)
+    if (thisFrame>=startFrame+300)
     {
       BWAssertF(producer->cancelTrain(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
       correctTrainingQueue.pop_back();
@@ -211,7 +211,7 @@ void CancelTrainTest::update()
     BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
-    if (thisFrame>startFrame+450)
+    if (thisFrame>=startFrame+450)
     {
       BWAssertF(producer->cancelTrain(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
       correctTrainingQueue.pop_back();

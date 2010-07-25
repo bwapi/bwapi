@@ -24,11 +24,8 @@ using namespace std;
 using namespace BWAPI;
 void TerranTest::onStart()
 {
-  BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::CompleteMapInformation);
-  Broodwar->sendText("show me the money");
-  Broodwar->sendText("show me the money");
 
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new LiftTest(UnitTypes::Terran_Command_Center));
@@ -57,6 +54,7 @@ void TerranTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
   this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Marine,UnitTypes::Terran_Medic,UnitTypes::Terran_Firebat));
+  return;
   this->addTestCase(new BuildTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory,true));
   this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory));

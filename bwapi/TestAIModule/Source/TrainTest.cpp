@@ -72,12 +72,16 @@ void TrainTest::update()
   nextFrame++;
   Broodwar->setScreenPosition(producer->getPosition().x()-320,producer->getPosition().y()-240);
   int correctRemainingTrainTime = startFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
+  if (Broodwar->getLatency()==5)
+    correctRemainingTrainTime -= 2;
   if (correctRemainingTrainTime>unitType.buildTime())
     correctRemainingTrainTime=unitType.buildTime();
   if (correctRemainingTrainTime<0)
     correctRemainingTrainTime=0;
   BWAssertF(producer->getRemainingTrainTime() == correctRemainingTrainTime,{Broodwar->printf("%d %d",producer->getRemainingTrainTime(), correctRemainingTrainTime);});
   int lastFrame = startFrame+Broodwar->getLatency()+unitType.buildTime();
+  if (Broodwar->getLatency()==5)
+    lastFrame-=2;
   if (unitType==UnitTypes::Terran_Nuclear_Missile)
     lastFrame++;
   if (thisFrame>lastFrame) //terminate condition
@@ -85,15 +89,15 @@ void TrainTest::update()
     running = false;
     return;
   }
-  BWAssertF(producer->isTraining()==true,{fail=true;return;});
+  BWAssertF(producer->isTraining()==true,{Broodwar->printf("%d",thisFrame-startFrame);fail=true;return;});
   BWAssertF(producer->isConstructing()==false,{fail=true;return;});
   BWAssertF(producer->isIdle()==false,{fail=true;return;});
   BWAssertF(producer->isLifted()==false,{fail=true;return;});
-  BWAssertF(producer->getTrainingQueue().size()==1,{Broodwar->printf("tq size = %d, %s",producer->getTrainingQueue().size(),(*producer->getTrainingQueue().begin()).getName().c_str());fail=true;return;});
+  BWAssertF(producer->getTrainingQueue().size()==1,{Broodwar->printf("%d tq size = %d",thisFrame-startFrame,producer->getTrainingQueue().size());fail=true;return;});
   BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
-  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
+  BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d: %d!=%d",thisFrame-startFrame,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
   BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
 }
 
