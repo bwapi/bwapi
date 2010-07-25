@@ -146,7 +146,7 @@ void BuildTest::update()
       BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
     }
     BWAssertF(building!=NULL,{fail=true;return;});
-    if (thisFrame>finishFrame+100)
+    if (thisFrame>finishFrame+200)
     {
       running = false;
     }

@@ -230,7 +230,8 @@ namespace BWAPI
       if (!unit->self->exists) return;
       if (savedExtra==-1)
         savedExtra = unit->self->trainingQueue[unit->self->trainingQueueCount-1];
-      if (frame<Broodwar->getLatency())
+      if ((frame<Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+          (frame<Broodwar->getLatency()-2 && Broodwar->getLatency()>2))
       {
         unit->self->trainingQueueCount--;
         if (unit->self->trainingQueueCount<0)
@@ -253,7 +254,8 @@ namespace BWAPI
       if (frame>Broodwar->getLatency()+2) return;
       if (savedExtra==-1)
         savedExtra = unit->self->trainingQueue[command.extra];
-      if (frame<Broodwar->getLatency())
+      if ((frame<Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+          (frame<Broodwar->getLatency()-2 && Broodwar->getLatency()>2))
       {
         for(int i=command.extra;i<4;i++)
           unit->self->trainingQueue[i]=unit->self->trainingQueue[i+1];
@@ -265,11 +267,13 @@ namespace BWAPI
       }
       if (command.extra==0)
       {
-        if (frame<Broodwar->getLatency())
+        if ((frame<Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+            (frame<Broodwar->getLatency()-1 && Broodwar->getLatency()>2))
         {
           player->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
         }
-        if (frame<Broodwar->getLatency()+1)
+        if ((frame<=Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+            (frame<Broodwar->getLatency()-1 && Broodwar->getLatency()>2))
         {
           player->self->allUnitCount[savedExtra]--;
         }
@@ -284,7 +288,8 @@ namespace BWAPI
           unit->self->remainingTrainTime=UnitType(unit->self->trainingQueue[0]).buildTime();
           player->self->supplyUsed[unit->getType().getRace().getID()] += UnitType(unit->self->trainingQueue[0]).supplyRequired();
           player->self->allUnitCount[unit->self->trainingQueue[0]]++;
-          if (frame==Broodwar->getLatency())
+          if ((frame==Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+              (frame==Broodwar->getLatency()+1 && Broodwar->getLatency()>2) )
           {
             player->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
           }
@@ -579,18 +584,23 @@ namespace BWAPI
       if (!unit->self->exists) return;
       if (savedExtra==-1)
         savedExtra = unit->self->trainingQueueCount;
-      if (frame<Broodwar->getLatency())
+      if ((frame<Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+          (frame<Broodwar->getLatency()-2 && Broodwar->getLatency()>2))
       {
         unit->self->trainingQueue[unit->self->trainingQueueCount] = unitType.getID();
         unit->self->trainingQueueCount++;
         player->self->minerals -= unitType.mineralPrice();
         player->self->gas      -= unitType.gasPrice();
       }
-      if (savedExtra==0)
+      if ((frame<=Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+          (frame<Broodwar->getLatency()-1 && Broodwar->getLatency()>2))
       {
-        player->self->allUnitCount[unitType.getID()]++;
-        unit->self->remainingTrainTime = unitType.buildTime();
-        player->self->supplyUsed[unitType.getRace().getID()] += unitType.supplyRequired();
+        if (savedExtra==0)
+        {
+          player->self->allUnitCount[unitType.getID()]++;
+          unit->self->remainingTrainTime = unitType.buildTime();
+          player->self->supplyUsed[unitType.getRace().getID()] += unitType.supplyRequired();
+        }
       }
       unit->self->isTraining = true;
       unit->self->isIdle = false;
