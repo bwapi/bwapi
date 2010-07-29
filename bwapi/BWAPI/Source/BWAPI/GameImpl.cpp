@@ -511,6 +511,8 @@ namespace BWAPI
   bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
     this->setLastError(Errors::Unbuildable_Location);
+
+    //return false if the position is not on the map
     if (position.x() < 0)
       return false;
     if (position.y() < 0)
@@ -521,6 +523,9 @@ namespace BWAPI
       return false;
     if (position.y() + height >= this->mapHeight())
       return false;
+
+    //if the unit is a refinery, we just need to check the set of geysers to see if the position
+    //matches one of them (and the type is still vespene geyser)
     if (type.isRefinery())
     {
       foreach (Unit* g, getGeysers())
@@ -535,6 +540,7 @@ namespace BWAPI
       }
       return false;
     }
+    //check to see if any ground units are blocking the build site
     for(int x = position.x(); x < position.x() + width; x++)
     {
       for(int y = position.y(); y < position.y() + height; y++)
@@ -544,19 +550,23 @@ namespace BWAPI
           if (!i->getType().isFlyer() && !i->isLifted())
             groundUnits.insert(i);
 
-        if (!this->isBuildable(x,y) || groundUnits.size() > 1)
+        if (!this->isBuildable(x,y) || groundUnits.size() > 1) //found at least two ground units blocking build site, or tile is unbuildable, so return false
           return false;
 
-        if (!groundUnits.empty())
+        if (!groundUnits.empty()) //if only 1 unit is blocking build site...
         {
+          //check to see if the blocking unit is the builder unit
           Unit* blocking = *(groundUnits.begin());
-          if (blocking != builder)
+          //if its different, then return false
+          if (blocking != builder) 
             return false;
         }
       }
     }
+
     if (type.getRace() == BWAPI::Races::Zerg)
     {
+      //Most Zerg buildings can only be built on creep
       if (!type.isResourceDepot())
         for(int x = position.x(); x < position.x() + width; x++)
           for(int y = position.y(); y < position.y() + height; y++)
@@ -565,12 +575,14 @@ namespace BWAPI
     }
     else
     {
+      //Non-zerg buildings cannot be built on creep
       for(int x = position.x(); x < position.x() + width; x++)
         for(int y = position.y(); y < position.y() + height; y++)
           if (BWAPI::Broodwar->hasCreep(x, y))
             return false;
     }
 
+    //Most Protoss buildings can only be built in a power field
     if (type.requiresPsi())
     {
       if (this->hasPower(position.x(), position.y(), width, height))
@@ -581,6 +593,7 @@ namespace BWAPI
       return false;
     }
 
+    //Command Centers, Nexuses, and Hatcheries cannot be built too close to resources
     if (type.isResourceDepot())
     {
       foreach (BWAPI::Unit* m, getStaticMinerals())
@@ -608,6 +621,7 @@ namespace BWAPI
         }
       }
     }
+    //if the build site passes all these tests, return true.
     this->setLastError(Errors::None);
     return true;
   }

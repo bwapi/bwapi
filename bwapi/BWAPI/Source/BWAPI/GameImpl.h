@@ -247,7 +247,6 @@ namespace BWAPI
       /** Unknown unitID's */
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;
-      bool inUpdate;
       std::list<std::string > sentMessages;
       void onSaveGame(char *name);
       BWAPI::UnitImpl *spriteToUnit(BW::CSprite *sprite);
