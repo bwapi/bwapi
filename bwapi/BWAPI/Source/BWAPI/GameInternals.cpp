@@ -54,7 +54,9 @@
 #include "ShapeTriangle.h"
 #include "ShapeText.h"
 #include "BWtoBWAPI.h"
-
+/*
+  This files holds all functions of the GameImpl class that are not part of the Game interface.
+ */
 namespace BWAPI
 {
   Game* Broodwar;
@@ -67,7 +69,6 @@ namespace BWAPI
       , enabled(true)
       , client(NULL)
       , startedClient(false)
-      , inUpdate(false)
       , inGame(false)
       , calledOnEnd(false)
       , frameCount(0)
@@ -151,8 +152,11 @@ namespace BWAPI
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
+    //this function is called every frame from a hook attached in DllMain.cpp
+
     this->inGame = true;
 
+    //menu dialog code
     if ( myDlg )
       myDlg->update();
     
@@ -168,12 +172,14 @@ namespace BWAPI
       canvas->update();
     }
 
+    //click the menu dialog that pops up when you win/lose a game
     BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
     if ( !endDialog )
       endDialog = BW::FindDialogGlobal("WMission");
     if ( endDialog )
       endDialog->findIndex(-2)->activate();
 
+    // Compute frame rate
     accumulatedFrames++;
     DWORD currentTickCount = GetTickCount();
     if ( currentTickCount >= lastTickCount + 1000 )
@@ -195,12 +201,14 @@ namespace BWAPI
 
     try
     {
-      this->inUpdate = true;
+      //the first time update() is called, we also call onGameStart to initialize some things
       if (!onStartCalled)
         this->onGameStart();
       
       if (!this->enabled)
         return;
+
+      //check to see if the game has ended
       if (this->client != NULL && this->calledOnEnd == false)
       {
         if (this->BWAPIPlayer != NULL)
@@ -242,8 +250,10 @@ namespace BWAPI
         }
       }
 
+      //save the list of selected units and update the selected field of existing units
       refreshSelectionStates();
 
+      //update players and check to see if they have just left the game.
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
       {
         bool prevLeftGame=this->players[i]->leftGame();
@@ -251,15 +261,21 @@ namespace BWAPI
         if (!prevLeftGame && this->players[i]->leftGame())
           events.push_back(Event::PlayerLeft((Player*)this->players[i]));
       }
+      //update properties of Unit objects
       this->updateUnits();
+      //update properties of Bullet objects
       this->updateBullets();
+
+      //clear all shapes
       for (unsigned int i = 0; i < this->shapes.size(); i++)
         delete this->shapes[i];
       this->shapes.clear();
-      this->inUpdate = false;
 
+      //iterate through the list of intercepted messages
       foreach(std::string i, sentMessages)
         BroodwarImpl.onSendText(i.c_str());
+
+      //clear all intercepted messages
       this->sentMessages.clear();
 
     }
@@ -270,16 +286,18 @@ namespace BWAPI
       fclose(f);
     }
 
+    //on the first frame we check to see if the client process has connected.
+    //if not, then we load the AI dll specified in bwapi.ini
     if (this->startedClient == false)
     {
       sendText("BWAPI revision %s is now live.", SVN_REV_STR);
-      if (server.isConnected())
+      if (server.isConnected()) //check to see if the server is connected to the client
       {
         Util::Logger::globalLog->logCritical("Client connected, not loading AI module.");
         this->client = new AIModule();
         printf("BWAPI: Connected to AI Client process");
       }
-      else
+      else // if not, load the AI module DLL
       {
         TCHAR szDllPath[MAX_PATH];
         GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
@@ -295,6 +313,7 @@ namespace BWAPI
         hMod = LoadLibrary(szDllPath);
         if (hMod == NULL)
         {
+          //if hMod is a null pointer, there there was a problem when trying to load the AI Module
           Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
@@ -315,16 +334,27 @@ namespace BWAPI
           printf("BWAPI: Loaded the AI Module: %s", szDllPath);
         }
       }
+      //push the MatchStart event to the front of the queue so that it is the first event in the queue.
       events.push_front(Event::MatchStart());
       this->startedClient = true;
     }
 
+    //each frame we add a MatchFrame event to the queue
     events.push_back(Event::MatchFrame());
+
+    //if the AI is a DLL, processEvents() will translate the events into AIModule callbacks.
     processEvents();
+
+    //if the AI is a client process, this will signal the client to process the next frame
     server.update();
 
+    //Before returning control to starcraft, we clear the unit data for units that are no longer accessible
     for each(UnitImpl* u in evadeUnits)
       u->updateData();
+
+    //We also kill the units that are dying on this frame.
+    //We wait until after server.update() and processEvents() to do this so that the AI can
+    //access the last frame of unit data during the onUnitDestroy callback.
     for each(UnitImpl* u in dyingUnits)
     {
       deadUnits.push_back(u);
@@ -333,13 +363,20 @@ namespace BWAPI
       u->die();
     }
 
+    //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
     this->loadSelected();
+
+    //increment frame count if the game is not paused
     if (!this->isPaused())
       this->frameCount++;
+
+    //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
   void GameImpl::loadAutoMenuData()
   {
+    //this function is called when starcraft loads and at the end of each match.
+    //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
     GetPrivateProfileStringA("config", "auto_menu", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     this->autoMenuMode = std::string(buffer);
@@ -373,6 +410,7 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
+    //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame = false;
     events.push_back(Event::MenuFrame());
     this->server.update();
@@ -804,6 +842,7 @@ namespace BWAPI
 
   void GameImpl::pressKey(int key)
   {
+    //simulates a key press using the winapi
     INPUT *keyp          = new INPUT;
     keyp->type           = INPUT_KEYBOARD;
     keyp->ki.wVk         = (WORD)key;
@@ -817,6 +856,7 @@ namespace BWAPI
   }
   void GameImpl::mouseDown(int x, int y)
   {
+    //simulates a mouse press using the winapi
     INPUT *i          = new INPUT;
     i->type           = INPUT_MOUSE;
     i->mi.dx          = x;
@@ -827,6 +867,7 @@ namespace BWAPI
   }
   void GameImpl::mouseUp(int x, int y)
   {
+    //simulates a mouse release using the winapi
     INPUT *i          = new INPUT;
     i->type           = INPUT_MOUSE;
     i->mi.dx          = x;
@@ -856,12 +897,15 @@ namespace BWAPI
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
   {
+    //executes latency compensation code and added it to the buffer
     command->execute(0);
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
   }
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
+    //This function is called at the start of every match
+
     /* initialize the variables */
     frameCount  = 0;
     textSize    = 1;
@@ -886,12 +930,12 @@ namespace BWAPI
     }
     else
     {
-      /* find the current player by name */
+      /* find the current player by name. Note: a better way of finding the player exists now so this code could be updated */
       for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
         if (this->players[i] != NULL && strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
           this->BWAPIPlayer = this->players[i];
 
-      /* error if player not found */
+      /* generate an error if player not found */
       if (this->BWAPIPlayer == NULL)
       {
         this->commandLog->log("Error: Could not locate BWAPI player.");
@@ -912,7 +956,7 @@ namespace BWAPI
         this->commandLog->log("Warning: Could not find any opponent");
     }
 
-    /* get the start locations */
+    /* get the set of start locations */
     BW::Positions* posptr = BW::BWDATA_startPositions;
     this->startLocations.clear();
     this->playerSet.clear();
@@ -924,6 +968,7 @@ namespace BWAPI
       posptr++;
     }
 
+    //Note: the following code computes the set of Forces, however this code is really messy and hackish. A better way of finding the forces exists.
     /* get force names */
     std::set<std::string> force_names;
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
@@ -955,6 +1000,7 @@ namespace BWAPI
         this->players[i]->force = force;
       }
     }
+
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
 
     canvas = BW::CreateCanvas("Canvas");
@@ -963,7 +1009,7 @@ namespace BWAPI
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)
   {
-    /* Get Player ID */
+    /* Translates a storm ID to a player Index */
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
     {
       if ( BW::BWDATA_Players->player[i].dwStormId == (u32)dwStormId )
@@ -1087,6 +1133,7 @@ namespace BWAPI
   //---------------------------------------------- ON GAME END -----------------------------------------------
   void GameImpl::onGameEnd()
   {
+    //this is called at the end of every match
     onStartCalled = false;
 
     if ( myDlg )
@@ -1124,6 +1171,7 @@ namespace BWAPI
       delete this->client;
       this->client = NULL;
     }
+    //clear all sets
     aliveUnits.clear();
     dyingUnits.clear();
     discoverUnits.clear();
@@ -1147,30 +1195,39 @@ namespace BWAPI
     staticGeysers.clear();
     staticNeutralUnits.clear();
 
+    //clear latency buffer
     this->commandBuffer.clear();
+
+    //remove AI Module from memory (object was already deleted)
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
-    for (int i = 0; i < 13; i++) // Why is this 13? There can only be 12 units selected.
+
+    //clear all selection states
+    for (int i = 0; i < 13; i++)
       this->savedSelectionStates[i] = NULL;
 
     this->invalidIndices.clear();
     this->selectedUnitSet.clear();
     this->startedClient = false;
+
+    //delete all dead units
     foreach (UnitImpl* d, this->deadUnits)
       delete d;
-
     this->deadUnits.clear();
 
+    //delete all shapes
     for (unsigned int i = 0; i < this->shapes.size(); i++)
       delete this->shapes[i];
-
     this->shapes.clear();
 
     for(int i = 0 ; i < BW::PLAYER_COUNT; i++)
       if (this->players[i] != NULL)
         this->players[i]->onGameEnd();
+
+    //reset game speeds
     this->setLocalSpeed(-1);
 
+    //reset all Unit objects in the unit array
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
     {
       if (unitArray[i] == NULL)
@@ -1189,7 +1246,11 @@ namespace BWAPI
     this->cheatFlags  = 0;
     this->bulletCount = 0;
     this->calledOnEnd = false;
+
+    //reload auto menu data (in case the AI set the location of the next map/replay)
     this->loadAutoMenuData();
+
+    //clear everything in the server
     this->server.clearAll();
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
@@ -1230,6 +1291,8 @@ namespace BWAPI
   }
   bool inline isAlive(UnitImpl* i, bool isHidden=false)
   {
+    //this function determines if a unit in one of the alive unit lists is actually "alive" according to BWAPI
+    //this function is only used in computeUnitExistence and shouldn't be called from any other function
     if (i->getOriginalRawData->orderID == BW::OrderID::Die) return false;
     UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
     if ( i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
@@ -1239,14 +1302,17 @@ namespace BWAPI
     int hitpoints = i->getOriginalRawData->hitPoints;
     if (i->_getType.isInvincible()==false && hitpoints <= 0) return false;
     if (i->getOriginalRawData->sprite==NULL) return false;
-    if (isHidden)
+    if (isHidden) //usually means: is inside another unit?
     {
       bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
-      if (_getType==UnitTypes::Unknown) return false;//skip subunits if they are in this list
-      if (!_isCompleted) return false;
+      if (_getType==UnitTypes::Unknown)
+        return false;//skip subunits if they are in this list
+      if (!_isCompleted)
+        return false; //return false if the internal unit is incomplete
       if (_getType==UnitTypes::Protoss_Scarab ||
           _getType==UnitTypes::Terran_Vulture_Spider_Mine ||
-          _getType==UnitTypes::Terran_Nuclear_Missile) return false;
+          _getType==UnitTypes::Terran_Nuclear_Missile)
+        return false;
     }
     return true;
   }
@@ -1258,7 +1324,9 @@ namespace BWAPI
       u->wasAlive = true;
       u->isAlive = false;
     }
-    lastEvadedUnits = evadeUnits;
+    lastEvadedUnits = evadeUnits;//save last evaded units for updating shared memory (Server.cpp)
+
+    //set the wasAccessible and wasVisible fields
     for each(UnitImpl* u in accessibleUnits)
       u->wasAccessible = true;
     for each(UnitImpl* u in evadeUnits)
@@ -1268,10 +1336,12 @@ namespace BWAPI
     for each(UnitImpl* u in hideUnits)
       u->wasVisible = false;
 
+    //fill dyingUnits set with all aliveUnits and then clear the aliveUnits set.
     dyingUnits = aliveUnits;
     aliveUnits.clear();
+    //Now we will add alive units to the aliveUnits set and remove them from the dyingUnits set based on the Broodwar unit lists:
 
-    //compute alive, new, and dying units
+    //compute alive and dying units
     for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); u!=NULL ; u = u->getNext())
     {
       if (isAlive(u))
@@ -1302,20 +1372,28 @@ namespace BWAPI
         u->updateInternalData();
       }
     }
-
+    //set the exists field to false for all dying units (though we don't update/clear their data yet)
     for each(UnitImpl* u in dyingUnits)
       u->self->exists = false;
   }
   //------------------------------------------ Compute Client Sets -------------------------------------------
   void GameImpl::computePrimaryUnitSets()
   {
-    discoverUnits.clear();
+    //this frame computes the set of accessible units and visible units.
     accessibleUnits.clear();
+
+    //discoverUnits is the set of units that have entered the accessibleUnits set this frame
+    discoverUnits.clear();
+
+    //evadeUnits is the set of units that have left the accessibleUnits set this frame
     evadeUnits.clear();
 
     visibleUnits.clear();
+
+    //hideUnits is the set of units that are becoming invisible this frame
     hideUnits.clear();
 
+    //computes sets, also generating UnitCreate, UnitDiscover, UnitShow, UnitDestroy, UnitEvade, and UnitHide callbacks
     for each(UnitImpl* u in aliveUnits)
     {
       if (u->canAccess())
@@ -1366,6 +1444,8 @@ namespace BWAPI
   }
   void GameImpl::extractUnitData()
   {
+    //this function extracts all current unit information from Broodwar memory for all the accessible units
+    //and also generates the NukeDetect event when needed
     for each (UnitImpl* i in aliveUnits)
     {
       i->connectedUnits.clear();
@@ -1404,6 +1484,7 @@ namespace BWAPI
   }
   void GameImpl::augmentUnitData()
   {
+    //this function modifies the extracted unit data for build unit, loaded units, larva, and interceptors
     for each (UnitImpl* i in accessibleUnits)
     {
       UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
@@ -1462,7 +1543,8 @@ namespace BWAPI
   }
   void GameImpl::computeSecondaryUnitSets()
   {
-    /* Clear all units on tile data */
+    // This function computes units on tile, player units, neutral units, minerals, geysers, pylons, and static unit sets
+    // Also generates the UnitMorph and UnitRenegade callbacks
     for (int y = 0; y < Map::getHeight(); y++)
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
@@ -1550,7 +1632,8 @@ namespace BWAPI
       i->lastPlayer = i->_getPlayer;
       i->lastType = i->_getType;
     }
-    if (this->staticNeutralUnits.empty())
+
+    if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now
     {
       foreach (UnitImpl* i, aliveUnits)
       {
@@ -1581,6 +1664,7 @@ namespace BWAPI
   }
   void GameImpl::processEvents()
   {
+    //This function translates events into AIModule callbacks
     if (client==NULL) return;
     if (server.isConnected()) return;
     for(std::list<Event>::iterator e=events.begin();e!=events.end();e++)
@@ -1646,6 +1730,7 @@ namespace BWAPI
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
   void GameImpl::updateBullets()
   {
+    //update bullet information
     for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
       this->bulletArray[i]->setExists(false);
     std::set<Bullet*> lastBullets = bullets;
@@ -1684,11 +1769,13 @@ namespace BWAPI
     int screen_y1 = y;
     if (ctype == 2)
     {
+      // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       screen_x1 -= *(BW::BWDATA_ScreenX);
       screen_y1 -= *(BW::BWDATA_ScreenY);
     }
     else if (ctype == 3)
     {
+      // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       screen_x1 += BW::BWDATA_Mouse->x;
       screen_y1 += BW::BWDATA_Mouse->y;
     }
@@ -1705,6 +1792,7 @@ namespace BWAPI
     int screen_y2 = y2;
     if (ctype == 2)
     {
+      // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       screen_x1 -= *(BW::BWDATA_ScreenX);
       screen_y1 -= *(BW::BWDATA_ScreenY);
       screen_x2 -= *(BW::BWDATA_ScreenX);
@@ -1712,6 +1800,7 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
+      // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       screen_x1 += BW::BWDATA_Mouse->x;
       screen_y1 += BW::BWDATA_Mouse->y;
       screen_x2 += BW::BWDATA_Mouse->x;
@@ -1734,6 +1823,7 @@ namespace BWAPI
     int screen_y3 = y3;
     if (ctype == 2)
     {
+      // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       screen_x1 -= *(BW::BWDATA_ScreenX);
       screen_y1 -= *(BW::BWDATA_ScreenY);
       screen_x2 -= *(BW::BWDATA_ScreenX);
@@ -1743,6 +1833,7 @@ namespace BWAPI
     }
     else if (ctype == 3)
     {
+      // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       screen_x1 += BW::BWDATA_Mouse->x;
       screen_y1 += BW::BWDATA_Mouse->y;
       screen_x2 += BW::BWDATA_Mouse->x;
