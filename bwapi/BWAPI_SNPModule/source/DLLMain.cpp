@@ -34,7 +34,7 @@ struct netFunctions
   void  *fxn_10;
   void  *fxn_11;
   void  *fxn_12;
-  void  *fxn_13;
+  bool (__stdcall *SendTo)(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
   void  *fxn_14;
   void  *fxn_15;
   bool (__stdcall *LeaveGame)();
@@ -63,7 +63,7 @@ struct netStruct
     { sizeof(netFunctions), &fxn0, &Cleanup, &fxn2, &fxn3,
       &fxn4, &fxn5, &InitializeModule, &fxn7,
       &fxn8, &fxn9, &fxn10, &fxn11,
-      &fxn12, &fxn13, &fxn14, &CreateGame,
+      &fxn12, &SendTo, &fxn14, &CreateGame,
       &LeaveGame, &InitializeUser, &fxn18, NULL,
       NULL, NULL, NULL, NULL,
       NULL, NULL, NULL}

@@ -21,7 +21,7 @@ bool __stdcall fxn9(int a1, int a2, DWORD *a3);
 bool __stdcall fxn10(int *a1, int *a2, int *a3);
 bool __stdcall fxn11(DWORD *a1, DWORD *a2, DWORD *a3);
 bool __stdcall fxn12(int a1, int a2, int a3, int a4, int a5, int a6);
-bool __stdcall fxn13(int a1, int a2, int a3, int a4);
+bool __stdcall SendTo(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
 bool __stdcall fxn14(int a1, int a2, int a3, int a4, int a5);
 bool __stdcall CreateGame(char *pszGameName, char *pszGamePassword, char *pszGameStats, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, unka9 *a9, int a10);
 bool __stdcall LeaveGame();

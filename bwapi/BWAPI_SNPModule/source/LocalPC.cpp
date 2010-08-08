@@ -150,9 +150,8 @@ bool __stdcall fxn12(int a1, int a2, int a3, int a4, int a5, int a6)
   return true;
 }
 
-bool __stdcall fxn13(int a1, int a2, int a3, int a4)
+bool __stdcall SendTo(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen)
 {
-  MessageBoxA(NULL, "Fxn13", "Fxn13", MB_OK);
   return true;
 }
 
