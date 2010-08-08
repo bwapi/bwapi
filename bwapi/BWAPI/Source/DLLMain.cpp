@@ -29,7 +29,7 @@ DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 BOOL __stdcall _SCodeDelete(HANDLE *handle)
 {
   BWAPI::BroodwarImpl.onGameEnd();
-  return BW::SCodeDelete(handle);
+  return SCodeDelete(handle);
 }
 
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
@@ -71,13 +71,13 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
       /* onSend Lobby */
     }
   }
-  return BW::SStrCopy(dest, source, size);
+  return SStrCopy(dest, source, size);
 }
 
 //----------------------------------------------- RECEIVE TEXT -----------------------------------------------
 BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databytes)
 {
-  BOOL rval = BW::SNetReceiveMessage(senderplayerid, data, databytes);
+  BOOL rval = SNetReceiveMessage(senderplayerid, (char**)data, databytes);
   if ( rval && *databytes > 2 && (*data)[0] == 0)
     BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
 
@@ -338,12 +338,12 @@ std::string lastFile;
 BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile)
 {
   lastFile = szFileName;
-  return BW::SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
+  return SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
 }
 
 void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defaultValue)
 {
-  void *rval = BW::SMemAlloc(amount, logfilename, logline, defaultValue);
+  void *rval = SMemAlloc(amount, logfilename, logline, defaultValue);
   if ( lastFile == "rez\\stat_txt.tbl" )
   {
     BW::BWDATA_StringTableOff = (char*)rval;
@@ -374,26 +374,10 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
 
   return rval;
 }
-/*
-// Speeeeed
-DWORD dwInitialTickCount;
-DWORD WINAPI _GetTickCount()
-{
-  DWORD dwCount = GetTickCount();
-  dwCount -= dwInitialTickCount;
-  return dwCount * 65536;
-}
 
-void WINAPI _Sleep(DWORD dwMilliseconds)
-{
-  return;
-}
-*/
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
-  //dwInitialTickCount = GetTickCount();
-
   delete Util::Logger::globalLog;
   GetPrivateProfileStringA("paths", "log_path", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
   
@@ -441,34 +425,11 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // BNET Server menu out speed
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
 
-  *(FARPROC*)&BW::SStrCopy = HackUtil::GetImport("storm.dll", 501);
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
-
-  *(FARPROC*)&BW::SCodeDelete = HackUtil::GetImport("storm.dll", 332);
   HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);
-
-  *(FARPROC*)&BW::SNetReceiveMessage = HackUtil::GetImport("storm.dll", 121);
   HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
-
-  *(FARPROC*)&BW::SMemAlloc = HackUtil::GetImport("storm.dll", 401);
   HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
-
-  *(FARPROC*)&BW::SFileOpenFileEx = HackUtil::GetImport("storm.dll", 268);
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
-
-  /*
-  // Speeeeed
-  HackUtil::PatchImport("Kernel32.dll", "GetTickCount", &_GetTickCount);
-  HackUtil::PatchImport("Kernel32.dll", "Sleep", &_Sleep);
-
-  HackUtil::PatchImport("storm.dll", "Kernel32.dll", "GetTickCount", &_GetTickCount);
-  HackUtil::PatchImport("storm.dll", "Kernel32.dll", "Sleep", &_Sleep);
-  */
-/* 
-  // this won't work for Battle.net window
-  HWND hSWnd = FindWindow("SWarClass", NULL);
-  *(LONG*)&hSWndProc = GetWindowLongA(hSWnd, GWLP_WNDPROC);
-  SetWindowLongA(hSWnd, GWLP_WNDPROC, (LONG)&BWAPIWndHook);*/
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------
@@ -480,7 +441,6 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
       BWAPI::BWAPI_init();
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
       return true;
-      break;
   }
   return true;
 }

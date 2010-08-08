@@ -5,6 +5,7 @@
 #include <Util/Bitmask.h>
 #include <Util/Types.h>
 #include "../StaticAssert.h"
+#include "../Storm/storm.h"
 
 #include "UnitPrototypeFlags.h"
 #include "WeaponTargetFlags.h"
@@ -238,12 +239,6 @@ namespace BW
     GLUE_GAME_MODE2,        // guess
     GLUE_GENERIC            // guess
   */
-
-  extern BOOL (__stdcall *SNetReceiveMessage)(int *senderplayerid, u8 **data, int *databytes);
-  extern BOOL (__stdcall *SCodeDelete)(HANDLE handle);
-  extern int  (__stdcall *SStrCopy)(char *dest, const char *source, size_t size);
-  extern void* (__stdcall *SMemAlloc)(int amount, char *logfilename, int logline, int defaultValue);
-  extern BOOL (__stdcall *SFileOpenFileEx)(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
   static u32            BWFXN_PrintText                           = 0x0048D1C0;
   static u16*           BWDATA_SendTextFilter                     = (u16*)  0x0057F1DA;
