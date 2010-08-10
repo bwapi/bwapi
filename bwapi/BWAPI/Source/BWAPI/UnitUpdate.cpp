@@ -381,6 +381,12 @@ namespace BWAPI
                          self->order == BW::OrderID::ZergBuildingMorph ||
                          self->order == BW::OrderID::ZergUnitMorph ||
                          self->order == BW::OrderID::ZergBuildSelf;
+
+      if (self->isCompleted && self->isMorphing)
+      {
+        self->isCompleted = false;
+        _isCompleted = false;
+      }
       //------------------------------------------------------------------------------------------------------
       //isConstructing
       self->isConstructing = self->isMorphing ||
