@@ -33,6 +33,7 @@ void MorphTest::start()
   BWAssertF(producer->isBeingConstructed()==false,{fail=true;return;});
   BWAssertF(producer->isBurrowed()==false,{fail=true;return;});
   BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+  BWAssertF(producer->isCompleted()==true,{fail=true;return;});
   BWAssertF(producer->isIdle()==true,{fail=true;return;});
   BWAssertF(producer->isMorphing()==false,{fail=true;return;});
   BWAssertF(producer->isTraining()==false,{fail=true;return;});
@@ -52,6 +53,7 @@ void MorphTest::start()
   BWAssertF(producer->isBeingConstructed()==true,{fail=true;return;});
   BWAssertF(producer->isBurrowed()==false,{fail=true;return;});
   BWAssertF(producer->isConstructing()==true,{fail=true;return;});
+  BWAssertF(producer->isCompleted()==false,{fail=true;return;});
   BWAssertF(producer->isIdle()==false,{fail=true;return;});
   BWAssertF(producer->isMorphing()==true,{fail=true;return;});
   BWAssertF(producer->isTraining()==false,{fail=true;return;});
@@ -96,6 +98,7 @@ void MorphTest::update()
     {
       BWAssertF(producer->isBeingConstructed()==false,{fail=true;return;});
       BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+      BWAssertF(producer->isCompleted()==true,{fail=true;return;});
       BWAssertF(producer->isIdle()==true,{fail=true;return;});
       BWAssertF(producer->isMorphing()==false,{fail=true;return;});
       BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
@@ -106,6 +109,7 @@ void MorphTest::update()
       {
         BWAssertF(producer->isBeingConstructed()==true,{fail=true;return;});
         BWAssertF(producer->isConstructing()==true,{fail=true;return;});
+        BWAssertF(producer->isCompleted()==false,{fail=true;return;});
         BWAssertF(producer->isIdle()==false,{fail=true;return;});
         BWAssertF(producer->isMorphing()==true,{fail=true;return;});
         BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
@@ -114,6 +118,7 @@ void MorphTest::update()
       {
         BWAssertF(producer->isBeingConstructed()==false,{fail=true;return;});
         BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+        BWAssertF(producer->isCompleted()==true,{fail=true;return;});
         BWAssertF(producer->isIdle()==true,{fail=true;return;});
         BWAssertF(producer->isMorphing()==false,{fail=true;return;});
         BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
@@ -125,6 +130,7 @@ void MorphTest::update()
       {
         BWAssertF(producer->isBeingConstructed()==true,{fail=true;return;});
         BWAssertF(producer->isConstructing()==true,{fail=true;return;});
+        BWAssertF(producer->isCompleted()==false,{fail=true;return;});
         BWAssertF(producer->isIdle()==false,{fail=true;return;});
         BWAssertF(producer->isMorphing()==true,{fail=true;return;});
         BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
@@ -133,6 +139,7 @@ void MorphTest::update()
       {
         BWAssertF(producer->isBeingConstructed()==false,{fail=true;return;});
         BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+        BWAssertF(producer->isCompleted()==true,{fail=true;return;});
         BWAssertF(producer->isIdle()==true,{fail=true;return;});
         BWAssertF(producer->isMorphing()==false,{fail=true;return;});
         BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
@@ -142,6 +149,7 @@ void MorphTest::update()
     {
       BWAssertF(producer->isBeingConstructed()==true,{fail=true;return;});
       BWAssertF(producer->isConstructing()==true,{fail=true;return;});
+      BWAssertF(producer->isCompleted()==false,{fail=true;return;});
       BWAssertF(producer->isIdle()==false,{fail=true;return;});
       BWAssertF(producer->isMorphing()==true,{fail=true;return;});
       BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount,{fail=true;return;});
@@ -199,6 +207,7 @@ void MorphTest::update()
   BWAssertF(producer->isBeingConstructed()==true,{fail=true;return;});
   BWAssertF(producer->isBurrowed()==false,{fail=true;return;});
   BWAssertF(producer->isConstructing()==true,{fail=true;return;});
+  BWAssertF(producer->isCompleted()==false,{fail=true;return;});
   BWAssertF(producer->isIdle()==false,{fail=true;return;});
   BWAssertF(producer->isMorphing()==true,{Broodwar->printf("%d",thisFrame-startFrame);fail=true;return;});
   BWAssertF(producer->isTraining()==false,{fail=true;return;});
@@ -225,6 +234,7 @@ void MorphTest::stop()
   BWAssertF(producer->isBeingConstructed()==false,{fail=true;return;});
   BWAssertF(producer->isBurrowed()==false,{fail=true;return;});
   BWAssertF(producer->isConstructing()==false,{fail=true;return;});
+  BWAssertF(producer->isCompleted()==true,{fail=true;return;});
   BWAssertF(producer->isIdle()==true,{fail=true;return;});
   BWAssertF(producer->isMorphing()==false,{fail=true;return;});
   BWAssertF(producer->isTraining()==false,{fail=true;return;});

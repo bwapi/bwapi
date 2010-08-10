@@ -248,6 +248,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\MapTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\MorphTest.cpp"
 				>
 			</File>
@@ -387,6 +391,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\LiftTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\MapTest.h"
 				>
 			</File>
 			<File
