@@ -4,12 +4,14 @@ namespace BWAPI
   Event::Event() : type(EventType::None), position(Positions::None), text(""), unit(NULL), player(NULL), isWinner(false)
   {
   }
-  Event Event::Disconnect()
+  bool Event::operator==(const Event& other)
   {
-    Event e;
-    e.type=EventType::Disconnect;
-
-    return e;
+    return (type     == other.type &&
+            position == other.position &&
+            text     == other.text &&
+            unit     == other.unit &&
+            player   == other.player &&
+            isWinner == other.isWinner);
   }
   Event Event::MatchStart()
   {

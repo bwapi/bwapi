@@ -228,6 +228,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\EventTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\ExistenceTest.cpp"
 				>
 			</File>
@@ -371,6 +375,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\DefaultTestModule.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\EventTest.h"
 				>
 			</File>
 			<File
