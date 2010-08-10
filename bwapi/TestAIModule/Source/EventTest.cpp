@@ -6,12 +6,13 @@ EventTest::EventTest()
   strictEventChecking = false;
   onStartCalled = false;
   onEndCalled = false;
+  state = Start;
 }
 bool EventTest::isEventExpectedNext(Event e)
 {
   if (expectedEvents.empty()) return false;
   Event e2 = (*expectedEvents.begin());
-  return (e==e2);
+  return (e.type==e2.type);
 }
 void EventTest::onStart()
 {
@@ -20,6 +21,7 @@ void EventTest::onStart()
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::UserInput);
   Broodwar->setLocalSpeed(0);
+  Broodwar->sendText("show me the money");
   onStartCalled = true;
 }
 void EventTest::onEnd(bool isWinner)
@@ -36,6 +38,140 @@ void EventTest::onFrame()
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
   strictEventChecking = true;
+  if (Broodwar->getFrameCount()<5) return;
+  Broodwar->drawTextScreen(0,0,"FPS: %d",Broodwar->getFPS());
+  Broodwar->drawTextScreen(0,20,"Assert success count: %d",assert_success_count);
+  if (assert_fail_count==0)
+    Broodwar->drawTextScreen(0,40,"Assert failed count: %d",assert_fail_count);
+  else
+    Broodwar->drawTextScreen(0,40,"\x08 Assert failed count: %d",assert_fail_count);
+  if (state == Start)
+  {
+    state = TrainingSCV;
+
+    Unit* cc = NULL;
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Terran_Command_Center)
+        cc = u;
+    BWAssert(cc!=NULL);
+
+    cc->train(UnitTypes::Terran_SCV);
+    expectedEvents.push_back(Event::UnitCreate(NULL));
+    expectedEvents.push_back(Event::UnitDiscover(NULL));
+    expectedEvents.push_back(Event::UnitShow(NULL));
+  }
+  else if (state == TrainingSCV)
+  {
+    if (expectedEvents.empty())
+    {
+      state = BuildingRefinery;
+
+      Unit* scv = NULL;
+      for each(Unit* u in Broodwar->self()->getUnits())
+        if (u->getType()==UnitTypes::Terran_SCV)
+          scv = u;
+      BWAssert(scv!=NULL);
+
+      TilePosition tilePosition;
+      for each(Unit* u in Broodwar->getGeysers())
+      {
+        tilePosition=u->getTilePosition();
+      }
+      scv->build(tilePosition,UnitTypes::Terran_Refinery);
+      expectedEvents.push_back(Event::UnitMorph(NULL));
+      expectedEvents.push_back(Event::UnitRenegade(NULL));
+    }
+  }
+  else if (state == BuildingRefinery)
+  {
+    if (expectedEvents.empty())
+    {
+      state = KillingSCV;
+
+      Unit* scv = NULL;
+      for each(Unit* u in Broodwar->self()->getUnits())
+        if (u->getType()==UnitTypes::Terran_SCV)
+          scv=u;
+      BWAssert(scv!=NULL);
+
+      for each(Unit* u in Broodwar->self()->getUnits())
+        if (u->getType()==UnitTypes::Terran_Marine)
+          u->attackUnit(scv);
+      expectedEvents.push_back(Event::UnitHide(NULL));
+      expectedEvents.push_back(Event::UnitEvade(NULL));
+      expectedEvents.push_back(Event::UnitDestroy(NULL));
+    }
+  }
+  else if (state == KillingSCV)
+  {
+    if (expectedEvents.empty())
+    {
+      state = TrainingNuke;
+
+      Unit* nukeSilo = NULL;
+      for each(Unit* u in Broodwar->self()->getUnits())
+        if (u->getType()==UnitTypes::Terran_Nuclear_Silo)
+          nukeSilo=u;
+      BWAssert(nukeSilo!=NULL);
+
+      nukeSilo->train(UnitTypes::Terran_Nuclear_Missile);
+    }
+  }
+  else if (state == TrainingNuke)
+  {
+
+    Unit* nukeSilo = NULL;
+    for each(Unit* u in Broodwar->self()->getUnits())
+      if (u->getType()==UnitTypes::Terran_Nuclear_Silo)
+        nukeSilo=u;
+    BWAssert(nukeSilo!=NULL);
+
+    if (nukeSilo->isIdle() && nukeSilo->hasNuke())
+    {
+      state = UsingNuke;
+      Unit* ghost = NULL;
+      for each(Unit* u in Broodwar->self()->getUnits())
+        if (u->getType()==UnitTypes::Terran_Ghost)
+          ghost=u;
+      BWAssert(ghost!=NULL);
+      Position p(ghost->getPosition());
+      ghost->useTech(TechTypes::Nuclear_Strike,p);
+      expectedEvents.push_back(Event::UnitCreate(NULL));
+      expectedEvents.push_back(Event::UnitDiscover(NULL));
+      expectedEvents.push_back(Event::UnitShow(NULL));
+      expectedEvents.push_back(Event::NukeDetect(p));
+      expectedEvents.push_back(Event::UnitHide(NULL));
+      expectedEvents.push_back(Event::UnitEvade(NULL));
+      expectedEvents.push_back(Event::UnitDestroy(NULL));
+      expectedEvents.push_back(Event::UnitCreate(NULL));
+      expectedEvents.push_back(Event::UnitDiscover(NULL));
+      expectedEvents.push_back(Event::UnitShow(NULL));
+      expectedEvents.push_back(Event::NukeDetect(p));
+      expectedEvents.push_back(Event::UnitHide(NULL));
+      expectedEvents.push_back(Event::UnitEvade(NULL));
+      expectedEvents.push_back(Event::UnitDestroy(NULL));
+      expectedEvents.push_back(Event::UnitHide(NULL));
+      expectedEvents.push_back(Event::UnitEvade(NULL));
+      expectedEvents.push_back(Event::UnitDestroy(NULL));
+    }
+  }
+  else if (state == UsingNuke)
+  {
+    if (expectedEvents.empty())
+    {
+      state = DestroyingEnemy;
+      for each(Unit* u in Broodwar->self()->getUnits())
+        if (u->getType()==UnitTypes::Terran_Marine)
+          u->attackMove(Position(Broodwar->mapWidth()*16,0));
+      expectedEvents.push_back(Event::UnitDiscover(NULL));
+      expectedEvents.push_back(Event::UnitShow(NULL));
+      expectedEvents.push_back(Event::UnitHide(NULL));
+      expectedEvents.push_back(Event::UnitEvade(NULL));
+      expectedEvents.push_back(Event::UnitDestroy(NULL));
+      expectedEvents.push_back(Event::PlayerLeft(NULL));
+      expectedEvents.push_back(Event::MatchEnd(NULL));
+    }
+  }
 }
 void EventTest::onSendText(std::string text)
 {

@@ -26,4 +26,14 @@ class EventTest : public TestModule
   bool strictEventChecking;
   bool onStartCalled;
   bool onEndCalled;
+  enum
+  {
+    Start,
+    TrainingSCV,
+    BuildingRefinery,
+    KillingSCV,
+    TrainingNuke,
+    UsingNuke,
+    DestroyingEnemy
+  } state;
 };
