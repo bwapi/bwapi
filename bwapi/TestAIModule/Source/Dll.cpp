@@ -12,6 +12,7 @@
 #include "ZergTest.h"
 #include "InterceptorTest.h"
 #include "ExistenceTest.h"
+#include "MapTest.h"
 #include "DefaultTestModule.h"
 namespace BWAPI { Game* Broodwar; }
 BOOL APIENTRY DllMain( HANDLE hModule, 
@@ -48,5 +49,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return new InterceptorTest();
   if (game->mapFileName()=="ExistenceTest.scx")
     return new ExistenceTest();
+  if (game->mapFileName()=="MapTest.scx")
+    return new MapTest();
   return new DefaultTestModule();
 }
