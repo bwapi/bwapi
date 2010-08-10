@@ -11,7 +11,7 @@ namespace BWAPI
   {
     public:
       Event();
-      static Event Disconnect();
+      bool operator==(const Event& other);
       static Event MatchStart();
       static Event MatchEnd(bool isWinner);
       static Event MatchFrame();

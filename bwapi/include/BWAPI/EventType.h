@@ -5,7 +5,6 @@ namespace BWAPI
   {
     enum Enum
     {
-      Disconnect,
       MatchStart,
       MatchEnd,
       MatchFrame,
