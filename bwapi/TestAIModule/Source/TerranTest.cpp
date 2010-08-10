@@ -54,7 +54,7 @@ void TerranTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
   this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Marine,UnitTypes::Terran_Medic,UnitTypes::Terran_Firebat));
-  return;
+  //return;
   this->addTestCase(new BuildTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory,true));
   this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory));

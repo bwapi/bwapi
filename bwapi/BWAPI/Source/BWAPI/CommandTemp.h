@@ -201,6 +201,7 @@ namespace BWAPI
       unit->self->remainingBuildTime = 0;
       unit->self->isMorphing = false;
       unit->self->isConstructing = false;
+      unit->self->isCompleted = true;
       unit->self->isIdle = true;
       unit->self->type = unitType.whatBuilds().first.getID();
       if (unitType.whatBuilds().first.isBuilding())
@@ -419,6 +420,7 @@ namespace BWAPI
       if (frame>Broodwar->getLatency()+1) return;
       unit->self->isMorphing = true;
       unit->self->isConstructing = true;
+      unit->self->isCompleted = false;
       unit->self->isIdle = false;
       unit->self->buildType = unitType.getID();
       if (unit->self->remainingBuildTime<50)
