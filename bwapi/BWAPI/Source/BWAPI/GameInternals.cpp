@@ -71,8 +71,9 @@ namespace BWAPI
       , startedClient(false)
       , inGame(false)
       , calledOnEnd(false)
-      , frameCount(0)
+      , frameCount(-1)
       , BUFFER_SIZE(1024)
+      , endTick(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -201,33 +202,51 @@ namespace BWAPI
 
     try
     {
+      if (this->calledOnEnd)
+      {
+        events.clear();
+        events.push_back(Event::MenuFrame());
+        processEvents();
+        server.update();
+        return;
+      }
+
       //the first time update() is called, we also call onGameStart to initialize some things
       if (!onStartCalled)
+      {
         this->onGameStart();
+        Util::Logger::globalLog->log("calling onGameStart");
+      }
       
       if (!this->enabled)
         return;
 
       //check to see if the game has ended
-      if (this->client != NULL && this->calledOnEnd == false)
+      if (this->calledOnEnd == false)
       {
         if (this->BWAPIPlayer != NULL)
         {
           if (this->BWAPIPlayer->isVictorious())
           {
-            events.push_back(Event::MatchEnd(true));
             events.push_back(Event::MatchFrame());
+            events.push_back(Event::MatchEnd(true));
+            Util::Logger::globalLog->log("creating MatchEnd event");
             processEvents();
             server.update();
+            events.clear();
             this->calledOnEnd = true;
+            return;
           }
           if (this->BWAPIPlayer->isDefeated())
           {
-            events.push_back(Event::MatchEnd(false));
             events.push_back(Event::MatchFrame());
+            events.push_back(Event::MatchEnd(false));
+            Util::Logger::globalLog->log("creating MatchEnd event");
             processEvents();
             server.update();
+            events.clear();
             this->calledOnEnd = true;
+            return;
           }
         }
         else
@@ -241,14 +260,18 @@ namespace BWAPI
           }
           if (allDone)
           {
-            events.push_back(Event::MatchEnd(false));
             events.push_back(Event::MatchFrame());
+            events.push_back(Event::MatchEnd(false));
+            Util::Logger::globalLog->log("creating MatchEnd event");
             processEvents();
             server.update();
+            events.clear();
             this->calledOnEnd = true;
+            return;
           }
         }
       }
+
 
       //save the list of selected units and update the selected field of existing units
       refreshSelectionStates();
@@ -410,6 +433,11 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
+    if (GetTickCount()>endTick+200)
+    {
+      onStartCalled = false;
+      calledOnEnd = false;
+    }
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame = false;
     events.push_back(Event::MenuFrame());
@@ -1134,7 +1162,7 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     //this is called at the end of every match
-    onStartCalled = false;
+    if (this->frameCount==-1) return;
 
     if ( myDlg )
     {
@@ -1147,27 +1175,29 @@ namespace BWAPI
       canvas = NULL;
     }
 
+    if (this->calledOnEnd == false)
+    {
+      bool win = true;
+      if (this->_isReplay())
+        win = false;
+      else
+      { 
+        for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
+        {
+          if (self()->isEnemy(i->_getPlayer) && i->_getType.isBuilding())
+            win = false;
+        }
+      }
+      events.push_back(Event::MatchFrame());
+      events.push_back(Event::MatchEnd(win));
+      Util::Logger::globalLog->log("creating MatchEnd event");
+      processEvents();
+      server.update();
+      events.clear();
+      this->calledOnEnd = true;
+    }
     if (this->client != NULL)
     {
-      if (this->calledOnEnd == false)
-      {
-        bool win = true;
-        if (this->_isReplay())
-          win = false;
-        else
-        { 
-          for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
-          {
-            if (self()->isEnemy(i->_getPlayer) && i->_getType.isBuilding())
-              win = false;
-          }
-        }
-        events.push_back(Event::MatchEnd(win));
-        events.push_back(Event::MatchFrame());
-        processEvents();
-        server.update();
-        this->calledOnEnd = true;
-      }
       delete this->client;
       this->client = NULL;
     }
@@ -1245,7 +1275,8 @@ namespace BWAPI
     }
     this->cheatFlags  = 0;
     this->bulletCount = 0;
-    this->calledOnEnd = false;
+    this->frameCount  = -1;
+    this->endTick = GetTickCount();
 
     //reload auto menu data (in case the AI set the location of the next map/replay)
     this->loadAutoMenuData();

@@ -1,4 +1,6 @@
 #include "EventTest.h"
+#include <iostream>
+#include <fstream>
 using namespace std;
 using namespace BWAPI;
 EventTest::EventTest()
@@ -26,12 +28,37 @@ void EventTest::onStart()
 }
 void EventTest::onEnd(bool isWinner)
 {
-  BWAssert(onStartCalled==true);
-  BWAssert(onEndCalled==false);
+  ofstream er;
+  er.open("test_module.log");
+  if (onStartCalled==false)
+  {
+    er << "onEnd: Error: onStartCalled == false\n";
+    er.close();
+    return;
+  }
+  if (onEndCalled==true)
+  {
+    er << "onEnd: Error: onEndCalled == true\n";
+    er.close();
+    return;
+  }
   onEndCalled = true;
-  BWAssert(isEventExpectedNext(Event::MatchEnd(isWinner)));
-  if (expectedEvents.size()>0)
-    expectedEvents.pop_front();
+  if (expectedEvents.empty())
+  {
+    er << "onEnd: Error: expectedEvents.empty() == true\n";
+    er.close();
+    return;
+  }
+  if ((*expectedEvents.begin()).type!=EventType::MatchEnd)
+  {
+    er << "onEnd: Error: expected event was " << (*expectedEvents.begin()).type << ", not MatchEnd\n";
+    er.close();
+    return;
+  }
+  expectedEvents.pop_front();
+  er << "onEnd: Success!\n";
+  er.close();
+  return;
 }
 void EventTest::onFrame()
 {
@@ -168,7 +195,6 @@ void EventTest::onFrame()
       expectedEvents.push_back(Event::UnitHide(NULL));
       expectedEvents.push_back(Event::UnitEvade(NULL));
       expectedEvents.push_back(Event::UnitDestroy(NULL));
-      expectedEvents.push_back(Event::PlayerLeft(NULL));
       expectedEvents.push_back(Event::MatchEnd(NULL));
     }
   }
