@@ -84,7 +84,7 @@ namespace BWAPI
       {
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
       }
-      if (type == EventType::MatchFrame)
+      if (type == EventType::MatchFrame || type == EventType::MenuFrame)
       {
         ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
       }

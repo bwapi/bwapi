@@ -331,6 +331,7 @@ namespace BWAPI
       std::string autoMenuEnemyRace;
       std::string autoMenuEnemyCount;
       std::string autoMenuGameType;
+      DWORD endTick;
 
       bool inGame;
 
