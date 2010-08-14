@@ -20,11 +20,9 @@ using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
 {
-  BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::CompleteMapInformation);
-  Broodwar->sendText("show me the money");
-  Broodwar->sendText("show me the money");
+
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new RightClickTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus,UnitTypes::Protoss_Nexus));

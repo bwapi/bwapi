@@ -196,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\BWAssert.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\CancelConstructionTest.cpp"
 				>
 			</File>

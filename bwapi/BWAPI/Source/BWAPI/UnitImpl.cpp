@@ -2074,7 +2074,7 @@ namespace BWAPI
       return true;
     /* neutral units visible during AIModule::onStart */
     if (Broodwar->getFrameCount()==0)
-      if (this->_getType.isNeutral())
+      if (this->_getType.isNeutral() || this->_getPlayer->isNeutral())
         return true;
     return false;
   }

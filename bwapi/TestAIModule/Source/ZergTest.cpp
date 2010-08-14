@@ -22,11 +22,9 @@ using namespace std;
 using namespace BWAPI;
 void ZergTest::onStart()
 {
-  BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::CompleteMapInformation);
-  Broodwar->sendText("show me the money");
-  Broodwar->sendText("show me the money");
+
   Broodwar->setLocalSpeed(0);
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));

@@ -47,7 +47,7 @@ void CancelConstructionTest::start()
 
   if (unitType.isAddon())
   {
-    builder->buildAddon(unitType);
+    BWAssertF(builder->buildAddon(unitType),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
   }
   else
   {
@@ -56,9 +56,9 @@ void CancelConstructionTest::start()
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
     if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
-    builder->build(buildLocation,unitType);
+    BWAssertF(builder->build(buildLocation,unitType),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
   }
-  BWAssertF(builder->isIdle()==false,{fail=true;return;});
+  BWAssertF(builder->isIdle()==false,{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
   BWAssertF(builder->isConstructing()==true,{fail=true;return;});
   BWAssertF(builder->getBuildType()==unitType,
   {

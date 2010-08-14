@@ -1,11 +1,12 @@
 #pragma once
 extern int assert_success_count;
 extern int assert_fail_count;
+void log(const char* text, ...);
 #define BWAssert(C)\
 {\
   if (!(C))\
   {\
-    Broodwar->printf("Assertion failed in file %s on line %d",__FILE__,__LINE__);\
+    log("Assertion failed in file %s on line %d",__FILE__,__LINE__);\
     assert_fail_count++;\
   }\
   else\
@@ -17,7 +18,7 @@ extern int assert_fail_count;
 {\
   if (!(C))\
   {\
-    Broodwar->printf("Assertion failed in file %s on line %d",__FILE__,__LINE__);\
+    log("Assertion failed in file %s on line %d",__FILE__,__LINE__);\
     assert_fail_count++;\
     {FailBlock}\
   }\
@@ -30,7 +31,7 @@ extern int assert_fail_count;
 {\
   if (!(C))\
   {\
-    Broodwar->printf("Assertion failed in file %s on line %d: %s",__FILE__,__LINE__,E);\
+    log("Assertion failed in file %s on line %d: %s",__FILE__,__LINE__,E);\
     assert_fail_count++;\
   }\
   else\
