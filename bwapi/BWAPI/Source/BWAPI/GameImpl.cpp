@@ -883,25 +883,25 @@ namespace BWAPI
   bool GameImpl::isMultiplayer()
   {
     this->setLastError(Errors::None);
-    return (*BW::BWDATA_IsMultiplayer != 0);
+    return *BW::BWDATA_GameModule != 0 && *BW::BWDATA_GameModule != -1;
   }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::isBattleNet()
   {
     this->setLastError(Errors::None);
-    return (*BW::BWDATA_IsBattleNet != 0);
+    return *BW::BWDATA_GameModule == 'TENB';
   }
   //----------------------------------------------- IS PAUSED ------------------------------------------------
   bool GameImpl::isPaused()
   {
     this->setLastError(Errors::None);
-    return *BW::BWDATA_IsNotPaused == 0;
+    return *BW::BWDATA_IsRunning == 0;
   }
   //----------------------------------------------- IN REPLAY ------------------------------------------------
   bool  GameImpl::isReplay()
   {
     this->setLastError(Errors::None);
-    return *(BW::BWDATA_InReplay) != 0;
+    return *BW::BWDATA_InReplay != 0;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::startGame()

@@ -49,11 +49,11 @@ void __stdcall menuFrameHook(int flag)
 //------------------------------------------------- SEND TEXT ------------------------------------------------
 int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 {
-  if (strlen(source) > 0)
+  if ( strlen(source) > 0 )
   {
-    if (size == 0x7FFFFFFF && *BW::BWDATA_gwGameMode == 3)
+    if ( size == 0x7FFFFFFF && *BW::BWDATA_gwGameMode == 3 )
     {
-      if ((u32)dest == BW::BWDATA_SaveGameFile)
+      if ( dest == BW::BWDATA_SaveGameFile )
       {
         /* onSaveGame */
         BWAPI::BroodwarImpl.onSaveGame((char*)source);
@@ -66,7 +66,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
         return 0;
       }
     }
-    else if (size == 120)
+    else if ( size == 120 )
     {
       /* onSend Lobby */
     }
@@ -183,7 +183,8 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
   wantRefresh = true;
 }
 
-//-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
+//--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
+// Note: already made plans to rewrite this
 void __declspec(naked) NewIssueCommand()
 {
   //execute the part of the function that we overwrote:
@@ -192,11 +193,11 @@ void __declspec(naked) NewIssueCommand()
     push ebp
     mov ebp, esp
     push ecx
-    mov eax, dword ptr ds: [0x654AA0]
+    mov eax, dword ptr ds: [0x00654AA0]
     jmp [BW::BWFXN_NewIssueCommand]
   }
 }
-//--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
+
 u32 commandIDptr;
 u8 commandID;
 void __declspec(naked) onIssueCommand()

@@ -57,22 +57,22 @@ namespace BW
   //------------------------------------------- GET MINERAL PRICE --------------------------------------------
   u16 TechType::getMineralPrice()
   {
-    return BW::BWDATA_TechMineralCost->tech[this->getID()];
+    return BW::BWDATA_TechMineralCost[this->getID()];
   }
   //--------------------------------------------- GET GAS PRICE ----------------------------------------------
   u16 TechType::getGasPrice()
   {
-    return BW::BWDATA_TechGasCost->tech[this->getID()];
+    return BW::BWDATA_TechGasCost[this->getID()];
   }
   //-------------------------------------------- GET RESEARCH TIME -------------------------------------------
   u16 TechType::getResearchTime()
   {
-    return BW::BWDATA_TechResearchTime->tech[this->getID()];
+    return BW::BWDATA_TechResearchTime[this->getID()];
   }
   //-------------------------------------------- GET ENERGY PRICE --------------------------------------------
   u16 TechType::getEnergyPrice()
   {
-    return BW::BWDATA_TechEnergyCost->tech[this->getID()];
+    return BW::BWDATA_TechEnergyCost[this->getID()];
   }
   //-------------------------------------------- WHERE TO INVENT ---------------------------------------------
   UnitType TechType::whereToInvent()

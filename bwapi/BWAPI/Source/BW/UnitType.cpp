@@ -88,7 +88,7 @@ namespace BW
       return "None";
     else if (this->getID() < BW::UNIT_TYPE_COUNT)
     {
-      u16 label = BW::BWDATA_UnitSubLabel->unitType[this->getID()];
+      u16 label = BW::BWDATA_UnitSubLabel[this->getID()];
       if (label == 0)
       {
         return "";
@@ -135,18 +135,18 @@ namespace BW
   //--------------------------------------------- ARMOR UPGRADE ----------------------------------------------
   u8 UnitType::_armorUpgrade() const
   {
-    return BW::BWDATA_UnitUpgrade->unitType[this->getID()];
+    return BW::BWDATA_UnitUpgrade[this->getID()];
   }
   //--------------------------------------------- MAX HIT POINTS ---------------------------------------------
   int UnitType::maxHitPoints() const
   {
-    return BW::BWDATA_MaxHitPoints->unitType[this->getID()] / 256;
+    return BW::BWDATA_MaxHitPoints[this->getID()] / 256;
   }
   //----------------------------------------------- MAX SHIELDS ----------------------------------------------
   int UnitType::maxShields() const
   {
-    if (BW::BWDATA_ShieldsEnabled->unitType[this->getID()] != 0)
-      return BW::BWDATA_MaxShieldPoints->unitType[this->getID()];
+    if (BW::BWDATA_ShieldsEnabled[this->getID()] != 0)
+      return BW::BWDATA_MaxShieldPoints[this->getID()];
     return 0;
   }
   //------------------------------------------------ MAX ENERGY ----------------------------------------------
@@ -163,57 +163,57 @@ namespace BW
   //------------------------------------------------ MAX ARMOR -----------------------------------------------
   int UnitType::armor() const
   {
-    return BW::BWDATA_Armor->unitType[this->getID()];
+    return BW::BWDATA_Armor[this->getID()];
   }
   //--------------------------------------------- MINERAL PRICE ----------------------------------------------
   int UnitType::mineralPrice() const
   {
-    return BW::BWDATA_MineralPrices->unitType[this->getID()];
+    return BW::BWDATA_MineralPrices[this->getID()];
   }
   //----------------------------------------------- GAS PRICE ------------------------------------------------
   int UnitType::gasPrice() const
   {
-    return BW::BWDATA_GasPrices->unitType[this->getID()];
+    return BW::BWDATA_GasPrices[this->getID()];
   }
   //----------------------------------------------- BUILD TIME -----------------------------------------------
   int UnitType::buildTime() const
   {
-    return BW::BWDATA_BuildTime->unitType[this->getID()];
+    return BW::BWDATA_BuildTime[this->getID()];
   }
   //--------------------------------------------- SUPPLY REQUIRED --------------------------------------------
   int UnitType::supplyRequired() const
   {
-    return BW::BWDATA_SupplyRequired->unitType[this->getID()];
+    return BW::BWDATA_SupplyRequired[this->getID()];
   }
   //--------------------------------------------- SUPPLY PROVIDED --------------------------------------------
   int UnitType::supplyProvided() const
   {
-    return BW::BWDATA_SupplyProvided->unitType[this->getID()];
+    return BW::BWDATA_SupplyProvided[this->getID()];
   }
   //--------------------------------------------- SPACE REQUIRED ---------------------------------------------
   int UnitType::spaceRequired() const
   {
-    return BW::BWDATA_SpaceRequired->unitType[this->getID()];
+    return BW::BWDATA_SpaceRequired[this->getID()];
   }
   //--------------------------------------------- SPACE PROVIDED ---------------------------------------------
   int UnitType::spaceProvided() const
   {
-    return BW::BWDATA_SpaceProvided->unitType[this->getID()];
+    return BW::BWDATA_SpaceProvided[this->getID()];
   }
   //----------------------------------------------- BUILD SCORE ----------------------------------------------
   int UnitType::buildScore() const
   {
-    return BW::BWDATA_BuildScore->unitType[this->getID()];
+    return BW::BWDATA_BuildScore[this->getID()];
   }
   //---------------------------------------------- DESTROY SCORE ---------------------------------------------
   int UnitType::destroyScore() const
   {
-    return BW::BWDATA_DestroyScore->unitType[this->getID()];
+    return BW::BWDATA_DestroyScore[this->getID()];
   }
   //-------------------------------------------------- SIZE --------------------------------------------------
   u8 UnitType::_size() const
   {
-    return BW::BWDATA_UnitSize->unitType[this->getID()];
+    return BW::BWDATA_UnitSize[this->getID()];
   }
   //----------------------------------------------- TILE WIDTH -----------------------------------------------
   int UnitType::tileWidth() const
@@ -248,64 +248,64 @@ namespace BW
   //----------------------------------------------- SEEK RANGE -----------------------------------------------
   int UnitType::seekRange() const
   {
-    return BW::BWDATA_UnitSeekRange->unitType[this->getID()];
+    return BW::BWDATA_UnitSeekRange[this->getID()];
   }
   //----------------------------------------------- SIGHT RANGE ----------------------------------------------
   int UnitType::sightRange() const
   {
-    return BW::BWDATA_UnitSightRange->unitType[this->getID()];
+    return BW::BWDATA_UnitSightRange[this->getID()];
   }
   //--------------------------------------------- GROUND WEAPON ----------------------------------------------
   u8 UnitType::_groundWeapon() const
   {
-    u8 w = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
-    if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
-      w = BW::BWDATA_UnitGroundWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
+    u8 w = BW::BWDATA_UnitGroundWeapon[this->getID()];
+    if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1[this->getID()] != BW::UnitID::None)
+      w = BW::BWDATA_UnitGroundWeapon[BW::BWDATA_SubUnit1[this->getID()]];
     return w;
   }
   //-------------------------------------------- MAX GROUND HITS ---------------------------------------------
   int UnitType::maxGroundHits() const
   {
-    int h=BW::BWDATA_MaxGroundHits->unitType[this->getID()];
-    if (h == 0 && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
-      h = BW::BWDATA_MaxGroundHits->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
+    int h=BW::BWDATA_MaxGroundHits[this->getID()];
+    if (h == 0 && BW::BWDATA_SubUnit1[this->getID()] != BW::UnitID::None)
+      h = BW::BWDATA_MaxGroundHits[BW::BWDATA_SubUnit1[this->getID()]];
     return h;
   }
   //---------------------------------------------- AIR WEAPON ------------------------------------------------
   u8 UnitType::_airWeapon() const
   {
-    u8 w = BW::BWDATA_UnitAirWeapon->unitType[this->getID()];
-    if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
-      w = BW::BWDATA_UnitAirWeapon->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
+    u8 w = BW::BWDATA_UnitAirWeapon[this->getID()];
+    if (w == BW::WeaponID::None && BW::BWDATA_SubUnit1[this->getID()] != BW::UnitID::None)
+      w = BW::BWDATA_UnitAirWeapon[BW::BWDATA_SubUnit1[this->getID()]];
     return w;
   }
   //--------------------------------------------- MAX AIR HITS -----------------------------------------------
   int UnitType::maxAirHits() const
   {
-    int h=BW::BWDATA_MaxAirHits->unitType[this->getID()];
-    if (h == 0 && BW::BWDATA_SubUnit1->unitType[this->getID()] != BW::UnitID::None)
-      h = BW::BWDATA_MaxAirHits->unitType[BW::BWDATA_SubUnit1->unitType[this->getID()]];
+    int h=BW::BWDATA_MaxAirHits[this->getID()];
+    if (h == 0 && BW::BWDATA_SubUnit1[this->getID()] != BW::UnitID::None)
+      h = BW::BWDATA_MaxAirHits[BW::BWDATA_SubUnit1[this->getID()]];
     return h;
   }
   //----------------------------------------------- TOP SPEED ------------------------------------------------
   u32 UnitType::_topSpeed() const
   {
-    return BW::BWDATA_FlingyTopSpeed->flingyType[this->graphics()];
+    return BW::BWDATA_FlingyTopSpeed[this->graphics()];
   }
   //---------------------------------------------- ACCELERATION ----------------------------------------------
   int UnitType::acceleration() const
   {
-    return BW::BWDATA_FlingyAcceleration->flingyType[this->graphics()];
+    return BW::BWDATA_FlingyAcceleration[this->graphics()];
   }
   //---------------------------------------------- HALT DISTANCE ---------------------------------------------
   int UnitType::haltDistance() const
   {
-    return BW::BWDATA_FlingyHaltDistance->flingyType[this->graphics()];
+    return BW::BWDATA_FlingyHaltDistance[this->graphics()];
   }
   //---------------------------------------------- TURN RADIUS -----------------------------------------------
   int UnitType::turnRadius() const
   {
-    return BW::BWDATA_FlingyTurnRadius->flingyType[this->graphics()];
+    return BW::BWDATA_FlingyTurnRadius[this->graphics()];
   }
   //---------------------------------------------- CAN PRODUCE -----------------------------------------------
   bool UnitType::canProduce() const
@@ -321,7 +321,7 @@ namespace BW
   //------------------------------------------------ CAN MOVE ------------------------------------------------
   bool UnitType::canMove() const
   {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Men);
+    return BW::BWDATA_PrototypeGroupFlags[this->getID()].getBit(BW::GroupFlags::Men);
   }
   //----------------------------------------------- IS FLYER -------------------------------------------------
   bool UnitType::isFlyer() const
@@ -438,7 +438,7 @@ namespace BW
   //------------------------------------------------ GRAPHICS ------------------------------------------------
   u8 UnitType::graphics() const
   {
-    return BW::BWDATA_UnitGraphics->unitType[this->getID()];
+    return BW::BWDATA_UnitGraphics[this->getID()];
   }
   //----------------------------------------- IS NEUTRAL ACCESORIES ------------------------------------------
   bool UnitType::isNeutralAccesories() const
@@ -448,17 +448,17 @@ namespace BW
   //------------------------------------------------ IS ZERG -------------------------------------------------
   bool UnitType::isZerg() const
   {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Zerg);
+    return BW::BWDATA_PrototypeGroupFlags[this->getID()].getBit(BW::GroupFlags::Zerg);
   }
   //----------------------------------------------- IS TERRAN ------------------------------------------------
   bool UnitType::isTerran() const
   {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Terran);
+    return BW::BWDATA_PrototypeGroupFlags[this->getID()].getBit(BW::GroupFlags::Terran);
   }
   //----------------------------------------------- IS PROTOSS -----------------------------------------------
   bool UnitType::isProtoss() const
   {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()].getBit(BW::GroupFlags::Protoss);
+    return BW::BWDATA_PrototypeGroupFlags[this->getID()].getBit(BW::GroupFlags::Protoss);
   }
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool UnitType::isValid() const
@@ -957,12 +957,12 @@ namespace BW
   //----------------------------------------------- GET FLAGS ------------------------------------------------
   Util::BitMask<u32> UnitType::getFlags() const
   {
-    return BW::BWDATA_UnitPrototypeFlags->unit[this->getID()];
+    return BW::BWDATA_UnitPrototypeFlags[this->getID()];
   }
   //-------------------------------------------- GET GROUP FLAGS ---------------------------------------------
   Util::BitMask<u8> UnitType::getGroupFlags() const
   {
-    return BW::BWDATA_PrototypeGroupFlags->unit[this->getID()];
+    return BW::BWDATA_PrototypeGroupFlags[this->getID()];
   }
   //----------------------------------------------------------------------------------------------------------
 };
