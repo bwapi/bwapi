@@ -85,15 +85,21 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
+bool wantRefresh = false;
 void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
-  memset(BW::BWDATA_RefreshRegions, 1, 1200);
+  if ( wantRefresh )
+  {
+    wantRefresh = false;
+    memset(BW::BWDATA_RefreshRegions, 1, 1200);
+  }
+
   if ( BW::pOldDrawHook )
     BW::pOldDrawHook(pSurface, pBounds);
 
-  for( int i = 0; i < (int)BWAPI::BroodwarImpl.shapes.size(); i++ )
+  int numShapes = (int)BWAPI::BroodwarImpl.shapes.size();
+  for( int i = 0; i < numShapes; i++ )
     BWAPI::BroodwarImpl.shapes[i]->draw();
-
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
@@ -129,6 +135,7 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
           data[iy*640 + ix] = (u8)color;
     }
   }
+  wantRefresh = true;
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
@@ -154,6 +161,7 @@ void drawDot(int _x, int _y, int color, int ctype)
     if ( data )
       data[y*640 + x] = (u8)color;
   }
+  wantRefresh = true;
 }
 
 void drawText(int _x, int _y, const char* ptext, int ctype, char size)
@@ -172,6 +180,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
     return;
 
   BW::BlitText(ptext, BW::BWDATA_GameScreenBuffer, _x, _y, size);
+  wantRefresh = true;
 }
 
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------

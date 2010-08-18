@@ -164,21 +164,6 @@ namespace BWAPI
     //menu dialog code
     if ( myDlg )
       myDlg->update();
-    /*
-    if ( canvas )
-    {
-      u8 *data = canvas->getSourceBuffer()->data;
-      if ( data )
-        memset(data, 0, 640*480);
-
-      for( int i = 0; i < (int)shapes.size(); i++ )
-        shapes[i]->draw();
-
-      canvas->update();
-    }
-    */
-    
-    
 
     //click the menu dialog that pops up when you win/lose a game
     BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
@@ -411,7 +396,7 @@ namespace BWAPI
     GetPrivateProfileStringA("config", "auto_menu", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     this->autoMenuMode = std::string(buffer);
 
-    if (autoMenuMode!="OFF" && autoMenuMode!="off" && autoMenuMode!="")
+    if ( autoMenuMode != "OFF" && autoMenuMode != "off" && autoMenuMode != "" )
     {
       GetPrivateProfileStringA("config", "map", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
 
@@ -1043,12 +1028,6 @@ namespace BWAPI
       BW::pOldDrawHook = BW::BWDATA_ScreenLayers[5].pUpdate;
       BW::BWDATA_ScreenLayers[5].pUpdate = &DrawHook;
     }
-    else
-    {
-      MessageBoxA(NULL, "Not found", "!", MB_OK);
-    }
-//    canvas = BW::CreateCanvas("Canvas");
-//    canvas->initialize();
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)
@@ -1184,11 +1163,6 @@ namespace BWAPI
     {
       delete myDlg;
       myDlg = NULL;
-    }
-    if ( canvas )
-    {
-      delete canvas;
-      canvas = NULL;
     }
 
     if (this->calledOnEnd == false)
