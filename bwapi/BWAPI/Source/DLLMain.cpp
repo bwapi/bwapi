@@ -117,9 +117,9 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
   
-  if ( BW::BWDATA_ScreenLayers[5].pSurface )
+  if ( BW::BWDATA_GameScreenBuffer )
   {
-    u8 *data = BW::BWDATA_ScreenLayers[5].pSurface->data;
+    u8 *data = BW::BWDATA_GameScreenBuffer->data;
     if ( data )
     {
       for ( int iy = y; iy < y + h; iy++ )
@@ -146,9 +146,9 @@ void drawDot(int _x, int _y, int color, int ctype)
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
 
-  if ( BW::BWDATA_ScreenLayers[5].pSurface )
+  if ( BW::BWDATA_GameScreenBuffer )
   {
-    u8 *data = BW::BWDATA_ScreenLayers[5].pSurface->data;
+    u8 *data = BW::BWDATA_GameScreenBuffer->data;
     if ( data )
       data[y*640 + x] = (u8)color;
   }
@@ -169,7 +169,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
   if (_x + BW::GetTextWidth(ptext, size) < 0 || _y + BW::GetTextHeight(ptext, size) < 0 || _x > 640 || _y > 400)
     return;
 
-  BW::BlitText(ptext, BW::BWDATA_ScreenLayers[5].pSurface, _x, _y, size);
+  BW::BlitText(ptext, BW::BWDATA_GameScreenBuffer, _x, _y, size);
 }
 
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------

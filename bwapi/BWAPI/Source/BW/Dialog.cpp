@@ -430,12 +430,12 @@ namespace BW
   bool BlitText(const char *pszString, bitmap *dst, int x, int y, BYTE bSize)
   {
     // verify valid size index
-    if ( bSize > 3 )
+    if ( bSize > 3 || !dst || !pszString )
       return false;
 
     // localize pointer
     fntHead *font = BWDATA_FontBase[bSize];
-    if ( !font )
+    if ( !font || !dst->data )
       return false;
 
     char lastColor = 0;
