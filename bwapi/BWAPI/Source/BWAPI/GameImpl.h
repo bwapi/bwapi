@@ -218,7 +218,6 @@ namespace BWAPI
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
-      void IssueCommand(PBYTE pbBuffer, u32 iSize);
       void addToCommandBuffer(Command* command);
       void onGameStart();
       void onGameEnd();
