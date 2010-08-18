@@ -143,12 +143,7 @@ namespace BWAPI
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
   {
-    __asm
-    {
-      mov ecx, pbBuffer
-      mov edx, iSize
-    }
-    NewIssueCommand();
+    QueueGameCommand(pbBuffer, iSize);
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()

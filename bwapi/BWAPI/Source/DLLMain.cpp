@@ -184,161 +184,49 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
 }
 
 //--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
-// Note: already made plans to rewrite this
-void __declspec(naked) NewIssueCommand()
+void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 {
-  //execute the part of the function that we overwrote:
-  __asm
+  if ( length + *BW::BWDATA_sgdwBytesInCmdQueue <= *BW::BWDATA_MaxTurnSize )
   {
-    push ebp
-    mov ebp, esp
-    push ecx
-    mov eax, dword ptr ds: [0x00654AA0]
-    jmp [BW::BWFXN_NewIssueCommand]
+    // Copy data to primary turn buffer
+    memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
+    *BW::BWDATA_sgdwBytesInCmdQueue += length;
+    return;
+  }
+  
+  // Verify game mode
+  if ( *BW::BWDATA_gwGameMode == 4 )
+    return;
+
+  int turns;
+  if ( SNetGetTurnsInTransit(&turns) ) // Buffer is full
+  {
+    // This statement will probably never be hit, but just in case
+    if ( turns >= 16 - *BW::BWDATA_dword_57F090 )
+      return;
+
+    // Send the turn and fill the new buffer
+    BW::BWFXN_sendTurn();
+    memcpy(BW::BWDATA_TurnBuffer, buffer, length); // Originally an array index, but sgdwBytesInCmdQueue should always be 0 here
+    *BW::BWDATA_sgdwBytesInCmdQueue = length;
+  }
+  // assume no error, would fatal anyway
+}
+
+void __fastcall CommandFilter(BYTE *buffer, DWORD length)
+{
+  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) || 
+       !BWAPI::BroodwarImpl.onStartCalled ||
+       buffer[0] <= 0x0B ||
+       (buffer[0] >= 0x0F && buffer[0] <= 0x12) ||
+       (buffer[0] == 0x13 && buffer[1] == 1)    || // Hotkey (select only)
+       (buffer[0] >= 0x37 && buffer[0] <= 0x59) ||
+       buffer[0] >= 0x5B )
+  {
+    QueueGameCommand(buffer, length);
   }
 }
 
-u32 commandIDptr;
-u8 commandID;
-void __declspec(naked) onIssueCommand()
-{
-  __asm
-  {
-    mov eaxSave, eax
-    mov ebxSave, ebx
-    mov ecxSave, ecx
-    mov edxSave, edx
-    mov esiSave, esi
-    mov ediSave, edi
-    mov espSave, esp
-    mov ebpSave, ebp
-    mov commandIDptr, ecx;
-  }
-  commandID = *(u8*)commandIDptr;
-
-  //decide if we should let the command go through
-  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput)
-       || !BWAPI::BroodwarImpl.onStartCalled
-       //If user input is disabled, only allow the following commands to go through:
-       || commandID == 0x00 // Game Chat
-       || commandID == 0x05 // Keep Alive
-       || commandID == 0x06 // Save Game
-       || commandID == 0x07 // Load Game
-       || commandID == 0x08 // Restart Game
-       || commandID == 0x09 // Select
-       || commandID == 0x0A // Shift Select
-       || commandID == 0x10 // Pause Game
-       || commandID == 0x11 // Resume Game
-       || commandID == 0x37 // Game Hash
-       || commandID == 0x3C // Start Game
-       || commandID == 0x3D // Map Download %
-       || commandID == 0x3E // Game Slot Modification
-       || commandID == 0x3F // Unknown
-       || commandID == 0x40 // Join Game
-       || commandID == 0x41 // Race Change
-       || commandID == 0x42 // Melee Force Change
-       || commandID == 0x43 // UMS   Force Change
-       || commandID == 0x44 // Slot Change
-       || commandID == 0x45 // Swap Players
-       || commandID == 0x48 // Game Init (Random Seed)
-       || commandID == 0x49 // Info Request
-       || commandID == 0x4A // Force Data Transfer
-       || commandID == 0x4B // Force Name Transfer
-       || commandID == 0x4C // Lobby Chat
-       || commandID == 0x4E // Boot Player
-       || commandID == 0x4F // Map Transfer
-       || commandID == 0x54 // Mission Briefing Start
-       || commandID == 0x55 // Set Latency
-       || commandID == 0x56 // Change Replay Speed
-       || commandID == 0x57 // Leave Game
-       || commandID == 0x58 // Minimap Ping
-       || commandID == 0x5B // Make Game Public
-       || commandID == 0x5C // Replay Game Chat
-     )
-  {
-    if (commandID == 0x00 // Game Chat
-       || commandID == 0x05 // Keep Alive
-       || commandID == 0x06 // Save Game
-       || commandID == 0x07 // Load Game
-       || commandID == 0x08 // Restart Game
-       || commandID == 0x09 // Select
-       || commandID == 0x0A // Shift Select
-       || commandID == 0x10 // Pause Game
-       || commandID == 0x11 // Resume Game
-       || commandID == 0x37 // Game Hash
-       || commandID == 0x3C // Start Game
-       || commandID == 0x3D // Map Download %
-       || commandID == 0x3E // Game Slot Modification
-       || commandID == 0x3F // Unknown
-       || commandID == 0x40 // Join Game
-       || commandID == 0x41 // Race Change
-       || commandID == 0x42 // Melee Force Change
-       || commandID == 0x43 // UMS   Force Change
-       || commandID == 0x44 // Slot Change
-       || commandID == 0x45 // Swap Players
-       || commandID == 0x48 // Game Init (Random Seed)
-       || commandID == 0x49 // Info Request
-       || commandID == 0x4A // Force Data Transfer
-       || commandID == 0x4B // Force Name Transfer
-       || commandID == 0x4C // Lobby Chat
-       || commandID == 0x4E // Boot Player
-       || commandID == 0x4F // Map Transfer
-       || commandID == 0x54 // Mission Briefing Start
-       || commandID == 0x55 // Set Latency
-       || commandID == 0x56 // Change Replay Speed
-       || commandID == 0x57 // Leave Game
-       || commandID == 0x58 // Minimap Ping
-       || commandID == 0x5B // Make Game Public
-       || commandID == 0x5C // Replay Game Chat
-       )
-    {
-
-    }
-    else
-    {
-/*
-      BWAPI::BroodwarImpl.printf("command ID %02x:%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x", commandID,*((u8*)commandIDptr+1),
-                                                      *((u8*)commandIDptr+2),
-                                                      *((u8*)commandIDptr+3),
-                                                      *((u8*)commandIDptr+4),
-                                                      *((u8*)commandIDptr+5),
-                                                      *((u8*)commandIDptr+6),
-                                                      *((u8*)commandIDptr+7),
-                                                      *((u8*)commandIDptr+8),
-                                                      *((u8*)commandIDptr+9),
-                                                      *((u8*)commandIDptr+10),
-                                                      *((u8*)commandIDptr+11));*/
-    }
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-    }
-    NewIssueCommand();
-    __asm retn
-  }
-  else
-  {
-    __asm
-    {
-      mov eax, eaxSave
-      mov ebx, ebxSave
-      mov ecx, ecxSave
-      mov edx, edxSave
-      mov esi, esiSave
-      mov edi, ediSave
-      mov esp, espSave
-      mov ebp, ebpSave
-      retn
-    }
-  }
-}
 //------------------------------------------------ ON ISCRIPT ------------------------------------------------
 void __thiscall BW::Image::CImage::_PlayIscript(char *header, int unk1, int unk2)
 {
@@ -442,10 +330,10 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   sscanf_s(temptest, "%08X", &pPlayIscript);
 
   /* Perform code patching */
-  HackUtil::CallPatch(BW::BWFXN_NextLogicFrame,  &nextFrameHook);
-  HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,   &menuFrameHook);
-  HackUtil::CallPatch(BW::BWFXN_IscriptHook,     pPlayIscript);
-  HackUtil::JmpPatch(BW::BWFXN_OldIssueCommand,  &onIssueCommand);
+  HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &nextFrameHook);
+  HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,  &menuFrameHook);
+  HackUtil::CallPatch(BW::BWFXN_IscriptHook,    pPlayIscript);
+  HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
 
   char zero = 0;

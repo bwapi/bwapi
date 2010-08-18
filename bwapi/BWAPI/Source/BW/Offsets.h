@@ -110,7 +110,7 @@ namespace BW
   };
   static PlayerAlliance *BWDATA_Alliance = (PlayerAlliance*) 0x0058D634;
 
-  /** Direct mapping of BW tables used for unit stats like count, completed, kills, deaths */
+  /** Unit counts: all, completed, killed, dead */
   struct Counts
   {
     s32 all[BW::UNIT_TYPE_COUNT][PLAYER_COUNT];
@@ -120,18 +120,21 @@ namespace BW
   };
   static Counts *BWDATA_Counts             = (Counts*) 0x00582324;
 
-
-  static Bullet      **BWDATA_BulletNodeTable_FirstElement = (Bullet**)     0x0064DEAC;
-  static Bullet      **BWDATA_BulletNodeTable_LastElement  = (Bullet**)     0x0064DEC4;
-  static BulletArray *BWDATA_BulletNodeTable               = (BulletArray*) 0x0064B2E8;
-
   /** Code Patches */
-  static u32     BWDATA_MenuLoadHack        =        0x004DE392;
-  static u32     BWDATA_MenuInHack          =        0x004DD76E;
-  static u32     BWDATA_MenuOutHack         =        0x004DD162;
-  static u32     BWDATA_MultiplayerHack     =        0x004DD5A2;
-  static u32     BWDATA_MultiplayerHack2    =        0x004DD5C9;
-  static u32     BWDATA_OpponentStartHack   =        0x004B995D;
+  static u32 BWDATA_MenuLoadHack      = 0x004DE392;
+  static u32 BWDATA_MenuInHack        = 0x004DD76E;
+  static u32 BWDATA_MenuOutHack       = 0x004DD162;
+  static u32 BWDATA_MultiplayerHack   = 0x004DD5A2;
+  static u32 BWDATA_MultiplayerHack2  = 0x004DD5C9;
+  static u32 BWDATA_OpponentStartHack = 0x004B995D;
+
+  /** QueueGameCommand data */
+  static u32    *BWDATA_sgdwBytesInCmdQueue = (u32*)      0x00654AA0;
+  static u32    *BWDATA_MaxTurnSize         = (u32*)      0x0057F0D8;
+  static u8     *BWDATA_TurnBuffer          = (u8*)       0x00654880;
+  static s32    *BWDATA_dword_57F090        = (s32*)      0x0057F090;
+  static void  (*BWFXN_sendTurn)()          = (void(*)()) 0x00485A40;
+  static u32    BWFXN_QueueCommand          =             0x00485BD0;
 
   /** Speed & Latency */
   static u32     OriginalSpeedModifiers[7]  =        { 167, 111, 83, 67, 56, 48, 42};
@@ -139,6 +142,7 @@ namespace BW
   static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
   static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
 
+  //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   /** Dialog and drawing offsets */
   static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;
   static void (__fastcall **BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
@@ -176,17 +180,20 @@ namespace BW
 
   extern void (__stdcall *pOldDrawHook)(BW::bitmap *pSurface, BW::bounds *pBounds);
 
+  //------------------------------------------- CLIST DATA ---------------------------------------------------
+  static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
+  static Unit      **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;
+  static Unit      **BWDATA_UnitNodeList_ScannerSweep_First = (Unit**)     0x006283F4;
+  //static Unit      **BWDATA_UnitNodeList_UnusedUnit_First   = (Unit**)     0x00628438;
+  //static Unit      **BWDATA_UnitNodeTable_PlayerFirstUnit   = (Unit**)     0x0062843C;  // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
+  static UnitArray *BWDATA_UnitNodeTable                    = (UnitArray*) 0x0059CCA8;
+
+  static Bullet      **BWDATA_BulletNodeTable_FirstElement = (Bullet**)     0x0064DEAC;
+  static Bullet      **BWDATA_BulletNodeTable_LastElement  = (Bullet**)     0x0064DEC4;
+  static BulletArray *BWDATA_BulletNodeTable               = (BulletArray*) 0x0064B2E8;
+
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
-
-  static u8             *BWDATA_gameType                         = (u8*)        0x00596820;
-  static Positions      *BWDATA_MapSize                          = (Positions*) 0x0057F1D4;
-  static Unit           **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
-  static Unit           **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;
-  static Unit           **BWDATA_UnitNodeList_ScannerSweep_First = (Unit**)     0x006283F4;
-  //static Unit           **BWDATA_UnitNodeList_UnusedUnit_First   = (Unit**)     0x00628438;
-  //static Unit           **BWDATA_UnitNodeTable_PlayerFirstUnit   = (Unit**)     0x0062843C;  // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
-  static UnitArray      *BWDATA_UnitNodeTable                    = (UnitArray*) 0x0059CCA8;
-
+  static u8             *BWDATA_gameType      = (u8*)  0x00596820;
   static u8             *BWDATA_Latency       = (u8*)  0x006556e4;
   static u32            *BWDATA_InGame        = (u32*) 0x006556E0;
   static u32            *BWDATA_InReplay      = (u32*) 0x006D0F14;
@@ -241,31 +248,28 @@ namespace BW
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static void (_stdcall *selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
   
-  static u32            BWFXN_OldIssueCommand      = 0x00485BD0;
-  static u32            BWFXN_NewIssueCommand      = 0x00485BD9;
+  static u32  BWFXN_PrintText        = 0x0048D1C0;
+  static u16  *BWDATA_SendTextFilter = (u16*)  0x0057F1DA;
+  static char *BWDATA_CurrentPlayer  = (char*) 0x0057EE9C;
 
-  static u32            BWFXN_PrintText                     = 0x0048D1C0;
-  static u16            *BWDATA_SendTextFilter              = (u16*)  0x0057F1DA;
-  static char           *BWDATA_CurrentPlayer               = (char*) 0x0057EE9C;
+  static u32  BWFXN_SendPublicCallTarget = 0x004C2420;
+  static u32  BWFXN_SendLobbyCallTarget  = 0x004707D0;
 
-  static u32            BWFXN_SendPublicCallTarget          = 0x004C2420;
-  static u32            BWFXN_SendLobbyCallTarget           = 0x004707D0;
+  static Unit *BWDATA_CurrentPlayerSelectionGroup = (Unit*) 0x00597208;
+  static u32  BWDATA_PlayerSelection              = 0x006284E0;
 
-  static Unit           *BWDATA_CurrentPlayerSelectionGroup = (Unit*) 0x00597208;
-  static u32            BWDATA_PlayerSelection              = 0x006284E0;
-
-  static u32            BWFXN_NextFrameHelperFunction       = 0x004D98BD;
-  static u32            BWFXN_NextFrameHelperFunctionBack   = BWFXN_NextFrameHelperFunction + 5;
-  static u32            BWFXN_NextFrameHelperFunctionTarget = 0x004D14D0;
+  static u32  BWFXN_NextFrameHelperFunction       = 0x004D98BD;
+  static u32  BWFXN_NextFrameHelperFunctionBack   = BWFXN_NextFrameHelperFunction + 5;
+  static u32  BWFXN_NextFrameHelperFunctionTarget = 0x004D14D0;
 
   static void(__thiscall *BWFXN_PlayIscript)(Image::CImage *_this, char *header,int unk1,int unk2)    = (void(__thiscall*)(Image::CImage*,char*,int,int))0x004D74C0;
-  static u32            BWFXN_IscriptHook                = 0x004D84F3;
+  static u32 BWFXN_IscriptHook = 0x004D84F3;
 
-  static int            *BWDATA_NextLogicFrameData       = (int*) 0x006509C4;
-  static u32            BWFXN_NextLogicFrame             =        0x004D974E;
+  static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
+  static u32 BWFXN_NextLogicFrame       =        0x004D974E;
 
-  static void (__stdcall *BWFXN_videoLoop)(int flag)     = (void(__stdcall*)(int)) 0x004D1BF0;
-  static u32            BWFXN_NextMenuFrame              =                         0x0041A0D3;
+  static void (__stdcall *BWFXN_videoLoop)(int flag) = (void(__stdcall*)(int)) 0x004D1BF0;
+  static u32            BWFXN_NextMenuFrame          =                         0x0041A0D3;
 
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl *BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
@@ -276,6 +280,8 @@ namespace BW
   static POINT          *BWDATA_Mouse                    = (POINT*) 0x006CDDC4;
   static u32            *BWDATA_ScreenX                  = (u32*)   0x00628448;
   static u32            *BWDATA_ScreenY                  = (u32*)   0x00628470;
+
+  static Positions      *BWDATA_MapSize                  = (Positions*) 0x0057F1D4;
 
   //--------------------------------------------- STRINGS ----------------------------------------------------
   static char           *BWDATA_menuMapFileName          = (char*) 0x0059BC88;
