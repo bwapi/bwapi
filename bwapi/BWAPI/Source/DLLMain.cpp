@@ -397,6 +397,15 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
   return rval;
 }
 
+DWORD lastTurnTime;
+DWORD lastTurnFrame;
+BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
+{
+  lastTurnTime  = GetTickCount();
+  lastTurnFrame = BWAPI::BroodwarImpl.getFrameCount();
+  return SNetSendTurn(data, databytes);
+}
+
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -447,11 +456,12 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // BNET Server menu out speed
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
 
-  HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
-  HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);
+  HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
   HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
-  HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
+  HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
+  HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
+  HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
   return 0;
 }
 //------------------------------------------------- DLL MAIN -------------------------------------------------

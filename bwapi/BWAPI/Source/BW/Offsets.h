@@ -125,15 +125,19 @@ namespace BW
   static Bullet      **BWDATA_BulletNodeTable_LastElement  = (Bullet**)     0x0064DEC4;
   static BulletArray *BWDATA_BulletNodeTable               = (BulletArray*) 0x0064B2E8;
 
-  /** Speed Hacks */
+  /** Code Patches */
   static u32     BWDATA_MenuLoadHack        =        0x004DE392;
   static u32     BWDATA_MenuInHack          =        0x004DD76E;
   static u32     BWDATA_MenuOutHack         =        0x004DD162;
   static u32     BWDATA_MultiplayerHack     =        0x004DD5A2;
   static u32     BWDATA_MultiplayerHack2    =        0x004DD5C9;
-  static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x005124D8;
-  static u32     OriginalSpeedModifiers[7]  =        { 167, 111, 83, 67, 56, 48, 42};
   static u32     BWDATA_OpponentStartHack   =        0x004B995D;
+
+  /** Speed & Latency */
+  static u32     OriginalSpeedModifiers[7]  =        { 167, 111, 83, 67, 56, 48, 42};
+  static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x005124D8;
+  static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
+  static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
 
   /** Dialog and drawing offsets */
   static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;

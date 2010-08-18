@@ -1183,4 +1183,48 @@ namespace BWAPI
   {
     return BW::BWDATA_GameScreenBuffer->data;
   }
+  int GameImpl::getLatencyFrames()
+  {
+    DWORD caps[9];
+    caps[0] = 36;
+    SNetGetProviderCaps(caps);
+
+    int turns;
+    SNetGetTurnsInTransit(&turns);
+
+    return BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed] * (caps[8] + turns);
+  }
+  int GameImpl::getLatencyTime()
+  {
+    return getLatencyFrames() * BW::BWDATA_GameSpeedModifiers[*BW::BWDATA_GameSpeed];
+  }
+  int GameImpl::getRemainingLatencyFrames()
+  {
+    DWORD caps[9];
+    caps[0] = 36;
+    SNetGetProviderCaps(caps);
+
+    int turns;
+    SNetGetTurnsInTransit(&turns);
+
+    DWORD latFrames = BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed];
+    int rval = latFrames * (caps[8] + turns - 1);
+    return rval + latFrames - (this->getFrameCount() - lastTurnFrame);
+  }
+  int GameImpl::getRemainingLatencyTime()
+  {
+    DWORD caps[9];
+    caps[0] = 36;
+    SNetGetProviderCaps(caps);
+
+    int turns;
+    SNetGetTurnsInTransit(&turns);
+
+    DWORD speed     = *BW::BWDATA_GameSpeed;
+    DWORD latFrames = BW::BWDATA_LatencyFrames[speed];
+    DWORD speedMod  = BW::BWDATA_GameSpeedModifiers[speed];
+
+    int rval = latFrames * (caps[8] + turns - 1) * speedMod;
+    return rval + (speedMod * latFrames) - (GetTickCount() - lastTurnTime);
+  }
 };

@@ -11,3 +11,6 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds);
 
 static char logPath[MAX_PATH];
 static bool logging;
+
+extern DWORD lastTurnTime;
+extern DWORD lastTurnFrame;
