@@ -170,6 +170,35 @@ namespace BW
   static fntHead          **BWDATA_FontBase                                     = (fntHead**) 0x006CE0F4;
   static bitmap           *BWDATA_GameScreenBuffer                              = (bitmap*)   0x006CEFF0;
 
+  struct bounds
+  {
+    WORD  left;
+    WORD  top;
+    WORD  right;
+    WORD  bottom;
+    WORD  width;
+    WORD  height;
+  };
+
+  struct layer
+  {
+    BYTE    buffers;
+    BYTE    bits;
+    WORD    left;
+    WORD    top;
+    WORD    width;
+    WORD    height;
+    WORD    alignment;
+    bitmap  *pSurface;
+    void (__stdcall *pUpdate)(bitmap *pSurface, bounds *pBounds);
+  };
+  static layer   *BWDATA_ScreenLayers = (layer*)0x006CEF50;
+  BOOL __stdcall FakeROP3(int maxiterations, int lpSurface, int width, int height, int width2, int pitch, int a7, DWORD rop);
+  BOOL __stdcall FakeBlt(int handle, int a2, int a3, int a4, int a5);
+  BOOL __stdcall FakeBltUsingMask(int lpSurface, int a2, int pitch, int width, int handle);
+
+  extern void (__stdcall *pOldDrawHook)(BW::bitmap *pSurface, BW::bounds *pBounds);
+
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
   extern TileID     *BWDATA_ZergCreepArray;

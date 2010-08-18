@@ -161,7 +161,7 @@ namespace BWAPI
     if ( myDlg )
       myDlg->update();
     
-    if ( canvas )
+    /*if ( canvas )
     {
       u8 *data = canvas->getSourceBuffer()->data;
       if ( data )
@@ -171,7 +171,7 @@ namespace BWAPI
         shapes[i]->draw();
 
       canvas->update();
-    }
+    }*/
 
     //click the menu dialog that pops up when you win/lose a game
     BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
@@ -1031,8 +1031,17 @@ namespace BWAPI
 
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
 
-    canvas = BW::CreateCanvas("Canvas");
-    canvas->initialize();
+    if ( BW::BWDATA_ScreenLayers[5].pUpdate )
+    {
+      BW::pOldDrawHook = BW::BWDATA_ScreenLayers[5].pUpdate;
+      BW::BWDATA_ScreenLayers[5].pUpdate = &DrawHook;
+    }
+    else
+    {
+      MessageBoxA(NULL, "Not found", "!", MB_OK);
+    }
+//    canvas = BW::CreateCanvas("Canvas");
+//    canvas->initialize();
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)

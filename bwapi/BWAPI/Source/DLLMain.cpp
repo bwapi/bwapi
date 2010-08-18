@@ -85,6 +85,15 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 }
 
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
+void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
+{
+  if ( BW::pOldDrawHook )
+    BW::pOldDrawHook(pSurface, pBounds);
+
+  for( int i = 0; i < (int)BWAPI::BroodwarImpl.shapes.size(); i++ )
+    BWAPI::BroodwarImpl.shapes[i]->draw();
+}
+
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
   int x = _x;
@@ -108,9 +117,9 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   if (x < 0) {w += x; x = 0;}
   if (y < 0) {h += y; y = 0;}
   
-  if ( BWAPI::BroodwarImpl.canvas )
+  if ( BW::BWDATA_ScreenLayers[5].pSurface )
   {
-    u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
+    u8 *data = BW::BWDATA_ScreenLayers[5].pSurface->data;
     if ( data )
     {
       for ( int iy = y; iy < y + h; iy++ )
@@ -137,9 +146,9 @@ void drawDot(int _x, int _y, int color, int ctype)
   if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
     return;
 
-  if ( BWAPI::BroodwarImpl.canvas )
+  if ( BW::BWDATA_ScreenLayers[5].pSurface )
   {
-    u8 *data = BWAPI::BroodwarImpl.canvas->getSourceBuffer()->data;
+    u8 *data = BW::BWDATA_ScreenLayers[5].pSurface->data;
     if ( data )
       data[y*640 + x] = (u8)color;
   }
@@ -160,7 +169,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
   if (_x + BW::GetTextWidth(ptext, size) < 0 || _y + BW::GetTextHeight(ptext, size) < 0 || _x > 640 || _y > 400)
     return;
 
-  BW::BlitText(ptext, BWAPI::BroodwarImpl.canvas->getSourceBuffer(), _x, _y, size);
+  BW::BlitText(ptext, BW::BWDATA_ScreenLayers[5].pSurface, _x, _y, size);
 }
 
 //-------------------------------------------- NEW ISSUE COMMAND ---------------------------------------------
@@ -271,6 +280,7 @@ void __declspec(naked) onIssueCommand()
        || commandID == 0x5C // Replay Game Chat
        )
     {
+
     }
     else
     {
