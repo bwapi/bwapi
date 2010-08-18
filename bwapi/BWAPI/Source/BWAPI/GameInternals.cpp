@@ -151,13 +151,8 @@ namespace BWAPI
     NewIssueCommand();
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
-  DWORD previousTickCount;
   void GameImpl::update()
   {
-    DWORD currentTickCount1 = GetTickCount();
-    if (currentTickCount1-previousTickCount>100)
-      Broodwar->printf("%d",currentTickCount1-previousTickCount);
-    previousTickCount = currentTickCount1;
     //this function is called every frame from a hook attached in DllMain.cpp
     this->inGame = true;
 
@@ -752,22 +747,22 @@ namespace BWAPI
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::_isBattleNet()
   {
-    return (*BW::BWDATA_IsBattleNet != 0);
+    return *BW::BWDATA_GameModule == 'TENB';
   }
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
   bool GameImpl::_isSinglePlayer() const
   {
-    return (*BW::BWDATA_IsMultiplayer == 0);
+    return *BW::BWDATA_GameModule == 0 || *BW::BWDATA_GameModule == -1;
   }
   //------------------------------------------------ IS IN GAME ----------------------------------------------
   bool GameImpl::_isInGame() const
   {
-    return *(BW::BWDATA_InGame) != 0;
+    return *BW::BWDATA_InGame != 0;
   }
   //----------------------------------------------- IN REPLAY ------------------------------------------------
   bool  GameImpl::_isReplay() const
   {
-    return *(BW::BWDATA_InReplay) != 0;
+    return *BW::BWDATA_InReplay != 0;
   }
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
   void GameImpl::printEx(int pID, const char* text, ...)
@@ -1035,7 +1030,7 @@ namespace BWAPI
     /* Translates a storm ID to a player Index */
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
     {
-      if ( BW::BWDATA_Players->player[i].dwStormId == (u32)dwStormId )
+      if ( BW::BWDATA_Players[i].dwStormId == (u32)dwStormId )
         return i;
     }
     return -1;
@@ -1043,7 +1038,7 @@ namespace BWAPI
   int GameImpl::playerIdToStormId(int dwPlayerId)
   {
     /* Get storm ID */
-    return BW::BWDATA_Players->player[dwPlayerId].dwStormId;
+    return BW::BWDATA_Players[dwPlayerId].dwStormId;
   }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)
@@ -1098,6 +1093,17 @@ namespace BWAPI
     {
       restartGame();
       return true;
+    }
+    else if (parsed[0] == "/jump")
+    {
+      if ( !this->isMultiplayer() )
+      {
+        *BW::BWDATA_gwGameMode    = 3;
+        *BW::BWDATA_Ophelia       = 1;
+        *BW::BWDATA_GameState     = 0;
+        *BW::BWDATA_GamePosition  = 4;
+        return true;
+      }
     }
     else if (parsed[0] == "/dlg")
     {
@@ -1899,10 +1905,9 @@ namespace BWAPI
             cheatID == BW::CheatFlags::WhatsMineIsMine ||
             cheatID == BW::CheatFlags::SomethingForNothing )
           this->cheatFlags ^= cheatID;
-
       }
     }
-    if (parseText(text) == false && isFlagEnabled(BWAPI::Flag::UserInput))
+    if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
       events.push_back(Event::SendText(std::string(text)));
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
