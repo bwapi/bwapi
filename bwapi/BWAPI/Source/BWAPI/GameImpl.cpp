@@ -44,6 +44,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
+#include "../NewHackUtil.h"
 
 #include "ShapeBox.h"
 #include "ShapeCircle.h"
@@ -952,6 +953,15 @@ namespace BWAPI
         BW::BWDATA_GameSpeedModifiers[i]    = BW::OriginalSpeedModifiers[i];
         BW::BWDATA_GameSpeedModifiers[i+7]  = BW::OriginalSpeedModifiers[i] * 3;
       }
+      /*BW::BWDATA_ScreenLayers[0].buffers = 1;
+      BW::BWDATA_ScreenLayers[1].buffers = 1;
+      BW::BWDATA_ScreenLayers[2].buffers = 1;
+      BW::BWDATA_ScreenLayers[5].buffers = 1;
+
+      HackUtil::PatchImport("storm.dll", 313, &SBltROP3);
+      HackUtil::PatchImport("storm.dll", 431, &STransBlt);
+      HackUtil::PatchImport("storm.dll", 432, &STransBltUsingMask);
+      */
     }
     else
     {
@@ -960,6 +970,18 @@ namespace BWAPI
       {
         BW::BWDATA_GameSpeedModifiers[i]    = speed;
         BW::BWDATA_GameSpeedModifiers[i+7]  = speed * 3;
+      }
+      if ( speed == 0 )
+      {
+        /*BW::BWDATA_ScreenLayers[0].buffers = 0;
+        BW::BWDATA_ScreenLayers[1].buffers = 0;
+        BW::BWDATA_ScreenLayers[2].buffers = 0;
+        BW::BWDATA_ScreenLayers[5].buffers = 0;
+
+        HackUtil::PatchImport("storm.dll", 313, &BW::FakeROP3);
+        HackUtil::PatchImport("storm.dll", 431, &BW::FakeBlt);
+        HackUtil::PatchImport("storm.dll", 432, &BW::FakeBltUsingMask);
+        */
       }
     }
   }
