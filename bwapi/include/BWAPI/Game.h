@@ -368,6 +368,12 @@ namespace BWAPI
 
       /** Retrieves the screen buffer for the game (excluding the HUD) */
       virtual void *getScreenBuffer() = 0;
+
+      /** Retrieves latency values for the game. Includes latency, speed, and mode */
+      virtual int getLatencyFrames() = 0;
+      virtual int getLatencyTime() = 0;
+      virtual int getRemainingLatencyFrames() = 0;
+      virtual int getRemainingLatencyTime() = 0;
   };
   extern Game* Broodwar;
 }

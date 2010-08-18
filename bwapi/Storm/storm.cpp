@@ -17,7 +17,7 @@ BOOL __stdcall SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *act
 
 BOOL __stdcall SNetGetPlayerCaps(char playerid, int *caps) rBool;
 BOOL __stdcall SNetGetPlayerName(int playerid, char *buffer, size_t buffersize) rBool;
-BOOL __stdcall SNetGetProviderCaps(char *caps) rBool;
+BOOL __stdcall SNetGetProviderCaps(DWORD *caps) rBool;
 BOOL __stdcall SNetGetTurnsInTransit(int *turns) rBool;
 BOOL __stdcall SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5) rBool;
 BOOL __stdcall SNetInitializeProvider(DWORD providerName, int *providerData, int *userData, int *a4, int *a5) rBool;

@@ -195,6 +195,11 @@ namespace BWAPI
 
       virtual void *getScreenBuffer();
 
+      virtual int getLatencyFrames();
+      virtual int getLatencyTime();
+      virtual int getRemainingLatencyFrames();
+      virtual int getRemainingLatencyTime();
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
