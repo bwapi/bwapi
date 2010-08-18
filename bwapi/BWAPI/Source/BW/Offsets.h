@@ -169,6 +169,7 @@ namespace BW
   static dialog           **BWDATA_DialogList                                   = (dialog**)  0x006D5E34;
   static fntHead          **BWDATA_FontBase                                     = (fntHead**) 0x006CE0F4;
   static bitmap           *BWDATA_GameScreenBuffer                              = (bitmap*)   0x006CEFF0;
+  static u8               *BWDATA_RefreshRegions                                = (u8*)       0x006CEFF8;
 
   struct bounds
   {

@@ -92,6 +92,8 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 
   for( int i = 0; i < (int)BWAPI::BroodwarImpl.shapes.size(); i++ )
     BWAPI::BroodwarImpl.shapes[i]->draw();
+
+  memset(BW::BWDATA_RefreshRegions, 1, 1200);
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
