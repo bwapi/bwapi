@@ -139,12 +139,6 @@ namespace BWAPI
     delete this->commandLog;
     delete this->newUnitLog;
   }
-
-  //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-  void GameImpl::IssueCommand(PBYTE pbBuffer, u32 iSize)
-  {
-    QueueGameCommand(pbBuffer, iSize);
-  }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
@@ -804,7 +798,7 @@ namespace BWAPI
       if (cheatID != BW::CheatFlags::None)
       {
         this->cheatFlags ^= cheatID;
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+        QueueGameCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
         if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
             cheatID == BW::CheatFlags::BreatheDeep ||
             cheatID == BW::CheatFlags::WhatsMineIsMine ||
@@ -890,7 +884,7 @@ namespace BWAPI
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
-    IssueCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
+    QueueGameCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
@@ -902,7 +896,7 @@ namespace BWAPI
       if ( slotCtrl )
         slotCtrl->setSelectedByValue(race.getID());
     }
-    IssueCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+    QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
@@ -1894,7 +1888,7 @@ namespace BWAPI
       if (cheatID != BW::CheatFlags::None)
       {
         this->cheatFlags ^= cheatID;
-        BroodwarImpl.IssueCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+        QueueGameCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
         if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
             cheatID == BW::CheatFlags::BreatheDeep ||
             cheatID == BW::CheatFlags::WhatsMineIsMine ||
