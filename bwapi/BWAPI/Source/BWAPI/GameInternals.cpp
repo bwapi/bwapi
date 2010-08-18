@@ -151,17 +151,21 @@ namespace BWAPI
     NewIssueCommand();
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
+  DWORD previousTickCount;
   void GameImpl::update()
   {
+    DWORD currentTickCount1 = GetTickCount();
+    if (currentTickCount1-previousTickCount>100)
+      Broodwar->printf("%d",currentTickCount1-previousTickCount);
+    previousTickCount = currentTickCount1;
     //this function is called every frame from a hook attached in DllMain.cpp
-
     this->inGame = true;
 
     //menu dialog code
     if ( myDlg )
       myDlg->update();
-    
-    /*if ( canvas )
+    /*
+    if ( canvas )
     {
       u8 *data = canvas->getSourceBuffer()->data;
       if ( data )
@@ -171,7 +175,10 @@ namespace BWAPI
         shapes[i]->draw();
 
       canvas->update();
-    }*/
+    }
+    */
+    
+    
 
     //click the menu dialog that pops up when you win/lose a game
     BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
@@ -1217,8 +1224,6 @@ namespace BWAPI
     accessibleUnits.clear();
     evadeUnits.clear();
     lastEvadedUnits.clear();
-    visibleUnits.clear();
-    hideUnits.clear();
     selectedUnitSet.clear();
     emptySet.clear();
     startLocations.clear();
@@ -1371,10 +1376,6 @@ namespace BWAPI
       u->wasAccessible = true;
     for each(UnitImpl* u in evadeUnits)
       u->wasAccessible = false;
-    for each(UnitImpl* u in visibleUnits)
-      u->wasVisible = true;
-    for each(UnitImpl* u in hideUnits)
-      u->wasVisible = false;
 
     //fill dyingUnits set with all aliveUnits and then clear the aliveUnits set.
     dyingUnits = aliveUnits;
@@ -1428,11 +1429,6 @@ namespace BWAPI
     //evadeUnits is the set of units that have left the accessibleUnits set this frame
     evadeUnits.clear();
 
-    visibleUnits.clear();
-
-    //hideUnits is the set of units that are becoming invisible this frame
-    hideUnits.clear();
-
     //computes sets, also generating UnitCreate, UnitDiscover, UnitShow, UnitDestroy, UnitEvade, and UnitHide callbacks
     for each(UnitImpl* u in aliveUnits)
     {
@@ -1449,7 +1445,7 @@ namespace BWAPI
         {
           if (u->wasVisible==false)
             events.push_back(Event::UnitShow(u));
-          visibleUnits.push_back(u);
+          u->wasVisible = true;
         }
         accessibleUnits.insert(u);
       }
@@ -1459,7 +1455,7 @@ namespace BWAPI
         {
           if (u->wasVisible)
           {
-            hideUnits.push_back(u);
+            u->wasVisible = false;
             events.push_back(Event::UnitHide(u));
           }
           evadeUnits.push_back(u);
@@ -1473,7 +1469,7 @@ namespace BWAPI
       {
         if (u->wasVisible)
         {
-          hideUnits.push_back(u);
+          u->wasVisible = false;
           events.push_back(Event::UnitHide(u));
         }
         evadeUnits.push_back(u);

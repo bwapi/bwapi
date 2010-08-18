@@ -87,13 +87,13 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 //---------------------------------------------- DRAW HOOKS --------------------------------------------------
 void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
+  memset(BW::BWDATA_RefreshRegions, 1, 1200);
   if ( BW::pOldDrawHook )
     BW::pOldDrawHook(pSurface, pBounds);
 
   for( int i = 0; i < (int)BWAPI::BroodwarImpl.shapes.size(); i++ )
     BWAPI::BroodwarImpl.shapes[i]->draw();
 
-  memset(BW::BWDATA_RefreshRegions, 1, 1200);
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
