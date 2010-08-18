@@ -253,7 +253,6 @@ namespace BWAPI
       void iscriptParser(BW::CSprite *sprite, u8 anim);
       std::list<Event> events;
       int bulletCount;
-      BW::dialog *canvas;
       BW::dialog *myDlg;
       Server server;
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
