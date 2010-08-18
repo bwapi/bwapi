@@ -269,9 +269,6 @@ namespace BWAPI
       std::vector<BWAPI::UnitImpl*> discoverUnits; //units entering accessibleUnits set on current frame
       std::set<BWAPI::Unit*> accessibleUnits; //units that are accessible to the client on current frame
       std::vector<BWAPI::UnitImpl*> evadeUnits; //units leaving accessibleUnits set on current frame
-      
-      std::vector<BWAPI::UnitImpl*> visibleUnits; //units that are visible to the client on current frame
-      std::vector<BWAPI::UnitImpl*> hideUnits; //units leaving visibleUnits set on current frame
 
 
       std::set<BWAPI::Unit*> selectedUnitSet;
