@@ -241,14 +241,13 @@ namespace BWAPI
       void loadSelected();
       void copyMapToSharedMemory();
 
-      UnitImpl* getUnitFromIndex(int index);
-      BulletImpl* getBulletFromIndex(int index);
-      PlayerImpl* BWAPIPlayer;
-      PlayerImpl* opponent;
+      UnitImpl   *getUnitFromIndex(int index);
+      BulletImpl *getBulletFromIndex(int index);
+      PlayerImpl *BWAPIPlayer;
+      PlayerImpl *opponent;
 
       void addShape(Shape* s);
       std::vector<Shape*> shapes;
-      /** Unknown unitID's */
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;
       std::list<std::string > sentMessages;

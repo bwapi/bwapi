@@ -11,7 +11,7 @@ namespace BWAPI
   #define PIPE_SYSTEM_BUFFER_SIZE 4096
   Server::Server()
   {
-    pipeObjectHandle=CreateNamedPipe("\\\\.\\pipe\\bwapi_pipe",
+    pipeObjectHandle = CreateNamedPipe("\\\\.\\pipe\\bwapi_pipe",
                                            PIPE_ACCESS_DUPLEX,
                                            PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
                                            PIPE_UNLIMITED_INSTANCES,
@@ -22,19 +22,19 @@ namespace BWAPI
     if (pipeObjectHandle == INVALID_HANDLE_VALUE)
       Util::Logger::globalLog->log("Error: unable to make pipe");
     COMMTIMEOUTS c;
-    c.ReadIntervalTimeout = 100;
-    c.ReadTotalTimeoutMultiplier = 100;
-    c.ReadTotalTimeoutConstant = 2000;
+    c.ReadIntervalTimeout         = 100;
+    c.ReadTotalTimeoutMultiplier  = 100;
+    c.ReadTotalTimeoutConstant    = 2000;
     c.WriteTotalTimeoutMultiplier = 100;
-    c.WriteTotalTimeoutConstant = 2000;
+    c.WriteTotalTimeoutConstant   = 2000;
     SetCommTimeouts(pipeObjectHandle,&c);
-    int size=sizeof(GameData);
+    int size = sizeof(GameData);
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
     if (mapFileHandle == INVALID_HANDLE_VALUE)
       Util::Logger::globalLog->log("Error: unable to make shared memory");
     data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
     initializeSharedMemory();
-    connected=false;
+    connected = false;
   }
   Server::~Server()
   {
@@ -405,16 +405,16 @@ namespace BWAPI
   void Server::callOnFrame()
   { 
     DWORD writtenByteCount;
-    int code=2;
-    WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
-    while (code!=1)
+    int code = 2;
+    WriteFile(pipeObjectHandle, &code, sizeof(int), &writtenByteCount, NULL);
+    while (code != 1)
     {
       DWORD receivedByteCount;
-      BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);
+      BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(int), &receivedByteCount,NULL);
       if (!success)
       {
         DisconnectNamedPipe(pipeObjectHandle);
-        connected=false;
+        connected = false;
         setWaitForResponse(false);
         break;
       }
@@ -422,11 +422,11 @@ namespace BWAPI
   }
   void Server::processCommands()
   {
-    for(int i=0;i<data->commandCount;i++)
+    for(int i = 0; i < data->commandCount; ++i)
     {
-      BWAPIC::CommandType::Enum c=data->commands[i].type;
-      int v1=data->commands[i].value1;
-      int v2=data->commands[i].value2;
+      BWAPIC::CommandType::Enum c = data->commands[i].type;
+      int v1 = data->commands[i].value1;
+      int v2 = data->commands[i].value2;
       switch (c)
       {
         case BWAPIC::CommandType::SetScreenPosition:

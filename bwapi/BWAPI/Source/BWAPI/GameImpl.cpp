@@ -130,7 +130,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)
   {
-    if (this->isFlagEnabled(Flag::CompleteMapInformation) == false)
+    if ( !this->isFlagEnabled(Flag::CompleteMapInformation) )
       return NULL;
     int i = (unitIndex & 0x7FF);
     if ( i < 1700 && this->unitArray[i]->canAccess() )
@@ -198,22 +198,16 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX()
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return 0;
     return BW::BWDATA_Mouse->x;
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY()
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return 0;
     return BW::BWDATA_Mouse->y;
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return BWAPI::Positions::Unknown;
     return BWAPI::Position(BW::BWDATA_Mouse->x, BW::BWDATA_Mouse->y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
@@ -224,9 +218,8 @@ namespace BWAPI
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(int button)
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
+    if (button < 0 || button >= 3) 
       return false;
-    if (button<0 || button>=3) return false;
     SHORT ButtonDown = 0;
     switch (button)
     {
@@ -244,7 +237,6 @@ namespace BWAPI
     }
     bool pressed = (ButtonDown & 128) > 0;
     return pressed;
-    
   }
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(Key key)
@@ -254,8 +246,6 @@ namespace BWAPI
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(int key)
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return false;
     if (key < 0 || key >= 255)
       return false;
     return (GetKeyState(key) & 128) > 0;
@@ -263,32 +253,30 @@ namespace BWAPI
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX()
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return 0;
     return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int GameImpl::getScreenY()
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return 0;
     return *(BW::BWDATA_ScreenY);
   }
   //------------------------------------------- GET SCREEN POSITION ------------------------------------------
   BWAPI::Position GameImpl::getScreenPosition()
   {
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
-      return BWAPI::Positions::Unknown;
     return BWAPI::Position(*(BW::BWDATA_ScreenX),*(BW::BWDATA_ScreenY));
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
     /* Sets the screen's position relative to the map */
-    if (x<0) x=0;
-    if (y<0) y=0;
-    if (x>Map::getWidth()*32-640) x=Map::getWidth()*32-640;
-    if (y>Map::getHeight()*32-480) y=Map::getHeight()*32-480;
+    if (x < 0)
+      x = 0;
+    if (y < 0)
+      y = 0;
+    if (x > Map::getWidth()  * 32 - 640)
+      x = Map::getWidth() * 32 - 640;
+    if (y > Map::getHeight() * 32 - 480)
+      y = Map::getHeight() * 32 - 480;
 
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;
@@ -469,34 +457,45 @@ namespace BWAPI
     /* Loop through all pylons for the current player */
     foreach (UnitImpl* i, pylons)
     {
-      if (i->isCompleted()==false) continue;
+      if ( !i->isCompleted() )
+        continue;
       int px = i->getTilePosition().x();
       int py = i->getTilePosition().y();
       int bx = x - px + 7;
-      int by = y - py + 4;
+      int by = y - py + 5;
       /* Deal with special cases, pylon offset cutoff */
-      if (bx >= 0 && by >= 0 && bx <= 14 && by <= 8)
+      if (bx >= 0 && by >= 0 && bx <= 14 && by <= 9)
       {
         switch(by)
         {
-          case 0:
-            if (bx >= 1 && bx <= 12) return true;
-          break;
-          case 1:
-            if (bx <= 13) return true;
-          break;
-          case 2:
-          case 3:
-          case 4:
-          case 5:
+        case 0:
+          if ( tileHeight == 3 && bx >= 4 && bx <= 9 )
             return true;
           break;
-          case 6:
-            if (bx <= 13) return true;
-          case 7:
-            if (bx >= 1 && bx <= 12) return true;
-          case 8:
-            if (bx >= 4 && bx <= 9) return true;
+        case 1:
+          if (bx >= 1 && bx <= 12) 
+            return true;
+          break;
+        case 2:
+          if (bx <= 13) 
+            return true;
+          break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+          return true;
+        case 7:
+          if (bx <= 13) 
+            return true;
+          break;
+        case 8:
+          if (bx >= 1 && bx <= 12) 
+            return true;
+          break;
+        case 9:
+          if (bx >= 4 && bx <= 9) 
+            return true;
           break;
         }
       }
@@ -533,7 +532,7 @@ namespace BWAPI
       {
         if (g->getTilePosition() == position)
         {
-          if (g->isVisible() && g->getType()!=UnitTypes::Resource_Vespene_Geyser)
+          if (g->isVisible() && g->getType() != UnitTypes::Resource_Vespene_Geyser)
             return false;
           this->setLastError(Errors::None);
           return true;
@@ -542,16 +541,16 @@ namespace BWAPI
       return false;
     }
     //check to see if any ground units are blocking the build site
-    for(int x = position.x(); x < position.x() + width; x++)
+    for(int x = position.x(); x < position.x() + width; ++x)
     {
-      for(int y = position.y(); y < position.y() + height; y++)
+      for(int y = position.y(); y < position.y() + height; ++y)
       {
         std::set<Unit*> groundUnits;
         foreach (Unit* i, unitsOnTile(x,y))
           if (!i->getType().isFlyer() && !i->isLifted())
             groundUnits.insert(i);
 
-        if (!this->isBuildable(x,y) || groundUnits.size() > 1) //found at least two ground units blocking build site, or tile is unbuildable, so return false
+        if (!this->isBuildable(x, y) || groundUnits.size() > 1) //found at least two ground units blocking build site, or tile is unbuildable, so return false
           return false;
 
         if (!groundUnits.empty()) //if only 1 unit is blocking build site...
@@ -569,16 +568,16 @@ namespace BWAPI
     {
       //Most Zerg buildings can only be built on creep
       if (!type.isResourceDepot())
-        for(int x = position.x(); x < position.x() + width; x++)
-          for(int y = position.y(); y < position.y() + height; y++)
+        for(int x = position.x(); x < position.x() + width; ++x)
+          for(int y = position.y(); y < position.y() + height; ++y)
             if (!BWAPI::Broodwar->hasCreep(x, y))
               return false;
     }
     else
     {
       //Non-zerg buildings cannot be built on creep
-      for(int x = position.x(); x < position.x() + width; x++)
-        for(int y = position.y(); y < position.y() + height; y++)
+      for(int x = position.x(); x < position.x() + width; ++x)
+        for(int y = position.y(); y < position.y() + height; ++y)
           if (BWAPI::Broodwar->hasCreep(x, y))
             return false;
     }
@@ -722,7 +721,7 @@ namespace BWAPI
       if (i->first == UnitTypes::Zerg_Lair)
         if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
           pass = true;
-      if (pass == false)
+      if ( !pass )
       {
         this->setLastError(Errors::Insufficient_Tech);
         return false;
@@ -989,7 +988,7 @@ namespace BWAPI
   std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
   {
     this->setLastError(Errors::None);
-    if (this->isFlagEnabled(BWAPI::Flag::UserInput) == false)
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
     {
       this->setLastError(Errors::Access_Denied);
       return emptySet;

@@ -15,27 +15,27 @@ namespace BWAPI
       TechTypeInternal() {valid = false;}
       void set(const char* name, int mineralPrice, int gasPrice, int researchTime, int energyUsed, UnitType whatResearches, Race race, WeaponType weapon, UnitType whatUses1, UnitType whatUses2=UnitTypes::None, UnitType whatUses3=UnitTypes::None, UnitType whatUses4=UnitTypes::None)
       {
-        this->name=name;
-        this->mineralPrice=mineralPrice;
-        this->gasPrice=gasPrice;
-        this->researchTime=researchTime;
-        this->energyUsed=energyUsed;
-        this->whatResearches=whatResearches;
-        this->race=race;
-        this->weapon=weapon;
-        if (whatUses1!=UnitTypes::None)
+        this->name           = name;
+        this->mineralPrice   = mineralPrice;
+        this->gasPrice       = gasPrice;
+        this->researchTime   = researchTime;
+        this->energyUsed     = energyUsed;
+        this->whatResearches = whatResearches;
+        this->race           = race;
+        this->weapon         = weapon;
+        if (whatUses1 != UnitTypes::None)
         {
           this->whatUses.insert(whatUses1);
         }
-        if (whatUses2!=UnitTypes::None)
+        if (whatUses2 != UnitTypes::None)
         {
           this->whatUses.insert(whatUses2);
         }
-        if (whatUses3!=UnitTypes::None)
+        if (whatUses3 != UnitTypes::None)
         {
           this->whatUses.insert(whatUses3);
         }
-        if (whatUses4!=UnitTypes::None)
+        if (whatUses4 != UnitTypes::None)
         {
           this->whatUses.insert(whatUses4);
         }
@@ -170,13 +170,15 @@ namespace BWAPI
       techTypeSet.insert(Unknown);
       techTypeSet.insert(Nuclear_Strike);
 
-      for(std::set<TechType>::iterator i = techTypeSet.begin(); i != techTypeSet.end(); i++)
+      for(std::set<TechType>::iterator i = techTypeSet.begin(); i != techTypeSet.end(); ++i)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = (*i).getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A' - 'a';
         }
         techTypeMap.insert(std::make_pair(name, *i));
       }
@@ -261,13 +263,16 @@ namespace BWAPI
   }
   TechType TechTypes::getTechType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A' - 'a';
     }
     std::map<std::string, TechType>::iterator i = techTypeMap.find(name);
-    if (i == techTypeMap.end()) return TechTypes::Unknown;
+    if (i == techTypeMap.end()) 
+      return TechTypes::Unknown;
     return (*i).second;
   }
   std::set<TechType>& TechTypes::allTechTypes()

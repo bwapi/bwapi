@@ -93,7 +93,8 @@ namespace BWAPI
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible(BWAPI::Player* player) const
   {
-    if (player==NULL) return false;
+    if ( player == NULL )
+      return false;
     return self->isVisible[player->getID()];
   }
   //----------------------------------------------- SET EXISTS -----------------------------------------------
@@ -104,7 +105,7 @@ namespace BWAPI
   //---------------------------------------------- SAVE EXISTS -----------------------------------------------
   void BulletImpl::saveExists()
   {
-    if (lastExists==false && __exists==true)
+    if ( !lastExists && __exists)
     {
       id = BroodwarImpl.bulletCount;
       BroodwarImpl.bulletCount++;
@@ -197,22 +198,23 @@ namespace BWAPI
     }
     if (_exists)
     {
-      for(int i=0;i<9;i++)
+      for(int i = 0; i < 9; ++i)
       {
-        if (i==selfPlayerID) continue;
+        if (i == selfPlayerID)
+          continue;
         PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
         if (bwOriginalBullet->sprite == NULL || player == NULL)
-          self->isVisible[i]=false;
+          self->isVisible[i] = false;
         else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-          self->isVisible[i]=false;
+          self->isVisible[i] = false;
         else if (_getPlayer == player)
-          self->isVisible[i]=true;
+          self->isVisible[i] = true;
         else if (player->isNeutral())
-          self->isVisible[i]=bwOriginalBullet->sprite->visibilityFlags > 0;
+          self->isVisible[i] = bwOriginalBullet->sprite->visibilityFlags > 0;
         else
-          self->isVisible[i]=(bwOriginalBullet->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
+          self->isVisible[i] = (bwOriginalBullet->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
       }
-      if (selfPlayerID>-1)
+      if (selfPlayerID > -1)
       {
         if (bwOriginalBullet->sprite == NULL)
           self->isVisible[selfPlayerID] = false;
@@ -226,7 +228,7 @@ namespace BWAPI
     }
     else
     {
-      for(int i=0;i<9;i++)
+      for(int i = 0; i < 9; ++i)
         self->isVisible[i] = false;
     }
   }
