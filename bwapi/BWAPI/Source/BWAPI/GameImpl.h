@@ -130,8 +130,9 @@ namespace BWAPI
        * Prints text in game (only local)
        * @param text Text to be written
        */
-      virtual void printf(const char* text, ...);
-      virtual void sendText(const char* text, ...);
+      virtual void printf(const char *format, ...);
+      virtual void sendText(const char *format, ...);
+      virtual void sendTextEx(bool toAllies, const char *format, ...);
 
       /**
        * Changes race in the pre-game lobby.
@@ -203,7 +204,7 @@ namespace BWAPI
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
-      void sendTextEx(u8 txfilter, u8 plfilter, const char *text, ...);
+      
       void printEx(int pID, const char* text, ...);
       void update(); /**< Updates unitArrayCopy according to bw memory */
       void loadAutoMenuData();

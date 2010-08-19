@@ -254,12 +254,13 @@ namespace BWAPI
       virtual std::set< TilePosition >& getStartLocations() = 0;
 
       /** Prints text on the screen. Text is not sent to other players in multiplayer games. */
-      virtual void printf(const char *text, ...) = 0;
+      virtual void printf(const char *format, ...) = 0;
 
       /** Sends text to other players - as if it were entered in chat. In single player games and replays,
        * this will just print the text on the screen. If the game is a single player match and not a replay,
        * then this function can be used to execute cheat codes, i.e. Broodwar->sendText("show me the money"). */
-      virtual void sendText(const char *text, ...) = 0;
+      virtual void sendText(const char *format, ...) = 0;
+      virtual void sendTextEx(bool toAllies, const char *format, ...) = 0;
 
       /** Used to change the race while in a lobby. Note that there is no onLobbyEnter callback yet, so this
        * function cannot be used at this time. */

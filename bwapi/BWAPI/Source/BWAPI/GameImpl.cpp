@@ -856,7 +856,7 @@ namespace BWAPI
     return startLocations;
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
-  void  GameImpl::printf(const char* text, ...)
+  void GameImpl::printf(const char* text, ...)
   {
     va_list ap;
     va_start(ap, text);
@@ -873,16 +873,79 @@ namespace BWAPI
       printEx(8, "%s", buffer);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
-  void  GameImpl::sendText(const char *text, ...)
+  void GameImpl::sendText(const char *format, ...)
   {
     va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_start(ap, format);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
     va_end(ap);
-    sendTextEx(0, 0, "%s", buffer);
+    sendTextEx(false, "%s", buffer);
+  }
+  void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
+  {
+    va_list ap;
+    va_start(ap, format);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
+    va_end(ap);
+    char* txtout = buffer;
+
+    if (_isReplay())
+    {
+      printEx(8, "%s", buffer);
+      return;
+    }
+
+    if (_isInGame() && _isSinglePlayer())
+    {
+      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(buffer);
+      if (cheatID != BW::CheatFlags::None)
+      {
+        this->cheatFlags ^= cheatID;
+        QueueGameCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+        if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
+            cheatID == BW::CheatFlags::BreatheDeep ||
+            cheatID == BW::CheatFlags::WhatsMineIsMine ||
+            cheatID == BW::CheatFlags::SomethingForNothing)
+          this->cheatFlags ^= cheatID;
+      }
+      else
+      {
+        printEx(this->BWAPIPlayer->getIndex(), "%s", buffer);
+      }
+      return;
+    }
+
+    if (_isInGame())
+    {
+      *BW::BWDATA_SendTextFilter = 0xFFFF;
+      if ( toAllies )
+      {
+        *BW::BWDATA_SendTextFilter = 0;
+        for ( u8 p = 0; p < BW::PLAYER_COUNT; ++p )
+        {
+          if ( BW::BWDATA_Alliance[BWAPIPlayer->getID()].player[p] != 0 )
+            *BW::BWDATA_SendTextFilter |= 1 << p;
+        }
+      }
+      __asm
+      {
+        pushad
+        mov esi, txtout
+        call [BW::BWFXN_SendPublicCallTarget]
+        popad
+      }
+    }
+    else
+      __asm
+      {
+        pushad
+        mov edi, txtout
+        call [BW::BWFXN_SendLobbyCallTarget]
+        popad
+      }
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
-  void  GameImpl::changeRace(BWAPI::Race race)
+  void GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
     this->_changeRace(this->BWAPIPlayer->getIndex(),race);

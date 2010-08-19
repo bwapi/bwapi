@@ -752,11 +752,11 @@ namespace BWAPI
     return *BW::BWDATA_InReplay != 0;
   }
   //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-  void GameImpl::printEx(int pID, const char* text, ...)
+  void GameImpl::printEx(int pID, const char *format, ...)
   {
     va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_start(ap, format);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
     va_end(ap);
 
     char* txtout = buffer;
@@ -775,73 +775,8 @@ namespace BWAPI
     else
       sendText(txtout); // until lobby print private text is found
   }
-  // 0 = to all, 1 = to allies, 2 = to specified
-  void  GameImpl::sendTextEx(u8 txfilter, u8 plfilter, const char *text, ...)
-  {
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-    va_end(ap);
-    char* txtout = buffer;
 
-    if (_isReplay())
-    {
-      printEx(8, "%s", buffer);
-      return;
-    }
-
-    if (_isInGame() && _isSinglePlayer())
-    {
-      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(buffer);
-      if (cheatID != BW::CheatFlags::None)
-      {
-        this->cheatFlags ^= cheatID;
-        QueueGameCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
-        if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
-            cheatID == BW::CheatFlags::BreatheDeep ||
-            cheatID == BW::CheatFlags::WhatsMineIsMine ||
-            cheatID == BW::CheatFlags::SomethingForNothing)
-          this->cheatFlags ^= cheatID;
-      }
-      else
-      {
-        printEx(this->BWAPIPlayer->getIndex(), "%s", buffer);
-      }
-      return;
-    }
-
-    if (_isInGame())
-    {
-      switch (txfilter)
-      {
-      case 0:
-        memset(BW::BWDATA_SendTextFilter, 0xFF, 2);
-        break;
-      case 1:
-
-        break;
-      default:
-
-        break;
-      }
-      __asm
-      {
-        pushad
-        mov esi, txtout
-        call [BW::BWFXN_SendPublicCallTarget]
-        popad
-      }
-    }
-    else
-      __asm
-      {
-        pushad
-        mov edi, txtout
-        call [BW::BWFXN_SendLobbyCallTarget]
-        popad
-      }
-  }
-
+  //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
   {
     //simulates a key press using the winapi
