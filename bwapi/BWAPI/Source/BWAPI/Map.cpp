@@ -52,20 +52,20 @@ namespace BWAPI
   }
   void Map::copyToSharedMemory()
   {
-    int w=buildability.getWidth();
-    int h=buildability.getHeight();
+    int w = buildability.getWidth();
+    int h = buildability.getHeight();
     GameData* data = BroodwarImpl.server.data;
     bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
     if (BroodwarImpl._isReplay())
     {
-      for(int x=0;x<w;x++)
+      for(int x = 0; x < w; ++x)
       {
-        for(int y=0;y<h;y++)
+        for(int y = 0; y < h; ++y)
         {
-          int tileData=(*fogOfWar)[y][x];
-          data->isVisible[x][y] = (tileData & 255) != 255;
+          int tileData = (*fogOfWar)[y][x];
+          data->isVisible[x][y]  = (tileData & 255) != 255;
           data->isExplored[x][y] = ((tileData >> 8) & 255) != 255;
-          data->hasCreep[x][y] = (*zergCreep)[y][x] != 0;
+          data->hasCreep[x][y]   = (*zergCreep)[y][x] != 0;
         }
       }
     }
@@ -73,13 +73,13 @@ namespace BWAPI
     {
       int playerIndex=BroodwarImpl.BWAPIPlayer->getIndex();
       int playerFlag=1 << playerIndex;
-      for(int x=0;x<w;x++)
+      for(int x = 0; x < w; ++x)
       {
-        for(int y=0;y<h;y++)
+        for(int y = 0; y < h; ++y)
         {
           int tileData=(*fogOfWar)[y][x];
-          data->isVisible[x][y] =  !(tileData & playerFlag);
-          data->isExplored[x][y] =  !((tileData >> 8) & playerFlag);
+          data->isVisible[x][y]  = !(tileData & playerFlag);
+          data->isExplored[x][y] = !((tileData >> 8) & playerFlag);
           bool canAccess = data->isVisible[x][y] || completeMapInfo;
           data->hasCreep[x][y] = canAccess && (*zergCreep)[y][x] != 0;
         }
@@ -89,21 +89,21 @@ namespace BWAPI
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool Map::buildable(int x, int y) const
   {
-    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
+    if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
     return buildability[x][y];
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
   bool Map::walkable(int x, int y) const
   {
-    if ((unsigned int)x>=walkability.getWidth() || (unsigned int)y>=walkability.getHeight())
+    if ((unsigned int)x >= walkability.getWidth() || (unsigned int)y >= walkability.getHeight())
       return false;
     return walkability[x][y];
   }
   //------------------------------------------------ VISIBLE -------------------------------------------------
   bool Map::visible(int x, int y) const
   {
-    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
+    if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
     u32 value =  (*this->fogOfWar)[y][x];
     if (BroodwarImpl._isReplay())
@@ -113,9 +113,9 @@ namespace BWAPI
   //--------------------------------------------- HAS EXPLORED -----------------------------------------------
   bool Map::isExplored(int x, int y) const
   {
-    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
+    if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
-    u32 value =  (*this->fogOfWar)[y][x];
+    u32 value = (*this->fogOfWar)[y][x];
     value = value >> 8;
     if (BroodwarImpl._isReplay())
       return (value & 255) != 255;
@@ -124,7 +124,7 @@ namespace BWAPI
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const
   {
-    if ((unsigned int)x>=buildability.getWidth() || (unsigned int)y>=buildability.getHeight())
+    if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
     return (*this->zergCreep)[y][x] != 0;
   }
@@ -152,7 +152,7 @@ namespace BWAPI
     }
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
-    fogOfWar = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), BW::BWDATA_MapFogOfWar);
+    fogOfWar  = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), BW::BWDATA_MapFogOfWar);
     zergCreep = new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ZergCreepArray);
     setBuildability();
     setWalkability();
@@ -170,16 +170,16 @@ namespace BWAPI
   //-------------------------------------------- SET BUILDABILITY --------------------------------------------
   void Map::setBuildability()
   {
-    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); y++)
-      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); x++)
+    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); ++y)
+      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); ++x)
         this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8);
     int y = BWAPI::Map::getHeight()-1;
     for(unsigned int x = 0; x < BWAPI::Map::getWidth();x++)
     {
       this->buildability[x][y] = false;
     }
-    y--;
-    for(int x = 0; x < 5; x++)
+    --y;
+    for(int x = 0; x < 5; ++x)
     {
       this->buildability[x][y] = false;
       this->buildability[BWAPI::Map::getWidth() - x - 1][y] = false;
@@ -188,11 +188,11 @@ namespace BWAPI
   //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()
   {
-    for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight() * 4); y++)
-      for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth() * 4); x++)
+    for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight() * 4); ++y)
+      for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth() * 4); ++x)
         this->walkability[x][y] = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Walkable);
     int y = BWAPI::Map::getHeight() * 4 - 1;
-    for(unsigned int x = 0; x < (unsigned int)(BWAPI::Map::getWidth() * 4); x++)
+    for(unsigned int x = 0; x < (unsigned int)(BWAPI::Map::getWidth() * 4); ++x)
     {
       this->walkability[x][y]   = false;
       this->walkability[x][y-1] = false;

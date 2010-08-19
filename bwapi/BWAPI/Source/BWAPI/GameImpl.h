@@ -70,10 +70,10 @@ namespace BWAPI
       virtual std::set< Bullet* >& getBullets();
       virtual std::list< Event >& getEvents();
 
-      virtual Force* getForce(int forceID);
+      virtual Force*  getForce(int forceID);
       virtual Player* getPlayer(int playerID);
-      virtual Unit* getUnit(int unitID);
-      virtual Unit* indexToUnit(int unitIndex);
+      virtual Unit*   getUnit(int unitID);
+      virtual Unit*   indexToUnit(int unitIndex);
 
       virtual GameType getGameType();
       virtual int getLatency();
@@ -273,17 +273,17 @@ namespace BWAPI
       std::vector<BWAPI::UnitImpl*> evadeUnits; //units leaving accessibleUnits set on current frame
 
 
-      std::set<BWAPI::Unit*> selectedUnitSet;
-      std::set<BWAPI::Unit*> emptySet;
-      std::set<TilePosition> startLocations;
+      std::set<BWAPI::Unit*>  selectedUnitSet;
+      std::set<BWAPI::Unit*>  emptySet;
+      std::set<TilePosition>  startLocations;
       std::set< BW::UnitType> unitTypes;
 
-      std::set<BWAPI::Force*> forces;
+      std::set<BWAPI::Force*>  forces;
       std::set<BWAPI::Player*> playerSet;
 
-      std::set<BWAPI::Unit*> minerals;
-      std::set<BWAPI::Unit*> geysers;
-      std::set<BWAPI::Unit*> neutralUnits;
+      std::set<BWAPI::Unit*>   minerals;
+      std::set<BWAPI::Unit*>   geysers;
+      std::set<BWAPI::Unit*>   neutralUnits;
       std::set<BWAPI::Bullet*> bullets;
       std::set<BWAPI::UnitImpl*> pylons;
       Util::RectangleArray<std::set<Unit*> > unitsOnTileData;

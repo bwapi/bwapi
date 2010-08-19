@@ -511,18 +511,25 @@ namespace BWAPI
   bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
   {
     this->setLastError(Errors::Unbuildable_Location);
-
-    //return false if the position is not on the map
-    if (position.x() < 0)
-      return false;
-    if (position.y() < 0)
-      return false;
     int width  = type.tileWidth();
     int height = type.tileHeight();
-    if (position.x() + width > this->mapWidth())
+
+    /* Map limit Check */
+    if (position.x() < 0) // left
       return false;
-    if (position.y() + height >= this->mapHeight())
+    if (position.y() < 0) // top
       return false;
+    if (position.x() + width > this->mapWidth()) // right
+      return false;
+    if (position.y() + height >= this->mapHeight()) // bottom
+      return false;
+    if (position.y() + height == this->mapHeight() - 1) // UI - extra rules
+    {
+      if (position.x() < 5)
+        return false;
+      if (position.x() + width > this->mapWidth() - 5)
+        return false;
+    }
 
     //if the unit is a refinery, we just need to check the set of geysers to see if the position
     //matches one of them (and the type is still vespene geyser)
@@ -540,30 +547,38 @@ namespace BWAPI
       }
       return false;
     }
-    //check to see if any ground units are blocking the build site
+
+    /* Tile buildability check */
     for(int x = position.x(); x < position.x() + width; ++x)
     {
       for(int y = position.y(); y < position.y() + height; ++y)
       {
-        std::set<Unit*> groundUnits;
-        foreach (Unit* i, unitsOnTile(x,y))
-          if (!i->getType().isFlyer() && !i->isLifted())
-            groundUnits.insert(i);
-
-        if (!this->isBuildable(x, y) || groundUnits.size() > 1) //found at least two ground units blocking build site, or tile is unbuildable, so return false
+        if ( !this->isBuildable(x, y) )
           return false;
-
-        if (!groundUnits.empty()) //if only 1 unit is blocking build site...
-        {
-          //check to see if the blocking unit is the builder unit
-          Unit* blocking = *(groundUnits.begin());
-          //if its different, then return false
-          if (blocking != builder) 
-            return false;
-        }
       }
     }
 
+    /* Ground unit dimension check */
+    int realw = type.dimensionLeft() + type.dimensionRight() + 1;
+    int realh = type.dimensionUp()   + type.dimensionDown()  + 1;
+
+    int rLeft   = position.x() * 32 + (32 - realw / width)  / 2;
+    int rTop    = position.y() * 32 + (32 - realh / height) / 2;
+    int rRight  = rLeft + realw;
+    int rBottom = rTop  + realh;
+    foreach (UnitImpl *u, aliveUnits)
+    {
+      if ( u != builder )
+      {
+        if ( u->getPosition().x() + u->getType().dimensionRight() > rLeft   &&
+             u->getPosition().y() + u->getType().dimensionDown()  > rTop    &&
+             u->getPosition().x() - u->getType().dimensionLeft()  < rRight  &&
+             u->getPosition().y() - u->getType().dimensionUp()    < rBottom)
+          return false;
+      }
+    }
+
+    /* Creep Check */
     if (type.getRace() == BWAPI::Races::Zerg)
     {
       //Most Zerg buildings can only be built on creep
@@ -582,7 +597,7 @@ namespace BWAPI
             return false;
     }
 
-    //Most Protoss buildings can only be built in a power field
+    /* Power Check */
     if (type.requiresPsi())
     {
       if (this->hasPower(position.x(), position.y(), width, height))
@@ -593,7 +608,7 @@ namespace BWAPI
       return false;
     }
 
-    //Command Centers, Nexuses, and Hatcheries cannot be built too close to resources
+    /* Resource Check (CC, Nex, Hatch) */
     if (type.isResourceDepot())
     {
       foreach (BWAPI::Unit* m, getStaticMinerals())
