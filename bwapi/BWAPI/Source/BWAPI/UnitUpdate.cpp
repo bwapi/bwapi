@@ -33,20 +33,21 @@ namespace BWAPI
       //isVisible
       for(int i=0;i<9;i++)
       {
-        if (i==selfPlayerID) continue;
+        if (i == selfPlayerID)
+          continue;
         PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
         if (getOriginalRawData->sprite == NULL || player == NULL)
-          self->isVisible[i]=false;
+          self->isVisible[i] = false;
         else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-          self->isVisible[i]=false;
+          self->isVisible[i] = false;
         else if (_getPlayer == (Player*)player)
-          self->isVisible[i]=true;
+          self->isVisible[i] = true;
         else if (player->isNeutral())
-          self->isVisible[i]=getOriginalRawData->sprite->visibilityFlags > 0;
+          self->isVisible[i] = getOriginalRawData->sprite->visibilityFlags > 0;
         else
           self->isVisible[i] = (getOriginalRawData->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
       }
-      if (selfPlayerID>-1)
+      if (selfPlayerID > -1)
       {
         if (getOriginalRawData->sprite == NULL)
         {
@@ -68,8 +69,8 @@ namespace BWAPI
                                                getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Moving) ||
                                                getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating) ||
                                                getOriginalRawData->orderID == BW::OrderID::Move ||
-                                               getOriginalRawData->groundWeaponCooldown>0 ||
-                                               getOriginalRawData->airWeaponCooldown>0 ||
+                                               getOriginalRawData->groundWeaponCooldown > 0 ||
+                                               getOriginalRawData->airWeaponCooldown > 0 ||
                                               !getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed));
           }
           bool canDetect = !getOriginalRawData->status.getBit(BW::StatusFlags::RequiresDetection) ||
@@ -81,14 +82,14 @@ namespace BWAPI
       else
       {
         self->isDetected = false;
-        for(int i=0;i<9;i++)
+        for(int i = 0; i < 9; ++i)
           if (self->isVisible[i]) self->isDetected = true;
       }
       //------------------------------------------------------------------------------------------------------
       //_getType
       if ( getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
-         getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch2 ||
-         getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch3)
+           getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch2 ||
+           getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch3)
       {
         _getType = UnitTypes::Resource_Mineral_Field;
       }
@@ -296,7 +297,7 @@ namespace BWAPI
     {
       //------------------------------------------------------------------------------------------------------
       //getHitPoints
-      if (wasAccessible==false)
+      if ( !wasAccessible )
         self->lastHitPoints = _getHitPoints;
       else
         self->lastHitPoints = self->hitPoints;
@@ -403,7 +404,7 @@ namespace BWAPI
               (self->order == BW::OrderID::BuildNydusExit) ||
               (self->order == BW::OrderID::BuildAddon) ||
               (self->secondaryOrder == BW::OrderID::BuildAddon) ||
-              (self->isCompleted==false && self->buildUnit != -1);
+              (!self->isCompleted && self->buildUnit != -1);
       //------------------------------------------------------------------------------------------------------
       //isIdle
       if (self->isTraining ||

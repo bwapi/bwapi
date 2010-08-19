@@ -97,8 +97,8 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawHook )
     BW::pOldDrawHook(pSurface, pBounds);
 
-  int numShapes = (int)BWAPI::BroodwarImpl.shapes.size();
-  for( int i = 0; i < numShapes; i++ )
+  unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
+  for( unsigned int i = 0; i < numShapes; ++i )
     BWAPI::BroodwarImpl.shapes[i]->draw();
 }
 
@@ -215,6 +215,7 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 
 void __fastcall CommandFilter(BYTE *buffer, DWORD length)
 {
+  /* Filter commands using BWAPI rules */
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) || 
        !BWAPI::BroodwarImpl.onStartCalled ||
        buffer[0] <= 0x0B ||
@@ -239,6 +240,7 @@ void __thiscall BW::Image::CImage::_PlayIscript(char *header, int unk1, int unk2
 //------------------------------------------------ STORM HOOKS -----------------------------------------------
 BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
 {
+  /* Always return a successful check to bypass our custom SNP module authentication */
   if ( dwReturnVal )
     *dwReturnVal = 5;
   return TRUE;
@@ -247,31 +249,39 @@ BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
 std::string lastFile;
 BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile)
 {
+  /* Store the name of the last-opened file to retrieve the pointer once it's allocated */
   lastFile = szFileName;
   return SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
 }
 
 void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defaultValue)
 {
+  /* Call the original function */
   void *rval = SMemAlloc(amount, logfilename, logline, defaultValue);
+
+  /* Save the allocated string table pointer */
   if ( lastFile == "rez\\stat_txt.tbl" )
   {
     BW::BWDATA_StringTableOff = (char*)rval;
     lastFile = "";
   }
 
+  /* Save the allocated fog of war pointer */
   if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
     BW::BWDATA_MapFogOfWar = (u32*)rval;
 
+  /* Save the allocated mini-tile flags pointer */
   if ( lastFile.find(".vf4") != std::string::npos )
   {
     BW::BWDATA_MiniTileFlags = (BW::MiniTileMaps_type*)rval;
     lastFile = "";
   }
 
+  /* Save the allocated creep pointer */
   if ( strcmpi(logfilename, "Starcraft\\SWAR\\MapComn\\creep.cpp") == 0 && logline == 420 )
     BW::BWDATA_ZergCreepArray = (u16*)rval;
 
+  /* Save the allocated tileset pointer */
   if ( lastFile.find(".cv5") != std::string::npos )
   {
     BW::BWDATA_TileSet    = (BW::TileType*)rval;
@@ -279,6 +289,7 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
     lastFile = "";
   }
 
+  /* Save the allocated map tile array pointer */
   if ( amount == 0x20000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 603 )
     BW::BWDATA_MapTileArray = (u16*)rval;
 
@@ -289,6 +300,7 @@ DWORD lastTurnTime;
 DWORD lastTurnFrame;
 BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
 {
+  /* Save tick/frame counts for getRemainingLatency*  */
   lastTurnTime  = GetTickCount();
   lastTurnFrame = BWAPI::BroodwarImpl.getFrameCount();
   return SNetSendTurn(data, databytes);
@@ -324,18 +336,19 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   }
 
   /* Funny workaround for the lack of type casting */
-  char temptest[32];
+  char temptest[12];
   void *pPlayIscript;
-  sprintf_s(temptest, 32, "%08X", &BW::Image::CImage::_PlayIscript);
-  sscanf_s(temptest, "%08X", &pPlayIscript);
+  sprintf_s(temptest, 32, "%p", &BW::Image::CImage::_PlayIscript);
+  sscanf_s(temptest, "%p", &pPlayIscript);
 
-  /* Perform code patching */
+  /* Create function-level hooks */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &nextFrameHook);
   HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,  &menuFrameHook);
   HackUtil::CallPatch(BW::BWFXN_IscriptHook,    pPlayIscript);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
 
+  /* Perform code patches */
   char zero = 0;
   HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // main menu load timer
   HackUtil::WriteMem(BW::BWDATA_MenuInHack, &zero, 1);         // menu in speed
@@ -344,6 +357,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // BNET Server menu out speed
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
 
+  /* Create import detours */
   HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
   HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
   HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);

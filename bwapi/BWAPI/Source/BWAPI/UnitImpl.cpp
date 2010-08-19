@@ -657,7 +657,8 @@ namespace BWAPI
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible(Player* player) const
   {
-    if (player==NULL) return false;
+    if (player == NULL)
+      return false;
     return self->isVisible[player->getID()];
   }
   //--------------------------------------------- IS STARTING ATTACK SEQUENCE --------------------------------
@@ -909,10 +910,10 @@ namespace BWAPI
       weapon=this->getType().airWeapon();
 
     bool canAttack = (weapon!=WeaponTypes::None);
-    if (getType()==UnitTypes::Protoss_Reaver && getScarabCount()>0 && !targetInAir)
-      canAttack=true;
-    if (getType()==UnitTypes::Protoss_Carrier && getInterceptorCount()>0)
-      canAttack=true;
+    if (getType() == UnitTypes::Protoss_Reaver && getScarabCount()>0 && !targetInAir)
+      canAttack = true;
+    if (getType() == UnitTypes::Protoss_Carrier && getInterceptorCount() > 0)
+      canAttack = true;
     if (!canAttack)
     {
       BroodwarImpl.setLastError(Errors::Unable_To_Hit);
@@ -1261,7 +1262,7 @@ namespace BWAPI
     if (!((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (this->getType().isWorker()==false || (!target->getType().isRefinery() && target->getType()!=UnitTypes::Resource_Mineral_Field))
+    if (!this->getType().isWorker() || (!target->getType().isRefinery() && target->getType() != UnitTypes::Resource_Mineral_Field))
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
@@ -2071,13 +2072,15 @@ namespace BWAPI
   */
   bool UnitImpl::canAccess() const
   {
-    if (!this->isAlive)  return false;
-    if (this->isVisible()) return true;
+    if (!this->isAlive)
+      return false;
+    if (this->isVisible())
+      return true;
     //if we get here, the unit exists but is not visible
     if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
     /* neutral units visible during AIModule::onStart */
-    if (Broodwar->getFrameCount()==0)
+    if (Broodwar->getFrameCount() == 0)
       if (this->_getType.isNeutral() || this->_getPlayer->isNeutral())
         return true;
     return false;

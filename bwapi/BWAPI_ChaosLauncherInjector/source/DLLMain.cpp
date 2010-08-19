@@ -90,7 +90,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 
   SIZE_T bytesWritten;
   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
-  if (success == FALSE || bytesWritten != dllFileName.size() + 1)
+  if ( !success || bytesWritten != dllFileName.size() + 1)
     BWAPIError("Unable to write process memory.");
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);

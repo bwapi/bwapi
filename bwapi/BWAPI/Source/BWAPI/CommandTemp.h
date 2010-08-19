@@ -458,37 +458,44 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Move)
     {
-      if (!unit->self->exists) return;
-      if (unit->getType().canMove()==false) return;
-      unit->self->order = Orders::Move.getID();
+      if (!unit->self->exists) 
+        return;
+      if (!unit->getType().canMove())
+        return;
+      unit->self->order           = Orders::Move.getID();
       unit->self->targetPositionX = position.x();
       unit->self->targetPositionY = position.y();
       unit->self->isMoving = true;
-      unit->self->isIdle = false;
+      unit->self->isIdle   = false;
     }
     else if (command.type == UnitCommandTypes::Patrol)
     {
-      if (!unit->self->exists) return;
-      if (!unit->getType().canMove()) return;
-      unit->self->order = Orders::Patrol.getID();
-      unit->self->isIdle = false;
+      if (!unit->self->exists) 
+        return;
+      if (!unit->getType().canMove()) 
+        return;
+      unit->self->order    = Orders::Patrol.getID();
+      unit->self->isIdle   = false;
       unit->self->isMoving = true;
       unit->self->targetPositionX = position.x();
       unit->self->targetPositionY = position.y();
     }
     else if (command.type == UnitCommandTypes::Repair)
     {
-      if (!unit->self->exists) return;
-      if (unit->getType()!=UnitTypes::Terran_SCV) return;
-      unit->self->order = Orders::Repair.getID();
+      if (!unit->self->exists)
+        return;
+      if (unit->getType()!=UnitTypes::Terran_SCV)
+        return;
+      unit->self->order  = Orders::Repair.getID();
       unit->self->target = getUnitID(target);
       unit->self->isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Research)
     {
-      if (!unit->self->exists) return;
-      unit->self->order = Orders::ResearchTech.getID();
-      unit->self->tech = techType.getID();
+      if (!unit->self->exists)
+        return;
+      unit->self->order  = Orders::ResearchTech.getID();
+      unit->self->tech   = techType.getID();
       unit->self->isIdle = false;
       unit->self->remainingResearchTime = techType.researchTime();
       if (frame<Broodwar->getLatency())
@@ -500,32 +507,37 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Return_Cargo)
     {
-      if (!unit->self->exists) return;
-      if (unit->self->carryResourceType!=1 && unit->self->carryResourceType!=2) return;
+      if (!unit->self->exists)
+        return;
+      if (unit->self->carryResourceType == 0)
+        return;
       if (unit->isCarryingGas())
         unit->self->order = Orders::ReturnGas.getID();
       else
         unit->self->order = Orders::ReturnMinerals.getID();
       unit->self->isGathering = true;
-      unit->self->isIdle = false;
+      unit->self->isIdle      = false;
     }
     else if (command.type == UnitCommandTypes::Right_Click_Position)
     {
-      if (!unit->self->exists) return;
-      if (unit->getType().canMove()==false) return;
-      unit->self->order = Orders::Move.getID();
+      if (!unit->self->exists)
+        return;
+      if (!unit->getType().canMove())
+        return;
+      unit->self->order           = Orders::Move.getID();
       unit->self->targetPositionX = position.x();
       unit->self->targetPositionY = position.y();
       unit->self->isMoving = true;
-      unit->self->isIdle = false;
+      unit->self->isIdle   = false;
     }
     else if (command.type == UnitCommandTypes::Right_Click_Unit)
     {
-      if (!unit->self->exists) return;
-      unit->self->target = getUnitID(target);
-      unit->self->isIdle = false;
+      if (!unit->self->exists)
+        return;
+      unit->self->target   = getUnitID(target);
+      unit->self->isIdle   = false;
       unit->self->isMoving = true;
-      if (unit->getType().isWorker() && target->getType()==UnitTypes::Resource_Mineral_Field)
+      if (unit->getType().isWorker() && target->getType() == UnitTypes::Resource_Mineral_Field)
       {
         unit->self->isGathering = true;
         unit->self->order = Orders::MoveToMinerals.getID();
@@ -536,14 +548,14 @@ namespace BWAPI
         unit->self->order = Orders::MoveToGas.getID();
       }
       else if (unit->getType().isWorker() &&
-               target->getType().getRace()==Races::Terran &&
-               target->getType().whatBuilds().first==unit->getType() &&
+               target->getType().getRace() == Races::Terran &&
+               target->getType().whatBuilds().first == unit->getType() &&
                !target->isCompleted())
       {
-        unit->self->order = Orders::ConstructingBuilding.getID();
-        unit->self->buildUnit = getUnitID(target);
-        target->self->buildUnit = getUnitID(unit);
-        unit->self->isConstructing = true;
+        unit->self->order            = Orders::ConstructingBuilding.getID();
+        unit->self->buildUnit        = getUnitID(target);
+        target->self->buildUnit      = getUnitID(unit);
+        unit->self->isConstructing   = true;
         target->self->isConstructing = true;
       }
       else if (unit->getType().canAttack() && target->getPlayer() != unit->getPlayer() && !target->getType().isNeutral())
@@ -555,8 +567,10 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Position)
     {
-      if (!unit->self->exists) return;
-      if (!unit->getType().canProduce()) return;
+      if (!unit->self->exists)
+        return;
+      if (!unit->getType().canProduce())
+        return;
       unit->self->order = Orders::RallyPointTile.getID();
       unit->self->rallyPositionX = position.x();
       unit->self->rallyPositionY = position.y();
@@ -564,40 +578,46 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Unit)
     {
-      if (!unit->self->exists) return;
-      if (!unit->getType().canProduce()) return;
-      if (target == NULL || !target->self->exists) return;
+      if (!unit->self->exists)
+        return;
+      if (!unit->getType().canProduce())
+        return;
+      if (target == NULL || !target->self->exists)
+        return;
       unit->self->order = Orders::RallyPointUnit.getID();
       unit->self->rallyUnit = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Siege)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       unit->self->order = Orders::Sieging.getID();
     }
     else if (command.type == UnitCommandTypes::Stop)
     {
-      if (!unit->self->exists) return;
-      unit->self->order = Orders::Stop.getID();
+      if (!unit->self->exists)
+        return;
+      unit->self->order  = Orders::Stop.getID();
       unit->self->isIdle = true;
     }
     else if (command.type == UnitCommandTypes::Train)
     {
-      if (!unit->self->exists) return;
-      if (savedExtra==-1)
+      if (!unit->self->exists)
+        return;
+      if (savedExtra == -1)
         savedExtra = unit->self->trainingQueueCount;
-      if ((frame<Broodwar->getLatency() && Broodwar->getLatency()==2) ||
-          (frame<Broodwar->getLatency()-2 && Broodwar->getLatency()>2))
+      if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
+          (frame < Broodwar->getLatency() - 2 && Broodwar->getLatency() > 2))
       {
         unit->self->trainingQueue[unit->self->trainingQueueCount] = unitType.getID();
         unit->self->trainingQueueCount++;
         player->self->minerals -= unitType.mineralPrice();
         player->self->gas      -= unitType.gasPrice();
       }
-      if ((frame<=Broodwar->getLatency() && Broodwar->getLatency()==2) ||
-          (frame<Broodwar->getLatency()-1 && Broodwar->getLatency()>2))
+      if ((frame <= Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
+          (frame < Broodwar->getLatency() - 1 && Broodwar->getLatency() > 2))
       {
-        if (savedExtra==0)
+        if (savedExtra == 0)
         {
           player->self->allUnitCount[unitType.getID()]++;
           unit->self->remainingTrainTime = unitType.buildTime();
@@ -605,24 +625,27 @@ namespace BWAPI
         }
       }
       unit->self->isTraining = true;
-      unit->self->isIdle = false;
+      unit->self->isIdle     = false;
       if (unitType == UnitTypes::Terran_Nuclear_Missile.getID())
         unit->self->secondaryOrder = Orders::Train.getID();
     }
     else if (command.type == UnitCommandTypes::Unburrow)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       unit->self->order = Orders::Unburrowing.getID();
     }
     else if (command.type == UnitCommandTypes::Unload)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       unit->self->order = Orders::Unload.getID();
       unit->self->target = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Unload_All)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       if (unit->getType() == UnitTypes::Terran_Bunker)
       {
         unit->self->order = Orders::Unload.getID();
@@ -636,31 +659,34 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Unload_All_Position)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       if (unit->getType() == UnitTypes::Terran_Bunker)
       {
         unit->self->order = Orders::Unload.getID();
       }
       else
       {
-        unit->self->order = Orders::MoveUnload.getID();
+        unit->self->order           = Orders::MoveUnload.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
     }
     else if (command.type == UnitCommandTypes::Unsiege)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       unit->self->order = Orders::Unsieging.getID();
     }
     else if (command.type == UnitCommandTypes::Upgrade)
     {
-      if (!unit->self->exists) return;
-      unit->self->order = Orders::Upgrade.getID();
+      if (!unit->self->exists)
+        return;
+      unit->self->order   = Orders::Upgrade.getID();
       unit->self->upgrade = upgradeType.getID();
-      unit->self->isIdle = false;
-      int level = unit->getPlayer()->getUpgradeLevel(upgradeType.getID());
-      unit->self->remainingUpgradeTime = upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*level;
+      unit->self->isIdle  = false;
+      int level           = unit->getPlayer()->getUpgradeLevel(upgradeType.getID());
+      unit->self->remainingUpgradeTime = upgradeType.upgradeTimeBase() + upgradeType.upgradeTimeFactor()*level;
       if (frame<Broodwar->getLatency())
       {
         player->self->minerals -= upgradeType.mineralPriceBase() + upgradeType.mineralPriceFactor()*level;
@@ -670,7 +696,8 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Use_Tech)
     {
-      if (!unit->self->exists) return;
+      if (!unit->self->exists)
+        return;
       if (techType == TechTypes::Stim_Packs)
       {
         unit->self->hitPoints -= 10;
@@ -679,197 +706,198 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Position)
     {
-      if (!unit->self->exists) return;
-      if (techType==TechTypes::Dark_Swarm)
+      if (!unit->self->exists)
+        return;
+      if (techType == TechTypes::Dark_Swarm)
       {
-        unit->self->order = Orders::CastDarkSwarm.getID();
+        unit->self->order           = Orders::CastDarkSwarm.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Disruption_Web)
+      else if (techType == TechTypes::Disruption_Web)
       {
-        unit->self->order = Orders::CastDisruptionWeb.getID();
+        unit->self->order           = Orders::CastDisruptionWeb.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::EMP_Shockwave)
+      else if (techType == TechTypes::EMP_Shockwave)
       {
-        unit->self->order = Orders::CastEMPShockwave.getID();
+        unit->self->order           = Orders::CastEMPShockwave.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Ensnare)
+      else if (techType == TechTypes::Ensnare)
       {
-        unit->self->order = Orders::CastEnsnare.getID();
+        unit->self->order           = Orders::CastEnsnare.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Maelstrom)
+      else if (techType == TechTypes::Maelstrom)
       {
-        unit->self->order = Orders::CastMaelstrom.getID();
+        unit->self->order           = Orders::CastMaelstrom.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Nuclear_Strike)
+      else if (techType == TechTypes::Nuclear_Strike)
       {
-        unit->self->order = Orders::CastNuclearStrike.getID();
+        unit->self->order           = Orders::CastNuclearStrike.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Plague)
+      else if (techType == TechTypes::Plague)
       {
-        unit->self->order = Orders::CastPlague.getID();
+        unit->self->order           = Orders::CastPlague.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Psionic_Storm)
+      else if (techType == TechTypes::Psionic_Storm)
       {
-        unit->self->order = Orders::CastPsionicStorm.getID();
+        unit->self->order           = Orders::CastPsionicStorm.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Recall)
+      else if (techType == TechTypes::Recall)
       {
-        unit->self->order = Orders::CastRecall.getID();
+        unit->self->order           = Orders::CastRecall.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Scanner_Sweep)
+      else if (techType == TechTypes::Scanner_Sweep)
       {
-        unit->self->order = Orders::CastScannerSweep.getID();
+        unit->self->order           = Orders::CastScannerSweep.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Spider_Mines)
+      else if (techType == TechTypes::Spider_Mines)
       {
-        unit->self->order = Orders::PlaceMine.getID();
+        unit->self->order           = Orders::PlaceMine.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
-      else if (techType==TechTypes::Stasis_Field)
+      else if (techType == TechTypes::Stasis_Field)
       {
-        unit->self->order = Orders::CastStasisField.getID();
+        unit->self->order           = Orders::CastStasisField.getID();
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
       }
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Unit)
     {
-      if (!unit->self->exists) return;
-      if (techType==TechTypes::Consume)
+      if (!unit->self->exists)
+        return;
+      if (techType == TechTypes::Consume)
       {
-        unit->self->order = Orders::CastConsume.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastConsume.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Defensive_Matrix)
+      else if (techType == TechTypes::Defensive_Matrix)
       {
-        unit->self->order = Orders::CastDefensiveMatrix.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastDefensiveMatrix.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Feedback)
+      else if (techType == TechTypes::Feedback)
       {
-        unit->self->order = Orders::CastFeedback.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastFeedback.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Hallucination)
+      else if (techType == TechTypes::Hallucination)
       {
-        unit->self->order = Orders::CastHallucination.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastHallucination.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Healing)
+      else if (techType == TechTypes::Healing)
       {
-        unit->self->order = Orders::HealMove.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::HealMove.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Infestation)
+      else if (techType == TechTypes::Infestation)
       {
-        unit->self->order = Orders::CastInfestation.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastInfestation.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Irradiate)
+      else if (techType == TechTypes::Irradiate)
       {
-        unit->self->order = Orders::CastIrradiate.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastIrradiate.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Lockdown)
+      else if (techType == TechTypes::Lockdown)
       {
-        unit->self->order = Orders::CastLockdown.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastLockdown.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Mind_Control)
+      else if (techType == TechTypes::Mind_Control)
       {
-        unit->self->order = Orders::CastMindControl.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastMindControl.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Optical_Flare)
+      else if (techType == TechTypes::Optical_Flare)
       {
-        unit->self->order = Orders::CastOpticalFlare.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastOpticalFlare.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Parasite)
+      else if (techType == TechTypes::Parasite)
       {
-        unit->self->order = Orders::CastParasite.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastParasite.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Restoration)
+      else if (techType == TechTypes::Restoration)
       {
-        unit->self->order = Orders::CastRestoration.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastRestoration.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Spawn_Broodlings)
+      else if (techType == TechTypes::Spawn_Broodlings)
       {
-        unit->self->order = Orders::CastSpawnBroodlings.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::CastSpawnBroodlings.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Yamato_Gun)
+      else if (techType == TechTypes::Yamato_Gun)
       {
-        unit->self->order = Orders::FireYamatoGun.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::FireYamatoGun.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Archon_Warp)
+      else if (techType == TechTypes::Archon_Warp)
       {
-        unit->self->order = Orders::ArchonWarp.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::ArchonWarp.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
-      else if (techType==TechTypes::Dark_Archon_Meld)
+      else if (techType == TechTypes::Dark_Archon_Meld)
       {
-        unit->self->order = Orders::DarkArchonMeld.getID();
-        unit->self->orderTarget = getUnitID(target);
+        unit->self->order           = Orders::DarkArchonMeld.getID();
+        unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
       }
     }
   }
-
 
 };

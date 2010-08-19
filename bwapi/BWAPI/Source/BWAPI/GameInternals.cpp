@@ -126,7 +126,6 @@ namespace BWAPI
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
   {
-
     /* destroy all UnitImpl */
     for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
       delete unitArray[i];
@@ -144,6 +143,11 @@ namespace BWAPI
   {
     //this function is called every frame from a hook attached in DllMain.cpp
     this->inGame = true;
+
+    //clear all shapes
+    for (unsigned int i = 0; i < this->shapes.size(); ++i)
+      delete this->shapes[i];
+    this->shapes.clear();
 
     //menu dialog code
     if ( myDlg )
@@ -194,11 +198,11 @@ namespace BWAPI
         Util::Logger::globalLog->log("calling onGameStart");
       }
       
-      if (!this->enabled)
+      if ( !this->enabled )
         return;
 
       //check to see if the game has ended
-      if (this->calledOnEnd == false)
+      if ( !this->calledOnEnd )
       {
         if (this->BWAPIPlayer != NULL)
         {
@@ -232,7 +236,7 @@ namespace BWAPI
           {
             if (((PlayerImpl*)p)->getIndex() >= 8) continue;
             if (!p->isDefeated() && !p->isVictorious() && !p->leftGame())
-              allDone=false;
+              allDone = false;
           }
           if (allDone)
           {
@@ -255,7 +259,7 @@ namespace BWAPI
       //update players and check to see if they have just left the game.
       for (int i = 0; i < BW::PLAYER_COUNT; i++)
       {
-        bool prevLeftGame=this->players[i]->leftGame();
+        bool prevLeftGame = this->players[i]->leftGame();
         this->players[i]->updateData();
         if (!prevLeftGame && this->players[i]->leftGame())
           events.push_back(Event::PlayerLeft((Player*)this->players[i]));
@@ -265,18 +269,12 @@ namespace BWAPI
       //update properties of Bullet objects
       this->updateBullets();
 
-      //clear all shapes
-      for (unsigned int i = 0; i < this->shapes.size(); i++)
-        delete this->shapes[i];
-      this->shapes.clear();
-
       //iterate through the list of intercepted messages
       foreach(std::string i, sentMessages)
         BroodwarImpl.onSendText(i.c_str());
 
       //clear all intercepted messages
       this->sentMessages.clear();
-
     }
     catch (GeneralException& exception)
     {
@@ -287,7 +285,7 @@ namespace BWAPI
 
     //on the first frame we check to see if the client process has connected.
     //if not, then we load the AI dll specified in bwapi.ini
-    if (this->startedClient == false)
+    if ( !this->startedClient )
     {
       sendText("BWAPI revision %s is now live.", SVN_REV_STR);
       if (server.isConnected()) //check to see if the server is connected to the client
@@ -1152,7 +1150,8 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     //this is called at the end of every match
-    if (this->frameCount==-1) return;
+    if (this->frameCount == -1)
+      return;
 
     if ( myDlg )
     {
@@ -1160,7 +1159,7 @@ namespace BWAPI
       myDlg = NULL;
     }
 
-    if (this->calledOnEnd == false)
+    if ( !this->calledOnEnd )
     {
       bool win = true;
       if (this->_isReplay())
@@ -1303,23 +1302,26 @@ namespace BWAPI
   {
     map.copyToSharedMemory();
   }
-  bool inline isAlive(UnitImpl* i, bool isHidden=false)
+  bool inline isAlive(UnitImpl* i, bool isHidden = false)
   {
     //this function determines if a unit in one of the alive unit lists is actually "alive" according to BWAPI
     //this function is only used in computeUnitExistence and shouldn't be called from any other function
-    if (i->getOriginalRawData->orderID == BW::OrderID::Die) return false;
+    if (i->getOriginalRawData->orderID == BW::OrderID::Die)
+      return false;
     UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
     if ( i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
          i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch2 ||
          i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch3)
       _getType = UnitTypes::Resource_Mineral_Field;
     int hitpoints = i->getOriginalRawData->hitPoints;
-    if (i->_getType.isInvincible()==false && hitpoints <= 0) return false;
-    if (i->getOriginalRawData->sprite==NULL) return false;
+    if ( !i->_getType.isInvincible() && hitpoints <= 0)
+      return false;
+    if (i->getOriginalRawData->sprite == NULL)
+      return false;
     if (isHidden) //usually means: is inside another unit?
     {
       bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
-      if (_getType==UnitTypes::Unknown)
+      if (_getType == UnitTypes::Unknown)
         return false;//skip subunits if they are in this list
       if (!_isCompleted)
         return false; //return false if the internal unit is incomplete
@@ -1403,16 +1405,16 @@ namespace BWAPI
     {
       if (u->canAccess())
       {
-        if (u->wasAlive==false)
+        if ( !u->wasAlive )
           events.push_back(Event::UnitCreate(u));
-        if (u->wasAccessible==false)
+        if ( !u->wasAccessible )
         {
           discoverUnits.push_back(u);
           events.push_back(Event::UnitDiscover(u));
         }
         if (u->isVisible())
         {
-          if (u->wasVisible==false)
+          if ( !u->wasVisible )
             events.push_back(Event::UnitShow(u));
           u->wasVisible = true;
         }
@@ -1469,16 +1471,16 @@ namespace BWAPI
       i->lastGroundWeaponCooldown = groundWeaponCooldown;
       if (i->canAccess())
       {
-        if (i->getID()==-1)
+        if (i->getID() == -1)
           i->setID(server.getUnitID(i));
         i->updateData();
       }
       if (i->getOriginalRawData->unitID == BW::UnitID::Terran_NuclearMissile)
       {
-        if (i->nukeDetected==false)
+        if ( !i->nukeDetected )
         {
-          i->nukeDetected=true;
-          Position target(i->getOriginalRawData->orderTargetPos.x,i->getOriginalRawData->orderTargetPos.y);
+          i->nukeDetected = true;
+          Position target(i->getOriginalRawData->orderTargetPos.x, i->getOriginalRawData->orderTargetPos.y);
           if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
             events.push_back(Event::NukeDetect(target));
           else
@@ -1495,36 +1497,36 @@ namespace BWAPI
       UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
       if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
       {
-        UnitImpl* j = orderTargetUnit;
-        i->self->buildUnit = server.getUnitID((Unit*)j);
+        UnitImpl* j             = orderTargetUnit;
+        i->self->buildUnit      = server.getUnitID((Unit*)j);
         i->self->isConstructing = true;
-        i->self->isIdle = false;
-        i->self->buildType = j->self->type;
-        j->self->buildUnit = server.getUnitID((Unit*)i);
+        i->self->isIdle         = false;
+        i->self->buildType      = j->self->type;
+        j->self->buildUnit      = server.getUnitID((Unit*)i);
         j->self->isConstructing = true;
-        j->self->isIdle = false;
-        j->self->buildType = j->self->type;
+        j->self->isIdle         = false;
+        j->self->buildType      = j->self->type;
       }
-      else if (i->getAddon()!=NULL && i->getAddon()->isCompleted()==false)
+      else if ( i->getAddon() != NULL && !i->getAddon()->isCompleted() )
       {
         UnitImpl* j = (UnitImpl*)i->getAddon();
-        i->self->buildUnit = server.getUnitID((Unit*)j);
+        i->self->buildUnit      = server.getUnitID((Unit*)j);
         i->self->isConstructing = true;
-        i->self->isIdle = false;
-        i->self->buildType = j->self->type;
-        j->self->buildUnit = server.getUnitID((Unit*)i);
+        i->self->isIdle         = false;
+        i->self->buildType      = j->self->type;
+        j->self->buildUnit      = server.getUnitID((Unit*)i);
         j->self->isConstructing = true;
-        j->self->isIdle = false;
-        j->self->buildType = j->self->type;
+        j->self->isIdle         = false;
+        j->self->buildType      = j->self->type;
       }
-      if (i->getTransport()!=NULL)
+      if (i->getTransport() != NULL)
         ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
 
       if (i->getHatchery() != NULL)
       {
         UnitImpl* hatchery = (UnitImpl*)i->getHatchery();
         hatchery->connectedUnits.insert((Unit*)i);
-        if (hatchery->connectedUnits.size()>=3)
+        if (hatchery->connectedUnits.size() >= 3)
           hatchery->self->remainingTrainTime = 0;
       }
       if (i->getCarrier() != NULL)
@@ -1596,12 +1598,12 @@ namespace BWAPI
     }
     for each (UnitImpl* i in accessibleUnits)
     {
-      if (i->getType().isBuilding() && i->isLifted()==false)
+      if ( i->getType().isBuilding() && !i->isLifted() )
       {
-        int tx=i->getTilePosition().x();
-        int ty=i->getTilePosition().y();
-        for(int x=tx;x<tx+i->getType().tileWidth();x++)
-          for(int y=ty;y<ty+i->getType().tileHeight();y++)
+        int tx = i->getTilePosition().x();
+        int ty = i->getTilePosition().y();
+        for(int x = tx; x < tx + i->getType().tileWidth(); ++x)
+          for(int y = ty; y < ty + i->getType().tileHeight(); ++y)
             unitsOnTileData[x][y].insert(i);
       }
       else
@@ -1785,7 +1787,8 @@ namespace BWAPI
       screen_y1 += BW::BWDATA_Mouse->y;
     }
     if (screen_x1 < 0   || screen_y1 < 0 ||
-        screen_x1 > 640 || screen_y1 > 480) return false;
+        screen_x1 > 640 || screen_y1 > 480)
+      return false;
     return true;
   }
 
@@ -1814,7 +1817,8 @@ namespace BWAPI
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
         (screen_x1 > 640 && screen_x2 > 640) ||
-        (screen_y1 > 480 && screen_y2 > 480)) return false;
+        (screen_y1 > 480 && screen_y2 > 480))
+      return false;
     return true;
   }
 
@@ -1849,7 +1853,8 @@ namespace BWAPI
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
         (screen_x1 > 640 && screen_x2 > 640 && screen_x3 > 640) ||
-        (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480)) return false;
+        (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480))
+      return false;
     return true;
   }
 //--------------------------------------------------- ON SAVE ------------------------------------------------
