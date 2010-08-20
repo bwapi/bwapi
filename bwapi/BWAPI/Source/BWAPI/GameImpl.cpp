@@ -198,16 +198,22 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE X -----------------------------------------------
   int GameImpl::getMouseX()
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return 0;
     return BW::BWDATA_Mouse->x;
   }
   //---------------------------------------------- GET MOUSE Y -----------------------------------------------
   int GameImpl::getMouseY()
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return 0;
     return BW::BWDATA_Mouse->y;
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return BWAPI::Positions::Unknown;
     return BWAPI::Position(BW::BWDATA_Mouse->x, BW::BWDATA_Mouse->y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
@@ -218,8 +224,12 @@ namespace BWAPI
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(int button)
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return false;
+
     if (button < 0 || button >= 3) 
       return false;
+
     SHORT ButtonDown = 0;
     switch (button)
     {
@@ -246,23 +256,33 @@ namespace BWAPI
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(int key)
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return false;
+
     if (key < 0 || key >= 255)
       return false;
+
     return (GetKeyState(key) & 128) > 0;
   }
   //---------------------------------------------- GET SCREEN X ----------------------------------------------
   int GameImpl::getScreenX()
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return 0;
     return *(BW::BWDATA_ScreenX);
   }
   //---------------------------------------------- GET SCREEN Y ----------------------------------------------
   int GameImpl::getScreenY()
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return 0;
     return *(BW::BWDATA_ScreenY);
   }
   //------------------------------------------- GET SCREEN POSITION ------------------------------------------
   BWAPI::Position GameImpl::getScreenPosition()
   {
+    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+      return BWAPI::Positions::Unknown;
     return BWAPI::Position(*(BW::BWDATA_ScreenX),*(BW::BWDATA_ScreenY));
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
