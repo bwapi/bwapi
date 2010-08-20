@@ -495,35 +495,42 @@ namespace BWAPI
         Unit* unit   = unitVector[data->unitCommands[i].unitIndex];
         Unit* target = NULL;
         if (data->unitCommands[i].targetIndex >= 0 && data->unitCommands[i].targetIndex < (int)unitVector.size())
-          target=unitVector[data->unitCommands[i].targetIndex];
+          target = unitVector[data->unitCommands[i].targetIndex];
 
         unit->issueCommand(UnitCommand(unit, data->unitCommands[i].type, target, data->unitCommands[i].x, data->unitCommands[i].y, data->unitCommands[i].extra));
       }
       for(int i = 0; i < data->shapeCount; ++i)
       {
-        BWAPIC::ShapeType::Enum s=data->shapes[i].type;
+        BWAPIC::ShapeType::Enum s = data->shapes[i].type;
+        /* Note: Variables here so that the calls aren't excessively long */
+        int  ctype         = data->shapes[i].ctype;
+        int  x1            = data->shapes[i].x1;
+        int  y1            = data->shapes[i].y1;
+        bool isSolid       = data->shapes[i].isSolid;
+        BWAPI::Color color = Color(data->shapes[i].color);
+
         switch (s)
         {
           case BWAPIC::ShapeType::Text:
-            Broodwar->drawText(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->strings[data->shapes[i].extra1]);
+            Broodwar->drawText(ctype, x1, y1, data->strings[data->shapes[i].extra1]);
             break;
           case BWAPIC::ShapeType::Box:
-            Broodwar->drawBox(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].x2,data->shapes[i].y2,Color(data->shapes[i].color),data->shapes[i].isSolid);
+            Broodwar->drawBox(ctype, x1, y1, data->shapes[i].x2, data->shapes[i].y2, color, isSolid);
             break;
           case BWAPIC::ShapeType::Triangle:
-            Broodwar->drawTriangle(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].x2,data->shapes[i].y2,data->shapes[i].extra1,data->shapes[i].extra2,Color(data->shapes[i].color),data->shapes[i].isSolid);
+            Broodwar->drawTriangle(ctype, x1, y1, data->shapes[i].x2, data->shapes[i].y2, data->shapes[i].extra1, data->shapes[i].extra2, color, isSolid);
             break;
           case BWAPIC::ShapeType::Circle:
-            Broodwar->drawCircle(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].extra1,Color(data->shapes[i].color),data->shapes[i].isSolid);
+            Broodwar->drawCircle(ctype, x1, y1, data->shapes[i].extra1, color, isSolid);
             break;
           case BWAPIC::ShapeType::Ellipse:
-            Broodwar->drawEllipse(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].extra1,data->shapes[i].extra2,Color(data->shapes[i].color),data->shapes[i].isSolid);
+            Broodwar->drawEllipse(ctype, x1, y1, data->shapes[i].extra1, data->shapes[i].extra2, color, data->shapes[i].isSolid);
             break;
           case BWAPIC::ShapeType::Dot:
-            Broodwar->drawDot(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,Color(data->shapes[i].color));
+            Broodwar->drawDot(ctype, x1, y1, color);
             break;
           case BWAPIC::ShapeType::Line:
-            Broodwar->drawLine(data->shapes[i].ctype,data->shapes[i].x1,data->shapes[i].y1,data->shapes[i].x2,data->shapes[i].y2,Color(data->shapes[i].color));
+            Broodwar->drawLine(ctype, x1, y1, data->shapes[i].x2, data->shapes[i].y2, color);
             break;
           default:
             break;
