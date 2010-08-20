@@ -207,7 +207,7 @@ namespace BW
                                       * Default Requirements: Unit must be Terran Bunker. */
       Pickup4                = 0x60, /**< Unknown /B AI pickup?
                                       * Default Requirements: Unused. */
-      PowerupIdle               = 0x61, /**< Idle for powerups.
+      PowerupIdle            = 0x61, /**< Idle for powerups.
                                       * Default Requirements: Unit must be a powerup. */
       SiegeMode              = 0x62, /**< Switch to Siege mode.
                                       * Default Requirements: Unused. */
@@ -309,7 +309,7 @@ namespace BW
                                       * Default Requirements: Unused. */
       StasisField            = 0x93, /**< Cast Spell: Stasis Field.
                                       * Default Requirements: Unused. */
-      Hallucination1        = 0x94, /**< Hallucination Cast on target.
+      Hallucination1         = 0x94, /**< Hallucination Cast on target.
                                       * Default Requirements: Unused. */
       Hallucination2         = 0x95, /**< Kill Halluciation on spell cast.
                                       * Default Requirements: Unused. */
@@ -343,7 +343,7 @@ namespace BW
                                       * Default Requirements: Unused. */
       InitPsiProvider        = 0xA4, /**< Init Psi Provider. Adds to some kind of linked list.
                                       * Default Requirements: Unused. */
-      SelfDestructing         = 0xA5, /**< Kill unit.
+      SelfDestructing        = 0xA5, /**< Kill unit.
                                       * Default Requirements: Unit must be Protoss Scarab. */
       Critter                = 0xA6, /**< Critter idle.
                                       * Default Requirements: Unit must be Rhynadon, Bengalaas, Ragnasaur, Scantid, Kakaru, or Ursadon. Allow on hallucinated units. */
