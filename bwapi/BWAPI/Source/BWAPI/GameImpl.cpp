@@ -579,22 +579,23 @@ namespace BWAPI
     }
 
     /* Ground unit dimension check */
-    int realw = type.dimensionLeft() + type.dimensionRight() + 1;
-    int realh = type.dimensionUp()   + type.dimensionDown()  + 1;
-
-    int rLeft   = position.x() * 32 + (32 - realw / width)  / 2;
-    int rTop    = position.y() * 32 + (32 - realh / height) / 2;
-    int rRight  = rLeft + realw;
-    int rBottom = rTop  + realh;
-    foreach (UnitImpl *u, aliveUnits)
+    int targetX = position.x() * 32 + type.tileWidth() * 32 / 2;
+    int targetY = position.y() * 32 + type.tileHeight() * 32 / 2;
+    for(int x = position.x(); x < position.x() + width; ++x)
     {
-      if ( u != builder )
+      for(int y = position.y(); y < position.y() + height; ++y)
       {
-        if ( u->getPosition().x() + u->getType().dimensionRight() > rLeft   &&
-             u->getPosition().y() + u->getType().dimensionDown()  > rTop    &&
-             u->getPosition().x() - u->getType().dimensionLeft()  < rRight  &&
-             u->getPosition().y() - u->getType().dimensionUp()    < rBottom)
-          return false;
+        foreach(Unit *u, unitsOnTile(x,y))
+        {
+          if ( u != builder )
+          {
+            if ( u->getPosition().x() + u->getType().dimensionRight() >= targetX - type.dimensionLeft()   &&
+                 u->getPosition().y() + u->getType().dimensionDown()  >= targetY - type.dimensionUp()     &&
+                 u->getPosition().x() - u->getType().dimensionLeft()  <= targetX + type.dimensionRight()  &&
+                 u->getPosition().y() - u->getType().dimensionUp()    <= targetY + type.dimensionDown() )
+              return false;
+          }
+        }
       }
     }
 
