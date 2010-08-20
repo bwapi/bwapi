@@ -78,14 +78,14 @@ namespace BWAPI
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlly(Player* player) const
   {
-    if ( player == NULL || isNeutral() || player->isNeutral() )
+    if ( !player || isNeutral() || player->isNeutral() )
       return false;
     return BW::BWDATA_Alliance[index].player[((PlayerImpl*)player)->getIndex()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
-    if ( player == NULL || this->isNeutral() || player->isNeutral() )
+    if ( !player || this->isNeutral() || player->isNeutral() )
       return false;
     return BW::BWDATA_Alliance[index].player[((PlayerImpl*)player)->getIndex()] == 0;
   }

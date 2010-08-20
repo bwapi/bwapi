@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/ExplosionType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -38,31 +39,31 @@ namespace BWAPI
     const ExplosionType Unknown(25);
     void init()
     {
-      explosionTypeName[None.getID()] = "None";
-      explosionTypeName[Normal.getID()] = "Normal";
-      explosionTypeName[Radial_Splash.getID()] = "Radial Splash";
-      explosionTypeName[Enemy_Splash.getID()] = "Enemy Splash";
-      explosionTypeName[Lockdown.getID()] = "Lockdown";
+      explosionTypeName[None.getID()]            = "None";
+      explosionTypeName[Normal.getID()]          = "Normal";
+      explosionTypeName[Radial_Splash.getID()]   = "Radial Splash";
+      explosionTypeName[Enemy_Splash.getID()]    = "Enemy Splash";
+      explosionTypeName[Lockdown.getID()]        = "Lockdown";
       explosionTypeName[Nuclear_Missile.getID()] = "Nuclear Missile";
-      explosionTypeName[Parasite.getID()] = "Parasite";
-      explosionTypeName[Broodlings.getID()] = "Broodlings";
-      explosionTypeName[EMP_Shockwave.getID()] = "EMP Shockwave";
-      explosionTypeName[Irradiate.getID()] = "Irradiate";
-      explosionTypeName[Ensnare.getID()] = "Ensnare";
-      explosionTypeName[Plague.getID()] = "Plague";
-      explosionTypeName[Stasis_Field.getID()] = "Stasis Field";
-      explosionTypeName[Dark_Swarm.getID()] = "Dark Swarm";
-      explosionTypeName[Consume.getID()] = "Consume";
-      explosionTypeName[Yamato_Gun.getID()] = "Yamato Gun";
-      explosionTypeName[Restoration.getID()] = "Restoration";
-      explosionTypeName[Disruption_Web.getID()] = "Disruption Web";
-      explosionTypeName[Corrosive_Acid.getID()] = "Corrosive Acid";
-      explosionTypeName[Mind_Control.getID()] = "Mind Control";
-      explosionTypeName[Feedback.getID()] = "Feedback";
-      explosionTypeName[Optical_Flare.getID()] = "Optical Flare";
-      explosionTypeName[Maelstrom.getID()] = "Maelstrom";
-      explosionTypeName[Air_Splash.getID()] = "Air Splash";
-      explosionTypeName[Unknown.getID()] = "Unknown";
+      explosionTypeName[Parasite.getID()]        = "Parasite";
+      explosionTypeName[Broodlings.getID()]      = "Broodlings";
+      explosionTypeName[EMP_Shockwave.getID()]   = "EMP Shockwave";
+      explosionTypeName[Irradiate.getID()]       = "Irradiate";
+      explosionTypeName[Ensnare.getID()]         = "Ensnare";
+      explosionTypeName[Plague.getID()]          = "Plague";
+      explosionTypeName[Stasis_Field.getID()]    = "Stasis Field";
+      explosionTypeName[Dark_Swarm.getID()]      = "Dark Swarm";
+      explosionTypeName[Consume.getID()]         = "Consume";
+      explosionTypeName[Yamato_Gun.getID()]      = "Yamato Gun";
+      explosionTypeName[Restoration.getID()]     = "Restoration";
+      explosionTypeName[Disruption_Web.getID()]  = "Disruption Web";
+      explosionTypeName[Corrosive_Acid.getID()]  = "Corrosive Acid";
+      explosionTypeName[Mind_Control.getID()]    = "Mind Control";
+      explosionTypeName[Feedback.getID()]        = "Feedback";
+      explosionTypeName[Optical_Flare.getID()]   = "Optical Flare";
+      explosionTypeName[Maelstrom.getID()]       = "Maelstrom";
+      explosionTypeName[Air_Splash.getID()]      = "Air Splash";
+      explosionTypeName[Unknown.getID()]         = "Unknown";
 
       explosionTypeSet.insert(None);
       explosionTypeSet.insert(Normal);
@@ -90,15 +91,17 @@ namespace BWAPI
       explosionTypeSet.insert(Air_Splash);
       explosionTypeSet.insert(Unknown);
 
-      for(std::set<ExplosionType>::iterator i = explosionTypeSet.begin(); i != explosionTypeSet.end(); i++)
+      foreach(ExplosionType i, explosionTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A'-'a';
         }
-        explosionTypeMap.insert(std::make_pair(name, *i));
+        explosionTypeMap.insert(std::make_pair(name, i));
       }
       initializingExplosionType = false;
     }
@@ -110,13 +113,8 @@ namespace BWAPI
   ExplosionType::ExplosionType(int id)
   {
     this->id = id;
-    if (!initializingExplosionType)
-    {
-      if (id < 0 || id >= 26)
-      {
-        this->id = ExplosionTypes::Unknown.id;
-      }
-    }
+    if (!initializingExplosionType && (id < 0 || id >= 26))
+      this->id = ExplosionTypes::Unknown.id;
   }
   ExplosionType::ExplosionType(const ExplosionType& other)
   {
@@ -150,13 +148,16 @@ namespace BWAPI
 
   ExplosionType ExplosionTypes::getExplosionType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A' - 'a';
     }
     std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
-    if (i == explosionTypeMap.end()) return ExplosionTypes::Unknown;
+    if (i == explosionTypeMap.end())
+      return ExplosionTypes::Unknown;
     return (*i).second;
   }
   std::set<ExplosionType>& ExplosionTypes::allExplosionTypes()

@@ -1,5 +1,6 @@
 #include <BWAPI/Color.h>
 #include <list>
+#include <Util/Foreach.h>
 namespace BWAPI
 {
   int palette[256] = {0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000,
@@ -51,11 +52,11 @@ namespace BWAPI
     std::list<int> cell[8][8][8];
     void init()
     {
-      for(int i = 0; i < 256; i++)
+      for(int i = 0; i < 256; ++i)
       {
-        int redCell = (palette[i] >> 21) & 0x07;
+        int redCell   = (palette[i] >> 21) & 0x07;
         int greenCell = (palette[i] >> 13) & 0x07;
-        int blueCell = (palette[i] >> 5) & 0x07;
+        int blueCell  = (palette[i] >> 5)  & 0x07;
         cell[redCell][greenCell][blueCell].push_back(i);
       }
     }
@@ -82,34 +83,33 @@ namespace BWAPI
   }
   Color::Color(int red, int green, int blue)
   {
-    int redCell = red >> 5;
-    int greenCell = green >> 5;
-    int blueCell = blue >> 5;
-    int redCellS = max(redCell - 1, 0);
-    int redCellF = min(redCell + 1, 7);
+    int redCell    = red   >> 5;
+    int greenCell  = green >> 5;
+    int blueCell   = blue  >> 5;
+    int redCellS   = max(redCell   - 1, 0);
+    int redCellF   = min(redCell   + 1, 7);
     int greenCellS = max(greenCell - 1, 0);
     int greenCellF = min(greenCell + 1, 7);
-    int blueCellS = max(blueCell - 1, 0);
-    int blueCellF = min(blueCell + 1, 7);
-    int min_dist = 3 * 256 * 256;
-    int best_id = -1;
-    for(int rc = redCellS; rc <= redCellF; rc++)
+    int blueCellS  = max(blueCell  - 1, 0);
+    int blueCellF  = min(blueCell  + 1, 7);
+    int min_dist   = 3 * 256 * 256;
+    int best_id    = -1;
+    for(int rc = redCellS; rc <= redCellF; ++rc)
     {
-      for(int gc = greenCellS; gc <= greenCellF; gc++)
+      for(int gc = greenCellS; gc <= greenCellF; ++gc)
       {
-        for(int bc = blueCellS; bc <= blueCellF; bc++)
+        for(int bc = blueCellS; bc <= blueCellF; ++bc)
         {
-          for(std::list<int>::iterator i = Colors::cell[rc][gc][bc].begin(); i != Colors::cell[rc][gc][bc].end(); i++)
+          foreach(int id, Colors::cell[rc][gc][bc])
           {
-            int id = *i;
-            int ired = (palette[id] >> 16) & 0xFF;
-            int igreen = (palette[id] >> 8) & 0xFF;
-            int iblue = (palette[id] >> 0) & 0xFF;
+            int ired   = (palette[id] >> 16) & 0xFF;
+            int igreen = (palette[id] >> 8)  & 0xFF;
+            int iblue  = (palette[id] >> 0)  & 0xFF;
             int distance = (red - ired) * (red - ired) + (green - igreen) * (green - igreen) + (blue - iblue) * (blue - iblue);
             if (distance < min_dist)
             {
               min_dist = distance;
-              best_id = id;
+              best_id  = id;
             }
           }
         }
@@ -119,11 +119,11 @@ namespace BWAPI
     {
       int min_dist = 3 * 256 * 256;
       int best_id = -1;
-      for(int id = 0; id < 255; id++)
+      for(int id = 0; id < 255; ++id)
       {
-        int ired = (palette[id] >> 16) & 0xFF;
-        int igreen = (palette[id] >> 8) & 0xFF;
-        int iblue = (palette[id] >> 0) & 0xFF;
+        int ired   = (palette[id] >> 16) & 0xFF;
+        int igreen = (palette[id] >> 8)  & 0xFF;
+        int iblue  = (palette[id] >> 0)  & 0xFF;
         int distance = (red - ired) * (red - ired) + (green - igreen) * (green - igreen) + (blue - iblue) * (blue - iblue);
         if (distance < min_dist)
         {

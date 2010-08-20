@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/Error.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -82,15 +83,18 @@ namespace BWAPI
       errorSet.insert(Access_Denied);
       errorSet.insert(None);
       errorSet.insert(Unknown);
-      for(std::set<Error>::iterator i = errorSet.begin(); i != errorSet.end(); i++)
+
+      foreach(Error i, errorSet)
       {
-        std::string name=(*i).toString();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.toString();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A'-'a';
         }
-        errorMap.insert(std::make_pair(name, *i));
+        errorMap.insert(std::make_pair(name, i));
       }
       initializingError = false;
     }
@@ -103,13 +107,8 @@ namespace BWAPI
   Error::Error(int id)
   {
     this->id = id;
-    if (!initializingError)
-    {
-      if (id < 0 || id >= 23)
-      {
-        this->id = Errors::Unknown.id;
-      }
-    }
+    if (!initializingError && (id < 0 || id >= 23))
+      this->id = Errors::Unknown.id;
   }
   Error::Error(const Error& other)
   {
@@ -142,13 +141,16 @@ namespace BWAPI
   }
   Error Errors::getError(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A'-'a';
     }
     std::map<std::string, Error>::iterator i = errorMap.find(name);
-    if (i == errorMap.end()) return Errors::Unknown;
+    if (i == errorMap.end())
+      return Errors::Unknown;
     return (*i).second;
   }
   std::set<Error>& Errors::allErrors()

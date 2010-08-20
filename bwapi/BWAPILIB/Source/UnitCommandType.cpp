@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/UnitCommandType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -54,56 +55,56 @@ namespace BWAPI
     const UnitCommandType Use_Tech(40);
     const UnitCommandType Use_Tech_Position(41);
     const UnitCommandType Use_Tech_Unit(42);
-
     const UnitCommandType None(43);
     const UnitCommandType Unknown(44);
+
     void init()
     {
-      unitCommandTypeName[Attack_Move.getID()] = "Attack Move";
-      unitCommandTypeName[Attack_Unit.getID()] = "Attack Unit";
-      unitCommandTypeName[Build.getID()] = "Build";
-      unitCommandTypeName[Build_Addon.getID()] = "Build Addon";
-      unitCommandTypeName[Train.getID()] = "Train";
-      unitCommandTypeName[Morph.getID()] = "Morph";
-      unitCommandTypeName[Research.getID()] = "Research";
-      unitCommandTypeName[Upgrade.getID()] = "Upgrade";
-      unitCommandTypeName[Set_Rally_Position.getID()] = "Set Rally Position";
-      unitCommandTypeName[Set_Rally_Unit.getID()] = "Set Rally Unit";
-      unitCommandTypeName[Move.getID()] = "Move";
-      unitCommandTypeName[Patrol.getID()] = "Patrol";
-      unitCommandTypeName[Hold_Position.getID()] = "Hold Position";
-      unitCommandTypeName[Stop.getID()] = "Stop";
-      unitCommandTypeName[Follow.getID()] = "Follow";
-      unitCommandTypeName[Gather.getID()] = "Gather";
-      unitCommandTypeName[Return_Cargo.getID()] = "Return Cargo";
-      unitCommandTypeName[Repair.getID()] = "Repair";
-      unitCommandTypeName[Burrow.getID()] = "Burrow";
-      unitCommandTypeName[Unburrow.getID()] = "Unburrow";
-      unitCommandTypeName[Cloak.getID()] = "Cloak";
-      unitCommandTypeName[Decloak.getID()] = "Decloak";
-      unitCommandTypeName[Siege.getID()] = "Siege";
-      unitCommandTypeName[Unsiege.getID()] = "Unsiege";
-      unitCommandTypeName[Lift.getID()] = "Lift";
-      unitCommandTypeName[Land.getID()] = "Land";
-      unitCommandTypeName[Load.getID()] = "Load";
-      unitCommandTypeName[Unload.getID()] = "Unload";
-      unitCommandTypeName[Unload_All.getID()] = "Unload All";
-      unitCommandTypeName[Unload_All_Position.getID()] = "Unload All Position";
+      unitCommandTypeName[Attack_Move.getID()]          = "Attack Move";
+      unitCommandTypeName[Attack_Unit.getID()]          = "Attack Unit";
+      unitCommandTypeName[Build.getID()]                = "Build";
+      unitCommandTypeName[Build_Addon.getID()]          = "Build Addon";
+      unitCommandTypeName[Train.getID()]                = "Train";
+      unitCommandTypeName[Morph.getID()]                = "Morph";
+      unitCommandTypeName[Research.getID()]             = "Research";
+      unitCommandTypeName[Upgrade.getID()]              = "Upgrade";
+      unitCommandTypeName[Set_Rally_Position.getID()]   = "Set Rally Position";
+      unitCommandTypeName[Set_Rally_Unit.getID()]       = "Set Rally Unit";
+      unitCommandTypeName[Move.getID()]                 = "Move";
+      unitCommandTypeName[Patrol.getID()]               = "Patrol";
+      unitCommandTypeName[Hold_Position.getID()]        = "Hold Position";
+      unitCommandTypeName[Stop.getID()]                 = "Stop";
+      unitCommandTypeName[Follow.getID()]               = "Follow";
+      unitCommandTypeName[Gather.getID()]               = "Gather";
+      unitCommandTypeName[Return_Cargo.getID()]         = "Return Cargo";
+      unitCommandTypeName[Repair.getID()]               = "Repair";
+      unitCommandTypeName[Burrow.getID()]               = "Burrow";
+      unitCommandTypeName[Unburrow.getID()]             = "Unburrow";
+      unitCommandTypeName[Cloak.getID()]                = "Cloak";
+      unitCommandTypeName[Decloak.getID()]              = "Decloak";
+      unitCommandTypeName[Siege.getID()]                = "Siege";
+      unitCommandTypeName[Unsiege.getID()]              = "Unsiege";
+      unitCommandTypeName[Lift.getID()]                 = "Lift";
+      unitCommandTypeName[Land.getID()]                 = "Land";
+      unitCommandTypeName[Load.getID()]                 = "Load";
+      unitCommandTypeName[Unload.getID()]               = "Unload";
+      unitCommandTypeName[Unload_All.getID()]           = "Unload All";
+      unitCommandTypeName[Unload_All_Position.getID()]  = "Unload All Position";
       unitCommandTypeName[Right_Click_Position.getID()] = "Right Click Position";
-      unitCommandTypeName[Right_Click_Unit.getID()] = "Right Click Unit";
-      unitCommandTypeName[Halt_Construction.getID()] = "Halt Construction";
-      unitCommandTypeName[Cancel_Construction.getID()] = "Cancel Construction";
-      unitCommandTypeName[Cancel_Addon.getID()] = "Cancel Addon";
-      unitCommandTypeName[Cancel_Train.getID()] = "Cancel Train";
-      unitCommandTypeName[Cancel_Train_Slot.getID()] = "Cancel Train Slot";
-      unitCommandTypeName[Cancel_Morph.getID()] = "Cancel Morph";
-      unitCommandTypeName[Cancel_Research.getID()] = "Cancel Research";
-      unitCommandTypeName[Cancel_Upgrade.getID()] = "Cancel Upgrade";
-      unitCommandTypeName[Use_Tech.getID()] = "Use Tech";
-      unitCommandTypeName[Use_Tech_Position.getID()] = "Use Tech Position";
-      unitCommandTypeName[Use_Tech_Unit.getID()] = "Use Tech Unit";
-      unitCommandTypeName[None.getID()] = "None";
-      unitCommandTypeName[Unknown.getID()] = "Unknown";
+      unitCommandTypeName[Right_Click_Unit.getID()]     = "Right Click Unit";
+      unitCommandTypeName[Halt_Construction.getID()]    = "Halt Construction";
+      unitCommandTypeName[Cancel_Construction.getID()]  = "Cancel Construction";
+      unitCommandTypeName[Cancel_Addon.getID()]         = "Cancel Addon";
+      unitCommandTypeName[Cancel_Train.getID()]         = "Cancel Train";
+      unitCommandTypeName[Cancel_Train_Slot.getID()]    = "Cancel Train Slot";
+      unitCommandTypeName[Cancel_Morph.getID()]         = "Cancel Morph";
+      unitCommandTypeName[Cancel_Research.getID()]      = "Cancel Research";
+      unitCommandTypeName[Cancel_Upgrade.getID()]       = "Cancel Upgrade";
+      unitCommandTypeName[Use_Tech.getID()]             = "Use Tech";
+      unitCommandTypeName[Use_Tech_Position.getID()]    = "Use Tech Position";
+      unitCommandTypeName[Use_Tech_Unit.getID()]        = "Use Tech Unit";
+      unitCommandTypeName[None.getID()]                 = "None";
+      unitCommandTypeName[Unknown.getID()]              = "Unknown";
 
       unitCommandTypeSet.insert(Attack_Move);
       unitCommandTypeSet.insert(Attack_Unit);
@@ -151,15 +152,17 @@ namespace BWAPI
       unitCommandTypeSet.insert(None);
       unitCommandTypeSet.insert(Unknown);
 
-      for(std::set<UnitCommandType>::iterator i = unitCommandTypeSet.begin(); i != unitCommandTypeSet.end(); i++)
+      foreach(UnitCommandType i, unitCommandTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A' - 'a';
         }
-        unitCommandTypeMap.insert(std::make_pair(name, *i));
+        unitCommandTypeMap.insert(std::make_pair(name, i));
       }
       initializingUnitCommandType = false;
     }
@@ -171,13 +174,8 @@ namespace BWAPI
   UnitCommandType::UnitCommandType(int id)
   {
     this->id = id;
-    if (!initializingUnitCommandType)
-    {
-      if (id < 0 || id >= 45)
-      {
-        this->id = UnitCommandTypes::Unknown.id;
-      }
-    }
+    if (!initializingUnitCommandType && (id < 0 || id >= 45))
+      this->id = UnitCommandTypes::Unknown.id;
   }
   UnitCommandType::UnitCommandType(const UnitCommandType& other)
   {
@@ -211,13 +209,16 @@ namespace BWAPI
 
   UnitCommandType UnitCommandTypes::getUnitCommandType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A' - 'a';
     }
     std::map<std::string, UnitCommandType>::iterator i = unitCommandTypeMap.find(name);
-    if (i == unitCommandTypeMap.end()) return UnitCommandTypes::Unknown;
+    if (i == unitCommandTypeMap.end())
+      return UnitCommandTypes::Unknown;
     return (*i).second;
   }
   std::set<UnitCommandType>& UnitCommandTypes::allUnitCommandTypes()

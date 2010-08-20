@@ -204,9 +204,9 @@ namespace BWAPI
       //check to see if the game has ended
       if ( !this->calledOnEnd )
       {
-        if (this->BWAPIPlayer != NULL)
+        if ( this->BWAPIPlayer )
         {
-          if (this->BWAPIPlayer->isVictorious())
+          if ( this->BWAPIPlayer->isVictorious() )
           {
             events.push_back(Event::MatchFrame());
             events.push_back(Event::MatchEnd(true));
@@ -308,7 +308,7 @@ namespace BWAPI
 
         Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
         hMod = LoadLibrary(szDllPath);
-        if (hMod == NULL)
+        if ( !hMod )
         {
           //if hMod is a null pointer, there there was a problem when trying to load the AI Module
           Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
@@ -346,13 +346,13 @@ namespace BWAPI
     server.update();
 
     //Before returning control to starcraft, we clear the unit data for units that are no longer accessible
-    for each(UnitImpl* u in evadeUnits)
+    foreach(UnitImpl* u, evadeUnits)
       u->updateData();
 
     //We also kill the units that are dying on this frame.
     //We wait until after server.update() and processEvents() to do this so that the AI can
     //access the last frame of unit data during the onUnitDestroy callback.
-    for each(UnitImpl* u in dyingUnits)
+    foreach(UnitImpl* u, dyingUnits)
     {
       deadUnits.push_back(u);
       int index = u->getIndex();
@@ -724,11 +724,11 @@ namespace BWAPI
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
   {
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       this->unitArray[i]->setSelected(false);
 
     this->saveSelected();
-    for (int i = 0; savedSelectionStates[i] != NULL; i++)
+    for (int i = 0; savedSelectionStates[i]; ++i)
       BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
   }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
@@ -841,14 +841,13 @@ namespace BWAPI
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
-    //This function is called at the start of every match
+    /** This function is called at the start of every match */
 
     /* initialize the variables */
     frameCount  = 0;
     textSize    = 1;
     onStartCalled = true;
     BWAPIPlayer = NULL;
-    opponent    = NULL;
     calledOnEnd = false;
     bulletCount = 0;
 
@@ -867,42 +866,31 @@ namespace BWAPI
     }
     else
     {
-      /* find the current player by name. Note: a better way of finding the player exists now so this code could be updated */
-      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        if (this->players[i] != NULL && strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
-          this->BWAPIPlayer = this->players[i];
-
-      /* generate an error if player not found */
-      if (this->BWAPIPlayer == NULL)
+      /* Get the current player */
+      if ( this->players[*BW::BWDATA_g_LocalHumanID] )
+      {
+        this->BWAPIPlayer = this->players[*BW::BWDATA_g_LocalHumanID];
+      }
+      else
       {
         this->commandLog->log("Error: Could not locate BWAPI player.");
         return;
       }
-
-      /* find the opponent player */
-      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
-        if ((this->players[i]->getType() == BW::PlayerType::Computer ||
-             this->players[i]->getType() == BW::PlayerType::Player ||
-             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
-            this->opponent == NULL &&
-            this->BWAPIPlayer->isEnemy(this->players[i]))
-          this->opponent = this->players[i];
-
-      /* error if opponent not found */
-      if (this->opponent == NULL)
-        this->commandLog->log("Warning: Could not find any opponent");
     }
 
-    /* get the set of start locations */
-    BW::Positions* posptr = BW::BWDATA_startPositions;
+    /* Clear our sets */
     this->startLocations.clear();
     this->playerSet.clear();
     this->forces.clear();
-    while (posptr->x != 0 || posptr->y != 0)
+
+    /* get the set of start locations */
+    BW::Positions *StartLocs = BW::BWDATA_startPositions;
+    BW::UnitType  SLocType  = BW::UnitType(BW::UnitID::Start_Location);
+    for ( int i = 0; i < BW::PLAYABLE_PLAYER_COUNT ; ++i)
     {
-      startLocations.insert(BWAPI::TilePosition((int)((posptr->x - BW::TILE_SIZE*2)          / BW::TILE_SIZE),
-                                                (int)((posptr->y - (int)(BW::TILE_SIZE*1.5)) / BW::TILE_SIZE)));
-      posptr++;
+      if ( StartLocs[i].x != 0 || StartLocs[i].y != 0 )
+        startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - SLocType.dimensionLeft()) / BW::TILE_SIZE,
+                                                   (StartLocs[i].y - SLocType.dimensionUp()  ) / BW::TILE_SIZE) );
     }
 
     //Note: the following code computes the set of Forces, however this code is really messy and hackish. A better way of finding the forces exists.
@@ -911,13 +899,17 @@ namespace BWAPI
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
     this->server.clearAll();
 
-    for (int i = 0; i < BW::PLAYER_COUNT; i++)
-      if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
+    for (int i = 0; i < BW::PLAYER_COUNT; ++i)
+    {
+      if (this->players[i] && 
+          this->players[i]->getID() != BW::PlayerType::None &&
+          this->players[i]->getID() <  BW::PlayerType::Closed )
       {
         players[i]->setID(server.getPlayerID(players[i]));
         force_names.insert(std::string(this->players[i]->getForceName()));
         this->playerSet.insert(this->players[i]);
       }
+    }
 
     /* create ForceImpl for force names */
     foreach (std::string i, force_names)
@@ -930,7 +922,7 @@ namespace BWAPI
     /* create ForceImpl for players */
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
     {
-      if (this->players[i] != NULL && this->players[i]->getName().length() > 0)
+      if (this->players[i] && this->players[i]->getName().length() > 0)
       {
         ForceImpl* force = force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
         force->players.insert(this->players[i]);
@@ -940,7 +932,8 @@ namespace BWAPI
 
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
 
-    if ( BW::BWDATA_ScreenLayers[5].pUpdate )
+    /* Create our drawing hook */
+    if ( BW::BWDATA_ScreenLayers[5].pUpdate != &DrawHook)
     {
       BW::pOldDrawHook = BW::BWDATA_ScreenLayers[5].pUpdate;
       BW::BWDATA_ScreenLayers[5].pUpdate = &DrawHook;
@@ -1101,7 +1094,7 @@ namespace BWAPI
         win = false;
       else
       { 
-        for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i!=NULL ; i = i->getNext())
+        for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i; i = i->getNext())
         {
           if (self()->isEnemy(i->_getPlayer) && i->_getType.isBuilding())
             win = false;
@@ -1115,7 +1108,7 @@ namespace BWAPI
       events.clear();
       this->calledOnEnd = true;
     }
-    if (this->client != NULL)
+    if ( this->client )
     {
       delete this->client;
       this->client = NULL;
@@ -1163,21 +1156,21 @@ namespace BWAPI
     this->deadUnits.clear();
 
     //delete all shapes
-    for (unsigned int i = 0; i < this->shapes.size(); i++)
+    for (unsigned int i = 0; i < this->shapes.size(); ++i)
       delete this->shapes[i];
     this->shapes.clear();
 
-    for(int i = 0 ; i < BW::PLAYER_COUNT; i++)
-      if (this->players[i] != NULL)
+    for(int i = 0 ; i < BW::PLAYER_COUNT; ++i)
+      if ( this->players[i] )
         this->players[i]->onGameEnd();
 
     //reset game speeds
     this->setLocalSpeed(-1);
 
     //reset all Unit objects in the unit array
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
     {
-      if (unitArray[i] == NULL)
+      if ( !unitArray[i] )
         continue;
       unitArray[i]->userSelected      = false;
       unitArray[i]->isAlive           = false;
@@ -1219,14 +1212,14 @@ namespace BWAPI
     memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4 * 12);
     savedSelectionStates[12] = NULL;
     selectedUnitSet.clear();
-    for (int i = 0; savedSelectionStates[i] != NULL; i++)
+    for (int i = 0; savedSelectionStates[i]; ++i)
       selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i]));
   }
   //--------------------------------------------- LOAD SELECTED ----------------------------------------------
   void GameImpl::loadSelected()
   {
     int unitCount = 0;
-    while (savedSelectionStates[unitCount] != NULL)
+    while (savedSelectionStates[unitCount])
       unitCount++;
 
     if (unitCount > 0)
@@ -1251,7 +1244,7 @@ namespace BWAPI
     int hitpoints = i->getOriginalRawData->hitPoints;
     if ( !i->_getType.isInvincible() && hitpoints <= 0)
       return false;
-    if (i->getOriginalRawData->sprite == NULL)
+    if ( !i->getOriginalRawData->sprite )
       return false;
     if (isHidden) //usually means: is inside another unit?
     {
@@ -1270,17 +1263,17 @@ namespace BWAPI
   //------------------------------------------ Compute Unit Existence ----------------------------------------
   void GameImpl::computeUnitExistence()
   {
-    for each(UnitImpl* u in aliveUnits) //all alive units are dying until proven alive
+    foreach(UnitImpl* u, aliveUnits) //all alive units are dying until proven alive
     {
       u->wasAlive = true;
-      u->isAlive = false;
+      u->isAlive  = false;
     }
     lastEvadedUnits = evadeUnits;//save last evaded units for updating shared memory (Server.cpp)
 
     //set the wasAccessible and wasVisible fields
-    for each(UnitImpl* u in accessibleUnits)
+    foreach(UnitImpl* u, accessibleUnits)
       u->wasAccessible = true;
-    for each(UnitImpl* u in evadeUnits)
+    foreach(UnitImpl* u, evadeUnits)
       u->wasAccessible = false;
 
     //fill dyingUnits set with all aliveUnits and then clear the aliveUnits set.
@@ -1289,7 +1282,7 @@ namespace BWAPI
     //Now we will add alive units to the aliveUnits set and remove them from the dyingUnits set based on the Broodwar unit lists:
 
     //compute alive and dying units
-    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); u!=NULL ; u = u->getNext())
+    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); u; u = u->getNext())
     {
       if (isAlive(u))
       {
@@ -1299,7 +1292,7 @@ namespace BWAPI
         u->updateInternalData();
       }
     }
-    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); u!=NULL ; u = u->getNext())
+    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); u; u = u->getNext())
     {
       if (isAlive(u,true))
       {
@@ -1309,7 +1302,7 @@ namespace BWAPI
         u->updateInternalData();
       }
     }
-    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); u!=NULL ; u = u->getNext())
+    for(UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); u; u = u->getNext())
     {
       if (isAlive(u))
       {
@@ -1320,7 +1313,7 @@ namespace BWAPI
       }
     }
     //set the exists field to false for all dying units (though we don't update/clear their data yet)
-    for each(UnitImpl* u in dyingUnits)
+    foreach(UnitImpl* u, dyingUnits)
       u->self->exists = false;
   }
   //------------------------------------------ Compute Client Sets -------------------------------------------
@@ -1336,7 +1329,7 @@ namespace BWAPI
     evadeUnits.clear();
 
     //computes sets, also generating UnitCreate, UnitDiscover, UnitShow, UnitDestroy, UnitEvade, and UnitHide callbacks
-    for each(UnitImpl* u in aliveUnits)
+    foreach(UnitImpl* u, aliveUnits)
     {
       if (u->canAccess())
       {
@@ -1369,7 +1362,7 @@ namespace BWAPI
         }
       }
     }
-    for each(UnitImpl* u in dyingUnits)
+    foreach(UnitImpl* u, dyingUnits)
     {
       if (u->wasAccessible)
       {
@@ -1388,17 +1381,17 @@ namespace BWAPI
   {
     //this function extracts all current unit information from Broodwar memory for all the accessible units
     //and also generates the NukeDetect event when needed
-    for each (UnitImpl* i in aliveUnits)
+    foreach (UnitImpl *i, aliveUnits)
     {
       i->connectedUnits.clear();
       i->loadedUnits.clear();
       int airWeaponCooldown = i->getOriginalRawData->airWeaponCooldown;
-      if (i->getOriginalRawData->subUnit != NULL)
+      if ( i->getOriginalRawData->subUnit )
         airWeaponCooldown = i->getOriginalRawData->subUnit->airWeaponCooldown;
       int groundWeaponCooldown = i->getOriginalRawData->groundWeaponCooldown;
-      if (i->getOriginalRawData->subUnit != NULL)
+      if ( i->getOriginalRawData->subUnit )
         groundWeaponCooldown = i->getOriginalRawData->subUnit->groundWeaponCooldown;
-      if (i->getOriginalRawData->unitID == BW::UnitID::Protoss_Reaver)
+      if ( i->getOriginalRawData->unitID == BW::UnitID::Protoss_Reaver )
         groundWeaponCooldown = i->getOriginalRawData->mainOrderTimer;
 
       i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
@@ -1427,10 +1420,10 @@ namespace BWAPI
   void GameImpl::augmentUnitData()
   {
     //this function modifies the extracted unit data for build unit, loaded units, larva, and interceptors
-    for each (UnitImpl* i in accessibleUnits)
+    foreach(UnitImpl* i, accessibleUnits)
     {
       UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
-      if (orderTargetUnit != NULL && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding)
+      if ( orderTargetUnit && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding )
       {
         UnitImpl* j             = orderTargetUnit;
         i->self->buildUnit      = server.getUnitID((Unit*)j);
@@ -1442,9 +1435,9 @@ namespace BWAPI
         j->self->isIdle         = false;
         j->self->buildType      = j->self->type;
       }
-      else if ( i->getAddon() != NULL && !i->getAddon()->isCompleted() )
+      else if ( i->getAddon() && !i->getAddon()->isCompleted() )
       {
-        UnitImpl* j = (UnitImpl*)i->getAddon();
+        UnitImpl* j             = (UnitImpl*)i->getAddon();
         i->self->buildUnit      = server.getUnitID((Unit*)j);
         i->self->isConstructing = true;
         i->self->isIdle         = false;
@@ -1454,17 +1447,17 @@ namespace BWAPI
         j->self->isIdle         = false;
         j->self->buildType      = j->self->type;
       }
-      if (i->getTransport() != NULL)
+      if ( i->getTransport() )
         ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
 
-      if (i->getHatchery() != NULL)
+      if ( i->getHatchery() )
       {
         UnitImpl* hatchery = (UnitImpl*)i->getHatchery();
         hatchery->connectedUnits.insert((Unit*)i);
         if (hatchery->connectedUnits.size() >= 3)
           hatchery->self->remainingTrainTime = 0;
       }
-      if (i->getCarrier() != NULL)
+      if ( i->getCarrier() )
         ((UnitImpl*)i->getCarrier())->connectedUnits.insert((Unit*)i);
 
     }
@@ -1491,7 +1484,7 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
 
-    for each(UnitImpl* u in discoverUnits)
+    foreach(UnitImpl* u, discoverUnits)
     {
       ((PlayerImpl*)u->getPlayer())->units.insert(u);
       if (u->getPlayer()->isNeutral())
@@ -1511,7 +1504,7 @@ namespace BWAPI
           pylons.insert(u);
       }
     }
-    for each(UnitImpl* u in evadeUnits)
+    foreach(UnitImpl* u, evadeUnits)
     {
       ((PlayerImpl*)u->getPlayer())->units.erase(u);
       if (u->getPlayer()->isNeutral())
@@ -1531,7 +1524,7 @@ namespace BWAPI
           pylons.erase(u);
       }
     }
-    for each (UnitImpl* i in accessibleUnits)
+    foreach(UnitImpl* i, accessibleUnits)
     {
       if ( i->getType().isBuilding() && !i->isLifted() )
       {
@@ -1565,14 +1558,14 @@ namespace BWAPI
           geysers.insert(i);
         }
       }
-      if (i->lastPlayer != i->_getPlayer && i->lastPlayer != NULL && i->_getPlayer != NULL)
+      if (i->lastPlayer != i->_getPlayer && i->lastPlayer && i->_getPlayer )
       {
         events.push_back(Event::UnitRenegade(i));
         ((PlayerImpl*)i->lastPlayer)->units.erase(i);
         ((PlayerImpl*)i->_getPlayer)->units.insert(i);
       }
       i->lastPlayer = i->_getPlayer;
-      i->lastType = i->_getType;
+      i->lastType   = i->_getType;
     }
 
     if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now
@@ -1607,64 +1600,66 @@ namespace BWAPI
   void GameImpl::processEvents()
   {
     //This function translates events into AIModule callbacks
-    if (client==NULL) return;
-    if (server.isConnected()) return;
-    for(std::list<Event>::iterator e=events.begin();e!=events.end();e++)
+    if ( !client )
+      return;
+    if (server.isConnected())
+      return;
+    foreach(Event e, events)
     {
-      EventType::Enum et=e->type;
+      EventType::Enum et = e.type;
       switch (et)
       {
-        case EventType::MatchStart:
-          client->onStart();
+      case EventType::MatchStart:
+        client->onStart();
         break;
-        case EventType::MatchEnd:
-          client->onEnd(e->isWinner);
+      case EventType::MatchEnd:
+        client->onEnd(e.isWinner);
         break;
-        case EventType::MatchFrame:
-          client->onFrame();
+      case EventType::MatchFrame:
+        client->onFrame();
         break;
-        case EventType::MenuFrame:
+      case EventType::MenuFrame:
         break;
-        case EventType::SendText:
-          client->onSendText(e->text);
+      case EventType::SendText:
+        client->onSendText(e.text);
         break;
-        case EventType::ReceiveText:
-          client->onReceiveText(e->player, e->text);
+      case EventType::ReceiveText:
+        client->onReceiveText(e.player, e.text);
         break;
-        case EventType::PlayerLeft:
-          client->onPlayerLeft(e->player);
+      case EventType::PlayerLeft:
+        client->onPlayerLeft(e.player);
         break;
-        case EventType::NukeDetect:
-          client->onNukeDetect(e->position);
+      case EventType::NukeDetect:
+        client->onNukeDetect(e.position);
         break;
-        case EventType::UnitDiscover:
-          client->onUnitDiscover(e->unit);
+      case EventType::UnitDiscover:
+        client->onUnitDiscover(e.unit);
         break;
-        case EventType::UnitEvade:
-          client->onUnitEvade(e->unit);
+      case EventType::UnitEvade:
+        client->onUnitEvade(e.unit);
         break;
-        case EventType::UnitCreate:
-          client->onUnitCreate(e->unit);
+      case EventType::UnitCreate:
+        client->onUnitCreate(e.unit);
         break;
-        case EventType::UnitDestroy:
-          client->onUnitDestroy(e->unit);
+      case EventType::UnitDestroy:
+        client->onUnitDestroy(e.unit);
         break;
-        case EventType::UnitMorph:
-          client->onUnitMorph(e->unit);
+      case EventType::UnitMorph:
+        client->onUnitMorph(e.unit);
         break;
-        case EventType::UnitShow:
-          client->onUnitShow(e->unit);
+      case EventType::UnitShow:
+        client->onUnitShow(e.unit);
         break;
-        case EventType::UnitHide:
-          client->onUnitHide(e->unit);
+      case EventType::UnitHide:
+        client->onUnitHide(e.unit);
         break;
-        case EventType::UnitRenegade:
-          client->onUnitRenegade(e->unit);
+      case EventType::UnitRenegade:
+        client->onUnitRenegade(e.unit);
         break;
-        case EventType::SaveGame:
-          client->onSaveGame(e->text);
+      case EventType::SaveGame:
+        client->onSaveGame(e.text);
         break;
-        default:
+      default:
         break;
       }
     }
@@ -1673,11 +1668,11 @@ namespace BWAPI
   void GameImpl::updateBullets()
   {
     //update bullet information
-    for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
+    for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->setExists(false);
     std::set<Bullet*> lastBullets = bullets;
     bullets.clear();
-    for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement ; curritem; curritem = curritem->nextBullet)
+    for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement; curritem; curritem = curritem->nextBullet)
     {
       BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
       b->setExists(true);
@@ -1686,12 +1681,10 @@ namespace BWAPI
         this->bullets.insert(b);
       lastBullets.erase(b);
     }
-    for each(BulletImpl* b in lastBullets)
+    foreach(BulletImpl* b, lastBullets)
       b->updateData();
-    for(int i=0;i<BW::BULLET_ARRAY_MAX_LENGTH;i++)
-    {
+    for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->saveExists();
-    }
   }
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
   void GameImpl::setLastError(BWAPI::Error e)
@@ -1700,11 +1693,6 @@ namespace BWAPI
     this->lastError = e;
   }
   //----------------------------------------------------- DRAW -----------------------------------------------
-  void GameImpl::addShape(Shape* s)
-  {
-    /* Adds a shape to the draw queue */
-    this->shapes.push_back(s);
-  }
   bool GameImpl::inScreen(int ctype, int x, int y)
   {
     int screen_x1 = x;
@@ -1813,11 +1801,8 @@ namespace BWAPI
   void GameImpl::iscriptParser(BW::CSprite *sprite, u8 anim)
   {
     BWAPI::UnitImpl *unit = spriteToUnit(sprite); // get sprite's parent unit
-    if (unit != NULL)   // make sure the unit exists
-    {
+    if ( unit )   // make sure the unit exists
       unit->animState = anim; // associate the animation directly with the unit
-
-    }
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   void GameImpl::onSendText(const char* text)
@@ -1844,7 +1829,10 @@ namespace BWAPI
   {
     /* Do onReceiveText */
     int realId = stormIdToPlayerId(playerId);
-    if (realId != -1 && (this->BWAPIPlayer == NULL || realId != this->BWAPIPlayer->getIndex()) && this->isFlagEnabled(BWAPI::Flag::UserInput))
+    if ( realId != -1 && 
+         (!this->BWAPIPlayer ||
+          realId != this->BWAPIPlayer->getIndex() ) &&
+         this->isFlagEnabled(BWAPI::Flag::UserInput) )
       events.push_back(Event::ReceiveText(this->players[realId], text));
   }
 

@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/DamageType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -20,13 +21,13 @@ namespace BWAPI
     const DamageType Unknown(6);
     void init()
     {
-      damageTypeName[Independent.getID()] = "Independent";
-      damageTypeName[Explosive.getID()] = "Explosive";
-      damageTypeName[Concussive.getID()] = "Concussive";
-      damageTypeName[Normal.getID()] = "Normal";
+      damageTypeName[Independent.getID()]  = "Independent";
+      damageTypeName[Explosive.getID()]    = "Explosive";
+      damageTypeName[Concussive.getID()]   = "Concussive";
+      damageTypeName[Normal.getID()]       = "Normal";
       damageTypeName[Ignore_Armor.getID()] = "Ignore Armor";
-      damageTypeName[None.getID()] = "None";
-      damageTypeName[Unknown.getID()] = "Unknown";
+      damageTypeName[None.getID()]         = "None";
+      damageTypeName[Unknown.getID()]      = "Unknown";
 
       damageTypeSet.insert(Independent);
       damageTypeSet.insert(Explosive);
@@ -36,15 +37,17 @@ namespace BWAPI
       damageTypeSet.insert(None);
       damageTypeSet.insert(Unknown);
 
-      for(std::set<DamageType>::iterator i = damageTypeSet.begin(); i != damageTypeSet.end(); i++)
+      foreach(DamageType i, damageTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A'-'a';
         }
-        damageTypeMap.insert(std::make_pair(name, *i));
+        damageTypeMap.insert(std::make_pair(name, i));
       }
       initializingDamageType = false;
     }
@@ -56,13 +59,8 @@ namespace BWAPI
   DamageType::DamageType(int id)
   {
     this->id = id;
-    if (!initializingDamageType)
-    {
-      if (id < 0 || id >= 7)
-      {
-        this->id = DamageTypes::Unknown.id;
-      }
-    }
+    if (!initializingDamageType && (id < 0 || id >= 7))
+      this->id = DamageTypes::Unknown.id;
   }
   DamageType::DamageType(const DamageType& other)
   {
@@ -96,13 +94,16 @@ namespace BWAPI
 
   DamageType DamageTypes::getDamageType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A'-'a';
     }
     std::map<std::string, DamageType>::iterator i = damageTypeMap.find(name);
-    if (i == damageTypeMap.end()) return DamageTypes::Unknown;
+    if (i == damageTypeMap.end())
+      return DamageTypes::Unknown;
     return (*i).second;
   }
   std::set<DamageType>& DamageTypes::allDamageTypes()

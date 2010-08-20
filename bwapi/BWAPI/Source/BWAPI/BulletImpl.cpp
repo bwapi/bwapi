@@ -80,11 +80,12 @@ namespace BWAPI
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible() const
   {
-    if (Broodwar->self()==NULL)
+    if ( !Broodwar->self())
     {
-      for(int i=0;i<9;i++)
+      for(int i = 0; i < 9; ++i)
       {
-        if (self->isVisible[i]) return true;
+        if (self->isVisible[i])
+          return true;
       }
       return false;
     }
@@ -93,7 +94,7 @@ namespace BWAPI
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible(BWAPI::Player* player) const
   {
-    if ( player == NULL )
+    if ( !player )
       return false;
     return self->isVisible[player->getID()];
   }
@@ -120,7 +121,7 @@ namespace BWAPI
   //---------------------------------------- BW BULLET TO BWAPI BULLET ---------------------------------------
   BulletImpl* BulletImpl::BWBulletToBWAPIBullet(BW::Bullet* bullet)
   {
-    if (bullet == NULL)
+    if ( !bullet )
       return NULL;
 
     u16 index = (u16)( ((u32)bullet - (u32)BW::BWDATA_BulletNodeTable) / 112) & 0x7F;
@@ -132,12 +133,12 @@ namespace BWAPI
   {
     UnitImpl* _getSource = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->sourceUnit);
     Player* _getPlayer = NULL;
-    if (_getSource!=NULL)
+    if ( _getSource )
       _getPlayer = _getSource->_getPlayer;
     int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
 
     bool _exists = __exists;
-    if (bwOriginalBullet == NULL)
+    if ( !bwOriginalBullet )
       _exists = false;
       
     if (!_exists)
@@ -150,13 +151,13 @@ namespace BWAPI
     {
       self->id = id;
       UnitImpl* source  = _getSource;
-      if (source == NULL || !source->isAlive)
+      if ( !source || !source->isAlive)
         self->player = -1;
       else
         self->player = source->_getPlayer->getID();
       self->type = bwOriginalBullet->type;
 
-      if (source == NULL || !source->exists())
+      if ( !source || !source->exists())
         self->source = -1;
       else
         self->source = source->getID();
@@ -172,29 +173,29 @@ namespace BWAPI
       self->velocityY = (double)(bwOriginalBullet->current_speedY / 256.0);
 
       Unit* target = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->targetUnit);
-      if (target==NULL || !target->exists())
+      if ( !target || !target->exists())
         self->target = -1;
       else
         self->target = target->getID();
       self->targetPositionX = bwOriginalBullet->targetPosition.x;
       self->targetPositionY = bwOriginalBullet->targetPosition.y;
-      self->removeTimer = bwOriginalBullet->max_time;
+      self->removeTimer     = bwOriginalBullet->max_time;
     }
     else
     {
-      self->id = -1;
-      self->player = -1;
-      self->type = BulletTypes::None.getID();
-      self->source = -1;
-      self->positionX = Positions::None.x();
-      self->positionY = Positions::None.y();
-      self->angle = 0;
-      self->velocityX = 0;
-      self->velocityY = 0;
-      self->target = -1;
+      self->id              = -1;
+      self->player          = -1;
+      self->type            = BulletTypes::None.getID();
+      self->source          = -1;
+      self->positionX       = Positions::None.x();
+      self->positionY       = Positions::None.y();
+      self->angle           = 0;
+      self->velocityX       = 0;
+      self->velocityY       = 0;
+      self->target          = -1;
       self->targetPositionX = 0;
       self->targetPositionY = 0;
-      self->removeTimer = 0;
+      self->removeTimer     = 0;
     }
     if (_exists)
     {
@@ -203,7 +204,7 @@ namespace BWAPI
         if (i == selfPlayerID)
           continue;
         PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
-        if (bwOriginalBullet->sprite == NULL || player == NULL)
+        if ( !bwOriginalBullet->sprite || !player )
           self->isVisible[i] = false;
         else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
           self->isVisible[i] = false;
@@ -216,7 +217,7 @@ namespace BWAPI
       }
       if (selfPlayerID > -1)
       {
-        if (bwOriginalBullet->sprite == NULL)
+        if ( !bwOriginalBullet->sprite )
           self->isVisible[selfPlayerID] = false;
         else if (BroodwarImpl._isReplay())
           self->isVisible[selfPlayerID] = bwOriginalBullet->sprite->visibilityFlags > 0;

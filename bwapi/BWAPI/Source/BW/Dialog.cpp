@@ -666,7 +666,7 @@ namespace BW
     if ( pCurrDlg )
       pCurrDlg = pCurrDlg->child();
 
-    while (pCurrDlg != NULL && pCurrDlg->getIndex() != wIndex)
+    while ( pCurrDlg && pCurrDlg->getIndex() != wIndex )
       pCurrDlg = pCurrDlg->next();
     
     if ( pCurrDlg->getIndex() == wIndex )

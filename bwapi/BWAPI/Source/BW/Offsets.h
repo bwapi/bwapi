@@ -245,12 +245,13 @@ namespace BW
     GLUE_GENERIC            // guess
   */
 
+  static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
+
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static void (_stdcall *selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
   
   static u32  BWFXN_PrintText        = 0x0048D1C0;
   static u16  *BWDATA_SendTextFilter = (u16*)  0x0057F1DA;
-  static char *BWDATA_CurrentPlayer  = (char*) 0x0057EE9C;
 
   static u32  BWFXN_SendPublicCallTarget = 0x004C2420;
   static u32  BWFXN_SendLobbyCallTarget  = 0x004707D0;

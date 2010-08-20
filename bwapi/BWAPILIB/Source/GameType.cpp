@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/GameType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -27,24 +28,26 @@ namespace BWAPI
     const GameType Pro_Gamer_League(32);
     const GameType None(33);
     const GameType Unknown(34);
+
     void init()
     {
-      gameTypeName[Melee.getID()] = "Melee";
-      gameTypeName[Free_For_All.getID()] = "Free For All";
-      gameTypeName[One_on_One.getID()] = "One on One";
-      gameTypeName[Capture_The_Flag.getID()] = "Capture The Flag";
-      gameTypeName[Greed.getID()] = "Greed";
-      gameTypeName[Slaughter.getID()] = "Slaughter";
-      gameTypeName[Sudden_Death.getID()] = "Sudden Death";
-      gameTypeName[Ladder.getID()] = "Ladder";
-      gameTypeName[Use_Map_Settings.getID()] = "Use Map Settings";
-      gameTypeName[Team_Melee.getID()] = "Team Melee";
-      gameTypeName[Team_Free_For_All.getID()] = "Team Free For All";
+      gameTypeName[Melee.getID()]                 = "Melee";
+      gameTypeName[Free_For_All.getID()]          = "Free For All";
+      gameTypeName[One_on_One.getID()]            = "One on One";
+      gameTypeName[Capture_The_Flag.getID()]      = "Capture The Flag";
+      gameTypeName[Greed.getID()]                 = "Greed";
+      gameTypeName[Slaughter.getID()]             = "Slaughter";
+      gameTypeName[Sudden_Death.getID()]          = "Sudden Death";
+      gameTypeName[Ladder.getID()]                = "Ladder";
+      gameTypeName[Use_Map_Settings.getID()]      = "Use Map Settings";
+      gameTypeName[Team_Melee.getID()]            = "Team Melee";
+      gameTypeName[Team_Free_For_All.getID()]     = "Team Free For All";
       gameTypeName[Team_Capture_The_Flag.getID()] = "Team Capture The Flag";
-      gameTypeName[Top_vs_Bottom.getID()] = "Top vs Bottom";
-      gameTypeName[Pro_Gamer_League.getID()] = "Pro Gamer League";
-      gameTypeName[None.getID()] = "None";
-      gameTypeName[Unknown.getID()] = "Unknown";
+      gameTypeName[Top_vs_Bottom.getID()]         = "Top vs Bottom";
+      gameTypeName[Pro_Gamer_League.getID()]      = "Pro Gamer League";
+      gameTypeName[None.getID()]                  = "None";
+      gameTypeName[Unknown.getID()]               = "Unknown";
+
       gameTypeSet.insert(Melee);
       gameTypeSet.insert(Free_For_All);
       gameTypeSet.insert(One_on_One);
@@ -61,15 +64,18 @@ namespace BWAPI
       gameTypeSet.insert(Pro_Gamer_League);
       gameTypeSet.insert(None);
       gameTypeSet.insert(Unknown);
-      for(std::set<GameType>::iterator i = gameTypeSet.begin(); i != gameTypeSet.end(); i++)
+
+      foreach(GameType i, gameTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A' - 'a';
         }
-        gameTypeMap.insert(std::make_pair(name, *i));
+        gameTypeMap.insert(std::make_pair(name, i));
       }
       initializingGameType = false;
     }
@@ -81,13 +87,8 @@ namespace BWAPI
   GameType::GameType(int id)
   {
     this->id = id;
-    if (!initializingGameType)
-    {
-      if (id < 0 || id >= 35 || gameTypeName[id].length() == 0)
-      {
-        this->id = GameTypes::Unknown.id;
-      }
-    }
+    if (!initializingGameType && (id < 0 || id >= 35 || gameTypeName[id].length() == 0))
+      this->id = GameTypes::Unknown.id;
   }
   GameType::GameType(const GameType& other)
   {
@@ -120,10 +121,12 @@ namespace BWAPI
   }
   GameType GameTypes::getGameType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A' - 'a';
     }
     std::map<std::string, GameType>::iterator i = gameTypeMap.find(name);
     if (i == gameTypeMap.end()) return GameTypes::Unknown;
