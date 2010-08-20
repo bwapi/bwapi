@@ -49,11 +49,11 @@ namespace HackUtil
     HMODULE tempModule;
     tempModule = GetModuleHandleA(sourceModule);
 
-    if (tempModule == NULL)
+    if ( !tempModule )
       return NULL;
 
     IMAGE_IMPORT_DESCRIPTOR *imports = _GetImportDescriptor(tempModule);
-    if (imports == NULL)
+    if ( !imports )
       return NULL;
     
     for (u32 i = 0; imports[i].Name != 0; i++)
@@ -67,11 +67,11 @@ namespace HackUtil
   DWORD* _GetFunctionsList(char* sourceModule, char* importModule)
   {
     HMODULE tempModule = GetModuleHandleA(sourceModule);
-    if (tempModule == NULL)
+    if ( !tempModule )
       return NULL;
 
     IMAGE_IMPORT_DESCRIPTOR *imports = _GetImportDescriptor(tempModule);
-    if (imports == NULL)
+    if ( !imports )
       return NULL;
 
     for (u32 i = 0; imports[i].Name != 0; i++)
@@ -84,19 +84,19 @@ namespace HackUtil
 
   bool PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction)
   {
-    if (name == NULL)
+    if ( !name )
       return false;
 
     HMODULE tempModule = GetModuleHandleA(sourceModule);
-    if (tempModule == NULL)
+    if ( !tempModule )
       return false;
 
     IMAGE_THUNK_DATA32* importOrigin = _GetImportsList(sourceModule, importModule);
-    if (importOrigin == NULL)
+    if ( !importOrigin )
       return false;
 
     DWORD* importFunction = _GetFunctionsList(sourceModule, importModule);
-    if (importFunction == NULL)
+    if ( !importFunction )
       return false;
 
     for (u32 i = 0; importOrigin[i].u1.Ordinal != 0; i++)
@@ -139,7 +139,7 @@ namespace HackUtil
   FARPROC GetImport(char* importModule, LPCSTR name)
   {
     HMODULE module = GetModuleHandleA(importModule);
-    if (module == NULL)
+    if ( !module )
       return NULL;
 
     FARPROC rval = GetProcAddress(module, name);

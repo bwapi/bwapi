@@ -464,14 +464,14 @@ namespace BWAPI
       return true;
 
     //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() != NULL &&
+    if (getTarget() &&
         getTarget()->exists() && 
         getTarget()->isCompleted() &&
         getTarget()->getPlayer() == getPlayer() &&
         getTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
         (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot()))
       return true;
-    if (getOrderTarget() != NULL &&
+    if (getOrderTarget() &&
         getOrderTarget()->exists() && 
         getOrderTarget()->isCompleted() &&
         getOrderTarget()->getPlayer() == getPlayer() &&
@@ -505,14 +505,14 @@ namespace BWAPI
       return true;
 
     //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() != NULL &&
+    if (getTarget() &&
         getTarget()->exists() &&
         (getTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
             (getTarget()->isCompleted() &&
              getTarget()->getPlayer() == getPlayer() &&
              getTarget()->getType().isResourceDepot())))
       return true;
-    if (getOrderTarget() != NULL &&
+    if (getOrderTarget() &&
         getOrderTarget()->exists() &&
         (getOrderTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
             (getOrderTarget()->isCompleted() &&
@@ -644,11 +644,12 @@ namespace BWAPI
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const
   {
-    if (Broodwar->self()==NULL)
+    if ( !Broodwar->self() )
     {
-      for(int i=0;i<9;i++)
+      for(int i = 0; i < 9; ++i)
       {
-        if (self->isVisible[i]) return true;
+        if (self->isVisible[i])
+          return true;
       }
       return false;
     }
@@ -657,7 +658,7 @@ namespace BWAPI
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible(Player* player) const
   {
-    if (player == NULL)
+    if ( !player )
       return false;
     return self->isVisible[player->getID()];
   }
@@ -898,7 +899,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1143,7 +1144,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1234,7 +1235,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1256,7 +1257,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1299,7 +1300,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1535,7 +1536,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1573,7 +1574,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1643,7 +1644,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (target == NULL)
+    if ( !target )
       return false;
 
     if (!((UnitImpl*)target)->attemptAccess())
@@ -1714,7 +1715,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (getAddon()==NULL || getAddon()->isCompleted())
+    if ( !getAddon() || getAddon()->isCompleted() )
       return false;
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
@@ -2033,7 +2034,7 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::Unit* unit)
   {
-    if (unit == NULL)
+    if ( !unit )
       return NULL;
 
     u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;

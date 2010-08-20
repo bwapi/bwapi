@@ -245,9 +245,7 @@ namespace BWAPI
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);
       PlayerImpl *BWAPIPlayer;
-      PlayerImpl *opponent;
 
-      void addShape(Shape* s);
       std::vector<Shape*> shapes;
       Util::Logger* newUnitLog;
       std::set<int> invalidIndices;

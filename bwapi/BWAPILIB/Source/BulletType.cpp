@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/BulletType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -121,15 +122,17 @@ namespace BWAPI
       bulletTypeSet.insert(Neutron_Flare);
       bulletTypeSet.insert(None);
       bulletTypeSet.insert(Unknown);
-      for(std::set<BulletType>::iterator i = bulletTypeSet.begin(); i != bulletTypeSet.end(); i++)
+      foreach(BulletType i, bulletTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A'-'a';
         }
-        bulletTypeMap.insert(std::make_pair(name, *i));
+        bulletTypeMap.insert(std::make_pair(name, i));
       }
       initializingBulletType = false;
     }
@@ -181,13 +184,16 @@ namespace BWAPI
   }
   BulletType BulletTypes::getBulletType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j]<='z')
+        name[j] += 'A'-'a';
     }
     std::map<std::string, BulletType>::iterator i = bulletTypeMap.find(name);
-    if (i == bulletTypeMap.end()) return BulletTypes::Unknown;
+    if (i == bulletTypeMap.end())
+      return BulletTypes::Unknown;
     return (*i).second;
   }
   std::set<BulletType>& BulletTypes::allBulletTypes()

@@ -36,7 +36,7 @@ namespace BWAPI
         if (i == selfPlayerID)
           continue;
         PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
-        if (getOriginalRawData->sprite == NULL || player == NULL)
+        if ( !getOriginalRawData->sprite || !player )
           self->isVisible[i] = false;
         else if (!BroodwarImpl._isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
           self->isVisible[i] = false;
@@ -49,7 +49,7 @@ namespace BWAPI
       }
       if (selfPlayerID > -1)
       {
-        if (getOriginalRawData->sprite == NULL)
+        if ( !getOriginalRawData->sprite )
         {
           self->isVisible[selfPlayerID] = false;
           self->isDetected = false;
@@ -117,7 +117,7 @@ namespace BWAPI
         _getTransport = NULL;
       //------------------------------------------------------------------------------------------------------
       //_getPosition
-      if (_getTransport!=NULL)
+      if ( _getTransport )
         _getPosition = Position(((UnitImpl*)_getTransport)->getOriginalRawData->position.x,((UnitImpl*)_getTransport)->getOriginalRawData->position.y);
       else
         _getPosition = Position(getOriginalRawData->position.x, getOriginalRawData->position.y);
@@ -211,15 +211,15 @@ namespace BWAPI
       self->velocityY = (double)getOriginalRawData->current_speedY / 256.0;
       //------------------------------------------------------------------------------------------------------
       //getGroundWeaponCooldown
-      if (_getType==UnitTypes::Protoss_Reaver)
+      if (_getType == UnitTypes::Protoss_Reaver)
         self->groundWeaponCooldown = getOriginalRawData->mainOrderTimer;
-      else if (getOriginalRawData->subUnit != NULL)
+      else if ( getOriginalRawData->subUnit )
         self->groundWeaponCooldown = getOriginalRawData->subUnit->groundWeaponCooldown;
       else
         self->groundWeaponCooldown = getOriginalRawData->groundWeaponCooldown;
       //------------------------------------------------------------------------------------------------------
       //getAirWeaponCooldown
-      if (getOriginalRawData->subUnit != NULL)
+      if ( getOriginalRawData->subUnit )
         self->airWeaponCooldown = getOriginalRawData->subUnit->airWeaponCooldown;
       else
         self->airWeaponCooldown = getOriginalRawData->airWeaponCooldown;
@@ -443,12 +443,12 @@ namespace BWAPI
       if (_getType.isBuilding())
       {
         UnitImpl* addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->currentBuildUnit);
-        if (addon != NULL && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon())
+        if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon() )
           self->addon = BroodwarImpl.server.getUnitID(addon);
         else
         {
           addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.childUnit1);
-          if (addon!=NULL && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon())
+          if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon() )
             self->addon = BroodwarImpl.server.getUnitID(addon);
           else
             self->addon = -1;
@@ -463,7 +463,7 @@ namespace BWAPI
       else
       {
         UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->unitUnion1.resourceTarget_connectedNydus);
-        if (nydus != NULL && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal)
+        if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal )
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
         else
         {
@@ -739,7 +739,7 @@ namespace BWAPI
         else
           self->remainingTrainTime = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer * 9 + ((getOriginalRawData->unknownOrderTimer_0x085 + 8) % 9);
       }
-      else if (getOriginalRawData->currentBuildUnit != NULL)
+      else if ( getOriginalRawData->currentBuildUnit )
         self->remainingTrainTime = getOriginalRawData->currentBuildUnit->remainingBuildTime;
       else
         self->remainingTrainTime = 0;

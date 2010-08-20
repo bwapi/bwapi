@@ -145,7 +145,7 @@ namespace BWAPI
   //-------------------------------------------------- LOAD --------------------------------------------------
   void Map::load()
   {
-    if (fogOfWar != NULL)
+    if ( fogOfWar )
     {
       delete fogOfWar;
       fogOfWar = NULL;

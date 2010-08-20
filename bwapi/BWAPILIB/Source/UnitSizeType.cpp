@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/UnitSizeType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -17,14 +18,15 @@ namespace BWAPI
     const UnitSizeType Large(3);
     const UnitSizeType None(4);
     const UnitSizeType Unknown(5);
+
     void init()
     {
       unitSizeTypeName[Independent.getID()] = "Independent";
-      unitSizeTypeName[Small.getID()] = "Small";
-      unitSizeTypeName[Medium.getID()] = "Medium";
-      unitSizeTypeName[Large.getID()] = "Large";
-      unitSizeTypeName[None.getID()] = "None";
-      unitSizeTypeName[Unknown.getID()] = "Unknown";
+      unitSizeTypeName[Small.getID()]       = "Small";
+      unitSizeTypeName[Medium.getID()]      = "Medium";
+      unitSizeTypeName[Large.getID()]       = "Large";
+      unitSizeTypeName[None.getID()]        = "None";
+      unitSizeTypeName[Unknown.getID()]     = "Unknown";
 
       unitSizeTypeSet.insert(Independent);
       unitSizeTypeSet.insert(Small);
@@ -33,15 +35,17 @@ namespace BWAPI
       unitSizeTypeSet.insert(None);
       unitSizeTypeSet.insert(Unknown);
 
-      for(std::set<UnitSizeType>::iterator i = unitSizeTypeSet.begin(); i != unitSizeTypeSet.end(); i++)
+      foreach(UnitSizeType i, unitSizeTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A' - 'a';
         }
-        unitSizeTypeMap.insert(std::make_pair(name, *i));
+        unitSizeTypeMap.insert(std::make_pair(name, i));
       }
       initializingUnitSizeType = false;
     }
@@ -53,13 +57,8 @@ namespace BWAPI
   UnitSizeType::UnitSizeType(int id)
   {
     this->id = id;
-    if (!initializingUnitSizeType)
-    {
-      if (id < 0 || id >= 6)
-      {
-        this->id = UnitSizeTypes::Unknown.id;
-      }
-    }
+    if (!initializingUnitSizeType && (id < 0 || id >= 6))
+      this->id = UnitSizeTypes::Unknown.id;
   }
   UnitSizeType::UnitSizeType(const UnitSizeType& other)
   {
@@ -93,13 +92,16 @@ namespace BWAPI
 
   UnitSizeType UnitSizeTypes::getUnitSizeType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j] <= 'z')
+        name[j] += 'A' - 'a';
     }
     std::map<std::string, UnitSizeType>::iterator i = unitSizeTypeMap.find(name);
-    if (i == unitSizeTypeMap.end()) return UnitSizeTypes::Unknown;
+    if (i == unitSizeTypeMap.end())
+      return UnitSizeTypes::Unknown;
     return (*i).second;
   }
   std::set<UnitSizeType>& UnitSizeTypes::allUnitSizeTypes()

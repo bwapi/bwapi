@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/PlayerType.h>
+#include <Util/Foreach.h>
 
 namespace BWAPI
 {
@@ -22,19 +23,21 @@ namespace BWAPI
     const PlayerType PlayerLeft(10);
     const PlayerType ComputerLeft(11);
     const PlayerType Unknown(12);
+
     void init()
     {
-      playerTypeName[None.getID()] = "None";
-      playerTypeName[Computer.getID()] = "Computer";
-      playerTypeName[Player.getID()] = "Player";
-      playerTypeName[RescuePassive.getID()] = "RescuePassive";
+      playerTypeName[None.getID()]                 = "None";
+      playerTypeName[Computer.getID()]             = "Computer";
+      playerTypeName[Player.getID()]               = "Player";
+      playerTypeName[RescuePassive.getID()]        = "RescuePassive";
       playerTypeName[EitherPreferComputer.getID()] = "EitherPreferComputer";
-      playerTypeName[EitherPreferHuman.getID()] = "EitherPreferHuman";
-      playerTypeName[Neutral.getID()] = "Neutral";
-      playerTypeName[Closed.getID()] = "Closed";
-      playerTypeName[PlayerLeft.getID()] = "PlayerLeft";
-      playerTypeName[ComputerLeft.getID()] = "ComputerLeft";
-      playerTypeName[Unknown.getID()] = "Unknown";
+      playerTypeName[EitherPreferHuman.getID()]    = "EitherPreferHuman";
+      playerTypeName[Neutral.getID()]              = "Neutral";
+      playerTypeName[Closed.getID()]               = "Closed";
+      playerTypeName[PlayerLeft.getID()]           = "PlayerLeft";
+      playerTypeName[ComputerLeft.getID()]         = "ComputerLeft";
+      playerTypeName[Unknown.getID()]              = "Unknown";
+
       playerTypeSet.insert(None);
       playerTypeSet.insert(Computer);
       playerTypeSet.insert(Player);
@@ -46,15 +49,18 @@ namespace BWAPI
       playerTypeSet.insert(PlayerLeft);
       playerTypeSet.insert(ComputerLeft);
       playerTypeSet.insert(Unknown);
-      for(std::set<PlayerType>::iterator i = playerTypeSet.begin(); i != playerTypeSet.end(); i++)
+
+      foreach(PlayerType i, playerTypeSet)
       {
-        std::string name=(*i).getName();
-        for(int j=0;j<(int)name.length();j++)
+        std::string name = i.getName();
+        for(int j = 0; j < (int)name.length(); ++j)
         {
-          if (name[j]==' ') name[j]='_';
-          if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+          if (name[j] == ' ')
+            name[j] = '_';
+          if (name[j] >= 'a' && name[j] <= 'z')
+            name[j] += 'A' - 'a';
         }
-        playerTypeMap.insert(std::make_pair(name, *i));
+        playerTypeMap.insert(std::make_pair(name, i));
       }
       initializingPlayerType = false;
     }
@@ -66,13 +72,8 @@ namespace BWAPI
   PlayerType::PlayerType(int id)
   {
     this->id = id;
-    if (!initializingPlayerType)
-    {
-      if (id < 0 || id >= 13 || playerTypeName[id].length() == 0)
-      {
-        this->id = PlayerTypes::Unknown.id;
-      }
-    }
+    if (!initializingPlayerType && (id < 0 || id >= 13 || playerTypeName[id].length() == 0) )
+      this->id = PlayerTypes::Unknown.id;
   }
   PlayerType::PlayerType(const PlayerType& other)
   {
@@ -105,13 +106,16 @@ namespace BWAPI
   }
   PlayerType PlayerTypes::getPlayerType(std::string name)
   {
-    for(int j=0;j<(int)name.length();j++)
+    for(int j = 0; j < (int)name.length(); ++j)
     {
-      if (name[j]==' ') name[j]='_';
-      if (name[j]>='a' && name[j]<='z') name[j]+='A'-'a';
+      if (name[j] == ' ')
+        name[j] = '_';
+      if (name[j] >= 'a' && name[j]<='z')
+        name[j] += 'A' - 'a';
     }
     std::map<std::string, PlayerType>::iterator i = playerTypeMap.find(name);
-    if (i == playerTypeMap.end()) return PlayerTypes::Unknown;
+    if (i == playerTypeMap.end())
+      return PlayerTypes::Unknown;
     return (*i).second;
   }
   std::set<PlayerType>& PlayerTypes::allPlayerTypes()

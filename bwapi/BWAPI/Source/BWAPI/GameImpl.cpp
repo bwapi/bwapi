@@ -570,13 +570,9 @@ namespace BWAPI
 
     /* Tile buildability check */
     for(int x = position.x(); x < position.x() + width; ++x)
-    {
       for(int y = position.y(); y < position.y() + height; ++y)
-      {
         if ( !this->isBuildable(x, y) )
           return false;
-      }
-    }
 
     /* Ground unit dimension check */
     int targetX = position.x() * 32 + type.tileWidth() * 32 / 2;
@@ -587,14 +583,12 @@ namespace BWAPI
       {
         foreach(Unit *u, unitsOnTile(x,y))
         {
-          if ( u != builder )
-          {
-            if ( u->getPosition().x() + u->getType().dimensionRight() >= targetX - type.dimensionLeft()   &&
-                 u->getPosition().y() + u->getType().dimensionDown()  >= targetY - type.dimensionUp()     &&
-                 u->getPosition().x() - u->getType().dimensionLeft()  <= targetX + type.dimensionRight()  &&
-                 u->getPosition().y() - u->getType().dimensionUp()    <= targetY + type.dimensionDown() )
-              return false;
-          }
+          if ( u != builder &&
+               u->getPosition().x() + u->getType().dimensionRight() >= targetX - type.dimensionLeft()  &&
+               u->getPosition().y() + u->getType().dimensionDown()  >= targetY - type.dimensionUp()    &&
+               u->getPosition().x() - u->getType().dimensionLeft()  <= targetX + type.dimensionRight() &&
+               u->getPosition().y() - u->getType().dimensionUp()    <= targetY + type.dimensionDown() )
+            return false;
         }
       }
     }
@@ -666,13 +660,13 @@ namespace BWAPI
   {
     /* Error checking */
     this->setLastError(Errors::None);
-    if (self() == NULL)
+    if ( !self() )
     {
       this->setLastError(Errors::Unit_Not_Owned);
       return false;
     }
 
-    if (builder != NULL)
+    if ( builder )
     {
       /* Check if the owner of the unit is you */
       if (builder->getPlayer() != self())
@@ -692,7 +686,7 @@ namespace BWAPI
       if (builder->getType() == UnitTypes::Protoss_Carrier)
       {
         int max_amt = 4;
-        if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity)>0)
+        if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0)
           max_amt += 4;
         if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
         {
@@ -730,33 +724,28 @@ namespace BWAPI
     }
     
     /* Check if player has enough supplies */
-    if (type.supplyRequired() > 0)
-      if (self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first.supplyRequired())
-      {
-        this->setLastError(Errors::Insufficient_Supply);
-        return false;
-      }
+    if (type.supplyRequired() > 0 && self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first.supplyRequired())
+    {
+      this->setLastError(Errors::Insufficient_Supply);
+      return false;
+    }
 
     UnitType addon = UnitTypes::None;
-    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
-      if (i->first.isAddon())
-        addon=i->first;
-
-    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != type.requiredUnits().end(); i++)
+    std::map<UnitType, int>::const_iterator requiredEnd = type.requiredUnits().end();
+    for(std::map<UnitType, int>::const_iterator i = type.requiredUnits().begin(); i != requiredEnd; ++i)
     {
+      if (i->first.isAddon())
+        addon = i->first;
+
       bool pass = false;
       if (self()->completedUnitCount(i->first) >= i->second)
         pass = true;
-      if (i->first == UnitTypes::Zerg_Hatchery)
-      {
-        if (self()->completedUnitCount(UnitTypes::Zerg_Lair) >= i->second)
-          pass = true;
-        if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
-          pass = true;
-      }
-      if (i->first == UnitTypes::Zerg_Lair)
-        if (self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
-          pass = true;
+      if ( i->first == UnitTypes::Zerg_Hatchery &&
+           (self()->completedUnitCount(UnitTypes::Zerg_Lair) >= i->second ||
+            self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second) )
+        pass = true;
+      if (i->first == UnitTypes::Zerg_Lair && self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
+        pass = true;
       if ( !pass )
       {
         this->setLastError(Errors::Insufficient_Tech);
@@ -764,20 +753,20 @@ namespace BWAPI
       }
     }
 
-    if (type.requiredTech() != TechTypes::None)
-      if (!self()->hasResearched(type.requiredTech()))
-      {
-        this->setLastError(Errors::Insufficient_Tech);
-        return false;
-      }
+    if (type.requiredTech() != TechTypes::None && !self()->hasResearched(type.requiredTech()))
+    {
+      this->setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
 
-    if (builder != NULL)
-      if (addon != UnitTypes::None && addon.whatBuilds().first==type.whatBuilds().first)
-        if (builder->getAddon() == NULL || builder->getAddon()->getType() != addon)
-        {
-          this->setLastError(Errors::Insufficient_Tech);
-          return false;
-        }
+    if ( builder && 
+         addon != UnitTypes::None &&
+         addon.whatBuilds().first == type.whatBuilds().first &&
+         (!builder->getAddon() || builder->getAddon()->getType() != addon) )
+    {
+      this->setLastError(Errors::Insufficient_Tech);
+      return false;
+    }
     return true;
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
@@ -785,15 +774,15 @@ namespace BWAPI
   {
     /* Error checking */
     this->setLastError(Errors::None);
-    if (self() == NULL)
+    if ( !self() )
     {
       this->setLastError(Errors::Unit_Not_Owned);
       return false;
     }
 
-    if (unit != NULL)
+    if ( unit )
     {
-      if (unit->getPlayer()!=self())
+      if (unit->getPlayer() != self())
       {
         this->setLastError(Errors::Unit_Not_Owned);
         return false;
@@ -830,15 +819,15 @@ namespace BWAPI
   bool  GameImpl::canUpgrade(Unit* unit, UpgradeType type)
   {
     this->setLastError(Errors::None);
-    if (self() == NULL)
+    if ( !self() )
     {
       this->setLastError(Errors::Unit_Not_Owned);
       return false;
     }
 
-    if (unit != NULL)
+    if ( unit )
     {
-      if (unit->getPlayer()!=self())
+      if (unit->getPlayer() != self())
       {
         this->setLastError(Errors::Unit_Not_Owned);
         return false;
@@ -1102,11 +1091,19 @@ namespace BWAPI
     return (Player*)this->BWAPIPlayer;
   }
   //----------------------------------------------------- ENEMY ----------------------------------------------
-  Player*  GameImpl::enemy()
+  Player *GameImpl::enemy()
   {
     /* Retrieves the class for the first opponent player */
     this->setLastError(Errors::None);
-    return (Player*)this->opponent;
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
+    {
+      if ( (this->players[i]->getType() == BW::PlayerType::Computer ||
+            this->players[i]->getType() == BW::PlayerType::EitherPreferComputer ||
+            this->players[i]->getType() == BW::PlayerType::Player) &&
+           this->BWAPIPlayer->isEnemy(this->players[i]) )
+      return this->players[i];
+    }
+    return NULL;
   }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void  GameImpl::setTextSize(int size)
@@ -1121,7 +1118,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(ctype,x,y,std::string(buffer),(char)textSize));
+    this->shapes.push_back(new ShapeText(ctype,x,y,std::string(buffer),(char)textSize));
   }
   void  GameImpl::drawTextMap(int x, int y, const char* text, ...)
   {
@@ -1129,7 +1126,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer),(char)textSize));
+    this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer),(char)textSize));
   }
   void  GameImpl::drawTextMouse(int x, int y, const char* text, ...)
   {
@@ -1137,7 +1134,7 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer),(char)textSize));
+    this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer),(char)textSize));
   }
   void  GameImpl::drawTextScreen(int x, int y, const char* text, ...)
   {
@@ -1145,137 +1142,137 @@ namespace BWAPI
     va_start(ap, text);
     vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
     va_end(ap);
-    addShape(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer),(char)textSize));
+    this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer),(char)textSize));
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void  GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box */
     if (!inScreen(ctype,left,top,right,bottom)) return;
-    addShape(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
   }
   void  GameImpl::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box in relation to the map */
     if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
-    addShape(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
   }
   void  GameImpl::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box in relation to the mouse */
     if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
-    addShape(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
   }
   void  GameImpl::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box in relation to the screen */
     if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
-    addShape(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
   }
   //------------------------------------------------ DRAW TRIANGLE -------------------------------------------
   void  GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
-    addShape(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
   void  GameImpl::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy)) return;
-    addShape(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
   void  GameImpl::drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy)) return;
-    addShape(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
   void  GameImpl::drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy)) return;
-    addShape(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
   }
   //------------------------------------------------- DRAW CIRCLE --------------------------------------------
   void  GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
   }
   void  GameImpl::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color.getID(), isSolid));
   }
   void  GameImpl::drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color.getID(), isSolid));
   }
   void  GameImpl::drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
   }
   //------------------------------------------------- DRAW ELIPSE --------------------------------------------
   void  GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
   }
   void  GameImpl::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color.getID(), isSolid));
   }
   void  GameImpl::drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color.getID(), isSolid));
   }
   void  GameImpl::drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
   }
   //--------------------------------------------------- DRAW DOT ---------------------------------------------
   void  GameImpl::drawDot(int ctype, int x, int y, Color color)
   {
     if (!inScreen(ctype,x,y)) return;
-    addShape(new ShapeDot(ctype, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(ctype, x, y, color.getID()));
   }
   void  GameImpl::drawDotMap(int x, int y, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x,y)) return;
-    addShape(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color.getID()));
   }
   void  GameImpl::drawDotMouse(int x, int y, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x,y)) return;
-    addShape(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color.getID()));
   }
   void  GameImpl::drawDotScreen(int x, int y, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x,y)) return;
-    addShape(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
   }
   //-------------------------------------------------- DRAW LINE ---------------------------------------------
   void  GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(ctype,x1,y1,x2,y2)) return;
-    addShape(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
+    this->shapes.push_back(new ShapeLine(ctype, x1, y1, x2, y2, color.getID()));
   }
   void  GameImpl::drawLineMap(int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x1,y1,x2,y2)) return;
-    addShape(new ShapeLine(BWAPI::CoordinateType::Map, x1, y1, x2, y2, color.getID()));
+    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Map, x1, y1, x2, y2, color.getID()));
   }
   void  GameImpl::drawLineMouse(int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x1,y1,x2,y2)) return;
-    addShape(new ShapeLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color.getID()));
+    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color.getID()));
   }
   void  GameImpl::drawLineScreen(int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
-    addShape(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
+    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
   }
   void *GameImpl::getScreenBuffer()
   {
