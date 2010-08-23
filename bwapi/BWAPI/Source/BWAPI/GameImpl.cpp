@@ -534,28 +534,26 @@ namespace BWAPI
     int width  = type.tileWidth();
     int height = type.tileHeight();
 
+    int left   = position.x();
+    int top    = position.y();
+    int right  = left + width;
+    int bottom = top + height;
+
     /* Map limit Check */
-    if (position.x() < 0) // left
+    if (left < 0) // left
       return false;
-    if (position.y() < 0) // top
+    if (top < 0) // top
       return false;
-    if (position.x() + width > this->mapWidth()) // right
+    if (right > this->mapWidth()) // right
       return false;
-    if (position.y() + height >= this->mapHeight()) // bottom
+    if (bottom >= this->mapHeight()) // bottom
       return false;
-    if (position.y() + height == this->mapHeight() - 1) // UI - extra rules
-    {
-      if (position.x() < 5)
-        return false;
-      if (position.x() + width > this->mapWidth() - 5)
-        return false;
-    }
 
     //if the unit is a refinery, we just need to check the set of geysers to see if the position
     //matches one of them (and the type is still vespene geyser)
     if (type.isRefinery())
     {
-      foreach (Unit* g, getGeysers())
+      foreach (Unit* g, geysers)
       {
         if (g->getTilePosition() == position)
         {
@@ -569,19 +567,19 @@ namespace BWAPI
     }
 
     /* Tile buildability check */
-    for(int x = position.x(); x < position.x() + width; ++x)
-      for(int y = position.y(); y < position.y() + height; ++y)
-        if ( !this->isBuildable(x, y) )
+    for(int ix = left; ix < right; ++ix)
+      for(int iy = top; iy < bottom; ++iy)
+        if ( !this->isBuildable(ix, iy) )
           return false;
 
     /* Ground unit dimension check */
-    int targetX = position.x() * 32 + type.tileWidth() * 32 / 2;
-    int targetY = position.y() * 32 + type.tileHeight() * 32 / 2;
-    for(int x = position.x(); x < position.x() + width; ++x)
+    int targetX = left * 32 + type.tileWidth() * 32 / 2;
+    int targetY = top * 32 + type.tileHeight() * 32 / 2;
+    for(int ix = left; ix < right; ++ix)
     {
-      for(int y = position.y(); y < position.y() + height; ++y)
+      for(int iy = top; iy < bottom; ++iy)
       {
-        foreach(Unit *u, unitsOnTile(x,y))
+        foreach(Unit *u, unitsOnTile(ix,iy))
         {
           if ( u != builder &&
                u->getPosition().x() + u->getType().dimensionRight() >= targetX - type.dimensionLeft()  &&
@@ -598,30 +596,23 @@ namespace BWAPI
     {
       //Most Zerg buildings can only be built on creep
       if (!type.isResourceDepot())
-        for(int x = position.x(); x < position.x() + width; ++x)
-          for(int y = position.y(); y < position.y() + height; ++y)
-            if (!BWAPI::Broodwar->hasCreep(x, y))
+        for(int ix = left; ix < right; ++ix)
+          for(int iy = top; iy < bottom; ++iy)
+            if (!BWAPI::Broodwar->hasCreep(ix, iy))
               return false;
     }
     else
     {
       //Non-zerg buildings cannot be built on creep
-      for(int x = position.x(); x < position.x() + width; ++x)
-        for(int y = position.y(); y < position.y() + height; ++y)
-          if (BWAPI::Broodwar->hasCreep(x, y))
+      for(int ix = left; ix < right; ++ix)
+        for(int iy = top; iy < bottom; ++iy)
+          if (BWAPI::Broodwar->hasCreep(ix, iy))
             return false;
     }
 
     /* Power Check */
-    if (type.requiresPsi())
-    {
-      if (this->hasPower(position.x(), position.y(), width, height))
-      {
-        this->setLastError(Errors::None);
-        return true;
-      }
+    if ( type.requiresPsi() && !this->hasPower(left, top, width, height) )
       return false;
-    }
 
     /* Resource Check (CC, Nex, Hatch) */
     if (type.isResourceDepot())
@@ -632,23 +623,19 @@ namespace BWAPI
             isVisible(m->getInitialTilePosition().x() + 1, m->getInitialTilePosition().y()))
           if (!m->isVisible())
             continue; // tile position is visible, but mineral is not => mineral does not exist
-        if (m->getInitialTilePosition().x() > position.x() - 5 &&
-            m->getInitialTilePosition().y() > position.y() - 4 &&
-            m->getInitialTilePosition().x() < position.x() + 7 &&
-            m->getInitialTilePosition().y() < position.y() + 6)
-        {
+        if (m->getInitialTilePosition().x() > left - 5 &&
+            m->getInitialTilePosition().y() > top  - 4 &&
+            m->getInitialTilePosition().x() < left + 7 &&
+            m->getInitialTilePosition().y() < top  + 6)
           return false;
-        }
       }
       foreach (BWAPI::Unit* g, getStaticGeysers())
       {
-        if (g->getInitialTilePosition().x() > position.x() - 7 &&
-            g->getInitialTilePosition().y() > position.y() - 5 &&
-            g->getInitialTilePosition().x() < position.x() + 7 &&
-            g->getInitialTilePosition().y() < position.y() + 6)
-        {
+        if (g->getInitialTilePosition().x() > left - 7 &&
+            g->getInitialTilePosition().y() > top  - 5 &&
+            g->getInitialTilePosition().x() < left + 7 &&
+            g->getInitialTilePosition().y() < top  + 6)
           return false;
-        }
       }
     }
     //if the build site passes all these tests, return true.
