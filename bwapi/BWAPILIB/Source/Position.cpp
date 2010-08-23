@@ -52,7 +52,7 @@ namespace BWAPI
   //---------------------------------------------- IS VALID --------------------------------------------------
   bool Position::isValid() const
   {
-    return (_x>=0 && _y>=0 && _x<Broodwar->mapWidth()*32 && _y<Broodwar->mapHeight()*32);
+    return (_x >= 0 && _y >= 0 && _x < Broodwar->mapWidth()*32 && _y < Broodwar->mapHeight()*32);
   }
   //----------------------------------------------------------------------------------------------------------
   Position Position::operator+(const Position& position) const
@@ -67,10 +67,14 @@ namespace BWAPI
   //-------------------------------------------- MAKE VALID --------------------------------------------------
   Position& Position::makeValid()
   {
-    if (_x>Broodwar->mapWidth()*32-1) _x=Broodwar->mapWidth()*32-1;
-    if (_y>Broodwar->mapHeight()*32-1) _y=Broodwar->mapHeight()*32-1;
-    if (_x<0) _x=0;
-    if (_y<0) _y=0;
+    if (_x > Broodwar->mapWidth()*32 - 1)
+      _x = Broodwar->mapWidth()*32 - 1;
+    if (_y > Broodwar->mapHeight()*32 - 1)
+      _y = Broodwar->mapHeight()*32 - 1;
+    if (_x < 0)
+      _x = 0;
+    if (_y < 0)
+      _y = 0;
     return *this;
   }
   //----------------------------------------------------------------------------------------------------------
@@ -95,17 +99,17 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   double Position::getApproxDistance(const Position& position) const
   {
-    double min=abs(this->x()-position.x());
-    double max=abs(this->y()-position.y());
-    if (max<min)
+    double min = abs(this->x() - position.x());
+    double max = abs(this->y() - position.y());
+    if (max < min)
     {
-      double temp=min;
-      min=max;
-      max=temp;
+      double temp = min;
+      min = max;
+      max = temp;
     }
-    if (min<max*0.25)
+    if (min < max*0.25)
       return max;
-    return min*0.4+max*0.9;
+    return min*0.4 + max*0.9;
   }
   //----------------------------------------------------------------------------------------------------------
   double Position::getLength() const

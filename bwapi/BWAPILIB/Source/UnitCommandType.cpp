@@ -4,6 +4,8 @@
 #include <BWAPI/UnitCommandType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingUnitCommandType = true;
@@ -155,13 +157,7 @@ namespace BWAPI
       foreach(UnitCommandType i, unitCommandTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         unitCommandTypeMap.insert(std::make_pair(name, i));
       }
       initializingUnitCommandType = false;
@@ -206,16 +202,9 @@ namespace BWAPI
   {
     return unitCommandTypeName[this->id];
   }
-
   UnitCommandType UnitCommandTypes::getUnitCommandType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, UnitCommandType>::iterator i = unitCommandTypeMap.find(name);
     if (i == unitCommandTypeMap.end())
       return UnitCommandTypes::Unknown;

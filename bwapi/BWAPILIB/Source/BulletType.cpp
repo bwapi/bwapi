@@ -4,6 +4,8 @@
 #include <BWAPI/BulletType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingBulletType = true;
@@ -48,44 +50,46 @@ namespace BWAPI
     const BulletType Neutron_Flare(206);
     const BulletType None(209);
     const BulletType Unknown(210);
+
     void init()
     {
-      bulletTypeName[Melee.getID()] = "Melee";
-      bulletTypeName[Fusion_Cutter_Hit.getID()] = "Fusion Cutter Hit";
-      bulletTypeName[Gauss_Rifle_Hit.getID()] = "Gauss Rifle Hit";
-      bulletTypeName[C_10_Canister_Rifle_Hit.getID()] = "C-10 Canister Rifle Hit";
-      bulletTypeName[Gemini_Missiles.getID()] = "Gemini Missiles";
-      bulletTypeName[Fragmentation_Grenade.getID()] = "Fragmentation Grenade";
-      bulletTypeName[Longbolt_Missile.getID()] = "Longbolt Missile";
-      bulletTypeName[ATS_ATA_Laser_Battery.getID()] = "ATS ATA Laser Battery";
-      bulletTypeName[Burst_Lasers.getID()] = "Burst Lasers";
+      bulletTypeName[Melee.getID()]                    = "Melee";
+      bulletTypeName[Fusion_Cutter_Hit.getID()]        = "Fusion Cutter Hit";
+      bulletTypeName[Gauss_Rifle_Hit.getID()]          = "Gauss Rifle Hit";
+      bulletTypeName[C_10_Canister_Rifle_Hit.getID()]  = "C-10 Canister Rifle Hit";
+      bulletTypeName[Gemini_Missiles.getID()]          = "Gemini Missiles";
+      bulletTypeName[Fragmentation_Grenade.getID()]    = "Fragmentation Grenade";
+      bulletTypeName[Longbolt_Missile.getID()]         = "Longbolt Missile";
+      bulletTypeName[ATS_ATA_Laser_Battery.getID()]    = "ATS ATA Laser Battery";
+      bulletTypeName[Burst_Lasers.getID()]             = "Burst Lasers";
       bulletTypeName[Arclite_Shock_Cannon_Hit.getID()] = "Arclite Shock Cannon Hit";
-      bulletTypeName[EMP_Missile.getID()] = "EMP Missile";
+      bulletTypeName[EMP_Missile.getID()]              = "EMP Missile";
       bulletTypeName[Dual_Photon_Blasters_Hit.getID()] = "Dual Photon Blasters Hit";
-      bulletTypeName[Particle_Beam_Hit.getID()] = "Particle Beam Hit";
-      bulletTypeName[Anti_Matter_Missile.getID()] = "Anti-Matter Missile";
-      bulletTypeName[Pulse_Cannon.getID()] = "Pulse Cannon";
-      bulletTypeName[Psionic_Shockwave_Hit.getID()] = "Psionic Shockwave Hit";
-      bulletTypeName[Psionic_Storm.getID()] = "Psionic Storm";
-      bulletTypeName[Yamato_Gun.getID()] = "Yamato Gun";
-      bulletTypeName[Phase_Disruptor.getID()] = "Phase Disruptor";
-      bulletTypeName[STA_STS_Cannon_Overlay.getID()] = "STA STS Cannon Overlay";
-      bulletTypeName[Sunken_Colony_Tentacle.getID()] = "Sunken Colony Tentacle";
-      bulletTypeName[Acid_Spore.getID()] = "Acid Spore";
-      bulletTypeName[Glave_Wurm.getID()] = "Glave Wurm";
-      bulletTypeName[Seeker_Spores.getID()] = "Seeker Spores";
-      bulletTypeName[Queen_Spell_Carrier.getID()] = "Queen Spell Carrier";
-      bulletTypeName[Plague_Cloud.getID()] = "Plague Cloud";
-      bulletTypeName[Consume.getID()] = "Consume";
-      bulletTypeName[Needle_Spine_Hit.getID()] = "Needle Spine Hit";
-      bulletTypeName[Invisible.getID()] = "Invisible";
-      bulletTypeName[Optical_Flare_Grenade.getID()] = "Optical Flare Grenade";
-      bulletTypeName[Halo_Rockets.getID()] = "Halo Rockets";
-      bulletTypeName[Subterranean_Spines.getID()] = "Subterranean Spines";
-      bulletTypeName[Corrosive_Acid_Shot.getID()] = "Corrosive Acid Shot";
-      bulletTypeName[Neutron_Flare.getID()] = "Neutron Flare";
-      bulletTypeName[None.getID()] = "None";
-      bulletTypeName[Unknown.getID()] = "Unknown";
+      bulletTypeName[Particle_Beam_Hit.getID()]        = "Particle Beam Hit";
+      bulletTypeName[Anti_Matter_Missile.getID()]      = "Anti-Matter Missile";
+      bulletTypeName[Pulse_Cannon.getID()]             = "Pulse Cannon";
+      bulletTypeName[Psionic_Shockwave_Hit.getID()]    = "Psionic Shockwave Hit";
+      bulletTypeName[Psionic_Storm.getID()]            = "Psionic Storm";
+      bulletTypeName[Yamato_Gun.getID()]               = "Yamato Gun";
+      bulletTypeName[Phase_Disruptor.getID()]          = "Phase Disruptor";
+      bulletTypeName[STA_STS_Cannon_Overlay.getID()]   = "STA STS Cannon Overlay";
+      bulletTypeName[Sunken_Colony_Tentacle.getID()]   = "Sunken Colony Tentacle";
+      bulletTypeName[Acid_Spore.getID()]               = "Acid Spore";
+      bulletTypeName[Glave_Wurm.getID()]               = "Glave Wurm";
+      bulletTypeName[Seeker_Spores.getID()]            = "Seeker Spores";
+      bulletTypeName[Queen_Spell_Carrier.getID()]      = "Queen Spell Carrier";
+      bulletTypeName[Plague_Cloud.getID()]             = "Plague Cloud";
+      bulletTypeName[Consume.getID()]                  = "Consume";
+      bulletTypeName[Needle_Spine_Hit.getID()]         = "Needle Spine Hit";
+      bulletTypeName[Invisible.getID()]                = "Invisible";
+      bulletTypeName[Optical_Flare_Grenade.getID()]    = "Optical Flare Grenade";
+      bulletTypeName[Halo_Rockets.getID()]             = "Halo Rockets";
+      bulletTypeName[Subterranean_Spines.getID()]      = "Subterranean Spines";
+      bulletTypeName[Corrosive_Acid_Shot.getID()]      = "Corrosive Acid Shot";
+      bulletTypeName[Neutron_Flare.getID()]            = "Neutron Flare";
+      bulletTypeName[None.getID()]                     = "None";
+      bulletTypeName[Unknown.getID()]                  = "Unknown";
+
       bulletTypeSet.insert(Melee);
       bulletTypeSet.insert(Fusion_Cutter_Hit);
       bulletTypeSet.insert(Gauss_Rifle_Hit);
@@ -122,16 +126,11 @@ namespace BWAPI
       bulletTypeSet.insert(Neutron_Flare);
       bulletTypeSet.insert(None);
       bulletTypeSet.insert(Unknown);
+
       foreach(BulletType i, bulletTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A'-'a';
-        }
+        fixName(&name);
         bulletTypeMap.insert(std::make_pair(name, i));
       }
       initializingBulletType = false;
@@ -145,13 +144,8 @@ namespace BWAPI
   BulletType::BulletType(int id)
   {
     this->id = id;
-    if (!initializingBulletType)
-    {
-      if (id < 0 || id >= 211 || bulletTypeName[id].length() == 0)
-      {
-        this->id = BulletTypes::Unknown.id;
-      }
-    }
+    if (!initializingBulletType && (id < 0 || id >= 211 || bulletTypeName[id].length() == 0))
+      this->id = BulletTypes::Unknown.id;
   }
   BulletType::BulletType(const BulletType& other)
   {
@@ -184,13 +178,7 @@ namespace BWAPI
   }
   BulletType BulletTypes::getBulletType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j]<='z')
-        name[j] += 'A'-'a';
-    }
+    fixName(&name);
     std::map<std::string, BulletType>::iterator i = bulletTypeMap.find(name);
     if (i == bulletTypeMap.end())
       return BulletTypes::Unknown;

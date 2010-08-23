@@ -4,6 +4,8 @@
 #include <BWAPI/GameType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingGameType = true;
@@ -68,13 +70,7 @@ namespace BWAPI
       foreach(GameType i, gameTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         gameTypeMap.insert(std::make_pair(name, i));
       }
       initializingGameType = false;
@@ -121,13 +117,7 @@ namespace BWAPI
   }
   GameType GameTypes::getGameType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, GameType>::iterator i = gameTypeMap.find(name);
     if (i == gameTypeMap.end()) return GameTypes::Unknown;
     return (*i).second;

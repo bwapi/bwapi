@@ -5,6 +5,8 @@
 #include <BWAPI/UnitType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingRace = true;
@@ -42,6 +44,7 @@ namespace BWAPI
     const Race Other(4);
     const Race None(5);
     const Race Unknown(6);
+
     void init()
     {
       raceData[Zerg.getID()].set(   "Zerg",    UnitTypes::Zerg_Drone,    UnitTypes::Zerg_Hatchery,         UnitTypes::Zerg_Extractor,      UnitTypes::Zerg_Overlord,   UnitTypes::Zerg_Overlord);
@@ -62,13 +65,7 @@ namespace BWAPI
       foreach(Race i, raceSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j]<='z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         raceMap.insert(std::make_pair(name, i));
       }
       initializingRace = false;
@@ -135,13 +132,7 @@ namespace BWAPI
   }
   Race Races::getRace(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, Race>::iterator i = raceMap.find(name);
     if (i == raceMap.end())
       return Races::Unknown;

@@ -9,6 +9,8 @@
 #include <BWAPI/ExplosionType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingWeaponType = true;
@@ -339,13 +341,7 @@ namespace BWAPI
       foreach(WeaponType i, weaponTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         weaponTypeMap.insert(std::make_pair(name, i));
       }
       initializingWeaponType = false;
@@ -484,13 +480,7 @@ namespace BWAPI
   }
   WeaponType WeaponTypes::getWeaponType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, WeaponType>::iterator i = weaponTypeMap.find(name);
     if (i == weaponTypeMap.end())
       return WeaponTypes::Unknown;
