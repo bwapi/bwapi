@@ -4,6 +4,8 @@
 #include <BWAPI/ExplosionType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingExplosionType = true;
@@ -37,6 +39,7 @@ namespace BWAPI
     const ExplosionType Maelstrom(22);
     const ExplosionType Air_Splash(24);
     const ExplosionType Unknown(25);
+
     void init()
     {
       explosionTypeName[None.getID()]            = "None";
@@ -94,13 +97,7 @@ namespace BWAPI
       foreach(ExplosionType i, explosionTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A'-'a';
-        }
+        fixName(&name);
         explosionTypeMap.insert(std::make_pair(name, i));
       }
       initializingExplosionType = false;
@@ -148,13 +145,7 @@ namespace BWAPI
 
   ExplosionType ExplosionTypes::getExplosionType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
     if (i == explosionTypeMap.end())
       return ExplosionTypes::Unknown;

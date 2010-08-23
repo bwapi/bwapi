@@ -7,6 +7,8 @@
 #include <BWAPI/WeaponType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingTechType = true;
@@ -91,6 +93,7 @@ namespace BWAPI
     const TechType None(44);
     const TechType Unknown(45);
     const TechType Nuclear_Strike(46);
+
     void init()
     {
       techTypeData[Stim_Packs.getID()].set("Stim Packs"                ,100,100,1200,0  ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::None            ,UnitTypes::Terran_Marine              ,UnitTypes::Terran_Firebat);
@@ -170,13 +173,7 @@ namespace BWAPI
       foreach(TechType i, techTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         techTypeMap.insert(std::make_pair(name, i));
       }
       initializingTechType = false;
@@ -255,13 +252,7 @@ namespace BWAPI
   }
   TechType TechTypes::getTechType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, TechType>::iterator i = techTypeMap.find(name);
     if (i == techTypeMap.end()) 
       return TechTypes::Unknown;

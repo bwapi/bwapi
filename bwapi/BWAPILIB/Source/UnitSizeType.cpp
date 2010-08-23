@@ -4,6 +4,8 @@
 #include <BWAPI/UnitSizeType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingUnitSizeType = true;
@@ -38,13 +40,7 @@ namespace BWAPI
       foreach(UnitSizeType i, unitSizeTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         unitSizeTypeMap.insert(std::make_pair(name, i));
       }
       initializingUnitSizeType = false;
@@ -89,16 +85,9 @@ namespace BWAPI
   {
     return unitSizeTypeName[this->id];
   }
-
   UnitSizeType UnitSizeTypes::getUnitSizeType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, UnitSizeType>::iterator i = unitSizeTypeMap.find(name);
     if (i == unitSizeTypeMap.end())
       return UnitSizeTypes::Unknown;

@@ -6,6 +6,8 @@
 #include <BWAPI/UnitType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingUpgradeType = true;
@@ -103,6 +105,7 @@ namespace BWAPI
     const UpgradeType Charon_Boosters(54);
     const UpgradeType None(61);
     const UpgradeType Unknown(62);
+
     void init()
     {
       upgradeTypeData[Terran_Infantry_Armor.getID()].set("Terran Infantry Armor"    , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Terran_Engineering_Bay      , Races::Terran , UnitTypes::None                 , 3);
@@ -316,13 +319,7 @@ namespace BWAPI
       foreach(UpgradeType i, upgradeTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         upgradeTypeMap.insert(std::make_pair(name, i));
       }
       initializingUpgradeType = false;
@@ -409,13 +406,7 @@ namespace BWAPI
   }
   UpgradeType UpgradeTypes::getUpgradeType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, UpgradeType>::iterator i = upgradeTypeMap.find(name);
     if (i == upgradeTypeMap.end())
       return UpgradeTypes::Unknown;

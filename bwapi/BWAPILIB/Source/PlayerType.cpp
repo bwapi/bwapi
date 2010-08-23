@@ -4,6 +4,8 @@
 #include <BWAPI/PlayerType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingPlayerType = true;
@@ -53,13 +55,7 @@ namespace BWAPI
       foreach(PlayerType i, playerTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         playerTypeMap.insert(std::make_pair(name, i));
       }
       initializingPlayerType = false;
@@ -106,13 +102,7 @@ namespace BWAPI
   }
   PlayerType PlayerTypes::getPlayerType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j]<='z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, PlayerType>::iterator i = playerTypeMap.find(name);
     if (i == playerTypeMap.end())
       return PlayerTypes::Unknown;

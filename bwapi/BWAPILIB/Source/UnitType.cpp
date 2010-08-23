@@ -11,6 +11,8 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/Race.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingUnitType = true;
@@ -597,13 +599,7 @@ namespace BWAPI
       foreach(UnitType i, unitTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         unitTypeMap.insert(std::make_pair(name, i));
       }
       initializingUnitType = false;
@@ -902,13 +898,7 @@ namespace BWAPI
   }
   UnitType UnitTypes::getUnitType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, UnitType>::iterator i = unitTypeMap.find(name);
     if (i == unitTypeMap.end())
       return UnitTypes::Unknown;

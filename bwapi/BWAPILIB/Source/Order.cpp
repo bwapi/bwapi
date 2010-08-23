@@ -4,6 +4,8 @@
 #include <BWAPI/Order.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingOrder = true;
@@ -168,6 +170,7 @@ namespace BWAPI
     const Order Fatal(188);
     const Order None(189);
     const Order Unknown(190);
+
     void init()
     {
       orderName[Die.getID()]                    = "Die";
@@ -487,13 +490,7 @@ namespace BWAPI
       foreach(Order i, orderSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A' - 'a';
-        }
+        fixName(&name);
         orderMap.insert(std::make_pair(name, i));
       }
       initializingOrder = false;
@@ -541,13 +538,7 @@ namespace BWAPI
   }
   Order Orders::getOrder(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A' - 'a';
-    }
+    fixName(&name);
     std::map<std::string, Order>::iterator i = orderMap.find(name);
     if (i == orderMap.end())
       return Orders::Unknown;

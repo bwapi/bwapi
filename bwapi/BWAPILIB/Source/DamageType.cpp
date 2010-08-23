@@ -4,6 +4,8 @@
 #include <BWAPI/DamageType.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingDamageType = true;
@@ -19,6 +21,7 @@ namespace BWAPI
     const DamageType Ignore_Armor(4);
     const DamageType None(5);
     const DamageType Unknown(6);
+
     void init()
     {
       damageTypeName[Independent.getID()]  = "Independent";
@@ -40,13 +43,7 @@ namespace BWAPI
       foreach(DamageType i, damageTypeSet)
       {
         std::string name = i.getName();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A'-'a';
-        }
+        fixName(&name);
         damageTypeMap.insert(std::make_pair(name, i));
       }
       initializingDamageType = false;
@@ -94,13 +91,7 @@ namespace BWAPI
 
   DamageType DamageTypes::getDamageType(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A'-'a';
-    }
+    fixName(&name);
     std::map<std::string, DamageType>::iterator i = damageTypeMap.find(name);
     if (i == damageTypeMap.end())
       return DamageTypes::Unknown;

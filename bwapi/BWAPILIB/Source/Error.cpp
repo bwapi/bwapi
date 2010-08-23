@@ -4,6 +4,8 @@
 #include <BWAPI/Error.h>
 #include <Util/Foreach.h>
 
+#include "Common.h"
+
 namespace BWAPI
 {
   bool initializingError = true;
@@ -35,31 +37,33 @@ namespace BWAPI
     const Error Access_Denied(20);
     const Error None(21);
     const Error Unknown(22);
+
     void init()
     {
-      errorName[Unit_Does_Not_Exist.getID()] = "Unit Does Not Exist";
-      errorName[Unit_Not_Visible.getID()] = "Unit Not Visible";
-      errorName[Unit_Not_Owned.getID()] = "Unit Not Owned";
-      errorName[Unit_Busy.getID()] = "Unit Busy";
+      errorName[Unit_Does_Not_Exist.getID()]   = "Unit Does Not Exist";
+      errorName[Unit_Not_Visible.getID()]      = "Unit Not Visible";
+      errorName[Unit_Not_Owned.getID()]        = "Unit Not Owned";
+      errorName[Unit_Busy.getID()]             = "Unit Busy";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
       errorName[Incompatible_TechType.getID()] = "Incompatible TechType";
-      errorName[Already_Researched.getID()] = "Already Researched";
-      errorName[Fully_Upgraded.getID()] = "Fully Upgraded";
+      errorName[Already_Researched.getID()]    = "Already Researched";
+      errorName[Fully_Upgraded.getID()]        = "Fully Upgraded";
       errorName[Currently_Researching.getID()] = "Currently Researching";
-      errorName[Currently_Upgrading.getID()] = "Currently Upgrading";
+      errorName[Currently_Upgrading.getID()]   = "Currently Upgrading";
       errorName[Insufficient_Minerals.getID()] = "Insufficient Minerals";
-      errorName[Insufficient_Gas.getID()] = "Insufficient Gas";
-      errorName[Insufficient_Supply.getID()] = "Insufficient Supply";
-      errorName[Insufficient_Energy.getID()] = "Insufficient Energy";
-      errorName[Insufficient_Tech.getID()] = "Insufficient Tech";
-      errorName[Insufficient_Ammo.getID()] = "Insufficient Ammo";
-      errorName[Insufficient_Space.getID()] = "Insufficient Space";
-      errorName[Unbuildable_Location.getID()] = "Unbuildable Location";
-      errorName[Out_Of_Range.getID()] = "Out Of Range";
-      errorName[Unable_To_Hit.getID()] = "Unable To Hit";
-      errorName[Access_Denied.getID()] = "Access Denied";
-      errorName[None.getID()] = "None";
-      errorName[Unknown.getID()] = "Unknown";
+      errorName[Insufficient_Gas.getID()]      = "Insufficient Gas";
+      errorName[Insufficient_Supply.getID()]   = "Insufficient Supply";
+      errorName[Insufficient_Energy.getID()]   = "Insufficient Energy";
+      errorName[Insufficient_Tech.getID()]     = "Insufficient Tech";
+      errorName[Insufficient_Ammo.getID()]     = "Insufficient Ammo";
+      errorName[Insufficient_Space.getID()]    = "Insufficient Space";
+      errorName[Unbuildable_Location.getID()]  = "Unbuildable Location";
+      errorName[Out_Of_Range.getID()]          = "Out Of Range";
+      errorName[Unable_To_Hit.getID()]         = "Unable To Hit";
+      errorName[Access_Denied.getID()]         = "Access Denied";
+      errorName[None.getID()]                  = "None";
+      errorName[Unknown.getID()]               = "Unknown";
+
       errorSet.insert(Unit_Does_Not_Exist);
       errorSet.insert(Unit_Not_Visible);
       errorSet.insert(Unit_Not_Owned);
@@ -87,13 +91,7 @@ namespace BWAPI
       foreach(Error i, errorSet)
       {
         std::string name = i.toString();
-        for(int j = 0; j < (int)name.length(); ++j)
-        {
-          if (name[j] == ' ')
-            name[j] = '_';
-          if (name[j] >= 'a' && name[j] <= 'z')
-            name[j] += 'A'-'a';
-        }
+        fixName(&name);
         errorMap.insert(std::make_pair(name, i));
       }
       initializingError = false;
@@ -141,13 +139,7 @@ namespace BWAPI
   }
   Error Errors::getError(std::string name)
   {
-    for(int j = 0; j < (int)name.length(); ++j)
-    {
-      if (name[j] == ' ')
-        name[j] = '_';
-      if (name[j] >= 'a' && name[j] <= 'z')
-        name[j] += 'A'-'a';
-    }
+    fixName(&name);
     std::map<std::string, Error>::iterator i = errorMap.find(name);
     if (i == errorMap.end())
       return Errors::Unknown;
