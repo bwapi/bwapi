@@ -1,18 +1,18 @@
 #pragma once
 
-namespace Util  { class Logger; }
+namespace Util  { class  Logger; }
 namespace BW    { struct UnitArray; }
 namespace BW    { struct Unit; }
 namespace BW    { struct BulletArray; }
 namespace BW    { struct Bullet; }
-namespace BWAPI { class Player; }
-namespace BWAPI { class PlayerImpl; }
-namespace BWAPI { class Unit; }
-namespace BWAPI { class UnitImpl; }
-namespace BWAPI { class Bullet; }
-namespace BWAPI { class BulletImpl; }
-namespace BWAPI { class Command; }
-namespace BWAPI { class AIModule; }
+namespace BWAPI { class  Player; }
+namespace BWAPI { class  PlayerImpl; }
+namespace BWAPI { class  Unit; }
+namespace BWAPI { class  UnitImpl; }
+namespace BWAPI { class  Bullet; }
+namespace BWAPI { class  BulletImpl; }
+namespace BWAPI { class  Command; }
+namespace BWAPI { class  AIModule; }
 
 
 #include "BWAPI/Game.h"

@@ -1,13 +1,8 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
-#include <assert.h>
-#include <vector>
-#include <map>
 #include <string>
-#include <algorithm>
 #include <stdio.h>
-#include <Wincrypt.h>
 
 #include <Util/FileLogger.h>
 #include <Util/Gnu.h>
@@ -16,15 +11,12 @@
 #include "BW/Sprite.h"
 #include "BW/Image.h"
 #include "BWAPI/GameImpl.h"
-#include "BWAPI/UnitImpl.h"
-#include "BWAPI/PlayerImpl.h"
 #include "BWAPI.h"
 #include "BWAPI/DLLMain.h"
 #include "BWAPI/Shape.h"
 
 #include "NewHackUtil.h"
 
-DWORD eaxSave, ebxSave, ecxSave, edxSave, esiSave, ediSave, espSave, ebpSave;
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SCodeDelete(HANDLE *handle)
 {
@@ -318,7 +310,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   if (std::string(logging_str) == "on" || std::string(logging_str) == "ON")
     logging = true;
 
-  if (_strcmpi(logPath, "NULL") == 0)
+  if (strcmpi(logPath, "NULL") == 0)
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not find log_path under paths in \"bwapi-data\\bwapi.ini\".\n");
@@ -339,7 +331,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   char temptest[12];
   void *pPlayIscript;
   sprintf_s(temptest, 32, "%p", &BW::Image::CImage::_PlayIscript);
-  sscanf_s(temptest, "%p", &pPlayIscript);
+  sscanf(temptest, "%p", &pPlayIscript);
 
   /* Create function-level hooks */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &nextFrameHook);
@@ -374,7 +366,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     case DLL_PROCESS_ATTACH:
       BWAPI::BWAPI_init();
       CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
-      return true;
+      return TRUE;
   }
-  return true;
+  return TRUE;
 }
