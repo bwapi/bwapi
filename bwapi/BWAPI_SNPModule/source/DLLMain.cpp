@@ -22,32 +22,32 @@ struct netFunctions
 {
   DWORD dwSize;
   void  *fxn_0;
-  bool  (__stdcall *spiDestroy)(); // official
-  void  *spiFree; // official spiFree(0x%08x,0x%08x,%u)
-  void  *spiError;
-  void  *fxn_4;
-  void  *fxn_5;
-  void  *spiInitialize;  // official spiInitialize(0x%08x)
-  void  *fxn_7;
-  void  *fxn_8;
-  void  *spiLockGameList; // official spiLockGameList(0x%08x,0x%08x,*gamelist) (0x%08x,0x%08x,*gamehead)
+  bool  (__stdcall *spiDestroy)();  // official
+  void  *spiFree;                   // official spiFree(0x%08x,0x%08x,%u)
+  void  *spiError;                  // unofficial
+  void  *spiJoinGame;           // unknown/guess
+  void  *spiGetPerformanceData; // unknown/guess
+  void  *spiInitialize;         // official spiInitialize(0x%08x)
+  void  *fxn_7;                 // InitializeDevice
+  void  *fxn_8;                 // EnumProviders
+  void  *spiLockGameList;       // official spiLockGameList(0x%08x,0x%08x,*gamelist) (0x%08x,0x%08x,*gamehead)
   void  *fxn_10;
-  void  *spiReceive; // official spiReceive(*addr,*data,*databytes) (int *, int *, char **)
-  void  *fxn_12;
+  void  *spiReceive;            // official spiReceive(*addr,*data,*databytes) (int *, int *, char **)
+  void  *spiSelectGame;         // unknown/guess
   bool (__stdcall *spiSend)(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
-  void  *fxn_14;
-  void  *spiStartAdvertisingLadderGame;
+  void  *spiSendServerMessage;                // unofficial; last param is the message
+  void  *spiStartAdvertisingLadderGame;       // unofficial
   bool (__stdcall *spiStopAdvertisingGame)(); // official
-  bool (__stdcall *InitializeUser)();
-  void  *spiUnlockGameList; // official spiUnlockGameList(0x%08x,*hintnextcall)
-  void  *spiStartAdvertisingGame; // official spiStartAdvertisingGame(0x%08x,0x%08x,"%s","%s")
-  void  *fxn_20;
-  void  *fxn_21;
-  void  *fxn_22;
+  bool (__stdcall *InitializeUser)();         // EnumProviders
+  void  *spiUnlockGameList;                   // official spiUnlockGameList(0x%08x,*hintnextcall)
+  void  *spiStartAdvertisingGame;             // official spiStartAdvertisingGame(0x%08x,0x%08x,"%s","%s")
+  void  *spiReportGameResult;         // unknown/guess
+  void  *spiCheckDataFile;            // unknown/guess
+  void  *spiLeagueCommand;            // unknown/guess
   void  *fxn_23;
-  void  *fxn_24;
-  void  *fxn_25;
-  bool (__stdcall *GetLeagueName)(char *pszDest, DWORD dwSize);
+  void  *spiLeagueGetReplayPath;      // unknown/guess
+  void  *spiLeagueLogout;             // unknown/guess
+  bool (__stdcall *spiLeagueGetName)(char *pszDest, DWORD dwSize); // unknown/guess
 };
 
 struct netStruct
