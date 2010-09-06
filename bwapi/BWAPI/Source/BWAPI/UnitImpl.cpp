@@ -214,7 +214,7 @@ namespace BWAPI
   std::list<UnitType > UnitImpl::getTrainingQueue() const
   {
     std::list<UnitType > trainingQueue;
-    for (int i=0;i<self->trainingQueueCount;i++)
+    for (int i = 0; i < self->trainingQueueCount; ++i)
       trainingQueue.push_back(self->trainingQueue[i]);
     return trainingQueue;
   }
@@ -781,11 +781,21 @@ namespace BWAPI
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     if (!this->attemptAccess()) return 0;
-    if (_getPlayer->getUpgradeLevel(upgrade) == 0)
-      return 0;
 
+    int pId = _getPlayer->getID();
+    int uId = upgrade.getID();
+    if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
+         (uId >= 46 && uId < BW::UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
+          uId >= BW::UPGRADE_TYPE_COUNT )
+      return 0;
+    
     if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
-      return this->_getPlayer->getUpgradeLevel(upgrade);
+    {
+      if ( uId < 46 )
+        return BW::BWDATA_UpgradeLevelSC->level[pId][uId];
+      else
+        return BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46];
+    }
     return 0;
   }
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
@@ -1327,7 +1337,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->hasResearched(TechTypes::Burrowing))
+    if (this->getType() != UnitTypes::Zerg_Lurker && !Broodwar->self()->hasResearched(TechTypes::Burrowing))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1353,7 +1363,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (this->getType()!=UnitTypes::Zerg_Lurker && !Broodwar->self()->hasResearched(TechTypes::Burrowing))
+    if (this->getType() != UnitTypes::Zerg_Lurker && !Broodwar->self()->hasResearched(TechTypes::Burrowing))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1373,32 +1383,32 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (this->getType()!=UnitTypes::Terran_Wraith && this->getType()!=UnitTypes::Terran_Ghost)
+    if (this->getType() != UnitTypes::Terran_Wraith && this->getType() != UnitTypes::Terran_Ghost)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (this->getType()==UnitTypes::Terran_Wraith)
+    if (this->getType() == UnitTypes::Terran_Wraith)
     {
       if (!Broodwar->self()->hasResearched(TechTypes::Cloaking_Field))
       {
         BroodwarImpl.setLastError(Errors::Insufficient_Tech);
         return false;
       }
-      if (this->getEnergy()<TechTypes::Cloaking_Field.energyUsed())
+      if (this->getEnergy() < TechTypes::Cloaking_Field.energyUsed())
       {
         BroodwarImpl.setLastError(Errors::Insufficient_Energy);
         return false;
       }
     }
-    if (this->getType()==UnitTypes::Terran_Ghost)
+    if (this->getType() == UnitTypes::Terran_Ghost)
     {
       if (!Broodwar->self()->hasResearched(TechTypes::Personnel_Cloaking))
       {
         BroodwarImpl.setLastError(Errors::Insufficient_Tech);
         return false;
       }
-      if (this->getEnergy()<TechTypes::Personnel_Cloaking.energyUsed())
+      if (this->getEnergy() < TechTypes::Personnel_Cloaking.energyUsed())
       {
         BroodwarImpl.setLastError(Errors::Insufficient_Energy);
         return false;
@@ -1418,13 +1428,13 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
     checkOwnership();
-    if (this->getType()!=UnitTypes::Terran_Wraith && this->getType()!=UnitTypes::Terran_Ghost)
+    if (this->getType() != UnitTypes::Terran_Wraith && this->getType() != UnitTypes::Terran_Ghost)
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if ((this->getType()==UnitTypes::Terran_Wraith && !Broodwar->self()->hasResearched(TechTypes::Cloaking_Field))
-      || (this->getType()==UnitTypes::Terran_Ghost && !Broodwar->self()->hasResearched(TechTypes::Personnel_Cloaking)))
+    if ((this->getType() == UnitTypes::Terran_Wraith && !Broodwar->self()->hasResearched(TechTypes::Cloaking_Field))
+      || (this->getType() == UnitTypes::Terran_Ghost && !Broodwar->self()->hasResearched(TechTypes::Personnel_Cloaking)))
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
@@ -1806,7 +1816,7 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    if (tech.whatUses().find(this->getType())==tech.whatUses().end())
+    if (tech.whatUses().find(this->getType()) == tech.whatUses().end())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
@@ -1855,17 +1865,17 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Insufficient_Tech);
       return false;
     }
-    if (this->getEnergy()<tech.energyUsed())
+    if (this->getEnergy() < tech.energyUsed())
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Energy);
       return false;
     }
-    if (tech.whatUses().find(this->getType())==tech.whatUses().end())
+    if (tech.whatUses().find(this->getType()) == tech.whatUses().end())
     {
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    if (tech == TechTypes::Spider_Mines && this->getSpiderMineCount()<=0)
+    if (tech == TechTypes::Spider_Mines && this->getSpiderMineCount() <= 0)
     {
       BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
       return false;
@@ -2095,7 +2105,7 @@ namespace BWAPI
     if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
     /* neutral units visible during AIModule::onStart */
-    if (Broodwar->getFrameCount()==0)
+    if (Broodwar->getFrameCount() == 0)
       if (this->_getType.isNeutral())
         return true;
     return self->isDetected;
