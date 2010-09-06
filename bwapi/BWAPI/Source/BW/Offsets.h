@@ -409,8 +409,12 @@ namespace BW
   static u16            *BWDATA_UpgradeTimeCostBase      = (u16*)  upgradesDat[4].address;
   static u16            *BWDATA_UpgradeTimeCostFactor    = (u16*)  upgradesDat[5].address;
   static u8             *BWDATA_UpgradeRace              = (u8*)   upgradesDat[9].address;
-  static u32            BWDATA_UpgradeLevelSC            = 0x0058D2B0;
-  static u32            BWDATA_UpgradeLevelBW            = 0x0058F32C;
+
+  struct _scUpgrs {    u8 level[PLAYER_COUNT][48];  };
+  struct _bwUpgrs {    u8 level[PLAYER_COUNT][15];  };
+  static _scUpgrs *BWDATA_UpgradeLevelSC = (_scUpgrs*)0x0058D2B0;
+  static _bwUpgrs *BWDATA_UpgradeLevelBW = (_bwUpgrs*)0x0058F32C;
+
   static Util::BitMask<u64> *BWDATA_UpgradeProgress = (Util::BitMask<u64>*) 0x0058F3E0;
 
   //--------------------------------------------- TECH DATA --------------------------------------------------
@@ -419,8 +423,12 @@ namespace BW
   static u16 *BWDATA_TechResearchTime = (u16*) techdataDat[2].address;
   static u16 *BWDATA_TechEnergyCost   = (u16*) techdataDat[3].address;
   static u16 *BWDATA_TechLabelIndex   = (u16*) techdataDat[7].address;
-  static u32 BWDATA_TechResearchSC    = 0x0058CF44;
-  static u32 BWDATA_TechResearchBW    = 0x0058F140;
+
+  struct _scTechs {    u8 enabled[PLAYER_COUNT][24];  };
+  struct _bwTechs {    u8 enabled[PLAYER_COUNT][20];  };
+  static _scTechs *BWDATA_TechResearchSC = (_scTechs*)0x0058CF44;
+  static _bwTechs *BWDATA_TechResearchBW = (_bwTechs*)0x0058F140;
+
   static u32 BWDATA_ResearchProgress  = 0x0058F230;
 
   //------------------------------------------------ MAPPING -------------------------------------------------

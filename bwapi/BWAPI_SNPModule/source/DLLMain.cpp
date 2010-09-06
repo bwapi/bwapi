@@ -22,25 +22,25 @@ struct netFunctions
 {
   DWORD dwSize;
   void  *fxn_0;
-  bool  (__stdcall *Cleanup)();
-  void  *fxn_2;
-  void  *fxn_3;
+  bool  (__stdcall *spiDestroy)(); // official
+  void  *spiFree; // official spiFree(0x%08x,0x%08x,%u)
+  void  *spiError;
   void  *fxn_4;
   void  *fxn_5;
-  void  *fxn_6;
+  void  *spiInitialize;  // official spiInitialize(0x%08x)
   void  *fxn_7;
   void  *fxn_8;
-  void  *fxn_9;
+  void  *spiLockGameList; // official spiLockGameList(0x%08x,0x%08x,*gamelist) (0x%08x,0x%08x,*gamehead)
   void  *fxn_10;
-  void  *fxn_11;
+  void  *spiReceive; // official spiReceive(*addr,*data,*databytes) (int *, int *, char **)
   void  *fxn_12;
-  bool (__stdcall *SendTo)(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
+  bool (__stdcall *spiSend)(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
   void  *fxn_14;
-  void  *fxn_15;
-  bool (__stdcall *LeaveGame)();
+  void  *spiStartAdvertisingLadderGame;
+  bool (__stdcall *spiStopAdvertisingGame)(); // official
   bool (__stdcall *InitializeUser)();
-  void  *fxn_18;
-  void  *fxn_19;
+  void  *spiUnlockGameList; // official spiUnlockGameList(0x%08x,*hintnextcall)
+  void  *spiStartAdvertisingGame; // official spiStartAdvertisingGame(0x%08x,0x%08x,"%s","%s")
   void  *fxn_20;
   void  *fxn_21;
   void  *fxn_22;
@@ -60,11 +60,11 @@ struct netStruct
 } networks[] = {
   { "Local PC", 'LOCL', "BWAPI 1.16.1 r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
     { sizeof(caps), 0x20000000, 0x200, 0x10, 0x100, 100000, 50, 8, 2},
-    { sizeof(netFunctions), &fxn0, &Cleanup, &fxn2, &fxn3,
-      &fxn4, &fxn5, &InitializeModule, &fxn7,
-      &fxn8, &fxn9, &fxn10, &fxn11,
-      &fxn12, &SendTo, &fxn14, &CreateGame,
-      &LeaveGame, &InitializeUser, &fxn18, NULL,
+    { sizeof(netFunctions), &fxn0, &_spiDestroy, &_spiFree, &_spiError,
+      &fxn4, &fxn5, &_spiInitialize, &fxn7,
+      &fxn8, &_spiLockGameList, &fxn10, &_spiReceive,
+      &fxn12, &_spiSend, &fxn14, &_spiStartAdvertisingLadderGame,
+      &_spiStopAdvertisingGame, &InitializeUser, &_spiUnlockGameList, NULL,
       NULL, NULL, NULL, NULL,
       NULL, NULL, NULL}
   }

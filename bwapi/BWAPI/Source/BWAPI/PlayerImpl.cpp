@@ -313,13 +313,13 @@ namespace BWAPI
       self->gas      = 0;
       self->cumulativeMinerals = 0;
       self->cumulativeGas      = 0;
-      for(int i=0;i<55;i++)
+      for(int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
         self->upgradeLevel[i]  = 0;
-      for(int i=0;i<47;i++)
+      for(int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
         self->hasResearched[i] = 0;
-      for(int i=0;i<55;i++)
+      for(int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
         self->isUpgrading[i]   = 0;
-      for(int i=0;i<47;i++)
+      for(int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
         self->isResearching[i] = 0;
     }
     else
@@ -328,37 +328,37 @@ namespace BWAPI
       self->gas                = BW::BWDATA_PlayerResources->gas[index];
       self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals[index];
       self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas[index];
-      for(int i=0;i<46;i++)
-        self->upgradeLevel[i] = (int)(*((u8*)(BW::BWDATA_UpgradeLevelSC + index * 46 + i)));
-      for(int i=46;i<55;i++)
-        self->upgradeLevel[i] = (int)(*((u8*)(BW::BWDATA_UpgradeLevelBW + index * 15 + i - 46)));
-      for(int i=0;i<24;i++)
+      for(int i = 0; i < 46; ++i)
+        self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
+      for(int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
+        self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];
+      for(int i = 0; i < 24; ++i)
       {
-        if (TechType(i).whatResearches()==UnitTypes::None)
+        if (TechType(i).whatResearches() == UnitTypes::None)
           self->hasResearched[i] = true;
         else
-          self->hasResearched[i] = (*((u8*)(BW::BWDATA_TechResearchSC + index * 0x18 + i)) == 1);
+          self->hasResearched[i] = BW::BWDATA_TechResearchSC->enabled[index][i] == 1;
       }
-      for(int i=24;i<47;i++)
+      for(int i = 24; i < BW::TECH_TYPE_COUNT; ++i)
       {
-        if (TechType(i).whatResearches()==UnitTypes::None)
+        if (TechType(i).whatResearches() == UnitTypes::None)
           self->hasResearched[i] = true;
         else
-          self->hasResearched[i] = (*((u8*)(BW::BWDATA_TechResearchBW + index * 0x14 + i - 0x18)) == 1);
+          self->hasResearched[i] = BW::BWDATA_TechResearchBW->enabled[index][i - 24] == 1;
       }
-      for(int i = 0; i < 55; ++i)
+      for(int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
         self->isUpgrading[i]   = BW::BWDATA_UpgradeProgress[index].getBit(1 << i);
-      for(int i = 0; i < 47; ++i)
+      for(int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
         self->isResearching[i] = ((Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + index * 6))->getBit(1 << i);
     }
     if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
-      for (u8 i = 0; i < 3; i++)
+      for (u8 i = 0; i < 3; ++i)
       {
         self->supplyTotal[i] = 0;
         self->supplyUsed[i]  = 0;
       }
-      for(int i=0;i<228;i++)
+      for(int i = 0; i < 228; ++i)
       {
         self->allUnitCount[i]       = 0;
         self->completedUnitCount[i] = 0;

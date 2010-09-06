@@ -52,6 +52,17 @@ BOOL __stdcall SNetLeaveGame(int type);
 BOOL __stdcall SNetPerformUpgrade(DWORD *upgradestatus);
 BOOL __stdcall SNetReceiveMessage(int *senderplayerid, char **data, int *databytes);
 BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus);
+
+// Values for arrayplayerstatus
+#ifndef SNET_PS_
+#define SNET_PS_
+
+#define SNET_PS_WAITING        2
+#define SNET_PS_NOTRESPONDING  3
+#define SNET_PS_UNKNOWN        default
+
+#endif
+
 HANDLE __stdcall SNetRegisterEventHandler(int type, int sevent);
 
 int __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
@@ -83,7 +94,7 @@ BOOL __stdcall SDlgEndDialog(HWND hDlg, HANDLE nResult);
 
 BOOL __stdcall SDlgSetControlBitmaps(HWND parentwindow, int *id, int a3, char *buffer2, char *buffer, int flags, int mask);
 
-BOOL __stdcall SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10);
+BOOL __stdcall SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, void *buffer, RECT *rct, SIZE *size, int a8, int a9, DWORD rop);
 BOOL __stdcall SDlgSetBitmapE(HWND hWnd, int a2, char *src, int mask1, int flags, int a6, int a7, int width, int a9, int mask2);
 
 int __stdcall Ordinal224(int a1);
@@ -104,19 +115,29 @@ LONG __stdcall SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh);
 BOOL __stdcall SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq);
 
 // values for dwFlags
+#ifndef MPQ_
+#define MPQ_
+
 #define MPQ_NO_LISTFILE       0x0010
 #define MPQ_NO_ATTRIBUTES     0x0020
 #define MPQ_FORCE_V1          0x0040
 #define MPQ_CHECK_SECTOR_CRC  0x0080
 
+#endif
+
 BOOL __stdcall SFileOpenFile(char *filename, HANDLE *phFile);
 BOOL __stdcall SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
 // values for dwSearchScope
+#ifndef SFILE_
+#define SFILE_
+
 #define SFILE_FROM_MPQ        0x00000000
 #define SFILE_FROM_ABSOLUTE   0x00000001
 #define SFILE_FROM_RELATIVE   0x00000002
 #define SFILE_UNKNOWN_04      0x00000004
+
+#endif
 
 BOOL __stdcall SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRead, DWORD *read, LONG lpDistanceToMoveHigh);
 
@@ -135,7 +156,7 @@ BOOL __stdcall SBltROP3Clipped(int a1, int a2, int a3, int a4, int a5, int a6, i
 
 BOOL __stdcall SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3, int a4, void *dstbuffer, int size, int a7, int a8, int a9);
 
-BOOL __stdcall SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int width, int height, int depth);
+BOOL __stdcall SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth);
 
 HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, int (__stdcall *allocFunction)(DWORD));
 
@@ -210,8 +231,10 @@ void __stdcall SErrSetLastError(DWORD dwErrCode);
 
 void __stdcall SErrSuppressErrors(BOOL suppressErrors);
 
-
 // Values for dwErrCode
+#ifndef STORM_ERROR_
+#define STORM_ERROR_
+
 #define STORM_ERROR_ASSERTION                    0x85100000
 #define STORM_ERROR_BAD_ARGUMENT                 0x85100065
 #define STORM_ERROR_GAME_ALREADY_STARTED         0x85100066
@@ -246,112 +269,8 @@ void __stdcall SErrSuppressErrors(BOOL suppressErrors);
 #define STORM_ERROR_FILE_CORRUPTED               0x85100083
 #define STORM_ERROR_FATAL                        0x85100084
 #define STORM_ERROR_GAMETYPE_UNAVAILABLE         0x85100085
-#define STORM_DDERR_ALREADYINITIALIZED           0x88760005
-#define STORM_DDERR_CANNOTATTACHSURFACE          0x8876000a
-#define STORM_DDERR_CANNOTDETACHSURFACE          0x88760014
-#define STORM_DDERR_CURRENTLYNOTAVAIL            0x88760028
-#define STORM_DDERR_EXCEPTION                    0x88760037
-#define STORM_DDERR_HEIGHTALIGN                  0x8876005a
-#define STORM_DDERR_INCOMPATIBLEPRIMARY          0x8876005f
-#define STORM_DDERR_INVALIDCAPS                  0x88760064
-#define STORM_DDERR_INVALIDCLIPLIST              0x8876006e
-#define STORM_DDERR_INVALIDMODE                  0x88760078
-#define STORM_DDERR_INVALIDOBJECT                0x88760082
-#define STORM_DDERR_INVALIDPIXELFORMAT           0x88760091
-#define STORM_DDERR_INVALIDRECT                  0x88760096
-#define STORM_DDERR_LOCKEDSURFACES               0x887600a0
-#define STORM_DDERR_NO3D                         0x887600aa
-#define STORM_DDERR_NOALPHAHW                    0x887600b4
-#define STORM_DDERR_NOCLIPLIST                   0x887600cd
-#define STORM_DDERR_NOCOLORCONVHW                0x887600d2
-#define STORM_DDERR_NOCOOPERATIVELEVELSET        0x887600d4
-#define STORM_DDERR_NOCOLORKEY                   0x887600d7
-#define STORM_DDERR_NOCOLORKEYHW                 0x887600dc
-#define STORM_DDERR_NODIRECTDRAWSUPPORT          0x887600de
-#define STORM_DDERR_NOEXCLUSIVEMODE              0x887600e1
-#define STORM_DDERR_NOFLIPHW                     0x887600e6
-#define STORM_DDERR_NOGDI                        0x887600f0
-#define STORM_DDERR_NOMIRRORHW                   0x887600fa
-#define STORM_DDERR_NOTFOUND                     0x887600ff
-#define STORM_DDERR_NOOVERLAYHW                  0x88760104
-#define STORM_DDERR_NORASTEROPHW                 0x88760118
-#define STORM_DDERR_NOROTATIONHW                 0x88760122
-#define STORM_DDERR_NOSTRETCHHW                  0x88760136
-#define STORM_DDERR_NOT4BITCOLOR                 0x8876013c
-#define STORM_DDERR_NOT4BITCOLORINDEX            0x8876013d
-#define STORM_DDERR_NOT8BITCOLOR                 0x88760140
-#define STORM_DDERR_NOTEXTUREHW                  0x8876014a
-#define STORM_DDERR_NOVSYNCHW                    0x8876014f
-#define STORM_DDERR_NOZBUFFERHW                  0x88760154
-#define STORM_DDERR_NOZOVERLAYHW                 0x8876015e
-#define STORM_DDERR_OUTOFCAPS                    0x88760168
-#define STORM_DDERR_OUTOFVIDEOMEMORY             0x8876017c
-#define STORM_DDERR_OVERLAYCANTCLIP              0x8876017e
-#define STORM_DDERR_OVERLAYCOLORKEYONLYONEACTIVE 0x88760180
-#define STORM_DDERR_PALETTEBUSY                  0x88760183
-#define STORM_DDERR_COLORKEYNOTSET               0x88760190
-#define STORM_DDERR_SURFACEALREADYATTACHED       0x8876019a
-#define STORM_DDERR_SURFACEALREADYDEPENDENT      0x887601a4
-#define STORM_DDERR_SURFACEBUSY                  0x887601ae
-#define STORM_DDERR_CANTLOCKSURFACE              0x887601b3
-#define STORM_DDERR_SURFACEISOBSCURED            0x887601b8
-#define STORM_DDERR_SURFACELOST                  0x887601c2
-#define STORM_DDERR_SURFACENOTATTACHED           0x887601cc
-#define STORM_DDERR_TOOBIGHEIGHT                 0x887601d6
-#define STORM_DDERR_TOOBIGSIZE                   0x887601e0
-#define STORM_DDERR_TOOBIGWIDTH                  0x887601ea
-#define STORM_DDERR_UNSUPPORTEDFORMAT            0x887601fe
-#define STORM_DDERR_UNSUPPORTEDMASK              0x88760208
-#define STORM_DDERR_VERTICALBLANKINPROGRESS      0x88760219
-#define STORM_DDERR_WASSTILLDRAWING              0x8876021c
-#define STORM_DDERR_XALIGN                       0x88760230
-#define STORM_DDERR_INVALIDDIRECTDRAWGUID        0x88760231
-#define STORM_DDERR_DIRECTDRAWALREADYCREATED     0x88760232
-#define STORM_DDERR_NODIRECTDRAWHW               0x88760233
-#define STORM_DDERR_PRIMARYSURFACEALREADYEXISTS  0x88760234
-#define STORM_DDERR_NOEMULATION                  0x88760235
-#define STORM_DDERR_REGIONTOOSMALL               0x88760236
-#define STORM_DDERR_CLIPPERISUSINGHWND           0x88760237
-#define STORM_DDERR_NOCLIPPERATTACHED            0x88760238
-#define STORM_DDERR_NOHWND                       0x88760239
-#define STORM_DDERR_HWNDSUBCLASSED               0x8876023a
-#define STORM_DDERR_HWNDALREADYSET               0x8876023b
-#define STORM_DDERR_NOPALETTEATTACHED            0x8876023c
-#define STORM_DDERR_NOPALETTEHW                  0x8876023d
-#define STORM_DDERR_BLTFASTCANTCLIP              0x8876023e
-#define STORM_DDERR_NOBLTHW                      0x8876023f
-#define STORM_DDERR_NODDROPSHW                   0x88760240
-#define STORM_DDERR_OVERLAYNOTVISIBLE            0x88760241
-#define STORM_DDERR_NOOVERLAYDEST                0x88760242
-#define STORM_DDERR_INVALIDPOSITION              0x88760243
-#define STORM_DDERR_NOTAOVERLAYSURFACE           0x88760244
-#define STORM_DDERR_EXCLUSIVEMODEALREADYSET      0x88760245
-#define STORM_DDERR_NOTFLIPPABLE                 0x88760246
-#define STORM_DDERR_CANTDUPLICATE                0x88760247
-#define STORM_DDERR_NOTLOCKED                    0x88760248
-#define STORM_DDERR_CANTCREATEDC                 0x88760249
-#define STORM_DDERR_NODC                         0x8876024a
-#define STORM_DDERR_WRONGMODE                    0x8876024b
-#define STORM_DDERR_IMPLICITLYCREATED            0x8876024c
-#define STORM_DDERR_NOTPALETTIZED                0x8876024d
-#define STORM_DDERR_UNSUPPORTEDMODE              0x8876024e
-#define STORM_DDERR_NOMIPMAPHW                   0x8876024f
-#define STORM_DDERR_INVALIDSURFACETYPE           0x88760250
-#define STORM_DDERR_DCALREADYCREATED             0x8876026c
-#define STORM_DDERR_CANTPAGELOCK                 0x88760280
-#define STORM_DDERR_CANTPAGEUNLOCK               0x88760294
-#define STORM_DDERR_NOTPAGELOCKED                0x887602a8
-#define STORM_DSERR_ALLOCATED                    0x8878000a
-#define STORM_DSERR_CONTROLUNAVAIL               0x8878001e
-#define STORM_DSERR_INVALIDCALL                  0x88780032
-#define STORM_DSERR_PRIOLEVELNEEDED              0x88780046
-#define STORM_DSERR_BADFORMAT                    0x88780064
-#define STORM_DSERR_NODRIVER                     0x88780078
-#define STORM_DSERR_ALREADYINITIALIZED           0x88780082
-#define STORM_DSERR_BUFFERLOST                   0x88780096
-#define STORM_DSERR_OTHERAPPHASPRIO              0x887800a0
-#define STORM_DSERR_UNINITIALIZED                0x887800aa
 
+#endif
 
 void __stdcall SMemCopy(void *dest, const void *source, size_t size);
 int __stdcall SMemFill(void *location, size_t length, char fillWith);

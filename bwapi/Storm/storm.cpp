@@ -57,7 +57,7 @@ BOOL __stdcall SDlgEndDialog(HWND hDlg, HANDLE nResult) rBool;
 
 BOOL __stdcall SDlgSetControlBitmaps(HWND parentwindow, int *id, int a3, char *buffer2, char *buffer, int flags, int mask) rBool;
 
-BOOL __stdcall SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10) rBool;
+BOOL __stdcall SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, void *buffer, RECT *rct, SIZE *size, int a8, int a9, DWORD rop) rBool;
 BOOL __stdcall SDlgSetBitmapE(HWND hWnd, int a2, char *src, int mask1, int flags, int a6, int a7, int width, int a9, int mask2) rBool;
 
 int __stdcall Ordinal224(int a1) rInt;
@@ -95,7 +95,7 @@ BOOL __stdcall SBltROP3Clipped(int a1, int a2, int a3, int a4, int a5, int a6, i
 
 BOOL __stdcall SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3, int a4, void *dstbuffer, int size, int a7, int a8, int a9) rBool;
 
-BOOL __stdcall SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int width, int height, int depth) rBool;
+BOOL __stdcall SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth) rBool;
 
 HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, int (__stdcall *allocFunction)(DWORD)) rPVoid;
 
