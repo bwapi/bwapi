@@ -407,10 +407,10 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
-    if (GetTickCount()>endTick+200)
+    if (GetTickCount() > endTick + 200)
     {
       onStartCalled = false;
-      calledOnEnd = false;
+      calledOnEnd   = false;
     }
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame = false;
@@ -470,7 +470,7 @@ namespace BWAPI
         //so we need to cancel out and re-enter
         tempDlg = BW::FindDialogGlobal("Create");
         if ( *BW::BWDATA_menuStuff != -1 ) //Starcraft sets this to -1 after the first time we enter the create game screen
-          this->pressKey('C');
+          this->pressKey( tempDlg->findIndex(13)->getHotkey() );
           //tempDlg->findIndex(13)->doEvent(14, 2);    // This is too efficient and will cause whatever trick being used to fail (infinite loop)
         else
         {
@@ -494,7 +494,7 @@ namespace BWAPI
           if (gt != GameTypes::None && gt != GameTypes::Unknown)
             tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
 
-          this->pressKey('O');
+          this->pressKey( tempDlg->findIndex(12)->getHotkey() );
           /*if ( !actCreate )
           {
             actCreate = true;
@@ -557,7 +557,7 @@ namespace BWAPI
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN); // move 5 because of the custom SNP, doesn't affect people without it
-        this->pressKey('O');
+        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
         actRegistry = false;
         break;
 //registry screen
@@ -626,14 +626,14 @@ namespace BWAPI
           //so we need to cancel out and re-enter
           tempDlg = BW::FindDialogGlobal("Create");
           if (*BW::BWDATA_menuStuff != -1) // Starcraft sets this to -1 after the first time we enter the create game screen
-            this->pressKey('C');
+            this->pressKey( tempDlg->findIndex(13)->getHotkey() );
           else
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
               tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
 
-            this->pressKey('O');
+            this->pressKey( tempDlg->findIndex(12)->getHotkey() );
             /*if ( !actCreate )
             {
               actCreate = true;
@@ -657,7 +657,7 @@ namespace BWAPI
 //lan games lobby
         case 10: 
           actRegistry = false;
-          this->pressKey('O');
+          this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(13)->getHotkey() );
           //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();  // might bug
           break;
 //multiplayer game ready screen
@@ -974,7 +974,8 @@ namespace BWAPI
     }
     else if (parsed[0] == "/latency")
     {
-      printf("latency: %d",getLatency());
+      printf("latency: %d", getLatency());
+      printf("New latency?: %u frames; %ums", getLatencyFrames(), getLatencyTime());
       return true;
     }
     else if (parsed[0] == "/speed")
