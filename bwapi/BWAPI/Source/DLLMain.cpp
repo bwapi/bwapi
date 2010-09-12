@@ -6,6 +6,7 @@
 
 #include <Util/FileLogger.h>
 #include <Util/Gnu.h>
+#include <Util/Foreach.h>
 
 #include "BW/Offsets.h"
 #include "BW/Sprite.h"
@@ -14,6 +15,7 @@
 #include "BWAPI.h"
 #include "BWAPI/DLLMain.h"
 #include "BWAPI/Shape.h"
+#include "BWAPI/UnitImpl.h"
 
 #include "NewHackUtil.h"
 
@@ -175,9 +177,29 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
   wantRefresh = true;
 }
 
+int   lastHotkey;
+DWORD lastHotkeyTime;
 //--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 {
+  // Do our own center view on hotkeys, since BWAPI introduces a bug that destroys this
+  if ( length >= 3 && buffer[0] == 0x13 && buffer[1] == 1 ) // Recall Hotkey
+  {
+    DWORD thisHotkeyTime = GetTickCount();
+    if ( lastHotkey == buffer[2] && (thisHotkeyTime - lastHotkeyTime) < 800 )
+    {
+      // do center view here
+      BWAPI::BroodwarImpl.moveToSelected();
+      lastHotkeyTime = 0;
+      lastHotkey = -1;
+    }
+    else
+    {
+      lastHotkeyTime = thisHotkeyTime;
+      lastHotkey = buffer[2];
+    }
+  }
+
   if ( length + *BW::BWDATA_sgdwBytesInCmdQueue <= *BW::BWDATA_MaxTurnSize )
   {
     // Copy data to primary turn buffer

@@ -17,7 +17,7 @@ struct caps
   DWORD dwPlayerCount;
   DWORD dwUnk8;
 };
-
+//spiGetGameInfo
 struct netFunctions
 {
   DWORD dwSize;
@@ -25,22 +25,22 @@ struct netFunctions
   bool  (__stdcall *spiDestroy)();  // official
   void  *spiFree;                   // official spiFree(0x%08x,0x%08x,%u)
   void  *spiError;                  // unofficial
-  void  *spiJoinGame;           // unknown/guess
+  void  *spiGetGameInfo;           // official spiGetGameInfo(0x%08x,\"%s\",*gameinfo)
   void  *spiGetPerformanceData; // unknown/guess
-  void  *spiInitialize;         // official spiInitialize(0x%08x)
+  void  *spiInitialize;         // official spiInitialize(0x%08x) spiInitialize(0x%08x,0x%08x,0x%08x,0x%08x,0x%08x)
   void  *fxn_7;                 // InitializeDevice
   void  *fxn_8;                 // EnumProviders
-  void  *spiLockGameList;       // official spiLockGameList(0x%08x,0x%08x,*gamelist) (0x%08x,0x%08x,*gamehead)
+  void  *spiLockGameList;       // official spiLockGameList(0x%08x,0x%08x,*gamelist) (0x%08x,0x%08x,*gamehead); spiLockGameList(*gamelist)
   void  *fxn_10;
-  void  *spiReceive;            // official spiReceive(*addr,*data,*databytes) (int *, int *, char **)
-  void  *spiSelectGame;         // unknown/guess
+  void  *spiReceive;            // official spiReceive(*addr,*data,*databytes) (int *, int *, char **) 
+  void  *spiSelectGame;         // official spiSelectGame(0x%08x,0x%08x,0x%08x,0x%08x,0x%08x,*playerid)
   bool (__stdcall *spiSend)(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
   void  *spiSendServerMessage;                // unofficial; last param is the message
   void  *spiStartAdvertisingLadderGame;       // unofficial
   bool (__stdcall *spiStopAdvertisingGame)(); // official
   bool (__stdcall *InitializeUser)();         // EnumProviders
-  void  *spiUnlockGameList;                   // official spiUnlockGameList(0x%08x,*hintnextcall)
-  void  *spiStartAdvertisingGame;             // official spiStartAdvertisingGame(0x%08x,0x%08x,"%s","%s")
+  void  *spiUnlockGameList;                   // official spiUnlockGameList(0x%08x,*hintnextcall) 
+  void  *spiStartAdvertisingGame;             // official spiStartAdvertisingGame(0x%08x,0x%08x,"%s","%s") spiStartAdvertisingGame("%s","%s",%u)
   void  *spiReportGameResult;         // unknown/guess
   void  *spiCheckDataFile;            // unknown/guess
   void  *spiLeagueCommand;            // unknown/guess
