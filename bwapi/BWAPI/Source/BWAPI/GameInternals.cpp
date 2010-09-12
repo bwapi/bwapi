@@ -1835,5 +1835,25 @@ namespace BWAPI
          this->isFlagEnabled(BWAPI::Flag::UserInput) )
       events.push_back(Event::ReceiveText(this->players[realId], text));
   }
-
+  //------------------------------------------- CENTER ON SELECTED -------------------------------------------
+  void GameImpl::moveToSelected()
+  {
+    int count = this->selectedUnitSet.size();
+    int x = 0;
+    int y = 0;
+    foreach(BWAPI::UnitImpl *u, this->selectedUnitSet)
+    {
+      x += u->getPosition().x();
+      y += u->getPosition().y();
+    }
+    x /= count;
+    y /= count;
+    x -= BW::BWDATA_GameScreenBuffer->wid / 2;
+    y -= BW::BWDATA_GameScreenBuffer->ht  / 2 - 40;
+    if ( x < 0 )
+      x = 0;
+    if ( y < 0 )
+      y = 0;
+    this->setScreenPosition(x, y);
+  }
 }

@@ -57,6 +57,7 @@ BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigne
 #ifndef SNET_PS_
 #define SNET_PS_
 
+#define SNET_PS_OK             0
 #define SNET_PS_WAITING        2
 #define SNET_PS_NOTRESPONDING  3
 #define SNET_PS_UNKNOWN        default
@@ -199,6 +200,15 @@ BOOL __stdcall SRegSaveString(char *keyname, char *valuename, BYTE flags, char *
 BOOL __stdcall SRegSaveValue(char *keyname, char *valuename, BYTE flags, DWORD result);
 
 BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
+
+#ifndef SREG_
+#define SREG_
+// Flags for SReg functions; Default is CURRENT_USER and "Blizzard Entertainment" key
+
+#define SREG_LOCAL_MACHINE 0x00000001
+#define SREG_BATTLE_NET    0x00000002
+
+#endif
 
 BOOL __stdcall STransBlt(int handle, int a2, int a3, int a4, int a5);
 BOOL __stdcall STransBltUsingMask(int lpSurface, int a2, int pitch, int width, int handle);
