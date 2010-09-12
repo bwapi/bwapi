@@ -268,6 +268,7 @@ namespace BW
     bool    hasFlags(DWORD dwFlags);    // Returns true if the dialog or control has all of the specified flags enabled
     bool    setText(char *pszStr);      // Sets the text of a control, or name of a dialog
     char    *getText();                 // Retrieves the text of a control, or name of a dialog
+    int     getHotkey();                // Retrieves the hotkey for the button
 
     BW::bitmap  *getSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 

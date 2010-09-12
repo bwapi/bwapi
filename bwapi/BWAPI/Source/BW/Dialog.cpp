@@ -786,6 +786,13 @@ namespace BW
       return this->pszText;
     return "";
   }
+  // ------------------ GET HOTKEY -------------------
+  int dialog::getHotkey()
+  {
+    if ( this && this->pszText && this->isButton() )
+      return toupper(this->pszText[0]);
+    return 0;
+  }
   // ------------------ SRC BUFFER -------------------
   BW::bitmap *dialog::getSourceBuffer()
   {
