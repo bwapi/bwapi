@@ -201,6 +201,9 @@ namespace BWAPI
       virtual int getRemainingLatencyFrames();
       virtual int getRemainingLatencyTime();
 
+      virtual int  getRevision();
+      virtual bool isDebug();
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();

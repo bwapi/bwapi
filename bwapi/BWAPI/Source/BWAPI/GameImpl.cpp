@@ -1261,10 +1261,12 @@ namespace BWAPI
     if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
     this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
   }
+  //------------------------------------------------ SCREEN BUFFER -------------------------------------------
   void *GameImpl::getScreenBuffer()
   {
     return BW::BWDATA_GameScreenBuffer->data;
   }
+  //--------------------------------------------------- LATENCY ----------------------------------------------
   int GameImpl::getLatencyFrames()
   {
     DWORD caps[9];
@@ -1308,5 +1310,18 @@ namespace BWAPI
 
     int rval = latFrames * (caps[8] + turns - 1) * speedMod;
     return rval + (speedMod * latFrames) - (GetTickCount() - lastTurnTime);
+  }
+  //--------------------------------------------------- VERSION ----------------------------------------------
+  int  GameImpl::getRevision()
+  {
+    return SVN_REV;
+  }
+  bool GameImpl::isDebug()
+  {
+#ifdef BWAPI_DEBUG
+    return true;
+#else
+    return false;
+#endif
   }
 };

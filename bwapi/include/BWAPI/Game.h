@@ -375,6 +375,12 @@ namespace BWAPI
       virtual int getLatencyTime() = 0;
       virtual int getRemainingLatencyFrames() = 0;
       virtual int getRemainingLatencyTime() = 0;
+
+      /** Retrieves the current revision of BWAPI. */
+      virtual int getRevision() = 0;
+
+      /** Retrieves the debug state of the BWAPI build. */
+      virtual bool isDebug() = 0;
   };
   extern Game* Broodwar;
 }

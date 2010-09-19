@@ -251,8 +251,6 @@ namespace BWAPI
           }
         }
       }
-
-
       //save the list of selected units and update the selected field of existing units
       refreshSelectionStates();
 
