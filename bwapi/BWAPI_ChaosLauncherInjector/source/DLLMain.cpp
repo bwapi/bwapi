@@ -6,9 +6,6 @@
 #include "../../svnrev.h"
 #include "../../starcraftver.h"
 
-#define BWLAPI 4
-#define STARCRAFTBUILD 13
-
 struct ExchangeData
 {
   int  iPluginAPI;
@@ -41,8 +38,8 @@ BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
 extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 {
   //BWL Gets version from Resource - VersionInfo
-  Data.iPluginAPI      = BWLAPI;
-  Data.iStarCraftBuild = STARCRAFTBUILD;
+  Data.iPluginAPI      = 4;
+  Data.iStarCraftBuild = 13;
   Data.bConfigDialog   = TRUE;
   Data.bNotSCBWmodule  = FALSE;
 }
