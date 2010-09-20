@@ -1087,6 +1087,7 @@ namespace BWAPI
       if ( (this->players[i]->getType() == BW::PlayerType::Computer ||
             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer ||
             this->players[i]->getType() == BW::PlayerType::Player) &&
+           this->players[i]->isParticipating() &&
            this->BWAPIPlayer->isEnemy(this->players[i]) )
       return this->players[i];
     }
@@ -1312,7 +1313,7 @@ namespace BWAPI
     return rval + (speedMod * latFrames) - (GetTickCount() - lastTurnTime);
   }
   //--------------------------------------------------- VERSION ----------------------------------------------
-  int  GameImpl::getRevision()
+  int GameImpl::getRevision()
   {
     return SVN_REV;
   }

@@ -78,16 +78,16 @@ namespace BWAPI
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlly(Player* player) const
   {
-    if ( !player || isNeutral() || player->isNeutral() )
+    if ( !player || isNeutral() || player->isNeutral() || !((PlayerImpl*)player)->isParticipating() )
       return false;
-    return BW::BWDATA_Alliance[index].player[((PlayerImpl*)player)->getIndex()] != 0;
+    return BW::BWDATA_Alliance[index].player[ ((PlayerImpl*)player)->getIndex() ] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
-    if ( !player || this->isNeutral() || player->isNeutral() )
+    if ( !player || this->isNeutral() || player->isNeutral() || !((PlayerImpl*)player)->isParticipating() )
       return false;
-    return BW::BWDATA_Alliance[index].player[((PlayerImpl*)player)->getIndex()] == 0;
+    return BW::BWDATA_Alliance[index].player[ ((PlayerImpl*)player)->getIndex() ] == 0;
   }
   //--------------------------------------------- IS NEUTRAL -------------------------------------------------
   bool PlayerImpl::isNeutral() const
@@ -101,7 +101,9 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->isNeutral())
       return TilePositions::None;
-    if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if ( !BroodwarImpl._isReplay() &&
+         BroodwarImpl.self()->isEnemy((Player*)this) &&
+         !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return TilePositions::Unknown;
@@ -411,6 +413,16 @@ namespace BWAPI
   {
     this->units.clear();
     this->leftTheGame = false;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  bool PlayerImpl::isParticipating()
+  {
+    return BW::BWDATA_Supplies->race[BW::Race::Zerg].available[index]    != 0 ||
+           BW::BWDATA_Supplies->race[BW::Race::Zerg].used[index]         != 0 ||
+           BW::BWDATA_Supplies->race[BW::Race::Terran].available[index]  != 0 ||
+           BW::BWDATA_Supplies->race[BW::Race::Terran].used[index]       != 0 ||
+           BW::BWDATA_Supplies->race[BW::Race::Protoss].available[index] != 0 ||
+           BW::BWDATA_Supplies->race[BW::Race::Protoss].used[index]      != 0;
   }
   //----------------------------------------------------------------------------------------------------------
 };
