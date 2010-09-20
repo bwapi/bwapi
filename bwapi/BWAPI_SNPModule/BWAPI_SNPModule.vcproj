@@ -44,10 +44,13 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				OmitFramePointers="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI_SNPMODULE_EXPORTS"
 				StringPooling="true"
+				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				RuntimeTypeInfo="false"
 				WarningLevel="4"
 				DisableSpecificWarnings="4100; 4996"
 			/>
@@ -95,7 +98,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(OutDir)\$(ProjectName).snp&quot;"
+				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(SolutionDir)starcraft-folder\$(ProjectName).snp&quot;"
 			/>
 		</Configuration>
 	</Configurations>

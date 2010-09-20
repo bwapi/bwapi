@@ -1,0 +1,1 @@
+"data/bspatch" ../Starcraft.exe ../Starcraft_MultiInstance.exe data/starcraft.bsdiff
