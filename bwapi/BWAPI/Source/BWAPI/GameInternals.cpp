@@ -920,14 +920,21 @@ namespace BWAPI
     /* create ForceImpl for players */
     for (int i = 0; i < BW::PLAYER_COUNT; i++)
     {
-      if (this->players[i] && this->players[i]->getName().length() > 0)
+      if ( this->players[i] && this->players[i]->getName().length() > 0 )
       {
-        ForceImpl* force = force_name_to_forceimpl.find(std::string(this->players[i]->getForceName()))->second;
-        force->players.insert(this->players[i]);
-        this->players[i]->force = force;
+        std::map<std::string, ForceImpl*>::iterator ftemp = force_name_to_forceimpl.find(std::string( this->players[i]->getForceName() ));
+        if ( ftemp != force_name_to_forceimpl.end() )
+        {
+          ForceImpl *force = ftemp->second;
+          force->players.insert(this->players[i]);
+          this->players[i]->force = force;
+        }
+        else
+        {
+          this->players[i]->force = NULL;
+        }
       }
     }
-
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
 
     /* Create our drawing hook */
