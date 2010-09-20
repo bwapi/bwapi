@@ -401,7 +401,11 @@ namespace BWAPI
   //--------------------------------------------- GET FORCE NAME ---------------------------------------------
   char* PlayerImpl::getForceName() const
   {
-    return BW::BWDATA_ForceNames[BW::BWDATA_Players[index].nTeam].name;
+    u8 team = BW::BWDATA_Players[index].nTeam;
+    if ( team == 0 || team > 4 )
+      return "";
+    team--;
+    return BW::BWDATA_ForceNames[team].name;
   }
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
   BW::Unit** PlayerImpl::selectedUnit()
