@@ -45,11 +45,8 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;BWAPI_DEBUG"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				BufferSecurityCheck="false"
-				UsePrecompiledHeader="0"
+				StringPooling="true"
+				RuntimeLibrary="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4238; 4100; 4996;"
@@ -71,7 +68,6 @@
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -136,7 +132,6 @@
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="false"
 				WarningLevel="4"
-				DebugInformationFormat="3"
 				DisableSpecificWarnings="4238; 4100; 4996;"
 			/>
 			<Tool
@@ -154,7 +149,6 @@
 				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
-				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

@@ -5,12 +5,11 @@
 #include <stdio.h>
 
 #include "../../svnrev.h"
+#include "../../starcraftver.h"
 
-//cl /LD qdp.cpp ..\QDPlugin.def /linkUser32.lib
 #define THEPLUGINID 0x10001000
-#define ENV_BUFFER_SIZE 512
 
-const char* plugin_name = "BWAPI Injector (1.16.1) r";
+const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR;
 
 void BWAPIError(const char *format, ...)
 {
@@ -23,12 +22,7 @@ void BWAPIError(const char *format, ...)
   FILE* f = fopen("bwapi-error.txt", "a+");
   fprintf(f, "%s\n", buffer);
   fclose(f);
-  MessageBoxA(NULL, buffer, "Error", MB_OK);
-}
-
-void mBox(const char* s)
-{
-  MessageBox(0, s, "!", 0);
+  MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR);
 }
 
 class MPQDraftPluginInterface : public IMPQDraftPlugin
@@ -38,27 +32,18 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
     BOOL WINAPI Identify(LPDWORD pluginID)
     {
       if (!pluginID)
-      {
-        mBox("Wtf? no space for pluginId?");
-        return false;
-      }
+        return FALSE;
+
       *pluginID = THEPLUGINID;
-      return true;
+      return TRUE;
     }
     BOOL WINAPI GetPluginName(LPSTR pPluginName, DWORD namebufferlength)
     {
-      if (!pPluginName)
-      {
-        mBox("No buffer :O");
-      }
-      if (namebufferlength < strlen(plugin_name))
-      {
-        mBox("Name buffer too short!");
-        return false;
-      }
+      if ( !pPluginName || namebufferlength < strlen(plugin_name) )
+        return FALSE;
+
       strcpy(pPluginName, plugin_name);
-      strcat(pPluginName, SVN_REV_STR);
-      return true;
+      return TRUE;
     }
     BOOL WINAPI CanPatchExecutable(LPCSTR exefilename)
     {
@@ -68,7 +53,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
     BOOL WINAPI Configure(HWND parentwindow)
     {
       //Goes here when they hit Configure
-      if (!ShellExecuteA(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL))
+      if ( !ShellExecute(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL) )
         return FALSE;
       return TRUE;
     }
@@ -81,26 +66,26 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
     {
       //Weird shit, i doubt you'll use it
       if (!nummodules)
-        return false;
+        return FALSE;
       *nummodules = 0;
-      return true;
+      return TRUE;
     }
     BOOL WINAPI InitializePlugin(IMPQDraftServer* server)
     {
-      char envBuffer[ENV_BUFFER_SIZE];
-      if ( !GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE) )
-        if ( !GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer) )
+      char envBuffer[MAX_PATH];
+      if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )
+        if ( !GetCurrentDirectoryA(MAX_PATH, envBuffer) )
           BWAPIError("Could not find ChaosDir or current directory.");
 
       strcat(envBuffer, "\\BWAPI.dll");
-      if (!LoadLibraryA(envBuffer))
+      if ( !LoadLibrary(envBuffer) )
         BWAPIError("Could not find and/or load BWAPI.dll.");
-      return true;
+      return TRUE;
     }
     BOOL WINAPI TerminatePlugin()
     {
       //Called when starcraft closes
-      return true;
+      return TRUE;
     }
     void WINAPI SetInstance(HINSTANCE hInst)
     {
@@ -112,20 +97,8 @@ MPQDraftPluginInterface thePluginInterface;
 
 __declspec(dllexport) BOOL APIENTRY DllMain( HINSTANCE hInstance, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-  switch (ul_reason_for_call)
-  {
-    case DLL_PROCESS_ATTACH:
-      thePluginInterface.SetInstance(hInstance);
-      break;
-
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-      break;
-
-    case DLL_PROCESS_DETACH:
-      break;
-  }
-
+  if ( ul_reason_for_call == DLL_PROCESS_ATTACH )
+    thePluginInterface.SetInstance(hInstance);
   return TRUE;
 }
 

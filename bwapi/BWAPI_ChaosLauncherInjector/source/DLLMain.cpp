@@ -2,16 +2,17 @@
 #include <windows.h>
 #include <string>
 #include <assert.h>
+
 #include "../../svnrev.h"
+#include "../../starcraftver.h"
 
 #define BWLAPI 4
 #define STARCRAFTBUILD 13
-#define ENV_BUFFER_SIZE 512
 
 struct ExchangeData
 {
-  int iPluginAPI;
-  int iStarCraftBuild;
+  int  iPluginAPI;
+  int  iStarCraftBuild;
   BOOL bNotSCBWmodule;                //Inform user that closing BWL will shut down your plugin
   BOOL bConfigDialog;                 //Is Configurable
 };
@@ -27,7 +28,7 @@ void BWAPIError(const char *format, ...)
   FILE* f = fopen("bwapi-error.txt", "a+");
   fprintf(f, "%s\n", buffer);
   fclose(f);
-  MessageBoxA(NULL, buffer, "Error", MB_OK);
+  MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR );
 }
 
 BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
@@ -40,10 +41,10 @@ BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
 extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 {
   //BWL Gets version from Resource - VersionInfo
-  Data.iPluginAPI = BWLAPI;
+  Data.iPluginAPI      = BWLAPI;
   Data.iStarCraftBuild = STARCRAFTBUILD;
-  Data.bConfigDialog = TRUE;
-  Data.bNotSCBWmodule = FALSE;
+  Data.bConfigDialog   = TRUE;
+  Data.bNotSCBWmodule  = FALSE;
 }
 
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
@@ -51,7 +52,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
   char newDescription[512];
   sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
   
-  strcpy(name, "BWAPI Injector (1.16.1)");
+  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ")");
   strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
 }
@@ -60,7 +61,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-  if (!ShellExecuteA(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL))
+  if ( !ShellExecute(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL) )
     return false;
   return true;
 }
@@ -72,9 +73,9 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE, DWORD)
 
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 {
-  char envBuffer[ENV_BUFFER_SIZE];
-  if ( !GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE) )
-    if ( !GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer) )
+  char envBuffer[MAX_PATH];
+  if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )
+    if ( !GetCurrentDirectory(MAX_PATH, envBuffer) )
       BWAPIError("Could not find ChaosDir or current directory.");
 
   std::string dllFileName(envBuffer);

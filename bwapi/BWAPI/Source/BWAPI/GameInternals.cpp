@@ -72,7 +72,6 @@ namespace BWAPI
       , inGame(false)
       , calledOnEnd(false)
       , frameCount(-1)
-      , BUFFER_SIZE(1024)
       , endTick(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
@@ -154,11 +153,14 @@ namespace BWAPI
       myDlg->update();
 
     //click the menu dialog that pops up when you win/lose a game
-    BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
-    if ( !endDialog )
-      endDialog = BW::FindDialogGlobal("WMission");
-    if ( endDialog )
-      endDialog->findIndex(-2)->activate();
+    if ( this->autoMenuMode != "" && this->autoMenuMode != "OFF" )
+    {
+      BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
+      if ( !endDialog )
+        endDialog = BW::FindDialogGlobal("WMission");
+      if ( endDialog )
+        endDialog->findIndex(-2)->activate();
+    }
 
     // Compute frame rate
     accumulatedFrames++;
@@ -234,7 +236,8 @@ namespace BWAPI
           bool allDone = true;
           foreach(Player* p, this->playerSet)
           {
-            if (((PlayerImpl*)p)->getIndex() >= 8) continue;
+            if (((PlayerImpl*)p)->getIndex() >= 8) 
+              continue;
             if (!p->isDefeated() && !p->isVictorious() && !p->leftGame())
               allDone = false;
           }
@@ -285,7 +288,7 @@ namespace BWAPI
     //if not, then we load the AI dll specified in bwapi.ini
     if ( !this->startedClient )
     {
-      sendText("BWAPI revision %s is now live.", SVN_REV_STR);
+      sendText("BWAPI revision %s (%s) is now live.", SVN_REV_STR, isDebug() ? "DEBUG" : "RELEASE");
       if (server.isConnected()) //check to see if the server is connected to the client
       {
         Util::Logger::globalLog->logCritical("Client connected, not loading AI module.");
@@ -295,7 +298,7 @@ namespace BWAPI
       else // if not, load the AI module DLL
       {
         TCHAR szDllPath[MAX_PATH];
-        GetPrivateProfileStringA("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+        GetPrivateProfileString("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
         if (_strcmpi(szDllPath, "NULL") == 0)
         {
           printf("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
@@ -313,7 +316,7 @@ namespace BWAPI
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
-          printf("Error: Failed to load the AI Module");
+          printf("\x06" "Error: Failed to load the AI Module.");
         }
         else
         {
@@ -373,33 +376,33 @@ namespace BWAPI
     //this function is called when starcraft loads and at the end of each match.
     //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
-    GetPrivateProfileStringA("config", "auto_menu", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
-    this->autoMenuMode = std::string(buffer);
+    GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    this->autoMenuMode = std::string( strupr(buffer) );
 
-    if ( autoMenuMode != "OFF" && autoMenuMode != "off" && autoMenuMode != "" )
+    if ( autoMenuMode != "OFF" && autoMenuMode != "" )
     {
-      GetPrivateProfileStringA("config", "map", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+      GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
 
       //split path into path and filename
-      char* mapPathAndNameI=buffer;
-      char* mapPathAndNameLastSlash=buffer;
-      while(mapPathAndNameI[0]!='\0')
+      char* mapPathAndNameI         = buffer;
+      char* mapPathAndNameLastSlash = buffer;
+      while(mapPathAndNameI[0] != '\0')
       {
-        if (mapPathAndNameI[0]=='\\' || mapPathAndNameI[0]=='/')
-          mapPathAndNameLastSlash=mapPathAndNameI+1;
+        if (mapPathAndNameI[0] == '\\' || mapPathAndNameI[0] == '/')
+          mapPathAndNameLastSlash = mapPathAndNameI + 1;
         mapPathAndNameI++;
       }
-      autoMenuMapName=std::string(mapPathAndNameLastSlash);
-      mapPathAndNameLastSlash[0]='\0';
-      autoMenuMapPath=std::string(buffer);
+      autoMenuMapName = std::string(mapPathAndNameLastSlash);
+      mapPathAndNameLastSlash[0] = '\0';
+      autoMenuMapPath = std::string(buffer);
     }
-    GetPrivateProfileStringA("config", "race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuRace = std::string(buffer);
-    GetPrivateProfileStringA("config", "enemy_race", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuEnemyRace = std::string(buffer);
-    GetPrivateProfileStringA("config", "enemy_count", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "enemy_count", "1", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuEnemyCount = std::string(buffer);
-    GetPrivateProfileStringA("config", "game_type", "NULL", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "game_type", "MELEE", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
     autoMenuGameType = std::string(buffer);
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -754,7 +757,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
     va_end(ap);
 
     char* txtout = buffer;

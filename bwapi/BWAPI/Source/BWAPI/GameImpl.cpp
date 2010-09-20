@@ -857,7 +857,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
 
     if (_isReplay() || _isInGame())
@@ -874,7 +874,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
     va_end(ap);
     sendTextEx(false, "%s", buffer);
   }
@@ -882,7 +882,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
     va_end(ap);
     char* txtout = buffer;
 
@@ -1104,7 +1104,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
     this->shapes.push_back(new ShapeText(ctype,x,y,std::string(buffer),(char)textSize));
   }
@@ -1112,7 +1112,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer),(char)textSize));
   }
@@ -1120,7 +1120,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer),(char)textSize));
   }
@@ -1128,7 +1128,7 @@ namespace BWAPI
   {
     va_list ap;
     va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer),(char)textSize));
   }
