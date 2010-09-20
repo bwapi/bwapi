@@ -112,8 +112,10 @@ namespace BWAPI
       void onGameEnd();
       std::set<Unit*> units;
       bool leftTheGame;
-    private :
 
+      bool isParticipating();
+
+    private :
       int id;
       u8 index;  /**< Order of the player, is used to load player's information from the memory */
   };
