@@ -324,15 +324,15 @@ BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
   delete Util::Logger::globalLog;
-  GetPrivateProfileStringA("paths", "log_path", "NULL", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+  GetPrivateProfileString("paths", "log_path", "", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
   
   logging = false;
   char logging_str[MAX_PATH];
-  GetPrivateProfileStringA("config", "logging", "NULL", logging_str, MAX_PATH, "bwapi-data\\bwapi.ini");
-  if (std::string(logging_str) == "on" || std::string(logging_str) == "ON")
+  GetPrivateProfileString("config", "logging", "", logging_str, MAX_PATH, "bwapi-data\\bwapi.ini");
+  if ( std::string( strupr(logging_str) ) == "ON" )
     logging = true;
 
-  if (strcmpi(logPath, "NULL") == 0)
+  if ( logPath[0] != '\0' )
   {
     FILE* f = fopen("bwapi-error.txt", "a+");
     fprintf(f, "Could not find log_path under paths in \"bwapi-data\\bwapi.ini\".\n");

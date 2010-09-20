@@ -14,6 +14,7 @@ namespace BWAPI { class  BulletImpl; }
 namespace BWAPI { class  Command; }
 namespace BWAPI { class  AIModule; }
 
+#define MAX_BUFFER 1024
 
 #include "BWAPI/Game.h"
 
@@ -68,7 +69,7 @@ namespace BWAPI
       virtual std::set< Unit* >&   getStaticNeutralUnits();
 
       virtual std::set< Bullet* >& getBullets();
-      virtual std::list< Event >& getEvents();
+      virtual std::list< Event >&  getEvents();
 
       virtual Force*  getForce(int forceID);
       virtual Player* getPlayer(int playerID);
@@ -76,29 +77,35 @@ namespace BWAPI
       virtual Unit*   indexToUnit(int unitIndex);
 
       virtual GameType getGameType();
-      virtual int getLatency();
-      virtual int getFrameCount();
-      virtual int getFPS();
-      virtual double getAverageFPS();
-      virtual int getMouseX();
-      virtual int getMouseY();
-      virtual BWAPI::Position getMousePosition();
-      virtual bool getMouseState(MouseButton button);
-      virtual bool getMouseState(int button);
-      virtual bool getKeyState(Key key);
-      bool getKeyState(int key);
-      virtual int getScreenX();
-      virtual int getScreenY();
-      virtual BWAPI::Position getScreenPosition();
-      virtual void setScreenPosition(int x, int y);
-      virtual void setScreenPosition(BWAPI::Position p);
-      virtual void pingMinimap(int x, int y);
-      virtual void pingMinimap(BWAPI::Position p);
 
-      virtual bool  isFlagEnabled(int flag);
-      virtual void  enableFlag(int flag);
+      virtual int      getLatency();
+      virtual int      getFrameCount();
+      virtual int      getFPS();
+      virtual double   getAverageFPS();
+
+      virtual int      getMouseX();
+      virtual int      getMouseY();
+      virtual Position getMousePosition();
+      virtual bool     getMouseState(MouseButton button);
+      virtual bool     getMouseState(int button);
+      virtual bool     getKeyState(Key key);
+      bool             getKeyState(int key);
+
+      virtual int      getScreenX();
+      virtual int      getScreenY();
+      virtual Position getScreenPosition();
+      virtual void     setScreenPosition(int x, int y);
+      virtual void     setScreenPosition(BWAPI::Position p);
+
+      virtual void     pingMinimap(int x, int y);
+      virtual void     pingMinimap(BWAPI::Position p);
+
+      virtual bool     isFlagEnabled(int flag);
+      virtual void     enableFlag(int flag);
+
       virtual std::set<Unit*>& unitsOnTile(int x, int y);
-      virtual Error  getLastError() const;
+
+      virtual Error       getLastError() const;
 
       virtual int         mapWidth();
       virtual int         mapHeight();
@@ -125,10 +132,12 @@ namespace BWAPI
       virtual bool canMake(Unit* builder, UnitType type);
       virtual bool canResearch(Unit* unit, TechType type);
       virtual bool canUpgrade(Unit* unit, UpgradeType type);
+
       virtual std::set< TilePosition >& getStartLocations();
+
       /**
        * Prints text in game (only local)
-       * @param text Text to be written
+       * @param format Text to be written
        */
       virtual void printf(const char *format, ...);
       virtual void sendText(const char *format, ...);
@@ -144,6 +153,7 @@ namespace BWAPI
       virtual bool isBattleNet();
       virtual bool isPaused();
       virtual bool isReplay();
+
       /**
        * Starts the game in the pre-game lobby. Should be used only in the
        * pre-game lobby, and not during counting
@@ -155,8 +165,8 @@ namespace BWAPI
       virtual void restartGame();
       virtual void setLocalSpeed(int speed = -1);
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
-      virtual Player* self();
-      virtual Player* enemy();
+      virtual Player *self();
+      virtual Player *enemy();
 
       virtual void setTextSize(int size = 1);
       virtual void drawText(int ctype, int x, int y, const char* text, ...);
@@ -213,14 +223,15 @@ namespace BWAPI
       void loadAutoMenuData();
       void onMenuFrame();
       PlayerImpl* players[12];
+      void pressKey(int key);
+      void mouseDown(int x, int y);
+      void mouseUp(int x, int y);
+
       /**
        * Changes slot state in the pre-game lobby.
        * @param slot Desired state of the slot (Open/Closed/Computer)
        * @param slotID Order of the slot (0 based)
        */
-      void pressKey(int key);
-      void mouseDown(int x, int y);
-      void mouseUp(int x, int y);
       void changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID);
       void addToCommandBuffer(Command* command);
       void onGameStart();
@@ -351,8 +362,7 @@ namespace BWAPI
       double averageFPS;
 
       int  textSize;
-      int BUFFER_SIZE;
-      char buffer[1024];
+      char buffer[MAX_BUFFER];
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

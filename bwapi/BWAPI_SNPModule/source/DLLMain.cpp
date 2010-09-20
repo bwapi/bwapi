@@ -1,5 +1,6 @@
 #include <windows.h>
 #include "../../svnrev.h"
+#include "../../starcraftver.h"
 
 #include "LocalPC.h"
 
@@ -58,7 +59,7 @@ struct netStruct
   caps          Caps;
   netFunctions  NetFxns;
 } networks[] = {
-  { "Local PC", 'LOCL', "BWAPI 1.16.1 r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
+  { "Local PC", 'LOCL', "BWAPI " STARCRAFT_VER " r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
     { sizeof(caps), 0x20000000, 0x200, 0x10, 0x100, 100000, 50, 8, 2},
     { sizeof(netFunctions), &fxn0, &_spiDestroy, &_spiFree, &_spiError,
       &fxn4, &fxn5, &_spiInitialize, &fxn7,
