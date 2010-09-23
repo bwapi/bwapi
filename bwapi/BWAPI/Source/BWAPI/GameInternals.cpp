@@ -372,6 +372,8 @@ namespace BWAPI
     {
       setTextSize(0);
 
+      
+
       // iterate tile region owners
       for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
       {
@@ -415,10 +417,10 @@ namespace BWAPI
         for ( int e = 0; e < rgn->neighborCount; ++e )
         {
           u16 idx;
-          if ( rgn->neighborCount > 10 && rgn->neighborsLg )
-            idx = rgn->neighborsLg[e];
+          if ( rgn->neighbors )
+            idx = rgn->neighbors[e];
           else
-            idx = rgn->neighborsSm[e];
+            continue;
 
           // Skip region 0, bottom of the map
           if ( idx == 0 )
@@ -436,36 +438,36 @@ namespace BWAPI
       }
 
       // iterate contours
-      BW::contour *cont = (*BW::BWDATA_SAIPATHING)->contours;
+      BW::contourHub *cont = (*BW::BWDATA_SAIPATHING)->contoursMain;
       if ( cont )
       {
-        for ( int i = 0; i < cont->pathCount[0]; ++i )
+        for ( int i = 0; i < cont->contourCount[0]; ++i )
         {
-          s16 x1 = cont->pathList[0][i].y1;
-          s16 y1 = cont->pathList[0][i].x1;
-          s16 x2 = cont->pathList[0][i].x2;
-          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow);
+          s16 y1 = cont->contours[0][i].v[0];
+          s16 x1 = cont->contours[0][i].v[1];
+          s16 x2 = cont->contours[0][i].v[2];
+          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow );
         }
-        for ( int i = 0; i < cont->pathCount[1]; ++i )
+        for ( int i = 0; i < cont->contourCount[1]; ++i )
         {
-          s16 x1 = cont->pathList[1][i].x1;
-          s16 y1 = cont->pathList[1][i].y1;
-          s16 y2 = cont->pathList[1][i].x2;
-          drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow);
+          s16 x1 = cont->contours[1][i].v[0];
+          s16 y1 = cont->contours[1][i].v[1];
+          s16 y2 = cont->contours[1][i].v[2];
+          drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow );
         }
-        for ( int i = 0; i < cont->pathCount[2]; ++i )
+        for ( int i = 0; i < cont->contourCount[2]; ++i )
         {
-          s16 x1 = cont->pathList[2][i].y1;
-          s16 y1 = cont->pathList[2][i].x1;
-          s16 x2 = cont->pathList[2][i].x2;
-          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow);
+          s16 y1 = cont->contours[2][i].v[0];
+          s16 x1 = cont->contours[2][i].v[1];
+          s16 x2 = cont->contours[2][i].v[2];
+          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow );
         }
-        for ( int i = 0; i < cont->pathCount[3]; ++i )
+        for ( int i = 0; i < cont->contourCount[3]; ++i )
         {
-          s16 x1 = cont->pathList[3][i].x1;
-          s16 y1 = cont->pathList[3][i].y1;
-          s16 x2 = cont->pathList[3][i].x2;
-          drawLineMap(x1, y1, x1, x2, BWAPI::Colors::Yellow);
+          s16 x1 = cont->contours[3][i].v[0];
+          s16 y1 = cont->contours[3][i].v[1];
+          s16 y2 = cont->contours[3][i].v[2];
+          drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow );
         }
       }
       setTextSize();
