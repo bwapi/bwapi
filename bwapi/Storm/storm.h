@@ -71,6 +71,14 @@ int __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *player
 BOOL __stdcall SNetSendMessage(unsigned int playerID, char *data, unsigned int databytes);
 BOOL __stdcall SNetSendTurn(char *data, unsigned int databytes);
 
+#ifndef SNPLAYER_
+#define SNPLAYER_
+
+#define SNPLAYER_ALL    -1
+#define SNPLAYER_OTHERS -2
+
+#endif
+
 BOOL __stdcall SNetSetGameMode(DWORD modeFlags, char a2);
 
 BOOL __stdcall SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
