@@ -728,12 +728,17 @@ namespace BWAPI
       if (self()->completedUnitCount(i->first) >= i->second)
         pass = true;
       if ( i->first == UnitTypes::Zerg_Hatchery &&
-           (self()->completedUnitCount(UnitTypes::Zerg_Lair) >= i->second ||
-            self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second) )
+           self()->completedUnitCount(UnitTypes::Zerg_Hatchery) +
+           self()->completedUnitCount(UnitTypes::Zerg_Lair)     +
+           self()->completedUnitCount(UnitTypes::Zerg_Hive)     >= i->second )
         pass = true;
-      if (i->first == UnitTypes::Zerg_Lair && self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
+      if ( i->first == UnitTypes::Zerg_Lair && 
+           self()->completedUnitCount(UnitTypes::Zerg_Lair) + 
+           self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
         pass = true;
-      if ( i->first == UnitTypes::Zerg_Spire && self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
+      if ( i->first == UnitTypes::Zerg_Spire && 
+           self()->completedUnitCount(UnitTypes::Zerg_Spire) +
+           self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
         pass = true;
       if ( !pass )
       {
