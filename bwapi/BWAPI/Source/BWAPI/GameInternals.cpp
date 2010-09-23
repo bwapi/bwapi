@@ -401,7 +401,7 @@ namespace BWAPI
       }
 
       // iterate regions
-      for ( int i = 1; i < (*BW::BWDATA_SAIPATHING)->regionCount && i < 5000; ++i )
+      for ( unsigned int i = 1; i < (*BW::BWDATA_SAIPATHING)->regionCount && i < 5000; ++i )
       {
         BW::region *rgn = &(*BW::BWDATA_SAIPATHING)->regions[i];
         // skip inaccessable regions
@@ -430,28 +430,44 @@ namespace BWAPI
           if ( rgn->groupIndex != targetRgn->groupIndex )
             continue;
 
-          BWAPI::Color c;
-          switch ( targetRgn->accessabilityFlags )
-          {
-          case 0x1FFD:
-            c = BWAPI::Colors::Red;
-            break;
-          case 0x1FFB:
-            c = BWAPI::Colors::White;
-            break;
-          case 0x1FF9:
-            c = BWAPI::Colors::Yellow;
-            break;
-          default:
-            c = BWAPI::Colors::Green;
-            break;
-          }
-
           if ( idx != 0 )
-            drawLineMap( xCenter, yCenter, targetRgn->rgnCenterX >> 8, targetRgn->rgnCenterY >> 8, c);
+            drawLineMap( xCenter, yCenter, targetRgn->rgnCenterX >> 8, targetRgn->rgnCenterY >> 8, BWAPI::Colors::White);
         }
       }
 
+      // iterate contours
+      BW::contour *cont = (*BW::BWDATA_SAIPATHING)->contours;
+      if ( cont )
+      {
+        for ( int i = 0; i < cont->pathCount[0]; ++i )
+        {
+          s16 x1 = cont->pathList[0][i].y1;
+          s16 y1 = cont->pathList[0][i].x1;
+          s16 x2 = cont->pathList[0][i].x2;
+          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow);
+        }
+        for ( int i = 0; i < cont->pathCount[1]; ++i )
+        {
+          s16 x1 = cont->pathList[1][i].x1;
+          s16 y1 = cont->pathList[1][i].y1;
+          s16 y2 = cont->pathList[1][i].x2;
+          drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow);
+        }
+        for ( int i = 0; i < cont->pathCount[2]; ++i )
+        {
+          s16 x1 = cont->pathList[2][i].y1;
+          s16 y1 = cont->pathList[2][i].x1;
+          s16 x2 = cont->pathList[2][i].x2;
+          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow);
+        }
+        for ( int i = 0; i < cont->pathCount[3]; ++i )
+        {
+          s16 x1 = cont->pathList[3][i].x1;
+          s16 y1 = cont->pathList[3][i].y1;
+          s16 x2 = cont->pathList[3][i].x2;
+          drawLineMap(x1, y1, x1, x2, BWAPI::Colors::Yellow);
+        }
+      }
       setTextSize();
     }
 

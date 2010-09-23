@@ -14,10 +14,10 @@ namespace BW
 
   struct pathBox
   {
-    u16 x1;
-    u16 y1;
-    u16 x2;
-    u16 y2;
+    s16 x1;
+    s16 y1;
+    s16 x2;
+    s16 y2;
   };
 
   struct pathRect
@@ -70,32 +70,32 @@ namespace BW
     u16       neighborsSm[10]; // local array of IDs for neighbors
   };
 
-  struct unkPath2
+  // Contour IDs and values:
+  // 0: BOTTOM: y1, x1, x2, ?
+  // 1: LEFT;   x1, y1, y2, ?
+  // 2: TOP;    y1, x1, x2, ?
+  // 3: RIGHT:  x1, y1, y2, ?
+
+  struct contour
   {
     pathBox *pathList[4];
-    u16     pathIterator[4];
     u16     pathCount[4];
-    u32     unk_20;
-    u32     unk_24;
-    u16     unk_28;
-    u16     unk_2A;
-    u16     unk_2C;
-    u16     unk_2E;
-    u32     unk_30;
-    u32     unk_34;
+    u16     pathMax[4];
+    u16     unk_20[4];
+    u16     unk_28[4];
+    u16     unk_30[4];
   };
 
   struct SAI_Paths
   {
-    u16       regionCount;
-    u16       unk_02;
+    u32       regionCount;
     u32       unk_92BFC_offset;
     u32       unk_2000C_offset;
     u16       mapTileRegionId[256][256];
     u8        unk_2000C[150000];
     region    regions[5000];
     u8        unk_92BFC[20000];
-    unkPath2  *unk_97A1C;
+    contour   *contours; // 0x97A1C
   };
 }
 
