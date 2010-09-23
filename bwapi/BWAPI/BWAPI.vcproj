@@ -230,6 +230,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\Pathing.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Position.h"
 					>
 				</File>

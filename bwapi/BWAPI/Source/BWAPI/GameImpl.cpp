@@ -670,7 +670,7 @@ namespace BWAPI
       }
 
       /* Carrier space */
-      if (builder->getType() == UnitTypes::Protoss_Carrier)
+      if ( builder->getType() == UnitTypes::Protoss_Carrier )
       {
         int max_amt = 4;
         if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0)
@@ -683,7 +683,7 @@ namespace BWAPI
       }
 
       /* Reaver Space */
-      if (builder->getType() == UnitTypes::Protoss_Reaver)
+      if ( builder->getType() == UnitTypes::Protoss_Reaver )
       {
         int max_amt = 5;
         if (self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
@@ -732,6 +732,8 @@ namespace BWAPI
             self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second) )
         pass = true;
       if (i->first == UnitTypes::Zerg_Lair && self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
+        pass = true;
+      if ( i->first == UnitTypes::Zerg_Spire && self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
         pass = true;
       if ( !pass )
       {

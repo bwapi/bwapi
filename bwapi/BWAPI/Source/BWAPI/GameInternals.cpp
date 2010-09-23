@@ -368,6 +368,93 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
 
+    if ( (*BW::BWDATA_SAIPATHING) )
+    {
+      setTextSize(0);
+
+      // iterate tile region owners
+      for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
+      {
+        for ( int x = 0; x < BW::BWDATA_MapSize->x; ++x )
+        {
+          u16 c = (*BW::BWDATA_SAIPATHING)->mapTileRegionId[y][x];
+          // skip region 0 (bottom of the map), skip regions with no neighbors, skip inaccessable regions
+          if ( c == 0 || 
+               c >= 5000 ||
+              (*BW::BWDATA_SAIPATHING)->regions[c].neighborCount == 0 || 
+              (*BW::BWDATA_SAIPATHING)->regions[c].accessabilityFlags == 0x1FFD ||
+              (*BW::BWDATA_SAIPATHING)->regions[c].tileCount <= 1 )
+            continue;
+
+          c &= 0xFF;
+          if ( c < 22 )
+            c += 22;
+
+          int px = x * 32;
+          int py = y * 32;
+          for ( int i = 0; i < 32; i += 4 )
+          {
+            drawLineMap(px, py + 32 - i, px + i, py + 32, BWAPI::Color((u8)c) );
+            drawLineMap(px + i, py, px + 32, py + 32 - i, BWAPI::Color((u8)c) );
+          }
+        }
+      }
+
+      // iterate regions
+      for ( int i = 1; i < (*BW::BWDATA_SAIPATHING)->regionCount && i < 5000; ++i )
+      {
+        BW::region *rgn = &(*BW::BWDATA_SAIPATHING)->regions[i];
+        // skip inaccessable regions
+        if ( rgn->accessabilityFlags == 0x1FFD )
+          continue;
+
+        int xCenter = rgn->rgnCenterX >> 8;
+        int yCenter = rgn->rgnCenterY >> 8;
+        //drawTextMap(xCenter, yCenter, "%p\n %p\n", rgn->unk_14, rgn->unk_10);
+        //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
+        for ( int e = 0; e < rgn->neighborCount; ++e )
+        {
+          u16 idx;
+          if ( rgn->neighborCount > 10 && rgn->neighborsLg )
+            idx = rgn->neighborsLg[e];
+          else
+            idx = rgn->neighborsSm[e];
+
+          // Skip region 0, bottom of the map
+          if ( idx == 0 )
+            continue;
+
+          BW::region *targetRgn = &(*BW::BWDATA_SAIPATHING)->regions[idx];
+
+          // Skip regions that don't connect
+          if ( rgn->groupIndex != targetRgn->groupIndex )
+            continue;
+
+          BWAPI::Color c;
+          switch ( targetRgn->accessabilityFlags )
+          {
+          case 0x1FFD:
+            c = BWAPI::Colors::Red;
+            break;
+          case 0x1FFB:
+            c = BWAPI::Colors::White;
+            break;
+          case 0x1FF9:
+            c = BWAPI::Colors::Yellow;
+            break;
+          default:
+            c = BWAPI::Colors::Green;
+            break;
+          }
+
+          if ( idx != 0 )
+            drawLineMap( xCenter, yCenter, targetRgn->rgnCenterX >> 8, targetRgn->rgnCenterY >> 8, c);
+        }
+      }
+
+      setTextSize();
+    }
+
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------

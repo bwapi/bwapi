@@ -15,6 +15,7 @@
 #include "Race.h"
 #include "Sprite.h"
 #include "Dialog.h"
+#include "Pathing.h"
 
 /**
  * Broodwar content access tools. The namespace contains:
@@ -450,7 +451,7 @@ namespace BW
   };
   extern MiniTileMaps_type *BWDATA_MiniTileFlags;
   extern u32               *BWDATA_MapFogOfWar;
-
-
+  
+  static SAI_Paths **BWDATA_SAIPATHING = (SAI_Paths**)0x006D5BFC;
 };
 #pragma pack()
