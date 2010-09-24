@@ -307,8 +307,8 @@ namespace BWAPI
 
       /** Count of game-frames passed from game start. */
       int frameCount;
-      UnitImpl* unitArray[BW::UNIT_ARRAY_MAX_LENGTH];
-      BulletImpl* bulletArray[BW::BULLET_ARRAY_MAX_LENGTH];
+      UnitImpl* unitArray[UNIT_ARRAY_MAX_LENGTH];
+      BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
       /** All commands ordered from BWAPI */
       Util::Logger* commandLog;

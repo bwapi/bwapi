@@ -41,7 +41,7 @@ namespace BW
     int wId = this->getID();
     if (wId == BW::WeaponID::None)
       return "None";
-    else if (wId < BW::WEAPON_TYPE_COUNT)
+    else if (wId < WEAPON_TYPE_COUNT)
     {
       return BW::GetStatString(BW::BWDATA_WeaponLabel[wId]);
     }

@@ -97,22 +97,22 @@ namespace BWAPI
 
 
       /* iterate through players and create PlayerImpl for each */
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+      for (int i = 0; i < PLAYER_COUNT; i++)
         players[i] = new PlayerImpl((u8)i);
 
       /* iterate through units and create UnitImpl for each */
-      for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+      for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++)
         unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
                                     (u16)i);
 
       /* iterate through bullets and create BulletImpl for each */
-      for (int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; i++)
+      for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; i++)
         bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable->bullet[i],
                                         (u16)i);
 
 
       /* iterate through unit types and create UnitType for each */
-      for (int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+      for (int i = 0; i < UNIT_TYPE_COUNT; i++)
         unitTypes.insert(BW::UnitType((u16)i));
     }
     catch (GeneralException& exception)
@@ -126,11 +126,11 @@ namespace BWAPI
   GameImpl::~GameImpl()
   {
     /* destroy all UnitImpl */
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++)
+    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++)
       delete unitArray[i];
 
     /* destroy all PlayerImpl */
-    for (int i = 0; i < BW::PLAYER_COUNT; i++)
+    for (int i = 0; i < PLAYER_COUNT; i++)
       delete players[i];
 
     /* destroy all log handles */
@@ -258,7 +258,7 @@ namespace BWAPI
       refreshSelectionStates();
 
       //update players and check to see if they have just left the game.
-      for (int i = 0; i < BW::PLAYER_COUNT; i++)
+      for (int i = 0; i < PLAYER_COUNT; i++)
       {
         bool prevLeftGame = this->players[i]->leftGame();
         this->players[i]->updateData();
@@ -410,7 +410,7 @@ namespace BWAPI
 
         int xCenter = rgn->rgnCenterX >> 8;
         int yCenter = rgn->rgnCenterY >> 8;
-        //drawTextMap(xCenter, yCenter, "%p\n %p\n", rgn->unk_14, rgn->unk_10);
+        drawTextMap(xCenter, yCenter, "%u", rgn->groupIndex);
         //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
         for ( int e = 0; e < rgn->neighborCount; ++e )
         {
@@ -496,14 +496,9 @@ namespace BWAPI
             lastPos.y = (u16)(rgns[areaList[i]].rgnCenterY >> 8);
           }
         }
-
-        if ( u->getOriginalRawData->contoursUnknownLeft.x > 4 && u->getOriginalRawData->contoursUnknownLeft.y > 4 )
-          drawLineMap(u->getPosition().x(), u->getPosition().y(), u->getOriginalRawData->contoursUnknownLeft.x, u->getOriginalRawData->contoursUnknownLeft.y, BWAPI::Colors::Orange);
-        if ( u->getOriginalRawData->contoursUnknownRight.x > 4 && u->getOriginalRawData->contoursUnknownRight.y > 4 )
-          drawLineMap(u->getPosition().x(), u->getPosition().y(), u->getOriginalRawData->contoursUnknownRight.x, u->getOriginalRawData->contoursUnknownRight.y, BWAPI::Colors::Green);
-
-        if ( u->getOriginalRawData->contoursUnknownLeft.x > 4 && u->getOriginalRawData->contoursUnknownLeft.y > 4 && u->getOriginalRawData->contoursUnknownRight.x > 4 && u->getOriginalRawData->contoursUnknownRight.y > 4 )
-          drawLineMap(u->getOriginalRawData->contoursUnknownLeft.x, u->getOriginalRawData->contoursUnknownLeft.y, u->getOriginalRawData->contoursUnknownRight.x, u->getOriginalRawData->contoursUnknownRight.y, BWAPI::Colors::Blue);
+        BW::rect *cRct = &u->getOriginalRawData->contourBounds;
+        if ( cRct->Xmax && cRct->Xmin && cRct->Ymax && cRct->Ymin )
+          drawBoxMap(cRct->Xmin, cRct->Ymin, cRct->Xmax, cRct->Ymax, BWAPI::Colors::Orange);
       }
 
     }
@@ -864,7 +859,7 @@ namespace BWAPI
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
   {
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
+    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
       this->unitArray[i]->setSelected(false);
 
     this->saveSelected();
@@ -1024,13 +1019,13 @@ namespace BWAPI
     this->forces.clear();
 
     /* get the set of start locations */
-    BW::Positions *StartLocs = BW::BWDATA_startPositions;
-    BW::UnitType  SLocType  = BW::UnitType(BW::UnitID::Start_Location);
-    for ( int i = 0; i < BW::PLAYABLE_PLAYER_COUNT ; ++i)
+    BW::Position *StartLocs = BW::BWDATA_startPositions;
+    BW::UnitType SLocType   = BW::UnitType(BW::UnitID::Start_Location);
+    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT ; ++i)
     {
       if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) && this->players[i]->isParticipating() )
-        startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - SLocType.dimensionLeft()) / BW::TILE_SIZE,
-                                                   (StartLocs[i].y - SLocType.dimensionUp()  ) / BW::TILE_SIZE) );
+        startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - SLocType.dimensionLeft()) / TILE_SIZE,
+                                                   (StartLocs[i].y - SLocType.dimensionUp()  ) / TILE_SIZE) );
     }
 
     //Note: the following code computes the set of Forces, however this code is really messy and hackish. A better way of finding the forces exists.
@@ -1039,7 +1034,7 @@ namespace BWAPI
     std::map<std::string, ForceImpl*> force_name_to_forceimpl;
     this->server.clearAll();
 
-    for (int i = 0; i < BW::PLAYER_COUNT; ++i)
+    for (int i = 0; i < PLAYER_COUNT; ++i)
     {
       if (this->players[i] && 
           this->players[i]->getID() != BW::PlayerType::None &&
@@ -1060,7 +1055,7 @@ namespace BWAPI
     }
 
     /* create ForceImpl for players */
-    for (int i = 0; i < BW::PLAYER_COUNT; i++)
+    for (int i = 0; i < PLAYER_COUNT; i++)
     {
       if ( this->players[i] && this->players[i]->getName().length() > 0 )
       {
@@ -1090,7 +1085,7 @@ namespace BWAPI
   int GameImpl::stormIdToPlayerId(int dwStormId)
   {
     /* Translates a storm ID to a player Index */
-    for (int i = 0; i < BW::PLAYER_COUNT; i++)
+    for (int i = 0; i < PLAYER_COUNT; i++)
     {
       if ( BW::BWDATA_Players[i].dwStormId == (u32)dwStormId )
         return i;
@@ -1308,7 +1303,7 @@ namespace BWAPI
       delete this->shapes[i];
     this->shapes.clear();
 
-    for(int i = 0 ; i < BW::PLAYER_COUNT; ++i)
+    for(int i = 0 ; i < PLAYER_COUNT; ++i)
       if ( this->players[i] )
         this->players[i]->onGameEnd();
 
@@ -1316,7 +1311,7 @@ namespace BWAPI
     this->setLocalSpeed(-1);
 
     //reset all Unit objects in the unit array
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
+    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
     {
       if ( !unitArray[i] )
         continue;
@@ -1648,11 +1643,8 @@ namespace BWAPI
         neutralUnits.insert(u);
         if (u->getType() == UnitTypes::Resource_Mineral_Field)
           minerals.insert(u);
-        else
-        {
-          if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
-            geysers.insert(u);
-        }
+        else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+          geysers.insert(u);
       }
       else
       {
@@ -1668,16 +1660,12 @@ namespace BWAPI
         neutralUnits.erase(u);
         if (u->getType() == UnitTypes::Resource_Mineral_Field)
           minerals.erase(u);
-        else
-        {
-          if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
-            geysers.erase(u);
-        }
+        else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+          geysers.erase(u);
       }
-      else
-      {
-        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
-          pylons.erase(u);
+      else if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
+      {        
+        pylons.erase(u);
       }
     }
     foreach(UnitImpl* i, accessibleUnits)
@@ -1692,10 +1680,10 @@ namespace BWAPI
       }
       else
       {
-        int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / BW::TILE_SIZE;
-        int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE; // Division - round up
-        int startY = (i->_getPosition.y() - i->_getType.dimensionUp()) / BW::TILE_SIZE;
-        int endY   = (i->_getPosition.y() + i->_getType.dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+        int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / TILE_SIZE;
+        int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
+        int startY = (i->_getPosition.y() - i->_getType.dimensionUp())   / TILE_SIZE;
+        int endY   = (i->_getPosition.y() + i->_getType.dimensionDown()  + TILE_SIZE - 1) / TILE_SIZE;
         for (int x = startX; x < endX; x++)
           for (int y = startY; y < endY; y++)
             unitsOnTileData[x][y].insert(i);
@@ -1734,10 +1722,9 @@ namespace BWAPI
           this->staticNeutralUnits.insert(i);
           if (i->_getType == UnitTypes::Resource_Mineral_Field)
             this->staticMinerals.insert(i);
-          else
+          else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
           {
-            if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-              this->staticGeysers.insert(i);
+            this->staticGeysers.insert(i);
           }
         }
       }
@@ -1824,7 +1811,7 @@ namespace BWAPI
   void GameImpl::updateBullets()
   {
     //update bullet information
-    for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; ++i)
+    for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->setExists(false);
     std::set<Bullet*> lastBullets = bullets;
     bullets.clear();
@@ -1839,7 +1826,7 @@ namespace BWAPI
     }
     foreach(BulletImpl* b, lastBullets)
       b->updateData();
-    for(int i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; ++i)
+    for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->saveExists();
   }
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
@@ -1853,20 +1840,21 @@ namespace BWAPI
   {
     int screen_x1 = x;
     int screen_y1 = y;
-    if (ctype == 2)
+    switch ( ctype )
     {
-      // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
+    case 2: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       screen_x1 -= *(BW::BWDATA_ScreenX);
       screen_y1 -= *(BW::BWDATA_ScreenY);
-    }
-    else if (ctype == 3)
-    {
-      // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
+      break;
+    case 3: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       screen_x1 += BW::BWDATA_Mouse->x;
       screen_y1 += BW::BWDATA_Mouse->y;
+      break;
     }
-    if (screen_x1 < 0   || screen_y1 < 0 ||
-        screen_x1 > 640 || screen_y1 > 480)
+    if (screen_x1 < 0   || 
+        screen_y1 < 0   ||
+        screen_x1 > BW::BWDATA_GameScreenBuffer->wid || 
+        screen_y1 > BW::BWDATA_GameScreenBuffer->ht)
       return false;
     return true;
   }
@@ -1877,26 +1865,26 @@ namespace BWAPI
     int screen_y1 = y1;
     int screen_x2 = x2;
     int screen_y2 = y2;
-    if (ctype == 2)
+    switch ( ctype )
     {
-      // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
+    case 2: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       screen_x1 -= *(BW::BWDATA_ScreenX);
       screen_y1 -= *(BW::BWDATA_ScreenY);
       screen_x2 -= *(BW::BWDATA_ScreenX);
       screen_y2 -= *(BW::BWDATA_ScreenY);
-    }
-    else if (ctype == 3)
-    {
-      // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
+      break;
+    case 3: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       screen_x1 += BW::BWDATA_Mouse->x;
       screen_y1 += BW::BWDATA_Mouse->y;
       screen_x2 += BW::BWDATA_Mouse->x;
       screen_y2 += BW::BWDATA_Mouse->y;
+      break;
     }
+    RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
-        (screen_x1 > 640 && screen_x2 > 640) ||
-        (screen_y1 > 480 && screen_y2 > 480))
+        (screen_x1 > scrLimit.right  && screen_x2 > scrLimit.right) ||
+        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom))
       return false;
     return true;
   }
@@ -1909,30 +1897,30 @@ namespace BWAPI
     int screen_y2 = y2;
     int screen_x3 = x3;
     int screen_y3 = y3;
-    if (ctype == 2)
+    switch ( ctype )
     {
-      // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
+    case 2: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       screen_x1 -= *(BW::BWDATA_ScreenX);
       screen_y1 -= *(BW::BWDATA_ScreenY);
       screen_x2 -= *(BW::BWDATA_ScreenX);
       screen_y2 -= *(BW::BWDATA_ScreenY);
       screen_x3 -= *(BW::BWDATA_ScreenX);
       screen_y3 -= *(BW::BWDATA_ScreenY);
-    }
-    else if (ctype == 3)
-    {
-      // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
+      break;
+    case 3: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       screen_x1 += BW::BWDATA_Mouse->x;
       screen_y1 += BW::BWDATA_Mouse->y;
       screen_x2 += BW::BWDATA_Mouse->x;
       screen_y2 += BW::BWDATA_Mouse->y;
       screen_x3 += BW::BWDATA_Mouse->x;
       screen_y3 += BW::BWDATA_Mouse->y;
+      break;
     }
+    RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-        (screen_x1 > 640 && screen_x2 > 640 && screen_x3 > 640) ||
-        (screen_y1 > 480 && screen_y2 > 480 && screen_y3 > 480))
+        (screen_x1 > scrLimit.right && screen_x2 > scrLimit.right && screen_x3 > scrLimit.right) ||
+        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom && screen_y3 > scrLimit.bottom))
       return false;
     return true;
   }
@@ -1947,9 +1935,9 @@ namespace BWAPI
   {
     /* Retrieves a sprite's parent unit */
     BWAPI::UnitImpl* unit=NULL;
-    for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
+    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
       if (BW::BWDATA_UnitNodeTable->unit[i].sprite == sprite) // compare unit with sprite we're looking for
-        unit=unitArray[i];
+        unit = unitArray[i];
 
     return unit;
   }

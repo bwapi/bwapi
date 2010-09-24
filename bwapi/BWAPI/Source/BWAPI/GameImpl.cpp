@@ -288,15 +288,16 @@ namespace BWAPI
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
+    RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     /* Sets the screen's position relative to the map */
     if (x < 0)
       x = 0;
     if (y < 0)
       y = 0;
-    if (x > Map::getWidth()  * 32 - 640)
-      x = Map::getWidth() * 32 - 640;
-    if (y > Map::getHeight() * 32 - 480)
-      y = Map::getHeight() * 32 - 480;
+    if (x > Map::getWidth()  * 32 - scrLimit.right)
+      x = Map::getWidth() * 32 - scrLimit.right;
+    if (y > Map::getHeight() * 32 - (scrLimit.bottom + 80))
+      y = Map::getHeight() * 32 - (scrLimit.bottom + 80);
 
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;
@@ -925,7 +926,7 @@ namespace BWAPI
       if ( toAllies )
       {
         *BW::BWDATA_SendTextFilter = 0;
-        for ( u8 p = 0; p < BW::PLAYER_COUNT; ++p )
+        for ( u8 p = 0; p < PLAYER_COUNT; ++p )
         {
           if ( BW::BWDATA_Alliance[BWAPIPlayer->getID()].player[p] != 0 )
             *BW::BWDATA_SendTextFilter |= 1 << p;
@@ -1089,7 +1090,7 @@ namespace BWAPI
   {
     /* Retrieves the class for the first opponent player */
     this->setLastError(Errors::None);
-    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
+    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
     {
       if ( (this->players[i]->getType() == BW::PlayerType::Computer ||
             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer ||

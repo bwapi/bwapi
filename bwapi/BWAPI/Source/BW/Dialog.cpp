@@ -227,6 +227,7 @@ namespace BW
         dlg->rct.Xmax = dlg->rct.Xmin + dlg->srcBits.wid - 1;
         dlg->rct.Ymin = evt->cursor.y - mouseOffset->y;
         dlg->rct.Ymax = dlg->rct.Ymin + dlg->srcBits.ht - 1;
+        RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
         if ( dlg->rct.Xmin < 0 )
         {
           dlg->rct.Xmax -= dlg->rct.Xmin;
@@ -237,15 +238,15 @@ namespace BW
           dlg->rct.Ymax -= dlg->rct.Ymin;
           dlg->rct.Ymin -= dlg->rct.Ymin;
         }
-        if ( dlg->rct.Xmax > 640 )
+        if ( dlg->rct.Xmax > scrLimit.right )
         {
-          dlg->rct.Xmin -= dlg->rct.Xmax - 640;
-          dlg->rct.Xmax -= dlg->rct.Xmax - 640;
+          dlg->rct.Xmin -= dlg->rct.Xmax - scrLimit.right;
+          dlg->rct.Xmax -= dlg->rct.Xmax - scrLimit.right;
         }
-        if ( dlg->rct.Ymax > 360 )
+        if ( dlg->rct.Ymax > (scrLimit.bottom - 40) )
         {
-          dlg->rct.Ymin -= dlg->rct.Ymax - 360;
-          dlg->rct.Ymax -= dlg->rct.Ymax - 360;
+          dlg->rct.Ymin -= dlg->rct.Ymax - (scrLimit.bottom - 40);
+          dlg->rct.Ymax -= dlg->rct.Ymax - (scrLimit.bottom - 40);
         }
       }
       i = dlg->child();
@@ -337,20 +338,6 @@ namespace BW
     close->setFlags(CTRL_FONT_SMALLEST);
     close->srcBits.data = gbTinyBtnGfx[0];
     dlg->addControl(close);
-
-    return dlg;
-  }
-  // ------------------ CREATE CANVAS ----------------
-  dialog *CreateCanvas(const char *pszName)
-  {
-    dialog *dlg = new dialog(ctrls::cDLG, 0, pszName, 0, 0, 640, 480, &CanvasInteract);
-    dlg->applyBlankBackground();
-
-    dlg->clearFlags(CTRL_TRANSLUCENT);
-    dlg->setFlags(CTRL_TRANSPARENT);
-
-    dialog *child = new dialog(ctrls::cLSTATIC, 1, "", 0, 0, 0);
-    dlg->addControl(child);
 
     return dlg;
   }

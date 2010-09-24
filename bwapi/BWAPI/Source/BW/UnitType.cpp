@@ -11,8 +11,8 @@
 
 namespace BW
 {
-  static std::pair< BW::UnitType, int > whatBuildsData[BW::UNIT_TYPE_COUNT];
-  static std::map< BW::UnitType, int > requiredUnitsData[BW::UNIT_TYPE_COUNT];
+  static std::pair< BW::UnitType, int > whatBuildsData[UNIT_TYPE_COUNT];
+  static std::map< BW::UnitType, int > requiredUnitsData[UNIT_TYPE_COUNT];
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UnitType::UnitType()
       : id(BW::UnitID::None)
@@ -72,7 +72,7 @@ namespace BW
     int uId = this->getID();
     if (uId == BW::UnitID::None)
       return "None";
-    else if (uId < BW::UNIT_TYPE_COUNT)
+    else if (uId < UNIT_TYPE_COUNT)
       return BW::GetStatString(uId);
     else
       return "Invalid";
@@ -86,7 +86,7 @@ namespace BW
   {
     if (this->getID() == BW::UnitID::None)
       return "None";
-    else if (this->getID() < BW::UNIT_TYPE_COUNT)
+    else if (this->getID() < UNIT_TYPE_COUNT)
     {
       u16 label = BW::BWDATA_UnitSubLabel[this->getID()];
       if (label == 0)
@@ -218,12 +218,12 @@ namespace BW
   //----------------------------------------------- TILE WIDTH -----------------------------------------------
   int UnitType::tileWidth() const
   {
-    return (this->dimensionLeft() + this->dimensionRight() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+    return (this->dimensionLeft() + this->dimensionRight() + TILE_SIZE - 1) / TILE_SIZE;
   }
   //---------------------------------------------- TILE HEIGHT -----------------------------------------------
   int UnitType::tileHeight() const
   {
-    return (this->dimensionUp() + this->dimensionDown() + BW::TILE_SIZE - 1) / BW::TILE_SIZE;
+    return (this->dimensionUp() + this->dimensionDown() + TILE_SIZE - 1) / TILE_SIZE;
   }
   //--------------------------------------------- DIMENSION LEFT ---------------------------------------------
   int UnitType::dimensionLeft() const
@@ -463,18 +463,18 @@ namespace BW
   //------------------------------------------------ IS VALID ------------------------------------------------
   bool UnitType::isValid() const
   {
-    if (this->id >= BW::UNIT_TYPE_COUNT)
+    if (this->id >= UNIT_TYPE_COUNT)
       Util::Logger::globalLog->log("ERROR: Bad unit type %d (0x%X)", this->id, (u32)this->id);
 
-    return this->id < BW::UNIT_TYPE_COUNT;
+    return this->id < UNIT_TYPE_COUNT;
   }
   //---------------------------------------------- INITIALIZE ------------------------------------------------
   void UnitType::initialize()
   {
-    for(int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(int i = 0; i < UNIT_TYPE_COUNT; i++)
       whatBuildsData[i] = std::make_pair(BW::UnitType(BW::UnitID::None), 0);
 
-    for(int i = 0; i < BW::UNIT_TYPE_COUNT; i++)
+    for(int i = 0; i < UNIT_TYPE_COUNT; i++)
     {
       switch (i)  // For unit Requirement data
       {

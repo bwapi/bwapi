@@ -785,8 +785,8 @@ namespace BWAPI
     int pId = _getPlayer->getID();
     int uId = upgrade.getID();
     if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
-         (uId >= 46 && uId < BW::UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
-          uId >= BW::UPGRADE_TYPE_COUNT )
+         (uId >= 46 && uId < UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
+          uId >= UPGRADE_TYPE_COUNT )
       return 0;
     
     if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
@@ -2032,7 +2032,7 @@ namespace BWAPI
       return NULL;
 
     u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
-    if (index > BW::UNIT_ARRAY_MAX_LENGTH)
+    if (index > UNIT_ARRAY_MAX_LENGTH)
     {
       if (BroodwarImpl.invalidIndices.find(index) == BroodwarImpl.invalidIndices.end())
       {
