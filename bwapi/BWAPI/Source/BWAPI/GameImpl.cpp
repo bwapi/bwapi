@@ -566,11 +566,11 @@ namespace BWAPI
       return false;
     }
 
-    /* Tile buildability check */
+    /* Tile buildability check; must be explored first */
     for(int ix = left; ix < right; ++ix)
       for(int iy = top; iy < bottom; ++iy)
-        if ( !this->isBuildable(ix, iy) )
-          return false;
+        if ( !this->isBuildable(ix, iy) && !this->map.isExplored(ix, iy) )
+          return false; // @TODO: Error code for !isExplored
 
     /* Ground unit dimension check */
     int targetX = left * 32 + type.tileWidth() * 32 / 2;

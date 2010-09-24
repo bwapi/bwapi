@@ -391,6 +391,7 @@ namespace BW
                                       * Default Requirements: Unused. */
       Fatal                  = 0xBC, /**< Nothing.
                                       * Default Requirements: Unused. */
+      None                   = 0xBD
     };
 
   };

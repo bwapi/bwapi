@@ -3,7 +3,6 @@
 #include "Position.h"
 
 /* Defines are official */
-#define SAI_MAX_PATH_POINTS 24
 
 #define UM_Init          0x00
 #define UM_InitSeq       0x01
@@ -63,8 +62,13 @@ namespace BW
     u8  cur_area;       // 29
     u8  num_segments;   // 30   Official name
     u8  cur_segment;    // 31
-    Position steps[SAI_MAX_PATH_POINTS]; // 32  
-  };
+    Position steps[1];  // 32   sc allocates 96 bytes here? 
+  }; 
+  
+  // note: u16 areas[num_areas] follow after steps[num_segments]
+  // The last entry of the above struct can be viewed as follows:
+  // Position steps[num_segments];
+  // u16      regions[num_areas];  // region ID for SAI_Paths->regions; typically fills the rest of the struct with region IDs to the destination, and cut off if there isn't enough room
 
   char *getMoveStateName(u8 bMoveState)
   {

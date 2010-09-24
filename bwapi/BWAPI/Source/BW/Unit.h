@@ -55,7 +55,7 @@ namespace BW
                                                                    *   the direction they are facing faster than then can change the direction they are moving.
                                                                    */
     /*0x024*/ u16                                 flingyID;
-    /*0x026*/ _UNKNOWN                            unknown_0x026;
+    /*0x026*/ u8                                  unknown_0x026;
     /*0x027*/ u8                                  flingyMovementType;
     /*0x028*/ BW::Position                        position;             /**< Current position of the unit */
     /*0x02C*/ u32                                 xHalt;                /**< @todo Unknown */
@@ -94,7 +94,7 @@ namespace BW
     /*0x058*/ BW::Position                        orderTargetPos;
     /*0x05C*/ BW::Unit                            *orderTargetUnit;
     /*0x060*/ u32                                 shieldPoints;         /**< Bw shows this value/256 */
-    /*0x064*/ BW::UnitType                        unitID;               /**< Specifies the type of unit. */
+    /*0x064*/ BW::UnitType                        unitType;             /**< Specifies the type of unit. */
     /*0x066*/ u16                                 unknown_0x066;
     /*0x068*/ BW::Unit                            *previousPlayerUnit;
     /*0x06C*/ BW::Unit                            *nextPlayerUnit;
@@ -104,7 +104,7 @@ namespace BW
     /*0x07C*/ BW::Unit                            *AIOrderTargetUnit;   // Unknown, something with auto targetting?
     /*0x080*/ BW::Unit                            *connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
     /*0x084*/ u8                                  orderQueueCount;         /**< @todo Verify */
-    /*0x085*/ u8                                  unknownOrderTimer_0x085; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
+    /*0x085*/ u8                                  orderQueueTimer; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
     /*0x086*/ u16                                 unknown_0x086;  // pathing related
     /*0x088*/ u16                                 displayedUnitID;
     /*0x08A*/ u16                                 unknown_0x08A;
@@ -129,104 +129,64 @@ namespace BW
     /*0x0AC*/ u16                                 remainingBuildTime; /**< Remaining bulding time */
     /*0x0AE*/ u16                                 previousHP;   // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
     /*0x0B0*/ u16                                 loadedUnitIndex[8];
-    /** Child unit information (structure depends on unitID */
-    /*0x0C0*/ union ChildInfoUnion_type
-    {
-      /** Child info structure if the unit is vulture. */
-      struct UnitIsVultureBike_type
-      {
-        u8 spiderMineCount;
-        _UNKNOWN _1[3];
-      } vultureBikeMines;
-      /**
-       * Unit type - meaning
-       * -# Carrier/Reaver - First Hangar Unit
-       * -# Scarab/Interceptor - Parent
-       * -# Building - addon
-       * -# Worker - Powerup carried
-       */
-      BW::Unit *childUnit1;
-      BW::Unit *parentUnit;
-    } childInfoUnion;            /**< @todo Verify */
-
-    /** Additional unit info depending on unit type */
-    /*0x0C4*/ union ChildUnitUnion1_type
-    {
-      /** If the unit is building, this structure applies. */
-      struct UnitIsBuilding_type
-      {
-        u16 addonBuildID;
-        u16 upgradeResearchTime;
-      } unitIsBuilding;
-
-      /** If the unit is Scarab/Interceptor - Next Unit in Parent Hangar */
-      BW::Unit* nextUnitInParentHangar;
-    } childUnitUnion1;                /**< @todo Verify */
-
-    /** Additional unit info depending on unit type */
-    /*0x0C8*/ union ChildUnitUnion2_type
-    {
-      /** if the unit is not scarab/interceptor this structure maps the data. */
-      struct UnitIsNotScarabInterceptor_type
-      {
-        /** If the unit is Reaver */
-        union ScarabInfo                // 0x0C8
-        {
-          u8 scarabCount;
-          u8 interceptorCountInHangar;
-          u8 techID;
-        } subChildUnitUnion1;
-        /** If the unit is carrier */
-        union InterceptorInfo           // 0x0C9
-        {
-          u8 interceptorCountOutOfHangar;
-          u8 upgradeID;
-        } subChildUnitUnion2;
-        /** If the unit is hatchery, this contains timer of the larva spawning */
-        u8 larvaSpawnTimer;
-        /** If the unit is terran building, it contains timer of building landing */
-        u8 isLanding;
-
-
-      } unitIsNotScarabInterceptor;
-
-      /* If this unit is Scarab/Interceptor, it is pointer to Previous in Parent's Hangar */
-      BW::Unit* prevUnitInParentHangar;
-    } childUnitUnion2;                  /**< @todo Verify */
-
-    /** Additional unit info it's value meaning is different for interceptor/scarab - creep unit or repairing scv @todo verify*/
-    /*0x0CC*/ union ChildUnitUnion3_type
-    {
-      u8 inHanger; // If interceptor/scarab
-      u8 creepExpansionTimer; // If creep unit, timer between creep expansions
-      u8 decreaseMineralTimer; // If repairing
-    } childUnitUnion3;              /**< @todo Verify */
-
-    /*0x0CD*/ u8 upgradeLevel;       /**< @todo Unknown */
+    /*0x0C0*/ union
+              {
+                struct
+                {
+                  u8 spiderMineCount; // 0
+                } vulture;
+                
+                struct
+                {
+                  BW::Unit *child;          // 0
+                  u32      _unknown_04;     // 4
+                  u8       inHangerCount;   // 8
+                  u8       outHangerCount;
+                } carrier;
+                
+                struct
+                {
+                  BW::Unit *parent;   // 0
+                  BW::Unit *next;     // 4
+                  BW::Unit *prev;     // 8
+                  u8       inHanger;  // C
+                } interceptor;
+                
+                struct
+                {
+                  BW::Unit *addon;          // 0
+                  u16 addonBuildType;       // 4
+                  u16 upgradeResearchTime;  // 6
+                  u8  techType;             // 8
+                  u8  upgradeType;          // 9
+                  u8  larvaTimer;           // A
+                  u8  landingTimer;         // B
+                  u8  creepTimer;           // C
+                } building;
+                
+                struct 
+                {
+                  BW::Unit *powerup;                // 0
+                  u32      _unknown_04;             // 4
+                  u32      _unknown_08;             // 8
+                  u8       repairResourceLossTimer; // C
+                } worker;
+              };
+    /*0x0CD*/ u8 upgradeLevel;        /**< @todo Unknown */
     /*0x0CE*/ u8 isCarryingSomething; /**< @todo Verify (may be set if going to carry something or targetting resources.. If 'isgathering' ? */
     /*0x0CF*/ u8 resourceCarying;     /**< The amount of resources it is carrying */
-
-    /** Some internal unit data that are not investigated good enough*/
-    /*0x0D0*/ union UnitUnion1_type
-    {
-      /** When the unit is worker? @todo investigate */
-      union UnitUnion1Sub_type
-      {
-        u16 x, y;
-        /** When the unit is mineral? @todo investigate */
-        struct ResourceUnitUnionSub_type
-        {
-          u16 resourceContained;
-          u8  resourceIscript;
-          u8  isBeingGathered;
-        } resourceUnitUnionSub;
-      } unitUnion1Sub;
-      /** Probably the connected nydius canal @todo investigate*/
-      BW::Unit* resourceTarget_connectedNydus;
-      /** Nuke dot, but of what, the ghost? @todo investigate*/
-      BW::CSprite* nukeDot;
-    } unitUnion1;                     /**< @todo Verify */
-
+    /*0x0D0*/ union
+              { union
+                { struct { u16 x, y; } worker2; /** When the unit is worker? @todo investigate; This is a guess */
+                  struct
+                  { u16 resourceContained;
+                    u8  resourceIscript;
+                    u8  isBeingGathered;
+                  } resource;  /** When the unit is mineral? @todo investigate */
+                };
+                struct { BW::Unit* exit;       } nydus; /** Probably the connected nydius canal @todo investigate*/
+                struct { BW::CSprite* nukeDot; } ghost; /** Nuke dot, but of what, the ghost? @todo investigate*/
+              };
     /*0x0D4*/ u32                               hasNuke;
     /*0x0D8*/ BW::Unit                          *unknown_0x0D8;
     /*0x0DC*/ Util::BitMask<u32>                status;
@@ -237,34 +197,25 @@ namespace BW
     /*0x0E4*/ s32                               visibilityStatus;
     /*0x0E8*/ u32                               unknown_0x0E8;
     /*0x0EC*/ BW::Unit                          *currentBuildUnit;   /**< @todo Unknown */
-    /*0x0F0*/ _UNKNOWN                          unknown_0x0F0[8];
-    /**
-     * Additional unit data; its meaning depends if it is a Unit that can have rally point or is psi provider
-     * @todo investigate
-     */
-    /*0x0F8*/ union RallyPsiProviderUnion_type
-    {
-      /** If the unit is rally type @todo investigate*/
-      struct Rally_type
-      {
-        /* BW::Position rallyPos; */
-        u16 rallyX, rallyY;
-        BW::Unit* rallyUnit;
-      } rally;
-      /** If the unit is psi provider @todo investigate */
-      struct PsiProvider_type
-      {
-        BW::Unit* prevPsiProvider;
-        BW::Unit* nextPsiProvider;
-      };
-    } rallyPsiProviderUnion;                        /**< @todo Verify */
-    /*0x100*/ BW::Path                            *path;  /**< @todo Unknown */
+    /*0x0F0*/ u8                                unknown_0x0F0[8];
+    /*0x0F8*/ union
+              { struct
+                { u16      x, y;
+                  BW::Unit *unit;
+                } rally;                /** If the unit is rally type @todo investigate*/
+
+                struct
+                { BW::Unit* prevPsiProvider;
+                  BW::Unit* nextPsiProvider;
+                } pylon;                /** If the unit is psi provider @todo investigate */
+              };
+    /*0x100*/ BW::Path                            *path;                  /**< @todo Unknown */
     /*0x104*/ u8                                  pathingCollisionInterval;  // unknown
-    /*0x105*/ u8                                  pathingEnabled;   // 1 for ground units
+    /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
     /*0x106*/ u16                                 unknown_0x106;
-    /*0x108*/ BW::Position                        contours1Unknown;   /**< @todo Unknown */
-    /*0x10C*/ BW::Position                        contours2Unknown;   /**< @todo Unknown */
-    /*0x110*/ u16                                 removeTimer;        /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
+    /*0x108*/ BW::Position                        contoursUnknownLeft;    /**< @todo Unknown */  // top left point
+    /*0x10C*/ BW::Position                        contoursUnknownRight;   /**< @todo Unknown */ // bottom right point
+    /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;
     /*0x115*/ u8                                  stimTimer;
@@ -274,14 +225,14 @@ namespace BW
     /*0x119*/ u8                                  stasisTimer;
     /*0x11A*/ u8                                  plagueTimer;
     /*0x11B*/ u8                                  isUnderStorm;
-    /*0x11C*/ BW::Unit                            *irradiatedBy;       /**< @todo Verify */
+    /*0x11C*/ BW::Unit                            *irradiatedBy;      /**< @todo Verify */
     /*0x120*/ u8                                  irradiatePlayerID;  /**< @todo Verify */
     /*0x121*/ Util::BitMask<u8>                   parasiteFlags;
     /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
     /*0x125*/ u8                                  unused_0x125;
-    /*0x126*/ u8                                  acidSporeCount;   /**< @todo Verify */
+    /*0x126*/ u8                                  acidSporeCount;     /**< @todo Verify */
     /*0x127*/ u8                                  acidSporeTime[9];
     /*0x130*/ u16                                 offsetIndex3by3;    /**< @todo Unknown */
     /*0x132*/ u16                                 unused_0x132;
