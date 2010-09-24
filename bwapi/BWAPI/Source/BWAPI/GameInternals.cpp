@@ -371,9 +371,7 @@ namespace BWAPI
     if ( (*BW::BWDATA_SAIPATHING) )
     {
       setTextSize(0);
-
       
-
       // iterate tile region owners
       for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
       {
@@ -470,9 +468,45 @@ namespace BWAPI
           drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow );
         }
       }
-      setTextSize();
-    }
+      
+      // draw individual unit pathing
+      foreach( UnitImpl *u, aliveUnits )
+      {
+        BW::Path *p = u->getOriginalRawData->path;
+        if ( p )
+        {
+          BW::Position lastPos = u->getOriginalRawData->position;
+          for ( int i = p->cur_segment; i < p->num_segments; ++i )
+          {
+            drawLineMap(lastPos.x, lastPos.y, p->steps[i].x, p->steps[i].y, BWAPI::Colors::Cyan);
+            lastPos = p->steps[i];
+          }
 
+          BW::region *rgns = (*BW::BWDATA_SAIPATHING)->regions;
+          u16 *areaList = (u16*)&p->steps[p->num_segments];
+          for ( int i = p->cur_area; i < p->num_areas; ++i )
+          {
+            if ( i == p->cur_area )
+            {
+              lastPos.x = (u16)(rgns[areaList[i]].rgnCenterX >> 8);
+              lastPos.y = (u16)(rgns[areaList[i]].rgnCenterY >> 8);
+            }
+            drawLineMap( lastPos.x, lastPos.y, rgns[areaList[i]].rgnCenterX >> 8, rgns[areaList[i]].rgnCenterY >> 8, BWAPI::Colors::Yellow);
+            lastPos.x = (u16)(rgns[areaList[i]].rgnCenterX >> 8);
+            lastPos.y = (u16)(rgns[areaList[i]].rgnCenterY >> 8);
+          }
+        }
+
+        if ( u->getOriginalRawData->contoursUnknownLeft.x > 4 && u->getOriginalRawData->contoursUnknownLeft.y > 4 )
+          drawLineMap(u->getPosition().x(), u->getPosition().y(), u->getOriginalRawData->contoursUnknownLeft.x, u->getOriginalRawData->contoursUnknownLeft.y, BWAPI::Colors::Orange);
+        if ( u->getOriginalRawData->contoursUnknownRight.x > 4 && u->getOriginalRawData->contoursUnknownRight.y > 4 )
+          drawLineMap(u->getPosition().x(), u->getPosition().y(), u->getOriginalRawData->contoursUnknownRight.x, u->getOriginalRawData->contoursUnknownRight.y, BWAPI::Colors::Green);
+
+        if ( u->getOriginalRawData->contoursUnknownLeft.x > 4 && u->getOriginalRawData->contoursUnknownLeft.y > 4 && u->getOriginalRawData->contoursUnknownRight.x > 4 && u->getOriginalRawData->contoursUnknownRight.y > 4 )
+          drawLineMap(u->getOriginalRawData->contoursUnknownLeft.x, u->getOriginalRawData->contoursUnknownLeft.y, u->getOriginalRawData->contoursUnknownRight.x, u->getOriginalRawData->contoursUnknownRight.y, BWAPI::Colors::Blue);
+      }
+
+    }
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
@@ -1350,26 +1384,34 @@ namespace BWAPI
     //this function is only used in computeUnitExistence and shouldn't be called from any other function
     if (i->getOriginalRawData->orderID == BW::OrderID::Die)
       return false;
-    UnitType _getType = BWAPI::UnitType(i->getOriginalRawData->unitID.id);
-    if ( i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
-         i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch2 ||
-         i->getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch3)
+    u16 uId = i->getOriginalRawData->unitType.id;
+    UnitType _getType = BWAPI::UnitType(uId);
+    if ( uId == BW::UnitID::Resource_MineralPatch1 ||
+         uId == BW::UnitID::Resource_MineralPatch2 ||
+         uId == BW::UnitID::Resource_MineralPatch3)
+    {
       _getType = UnitTypes::Resource_Mineral_Field;
+    }
+
     int hitpoints = i->getOriginalRawData->hitPoints;
     if ( !i->_getType.isInvincible() && hitpoints <= 0)
       return false;
+
     if ( !i->getOriginalRawData->sprite )
       return false;
-    if (isHidden) //usually means: is inside another unit?
+
+    if ( isHidden ) //usually means: is inside another unit?
     {
       bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
       if (_getType == UnitTypes::Unknown)
         return false;//skip subunits if they are in this list
+
       if (!_isCompleted)
         return false; //return false if the internal unit is incomplete
-      if (_getType==UnitTypes::Protoss_Scarab ||
-          _getType==UnitTypes::Terran_Vulture_Spider_Mine ||
-          _getType==UnitTypes::Terran_Nuclear_Missile)
+
+      if (_getType == UnitTypes::Protoss_Scarab ||
+          _getType == UnitTypes::Terran_Vulture_Spider_Mine ||
+          _getType == UnitTypes::Terran_Nuclear_Missile)
         return false;
     }
     return true;
@@ -1505,7 +1547,7 @@ namespace BWAPI
       int groundWeaponCooldown = i->getOriginalRawData->groundWeaponCooldown;
       if ( i->getOriginalRawData->subUnit )
         groundWeaponCooldown = i->getOriginalRawData->subUnit->groundWeaponCooldown;
-      if ( i->getOriginalRawData->unitID == BW::UnitID::Protoss_Reaver )
+      if ( i->getOriginalRawData->unitType == BW::UnitID::Protoss_Reaver )
         groundWeaponCooldown = i->getOriginalRawData->mainOrderTimer;
 
       i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
@@ -1517,7 +1559,7 @@ namespace BWAPI
           i->setID(server.getUnitID(i));
         i->updateData();
       }
-      if (i->getOriginalRawData->unitID == BW::UnitID::Terran_NuclearMissile)
+      if ( i->getOriginalRawData->unitType == BW::UnitID::Terran_NuclearMissile )
       {
         if ( !i->nukeDetected )
         {

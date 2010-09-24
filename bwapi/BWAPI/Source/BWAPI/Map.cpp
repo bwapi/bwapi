@@ -71,13 +71,13 @@ namespace BWAPI
     }
     else
     {
-      int playerIndex=BroodwarImpl.BWAPIPlayer->getIndex();
-      int playerFlag=1 << playerIndex;
+      int playerIndex = BroodwarImpl.BWAPIPlayer->getIndex();
+      u32 playerFlag = 1 << playerIndex;
       for(int x = 0; x < w; ++x)
       {
         for(int y = 0; y < h; ++y)
         {
-          int tileData=(*fogOfWar)[y][x];
+          u32 tileData = (*fogOfWar)[y][x];
           data->isVisible[x][y]  = !(tileData & playerFlag);
           data->isExplored[x][y] = !((tileData >> 8) & playerFlag);
           bool canAccess = data->isVisible[x][y] || completeMapInfo;
@@ -135,11 +135,11 @@ namespace BWAPI
       return 0;
     int value =  (*this->fogOfWar)[y][x];
     value = value >> 16;
-    int h=0;
+    int h = 0;
     if ((value & (0x200))!=0)
-      h=1;
+      h = 1;
     if ((value & (0x400))!=0)
-      h=2;
+      h = 2;
     return h;
   }
   //-------------------------------------------------- LOAD --------------------------------------------------

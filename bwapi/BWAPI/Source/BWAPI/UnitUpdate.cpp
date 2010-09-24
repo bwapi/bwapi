@@ -87,15 +87,16 @@ namespace BWAPI
       }
       //------------------------------------------------------------------------------------------------------
       //_getType
-      if ( getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch1 ||
-           getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch2 ||
-           getOriginalRawData->unitID.id == BW::UnitID::Resource_MineralPatch3)
+      u16 uId = getOriginalRawData->unitType.id;
+      if ( uId == BW::UnitID::Resource_MineralPatch1 ||
+           uId == BW::UnitID::Resource_MineralPatch2 ||
+           uId == BW::UnitID::Resource_MineralPatch3)
       {
         _getType = UnitTypes::Resource_Mineral_Field;
       }
       else
       {
-        _getType = UnitType(getOriginalRawData->unitID.id);
+        _getType = UnitType(uId);
       }
       //------------------------------------------------------------------------------------------------------
       //_getTransport
@@ -103,10 +104,10 @@ namespace BWAPI
           _getType == UnitTypes::Protoss_Scarab ||
           _getType == UnitTypes::Terran_Vulture_Spider_Mine)
       {
-        if (getOriginalRawData->childUnitUnion3.inHanger==0 ||
+        if (getOriginalRawData->interceptor.inHanger ==0 ||
             getOriginalRawData->status.getBit(BW::StatusFlags::InTransport) ||
             getOriginalRawData->status.getBit(BW::StatusFlags::InBuilding))
-          _getTransport = (Unit*)(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.parentUnit));
+          _getTransport = (Unit*)(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->interceptor.parent));
         else
           _getTransport = NULL;
       }
@@ -133,7 +134,7 @@ namespace BWAPI
           _getType != UnitTypes::Zerg_Extractor)
         _getResources = 0;
       else
-        _getResources = getOriginalRawData->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.resourceContained;
+        _getResources = getOriginalRawData->resource.resourceContained;
       //------------------------------------------------------------------------------------------------------
       //getBuildQueueSlot
       getBuildQueueSlot = getOriginalRawData->buildQueueSlot;
@@ -443,12 +444,12 @@ namespace BWAPI
       if (_getType.isBuilding())
       {
         UnitImpl* addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->currentBuildUnit);
-        if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon() )
+        if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitType.id).isAddon() )
           self->addon = BroodwarImpl.server.getUnitID(addon);
         else
         {
-          addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.childUnit1);
-          if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitID.id).isAddon() )
+          addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->building.addon);
+          if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitType.id).isAddon() )
             self->addon = BroodwarImpl.server.getUnitID(addon);
           else
             self->addon = -1;
@@ -462,8 +463,8 @@ namespace BWAPI
         self->nydusExit = -1;
       else
       {
-        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->unitUnion1.resourceTarget_connectedNydus);
-        if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitID.id==BW::UnitID::Zerg_NydusCanal )
+        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->nydus.exit);
+        if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitType == BW::UnitID::Zerg_NydusCanal )
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
         else
         {
@@ -475,7 +476,7 @@ namespace BWAPI
       self->isAccelerating = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating);
       //------------------------------------------------------------------------------------------------------
       //isBeingGathered
-      self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->unitUnion1.unitUnion1Sub.resourceUnitUnionSub.isBeingGathered != 0;
+      self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->resource.isBeingGathered != 0;
       //------------------------------------------------------------------------------------------------------
       //isBlind
       self->isBlind = getOriginalRawData->isBlind != 0;
@@ -496,7 +497,7 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //isLifted
       self->isLifted = getOriginalRawData->status.getBit(BW::StatusFlags::InAir) &&
-                       getOriginalRawData->unitID.isBuilding();
+                       getOriginalRawData->unitType.isBuilding();
       //------------------------------------------------------------------------------------------------------
       //isParasited
       self->isParasited = getOriginalRawData->parasiteFlags.value != 0;
@@ -512,123 +513,46 @@ namespace BWAPI
     }
     else
     {
-      //------------------------------------------------------------------------------------------------------
-      //getHitPoints
-      self->lastHitPoints = 0;
-      self->hitPoints = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getShields
-      self->shields = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getEnergy
-      self->energy = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getResources
-      self->resources = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getKillCount
-      self->killCount = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getDefenseMatrixPoints
-      self->defenseMatrixPoints = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getDefenseMatrixTimer
-      self->defenseMatrixTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getEnsnareTimer
-      self->ensnareTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getIrradiateTimer
-      self->irradiateTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getLockdownTimer
-      self->lockdownTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getMaelstromTimer
-      self->maelstromTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getOrderTimer
-      self->orderTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getPlagueTimer
-      self->plagueTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRemoveTimer
-      self->removeTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getStasisTimer
-      self->stasisTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getStimTimer
-      self->stimTimer = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getOrder
-      self->order = Orders::None.getID();
-      //------------------------------------------------------------------------------------------------------
-      //getSecondaryOrder
-      self->secondaryOrder = Orders::None.getID();
-      //------------------------------------------------------------------------------------------------------
-      //getBuildUnit
-      self->buildUnit = -1;
-      //------------------------------------------------------------------------------------------------------
-      //isTraining
-      self->isTraining = false;
-      //------------------------------------------------------------------------------------------------------
-      //isMorphing
-      self->isMorphing = false;
-      //------------------------------------------------------------------------------------------------------
-      //isConstructing
-      self->isConstructing = false;
-      //------------------------------------------------------------------------------------------------------
-      //isIdle
-      self->isIdle = false;
-      //------------------------------------------------------------------------------------------------------
-      //getTarget
-      self->target = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getTargetPosition
-      self->targetPositionX = Positions::Unknown.x();
-      self->targetPositionY = Positions::Unknown.y();
-      //------------------------------------------------------------------------------------------------------
-      //getOrderTarget
-      self->orderTarget = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getAddon
-      self->addon = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getNydusExit
-      self->nydusExit = -1;
-      //------------------------------------------------------------------------------------------------------
-      //isAccelerating
-      self->isAccelerating = false;
-      //------------------------------------------------------------------------------------------------------
-      //isBeingGathered
-      self->isBeingGathered = false;
-      //------------------------------------------------------------------------------------------------------
-      //isBlind
-      self->isBlind = false;
-      //------------------------------------------------------------------------------------------------------
-      //isBraking
-      self->isBraking = false;
-      //------------------------------------------------------------------------------------------------------
-      //isCarryingGas
-      //isCarryingMinerals
-      self->carryResourceType = 0;
-      //------------------------------------------------------------------------------------------------------
-      //isLifted
-      self->isLifted = false;
-      //------------------------------------------------------------------------------------------------------
-      //isParasited
-      self->isParasited = false;
-      //------------------------------------------------------------------------------------------------------
-      //isSelected
-      self->isSelected = false;
-      //------------------------------------------------------------------------------------------------------
-      //isUnderStorm
-      self->isUnderStorm = false;
-      //------------------------------------------------------------------------------------------------------
-      //isUnpowered
-      self->isUnpowered = false;
+      self->lastHitPoints       = 0;      //getHitPoints
+      self->hitPoints           = 0;      //getHitPoints
+      self->shields             = 0;      //getShields
+      self->energy              = 0;      //getEnergy
+      self->resources           = 0;      //getResources
+      self->killCount           = 0;      //getKillCount
+      self->defenseMatrixPoints = 0;      //getDefenseMatrixPoints
+      self->defenseMatrixTimer  = 0;      //getDefenseMatrixTimer
+      self->ensnareTimer        = 0;      //getEnsnareTimer
+      self->irradiateTimer      = 0;      //getIrradiateTimer
+      self->lockdownTimer       = 0;      //getLockdownTimer
+      self->maelstromTimer      = 0;      //getMaelstromTimer
+      self->orderTimer          = 0;      //getOrderTimer
+      self->plagueTimer         = 0;      //getPlagueTimer
+      self->removeTimer         = 0;      //getRemoveTimer
+      self->stasisTimer         = 0;      //getStasisTimer
+      self->stimTimer           = 0;      //getStimTimer
+      self->order               = BW::OrderID::None;  //getOrder
+      self->secondaryOrder      = BW::OrderID::None;  //getSecondaryOrder
+      self->buildUnit           = -1;     //getBuildUnit
+      self->isTraining          = false;  //isTraining
+      self->isMorphing          = false;  //isMorphing
+      self->isConstructing      = false;  //isConstructing
+      self->isIdle              = false;  //isIdle
+      self->target              = -1;     //getTarget
+      self->targetPositionX     = Positions::Unknown.x(); //getTargetPosition
+      self->targetPositionY     = Positions::Unknown.y(); //getTargetPosition
+      self->orderTarget         = -1;     //getOrderTarget
+      self->addon               = -1;     //getAddon
+      self->nydusExit           = -1;     //getNydusExit
+      self->isAccelerating      = false;  //isAccelerating
+      self->isBeingGathered     = false;  //isBeingGathered
+      self->isBlind             = false;  //isBlind
+      self->isBraking           = false;  //isBraking
+      self->carryResourceType   = 0;      //isCarryingMinerals;isCarryingGas
+      self->isLifted            = false;  //isLifted
+      self->isParasited         = false;  //isParasited
+      self->isSelected          = false;  //isSelected
+      self->isUnderStorm        = false;  //isUnderStorm
+      self->isUnpowered         = false;  //isUnpowered
 
     }
     if (canAccess())
@@ -645,18 +569,65 @@ namespace BWAPI
     }
     if (canAccessInside())
     {
+
+      // Default assignments
+      self->scarabCount        = 0;
+      self->spiderMineCount    = 0;
+      self->trainingQueueCount = 0;
+      self->remainingTrainTime = 0;
+      self->carrier            = -1;
+      self->hatchery           = -1;
+      self->hasNuke            = false;
+
       //------------------------------------------------------------------------------------------------------
-      //getScarabCount
-      if (_getType==UnitTypes::Protoss_Reaver)
-        self->scarabCount = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.scarabCount;
-      else
-        self->scarabCount = 0;
+      // getTrainingQueue
+      if ( !hasEmptyBuildQueue )
+      {
+        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
+        {
+          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
+          self->trainingQueueCount++;
+        }
+      }
       //------------------------------------------------------------------------------------------------------
-      //getSpiderMineCount
-      if (_getType == UnitTypes::Terran_Vulture)
-        self->spiderMineCount = getOriginalRawData->childInfoUnion.vultureBikeMines.spiderMineCount;
-      else
-        self->spiderMineCount = 0;
+      // getRemainingTrainTime
+      if ( getOriginalRawData->currentBuildUnit )
+        self->remainingTrainTime = getOriginalRawData->currentBuildUnit->remainingBuildTime;
+
+      // Unit Type switch
+      switch ( _getType.getID() )
+      {
+      case BW::UnitID::Protoss_Reaver:
+        self->scarabCount = getOriginalRawData->carrier.inHangerCount;
+        break;
+      case BW::UnitID::Terran_Vulture:
+        self->spiderMineCount = getOriginalRawData->vulture.spiderMineCount;
+        break;
+      case BW::UnitID::Terran_NuclearSilo:
+        if (getOriginalRawData->secondaryOrderID == BW::OrderID::Train)
+        {
+          self->trainingQueue[0]   = BW::UnitID::Terran_NuclearMissile;
+          self->trainingQueueCount = 1;
+        }
+        self->hasNuke = (getOriginalRawData->hasNuke != 0);
+        break;
+      case BW::UnitID::Zerg_Hatchery:
+      case BW::UnitID::Zerg_Lair:
+      case BW::UnitID::Zerg_Hive:
+        if ( !self->isCompleted && self->buildType == BW::UnitID::Zerg_Hatchery )
+          self->remainingTrainTime = self->remainingBuildTime;
+        else
+          self->remainingTrainTime = getOriginalRawData->building.larvaTimer * 9 + ((getOriginalRawData->orderQueueTimer + 8) % 9);
+        break;
+      case BW::UnitID::Protoss_Interceptor:
+        self->carrier = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->interceptor.parent)));
+        break;
+      case BW::UnitID::Zerg_Larva:
+        self->hatchery = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->connectedUnit)));
+        break;
+      default:
+        break;
+      }
       //------------------------------------------------------------------------------------------------------
       //getBuildType
       if (self->order == BW::OrderID::TerranBuildSelf ||
@@ -671,8 +642,8 @@ namespace BWAPI
         else
           self->buildType = self->type;
       }
-      else if (self->order == BW::OrderID::ConstructingBuilding && self->buildUnit!=-1)
-        self->buildType = ((UnitImpl*)getBuildUnit())->getOriginalRawData->unitID.id;
+      else if (self->order == BW::OrderID::ConstructingBuilding && self->buildUnit != -1)
+        self->buildType = ((UnitImpl*)getBuildUnit())->getOriginalRawData->unitType.id;
       else if (hasEmptyBuildQueue || self->isIdle)
         self->buildType = UnitTypes::None.getID();
       else if (self->order == BW::OrderID::BuildTerran ||
@@ -688,79 +659,43 @@ namespace BWAPI
       else
         self->buildType = UnitTypes::None.getID();
       //------------------------------------------------------------------------------------------------------
-      //getTrainingQueue
-      if (_getType == UnitTypes::Terran_Nuclear_Silo)
-      {
-        if (getOriginalRawData->secondaryOrderID == BW::OrderID::Train)
-        {
-          self->trainingQueue[0] = UnitTypes::Terran_Nuclear_Missile.getID();
-          self->trainingQueueCount = 1;
-        }
-        else
-          self->trainingQueueCount = 0;
-      }
-      else if (hasEmptyBuildQueue)
-        self->trainingQueueCount = 0;
-      else
-      {
-        self->trainingQueueCount = 0;
-        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
-        {
-          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
-          self->trainingQueueCount++;
-        }
-      }
-      //------------------------------------------------------------------------------------------------------
       //getTech
+      //getRemainingResearchTime
       if (self->order == BW::OrderID::ResearchTech)
-        self->tech = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion1.techID;
+      {
+        self->tech = getOriginalRawData->building.techType;
+        self->remainingResearchTime = getOriginalRawData->building.upgradeResearchTime;
+      }
       else
-        self->tech = TechTypes::None.getID();
+      {
+        self->tech = BW::TechID::None;
+        self->remainingResearchTime = 0;
+      }
       //------------------------------------------------------------------------------------------------------
       //getUpgrade
+      //getRemainingUpgradeTime
       if (self->order == BW::OrderID::Upgrade)
-        self->upgrade = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.subChildUnitUnion2.upgradeID;
+      {
+        self->upgrade = getOriginalRawData->building.upgradeType;
+        self->remainingUpgradeTime = getOriginalRawData->building.upgradeResearchTime;
+      }
       else
-        self->upgrade = UpgradeTypes::None.getID();
+      {
+        self->upgrade = BW::UpgradeID::None;
+        self->remainingUpgradeTime = 0;
+      }
       //------------------------------------------------------------------------------------------------------
       //getRemainingBuildTime
-      if (self->isMorphing && self->buildType==UnitTypes::None.getID())
+      if (self->isMorphing && self->buildType == BW::UnitID::None)
         self->remainingBuildTime = 0;
       else
         self->remainingBuildTime = getOriginalRawData->remainingBuildTime;
       //------------------------------------------------------------------------------------------------------
-      //getRemainingTrainTime
-      if (_getType == UnitTypes::Zerg_Hatchery ||
-          _getType == UnitTypes::Zerg_Lair     ||
-          _getType == UnitTypes::Zerg_Hive)
-      {
-        if (!self->isCompleted && self->buildType == UnitTypes::Zerg_Hatchery.getID())
-          self->remainingTrainTime = self->remainingBuildTime;
-        else
-          self->remainingTrainTime = getOriginalRawData->childUnitUnion2.unitIsNotScarabInterceptor.larvaSpawnTimer * 9 + ((getOriginalRawData->unknownOrderTimer_0x085 + 8) % 9);
-      }
-      else if ( getOriginalRawData->currentBuildUnit )
-        self->remainingTrainTime = getOriginalRawData->currentBuildUnit->remainingBuildTime;
-      else
-        self->remainingTrainTime = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRemainingResearchTime
-      if (self->order == BW::OrderID::ResearchTech)
-        self->remainingResearchTime = getOriginalRawData->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
-      else
-        self->remainingResearchTime = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRemainingUpgradeTime
-      if (self->order == BW::OrderID::Upgrade)
-        self->remainingUpgradeTime = getOriginalRawData->childUnitUnion1.unitIsBuilding.upgradeResearchTime;
-      else
-        self->remainingUpgradeTime = 0;
-      //------------------------------------------------------------------------------------------------------
       //getRallyPosition
       if (this->_getType.canProduce())
       {
-        self->rallyPositionX = getOriginalRawData->rallyPsiProviderUnion.rally.rallyX;
-        self->rallyPositionY = getOriginalRawData->rallyPsiProviderUnion.rally.rallyY;
+        self->rallyPositionX = getOriginalRawData->rally.x;
+        self->rallyPositionY = getOriginalRawData->rally.y;
       }
       else
       {
@@ -770,92 +705,40 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getRallyUnit
       if (this->_getType.canProduce())
-        self->rallyUnit = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->rallyPsiProviderUnion.rally.rallyUnit));
+        self->rallyUnit = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->rally.unit));
       else
         self->rallyUnit = -1;
       //------------------------------------------------------------------------------------------------------
       //getTransport
       self->transport = BroodwarImpl.server.getUnitID(_getTransport);
       //------------------------------------------------------------------------------------------------------
-      //getCarrier
-      if (_getType != UnitTypes::Protoss_Interceptor)
-        self->carrier = -1;
-      else
-        self->carrier = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->childInfoUnion.parentUnit)));
-      //------------------------------------------------------------------------------------------------------
-      //getHatchery
-      if (_getType != UnitTypes::Zerg_Larva)
-        self->hatchery = -1;
-      else
-        self->hatchery = BroodwarImpl.server.getUnitID((Unit*)(UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->connectedUnit)));
-      //------------------------------------------------------------------------------------------------------
-      //hasNuke
-      if (_getType!=UnitTypes::Terran_Nuclear_Silo) //not sure if this check is needed, but just to be safe
-        self->hasNuke = false;
-      else
-        self->hasNuke = (getOriginalRawData->hasNuke!=0);
-      //------------------------------------------------------------------------------------------------------
       //isHallucination
       self->isHallucination = getOriginalRawData->status.getBit(BW::StatusFlags::IsHallucination);
     }
     else
     {
-      //------------------------------------------------------------------------------------------------------
-      //getScarabCount
-      self->scarabCount = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getSpiderMineCount
-      self->spiderMineCount = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getBuildType
-      self->buildType = UnitTypes::None.getID();
-      //------------------------------------------------------------------------------------------------------
-      //getTrainingQueue
-      self->trainingQueueCount = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getTech
-      self->tech = TechTypes::None.getID();
-      //------------------------------------------------------------------------------------------------------
-      //getUpgrade
-      self->upgrade = UpgradeTypes::None.getID();
-      //------------------------------------------------------------------------------------------------------
-      //getRemainingBuildTime
-      self->remainingBuildTime = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRemainingTrainTime
-      self->remainingTrainTime = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRemainingResearchTime
-      self->remainingResearchTime = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRemainingUpgradeTime
-      self->remainingUpgradeTime = 0;
-      //------------------------------------------------------------------------------------------------------
-      //getRallyPosition
-      self->rallyPositionX = Positions::None.x();
-      self->rallyPositionY = Positions::None.y();
-      //------------------------------------------------------------------------------------------------------
-      //getRallyUnit
-      self->rallyUnit = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getTransport
-      self->transport = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getCarrier
-      self->carrier = -1;
-      //------------------------------------------------------------------------------------------------------
-      //getHatchery
-      self->hatchery = -1;
-      //------------------------------------------------------------------------------------------------------
-      //hasNuke
-      self->hasNuke = false;
-      //------------------------------------------------------------------------------------------------------
-      //isHallucination
-      self->isHallucination = false;
+      self->scarabCount           = 0;                    //getScarabCount
+      self->spiderMineCount       = 0;                    //getSpiderMineCount
+      self->buildType             = BW::UnitID::None;     //getBuildType
+      self->trainingQueueCount    = 0;                    //getTrainingQueue
+      self->tech                  = BW::TechID::None;     //getTech
+      self->upgrade               = BW::UpgradeID::None;  //getUpgrade
+      self->remainingBuildTime    = 0;                    //getRemainingBuildTime
+      self->remainingTrainTime    = 0;                    //getRemainingTrainTime
+      self->remainingResearchTime = 0;                    //getRemainingResearchTime
+      self->remainingUpgradeTime  = 0;                    //getRemainingUpgradeTime
+      self->rallyPositionX        = Positions::None.x();  //getRallyPosition
+      self->rallyPositionY        = Positions::None.y();  //getRallyPosition
+      self->rallyUnit             = -1;                   //getRallyUnit
+      self->transport             = -1;                   //getTransport
+      self->carrier               = -1;                   //getCarrier
+      self->hatchery              = -1;                   //getHatchery
+      self->hasNuke               = false;                //hasNuke
+      self->isHallucination       = false;                //isHallucination
     }
-    if (self->order>=0)
-      self->order=BWtoBWAPI_Order[self->order];
-    if (self->secondaryOrder>=0)
-      self->secondaryOrder=BWtoBWAPI_Order[self->secondaryOrder];
+    if (self->order >= 0)
+      self->order = BWtoBWAPI_Order[self->order];
+    if (self->secondaryOrder >= 0)
+      self->secondaryOrder = BWtoBWAPI_Order[self->secondaryOrder];
   }
 }
