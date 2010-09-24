@@ -15,8 +15,8 @@ namespace BW
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Position::Position(const BW::TilePosition& position)
-      : x(position.x*BW::TILE_SIZE)
-      , y(position.y*BW::TILE_SIZE)
+      : x(position.x * TILE_SIZE)
+      , y(position.y * TILE_SIZE)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -40,7 +40,7 @@ namespace BW
   //---------------------------------------------- OPERATOR < ------------------------------------------------
   bool Position::operator  < (const BW::Position& position) const
   {
-    return this->x < position.x ||
+    return this->x   < position.x ||
            (this->x == position.x && this->y < position.y);
   }
   //----------------------------------------------------------------------------------------------------------

@@ -23,22 +23,23 @@
  * -# Offests to bw data/functions
  * -# Functions that communicate directly with broodwar.
  */
+
+#define PLAYER_COUNT             12
+#define PLAYABLE_PLAYER_COUNT     8
+#define RACE_COUNT                3
+#define UNIT_TYPE_COUNT         228
+#define TECH_TYPE_COUNT          44
+#define UPGRADE_TYPE_COUNT       61
+#define WEAPON_TYPE_COUNT       130
+#define DAMAGE_TYPE_COUNT         5
+#define EXPLOSION_TYPE_COUNT     25
+#define FLINGY_TYPE_COUNT       209
+#define UNIT_ARRAY_MAX_LENGTH  1700
+#define BULLET_ARRAY_MAX_LENGTH 100
+#define TILE_SIZE                32
+
 namespace BW
 {
-  static const u8  PLAYER_COUNT            =   12;
-  static const u8  PLAYABLE_PLAYER_COUNT   =    8;
-  static const u8  RACE_COUNT              =    3;
-  static const u8  UNIT_TYPE_COUNT         =  228;
-  static const u8  TECH_TYPE_COUNT         =   44;
-  static const u8  UPGRADE_TYPE_COUNT      =   61;
-  static const u8  WEAPON_TYPE_COUNT       =  130;
-  static const u8  DAMAGE_TYPE_COUNT       =    5;
-  static const u8  EXPLOSION_TYPE_COUNT    =   25;
-  static const u8  FLINGY_TYPE_COUNT       =  209;
-  static const u32 UNIT_ARRAY_MAX_LENGTH   = 1700;
-  static const u32 BULLET_ARRAY_MAX_LENGTH =  100;
-  static const int TILE_SIZE               =   32;
-
   struct Unit;
   struct UnitArray;
   struct Bullet;
@@ -46,16 +47,17 @@ namespace BW
   class  TileType;
   class  DoodatType;
   class  dialog;
-  struct dlgEvent;
-  struct rect;
   struct bitmap;
+  struct rect;
+  struct dlgEvent;
   struct fntHead;
 
+/*
   struct Positions
   {
     u16   x;
     u16   y;
-  };
+  };*/
 
   struct DatLoad
   {
@@ -83,7 +85,7 @@ namespace BW
   static PlayerResources *BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0;
 
   static u8        *BWDATA_PlayerVictory  = (u8*)        0x00650974;
-  static Positions *BWDATA_startPositions = (Positions*) 0x0058D720;
+  static Position  *BWDATA_startPositions = (Position*) 0x0058D720;
 
   /** Force Names */
   struct ForceName
@@ -114,10 +116,10 @@ namespace BW
   /** Unit counts: all, completed, killed, dead */
   struct Counts
   {
-    s32 all[BW::UNIT_TYPE_COUNT][PLAYER_COUNT];
-    s32 completed[BW::UNIT_TYPE_COUNT][PLAYER_COUNT];
-    s32 killed[BW::UNIT_TYPE_COUNT][PLAYER_COUNT];
-    s32 dead[BW::UNIT_TYPE_COUNT][PLAYER_COUNT];
+    s32 all[UNIT_TYPE_COUNT][PLAYER_COUNT];
+    s32 completed[UNIT_TYPE_COUNT][PLAYER_COUNT];
+    s32 killed[UNIT_TYPE_COUNT][PLAYER_COUNT];
+    s32 dead[UNIT_TYPE_COUNT][PLAYER_COUNT];
   };
   static Counts *BWDATA_Counts             = (Counts*) 0x00582324;
 
@@ -277,13 +279,13 @@ namespace BW
   static void (__cdecl *BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
   static u32            *BWDATA_MoveToX                  = (u32*)             0x0062848C;
   static u32            *BWDATA_MoveToY                  = (u32*)             0x006284A8;
-  static Positions      *BWDATA_MoveToTile               = (Positions*)       0x0057F1D0;
+  static Position       *BWDATA_MoveToTile               = (Position*)       0x0057F1D0;
 
   static POINT          *BWDATA_Mouse                    = (POINT*) 0x006CDDC4;
   static u32            *BWDATA_ScreenX                  = (u32*)   0x00628448;
   static u32            *BWDATA_ScreenY                  = (u32*)   0x00628470;
 
-  static Positions      *BWDATA_MapSize                  = (Positions*) 0x0057F1D4;
+  static Position       *BWDATA_MapSize                  = (Position*) 0x0057F1D4;
 
   //--------------------------------------------- STRINGS ----------------------------------------------------
   static char           *BWDATA_menuMapFileName          = (char*) 0x0059BC88;

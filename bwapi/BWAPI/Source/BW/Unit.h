@@ -213,8 +213,7 @@ namespace BW
     /*0x104*/ u8                                  pathingCollisionInterval;  // unknown
     /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
     /*0x106*/ u16                                 unknown_0x106;
-    /*0x108*/ BW::Position                        contoursUnknownLeft;    /**< @todo Unknown */  // top left point
-    /*0x10C*/ BW::Position                        contoursUnknownRight;   /**< @todo Unknown */ // bottom right point
+    /*0x108*/ BW::rect                            contourBounds;          /**< @todo Unknown */  // top left point
     /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;

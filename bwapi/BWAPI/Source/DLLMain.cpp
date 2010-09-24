@@ -98,82 +98,98 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
-  int x = _x;
-  int y = _y;
-  int w = _w;
-  int h = _h;
-  if (ctype == 2)
+  RECT box = { _x, _y, _w, _h };
+  switch ( ctype )
   {
-    x -= *(BW::BWDATA_ScreenX);
-    y -= *(BW::BWDATA_ScreenY);
+  case 2:
+    box.left -= *(BW::BWDATA_ScreenX);
+    box.top  -= *(BW::BWDATA_ScreenY);
+    break;
+  case 3:
+    box.left += BW::BWDATA_Mouse->x;
+    box.top  += BW::BWDATA_Mouse->y;
+    break;
   }
-  else if (ctype == 3)
-  {
-    x += BW::BWDATA_Mouse->x;
-    y += BW::BWDATA_Mouse->y;
-  }
-  if (x + w <= 0 || y + h <= 0 || x >= 639 || y >= 479)
+
+  int right  = box.left + box.right;
+  int bottom = box.top  + box.bottom;
+  if (right    <= 0   ||
+      bottom   <= 0   ||
+      box.left >= BW::BWDATA_GameScreenBuffer->wid - 1 ||
+      box.top  >= BW::BWDATA_GameScreenBuffer->ht  - 1)
     return;
-  if (x + w > 639) w = 639 - x;
-  if (y + h > 479) h = 479 - y;
-  if (x < 0) {w += x; x = 0;}
-  if (y < 0) {h += y; y = 0;}
-  
-  if ( BW::BWDATA_GameScreenBuffer )
+  if ( right > BW::BWDATA_GameScreenBuffer->wid - 1 )
+    box.right = (BW::BWDATA_GameScreenBuffer->wid - 1) - box.left;
+  if ( bottom > BW::BWDATA_GameScreenBuffer->ht - 1 )
+    box.bottom = (BW::BWDATA_GameScreenBuffer->ht - 1) - box.top;
+  if ( box.left < 0 )
+  { 
+    box.right += box.left; 
+    box.left  =  0;
+  }
+  if ( box.top < 0 )
   {
-    u8 *data = BW::BWDATA_GameScreenBuffer->data;
-    if ( data )
-    {
-      for ( int iy = y; iy < y + h; iy++ )
-        for ( int ix = x; ix < x + w; ix++ )
-          data[iy*640 + ix] = (u8)color;
-    }
+    box.bottom  += box.top;
+    box.top     =  0;
+  }
+
+  u8 *data = BW::BWDATA_GameScreenBuffer->data;
+  if ( data )
+  {
+    for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
+      for ( int ix = box.left; ix < box.left + box.right; ix++ )
+        data[iy * BW::BWDATA_GameScreenBuffer->wid + ix] = (u8)color;
   }
   wantRefresh = true;
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
 {
-  int x = _x;
-  int y = _y;
-  if (ctype == 2)
+  POINT pt = { _x, _y };
+  switch ( ctype )
   {
-    x -= *(BW::BWDATA_ScreenX);
-    y -= *(BW::BWDATA_ScreenY);
+  case 2:
+    pt.x -= *(BW::BWDATA_ScreenX);
+    pt.y -= *(BW::BWDATA_ScreenY);
+    break;
+  case 3:
+    pt.x += BW::BWDATA_Mouse->x;
+    pt.y += BW::BWDATA_Mouse->y;
+    break;
   }
-  else if (ctype == 3)
-  {
-    x += BW::BWDATA_Mouse->x;
-    y += BW::BWDATA_Mouse->y;
-  }
-  if (x + 1 <= 0 || y + 1 <= 0 || x >= 638 || y >= 478)
+  if ( pt.x + 1 <= 0 ||
+       pt.y + 1 <= 0 ||
+       pt.x >= BW::BWDATA_GameScreenBuffer->wid - 2 ||
+       pt.y >= BW::BWDATA_GameScreenBuffer->ht - 2)
     return;
 
-  if ( BW::BWDATA_GameScreenBuffer )
-  {
-    u8 *data = BW::BWDATA_GameScreenBuffer->data;
-    if ( data )
-      data[y*640 + x] = (u8)color;
-  }
+  u8 *data = BW::BWDATA_GameScreenBuffer->data;
+  if ( data )
+    data[pt.y * BW::BWDATA_GameScreenBuffer->wid + pt.x] = (u8)color;
   wantRefresh = true;
 }
 
 void drawText(int _x, int _y, const char* ptext, int ctype, char size)
 {
-  if (ctype == 2)
+  POINT pt = { _x, _y };
+  switch ( ctype )
   {
-    _x -= *(BW::BWDATA_ScreenX);
-    _y -= *(BW::BWDATA_ScreenY);
+  case 2:
+    pt.x -= *(BW::BWDATA_ScreenX);
+    pt.y -= *(BW::BWDATA_ScreenY);
+    break;
+  case 3:
+    pt.x += BW::BWDATA_Mouse->x;
+    pt.y += BW::BWDATA_Mouse->y;
+    break;
   }
-  else if (ctype == 3)
-  {
-    _x += BW::BWDATA_Mouse->x;
-    _y += BW::BWDATA_Mouse->y;
-  }
-  if (_x + BW::GetTextWidth(ptext, size) < 0 || _y + BW::GetTextHeight(ptext, size) < 0 || _x > 640 || _y > 400)
+  if (pt.x + BW::GetTextWidth(ptext, size)  < 0 || 
+      pt.y + BW::GetTextHeight(ptext, size) < 0 || 
+      pt.x > BW::BWDATA_GameScreenBuffer->wid   || 
+      pt.y > BW::BWDATA_GameScreenBuffer->ht)
     return;
 
-  BW::BlitText(ptext, BW::BWDATA_GameScreenBuffer, _x, _y, size);
+  BW::BlitText(ptext, BW::BWDATA_GameScreenBuffer, pt.x, pt.y, size);
   wantRefresh = true;
 }
 

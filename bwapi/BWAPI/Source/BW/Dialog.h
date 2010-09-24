@@ -67,6 +67,21 @@ namespace BW
     WORD  y;
   };
 
+  struct bitmap
+  {
+    u16 wid;
+    u16 ht;
+    u8  *data;
+  };
+
+  struct rect
+  {
+    s16 Xmin;
+    s16 Ymin;
+    s16 Xmax;
+    s16 Ymax;
+  };
+
   struct dlgEvent
   {
     DWORD dwUser;
@@ -77,21 +92,6 @@ namespace BW
     WORD  wNo;
     pt    cursor;
     WORD  wUnk_0x12;
-  };
-
-  struct bitmap
-  {
-    WORD  wid;
-    WORD  ht;
-    BYTE  *data;
-  };
-  
-  struct rect
-  {
-    short Xmin;
-    short Ymin;
-    short Xmax;
-    short Ymax;
   };
 
   struct fntChr
@@ -325,7 +325,6 @@ namespace BW
   };
 #pragma pack()
   dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight); // Creates a custom window dialog
-  dialog  *CreateCanvas(const char *pszName);       // Creates an invisible dialog the size of the screen used for drawing purposes
   dialog  *FindDialogGlobal(const char *pszName);   // Finds a dialog in Starcraft's global list of dialogs
   int     GetTextWidth(const char *pszString, BYTE bSize);  // Retrieves the width of the text string
   int     GetTextHeight(const char *pszString, BYTE bSize); // Retrieves the height of the text string

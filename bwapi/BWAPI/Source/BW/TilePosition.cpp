@@ -20,8 +20,8 @@ namespace BW
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   TilePosition::TilePosition(const Position& position)
-      : x(position.x / BW::TILE_SIZE)
-      , y(position.y / BW::TILE_SIZE)
+      : x(position.x / TILE_SIZE)
+      , y(position.y / TILE_SIZE)
   {
   }
   //---------------------------------------------- OPERATOR == -----------------------------------------------
