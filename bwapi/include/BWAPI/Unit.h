@@ -637,5 +637,7 @@ namespace BWAPI
        * tech.*/
       virtual bool useTech(TechType tech, Unit* target) = 0;
 
+      /** Checks to verify that the unit is capable of moving to the target location */
+      virtual bool hasPath(Position target) = 0;
   };
 }
