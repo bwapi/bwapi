@@ -2017,6 +2017,27 @@ namespace BWAPI
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
     return true;
   }
+  //---------------------------------------------- REGION CHECK ----------------------------------------------
+  bool UnitImpl::hasPath(Position target)
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
+
+    BWAPI::TilePosition srcPos = this->getTilePosition();
+    BWAPI::TilePosition dstPos = BWAPI::TilePosition(target);
+
+    if ( BW::BWDATA_SAIPathing )
+    {
+      BW::region *srcRgn = getRegion(BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()][srcPos.x()]);
+      if ( srcRgn->isConnectedTo(BW::BWDATA_SAIPathing->mapTileRegionId[dstPos.y()][dstPos.x()]) )
+        return true;
+    }
+    BroodwarImpl.setLastError(Errors::Out_Of_Range);
+    return false;
+  }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {

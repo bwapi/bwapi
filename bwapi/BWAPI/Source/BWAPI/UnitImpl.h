@@ -206,6 +206,7 @@ namespace BWAPI
       virtual bool useTech(TechType tech);
       virtual bool useTech(TechType tech, Position target);
       virtual bool useTech(TechType tech, Unit* target);
+      virtual bool hasPath(Position target);
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,

@@ -471,7 +471,6 @@ namespace BWAPI
             lastPos = p->steps[i];
           }
 
-          BW::region *rgns = BW::BWDATA_SAIPathing->regions;
           u16 *areaList = (u16*)&p->steps[p->num_segments];
           for ( int i = p->cur_area; i < p->num_areas; ++i )
           {

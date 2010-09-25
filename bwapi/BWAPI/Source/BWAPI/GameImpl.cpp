@@ -569,7 +569,7 @@ namespace BWAPI
 
     // Retrieve the region of the builder
     BW::region *startRgn;
-    if ( builder )
+    if ( builder && BW::BWDATA_SAIPathing )
     {
       TilePosition builderPos = builder->getTilePosition();
       startRgn = getRegion( BW::BWDATA_SAIPathing->mapTileRegionId[ builderPos.y() ][ builderPos.x() ] );
@@ -585,7 +585,7 @@ namespace BWAPI
           return false; // @TODO: Error code for !isExplored ??
 
         // Check if builder is capable of reaching the building site
-        if ( builder && !startRgn->isConnectedTo(BW::BWDATA_SAIPathing->mapTileRegionId[iy][ix]) )
+        if ( builder && BW::BWDATA_SAIPathing && !startRgn->isConnectedTo(BW::BWDATA_SAIPathing->mapTileRegionId[iy][ix]) )
           return false;
       }
     }
