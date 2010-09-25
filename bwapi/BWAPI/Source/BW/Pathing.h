@@ -3,9 +3,11 @@
 #include "Position.h"
 #include <Util/Types.h>
 
+#define getRegion(x) (&(BW::BWDATA_SAIPathing->regions[(x)]))
 
 namespace BW
 {
+
   struct pathPoint
   {
     u16 x;
@@ -28,8 +30,16 @@ namespace BW
     u16 bottom;
   };
 
-  struct region
+  class region
   {
+  public:
+    bool      isConnectedTo(region *target);
+    bool      isConnectedTo(u16 index);
+    u8        getAccessibleNeighbours(region **out_regions, u8 outputCount);
+    region    *getNeighbor(u8 index);
+    Position  getCenter();
+
+
     u16       accessabilityFlags;
               // 0x1FF9 = High ground    1001
               // 0x1FFB = Low ground     1011
@@ -39,7 +49,7 @@ namespace BW
     u8        pathCount;
     u8        neighborCount;
     u32       unk_8;
-    WORD      *neighbors; // allocated array of IDs for neighbors
+    u16       *neighbors; // allocated array of IDs for neighbors
     u32       rgnCenterX; // must >> 8; in pixels
     u32       rgnCenterY; // must >> 8; in pixels
     pathRect  rgnBox; // in pixels

@@ -71,10 +71,10 @@ namespace BWAPI
       virtual std::set< Bullet* >& getBullets();
       virtual std::list< Event >&  getEvents();
 
-      virtual Force*  getForce(int forceID);
-      virtual Player* getPlayer(int playerID);
-      virtual Unit*   getUnit(int unitID);
-      virtual Unit*   indexToUnit(int unitIndex);
+      virtual Force   *getForce(int forceID);
+      virtual Player  *getPlayer(int playerID);
+      virtual Unit    *getUnit(int unitID);
+      virtual Unit    *indexToUnit(int unitIndex);
 
       virtual GameType getGameType();
 

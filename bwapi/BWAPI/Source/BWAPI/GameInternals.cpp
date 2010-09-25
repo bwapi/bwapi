@@ -368,7 +368,8 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
 
-    if ( (*BW::BWDATA_SAIPATHING) )
+#ifdef BWAPI_DEBUG
+    if ( BW::BWDATA_SAIPathing )
     {
       setTextSize(0);
       
@@ -377,13 +378,13 @@ namespace BWAPI
       {
         for ( int x = 0; x < BW::BWDATA_MapSize->x; ++x )
         {
-          u16 c = (*BW::BWDATA_SAIPATHING)->mapTileRegionId[y][x];
+          u16 c = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
           // skip region 0 (bottom of the map), skip regions with no neighbors, skip inaccessable regions
           if ( c == 0 || 
                c >= 5000 ||
-              (*BW::BWDATA_SAIPATHING)->regions[c].neighborCount == 0 || 
-              (*BW::BWDATA_SAIPATHING)->regions[c].accessabilityFlags == 0x1FFD ||
-              (*BW::BWDATA_SAIPATHING)->regions[c].tileCount <= 1 )
+              BW::BWDATA_SAIPathing->regions[c].neighborCount == 0 || 
+              BW::BWDATA_SAIPathing->regions[c].accessabilityFlags == 0x1FFD ||
+              BW::BWDATA_SAIPathing->regions[c].tileCount <= 1 )
             continue;
 
           c &= 0xFF;
@@ -392,51 +393,39 @@ namespace BWAPI
 
           int px = x * 32;
           int py = y * 32;
-          for ( int i = 0; i < 32; i += 4 )
+          for ( int i = 0; i < 32; i += 8 )
           {
             drawLineMap(px, py + 32 - i, px + i, py + 32, BWAPI::Color((u8)c) );
             drawLineMap(px + i, py, px + 32, py + 32 - i, BWAPI::Color((u8)c) );
+            drawLineMap(px + 32, py + 32 - i, px + 32 - i, py + 32, BWAPI::Color((u8)c) );
+            drawLineMap(px + 32 - i, py, px, py + 32 - i, BWAPI::Color((u8)c) );
           }
         }
       }
 
       // iterate regions
-      for ( unsigned int i = 1; i < (*BW::BWDATA_SAIPATHING)->regionCount && i < 5000; ++i )
+      for ( unsigned int i = 1; i < BW::BWDATA_SAIPathing->regionCount && i < 5000; ++i )
       {
-        BW::region *rgn = &(*BW::BWDATA_SAIPATHING)->regions[i];
+        BW::region *rgn = getRegion(i);
         // skip inaccessable regions
         if ( rgn->accessabilityFlags == 0x1FFD )
           continue;
 
-        int xCenter = rgn->rgnCenterX >> 8;
-        int yCenter = rgn->rgnCenterY >> 8;
-        drawTextMap(xCenter, yCenter, "%u", rgn->groupIndex);
+        BW::Position center = rgn->getCenter();
+        drawTextMap(center.x, center.y, "%u", rgn->groupIndex);
         //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
-        for ( int e = 0; e < rgn->neighborCount; ++e )
+
+        BW::region *rgnList[255];
+        u8 rgnCount = rgn->getAccessibleNeighbours(rgnList, 255);
+        for ( int e = 0; e < rgnCount; ++e )
         {
-          u16 idx;
-          if ( rgn->neighbors )
-            idx = rgn->neighbors[e];
-          else
-            continue;
-
-          // Skip region 0, bottom of the map
-          if ( idx == 0 )
-            continue;
-
-          BW::region *targetRgn = &(*BW::BWDATA_SAIPATHING)->regions[idx];
-
-          // Skip regions that don't connect
-          if ( rgn->groupIndex != targetRgn->groupIndex )
-            continue;
-
-          if ( idx != 0 )
-            drawLineMap( xCenter, yCenter, targetRgn->rgnCenterX >> 8, targetRgn->rgnCenterY >> 8, BWAPI::Colors::White);
+          BW::Position targetCenter = rgnList[e]->getCenter();  
+          drawLineMap( center.x, center.y, targetCenter.x, targetCenter.y, BWAPI::Colors::White);
         }
       }
 
       // iterate contours
-      BW::contourHub *cont = (*BW::BWDATA_SAIPATHING)->contoursMain;
+      BW::contourHub *cont = BW::BWDATA_SAIPathing->contoursMain;
       if ( cont )
       {
         for ( int i = 0; i < cont->contourCount[0]; ++i )
@@ -482,18 +471,15 @@ namespace BWAPI
             lastPos = p->steps[i];
           }
 
-          BW::region *rgns = (*BW::BWDATA_SAIPATHING)->regions;
+          BW::region *rgns = BW::BWDATA_SAIPathing->regions;
           u16 *areaList = (u16*)&p->steps[p->num_segments];
           for ( int i = p->cur_area; i < p->num_areas; ++i )
           {
+            BW::Position center = getRegion(areaList[i])->getCenter();
             if ( i == p->cur_area )
-            {
-              lastPos.x = (u16)(rgns[areaList[i]].rgnCenterX >> 8);
-              lastPos.y = (u16)(rgns[areaList[i]].rgnCenterY >> 8);
-            }
-            drawLineMap( lastPos.x, lastPos.y, rgns[areaList[i]].rgnCenterX >> 8, rgns[areaList[i]].rgnCenterY >> 8, BWAPI::Colors::Yellow);
-            lastPos.x = (u16)(rgns[areaList[i]].rgnCenterX >> 8);
-            lastPos.y = (u16)(rgns[areaList[i]].rgnCenterY >> 8);
+              lastPos = center;
+            drawLineMap( lastPos.x, lastPos.y, center.x, center.y, BWAPI::Colors::Yellow);
+            lastPos = center;
           }
         }
         BW::rect *cRct = &u->getOriginalRawData->contourBounds;
@@ -502,6 +488,7 @@ namespace BWAPI
       }
 
     }
+#endif
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
@@ -1880,11 +1867,11 @@ namespace BWAPI
       screen_y2 += BW::BWDATA_Mouse->y;
       break;
     }
-    RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
-        (screen_x1 > scrLimit.right  && screen_x2 > scrLimit.right) ||
-        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom))
+        (screen_x1 > scrLimit.Xmax  && screen_x2 > scrLimit.Xmax) ||
+        (screen_y1 > scrLimit.Ymax && screen_y2 > scrLimit.Ymax))
       return false;
     return true;
   }
@@ -1916,11 +1903,11 @@ namespace BWAPI
       screen_y3 += BW::BWDATA_Mouse->y;
       break;
     }
-    RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-        (screen_x1 > scrLimit.right && screen_x2 > scrLimit.right && screen_x3 > scrLimit.right) ||
-        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom && screen_y3 > scrLimit.bottom))
+        (screen_x1 > scrLimit.Xmax && screen_x2 > scrLimit.Xmax && screen_x3 > scrLimit.Xmax) ||
+        (screen_y1 > scrLimit.Ymax && screen_y2 > scrLimit.Ymax && screen_y3 > scrLimit.Ymax))
       return false;
     return true;
   }

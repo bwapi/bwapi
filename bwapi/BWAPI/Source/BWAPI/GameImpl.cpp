@@ -288,16 +288,16 @@ namespace BWAPI
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
-    RECT scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     /* Sets the screen's position relative to the map */
     if (x < 0)
       x = 0;
     if (y < 0)
       y = 0;
-    if (x > Map::getWidth()  * 32 - scrLimit.right)
-      x = Map::getWidth() * 32 - scrLimit.right;
-    if (y > Map::getHeight() * 32 - (scrLimit.bottom + 80))
-      y = Map::getHeight() * 32 - (scrLimit.bottom + 80);
+    if (x > Map::getWidth()  * 32 - scrLimit.Xmax)
+      x = Map::getWidth() * 32 - scrLimit.Xmax;
+    if (y > Map::getHeight() * 32 - (scrLimit.Ymax + 80))
+      y = Map::getHeight() * 32 - (scrLimit.Ymax + 80);
 
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;
@@ -567,11 +567,28 @@ namespace BWAPI
       return false;
     }
 
-    /* Tile buildability check; must be explored first */
+    // Retrieve the region of the builder
+    BW::region *startRgn;
+    if ( builder )
+    {
+      TilePosition builderPos = builder->getTilePosition();
+      startRgn = getRegion( BW::BWDATA_SAIPathing->mapTileRegionId[ builderPos.y() ][ builderPos.x() ] );
+    }
+
+    /* Tile buildability check */
     for(int ix = left; ix < right; ++ix)
+    {
       for(int iy = top; iy < bottom; ++iy)
-        if ( !this->isBuildable(ix, iy) && !this->map.isExplored(ix, iy) )
-          return false; // @TODO: Error code for !isExplored
+      {
+        // Check if tile is buildable and explored
+        if ( !this->isBuildable(ix, iy) || !this->map.isExplored(ix, iy) )
+          return false; // @TODO: Error code for !isExplored ??
+
+        // Check if builder is capable of reaching the building site
+        if ( builder && !startRgn->isConnectedTo(BW::BWDATA_SAIPathing->mapTileRegionId[iy][ix]) )
+          return false;
+      }
+    }
 
     /* Ground unit dimension check */
     int targetX = left * 32 + type.tileWidth() * 32 / 2;
