@@ -461,6 +461,7 @@ namespace BWAPI
       // draw individual unit pathing
       foreach( UnitImpl *u, aliveUnits )
       {
+        
         BW::Path *p = u->getOriginalRawData->path;
         if ( p )
         {
