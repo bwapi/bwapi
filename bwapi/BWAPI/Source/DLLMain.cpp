@@ -311,6 +311,10 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
   if ( strcmpi(logfilename, "Starcraft\\SWAR\\MapComn\\creep.cpp") == 0 && logline == 420 )
     BW::BWDATA_ZergCreepArray = (u16*)rval;
 
+  /* Save the allocated SAI_Paths pointer */
+  if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\sai_PathCreate.cpp") == 0 && logline == 210 )
+    BW::BWDATA_SAIPathing = (BW::SAI_Paths*)rval;
+
   /* Save the allocated tileset pointer */
   if ( lastFile.find(".cv5") != std::string::npos )
   {

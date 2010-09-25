@@ -7,9 +7,9 @@ namespace BW
   TileID      *BWDATA_MapTileArray    = NULL;
   TileType    *BWDATA_TileSet         = NULL;
   DoodatType  *BWDATA_DoodatSet       = NULL;
-
-  char *BWDATA_StringTableOff = NULL;
-  u32  *BWDATA_MapFogOfWar    = NULL;
+  SAI_Paths   *BWDATA_SAIPathing      = NULL;
+  char        *BWDATA_StringTableOff  = NULL;
+  u32         *BWDATA_MapFogOfWar     = NULL;
 
   MiniTileMaps_type* BWDATA_MiniTileFlags = NULL;
   void (__stdcall *pOldDrawHook)(BW::bitmap *pSurface, BW::bounds *pBounds) = NULL;

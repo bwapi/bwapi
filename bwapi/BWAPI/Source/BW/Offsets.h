@@ -52,13 +52,6 @@ namespace BW
   struct dlgEvent;
   struct fntHead;
 
-/*
-  struct Positions
-  {
-    u16   x;
-    u16   y;
-  };*/
-
   struct DatLoad
   {
     u32   address;
@@ -453,7 +446,6 @@ namespace BW
   };
   extern MiniTileMaps_type *BWDATA_MiniTileFlags;
   extern u32               *BWDATA_MapFogOfWar;
-  
-  static SAI_Paths **BWDATA_SAIPATHING = (SAI_Paths**)0x006D5BFC;
+  extern SAI_Paths         *BWDATA_SAIPathing;
 };
 #pragma pack()
