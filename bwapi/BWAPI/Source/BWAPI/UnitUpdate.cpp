@@ -124,7 +124,7 @@ namespace BWAPI
           _getType == UnitTypes::Terran_Refinery          ||
           _getType == UnitTypes::Protoss_Assimilator      ||
           _getType == UnitTypes::Zerg_Extractor)
-        _getResources = getOriginalRawData->resource.resourceContained;
+        _getResources = getOriginalRawData->building.resource.resourceContained;
 
       getBuildQueueSlot = getOriginalRawData->buildQueueSlot; //getBuildQueueSlot
       getBuildQueue = (BW::UnitType*)getOriginalRawData->buildQueue;  //getBuildQueue
@@ -315,13 +315,13 @@ namespace BWAPI
       self->nydusExit = -1;
       if ( _getType == UnitTypes::Zerg_Nydus_Canal )
       {
-        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->nydus.exit);
+        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->building.nydus.exit);
         if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitType == BW::UnitID::Zerg_NydusCanal )
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
       }
 
       self->isAccelerating  = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating);  //isAccelerating
-      self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->resource.isBeingGathered != 0;  //isBeingGathered
+      self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->building.resource.isBeingGathered != 0;  //isBeingGathered
       self->isBlind         = getOriginalRawData->isBlind != 0;   //isBlind
       self->isBraking       = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Braking);   //isBraking
       //------------------------------------------------------------------------------------------------------

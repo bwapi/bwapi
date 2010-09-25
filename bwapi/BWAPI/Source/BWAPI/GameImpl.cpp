@@ -568,7 +568,7 @@ namespace BWAPI
     }
 
     // Retrieve the region of the builder
-    BW::region *startRgn;
+    BW::region *startRgn = NULL;
     if ( builder && BW::BWDATA_SAIPathing )
     {
       TilePosition builderPos = builder->getTilePosition();

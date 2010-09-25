@@ -141,7 +141,7 @@ namespace BW
                   BW::Unit *child;          // 0
                   u32      _unknown_04;     // 4
                   u8       inHangerCount;   // 8
-                  u8       outHangerCount;
+                  u8       outHangerCount;  // 9
                 } carrier;
                 
                 struct
@@ -154,14 +154,27 @@ namespace BW
                 
                 struct
                 {
-                  BW::Unit *addon;          // 0
-                  u16 addonBuildType;       // 4
-                  u16 upgradeResearchTime;  // 6
-                  u8  techType;             // 8
-                  u8  upgradeType;          // 9
-                  u8  larvaTimer;           // A
-                  u8  landingTimer;         // B
-                  u8  creepTimer;           // C
+                  BW::Unit *addon;               // 0
+                  u16      addonBuildType;       // 4
+                  u16      upgradeResearchTime;  // 6
+                  u8       techType;             // 8
+                  u8       upgradeType;          // 9
+                  u8       larvaTimer;           // A
+                  u8       landingTimer;         // B
+                  u8       creepTimer;           // C
+                  u8       upgradeLevel;         // D
+                  u8       _unknown_0E;          // E
+                  u8       _unknown_0F;          // F
+                  union
+                  { 
+                    struct
+                    { u16 resourceContained;
+                      u8  resourceIscript;
+                      u8  isBeingGathered;
+                    } resource;  /** When the unit is mineral? @todo investigate */
+                    struct { BW::Unit* exit;       } nydus; /** Probably the connected nydius canal @todo investigate*/
+                    struct { BW::CSprite* nukeDot; } ghost; /** Nuke dot, but of what, the ghost? @todo investigate*/
+                  };
                 } building;
                 
                 struct 
@@ -170,25 +183,15 @@ namespace BW
                   u32      _unknown_04;             // 4
                   u32      _unknown_08;             // 8
                   u8       repairResourceLossTimer; // C
+                  u8       upgradeLevel;            // D
+                  u8       isCarryingSomething;     // E
+                  u8       resourceCarryCount;      // F
+                  u16      unknown_x;               // 10
+                  u16      unknown_y;               // 12
                 } worker;
               };
-    /*0x0CD*/ u8 upgradeLevel;        /**< @todo Unknown */
-    /*0x0CE*/ u8 isCarryingSomething; /**< @todo Verify (may be set if going to carry something or targetting resources.. If 'isgathering' ? */
-    /*0x0CF*/ u8 resourceCarying;     /**< The amount of resources it is carrying */
-    /*0x0D0*/ union
-              { union
-                { struct { u16 x, y; } worker2; /** When the unit is worker? @todo investigate; This is a guess */
-                  struct
-                  { u16 resourceContained;
-                    u8  resourceIscript;
-                    u8  isBeingGathered;
-                  } resource;  /** When the unit is mineral? @todo investigate */
-                };
-                struct { BW::Unit* exit;       } nydus; /** Probably the connected nydius canal @todo investigate*/
-                struct { BW::CSprite* nukeDot; } ghost; /** Nuke dot, but of what, the ghost? @todo investigate*/
-              };
     /*0x0D4*/ u32                               hasNuke;
-    /*0x0D8*/ BW::Unit                          *unknown_0x0D8;
+    /*0x0D8*/ BW::Unit                          *unknown_0x0D8;   // attached nuke? guess
     /*0x0DC*/ Util::BitMask<u32>                status;
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */
     /*0x0E1*/ u8                                wireframeRandomizer;/**< @todo Unknown */
