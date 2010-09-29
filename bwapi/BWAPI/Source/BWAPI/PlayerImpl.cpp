@@ -251,7 +251,16 @@ namespace BWAPI
         (unit == UnitTypes::Protoss_Scout    && getUpgradeLevel(UpgradeTypes::Gravitic_Thrusters)   > 0) ||
         (unit == UnitTypes::Zerg_Ultralisk   && getUpgradeLevel(UpgradeTypes::Anabolic_Synthesis)   > 0))
       speed += 0;//?
-
+    /* The following is the Starcraft-Perfect calculation:
+      if ( unit == Protoss_Scout )
+        topSpeed += 427;
+      else
+        topSpeed += topSpeed >> 1;
+      if ( topSpeed < 853 )
+        topSpeed = 853;
+      acceleration *= 2;
+      turnRadius *= 2;
+    */
     return speed;
   }
   //--------------------------------------------- GROUND WEAPON MAX RANGE ------------------------------------
@@ -263,6 +272,11 @@ namespace BWAPI
       range += 1*32;
     if (unit == UnitTypes::Protoss_Dragoon && getUpgradeLevel(UpgradeTypes::Singularity_Charge) > 0)
       range += 2*32;
+    /* The following is the Starcraft-Perfect calculation:
+      case Terran_Marine: range += 1; break;
+      case Zerg_Hydralisk: range += 1; break;
+      case Protoss_Dragoon: range += 2; break;
+    */
     return range;
   }
   //--------------------------------------------- AIR WEAPON MAX RANGE ---------------------------------------
@@ -276,6 +290,12 @@ namespace BWAPI
       range += 2*32;
     if (unit == UnitTypes::Terran_Goliath  && getUpgradeLevel(UpgradeTypes::Charon_Boosters) > 0)
       range += 2*32;
+    /* The following is the Starcraft-Perfect calculation:
+      case Terran_Marine: range += 1; break;
+      case Zerg_Hydralisk: range += 1; break;
+      case Protoss_Dragoon: range += 2; break;
+      case Terran_Goliath: range += 3; break;
+    */
     return range;
   }
   //--------------------------------------------- SIGHT RANGE ------------------------------------------------
@@ -287,6 +307,9 @@ namespace BWAPI
         (unit == UnitTypes::Protoss_Observer && getUpgradeLevel(UpgradeTypes::Sensor_Array)    > 0) ||
         (unit == UnitTypes::Protoss_Scout    && getUpgradeLevel(UpgradeTypes::Apial_Sensors)   > 0))
       range += 2*32;
+    /* The following is the Starcraft-Perfect calculation
+      range = 11;
+    */
     return range;
   }
   //--------------------------------------------- GROUND WEAPON DAMAGE COOLDOWN ------------------------------
@@ -295,6 +318,13 @@ namespace BWAPI
     int cooldown = unit.groundWeapon().damageCooldown();
     if (unit == UnitTypes::Zerg_Zergling && getUpgradeLevel(UpgradeTypes::Adrenal_Glands) > 0)
       cooldown -= 0;//?
+    /* The following is the Starcraft-Perfect calculation
+      cooldown >>= 1;
+      if (cooldown >= 250)
+        cooldown = 250;
+      if (cooldown <= 5)
+        cooldown = 5;
+    */
     return cooldown;
   }
   //--------------------------------------------- ARMOR ------------------------------------------------------
@@ -311,8 +341,8 @@ namespace BWAPI
   { 
     if (this->isNeutral() || (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)))
     {
-      self->minerals = 0;
-      self->gas      = 0;
+      self->minerals           = 0;
+      self->gas                = 0;
       self->cumulativeMinerals = 0;
       self->cumulativeGas      = 0;
       for(int i = 0; i < UPGRADE_TYPE_COUNT; ++i)
