@@ -2,6 +2,8 @@
 #pragma pack(1)
 #include "Position.h"
 #include <Util/Types.h>
+#include <set>
+#include <list>
 
 #define getRegion(x) (&(BW::BWDATA_SAIPathing->regions[(x)]))
 
@@ -33,12 +35,13 @@ namespace BW
   class region
   {
   public:
-    bool      isConnectedTo(region *target);
-    bool      isConnectedTo(u16 index);
-    u8        getAccessibleNeighbours(region **out_regions, u8 outputCount);
-    region    *getNeighbor(u8 index);
-    Position  getCenter();
-
+    bool     isConnectedTo(region *target);
+    bool     isConnectedTo(u16 index);
+    u8       getAccessibleNeighbours(region **out_regions, u16 outputCount);
+    u16      getPointPath(region *target, Position *out_points, u16 outSize);
+    region   *getNeighbor(u8 index);
+    Position getCenter();
+    u16      getIndex();
 
     u16       accessabilityFlags;
               // 0x1FF9 = High ground    1001

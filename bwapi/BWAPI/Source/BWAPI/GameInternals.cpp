@@ -414,12 +414,12 @@ namespace BWAPI
         BW::Position center = rgn->getCenter();
         drawTextMap(center.x, center.y, "%u", rgn->groupIndex);
         //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
-
-        BW::region *rgnList[255];
-        u8 rgnCount = rgn->getAccessibleNeighbours(rgnList, 255);
-        for ( int e = 0; e < rgnCount; ++e )
+        
+        BW::region *neighborRgns[256];
+        u8 nCount = rgn->getAccessibleNeighbours(neighborRgns, 256);
+        for ( u8 i = 0; i < nCount; ++i )
         {
-          BW::Position targetCenter = rgnList[e]->getCenter();  
+          BW::Position targetCenter = neighborRgns[i]->getCenter();
           drawLineMap( center.x, center.y, targetCenter.x, targetCenter.y, BWAPI::Colors::White);
         }
       }
@@ -461,7 +461,42 @@ namespace BWAPI
       // draw individual unit pathing
       foreach( UnitImpl *u, aliveUnits )
       {
-        
+        if ( !u->getType().isFlyer() )
+        {
+          BW::TilePosition srcPos = BW::TilePosition(u->getOriginalRawData->position);
+          BW::TilePosition dstPos = BW::TilePosition(u->getOriginalRawData->moveToPos);
+          if ( srcPos == dstPos || srcPos.x > 255 || srcPos.y > 255 || dstPos.x > 255 || dstPos.y > 255 )
+            continue;
+
+          u16 srcId = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y][srcPos.x];
+          u16 dstId = BW::BWDATA_SAIPathing->mapTileRegionId[dstPos.y][dstPos.x];
+
+          if ( srcId >= 5000 || dstId >= 5000 )
+            continue;
+
+          if ( srcId == dstId )
+            continue;
+
+          BW::region *srcRgn = getRegion( srcId );
+          BW::region *dstRgn = getRegion( dstId );
+
+          BW::Position pts[256];
+          u16 pCount = srcRgn->getPointPath(dstRgn, pts, 256);
+
+          BW::Position last = u->getOriginalRawData->position;
+          for ( u16 i = 0; i < pCount; ++i )
+          {
+            drawLineMap(last.x, last.y, pts[i].x, pts[i].y, BWAPI::Colors::Yellow);
+            last = pts[i];
+          }
+        }
+        else
+        {
+          BW::Position start = u->getOriginalRawData->position;
+          BW::Position stop = u->getOriginalRawData->moveToPos;;
+          drawLineMap(start.x, start.y, stop.x, stop.y, BWAPI::Colors::Yellow);
+        }
+        /*
         BW::Path *p = u->getOriginalRawData->path;
         if ( p )
         {
@@ -485,6 +520,7 @@ namespace BWAPI
         BW::rect *cRct = &u->getOriginalRawData->contourBounds;
         if ( cRct->Xmax && cRct->Xmin && cRct->Ymax && cRct->Ymin )
           drawBoxMap(cRct->Xmin, cRct->Ymin, cRct->Xmax, cRct->Ymax, BWAPI::Colors::Orange);
+        */
       }
 
     }
