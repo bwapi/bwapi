@@ -201,5 +201,7 @@ namespace BWAPI
       virtual int getRemainingLatencyTime();
       virtual int getRevision();
       virtual bool isDebug();
+      virtual bool isLatComEnabled();
+      virtual void setLatCom(bool isEnabled);
   };
 }

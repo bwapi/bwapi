@@ -40,6 +40,7 @@ namespace BWAPI
     int remainingLatencyTime;
     int revision;
     bool isDebug;
+    bool hasLatCom;
     int frameCount;
     int fps;
     double averageFPS;

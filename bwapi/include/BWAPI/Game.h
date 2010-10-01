@@ -381,6 +381,12 @@ namespace BWAPI
 
       /** Retrieves the debug state of the BWAPI build. */
       virtual bool isDebug() = 0;
+
+      /** Returns true if latency compensation is enabled */
+      virtual bool isLatComEnabled() = 0;
+
+      /** Use to enable or disable latency compensation. Default: Enabled */
+      virtual void setLatCom(bool isEnabled) = 0;
   };
   extern Game* Broodwar;
 }

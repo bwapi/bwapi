@@ -73,6 +73,7 @@ namespace BWAPI
       , calledOnEnd(false)
       , frameCount(-1)
       , endTick(0)
+      , hasLatCom(true)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 

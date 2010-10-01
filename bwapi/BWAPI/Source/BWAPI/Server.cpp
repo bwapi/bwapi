@@ -273,6 +273,7 @@ namespace BWAPI
     data->mouseX                 = Broodwar->getMouseX();
     data->mouseY                 = Broodwar->getMouseY();
     data->isInGame               = Broodwar->isInGame();
+    data->hasLatCom              = Broodwar->isLatComEnabled();
     if (Broodwar->isInGame())
     {
       data->gameType          = Broodwar->getGameType().getID();
@@ -487,6 +488,9 @@ namespace BWAPI
       case BWAPIC::CommandType::SetTextSize:
         if (Broodwar->isInGame())
           Broodwar->setTextSize(v1);
+        break;
+      case BWAPIC::CommandType::SetLatCom:
+        Broodwar->setLatCom(v1 == 1);
         break;
       default:
         break;
