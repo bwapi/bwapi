@@ -34,6 +34,12 @@ namespace BWAPI
 
     int gameType;
     int latency;
+    int latencyFrames;
+    int latencyTime;
+    int remainingLatencyFrames;
+    int remainingLatencyTime;
+    int revision;
+    bool isDebug;
     int frameCount;
     int fps;
     double averageFPS;
