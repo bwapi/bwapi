@@ -250,7 +250,16 @@ namespace BWAPI
         (unit == UnitTypes::Protoss_Observer && getUpgradeLevel(UpgradeTypes::Gravitic_Boosters)    > 0) ||
         (unit == UnitTypes::Protoss_Scout    && getUpgradeLevel(UpgradeTypes::Gravitic_Thrusters)   > 0) ||
         (unit == UnitTypes::Zerg_Ultralisk   && getUpgradeLevel(UpgradeTypes::Anabolic_Synthesis)   > 0))
-      speed += 0;//?
+    {
+      if ( unit == UnitTypes::Protoss_Scout )
+        speed += 427/256.0;
+      else
+        speed = speed * 1.5;
+      if ( speed < 853/256.0 )
+        speed = 853/256.0;
+      //acceleration *= 2;
+      //turnRadius *= 2;
+    }
     /* The following is the Starcraft-Perfect calculation:
       if ( unit == Protoss_Scout )
         topSpeed += 427;
@@ -289,7 +298,7 @@ namespace BWAPI
     if (unit == UnitTypes::Protoss_Dragoon && getUpgradeLevel(UpgradeTypes::Singularity_Charge) > 0)
       range += 2*32;
     if (unit == UnitTypes::Terran_Goliath  && getUpgradeLevel(UpgradeTypes::Charon_Boosters) > 0)
-      range += 2*32;
+      range += 3*32;
     /* The following is the Starcraft-Perfect calculation:
       case Terran_Marine: range += 1; break;
       case Zerg_Hydralisk: range += 1; break;
@@ -306,7 +315,7 @@ namespace BWAPI
         (unit == UnitTypes::Zerg_Overlord    && getUpgradeLevel(UpgradeTypes::Antennae)        > 0) ||
         (unit == UnitTypes::Protoss_Observer && getUpgradeLevel(UpgradeTypes::Sensor_Array)    > 0) ||
         (unit == UnitTypes::Protoss_Scout    && getUpgradeLevel(UpgradeTypes::Apial_Sensors)   > 0))
-      range += 2*32;
+      range = 11*32;
     /* The following is the Starcraft-Perfect calculation
       range = 11;
     */
@@ -317,7 +326,13 @@ namespace BWAPI
   {
     int cooldown = unit.groundWeapon().damageCooldown();
     if (unit == UnitTypes::Zerg_Zergling && getUpgradeLevel(UpgradeTypes::Adrenal_Glands) > 0)
-      cooldown -= 0;//?
+    {
+      cooldown >>= 1;
+      if (cooldown >= 250)
+        cooldown = 250;
+      if (cooldown <= 5)
+        cooldown = 5;
+    }
     /* The following is the Starcraft-Perfect calculation
       cooldown >>= 1;
       if (cooldown >= 250)
