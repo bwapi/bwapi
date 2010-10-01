@@ -183,6 +183,10 @@ namespace BWAPI
       return result;
     return 0;
   }
+  bool UnitImpl::hasPath(Position target)
+  {
+    return false;//todo: implement
+  }
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;

@@ -244,10 +244,10 @@ namespace BWAPI
     }
     foreach(Unit* u, accessibleUnits)
     {
-      int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / BWAPI::TILE_SIZE;
-      int endX   = (u->getPosition().x() + u->getType().dimensionRight() + BWAPI::TILE_SIZE - 1) / BWAPI::TILE_SIZE; // Division - round up
-      int startY = (u->getPosition().y() - u->getType().dimensionUp()) / BWAPI::TILE_SIZE;
-      int endY   = (u->getPosition().y() + u->getType().dimensionDown() + BWAPI::TILE_SIZE - 1) / BWAPI::TILE_SIZE;
+      int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / TILE_SIZE;
+      int endX   = (u->getPosition().x() + u->getType().dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
+      int startY = (u->getPosition().y() - u->getType().dimensionUp()) / TILE_SIZE;
+      int endY   = (u->getPosition().y() + u->getType().dimensionDown() + TILE_SIZE - 1) / TILE_SIZE;
       for (int x = startX; x < endX; x++)
         for (int y = startY; y < endY; y++)
           unitsOnTileData[x][y].insert(u);
@@ -927,6 +927,11 @@ namespace BWAPI
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText,addString(buffer)));
     return;
   }
+  //--------------------------------------------- SEND TEXT EX -----------------------------------------------
+  void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
+  {
+    return; //todo: implement
+  }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(Race race)
   {
@@ -1145,5 +1150,29 @@ namespace BWAPI
   void* GameImpl::getScreenBuffer()
   {
     return (void*)NULL;
+  }
+  int GameImpl::getLatencyFrames()
+  {
+    return 0;
+  }
+  int GameImpl::getLatencyTime()
+  {
+    return 0;
+  }
+  int GameImpl::getRemainingLatencyFrames()
+  {
+    return 0;
+  }
+  int GameImpl::getRemainingLatencyTime()
+  {
+    return 0;
+  }
+  int GameImpl::getRevision()
+  {
+    return 0;
+  }
+  bool GameImpl::isDebug()
+  {
+    return false;
   }
 };
