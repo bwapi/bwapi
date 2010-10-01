@@ -186,6 +186,7 @@ namespace BWAPI
   bool UnitImpl::hasPath(Position target)
   {
     return false;//todo: implement
+    //To implement, perhaps we could copy the mapTileRegionId array to shared memory, and check that way.
   }
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {

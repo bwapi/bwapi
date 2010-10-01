@@ -213,6 +213,8 @@ namespace BWAPI
 
       virtual int  getRevision();
       virtual bool isDebug();
+      virtual bool isLatComEnabled();
+      virtual void setLatCom(bool isEnabled);
 
       //Internal BWAPI commands:
       GameImpl();
@@ -363,6 +365,7 @@ namespace BWAPI
 
       int  textSize;
       char buffer[MAX_BUFFER];
+      bool hasLatCom;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

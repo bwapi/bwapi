@@ -1350,4 +1350,12 @@ namespace BWAPI
     return false;
 #endif
   }
+  bool GameImpl::isLatComEnabled()
+  {
+    return hasLatCom;
+  }
+  void GameImpl::setLatCom(bool isEnabled)
+  {
+    hasLatCom = isEnabled;
+  }
 };

@@ -40,6 +40,7 @@ namespace BWAPI
   template <class UnitImpl, class PlayerImpl>
   void CommandTemp<UnitImpl, PlayerImpl>::execute(int frame)
   {
+    if (Broodwar->isLatComEnabled()==false) return;
     UnitImpl* unit   = (UnitImpl*)command.unit;
     UnitImpl* target = (UnitImpl*)command.target;
 

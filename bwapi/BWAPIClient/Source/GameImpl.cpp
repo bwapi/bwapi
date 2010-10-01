@@ -1175,4 +1175,17 @@ namespace BWAPI
   {
     return data->isDebug;
   }
+  bool GameImpl::isLatComEnabled()
+  {
+    return data->hasLatCom;
+  }
+  void GameImpl::setLatCom(bool isEnabled)
+  {
+    int e=0;
+    if (isEnabled) e=1;
+    //update shared memory
+    data->hasLatCom = isEnabled;
+    //queue up command for server so it also applies the change
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetLatCom, e));
+  }
 };
