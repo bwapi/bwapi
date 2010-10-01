@@ -1153,26 +1153,26 @@ namespace BWAPI
   }
   int GameImpl::getLatencyFrames()
   {
-    return 0;
+    return data->latencyFrames;
   }
   int GameImpl::getLatencyTime()
   {
-    return 0;
+    return data->latencyTime;
   }
   int GameImpl::getRemainingLatencyFrames()
   {
-    return 0;
+    return data->remainingLatencyFrames;
   }
   int GameImpl::getRemainingLatencyTime()
   {
-    return 0;
+    return data->remainingLatencyTime;
   }
   int GameImpl::getRevision()
   {
-    return 0;
+    return data->revision;
   }
   bool GameImpl::isDebug()
   {
-    return false;
+    return data->isDebug;
   }
 };

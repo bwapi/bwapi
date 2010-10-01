@@ -261,12 +261,18 @@ namespace BWAPI
 
     ((GameImpl*)Broodwar)->events.clear();
 
-    data->frameCount = Broodwar->getFrameCount();
-    data->fps        = Broodwar->getFPS();
-    data->averageFPS = Broodwar->getAverageFPS();
-    data->mouseX     = Broodwar->getMouseX();
-    data->mouseY     = Broodwar->getMouseY();
-    data->isInGame   = Broodwar->isInGame();
+    data->frameCount             = Broodwar->getFrameCount();
+    data->fps                    = Broodwar->getFPS();
+    data->latencyFrames          = Broodwar->getLatencyFrames();
+    data->latencyTime            = Broodwar->getLatencyTime();
+    data->remainingLatencyFrames = Broodwar->getRemainingLatencyFrames();
+    data->remainingLatencyTime   = Broodwar->getRemainingLatencyTime();
+    data->revision               = Broodwar->getRevision();
+    data->isDebug                = Broodwar->isDebug();
+    data->averageFPS             = Broodwar->getAverageFPS();
+    data->mouseX                 = Broodwar->getMouseX();
+    data->mouseY                 = Broodwar->getMouseY();
+    data->isInGame               = Broodwar->isInGame();
     if (Broodwar->isInGame())
     {
       data->gameType          = Broodwar->getGameType().getID();
