@@ -78,7 +78,7 @@ namespace BW
                                                       0x08  Constructing Stationary
                                                       Note: I don't actually think these are flags
                                                   */
-    /*0x04F*/ u8                                  orderSignal;          /**< @todo Unknown */
+    /*0x04F*/ u8                                  orderSignal;
                                                   /*
                                                       0x01  Update building graphic/state
                                                       0x02  Casting spell
@@ -212,11 +212,11 @@ namespace BW
                   BW::Unit* nextPsiProvider;
                 } pylon;                /** If the unit is psi provider @todo investigate */
               };
-    /*0x100*/ BW::Path                            *path;                  /**< @todo Unknown */
+    /*0x100*/ BW::Path                            *path;
     /*0x104*/ u8                                  pathingCollisionInterval;  // unknown
     /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
     /*0x106*/ u16                                 unknown_0x106;
-    /*0x108*/ BW::rect                            contourBounds;          /**< @todo Unknown */  // top left point
+    /*0x108*/ BW::rect                            contourBounds;          /**< @todo Unknown */
     /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;

@@ -34,6 +34,5 @@ namespace BWAPI
     bool isResearching[47];
     bool isUpgrading[63];
 
-
   };
 }

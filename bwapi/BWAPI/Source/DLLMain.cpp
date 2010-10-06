@@ -88,8 +88,8 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     memset(BW::BWDATA_RefreshRegions, 1, 1200);
   }
 
-  if ( BW::pOldDrawHook )
-    BW::pOldDrawHook(pSurface, pBounds);
+  if ( BW::pOldDrawGameProc )
+    BW::pOldDrawGameProc(pSurface, pBounds);
 
   unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
   for( unsigned int i = 0; i < numShapes; ++i )

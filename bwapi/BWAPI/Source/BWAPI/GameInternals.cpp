@@ -1101,7 +1101,7 @@ namespace BWAPI
     /* Create our drawing hook */
     if ( BW::BWDATA_ScreenLayers[5].pUpdate != &DrawHook)
     {
-      BW::pOldDrawHook = BW::BWDATA_ScreenLayers[5].pUpdate;
+      BW::pOldDrawGameProc = BW::BWDATA_ScreenLayers[5].pUpdate;
       BW::BWDATA_ScreenLayers[5].pUpdate = &DrawHook;
     }
   }
