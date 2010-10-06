@@ -170,11 +170,12 @@ namespace BW
     void (__stdcall *pUpdate)(bitmap *pSurface, bounds *pBounds);
   };
   static layer   *BWDATA_ScreenLayers = (layer*)0x006CEF50;
-  BOOL __stdcall FakeROP3(int maxiterations, int lpSurface, int width, int height, int width2, int pitch, int a7, DWORD rop);
-  BOOL __stdcall FakeBlt(int handle, int a2, int a3, int a4, int a5);
-  BOOL __stdcall FakeBltUsingMask(int lpSurface, int a2, int pitch, int width, int handle);
+  extern void (__stdcall *pOldDrawGameProc)(BW::bitmap *pSurface, BW::bounds *pBounds);
+  extern void (__stdcall *pOldDrawDialogProc)(BW::bitmap *pSurface, BW::bounds *pBounds);
 
-  extern void (__stdcall *pOldDrawHook)(BW::bitmap *pSurface, BW::bounds *pBounds);
+  static void (__stdcall **BWDATA_DrawDialogProc)(BW::bitmap *pSurface,BW::bounds *pBounds) = (void(__stdcall**)(BW::bitmap*,BW::bounds*))0x0041A066;
+  // DrawDialogProc = 0x0041A066
+  // DrawGameProc   = 0x004BD68D
 
   //------------------------------------------- CLIST DATA ---------------------------------------------------
   static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;

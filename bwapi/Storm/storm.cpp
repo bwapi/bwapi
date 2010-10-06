@@ -97,7 +97,7 @@ BOOL __stdcall SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3,
 
 BOOL __stdcall SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth) rBool;
 
-HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, int (__stdcall *allocFunction)(DWORD)) rPVoid;
+HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(__stdcall *allocFunction)(DWORD)) rPVoid;
 
 BOOL __stdcall SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle) rBool;
 BOOL __stdcall SCodeDelete(HANDLE handle) rBool;
