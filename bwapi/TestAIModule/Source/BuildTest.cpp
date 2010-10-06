@@ -47,7 +47,7 @@ void BuildTest::start()
     buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,1);
     if (unitType==UnitTypes::Protoss_Pylon)
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
-    if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
+    if ((unitType.getRace()==Races::Zerg && unitType.isResourceDepot()) || unitType==UnitTypes::Protoss_Gateway)
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
     builder->build(buildLocation,unitType);
   }
