@@ -63,12 +63,91 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(OutDir)\$(ProjectName).qdp"
+				OutputFile="$(SolutionDir)..\Release_Binary\MPQdraft\$(ProjectName).qdp"
 				LinkIncremental="1"
 				ModuleDefinitionFile="source\QDPlugin.def"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				UseUnicodeResponseFiles="false"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				UseUnicodeResponseFiles="false"
+				OutputDocumentFile="$(IntDir)\$(TargetName).xml"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2"
+			WholeProgramOptimization="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				UseUnicodeResponseFiles="false"
+				Optimization="0"
+				WholeProgramOptimization="false"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BWAPI_MPQDRAFTINJECTOR_EXPORTS"
+				StringPooling="true"
+				RuntimeLibrary="3"
+				EnableFunctionLevelLinking="true"
+				WarningLevel="4"
+				DisableSpecificWarnings="4100; 4996"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				UseUnicodeResponseFiles="false"
+				OutputFile="$(SolutionDir)..\Release_Binary\MPQdraft\$(ProjectName)d.qdp"
+				LinkIncremental="1"
+				ModuleDefinitionFile="source\QDPlugin.def"
+				SubSystem="2"
 				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>

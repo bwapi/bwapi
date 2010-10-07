@@ -9,7 +9,13 @@
 
 #define THEPLUGINID 0x10001000
 
-const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR;
+#ifdef _DEBUG
+#define BUILD "DEBUG"
+#elif NDEBUG
+#define BUILD "RELEASE"
+#endif
+
+const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR " (" BUILD ")";
 
 void BWAPIError(const char *format, ...)
 {
@@ -79,7 +85,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
 
       strcat(envBuffer, "\\BWAPI.dll");
       if ( !LoadLibrary(envBuffer) )
-        BWAPIError("Could not find and/or load BWAPI.dll.");
+        BWAPIError("Could not find and/or load BWAPI.dll.\nThis may be caused by mixing DEBUG and RELEASE builds.");
       return TRUE;
     }
     BOOL WINAPI TerminatePlugin()

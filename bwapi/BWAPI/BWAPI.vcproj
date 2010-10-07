@@ -26,6 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="&quot;$(SolutionDir)\SubWCRev.exe&quot; &quot;$(SolutionDir)\.&quot; &quot;$(SolutionDir)\svnrev_template.h&quot; &quot;$(SolutionDir)\svnrev.h&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -44,10 +45,10 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;BWAPI_DEBUG"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				MinimalRebuild="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -61,11 +62,12 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				CommandLine="XCOPY &quot;$(SolutionDir)include&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(ChaosDir)\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -93,6 +95,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -126,7 +129,6 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
@@ -144,17 +146,17 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				CommandLine="XCOPY &quot;$(SolutionDir)include&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(ChaosDir)\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				RandomizedBaseAddress="1"
 				TargetMachine="1"
 			/>
@@ -179,6 +181,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 	</Configurations>

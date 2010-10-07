@@ -173,10 +173,6 @@ namespace BW
   extern void (__stdcall *pOldDrawGameProc)(BW::bitmap *pSurface, BW::bounds *pBounds);
   extern void (__stdcall *pOldDrawDialogProc)(BW::bitmap *pSurface, BW::bounds *pBounds);
 
-  static void (__stdcall **BWDATA_DrawDialogProc)(BW::bitmap *pSurface,BW::bounds *pBounds) = (void(__stdcall**)(BW::bitmap*,BW::bounds*))0x0041A066;
-  // DrawDialogProc = 0x0041A066
-  // DrawGameProc   = 0x004BD68D
-
   //------------------------------------------- CLIST DATA ---------------------------------------------------
   static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
   static Unit      **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;
@@ -204,7 +200,8 @@ namespace BW
   static u16            *BWDATA_gwGameMode    = (u16*) 0x00596904;
   /*
     GAME_INTRO          = 0,  // guessed
-
+    GAME_RUNINIT        = 1,  // guessed; seems to be set between menu and game
+    GAME_EXIT           = 2,  // guessed; exit starcraft
     GAME_RUN            = 3,  // official -- begins game
     GAME_GLUES          = 4,  // official -- uses glGluesMode
 
@@ -265,9 +262,6 @@ namespace BW
 
   static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
   static u32 BWFXN_NextLogicFrame       =        0x004D974E;
-
-  static void (__stdcall *BWFXN_videoLoop)(int flag) = (void(__stdcall*)(int)) 0x004D1BF0;
-  static u32            BWFXN_NextMenuFrame          =                         0x0041A0D3;
 
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl *BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;

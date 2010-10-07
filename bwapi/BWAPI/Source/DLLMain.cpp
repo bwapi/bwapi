@@ -1,5 +1,4 @@
 #define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
 #include <string>
 #include <stdio.h>
@@ -31,13 +30,6 @@ int __cdecl nextFrameHook()
 {
   BWAPI::BroodwarImpl.update();
   return *BW::BWDATA_NextLogicFrameData;
-}
-
-//--------------------------------------------- MENU FRAME HOOK ----------------------------------------------
-void __stdcall menuFrameHook(int flag)
-{
-  BWAPI::BroodwarImpl.onMenuFrame();
-  BW::BWFXN_videoLoop(flag);
 }
 
 //------------------------------------------------- SEND TEXT ------------------------------------------------
@@ -94,6 +86,16 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
   for( unsigned int i = 0; i < numShapes; ++i )
     BWAPI::BroodwarImpl.shapes[i]->draw();
+}
+
+void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
+{
+  if ( BW::pOldDrawDialogProc )
+    BW::pOldDrawDialogProc(pSurface, pBounds);
+
+  if ( *BW::BWDATA_gwGameMode == 4 )
+    BWAPI::BroodwarImpl.onMenuFrame();
+
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
@@ -377,7 +379,6 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 
   /* Create function-level hooks */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &nextFrameHook);
-  HackUtil::CallPatch(BW::BWFXN_NextMenuFrame,  &menuFrameHook);
   HackUtil::CallPatch(BW::BWFXN_IscriptHook,    pPlayIscript);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
@@ -400,6 +401,28 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
   return 0;
 }
+
+DWORD WINAPI PersistentPatch(LPVOID)
+{
+  while (1)
+  {
+    Sleep(250);
+
+    if ( BW::BWDATA_ScreenLayers[2].pUpdate != DrawDialogHook && BW::BWDATA_ScreenLayers[2].pUpdate != NULL )
+    {
+      BW::pOldDrawDialogProc = BW::BWDATA_ScreenLayers[2].pUpdate;
+      BW::BWDATA_ScreenLayers[2].pUpdate = DrawDialogHook;
+    }
+
+    if ( BW::BWDATA_ScreenLayers[5].pUpdate != DrawHook && BW::BWDATA_ScreenLayers[5].pUpdate != NULL )
+    {
+      BW::pOldDrawGameProc = BW::BWDATA_ScreenLayers[5].pUpdate;
+      BW::BWDATA_ScreenLayers[5].pUpdate = DrawHook;
+    }
+
+  } //loop
+}
+
 //------------------------------------------------- DLL MAIN -------------------------------------------------
 BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 {
@@ -407,7 +430,8 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   {
     case DLL_PROCESS_ATTACH:
       BWAPI::BWAPI_init();
-      CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CTRT_Thread, NULL, 0, NULL);
+      CTRT_Thread(NULL);
+      CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
       return TRUE;
   }
   return TRUE;

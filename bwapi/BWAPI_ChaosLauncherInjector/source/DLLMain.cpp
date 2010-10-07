@@ -6,6 +6,12 @@
 #include "../../svnrev.h"
 #include "../../starcraftver.h"
 
+#ifdef _DEBUG
+#define BUILD "DEBUG"
+#elif NDEBUG
+#define BUILD "RELEASE"
+#endif
+
 struct ExchangeData
 {
   int  iPluginAPI;
@@ -49,7 +55,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
   char newDescription[512];
   sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
   
-  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ")");
+  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD);
   strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
 }
@@ -100,7 +106,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   DWORD hLibModule = NULL; // Base address of the loaded module
   GetExitCodeThread(hThread, &hLibModule);
   if ( !hLibModule )
-    BWAPIError("Could not get hLibModule.");
+    BWAPIError("Could not get hLibModule.\nThis may be caused by mixing DEBUG and RELEASE builds.");
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);

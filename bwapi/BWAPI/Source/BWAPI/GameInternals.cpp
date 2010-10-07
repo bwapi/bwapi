@@ -369,7 +369,7 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
 
-#ifdef BWAPI_DEBUG
+#ifdef _DEBUG
     if ( BW::BWDATA_SAIPathing )
     {
       setTextSize(0);
@@ -577,7 +577,7 @@ namespace BWAPI
     this->server.update();
     int menu = *BW::BWDATA_glGluesMode;
     BW::dialog *tempDlg;
-    if (autoMenuMode == "SINGLE_PLAYER")
+    if ( autoMenuMode == "SINGLE_PLAYER" )
     {
       switch ( menu )
       {
@@ -586,29 +586,14 @@ namespace BWAPI
         if ( !actMainMenu )
         {
           actMainMenu = true;
-          BW::FindDialogGlobal("MainMenu")->findIndex(3)->activate();
+          if ( !BW::FindDialogGlobal("MainMenu")->findIndex(3)->activate() )
+            actMainMenu = false;
         }
         tempDlg = BW::FindDialogGlobal("Delete");
         if ( tempDlg )
           tempDlg->findIndex(7)->activate();
 
         actRegistry = false;
-        break;
-//registry screen
-      case 5: 
-        actMainMenu = false;
-        tempDlg = BW::FindDialogGlobal("gluPEdit");
-        if ( tempDlg )
-        {
-          tempDlg->findIndex(4)->setText("BWAPI");
-          tempDlg->findIndex(1)->activate();
-        }
-        else if ( !actRegistry )
-        {
-          actRegistry = true;
-          BW::FindDialogGlobal("Login")->findIndex(4)->activate();
-        }
-        actRaceSel = false;
         break;
 //single player play custom / load replay selection screen
       case 22:
@@ -618,7 +603,8 @@ namespace BWAPI
         if ( !actRaceSel )
         {
           actRaceSel = true;
-          BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate();
+          if ( !BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate() )
+            actRaceSel = false;
         }
         actCreate = false;
         break;
@@ -657,33 +643,9 @@ namespace BWAPI
           /*if ( !actCreate )
           {
             actCreate = true;
-            tempDlg->findIndex(12)->activate();
+            if ( !tempDlg->findIndex(12)->activate() )
+              actCreate = false;
           }*/
-        }
-        break;
-// Score screen
-      case 14: 
-      case 15:
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-        actCreate = false;
-        if ( !actEnd )
-        {
-          actEnd = true;
-          BW::FindDialogGlobal("End")->findIndex(7)->activate();
-        }
-        break;
-// Mission Briefings
-      case 7:
-      case 8:
-      case 9:
-        if ( !actBriefing )
-        {
-          actBriefing = true;
-          BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
-          BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
         }
         break;
       }
@@ -697,7 +659,8 @@ namespace BWAPI
         if ( !actMainMenu )
         {
           actMainMenu = true;
-          BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate();
+          if ( !BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate() )
+            actMainMenu = false;
         }
         tempDlg = BW::FindDialogGlobal("Delete");
         if ( tempDlg )
@@ -709,56 +672,18 @@ namespace BWAPI
       case 2:
         actMainMenu = false;
 
-        //tempDlg = BW::FindDialogGlobal("ConnSel");
-        //tempDlg->findIndex(5)->setSelectedByString("Local Area Network (UDP)"); // This doesn't work yet
-        this->pressKey(VK_DOWN);
+        tempDlg = BW::FindDialogGlobal("ConnSel");
+        if ( tempDlg )
+        {
+          tempDlg->findIndex(5)->setSelectedByString("Local Area Network (UDP)"); // This doesn't work yet
+        }
+        /*this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN); // move 5 because of the custom SNP, doesn't affect people without it
-        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
+        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );*/
         actRegistry = false;
-        break;
-//registry screen
-      case 5: 
-        actConnSel = false;
-        tempDlg = BW::FindDialogGlobal("gluPEdit");
-        if ( tempDlg )
-        {
-          tempDlg->findIndex(4)->setText("BWAPI");
-          tempDlg->findIndex(1)->activate();
-        }
-        else if ( !actRegistry )
-        {
-          actRegistry = true;
-          BW::FindDialogGlobal("Login")->findIndex(4)->activate();
-        }
-        actGameSel = false;
-        break;
-// Score screen
-      case 14: 
-      case 15:
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-        actCreate = false;
-        if ( !actEnd )
-        {
-          actEnd = true;
-          BW::FindDialogGlobal("End")->findIndex(7)->activate();
-        }
-        break;
-// Mission Briefings
-      case 7:
-      case 8:
-      case 9:
-        if ( !actBriefing )
-        {
-          actBriefing = true;
-          BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
-          BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
-        }
         break;
       }
 
@@ -852,6 +777,32 @@ namespace BWAPI
           BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
         }
         break;
+      }
+    }
+
+
+// Common
+    if ( autoMenuMode != "" && autoMenuMode != "OFF" )
+    {
+      switch ( menu )
+      {
+//registry screen
+      case 5: 
+        actMainMenu = false;
+        tempDlg = BW::FindDialogGlobal("gluPEdit");
+        if ( tempDlg )
+        {
+          tempDlg->findIndex(4)->setText("BWAPI");
+          tempDlg->findIndex(1)->activate();
+        }
+        else if ( !actRegistry )
+        {
+          actRegistry = true;
+          if ( !BW::FindDialogGlobal("Login")->findIndex(4)->activate() )
+            actRegistry = false;
+        }
+        actRaceSel = false;
+        break;
 // Score screen
       case 14: 
       case 15:
@@ -863,7 +814,8 @@ namespace BWAPI
         if ( !actEnd )
         {
           actEnd = true;
-          BW::FindDialogGlobal("End")->findIndex(7)->activate();
+          if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
+            actEnd = false;
         }
         break;
 // Mission Briefings
@@ -873,8 +825,9 @@ namespace BWAPI
         if ( !actBriefing )
         {
           actBriefing = true;
-          BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate();
-          BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate();
+          if ( !BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate() &&
+               !BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate() )
+           actBriefing = false;
         }
         break;
       }
@@ -1097,13 +1050,6 @@ namespace BWAPI
       }
     }
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
-
-    /* Create our drawing hook */
-    if ( BW::BWDATA_ScreenLayers[5].pUpdate != &DrawHook)
-    {
-      BW::pOldDrawGameProc = BW::BWDATA_ScreenLayers[5].pUpdate;
-      BW::BWDATA_ScreenLayers[5].pUpdate = &DrawHook;
-    }
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)

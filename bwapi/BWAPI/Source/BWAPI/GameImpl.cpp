@@ -1323,7 +1323,7 @@ namespace BWAPI
   }
   bool GameImpl::isDebug()
   {
-#ifdef BWAPI_DEBUG
+#ifdef _DEBUG
     return true;
 #else
     return false;
