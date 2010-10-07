@@ -26,6 +26,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Updating revision information"
+				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -98,6 +100,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Embedding caps.mpq and copying SNP module"
 				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(SolutionDir)..\Release_Binary\starcraft-folder\$(ProjectName).snp&quot;"
 			/>
 		</Configuration>

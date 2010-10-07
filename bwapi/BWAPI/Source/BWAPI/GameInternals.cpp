@@ -971,50 +971,41 @@ namespace BWAPI
                                                    (StartLocs[i].y - SLocType.dimensionUp()  ) / TILE_SIZE) );
     }
 
-    //Note: the following code computes the set of Forces, however this code is really messy and hackish. A better way of finding the forces exists.
-    /* get force names */
-    std::set<std::string> force_names;
-    std::map<std::string, ForceImpl*> force_name_to_forceimpl;
+    // Get Player Objects
     this->server.clearAll();
-
     for (int i = 0; i < PLAYER_COUNT; ++i)
     {
-      if (this->players[i] && 
-          this->players[i]->getID() != BW::PlayerType::None &&
-          this->players[i]->getID() <  BW::PlayerType::Closed )
+      if ( this->players[i] && 
+           BW::BWDATA_Players[i].nType != BW::PlayerType::None &&
+           BW::BWDATA_Players[i].nType <  BW::PlayerType::Closed )
       {
         players[i]->setID(server.getPlayerID(players[i]));
-        force_names.insert(std::string(this->players[i]->getForceName()));
         this->playerSet.insert(this->players[i]);
       }
     }
 
-    /* create ForceImpl for force names */
-    foreach (std::string i, force_names)
+    // Get Force Objects, assign Force<->Player relations
+    for ( int f = 0; f < 5; ++f )
     {
-      ForceImpl* newforce = new ForceImpl(i);
-      this->forces.insert((Force*)newforce);
-      force_name_to_forceimpl.insert(std::make_pair(i, newforce));
-    }
-
-    /* create ForceImpl for players */
-    for (int i = 0; i < PLAYER_COUNT; i++)
-    {
-      if ( this->players[i] && this->players[i]->getName().length() > 0 )
+      ForceImpl *newForce;
+      if ( f == 0 )
+        newForce = new ForceImpl("");
+      else
+        newForce = new ForceImpl( std::string(BW::BWDATA_ForceNames[f].name) );
+      
+      this->forces.insert( (Force*)newForce );
+      for ( int p = 0; p < PLAYER_COUNT; ++p )
       {
-        std::map<std::string, ForceImpl*>::iterator ftemp = force_name_to_forceimpl.find(std::string( this->players[i]->getForceName() ));
-        if ( ftemp != force_name_to_forceimpl.end() )
+        if ( this->players[p] && BW::BWDATA_Players[p].nTeam == f )
         {
-          ForceImpl *force = ftemp->second;
-          force->players.insert(this->players[i]);
-          this->players[i]->force = force;
-        }
-        else
-        {
-          this->players[i]->force = NULL;
+          this->players[p]->force = newForce;
+          if ( BW::BWDATA_Players[p].nType != BW::PlayerType::None &&
+               BW::BWDATA_Players[p].nType <  BW::PlayerType::Closed )
+            newForce->players.insert(this->players[p]);
         }
       }
     }
+
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------

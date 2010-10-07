@@ -260,16 +260,6 @@ namespace BWAPI
       //acceleration *= 2;
       //turnRadius *= 2;
     }
-    /* The following is the Starcraft-Perfect calculation:
-      if ( unit == Protoss_Scout )
-        topSpeed += 427;
-      else
-        topSpeed += topSpeed >> 1;
-      if ( topSpeed < 853 )
-        topSpeed = 853;
-      acceleration *= 2;
-      turnRadius *= 2;
-    */
     return speed;
   }
   //--------------------------------------------- GROUND WEAPON MAX RANGE ------------------------------------
@@ -281,11 +271,6 @@ namespace BWAPI
       range += 1*32;
     if (unit == UnitTypes::Protoss_Dragoon && getUpgradeLevel(UpgradeTypes::Singularity_Charge) > 0)
       range += 2*32;
-    /* The following is the Starcraft-Perfect calculation:
-      case Terran_Marine: range += 1; break;
-      case Zerg_Hydralisk: range += 1; break;
-      case Protoss_Dragoon: range += 2; break;
-    */
     return range;
   }
   //--------------------------------------------- AIR WEAPON MAX RANGE ---------------------------------------
@@ -299,12 +284,6 @@ namespace BWAPI
       range += 2*32;
     if (unit == UnitTypes::Terran_Goliath  && getUpgradeLevel(UpgradeTypes::Charon_Boosters) > 0)
       range += 3*32;
-    /* The following is the Starcraft-Perfect calculation:
-      case Terran_Marine: range += 1; break;
-      case Zerg_Hydralisk: range += 1; break;
-      case Protoss_Dragoon: range += 2; break;
-      case Terran_Goliath: range += 3; break;
-    */
     return range;
   }
   //--------------------------------------------- SIGHT RANGE ------------------------------------------------
@@ -316,9 +295,6 @@ namespace BWAPI
         (unit == UnitTypes::Protoss_Observer && getUpgradeLevel(UpgradeTypes::Sensor_Array)    > 0) ||
         (unit == UnitTypes::Protoss_Scout    && getUpgradeLevel(UpgradeTypes::Apial_Sensors)   > 0))
       range = 11*32;
-    /* The following is the Starcraft-Perfect calculation
-      range = 11;
-    */
     return range;
   }
   //--------------------------------------------- GROUND WEAPON DAMAGE COOLDOWN ------------------------------
@@ -333,13 +309,6 @@ namespace BWAPI
       if (cooldown <= 5)
         cooldown = 5;
     }
-    /* The following is the Starcraft-Perfect calculation
-      cooldown >>= 1;
-      if (cooldown >= 250)
-        cooldown = 250;
-      if (cooldown <= 5)
-        cooldown = 5;
-    */
     return cooldown;
   }
   //--------------------------------------------- ARMOR ------------------------------------------------------
@@ -439,11 +408,6 @@ namespace BWAPI
     {
       this->leftTheGame = true;
     }
-  }
-  //--------------------------------------------- GET FORCE --------------------------------------------------
-  u8 PlayerImpl::getForce()
-  {
-    return BW::BWDATA_Players[index].nTeam;
   }
   //--------------------------------------------- GET FORCE NAME ---------------------------------------------
   char* PlayerImpl::getForceName() const

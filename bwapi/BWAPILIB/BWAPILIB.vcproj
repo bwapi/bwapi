@@ -26,6 +26,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Copying include files to Developer folder"
+				CommandLine="XCOPY &quot;$(SolutionDir)include&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -83,6 +85,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copying BWAPI library to Developer folder"
 				CommandLine="COPY /y &quot;$(OutDir)\BWAPI.lib&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\&quot;"
 			/>
 		</Configuration>
@@ -97,6 +100,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="XCOPY &quot;$(SolutionDir)include&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

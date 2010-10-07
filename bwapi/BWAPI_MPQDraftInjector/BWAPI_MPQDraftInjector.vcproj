@@ -26,6 +26,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Updating revision information"
+				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -107,6 +109,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Updating revision information"
+				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
