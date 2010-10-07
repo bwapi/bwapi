@@ -98,7 +98,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(SolutionDir)starcraft-folder\$(ProjectName).snp&quot;"
+				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(SolutionDir)..\Release_Binary\starcraft-folder\$(ProjectName).snp&quot;"
 			/>
 		</Configuration>
 	</Configurations>

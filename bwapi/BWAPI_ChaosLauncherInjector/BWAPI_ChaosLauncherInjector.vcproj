@@ -70,14 +70,95 @@
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
 				AdditionalDependencies="User32.lib Shell32.lib"
-				OutputFile="$(ChaosDir)\$(ProjectName).bwl"
+				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
 				LinkIncremental="1"
 				MapFileName=""
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(IntDir)$(TargetName).lib"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				UseUnicodeResponseFiles="false"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			CharacterSet="2"
+			WholeProgramOptimization="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				UseUnicodeResponseFiles="false"
+				Optimization="0"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				StringPooling="true"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
+				FloatingPointModel="2"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				UseUnicodeResponseFiles="false"
+				AdditionalDependencies="User32.lib Shell32.lib"
+				OutputFile="$(ChaosDir)\$(ProjectName)d.bwl"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				MapFileName=""
+				SubSystem="2"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
