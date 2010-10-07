@@ -175,7 +175,7 @@ namespace BWAPI
 
     try
     {
-      if (this->calledOnEnd)
+      if ( this->calledOnEnd )
       {
         events.clear();
         events.push_back(Event::MenuFrame());
@@ -210,7 +210,7 @@ namespace BWAPI
             this->calledOnEnd = true;
             return;
           }
-          if (this->BWAPIPlayer->isDefeated())
+          if ( this->BWAPIPlayer->isDefeated() )
           {
             events.push_back(Event::MatchFrame());
             events.push_back(Event::MatchEnd(false));
@@ -320,7 +320,7 @@ namespace BWAPI
           PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
           this->client = newAIModule(this);
           Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-          printf("BWAPI: Loaded the AI Module: %s", szDllPath);
+          printf("\x07" "BWAPI: Loaded the AI Module: %s", szDllPath);
         }
       }
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
@@ -853,30 +853,6 @@ namespace BWAPI
   {
     return *BW::BWDATA_InReplay != 0;
   }
-  //---------------------------------------------- PRINT WITH PLAYER ID --------------------------------------
-  void GameImpl::printEx(int pID, const char *format, ...)
-  {
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
-    va_end(ap);
-
-    char* txtout = buffer;
-    if (_isInGame() || _isReplay())
-    {
-      __asm
-      {
-        pushad
-        push 0       // Unknown
-        mov eax, pID   // Player ID (-1 for notification area)
-        push txtout  // Text
-        call dword ptr [BW::BWFXN_PrintText]
-        popad
-      }
-    }
-    else
-      sendText(txtout); // until lobby print private text is found
-  }
 
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
@@ -1072,13 +1048,11 @@ namespace BWAPI
     if (parsed[0] == "/leave")
     {
       this->leaveGame();
-      return true;
     }
     else if (parsed[0] == "/latency")
     {
       printf("latency: %d", getLatency());
       printf("New latency?: %u frames; %ums", getLatencyFrames(), getLatencyTime());
-      return true;
     }
     else if (parsed[0] == "/speed")
     {
@@ -1086,7 +1060,6 @@ namespace BWAPI
         setLocalSpeed(atoi(parsed[1].c_str()));
       else
         setLocalSpeed();
-      return true;
     }
     else if (parsed[0] == "/cheats")
     {
@@ -1105,12 +1078,10 @@ namespace BWAPI
       sendText("show me the money");
       sendText("show me the money");
       sendText("show me the money");
-      return true;
     }
     else if (parsed[0] == "/restart")
     {
       restartGame();
-      return true;
     }
     else if (parsed[0] == "/jump")
     {
@@ -1119,8 +1090,7 @@ namespace BWAPI
         *BW::BWDATA_gwGameMode    = 3;
         *BW::BWDATA_Ophelia       = 1;
         *BW::BWDATA_GameState     = 0;
-        *BW::BWDATA_GamePosition  = 4;
-        return true;
+        *BW::BWDATA_gwNextGameMode  = 4;
       }
     }
     else if (parsed[0] == "/dlg")
@@ -1149,33 +1119,12 @@ namespace BWAPI
         test->addListEntry("Test9");
         test->addListEntry("Test10");
       }
-      return true;
     }
-/*    else if ( parsed[0] == "/add" )
+    else
     {
-      if ( myDlg )
-        myDlg->findIndex(1)->addListEntry("TEST");
-      return true;
+      return false;
     }
-    else if ( parsed[0] == "/rem" )
-    {
-      if ( myDlg )
-        myDlg->findIndex(1)->removeListEntry();
-      return true;
-    }
-    else if ( parsed[0] == "/clear" )
-    {
-      if ( myDlg )
-        myDlg->findIndex(1)->clearList();
-      return true;
-    }
-    else if ( parsed[0] == "/sel" )
-    {
-      if ( myDlg )
-        myDlg->findIndex(1)->setSelectedIndex(10);
-      return true;
-    }*/
-    return false;
+    return true;
   }
   //---------------------------------------------- ON GAME END -----------------------------------------------
   void GameImpl::onGameEnd()
