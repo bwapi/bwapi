@@ -989,9 +989,9 @@ namespace BWAPI
     {
       ForceImpl *newForce;
       if ( f == 0 )
-        newForce = new ForceImpl("");
+        newForce = new ForceImpl(std::string(""));
       else
-        newForce = new ForceImpl( std::string(BW::BWDATA_ForceNames[f].name) );
+        newForce = new ForceImpl( std::string(BW::BWDATA_ForceNames[f-1].name) );
       
       this->forces.insert( (Force*)newForce );
       for ( int p = 0; p < PLAYER_COUNT; ++p )
