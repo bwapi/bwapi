@@ -523,6 +523,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\UnitOrder.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\UnitUpdate.cpp"
 					>
 				</File>
